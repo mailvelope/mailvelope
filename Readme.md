@@ -1,6 +1,6 @@
 # Mailvelope
 
-Mailvelope is a chrome extionsion that allows secure email communication with Webmail based on the OpenPGP standard.
+Mailvelope is a chrome extension that allows secure email communication with Webmail based on the OpenPGP standard.
 
 ## Installation
 
