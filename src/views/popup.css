@@ -23,6 +23,7 @@ li {
   background-clip: padding-box;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
+  min-width: 150px;
 }
 
 .dropdown-menu .divider {
@@ -39,7 +40,6 @@ li {
   font-weight: normal;
   line-height: 18px;
   color: #333333;
-  white-space: nowrap;
   text-decoration: none;
 }
 
