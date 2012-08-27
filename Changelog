@@ -1,4 +1,10 @@
 
+0.4.1.0 / 27.08.2012 
+==================
+
+  * Fix freeze when decrypting ZIP compressed messages
+  * Add min-width to browser action popup to prevent cropping
+
 0.4.0.1 / 24.08.2012 
 ==================
 
