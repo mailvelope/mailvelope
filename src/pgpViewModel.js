@@ -22,7 +22,27 @@ goog.require('goog.format.EmailAddress');
 (function(public) {
   
   public.getKeys = function() {
-    return this.getPrivateKeys().concat(this.getPublicKeys());
+    // get public keys
+    var keys = this.getPublicKeys();
+    // check for corresponding private key
+    keys.forEach(function(key) {
+      var match = openpgp.keyring.privateKeys.some(function(privateKey) {
+        return key.guid === privateKey.obj.getFingerprint();
+      });
+      if (match) {
+        key.type = 'private';
+      }
+    });
+    // sort by key type and name
+    keys = keys.sort(function(a, b) {
+      var compType = a.type.localeCompare(b.type);
+      if (compType === 0) {
+        return a.name.localeCompare(b.name);
+      } else {
+        return compType;
+      }
+    });
+    return keys;
   }
 
   public.getPublicKeys = function() {
@@ -130,25 +150,16 @@ goog.require('goog.format.EmailAddress');
   }
 
   public.getKeyUserIDs = function(proposal) {
-    var pubResult = [];
-    var privResult = [];
+    var result = [];
     openpgp.keyring.publicKeys.forEach(function(publicKey) {
       var key = {};
       mapKeyUserIds(publicKey.obj, key, proposal)
-      pubResult.push(key);
+      result.push(key);
     });
-    pubResult = pubResult.sort(function(a, b) {
+    result = result.sort(function(a, b) {
       return a.userid.localeCompare(b.userid);
     });
-    openpgp.keyring.privateKeys.forEach(function(privateKey) {
-      var key = {};
-      mapKeyUserIds(privateKey.obj, key, proposal)
-      privResult.push(key);
-    });
-    privResult = privResult.sort(function(a, b) {
-      return a.userid.localeCompare(b.userid);
-    });
-    return pubResult.concat(privResult);
+    return result;
   }
 
   function mapKeyUserIds(obj, toKey, proposal) {
@@ -255,14 +266,14 @@ goog.require('goog.format.EmailAddress');
   }
   
   public.removeKey = function(guid, type) {
-    if (type === 'public') {
-      for (var i = 0; i < openpgp.keyring.publicKeys.length; i++) {
-        if (openpgp.keyring.publicKeys[i].obj.getFingerprint() === guid) {
-          openpgp.keyring.removePublicKey(i);
-          break;
-        }
+    // remove public part
+    for (var i = 0; i < openpgp.keyring.publicKeys.length; i++) {
+      if (openpgp.keyring.publicKeys[i].obj.getFingerprint() === guid) {
+        openpgp.keyring.removePublicKey(i);
+        break;
       }
-    } else if (type === 'private') {
+    }
+    if (type === 'private') {
       for (var i = 0; i < openpgp.keyring.privateKeys.length; i++) {
         if (openpgp.keyring.privateKeys[i].obj.getFingerprint() === guid) {
           openpgp.keyring.removePrivateKey(i);
@@ -280,6 +291,7 @@ goog.require('goog.format.EmailAddress');
     var keyType = getKeyType(algorithm);
     var emailAdr = new goog.format.EmailAddress(email, user);
     var keyPair = openpgp.generate_key_pair(keyType, parseInt(numBits), emailAdr.toString(), passphrase);
+    openpgp.keyring.importPublicKey(keyPair.publicKeyArmored);
     // need to read key again, because userids not set in keyPair.privateKey
     var privKey = openpgp.read_privateKey(keyPair.privateKeyArmored);
     openpgp.keyring.privateKeys.push({armored: keyPair.privateKeyArmored, obj: privKey[0], keyId: privKey[0].getKeyId()});
@@ -366,23 +378,6 @@ goog.require('goog.format.EmailAddress');
         keyObj.push(openpgp.keyring.publicKeys[i].obj);
       }
       if (keyids.length === 0) break;
-    }
-    // get public key objects for keyids from private keys
-    if (keyids.length != 0) {
-      for (var i = 0; i < openpgp.keyring.privateKeys.length; i++) {
-        var match = keyids.some(function(element, index) {
-          if (element === util.hexstrdump(openpgp.keyring.privateKeys[i].obj.getKeyId()).toUpperCase()) {
-            keyids.splice(index, 1);
-            return true;  
-          } else {
-            return false;
-          }
-        });
-        if (match) {
-          keyObj.push(openpgp.keyring.privateKeys[i].obj);
-        }
-        if (keyids.length === 0) break;
-      } 
     }
     return openpgp.write_encrypted_message(keyObj, message);
   }

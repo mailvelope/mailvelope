@@ -72,10 +72,14 @@
       columns: keyGridColumns,
       dataSource: {
         data: options.mapDates(keys),
-        schema: keyGridSchema },
+        schema: keyGridSchema 
+      },
       detailTemplate: kendo.template($("#keyDetails").html()),
       detailInit: detailInit,
-      sortable: true,
+      sortable: {
+        mode: "multiple", // enables multi-column sorting
+        allowUnsort: true
+      },
       toolbar: kendo.template($("#keyToolbar").html()),
       editable: {
         update: false,
