@@ -20,6 +20,7 @@ var defaults = {};
 (function(public) {
 
   public.init = function(callback) {
+    // apply defaults if don't exist
     if (pgpvm.getWatchList() === null) {
       $.get(chrome.extension.getURL('res/defaults.json'), function(data) {
         pgpvm.setWatchList(data.watch_list);
@@ -27,6 +28,31 @@ var defaults = {};
       }, 'json');
     } else {
       callback();
+    }
+    // migration
+    migrateTo0420();
+  }
+
+  function migrateTo0420() {
+    for (var i = 0; i < openpgp.keyring.privateKeys.length; i++) {
+      // check if corresponding public key
+      var found = openpgp.keyring.getPublicKeysForKeyId(openpgp.keyring.privateKeys[i].obj.getKeyId());
+      if (found.length === 0) {
+        // create public key from private key
+        var pubArmored = openpgp.keyring.privateKeys[i].obj.extractPublicKey();
+        if (pubArmored === null) {
+          // remove private key
+          openpgp.keyring.removePrivateKey(i);
+          i--;
+        } else {
+          // import public key
+          var pubKey = openpgp.read_publicKey(pubArmored);
+          for (var j = 0; j < pubKey.length; j++) {
+            openpgp.keyring.publicKeys.push({armored: pubArmored, obj: pubKey[j], keyId: pubKey[j].getKeyId()});
+          }
+          openpgp.keyring.store();
+        }
+      }
     }
   }
 
