@@ -16,6 +16,9 @@
  */
 
 (function() {
+
+  var publicKeyRegex = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
+  var privateKeyRegex = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END PGP PRIVATE KEY BLOCK-----/g;
   
   function init() {
     $('#impKeySubmit').click(onImportKey);
@@ -24,33 +27,77 @@
   }
   
   function onImportKey() {
+    clearAlert();
     var keyText = $('#newKey').val();
-    var keyType = $('input:radio[name="keyType"]:checked').val();
-    options.viewModel('importKey', [keyText, keyType], function(result, error){
-      if (error === undefined) {
-        $('#importAlert').showAlert('Success', 'Key imported into key ring', 'success');
-        $('#newKey, #impKeySubmit, #impKeyClear').attr('disabled', 'disabled');
-        $('#impKeyAnother').removeClass('hide');
-        // refresh grid
-        options.viewModel('getKeys', function(result) {
-          $("#mainKeyGrid").data("kendoGrid").dataSource.data(options.mapDates(result));
-        });
-      } else {
-        $('#importAlert').showAlert('Import Error', error.type === 'error' ? error.message : 'Not a valid key text', 'error');
-      }
-    });
+    var publicKeys = keyText.match(publicKeyRegex);
+    var privateKeys = keyText.match(privateKeyRegex);
+    var one = false;
+    if (publicKeys !== null) {
+      publicKeys.forEach(function(publicKey, index) {
+        (function(last) {
+          options.viewModel('importKey', [publicKey, 'public'], function(result, error) {
+            if (error === undefined) {
+              one = true;
+              $('#importAlert').showAlert('Success', 'Public key ' + result[0].keyid + ' of user ' + result[0].userid + ' imported into key ring', 'success', true);
+            } else {
+              $('#importAlert').showAlert('Import Error', error.type === 'error' ? error.message : 'Not a valid key text', 'error', true);
+            }
+            if (last) {
+              importDone(one);
+            }
+          });
+        }(index + 1 === publicKeys.length && privateKeys === null));
+      });
+    }
+    if (privateKeys !== null) {
+      privateKeys.forEach(function(privateKey, index) {
+        (function(last) {
+          options.viewModel('importKey', [privateKey, 'private'], function(result, error) {
+            if (error === undefined) {
+              one = true;
+              $('#importAlert').showAlert('Success', 'Private key ' + result[0].keyid + ' of user ' + result[0].userid + ' imported into key ring', 'success', true);
+            } else {
+              $('#importAlert').showAlert('Import Error', error.type === 'error' ? error.message : 'Not a valid key text', 'error', true);
+            }
+            if (last) {
+              importDone(one);
+            }
+          });
+        }(index + 1 === privateKeys.length));
+      });
+    }
+    if (publicKeys === null && privateKeys === null) {
+      $('#importAlert').showAlert('Import Error', 'Not a valid key text', 'error');
+    }
+  }
+
+  function importDone(success) {
+    if (success) {
+      // at least one key was imported
+      $('#newKey, #impKeySubmit, #impKeyClear').attr('disabled', 'disabled');
+      $('#impKeyAnother').removeClass('hide');
+      // refresh grid
+      options.viewModel('getKeys', function(result) {
+        $("#mainKeyGrid").data("kendoGrid").dataSource.data(options.mapDates(result));
+      });
+    }
   }
   
   function onClear() {
     $('#newKey').val('');
-    $('#importAlert').hide();
+    clearAlert();
   }
   
   function onAnother() {
     $('#newKey').val('');
-    $('#importAlert').hide();
+    clearAlert();
     $('#newKey, #impKeySubmit, #impKeyClear').removeAttr('disabled');
     $('#impKeyAnother').addClass('hide');
+  }
+
+  function clearAlert() {
+    $('#importAlert').empty();
+    $('#importAlert').hide();
   }
   
   $(document).ready(init);

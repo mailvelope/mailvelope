@@ -27,14 +27,18 @@ $.extend({
 });
 
 // append alert message to element and show it
-$.fn.showAlert = function(heading, message, type) {
-  this.empty();
-  if (heading) {
-    this.append('<strong>' + heading + '! </strong>');
+$.fn.showAlert = function(heading, message, type, keep) {
+  if (keep === undefined || keep === false) {
+    this.empty();
   }
-  this.append(message)
-      .attr('class', 'alert fade in')
-      .addClass('alert-' + type)
-      .show();
+  var row = $('<div/>').appendTo(this);
+  if (heading) {
+    heading = heading + '! ';
+    $('<strong/>').appendTo(row).text(heading);
+  }
+  $('<span/>').appendTo(row).text(message);
+  row.attr('class', 'alert fade in')
+     .addClass('alert-' + type);
+  this.show();
   return this;
 }

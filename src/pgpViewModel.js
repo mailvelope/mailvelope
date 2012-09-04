@@ -172,8 +172,9 @@ goog.require('goog.format.EmailAddress');
   }
   
   public.importKey = function(text, keyType) {
+    var result;
     if (keyType === 'public') {
-      var result = openpgp.read_publicKey(text);
+      result = openpgp.read_publicKey(text);
       for (var i = 0; i < result.length; i++) {
         // check if public key already in key ring
         var found = openpgp.keyring.getPublicKeysForKeyId(result[i].getKeyId());
@@ -183,19 +184,10 @@ goog.require('goog.format.EmailAddress');
             message: 'A public key with the ID ' + util.hexstrdump(result[i].getKeyId()).toUpperCase() + ' is already in the key ring. Update currently not supported'
           };
         }
-        // check if private key already in key ring
-        found = openpgp.keyring.getPrivateKeyForKeyId(result[i].getKeyId());
-        if (found.length > 0) {
-          throw {
-            type: 'error',
-            message: 'A public/private key pair with the ID ' + util.hexstrdump(result[i].getKeyId()).toUpperCase() + ' is already in the key ring. Update currently not supported'
-          }
-        }
         openpgp.keyring.publicKeys.push({armored: text, obj: result[i], keyId: result[i].getKeyId()});
       }
-      openpgp.keyring.store();
     } else if (keyType === 'private') {
-      var result = openpgp.read_privateKey(text);
+      result = openpgp.read_privateKey(text);
       for (var i = 0; i < result.length; i++) {
         // check if private key already in key ring
         var found = openpgp.keyring.getPrivateKeyForKeyId(result[i].getKeyId());
@@ -205,17 +197,33 @@ goog.require('goog.format.EmailAddress');
             message: 'A private key pair with the ID ' + util.hexstrdump(result[i].getKeyId()).toUpperCase() + ' is already in the key ring. Update currently not supported'
           }
         }
-        // remove existing public keys
-        for (var j = 0; j < openpgp.keyring.publicKeys.length; j++) {
-          if (openpgp.keyring.publicKeys[j].obj.getKeyId() === result[i].getKeyId()) {
-            openpgp.keyring.removePublicKey(j);
-            break;
+        // check if public key already in key ring
+        found = openpgp.keyring.getPublicKeysForKeyId(result[i].getKeyId());
+        if (found.length === 0) {
+          // create public key from private key
+          var pubArmored = result[i].extractPublicKey();
+          if (pubArmored === null) {
+            throw {
+            type: 'error',
+            message: 'Could not extract a valid public key from this private key. Please either paste public and private key text into the text field. Or first import public key and afterwards the private key.'
+            }
+          }
+          // import public key
+          var pubKey = openpgp.read_publicKey(pubArmored);
+          for (var j = 0; j < pubKey.length; j++) {
+            openpgp.keyring.publicKeys.push({armored: pubArmored, obj: pubKey[j], keyId: pubKey[j].getKeyId()});
           }
         }
         openpgp.keyring.privateKeys.push({armored: text, obj: result[i], keyId: result[i].getKeyId()});
       }
-      openpgp.keyring.store();
     }
+    openpgp.keyring.store();
+    return result.map(function(key) {
+      return {
+        keyid: util.hexstrdump(key.getKeyId()).toUpperCase(),
+        userid: decode_utf8(key.userIds[0].text)
+      }
+    });
   }
   
   function getAlgorithmString(keyType) {
