@@ -72,7 +72,8 @@
       columns: keyGridColumns,
       dataSource: {
         data: options.mapDates(keys),
-        schema: keyGridSchema 
+        schema: keyGridSchema,
+        change: onDataChange
       },
       detailTemplate: kendo.template($("#keyDetails").html()),
       detailInit: detailInit,
@@ -131,6 +132,11 @@
       } else {
         $('#exportBtn').addClass('disabled');
       }
+    }
+
+    function onDataChange(e) {
+      // selection is lost on data change, therefore disable export button
+      $('#exportBtn').addClass('disabled');
     }
   }
       
