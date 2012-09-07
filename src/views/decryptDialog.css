@@ -66,6 +66,14 @@ html, body {
   padding-bottom: 4px;
 }
 
+#pwdbox h5 {
+  margin: 0;
+}
+
+#decryptAlert .alert {
+  margin-bottom: 8px;
+}
+
 .busy {  
   cursor: wait !important;  
 }

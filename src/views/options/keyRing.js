@@ -76,6 +76,7 @@
       },
       detailTemplate: kendo.template($("#keyDetails").html()),
       detailInit: detailInit,
+      selectable: "row",
       sortable: {
         mode: "multiple", // enables multi-column sorting
         allowUnsort: true
@@ -86,7 +87,8 @@
         destroy: true,
         confirmation: "Are you sure you want to remove this key?",
       },
-      remove: onRemoveKey
+      remove: onRemoveKey,
+      change: onGridChange
     });
     
     function onRemoveKey(e) {
@@ -103,7 +105,9 @@
         { text: "Private Keys", value: "private" }
       ],
       change: onDropDownChange
-    });  
+    });
+
+    $("#mainKeyGrid").triggerHandler('mainKeyGridReady');  
       
     function onDropDownChange() {
       var value = this.value();
@@ -113,7 +117,21 @@
         grid.data("kendoGrid").dataSource.filter({});
       }
     }
-   
+
+    function onGridChange(e) {
+      var selected = this.select();
+      if (selected.length !== 0) {
+        $('#exportBtn').removeClass('disabled');
+        var type = grid.data("kendoGrid").dataItem(selected).type;
+        if (type === 'public') {
+          $('#exportPrivate, #exportKeyPair').addClass('disabled');
+        } else {
+          $('#exportPrivate, #exportKeyPair').removeClass('disabled');
+        }
+      } else {
+        $('#exportBtn').addClass('disabled');
+      }
+    }
   }
       
   function detailInit(e) {

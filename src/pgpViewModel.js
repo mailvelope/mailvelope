@@ -26,11 +26,12 @@ goog.require('goog.format.EmailAddress');
     var keys = this.getPublicKeys();
     // check for corresponding private key
     keys.forEach(function(key) {
-      var match = openpgp.keyring.privateKeys.some(function(privateKey) {
-        return key.guid === privateKey.obj.getFingerprint();
-      });
-      if (match) {
-        key.type = 'private';
+      for (var i = 0; i < openpgp.keyring.privateKeys.length; i++) {
+        if (key.guid === openpgp.keyring.privateKeys[i].obj.getFingerprint()) {
+          key.type = 'private';
+          key.armoredPrivate = openpgp.keyring.privateKeys[i].armored;
+          break;
+        }
       }
     });
     // sort by key type and name
@@ -51,6 +52,7 @@ goog.require('goog.format.EmailAddress');
       var key = {};
       key.type = 'public';
       key.validity = publicKey.obj.verifyBasicSignatures();
+      key.armoredPublic = publicKey.armored;
       mapKeyMsg(publicKey.obj, key);
       mapKeyMaterial(publicKey.obj.publicKeyPacket, key);
       result.push(key);
@@ -64,6 +66,7 @@ goog.require('goog.format.EmailAddress');
       var key = {};
       key.type = 'private';
       key.validity = privateKey.obj.privateKeyPacket.verifyKey() === 3;
+      key.armoredPrivate = privateKey.armored;
       mapKeyMsg(privateKey.obj, key);
       mapKeyMaterial(privateKey.obj.privateKeyPacket.publicKey, key);
       result.push(key);

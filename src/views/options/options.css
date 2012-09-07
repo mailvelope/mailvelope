@@ -50,6 +50,11 @@ body {
   min-height: 27px;
 }
 
+#gridMainToolbar {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
 .keyType-label {
   vertical-align: middle;
   padding-right: .5em;
@@ -60,9 +65,10 @@ body {
   vertical-align: middle;
 }
 
-.keyToolbar {
+.keyType-selector {
   float: right;
   margin-right: .8em;
+  font-size: 13px;
 }
 
 .k-button:hover {
@@ -91,3 +97,15 @@ body {
   width: 600px;
 }
 
+#displayKeys {
+  min-height: 200px;
+}
+
+#exportKey {
+  width: auto;
+}
+
+#exportDownload a {
+  font-size: 14px;
+  margin-left: 5px;
+}

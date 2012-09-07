@@ -22,7 +22,8 @@
     "tabs",
     "contextMenus",
     "webRequest",
-    "*://*/*"
+    "*://*/*",
+    "clipboardWrite"
   ],
   "web_accessible_resources": [
     "img/key-24.png",

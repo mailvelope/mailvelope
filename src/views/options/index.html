@@ -33,6 +33,7 @@
     <script src="importKey.js"></script>
     <script src="generateKey.js"></script>
     <script src="watchList.js"></script>
+    <script src="exportKey.js"></script>
   </head>
   <body>
     <div class="navbar navbar-fixed-top">
@@ -71,12 +72,24 @@
         <div class="span9">
           <div class="hero-unit tab-content">
             <div id="displayKeys" class="tab-pane fade active in">
-              <h2>Key Ring</h2>
+              <h3>Key Ring</h3>
               <div id="mainKeyGrid">
                 <script type="text/x-kendo-template" id="keyToolbar">
-                  <div class="keyToolbar">
-                    <label class="keyType-label" for="keyType">Show keys by type:</label>
-                    <input type="search" id="keyType" style="width: 200px"></input>
+                  <div id="gridMainToolbar" class="btn-toolbar">
+                    <div class="btn-group">
+                      <button id="exportBtn" class="btn btn-primary dropdown-toggle disabled" data-toggle="dropdown">Export <span class="caret"></span></button>
+                      <ul class="dropdown-menu">
+                        <li id="exportPublic"><a href="\\\#">Display public key</a></li>
+                        <li id="exportByMail"><a href="\\\#">Send public key by mail</a></li>
+                        <li class="divider"></li>
+                        <li id="exportPrivate"><a href="\\\#">Display private key</a></li>
+                        <li id="exportKeyPair"><a href="\\\#">Display key pair</a></li>
+                      </ul>
+                    </div><!-- /btn-group -->
+                    <div class="keyType-selector">
+                      <label class="keyType-label" for="keyType">Show keys by type:</label>
+                      <input type="search" id="keyType" style="width: 200px"></input>
+                    </div>
                   </div>
                 </script>
                 <script type="text/x-kendo-template" id="keyDetails">
@@ -130,12 +143,30 @@
                   <li><label>Fingerprint:</label>#= fingerprint.match(/.{1,4}/g).join(' ') #</li>
                 </script>
               </div>
+              <div class="modal fade hide" id="exportKey">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h3>Export Key</h3>
+                </div>
+                <div class="modal-body">
+                  <textarea id="armoredKey" class="input-xxlarge" rows=12></textarea>
+                  <form id="exportDownload" class="form-inline">
+                    <input type="text">
+                    <button type="button" class="btn">Create file</button>
+                    <a class="hide">Download key</a>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                  <button id="exportToCb" type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Copy to Clipboard</button>
+                </div>
+              </div>
             </div>
             <div id="importKey" class="tab-pane fade">
-              <h2>Import Keys</h2>
+              <h3>Import Keys</h3>
               <form class="form-vertical well" onsubmit="return false">
                 <div class="control-group">
-                  <label class="control-label" for="textarea"><h4>Paste key text here:</h4></label>
+                  <label class="control-label" for="textarea"><h5>Paste key text here:</h5></label>
                   <div class="controls">
                     <textarea id="newKey" rows="12"></textarea>
                   </div>
@@ -152,7 +183,7 @@
               </form>
             </div>
             <div id="generateKey" class="tab-pane fade">
-              <h2>Generate Key</h2>
+              <h3>Generate Key</h3>
               <form class="form-horizontal well" onsubmit="return false">
                 <div class="control-group">
                   <label class="control-label">Name</label>
@@ -245,7 +276,7 @@
               </div>
             </div>
             <div id="watchList" class="tab-pane fade">
-              <h2>Watch List</h2>
+              <h3>Watch List</h3>
               <div id="watchListGrid">
               </div>
             </div>

@@ -222,6 +222,14 @@
           case 'get-tabid':
             sendResponse({tabid: sender.tab.id});
             break;
+          case 'send-by-mail':
+            console.log('send-by-mail');
+            var link = 'mailto:';
+            link += '?subject=Public OpenPGP key of ' + request.message.data.name;
+            link += '&body=' + request.message.data.armoredPublic;
+            link += '\n' + '*** exported with www.mailvelope.com ***';
+            chrome.tabs.create({url: encodeURI(link)});
+            break;
           default:
           console.log('unknown event');
         }

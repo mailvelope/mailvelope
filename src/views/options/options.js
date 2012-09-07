@@ -72,6 +72,13 @@ var options = {};
       message: message, 
       id: id
     }, '*');
+  }
+
+  public.copyToClipboard = function(text) {
+    top.window.postMessage({
+      event: "copyToClipboard",
+      text: text
+    }, '*'); 
   }  
 
   function receiveMessage(event) {

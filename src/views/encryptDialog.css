@@ -32,4 +32,16 @@ html, body {
 #keyList {
   /* https://bugs.webkit.org/show_bug.cgi?id=28900 */
   height: 60px;
+  font-size: 12px;
+}
+
+#keyDialog h5 {
+  margin: 0;
+}
+
+#keySelect {
+  height: 26px;
+  line-height: 26px;
+  font-size: 12px;
+  margin-bottom: 6px;
 }

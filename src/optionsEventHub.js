@@ -63,6 +63,14 @@
         iframeWindow = event.source;
         iframeEvents.triggerHandler('iframeLoaded');
         break;
+      case 'copyToClipboard':
+        var copyFrom = $('<textarea/>');
+        copyFrom.val(event.data.text);
+        $('body').append(copyFrom);
+        copyFrom.select();
+        document.execCommand('copy');
+        copyFrom.remove();
+        break;
     }
   }
 
