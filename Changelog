@@ -1,4 +1,9 @@
 
+0.4.3.1 / 04.10.2012 
+==================
+
+  * Fix: content script not injected in main frame of GMail
+
 0.4.3 / 07.09.2012 
 ==================
 

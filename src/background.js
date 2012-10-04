@@ -35,7 +35,7 @@
   // optimized cs injection variant, bootstrap code injected that loads cs
   var injectOptimized = true;
   // keep reloaded iframes 
-  var frameUrls = [];
+  var frameHosts = [];
   // content script coding as string
   var csCode = '';
   var scannedHosts = [];
@@ -277,9 +277,13 @@
 
   function watchListRequestHandler(details) {
     // store frame URL
-    frameUrls.push(details.url);
+    frameHosts.push(getHost(details.url));
     if (injectOpen || details.type === "main_frame") {
       setTimeout(function() {
+        if (frameHosts.length === 0) {
+          // no requests since last inject
+          return;
+        }
         //console.log('cs injected');
         var scriptDetails;
         if (injectOptimized) {
@@ -293,19 +297,25 @@
           injectOpen = true;
         });
         // reset buffer after injection
-        frameUrls.length = 0;
+        frameHosts.length = 0;
       }, injectTimeSlot);
       // close injection time slot
       injectOpen = false;
     }
   }
 
+  function getHost(url) {
+    var a =  document.createElement('a');
+    a.href = url;
+    return a.host;
+  }
+
   function csBootstrap() {
     return " \
       if (!document.mailvelopeControl) { \
-        var urls = " + JSON.stringify(frameUrls) + "; \
-        var match = urls.some(function(url) { \
-          return url === document.location.href; \
+        var hosts = " + JSON.stringify(frameHosts) + "; \
+        var match = hosts.some(function(host) { \
+          return host === document.location.host; \
         }); \
         if (match) { \
           chrome.extension.sendMessage({event: 'get-cs'}, function(response) { \
