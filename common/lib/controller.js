@@ -1,0 +1,378 @@
+
+define(function (require, exports, module) {
+
+  var mvelo = require('lib/lib-mvelo').mvelo;
+  var model = mvelo.getModel();
+
+  // ports to decrypt frames
+  var dFramePorts = {};
+  // ports to decrypt dialogs
+  var dDialogPorts = {};
+  // decrypt message buffer
+  var dMessageBuffer = {};
+  // ports to encrypt frames
+  var eFramePorts = {};
+  // ports to encrypt dialogs
+  var eDialogPorts = {};
+  // recipients of encrypted mail
+  var eRecipientBuffer = {};
+
+  var scannedHosts = [];
+
+  var specific = {};
+
+  function extend(obj) {
+    specific['initScriptInjection'] = obj['initScriptInjection'];
+  }
+
+
+  function addPort(port) {
+    var sender = parseName(port.name);
+    switch (sender.name) {
+      case 'dFrame':
+        dFramePorts[sender.id] =  port;
+        break;
+      case 'dDialog':
+        dDialogPorts[sender.id] =  port;
+        break;
+      case 'eFrame':
+        eFramePorts[sender.id] =  port;
+        break;
+      case 'eDialog':
+        eDialogPorts[sender.id] =  port;
+        break;
+      default:
+        console.log('unknown port');
+    }
+  }
+
+  function removePort(port) {
+    var sender = parseName(port.name);
+    switch (sender.name) {
+      case 'dFrame':
+        delete dFramePorts[sender.id];
+        break;
+      case 'dDialog':
+        delete dDialogPorts[sender.id];
+        break;
+      case 'eFrame':
+        delete eFramePorts[sender.id];
+        break;
+      case 'eDialog':
+        delete eDialogPorts[sender.id];
+        break;
+      default:
+        console.log('unknown port');
+    }
+    // always delete message buffer
+    delete dMessageBuffer[sender.id];
+  }
+
+  function handlePortMessage(msg) {
+    console.log('controller handlePortMessage:', msg.event);
+    var id = parseName(msg.sender).id;
+    switch (msg.event) {
+      case 'decrypt-dialog-cancel':
+        // forward event to decrypt frame
+        dFramePorts[id].postMessage(msg);
+        break;
+      case 'encrypt-dialog-cancel':
+        // forward event to encrypt frame
+        eFramePorts[id].postMessage(msg);
+        break;
+      case 'decrypt-dialog-init':
+        // send content
+        mvelo.data.load('common/ui/inline/dialogs/templates/decrypt.html', function(content) {
+          //console.log('content rendered', content);
+          console.log('port', dDialogPorts[id]);
+          dDialogPorts[id].postMessage({event: 'decrypt-dialog-content', data: content}); 
+          // get armored message from dFrame
+          dFramePorts[id].postMessage({event: 'armored-message'});
+        });
+        break;
+      case 'dframe-armored-message':
+        var message;
+        try {
+          message = model.readMessage(msg.data);
+          // add message in buffer
+          dMessageBuffer[id] = message;
+          // pass over keyid and userid to dialog
+          dDialogPorts[id].postMessage({event: 'message-userid', userid: message.userid, keyid: message.keyid});
+        } catch (e) {
+          dDialogPorts[id].postMessage({event: 'message-userid', error: e});
+        }
+        break;
+      case 'decrypt-dialog-ok':
+        model.decryptMessage(dMessageBuffer[id], msg.password, function(err, msg) {
+          dDialogPorts[id].postMessage({event: 'decrypted-message', message: msg, error: err});
+        });
+        break;
+      case 'encrypt-dialog-init':
+        // send content
+        mvelo.data.load('common/ui/inline/dialogs/templates/encrypt.html', (function(id, content) {
+          //console.log('content rendered', content);
+          eDialogPorts[id].postMessage({event: 'encrypt-dialog-content', data: content}); 
+          // get potential recipients from eFrame
+          eFramePorts[id].postMessage({event: 'recipient-proposal'});
+        }).bind(undefined, id));
+        break;
+      case 'eframe-recipient-proposal':
+        console.log('recipient-proposal from eframe', msg.data);
+        var emails = sortAndDeDup(msg.data);
+        var keys = model.getKeyUserIDs(emails);
+        console.log('recipient-proposal keys', JSON.stringify(keys));
+        eDialogPorts[id].postMessage({event: 'public-key-userids', keys: keys});
+        break;
+      case 'encrypt-dialog-ok':
+        // add recipients to buffer
+        eRecipientBuffer[id] = msg.recipient;
+        // get email text from eFrame
+        eFramePorts[id].postMessage({event: 'email-text', type: msg.type});
+        break;
+      case 'eframe-email-text':
+        model.encryptMessage(msg.data, eRecipientBuffer[id], function(err, msg) {
+          eFramePorts[id].postMessage({event: 'encrypted-message', message: msg});  
+        });
+        break;
+      case 'eframe-textarea-element':
+        var defaultEncoding = {};
+        if (msg.data) {
+          defaultEncoding.type = 'text';
+          defaultEncoding.editable = false;
+        } else {
+          defaultEncoding.type = 'html';
+          defaultEncoding.editable = true;
+        }
+        eDialogPorts[id].postMessage({event: 'encoding-defaults', defaults: defaultEncoding});
+        break;
+      default:
+        console.log('unknown event', msg);
+    }
+  }
+
+  function handleMessageEvent(request, sender, sendResponse) {
+    switch (request.event) {
+      case 'viewmodel':
+        console.log('request.method', request.method);
+        console.log('request.args', JSON.stringify(request.args));
+        var response = {};
+        var callback = function(error, result) {
+          sendResponse({error: error, result: result});
+        };
+        request.args = request.args || [];
+        request.args.push(callback);
+        try {
+          console.log('calling model', request.method);
+          response.result = model[request.method].apply(model, request.args);
+          console.log('calling model result', response.result);
+        } catch (e) {
+          console.log('calling model error', e);
+          response.error = e;
+        }
+        if (response.result || response.error) {
+          sendResponse(response);
+        }
+        break;
+      case 'browser-action':
+        onBrowserAction(request.action);
+        break;
+      case 'iframe-scan-result':
+        console.log('hosts: ', request.result, Date.now());
+        scannedHosts = scannedHosts.concat(request.result);
+        break;
+      case 'set-watch-list':
+        model.setWatchList(request.message.data);
+        specific.initScriptInjection();
+        break;
+      case 'send-by-mail':
+        console.log('send-by-mail');
+        var link = 'mailto:';
+        link += '?subject=Public OpenPGP key of ' + request.message.data.name;
+        link += '&body=' + request.message.data.armoredPublic;
+        link += '\n' + '*** exported with www.mailvelope.com ***';
+        mvelo.tabs.create(encodeURI(link));
+        break;
+      default:
+        console.log('unknown event:', msg.event);
+    }
+  }
+
+  function removePortByRef(port) {
+    function deletePort(portHash, port) {
+      for (var p in portHash) {
+        if (portHash.hasOwnProperty(p)) {
+          if (p.ref === port || p === port) {
+            delete portHash[p];
+          }
+        }
+      }
+    }
+    deletePort(dFramePorts, port);
+    deletePort(eFramePorts, port);
+    deletePort(dDialogPorts, port);
+    deletePort(eDialogPorts, port);
+  }
+
+  function reloadFrames() {
+    console.log('controller reloadFrames');
+    // close frames
+    for (id in dFramePorts) {
+      if (dFramePorts.hasOwnProperty(id)) {
+        //console.log('post message destroy to dFrame%s', id);
+        dFramePorts[id].postMessage({event: 'destroy'});
+      }
+    }
+    for (id in eFramePorts) {
+      if (eFramePorts.hasOwnProperty(id)) {
+        //console.log('post message destroy to eFrame%s', id);
+        eFramePorts[id].postMessage({event: 'destroy'});
+      }
+    }
+  }
+
+  function addToWatchList() {
+    var scanScript = " \
+        var hosts = $('iframe').get().map(function(element) { \
+          return $('<a/>').attr('href', element.src).prop('hostname'); \
+        }); \
+        hosts.push(document.location.hostname); \
+        mvelo.extension.sendMessage({ \
+          event: 'iframe-scan-result', \
+          result: hosts \
+        }); \
+      ";
+
+    mvelo.tabs.getActive(function(tab) {
+      if (tab) {
+        // reset scanned hosts buffer
+        scannedHosts.length = 0;
+        var options = {};
+        options.contentScriptFile = [];
+        options.contentScriptFile.push("common/dep/jquery.min.js");
+        options.contentScriptFile.push("common/ui/inline/mvelo.js");
+        if (!mvelo.crx) {
+          options.contentScriptFile.push("ui/messageAdapter.js");
+        }
+        options.contentScript = scanScript;
+        options.onMessage = handleMessageEvent;
+        // inject scan script
+        mvelo.tabs.attach(tab, options, function() {
+          console.log('scanned hosts', scannedHosts.length, Date.now());
+          if (scannedHosts.length === 0) return;
+          // remove duplicates and add wildcards
+          var hosts = reduceHosts(scannedHosts);
+          var site = model.getHostname(tab.url);
+          scannedHosts.length = 0;
+          mvelo.tabs.loadOptionsTab(handleMessageEvent, function(tab) {
+            sendToWatchList(tab, site, hosts);
+          });
+        });
+      }
+    });
+
+  }
+
+  function sendToWatchList(tab, site, hosts) {
+    console.log('send message: ', tab.id, site, hosts, Date.now());
+    mvelo.tabs.sendMessage(tab, {
+      event: "add-watchlist-item",
+      site: site,
+      hosts: hosts
+    });
+  }
+
+  function removeFromWatchList() {
+    // get selected tab
+    mvelo.tabs.getActive(function(tab) {
+      if (tab) {
+        var site = model.getHostname(tab.url);
+        mvelo.tabs.loadOptionsTab(true, function(tab) {
+          mvelo.tabs.sendMessage(tab, {
+            event: "remove-watchlist-item",
+            site: site
+          });
+        });
+      }
+    });
+  }
+
+  function onBrowserAction(action) {
+    switch (action) {
+      case 'reload':
+        reloadFrames();
+        break;
+      case 'add':
+        addToWatchList();
+        break;
+      case 'remove':
+        removeFromWatchList();
+        break;
+      case 'options':
+        mvelo.tabs.loadOptionsTab(handleMessageEvent);
+        break;
+      default:
+        console.log('unknown browser action');
+    }
+  }
+
+  function reduceHosts(hosts) {
+    var reduced = [];
+    hosts.forEach(function(element) {
+      var labels = element.split('.');
+      if (labels.length < 2) return;
+      if (labels.length <= 3) {
+        if (/www.*/.test(labels[0])) {
+          labels[0] = '*';  
+        } else {
+          labels.unshift('*');
+        }
+        reduced.push(labels.join('.'));
+      } else {
+        reduced.push('*.' + labels.slice(-3).join('.'));
+      }
+    });
+    return sortAndDeDup(reduced);
+  }
+
+  function sortAndDeDup(unordered, compFn) {
+    var result = [];
+    var prev = -1;
+    unordered.sort(compFn).forEach(function(item) {
+      var equal = (compFn !== undefined && prev !== undefined) 
+      ? compFn(prev, item) === 0 : prev === item; 
+      if (!equal) {
+        result.push(item);
+        prev = item;
+      }
+    });
+    return result;
+  }
+
+  function getWatchListFilterURLs() {
+    var result = [];
+    model.getWatchList().forEach(function(site) {
+      site.active && site.frames && site.frames.forEach(function(frame) {
+        frame.scan && result.push(frame.frame);
+      });
+    });
+    if (result.length !== 0) {
+      result = sortAndDeDup(result);
+    }
+    return result;
+  }
+
+  exports.addPort = addPort;
+  exports.removePort = removePort;
+  exports.handlePortMessage = handlePortMessage;
+  exports.handleMessageEvent = handleMessageEvent;
+  exports.removePortByRef = removePortByRef;
+  exports.onBrowserAction = onBrowserAction;
+  exports.extend = extend;
+  exports.getWatchListFilterURLs = getWatchListFilterURLs;
+
+  function parseName(nameStr) {
+    var pair = nameStr.split('-');
+    return { name: pair[0], id: pair[1] };
+  }
+
+});

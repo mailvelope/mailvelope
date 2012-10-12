@@ -1,0 +1,42 @@
+{
+  "name": "Mailvelope",
+  "version": "0.5.0",
+  "description": "Secure email with OpenPGP encryption for Webmail",
+  "homepage_url":"http://www.mailvelope.com",
+  "manifest_version": 2,
+  "icons": { 
+    "16": "common/img/encrypt-16.png",
+    "48": "common/img/mail_locked_48.png",
+    "128": "common/img/mail_locked_128.png" 
+  },
+  "browser_action": {
+    "default_icon": "common/img/cryptography-icon24.png",
+    "default_title": "Mailvelope",
+    "default_popup": "common/ui/popup.html"
+  },
+  "background": {
+    "page": "background.html"
+  },
+  "options_page": "options.html",
+  "permissions": [
+    "tabs",
+    "contextMenus",
+    "webRequest",
+    "*://*/*",
+    "clipboardWrite"
+  ],
+  "web_accessible_resources": [
+    "common/img/key-24.png",
+    "common/img/mail_locked_96.png",
+    "common/img/encrypt-22.png",
+    "common/img/undo-22.png",
+    "common/ui/inline/framestyles.css",
+    "common/ui/inline/dialogs/decryptDialog.html",
+    "common/ui/inline/dialogs/encryptDialog.html"
+  ],
+  "sandbox": {
+    "pages": [
+      "common/ui/keyRing.html"
+    ]
+  }
+} 

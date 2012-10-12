@@ -1,8 +1,13 @@
 
-0.4.3.1 / 04.10.2012 
+0.5.0 / 12.10.2012 
 ==================
 
-  * Fix: content script not injected in main frame of GMail
+  * Major refactoring
+  * Add Firefox support
+  * [Chrome] Use Require.js for background scripts
+  * Update jQuery to 1.8.2
+  * CommonJS wrapper for Google Closure library
+  * Add submodules: OpenPGP.js, ppg-api
 
 0.4.3 / 07.09.2012 
 ==================

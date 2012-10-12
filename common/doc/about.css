@@ -1,0 +1,37 @@
+/**
+ * Mailvelope - secure email with OpenPGP encryption for Webmail
+ * Copyright (C) 2012  Thomas Oberndörfer
+ */
+
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+
+.img-rounded {
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+}
+
+.header-unit {
+  padding: 50px;
+  margin-bottom: 30px;
+  background-color: #EEE;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+
+.row {
+  margin-bottom: 30px;
+}
+
+.page-header h1 {
+  font-family: 'Courgette';
+  font-size: 36px;
+}
+
+.brand {
+  font-family: 'Courgette';
+}

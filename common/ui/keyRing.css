@@ -1,0 +1,108 @@
+/**
+ * Mailvelope - secure email with OpenPGP encryption for Webmail
+ * Copyright (C) 2012  Thomas Oberndörfer
+ */
+
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+
+.sidebar-nav {
+  padding: 9px 0;
+}
+
+.hero-unit.tab-content {
+  padding: 30px;
+}
+
+.primaryKey ul
+{
+  list-style:none;
+  font-style:italic;
+  margin: 20px 40px;
+}
+
+.subkeys ul
+{
+  list-style:none;
+  font-style:italic;
+  margin: 20px;
+}
+
+.primaryKey label, .subkeys label, .userids label
+{
+  display:inline-block;
+  width:120px;
+  font-style:normal;
+  font-weight:bold;
+}
+
+.subkeys > div, .userids > div  {
+  margin: 20px 40px;
+}
+
+#mainKeyGrid .k-toolbar {
+  min-height: 27px;
+}
+
+#gridMainToolbar {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.keyType-label {
+  vertical-align: middle;
+  padding-right: .5em;
+  display: inline;
+}
+
+#keyType {
+  vertical-align: middle;
+}
+
+.keyType-selector {
+  float: right;
+  margin-right: .8em;
+  font-size: 13px;
+}
+
+.k-button:hover {
+  text-decoration: none;
+}
+
+.busy {  
+  cursor: wait !important;  
+}
+
+.progress-bar {
+  line-height: 115px; 
+  text-align: center;
+}
+
+.checkb-active, td[data-container-for='active'] {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.brand {
+  font-family: 'Courgette';
+}
+
+#newKey {
+  width: 600px;
+  font-family: monospace;
+}
+
+#displayKeys {
+  min-height: 200px;
+}
+
+#exportKey {
+  width: auto;
+}
+
+#exportDownload a {
+  font-size: 14px;
+  margin-left: 5px;
+}

@@ -1,0 +1,172 @@
+/**
+ * Mailvelope - secure email with OpenPGP encryption for Webmail
+ * Copyright (C) 2012  Thomas Oberndörfer
+ */
+
+.m-frame {
+  background: rgba(254,251,243,.8) url('chrome-extension://__MSG_@@extension_id__/common/img/mail_locked_96.png') no-repeat center center;
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.1);
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  display: none;
+}
+
+.m-encrypt-frame {
+  background: rgba(254,251,243,.8);
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.1);
+  position: absolute;
+  top: 5px;
+  display: none;
+}
+
+.m-encrypt-frame-expanded {
+  top: 0;
+  right: 0;
+  padding: 0;
+}
+
+.m-encrypt-frame .m-encrypt-button {
+  padding: 3px;
+  margin: 3px 10px 3px 4px;
+  line-height: 0;
+}
+
+.m-encrypt-frame .m-icon {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.m-encrypt-frame .m-icon-encrypt {
+  background-image: url('chrome-extension://__MSG_@@extension_id__/common/img/encrypt-22.png');
+}
+
+.m-encrypt-frame .m-icon-undo {
+  background-image: url('chrome-extension://__MSG_@@extension_id__/common/img/undo-22.png');
+}
+
+.m-decrypt-key-cursor {
+  cursor: url('chrome-extension://__MSG_@@extension_id__/common/img/key-24.png'), auto;
+}
+
+.m-frame-dialog {
+  position: absolute;
+  display: none;
+  height: 100%;
+  width: 100%;
+}
+
+.m-frame-close {
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 18px;
+  color: #000000;
+  text-shadow: 0 1px 0 #ffffff;
+  opacity: 0.2;
+  position: relative;
+  right: 3px;
+  z-index: 1;
+  text-decoration: none !important;
+  font-family: arial, sans-serif;
+}
+
+.m-frame-close:hover {
+  color: #000000;
+  opacity: 0.4;
+  cursor: pointer !important;
+  text-decoration: none !important;
+}
+
+
+/*!
+ * Bootstrap v2.1.1
+ *
+ * Copyright 2012 Twitter, Inc
+ * Licensed under the Apache License v2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Designed and built with all the love in the world @twitter by @mdo and @fat.
+ */
+
+.m-btn {
+  display: inline-block;
+  padding: 4px 14px;
+  margin-bottom: 0;
+  font-size: 13px;
+  line-height: 18px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  color: #333333;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  background-color: #f5f5f5;
+  background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+  background-repeat: repeat-x;
+  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  border: 1px solid #bbbbbb;
+  border-bottom-color: #a2a2a2;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.m-btn:hover,
+.m-btn:active,
+.m-btn.active,
+.m-btn.disabled,
+.m-btn[disabled] {
+  color: #333333;
+  background-color: #e6e6e6;
+}
+
+.m-btn:hover {
+  color: #333333;
+  text-decoration: none;
+  background-color: #e6e6e6;
+  background-position: 0 -15px;
+  -webkit-transition: background-position 0.1s linear;
+  -moz-transition: background-position 0.1s linear;
+  transition: background-position 0.1s linear;
+}
+
+.m-btn:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+.m-btn.active,
+.m-btn:active {
+  background-color: #e6e6e6;
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.m-btn.disabled,
+.m-btn[disabled] {
+  cursor: default;
+  background-color: #e6e6e6;
+  background-image: none;
+  opacity: 0.65;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}

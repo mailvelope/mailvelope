@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--
+     - Mailvelope - secure email with OpenPGP encryption for Webmail
+     - Copyright (C) 2012  Thomas Oberndörfer
+     -
+     - This program is free software: you can redistribute it and/or modify
+     - it under the terms of the GNU Affero General Public License version 3
+     - as published by the Free Software Foundation.
+     -
+     - This program is distributed in the hope that it will be useful,
+     - but WITHOUT ANY WARRANTY; without even the implied warranty of
+     - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     - GNU Affero General Public License for more details.
+     -
+     - You should have received a copy of the GNU Affero General Public License
+     - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    -->
+    <title>Mailvelope Options</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../dep/bootstrap/css/bootstrap.css"  />
+    <link rel="stylesheet" href="../dep/kendoui/styles/kendo.common.min.css"  />
+    <link rel="stylesheet" href="../dep/kendoui/styles/kendo.default.min.css" />
+    <link href='http://fonts.googleapis.com/css?family=Courgette' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="keyRing.css">  
+    <script src="../dep/jquery-1.7.2.min.js"></script>
+    <script src="../dep/jquery.ext.js"></script>
+    <script src="../dep/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../dep/kendoui/js/kendo.web.min.js"></script>
+    <script src="keyRing.js"></script>
+    <script src="keyGrid.js"></script>
+    <script src="importKey.js"></script>
+    <script src="generateKey.js"></script>
+    <script src="watchList.js"></script>
+    <script src="exportKey.js"></script>
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Mailvelope</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Options</a></li>
+              <li><a href="../doc/about.html">About</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list" id="navList">
+              <li class="nav-header">Key Ring</li>
+              <li class="active"><a href="#displayKeys" data-toggle="tab">Display Keys</a></li>
+              <li><a href="#importKey" data-toggle="tab">Import Key</a></li>
+              <li><a href="#generateKey" data-toggle="tab">Generate Key</a></li>
+              <li class="nav-header">Preferences</li>
+              <li><a href="#watchList" data-toggle="tab">Watch List</a></li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+          <div class="hero-unit tab-content">
+            <div id="displayKeys" class="tab-pane fade active in">
+              <h3>Key Ring</h3>
+              <div id="mainKeyGrid">
+                <script type="text/x-kendo-template" id="keyToolbar">
+                  <div id="gridMainToolbar" class="btn-toolbar">
+                    <div class="btn-group">
+                      <button id="exportBtn" class="btn btn-primary dropdown-toggle disabled" data-toggle="dropdown">Export <span class="caret"></span></button>
+                      <ul class="dropdown-menu">
+                        <li id="exportPublic"><a href="\\\#">Display public key</a></li>
+                        <li id="exportByMail"><a href="\\\#">Send public key by mail</a></li>
+                        <li class="divider"></li>
+                        <li id="exportPrivate"><a href="\\\#">Display private key</a></li>
+                        <li id="exportKeyPair"><a href="\\\#">Display key pair</a></li>
+                      </ul>
+                    </div><!-- /btn-group -->
+                    <div class="keyType-selector">
+                      <label class="keyType-label" for="keyType">Show keys by type:</label>
+                      <input type="search" id="keyType" style="width: 200px"></input>
+                    </div>
+                  </div>
+                </script>
+                <script type="text/x-kendo-template" id="keyDetails">
+                  <div class="tabstrip">
+                    <ul>
+                      <li class="k-state-active">Primary Key</li>
+                      <li>Subkeys</li>
+                      <li>User IDs</li>
+                    </ul>
+                    <div>
+                      <div class="primaryKey">
+                        <ul>
+                          <li><label>Key ID:</label>#= id #</li>
+                          <li><label>Algorithm:</label>#= algorithm #</li>
+                          <li><label>Length:</label>#= bitLength # bits</li>
+                          <li><label>Creation Date:</label>#= crDate #</li>
+                          <li><label>Expiration Date:</label>#= exDate #</li>
+                          <li><label>Status:</label>#
+                            if (validity) {
+                              #<span class="label label-success">valid</span># 
+                            } else {
+                              #<span class="label label-important">invalid</span>#
+                            } 
+                          #</li>
+                          <li><label>Fingerprint:</label>#= fingerprint.match(/.{1,4}/g).join(' ') #</li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="subkeys">
+                        <div><label>ID:</label><input class="subkeyID" /></li></div>
+                        <ul class="subkeyDetails well">
+                        </ul>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="userids">
+                        <div><label>ID:</label><input class="userID" /></li></div>
+                        <div><label>Signatures:</label></div>
+                        <div class="signerGrid">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </script>
+                <script type="text/x-kendo-template" id="subkeyDetails">
+                  <li><label>Algorithm:</label>#= algorithm #</li>
+                  <li><label>Length:</label>#= bitLength # bits</li>
+                  <li><label>Creation Date:</label>#= crDate #</li>
+                  <li><label>Expiration Date:</label>#= exDate #</li>
+                  <li><label>Fingerprint:</label>#= fingerprint.match(/.{1,4}/g).join(' ') #</li>
+                </script>
+              </div>
+              <div class="modal fade hide" id="exportKey">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h3>Export Key</h3>
+                </div>
+                <div class="modal-body">
+                  <textarea id="armoredKey" class="input-xxlarge" rows=12></textarea>
+                  <form id="exportDownload" class="form-inline">
+                    <input type="text">
+                    <button type="button" class="btn">Create file</button>
+                    <a class="hide">Download key</a>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                  <button id="exportToCb" type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Copy to Clipboard</button>
+                </div>
+              </div>
+            </div>
+            <div id="importKey" class="tab-pane fade">
+              <h3>Import Keys</h3>
+              <form class="form-vertical well" onsubmit="return false">
+                <div class="control-group">
+                  <label class="control-label" for="textarea"><h5>Paste key text here:</h5></label>
+                  <div class="controls">
+                    <textarea id="newKey" rows="12"></textarea>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <div id="importAlert">
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <button id="impKeySubmit" class="btn btn-primary">Submit</button>
+                  <button id="impKeyClear" class="btn">Clear</button>
+                  <button id="impKeyAnother" class="btn hide">Import another...</button>
+                </div>
+              </form>
+            </div>
+            <div id="generateKey" class="tab-pane fade">
+              <h3>Generate Key</h3>
+              <form class="form-horizontal well" onsubmit="return false">
+                <div class="control-group">
+                  <label class="control-label">Name</label>
+                  <div class="controls">
+                    <input type="text" class="input-xlarge" id="genKeyName">
+                    <span class="help-block">Full name of key owner</span>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">Email</label>
+                  <div class="controls">
+                    <input type="text" class="input-xlarge" id="genKeyEmail">
+                    <span class="help-inline hide">Invalid email address</span>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <div class="controls">
+                    <button id="genKeyAdv" class="btn">Advanced >></button>
+                  </div>
+                </div>
+                <div id="genKeyAdvSection" class="alert alert-info hide">
+                  <div class="control-group">
+                    <label class="control-label">Algorithm</label>
+                    <div class="controls">
+                      <select id="genKeyAlgo" class="input-medium">
+                        <option>RSA</option>
+                        <option disabled>RSA/RSA</option>
+                        <option disabled>DSA/ElGamal</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">Key size</label>
+                    <div class="controls">
+                      <select id="genKeySize" class="input-medium">
+                        <option>1024</option>
+                        <option>2048</option>
+                        <option>4096</option>
+                      </select>
+                      <span class="help-inline">bits</span>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">Expiration</label>
+                    <div class="controls">
+                      <input type="text" class="input-small" id="genKeyExp" value="0" disabled>
+                      <select id="genKeyExpUnit" class="input-small" disabled>
+                        <option>never</option>
+                        <option>days</option>
+                        <option>months</option>
+                        <option>years</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">Enter Passphrase</label>
+                  <div class="controls">
+                    <input type="password" class="input-xlarge" id="genKeyPwd">
+                    <span class="label label-important">Password is empty</span>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">Re-enter Passphrase</label>
+                  <div class="controls">
+                    <input type="password" class="input-xlarge" id="genKeyRePwd">
+                    <span class="label label-important hide">Passwords not equal</span>
+                    <span class="label label-success hide">Passwords match</span>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <div id="genAlert">
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <button id="genKeySubmit" class="btn btn-primary" disabled>Submit</button>
+                  <button id="genKeyClear" class="btn">Clear</button>
+                  <button id="genKeyAnother" class="btn hide">Generate another...</button>
+                </div>
+              </form>
+              <div class="modal fade hide" id="genKeyWait">
+                <div class="modal-header">
+                  <h3>Key generation in progress...</h3>
+                </div>
+                <div class="modal-body">
+                  <div class="progress-bar">
+                    <img alt="activity indicator" src="../img/progress-bar.gif">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="watchList" class="tab-pane fade">
+              <h3>Watch List</h3>
+              <div id="watchListGrid">
+              </div>
+            </div>
+          </div>    
+        </div><!--/span-->
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <p>&copy; 2012 Mailvelope</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+  </body>
+</html>
