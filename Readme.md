@@ -21,6 +21,17 @@ https://chrome.google.com/webstore/detail/kajibbejlbohfaggdiogboambcijhkke
 
 Or as an XPI file for Firefox: dist/mailvelope.xpi
 
+## Build instructions
+
+    git clone git://github.com/toberndo/mailvelope.git
+    cd mailvelope
+    make copy-common
+    git submodule init
+    git submodule update
+    cd firefox/packages/ppg-api
+    git submodule init
+    git submodule update
+
 ## Website
 
 http://www.mailvelope.com
