@@ -40,7 +40,7 @@ copy-dep:
 
 test-build: pack copy-common copy-dep
 
-build: build-cs copy-common
+build: copy-common copy-dep
 
 dist-ff:
 	@echo  package add-on as an XPI file in dist folder
