@@ -25,9 +25,9 @@ Or as an XPI file for Firefox: dist/mailvelope.xpi
 
     git clone git://github.com/toberndo/mailvelope.git
     cd mailvelope
-    make build
     git submodule init
     git submodule update
+    make build
     cd firefox/packages/ppg-api
     git submodule init
     git submodule update

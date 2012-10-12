@@ -13,6 +13,7 @@ help:
 	@echo "build          - build content scripts and copy common folder"
 	@echo "start-ff       - run addon in Firefox"
 	@echo "test-ff        - do test-build & run addon in Firefox"
+	@echo "dist-ff        - package add-on as an XPI file in dist folder"
 
 pack:
 	@echo Concatenate content script files...
@@ -43,7 +44,7 @@ test-build: pack copy-common copy-dep
 build: copy-common copy-dep
 
 dist-ff:
-	@echo  package add-on as an XPI file in dist folder
+	@echo Package add-on as an XPI file in dist folder...
 	@cfx xpi --pkgdir=firefox
 	@mv mailvelope.xpi dist
 
