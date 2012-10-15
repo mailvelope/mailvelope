@@ -87,7 +87,7 @@ var keyRing = {};
     switch (data.event) {
       case 'viewmodel-response':
         if (callbacks[data.id]) {
-          console.log('keyRing viewmodel-response', JSON.stringify(data));
+          //console.log('keyRing viewmodel-response', JSON.stringify(data));
           callbacks[data.id](data.result, data.error);
           delete callbacks[data.id];
         }  

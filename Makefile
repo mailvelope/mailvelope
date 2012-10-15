@@ -48,6 +48,11 @@ dist-ff:
 	@cfx xpi --pkgdir=firefox
 	@mv mailvelope.xpi dist
 
+dist-cr:
+	@echo Package chrome extension in zip file...
+	@rm -f dist/mailvelope.zip
+	@zip -r dist/mailvelope chrome/* -x "*/.*"
+
 start-ff:
 	@echo Start Firefox...
 	@cfx run --pkgdir=firefox --profiledir=$(PROFILEDIR)
