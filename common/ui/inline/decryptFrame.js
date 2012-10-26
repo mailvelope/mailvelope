@@ -227,6 +227,7 @@ var DecryptFrame = DecryptFrame || (function() {
         return line;
       });
       msg = msgLines.get().join('\n');
+      msg = msg.replace(/&nbsp;/g, ' '); // replace non-breaking space with whitespace
       msg = msg.replace(/\n\s+/g, '\n'); // compress sequence of whitespace and new line characters to one new line
       msg = msg.replace(/:.*\n(?!.*:)/, '$&\n');  // insert new line after last armor header
       msg = msg.replace(/^\s*/, ''); // remove leading whitespace

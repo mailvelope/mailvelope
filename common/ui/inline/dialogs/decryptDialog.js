@@ -22,7 +22,7 @@
   var id;
   
   function init() {
-    console.log('decryptDialog init');
+    //console.log('decryptDialog init');
     var qs = jQuery.parseQuerystring();
     id = 'dDialog-' + qs['id'];
     // open port to background page
@@ -32,7 +32,7 @@
   }
 
   function load(content) {
-    console.log('load content');
+    //console.log('load content');
     $('body').html(content);
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);
@@ -61,7 +61,7 @@
   }
   
   function messageListener(msg) {
-    console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
+    //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
       case 'decrypt-dialog-content':
         load(msg.data);

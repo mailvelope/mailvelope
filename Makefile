@@ -14,6 +14,7 @@ help:
 	@echo "start-ff       - run addon in Firefox"
 	@echo "test-ff        - do test-build & run addon in Firefox"
 	@echo "dist-ff        - package add-on as an XPI file in dist folder"
+	@echo "dist-cr        - package chrome extension in zip file"
 
 pack:
 	@echo Concatenate content script files...
