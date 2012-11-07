@@ -279,7 +279,7 @@ define(function (require, exports, module) {
           var hosts = reduceHosts(scannedHosts);
           var site = model.getHostname(tab.url);
           scannedHosts.length = 0;
-          mvelo.tabs.loadOptionsTab(handleMessageEvent, function(tab) {
+          mvelo.tabs.loadOptionsTab('', true, handleMessageEvent, function(tab) {
             sendToWatchList(tab, site, hosts);
           });
         });
@@ -302,7 +302,7 @@ define(function (require, exports, module) {
     mvelo.tabs.getActive(function(tab) {
       if (tab) {
         var site = model.getHostname(tab.url);
-        mvelo.tabs.loadOptionsTab(true, function(tab) {
+        mvelo.tabs.loadOptionsTab('', true, null, function(tab) {
           mvelo.tabs.sendMessage(tab, {
             event: "remove-watchlist-item",
             site: site
@@ -324,10 +324,10 @@ define(function (require, exports, module) {
         removeFromWatchList();
         break;
       case 'options':
-        mvelo.tabs.loadOptionsTab('', handleMessageEvent);
+        mvelo.tabs.loadOptionsTab('', false, handleMessageEvent);
         break;
       case 'help':
-        mvelo.tabs.loadOptionsTab('#help', handleMessageEvent);
+        mvelo.tabs.loadOptionsTab('#help', false, handleMessageEvent);
         break;
       default:
         console.log('unknown browser action');

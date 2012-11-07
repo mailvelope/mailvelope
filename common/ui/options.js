@@ -101,7 +101,7 @@
           event: "add-watchlist-item",
           site: request.site,
           hosts: request.hosts
-        }), '*');
+        }), '*');  
         break;
       case 'remove-watchlist-item':
         iframeWindow.postMessage(JSON.stringify({

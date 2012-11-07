@@ -91,11 +91,11 @@ define(function(require, exports, module) {
     chrome.tabs.sendMessage(tab.id, msg);
   }
 
-  mvelo.tabs.loadOptionsTab = function(hash, onMessage, callback) {
+  mvelo.tabs.loadOptionsTab = function(hash, newTab, onMessage, callback) {
     // check if options tab already exists
     var options = 'options.html' + hash;
     this.query(chrome.extension.getURL(options), function(tabs) {
-      if (tabs.length === 0) {
+      if (tabs.length === 0 || newTab) {
         // if not existent, create tab
         mvelo.tabs.create(options, callback !== undefined, callback);          
       } else {
