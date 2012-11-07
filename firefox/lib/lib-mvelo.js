@@ -103,12 +103,13 @@ mvelo.tabs.sendMessage = function(tab, msg) {
   this.worker[tab.index].port.emit('message-event', msg);
 }
 
-mvelo.tabs.loadOptionsTab = function(onMessage, callback) {
+mvelo.tabs.loadOptionsTab = function(hash, onMessage, callback) {
   // check if options tab already exists
-  this.query(data.url('ui/options.html'), function(tabs) {
+  var options = data.url("ui/options.html") + hash;
+  this.query(options, function(tabs) {
     if (tabs.length === 0) {
       // if not existent, create tab
-      mvelo.tabs.create(data.url("ui/options.html"), true, function(tab) {
+      mvelo.tabs.create(options, true, function(tab) {
         console.log('before tab attach');
         mvelo.tabs.attach(tab, {
           contentScriptFile: [ 

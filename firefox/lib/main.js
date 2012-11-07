@@ -28,7 +28,7 @@ var scannedHosts = [];
 
 var mailvelopePanel = require('panel').Panel({
   width: 200,
-  height: 142,
+  height: 164,
   contentURL: data.url('common/ui/popup.html'),
   onMessage: onPanelMessage
 });

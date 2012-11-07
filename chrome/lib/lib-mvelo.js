@@ -91,12 +91,13 @@ define(function(require, exports, module) {
     chrome.tabs.sendMessage(tab.id, msg);
   }
 
-  mvelo.tabs.loadOptionsTab = function(onMessage, callback) {
+  mvelo.tabs.loadOptionsTab = function(hash, onMessage, callback) {
     // check if options tab already exists
-    this.query(chrome.extension.getURL('options.html'), function(tabs) {
+    var options = 'options.html' + hash;
+    this.query(chrome.extension.getURL(options), function(tabs) {
       if (tabs.length === 0) {
         // if not existent, create tab
-        mvelo.tabs.create("options.html", callback !== undefined, callback);          
+        mvelo.tabs.create(options, callback !== undefined, callback);          
       } else {
         // if existent, set as active tab
         mvelo.tabs.activate(tabs[0], callback);

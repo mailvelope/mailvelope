@@ -30,7 +30,11 @@
     iframeEvents = $('#optionsIframe');
   	window.addEventListener("message", receiveMessage);
     initMessageListener();
-    $('#optionsIframe').attr('src', mvelo.extension.getURL('common/ui/keyRing.html'));
+    var path = 'common/ui/keyRing.html';
+    if (location.hash === '#help') {
+      path = 'common/doc/help.html';
+    }
+    $('#optionsIframe').attr('src', mvelo.extension.getURL(path));
   }
 
   function receiveMessage(event) {

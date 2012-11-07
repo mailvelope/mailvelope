@@ -324,7 +324,10 @@ define(function (require, exports, module) {
         removeFromWatchList();
         break;
       case 'options':
-        mvelo.tabs.loadOptionsTab(handleMessageEvent);
+        mvelo.tabs.loadOptionsTab('', handleMessageEvent);
+        break;
+      case 'help':
+        mvelo.tabs.loadOptionsTab('#help', handleMessageEvent);
         break;
       default:
         console.log('unknown browser action');

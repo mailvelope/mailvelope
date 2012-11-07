@@ -1,5 +1,5 @@
 /*!
- * Bootstrap v2.0.3
+ * Bootstrap v2.2.1
  *
  * Copyright 2012 Twitter, Inc
  * Licensed under the Apache License v2.0
@@ -14,6 +14,7 @@
 .clearfix:after {
   display: table;
   content: "";
+  line-height: 0;
 }
 .clearfix:after {
   clear: both;
@@ -28,10 +29,9 @@
 .input-block-level {
   display: block;
   width: 100%;
-  min-height: 28px;
+  min-height: 30px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
   box-sizing: border-box;
 }
 [class^="icon-"],
@@ -45,12 +45,22 @@
   background-image: url("../img/glyphicons-halflings.png");
   background-position: 14px 14px;
   background-repeat: no-repeat;
+  margin-top: 1px;
 }
-[class^="icon-"]:last-child,
-[class*=" icon-"]:last-child {
-  *margin-left: 0;
-}
-.icon-white {
+/* White icons with optional class, or on hover/active states of certain elements */
+.icon-white,
+.nav-pills > .active > a > [class^="icon-"],
+.nav-pills > .active > a > [class*=" icon-"],
+.nav-list > .active > a > [class^="icon-"],
+.nav-list > .active > a > [class*=" icon-"],
+.navbar-inverse .nav > .active > a > [class^="icon-"],
+.navbar-inverse .nav > .active > a > [class*=" icon-"],
+.dropdown-menu > li > a:hover > [class^="icon-"],
+.dropdown-menu > li > a:hover > [class*=" icon-"],
+.dropdown-menu > .active > a > [class^="icon-"],
+.dropdown-menu > .active > a > [class*=" icon-"],
+.dropdown-submenu:hover > a > [class^="icon-"],
+.dropdown-submenu:hover > a > [class*=" icon-"] {
   background-image: url("../img/glyphicons-halflings-white.png");
 }
 .icon-glass {
@@ -382,6 +392,7 @@
 }
 .icon-random {
   background-position: -216px -120px;
+  width: 16px;
 }
 .icon-comment {
   background-position: -240px -120px;
@@ -406,6 +417,7 @@
 }
 .icon-folder-open {
   background-position: -408px -120px;
+  width: 16px;
 }
 .icon-resize-vertical {
   background-position: -432px -119px;
