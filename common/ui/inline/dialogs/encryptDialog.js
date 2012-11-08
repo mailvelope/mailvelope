@@ -115,13 +115,11 @@
   }
 
   function messageListener(msg) {
-    console.log('edialog messageListener:', JSON.stringify(msg));
     switch (msg.event) {
       case 'encrypt-dialog-content':
         load(msg.data);
         break;
       case 'public-key-userids':
-        console.log('encryptDialog public-key-userids', JSON.stringify(msg.keys));
         var keySelect = $('#keySelect');
         var firstProposal = true;
         msg.keys.forEach(function(key) {
@@ -138,7 +136,6 @@
         });
         break;
       case 'encoding-defaults':
-        console.log('encryptDialog encoding-defaults', JSON.stringify(msg.defaults));
         if (msg.defaults.type === 'text') {
           $('#encodeText').attr('checked', 'checked');
         } else {

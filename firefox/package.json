@@ -5,7 +5,7 @@
   "description": "Secure email with OpenPGP encryption for Webmail",
   "author": "Thomas Obernd\u00f6rfer", 
   "license": "AGPL 3",
-  "version": "0.5.2.1",
+  "version": "0.5.2.2",
   "icon": "data/common/img/mail_locked_48.png",
   "icon64": "data/common/img/mail_locked_64.png",
   "dependencies": ["addon-kit", "api-utils", "ppg-api"],

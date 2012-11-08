@@ -25,16 +25,18 @@
   var iframeWindow;
   // jquery object for event handling
   var iframeEvents;
+
+  var hashMap = {
+    "#home": "common/ui/keyRing.html",
+    "#help": "common/doc/help.html"
+  }
   
   function init() {
     iframeEvents = $('#optionsIframe');
   	window.addEventListener("message", receiveMessage);
     initMessageListener();
-    var path = 'common/ui/keyRing.html';
-    if (location.hash === '#help') {
-      path = 'common/doc/help.html';
-    }
-    $('#optionsIframe').attr('src', mvelo.extension.getURL(path));
+    var hash = location.hash || '#home';
+    $('#optionsIframe').attr('src', mvelo.extension.getURL(hashMap[hash]));
   }
 
   function receiveMessage(event) {
@@ -44,7 +46,6 @@
     switch (data.event) {
       case 'viewmodel':
         mvelo.extension.sendMessage(data, function(response) {
-          console.log('response received in options.js', response.result);
           if (data.callback) {
             var respObj = {
               event: "viewmodel-response",
@@ -65,7 +66,6 @@
         break;
       case 'init':
         // provides reference to iframe window
-        console.log('init event');
         iframeWindow = event.source;
         iframeEvents.triggerHandler('iframeLoaded');
         break;
@@ -97,26 +97,44 @@
   function handleRequests(request, sender, sendResponse) {
     switch (request.event) {
       case 'add-watchlist-item':
-        iframeWindow.postMessage(JSON.stringify({
-          event: "add-watchlist-item",
-          site: request.site,
-          hosts: request.hosts
-        }), '*');  
+        postWatchlistEvent("add-watchlist-item", request);
         break;
       case 'remove-watchlist-item':
-        iframeWindow.postMessage(JSON.stringify({
-          event: "remove-watchlist-item",
-          site: request.site
-        }), '*');
+        postWatchlistEvent("remove-watchlist-item", request);
         break;
       case 'options-response':
-        console.log('options.js options-response');
         iframeWindow.postMessage(JSON.stringify({
           event: "message-response",
           message: request.message,
           id: request.id
         }), '*');
         break;
+      case 'reload-options':
+        reloadOptions(request.hash);
+        break;
+    }
+  }
+
+  function reloadOptions(hash, callback) {
+    $('#optionsIframe').one('load', callback);
+    $('#optionsIframe').attr('src', mvelo.extension.getURL(hashMap[hash]));
+  }
+
+  function postWatchlistEvent(event, request) {
+    if (request.old) {
+      reloadOptions('#home', function() {
+        iframeWindow.postMessage(JSON.stringify({
+          event: event,
+          site: request.site,
+          hosts: request.hosts
+        }), '*');
+      });
+    } else {
+      iframeWindow.postMessage(JSON.stringify({
+        event: event,
+        site: request.site,
+        hosts: request.hosts
+      }), '*');
     }
   } 
   

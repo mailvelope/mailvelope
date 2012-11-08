@@ -85,7 +85,6 @@ define(function (require, exports, module) {
   }
 
   function handlePortMessage(msg) {
-    console.log('controller handlePortMessage:', msg.event);
     var id = parseName(msg.sender).id;
     switch (msg.event) {
       case 'decrypt-dialog-cancel':
@@ -100,7 +99,6 @@ define(function (require, exports, module) {
         // send content
         mvelo.data.load('common/ui/inline/dialogs/templates/decrypt.html', function(content) {
           //console.log('content rendered', content);
-          console.log('port', dDialogPorts[id]);
           dDialogPorts[id].postMessage({event: 'decrypt-dialog-content', data: content}); 
           // get armored message from dFrame
           dFramePorts[id].postMessage({event: 'armored-message'});
@@ -133,10 +131,8 @@ define(function (require, exports, module) {
         }).bind(undefined, id));
         break;
       case 'eframe-recipient-proposal':
-        console.log('recipient-proposal from eframe', msg.data);
         var emails = sortAndDeDup(msg.data);
         var keys = model.getKeyUserIDs(emails);
-        console.log('recipient-proposal keys', JSON.stringify(keys));
         eDialogPorts[id].postMessage({event: 'public-key-userids', keys: keys});
         break;
       case 'encrypt-dialog-ok':
@@ -169,8 +165,6 @@ define(function (require, exports, module) {
   function handleMessageEvent(request, sender, sendResponse) {
     switch (request.event) {
       case 'viewmodel':
-        console.log('request.method', request.method);
-        console.log('request.args', JSON.stringify(request.args));
         var response = {};
         var callback = function(error, result) {
           sendResponse({error: error, result: result});
@@ -178,11 +172,8 @@ define(function (require, exports, module) {
         request.args = request.args || [];
         request.args.push(callback);
         try {
-          console.log('calling model', request.method);
           response.result = model[request.method].apply(model, request.args);
-          console.log('calling model result', response.result);
         } catch (e) {
-          console.log('calling model error', e);
           response.error = e;
         }
         if (response.result || response.error) {
@@ -193,7 +184,6 @@ define(function (require, exports, module) {
         onBrowserAction(request.action);
         break;
       case 'iframe-scan-result':
-        console.log('hosts: ', request.result, Date.now());
         scannedHosts = scannedHosts.concat(request.result);
         break;
       case 'set-watch-list':
@@ -201,7 +191,6 @@ define(function (require, exports, module) {
         specific.initScriptInjection();
         break;
       case 'send-by-mail':
-        console.log('send-by-mail');
         var link = 'mailto:';
         link += '?subject=Public OpenPGP key of ' + request.message.data.name;
         link += '&body=' + request.message.data.armoredPublic;
@@ -230,7 +219,6 @@ define(function (require, exports, module) {
   }
 
   function reloadFrames() {
-    console.log('controller reloadFrames');
     // close frames
     for (id in dFramePorts) {
       if (dFramePorts.hasOwnProperty(id)) {
@@ -273,14 +261,13 @@ define(function (require, exports, module) {
         options.onMessage = handleMessageEvent;
         // inject scan script
         mvelo.tabs.attach(tab, options, function() {
-          console.log('scanned hosts', scannedHosts.length, Date.now());
           if (scannedHosts.length === 0) return;
           // remove duplicates and add wildcards
           var hosts = reduceHosts(scannedHosts);
           var site = model.getHostname(tab.url);
           scannedHosts.length = 0;
-          mvelo.tabs.loadOptionsTab('', true, handleMessageEvent, function(tab) {
-            sendToWatchList(tab, site, hosts);
+          mvelo.tabs.loadOptionsTab('', handleMessageEvent, function(old, tab) {
+            sendToWatchList(tab, site, hosts, old);
           });
         });
       }
@@ -288,12 +275,12 @@ define(function (require, exports, module) {
 
   }
 
-  function sendToWatchList(tab, site, hosts) {
-    console.log('send message: ', tab.id, site, hosts, Date.now());
+  function sendToWatchList(tab, site, hosts, old) {
     mvelo.tabs.sendMessage(tab, {
       event: "add-watchlist-item",
       site: site,
-      hosts: hosts
+      hosts: hosts,
+      old: old
     });
   }
 
@@ -302,10 +289,11 @@ define(function (require, exports, module) {
     mvelo.tabs.getActive(function(tab) {
       if (tab) {
         var site = model.getHostname(tab.url);
-        mvelo.tabs.loadOptionsTab('', true, null, function(tab) {
+        mvelo.tabs.loadOptionsTab('', handleMessageEvent, function(old, tab) {
           mvelo.tabs.sendMessage(tab, {
             event: "remove-watchlist-item",
-            site: site
+            site: site,
+            old: old
           });
         });
       }
@@ -324,14 +312,25 @@ define(function (require, exports, module) {
         removeFromWatchList();
         break;
       case 'options':
-        mvelo.tabs.loadOptionsTab('', false, handleMessageEvent);
+        loadOptions('#home');
         break;
       case 'help':
-        mvelo.tabs.loadOptionsTab('#help', false, handleMessageEvent);
+        loadOptions('#help');
         break;
       default:
         console.log('unknown browser action');
     }
+  }
+
+  function loadOptions(hash) {
+    mvelo.tabs.loadOptionsTab(hash, handleMessageEvent, function(old, tab) {
+      if (old) {
+        mvelo.tabs.sendMessage(tab, {
+          event: "reload-options",
+          hash: hash
+        })
+      }
+    });
   }
 
   function reduceHosts(hosts) {

@@ -78,8 +78,9 @@ mvelo.tabs.attach = function(tab, options, callback) {
 mvelo.tabs.query = function(url, callback) {
   var result = [];
   var tabs = windows.activeWindow.tabs;
+  var reUrl = new RegExp(url + '.*');
   for (var i = 0; i < tabs.length; i++) {
-    if (tabs[i].url === url) {
+    if (reUrl.test(tabs[i].url)) {
       result.push(tabs[i]);
     }
   }
@@ -103,13 +104,12 @@ mvelo.tabs.sendMessage = function(tab, msg) {
   this.worker[tab.index].port.emit('message-event', msg);
 }
 
-mvelo.tabs.loadOptionsTab = function(hash, newTab, onMessage, callback) {
+mvelo.tabs.loadOptionsTab = function(hash, onMessage, callback) {
   // check if options tab already exists
-  var options = data.url("ui/options.html") + hash;
-  this.query(options, function(tabs) {
-    if (tabs.length === 0 || newTab) {
+  this.query(data.url("ui/options.html"), function(tabs) {
+    if (tabs.length === 0) {
       // if not existent, create tab
-      mvelo.tabs.create(options, true, function(tab) {
+      mvelo.tabs.create(data.url("ui/options.html") + hash, true, function(tab) {
         console.log('before tab attach');
         mvelo.tabs.attach(tab, {
           contentScriptFile: [ 
@@ -126,11 +126,11 @@ mvelo.tabs.loadOptionsTab = function(hash, newTab, onMessage, callback) {
               this.emit(msg.response, response);
             }).bind(this));
           }
-        }, callback)
+        }, callback.bind(this, false))
       });          
     } else {
       // if existent, set as active tab
-      mvelo.tabs.activate(tabs[0], callback);
+      mvelo.tabs.activate(tabs[0], callback.bind(this, true));
     }  
   });
 }
