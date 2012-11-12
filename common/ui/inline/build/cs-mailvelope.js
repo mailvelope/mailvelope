@@ -9919,7 +9919,9 @@ var DecryptFrame = DecryptFrame || (function() {
     
     _getArmoredMessage: function() {
       var msg, msgLines;
-      if (this._pgpElement.is(this._pgpParent)) {
+      if (this._pgpElement.is('pre')) {
+        return this._pgpElement.text();
+      } else if (this._pgpElement.is(this._pgpParent)) {
         // the parent of the tail line text node is equal to the node that contains the complete armored text
         // => treat armored text as one entity
         msgLines = this._pgpElement;

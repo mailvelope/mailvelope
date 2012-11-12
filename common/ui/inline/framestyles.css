@@ -14,7 +14,7 @@
   display: none;
 }
 
-.m-encrypt-frame {
+div.m-encrypt-frame[id^="eFrame"] {
   background: rgba(254,251,243,.8);
   border: 1px solid rgba(0,0,0,.2);
   border-radius: 3px;
@@ -56,7 +56,8 @@
   cursor: url('chrome-extension://__MSG_@@extension_id__/common/img/key-24.png'), auto;
 }
 
-.m-frame-dialog {
+.m-frame .m-frame-dialog,
+.m-encrypt-frame .m-frame-dialog {
   position: absolute;
   display: none;
   height: 100%;
@@ -96,7 +97,7 @@
  * Designed and built with all the love in the world @twitter by @mdo and @fat.
  */
 
-.m-btn {
+button.m-btn {
   display: inline-block;
   padding: 4px 14px;
   margin-bottom: 0;
