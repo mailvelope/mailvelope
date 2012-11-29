@@ -19,7 +19,7 @@ Mailvelope uses the following OpenPGP implementations
 Mailvelope is available in the Chrome Web Store:
 https://chrome.google.com/webstore/detail/kajibbejlbohfaggdiogboambcijhkke
 
-Or as an XPI file for Firefox: dist/mailvelope.xpi
+For Firefox only from source.
 
 ## Build instructions
 
