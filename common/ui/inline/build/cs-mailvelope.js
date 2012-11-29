@@ -9443,7 +9443,9 @@ var mvelo = mvelo || {};
 mvelo.crx = typeof chrome !== 'undefined';
 // firefox addon
 mvelo.ffa = self.port !== undefined;
-mvelo.extension = mvelo.extension || mvelo.crx && chrome.extension;/**
+mvelo.extension = mvelo.extension || mvelo.crx && chrome.extension;
+// min height for large frame
+mvelo.LARGE_FRAME = 600;/**
  * Mailvelope - secure email with OpenPGP encryption for Webmail
  * Copyright (C) 2012  Thomas Oberndörfer
  *
@@ -9819,6 +9821,9 @@ var DecryptFrame = DecryptFrame || (function() {
       this._setFrameDim();
       
       this._dFrame.insertAfter(this._pgpElement);
+      if (this._pgpElement.height() > mvelo.LARGE_FRAME) {
+        this._dFrame.addClass('m-frame-large');
+      }
       this._dFrame.addClass('m-decrypt-key-cursor');
       this._dFrame.fadeIn('slow');
       
@@ -9852,23 +9857,15 @@ var DecryptFrame = DecryptFrame || (function() {
     },
     
     _toggleIcon: function(callback) {
-      var that = this;
-      var left = '10px';
-      var center = '50%';
-      var centerLeft = Math.round(this._dFrame.width() / 2 - 48) + 'px';
-      var currPos = this._dFrame.css('background-position').split(' ', 1).pop();
-      if (currPos === center) {
-        this._dFrame.css('background-position', centerLeft); 
-        this._dFrame.animate({
-          'background-position': left
-        }, callback);
+      if (this._dFrame.hasClass('m-frame-large')) {
+        this._dFrame.toggleClass('m-frame-large-open');
       } else {
-        this._dFrame.animate({
-          'background-position': centerLeft
-        }, function() {
-          that._dFrame.css('background-position', center);
-          if (callback) callback();
-        });
+        this._dFrame.toggleClass('m-frame-open');
+      }
+      if (mvelo.crx) {
+        this._dFrame.one('webkitTransitionEnd', callback);  
+      } else {
+        this._dFrame.one('transitionend', callback);
       }
     },
     

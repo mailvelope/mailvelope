@@ -34,12 +34,15 @@
   function load(content) {
     //console.log('load content');
     $('body').html(content);
+    if ($('body').height() + 2 > mvelo.LARGE_FRAME) {
+      $('#pwdbox').addClass('pwdbox-large');  
+    }
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);
     $('#pwdbox').fadeIn('fast');
     // align width
     $.setEqualWidth($('#okBtn'), $('#cancelBtn'));
-    pwdBoxPos();
+    //pwdBoxPos();
     $('#password').focus();
   }
   
