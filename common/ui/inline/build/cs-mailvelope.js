@@ -9915,51 +9915,22 @@ var DecryptFrame = DecryptFrame || (function() {
     },
     
     _getArmoredMessage: function() {
-      var msg, msgLines;
       if (this._pgpElement.is('pre')) {
         return this._pgpElement.text();
-      } else if (this._pgpElement.is(this._pgpParent)) {
-        // the parent of the tail line text node is equal to the node that contains the complete armored text
-        // => treat armored text as one entity
-        msgLines = this._pgpElement;
       } else {
-        // nested html structure
-        msgLines = this._pgpElement.children();
-        // find head
-        var head;
-        for (var i = 0; i < msgLines.length; i++) {
-          if (/BEGIN\sPGP/.test(msgLines.eq(i).text())) {
-            head = i;
-            break;
-          }
-        }
-        // find tail
-        var tail;
-        for (var i = head + 1; i < msgLines.length; i++) {
-          if (/END\sPGP/.test(msgLines.eq(i).text())) {
-            tail = i;
-            break;
-          }
-        } 
-        msgLines = msgLines.slice(head, tail + 1);
+        var msg = this._pgpElement.html();
+        msg = msg.replace(/\n/g, ' '); // replace new line with space
+        msg = msg.replace(/(<br>)/g, '\n'); // replace <br> with new line
+        msg = msg.replace(/<(\/.+?)>/g, '\n'); // replace closing tags </..> with new line
+        msg = msg.replace(/<(.+?)>/g, ''); // remove opening tags
+        //
+        msg = msg.replace(/&nbsp;/g, ' '); // replace non-breaking space with whitespace
+        msg = msg.replace(/\n\s+/g, '\n'); // compress sequence of whitespace and new line characters to one new line
+        var msgRegex = /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/;
+        msg = msg.match(msgRegex)[0];
+        msg = msg.replace(/:.*\n(?!.*:)/, '$&\n');  // insert new line after last armor header
+        return msg;
       }
-      // process armored text line by line
-      msgLines = msgLines.map(function(index, element) {
-        var line = $(element).html();
-        line = line.replace(/\n/g, ' '); // replace new line with space
-        line = line.replace(/(<br>)/g, '\n'); // replace <br> with new line
-        line = line.replace(/<(\/.+?)>/g, '\n'); // replace closing tags </..> with new line
-        line = line.replace(/<(.+?)>/g, ''); // remove opening tags
-        return line;
-      });
-      msg = msgLines.get().join('\n');
-      msg = msg.replace(/&nbsp;/g, ' '); // replace non-breaking space with whitespace
-      msg = msg.replace(/\n\s+/g, '\n'); // compress sequence of whitespace and new line characters to one new line
-      msg = msg.replace(/:.*\n(?!.*:)/, '$&\n');  // insert new line after last armor header
-      msg = msg.replace(/^\s*/, ''); // remove leading whitespace
-      msg = msg.replace(/\s*$/, ''); // remove trailing whitespace
-
-      return msg;
     },
     
     _registerEventListener: function() {
