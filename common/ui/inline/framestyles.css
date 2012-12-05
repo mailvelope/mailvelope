@@ -3,7 +3,7 @@
  * Copyright (C) 2012  Thomas Oberndörfer
  */
 
-.m-frame {
+:root .m-frame {
   background: rgba(254,251,243,.8) url('chrome-extension://__MSG_@@extension_id__/common/img/mail_locked_96.png') no-repeat center center;
   -webkit-transition: background-position 0.4s ease;
   transition: background-position 0.4s ease;
@@ -16,19 +16,19 @@
   display: none;
 }
 
-.m-frame-open {
+:root .m-frame-open {
   background-position: 10px;
 }
 
-.m-frame-large {
+:root .m-frame-large {
   background-position: center 140px;
 }
 
-.m-frame-large-open {
+:root .m-frame-large-open {
   background-position: 10px 140px;
 }
 
-div.m-encrypt-frame[id^="eFrame"] {
+:root div.m-encrypt-frame[id^="eFrame"] {
   background: rgba(254,251,243,.8);
   border: 1px solid rgba(0,0,0,.2);
   border-radius: 3px;
@@ -38,19 +38,22 @@ div.m-encrypt-frame[id^="eFrame"] {
   display: none;
 }
 
-.m-encrypt-frame-expanded {
+:root .m-encrypt-frame-expanded {
   top: 0;
   right: 0;
   padding: 0;
 }
 
-.m-encrypt-frame .m-encrypt-button {
+:root .m-encrypt-frame .m-encrypt-button {
+  height: 30px;
+  width: 30px;
+  min-width: 30px;
   padding: 3px;
   margin: 3px 10px 3px 4px;
   line-height: 0;
 }
 
-.m-encrypt-frame .m-icon {
+:root .m-encrypt-frame .m-icon {
   display: inline-block;
   width: 22px;
   height: 22px;
@@ -58,27 +61,27 @@ div.m-encrypt-frame[id^="eFrame"] {
   background-repeat: no-repeat;
 }
 
-.m-encrypt-frame .m-icon-encrypt {
+:root .m-encrypt-frame .m-icon-encrypt {
   background-image: url('chrome-extension://__MSG_@@extension_id__/common/img/encrypt-22.png');
 }
 
-.m-encrypt-frame .m-icon-undo {
+:root .m-encrypt-frame .m-icon-undo {
   background-image: url('chrome-extension://__MSG_@@extension_id__/common/img/undo-22.png');
 }
 
-.m-decrypt-key-cursor {
+:root .m-decrypt-key-cursor {
   cursor: url('chrome-extension://__MSG_@@extension_id__/common/img/key-24.png'), auto;
 }
 
-.m-frame .m-frame-dialog,
-.m-encrypt-frame .m-frame-dialog {
+:root .m-frame .m-frame-dialog,
+:root .m-encrypt-frame .m-frame-dialog {
   position: absolute;
   display: none;
   height: 100%;
   width: 100%;
 }
 
-.m-frame-close {
+:root .m-frame-close {
   float: right;
   font-size: 20px;
   font-weight: bold;
@@ -93,7 +96,7 @@ div.m-encrypt-frame[id^="eFrame"] {
   font-family: arial, sans-serif;
 }
 
-.m-frame-close:hover {
+:root .m-frame-close:hover {
   color: #000000;
   opacity: 0.4;
   cursor: pointer !important;
@@ -111,7 +114,7 @@ div.m-encrypt-frame[id^="eFrame"] {
  * Designed and built with all the love in the world @twitter by @mdo and @fat.
  */
 
-button.m-btn {
+:root button.m-btn {
   display: inline-block;
   padding: 4px 14px;
   margin-bottom: 0;
@@ -140,16 +143,16 @@ button.m-btn {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.m-btn:hover,
-.m-btn:active,
-.m-btn.active,
-.m-btn.disabled,
-.m-btn[disabled] {
+:root button.m-btn:hover,
+:root button.m-btn:active,
+:root button.m-btn.active,
+:root button.m-btn.disabled,
+:root button.m-btn[disabled] {
   color: #333333;
   background-color: #e6e6e6;
 }
 
-.m-btn:hover {
+:root button.m-btn:hover {
   color: #333333;
   text-decoration: none;
   background-color: #e6e6e6;
@@ -159,14 +162,14 @@ button.m-btn {
   transition: background-position 0.1s linear;
 }
 
-.m-btn:focus {
+:root button.m-btn:focus {
   outline: thin dotted #333;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 
-.m-btn.active,
-.m-btn:active {
+:root button.m-btn.active,
+:root button.m-btn:active {
   background-color: #e6e6e6;
   background-image: none;
   outline: 0;
@@ -175,8 +178,8 @@ button.m-btn {
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.m-btn.disabled,
-.m-btn[disabled] {
+:root button.m-btn.disabled,
+:root button.m-btn[disabled] {
   cursor: default;
   background-color: #e6e6e6;
   background-image: none;
