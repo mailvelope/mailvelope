@@ -10190,6 +10190,7 @@ var EncryptFrame = EncryptFrame || (function() {
           text = text.replace(/<\/(div|p)>/g,'\n'); // replace </div> or </p> tags with new line
           text = text.replace(/<(.+?)>/g,''); // remove tags
           text = text.replace(/\n{3,}/g, '\n\n'); // compress new line
+          text = $('<div/>').html(text).text(); // decode
         }
       }
       return text;
