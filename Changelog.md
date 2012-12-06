@@ -11,7 +11,7 @@
 0.5.3 / 12.11.2012 
 ==================
 
-  * Support for messages in <pre> tags
+  * Support for messages in __pre__ tags
   * Higher selector specificity in framestyles.css to support Roundcube
 
 0.5.2.2 / 08.11.2012 
