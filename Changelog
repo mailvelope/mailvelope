@@ -1,3 +1,12 @@
+0.5.4 / 06.12.2012 
+==================
+
+  * Improved positioning of decrypt dialog for large mails: the dialog is now shown always on top and not in the center of the mail
+  * Revised armored text extraction in decrypt frame: this fixes a bug where in some situations the armored text was not extracted correctly
+  * Fix encrypt button style in outlook.com
+  * Decode HTML entities in text mode: e.g. > is now decoded correctly
+  * Remove migration code that was introduced with 0.4.2
+
 
 0.5.3 / 12.11.2012 
 ==================
