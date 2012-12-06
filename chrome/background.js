@@ -183,30 +183,6 @@ define(["common/lib/controller", "lib/pgpViewModel", "openpgp", "jquery"], funct
 
   function migrate() {
     // migration
-    migrateTo0420();
-  }
-
-  function migrateTo0420() {
-    for (var i = 0; i < openpgp.keyring.privateKeys.length; i++) {
-      // check if corresponding public key
-      var found = openpgp.keyring.getPublicKeysForKeyId(openpgp.keyring.privateKeys[i].obj.getKeyId());
-      if (found.length === 0) {
-        // create public key from private key
-        var pubArmored = openpgp.keyring.privateKeys[i].obj.extractPublicKey();
-        if (pubArmored === null) {
-          // remove private key
-          openpgp.keyring.removePrivateKey(i);
-          i--;
-        } else {
-          // import public key
-          var pubKey = openpgp.read_publicKey(pubArmored);
-          for (var j = 0; j < pubKey.length; j++) {
-            openpgp.keyring.publicKeys.push({armored: pubArmored, obj: pubKey[j], keyId: pubKey[j].getKeyId()});
-          }
-          openpgp.keyring.store();
-        }
-      }
-    }
   }
   
   init();
