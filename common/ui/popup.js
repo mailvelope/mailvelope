@@ -21,7 +21,7 @@ $(document).ready(function() {
 $(document).ready(function() {
     textarea = document.getElementsByTagName("textarea").item(0);
     
-    if (localStorage["plaintextarea"]!="undefined") {
+    if (localStorage["plaintextarea"]!=="undefined") {
         textarea.value= localStorage["plaintextarea"];
     }
 
