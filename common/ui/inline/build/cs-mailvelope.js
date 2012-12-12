@@ -9815,7 +9815,7 @@ var DecryptFrame = DecryptFrame || (function() {
       this._dFrame = $('<div/>', {
         id: 'dFrame' + that.id,
         'class': 'm-frame',
-        html: '<a class="m-frame-close">×</a>'
+        html: '<a class="m-frame-close">&#215;</a>'
       });
       
       this._setFrameDim();
@@ -10049,7 +10049,7 @@ var EncryptFrame = EncryptFrame || (function() {
       this._eFrame = $('<div/>', {
         id: 'eFrame' + that.id,
         'class': 'm-encrypt-frame',
-        html: '<a class="m-frame-close">×</a><button class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-encrypt"></i></button>'
+        html: '<a class="m-frame-close">&#215;</a><button class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-encrypt"></i></button>'
       });
       
       this._eFrame.insertAfter(this._editElement);
