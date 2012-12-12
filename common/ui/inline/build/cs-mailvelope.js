@@ -9991,6 +9991,15 @@ var DecryptFrame = DecryptFrame || (function() {
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
+function divIfNotExtension(URL) {
+    if (URL.substring(0,6)=="chrome") {
+        return "";
+    } else {
+        return "<div class='DOM_warning'>WARNING! This mail can be intercepted while it's being written! If you want safety, <b><i>do not write the mail here</i></b>, but click on the keylock icon right from the URL, write and encrypt the mail there and paste the encrypted text here.</div>";
+    }
+}
+
 var EncryptFrame = EncryptFrame || (function() { 
 
   var encryptFrame = function() {
@@ -10049,7 +10058,7 @@ var EncryptFrame = EncryptFrame || (function() {
       this._eFrame = $('<div/>', {
         id: 'eFrame' + that.id,
         'class': 'm-encrypt-frame',
-        html: '<a class="m-frame-close">&#215;</a><button class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-encrypt"></i></button>'
+        html: '<a class="m-frame-close">&#215;</a><button class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-encrypt"></i></button>'+divIfNotExtension(document.URL)
       });
       
       this._eFrame.insertAfter(this._editElement);

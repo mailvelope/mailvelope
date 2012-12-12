@@ -3,6 +3,17 @@
  * Copyright (C) 2012  Thomas Oberndörfer
  */
 
+
+.DOM_warning {
+    width:200px;
+    background: rgba(254, 0, 0, 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-image: initial;
+    border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.0980392) 0px 1px 2px;
+    margin: 0.3em;
+}
+
 :root .m-frame {
   background: rgba(254,251,243,.8) url('chrome-extension://__MSG_@@extension_id__/common/img/mail_locked_96.png') no-repeat center center;
   -webkit-transition: background-position 0.4s ease;
