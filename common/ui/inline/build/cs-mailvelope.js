@@ -9491,7 +9491,7 @@ var constant = constant || (function() {
   var interval = 2500; // ms
   var regex = /END\sPGP/;
   var status = constant.SCAN_ON;
-  var minEditHeight = 100;
+  var minEditHeight = 50;
   var contextTarget = null;
   var tabid = 0;
   
