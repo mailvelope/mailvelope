@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="../dep/bootstrap/css/textarea.min.css">
   <link rel="stylesheet" href="../dep/bootstrap-icons/css/bootstrap.min.css">
   <link rel="stylesheet" href="popup.css">
+  <link rel="stylesheet" href="inline/framestyles.css">
 </head>
 <body>
+
+    You can safely write anything in this box without fear of being intercepted.<br>
+    <textarea style="width:700px; height:350px">You can write your message here.</textarea>
+
   <ul class="dropdown-menu">
     <li id="reload"><a href="#"><i class="icon-refresh"></i> Reload</a></li>
     <li id="add"><a href="#"><i class="icon-plus"></i> Add page</a></li>
@@ -15,5 +21,6 @@
   </ul>
   <script src="../dep/jquery.min.js"></script>
   <script src="popup.js"></script>
+  <script src="inline/build/cs-mailvelope.js"></script>
 </body>
 </html>
