@@ -4,6 +4,7 @@
   "description": "Secure email with OpenPGP encryption for Webmail",
   "homepage_url":"http://www.mailvelope.com",
   "manifest_version": 2,
+  "minimum_chrome_version": "21",
   "icons": { 
     "16": "common/img/encrypt-16.png",
     "48": "common/img/mail_locked_48.png",
