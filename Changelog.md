@@ -1,3 +1,9 @@
+0.5.4.1 / 17.12.2012 
+==================
+
+  * Set minimum Chrome version to 21
+  * Center encrypt dialog (support for new Gmail editor)
+
 0.5.4 / 06.12.2012 
 ==================
 
