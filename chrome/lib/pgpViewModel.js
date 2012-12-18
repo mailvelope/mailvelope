@@ -279,6 +279,14 @@ define(function(require, exports, module) {
       return str;
     }
   }
+
+  function encode_utf8(str) {
+    try {
+      return unescape(encodeURIComponent(str));
+    } catch (e) {
+      return str;
+    }
+  }     
   
   function removeKey(guid, type) {
     // remove public part
@@ -304,7 +312,7 @@ define(function(require, exports, module) {
   
   function generateKey(options) {
     var keyType = getKeyType(options.algorithm);
-    var emailAdr = new goog.format.EmailAddress(options.email, options.user);
+    var emailAdr = new goog.format.EmailAddress(options.email, encode_utf8(options.user));
     var keyPair = openpgp.generate_key_pair(keyType, parseInt(options.numBits), emailAdr.toString(), options.passphrase);
     openpgp.keyring.importPublicKey(keyPair.publicKeyArmored);
     // need to read key again, because userids not set in keyPair.privateKey
@@ -380,6 +388,7 @@ define(function(require, exports, module) {
 
   function encryptMessage(message, keyids, callback) {
     var keyObj = [];
+    message = encode_utf8(message);
     // get public key objects for keyids
     for (var i = 0; i < openpgp.keyring.publicKeys.length; i++) {
       var match = keyids.some(function(element, index) {

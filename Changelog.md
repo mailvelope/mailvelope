@@ -1,3 +1,8 @@
+0.5.4.2 / 18.12.2012 
+==================
+
+  * Unicode support for encryption process and key owner name
+
 0.5.4.1 / 17.12.2012 
 ==================
 
