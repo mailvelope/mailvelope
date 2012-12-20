@@ -28,6 +28,8 @@ var EncryptFrame = EncryptFrame || (function() {
     this._refreshPosIntervalID;
     this._emailTextElement;
     this._emailUndoText;
+    this._rte = true;
+    this._rtEditor;
   }
 
   encryptFrame.prototype = {
@@ -93,11 +95,16 @@ var EncryptFrame = EncryptFrame || (function() {
     },
 
     _onEncryptButton: function() {
-      if (this._eFrame.find('.m-encrypt-button > i').hasClass('m-icon-undo')) {
-        this._resetEmailText();
-        this._eFrame.find('.m-encrypt-button > i').removeClass('m-icon-undo');
+      if (this._rte) {
+        // launch rich text editor overlay
+        this._showRichTextEditor();
       } else {
-        this.showEncryptDialog();
+        if (this._eFrame.find('.m-encrypt-button > i').hasClass('m-icon-undo')) {
+          this._resetEmailText();
+          this._eFrame.find('.m-encrypt-button > i').removeClass('m-icon-undo');
+        } else {
+          this.showEncryptDialog();
+        }
       }
       return false;
     },
@@ -180,6 +187,29 @@ var EncryptFrame = EncryptFrame || (function() {
       this._eFrame.append(this._eDialog);
       this._setFrameDim();
       this._eDialog.fadeIn();
+    },
+
+    _showRichTextEditor: function() {
+      var that = this;
+      if (!this._rtEditor) {
+        this._rtEditor = $('<iframe/>', {
+          id: 'rtEditor' + that.id,
+          'class': 'm-rt-editor',
+          frameBorder: 0, 
+          scrolling: 'no'
+        });
+        var path = 'common/ui/inline/dialogs/richText.html?id=' + that.id;
+        var url;
+        if (mvelo.crx) {
+          url = mvelo.extension.getURL(path);
+        } else {
+          url = 'http://www.mailvelope.com/' + path;
+        }
+        this._rtEditor.attr('src', url);
+        //this._eFrame.append(this._rtEditor);
+        $(top.document.body).append(this._rtEditor);
+      }
+      this._rtEditor.fadeIn();
     },
     
     _establishConnection: function() {
