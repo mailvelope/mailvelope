@@ -3,6 +3,11 @@
  * Copyright (C) 2012  Thomas Oberndörfer
  */
 
+@font-face{
+  font-family: 'Courgette';
+  src: url('../res/fonts/Courgette-Regular.ttf') format('truetype');
+}
+
 html {
   height: 100%;
 }
