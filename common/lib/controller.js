@@ -143,7 +143,7 @@ define(function (require, exports, module) {
         break;
       case 'eframe-email-text':
         model.encryptMessage(msg.data, eRecipientBuffer[id], function(err, msg) {
-          eFramePorts[id].postMessage({event: 'encrypted-message', message: msg});  
+          eFramePorts[id].postMessage({event: 'encrypted-message', message: msg});
         });
         break;
       case 'eframe-textarea-element':
@@ -156,6 +156,9 @@ define(function (require, exports, module) {
           defaultEncoding.editable = true;
         }
         eDialogPorts[id].postMessage({event: 'encoding-defaults', defaults: defaultEncoding});
+        break;
+      case 'eframe-transfer-armored':
+        eFramePorts[msg.recipient].postMessage({event: 'set-armored-text', text: msg.data});
         break;
       default:
         console.log('unknown event', msg);

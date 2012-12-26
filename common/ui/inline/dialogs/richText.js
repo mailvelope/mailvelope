@@ -16,19 +16,41 @@
  */
 
 (function() {
-  // communication to background page
-  var port;
-  // shares ID with EncryptFrame
-  var id;
+  // id of encrypt frame that triggered this dialog
+  var parentID;
+  var eFrame;
 
   function init() {
-    $('.modal').modal('show');
+    var qs = jQuery.parseQuerystring();
+    parentID = qs['id'];
     $('#cancelBtn').click(onCancel);
+    $('#transferBtn').click(onTransfer);
+    eFrame = new EncryptFrame();
+    getTabid(function(tabid) {
+      eFrame.attachTo($('#richEditor'), false, tabid);
+    });
+  }
+
+  function getTabid(callback) {
+    if (mvelo.crx) {
+      mvelo.extension.sendMessage({event: "get-tabid"}, function(response) {
+        callback(response.tabid);
+      });
+    } else {
+      callback(0);
+    }
   }
 
   function onCancel() {
-    $('.modal').modal('hide');
+    window.close();
     return false;
+  }
+
+  function onTransfer() {
+    var armored = $('#richEditor').val();
+    eFrame.transferArmored(parentID, armored);
+    window.close();
+    return true;
   }
 
   $(document).ready(init);

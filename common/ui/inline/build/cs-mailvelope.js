@@ -9445,22 +9445,7 @@ mvelo.crx = typeof chrome !== 'undefined';
 mvelo.ffa = self.port !== undefined;
 mvelo.extension = mvelo.extension || mvelo.crx && chrome.extension;
 // min height for large frame
-mvelo.LARGE_FRAME = 600;/**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012  Thomas Oberndörfer
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+mvelo.LARGE_FRAME = 600;
 
 var constant = constant || (function() {
   var local = {
@@ -9484,7 +9469,22 @@ var constant = constant || (function() {
   }
   Object.freeze(local);
   return local;
-}());
+}());/**
+ * Mailvelope - secure email with OpenPGP encryption for Webmail
+ * Copyright (C) 2012  Thomas Oberndörfer
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License version 3
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 (document.mveloControl || function() {
   
@@ -10025,6 +10025,15 @@ var EncryptFrame = EncryptFrame || (function() {
       // store frame obj in element tag
       this._editElement.data(constant.FRAME_OBJ, this);
     },
+
+    transferArmored: function(recipientID, text) {
+      this._port.postMessage({
+        event: 'eframe-transfer-armored', 
+        data: text,
+        sender: 'eFrame-' + this.id,
+        recipient: recipientID
+      });
+    },
     
     _init: function(element) {
       this._editElement = element;
@@ -10071,7 +10080,7 @@ var EncryptFrame = EncryptFrame || (function() {
     },
 
     _onEncryptButton: function() {
-      if (this._rte) {
+      if (this._rte && document.location.protocol != "chrome-extension:") {
         // launch rich text editor overlay
         this._showRichTextEditor();
       } else {
@@ -10166,26 +10175,20 @@ var EncryptFrame = EncryptFrame || (function() {
     },
 
     _showRichTextEditor: function() {
-      var that = this;
-      if (!this._rtEditor) {
-        this._rtEditor = $('<iframe/>', {
-          id: 'rtEditor' + that.id,
-          'class': 'm-rt-editor',
-          frameBorder: 0, 
-          scrolling: 'no'
-        });
-        var path = 'common/ui/inline/dialogs/richText.html?id=' + that.id;
-        var url;
-        if (mvelo.crx) {
-          url = mvelo.extension.getURL(path);
-        } else {
-          url = 'http://www.mailvelope.com/' + path;
-        }
-        this._rtEditor.attr('src', url);
-        //this._eFrame.append(this._rtEditor);
-        $(top.document.body).append(this._rtEditor);
+      var path = 'common/ui/inline/dialogs/richText.html?id=' + this.id;
+      var url;
+      if (mvelo.crx) {
+        url = mvelo.extension.getURL(path);
+      } else {
+        url = 'http://www.mailvelope.com/' + path;
       }
-      this._rtEditor.fadeIn();
+      window.returnValue = undefined;
+      var armored = window.showModalDialog(url, null, 'dialogWidth: 742px; dialogHeight: 394px;');
+      if (armored == undefined) {
+        // http://code.google.com/p/chromium/issues/detail?id=42939
+        armored = window.returnValue;
+      }
+      console.log('armored', armored);
     },
     
     _establishConnection: function() {
@@ -10302,6 +10305,9 @@ var EncryptFrame = EncryptFrame || (function() {
             that._setEncryptedMessage(msg.message);
             that._removeDialog();
             that._eFrame.find('.m-encrypt-button > i').addClass('m-icon-undo');
+            break;
+          case 'set-armored-text':
+            that._setEncryptedMessage(msg.text);
             break;
           default:
             console.log('unknown event');
