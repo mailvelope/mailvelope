@@ -8,79 +8,23 @@ html, body {
   background-color: rgba(0,0,0,0);
 }
 
-#pwdbox {
-  display: none;
-  background-color: rgba(254,251,243,.7);
-  position: absolute;
-  top: 50%;
-  padding: 20px 20px 0 20px;
-  margin-left: 110px;
-  margin-top: -105px;
-}
-
-#pwdbox.pwdbox-large {
-  top: 80px;
-  margin-top: 0;
-}
-
 #decryptmail {
   display: none;
-  margin: 15px 15px 3px 3px;
-  padding: 3px;
-  background-color: white;
-  overflow: auto;
-  position: absolute;
-  top: 0; 
-  left: 0;
-  right:0;
-  bottom:0;
+  background-color: rgba(0,0,0,0); 
+  width: 100%;
+  height: 100%;
 }
 
 .hide_bg {
   background-color: rgba(254,251,243,1);
 }
 
-#pwdbox .control-group {
-  margin-bottom: 9px;
+.spinner {
+  background-image: url('chrome-extension://__MSG_@@extension_id__/common/dep/kendoui/styles/Default/loading-image.gif');
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
-#pwdbox .control-label {
-  width: 50px;
-  padding-top: 0;
-  margin-bottom: 0;
-}
-
-#pwdbox .controls {
-  margin-left: 60px;
-}
-
-#pwdbox #userIdGroup {
-  margin-bottom: 0;
-}
-
-#userIdGroup .control-label, #keyIdGroup .control-label  {
-  font-size: 12px;
-}
-
-#keyId, #userId {
-  font-style: italic;
-  font-size: 12px;
-}
-
-#noKeyAlert {
-  margin-bottom: 0;
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#pwdbox h5 {
-  margin: 0;
-}
-
-#decryptAlert .alert {
-  margin-bottom: 8px;
-}
-
-.busy {  
-  cursor: wait !important;  
+.spinner_large {
+  background-position: 50% 160px; 
 }

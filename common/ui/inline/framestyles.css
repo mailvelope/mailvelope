@@ -35,6 +35,8 @@
   box-shadow: 0 1px 2px rgba(0,0,0,.1);
   position: absolute;
   top: 5px;
+  white-space: nowrap;
+  font-size: 0;
   display: none;
 }
 
@@ -49,7 +51,7 @@
   width: 30px;
   min-width: 30px;
   padding: 3px;
-  margin: 3px 10px 3px 4px;
+  margin: 3px 0 3px 3px;
   line-height: 0;
 }
 
@@ -67,6 +69,10 @@
 
 :root .m-encrypt-frame .m-icon-undo {
   background-image: url('chrome-extension://__MSG_@@extension_id__/common/img/undo-22.png');
+}
+
+:root .m-encrypt-frame .m-icon-editor {
+  background-image: url('chrome-extension://__MSG_@@extension_id__/common/img/mail_new.png');
 }
 
 :root .m-decrypt-key-cursor {
@@ -101,6 +107,10 @@
   opacity: 0.4;
   cursor: pointer !important;
   text-decoration: none !important;
+}
+
+:root .m-encrypt-frame .m-frame-close {
+  margin-left: 10px;
 }
 
 

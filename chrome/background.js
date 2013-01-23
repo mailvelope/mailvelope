@@ -23,7 +23,10 @@ requirejs.config({
   shim: {
     'openpgp': {
         deps: ['jquery'],
-        exports: 'openpgp'
+        exports: 'openpgp',
+        init: function() {
+          this.openpgp.init();
+        }
     }
   }
 });
@@ -43,7 +46,6 @@ define(["common/lib/controller", "lib/pgpViewModel", "openpgp", "jquery"], funct
   
   function init() {
     controller.extend({initScriptInjection: initScriptInjection});
-    openpgp.init();
     initDefaults(function() {
       migrate();
       initConnectionManager();
@@ -84,9 +86,6 @@ define(["common/lib/controller", "lib/pgpViewModel", "openpgp", "jquery"], funct
           case 'get-cs':
             sendResponse({code: csCode});
             break;
-          case 'get-tabid':
-            sendResponse({tabid: sender.tab.id});
-            break;
           default:
             controller.handleMessageEvent(request, sender, sendResponse);
         }
@@ -97,7 +96,7 @@ define(["common/lib/controller", "lib/pgpViewModel", "openpgp", "jquery"], funct
   function initContextMenu() {
     chrome.contextMenus.create({
       "title": "Encrypt",
-      "contexts": ["page", "frame", "selection", "link", "editable"],
+      "contexts": ["editable"],
       "onclick": onContextMenuEncrypt
     });
   }

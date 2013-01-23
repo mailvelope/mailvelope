@@ -366,16 +366,6 @@ define(function(require, exports, module) {
   function decryptMessage(message, passwd, callback) {
     if (message.keymat.keymaterial.decryptSecretMPIs(passwd)) {
       var decryptedMsg = message.message.decrypt(message.keymat, message.sesskey);
-      var wrapper = $('<div/>').html($.parseHTML(decryptedMsg));
-      if (wrapper.find('div, p, a').length !== 0) {
-        // html message
-        decryptedMsg = wrapper.find('a').attr('target', '_blank')
-                              .end()
-                              .html();
-      } else {
-        // text message
-         decryptedMsg = wrapper.text().replace(/\n/g, '<br>');
-      }
       decryptedMsg = decode_utf8(decryptedMsg);
       callback(null, decryptedMsg);
     } else {
@@ -441,6 +431,17 @@ define(function(require, exports, module) {
   exports.setWatchList = setWatchList;
   exports.getHostname = getHostname;
   exports.getHost = getHost;
+
+  function getPreferences() {
+    return JSON.parse(window.localStorage.getItem('mailvelopePreferences'));
+  }
+
+  function setPreferences(preferences) {
+    window.localStorage.setItem('mailvelopePreferences', JSON.stringify(preferences));
+  }
+
+  exports.getPreferences = getPreferences;
+  exports.setPreferences = setPreferences;
   
 });
 

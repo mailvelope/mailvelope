@@ -17,8 +17,8 @@
 
 var DecryptFrame = DecryptFrame || (function() { 
 
-  var decryptFrame = function (){
-    this.id = ++DecryptFrame.prototype.id;
+  var decryptFrame = function () {
+    this.id = mvelo.getHash();
     // text node with Armor Tail Line '-----END PGP...'
     this._pgpEnd;
     // parent node of _pgpEnd 
@@ -38,10 +38,7 @@ var DecryptFrame = DecryptFrame || (function() {
 
     constructor: DecryptFrame,
 
-    id: 0,
-
-    attachTo: function(pgpEnd, tabid) {
-      this.id = tabid + '_' + this.id;
+    attachTo: function(pgpEnd) {
       this._init(pgpEnd);
       this._getMessageType();
       // currently only this type supported
@@ -84,7 +81,7 @@ var DecryptFrame = DecryptFrame || (function() {
     _renderFrame: function() {
       var that = this;
       this._dFrame = $('<div/>', {
-        id: 'dFrame' + that.id,
+        id: 'dFrame-' + that.id,
         'class': 'm-frame',
         html: '<a class="m-frame-close">×</a>'
       });
@@ -175,7 +172,7 @@ var DecryptFrame = DecryptFrame || (function() {
       //console.log('Port connected: %o', this._port);
     },
     
-    _removedDialog: function() {
+    _removeDialog: function() {
       this._dDialog.fadeOut();
       // removal triggers disconnect event
       this._dDialog.remove();
@@ -209,21 +206,22 @@ var DecryptFrame = DecryptFrame || (function() {
       this._port.onMessage.addListener(function(msg) {
         //console.log('dFrame-%s event %s received', that.id, msg.event);
         switch (msg.event) {
-          case 'decrypt-dialog-cancel':
-          that._removedDialog();
-          break;
+          case 'remove-dialog':
+          case 'pwd-dialog-cancel':
+            that._removeDialog();
+            break;
           case 'armored-message':
-          that._port.postMessage({
-            event: 'dframe-armored-message', 
-            data: that._getArmoredMessage(),
-            sender: 'dFrame-' + that.id
-          });
-          break;
+            that._port.postMessage({
+              event: 'dframe-armored-message', 
+              data: that._getArmoredMessage(),
+              sender: 'dFrame-' + that.id
+            });
+            break;
           case 'destroy':
-          that._closeFrame(true);
-          break;
+            that._closeFrame(true);
+            break;
           default:
-          console.log('unknown event');
+            console.log('unknown event');
         }
       });
     }

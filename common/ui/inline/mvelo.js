@@ -6,6 +6,8 @@ mvelo.ffa = self.port !== undefined;
 mvelo.extension = mvelo.extension || mvelo.crx && chrome.extension;
 // min height for large frame
 mvelo.LARGE_FRAME = 600;
+// random hash generator
+mvelo.getHash = function() { return Math.random().toString(36).substr(2, 8); };
 
 var constant = constant || (function() {
   var local = {
@@ -25,7 +27,11 @@ var constant = constant || (function() {
     PGP_MESSAGE: '9',
     PGP_SIGNATURE: '10',
     PGP_PUBLIC_KEY: '11',
-    PGP_PRIVATE_KEY: '12'
+    PGP_PRIVATE_KEY: '12',
+    // editor mode
+    EDITOR_WEBMAIL: '13',
+    EDITOR_EXTERNAL: '14',
+    EDITOR_BOTH: '15'
   }
   Object.freeze(local);
   return local;

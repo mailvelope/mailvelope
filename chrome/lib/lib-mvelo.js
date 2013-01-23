@@ -27,7 +27,7 @@ define(function(require, exports, module) {
     return model;
   }
 
-  mvelo.data = {}
+  mvelo.data = {};
 
   mvelo.data.url = function(path) {
     return chrome.extension.getURL(path);
@@ -37,7 +37,7 @@ define(function(require, exports, module) {
     $.get(chrome.extension.getURL(path), callback);
   }
 
-  mvelo.tabs = {}
+  mvelo.tabs = {};
 
   mvelo.tabs.getActive = function(callback) {
     // get selected tab, "*://*/*" filters out non-http(s)
@@ -101,6 +101,47 @@ define(function(require, exports, module) {
         // if existent, set as active tab
         mvelo.tabs.activate(tabs[0], callback.bind(this, true));
       }  
+    });
+  }
+
+  mvelo.windows = {};
+
+  mvelo.windows.modalActive = false;
+
+  mvelo.windows.openPopup = function(url, options, callback) {
+    chrome.windows.getCurrent(null, function(current) {
+      chrome.windows.create({
+        url: url,
+        width: options.width,
+        height: options.height,
+        top: parseInt(current.top + (current.height - options.height) / 2),
+        left: parseInt(current.left + (current.width - options.width) / 2),
+        focused: true,
+        type: 'popup'
+      }, function(popup) {
+        //console.log('popup created', popup);
+        if (options.modal) {
+          mvelo.windows.modalActive = true;
+          var focusChangeHandler = function(newFocus) {
+            //console.log('focus changed', newFocus);
+            if (newFocus !== popup.id && newFocus !== chrome.windows.WINDOW_ID_NONE) {
+              chrome.windows.update(popup.id, {focused: true});
+            }
+          }
+          chrome.windows.onFocusChanged.addListener(focusChangeHandler);
+          var removedHandler = function(removed) {
+            //console.log('removed', removed);
+            if (removed === popup.id) {
+              //console.log('remove handler');
+              mvelo.windows.modalActive = false;
+              chrome.windows.onFocusChanged.removeListener(focusChangeHandler);
+              chrome.windows.onRemoved.removeListener(removedHandler); 
+            }
+          }
+          chrome.windows.onRemoved.addListener(removedHandler);
+        }
+        if (callback) callback();
+      });
     });
   }
 

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+   - Mailvelope - secure email with OpenPGP encryption for Webmail
+   - Copyright (C) 2012  Thomas Oberndörfer
+  -->
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../../../dep/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="pwdDialog.css">
+  <script src="../../../dep/jquery.min.js"></script>
+  <script src="../../../dep/jquery.ext.js"></script>
+  <script src="../mvelo.js"></script>
+  <script src="pwdDialog.js"></script>
+</head>
+<body>
+  <div class="m-modal">
+    <div class="modal-header clearfix">
+      <h3>Key unlock</h3>
+      <div id='secureCode'></div>
+    </div>
+    <div class="modal-body">
+      <form class="well form-horizontal">
+        <div class="control-group" id="userIdGroup">
+          <label class="control-label">User ID:</label>
+          <div class="controls">
+            <span class="input-xlarge uneditable-input" id="userId"></span>  
+          </div>
+        </div>
+        <div class="control-group" id="keyIdGroup">
+          <label class="control-label">Key ID:</label>
+          <div class="controls">
+            <span class="input-medium uneditable-input" id="keyId"></span>
+          </div>
+        </div>
+        <div class="control-group" id="pwdGroup">
+          <label class="control-label">Password:</label>
+          <div class="controls">
+            <input id="password" type="password" class="span3" placeholder="Please enter...">
+            <span class="help-inline hide">Wrong password</span>
+          </div>
+        </div>
+        <div id="decryptAlert"></div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button id="cancelBtn" class="btn">Cancel</a>
+      <button id="okBtn" class="btn btn-primary">Ok</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -22,23 +22,13 @@
   var status = constant.SCAN_ON;
   var minEditHeight = 100;
   var contextTarget = null;
-  var tabid = 0;
   
   function init() {
-    getTabid();
     initScanInterval(interval);
     addMessageListener();
     initContextMenu();
   }
 
-  function getTabid() {
-    if (mvelo.crx) {
-      mvelo.extension.sendMessage({event: "get-tabid"}, function(response) {
-        tabid = response.tabid;
-      });
-    }
-  }
-  
   function initScanInterval(interval) {
     window.setInterval(function() {
       //console.log('inside cs: ', document.location.host;
@@ -160,7 +150,7 @@
     // create new decrypt frames for new discovered PGP tags
     newObj.each(function(index, element) {
       var dFrame = new DecryptFrame();
-      dFrame.attachTo($(element), tabid);
+      dFrame.attachTo($(element));
     });
   }
   
@@ -189,7 +179,7 @@
     // create new encrypt frames for new discovered editable fields
     newObj.each(function(index, element) {
       var eFrame = new EncryptFrame();
-      eFrame.attachTo($(element), expanded, tabid);
+      eFrame.attachTo($(element), expanded);
     });
   }
   

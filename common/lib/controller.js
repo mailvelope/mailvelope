@@ -30,9 +30,13 @@ define(function (require, exports, module) {
   var eFramePorts = {};
   // ports to encrypt dialogs
   var eDialogPorts = {};
+  // port to password dialog
+  var pwdPort = null;
+  // port to editor
+  var editorPort = null;
+  var editorText = '';
   // recipients of encrypted mail
   var eRecipientBuffer = {};
-
   var scannedHosts = [];
 
   var specific = {};
@@ -46,16 +50,32 @@ define(function (require, exports, module) {
     var sender = parseName(port.name);
     switch (sender.name) {
       case 'dFrame':
-        dFramePorts[sender.id] =  port;
+        dFramePorts[sender.id] = port;
         break;
       case 'dDialog':
-        dDialogPorts[sender.id] =  port;
+        if (dFramePorts[sender.id] && !dDialogPorts[sender.id]) {
+          dDialogPorts[sender.id] = port;
+        } else {
+          // invalid
+          port.disconnect();
+        }
         break;
       case 'eFrame':
-        eFramePorts[sender.id] =  port;
+        eFramePorts[sender.id] = port;
         break;
       case 'eDialog':
-        eDialogPorts[sender.id] =  port;
+        if (eFramePorts[sender.id] && !eDialogPorts[sender.id]) {
+          eDialogPorts[sender.id] =  port;
+        } else {
+          // invalid
+          port.disconnect();
+        }
+        break;
+      case 'pwdDialog':
+        pwdPort = port;
+        break;
+      case 'editor':
+        editorPort = port;
         break;
       default:
         console.log('unknown port');
@@ -77,6 +97,13 @@ define(function (require, exports, module) {
       case 'eDialog':
         delete eDialogPorts[sender.id];
         break;
+      case 'pwdDialog':
+        pwdPort = null;
+        break;
+      case 'editor':
+        editorPort = null;
+        editorText = '';
+        break;
       default:
         console.log('unknown port');
     }
@@ -87,7 +114,7 @@ define(function (require, exports, module) {
   function handlePortMessage(msg) {
     var id = parseName(msg.sender).id;
     switch (msg.event) {
-      case 'decrypt-dialog-cancel':
+      case 'pwd-dialog-cancel':
         // forward event to decrypt frame
         dFramePorts[id].postMessage(msg);
         break;
@@ -96,13 +123,17 @@ define(function (require, exports, module) {
         eFramePorts[id].postMessage(msg);
         break;
       case 'decrypt-dialog-init':
-        // send content
-        mvelo.data.load('common/ui/inline/dialogs/templates/decrypt.html', function(content) {
-          //console.log('content rendered', content);
-          dDialogPorts[id].postMessage({event: 'decrypt-dialog-content', data: content}); 
-          // get armored message from dFrame
-          dFramePorts[id].postMessage({event: 'armored-message'});
-        });
+        if (pwdPort || mvelo.windows.modalActive) {
+          // password dialog or modal dialog already open
+          dFramePorts[id].postMessage({event: 'remove-dialog'});  
+        } else {
+          // open password dialog
+          mvelo.windows.openPopup('common/ui/inline/dialogs/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true});
+        }
+        break;
+      case 'pwd-dialog-init':
+        // get armored message from dFrame
+        dFramePorts[id].postMessage({event: 'armored-message'});
         break;
       case 'dframe-armored-message':
         var message;
@@ -111,14 +142,17 @@ define(function (require, exports, module) {
           // add message in buffer
           dMessageBuffer[id] = message;
           // pass over keyid and userid to dialog
-          dDialogPorts[id].postMessage({event: 'message-userid', userid: message.userid, keyid: message.keyid});
+          pwdPort.postMessage({event: 'message-userid', userid: message.userid, keyid: message.keyid, secCode: 'A#b', secColor: 'f89406'});
         } catch (e) {
-          dDialogPorts[id].postMessage({event: 'message-userid', error: e});
+          pwdPort.postMessage({event: 'message-userid', error: e, secCode: 'A#b', secColor: 'f89406'});
         }
         break;
-      case 'decrypt-dialog-ok':
+      case 'pwd-dialog-ok':
         model.decryptMessage(dMessageBuffer[id], msg.password, function(err, msg) {
-          dDialogPorts[id].postMessage({event: 'decrypted-message', message: msg, error: err});
+          pwdPort.postMessage({event: 'pwd-verification', error: err});
+          if (!err) {
+            dDialogPorts[id].postMessage({event: 'decrypted-message', message: msg});
+          }
         });
         break;
       case 'encrypt-dialog-init':
@@ -157,8 +191,19 @@ define(function (require, exports, module) {
         }
         eDialogPorts[id].postMessage({event: 'encoding-defaults', defaults: defaultEncoding});
         break;
-      case 'eframe-transfer-armored':
+      case 'editor-transfer-armored':
         eFramePorts[msg.recipient].postMessage({event: 'set-armored-text', text: msg.data});
+        break;
+      case 'eframe-display-editor':
+        if (editorPort || mvelo.windows.modalActive) {
+          // editor or modal dialog already open
+        } else {
+          mvelo.windows.openPopup('common/ui/inline/dialogs/editor.html?parent=' + id, {width: 742, height: 394, modal: true});
+          editorText = msg.text;
+        }
+        break;
+      case 'editor-init':
+        editorPort.postMessage({event: 'set-text', text: editorText});
         break;
       default:
         console.log('unknown event', msg);
