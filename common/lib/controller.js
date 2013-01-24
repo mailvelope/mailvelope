@@ -198,7 +198,7 @@ define(function (require, exports, module) {
         if (editorPort || mvelo.windows.modalActive) {
           // editor or modal dialog already open
         } else {
-          mvelo.windows.openPopup('common/ui/inline/dialogs/editor.html?parent=' + id, {width: 742, height: 394, modal: true});
+          mvelo.windows.openPopup('common/ui/inline/dialogs/editor.html?parent=' + id, {width: 742, height: 400, modal: true});
           editorText = msg.text;
         }
         break;

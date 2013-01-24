@@ -10006,8 +10006,8 @@ var EncryptFrame = EncryptFrame || (function() {
   
     constructor: EncryptFrame,
     
-    attachTo: function(element, expanded) {
-      this._init(element);
+    attachTo: function(element, expanded, editor) {
+      this._init(element, editor);
       this._renderFrame(expanded);
       this._establishConnection();
       this._registerEventListener();
@@ -10021,9 +10021,9 @@ var EncryptFrame = EncryptFrame || (function() {
       return this.id;
     },
     
-    _init: function(element) {
+    _init: function(element, editor) {
       this._editElement = element;
-      this._emailTextElement = this._editElement.is('iframe') ? this._editElement.contents().find('body') : this._editElement;
+      this._emailTextElement = editor || ( this._editElement.is('iframe') ? this._editElement.contents().find('body') : this._editElement );
       // inject style if we have a non-body editable element inside a dynamic iframe
       if (!this._editElement.is('body') && this._editElement.closest('body').data(constant.DYN_IFRAME)) {
         var html = this._editElement.closest('html');
@@ -10209,7 +10209,7 @@ var EncryptFrame = EncryptFrame || (function() {
     
     _getEmailText: function(type) {
       var text;
-      if (this._editElement.is('textarea')) {
+      if (this._emailTextElement.is('textarea')) {
         text = this._emailTextElement.val();
       } else {
         text = this._emailTextElement.html();
@@ -10231,7 +10231,7 @@ var EncryptFrame = EncryptFrame || (function() {
     },
 
     _saveEmailText: function() {
-      if (this._editElement.is('textarea')) {
+      if (this._emailTextElement.is('textarea')) {
         this._emailUndoText = this._emailTextElement.val();
       } else {
         this._emailUndoText = this._emailTextElement.html();

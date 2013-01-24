@@ -31,7 +31,7 @@
     $('#transferBtn').click(onTransfer);
     editor = createEditor();
     eFrame = new EncryptFrame(constant.EDITOR_WEBMAIL);
-    eFrame.attachTo(editor, false);
+    eFrame.attachTo($('#richEditor'), false, editor);
     id = 'editor-' + eFrame.getID();
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
@@ -62,7 +62,8 @@
       id: 'content',
       rows: '12',
       css: {
-        width: '675px'
+        width: '690px',
+        'margin-bottom': 0
       }
     });
     var style = $('<link/>', {
@@ -71,13 +72,6 @@
     });
     var head = sandbox.contents().find('head');
     style.appendTo(head);
-    style.clone().attr('href', '../framestyles.css').appendTo(head);
-    var script = $('<script/>', {
-      src: '../../../dep/jquery.min.js'
-    });
-    script.appendTo(head);
-    script.clone().attr('src', '../../../dep/jquery.ext.js').appendTo(head);
-    script.clone().attr('src', '../mvelo.js').appendTo(head);
     sandbox.contents().find('body').append(text);
     return text;
   }
