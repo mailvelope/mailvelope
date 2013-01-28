@@ -13,12 +13,14 @@
   <script src="../../../dep/jquery.ext.js"></script>
   <script src="../mvelo.js"></script>
   <script src="../encryptFrame.js"></script>
+  <script src="secureToken.js"></script>
   <script src="editor.js"></script>
 </head>
 <body>
   <div class="m-modal">
-    <div class="modal-header">
-      <h3>Rich Text Editor</h3>
+    <div class="modal-header clearfix">
+      <h3>Compose Mail</h3>
+      <div id='secureCode'></div>
     </div>
     <div class="modal-body">
       <iframe id="richEditor" sandbox="allow-same-origin" frameBorder="0"></iframe>

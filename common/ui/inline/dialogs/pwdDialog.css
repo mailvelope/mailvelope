@@ -53,3 +53,7 @@
   line-height: 20px;
   color: #555555;
 }
+
+#decryptmail {
+  display: none;
+}

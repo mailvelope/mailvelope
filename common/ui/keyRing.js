@@ -70,7 +70,8 @@ var keyRing = {};
     parent.postMessage(JSON.stringify({
       event: "message",
       message: message, 
-      id: id
+      id: id,
+      callback: (callback !== undefined)
     }), '*');
   }
 

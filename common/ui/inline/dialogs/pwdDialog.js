@@ -55,43 +55,11 @@
     $('#decryptAlert').showAlert(heading, message, 'error');
     $('#okBtn').attr('disabled', 'disabled'); 
   }
-
-  function increase_brightness(hex, percent){
-    // strip the leading # if it's there
-    hex = hex.replace(/^\s*#|\s*$/g, '');
-
-    // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
-    if(hex.length == 3){
-        hex = hex.replace(/(.)/g, '$1$1');
-    }
-
-    var r = parseInt(hex.substr(0, 2), 16),
-        g = parseInt(hex.substr(2, 2), 16),
-        b = parseInt(hex.substr(4, 2), 16);
-
-    return '#' +
-       ((0|(1<<8) + r + (256 - r) * percent / 100).toString(16)).substr(1) +
-       ((0|(1<<8) + g + (256 - g) * percent / 100).toString(16)).substr(1) +
-       ((0|(1<<8) + b + (256 - b) * percent / 100).toString(16)).substr(1);
-  }
-
-  function getStyle(hex) {
-    var normal = '#' + hex;
-    var bright = increase_brightness(hex, 35);
-    var style = 'background-color: ' + normal + ';';
-    style += 'background-image: -moz-linear-gradient(top, ' + bright + ', ' + normal + ');';
-    style += 'background-image: -webkit-gradient(linear, 0 0, 0 100%, from(' + bright + '), to(' + normal + '));';
-    style += 'background-image: -webkit-linear-gradient(top, ' + bright + ', ' + normal + ');';
-    style += 'background-image: linear-gradient(to bottom, ' + bright + ', ' + normal + ');';
-    return style;
-  }
   
   function messageListener(msg) {
     //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
       case 'message-userid':
-        $('#secureCode').html(msg.secCode)
-                        .attr('style', getStyle(msg.secColor));
         if (msg.error) {
           showError('Error', msg.error.message);
         } else {

@@ -60,8 +60,16 @@
       case 'message':
         mvelo.extension.sendMessage({ 
           event: data.message.event, 
-          message: data.message,
-          id: data.id
+          message: data.message
+        }, function(response) {
+          if (data.callback) {
+            var respObj = {
+              event: "message-response",
+              message: response,
+              id: data.id
+            };
+            event.source.postMessage(JSON.stringify(respObj), '*');
+          }
         });
         break;
       case 'init':

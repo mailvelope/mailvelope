@@ -48,5 +48,9 @@
         }
       ]
     }
-  ]
+  ],
+  "preferences": {
+    "editor_mode": "external",
+    "display_decrypted": "inline"
+  }
 }

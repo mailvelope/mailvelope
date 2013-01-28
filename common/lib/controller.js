@@ -19,6 +19,9 @@ define(function (require, exports, module) {
 
   var mvelo = require('lib/lib-mvelo').mvelo;
   var model = mvelo.getModel();
+  var defaults = require('common/lib/defaults');
+  defaults.init();
+  var prefs = model.getPreferences();
 
   // ports to decrypt frames
   var dFramePorts = {};
@@ -142,9 +145,9 @@ define(function (require, exports, module) {
           // add message in buffer
           dMessageBuffer[id] = message;
           // pass over keyid and userid to dialog
-          pwdPort.postMessage({event: 'message-userid', userid: message.userid, keyid: message.keyid, secCode: 'A#b', secColor: 'f89406'});
+          pwdPort.postMessage({event: 'message-userid', userid: message.userid, keyid: message.keyid});
         } catch (e) {
-          pwdPort.postMessage({event: 'message-userid', error: e, secCode: 'A#b', secColor: 'f89406'});
+          pwdPort.postMessage({event: 'message-userid', error: e});
         }
         break;
       case 'pwd-dialog-ok':
@@ -218,6 +221,9 @@ define(function (require, exports, module) {
           sendResponse({error: error, result: result});
         };
         request.args = request.args || [];
+        if (!Array.isArray(request.args)) {
+          request.args = [request.args];
+        }
         request.args.push(callback);
         try {
           response.result = model[request.method].apply(model, request.args);
@@ -244,6 +250,12 @@ define(function (require, exports, module) {
         link += '&body=' + request.message.data.armoredPublic;
         link += '\n' + '*** exported with www.mailvelope.com ***';
         mvelo.tabs.create(encodeURI(link));
+        break;
+      case 'get-prefs':
+        sendResponse(prefs);
+        break;
+      case 'get-security-token':
+        sendResponse({code: prefs.secure_code, color: prefs.secure_color});
         break;
       default:
         console.log('unknown event:', msg.event);

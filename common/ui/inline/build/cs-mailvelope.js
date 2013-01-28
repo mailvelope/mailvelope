@@ -9446,36 +9446,35 @@ mvelo.ffa = self.port !== undefined;
 mvelo.extension = mvelo.extension || mvelo.crx && chrome.extension;
 // min height for large frame
 mvelo.LARGE_FRAME = 600;
+// frame constants
+mvelo.FRAME_STATUS = 'stat';
+// frame status
+mvelo.FRAME_ATTACHED = 'att';
+mvelo.FRAME_DETACHED = 'det';
+// key for reference to frame object
+mvelo.FRAME_OBJ = 'fra';
+// scan status
+mvelo.SCAN_ON = 'on';
+mvelo.SCAN_OFF = 'off';
+// marker for dynamically created iframes
+mvelo.DYN_IFRAME = 'dyn';
+mvelo.IFRAME_OBJ = 'obj';
+// armor header type
+mvelo.PGP_MESSAGE = 'msg';
+mvelo.PGP_SIGNATURE = 'sig';
+mvelo.PGP_PUBLIC_KEY = 'pub';
+mvelo.PGP_PRIVATE_KEY = 'priv';
+// editor mode
+mvelo.EDITOR_WEBMAIL = 'webmail';
+mvelo.EDITOR_EXTERNAL = 'external';
+mvelo.EDITOR_BOTH = 'both';
+// display decrypted message
+mvelo.DISPLAY_INLINE = 'inline';
+mvelo.DISPLAY_POPUP = 'popup';
+
 // random hash generator
 mvelo.getHash = function() { return Math.random().toString(36).substr(2, 8); };
-
-var constant = constant || (function() {
-  var local = {
-    FRAME_STATUS: '1',
-    // frame status
-    FRAME_ATTACHED: '2',
-    FRAME_DETACHED: '3',
-    // key for reference to frame object
-    FRAME_OBJ: '4',
-    // scan status
-    SCAN_ON: '5',
-    SCAN_OFF: '6',
-    // marker for dynamically created iframes
-    DYN_IFRAME: '7',
-    IFRAME_OBJ: '8',
-    // armor header type
-    PGP_MESSAGE: '9',
-    PGP_SIGNATURE: '10',
-    PGP_PUBLIC_KEY: '11',
-    PGP_PRIVATE_KEY: '12',
-    // editor mode
-    EDITOR_WEBMAIL: '13',
-    EDITOR_EXTERNAL: '14',
-    EDITOR_BOTH: '15'
-  }
-  Object.freeze(local);
-  return local;
-}());/**
+/**
  * Mailvelope - secure email with OpenPGP encryption for Webmail
  * Copyright (C) 2012  Thomas Oberndörfer
  *
@@ -9496,11 +9495,13 @@ var constant = constant || (function() {
   
   var interval = 2500; // ms
   var regex = /END\sPGP/;
-  var status = constant.SCAN_ON;
+  var status = mvelo.SCAN_ON;
   var minEditHeight = 100;
   var contextTarget = null;
+  var prefs;
   
   function init() {
+    getPrefs();
     initScanInterval(interval);
     addMessageListener();
     initContextMenu();
@@ -9509,7 +9510,7 @@ var constant = constant || (function() {
   function initScanInterval(interval) {
     window.setInterval(function() {
       //console.log('inside cs: ', document.location.host;
-      if (status === constant.SCAN_ON) {
+      if (status === mvelo.SCAN_ON) {
         // find armored PGP text
         var pgpTag = findPGPTag(regex);
         if (pgpTag.length !== 0) {
@@ -9524,6 +9525,12 @@ var constant = constant || (function() {
     }, interval);
   }
   
+  function getPrefs() {
+    mvelo.extension.sendMessage({event: "get-prefs"}, function(resp) {
+      prefs = resp;
+    });
+  }
+
   /**
    * find text nodes in DOM that match certain pattern
    * @param regex
@@ -9576,9 +9583,9 @@ var constant = constant || (function() {
       // set event handler for contextmenu
       content.find('body').off("contextmenu").on("contextmenu", onContextMenu)
       // mark body as 'inside iframe'
-                          .data(constant.DYN_IFRAME, true)
+                          .data(mvelo.DYN_IFRAME, true)
       // add iframe element
-                          .data(constant.IFRAME_OBJ, $(this));
+                          .data(mvelo.IFRAME_OBJ, $(this));
       // document of iframe in design mode or contenteditable set on the body
       if (content.attr('designMode') === 'on' || content.find('body[contenteditable]').length !== 0) {
         // add iframe to editable elements
@@ -9601,7 +9608,7 @@ var constant = constant || (function() {
             // set event handler for contextmenu
             content.find('body').off("contextmenu").on("contextmenu", onContextMenu);
             // mark body as 'inside iframe'
-            content.find('body').data(constant.IFRAME_OBJ, frame);
+            content.find('body').data(mvelo.IFRAME_OBJ, frame);
             return true;
           } else {
             return false;
@@ -9641,9 +9648,9 @@ var constant = constant || (function() {
     var newObj = element.filter(function() {
       if (expanded) {
         // filter out only attached frames
-        if (element.data(constant.FRAME_STATUS) === constant.FRAME_ATTACHED) {
+        if (element.data(mvelo.FRAME_STATUS) === mvelo.FRAME_ATTACHED) {
           // trigger expand state of attached frames
-          element.data(constant.FRAME_OBJ).showEncryptDialog();
+          element.data(mvelo.FRAME_OBJ).showEncryptDialog();
           return false;
         } else {
           return true;
@@ -9655,7 +9662,7 @@ var constant = constant || (function() {
     });
     // create new encrypt frames for new discovered editable fields
     newObj.each(function(index, element) {
-      var eFrame = new EncryptFrame();
+      var eFrame = new EncryptFrame(prefs);
       eFrame.attachTo($(element), expanded);
     });
   }
@@ -9667,10 +9674,10 @@ var constant = constant || (function() {
         if (request.event === undefined) return;
         switch (request.event) {
           case 'on':
-            status = constant.SCAN_ON;
+            status = mvelo.SCAN_ON;
             break;
           case 'off':
-            status = constant.SCAN_OFF;
+            status = mvelo.SCAN_OFF;
             break;
           case 'context-encrypt':
             if (contextTarget !== null) {
@@ -9709,7 +9716,7 @@ var constant = constant || (function() {
     // inside dynamic iframe or iframes from same origin with a contenteditable body
     element = target.closest('body');
     // get outer iframe
-    var iframeObj = element.data(constant.IFRAME_OBJ);
+    var iframeObj = element.data(mvelo.IFRAME_OBJ);
     if (iframeObj !== undefined) {
       // target set to outer iframe
       contextTarget = iframeObj;
@@ -9767,15 +9774,15 @@ var DecryptFrame = DecryptFrame || (function() {
       this._init(pgpEnd);
       this._getMessageType();
       // currently only this type supported
-      if (this._pgpMessageType === constant.PGP_MESSAGE) {
+      if (this._pgpMessageType === mvelo.PGP_MESSAGE) {
         this._renderFrame();
         this._establishConnection();
         this._registerEventListener();
       }
       // set status to attached
-      this._pgpEnd.data(constant.FRAME_STATUS, constant.FRAME_ATTACHED);
+      this._pgpEnd.data(mvelo.FRAME_STATUS, mvelo.FRAME_ATTACHED);
       // store frame obj in pgpText tag
-      this._pgpEnd.data(constant.FRAME_OBJ, this);
+      this._pgpEnd.data(mvelo.FRAME_OBJ, this);
     },
   
     _init: function(pgpEnd) {
@@ -9793,13 +9800,13 @@ var DecryptFrame = DecryptFrame || (function() {
     _getMessageType: function() {
       var armored = this._pgpElement.text();
       if (/BEGIN\sPGP\sMESSAGE/.test(armored)) {
-        this._pgpMessageType = constant.PGP_MESSAGE;
+        this._pgpMessageType = mvelo.PGP_MESSAGE;
       } else if (/BEGIN\sPGP\sSIGNATURE/.test(armored)) {
-        this._pgpMessageType = constant.PGP_SIGNATURE;
+        this._pgpMessageType = mvelo.PGP_SIGNATURE;
       } else if (/BEGIN\sPGP\sPUBLIC\sKEY\sBLOCK/.test(armored)) {
-        this._pgpMessageType = constant.PGP_PUBLIC_KEY;
+        this._pgpMessageType = mvelo.PGP_PUBLIC_KEY;
       } else if (/BEGIN\sPGP\sPRIVATE\sKEY\sBLOCK/.test(armored)) {
-        this._pgpMessageType = constant.PGP_PRIVATE_KEY;
+        this._pgpMessageType = mvelo.PGP_PRIVATE_KEY;
       }
     },
     
@@ -9840,11 +9847,11 @@ var DecryptFrame = DecryptFrame || (function() {
         this._dFrame.remove();
         if (finalClose === true) {
           this._port.disconnect();
-          this._pgpEnd.data(constant.FRAME_STATUS, null);
+          this._pgpEnd.data(mvelo.FRAME_STATUS, null);
         } else {
-          this._pgpEnd.data(constant.FRAME_STATUS, constant.FRAME_DETACHED);
+          this._pgpEnd.data(mvelo.FRAME_STATUS, mvelo.FRAME_DETACHED);
         }
-        this._pgpEnd.data(constant.FRAME_OBJ, null);
+        this._pgpEnd.data(mvelo.FRAME_OBJ, null);
       }).bind(this));
       return false;
     },
@@ -9954,10 +9961,10 @@ var DecryptFrame = DecryptFrame || (function() {
   };
 
   decryptFrame.isAttached = function(element) {
-    var status = element.data(constant.FRAME_STATUS);
+    var status = element.data(mvelo.FRAME_STATUS);
     switch (status) {
-      case constant.FRAME_ATTACHED:
-      case constant.FRAME_DETACHED:
+      case mvelo.FRAME_ATTACHED:
+      case mvelo.FRAME_DETACHED:
         return true;
         break;
       default:
@@ -9987,7 +9994,7 @@ var DecryptFrame = DecryptFrame || (function() {
 
 var EncryptFrame = EncryptFrame || (function() { 
 
-  var encryptFrame = function(editorMode) {
+  var encryptFrame = function(prefs) {
     this.id = mvelo.getHash();
     this._editElement;
     this._eFrame;
@@ -9997,7 +10004,7 @@ var EncryptFrame = EncryptFrame || (function() {
     this._refreshPosIntervalID;
     this._emailTextElement;
     this._emailUndoText;
-    this._editorMode = editorMode || constant.EDITOR_BOTH;
+    this._editorMode = prefs.editor_mode;
     this._rte = true;
     this._rtEditor;
   }
@@ -10012,9 +10019,9 @@ var EncryptFrame = EncryptFrame || (function() {
       this._establishConnection();
       this._registerEventListener();
       // set status to attached
-      this._editElement.data(constant.FRAME_STATUS, constant.FRAME_ATTACHED);
+      this._editElement.data(mvelo.FRAME_STATUS, mvelo.FRAME_ATTACHED);
       // store frame obj in element tag
-      this._editElement.data(constant.FRAME_OBJ, this);
+      this._editElement.data(mvelo.FRAME_OBJ, this);
     },
 
     getID: function() {
@@ -10025,7 +10032,7 @@ var EncryptFrame = EncryptFrame || (function() {
       this._editElement = element;
       this._emailTextElement = editor || ( this._editElement.is('iframe') ? this._editElement.contents().find('body') : this._editElement );
       // inject style if we have a non-body editable element inside a dynamic iframe
-      if (!this._editElement.is('body') && this._editElement.closest('body').data(constant.DYN_IFRAME)) {
+      if (!this._editElement.is('body') && this._editElement.closest('body').data(mvelo.DYN_IFRAME)) {
         var html = this._editElement.closest('html');
         if (!html.data('M-STYLE')) {
           var style = $('<link/>', {
@@ -10072,15 +10079,16 @@ var EncryptFrame = EncryptFrame || (function() {
     },
 
     _normalizeButtons: function() {
+      //console.log('editor mode', this._editorMode);
       this._eFrame.find('.m-encrypt-button').hide();
       switch (this._editorMode) {
-        case constant.EDITOR_WEBMAIL:
+        case mvelo.EDITOR_WEBMAIL:
           this._eFrame.find('#encryptBtn').show();
           break;
-        case constant.EDITOR_EXTERNAL:
+        case mvelo.EDITOR_EXTERNAL:
           this._eFrame.find('#editorBtn').show();
           break;
-        case constant.EDITOR_BOTH:
+        case mvelo.EDITOR_BOTH:
           this._eFrame.find('#encryptBtn').show();
           this._eFrame.find('#editorBtn').show();
           break;
@@ -10130,11 +10138,11 @@ var EncryptFrame = EncryptFrame || (function() {
         this._eFrame.remove();
         if (finalClose === true) {
           this._port.disconnect();
-          this._editElement.data(constant.FRAME_STATUS, null);
+          this._editElement.data(mvelo.FRAME_STATUS, null);
         } else {
-          this._editElement.data(constant.FRAME_STATUS, constant.FRAME_DETACHED);
+          this._editElement.data(mvelo.FRAME_STATUS, mvelo.FRAME_DETACHED);
         }
-        this._editElement.data(constant.FRAME_OBJ, null);
+        this._editElement.data(mvelo.FRAME_OBJ, null);
       }).bind(this));
       return false;
     },
@@ -10330,10 +10338,10 @@ var EncryptFrame = EncryptFrame || (function() {
   };
 
   encryptFrame.isAttached = function(element) {
-    var status = element.data(constant.FRAME_STATUS);
+    var status = element.data(mvelo.FRAME_STATUS);
     switch (status) {
-      case constant.FRAME_ATTACHED:
-      case constant.FRAME_DETACHED:
+      case mvelo.FRAME_ATTACHED:
+      case mvelo.FRAME_DETACHED:
         return true;
         break;
       default:

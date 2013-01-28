@@ -29,11 +29,13 @@
     <script src="../dep/bootstrap/js/bootstrap.min.js"></script>
     <script src="../dep/kendoui/js/kendo.web.min.js"></script>
     <script src="keyRing.js"></script>
+    <script src="inline/dialogs/secureToken.js"></script>
     <script src="keyGrid.js"></script>
     <script src="importKey.js"></script>
     <script src="generateKey.js"></script>
     <script src="watchList.js"></script>
     <script src="exportKey.js"></script>
+    <script src="preferences.js"></script>
   </head>
   <body>
     <div class="navbar navbar-fixed-top">
@@ -52,6 +54,7 @@
               <li><a href="../doc/about.html">About</a></li>
             </ul>
           </div><!--/.nav-collapse -->
+          <div id='secureCode'></div>
         </div>
       </div>
     </div>
@@ -65,8 +68,9 @@
               <li class="active"><a href="#displayKeys" data-toggle="tab">Display Keys</a></li>
               <li><a href="#importKey" data-toggle="tab">Import Key</a></li>
               <li><a href="#generateKey" data-toggle="tab">Generate Key</a></li>
-              <li class="nav-header">Preferences</li>
+              <li class="nav-header">Settings</li>
               <li><a href="#watchList" data-toggle="tab">Watch List</a></li>
+              <li><a href="#preferences" data-toggle="tab">Preferences</a></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
@@ -280,6 +284,43 @@
               <h3>Watch List</h3>
               <div id="watchListGrid">
               </div>
+            </div>
+            <div id="preferences" class="tab-pane fade">
+              <h3>Preferences</h3>
+              <form class="form-horizontal well" onsubmit="return false">
+                <div class="control-group">
+                  <label class="control-label"><strong>Where are decrypted messages displayed?</strong></label>
+                  <div class="controls">
+                    <label class="radio">
+                      <input type="radio" name="decryptRadios" id="decryptRadios1" value="inline">
+                      On the page of the mail provider.</em>
+                    </label>
+                    <label class="radio">
+                      <input type="radio" name="decryptRadios" id="decryptRadios2" value="popup">
+                      In a separate popup from Mailvelope.
+                    </label>
+                  </div>
+                </div>
+                <div class="alert alert-info">
+                  <strong>Security Token</strong>
+                  <div class="control-group">
+                    <label class="control-label">Char Code</label>
+                    <div class="controls">
+                      <input type="text" class="input-mini" id="secCode" maxlength="3">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">Custom Color</label>
+                    <div class="controls">
+                      <input type="color" class="input-small" id="secColor">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <button id="prefBtnSave" class="btn btn-primary" disabled>Save</button>
+                  <button id="prefBtnCancel" class="btn" disabled>Cancel</button>
+                </div>
+              </form>
             </div>
           </div>    
         </div><!--/span-->

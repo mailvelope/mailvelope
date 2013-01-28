@@ -6,33 +6,31 @@ mvelo.ffa = self.port !== undefined;
 mvelo.extension = mvelo.extension || mvelo.crx && chrome.extension;
 // min height for large frame
 mvelo.LARGE_FRAME = 600;
+// frame constants
+mvelo.FRAME_STATUS = 'stat';
+// frame status
+mvelo.FRAME_ATTACHED = 'att';
+mvelo.FRAME_DETACHED = 'det';
+// key for reference to frame object
+mvelo.FRAME_OBJ = 'fra';
+// scan status
+mvelo.SCAN_ON = 'on';
+mvelo.SCAN_OFF = 'off';
+// marker for dynamically created iframes
+mvelo.DYN_IFRAME = 'dyn';
+mvelo.IFRAME_OBJ = 'obj';
+// armor header type
+mvelo.PGP_MESSAGE = 'msg';
+mvelo.PGP_SIGNATURE = 'sig';
+mvelo.PGP_PUBLIC_KEY = 'pub';
+mvelo.PGP_PRIVATE_KEY = 'priv';
+// editor mode
+mvelo.EDITOR_WEBMAIL = 'webmail';
+mvelo.EDITOR_EXTERNAL = 'external';
+mvelo.EDITOR_BOTH = 'both';
+// display decrypted message
+mvelo.DISPLAY_INLINE = 'inline';
+mvelo.DISPLAY_POPUP = 'popup';
+
 // random hash generator
 mvelo.getHash = function() { return Math.random().toString(36).substr(2, 8); };
-
-var constant = constant || (function() {
-  var local = {
-    FRAME_STATUS: '1',
-    // frame status
-    FRAME_ATTACHED: '2',
-    FRAME_DETACHED: '3',
-    // key for reference to frame object
-    FRAME_OBJ: '4',
-    // scan status
-    SCAN_ON: '5',
-    SCAN_OFF: '6',
-    // marker for dynamically created iframes
-    DYN_IFRAME: '7',
-    IFRAME_OBJ: '8',
-    // armor header type
-    PGP_MESSAGE: '9',
-    PGP_SIGNATURE: '10',
-    PGP_PUBLIC_KEY: '11',
-    PGP_PRIVATE_KEY: '12',
-    // editor mode
-    EDITOR_WEBMAIL: '13',
-    EDITOR_EXTERNAL: '14',
-    EDITOR_BOTH: '15'
-  }
-  Object.freeze(local);
-  return local;
-}());

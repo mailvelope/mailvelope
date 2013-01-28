@@ -59,7 +59,7 @@
       href: '../../../dep/css/bootstrap.min.css'
     });
     $('body').append(sandbox);
-    sandbox.contents().find('head').append(style);
+    //sandbox.contents().find('head').append(style);
     sandbox.contents().find('body').css('background-color', 'rgba(0,0,0,0)');
     sandbox.contents().find('body').append(content);
   }

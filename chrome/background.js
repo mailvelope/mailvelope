@@ -46,25 +46,11 @@ define(["common/lib/controller", "lib/pgpViewModel", "openpgp", "jquery"], funct
   
   function init() {
     controller.extend({initScriptInjection: initScriptInjection});
-    initDefaults(function() {
-      migrate();
-      initConnectionManager();
-      initContextMenu();
-      initScriptInjection();
-      initMessageListener();
-    });
-  }
-
-  function initDefaults(done) {
-    // apply defaults if don't exist
-    if (model.getWatchList() === null) {
-      $.get(chrome.extension.getURL('common/res/defaults.json'), function(data) {
-        model.setWatchList(data.watch_list);
-        done();
-      }, 'json');
-    } else {
-      done();
-    }
+    migrate();
+    initConnectionManager();
+    initContextMenu();
+    initScriptInjection();
+    initMessageListener();
   }
   
   function initConnectionManager() {

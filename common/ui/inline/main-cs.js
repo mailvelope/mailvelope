@@ -19,11 +19,13 @@
   
   var interval = 2500; // ms
   var regex = /END\sPGP/;
-  var status = constant.SCAN_ON;
+  var status = mvelo.SCAN_ON;
   var minEditHeight = 100;
   var contextTarget = null;
+  var prefs;
   
   function init() {
+    getPrefs();
     initScanInterval(interval);
     addMessageListener();
     initContextMenu();
@@ -32,7 +34,7 @@
   function initScanInterval(interval) {
     window.setInterval(function() {
       //console.log('inside cs: ', document.location.host;
-      if (status === constant.SCAN_ON) {
+      if (status === mvelo.SCAN_ON) {
         // find armored PGP text
         var pgpTag = findPGPTag(regex);
         if (pgpTag.length !== 0) {
@@ -47,6 +49,12 @@
     }, interval);
   }
   
+  function getPrefs() {
+    mvelo.extension.sendMessage({event: "get-prefs"}, function(resp) {
+      prefs = resp;
+    });
+  }
+
   /**
    * find text nodes in DOM that match certain pattern
    * @param regex
@@ -99,9 +107,9 @@
       // set event handler for contextmenu
       content.find('body').off("contextmenu").on("contextmenu", onContextMenu)
       // mark body as 'inside iframe'
-                          .data(constant.DYN_IFRAME, true)
+                          .data(mvelo.DYN_IFRAME, true)
       // add iframe element
-                          .data(constant.IFRAME_OBJ, $(this));
+                          .data(mvelo.IFRAME_OBJ, $(this));
       // document of iframe in design mode or contenteditable set on the body
       if (content.attr('designMode') === 'on' || content.find('body[contenteditable]').length !== 0) {
         // add iframe to editable elements
@@ -124,7 +132,7 @@
             // set event handler for contextmenu
             content.find('body').off("contextmenu").on("contextmenu", onContextMenu);
             // mark body as 'inside iframe'
-            content.find('body').data(constant.IFRAME_OBJ, frame);
+            content.find('body').data(mvelo.IFRAME_OBJ, frame);
             return true;
           } else {
             return false;
@@ -164,9 +172,9 @@
     var newObj = element.filter(function() {
       if (expanded) {
         // filter out only attached frames
-        if (element.data(constant.FRAME_STATUS) === constant.FRAME_ATTACHED) {
+        if (element.data(mvelo.FRAME_STATUS) === mvelo.FRAME_ATTACHED) {
           // trigger expand state of attached frames
-          element.data(constant.FRAME_OBJ).showEncryptDialog();
+          element.data(mvelo.FRAME_OBJ).showEncryptDialog();
           return false;
         } else {
           return true;
@@ -178,7 +186,7 @@
     });
     // create new encrypt frames for new discovered editable fields
     newObj.each(function(index, element) {
-      var eFrame = new EncryptFrame();
+      var eFrame = new EncryptFrame(prefs);
       eFrame.attachTo($(element), expanded);
     });
   }
@@ -190,10 +198,10 @@
         if (request.event === undefined) return;
         switch (request.event) {
           case 'on':
-            status = constant.SCAN_ON;
+            status = mvelo.SCAN_ON;
             break;
           case 'off':
-            status = constant.SCAN_OFF;
+            status = mvelo.SCAN_OFF;
             break;
           case 'context-encrypt':
             if (contextTarget !== null) {
@@ -232,7 +240,7 @@
     // inside dynamic iframe or iframes from same origin with a contenteditable body
     element = target.closest('body');
     // get outer iframe
-    var iframeObj = element.data(constant.IFRAME_OBJ);
+    var iframeObj = element.data(mvelo.IFRAME_OBJ);
     if (iframeObj !== undefined) {
       // target set to outer iframe
       contextTarget = iframeObj;

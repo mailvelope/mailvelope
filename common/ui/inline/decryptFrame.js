@@ -42,15 +42,15 @@ var DecryptFrame = DecryptFrame || (function() {
       this._init(pgpEnd);
       this._getMessageType();
       // currently only this type supported
-      if (this._pgpMessageType === constant.PGP_MESSAGE) {
+      if (this._pgpMessageType === mvelo.PGP_MESSAGE) {
         this._renderFrame();
         this._establishConnection();
         this._registerEventListener();
       }
       // set status to attached
-      this._pgpEnd.data(constant.FRAME_STATUS, constant.FRAME_ATTACHED);
+      this._pgpEnd.data(mvelo.FRAME_STATUS, mvelo.FRAME_ATTACHED);
       // store frame obj in pgpText tag
-      this._pgpEnd.data(constant.FRAME_OBJ, this);
+      this._pgpEnd.data(mvelo.FRAME_OBJ, this);
     },
   
     _init: function(pgpEnd) {
@@ -68,13 +68,13 @@ var DecryptFrame = DecryptFrame || (function() {
     _getMessageType: function() {
       var armored = this._pgpElement.text();
       if (/BEGIN\sPGP\sMESSAGE/.test(armored)) {
-        this._pgpMessageType = constant.PGP_MESSAGE;
+        this._pgpMessageType = mvelo.PGP_MESSAGE;
       } else if (/BEGIN\sPGP\sSIGNATURE/.test(armored)) {
-        this._pgpMessageType = constant.PGP_SIGNATURE;
+        this._pgpMessageType = mvelo.PGP_SIGNATURE;
       } else if (/BEGIN\sPGP\sPUBLIC\sKEY\sBLOCK/.test(armored)) {
-        this._pgpMessageType = constant.PGP_PUBLIC_KEY;
+        this._pgpMessageType = mvelo.PGP_PUBLIC_KEY;
       } else if (/BEGIN\sPGP\sPRIVATE\sKEY\sBLOCK/.test(armored)) {
-        this._pgpMessageType = constant.PGP_PRIVATE_KEY;
+        this._pgpMessageType = mvelo.PGP_PRIVATE_KEY;
       }
     },
     
@@ -115,11 +115,11 @@ var DecryptFrame = DecryptFrame || (function() {
         this._dFrame.remove();
         if (finalClose === true) {
           this._port.disconnect();
-          this._pgpEnd.data(constant.FRAME_STATUS, null);
+          this._pgpEnd.data(mvelo.FRAME_STATUS, null);
         } else {
-          this._pgpEnd.data(constant.FRAME_STATUS, constant.FRAME_DETACHED);
+          this._pgpEnd.data(mvelo.FRAME_STATUS, mvelo.FRAME_DETACHED);
         }
-        this._pgpEnd.data(constant.FRAME_OBJ, null);
+        this._pgpEnd.data(mvelo.FRAME_OBJ, null);
       }).bind(this));
       return false;
     },
@@ -229,10 +229,10 @@ var DecryptFrame = DecryptFrame || (function() {
   };
 
   decryptFrame.isAttached = function(element) {
-    var status = element.data(constant.FRAME_STATUS);
+    var status = element.data(mvelo.FRAME_STATUS);
     switch (status) {
-      case constant.FRAME_ATTACHED:
-      case constant.FRAME_DETACHED:
+      case mvelo.FRAME_ATTACHED:
+      case mvelo.FRAME_DETACHED:
         return true;
         break;
       default:

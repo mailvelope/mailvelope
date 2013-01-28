@@ -17,7 +17,7 @@
 
 var EncryptFrame = EncryptFrame || (function() { 
 
-  var encryptFrame = function(editorMode) {
+  var encryptFrame = function(prefs) {
     this.id = mvelo.getHash();
     this._editElement;
     this._eFrame;
@@ -27,7 +27,7 @@ var EncryptFrame = EncryptFrame || (function() {
     this._refreshPosIntervalID;
     this._emailTextElement;
     this._emailUndoText;
-    this._editorMode = editorMode || constant.EDITOR_BOTH;
+    this._editorMode = prefs.editor_mode;
     this._rte = true;
     this._rtEditor;
   }
@@ -42,9 +42,9 @@ var EncryptFrame = EncryptFrame || (function() {
       this._establishConnection();
       this._registerEventListener();
       // set status to attached
-      this._editElement.data(constant.FRAME_STATUS, constant.FRAME_ATTACHED);
+      this._editElement.data(mvelo.FRAME_STATUS, mvelo.FRAME_ATTACHED);
       // store frame obj in element tag
-      this._editElement.data(constant.FRAME_OBJ, this);
+      this._editElement.data(mvelo.FRAME_OBJ, this);
     },
 
     getID: function() {
@@ -55,7 +55,7 @@ var EncryptFrame = EncryptFrame || (function() {
       this._editElement = element;
       this._emailTextElement = editor || ( this._editElement.is('iframe') ? this._editElement.contents().find('body') : this._editElement );
       // inject style if we have a non-body editable element inside a dynamic iframe
-      if (!this._editElement.is('body') && this._editElement.closest('body').data(constant.DYN_IFRAME)) {
+      if (!this._editElement.is('body') && this._editElement.closest('body').data(mvelo.DYN_IFRAME)) {
         var html = this._editElement.closest('html');
         if (!html.data('M-STYLE')) {
           var style = $('<link/>', {
@@ -102,15 +102,16 @@ var EncryptFrame = EncryptFrame || (function() {
     },
 
     _normalizeButtons: function() {
+      //console.log('editor mode', this._editorMode);
       this._eFrame.find('.m-encrypt-button').hide();
       switch (this._editorMode) {
-        case constant.EDITOR_WEBMAIL:
+        case mvelo.EDITOR_WEBMAIL:
           this._eFrame.find('#encryptBtn').show();
           break;
-        case constant.EDITOR_EXTERNAL:
+        case mvelo.EDITOR_EXTERNAL:
           this._eFrame.find('#editorBtn').show();
           break;
-        case constant.EDITOR_BOTH:
+        case mvelo.EDITOR_BOTH:
           this._eFrame.find('#encryptBtn').show();
           this._eFrame.find('#editorBtn').show();
           break;
@@ -160,11 +161,11 @@ var EncryptFrame = EncryptFrame || (function() {
         this._eFrame.remove();
         if (finalClose === true) {
           this._port.disconnect();
-          this._editElement.data(constant.FRAME_STATUS, null);
+          this._editElement.data(mvelo.FRAME_STATUS, null);
         } else {
-          this._editElement.data(constant.FRAME_STATUS, constant.FRAME_DETACHED);
+          this._editElement.data(mvelo.FRAME_STATUS, mvelo.FRAME_DETACHED);
         }
-        this._editElement.data(constant.FRAME_OBJ, null);
+        this._editElement.data(mvelo.FRAME_OBJ, null);
       }).bind(this));
       return false;
     },
@@ -360,10 +361,10 @@ var EncryptFrame = EncryptFrame || (function() {
   };
 
   encryptFrame.isAttached = function(element) {
-    var status = element.data(constant.FRAME_STATUS);
+    var status = element.data(mvelo.FRAME_STATUS);
     switch (status) {
-      case constant.FRAME_ATTACHED:
-      case constant.FRAME_DETACHED:
+      case mvelo.FRAME_ATTACHED:
+      case mvelo.FRAME_DETACHED:
         return true;
         break;
       default:
