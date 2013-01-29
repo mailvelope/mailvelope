@@ -157,7 +157,7 @@
     });
     // create new decrypt frames for new discovered PGP tags
     newObj.each(function(index, element) {
-      var dFrame = new DecryptFrame();
+      var dFrame = new DecryptFrame(prefs);
       dFrame.attachTo($(element));
     });
   }

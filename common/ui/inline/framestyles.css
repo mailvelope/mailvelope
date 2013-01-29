@@ -17,8 +17,9 @@
 }
 
 :root .m-frame-open {
-  background-position: 10px;
+  background-position: 20px;
   background-image: url('chrome-extension://__MSG_@@extension_id__/common/img/mail_open_96.png');
+  background-size: 80px;
 }
 
 :root .m-frame-large {
@@ -26,8 +27,9 @@
 }
 
 :root .m-frame-large-open {
-  background-position: 10px 140px;
+  background-position: 20px 140px;
   background-image: url('chrome-extension://__MSG_@@extension_id__/common/img/mail_open_96.png');
+  background-size: 80px;
 }
 
 :root div.m-encrypt-frame[id^="eFrame"] {

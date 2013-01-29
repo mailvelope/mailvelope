@@ -30,7 +30,7 @@
     $('#cancelBtn').click(onCancel);
     $('#transferBtn').click(onTransfer);
     editor = createEditor();
-    eFrame = new EncryptFrame({editor_mode: mvelo.EDITOR_WEBMAIL});
+    eFrame = new EncryptFrame({security: {editor_mode: mvelo.EDITOR_WEBMAIL}});
     eFrame.attachTo($('#richEditor'), false, editor);
     id = 'editor-' + eFrame.getID();
     port = mvelo.extension.connect({name: id});
@@ -68,7 +68,7 @@
     });
     var style = $('<link/>', {
       rel: 'stylesheet',
-      href: '../../../dep/bootstrap/css/bootstrap.min.css'
+      href: '../../dep/bootstrap/css/bootstrap.min.css'
     });
     var head = sandbox.contents().find('head');
     style.appendTo(head);

@@ -131,12 +131,15 @@ define(function (require, exports, module) {
           dFramePorts[id].postMessage({event: 'remove-dialog'});  
         } else {
           // open password dialog
-          mvelo.windows.openPopup('common/ui/inline/dialogs/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true});
+          mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true});
         }
         break;
       case 'pwd-dialog-init':
         // get armored message from dFrame
         dFramePorts[id].postMessage({event: 'armored-message'});
+        break;
+      case 'dframe-display-popup':
+        mvelo.windows.openPopup('common/ui/modal/decryptPopup.html?id=' + id, {width: 742, height: 450, modal: false});
         break;
       case 'dframe-armored-message':
         var message;
@@ -201,7 +204,7 @@ define(function (require, exports, module) {
         if (editorPort || mvelo.windows.modalActive) {
           // editor or modal dialog already open
         } else {
-          mvelo.windows.openPopup('common/ui/inline/dialogs/editor.html?parent=' + id, {width: 742, height: 400, modal: true});
+          mvelo.windows.openPopup('common/ui/modal/editor.html?parent=' + id, {width: 742, height: 400, modal: true});
           editorText = msg.text;
         }
         break;

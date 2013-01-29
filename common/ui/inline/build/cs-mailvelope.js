@@ -9633,7 +9633,7 @@ mvelo.getHash = function() { return Math.random().toString(36).substr(2, 8); };
     });
     // create new decrypt frames for new discovered PGP tags
     newObj.each(function(index, element) {
-      var dFrame = new DecryptFrame();
+      var dFrame = new DecryptFrame(prefs);
       dFrame.attachTo($(element));
     });
   }
@@ -9749,7 +9749,7 @@ mvelo.getHash = function() { return Math.random().toString(36).substr(2, 8); };
 
 var DecryptFrame = DecryptFrame || (function() { 
 
-  var decryptFrame = function () {
+  var decryptFrame = function (prefs) {
     this.id = mvelo.getHash();
     // text node with Armor Tail Line '-----END PGP...'
     this._pgpEnd;
@@ -9764,6 +9764,7 @@ var DecryptFrame = DecryptFrame || (function() {
     this._dDialog;
     this._port;
     this._refreshPosIntervalID;
+    this._displayMode = prefs.security.display_decrypted;
   }
 
   decryptFrame.prototype = {
@@ -9837,8 +9838,14 @@ var DecryptFrame = DecryptFrame || (function() {
     _clickHandler: function() {
       this._dFrame.off('click');
       this._toggleIcon();
-      //this._showDialog.bind(this);
-      this._showDialog();
+      if (this._displayMode == mvelo.DISPLAY_INLINE) {
+        this._inlineDialog();
+      } else if (this._displayMode == mvelo.DISPLAY_POPUP) {
+        this._port.postMessage({
+          event: 'dframe-display-popup', 
+          sender: 'dFrame-' + this.id
+        });
+      }
       return false;
     },
     
@@ -9878,7 +9885,7 @@ var DecryptFrame = DecryptFrame || (function() {
       this._dFrame.css('top', pgpElementPos.top + this._pgpElementAttr.marginTop);
     },
     
-    _showDialog: function() {
+    _inlineDialog: function() {
       var that = this;
       this._dDialog = $('<iframe/>', {
         id: 'dDialog' + that.id,
@@ -9886,7 +9893,7 @@ var DecryptFrame = DecryptFrame || (function() {
         frameBorder: 0, 
         scrolling: 'no'
       });
-      var path = 'common/ui/inline/dialogs/decryptDialog.html?id=' + that.id;
+      var path = 'common/ui/inline/dialogs/decryptInline.html?id=' + that.id;
       var url;
       if (mvelo.crx) {
         url = mvelo.extension.getURL(path);
@@ -10007,8 +10014,6 @@ var EncryptFrame = EncryptFrame || (function() {
     this._emailTextElement;
     this._emailUndoText;
     this._editorMode = prefs.security.editor_mode;
-    this._rte = true;
-    this._rtEditor;
   }
 
   encryptFrame.prototype = {

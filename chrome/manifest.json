@@ -34,8 +34,7 @@
     "common/img/undo-22.png",
     "common/img/mail_new.png",
     "common/ui/inline/framestyles.css",
-    "common/ui/inline/dialogs/decryptDialog.html",
-    "common/ui/inline/dialogs/encryptDialog.html",
+    "common/ui/inline/dialogs/decryptInline.html",
     "common/dep/css/bootstrap.min.css"
   ],
   "sandbox": {

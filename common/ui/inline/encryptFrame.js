@@ -28,8 +28,6 @@ var EncryptFrame = EncryptFrame || (function() {
     this._emailTextElement;
     this._emailUndoText;
     this._editorMode = prefs.security.editor_mode;
-    this._rte = true;
-    this._rtEditor;
   }
 
   encryptFrame.prototype = {
