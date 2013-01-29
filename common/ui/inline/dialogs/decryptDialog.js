@@ -30,11 +30,6 @@
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'decrypt-dialog-init', sender: id});
     addSandbox();
-    // add spinner
-    $('body').addClass('spinner');
-    if ($('body').height() + 2 > mvelo.LARGE_FRAME) {
-      $('body').addClass('spinner_large');
-    }
   }
 
   function addSandbox() {

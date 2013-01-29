@@ -18,13 +18,3 @@ html, body {
 .hide_bg {
   background-color: rgba(254,251,243,1);
 }
-
-.spinner {
-  background-image: url('chrome-extension://__MSG_@@extension_id__/common/dep/kendoui/styles/Default/loading-image.gif');
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.spinner_large {
-  background-position: 50% 160px; 
-}

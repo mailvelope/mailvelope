@@ -9836,7 +9836,9 @@ var DecryptFrame = DecryptFrame || (function() {
     
     _clickHandler: function() {
       this._dFrame.off('click');
-      this._toggleIcon(this._showDialog.bind(this));
+      this._toggleIcon();
+      //this._showDialog.bind(this);
+      this._showDialog();
       return false;
     },
     

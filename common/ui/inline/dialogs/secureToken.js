@@ -21,7 +21,9 @@
 
   function init() {
     loadToken();
-    keyRing.onUpdate(loadToken);
+    if (typeof keyRing !== 'undefined') { 
+      keyRing.onUpdate(loadToken);
+    }
   }
 
   function loadToken() {
