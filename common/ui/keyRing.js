@@ -22,6 +22,8 @@ var keyRing = {};
   var id = 0;
   // callbacks are stored with id as key and used when message is received
   var callbacks = {};
+  // event controller
+  var update = $('<div/>');
 
   function init() {
     window.addEventListener("message", receiveMessage);
@@ -80,6 +82,14 @@ var keyRing = {};
       event: "copyToClipboard",
       text: text
     }), '*'); 
+  }
+
+  exports.update = function() {
+    update.triggerHandler('m-update');  
+  }
+
+  exports.onUpdate = function(callback) {
+    update.on('m-update', callback);
   }  
 
   function receiveMessage(msg) {

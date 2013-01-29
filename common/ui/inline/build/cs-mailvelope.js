@@ -10004,7 +10004,7 @@ var EncryptFrame = EncryptFrame || (function() {
     this._refreshPosIntervalID;
     this._emailTextElement;
     this._emailUndoText;
-    this._editorMode = prefs.editor_mode;
+    this._editorMode = prefs.security.editor_mode;
     this._rte = true;
     this._rtEditor;
   }

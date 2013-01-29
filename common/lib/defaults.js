@@ -47,8 +47,8 @@ define(function (require, exports, module) {
     }
     //model.setPreferences('');
     if (!model.getPreferences()) {
-      defaults.preferences.secure_color = randomColor();
-      defaults.preferences.secure_code = randomString(3);
+      defaults.preferences.security.secure_color = randomColor();
+      defaults.preferences.security.secure_code = randomString(3);
       model.setPreferences(defaults.preferences);
     }
   }

@@ -254,8 +254,13 @@ define(function (require, exports, module) {
       case 'get-prefs':
         sendResponse(prefs);
         break;
+      case 'set-prefs':
+        prefs = request.message.data;
+        model.setPreferences(prefs);
+        sendResponse(true);
+        break;
       case 'get-security-token':
-        sendResponse({code: prefs.secure_code, color: prefs.secure_color});
+        sendResponse({code: prefs.security.secure_code, color: prefs.security.secure_color});
         break;
       default:
         console.log('unknown event:', msg.event);

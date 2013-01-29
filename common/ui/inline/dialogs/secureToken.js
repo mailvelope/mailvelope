@@ -17,8 +17,14 @@
 
 (function() {
   
+  var comm = typeof mvelo !== 'undefined' && mvelo.extension || keyRing;
+
   function init() {
-    var comm = typeof mvelo !== 'undefined' && mvelo.extension || keyRing;
+    loadToken();
+    keyRing.onUpdate(loadToken);
+  }
+
+  function loadToken() {
     comm.sendMessage({event: "get-security-token"}, function(token) {
       //console.log('token', token);
       $('#secureCode').html(token.code)
@@ -46,6 +52,15 @@
        ((0|(1<<8) + b + (256 - b) * percent / 100).toString(16)).substr(1);
   }
 
+  function isDark(hex) {
+    hex = hex.replace(/^\s*#|\s*$/g, '');
+    var r = parseInt(hex.substr(0,2),16);
+    var g = parseInt(hex.substr(2,2),16);
+    var b = parseInt(hex.substr(4,2),16);
+    var yiq = ((r*299)+(g*587)+(b*114))/1000;
+    return yiq < 128;
+  }
+
   function getStyle(hex) {
     var normal = hex;
     var bright = increase_brightness(hex, 35);
@@ -54,6 +69,9 @@
     style += 'background-image: -webkit-gradient(linear, 0 0, 0 100%, from(' + bright + '), to(' + normal + '));';
     style += 'background-image: -webkit-linear-gradient(top, ' + bright + ', ' + normal + ');';
     style += 'background-image: linear-gradient(to bottom, ' + bright + ', ' + normal + ');';
+    if (isDark(normal)) {
+      style += 'color: #FFFFFF';
+    }
     return style;
   }
   

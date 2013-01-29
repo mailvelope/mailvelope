@@ -29,11 +29,14 @@
   }
 
   function onSave() {
-    prefs.display_decrypted = $('input:radio[name="decryptRadios"]:checked').val();
-    prefs.secure_code = $('#secCode').val();
-    prefs.secure_color = $('#secColor').val();
-    keyRing.viewModel('setPreferences', prefs);
-    $('.form-actions button').attr('disabled', 'disabled');
+    prefs.security.display_decrypted = $('input:radio[name="decryptRadios"]:checked').val();
+    prefs.security.secure_code = $('#secCode').val();
+    prefs.security.secure_color = $('#secColor').val();
+    keyRing.sendMessage({ event: 'set-prefs', data: prefs }, function() {
+      keyRing.update();
+      $('.form-actions button').attr('disabled', 'disabled');  
+    });
+    
 
   }
 
@@ -46,10 +49,10 @@
     keyRing.viewModel('getPreferences', function(result) {
       prefs = result;
       $('input:radio[name="decryptRadios"]').filter(function() {
-        return $(this).val() === prefs.display_decrypted;
+        return $(this).val() === prefs.security.display_decrypted;
       }).attr('checked', 'checked');
-      $('#secCode').val(prefs.secure_code);
-      $('#secColor').val(prefs.secure_color);
+      $('#secCode').val(prefs.security.secure_code);
+      $('#secColor').val(prefs.security.secure_color);
     });
   }
 
