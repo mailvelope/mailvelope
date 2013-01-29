@@ -29,20 +29,37 @@
   }
 
   function onSave() {
+    if (!validate()) return false;
     prefs.security.display_decrypted = $('input:radio[name="decryptRadios"]:checked').val();
     prefs.security.secure_code = $('#secCode').val();
     prefs.security.secure_color = $('#secColor').val();
     keyRing.sendMessage({ event: 'set-prefs', data: prefs }, function() {
       keyRing.update();
-      $('.form-actions button').attr('disabled', 'disabled');  
+      normalize();
     });
-    
+    return false;
+  }
 
+  function validate() {
+    var secCode = $('#secCode');
+    if (secCode.val().length !== 3) {
+      secCode.closest('.control-group').addClass('error');
+      secCode.next().removeClass('hide');
+      return false;
+    }
+    return true;
+  }
+
+  function normalize() {
+    $('#preferences .form-actions button').attr('disabled', 'disabled');
+    $('#preferences .control-group').removeClass('error');
+    $('#preferences .help-inline').addClass('hide');
   }
 
   function onCancel() {
-    $('.form-actions button').attr('disabled', 'disabled');
+    normalize();
     loadPrefs();
+    return false;
   }
 
   function loadPrefs() {
