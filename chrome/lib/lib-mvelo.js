@@ -19,9 +19,7 @@ define(function(require, exports, module) {
 
   var model = require('lib/pgpViewModel');
 
-  var mvelo = {};
-
-  mvelo.crx = true;
+  var mvelo = require('mvelo');
 
   mvelo.getModel = function() {
     return model;

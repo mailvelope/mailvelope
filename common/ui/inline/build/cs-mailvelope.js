@@ -9442,7 +9442,7 @@ var mvelo = mvelo || {};
 // chrome extension
 mvelo.crx = typeof chrome !== 'undefined';
 // firefox addon
-mvelo.ffa = self.port !== undefined;
+mvelo.ffa = typeof self !== 'undefined' && self.port;
 mvelo.extension = mvelo.extension || mvelo.crx && chrome.extension;
 // min height for large frame
 mvelo.LARGE_FRAME = 600;
@@ -9474,7 +9474,10 @@ mvelo.DISPLAY_POPUP = 'popup';
 
 // random hash generator
 mvelo.getHash = function() { return Math.random().toString(36).substr(2, 8); };
-/**
+
+if (typeof exports !== 'undefined') {
+  exports.mvelo = mvelo;
+}/**
  * Mailvelope - secure email with OpenPGP encryption for Webmail
  * Copyright (C) 2012  Thomas Oberndörfer
  *
@@ -9841,10 +9844,7 @@ var DecryptFrame = DecryptFrame || (function() {
       if (this._displayMode == mvelo.DISPLAY_INLINE) {
         this._inlineDialog();
       } else if (this._displayMode == mvelo.DISPLAY_POPUP) {
-        this._port.postMessage({
-          event: 'dframe-display-popup', 
-          sender: 'dFrame-' + this.id
-        });
+        this._popupDialog();
       }
       return false;
     },
@@ -9906,6 +9906,14 @@ var DecryptFrame = DecryptFrame || (function() {
       this._dFrame.removeClass('m-decrypt-key-cursor');
       this._dDialog.fadeIn();
     },
+
+    _popupDialog: function() {
+      this._port.postMessage({
+        event: 'dframe-display-popup', 
+        sender: 'dFrame-' + this.id
+      });
+      this._dFrame.removeClass('m-decrypt-key-cursor');
+    },
     
     _establishConnection: function() {
       var that = this;
@@ -9914,11 +9922,13 @@ var DecryptFrame = DecryptFrame || (function() {
     },
     
     _removeDialog: function() {
-      this._dDialog.fadeOut();
-      // removal triggers disconnect event
-      this._dDialog.remove();
+      if (this._displayMode === mvelo.DISPLAY_INLINE) {
+        this._dDialog.fadeOut();
+        // removal triggers disconnect event
+        this._dDialog.remove();
+        this._dDialog = null;
+      }
       this._dFrame.addClass('m-decrypt-key-cursor');
-      this._dDialog = null;
       this._toggleIcon();
       this._dFrame.on('click', this._clickHandler.bind(this));
     },
@@ -9948,7 +9958,7 @@ var DecryptFrame = DecryptFrame || (function() {
         //console.log('dFrame-%s event %s received', that.id, msg.event);
         switch (msg.event) {
           case 'remove-dialog':
-          case 'pwd-dialog-cancel':
+          case 'dialog-cancel':
             that._removeDialog();
             break;
           case 'armored-message':

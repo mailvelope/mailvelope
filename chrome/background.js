@@ -18,7 +18,8 @@
 requirejs.config({
   paths: {
     jquery: 'common/dep/jquery.min',
-    openpgp: 'dep/openpgp'
+    openpgp: 'dep/openpgp',
+    mvelo: 'common/ui/inline/mvelo'
   },
   shim: {
     'openpgp': {
@@ -27,6 +28,9 @@ requirejs.config({
         init: function() {
           this.openpgp.init();
         }
+    },
+    'mvelo': {
+        exports: 'mvelo'
     }
   }
 });

@@ -20,21 +20,37 @@
   var port;
   // shares ID with DecryptFrame
   var id;
+  // type + id
+  var name;
+  // dialogs
+  var pwd, sandbox;
   
   function init() {
     //console.log('decryptDialog init');
     var qs = jQuery.parseQuerystring();
-    id = 'dDialog-' + qs['id'];
+    id = qs['id'];
+    name = 'dDialog-' + id
     // open port to background page
-    port = mvelo.extension.connect({name: id});
+    port = mvelo.extension.connect({name: name});
     port.onMessage.addListener(messageListener);
-    port.postMessage({event: 'decrypt-dialog-init', sender: id});
+    port.postMessage({event: 'decrypt-dialog-init', sender: name});
     addSandbox();
+    $(window).unload(onClose);
+    $('#closeBtn').click(onClose);
+    $('#copyBtn').click(onCopy);
+  }
+
+  function onClose() {
+    port.postMessage({event: 'decrypt-dialog-cancel', sender: name});
+    window.close();
+  }
+
+  function onCopy() {
+    //TODO
   }
 
   function addSandbox() {
-    var sandbox = $('<iframe/>', {
-      id: 'decryptmail', 
+    sandbox = $('<iframe/>', {
       sandbox: 'allow-same-origin',
       frameBorder: 0
     });
@@ -43,25 +59,33 @@
       css: {
         position: 'absolute',
         top: 0, left: 0, right: 0, bottom: 0,
-        margin: '15px 15px 3px 3px',
+        margin: '3px',
         padding: '3px',
-        'background-color': 'white',
         overflow: 'auto'
       }
     });
     var style = $('<link/>', {
       rel: 'stylesheet',
-      href: '../../../dep/css/bootstrap.min.css'
+      href: '../../dep/css/bootstrap.min.css'
     });
-    $('body').append(sandbox);
-    //sandbox.contents().find('head').append(style);
-    sandbox.contents().find('body').css('background-color', 'rgba(0,0,0,0)');
+    $('.modal-body').append(sandbox);
+    sandbox.contents().find('head').append(style);
     sandbox.contents().find('body').append(content);
   }
 
+  function addPwdDialog() {
+    pwd = $('<iframe/>', {
+      id: 'pwdDialog',
+      src: 'pwdDialog.html?id=' + id,
+      frameBorder: 0
+    });
+    $('body').append(pwd);
+  }
+
   function showMessageArea() {
-    $('html, body').addClass('hide_bg');
-    $('#decryptmail').fadeIn();
+    pwd.fadeOut(function() {
+      $('#decryptmail').fadeIn();
+    });
   }
   
   function messageListener(msg) {
@@ -73,7 +97,10 @@
         var message = msg.message.replace(/\n/g, '<br>');
         var wrapper = $('<div/>').html($.parseHTML(message));
         wrapper.find('a').attr('target', '_blank');
-        $('#decryptmail').contents().find('#content').append(wrapper.contents());
+        sandbox.contents().find('#content').append(wrapper.contents());
+        break;
+      case 'show-pwd-dialog':
+        addPwdDialog();
         break;
       default:
         console.log('unknown event');

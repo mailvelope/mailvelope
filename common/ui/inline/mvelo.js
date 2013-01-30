@@ -2,7 +2,7 @@ var mvelo = mvelo || {};
 // chrome extension
 mvelo.crx = typeof chrome !== 'undefined';
 // firefox addon
-mvelo.ffa = self.port !== undefined;
+mvelo.ffa = typeof self !== 'undefined' && self.port;
 mvelo.extension = mvelo.extension || mvelo.crx && chrome.extension;
 // min height for large frame
 mvelo.LARGE_FRAME = 600;
@@ -34,3 +34,7 @@ mvelo.DISPLAY_POPUP = 'popup';
 
 // random hash generator
 mvelo.getHash = function() { return Math.random().toString(36).substr(2, 8); };
+
+if (typeof exports !== 'undefined') {
+  exports.mvelo = mvelo;
+}

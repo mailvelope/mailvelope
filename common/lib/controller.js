@@ -118,8 +118,9 @@ define(function (require, exports, module) {
     var id = parseName(msg.sender).id;
     switch (msg.event) {
       case 'pwd-dialog-cancel':
+      case 'decrypt-dialog-cancel':
         // forward event to decrypt frame
-        dFramePorts[id].postMessage(msg);
+        dFramePorts[id].postMessage({event: 'dialog-cancel'});
         break;
       case 'encrypt-dialog-cancel':
         // forward event to encrypt frame
@@ -130,8 +131,12 @@ define(function (require, exports, module) {
           // password dialog or modal dialog already open
           dFramePorts[id].postMessage({event: 'remove-dialog'});  
         } else {
-          // open password dialog
-          mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true});
+          if (prefs.security.display_decrypted == mvelo.DISPLAY_INLINE) {
+            // open password dialog
+            mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true});
+          } else if (prefs.security.display_decrypted == mvelo.DISPLAY_POPUP) {
+            dDialogPorts[id].postMessage({event: 'show-pwd-dialog'});
+          }
         }
         break;
       case 'pwd-dialog-init':

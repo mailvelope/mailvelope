@@ -46,7 +46,7 @@
   
   function onCancel() {
     port.postMessage({event: 'pwd-dialog-cancel', sender: id});
-    window.close();
+    top.close();
     return false;
   }
 

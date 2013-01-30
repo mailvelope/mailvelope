@@ -25,7 +25,7 @@ var timer = require('timers');
 var dataPathScript = 'mvelo.extension._dataPath = \'' + data.url() + '\'';
 
 
-var mvelo = {};
+var mvelo = require('data/common/ui/inline/mvelo').mvelo;
 
 mvelo.ffa = true;
 

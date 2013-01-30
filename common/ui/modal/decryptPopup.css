@@ -3,18 +3,90 @@
  * Copyright (C) 2012  Thomas Oberndörfer
  */
 
-html, body {
-  height: 100%;
-  background-color: rgba(0,0,0,0);
+.busy {  
+  cursor: wait !important;  
 }
 
 #decryptmail {
   display: none;
-  background-color: rgba(0,0,0,0); 
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+#pwdDialog {
+  width: 462px;
+  height: 357px;
+  position:absolute;
+  left:50%;
+  top:50%;
+  margin-left: -231px;
+  margin-top: -179px;
+}
+
+.m-modal {
+  margin: 10px;
+  background-color: #ffffff;
+  border: 1px solid #999;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+}
+
+.modal-header {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.modal-header h3 {
+  float: left;
+}
+
+.modal-body {
+  position: absolute;
+  top: 49px;
+  bottom: 58px;
+  right: 0px;
+  left: 0px;
+  overflow: hidden;
+}
+
+.modal-body iframe {
   width: 100%;
   height: 100%;
 }
 
-.hide_bg {
-  background-color: rgba(254,251,243,1);
+.modal-footer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+#secureCode {
+  float: right;
+  padding: 4px 14px;
+  margin-bottom: 0;
+  -webkit-border-radius: 15px;
+     -moz-border-radius: 15px;
+          border-radius: 15px;
+  border: 1px solid #cccccc;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 20px;
+  color: #555555;
 }

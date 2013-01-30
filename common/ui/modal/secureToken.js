@@ -35,6 +35,7 @@
     });
   }
 
+  // Attribution: http://stackoverflow.com/a/6444043
   function increase_brightness(hex, percent){
     // strip the leading # if it's there
     hex = hex.replace(/^\s*#|\s*$/g, '');
@@ -54,6 +55,7 @@
        ((0|(1<<8) + b + (256 - b) * percent / 100).toString(16)).substr(1);
   }
 
+  // Attribution: http://24ways.org/2010/calculating-color-contrast/
   function isDark(hex) {
     hex = hex.replace(/^\s*#|\s*$/g, '');
     var r = parseInt(hex.substr(0,2),16);

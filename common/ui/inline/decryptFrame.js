@@ -109,10 +109,7 @@ var DecryptFrame = DecryptFrame || (function() {
       if (this._displayMode == mvelo.DISPLAY_INLINE) {
         this._inlineDialog();
       } else if (this._displayMode == mvelo.DISPLAY_POPUP) {
-        this._port.postMessage({
-          event: 'dframe-display-popup', 
-          sender: 'dFrame-' + this.id
-        });
+        this._popupDialog();
       }
       return false;
     },
@@ -174,6 +171,14 @@ var DecryptFrame = DecryptFrame || (function() {
       this._dFrame.removeClass('m-decrypt-key-cursor');
       this._dDialog.fadeIn();
     },
+
+    _popupDialog: function() {
+      this._port.postMessage({
+        event: 'dframe-display-popup', 
+        sender: 'dFrame-' + this.id
+      });
+      this._dFrame.removeClass('m-decrypt-key-cursor');
+    },
     
     _establishConnection: function() {
       var that = this;
@@ -182,11 +187,13 @@ var DecryptFrame = DecryptFrame || (function() {
     },
     
     _removeDialog: function() {
-      this._dDialog.fadeOut();
-      // removal triggers disconnect event
-      this._dDialog.remove();
+      if (this._displayMode === mvelo.DISPLAY_INLINE) {
+        this._dDialog.fadeOut();
+        // removal triggers disconnect event
+        this._dDialog.remove();
+        this._dDialog = null;
+      }
       this._dFrame.addClass('m-decrypt-key-cursor');
-      this._dDialog = null;
       this._toggleIcon();
       this._dFrame.on('click', this._clickHandler.bind(this));
     },
@@ -216,7 +223,7 @@ var DecryptFrame = DecryptFrame || (function() {
         //console.log('dFrame-%s event %s received', that.id, msg.event);
         switch (msg.event) {
           case 'remove-dialog':
-          case 'pwd-dialog-cancel':
+          case 'dialog-cancel':
             that._removeDialog();
             break;
           case 'armored-message':
