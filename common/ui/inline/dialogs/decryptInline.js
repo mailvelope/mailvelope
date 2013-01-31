@@ -20,6 +20,7 @@
   var port;
   // shares ID with DecryptFrame
   var id;
+  var watermark;
   
   function init() {
     //console.log('decryptDialog init');
@@ -29,7 +30,19 @@
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'decrypt-inline-init', sender: id});
+    addWrapper();
     addSandbox();
+    mvelo.extension.sendMessage({event: "get-security-token"}, function(token) {
+      $('#watermark').html(token.code);
+    });
+    $(window).on('resize', resizeFont);
+  }
+
+  function addWrapper() {
+    var wrapper = $('<div/>', {id: 'wrapper'});
+    watermark = $('<div/>', {id: 'watermark'});
+    watermark.appendTo(wrapper);
+    wrapper.appendTo('body');
   }
 
   function addSandbox() {
@@ -43,9 +56,8 @@
       css: {
         position: 'absolute',
         top: 0, left: 0, right: 0, bottom: 0,
-        margin: '15px 15px 3px 3px',
         padding: '3px',
-        'background-color': 'white',
+        'background-color': 'rgba(0,0,0,0)',
         overflow: 'auto'
       }
     });
@@ -53,15 +65,21 @@
       rel: 'stylesheet',
       href: '../../../dep/css/bootstrap.min.css'
     });
-    $('body').append(sandbox);
+    $('#wrapper').append(sandbox);
     sandbox.contents().find('head').append(style);
     sandbox.contents().find('body').css('background-color', 'rgba(0,0,0,0)');
     sandbox.contents().find('body').append(content);
+
   }
 
   function showMessageArea() {
     $('html, body').addClass('hide_bg');
-    $('#decryptmail').fadeIn();
+    $('#wrapper').fadeIn();
+    resizeFont();
+  }
+
+  function resizeFont() {
+    watermark.css('font-size', Math.floor(Math.min(watermark.width() / 3, watermark.height())));
   }
   
   function messageListener(msg) {
@@ -71,9 +89,9 @@
         showMessageArea();
         // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
         var message = msg.message.replace(/\n/g, '<br>');
-        var wrapper = $('<div/>').html($.parseHTML(message));
-        wrapper.find('a').attr('target', '_blank');
-        $('#decryptmail').contents().find('#content').append(wrapper.contents());
+        var wrap = $('<div/>').html($.parseHTML(message));
+        wrap.find('a').attr('target', '_blank');
+        $('#decryptmail').contents().find('#content').append(wrap.contents());
         break;
       default:
         console.log('unknown event');

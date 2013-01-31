@@ -8,8 +8,19 @@ html, body {
   background-color: rgba(0,0,0,0);
 }
 
-#decryptmail {
+#wrapper {
   display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0; 
+  bottom: 0;
+  margin: 15px 15px 3px 3px;
+  background-color: white;
+}
+
+#decryptmail {
+  position: absolute;
   background-color: rgba(0,0,0,0); 
   width: 100%;
   height: 100%;
@@ -17,4 +28,17 @@ html, body {
 
 .hide_bg {
   background-color: rgba(254,251,243,1);
+}
+
+#watermark {
+  position: absolute;
+  font-size: 250px;
+  top: 0px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0.04;
+  font-family: 'Comic Sans MS';
+  text-align: center;
+  line-height: 100%;
 }

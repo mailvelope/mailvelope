@@ -9888,7 +9888,7 @@ var DecryptFrame = DecryptFrame || (function() {
     _inlineDialog: function() {
       var that = this;
       this._dDialog = $('<iframe/>', {
-        id: 'dDialog' + that.id,
+        id: 'dDialog-' + that.id,
         'class': 'm-frame-dialog',
         frameBorder: 0, 
         scrolling: 'no'
