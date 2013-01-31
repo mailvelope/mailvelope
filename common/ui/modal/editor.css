@@ -5,7 +5,11 @@
 
 
 .m-modal {
-  width: 720px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   margin: 10px;
   background-color: #ffffff;
   border: 1px solid #999;
@@ -21,13 +25,35 @@
   background-clip: padding-box;
 }
 
-#richEditor {
-  width: 690px;
-  height: 226px;
+.modal-header {
+  position: absolute;
+  left: 0;
+  right: 0;
 }
 
 .modal-header h3 {
   float: left;
+}
+
+.modal-body {
+  position: absolute;
+  top: 49px;
+  bottom: 58px;
+  right: 0px;
+  left: 0px;
+  overflow: hidden;
+}
+
+#richEditor {
+  width: 100%;
+  height: 100%;
+}
+
+.modal-footer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
 }
 
 #secureCode {

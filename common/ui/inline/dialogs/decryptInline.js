@@ -28,7 +28,7 @@
     // open port to background page
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
-    port.postMessage({event: 'decrypt-dialog-init', sender: id});
+    port.postMessage({event: 'decrypt-inline-init', sender: id});
     addSandbox();
   }
 

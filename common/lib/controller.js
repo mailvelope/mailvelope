@@ -126,25 +126,30 @@ define(function (require, exports, module) {
         // forward event to encrypt frame
         eFramePorts[id].postMessage(msg);
         break;
-      case 'decrypt-dialog-init':
+      case 'decrypt-inline-init':
         if (pwdPort || mvelo.windows.modalActive) {
           // password dialog or modal dialog already open
-          dFramePorts[id].postMessage({event: 'remove-dialog'});  
+          dFramePorts[id].postMessage({event: 'remove-dialog'});
         } else {
-          if (prefs.security.display_decrypted == mvelo.DISPLAY_INLINE) {
-            // open password dialog
-            mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true});
-          } else if (prefs.security.display_decrypted == mvelo.DISPLAY_POPUP) {
-            dDialogPorts[id].postMessage({event: 'show-pwd-dialog'});
-          }
+          // open password dialog
+          mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true});
         }
+        break;
+      case 'decrypt-popup-init':
+        dDialogPorts[id].postMessage({event: 'show-pwd-dialog'});
         break;
       case 'pwd-dialog-init':
         // get armored message from dFrame
         dFramePorts[id].postMessage({event: 'armored-message'});
         break;
       case 'dframe-display-popup':
-        mvelo.windows.openPopup('common/ui/modal/decryptPopup.html?id=' + id, {width: 742, height: 450, modal: false});
+        // decrypt popup potentially needs pwd dialog
+        if (pwdPort || mvelo.windows.modalActive) {
+          // password dialog or modal dialog already open
+          dFramePorts[id].postMessage({event: 'remove-dialog'});        
+        } else {
+          mvelo.windows.openPopup('common/ui/modal/decryptPopup.html?id=' + id, {width: 742, height: 450, modal: true});
+        }
         break;
       case 'dframe-armored-message':
         var message;

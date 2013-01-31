@@ -33,7 +33,7 @@
     // open port to background page
     port = mvelo.extension.connect({name: name});
     port.onMessage.addListener(messageListener);
-    port.postMessage({event: 'decrypt-dialog-init', sender: name});
+    port.postMessage({event: 'decrypt-popup-init', sender: name});
     addSandbox();
     $(window).unload(onClose);
     $('#closeBtn').click(onClose);

@@ -60,9 +60,9 @@
     var sandbox = $('#richEditor');
     var text = $('<textarea/>', {
       id: 'content',
-      rows: '12',
       css: {
-        width: '690px',
+        width: '100%',
+        height: '100%',
         'margin-bottom': 0
       }
     });
