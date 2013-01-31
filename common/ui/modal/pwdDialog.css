@@ -32,6 +32,21 @@
   cursor: wait !important;  
 }
 
+#spinner {
+  display: none;
+  opacity: 0.8;
+  width: 48px;
+  height: 48px;
+  position:absolute;
+  left:50%;
+  top:50%;
+  margin-left: -24px;
+  margin-top: -24px;      
+  background-image: url('chrome-extension://__MSG_@@extension_id__/common/dep/kendoui/styles/Default/loading-image.gif');      
+  background-repeat: no-repeat;      
+  background-position: center;      
+}
+
 .modal-header h3 {
   float: left;
 }

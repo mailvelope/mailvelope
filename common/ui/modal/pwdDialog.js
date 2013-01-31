@@ -39,7 +39,8 @@
   
   function onOk() {
     var pwd = $('#password').val();
-    $('body').addClass('busy');
+    $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
+    $('#spinner').show();
     port.postMessage({event: 'pwd-dialog-ok', sender: id, password: pwd});
     return false;
   }
@@ -74,6 +75,7 @@
         break;
       case 'pwd-verification':
         $('body').removeClass('busy');
+        $('#spinner').hide();
         if (msg.error) {
           if (msg.error.type === 'wrong-password') {
             $('#password').closest('.control-group').addClass('error')
