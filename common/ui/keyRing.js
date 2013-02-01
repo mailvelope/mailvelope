@@ -90,7 +90,7 @@ var keyRing = {};
 
   exports.onUpdate = function(callback) {
     update.on('m-update', callback);
-  }  
+  }
 
   function receiveMessage(msg) {
     //console.log('key ring receiveMessage', JSON.stringify(msg));

@@ -112,12 +112,14 @@ body {
   margin-left: 5px;
 }
 
-#preferences .form-horizontal .control-label {
+#security .form-horizontal .control-label,
+#general .form-horizontal .control-label {
   width: 280px;
 }
 
 
-#preferences .form-horizontal .controls {
+#security .form-horizontal .controls,
+#general .form-horizontal .controls {
   margin-left: 300px;
 }
 

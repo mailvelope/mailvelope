@@ -34,7 +34,8 @@
     <script src="generateKey.js"></script>
     <script src="watchList.js"></script>
     <script src="exportKey.js"></script>
-    <script src="preferences.js"></script>
+    <script src="security.js"></script>
+    <script src="general.js"></script>
   </head>
   <body>
     <div class="navbar navbar-fixed-top">
@@ -68,8 +69,9 @@
               <li><a href="#importKey" data-toggle="tab">Import Key</a></li>
               <li><a href="#generateKey" data-toggle="tab">Generate Key</a></li>
               <li class="nav-header">Settings</li>
+              <li><a href="#general" data-toggle="tab">General</a></li>
+              <li><a href="#security" data-toggle="tab">Security</a></li>
               <li><a href="#watchList" data-toggle="tab">Watch List</a></li>
-              <li><a href="#preferences" data-toggle="tab">Preferences</a></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
@@ -284,8 +286,8 @@
               <div id="watchListGrid">
               </div>
             </div>
-            <div id="preferences" class="tab-pane fade">
-              <h3>Preferences</h3>
+            <div id="security" class="tab-pane fade">
+              <h3>Security</h3>
               <form class="form-horizontal well" onsubmit="return false">
                 <div class="control-group">
                   <label class="control-label"><strong>Where are decrypted messages displayed?</strong></label>
@@ -317,8 +319,30 @@
                   </div>
                 </div>
                 <div class="form-actions">
-                  <button id="prefBtnSave" class="btn btn-primary" disabled>Save</button>
-                  <button id="prefBtnCancel" class="btn" disabled>Cancel</button>
+                  <button id="secBtnSave" class="btn btn-primary" disabled>Save</button>
+                  <button id="secBtnCancel" class="btn" disabled>Cancel</button>
+                </div>
+              </form>
+            </div>
+            <div id="general" class="tab-pane fade">
+              <h3>General</h3>
+              <form class="form-horizontal well" onsubmit="return false">
+                <div class="control-group">
+                  <label class="control-label"><strong>Mail Compose Editor</strong></label>
+                  <div class="controls">
+                    <label class="radio">
+                      <input type="radio" name="editorRadios" id="editorRadios1" value="rich">
+                      Rich Text Editor</em>
+                    </label>
+                    <label class="radio">
+                      <input type="radio" name="editorRadios" id="editorRadios2" value="plain">
+                      Plain Text
+                    </label>
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <button id="genBtnSave" class="btn btn-primary" disabled>Save</button>
+                  <button id="genBtnCancel" class="btn" disabled>Cancel</button>
                 </div>
               </form>
             </div>

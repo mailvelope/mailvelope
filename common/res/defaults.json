@@ -53,6 +53,9 @@
     "security": {
       "editor_mode": "external",
       "display_decrypted": "inline"
+    },
+    "general": {
+      "editor_type": "rich"
     }
   }
 }

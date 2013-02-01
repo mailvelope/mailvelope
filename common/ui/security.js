@@ -21,11 +21,11 @@
   
   function init() {
     loadPrefs();
-    $('input').on('input change', function() {
-      $('.form-actions button').removeAttr('disabled');
+    $('#security input').on('input change', function() {
+      $('#security .form-actions button').removeAttr('disabled');
     });
-    $('#prefBtnSave').click(onSave);
-    $('#prefBtnCancel').click(onCancel);
+    $('#secBtnSave').click(onSave);
+    $('#secBtnCancel').click(onCancel);
   }
 
   function onSave() {
@@ -51,9 +51,9 @@
   }
 
   function normalize() {
-    $('#preferences .form-actions button').attr('disabled', 'disabled');
-    $('#preferences .control-group').removeClass('error');
-    $('#preferences .help-inline').addClass('hide');
+    $('#security .form-actions button').attr('disabled', 'disabled');
+    $('#security .control-group').removeClass('error');
+    $('#security .help-inline').addClass('hide');
   }
 
   function onCancel() {
