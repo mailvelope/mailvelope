@@ -29,45 +29,41 @@
   function onImportKey() {
     clearAlert();
     var keyText = $('#newKey').val();
+
+    // find all public and private keys in the textbox
     var publicKeys = keyText.match(publicKeyRegex);
     var privateKeys = keyText.match(privateKeyRegex);
-    var one = false;
-    if (publicKeys !== null) {
-      publicKeys.forEach(function(publicKey, index) {
-        (function(last) {
-          keyRing.viewModel('importKey', [publicKey, 'public'], function(result, error) {
-            if (!error) {
-              one = true;
-              console.log('show success');
-              $('#importAlert').showAlert('Success', 'Public key ' + result[0].keyid + ' of user ' + result[0].userid + ' imported into key ring', 'success', true);
-            } else {
-              $('#importAlert').showAlert('Import Error', error.type === 'error' ? error.message : 'Not a valid key text', 'error', true);
-            }
-            if (last) {
-              importDone(one);
-            }
-          });
-        }(index + 1 === publicKeys.length && privateKeys === null));
+    var npublic = publicKeys===null ? 0 : publicKeys.length;
+    var nprivate = privateKeys===null ? 0 : privateKeys.length;
+    var ntotal = npublic+nprivate, nsucceeded = 0, nfailed = 0;
+
+    // each one is imported asynchronously. 
+    // produce a list of success/error message boxes
+    // once they're all done, call importDone() to refresh the ui
+    var importKey = function(key, keyType){
+      keyRing.viewModel('importKey', [key, keyType.toLowerCase()], function(result, error){
+        if (!error) {
+          $('#importAlert').showAlert('Success', keyType + ' key ' + result[0].keyid + ' of user ' + result[0].userid + ' imported into key ring', 'success', true);
+          nsucceeded++;
+        } else {
+          $('#importAlert').showAlert('Import Error', error.type === 'error' ? error.message : 'Not a valid key text', 'error', true);
+          nfailed++;
+        }
+        if(nsucceeded + nfailed == ntotal){
+          // finished importing! 
+          importDone(nsucceeded > 0);
+        }
       });
     }
-    if (privateKeys !== null) {
-      privateKeys.forEach(function(privateKey, index) {
-        (function(last) {
-          keyRing.viewModel('importKey', [privateKey, 'private'], function(result, error) {
-            if (!error) {
-              one = true;
-              $('#importAlert').showAlert('Success', 'Private key ' + result[0].keyid + ' of user ' + result[0].userid + ' imported into key ring', 'success', true);
-            } else {
-              $('#importAlert').showAlert('Import Error', error.type === 'error' ? error.message : 'Not a valid key text', 'error', true);
-            }
-            if (last) {
-              importDone(one);
-            }
-          });
-        }(index + 1 === privateKeys.length));
-      });
+    for(var i = 0; i < npublic; i++){
+      importKey(publicKeys[i], 'Public');
     }
-    if (publicKeys === null && privateKeys === null) {
+    for(var i = 0; i < nprivate; i++){
+      importKey(privateKeys[i], 'Private');
+    }
+
+    // no keys found...
+    if (ntotal == 0) {
       $('#importAlert').showAlert('Import Error', 'Not a valid key text', 'error');
     }
   }
