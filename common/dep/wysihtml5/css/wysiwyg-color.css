@@ -1,3 +1,10 @@
+
+body {
+  padding: 4px 6px;
+  width: auto;
+  height: auto;
+}
+
 .wysiwyg-color-black {
   color: black;
 }

@@ -190,7 +190,12 @@
                 self.toolbar.find('.current-color').text(el.html());
             });
 
-            this.el.before(toolbar);
+            if (options.toolbar_element) {
+                $("#" + options.toolbar_element).append(toolbar);
+            } else {
+                this.el.before(toolbar);
+            }
+            
 
             return toolbar;
         },
@@ -401,7 +406,7 @@
                 "div": 1
             }
         },
-        stylesheets: ["../../dep/wysihtml5/css/wysiwyg-color.css"], // (path_to_project/lib/css/wysiwyg-color.css)
+        stylesheets: ["./lib/css/wysiwyg-color.css"], // (path_to_project/lib/css/wysiwyg-color.css)
         locale: "en"
     };
 

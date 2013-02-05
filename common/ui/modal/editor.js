@@ -68,6 +68,7 @@
     sandbox.show();
     var text = $('<textarea/>', {
       id: 'content',
+      rows: 12,
       css: {
         width: '100%',
         height: '100%',
@@ -85,8 +86,13 @@
   }
 
   function createRichText() {
-    $('#richText').show().wysihtml5();
-    //var editor = new wysihtml5.Editor("richText");
+    $('#rte-box').show();
+    $('#richText').wysihtml5('deepExtend', {
+      toolbar_element: 'rte-toolbar',
+      stylesheets: ['../../dep/css/bootstrap.min.css', '../../dep/wysihtml5/css/wysiwyg-color.css'],
+      color: true,
+      parserRules: wysihtml5ParserRules
+    });
   }
 
   function messageListener(msg) {

@@ -13,6 +13,7 @@
   <script src="../../dep/jquery.min.js"></script>
   <script src="../../dep/jquery.ext.js"></script>
   <script src="../../dep/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../../dep/wysihtml5/js/advanced.js"></script>
   <script src="../../dep/wysihtml5/js/wysihtml5-0.4.0pre.js"></script>
   <script src="../../dep/wysihtml5/js/bootstrap-wysihtml5.js"></script>
   <script src="../inline/mvelo.js"></script>
@@ -28,7 +29,10 @@
     </div>
     <div class="modal-body">
       <iframe id="plainText" sandbox="allow-same-origin" frameBorder="0"></iframe>
-      <textarea id="richText" autofocus></textarea>
+      <div id="rte-toolbar"></div>
+      <div id="rte-box">
+        <textarea id="richText" autofocus></textarea>  
+      </div>
     </div>
     <div class="modal-footer">
       <button id="cancelBtn" class="btn">Cancel</a>
