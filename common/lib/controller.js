@@ -176,7 +176,7 @@ define(function (require, exports, module) {
         } catch (e) {
           response.error = e;
         }
-        if (response.result || response.error) {
+        if (response.result !== undefined || response.error) {
           sendResponse(response);
         }
         break;

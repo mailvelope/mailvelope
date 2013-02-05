@@ -93,6 +93,7 @@
                    .attr('disabled', 'disabled');
     $('#genKeyEmail').closest('.control-group').removeClass('error')
                      .end().next().addClass('hide');
+    $('#genAlert').hide();
     onKeyPwdChange();
     return false;
   }
