@@ -31,6 +31,9 @@ mvelo.EDITOR_BOTH = 'both';
 // display decrypted message
 mvelo.DISPLAY_INLINE = 'inline';
 mvelo.DISPLAY_POPUP = 'popup';
+// editor type
+mvelo.PLAIN_TEXT = 'plain';
+mvelo.RICH_TEXT = 'rich';
 
 // random hash generator
 mvelo.getHash = function() { return Math.random().toString(36).substr(2, 8); };

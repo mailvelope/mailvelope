@@ -19,6 +19,13 @@ body {
 
 .hero-unit.tab-content {
   padding: 30px;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+.hero-unit li {
+  line-height: inherit;
 }
 
 .primaryKey ul

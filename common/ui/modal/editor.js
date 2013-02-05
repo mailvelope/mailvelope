@@ -20,6 +20,7 @@
   var id;
   // id of encrypt frame that triggered this dialog
   var parentID;
+  var editor_type;
   var eFrame;
   var port;
   var editor
@@ -27,16 +28,22 @@
   function init() {
     var qs = jQuery.parseQuerystring();
     parentID = qs['parent'];
+    editor_type = qs['editor_type'];
     $('#cancelBtn').click(onCancel);
     $('#transferBtn').click(onTransfer);
-    editor = createEditor();
     eFrame = new EncryptFrame({security: {editor_mode: mvelo.EDITOR_WEBMAIL}});
-    eFrame.attachTo($('#richEditor'), false, editor);
+    if (editor_type == mvelo.PLAIN_TEXT) {
+      editor = createPlainText();
+      eFrame.attachTo($('#plainText'), false, editor);
+      editor.focus();
+    } else {
+      editor = createRichText();
+      eFrame.attachTo($('#richText'), false, editor);
+    }
     id = 'editor-' + eFrame.getID();
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'editor-init', sender: id}); 
-    editor.focus();
   }
 
   function onCancel() {
@@ -56,8 +63,9 @@
     return true;
   }
 
-  function createEditor() {
-    var sandbox = $('#richEditor');
+  function createPlainText() {
+    var sandbox = $('#plainText');
+    sandbox.show();
     var text = $('<textarea/>', {
       id: 'content',
       css: {
@@ -76,11 +84,18 @@
     return text;
   }
 
+  function createRichText() {
+    $('#richText').show().wysihtml5();
+    //var editor = new wysihtml5.Editor("richText");
+  }
+
   function messageListener(msg) {
     //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
       case 'set-text':
-        editor.val(msg.text);
+        if (editor_type == mvelo.PLAIN_TEXT) {
+          editor.val(msg.text);
+        }
         break;
       default:
         console.log('unknown event');
