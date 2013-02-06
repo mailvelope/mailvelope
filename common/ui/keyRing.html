@@ -66,7 +66,7 @@
             <ul class="nav nav-list" id="navList">
               <li class="nav-header">Key Ring</li>
               <li class="active"><a href="#displayKeys" data-toggle="tab">Display Keys</a></li>
-              <li><a href="#importKey" data-toggle="tab">Import Key</a></li>
+              <li><a href="#importKey" data-toggle="tab">Import Keys</a></li>
               <li><a href="#generateKey" data-toggle="tab">Generate Key</a></li>
               <li class="nav-header">Settings</li>
               <li><a href="#general" data-toggle="tab">General</a></li>
@@ -169,10 +169,11 @@
               </div>
             </div>
             <div id="importKey" class="tab-pane fade">
-              <h3>Import Keys</h3>
+              <h3>Bulk Import Keys</h3>
               <form class="form-vertical well" onsubmit="return false">
                 <div class="control-group">
                   <label class="control-label" for="textarea"><h4>Paste key text here:</h4></label>
+                  <div>To import multiple keys, simply paste them all here. Extra text around the keys is ignored.</div>
                   <div class="controls">
                     <textarea id="newKey" rows="12"></textarea>
                   </div>
