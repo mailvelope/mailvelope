@@ -187,7 +187,7 @@
     // create new encrypt frames for new discovered editable fields
     newObj.each(function(index, element) {
       var eFrame = new EncryptFrame(prefs);
-      eFrame.attachTo($(element), expanded);
+      eFrame.attachTo($(element), {expanded: expanded});
     });
   }
   

@@ -9471,6 +9471,9 @@ mvelo.EDITOR_BOTH = 'both';
 // display decrypted message
 mvelo.DISPLAY_INLINE = 'inline';
 mvelo.DISPLAY_POPUP = 'popup';
+// editor type
+mvelo.PLAIN_TEXT = 'plain';
+mvelo.RICH_TEXT = 'rich';
 
 // random hash generator
 mvelo.getHash = function() { return Math.random().toString(36).substr(2, 8); };
@@ -9666,7 +9669,7 @@ if (typeof exports !== 'undefined') {
     // create new encrypt frames for new discovered editable fields
     newObj.each(function(index, element) {
       var eFrame = new EncryptFrame(prefs);
-      eFrame.attachTo($(element), expanded);
+      eFrame.attachTo($(element), {expanded: expanded});
     });
   }
   
@@ -10024,15 +10027,18 @@ var EncryptFrame = EncryptFrame || (function() {
     this._emailTextElement;
     this._emailUndoText;
     this._editorMode = prefs.security.editor_mode;
+    this._editorType = prefs.general.editor_type;
+    this._options = {expanded: false};
   }
 
   encryptFrame.prototype = {
   
     constructor: EncryptFrame,
     
-    attachTo: function(element, expanded, editor) {
-      this._init(element, editor);
-      this._renderFrame(expanded);
+    attachTo: function(element, options) {
+      $.extend(this._options, options);
+      this._init(element);
+      this._renderFrame(this._options.expanded);
       this._establishConnection();
       this._registerEventListener();
       // set status to attached
@@ -10047,7 +10053,7 @@ var EncryptFrame = EncryptFrame || (function() {
     
     _init: function(element, editor) {
       this._editElement = element;
-      this._emailTextElement = editor || ( this._editElement.is('iframe') ? this._editElement.contents().find('body') : this._editElement );
+      this._emailTextElement = this._options.editor || ( this._editElement.is('iframe') ? this._editElement.contents().find('body') : this._editElement );
       // inject style if we have a non-body editable element inside a dynamic iframe
       if (!this._editElement.is('body') && this._editElement.closest('body').data(mvelo.DYN_IFRAME)) {
         var html = this._editElement.closest('html');
@@ -10204,7 +10210,7 @@ var EncryptFrame = EncryptFrame || (function() {
       this._port.postMessage({
         event: 'eframe-display-editor', 
         sender: 'eFrame-' + this.id,
-        text: this._getEmailText('text')
+        text: this._getEmailText(this._editorType == mvelo.PLAIN_TEXT ? 'text' : 'html')
       });
     },
     
@@ -10293,7 +10299,11 @@ var EncryptFrame = EncryptFrame || (function() {
         this._emailTextElement.val(encryptedMsg);
       } else {
         encryptedMsg = encryptedMsg.replace(/\n/g,'<br>'); // replace new line with <br>
-        this._emailTextElement.html(encryptedMsg);
+        if (this._options.set_text) {
+          this._options.set_text(encryptedMsg);
+        } else {
+          this._emailTextElement.html(encryptedMsg);
+        }
       }
     },
 

@@ -31,14 +31,25 @@
     editor_type = qs['editor_type'];
     $('#cancelBtn').click(onCancel);
     $('#transferBtn').click(onTransfer);
-    eFrame = new EncryptFrame({security: {editor_mode: mvelo.EDITOR_WEBMAIL}});
+    eFrame = new EncryptFrame({
+      security: {
+        editor_mode: mvelo.EDITOR_WEBMAIL
+      },
+      general: {
+        editor_type: editor_type
+      }
+    });
     if (editor_type == mvelo.PLAIN_TEXT) {
       editor = createPlainText();
-      eFrame.attachTo($('#plainText'), false, editor);
+      eFrame.attachTo($('#plainText'), {editor: editor});
       editor.focus();
     } else {
       editor = createRichText();
-      eFrame.attachTo($('iframe.wysihtml5-sandbox'), false);
+      eFrame.attachTo($('iframe.wysihtml5-sandbox'), {
+        set_text: function(text) {
+          $('#richText').data("wysihtml5").editor.setValue(text, true);
+        }
+      });
     }
     id = 'editor-' + eFrame.getID();
     port = mvelo.extension.connect({name: id});
