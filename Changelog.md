@@ -1,3 +1,12 @@
+
+0.5.5 / 06.02.2013 
+==================
+
+  * Update to latest OpenPGP.js release, problems with compressed messages from e.g. Enigmail are fixed
+  * Clean-up of key import coding
+  * Fonts are loaded locally
+
+
 0.5.4.2 / 18.12.2012 
 ==================
 
