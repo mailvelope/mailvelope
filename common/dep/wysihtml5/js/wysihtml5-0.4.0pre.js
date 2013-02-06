@@ -5502,7 +5502,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
           iframe = doc.createElement("iframe");
       iframe.className = "wysihtml5-sandbox";
       wysihtml5.dom.setAttributes({
-        "security":           "restricted",
+        "sandbox":           "allow-same-origin allow-scripts",
         "allowtransparency":  "true",
         "frameborder":        0,
         "width":              0,

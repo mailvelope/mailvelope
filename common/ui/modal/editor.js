@@ -38,7 +38,7 @@
       editor.focus();
     } else {
       editor = createRichText();
-      eFrame.attachTo($('#richText'), false, editor);
+      eFrame.attachTo($('iframe.wysihtml5-sandbox'), false);
     }
     id = 'editor-' + eFrame.getID();
     port = mvelo.extension.connect({name: id});
@@ -93,6 +93,7 @@
       color: true,
       parserRules: wysihtml5ParserRules
     });
+    return $('#richText');
   }
 
   function messageListener(msg) {
@@ -101,6 +102,8 @@
       case 'set-text':
         if (editor_type == mvelo.PLAIN_TEXT) {
           editor.val(msg.text);
+        } else {
+          $('#richText').data("wysihtml5").editor.setValue(msg.text, true);
         }
         break;
       default:
