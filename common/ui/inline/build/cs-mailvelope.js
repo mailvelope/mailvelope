@@ -10296,9 +10296,15 @@ var EncryptFrame = EncryptFrame || (function() {
 
     _setEncryptedMessage: function(encryptedMsg) {
       if (this._emailTextElement.is('textarea')) {
+        if (this._editorType == mvelo.RICH_TEXT) {
+          encryptedMsg = encryptedMsg.replace(/<br>/g,'\n'); // replace <br> with new line
+        }
         this._emailTextElement.val(encryptedMsg);
       } else {
-        encryptedMsg = encryptedMsg.replace(/\n/g,'<br>'); // replace new line with <br>
+        // element is contenteditable or RTE
+        if (this._editorType == mvelo.PLAIN_TEXT) {
+          encryptedMsg = encryptedMsg.replace(/\n/g,'<br>'); // replace new line with <br>
+        }
         if (this._options.set_text) {
           this._options.set_text(encryptedMsg);
         } else {

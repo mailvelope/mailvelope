@@ -46,9 +46,7 @@
     } else {
       editor = createRichText();
       eFrame.attachTo($('iframe.wysihtml5-sandbox'), {
-        set_text: function(text) {
-          $('#richText').data("wysihtml5").editor.setValue(text, true);
-        }
+        set_text: setRichText
       });
     }
     id = 'editor-' + eFrame.getID();
@@ -63,7 +61,11 @@
   }
 
   function onTransfer() {
+     //wysihtml5 <body> is automatically copied to the hidden <textarea>
     var armored = editor.val();
+    if (editor_type == mvelo.RICH_TEXT) {
+      armored = armored.replace(/\n/g,'');
+    }
     port.postMessage({
       event: 'editor-transfer-armored', 
       data: armored,
@@ -107,6 +109,11 @@
     return $('#richText');
   }
 
+  function setRichText(text) {
+    text = text.replace(/\n/g,'<br>');
+    $('#richText').data("wysihtml5").editor.setValue(text, true);
+  }
+
   function messageListener(msg) {
     //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
@@ -114,7 +121,7 @@
         if (editor_type == mvelo.PLAIN_TEXT) {
           editor.val(msg.text);
         } else {
-          $('#richText').data("wysihtml5").editor.setValue(msg.text, true);
+          setRichText(msg.text);
         }
         break;
       default:
