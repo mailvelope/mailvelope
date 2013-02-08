@@ -10237,25 +10237,32 @@ var EncryptFrame = EncryptFrame || (function() {
       }).bind(this));  
       return false;
     },
+
+    _html2text: function(html) {
+      html = $('<div/>').html(html); 
+      // replace anchors
+      html = html.find('a').replaceWith(function() {
+                                          return $(this).text() + ' (' + $(this).attr('href') + ')';
+                                        })
+                           .end()
+                           .html();
+      html = html.replace(/(<br>)/g,'\n'); // replace <br> with new line
+      html = html.replace(/<\/(div|p)>/g,'\n'); // replace </div> or </p> tags with new line
+      html = html.replace(/<(.+?)>/g,''); // remove tags
+      html = html.replace(/\n{3,}/g, '\n\n'); // compress new line
+      return $('<div/>').html(html).text(); // decode
+    },
     
     _getEmailText: function(type) {
       var text;
       if (this._emailTextElement.is('textarea')) {
         text = this._emailTextElement.val();
       } else {
-        text = this._emailTextElement.html();
+        var html = this._emailTextElement.html();
         if (type === 'text') {
-          // replace anchors
-          text = $('<div/>').html(text).find('a').replaceWith(function() {
-                                                      return $(this).text() + ' (' + $(this).attr('href') + ')';
-                                                  })
-                                       .end()
-                                       .html();
-          text = text.replace(/(<br>)/g,'\n'); // replace <br> with new line
-          text = text.replace(/<\/(div|p)>/g,'\n'); // replace </div> or </p> tags with new line
-          text = text.replace(/<(.+?)>/g,''); // remove tags
-          text = text.replace(/\n{3,}/g, '\n\n'); // compress new line
-          text = $('<div/>').html(text).text(); // decode
+          text = this._html2text(html);
+        } else {
+          text = html;
         }
       }
       return text;
@@ -10297,13 +10304,13 @@ var EncryptFrame = EncryptFrame || (function() {
     _setEncryptedMessage: function(encryptedMsg) {
       if (this._emailTextElement.is('textarea')) {
         if (this._editorType == mvelo.RICH_TEXT) {
-          encryptedMsg = encryptedMsg.replace(/<br>/g,'\n'); // replace <br> with new line
+          encryptedMsg = this._html2text(encryptedMsg);
         }
         this._emailTextElement.val(encryptedMsg);
       } else {
         // element is contenteditable or RTE
         if (this._editorType == mvelo.PLAIN_TEXT) {
-          encryptedMsg = encryptedMsg.replace(/\n/g,'<br>'); // replace new line with <br>
+          encryptedMsg = encryptedMsg.replace(/\n/g,'<br>'); // replace new line with <br> 
         }
         if (this._options.set_text) {
           this._options.set_text(encryptedMsg);

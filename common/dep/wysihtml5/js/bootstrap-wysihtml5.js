@@ -237,7 +237,7 @@
                 self.editor.currentView.element.focus();
             });
 
-            toolbar.find('a[data-wysihtml5-command=insertImage]').click(function() {
+            toolbar.find('a[data-wysihtml5-command="insertImage"]').click(function() {
                 var activeButton = $(this).hasClass("wysihtml5-command-active");
 
                 if (!activeButton) {
@@ -288,11 +288,12 @@
                 self.editor.currentView.element.focus();
             });
 
-            toolbar.find('a[data-wysihtml5-command=createLink]').click(function() {
+            toolbar.find('a[data-wysihtml5-command="createLink"]').click(function() {
                 var activeButton = $(this).hasClass("wysihtml5-command-active");
 
                 if (!activeButton) {
-                    insertLinkModal.appendTo('body').modal('show');
+                    //insertLinkModal.appendTo('body').modal('show');
+                    insertLinkModal.modal('show');
                     insertLinkModal.on('click.dismiss.modal', '[data-dismiss="modal"]', function(e) {
                         e.stopPropagation();
                     });

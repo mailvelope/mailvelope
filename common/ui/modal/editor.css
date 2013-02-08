@@ -25,17 +25,17 @@
   background-clip: padding-box;
 }
 
-.modal-header {
+.m-modal > .modal-header {
   position: absolute;
   left: 0;
   right: 0;
 }
 
-.modal-header h3 {
+.m-modal > .modal-header h3 {
   float: left;
 }
 
-.modal-body {
+.m-modal > .modal-body {
   position: absolute;
   top: 49px;
   bottom: 58px;
@@ -66,7 +66,7 @@
   left: 15px;
 }
 
-.modal-footer {
+.m-modal > .modal-footer {
   position: absolute;
   bottom: 0;
   right: 0;
