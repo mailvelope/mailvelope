@@ -73,6 +73,14 @@
   left: 0;
 }
 
+#blurWarn {
+  opacity: 0;
+  position: absolute;
+  top: 180px;
+  left: 50%;
+  margin-left: -174px;
+}
+
 #secureCode {
   float: right;
   padding: 4px 14px;

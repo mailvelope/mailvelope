@@ -28,6 +28,8 @@
   var editor
   // content of editor modified
   var isDirty = false;
+  // blur warning
+  var blurWarn;
 
   function init() {
     var qs = jQuery.parseQuerystring();
@@ -35,6 +37,11 @@
     editor_type = qs['editor_type'];
     $('#cancelBtn').click(onCancel);
     $('#transferBtn').click(onTransfer);
+    // blur warning
+    blurWarn = $('#blurWarn');
+    $(window).on('blur', onBlur);
+    $(window).on('focus', onFocus);
+    // create encrypt frame
     eFrame = new EncryptFrame({
       security: {
         editor_mode: mvelo.EDITOR_WEBMAIL
@@ -49,7 +56,6 @@
       editor.on('change', function() {
         isDirty = true;
       });
-      editor.focus();
     } else {
       editor = createRichText();
       eFrame.attachTo($('iframe.wysihtml5-sandbox'), {
@@ -61,7 +67,7 @@
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'editor-init', sender: id});
     // transfer warning modal
-    $('#transferWarn .btn-primary').click(transfer); 
+    $('#transferWarn .btn-primary').click(transfer);
   }
 
   function onCancel() {
@@ -99,6 +105,7 @@
     var text = $('<textarea/>', {
       id: 'content',
       rows: 12,
+      autofocus: '',
       css: {
         width: '100%',
         height: '100%',
@@ -112,6 +119,8 @@
     var head = sandbox.contents().find('head');
     style.appendTo(head);
     sandbox.contents().find('body').append(text);
+    text.on('blur', onBlur);
+    text.on('focus', onFocus);
     return text;
   }
 
@@ -125,8 +134,14 @@
       events: {
         change: function() { 
           isDirty = true;
-        }
+        },
+        blur: onBlur,
+        focus: onFocus
       }
+    });
+    // required to trigger focus if user clicks in non-editable area of text editor
+    $('iframe.wysihtml5-sandbox').contents().find('html').click(function() {
+      $(this).find('body').focus();
     });
     return $('#richText');
   }
@@ -135,6 +150,22 @@
     text = text.replace(/\n/g,'<br>');
     $('#richText').data("wysihtml5").editor.setValue(text, true);
     isDirty = false;
+  }
+
+  function onBlur() {
+    console.log('blur', this);
+    blurWarn.removeClass('hide')
+            .stop(true)
+            .animate({opacity: 1}, 'slow');
+    return false;
+  }
+
+  function onFocus() {
+    console.log('focus', this);
+    blurWarn.stop(true)
+            .animate({opacity: 0}, 'fast', 'swing', function() {
+              blurWarn.addClass('hide');
+            });
   }
 
   function messageListener(msg) {
