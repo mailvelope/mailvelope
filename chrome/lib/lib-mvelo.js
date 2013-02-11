@@ -138,9 +138,17 @@ define(function(require, exports, module) {
           }
           chrome.windows.onRemoved.addListener(removedHandler);
         }
-        if (callback) callback();
+        if (callback) callback(new mvelo.windows.BrowserWindow(popup.id));
       });
     });
+  }
+
+  mvelo.windows.BrowserWindow = function(id) {
+    this._id = id;
+  };
+
+  mvelo.windows.BrowserWindow.prototype.activate = function() {
+    chrome.windows.update(this._id, {focused: true});
   }
 
   exports.mvelo = mvelo;

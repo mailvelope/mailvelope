@@ -35,9 +35,8 @@ define(function (require, exports, module) {
   var eDialogPorts = {};
   // port to password dialog
   var pwdPort = null;
-  // port to editor
-  var editorPort = null;
-  var editorText = '';
+  // editor window
+  var editor = null;
   // recipients of encrypted mail
   var eRecipientBuffer = {};
   var scannedHosts = [];
@@ -78,7 +77,7 @@ define(function (require, exports, module) {
         pwdPort = port;
         break;
       case 'editor':
-        editorPort = port;
+        editor.port = port;
         break;
       default:
         console.log('unknown port');
@@ -104,8 +103,7 @@ define(function (require, exports, module) {
         pwdPort = null;
         break;
       case 'editor':
-        editorPort = null;
-        editorText = '';
+        editor = null;
         break;
       default:
         console.log('unknown port');
@@ -211,15 +209,19 @@ define(function (require, exports, module) {
         eFramePorts[msg.recipient].postMessage({event: 'set-armored-text', text: msg.data});
         break;
       case 'eframe-display-editor':
-        if (editorPort || mvelo.windows.modalActive) {
+        if (editor || mvelo.windows.modalActive) {
           // editor or modal dialog already open
+          editor.window.activate(); // focus
         } else {
-          mvelo.windows.openPopup('common/ui/modal/editor.html?parent=' + id + '&editor_type=' + prefs.general.editor_type, {width: 742, height: 450, modal: false});
-          editorText = msg.text;
+          editor = {};
+          editor.text = msg.text;
+          mvelo.windows.openPopup('common/ui/modal/editor.html?parent=' + id + '&editor_type=' + prefs.general.editor_type, {width: 742, height: 450, modal: false}, function(window) {
+            editor.window = window;
+          }); 
         }
         break;
       case 'editor-init':
-        editorPort.postMessage({event: 'set-text', text: editorText});
+        editor.port.postMessage({event: 'set-text', text: editor.text});
         break;
       default:
         console.log('unknown event', msg);
