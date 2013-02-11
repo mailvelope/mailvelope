@@ -20,10 +20,14 @@
   var id;
   // id of encrypt frame that triggered this dialog
   var parentID;
+  // plain or rich text
   var editor_type;
   var eFrame;
   var port;
+  // editor element
   var editor
+  // content of editor modified
+  var isDirty = false;
 
   function init() {
     var qs = jQuery.parseQuerystring();
@@ -42,6 +46,9 @@
     if (editor_type == mvelo.PLAIN_TEXT) {
       editor = createPlainText();
       eFrame.attachTo($('#plainText'), {editor: editor});
+      editor.on('change', function() {
+        isDirty = true;
+      });
       editor.focus();
     } else {
       editor = createRichText();
@@ -52,7 +59,9 @@
     id = 'editor-' + eFrame.getID();
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
-    port.postMessage({event: 'editor-init', sender: id}); 
+    port.postMessage({event: 'editor-init', sender: id});
+    // transfer warning modal
+    $('#transferWarn .btn-primary').click(transfer); 
   }
 
   function onCancel() {
@@ -61,6 +70,14 @@
   }
 
   function onTransfer() {
+    if (isDirty) {
+      $('#transferWarn').modal('show');
+    } else {
+      transfer();
+    }
+  }
+
+  function transfer() {
      //wysihtml5 <body> is automatically copied to the hidden <textarea>
     var armored = editor.val();
     if (editor_type == mvelo.RICH_TEXT) {
@@ -104,7 +121,12 @@
       toolbar_element: 'rte-toolbar',
       stylesheets: ['../../dep/css/bootstrap.min.css', '../../dep/wysihtml5/css/wysiwyg-color.css'],
       color: true,
-      parserRules: wysihtml5ParserRules
+      parserRules: wysihtml5ParserRules,
+      events: {
+        change: function() { 
+          isDirty = true;
+        }
+      }
     });
     return $('#richText');
   }
@@ -112,6 +134,7 @@
   function setRichText(text) {
     text = text.replace(/\n/g,'<br>');
     $('#richText').data("wysihtml5").editor.setValue(text, true);
+    isDirty = false;
   }
 
   function messageListener(msg) {

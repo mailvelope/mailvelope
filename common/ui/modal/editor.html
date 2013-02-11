@@ -28,7 +28,7 @@
       <div id='secureCode'></div>
     </div>
     <div class="modal-body">
-      <iframe id="plainText" sandbox="allow-same-origin" frameBorder="0"></iframe>
+      <iframe id="plainText" sandbox="allow-same-origin allow-scripts" frameBorder="0"></iframe>
       <div id="rte-toolbar"></div>
       <div id="rte-box">
         <textarea id="richText" autofocus></textarea>  
@@ -37,6 +37,19 @@
     <div class="modal-footer">
       <button id="cancelBtn" class="btn">Cancel</a>
       <button id="transferBtn" class="btn btn-primary">Transfer</a>
+    </div>
+  </div>
+  <div id="transferWarn" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3 class="text-warning">Warning</h3>
+    </div>
+    <div class="modal-body">
+      <p>You are trying to transfer unencrypted content back to the mail provider.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+      <button class="btn btn-primary">Continue</button>
     </div>
   </div>
 </body>
