@@ -10028,7 +10028,7 @@ var EncryptFrame = EncryptFrame || (function() {
     this._emailUndoText;
     this._editorMode = prefs.security.editor_mode;
     this._editorType = prefs.general.editor_type;
-    this._options = {expanded: false};
+    this._options = {expanded: false, closeBtn: true};
   }
 
   encryptFrame.prototype = {
@@ -10073,11 +10073,17 @@ var EncryptFrame = EncryptFrame || (function() {
     _renderFrame: function(expanded) {
       var that = this;
       // create frame
-      var toolbar = '<a class="m-frame-close">×</a> \
-                     <button id="encryptBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-encrypt"></i></button> \
-                     <button id="undoBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-undo"></i></button> \
-                     <button id="editorBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-editor"></i></button> \
-                     ';
+      var toolbar = '';
+      if (this._options.closeBtn) {
+        toolbar = toolbar + '<a class="m-frame-close">×</a>';
+      } else {
+        toolbar = toolbar + '<span class="m-frame-fill-right"></span>';
+      }
+      toolbar = toolbar + '\
+                <button id="encryptBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-encrypt"></i></button> \
+                <button id="undoBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-undo"></i></button> \
+                <button id="editorBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-editor"></i></button> \
+                ';
       this._eFrame = $('<div/>', {
         id: 'eFrame-' + that.id,
         'class': 'm-encrypt-frame',

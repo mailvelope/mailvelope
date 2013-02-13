@@ -30,6 +30,10 @@
   var isDirty = false;
   // blur warning
   var blurWarn;
+  // timeoutID for period in which blur events are monitored
+  var blurWarnPeriod = null;
+  // timeoutID for period in which blur events are non-critical
+  var blurValid = null;
 
   function init() {
     var qs = jQuery.parseQuerystring();
@@ -39,8 +43,7 @@
     $('#transferBtn').click(onTransfer);
     // blur warning
     blurWarn = $('#blurWarn');
-    $(window).on('blur', onBlur);
-    $(window).on('focus', onFocus);
+    $(window).on('focus', startBlurValid);
     // create encrypt frame
     eFrame = new EncryptFrame({
       security: {
@@ -52,14 +55,15 @@
     });
     if (editor_type == mvelo.PLAIN_TEXT) {
       editor = createPlainText();
-      eFrame.attachTo($('#plainText'), {editor: editor});
-      editor.on('change', function() {
-        isDirty = true;
+      eFrame.attachTo($('#plainText'), {
+        editor: editor, 
+        closeBtn: false
       });
     } else {
       editor = createRichText();
       eFrame.attachTo($('iframe.wysihtml5-sandbox'), {
-        set_text: setRichText
+        set_text: setRichText,
+        closeBtn: false
       });
     }
     id = 'editor-' + eFrame.getID();
@@ -68,6 +72,8 @@
     port.postMessage({event: 'editor-init', sender: id});
     // transfer warning modal
     $('#transferWarn .btn-primary').click(transfer);
+    // observe modals for blur warning
+    $('.modal').on('shown', startBlurValid);
   }
 
   function onCancel() {
@@ -119,8 +125,9 @@
     var head = sandbox.contents().find('head');
     style.appendTo(head);
     sandbox.contents().find('body').append(text);
+    text.on('change', onChange);
+    text.on('input', startBlurWarnInterval)
     text.on('blur', onBlur);
-    text.on('focus', onFocus);
     return text;
   }
 
@@ -132,17 +139,14 @@
       color: true,
       parserRules: wysihtml5ParserRules,
       events: {
-        change: function() { 
-          isDirty = true;
-        },
-        blur: onBlur,
-        focus: onFocus
+        change: onChange,
+        blur: onBlur
       }
     });
-    // required to trigger focus if user clicks in non-editable area of text editor
-    $('iframe.wysihtml5-sandbox').contents().find('html').click(function() {
-      $(this).find('body').focus();
-    });
+    // if user clicks in non-editable area of text editor then next blur event is not considered as relevant
+    $('iframe.wysihtml5-sandbox').contents().find('html').on('mousedown', startBlurValid);
+    // each input event restarts the blur warning interval
+    $('iframe.wysihtml5-sandbox').contents().find('body').on('input', startBlurWarnInterval);
     return $('#richText');
   }
 
@@ -152,20 +156,63 @@
     isDirty = false;
   }
 
-  function onBlur() {
-    console.log('blur', this);
-    blurWarn.removeClass('hide')
-            .stop(true)
-            .animate({opacity: 1}, 'slow');
-    return false;
+  function onChange() {
+    // editor content modified
+    isDirty = true;
   }
 
-  function onFocus() {
-    console.log('focus', this);
-    blurWarn.stop(true)
-            .animate({opacity: 0}, 'fast', 'swing', function() {
-              blurWarn.addClass('hide');
-            });
+  function onBlur() {
+    /*
+    blur warning displayed if blur occurs:
+    - inside blur warning period (2s after input)
+    - not within 40ms after mousedown event (RTE)
+    - not within 40ms before focus event (window, modal)
+     */
+    if (blurWarnPeriod && !blurValid) {
+      setTimeout(showBlurWarning, 40);
+    }
+    return true;
+  }
+
+  function showBlurWarning() {
+    if (!blurValid) {
+      // fade in 600ms, wait 200ms, fade out 600ms
+      blurWarn.removeClass('hide')
+              .stop(true)
+              .animate({opacity: 1}, 'slow', 'swing', function() {
+                setTimeout(function () {
+                  blurWarn.animate({opacity: 0}, 'slow', 'swing', function() {
+                    blurWarn.addClass('hide');
+                  });
+                }, 200);
+              });
+    }
+  }
+
+  function startBlurWarnInterval() {
+    if (blurWarnPeriod) {
+      // clear timeout
+      window.clearTimeout(blurWarnPeriod);
+    }
+    // restart
+    blurWarnPeriod = window.setTimeout(function() {
+      // end
+      blurWarnPeriod = null;
+    }, 2000);
+    return true;
+  }
+
+  function startBlurValid() {
+    if (blurValid) {
+      // clear timeout
+      window.clearTimeout(blurValid);
+    }
+    // restart
+    blurValid = window.setTimeout(function() {
+      // end
+      blurValid = null;
+    }, 40);
+    return true;
   }
 
   function messageListener(msg) {
