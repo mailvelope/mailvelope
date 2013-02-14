@@ -10252,8 +10252,9 @@ var EncryptFrame = EncryptFrame || (function() {
                                         })
                            .end()
                            .html();
-      html = html.replace(/(<br>)/g,'\n'); // replace <br> with new line
-      html = html.replace(/<\/(div|p)>/g,'\n'); // replace </div> or </p> tags with new line
+      html = html.replace(/(<(br|ul|ol)>)/g,'\n'); // replace <br>,<ol>,<ul> with new line
+      html = html.replace(/<\/(div|p|li)>/g,'\n'); // replace </div>, </p> or </li> tags with new line
+      html = html.replace(/<li>/g,'- ');
       html = html.replace(/<(.+?)>/g,''); // remove tags
       html = html.replace(/\n{3,}/g, '\n\n'); // compress new line
       return $('<div/>').html(html).text(); // decode

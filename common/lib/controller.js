@@ -165,6 +165,7 @@ define(function (require, exports, module) {
         model.decryptMessage(dMessageBuffer[id], msg.password, function(err, msg) {
           pwdPort.postMessage({event: 'pwd-verification', error: err});
           if (!err) {
+            msg = mvelo.util.parseHTML(msg);
             dDialogPorts[id].postMessage({event: 'decrypted-message', message: msg});
           }
         });

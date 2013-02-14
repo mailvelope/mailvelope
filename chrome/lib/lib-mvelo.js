@@ -21,6 +21,8 @@ define(function(require, exports, module) {
 
   var mvelo = require('mvelo');
 
+  var wysihtml5 = require('wysihtml5');
+
   mvelo.getModel = function() {
     return model;
   }
@@ -149,6 +151,12 @@ define(function(require, exports, module) {
 
   mvelo.windows.BrowserWindow.prototype.activate = function() {
     chrome.windows.update(this._id, {focused: true});
+  }
+
+  mvelo.util = {};
+
+  mvelo.util.parseHTML = function(html) {
+    return wysihtml5.parse(html);
   }
 
   exports.mvelo = mvelo;

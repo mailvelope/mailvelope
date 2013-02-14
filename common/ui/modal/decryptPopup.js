@@ -68,8 +68,10 @@
       rel: 'stylesheet',
       href: '../../dep/css/bootstrap.min.css'
     });
+    var style2 = style.clone().attr('href', '../../dep/wysihtml5/css/wysihtml5.css');
     $('.modal-body').append(sandbox);
-    sandbox.contents().find('head').append(style);
+    sandbox.contents().find('head').append(style)
+                                   .append(style2);
     sandbox.contents().find('body').append(content);
   }
 
@@ -95,9 +97,8 @@
         showMessageArea();
         // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
         var message = msg.message.replace(/\n/g, '<br>');
-        var wrapper = $('<div/>').html($.parseHTML(message));
-        wrapper.find('a').attr('target', '_blank');
-        sandbox.contents().find('#content').append(wrapper.contents());
+        message = $.parseHTML(message);
+        sandbox.contents().find('#content').append(message);
         break;
       case 'show-pwd-dialog':
         addPwdDialog();

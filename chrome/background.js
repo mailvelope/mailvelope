@@ -19,7 +19,9 @@ requirejs.config({
   paths: {
     jquery: 'common/dep/jquery.min',
     openpgp: 'dep/openpgp',
-    mvelo: 'common/ui/inline/mvelo'
+    mvelo: 'common/ui/inline/mvelo',
+    parser_rules: 'common/dep/wysihtml5/js/advanced_parser_rules',
+    wysihtml5: 'common/dep/wysihtml5/js/wysihtml5-0.4.0pre'
   },
   shim: {
     'openpgp': {
@@ -31,6 +33,19 @@ requirejs.config({
     },
     'mvelo': {
         exports: 'mvelo'
+    },
+    'parser_rules': {
+        exports: 'wysihtml5ParserRules'
+    },
+    'wysihtml5': {
+        deps: ['parser_rules', 'jquery'],
+        exports: 'wysihtml5',
+        init: function() {
+          var element = $('<textarea/>').appendTo($('body'));
+          return new wysihtml5.Editor(element.get(0), {
+            parserRules:  wysihtml5ParserRules
+          });
+        }
     }
   }
 });

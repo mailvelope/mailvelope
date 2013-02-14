@@ -65,8 +65,10 @@
       rel: 'stylesheet',
       href: '../../../dep/css/bootstrap.min.css'
     });
+    var style2 = style.clone().attr('href', '../../../dep/wysihtml5/css/wysihtml5.css');
     $('#wrapper').append(sandbox);
-    sandbox.contents().find('head').append(style);
+    sandbox.contents().find('head').append(style)
+                                   .append(style2);
     sandbox.contents().find('body').css('background-color', 'rgba(0,0,0,0)');
     sandbox.contents().find('body').append(content);
 
@@ -89,9 +91,8 @@
         showMessageArea();
         // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
         var message = msg.message.replace(/\n/g, '<br>');
-        var wrap = $('<div/>').html($.parseHTML(message));
-        wrap.find('a').attr('target', '_blank');
-        $('#decryptmail').contents().find('#content').append(wrap.contents());
+        message = $.parseHTML(message);
+        $('#decryptmail').contents().find('#content').append(message);
         break;
       default:
         console.log('unknown event');
