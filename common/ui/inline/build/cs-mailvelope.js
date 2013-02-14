@@ -10264,8 +10264,9 @@ var EncryptFrame = EncryptFrame || (function() {
       var text;
       if (this._emailTextElement.is('textarea')) {
         text = this._emailTextElement.val();
-      } else {
+      } else { // html element
         var html = this._emailTextElement.html();
+        html = html.replace(/\n/g,''); // remove new lines
         if (type === 'text') {
           text = this._html2text(html);
         } else {
