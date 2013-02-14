@@ -205,8 +205,8 @@ define(function (require, exports, module) {
         }
         eDialogPorts[id].postMessage({event: 'encoding-defaults', defaults: defaultEncoding});
         break;
-      case 'editor-transfer-armored':
-        eFramePorts[msg.recipient].postMessage({event: 'set-armored-text', text: msg.data});
+      case 'editor-transfer-output':
+        eFramePorts[msg.recipient].postMessage({event: 'set-editor-output', text: msg.data});
         break;
       case 'eframe-display-editor':
         if (editor || mvelo.windows.modalActive) {

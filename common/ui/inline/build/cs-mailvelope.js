@@ -10274,6 +10274,9 @@ var EncryptFrame = EncryptFrame || (function() {
       return text;
     },
 
+    /**
+     * Save editor content for later undo
+     */
     _saveEmailText: function() {
       if (this._emailTextElement.is('textarea')) {
         this._emailUndoText = this._emailTextElement.val();
@@ -10307,21 +10310,25 @@ var EncryptFrame = EncryptFrame || (function() {
       return emails;
     },
 
-    _setEncryptedMessage: function(encryptedMsg) {
+    /**
+     * Replace content of editor element (_emailTextElement)
+     * @param {string} msg txt or html content
+     */
+    _setMessage: function(msg) {
       if (this._emailTextElement.is('textarea')) {
         if (this._editorType == mvelo.RICH_TEXT) {
-          encryptedMsg = this._html2text(encryptedMsg);
+          msg = this._html2text(msg);
         }
-        this._emailTextElement.val(encryptedMsg);
+        this._emailTextElement.val(msg);
       } else {
         // element is contenteditable or RTE
         if (this._editorType == mvelo.PLAIN_TEXT) {
-          encryptedMsg = encryptedMsg.replace(/\n/g,'<br>'); // replace new line with <br> 
+          msg = msg.replace(/\n/g,'<br>'); // replace new line with <br> 
         }
         if (this._options.set_text) {
-          this._options.set_text(encryptedMsg);
+          this._options.set_text(msg);
         } else {
-          this._emailTextElement.html(encryptedMsg);
+          this._emailTextElement.html(msg);
         }
       }
     },
@@ -10368,12 +10375,12 @@ var EncryptFrame = EncryptFrame || (function() {
           case 'encrypted-message':
               that._saveEmailText();
               that._removeDialog();
-              that._setEncryptedMessage(msg.message);
+              that._setMessage(msg.message);
             break;
-          case 'set-armored-text':
+          case 'set-editor-output':
             that._saveEmailText();
             that._normalizeButtons();
-            that._setEncryptedMessage(msg.text);
+            that._setMessage(msg.text);
             break;
           default:
             console.log('unknown event');

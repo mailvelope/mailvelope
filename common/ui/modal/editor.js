@@ -96,7 +96,7 @@
       armored = armored.replace(/\n/g,'');
     }
     port.postMessage({
-      event: 'editor-transfer-armored', 
+      event: 'editor-transfer-output', 
       data: armored,
       sender: id,
       recipient: parentID
