@@ -23,6 +23,7 @@
     loadPrefs();
     $('#general input').on('input change', function() {
       $('#general .form-actions button').removeAttr('disabled');
+      $('#genReloadInfo').hide();
     });
     $('#genBtnSave').click(onSave);
     $('#genBtnCancel').click(onCancel);
@@ -33,6 +34,7 @@
     prefs.general.editor_type = $('input:radio[name="editorRadios"]:checked').val();
     keyRing.sendMessage({ event: 'set-prefs', data: prefs }, function() {
       normalize();
+      $('#genReloadInfo').show();
     });
     return false;
   }
@@ -45,6 +47,7 @@
     $('#general .form-actions button').attr('disabled', 'disabled');
     $('#general .control-group').removeClass('error');
     $('#general .help-inline').addClass('hide');
+    $('#genReloadInfo').hide();
   }
 
   function onCancel() {

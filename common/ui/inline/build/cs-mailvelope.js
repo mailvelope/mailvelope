@@ -10316,15 +10316,15 @@ var EncryptFrame = EncryptFrame || (function() {
      * Replace content of editor element (_emailTextElement)
      * @param {string} msg txt or html content
      */
-    _setMessage: function(msg) {
+    _setMessage: function(msg, type) {
       if (this._emailTextElement.is('textarea')) {
-        if (this._editorType == mvelo.RICH_TEXT) {
+        if (type == 'html') {
           msg = this._html2text(msg);
         }
         this._emailTextElement.val(msg);
       } else {
         // element is contenteditable or RTE
-        if (this._editorType == mvelo.PLAIN_TEXT) {
+        if (type == 'text') {
           msg = msg.replace(/\n/g,'<br>'); // replace new line with <br> 
         }
         if (this._options.set_text) {
@@ -10377,12 +10377,12 @@ var EncryptFrame = EncryptFrame || (function() {
           case 'encrypted-message':
               that._saveEmailText();
               that._removeDialog();
-              that._setMessage(msg.message);
+              that._setMessage(msg.message, 'text');
             break;
           case 'set-editor-output':
             that._saveEmailText();
             that._normalizeButtons();
-            that._setMessage(msg.text);
+            that._setMessage(msg.text, this._editorType == mvelo.PLAIN_TEXT ? 'text' : 'html');
             break;
           default:
             console.log('unknown event');

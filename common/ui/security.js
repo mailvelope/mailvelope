@@ -23,19 +23,31 @@
     loadPrefs();
     $('#security input').on('input change', function() {
       $('#security .form-actions button').removeAttr('disabled');
+      $('#secReloadInfo').hide();
     });
+    $('input:radio[name="editorModeRadios"]').on('change', editorModeWarning);
     $('#secBtnSave').click(onSave);
     $('#secBtnCancel').click(onCancel);
+  }
+
+  function editorModeWarning() {
+    if ($('#editorModeRadios2').attr('checked')) {
+      $('#editorModeWarn').show();
+    } else {
+      $('#editorModeWarn').hide();
+    }
   }
 
   function onSave() {
     if (!validate()) return false;
     prefs.security.display_decrypted = $('input:radio[name="decryptRadios"]:checked').val();
+    prefs.security.editor_mode = $('input:radio[name="editorModeRadios"]:checked').val();
     prefs.security.secure_code = $('#secCode').val();
     prefs.security.secure_color = $('#secColor').val();
     keyRing.sendMessage({ event: 'set-prefs', data: prefs }, function() {
       keyRing.update();
       normalize();
+      $('#secReloadInfo').show();
     });
     return false;
   }
@@ -54,6 +66,7 @@
     $('#security .form-actions button').attr('disabled', 'disabled');
     $('#security .control-group').removeClass('error');
     $('#security .help-inline').addClass('hide');
+    $('#secReloadInfo').hide();
   }
 
   function onCancel() {
@@ -70,6 +83,10 @@
       }).attr('checked', 'checked');
       $('#secCode').val(prefs.security.secure_code);
       $('#secColor').val(prefs.security.secure_color);
+      $('input:radio[name="editorModeRadios"]').filter(function() {
+        return $(this).val() === prefs.security.editor_mode;
+      }).attr('checked', 'checked');
+      editorModeWarning();
     });
   }
 

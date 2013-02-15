@@ -35,6 +35,7 @@
     "common/img/mail_new.png",
     "common/ui/inline/framestyles.css",
     "common/ui/inline/dialogs/decryptInline.html",
+    "common/ui/inline/dialogs/encryptDialog.html",
     "common/dep/css/bootstrap.min.css",
     "common/dep/wysihtml5/css/wysihtml5.css"
   ],

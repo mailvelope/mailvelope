@@ -319,6 +319,26 @@
                     </div>
                   </div>
                 </div>
+                <div class="control-group">
+                  <label class="control-label"><strong>Where do you want to compose your mail?</strong></label>
+                  <div class="controls">
+                    <label class="radio">
+                      <input type="radio" name="editorModeRadios" id="editorModeRadios1" value="external">
+                      In a separate editor window from Mailvelope.</em>
+                    </label>
+                    <label class="radio">
+                      <input type="radio" name="editorModeRadios" id="editorModeRadios2" value="webmail">
+                      In the mail compose editor of the mail provider.
+                    </label>
+                    <div id="editorModeWarn" class="alert alert-error hide">
+                      <h4>Warning!</h4>
+                      This setting degrades the security level of Mailvelope. Your mail provider can potentially get access to your message. Privacy and integrity of your message can not be ensured.
+                    </div>
+                  </div>
+                </div>
+                <div id="secReloadInfo" class="alert alert-success hide">
+                  Please reload your mail provider tab (F5) to make these settings take effect.
+                </div>
                 <div class="form-actions">
                   <button id="secBtnSave" class="btn btn-primary" disabled>Save</button>
                   <button id="secBtnCancel" class="btn" disabled>Cancel</button>
@@ -340,6 +360,9 @@
                       Plain Text
                     </label>
                   </div>
+                </div>
+                <div id="genReloadInfo" class="alert alert-success hide">
+                  Please reload your mail provider tab (F5) to make these settings take effect.
                 </div>
                 <div class="form-actions">
                   <button id="genBtnSave" class="btn btn-primary" disabled>Save</button>
