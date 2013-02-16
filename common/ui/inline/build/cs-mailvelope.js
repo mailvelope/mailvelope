@@ -10027,6 +10027,7 @@ var EncryptFrame = EncryptFrame || (function() {
     this._emailTextElement;
     this._emailUndoText;
     this._editorMode = prefs.security.editor_mode;
+    // type of external editor
     this._editorType = prefs.general.editor_type;
     this._options = {expanded: false, closeBtn: true};
   }
@@ -10321,7 +10322,11 @@ var EncryptFrame = EncryptFrame || (function() {
         if (type == 'html') {
           msg = this._html2text(msg);
         }
-        this._emailTextElement.val(msg);
+        if (this._options.set_text) {
+          this._options.set_text(msg);
+        } else {
+          this._emailTextElement.val(msg);
+        }
       } else {
         // element is contenteditable or RTE
         if (type == 'text') {
@@ -10382,7 +10387,7 @@ var EncryptFrame = EncryptFrame || (function() {
           case 'set-editor-output':
             that._saveEmailText();
             that._normalizeButtons();
-            that._setMessage(msg.text, this._editorType == mvelo.PLAIN_TEXT ? 'text' : 'html');
+            that._setMessage(msg.text, that._editorType == mvelo.PLAIN_TEXT ? 'text' : 'html');
             break;
           default:
             console.log('unknown event');

@@ -57,7 +57,8 @@
       editor = createPlainText();
       eFrame.attachTo($('#plainText'), {
         editor: editor, 
-        closeBtn: false
+        closeBtn: false,
+        set_text: setPlainText
       });
     } else {
       editor = createRichText();
@@ -90,7 +91,7 @@
   }
 
   function transfer() {
-     //wysihtml5 <body> is automatically copied to the hidden <textarea>
+     // wysihtml5 <body> is automatically copied to the hidden <textarea>
     var armored = editor.val();
     if (editor_type == mvelo.RICH_TEXT) {
       armored = armored.replace(/\n/g,'');
@@ -151,8 +152,12 @@
   }
 
   function setRichText(text) {
-    text = text.replace(/\n/g,'<br>');
-    $('#richText').data("wysihtml5").editor.setValue(text, true);
+    editor.data("wysihtml5").editor.setValue(text, true);
+    isDirty = false;
+  }
+
+  function setPlainText(text) {
+    editor.val(text);
     isDirty = false;
   }
 
