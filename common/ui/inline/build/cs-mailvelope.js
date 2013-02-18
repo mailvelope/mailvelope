@@ -10321,6 +10321,9 @@ var EncryptFrame = EncryptFrame || (function() {
       if (this._emailTextElement.is('textarea')) {
         if (type == 'html') {
           msg = this._html2text(msg);
+        } else {
+          // type text but due previous HTML parsing we need to decode HTML entities
+          msg = $('<div/>').html(msg).text(); // decode
         }
         if (this._options.set_text) {
           this._options.set_text(msg);
