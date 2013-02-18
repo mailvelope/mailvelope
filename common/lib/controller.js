@@ -210,6 +210,11 @@ define(function (require, exports, module) {
         eDialogPorts[editor && editor.id || id].postMessage({event: 'encoding-defaults', defaults: defaultEncoding});
         break;
       case 'editor-transfer-output':
+        // sanitize if content from plain text, rich text already sanitized by editor
+        debugger;
+        if (prefs.general.editor_type == mvelo.PLAIN_TEXT) {
+          msg.data = mvelo.util.parseHTML(msg.data);
+        } 
         // editor transfers message to recipient encrypt frame
         eFramePorts[msg.recipient].postMessage({event: 'set-editor-output', text: msg.data});
         break;
