@@ -22,6 +22,7 @@ define(function (require, exports, module) {
   var defaults = require('common/lib/defaults');
   defaults.init();
   var prefs = model.getPreferences();
+  var pwdCache = require('common/lib/pwdCache');
 
   // ports to decrypt frames
   var dFramePorts = {};
@@ -130,7 +131,7 @@ define(function (require, exports, module) {
           dFramePorts[id].postMessage({event: 'remove-dialog'});
         } else {
           // open password dialog
-          mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true});
+          mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: false});
         }
         break;
       case 'decrypt-popup-init':
@@ -172,13 +173,13 @@ define(function (require, exports, module) {
         break;
       case 'encrypt-dialog-init':
         // send content
-        mvelo.data.load('common/ui/inline/dialogs/templates/encrypt.html', (function(id, content) {
+        mvelo.data.load('common/ui/inline/dialogs/templates/encrypt.html', function(content) {
           //console.log('content rendered', content);
           eDialogPorts[id].postMessage({event: 'encrypt-dialog-content', data: content}); 
           // get potential recipients from eFrame
           // if editor is active get recipients from parent eFrame
           eFramePorts[editor && editor.parent || id].postMessage({event: 'recipient-proposal'});
-        }).bind(undefined, id));
+        });
         break;
       case 'eframe-recipient-proposal':
         var emails = sortAndDeDup(msg.data);

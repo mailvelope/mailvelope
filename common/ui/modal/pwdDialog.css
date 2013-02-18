@@ -28,6 +28,18 @@
   margin-left: 80px;
 }
 
+.m-modal .form-horizontal .control-group {
+  margin-bottom: 15px;
+}
+
+#rememberGroup {
+  margin-bottom: 0;
+}
+
+.m-modal .form-horizontal {
+  margin-bottom: 0;
+}
+
 .busy {  
   cursor: wait !important;  
 }
@@ -67,8 +79,4 @@
   font-size: 14px;
   line-height: 20px;
   color: #555555;
-}
-
-#decryptmail {
-  display: none;
 }

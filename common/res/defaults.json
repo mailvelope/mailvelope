@@ -52,7 +52,9 @@
   "preferences": {
     "security": {
       "editor_mode": "external",
-      "display_decrypted": "inline"
+      "display_decrypted": "inline",
+      "password_timeout": 30
+
     },
     "general": {
       "editor_type": "rich"

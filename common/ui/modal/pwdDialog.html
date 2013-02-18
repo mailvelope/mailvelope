@@ -22,13 +22,13 @@
     </div>
     <div class="modal-body">
       <form class="well form-horizontal">
-        <div class="control-group" id="userIdGroup">
+        <div class="control-group">
           <label class="control-label">User ID:</label>
           <div class="controls">
             <span class="input-xlarge uneditable-input" id="userId"></span>  
           </div>
         </div>
-        <div class="control-group" id="keyIdGroup">
+        <div class="control-group">
           <label class="control-label">Key ID:</label>
           <div class="controls">
             <span class="input-medium uneditable-input" id="keyId"></span>
@@ -41,9 +41,15 @@
             <span class="help-inline hide">Wrong password</span>
           </div>
         </div>
+        <div class="control-group" id="rememberGroup">
+          <div class="controls">
+            <label class="checkbox">
+              <input id="remember" type="checkbox"> Remember password for this session
+            </label>
+          </div>
+        </div>
         <div id="decryptAlert"></div>
       </form>
-      <iframe id="decryptmail" sandbox="allow-same-origin" frameBorder="0"></iframe>
     </div>
     <div class="modal-footer">
       <button id="cancelBtn" class="btn">Cancel</button>

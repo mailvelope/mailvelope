@@ -159,6 +159,9 @@ define(function(require, exports, module) {
     return wysihtml5.parse(html);
   }
 
+  mvelo.util.setTimeout = window.setTimeout;
+  mvelo.util.clearTimeout = window.clearTimeout;
+
   exports.mvelo = mvelo;
 
 });
