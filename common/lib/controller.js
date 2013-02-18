@@ -176,13 +176,15 @@ define(function (require, exports, module) {
           //console.log('content rendered', content);
           eDialogPorts[id].postMessage({event: 'encrypt-dialog-content', data: content}); 
           // get potential recipients from eFrame
-          eFramePorts[id].postMessage({event: 'recipient-proposal'});
+          // if editor is active get recipients from parent eFrame
+          eFramePorts[editor && editor.parent || id].postMessage({event: 'recipient-proposal'});
         }).bind(undefined, id));
         break;
       case 'eframe-recipient-proposal':
         var emails = sortAndDeDup(msg.data);
         var keys = model.getKeyUserIDs(emails);
-        eDialogPorts[id].postMessage({event: 'public-key-userids', keys: keys});
+        // if editor is active send to corresponding eDialog
+        eDialogPorts[editor && editor.id || id].postMessage({event: 'public-key-userids', keys: keys});
         break;
       case 'encrypt-dialog-ok':
         // add recipients to buffer
@@ -204,9 +206,11 @@ define(function (require, exports, module) {
           defaultEncoding.type = 'html';
           defaultEncoding.editable = true;
         }
-        eDialogPorts[id].postMessage({event: 'encoding-defaults', defaults: defaultEncoding});
+        // if editor is active send to corresponding eDialog
+        eDialogPorts[editor && editor.id || id].postMessage({event: 'encoding-defaults', defaults: defaultEncoding});
         break;
       case 'editor-transfer-output':
+        // editor transfers message to recipient encrypt frame
         eFramePorts[msg.recipient].postMessage({event: 'set-editor-output', text: msg.data});
         break;
       case 'eframe-display-editor':
@@ -214,14 +218,20 @@ define(function (require, exports, module) {
           // editor or modal dialog already open
           editor.window.activate(); // focus
         } else {
+          // creater editor object
           editor = {};
+          // store text for transfer
           editor.text = msg.text;
+          // store id of parent eframe
+          editor.parent = id;
           mvelo.windows.openPopup('common/ui/modal/editor.html?parent=' + id + '&editor_type=' + prefs.general.editor_type, {width: 742, height: 450, modal: false}, function(window) {
             editor.window = window;
           }); 
         }
         break;
       case 'editor-init':
+        // store id of editor == eframe id == edialog id
+        editor.id = id;
         editor.port.postMessage({event: 'set-text', text: editor.text});
         break;
       default:
