@@ -39,9 +39,10 @@
   
   function onOk() {
     var pwd = $('#password').val();
+    var cache = $('#remember').attr('checked') == 'checked';
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
     $('#spinner').show();
-    port.postMessage({event: 'pwd-dialog-ok', sender: id, password: pwd});
+    port.postMessage({event: 'pwd-dialog-ok', sender: id, password: pwd, cache: cache});
     return false;
   }
   
@@ -70,6 +71,9 @@
           } else {
             $('#userId').text('Unknown');
             showError(undefined, 'No private key found for this message!');
+          }
+          if (msg.cache) {
+            $('#remember').attr('checked', 'checked');
           }
         }
         break;

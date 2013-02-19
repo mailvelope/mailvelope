@@ -17,45 +17,47 @@
 
 define(function (require, exports, module) {
 
-  var mvelo = require('lib/lib-mvelo').mvelo;
-  var model = mvelo.getModel();
+  var prefs = require('common/lib/prefs');
   
   // password cache
-  var cache = {};
+  var cache;
+  var active;
   // timeout in minutes
-  var timeout = getTimeout();
+  var timeout;
 
-  /**
-   * Get password timeout time
-   * @return {Number} time out in minutes
-   */
-  function getTimeout() {
-    if (timeout) {
-      return timeout;
-    } else {
-      var prefs = model.getPreferences();
-      return prefs.security.password_timeout;
-    }
+
+  init();
+
+  function init() {
+    active = prefs.data.security.password_cache;
+    timeout = prefs.data.security.password_timeout;
+    cache = {};
+    // register for updates
+    prefs.addUpdateHandler(update);
   }
 
-  /**
-   * Set timeout time, clear password cache
-   * @param {Number} m minutes
-   */
-  function setTimeout(m) {
-    var prefs = model.getPreferences();
-    prefs.security.password_timeout = m;
-    model.setPreferences(prefs);
+  function clearTimeouts() {
     // clear timeout functions
     for (var entry in cache) {
       if (cache.hasOwnProperty(entry)) {
         mvelo.util.clearTimeout(entry.timer);
       }
     }
-    // clear cache
-    cache = {};
-    // set new timeout
-    timeout = m;
+  }
+
+  function isActive() {
+    return active;
+  }
+
+  function update() {
+    if (active != prefs.data.security.password_cache 
+      || timeout != prefs.data.security.password_timeout) {
+      // init cache
+      clearTimeouts();
+      cache = {};
+      active = prefs.data.security.password_cache;
+      timeout = prefs.data.security.password_timeout;
+    }
   }
 
   /**
@@ -80,8 +82,7 @@ define(function (require, exports, module) {
     }, timeout * 60 * 1000);
   }
 
-  exports.getTimeout = getTimeout;
-  exports.setTimeout = setTimeout;
+  exports.isActive = isActive;
   exports.getPassword = getPassword;
   exports.setPassword = setPassword;
 

@@ -20,8 +20,7 @@ define(function (require, exports, module) {
   var mvelo = require('lib/lib-mvelo').mvelo;
   var model = mvelo.getModel();
   var defaults = require('common/lib/defaults');
-  defaults.init();
-  var prefs = model.getPreferences();
+  var prefs = require('common/lib/prefs');
   var pwdCache = require('common/lib/pwdCache');
 
   // ports to decrypt frames
@@ -131,7 +130,7 @@ define(function (require, exports, module) {
           dFramePorts[id].postMessage({event: 'remove-dialog'});
         } else {
           // open password dialog
-          mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: false});
+          mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true});
         }
         break;
       case 'decrypt-popup-init':
@@ -157,17 +156,21 @@ define(function (require, exports, module) {
           // add message in buffer
           dMessageBuffer[id] = message;
           // pass over keyid and userid to dialog
-          pwdPort.postMessage({event: 'message-userid', userid: message.userid, keyid: message.keyid});
+          pwdPort.postMessage({event: 'message-userid', userid: message.userid, keyid: message.keyid, cache: prefs.data.security.password_cache});
         } catch (e) {
           pwdPort.postMessage({event: 'message-userid', error: e});
         }
         break;
       case 'pwd-dialog-ok':
-        model.decryptMessage(dMessageBuffer[id], msg.password, function(err, msg) {
+        model.decryptMessage(dMessageBuffer[id], msg.password, function(err, message) {
           pwdPort.postMessage({event: 'pwd-verification', error: err});
           if (!err) {
-            msg = mvelo.util.parseHTML(msg);
-            dDialogPorts[id].postMessage({event: 'decrypted-message', message: msg});
+            if (msg.cache != prefs.data.security.password_cache) {
+              prefs.update({security: {password_cache: msg.cache}});
+            }
+            // sanitize message
+            message = mvelo.util.parseHTML(message);
+            dDialogPorts[id].postMessage({event: 'decrypted-message', message: message});
           }
         });
         break;
@@ -212,7 +215,7 @@ define(function (require, exports, module) {
         break;
       case 'editor-transfer-output':
         // sanitize if content from plain text, rich text already sanitized by editor
-        if (prefs.general.editor_type == mvelo.PLAIN_TEXT) {
+        if (prefs.data.general.editor_type == mvelo.PLAIN_TEXT) {
           msg.data = mvelo.util.parseHTML(msg.data);
         } 
         // editor transfers message to recipient encrypt frame
@@ -229,7 +232,7 @@ define(function (require, exports, module) {
           editor.text = msg.text;
           // store id of parent eframe
           editor.parent = id;
-          mvelo.windows.openPopup('common/ui/modal/editor.html?parent=' + id + '&editor_type=' + prefs.general.editor_type, {width: 742, height: 450, modal: false}, function(window) {
+          mvelo.windows.openPopup('common/ui/modal/editor.html?parent=' + id + '&editor_type=' + prefs.data.general.editor_type, {width: 742, height: 450, modal: false}, function(window) {
             editor.window = window;
           }); 
         }
@@ -283,15 +286,14 @@ define(function (require, exports, module) {
         mvelo.tabs.create(encodeURI(link));
         break;
       case 'get-prefs':
-        sendResponse(prefs);
+        sendResponse(prefs.data);
         break;
       case 'set-prefs':
-        prefs = request.message.data;
-        model.setPreferences(prefs);
+        prefs.update(request.message.data);
         sendResponse(true);
         break;
       case 'get-security-token':
-        sendResponse({code: prefs.security.secure_code, color: prefs.security.secure_color});
+        sendResponse({code: prefs.data.security.secure_code, color: prefs.data.security.secure_color});
         break;
       default:
         console.log('unknown event:', msg.event);

@@ -28,6 +28,8 @@ define(function (require, exports, module) {
     defaults = JSON.parse(defaults);
   }
 
+  init();
+
   function randomColor() {
     return '#'+('00000'+(Math.random()*(1<<24)|0).toString(16)).toUpperCase().slice(-6);
   }
@@ -52,7 +54,5 @@ define(function (require, exports, module) {
       model.setPreferences(defaults.preferences);
     }
   }
-
-  exports.init = init;
 
 });

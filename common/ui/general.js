@@ -16,8 +16,6 @@
  */
 
 (function() {
-
-  var prefs;
   
   function init() {
     loadPrefs();
@@ -31,8 +29,12 @@
 
   function onSave() {
     if (!validate()) return false;
-    prefs.general.editor_type = $('input:radio[name="editorRadios"]:checked').val();
-    keyRing.sendMessage({ event: 'set-prefs', data: prefs }, function() {
+    var update = {
+      general: {
+        editor_type: $('input:radio[name="editorRadios"]:checked').val()
+      }
+    }
+    keyRing.sendMessage({ event: 'set-prefs', data: update }, function() {
       normalize();
       $('#genReloadInfo').show();
     });
@@ -57,8 +59,7 @@
   }
 
   function loadPrefs() {
-    keyRing.viewModel('getPreferences', function(result) {
-      prefs = result;
+    keyRing.viewModel('getPreferences', function(prefs) {
       $('input:radio[name="editorRadios"]').filter(function() {
         return $(this).val() === prefs.general.editor_type;
       }).attr('checked', 'checked');

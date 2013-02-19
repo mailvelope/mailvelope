@@ -16,8 +16,6 @@
  */
 
 (function() {
-
-  var prefs;
   
   function init() {
     loadPrefs();
@@ -26,6 +24,7 @@
       $('#secReloadInfo').hide();
     });
     $('input:radio[name="editorModeRadios"]').on('change', editorModeWarning);
+    $('input:radio[name="pwdCacheRadios"]').on('change', toggleCacheTime);
     $('#secBtnSave').click(onSave);
     $('#secBtnCancel').click(onCancel);
   }
@@ -38,13 +37,27 @@
     }
   }
 
+  function toggleCacheTime() {
+    if ($('#pwdCacheRadios1').attr('checked')) {
+      $('#pwdCacheTime').removeAttr('disabled');
+    } else {
+      $('#pwdCacheTime').attr('disabled', 'disabled');
+    }
+  }
+
   function onSave() {
     if (!validate()) return false;
-    prefs.security.display_decrypted = $('input:radio[name="decryptRadios"]:checked').val();
-    prefs.security.editor_mode = $('input:radio[name="editorModeRadios"]:checked').val();
-    prefs.security.secure_code = $('#secCode').val();
-    prefs.security.secure_color = $('#secColor').val();
-    keyRing.sendMessage({ event: 'set-prefs', data: prefs }, function() {
+    var update = {
+      security: {
+        display_decrypted: $('input:radio[name="decryptRadios"]:checked').val(),
+        editor_mode: $('input:radio[name="editorModeRadios"]:checked').val(),
+        secure_code: $('#secCode').val(),
+        secure_color: $('#secColor').val(),
+        password_cache: $('input:radio[name="pwdCacheRadios"]:checked').val() === 'true',
+        password_timeout: $('#pwdCacheTime').val()
+      }
+    }
+    keyRing.sendMessage({ event: 'set-prefs', data: update }, function() {
       keyRing.update();
       normalize();
       $('#secReloadInfo').show();
@@ -53,11 +66,24 @@
   }
 
   function validate() {
+    // secure code has to be 3 characters
     var secCode = $('#secCode');
     if (secCode.val().length !== 3) {
       secCode.closest('.control-group').addClass('error');
       secCode.next().removeClass('hide');
       return false;
+    }
+    // password timeout betweet 1-999
+    if ($('input:radio[name="pwdCacheRadios"]:checked').val() === 'true') {
+      var pwdCacheTime = $('#pwdCacheTime');
+      var timeout = parseInt(pwdCacheTime.val());
+      if (timeout >= 1 && timeout <= 999) {
+        return true;
+      } else {
+        pwdCacheTime.closest('.control-group').addClass('error')
+                                              .find('span.help-inline').removeClass('hide');
+        return false;                                     
+      }
     }
     return true;
   }
@@ -76,8 +102,7 @@
   }
 
   function loadPrefs() {
-    keyRing.viewModel('getPreferences', function(result) {
-      prefs = result;
+    keyRing.viewModel('getPreferences', function(prefs) {
       $('input:radio[name="decryptRadios"]').filter(function() {
         return $(this).val() === prefs.security.display_decrypted;
       }).attr('checked', 'checked');
@@ -86,7 +111,12 @@
       $('input:radio[name="editorModeRadios"]').filter(function() {
         return $(this).val() === prefs.security.editor_mode;
       }).attr('checked', 'checked');
+      $('input:radio[name="pwdCacheRadios"]').filter(function() {
+        return $(this).val() === (prefs.security.password_cache ? 'true' : 'false');
+      }).attr('checked', 'checked');
+      $('#pwdCacheTime').val(prefs.security.password_timeout);
       editorModeWarning();
+      toggleCacheTime();
     });
   }
 

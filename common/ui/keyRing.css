@@ -130,7 +130,7 @@ body {
   margin-left: 300px;
 }
 
-#secCode {
+#secCode, #pwdCacheTime {
   font-family: monospace;
   width: 26px;
 }

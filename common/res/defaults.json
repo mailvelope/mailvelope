@@ -53,8 +53,8 @@
     "security": {
       "editor_mode": "external",
       "display_decrypted": "inline",
+      "password_cache": false,
       "password_timeout": 30
-
     },
     "general": {
       "editor_type": "rich"
