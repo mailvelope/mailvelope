@@ -36,6 +36,7 @@
       $('#watermark').html(token.code);
     });
     $(window).on('resize', resizeFont);
+    addErrorView();
   }
 
   function addWrapper() {
@@ -71,7 +72,15 @@
                                    .append(style2);
     sandbox.contents().find('body').css('background-color', 'rgba(0,0,0,0)');
     sandbox.contents().find('body').append(content);
+  }
 
+  function addErrorView() {
+    var errorbox = $('<div/>', {id: 'errorbox'});
+    $('<div/>', {id: 'errorwell', class: 'well span5'}).appendTo(errorbox);
+    errorbox.appendTo('body');
+    if ($('body').height() + 2 > mvelo.LARGE_FRAME) {
+      $('#errorbox').addClass('errorbox-large');  
+    }
   }
 
   function showMessageArea() {
@@ -79,6 +88,15 @@
     $('#wrapper').fadeIn();
     resizeFont();
   }
+
+  function showErrorMsg(msg) {
+    $('#errorbox').show();
+    $('#errorwell').showAlert('Error', msg, 'error')
+                   .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
+                   .find('button').click(function() {
+                     port.postMessage({event: 'decrypt-dialog-cancel', sender: id});
+                   });
+  } 
 
   function resizeFont() {
     watermark.css('font-size', Math.floor(Math.min(watermark.width() / 3, watermark.height())));
@@ -94,6 +112,8 @@
         message = $.parseHTML(message);
         $('#decryptmail').contents().find('#content').append(message);
         break;
+      case 'error-message':
+        showErrorMsg(msg.error);
       default:
         console.log('unknown event');
     }

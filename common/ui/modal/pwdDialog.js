@@ -62,34 +62,20 @@
     //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
       case 'message-userid':
-        if (msg.error) {
-          showError('Error', msg.error.message);
-        } else {
-          $('#keyId').text(msg.keyid);
-          if (msg.userid != '') {
-            $('#userId').text(msg.userid);
-          } else {
-            $('#userId').text('Unknown');
-            showError(undefined, 'No private key found for this message!');
-          }
-          if (msg.cache) {
-            $('#remember').attr('checked', 'checked');
-          }
+        $('#keyId').text(msg.keyid);
+        $('#userId').text(msg.userid);
+        if (msg.cache) {
+          $('#remember').attr('checked', 'checked');
         }
         break;
-      case 'pwd-verification':
+      case 'wrong-password':
         $('body').removeClass('busy');
         $('#spinner').hide();
-        if (msg.error) {
-          if (msg.error.type === 'wrong-password') {
-            $('#password').closest('.control-group').addClass('error')
-                          .end().next().removeClass('hide');
-          } else {
-            showError('Error', 'Could not decrypt this message');
-          }
-        } else {
-          window.close();
-        }
+        $('#password').closest('.control-group').addClass('error')
+                      .end().next().removeClass('hide');
+        break;
+      case 'correct-password':
+        window.close();
         break;
       default:
         console.log('unknown event');

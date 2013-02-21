@@ -159,8 +159,9 @@ define(function(require, exports, module) {
     return wysihtml5.parse(html);
   }
 
-  mvelo.util.setTimeout = window.setTimeout;
-  mvelo.util.clearTimeout = window.clearTimeout;
+  // must be bound to window, otherwise illegal invocation
+  mvelo.util.setTimeout = window.setTimeout.bind(window);
+  mvelo.util.clearTimeout = window.clearTimeout.bind(window);
 
   exports.mvelo = mvelo;
 

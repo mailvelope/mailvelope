@@ -45,10 +45,6 @@ define(function (require, exports, module) {
     }
   }
 
-  function isActive() {
-    return active;
-  }
-
   function update() {
     if (active != prefs.data.security.password_cache 
       || timeout != prefs.data.security.password_timeout) {
@@ -65,8 +61,12 @@ define(function (require, exports, module) {
    * @param  {String} keyid
    * @return {String} password
    */
-  function getPassword(keyid) {
-    return cache[keyid].password;
+  function get(keyid) {
+    if (active) {
+      if (cache[keyid]) {
+        return cache[keyid].password;
+      }
+    }
   }
 
   /**
@@ -74,7 +74,11 @@ define(function (require, exports, module) {
    * @param {String} keyid
    * @param {String} password
    */
-  function setPassword(keyid, password) {
+  function set(keyid, password) {
+    if (cache[keyid]) {
+      // clear timer if entry already exists
+      mvelo.util.clearTimeout(cache[keyid].timer);
+    }
     cache[keyid] = {password: password};
     // clear after timeout
     cache[keyid].timer = mvelo.util.setTimeout(function() {
@@ -82,8 +86,7 @@ define(function (require, exports, module) {
     }, timeout * 60 * 1000);
   }
 
-  exports.isActive = isActive;
-  exports.getPassword = getPassword;
-  exports.setPassword = setPassword;
+  exports.get = get;
+  exports.set = set;
 
 });

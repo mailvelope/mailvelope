@@ -129,16 +129,17 @@ define(function (require, exports, module) {
           // password dialog or modal dialog already open
           dFramePorts[id].postMessage({event: 'remove-dialog'});
         } else {
-          // open password dialog
-          mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true});
+          // get armored message from dFrame
+          dFramePorts[id].postMessage({event: 'armored-message'});  
         }
         break;
       case 'decrypt-popup-init':
-        dDialogPorts[id].postMessage({event: 'show-pwd-dialog'});
-        break;
-      case 'pwd-dialog-init':
         // get armored message from dFrame
         dFramePorts[id].postMessage({event: 'armored-message'});
+        break;
+      case 'pwd-dialog-init':
+        // pass over keyid and userid to dialog
+        pwdPort.postMessage({event: 'message-userid', userid: dMessageBuffer[id].userid, keyid: dMessageBuffer[id].keyid, cache: prefs.data.security.password_cache});
         break;
       case 'dframe-display-popup':
         // decrypt popup potentially needs pwd dialog
@@ -150,26 +151,60 @@ define(function (require, exports, module) {
         }
         break;
       case 'dframe-armored-message':
-        var message;
         try {
-          message = model.readMessage(msg.data);
+          var message = model.readMessage(msg.data);
           // add message in buffer
           dMessageBuffer[id] = message;
-          // pass over keyid and userid to dialog
-          pwdPort.postMessage({event: 'message-userid', userid: message.userid, keyid: message.keyid, cache: prefs.data.security.password_cache});
+          // password in cache?
+          var pwd = pwdCache.get(message.keyid);
+          if (!pwd) {
+            // open password dialog
+            if (prefs.data.security.display_decrypted == mvelo.DISPLAY_INLINE) {
+              mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true});
+            } else if (prefs.data.security.display_decrypted == mvelo.DISPLAY_POPUP) {
+              dDialogPorts[id].postMessage({event: 'show-pwd-dialog'});
+            }
+          } else {
+            model.decryptMessage(dMessageBuffer[id], pwd, function(err, message) {
+              if (err) {
+                // display error message in decrypt dialog
+                dDialogPorts[id].postMessage({event: 'error-message', error: err.message});
+              } else {
+                // decrypted correctly
+                message = mvelo.util.parseHTML(message); // sanitize message
+                dDialogPorts[id].postMessage({event: 'decrypted-message', message: message});
+              }
+            });
+          }
         } catch (e) {
-          pwdPort.postMessage({event: 'message-userid', error: e});
+          // display error message in decrypt dialog
+          dDialogPorts[id].postMessage({event: 'error-message', error: e.message});
         }
         break;
       case 'pwd-dialog-ok':
         model.decryptMessage(dMessageBuffer[id], msg.password, function(err, message) {
-          pwdPort.postMessage({event: 'pwd-verification', error: err});
-          if (!err) {
+          if (err) {
+            if (err.type === 'wrong-password') {
+              pwdPort.postMessage({event: 'wrong-password'});
+            } else {
+              pwdPort.postMessage({event: 'correct-password'});
+              // display error message in decrypt dialog
+              dDialogPorts[id].postMessage({event: 'error-message', error: err.message});
+            }
+          } else {
+            // decrypted correctly
             if (msg.cache != prefs.data.security.password_cache) {
+              // update pwd cache status
               prefs.update({security: {password_cache: msg.cache}});
+            }
+            if (msg.cache) {
+              // set password in cache
+              pwdCache.set(dMessageBuffer[id].keyid, msg.password);
             }
             // sanitize message
             message = mvelo.util.parseHTML(message);
+            // close pwd dialog
+            pwdPort.postMessage({event: 'correct-password'});
             dDialogPorts[id].postMessage({event: 'decrypted-message', message: message});
           }
         });

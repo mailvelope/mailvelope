@@ -359,19 +359,35 @@ define(function(require, exports, module) {
     } else {
       // unknown private key
       result.keyid = util.hexstrdump(result.message.sessionKeys[0].keyId.bytes).toUpperCase();
+      var message = 'No private key found for this message. Required private key IDs: ' + result.keyid;
+      for (var i = 1; i < result.message.sessionKeys.length; i++) {
+        message = message + ' or ' + util.hexstrdump(result.message.sessionKeys[i].keyId.bytes).toUpperCase();
+      }
+      throw {
+        type: 'error',
+        message: message,
+        keyid: result.keyid
+      }
     }
     return result;
   }
 
   function decryptMessage(message, passwd, callback) {
-    if (message.keymat.keymaterial.decryptSecretMPIs(passwd)) {
-      var decryptedMsg = message.message.decrypt(message.keymat, message.sesskey);
-      decryptedMsg = decode_utf8(decryptedMsg);
-      callback(null, decryptedMsg);
-    } else {
+    try {
+      if (message.keymat.keymaterial.decryptSecretMPIs(passwd)) {
+        var decryptedMsg = message.message.decrypt(message.keymat, message.sesskey);
+        decryptedMsg = decode_utf8(decryptedMsg);
+        callback(null, decryptedMsg);
+      } else {
+        callback({
+          type: 'wrong-password',
+          message: 'Wrong password'
+        });
+      }
+    } catch (e) {
       callback({
-        type: 'wrong-password',
-        message: 'Wrong password'
+        type: 'error',
+        message: 'Could not decrypt this message'
       });
     }
   }
@@ -448,5 +464,5 @@ define(function(require, exports, module) {
 
 // implementation of this function required by openpgp.js
 function showMessages(text) {
-  console.log($(text).text());
+  //console.log($(text).text());
 }

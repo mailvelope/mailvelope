@@ -73,6 +73,20 @@
   left: 0;
 }
 
+#errorbox {
+  display: none;
+  background-color: rgba(254,251,243,.7);
+  position: absolute;
+  top: 45%;
+  padding: 20px 20px 0 20px;
+  margin-left: 110px;
+  margin-top: -70px;
+}
+
+#errorwell {
+  margin-left: 0;
+}
+
 #secureCode {
   float: right;
   padding: 4px 14px;

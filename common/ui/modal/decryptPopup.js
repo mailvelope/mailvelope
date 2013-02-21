@@ -35,6 +35,7 @@
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'decrypt-popup-init', sender: name});
     addSandbox();
+    addErrorView();
     $(window).unload(onClose);
     $('#closeBtn').click(onClose);
     $('#copyBtn').click(onCopy);
@@ -85,9 +86,27 @@
   }
 
   function showMessageArea() {
-    pwd.fadeOut(function() {
+    if (pwd) {
+      pwd.fadeOut(function() {
+        $('#decryptmail').fadeIn();
+      });
+    } else {
       $('#decryptmail').fadeIn();
-    });
+    }
+  }
+
+  function addErrorView() {
+    var errorbox = $('<div/>', {id: 'errorbox'});
+    $('<div/>', {id: 'errorwell', class: 'well span5'}).appendTo(errorbox);
+    $('.modal-body').append(errorbox);
+  }
+
+  function showError(msg) {
+    showMessageArea();
+    // hide sandbox
+    $('.modal-body iframe').hide();
+    $('#errorbox').show();
+    $('#errorwell').showAlert('Error', msg, 'error');
   }
   
   function messageListener(msg) {
@@ -102,6 +121,9 @@
         break;
       case 'show-pwd-dialog':
         addPwdDialog();
+        break;
+      case 'error-message':
+        showError(msg.error);
         break;
       default:
         console.log('unknown event');
