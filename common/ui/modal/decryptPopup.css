@@ -3,6 +3,10 @@
  * Copyright (C) 2012  Thomas Oberndörfer
  */
 
+html, body {
+  height: 100%;
+}
+
 .busy {  
   cursor: wait !important;  
 }
@@ -85,6 +89,12 @@
 
 #errorwell {
   margin-left: 0;
+}
+
+.spinner {
+  background-image: url('chrome-extension://__MSG_@@extension_id__/common/dep/kendoui/styles/Default/loading-image.gif');      
+  background-repeat: no-repeat;      
+  background-position: center;
 }
 
 #secureCode {

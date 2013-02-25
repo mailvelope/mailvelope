@@ -61,3 +61,13 @@ html, body {
 #errorwell {
   margin-left: 0;
 }
+
+.spinner {
+  background-image: url('chrome-extension://__MSG_@@extension_id__/common/dep/kendoui/styles/Default/loading-image.gif');      
+  background-repeat: no-repeat;      
+  background-position: center;
+}
+
+.spinner-large {
+  background-position: center 160px;
+}

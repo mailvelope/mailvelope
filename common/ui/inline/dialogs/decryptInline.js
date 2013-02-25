@@ -21,9 +21,9 @@
   // shares ID with DecryptFrame
   var id;
   var watermark;
+  var spinnerTimer;
   
   function init() {
-    //console.log('decryptDialog init');
     var qs = jQuery.parseQuerystring();
     id = 'dDialog-' + qs['id'];
     // open port to background page
@@ -37,6 +37,15 @@
     });
     $(window).on('resize', resizeFont);
     addErrorView();
+    // show spinner
+    spinnerTimer = setTimeout(showSpinner, 600);
+  }
+
+  function showSpinner() {
+    $('body').addClass('spinner');
+    if ($('body').height() + 2 > mvelo.LARGE_FRAME) {
+      $('body').addClass('spinner-large');  
+    }
   }
 
   function addWrapper() {
@@ -90,6 +99,8 @@
   }
 
   function showErrorMsg(msg) {
+    $('body').removeClass('spinner');
+    clearTimeout(spinnerTimer);
     $('#errorbox').show();
     $('#errorwell').showAlert('Error', msg, 'error')
                    .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))

@@ -19,8 +19,9 @@ define(function (require, exports, module) {
 
   var prefs = require('common/lib/prefs');
   
-  // password cache
+  // password and key cache
   var cache;
+  // caching active
   var active;
   // timeout in minutes
   var timeout;
@@ -57,33 +58,47 @@ define(function (require, exports, module) {
   }
 
   /**
-   * Get password from cache
-   * @param  {String} keyid
-   * @return {String} password
+   * Get password and unlocked key from cache
+   * @param  {String} primkeyid primary key id
+   * @param  {String} keyid     requested unlocked key
+   * @return {Object}           password of key, if available unlocked key for keyid
    */
-  function get(keyid) {
+  function get(primkeyid, keyid) {
     if (active) {
-      if (cache[keyid]) {
-        return cache[keyid].password;
+      if (cache[primkeyid]) {
+        return {
+          password: cache[primkeyid].password,
+          key: cache[primkeyid][keyid]
+        }
       }
     }
   }
 
   /**
-   * Set password in cache, start timeout
-   * @param {String} keyid
-   * @param {String} password
+   * Set key and password in cache, start timeout
+   * @param {Object} message
+   *                   primkeyid: key ID of the primary key
+   *                   keyid: key ID of key that should be cached
+   *                   privkey: private key packet of keyid, expected unlocked
+   * @param {String} pwd     password, optional
    */
-  function set(keyid, password) {
-    if (cache[keyid]) {
-      // clear timer if entry already exists
-      mvelo.util.clearTimeout(cache[keyid].timer);
+  function set(message, pwd) {
+    // primary key id is main key of cache
+    var entry = cache[message.primkeyid]; 
+    if (entry) {
+      // set unlocked private key for this keyid
+      if (!entry[message.keyid]) {
+        entry[message.keyid] = message.privkey;
+      }
+    } else {
+      var newEntry = cache[message.primkeyid] = {};
+      newEntry.password = pwd;
+      newEntry[message.keyid] = message.privkey;
+      // clear after timeout
+      newEntry.timer = mvelo.util.setTimeout(function() {
+        delete cache[message.primkeyid];
+      }, timeout * 60 * 1000);
     }
-    cache[keyid] = {password: password};
-    // clear after timeout
-    cache[keyid].timer = mvelo.util.setTimeout(function() {
-      delete cache[keyid];
-    }, timeout * 60 * 1000);
   }
 
   exports.get = get;

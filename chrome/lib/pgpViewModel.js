@@ -332,30 +332,35 @@ define(function(require, exports, module) {
         message: 'Could not read this encrypted message'
       }
     }
-    result.keymat = null;
+    result.privkey = null;
     result.sesskey = null;
     result.userid = '';
     result.keyid = '';
+    result.primkeyid = '';
+    var primarykey;
     // Find the private (sub)key for the session key of the message
-    for (var i = 0; i < result.message.sessionKeys.length; i++) {
+    outer: for (var i = 0; i < result.message.sessionKeys.length; i++) {
       for (var j = 0; j < openpgp.keyring.privateKeys.length; j++) {
         if (openpgp.keyring.privateKeys[j].obj.privateKeyPacket.publicKey.getKeyId() == result.message.sessionKeys[i].keyId.bytes) {
-          result.keymat = { key: openpgp.keyring.privateKeys[j].obj, keymaterial: openpgp.keyring.privateKeys[j].obj.privateKeyPacket};
+          result.privkey = { keymaterial: openpgp.keyring.privateKeys[j].obj.privateKeyPacket };
           result.sesskey = result.message.sessionKeys[i];
-          break;
+          primarykey = openpgp.keyring.privateKeys[j].obj;
+          break outer;
         }
         for (var k = 0; k < openpgp.keyring.privateKeys[j].obj.subKeys.length; k++) {
           if (openpgp.keyring.privateKeys[j].obj.subKeys[k].publicKey.getKeyId() == result.message.sessionKeys[i].keyId.bytes) {
-            result.keymat = { key: openpgp.keyring.privateKeys[j].obj, keymaterial: openpgp.keyring.privateKeys[j].obj.subKeys[k]};
+            result.privkey = { keymaterial: openpgp.keyring.privateKeys[j].obj.subKeys[k] };
             result.sesskey = result.message.sessionKeys[i];
-            break;
+            primarykey = openpgp.keyring.privateKeys[j].obj;
+            break outer;
           }
         }
       }
     }
-    if (result.keymat != null) {
-      result.userid = decode_utf8(result.keymat.key.userIds[0].text);
-      result.keyid = util.hexstrdump(result.keymat.key.getKeyId()).toUpperCase();
+    if (result.privkey != null) {
+      result.userid = decode_utf8(primarykey.userIds[0].text);
+      result.primkeyid = util.hexstrdump(primarykey.getKeyId()).toUpperCase(); 
+      result.keyid = util.hexstrdump(result.privkey.keymaterial.publicKey.getKeyId()).toUpperCase();
     } else {
       // unknown private key
       result.keyid = util.hexstrdump(result.message.sessionKeys[0].keyId.bytes).toUpperCase();
@@ -372,18 +377,22 @@ define(function(require, exports, module) {
     return result;
   }
 
-  function decryptMessage(message, passwd, callback) {
+  function unlockKey(privkey, passwd) {
     try {
-      if (message.keymat.keymaterial.decryptSecretMPIs(passwd)) {
-        var decryptedMsg = message.message.decrypt(message.keymat, message.sesskey);
-        decryptedMsg = decode_utf8(decryptedMsg);
-        callback(null, decryptedMsg);
-      } else {
-        callback({
-          type: 'wrong-password',
-          message: 'Wrong password'
-        });
+      return privkey.keymaterial.decryptSecretMPIs(passwd);
+    } catch (e) {
+      throw {
+        type: 'error',
+        message: 'Could not unlock the private key'
       }
+    }
+  }
+
+  function decryptMessage(message, callback) {
+    try {
+      var decryptedMsg = message.message.decrypt(message.privkey, message.sesskey);
+      decryptedMsg = decode_utf8(decryptedMsg);
+      callback(null, decryptedMsg);
     } catch (e) {
       callback({
         type: 'error',
@@ -442,6 +451,7 @@ define(function(require, exports, module) {
   exports.generateKey = generateKey;
   exports.readMessage = readMessage;
   exports.decryptMessage = decryptMessage;
+  exports.unlockKey = unlockKey;
   exports.encryptMessage = encryptMessage;
   exports.getWatchList = getWatchList;
   exports.setWatchList = setWatchList;

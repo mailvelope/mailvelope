@@ -139,7 +139,7 @@ define(function (require, exports, module) {
         break;
       case 'pwd-dialog-init':
         // pass over keyid and userid to dialog
-        pwdPort.postMessage({event: 'message-userid', userid: dMessageBuffer[id].userid, keyid: dMessageBuffer[id].keyid, cache: prefs.data.security.password_cache});
+        pwdPort.postMessage({event: 'message-userid', userid: dMessageBuffer[id].userid, keyid: dMessageBuffer[id].primkeyid, cache: prefs.data.security.password_cache});
         break;
       case 'dframe-display-popup':
         // decrypt popup potentially needs pwd dialog
@@ -153,11 +153,11 @@ define(function (require, exports, module) {
       case 'dframe-armored-message':
         try {
           var message = model.readMessage(msg.data);
-          // add message in buffer
-          dMessageBuffer[id] = message;
-          // password in cache?
-          var pwd = pwdCache.get(message.keyid);
-          if (!pwd) {
+          // password or unlocked key in cache?
+          var cache = pwdCache.get(message.primkeyid, message.keyid);
+          if (!cache) {
+            // add message in buffer
+            dMessageBuffer[id] = message;
             // open password dialog
             if (prefs.data.security.display_decrypted == mvelo.DISPLAY_INLINE) {
               mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true});
@@ -165,16 +165,22 @@ define(function (require, exports, module) {
               dDialogPorts[id].postMessage({event: 'show-pwd-dialog'});
             }
           } else {
-            model.decryptMessage(dMessageBuffer[id], pwd, function(err, message) {
-              if (err) {
-                // display error message in decrypt dialog
-                dDialogPorts[id].postMessage({event: 'error-message', error: err.message});
-              } else {
-                // decrypted correctly
-                message = mvelo.util.parseHTML(message); // sanitize message
-                dDialogPorts[id].postMessage({event: 'decrypted-message', message: message});
+            if (!cache.key) {
+              // unlock key
+              var unlocked = model.unlockKey(message.privkey, cache.password);
+              if (!unlocked) {
+                throw {
+                  type: 'error',
+                  message: 'Password caching does not support different passphrases for primary key and subkeys'
+                }
               }
-            });
+              // set unlocked key in cache
+              pwdCache.set(message);
+            } else {
+              // take unlocked key from cache
+              message.privkey = cache.key;
+            }
+            decryptMessage(message, id);
           }
         } catch (e) {
           // display error message in decrypt dialog
@@ -182,32 +188,28 @@ define(function (require, exports, module) {
         }
         break;
       case 'pwd-dialog-ok':
-        model.decryptMessage(dMessageBuffer[id], msg.password, function(err, message) {
-          if (err) {
-            if (err.type === 'wrong-password') {
-              pwdPort.postMessage({event: 'wrong-password'});
-            } else {
-              pwdPort.postMessage({event: 'correct-password'});
-              // display error message in decrypt dialog
-              dDialogPorts[id].postMessage({event: 'error-message', error: err.message});
-            }
-          } else {
-            // decrypted correctly
+        var message = dMessageBuffer[id];
+        try {
+          if (model.unlockKey(message.privkey, msg.password)) {
+            // password correct
             if (msg.cache != prefs.data.security.password_cache) {
               // update pwd cache status
               prefs.update({security: {password_cache: msg.cache}});
             }
             if (msg.cache) {
-              // set password in cache
-              pwdCache.set(dMessageBuffer[id].keyid, msg.password);
+              // set unlocked key and password in cache
+              pwdCache.set(message, msg.password);
             }
-            // sanitize message
-            message = mvelo.util.parseHTML(message);
-            // close pwd dialog
             pwdPort.postMessage({event: 'correct-password'});
-            dDialogPorts[id].postMessage({event: 'decrypted-message', message: message});
+            decryptMessage(message, id);
+          } else {
+            // password wrong
+            pwdPort.postMessage({event: 'wrong-password'});
           }
-        });
+        } catch (e) {
+          // display error message in decrypt dialog
+          dDialogPorts[id].postMessage({event: 'error-message', error: e.message});
+        }
         break;
       case 'encrypt-dialog-init':
         // send content
@@ -333,6 +335,19 @@ define(function (require, exports, module) {
       default:
         console.log('unknown event:', msg.event);
     }
+  }
+
+  function decryptMessage(message, id) {
+    model.decryptMessage(message, function(err, msgText) {
+      if (err) {
+        // display error message in decrypt dialog
+        dDialogPorts[id].postMessage({event: 'error-message', error: err.message});
+      } else {
+        // decrypted correctly
+        msgText = mvelo.util.parseHTML(msgText); // sanitize message
+        dDialogPorts[id].postMessage({event: 'decrypted-message', message: msgText});
+      }
+    });
   }
 
   function removePortByRef(port) {

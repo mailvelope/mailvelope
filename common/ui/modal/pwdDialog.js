@@ -42,6 +42,7 @@
     var cache = $('#remember').attr('checked') == 'checked';
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
     $('#spinner').show();
+    $('.modal-body').css('opacity', '0.4');
     port.postMessage({event: 'pwd-dialog-ok', sender: id, password: pwd, cache: cache});
     return false;
   }
@@ -71,6 +72,7 @@
       case 'wrong-password':
         $('body').removeClass('busy');
         $('#spinner').hide();
+        $('.modal-body').css('opacity', '1');
         $('#password').closest('.control-group').addClass('error')
                       .end().next().removeClass('hide');
         break;

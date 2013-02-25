@@ -26,7 +26,6 @@
   var pwd, sandbox;
   
   function init() {
-    //console.log('decryptDialog init');
     var qs = jQuery.parseQuerystring();
     id = qs['id'];
     name = 'dDialog-' + id
@@ -39,6 +38,7 @@
     $(window).unload(onClose);
     $('#closeBtn').click(onClose);
     $('#copyBtn').click(onCopy);
+    $('body').addClass('spinner');
   }
 
   function onClose() {
@@ -110,7 +110,8 @@
   }
   
   function messageListener(msg) {
-    //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
+    // remove spinner for all events
+    $('body').removeClass('spinner');
     switch (msg.event) {
       case 'decrypted-message':
         showMessageArea();
