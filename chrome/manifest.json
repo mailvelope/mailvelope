@@ -21,7 +21,7 @@
   "options_page": "options.html",
   "permissions": [
     "tabs",
-    "contextMenus",
+    //"contextMenus",
     "webRequest",
     "*://*/*",
     "clipboardWrite"

@@ -28,7 +28,7 @@
     getPrefs();
     initScanInterval(interval);
     addMessageListener();
-    initContextMenu();
+    //initContextMenu();
   }
 
   function initScanInterval(interval) {

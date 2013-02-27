@@ -67,7 +67,7 @@ define(["common/lib/controller", "lib/pgpViewModel", "openpgp", "jquery"], funct
     controller.extend({initScriptInjection: initScriptInjection});
     migrate();
     initConnectionManager();
-    initContextMenu();
+    //initContextMenu();
     initScriptInjection();
     initMessageListener();
   }
