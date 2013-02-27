@@ -159,9 +159,11 @@ define(function(require, exports, module) {
   function getKeyUserIDs(proposal) {
     var result = [];
     openpgp.keyring.publicKeys.forEach(function(publicKey) {
-      var key = {};
-      mapKeyUserIds(publicKey.obj, key, proposal)
-      result.push(key);
+      if (publicKey.obj.verifyBasicSignatures()) {
+        var key = {};
+        mapKeyUserIds(publicKey.obj, key, proposal)
+        result.push(key);
+      }
     });
     result = result.sort(function(a, b) {
       return a.userid.localeCompare(b.userid);
@@ -400,7 +402,7 @@ define(function(require, exports, module) {
       });
     }
   }
-
+/*
   function encryptMessage(message, keyids, callback) {
     var keyObj = [];
     message = encode_utf8(message);
@@ -420,6 +422,37 @@ define(function(require, exports, module) {
       if (keyids.length === 0) break;
     }
     callback(null, openpgp.write_encrypted_message(keyObj, message));
+  }
+*/
+  function encryptMessage(message, keyids, callback) {
+    var keyObj = [];
+    // map keyids
+    keyids = keyids.map(function(keystr) {
+      return util.hex2bin(keystr);
+    });
+    // get public key objects for keyids
+    for (var i = 0; i < keyids.length; i++) {
+      var pubkey = openpgp.keyring.getPublicKeysForKeyId(keyids[i])[0];
+      if (pubkey) {
+        keyObj.push(pubkey.obj);
+      }
+    } 
+    if (keyObj.length == 0) {
+      callback({
+        type: 'error',
+        message: 'No valid key found for enryption'
+      });
+    }
+    message = encode_utf8(message);
+    try {
+      var encrypted = openpgp.write_encrypted_message(keyObj, message);
+      callback(null, encrypted);
+    } catch (e) {
+      callback({
+        type: 'error',
+        message: 'Could not encrypt this message'
+      });
+    }
   }
 
   function getWatchList() {
