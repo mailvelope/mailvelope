@@ -188,7 +188,7 @@ var EncryptFrame = EncryptFrame || (function() {
       } else {
         this._eFrame.css('top', editElementPos.top + 2);
         this._eFrame.css('left', editElementPos.left + 2);
-        this._eFrame.width(editElementWidth - 15);
+        this._eFrame.width(editElementWidth - 20);
         this._eFrame.height(this._editElement.height() - 4);
       }
     },
@@ -196,7 +196,7 @@ var EncryptFrame = EncryptFrame || (function() {
     _showDialog: function() {
       var that = this;
       this._eDialog = $('<iframe/>', {
-        id: 'eDialog' + that.id,
+        id: 'eDialog-' + that.id,
         'class': 'm-frame-dialog',
         frameBorder: 0, 
         scrolling: 'no'

@@ -83,6 +83,7 @@
       return element.parent().is(':visible')
              // no elements within editable elements
              && element.parents('[contenteditable], textarea').length === 0
+             && this.ownerDocument.designMode !== 'on'
              && !element.parent().is('body');
     });
 
