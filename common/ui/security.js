@@ -27,6 +27,7 @@
     $('input:radio[name="pwdCacheRadios"]').on('change', toggleCacheTime);
     $('#secBtnSave').click(onSave);
     $('#secBtnCancel').click(onCancel);
+    $('#secTokenInfo').popover();
   }
 
   function editorModeWarning() {

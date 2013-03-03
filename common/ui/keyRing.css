@@ -158,3 +158,6 @@ body {
   display: none;
 }
 
+#secTokenInfo {
+  float: right;
+}

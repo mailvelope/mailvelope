@@ -116,7 +116,8 @@
       css: {
         width: '100%',
         height: '100%',
-        'margin-bottom': 0
+        'margin-bottom': 0,
+        color: 'black'
       }
     });
     var style = $('<link/>', {
