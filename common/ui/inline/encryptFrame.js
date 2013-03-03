@@ -53,7 +53,7 @@ var EncryptFrame = EncryptFrame || (function() {
       return this.id;
     },
     
-    _init: function(element, editor) {
+    _init: function(element) {
       this._editElement = element;
       this._emailTextElement = this._options.editor || ( this._editElement.is('iframe') ? this._editElement.contents().find('body') : this._editElement );
       // inject style if we have a non-body editable element inside a dynamic iframe
@@ -378,9 +378,9 @@ var EncryptFrame = EncryptFrame || (function() {
                 sender: 'eFrame-' + that.id
               });
             that._port.postMessage({
-                event: 'eframe-textarea-element', 
-                data: that._emailTextElement.is('textarea'),
-                sender: 'eFrame-' + that.id
+              event: 'eframe-textarea-element', 
+              data: that._emailTextElement.is('textarea'),
+              sender: 'eFrame-' + that.id
             });
             break;
           case 'encrypted-message':

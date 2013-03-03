@@ -20,7 +20,7 @@
   var interval = 2500; // ms
   var regex = /END\sPGP/;
   var status = mvelo.SCAN_ON;
-  var minEditHeight = 100;
+  var minEditHeight = 84;
   var contextTarget = null;
   var prefs;
   

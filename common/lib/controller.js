@@ -240,7 +240,9 @@ define(function (require, exports, module) {
         break;
       case 'eframe-textarea-element':
         var defaultEncoding = {};
-        if (msg.data) {
+        if (msg.data && prefs.data.security.editor_mode == mvelo.EDITOR_WEBMAIL
+          || prefs.data.security.editor_mode == mvelo.EDITOR_EXTERNAL
+             && prefs.data.general.editor_type == mvelo.PLAIN_TEXT) {
           defaultEncoding.type = 'text';
           defaultEncoding.editable = false;
         } else {
