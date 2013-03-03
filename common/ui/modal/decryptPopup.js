@@ -47,7 +47,12 @@
   }
 
   function onCopy() {
-    //TODO
+    // copy to clipboard
+    var doc = sandbox.contents().get(0);
+    var sel = doc.defaultView.getSelection();
+    sel.selectAllChildren(sandbox.contents().find('#content').get(0));
+    doc.execCommand('copy');
+    sel.removeAllRanges();
   }
 
   function addSandbox() {
