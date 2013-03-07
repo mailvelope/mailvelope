@@ -1,4 +1,26 @@
 
+0.6 / 07.03.2013 
+==================
+
+  * Load web fonts locally from the extension
+  * External rich text (wysihtml5) or plain text editor for mail composition
+  * New preferences views for general and security settings
+  * Disable context menu
+  * Update RequireJS to 2.1.2
+  * Update Bootstrap to 2.2.2
+  * New external password dialog
+  * Keep passwords in memory for browser session (optional)
+  * New popup to display decrypted messages
+  * Security token concept on all popup dialogs
+  * Use iframe sandbox feature in encrypt and decrypt scenarios
+  * Show watermark behind inline decrypted messages
+  * [OpenPGP.js] support key import from hushmail
+  * [OpenPGP.js] prefer subkeys for encryption
+  * Show warning if external editor lost focus
+  * Sanitize HTML of decrypted message
+  * Logic to keep critical dialogs in the foreground
+
+
 0.5.5 / 06.02.2013 
 ==================
 
