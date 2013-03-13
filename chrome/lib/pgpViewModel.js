@@ -402,28 +402,7 @@ define(function(require, exports, module) {
       });
     }
   }
-/*
-  function encryptMessage(message, keyids, callback) {
-    var keyObj = [];
-    message = encode_utf8(message);
-    // get public key objects for keyids
-    for (var i = 0; i < openpgp.keyring.publicKeys.length; i++) {
-      var match = keyids.some(function(element, index) {
-        if (element === util.hexstrdump(openpgp.keyring.publicKeys[i].obj.getKeyId()).toUpperCase()) {
-          keyids.splice(index, 1);
-          return true;  
-        } else {
-          return false;
-        }
-      });
-      if (match) {
-        keyObj.push(openpgp.keyring.publicKeys[i].obj);
-      }
-      if (keyids.length === 0) break;
-    }
-    callback(null, openpgp.write_encrypted_message(keyObj, message));
-  }
-*/
+
   function encryptMessage(message, keyids, callback) {
     var keyObj = [];
     // map keyids

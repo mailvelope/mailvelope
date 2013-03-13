@@ -18,11 +18,15 @@
 (function() {
   
   function init() {
+    loadPrivateKeys();
     loadPrefs();
-    $('#general input').on('input change', function() {
+    // change event enables form buttons
+    $('#general input, #primaryKey').on('input change', function() {
       $('#general .form-actions button').removeAttr('disabled');
       $('#genReloadInfo').hide();
     });
+    // empty selection disables primary key options
+    $('#primaryKey').on('change', onPrimaryChange);
     $('#genBtnSave').click(onSave);
     $('#genBtnCancel').click(onCancel);
   }
@@ -31,7 +35,9 @@
     if (!validate()) return false;
     var update = {
       general: {
-        editor_type: $('input:radio[name="editorRadios"]:checked').val()
+        editor_type: $('input:radio[name="editorRadios"]:checked').val(),
+        primary_key: $('#primaryKey > option:selected').val(),
+        auto_add_primary: $('#autoAddPrimary:checked').length !== 0
       }
     }
     keyRing.sendMessage({ event: 'set-prefs', data: update }, function() {
@@ -52,10 +58,38 @@
     $('#genReloadInfo').hide();
   }
 
+  function onPrimaryChange() {
+    if ($('#primaryKey > option:selected').val() === '') {
+      $('#autoAddPrimary').removeAttr('checked')
+                          .attr('disabled', 'disabled');
+    } else {
+      $('#autoAddPrimary').removeAttr('disabled');
+    }
+  }
+
+  function initPrimarySelect() {
+    $('#primaryKey > option').removeAttr('selected');
+    $('#primaryKey > option:first').attr('selected', 'selected');
+    $('#autoAddPrimary').removeAttr('checked')
+                        .attr('disabled', 'disabled');
+  }
+
   function onCancel() {
     normalize();
     loadPrefs();
     return false;
+  }
+
+  function loadPrivateKeys() {
+    keyRing.viewModel('getPrivateKeys', function(keys) {
+      var select = $('#primaryKey');
+      keys.forEach(function(key) {
+        select.append($('<option/>', {
+          value: key.id,
+          text: key.name + ' <' + key.email + '> | ' + key.id.substring(8)
+        }))
+      })
+    });
   }
 
   function loadPrefs() {
@@ -63,6 +97,14 @@
       $('input:radio[name="editorRadios"]').filter(function() {
         return $(this).val() === prefs.general.editor_type;
       }).attr('checked', 'checked');
+      initPrimarySelect();
+      $('#primaryKey > option').filter(function() {
+          return $(this).val() === prefs.general.primary_key;
+      }).attr('selected', 'selected');
+      if (prefs.general.auto_add_primary) {
+        $('#autoAddPrimary').attr('checked', 'checked');
+      }
+      onPrimaryChange();
     });
   }
 
