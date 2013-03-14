@@ -18,8 +18,8 @@
 (function() {
   
   function init() {
-    loadPrivateKeys();
-    loadPrefs();
+    // this is triggered on startup
+    keyRing.event.on('keygrid-data-change', keyRingUpdate);
     // change event enables form buttons
     $('#general input, #primaryKey').on('input change', function() {
       $('#general .form-actions button').removeAttr('disabled');
@@ -47,6 +47,13 @@
     return false;
   }
 
+  function onCancel() {
+    normalize();
+    clearPrimarySelect();
+    loadPrefs();
+    return false;
+  }
+
   function validate() {
     return true;
   }
@@ -58,6 +65,15 @@
     $('#genReloadInfo').hide();
   }
 
+  function initPrimarySelect(callback) {
+    $('#primaryKey').empty()
+                    .append($('<option/>'));
+    loadPrivateKeys(function() {
+      clearPrimarySelect();
+      callback();
+    });
+  }
+
   function onPrimaryChange() {
     if ($('#primaryKey > option:selected').val() === '') {
       $('#autoAddPrimary').removeAttr('checked')
@@ -67,37 +83,44 @@
     }
   }
 
-  function initPrimarySelect() {
+  function clearPrimarySelect() {
     $('#primaryKey > option').removeAttr('selected');
     $('#primaryKey > option:first').attr('selected', 'selected');
     $('#autoAddPrimary').removeAttr('checked')
                         .attr('disabled', 'disabled');
   }
 
-  function onCancel() {
-    normalize();
-    loadPrefs();
-    return false;
+  function keyRingUpdate() {
+    // init primary select and call save if primary_key was deleted
+    initPrimarySelect(function() {
+      loadPrefs(function(prefs) {
+        if (prefs.general.primary_key !== $('#primaryKey > option:selected').val()) {
+          onSave();
+        } else {
+          normalize();
+        }
+      });
+    });
   }
 
-  function loadPrivateKeys() {
+  function loadPrivateKeys(callback) {
     keyRing.viewModel('getPrivateKeys', function(keys) {
       var select = $('#primaryKey');
       keys.forEach(function(key) {
         select.append($('<option/>', {
           value: key.id,
-          text: key.name + ' <' + key.email + '> | ' + key.id.substring(8)
-        }))
-      })
+          text: key.name + ' <' + key.email + '> - ' + key.id.substring(8)
+        }));
+      });
+      callback();
     });
   }
 
-  function loadPrefs() {
+  function loadPrefs(callback) {
     keyRing.viewModel('getPreferences', function(prefs) {
       $('input:radio[name="editorRadios"]').filter(function() {
         return $(this).val() === prefs.general.editor_type;
       }).attr('checked', 'checked');
-      initPrimarySelect();
       $('#primaryKey > option').filter(function() {
           return $(this).val() === prefs.general.primary_key;
       }).attr('selected', 'selected');
@@ -105,6 +128,7 @@
         $('#autoAddPrimary').attr('checked', 'checked');
       }
       onPrimaryChange();
+      if (callback) callback(prefs);
     });
   }
 

@@ -22,7 +22,7 @@
   function init() {
     loadToken();
     if (typeof keyRing !== 'undefined') { 
-      keyRing.onUpdate(loadToken);
+      keyRing.event.on('prefs-security-update', loadToken);
     }
   }
 

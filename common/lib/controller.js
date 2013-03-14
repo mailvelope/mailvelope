@@ -224,8 +224,9 @@ define(function (require, exports, module) {
       case 'eframe-recipient-proposal':
         var emails = sortAndDeDup(msg.data);
         var keys = model.getKeyUserIDs(emails);
+        var primary = prefs.data.general.auto_add_primary && prefs.data.general.primary_key;
         // if editor is active send to corresponding eDialog
-        eDialogPorts[editor && editor.id || id].postMessage({event: 'public-key-userids', keys: keys});
+        eDialogPorts[editor && editor.id || id].postMessage({event: 'public-key-userids', keys: keys, primary: primary});
         break;
       case 'encrypt-dialog-ok':
         // add recipients to buffer
@@ -303,7 +304,7 @@ define(function (require, exports, module) {
         } catch (e) {
           response.error = e;
         }
-        if (response.result !== undefined || response.error) {
+        if (response.result !== undefined || response.error || request.callback) {
           sendResponse(response);
         }
         break;

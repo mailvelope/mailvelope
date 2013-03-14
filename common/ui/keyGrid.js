@@ -137,6 +137,7 @@
     function onDataChange(e) {
       // selection is lost on data change, therefore disable export button
       $('#exportBtn').addClass('disabled');
+      keyRing.event.triggerHandler('keygrid-data-change');
     }
   }
       

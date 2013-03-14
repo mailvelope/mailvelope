@@ -59,7 +59,7 @@
       }
     }
     keyRing.sendMessage({ event: 'set-prefs', data: update }, function() {
-      keyRing.update();
+      keyRing.event.triggerHandler('prefs-security-update');
       normalize();
       $('#secReloadInfo').show();
     });

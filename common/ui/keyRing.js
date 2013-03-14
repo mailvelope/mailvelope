@@ -23,7 +23,7 @@ var keyRing = {};
   // callbacks are stored with id as key and used when message is received
   var callbacks = {};
   // event controller
-  var update = $('<div/>');
+  var event = $('<div/>');
 
   function init() {
     window.addEventListener("message", receiveMessage);
@@ -84,13 +84,7 @@ var keyRing = {};
     }), '*'); 
   }
 
-  exports.update = function() {
-    update.triggerHandler('m-update');  
-  }
-
-  exports.onUpdate = function(callback) {
-    update.on('m-update', callback);
-  }
+  exports.event = event;
 
   function receiveMessage(msg) {
     //console.log('key ring receiveMessage', JSON.stringify(msg));
