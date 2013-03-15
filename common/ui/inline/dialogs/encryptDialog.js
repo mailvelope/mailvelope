@@ -124,6 +124,10 @@
         var firstProposal = true;
         msg.keys.forEach(function(key) {
           var option = $('<option/>').val(key.keyid).text(key.userid);
+          if (key.keyid === msg.primary) {
+            $('#keyList').append(option.clone());
+            key.proposal = false;
+          }
           if (key.proposal) {
             option.data('proposal', key.proposal);
             if (firstProposal) {
@@ -132,7 +136,7 @@
               firstProposal = false;
             }
           }
-          option.appendTo(keySelect);
+          option.appendTo(keySelect);  
         });
         break;
       case 'encoding-defaults':
