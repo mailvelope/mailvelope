@@ -1,4 +1,10 @@
 
+0.6.1 / 15.03.2013 
+==================
+
+  * Primary private key can be defined in the general settings and option to always add primary key to list of recipients in encryption dialog.
+
+
 0.6 / 07.03.2013 
 ==================
 
