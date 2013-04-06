@@ -19,7 +19,8 @@
 define(function(require, exports, module) {
 
   var openpgp = require('openpgp');
-  var goog = require('common/dep/closure-library/closure/goog/emailaddress').goog;
+  var mvelo = require('lib/lib-mvelo').mvelo;
+  var goog = require('./closure-library/closure/goog/emailaddress').goog;
   
   function getKeys() {
     // get public keys
@@ -184,6 +185,7 @@ define(function(require, exports, module) {
     var result;
     if (keyType === 'public') {
       result = openpgp.read_publicKey(text);
+      console.log('importKey result', result);
       for (var i = 0; i < result.length; i++) {
         // check if public key already in key ring
         var found = openpgp.keyring.getPublicKeysForKeyId(result[i].getKeyId());
@@ -435,11 +437,11 @@ define(function(require, exports, module) {
   }
 
   function getWatchList() {
-    return JSON.parse(window.localStorage.getItem('mailvelopeWatchList'));
+    return mvelo.storage.get('mailvelopeWatchList');
   }
 
   function setWatchList(watchList) {
-    window.localStorage.setItem('mailvelopeWatchList', JSON.stringify(watchList));
+    mvelo.storage.set('mailvelopeWatchList', watchList);
   }
 
   function getHostname(url) {
@@ -471,11 +473,11 @@ define(function(require, exports, module) {
   exports.getHost = getHost;
 
   function getPreferences() {
-    return JSON.parse(window.localStorage.getItem('mailvelopePreferences'));
+    return mvelo.storage.get('mailvelopePreferences');
   }
 
   function setPreferences(preferences) {
-    window.localStorage.setItem('mailvelopePreferences', JSON.stringify(preferences));
+    mvelo.storage.set('mailvelopePreferences', preferences);
   }
 
   exports.getPreferences = getPreferences;

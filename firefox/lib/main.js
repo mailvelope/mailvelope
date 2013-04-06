@@ -15,25 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var data = require('self').data;
-var model = require('lib/ppgViewModel');
+var data = require('sdk/self').data;
 var controller = require('data/common/lib/controller');
-var pageMod = require("page-mod");
-var tabs = require('tabs');
+var pageMod = require("sdk/page-mod");
+var tabs = require('sdk/tabs');
 
 var activePageMod;
 // recipients of encrypted mail
 var eRecipientBuffer = {};
 var scannedHosts = [];
 
-var mailvelopePanel = require('panel').Panel({
+var mailvelopePanel = require('sdk/panel').Panel({
   width: 200,
   height: 164,
   contentURL: data.url('common/ui/popup.html'),
   onMessage: onPanelMessage
 });
 
-require('widget').Widget({
+require('sdk/widget').Widget({
   label: 'Mailvelope Options',
   id: 'mailvelope-options',
   contentURL: data.url('common/img/cryptography-icon16.png'),
@@ -42,7 +41,6 @@ require('widget').Widget({
 
 function init() {
   controller.extend({initScriptInjection: initScriptInjection});
-  initDefaults();
   initScriptInjection();
   initInlineDialogs();
 }
@@ -53,15 +51,6 @@ function onPanelMessage(msg) {
   console.log('onPanelMessage', msg.action);
   controller.onBrowserAction(msg.action);
   mailvelopePanel.hide();
-}
-
-function initDefaults() {
-  // apply defaults if don't exist
-  if (model.getWatchList() === undefined) {
-    var defaults = data.load('common/res/defaults.json');
-    defaults = JSON.parse(defaults);
-    model.setWatchList(defaults.watch_list);
-  }
 }
 
 function initScriptInjection() {
@@ -134,18 +123,18 @@ function initInlineDialogs() {
     ];
   var encryptFiles = decryptFiles.slice();
 
-  decryptFiles.push(data.url('common/ui/inline/dialogs/decryptDialog.js'));
+  decryptFiles.push(data.url('common/ui/inline/dialogs/decryptInline.js'));
   encryptFiles.push(data.url('common/ui/inline/dialogs/encryptDialog.js'));
   
 
   pageMod.PageMod({
-    include: 'http://www.mailvelope.com/common/ui/inline/dialogs/decryptDialog.html*',
+    include: 'http://www.mailvelope.com/common/ui/inline/dialogs/decryptInline.html*',
     onAttach: onCsAttach,
     contentScriptFile: decryptFiles,
     contentScript: setDataPathScript(),
     contentStyleFile: [
       data.url('common/dep/bootstrap/css/bootstrap.min.css'),
-      data.url('common/ui/inline/dialogs/decryptDialog.css')
+      data.url('common/ui/inline/dialogs/decryptInline.css')
     ]
   });
 

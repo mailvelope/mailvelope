@@ -15,12 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var data = require('self').data;
-var model = require('lib/ppgViewModel');
+var data = require('sdk/self').data;
 var {extension} = require('data/ui/messageAdapter');
-var tabs = require('tabs');
-var windows = require('windows').browserWindows;
-var timer = require('timers');
+var tabs = require('sdk/tabs');
+var windows = require('sdk/windows').browserWindows;
+var timer = require('sdk/timers');
+var ss = require('sdk/simple-storage');
 
 var dataPathScript = 'mvelo.extension._dataPath = \'' + data.url() + '\'';
 
@@ -28,12 +28,9 @@ var dataPathScript = 'mvelo.extension._dataPath = \'' + data.url() + '\'';
 var mvelo = require('data/common/ui/inline/mvelo').mvelo;
 
 mvelo.ffa = true;
+mvelo.crx = false;
 
 mvelo.extension = extension;
-
-mvelo.getModel = function() {
-  return model;
-}
 
 mvelo.data = {}
 
@@ -133,6 +130,16 @@ mvelo.tabs.loadOptionsTab = function(hash, onMessage, callback) {
       mvelo.tabs.activate(tabs[0], callback.bind(this, true));
     }  
   });
+}
+
+mvelo.storage = {};
+
+mvelo.storage.get = function(id) {
+  return ss.storage[id];
+}
+
+mvelo.storage.set = function(id, obj) {
+  ss.storage[id] = obj;
 }
 
 exports.mvelo = mvelo;

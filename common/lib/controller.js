@@ -18,10 +18,10 @@
 define(function (require, exports, module) {
 
   var mvelo = require('lib/lib-mvelo').mvelo;
-  var model = mvelo.getModel();
-  var defaults = require('common/lib/defaults');
-  var prefs = require('common/lib/prefs');
-  var pwdCache = require('common/lib/pwdCache');
+  var model = require('./pgpViewModel');
+  require('./defaults');
+  var prefs = require('./prefs');
+  var pwdCache = require('./pwdCache');
 
   // ports to decrypt frames
   var dFramePorts = {};

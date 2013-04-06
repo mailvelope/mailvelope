@@ -18,17 +18,10 @@
 define(function (require, exports, module) {
 
   var mvelo = require('lib/lib-mvelo').mvelo;
-  var model = mvelo.getModel();
+  var model = require('./pgpViewModel');
   var defaults;
 
-  if (mvelo.crx) {
-    defaults = require('lib/json-loader!common/res/defaults.json'); 
-  } else if (mvelo.ffa) {
-    defaults = data.load('common/res/defaults.json');
-    defaults = JSON.parse(defaults);
-  }
-
-  init();
+  mvelo.data.load('common/res/defaults.json', init);
 
   function randomColor() {
     return '#'+('00000'+(Math.random()*(1<<24)|0).toString(16)).toUpperCase().slice(-6);
@@ -43,7 +36,8 @@ define(function (require, exports, module) {
     return result;
   }
 
-  function init() {
+  function init(default_str) {
+    defaults = JSON.parse(default_str);
     if (!model.getWatchList()) {
       model.setWatchList(defaults.watch_list);
     }

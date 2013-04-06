@@ -1,5 +1,6 @@
 
-PROFILEDIR = ~/dev/firefox/mailvelope
+PROFILEDIR = ~/dev/firefox/test_profile
+FFBIN = ~/dev/firefox/firefox-beta/firefox
 
 default: help
 
@@ -39,6 +40,7 @@ copy-dep:
 	@echo Update openpgp.js files...
 	@cp -u dep/chrome/openpgpjs/resources/openpgp.js chrome/dep
 	@cp -u dep/chrome/openpgpjs/resources/openpgp.min.js chrome/dep
+	@cp -u dep/firefox/openpgpjs/resources/openpgp.js firefox/packages/openpgp/lib
 
 test-build: pack copy-common copy-dep
 
@@ -56,6 +58,6 @@ dist-cr:
 
 start-ff:
 	@echo Start Firefox...
-	@cfx run --pkgdir=firefox --profiledir=$(PROFILEDIR)
+	@cfx run --pkgdir=firefox --profiledir=$(PROFILEDIR) --binary=$(FFBIN)
 
 test-ff: test-build start-ff

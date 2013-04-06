@@ -17,15 +17,12 @@
 
 define(function(require, exports, module) {
 
-  var model = require('lib/pgpViewModel');
-
   var mvelo = require('mvelo');
 
-  var wysihtml5 = require('wysihtml5');
+  mvelo.crx = true;
+  mvelo.ffa = false;
 
-  mvelo.getModel = function() {
-    return model;
-  }
+  var wysihtml5 = require('wysihtml5');
 
   mvelo.data = {};
 
@@ -102,6 +99,16 @@ define(function(require, exports, module) {
         mvelo.tabs.activate(tabs[0], callback.bind(this, true));
       }  
     });
+  }
+
+  mvelo.storage = {};
+
+  mvelo.storage.get = function(id) {
+    return JSON.parse(window.localStorage.getItem(id));
+  }
+
+  mvelo.storage.set = function(id, obj) {
+    window.localStorage.setItem(id, JSON.stringify(obj));
   }
 
   mvelo.windows = {};

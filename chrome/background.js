@@ -50,7 +50,7 @@ requirejs.config({
   }
 });
 
-define(["common/lib/controller", "lib/pgpViewModel", "openpgp", "jquery"], function(controller, model, openpgp, $) {
+define(["common/lib/controller", "common/lib/pgpViewModel", "openpgp", "jquery"], function(controller, model, openpgp, $) {
 
   // inject content script only once per time slot
   var injectTimeSlot = 600;
