@@ -62,12 +62,15 @@
       };
       
   function init() {
+    $('#displayKeys').addClass('spinner');
     keyRing.viewModel('getKeys', initGrid);
   }
 
 
   function initGrid(keys) {
-        
+
+    $('#displayKeys').removeClass('spinner');
+
     var grid = $("#mainKeyGrid").kendoGrid({
       columns: keyGridColumns,
       dataSource: {
@@ -123,11 +126,17 @@
       var selected = this.select();
       if (selected.length !== 0) {
         $('#exportBtn').removeClass('disabled');
-        var type = grid.data("kendoGrid").dataItem(selected).type;
-        if (type === 'public') {
+        var selKey = grid.data("kendoGrid").dataItem(selected); 
+        if (selKey.type === 'public') {
           $('#exportPrivate, #exportKeyPair').addClass('disabled');
         } else {
           $('#exportPrivate, #exportKeyPair').removeClass('disabled');
+        }
+        // keys longer than 1800 chars don't fit into URL
+        if (selKey.armoredPublic.length > 1600) {
+          $('#exportByMail').addClass('disabled');
+        } else {
+          $('#exportByMail').removeClass('disabled');
         }
       } else {
         $('#exportBtn').addClass('disabled');

@@ -134,6 +134,7 @@ var watchList = {};
         destroy: true,
         confirmation: false
       },
+      navigatable: true,
       saveChanges: updateFrames
     });
     function updateFrames() {
