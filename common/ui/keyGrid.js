@@ -132,7 +132,7 @@
         } else {
           $('#exportPrivate, #exportKeyPair').removeClass('disabled');
         }
-        // keys longer than 1800 chars don't fit into URL
+        // keys longer than 1600 chars don't fit into URL
         if (selKey.armoredPublic.length > 1600) {
           $('#exportByMail').addClass('disabled');
         } else {
