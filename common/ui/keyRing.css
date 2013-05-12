@@ -119,6 +119,10 @@ body {
   margin-left: 5px;
 }
 
+#exportBtn {
+  margin-left: 5px;
+}
+
 #security .form-horizontal .control-label,
 #general .form-horizontal .control-label {
   width: 280px;
@@ -160,4 +164,10 @@ body {
 
 #secTokenInfo {
   float: right;
+}
+
+.spinner {
+  background-image: url('chrome-extension://__MSG_@@extension_id__/common/dep/kendoui/styles/Default/loading-image.gif');      
+  background-repeat: no-repeat;      
+  background-position: center;
 }

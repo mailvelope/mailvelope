@@ -32,30 +32,31 @@
 
   function onExport() {
     var key = grid.dataItem(grid.select());
-    console.log(key);
+    //console.log(key);
     switch (this.id) {
-        case 'exportByMail':
-          keyRing.sendMessage({
-            event: "send-by-mail",
-            data: key.toJSON()
-          });
-          break;
-        case 'exportPublic':
-          showModal(key, key.armoredPublic, 'pub');
-          break;
-        case 'exportPrivate':
-          if (key.type === 'private') {
-            showModal(key, key.armoredPrivate, 'priv');
-          }
-          break;
-        case 'exportKeyPair':
-          if (key.type === 'private') {
-            showModal(key, key.armoredPrivate + '\n' + key.armoredPublic, 'keypair');
-          }
-          break;
-        default:
-          console.log('unknown export action');
-      }
+      case 'exportByMail':
+        keyRing.sendMessage({
+          event: "send-by-mail",
+          data: key.toJSON()
+        });
+        break;
+      case 'exportPublic':
+        showModal(key, key.armoredPublic, 'pub');
+        break;
+      case 'exportPrivate':
+        if (key.type === 'private') {
+          showModal(key, key.armoredPrivate, 'priv');
+        }
+        break;
+      case 'exportKeyPair':
+        if (key.type === 'private') {
+          showModal(key, key.armoredPrivate + '\n' + key.armoredPublic, 'keypair');
+        }
+        break;
+      default:
+        console.log('unknown export action');
+    }
+    return false;
   }
 
   function showModal(key, text, fprefix) {

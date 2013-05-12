@@ -1,4 +1,13 @@
 
+0.6.2 / 10.05.2013 
+==================
+
+  * Update Kendo UI to 2013.1.319. Fix key export problem on Win8
+  * Add unique title for password dialog
+  * Loading spinner for the key grid
+  * Only allow export 'Send public key by mail' if key file does not exceed 1600 characters
+
+
 0.6.1 / 15.03.2013 
 ==================
 
