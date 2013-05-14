@@ -48,6 +48,13 @@
         title: " ", 
         width: "100px" 
       }];
+
+  var exDateField = {
+    type: "date", 
+    parse: function(value) {
+      return kendo.parseDate(value) || 'The key does not expire';
+    }
+  }
       
   var keyGridSchema = {
         model: {
@@ -56,16 +63,36 @@
             name: { type: "string" },
             email: { type: "string" },
             id: { type: "string" },
-            crDate: { type: "date" }
+            crDate: { type: "date" },
+            exDate: exDateField
           }
         }
       };
-      
+
+  var subKeySchema = {
+        model: {
+          fields: {
+            crDate: { type: "date" },
+            exDate: exDateField
+          }
+        }
+      };
+
   function init() {
     $('#displayKeys').addClass('spinner');
     keyRing.viewModel('getKeys', initGrid);
+    keyRing.event.on('keygrid-reload', reload);
   }
 
+  function reload() {
+   keyRing.viewModel('getKeys', function(keys) {
+    $("#mainKeyGrid").data("kendoGrid").setDataSource(new kendo.data.DataSource({
+        data: keys,
+        schema: keyGridSchema,
+        change: onDataChange
+      }));
+   }); 
+  }
 
   function initGrid(keys) {
 
@@ -74,7 +101,7 @@
     var grid = $("#mainKeyGrid").kendoGrid({
       columns: keyGridColumns,
       dataSource: {
-        data: keyRing.mapDates(keys),
+        data: keys,
         schema: keyGridSchema,
         change: onDataChange
       },
@@ -143,11 +170,12 @@
       }
     }
 
-    function onDataChange(e) {
-      // selection is lost on data change, therefore disable export button
-      $('#exportBtn').addClass('disabled');
-      keyRing.event.triggerHandler('keygrid-data-change');
-    }
+  }
+
+  function onDataChange(e) {
+    // selection is lost on data change, therefore disable export button
+    $('#exportBtn').addClass('disabled');
+    keyRing.event.triggerHandler('keygrid-data-change');
   }
       
   function detailInit(e) {
@@ -162,7 +190,10 @@
     detailRow.find(".subkeyID").kendoDropDownList({
       dataTextField: "id",
       dataValueField: "id",
-      dataSource: e.data.subkeys,
+      dataSource: {
+        data: e.data.subkeys,
+        schema: subKeySchema
+      },
       select: onSubkeySelect,
       index: 0
     });

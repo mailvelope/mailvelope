@@ -19,6 +19,7 @@
 define(function(require, exports, module) {
 
   var openpgp = require('openpgp');
+  var util = typeof window !== 'undefined' && window.util || openpgp.util;
   var mvelo = require('lib/lib-mvelo').mvelo;
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
   
@@ -185,7 +186,7 @@ define(function(require, exports, module) {
     var result;
     if (keyType === 'public') {
       result = openpgp.read_publicKey(text);
-      console.log('importKey result', result);
+      //console.log('importKey result', result);
       for (var i = 0; i < result.length; i++) {
         // check if public key already in key ring
         var found = openpgp.keyring.getPublicKeysForKeyId(result[i].getKeyId());

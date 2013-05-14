@@ -18,6 +18,8 @@
 // Firefox Addon compatibility layer
 
 var ss = require('sdk/simple-storage');
+var cr = require("chrome");
+var crypto = cr.Cc["@mozilla.org/security/crypto;1"].createInstance(cr.Ci.nsIDOMCrypto);
 
 var window = {};
 
@@ -32,16 +34,14 @@ window.localStorage.setItem = function(id, str) {
 }
 
 window.localStorage.getItem = function(id) {
-  return ss.storage[id];
+  return ss.storage[id] || null;
 }
 
 window.crypto = {};
 
 window.crypto.getRandomValues = function(buf) {
-  
+  return crypto.getRandomValues(buf);  
 }
-
-module.exports = new _openpgp();
 
 // GPG4Browsers - An OpenPGP implementation in javascript
 // Copyright (C) 2011 Recurity Labs GmbH
@@ -7398,7 +7398,7 @@ function openpgp_config() {
 			keyserver: "keyserver.linux.it" // "pgp.mit.edu:11371"
 	};
 
-	this.versionstring ="OpenPGP.js v.1.20130406";
+	this.versionstring ="OpenPGP.js v.1.20130513";
 	this.commentstring ="http://openpgpjs.org";
 	/**
 	 * reads the config out of the HTML5 local storage
@@ -8341,7 +8341,9 @@ function _openpgp () {
 
 var openpgp = new _openpgp();
 
+openpgp.init();
 
+module.exports = openpgp;
 // GPG4Browsers - An OpenPGP implementation in javascript
 // Copyright (C) 2011 Recurity Labs GmbH
 // 
@@ -13240,3 +13242,4 @@ var Util = function() {
  * an instance that should be used. 
  */
 var util = new Util();
+openpgp.util = util;

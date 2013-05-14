@@ -149,9 +149,7 @@
         $('#genKeySubmit, #genKeyClear').attr('disabled', 'disabled');
         $('#genKeyAnother').removeClass('hide');
         // refresh grid
-        keyRing.viewModel('getKeys', function(result) {
-          $("#mainKeyGrid").data("kendoGrid").dataSource.data(keyRing.mapDates(result));
-        });
+        keyRing.event.triggerHandler('keygrid-reload');
       } else {
         $('#genAlert').showAlert('Generation Error', error.type === 'error' ? error.message : '', 'error');
       }

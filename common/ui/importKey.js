@@ -75,9 +75,7 @@
       $('#newKey, #impKeySubmit, #impKeyClear').attr('disabled', 'disabled');
       $('#impKeyAnother').removeClass('hide');
       // refresh grid
-      keyRing.viewModel('getKeys', function(result) {
-        $("#mainKeyGrid").data("kendoGrid").dataSource.data(keyRing.mapDates(result));
-      });
+      keyRing.event.triggerHandler('keygrid-reload');
     }
   }
   

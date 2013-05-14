@@ -33,19 +33,6 @@ var keyRing = {};
     }), '*');
   }
 
-  // map Date object to this context, otherwise 'instanceof Date' does not work inside Kendo UI
-  exports.mapDates = function(data) {
-    data.forEach(function(value) {
-      value.crDate = new Date(value.crDate);
-      value.users.forEach(function(user) {
-        user.signatures.forEach(function(sig) {
-          sig.crDate = new Date(sig.crDate);
-        });
-      });
-    });
-    return data;
-  }
-
   exports.viewModel = function(method, args, callback) {
     id++;
     if (typeof args === 'function') {

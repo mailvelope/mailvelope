@@ -15,6 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// clean slate
+var ss = require("simple-storage");
+for (var obj in ss.storage) {
+  console.log('delete ss:', obj);
+  delete ss.storage[obj];
+}
+
 var data = require('sdk/self').data;
 var controller = require('data/common/lib/controller');
 var pageMod = require("sdk/page-mod");
