@@ -31,6 +31,11 @@ var keyRing = {};
     parent.postMessage(JSON.stringify({
       event: "init"
     }), '*');
+    // check for native color picker support and load polyfill
+    Modernizr.load({
+      test: Modernizr.inputtypes.color,
+      nope: ['../dep/spectrum/spectrum.js', '../dep/spectrum/spectrum.css']
+    });
   }
 
   exports.viewModel = function(method, args, callback) {

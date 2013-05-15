@@ -7398,7 +7398,7 @@ function openpgp_config() {
 			keyserver: "keyserver.linux.it" // "pgp.mit.edu:11371"
 	};
 
-	this.versionstring ="OpenPGP.js v.1.20130513";
+	this.versionstring ="OpenPGP.js v.1.20130515";
 	this.commentstring ="http://openpgpjs.org";
 	/**
 	 * reads the config out of the HTML5 local storage
@@ -8340,8 +8340,6 @@ function _openpgp () {
 }
 
 var openpgp = new _openpgp();
-
-openpgp.init();
 
 module.exports = openpgp;
 // GPG4Browsers - An OpenPGP implementation in javascript
@@ -13243,3 +13241,5 @@ var Util = function() {
  */
 var util = new Util();
 openpgp.util = util;
+
+openpgp.init();

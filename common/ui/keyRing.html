@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="keyRing.css">  
     <script src="../dep/jquery-1.9.1.min.js"></script>
     <script src="../dep/jquery.ext.js"></script>
+    <script src="../dep/modernizr.js"></script>
     <script src="../dep/bootstrap/js/bootstrap.min.js"></script>
     <script src="../dep/kendoui/js/kendo.web.min.js"></script>
     <script src="keyRing.js"></script>
@@ -340,7 +341,7 @@
                 <div class="control-group">
                   <label class="control-label"><strong>Remember passwords for browser session?</strong></label>
                   <div class="controls">
-                    <label class="radio">
+                    <label class="radio" id="pwdCacheLabel">
                       <input type="radio" name="pwdCacheRadios" id="pwdCacheRadios1" value="true">
                       Yes, keep in memory for
                         <input type="text" class="input-mini" id="pwdCacheTime" maxlength="3" title="Password timeout">
