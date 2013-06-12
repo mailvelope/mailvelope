@@ -288,6 +288,7 @@ define(function (require, exports, module) {
   }
 
   function handleMessageEvent(request, sender, sendResponse) {
+    //console.log('controller: handleMessageEvent', request.event);
     switch (request.event) {
       case 'viewmodel':
         var response = {};

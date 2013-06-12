@@ -119,7 +119,7 @@ mvelo.tabs.loadOptionsTab = function(hash, onMessage, callback) {
           onMessage: function(msg) {
             //console.log('message-event', msg.event);
             onMessage(msg, null, (function(response) {
-              console.log('main.js handleMessageEvent response', msg.event ,msg.response);
+              //console.log('main.js handleMessageEvent response', msg.event ,msg.response);
               this.emit(msg.response, response);
             }).bind(this));
           }
@@ -141,5 +141,51 @@ mvelo.storage.get = function(id) {
 mvelo.storage.set = function(id, obj) {
   ss.storage[id] = obj;
 }
+
+mvelo.windows = {};
+
+mvelo.windows.modalActive = false;
+
+mvelo.windows.openPopup = function(url, options, callback) {
+  //console.log('openPopup:', url);
+  var winOpts = {};
+  winOpts.url = data.url(url);
+  winOpts.onDeactivate = function() {
+    if (options.modal) {
+      this.activate();
+    }
+  }
+  /*
+  winOpts.onOpen = function(win) {
+    win.tabs[0].attach({
+      contentScript:
+        'console.log("Im attached!", mvelo);'
+    });
+  }
+  */
+  if (callback) {
+    winOpts.onOpen = callback;
+  }
+  windows.open(winOpts);
+}
+
+mvelo.windows.BrowserWindow = function(id) {
+  this._id = id;
+};
+
+mvelo.windows.BrowserWindow.prototype.activate = function() {
+  chrome.windows.update(this._id, {focused: true});
+}
+
+mvelo.util = {};
+
+mvelo.util.parseHTML = function(html) {
+  return html;
+  //return wysihtml5.parse(html);
+}
+
+// must be bound to window, otherwise illegal invocation
+mvelo.util.setTimeout = timer.setTimeout;
+mvelo.util.clearTimeout = timer.clearTimeout;
 
 exports.mvelo = mvelo;

@@ -49,9 +49,10 @@ require('sdk/widget').Widget({
 });
 
 function init() {
+  //console.log('main.js init()');
   controller.extend({initScriptInjection: initScriptInjection});
   initScriptInjection();
-  initInlineDialogs();
+  injectMessageAdapter();
 }
 
 init();
@@ -87,7 +88,7 @@ function initScriptInjection() {
 }
 
 function onCsAttach(worker) {
-  //console.log("Attaching content scripts", worker.url);
+  console.log("Attaching content scripts", worker.url);
   worker.port.on('port-message', controller.handlePortMessage);
   worker.port.on('connect', function(portName) {
     var eventName = 'port-message' + '.' + portName;
@@ -107,7 +108,12 @@ function onCsAttach(worker) {
   worker.on('detach', function() {
     controller.removePortByRef(this);
   });
-  //worker.port.on('message-event', handleMessageEvent);
+  worker.port.on('message-event', function(msg) {
+    var that = this;
+    controller.handleMessageEvent(msg, null, function(respData) {
+      that.emit(msg.response, respData);
+    });
+  });
 }
 
 function getDynamicStyle() {
@@ -122,6 +128,25 @@ function setDataPathScript() {
   return 'mvelo.extension._dataPath = \'' + data.url() + '\'';
 }
 
+function injectMessageAdapter() {
+  
+  pageMod.PageMod({
+    include: [
+      data.url('common/ui/modal/decryptPopup.html*'),
+      data.url('common/ui/modal/editor.html*')
+    ],
+    onAttach: onCsAttach,
+    contentScriptFile: data.url('ui/messageAdapter.js'),
+    contentScript: setDataPathScript(),
+    contentScriptWhen: 'start'
+  });
+ 
+}
+
+
+
+/*
+
 function initInlineDialogs() {
 
   var decryptFiles = [
@@ -135,16 +160,16 @@ function initInlineDialogs() {
   decryptFiles.push(data.url('common/ui/inline/dialogs/decryptInline.js'));
   encryptFiles.push(data.url('common/ui/inline/dialogs/encryptDialog.js'));
   
-
   pageMod.PageMod({
-    include: 'http://www.mailvelope.com/common/ui/inline/dialogs/decryptInline.html*',
+    include: 'about:blank',
     onAttach: onCsAttach,
     contentScriptFile: decryptFiles,
     contentScript: setDataPathScript(),
     contentStyleFile: [
       data.url('common/dep/bootstrap/css/bootstrap.min.css'),
       data.url('common/ui/inline/dialogs/decryptInline.css')
-    ]
+    ],
+    attachTo: 'frame'
   });
 
   pageMod.PageMod({
@@ -159,6 +184,8 @@ function initInlineDialogs() {
   });
  
 }
+
+*/
 
 
 

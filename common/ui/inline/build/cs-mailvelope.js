@@ -9442,7 +9442,7 @@ var mvelo = mvelo || {};
 // chrome extension
 mvelo.crx = typeof chrome !== 'undefined';
 // firefox addon
-mvelo.ffa = typeof self !== 'undefined' && self.port;
+mvelo.ffa = mvelo.ffa || typeof self !== 'undefined' && self.port;
 mvelo.extension = mvelo.extension || mvelo.crx && chrome.extension;
 // min height for large frame
 mvelo.LARGE_FRAME = 600;
@@ -9480,7 +9480,8 @@ mvelo.getHash = function() { return Math.random().toString(36).substr(2, 8); };
 
 if (typeof exports !== 'undefined') {
   exports.mvelo = mvelo;
-}/**
+}
+/**
  * Mailvelope - secure email with OpenPGP encryption for Webmail
  * Copyright (C) 2012  Thomas Oberndörfer
  *
@@ -9515,7 +9516,7 @@ if (typeof exports !== 'undefined') {
 
   function initScanInterval(interval) {
     window.setInterval(function() {
-      //console.log('inside cs: ', document.location.host;
+      //console.log('inside cs: ', document.location.host);
       if (status === mvelo.SCAN_ON) {
         // find armored PGP text
         var pgpTag = findPGPTag(regex);
@@ -9757,6 +9758,9 @@ if (typeof exports !== 'undefined') {
 var DecryptFrame = DecryptFrame || (function() { 
 
   var decryptFrame = function (prefs) {
+    if (!prefs) throw {
+      message: 'DecryptFrame constructor: prefs not provided.'
+    }
     this.id = mvelo.getHash();
     // text node with Armor Tail Line '-----END PGP...'
     this._pgpEnd;
@@ -9898,12 +9902,7 @@ var DecryptFrame = DecryptFrame || (function() {
         scrolling: 'no'
       });
       var path = 'common/ui/inline/dialogs/decryptInline.html?id=' + that.id;
-      var url;
-      if (mvelo.crx) {
-        url = mvelo.extension.getURL(path);
-      } else {
-        url = 'http://www.mailvelope.com/' + path;
-      }
+      var url = mvelo.extension.getURL(path);
       this._dDialog.attr('src', url);
       this._dFrame.append(this._dDialog);
       this._setFrameDim();

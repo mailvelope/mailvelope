@@ -24,6 +24,7 @@
   var spinnerTimer;
   
   function init() {
+    console.log('init decryptInline.js');
     var qs = jQuery.parseQuerystring();
     id = 'dDialog-' + qs['id'];
     // open port to background page

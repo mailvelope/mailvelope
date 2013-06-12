@@ -18,6 +18,9 @@
 var DecryptFrame = DecryptFrame || (function() { 
 
   var decryptFrame = function (prefs) {
+    if (!prefs) throw {
+      message: 'DecryptFrame constructor: prefs not provided.'
+    }
     this.id = mvelo.getHash();
     // text node with Armor Tail Line '-----END PGP...'
     this._pgpEnd;
@@ -159,12 +162,7 @@ var DecryptFrame = DecryptFrame || (function() {
         scrolling: 'no'
       });
       var path = 'common/ui/inline/dialogs/decryptInline.html?id=' + that.id;
-      var url;
-      if (mvelo.crx) {
-        url = mvelo.extension.getURL(path);
-      } else {
-        url = 'http://www.mailvelope.com/' + path;
-      }
+      var url = mvelo.extension.getURL(path);
       this._dDialog.attr('src', url);
       this._dFrame.append(this._dDialog);
       this._setFrameDim();

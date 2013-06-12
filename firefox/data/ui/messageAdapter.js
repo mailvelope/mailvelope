@@ -17,12 +17,14 @@
 
 var mvelo = mvelo || {};
 
+mvelo.ffa = true;
+
 var eventIndex = 1;
 
 mvelo.extension = {
   _dataPath: null,
   sendMessage: function(message, response) {
-    console.log('message adapter: sendMessage', message.event);
+    //console.log('message adapter: sendMessage', message.event);
     if (response !== undefined) {
       message.response = 'resp' + eventIndex++;
       self.port.once(message.response, response);
@@ -43,12 +45,14 @@ mvelo.extension = {
   }
 }
 
+mvelo.__exposedProps__ = { extension : "r" }
+
 function Port(portName) {
   var name = portName;
   var events = {};
 
   this.postMessage = function(message) {
-    console.log('postmessage', name, message.event);
+    //console.log('postmessage', name, message.event);
     self.port.emit('port-message', message);
   };
 
@@ -75,3 +79,8 @@ function Port(portName) {
 var exports = exports || {};
 
 exports.extension = mvelo.extension;
+
+console.log('window', typeof window);
+if (typeof window !== 'undefined') {
+  window.wrappedJSObject.mvelo = mvelo;
+}
