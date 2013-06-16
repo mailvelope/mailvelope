@@ -133,7 +133,8 @@ function injectMessageAdapter() {
   pageMod.PageMod({
     include: [
       data.url('common/ui/modal/decryptPopup.html*'),
-      data.url('common/ui/modal/editor.html*')
+      data.url('common/ui/modal/editor.html*'),
+      data.url('common/ui/inline/dialogs/encryptDialog.html*')
     ],
     onAttach: onCsAttach,
     contentScriptFile: data.url('ui/messageAdapter.js'),
