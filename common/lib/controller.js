@@ -319,11 +319,11 @@ define(function (require, exports, module) {
         specific.initScriptInjection();
         break;
       case 'send-by-mail':
-        var link = 'mailto:';
-        link += '?subject=Public OpenPGP key of ' + request.message.data.name;
-        link += '&body=' + request.message.data.armoredPublic;
-        link += '\n' + '*** exported with www.mailvelope.com ***';
-        mvelo.tabs.create(encodeURI(link));
+        var link = encodeURI('mailto:?subject=Public OpenPGP key of ');
+        link += encodeURIComponent(request.message.data.name);
+        link += '&body=' + encodeURIComponent(request.message.data.armoredPublic);
+        link += encodeURIComponent('\n*** exported with www.mailvelope.com ***');
+        mvelo.tabs.create(link);
         break;
       case 'get-prefs':
         sendResponse(prefs.data);
