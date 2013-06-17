@@ -160,6 +160,10 @@ define(function(require, exports, module) {
     chrome.windows.update(this._id, {focused: true});
   }
 
+  mvelo.windows.BrowserWindow.prototype.close = function() {
+    chrome.windows.remove(this._id);
+  }
+
   mvelo.util = {};
 
   mvelo.util.parseHTML = function(html) {

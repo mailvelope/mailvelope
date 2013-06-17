@@ -74,8 +74,11 @@ function initScriptInjection() {
       data.url('ui/messageAdapter.js'),
       data.url('common/ui/inline/build/cs-mailvelope.js')
     ],
-    contentScript: setDataPathScript(),
-    contentStyle: getDynamicStyle()
+    contentStyle: getDynamicStyle(),
+    contentScriptOptions: {
+      expose_messaging: false,
+      data_path: data.url()
+    }
   }
 
   if (activePageMod !== undefined) {
@@ -124,10 +127,6 @@ function getDynamicStyle() {
   return css;
 }
 
-function setDataPathScript() {
-  return 'mvelo.extension._dataPath = \'' + data.url() + '\'';
-}
-
 function injectMessageAdapter() {
   
   pageMod.PageMod({
@@ -138,8 +137,11 @@ function injectMessageAdapter() {
     ],
     onAttach: onCsAttach,
     contentScriptFile: data.url('ui/messageAdapter.js'),
-    contentScript: setDataPathScript(),
-    contentScriptWhen: 'start'
+    contentScriptWhen: 'start',
+    contentScriptOptions: {
+      expose_messaging: true,
+      data_path: data.url()
+    }
   });
  
 }

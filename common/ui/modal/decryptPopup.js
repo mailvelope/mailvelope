@@ -43,7 +43,6 @@
 
   function onClose() {
     port.postMessage({event: 'decrypt-dialog-cancel', sender: name});
-    window.close();
   }
 
   function onCopy() {

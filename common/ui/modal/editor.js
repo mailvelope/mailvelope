@@ -78,7 +78,10 @@
   }
 
   function onCancel() {
-    window.close();
+    port.postMessage({
+      event: 'editor-cancel', 
+      sender: id
+    });
     return false;
   }
 
@@ -102,7 +105,6 @@
       sender: id,
       recipient: parentID
     });
-    window.close();
     return true;
   }
 

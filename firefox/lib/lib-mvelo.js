@@ -16,21 +16,15 @@
  */
 
 var data = require('sdk/self').data;
-var {extension} = require('data/ui/messageAdapter');
 var tabs = require('sdk/tabs');
 var windows = require('sdk/windows').browserWindows;
 var timer = require('sdk/timers');
 var ss = require('sdk/simple-storage');
 
-var dataPathScript = 'mvelo.extension._dataPath = \'' + data.url() + '\'';
-
-
 var mvelo = require('data/common/ui/inline/mvelo').mvelo;
 
 mvelo.ffa = true;
 mvelo.crx = false;
-
-mvelo.extension = extension;
 
 mvelo.data = {}
 
@@ -57,6 +51,7 @@ mvelo.tabs.attach = function(tab, options, callback) {
     return data.url(file);
   });
   lopt.contentScript = options.contentScript;
+  lopt.contentScriptOptions = options.contentScriptOptions;
   console.log('attach tab', tab.id);
   console.log('attach tab', tab.index);
   var worker = tab.attach(lopt);
@@ -103,19 +98,19 @@ mvelo.tabs.sendMessage = function(tab, msg) {
 
 mvelo.tabs.loadOptionsTab = function(hash, onMessage, callback) {
   // check if options tab already exists
-  this.query(data.url("ui/options.html"), function(tabs) {
+  this.query(data.url("common/ui/options.html"), function(tabs) {
     if (tabs.length === 0) {
       // if not existent, create tab
-      mvelo.tabs.create(data.url("ui/options.html") + hash, true, function(tab) {
+      mvelo.tabs.create(data.url("common/ui/options.html") + hash, true, function(tab) {
         console.log('before tab attach');
         mvelo.tabs.attach(tab, {
-          contentScriptFile: [ 
-            "common/dep/jquery.min.js",
-            "common/ui/inline/mvelo.js",
-            "ui/messageAdapter.js",
-            "common/ui/options.js"
+          contentScriptFile: [
+            "ui/messageAdapter.js"
           ],
-          contentScript: dataPathScript,
+          contentScriptOptions: {
+            expose_messaging: true,
+            data_path: data.url()
+          },
           onMessage: function(msg) {
             //console.log('message-event', msg.event);
             onMessage(msg, null, (function(response) {
@@ -123,8 +118,8 @@ mvelo.tabs.loadOptionsTab = function(hash, onMessage, callback) {
               this.emit(msg.response, response);
             }).bind(this));
           }
-        }, callback.bind(this, false))
-      });          
+        }, callback.bind(this, false));
+      });
     } else {
       // if existent, set as active tab
       mvelo.tabs.activate(tabs[0], callback.bind(this, true));

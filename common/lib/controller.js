@@ -37,6 +37,8 @@ define(function (require, exports, module) {
   var pwdPort = null;
   // editor window
   var editor = null;
+  // decrypt popup window
+  var decryptPopup = null;
   // recipients of encrypted mail
   var eRecipientBuffer = {};
   var scannedHosts = [];
@@ -119,6 +121,10 @@ define(function (require, exports, module) {
       case 'decrypt-dialog-cancel':
         // forward event to decrypt frame
         dFramePorts[id].postMessage({event: 'dialog-cancel'});
+        if (decryptPopup) {
+          decryptPopup.close();
+          decryptPopup = null;
+        }
         break;
       case 'encrypt-dialog-cancel':
         // forward event to encrypt frame
@@ -147,7 +153,9 @@ define(function (require, exports, module) {
           // password dialog or modal dialog already open
           dFramePorts[id].postMessage({event: 'remove-dialog'});        
         } else {
-          mvelo.windows.openPopup('common/ui/modal/decryptPopup.html?id=' + id, {width: 742, height: 450, modal: true});
+          mvelo.windows.openPopup('common/ui/modal/decryptPopup.html?id=' + id, {width: 742, height: 450, modal: true}, function(window) {
+            decryptPopup = window;
+          });
         }
         break;
       case 'dframe-armored-message':
@@ -260,6 +268,8 @@ define(function (require, exports, module) {
         } 
         // editor transfers message to recipient encrypt frame
         eFramePorts[msg.recipient].postMessage({event: 'set-editor-output', text: msg.data});
+        editor.window.close();
+        editor = null;
         break;
       case 'eframe-display-editor':
         if (editor || mvelo.windows.modalActive) {
@@ -281,6 +291,10 @@ define(function (require, exports, module) {
         // store id of editor == eframe id == edialog id
         editor.id = id;
         editor.port.postMessage({event: 'set-text', text: editor.text});
+        break;
+      case 'editor-cancel':
+        editor.window.close();
+        editor = null;
         break;
       default:
         console.log('unknown event', msg);
