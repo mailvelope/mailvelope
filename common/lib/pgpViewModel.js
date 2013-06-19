@@ -76,9 +76,24 @@ define(function(require, exports, module) {
     return result;
   }
 
+  function getKeyDetails(guid) {
+    var details = {};
+    for (var i = 0; i < openpgp.keyring.publicKeys.length; i++) {
+      var pKey = openpgp.keyring.publicKeys[i];
+      if (guid === pKey.obj.getFingerprint()) {
+        // subkeys
+        mapSubKeys(pKey.obj.subKeys, details);
+        // users
+        mapUsers(pKey.obj.userIds, details);
+        return details;
+      }
+    };
+  }
+
   exports.getKeys = getKeys;
   exports.getPublicKeys = getPublicKeys;
   exports.getPrivateKeys = getPrivateKeys;
+  exports.getKeyDetails = getKeyDetails;
   
   function mapKeyMsg(obj, toKey) {
     // fingerprint used as UID
@@ -96,9 +111,9 @@ define(function(require, exports, module) {
       toKey.exDate = new Date(sig.creationTime.getTime() + sig.keyExpirationTime * 1000);
     }
     // subkeys
-    mapSubKeys(obj.subKeys, toKey);
+    //mapSubKeys(obj.subKeys, toKey);
     // users
-    mapUsers(obj.userIds, toKey);
+    //mapUsers(obj.userIds, toKey);
   }
   
   function mapKeyMaterial(keyPacket, toKey) {

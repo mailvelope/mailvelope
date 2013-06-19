@@ -9443,6 +9443,7 @@ var mvelo = mvelo || {};
 mvelo.crx = typeof chrome !== 'undefined';
 // firefox addon
 mvelo.ffa = mvelo.ffa || typeof self !== 'undefined' && self.port;
+// for fixfox, mvelo.extension is exposed from a conent script
 mvelo.extension = mvelo.extension || mvelo.crx && chrome.extension;
 // min height for large frame
 mvelo.LARGE_FRAME = 600;
@@ -9773,6 +9774,8 @@ var DecryptFrame = DecryptFrame || (function() {
     this._pgpMessageType;
     this._dFrame;
     this._dDialog;
+    // decrypt popup active
+    this._dPopup = false;
     this._port;
     this._refreshPosIntervalID;
     this._displayMode = prefs.security.display_decrypted;
@@ -9916,6 +9919,7 @@ var DecryptFrame = DecryptFrame || (function() {
         sender: 'dFrame-' + this.id
       });
       this._dFrame.removeClass('m-decrypt-key-cursor');
+      this._dPopup = true;
     },
     
     _establishConnection: function() {
@@ -9925,11 +9929,17 @@ var DecryptFrame = DecryptFrame || (function() {
     },
     
     _removeDialog: function() {
+      // check if dialog is active
+      if (!this._dDialog && !this._dPopup) {
+        return;
+      }
       if (this._displayMode === mvelo.DISPLAY_INLINE) {
         this._dDialog.fadeOut();
         // removal triggers disconnect event
         this._dDialog.remove();
         this._dDialog = null;
+      } else {
+        this._dPopup = false;
       }
       this._dFrame.addClass('m-decrypt-key-cursor');
       this._toggleIcon();

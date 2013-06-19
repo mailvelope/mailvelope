@@ -39,6 +39,8 @@ define(function (require, exports, module) {
   var editor = null;
   // decrypt popup window
   var decryptPopup = null;
+  // password popup window
+  var pwdPopup = null;
   // recipients of encrypted mail
   var eRecipientBuffer = {};
   var scannedHosts = [];
@@ -115,6 +117,7 @@ define(function (require, exports, module) {
   }
 
   function handlePortMessage(msg) {
+    console.log('controller handlePortMessage:', msg.event, msg.sender);
     var id = parseName(msg.sender).id;
     switch (msg.event) {
       case 'pwd-dialog-cancel':
@@ -124,6 +127,10 @@ define(function (require, exports, module) {
         if (decryptPopup) {
           decryptPopup.close();
           decryptPopup = null;
+        }
+        if (pwdPopup) {
+          pwdPopup.close();
+          pwdPopup = null;
         }
         break;
       case 'encrypt-dialog-cancel':
@@ -168,7 +175,9 @@ define(function (require, exports, module) {
             dMessageBuffer[id] = message;
             // open password dialog
             if (prefs.data.security.display_decrypted == mvelo.DISPLAY_INLINE) {
-              mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true});
+              mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true}, function(window) {
+                pwdPopup = window;
+              });
             } else if (prefs.data.security.display_decrypted == mvelo.DISPLAY_POPUP) {
               dDialogPorts[id].postMessage({event: 'show-pwd-dialog'});
             }
@@ -302,7 +311,7 @@ define(function (require, exports, module) {
   }
 
   function handleMessageEvent(request, sender, sendResponse) {
-    //console.log('controller: handleMessageEvent', request.event);
+    console.log('controller: handleMessageEvent', request.event);
     switch (request.event) {
       case 'viewmodel':
         var response = {};

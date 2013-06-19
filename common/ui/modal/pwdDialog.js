@@ -31,9 +31,7 @@
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);
     $('form').on('submit', onOk);
-    $(window).unload(function() {
-      port.postMessage({event: 'pwd-dialog-cancel', sender: id});
-    });
+    $(window).on('unload', onCancel);
     $('#password').focus();
   }
   
@@ -48,8 +46,8 @@
   }
   
   function onCancel() {
+    $(window).off('unload');
     port.postMessage({event: 'pwd-dialog-cancel', sender: id});
-    top.close();
     return false;
   }
 

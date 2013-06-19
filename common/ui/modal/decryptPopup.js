@@ -35,14 +35,16 @@
     port.postMessage({event: 'decrypt-popup-init', sender: name});
     addSandbox();
     addErrorView();
-    $(window).unload(onClose);
+    $(window).on('unload', onClose);
     $('#closeBtn').click(onClose);
     $('#copyBtn').click(onCopy);
     $('body').addClass('spinner');
   }
 
   function onClose() {
+    $(window).off('unload');
     port.postMessage({event: 'decrypt-dialog-cancel', sender: name});
+    return false;
   }
 
   function onCopy() {
@@ -74,10 +76,12 @@
       href: '../../dep/css/bootstrap.min.css'
     });
     var style2 = style.clone().attr('href', '../../dep/wysihtml5/css/wysihtml5.css');
+    sandbox.one('load', function() {
+      sandbox.contents().find('head').append(style)
+                                     .append(style2);
+      sandbox.contents().find('body').append(content);
+    });
     $('.modal-body').append(sandbox);
-    sandbox.contents().find('head').append(style)
-                                   .append(style2);
-    sandbox.contents().find('body').append(content);
   }
 
   function addPwdDialog() {
@@ -118,6 +122,7 @@
     $('body').removeClass('spinner');
     switch (msg.event) {
       case 'decrypted-message':
+        console.log('popup decrypted message: ', msg.message);
         showMessageArea();
         // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
         var message = msg.message.replace(/\n/g, '<br>');
