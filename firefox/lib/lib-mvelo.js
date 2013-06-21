@@ -18,6 +18,7 @@
 var data = require('sdk/self').data;
 var tabs = require('sdk/tabs');
 var windows = require('sdk/windows').browserWindows;
+var {open} = require('sdk/window/utils');
 var timer = require('sdk/timers');
 var ss = require('sdk/simple-storage');
 
@@ -141,6 +142,7 @@ mvelo.windows = {};
 
 mvelo.windows.modalActive = false;
 
+
 mvelo.windows.openPopup = function(url, options, callback) {
   //console.log('openPopup:', url);
   var winOpts = {};
@@ -150,20 +152,29 @@ mvelo.windows.openPopup = function(url, options, callback) {
       this.activate();
     }
   }
-  /*
-  winOpts.onOpen = function(win) {
-    win.tabs[0].attach({
-      contentScript:
-        'console.log("Im attached!", mvelo);'
-    });
-  }
-  */
   if (callback) {
     winOpts.onOpen = callback;
   }
   windows.open(winOpts);
 }
 
+/*
+mvelo.windows.openPopup = function(url, options, callback) {
+  console.log('openPopup:', data.url(url));
+  var nWin = open(data.url(url), {
+    features: {
+      width: options.width,
+      height: options.height,
+      chrome: true,
+      modal: true,
+      location: true,
+      menubar: true
+    }
+  });
+  console.log('nWin', nWin)
+  callback(nWin);
+}
+*/
 mvelo.windows.BrowserWindow = function(id) {
   this._id = id;
 };
