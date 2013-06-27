@@ -1,4 +1,10 @@
 
+0.6.3 / 25.06.2013 
+==================
+
+  * Fix "Send public key by mail" producing corrupted key text
+  * Update to latest OpenPGP.js
+
 0.6.2 / 10.05.2013 
 ==================
 
