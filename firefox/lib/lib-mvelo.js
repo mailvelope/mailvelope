@@ -142,7 +142,6 @@ mvelo.windows = {};
 
 mvelo.windows.modalActive = false;
 
-
 mvelo.windows.openPopup = function(url, options, callback) {
   //console.log('openPopup:', url);
   var winOpts = {};
@@ -165,8 +164,8 @@ mvelo.windows.openPopup = function(url, options, callback) {
     features: {
       width: options.width,
       height: options.height,
-      chrome: true,
-      modal: true,
+      //chrome: true,
+      //modal: true,
       location: true,
       menubar: true
     }
@@ -175,6 +174,7 @@ mvelo.windows.openPopup = function(url, options, callback) {
   callback(nWin);
 }
 */
+
 mvelo.windows.BrowserWindow = function(id) {
   this._id = id;
 };
@@ -185,9 +185,23 @@ mvelo.windows.BrowserWindow.prototype.activate = function() {
 
 mvelo.util = {};
 
-mvelo.util.parseHTML = function(html) {
-  return html;
-  //return wysihtml5.parse(html);
+var wysihtml5 = require("sdk/page-worker").Page({
+  contentURL: data.url('dep/wysihtml5/empty.html'),
+  contentScriptFile: [
+    data.url('common/dep/jquery.min.js'),
+    data.url('common/dep/wysihtml5/js/wysihtml5-0.4.0pre.js'),
+    data.url('common/dep/wysihtml5/js/advanced_parser_rules.js'),
+    data.url('dep/wysihtml5/init.js')
+  ]
+});
+
+mvelo.util.parseHTML = function(html, callback) {
+  var message = {
+    data: html,
+    response: mvelo.getHash()
+  };
+  wysihtml5.port.once(message.response, callback);
+  wysihtml5.port.emit('parse', message);
 }
 
 // must be bound to window, otherwise illegal invocation

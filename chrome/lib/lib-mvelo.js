@@ -166,8 +166,8 @@ define(function(require, exports, module) {
 
   mvelo.util = {};
 
-  mvelo.util.parseHTML = function(html) {
-    return wysihtml5.parse(html);
+  mvelo.util.parseHTML = function(html, callback) {
+    callback(wysihtml5.parse(html));
   }
 
   // must be bound to window, otherwise illegal invocation

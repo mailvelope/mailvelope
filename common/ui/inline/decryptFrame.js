@@ -165,6 +165,9 @@ var DecryptFrame = DecryptFrame || (function() {
       });
       var path = 'common/ui/inline/dialogs/decryptInline.html?id=' + that.id;
       var url = mvelo.extension.getURL(path);
+      if (mvelo.ffa) {
+        url = 'about:blank';
+      }
       this._dDialog.attr('src', url);
       this._dFrame.append(this._dDialog);
       this._setFrameDim();

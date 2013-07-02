@@ -271,14 +271,18 @@ define(function (require, exports, module) {
         eDialogPorts[editor && editor.id || id].postMessage({event: 'encoding-defaults', defaults: defaultEncoding});
         break;
       case 'editor-transfer-output':
+        function setEditorOutput(output) {
+          // editor transfers message to recipient encrypt frame
+          eFramePorts[msg.recipient].postMessage({event: 'set-editor-output', text: output});
+          editor.window.close();
+          editor = null;  
+        }
         // sanitize if content from plain text, rich text already sanitized by editor
         if (prefs.data.general.editor_type == mvelo.PLAIN_TEXT) {
-          msg.data = mvelo.util.parseHTML(msg.data);
-        } 
-        // editor transfers message to recipient encrypt frame
-        eFramePorts[msg.recipient].postMessage({event: 'set-editor-output', text: msg.data});
-        editor.window.close();
-        editor = null;
+          mvelo.util.parseHTML(msg.data, setEditorOutput);
+        } else {
+          setEditorOutput(msg.data);
+        }
         break;
       case 'eframe-display-editor':
         if (editor || mvelo.windows.modalActive) {
@@ -372,8 +376,9 @@ define(function (require, exports, module) {
         dDialogPorts[id].postMessage({event: 'error-message', error: err.message});
       } else {
         // decrypted correctly
-        msgText = mvelo.util.parseHTML(msgText); // sanitize message
-        dDialogPorts[id].postMessage({event: 'decrypted-message', message: msgText});
+        msgText = mvelo.util.parseHTML(msgText, function(sanitized) {
+          dDialogPorts[id].postMessage({event: 'decrypted-message', message: sanitized});
+        });
       }
     });
   }

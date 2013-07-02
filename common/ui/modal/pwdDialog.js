@@ -42,6 +42,7 @@
     $('#spinner').show();
     $('.modal-body').css('opacity', '0.4');
     port.postMessage({event: 'pwd-dialog-ok', sender: id, password: pwd, cache: cache});
+    $('#okBtn').prop('disabled', true);
     return false;
   }
   
@@ -68,6 +69,7 @@
         }
         break;
       case 'wrong-password':
+        $('#okBtn').prop('disabled', false);
         $('body').removeClass('busy');
         $('#spinner').hide();
         $('.modal-body').css('opacity', '1');
