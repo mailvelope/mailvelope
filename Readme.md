@@ -6,8 +6,7 @@ Mailvelope is a browser extension for Google Chrome and Firefox that allows secu
 
 Mailvelope uses the following OpenPGP implementations
 
-  - [OpenPGP.js](http://openpgpjs.org/) for the Chrome Extension
-  - [Pidgeon Privacy Guard](https://pidgeonpg.org/) for the Firefox Addon
+  - [OpenPGP.js](http://openpgpjs.org/) for the Chrome Extension and for the Firefox Addon
 
 ## Status
 
@@ -19,7 +18,7 @@ Mailvelope uses the following OpenPGP implementations
 Mailvelope is available in the Chrome Web Store:
 https://chrome.google.com/webstore/detail/kajibbejlbohfaggdiogboambcijhkke
 
-For Firefox only from source.
+For Firefox only from source. Development branch: https://github.com/toberndo/mailvelope/tree/firefox
 
 ## Build instructions
 
@@ -28,9 +27,6 @@ For Firefox only from source.
     git submodule init
     git submodule update
     make build
-    cd firefox/packages/ppg-api
-    git submodule init
-    git submodule update
 
 ## Website
 
