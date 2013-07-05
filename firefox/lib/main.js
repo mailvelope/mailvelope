@@ -121,9 +121,8 @@ function onCsAttach(worker) {
 
 function getDynamicStyle() {
   var css = data.load('common/ui/inline/framestyles.css');
-  var token = /chrome-extension:\/\/__MSG_@@extension_id__\//g;
-  css = css.replace(token, data.url());
-  //console.log(css);
+  var token = /\.\.\/\.\./g;
+  css = css.replace(token, data.url('common'));
   return css;
 }
 
@@ -146,52 +145,3 @@ function injectMessageAdapter() {
   });
  
 }
-
-
-
-/*
-
-function initInlineDialogs() {
-
-  var decryptFiles = [
-      data.url('common/dep/jquery.min.js'),
-      data.url('common/dep/jquery.ext.js'),
-      data.url('common/ui/inline/mvelo.js'),
-      data.url('ui/messageAdapter.js')
-    ];
-  var encryptFiles = decryptFiles.slice();
-
-  decryptFiles.push(data.url('common/ui/inline/dialogs/decryptInline.js'));
-  encryptFiles.push(data.url('common/ui/inline/dialogs/encryptDialog.js'));
-  
-  pageMod.PageMod({
-    include: 'about:blank',
-    onAttach: onCsAttach,
-    contentScriptFile: decryptFiles,
-    contentScript: setDataPathScript(),
-    contentStyleFile: [
-      data.url('common/dep/bootstrap/css/bootstrap.min.css'),
-      data.url('common/ui/inline/dialogs/decryptInline.css')
-    ],
-    attachTo: 'frame'
-  });
-
-  pageMod.PageMod({
-    include: 'http://www.mailvelope.com/common/ui/inline/dialogs/encryptDialog.html*',
-    onAttach: onCsAttach,
-    contentScriptFile: encryptFiles,
-    contentScript: setDataPathScript(),
-    contentStyleFile: [
-      data.url('common/dep/bootstrap/css/bootstrap.min.css'),
-      data.url('common/ui/inline/dialogs/encryptDialog.css')
-    ]
-  });
- 
-}
-
-*/
-
-
-
-
-

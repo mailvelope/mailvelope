@@ -167,7 +167,7 @@ body {
 }
 
 .spinner {
-  background-image: url('chrome-extension://__MSG_@@extension_id__/common/dep/kendoui/styles/Default/loading-image.gif');      
+  background-image: url('../dep/kendoui/styles/Default/loading-image.gif');      
   background-repeat: no-repeat;      
   background-position: center;
 }
