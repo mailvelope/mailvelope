@@ -28,6 +28,22 @@ For Firefox only from source.
     git submodule update
     make build
 
+To build the Firefox package, first get the Firefox Addon SDK:
+
+    git clone git://github.com/mozilla/addon-sdk.git
+	cd addon-sdk
+	source bin/activate
+
+Then, cd to the `mailvelope` directory, and do
+	
+    git checkout -t origin/firefox
+    git submodule init
+    git submodule update
+    make build
+	make dist-ff
+
+The extension will be in `dist/mailvelope.xpi`.
+
 ## Website
 
 http://www.mailvelope.com
