@@ -34,8 +34,12 @@
       },
       {
         field: "id",
-        width: 150,
-        title: "Key ID"
+        width: 100,
+        title: "Key ID",
+        template: '#= id.substr(-8) #',
+        attributes: {
+          style: "font-family: monospace;"
+        }
       },  
       {
         field: "crDate",
