@@ -17,7 +17,7 @@
 
 /*
 // clean slate
-var ss = require("simple-storage");
+var ss = require("sdk/simple-storage");
 for (var obj in ss.storage) {
   console.log('delete ss:', obj);
   delete ss.storage[obj];
