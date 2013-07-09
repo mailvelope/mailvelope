@@ -22,27 +22,37 @@ For Firefox only from source.
 
 ## Build instructions
 
+#### Chrome
+
     git clone git://github.com/toberndo/mailvelope.git
     cd mailvelope
     git submodule init
     git submodule update
     make build
+    make dist-cr
 
-To build the Firefox package, first get the Firefox Addon SDK:
+The extension will be in `dist/mailvelope.zip`.
+
+#### Firefox
+
+To build the Firefox addon, first get the Firefox Addon SDK:
 
     git clone git://github.com/mozilla/addon-sdk.git
-	cd addon-sdk
-	source bin/activate
+    cd addon-sdk
+    source bin/activate
+    cd ..
 
-Then, cd to the `mailvelope` directory, and do
-	
-    git checkout -t origin/firefox
+Then, get the `firefox` branch:
+
+    git clone git://github.com/toberndo/mailvelope.git
+    cd mailvelope
+    git checkout -t origin/firefox    
     git submodule init
     git submodule update
     make build
-	make dist-ff
+    make dist-ff
 
-The extension will be in `dist/mailvelope.xpi`.
+The addon will be in `dist/mailvelope.xpi`.
 
 ## Website
 
