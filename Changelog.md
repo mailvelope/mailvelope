@@ -1,4 +1,11 @@
 
+0.6.4 / 12.07.2013 
+==================
+
+  * Fix UTF8 regression introduced with OpenPGP.js update in 0.6.3
+  * Update watchlist defaults for new GMX navigator
+  * Set plain text as default editor due to incompatibilities with encrypted HTML mails
+
 0.6.3 / 25.06.2013 
 ==================
 
