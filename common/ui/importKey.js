@@ -24,6 +24,7 @@
     $('#impKeySubmit').click(onImportKey);
     $('#impKeyClear').click(onClear);
     $('#impKeyAnother').click(onAnother);
+    $('#impKeyFilepath').change(onChangeFile);
   }
   
   function onImportKey() {
@@ -66,6 +67,13 @@
     if (ntotal == 0) {
       $('#importAlert').showAlert('Import Error', 'Not a valid key text', 'error');
     }
+  }
+
+  function onChangeFile(event) {
+    var reader = new FileReader();
+    file = event.target.files[0];
+    reader.onloadend = function(ev) { $('#newKey').val(ev.target.result); };
+    reader.readAsText(file);
   }
 
   function importDone(success) {
