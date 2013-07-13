@@ -27,7 +27,9 @@
       grid = $(this).data("kendoGrid");
     });
     $('#exportToCb').click(exportToClipboard);
+    $('#exportToKS').click(exportToKeyserver);
     $('#exportDownload button').click(createFile);
+    $('#sendToKS').click(sendToKeyserver);
   }
 
   function onExport() {
@@ -65,6 +67,14 @@
     var filename = key.name.replace(/\s/g, '_') + '_' + fprefix + '.asc';
     $('#exportDownload input').val(filename);
     $('#exportKey').modal('show');
+
+    if(fprefix !== 'pub') {
+	$('#exportToKS').addClass('hide')
+    }
+    else {
+	$('#exportToKS').removeClass('hide')
+    }
+
   }
 
   function createFile() {
@@ -83,6 +93,15 @@
 
   function exportToClipboard() {
     keyRing.copyToClipboard($('#armoredKey').val());
+  }
+
+  function exportToKeyserver() {
+    $('#selectKeyserver').modal('show');
+  }
+
+  function sendToKeyserver() {
+	$('#keyform').attr('action',$('#keyserverChoice').val()+':11371/pks/add');
+	$('#keyform').submit()
   }
   
   $(document).ready(init);
