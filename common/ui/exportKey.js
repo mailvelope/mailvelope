@@ -69,10 +69,10 @@
     $('#exportKey').modal('show');
 
     if(fprefix !== 'pub') {
-	$('#exportToKS').addClass('hide')
+      $('#exportToKS').addClass('hide')
     }
     else {
-	$('#exportToKS').removeClass('hide')
+      $('#exportToKS').removeClass('hide')
     }
 
   }
@@ -100,8 +100,7 @@
   }
 
   function sendToKeyserver() {
-	$('#keyform').attr('action',$('#keyserverChoice').val()+':11371/pks/add');
-	$('#keyform').submit()
+    $.post($('#keyserverChoice').val()+':11371/pks/add',$('#keyform').serialize());
   }
   
   $(document).ready(init);
