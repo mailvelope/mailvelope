@@ -16,15 +16,11 @@
     },
     {
       "active": true,
-      "site": "service.gmx.net",
+      "site": "navigator.gmx.net",
       "frames": [
         {
           "scan": true,
-          "frame": "*.service.gmx.net"
-        },
-        {
-          "scan": true,
-          "frame": "*.gmxattachments.net"
+          "frame": "*.gmx.net"
         }
       ]
     },
@@ -57,7 +53,7 @@
       "password_timeout": 30
     },
     "general": {
-      "editor_type": "rich"
+      "editor_type": "plain"
     }
   }
 }

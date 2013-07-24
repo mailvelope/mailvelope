@@ -3,6 +3,10 @@
  * Copyright (C) 2012  Thomas Oberndörfer
  */
 
+body {
+  overflow: hidden;
+}
+
 .m-modal {
   width: 440px;
   margin: 10px;

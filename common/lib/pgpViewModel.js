@@ -101,7 +101,7 @@ define(function(require, exports, module) {
     toKey.id = util.hexstrdump(obj.getKeyId()).toUpperCase();
     toKey.fingerprint = util.hexstrdump(obj.getFingerprint()).toUpperCase();
     var address = goog.format.EmailAddress.parse(obj.userIds[0].text);
-    toKey.name = decode_utf8(address.getName());
+    toKey.name = address.getName();
     toKey.email = address.getAddress();
     // signature
     var sig = obj.userIds[0].certificationSignatures[0];
@@ -147,20 +147,20 @@ define(function(require, exports, module) {
     toKey.users = [];
     userids.forEach(function(userPacket) {
       var user = {};
-      user.userID = decode_utf8(userPacket.text);
+      user.userID = userPacket.text;
       user.signatures = [];
       userPacket.certificationSignatures.forEach(function(certSig) {
         var sig = {};
         var issuerKey = certSig.getIssuerKey();
         if (issuerKey !== null) {
-          sig.signer = decode_utf8(issuerKey.obj.userIds[0].text);
+          sig.signer = issuerKey.obj.userIds[0].text;
           
         } else {
           sig.signer = 'Unknown Signer';
           // look for issuer in private key store
           for (var i = 0; i < openpgp.keyring.privateKeys.length; i++) {
             if (certSig.getIssuer() === openpgp.keyring.privateKeys[i].obj.getKeyId()) {
-              sig.signer = decode_utf8(openpgp.keyring.privateKeys[i].obj.userIds[0].text);
+              sig.signer = openpgp.keyring.privateKeys[i].obj.userIds[0].text;
               break;
             }
           }
@@ -190,7 +190,7 @@ define(function(require, exports, module) {
 
   function mapKeyUserIds(obj, toKey, proposal) {
     toKey.keyid = util.hexstrdump(obj.getKeyId()).toUpperCase();
-    toKey.userid = decode_utf8(obj.userIds[0].text);
+    toKey.userid = obj.userIds[0].text;
     var email = goog.format.EmailAddress.parse(obj.userIds[0].text).getAddress();
     toKey.proposal = proposal.some(function(element) {
       return email === element;
@@ -248,7 +248,7 @@ define(function(require, exports, module) {
     return result.map(function(key) {
       return {
         keyid: util.hexstrdump(key.getKeyId()).toUpperCase(),
-        userid: decode_utf8(key.userIds[0].text)
+        userid: key.userIds[0].text
       }
     });
   }
@@ -291,23 +291,6 @@ define(function(require, exports, module) {
     return result;
   }
   
-  function decode_utf8(str) {
-    // if str contains umlauts (öäü) this throws an exeception -> no decoding required
-    try {
-      return decodeURIComponent(escape(str));
-    } catch (e) {
-      return str;
-    }
-  }
-
-  function encode_utf8(str) {
-    try {
-      return unescape(encodeURIComponent(str));
-    } catch (e) {
-      return str;
-    }
-  }     
-  
   function removeKey(guid, type) {
     // remove public part
     for (var i = 0; i < openpgp.keyring.publicKeys.length; i++) {
@@ -332,7 +315,7 @@ define(function(require, exports, module) {
   
   function generateKey(options) {
     var keyType = getKeyType(options.algorithm);
-    var emailAdr = new goog.format.EmailAddress(options.email, encode_utf8(options.user));
+    var emailAdr = new goog.format.EmailAddress(options.email, options.user);
     var keyPair = openpgp.generate_key_pair(keyType, parseInt(options.numBits), emailAdr.toString(), options.passphrase);
     openpgp.keyring.importPublicKey(keyPair.publicKeyArmored);
     // need to read key again, because userids not set in keyPair.privateKey
@@ -378,7 +361,7 @@ define(function(require, exports, module) {
       }
     }
     if (result.privkey != null) {
-      result.userid = decode_utf8(primarykey.userIds[0].text);
+      result.userid = primarykey.userIds[0].text;
       result.primkeyid = util.hexstrdump(primarykey.getKeyId()).toUpperCase(); 
       result.keyid = util.hexstrdump(result.privkey.keymaterial.publicKey.getKeyId()).toUpperCase();
     } else {
@@ -411,7 +394,6 @@ define(function(require, exports, module) {
   function decryptMessage(message, callback) {
     try {
       var decryptedMsg = message.message.decrypt(message.privkey, message.sesskey);
-      decryptedMsg = decode_utf8(decryptedMsg);
       callback(null, decryptedMsg);
     } catch (e) {
       callback({
@@ -440,7 +422,6 @@ define(function(require, exports, module) {
         message: 'No valid key found for enryption'
       });
     }
-    message = encode_utf8(message);
     try {
       var encrypted = openpgp.write_encrypted_message(keyObj, message);
       callback(null, encrypted);
