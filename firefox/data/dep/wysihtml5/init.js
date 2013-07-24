@@ -1,6 +1,6 @@
 
 $(document).ready(function() {
-  var element = $('<textarea/>').appendTo($('body'));
+  var element = $('textarea');
   var editor = new wysihtml5.Editor(element.get(0), {
     parserRules:  wysihtml5ParserRules
   });

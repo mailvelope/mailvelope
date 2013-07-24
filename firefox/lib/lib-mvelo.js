@@ -188,7 +188,7 @@ mvelo.util = {};
 var wysihtml5 = require("sdk/page-worker").Page({
   contentURL: data.url('dep/wysihtml5/empty.html'),
   contentScriptFile: [
-    data.url('common/dep/jquery.min.js'),
+    data.url('common/dep/jquery-1.9.1.min.js'),
     data.url('common/dep/wysihtml5/js/wysihtml5-0.4.0pre.js'),
     data.url('common/dep/wysihtml5/js/advanced_parser_rules.js'),
     data.url('dep/wysihtml5/init.js')

@@ -5549,10 +5549,13 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
             stylesheets:  this.config.stylesheets
           });
 
-      // Create the basic dom tree including proper DOCTYPE and charset
-      iframeDocument.open("text/html", "replace");
-      iframeDocument.write(sandboxHtml);
-      iframeDocument.close();
+      // Firefox 23 raises here security exception, still basic HTML is generated in iframe
+      try {
+          // Create the basic dom tree including proper DOCTYPE and charset
+          iframeDocument.open("text/html", "replace");
+          iframeDocument.write(sandboxHtml);
+          iframeDocument.close();
+      } catch (e) {}
 
       this.getWindow = function() { return iframe.contentWindow; };
       this.getDocument = function() { return iframe.contentWindow.document; };
