@@ -18,7 +18,7 @@
 var data = require('sdk/self').data;
 var tabs = require('sdk/tabs');
 var windows = require('sdk/windows').browserWindows;
-var {open} = require('sdk/window/utils');
+//var {open} = require('sdk/window/utils');
 var timer = require('sdk/timers');
 var ss = require('sdk/simple-storage');
 
@@ -142,8 +142,11 @@ mvelo.windows = {};
 
 mvelo.windows.modalActive = false;
 
+mvelo.windows.options = [];
+
 mvelo.windows.openPopup = function(url, options, callback) {
   //console.log('openPopup:', url);
+  this.options.push(options);
   var winOpts = {};
   winOpts.url = data.url(url);
   winOpts.onDeactivate = function() {
@@ -157,23 +160,41 @@ mvelo.windows.openPopup = function(url, options, callback) {
   windows.open(winOpts);
 }
 
-/*
-mvelo.windows.openPopup = function(url, options, callback) {
-  console.log('openPopup:', data.url(url));
-  var nWin = open(data.url(url), {
-    features: {
-      width: options.width,
-      height: options.height,
-      //chrome: true,
-      //modal: true,
-      location: true,
-      menubar: true
+var delegate = {
+  onTrack: function (window) {
+    console.log("Tracking a window: " + window.location);
+    // check for mailvelope popup
+    if (/\/mailvelope/.test(window.arguments[0])) {
+      console.log("Mailvelope popup found");
+      console.log("window.locationbar", window.locationbar.visible);
+      window.locationbar.visible = false;
+      window.menubar.visible = false;
+      window.personalbar.visible = false;
+      window.toolbar.visible = false;
+      var options = mvelo.windows.options.shift();
+      window.innerWidth = options.width;
+      window.innerHeight = options.height;
+      for (var main in winUtils.windowIterator()) {
+        console.log("An open window! " + window.arguments);
+        console.log("main.screenY", main.screenY);
+        console.log("main.outerHeight", main.outerHeight);
+        console.log("options.height", options.height);
+        window.screenY = parseInt(main.screenY + (main.outerHeight - options.height) / 2);
+        window.screenX = parseInt(main.screenX + (main.outerWidth - options.width) / 2);
+        console.log("screenX", window.screenX);
+        console.log("screenY", window.screenY);
+        break;
+      }
     }
-  });
-  console.log('nWin', nWin)
-  callback(nWin);
-}
-*/
+  },
+  onUntrack: function (window) {
+    console.log("Untracking a window: " + window.location);
+    // Undo your modifications!
+  }
+};
+var winUtils = require("sdk/deprecated/window-utils");
+var tracker = new winUtils.WindowTracker(delegate);
+
 
 mvelo.windows.BrowserWindow = function(id) {
   this._id = id;
