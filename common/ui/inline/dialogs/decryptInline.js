@@ -125,6 +125,7 @@
         break;
       case 'error-message':
         showErrorMsg(msg.error);
+        break;
       default:
         console.log('unknown event');
     }
