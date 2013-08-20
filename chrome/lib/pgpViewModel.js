@@ -272,6 +272,15 @@ define(function(require, exports, module) {
     }
     return result;
   }
+
+  function decode_utf8(str) {
+    // if str contains umlauts (öäü) this throws an exeception -> no decoding required
+    try {
+      return decodeURIComponent(escape(str));
+    } catch (e) {
+      return str;
+    }
+  }
   
   function removeKey(guid, type) {
     // remove public part
@@ -376,6 +385,7 @@ define(function(require, exports, module) {
   function decryptMessage(message, callback) {
     try {
       var decryptedMsg = message.message.decrypt(message.privkey, message.sesskey);
+      decryptedMsg = decode_utf8(decryptedMsg);
       callback(null, decryptedMsg);
     } catch (e) {
       callback({
