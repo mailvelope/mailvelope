@@ -1,4 +1,10 @@
 
+0.6.5 / 20.08.2013 
+==================
+
+  * Fix wrong encoding of non-ASCII characters in decrypted messages
+  * [OpenPGP.js] Key generation with non-ASCII user id: generate valid signature
+
 0.6.4 / 12.07.2013 
 ==================
 

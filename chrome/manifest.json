@@ -1,6 +1,6 @@
 {
   "name": "Mailvelope",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "Secure email with OpenPGP encryption for Webmail",
   "homepage_url":"http://www.mailvelope.com",
   "manifest_version": 2,
