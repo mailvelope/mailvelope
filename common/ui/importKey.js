@@ -80,7 +80,7 @@
     console.log('importDone', success);
     if (success) {
       // at least one key was imported
-      $('#newKey, #impKeySubmit, #impKeyClear').attr('disabled', 'disabled');
+      $('#newKey, #impKeySubmit, #impKeyClear, #impKeyFilepath').prop('disabled', true);
       $('#impKeyAnother').removeClass('hide');
       // refresh grid
       keyRing.viewModel('getKeys', function(result) {
@@ -90,14 +90,13 @@
   }
   
   function onClear() {
-    $('#newKey').val('');
+    $('#importKey form').trigger('reset');
     clearAlert();
   }
   
   function onAnother() {
-    $('#newKey').val('');
-    clearAlert();
-    $('#newKey, #impKeySubmit, #impKeyClear').removeAttr('disabled');
+    onClear();
+    $('#newKey, #impKeySubmit, #impKeyClear, #impKeyFilepath').prop('disabled', false);
     $('#impKeyAnother').addClass('hide');
   }
 

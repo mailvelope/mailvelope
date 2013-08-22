@@ -172,15 +172,15 @@
               <h3>Bulk Import Keys</h3>
               <form class="form-vertical well" onsubmit="return false">
                 <div class="control-group">
-                  <label class="control-label" for="impKeyFilepath"><h4>Select a file to import<h4></label>
-                  <input type="file" name="filepath" id="impKeyFilepath" />
-                </div>
-                <div class="control-group">
-                  <label class="control-label" for="textarea"><h4>Or paste key text here:</h4></label>
+                  <label class="control-label" for="textarea"><h4>Paste key text here:</h4></label>
                   <div>To import multiple keys, simply paste them all here. Extra text around the keys is ignored.</div>
                   <div class="controls">
                     <textarea id="newKey" rows="12"></textarea>
                   </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="impKeyFilepath"><h4>Select a key text file to import<h4></label>
+                  <input type="file" name="filepath" id="impKeyFilepath" />
                 </div>
                 <div class="control-group">
                   <div id="importAlert">
