@@ -200,7 +200,9 @@ var DecryptFrame = DecryptFrame || (function() {
     
     _getArmoredMessage: function() {
       if (this._pgpElement.is('pre')) {
-        return this._pgpElement.text();
+        var msg = this._pgpElement.clone(); 
+        msg.find('br').replaceWith('\n');
+        return msg.text();
       } else {
         var msg = this._pgpElement.html();
         msg = msg.replace(/\n/g, ' '); // replace new line with space
