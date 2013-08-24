@@ -2,7 +2,7 @@
 0.6.6 / 24.08.2013 
 ==================
 
-  * Fix broken decrypt process for outlook.com (accept <br> inside <pre> in mail body)
+  * Fix broken decrypt process for outlook.com (accept `<br>` inside `<pre>` in mail body)
   * Add key text file upload to key import view
 
 0.6.5 / 20.08.2013 
