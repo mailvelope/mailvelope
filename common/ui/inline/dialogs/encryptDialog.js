@@ -49,25 +49,45 @@
     }
     // get keys from list
     var recipient = [];
+    var recipient_text = [];
     $('#keyList option').each(function() {
       recipient.push($(this).val());
+      recipient_text.push($(this).text());
     });
     if (recipient.length === 0) {
       // show error
       $('#keyList').addClass('alert-error');
       $('<option/>').text('Please add a recipient.').appendTo($('#keyList'));
+    } else if (recipient.length === 1) {
+       // check to see if it is the default users key
+       var last_char = recipient_text[0].charAt(recipient_text[0].length -1);
+       if ('*' === last_char) {
+           $('#keyDialog').hide();
+           $('#alertDialog').show();
+           $('#choose_more').click(function () {
+               $('#keyDialog').show();
+               $('#alertDialog').hide();
+           });
+           $('#continue_enc').click(function () {
+               postMessage(recipient);
+            }); 
+        }
     } else {
-      $('body').addClass('busy');
-      port.postMessage({
+        postMessage(recipient);
+    }
+    return false;
+  }
+ 
+  function postMessage(recipient) {
+    $('body').addClass('busy');
+    port.postMessage({
         event: 'encrypt-dialog-ok', 
         sender: id, 
         recipient: recipient,
         type: $('input:radio[name="encodeRadios"]:checked').val()
-      });
-    }
-    return false;
+    });
   }
-  
+
   function onCancel() {
     port.postMessage({event: 'encrypt-dialog-cancel', sender: id});
     return false;
@@ -125,6 +145,8 @@
         msg.keys.forEach(function(key) {
           var option = $('<option/>').val(key.keyid).text(key.userid);
           if (key.keyid === msg.primary) {
+            // Mark users key with an * so we can identify it
+            option = $('<option/>').val(key.keyid).text(key.userid + "*");
             $('#keyList').append(option.clone());
             key.proposal = false;
           }
