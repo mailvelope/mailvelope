@@ -1,0 +1,17 @@
+{
+  "name": "mailvelope",
+  "version": "0.6.6",
+  "homepage": "https://github.com/toberndo/mailvelope",
+  "description": "Browser extension for OpenPGP encryption with Webmail",
+  "license": "AGPLv3",
+  "dependencies": {
+    "openpgpjs": "patcon/openpgpjs#bower-package-manager"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
