@@ -57,7 +57,7 @@
         empty.removeClass('hide');
         nequ.addClass('hide');
         match.addClass('hide');
-        submit.attr('disabled', 'disabled');
+        submit.prop('disabled', true);
         break;
       case 1:
       case 2:
@@ -65,7 +65,7 @@
         empty.addClass('hide');
         nequ.removeClass('hide');
         match.addClass('hide');
-        submit.attr('disabled', 'disabled');
+        submit.prop('disabled', true);
         break;
       case 3:
         // both filled
@@ -73,11 +73,11 @@
         if (repwd.val() === pwd.val()) {
           nequ.addClass('hide');
           match.removeClass('hide');
-          submit.removeAttr('disabled');
+          submit.prop('disabled', false);
         } else {
           nequ.removeClass('hide');
           match.addClass('hide');
-          submit.attr('disabled', 'disabled');
+          submit.prop('disabled', true);
         }
         break;
     }
@@ -88,9 +88,9 @@
     $('#genKeyAlgo').val('RSA');
     $('#genKeySize').val('2048');
     $('#genKeyExp').val('0')
-                   .attr('disabled', 'disabled');
+                   .prop('disabled', true);
     $('#genKeyExpUnit').val('never')
-                   .attr('disabled', 'disabled');
+                   .prop('disabled', true);
     $('#genKeyEmail').closest('.control-group').removeClass('error')
                      .end().next().addClass('hide');
     $('#genAlert').hide();
@@ -102,11 +102,11 @@
     $('#generateKey').find('input').val('');
     $('#genKeyExp').val('0');
     $('#genAlert').hide();
-    $('#generateKey').find('input, select').removeAttr('disabled');
-    $('#genKeySubmit, #genKeyClear').removeAttr('disabled');
+    $('#generateKey').find('input, select').prop('disabled', false);
+    $('#genKeySubmit, #genKeyClear').prop('disabled', false);
     $('#genKeyAnother').addClass('hide');
     // disable currently unavailable options
-    $('#genKeyExp, #genKeyExpUnit').attr('disabled', 'disabled');
+    $('#genKeyExp, #genKeyExpUnit, #genKeyAlgo').prop('disabled', true);
     return false;
   }
   
@@ -145,8 +145,8 @@
     keyRing.viewModel('generateKey', [options], function(result, error) {
       if (!error) {
         $('#genAlert').showAlert('Success', 'New key generated and imported into key ring', 'success');
-        $('#generateKey').find('input, select').attr('disabled', 'disabled');
-        $('#genKeySubmit, #genKeyClear').attr('disabled', 'disabled');
+        $('#generateKey').find('input, select').prop('disabled', true);
+        $('#genKeySubmit, #genKeyClear').prop('disabled', true);
         $('#genKeyAnother').removeClass('hide');
         // refresh grid
         keyRing.viewModel('getKeys', function(result) {
