@@ -2,3 +2,4 @@
 .directory
 *.sublime*
 .svn
+bower_components/

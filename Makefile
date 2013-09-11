@@ -37,8 +37,9 @@ copy-common:
 
 copy-dep:
 	@echo Update openpgp.js files...
-	@cp -u dep/chrome/openpgpjs/resources/openpgp.js chrome/dep
-	@cp -u dep/chrome/openpgpjs/resources/openpgp.min.js chrome/dep
+	@bower install
+	@cp -u bower_components/openpgpjs/resources/openpgp.js chrome/dep
+	@cp -u bower_components/openpgpjs/resources/openpgp.min.js chrome/dep
 
 test-build: pack copy-common copy-dep
 
