@@ -38,6 +38,11 @@ mvelo.data.load = function(path, callback) {
   callback(result);
 }
 
+mvelo.data.loadDefaults = function() {
+  var defaults = data.load('common/res/defaults.json');
+  return JSON.parse(defaults);
+}
+
 mvelo.tabs = {}
 
 mvelo.tabs.worker = {}
@@ -164,7 +169,7 @@ var delegate = {
   onTrack: function (window) {
     console.log("Tracking a window: " + window.location);
     // check for mailvelope popup
-    if (/\/mailvelope/.test(window.arguments[0])) {
+    if (window.arguments && /\/mailvelope/.test(window.arguments[0])) {
       console.log("Mailvelope popup found");
       console.log("window.locationbar", window.locationbar.visible);
       window.locationbar.visible = false;

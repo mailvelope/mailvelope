@@ -32,6 +32,11 @@
     $('#pwdCacheTime').click(function() {
       return false;
     });
+    // disable for FF
+    if (!mvelo.crx) {
+      $('input:radio[name="decryptRadios"]').prop('disabled', true);
+      $('input:radio[name="editorModeRadios"]').prop('disabled', true);
+    }
   }
 
   function editorModeWarning() {

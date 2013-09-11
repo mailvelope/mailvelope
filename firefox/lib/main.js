@@ -15,19 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
-// clean slate
+var system = require("sdk/system");
 var ss = require("sdk/simple-storage");
-for (var obj in ss.storage) {
-  console.log('delete ss:', obj);
-  delete ss.storage[obj];
-}
-*/
-
 var data = require('sdk/self').data;
-var controller = require('data/common/lib/controller');
 var pageMod = require("sdk/page-mod");
 var tabs = require('sdk/tabs');
+var unload = require('sdk/system/unload');
+
+checkStaticArgs();
+
+var controller = require('data/common/lib/controller');
 
 var activePageMod;
 // recipients of encrypted mail
@@ -48,14 +45,33 @@ require('sdk/widget').Widget({
   panel: mailvelopePanel
 });
 
+unload.when(function(reason) {
+  // with FF24 reason is never 'uninstall' https://bugzilla.mozilla.org/show_bug.cgi?id=571049
+  if (reason === 'uninstall') {
+    clearStorage();
+  }
+});
+
+function checkStaticArgs() {
+  // call cfx run --static-args='{ "clear_storage": true }'
+  if (system.staticArgs.clear_storage) {
+    clearStorage();
+  }
+}
+
 function init() {
-  //console.log('main.js init()');
   controller.extend({initScriptInjection: initScriptInjection});
   initScriptInjection();
   injectMessageAdapter();
 }
 
 init();
+
+function clearStorage() {
+  for (var obj in ss.storage) {
+    delete ss.storage[obj];
+  }
+}
 
 function onPanelMessage(msg) {
   console.log('onPanelMessage', msg.action);

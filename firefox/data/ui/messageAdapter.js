@@ -17,6 +17,8 @@
 
 var mvelo = mvelo || {};
 
+mvelo.ffa = true;
+
 (function() {
 
   var eventIndex = 1;

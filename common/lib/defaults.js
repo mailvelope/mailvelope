@@ -19,9 +19,10 @@ define(function (require, exports, module) {
 
   var mvelo = require('lib/lib-mvelo').mvelo;
   var model = require('./pgpViewModel');
-  var defaults;
 
-  mvelo.data.load('common/res/defaults.json', init);
+  var defaults = mvelo.data.loadDefaults();
+
+  init();
 
   function randomColor() {
     return '#'+('00000'+(Math.random()*(1<<24)|0).toString(16)).toUpperCase().slice(-6);
@@ -36,15 +37,16 @@ define(function (require, exports, module) {
     return result;
   }
 
-  function init(default_str) {
-    defaults = JSON.parse(default_str);
+  function init() {
     if (!model.getWatchList()) {
       model.setWatchList(defaults.watch_list);
     }
-    //model.setPreferences('');
     if (!model.getPreferences()) {
       defaults.preferences.security.secure_color = randomColor();
       defaults.preferences.security.secure_code = randomString(3);
+      if (mvelo.ffa) {
+        defaults.preferences.security.display_decrypted = 'popup';
+      }
       model.setPreferences(defaults.preferences);
     }
   }

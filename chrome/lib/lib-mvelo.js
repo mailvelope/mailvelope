@@ -34,6 +34,10 @@ define(function(require, exports, module) {
     $.get(chrome.extension.getURL(path), callback);
   }
 
+  mvelo.data.loadDefaults = function() {
+    return require('lib/json-loader!common/res/defaults.json');
+  }
+
   mvelo.tabs = {};
 
   mvelo.tabs.getActive = function(callback) {
