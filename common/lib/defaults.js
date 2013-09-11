@@ -44,6 +44,7 @@ define(function (require, exports, module) {
   }
 
   function init() {
+    model.setOpenPGPComment('Email security by Mailvelope, http://mailvelope.com');
     if (!model.getWatchList()) {
       model.setWatchList(defaults.watch_list);
     }
