@@ -86,7 +86,7 @@
   function onClear() {
     $('#generateKey').find('input').val('');
     $('#genKeyAlgo').val('RSA');
-    $('#genKeySize').val('1024');
+    $('#genKeySize').val('2048');
     $('#genKeyExp').val('0')
                    .attr('disabled', 'disabled');
     $('#genKeyExpUnit').val('never')
