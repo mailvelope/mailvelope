@@ -13,6 +13,7 @@ help:
 	@echo "test-build     - pack content scripts and copy common folder"
 	@echo "build          - copy common folder and dependencies"
 	@echo "start-ff       - run addon in Firefox beta"
+	@echo "start-ff-new   - run addon in Firefox beta, clear local storage"
 	@echo "start-ff-std   - run addon in Firefox current release"
 	@echo "test-ff        - do test-build & run addon in Firefox"
 	@echo "dist-ff        - package add-on as an XPI file in dist folder"
@@ -60,6 +61,10 @@ dist-cr:
 start-ff:
 	@echo Start Firefox beta...
 	@cfx run --pkgdir=firefox --profiledir=$(PROFILEDIR) --binary=$(FFBIN)
+
+start-ff-new:
+	@echo Start Firefox beta...
+	@cfx run --pkgdir=firefox --profiledir=$(PROFILEDIR) --binary=$(FFBIN) --static-args='{ "clear_storage": true }'
 
 start-ff-std:
 	@echo Start Firefox...

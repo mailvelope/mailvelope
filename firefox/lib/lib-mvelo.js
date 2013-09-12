@@ -53,11 +53,18 @@ mvelo.tabs.getActive = function(callback) {
 
 mvelo.tabs.attach = function(tab, options, callback) {
   var lopt = {};
-  lopt.contentScriptFile = options.contentScriptFile.map(function(file) {
-    return data.url(file);
-  });
-  lopt.contentScript = options.contentScript;
-  lopt.contentScriptOptions = options.contentScriptOptions;
+  if (options) {
+    lopt.contentScriptFile = options.contentScriptFile && options.contentScriptFile.map(function(file) {
+      return data.url(file);
+    });
+    lopt.contentScript = options.contentScript;
+    lopt.contentScriptOptions = options.contentScriptOptions;
+  }
+  lopt.contentScriptFile = lopt.contentScriptFile || [];
+  lopt.contentScriptFile.push(data.url('ui/messageAdapter.js'));
+  lopt.contentScriptOptions = lopt.contentScriptOptions || {};
+  lopt.contentScriptOptions.expose_messaging = lopt.contentScriptOptions.expose_messaging || true;
+  lopt.contentScriptOptions.data_path = data.url();
   console.log('attach tab', tab.id);
   console.log('attach tab', tab.index);
   var worker = tab.attach(lopt);
@@ -110,13 +117,6 @@ mvelo.tabs.loadOptionsTab = function(hash, onMessage, callback) {
       mvelo.tabs.create(data.url("common/ui/options.html") + hash, true, function(tab) {
         console.log('before tab attach');
         mvelo.tabs.attach(tab, {
-          contentScriptFile: [
-            "ui/messageAdapter.js"
-          ],
-          contentScriptOptions: {
-            expose_messaging: true,
-            data_path: data.url()
-          },
           onMessage: function(msg) {
             //console.log('message-event', msg.event);
             onMessage(msg, null, (function(response) {

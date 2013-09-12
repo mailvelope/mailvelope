@@ -15,10 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var system = require("sdk/system");
-var ss = require("sdk/simple-storage");
+var system = require('sdk/system');
+var ss = require('sdk/simple-storage');
 var data = require('sdk/self').data;
-var pageMod = require("sdk/page-mod");
+var pageMod = require('sdk/page-mod');
 var tabs = require('sdk/tabs');
 var unload = require('sdk/system/unload');
 
@@ -53,6 +53,12 @@ unload.when(function(reason) {
 });
 
 function checkStaticArgs() {
+  // migration for 0.6 releases
+  if (typeof ss.storage['config'] === 'string') {
+    ss.storage['config'] = JSON.parse(ss.storage['config']);
+    ss.storage['privatekeys'] = JSON.parse(ss.storage['privatekeys']);
+    ss.storage['publickeys'] = JSON.parse(ss.storage['publickeys']);
+  }
   // call cfx run --static-args='{ "clear_storage": true }'
   if (system.staticArgs.clear_storage) {
     clearStorage();
@@ -94,7 +100,8 @@ function initScriptInjection() {
     contentScriptOptions: {
       expose_messaging: false,
       data_path: data.url()
-    }
+    },
+    attachTo: ['existing', 'top', 'frame']
   }
 
   if (activePageMod !== undefined) {

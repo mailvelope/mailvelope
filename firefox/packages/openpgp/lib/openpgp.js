@@ -18,32 +18,7 @@
 // Firefox Addon compatibility layer
 
 var ss = require('sdk/simple-storage');
-var cr = require("chrome");
-var crypto = cr.Cc["@mozilla.org/security/crypto;1"].createInstance(cr.Ci.nsIDOMCrypto);
-
-var window = {};
-
-window.navigator = {};
-
-window.navigator.appName = 'Netscape';
-
-window.localStorage = {};
-
-window.localStorage.setItem = function(id, str) {
-  ss.storage[id] = str;
-}
-
-window.localStorage.getItem = function(id) {
-  return ss.storage[id] || null;
-}
-
-window.crypto = {};
-
-window.crypto.getRandomValues = function(buf) {
-  return crypto.getRandomValues(buf);  
-}
-
-// GPG4Browsers - An OpenPGP implementation in javascript
+var window = require('sdk/window/utils').getMostRecentBrowserWindow();// GPG4Browsers - An OpenPGP implementation in javascript
 // Copyright (C) 2011 Recurity Labs GmbH
 // 
 // This library is free software; you can redistribute it and/or
@@ -5689,11 +5664,13 @@ function des (keys, message, encrypt, mode, iv, padding) {
   else {looping = encrypt ? new Array (0, 32, 2, 62, 30, -2, 64, 96, 2) : new Array (94, 62, -2, 32, 64, 2, 30, -2, -2);}
 
   //pad the message depending on the padding parameter
-  if (padding == 2) message += "        "; //pad the message with spaces
-  else if (padding == 1) {temp = 8-(len%8); message += String.fromCharCode (temp,temp,temp,temp,temp,temp,temp,temp); if (temp==8) len+=8;} //PKCS7 padding
-  else if (!padding) message += "\0\0\0\0\0\0\0\0"; //pad the message out with null bytes
+  //only add padding if encrypting - note that you need to use the same padding option for both encrypt and decrypt
+  if (encrypt) {
+    message = des_addPadding(message, padding);
+    len = message.length;
+  }
 
-  //store the result here
+    //store the result here
   result = "";
   tempresult = "";
 
@@ -5761,8 +5738,13 @@ function des (keys, message, encrypt, mode, iv, padding) {
 
   //return the result as an array
   result += tempresult;
-  result = result.replace(/\0*$/g, "");
-  return result;
+    
+  //only remove padding if decrypting - note that you need to use the same padding option for both encrypt and decrypt
+  if (!encrypt) {
+    result = des_removePadding(result, padding);
+  }
+
+    return result;
 } //end of des
 
 
@@ -5841,6 +5823,34 @@ function des_createKeys (key) {
   return keys;
 } //end of des_createKeys
 
+
+function des_addPadding(message, padding) {
+    var padLength = 8 - (message.length % 8);
+    if ((padding == 2) && (padLength < 8)) {            //pad the message with spaces
+        message += "        ".substr(0, padLength);
+    }
+    else if (padding == 1) {                            //PKCS7 padding
+        message += String.fromCharCode(padLength, padLength, padLength, padLength, padLength, padLength, padLength, padLength).substr(0, padLength);
+    }
+    else if (!padding && (padLength < 8)) {             //pad the message out with null bytes
+        message += "\0\0\0\0\0\0\0\0".substr(0, padLength);
+    }
+    return message;
+}
+
+function des_removePadding(message, padding) {
+    if (padding == 2) {         // space padded
+        message = message.replace(/ *$/g, "");
+    }
+    else if (padding == 1) {    // PKCS7
+        var padCount = message.charCodeAt(message.length - 1);
+        message = message.substr(0, message.length - padCount);
+    }
+    else if (!padding) {        // null padding
+        message = message.replace(/\0*$/g, "");
+    }
+    return message;
+}
 
 /* Modified by Recurity Labs GmbH 
  * 
@@ -7428,7 +7438,7 @@ function openpgp_config() {
 			keyserver: "keyserver.linux.it" // "pgp.mit.edu:11371"
 	};
 
-	this.versionstring ="OpenPGP.js v.1.20130627";
+	this.versionstring ="OpenPGP.js v.1.20130912";
 	this.commentstring ="http://openpgpjs.org";
 	/**
 	 * Reads the config out of the HTML5 local storage
@@ -7436,7 +7446,7 @@ function openpgp_config() {
 	 * if config is null the default config will be used
 	 */
 	function read() {
-		var cf = JSON.parse(window.localStorage.getItem("config"));
+		var cf = ss.storage["config"] || null;
 		if (cf == null) {
 			this.config = this.default_config;
 			this.write();
@@ -7454,7 +7464,7 @@ function openpgp_config() {
 	 * Writes the config to HTML5 local storage
 	 */
 	function write() {
-		window.localStorage.setItem("config",JSON.stringify(this.config));
+		ss.storage["config"] = this.config;
 	}
 
 	this.read = read;
@@ -7563,6 +7573,8 @@ function r2s(t) {
  */
 function openpgp_encoding_deArmor(text) {
 	text = text.replace(/\r/g, '')
+	// remove whitespace of blank line to allow later split at \n\n
+	text = text.replace(/\n\s+\n/, '\n\n');
 
 	var type = openpgp_encoding_get_type(text);
 
@@ -8394,6 +8406,7 @@ function _openpgp () {
 		privKey.getPreferredSignatureHashAlgorithm = function(){return openpgp.config.config.prefer_hash_algorithm};//need to override this to solve catch 22 to generate signature. 8 is value for SHA256
 		
 		var publicKeyString = privKey.privateKeyPacket.publicKey.data;
+		userId = util.encode_utf8(userId); // needs same encoding as in userIdString
 		var hashData = String.fromCharCode(0x99)+ String.fromCharCode(((publicKeyString.length) >> 8) & 0xFF) 
 			+ String.fromCharCode((publicKeyString.length) & 0xFF) +publicKeyString+String.fromCharCode(0xB4) +
 			String.fromCharCode((userId.length) >> 24) +String.fromCharCode(((userId.length) >> 16) & 0xFF) 
@@ -8450,8 +8463,8 @@ function openpgp_keyring() {
 	 * This method is called by openpgp.init().
 	 */
 	function init() {
-		var sprivatekeys = JSON.parse(window.localStorage.getItem("privatekeys"));
-		var spublickeys = JSON.parse(window.localStorage.getItem("publickeys"));
+		var sprivatekeys = ss.storage["privatekeys"] || null;
+		var spublickeys = ss.storage["publickeys"] || null;
 		if (sprivatekeys == null || sprivatekeys.length == 0) {
 			sprivatekeys = new Array();
 		}
@@ -8500,8 +8513,8 @@ function openpgp_keyring() {
 		for (var i = 0; i < this.publicKeys.length; i++) {
 			pub[i] = this.publicKeys[i].armored;
 		}
-		window.localStorage.setItem("privatekeys",JSON.stringify(priv));
-		window.localStorage.setItem("publickeys",JSON.stringify(pub));
+		ss.storage["privatekeys"] = priv;
+		ss.storage["publickeys"] = pub;
 	}
 	this.store = store;
 	/**
@@ -11004,7 +11017,7 @@ function openpgp_packet_keymaterial() {
 			var f = this.getFingerprint();
 			return f.substring(12,20);
 		} else if (this.version == 3 && this.publicKeyAlgorithm > 0 && this.publicKeyAlgorithm < 4) {
-			var key_id = this.MPIs[0].substring((this.MPIs[0].mpiByteLength-8));
+			var key_id = this.MPIs[0].MPI.substring((this.MPIs[0].mpiByteLength-8));
 			util.print_debug("openpgp.msg.publickey read_nodes:\n"+"V3 key ID: "+key_id);
 			return key_id;
 		}
@@ -13247,7 +13260,11 @@ var Util = function() {
 	 * @return {String} A native javascript string
 	 */
 	this.decode_utf8 = function(utf8) {
-		return decodeURIComponent(escape(utf8));
+		try {
+      return decodeURIComponent(escape(utf8));
+    } catch (e) {
+      return utf8;
+    }
 	};
 
 	var str2bin = function(str, result) {
