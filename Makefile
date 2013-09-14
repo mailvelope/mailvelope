@@ -63,7 +63,7 @@ start-ff:
 	@cfx run --pkgdir=firefox --profiledir=$(PROFILEDIR) --binary=$(FFBIN)
 
 start-ff-new:
-	@echo Start Firefox beta...
+	@echo Start Firefox beta, , clear local storage...
 	@cfx run --pkgdir=firefox --profiledir=$(PROFILEDIR) --binary=$(FFBIN) --static-args='{ "clear_storage": true }'
 
 start-ff-std:

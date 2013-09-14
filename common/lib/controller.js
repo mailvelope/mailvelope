@@ -435,9 +435,6 @@ define(function (require, exports, module) {
         options.contentScriptFile = [];
         options.contentScriptFile.push("common/dep/jquery.min.js");
         options.contentScriptFile.push("common/ui/inline/mvelo.js");
-        //if (!mvelo.crx) {
-        //  options.contentScriptFile.push("ui/messageAdapter.js");
-        //}
         options.contentScript = scanScript;
         options.onMessage = handleMessageEvent;
         // inject scan script

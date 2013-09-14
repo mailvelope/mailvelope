@@ -18,7 +18,12 @@
 // Firefox Addon compatibility layer
 
 var ss = require('sdk/simple-storage');
-var window = require('sdk/window/utils').getMostRecentBrowserWindow();// GPG4Browsers - An OpenPGP implementation in javascript
+var window = require('sdk/window/utils').getMostRecentBrowserWindow();
+
+// implementation of this function required by openpgp.js
+function showMessages(text) {
+  //console.log(text);
+}// GPG4Browsers - An OpenPGP implementation in javascript
 // Copyright (C) 2011 Recurity Labs GmbH
 // 
 // This library is free software; you can redistribute it and/or
@@ -7438,7 +7443,7 @@ function openpgp_config() {
 			keyserver: "keyserver.linux.it" // "pgp.mit.edu:11371"
 	};
 
-	this.versionstring ="OpenPGP.js v.1.20130912";
+	this.versionstring ="OpenPGP.js v.1.20130914";
 	this.commentstring ="http://openpgpjs.org";
 	/**
 	 * Reads the config out of the HTML5 local storage
@@ -7879,7 +7884,13 @@ function openpgp_encoding_base64_decode(message) {
 function openpgp_encoding_html_encode(message) {
 	if (message == null)
 		return "";
-	return $('<div/>').text(message).html();
+	return String(message)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;")
+        .replace(/\//g, "&#x2F;");
 }
 
 /**
