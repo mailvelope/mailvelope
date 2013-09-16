@@ -147,6 +147,7 @@ mvelo.windows = {};
 
 mvelo.windows.modalActive = false;
 
+// FIFO list for window options
 mvelo.windows.options = [];
 
 mvelo.windows.openPopup = function(url, options, callback) {
@@ -167,11 +168,8 @@ mvelo.windows.openPopup = function(url, options, callback) {
 
 var delegate = {
   onTrack: function (window) {
-    console.log("Tracking a window: " + window.location);
     // check for mailvelope popup
     if (window.arguments && /\/mailvelope/.test(window.arguments[0])) {
-      console.log("Mailvelope popup found");
-      console.log("window.locationbar", window.locationbar.visible);
       window.locationbar.visible = false;
       window.menubar.visible = false;
       window.personalbar.visible = false;
@@ -180,26 +178,17 @@ var delegate = {
       window.innerWidth = options.width;
       window.innerHeight = options.height;
       for (var main in winUtils.windowIterator()) {
-        console.log("An open window! " + window.arguments);
-        console.log("main.screenY", main.screenY);
-        console.log("main.outerHeight", main.outerHeight);
-        console.log("options.height", options.height);
-        window.screenY = parseInt(main.screenY + (main.outerHeight - options.height) / 2);
-        window.screenX = parseInt(main.screenX + (main.outerWidth - options.width) / 2);
-        console.log("screenX", window.screenX);
-        console.log("screenY", window.screenY);
+        var y = parseInt(main.screenY + (main.outerHeight - options.height) / 2);
+        var x = parseInt(main.screenX + (main.outerWidth - options.width) / 2);
+        window.moveTo(x, y);
         break;
       }
     }
-  },
-  onUntrack: function (window) {
-    console.log("Untracking a window: " + window.location);
-    // Undo your modifications!
   }
 };
+
 var winUtils = require("sdk/deprecated/window-utils");
 var tracker = new winUtils.WindowTracker(delegate);
-
 
 mvelo.windows.BrowserWindow = function(id) {
   this._id = id;
