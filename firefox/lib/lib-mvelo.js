@@ -21,6 +21,7 @@ var windows = require('sdk/windows').browserWindows;
 //var {open} = require('sdk/window/utils');
 var timer = require('sdk/timers');
 var ss = require('sdk/simple-storage');
+var url = require('sdk/url');
 
 var mvelo = require('data/common/ui/inline/mvelo').mvelo;
 
@@ -222,5 +223,13 @@ mvelo.util.parseHTML = function(html, callback) {
 // must be bound to window, otherwise illegal invocation
 mvelo.util.setTimeout = timer.setTimeout;
 mvelo.util.clearTimeout = timer.clearTimeout;
+
+mvelo.util.getHostname = function(source) {
+  return url.URL(source).host.split(':')[0]; 
+}
+
+mvelo.util.getHost = function(source) {
+  return url.URL(source).host;
+}
 
 exports.mvelo = mvelo;

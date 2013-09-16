@@ -178,6 +178,18 @@ define(function(require, exports, module) {
   mvelo.util.setTimeout = window.setTimeout.bind(window);
   mvelo.util.clearTimeout = window.clearTimeout.bind(window);
 
+  mvelo.util.getHostname = function(url) {
+    var a = document.createElement('a');
+    a.href = url;
+    return a.hostname;
+  }
+
+  mvelo.util.getHost = function(url) {
+    var a = document.createElement('a');
+    a.href = url;
+    return a.host;
+  }
+
   exports.mvelo = mvelo;
 
 });

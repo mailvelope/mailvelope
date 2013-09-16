@@ -442,17 +442,9 @@ define(function(require, exports, module) {
   }
 
   function getHostname(url) {
-    var a = document.createElement('a');
-    a.href = url;
-    var host = a.hostname;
+    var hostname = mvelo.util.getHostname(url);
     // limit to 3 labels per domain
-    return host.split('.').slice(-3).join('.');
-  }
-
-  function getHost(url) {
-    var a = document.createElement('a');
-    a.href = url;
-    return a.host;
+    return hostname.split('.').slice(-3).join('.');
   }
 
   exports.getKeyUserIDs = getKeyUserIDs;
@@ -467,7 +459,7 @@ define(function(require, exports, module) {
   exports.getWatchList = getWatchList;
   exports.setWatchList = setWatchList;
   exports.getHostname = getHostname;
-  exports.getHost = getHost;
+  exports.getHost = mvelo.util.getHost;
 
   function getPreferences() {
     return mvelo.storage.get('mailvelopePreferences');

@@ -105,7 +105,11 @@ function initScriptInjection() {
   }
 
   if (activePageMod !== undefined) {
-    activePageMod.destroy();
+    try {
+      activePageMod.destroy();
+    } catch (e) {
+      console.log('Destroying active page-mod failed.');
+    }
   }
 
   console.log('modOptions.include', modOptions.include);
