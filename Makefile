@@ -50,7 +50,7 @@ build: copy-common copy-dep
 
 dist-ff:
 	@echo Package add-on as an XPI file in dist folder...
-	@cfx xpi --pkgdir=firefox
+	@cfx xpi --pkgdir=firefox --strip-sdk
 	@mv mailvelope.xpi dist
 
 dist-cr:
