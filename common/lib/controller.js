@@ -19,7 +19,7 @@ define(function (require, exports, module) {
 
   var mvelo = require('lib/lib-mvelo').mvelo;
   var model = require('./pgpViewModel');
-  require('./defaults');
+  var defaults = require('./defaults');
   var prefs = require('./prefs');
   var pwdCache = require('./pwdCache');
 
@@ -363,6 +363,9 @@ define(function (require, exports, module) {
         break;
       case 'get-security-token':
         sendResponse({code: prefs.data.security.secure_code, color: prefs.data.security.secure_color});
+        break;
+      case 'get-version':
+        sendResponse(defaults.getVersion());
         break;
       default:
         console.log('unknown event:', msg.event);

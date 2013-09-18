@@ -36,6 +36,11 @@ var keyRing = {};
       test: Modernizr.inputtypes.color,
       nope: ['../dep/spectrum/spectrum.js', '../dep/spectrum/spectrum.css']
     });
+    sendMessage({
+      event: "get-version"
+    }, function(version) {
+      $('#version').text(version);
+    })
   }
 
   exports.viewModel = function(method, args, callback) {
@@ -57,7 +62,7 @@ var keyRing = {};
     }), '*');
   }
 
-  exports.sendMessage = function(message, callback) {
+  function sendMessage(message, callback) {
     id++;
     if (callback !== undefined) {
       callbacks[id] = callback;
@@ -69,6 +74,8 @@ var keyRing = {};
       callback: (callback !== undefined)
     }), '*');
   }
+
+  exports.sendMessage = sendMessage;
 
   exports.copyToClipboard = function(text) {
     parent.postMessage(JSON.stringify({
