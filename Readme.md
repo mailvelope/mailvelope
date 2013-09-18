@@ -32,7 +32,7 @@ For Firefox only from source.
 
     make dist-cr
 
-The extension will be in `dist/mailvelope.zip`.
+The extension will be in `dist/mailvelope.chrome.zip`.
 
 #### Firefox
 
@@ -45,7 +45,7 @@ To build the Firefox addon, first get the Firefox Addon SDK:
     cd ../mailvelope
     make dist-ff
 
-The addon will be in `dist/mailvelope.xpi`.
+The addon will be in `dist/mailvelope.firefox.xpi`.
 
 ## Website
 

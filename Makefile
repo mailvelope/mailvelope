@@ -49,13 +49,12 @@ build: copy-common copy-dep
 
 dist-ff:
 	@echo Package add-on as an XPI file in dist folder...
-	@cfx xpi --pkgdir=firefox --strip-sdk
-	@mv mailvelope.xpi dist
+	@cfx xpi --pkgdir=firefox --strip-sdk --output-file=dist/mailvelope.firefox.xpi
 
 dist-cr:
 	@echo Package chrome extension in zip file...
-	@rm -f dist/mailvelope.zip
-	@zip -r dist/mailvelope chrome/* -x "*/.*"
+	@rm -f dist/mailvelope.chrome.zip
+	@zip -r dist/mailvelope.chrome.zip chrome/* -x "*/.*"
 
 start-ff:
 	@echo Start Firefox beta...
