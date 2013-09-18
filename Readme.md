@@ -11,24 +11,25 @@ Mailvelope uses the following OpenPGP implementation
 ## Status
 
   - Chrome Extension: _beta_
-  - Firefox Addon: _alpha_
+  - Firefox Addon: _beta_
 
 ## Installation
 
 Mailvelope is available in the Chrome Web Store:
 https://chrome.google.com/webstore/detail/kajibbejlbohfaggdiogboambcijhkke
 
-For Firefox only from source. Development branch: https://github.com/toberndo/mailvelope/tree/firefox
+For Firefox only from source.
 
 ## Build instructions
-
-#### Chrome
 
     git clone git://github.com/toberndo/mailvelope.git
     cd mailvelope
     git submodule init
     git submodule update
     make build
+
+#### Chrome
+
     make dist-cr
 
 The extension will be in `dist/mailvelope.zip`.
@@ -37,19 +38,11 @@ The extension will be in `dist/mailvelope.zip`.
 
 To build the Firefox addon, first get the Firefox Addon SDK:
 
+    cd ..
     git clone git://github.com/mozilla/addon-sdk.git
     cd addon-sdk
     source bin/activate
-    cd ..
-
-Then, get the `firefox` branch:
-
-    git clone git://github.com/toberndo/mailvelope.git
-    cd mailvelope
-    git checkout -t origin/firefox    
-    git submodule init
-    git submodule update
-    make build
+    cd ../mailvelope
     make dist-ff
 
 The addon will be in `dist/mailvelope.xpi`.
