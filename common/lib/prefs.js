@@ -18,8 +18,8 @@
 define(function (require, exports, module) {
 
   var mvelo = require('lib/lib-mvelo').mvelo;
-  var defaults = require('common/lib/defaults');
-  var model = mvelo.getModel();
+  var defaults = require('./defaults');
+  var model = require('./pgpViewModel');
   var prefs = model.getPreferences();
   var updateHandlers = [];
 

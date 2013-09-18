@@ -17,15 +17,12 @@
 
 define(function(require, exports, module) {
 
-  var model = require('lib/pgpViewModel');
-
   var mvelo = require('mvelo');
 
-  var wysihtml5 = require('wysihtml5');
+  mvelo.crx = true;
+  mvelo.ffa = false;
 
-  mvelo.getModel = function() {
-    return model;
-  }
+  var wysihtml5 = require('wysihtml5');
 
   mvelo.data = {};
 
@@ -35,6 +32,10 @@ define(function(require, exports, module) {
 
   mvelo.data.load = function(path, callback) {
     $.get(chrome.extension.getURL(path), callback);
+  }
+
+  mvelo.data.loadDefaults = function() {
+    return require('lib/json-loader!common/res/defaults.json');
   }
 
   mvelo.tabs = {};
@@ -93,15 +94,25 @@ define(function(require, exports, module) {
 
   mvelo.tabs.loadOptionsTab = function(hash, onMessage, callback) {
     // check if options tab already exists
-    this.query(chrome.extension.getURL('options.html'), function(tabs) {
+    this.query(chrome.extension.getURL('common/ui/options.html'), function(tabs) {
       if (tabs.length === 0) {
         // if not existent, create tab
-        mvelo.tabs.create('options.html' + hash, callback !== undefined, callback.bind(this, false));          
+        mvelo.tabs.create('common/ui/options.html' + hash, callback !== undefined, callback.bind(this, false));          
       } else {
         // if existent, set as active tab
         mvelo.tabs.activate(tabs[0], callback.bind(this, true));
       }  
     });
+  }
+
+  mvelo.storage = {};
+
+  mvelo.storage.get = function(id) {
+    return JSON.parse(window.localStorage.getItem(id));
+  }
+
+  mvelo.storage.set = function(id, obj) {
+    window.localStorage.setItem(id, JSON.stringify(obj));
   }
 
   mvelo.windows = {};
@@ -153,15 +164,31 @@ define(function(require, exports, module) {
     chrome.windows.update(this._id, {focused: true});
   }
 
+  mvelo.windows.BrowserWindow.prototype.close = function() {
+    chrome.windows.remove(this._id);
+  }
+
   mvelo.util = {};
 
-  mvelo.util.parseHTML = function(html) {
-    return wysihtml5.parse(html);
+  mvelo.util.parseHTML = function(html, callback) {
+    callback(wysihtml5.parse(html));
   }
 
   // must be bound to window, otherwise illegal invocation
   mvelo.util.setTimeout = window.setTimeout.bind(window);
   mvelo.util.clearTimeout = window.clearTimeout.bind(window);
+
+  mvelo.util.getHostname = function(url) {
+    var a = document.createElement('a');
+    a.href = url;
+    return a.hostname;
+  }
+
+  mvelo.util.getHost = function(url) {
+    var a = document.createElement('a');
+    a.href = url;
+    return a.host;
+  }
 
   exports.mvelo = mvelo;
 

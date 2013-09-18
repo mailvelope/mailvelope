@@ -18,15 +18,9 @@
 define(function (require, exports, module) {
 
   var mvelo = require('lib/lib-mvelo').mvelo;
-  var model = mvelo.getModel();
-  var defaults;
+  var model = require('./pgpViewModel');
 
-  if (mvelo.crx) {
-    defaults = require('lib/json-loader!common/res/defaults.json'); 
-  } else if (mvelo.ffa) {
-    defaults = data.load('common/res/defaults.json');
-    defaults = JSON.parse(defaults);
-  }
+  var defaults = mvelo.data.loadDefaults();
 
   init();
 
@@ -47,10 +41,12 @@ define(function (require, exports, module) {
     if (!model.getWatchList()) {
       model.setWatchList(defaults.watch_list);
     }
-    //model.setPreferences('');
     if (!model.getPreferences()) {
       defaults.preferences.security.secure_color = randomColor();
       defaults.preferences.security.secure_code = randomString(3);
+      if (mvelo.ffa) {
+        defaults.preferences.security.display_decrypted = 'popup';
+      }
       model.setPreferences(defaults.preferences);
     }
   }

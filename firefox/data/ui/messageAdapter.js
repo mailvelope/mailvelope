@@ -17,61 +17,73 @@
 
 var mvelo = mvelo || {};
 
-var eventIndex = 1;
+mvelo.ffa = true;
 
-mvelo.extension = {
-  _dataPath: null,
-  sendMessage: function(message, response) {
-    console.log('message adapter: sendMessage', message.event);
-    if (response !== undefined) {
-      message.response = 'resp' + eventIndex++;
-      self.port.once(message.response, response);
+(function() {
+
+  var eventIndex = 1;
+
+  mvelo.extension = {
+    _dataPath: self.options.data_path,
+    sendMessage: function(message, response) {
+      //console.log('message adapter: sendMessage', message.event);
+      if (response !== undefined) {
+        message.response = 'resp' + eventIndex++;
+        self.port.once(message.response, response);
+      }
+      self.port.emit('message-event', message);
+    },
+    onMessage: {
+      addListener: function(listener) {
+        self.port.on('message-event', listener);
+      }
+    },
+    connect: function(obj) {
+      self.port.emit('connect', obj.name);
+      return new Port(obj.name);
+    },
+    getURL: function(path) {
+      return this._dataPath + path;
     }
-    self.port.emit('message-event', message);
-  },
-  onMessage: {
-    addListener: function(listener) {
-      self.port.on('message-event', listener);
-    }
-  },
-  connect: function(obj) {
-    self.port.emit('connect', obj.name);
-    return new Port(obj.name);
-  },
-  getURL: function(path) {
-    return this._dataPath + path;
   }
-}
 
-function Port(portName) {
-  var name = portName;
-  var events = {};
+  mvelo.__exposedProps__ = { extension : "r" }
 
-  this.postMessage = function(message) {
-    console.log('postmessage', name, message.event);
-    self.port.emit('port-message', message);
-  };
+  function Port(portName) {
+    var name = portName;
+    var events = {};
 
-  this.disconnect = function() {
-    // remove events
-    for (var ev in events) {
-      if (events.hasOwnProperty(ev)) {
-        self.port.removeListener(ev, events[ev]);
+    this.postMessage = function(message) {
+      //console.log('postmessage', name, message.event);
+      self.port.emit('port-message', message);
+    };
+
+    this.disconnect = function() {
+      console.log('disconnect called');
+      // remove events
+      for (var ev in events) {
+        if (events.hasOwnProperty(ev)) {
+          self.port.removeListener(ev, events[ev]);
+        }
+      }
+      self.port.emit('disconnect', name);
+    };
+
+    this.onMessage = {
+      addListener: function(listener) {
+        var eventName = 'port-message' + '.' + name; 
+        self.port.on(eventName, listener);
+        events[eventName] = listener;
       }
     }
-    self.port.emit('disconnect', name);
-  };
+    // page unload triggers port disconnect
+    window.addEventListener('unload', this.disconnect);
 
-  this.onMessage = {
-    addListener: function(listener) {
-      var eventName = 'port-message' + '.' + name; 
-      self.port.on(eventName, listener);
-      events[eventName] = listener;
-    }
   }
 
-}
+  // expose mvelo.extension to content script
+  if (self.options.expose_messaging) {
+    window.wrappedJSObject.mvelo = mvelo;
+  }
 
-var exports = exports || {};
-
-exports.extension = mvelo.extension;
+}());

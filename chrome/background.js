@@ -50,7 +50,7 @@ requirejs.config({
   }
 });
 
-define(["common/lib/controller", "lib/pgpViewModel", "openpgp", "jquery"], function(controller, model, openpgp, $) {
+define(["common/lib/controller", "common/lib/pgpViewModel", "openpgp", "jquery"], function(controller, model, openpgp, $) {
 
   // inject content script only once per time slot
   var injectTimeSlot = 600;
@@ -62,6 +62,8 @@ define(["common/lib/controller", "lib/pgpViewModel", "openpgp", "jquery"], funct
   var frameHosts = [];
   // content script coding as string
   var csCode = '';
+  // framestyles as string
+  var framestyles = '';
   
   function init() {
     controller.extend({initScriptInjection: initScriptInjection});
@@ -122,6 +124,15 @@ define(["common/lib/controller", "lib/pgpViewModel", "openpgp", "jquery"], funct
       });
     }
 
+    // load framestyles and replace path
+    if (framestyles === '') {
+      $.get(chrome.extension.getURL('common/ui/inline/framestyles.css'), function(data) {
+        framestyles = data;
+        var token = /\.\.\/\.\./g;
+        framestyles = framestyles.replace(token, chrome.extension.getURL('common'));
+      }); 
+    }
+
     var filterURL = controller.getWatchListFilterURLs();
 
     filterURL = filterURL.map(function(host) {
@@ -157,7 +168,7 @@ define(["common/lib/controller", "lib/pgpViewModel", "openpgp", "jquery"], funct
           scriptDetails = {file: "common/ui/inline/build/cs-mailvelope.js", allFrames: true}
         }
         chrome.tabs.executeScript(details.tabId, scriptDetails, function() {
-          chrome.tabs.insertCSS(details.tabId, {file: "common/ui/inline/framestyles.css", allFrames: true});
+          chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
           // open injection time slot
           injectOpen = true;
         });

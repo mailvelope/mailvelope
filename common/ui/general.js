@@ -22,7 +22,7 @@
     keyRing.event.on('keygrid-data-change', keyRingUpdate);
     // change event enables form buttons
     $('#general input, #primaryKey').on('input change', function() {
-      $('#general .form-actions button').removeAttr('disabled');
+      $('#general .form-actions button').prop('disabled', false);
       $('#genReloadInfo').hide();
     });
     // empty selection disables primary key options
@@ -59,7 +59,7 @@
   }
 
   function normalize() {
-    $('#general .form-actions button').attr('disabled', 'disabled');
+    $('#general .form-actions button').prop('disabled', true);
     $('#general .control-group').removeClass('error');
     $('#general .help-inline').addClass('hide');
     $('#genReloadInfo').hide();
@@ -76,18 +76,17 @@
 
   function onPrimaryChange() {
     if ($('#primaryKey > option:selected').val() === '') {
-      $('#autoAddPrimary').removeAttr('checked')
-                          .attr('disabled', 'disabled');
+      $('#autoAddPrimary').prop('checked', false)
+                          .prop('disabled', true);
     } else {
-      $('#autoAddPrimary').removeAttr('disabled');
+      $('#autoAddPrimary').prop('disabled', false);
     }
   }
 
   function clearPrimarySelect() {
-    $('#primaryKey > option').removeAttr('selected');
-    $('#primaryKey > option:first').attr('selected', 'selected');
-    $('#autoAddPrimary').removeAttr('checked')
-                        .attr('disabled', 'disabled');
+    $('#primaryKey > option:first').prop('selected', true);
+    $('#autoAddPrimary').prop('checked', false)
+                        .prop('disabled', true);
   }
 
   function keyRingUpdate() {
@@ -106,7 +105,7 @@
   function loadPrivateKeys(callback) {
     keyRing.viewModel('getPrivateKeys', function(keys) {
       var select = $('#primaryKey');
-      keys.forEach(function(key) {
+      keys && keys.forEach(function(key) {
         select.append($('<option/>', {
           value: key.id,
           text: key.name + ' <' + key.email + '> - ' + key.id.substring(8)
@@ -123,9 +122,9 @@
       }).attr('checked', 'checked');
       $('#primaryKey > option').filter(function() {
           return $(this).val() === prefs.general.primary_key;
-      }).attr('selected', 'selected');
+      }).prop('selected', true);
       if (prefs.general.auto_add_primary) {
-        $('#autoAddPrimary').attr('checked', 'checked');
+        $('#autoAddPrimary').prop('checked', true);
       }
       onPrimaryChange();
       if (callback) callback(prefs);

@@ -33,7 +33,7 @@
 
   function initScanInterval(interval) {
     window.setInterval(function() {
-      //console.log('inside cs: ', document.location.host;
+      //console.log('inside cs: ', document.location.host);
       if (status === mvelo.SCAN_ON) {
         // find armored PGP text
         var pgpTag = findPGPTag(regex);

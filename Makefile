@@ -1,5 +1,6 @@
 
-PROFILEDIR = ~/dev/firefox/mailvelope
+PROFILEDIR = ~/dev/firefox/test_profile
+FFBIN = ~/dev/firefox/firefox-beta/firefox
 
 default: help
 
@@ -11,7 +12,9 @@ help:
 	@echo "copy-dep       - copy openpgp.js library to Chrome directory"
 	@echo "test-build     - pack content scripts and copy common folder"
 	@echo "build          - copy common folder and dependencies"
-	@echo "start-ff       - run addon in Firefox"
+	@echo "start-ff       - run addon in Firefox beta"
+	@echo "start-ff-new   - run addon in Firefox beta, clear local storage"
+	@echo "start-ff-std   - run addon in Firefox current release"
 	@echo "test-ff        - do test-build & run addon in Firefox"
 	@echo "dist-ff        - package add-on as an XPI file in dist folder"
 	@echo "dist-cr        - package chrome extension in zip file"
@@ -39,6 +42,7 @@ copy-dep:
 	@echo Update openpgp.js files...
 	@cp -u dep/chrome/openpgpjs/resources/openpgp.js chrome/dep
 	@cp -u dep/chrome/openpgpjs/resources/openpgp.min.js chrome/dep
+	@cp -u dep/firefox/openpgpjs/resources/openpgp.js firefox/packages/openpgp/lib
 
 test-build: pack copy-common copy-dep
 
@@ -55,6 +59,14 @@ dist-cr:
 	@zip -r dist/mailvelope chrome/* -x "*/.*"
 
 start-ff:
+	@echo Start Firefox beta...
+	@cfx run --pkgdir=firefox --profiledir=$(PROFILEDIR) --binary=$(FFBIN)
+
+start-ff-new:
+	@echo Start Firefox beta, , clear local storage...
+	@cfx run --pkgdir=firefox --profiledir=$(PROFILEDIR) --binary=$(FFBIN) --static-args='{ "clear_storage": true }'
+
+start-ff-std:
 	@echo Start Firefox...
 	@cfx run --pkgdir=firefox --profiledir=$(PROFILEDIR)
 

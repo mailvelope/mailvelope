@@ -19,7 +19,9 @@
 define(function(require, exports, module) {
 
   var openpgp = require('openpgp');
-  var goog = require('common/dep/closure-library/closure/goog/emailaddress').goog;
+  var util = typeof window !== 'undefined' && window.util || openpgp.util;
+  var mvelo = require('lib/lib-mvelo').mvelo;
+  var goog = require('./closure-library/closure/goog/emailaddress').goog;
   
   function getKeys() {
     // get public keys
@@ -74,9 +76,24 @@ define(function(require, exports, module) {
     return result;
   }
 
+  function getKeyDetails(guid) {
+    var details = {};
+    for (var i = 0; i < openpgp.keyring.publicKeys.length; i++) {
+      var pKey = openpgp.keyring.publicKeys[i];
+      if (guid === pKey.obj.getFingerprint()) {
+        // subkeys
+        mapSubKeys(pKey.obj.subKeys, details);
+        // users
+        mapUsers(pKey.obj.userIds, details);
+        return details;
+      }
+    };
+  }
+
   exports.getKeys = getKeys;
   exports.getPublicKeys = getPublicKeys;
   exports.getPrivateKeys = getPrivateKeys;
+  exports.getKeyDetails = getKeyDetails;
   
   function mapKeyMsg(obj, toKey) {
     // fingerprint used as UID
@@ -94,9 +111,9 @@ define(function(require, exports, module) {
       toKey.exDate = new Date(sig.creationTime.getTime() + sig.keyExpirationTime * 1000);
     }
     // subkeys
-    mapSubKeys(obj.subKeys, toKey);
+    //mapSubKeys(obj.subKeys, toKey);
     // users
-    mapUsers(obj.userIds, toKey);
+    //mapUsers(obj.userIds, toKey);
   }
   
   function mapKeyMaterial(keyPacket, toKey) {
@@ -184,6 +201,7 @@ define(function(require, exports, module) {
     var result;
     if (keyType === 'public') {
       result = openpgp.read_publicKey(text);
+      //console.log('importKey result', result);
       for (var i = 0; i < result.length; i++) {
         // check if public key already in key ring
         var found = openpgp.keyring.getPublicKeysForKeyId(result[i].getKeyId());
@@ -426,25 +444,17 @@ define(function(require, exports, module) {
   }
 
   function getWatchList() {
-    return JSON.parse(window.localStorage.getItem('mailvelopeWatchList'));
+    return mvelo.storage.get('mailvelopeWatchList');
   }
 
   function setWatchList(watchList) {
-    window.localStorage.setItem('mailvelopeWatchList', JSON.stringify(watchList));
+    mvelo.storage.set('mailvelopeWatchList', watchList);
   }
 
   function getHostname(url) {
-    var a = document.createElement('a');
-    a.href = url;
-    var host = a.hostname;
+    var hostname = mvelo.util.getHostname(url);
     // limit to 3 labels per domain
-    return host.split('.').slice(-3).join('.');
-  }
-
-  function getHost(url) {
-    var a = document.createElement('a');
-    a.href = url;
-    return a.host;
+    return hostname.split('.').slice(-3).join('.');
   }
 
   exports.getKeyUserIDs = getKeyUserIDs;
@@ -459,14 +469,14 @@ define(function(require, exports, module) {
   exports.getWatchList = getWatchList;
   exports.setWatchList = setWatchList;
   exports.getHostname = getHostname;
-  exports.getHost = getHost;
+  exports.getHost = mvelo.util.getHost;
 
   function getPreferences() {
-    return JSON.parse(window.localStorage.getItem('mailvelopePreferences'));
+    return mvelo.storage.get('mailvelopePreferences');
   }
 
   function setPreferences(preferences) {
-    window.localStorage.setItem('mailvelopePreferences', JSON.stringify(preferences));
+    mvelo.storage.set('mailvelopePreferences', preferences);
   }
 
   exports.getPreferences = getPreferences;

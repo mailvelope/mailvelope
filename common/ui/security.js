@@ -20,7 +20,7 @@
   function init() {
     loadPrefs();
     $('#security input').on('input change', function() {
-      $('#security .form-actions button').removeAttr('disabled');
+      $('#security .form-actions button').prop('disabled', false);
       $('#secReloadInfo').hide();
     });
     $('input:radio[name="editorModeRadios"]').on('change', editorModeWarning);
@@ -28,10 +28,19 @@
     $('#secBtnSave').click(onSave);
     $('#secBtnCancel').click(onCancel);
     $('#secTokenInfo').popover();
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=213519
+    $('#pwdCacheTime').click(function() {
+      return false;
+    });
+    // disable for FF
+    if (!mvelo.crx) {
+      $('input:radio[name="decryptRadios"]').prop('disabled', true);
+      $('input:radio[name="editorModeRadios"]').prop('disabled', true);
+    }
   }
 
   function editorModeWarning() {
-    if ($('#editorModeRadios2').attr('checked')) {
+    if ($('#editorModeRadios2').prop('checked')) {
       $('#editorModeWarn').show();
     } else {
       $('#editorModeWarn').hide();
@@ -39,10 +48,10 @@
   }
 
   function toggleCacheTime() {
-    if ($('#pwdCacheRadios1').attr('checked')) {
-      $('#pwdCacheTime').removeAttr('disabled');
+    if ($('#pwdCacheRadios1').prop('checked')) {
+      $('#pwdCacheTime').prop('disabled', false);
     } else {
-      $('#pwdCacheTime').attr('disabled', 'disabled');
+      $('#pwdCacheTime').prop('disabled', true);
     }
   }
 
@@ -90,7 +99,7 @@
   }
 
   function normalize() {
-    $('#security .form-actions button').attr('disabled', 'disabled');
+    $('#security .form-actions button').prop('disabled', true);
     $('#security .control-group').removeClass('error');
     $('#security .help-inline').addClass('hide');
     $('#secReloadInfo').hide();
@@ -106,15 +115,15 @@
     keyRing.viewModel('getPreferences', function(prefs) {
       $('input:radio[name="decryptRadios"]').filter(function() {
         return $(this).val() === prefs.security.display_decrypted;
-      }).attr('checked', 'checked');
+      }).prop('checked', true);
       $('#secCode').val(prefs.security.secure_code);
       $('#secColor').val(prefs.security.secure_color);
       $('input:radio[name="editorModeRadios"]').filter(function() {
         return $(this).val() === prefs.security.editor_mode;
-      }).attr('checked', 'checked');
+      }).prop('checked', true);
       $('input:radio[name="pwdCacheRadios"]').filter(function() {
         return $(this).val() === (prefs.security.password_cache ? 'true' : 'false');
-      }).attr('checked', 'checked');
+      }).prop('checked', true);
       $('#pwdCacheTime').val(prefs.security.password_timeout);
       editorModeWarning();
       toggleCacheTime();

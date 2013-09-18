@@ -18,10 +18,10 @@
 define(function (require, exports, module) {
 
   var mvelo = require('lib/lib-mvelo').mvelo;
-  var model = mvelo.getModel();
-  var defaults = require('common/lib/defaults');
-  var prefs = require('common/lib/prefs');
-  var pwdCache = require('common/lib/pwdCache');
+  var model = require('./pgpViewModel');
+  require('./defaults');
+  var prefs = require('./prefs');
+  var pwdCache = require('./pwdCache');
 
   // ports to decrypt frames
   var dFramePorts = {};
@@ -37,6 +37,10 @@ define(function (require, exports, module) {
   var pwdPort = null;
   // editor window
   var editor = null;
+  // decrypt popup window
+  var decryptPopup = null;
+  // password popup window
+  var pwdPopup = null;
   // recipients of encrypted mail
   var eRecipientBuffer = {};
   var scannedHosts = [];
@@ -113,12 +117,21 @@ define(function (require, exports, module) {
   }
 
   function handlePortMessage(msg) {
+    console.log('controller handlePortMessage:', msg.event, msg.sender);
     var id = parseName(msg.sender).id;
     switch (msg.event) {
       case 'pwd-dialog-cancel':
       case 'decrypt-dialog-cancel':
         // forward event to decrypt frame
         dFramePorts[id].postMessage({event: 'dialog-cancel'});
+        if (decryptPopup) {
+          decryptPopup.close();
+          decryptPopup = null;
+        }
+        if (pwdPopup) {
+          pwdPopup.close();
+          pwdPopup = null;
+        }
         break;
       case 'encrypt-dialog-cancel':
         // forward event to encrypt frame
@@ -147,7 +160,9 @@ define(function (require, exports, module) {
           // password dialog or modal dialog already open
           dFramePorts[id].postMessage({event: 'remove-dialog'});        
         } else {
-          mvelo.windows.openPopup('common/ui/modal/decryptPopup.html?id=' + id, {width: 742, height: 450, modal: true});
+          mvelo.windows.openPopup('common/ui/modal/decryptPopup.html?id=' + id, {width: 742, height: 450, modal: true}, function(window) {
+            decryptPopup = window;
+          });
         }
         break;
       case 'dframe-armored-message':
@@ -160,7 +175,9 @@ define(function (require, exports, module) {
             dMessageBuffer[id] = message;
             // open password dialog
             if (prefs.data.security.display_decrypted == mvelo.DISPLAY_INLINE) {
-              mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true});
+              mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true}, function(window) {
+                pwdPopup = window;
+              });
             } else if (prefs.data.security.display_decrypted == mvelo.DISPLAY_POPUP) {
               dDialogPorts[id].postMessage({event: 'show-pwd-dialog'});
             }
@@ -254,12 +271,18 @@ define(function (require, exports, module) {
         eDialogPorts[editor && editor.id || id].postMessage({event: 'encoding-defaults', defaults: defaultEncoding});
         break;
       case 'editor-transfer-output':
+        function setEditorOutput(output) {
+          // editor transfers message to recipient encrypt frame
+          eFramePorts[msg.recipient].postMessage({event: 'set-editor-output', text: output});
+          editor.window.close();
+          editor = null;  
+        }
         // sanitize if content from plain text, rich text already sanitized by editor
         if (prefs.data.general.editor_type == mvelo.PLAIN_TEXT) {
-          msg.data = mvelo.util.parseHTML(msg.data);
-        } 
-        // editor transfers message to recipient encrypt frame
-        eFramePorts[msg.recipient].postMessage({event: 'set-editor-output', text: msg.data});
+          mvelo.util.parseHTML(msg.data, setEditorOutput);
+        } else {
+          setEditorOutput(msg.data);
+        }
         break;
       case 'eframe-display-editor':
         if (editor || mvelo.windows.modalActive) {
@@ -282,12 +305,17 @@ define(function (require, exports, module) {
         editor.id = id;
         editor.port.postMessage({event: 'set-text', text: editor.text});
         break;
+      case 'editor-cancel':
+        editor.window.close();
+        editor = null;
+        break;
       default:
         console.log('unknown event', msg);
     }
   }
 
   function handleMessageEvent(request, sender, sendResponse) {
+    console.log('controller: handleMessageEvent', request.event);
     switch (request.event) {
       case 'viewmodel':
         var response = {};
@@ -302,6 +330,7 @@ define(function (require, exports, module) {
         try {
           response.result = model[request.method].apply(model, request.args);
         } catch (e) {
+          console.log('error in viewmodel: ', e);
           response.error = e;
         }
         if (response.result !== undefined || response.error || request.callback) {
@@ -347,8 +376,9 @@ define(function (require, exports, module) {
         dDialogPorts[id].postMessage({event: 'error-message', error: err.message});
       } else {
         // decrypted correctly
-        msgText = mvelo.util.parseHTML(msgText); // sanitize message
-        dDialogPorts[id].postMessage({event: 'decrypted-message', message: msgText});
+        msgText = mvelo.util.parseHTML(msgText, function(sanitized) {
+          dDialogPorts[id].postMessage({event: 'decrypted-message', message: sanitized});
+        });
       }
     });
   }
@@ -405,9 +435,6 @@ define(function (require, exports, module) {
         options.contentScriptFile = [];
         options.contentScriptFile.push("common/dep/jquery.min.js");
         options.contentScriptFile.push("common/ui/inline/mvelo.js");
-        if (!mvelo.crx) {
-          options.contentScriptFile.push("ui/messageAdapter.js");
-        }
         options.contentScript = scanScript;
         options.onMessage = handleMessageEvent;
         // inject scan script

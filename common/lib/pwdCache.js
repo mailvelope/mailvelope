@@ -17,7 +17,8 @@
 
 define(function (require, exports, module) {
 
-  var prefs = require('common/lib/prefs');
+  var mvelo = require('lib/lib-mvelo').mvelo;
+  var prefs = require('./prefs');
   
   // password and key cache
   var cache;

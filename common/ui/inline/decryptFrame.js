@@ -18,6 +18,9 @@
 var DecryptFrame = DecryptFrame || (function() { 
 
   var decryptFrame = function (prefs) {
+    if (!prefs) throw {
+      message: 'DecryptFrame constructor: prefs not provided.'
+    }
     this.id = mvelo.getHash();
     // text node with Armor Tail Line '-----END PGP...'
     this._pgpEnd;
@@ -30,6 +33,8 @@ var DecryptFrame = DecryptFrame || (function() {
     this._pgpMessageType;
     this._dFrame;
     this._dDialog;
+    // decrypt popup active
+    this._dPopup = false;
     this._port;
     this._refreshPosIntervalID;
     this._displayMode = prefs.security.display_decrypted;
@@ -159,11 +164,9 @@ var DecryptFrame = DecryptFrame || (function() {
         scrolling: 'no'
       });
       var path = 'common/ui/inline/dialogs/decryptInline.html?id=' + that.id;
-      var url;
-      if (mvelo.crx) {
-        url = mvelo.extension.getURL(path);
-      } else {
-        url = 'http://www.mailvelope.com/' + path;
+      var url = mvelo.extension.getURL(path);
+      if (mvelo.ffa) {
+        url = 'about:blank';
       }
       this._dDialog.attr('src', url);
       this._dFrame.append(this._dDialog);
@@ -178,6 +181,7 @@ var DecryptFrame = DecryptFrame || (function() {
         sender: 'dFrame-' + this.id
       });
       this._dFrame.removeClass('m-decrypt-key-cursor');
+      this._dPopup = true;
     },
     
     _establishConnection: function() {
@@ -187,11 +191,17 @@ var DecryptFrame = DecryptFrame || (function() {
     },
     
     _removeDialog: function() {
+      // check if dialog is active
+      if (!this._dDialog && !this._dPopup) {
+        return;
+      }
       if (this._displayMode === mvelo.DISPLAY_INLINE) {
         this._dDialog.fadeOut();
         // removal triggers disconnect event
         this._dDialog.remove();
         this._dDialog = null;
+      } else {
+        this._dPopup = false;
       }
       this._dFrame.addClass('m-decrypt-key-cursor');
       this._toggleIcon();

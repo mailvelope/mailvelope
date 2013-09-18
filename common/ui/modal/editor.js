@@ -61,10 +61,12 @@
         set_text: setPlainText
       });
     } else {
-      editor = createRichText();
-      eFrame.attachTo($('iframe.wysihtml5-sandbox'), {
-        set_text: setRichText,
-        closeBtn: false
+      createRichText(function(ed) {
+        editor = ed;
+        eFrame.attachTo($('iframe.wysihtml5-sandbox'), {
+          set_text: setRichText,
+          closeBtn: false
+        });
       });
     }
     id = 'editor-' + eFrame.getID();
@@ -78,7 +80,10 @@
   }
 
   function onCancel() {
-    window.close();
+    port.postMessage({
+      event: 'editor-cancel', 
+      sender: id
+    });
     return false;
   }
 
@@ -102,7 +107,6 @@
       sender: id,
       recipient: parentID
     });
-    window.close();
     return true;
   }
 
@@ -133,7 +137,7 @@
     return text;
   }
 
-  function createRichText() {
+  function createRichText(callback) {
     $('#rte-box').show();
     $('#richText').wysihtml5('deepExtend', {
       toolbar_element: 'rte-toolbar',
@@ -142,14 +146,16 @@
       parserRules: wysihtml5ParserRules,
       events: {
         change: onChange,
-        blur: onBlur
+        blur: onBlur,
+        load: function() {
+          // if user clicks in non-editable area of text editor then next blur event is not considered as relevant
+          $('iframe.wysihtml5-sandbox').contents().find('html').on('mousedown', startBlurValid);
+          // each input event restarts the blur warning interval
+          $('iframe.wysihtml5-sandbox').contents().find('body').on('input', startBlurWarnInterval);
+          callback($('#richText'));
+        }
       }
     });
-    // if user clicks in non-editable area of text editor then next blur event is not considered as relevant
-    $('iframe.wysihtml5-sandbox').contents().find('html').on('mousedown', startBlurValid);
-    // each input event restarts the blur warning interval
-    $('iframe.wysihtml5-sandbox').contents().find('body').on('input', startBlurWarnInterval);
-    return $('#richText');
   }
 
   function setRichText(text) {

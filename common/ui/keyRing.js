@@ -31,22 +31,15 @@ var keyRing = {};
     parent.postMessage(JSON.stringify({
       event: "init"
     }), '*');
-  }
-
-  // map Date object to this context, otherwise 'instanceof Date' does not work inside Kendo UI
-  exports.mapDates = function(data) {
-    data.forEach(function(value) {
-      value.crDate = new Date(value.crDate);
-      value.users.forEach(function(user) {
-        user.signatures.forEach(function(sig) {
-          sig.crDate = new Date(sig.crDate);
-        });
-      });
+    // check for native color picker support and load polyfill
+    Modernizr.load({
+      test: Modernizr.inputtypes.color,
+      nope: ['../dep/spectrum/spectrum.js', '../dep/spectrum/spectrum.css']
     });
-    return data;
   }
 
   exports.viewModel = function(method, args, callback) {
+    //console.log('keyRing viewModel() called');
     id++;
     if (typeof args === 'function') {
       callback = args;
@@ -92,7 +85,7 @@ var keyRing = {};
     switch (data.event) {
       case 'viewmodel-response':
         if (callbacks[data.id]) {
-          //console.log('keyRing viewmodel-response', JSON.stringify(data));
+          //console.log('keyRing viewmodel-response', data);
           callbacks[data.id](data.result, data.error);
           delete callbacks[data.id];
         }  

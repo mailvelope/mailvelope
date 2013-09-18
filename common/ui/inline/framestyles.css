@@ -4,7 +4,7 @@
  */
 
 :root .m-frame {
-  background: rgba(254,251,243,.8) url('chrome-extension://__MSG_@@extension_id__/common/img/mail_locked_96.png') no-repeat center center;
+  background: rgba(254,251,243,.8) url('../../img/mail_locked_96.png') no-repeat center center;
   -webkit-transition: background-position 0.5s ease, background-image 0.5s ease;
   transition: background-position 0.5s ease, background-image 0.5s ease;
   border: 1px solid rgba(0,0,0,.2);
@@ -18,7 +18,7 @@
 
 :root .m-frame-open {
   background-position: 20px;
-  background-image: url('chrome-extension://__MSG_@@extension_id__/common/img/mail_open_96.png');
+  background-image: url('../../img/mail_open_96.png');
   background-size: 80px;
 }
 
@@ -28,7 +28,7 @@
 
 :root .m-frame-large-open {
   background-position: 20px 140px;
-  background-image: url('chrome-extension://__MSG_@@extension_id__/common/img/mail_open_96.png');
+  background-image: url('../../img/mail_open_96.png');
   background-size: 80px;
 }
 
@@ -68,19 +68,19 @@
 }
 
 :root .m-encrypt-frame .m-icon-encrypt {
-  background-image: url('chrome-extension://__MSG_@@extension_id__/common/img/encrypt-22.png');
+  background-image: url('../../img/encrypt-22.png');
 }
 
 :root .m-encrypt-frame .m-icon-undo {
-  background-image: url('chrome-extension://__MSG_@@extension_id__/common/img/undo-22.png');
+  background-image: url('../../img/undo-22.png');
 }
 
 :root .m-encrypt-frame .m-icon-editor {
-  background-image: url('chrome-extension://__MSG_@@extension_id__/common/img/mail_new.png');
+  background-image: url('../../img/mail_new.png');
 }
 
 :root .m-decrypt-key-cursor {
-  cursor: url('chrome-extension://__MSG_@@extension_id__/common/img/key-24.png'), auto;
+  cursor: url('../../img/key-24.png'), auto;
 }
 
 :root .m-frame .m-frame-dialog,

@@ -34,8 +34,12 @@
       },
       {
         field: "id",
-        width: 150,
-        title: "Key ID"
+        width: 100,
+        title: "Key ID",
+        template: '#= id.substr(-8) #',
+        attributes: {
+          style: "font-family: monospace;"
+        }
       },  
       {
         field: "crDate",
@@ -48,6 +52,13 @@
         title: " ", 
         width: "100px" 
       }];
+
+  var exDateField = {
+    type: "date", 
+    parse: function(value) {
+      return kendo.parseDate(value) || 'The key does not expire';
+    }
+  }
       
   var keyGridSchema = {
         model: {
@@ -56,16 +67,46 @@
             name: { type: "string" },
             email: { type: "string" },
             id: { type: "string" },
+            crDate: { type: "date" },
+            exDate: exDateField
+          }
+        }
+      };
+
+  var subKeySchema = {
+        model: {
+          fields: {
+            crDate: { type: "date" },
+            exDate: exDateField
+          }
+        }
+      };
+
+  var signerSchema = {
+        model: {
+          fields: {
+            signer: { type: "string" },
+            id: { type: "string" },
             crDate: { type: "date" }
           }
         }
       };
-      
+
   function init() {
     $('#displayKeys').addClass('spinner');
     keyRing.viewModel('getKeys', initGrid);
+    keyRing.event.on('keygrid-reload', reload);
   }
 
+  function reload() {
+   keyRing.viewModel('getKeys', function(keys) {
+    $("#mainKeyGrid").data("kendoGrid").setDataSource(new kendo.data.DataSource({
+        data: keys,
+        schema: keyGridSchema,
+        change: onDataChange
+      }));
+   }); 
+  }
 
   function initGrid(keys) {
 
@@ -74,12 +115,12 @@
     var grid = $("#mainKeyGrid").kendoGrid({
       columns: keyGridColumns,
       dataSource: {
-        data: keyRing.mapDates(keys),
+        data: keys,
         schema: keyGridSchema,
         change: onDataChange
       },
       detailTemplate: kendo.template($("#keyDetails").html()),
-      detailInit: detailInit,
+      detailInit: loadDetails,
       selectable: "row",
       sortable: {
         mode: "multiple", // enables multi-column sorting
@@ -143,34 +184,49 @@
       }
     }
 
-    function onDataChange(e) {
-      // selection is lost on data change, therefore disable export button
-      $('#exportBtn').addClass('disabled');
-      keyRing.event.triggerHandler('keygrid-data-change');
-    }
   }
-      
-  function detailInit(e) {
-    var detailRow = e.detailRow;
-    
-    detailRow.find(".tabstrip").kendoTabStrip({
+
+  function onDataChange(e) {
+    // selection is lost on data change, therefore disable export button
+    $('#exportBtn').addClass('disabled');
+    keyRing.event.triggerHandler('keygrid-data-change');
+  }
+
+  function loadDetails(e) {
+    //console.log('loadDetails')
+    e.detailRow.find(".tabstrip").kendoTabStrip({
       animation: {
         open: { effects: "fadeIn" }
       }
     });
+    keyRing.viewModel('getKeyDetails', [e.data.guid], function(details) {
+      //console.log('keyGrid key details received', details);
+      e.data.subkeys = details.subkeys;
+      e.data.users = details.users;
+      detailInit(e);
+    });
+  }
+      
+  function detailInit(e) {
+    //console.log('detailInit');
+    var detailRow = e.detailRow;
     
-    detailRow.find(".subkeyID").kendoDropDownList({
+    var subkeyID = detailRow.find(".subkeyID").kendoDropDownList({
       dataTextField: "id",
       dataValueField: "id",
-      dataSource: e.data.subkeys,
+      dataSource: {
+        data: e.data.subkeys,
+        schema: subKeySchema
+      },
       select: onSubkeySelect,
       index: 0
     });
     
     var template = kendo.template($("#subkeyDetails").html());
     var subkeyDetails = detailRow.find(".subkeyDetails");
-    if (e.data.subkeys.length !== 0) {
-      subkeyDetails.html(template(e.data.subkeys[0]));
+    var firstSubKey = subkeyID.data("kendoDropDownList").dataItem(0); // e.data.subkeys[0] can't be used as dates are not mapped
+    if (firstSubKey) {
+      subkeyDetails.html(template(firstSubKey));
     } else {
       subkeyDetails.html('<li>No subkeys available</li>');
     }
@@ -210,15 +266,7 @@
       }],
       dataSource: {
         data: e.data.users[0].signatures,
-        schema: {
-          model: {
-            fields: {
-              signer: { type: "string" },
-              id: { type: "string" },
-              crDate: { type: "date" }
-            }
-          }
-        }
+        schema: signerSchema
       },
       sortable: true,
     });
@@ -227,7 +275,12 @@
     
     function onUserSelect(e) {
       var dataItem = this.dataItem(e.item.index());
-      signerGrid.dataSource.data(dataItem.signatures);
+      // not working as dates don't get formated: 
+      //signerGrid.dataSource.data(dataItem.signatures);
+      signerGrid.setDataSource(new kendo.data.DataSource({
+        data: dataItem.signatures,
+        schema: signerSchema
+      }));
     }
     
   }

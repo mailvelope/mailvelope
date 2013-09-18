@@ -5,11 +5,11 @@
   "description": "Secure email with OpenPGP encryption for Webmail",
   "author": "Thomas Obernd\u00f6rfer", 
   "license": "AGPL 3",
-  "version": "0.5.5",
+  "version": "0.7.0",
+  "homepage": "http://www.mailvelope.com",
   "icon": "data/common/img/mail_locked_48.png",
   "icon64": "data/common/img/mail_locked_64.png",
-  "dependencies": ["addon-kit", "api-utils", "ppg-api"],
   "lib": ".",
   "main": "lib/main",
-  "packages": "./packages/ppg-api"
+  "dependencies": ["openpgp", "addon-sdk"]
 }

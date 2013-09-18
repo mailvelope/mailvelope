@@ -40,12 +40,14 @@
   }
 
   function receiveMessage(event) {
+    //console.log('receiveMessage', event);
     var result;
     var error;
     var data = JSON.parse(event.data);
     switch (data.event) {
       case 'viewmodel':
         mvelo.extension.sendMessage(data, function(response) {
+          //console.log('response to options.js', response);
           if (data.callback) {
             var respObj = {
               event: "viewmodel-response",

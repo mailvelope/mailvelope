@@ -5549,10 +5549,13 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
             stylesheets:  this.config.stylesheets
           });
 
-      // Create the basic dom tree including proper DOCTYPE and charset
-      iframeDocument.open("text/html", "replace");
-      iframeDocument.write(sandboxHtml);
-      iframeDocument.close();
+      // Firefox 23 raises here security exception, still basic HTML is generated in iframe
+      try {
+          // Create the basic dom tree including proper DOCTYPE and charset
+          iframeDocument.open("text/html", "replace");
+          iframeDocument.write(sandboxHtml);
+          iframeDocument.close();
+      } catch (e) {}
 
       this.getWindow = function() { return iframe.contentWindow; };
       this.getDocument = function() { return iframe.contentWindow.document; };
@@ -9541,7 +9544,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
       });
       
       try {
-        console.log("Heya! This page is using wysihtml5 for rich text editing. Check out https://github.com/xing/wysihtml5");
+        //console.log("Heya! This page is using wysihtml5 for rich text editing. Check out https://github.com/xing/wysihtml5");
       } catch(e) {}
     },
     

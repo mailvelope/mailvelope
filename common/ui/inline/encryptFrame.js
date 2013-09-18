@@ -194,6 +194,7 @@ var EncryptFrame = EncryptFrame || (function() {
     },
     
     _showDialog: function() {
+      console.log('showDialog');
       var that = this;
       this._eDialog = $('<iframe/>', {
         id: 'eDialog-' + that.id,
@@ -202,12 +203,7 @@ var EncryptFrame = EncryptFrame || (function() {
         scrolling: 'no'
       });
       var path = 'common/ui/inline/dialogs/encryptDialog.html?id=' + that.id;
-      var url;
-      if (mvelo.crx) {
-        url = mvelo.extension.getURL(path);
-      } else {
-        url = 'http://www.mailvelope.com/' + path;
-      }
+      var url = mvelo.extension.getURL(path);
       this._eDialog.attr('src', url);
       this._eFrame.append(this._eDialog);
       this._setFrameDim();

@@ -9442,7 +9442,8 @@ var mvelo = mvelo || {};
 // chrome extension
 mvelo.crx = typeof chrome !== 'undefined';
 // firefox addon
-mvelo.ffa = typeof self !== 'undefined' && self.port;
+mvelo.ffa = mvelo.ffa || typeof self !== 'undefined' && self.port;
+// for fixfox, mvelo.extension is exposed from a conent script
 mvelo.extension = mvelo.extension || mvelo.crx && chrome.extension;
 // min height for large frame
 mvelo.LARGE_FRAME = 600;
@@ -9480,7 +9481,8 @@ mvelo.getHash = function() { return Math.random().toString(36).substr(2, 8); };
 
 if (typeof exports !== 'undefined') {
   exports.mvelo = mvelo;
-}/**
+}
+/**
  * Mailvelope - secure email with OpenPGP encryption for Webmail
  * Copyright (C) 2012  Thomas Oberndörfer
  *
@@ -9515,7 +9517,7 @@ if (typeof exports !== 'undefined') {
 
   function initScanInterval(interval) {
     window.setInterval(function() {
-      //console.log('inside cs: ', document.location.host;
+      //console.log('inside cs: ', document.location.host);
       if (status === mvelo.SCAN_ON) {
         // find armored PGP text
         var pgpTag = findPGPTag(regex);
@@ -9757,6 +9759,9 @@ if (typeof exports !== 'undefined') {
 var DecryptFrame = DecryptFrame || (function() { 
 
   var decryptFrame = function (prefs) {
+    if (!prefs) throw {
+      message: 'DecryptFrame constructor: prefs not provided.'
+    }
     this.id = mvelo.getHash();
     // text node with Armor Tail Line '-----END PGP...'
     this._pgpEnd;
@@ -9769,6 +9774,8 @@ var DecryptFrame = DecryptFrame || (function() {
     this._pgpMessageType;
     this._dFrame;
     this._dDialog;
+    // decrypt popup active
+    this._dPopup = false;
     this._port;
     this._refreshPosIntervalID;
     this._displayMode = prefs.security.display_decrypted;
@@ -9898,11 +9905,9 @@ var DecryptFrame = DecryptFrame || (function() {
         scrolling: 'no'
       });
       var path = 'common/ui/inline/dialogs/decryptInline.html?id=' + that.id;
-      var url;
-      if (mvelo.crx) {
-        url = mvelo.extension.getURL(path);
-      } else {
-        url = 'http://www.mailvelope.com/' + path;
+      var url = mvelo.extension.getURL(path);
+      if (mvelo.ffa) {
+        url = 'about:blank';
       }
       this._dDialog.attr('src', url);
       this._dFrame.append(this._dDialog);
@@ -9917,6 +9922,7 @@ var DecryptFrame = DecryptFrame || (function() {
         sender: 'dFrame-' + this.id
       });
       this._dFrame.removeClass('m-decrypt-key-cursor');
+      this._dPopup = true;
     },
     
     _establishConnection: function() {
@@ -9926,11 +9932,17 @@ var DecryptFrame = DecryptFrame || (function() {
     },
     
     _removeDialog: function() {
+      // check if dialog is active
+      if (!this._dDialog && !this._dPopup) {
+        return;
+      }
       if (this._displayMode === mvelo.DISPLAY_INLINE) {
         this._dDialog.fadeOut();
         // removal triggers disconnect event
         this._dDialog.remove();
         this._dDialog = null;
+      } else {
+        this._dPopup = false;
       }
       this._dFrame.addClass('m-decrypt-key-cursor');
       this._toggleIcon();
@@ -10196,6 +10208,7 @@ var EncryptFrame = EncryptFrame || (function() {
     },
     
     _showDialog: function() {
+      console.log('showDialog');
       var that = this;
       this._eDialog = $('<iframe/>', {
         id: 'eDialog-' + that.id,
@@ -10204,12 +10217,7 @@ var EncryptFrame = EncryptFrame || (function() {
         scrolling: 'no'
       });
       var path = 'common/ui/inline/dialogs/encryptDialog.html?id=' + that.id;
-      var url;
-      if (mvelo.crx) {
-        url = mvelo.extension.getURL(path);
-      } else {
-        url = 'http://www.mailvelope.com/' + path;
-      }
+      var url = mvelo.extension.getURL(path);
       this._eDialog.attr('src', url);
       this._eFrame.append(this._eDialog);
       this._setFrameDim();

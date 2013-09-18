@@ -1,6 +1,6 @@
 [submodule "dep/chrome/openpgpjs"]
 	path = dep/chrome/openpgpjs
 	url = git://github.com/toberndo/openpgpjs.git
-[submodule "firefox/packages/ppg-api"]
-	path = firefox/packages/ppg-api
-	url = git://github.com/invi/ppg-api.git
+[submodule "dep/firefox/openpgpjs"]
+	path = dep/firefox/openpgpjs
+	url = git://github.com/toberndo/openpgpjs.git

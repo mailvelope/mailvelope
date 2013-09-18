@@ -31,9 +31,7 @@
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);
     $('form').on('submit', onOk);
-    $(window).unload(function() {
-      port.postMessage({event: 'pwd-dialog-cancel', sender: id});
-    });
+    $(window).on('unload', onCancel);
     $('#password').focus();
   }
   
@@ -44,12 +42,13 @@
     $('#spinner').show();
     $('.modal-body').css('opacity', '0.4');
     port.postMessage({event: 'pwd-dialog-ok', sender: id, password: pwd, cache: cache});
+    $('#okBtn').prop('disabled', true);
     return false;
   }
   
   function onCancel() {
+    $(window).off('unload');
     port.postMessage({event: 'pwd-dialog-cancel', sender: id});
-    top.close();
     return false;
   }
 
@@ -70,6 +69,7 @@
         }
         break;
       case 'wrong-password':
+        $('#okBtn').prop('disabled', false);
         $('body').removeClass('busy');
         $('#spinner').hide();
         $('.modal-body').css('opacity', '1');
