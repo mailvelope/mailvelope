@@ -86,21 +86,21 @@
     var option = selected.next();
     while (option.length !== 0) {
       if (option.data('proposal')) {
-        option.attr('selected', 'selected');
+        option.prop('selected', true);
         break;
       }
       option = option.next();
     }
-    selected.removeAttr('selected');
+    selected.prop('selected', false);
     if (option.length === 0) {
       // no further proposal found, get back to next of selected
       option = selected.next();
       if (option.length === 0) {
         // jump back to first element
-        selected.siblings().first().attr('selected', 'selected');
+        selected.siblings().first().prop('selected', true);
       } else {
         // select next non-proposal element
-        option.attr('selected', 'selected');
+        option.prop('selected', true);
       }
     }
   }
@@ -132,7 +132,7 @@
             option.data('proposal', key.proposal);
             if (firstProposal) {
               // set the first proposal as selected
-              option.attr('selected', 'selected');
+              option.prop('selected', true);
               firstProposal = false;
             }
           }
@@ -141,12 +141,12 @@
         break;
       case 'encoding-defaults':
         if (msg.defaults.type === 'text') {
-          $('#encodeText').attr('checked', 'checked');
+          $('#encodeText').prop('checked', true);
         } else {
-          $('#encodeHTML').attr('checked', 'checked');
+          $('#encodeHTML').prop('checked', true);
         }
         if (!msg.defaults.editable) {
-          $('input[name="encodeRadios"]').attr('disabled', 'disabled');
+          $('input[name="encodeRadios"]').prop('disabled', true);
         }
         break;
       default:

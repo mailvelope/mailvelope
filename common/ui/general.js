@@ -119,7 +119,7 @@
     keyRing.viewModel('getPreferences', function(prefs) {
       $('input:radio[name="editorRadios"]').filter(function() {
         return $(this).val() === prefs.general.editor_type;
-      }).attr('checked', 'checked');
+      }).prop('checked', true);
       $('#primaryKey > option').filter(function() {
           return $(this).val() === prefs.general.primary_key;
       }).prop('selected', true);

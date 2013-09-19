@@ -53,15 +53,15 @@ var DecryptFrame = DecryptFrame || (function() {
         this._establishConnection();
         this._registerEventListener();
       }
-      // set status to attached
-      this._pgpEnd.data(mvelo.FRAME_STATUS, mvelo.FRAME_ATTACHED);
-      // store frame obj in pgpText tag
-      this._pgpEnd.data(mvelo.FRAME_OBJ, this);
     },
   
     _init: function(pgpEnd) {
       this._pgpEnd = pgpEnd;
       this._pgpParent = this._pgpEnd.parent();
+      // set status to attached
+      this._pgpParent.data(mvelo.FRAME_STATUS, mvelo.FRAME_ATTACHED);
+      // store frame obj in pgpText tag
+      this._pgpParent.data(mvelo.FRAME_OBJ, this);
       
       var regex = /BEGIN\sPGP/;
       this._pgpElement = this._pgpParent;
@@ -126,11 +126,11 @@ var DecryptFrame = DecryptFrame || (function() {
         this._dFrame.remove();
         if (finalClose === true) {
           this._port.disconnect();
-          this._pgpEnd.data(mvelo.FRAME_STATUS, null);
+          this._pgpParent.data(mvelo.FRAME_STATUS, null);
         } else {
-          this._pgpEnd.data(mvelo.FRAME_STATUS, mvelo.FRAME_DETACHED);
+          this._pgpParent.data(mvelo.FRAME_STATUS, mvelo.FRAME_DETACHED);
         }
-        this._pgpEnd.data(mvelo.FRAME_OBJ, null);
+        this._pgpParent.data(mvelo.FRAME_OBJ, null);
       }).bind(this));
       return false;
     },
@@ -256,8 +256,8 @@ var DecryptFrame = DecryptFrame || (function() {
   
   };
 
-  decryptFrame.isAttached = function(element) {
-    var status = element.data(mvelo.FRAME_STATUS);
+  decryptFrame.isAttached = function(text_node) {
+    var status = text_node.parent().data(mvelo.FRAME_STATUS);
     switch (status) {
       case mvelo.FRAME_ATTACHED:
       case mvelo.FRAME_DETACHED:
