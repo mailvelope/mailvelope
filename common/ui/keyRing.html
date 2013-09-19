@@ -157,7 +157,9 @@
                   <h3>Export Key</h3>
                 </div>
                 <div class="modal-body">
-                  <textarea id="armoredKey" class="input-xxlarge" rows=12></textarea>
+                  <form id="keyform" method="POST">
+                    <textarea name="keytext" id="armoredKey" class="input-xxlarge" rows=12></textarea>
+                  </form>
                   <form id="exportDownload" class="form-inline">
                     <input type="text">
                     <button type="button" class="btn">Create file</button>
@@ -166,7 +168,23 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                  <button id="exportToKS" type="button" class="btn" data-dismiss="modal" aria-hidden="true">Export to keyserver</button>
                   <button id="exportToCb" type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Copy to Clipboard</button>
+                </div>
+              </div>
+              <div class="modal fade hide" id="selectKeyserver">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h3>Send to Keyserver</h3>
+                </div>
+                <div class="modal-body">
+                  <select id='keyserverChoice'>
+                    <option value="http://pool.sks-keyservers.net">pool.sks-keyservers.net</option>
+                  </select>
+                </div>
+                <div class="modal-footer">
+                  <button id='sendToKS' type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Send</button>
+                  <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
                 </div>
               </div>
             </div>
@@ -174,7 +192,11 @@
               <h3>Bulk Import Keys</h3>
               <form class="form-vertical well" onsubmit="return false">
                 <div class="control-group">
-                  <label class="control-label" for="textarea"><h4>Paste key text here:</h4></label>
+                  <label class="control-label" for="impKeyFilepath"><h4>Select a file to import<h4></label>
+-                 <input type="file" name="filepath" id="impKeyFilepath" />
+-               </div>
+-               <div class="control-group">
+-                 <label class="control-label" for="textarea"><h4>Or paste key text here:</h4></label>
                   <div>To import multiple keys, simply paste them all here. Extra text around the keys is ignored.</div>
                   <div class="controls">
                     <textarea id="newKey" rows="12"></textarea>
