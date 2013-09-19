@@ -58,6 +58,7 @@ function checkStaticArgs() {
     ss.storage['config'] = JSON.parse(ss.storage['config']);
     ss.storage['privatekeys'] = JSON.parse(ss.storage['privatekeys']);
     ss.storage['publickeys'] = JSON.parse(ss.storage['publickeys']);
+    ss.storage['mailvelopePreferences'].security.display_decrypted = 'popup';
   }
   // call cfx run --static-args='{ "clear_storage": true }'
   if (system.staticArgs.clear_storage) {
