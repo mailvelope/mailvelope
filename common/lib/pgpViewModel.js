@@ -48,6 +48,10 @@ define(function(require, exports, module) {
     return keys;
   }
 
+  function setOpenPGPComment(text) {
+    openpgp.config.commentstring = text;
+  }
+
   function getPublicKeys() {
     var result = [];
     openpgp.keyring.publicKeys.forEach(function(publicKey) {
@@ -90,6 +94,7 @@ define(function(require, exports, module) {
     };
   }
 
+  exports.setOpenPGPComment = setOpenPGPComment;
   exports.getKeys = getKeys;
   exports.getPublicKeys = getPublicKeys;
   exports.getPrivateKeys = getPrivateKeys;
