@@ -33,7 +33,7 @@
       return false;
     });
     // disable for FF
-    if (!mvelo.crx) {
+    if (mvelo.ffa) {
       $('input:radio[name="decryptRadios"]').prop('disabled', true);
       $('input:radio[name="editorModeRadios"]').prop('disabled', true);
     }
