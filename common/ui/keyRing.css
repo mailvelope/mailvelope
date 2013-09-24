@@ -123,6 +123,10 @@ body {
   margin-left: 5px;
 }
 
+#genKeyWait .modal-footer {
+  text-align: left;
+}
+
 #security .form-horizontal .control-label,
 #general .form-horizontal .control-label {
   width: 280px;
