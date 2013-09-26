@@ -26,7 +26,7 @@
     $('#impKeyAnother').click(onAnother);
     $('#impKeyFilepath').change(onChangeFile);
   }
-  
+
   function onImportKey() {
     clearAlert();
     var keyText = $('#newKey').val();
@@ -34,38 +34,48 @@
     // find all public and private keys in the textbox
     var publicKeys = keyText.match(publicKeyRegex);
     var privateKeys = keyText.match(privateKeyRegex);
-    var npublic = publicKeys===null ? 0 : publicKeys.length;
-    var nprivate = privateKeys===null ? 0 : privateKeys.length;
-    var ntotal = npublic+nprivate, nsucceeded = 0, nfailed = 0;
+    
+    var keys = [];
 
-    // each one is imported asynchronously. 
-    // produce a list of success/error message boxes
-    // once they're all done, call importDone() to refresh the ui
-    var importKey = function(key, keyType){
-      keyRing.viewModel('importKey', [key, keyType.toLowerCase()], function(result, error){
-        if (!error) {
-          $('#importAlert').showAlert('Success', keyType + ' key ' + result[0].keyid + ' of user ' + result[0].userid + ' imported into key ring', 'success', true);
-          nsucceeded++;
-        } else {
-          $('#importAlert').showAlert('Import Error', error.type === 'error' ? error.message : 'Not a valid key text', 'error', true);
-          nfailed++;
-        }
-        if(nsucceeded + nfailed == ntotal){
-          // finished importing! 
-          importDone(nsucceeded > 0);
-        }
+    if (publicKeys) {
+      publicKeys.forEach(function(pub) {
+        keys.push({type: 'public', armored: pub});
       });
     }
-    for(var i = 0; i < npublic; i++){
-      importKey(publicKeys[i], 'Public');
-    }
-    for(var i = 0; i < nprivate; i++){
-      importKey(privateKeys[i], 'Private');
+
+    if (privateKeys) {
+      privateKeys.forEach(function(priv) {
+        keys.push({type: 'private', armored: priv});
+      });
     }
 
-    // no keys found...
-    if (ntotal == 0) {
-      $('#importAlert').showAlert('Import Error', 'Not a valid key text', 'error');
+    if (keys.length === 0) {
+      $('#importAlert').showAlert('Import Error', 'No a valid key text found', 'error', true);
+    } else {
+      keyRing.viewModel('importKeys', [keys], function(result, error) {
+        if (error) {
+          $('#importAlert').showAlert('Import Error', error.type === 'error' ? error.message : 'An exception occored while processing the keys', 'error', true); 
+        } else {
+          var success = false;
+          result.forEach(function(imported) {
+            var heading;
+            switch (imported.type) {
+              case 'success':
+                heading = 'Success';
+                success = true;
+                break;
+              case 'warning':
+                heading = 'Warning';
+                break;
+              case 'error':
+                heading = 'Import Error';
+                break;
+            }
+            $('#importAlert').showAlert(heading, imported.message, imported.type, true);
+          });
+          importDone(success);
+        }
+      });
     }
   }
 
@@ -77,7 +87,6 @@
   }
 
   function importDone(success) {
-    console.log('importDone', success);
     if (success) {
       // at least one key was imported
       $('#newKey, #impKeySubmit, #impKeyClear, #impKeyFilepath').prop('disabled', true);

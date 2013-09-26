@@ -37,8 +37,10 @@ $.fn.showAlert = function(heading, message, type, keep) {
     $('<strong/>').appendTo(row).text(heading);
   }
   $('<span/>').appendTo(row).text(message);
-  row.attr('class', 'alert fade in')
-     .addClass('alert-' + type);
+  row.attr('class', 'alert fade in');
+  if (type !== 'warning') {
+    row.addClass('alert-' + type);
+  }
   this.show();
   return this;
 }
