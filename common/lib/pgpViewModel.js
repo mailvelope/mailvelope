@@ -118,12 +118,12 @@ define(function(require, exports, module) {
     if (sig.keyNeverExpires || sig.keyNeverExpires === null ) {
       toKey.exDate = 'The key does not expire'; 
     } else {
-      toKey.exDate = new Date(sig.creationTime.getTime() + sig.keyExpirationTime * 1000);
+      toKey.exDate = new Date(sig.creationTime.getTime() + sig.keyExpirationTime * 1000).toISOString();
     }
   }
   
   function mapKeyMaterial(keyPacket, toKey) {
-    toKey.crDate = keyPacket.creationTime;
+    toKey.crDate = keyPacket.creationTime.toISOString();
     toKey.algorithm = getAlgorithmString(keyPacket.publicKeyAlgorithm);
     toKey.bitLength = keyPacket.MPIs[0].mpiBitLength;
   }
@@ -132,11 +132,11 @@ define(function(require, exports, module) {
     toKey.subkeys = [];
     subkeys.forEach(function(subkey) {
       var skey = {};
-      skey.crDate = subkey.subKeySignature.creationTime;
+      skey.crDate = subkey.subKeySignature.creationTime.toISOString();
       if (subkey.subKeySignature.keyNeverExpires || subkey.subKeySignature.keyNeverExpires === null ) {
         skey.exDate = 'The key does not expire'; 
       } else {
-        skey.exDate = new Date(subkey.subKeySignature.creationTime.getTime() + subkey.subKeySignature.keyExpirationTime * 1000);
+        skey.exDate = new Date(subkey.subKeySignature.creationTime.getTime() + subkey.subKeySignature.keyExpirationTime * 1000).toISOString();
       }
       if (toKey.type === 'private') {
         subkey = subkey.publicKey;
@@ -172,7 +172,7 @@ define(function(require, exports, module) {
           }
         }
         sig.id = util.hexstrdump(certSig.getIssuer()).toUpperCase();
-        sig.crDate = certSig.creationTime;
+        sig.crDate = certSig.creationTime.toISOString();
         user.signatures.push(sig);
       });
       toKey.users.push(user);
