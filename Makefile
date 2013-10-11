@@ -7,7 +7,7 @@ default: help
 help:
 	@echo "build-cs       - pack content script files"
 	@echo "copy-common    - copy common folder to Chrome and Firefox directories"
-	@echo "copy-dep       - copy openpgp.js library to Chrome directory"
+	@echo "copy-dep       - copy openpgp.js library to Chrome  and Firefox directories"
 	@echo "build          - copy common folder and dependencies"
 	@echo "start-ff       - run addon in Firefox beta"
 	@echo "start-ff-new   - run addon in Firefox beta, clear local storage"
