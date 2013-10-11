@@ -207,9 +207,16 @@ define(function(require, exports, module) {
     var result = [];
     var keyObj = openpgp.read_publicKey(armored);
     if (keyObj && keyObj.length) {
-      keyObj.forEach(function(obj) {
-        // check if public key already in key ring
+      keyObj.forEach(function(obj, index) {
         var keyId = obj.getKeyId();
+        if (index > 0) {
+          result.push({
+            type: 'warning',
+            message: 'More than one key per armored text block detected. Mailvelope currently needs each key in separate block. Public key ' + util.hexstrdump(keyId).toUpperCase() + ' will not be usable.'
+          });
+          return;
+        }
+        // check if public key already in key ring
         var found = openpgp.keyring.getPublicKeysForKeyId(keyId);
         if (found.length > 0) {
           result.push({
@@ -247,8 +254,15 @@ define(function(require, exports, module) {
     var keyObj = openpgp.read_privateKey(armored);
     if (keyObj && keyObj.length) {
       for (var i = 0; i < keyObj.length; i++) {
-        // check if private key already in key ring
         var keyId = keyObj[i].getKeyId();
+        if (i > 0) {
+          result.push({
+            type: 'warning',
+            message: 'More than one key per armored text block detected. Mailvelope currently needs each key in separate block. Private key ' + util.hexstrdump(keyId).toUpperCase() + ' will not be usable.'
+          });
+          continue;
+        }
+        // check if private key already in key ring
         var found = openpgp.keyring.getPrivateKeyForKeyId(keyId);
         if (found.length > 0) {
           result.push({
