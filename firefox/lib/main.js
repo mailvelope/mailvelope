@@ -81,7 +81,7 @@ function clearStorage() {
 }
 
 function onPanelMessage(msg) {
-  console.log('onPanelMessage', msg.action);
+  //console.log('onPanelMessage', msg.action);
   controller.onBrowserAction(msg.action);
   mailvelopePanel.hide();
 }
@@ -113,13 +113,13 @@ function initScriptInjection() {
     }
   }
 
-  console.log('modOptions.include', modOptions.include);
+  //console.log('modOptions.include', modOptions.include);
   activePageMod = pageMod.PageMod(modOptions);
 
 }
 
 function onCsAttach(worker) {
-  console.log("Attaching content scripts", worker.url);
+  //console.log("Attaching content scripts", worker.url);
   worker.port.on('port-message', controller.handlePortMessage);
   worker.port.on('connect', function(portName) {
     var eventName = 'port-message' + '.' + portName;

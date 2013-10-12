@@ -117,7 +117,7 @@ define(function (require, exports, module) {
   }
 
   function handlePortMessage(msg) {
-    console.log('controller handlePortMessage:', msg.event, msg.sender);
+    //console.log('controller handlePortMessage:', msg.event, msg.sender);
     var id = parseName(msg.sender).id;
     switch (msg.event) {
       case 'pwd-dialog-cancel':
@@ -315,7 +315,7 @@ define(function (require, exports, module) {
   }
 
   function handleMessageEvent(request, sender, sendResponse) {
-    console.log('controller: handleMessageEvent', request.event);
+    //console.log('controller: handleMessageEvent', request.event);
     switch (request.event) {
       case 'viewmodel':
         var response = {};

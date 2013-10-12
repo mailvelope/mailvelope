@@ -194,7 +194,7 @@ var EncryptFrame = EncryptFrame || (function() {
     },
     
     _showDialog: function() {
-      console.log('showDialog');
+      //console.log('showDialog');
       var that = this;
       this._eDialog = $('<iframe/>', {
         id: 'eDialog-' + that.id,

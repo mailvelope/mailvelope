@@ -66,16 +66,14 @@ mvelo.tabs.attach = function(tab, options, callback) {
   lopt.contentScriptOptions = lopt.contentScriptOptions || {};
   lopt.contentScriptOptions.expose_messaging = lopt.contentScriptOptions.expose_messaging || true;
   lopt.contentScriptOptions.data_path = data.url();
-  console.log('attach tab', tab.id);
-  console.log('attach tab', tab.index);
   var worker = tab.attach(lopt);
   this.worker[tab.index] = worker;
   worker.port.on('message-event', options.onMessage);
-  console.log('attach registers for message-event', Date.now());
+  //console.log('attach registers for message-event', Date.now());
   worker.port.once('message-event', function(msg) {
     if (callback) {
       // first event on port will fire callback after 200ms delay
-      console.log('starting attach callback timer', msg.event, Date.now());
+      //console.log('starting attach callback timer', msg.event, Date.now());
       timer.setTimeout(callback.bind(this, tab), 200);
     }
   });
@@ -116,7 +114,7 @@ mvelo.tabs.loadOptionsTab = function(hash, onMessage, callback) {
     if (tabs.length === 0) {
       // if not existent, create tab
       mvelo.tabs.create(data.url("common/ui/options.html") + hash, true, function(tab) {
-        console.log('before tab attach');
+        //console.log('before tab attach');
         mvelo.tabs.attach(tab, {
           onMessage: function(msg) {
             //console.log('message-event', msg.event);

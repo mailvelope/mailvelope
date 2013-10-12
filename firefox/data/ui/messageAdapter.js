@@ -59,7 +59,7 @@ mvelo.ffa = true;
     };
 
     this.disconnect = function() {
-      console.log('disconnect called');
+      //console.log('disconnect called');
       // remove events
       for (var ev in events) {
         if (events.hasOwnProperty(ev)) {

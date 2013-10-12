@@ -122,7 +122,7 @@
     $('body').removeClass('spinner');
     switch (msg.event) {
       case 'decrypted-message':
-        console.log('popup decrypted message: ', msg.message);
+        //console.log('popup decrypted message: ', msg.message);
         showMessageArea();
         // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
         var message = msg.message.replace(/\n/g, '<br>');
