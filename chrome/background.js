@@ -182,7 +182,7 @@ define(["common/lib/controller", "common/lib/pgpViewModel", "openpgp", "jquery"]
 
   function csBootstrap() {
     return " \
-      if (!document.mailvelopeControl) { \
+      if (!document.mveloBootstrap) { \
         var hosts = " + JSON.stringify(frameHosts) + "; \
         var match = hosts.some(function(host) { \
           return host === document.location.host; \
@@ -192,6 +192,7 @@ define(["common/lib/controller", "common/lib/pgpViewModel", "openpgp", "jquery"]
             eval(response.code); \
           }); \
         } \
+        document.mveloBootstrap = true;\
       } \
     ";
   }

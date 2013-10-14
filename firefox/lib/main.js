@@ -102,6 +102,7 @@ function initScriptInjection() {
       expose_messaging: false,
       data_path: data.url()
     },
+    contentScriptWhen: 'ready',
     attachTo: ['existing', 'top', 'frame']
   }
 

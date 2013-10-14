@@ -132,9 +132,9 @@ define(function(require, exports, module) {
         toKey.exDate = new Date(sig.creationTime.getTime() + sig.keyExpirationTime * 1000).toISOString();
       }
     } catch (e) {
-      toKey.name = 'NO USERID FOUND';
-      toKey.email = 'UNKNOWN';
-      toKey.exDate = 'UNKNOWN';
+      toKey.name = toKey.name || 'NO USERID FOUND';
+      toKey.email = toKey.email || 'UNKNOWN';
+      toKey.exDate = toKey.exDate || 'UNKNOWN';
       console.log('Exception in mapKeyMsg', e);
     }
   }
@@ -232,7 +232,7 @@ define(function(require, exports, module) {
         return email === element;
       });
     } catch (e) {
-      toKey.userid = 'UNKNOWN';
+      toKey.userid = toKey.userid || 'UNKNOWN';
       console.log('Exception in mapKeyUserIds', e);
     }
   }
