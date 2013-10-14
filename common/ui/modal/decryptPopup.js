@@ -115,6 +115,7 @@
     $('.modal-body iframe').hide();
     $('#errorbox').show();
     $('#errorwell').showAlert('Error', msg, 'error');
+    $('#copyBtn').prop('disabled', true);
   }
   
   function messageListener(msg) {
