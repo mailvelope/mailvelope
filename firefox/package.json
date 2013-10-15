@@ -11,5 +11,6 @@
   "icon64": "data/common/img/mail_locked_64.png",
   "lib": ".",
   "main": "lib/main",
-  "dependencies": ["openpgp", "addon-sdk"]
+  "dependencies": ["openpgp", "addon-sdk"],
+  "permissions": {"private-browsing": true}
 }
