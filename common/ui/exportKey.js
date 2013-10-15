@@ -50,7 +50,7 @@
         break;
       case 'exportKeyPair':
         if (key.type === 'private') {
-          showModal(key, key.armoredPrivate + '\n' + key.armoredPublic, 'keypair');
+          showModal(key, key.armoredPublic + '\n' + key.armoredPrivate, 'keypair');
         }
         break;
       default:
