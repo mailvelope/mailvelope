@@ -239,7 +239,9 @@ define(function(require, exports, module) {
 
   function importPublicKey(armored) {
     var result = [];
-    var keyObj = openpgp.read_publicKey(armored);
+    try {
+      var keyObj = openpgp.read_publicKey(armored);
+    } catch (e) {}
     if (keyObj && keyObj.length) {
       keyObj.forEach(function(obj, index) {
         var keyId = obj.getKeyId();
@@ -285,7 +287,9 @@ define(function(require, exports, module) {
 
   function importPrivateKey(armored) {
     var result = [];
-    var keyObj = openpgp.read_privateKey(armored);
+    try {
+      var keyObj = openpgp.read_privateKey(armored);
+    } catch (e) {}
     if (keyObj && keyObj.length) {
       for (var i = 0; i < keyObj.length; i++) {
         var keyId = keyObj[i].getKeyId();

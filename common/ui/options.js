@@ -122,6 +122,9 @@
       case 'reload-options':
         reloadOptions(request.hash);
         break;
+      case 'import-key':
+        iframeWindow.postMessage(JSON.stringify(request), '*');
+        break;
     }
   }
 

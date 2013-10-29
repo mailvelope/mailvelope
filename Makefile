@@ -18,7 +18,7 @@ help:
 
 build-cs:
 	@echo Concatenate content script files...
-	@cat common/dep/jquery.min.js common/ui/inline/mvelo.js common/ui/inline/main-cs.js common/ui/inline/decryptFrame.js common/ui/inline/encryptFrame.js > common/ui/inline/build/cs-mailvelope.js
+	@cat common/dep/jquery.min.js common/ui/inline/mvelo.js common/ui/inline/main-cs.js common/ui/inline/extractFrame.js common/ui/inline/decryptFrame.js common/ui/inline/importFrame.js common/ui/inline/encryptFrame.js > common/ui/inline/build/cs-mailvelope.js
 	@echo Appending //@ sourceURL=cs-mailvelope.js...
 	@echo '//@ sourceURL=cs-mailvelope.js' >> common/ui/inline/build/cs-mailvelope.js
 

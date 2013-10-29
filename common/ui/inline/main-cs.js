@@ -38,7 +38,7 @@
         // find armored PGP text
         var pgpTag = findPGPTag(regex);
         if (pgpTag.length !== 0) {
-          attachDecryptFrame(pgpTag);
+          attachExtractFrame(pgpTag);
         }
         // find editable content
         var editable = findEditable();
@@ -150,16 +150,41 @@
     });
     return editable;
   }
+
+  function getMessageType(pgpEnd) {
+    var armored = pgpEnd.text();
+    if (/END\sPGP\sMESSAGE/.test(armored)) {
+      return mvelo.PGP_MESSAGE;
+    } else if (/END\sPGP\sSIGNATURE/.test(armored)) {
+      return mvelo.PGP_SIGNATURE;
+    } else if (/END\sPGP\sPUBLIC\sKEY\sBLOCK/.test(armored)) {
+      return mvelo.PGP_PUBLIC_KEY;
+    } else if (/END\sPGP\sPRIVATE\sKEY\sBLOCK/.test(armored)) {
+      return mvelo.PGP_PRIVATE_KEY;
+    }
+  }
   
-  function attachDecryptFrame(element) {
+  function attachExtractFrame(element) {
     // check status of PGP tags
     var newObj = element.filter(function() {
-      return !DecryptFrame.isAttached($(this));
+      return !ExtractFrame.isAttached($(this).parent());
     });
     // create new decrypt frames for new discovered PGP tags
     newObj.each(function(index, element) {
-      var dFrame = new DecryptFrame(prefs);
-      dFrame.attachTo($(element));
+      // parent element of text node
+      var pgpEnd = $(element).parent();
+      var eFrame;
+      switch (getMessageType(pgpEnd)) {
+        case mvelo.PGP_MESSAGE:
+          eFrame = new DecryptFrame(prefs);
+          break;
+        case mvelo.PGP_PUBLIC_KEY:
+          eFrame = new ImportFrame(prefs);
+          break;
+        default:
+          console.log('message type not supported')
+      }
+      eFrame.attachTo(pgpEnd);
     });
   }
   

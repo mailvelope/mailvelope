@@ -34,8 +34,6 @@ var EncryptFrame = EncryptFrame || (function() {
   }
 
   encryptFrame.prototype = {
-  
-    constructor: EncryptFrame,
     
     attachTo: function(element, options) {
       $.extend(this._options, options);

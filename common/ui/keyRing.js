@@ -111,6 +111,16 @@ var keyRing = {};
         $('#navList a[href="#watchList"]').tab('show');
         watchList.removeSite(data.site);
         break;
+      case 'import-key':
+        $('#navList a[href="#importKey"]').tab('show');
+        keyRing.importKey(data.armored, function(result) {
+          sendMessage({
+            event: "import-key-result",
+            result: result,
+            id: data.id
+          });
+        });
+        break;
     }
     
   }

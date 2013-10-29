@@ -35,6 +35,8 @@ define(function (require, exports, module) {
   var eDialogPorts = {};
   // port to password dialog
   var pwdPort = null;
+  // port to import key frames
+  var imFramePorts = {};
   // editor window
   var editor = null;
   // decrypt popup window
@@ -83,6 +85,9 @@ define(function (require, exports, module) {
       case 'editor':
         editor.port = port;
         break;
+      case 'imFrame':
+        imFramePorts[sender.id] = port;
+        break;
       default:
         console.log('unknown port');
     }
@@ -108,6 +113,9 @@ define(function (require, exports, module) {
         break;
       case 'editor':
         editor = null;
+        break;
+      case 'imFrame':
+        delete imFramePorts[sender.id];
         break;
       default:
         console.log('unknown port');
@@ -309,6 +317,15 @@ define(function (require, exports, module) {
         editor.window.close();
         editor = null;
         break;
+      case 'imframe-armored-key':
+        mvelo.tabs.loadOptionsTab('', handleMessageEvent, function(old, tab) {
+          mvelo.tabs.sendMessage(tab, {
+            event: "import-key",
+            armored: msg.data,
+            id: id
+          });
+        });
+        break;
       default:
         console.log('unknown event', msg);
     }
@@ -367,6 +384,13 @@ define(function (require, exports, module) {
       case 'get-version':
         sendResponse(defaults.getVersion());
         break;
+      case 'import-key-result':
+        var resultType = {};
+        for (var i = 0; i < request.message.result.length; i++) {
+          resultType[request.message.result[i].type] = true;
+        }
+        imFramePorts[request.message.id].postMessage({event: 'import-result', resultType: resultType});
+        break;
       default:
         console.log('unknown event:', msg.event);
     }
@@ -404,16 +428,22 @@ define(function (require, exports, module) {
 
   function reloadFrames() {
     // close frames
-    for (id in dFramePorts) {
+    for (var id in dFramePorts) {
       if (dFramePorts.hasOwnProperty(id)) {
         //console.log('post message destroy to dFrame%s', id);
         dFramePorts[id].postMessage({event: 'destroy'});
       }
     }
-    for (id in eFramePorts) {
+    for (var id in eFramePorts) {
       if (eFramePorts.hasOwnProperty(id)) {
         //console.log('post message destroy to eFrame%s', id);
         eFramePorts[id].postMessage({event: 'destroy'});
+      }
+    }
+    for (var id in imFramePorts) {
+      if (imFramePorts.hasOwnProperty(id)) {
+        //console.log('post message destroy to eFrame%s', id);
+        imFramePorts[id].postMessage({event: 'destroy'});
       }
     }
   }

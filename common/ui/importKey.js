@@ -15,19 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function(exports) {
 
   var publicKeyRegex = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
   var privateKeyRegex = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END PGP PRIVATE KEY BLOCK-----/g;
   
   function init() {
-    $('#impKeySubmit').click(onImportKey);
+    $('#impKeySubmit').click(function() {
+      onImportKey();
+    });
     $('#impKeyClear').click(onClear);
     $('#impKeyAnother').click(onAnother);
     $('#impKeyFilepath').change(onChangeFile);
   }
 
-  function onImportKey() {
+  function onImportKey(callback) {
     clearAlert();
     var keyText = $('#newKey').val();
 
@@ -54,7 +56,8 @@
     } else {
       keyRing.viewModel('importKeys', [keys], function(result, error) {
         if (error) {
-          $('#importAlert').showAlert('Import Error', error.type === 'error' ? error.message : 'An exception occored while processing the keys', 'error', true); 
+          $('#importAlert').showAlert('Import Error', error.type === 'error' ? error.message : 'An exception occored while processing the keys', 'error', true);
+          if (callback) callback([{type: 'error'}]);
         } else {
           var success = false;
           result.forEach(function(imported) {
@@ -73,10 +76,17 @@
             }
             $('#importAlert').showAlert(heading, imported.message, imported.type, true);
           });
+          if (callback) callback(result);
           importDone(success);
         }
       });
     }
+  }
+
+  exports.importKey = function(armored, callback) {
+    $('#impKeyClear').click();
+    $('#newKey').val(armored);
+    onImportKey(callback);
   }
 
   function onChangeFile(event) {
@@ -114,4 +124,4 @@
   
   $(document).ready(init);
   
-}()); 
+}(keyRing)); 

@@ -3,10 +3,11 @@
  * Copyright (C) 2012  Thomas Oberndörfer
  */
 
-:root .m-frame {
-  background: rgba(254,251,243,.8) url('../../img/mail_locked_96.png') no-repeat center center;
-  -webkit-transition: background-position 0.5s ease, background-image 0.5s ease;
+:root .m-extract-frame {
+  background-position: center center;
   transition: background-position 0.5s ease, background-image 0.5s ease;
+  background-color: rgba(254,251,243,.8);
+  background-repeat: no-repeat;
   border: 1px solid rgba(0,0,0,.2);
   border-radius: 3px;
   box-shadow: 0 1px 2px rgba(0,0,0,.1);
@@ -16,21 +17,48 @@
   display: none;
 }
 
-:root .m-frame-open {
-  background-position: 20px;
-  background-image: url('../../img/mail_open_96.png');
-  background-size: 80px;
+:root .m-extract-frame.m-decrypt {
+  background-image: url('../../img/mail_locked_96.png'), none;
 }
 
-:root .m-frame-large {
-  background-position: center 140px;
+:root .m-extract-frame.m-import {
+  background-image: url('../../img/key-icon-blue96.png'), none;
 }
 
-:root .m-frame-large-open {
-  background-position: 20px 140px;
-  background-image: url('../../img/mail_open_96.png');
-  background-size: 80px;
+:root .m-extract-frame.m-open {
+  background-position: 20px center, center center;
+  background-size: 80px, 48px;
 }
+
+:root .m-extract-frame.m-open.m-decrypt {
+  background-image: url('../../img/mail_open_96.png'), url('../../dep/kendoui/styles/Default/loading-image.gif');
+}
+
+:root .m-extract-frame.m-open.m-import {
+  background-image: url('../../img/key-icon-blue96.png'), url('../../dep/kendoui/styles/Default/loading-image.gif');
+}
+
+:root .m-extract-frame.m-open.m-import.m-ok {
+  background-image: url('../../img/key-icon-blue96.png'), url('../../img/ok48.png');
+}
+
+:root .m-extract-frame.m-open.m-import.m-warning {
+  background-image: url('../../img/key-icon-blue96.png'), url('../../img/warning48.png');
+}
+
+:root .m-extract-frame.m-open.m-import.m-error {
+  background-image: url('../../img/key-icon-blue96.png'), url('../../img/no48.png');
+}
+
+:root .m-extract-frame.m-large {
+  background-position: center 140px, center 156px;
+}
+
+:root .m-extract-frame.m-large.m-open {
+  background-position: 20px 140px, center 156px;
+}
+
+
 
 :root div.m-encrypt-frame[id^="eFrame"] {
   background: rgba(254,251,243,.8);
@@ -79,11 +107,15 @@
   background-image: url('../../img/mail_new.png');
 }
 
-:root .m-decrypt-key-cursor {
+:root .m-decrypt.m-cursor {
   cursor: url('../../img/key-24.png'), auto;
 }
 
-:root .m-frame .m-frame-dialog,
+:root .m-import.m-cursor {
+  cursor: url('../../img/edit_add-22.png'), auto;
+}
+
+:root .m-extract-frame .m-frame-dialog,
 :root .m-encrypt-frame .m-frame-dialog {
   position: absolute;
   display: none;
