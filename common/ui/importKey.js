@@ -52,7 +52,7 @@
     }
 
     if (keys.length === 0) {
-      $('#importAlert').showAlert('Import Error', 'No a valid key text found', 'error', true);
+      $('#importAlert').showAlert('Import Error', 'No valid key text found', 'error', true);
     } else {
       keyRing.viewModel('importKeys', [keys], function(result, error) {
         if (error) {

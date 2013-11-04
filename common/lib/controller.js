@@ -322,7 +322,8 @@ define(function (require, exports, module) {
           mvelo.tabs.sendMessage(tab, {
             event: "import-key",
             armored: msg.data,
-            id: id
+            id: id,
+            old: old
           });
         });
         break;

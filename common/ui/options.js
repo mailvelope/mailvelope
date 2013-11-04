@@ -107,10 +107,10 @@
   function handleRequests(request, sender, sendResponse) {
     switch (request.event) {
       case 'add-watchlist-item':
-        postWatchlistEvent("add-watchlist-item", request);
+        postEvent(request);
         break;
       case 'remove-watchlist-item':
-        postWatchlistEvent("remove-watchlist-item", request);
+        postEvent(request);
         break;
       case 'options-response':
         iframeWindow.postMessage(JSON.stringify({
@@ -123,7 +123,7 @@
         reloadOptions(request.hash);
         break;
       case 'import-key':
-        iframeWindow.postMessage(JSON.stringify(request), '*');
+        postEvent(request);
         break;
     }
   }
@@ -133,23 +133,15 @@
     $('#optionsIframe').attr('src', mvelo.extension.getURL(hashMap[hash]));
   }
 
-  function postWatchlistEvent(event, request) {
+  function postEvent(request) {
     if (request.old) {
       reloadOptions('#home', function() {
-        iframeWindow.postMessage(JSON.stringify({
-          event: event,
-          site: request.site,
-          hosts: request.hosts
-        }), '*');
+        iframeWindow.postMessage(JSON.stringify(request), '*');
       });
     } else {
-      iframeWindow.postMessage(JSON.stringify({
-        event: event,
-        site: request.site,
-        hosts: request.hosts
-      }), '*');
+      iframeWindow.postMessage(JSON.stringify(request), '*');
     }
-  } 
+  }
   
   $(document).ready(init);
 

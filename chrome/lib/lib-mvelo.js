@@ -74,9 +74,11 @@ define(function(require, exports, module) {
     chrome.tabs.create({url: url}, function(tab) {
       if (complete) {
         // wait for tab to be loaded
-        chrome.tabs.query({url: chrome.extension.getURL(url), currentWindow: true, status: 'complete'}, function(tabs) {
-          //console.log('load options completed ', Date.now());
-          if (callback) callback(tab);
+        chrome.tabs.onUpdated.addListener(function updateListener(tabid, info) {
+          if (tabid === tab.id && info.status === 'complete') {
+            chrome.tabs.onUpdated.removeListener(updateListener);
+            if (callback) callback(tab);  
+          }
         });
       } else {
         if (callback) callback(tab);

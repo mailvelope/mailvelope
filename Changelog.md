@@ -1,46 +1,76 @@
+Mailvelope Changelog
+====================
 
-0.6.6 / 24.08.2013 
-==================
+v0.7.0
+------
+__Nov. 4, 2013__
+
+  * Reduce initial loading time of key grid, lazy loading of key details
+  * Merge branch firefox into master: one code base for Chrome and Firefox
+  * Identify public key in email body, allow one click import
+  * Firefox add-on reaches feature parity with Chrome extension (excluding decrypt inline scenario and performance)
+  * Rewrite key import function: reject multiple keys per armored key text, more accurate error logging
+  * Improved stability of key grid, make key mapping more robust against exceptions
+  * Display short version of key id in key grid
+  * Fix display of key creation date in Chrome
+  * Export key pair: display public key first
+  * Generate 2048-bit RSA keys by default
+  * Add reference to Mailvelope in PGP header comment tag
+  * Display Mailvelope version in options UI and PGP header line
+  * Migrate to jQuery 2
+  * Activate Mailvelope in private browsing mode of Firefox
+  * Set minimum Chrome version to 26 (minimum Firefox version is 21)
+  * Fix wrong encoding of non-ASCII characters in decrypted messages
+  * [OpenPGP.js] Evaluate key flag to determine encryption key
+  * [OpenPGP.js] Key generation with non-ASCII user id: generate valid signature
+
+v0.6.6
+------
+__Aug. 24, 2013__
 
   * Fix broken decrypt process for outlook.com (accept `<br>` inside `<pre>` in mail body)
   * Add key text file upload to key import view
 
-0.6.5 / 20.08.2013 
-==================
+v0.6.5
+------
+__Aug. 20, 2013__
 
   * Fix wrong encoding of non-ASCII characters in decrypted messages
   * [OpenPGP.js] Key generation with non-ASCII user id: generate valid signature
 
-0.6.4 / 12.07.2013 
-==================
+v0.6.4
+------
+__July 12, 2013__
 
   * Fix UTF8 regression introduced with OpenPGP.js update in 0.6.3
   * Update watchlist defaults for new GMX navigator
   * Set plain text as default editor due to incompatibilities with encrypted HTML mails
 
-0.6.3 / 25.06.2013 
-==================
+v0.6.3
+------
+__June 25, 2013__
 
   * Fix "Send public key by mail" producing corrupted key text
   * Update to latest OpenPGP.js
 
-0.6.2 / 10.05.2013 
-==================
+v0.6.2
+------
+__May 10, 2013__
 
   * Update Kendo UI to 2013.1.319. Fix key export problem on Win8
   * Add unique title for password dialog
   * Loading spinner for the key grid
   * Only allow export 'Send public key by mail' if key file does not exceed 1600 characters
 
-
-0.6.1 / 15.03.2013 
-==================
+v0.6.1
+------
+__Mar. 15, 2013__
 
   * Primary private key can be defined in the general settings and option to always add primary key to list of recipients in encryption dialog.
 
-
-0.6 / 07.03.2013 
-==================
+v0.6.0
+------
+__Mar. 7, 2013__
 
   * Load web fonts locally from the extension
   * External rich text (wysihtml5) or plain text editor for mail composition
@@ -60,28 +90,30 @@
   * Sanitize HTML of decrypted message
   * Logic to keep critical dialogs in the foreground
 
-
-0.5.5 / 06.02.2013 
-==================
+v0.5.5
+------
+__Feb. 6, 2013__
 
   * Update to latest OpenPGP.js release, problems with compressed messages from e.g. Enigmail are fixed
   * Clean-up of key import coding
   * Fonts are loaded locally
 
-
-0.5.4.2 / 18.12.2012 
-==================
+v0.5.4.2
+--------
+__Dec. 18, 2012__
 
   * Unicode support for encryption process and key owner name
 
-0.5.4.1 / 17.12.2012 
-==================
+v0.5.4.1
+--------
+__Dec. 17, 2012__
 
   * Set minimum Chrome version to 21
   * Center encrypt dialog (support for new Gmail editor)
 
-0.5.4 / 06.12.2012 
-==================
+v0.5.4
+------
+__Dec. 6, 2012__
 
   * Improved positioning of decrypt dialog for large mails: the dialog is now shown always on top and not in the center of the mail
   * Revised armored text extraction in decrypt frame: this fixes a bug where in some situations the armored text was not extracted correctly
@@ -89,40 +121,46 @@
   * Decode HTML entities in text mode: e.g. > is now decoded correctly
   * Remove migration code that was introduced with 0.4.2
 
-
-0.5.3 / 12.11.2012 
-==================
+v0.5.3
+------
+__Nov. 12, 2012__
 
   * Support for messages in __pre__ tags
   * Higher selector specificity in framestyles.css to support Roundcube
 
-0.5.2.2 / 08.11.2012 
-==================
+v0.5.2.2
+--------
+__Nov. 8, 2012__
 
   * Browser actions: improved tab handling
 
-0.5.2.1 / 07.11.2012 
-==================
+v0.5.2.1
+--------
+__Nov 7, 2012__
 
   * Fix bug in Add/Remove page functionality
 
-0.5.2 / 07.11.2012 
-==================
+v0.5.2
+------
+__Nov 7, 2012__
 
   * Embed documentation from Mailvelope website
 
-0.5.1.1 / 26.10.2012 
-==================
+v0.5.1.1
+--------
+__Oct. 26, 2012__
 
   * Fix decrypt problem when Web of Trust (WOT) chrome extension is active
 
-0.5.1 / 15.10.2012 
-==================
+v0.5.1
+------
+__Oct. 15, 2012__
 
   * [Chrome] improved decompression and handling of dynamic packet header lengths
 
-0.5.0 / 12.10.2012 
-==================
+v0.5.0
+------
+__Oct. 12, 2012__
 
   * Major refactoring
   * Add Firefox support
@@ -131,25 +169,29 @@
   * CommonJS wrapper for Google Closure library
   * Add submodules: OpenPGP.js, ppg-api
 
-0.4.3 / 07.09.2012 
-==================
+v0.4.3
+------
+__Sept. 7, 2012__
 
   * Add key export feature to key grid
   * Update Bootstrap to 2.1.1
 
-0.4.2.0 / 04.09.2012 
-==================
+v0.4.2.0
+--------
+__Sept. 4, 2012__
 
   * Improve key import process
   * Revise public key handling
 
-0.4.1.0 / 27.08.2012 
-==================
+v0.4.1.0
+--------
+__Aug. 27, 2012__
 
   * Fix freeze when decrypting ZIP compressed messages
   * Add min-width to browser action popup to prevent cropping
 
-0.4.0.1 / 24.08.2012 
-==================
+v0.4.0.1
+--------
+__Aug. 24, 2012__
 
   * initial public release

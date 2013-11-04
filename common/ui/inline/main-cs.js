@@ -83,8 +83,7 @@
       return element.parent().is(':visible')
              // no elements within editable elements
              && element.parents('[contenteditable], textarea').length === 0
-             && this.ownerDocument.designMode !== 'on'
-             && !element.parent().is('body');
+             && this.ownerDocument.designMode !== 'on';
     });
 
     return nodeList; 
@@ -173,18 +172,16 @@
     newObj.each(function(index, element) {
       // parent element of text node
       var pgpEnd = $(element).parent();
-      var eFrame;
       switch (getMessageType(pgpEnd)) {
         case mvelo.PGP_MESSAGE:
-          eFrame = new DecryptFrame(prefs);
+          var dFrame = new DecryptFrame(prefs);
+          dFrame.attachTo(pgpEnd);
           break;
         case mvelo.PGP_PUBLIC_KEY:
-          eFrame = new ImportFrame(prefs);
+          var imFrame = new ImportFrame(prefs);
+          imFrame.attachTo(pgpEnd);
           break;
-        default:
-          console.log('message type not supported')
       }
-      eFrame.attachTo(pgpEnd);
     });
   }
   

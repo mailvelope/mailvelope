@@ -4,7 +4,8 @@
  */
 
 :root .m-extract-frame {
-  background-position: center center;
+  background-position: center center, center center;
+  background-image: none, none;
   transition: background-position 0.5s ease, background-image 0.5s ease;
   background-color: rgba(254,251,243,.8);
   background-repeat: no-repeat;
