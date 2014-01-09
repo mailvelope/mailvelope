@@ -100,6 +100,10 @@
   background-image: url('../../img/encrypt-22.png');
 }
 
+:root .m-encrypt-frame .m-icon-sign {
+  background-image: url('../../img/sign-22.png');
+}
+
 :root .m-encrypt-frame .m-icon-undo {
   background-image: url('../../img/undo-22.png');
 }
