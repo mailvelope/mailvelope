@@ -570,6 +570,28 @@ define(function(require, exports, module) {
     }
   }
 
+  function signMessage(message, signKey, callback) {
+    var keyObj = openpgp.keyring.getPrivateKeyForKeyId(util.hex2bin(signKey)),
+        key;
+    if (keyObj.length == 0) {
+      callback({
+        type: 'error',
+        message: 'No valid key found for signing'
+      });
+      return;
+    }
+    key = keyObj[0].key.obj;
+    try {
+      var signed = openpgp.write_signed_message(key, message);
+      callback(null, signed);
+    } catch (e) {
+      callback({
+        type: 'error',
+        message: 'Could not sign this message'
+      });
+    }
+  }
+
   function getWatchList() {
     return mvelo.storage.get('mailvelopeWatchList');
   }
@@ -593,6 +615,7 @@ define(function(require, exports, module) {
   exports.decryptMessage = decryptMessage;
   exports.unlockKey = unlockKey;
   exports.encryptMessage = encryptMessage;
+  exports.signMessage = signMessage;
   exports.getWatchList = getWatchList;
   exports.setWatchList = setWatchList;
   exports.getHostname = getHostname;
