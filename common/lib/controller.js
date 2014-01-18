@@ -131,7 +131,11 @@ define(function (require, exports, module) {
       case 'pwd-dialog-cancel':
       case 'decrypt-dialog-cancel':
         // forward event to decrypt frame
-        dFramePorts[id].postMessage({event: 'dialog-cancel'});
+        if (dFramePorts[id]) {
+          dFramePorts[id].postMessage({event: 'dialog-cancel'});
+        } else if (eFramePorts[id]) {
+            eFramePorts[id].postMessage({event: 'dialog-cancel'});
+        }
         if (decryptPopup) {
           decryptPopup.close();
           decryptPopup = null;
@@ -159,6 +163,9 @@ define(function (require, exports, module) {
         dFramePorts[id].postMessage({event: 'armored-message'});
         break;
       case 'pwd-dialog-init':
+        if (!dMessageBuffer[id].callback) {
+          dMessageBuffer[id].callback = decryptMessage;
+        }
         // pass over keyid and userid to dialog
         pwdPort.postMessage({event: 'message-userid', userid: dMessageBuffer[id].userid, keyid: dMessageBuffer[id].primkeyid, cache: prefs.data.security.password_cache});
         break;
@@ -226,7 +233,7 @@ define(function (require, exports, module) {
               pwdCache.set(message, msg.password);
             }
             pwdPort.postMessage({event: 'correct-password'});
-            decryptMessage(message, id);
+            message.callback(message, id);
           } else {
             // password wrong
             pwdPort.postMessage({event: 'wrong-password'});
@@ -235,6 +242,20 @@ define(function (require, exports, module) {
           // display error message in decrypt dialog
           dDialogPorts[id].postMessage({event: 'error-message', error: e.message});
         }
+        break;
+      case 'sign-dialog-init':
+        var keys = model.getKeyUserIDs([]).filter(function(pubKey) {
+            var privIds = model.getPrivateKeys().map(function(k) {
+                return k.id;
+            });
+            return privIds.indexOf(pubKey.keyid) >= 0;
+        });
+        var primary = prefs.data.general.primary_key;
+        mvelo.data.load('common/ui/inline/dialogs/templates/sign.html', function(content) {
+          var port = eDialogPorts[id];
+          port.postMessage({event: 'sign-dialog-content', data: content});
+          port.postMessage({event: 'signing-key-userids', keys: keys, primary: primary});
+        });
         break;
       case 'encrypt-dialog-init':
         // send content
@@ -257,10 +278,42 @@ define(function (require, exports, module) {
         // add recipients to buffer
         eRecipientBuffer[id] = msg.recipient;
         // get email text from eFrame
-        eFramePorts[id].postMessage({event: 'email-text', type: msg.type});
+        eFramePorts[id].postMessage({event: 'email-text', type: msg.type, action: 'encrypt'});
+        break;
+      case 'sign-dialog-ok':
+        var cache = pwdCache.get(msg.signKeyId, msg.signKeyId);
+        eRecipientBuffer[id] = msg.signKeyId;
+        if (!cache) {
+          var privkey = openpgp.keyring.getPrivateKeyForKeyId(util.hex2bin(msg.signKeyId))[0]
+          // add message in buffer
+          dMessageBuffer[id] = {
+            privkey: privkey,
+            userid: privkey.key.obj.userIds[0].text,
+            primkeyid: msg.signKeyId,
+            callback: function(message, id) {
+              eFramePorts[id].postMessage({event: 'email-text', type: msg.type, action: 'sign'});
+            }
+          };
+          // open password dialog
+          if (prefs.data.security.display_decrypted == mvelo.DISPLAY_INLINE) {
+            mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true}, function(window) {
+              pwdPopup = window;
+            });
+          } else if (prefs.data.security.display_decrypted == mvelo.DISPLAY_POPUP) {
+            dDialogPorts[id].postMessage({event: 'show-pwd-dialog'});
+          }
+        } else {
+          eFramePorts[id].postMessage({event: 'email-text', type: msg.type, action: 'sign'});
+        }
         break;
       case 'eframe-email-text':
-        model.encryptMessage(msg.data, eRecipientBuffer[id], function(err, msg) {
+        var action = model[msg.action + 'Message'];
+        if (!action) {
+            eFramePorts[id].postMessage({event: 'encrypted-message', message: msg.data});
+            break;
+        }
+
+        action(msg.data, eRecipientBuffer[id], function(err, msg) {
           eFramePorts[id].postMessage({event: 'encrypted-message', message: msg});
         });
         break;

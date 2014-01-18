@@ -80,6 +80,7 @@ var EncryptFrame = EncryptFrame || (function() {
         toolbar = toolbar + '<span class="m-frame-fill-right"></span>';
       }
       toolbar = toolbar + '\
+                <button id="signBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-sign"></i></button> \
                 <button id="encryptBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-encrypt"></i></button> \
                 <button id="undoBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-undo"></i></button> \
                 <button id="editorBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-editor"></i></button> \
@@ -95,6 +96,7 @@ var EncryptFrame = EncryptFrame || (function() {
       // to react on position changes of edit element, e.g. click on CC or BCC in GMail
       this._refreshPosIntervalID = window.setInterval(this._setFrameDim.bind(this), 1000);
       this._eFrame.find('.m-frame-close').on('click', this._closeFrame.bind(this));
+      this._eFrame.find('#signBtn').on('click', this._onSignButton.bind(this));
       this._eFrame.find('#encryptBtn').on('click', this._onEncryptButton.bind(this));
       this._eFrame.find('#undoBtn').on('click', this._onUndoButton.bind(this));
       this._eFrame.find('#editorBtn').on('click', this._onEditorButton.bind(this));
@@ -113,6 +115,7 @@ var EncryptFrame = EncryptFrame || (function() {
       switch (this._editorMode) {
         case mvelo.EDITOR_WEBMAIL:
           this._eFrame.find('#encryptBtn').show();
+          this._eFrame.find('#signBtn').show();
           break;
         case mvelo.EDITOR_EXTERNAL:
           this._eFrame.find('#editorBtn').show();
@@ -128,6 +131,11 @@ var EncryptFrame = EncryptFrame || (function() {
         this._eFrame.find('#undoBtn').show();
       }
       this._setFrameDim();
+    },
+
+    _onSignButton: function() {
+      this.showSignDialog();
+      return false;
     },
 
     _onEncryptButton: function() {
@@ -146,6 +154,10 @@ var EncryptFrame = EncryptFrame || (function() {
       return false;
     },    
     
+    showSignDialog: function() {
+      this._expandFrame(this._showSignDialog.bind(this));
+    },
+
     showEncryptDialog: function() {
       this._expandFrame(this._showDialog.bind(this));
     },
@@ -191,6 +203,22 @@ var EncryptFrame = EncryptFrame || (function() {
       }
     },
     
+    _showSignDialog: function () {
+      var that = this;
+      this._eDialog = $('<iframe/>', {
+        id: 'eDialog-' + that.id,
+        'class': 'm-frame-dialog',
+        frameBorder: 0,
+        scrolling: 'no'
+      });
+      var path = 'common/ui/inline/dialogs/signDialog.html?id=' + that.id;
+      var url = mvelo.extension.getURL(path);
+      this._eDialog.attr('src', url);
+      this._eFrame.append(this._eDialog);
+      this._setFrameDim();
+      this._eDialog.fadeIn();
+    },
+
     _showDialog: function() {
       //console.log('showDialog');
       var that = this;
@@ -359,6 +387,7 @@ var EncryptFrame = EncryptFrame || (function() {
               that._port.postMessage({
                 event: 'eframe-email-text', 
                 data: that._getEmailText(msg.type),
+                action: msg.action,
                 sender: 'eFrame-' + that.id
               });
             break;
