@@ -27,6 +27,9 @@ define(function (require, exports, module) {
   var dFramePorts = {};
   // ports to decrypt dialogs
   var dDialogPorts = {};
+  // ports for verification
+  var vFramePorts = {};
+  var vDialogPorts = {};
   // decrypt message buffer
   var messageBuffer = {};
   // ports to encrypt frames
@@ -68,6 +71,17 @@ define(function (require, exports, module) {
           port.disconnect();
         }
         break;
+      case 'vFrame':
+        vFramePorts[sender.id] = port;
+        break;
+      case 'vDialog':
+        if (vFramePorts[sender.id] && !vDialogPorts[sender.id]) {
+          vDialogPorts[sender.id] = port;
+        } else {
+          // invalid
+          port.disconnect();
+        }
+        break;
       case 'eFrame':
         eFramePorts[sender.id] = port;
         break;
@@ -102,6 +116,12 @@ define(function (require, exports, module) {
         break;
       case 'dDialog':
         delete dDialogPorts[sender.id];
+        break;
+      case 'vFrame':
+        delete vFramePorts[sender.id];
+        break;
+      case 'vDialog':
+        delete vDialogPorts[sender.id];
         break;
       case 'eFrame':
         delete eFramePorts[sender.id];
@@ -159,6 +179,10 @@ define(function (require, exports, module) {
           dFramePorts[id].postMessage({event: 'armored-message'});
         }
         break;
+      case 'verify-inline-init':
+        // get armored message from vFrame
+        vFramePorts[id].postMessage({event: 'armored-message'});
+        break;
       case 'decrypt-popup-init':
         // get armored message from dFrame
         dFramePorts[id].postMessage({event: 'armored-message'});
@@ -204,6 +228,10 @@ define(function (require, exports, module) {
           // display error message in decrypt dialog
           dDialogPorts[id].postMessage({event: 'error-message', error: e.message});
         }
+        break;
+      case 'vframe-armored-message':
+        var armored = openpgp.read_message(msg.data)[0];
+        vDialogPorts[id].postMessage({event: 'verified-message', message: armored.text, verified: armored.verifySignature(), data: armored});
         break;
       case 'pwd-dialog-ok':
         var message = messageBuffer[id];
