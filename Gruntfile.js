@@ -34,6 +34,7 @@ module.exports = function (grunt) {
             'common/ui/inline/main-cs.js',
             'common/ui/inline/extractFrame.js',
             'common/ui/inline/decryptFrame.js',
+            'common/ui/inline/verifyFrame.js',
             'common/ui/inline/importFrame.js',
             'common/ui/inline/encryptFrame.js'
           ],
