@@ -30,6 +30,15 @@
 
 :root .m-extract-frame.m-verify {
   background-image: url('../../img/mail_signed_96.png'), none;
+  height: 128px;
+  width: 128px;
+  top: initial;
+  bottom: 0px;
+}
+
+:root .m-extract-frame.m-verify.m-open {
+  height: 100%;
+  width: 100%;
 }
 
 :root .m-extract-frame.m-import {
