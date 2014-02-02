@@ -59,7 +59,6 @@ var VerifyFrame = VerifyFrame || (function () {
     }
     this._vDialog.attr('src', url);
     this._eFrame.append(this._vDialog);
-    this._setFrameDim();
     this._vDialog.fadeIn();
   };
 

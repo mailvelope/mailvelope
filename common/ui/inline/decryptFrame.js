@@ -60,7 +60,6 @@ var DecryptFrame = DecryptFrame || (function() {
     }
     this._dDialog.attr('src', url);
     this._eFrame.append(this._dDialog);
-    this._setFrameDim();
     this._dDialog.fadeIn();
   };
 
