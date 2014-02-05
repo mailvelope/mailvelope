@@ -18,19 +18,12 @@
 requirejs.config({
   paths: {
     jquery: 'common/dep/jquery.min',
-    openpgp: 'dep/openpgp',
+    openpgp: 'dep/openpgp_nodebug',
     mvelo: 'common/ui/inline/mvelo',
     parser_rules: 'common/dep/wysihtml5/js/advanced_parser_rules',
     wysihtml5: 'common/dep/wysihtml5/js/wysihtml5-0.4.0pre'
   },
   shim: {
-    'openpgp': {
-        deps: ['jquery'],
-        exports: 'openpgp',
-        init: function() {
-          this.openpgp.init();
-        }
-    },
     'mvelo': {
         exports: 'mvelo'
     },

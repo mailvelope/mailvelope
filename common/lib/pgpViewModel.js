@@ -19,23 +19,14 @@
 define(function(require, exports, module) {
 
   var openpgp = require('openpgp');
-  var util = typeof window !== 'undefined' && window.util || openpgp.util;
+  var util = openpgp.util;
   var mvelo = require('../lib-mvelo').mvelo;
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
+  var keyring = new openpgp.Keyring();
   
   function getKeys() {
-    // get public keys
-    var keys = this.getPublicKeys();
-    // check for corresponding private key
-    keys.forEach(function(key) {
-      for (var i = 0; i < openpgp.keyring.privateKeys.length; i++) {
-        if (key.guid === openpgp.keyring.privateKeys[i].obj.getFingerprint()) {
-          key.type = 'private';
-          key.armoredPrivate = openpgp.keyring.privateKeys[i].armored;
-          break;
-        }
-      }
-    });
+    // map keys to UI format
+    var keys = mapKeys(keyring.keys);
     // sort by key type and name
     keys = keys.sort(function(a, b) {
       var compType = a.type.localeCompare(b.type);
@@ -57,39 +48,72 @@ define(function(require, exports, module) {
   }
 
   function getPublicKeys() {
-    var result = [];
-    openpgp.keyring.publicKeys.forEach(function(publicKey) {
-      var key = {};
-      key.type = 'public';
-      try {
-        key.validity = publicKey.obj.verifyBasicSignatures();
-      } catch (e) {
-        key.validity = false;
-        console.log('Exception in verifyBasicSignatures', e);
-      } 
-      key.armoredPublic = publicKey.armored;
-      mapKeyMsg(publicKey.obj, key);
-      mapKeyMaterial(publicKey.obj.publicKeyPacket, key);
-      result.push(key);
+    var pubKeys = [];
+    keyring.keys.forEach(function(key) {
+      if (key.isPublic()) {
+        pubKeys.push(key);
+      }
     });
-    return result;
+    pubKeys = mapKeys(pubKeys);
+    return pubKeys;
   }
 
   function getPrivateKeys() {
-    var result = [];
-    openpgp.keyring.privateKeys.forEach(function(privateKey) {
-      var key = {};
-      key.type = 'private';
-      try {
-        key.validity = privateKey.obj.privateKeyPacket.verifyKey() === 3;
-      } catch (e) {
-        key.validity = false;
-        console.log('Exception in verifyKey', e);
+    var privKeys = [];
+    keyring.keys.forEach(function(key) {
+      if (key.isPrivate()) {
+        privKeys.push(key);
       }
-      key.armoredPrivate = privateKey.armored;
-      mapKeyMsg(privateKey.obj, key);
-      mapKeyMaterial(privateKey.obj.privateKeyPacket.publicKey, key);
-      result.push(key);
+    });
+    privKeys = mapKeys(privKeys);
+    return privKeys;
+  }
+
+  function mapKeys(keys) {
+    var result = [];
+    keys.forEach(function(key) {
+      var uiKey = {};
+      if (key.isPublic()) {
+        uiKey.type = 'public';
+      } else {
+        uiKey.type = 'private';
+      }
+      try {
+        uiKey.validity = key.verifyPrimaryKey() === openpgp.enums.keyStatus.valid;
+      } catch (e) {
+        uiKey.validity = false;
+        console.log('Exception in verifyPrimaryKey', e);
+      }
+      // fingerprint used as UID
+      uiKey.guid = key.primaryKey.getFingerprint();
+      uiKey.id = key.primaryKey.getKeyId().toHex().toUpperCase();
+      uiKey.fingerprint = util.hexstrdump(uiKey.guid).toUpperCase();
+      // primary user
+      try {
+        var primaryUser = key.getPrimaryUser();
+        if (!primaryUser) {
+          // self signatures might be expired but we still can display userid
+          primaryUser = {user: key.users[0]};
+        }
+        var address = goog.format.EmailAddress.parse(primaryUser.user.userId);
+        uiKey.name = address.getName();
+        uiKey.email = address.getAddress();
+        uiKey.exDate = key.getExpirationTime();
+        if (uiKey.exDate) {
+          uiKey.exDate = uiKey.exDate.toISOString();
+        } else {
+          uiKey.exDate = 'The key does not expire';
+        }
+      } catch (e) {
+        uiKey.name = uiKey.name || 'NO USERID FOUND';
+        uiKey.email = uiKey.email || 'UNKNOWN';
+        uiKey.exDate = uiKey.exDate || 'UNKNOWN';
+        console.log('Exception map primary user', e);
+      }
+      uiKey.crDate = key.primaryKey.created.toISOString();
+      uiKey.algorithm = getAlgorithmString(key.primaryKey.algorithm);
+      uiKey.bitLength = key.primaryKey.getBitSize();
+      result.push(uiKey);
     });
     return result;
   }
@@ -114,40 +138,6 @@ define(function(require, exports, module) {
   exports.getPublicKeys = getPublicKeys;
   exports.getPrivateKeys = getPrivateKeys;
   exports.getKeyDetails = getKeyDetails;
-  
-  function mapKeyMsg(obj, toKey) {
-    // fingerprint used as UID
-    toKey.guid = obj.getFingerprint();
-    toKey.id = util.hexstrdump(obj.getKeyId()).toUpperCase();
-    toKey.fingerprint = util.hexstrdump(obj.getFingerprint()).toUpperCase();
-    try {
-      var address = goog.format.EmailAddress.parse(obj.userIds[0].text);
-      toKey.name = address.getName();
-      toKey.email = address.getAddress();
-      // signature
-      var sig = obj.userIds[0].certificationSignatures[0];
-      if (sig.keyNeverExpires || sig.keyNeverExpires === null ) {
-        toKey.exDate = 'The key does not expire'; 
-      } else {
-        toKey.exDate = new Date(sig.creationTime.getTime() + sig.keyExpirationTime * 1000).toISOString();
-      }
-    } catch (e) {
-      toKey.name = toKey.name || 'NO USERID FOUND';
-      toKey.email = toKey.email || 'UNKNOWN';
-      toKey.exDate = toKey.exDate || 'UNKNOWN';
-      console.log('Exception in mapKeyMsg', e);
-    }
-  }
-  
-  function mapKeyMaterial(keyPacket, toKey) {
-    try {
-      toKey.crDate = keyPacket.creationTime.toISOString();
-      toKey.algorithm = getAlgorithmString(keyPacket.publicKeyAlgorithm);
-      toKey.bitLength = keyPacket.MPIs[0].mpiBitLength;
-    } catch (e) {
-      console.log('Exception in mapKeyMaterial', e);
-    }   
-  }
   
   function mapSubKeys(subkeys, toKey) {
     toKey.subkeys = [];
@@ -381,19 +371,19 @@ define(function(require, exports, module) {
   function getAlgorithmString(keyType) {
     var result = '';
     switch (keyType) {
-    case 1:
+    case 'rsa_encrypt_sign':
         result = "RSA (Encrypt or Sign)";
         break;
-    case 2:
+    case 'rsa_encrypt':
         result = "RSA Encrypt-Only";
         break;
-    case 3:
+    case 'rsa_sign':
         result = "RSA Sign-Only";
         break;
-    case 16:
+    case 'elgamal':
         result = "Elgamal (Encrypt-Only)";
         break;
-    case 17:
+    case 'dsa':
         result = "DSA (Digital Signature Algorithm)";
         break;
     default:

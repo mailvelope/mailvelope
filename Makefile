@@ -32,7 +32,7 @@ copy-common:
 
 copy-dep:
 	@echo Update openpgp.js files...
-	@rsync -u dep/chrome/openpgpjs/resources/openpgp.js chrome/dep
+	@rsync -u dep/chrome/openpgpjs/dist/openpgp_nodebug.js chrome/dep
 	@rsync -u dep/firefox/openpgpjs/resources/openpgp.js firefox/packages/openpgp/lib
 
 build: build-cs copy-common copy-dep
