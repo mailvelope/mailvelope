@@ -17,7 +17,7 @@
 
 define(function (require, exports, module) {
 
-  var mvelo = require('lib/lib-mvelo').mvelo;
+  var mvelo = require('../lib-mvelo').mvelo;
   var model = require('./pgpViewModel');
 
   var defaults = mvelo.data.loadDefaults();

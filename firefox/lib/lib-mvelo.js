@@ -23,7 +23,7 @@ var timer = require('sdk/timers');
 var ss = require('sdk/simple-storage');
 var url = require('sdk/url');
 
-var mvelo = require('data/common/ui/inline/mvelo').mvelo;
+var mvelo = require('./common/mvelo').mvelo;
 
 mvelo.ffa = true;
 mvelo.crx = false;

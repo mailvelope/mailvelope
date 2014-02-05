@@ -24,7 +24,7 @@ var unload = require('sdk/system/unload');
 
 checkStaticArgs();
 
-var controller = require('data/common/lib/controller');
+var controller = require('./common/controller');
 
 var activePageMod;
 // recipients of encrypted mail
