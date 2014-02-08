@@ -21,8 +21,22 @@ module.exports = function (grunt) {
           dest: 'common/ui/inline/build/cs-mailvelope.js'
         }]
       }
+    },
+
+    copy: {
+      common: {
+        files: [{
+          src: 'common/**/*',
+          dest: 'chrome/'
+        },
+        {
+          src: 'common/**/*',
+          dest: 'firefox/data/'
+        }]
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-copy');
 };
