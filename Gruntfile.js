@@ -111,5 +111,5 @@ module.exports = function (grunt) {
   grunt.registerTask('dist-cr', ['compress:chrome']);
   grunt.registerTask('dist-ff', ['mozilla-addon-sdk', 'mozilla-cfx-xpi']);
 
-  grunt.registerTask('default', ['concat', 'copy']);
+  grunt.registerTask('default', ['jshint', 'concat', 'copy']);
 };
