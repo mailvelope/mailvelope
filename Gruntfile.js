@@ -33,6 +33,20 @@ module.exports = function (grunt) {
           src: 'common/**/*',
           dest: 'firefox/data/'
         }]
+      },
+      dep: {
+        files: [{
+          expand: true,
+          flatten: true,
+          src: 'dep/chrome/openpgpjs/resources/openpgp.js',
+          dest: 'chrome/dep/'
+        },
+        {
+          expand: true,
+          flatten: true,
+          src: 'dep/firefox/openpgpjs/resources/openpgp.js',
+          dest: 'firefox/packages/openpgp/lib/'
+        }]
       }
     }
   });
