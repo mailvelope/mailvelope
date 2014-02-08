@@ -95,7 +95,7 @@ function initScriptInjection() {
     onAttach: onCsAttach,
     contentScriptFile: [
       data.url('ui/messageAdapter.js'),
-      data.url('common/ui/inline/build/cs-mailvelope.js')
+      data.url('common/ui/inline/cs-mailvelope.js')
     ],
     contentStyle: getDynamicStyle(),
     contentScriptOptions: {

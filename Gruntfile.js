@@ -11,7 +11,7 @@ module.exports = function (grunt) {
         jshintrc: true
       },
       all: {
-        src: ['Gruntfile.js', 'common/ui/**/*.js', '!common/ui/inline/build/*']
+        src: ['Gruntfile.js', 'common/ui/**/*.js']
       },
     },
     concat: {
@@ -29,7 +29,7 @@ module.exports = function (grunt) {
             'common/ui/inline/importFrame.js',
             'common/ui/inline/encryptFrame.js'
           ],
-          dest: 'common/ui/inline/build/cs-mailvelope.js'
+          dest: 'build/common/ui/inline/cs-mailvelope.js'
         }]
       }
     },
@@ -38,11 +38,25 @@ module.exports = function (grunt) {
       common: {
         files: [{
           src: 'common/**/*',
-          dest: 'chrome/'
+          dest: 'build/chrome/'
         },
         {
+          expand: true,
           src: 'common/**/*',
-          dest: 'firefox/data/'
+          cwd: 'build/',
+          dest: 'build/chrome/'
+        },
+        {
+          expand: true,
+          src: 'common/**/*',
+          cwd: 'build/',
+          dest: 'build/firefox/data/'
+        }]
+      },
+      plugins: {
+        files: [{
+          src: ['chrome/**/*', 'firefox/**/*'],
+          dest: 'build/'
         }]
       },
       dep: {
@@ -50,13 +64,13 @@ module.exports = function (grunt) {
           expand: true,
           flatten: true,
           src: 'dep/chrome/openpgpjs/resources/openpgp.js',
-          dest: 'chrome/dep/'
+          dest: 'build/chrome/dep/'
         },
         {
           expand: true,
           flatten: true,
           src: 'dep/firefox/openpgpjs/resources/openpgp.js',
-          dest: 'firefox/packages/openpgp/lib/'
+          dest: 'build/firefox/packages/openpgp/lib/'
         }]
       }
     },
@@ -79,7 +93,7 @@ module.exports = function (grunt) {
           pretty: true
         },
         files: [{
-          src: ['chrome/**/*', '!chrome/**/.*']
+          src: ['build/chrome/**/*', '!build/chrome/**/.*']
         }]
       }
     },
@@ -95,7 +109,7 @@ module.exports = function (grunt) {
       stable: {
         options: {
           'mozilla-addon-sdk': '1_15',
-          extension_dir: 'firefox',
+          extension_dir: 'build/firefox',
           dist_dir: 'dist/',
           arguments: '--strip-sdk --output-file=mailvelope.firefox.xpi'
         }

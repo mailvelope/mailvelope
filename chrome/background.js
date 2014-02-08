@@ -119,7 +119,7 @@ define(["common/lib/controller", "common/lib/pgpViewModel", "openpgp", "jquery"]
     
     if (injectOptimized && csCode === '') {
       // load content script
-      $.get(chrome.extension.getURL('common/ui/inline/build/cs-mailvelope.js'), function(data) {
+      $.get(chrome.extension.getURL('common/ui/inline/cs-mailvelope.js'), function(data) {
         csCode = data;
       });
     }
@@ -165,7 +165,7 @@ define(["common/lib/controller", "common/lib/pgpViewModel", "openpgp", "jquery"]
         if (injectOptimized) {
           scriptDetails = {code: csBootstrap(), allFrames: true}
         } else {
-          scriptDetails = {file: "common/ui/inline/build/cs-mailvelope.js", allFrames: true}
+          scriptDetails = {file: "common/ui/inline/cs-mailvelope.js", allFrames: true}
         }
         chrome.tabs.executeScript(details.tabId, scriptDetails, function() {
           chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
