@@ -56,7 +56,7 @@
     if (editor_type == mvelo.PLAIN_TEXT) {
       editor = createPlainText();
       eFrame.attachTo($('#plainText'), {
-        editor: editor, 
+        editor: editor,
         closeBtn: false,
         set_text: setPlainText
       });
@@ -81,7 +81,7 @@
 
   function onCancel() {
     port.postMessage({
-      event: 'editor-cancel', 
+      event: 'editor-cancel',
       sender: id
     });
     return false;
@@ -102,7 +102,7 @@
       armored = armored.replace(/\n/g,'');
     }
     port.postMessage({
-      event: 'editor-transfer-output', 
+      event: 'editor-transfer-output',
       data: armored,
       sender: id,
       recipient: parentID
@@ -243,5 +243,5 @@
   }
 
   $(document).ready(init);
-  
+
 }());

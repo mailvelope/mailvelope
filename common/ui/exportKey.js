@@ -20,7 +20,7 @@
   var grid;
 
   window.URL = window.URL || window.webkitURL;
-  
+
   function init() {
     $('#mainKeyGrid').one('mainKeyGridReady', function() {
       $("#gridMainToolbar .dropdown-menu").on("click", "li", onExport);
@@ -84,7 +84,7 @@
   function exportToClipboard() {
     keyRing.copyToClipboard($('#armoredKey').val());
   }
-  
+
   $(document).ready(init);
-  
-}()); 
+
+}());

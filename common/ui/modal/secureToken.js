@@ -16,12 +16,12 @@
  */
 
 (function() {
-  
+
   var comm = typeof mvelo !== 'undefined' && mvelo.extension || keyRing;
 
   function init() {
     loadToken();
-    if (typeof keyRing !== 'undefined') { 
+    if (typeof keyRing !== 'undefined') {
       keyRing.event.on('prefs-security-update', loadToken);
     }
   }
@@ -78,7 +78,7 @@
     }
     return style;
   }
-  
+
   $(document).ready(init);
-  
+
 }());

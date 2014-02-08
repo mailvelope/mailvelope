@@ -18,7 +18,7 @@
 var watchList = {};
 
 (function(exports) {
-  
+
   var watchListColumns = [
       {
         field: "active",
@@ -30,20 +30,20 @@ var watchList = {};
         field: "site",
         title: "Site"
       },
-      { 
-        command: ["edit", "destroy"], 
-        title: " ", 
-        width: "180px" 
+      {
+        command: ["edit", "destroy"],
+        title: " ",
+        width: "180px"
       }];
-      
+
   var watchListSchema = {
         model: {
           id: "site",
           fields: {
             active: { type: "boolean" },
-            site: { 
-              type: "string", 
-              validation: { required: true } 
+            site: {
+              type: "string",
+              validation: { required: true }
             },
           }
         }
@@ -59,25 +59,25 @@ var watchList = {};
         field: "frame",
         title: "Frame"
       },
-      { 
-        command: ["destroy"], 
-        title: " ", 
-        width: "100px" 
+      {
+        command: ["destroy"],
+        title: " ",
+        width: "100px"
       }];
-      
+
   var framesSchema = {
         model: {
           id: "frame",
           fields: {
             scan: { type: "boolean" },
-            frame: { 
+            frame: {
               type: "string",
-              validation: { required: true } 
+              validation: { required: true }
             }
           }
         }
       };
-   
+
   var watchListData;
   var mainGrid;
 
@@ -105,7 +105,7 @@ var watchList = {};
       editable: "inline",
       toolbar: ["create"],
       save: setWatchListData
-    });  
+    });
     $("#watchListGrid").triggerHandler('watchListDataReady');
   }
 
@@ -116,11 +116,11 @@ var watchList = {};
       data: data
     });
   }
-      
+
   function detailInit(e) {
     var masterRow = e;
     // create new datasource for frame list
-    var frameList = new kendo.data.DataSource({ 
+    var frameList = new kendo.data.DataSource({
       data: e.data.frames && e.data.frames.toJSON ? e.data.frames.toJSON() : e.data.frames,
       schema: framesSchema
     });
@@ -177,7 +177,7 @@ var watchList = {};
 
   /**
    * remove duplicates from array, last duplicate entry wins
-   * @param  {array of objects} unordered 
+   * @param  {array of objects} unordered
    * @param  {string} key
    * @return {array}
    */
@@ -224,5 +224,5 @@ var watchList = {};
   }
 
   $(document).ready(init);
-       
-}(watchList)); 
+
+}(watchList));

@@ -22,7 +22,7 @@
   var id;
   var watermark;
   var spinnerTimer;
-  
+
   function init() {
     //console.log('init decryptInline.js');
     var qs = jQuery.parseQuerystring();
@@ -45,7 +45,7 @@
   function showSpinner() {
     $('body').addClass('spinner');
     if ($('body').height() + 2 > mvelo.LARGE_FRAME) {
-      $('body').addClass('spinner-large');  
+      $('body').addClass('spinner-large');
     }
   }
 
@@ -58,7 +58,7 @@
 
   function addSandbox() {
     var sandbox = $('<iframe/>', {
-      id: 'decryptmail', 
+      id: 'decryptmail',
       sandbox: 'allow-same-origin',
       frameBorder: 0
     });
@@ -89,7 +89,7 @@
     $('<div/>', {id: 'errorwell', class: 'well span5'}).appendTo(errorbox);
     errorbox.appendTo('body');
     if ($('body').height() + 2 > mvelo.LARGE_FRAME) {
-      $('#errorbox').addClass('errorbox-large');  
+      $('#errorbox').addClass('errorbox-large');
     }
   }
 
@@ -108,12 +108,12 @@
                    .find('button').click(function() {
                      port.postMessage({event: 'decrypt-dialog-cancel', sender: id});
                    });
-  } 
+  }
 
   function resizeFont() {
     watermark.css('font-size', Math.floor(Math.min(watermark.width() / 3, watermark.height())));
   }
-  
+
   function messageListener(msg) {
     //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
@@ -131,7 +131,7 @@
         console.log('unknown event');
     }
   }
-  
+
   $(document).ready(init);
-  
+
 }());

@@ -24,7 +24,7 @@
   var name;
   // dialogs
   var pwd, sandbox;
-  
+
   function init() {
     var qs = jQuery.parseQuerystring();
     id = qs['id'];
@@ -117,7 +117,7 @@
     $('#errorwell').showAlert('Error', msg, 'error');
     $('#copyBtn').prop('disabled', true);
   }
-  
+
   function messageListener(msg) {
     // remove spinner for all events
     $('body').removeClass('spinner');
@@ -140,7 +140,7 @@
         console.log('unknown event');
     }
   }
-  
+
   $(document).ready(init);
-  
+
 }());

@@ -16,11 +16,11 @@
  */
 
 (function() {
-  
+
   var advShown = false;
-  
+
   var pwd, repwd, empty, nequ, match, submit;
-  
+
   function init() {
     pwd = $('#genKeyPwd');
     repwd = $('#genKeyRePwd');
@@ -39,7 +39,7 @@
       $('#genKeySize').val('1024');
     }
   }
-  
+
   function onKeyAdvanced() {
     if (advShown) {
       $('#genKeyAdvSection').slideUp();
@@ -52,7 +52,7 @@
     }
     return false;
   }
-  
+
   function onKeyPwdChange() {
     var mask = (repwd.val().length > 0) << 1 | (pwd.val().length > 0);
     switch (mask) {
@@ -86,7 +86,7 @@
         break;
     }
   }
-  
+
   function onClear() {
     $('#generateKey').find('input').val('');
     $('#genKeyAlgo').val('RSA');
@@ -102,7 +102,7 @@
     onKeyPwdChange();
     return false;
   }
-  
+
   function onAnother() {
     $('#generateKey').find('input').val('');
     $('#genKeyExp').val('0');
@@ -114,7 +114,7 @@
     $('#genKeyExp, #genKeyExpUnit, #genKeyAlgo').prop('disabled', true);
     return false;
   }
-  
+
   function onGenerateKey() {
     validateEmail(function() {
       $('body').addClass('busy');
@@ -122,7 +122,7 @@
       $('#genKeyWait').modal('show');
     });
     return false;
-  }  
+  }
 
   function validateEmail(next) {
     var email = $('#genKeyEmail');
@@ -136,7 +136,7 @@
         email.closest('.control-group').addClass('error');
         email.next().removeClass('hide');
         return;
-      }  
+      }
     });
   }
 
@@ -164,6 +164,6 @@
   }
 
   $(document).ready(init);
-  
-}()); 
- 
+
+}());
+

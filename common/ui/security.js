@@ -16,7 +16,7 @@
  */
 
 (function() {
-  
+
   function init() {
     loadPrefs();
     $('#security input').on('input change', function() {
@@ -92,7 +92,7 @@
       } else {
         pwdCacheTime.closest('.control-group').addClass('error')
                                               .find('span.help-inline').removeClass('hide');
-        return false;                                     
+        return false;
       }
     }
     return true;
@@ -131,6 +131,6 @@
   }
 
   $(document).ready(init);
-  
-}()); 
- 
+
+}());
+

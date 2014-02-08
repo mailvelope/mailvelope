@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var EncryptFrame = EncryptFrame || (function() { 
+var EncryptFrame = EncryptFrame || (function() {
 
   var encryptFrame = function(prefs) {
     this.id = mvelo.getHash();
@@ -34,7 +34,7 @@ var EncryptFrame = EncryptFrame || (function() {
   }
 
   encryptFrame.prototype = {
-    
+
     attachTo: function(element, options) {
       $.extend(this._options, options);
       this._init(element);
@@ -50,7 +50,7 @@ var EncryptFrame = EncryptFrame || (function() {
     getID: function() {
       return this.id;
     },
-    
+
     _init: function(element) {
       this._editElement = element;
       this._emailTextElement = this._options.editor || ( this._editElement.is('iframe') ? this._editElement.contents().find('body') : this._editElement );
@@ -69,7 +69,7 @@ var EncryptFrame = EncryptFrame || (function() {
         }
       }
     },
-    
+
     _renderFrame: function(expanded) {
       var that = this;
       // create frame
@@ -90,7 +90,7 @@ var EncryptFrame = EncryptFrame || (function() {
         'class': 'm-encrypt-frame',
         html: toolbar
       });
-      
+
       this._eFrame.insertAfter(this._editElement);
       $(window).on('resize', this._setFrameDim.bind(this));
       // to react on position changes of edit element, e.g. click on CC or BCC in GMail
@@ -152,8 +152,8 @@ var EncryptFrame = EncryptFrame || (function() {
     _onEditorButton: function() {
       this._showMailEditor();
       return false;
-    },    
-    
+    },
+
     showSignDialog: function() {
       this._expandFrame(this._showSignDialog.bind(this));
     },
@@ -170,8 +170,8 @@ var EncryptFrame = EncryptFrame || (function() {
       this._isToolbar = false;
       this._setFrameDim();
       this._eFrame.fadeIn('slow', callback);
-    },  
-    
+    },
+
     _closeFrame: function(finalClose) {
       this._eFrame.fadeOut((function() {
         window.clearInterval(this._refreshPosIntervalID);
@@ -187,7 +187,7 @@ var EncryptFrame = EncryptFrame || (function() {
       }).bind(this));
       return false;
     },
-    
+
     _setFrameDim: function() {
       var editElementPos = this._editElement.position();
       var editElementWidth = this._editElement.width();
@@ -202,7 +202,7 @@ var EncryptFrame = EncryptFrame || (function() {
         this._eFrame.height(this._editElement.height() - 4);
       }
     },
-    
+
     _showSignDialog: function () {
       var that = this;
       this._eDialog = $('<iframe/>', {
@@ -225,7 +225,7 @@ var EncryptFrame = EncryptFrame || (function() {
       this._eDialog = $('<iframe/>', {
         id: 'eDialog-' + that.id,
         'class': 'm-frame-dialog',
-        frameBorder: 0, 
+        frameBorder: 0,
         scrolling: 'no'
       });
       var path = 'common/ui/inline/dialogs/encryptDialog.html?id=' + that.id;
@@ -238,17 +238,17 @@ var EncryptFrame = EncryptFrame || (function() {
 
     _showMailEditor: function() {
       this._port.postMessage({
-        event: 'eframe-display-editor', 
+        event: 'eframe-display-editor',
         sender: 'eFrame-' + this.id,
         text: this._getEmailText(this._editorType == mvelo.PLAIN_TEXT ? 'text' : 'html')
       });
     },
-    
+
     _establishConnection: function() {
       var that = this;
       this._port = mvelo.extension.connect({name: 'eFrame-' + that.id});
     },
-    
+
     _removeDialog: function() {
       this._eDialog.fadeOut();
       // removal triggers disconnect event
@@ -264,12 +264,12 @@ var EncryptFrame = EncryptFrame || (function() {
         this._isToolbar = true;
         this._normalizeButtons();
         this._eFrame.fadeIn('slow');
-      }).bind(this));  
+      }).bind(this));
       return false;
     },
 
     _html2text: function(html) {
-      html = $('<div/>').html(html); 
+      html = $('<div/>').html(html);
       // replace anchors
       html = html.find('a').replaceWith(function() {
                                           return $(this).text() + ' (' + $(this).attr('href') + ')';
@@ -283,7 +283,7 @@ var EncryptFrame = EncryptFrame || (function() {
       html = html.replace(/\n{3,}/g, '\n\n'); // compress new line
       return $('<div/>').html(html).text(); // decode
     },
-    
+
     _getEmailText: function(type) {
       var text;
       if (this._emailTextElement.is('textarea')) {
@@ -319,7 +319,7 @@ var EncryptFrame = EncryptFrame || (function() {
         if (valid !== null) {
           // second filtering: only direct text nodes of span elements
           var spanClone = $(this).clone();
-          spanClone.children().remove(); 
+          spanClone.children().remove();
           valid = spanClone.text().match(emailRegex);
           if (valid !== null) {
             emails = emails.concat(valid);
@@ -356,7 +356,7 @@ var EncryptFrame = EncryptFrame || (function() {
       } else {
         // element is contenteditable or RTE
         if (type == 'text') {
-          msg = msg.replace(/\n/g,'<br>'); // replace new line with <br> 
+          msg = msg.replace(/\n/g,'<br>'); // replace new line with <br>
         }
         if (this._options.set_text) {
           this._options.set_text(msg);
@@ -374,7 +374,7 @@ var EncryptFrame = EncryptFrame || (function() {
       }
       this._emailUndoText = null;
     },
-    
+
     _registerEventListener: function() {
       var that = this;
       this._port.onMessage.addListener(function(msg) {
@@ -385,7 +385,7 @@ var EncryptFrame = EncryptFrame || (function() {
             break;
           case 'email-text':
               that._port.postMessage({
-                event: 'eframe-email-text', 
+                event: 'eframe-email-text',
                 data: that._getEmailText(msg.type),
                 action: msg.action,
                 sender: 'eFrame-' + that.id
@@ -396,12 +396,12 @@ var EncryptFrame = EncryptFrame || (function() {
             break;
           case 'recipient-proposal':
             that._port.postMessage({
-                event: 'eframe-recipient-proposal', 
+                event: 'eframe-recipient-proposal',
                 data: that._getEmailRecipient(),
                 sender: 'eFrame-' + that.id
               });
             that._port.postMessage({
-              event: 'eframe-textarea-element', 
+              event: 'eframe-textarea-element',
               data: that._emailTextElement.is('textarea'),
               sender: 'eFrame-' + that.id
             });
@@ -421,7 +421,7 @@ var EncryptFrame = EncryptFrame || (function() {
         }
       });
     }
-    
+
   };
 
   encryptFrame.isAttached = function(element) {

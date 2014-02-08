@@ -83,12 +83,12 @@ body {
   text-decoration: none;
 }
 
-.busy {  
-  cursor: wait !important;  
+.busy {
+  cursor: wait !important;
 }
 
 .progress-bar {
-  line-height: 115px; 
+  line-height: 115px;
   text-align: center;
 }
 
@@ -171,7 +171,7 @@ body {
 }
 
 .spinner {
-  background-image: url('../dep/kendoui/styles/Default/loading-image.gif');      
-  background-repeat: no-repeat;      
+  background-image: url('../dep/kendoui/styles/Default/loading-image.gif');
+  background-repeat: no-repeat;
   background-position: center;
 }

@@ -35,11 +35,11 @@ var ImportFrame = ImportFrame || (function() {
     var that = this;
     this.parent._clickHandler.call(this, function() {
       that._port.postMessage({
-        event: 'imframe-armored-key', 
+        event: 'imframe-armored-key',
         data: that._getArmoredMessage(),
         sender: that._ctrlName
       });
-    });  
+    });
     return false;
   }
 
@@ -64,4 +64,4 @@ var ImportFrame = ImportFrame || (function() {
   return importFrame;
 
 }());
- 
+

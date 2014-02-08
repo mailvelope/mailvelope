@@ -40,53 +40,53 @@ var ExtractFrame = ExtractFrame || (function() {
       this._establishConnection();
       this._registerEventListener();
     },
-  
+
     _init: function(pgpEnd) {
       this._pgpEnd = pgpEnd;
       // find element with complete armored text and width > 0
       var regex = /BEGIN\sPGP/;
       this._pgpElement = pgpEnd;
       while (!regex.test(this._pgpElement.text()) || this._pgpElement.width() <= 0) {
-        this._pgpElement = this._pgpElement.parent(); 
+        this._pgpElement = this._pgpElement.parent();
       }
       // set status to attached
       this._pgpEnd.data(mvelo.FRAME_STATUS, mvelo.FRAME_ATTACHED);
       // store frame obj in pgpText tag
       this._pgpEnd.data(mvelo.FRAME_OBJ, this);
-      
+
       this._pgpElementAttr.marginTop = parseInt(this._pgpElement.css('margin-top'), 10);
       this._pgpElementAttr.paddingTop = parseInt(this._pgpElement.css('padding-top'), 10);
     },
-    
+
     _renderFrame: function() {
       this._eFrame = $('<div/>', {
         id: 'eFrame-' + this.id,
         'class': 'm-extract-frame m-cursor',
         html: '<a class="m-frame-close">×</a>'
       });
-      
+
       this._setFrameDim();
-      
+
       this._eFrame.insertAfter(this._pgpElement);
       if (this._pgpElement.height() > mvelo.LARGE_FRAME) {
         this._eFrame.addClass('m-large');
       }
       this._eFrame.fadeIn('slow');
-      
+
       this._eFrame.on('click', this._clickHandler.bind(this));
       this._eFrame.find('.m-frame-close').on('click', this._closeFrame.bind(this));
-      
+
       $(window).resize(this._setFrameDim.bind(this));
       this._refreshPosIntervalID = window.setInterval(this._setFrameDim.bind(this), 1000);
     },
-    
+
     _clickHandler: function(callback) {
       this._eFrame.off('click');
       this._toggleIcon(callback);
       this._eFrame.removeClass('m-cursor');
       return false;
     },
-    
+
     _closeFrame: function(finalClose) {
       this._eFrame.fadeOut((function() {
         window.clearInterval(this._refreshPosIntervalID);
@@ -102,19 +102,19 @@ var ExtractFrame = ExtractFrame || (function() {
       }).bind(this));
       return false;
     },
-    
+
     _toggleIcon: function(callback) {
       this._eFrame.one('transitionend', callback);
       this._eFrame.toggleClass('m-open');
     },
-    
+
     _setFrameDim: function() {
       var pgpElementPos = this._pgpElement.position();
       this._eFrame.width(this._pgpElement.width() - 2);
       this._eFrame.height(this._pgpEnd.position().top + this._pgpEnd.height() - pgpElementPos.top - 2);
       this._eFrame.css('top', pgpElementPos.top + this._pgpElementAttr.marginTop + this._pgpElementAttr.paddingTop);
     },
-    
+
     _establishConnection: function() {
       this._port = mvelo.extension.connect({name: this._ctrlName});
       //console.log('Port connected: %o', this._port);
@@ -129,10 +129,10 @@ var ExtractFrame = ExtractFrame || (function() {
         .replace(/&#039;/g, "\'")
         .replace(/&#x2F;/g, "\/");
     },
-    
+
     _getArmoredMessage: function() {
       if (this._pgpElement.is('pre')) {
-        var msg = this._pgpElement.clone(); 
+        var msg = this._pgpElement.clone();
         msg.find('br').replaceWith('\n');
         return msg.text();
       } else {
@@ -151,7 +151,7 @@ var ExtractFrame = ExtractFrame || (function() {
         return msg;
       }
     },
-    
+
     _registerEventListener: function() {
       var that = this;
       this._port.onMessage.addListener(function(msg) {
@@ -162,7 +162,7 @@ var ExtractFrame = ExtractFrame || (function() {
         }
       });
     }
-  
+
   };
 
   extractFrame.isAttached = function(pgpEnd) {
@@ -174,7 +174,7 @@ var ExtractFrame = ExtractFrame || (function() {
         break;
       default:
         return false;
-    }    
+    }
   }
 
   return extractFrame;

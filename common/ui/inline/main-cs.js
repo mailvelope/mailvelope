@@ -16,14 +16,14 @@
  */
 
 (document.mveloControl || function() {
-  
+
   var interval = 2500; // ms
   var regex = /END\sPGP/;
   var status = mvelo.SCAN_ON;
   var minEditHeight = 84;
   var contextTarget = null;
   var prefs;
-  
+
   function init() {
     getPrefs();
     initScanInterval(interval);
@@ -48,7 +48,7 @@
       }
     }, interval);
   }
-  
+
   function getPrefs() {
     mvelo.extension.sendMessage({event: "get-prefs"}, function(resp) {
       prefs = resp;
@@ -61,17 +61,17 @@
    * @return $([nodes])
    */
   function findPGPTag(regex) {
-    var treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { 
+    var treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
       acceptNode: function(node) {
           if (node.parentNode.tagName !== 'SCRIPT' && regex.test(node.textContent)) {
-            return NodeFilter.FILTER_ACCEPT; 
+            return NodeFilter.FILTER_ACCEPT;
           } else {
-            return NodeFilter.FILTER_REJECT; 
+            return NodeFilter.FILTER_REJECT;
           }
-        } 
-      },  
-      false  
-    );  
+        }
+      },
+      false
+    );
     var nodeList = [];
 
     while(treeWalker.nextNode()) nodeList.push(treeWalker.currentNode);
@@ -86,7 +86,7 @@
              && this.ownerDocument.designMode !== 'on';
     });
 
-    return nodeList; 
+    return nodeList;
   }
 
   function findEditable() {
@@ -162,7 +162,7 @@
       return mvelo.PGP_PRIVATE_KEY;
     }
   }
-  
+
   function attachExtractFrame(element) {
     // check status of PGP tags
     var newObj = element.filter(function() {
@@ -184,7 +184,7 @@
       }
     });
   }
-  
+
   /**
    * attach encrypt frame to element
    * @param  {$} element
@@ -213,7 +213,7 @@
       eFrame.attachTo($(element), {expanded: expanded});
     });
   }
-  
+
   function addMessageListener() {
     mvelo.extension.onMessage.addListener(
       function(request) {
@@ -231,7 +231,7 @@
               attachEncryptFrame(contextTarget, true);
               contextTarget = null;
             }
-            break;  
+            break;
           default:
           console.log('unknown scan status');
         }
@@ -267,12 +267,12 @@
     if (iframeObj !== undefined) {
       // target set to outer iframe
       contextTarget = iframeObj;
-      return; 
+      return;
     }
     // no suitable element found
     contextTarget = null;
   }
-  
+
   document.mveloControl = true;
   init();
 

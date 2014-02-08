@@ -49,7 +49,7 @@ var DecryptFrame = DecryptFrame || (function() {
     this._dDialog = $('<iframe/>', {
       id: 'dDialog-' + this.id,
       'class': 'm-frame-dialog',
-      frameBorder: 0, 
+      frameBorder: 0,
       scrolling: 'no'
     });
     var path = 'common/ui/inline/dialogs/decryptInline.html?id=' + this.id;
@@ -65,7 +65,7 @@ var DecryptFrame = DecryptFrame || (function() {
 
   decryptFrame.prototype._popupDialog = function() {
     this._port.postMessage({
-      event: 'dframe-display-popup', 
+      event: 'dframe-display-popup',
       sender: this._ctrlName
     });
     this._dPopup = true;
@@ -101,7 +101,7 @@ var DecryptFrame = DecryptFrame || (function() {
           break;
         case 'armored-message':
           that._port.postMessage({
-            event: 'dframe-armored-message', 
+            event: 'dframe-armored-message',
             data: that._getArmoredMessage(),
             sender: that._ctrlName
           });

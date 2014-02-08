@@ -16,7 +16,7 @@
  */
 
 (function() {
-  
+
   var keyGridColumns = [
       {
         field: "type",
@@ -40,26 +40,26 @@
         attributes: {
           style: "font-family: monospace;"
         }
-      },  
+      },
       {
         field: "crDate",
         width: 90,
         title: "Creation",
         template: '#= kendo.toString(crDate,"dd.MM.yyyy") #'
       },
-      { 
-        command: "destroy", 
-        title: " ", 
-        width: "100px" 
+      {
+        command: "destroy",
+        title: " ",
+        width: "100px"
       }];
 
   var exDateField = {
-    type: "date", 
+    type: "date",
     parse: function(value) {
       return kendo.parseDate(value) || 'The key does not expire';
     }
   }
-      
+
   var keyGridSchema = {
         model: {
           fields: {
@@ -105,7 +105,7 @@
         schema: keyGridSchema,
         change: onDataChange
       }));
-   }); 
+   });
   }
 
   function initGrid(keys) {
@@ -135,11 +135,11 @@
       remove: onRemoveKey,
       change: onGridChange
     });
-    
+
     function onRemoveKey(e) {
       keyRing.viewModel('removeKey', [e.model.guid, e.model.type]);
     }
-        
+
     grid.find("#keyType").kendoDropDownList({
       dataTextField: "text",
       dataValueField: "value",
@@ -152,8 +152,8 @@
       change: onDropDownChange
     });
 
-    $("#mainKeyGrid").triggerHandler('mainKeyGridReady');  
-      
+    $("#mainKeyGrid").triggerHandler('mainKeyGridReady');
+
     function onDropDownChange() {
       var value = this.value();
       if (value) {
@@ -167,7 +167,7 @@
       var selected = this.select();
       if (selected.length !== 0) {
         $('#exportBtn').removeClass('disabled');
-        var selKey = grid.data("kendoGrid").dataItem(selected); 
+        var selKey = grid.data("kendoGrid").dataItem(selected);
         if (selKey.type === 'public') {
           $('#exportPrivate, #exportKeyPair').addClass('disabled');
         } else {
@@ -206,11 +206,11 @@
       detailInit(e);
     });
   }
-      
+
   function detailInit(e) {
     //console.log('detailInit');
     var detailRow = e.detailRow;
-    
+
     var subkeyID = detailRow.find(".subkeyID").kendoDropDownList({
       dataTextField: "id",
       dataValueField: "id",
@@ -221,7 +221,7 @@
       select: onSubkeySelect,
       index: 0
     });
-    
+
     var template = kendo.template($("#subkeyDetails").html());
     var subkeyDetails = detailRow.find(".subkeyDetails");
     var firstSubKey = subkeyID.data("kendoDropDownList").dataItem(0); // e.data.subkeys[0] can't be used as dates are not mapped
@@ -230,14 +230,14 @@
     } else {
       subkeyDetails.html('<li>No subkeys available</li>');
     }
-    
+
     function onSubkeySelect(e) {
       var dataItem = this.dataItem(e.item.index());
       subkeyDetails.html(template(dataItem));
     }
-    
-    var useridDdl = detailRow.find(".userID");  
-    
+
+    var useridDdl = detailRow.find(".userID");
+
     useridDdl.width(300);
     useridDdl.kendoDropDownList({
       dataTextField: "userID",
@@ -246,7 +246,7 @@
       select: onUserSelect,
       index: 0
     });
-    
+
     detailRow.find(".signerGrid").kendoGrid({
       columns:[
       {
@@ -257,7 +257,7 @@
         field: "id",
         width: 150,
         title: "Signer KeyID"
-      },  
+      },
       {
         field: "crDate",
         width: 90,
@@ -270,21 +270,21 @@
       },
       sortable: true,
     });
-    
+
     var signerGrid = detailRow.find(".signerGrid").data("kendoGrid");
-    
+
     function onUserSelect(e) {
       var dataItem = this.dataItem(e.item.index());
-      // not working as dates don't get formated: 
+      // not working as dates don't get formated:
       //signerGrid.dataSource.data(dataItem.signatures);
       signerGrid.setDataSource(new kendo.data.DataSource({
         data: dataItem.signatures,
         schema: signerSchema
       }));
     }
-    
+
   }
-      
+
   $(document).ready(init);
-    
-}()); 
+
+}());

@@ -16,7 +16,7 @@
  */
 
 (function() {
-  
+
   function init() {
     // this is triggered on startup
     keyRing.event.on('keygrid-data-change', keyRingUpdate);
@@ -132,6 +132,6 @@
   }
 
   $(document).ready(init);
-  
-}()); 
- 
+
+}());
+

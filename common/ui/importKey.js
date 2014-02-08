@@ -19,7 +19,7 @@
 
   var publicKeyRegex = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
   var privateKeyRegex = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END PGP PRIVATE KEY BLOCK-----/g;
-  
+
   function init() {
     $('#impKeySubmit').click(function() {
       onImportKey();
@@ -36,7 +36,7 @@
     // find all public and private keys in the textbox
     var publicKeys = keyText.match(publicKeyRegex);
     var privateKeys = keyText.match(privateKeyRegex);
-    
+
     var keys = [];
 
     if (publicKeys) {
@@ -105,12 +105,12 @@
       keyRing.event.triggerHandler('keygrid-reload');
     }
   }
-  
+
   function onClear() {
     $('#importKey form').trigger('reset');
     clearAlert();
   }
-  
+
   function onAnother() {
     onClear();
     $('#newKey, #impKeySubmit, #impKeyClear, #impKeyFilepath').prop('disabled', false);
@@ -121,7 +121,7 @@
     $('#importAlert').empty();
     $('#importAlert').hide();
   }
-  
+
   $(document).ready(init);
-  
-}(keyRing)); 
+
+}(keyRing));

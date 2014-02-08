@@ -12,8 +12,8 @@ html, body {
   background-color: rgba(254,251,243,1);
 }
 
-.busy {  
-  cursor: wait !important;  
+.busy {
+  cursor: wait !important;
 }
 
 #keyDialog {

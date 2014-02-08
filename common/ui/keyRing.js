@@ -55,9 +55,9 @@ var keyRing = {};
     }
     parent.postMessage(JSON.stringify({
       event: "viewmodel",
-      method: method, 
-      args: args, 
-      id: id, 
+      method: method,
+      args: args,
+      id: id,
       callback: (callback !== undefined)
     }), '*');
   }
@@ -69,7 +69,7 @@ var keyRing = {};
     }
     parent.postMessage(JSON.stringify({
       event: "message",
-      message: message, 
+      message: message,
       id: id,
       callback: (callback !== undefined)
     }), '*');
@@ -81,7 +81,7 @@ var keyRing = {};
     parent.postMessage(JSON.stringify({
       event: "copyToClipboard",
       text: text
-    }), '*'); 
+    }), '*');
   }
 
   exports.event = event;
@@ -95,13 +95,13 @@ var keyRing = {};
           //console.log('keyRing viewmodel-response', data);
           callbacks[data.id](data.result, data.error);
           delete callbacks[data.id];
-        }  
+        }
         break;
       case 'message-response':
         if (callbacks[data.id]) {
           callbacks[data.id](data.message);
           delete callbacks[data.id];
-        }  
+        }
         break;
       case 'add-watchlist-item':
         $('#navList a[href="#watchList"]').tab('show');
@@ -122,7 +122,7 @@ var keyRing = {};
         });
         break;
     }
-    
+
   }
 
   $(document).ready(init);

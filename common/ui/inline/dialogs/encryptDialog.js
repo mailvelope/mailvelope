@@ -20,7 +20,7 @@
   var port;
   // shares ID with EncryptFrame
   var id;
-  
+
   function init() {
     // open port to background page
     var qs = jQuery.parseQuerystring();
@@ -42,7 +42,7 @@
     $.setEqualWidth($('#addBtn'), $('#deleteBtn'));
     keyDialogPos();
   }
-  
+
   function onOk() {
     if ($('#keyList').hasClass('alert-error')) {
       return false;
@@ -59,15 +59,15 @@
     } else {
       $('body').addClass('busy');
       port.postMessage({
-        event: 'encrypt-dialog-ok', 
-        sender: id, 
+        event: 'encrypt-dialog-ok',
+        sender: id,
         recipient: recipient,
         type: $('input:radio[name="encodeRadios"]:checked').val()
       });
     }
     return false;
   }
-  
+
   function onCancel() {
     port.postMessage({event: 'encrypt-dialog-cancel', sender: id});
     return false;
@@ -111,7 +111,7 @@
 
   function keyDialogPos() {
     var keyDialog = $('#keyDialog');
-    keyDialog.css('margin-top', Math.round(-keyDialog.outerHeight() / 2)); 
+    keyDialog.css('margin-top', Math.round(-keyDialog.outerHeight() / 2));
   }
 
   function messageListener(msg) {
@@ -136,7 +136,7 @@
               firstProposal = false;
             }
           }
-          option.appendTo(keySelect);  
+          option.appendTo(keySelect);
         });
         break;
       case 'encoding-defaults':
@@ -153,7 +153,7 @@
         console.log('unknown event');
     }
   }
-  
+
   $(document).ready(init);
-  
+
 }());

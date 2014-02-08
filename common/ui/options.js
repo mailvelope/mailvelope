@@ -30,7 +30,7 @@
     "#home": "common/ui/keyRing.html",
     "#help": "common/doc/help.html"
   }
-  
+
   function init() {
     iframeEvents = $('#optionsIframe');
   	window.addEventListener("message", receiveMessage);
@@ -56,12 +56,12 @@
               id: data.id
             };
             event.source.postMessage(JSON.stringify(respObj), '*');
-          }    
-        });  
+          }
+        });
         break;
       case 'message':
-        mvelo.extension.sendMessage({ 
-          event: data.message.event, 
+        mvelo.extension.sendMessage({
+          event: data.message.event,
           message: data.message
         }, function(response) {
           if (data.callback) {
@@ -142,7 +142,7 @@
       iframeWindow.postMessage(JSON.stringify(request), '*');
     }
   }
-  
+
   $(document).ready(init);
 
 }());

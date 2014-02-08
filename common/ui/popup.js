@@ -3,8 +3,8 @@ $(document).ready(function() {
   var crx = typeof chrome !== 'undefined';
   $(".dropdown-menu").on("click", "li", function(event){
     // id of dropdown entry = action
-    var message = { 
-      event: 'browser-action', 
+    var message = {
+      event: 'browser-action',
       action: this.id
     };
     if (crx) {
@@ -15,5 +15,5 @@ $(document).ready(function() {
     } else {
       addon.postMessage(message);
     }
-  }); 
+  });
 });
