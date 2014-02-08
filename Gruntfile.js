@@ -66,6 +66,19 @@ module.exports = function (grunt) {
           spawn: false
         }
       }
+    },
+
+    compress: {
+      chrome: {
+        options: {
+          mode: 'zip',
+          archive: 'dist/mailvelope.chrome.zip',
+          pretty: true
+        },
+        files: [{
+          src: ['chrome/**/*', '!chrome/**/.*']
+        }]
+      }
     }
   });
 
@@ -73,6 +86,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-compress');
 
   grunt.registerTask('default', ['concat', 'copy']);
 };
