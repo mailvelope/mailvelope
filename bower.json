@@ -1,0 +1,26 @@
+{
+  "name": "mailvelope",
+  "version": "0.8.0",
+  "homepage": "https://github.com/johnyb/mailvelope",
+  "authors": [
+    "Thomas Oberndörfer <toberndo@yarkon.de>"
+  ],
+  "description": "Mailvelope is a browser extension for Google Chrome and Firefox that allows secure email communication based on the OpenPGP standard. It can be configured to work with arbitrary Webmail provider.",
+  "license": "AGPL",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.0",
+    "bootstrap": "~3.1.0",
+    "spectrum": "~1.3.0",
+    "modernizr": "~2.7.1",
+    "bootstrap3-wysihtml5-bower": "~0.2.7",
+    "requirejs": "~2.1.10"
+  }
+}
