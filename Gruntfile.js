@@ -79,6 +79,24 @@ module.exports = function (grunt) {
           src: ['chrome/**/*', '!chrome/**/.*']
         }]
       }
+    },
+
+    'mozilla-addon-sdk': {
+      '1_15': {
+        options: {
+          revision: '1.15'
+        }
+      }
+    },
+    'mozilla-cfx-xpi': {
+      stable: {
+        options: {
+          'mozilla-addon-sdk': '1_15',
+          extension_dir: 'firefox',
+          dist_dir: 'dist/',
+          arguments: '--strip-sdk --output-file=mailvelope.firefox.xpi'
+        }
+      }
     }
   });
 
@@ -87,9 +105,11 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-compress');
+  grunt.loadNpmTasks('grunt-mozilla-addon-sdk');
 
   //custom tasks
   grunt.registerTask('dist-cr', ['compress:chrome']);
+  grunt.registerTask('dist-ff', ['mozilla-addon-sdk', 'mozilla-cfx-xpi']);
 
   grunt.registerTask('default', ['concat', 'copy']);
 };

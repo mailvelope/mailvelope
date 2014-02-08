@@ -20,7 +20,8 @@
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-jshint": "~0.8.0",
     "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-compress": "~0.6.1"
+    "grunt-contrib-compress": "~0.6.1",
+    "grunt-mozilla-addon-sdk": "~0.3.2"
   },
   "private": true
 }

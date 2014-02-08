@@ -4,3 +4,4 @@
 .svn
 bower_components
 node_modules/
+tmp/
