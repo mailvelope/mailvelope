@@ -3,3 +3,4 @@
 *.sublime*
 .svn
 bower_components
+node_modules/

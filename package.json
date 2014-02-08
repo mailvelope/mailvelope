@@ -1,0 +1,23 @@
+{
+  "name": "mailvelope",
+  "version": "0.8.0",
+  "description": "Mailvelope is a browser extension for Google Chrome and Firefox that allows secure email communication based on the OpenPGP standard. It can be configured to work with arbitrary Webmail provider.",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/toberndo/mailvelope.git"
+  },
+  "keywords": [
+    "gpg"
+  ],
+  "license": "AGPL",
+  "readmeFilename": "Readme.md",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-copy": "~0.5.0",
+    "grunt-contrib-concat": "~0.3.0"
+  },
+  "private": true
+}
