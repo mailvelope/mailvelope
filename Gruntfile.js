@@ -56,12 +56,23 @@ module.exports = function (grunt) {
           dest: 'firefox/packages/openpgp/lib/'
         }]
       }
+    },
+
+    watch: {
+      scripts: {
+        files: ['Gruntfile.js', 'common/**/*', '!common/dep'],
+        tasks: ['default'],
+        options: {
+          spawn: false
+        }
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.registerTask('default', ['concat', 'copy']);
 };
