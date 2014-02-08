@@ -3,6 +3,14 @@
 module.exports = function (grunt) {
 
   grunt.initConfig({
+    jshint: {
+      options: {
+        jshintrc: true
+      },
+      all: {
+        src: ['Gruntfile.js', 'common/ui/**/*.js', '!common/ui/inline/build/*']
+      },
+    },
     concat: {
       content_script: {
         options: {
@@ -53,6 +61,7 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
 
   grunt.registerTask('default', ['concat', 'copy']);
 };
