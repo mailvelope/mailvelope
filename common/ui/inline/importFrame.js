@@ -15,25 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var ImportFrame = ImportFrame || (function() {
+var ImportFrame = ImportFrame || (function () {
 
   var importFrame = function (prefs) {
     ExtractFrame.call(this, prefs);
     this._ctrlName = 'imFrame-' + this.id;
     this._typeRegex = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/;
-  }
+  };
 
   importFrame.prototype = Object.create(ExtractFrame.prototype);
   importFrame.prototype.parent = ExtractFrame.prototype;
 
-  importFrame.prototype._renderFrame = function() {
+  importFrame.prototype._renderFrame = function () {
     this.parent._renderFrame.call(this);
     this._eFrame.addClass('m-import');
-  }
+  };
 
-  importFrame.prototype._clickHandler = function() {
+  importFrame.prototype._clickHandler = function () {
     var that = this;
-    this.parent._clickHandler.call(this, function() {
+    this.parent._clickHandler.call(this, function () {
       that._port.postMessage({
         event: 'imframe-armored-key',
         data: that._getArmoredMessage(),
@@ -41,12 +41,12 @@ var ImportFrame = ImportFrame || (function() {
       });
     });
     return false;
-  }
+  };
 
-  importFrame.prototype._registerEventListener = function() {
+  importFrame.prototype._registerEventListener = function () {
     this.parent._registerEventListener.call(this);
     var that = this;
-    this._port.onMessage.addListener(function(msg) {
+    this._port.onMessage.addListener(function (msg) {
       switch (msg.event) {
         case 'import-result':
           if (msg.resultType.error) {
@@ -59,7 +59,7 @@ var ImportFrame = ImportFrame || (function() {
           break;
       }
     });
-  }
+  };
 
   return importFrame;
 

@@ -14,8 +14,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+if (document.mveloControl) return;
 
-(document.mveloControl || function() {
+(function () {
 
   var interval = 2500; // ms
   var regex = /END\sPGP/;
@@ -32,7 +33,7 @@
   }
 
   function initScanInterval(interval) {
-    window.setInterval(function() {
+    window.setInterval(function () {
       //console.log('inside cs: ', document.location.host);
       if (status === mvelo.SCAN_ON) {
         // find armored PGP text
@@ -50,7 +51,7 @@
   }
 
   function getPrefs() {
-    mvelo.extension.sendMessage({event: "get-prefs"}, function(resp) {
+    mvelo.extension.sendMessage({event: "get-prefs"}, function (resp) {
       prefs = resp;
     });
   }
@@ -62,28 +63,27 @@
    */
   function findPGPTag(regex) {
     var treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-      acceptNode: function(node) {
-          if (node.parentNode.tagName !== 'SCRIPT' && regex.test(node.textContent)) {
-            return NodeFilter.FILTER_ACCEPT;
-          } else {
-            return NodeFilter.FILTER_REJECT;
-          }
+      acceptNode: function (node) {
+        if (node.parentNode.tagName !== 'SCRIPT' && regex.test(node.textContent)) {
+          return NodeFilter.FILTER_ACCEPT;
+        } else {
+          return NodeFilter.FILTER_REJECT;
         }
-      },
-      false
-    );
+      }
+    }, false);
+
     var nodeList = [];
 
-    while(treeWalker.nextNode()) nodeList.push(treeWalker.currentNode);
+    while (treeWalker.nextNode()) nodeList.push(treeWalker.currentNode);
 
     // filter out hidden elements
-    nodeList = $(nodeList).filter(function() {
+    nodeList = $(nodeList).filter(function () {
       var element = $(this);
       // visibility check does not work on text nodes
-      return element.parent().is(':visible')
-             // no elements within editable elements
-             && element.parents('[contenteditable], textarea').length === 0
-             && this.ownerDocument.designMode !== 'on';
+      return element.parent().is(':visible') &&
+        // no elements within editable elements
+        element.parents('[contenteditable], textarea').length === 0 &&
+        this.ownerDocument.designMode !== 'on';
     });
 
     return nodeList;
@@ -94,7 +94,7 @@
     var editable = $('[contenteditable], textarea').filter(':visible').not('body');
     var iframes = $('iframe').filter(':visible');
     // find dynamically created iframes where src is not set
-    var dynFrames = iframes.filter(function() {
+    var dynFrames = iframes.filter(function () {
       var src = $(this).attr('src');
       return src === undefined ||
              src === '' ||
@@ -102,7 +102,7 @@
              /^about.*/.test(src);
     });
     // find editable elements inside dynamic iframe (content script is not injected here)
-    dynFrames.each(function() {
+    dynFrames.each(function () {
       var content = $(this).contents();
       // set event handler for contextmenu
       content.find('body').off("contextmenu").on("contextmenu", onContextMenu)
@@ -122,7 +122,7 @@
     });
     // find iframes from same origin with a contenteditable body (content script is injected, but encrypt frame needs to be attached to outer iframe)
     var anchor = $('<a/>');
-    var editableBody = iframes.not(dynFrames).filter(function() {
+    var editableBody = iframes.not(dynFrames).filter(function () {
       var frame = $(this);
       // only for iframes from same host
       if (anchor.attr('href', frame.attr('src')).prop('hostname') === document.location.hostname) {
@@ -139,12 +139,12 @@
           }
         } catch (e) {
           return false;
-        };
+        }
       }
     });
     editable = editable.add(editableBody);
     // filter out elements below a certain height limit
-    editable = editable.filter(function() {
+    editable = editable.filter(function () {
       return $(this).height() > minEditHeight;
     });
     return editable;
@@ -165,11 +165,11 @@
 
   function attachExtractFrame(element) {
     // check status of PGP tags
-    var newObj = element.filter(function() {
+    var newObj = element.filter(function () {
       return !ExtractFrame.isAttached($(this).parent());
     });
     // create new decrypt frames for new discovered PGP tags
-    newObj.each(function(index, element) {
+    newObj.each(function (index, element) {
       // parent element of text node
       var pgpEnd = $(element).parent();
       switch (getMessageType(pgpEnd)) {
@@ -192,7 +192,7 @@
    */
   function attachEncryptFrame(element, expanded) {
     // check status of elements
-    var newObj = element.filter(function() {
+    var newObj = element.filter(function () {
       if (expanded) {
         // filter out only attached frames
         if (element.data(mvelo.FRAME_STATUS) === mvelo.FRAME_ATTACHED) {
@@ -208,7 +208,7 @@
       }
     });
     // create new encrypt frames for new discovered editable fields
-    newObj.each(function(index, element) {
+    newObj.each(function (index, element) {
       var eFrame = new EncryptFrame(prefs);
       eFrame.attachTo($(element), {expanded: expanded});
     });
@@ -216,7 +216,7 @@
 
   function addMessageListener() {
     mvelo.extension.onMessage.addListener(
-      function(request) {
+      function (request) {
         //console.log('contentscript: %s onRequest: %o', document.location.toString(), request);
         if (request.event === undefined) return;
         switch (request.event) {
@@ -233,7 +233,7 @@
             }
             break;
           default:
-          console.log('unknown scan status');
+            console.log('unknown scan status');
         }
       }
     );

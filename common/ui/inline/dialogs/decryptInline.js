@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function () {
   // communication to background page
   var port;
   // shares ID with DecryptFrame
@@ -26,14 +26,14 @@
   function init() {
     //console.log('init decryptInline.js');
     var qs = jQuery.parseQuerystring();
-    id = 'dDialog-' + qs['id'];
+    id = 'dDialog-' + qs.id;
     // open port to background page
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'decrypt-inline-init', sender: id});
     addWrapper();
     addSandbox();
-    mvelo.extension.sendMessage({event: "get-security-token"}, function(token) {
+    mvelo.extension.sendMessage({event: "get-security-token"}, function (token) {
       $('#watermark').html(token.code);
     });
     $(window).on('resize', resizeFont);
@@ -66,7 +66,10 @@
       id: 'content',
       css: {
         position: 'absolute',
-        top: 0, left: 0, right: 0, bottom: 0,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         padding: '3px',
         'background-color': 'rgba(0,0,0,0)',
         overflow: 'auto'
@@ -105,9 +108,9 @@
     $('#errorbox').show();
     $('#errorwell').showAlert('Error', msg, 'error')
                    .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
-                   .find('button').click(function() {
-                     port.postMessage({event: 'decrypt-dialog-cancel', sender: id});
-                   });
+                   .find('button').click(function () {
+                      port.postMessage({event: 'decrypt-dialog-cancel', sender: id});
+                    });
   }
 
   function resizeFont() {

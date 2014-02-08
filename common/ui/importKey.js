@@ -15,13 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function(exports) {
+(function (exports) {
 
   var publicKeyRegex = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
   var privateKeyRegex = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END PGP PRIVATE KEY BLOCK-----/g;
 
   function init() {
-    $('#impKeySubmit').click(function() {
+    $('#impKeySubmit').click(function () {
       onImportKey();
     });
     $('#impKeyClear').click(onClear);
@@ -40,13 +40,13 @@
     var keys = [];
 
     if (publicKeys) {
-      publicKeys.forEach(function(pub) {
+      publicKeys.forEach(function (pub) {
         keys.push({type: 'public', armored: pub});
       });
     }
 
     if (privateKeys) {
-      privateKeys.forEach(function(priv) {
+      privateKeys.forEach(function (priv) {
         keys.push({type: 'private', armored: priv});
       });
     }
@@ -54,13 +54,13 @@
     if (keys.length === 0) {
       $('#importAlert').showAlert('Import Error', 'No valid key text found', 'error', true);
     } else {
-      keyRing.viewModel('importKeys', [keys], function(result, error) {
+      keyRing.viewModel('importKeys', [keys], function (result, error) {
         if (error) {
           $('#importAlert').showAlert('Import Error', error.type === 'error' ? error.message : 'An exception occored while processing the keys', 'error', true);
           if (callback) callback([{type: 'error'}]);
         } else {
           var success = false;
-          result.forEach(function(imported) {
+          result.forEach(function (imported) {
             var heading;
             switch (imported.type) {
               case 'success':
@@ -83,16 +83,16 @@
     }
   }
 
-  exports.importKey = function(armored, callback) {
+  exports.importKey = function (armored, callback) {
     $('#impKeyClear').click();
     $('#newKey').val(armored);
     onImportKey(callback);
-  }
+  };
 
   function onChangeFile(event) {
     var reader = new FileReader();
     file = event.target.files[0];
-    reader.onloadend = function(ev) { $('#newKey').val(ev.target.result); };
+    reader.onloadend = function (ev) { $('#newKey').val(ev.target.result); };
     reader.readAsText(file);
   }
 

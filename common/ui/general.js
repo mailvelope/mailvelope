@@ -15,13 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function () {
 
   function init() {
     // this is triggered on startup
     keyRing.event.on('keygrid-data-change', keyRingUpdate);
     // change event enables form buttons
-    $('#general input, #primaryKey').on('input change', function() {
+    $('#general input, #primaryKey').on('input change', function () {
       $('#general .form-actions button').prop('disabled', false);
       $('#genReloadInfo').hide();
     });
@@ -39,8 +39,8 @@
         primary_key: $('#primaryKey > option:selected').val(),
         auto_add_primary: $('#autoAddPrimary:checked').length !== 0
       }
-    }
-    keyRing.sendMessage({ event: 'set-prefs', data: update }, function() {
+    };
+    keyRing.sendMessage({ event: 'set-prefs', data: update }, function () {
       normalize();
       $('#genReloadInfo').show();
     });
@@ -68,7 +68,7 @@
   function initPrimarySelect(callback) {
     $('#primaryKey').empty()
                     .append($('<option/>'));
-    loadPrivateKeys(function() {
+    loadPrivateKeys(function () {
       clearPrimarySelect();
       callback();
     });
@@ -91,8 +91,8 @@
 
   function keyRingUpdate() {
     // init primary select and call save if primary_key was deleted
-    initPrimarySelect(function() {
-      loadPrefs(function(prefs) {
+    initPrimarySelect(function () {
+      loadPrefs(function (prefs) {
         if (prefs.general.primary_key !== $('#primaryKey > option:selected').val()) {
           onSave();
         } else {
@@ -103,25 +103,27 @@
   }
 
   function loadPrivateKeys(callback) {
-    keyRing.viewModel('getPrivateKeys', function(keys) {
+    keyRing.viewModel('getPrivateKeys', function (keys) {
       var select = $('#primaryKey');
-      keys && keys.forEach(function(key) {
-        select.append($('<option/>', {
-          value: key.id,
-          text: key.name + ' <' + key.email + '> - ' + key.id.substring(8)
-        }));
-      });
+      if (keys) {
+        keys.forEach(function (key) {
+          select.append($('<option/>', {
+            value: key.id,
+            text: key.name + ' <' + key.email + '> - ' + key.id.substring(8)
+          }));
+        });
+      }
       callback();
     });
   }
 
   function loadPrefs(callback) {
-    keyRing.viewModel('getPreferences', function(prefs) {
-      $('input:radio[name="editorRadios"]').filter(function() {
+    keyRing.viewModel('getPreferences', function (prefs) {
+      $('input:radio[name="editorRadios"]').filter(function () {
         return $(this).val() === prefs.general.editor_type;
       }).prop('checked', true);
-      $('#primaryKey > option').filter(function() {
-          return $(this).val() === prefs.general.primary_key;
+      $('#primaryKey > option').filter(function () {
+        return $(this).val() === prefs.general.primary_key;
       }).prop('selected', true);
       if (prefs.general.auto_add_primary) {
         $('#autoAddPrimary').prop('checked', true);

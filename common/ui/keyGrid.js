@@ -15,82 +15,83 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function () {
 
   var keyGridColumns = [
-      {
-        field: "type",
-        title: " ",
-        width: 30,
-        template: '<img src="../img/#= type #-key.png" alt="#= type #" />'
-      },
-      {
-        field: "name",
-        title: "Name"
-      },
-      {
-        field: "email",
-        title: "Email"
-      },
-      {
-        field: "id",
-        width: 100,
-        title: "Key ID",
-        template: '#= id.substr(-8) #',
-        attributes: {
-          style: "font-family: monospace;"
-        }
-      },
-      {
-        field: "crDate",
-        width: 90,
-        title: "Creation",
-        template: '#= kendo.toString(crDate,"dd.MM.yyyy") #'
-      },
-      {
-        command: "destroy",
-        title: " ",
-        width: "100px"
-      }];
+    {
+      field: "type",
+      title: " ",
+      width: 30,
+      template: '<img src="../img/#= type #-key.png" alt="#= type #" />'
+    },
+    {
+      field: "name",
+      title: "Name"
+    },
+    {
+      field: "email",
+      title: "Email"
+    },
+    {
+      field: "id",
+      width: 100,
+      title: "Key ID",
+      template: '#= id.substr(-8) #',
+      attributes: {
+        style: "font-family: monospace;"
+      }
+    },
+    {
+      field: "crDate",
+      width: 90,
+      title: "Creation",
+      template: '#= kendo.toString(crDate,"dd.MM.yyyy") #'
+    },
+    {
+      command: "destroy",
+      title: " ",
+      width: "100px"
+    }
+  ];
 
   var exDateField = {
     type: "date",
-    parse: function(value) {
+    parse: function (value) {
       return kendo.parseDate(value) || 'The key does not expire';
     }
-  }
+  };
 
   var keyGridSchema = {
-        model: {
-          fields: {
-            type: { type: "string" },
-            name: { type: "string" },
-            email: { type: "string" },
-            id: { type: "string" },
-            crDate: { type: "date" },
-            exDate: exDateField
-          }
-        }
-      };
+    model: {
+      fields: {
+        type: { type: "string" },
+        name: { type: "string" },
+        email: { type: "string" },
+        id: { type: "string" },
+        crDate: { type: "date" },
+        exDate: exDateField
+      }
+    }
+  };
 
   var subKeySchema = {
-        model: {
-          fields: {
-            crDate: { type: "date" },
-            exDate: exDateField
-          }
-        }
-      };
+    model: {
+      fields: {
+        crDate: { type: "date" },
+        exDate: exDateField
+      }
+    }
+  };
 
   var signerSchema = {
-        model: {
-          fields: {
-            signer: { type: "string" },
-            id: { type: "string" },
-            crDate: { type: "date" }
-          }
-        }
-      };
+    model: {
+      fields: {
+        signer: { type: "string" },
+        id: { type: "string" },
+        crDate: { type: "date" }
+      }
+    }
+  };
 
   function init() {
     $('#displayKeys').addClass('spinner');
@@ -99,13 +100,13 @@
   }
 
   function reload() {
-   keyRing.viewModel('getKeys', function(keys) {
-    $("#mainKeyGrid").data("kendoGrid").setDataSource(new kendo.data.DataSource({
+    keyRing.viewModel('getKeys', function (keys) {
+      $("#mainKeyGrid").data("kendoGrid").setDataSource(new kendo.data.DataSource({
         data: keys,
         schema: keyGridSchema,
         change: onDataChange
       }));
-   });
+    });
   }
 
   function initGrid(keys) {
@@ -199,7 +200,7 @@
         open: { effects: "fadeIn" }
       }
     });
-    keyRing.viewModel('getKeyDetails', [e.data.guid], function(details) {
+    keyRing.viewModel('getKeyDetails', [e.data.guid], function (details) {
       //console.log('keyGrid key details received', details);
       e.data.subkeys = details.subkeys;
       e.data.users = details.users;
@@ -248,22 +249,23 @@
     });
 
     detailRow.find(".signerGrid").kendoGrid({
-      columns:[
-      {
-        field: "signer",
-        title: "Signer Name"
-      },
-      {
-        field: "id",
-        width: 150,
-        title: "Signer KeyID"
-      },
-      {
-        field: "crDate",
-        width: 90,
-        title: "Created",
-        template: '#= kendo.toString(crDate,"dd.MM.yyyy") #'
-      }],
+      columns: [
+        {
+          field: "signer",
+          title: "Signer Name"
+        },
+        {
+          field: "id",
+          width: 150,
+          title: "Signer KeyID"
+        },
+        {
+          field: "crDate",
+          width: 90,
+          title: "Created",
+          template: '#= kendo.toString(crDate,"dd.MM.yyyy") #'
+        }
+      ],
       dataSource: {
         data: e.data.users[0].signatures,
         schema: signerSchema

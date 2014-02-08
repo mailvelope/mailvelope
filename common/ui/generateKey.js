@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function () {
 
   var advShown = false;
 
@@ -44,7 +44,7 @@
     if (advShown) {
       $('#genKeyAdvSection').slideUp();
       $('#genKeyAdv').text('Advanced >>');
-      advShown = false
+      advShown = false;
     } else {
       $('#genKeyAdvSection').slideDown();
       $('#genKeyAdv').text('<< Advanced');
@@ -116,7 +116,7 @@
   }
 
   function onGenerateKey() {
-    validateEmail(function() {
+    validateEmail(function () {
       $('body').addClass('busy');
       $('#genKeyWait').one('shown', generateKey);
       $('#genKeyWait').modal('show');
@@ -127,7 +127,7 @@
   function validateEmail(next) {
     var email = $('#genKeyEmail');
     // validate email
-    keyRing.viewModel('validateEmail', [email.val()], function(valid) {
+    keyRing.viewModel('validateEmail', [email.val()], function (valid) {
       if (valid) {
         email.closest('.control-group').removeClass('error');
         email.next().addClass('hide');
@@ -147,7 +147,7 @@
     options.user = $('#genKeyName').val();
     options.email = $('#genKeyEmail').val();
     options.passphrase = $('#genKeyPwd').val();
-    keyRing.viewModel('generateKey', [options], function(result, error) {
+    keyRing.viewModel('generateKey', [options], function (result, error) {
       if (!error) {
         $('#genAlert').showAlert('Success', 'New key generated and imported into key ring', 'success');
         $('#generateKey').find('input, select').prop('disabled', true);

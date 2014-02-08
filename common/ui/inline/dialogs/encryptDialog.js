@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function () {
   // communication to background page
   var port;
   // shares ID with EncryptFrame
@@ -24,7 +24,7 @@
   function init() {
     // open port to background page
     var qs = jQuery.parseQuerystring();
-    id = 'eDialog-' + qs['id'];
+    id = 'eDialog-' + qs.id;
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'encrypt-dialog-init', sender: id});
@@ -49,7 +49,7 @@
     }
     // get keys from list
     var recipient = [];
-    $('#keyList option').each(function() {
+    $('#keyList option').each(function () {
       recipient.push($(this).val());
     });
     if (recipient.length === 0) {
@@ -122,7 +122,7 @@
       case 'public-key-userids':
         var keySelect = $('#keySelect');
         var firstProposal = true;
-        msg.keys.forEach(function(key) {
+        msg.keys.forEach(function (key) {
           var option = $('<option/>').val(key.keyid).text(key.userid);
           if (key.keyid === msg.primary) {
             $('#keyList').append(option.clone());

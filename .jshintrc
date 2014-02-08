@@ -8,9 +8,8 @@
     "bitwise"       : false,   // true: Prohibit bitwise operators (&, |, ^, etc.)
     "forin"         : false,   // true: Require filtering for..in loops with obj.hasOwnProperty()
     "immed"         : true,    // true: Require immediate invocations to be wrapped in parens e.g. `(function () { } ());`,
-    "quotmark"      : "single",
-    "undef"         : true,
-    "unused"        : true,
+    "undef"         : false,
+    "unused"        : false,
 
     // Relaxing
     "debug"         : true,    // true: Allow debugger statements e.g. browser breakpoints.

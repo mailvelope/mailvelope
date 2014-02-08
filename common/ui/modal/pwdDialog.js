@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function () {
   // communication to background page
   var port;
   // shares ID with DecryptFrame
@@ -23,7 +23,7 @@
 
   function init() {
     var qs = jQuery.parseQuerystring();
-    id = 'pwdDialog-' + qs['id'];
+    id = 'pwdDialog-' + qs.id;
     // open port to background page
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
