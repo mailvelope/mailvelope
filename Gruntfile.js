@@ -88,5 +88,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-compress');
 
+  //custom tasks
+  grunt.registerTask('dist-cr', ['compress:chrome']);
+
   grunt.registerTask('default', ['concat', 'copy']);
 };
