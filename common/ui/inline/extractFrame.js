@@ -101,7 +101,7 @@ var ExtractFrame = ExtractFrame || (function () {
           this._pgpEnd.data(mvelo.FRAME_STATUS, mvelo.FRAME_DETACHED);
         }
         this._pgpEnd.data(mvelo.FRAME_OBJ, null);
-      }).bind(this);
+      }.bind(this));
       return false;
     },
 

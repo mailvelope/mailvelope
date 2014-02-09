@@ -185,7 +185,7 @@ var EncryptFrame = EncryptFrame || (function () {
           this._editElement.data(mvelo.FRAME_STATUS, mvelo.FRAME_DETACHED);
         }
         this._editElement.data(mvelo.FRAME_OBJ, null);
-      }).bind(this);
+      }.bind(this));
       return false;
     },
 
