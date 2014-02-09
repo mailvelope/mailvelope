@@ -76,7 +76,7 @@
     });
     var style = $('<link/>', {
       rel: 'stylesheet',
-      href: '../../dep/css/bootstrap.min.css'
+      href: '../../dep/bootstrap/css/bootstrap.css'
     });
     var style2 = style.clone().attr('href', '../../dep/wysihtml5/css/wysihtml5.css');
     sandbox.one('load', function () {
