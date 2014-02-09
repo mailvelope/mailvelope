@@ -113,7 +113,7 @@ module.exports = function (grunt) {
 
     watch: {
       scripts: {
-        files: ['Gruntfile.js', 'common/**/*', '!common/dep'],
+        files: ['Gruntfile.js', '{common,dep,chrome,firefox}/**/*.js'],
         tasks: ['default'],
         options: {
           spawn: false
