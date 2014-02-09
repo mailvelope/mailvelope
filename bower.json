@@ -16,11 +16,11 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.1.0",
-    "bootstrap": "~3.1.0",
-    "spectrum": "~1.3.0",
-    "modernizr": "~2.7.1",
-    "bootstrap3-wysihtml5-bower": "~0.2.7",
-    "requirejs": "~2.1.10"
+    "jquery": "~2.0.3",
+    "bootstrap": "~2.2.2",
+    "spectrum": "~1.1.0",
+    "modernizr": "~2.6.2",
+    "requirejs": "~2.1.10",
+    "wysihtml5": "~0.3.0"
   }
 }
