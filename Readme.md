@@ -50,6 +50,18 @@ This will get you the latest firefox addons-sdk to build the addon.
 
 The addon will be in `dist/mailvelope.firefox.xpi`.
 
+#### Development
+
+There are a few more tasks available through grunt:
+
+* watch source code for changes and recompile if needed:
+
+> grunt watch
+
+* reset repository
+
+> grunt clean
+
 ## Website
 
 http://www.mailvelope.com
