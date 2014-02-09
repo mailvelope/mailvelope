@@ -34,6 +34,24 @@ module.exports = function (grunt) {
       }
     },
 
+    modernizr: {
+      dist: {
+        'devFile' : 'build/common/dep/modernizr.js',
+        'outputFile' : 'build/common/dep/modernizr.js',
+        'extra' : {
+          'shiv' : false,
+          'printshiv' : false,
+          'load' : true,
+          'mq' : false,
+          'cssclasses' : false
+        },
+        'uglify' : true,
+        'tests' : ['inputtypes'],
+        'parseFiles' : false,
+        'customTests' : []
+      }
+    },
+
     copy: {
       vendor: {
         files: [
@@ -160,10 +178,11 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-mozilla-addon-sdk');
+  grunt.loadNpmTasks('grunt-modernizr');
 
   //custom tasks
   grunt.registerTask('dist-cr', ['compress:chrome']);
   grunt.registerTask('dist-ff', ['mozilla-addon-sdk', 'mozilla-cfx-xpi']);
 
-  grunt.registerTask('default', ['jshint', 'concat', 'copy']);
+  grunt.registerTask('default', ['jshint', 'modernizr', 'concat', 'copy']);
 };
