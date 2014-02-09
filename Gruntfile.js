@@ -35,17 +35,25 @@ module.exports = function (grunt) {
     },
 
     copy: {
-      bootstrap: {
-        files: [{
-          expand: true,
-          cwd: 'bower_components/bootstrap/docs/assets/',
-          src: [
-            'css/bootstrap.css',
-            'js/bootstrap.js',
-            'img/glyphicons*'
-          ],
-          dest: 'build/common/dep/bootstrap/'
-        }]
+      vendor: {
+        files: [
+          {
+            expand: true,
+            cwd: 'bower_components/bootstrap/docs/assets/',
+            src: [
+              'css/bootstrap.css',
+              'js/bootstrap.js',
+              'img/glyphicons*'
+            ],
+            dest: 'build/common/dep/bootstrap/'
+          },
+          {
+            expand: true,
+            cwd: 'bower_components/',
+            src: 'spectrum/spectrum.{css,js}',
+            dest: 'build/common/dep/'
+          }
+        ]
       },
       common: {
         files: [{
