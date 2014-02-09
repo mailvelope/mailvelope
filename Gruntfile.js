@@ -58,6 +58,16 @@ module.exports = function (grunt) {
             cwd: 'bower_components/',
             src: 'spectrum/spectrum.{css,js}',
             dest: 'build/common/dep/'
+          },
+          {
+            expand: true,
+            cwd: 'bower_components/kendo-ui/',
+            src: [
+              'js/kendo.web.min.js',
+              'styles/{Default,textures}/*',
+              'styles/kendo.{common,default}.min.css'
+            ],
+            dest: 'build/common/dep/kendoui/'
           }
         ]
       },
