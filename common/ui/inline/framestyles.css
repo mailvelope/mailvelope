@@ -30,8 +30,9 @@
 
 :root .m-extract-frame.m-verify {
   background-image: url('../../img/mail_signed_96.png'), none;
-  height: 128px;
-  width: 128px;
+  background-size: 64px, 64px;
+  height: 96px;
+  width: 96px;
   top: initial;
   bottom: 0px;
 }
