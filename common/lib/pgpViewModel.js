@@ -87,7 +87,7 @@ define(function(require, exports, module) {
       // fingerprint used as UID
       uiKey.guid = key.primaryKey.getFingerprint();
       uiKey.id = key.primaryKey.getKeyId().toHex().toUpperCase();
-      uiKey.fingerprint = util.hexstrdump(uiKey.guid).toUpperCase();
+      uiKey.fingerprint = uiKey.guid.toUpperCase();
       // primary user
       try {
         var primaryUser = key.getPrimaryUser();
@@ -120,16 +120,16 @@ define(function(require, exports, module) {
 
   function getKeyDetails(guid) {
     var details = {};
-    for (var i = 0; i < openpgp.keyring.publicKeys.length; i++) {
-      var pKey = openpgp.keyring.publicKeys[i];
-      if (guid === pKey.obj.getFingerprint()) {
-        // subkeys
-        mapSubKeys(pKey.obj.subKeys, details);
-        // users
-        mapUsers(pKey.obj.userIds, details);
-        return details;
-      }
-    };
+    var key = openpgp.keyring.getKeyForLongId(guid);
+    if (key) {
+      // subkeys
+      mapSubKeys(key.subKeys, details);
+      // users
+      mapUsers(key.users, details);
+      return details;
+    } else {
+      throw new Error('Key with this long ID not found: ', guid);
+    }
   }
 
   exports.setOpenPGPComment = setOpenPGPComment;
@@ -144,19 +144,17 @@ define(function(require, exports, module) {
     subkeys.forEach(function(subkey) {
       try {
         var skey = {};
-        skey.crDate = subkey.subKeySignature.creationTime.toISOString();
-        if (subkey.subKeySignature.keyNeverExpires || subkey.subKeySignature.keyNeverExpires === null ) {
-          skey.exDate = 'The key does not expire'; 
+        skey.crDate = subkey.subKey.created.toISOString();
+        skey.exDate = subkey.getExpirationTime();
+        if (skey.exDate) {
+          skey.exDate = skey.exDate.toISOString();
         } else {
-          skey.exDate = new Date(subkey.subKeySignature.creationTime.getTime() + subkey.subKeySignature.keyExpirationTime * 1000).toISOString();
+          skey.exDate = 'The key does not expire';
         }
-        if (toKey.type === 'private') {
-          subkey = subkey.publicKey;
-        }
-        skey.id = util.hexstrdump(subkey.getKeyId()).toUpperCase();
-        skey.algorithm = getAlgorithmString(subkey.publicKeyAlgorithm);
-        skey.bitLength = subkey.MPIs[0].mpiBitLength;
-        skey.fingerprint = util.hexstrdump(subkey.getFingerprint()).toUpperCase();
+        skey.id = subkey.subKey.getKeyId().toHex().toUpperCase();
+        skey.algorithm = getAlgorithmString(subkey.subKey.algorithm);
+        skey.bitLength = subkey.subKey.getBitSize();
+        skey.fingerprint = subkey.subKey.getFingerprint().toUpperCase();
         toKey.subkeys.push(skey);
       } catch (e) {
         console.log('Exception in mapSubKeys', e);
@@ -164,34 +162,35 @@ define(function(require, exports, module) {
     });
   }
   
-  function mapUsers(userids, toKey) {
+  function mapUsers(users, toKey) {
     toKey.users = [];
-    userids.forEach(function(userPacket) {
+    users.forEach(function(user) {
       try {
-        var user = {};
-        user.userID = userPacket.text;
-        user.signatures = [];
-        userPacket.certificationSignatures.forEach(function(certSig) {
+        var uiUser = {};
+        uiUser.userID = user.userId;
+        uiUser.signatures = [];
+        user.selfCertifications.forEach(function(selfCert) {
           var sig = {};
-          var issuerKey = certSig.getIssuerKey();
+          sig.signer = user.userId;
+          sig.id = selfCert.issuerKeyId.toHex().toUpperCase();
+          sig.crDate = selfCert.created.toISOString();
+          uiUser.signatures.push(sig);
+        });
+        user.otherCertifications.forEach(function(otherCert) {
+          var sig = {};
+          var keyidHex = otherCert.issuerKeyId.toHex();
+          var issuerKey = openpgp.keyring.getKeyForId(keyidHex);
           if (issuerKey !== null) {
-            sig.signer = issuerKey.obj.userIds[0].text;
-            
+            var primaryUser = issuerKey.getPrimaryUser();
+            sig.signer = primaryUser.user.userId;
           } else {
             sig.signer = 'Unknown Signer';
-            // look for issuer in private key store
-            for (var i = 0; i < openpgp.keyring.privateKeys.length; i++) {
-              if (certSig.getIssuer() === openpgp.keyring.privateKeys[i].obj.getKeyId()) {
-                sig.signer = openpgp.keyring.privateKeys[i].obj.userIds[0].text;
-                break;
-              }
-            }
           }
-          sig.id = util.hexstrdump(certSig.getIssuer()).toUpperCase();
-          sig.crDate = certSig.creationTime.toISOString();
-          user.signatures.push(sig);
+          sig.id = otherCert.issuerKeyId.toHex().toUpperCase();
+          sig.crDate = otherCert.created.toISOString();
+          uiUser.signatures.push(sig);
         });
-        toKey.users.push(user);
+        toKey.users.push(uiUser);
       } catch (e) {
         console.log('Exception in mapUsers', e);
       }
@@ -200,11 +199,11 @@ define(function(require, exports, module) {
 
   function getKeyUserIDs(proposal) {
     var result = [];
-    openpgp.keyring.publicKeys.forEach(function(publicKey) {
-      if (publicKey.obj.verifyBasicSignatures()) {
-        var key = {};
-        mapKeyUserIds(publicKey.obj, key, proposal)
-        result.push(key);
+    openpgp.keyring.keys.forEach(function(key) {
+      if (key.verifyPrimaryKey === openpgp.enums.keyStatus.valid) {
+        var user = {};
+        mapKeyUserIds(key, user, proposal)
+        result.push(user);
       }
     });
     result = result.sort(function(a, b) {
@@ -213,16 +212,17 @@ define(function(require, exports, module) {
     return result;
   }
 
-  function mapKeyUserIds(obj, toKey, proposal) {
-    toKey.keyid = util.hexstrdump(obj.getKeyId()).toUpperCase();
+  function mapKeyUserIds(key, user, proposal) {
+    user.keyid = key.primaryKey.getKeyId().toHex().toUpperCase();
     try {
-      toKey.userid = obj.userIds[0].text;
-      var email = goog.format.EmailAddress.parse(obj.userIds[0].text).getAddress();
-      toKey.proposal = proposal.some(function(element) {
+      var primaryUser = key.getPrimaryUser();
+      user.userid = primaryUser.user.userId;
+      var email = goog.format.EmailAddress.parse(user.userid).getAddress();
+      user.proposal = proposal.some(function(element) {
         return email === element;
       });
     } catch (e) {
-      toKey.userid = toKey.userid || 'UNKNOWN';
+      user.userid = user.userid || 'UNKNOWN';
       console.log('Exception in mapKeyUserIds', e);
     }
   }
@@ -623,9 +623,3 @@ define(function(require, exports, module) {
   exports.setPreferences = setPreferences;
   
 });
-
-
-// implementation of this function required by openpgp.js
-function showMessages(text) {
-  //console.log($(text).text());
-}
