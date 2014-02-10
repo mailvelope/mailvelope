@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function () {
 
   var grid;
 
   window.URL = window.URL || window.webkitURL;
-  
+
   function init() {
-    $('#mainKeyGrid').one('mainKeyGridReady', function() {
+    $('#mainKeyGrid').one('mainKeyGridReady', function () {
       $("#gridMainToolbar .dropdown-menu").on("click", "li", onExport);
       grid = $(this).data("kendoGrid");
     });
@@ -84,7 +84,7 @@
   function exportToClipboard() {
     keyRing.copyToClipboard($('#armoredKey').val());
   }
-  
+
   $(document).ready(init);
-  
-}()); 
+
+}());

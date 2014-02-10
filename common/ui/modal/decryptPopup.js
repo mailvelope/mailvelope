@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function () {
   // communication to background page
   var port;
   // shares ID with DecryptFrame
@@ -24,11 +24,11 @@
   var name;
   // dialogs
   var pwd, sandbox;
-  
+
   function init() {
     var qs = jQuery.parseQuerystring();
-    id = qs['id'];
-    name = 'dDialog-' + id
+    id = qs.id;
+    name = 'dDialog-' + id;
     // open port to background page
     port = mvelo.extension.connect({name: name});
     port.onMessage.addListener(messageListener);
@@ -65,7 +65,10 @@
       id: 'content',
       css: {
         position: 'absolute',
-        top: 0, left: 0, right: 0, bottom: 0,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         margin: '3px',
         padding: '3px',
         overflow: 'auto'
@@ -73,10 +76,10 @@
     });
     var style = $('<link/>', {
       rel: 'stylesheet',
-      href: '../../dep/css/bootstrap.min.css'
+      href: '../../dep/bootstrap/css/bootstrap.css'
     });
     var style2 = style.clone().attr('href', '../../dep/wysihtml5/css/wysihtml5.css');
-    sandbox.one('load', function() {
+    sandbox.one('load', function () {
       sandbox.contents().find('head').append(style)
                                      .append(style2);
       sandbox.contents().find('body').append(content);
@@ -95,7 +98,7 @@
 
   function showMessageArea() {
     if (pwd) {
-      pwd.fadeOut(function() {
+      pwd.fadeOut(function () {
         $('#decryptmail').fadeIn();
       });
     } else {
@@ -117,7 +120,7 @@
     $('#errorwell').showAlert('Error', msg, 'error');
     $('#copyBtn').prop('disabled', true);
   }
-  
+
   function messageListener(msg) {
     // remove spinner for all events
     $('body').removeClass('spinner');
@@ -140,7 +143,7 @@
         console.log('unknown event');
     }
   }
-  
+
   $(document).ready(init);
-  
+
 }());

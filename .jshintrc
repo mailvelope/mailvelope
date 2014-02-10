@@ -1,0 +1,44 @@
+{
+    // JSHint Configuration File
+    // See http://jshint.com/docs/ for more details
+
+    "maxerr"        : 5,       // {int} Maximum error before stopping
+
+    // Enforcing
+    "bitwise"       : false,   // true: Prohibit bitwise operators (&, |, ^, etc.)
+    "forin"         : false,   // true: Require filtering for..in loops with obj.hasOwnProperty()
+    "immed"         : true,    // true: Require immediate invocations to be wrapped in parens e.g. `(function () { } ());`,
+    "undef"         : false,
+    "unused"        : false,
+
+    // Relaxing
+    "debug"         : true,    // true: Allow debugger statements e.g. browser breakpoints.
+    "browser"       : true,    // true: defines globals exposed by modern browsers
+    "devel"         : true,    // true: define globals for some development functions (alert, console)
+    "shadow"        : true,    // true: Allows re-define variables later in code e.g. `var x=1; x=2;`
+    "validthis"     : true,    // true: Tolerate using this in a non-constructor function
+    "boss"          : true,    // true: Tolerate assignments where comparisons would be expected
+    "evil"          : true,    // true: Tolerate use of `eval` and `new Function()`
+
+    // Environments
+
+    "trailing"      : true,    // true: Prohibit trailing whitespaces
+    "node"          : true,    // Node.js
+    "nonstandard"   : true,    // Widely adopted globals (escape, unescape, etc)
+
+    // Legacy
+    "white"         : true,    // true: Check against strict whitespace and indentation rules
+
+    "indent": 2,
+
+    // Custom Globals
+    "globals": {
+        "$": false,
+        "_": false,
+        "Modernizr": false,
+        "define": false,
+        "require": false,
+        "requirejs": false,
+        "Backbone": false
+    }
+}

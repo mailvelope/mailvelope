@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function () {
   // shares ID with EncryptFrame
   var id;
   // id of encrypt frame that triggered this dialog
@@ -25,7 +25,7 @@
   var eFrame;
   var port;
   // editor element
-  var editor
+  var editor;
   // content of editor modified
   var isDirty = false;
   // blur warning
@@ -37,8 +37,8 @@
 
   function init() {
     var qs = jQuery.parseQuerystring();
-    parentID = qs['parent'];
-    editor_type = qs['editor_type'];
+    parentID = qs.parent;
+    editor_type = qs.editor_type;
     $('#cancelBtn').click(onCancel);
     $('#transferBtn').click(onTransfer);
     // blur warning
@@ -56,12 +56,12 @@
     if (editor_type == mvelo.PLAIN_TEXT) {
       editor = createPlainText();
       eFrame.attachTo($('#plainText'), {
-        editor: editor, 
+        editor: editor,
         closeBtn: false,
         set_text: setPlainText
       });
     } else {
-      createRichText(function(ed) {
+      createRichText(function (ed) {
         editor = ed;
         eFrame.attachTo($('iframe.wysihtml5-sandbox'), {
           set_text: setRichText,
@@ -81,7 +81,7 @@
 
   function onCancel() {
     port.postMessage({
-      event: 'editor-cancel', 
+      event: 'editor-cancel',
       sender: id
     });
     return false;
@@ -99,10 +99,10 @@
      // wysihtml5 <body> is automatically copied to the hidden <textarea>
     var armored = editor.val();
     if (editor_type == mvelo.RICH_TEXT) {
-      armored = armored.replace(/\n/g,'');
+      armored = armored.replace(/\n/g, '');
     }
     port.postMessage({
-      event: 'editor-transfer-output', 
+      event: 'editor-transfer-output',
       data: armored,
       sender: id,
       recipient: parentID
@@ -126,13 +126,13 @@
     });
     var style = $('<link/>', {
       rel: 'stylesheet',
-      href: '../../dep/bootstrap/css/bootstrap.min.css'
+      href: '../../dep/bootstrap/css/bootstrap.css'
     });
     var head = sandbox.contents().find('head');
     style.appendTo(head);
     sandbox.contents().find('body').append(text);
     text.on('change', onChange);
-    text.on('input', startBlurWarnInterval)
+    text.on('input', startBlurWarnInterval);
     text.on('blur', onBlur);
     return text;
   }
@@ -141,13 +141,13 @@
     $('#rte-box').show();
     $('#richText').wysihtml5('deepExtend', {
       toolbar_element: 'rte-toolbar',
-      stylesheets: ['../../dep/css/bootstrap.min.css', '../../dep/wysihtml5/css/wysiwyg-color.css'],
+      stylesheets: ['../../dep/css/bootstrap.css', '../../dep/wysihtml5/css/wysiwyg-color.css'],
       color: true,
       parserRules: wysihtml5ParserRules,
       events: {
         change: onChange,
         blur: onBlur,
-        load: function() {
+        load: function () {
           // if user clicks in non-editable area of text editor then next blur event is not considered as relevant
           $('iframe.wysihtml5-sandbox').contents().find('html').on('mousedown', startBlurValid);
           // each input event restarts the blur warning interval
@@ -191,9 +191,9 @@
       // fade in 600ms, wait 200ms, fade out 600ms
       blurWarn.removeClass('hide')
               .stop(true)
-              .animate({opacity: 1}, 'slow', 'swing', function() {
+              .animate({opacity: 1}, 'slow', 'swing', function () {
                 setTimeout(function () {
-                  blurWarn.animate({opacity: 0}, 'slow', 'swing', function() {
+                  blurWarn.animate({opacity: 0}, 'slow', 'swing', function () {
                     blurWarn.addClass('hide');
                   });
                 }, 200);
@@ -207,7 +207,7 @@
       window.clearTimeout(blurWarnPeriod);
     }
     // restart
-    blurWarnPeriod = window.setTimeout(function() {
+    blurWarnPeriod = window.setTimeout(function () {
       // end
       blurWarnPeriod = null;
     }, 2000);
@@ -220,7 +220,7 @@
       window.clearTimeout(blurValid);
     }
     // restart
-    blurValid = window.setTimeout(function() {
+    blurValid = window.setTimeout(function () {
       // end
       blurValid = null;
     }, 40);
@@ -243,5 +243,5 @@
   }
 
   $(document).ready(init);
-  
+
 }());

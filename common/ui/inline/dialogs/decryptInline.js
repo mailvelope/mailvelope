@@ -15,25 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function () {
   // communication to background page
   var port;
   // shares ID with DecryptFrame
   var id;
   var watermark;
   var spinnerTimer;
-  
+
   function init() {
     //console.log('init decryptInline.js');
     var qs = jQuery.parseQuerystring();
-    id = 'dDialog-' + qs['id'];
+    id = 'dDialog-' + qs.id;
     // open port to background page
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'decrypt-inline-init', sender: id});
     addWrapper();
     addSandbox();
-    mvelo.extension.sendMessage({event: "get-security-token"}, function(token) {
+    mvelo.extension.sendMessage({event: "get-security-token"}, function (token) {
       $('#watermark').html(token.code);
     });
     $(window).on('resize', resizeFont);
@@ -45,7 +45,7 @@
   function showSpinner() {
     $('body').addClass('spinner');
     if ($('body').height() + 2 > mvelo.LARGE_FRAME) {
-      $('body').addClass('spinner-large');  
+      $('body').addClass('spinner-large');
     }
   }
 
@@ -58,7 +58,7 @@
 
   function addSandbox() {
     var sandbox = $('<iframe/>', {
-      id: 'decryptmail', 
+      id: 'decryptmail',
       sandbox: 'allow-same-origin',
       frameBorder: 0
     });
@@ -66,7 +66,10 @@
       id: 'content',
       css: {
         position: 'absolute',
-        top: 0, left: 0, right: 0, bottom: 0,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         padding: '3px',
         'background-color': 'rgba(0,0,0,0)',
         overflow: 'auto'
@@ -74,7 +77,7 @@
     });
     var style = $('<link/>', {
       rel: 'stylesheet',
-      href: '../../../dep/css/bootstrap.min.css'
+      href: '../../../dep/bootstrap/css/bootstrap.css'
     });
     var style2 = style.clone().attr('href', '../../../dep/wysihtml5/css/wysihtml5.css');
     $('#wrapper').append(sandbox);
@@ -89,7 +92,7 @@
     $('<div/>', {id: 'errorwell', class: 'well span5'}).appendTo(errorbox);
     errorbox.appendTo('body');
     if ($('body').height() + 2 > mvelo.LARGE_FRAME) {
-      $('#errorbox').addClass('errorbox-large');  
+      $('#errorbox').addClass('errorbox-large');
     }
   }
 
@@ -105,15 +108,15 @@
     $('#errorbox').show();
     $('#errorwell').showAlert('Error', msg, 'error')
                    .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
-                   .find('button').click(function() {
-                     port.postMessage({event: 'decrypt-dialog-cancel', sender: id});
-                   });
-  } 
+                   .find('button').click(function () {
+                      port.postMessage({event: 'decrypt-dialog-cancel', sender: id});
+                    });
+  }
 
   function resizeFont() {
     watermark.css('font-size', Math.floor(Math.min(watermark.width() / 3, watermark.height())));
   }
-  
+
   function messageListener(msg) {
     //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
@@ -131,7 +134,7 @@
         console.log('unknown event');
     }
   }
-  
+
   $(document).ready(init);
-  
+
 }());

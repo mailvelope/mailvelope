@@ -7,8 +7,8 @@ html, body {
   height: 100%;
 }
 
-.busy {  
-  cursor: wait !important;  
+.busy {
+  cursor: wait !important;
 }
 
 #decryptmail {
@@ -92,8 +92,8 @@ html, body {
 }
 
 .spinner {
-  background-image: url('../../dep/kendoui/styles/Default/loading-image.gif');      
-  background-repeat: no-repeat;      
+  background-image: url('../../dep/kendoui/styles/Default/loading-image.gif');
+  background-repeat: no-repeat;
   background-position: center;
 }
 

@@ -5,10 +5,10 @@
   "homepage_url":"http://www.mailvelope.com",
   "manifest_version": 2,
   "minimum_chrome_version": "26",
-  "icons": { 
+  "icons": {
     "16": "common/img/encrypt-16.png",
     "48": "common/img/mail_locked_48.png",
-    "128": "common/img/mail_locked_128.png" 
+    "128": "common/img/mail_locked_128.png"
   },
   "browser_action": {
     "default_icon": "common/img/cryptography-icon24.png",
@@ -41,7 +41,7 @@
     "common/ui/inline/framestyles.css",
     "common/ui/inline/dialogs/decryptInline.html",
     "common/ui/inline/dialogs/encryptDialog.html",
-    "common/dep/css/bootstrap.min.css",
+    "common/dep/bootstrap/css/bootstrap.css",
     "common/dep/wysihtml5/css/wysihtml5.css"
   ],
   "sandbox": {
@@ -49,4 +49,4 @@
       "common/ui/keyRing.html"
     ]
   }
-} 
+}

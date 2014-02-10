@@ -44,8 +44,8 @@ body {
   margin-bottom: 0;
 }
 
-.busy {  
-  cursor: wait !important;  
+.busy {
+  cursor: wait !important;
 }
 
 #spinner {
@@ -57,10 +57,10 @@ body {
   left:50%;
   top:50%;
   margin-left: -24px;
-  margin-top: -24px;      
-  background-image: url('../../dep/kendoui/styles/Default/loading-image.gif');      
-  background-repeat: no-repeat;      
-  background-position: center;      
+  margin-top: -24px;
+  background-image: url('../../dep/kendoui/styles/Default/loading-image.gif');
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .modal-header h3 {

@@ -15,82 +15,83 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
-  
+(function () {
+
   var keyGridColumns = [
-      {
-        field: "type",
-        title: " ",
-        width: 30,
-        template: '<img src="../img/#= type #-key.png" alt="#= type #" />'
-      },
-      {
-        field: "name",
-        title: "Name"
-      },
-      {
-        field: "email",
-        title: "Email"
-      },
-      {
-        field: "id",
-        width: 100,
-        title: "Key ID",
-        template: '#= id.substr(-8) #',
-        attributes: {
-          style: "font-family: monospace;"
-        }
-      },  
-      {
-        field: "crDate",
-        width: 90,
-        title: "Creation",
-        template: '#= kendo.toString(crDate,"dd.MM.yyyy") #'
-      },
-      { 
-        command: "destroy", 
-        title: " ", 
-        width: "100px" 
-      }];
+    {
+      field: "type",
+      title: " ",
+      width: 30,
+      template: '<img src="../img/#= type #-key.png" alt="#= type #" />'
+    },
+    {
+      field: "name",
+      title: "Name"
+    },
+    {
+      field: "email",
+      title: "Email"
+    },
+    {
+      field: "id",
+      width: 100,
+      title: "Key ID",
+      template: '#= id.substr(-8) #',
+      attributes: {
+        style: "font-family: monospace;"
+      }
+    },
+    {
+      field: "crDate",
+      width: 90,
+      title: "Creation",
+      template: '#= kendo.toString(crDate,"dd.MM.yyyy") #'
+    },
+    {
+      command: "destroy",
+      title: " ",
+      width: "100px"
+    }
+  ];
 
   var exDateField = {
-    type: "date", 
-    parse: function(value) {
+    type: "date",
+    parse: function (value) {
       return kendo.parseDate(value) || 'The key does not expire';
     }
-  }
-      
+  };
+
   var keyGridSchema = {
-        model: {
-          fields: {
-            type: { type: "string" },
-            name: { type: "string" },
-            email: { type: "string" },
-            id: { type: "string" },
-            crDate: { type: "date" },
-            exDate: exDateField
-          }
-        }
-      };
+    model: {
+      fields: {
+        type: { type: "string" },
+        name: { type: "string" },
+        email: { type: "string" },
+        id: { type: "string" },
+        crDate: { type: "date" },
+        exDate: exDateField
+      }
+    }
+  };
 
   var subKeySchema = {
-        model: {
-          fields: {
-            crDate: { type: "date" },
-            exDate: exDateField
-          }
-        }
-      };
+    model: {
+      fields: {
+        crDate: { type: "date" },
+        exDate: exDateField
+      }
+    }
+  };
 
   var signerSchema = {
-        model: {
-          fields: {
-            signer: { type: "string" },
-            id: { type: "string" },
-            crDate: { type: "date" }
-          }
-        }
-      };
+    model: {
+      fields: {
+        signer: { type: "string" },
+        id: { type: "string" },
+        crDate: { type: "date" }
+      }
+    }
+  };
 
   function init() {
     $('#displayKeys').addClass('spinner');
@@ -99,13 +100,13 @@
   }
 
   function reload() {
-   keyRing.viewModel('getKeys', function(keys) {
-    $("#mainKeyGrid").data("kendoGrid").setDataSource(new kendo.data.DataSource({
+    keyRing.viewModel('getKeys', function (keys) {
+      $("#mainKeyGrid").data("kendoGrid").setDataSource(new kendo.data.DataSource({
         data: keys,
         schema: keyGridSchema,
         change: onDataChange
       }));
-   }); 
+    });
   }
 
   function initGrid(keys) {
@@ -135,11 +136,11 @@
       remove: onRemoveKey,
       change: onGridChange
     });
-    
+
     function onRemoveKey(e) {
       keyRing.viewModel('removeKey', [e.model.guid, e.model.type]);
     }
-        
+
     grid.find("#keyType").kendoDropDownList({
       dataTextField: "text",
       dataValueField: "value",
@@ -152,8 +153,8 @@
       change: onDropDownChange
     });
 
-    $("#mainKeyGrid").triggerHandler('mainKeyGridReady');  
-      
+    $("#mainKeyGrid").triggerHandler('mainKeyGridReady');
+
     function onDropDownChange() {
       var value = this.value();
       if (value) {
@@ -167,7 +168,7 @@
       var selected = this.select();
       if (selected.length !== 0) {
         $('#exportBtn').removeClass('disabled');
-        var selKey = grid.data("kendoGrid").dataItem(selected); 
+        var selKey = grid.data("kendoGrid").dataItem(selected);
         if (selKey.type === 'public') {
           $('#exportPrivate, #exportKeyPair').addClass('disabled');
         } else {
@@ -199,18 +200,18 @@
         open: { effects: "fadeIn" }
       }
     });
-    keyRing.viewModel('getKeyDetails', [e.data.guid], function(details) {
+    keyRing.viewModel('getKeyDetails', [e.data.guid], function (details) {
       //console.log('keyGrid key details received', details);
       e.data.subkeys = details.subkeys;
       e.data.users = details.users;
       detailInit(e);
     });
   }
-      
+
   function detailInit(e) {
     //console.log('detailInit');
     var detailRow = e.detailRow;
-    
+
     var subkeyID = detailRow.find(".subkeyID").kendoDropDownList({
       dataTextField: "id",
       dataValueField: "id",
@@ -221,7 +222,7 @@
       select: onSubkeySelect,
       index: 0
     });
-    
+
     var template = kendo.template($("#subkeyDetails").html());
     var subkeyDetails = detailRow.find(".subkeyDetails");
     var firstSubKey = subkeyID.data("kendoDropDownList").dataItem(0); // e.data.subkeys[0] can't be used as dates are not mapped
@@ -230,14 +231,14 @@
     } else {
       subkeyDetails.html('<li>No subkeys available</li>');
     }
-    
+
     function onSubkeySelect(e) {
       var dataItem = this.dataItem(e.item.index());
       subkeyDetails.html(template(dataItem));
     }
-    
-    var useridDdl = detailRow.find(".userID");  
-    
+
+    var useridDdl = detailRow.find(".userID");
+
     useridDdl.width(300);
     useridDdl.kendoDropDownList({
       dataTextField: "userID",
@@ -246,45 +247,46 @@
       select: onUserSelect,
       index: 0
     });
-    
+
     detailRow.find(".signerGrid").kendoGrid({
-      columns:[
-      {
-        field: "signer",
-        title: "Signer Name"
-      },
-      {
-        field: "id",
-        width: 150,
-        title: "Signer KeyID"
-      },  
-      {
-        field: "crDate",
-        width: 90,
-        title: "Created",
-        template: '#= kendo.toString(crDate,"dd.MM.yyyy") #'
-      }],
+      columns: [
+        {
+          field: "signer",
+          title: "Signer Name"
+        },
+        {
+          field: "id",
+          width: 150,
+          title: "Signer KeyID"
+        },
+        {
+          field: "crDate",
+          width: 90,
+          title: "Created",
+          template: '#= kendo.toString(crDate,"dd.MM.yyyy") #'
+        }
+      ],
       dataSource: {
         data: e.data.users[0].signatures,
         schema: signerSchema
       },
       sortable: true,
     });
-    
+
     var signerGrid = detailRow.find(".signerGrid").data("kendoGrid");
-    
+
     function onUserSelect(e) {
       var dataItem = this.dataItem(e.item.index());
-      // not working as dates don't get formated: 
+      // not working as dates don't get formated:
       //signerGrid.dataSource.data(dataItem.signatures);
       signerGrid.setDataSource(new kendo.data.DataSource({
         data: dataItem.signatures,
         schema: signerSchema
       }));
     }
-    
+
   }
-      
+
   $(document).ready(init);
-    
-}()); 
+
+}());

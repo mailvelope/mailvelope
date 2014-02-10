@@ -2,3 +2,7 @@
 .directory
 *.sublime*
 .svn
+bower_components
+node_modules/
+tmp/
+build/

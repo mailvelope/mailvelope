@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function () {
   // communication to background page
   var port;
   // shares ID with EncryptFrame
   var id;
-  
+
   function init() {
     // open port to background page
     var qs = jQuery.parseQuerystring();
-    id = 'eDialog-' + qs['id'];
+    id = 'eDialog-' + qs.id;
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'encrypt-dialog-init', sender: id});
@@ -42,14 +42,14 @@
     $.setEqualWidth($('#addBtn'), $('#deleteBtn'));
     keyDialogPos();
   }
-  
+
   function onOk() {
     if ($('#keyList').hasClass('alert-error')) {
       return false;
     }
     // get keys from list
     var recipient = [];
-    $('#keyList option').each(function() {
+    $('#keyList option').each(function () {
       recipient.push($(this).val());
     });
     if (recipient.length === 0) {
@@ -59,15 +59,15 @@
     } else {
       $('body').addClass('busy');
       port.postMessage({
-        event: 'encrypt-dialog-ok', 
-        sender: id, 
+        event: 'encrypt-dialog-ok',
+        sender: id,
         recipient: recipient,
         type: $('input:radio[name="encodeRadios"]:checked').val()
       });
     }
     return false;
   }
-  
+
   function onCancel() {
     port.postMessage({event: 'encrypt-dialog-cancel', sender: id});
     return false;
@@ -111,7 +111,7 @@
 
   function keyDialogPos() {
     var keyDialog = $('#keyDialog');
-    keyDialog.css('margin-top', Math.round(-keyDialog.outerHeight() / 2)); 
+    keyDialog.css('margin-top', Math.round(-keyDialog.outerHeight() / 2));
   }
 
   function messageListener(msg) {
@@ -122,7 +122,7 @@
       case 'public-key-userids':
         var keySelect = $('#keySelect');
         var firstProposal = true;
-        msg.keys.forEach(function(key) {
+        msg.keys.forEach(function (key) {
           var option = $('<option/>').val(key.keyid).text(key.userid);
           if (key.keyid === msg.primary) {
             $('#keyList').append(option.clone());
@@ -136,7 +136,7 @@
               firstProposal = false;
             }
           }
-          option.appendTo(keySelect);  
+          option.appendTo(keySelect);
         });
         break;
       case 'encoding-defaults':
@@ -153,7 +153,7 @@
         console.log('unknown event');
     }
   }
-  
+
   $(document).ready(init);
-  
+
 }());

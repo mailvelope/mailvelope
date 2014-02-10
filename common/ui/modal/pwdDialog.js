@@ -15,15 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function () {
   // communication to background page
   var port;
   // shares ID with DecryptFrame
   var id;
-  
+
   function init() {
     var qs = jQuery.parseQuerystring();
-    id = 'pwdDialog-' + qs['id'];
+    id = 'pwdDialog-' + qs.id;
     // open port to background page
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
@@ -34,7 +34,7 @@
     $(window).on('unload', onCancel);
     $('#password').focus();
   }
-  
+
   function onOk() {
     var pwd = $('#password').val();
     var cache = $('#remember').attr('checked') == 'checked';
@@ -45,7 +45,7 @@
     $('#okBtn').prop('disabled', true);
     return false;
   }
-  
+
   function onCancel() {
     $(window).off('unload');
     port.postMessage({event: 'pwd-dialog-cancel', sender: id});
@@ -55,9 +55,9 @@
   function showError(heading, message) {
     $('#pwdGroup, #rememberGroup').addClass('hide');
     $('#decryptAlert').showAlert(heading, message, 'error');
-    $('#okBtn').attr('disabled', 'disabled'); 
+    $('#okBtn').attr('disabled', 'disabled');
   }
-  
+
   function messageListener(msg) {
     //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
@@ -83,7 +83,7 @@
         console.log('unknown event');
     }
   }
-  
+
   $(document).ready(init);
-  
+
 }());

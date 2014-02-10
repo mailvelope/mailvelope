@@ -15,12 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
-  
+(function () {
+
   var advShown = false;
-  
+
   var pwd, repwd, empty, nequ, match, submit;
-  
+
   function init() {
     pwd = $('#genKeyPwd');
     repwd = $('#genKeyRePwd');
@@ -39,12 +39,12 @@
       $('#genKeySize').val('1024');
     }
   }
-  
+
   function onKeyAdvanced() {
     if (advShown) {
       $('#genKeyAdvSection').slideUp();
       $('#genKeyAdv').text('Advanced >>');
-      advShown = false
+      advShown = false;
     } else {
       $('#genKeyAdvSection').slideDown();
       $('#genKeyAdv').text('<< Advanced');
@@ -52,7 +52,7 @@
     }
     return false;
   }
-  
+
   function onKeyPwdChange() {
     var mask = (repwd.val().length > 0) << 1 | (pwd.val().length > 0);
     switch (mask) {
@@ -86,7 +86,7 @@
         break;
     }
   }
-  
+
   function onClear() {
     $('#generateKey').find('input').val('');
     $('#genKeyAlgo').val('RSA');
@@ -102,7 +102,7 @@
     onKeyPwdChange();
     return false;
   }
-  
+
   function onAnother() {
     $('#generateKey').find('input').val('');
     $('#genKeyExp').val('0');
@@ -114,20 +114,20 @@
     $('#genKeyExp, #genKeyExpUnit, #genKeyAlgo').prop('disabled', true);
     return false;
   }
-  
+
   function onGenerateKey() {
-    validateEmail(function() {
+    validateEmail(function () {
       $('body').addClass('busy');
       $('#genKeyWait').one('shown', generateKey);
       $('#genKeyWait').modal('show');
     });
     return false;
-  }  
+  }
 
   function validateEmail(next) {
     var email = $('#genKeyEmail');
     // validate email
-    keyRing.viewModel('validateEmail', [email.val()], function(valid) {
+    keyRing.viewModel('validateEmail', [email.val()], function (valid) {
       if (valid) {
         email.closest('.control-group').removeClass('error');
         email.next().addClass('hide');
@@ -136,7 +136,7 @@
         email.closest('.control-group').addClass('error');
         email.next().removeClass('hide');
         return;
-      }  
+      }
     });
   }
 
@@ -147,7 +147,7 @@
     options.user = $('#genKeyName').val();
     options.email = $('#genKeyEmail').val();
     options.passphrase = $('#genKeyPwd').val();
-    keyRing.viewModel('generateKey', [options], function(result, error) {
+    keyRing.viewModel('generateKey', [options], function (result, error) {
       if (!error) {
         $('#genAlert').showAlert('Success', 'New key generated and imported into key ring', 'success');
         $('#generateKey').find('input, select').prop('disabled', true);
@@ -164,6 +164,6 @@
   }
 
   $(document).ready(init);
-  
-}()); 
- 
+
+}());
+

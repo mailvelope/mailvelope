@@ -15,19 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
-  
+(function () {
+
   var comm = typeof mvelo !== 'undefined' && mvelo.extension || keyRing;
 
   function init() {
     loadToken();
-    if (typeof keyRing !== 'undefined') { 
+    if (typeof keyRing !== 'undefined') {
       keyRing.event.on('prefs-security-update', loadToken);
     }
   }
 
   function loadToken() {
-    comm.sendMessage({event: "get-security-token"}, function(token) {
+    comm.sendMessage({event: "get-security-token"}, function (token) {
       //console.log('token', token);
       $('#secureCode').html(token.code)
                       .attr('style', getStyle(token.color));
@@ -36,13 +36,13 @@
   }
 
   // Attribution: http://stackoverflow.com/a/6444043
-  function increase_brightness(hex, percent){
+  function increase_brightness(hex, percent) {
     // strip the leading # if it's there
     hex = hex.replace(/^\s*#|\s*$/g, '');
 
     // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
-    if(hex.length == 3){
-        hex = hex.replace(/(.)/g, '$1$1');
+    if (hex.length == 3) {
+      hex = hex.replace(/(.)/g, '$1$1');
     }
 
     var r = parseInt(hex.substr(0, 2), 16),
@@ -58,10 +58,10 @@
   // Attribution: http://24ways.org/2010/calculating-color-contrast/
   function isDark(hex) {
     hex = hex.replace(/^\s*#|\s*$/g, '');
-    var r = parseInt(hex.substr(0,2),16);
-    var g = parseInt(hex.substr(2,2),16);
-    var b = parseInt(hex.substr(4,2),16);
-    var yiq = ((r*299)+(g*587)+(b*114))/1000;
+    var r = parseInt(hex.substr(0, 2), 16);
+    var g = parseInt(hex.substr(2, 2), 16);
+    var b = parseInt(hex.substr(4, 2), 16);
+    var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
     return yiq < 128;
   }
 
@@ -78,7 +78,7 @@
     }
     return style;
   }
-  
+
   $(document).ready(init);
-  
+
 }());

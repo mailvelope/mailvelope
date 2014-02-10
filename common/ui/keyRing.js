@@ -17,7 +17,7 @@
 
 var keyRing = {};
 
-(function(exports, $) {
+(function (exports, $) {
   // counter for method ids
   var id = 0;
   // callbacks are stored with id as key and used when message is received
@@ -38,12 +38,12 @@ var keyRing = {};
     });
     sendMessage({
       event: "get-version"
-    }, function(version) {
+    }, function (version) {
       $('#version').text(version);
-    })
+    });
   }
 
-  exports.viewModel = function(method, args, callback) {
+  exports.viewModel = function (method, args, callback) {
     //console.log('keyRing viewModel() called');
     id++;
     if (typeof args === 'function') {
@@ -55,12 +55,12 @@ var keyRing = {};
     }
     parent.postMessage(JSON.stringify({
       event: "viewmodel",
-      method: method, 
-      args: args, 
-      id: id, 
+      method: method,
+      args: args,
+      id: id,
       callback: (callback !== undefined)
     }), '*');
-  }
+  };
 
   function sendMessage(message, callback) {
     id++;
@@ -69,7 +69,7 @@ var keyRing = {};
     }
     parent.postMessage(JSON.stringify({
       event: "message",
-      message: message, 
+      message: message,
       id: id,
       callback: (callback !== undefined)
     }), '*');
@@ -77,12 +77,12 @@ var keyRing = {};
 
   exports.sendMessage = sendMessage;
 
-  exports.copyToClipboard = function(text) {
+  exports.copyToClipboard = function (text) {
     parent.postMessage(JSON.stringify({
       event: "copyToClipboard",
       text: text
-    }), '*'); 
-  }
+    }), '*');
+  };
 
   exports.event = event;
 
@@ -95,13 +95,13 @@ var keyRing = {};
           //console.log('keyRing viewmodel-response', data);
           callbacks[data.id](data.result, data.error);
           delete callbacks[data.id];
-        }  
+        }
         break;
       case 'message-response':
         if (callbacks[data.id]) {
           callbacks[data.id](data.message);
           delete callbacks[data.id];
-        }  
+        }
         break;
       case 'add-watchlist-item':
         $('#navList a[href="#watchList"]').tab('show');
@@ -113,7 +113,7 @@ var keyRing = {};
         break;
       case 'import-key':
         $('#navList a[href="#importKey"]').tab('show');
-        keyRing.importKey(data.armored, function(result) {
+        keyRing.importKey(data.armored, function (result) {
           sendMessage({
             event: "import-key-result",
             result: result,
@@ -122,7 +122,7 @@ var keyRing = {};
         });
         break;
     }
-    
+
   }
 
   $(document).ready(init);
