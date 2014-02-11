@@ -1,7 +1,7 @@
 {
   "name": "mailvelope",
   "version": "0.8.0",
-  "homepage": "https://github.com/johnyb/mailvelope",
+  "homepage": "https://github.com/toberndo/mailvelope",
   "authors": [
     "Thomas Oberndörfer <toberndo@yarkon.de>"
   ],
@@ -24,7 +24,6 @@
     "kendo-ui": "2013.1.319"
   },
   "resolutions": {
-    "jquery": "~2.0.3",
-    "bootstrap": "~2.2.2"
+    "jquery": "~2.0.3"
   }
 }
