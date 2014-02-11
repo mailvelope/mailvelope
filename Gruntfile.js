@@ -92,7 +92,7 @@ module.exports = function (grunt) {
       common: {
         files: [{
           src: 'common/**/*',
-          dest: 'build/chrome/'
+          dest: 'build/'
         },
         {
           expand: true,
