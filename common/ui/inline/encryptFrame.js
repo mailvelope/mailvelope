@@ -19,14 +19,14 @@ var EncryptFrame = EncryptFrame || (function () {
 
   var encryptFrame = function (prefs) {
     this.id = mvelo.getHash();
-    // this._editElement;
-    // this._eFrame;
-    // this._eDialog;
-    // this._port;
-    // this._isToolbar;
-    // this._refreshPosIntervalID;
-    // this._emailTextElement;
-    // this._emailUndoText;
+    this._editElement = null;
+    this._eFrame = null;
+    this._eDialog = null;
+    this._port = null;
+    this._isToolbar = false;
+    this._refreshPosIntervalID = 0;
+    this._emailTextElement = null;
+    this._emailUndoText = null;
     this._editorMode = prefs.security.editor_mode;
     // type of external editor
     this._editorType = prefs.general.editor_type;
@@ -265,7 +265,7 @@ var EncryptFrame = EncryptFrame || (function () {
         this._isToolbar = true;
         this._normalizeButtons();
         this._eFrame.fadeIn('slow');
-      }).bind(this);
+      }.bind(this));
       return false;
     },
 

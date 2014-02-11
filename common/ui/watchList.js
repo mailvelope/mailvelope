@@ -204,7 +204,7 @@ var watchList = {};
       $("#watchListGrid").one('watchListDataReady', function () {
         mainGrid.data("kendoGrid").saveChanges();
         removeWatchListItem(site);
-      }).bind(this);
+      });
     }
   };
 
