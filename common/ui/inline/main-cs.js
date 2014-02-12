@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-if (document.mveloControl) return;
 
 (function () {
+  if (document.mveloControl) return;
 
   var interval = 2500; // ms
   var regex = /END\sPGP/;
