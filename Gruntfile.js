@@ -168,6 +168,15 @@ module.exports = function (grunt) {
           arguments: '--strip-sdk --output-file=mailvelope.firefox.xpi'
         }
       }
+    },
+    'mozilla-cfx': {
+      'run_stable': {
+        options: {
+          "mozilla-addon-sdk": "1_15",
+          extension_dir: "build/firefox",
+          command: "run"
+        }
+      }
     }
   });
 
@@ -183,6 +192,7 @@ module.exports = function (grunt) {
   //custom tasks
   grunt.registerTask('dist-cr', ['compress:chrome']);
   grunt.registerTask('dist-ff', ['mozilla-addon-sdk', 'mozilla-cfx-xpi']);
+  grunt.registerTask('start-ff-clean', ['mozilla-cfx:run_stable']);
 
   grunt.registerTask('default', ['jshint', 'modernizr', 'concat', 'copy']);
 };
