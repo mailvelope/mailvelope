@@ -19,6 +19,8 @@ define(function (require, exports, module) {
 
   var mvelo = require('lib/lib-mvelo').mvelo;
   var model = require('./pgpViewModel');
+  var openpgp = openpgp || require('openpgp');
+  var util = openpgp.util || window.util;
   var defaults = require('./defaults');
   var prefs = require('./prefs');
   var pwdCache = require('./pwdCache');
