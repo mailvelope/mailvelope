@@ -28,7 +28,7 @@ define(function (require, exports, module) {
   // ports to decrypt dialogs
   var dDialogPorts = {};
   // decrypt message buffer
-  var dMessageBuffer = {};
+  var messageBuffer = {};
   // ports to encrypt frames
   var eFramePorts = {};
   // ports to encrypt dialogs
@@ -44,7 +44,7 @@ define(function (require, exports, module) {
   // password popup window
   var pwdPopup = null;
   // recipients of encrypted mail
-  var eRecipientBuffer = {};
+  var keyidBuffer = {};
   var scannedHosts = [];
 
   var specific = {};
@@ -121,7 +121,7 @@ define(function (require, exports, module) {
         console.log('unknown port');
     }
     // always delete message buffer
-    delete dMessageBuffer[sender.id];
+    delete messageBuffer[sender.id];
   }
 
   function handlePortMessage(msg) {
@@ -163,11 +163,8 @@ define(function (require, exports, module) {
         dFramePorts[id].postMessage({event: 'armored-message'});
         break;
       case 'pwd-dialog-init':
-        if (!dMessageBuffer[id].callback) {
-          dMessageBuffer[id].callback = decryptMessage;
-        }
         // pass over keyid and userid to dialog
-        pwdPort.postMessage({event: 'message-userid', userid: dMessageBuffer[id].userid, keyid: dMessageBuffer[id].primkeyid, cache: prefs.data.security.password_cache});
+        pwdPort.postMessage({event: 'message-userid', userid: messageBuffer[id].userid, keyid: messageBuffer[id].primkeyid, cache: prefs.data.security.password_cache});
         break;
       case 'dframe-display-popup':
         // decrypt popup potentially needs pwd dialog
@@ -187,7 +184,8 @@ define(function (require, exports, module) {
           var cache = pwdCache.get(message.primkeyid, message.keyid);
           if (!cache) {
             // add message in buffer
-            dMessageBuffer[id] = message;
+            messageBuffer[id] = message;
+            messageBuffer[id].callback = decryptMessage;
             // open password dialog
             if (prefs.data.security.display_decrypted == mvelo.DISPLAY_INLINE) {
               mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true}, function(window) {
@@ -220,7 +218,7 @@ define(function (require, exports, module) {
         }
         break;
       case 'pwd-dialog-ok':
-        var message = dMessageBuffer[id];
+        var message = messageBuffer[id];
         try {
           if (model.unlockKey(message.privkey, msg.password)) {
             // password correct
@@ -276,17 +274,17 @@ define(function (require, exports, module) {
         break;
       case 'encrypt-dialog-ok':
         // add recipients to buffer
-        eRecipientBuffer[id] = msg.recipient;
+        keyidBuffer[id] = msg.recipient;
         // get email text from eFrame
         eFramePorts[id].postMessage({event: 'email-text', type: msg.type, action: 'encrypt'});
         break;
       case 'sign-dialog-ok':
         var cache = pwdCache.get(msg.signKeyId, msg.signKeyId);
-        eRecipientBuffer[id] = msg.signKeyId;
+        keyidBuffer[id] = msg.signKeyId;
         if (!cache) {
           var privkey = openpgp.keyring.getPrivateKeyForKeyId(util.hex2bin(msg.signKeyId))[0]
           // add message in buffer
-          dMessageBuffer[id] = {
+          messageBuffer[id] = {
             privkey: privkey,
             userid: privkey.key.obj.userIds[0].text,
             primkeyid: msg.signKeyId,
@@ -308,12 +306,7 @@ define(function (require, exports, module) {
         break;
       case 'eframe-email-text':
         var action = model[msg.action + 'Message'];
-        if (!action) {
-            eFramePorts[id].postMessage({event: 'encrypted-message', message: msg.data});
-            break;
-        }
-
-        action(msg.data, eRecipientBuffer[id], function(err, msg) {
+        action(msg.data, keyidBuffer[id], function(err, msg) {
           eFramePorts[id].postMessage({event: 'encrypted-message', message: msg});
         });
         break;
