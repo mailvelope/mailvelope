@@ -37,7 +37,7 @@
 
   function onOk() {
     var pwd = $('#password').val();
-    var cache = $('#remember').attr('checked') == 'checked';
+    var cache = $('#remember').prop('checked');
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
     $('#spinner').show();
     $('.modal-body').css('opacity', '0.4');
@@ -55,7 +55,7 @@
   function showError(heading, message) {
     $('#pwdGroup, #rememberGroup').addClass('hide');
     $('#decryptAlert').showAlert(heading, message, 'error');
-    $('#okBtn').attr('disabled', 'disabled');
+    $('#okBtn').prop('disabled', true);
   }
 
   function messageListener(msg) {
@@ -65,7 +65,7 @@
         $('#keyId').text(msg.keyid);
         $('#userId').text(msg.userid);
         if (msg.cache) {
-          $('#remember').attr('checked', 'checked');
+          $('#remember').prop('checked', true);
         }
         break;
       case 'wrong-password':
