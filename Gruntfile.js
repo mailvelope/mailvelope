@@ -93,8 +93,10 @@ module.exports = function (grunt) {
         files: [{
           src: 'common/**/*',
           dest: 'build/'
-        },
-        {
+        }]
+      },
+      common_browser: {
+        files: [{
           expand: true,
           src: 'common/**/*',
           cwd: 'build/',
@@ -194,5 +196,7 @@ module.exports = function (grunt) {
   grunt.registerTask('dist-ff', ['mozilla-addon-sdk', 'mozilla-cfx-xpi']);
   grunt.registerTask('start-ff-clean', ['mozilla-cfx:run_stable']);
 
-  grunt.registerTask('default', ['jshint', 'modernizr', 'concat', 'copy']);
+  grunt.registerTask('copy_default', ['copy:vendor', 'copy:common']);
+
+  grunt.registerTask('default', ['jshint', 'modernizr', 'concat', 'copy_default', 'copy:plugins', 'copy:common_browser']);
 };
