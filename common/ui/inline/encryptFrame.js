@@ -382,10 +382,12 @@ var EncryptFrame = EncryptFrame || (function () {
         src: '../modal/pwdDialog.html?id=' + this.getID(),
         frameBorder: 0
       });
+      $('body').find('div.m-modal').hide();
       $('body').append(pwd);
     },
 
     _hidePwdDialog: function () {
+      $('body').find('div.m-modal').show();
       $('body #pwdDialog').remove();
     },
 
