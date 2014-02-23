@@ -32,7 +32,11 @@
 
   function load(content) {
     $('body').html(content);
-    $('#okBtn').click(onOk);
+    $('#okBtn')
+      .attr({
+        'data-loading-text': 'Busy'
+      })
+      .click(onOk);
     $('#cancelBtn').click(onCancel);
     $('#keyDialog').fadeIn('fast');
     // align width
@@ -43,6 +47,7 @@
 
   function onOk() {
     $('body').addClass('busy');
+    $('#okBtn').button('loading');
     port.postMessage({
       event: 'sign-dialog-ok',
       sender: id,
