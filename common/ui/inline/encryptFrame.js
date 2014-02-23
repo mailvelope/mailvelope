@@ -251,6 +251,7 @@ var EncryptFrame = EncryptFrame || (function () {
     },
 
     _removeDialog: function () {
+      if (!this._eDialog) return;
       this._eDialog.fadeOut();
       // removal triggers disconnect event
       this._eDialog.remove();
