@@ -75,6 +75,31 @@ There are a few more tasks available through grunt:
 
     grunt clean
 
+##### Running a testserver
+
+The most easy way is to run a simple webserver from within the root directory
+of mailvelope.
+
+    python -m SimpleHTTPServer
+
+Open up a browser and point it to [the test page (http://localhost:8000/spec)](http://localhost:8000/spec).
+
+##### Testing in firefox
+
+There are tasks to help testing the firefox plugin. Run
+
+    grunt start-ff-clean
+
+to run a clean (new profile) version of firefox with the mailvelope plugin loaded.
+
+There is also a pre-configured profile. To run firefox using it, use the
+
+    grunt start-ff-testprofile
+
+command. This profile contains a public and private key, as well as the local testing page
+that has been added to the watch list, so all you need to do is run this task, navigate
+to http://localhost:8000/spec and you can start using mailvelope in a testbed.
+
 ## Website
 
 http://www.mailvelope.com

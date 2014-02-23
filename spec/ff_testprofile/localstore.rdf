@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<RDF:RDF xmlns:NC="http://home.netscape.com/NC-rdf#"
+         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <RDF:Description RDF:about="chrome://browser/content/browser.xul#sidebar-box"
+                   src="chrome://browser/content/bookmarks/bookmarksPanel.xul"
+                   sidebarcommand=""
+                   width="" />
+  <RDF:Description RDF:about="chrome://browser/content/devtools/webconsole.xul#devtools-webconsole"
+                   width="900"
+                   height="350"
+                   sizemode="normal"
+                   screenX="442"
+                   screenY="33" />
+  <RDF:Description RDF:about="chrome://global/content/viewSource.xul#viewSource"
+                   screenX="1036"
+                   screenY="547"
+                   width="640"
+                   height="480"
+                   sizemode="normal" />
+  <RDF:Description RDF:about="chrome://browser/content/places/bookmarkProperties.xul#bookmarkproperties"
+                   screenX="448"
+                   screenY="253"
+                   width="364" />
+  <RDF:Description RDF:about="chrome://browser/content/browser.xul">
+    <NC:persist RDF:resource="chrome://browser/content/browser.xul#main-window"/>
+    <NC:persist RDF:resource="chrome://browser/content/browser.xul#addon-bar"/>
+    <NC:persist RDF:resource="chrome://browser/content/browser.xul#sidebar-box"/>
+    <NC:persist RDF:resource="chrome://browser/content/browser.xul#sidebar-title"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://browser/content/browser.xul#addon-bar"
+                   collapsed="false"
+                   currentset="addonbar-closebutton,spring,status-bar,widget:jid1-PPxXH40gbJawnA@jetpack-mailvelope-options" />
+  <RDF:Description RDF:about="chrome://browser/content/devtools/webconsole.xul">
+    <NC:persist RDF:resource="chrome://browser/content/devtools/webconsole.xul#devtools-webconsole"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://browser/content/preferences/preferences.xul#BrowserPreferences"
+                   lastSelected="paneMain"
+                   screenX="350"
+                   screenY="134" />
+  <RDF:Description RDF:about="chrome://browser/content/browser.xul#main-window"
+                   sizemode="normal"
+                   screenX="-2"
+                   screenY="268"
+                   width="1260"
+                   height="759" />
+  <RDF:Description RDF:about="chrome://global/content/viewSource.xul">
+    <NC:persist RDF:resource="chrome://global/content/viewSource.xul#viewSource"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://browser/content/preferences/preferences.xul">
+    <NC:persist RDF:resource="chrome://browser/content/preferences/preferences.xul#BrowserPreferences"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://browser/content/places/bookmarkProperties.xul">
+    <NC:persist RDF:resource="chrome://browser/content/places/bookmarkProperties.xul#bookmarkproperties"/>
+  </RDF:Description>
+</RDF:RDF>

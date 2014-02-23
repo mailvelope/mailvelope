@@ -145,6 +145,12 @@ module.exports = function (grunt) {
           src: 'mvelo.js',
           cwd: 'build/common/ui/inline',
           dest: 'build/firefox/lib/common/'
+        },
+        {
+          expand: true,
+          src: 'ff_testprofile/**/*',
+          cwd: 'spec/',
+          dest: 'build/'
         }]
       },
       dep: {
@@ -218,6 +224,14 @@ module.exports = function (grunt) {
           extension_dir: "build/firefox",
           command: "run"
         }
+      },
+      'run_preconfigured': {
+        options: {
+          'mozilla-addon-sdk': '1_15',
+          extension_dir: 'build/firefox',
+          arguments: '-p ../ff_testprofile',
+          command: 'run'
+        }
       }
     },
     bump: {
@@ -244,6 +258,7 @@ module.exports = function (grunt) {
   grunt.registerTask('dist-cr', ['compress:chrome']);
   grunt.registerTask('dist-ff', ['mozilla-addon-sdk', 'mozilla-cfx-xpi']);
   grunt.registerTask('start-ff-clean', ['mozilla-cfx:run_stable']);
+  grunt.registerTask('start-ff-testprofile', ['mozilla-cfx:run_preconfigured']);
 
   grunt.registerTask('copy_default', ['copy:vendor', 'copy:common', 'copy:plugins', 'copy:common_browser', 'copy:dep']);
 
