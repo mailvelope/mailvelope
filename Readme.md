@@ -83,9 +83,9 @@ There is a grunt task to start up a web-server and serve some test files. You ca
 
 Open up a browser and point it to [the test page (http://localhost:8000/)](http://localhost:8000/).
 
-Note: If you leave the watch task, you would need to add the `--keepalive` option to the command line:
+Note: If you leave the watch task, you would need to add the `keepalive` option to the task on the command line:
 
-    grunt connect --keepalive
+    grunt connect:server:keepalive
 
 ##### Testing in firefox
 
