@@ -77,12 +77,15 @@ There are a few more tasks available through grunt:
 
 ##### Running a testserver
 
-The most easy way is to run a simple webserver from within the root directory
-of mailvelope.
+There is a grunt task to start up a web-server and serve some test files. You can start the server by running:
 
-    python -m SimpleHTTPServer
+    grunt connect watch
 
-Open up a browser and point it to [the test page (http://localhost:8000/spec)](http://localhost:8000/spec).
+Open up a browser and point it to [the test page (http://localhost:8000/)](http://localhost:8000/).
+
+Note: If you leave the watch task, you would need to add the `--keepalive` option to the command line:
+
+    grunt connect --keepalive
 
 ##### Testing in firefox
 
@@ -98,7 +101,7 @@ There is also a pre-configured profile. To run firefox using it, use the
 
 command. This profile contains a public and private key, as well as the local testing page
 that has been added to the watch list, so all you need to do is run this task, navigate
-to http://localhost:8000/spec and you can start using mailvelope in a testbed.
+to http://localhost:8000/ and you can start using mailvelope in a testbed.
 
 ## Website
 
