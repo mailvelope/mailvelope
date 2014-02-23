@@ -436,6 +436,9 @@ var EncryptFrame = EncryptFrame || (function () {
             that._addPwdDialog();
             break;
           case 'dialog-cancel':
+            that._hidePwdDialog();
+            that._removeDialog();
+            break;
           case 'hide-pwd-dialog':
             that._hidePwdDialog();
             break;
