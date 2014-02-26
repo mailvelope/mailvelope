@@ -74,8 +74,8 @@
       case 'signing-key-userids':
         var keySelect = $('#keySelect');
         keySelect.append(
-          msg.keys.map(function (key) {
-            var option = $('<option/>').val(key.keyid).text(key.userid);
+          msg.keys.map(function(key) {
+            var option = $('<option/>').val(key.id.toLowerCase()).text(key.name + ' <' + key.email + '>');
             if (key.keyid === msg.primary) {
               option.prop('selected', true);
             }

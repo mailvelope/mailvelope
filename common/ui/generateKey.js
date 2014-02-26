@@ -89,7 +89,7 @@
 
   function onClear() {
     $('#generateKey').find('input').val('');
-    $('#genKeyAlgo').val('RSA');
+    $('#genKeyAlgo').val('RSA/RSA');
     var keySize = mvelo.ffa ? '1024' : '2048';
     $('#genKeySize').val(keySize);
     $('#genKeyExp').val('0')

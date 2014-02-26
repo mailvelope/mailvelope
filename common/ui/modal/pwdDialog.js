@@ -62,7 +62,7 @@
     //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
       case 'message-userid':
-        $('#keyId').text(msg.keyid);
+        $('#keyId').text(msg.keyid.toUpperCase());
         $('#userId').text(msg.userid);
         if (msg.cache) {
           $('#remember').prop('checked', true);

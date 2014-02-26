@@ -105,14 +105,12 @@
   function loadPrivateKeys(callback) {
     keyRing.viewModel('getPrivateKeys', function (keys) {
       var select = $('#primaryKey');
-      if (keys) {
-        keys.forEach(function (key) {
-          select.append($('<option/>', {
-            value: key.id,
-            text: key.name + ' <' + key.email + '> - ' + key.id.substring(8)
-          }));
-        });
-      }
+      keys && keys.forEach(function(key) {
+        select.append($('<option/>', {
+          value: key.id,
+          text: key.name + ' <' + key.email + '> - ' + key.id.substring(8).toUpperCase()
+        }));
+      });
       callback();
     });
   }

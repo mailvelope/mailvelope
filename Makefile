@@ -24,12 +24,15 @@ build-cs:
 
 copy-common:
 	@echo Update common folder...
-	@rsync -ur common/* chrome/common
-	@rsync -ur common/* firefox/data/common
+	@rsync -ur --exclude='lib/' common/* chrome/common
+	@rsync -ur common/lib/* chrome/lib/common
+	@rsync -ur --exclude='lib/' common/* firefox/data/common
+	@rsync -ur common/lib/* firefox/lib/common
+	@rsync -ur common/ui/inline/mvelo.js firefox/lib/common
 
 copy-dep:
 	@echo Update openpgp.js files...
-	@rsync -u dep/chrome/openpgpjs/resources/openpgp.js chrome/dep
+	@rsync -u dep/chrome/openpgpjs/dist/openpgp_nodebug.js chrome/dep
 	@rsync -u dep/firefox/openpgpjs/resources/openpgp.js firefox/packages/openpgp/lib
 
 build: build-cs copy-common copy-dep
