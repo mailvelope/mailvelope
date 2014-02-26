@@ -95,31 +95,43 @@ module.exports = function (grunt) {
           dest: 'build/'
         }]
       },
-      common_browser: {
-        files: [{
-          expand: true,
-          src: 'common/**/*',
-          cwd: 'build/',
-          dest: 'build/chrome/'
-        },
-        {
-          expand: true,
-          src: 'common/**/*',
-          cwd: 'build/',
-          dest: 'build/firefox/data/'
-        }]
-      },
       plugins: {
         files: [{
           src: ['chrome/**/*', 'firefox/**/*'],
           dest: 'build/'
         }]
       },
+      common_browser: {
+        files: [{
+          expand: true,
+          src: ['common/**/*', '!common/lib/**/*'],
+          cwd: 'build/',
+          dest: 'build/chrome/'
+        },
+        {
+          expand: true,
+          src: '**/*',
+          cwd: 'build/common/lib/',
+          dest: 'build/chrome/lib/common/'
+        },
+        {
+          expand: true,
+          src: ['common/**/*', '!common/lib/**/*'],
+          cwd: 'build/',
+          dest: 'build/firefox/data/'
+        },
+        {
+          expand: true,
+          src: '**/*',
+          cwd: 'build/common/lib/',
+          dest: 'build/firefox/lib/common/'
+        }]
+      },
       dep: {
         files: [{
           expand: true,
           flatten: true,
-          src: 'dep/chrome/openpgpjs/resources/openpgp.js',
+          src: 'dep/chrome/openpgpjs/dist/openpgp_nodebug.js',
           dest: 'build/chrome/dep/'
         },
         {
@@ -196,7 +208,7 @@ module.exports = function (grunt) {
   grunt.registerTask('dist-ff', ['mozilla-addon-sdk', 'mozilla-cfx-xpi']);
   grunt.registerTask('start-ff-clean', ['mozilla-cfx:run_stable']);
 
-  grunt.registerTask('copy_default', ['copy:vendor', 'copy:common']);
+  grunt.registerTask('copy_default', ['copy:vendor', 'copy:common', 'copy:plugins', 'copy:common_browser', 'copy:dep']);
 
-  grunt.registerTask('default', ['jshint', 'modernizr', 'concat', 'copy_default', 'copy:plugins', 'copy:common_browser']);
+  grunt.registerTask('default', ['jshint', 'modernizr', 'concat', 'copy_default']);
 };
