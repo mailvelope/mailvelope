@@ -167,7 +167,7 @@ define(function (require, exports, module) {
           dMessageBuffer[id].callback = decryptMessage;
         }
         // pass over keyid and userid to dialog
-        pwdPort.postMessage({event: 'message-userid', userid: dMessageBuffer[id].userid, keyid: dMessageBuffer[id].primkeyid, cache: prefs.data.security.password_cache});
+        pwdPort.postMessage({event: 'message-userid', userid: dMessageBuffer[id].userid, keyid: dMessageBuffer[id].key.primaryKey.getKeyId().toHex(), cache: prefs.data.security.password_cache});
         break;
       case 'dframe-display-popup':
         // decrypt popup potentially needs pwd dialog
@@ -184,7 +184,7 @@ define(function (require, exports, module) {
         try {
           var message = model.readMessage(msg.data);
           // password or unlocked key in cache?
-          var cache = pwdCache.get(message.primkeyid, message.keyid);
+          var cache = pwdCache.get(message.key.primaryKey.getKeyId().toHex(), message.keyid.toHex());
           if (!cache) {
             // add message in buffer
             dMessageBuffer[id] = message;
@@ -199,7 +199,7 @@ define(function (require, exports, module) {
           } else {
             if (!cache.key) {
               // unlock key
-              var unlocked = model.unlockKey(message.privkey, cache.password);
+              var unlocked = model.unlockKey(message.key, message.keyid, cache.password);
               if (!unlocked) {
                 throw {
                   type: 'error',
@@ -210,7 +210,7 @@ define(function (require, exports, module) {
               pwdCache.set(message);
             } else {
               // take unlocked key from cache
-              message.privkey = cache.key;
+              message.key = cache.key;
             }
             decryptMessage(message, id);
           }
@@ -222,7 +222,7 @@ define(function (require, exports, module) {
       case 'pwd-dialog-ok':
         var message = dMessageBuffer[id];
         try {
-          if (model.unlockKey(message.privkey, msg.password)) {
+          if (model.unlockKey(message.key, message.keyid, msg.password)) {
             // password correct
             if (msg.cache != prefs.data.security.password_cache) {
               // update pwd cache status
@@ -244,12 +244,7 @@ define(function (require, exports, module) {
         }
         break;
       case 'sign-dialog-init':
-        var keys = model.getKeyUserIDs([]).filter(function(pubKey) {
-            var privIds = model.getPrivateKeys().map(function(k) {
-                return k.id;
-            });
-            return privIds.indexOf(pubKey.keyid) >= 0;
-        });
+        var keys = model.getPrivateKeys();
         var primary = prefs.data.general.primary_key;
         mvelo.data.load('common/ui/inline/dialogs/templates/sign.html', function(content) {
           var port = eDialogPorts[id];
@@ -284,12 +279,11 @@ define(function (require, exports, module) {
         var cache = pwdCache.get(msg.signKeyId, msg.signKeyId);
         eRecipientBuffer[id] = msg.signKeyId;
         if (!cache) {
-          var privkey = openpgp.keyring.getPrivateKeyForKeyId(util.hex2bin(msg.signKeyId))[0]
+          var privkey = openpgp.keyring.privateKeys.getForId(msg.signKeyId);
           // add message in buffer
           dMessageBuffer[id] = {
-            privkey: privkey,
-            userid: privkey.key.obj.userIds[0].text,
-            primkeyid: msg.signKeyId,
+            key: privkey,
+            userid: privkey.users[0].userId.userid,
             callback: function(message, id) {
               eFramePorts[id].postMessage({event: 'email-text', type: msg.type, action: 'sign'});
             }

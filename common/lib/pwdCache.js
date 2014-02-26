@@ -85,19 +85,20 @@ define(function (require, exports, module) {
    */
   function set(message, pwd) {
     // primary key id is main key of cache
-    var entry = cache[message.primkeyid]; 
+    var primKeyIdHex = message.key.primaryKey.getKeyId().toHex();
+    var entry = cache[primKeyIdHex]; 
     if (entry) {
       // set unlocked private key for this keyid
-      if (!entry[message.keyid]) {
-        entry[message.keyid] = message.privkey;
+      if (!entry[message.keyid.toHex()]) {
+        entry[message.keyid.toHex()] = message.key;
       }
     } else {
-      var newEntry = cache[message.primkeyid] = {};
+      var newEntry = cache[primKeyIdHex] = {};
       newEntry.password = pwd;
-      newEntry[message.keyid] = message.privkey;
+      newEntry[message.keyid.toHex()] = message.key;
       // clear after timeout
       newEntry.timer = mvelo.util.setTimeout(function() {
-        delete cache[message.primkeyid];
+        delete cache[primKeyIdHex];
       }, timeout * 60 * 1000);
     }
   }
