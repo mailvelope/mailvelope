@@ -19,7 +19,6 @@
 define(function(require, exports, module) {
 
   var openpgp = require('openpgp');
-  var util = openpgp.util;
   var mvelo = require('../lib-mvelo').mvelo;
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
   var keyring = new openpgp.Keyring();
