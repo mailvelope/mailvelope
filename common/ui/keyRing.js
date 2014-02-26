@@ -17,7 +17,7 @@
 
 var keyRing = {};
 
-(function (exports, $) {
+(function(exports, $) {
   // counter for method ids
   var id = 0;
   // callbacks are stored with id as key and used when message is received
@@ -38,12 +38,12 @@ var keyRing = {};
     });
     sendMessage({
       event: "get-version"
-    }, function (version) {
+    }, function(version) {
       $('#version').text(version);
     });
   }
 
-  exports.viewModel = function (method, args, callback) {
+  exports.viewModel = function(method, args, callback) {
     //console.log('keyRing viewModel() called');
     id++;
     if (typeof args === 'function') {
@@ -77,7 +77,7 @@ var keyRing = {};
 
   exports.sendMessage = sendMessage;
 
-  exports.copyToClipboard = function (text) {
+  exports.copyToClipboard = function(text) {
     parent.postMessage(JSON.stringify({
       event: "copyToClipboard",
       text: text
@@ -113,7 +113,7 @@ var keyRing = {};
         break;
       case 'import-key':
         $('#navList a[href="#importKey"]').tab('show');
-        keyRing.importKey(data.armored, function (result) {
+        keyRing.importKey(data.armored, function(result) {
           sendMessage({
             event: "import-key-result",
             result: result,

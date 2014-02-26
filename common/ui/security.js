@@ -15,11 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
+(function() {
 
   function init() {
     loadPrefs();
-    $('#security input').on('input change', function () {
+    $('#security input').on('input change', function() {
       $('#security .form-actions button').prop('disabled', false);
       $('#secReloadInfo').hide();
     });
@@ -29,7 +29,7 @@
     $('#secBtnCancel').click(onCancel);
     $('#secTokenInfo').popover();
     // https://bugzilla.mozilla.org/show_bug.cgi?id=213519
-    $('#pwdCacheTime').click(function () {
+    $('#pwdCacheTime').click(function() {
       return false;
     });
     // disable for FF
@@ -67,7 +67,7 @@
         password_timeout: $('#pwdCacheTime').val()
       }
     };
-    keyRing.sendMessage({ event: 'set-prefs', data: update }, function () {
+    keyRing.sendMessage({ event: 'set-prefs', data: update }, function() {
       keyRing.event.triggerHandler('prefs-security-update');
       normalize();
       $('#secReloadInfo').show();
@@ -112,16 +112,16 @@
   }
 
   function loadPrefs() {
-    keyRing.viewModel('getPreferences', function (prefs) {
-      $('input:radio[name="decryptRadios"]').filter(function () {
+    keyRing.viewModel('getPreferences', function(prefs) {
+      $('input:radio[name="decryptRadios"]').filter(function() {
         return $(this).val() === prefs.security.display_decrypted;
       }).prop('checked', true);
       $('#secCode').val(prefs.security.secure_code);
       $('#secColor').val(prefs.security.secure_color);
-      $('input:radio[name="editorModeRadios"]').filter(function () {
+      $('input:radio[name="editorModeRadios"]').filter(function() {
         return $(this).val() === prefs.security.editor_mode;
       }).prop('checked', true);
-      $('input:radio[name="pwdCacheRadios"]').filter(function () {
+      $('input:radio[name="pwdCacheRadios"]').filter(function() {
         return $(this).val() === (prefs.security.password_cache ? 'true' : 'false');
       }).prop('checked', true);
       $('#pwdCacheTime').val(prefs.security.password_timeout);

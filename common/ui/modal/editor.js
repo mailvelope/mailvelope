@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
+(function() {
   // shares ID with EncryptFrame
   var id;
   // id of encrypt frame that triggered this dialog
@@ -61,7 +61,7 @@
         set_text: setPlainText
       });
     } else {
-      createRichText(function (ed) {
+      createRichText(function(ed) {
         editor = ed;
         eFrame.attachTo($('iframe.wysihtml5-sandbox'), {
           set_text: setRichText,
@@ -147,7 +147,7 @@
       events: {
         change: onChange,
         blur: onBlur,
-        load: function () {
+        load: function() {
           // if user clicks in non-editable area of text editor then next blur event is not considered as relevant
           $('iframe.wysihtml5-sandbox').contents().find('html').on('mousedown', startBlurValid);
           // each input event restarts the blur warning interval
@@ -191,9 +191,9 @@
       // fade in 600ms, wait 200ms, fade out 600ms
       blurWarn.removeClass('hide')
               .stop(true)
-              .animate({opacity: 1}, 'slow', 'swing', function () {
-                setTimeout(function () {
-                  blurWarn.animate({opacity: 0}, 'slow', 'swing', function () {
+              .animate({opacity: 1}, 'slow', 'swing', function() {
+                setTimeout(function() {
+                  blurWarn.animate({opacity: 0}, 'slow', 'swing', function() {
                     blurWarn.addClass('hide');
                   });
                 }, 200);
@@ -207,7 +207,7 @@
       window.clearTimeout(blurWarnPeriod);
     }
     // restart
-    blurWarnPeriod = window.setTimeout(function () {
+    blurWarnPeriod = window.setTimeout(function() {
       // end
       blurWarnPeriod = null;
     }, 2000);
@@ -220,7 +220,7 @@
       window.clearTimeout(blurValid);
     }
     // restart
-    blurValid = window.setTimeout(function () {
+    blurValid = window.setTimeout(function() {
       // end
       blurValid = null;
     }, 40);

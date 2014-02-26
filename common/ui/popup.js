@@ -1,7 +1,7 @@
 
-$(document).ready(function () {
+$(document).ready(function() {
   var crx = typeof chrome !== 'undefined';
-  $(".dropdown-menu").on("click", "li", function (event) {
+  $(".dropdown-menu").on("click", "li", function(event) {
     // id of dropdown entry = action
     var message = {
       event: 'browser-action',
@@ -9,7 +9,7 @@ $(document).ready(function () {
     };
     if (crx) {
       chrome.extension.sendMessage(message);
-      $(document.body).fadeOut(function () {
+      $(document.body).fadeOut(function() {
         window.close();
       });
     } else {

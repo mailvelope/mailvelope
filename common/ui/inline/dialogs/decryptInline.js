@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
+(function() {
   // communication to background page
   var port;
   // shares ID with DecryptFrame
@@ -33,7 +33,7 @@
     port.postMessage({event: 'decrypt-inline-init', sender: id});
     addWrapper();
     addSandbox();
-    mvelo.extension.sendMessage({event: "get-security-token"}, function (token) {
+    mvelo.extension.sendMessage({event: "get-security-token"}, function(token) {
       $('#watermark').html(token.code);
     });
     $(window).on('resize', resizeFont);
@@ -108,7 +108,7 @@
     $('#errorbox').show();
     $('#errorwell').showAlert('Error', msg, 'error')
                    .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
-                   .find('button').click(function () {
+                   .find('button').click(function() {
                       port.postMessage({event: 'decrypt-dialog-cancel', sender: id});
                     });
   }

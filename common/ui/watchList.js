@@ -17,7 +17,7 @@
 
 var watchList = {};
 
-(function (exports) {
+(function(exports) {
 
   var watchListColumns = [
     {
@@ -91,7 +91,7 @@ var watchList = {};
     watchListData = new kendo.data.DataSource({
       data: watchList,
       schema: watchListSchema,
-      change: function (e) {
+      change: function(e) {
         //console.log('change: ', e);
         if (e.action === 'remove') {
           setWatchListData();
@@ -146,11 +146,11 @@ var watchList = {};
     }
   }
 
-  exports.addSite = function (site, hosts) {
+  exports.addSite = function(site, hosts) {
     var item = {};
     item.active = true;
     item.site = site;
-    item.frames = hosts.map(function (host) {
+    item.frames = hosts.map(function(host) {
       return {scan: true, frame: host};
     });
     if (watchListData) {
@@ -183,10 +183,10 @@ var watchList = {};
    * @param  {string} key
    * @return {array}
    */
-  var objectDeDup = function (unordered, key) {
+  var objectDeDup = function(unordered, key) {
     var result = [];
     var object = {};
-    unordered.forEach(function (item) {
+    unordered.forEach(function(item) {
       object[item[key]] = item;
     });
     for (var prop in object) {
@@ -197,11 +197,11 @@ var watchList = {};
     return result;
   };
 
-  exports.removeSite = function (site) {
+  exports.removeSite = function(site) {
     if (watchListData) {
       removeWatchListItem(site);
     } else {
-      $("#watchListGrid").one('watchListDataReady', function () {
+      $("#watchListGrid").one('watchListDataReady', function() {
         mainGrid.data("kendoGrid").saveChanges();
         removeWatchListItem(site);
       });
@@ -215,11 +215,11 @@ var watchList = {};
       var row = grid.tbody.find(">tr[data-uid='" + entry.uid + "']");
       grid.select(row);
       // timeout required to show grid below confirmation box
-      setTimeout(function () {
+      setTimeout(function() {
         grid.removeRow(row);
       }, 200);
     } else {
-      setTimeout(function () {
+      setTimeout(function() {
         alert('Site ' + site + ' is not in the watch list.');
       }, 200);
     }

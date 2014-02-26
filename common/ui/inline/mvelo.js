@@ -55,7 +55,7 @@ mvelo.PLAIN_TEXT = 'plain';
 mvelo.RICH_TEXT = 'rich';
 
 // random hash generator
-mvelo.getHash = function () { return Math.random().toString(36).substr(2, 8); };
+mvelo.getHash = function() { return Math.random().toString(36).substr(2, 8); };
 
 if (typeof exports !== 'undefined') {
   exports.mvelo = mvelo;

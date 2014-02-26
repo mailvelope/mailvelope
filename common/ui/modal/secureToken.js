@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
+(function() {
 
   var comm = typeof mvelo !== 'undefined' && mvelo.extension || keyRing;
 
@@ -27,7 +27,7 @@
   }
 
   function loadToken() {
-    comm.sendMessage({event: "get-security-token"}, function (token) {
+    comm.sendMessage({event: "get-security-token"}, function(token) {
       //console.log('token', token);
       $('#secureCode').html(token.code)
                       .attr('style', getStyle(token.color));

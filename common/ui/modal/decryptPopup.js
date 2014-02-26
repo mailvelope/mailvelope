@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
+(function() {
   // communication to background page
   var port;
   // shares ID with DecryptFrame
@@ -79,7 +79,7 @@
       href: '../../dep/bootstrap/css/bootstrap.css'
     });
     var style2 = style.clone().attr('href', '../../dep/wysihtml5/css/wysihtml5.css');
-    sandbox.one('load', function () {
+    sandbox.one('load', function() {
       sandbox.contents().find('head').append(style)
                                      .append(style2);
       sandbox.contents().find('body').append(content);
@@ -98,7 +98,7 @@
 
   function showMessageArea() {
     if (pwd) {
-      pwd.fadeOut(function () {
+      pwd.fadeOut(function() {
         $('#decryptmail').fadeIn();
       });
     } else {

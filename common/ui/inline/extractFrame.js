@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var ExtractFrame = ExtractFrame || (function () {
+var ExtractFrame = ExtractFrame || (function() {
 
-  var extractFrame = function (prefs) {
+  var extractFrame = function(prefs) {
     if (!prefs) {
       throw {
         message: 'ExtractFrame constructor: prefs not provided.'
@@ -36,14 +36,14 @@ var ExtractFrame = ExtractFrame || (function () {
 
   extractFrame.prototype = {
 
-    attachTo: function (pgpEnd) {
+    attachTo: function(pgpEnd) {
       this._init(pgpEnd);
       this._renderFrame();
       this._establishConnection();
       this._registerEventListener();
     },
 
-    _init: function (pgpEnd) {
+    _init: function(pgpEnd) {
       this._pgpEnd = pgpEnd;
       // find element with complete armored text and width > 0
       var regex = /BEGIN\sPGP/;
@@ -60,7 +60,7 @@ var ExtractFrame = ExtractFrame || (function () {
       this._pgpElementAttr.paddingTop = parseInt(this._pgpElement.css('padding-top'), 10);
     },
 
-    _renderFrame: function () {
+    _renderFrame: function() {
       this._eFrame = $('<div/>', {
         id: 'eFrame-' + this.id,
         'class': 'm-extract-frame m-cursor',
@@ -82,15 +82,15 @@ var ExtractFrame = ExtractFrame || (function () {
       this._refreshPosIntervalID = window.setInterval(this._setFrameDim.bind(this), 1000);
     },
 
-    _clickHandler: function (callback) {
+    _clickHandler: function(callback) {
       this._eFrame.off('click');
       this._toggleIcon(callback);
       this._eFrame.removeClass('m-cursor');
       return false;
     },
 
-    _closeFrame: function (finalClose) {
-      this._eFrame.fadeOut(function () {
+    _closeFrame: function(finalClose) {
+      this._eFrame.fadeOut(function() {
         window.clearInterval(this._refreshPosIntervalID);
         $(window).off('resize');
         this._eFrame.remove();
@@ -105,24 +105,24 @@ var ExtractFrame = ExtractFrame || (function () {
       return false;
     },
 
-    _toggleIcon: function (callback) {
+    _toggleIcon: function(callback) {
       this._eFrame.one('transitionend', callback);
       this._eFrame.toggleClass('m-open');
     },
 
-    _setFrameDim: function () {
+    _setFrameDim: function() {
       var pgpElementPos = this._pgpElement.position();
       this._eFrame.width(this._pgpElement.width() - 2);
       this._eFrame.height(this._pgpEnd.position().top + this._pgpEnd.height() - pgpElementPos.top - 2);
       this._eFrame.css('top', pgpElementPos.top + this._pgpElementAttr.marginTop + this._pgpElementAttr.paddingTop);
     },
 
-    _establishConnection: function () {
+    _establishConnection: function() {
       this._port = mvelo.extension.connect({name: this._ctrlName});
       //console.log('Port connected: %o', this._port);
     },
 
-    _htmlDecode: function (html) {
+    _htmlDecode: function(html) {
       return String(html)
         .replace(/&amp;/g, "&")
         .replace(/&lt;/g, "<")
@@ -132,7 +132,7 @@ var ExtractFrame = ExtractFrame || (function () {
         .replace(/&#x2F;/g, "\/");
     },
 
-    _getArmoredMessage: function () {
+    _getArmoredMessage: function() {
       if (this._pgpElement.is('pre')) {
         var msg = this._pgpElement.clone();
         msg.find('br').replaceWith('\n');
@@ -154,9 +154,9 @@ var ExtractFrame = ExtractFrame || (function () {
       }
     },
 
-    _registerEventListener: function () {
+    _registerEventListener: function() {
       var that = this;
-      this._port.onMessage.addListener(function (msg) {
+      this._port.onMessage.addListener(function(msg) {
         switch (msg.event) {
           case 'destroy':
             that._closeFrame(true);
@@ -167,7 +167,7 @@ var ExtractFrame = ExtractFrame || (function () {
 
   };
 
-  extractFrame.isAttached = function (pgpEnd) {
+  extractFrame.isAttached = function(pgpEnd) {
     var status = pgpEnd.data(mvelo.FRAME_STATUS);
     switch (status) {
       case mvelo.FRAME_ATTACHED:

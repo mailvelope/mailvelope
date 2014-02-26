@@ -19,7 +19,7 @@
  * Listens for events from options UI in sandbox, forwards requests to view model pgpViewModel.js
  */
 
-(function () {
+(function() {
 
   // window of options iframe
   var iframeWindow;
@@ -46,7 +46,7 @@
     var data = JSON.parse(event.data);
     switch (data.event) {
       case 'viewmodel':
-        mvelo.extension.sendMessage(data, function (response) {
+        mvelo.extension.sendMessage(data, function(response) {
           //console.log('response to options.js', response);
           if (data.callback) {
             var respObj = {
@@ -63,7 +63,7 @@
         mvelo.extension.sendMessage({
           event: data.message.event,
           message: data.message
-        }, function (response) {
+        }, function(response) {
           if (data.callback) {
             var respObj = {
               event: "message-response",
@@ -92,7 +92,7 @@
 
   function initMessageListener() {
     mvelo.extension.onMessage.addListener(
-      function (request, sender, sendResponse) {
+      function(request, sender, sendResponse) {
         if (iframeWindow) {
           // iframe ready, process event
           handleRequests(request, sender, sendResponse);
@@ -135,7 +135,7 @@
 
   function postEvent(request) {
     if (request.old) {
-      reloadOptions('#home', function () {
+      reloadOptions('#home', function() {
         iframeWindow.postMessage(JSON.stringify(request), '*');
       });
     } else {

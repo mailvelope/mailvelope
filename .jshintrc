@@ -19,6 +19,7 @@
     "validthis"     : true,    // true: Tolerate using this in a non-constructor function
     "boss"          : true,    // true: Tolerate assignments where comparisons would be expected
     "evil"          : true,    // true: Tolerate use of `eval` and `new Function()`
+    "expr"          : true,    // true: allow `arr && arr.forEach(...)`
 
     // Environments
 
@@ -27,7 +28,7 @@
     "nonstandard"   : true,    // Widely adopted globals (escape, unescape, etc)
 
     // Legacy
-    "white"         : true,    // true: Check against strict whitespace and indentation rules
+    "white"         : false,    // true: Check against strict whitespace and indentation rules
 
     "indent": 2,
 

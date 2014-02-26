@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
+(function() {
 
   var keyGridColumns = [
     {
@@ -56,7 +56,7 @@
 
   var exDateField = {
     type: "date",
-    parse: function (value) {
+    parse: function(value) {
       return kendo.parseDate(value) || 'The key does not expire';
     }
   };
@@ -100,7 +100,7 @@
   }
 
   function reload() {
-    keyRing.viewModel('getKeys', function (keys) {
+    keyRing.viewModel('getKeys', function(keys) {
       $("#mainKeyGrid").data("kendoGrid").setDataSource(new kendo.data.DataSource({
         data: keys,
         schema: keyGridSchema,
@@ -200,7 +200,7 @@
         open: { effects: "fadeIn" }
       }
     });
-    keyRing.viewModel('getKeyDetails', [e.data.guid], function (details) {
+    keyRing.viewModel('getKeyDetails', [e.data.guid], function(details) {
       //console.log('keyGrid key details received', details);
       e.data.subkeys = details.subkeys;
       e.data.users = details.users;
