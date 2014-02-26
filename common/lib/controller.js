@@ -19,7 +19,6 @@ define(function (require, exports, module) {
 
   var mvelo = require('../lib-mvelo').mvelo;
   var model = require('./pgpViewModel');
-  var openpgp = require('openpgp');
   var defaults = require('./defaults');
   var prefs = require('./prefs');
   var pwdCache = require('./pwdCache');
@@ -99,12 +98,14 @@ define(function (require, exports, module) {
     switch (sender.name) {
       case 'dFrame':
         delete dFramePorts[sender.id];
+        messageBuffer[sender.id];
         break;
       case 'dDialog':
         delete dDialogPorts[sender.id];
         break;
       case 'eFrame':
         delete eFramePorts[sender.id];
+        messageBuffer[sender.id];
         break;
       case 'eDialog':
         delete eDialogPorts[sender.id];
@@ -121,8 +122,6 @@ define(function (require, exports, module) {
       default:
         console.log('unknown port');
     }
-    // always delete message buffer
-    delete messageBuffer[sender.id];
   }
 
   function handlePortMessage(msg) {
@@ -165,7 +164,7 @@ define(function (require, exports, module) {
         break;
       case 'pwd-dialog-init':
         // pass over keyid and userid to dialog
-        pwdPort.postMessage({event: 'message-userid', userid: dMessageBuffer[id].userid, keyid: dMessageBuffer[id].key.primaryKey.getKeyId().toHex(), cache: prefs.data.security.password_cache});
+        pwdPort.postMessage({event: 'message-userid', userid: messageBuffer[id].userid, keyid: messageBuffer[id].key.primaryKey.getKeyId().toHex(), cache: prefs.data.security.password_cache});
         break;
       case 'dframe-display-popup':
         // decrypt popup potentially needs pwd dialog
@@ -182,7 +181,7 @@ define(function (require, exports, module) {
         try {
           var message = model.readMessage(msg.data);
           // password or unlocked key in cache?
-          var cache = pwdCache.get(message.key.primaryKey.getKeyId().toHex(), message.keyid.toHex());
+          var cache = pwdCache.get(message.key.primaryKey.getKeyId().toHex(), message.keyid);
           if (!cache) {
             // add message in buffer
             messageBuffer[id] = message;
@@ -196,21 +195,7 @@ define(function (require, exports, module) {
               dDialogPorts[id].postMessage({event: 'show-pwd-dialog'});
             }
           } else {
-            if (!cache.key) {
-              // unlock key
-              var unlocked = model.unlockKey(message.key, message.keyid, cache.password);
-              if (!unlocked) {
-                throw {
-                  type: 'error',
-                  message: 'Password caching does not support different passphrases for primary key and subkeys'
-                }
-              }
-              // set unlocked key in cache
-              pwdCache.set(message);
-            } else {
-              // take unlocked key from cache
-              message.key = cache.key;
-            }
+            checkCacheResult(cache, message);
             decryptMessage(message, id);
           }
         } catch (e) {
@@ -275,36 +260,48 @@ define(function (require, exports, module) {
         eFramePorts[id].postMessage({event: 'email-text', type: msg.type, action: 'encrypt'});
         break;
       case 'sign-dialog-ok':
-        var cache = pwdCache.get(msg.signKeyId, msg.signKeyId);
-        keyidBuffer[id] = msg.signKeyId;
-        if (!cache) {
-          var privkey = openpgp.keyring.privateKeys.getForId(msg.signKeyId);
-          // add message in buffer
-          dMessageBuffer[id] = {
-            key: privkey,
-            userid: privkey.users[0].userId.userid,
-            callback: function(message, id) {
-              eFramePorts[id].postMessage({event: 'email-text', type: msg.type, action: 'sign'});
-              eFramePorts[id].postMessage({event: 'hide-pwd-dialog'});
-            }
-          };
-          // open password dialog
-          if (prefs.data.security.editor_mode == mvelo.EDITOR_EXTERNAL) {
-            eFramePorts[id].postMessage({event: 'show-pwd-dialog'});
-          } else if (prefs.data.security.editor_mode == mvelo.EDITOR_WEBMAIL) {
-            mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true}, function(window) {
-              pwdPopup = window;
-            });
-          }
-        } else {
+        var signBuffer = messageBuffer[id] = {};
+        signBuffer.callback = function(message, id) {
           eFramePorts[id].postMessage({event: 'email-text', type: msg.type, action: 'sign'});
+          eFramePorts[id].postMessage({event: 'hide-pwd-dialog'});
+        };
+        var cache = pwdCache.get(msg.signKeyId, msg.signKeyId);
+        if (cache && cache.key) {
+          signBuffer.key = cache.key;
+          eFramePorts[id].postMessage({event: 'email-text', type: msg.type, action: 'sign'});
+        } else {
+          var key = model.getKeyForSigning(msg.signKeyId);
+          // add key in buffer
+          signBuffer.key = key.signKey;
+          signBuffer.keyid = msg.signKeyId;
+          signBuffer.userid = key.userId;
+          if (cache) {
+            checkCacheResult(cache, signBuffer);
+            eFramePorts[id].postMessage({event: 'email-text', type: msg.type, action: 'sign'});
+          } else {
+            // open password dialog
+            if (prefs.data.security.editor_mode == mvelo.EDITOR_EXTERNAL) {
+              eFramePorts[id].postMessage({event: 'show-pwd-dialog'});
+            } else if (prefs.data.security.editor_mode == mvelo.EDITOR_WEBMAIL) {
+              mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true}, function(window) {
+                pwdPopup = window;
+              });
+            }
+          }
         }
         break;
       case 'eframe-email-text':
-        var action = model[msg.action + 'Message'];
-        action(msg.data, keyidBuffer[id], function(err, msg) {
-          eFramePorts[id].postMessage({event: 'encrypted-message', message: msg});
-        });
+        if (msg.action === 'encrypt') {
+          model.encryptMessage(msg.data, keyidBuffer[id], function(err, msg) {
+            eFramePorts[id].postMessage({event: 'encrypted-message', message: msg});
+          });
+        } else if (msg.action === 'sign') {
+          model.signMessage(msg.data, messageBuffer[id].key, function(err, msg) {
+            eFramePorts[id].postMessage({event: 'signed-message', message: msg});
+          });
+        } else {
+          throw new Error('Unknown eframe action:', msg.action);
+        }
         break;
       case 'eframe-textarea-element':
         var defaultEncoding = {};
@@ -451,6 +448,27 @@ define(function (require, exports, module) {
         });
       }
     });
+  }
+
+  /**
+   * Unlocked key if required and copy to message
+   */
+  function checkCacheResult(cache, message) {
+    if (!cache.key) {
+      // unlock key
+      var unlocked = model.unlockKey(message.key, message.keyid, cache.password);
+      if (!unlocked) {
+        throw {
+          type: 'error',
+          message: 'Password caching does not support different passphrases for primary key and subkeys'
+        }
+      }
+      // set unlocked key in cache
+      pwdCache.set(message);
+    } else {
+      // take unlocked key from cache
+      message.key = cache.key;
+    }
   }
 
   function removePortByRef(port) {

@@ -388,8 +388,10 @@ var EncryptFrame = EncryptFrame || (function() {
     },
 
     _hidePwdDialog: function() {
-      $('body').find('div.m-modal').show();
-      $('body #pwdDialog').remove();
+      $('body #pwdDialog').fadeOut(function() {
+        $('body').find('div.m-modal').show();
+        $('body #pwdDialog').remove();
+      });
     },
 
     _registerEventListener: function() {
@@ -424,6 +426,7 @@ var EncryptFrame = EncryptFrame || (function() {
             });
             break;
           case 'encrypted-message':
+          case 'signed-message':
             that._saveEmailText();
             that._removeDialog();
             that._setMessage(msg.message, 'text');

@@ -398,8 +398,8 @@ define(function(require, exports, module) {
 
     var encryptionKeyIds = result.message.getEncryptionKeyIds();
     for (var i = 0; i < encryptionKeyIds.length; i++) {
-      result.keyid = encryptionKeyIds[i];
-      result.key = keyring.privateKeys.getForId(result.keyid.toHex(), true);
+      result.keyid = encryptionKeyIds[i].toHex();
+      result.key = keyring.privateKeys.getForId(result.keyid, true);
       if (result.key) {
         break;
       }
@@ -410,7 +410,7 @@ define(function(require, exports, module) {
     } else {
       // unknown private key
       result.keyid = encryptionKeyIds[0];
-      var message = 'No private key found for this message. Required private key IDs: ' + result.keyid.toHex().toUpperCase();
+      var message = 'No private key found for this message. Required private key IDs: ' + result.keyid.toUpperCase();
       for (var i = 1; i < encryptionKeyIds.length; i++) {
         message = message + ' or ' + encryptionKeyIds[i].toHex().toUpperCase();
       }
@@ -424,8 +424,11 @@ define(function(require, exports, module) {
   }
 
   function unlockKey(privKey, keyid, passwd) {
+    var keyIdObj = new openpgp.Keyid();
+    // TODO OpenPGP.js helper method
+    keyIdObj.read(openpgp.util.hex2bin(keyid));
     try {
-      return privKey.decryptKeyPacket([keyid], passwd);
+      return privKey.decryptKeyPacket([keyIdObj], passwd);
     } catch (e) {
       throw {
         type: 'error',
@@ -471,17 +474,18 @@ define(function(require, exports, module) {
     }
   }
 
-  function signMessage(message, signKeyIdHex, callback) {
-    var key = keyring.privateKeys.getForKeyId(signKeyIdHex);
-    if (!key) {
-      callback({
-        type: 'error',
-        message: 'No valid key found for signing'
-      });
-      return;
+  function getKeyForSigning(keyIdHex) {
+    var key = keyring.privateKeys.getForId(keyIdHex);
+    var userId = getUserId(key);
+    return {
+      signKey: key,
+      userId : userId
     }
+  }
+
+  function signMessage(message, signKey, callback) {
     try {
-      var signed = openpgp.signClearMessage([key], message);
+      var signed = openpgp.signClearMessage([signKey], message);
       callback(null, signed);
     } catch (e) {
       callback({
@@ -506,6 +510,7 @@ define(function(require, exports, module) {
   }
 
   exports.getKeyUserIDs = getKeyUserIDs;
+  exports.getKeyForSigning = getKeyForSigning;
   exports.importKeys = importKeys;
   exports.removeKey = removeKey;
   exports.validateEmail = validateEmail;
