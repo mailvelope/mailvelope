@@ -251,6 +251,7 @@ var EncryptFrame = EncryptFrame || (function () {
     },
 
     _removeDialog: function () {
+      if (!this._eDialog) return;
       this._eDialog.fadeOut();
       // removal triggers disconnect event
       this._eDialog.remove();
@@ -376,6 +377,21 @@ var EncryptFrame = EncryptFrame || (function () {
       this._emailUndoText = null;
     },
 
+    _addPwdDialog: function () {
+      var pwd = $('<iframe/>', {
+        id: 'pwdDialog',
+        src: '../modal/pwdDialog.html?id=' + this.getID(),
+        frameBorder: 0
+      });
+      $('body').find('div.m-modal').hide();
+      $('body').append(pwd);
+    },
+
+    _hidePwdDialog: function () {
+      $('body').find('div.m-modal').show();
+      $('body #pwdDialog').remove();
+    },
+
     _registerEventListener: function () {
       var that = this;
       this._port.onMessage.addListener(function (msg) {
@@ -416,6 +432,16 @@ var EncryptFrame = EncryptFrame || (function () {
             that._saveEmailText();
             that._normalizeButtons();
             that._setMessage(msg.text, that._editorType == mvelo.PLAIN_TEXT ? 'text' : 'html');
+            break;
+          case 'show-pwd-dialog':
+            that._addPwdDialog();
+            break;
+          case 'dialog-cancel':
+            that._hidePwdDialog();
+            that._removeDialog();
+            break;
+          case 'hide-pwd-dialog':
+            that._hidePwdDialog();
             break;
           default:
             console.log('unknown event');

@@ -19,6 +19,8 @@ define(function (require, exports, module) {
 
   var mvelo = require('lib/lib-mvelo').mvelo;
   var model = require('./pgpViewModel');
+  var openpgp = openpgp || require('openpgp');
+  var util = openpgp.util || window.util;
   var defaults = require('./defaults');
   var prefs = require('./prefs');
   var pwdCache = require('./pwdCache');
@@ -290,15 +292,16 @@ define(function (require, exports, module) {
             primkeyid: msg.signKeyId,
             callback: function(message, id) {
               eFramePorts[id].postMessage({event: 'email-text', type: msg.type, action: 'sign'});
+              eFramePorts[id].postMessage({event: 'hide-pwd-dialog'});
             }
           };
           // open password dialog
-          if (prefs.data.security.display_decrypted == mvelo.DISPLAY_INLINE) {
+          if (prefs.data.security.editor_mode == mvelo.EDITOR_EXTERNAL) {
+            eFramePorts[id].postMessage({event: 'show-pwd-dialog'});
+          } else if (prefs.data.security.editor_mode == mvelo.EDITOR_WEBMAIL) {
             mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true}, function(window) {
               pwdPopup = window;
             });
-          } else if (prefs.data.security.display_decrypted == mvelo.DISPLAY_POPUP) {
-            dDialogPorts[id].postMessage({event: 'show-pwd-dialog'});
           }
         } else {
           eFramePorts[id].postMessage({event: 'email-text', type: msg.type, action: 'sign'});

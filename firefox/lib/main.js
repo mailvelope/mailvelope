@@ -162,6 +162,7 @@ function injectMessageAdapter() {
       data.url('common/ui/modal/decryptPopup.html*'),
       data.url('common/ui/modal/editor.html*'),
       data.url('common/ui/inline/dialogs/encryptDialog.html*'),
+      data.url('common/ui/inline/dialogs/signDialog.html*'),
       data.url('common/ui/modal/pwdDialog.html*')
     ],
     onAttach: onCsAttach,

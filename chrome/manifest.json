@@ -30,6 +30,7 @@
     "common/img/mail_locked_96.png",
     "common/img/mail_open_96.png",
     "common/img/encrypt-22.png",
+    "common/img/sign-22.png",
     "common/img/undo-22.png",
     "common/img/mail_new.png",
     "common/img/key-icon-blue96.png",
@@ -41,6 +42,7 @@
     "common/ui/inline/framestyles.css",
     "common/ui/inline/dialogs/decryptInline.html",
     "common/ui/inline/dialogs/encryptDialog.html",
+    "common/ui/inline/dialogs/signDialog.html",
     "common/dep/bootstrap/css/bootstrap.css",
     "common/dep/wysihtml5/css/wysihtml5.css"
   ],
