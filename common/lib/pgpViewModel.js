@@ -356,6 +356,7 @@ define(function(require, exports, module) {
   
   function removeKey(guid, type) {
     keyring.removeKeysForId(guid);
+    keyring.store();
   }
   
   function validateEmail(email) {
@@ -388,7 +389,7 @@ define(function(require, exports, module) {
       console.log('openpgp.message.readArmored', e);
       throw {
         type: 'error',
-        message: 'Could not read this encrypted message'
+        message: 'Could not read this encrypted message: ' + e
       }
     }
 
@@ -409,7 +410,7 @@ define(function(require, exports, module) {
       result.userid = getUserId(result.key);
     } else {
       // unknown private key
-      result.keyid = encryptionKeyIds[0];
+      result.keyid = encryptionKeyIds[0].toHex();
       var message = 'No private key found for this message. Required private key IDs: ' + result.keyid.toUpperCase();
       for (var i = 1; i < encryptionKeyIds.length; i++) {
         message = message + ' or ' + encryptionKeyIds[i].toHex().toUpperCase();
@@ -445,7 +446,7 @@ define(function(require, exports, module) {
     } catch (e) {
       callback({
         type: 'error',
-        message: 'Could not decrypt this message'
+        message: 'Could not decrypt this message: ' + e
       });
     }
   }
