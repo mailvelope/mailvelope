@@ -19,6 +19,7 @@ define(function (require, exports, module) {
 
   var mvelo = require('../lib-mvelo').mvelo;
   var model = require('./pgpViewModel');
+  var openpgp = require('openpgp');
   var defaults = require('./defaults');
   var prefs = require('./prefs');
   var pwdCache = require('./pwdCache');
@@ -230,8 +231,25 @@ define(function (require, exports, module) {
         }
         break;
       case 'vframe-armored-message':
-        var armored = openpgp.read_message(msg.data)[0];
-        vDialogPorts[id].postMessage({event: 'verified-message', message: armored.text, verified: armored.verifySignature(), data: armored});
+        var cleartext = openpgp.cleartext.readArmored(msg.data);
+        if (openpgp.publicKeys === undefined) {
+            openpgp.Keyring();
+        }
+        var keys = openpgp.publicKeys.keys.concat(openpgp.privateKeys.keys.map(function (key) {
+            return key.toPublic();
+        }));
+        vDialogPorts[id].postMessage({
+            event: 'verified-message',
+            message: cleartext.getText(),
+            verified: cleartext.verify(keys)
+                        .filter(function (result) {
+                            return result.valid;
+                        })
+                        .reduce(function (acc, result) {
+                            return acc || result;
+                        }, false),
+            data: cleartext
+        });
         break;
       case 'pwd-dialog-ok':
         var message = messageBuffer[id];
