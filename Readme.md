@@ -32,6 +32,10 @@ and then get and build the sources:
     cd mailvelope
     git submodule init
     git submodule update
+    cd dep/chrome/openpgpjs
+    npm install
+    grunt
+    cd ../../..
     npm install
     bower install
     grunt
