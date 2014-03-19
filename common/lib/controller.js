@@ -19,7 +19,6 @@ define(function (require, exports, module) {
 
   var mvelo = require('../lib-mvelo').mvelo;
   var model = require('./pgpViewModel');
-  var openpgp = require('openpgp');
   var defaults = require('./defaults');
   var prefs = require('./prefs');
   var pwdCache = require('./pwdCache');
@@ -231,24 +230,28 @@ define(function (require, exports, module) {
         }
         break;
       case 'vframe-armored-message':
-        var cleartext = openpgp.cleartext.readArmored(msg.data);
-        if (openpgp.publicKeys === undefined) {
-            openpgp.Keyring();
-        }
-        var keys = openpgp.publicKeys.keys.concat(openpgp.privateKeys.keys.map(function (key) {
-            return key.toPublic();
-        }));
-        vDialogPorts[id].postMessage({
+        var result;
+        try {
+          result = model.readCleartextMessage(msg.data);
+        } catch (e) {
+          vDialogPorts[id].postMessage({
+            event: 'error-message',
+            error: e.message
+          });
+          break;
+        };
+        model.verifyMessage(result.message, [result.keyid], function (err, verified) {
+          vDialogPorts[id].postMessage({
             event: 'verified-message',
-            message: cleartext.getText(),
-            verified: cleartext.verify(keys)
-                        .filter(function (result) {
-                            return result.valid;
-                        })
-                        .reduce(function (acc, result) {
-                            return acc || result;
-                        }, false),
-            data: cleartext
+            message: result.message.getText(),
+            verified: verified,
+            data: result
+          });
+        });
+        break;
+      case 'verify-dialog-cancel':
+        vFramePorts[id].postMessage({
+          event: 'remove-dialog'
         });
         break;
       case 'pwd-dialog-ok':

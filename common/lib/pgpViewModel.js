@@ -471,6 +471,30 @@ define(function(require, exports, module) {
     return result;
   }
 
+  function readCleartextMessage(armoredText) {
+    var result = {};
+    try {
+      result.message = openpgp.cleartext.readArmored(armoredText);
+    } catch (e) {
+      console.log('openpgp.cleartext.readArmored', e);
+      throw {
+        type: 'error',
+        message: 'Could not read this cleartext message: ' + e
+      }
+    }
+
+    var signingKeyIds = result.message.getSigningKeyIds();
+    for (var i = 0; i < signingKeyIds.length; i++) {
+      result.keyid = signingKeyIds[i].toHex();
+      result.key = keyring.publicKeys.getForId(result.keyid, true) || keyring.privateKeys.getForId(result.keyid, true);
+      if (result.key) {
+        break
+      }
+    }
+
+    return result;
+  }
+
   function unlockKey(privKey, keyid, passwd, callback) {
     var keyIdObj = new openpgp.Keyid();
     // TODO OpenPGP.js helper method
@@ -502,6 +526,37 @@ define(function(require, exports, module) {
       callback({
         type: 'error',
         message: 'Could not encrypt this message'
+      });
+    }
+  }
+
+  function verifyMessage(message, keyIdsHex, callback) {
+    var keys = keyIdsHex.map(function(keyIdHex) {
+      var keyArray = keyring.getKeysForId(keyIdHex);
+      return keyArray ? keyArray[0].toPublic() : null;
+    }).filter(function(key) {
+      return key !== null;
+    });
+    if (keys.length === 0) {
+      callback({
+        type: 'error',
+        message: 'No valid key found for verification'
+      });
+      return;
+    }
+    try {
+      var verified = message.verify(keys)
+            .filter(function (result) {
+              return result.valid;
+            })
+            .reduce(function (acc, result) {
+              return acc || result;
+            }, false);
+      callback(null, verified);
+    } catch (e) {
+      callback({
+        type: 'error',
+        message: 'Could not verify this message'
       });
     }
   }
@@ -540,10 +595,12 @@ define(function(require, exports, module) {
   exports.validateEmail = validateEmail;
   exports.generateKey = generateKey;
   exports.readMessage = readMessage;
+  exports.readCleartextMessage = readCleartextMessage;
   exports.decryptMessage = decryptMessage;
   exports.unlockKey = unlockKey;
   exports.encryptMessage = encryptMessage;
   exports.signMessage = signMessage;
+  exports.verifyMessage = verifyMessage;
   exports.getWatchList = getWatchList;
   exports.setWatchList = setWatchList;
   exports.getHostname = getHostname;
