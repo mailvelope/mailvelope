@@ -20,9 +20,9 @@ var VerifyFrame = VerifyFrame || (function () {
   var verifyFrame = function (prefs) {
     ExtractFrame.call(this, prefs);
     this._displayMode = prefs.security.display_decrypted;
-    this._dDialog = null;
+    this._vDialog = null;
     // verify popup active
-    this._dPopup = false;
+    this._vPopup = false;
     this._ctrlName = 'vFrame-' + this.id;
     this._typeRegex = /-----BEGIN PGP SIGNED MESSAGE-----[\s\S]+?-----END PGP SIGNATURE-----/;
   };
@@ -72,19 +72,19 @@ var VerifyFrame = VerifyFrame || (function () {
 
   verifyFrame.prototype._removeDialog = function () {
     // check if dialog is active
-    if (!this._dDialog && !this._dPopup) {
+    if (!this._vDialog && !this._vPopup) {
       return;
     }
     if (this._displayMode === mvelo.DISPLAY_INLINE) {
-      this._dDialog.fadeOut();
+      this._vDialog.fadeOut();
       // removal triggers disconnect event
-      this._dDialog.remove();
-      this._dDialog = null;
+      this._vDialog.remove();
+      this._vDialog = null;
     } else {
-      this._dPopup = false;
+      this._vPopup = false;
     }
     this._eFrame.addClass('m-cursor');
-    this._toggleIcon();
+    this._eFrame.removeClass('m-open');
     this._eFrame.on('click', this._clickHandler.bind(this));
   };
 
