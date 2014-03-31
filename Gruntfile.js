@@ -131,7 +131,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           flatten: true,
-          src: 'dep/chrome/openpgpjs/dist/openpgp_nodebug.js',
+          src: 'dep/chrome/openpgpjs/dist/openpgp.js',
           dest: 'build/chrome/dep/'
         },
         {
