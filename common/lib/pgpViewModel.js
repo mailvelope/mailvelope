@@ -206,6 +206,31 @@ define(function(require, exports, module) {
     }
   }
 
+  function getArmoredKeys(keyids, options) {
+    var result = [];
+    var keys = null;
+    if (options.all) {
+      keys = keyring.getAllKeys();
+    } else {
+      keys = keyids.map(function(keyid) {
+        return keyring.getKeysForId(keyid)[0];
+      });
+    }
+    keys.forEach(function(key) {
+      var armored = {};
+      if (options.pub) {
+        armored.armoredPublic = key.toPublic().armor();
+      }
+      if (options.priv && key.isPrivate()) {
+        armored.armoredPrivate = key.armor();
+      }
+      result.push(armored);
+    });
+    return result;
+  }
+
+  exports.getArmoredKeys = getArmoredKeys;
+
   function importPublicKey(armored) {
     var result = [];
     var imported = openpgp.key.readArmored(armored);

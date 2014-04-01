@@ -32,38 +32,79 @@
 
   function onExport() {
     var key = grid.dataItem(grid.select());
-    //console.log(key);
-    switch (this.id) {
-      case 'exportByMail':
-        keyRing.sendMessage({
-          event: "send-by-mail",
-          data: key.toJSON()
-        });
-        break;
-      case 'exportPublic':
-        showModal(key, key.armoredPublic, 'pub');
-        break;
-      case 'exportPrivate':
-        if (key.type === 'private') {
-          showModal(key, key.armoredPrivate, 'priv');
-        }
-        break;
-      case 'exportKeyPair':
-        if (key.type === 'private') {
-          showModal(key, key.armoredPublic + '\n' + key.armoredPrivate, 'keypair');
-        }
-        break;
-      default:
-        console.log('unknown export action');
+    var keyid, allKeys;
+    if (this.id === 'exportAllKeys') {
+      allKeys = true;
+    } else if (key) {
+      keyid = key.id.toLowerCase();
+    } else {
+      throw new Error('Invalid export condition');
     }
+    var pub = this.id !== 'exportPrivate';
+    var priv = this.id === 'exportPrivate' || this.id === 'exportKeyPair' || this.id === 'exportAllKeys';
+    var that = this;
+    keyRing.viewModel('getArmoredKeys', [[keyid], {pub: pub, priv: priv, all: allKeys}], function(result, error) {
+      switch (that.id) {
+        case 'exportByMail':
+          // keys longer than 1600 chars don't fit into URL
+          if (result[0].armoredPublic.length > 1600) {
+            showModal(key, result[0].armoredPublic, 'pub', 'Key is too large to fit into a URL, use copy & paste instead.');
+          } else {
+            key.armoredPublic = result[0].armoredPublic;
+            keyRing.sendMessage({
+              event: "send-by-mail",
+              data: key.toJSON()
+            });
+          }
+          break;
+        case 'exportPublic':
+          showModal(key, result[0].armoredPublic, 'pub');
+          break;
+        case 'exportPrivate':
+          if (key.type === 'private') {
+            showModal(key, result[0].armoredPrivate, 'priv');
+          }
+          break;
+        case 'exportKeyPair':
+          if (key.type === 'private') {
+            showModal(key, result[0].armoredPublic + '\n' + result[0].armoredPrivate, 'keypair');
+          }
+          break;
+        case 'exportAllKeys':
+          var hasPrivate = false;
+          allKeys = result.reduce(function(prev, curr) {
+            if (curr.armoredPublic) {
+              prev += '\n' + curr.armoredPublic;
+            }
+            if (curr.armoredPrivate) {
+              hasPrivate = true;
+              prev += '\n' + curr.armoredPrivate;
+            }
+            return prev;
+          }, '');
+          showModal(null, allKeys, 'all_keys', hasPrivate ? '<b>Warning!</b> This file contains also private keys.' : null);
+          break;
+        default:
+          console.log('unknown export action');
+      }
+    });
     return false;
   }
 
-  function showModal(key, text, fprefix) {
+  function showModal(key, text, fprefix, warning) {
     $('#exportDownload a').addClass('hide');
     $('#armoredKey').val(text);
-    var filename = key.name.replace(/\s/g, '_') + '_' + fprefix + '.asc';
+    var filename = '';
+    if (key) {
+      filename += key.name.replace(/\s/g, '_') + '_';
+    }
+    filename += fprefix + '.asc';
     $('#exportDownload input').val(filename);
+    if (warning) {
+      $('#exportWarn').html(warning).show();
+    } else {
+      $('#exportWarn').hide();
+    }
     $('#exportKey').modal('show');
   }
 

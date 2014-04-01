@@ -85,13 +85,15 @@
                 <script type="text/x-kendo-template" id="keyToolbar">
                   <div id="gridMainToolbar" class="btn-toolbar">
                     <div class="btn-group">
-                      <button id="exportBtn" class="btn btn-primary dropdown-toggle disabled" data-toggle="dropdown">Export <span class="caret"></span></button>
+                      <button id="exportBtn" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Export <span class="caret"></span></button>
                       <ul class="dropdown-menu">
                         <li id="exportPublic"><a href="\\\#">Display public key</a></li>
                         <li id="exportByMail"><a href="\\\#">Send public key by mail</a></li>
                         <li class="divider"></li>
                         <li id="exportPrivate"><a href="\\\#">Display private key</a></li>
                         <li id="exportKeyPair"><a href="\\\#">Display key pair</a></li>
+                        <li class="divider"></li>
+                        <li id="exportAllKeys"><a href="\\\#">Display all keys</a></li>
                       </ul>
                     </div><!-- /btn-group -->
                     <div class="keyType-selector">
@@ -163,6 +165,7 @@
                     <button type="button" class="btn">Create file</button>
                     <a class="hide">Download key</a>
                   </form>
+                  <div id="exportWarn" class="alert hide"></div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

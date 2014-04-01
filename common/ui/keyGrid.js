@@ -167,29 +167,23 @@
     function onGridChange(e) {
       var selected = this.select();
       if (selected.length !== 0) {
-        $('#exportBtn').removeClass('disabled');
         var selKey = grid.data("kendoGrid").dataItem(selected);
         if (selKey.type === 'public') {
           $('#exportPrivate, #exportKeyPair').addClass('disabled');
         } else {
           $('#exportPrivate, #exportKeyPair').removeClass('disabled');
         }
-        // keys longer than 1600 chars don't fit into URL
-        if (selKey.armoredPublic.length > 1600) {
-          $('#exportByMail').addClass('disabled');
-        } else {
-          $('#exportByMail').removeClass('disabled');
-        }
+        $('#exportPublic, #exportByMail').removeClass('disabled');
       } else {
-        $('#exportBtn').addClass('disabled');
+        $('#exportPublic, #exportByMail, #exportPrivate, #exportKeyPair').addClass('disabled');
       }
     }
 
   }
 
   function onDataChange(e) {
-    // selection is lost on data change, therefore disable export button
-    $('#exportBtn').addClass('disabled');
+    // selection is lost on data change, therefore reset export buttons
+    $('#exportPublic, #exportByMail, #exportPrivate, #exportKeyPair').addClass('disabled');
     keyRing.event.triggerHandler('keygrid-data-change');
   }
 
