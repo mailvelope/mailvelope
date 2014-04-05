@@ -249,7 +249,7 @@ define(function (require, exports, module) {
       case 'eframe-recipient-proposal':
         var emails = sortAndDeDup(msg.data);
         var keys = model.getKeyUserIDs(emails);
-        var primary = prefs.data.general.auto_add_primary && prefs.data.general.primary_key;
+        var primary = prefs.data.general.auto_add_primary && prefs.data.general.primary_key.toLowerCase();
         // if editor is active send to corresponding eDialog
         eDialogPorts[editor && editor.id || id].postMessage({event: 'public-key-userids', keys: keys, primary: primary});
         break;
