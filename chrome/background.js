@@ -191,7 +191,7 @@ define(["lib/common/controller", "lib/common/pgpViewModel", "openpgp", "jquery"]
   }
 
   function migrate() {
-    // migration
+    model.migrate08();
   }
   
   init();

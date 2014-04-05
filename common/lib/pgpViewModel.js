@@ -318,10 +318,17 @@ define(function(require, exports, module) {
     });
     // import
     armoredKeys.forEach(function(key) {
-      if (key.type === 'public') {
-        result = result.concat(importPublicKey(key.armored));
-      } else if (key.type === 'private') {
-        result = result.concat(importPrivateKey(key.armored));
+      try {
+        if (key.type === 'public') {
+          result = result.concat(importPublicKey(key.armored));
+        } else if (key.type === 'private') {
+          result = result.concat(importPrivateKey(key.armored));
+        }
+      } catch (e) {
+        result.push({
+          type: 'error',
+          message: 'Unable to import one key due to exception: ' + e
+        });
       }
     });
     // store if import succeeded
@@ -561,5 +568,59 @@ define(function(require, exports, module) {
 
   exports.getPreferences = getPreferences;
   exports.setPreferences = setPreferences;
+
+  function migrate08() {
+    var prefs = getPreferences();
+    if (mvelo.crx && (!prefs.migrate08 || !prefs.migrate08.done)) {
+      prefs.migrate08 = {};
+      prefs.migrate08.keys = [];
+      prefs.migrate08.err = [];
+      var privKeys = JSON.parse(window.localStorage.getItem("privatekeys"));
+      var pubKeys = JSON.parse(window.localStorage.getItem("publickeys"));
+      if ((!privKeys || !privKeys.length) && (!pubKeys || !pubKeys.length)) {
+        prefs.migrate08.done = true;
+        setPreferences(prefs);
+        return;
+      }
+      var import08 = function(keys, type) {
+        keys.forEach(function(key) {
+          var result;
+          try {
+            if (type == 'public') {
+              result = importPublicKey(key);
+            } else if (type == 'private') {
+              result = importPrivateKey(key);
+            }
+            result = result.filter(function(log) {
+              return log.type == 'error';
+            });
+            if (result.length !== 0) {
+              prefs.migrate08.keys.push(key);
+              prefs.migrate08.err = prefs.migrate08.err.concat(result);
+            }
+          } catch (e) {
+            prefs.migrate08.keys.push(key);
+            prefs.migrate08.err.push(e);
+          }
+        });
+      }
+      import08(pubKeys, 'public');
+      import08(privKeys, 'private');
+      try {
+        keyring.store();
+      } catch (e) {
+        prefs.migrate08.keys = pubKeys.concat(privKeys);
+        prefs.migrate08.err.push({
+          type: 'error',
+          message: 'Exception on storing keyring: ' + e
+        });
+      }
+      prefs.migrate08.done = true;
+      setPreferences(prefs);
+    }
+
+  }
+
+  exports.migrate08 = migrate08;
   
 });

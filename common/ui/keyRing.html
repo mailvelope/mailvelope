@@ -70,6 +70,7 @@
               <li class="active"><a href="#displayKeys" data-toggle="tab">Display Keys</a></li>
               <li><a href="#importKey" data-toggle="tab">Import Keys</a></li>
               <li><a href="#generateKey" data-toggle="tab">Generate Key</a></li>
+              <li id="migNavEntry" style="display:none;"><a href="#migrationError" data-toggle="tab" style="font-weight:bold;">Key Migration Error</a></li>
               <li class="nav-header">Settings</li>
               <li><a href="#general" data-toggle="tab">General</a></li>
               <li><a href="#security" data-toggle="tab">Security</a></li>
@@ -292,6 +293,22 @@
                   <p>Please wait, key generation can take up to several minutes depending on factors like the key size. Your browser might become unresponsive.</p>
                 </div>
               </div>
+            </div>
+            <div id="migrationError" class="tab-pane fade">
+              <h3>Key migration error</h3>
+              <form class="form-vertical well" onsubmit="return false">
+                <div class="control-group">
+                  <label class="control-label" for="textarea"><h4>The following keys could not be migrated to Mailvelope v0.8.0</h4></label>
+                  <div>Please contact support@mailvelope.com for help. <b>Warning!</b> The box below can also include private keys, don't send them by email.</div>
+                  <div class="controls" style="margin-top: 10px">
+                    <textarea id="errorKeys" rows="12" style="width: 650px; font-family: monospace;"></textarea>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <div id="migrationAlert">
+                  </div>
+                </div>
+              </form>
             </div>
             <div id="watchList" class="tab-pane fade">
               <h3>Watch List</h3>

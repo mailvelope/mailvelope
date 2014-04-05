@@ -28,6 +28,7 @@ define(function (require, exports, module) {
    * @param  {Object} obj preferences object or properties of it
    */
   function update(obj) {
+    prefs = model.getPreferences();
     if (obj.security) {
       prefs.security = extend(prefs.security, obj.security);
     }
