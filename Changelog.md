@@ -1,6 +1,17 @@
 Mailvelope Changelog
 ====================
 
+v0.8.0
+------
+__Apr. 5, 2014__
+
+  * Signing of clear text messages. Thanks to @johnyb for contribution.
+  * Switch to Grunt as build tool and Bower for packet management
+  * [OpenPGP.js] Security fixes. See https://github.com/openpgpjs/openpgpjs/wiki/Cure53-security-audit for details
+  * [OpenPGP.js] Update to v0.5.1, new architecture of the library with many enhancements including:
+    - generation of standard compliant keys with main key for signing and subkey for encryption
+    - improved compatibility and performance
+
 v0.7.0
 ------
 __Nov. 4, 2013__

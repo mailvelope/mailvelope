@@ -161,7 +161,9 @@ module.exports = function (grunt) {
           pretty: true
         },
         files: [{
-          src: ['build/chrome/**/*', '!build/chrome/**/.*']
+          expand: true,
+          src: ['chrome/**/*', 'chrome/!**/.*'],
+          cwd: 'build/'
         }]
       }
     },
