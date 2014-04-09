@@ -29,6 +29,7 @@ define(function (require, exports, module) {
    */
   function update(obj) {
     prefs = model.getPreferences();
+    this.data = prefs;
     if (obj.security) {
       prefs.security = extend(prefs.security, obj.security);
     }
