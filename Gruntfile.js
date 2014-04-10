@@ -4,7 +4,9 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
 
-    clean: ['build/', 'tmp/', 'dist/**/*'],
+    clean: ['build/', 'dist/**/*'],
+
+    clean_all: ['build/', 'tmp/', 'dist/**/*'],
 
     jshint: {
       options: {
@@ -125,6 +127,12 @@ module.exports = function (grunt) {
           src: '**/*',
           cwd: 'build/common/lib/',
           dest: 'build/firefox/lib/common/'
+        },
+        {
+          expand: true,
+          src: 'mvelo.js',
+          cwd: 'build/common/ui/inline',
+          dest: 'build/firefox/lib/common/'
         }]
       },
       dep: {
@@ -137,7 +145,7 @@ module.exports = function (grunt) {
         {
           expand: true,
           flatten: true,
-          src: 'dep/firefox/openpgpjs/resources/openpgp.js',
+          src: 'dep/firefox/openpgpjs/dist/openpgp.js',
           dest: 'build/firefox/packages/openpgp/lib/'
         }]
       }
@@ -169,16 +177,16 @@ module.exports = function (grunt) {
     },
 
     'mozilla-addon-sdk': {
-      '1_15': {
+      '1_16': {
         options: {
-          revision: '1.15'
+          revision: '1.16'
         }
       }
     },
     'mozilla-cfx-xpi': {
       stable: {
         options: {
-          'mozilla-addon-sdk': '1_15',
+          'mozilla-addon-sdk': '1_16',
           extension_dir: 'build/firefox',
           dist_dir: 'dist/',
           arguments: '--strip-sdk --output-file=mailvelope.firefox.xpi'
@@ -188,7 +196,7 @@ module.exports = function (grunt) {
     'mozilla-cfx': {
       'run_stable': {
         options: {
-          "mozilla-addon-sdk": "1_15",
+          "mozilla-addon-sdk": "1_16",
           extension_dir: "build/firefox",
           command: "run"
         }

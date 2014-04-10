@@ -1,11 +1,11 @@
 {
   "name": "mailvelope",
   "fullName": "Mailvelope", 
-  "id": "jid1-PPxXH40gbJawnA",
+  "id": "jid1-AQqSMBYb0a8ADg",
   "description": "Secure email with OpenPGP encryption for Webmail",
   "author": "Thomas Obernd\u00f6rfer", 
   "license": "AGPL 3",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "homepage": "http://www.mailvelope.com",
   "icon": "data/common/img/mail_locked_48.png",
   "icon64": "data/common/img/mail_locked_64.png",
