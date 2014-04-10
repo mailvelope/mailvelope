@@ -103,7 +103,7 @@ function initScriptInjection() {
     try {
       activePageMod.destroy();
     } catch (e) {
-      console.log('Destroying active page-mod failed.');
+      console.log('Destroying active page-mod failed', e);
     }
   }
 
@@ -114,6 +114,7 @@ function initScriptInjection() {
 
 function onCsAttach(worker) {
   //console.log("Attaching content scripts", worker.url);
+  var pageHidden = false;
   worker.port.on('port-message', controller.handlePortMessage);
   worker.port.on('connect', function(portName) {
     var eventName = 'port-message' + '.' + portName;
@@ -130,13 +131,18 @@ function onCsAttach(worker) {
   worker.port.on('disconnect', function(portName) {
     controller.removePort({name: portName});
   });
+  worker.on('pagehide', function() {
+    pageHidden = true;
+  });
   worker.on('detach', function() {
     controller.removePortByRef(this);
   });
   worker.port.on('message-event', function(msg) {
     var that = this;
     controller.handleMessageEvent(msg, null, function(respData) {
-      that.emit(msg.response, respData);
+      if (!pageHidden) { // otherwise exception
+        that.emit(msg.response, respData);
+      }
     });
   });
 }
