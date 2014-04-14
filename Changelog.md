@@ -1,6 +1,14 @@
 Mailvelope Changelog
 ====================
 
+v0.8.1
+------
+__Apr. 14, 2014__
+
+  * Fix preferences update. Changes to security token applied instantly.
+  * Port Firefox Add-on to new OpenPGP.js API
+  * Use web workers for key generation, signing and decryption (Fixes performance issues with Firefox).
+
 v0.8.0
 ------
 __Apr. 5, 2014__
