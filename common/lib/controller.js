@@ -390,8 +390,10 @@ define(function (require, exports, module) {
           console.log('error in viewmodel: ', e);
           response.error = e;
         }
-        if (response.result !== undefined || response.error || request.callback) {
+        if (response.result !== undefined || response.error) {
           sendResponse(response);
+        } else {
+          return true;
         }
         break;
       case 'browser-action':

@@ -34,10 +34,6 @@
     submit.click(onGenerateKey);
     $('#genKeyClear').click(onClear);
     $('#genKeyAnother').click(onAnother);
-    // shorter key size on FF due to https://github.com/toberndo/mailvelope/issues/118
-    if (mvelo.ffa) {
-      $('#genKeySize').val('1024');
-    }
   }
 
   function onKeyAdvanced() {
@@ -90,8 +86,7 @@
   function onClear() {
     $('#generateKey').find('input').val('');
     $('#genKeyAlgo').val('RSA/RSA');
-    var keySize = mvelo.ffa ? '1024' : '2048';
-    $('#genKeySize').val(keySize);
+    $('#genKeySize').val('2048');
     $('#genKeyExp').val('0')
                    .prop('disabled', true);
     $('#genKeyExpUnit').val('never')

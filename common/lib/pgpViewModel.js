@@ -18,8 +18,14 @@
 
 define(function(require, exports, module) {
 
-  var openpgp = require('openpgp');
   var mvelo = require('../lib-mvelo').mvelo;
+  var openpgp = require('openpgp');
+  var proxy;
+  if (mvelo.crx) {
+    proxy = new openpgp.AsyncProxy('dep/openpgp.worker.js');
+  } else if (mvelo.ffa) {
+    proxy = new openpgp.AsyncProxy(mvelo.data.url('openpgp.worker.min.js'));
+  }
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
   var keyring = new openpgp.Keyring();
   
@@ -395,13 +401,16 @@ define(function(require, exports, module) {
     return goog.format.EmailAddress.isValidAddrSpec(email);
   }
   
-  function generateKey(options) {
+  function generateKey(options, callback) {
     var keyType = getKeyType(options.algorithm);
     var emailAdr = new goog.format.EmailAddress(options.email, options.user);
-    var keyPair = openpgp.generateKeyPair(keyType, parseInt(options.numBits), emailAdr.toString(), options.passphrase);
-    keyring.privateKeys.push(keyPair.key);
-    keyring.store();
-    return true;
+    proxy.generateKeyPair(keyType, parseInt(options.numBits), emailAdr.toString(), options.passphrase, function(err, data) {
+      if (data) {
+        keyring.privateKeys.push(data.key);
+        keyring.store();
+      }
+      callback(err, data);
+    });
   }
 
   function getUserId(key) {

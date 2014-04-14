@@ -87,7 +87,7 @@ define(["lib/common/controller", "lib/common/pgpViewModel", "openpgp", "jquery"]
             sendResponse({code: csCode});
             break;
           default:
-            controller.handleMessageEvent(request, sender, sendResponse);
+            return controller.handleMessageEvent(request, sender, sendResponse);
         }
       }
     );

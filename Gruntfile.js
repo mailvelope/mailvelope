@@ -139,14 +139,20 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           flatten: true,
-          src: 'dep/chrome/openpgpjs/dist/openpgp.js',
+          src: ['dep/chrome/openpgpjs/dist/openpgp.js', 'dep/chrome/openpgpjs/dist/openpgp.worker.js'],
           dest: 'build/chrome/dep/'
         },
         {
           expand: true,
           flatten: true,
           src: 'dep/firefox/openpgpjs/dist/openpgp.js',
-          dest: 'build/firefox/packages/openpgp/lib/'
+          dest: 'build/firefox/lib/'
+        },
+        {
+          expand: true,
+          flatten: true,
+          src: ['dep/firefox/openpgpjs/dist/openpgp.min.js', 'dep/firefox/openpgpjs/dist/openpgp.worker.min.js'],
+          dest: 'build/firefox/data/'
         }]
       }
     },
