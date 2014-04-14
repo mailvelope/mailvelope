@@ -19,7 +19,7 @@ module.exports = function (grunt) {
     concat: {
       content_script: {
         options: {
-          footer: '//@ sourceURL=cs-mailvelope.js'
+          footer: '//# sourceURL=cs-mailvelope.js'
         },
         files: [{
           src: [
