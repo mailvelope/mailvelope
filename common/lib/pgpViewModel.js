@@ -465,31 +465,15 @@ define(function(require, exports, module) {
     return result;
   }
 
-  function unlockKey(privKey, keyid, passwd) {
+  function unlockKey(privKey, keyid, passwd, callback) {
     var keyIdObj = new openpgp.Keyid();
     // TODO OpenPGP.js helper method
     keyIdObj.read(openpgp.util.hex2bin(keyid));
-    try {
-      return privKey.decryptKeyPacket([keyIdObj], passwd);
-    } catch (e) {
-      throw {
-        type: 'error',
-        message: 'Could not unlock the private key'
-      }
-    }
+    proxy.decryptKeyPacket(privKey, [keyIdObj], passwd, callback);
   }
 
   function decryptMessage(message, callback) {
-    try {
-      var decryptedMsg = openpgp.decryptMessage(message.key, message.message);
-      //decryptedMsg = decode_utf8(decryptedMsg);
-      callback(null, decryptedMsg);
-    } catch (e) {
-      callback({
-        type: 'error',
-        message: 'Could not decrypt this message: ' + e
-      });
-    }
+    proxy.decryptMessage(message.key, message.message, callback);
   }
 
   function encryptMessage(message, keyIdsHex, callback) {
@@ -526,15 +510,7 @@ define(function(require, exports, module) {
   }
 
   function signMessage(message, signKey, callback) {
-    try {
-      var signed = openpgp.signClearMessage([signKey], message);
-      callback(null, signed);
-    } catch (e) {
-      callback({
-        type: 'error',
-        message: 'Could not sign this message'
-      });
-    }
+    proxy.signClearMessage([signKey], message, callback);
   }
 
   function getWatchList() {
