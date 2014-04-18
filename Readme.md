@@ -35,6 +35,10 @@ and then get and build the sources:
     cd dep/chrome/openpgpjs
     npm install
     grunt
+    cd ../..
+    cd firefox/openpgpjs
+    npm install
+    grunt
     cd ../../..
     npm install
     bower install
@@ -48,7 +52,7 @@ The extension will be in `dist/mailvelope.chrome.zip`.
 
 #### Firefox
 
-    make dist-ff
+    grunt dist-ff
     
 This will get you the latest firefox addons-sdk to build the addon.
 
