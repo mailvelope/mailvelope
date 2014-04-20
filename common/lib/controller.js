@@ -44,6 +44,8 @@ define(function (require, exports, module) {
   var editor = null;
   // decrypt popup window
   var decryptPopup = null;
+  // verify popup window
+  var verifyPopup = null;
   // password popup window
   var pwdPopup = null;
   // recipients of encrypted mail
@@ -183,6 +185,9 @@ define(function (require, exports, module) {
         // get armored message from vFrame
         vFramePorts[id].postMessage({event: 'armored-message'});
         break;
+      case 'verify-popup-init':
+        vFramePorts[id].postMessage({event: 'armored-message'});
+        break;
       case 'decrypt-popup-init':
         // get armored message from dFrame
         dFramePorts[id].postMessage({event: 'armored-message'});
@@ -190,6 +195,11 @@ define(function (require, exports, module) {
       case 'pwd-dialog-init':
         // pass over keyid and userid to dialog
         pwdPort.postMessage({event: 'message-userid', userid: messageBuffer[id].userid, keyid: messageBuffer[id].key.primaryKey.getKeyId().toHex(), cache: prefs.data.security.password_cache});
+        break;
+      case 'vframe-display-popup':
+          mvelo.windows.openPopup('common/ui/modal/verifyPopup.html?id=' + id, {width: 742, height: 450, modal: true}, function(window) {
+            verifyPopup = window;
+          });
         break;
       case 'dframe-display-popup':
         // decrypt popup potentially needs pwd dialog
@@ -250,9 +260,15 @@ define(function (require, exports, module) {
         });
         break;
       case 'verify-dialog-cancel':
-        vFramePorts[id].postMessage({
-          event: 'remove-dialog'
-        });
+        if (vFramePorts[id]) {
+          vFramePorts[id].postMessage({
+            event: 'remove-dialog'
+          });
+        }
+        if (verifyPopup) {
+            verifyPopup.close();
+            verifyPopup = null;
+        }
         break;
       case 'pwd-dialog-ok':
         var message = messageBuffer[id];

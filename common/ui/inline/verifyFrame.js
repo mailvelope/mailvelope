@@ -67,7 +67,7 @@ var VerifyFrame = VerifyFrame || (function () {
       event: 'vframe-display-popup',
       sender: this._ctrlName
     });
-    this._dPopup = true;
+    this._vPopup = true;
   };
 
   verifyFrame.prototype._removeDialog = function () {
