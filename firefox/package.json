@@ -9,5 +9,8 @@
   "homepage": "http://www.mailvelope.com",
   "icon": "data/common/img/mail_locked_48.png",
   "icon64": "data/common/img/mail_locked_64.png",
-  "permissions": {"private-browsing": true}
+  "permissions": {
+    "private-browsing": true,
+    "unsafe-content-script": true
+  }
 }

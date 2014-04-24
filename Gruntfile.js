@@ -195,7 +195,7 @@ module.exports = function (grunt) {
           'mozilla-addon-sdk': '1_16',
           extension_dir: 'build/firefox',
           dist_dir: 'dist/',
-          arguments: '--strip-sdk --output-file=mailvelope.firefox.xpi'
+          arguments: '--output-file=mailvelope.firefox.xpi'
         }
       }
     },
