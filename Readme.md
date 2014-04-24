@@ -30,19 +30,13 @@ and then get and build the sources:
 
     git clone git://github.com/toberndo/mailvelope.git
     cd mailvelope
-    git submodule init
-    git submodule update
+    git submodule update --init
     cd dep/chrome/openpgpjs
-    npm install
-    grunt
-    cd ../..
-    cd firefox/openpgpjs
-    npm install
-    grunt
+    npm install && grunt
+    cd ../../firefox/openpgpjs
+    npm install && grunt
     cd ../../..
-    npm install
-    bower install
-    grunt
+    npm install && bower install && grunt
 
 #### Chrome
 
@@ -60,15 +54,26 @@ The addon will be in `dist/mailvelope.firefox.xpi`.
 
 #### Development
 
+Update your local repository:
+
+    # inside mailvelope folder
+    cd dep/chrome/openpgpjs
+    git pull origin master && grunt
+    cd ../../firefox/openpgpjs
+    git pull origin master && grunt
+    cd ../../..
+    grunt
+    # continue with 'grunt dist-cr' or 'grunt dist-ff'
+
 There are a few more tasks available through grunt:
 
 * watch source code for changes and recompile if needed:
 
-> grunt watch
+    grunt watch
 
 * reset repository
 
-> grunt clean
+    grunt clean
 
 ## Website
 
