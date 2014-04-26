@@ -418,7 +418,13 @@ define(function(require, exports, module) {
     if (primaryUser) {
       return primaryUser.user.userId.userid;
     } else {
-      return key.users[0].userId.userid;
+      // take first available user ID
+      for (var i = 0; i < key.users.length; i++) {
+        if (key.users[i].userId) {
+          return key.users[i].userId.userid;
+        }
+      }
+      return 'UNKNOWN';
     }
   }
   
