@@ -402,9 +402,9 @@ define(function(require, exports, module) {
   }
   
   function generateKey(options, callback) {
-    var keyType = getKeyType(options.algorithm);
+    //var keyType = getKeyType(options.algorithm);
     var emailAdr = new goog.format.EmailAddress(options.email, options.user);
-    proxy.generateKeyPair(keyType, parseInt(options.numBits), emailAdr.toString(), options.passphrase, function(err, data) {
+    proxy.generateKeyPair({numBits: parseInt(options.numBits), userId: emailAdr.toString(), passphrase: options.passphrase}, function(err, data) {
       if (data) {
         keyring.privateKeys.push(data.key);
         keyring.store();
