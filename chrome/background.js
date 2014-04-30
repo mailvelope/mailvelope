@@ -21,7 +21,7 @@ requirejs.config({
     openpgp: 'dep/openpgp',
     mvelo: 'common/ui/inline/mvelo',
     parser_rules: 'common/dep/wysihtml5/js/advanced_parser_rules',
-    wysihtml5: 'common/dep/wysihtml5/js/wysihtml5-0.4.0pre'
+    dompurify: 'common/dep/purify'
   },
   shim: {
     'mvelo': {

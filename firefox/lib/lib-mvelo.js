@@ -199,13 +199,10 @@ mvelo.windows.BrowserWindow.prototype.activate = function() {
 
 mvelo.util = {};
 
-var wysihtml5 = require("sdk/page-worker").Page({
-  contentURL: data.url('dep/wysihtml5/empty.html'),
+var dompurifyWorker = require("sdk/page-worker").Page({
   contentScriptFile: [
-    data.url('common/dep/jquery.min.js'),
-    data.url('common/dep/wysihtml5/js/wysihtml5-0.4.0pre.js'),
-    data.url('common/dep/wysihtml5/js/advanced_parser_rules.js'),
-    data.url('dep/wysihtml5/init.js')
+    data.url('common/dep/purify.js'),
+    data.url('dep/purifyAdapter.js')
   ]
 });
 
@@ -214,8 +211,8 @@ mvelo.util.parseHTML = function(html, callback) {
     data: html,
     response: mvelo.getHash()
   };
-  wysihtml5.port.once(message.response, callback);
-  wysihtml5.port.emit('parse', message);
+  dompurifyWorker.port.once(message.response, callback);
+  dompurifyWorker.port.emit('parse', message);
 }
 
 // must be bound to window, otherwise illegal invocation

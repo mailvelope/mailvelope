@@ -22,7 +22,7 @@ define(function(require, exports, module) {
   mvelo.crx = true;
   mvelo.ffa = false;
 
-  var wysihtml5 = require('wysihtml5');
+  var dompurify = require('dompurify');
 
   mvelo.data = {};
 
@@ -173,7 +173,7 @@ define(function(require, exports, module) {
   mvelo.util = {};
 
   mvelo.util.parseHTML = function(html, callback) {
-    callback(wysihtml5.parse(html));
+    callback(dompurify.sanitize(html));
   }
 
   // must be bound to window, otherwise illegal invocation

@@ -20,8 +20,8 @@
     "bootstrap": "~2.2.2",
     "spectrum": "~1.1.0",
     "requirejs": "~2.1.10",
-    "wysihtml5": "~0.3.0",
-    "kendo-ui": "2013.1.319"
+    "kendo-ui": "2013.1.319",
+    "dompurify": "v0.3"
   },
   "resolutions": {
     "jquery": "~2.0.3"

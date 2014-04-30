@@ -88,7 +88,13 @@ module.exports = function (grunt) {
               'styles/kendo.{common,default}.min.css'
             ],
             dest: 'build/common/dep/kendoui/'
-          }
+          },
+          {
+            expand: true,
+            cwd: 'bower_components/dompurify/',
+            src: 'purify.js',
+            dest: 'build/common/dep/'
+          },
         ]
       },
       common: {
