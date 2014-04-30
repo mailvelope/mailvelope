@@ -63,6 +63,7 @@ function init() {
   controller.extend({initScriptInjection: initScriptInjection});
   initScriptInjection();
   injectMessageAdapter();
+  injectDecryptInline()
 }
 
 init();
@@ -90,7 +91,7 @@ function initScriptInjection() {
       data.url('ui/messageAdapter.js'),
       data.url('common/ui/inline/cs-mailvelope.js')
     ],
-    contentStyle: getDynamicStyle(),
+    contentStyle: getDynamicStyle('common/ui/inline/framestyles.css'),
     contentScriptOptions: {
       expose_messaging: false,
       data_path: data.url()
@@ -147,15 +148,14 @@ function onCsAttach(worker) {
   });
 }
 
-function getDynamicStyle() {
-  var css = data.load('common/ui/inline/framestyles.css');
+function getDynamicStyle(path) {
+  var css = data.load(path);
   var token = /\.\.\/\.\./g;
   css = css.replace(token, data.url('common'));
   return css;
 }
 
 function injectMessageAdapter() {
-  
   pageMod.PageMod({
     include: [
       data.url('common/ui/modal/decryptPopup.html*'),
@@ -172,5 +172,23 @@ function injectMessageAdapter() {
       data_path: data.url()
     }
   });
- 
+}
+
+function injectDecryptInline() {
+  pageMod.PageMod({
+    include: 'about:blank?mvelo*',
+    onAttach: onCsAttach,
+    contentScriptFile: [
+      data.url('common/dep/jquery.min.js'),
+      data.url('common/dep/jquery.ext.js'),
+      data.url('ui/messageAdapter.js'),
+      data.url('common/ui/inline/mvelo.js'),
+      data.url('common/ui/inline/dialogs/decryptInline.js')
+    ],
+    contentScriptWhen: 'ready',
+    contentScriptOptions: {
+      expose_messaging: false,
+      data_path: data.url()
+    }
+  });
 }

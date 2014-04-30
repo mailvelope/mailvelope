@@ -36,6 +36,7 @@
   }
 
   function onOk() {
+    $(window).off('unload');
     var pwd = $('#password').val();
     var cache = $('#remember').prop('checked');
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
@@ -69,15 +70,13 @@
         }
         break;
       case 'wrong-password':
+        $(window).on('unload', onCancel);
         $('#okBtn').prop('disabled', false);
         $('body').removeClass('busy');
         $('#spinner').hide();
         $('.modal-body').css('opacity', '1');
         $('#password').closest('.control-group').addClass('error')
                       .end().next().removeClass('hide');
-        break;
-      case 'correct-password':
-        window.close();
         break;
       default:
         console.log('unknown event');

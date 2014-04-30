@@ -3,7 +3,12 @@
 $.extend({
   parseQuerystring: function(){
     var nvpair = {};
-    var qs = window.location.search.replace('?', '');
+    var qs;
+    if (window.location.search) {
+      qs = window.location.search.replace('?', '');
+    } else {
+      qs = window.location.href.split('?')[1];
+    }
     var pairs = qs.split('&');
     $.each(pairs, function(i, v){
       var pair = v.split('=');

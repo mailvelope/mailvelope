@@ -213,8 +213,11 @@ define(function (require, exports, module) {
                 pwdPort.postMessage({event: 'wrong-password'});
               } else {
                 dDialogPorts[id].postMessage({event: 'error-message', error: err.message});
-                // close pwd dialog
-                pwdPort.postMessage({event: 'correct-password'});
+                if (pwdPopup) {
+                  // close pwd dialog
+                  pwdPopup.close();
+                  pwdPopup = null;
+                }
               }
             } else if (key) {
               // password correct
@@ -227,15 +230,21 @@ define(function (require, exports, module) {
                 // set unlocked key and password in cache
                 pwdCache.set(message, msg.password);
               }
-              pwdPort.postMessage({event: 'correct-password'});
+              if (pwdPopup) {
+                pwdPopup.close();
+                pwdPopup = null;
+              }
               message.callback(message, id);
             }
           });
         } catch (e) {
           // display error message in decrypt dialog
           dDialogPorts[id].postMessage({event: 'error-message', error: e.message});
-          // close pwd dialog
-          pwdPort.postMessage({event: 'correct-password'});
+          if (pwdPopup) {
+            // close pwd dialog
+            pwdPopup.close();
+            pwdPopup = null;
+          }
         }
         break;
       case 'sign-dialog-init':
@@ -454,11 +463,11 @@ define(function (require, exports, module) {
     model.decryptMessage(message, function(err, msgText) {
       if (err) {
         // display error message in decrypt dialog
-        dDialogPorts[id].postMessage({event: 'error-message', error: err.message});
+        dDialogPorts[id] && dDialogPorts[id].postMessage({event: 'error-message', error: err.message});
       } else {
         // decrypted correctly
         msgText = mvelo.util.parseHTML(msgText, function(sanitized) {
-          dDialogPorts[id].postMessage({event: 'decrypted-message', message: sanitized});
+          dDialogPorts[id] && dDialogPorts[id].postMessage({event: 'decrypted-message', message: sanitized});
         });
       }
     });

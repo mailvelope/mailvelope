@@ -46,9 +46,6 @@ define(function (require, exports, module) {
     if (!model.getPreferences()) {
       defaults.preferences.security.secure_color = randomColor();
       defaults.preferences.security.secure_code = randomString(3);
-      if (mvelo.ffa) {
-        defaults.preferences.security.display_decrypted = 'popup';
-      }
       model.setPreferences(defaults.preferences);
     }
   }

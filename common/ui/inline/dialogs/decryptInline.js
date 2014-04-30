@@ -22,6 +22,7 @@
   var id;
   var watermark;
   var spinnerTimer;
+  var commonPath;
 
   function init() {
     //console.log('init decryptInline.js');
@@ -31,6 +32,12 @@
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'decrypt-inline-init', sender: id});
+    if (mvelo.crx) {
+      commonPath = '../../..';
+    } else if (mvelo.ffa) {
+      commonPath = mvelo.extension._dataPath + 'common';
+    }
+    setStyles();
     addWrapper();
     addSandbox();
     mvelo.extension.sendMessage({event: "get-security-token"}, function(token) {
@@ -46,6 +53,18 @@
     $('body').addClass('spinner');
     if ($('body').height() + 2 > mvelo.LARGE_FRAME) {
       $('body').addClass('spinner-large');
+    }
+  }
+
+  function setStyles() {
+    if (mvelo.ffa) {
+      var style = $('<link/>', {
+        rel: 'stylesheet',
+        href: commonPath + '/dep/bootstrap/css/bootstrap.css'
+      });
+      var style2 = style.clone().attr('href', commonPath + '/ui/inline/dialogs/decryptInline.css');
+      $('head').append(style)
+               .append(style2);
     }
   }
 
@@ -77,14 +96,16 @@
     });
     var style = $('<link/>', {
       rel: 'stylesheet',
-      href: '../../../dep/bootstrap/css/bootstrap.css'
+      href: commonPath + '/dep/bootstrap/css/bootstrap.css'
     });
-    var style2 = style.clone().attr('href', '../../../dep/wysihtml5/css/wysihtml5.css');
+    var style2 = style.clone().attr('href', commonPath + '/dep/wysihtml5/css/wysihtml5.css');
+    sandbox.on('load', function() {
+      $(this).contents().find('head').append(style)
+                                     .append(style2);
+      $(this).contents().find('body').css('background-color', 'rgba(0,0,0,0)');
+      $(this).contents().find('body').append(content);
+    });
     $('#wrapper').append(sandbox);
-    sandbox.contents().find('head').append(style)
-                                   .append(style2);
-    sandbox.contents().find('body').css('background-color', 'rgba(0,0,0,0)');
-    sandbox.contents().find('body').append(content);
   }
 
   function addErrorView() {
