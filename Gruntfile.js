@@ -23,7 +23,7 @@ module.exports = function (grunt) {
         },
         files: [{
           src: [
-            'bower_components/jquery/jquery.min.js',
+            'build/common/dep/jquery.min.js',
             'common/ui/inline/mvelo.js',
             'common/ui/inline/main-cs.js',
             'common/ui/inline/extractFrame.js',
@@ -55,14 +55,19 @@ module.exports = function (grunt) {
     },
 
     copy: {
+      jquery: {
+        expand: true,
+        cwd: 'bower_components/jquery/',
+        src: 'jquery.min.js',
+        dest: 'build/common/dep/',
+        options: {
+          process: function (content) {
+            return content.replace(/@ sourceMappingURL=jquery.min.map/g,'');
+          }
+        }
+      },
       vendor: {
         files: [
-          {
-            expand: true,
-            cwd: 'bower_components/jquery/',
-            src: 'jquery.min.js',
-            dest: 'build/common/dep/'
-          },
           {
             expand: true,
             cwd: 'bower_components/bootstrap/docs/assets/',
@@ -232,5 +237,5 @@ module.exports = function (grunt) {
 
   grunt.registerTask('copy_default', ['copy:vendor', 'copy:common', 'copy:plugins', 'copy:common_browser', 'copy:dep']);
 
-  grunt.registerTask('default', ['jshint', 'modernizr', 'concat', 'copy_default']);
+  grunt.registerTask('default', ['jshint', 'modernizr', 'copy:jquery', 'concat', 'copy_default']);
 };
