@@ -1,6 +1,18 @@
 Mailvelope Changelog
 ====================
 
+v0.8.2
+------
+__May. 2, 2014__
+
+  * Decrypt inline mode for Firefox
+  * Short term fix for changes of unsafeWindow coming to Firefox 30
+  * XSS sanitizer: replace wysihtml5 parser with DOMPurify
+  * [OpenPGP.js] Optimize signature verifications to evaluate primary user (reduces loading time of key grid)
+  * [OpenPGP.js] Fix broken twofish cipher
+  * [OpenPGP.js] Generate key by default without unlocking secret part
+  * [OpenPGP.js] Fix key update for keys generated with PGP Desktop
+
 v0.8.1
 ------
 __Apr. 14, 2014__
