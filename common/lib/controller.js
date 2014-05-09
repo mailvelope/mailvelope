@@ -134,7 +134,8 @@ define(function (require, exports, module) {
         if (dFramePorts[id]) {
           dFramePorts[id].postMessage({event: 'dialog-cancel'});
         } else if (eFramePorts[id]) {
-            eFramePorts[id].postMessage({event: 'dialog-cancel'});
+          editor && editor.port.postMessage({event: 'hide-pwd-dialog'});
+          eFramePorts[id].postMessage({event: 'dialog-cancel'});
         }
         if (decryptPopup) {
           decryptPopup.close();
@@ -283,7 +284,6 @@ define(function (require, exports, module) {
         var signBuffer = messageBuffer[id] = {};
         signBuffer.callback = function(message, id) {
           eFramePorts[id].postMessage({event: 'email-text', type: msg.type, action: 'sign'});
-          eFramePorts[id].postMessage({event: 'hide-pwd-dialog'});
         };
         var cache = pwdCache.get(msg.signKeyId, msg.signKeyId);
         if (cache && cache.key) {
@@ -302,7 +302,7 @@ define(function (require, exports, module) {
           } else {
             // open password dialog
             if (prefs.data.security.editor_mode == mvelo.EDITOR_EXTERNAL) {
-              eFramePorts[id].postMessage({event: 'show-pwd-dialog'});
+              editor.port.postMessage({event: 'show-pwd-dialog'});
             } else if (prefs.data.security.editor_mode == mvelo.EDITOR_WEBMAIL) {
               mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + id, {width: 462, height: 377, modal: true}, function(window) {
                 pwdPopup = window;
@@ -318,6 +318,7 @@ define(function (require, exports, module) {
           });
         } else if (msg.action === 'sign') {
           model.signMessage(msg.data, messageBuffer[id].key, function(err, msg) {
+            editor && editor.port.postMessage({event: 'hide-pwd-dialog'});
             eFramePorts[id].postMessage({event: 'signed-message', message: msg});
           });
         } else {

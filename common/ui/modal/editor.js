@@ -227,6 +227,27 @@
     return true;
   }
 
+  function addPwdDialog() {
+    var pwd = $('<iframe/>', {
+      id: 'pwdDialog',
+      src: '../modal/pwdDialog.html?id=' + eFrame.getID(),
+      frameBorder: 0
+    });
+    $('body').find('div.m-modal').fadeOut(function() {
+      //$('.m-encrypt-frame').hide();
+      $('body').append(pwd);
+    });
+  }
+
+  function hidePwdDialog() {
+    $('body #pwdDialog').fadeOut(function() {
+      $('body #pwdDialog').remove();
+      $('body').find('div.m-modal').show();
+      //$('.m-encrypt-frame').fadeIn();
+      eFrame._setFrameDim();
+    });
+  }
+
   function messageListener(msg) {
     //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
@@ -236,6 +257,12 @@
         } else {
           setRichText(msg.text);
         }
+        break;
+      case 'show-pwd-dialog':
+        addPwdDialog();
+        break;
+      case 'hide-pwd-dialog':
+        hidePwdDialog();
         break;
       default:
         console.log('unknown event');
