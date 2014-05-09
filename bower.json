@@ -16,14 +16,14 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.0.3",
+    "jquery": "2.1.0",
     "bootstrap": "~2.2.2",
     "spectrum": "~1.1.0",
     "requirejs": "~2.1.10",
     "kendo-ui": "2013.1.319",
-    "dompurify": "v0.3"
+    "dompurify": "0.3"
   },
   "resolutions": {
-    "jquery": "~2.0.3"
+    "jquery": "2.1.0"
   }
 }

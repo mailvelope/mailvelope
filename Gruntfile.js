@@ -57,14 +57,9 @@ module.exports = function (grunt) {
     copy: {
       jquery: {
         expand: true,
-        cwd: 'bower_components/jquery/',
+        cwd: 'bower_components/jquery/dist',
         src: 'jquery.min.js',
-        dest: 'build/common/dep/',
-        options: {
-          process: function (content) {
-            return content.replace(/@ sourceMappingURL=jquery.min.map/g,'');
-          }
-        }
+        dest: 'build/common/dep/'
       },
       vendor: {
         files: [
