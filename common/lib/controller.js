@@ -466,6 +466,8 @@ define(function (require, exports, module) {
         dDialogPorts[id] && dDialogPorts[id].postMessage({event: 'error-message', error: err.message});
       } else {
         // decrypted correctly
+        msgText = msgText.replace(/(<)/g, '&lt;');
+        msgText = msgText.replace(/(>)/g, '&gt;');
         msgText = mvelo.util.parseHTML(msgText, function(sanitized) {
           dDialogPorts[id] && dDialogPorts[id].postMessage({event: 'decrypted-message', message: sanitized});
         });
