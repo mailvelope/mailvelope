@@ -1,6 +1,15 @@
 Mailvelope Changelog
 ====================
 
+v0.8.3
+------
+__May. 11, 2014__
+
+  * Update jQuery to 2.1.0
+  * Enable sign and encrypt in included textareas for Firefox
+  * Separate jQuery from main content script
+  * JSHint fixes
+
 v0.8.2
 ------
 __May. 2, 2014__
