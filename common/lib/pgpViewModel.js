@@ -188,7 +188,7 @@ define(function(require, exports, module) {
     keyring.getAllKeys().forEach(function(key) {
       if (key.verifyPrimaryKey() === openpgp.enums.keyStatus.valid) {
         var user = {};
-        mapKeyUserIds(key, user, proposal)
+        mapKeyUserIds(key, user, proposal);
         result.push(user);
       }
     });
@@ -338,7 +338,7 @@ define(function(require, exports, module) {
       }
     });
     // store if import succeeded
-    if (result.some(function(message) { return message.type === 'success'})) {
+    if (result.some(function(message) { return message.type === 'success';})) {
       keyring.store();
     }
     return result;
@@ -348,22 +348,22 @@ define(function(require, exports, module) {
     var result = '';
     switch (keyType) {
     case 'rsa_encrypt_sign':
-        result = "RSA (Encrypt or Sign)";
-        break;
+      result = "RSA (Encrypt or Sign)";
+      break;
     case 'rsa_encrypt':
-        result = "RSA Encrypt-Only";
-        break;
+      result = "RSA Encrypt-Only";
+      break;
     case 'rsa_sign':
-        result = "RSA Sign-Only";
-        break;
+      result = "RSA Sign-Only";
+      break;
     case 'elgamal':
-        result = "Elgamal (Encrypt-Only)";
-        break;
+      result = "Elgamal (Encrypt-Only)";
+      break;
     case 'dsa':
-        result = "DSA (Digital Signature Algorithm)";
-        break;
+      result = "DSA (Digital Signature Algorithm)";
+      break;
     default:
-        result = "UNKNOWN";
+      result = "UNKNOWN";
     }
     return result;
   }
@@ -372,13 +372,13 @@ define(function(require, exports, module) {
     var result;
     switch (algorithm) {
     case "RSA/RSA":
-        result = openpgp.enums.publicKey.rsa_encrypt_sign;
-        break;
+      result = openpgp.enums.publicKey.rsa_encrypt_sign;
+      break;
     case "DSA/ElGamal":
-        result = openpgp.enums.publicKey.dsa;
-        break;
+      result = openpgp.enums.publicKey.dsa;
+      break;
     default:
-        throw new Error('Key type not supported');
+      throw new Error('Key type not supported');
     }
     return result;
   }
@@ -437,7 +437,7 @@ define(function(require, exports, module) {
       throw {
         type: 'error',
         message: 'Could not read this encrypted message: ' + e
-      }
+      };
     }
 
     result.key = null;
@@ -465,7 +465,7 @@ define(function(require, exports, module) {
       throw {
         type: 'error',
         message: message,
-      }
+      };
     }
 
     return result;
@@ -488,7 +488,7 @@ define(function(require, exports, module) {
       return keyArray ? keyArray[0] : null;
     }).filter(function(key) {
       return key !== null;
-    }); 
+    });
     if (keys.length === 0) {
       callback({
         type: 'error',
@@ -512,7 +512,7 @@ define(function(require, exports, module) {
     return {
       signKey: key,
       userId : userId
-    }
+    };
   }
 
   function signMessage(message, signKey, callback) {
@@ -594,7 +594,7 @@ define(function(require, exports, module) {
             prefs.migrate08.err.push(e);
           }
         });
-      }
+      };
       import08(pubKeys, 'public');
       import08(privKeys, 'private');
       try {

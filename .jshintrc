@@ -20,6 +20,7 @@
     "boss"          : true,    // true: Tolerate assignments where comparisons would be expected
     "evil"          : true,    // true: Tolerate use of `eval` and `new Function()`
     "expr"          : true,    // true: allow `arr && arr.forEach(...)`
+    "multistr"      : true,
 
     // Environments
 

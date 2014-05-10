@@ -13,7 +13,11 @@ module.exports = function (grunt) {
         jshintrc: true
       },
       all: {
-        src: ['Gruntfile.js', 'common/ui/**/*.js']
+        src: [
+          'Gruntfile.js',
+          'common/ui/**/*.js',
+          'common/lib/*.js',
+        ]
       },
     },
     concat: {

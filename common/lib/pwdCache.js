@@ -48,8 +48,8 @@ define(function (require, exports, module) {
   }
 
   function update() {
-    if (active != prefs.data.security.password_cache 
-      || timeout != prefs.data.security.password_timeout) {
+    if (active != prefs.data.security.password_cache ||
+        timeout != prefs.data.security.password_timeout) {
       // init cache
       clearTimeouts();
       cache = {};
@@ -70,7 +70,7 @@ define(function (require, exports, module) {
         return {
           password: cache[primkeyid].password,
           key: cache[primkeyid][keyid]
-        }
+        };
       }
     }
   }
@@ -86,7 +86,7 @@ define(function (require, exports, module) {
   function set(message, pwd) {
     // primary key id is main key of cache
     var primKeyIdHex = message.key.primaryKey.getKeyId().toHex();
-    var entry = cache[primKeyIdHex]; 
+    var entry = cache[primKeyIdHex];
     if (entry) {
       // set unlocked private key for this keyid
       if (!entry[message.keyid]) {
