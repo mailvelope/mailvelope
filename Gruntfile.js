@@ -23,7 +23,6 @@ module.exports = function (grunt) {
         },
         files: [{
           src: [
-            'build/common/dep/jquery.min.js',
             'common/ui/inline/mvelo.js',
             'common/ui/inline/main-cs.js',
             'common/ui/inline/extractFrame.js',

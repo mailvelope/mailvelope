@@ -90,6 +90,7 @@ function initScriptInjection() {
     include: filterURL,
     onAttach: onCsAttach,
     contentScriptFile: [
+      data.url('common/dep/jquery.min.js'),
       data.url('ui/messageAdapter.js'),
       data.url('common/ui/inline/cs-mailvelope.js')
     ],

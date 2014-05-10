@@ -112,8 +112,10 @@ define(["lib/common/controller", "lib/common/pgpViewModel", "openpgp", "jquery"]
     
     if (injectOptimized && csCode === '') {
       // load content script
-      $.get(chrome.extension.getURL('common/ui/inline/cs-mailvelope.js'), function(data) {
-        csCode = data;
+      $.get(chrome.extension.getURL('common/ui/inline/cs-mailvelope.js'), function(csmSrc) {
+        $.get(chrome.extension.getURL('common/dep/jquery.min.js'), function(jquerySrc) {
+          csCode = jquerySrc + csmSrc;
+        });
       });
     }
 
@@ -154,17 +156,21 @@ define(["lib/common/controller", "lib/common/pgpViewModel", "openpgp", "jquery"]
           return;
         }
         //console.log('cs injected');
-        var scriptDetails;
         if (injectOptimized) {
-          scriptDetails = {code: csBootstrap(), allFrames: true}
+          chrome.tabs.executeScript(details.tabId, {code: csBootstrap(), allFrames: true}, function() {
+            chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
+            // open injection time slot
+            injectOpen = true;
+          });
         } else {
-          scriptDetails = {file: "common/ui/inline/cs-mailvelope.js", allFrames: true}
+          chrome.tabs.executeScript(details.tabId, {file: "common/dep/jquery.min.js", allFrames: true}, function() {
+            chrome.tabs.executeScript(details.tabId, {file: "common/ui/inline/cs-mailvelope.js", allFrames: true}, function() {
+              chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
+              // open injection time slot
+              injectOpen = true;
+            });
+          });
         }
-        chrome.tabs.executeScript(details.tabId, scriptDetails, function() {
-          chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
-          // open injection time slot
-          injectOpen = true;
-        });
         // reset buffer after injection
         frameHosts.length = 0;
       }, injectTimeSlot);
