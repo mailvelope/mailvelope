@@ -52,10 +52,11 @@ var DecryptFrame = DecryptFrame || (function() {
       frameBorder: 0,
       scrolling: 'no'
     });
+    var url;
     if (mvelo.crx) {
       url = mvelo.extension.getURL('common/ui/inline/dialogs/decryptInline.html?id=' + this.id);
     } else if (mvelo.ffa) {
-      url = 'about:blank?mvelo&id=' + this.id;
+      url = 'about:blank?mvelo=decryptInline&id=' + this.id;
     }
     this._dDialog.attr('src', url);
     this._eFrame.append(this._dDialog);

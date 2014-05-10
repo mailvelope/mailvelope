@@ -28,6 +28,19 @@
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'sign-dialog-init', sender: id});
+    setStyles();
+  }
+
+  function setStyles() {
+    if (mvelo.ffa) {
+      var style = $('<link/>', {
+        rel: 'stylesheet',
+        href: mvelo.extension._dataPath + 'common/dep/bootstrap/css/bootstrap.css'
+      });
+      var style2 = style.clone().attr('href', mvelo.extension._dataPath + 'common/ui/inline/dialogs/signDialog.css');
+      $('head').append(style)
+               .append(style2);
+    }
   }
 
   function load(content) {

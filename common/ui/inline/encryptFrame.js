@@ -156,11 +156,11 @@ var EncryptFrame = EncryptFrame || (function() {
     },
 
     showSignDialog: function() {
-      this._expandFrame(this._showSignDialog.bind(this));
+      this._expandFrame(this._showDialog.bind(this, 'sign'));
     },
 
     showEncryptDialog: function() {
-      this._expandFrame(this._showDialog.bind(this));
+      this._expandFrame(this._showDialog.bind(this, 'encrypt'));
     },
 
     _expandFrame: function(callback) {
@@ -204,33 +204,24 @@ var EncryptFrame = EncryptFrame || (function() {
       }
     },
 
-    _showSignDialog: function() {
-      var that = this;
+    _showDialog: function(type) {
       this._eDialog = $('<iframe/>', {
-        id: 'eDialog-' + that.id,
+        id: 'eDialog-' + this.id,
         'class': 'm-frame-dialog',
         frameBorder: 0,
         scrolling: 'no'
       });
-      var path = 'common/ui/inline/dialogs/signDialog.html?id=' + that.id;
-      var url = mvelo.extension.getURL(path);
-      this._eDialog.attr('src', url);
-      this._eFrame.append(this._eDialog);
-      this._setFrameDim();
-      this._eDialog.fadeIn();
-    },
-
-    _showDialog: function() {
-      //console.log('showDialog');
-      var that = this;
-      this._eDialog = $('<iframe/>', {
-        id: 'eDialog-' + that.id,
-        'class': 'm-frame-dialog',
-        frameBorder: 0,
-        scrolling: 'no'
-      });
-      var path = 'common/ui/inline/dialogs/encryptDialog.html?id=' + that.id;
-      var url = mvelo.extension.getURL(path);
+      var url, dialog;
+      if (type === 'encrypt') {
+        dialog = 'encryptDialog';
+      } else if (type === 'sign') {
+        dialog = 'signDialog';
+      }
+      if (mvelo.crx) {
+        url = mvelo.extension.getURL('common/ui/inline/dialogs/' + dialog + '.html?id=' + this.id);
+      } else if (mvelo.ffa) {
+        url = 'about:blank?mvelo=' + dialog + '&id=' + this.id;
+      }
       this._eDialog.attr('src', url);
       this._eFrame.append(this._eDialog);
       this._setFrameDim();

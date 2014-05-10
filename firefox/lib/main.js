@@ -63,7 +63,9 @@ function init() {
   controller.extend({initScriptInjection: initScriptInjection});
   initScriptInjection();
   injectMessageAdapter();
-  injectDecryptInline()
+  injectDecryptInline();
+  injectEncryptDialog();
+  injectSignDialog();
 }
 
 init();
@@ -176,7 +178,7 @@ function injectMessageAdapter() {
 
 function injectDecryptInline() {
   pageMod.PageMod({
-    include: 'about:blank?mvelo*',
+    include: 'about:blank?mvelo=decryptInline*',
     onAttach: onCsAttach,
     contentScriptFile: [
       data.url('common/dep/jquery.min.js'),
@@ -184,6 +186,45 @@ function injectDecryptInline() {
       data.url('ui/messageAdapter.js'),
       data.url('common/ui/inline/mvelo.js'),
       data.url('common/ui/inline/dialogs/decryptInline.js')
+    ],
+    contentScriptWhen: 'ready',
+    contentScriptOptions: {
+      expose_messaging: false,
+      data_path: data.url()
+    }
+  });
+}
+
+function injectEncryptDialog() {
+  pageMod.PageMod({
+    include: 'about:blank?mvelo=encryptDialog*',
+    onAttach: onCsAttach,
+    contentScriptFile: [
+      data.url('common/dep/jquery.min.js'),
+      data.url('common/dep/jquery.ext.js'),
+      data.url('ui/messageAdapter.js'),
+      data.url('common/ui/inline/mvelo.js'),
+      data.url('common/ui/inline/dialogs/encryptDialog.js')
+    ],
+    contentScriptWhen: 'ready',
+    contentScriptOptions: {
+      expose_messaging: false,
+      data_path: data.url()
+    }
+  });
+}
+
+function injectSignDialog() {
+  pageMod.PageMod({
+    include: 'about:blank?mvelo=signDialog*',
+    onAttach: onCsAttach,
+    contentScriptFile: [
+      data.url('common/dep/jquery.min.js'),
+      data.url('common/dep/jquery.ext.js'),
+      data.url('common/dep/bootstrap/js/bootstrap.js'),
+      data.url('ui/messageAdapter.js'),
+      data.url('common/ui/inline/mvelo.js'),
+      data.url('common/ui/inline/dialogs/signDialog.js')
     ],
     contentScriptWhen: 'ready',
     contentScriptOptions: {
