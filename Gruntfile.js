@@ -216,6 +216,14 @@ module.exports = function (grunt) {
           command: "run"
         }
       }
+    },
+    bump: {
+      options: {
+        commit: true,
+        createTag: false,
+        push: false,
+        files: ['package.json', 'bower.json', 'chrome/manifest.json', 'firefox/package.json']
+      }
     }
   });
 
@@ -227,6 +235,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-mozilla-addon-sdk');
   grunt.loadNpmTasks('grunt-modernizr');
+  grunt.loadNpmTasks('grunt-bump');
 
   //custom tasks
   grunt.registerTask('dist-cr', ['compress:chrome']);
