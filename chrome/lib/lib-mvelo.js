@@ -28,15 +28,15 @@ define(function(require, exports, module) {
 
   mvelo.data.url = function(path) {
     return chrome.extension.getURL(path);
-  }
+  };
 
   mvelo.data.load = function(path, callback) {
     $.get(chrome.extension.getURL(path), callback);
-  }
+  };
 
   mvelo.data.loadDefaults = function() {
     return require('lib/json-loader!common/res/defaults.json');
-  }
+  };
 
   mvelo.tabs = {};
 
@@ -45,7 +45,7 @@ define(function(require, exports, module) {
     chrome.tabs.query({active: true, currentWindow: true, url: "*://*/*"}, function(tabs) {
       callback(tabs[0]);
     });
-  }
+  };
 
   mvelo.tabs.attach = function(tab, options, callback) {
     function executeScript(file, callback) {
@@ -64,11 +64,11 @@ define(function(require, exports, module) {
         callback(tab);
       }
     });
-  }  
+  };
 
   mvelo.tabs.query = function(url, callback) {
     chrome.tabs.query({url: url, currentWindow: true}, callback);
-  }
+  };
 
   mvelo.tabs.create = function(url, complete, callback) {
     chrome.tabs.create({url: url}, function(tab) {
@@ -77,45 +77,45 @@ define(function(require, exports, module) {
         chrome.tabs.onUpdated.addListener(function updateListener(tabid, info) {
           if (tabid === tab.id && info.status === 'complete') {
             chrome.tabs.onUpdated.removeListener(updateListener);
-            if (callback) callback(tab);  
+            if (callback) callback(tab);
           }
         });
       } else {
         if (callback) callback(tab);
       }
     });
-  }
+  };
 
   mvelo.tabs.activate = function(tab, callback) {
     chrome.tabs.update(tab.id, { active: true }, callback);
-  }
+  };
 
   mvelo.tabs.sendMessage = function(tab, msg) {
     chrome.tabs.sendMessage(tab.id, msg);
-  }
+  };
 
   mvelo.tabs.loadOptionsTab = function(hash, onMessage, callback) {
     // check if options tab already exists
     this.query(chrome.extension.getURL('common/ui/options.html'), function(tabs) {
       if (tabs.length === 0) {
         // if not existent, create tab
-        mvelo.tabs.create('common/ui/options.html' + hash, callback !== undefined, callback.bind(this, false));          
+        mvelo.tabs.create('common/ui/options.html' + hash, callback !== undefined, callback.bind(this, false));
       } else {
         // if existent, set as active tab
         mvelo.tabs.activate(tabs[0], callback.bind(this, true));
-      }  
+      }
     });
-  }
+  };
 
   mvelo.storage = {};
 
   mvelo.storage.get = function(id) {
     return JSON.parse(window.localStorage.getItem(id));
-  }
+  };
 
   mvelo.storage.set = function(id, obj) {
     window.localStorage.setItem(id, JSON.stringify(obj));
-  }
+  };
 
   mvelo.windows = {};
 
@@ -140,7 +140,7 @@ define(function(require, exports, module) {
             if (newFocus !== popup.id && newFocus !== chrome.windows.WINDOW_ID_NONE) {
               chrome.windows.update(popup.id, {focused: true});
             }
-          }
+          };
           chrome.windows.onFocusChanged.addListener(focusChangeHandler);
           var removedHandler = function(removed) {
             //console.log('removed', removed);
@@ -148,15 +148,15 @@ define(function(require, exports, module) {
               //console.log('remove handler');
               mvelo.windows.modalActive = false;
               chrome.windows.onFocusChanged.removeListener(focusChangeHandler);
-              chrome.windows.onRemoved.removeListener(removedHandler); 
+              chrome.windows.onRemoved.removeListener(removedHandler);
             }
-          }
+          };
           chrome.windows.onRemoved.addListener(removedHandler);
         }
         if (callback) callback(new mvelo.windows.BrowserWindow(popup.id));
       });
     });
-  }
+  };
 
   mvelo.windows.BrowserWindow = function(id) {
     this._id = id;
@@ -164,17 +164,17 @@ define(function(require, exports, module) {
 
   mvelo.windows.BrowserWindow.prototype.activate = function() {
     chrome.windows.update(this._id, {focused: true});
-  }
+  };
 
   mvelo.windows.BrowserWindow.prototype.close = function() {
     chrome.windows.remove(this._id);
-  }
+  };
 
   mvelo.util = {};
 
   mvelo.util.parseHTML = function(html, callback) {
     callback(dompurify.sanitize(html));
-  }
+  };
 
   // must be bound to window, otherwise illegal invocation
   mvelo.util.setTimeout = window.setTimeout.bind(window);
@@ -184,13 +184,13 @@ define(function(require, exports, module) {
     var a = document.createElement('a');
     a.href = url;
     return a.hostname;
-  }
+  };
 
   mvelo.util.getHost = function(url) {
     var a = document.createElement('a');
     a.href = url;
     return a.host;
-  }
+  };
 
   exports.mvelo = mvelo;
 

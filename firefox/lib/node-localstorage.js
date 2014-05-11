@@ -7,10 +7,10 @@ function LocalStorage() {
 
 LocalStorage.prototype.getItem = function(keyStr) {
   return this.storage[keyStr] || null;
-}
+};
 
 LocalStorage.prototype.setItem = function(keyStr, valueStr) {
   this.storage[keyStr] = valueStr;
-}
+};
 
 exports.LocalStorage = LocalStorage;

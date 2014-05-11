@@ -1,3 +1,3 @@
-var window = require('sdk/window/utils').getMostRecentBrowserWindow();
+var browserWindow = require('sdk/window/utils').getMostRecentBrowserWindow();
 
-exports.Worker = window.Worker;
+exports.Worker = browserWindow.Worker;

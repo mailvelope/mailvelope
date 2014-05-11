@@ -28,29 +28,29 @@ var mvelo = require('./common/mvelo').mvelo;
 mvelo.ffa = true;
 mvelo.crx = false;
 
-mvelo.data = {}
+mvelo.data = {};
 
 mvelo.data.url = function(path) {
   return data.url(path);
-}
+};
 
 mvelo.data.load = function(path, callback) {
   var result = data.load(path);
   callback(result);
-}
+};
 
 mvelo.data.loadDefaults = function() {
   var defaults = data.load('common/res/defaults.json');
   return JSON.parse(defaults);
-}
+};
 
-mvelo.tabs = {}
+mvelo.tabs = {};
 
-mvelo.tabs.worker = {}
+mvelo.tabs.worker = {};
 
 mvelo.tabs.getActive = function(callback) {
   callback(tabs.activeTab);
-}
+};
 
 mvelo.tabs.attach = function(tab, options, callback) {
   var lopt = {};
@@ -77,7 +77,7 @@ mvelo.tabs.attach = function(tab, options, callback) {
       timer.setTimeout(callback.bind(this, tab), 200);
     }
   });
-}
+};
 
 mvelo.tabs.query = function(url, callback) {
   var result = [];
@@ -89,7 +89,7 @@ mvelo.tabs.query = function(url, callback) {
     }
   }
   callback(result);
-}
+};
 
 mvelo.tabs.create = function(url, complete, callback) {
   tabs.open({
@@ -97,16 +97,16 @@ mvelo.tabs.create = function(url, complete, callback) {
     onReady: complete ? callback : undefined,
     onOpen: complete ? undefined : callback
   });
-}
+};
 
 mvelo.tabs.activate = function(tab, callback) {
   tab.activate();
   if (callback) callback(tab);
-}
+};
 
 mvelo.tabs.sendMessage = function(tab, msg) {
   this.worker[tab.index].port.emit('message-event', msg);
-}
+};
 
 mvelo.tabs.loadOptionsTab = function(hash, onMessage, callback) {
   // check if options tab already exists
@@ -118,29 +118,29 @@ mvelo.tabs.loadOptionsTab = function(hash, onMessage, callback) {
         mvelo.tabs.attach(tab, {
           onMessage: function(msg) {
             //console.log('message-event', msg.event);
-            onMessage(msg, null, (function(response) {
+            onMessage(msg, null, function(response) {
               //console.log('main.js handleMessageEvent response', msg.event ,msg.response);
               this.emit(msg.response, response);
-            }).bind(this));
+            }.bind(this));
           }
         }, callback.bind(this, false));
       });
     } else {
       // if existent, set as active tab
       mvelo.tabs.activate(tabs[0], callback.bind(this, true));
-    }  
+    }
   });
-}
+};
 
 mvelo.storage = {};
 
 mvelo.storage.get = function(id) {
   return ss.storage[id];
-}
+};
 
 mvelo.storage.set = function(id, obj) {
   ss.storage[id] = obj;
-}
+};
 
 mvelo.windows = {};
 
@@ -158,12 +158,12 @@ mvelo.windows.openPopup = function(url, options, callback) {
     if (options.modal) {
       this.activate();
     }
-  }
+  };
   if (callback) {
     winOpts.onOpen = callback;
   }
   windows.open(winOpts);
-}
+};
 
 var delegate = {
   onTrack: function (window) {
@@ -195,7 +195,7 @@ mvelo.windows.BrowserWindow = function(id) {
 
 mvelo.windows.BrowserWindow.prototype.activate = function() {
   chrome.windows.update(this._id, {focused: true});
-}
+};
 
 mvelo.util = {};
 
@@ -213,18 +213,18 @@ mvelo.util.parseHTML = function(html, callback) {
   };
   dompurifyWorker.port.once(message.response, callback);
   dompurifyWorker.port.emit('parse', message);
-}
+};
 
 // must be bound to window, otherwise illegal invocation
 mvelo.util.setTimeout = timer.setTimeout;
 mvelo.util.clearTimeout = timer.clearTimeout;
 
 mvelo.util.getHostname = function(source) {
-  return url.URL(source).host.split(':')[0]; 
-}
+  return url.URL(source).host.split(':')[0];
+};
 
 mvelo.util.getHost = function(source) {
   return url.URL(source).host;
-}
+};
 
 exports.mvelo = mvelo;

@@ -101,7 +101,7 @@ function initScriptInjection() {
     },
     contentScriptWhen: 'ready',
     attachTo: ['existing', 'top', 'frame']
-  }
+  };
 
   if (activePageMod !== undefined) {
     try {
@@ -129,7 +129,7 @@ function onCsAttach(worker) {
         that.emit(eventName, message);
       },
       ref: that
-    }
+    };
     controller.addPort(port);
   });
   worker.port.on('disconnect', function(portName) {

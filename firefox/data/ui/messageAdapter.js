@@ -45,9 +45,9 @@ mvelo.ffa = true;
     getURL: function(path) {
       return this._dataPath + path;
     }
-  }
+  };
 
-  mvelo.__exposedProps__ = { extension : "r" }
+  mvelo.__exposedProps__ = { extension : "r" };
 
   function Port(portName) {
     var name = portName;
@@ -71,11 +71,11 @@ mvelo.ffa = true;
 
     this.onMessage = {
       addListener: function(listener) {
-        var eventName = 'port-message' + '.' + name; 
+        var eventName = 'port-message' + '.' + name;
         self.port.on(eventName, listener);
         events[eventName] = listener;
       }
-    }
+    };
     // page unload triggers port disconnect
     window.addEventListener('unload', this.disconnect);
 

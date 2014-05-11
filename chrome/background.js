@@ -25,20 +25,20 @@ requirejs.config({
   },
   shim: {
     'mvelo': {
-        exports: 'mvelo'
+      exports: 'mvelo'
     },
     'parser_rules': {
-        exports: 'wysihtml5ParserRules'
+      exports: 'wysihtml5ParserRules'
     },
     'wysihtml5': {
-        deps: ['parser_rules', 'jquery'],
-        exports: 'wysihtml5',
-        init: function() {
-          var element = $('<textarea/>').appendTo($('body'));
-          return new wysihtml5.Editor(element.get(0), {
-            parserRules:  wysihtml5ParserRules
-          });
-        }
+      deps: ['parser_rules', 'jquery'],
+      exports: 'wysihtml5',
+      init: function() {
+        var element = $('<textarea/>').appendTo($('body'));
+        return new wysihtml5.Editor(element.get(0), {
+          parserRules:  wysihtml5ParserRules
+        });
+      }
     }
   }
 });
@@ -75,7 +75,7 @@ define(["lib/common/controller", "lib/common/pgpViewModel", "openpgp", "jquery"]
       port.onMessage.addListener(controller.handlePortMessage);
       // update active ports on disconnect
       port.onDisconnect.addListener(controller.removePort);
-    }); 
+    });
   }
 
   function initMessageListener() {
@@ -91,7 +91,7 @@ define(["lib/common/controller", "lib/common/pgpViewModel", "openpgp", "jquery"]
         }
       }
     );
-  } 
+  }
 
   function initContextMenu() {
     chrome.contextMenus.create({
@@ -125,7 +125,7 @@ define(["lib/common/controller", "lib/common/pgpViewModel", "openpgp", "jquery"]
         framestyles = data;
         var token = /\.\.\/\.\./g;
         framestyles = framestyles.replace(token, chrome.extension.getURL('common'));
-      }); 
+      });
     }
 
     var filterURL = controller.getWatchListFilterURLs();
@@ -139,7 +139,7 @@ define(["lib/common/controller", "lib/common/pgpViewModel", "openpgp", "jquery"]
     var requestFilter = {
       urls: filterURL,
       types: filterType
-    }
+    };
     chrome.webRequest.onCompleted.removeListener(watchListRequestHandler);
     if (filterURL.length !== 0) {
       chrome.webRequest.onCompleted.addListener(watchListRequestHandler, requestFilter);
@@ -180,7 +180,8 @@ define(["lib/common/controller", "lib/common/pgpViewModel", "openpgp", "jquery"]
   }
 
   function csBootstrap() {
-    return " \
+    var bootstrapSrc =
+    " \
       if (!document.mveloBootstrap) { \
         var hosts = " + JSON.stringify(frameHosts) + "; \
         var match = hosts.some(function(host) { \
@@ -194,6 +195,7 @@ define(["lib/common/controller", "lib/common/pgpViewModel", "openpgp", "jquery"]
         document.mveloBootstrap = true;\
       } \
     ";
+    return bootstrapSrc;
   }
 
   function migrate() {
