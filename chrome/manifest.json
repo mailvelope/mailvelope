@@ -28,6 +28,7 @@
   "web_accessible_resources": [
     "common/img/key-24.png",
     "common/img/mail_locked_96.png",
+    "common/img/mail_signed_96.png",
     "common/img/mail_open_96.png",
     "common/img/encrypt-22.png",
     "common/img/sign-22.png",
@@ -41,6 +42,7 @@
     "common/dep/kendoui/styles/Default/loading-image.gif",
     "common/ui/inline/framestyles.css",
     "common/ui/inline/dialogs/decryptInline.html",
+    "common/ui/inline/dialogs/verifyInline.html",
     "common/ui/inline/dialogs/encryptDialog.html",
     "common/ui/inline/dialogs/signDialog.html",
     "common/dep/bootstrap/css/bootstrap.css",

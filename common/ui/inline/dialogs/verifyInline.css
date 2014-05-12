@@ -1,0 +1,81 @@
+/**
+ * Mailvelope - secure email with OpenPGP encryption for Webmail
+ * Copyright (C) 2012  Thomas Oberndörfer
+ */
+
+html, body {
+  height: 100%;
+  background-color: rgba(0,0,0,0);
+}
+
+#wrapper {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 15px 15px 3px 3px;
+  background-color: white;
+}
+
+#wrapper.unknown {
+  background-color: lightyellow;
+}
+
+#wrapper.verified {
+  background-color: lightgreen;
+}
+
+#verifymail {
+  position: absolute;
+  background-color: rgba(0,0,0,0);
+  width: 100%;
+  height: 100%;
+}
+
+.hide_bg {
+  background-color: rgba(254,251,243,1);
+}
+
+#watermark {
+  position: absolute;
+  font-size: 250px;
+  top: 0px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0.04;
+  font-family: 'Comic Sans MS';
+  text-align: center;
+  line-height: 100%;
+}
+
+#errorbox {
+  display: none;
+  background-color: rgba(254,251,243,.7);
+  position: absolute;
+  top: 50%;
+  padding: 20px 20px 0 20px;
+  margin-left: 110px;
+  margin-top: -70px;
+}
+
+#errorbox.errorbox-large {
+  top: 120px;
+  margin-top: 0;
+}
+
+#errorwell {
+  margin-left: 0;
+}
+
+.spinner {
+  background-image: url('../../../dep/kendoui/styles/Default/loading-image.gif');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.spinner-large {
+  background-position: center 160px;
+}

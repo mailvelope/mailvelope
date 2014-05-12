@@ -177,6 +177,10 @@
           var dFrame = new DecryptFrame(prefs);
           dFrame.attachTo(pgpEnd);
           break;
+        case mvelo.PGP_SIGNATURE:
+          var vFrame = new VerifyFrame(prefs);
+          vFrame.attachTo(pgpEnd);
+          break;
         case mvelo.PGP_PUBLIC_KEY:
           var imFrame = new ImportFrame(prefs);
           imFrame.attachTo(pgpEnd);

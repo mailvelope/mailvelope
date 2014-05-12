@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+   - Mailvelope - secure email with OpenPGP encryption for Webmail
+   - Copyright (C) 2012  Thomas Oberndörfer
+  -->
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../../dep/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="verifyPopup.css">
+  <script src="../../dep/jquery.min.js"></script>
+  <script src="../../dep/jquery.ext.js"></script>
+  <script src="../inline/mvelo.js"></script>
+  <script src="secureToken.js"></script>
+  <script src="verifyPopup.js"></script>
+</head>
+<body>
+  <div id="verifymail" class="m-modal">
+    <div class="modal-header clearfix">
+      <h3>Message</h3>
+      <div id='secureCode'></div>
+    </div>
+    <div class="modal-body">
+    </div>
+    <div class="modal-footer">
+      <button id="copyBtn" class="btn">Copy to Clipboard</button>
+      <button id="closeBtn" class="btn btn-primary">Close</button>
+    </div>
+  </div>
+</body>
+</html>

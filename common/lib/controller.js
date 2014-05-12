@@ -27,6 +27,9 @@ define(function (require, exports, module) {
   var dFramePorts = {};
   // ports to decrypt dialogs
   var dDialogPorts = {};
+  // ports for verification
+  var vFramePorts = {};
+  var vDialogPorts = {};
   // decrypt message buffer
   var messageBuffer = {};
   // ports to encrypt frames
@@ -41,6 +44,8 @@ define(function (require, exports, module) {
   var editor = null;
   // decrypt popup window
   var decryptPopup = null;
+  // verify popup window
+  var verifyPopup = null;
   // password popup window
   var pwdPopup = null;
   // recipients of encrypted mail
@@ -63,6 +68,17 @@ define(function (require, exports, module) {
       case 'dDialog':
         if (dFramePorts[sender.id] && !dDialogPorts[sender.id]) {
           dDialogPorts[sender.id] = port;
+        } else {
+          // invalid
+          port.disconnect();
+        }
+        break;
+      case 'vFrame':
+        vFramePorts[sender.id] = port;
+        break;
+      case 'vDialog':
+        if (vFramePorts[sender.id] && !vDialogPorts[sender.id]) {
+          vDialogPorts[sender.id] = port;
         } else {
           // invalid
           port.disconnect();
@@ -102,6 +118,12 @@ define(function (require, exports, module) {
         break;
       case 'dDialog':
         delete dDialogPorts[sender.id];
+        break;
+      case 'vFrame':
+        delete vFramePorts[sender.id];
+        break;
+      case 'vDialog':
+        delete vDialogPorts[sender.id];
         break;
       case 'eFrame':
         delete eFramePorts[sender.id];
@@ -159,6 +181,13 @@ define(function (require, exports, module) {
           dFramePorts[id].postMessage({event: 'armored-message'});
         }
         break;
+      case 'verify-inline-init':
+        // get armored message from vFrame
+        vFramePorts[id].postMessage({event: 'armored-message'});
+        break;
+      case 'verify-popup-init':
+        vFramePorts[id].postMessage({event: 'armored-message'});
+        break;
       case 'decrypt-popup-init':
         // get armored message from dFrame
         dFramePorts[id].postMessage({event: 'armored-message'});
@@ -166,6 +195,11 @@ define(function (require, exports, module) {
       case 'pwd-dialog-init':
         // pass over keyid and userid to dialog
         pwdPort.postMessage({event: 'message-userid', userid: messageBuffer[id].userid, keyid: messageBuffer[id].key.primaryKey.getKeyId().toHex(), cache: prefs.data.security.password_cache});
+        break;
+      case 'vframe-display-popup':
+        mvelo.windows.openPopup('common/ui/modal/verifyPopup.html?id=' + id, {width: 742, height: 450, modal: true}, function(window) {
+          verifyPopup = window;
+        });
         break;
       case 'dframe-display-popup':
         // decrypt popup potentially needs pwd dialog
@@ -203,6 +237,43 @@ define(function (require, exports, module) {
         } catch (e) {
           // display error message in decrypt dialog
           dDialogPorts[id].postMessage({event: 'error-message', error: e.message});
+        }
+        break;
+      case 'vframe-armored-message':
+        var result;
+        try {
+          result = model.readCleartextMessage(msg.data);
+        } catch (e) {
+          vDialogPorts[id].postMessage({
+            event: 'error-message',
+            error: e.message
+          });
+          break;
+        }
+        model.verifyMessage(result.message, [result.keyid], function (err, verified) {
+          var userid = '';
+          if (result.key) {
+            userid = result.key.users[0].userId.userid;
+          }
+          vDialogPorts[id].postMessage({
+            event: 'verified-message',
+            message: result.message.getText(),
+            keyid: '0x' + result.keyid.toUpperCase(),
+            userid: userid,
+            verified: verified,
+            data: result
+          });
+        });
+        break;
+      case 'verify-dialog-cancel':
+        if (vFramePorts[id]) {
+          vFramePorts[id].postMessage({
+            event: 'remove-dialog'
+          });
+        }
+        if (verifyPopup) {
+          verifyPopup.close();
+          verifyPopup = null;
         }
         break;
       case 'pwd-dialog-ok':

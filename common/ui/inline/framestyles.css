@@ -22,6 +22,16 @@
   background-image: url('../../img/mail_locked_96.png'), none;
 }
 
+:root .m-extract-frame.m-verify {
+  background-image: url('../../img/mail_signed_96.png'), none;
+  background-size: 64px, 64px;
+}
+
+:root .m-extract-frame.m-open.m-verify {
+  background-position: center center;
+  background-size: 64px, 64px;
+}
+
 :root .m-extract-frame.m-import {
   background-image: url('../../img/key-icon-blue96.png'), none;
 }
@@ -114,6 +124,10 @@
 
 :root .m-decrypt.m-cursor {
   cursor: url('../../img/key-24.png'), auto;
+}
+
+:root .m-verify.m-cursor {
+  cursor: url('../../img/ok48.png'), auto;
 }
 
 :root .m-import.m-cursor {
