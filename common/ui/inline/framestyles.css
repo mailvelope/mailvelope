@@ -25,15 +25,11 @@
 :root .m-extract-frame.m-verify {
   background-image: url('../../img/mail_signed_96.png'), none;
   background-size: 64px, 64px;
-  height: 96px;
-  width: 96px;
-  top: initial;
-  bottom: 0px;
 }
 
-:root .m-extract-frame.m-verify.m-open {
-  height: 100%;
-  width: 100%;
+:root .m-extract-frame.m-open.m-verify {
+  background-position: center center;
+  background-size: 64px, 64px;
 }
 
 :root .m-extract-frame.m-import {

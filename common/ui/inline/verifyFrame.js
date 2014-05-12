@@ -95,6 +95,18 @@ var VerifyFrame = VerifyFrame || (function () {
     return sel.toString();
   };
 
+  verifyFrame.prototype._setFrameDim = function() {
+    var pgpElementPos = this._pgpElement.position();
+    this._eFrame.width(this._pgpElement.width() - 2);
+    if (this._vDialog) {
+      this._eFrame.height(this._pgpEnd.position().top + this._pgpEnd.height() - pgpElementPos.top - 2);
+      this._eFrame.css('top', pgpElementPos.top + this._pgpElementAttr.marginTop + this._pgpElementAttr.paddingTop);
+    } else {
+      this._eFrame.height('128px');
+      this._eFrame.css('top', (this._pgpEnd.position().top + this._pgpEnd.height() - pgpElementPos.top - 2) - 128);
+    }
+  },
+
   verifyFrame.prototype._registerEventListener = function () {
     this.parent._registerEventListener.call(this);
     var that = this;
