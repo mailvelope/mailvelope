@@ -3,10 +3,6 @@
  * Copyright (C) 2012  Thomas Oberndörfer
  */
 
-:root .m-frame-wrapper {
-    position: relative;
-}
-
 :root .m-extract-frame {
   background-position: center center, center center;
   background-image: none, none;
@@ -17,9 +13,7 @@
   border-radius: 3px;
   box-shadow: 0 1px 2px rgba(0,0,0,.1);
   position: absolute;
-  top: 0px;
-  height: 100%;
-  width: 100%;
+  top: 0;
   z-index: 1;
   display: none;
 }

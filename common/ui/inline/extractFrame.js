@@ -67,7 +67,8 @@ var ExtractFrame = ExtractFrame || (function() {
         html: '<a class="m-frame-close">×</a>'
       });
 
-      this._pgpElement.wrap($('<div>').addClass('m-frame-wrapper'));
+      this._setFrameDim();
+
       this._eFrame.insertAfter(this._pgpElement);
       if (this._pgpElement.height() > mvelo.LARGE_FRAME) {
         this._eFrame.addClass('m-large');
@@ -76,6 +77,9 @@ var ExtractFrame = ExtractFrame || (function() {
 
       this._eFrame.on('click', this._clickHandler.bind(this));
       this._eFrame.find('.m-frame-close').on('click', this._closeFrame.bind(this));
+
+      $(window).resize(this._setFrameDim.bind(this));
+      this._refreshPosIntervalID = window.setInterval(this._setFrameDim.bind(this), 1000);
     },
 
     _clickHandler: function(callback) {
@@ -86,7 +90,6 @@ var ExtractFrame = ExtractFrame || (function() {
     },
 
     _closeFrame: function(finalClose) {
-      this._pgpElement.unwrap();
       this._eFrame.fadeOut(function() {
         window.clearInterval(this._refreshPosIntervalID);
         $(window).off('resize');
