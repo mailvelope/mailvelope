@@ -480,7 +480,7 @@ define(function(require, exports, module) {
       throw {
         type: 'error',
         message: 'Could not read this cleartext message: ' + e
-      }
+      };
     }
 
     var signingKeyIds = result.message.getSigningKeyIds();
@@ -488,7 +488,7 @@ define(function(require, exports, module) {
       result.keyid = signingKeyIds[i].toHex();
       result.key = keyring.publicKeys.getForId(result.keyid, true) || keyring.privateKeys.getForId(result.keyid, true);
       if (result.key) {
-        break
+        break;
       }
     }
 

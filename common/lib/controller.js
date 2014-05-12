@@ -197,9 +197,9 @@ define(function (require, exports, module) {
         pwdPort.postMessage({event: 'message-userid', userid: messageBuffer[id].userid, keyid: messageBuffer[id].key.primaryKey.getKeyId().toHex(), cache: prefs.data.security.password_cache});
         break;
       case 'vframe-display-popup':
-          mvelo.windows.openPopup('common/ui/modal/verifyPopup.html?id=' + id, {width: 742, height: 450, modal: true}, function(window) {
-            verifyPopup = window;
-          });
+        mvelo.windows.openPopup('common/ui/modal/verifyPopup.html?id=' + id, {width: 742, height: 450, modal: true}, function(window) {
+          verifyPopup = window;
+        });
         break;
       case 'dframe-display-popup':
         // decrypt popup potentially needs pwd dialog
@@ -249,7 +249,7 @@ define(function (require, exports, module) {
             error: e.message
           });
           break;
-        };
+        }
         model.verifyMessage(result.message, [result.keyid], function (err, verified) {
           vDialogPorts[id].postMessage({
             event: 'verified-message',
@@ -266,8 +266,8 @@ define(function (require, exports, module) {
           });
         }
         if (verifyPopup) {
-            verifyPopup.close();
-            verifyPopup = null;
+          verifyPopup.close();
+          verifyPopup = null;
         }
         break;
       case 'pwd-dialog-ok':
