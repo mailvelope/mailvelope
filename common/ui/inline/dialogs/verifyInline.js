@@ -62,6 +62,11 @@
       sandbox: 'allow-same-origin',
       frameBorder: 0
     });
+    var header = $('<header/>', {
+      css: {
+        'border-bottom': '1px solid rgba(0,0,0,0.2)'
+      }
+    });
     var content = $('<div/>', {
       id: 'content',
       css: {
@@ -74,7 +79,7 @@
         'background-color': 'rgba(0,0,0,0)',
         overflow: 'auto'
       }
-    });
+    }).append(header);
     var style = $('<link/>', {
       rel: 'stylesheet',
       href: '../../../dep/bootstrap/css/bootstrap.css'
@@ -124,9 +129,38 @@
         showMessageArea();
         // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
         var message = msg.message.replace(/\n/g, '<br>');
+        var node = $('#verifymail').contents();
+        var header = node.find('header');
+        var keyidNode = $('<span/>', {
+          id: 'keyid'
+        }).text(msg.keyid);
         message = $.parseHTML(message);
-        $('#verifymail').contents().find('#content').append(message);
-        $('#verifymail').parent('#wrapper').addClass(msg.verified ? 'verified' : 'unknown');
+        node.find('#content').append(message);
+        if (msg.verified && msg.verified.valid) {
+          //key known and verified
+          $('#verifymail').parent('#wrapper').addClass('verified');
+          //key found
+          header.append(
+              'Message signed by',
+              ' ',
+              $('<span/>', {
+                id: 'userid'
+              }).text(msg.userid),
+              ' ',
+              '(Key ID:',
+              ' ',
+              keyidNode,
+              ')'
+          );
+        } else {
+          //key unknown
+          $('#verifymail').parent('#wrapper').addClass('unknown');
+          header.append(
+              'Message was signed with unknown key',
+              ' ',
+              keyidNode
+          );
+        }
         break;
       case 'error-message':
         showErrorMsg(msg.error);

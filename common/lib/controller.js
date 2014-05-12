@@ -251,9 +251,15 @@ define(function (require, exports, module) {
           break;
         }
         model.verifyMessage(result.message, [result.keyid], function (err, verified) {
+          var userid = '';
+          if (result.key) {
+            userid = result.key.users[0].userId.userid;
+          }
           vDialogPorts[id].postMessage({
             event: 'verified-message',
             message: result.message.getText(),
+            keyid: '0x' + result.keyid.toUpperCase(),
+            userid: userid,
             verified: verified,
             data: result
           });

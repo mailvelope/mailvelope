@@ -62,6 +62,11 @@
       sandbox: 'allow-same-origin',
       frameBorder: 0
     });
+    var header = $('<header/>', {
+      css: {
+        'border-bottom': '1px solid rgba(0,0,0,0.2)'
+      }
+    });
     var content = $('<div/>', {
       id: 'content',
       css: {
@@ -85,7 +90,8 @@
       sandbox.contents().find('head').append(style)
                                      .append(style2)
                                      .append(style3);
-      sandbox.contents().find('body').append(content);
+      sandbox.contents().find('body').append(header)
+                                     .append(content);
     });
     $('.modal-body').append(sandbox);
   }
@@ -124,9 +130,27 @@
         if (msg.verified && msg.verified.valid) {
           //key known and verified
           node.addClass('verified');
+          //key found
+          header.append(
+              'Message signed by',
+              ' ',
+              $('<span/>', {
+                id: 'userid'
+              }).text(msg.userid),
+              ' ',
+              '(Key ID:',
+              ' ',
+              keyidNode,
+              ')'
+          );
         } else {
           //key unknown
           node.addClass('unknown');
+          header.append(
+              'Message was signed with unknown key',
+              ' ',
+              keyidNode
+          );
         }
         break;
       case 'error-message':
