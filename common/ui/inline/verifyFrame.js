@@ -88,6 +88,12 @@ var VerifyFrame = VerifyFrame || (function () {
     this._eFrame.on('click', this._clickHandler.bind(this));
   };
 
+  verifyFrame.prototype._getArmoredMessage = function() {
+    var sel = document.defaultView.getSelection();
+    sel.selectAllChildren(this._pgpElement.get(0));
+    return sel.toString();
+  };
+
   verifyFrame.prototype._registerEventListener = function () {
     this.parent._registerEventListener.call(this);
     var that = this;
