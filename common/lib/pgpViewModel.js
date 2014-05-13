@@ -476,20 +476,30 @@ define(function(require, exports, module) {
     try {
       result.message = openpgp.cleartext.readArmored(armoredText);
     } catch (e) {
-      console.log('openpgp.cleartext.readArmored', e);
+      //console.log('openpgp.cleartext.readArmored', e);
       throw {
         type: 'error',
         message: 'Could not read this cleartext message: ' + e
       };
     }
 
+    result.signers = [];
     var signingKeyIds = result.message.getSigningKeyIds();
+    if (signingKeyIds.length === 0) {
+      throw {
+        type: 'error',
+        message: 'No signatures found'
+      };
+    }
     for (var i = 0; i < signingKeyIds.length; i++) {
-      result.keyid = signingKeyIds[i].toHex();
-      result.key = keyring.publicKeys.getForId(result.keyid, true) || keyring.privateKeys.getForId(result.keyid, true);
-      if (result.key) {
-        break;
+      var signer = {};
+      signer.keyid = signingKeyIds[i].toHex();
+      signer.key = keyring.getKeysForId(signer.keyid, true);
+      signer.key = signer.key ? signer.key[0] : null;
+      if (signer.key) {
+        signer.userid = getUserId(signer.key);
       }
+      result.signers.push(signer);
     }
 
     return result;
@@ -530,33 +540,25 @@ define(function(require, exports, module) {
     }
   }
 
-  function verifyMessage(message, keyIdsHex, callback) {
-    var keys = keyIdsHex.map(function(keyIdHex) {
-      var keyArray = keyring.getKeysForId(keyIdHex);
-      return keyArray ? keyArray[0].toPublic() : null;
-    }).filter(function(key) {
-      return key !== null;
+  function verifyMessage(message, signers, callback) {
+    var keys = signers.map(function(signer) {
+      return signer.key;
     });
-    if (keys.length === 0) {
-      callback({
-        type: 'error',
-        message: 'No valid key found for verification'
-      });
-      return;
-    }
     try {
-      var verified = message.verify(keys)
-            .filter(function (result) {
-              return result.valid;
-            })
-            .reduce(function (acc, result) {
-              return acc || result;
-            }, false);
-      callback(null, verified);
+      var verified = message.verify(keys);
+      signers = signers.map(function(signer) {
+        signer.valid = verified.some(function(verifiedSig) {
+          return signer.keyid === verifiedSig.keyid.toHex() && verifiedSig.valid;
+        });
+        // remove key object
+        delete signer.key;
+        return signer;
+      });
+      callback(null, signers);
     } catch (e) {
       callback({
         type: 'error',
-        message: 'Could not verify this message'
+        message: 'Could not verify this message:' + e
       });
     }
   }

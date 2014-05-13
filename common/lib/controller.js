@@ -254,21 +254,21 @@ define(function (require, exports, module) {
             event: 'error-message',
             error: e.message
           });
-          break;
+          return;
         }
-        model.verifyMessage(result.message, [result.keyid], function (err, verified) {
-          var userid = '';
-          if (result.key) {
-            userid = result.key.users[0].userId.userid;
+        model.verifyMessage(result.message, result.signers, function (err, verified) {
+          if (err) {
+            vDialogPorts[id].postMessage({
+              event: 'error-message',
+              error: err.message
+            });
+          } else {
+            vDialogPorts[id].postMessage({
+              event: 'verified-message',
+              message: result.message.getText(),
+              signers: verified
+            });
           }
-          vDialogPorts[id].postMessage({
-            event: 'verified-message',
-            message: result.message.getText(),
-            keyid: '0x' + result.keyid.toUpperCase(),
-            userid: userid,
-            verified: verified,
-            data: result
-          });
         });
         break;
       case 'verify-dialog-cancel':

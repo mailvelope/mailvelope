@@ -19,14 +19,6 @@ html, body {
   background-color: white;
 }
 
-#wrapper.unknown {
-  background-color: lightyellow;
-}
-
-#wrapper.verified {
-  background-color: lightgreen;
-}
-
 #verifymail {
   position: absolute;
   background-color: rgba(0,0,0,0);

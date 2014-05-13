@@ -46,7 +46,8 @@
     "common/ui/inline/dialogs/encryptDialog.html",
     "common/ui/inline/dialogs/signDialog.html",
     "common/dep/bootstrap/css/bootstrap.css",
-    "common/dep/wysihtml5/css/wysihtml5.css"
+    "common/dep/wysihtml5/css/wysihtml5.css",
+    "common/ui/inline/dialogs/verifyInlineSig.css"
   ],
   "sandbox": {
     "pages": [
