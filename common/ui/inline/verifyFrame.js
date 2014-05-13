@@ -92,7 +92,9 @@ var VerifyFrame = VerifyFrame || (function () {
   verifyFrame.prototype._getArmoredMessage = function() {
     var sel = document.defaultView.getSelection();
     sel.selectAllChildren(this._pgpElement.get(0));
-    return sel.toString();
+    var msg = sel.toString();
+    sel.removeAllRanges();
+    return msg;
   };
 
   verifyFrame.prototype._setFrameDim = function() {
