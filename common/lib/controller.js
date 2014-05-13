@@ -197,9 +197,15 @@ define(function (require, exports, module) {
         pwdPort.postMessage({event: 'message-userid', userid: messageBuffer[id].userid, keyid: messageBuffer[id].key.primaryKey.getKeyId().toHex(), cache: prefs.data.security.password_cache});
         break;
       case 'vframe-display-popup':
-        mvelo.windows.openPopup('common/ui/modal/verifyPopup.html?id=' + id, {width: 742, height: 450, modal: true}, function(window) {
-          verifyPopup = window;
-        });
+        // prevent two open modal dialogs
+        if (pwdPort || mvelo.windows.modalActive) {
+          // password dialog or modal dialog already open
+          vFramePorts[id].postMessage({event: 'remove-dialog'});
+        } else {
+          mvelo.windows.openPopup('common/ui/modal/verifyPopup.html?id=' + id, {width: 742, height: 450, modal: true}, function(window) {
+            verifyPopup = window;
+          });
+        }
         break;
       case 'dframe-display-popup':
         // decrypt popup potentially needs pwd dialog
