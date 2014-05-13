@@ -591,26 +591,20 @@ define(function (require, exports, module) {
     deletePort(eDialogPorts, port);
   }
 
+  function destroyFrames(ports) {
+    for (var id in ports) {
+      if (ports.hasOwnProperty(id)) {
+        ports[id].postMessage({event: 'destroy'});
+      }
+    }
+  }
+
   function reloadFrames() {
     // close frames
-    for (var id in dFramePorts) {
-      if (dFramePorts.hasOwnProperty(id)) {
-        //console.log('post message destroy to dFrame%s', id);
-        dFramePorts[id].postMessage({event: 'destroy'});
-      }
-    }
-    for (var id in eFramePorts) {
-      if (eFramePorts.hasOwnProperty(id)) {
-        //console.log('post message destroy to eFrame%s', id);
-        eFramePorts[id].postMessage({event: 'destroy'});
-      }
-    }
-    for (var id in imFramePorts) {
-      if (imFramePorts.hasOwnProperty(id)) {
-        //console.log('post message destroy to eFrame%s', id);
-        imFramePorts[id].postMessage({event: 'destroy'});
-      }
-    }
+    destroyFrames(dFramePorts);
+    destroyFrames(vFramePorts);
+    destroyFrames(eFramePorts);
+    destroyFrames(imFramePorts);
   }
 
   function addToWatchList() {
