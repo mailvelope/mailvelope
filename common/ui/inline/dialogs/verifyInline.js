@@ -141,24 +141,24 @@
           $('#verifymail').parent('#wrapper').addClass('verified');
           //key found
           header.append(
-              'Message signed by',
-              ' ',
-              $('<span/>', {
-                id: 'userid'
-              }).text(msg.userid),
-              ' ',
-              '(Key ID:',
-              ' ',
-              keyidNode,
-              ')'
+            'Message signed by',
+            ' ',
+            $('<span/>', {
+              id: 'userid'
+            }).text(msg.userid),
+            ' ',
+            '(Key ID:',
+            ' ',
+            keyidNode,
+            ')'
           );
         } else {
           //key unknown
           $('#verifymail').parent('#wrapper').addClass('unknown');
           header.append(
-              'Message was signed with unknown key',
-              ' ',
-              keyidNode
+            'Message was signed with unknown key',
+            ' ',
+            keyidNode
           );
         }
         break;

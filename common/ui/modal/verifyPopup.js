@@ -132,16 +132,16 @@
           node.addClass('verified');
           //key found
           header.append(
-              'Message signed by',
-              ' ',
-              $('<span/>', {
-                id: 'userid'
-              }).text(msg.userid),
-              ' ',
-              '(Key ID:',
-              ' ',
-              keyidNode,
-              ')'
+            'Message signed by',
+            ' ',
+            $('<span/>', {
+              id: 'userid'
+            }).text(msg.userid),
+            ' ',
+            '(Key ID:',
+            ' ',
+            keyidNode,
+            ')'
           );
         } else {
           //key unknown
