@@ -32,6 +32,7 @@ var ExtractFrame = ExtractFrame || (function() {
     this._eFrame = null;
     this._port = null;
     this._refreshPosIntervalID = null;
+    this._pgpStartRegex = /BEGIN\sPGP/;
   };
 
   extractFrame.prototype = {
@@ -46,9 +47,8 @@ var ExtractFrame = ExtractFrame || (function() {
     _init: function(pgpEnd) {
       this._pgpEnd = pgpEnd;
       // find element with complete armored text and width > 0
-      var regex = /BEGIN\sPGP/;
       this._pgpElement = pgpEnd;
-      while (!regex.test(this._pgpElement.text()) || this._pgpElement.width() <= 0) {
+      while (!this._pgpStartRegex.test(this._pgpElement.text()) || this._pgpElement.width() <= 0) {
         this._pgpElement = this._pgpElement.parent();
       }
       // set status to attached
