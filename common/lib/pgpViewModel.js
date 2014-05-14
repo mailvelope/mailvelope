@@ -543,11 +543,13 @@ define(function(require, exports, module) {
   function verifyMessage(message, signers, callback) {
     var keys = signers.map(function(signer) {
       return signer.key;
+    }).filter(function(key) {
+      return key !== null;
     });
     try {
       var verified = message.verify(keys);
       signers = signers.map(function(signer) {
-        signer.valid = verified.some(function(verifiedSig) {
+        signer.valid = signer.key && verified.some(function(verifiedSig) {
           return signer.keyid === verifiedSig.keyid.toHex() && verifiedSig.valid;
         });
         // remove key object

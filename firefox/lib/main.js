@@ -64,6 +64,7 @@ function init() {
   initScriptInjection();
   injectMessageAdapter();
   injectDecryptInline();
+  injectVerifyInline();
   injectEncryptDialog();
   injectSignDialog();
 }
@@ -162,6 +163,7 @@ function injectMessageAdapter() {
   pageMod.PageMod({
     include: [
       data.url('common/ui/modal/decryptPopup.html*'),
+      data.url('common/ui/modal/verifyPopup.html*'),
       data.url('common/ui/modal/editor.html*'),
       data.url('common/ui/inline/dialogs/encryptDialog.html*'),
       data.url('common/ui/inline/dialogs/signDialog.html*'),
@@ -187,6 +189,25 @@ function injectDecryptInline() {
       data.url('ui/messageAdapter.js'),
       data.url('common/ui/inline/mvelo.js'),
       data.url('common/ui/inline/dialogs/decryptInline.js')
+    ],
+    contentScriptWhen: 'ready',
+    contentScriptOptions: {
+      expose_messaging: false,
+      data_path: data.url()
+    }
+  });
+}
+
+function injectVerifyInline() {
+  pageMod.PageMod({
+    include: 'about:blank?mvelo=verifyInline*',
+    onAttach: onCsAttach,
+    contentScriptFile: [
+      data.url('common/dep/jquery.min.js'),
+      data.url('common/dep/jquery.ext.js'),
+      data.url('ui/messageAdapter.js'),
+      data.url('common/ui/inline/mvelo.js'),
+      data.url('common/ui/inline/dialogs/verifyInline.js')
     ],
     contentScriptWhen: 'ready',
     contentScriptOptions: {

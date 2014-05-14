@@ -114,7 +114,7 @@
             userid.text(signer.userid);
           }
           if (signer.userid && signer.valid) {
-            type = 'info';
+            type = 'success';
             message.append('Signed by', ' ', userid, ' ', keyid);
           } else if (!signer.userid) {
             type = 'warning';
