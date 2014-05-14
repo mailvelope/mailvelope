@@ -82,10 +82,6 @@
     $('.modal-body').append(sandbox);
   }
 
-  function showMessageArea() {
-    $('#verifymail').fadeIn();
-  }
-
   function addErrorView() {
     var errorbox = $('<div/>', {id: 'errorbox'});
     $('<div/>', {id: 'errorwell', class: 'well span5'}).appendTo(errorbox);
@@ -93,7 +89,6 @@
   }
 
   function showError(msg) {
-    showMessageArea();
     // hide sandbox
     $('.modal-body iframe').hide();
     $('#errorbox').show();
@@ -106,10 +101,9 @@
     $('body').removeClass('spinner');
     switch (msg.event) {
       case 'verified-message':
-        showMessageArea();
         // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
         var message = msg.message.replace(/\n/g, '<br>');
-        var node = $('#verifymail').contents();
+        var node = sandbox.contents();
         var header = node.find('header');
         msg.signers.forEach(function(signer) {
           var type, userid;
