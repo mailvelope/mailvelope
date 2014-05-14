@@ -11,14 +11,6 @@ html, body {
   cursor: wait !important;
 }
 
-#content.unknown {
-  background-color: lightyellow;
-}
-
-#content.verified {
-  background-color: lightgreen;
-}
-
 #verifymail {
   display: none;
   position: absolute;

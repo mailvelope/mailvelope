@@ -59,39 +59,25 @@
 
   function addSandbox() {
     sandbox = $('<iframe/>', {
+      id: 'verifymail',
       sandbox: 'allow-same-origin',
       frameBorder: 0
     });
-    var header = $('<header/>', {
-      css: {
-        'border-bottom': '1px solid rgba(0,0,0,0.2)'
-      }
-    });
+    var header = $('<header/>');
     var content = $('<div/>', {
-      id: 'content',
-      css: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        margin: '3px',
-        padding: '3px',
-        overflow: 'auto'
-      }
-    });
+      id: 'content'
+    }).append(header);
     var style = $('<link/>', {
       rel: 'stylesheet',
       href: '../../dep/bootstrap/css/bootstrap.css'
     });
     var style2 = style.clone().attr('href', '../../dep/wysihtml5/css/wysihtml5.css');
-    var style3 = style.clone().attr('href', '../../ui/modal/verifyPopup.css');
+    var style3 = style.clone().attr('href', '../../ui/modal/verifyPopupSig.css');
     sandbox.one('load', function() {
       sandbox.contents().find('head').append(style)
                                      .append(style2)
                                      .append(style3);
-      sandbox.contents().find('body').append(header)
-                                     .append(content);
+      sandbox.contents().find('body').append(content);
     });
     $('.modal-body').append(sandbox);
   }
@@ -120,38 +106,33 @@
     $('body').removeClass('spinner');
     switch (msg.event) {
       case 'verified-message':
-        //console.log('popup decrypted message: ', msg.message);
         showMessageArea();
         // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
         var message = msg.message.replace(/\n/g, '<br>');
+        var node = $('#verifymail').contents();
+        var header = node.find('header');
+        msg.signers.forEach(function(signer) {
+          var type, userid;
+          var message = $('<span/>');
+          var keyid = '(Key ID:' + ' ' + signer.keyid.toUpperCase() + ')';
+          if (signer.userid) {
+            userid = $('<strong/>');
+            userid.text(signer.userid);
+          }
+          if (signer.userid && signer.valid) {
+            type = 'info';
+            message.append('Signed by', ' ', userid, ' ', keyid);
+          } else if (!signer.userid) {
+            type = 'warning';
+            message.append('Signed with unknown key', ' ', keyid);
+          } else {
+            type = 'error';
+            message.append('Wrong signature of', ' ', userid, ' ', keyid);
+          }
+          header.showAlert('', message, type, true);
+        });
         message = $.parseHTML(message);
-        var node = sandbox.contents().find('#content');
-        node.append(message);
-        if (msg.verified && msg.verified.valid) {
-          //key known and verified
-          node.addClass('verified');
-          //key found
-          header.append(
-            'Message signed by',
-            ' ',
-            $('<span/>', {
-              id: 'userid'
-            }).text(msg.userid),
-            ' ',
-            '(Key ID:',
-            ' ',
-            keyidNode,
-            ')'
-          );
-        } else {
-          //key unknown
-          node.addClass('unknown');
-          header.append(
-              'Message was signed with unknown key',
-              ' ',
-              keyidNode
-          );
-        }
+        node.find('#content').append(message);
         break;
       case 'error-message':
         showError(msg.error);
