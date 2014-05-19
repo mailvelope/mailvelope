@@ -26,14 +26,32 @@ var VerifyFrame = VerifyFrame || (function () {
     this._ctrlName = 'vFrame-' + this.id;
     this._typeRegex = /-----BEGIN PGP SIGNED MESSAGE-----[\s\S]+?-----END PGP SIGNATURE-----/;
     this._pgpStartRegex = /BEGIN\sPGP\sSIGNED/;
+    this._sigHeight = 128;
   };
 
   verifyFrame.prototype = Object.create(ExtractFrame.prototype);
   verifyFrame.prototype.parent = ExtractFrame.prototype;
 
+  verifyFrame.prototype._init = function(pgpEnd) {
+    this.parent._init.call(this, pgpEnd);
+    this._calcSignatureHeight();
+  };
+
   verifyFrame.prototype._renderFrame = function () {
     this.parent._renderFrame.call(this);
     this._eFrame.addClass('m-verify');
+  };
+
+  verifyFrame.prototype._calcSignatureHeight = function () {
+    var msg = this._getArmoredMessage();
+    msg = msg.split('\n');
+    for (var i = 0; i < msg.length; i++) {
+      if (/-----BEGIN\sPGP\sSIGNATURE-----/.test(msg[i])) {
+        var height = this._pgpEnd.position().top + this._pgpEnd.height() - this._pgpElement.position().top - 2;
+        this._sigHeight = parseInt(height / msg.length * (msg.length - i), 10);
+        break;
+      }
+    }
   };
 
   verifyFrame.prototype._clickHandler = function () {
@@ -108,8 +126,8 @@ var VerifyFrame = VerifyFrame || (function () {
       this._eFrame.height(height);
       this._eFrame.css('top', top);
     } else {
-      this._eFrame.height('128px');
-      this._eFrame.css('top', top + height - 128);
+      this._eFrame.height(this._sigHeight);
+      this._eFrame.css('top', top + height - this._sigHeight);
     }
   },
 
