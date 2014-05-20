@@ -143,7 +143,8 @@
         msg.signers.forEach(function(signer) {
           var type, userid;
           var message = $('<span/>');
-          var keyid = '(Key ID:' + ' ' + signer.keyid.toUpperCase() + ')';
+          var keyid = $('<span/>');
+          keyid.text('(Key ID:' + ' ' + signer.keyid.toUpperCase() + ')');
           if (signer.userid) {
             userid = $('<strong/>');
             userid.text(signer.userid);
