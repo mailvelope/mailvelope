@@ -40,6 +40,7 @@ var VerifyFrame = VerifyFrame || (function () {
   verifyFrame.prototype._renderFrame = function () {
     this.parent._renderFrame.call(this);
     this._eFrame.addClass('m-verify');
+    this._eFrame.removeClass('m-large');
   };
 
   verifyFrame.prototype._calcSignatureHeight = function () {
