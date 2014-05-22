@@ -27,11 +27,11 @@ define(function(require, exports, module) {
   mvelo.data = {};
 
   mvelo.data.url = function(path) {
-    return chrome.extension.getURL(path);
+    return chrome.runtime.getURL(path);
   };
 
   mvelo.data.load = function(path, callback) {
-    $.get(chrome.extension.getURL(path), callback);
+    $.get(chrome.runtime.getURL(path), callback);
   };
 
   mvelo.data.loadDefaults = function() {
@@ -96,7 +96,7 @@ define(function(require, exports, module) {
 
   mvelo.tabs.loadOptionsTab = function(hash, onMessage, callback) {
     // check if options tab already exists
-    this.query(chrome.extension.getURL('common/ui/options.html'), function(tabs) {
+    this.query(chrome.runtime.getURL('common/ui/options.html'), function(tabs) {
       if (tabs.length === 0) {
         // if not existent, create tab
         mvelo.tabs.create('common/ui/options.html' + hash, callback !== undefined, callback.bind(this, false));

@@ -69,7 +69,7 @@ define(["lib/common/controller", "lib/common/pgpViewModel", "openpgp", "jquery"]
   
   function initConnectionManager() {
     // store incoming connections by name and id
-    chrome.extension.onConnect.addListener(function(port) {
+    chrome.runtime.onConnect.addListener(function(port) {
       //console.log('ConnectionManager: onConnect:', port);
       controller.addPort(port);
       port.onMessage.addListener(controller.handlePortMessage);
@@ -79,7 +79,7 @@ define(["lib/common/controller", "lib/common/pgpViewModel", "openpgp", "jquery"]
   }
 
   function initMessageListener() {
-    chrome.extension.onMessage.addListener(
+    chrome.runtime.onMessage.addListener(
       function(request, sender, sendResponse) {
         switch (request.event) {
           // for content scripts requesting code
@@ -112,8 +112,8 @@ define(["lib/common/controller", "lib/common/pgpViewModel", "openpgp", "jquery"]
     
     if (injectOptimized && csCode === '') {
       // load content script
-      $.get(chrome.extension.getURL('common/ui/inline/cs-mailvelope.js'), function(csmSrc) {
-        $.get(chrome.extension.getURL('common/dep/jquery.min.js'), function(jquerySrc) {
+      $.get(chrome.runtime.getURL('common/ui/inline/cs-mailvelope.js'), function(csmSrc) {
+        $.get(chrome.runtime.getURL('common/dep/jquery.min.js'), function(jquerySrc) {
           csCode = jquerySrc + csmSrc;
         });
       });
@@ -121,10 +121,10 @@ define(["lib/common/controller", "lib/common/pgpViewModel", "openpgp", "jquery"]
 
     // load framestyles and replace path
     if (framestyles === '') {
-      $.get(chrome.extension.getURL('common/ui/inline/framestyles.css'), function(data) {
+      $.get(chrome.runtime.getURL('common/ui/inline/framestyles.css'), function(data) {
         framestyles = data;
         var token = /\.\.\/\.\./g;
-        framestyles = framestyles.replace(token, chrome.extension.getURL('common'));
+        framestyles = framestyles.replace(token, chrome.runtime.getURL('common'));
       });
     }
 
@@ -188,7 +188,7 @@ define(["lib/common/controller", "lib/common/pgpViewModel", "openpgp", "jquery"]
           return host === document.location.host; \
         }); \
         if (match) { \
-          chrome.extension.sendMessage({event: 'get-cs'}, function(response) { \
+          chrome.runtime.sendMessage({event: 'get-cs'}, function(response) { \
             eval(response.code); \
           }); \
         } \

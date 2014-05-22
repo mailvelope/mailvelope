@@ -22,7 +22,7 @@ mvelo.crx = typeof chrome !== 'undefined';
 // firefox addon
 mvelo.ffa = mvelo.ffa || typeof self !== 'undefined' && self.port || !mvelo.crx;
 // for fixfox, mvelo.extension is exposed from a content script
-mvelo.extension = mvelo.extension || mvelo.crx && chrome.extension;
+mvelo.extension = mvelo.extension || mvelo.crx && chrome.runtime;
 // min height for large frame
 mvelo.LARGE_FRAME = 600;
 // frame constants

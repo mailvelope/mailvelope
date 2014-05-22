@@ -8,7 +8,7 @@ $(document).ready(function() {
       action: this.id
     };
     if (crx) {
-      chrome.extension.sendMessage(message);
+      chrome.runtime.sendMessage(message);
       $(document.body).fadeOut(function() {
         window.close();
       });
