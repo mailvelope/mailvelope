@@ -111,10 +111,16 @@ var VerifyFrame = VerifyFrame || (function () {
   };
 
   verifyFrame.prototype._getArmoredMessage = function() {
-    var sel = document.defaultView.getSelection();
-    sel.selectAllChildren(this._pgpElement.get(0));
-    var msg = sel.toString();
-    sel.removeAllRanges();
+    var msg;
+    // selection method does not work in Firefox if pre element without linebreaks with <br>
+    if (this._pgpElement.is('pre') && !this._pgpElement.find('br').length) {
+      msg = this._pgpElement.text();
+    } else {
+      var sel = document.defaultView.getSelection();
+      sel.selectAllChildren(this._pgpElement.get(0));
+      msg = sel.toString();
+      sel.removeAllRanges();
+    }
     return msg;
   };
 

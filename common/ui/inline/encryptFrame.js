@@ -277,15 +277,19 @@ var EncryptFrame = EncryptFrame || (function() {
     },
 
     _getEmailText: function(type) {
-      var text;
+      var text, html;
       if (this._emailTextElement.is('textarea')) {
         text = this._emailTextElement.val();
       } else { // html element
-        var html = this._emailTextElement.html();
-        html = html.replace(/\n/g, ''); // remove new lines
         if (type === 'text') {
-          text = this._html2text(html);
+          var element = this._emailTextElement.get(0);
+          var sel = element.ownerDocument.defaultView.getSelection();
+          sel.selectAllChildren(element);
+          text = sel.toString();
+          sel.removeAllRanges();
         } else {
+          html = this._emailTextElement.html();
+          html = html.replace(/\n/g, ''); // remove new lines
           text = html;
         }
       }
@@ -334,12 +338,8 @@ var EncryptFrame = EncryptFrame || (function() {
      */
     _setMessage: function(msg, type) {
       if (this._emailTextElement.is('textarea')) {
-        if (type == 'html') {
-          msg = this._html2text(msg);
-        } else {
-          // type text but due previous HTML parsing we need to decode HTML entities
-          msg = $('<div/>').html(msg).text(); // decode
-        }
+        // decode HTML entities for type text due to previous HTML parsing
+        msg = $('<div/>').html(msg).text(); // decode
         if (this._options.set_text) {
           this._options.set_text(msg);
         } else {
@@ -348,7 +348,9 @@ var EncryptFrame = EncryptFrame || (function() {
       } else {
         // element is contenteditable or RTE
         if (type == 'text') {
-          msg = msg.replace(/\n/g, '<br>'); // replace new line with <br>
+          var wrapper = $('<div/>');
+          wrapper.append($('<pre/>').html(msg));
+          msg = wrapper.html();
         }
         if (this._options.set_text) {
           this._options.set_text(msg);

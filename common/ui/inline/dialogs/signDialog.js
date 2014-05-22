@@ -64,7 +64,8 @@
     port.postMessage({
       event: 'sign-dialog-ok',
       sender: id,
-      signKeyId: $('#keySelect').val()
+      signKeyId: $('#keySelect').val(),
+      type: 'text'
     });
     return false;
   }

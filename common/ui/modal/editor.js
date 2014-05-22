@@ -98,9 +98,6 @@
   function transfer() {
      // wysihtml5 <body> is automatically copied to the hidden <textarea>
     var armored = editor.val();
-    if (editor_type == mvelo.RICH_TEXT) {
-      armored = armored.replace(/\n/g, '');
-    }
     port.postMessage({
       event: 'editor-transfer-output',
       data: armored,
@@ -141,7 +138,7 @@
     $('#rte-box').show();
     $('#richText').wysihtml5('deepExtend', {
       toolbar_element: 'rte-toolbar',
-      stylesheets: ['../../dep/css/bootstrap.css', '../../dep/wysihtml5/css/wysiwyg-color.css'],
+      stylesheets: ['../../dep/wysihtml5/css/wysiwyg-color.css'],
       color: true,
       parserRules: wysihtml5ParserRules,
       events: {
