@@ -133,25 +133,27 @@ var ExtractFrame = ExtractFrame || (function() {
     },
 
     _getArmoredMessage: function() {
+      var msg;
       if (this._pgpElement.is('pre')) {
-        var msg = this._pgpElement.clone();
+        msg = this._pgpElement.clone();
         msg.find('br').replaceWith('\n');
-        return msg.text();
+        msg = msg.text();
       } else {
-        var msg = this._pgpElement.html();
+        msg = this._pgpElement.html();
         msg = msg.replace(/\n/g, ' '); // replace new line with space
         msg = msg.replace(/(<br>)/g, '\n'); // replace <br> with new line
-        //msg = msg.replace(/<(\/.+?)>/g, '\n'); // replace closing tags </..> with new line
         msg = msg.replace(/<\/(blockquote|div|dl|dt|dd|form|h1|h2|h3|h4|h5|h6|hr|ol|p|pre|table|tr|td|ul|li|section|header|footer)>/g, '\n'); // replace block closing tags </..> with new line
         msg = msg.replace(/<(.+?)>/g, ''); // remove tags
-        //
         msg = msg.replace(/&nbsp;/g, ' '); // replace non-breaking space with whitespace
-        msg = msg.replace(/\n\s+/g, '\n'); // compress sequence of whitespace and new line characters to one new line
-        msg = msg.match(this._typeRegex)[0];
-        msg = msg.replace(/:.*\n(?!.*:)/, '$&\n');  // insert new line after last armor header
         msg = this._htmlDecode(msg);
-        return msg;
       }
+      msg = msg.replace(/\n\s+/g, '\n'); // compress sequence of whitespace and new line characters to one new line
+      msg = msg.match(this._typeRegex)[0];
+      msg = msg.replace(/^(\s?>)+/gm, ''); // remove quotation
+      msg = msg.replace(/^\s+/gm, ''); // remove leading whitespace
+      msg = msg.replace(/:.*\n(?!.*:)/, '$&\n');  // insert new line after last armor header
+      msg = msg.replace(/-----\n(?!.*:)/, '$&\n'); // insert new line if no header
+      return msg;
     },
 
     _registerEventListener: function() {
