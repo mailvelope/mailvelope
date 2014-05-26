@@ -31,6 +31,7 @@ var EncryptFrame = EncryptFrame || (function() {
     // type of external editor
     this._editorType = prefs.general.editor_type;
     this._options = {expanded: false, closeBtn: true};
+    this._keyCounter = 0;
   };
 
   encryptFrame.prototype = {
@@ -108,6 +109,16 @@ var EncryptFrame = EncryptFrame || (function() {
       } else {
         this.showEncryptDialog();
       }
+      if (this._editorMode === mvelo.EDITOR_EXTERNAL) {
+        this._emailTextElement.on('keypress', function() {
+          if (++that._keyCounter >= 13) {
+            that._emailTextElement.off('keypress');
+            that._eFrame.fadeOut('slow', function() {
+              that._closeFrame();
+            });
+          }
+        });
+      }
     },
 
     _normalizeButtons: function() {
@@ -151,6 +162,7 @@ var EncryptFrame = EncryptFrame || (function() {
     },
 
     _onEditorButton: function() {
+      this._emailTextElement.off('keypress');
       this._showMailEditor();
       return false;
     },
