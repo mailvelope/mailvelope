@@ -22,6 +22,10 @@ var pageMod = require('sdk/page-mod');
 var tabs = require('sdk/tabs');
 var unload = require('sdk/system/unload');
 
+try {
+  var { ToggleButton } = require("sdk/ui/button/toggle");
+} catch (e) {}
+
 checkStaticArgs();
 
 var controller = require('./common/controller');
@@ -35,15 +39,48 @@ var mailvelopePanel = require('sdk/panel').Panel({
   width: 200,
   height: 164,
   contentURL: data.url('common/ui/popup.html'),
-  onMessage: onPanelMessage
+  onMessage: onPanelMessage,
+  onHide: function() {
+    if (toggleButton) {
+      toggleButton.state('window', {checked: false});
+    }
+  }
 });
 
-require('sdk/widget').Widget({
-  label: 'Mailvelope Options',
-  id: 'mailvelope-options',
-  contentURL: data.url('common/img/cryptography-icon16.png'),
-  panel: mailvelopePanel
-});
+function onPanelMessage(msg) {
+  //console.log('onPanelMessage', msg.action);
+  controller.onBrowserAction(msg.action);
+  mailvelopePanel.hide();
+}
+
+var toggleButton;
+
+if (ToggleButton) {
+  // Australis UI
+  toggleButton = ToggleButton({
+    id: 'mailvelope-options',
+    label: 'mailvelope-options',
+    icon: {
+      '16': data.url('common/img/cryptography-icon16.png'),
+      '48': data.url('common/img/cryptography-icon48.png')
+    },
+    onChange: function(state) {
+      if (state.checked) {
+        mailvelopePanel.show({
+          position: toggleButton
+        });
+      }
+    }
+  });
+} else {
+  // FF <29
+  require('sdk/widget').Widget({
+    id: 'mailvelope-options',
+    label: 'Mailvelope Options',
+    contentURL: data.url('common/img/cryptography-icon16.png'),
+    panel: mailvelopePanel
+  });
+}
 
 unload.when(function(reason) {
   // with FF24 reason is never 'uninstall' https://bugzilla.mozilla.org/show_bug.cgi?id=571049
@@ -75,12 +112,6 @@ function clearStorage() {
   for (var obj in ss.storage) {
     delete ss.storage[obj];
   }
-}
-
-function onPanelMessage(msg) {
-  //console.log('onPanelMessage', msg.action);
-  controller.onBrowserAction(msg.action);
-  mailvelopePanel.hide();
 }
 
 function initScriptInjection() {

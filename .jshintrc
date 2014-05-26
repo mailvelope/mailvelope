@@ -27,6 +27,7 @@
     "trailing"      : true,    // true: Prohibit trailing whitespaces
     "node"          : true,    // Node.js
     "nonstandard"   : true,    // Widely adopted globals (escape, unescape, etc)
+    "esnext"        : true,
 
     // Legacy
     "white"         : false,    // true: Check against strict whitespace and indentation rules
