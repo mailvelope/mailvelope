@@ -294,6 +294,7 @@ var EncryptFrame = EncryptFrame || (function() {
         text = this._emailTextElement.val();
       } else { // html element
         if (type === 'text') {
+          this._emailTextElement.focus();
           var element = this._emailTextElement.get(0);
           var sel = element.ownerDocument.defaultView.getSelection();
           sel.selectAllChildren(element);
