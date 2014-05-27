@@ -55,7 +55,7 @@ function onPanelMessage(msg) {
 
 var toggleButton;
 
-if (ToggleButton) {
+if (ToggleButton && !/^29/.test(system.version)) {
   // Australis UI
   toggleButton = ToggleButton({
     id: 'mailvelope-options',
@@ -73,7 +73,7 @@ if (ToggleButton) {
     }
   });
 } else {
-  // FF <29
+  // FF <=29
   require('sdk/widget').Widget({
     id: 'mailvelope-options',
     label: 'Mailvelope Options',
