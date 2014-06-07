@@ -2,10 +2,22 @@
 <html>
 <head>
   <link rel="stylesheet" href="../dep/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="../dep/toggle-switch/toggle-switch.css">
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
   <ul class="dropdown-menu">
+    <li id="state">
+      <label class="switch-light well no-transition">
+        <input type="checkbox" id="activeState"/>
+        <span>
+          <span>Off</span>
+          <span>On</span>
+        </span>
+        <a class="btn btn-small btn-info"></a>
+      </label>
+    </li>
+    <li class="divider"></li>
     <li id="reload"><a href="#"><i class="icon-refresh"></i> Reload</a></li>
     <li id="add"><a href="#"><i class="icon-plus"></i> Add page</a></li>
     <li id="remove"><a href="#"><i class="icon-minus"></i> Remove page</a></li>

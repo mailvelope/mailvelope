@@ -23,6 +23,8 @@ define(function (require, exports, module) {
   var prefs = require('./prefs');
   var pwdCache = require('./pwdCache');
 
+  // ports to main content scripts
+  var mainCsPorts = {};
   // ports to decrypt frames
   var dFramePorts = {};
   // ports to decrypt dialogs
@@ -56,12 +58,16 @@ define(function (require, exports, module) {
 
   function extend(obj) {
     specific.initScriptInjection = obj.initScriptInjection;
+    specific.activate = obj.activate;
+    specific.deactivate = obj.deactivate;
   }
-
 
   function addPort(port) {
     var sender = parseName(port.name);
     switch (sender.name) {
+      case 'mainCS':
+        mainCsPorts[sender.id] = port;
+        break;
       case 'dFrame':
         dFramePorts[sender.id] = port;
         break;
@@ -112,6 +118,9 @@ define(function (require, exports, module) {
   function removePort(port) {
     var sender = parseName(port.name);
     switch (sender.name) {
+      case 'mainCS':
+        delete mainCsPorts[sender.id];
+        break;
       case 'dFrame':
         delete dFramePorts[sender.id];
         messageBuffer[sender.id];
@@ -464,13 +473,16 @@ define(function (require, exports, module) {
           });
         });
         break;
+      case 'get-prefs':
+        mainCsPorts[id].postMessage({event: 'set-prefs', prefs: prefs.data});
+        break;
       default:
         console.log('unknown event', msg);
     }
   }
 
   function handleMessageEvent(request, sender, sendResponse) {
-    //console.log('controller: handleMessageEvent', request.event);
+    //console.log('controller: handleMessageEvent', request);
     switch (request.event) {
       case 'viewmodel':
         var response = {};
@@ -502,6 +514,9 @@ define(function (require, exports, module) {
         break;
       case 'set-watch-list':
         model.setWatchList(request.message.data);
+        if (mvelo.ffa) {
+          reloadFrames(true);
+        }
         specific.initScriptInjection();
         break;
       case 'send-by-mail':
@@ -512,7 +527,8 @@ define(function (require, exports, module) {
         mvelo.tabs.create(link);
         break;
       case 'get-prefs':
-        sendResponse(prefs.data);
+        request.prefs = prefs.data;
+        sendResponse(request);
         break;
       case 'set-prefs':
         prefs.update(request.message.data);
@@ -530,6 +546,17 @@ define(function (require, exports, module) {
           resultType[request.message.result[i].type] = true;
         }
         imFramePorts[request.message.id].postMessage({event: 'import-result', resultType: resultType});
+        break;
+      case 'activate':
+        postToNodes(mainCsPorts, {event: 'on'});
+        specific.activate();
+        prefs.update({main_active: true});
+        break;
+      case 'deactivate':
+        postToNodes(mainCsPorts, {event: 'off'});
+        specific.deactivate();
+        reloadFrames(mvelo.ffa);
+        prefs.update({main_active: false});
         break;
       default:
         console.log('unknown event:', msg.event);
@@ -591,20 +618,27 @@ define(function (require, exports, module) {
     deletePort(eDialogPorts, port);
   }
 
-  function destroyFrames(ports) {
+  function destroyNodes(ports) {
+    postToNodes(ports, {event: 'destroy'});
+  }
+
+  function postToNodes(ports, msg) {
     for (var id in ports) {
       if (ports.hasOwnProperty(id)) {
-        ports[id].postMessage({event: 'destroy'});
+        ports[id].postMessage(msg);
       }
     }
   }
 
-  function reloadFrames() {
+  function reloadFrames(main) {
+    if (main) {
+      destroyNodes(mainCsPorts);
+    }
     // close frames
-    destroyFrames(dFramePorts);
-    destroyFrames(vFramePorts);
-    destroyFrames(eFramePorts);
-    destroyFrames(imFramePorts);
+    destroyNodes(dFramePorts);
+    destroyNodes(vFramePorts);
+    destroyNodes(eFramePorts);
+    destroyNodes(imFramePorts);
   }
 
   function addToWatchList() {

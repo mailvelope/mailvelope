@@ -19,41 +19,46 @@
   if (document.mveloControl) return;
 
   var interval = 2500; // ms
+  var intervalID = 0;
   var regex = /END\sPGP/;
-  var status = mvelo.SCAN_ON;
   var minEditHeight = 84;
   var contextTarget = null;
-  var prefs;
+  var prefs = null;
+  var name = 'mainCS-' + mvelo.getHash();
+  var port = null;
 
   function init() {
-    getPrefs();
-    initScanInterval(interval);
+    port = mvelo.extension.connect({name: name});
     addMessageListener();
+    port.postMessage({event: 'get-prefs', sender: name});
     //initContextMenu();
   }
 
-  function initScanInterval(interval) {
-    window.setInterval(function() {
-      //console.log('inside cs: ', document.location.host);
-      if (status === mvelo.SCAN_ON) {
-        // find armored PGP text
-        var pgpTag = findPGPTag(regex);
-        if (pgpTag.length !== 0) {
-          attachExtractFrame(pgpTag);
-        }
-        // find editable content
-        var editable = findEditable();
-        if (editable.length !== 0) {
-          attachEncryptFrame(editable);
-        }
-      }
-    }, interval);
+  function on() {
+    //console.log('inside cs: ', document.location.host);
+    if (intervalID === 0) {
+      intervalID = window.setInterval(scanLoop, interval);
+    }
   }
 
-  function getPrefs() {
-    mvelo.extension.sendMessage({event: "get-prefs"}, function(resp) {
-      prefs = resp;
-    });
+  function off() {
+    if (intervalID !== 0) {
+      window.clearInterval(intervalID);
+      intervalID = 0;
+    }
+  }
+
+  function scanLoop() {
+    // find armored PGP text
+    var pgpTag = findPGPTag(regex);
+    if (pgpTag.length !== 0) {
+      attachExtractFrame(pgpTag);
+    }
+    // find editable content
+    var editable = findEditable();
+    if (editable.length !== 0) {
+      attachEncryptFrame(editable);
+    }
   }
 
   /**
@@ -219,16 +224,20 @@
   }
 
   function addMessageListener() {
-    mvelo.extension.onMessage.addListener(
+    port.onMessage.addListener(
       function(request) {
         //console.log('contentscript: %s onRequest: %o', document.location.toString(), request);
         if (request.event === undefined) return;
         switch (request.event) {
           case 'on':
-            status = mvelo.SCAN_ON;
+            on();
             break;
           case 'off':
-            status = mvelo.SCAN_OFF;
+            off();
+            break;
+          case 'destroy':
+            off();
+            port.disconnect();
             break;
           case 'context-encrypt':
             if (contextTarget !== null) {
@@ -236,8 +245,16 @@
               contextTarget = null;
             }
             break;
+          case 'set-prefs':
+            prefs = request.prefs;
+            if (prefs.main_active) {
+              on();
+            } else {
+              off();
+            }
+            break;
           default:
-            console.log('unknown scan status');
+            console.log('unknown event');
         }
       }
     );

@@ -32,9 +32,6 @@ mvelo.FRAME_ATTACHED = 'att';
 mvelo.FRAME_DETACHED = 'det';
 // key for reference to frame object
 mvelo.FRAME_OBJ = 'fra';
-// scan status
-mvelo.SCAN_ON = 'on';
-mvelo.SCAN_OFF = 'off';
 // marker for dynamically created iframes
 mvelo.DYN_IFRAME = 'dyn';
 mvelo.IFRAME_OBJ = 'obj';

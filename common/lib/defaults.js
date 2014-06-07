@@ -43,10 +43,16 @@ define(function (require, exports, module) {
     if (!model.getWatchList()) {
       model.setWatchList(defaults.watch_list);
     }
-    if (!model.getPreferences()) {
+    var prefs = model.getPreferences();
+    if (!prefs) {
       defaults.preferences.security.secure_color = randomColor();
       defaults.preferences.security.secure_code = randomString(3);
       model.setPreferences(defaults.preferences);
+    } else {
+      if (typeof prefs.main_active == 'undefined') {
+        prefs.main_active = defaults.preferences.main_active;
+      }
+      model.setPreferences(prefs);
     }
   }
 

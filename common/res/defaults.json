@@ -55,6 +55,7 @@
     },
     "general": {
       "editor_type": "plain"
-    }
+    },
+    "main_active": true
   }
 }

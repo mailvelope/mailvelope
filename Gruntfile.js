@@ -102,6 +102,12 @@ module.exports = function (grunt) {
             src: 'purify.js',
             dest: 'build/common/dep/'
           },
+          {
+            expand: true,
+            cwd: 'bower_components/css-toggle-switch/dist/',
+            src: 'toggle-switch.css',
+            dest: 'build/common/dep/toggle-switch/'
+          }
         ]
       },
       common: {

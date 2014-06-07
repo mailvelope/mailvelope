@@ -36,6 +36,9 @@ define(function (require, exports, module) {
     if (obj.general) {
       prefs.general = extend(prefs.general, obj.general);
     }
+    if (typeof obj.main_active !== 'undefined') {
+      prefs.main_active = obj.main_active;
+    }
     model.setPreferences(prefs);
     // notifiy update handlers
     updateHandlers.forEach(function(fn) {

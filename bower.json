@@ -21,7 +21,8 @@
     "spectrum": "~1.1.0",
     "requirejs": "~2.1.10",
     "kendo-ui": "2013.1.319",
-    "dompurify": "0.3"
+    "dompurify": "0.3",
+    "css-toggle-switch": "2.1.6"
   },
   "resolutions": {
     "jquery": "2.1.0"

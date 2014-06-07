@@ -43,7 +43,7 @@ requirejs.config({
   }
 });
 
-define(["lib/common/controller", "lib/common/pgpViewModel", "openpgp", "jquery"], function(controller, model, openpgp, $) {
+define(["lib/common/controller", "lib/common/pgpViewModel", "lib/common/prefs", "openpgp", "jquery"], function(controller, model, prefs, openpgp, $) {
 
   // inject content script only once per time slot
   var injectTimeSlot = 600;
@@ -59,7 +59,11 @@ define(["lib/common/controller", "lib/common/pgpViewModel", "openpgp", "jquery"]
   var framestyles = '';
   
   function init() {
-    controller.extend({initScriptInjection: initScriptInjection});
+    controller.extend({
+      initScriptInjection: initScriptInjection,
+      activate: function() {},
+      deactivate: function() {}
+    });
     migrate();
     initConnectionManager();
     //initContextMenu();
@@ -109,7 +113,6 @@ define(["lib/common/controller", "lib/common/pgpViewModel", "openpgp", "jquery"]
   }
 
   function initScriptInjection() {
-    
     if (injectOptimized && csCode === '') {
       // load content script
       $.get(chrome.runtime.getURL('common/ui/inline/cs-mailvelope.js'), function(csmSrc) {

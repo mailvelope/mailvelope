@@ -29,15 +29,16 @@ try {
 checkStaticArgs();
 
 var controller = require('./common/controller');
+var prefs = require('./common/prefs').data;
 
-var activePageMod;
+var pageMods = {};
 // recipients of encrypted mail
 var eRecipientBuffer = {};
 var scannedHosts = [];
 
 var mailvelopePanel = require('sdk/panel').Panel({
-  width: 200,
-  height: 164,
+  width: 180,
+  height: 216,
   contentURL: data.url('common/ui/popup.html'),
   onMessage: onPanelMessage,
   onHide: function() {
@@ -48,8 +49,8 @@ var mailvelopePanel = require('sdk/panel').Panel({
 });
 
 function onPanelMessage(msg) {
-  //console.log('onPanelMessage', msg.action);
-  controller.onBrowserAction(msg.action);
+  //console.log('onPanelMessage', mailvelopePanel.postMessage);
+  controller.handleMessageEvent(msg, null, mailvelopePanel.postMessage.bind(mailvelopePanel));
   mailvelopePanel.hide();
 }
 
@@ -97,8 +98,24 @@ function checkStaticArgs() {
 }
 
 function init() {
-  controller.extend({initScriptInjection: initScriptInjection});
-  initScriptInjection();
+  controller.extend({
+    initScriptInjection: function() {
+      if (prefs.main_active) {
+        injectMainCS();
+      }
+    },
+    activate: activatePageMods,
+    deactivate: deactivate
+  });
+  if (prefs.main_active) {
+    activatePageMods();
+  }
+}
+
+init();
+
+function activatePageMods() {
+  injectMainCS();
   injectMessageAdapter();
   injectDecryptInline();
   injectVerifyInline();
@@ -106,7 +123,11 @@ function init() {
   injectSignDialog();
 }
 
-init();
+function deactivate() {
+  for (var mod in pageMods) {
+    pageMods[mod].destroy();
+  }
+}
 
 function clearStorage() {
   for (var obj in ss.storage) {
@@ -114,7 +135,7 @@ function clearStorage() {
   }
 }
 
-function initScriptInjection() {
+function injectMainCS() {
 
   var filterURL = controller.getWatchListFilterURLs();
   
@@ -135,16 +156,16 @@ function initScriptInjection() {
     attachTo: ['existing', 'top', 'frame']
   };
 
-  if (activePageMod !== undefined) {
+  if (pageMods.mainPageMod !== undefined) {
     try {
-      activePageMod.destroy();
+      pageMods.mainPageMod.destroy();
     } catch (e) {
       console.log('Destroying active page-mod failed', e);
     }
   }
 
   //console.log('modOptions.include', modOptions.include);
-  activePageMod = pageMod.PageMod(modOptions);
+  pageMods.mainPageMod = pageMod.PageMod(modOptions);
 
 }
 
@@ -158,7 +179,9 @@ function onCsAttach(worker) {
     var port = {
       name: portName,
       postMessage: function(message) {
-        that.emit(eventName, message);
+        if (!pageHidden) {
+          that.emit(eventName, message);
+        }
       },
       ref: that
     };
@@ -191,7 +214,7 @@ function getDynamicStyle(path) {
 }
 
 function injectMessageAdapter() {
-  pageMod.PageMod({
+  pageMods.messageAdapterPageMod = pageMod.PageMod({
     include: [
       data.url('common/ui/modal/decryptPopup.html*'),
       data.url('common/ui/modal/verifyPopup.html*'),
@@ -211,7 +234,7 @@ function injectMessageAdapter() {
 }
 
 function injectDecryptInline() {
-  pageMod.PageMod({
+  pageMods.decryptInlinePageMod = pageMod.PageMod({
     include: 'about:blank?mvelo=decryptInline*',
     onAttach: onCsAttach,
     contentScriptFile: [
@@ -230,7 +253,7 @@ function injectDecryptInline() {
 }
 
 function injectVerifyInline() {
-  pageMod.PageMod({
+  pageMods.verifyInlinePageMod = pageMod.PageMod({
     include: 'about:blank?mvelo=verifyInline*',
     onAttach: onCsAttach,
     contentScriptFile: [
@@ -249,7 +272,7 @@ function injectVerifyInline() {
 }
 
 function injectEncryptDialog() {
-  pageMod.PageMod({
+  pageMods.encryptDialogPageMod = pageMod.PageMod({
     include: 'about:blank?mvelo=encryptDialog*',
     onAttach: onCsAttach,
     contentScriptFile: [
@@ -268,7 +291,7 @@ function injectEncryptDialog() {
 }
 
 function injectSignDialog() {
-  pageMod.PageMod({
+  pageMods.signDialogPageMod = pageMod.PageMod({
     include: 'about:blank?mvelo=signDialog*',
     onAttach: onCsAttach,
     contentScriptFile: [
