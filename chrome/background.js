@@ -16,12 +16,13 @@
  */
 
 requirejs.config({
+  baseUrl: 'lib',
   paths: {
-    jquery: 'common/dep/jquery.min',
-    openpgp: 'dep/openpgp',
-    mvelo: 'common/ui/inline/mvelo',
-    parser_rules: 'common/dep/wysihtml5/js/advanced_parser_rules',
-    dompurify: 'common/dep/purify'
+    jquery: '../common/dep/jquery.min',
+    openpgp: '../dep/openpgp',
+    mvelo: '../common/ui/inline/mvelo',
+    parser_rules: '../common/dep/wysihtml5/js/advanced_parser_rules',
+    dompurify: '../common/dep/purify'
   },
   shim: {
     'mvelo': {
@@ -43,7 +44,7 @@ requirejs.config({
   }
 });
 
-define(["lib/common/controller", "lib/common/pgpViewModel", "lib/common/prefs", "openpgp", "jquery"], function(controller, model, prefs, openpgp, $) {
+define(["common/controller", "common/pgpViewModel", "common/prefs", "openpgp", "jquery"], function(controller, model, prefs, openpgp, $) {
 
   // inject content script only once per time slot
   var injectTimeSlot = 600;

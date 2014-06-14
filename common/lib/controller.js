@@ -22,6 +22,7 @@ define(function (require, exports, module) {
   var defaults = require('./defaults');
   var prefs = require('./prefs');
   var pwdCache = require('./pwdCache');
+  var mailreader = require('mailreader-parser');
 
   // ports to main content scripts
   var mainCsPorts = {};
@@ -564,15 +565,42 @@ define(function (require, exports, module) {
   }
 
   function decryptMessage(message, id) {
-    model.decryptMessage(message, function(err, msgText) {
+    model.decryptMessage(message, function(err, rawText) {
+      var port = dDialogPorts[id];
+      if (!port) {
+        return;
+      }
       if (err) {
         // display error message in decrypt dialog
-        dDialogPorts[id] && dDialogPorts[id].postMessage({event: 'error-message', error: err.message});
+        port.postMessage({event: 'error-message', error: err.message});
       } else {
+        var msgText;
         // decrypted correctly
-        msgText = mvelo.util.parseHTML(msgText, function(sanitized) {
-          dDialogPorts[id] && dDialogPorts[id].postMessage({event: 'decrypted-message', message: sanitized});
-        });
+        if (/^Content-Type:\smultipart\//.test(rawText)) {
+          // MIME
+          mailreader.parse([{raw: rawText}], function(parsed) {
+            if (parsed && parsed[0] && parsed[0].content) {
+              var html = parsed[0].content.filter(function(entry) {
+                return entry.type === 'html';
+              });
+              if (html.length) {
+                mvelo.util.parseHTML(html[0].content, function(sanitized) {
+                  port.postMessage({event: 'decrypted-message', message: sanitized});
+                });
+                return;
+              }
+              var text = parsed[0].content.filter(function(entry) {
+                return entry.type === 'text';
+              });
+              msgText = mvelo.encodeHTML(text.length ? text[0].content : rawText);
+              port.postMessage({event: 'decrypted-message', message: msgText});
+            }
+          });
+        } else {
+          // plain text
+          msgText = mvelo.encodeHTML(rawText);
+          port.postMessage({event: 'decrypted-message', message: msgText});
+        }
       }
     });
   }

@@ -164,6 +164,19 @@ module.exports = function (grunt) {
         {
           expand: true,
           flatten: true,
+          cwd: 'node_modules/',
+          src: [
+            'mailreader/src/mailreader-parser.js',
+            'mailreader/node_modules/mimeparser/src/*.js',
+            'mailreader/node_modules/mimeparser/node_modules/addressparser/src/*.js',
+            'mailreader/node_modules/mimeparser/node_modules/mimefuncs/src/*.js',
+            'mailreader/node_modules/stringencoding/dist/stringencoding.js'
+          ],
+          dest: 'build/chrome/lib/'
+        },
+        {
+          expand: true,
+          flatten: true,
           src: 'dep/firefox/openpgpjs/dist/openpgp.js',
           dest: 'build/firefox/lib/'
         },
@@ -172,6 +185,19 @@ module.exports = function (grunt) {
           flatten: true,
           src: ['dep/firefox/openpgpjs/dist/openpgp.min.js', 'dep/firefox/openpgpjs/dist/openpgp.worker.min.js'],
           dest: 'build/firefox/data/'
+        },
+        {
+          expand: true,
+          flatten: true,
+          cwd: 'node_modules/',
+          src: [
+            'mailreader/src/mailreader-parser.js',
+            'mailreader/node_modules/mimeparser/src/*.js',
+            'mailreader/node_modules/mimeparser/node_modules/addressparser/src/*.js',
+            'mailreader/node_modules/mimeparser/node_modules/mimefuncs/src/*.js',
+            'mailreader/node_modules/stringencoding/dist/stringencoding.js'
+          ],
+          dest: 'build/firefox/lib/'
         }]
       }
     },
