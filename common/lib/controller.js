@@ -536,7 +536,7 @@ define(function (require, exports, module) {
         sendResponse(true);
         break;
       case 'get-security-token':
-        sendResponse({code: prefs.data.security.secure_code, color: prefs.data.security.secure_color});
+        sendResponse({code: mvelo.encodeHTML(prefs.data.security.secure_code), color: prefs.data.security.secure_color});
         break;
       case 'get-version':
         sendResponse(defaults.getVersion());
