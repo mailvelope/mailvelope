@@ -38,7 +38,7 @@ define(function (require, exports, module) {
   }
 
   function init() {
-    model.setOpenPGPComment('Email security by Mailvelope - http://www.mailvelope.com');
+    model.setOpenPGPComment('Email security by Mailvelope - https://www.mailvelope.com');
     model.setOpenPGPVersion('Mailvelope ' + defaults.version);
     if (!model.getWatchList()) {
       model.setWatchList(defaults.watch_list);
