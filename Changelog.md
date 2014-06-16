@@ -1,6 +1,19 @@
 Mailvelope Changelog
 ====================
 
+v0.9.0
+------
+__June 16, 2014__
+
+  * Support reading of MIME messages
+  * Global on/off switch for page injected elements
+  * Verify cleartext signed messages [Julian Bäume & Marek Kurdej]
+  * Hide Mailvelope editor button after typing
+  * Support armored texts without header
+  * Update DOMPurify to 0.4.2
+  * [Firefox] Use toggle button in Australis
+  * [Chrome] Migrate from chrome.extension to chrome.runtime
+
 v0.8.3
 ------
 __May. 11, 2014__
