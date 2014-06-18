@@ -597,9 +597,16 @@ define(function (require, exports, module) {
             }
           });
         } else {
-          // plain text
-          msgText = mvelo.encodeHTML(rawText);
-          port.postMessage({event: 'decrypted-message', message: msgText});
+          if (/(<\/a>|<br>|<\/div>|<\/p>|<\/b>|<\/u>|<\/i>|<\/ul>|<\/li>)/.test(rawText)) {
+            // legacy html mode
+            mvelo.util.parseHTML(rawText, function(sanitized) {
+              port.postMessage({event: 'decrypted-message', message: sanitized});
+            });
+          } else {
+            // plain text
+            msgText = mvelo.encodeHTML(rawText);
+            port.postMessage({event: 'decrypted-message', message: msgText});
+          }
         }
       }
     });
