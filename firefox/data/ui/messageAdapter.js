@@ -81,6 +81,15 @@ mvelo.ffa = true;
 
   }
 
+  mvelo.l10n = {
+    getMessages: function(ids, callback) {
+      mvelo.extension.sendMessage({
+        event: 'get-l10n-messages',
+        ids: ids
+      }, callback);
+    }
+  };
+
   // expose mvelo.extension to page script
   if (self.options.expose_messaging) {
     window.wrappedJSObject.mvelo = mvelo;

@@ -23,6 +23,16 @@ mvelo.crx = typeof chrome !== 'undefined';
 mvelo.ffa = mvelo.ffa || typeof self !== 'undefined' && self.port || !mvelo.crx;
 // for fixfox, mvelo.extension is exposed from a content script
 mvelo.extension = mvelo.extension || mvelo.crx && chrome.runtime;
+// for fixfox, mvelo.l10n is exposed from a content script
+mvelo.l10n = mvelo.l10n || mvelo.crx && {
+  getMessages: function(ids, callback) {
+    var result = {};
+    ids.forEach(function(id) {
+      result[id] = chrome.i18n.getMessage(id);
+    });
+    callback(result);
+  }
+};
 // min height for large frame
 mvelo.LARGE_FRAME = 600;
 // frame constants
@@ -62,6 +72,15 @@ mvelo.encodeHTML = function(text) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;")
     .replace(/\//g, "&#x2F;");
+};
+
+mvelo.localizeHTML = function() {
+  if (mvelo.crx) {
+    $('[data-l10n-id]').each(function() {
+      var jqElement = $(this);
+      jqElement.text(chrome.i18n.getMessage(jqElement.data('l10n-id')));
+    });
+  }
 };
 
 if (typeof exports !== 'undefined') {

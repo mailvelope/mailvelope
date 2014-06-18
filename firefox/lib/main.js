@@ -21,6 +21,7 @@ var data = require('sdk/self').data;
 var pageMod = require('sdk/page-mod');
 var tabs = require('sdk/tabs');
 var unload = require('sdk/system/unload');
+var l10nGet = require("sdk/l10n").get;
 
 try {
   var { ToggleButton } = require("sdk/ui/button/toggle");
@@ -198,11 +199,23 @@ function onCsAttach(worker) {
   });
   worker.port.on('message-event', function(msg) {
     var that = this;
-    controller.handleMessageEvent(msg, null, function(respData) {
-      if (!pageHidden) { // otherwise exception
-        that.emit(msg.response, respData);
-      }
-    });
+    switch (msg.event) {
+      case 'get-l10n-messages':
+        if (!pageHidden) { // otherwise exception
+          var result = {};
+          msg.ids.forEach(function(id) {
+            result[id] = l10nGet(id);
+          });
+          that.emit(msg.response, result);
+        }
+        break;
+      default:
+        controller.handleMessageEvent(msg, null, function(respData) {
+          if (!pageHidden) { // otherwise exception
+            that.emit(msg.response, respData);
+          }
+        });
+    }
   });
 }
 

@@ -37,6 +37,7 @@
     initMessageListener();
     var hash = location.hash || '#home';
     $('#optionsIframe').attr('src', mvelo.extension.getURL(hashMap[hash]));
+    mvelo.localizeHTML();
   }
 
   function receiveMessage(event) {
@@ -78,6 +79,7 @@
         // provides reference to iframe window
         iframeWindow = event.source;
         iframeEvents.triggerHandler('iframeLoaded');
+        event.source.postMessage(JSON.stringify({event: "init-response"}), '*');
         break;
       case 'copyToClipboard':
         var copyFrom = $('<textarea/>');
@@ -86,6 +88,16 @@
         copyFrom.select();
         document.execCommand('copy');
         copyFrom.remove();
+        break;
+      case 'get-l10n-messages':
+        mvelo.l10n.getMessages(data.ids, function(result) {
+          var respObj = {
+            event: "l10n-messages-response",
+            result: result,
+            id: data.id
+          };
+          event.source.postMessage(JSON.stringify(respObj), '*');
+        });
         break;
     }
   }

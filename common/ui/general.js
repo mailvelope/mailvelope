@@ -131,7 +131,7 @@
     });
   }
 
-  $(document).ready(init);
+  keyRing.event.on('ready', init);
 
 }());
 

@@ -31,6 +31,7 @@ var keyRing = {};
     parent.postMessage(JSON.stringify({
       event: "init"
     }), '*');
+    localizeHTML();
     // check for native color picker support and load polyfill
     Modernizr.load({
       test: Modernizr.inputtypes.color,
@@ -42,6 +43,22 @@ var keyRing = {};
       $('#version').text(version);
     });
     migrate08();
+  }
+
+  function localizeHTML() {
+    if (mvelo.crx) {
+      var ids = [];
+      var lElements = $('[data-l10n-id]');
+      lElements.each(function() {
+        ids.push($(this).data('l10n-id'));
+      });
+      keyRing.getL10nMessages(ids, function(result) {
+        lElements.each(function() {
+          var jqElem = $(this);
+          jqElem.text(result[jqElem.data('l10n-id')]);
+        });
+      });
+    }
   }
 
   exports.viewModel = function(method, args, callback) {
@@ -85,12 +102,25 @@ var keyRing = {};
     }), '*');
   };
 
+  exports.getL10nMessages = function(ids, callback) {
+    id++;
+    callbacks[id] = callback;
+    parent.postMessage(JSON.stringify({
+      event: "get-l10n-messages",
+      ids: ids,
+      id: id
+    }), '*');
+  };
+
   exports.event = event;
 
   function receiveMessage(msg) {
     //console.log('key ring receiveMessage', JSON.stringify(msg));
     var data = JSON.parse(msg.data);
     switch (data.event) {
+      case 'init-response':
+        event.triggerHandler('ready');
+        break;
       case 'viewmodel-response':
         if (callbacks[data.id]) {
           //console.log('keyRing viewmodel-response', data);
@@ -103,6 +133,10 @@ var keyRing = {};
           callbacks[data.id](data.message);
           delete callbacks[data.id];
         }
+        break;
+      case 'l10n-messages-response':
+        callbacks[data.id](data.result);
+        delete callbacks[data.id];
         break;
       case 'add-watchlist-item':
         $('#navList a[href="#watchList"]').tab('show');

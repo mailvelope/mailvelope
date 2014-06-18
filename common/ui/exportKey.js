@@ -126,6 +126,6 @@
     keyRing.copyToClipboard($('#armoredKey').val());
   }
 
-  $(document).ready(init);
+  keyRing.event.on('ready', init);
 
 }());

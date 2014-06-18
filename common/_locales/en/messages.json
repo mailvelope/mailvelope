@@ -1,0 +1,78 @@
+{
+  "ext_name": {
+    "message": "Mailvelope",
+    "description": "Name of the extension."
+  },
+  "ext_description": {
+    "message": "Secure email with OpenPGP encryption for Webmail",
+    "description": "Description of the extension."
+  },
+  "popup_active_off": {
+    "message": "Off",
+    "description": "Activity status of the extension."
+  },
+  "popup_active_on": {
+    "message": "On",
+    "description": "Activity status of the extension."
+  },
+  "popup_reload": {
+    "message": "Reload",
+    "description": "Reload all Mailvelope UI elements on page."
+  },
+  "popup_add_page": {
+    "message": "Add page",
+    "description": "Add page to watchlist."
+  },
+  "popup_remove_page": {
+    "message": "Remove page",
+    "description": "Remove page from watchlist."
+  },
+  "popup_options": {
+    "message": "Options",
+    "description": "Open options dialog."
+  },
+  "popup_help": {
+    "message": "Help",
+    "description": "Open help dialog."
+  },
+  "options_title": {
+    "message": "Mailvelope Options",
+    "description": "Title of options page."
+  },
+  "decrypt_popup_title": {
+    "message": "Decrypted Message",
+    "description": "Title of decrypt popup."
+  },
+  "decrypt_popup_header": {
+    "message": "Message",
+    "description": "Header of decrypt popup."
+  },
+  "decrypt_popup_copy": {
+    "message": "Copy to Clipboard",
+    "description": "Copy decrypted message to clipboard."
+  },
+  "decrypt_popup_close": {
+    "message": "Close",
+    "description": "Close decrypt popup."
+  },
+  "pwd_dialog_title": {
+    "message": "Password entry | Mailvelope",
+    "description": "Title of the password dialog."
+  },
+  "pwd_dialog_header": {
+    "message": "Key unlock",
+    "description": "Header of the password dialog."
+  },
+  "verify_result_success": {
+    "message": "Signed by",
+    "description": "Verfiy signature succeeded."
+  },
+  "verify_result_warning": {
+    "message": "Signed with unknown key",
+    "description": "Verfiy signature warning."
+  },
+  "verify_result_error": {
+    "message": "Wrong signature of",
+    "description": "Verfiy signature error. Wrong signature of [userid]."
+  }
+} 

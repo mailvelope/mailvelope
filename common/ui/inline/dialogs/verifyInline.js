@@ -23,6 +23,7 @@
   var watermark;
   var spinnerTimer;
   var commonPath;
+  var l10n;
   
   function init() {
     //console.log('init decryptInline.js');
@@ -47,6 +48,13 @@
     addErrorView();
     // show spinner
     spinnerTimer = setTimeout(showSpinner, 600);
+    mvelo.l10n.getMessages([
+      'verify_result_success',
+      'verify_result_warning',
+      'verify_result_error'
+    ], function(result) {
+      l10n = result;
+    });
   }
 
   function showSpinner() {
@@ -151,13 +159,13 @@
           }
           if (signer.userid && signer.valid) {
             type = 'success';
-            message.append('Signed by', ' ', userid, ' ', keyid);
+            message.append(l10n.verify_result_success, ' ', userid, ' ', keyid);
           } else if (!signer.userid) {
             type = 'warning';
-            message.append('Signed with unknown key', ' ', keyid);
+            message.append(l10n.verify_result_warning, ' ', keyid);
           } else {
             type = 'error';
-            message.append('Wrong signature of', ' ', userid, ' ', keyid);
+            message.append(l10n.verify_result_error, ' ', userid, ' ', keyid);
           }
           header.showAlert('', message, type, true);
         });

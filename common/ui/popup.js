@@ -60,6 +60,7 @@
         hide();
       }, 600);
     });
+    mvelo.localizeHTML();
   }
 
   function hide() {

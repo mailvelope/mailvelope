@@ -122,6 +122,6 @@
     $('#importAlert').hide();
   }
 
-  $(document).ready(init);
+  keyRing.event.on('ready', init);
 
 }(keyRing));

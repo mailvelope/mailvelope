@@ -157,7 +157,33 @@ module.exports = function (grunt) {
           src: 'mvelo.js',
           cwd: 'build/common/ui/inline',
           dest: 'build/firefox/lib/common/'
+        },
+        {
+          expand: true,
+          src: '_locales/**/*',
+          cwd: 'build/common',
+          dest: 'build/chrome/'
         }]
+      },
+      locale_firefox: {
+        expand: true,
+        src: '**/*.json',
+        cwd: 'build/common/_locales',
+        dest: 'build/firefox/locale/',
+        rename: function(dest, src) {
+          return dest + src.match(/^[\w-]{2,4}/)[0] + '.properties';
+        },
+        options: {
+          process: function (content, srcpath) {
+            console.log('process called');
+            var locale = JSON.parse(content);
+            var result = '';
+            for (var key in locale) {
+              result += key + '= ' + locale[key].message + '\n';
+            }
+            return result;
+          }
+        }
       },
       dep: {
         files: [{
@@ -283,7 +309,7 @@ module.exports = function (grunt) {
   grunt.registerTask('dist-ff', ['mozilla-addon-sdk', 'mozilla-cfx-xpi']);
   grunt.registerTask('start-ff-clean', ['mozilla-cfx:run_stable']);
 
-  grunt.registerTask('copy_default', ['copy:vendor', 'copy:common', 'copy:plugins', 'copy:common_browser', 'copy:dep']);
+  grunt.registerTask('copy_default', ['copy:vendor', 'copy:common', 'copy:plugins', 'copy:common_browser', 'copy:locale_firefox', 'copy:dep']);
 
   grunt.registerTask('default', ['jshint', 'modernizr', 'copy:jquery', 'concat', 'copy_default']);
 };

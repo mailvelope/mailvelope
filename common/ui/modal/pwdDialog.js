@@ -33,6 +33,7 @@
     $('form').on('submit', onOk);
     $(window).on('unload', onCancel);
     $('#password').focus();
+    mvelo.localizeHTML();
   }
 
   function onOk() {
