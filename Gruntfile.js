@@ -112,7 +112,12 @@ module.exports = function (grunt) {
       },
       common: {
         files: [{
-          src: 'common/**/*',
+          src: [
+            'common/**/*',
+            '!common/ui/inline/*.js',
+            'common/ui/inline/mvelo.js',
+            'common/ui/inline/encryptFrame.js'
+          ],
           dest: 'build/'
         }]
       },
