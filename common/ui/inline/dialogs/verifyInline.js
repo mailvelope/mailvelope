@@ -41,7 +41,7 @@
     addWrapper();
     addSandbox();
     mvelo.extension.sendMessage({event: "get-security-token"}, function (token) {
-      $('#watermark').html(token.code);
+      $('#watermark').html(mvelo.encodeHTML(token.code));
     });
     $(window).on('resize', resizeFont);
     addErrorView();

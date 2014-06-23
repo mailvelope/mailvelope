@@ -29,7 +29,7 @@
   function loadToken() {
     comm.sendMessage({event: "get-security-token"}, function(token) {
       //console.log('token', token);
-      $('#secureCode').html(token.code)
+      $('#secureCode').html(mvelo.encodeHTML(token.code))
                       .attr('style', getStyle(token.color));
       $('#secureCode:hidden').fadeIn();
     });
