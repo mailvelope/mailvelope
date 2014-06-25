@@ -50,9 +50,9 @@
           <div class="brand" data-l10n-id="ext_name"></div>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Options</a></li>
-              <li><a href="../doc/help.html">Documentation</a></li>
-              <li><a href="../doc/about.html">About</a></li>
+              <li class="active"><a href="#" data-l10n-id="options_home"></a></li>
+              <li><a href="../doc/help.html" data-l10n-id="options_docu"></a></li>
+              <li><a href="../doc/about.html" data-l10n-id="options_about"></a></li>
             </ul>
           </div><!--/.nav-collapse -->
           <div id='secureCode'></div>
@@ -65,39 +65,39 @@
         <div class="span3">
           <div class="well sidebar-nav">
             <ul class="nav nav-list" id="navList">
-              <li class="nav-header">Key Ring</li>
-              <li class="active"><a href="#displayKeys" data-toggle="tab">Display Keys</a></li>
-              <li><a href="#importKey" data-toggle="tab">Import Keys</a></li>
-              <li><a href="#generateKey" data-toggle="tab">Generate Key</a></li>
-              <li id="migNavEntry" style="display:none;"><a href="#migrationError" data-toggle="tab" style="font-weight:bold;">Key Migration Error</a></li>
-              <li class="nav-header">Settings</li>
-              <li><a href="#general" data-toggle="tab">General</a></li>
-              <li><a href="#security" data-toggle="tab">Security</a></li>
-              <li><a href="#watchList" data-toggle="tab">Watch List</a></li>
+              <li class="nav-header" data-l10n-id="keyring_header"></li>
+              <li class="active"><a href="#displayKeys" data-toggle="tab" data-l10n-id="keyring_display_keys"></a></li>
+              <li><a href="#importKey" data-toggle="tab" data-l10n-id="keyring_import_keys"></a></li>
+              <li><a href="#generateKey" data-toggle="tab" data-l10n-id="keyring_generate_key"></a></li>
+              <li id="migNavEntry" style="display:none;"><a href="#migrationError" data-toggle="tab" style="font-weight:bold;" data-toggle="tab" data-l10n-id="keyring_migration_error"></a></li>
+              <li class="nav-header" data-l10n-id="options_settings"></li>
+              <li><a href="#general" data-toggle="tab" data-l10n-id="settings_general"></a></li>
+              <li><a href="#security" data-toggle="tab" data-l10n-id="settings_security"></a></li>
+              <li><a href="#watchList" data-toggle="tab" data-l10n-id="settings_watchlist"></a></li>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
         <div class="span9">
           <div class="hero-unit tab-content">
             <div id="displayKeys" class="tab-pane fade active in">
-              <h3>Key Ring</h3>
+              <h3 data-l10n-id="keyring_header"></h3>
               <div id="mainKeyGrid">
                 <script type="text/x-kendo-template" id="keyToolbar">
                   <div id="gridMainToolbar" class="btn-toolbar">
                     <div class="btn-group">
-                      <button id="exportBtn" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Export <span class="caret"></span></button>
+                      <button id="exportBtn" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">#= keygrid_export # <span class="caret"></span></button>
                       <ul class="dropdown-menu">
-                        <li id="exportPublic"><a href="\\\#">Display public key</a></li>
-                        <li id="exportByMail"><a href="\\\#">Send public key by mail</a></li>
+                        <li id="exportPublic"><a href="\\\#">#= keygrid_display_pub_key #</a></li>
+                        <li id="exportByMail"><a href="\\\#">#= keygrid_send_pub_key #</a></li>
                         <li class="divider"></li>
-                        <li id="exportPrivate"><a href="\\\#">Display private key</a></li>
-                        <li id="exportKeyPair"><a href="\\\#">Display key pair</a></li>
+                        <li id="exportPrivate"><a href="\\\#">#= keygrid_display_priv_key #</a></li>
+                        <li id="exportKeyPair"><a href="\\\#">#= keygrid_display_key_pair #</a></li>
                         <li class="divider"></li>
-                        <li id="exportAllKeys"><a href="\\\#">Display all keys</a></li>
+                        <li id="exportAllKeys"><a href="\\\#">#= keygrid_display_all_keys #</a></li>
                       </ul>
                     </div><!-- /btn-group -->
                     <div class="keyType-selector">
-                      <label class="keyType-label" for="keyType">Show keys by type:</label>
+                      <label class="keyType-label" for="keyType">#= keygrid_sort_type #:</label>
                       <input type="search" id="keyType" style="width: 200px"></input>
                     </div>
                   </div>
@@ -105,40 +105,40 @@
                 <script type="text/x-kendo-template" id="keyDetails">
                   <div class="tabstrip">
                     <ul>
-                      <li class="k-state-active">Primary Key</li>
-                      <li>Subkeys</li>
-                      <li>User IDs</li>
+                      <li class="k-state-active">#= l10n.keygrid_primary_key #</li>
+                      <li>#= l10n.keygrid_subkeys #</li>
+                      <li>#= l10n.keygrid_user_ids #</li>
                     </ul>
                     <div>
                       <div class="primaryKey">
                         <ul>
-                          <li><label>Key ID:</label>#= id #</li>
-                          <li><label>Algorithm:</label>#= algorithm #</li>
-                          <li><label>Length:</label>#= bitLength # bits</li>
-                          <li><label>Creation Date:</label>#= crDate #</li>
-                          <li><label>Expiration Date:</label>#= exDate #</li>
-                          <li><label>Status:</label>#
+                          <li><label>#= l10n.keygrid_keyid #:</label>#= id #</li>
+                          <li><label>#= l10n.keygrid_algorithm #:</label>#= algorithm #</li>
+                          <li><label>#= l10n.keygrid_key_length #:</label>#= bitLength # bits</li>
+                          <li><label>#= l10n.keygrid_creation_date #:</label>#= crDate #</li>
+                          <li><label>#= l10n.keygrid_expiration_date #:</label>#= exDate #</li>
+                          <li><label>#= l10n.keygrid_validity_status #:</label>#
                             if (validity) {
-                              #<span class="label label-success">valid</span>#
+                              #<span class="label label-success">#= l10n.keygrid_status_valid #</span>#
                             } else {
-                              #<span class="label label-important">invalid</span>#
+                              #<span class="label label-important">#= l10n.keygrid_status_invalid #</span>#
                             }
                           #</li>
-                          <li><label>Fingerprint:</label>#= fingerprint.match(/.{1,4}/g).join(' ') #</li>
+                          <li><label>#= l10n.keygrid_key_fingerprint #:</label>#= fingerprint.match(/.{1,4}/g).join(' ') #</li>
                         </ul>
                       </div>
                     </div>
                     <div>
                       <div class="subkeys">
-                        <div><label>ID:</label><input class="subkeyID" /></li></div>
+                        <div><label>#= l10n.keygrid_subkeyid #:</label><input class="subkeyID" /></li></div>
                         <ul class="subkeyDetails well">
                         </ul>
                       </div>
                     </div>
                     <div>
                       <div class="userids">
-                        <div><label>ID:</label><input class="userID" /></li></div>
-                        <div><label>Signatures:</label></div>
+                        <div><label>#= l10n.keygrid_userid #:</label><input class="userID" /></li></div>
+                        <div><label>#= l10n.keygrid_userid_signatures #:</label></div>
                         <div class="signerGrid">
                         </div>
                       </div>
@@ -146,11 +146,11 @@
                   </div>
                 </script>
                 <script type="text/x-kendo-template" id="subkeyDetails">
-                  <li><label>Algorithm:</label>#= algorithm #</li>
-                  <li><label>Length:</label>#= bitLength # bits</li>
-                  <li><label>Creation Date:</label>#= crDate #</li>
-                  <li><label>Expiration Date:</label>#= exDate #</li>
-                  <li><label>Fingerprint:</label>#= fingerprint.match(/.{1,4}/g).join(' ') #</li>
+                  <li><label>#= l10n.keygrid_algorithm #:</label>#= algorithm #</li>
+                  <li><label>#= l10n.keygrid_key_length #:</label>#= bitLength # bits</li>
+                  <li><label>#= l10n.keygrid_creation_date #:</label>#= crDate #</li>
+                  <li><label>#= l10n.keygrid_expiration_date #:</label>#= exDate #</li>
+                  <li><label>#= l10n.keygrid_key_fingerprint #:</label>#= fingerprint.match(/.{1,4}/g).join(' ') #</li>
                 </script>
               </div>
               <div class="modal fade hide" id="exportKey">

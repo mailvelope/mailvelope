@@ -74,5 +74,185 @@
   "verify_result_error": {
     "message": "Wrong signature of",
     "description": "Verfiy signature error. Wrong signature of [userid]."
+  },
+  "options_home": {
+    "message": "Options",
+    "description": "Options navigation: Home."
+  },
+  "options_docu": {
+    "message": "Documentation",
+    "description": "Options navigation: Documentation."
+  },
+  "options_about": {
+    "message": "About",
+    "description": "Options navigation: About."
+  },
+  "keyring_header": {
+    "message": "Key Ring",
+    "description": "Header of the key ring."
+  },
+  "keyring_display_keys": {
+    "message": "Display Keys",
+    "description": "Tab of keyring to display keys."
+  },
+  "keyring_import_keys": {
+    "message": "Import Keys",
+    "description": "Tab of keyring to import keys."
+  },
+  "keyring_generate_key": {
+    "message": "Generate Key",
+    "description": "Tab of keyring to generate key."
+  },
+  "keyring_migration_error": {
+    "message": "Key Migration Error",
+    "description": "Tab of keyring to display migration errors."
+  },
+  "options_settings": {
+    "message": "Settings",
+    "description": "Options header: Settings."
+  },
+  "settings_general": {
+    "message": "General",
+    "description": "Tab of options to display general settings."
+  },
+  "settings_security": {
+    "message": "Security",
+    "description": "Tab of options to display security settings."
+  },
+  "settings_watchlist": {
+    "message": "Watch List",
+    "description": "Tab of options to display watchlist settings."
+  },
+  "keygrid_export": {
+    "message": "Export",
+    "description": "Export key."
+  },
+  "keygrid_display_pub_key": {
+    "message": "Display public key",
+    "description": "Export key menu."
+  },
+  "keygrid_send_pub_key": {
+    "message": "Send public key by mail",
+    "description": "Export key menu."
+  },
+  "keygrid_display_priv_key": {
+    "message": "Display private key",
+    "description": "Export key menu."
+  },
+  "keygrid_display_key_pair": {
+    "message": "Display key pair",
+    "description": "Export key menu."
+  },
+  "keygrid_display_all_keys": {
+    "message": "Display all keys",
+    "description": "Export key menu."
+  },
+  "keygrid_sort_type": {
+    "message": "Show keys by type",
+    "description": "Key grid sort selector."
+  },
+  "keygrid_primary_key": {
+    "message": "Primary Key",
+    "description": "Primary key of a PGP key."
+  },
+  "keygrid_subkeys": {
+    "message": "Subkeys",
+    "description": "Subkeys of a PGP key."
+  },
+  "keygrid_no_subkeys": {
+    "message": "No subkeys available",
+    "description": "No subkeys of a PGP key found."
+  },
+  "keygrid_user_ids": {
+    "message": "User IDs",
+    "description": "User IDs of a PGP key."
+  },
+  "keygrid_keyid": {
+    "message": "Key ID",
+    "description": "Key ID of a PGP key."
+  },
+  "keygrid_algorithm": {
+    "message": "Algorithm",
+    "description": "Public-key algorithm of a PGP key."
+  },
+  "keygrid_key_length": {
+    "message": "Length",
+    "description": "Key length of a PGP key."
+  },
+  "keygrid_creation_date": {
+    "message": "Creation Date",
+    "description": "Creation date of a PGP key."
+  },
+  "keygrid_creation_date_short": {
+    "message": "Created",
+    "description": "Short creation date of a PGP key. Max. width: 90px"
+  },
+  "keygrid_expiration_date": {
+    "message": "Expiration Date",
+    "description": "Expiration date of a PGP key."
+  },
+  "keygrid_key_not_expire": {
+    "message": "The key does not expire",
+    "description": "Expiration date of a PGP key not set."
+  },
+  "keygrid_validity_status": {
+    "message": "Status",
+    "description": "Validity status of a PGP key."
+  },
+  "keygrid_status_valid": {
+    "message": "valid",
+    "description": "Validity status of a PGP key."
+  },
+  "keygrid_status_invalid": {
+    "message": "invalid",
+    "description": "Validity status of a PGP key."
+  },
+  "keygrid_key_fingerprint": {
+    "message": "Fingerprint",
+    "description": "Unique string identifier for a PGP key."
+  },
+  "keygrid_subkeyid": {
+    "message": "ID",
+    "description": "Subkey ID of a PGP key."
+  },
+  "keygrid_userid": {
+    "message": "ID",
+    "description": "User ID of a PGP key."
+  },
+  "keygrid_userid_signatures": {
+    "message": "Signatures",
+    "description": "Signatures on User ID of a PGP key."
+  },
+  "keygrid_signer_name": {
+    "message": "Signer Name",
+    "description": "User ID of signer."
+  },
+  "keygrid_signer_keyid": {
+    "message": "Signer Key ID",
+    "description": "Key ID of signer."
+  },
+  "keygrid_user_name": {
+    "message": "Name",
+    "description": "Name in User ID of a PGP key."
+  },
+  "keygrid_user_email": {
+    "message": "Email",
+    "description": "Email address in User ID of a PGP key."
+  },
+  "keygrid_delete_confirmation": {
+    "message": "Are you sure you want to remove this key?",
+    "description": "Delete confirmation dialog."
+  },
+  "keygrid_all_keys": {
+    "message": "All",
+    "description": "Selection of key type."
+  },
+  "keygrid_public_keys": {
+    "message": "Public Keys",
+    "description": "Selection of key type."
+  },
+  "keygrid_private_keys": {
+    "message": "Private Keys",
+    "description": "Selection of key type."
   }
-} 
+}

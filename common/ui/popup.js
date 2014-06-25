@@ -60,7 +60,9 @@
         hide();
       }, 600);
     });
-    mvelo.localizeHTML();
+    if (mvelo.crx) {
+      mvelo.l10n.localizeHTML();
+    }
   }
 
   function hide() {

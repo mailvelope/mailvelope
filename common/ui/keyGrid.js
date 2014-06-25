@@ -15,49 +15,89 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function(keyRing) {
 
-  var keyGridColumns = [
-    {
-      field: "type",
-      title: " ",
-      width: 30,
-      template: '<img src="../img/#= type #-key.png" alt="#= type #" />'
-    },
-    {
-      field: "name",
-      title: "Name"
-    },
-    {
-      field: "email",
-      title: "Email"
-    },
-    {
-      field: "id",
-      width: 100,
-      title: "Key ID",
-      template: '#= id.substr(-8) #',
-      attributes: {
-        style: "font-family: monospace;"
+  var keyGridColumns;
+
+  function initKeyGridColumns() {
+    keyGridColumns = [
+      {
+        field: "type",
+        title: " ",
+        width: 30,
+        template: '<img src="../img/#= type #-key.png" alt="#= type #" />'
+      },
+      {
+        field: "name",
+        title: keyRing.l10n.keygrid_user_name
+      },
+      {
+        field: "email",
+        title: keyRing.l10n.keygrid_user_email
+      },
+      {
+        field: "id",
+        width: 100,
+        title: keyRing.l10n.keygrid_keyid,
+        template: '#= id.substr(-8) #',
+        attributes: {
+          style: "font-family: monospace;"
+        }
+      },
+      {
+        field: "crDate",
+        width: 90,
+        title: keyRing.l10n.keygrid_creation_date_short,
+        template: '#= kendo.toString(crDate,"dd.MM.yyyy") #'
+      },
+      {
+        command: "destroy",
+        title: " ",
+        width: "100px"
       }
-    },
-    {
-      field: "crDate",
-      width: 90,
-      title: "Creation",
-      template: '#= kendo.toString(crDate,"dd.MM.yyyy") #'
-    },
-    {
-      command: "destroy",
-      title: " ",
-      width: "100px"
-    }
-  ];
+    ];
+  }
+
+  keyRing.registerL10nMessages([
+    "keygrid_export",
+    "keygrid_display_pub_key",
+    "keygrid_send_pub_key",
+    "keygrid_display_priv_key",
+    "keygrid_display_key_pair",
+    "keygrid_display_all_keys",
+    "keygrid_sort_type",
+    "keygrid_primary_key",
+    "keygrid_subkeys",
+    "keygrid_no_subkeys",
+    "keygrid_user_ids",
+    "keygrid_keyid",
+    "keygrid_algorithm",
+    "keygrid_key_length",
+    "keygrid_creation_date",
+    "keygrid_creation_date_short",
+    "keygrid_expiration_date",
+    "keygrid_key_not_expire",
+    "keygrid_validity_status",
+    "keygrid_status_valid",
+    "keygrid_status_invalid",
+    "keygrid_key_fingerprint",
+    "keygrid_subkeyid",
+    "keygrid_userid",
+    "keygrid_userid_signatures",
+    "keygrid_signer_name",
+    "keygrid_signer_keyid",
+    "keygrid_user_name",
+    "keygrid_user_email",
+    "keygrid_delete_confirmation",
+    "keygrid_all_keys",
+    "keygrid_public_keys",
+    "keygrid_private_keys"
+  ]);
 
   var exDateField = {
     type: "date",
     parse: function(value) {
-      return kendo.parseDate(value) || 'The key does not expire';
+      return kendo.parseDate(value) || keyRing.l10n.keygrid_key_not_expire;
     }
   };
 
@@ -113,6 +153,12 @@
 
     $('#displayKeys').removeClass('spinner');
 
+    initKeyGridColumns();
+
+    keys.forEach(function(key) {
+      key.l10n = keyRing.l10n;
+    });
+
     var grid = $("#mainKeyGrid").kendoGrid({
       columns: keyGridColumns,
       dataSource: {
@@ -127,11 +173,11 @@
         mode: "multiple", // enables multi-column sorting
         allowUnsort: true
       },
-      toolbar: kendo.template($("#keyToolbar").html()),
+      toolbar: kendo.template($("#keyToolbar").html())(keyRing.l10n),
       editable: {
         update: false,
         destroy: true,
-        confirmation: "Are you sure you want to remove this key?",
+        confirmation: keyRing.l10n.keygrid_delete_confirmation,
       },
       remove: onRemoveKey,
       change: onGridChange
@@ -145,10 +191,10 @@
       dataTextField: "text",
       dataValueField: "value",
       autoBind: false,
-      optionLabel: "All",
+      optionLabel: keyRing.l10n.keygrid_all_keys,
       dataSource: [
-        { text: "Public Keys", value: "public" },
-        { text: "Private Keys", value: "private" }
+        { text: keyRing.l10n.keygrid_public_keys, value: "public" },
+        { text: keyRing.l10n.keygrid_private_keys, value: "private" }
       ],
       change: onDropDownChange
     });
@@ -197,6 +243,9 @@
     keyRing.viewModel('getKeyDetails', [e.data.guid], function(details) {
       //console.log('keyGrid key details received', details);
       e.data.subkeys = details.subkeys;
+      e.data.subkeys.forEach(function(subkey) {
+        subkey.l10n = keyRing.l10n;
+      });
       e.data.users = details.users;
       detailInit(e);
     });
@@ -223,7 +272,7 @@
     if (firstSubKey) {
       subkeyDetails.html(template(firstSubKey));
     } else {
-      subkeyDetails.html('<li>No subkeys available</li>');
+      subkeyDetails.html('<li>' + keyRing.l10n.keygrid_no_subkeys + '</li>');
     }
 
     function onSubkeySelect(e) {
@@ -246,17 +295,17 @@
       columns: [
         {
           field: "signer",
-          title: "Signer Name"
+          title: keyRing.l10n.keygrid_signer_name
         },
         {
           field: "id",
           width: 150,
-          title: "Signer KeyID"
+          title: keyRing.l10n.keygrid_signer_keyid
         },
         {
           field: "crDate",
           width: 90,
-          title: "Created",
+          title: keyRing.l10n.keygrid_creation_date_short,
           template: '#= kendo.toString(crDate,"dd.MM.yyyy") #'
         }
       ],
@@ -283,4 +332,4 @@
 
   keyRing.event.on('ready', init);
 
-}());
+}(keyRing));

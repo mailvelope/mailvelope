@@ -22,6 +22,7 @@ var windows = require('sdk/windows').browserWindows;
 var timer = require('sdk/timers');
 var ss = require('sdk/simple-storage');
 var url = require('sdk/url');
+var l10nGet = require("sdk/l10n").get;
 
 var mvelo = require('./common/mvelo').mvelo;
 
@@ -117,11 +118,20 @@ mvelo.tabs.loadOptionsTab = function(hash, onMessage, callback) {
         //console.log('before tab attach');
         mvelo.tabs.attach(tab, {
           onMessage: function(msg) {
-            //console.log('message-event', msg.event);
-            onMessage(msg, null, function(response) {
-              //console.log('main.js handleMessageEvent response', msg.event ,msg.response);
-              this.emit(msg.response, response);
-            }.bind(this));
+            switch (msg.event) {
+              case 'get-l10n-messages':
+                var result = {};
+                msg.ids.forEach(function(id) {
+                  result[id] = l10nGet(id);
+                });
+                this.emit(msg.response, result);
+                break;
+              default:
+                onMessage(msg, null, function(response) {
+                  //console.log('main.js handleMessageEvent response', msg.event ,msg.response);
+                  this.emit(msg.response, response);
+                }.bind(this));
+            }
           }
         }, callback.bind(this, false));
       });

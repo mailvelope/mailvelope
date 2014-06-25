@@ -87,6 +87,9 @@ mvelo.ffa = true;
         event: 'get-l10n-messages',
         ids: ids
       }, callback);
+    },
+    localizeHTML: function() {
+      // handled by the addon SDK runtime
     }
   };
 

@@ -31,6 +31,12 @@ mvelo.l10n = mvelo.l10n || mvelo.crx && {
       result[id] = chrome.i18n.getMessage(id);
     });
     callback(result);
+  },
+  localizeHTML: function() {
+    $('[data-l10n-id]').each(function() {
+      var jqElement = $(this);
+      jqElement.text(chrome.i18n.getMessage(jqElement.data('l10n-id')));
+    });
   }
 };
 // min height for large frame
@@ -72,15 +78,6 @@ mvelo.encodeHTML = function(text) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;")
     .replace(/\//g, "&#x2F;");
-};
-
-mvelo.localizeHTML = function() {
-  if (mvelo.crx) {
-    $('[data-l10n-id]').each(function() {
-      var jqElement = $(this);
-      jqElement.text(chrome.i18n.getMessage(jqElement.data('l10n-id')));
-    });
-  }
 };
 
 if (typeof exports !== 'undefined') {

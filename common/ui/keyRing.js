@@ -24,6 +24,8 @@ var keyRing = {};
   var callbacks = {};
   // event controller
   var event = $('<div/>');
+  // l10n messages
+  var l10n = {};
 
   function init() {
     window.addEventListener("message", receiveMessage);
@@ -32,6 +34,9 @@ var keyRing = {};
       event: "init"
     }), '*');
     localizeHTML();
+    keyRing.getL10nMessages(Object.keys(l10n), function(result) {
+      keyRing.l10n = result;
+    });
     // check for native color picker support and load polyfill
     Modernizr.load({
       test: Modernizr.inputtypes.color,
@@ -112,7 +117,14 @@ var keyRing = {};
     }), '*');
   };
 
+  exports.registerL10nMessages = function(ids) {
+    ids.forEach(function(id) {
+      keyRing.l10n[id] = true;
+    });
+  };
+
   exports.event = event;
+  exports.l10n = l10n;
 
   function receiveMessage(msg) {
     //console.log('key ring receiveMessage', JSON.stringify(msg));

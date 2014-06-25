@@ -39,7 +39,7 @@
     $('#closeBtn').click(onClose);
     $('#copyBtn').click(onCopy);
     $('body').addClass('spinner');
-    mvelo.localizeHTML();
+    mvelo.l10n.localizeHTML();
   }
 
   function onClose() {

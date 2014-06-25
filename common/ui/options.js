@@ -37,7 +37,7 @@
     initMessageListener();
     var hash = location.hash || '#home';
     $('#optionsIframe').attr('src', mvelo.extension.getURL(hashMap[hash]));
-    mvelo.localizeHTML();
+    mvelo.l10n.localizeHTML();
   }
 
   function receiveMessage(event) {
