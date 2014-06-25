@@ -75,6 +75,34 @@ There are a few more tasks available through grunt:
 
     grunt clean
 
+##### Running a testserver
+
+There is a grunt task to start up a web-server and serve some test files. You can start the server by running:
+
+    grunt connect watch
+
+Open up a browser and point it to [the test page (http://localhost:8000/)](http://localhost:8000/).
+
+Note: If you leave the watch task, you would need to add the `keepalive` option to the task on the command line:
+
+    grunt connect:server:keepalive
+
+##### Testing in firefox
+
+There are tasks to help testing the firefox plugin. Run
+
+    grunt start-ff-clean
+
+to run a clean (new profile) version of firefox with the mailvelope plugin loaded.
+
+There is also a pre-configured profile. To run firefox using it, use the
+
+    grunt start-ff-testprofile
+
+command. This profile contains a public and private key, as well as the local testing page
+that has been added to the watch list, so all you need to do is run this task, navigate
+to http://localhost:8000/ and you can start using mailvelope in a testbed.
+
 ## Website
 
 http://www.mailvelope.com
