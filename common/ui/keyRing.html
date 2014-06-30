@@ -156,20 +156,20 @@
               <div class="modal fade hide" id="exportKey">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                  <h3>Export Key</h3>
+                  <h3 data-l10n-id="key_export_header"></h3>
                 </div>
                 <div class="modal-body">
                   <textarea id="armoredKey" class="input-xxlarge" rows=12></textarea>
                   <form id="exportDownload" class="form-inline">
                     <input type="text">
-                    <button type="button" class="btn">Create file</button>
-                    <a class="hide">Download key</a>
+                    <button type="button" class="btn" data-l10n-id="key_export_create_file"></button>
+                    <a class="hide" data-l10n-id="key_export_download"></a>
                   </form>
                   <div id="exportWarn" class="alert hide"></div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                  <button id="exportToCb" type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Copy to Clipboard</button>
+                  <button type="button" class="btn" data-dismiss="modal" aria-hidden="true" data-l10n-id="dialog_popup_close"></button>
+                  <button id="exportToCb" type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true" data-l10n-id="key_export_clipboard"></button>
                 </div>
               </div>
             </div>

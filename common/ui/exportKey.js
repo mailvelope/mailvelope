@@ -15,11 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function(keyRing) {
 
   var grid;
 
   window.URL = window.URL || window.webkitURL;
+
+  keyRing.registerL10nMessages([
+    "key_export_too_large",
+    "key_export_warning",
+    "key_export_warning_private"
+  ]);
 
   function init() {
     $('#mainKeyGrid').one('mainKeyGridReady', function() {
@@ -48,7 +54,7 @@
         case 'exportByMail':
           // keys longer than 1600 chars don't fit into URL
           if (result[0].armoredPublic.length > 1600) {
-            showModal(key, result[0].armoredPublic, 'pub', 'Key is too large to fit into a URL, use copy & paste instead.');
+            showModal(key, result[0].armoredPublic, 'pub', keyRing.l10n.key_export_too_large);
           } else {
             key.armoredPublic = result[0].armoredPublic;
             keyRing.sendMessage({
@@ -82,7 +88,7 @@
             }
             return prev;
           }, '');
-          showModal(null, allKeys, 'all_keys', hasPrivate ? '<b>Warning!</b> This file contains also private keys.' : null);
+          showModal(null, allKeys, 'all_keys', hasPrivate ? '<b>' + keyRing.l10n.key_export_warning + '</b> ' + keyRing.l10n.key_export_warning_private : null);
           break;
         default:
           console.log('unknown export action');
@@ -128,4 +134,4 @@
 
   keyRing.event.on('ready', init);
 
-}());
+}(keyRing));

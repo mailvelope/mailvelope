@@ -51,7 +51,7 @@
     "message": "Copy to Clipboard",
     "description": "Copy decrypted message to clipboard."
   },
-  "decrypt_popup_close": {
+  "dialog_popup_close": {
     "message": "Close",
     "description": "Close decrypt popup."
   },
@@ -254,5 +254,33 @@
   "keygrid_private_keys": {
     "message": "Private Keys",
     "description": "Selection of key type."
+  },
+  "key_export_header": {
+    "message": "Export Key",
+    "description": "Export key dialog header."
+  },
+  "key_export_create_file": {
+    "message": "Create file",
+    "description": "Create file button."
+  },
+  "key_export_download": {
+    "message": "Download key",
+    "description": "Download key link."
+  },
+  "key_export_clipboard": {
+    "message": "Copy to Clipboard",
+    "description": "Copy to clipboard button."
+  },
+  "key_export_too_large": {
+    "message": "Key is too large to fit into a URL, use copy & paste instead.",
+    "description": "Key export warning message."
+  },
+  "key_export_warning": {
+    "message": "Warning!",
+    "description": "Key export warning."
+  },
+  "key_export_warning_private": {
+    "message": "This file contains also private keys.",
+    "description": "Key export warning."
   }
 }
