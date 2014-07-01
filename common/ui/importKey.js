@@ -15,10 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function(exports) {
+(function(exports, keyRing) {
 
   var publicKeyRegex = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
   var privateKeyRegex = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END PGP PRIVATE KEY BLOCK-----/g;
+
+  keyRing.registerL10nMessages([
+    "key_import_error",
+    "key_import_invalid_text",
+    "key_import_exception",
+    "alert_header_warning",
+    "alert_header_success"
+  ]);
 
   function init() {
     $('#impKeySubmit').click(function() {
@@ -52,11 +60,11 @@
     }
 
     if (keys.length === 0) {
-      $('#importAlert').showAlert('Import Error', 'No valid key text found', 'error', true);
+      $('#importAlert').showAlert(keyRing.l10n.key_import_error, keyRing.l10n.key_import_invalid_text, 'error', true);
     } else {
       keyRing.viewModel('importKeys', [keys], function(result, error) {
         if (error) {
-          $('#importAlert').showAlert('Import Error', error.type === 'error' ? error.message : 'An exception occored while processing the keys', 'error', true);
+          $('#importAlert').showAlert(keyRing.l10n.key_import_error, error.type === 'error' ? error.message : keyRing.l10n.key_import_exception, 'error', true);
           if (callback) callback([{type: 'error'}]);
         } else {
           var success = false;
@@ -64,14 +72,14 @@
             var heading;
             switch (imported.type) {
               case 'success':
-                heading = 'Success';
+                heading = keyRing.l10n.alert_header_success;
                 success = true;
                 break;
               case 'warning':
-                heading = 'Warning';
+                heading = keyRing.l10n.alert_header_warning;
                 break;
               case 'error':
-                heading = 'Import Error';
+                heading = keyRing.l10n.key_import_error;
                 break;
             }
             $('#importAlert').showAlert(heading, imported.message, imported.type, true);
@@ -124,4 +132,4 @@
 
   keyRing.event.on('ready', init);
 
-}(keyRing));
+}(keyRing, keyRing));

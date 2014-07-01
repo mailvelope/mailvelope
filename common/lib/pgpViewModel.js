@@ -19,6 +19,7 @@
 define(function(require, exports, module) {
 
   var mvelo = require('../lib-mvelo').mvelo;
+  var l10n = mvelo.l10n.get;
   var openpgp = require('openpgp');
   var proxy;
   if (mvelo.crx) {
@@ -245,7 +246,7 @@ define(function(require, exports, module) {
         console.log('Error on key.readArmored', error);
         result.push({
           type: 'error',
-          message: 'Unable to read one public key: ' + error.message
+          message: l10n('key_import_public_read', [error.message])
         });
       });
     }
@@ -258,13 +259,13 @@ define(function(require, exports, module) {
         key.update(pubKey);
         result.push({
           type: 'success',
-          message: 'Public key ' + keyid + ' of user ' + getUserId(pubKey) + ' updated'
+          message: l10n('key_import_public_update', [keyid, getUserId(pubKey)])
         });
       } else {
         keyring.publicKeys.push(pubKey);
         result.push({
           type: 'success',
-          message: 'Public key ' + keyid + ' of user ' + getUserId(pubKey) + ' imported into key ring'
+          message: l10n('key_import_public_success', [keyid, getUserId(pubKey)])
         });
       }
     });
@@ -279,7 +280,7 @@ define(function(require, exports, module) {
         console.log('Error on key.readArmored', error);
         result.push({
           type: 'error',
-          message: 'Unable to read one private key: ' + error.message
+          message: l10n('key_import_private_read', [error.message])
         });
       });
     }
@@ -295,20 +296,20 @@ define(function(require, exports, module) {
           keyring.privateKeys.push(privKey);
           result.push({
             type: 'success',
-            message: 'Private key of existing public key' + keyid + ' of user ' + getUserId(privKey) + ' imported into key ring'
+            message: l10n('key_import_private_exists', [keyid, getUserId(privKey)])
           });
         } else {
           key.update(privKey);
           result.push({
             type: 'success',
-            message: 'Private key ' + keyid + ' of user ' + getUserId(privKey) + ' updated'
+            message: l10n('key_import_private_update', [keyid, getUserId(privKey)])
           });
         }
       } else {
         keyring.privateKeys.push(privKey);
         result.push({
           type: 'success',
-          message: 'Private key ' + keyid + ' of user ' + getUserId(privKey) + ' imported into key ring'
+          message: l10n('key_import_private_success', [keyid, getUserId(privKey)])
         });
       }
 
@@ -333,7 +334,7 @@ define(function(require, exports, module) {
       } catch (e) {
         result.push({
           type: 'error',
-          message: 'Unable to import one key due to exception: ' + e
+          message: l10n('key_import_unable', [e])
         });
       }
     });

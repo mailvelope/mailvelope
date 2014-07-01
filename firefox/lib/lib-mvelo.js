@@ -237,4 +237,13 @@ mvelo.util.getHost = function(source) {
   return url.URL(source).host;
 };
 
+mvelo.l10n = {};
+mvelo.l10n.get = function(id, substitutions) {
+  if (substitutions) {
+    return l10nGet.apply(null, [id].concat(substitutions));
+  } else {
+    return l10nGet(id);
+  }
+};
+
 exports.mvelo = mvelo;

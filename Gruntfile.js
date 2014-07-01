@@ -175,11 +175,10 @@ module.exports = function (grunt) {
         },
         options: {
           process: function (content, srcpath) {
-            console.log('process called');
             var locale = JSON.parse(content);
             var result = '';
             for (var key in locale) {
-              result += key + '= ' + locale[key].message + '\n';
+              result += key + '= ' + locale[key].message.replace(/\$(\d)/g, '%$1s') + '\n';
             }
             return result;
           }

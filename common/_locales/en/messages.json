@@ -282,5 +282,89 @@
   "key_export_warning_private": {
     "message": "This file contains also private keys.",
     "description": "Key export warning."
+  },
+  "key_import_header": {
+    "message": "Import Keys",
+    "description": "Import keys view header."
+  },
+  "key_import_header": {
+    "message": "Import Keys",
+    "description": "Import keys view header."
+  },
+  "key_import_textarea": {
+    "message": "Paste key text here:",
+    "description": "Key import box."
+  },
+  "key_import_multiple_keys": {
+    "message": "To import multiple keys, simply paste them all here. Extra text around the keys is ignored.",
+    "description": "Info message."
+  },
+  "key_import_file_select": {
+    "message": "Select a key text file to import",
+    "description": "File selection button label."
+  },
+  "form_submit": {
+    "message": "Submit",
+    "description": "Submit form button."
+  },
+  "form_clear": {
+    "message": "Clear",
+    "description": "Clear form button."
+  },
+  "key_import_another": {
+    "message": "Import another...",
+    "description": "Import another key button."
+  },
+  "key_import_error": {
+    "message": "Import Error",
+    "description": "Import error alert."
+  },
+  "key_import_invalid_text": {
+    "message": "No valid key text found",
+    "description": "Import error alert."
+  },
+  "key_import_exception": {
+    "message": "An exception occored while processing the keys",
+    "description": "Import error alert."
+  },
+  "alert_header_warning": {
+    "message": "Warning",
+    "description": "Alert header of category warning."
+  },
+  "alert_header_success": {
+    "message": "Success",
+    "description": "Alert header of category success."
+  },
+  "key_import_public_read": {
+    "message": "Unable to read one public key: $1",
+    "description": "Import error message. $1: error message"
+  },
+  "key_import_public_update": {
+    "message": "Public key $1 of user $2 updated",
+    "description": "Import success message: $1: keyid, $2: userid."
+  },
+  "key_import_public_success": {
+    "message": "Public key $1 of user $2 imported into key ring",
+    "description": "Import success message: $1: keyid, $2: userid."
+  },
+  "key_import_private_read": {
+    "message": "Unable to read one private key: $1",
+    "description": "Import error message. $1: error message"
+  },
+  "key_import_private_exists": {
+    "message": "Private key of existing public key $1 of user $2 imported into key ring",
+    "description": "Import success message: $1: keyid, $2: userid."
+  },
+  "key_import_private_update": {
+    "message": "Private key $1 of user $2 updated",
+    "description": "Import success message: $1: keyid, $2: userid."
+  },
+  "key_import_private_success": {
+    "message": "Private key $1 of user $2 imported into key ring",
+    "description": "Import success message: $1: keyid, $2: userid."
+  },
+  "key_import_unable": {
+    "message": "Unable to import one key due to exception: $1",
+    "description": "Import error message: $1: error message."
   }
 }
