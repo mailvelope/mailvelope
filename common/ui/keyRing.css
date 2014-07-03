@@ -175,3 +175,11 @@ body {
   background-repeat: no-repeat;
   background-position: center;
 }
+
+.key-advanced-open::before {
+  content: '<< ';
+}
+
+.key-advanced-closed::after {
+  content: ' >>';
+}

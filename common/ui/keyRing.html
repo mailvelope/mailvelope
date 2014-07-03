@@ -174,7 +174,7 @@
               </div>
             </div>
             <div id="importKey" class="tab-pane fade">
-              <h3 data-l10n-id="key_import_header"></h3>
+              <h3 data-l10n-id="keyring_import_keys"></h3>
               <form class="form-vertical well" onsubmit="return false">
                 <div class="control-group">
                   <label class="control-label" for="textarea"><h4 data-l10n-id="key_import_textarea"></h4></label>
@@ -199,30 +199,30 @@
               </form>
             </div>
             <div id="generateKey" class="tab-pane fade">
-              <h3>Generate Key</h3>
+              <h3 data-l10n-id="keyring_generate_key"></h3>
               <form class="form-horizontal well" onsubmit="return false" autocomplete="off">
                 <div class="control-group">
-                  <label class="control-label">Name</label>
+                  <label class="control-label" data-l10n-id="keygrid_user_name"></label>
                   <div class="controls">
                     <input type="text" class="input-xlarge" id="genKeyName">
-                    <span class="help-block">Full name of key owner</span>
+                    <span class="help-block" data-l10n-id="key_gen_name_help"></span>
                   </div>
                 </div>
                 <div class="control-group">
-                  <label class="control-label">Email</label>
+                  <label class="control-label" data-l10n-id="keygrid_user_email"></label>
                   <div class="controls">
                     <input type="text" class="input-xlarge" id="genKeyEmail">
-                    <span class="help-inline hide">Invalid email address</span>
+                    <span class="help-inline hide" data-l10n-id="key_gen_invalid_email"></span>
                   </div>
                 </div>
                 <div class="control-group">
                   <div class="controls">
-                    <button id="genKeyAdv" class="btn">Advanced >></button>
+                    <button id="genKeyAdv" class="btn key-advanced-closed" data-l10n-id="key_gen_advanced_btn"></button>
                   </div>
                 </div>
                 <div id="genKeyAdvSection" class="alert alert-info hide">
                   <div class="control-group">
-                    <label class="control-label">Algorithm</label>
+                    <label class="control-label" data-l10n-id="keygrid_algorithm"></label>
                     <div class="controls">
                       <select id="genKeyAlgo" class="input-medium" disabled>
                         <option selected>RSA/RSA</option>
@@ -231,7 +231,7 @@
                     </div>
                   </div>
                   <div class="control-group">
-                    <label class="control-label">Key size</label>
+                    <label class="control-label" data-l10n-id="key_gen_key_size"></label>
                     <div class="controls">
                       <select id="genKeySize" class="input-medium">
                         <option>1024</option>
@@ -242,31 +242,31 @@
                     </div>
                   </div>
                   <div class="control-group">
-                    <label class="control-label">Expiration</label>
+                    <label class="control-label" data-l10n-id="key_gen_expiration"></label>
                     <div class="controls">
                       <input type="text" class="input-small" id="genKeyExp" value="0" disabled>
                       <select id="genKeyExpUnit" class="input-small" disabled>
-                        <option>never</option>
-                        <option>days</option>
-                        <option>months</option>
-                        <option>years</option>
+                        <option data-l10n-id="key_gen_never"></option>
+                        <option data-l10n-id="key_gen_days"></option>
+                        <option data-l10n-id="key_gen_months"></option>
+                        <option data-l10n-id="key_gen_years"></option>
                       </select>
                     </div>
                   </div>
                 </div>
                 <div class="control-group">
-                  <label class="control-label">Enter Passphrase</label>
+                  <label class="control-label" data-l10n-id="key_gen_pwd"></label>
                   <div class="controls">
                     <input type="password" class="input-xlarge" id="genKeyPwd">
-                    <span class="label label-important">Password is empty</span>
+                    <span class="label label-important" data-l10n-id="key_gen_pwd_empty"></span>
                   </div>
                 </div>
                 <div class="control-group">
-                  <label class="control-label">Re-enter Passphrase</label>
+                  <label class="control-label" data-l10n-id="key_gen_pwd_empty"></label>
                   <div class="controls">
                     <input type="password" class="input-xlarge" id="genKeyRePwd">
-                    <span class="label label-important hide">Passwords not equal</span>
-                    <span class="label label-success hide">Passwords match</span>
+                    <span class="label label-important hide" data-l10n-id="key_gen_pwd_unequal"></span>
+                    <span class="label label-success hide" data-l10n-id="key_gen_pwd_match"></span>
                   </div>
                 </div>
                 <div class="control-group">
@@ -274,14 +274,14 @@
                   </div>
                 </div>
                 <div class="form-actions">
-                  <button id="genKeySubmit" class="btn btn-primary" disabled>Submit</button>
-                  <button id="genKeyClear" class="btn">Clear</button>
-                  <button id="genKeyAnother" class="btn hide">Generate another...</button>
+                  <button id="genKeySubmit" class="btn btn-primary" disabled data-l10n-id="form_submit"></button>
+                  <button id="genKeyClear" class="btn" data-l10n-id="form_clear"></button>
+                  <button id="genKeyAnother" class="btn hide" data-l10n-id="key_gen_another"></button>
                 </div>
               </form>
               <div class="modal fade hide" id="genKeyWait">
                 <div class="modal-header">
-                  <h3>Key generation in progress...</h3>
+                  <h3 data-l10n-id="key_gen_wait_header"></h3>
                 </div>
                 <div class="modal-body">
                   <div class="progress-bar">
@@ -289,7 +289,7 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <p>Please wait, key generation can take up to several minutes depending on factors like the key size.</p>
+                  <p data-l10n-id="key_gen_wait_info"></p>
                 </div>
               </div>
             </div>

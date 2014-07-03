@@ -283,14 +283,6 @@
     "message": "This file contains also private keys.",
     "description": "Key export warning."
   },
-  "key_import_header": {
-    "message": "Import Keys",
-    "description": "Import keys view header."
-  },
-  "key_import_header": {
-    "message": "Import Keys",
-    "description": "Import keys view header."
-  },
   "key_import_textarea": {
     "message": "Paste key text here:",
     "description": "Key import box."
@@ -366,5 +358,81 @@
   "key_import_unable": {
     "message": "Unable to import one key due to exception: $1",
     "description": "Import error message: $1: error message."
+  },
+  "key_gen_name_help": {
+    "message": "Full name of key owner",
+    "description": "Help text for name field."
+  },
+  "key_gen_invalid_email": {
+    "message": "Invalid email address",
+    "description": "Error message."
+  },
+  "key_gen_advanced_btn": {
+    "message": "Advanced",
+    "description": "Advanced key generation settings."
+  },
+  "key_gen_key_size": {
+    "message": "Key size",
+    "description": "Advanced key generation settings: Key size"
+  },
+  "key_gen_expiration": {
+    "message": "Expiration",
+    "description": "Key expires after time range"
+  },
+  "key_gen_never": {
+    "message": "never",
+    "description": "Key expires after time range"
+  },
+  "key_gen_days": {
+    "message": "days",
+    "description": "Key expires after time range"
+  },
+  "key_gen_months": {
+    "message": "months",
+    "description": "Key expires after time range"
+  },
+  "key_gen_years": {
+    "message": "years",
+    "description": "Key expires after time range"
+  },
+  "key_gen_pwd": {
+    "message": "Enter Passphrase",
+    "description": "Label for passphrase input field"
+  },
+  "key_gen_pwd_empty": {
+    "message": "Password is empty",
+    "description": "Passphrase input field status"
+  },
+  "key_gen_pwd_reenter": {
+    "message": "Re-enter Passphrase",
+    "description": "Label for passphrase input field"
+  },
+  "key_gen_pwd_unequal": {
+    "message": "Passwords not equal",
+    "description": "Passphrase input field status"
+  },
+  "key_gen_pwd_match": {
+    "message": "Passwords match",
+    "description": "Passphrase input field status"
+  },
+  "key_gen_another": {
+    "message": "Generate another...",
+    "description": "Key import button"
+  },
+  "key_gen_wait_header": {
+    "message": "Key generation in progress...",
+    "description": "Wait dialog header"
+  },
+  "key_gen_wait_info": {
+    "message": "Please wait, key generation can take up to several minutes depending on factors like the key size.",
+    "description": "Wait dialog info message"
+  },
+  "key_gen_success": {
+    "message": "New key generated and imported into key ring",
+    "description": "Key generation success message"
+  },
+  "key_gen_error": {
+    "message": "Generation Error",
+    "description": "Key generation error message"
   }
 }
