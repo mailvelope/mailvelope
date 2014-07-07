@@ -23,7 +23,7 @@
 
   keyRing.registerL10nMessages([
     "key_export_too_large",
-    "key_export_warning",
+    "header_warning",
     "key_export_warning_private"
   ]);
 
@@ -88,7 +88,7 @@
             }
             return prev;
           }, '');
-          showModal(null, allKeys, 'all_keys', hasPrivate ? '<b>' + keyRing.l10n.key_export_warning + '</b> ' + keyRing.l10n.key_export_warning_private : null);
+          showModal(null, allKeys, 'all_keys', hasPrivate ? '<b>' + keyRing.l10n.header_warning + '</b> ' + keyRing.l10n.key_export_warning_private : null);
           break;
         default:
           console.log('unknown export action');

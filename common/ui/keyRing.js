@@ -36,6 +36,7 @@ var keyRing = {};
     localizeHTML();
     keyRing.getL10nMessages(Object.keys(l10n), function(result) {
       keyRing.l10n = result;
+      event.triggerHandler('ready');
     });
     // check for native color picker support and load polyfill
     Modernizr.load({
@@ -130,9 +131,6 @@ var keyRing = {};
     //console.log('key ring receiveMessage', JSON.stringify(msg));
     var data = JSON.parse(msg.data);
     switch (data.event) {
-      case 'init-response':
-        event.triggerHandler('ready');
-        break;
       case 'viewmodel-response':
         if (callbacks[data.id]) {
           //console.log('keyRing viewmodel-response', data);

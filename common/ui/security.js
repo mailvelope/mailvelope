@@ -15,7 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function(keyRing) {
+
+  keyRing.registerL10nMessages([
+    "security_token_title",
+    "security_token_info"
+  ]);
 
   function init() {
     loadPrefs();
@@ -27,7 +32,10 @@
     $('input:radio[name="pwdCacheRadios"]').on('change', toggleCacheTime);
     $('#secBtnSave').click(onSave);
     $('#secBtnCancel').click(onCancel);
-    $('#secTokenInfo').popover();
+    $('#secTokenInfo').popover({
+      title: keyRing.l10n.security_token_title,
+      content: keyRing.l10n.security_token_info
+    });
     // https://bugzilla.mozilla.org/show_bug.cgi?id=213519
     $('#pwdCacheTime').click(function() {
       return false;
@@ -127,5 +135,5 @@
 
   keyRing.event.on('ready', init);
 
-}());
+}(keyRing));
 

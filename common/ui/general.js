@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function() {
+(function(keyRing) {
 
   function init() {
     // this is triggered on startup
@@ -133,5 +133,5 @@
 
   keyRing.event.on('ready', init);
 
-}());
+}(keyRing));
 

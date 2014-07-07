@@ -17,25 +17,21 @@
 
 var watchList = {};
 
-(function(exports) {
+(function(exports, keyRing) {
 
-  var watchListColumns = [
-    {
-      field: "active",
-      title: "Active",
-      width: 50,
-      template: '<div class="checkb-active"><input type="checkbox" disabled="disabled" #= active ? \'checked="checked"\' : "" # /></div>'
-    },
-    {
-      field: "site",
-      title: "Site"
-    },
-    {
-      command: ["edit", "destroy"],
-      title: " ",
-      width: "180px"
-    }
-  ];
+  keyRing.registerL10nMessages([
+    "watchlist_title_active",
+    "watchlist_title_site",
+    "watchlist_title_scan",
+    "watchlist_title_frame",
+    "watchlist_command_edit",
+    "watchlist_command_create",
+    "watchlist_command_save",
+    "watchlist_command_cancel",
+    "keygrid_delete"
+  ]);
+
+
 
   var watchListSchema = {
     model: {
@@ -49,23 +45,6 @@ var watchList = {};
       }
     }
   };
-
-  var framesColumns = [
-    {
-      field: "scan",
-      title: "Scan",
-      width: 50
-    },
-    {
-      field: "frame",
-      title: "Frame"
-    },
-    {
-      command: ["destroy"],
-      title: " ",
-      width: "100px"
-    }
-  ];
 
   var framesSchema = {
     model: {
@@ -82,12 +61,54 @@ var watchList = {};
 
   var watchListData;
   var mainGrid;
+  var watchListColumns;
+  var framesColumns;
+
+  function initWatchlistColumns() {
+    watchListColumns = [
+      {
+        field: "active",
+        title: keyRing.l10n.watchlist_title_active,
+        width: 50,
+        template: '<div class="checkb-active"><input type="checkbox" disabled="disabled" #= active ? \'checked="checked"\' : "" # /></div>'
+      },
+      {
+        field: "site",
+        title: keyRing.l10n.watchlist_title_site
+      },
+      {
+        command: [
+          { text: keyRing.l10n.watchlist_command_edit, name: "edit" },
+          { text: keyRing.l10n.keygrid_delete, name: "destroy" }
+        ],
+        title: " ",
+        width: "180px"
+      }
+    ];
+    framesColumns = [
+      {
+        field: "scan",
+        title: keyRing.l10n.watchlist_title_scan,
+        width: 50
+      },
+      {
+        field: "frame",
+        title: keyRing.l10n.watchlist_title_frame
+      },
+      {
+        command: { text: keyRing.l10n.keygrid_delete, name: "destroy" },
+        title: " ",
+        width: "100px"
+      }
+    ];
+  }
 
   function init() {
     keyRing.viewModel('getWatchList', initGrid);
   }
 
   function initGrid(watchList) {
+    initWatchlistColumns();
     watchListData = new kendo.data.DataSource({
       data: watchList,
       schema: watchListSchema,
@@ -105,7 +126,7 @@ var watchList = {};
       sortable: true,
       selectable: "row",
       editable: "inline",
-      toolbar: ["create"],
+      toolbar: [{ text: keyRing.l10n.watchlist_command_create, name: "create" }],
       save: setWatchListData
     });
     $("#watchListGrid").triggerHandler('watchListDataReady');
@@ -130,7 +151,11 @@ var watchList = {};
       dataSource: frameList,
       sortable: true,
       columns: framesColumns,
-      toolbar: ["create", "save", "cancel"],
+      toolbar: [
+        { text: keyRing.l10n.watchlist_command_create, name: "create" },
+        { text: keyRing.l10n.watchlist_command_save, name: "save" },
+        { text: keyRing.l10n.watchlist_command_cancel, name: "cancel" }
+      ],
       editable: {
         update: true,
         destroy: true,
@@ -227,4 +252,4 @@ var watchList = {};
 
   keyRing.event.on('ready', init);
 
-}(watchList));
+}(watchList, keyRing));

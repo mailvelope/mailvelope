@@ -79,7 +79,6 @@
         // provides reference to iframe window
         iframeWindow = event.source;
         iframeEvents.triggerHandler('iframeLoaded');
-        event.source.postMessage(JSON.stringify({event: "init-response"}), '*');
         break;
       case 'copyToClipboard':
         var copyFrom = $('<textarea/>');

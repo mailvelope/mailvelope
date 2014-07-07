@@ -51,7 +51,7 @@
         template: '#= kendo.toString(crDate,"dd.MM.yyyy") #'
       },
       {
-        command: "destroy",
+        command: { text: keyRing.l10n.keygrid_delete, name: "destroy" },
         title: " ",
         width: "100px"
       }
@@ -88,6 +88,7 @@
     "keygrid_signer_keyid",
     "keygrid_user_name",
     "keygrid_user_email",
+    "keygrid_delete",
     "keygrid_delete_confirmation",
     "keygrid_all_keys",
     "keygrid_public_keys",
@@ -141,6 +142,9 @@
 
   function reload() {
     keyRing.viewModel('getKeys', function(keys) {
+      keys.forEach(function(key) {
+        key.l10n = keyRing.l10n;
+      });
       $("#mainKeyGrid").data("kendoGrid").setDataSource(new kendo.data.DataSource({
         data: keys,
         schema: keyGridSchema,

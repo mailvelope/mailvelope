@@ -239,6 +239,10 @@
     "message": "Email",
     "description": "Email address in User ID of a PGP key."
   },
+  "keygrid_delete": {
+    "message": "Delete",
+    "description": "Delete row button."
+  },
   "keygrid_delete_confirmation": {
     "message": "Are you sure you want to remove this key?",
     "description": "Delete confirmation dialog."
@@ -275,9 +279,9 @@
     "message": "Key is too large to fit into a URL, use copy & paste instead.",
     "description": "Key export warning message."
   },
-  "key_export_warning": {
+  "header_warning": {
     "message": "Warning!",
-    "description": "Key export warning."
+    "description": "Header warning."
   },
   "key_export_warning_private": {
     "message": "This file contains also private keys.",
@@ -434,5 +438,141 @@
   "key_gen_error": {
     "message": "Generation Error",
     "description": "Key generation error message"
+  },
+  "security_display_decrypted": {
+    "message": "Where are decrypted messages displayed?",
+    "description": "Label for display options"
+  },
+  "security_display_inline": {
+    "message": "On the page of the mail provider.",
+    "description": "Decrypted message display option"
+  },
+  "security_display_popup": {
+    "message": "In a separate popup from Mailvelope.",
+    "description": "Decrypted message display option"
+  },
+  "security_token_header": {
+    "message": "Security Token",
+    "description": "Security token header"
+  },
+  "security_token_title": {
+    "message": "Token Authentication",
+    "description": "Security token title"
+  },
+  "security_token_info": {
+    "message": "The security token is an authentication mechanism: all Mailvelope dialogs will display this user-defined code and thereby identify themselves and their origin.",
+    "description": "Security token help message"
+  },
+  "security_char_code": {
+    "message": "Char Code",
+    "description": "Char code for security token"
+  },
+  "security_char_help": {
+    "message": "Must be 3 characters",
+    "description": "Char code help"
+  },
+  "security_custom_color": {
+    "message": "Custom Color",
+    "description": "Custom color for security token"
+  },
+  "security_compose_mail": {
+    "message": "Where do you want to compose your mail?",
+    "description": "Label for compose options"
+  },
+  "security_compose_external": {
+    "message": "In a separate editor window from Mailvelope.",
+    "description": "Mail compose option"
+  },
+  "security_compose_webmail": {
+    "message": "In the mail compose editor of the mail provider.",
+    "description": "Mail compose option"
+  },
+  "security_compose_warn": {
+    "message": "This setting degrades the security level of Mailvelope. Your mail provider can potentially get access to your message.",
+    "description": "Mail compose options warning"
+  },
+  "security_cache_header": {
+    "message": "Remember passwords for browser session?",
+    "description": "Password cache header"
+  },
+  "security_cache_on": {
+    "message": "Yes, keep in memory for",
+    "description": "Store password in memory for $1 minutes."
+  },
+  "security_cache_time": {
+    "message": "minutes.",
+    "description": "Store password in memory for $1 minutes."
+  },
+  "security_cache_help": {
+    "message": "Must be a number between 1-999",
+    "description": "Help text for cache time."
+  },
+  "security_cache_off": {
+    "message": "No.",
+    "description": "Don't store password."
+  },
+  "reload_webmail_tab": {
+    "message": "Please reload your mail provider tab (F5) to make these settings take effect.",
+    "description": "Info message."
+  },
+  "form_save": {
+    "message": "Save",
+    "description": "Save form button."
+  },
+  "form_cancel": {
+    "message": "Cancel",
+    "description": "Cancel form button."
+  },
+  "watchlist_title_active": {
+    "message": "Active",
+    "description": "Entry in watchlist is active."
+  },
+  "watchlist_title_site": {
+    "message": "Site",
+    "description": "Site in watchlist."
+  },
+  "watchlist_title_scan": {
+    "message": "Scan",
+    "description": "Scan status of site in watchlist."
+  },
+  "watchlist_title_frame": {
+    "message": "Frame",
+    "description": "Frame URL of site in watchlist."
+  },
+  "watchlist_command_edit": {
+    "message": "Edit",
+    "description": "Edit entry in watchlist."
+  },
+  "watchlist_command_create": {
+    "message": "Add new record",
+    "description": "Create entry in watchlist."
+  },
+  "watchlist_command_save": {
+    "message": "Save changes",
+    "description": "Save changes in watchlist."
+  },
+  "watchlist_command_cancel": {
+    "message": "Cancel changes",
+    "description": "Cancel changes in watchlist."
+  },
+  "general_editor_type": {
+    "message": "Mail Compose Editor Type",
+    "description": "Label for editor options."
+  },
+  "general_editor_rich": {
+    "message": "Rich Text Editor",
+    "description": "Editor option: rich text."
+  },
+  "general_editor_plain": {
+    "message": "Plain Text",
+    "description": "Editor option: plain text."
+  },
+  "general_primary_key_label": {
+    "message": "Primary Private Key",
+    "description": "Label for primary private key option."
+  },
+  "general_primary_key_always": {
+    "message": "Always add primary key to list of recipients. (Allows to decrypt sent mails)",
+    "description": "Label for primary private key option."
   }
 }
