@@ -31,8 +31,6 @@ var watchList = {};
     "keygrid_delete"
   ]);
 
-
-
   var watchListSchema = {
     model: {
       id: "site",

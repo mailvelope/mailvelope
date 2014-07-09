@@ -24,6 +24,7 @@
   var name;
   // dialogs
   var pwd, sandbox;
+  var l10n;
 
   function init() {
     var qs = jQuery.parseQuerystring();
@@ -40,6 +41,11 @@
     $('#copyBtn').click(onCopy);
     $('body').addClass('spinner');
     mvelo.l10n.localizeHTML();
+    mvelo.l10n.getMessages([
+      'alert_header_error'
+    ], function(result) {
+      l10n = result;
+    });
   }
 
   function onClose() {
@@ -118,7 +124,7 @@
     // hide sandbox
     $('.modal-body iframe').hide();
     $('#errorbox').show();
-    $('#errorwell').showAlert('Error', msg, 'error');
+    $('#errorwell').showAlert(l10n.alert_header_error, msg, 'error');
     $('#copyBtn').prop('disabled', true);
   }
 

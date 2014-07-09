@@ -55,6 +55,22 @@
     "message": "Close",
     "description": "Close decrypt popup."
   },
+  "editor_header": {
+    "message": "Compose Mail",
+    "description": "Header of editor popup."
+  },
+  "editor_transfer": {
+    "message": "Transfer",
+    "description": "Transfer button of editor popup."
+  },
+  "editor_transfer_unencrypted": {
+    "message": "You are trying to transfer unencrypted content back to the mail provider.",
+    "description": "Warning for unencrypted content."
+  },
+  "editor_blur_warn": {
+    "message": "Warning. Editor lost focus.",
+    "description": "Warning for lost focus."
+  },
   "pwd_dialog_title": {
     "message": "Password entry | Mailvelope",
     "description": "Title of the password dialog."
@@ -62,6 +78,26 @@
   "pwd_dialog_header": {
     "message": "Key unlock",
     "description": "Header of the password dialog."
+  },
+  "pwd_dialog_userid": {
+    "message": "User ID:",
+    "description": "Label for user ID."
+  },
+  "dialog_keyid_label": {
+    "message": "Key ID:",
+    "description": "Label for key ID."
+  },
+  "pwd_dialog_password": {
+    "message": "Password:",
+    "description": "Label for password."
+  },
+  "pwd_dialog_wrong_pwd": {
+    "message": "Wrong password",
+    "description": "Password error message."
+  },
+  "pwd_dialog_cache_pwd": {
+    "message": "Remember passwords for this session",
+    "description": "Checkbox label."
   },
   "verify_result_success": {
     "message": "Signed by",
@@ -74,6 +110,22 @@
   "verify_result_error": {
     "message": "Wrong signature of",
     "description": "Verfiy signature error. Wrong signature of [userid]."
+  },
+  "encrypt_dialog_no_recipient": {
+    "message": "Please add a recipient.",
+    "description": "Error message if no recipient selected."
+  },
+  "encrypt_dialog_add": {
+    "message": "Add",
+    "description": "Max 6 character."
+  },
+  "encrypt_dialog_header": {
+    "message": "Encrypt for:",
+    "description": "Header of encrypt dialog."
+  },
+  "sign_dialog_header": {
+    "message": "Sign message with key:",
+    "description": "Header of sign dialog."
   },
   "options_home": {
     "message": "Options",
@@ -231,6 +283,10 @@
     "message": "Signer Key ID",
     "description": "Key ID of signer."
   },
+  "keygrid_signer_unknown": {
+    "message": "Unknown Signer",
+    "description": "Key of signer not available."
+  },
   "keygrid_user_name": {
     "message": "Name",
     "description": "Name in User ID of a PGP key."
@@ -241,7 +297,7 @@
   },
   "keygrid_delete": {
     "message": "Delete",
-    "description": "Delete row button."
+    "description": "Max. 6 characters."
   },
   "keygrid_delete_confirmation": {
     "message": "Are you sure you want to remove this key?",
@@ -330,6 +386,10 @@
   "alert_header_success": {
     "message": "Success",
     "description": "Alert header of category success."
+  },
+  "alert_header_error": {
+    "message": "Error",
+    "description": "Alert header of category error."
   },
   "key_import_public_read": {
     "message": "Unable to read one public key: $1",
@@ -523,6 +583,18 @@
     "message": "Cancel",
     "description": "Cancel form button."
   },
+  "form_ok": {
+    "message": "Ok",
+    "description": "Ok form button."
+  },
+  "form_busy": {
+    "message": "Busy",
+    "description": "Form in busy state."
+  },
+  "form_continue": {
+    "message": "Continue",
+    "description": "Continue form button."
+  },
   "watchlist_title_active": {
     "message": "Active",
     "description": "Entry in watchlist is active."
@@ -574,5 +646,13 @@
   "general_primary_key_always": {
     "message": "Always add primary key to list of recipients. (Allows to decrypt sent mails)",
     "description": "Label for primary private key option."
+  },
+  "message_no_keys": {
+    "message": "No private key found for this message. Required private key IDs: $1",
+    "description": "Decrypt error message."
+  },
+  "word_or": {
+    "message": "or",
+    "description": "Separate list of elements."
   }
 }

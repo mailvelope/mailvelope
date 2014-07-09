@@ -77,6 +77,7 @@
     $('#transferWarn .btn-primary').click(transfer);
     // observe modals for blur warning
     $('.modal').on('shown', startBlurValid);
+    mvelo.l10n.localizeHTML();
   }
 
   function onCancel() {

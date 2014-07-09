@@ -24,28 +24,28 @@
     <div class="modal-body">
       <form class="well form-horizontal">
         <div class="control-group">
-          <label class="control-label">User ID:</label>
+          <label class="control-label" data-l10n-id="pwd_dialog_userid"></label>
           <div class="controls">
             <span class="input-xlarge uneditable-input" id="userId"></span>
           </div>
         </div>
         <div class="control-group">
-          <label class="control-label">Key ID:</label>
+          <label class="control-label" data-l10n-id="dialog_keyid_label"></label>
           <div class="controls">
             <span class="input-medium uneditable-input" id="keyId"></span>
           </div>
         </div>
         <div class="control-group" id="pwdGroup">
-          <label class="control-label">Password:</label>
+          <label class="control-label" data-l10n-id="pwd_dialog_password"></label>
           <div class="controls">
             <input id="password" type="password" class="span3" placeholder="Please enter...">
-            <span class="help-inline hide">Wrong password</span>
+            <span class="help-inline hide" data-l10n-id="pwd_dialog_wrong_pwd"></span>
           </div>
         </div>
         <div class="control-group" id="rememberGroup">
           <div class="controls">
             <label class="checkbox">
-              <input id="remember" type="checkbox"> Remember passwords for this session
+              <input id="remember" type="checkbox">&nbsp;<span data-l10n-id="pwd_dialog_cache_pwd"></span>
             </label>
           </div>
         </div>
@@ -53,8 +53,8 @@
       </form>
     </div>
     <div class="modal-footer">
-      <button id="cancelBtn" class="btn">Cancel</button>
-      <button id="okBtn" class="btn btn-primary">Ok</button>
+      <button id="cancelBtn" class="btn" data-l10n-id="form_cancel"></button>
+      <button id="okBtn" class="btn btn-primary" data-l10n-id="form_ok"></button>
     </div>
   </div>
   <div id="spinner"></div>

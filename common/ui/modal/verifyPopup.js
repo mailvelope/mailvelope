@@ -25,6 +25,7 @@
   var name;
   // dialogs
   var sandbox;
+  var l10n;
 
   function init() {
     var qs = jQuery.parseQuerystring();
@@ -40,6 +41,16 @@
     $('#closeBtn').click(onClose);
     $('#copyBtn').click(onCopy);
     $('body').addClass('spinner');
+    mvelo.l10n.localizeHTML();
+    mvelo.l10n.getMessages([
+      'verify_result_success',
+      'verify_result_warning',
+      'verify_result_error',
+      'alert_header_error',
+      'dialog_keyid_label'
+    ], function(result) {
+      l10n = result;
+    });
   }
 
   function onClose() {
@@ -92,7 +103,7 @@
     // hide sandbox
     $('.modal-body iframe').hide();
     $('#errorbox').show();
-    $('#errorwell').showAlert('Error', msg, 'error');
+    $('#errorwell').showAlert(l10n.alert_header_error, msg, 'error');
     $('#copyBtn').prop('disabled', true);
   }
 
@@ -109,20 +120,20 @@
           var type, userid;
           var message = $('<span/>');
           var keyid = $('<span/>');
-          keyid.text('(Key ID:' + ' ' + signer.keyid.toUpperCase() + ')');
+          keyid.text('(' + l10n.dialog_keyid_label + ' ' + signer.keyid.toUpperCase() + ')');
           if (signer.userid) {
             userid = $('<strong/>');
             userid.text(signer.userid);
           }
           if (signer.userid && signer.valid) {
             type = 'success';
-            message.append('Signed by', ' ', userid, ' ', keyid);
+            message.append(l10n.verify_result_success, ' ', userid, ' ', keyid);
           } else if (!signer.userid) {
             type = 'warning';
-            message.append('Signed with unknown key', ' ', keyid);
+            message.append(l10n.verify_result_warning, ' ', keyid);
           } else {
             type = 'error';
-            message.append('Wrong signature of', ' ', userid, ' ', keyid);
+            message.append(l10n.verify_result_error, ' ', userid, ' ', keyid);
           }
           header.showAlert('', message, type, true);
         });

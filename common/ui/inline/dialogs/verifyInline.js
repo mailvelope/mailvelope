@@ -51,7 +51,9 @@
     mvelo.l10n.getMessages([
       'verify_result_success',
       'verify_result_warning',
-      'verify_result_error'
+      'verify_result_error',
+      'alert_header_error',
+      'dialog_keyid_label'
     ], function(result) {
       l10n = result;
     });
@@ -128,7 +130,7 @@
     $('body').removeClass('spinner');
     clearTimeout(spinnerTimer);
     $('#errorbox').show();
-    $('#errorwell').showAlert('Error', msg, 'error')
+    $('#errorwell').showAlert(l10n.alert_header_error, msg, 'error')
                    .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
                    .find('button').click(function () {
                       port.postMessage({event: 'verify-dialog-cancel', sender: id});
@@ -152,7 +154,7 @@
           var type, userid;
           var message = $('<span/>');
           var keyid = $('<span/>');
-          keyid.text('(Key ID:' + ' ' + signer.keyid.toUpperCase() + ')');
+          keyid.text('(' + l10n.dialog_keyid_label + ' ' + signer.keyid.toUpperCase() + ')');
           if (signer.userid) {
             userid = $('<strong/>');
             userid.text(signer.userid);

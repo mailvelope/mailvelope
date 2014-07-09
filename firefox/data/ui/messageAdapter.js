@@ -88,8 +88,14 @@ mvelo.ffa = true;
         ids: ids
       }, callback);
     },
-    localizeHTML: function() {
-      // handled by the addon SDK runtime
+    localizeHTML: function(l10n) {
+      if (l10n) {
+        $('[data-l10n-id]').each(function() {
+          var jqElement = $(this);
+          var text = l10n[jqElement.data('l10n-id')];
+          jqElement.text(text);
+        });
+      }
     }
   };
 

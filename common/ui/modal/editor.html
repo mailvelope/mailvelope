@@ -24,7 +24,7 @@
 <body>
   <div class="m-modal">
     <div class="modal-header clearfix">
-      <h3>Compose Mail</h3>
+      <h3 data-l10n-id="editor_header"></h3>
       <div id='secureCode'></div>
     </div>
     <div class="modal-body">
@@ -35,25 +35,25 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button id="cancelBtn" class="btn">Cancel</button>
-      <button id="transferBtn" class="btn btn-primary">Transfer</button>
+      <button id="cancelBtn" class="btn" data-l10n-id="form_cancel"></button>
+      <button id="transferBtn" class="btn btn-primary" data-l10n-id="editor_transfer"></button>
     </div>
   </div>
   <div id="transferWarn" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      <h3 class="text-warning">Warning</h3>
+      <h3 class="text-warning" data-l10n-id="alert_header_warning"></h3>
     </div>
     <div class="modal-body">
-      <p>You are trying to transfer unencrypted content back to the mail provider.</p>
+      <p data-l10n-id="editor_transfer_unencrypted"></p>
     </div>
     <div class="modal-footer">
-      <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-      <button class="btn btn-primary">Continue</button>
+      <button class="btn" data-dismiss="modal" aria-hidden="true" data-l10n-id="form_cancel"></button>
+      <button class="btn btn-primary" data-l10n-id="form_continue"></button>
     </div>
   </div>
   <div id="blurWarn" class="alert alert-block hide">
-    <h3>Warning. Editor lost focus.<h3>
+    <h3 data-l10n-id="editor_blur_warn"></h3>
   </div>
 </body>
 </html>

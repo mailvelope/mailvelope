@@ -20,6 +20,7 @@
   var port;
   // shares ID with EncryptFrame
   var id;
+  var l10n;
 
   function init() {
     // open port to background page
@@ -27,8 +28,16 @@
     id = 'eDialog-' + qs.id;
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
-    port.postMessage({event: 'sign-dialog-init', sender: id});
     setStyles();
+    mvelo.l10n.getMessages([
+      'sign_dialog_header',
+      'form_cancel',
+      'form_ok',
+      'form_busy'
+    ], function(result) {
+      port.postMessage({event: 'sign-dialog-init', sender: id});
+      l10n = result;
+    });
   }
 
   function setStyles() {
@@ -45,9 +54,10 @@
 
   function load(content) {
     $('body').html(content);
+    mvelo.l10n.localizeHTML(l10n);
     $('#okBtn')
       .attr({
-        'data-loading-text': 'Busy'
+        'data-loading-text': l10n.form_busy
       })
       .click(onOk);
     $('#cancelBtn').click(onCancel);

@@ -20,6 +20,7 @@
   var port;
   // shares ID with EncryptFrame
   var id;
+  var l10n;
 
   function init() {
     // open port to background page
@@ -27,8 +28,18 @@
     id = 'eDialog-' + qs.id;
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
-    port.postMessage({event: 'encrypt-dialog-init', sender: id});
     setStyles();
+    mvelo.l10n.getMessages([
+      'encrypt_dialog_no_recipient',
+      'encrypt_dialog_add',
+      'encrypt_dialog_header',
+      'keygrid_delete',
+      'form_cancel',
+      'form_ok'
+    ], function(result) {
+      port.postMessage({event: 'encrypt-dialog-init', sender: id});
+      l10n = result;
+    });
   }
 
   function setStyles() {
@@ -45,6 +56,7 @@
 
   function load(content) {
     $('body').html(content);
+    mvelo.l10n.localizeHTML(l10n);
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);
     $('#addBtn').click(onAdd);
@@ -68,7 +80,7 @@
     if (recipient.length === 0) {
       // show error
       $('#keyList').addClass('alert-error');
-      $('<option/>').text('Please add a recipient.').appendTo($('#keyList'));
+      $('<option/>').text(l10n.encrypt_dialog_no_recipient).appendTo($('#keyList'));
     } else {
       $('body').addClass('busy');
       port.postMessage({

@@ -89,7 +89,7 @@ define(function(require, exports, module) {
         if (uiKey.exDate) {
           uiKey.exDate = uiKey.exDate.toISOString();
         } else {
-          uiKey.exDate = 'The key does not expire';
+          uiKey.exDate = false;
         }
       } catch (e) {
         uiKey.name = uiKey.name || 'NO USERID FOUND';
@@ -137,7 +137,7 @@ define(function(require, exports, module) {
         if (skey.exDate) {
           skey.exDate = skey.exDate.toISOString();
         } else {
-          skey.exDate = 'The key does not expire';
+          skey.exDate = false;
         }
         skey.id = subkey.subKey.getKeyId().toHex().toUpperCase();
         skey.algorithm = getAlgorithmString(subkey.subKey.algorithm);
@@ -171,7 +171,7 @@ define(function(require, exports, module) {
           if (issuerKeys !== null) {
             sig.signer = getUserId(issuerKeys[0]);
           } else {
-            sig.signer = 'Unknown Signer';
+            sig.signer = l10n("keygrid_signer_unknown");
           }
           sig.id = otherCert.issuerKeyId.toHex().toUpperCase();
           sig.crDate = otherCert.created.toISOString();
@@ -459,9 +459,9 @@ define(function(require, exports, module) {
     } else {
       // unknown private key
       result.keyid = encryptionKeyIds[0].toHex();
-      var message = 'No private key found for this message. Required private key IDs: ' + result.keyid.toUpperCase();
+      var message = l10n("message_no_keys", [result.keyid.toUpperCase()]);
       for (var i = 1; i < encryptionKeyIds.length; i++) {
-        message = message + ' or ' + encryptionKeyIds[i].toHex().toUpperCase();
+        message = message + ' ' + l10n("word_or") + ' ' + encryptionKeyIds[i].toHex().toUpperCase();
       }
       throw {
         type: 'error',

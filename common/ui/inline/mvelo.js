@@ -32,10 +32,12 @@ mvelo.l10n = mvelo.l10n || mvelo.crx && {
     });
     callback(result);
   },
-  localizeHTML: function() {
+  localizeHTML: function(l10n) {
     $('[data-l10n-id]').each(function() {
       var jqElement = $(this);
-      jqElement.text(chrome.i18n.getMessage(jqElement.data('l10n-id')));
+      var id = jqElement.data('l10n-id');
+      var text = l10n ? l10n[id] : chrome.i18n.getMessage(id);
+      jqElement.text(text);
     });
   }
 };
