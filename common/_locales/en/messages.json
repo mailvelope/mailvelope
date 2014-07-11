@@ -284,7 +284,7 @@
     "description": "Key ID of signer."
   },
   "keygrid_signer_unknown": {
-    "message": "Unknown Signer",
+    "message": "Signatory unknown",
     "description": "Key of signer not available."
   },
   "keygrid_user_name": {
@@ -368,7 +368,7 @@
     "description": "Import another key button."
   },
   "key_import_error": {
-    "message": "Import Error",
+    "message": "Import Error.",
     "description": "Import error alert."
   },
   "key_import_invalid_text": {
@@ -376,19 +376,19 @@
     "description": "Import error alert."
   },
   "key_import_exception": {
-    "message": "An exception occored while processing the keys",
+    "message": "An exception occured while processing the keys",
     "description": "Import error alert."
   },
   "alert_header_warning": {
-    "message": "Warning",
+    "message": "Warning!",
     "description": "Alert header of category warning."
   },
   "alert_header_success": {
-    "message": "Success",
+    "message": "Success!",
     "description": "Alert header of category success."
   },
   "alert_header_error": {
-    "message": "Error",
+    "message": "Error!",
     "description": "Alert header of category error."
   },
   "key_import_public_read": {
@@ -496,7 +496,7 @@
     "description": "Key generation success message"
   },
   "key_gen_error": {
-    "message": "Generation Error",
+    "message": "Error while generating key.",
     "description": "Key generation error message"
   },
   "security_display_decrypted": {
@@ -540,7 +540,7 @@
     "description": "Label for compose options"
   },
   "security_compose_external": {
-    "message": "In a separate editor window from Mailvelope.",
+    "message": "In a separate editor window belonging to Mailvelope.",
     "description": "Mail compose option"
   },
   "security_compose_webmail": {

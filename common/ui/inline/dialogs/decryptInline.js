@@ -23,6 +23,7 @@
   var watermark;
   var spinnerTimer;
   var commonPath;
+  var l10n;
 
   function init() {
     //console.log('init decryptInline.js');
@@ -47,6 +48,11 @@
     addErrorView();
     // show spinner
     spinnerTimer = setTimeout(showSpinner, 600);
+    mvelo.l10n.getMessages([
+      'alert_header_error'
+    ], function(result) {
+      l10n = result;
+    });
   }
 
   function showSpinner() {
@@ -127,7 +133,7 @@
     $('body').removeClass('spinner');
     clearTimeout(spinnerTimer);
     $('#errorbox').show();
-    $('#errorwell').showAlert('Error', msg, 'error')
+    $('#errorwell').showAlert(l10n.alert_header_error, msg, 'error')
                    .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
                    .find('button').click(function() {
                       port.postMessage({event: 'decrypt-dialog-cancel', sender: id});
