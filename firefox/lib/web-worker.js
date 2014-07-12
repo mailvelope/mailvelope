@@ -1,3 +1,3 @@
-var browserWindow = require('sdk/window/utils').getMostRecentBrowserWindow();
+const { ChromeWorker } = require("chrome");
 
-exports.Worker = browserWindow.Worker;
+exports.Worker = ChromeWorker;
