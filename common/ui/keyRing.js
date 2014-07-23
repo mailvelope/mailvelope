@@ -39,10 +39,12 @@ var keyRing = {};
       event.triggerHandler('ready');
     });
     // check for native color picker support and load polyfill
-    Modernizr.load({
-      test: Modernizr.inputtypes.color,
-      nope: ['../dep/spectrum/spectrum.js', '../dep/spectrum/spectrum.css']
-    });
+    if (typeof Modernizr !== 'undefined') {
+      Modernizr.load({
+        test: Modernizr.inputtypes.color,
+        nope: ['../dep/spectrum/spectrum.js', '../dep/spectrum/spectrum.css']
+      });
+    }
     sendMessage({
       event: "get-version"
     }, function(version) {
@@ -174,7 +176,7 @@ var keyRing = {};
 
   function migrate08() {
     keyRing.viewModel('getPreferences', function(prefs) {
-      if (mvelo.crx && prefs.migrate08 && prefs.migrate08.done) {
+      if (mvelo.crx && prefs.migrate08 && prefs.migrate08.done && $('#migNavEntry').length) {
         if (prefs.migrate08.err.length) {
           $('#migNavEntry').show();
           prefs.migrate08.err.forEach(function(error) {

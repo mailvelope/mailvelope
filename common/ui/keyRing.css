@@ -45,7 +45,7 @@ body {
 .primaryKey label, .subkeys label, .userids label
 {
   display:inline-block;
-  width:120px;
+  width:140px;
   font-style:normal;
   font-weight:bold;
 }

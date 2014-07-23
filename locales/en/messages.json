@@ -91,6 +91,10 @@
     "message": "Password:",
     "description": "Label for password."
   },
+  "pwd_dialog_pwd_please": {
+    "message": "Please enter...",
+    "description": "Placeholder for password."
+  },
   "pwd_dialog_wrong_pwd": {
     "message": "Wrong password",
     "description": "Password error message."
@@ -276,12 +280,8 @@
     "description": "Signatures on User ID of a PGP key."
   },
   "keygrid_signer_name": {
-    "message": "Signer Name",
+    "message": "Signatory",
     "description": "User ID of signer."
-  },
-  "keygrid_signer_keyid": {
-    "message": "Signer Key ID",
-    "description": "Key ID of signer."
   },
   "keygrid_signer_unknown": {
     "message": "Signatory unknown",
@@ -408,7 +408,7 @@
     "description": "Import error message. $1: error message"
   },
   "key_import_private_exists": {
-    "message": "Private key of existing public key $1 of user $2 imported into key ring",
+    "message": "Private key-part of existing public key $1 of user $2 imported into key ring",
     "description": "Import success message: $1: keyid, $2: userid."
   },
   "key_import_private_update": {
@@ -422,6 +422,26 @@
   "key_import_unable": {
     "message": "Unable to import one key due to exception: $1",
     "description": "Import error message: $1: error message."
+  },
+  "message_read_error": {
+    "message": "Could not read this encrypted message: $1",
+    "description": "Message read error message: $1: error message."
+  },
+  "cleartext_read_error": {
+    "message": "Could not read this cleartext message: $1",
+    "description": "Cleartext message read error message: $1: error message."
+  },
+  "encrypt_no_valid_key": {
+    "message": "No valid key found for encryption",
+    "description": "Found key packet is not valid for encryption."
+  },
+  "encrypt_error": {
+    "message": "Could not encrypt this message: $1",
+    "description": "Error during encryption process."
+  },
+  "verify_error": {
+    "message": "Could not verify this message: $1",
+    "description": "Error during verification process."
   },
   "key_gen_name_help": {
     "message": "Full name of key owner",
@@ -528,7 +548,7 @@
     "description": "Char code for security token"
   },
   "security_char_help": {
-    "message": "Must be 3 characters",
+    "message": "Must be 3 characters long",
     "description": "Char code help"
   },
   "security_custom_color": {

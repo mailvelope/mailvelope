@@ -17,7 +17,6 @@
      - You should have received a copy of the GNU Affero General Public License
      - along with this program.  If not, see <http://www.gnu.org/licenses/>.
     -->
-    <title>Mailvelope Help</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../dep/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="doc.css" />
@@ -31,12 +30,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <div class="brand">Mailvelope</div>
+          <div class="brand" data-l10n-id="ext_name"></div>
           <div class="nav-collapse">
             <ul class="nav">
-              <li><a href="../ui/keyRing.html">Options</a></li>
-              <li class="active"><a href="#">Documentation</a></li>
-              <li><a href="about.html">About</a></li>
+              <li><a href="../ui/keyRing.html" data-l10n-id="options_home"></a></li>
+              <li class="active"><a href="#" data-l10n-id="options_docu"></a></li>
+              <li><a href="about.html" data-l10n-id="options_about"></a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -47,6 +46,7 @@
     </iframe>
     
     <script src="../dep/jquery.min.js"></script>
-    <script src="doc.js"></script>
+    <script src="../ui/inline/mvelo.js"></script>
+    <script src="../ui/keyRing.js"></script>
   </body>
 </html>        

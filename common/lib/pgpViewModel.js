@@ -437,7 +437,7 @@ define(function(require, exports, module) {
       console.log('openpgp.message.readArmored', e);
       throw {
         type: 'error',
-        message: 'Could not read this encrypted message: ' + e
+        message: l10n('message_read_error', [e])
       };
     }
 
@@ -480,7 +480,7 @@ define(function(require, exports, module) {
       //console.log('openpgp.cleartext.readArmored', e);
       throw {
         type: 'error',
-        message: 'Could not read this cleartext message: ' + e
+        message: l10n('cleartext_read_error', [e])
       };
     }
 
@@ -527,7 +527,7 @@ define(function(require, exports, module) {
     if (keys.length === 0) {
       callback({
         type: 'error',
-        message: 'No valid key found for enryption'
+        message: l10n('encrypt_no_valid_key')
       });
     }
     try {
@@ -536,7 +536,7 @@ define(function(require, exports, module) {
     } catch (e) {
       callback({
         type: 'error',
-        message: 'Could not encrypt this message'
+        message: l10n('encrypt_error', [e])
       });
     }
   }
@@ -561,7 +561,7 @@ define(function(require, exports, module) {
     } catch (e) {
       callback({
         type: 'error',
-        message: 'Could not verify this message:' + e
+        message: l10n('verify_error', [e])
       });
     }
   }

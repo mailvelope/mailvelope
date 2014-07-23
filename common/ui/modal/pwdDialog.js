@@ -20,6 +20,7 @@
   var port;
   // shares ID with DecryptFrame
   var id;
+  var l10n;
 
   function init() {
     var qs = jQuery.parseQuerystring();
@@ -34,6 +35,12 @@
     $(window).on('unload', onCancel);
     $('#password').focus();
     mvelo.l10n.localizeHTML();
+    mvelo.l10n.getMessages([
+      'pwd_dialog_pwd_please'
+    ], function(result) {
+      l10n = result;
+      $('#password').attr('placeholder', l10n.pwd_dialog_pwd_please);
+    });
   }
 
   function onOk() {

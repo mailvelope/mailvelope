@@ -31,6 +31,14 @@ html, body {
   padding-right: 0;
 }
 
+.selectBox {
+  width: 410px;
+}
+
+.footerToolbar {
+  width: 160px;
+}
+
 #keyList {
   /* https://bugs.webkit.org/show_bug.cgi?id=28900 */
   height: 60px;

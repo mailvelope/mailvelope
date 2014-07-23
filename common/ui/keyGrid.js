@@ -37,7 +37,7 @@
       },
       {
         field: "id",
-        width: 100,
+        width: 85,
         title: keyRing.l10n.keygrid_keyid,
         template: '#= id.substr(-8) #',
         attributes: {
@@ -53,7 +53,7 @@
       {
         command: { text: keyRing.l10n.keygrid_delete, name: "destroy" },
         title: " ",
-        width: "100px"
+        width: "110px"
       }
     ];
   }
@@ -85,7 +85,6 @@
     "keygrid_userid",
     "keygrid_userid_signatures",
     "keygrid_signer_name",
-    "keygrid_signer_keyid",
     "keygrid_user_name",
     "keygrid_user_email",
     "keygrid_delete",
@@ -303,8 +302,8 @@
         },
         {
           field: "id",
-          width: 150,
-          title: keyRing.l10n.keygrid_signer_keyid
+          width: 160,
+          title: keyRing.l10n.keygrid_keyid
         },
         {
           field: "crDate",

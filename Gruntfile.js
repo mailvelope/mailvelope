@@ -160,15 +160,15 @@ module.exports = function (grunt) {
         },
         {
           expand: true,
-          src: '_locales/**/*',
-          cwd: 'build/common',
-          dest: 'build/chrome/'
+          src: '**/*',
+          cwd: 'locales',
+          dest: 'build/chrome/_locales'
         }]
       },
       locale_firefox: {
         expand: true,
         src: '**/*.json',
-        cwd: 'build/common/_locales',
+        cwd: 'locales',
         dest: 'build/firefox/locale/',
         rename: function(dest, src) {
           return dest + src.match(/^[\w-]{2,4}/)[0] + '.properties';
