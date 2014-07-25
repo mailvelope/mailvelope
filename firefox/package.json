@@ -2,7 +2,7 @@
   "name": "mailvelope",
   "fullName": "Mailvelope", 
   "id": "jid1-AQqSMBYb0a8ADg",
-  "description": "Secure email with OpenPGP encryption for Webmail",
+  "description": "Enhance your webmail provider with end-to-end encryption. Secure email communication based on the OpenPGP standard.",
   "author": "Thomas Obernd\u00f6rfer", 
   "license": "AGPL 3",
   "version": "0.9.0",

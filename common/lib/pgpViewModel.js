@@ -527,7 +527,7 @@ define(function(require, exports, module) {
     if (keys.length === 0) {
       callback({
         type: 'error',
-        message: l10n('encrypt_no_valid_key')
+        message: 'No key found for encryption'
       });
     }
     try {

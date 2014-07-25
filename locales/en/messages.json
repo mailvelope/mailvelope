@@ -4,7 +4,7 @@
     "description": "Name of the extension."
   },
   "ext_description": {
-    "message": "Secure email with OpenPGP encryption for Webmail",
+    "message": "Enhance your webmail provider with end-to-end encryption. Secure email communication based on the OpenPGP standard.",
     "description": "Description of the extension."
   },
   "popup_active_off": {
@@ -430,10 +430,6 @@
   "cleartext_read_error": {
     "message": "Could not read this cleartext message: $1",
     "description": "Cleartext message read error message: $1: error message."
-  },
-  "encrypt_no_valid_key": {
-    "message": "No valid key found for encryption",
-    "description": "Found key packet is not valid for encryption."
   },
   "encrypt_error": {
     "message": "Could not encrypt this message: $1",
