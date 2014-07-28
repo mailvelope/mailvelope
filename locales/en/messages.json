@@ -68,7 +68,7 @@
     "description": "Warning for unencrypted content."
   },
   "editor_blur_warn": {
-    "message": "Warning. Editor lost focus.",
+    "message": "Warning. Text editor lost focus.",
     "description": "Warning for lost focus."
   },
   "pwd_dialog_title": {
@@ -556,11 +556,11 @@
     "description": "Label for compose options"
   },
   "security_compose_external": {
-    "message": "In a separate editor window belonging to Mailvelope.",
+    "message": "In a separate text editor window belonging to Mailvelope.",
     "description": "Mail compose option"
   },
   "security_compose_webmail": {
-    "message": "In the mail compose editor of the mail provider.",
+    "message": "In the mail compose text editor of the mail provider.",
     "description": "Mail compose option"
   },
   "security_compose_warn": {
@@ -644,7 +644,7 @@
     "description": "Cancel changes in watchlist."
   },
   "general_editor_type": {
-    "message": "Mail Compose Editor Type",
+    "message": "Mail Compose Text Editor Type",
     "description": "Label for editor options."
   },
   "general_editor_rich": {
