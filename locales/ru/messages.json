@@ -1,0 +1,674 @@
+{
+    "options_settings": {
+        "message": "Настройки",
+        "description": "Options header: Settings."
+    },
+    "security_cache_help": {
+        "message": "Число от 1 до 999",
+        "description": "Help text for cache time."
+    },
+    "key_gen_wait_info": {
+        "message": "Пожалуйста, подождите. Процесс создания ключа может занять до нескольких минут в зависимости от таких факторов как размер ключа.",
+        "description": "Wait dialog info message"
+    },
+    "message_read_error": {
+        "message": "Невозможно прочитать это зашифрованное сообщение: $1",
+        "description": "Message read error message: $1: error message."
+    },
+    "keygrid_all_keys": {
+        "message": "Все",
+        "description": "Selection of key type."
+    },
+    "security_token_title": {
+        "message": "Маркер проверки подлинности",
+        "description": "Security token title"
+    },
+    "security_display_inline": {
+        "message": "На странице почтового сервера.",
+        "description": "Decrypted message display option"
+    },
+    "verify_result_error": {
+        "message": "Неверная подпись ",
+        "description": "Verfiy signature error. Wrong signature of [userid]."
+    },
+    "pwd_dialog_header": {
+        "message": "Разблокировка ключа",
+        "description": "Header of the password dialog."
+    },
+    "keygrid_creation_date_short": {
+        "message": "Создан",
+        "description": "Short creation date of a PGP key. Max. width: 90px"
+    },
+    "security_display_decrypted": {
+        "message": "Где отображаются расшифрованные сообщения?",
+        "description": "Label for display options"
+    },
+    "general_primary_key_always": {
+        "message": "Всегда прикреплять первичный ключ к списку получателей (это позволит расшифровывать отосланные письма).",
+        "description": "Label for primary private key option."
+    },
+    "security_compose_webmail": {
+        "message": "В текстовом редакторе почтового сервера.",
+        "description": "Mail compose option"
+    },
+    "keygrid_user_email": {
+        "message": "Адрес эл.почты",
+        "description": "Email address in User ID of a PGP key."
+    },
+    "key_export_header": {
+        "message": "Экспортировать ключ",
+        "description": "Export key dialog header."
+    },
+    "key_import_private_exists": {
+        "message": "Закрытая часть существующего открытого ключа $1 пользователя $2 импортирована в связку ключей",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "verify_error": {
+        "message": "Невозможно проверить это сообщение: $1",
+        "description": "Error during verification process."
+    },
+    "pwd_dialog_wrong_pwd": {
+        "message": "Неверный пароль",
+        "description": "Password error message."
+    },
+    "security_cache_header": {
+        "message": "Запомнить пароли для сессии браузера?",
+        "description": "Password cache header"
+    },
+    "alert_header_success": {
+        "message": "Удачно!",
+        "description": "Alert header of category success."
+    },
+    "keygrid_public_keys": {
+        "message": "Открытые ключи",
+        "description": "Selection of key type."
+    },
+    "key_gen_success": {
+        "message": "Новый ключ создан и импортирован в связку.",
+        "description": "Key generation success message"
+    },
+    "key_gen_never": {
+        "message": "никогда",
+        "description": "Key expires after time range"
+    },
+    "general_primary_key_label": {
+        "message": "Первичный закрытый ключ",
+        "description": "Label for primary private key option."
+    },
+    "key_import_file_select": {
+        "message": "Выберите файл с текстом ключа, который вы хотите импортировать",
+        "description": "File selection button label."
+    },
+    "watchlist_title_frame": {
+        "message": "Адрес страницы",
+        "description": "Frame URL of site in watchlist."
+    },
+    "keygrid_key_length": {
+        "message": "Длина",
+        "description": "Key length of a PGP key."
+    },
+    "keygrid_private_keys": {
+        "message": "Закрытые ключи",
+        "description": "Selection of key type."
+    },
+    "keyring_display_keys": {
+        "message": "Показать ключи",
+        "description": "Tab of keyring to display keys."
+    },
+    "popup_options": {
+        "message": "Настройки",
+        "description": "Open options dialog."
+    },
+    "keyring_generate_key": {
+        "message": "Создать ключ",
+        "description": "Tab of keyring to generate key."
+    },
+    "key_import_error": {
+        "message": "Ошибка импорта.",
+        "description": "Import error alert."
+    },
+    "key_import_multiple_keys": {
+        "message": "Для импорта нескольких ключей, просто вставьте их все сюда. Лишний текст будет проигнорирован.",
+        "description": "Info message."
+    },
+    "popup_help": {
+        "message": "Помощь",
+        "description": "Open help dialog."
+    },
+    "security_token_info": {
+        "message": "Маркер безопасности - это механизм проверки подлинности: все диалоговые окна Mailvelope отображают этот код, определенный пользователем, и, тем самым, идентифицируют себя и свое происхождение.",
+        "description": "Security token help message"
+    },
+    "keygrid_subkeyid": {
+        "message": "ID подключа",
+        "description": "Subkey ID of a PGP key."
+    },
+    "key_gen_pwd_match": {
+        "message": "Пароли совпадают",
+        "description": "Passphrase input field status"
+    },
+    "key_import_another": {
+        "message": "Импортировать еще...",
+        "description": "Import another key button."
+    },
+    "keygrid_delete": {
+        "message": "Удалить",
+        "description": "Max. 6 characters."
+    },
+    "key_import_public_read": {
+        "message": "Невозможно прочитать один открытый ключ: $1",
+        "description": "Import error message. $1: error message"
+    },
+    "watchlist_title_active": {
+        "message": "Активен",
+        "description": "Entry in watchlist is active."
+    },
+    "key_gen_pwd": {
+        "message": "Введите пароль",
+        "description": "Label for passphrase input field"
+    },
+    "key_gen_error": {
+        "message": "Ошибка создания ключа.",
+        "description": "Key generation error message"
+    },
+    "form_busy": {
+        "message": "Занят",
+        "description": "Form in busy state."
+    },
+    "keygrid_userid": {
+        "message": "ID пользователя",
+        "description": "User ID of a PGP key."
+    },
+    "keygrid_algorithm": {
+        "message": "Алгоритм",
+        "description": "Public-key algorithm of a PGP key."
+    },
+    "watchlist_command_cancel": {
+        "message": "Отменить изменения",
+        "description": "Cancel changes in watchlist."
+    },
+    "security_compose_warn": {
+        "message": "Эта настройка понижает уровень безопасности Mailvelope. Ваш почтовый сервер потенциально может получить доступ к содержанию вашего письма.",
+        "description": "Mail compose options warning"
+    },
+    "popup_active_on": {
+        "message": "Вкл.",
+        "description": "Activity status of the extension."
+    },
+    "encrypt_dialog_header": {
+        "message": "Зашифровать для:",
+        "description": "Header of encrypt dialog."
+    },
+    "keygrid_send_pub_key": {
+        "message": "Отослать открытый ключ по почте",
+        "description": "Export key menu."
+    },
+    "keygrid_export": {
+        "message": "Экспорт",
+        "description": "Export key."
+    },
+    "keyring_header": {
+        "message": "Связка ключей",
+        "description": "Header of the key ring."
+    },
+    "keygrid_userid_signatures": {
+        "message": "Подписи",
+        "description": "Signatures on User ID of a PGP key."
+    },
+    "form_cancel": {
+        "message": "Отмена",
+        "description": "Cancel form button."
+    },
+    "encrypt_dialog_no_recipient": {
+        "message": "Добавьте получателя.",
+        "description": "Error message if no recipient selected."
+    },
+    "general_editor_plain": {
+        "message": "Обычный текст",
+        "description": "Editor option: plain text."
+    },
+    "keygrid_key_not_expire": {
+        "message": "Срок действия ключа неограничен",
+        "description": "Expiration date of a PGP key not set."
+    },
+    "popup_reload": {
+        "message": "Перезагрузить",
+        "description": "Reload all Mailvelope UI elements on page."
+    },
+    "options_title": {
+        "message": "Настройки Mailvelope",
+        "description": "Title of options page."
+    },
+    "form_continue": {
+        "message": "Продолжить",
+        "description": "Continue form button."
+    },
+    "decrypt_popup_header": {
+        "message": "Сообщение",
+        "description": "Header of decrypt popup."
+    },
+    "keygrid_status_invalid": {
+        "message": "недействителен",
+        "description": "Validity status of a PGP key."
+    },
+    "security_compose_external": {
+        "message": "В отдельном окне текстового редактора Mailvelope.",
+        "description": "Mail compose option"
+    },
+    "keygrid_primary_key": {
+        "message": "Первичный ключ",
+        "description": "Primary key of a PGP key."
+    },
+    "verify_result_success": {
+        "message": "Подписано",
+        "description": "Verfiy signature succeeded."
+    },
+    "keygrid_user_ids": {
+        "message": "ID пользователя",
+        "description": "User IDs of a PGP key."
+    },
+    "watchlist_title_scan": {
+        "message": "Сканируется",
+        "description": "Scan status of site in watchlist."
+    },
+    "key_import_textarea": {
+        "message": "Вставьте текст ключа сюда:",
+        "description": "Key import box."
+    },
+    "watchlist_command_create": {
+        "message": "Добавить новую запись",
+        "description": "Create entry in watchlist."
+    },
+    "key_gen_name_help": {
+        "message": "Полное имя владельца ключа",
+        "description": "Help text for name field."
+    },
+    "encrypt_error": {
+        "message": "Невозможно зашифровать это сообщение: $1",
+        "description": "Error during encryption process."
+    },
+    "key_gen_months": {
+        "message": "месяцы",
+        "description": "Key expires after time range"
+    },
+    "encrypt_dialog_add": {
+        "message": "Добавить",
+        "description": "Max 6 character."
+    },
+    "keygrid_status_valid": {
+        "message": "действителен",
+        "description": "Validity status of a PGP key."
+    },
+    "message_no_keys": {
+        "message": "Не найден закрытый ключ для этого сообщения. Необходим закрытый ключ с ID: $1",
+        "description": "Decrypt error message."
+    },
+    "security_cache_off": {
+        "message": "Нет.",
+        "description": "Don't store password."
+    },
+    "keygrid_signer_name": {
+        "message": "Подписант",
+        "description": "User ID of signer."
+    },
+    "dialog_keyid_label": {
+        "message": "ID ключа:",
+        "description": "Label for key ID."
+    },
+    "pwd_dialog_cache_pwd": {
+        "message": "Запомнить пароль на протяжении этой сессии",
+        "description": "Checkbox label."
+    },
+    "key_gen_pwd_reenter": {
+        "message": "Повторите пароль",
+        "description": "Label for passphrase input field"
+    },
+    "keygrid_user_name": {
+        "message": "Имя",
+        "description": "Name in User ID of a PGP key."
+    },
+    "pwd_dialog_pwd_please": {
+        "message": "Введите...",
+        "description": "Placeholder for password."
+    },
+    "security_display_popup": {
+        "message": "В отдельном всплывающем окне Mailvelope.",
+        "description": "Decrypted message display option"
+    },
+    "key_import_public_update": {
+        "message": "Открытый ключ $1 пользователя $2 обновлен",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "form_submit": {
+        "message": "Отправить",
+        "description": "Submit form button."
+    },
+    "key_export_clipboard": {
+        "message": "Скопировать в буфер обмена",
+        "description": "Copy to clipboard button."
+    },
+    "dialog_popup_close": {
+        "message": "Закрыть",
+        "description": "Close decrypt popup."
+    },
+    "verify_result_warning": {
+        "message": "Подписано неизвестным ключом",
+        "description": "Verfiy signature warning."
+    },
+    "alert_header_warning": {
+        "message": "Внимание!",
+        "description": "Alert header of category warning."
+    },
+    "key_gen_key_size": {
+        "message": "Размер ключа",
+        "description": "Advanced key generation settings: Key size"
+    },
+    "security_custom_color": {
+        "message": "Выбрать цвет",
+        "description": "Custom color for security token"
+    },
+    "keygrid_delete_confirmation": {
+        "message": "Вы действительно хотите удалить этот ключ?",
+        "description": "Delete confirmation dialog."
+    },
+    "security_char_help": {
+        "message": "Размер - 3 символа",
+        "description": "Char code help"
+    },
+    "pwd_dialog_password": {
+        "message": "Пароль:",
+        "description": "Label for password."
+    },
+    "pwd_dialog_title": {
+        "message": "Ввод пароля | Mailvelope",
+        "description": "Title of the password dialog."
+    },
+    "keygrid_subkeys": {
+        "message": "Подчиненные ключи",
+        "description": "Subkeys of a PGP key."
+    },
+    "form_clear": {
+        "message": "Очистить",
+        "description": "Clear form button."
+    },
+    "key_gen_another": {
+        "message": "Создать другой...",
+        "description": "Key import button"
+    },
+    "popup_remove_page": {
+        "message": "Удалить страницу",
+        "description": "Remove page from watchlist."
+    },
+    "key_gen_expiration": {
+        "message": "Срок окончания действия",
+        "description": "Key expires after time range"
+    },
+    "keygrid_validity_status": {
+        "message": "Состояние",
+        "description": "Validity status of a PGP key."
+    },
+    "keyring_import_keys": {
+        "message": "Импортировать ключи",
+        "description": "Tab of keyring to import keys."
+    },
+    "key_export_create_file": {
+        "message": "Создать файл",
+        "description": "Create file button."
+    },
+    "key_import_public_success": {
+        "message": "Открытый ключ $1 пользователя $2 импортирован в связку ключей",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "keygrid_key_fingerprint": {
+        "message": "Отпечаток",
+        "description": "Unique string identifier for a PGP key."
+    },
+    "keygrid_sort_type": {
+        "message": "Фильтр ключей по типу",
+        "description": "Key grid sort selector."
+    },
+    "key_gen_years": {
+        "message": "годы",
+        "description": "Key expires after time range"
+    },
+    "editor_blur_warn": {
+        "message": "Внимание. Потеря фокуса текстовым редактором.",
+        "description": "Warning for lost focus."
+    },
+    "header_warning": {
+        "message": "Внимание!",
+        "description": "Header warning."
+    },
+    "keyring_migration_error": {
+        "message": "Ошибка миграции ключа",
+        "description": "Tab of keyring to display migration errors."
+    },
+    "security_cache_time": {
+        "message": "минут.",
+        "description": "Store password in memory for $1 minutes."
+    },
+    "settings_watchlist": {
+        "message": "Список",
+        "description": "Tab of options to display watchlist settings."
+    },
+    "general_editor_rich": {
+        "message": "Редактор RTF",
+        "description": "Editor option: rich text."
+    },
+    "security_cache_on": {
+        "message": "Да, сохранить в памяти на ",
+        "description": "Store password in memory for $1 minutes."
+    },
+    "options_home": {
+        "message": "Настройки",
+        "description": "Options navigation: Home."
+    },
+    "key_gen_wait_header": {
+        "message": "Создание ключа...",
+        "description": "Wait dialog header"
+    },
+    "watchlist_title_site": {
+        "message": "Сайт",
+        "description": "Site in watchlist."
+    },
+    "editor_transfer": {
+        "message": "Отправить",
+        "description": "Transfer button of editor popup."
+    },
+    "keygrid_display_all_keys": {
+        "message": "Показать все ключи",
+        "description": "Export key menu."
+    },
+    "key_export_warning_private": {
+        "message": "Этот файл также содержит и закрытые ключи.",
+        "description": "Key export warning."
+    },
+    "key_import_invalid_text": {
+        "message": "Не найден текст действительного ключа",
+        "description": "Import error alert."
+    },
+    "word_or": {
+        "message": "или",
+        "description": "Separate list of elements."
+    },
+    "key_import_exception": {
+        "message": "При обработке ключей произошло исключение",
+        "description": "Import error alert."
+    },
+    "keygrid_display_key_pair": {
+        "message": "Показать пару ключей",
+        "description": "Export key menu."
+    },
+    "security_compose_mail": {
+        "message": "Где вы хотите создать новое письмо?",
+        "description": "Label for compose options"
+    },
+    "security_token_header": {
+        "message": "Маркер безопасности",
+        "description": "Security token header"
+    },
+    "general_editor_type": {
+        "message": "Тип текстового редактора при создании письма",
+        "description": "Label for editor options."
+    },
+    "key_gen_pwd_unequal": {
+        "message": "Пароли не совпадают",
+        "description": "Passphrase input field status"
+    },
+    "popup_active_off": {
+        "message": "Выкл.",
+        "description": "Activity status of the extension."
+    },
+    "watchlist_command_edit": {
+        "message": "Редактировать",
+        "description": "Edit entry in watchlist."
+    },
+    "editor_transfer_unencrypted": {
+        "message": "Вы пытаетесь отправить незашифрованное сообщение на почтовый сервер.",
+        "description": "Warning for unencrypted content."
+    },
+    "decrypt_popup_title": {
+        "message": "Расшифрованное сообщение",
+        "description": "Title of decrypt popup."
+    },
+    "watchlist_command_save": {
+        "message": "Сохранить изменения",
+        "description": "Save changes in watchlist."
+    },
+    "cleartext_read_error": {
+        "message": "Невозможно прочитать это расшифрованное сообщение: $1",
+        "description": "Cleartext message read error message: $1: error message."
+    },
+    "editor_header": {
+        "message": "Создать новое сообщение",
+        "description": "Header of editor popup."
+    },
+    "form_ok": {
+        "message": "Ок",
+        "description": "Ok form button."
+    },
+    "key_import_private_update": {
+        "message": "Закрытый ключ $1 пользователя $2 обновлен",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "key_gen_pwd_empty": {
+        "message": "Пароль пуст",
+        "description": "Passphrase input field status"
+    },
+    "form_save": {
+        "message": "Сохранить",
+        "description": "Save form button."
+    },
+    "ext_name": {
+        "message": "Mailvelope",
+        "description": "Name of the extension."
+    },
+    "key_gen_days": {
+        "message": "дни",
+        "description": "Key expires after time range"
+    },
+    "keygrid_expiration_date": {
+        "message": "Дата окончания срока действия",
+        "description": "Expiration date of a PGP key."
+    },
+    "alert_header_error": {
+        "message": "Ошибка!",
+        "description": "Alert header of category error."
+    },
+    "security_char_code": {
+        "message": "Символьный код",
+        "description": "Char code for security token"
+    },
+    "key_export_too_large": {
+        "message": "Ключ слишком большой, чтобы уместиться в ссылке. Лучше скопируйте и вставьте его.",
+        "description": "Key export warning message."
+    },
+    "keygrid_no_subkeys": {
+        "message": "Нет доступных подчиненных ключей",
+        "description": "No subkeys of a PGP key found."
+    },
+    "keygrid_keyid": {
+        "message": "ID ключа",
+        "description": "Key ID of a PGP key."
+    },
+    "sign_dialog_header": {
+        "message": "Подписать сообщение ключом:",
+        "description": "Header of sign dialog."
+    },
+    "key_import_private_read": {
+        "message": "Невозможно прочитать один закрытый ключ: $1",
+        "description": "Import error message. $1: error message"
+    },
+    "keygrid_signer_unknown": {
+        "message": "Подписант неизвестен",
+        "description": "Key of signer not available."
+    },
+    "popup_add_page": {
+        "message": "Добавить страницу",
+        "description": "Add page to watchlist."
+    },
+    "options_docu": {
+        "message": "Документация",
+        "description": "Options navigation: Documentation."
+    },
+    "options_about": {
+        "message": "О настройках",
+        "description": "Options navigation: About."
+    },
+    "key_gen_invalid_email": {
+        "message": "Неверный адрес эл. почты",
+        "description": "Error message."
+    },
+    "pwd_dialog_userid": {
+        "message": "ID польз.:",
+        "description": "Label for user ID."
+    },
+    "decrypt_popup_copy": {
+        "message": "Скопировать в буфер обмена",
+        "description": "Copy decrypted message to clipboard."
+    },
+    "reload_webmail_tab": {
+        "message": "Пожалуйста, обновите страницу почтового сервера (F5) для того, чтобы эти изменения вступили в силу.",
+        "description": "Info message."
+    },
+    "keygrid_display_priv_key": {
+        "message": "Показать закрытый ключ",
+        "description": "Export key menu."
+    },
+    "ext_description": {
+        "message": "Расширьте возможности использования вэб-почты функцией сквозного шифрования. Организуйте безопасную передачу данных электронной почты по стандарту OpenPGP.",
+        "description": "Description of the extension."
+    },
+    "key_gen_advanced_btn": {
+        "message": "Дополнительно",
+        "description": "Advanced key generation settings."
+    },
+    "key_import_private_success": {
+        "message": "Закрытый ключ $1 пользователя $2 импортирован в связку ключей",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "settings_security": {
+        "message": "Безопасность",
+        "description": "Tab of options to display security settings."
+    },
+    "settings_general": {
+        "message": "Общие",
+        "description": "Tab of options to display general settings."
+    },
+    "key_import_unable": {
+        "message": "Невозможно импортировать один ключ из-за исключения: $1",
+        "description": "Import error message: $1: error message."
+    },
+    "keygrid_display_pub_key": {
+        "message": "Показать открытый ключ",
+        "description": "Export key menu."
+    },
+    "keygrid_creation_date": {
+        "message": "Дата создания",
+        "description": "Creation date of a PGP key."
+    },
+    "key_export_download": {
+        "message": "Скачать ключ",
+        "description": "Download key link."
+    }
+}
