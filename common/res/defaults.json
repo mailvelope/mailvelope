@@ -44,6 +44,26 @@
           "frame": "*.mail.live.com"
         }
       ]
+    },
+    {
+      "active": true,
+      "site": "posteo.de",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.posteo.de"
+        }
+      ]
+    },
+    {
+      "active": true,
+      "site": "web.de",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.web.de"
+        }
+      ]
     }
   ],
   "preferences": {
