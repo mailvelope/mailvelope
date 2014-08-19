@@ -644,7 +644,7 @@
     "description": "Cancel changes in watchlist."
   },
   "general_editor_type": {
-    "message": "Mail Compose Text Editor Type",
+    "message": "Email editor selection",
     "description": "Label for editor options."
   },
   "general_editor_rich": {

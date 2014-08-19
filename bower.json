@@ -19,7 +19,7 @@
     "jquery": "2.1.0",
     "bootstrap": "~2.2.2",
     "spectrum": "~1.1.0",
-    "requirejs": "~2.1.10",
+    "requirejs": "2.1.14",
     "kendo-ui": "2013.1.319",
     "dompurify": "0.4.2",
     "css-toggle-switch": "2.1.6"
