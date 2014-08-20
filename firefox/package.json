@@ -5,7 +5,7 @@
   "description": "Enhance your webmail provider with end-to-end encryption. Secure email communication based on the OpenPGP standard.",
   "author": "Thomas Obernd\u00f6rfer", 
   "license": "AGPL 3",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "homepage": "http://www.mailvelope.com",
   "icon": "data/common/img/mail_locked_48.png",
   "icon64": "data/common/img/mail_locked_64.png",
