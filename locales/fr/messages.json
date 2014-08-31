@@ -200,7 +200,7 @@
     "description": "Export key menu."
   },
   "keygrid_display_all_keys": {
-    "message": "Afficher toute les clés",
+    "message": "Afficher toutes les clés",
     "description": "Export key menu."
   },
   "keygrid_sort_type": {
@@ -224,7 +224,7 @@
     "description": "User IDs of a PGP key."
   },
   "keygrid_keyid": {
-    "message": "Identifiant de la Clé",
+    "message": "ID. de la Clé",
     "description": "Key ID of a PGP key."
   },
   "keygrid_algorithm": {
@@ -360,7 +360,7 @@
     "description": "Submit form button."
   },
   "form_clear": {
-    "message": "Nettoyer",
+    "message": "Vider",
     "description": "Clear form button."
   },
   "key_import_another": {
@@ -484,11 +484,11 @@
     "description": "Passphrase input field status"
   },
   "key_gen_pwd_reenter": {
-    "message": "Re-entrer le mot de passe",
+    "message": "Confirmer le mot de passe",
     "description": "Label for passphrase input field"
   },
   "key_gen_pwd_unequal": {
-    "message": "Les mots de passe ne sont pas égaux",
+    "message": "Les mots de passe ne correspondent pas",
     "description": "Passphrase input field status"
   },
   "key_gen_pwd_match": {
@@ -660,7 +660,7 @@
     "description": "Label for primary private key option."
   },
   "general_primary_key_always": {
-    "message": "Toujours ajouter la clé Principal à la liste des destinataires. (Permet de déchiffrer les couriels envoyés)",
+    "message": "Toujours ajouter la clé principale à la liste des destinataires. (Permet de déchiffrer les couriels envoyés)",
     "description": "Label for primary private key option."
   },
   "message_no_keys": {
