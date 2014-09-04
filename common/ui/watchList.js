@@ -67,7 +67,7 @@ var watchList = {};
       {
         field: "active",
         title: keyRing.l10n.watchlist_title_active,
-        width: 50,
+        width: 60,
         template: '<div class="checkb-active"><input type="checkbox" disabled="disabled" #= active ? \'checked="checked"\' : "" # /></div>'
       },
       {
@@ -80,14 +80,14 @@ var watchList = {};
           { text: keyRing.l10n.keygrid_delete, name: "destroy" }
         ],
         title: " ",
-        width: "180px"
+        width: "200px"
       }
     ];
     framesColumns = [
       {
         field: "scan",
         title: keyRing.l10n.watchlist_title_scan,
-        width: 50
+        width: 60
       },
       {
         field: "frame",
@@ -96,7 +96,7 @@ var watchList = {};
       {
         command: { text: keyRing.l10n.keygrid_delete, name: "destroy" },
         title: " ",
-        width: "100px"
+        width: "125px"
       }
     ];
   }

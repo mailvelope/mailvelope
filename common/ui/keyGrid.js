@@ -53,7 +53,7 @@
       {
         command: { text: keyRing.l10n.keygrid_delete, name: "destroy" },
         title: " ",
-        width: "110px"
+        width: "125px"
       }
     ];
   }

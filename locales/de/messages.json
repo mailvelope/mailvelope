@@ -92,7 +92,7 @@
         "description": "Key expires after time range"
     },
     "general_primary_key_label": {
-        "message": "Haupt privater Schlüssel",
+        "message": "Privater Hauptschlüssel",
         "description": "Label for primary private key option."
     },
     "key_import_file_select": {
@@ -100,7 +100,7 @@
         "description": "File selection button label."
     },
     "watchlist_title_frame": {
-        "message": "Rahmen",
+        "message": "Domäne Übereinstimmungsmuster",
         "description": "Frame URL of site in watchlist."
     },
     "keygrid_key_length": {
@@ -164,7 +164,7 @@
         "description": "Entry in watchlist is active."
     },
     "key_gen_pwd": {
-        "message": "Passphrase eingeben",
+        "message": "Passwort eingeben",
         "description": "Label for passphrase input field"
     },
     "key_gen_error": {
@@ -268,7 +268,7 @@
         "description": "User IDs of a PGP key."
     },
     "watchlist_title_scan": {
-        "message": "Einlesen",
+        "message": "Status",
         "description": "Scan status of site in watchlist."
     },
     "key_import_textarea": {
@@ -312,7 +312,7 @@
         "description": "User ID of signer."
     },
     "dialog_keyid_label": {
-        "message": "Schlüsselkennung:",
+        "message": "Schlüssel:",
         "description": "Label for key ID."
     },
     "pwd_dialog_cache_pwd": {
@@ -448,7 +448,7 @@
         "description": "Store password in memory for $1 minutes."
     },
     "settings_watchlist": {
-        "message": "Beobachtungsliste",
+        "message": "Liste von E-Mail-Anbietern",
         "description": "Tab of options to display watchlist settings."
     },
     "general_editor_rich": {
@@ -508,7 +508,7 @@
         "description": "Security token header"
     },
     "general_editor_type": {
-        "message": "Bearbeitungstyp des Nachrichtenverfassers",
+        "message": "Auswahl der E-Mail-Bearbeitung",
         "description": "Label for editor options."
     },
     "key_gen_pwd_unequal": {
@@ -520,7 +520,7 @@
         "description": "Activity status of the extension."
     },
     "watchlist_command_edit": {
-        "message": "Bearbeiten",
+        "message": "Bearb.",
         "description": "Edit entry in watchlist."
     },
     "editor_transfer_unencrypted": {
@@ -588,7 +588,7 @@
         "description": "No subkeys of a PGP key found."
     },
     "keygrid_keyid": {
-        "message": "Schlüsselkennung",
+        "message": "Schlüssel",
         "description": "Key ID of a PGP key."
     },
     "sign_dialog_header": {
@@ -620,7 +620,7 @@
         "description": "Error message."
     },
     "pwd_dialog_userid": {
-        "message": "Benutzerkennung:",
+        "message": "Benutzer:",
         "description": "Label for user ID."
     },
     "decrypt_popup_copy": {

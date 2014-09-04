@@ -160,7 +160,7 @@
         "description": "Import error message. $1: error message"
     },
     "watchlist_title_active": {
-        "message": "Активен",
+        "message": "Active",
         "description": "Entry in watchlist is active."
     },
     "key_gen_pwd": {
@@ -508,7 +508,7 @@
         "description": "Security token header"
     },
     "general_editor_type": {
-        "message": "Тип текстового редактора при создании письма",
+        "message": "Email editor selection",
         "description": "Label for editor options."
     },
     "key_gen_pwd_unequal": {
@@ -520,7 +520,7 @@
         "description": "Activity status of the extension."
     },
     "watchlist_command_edit": {
-        "message": "Редактировать",
+        "message": "Edit",
         "description": "Edit entry in watchlist."
     },
     "editor_transfer_unencrypted": {

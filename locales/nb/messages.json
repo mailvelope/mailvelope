@@ -508,7 +508,7 @@
         "description": "Security token header"
     },
     "general_editor_type": {
-        "message": "Valg av tekstbehandlingsmodus",
+        "message": "Epostbehandlings-utvalg",
         "description": "Label for editor options."
     },
     "key_gen_pwd_unequal": {
