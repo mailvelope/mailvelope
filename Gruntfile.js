@@ -177,7 +177,7 @@ module.exports = function (grunt) {
         cwd: 'locales',
         dest: 'build/firefox/locale/',
         rename: function(dest, src) {
-          return dest + src.match(/^[\w-]{2,4}/)[0] + '.properties';
+          return dest + src.match(/^[\w-]{2,5}/)[0].replace('_', '-') + '.properties';
         },
         options: {
           process: function (content, srcpath) {
