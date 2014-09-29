@@ -100,8 +100,8 @@
         "description": "File selection button label."
     },
     "watchlist_title_frame": {
-        "message": "Marco (URL)",
-        "description": "Frame URL of site in watchlist."
+        "message": "Domain match pattern",
+        "description": "Web domain URL match pattern of site in watchlist."
     },
     "keygrid_key_length": {
         "message": "Longitud",
@@ -164,7 +164,7 @@
         "description": "Entry in watchlist is active."
     },
     "key_gen_pwd": {
-        "message": "Introduzca frase contraseña",
+        "message": "Introduzca contraseña",
         "description": "Label for passphrase input field"
     },
     "key_gen_error": {
@@ -268,7 +268,7 @@
         "description": "User IDs of a PGP key."
     },
     "watchlist_title_scan": {
-        "message": "Escanear",
+        "message": "Estado",
         "description": "Scan status of site in watchlist."
     },
     "key_import_textarea": {
@@ -312,7 +312,7 @@
         "description": "User ID of signer."
     },
     "dialog_keyid_label": {
-        "message": "Key ID:",
+        "message": "ID clave:",
         "description": "Label for key ID."
     },
     "pwd_dialog_cache_pwd": {
@@ -320,7 +320,7 @@
         "description": "Checkbox label."
     },
     "key_gen_pwd_reenter": {
-        "message": "Re-introduzca frase contraseña",
+        "message": "Vuelva a introducir la contraseña",
         "description": "Label for passphrase input field"
     },
     "keygrid_user_name": {
@@ -448,8 +448,8 @@
         "description": "Store password in memory for $1 minutes."
     },
     "settings_watchlist": {
-        "message": "Lista de observación",
-        "description": "Tab of options to display watchlist settings."
+        "message": "Lista de proveedores de correo",
+        "description": "Tab of options to display list of supported mail providers."
     },
     "general_editor_rich": {
         "message": "Editor de texto enriquecido",
@@ -588,7 +588,7 @@
         "description": "No subkeys of a PGP key found."
     },
     "keygrid_keyid": {
-        "message": "Key ID",
+        "message": "ID clave",
         "description": "Key ID of a PGP key."
     },
     "sign_dialog_header": {
@@ -620,7 +620,7 @@
         "description": "Error message."
     },
     "pwd_dialog_userid": {
-        "message": "User ID:",
+        "message": "ID usu.:",
         "description": "Label for user ID."
     },
     "decrypt_popup_copy": {

@@ -100,8 +100,8 @@
         "description": "File selection button label."
     },
     "watchlist_title_frame": {
-        "message": "Domäne Übereinstimmungsmuster",
-        "description": "Frame URL of site in watchlist."
+        "message": "Domain-Übereinstimmungsmuster",
+        "description": "Web domain URL match pattern of site in watchlist."
     },
     "keygrid_key_length": {
         "message": "Länge",
@@ -448,8 +448,8 @@
         "description": "Store password in memory for $1 minutes."
     },
     "settings_watchlist": {
-        "message": "Liste von E-Mail-Anbietern",
-        "description": "Tab of options to display watchlist settings."
+        "message": "Liste der E-Mail-Anbieter",
+        "description": "Tab of options to display list of supported mail providers."
     },
     "general_editor_rich": {
         "message": "»Rich Text«-Bearbeitung",
@@ -636,7 +636,7 @@
         "description": "Export key menu."
     },
     "ext_description": {
-        "message": "Erweitern Sie ihren Webmail Anbieter mit Ende-zu-Ende-Verschlüsselung. Sichere E-Mail-Kommunikation, basierend auf dem OpenPGP-Standard.",
+        "message": "Erweitern Sie ihren Webmail-Anbieter mit Ende-zu-Ende-Verschlüsselung. Sichere E-Mail-Kommunikation, basierend auf dem OpenPGP-Standard.",
         "description": "Description of the extension."
     },
     "key_gen_advanced_btn": {
