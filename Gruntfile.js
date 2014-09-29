@@ -264,16 +264,16 @@ module.exports = function (grunt) {
     },
 
     'mozilla-addon-sdk': {
-      '1_16': {
+      '1_17': {
         options: {
-          revision: '1.16'
+          revision: '1.17'
         }
       }
     },
     'mozilla-cfx-xpi': {
       stable: {
         options: {
-          'mozilla-addon-sdk': '1_16',
+          'mozilla-addon-sdk': '1_17',
           extension_dir: 'build/firefox',
           dist_dir: 'dist/',
           arguments: '--output-file=mailvelope.firefox.xpi'
@@ -283,7 +283,7 @@ module.exports = function (grunt) {
     'mozilla-cfx': {
       'run_stable': {
         options: {
-          "mozilla-addon-sdk": "1_16",
+          "mozilla-addon-sdk": "1_17",
           extension_dir: "build/firefox",
           command: "run"
         }
