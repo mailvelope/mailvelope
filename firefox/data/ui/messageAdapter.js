@@ -101,7 +101,7 @@ mvelo.ffa = true;
 
   // expose mvelo.extension to page script
   if (self.options.expose_messaging) {
-    window.wrappedJSObject.mvelo = mvelo;
+    unsafeWindow.mvelo = mvelo;
   }
 
 }());
