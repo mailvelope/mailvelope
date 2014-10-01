@@ -100,7 +100,7 @@
         "description": "File selection button label."
     },
     "watchlist_title_frame": {
-        "message": "Domain match pattern",
+        "message": "Patrón de coincidencia de dominio",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "keygrid_key_length": {
@@ -636,7 +636,7 @@
         "description": "Export key menu."
     },
     "ext_description": {
-        "message": "Realza su proveedor de correo web con cifrado extremo-a-extremo. Asegura la comunicación de correo electrónico basándose en el estandar OpenPGP.",
+        "message": "Enhance your webmail provider with end-to-end encryption. Secure email communication based on the OpenPGP standard.",
         "description": "Description of the extension."
     },
     "key_gen_advanced_btn": {

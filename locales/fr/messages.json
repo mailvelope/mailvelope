@@ -636,7 +636,7 @@
         "description": "Export key menu."
     },
     "ext_description": {
-        "message": "Améliorez votre fournisseur de webmail avec un chiffrement de bout-en-bout. La Communication sécurisée des courriels est basée sur la norme OpenPGP.",
+        "message": "Enhance your webmail provider with end-to-end encryption. Secure email communication based on the OpenPGP standard.",
         "description": "Description of the extension."
     },
     "key_gen_advanced_btn": {

@@ -636,7 +636,7 @@
         "description": "Export key menu."
     },
     "ext_description": {
-        "message": "Erweitern Sie ihren Webmail-Anbieter mit Ende-zu-Ende-Verschlüsselung. Sichere E-Mail-Kommunikation, basierend auf dem OpenPGP-Standard.",
+        "message": "Erweitern Sie ihren Webmail-Anbieter mit Ende-zu-Ende-Verschlüsselung. Sichere E-Mail-Kommunikation, mit dem OpenPGP-Standard.",
         "description": "Description of the extension."
     },
     "key_gen_advanced_btn": {
