@@ -1,6 +1,18 @@
 Mailvelope Changelog
 ====================
 
+v0.10.0
+------
+__Oct. 1, 2014__
+
+  * Add support for localization
+  * Translations for: Chinese (China), French, German, Norwegian, Polish, Russian, Spanish
+  * Fix support for HTML in PGP messages (v0.9.0 regression)
+  * Update OpenPGP.js to v0.7.2
+  * Use stable worker object in Firefox
+  * Update Require.js to 2.1.14
+  * Add posteo.de and web.de to default list of mail providers
+
 v0.9.0
 ------
 __June 16, 2014__
