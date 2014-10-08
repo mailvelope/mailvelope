@@ -48,7 +48,8 @@
     "common/ui/inline/dialogs/signDialog.html",
     "common/dep/bootstrap/css/bootstrap.css",
     "common/dep/wysihtml5/css/wysihtml5.css",
-    "common/ui/inline/dialogs/verifyInlineSig.css"
+    "common/ui/inline/dialogs/verifyInlineSig.css",
+    "common/res/fonts/Courgette-Regular.ttf"
   ],
   "sandbox": {
     "pages": [
