@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+const {components, Cc, Ci, Cr, Cu} = require("chrome");
+var utils = require('sdk/window/utils');
 var system = require('sdk/system');
 var ss = require('sdk/simple-storage');
 var data = require('sdk/self').data;
@@ -86,8 +88,12 @@ if (ToggleButton && !/^29/.test(system.version)) {
 
 unload.when(function(reason) {
   // with FF24 reason is never 'uninstall' https://bugzilla.mozilla.org/show_bug.cgi?id=571049
-  if (reason === 'uninstall') {
-    clearStorage();
+  if (reason === 'uninstall' || reason === 'disable') {
+    console.log("Extension disabled or unistalled");
+    let prompts = Cc["@mozilla.org/embedcomp/prompt-service;1"].getService(Ci.nsIPromptService);
+    if (prompts.confirm(utils.getMostRecentBrowserWindow(), "Confirm", "Do you want to delete all your PGP keys from this browser profile?")) {
+      clearStorage();
+    }
   }
 });
 
@@ -139,7 +145,7 @@ function clearStorage() {
 function injectMainCS() {
 
   var filterURL = controller.getWatchListFilterURLs();
-  
+
   var modOptions = {
     include: filterURL,
     onAttach: onCsAttach,
