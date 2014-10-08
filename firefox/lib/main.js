@@ -89,9 +89,9 @@ if (ToggleButton && !/^29/.test(system.version)) {
 unload.when(function(reason) {
   // with FF24 reason is never 'uninstall' https://bugzilla.mozilla.org/show_bug.cgi?id=571049
   if (reason === 'uninstall' || reason === 'disable') {
-    console.log("Extension disabled or unistalled");
+    //console.log("Extension disabled or unistalled");
     let prompts = Cc["@mozilla.org/embedcomp/prompt-service;1"].getService(Ci.nsIPromptService);
-    if (prompts.confirm(utils.getMostRecentBrowserWindow(), "Confirm", "Do you want to delete all your PGP keys from this browser profile?")) {
+    if (prompts.confirm(utils.getMostRecentBrowserWindow(), l10nGet("clear_localstorage_confirm_title"), l10nGet("clear_localstorage_confirm_message"))) {
       clearStorage();
     }
   }
