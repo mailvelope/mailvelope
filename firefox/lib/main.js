@@ -31,6 +31,7 @@ try {
 
 checkStaticArgs();
 
+var mvelo = require('./lib-mvelo.js').mvelo;
 var controller = require('./common/controller');
 var prefs = require('./common/prefs').data;
 
@@ -223,6 +224,9 @@ function onCsAttach(worker) {
         });
     }
   });
+  if (/^resource.*options\.html/.test(worker.url)) {
+    mvelo.tabs.worker[worker.tab.index] = worker;
+  }
 }
 
 function getDynamicStyle(path) {
@@ -240,7 +244,8 @@ function injectMessageAdapter() {
       data.url('common/ui/modal/editor.html*'),
       data.url('common/ui/inline/dialogs/encryptDialog.html*'),
       data.url('common/ui/inline/dialogs/signDialog.html*'),
-      data.url('common/ui/modal/pwdDialog.html*')
+      data.url('common/ui/modal/pwdDialog.html*'),
+      data.url('common/ui/options.html*')
     ],
     onAttach: onCsAttach,
     contentScriptFile: data.url('ui/messageAdapter.js'),

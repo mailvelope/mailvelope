@@ -94,7 +94,7 @@ define(function(require, exports, module) {
     chrome.tabs.sendMessage(tab.id, msg);
   };
 
-  mvelo.tabs.loadOptionsTab = function(hash, onMessage, callback) {
+  mvelo.tabs.loadOptionsTab = function(hash, callback) {
     // check if options tab already exists
     this.query(chrome.runtime.getURL('common/ui/options.html'), function(tabs) {
       if (tabs.length === 0) {

@@ -465,7 +465,7 @@ define(function (require, exports, module) {
         editor = null;
         break;
       case 'imframe-armored-key':
-        mvelo.tabs.loadOptionsTab('', handleMessageEvent, function(old, tab) {
+        mvelo.tabs.loadOptionsTab('', function(old, tab) {
           mvelo.tabs.sendMessage(tab, {
             event: "import-key",
             armored: msg.data,
@@ -705,7 +705,7 @@ define(function (require, exports, module) {
           var hosts = reduceHosts(scannedHosts);
           var site = model.getHostname(tab.url);
           scannedHosts.length = 0;
-          mvelo.tabs.loadOptionsTab('', handleMessageEvent, function(old, tab) {
+          mvelo.tabs.loadOptionsTab('', function(old, tab) {
             sendToWatchList(tab, site, hosts, old);
           });
         });
@@ -728,7 +728,7 @@ define(function (require, exports, module) {
     mvelo.tabs.getActive(function(tab) {
       if (tab) {
         var site = model.getHostname(tab.url);
-        mvelo.tabs.loadOptionsTab('', handleMessageEvent, function(old, tab) {
+        mvelo.tabs.loadOptionsTab('', function(old, tab) {
           mvelo.tabs.sendMessage(tab, {
             event: "remove-watchlist-item",
             site: site,
@@ -762,7 +762,7 @@ define(function (require, exports, module) {
   }
 
   function loadOptions(hash) {
-    mvelo.tabs.loadOptionsTab(hash, handleMessageEvent, function(old, tab) {
+    mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
       if (old) {
         mvelo.tabs.sendMessage(tab, {
           event: "reload-options",

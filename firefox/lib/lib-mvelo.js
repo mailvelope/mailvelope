@@ -109,32 +109,12 @@ mvelo.tabs.sendMessage = function(tab, msg) {
   this.worker[tab.index].port.emit('message-event', msg);
 };
 
-mvelo.tabs.loadOptionsTab = function(hash, onMessage, callback) {
+mvelo.tabs.loadOptionsTab = function(hash, callback) {
   // check if options tab already exists
   this.query(data.url("common/ui/options.html"), function(tabs) {
     if (tabs.length === 0) {
       // if not existent, create tab
-      mvelo.tabs.create(data.url("common/ui/options.html") + hash, true, function(tab) {
-        //console.log('before tab attach');
-        mvelo.tabs.attach(tab, {
-          onMessage: function(msg) {
-            switch (msg.event) {
-              case 'get-l10n-messages':
-                var result = {};
-                msg.ids.forEach(function(id) {
-                  result[id] = l10nGet(id);
-                });
-                this.emit(msg.response, result);
-                break;
-              default:
-                onMessage(msg, null, function(response) {
-                  //console.log('main.js handleMessageEvent response', msg.event ,msg.response);
-                  this.emit(msg.response, response);
-                }.bind(this));
-            }
-          }
-        }, callback.bind(this, false));
-      });
+      mvelo.tabs.create(data.url("common/ui/options.html") + hash, true, callback.bind(this, false));
     } else {
       // if existent, set as active tab
       mvelo.tabs.activate(tabs[0], callback.bind(this, true));
