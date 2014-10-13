@@ -24,6 +24,7 @@ var pageMod = require('sdk/page-mod');
 var tabs = require('sdk/tabs');
 var unload = require('sdk/system/unload');
 var l10nGet = require("sdk/l10n").get;
+var browserVersion = parseInt(system.version.substr(0, 2));
 
 try {
   var { ToggleButton } = require("sdk/ui/button/toggle");
@@ -60,7 +61,7 @@ function onPanelMessage(msg) {
 
 var toggleButton;
 
-if (ToggleButton && !/^29/.test(system.version)) {
+if (ToggleButton && browserVersion !== 29) {
   // Australis UI
   toggleButton = ToggleButton({
     id: 'mailvelope-options',
@@ -252,7 +253,8 @@ function injectMessageAdapter() {
     contentScriptWhen: 'start',
     contentScriptOptions: {
       expose_messaging: true,
-      data_path: data.url()
+      data_path: data.url(),
+      browser_version: browserVersion
     }
   });
 }
