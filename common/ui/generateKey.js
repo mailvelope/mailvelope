@@ -36,6 +36,7 @@
     match = nequ.next();
     submit = $('#genKeySubmit');
     $('#genKeyAdv').click(onKeyAdvanced);
+    $('#genKeyAdvSection').hide();
     pwd.on('keyup', onKeyPwdChange);
     repwd.on('keyup', onKeyPwdChange);
     submit.click(onGenerateKey);
@@ -133,11 +134,11 @@
     // validate email
     keyRing.viewModel('validateEmail', [email.val()], function(valid) {
       if (valid) {
-        email.closest('.control-group').removeClass('error');
+        email.closest('.form-group').removeClass('has-error');
         email.next().addClass('hide');
         next();
       } else {
-        email.closest('.control-group').addClass('error');
+        email.closest('.form-group').addClass('has-error');
         email.next().removeClass('hide');
         return;
       }

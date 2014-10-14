@@ -42,8 +42,7 @@ body {
   margin: 20px;
 }
 
-.primaryKey label, .subkeys label, .userids label
-{
+.primaryKey label, .subkeys label, .userids label {
   display:inline-block;
   width:140px;
   font-style:normal;
@@ -97,12 +96,12 @@ body {
   vertical-align: middle;
 }
 
-.brand {
+.navbar-brand {
   font-family: 'Courgette';
 }
 
 #newKey {
-  width: 600px;
+  width: 100%;
   font-family: monospace;
 }
 
@@ -132,7 +131,6 @@ body {
   width: 280px;
 }
 
-
 #security .form-horizontal .controls,
 #general .form-horizontal .controls {
   margin-left: 300px;
@@ -147,6 +145,8 @@ body {
   float: right;
   padding: 4px 14px;
   margin-bottom: 0;
+  margin-top: 8px;
+  margin-right: 0;
   -webkit-border-radius: 15px;
      -moz-border-radius: 15px;
           border-radius: 15px;
@@ -159,15 +159,19 @@ body {
   font-size: 14px;
   line-height: 20px;
   color: #555555;
-}
-
-#secureCode {
-  margin-top: 4px;
   display: none;
 }
 
 #secTokenInfo {
   float: right;
+}
+
+#securityTokenPanel {
+    margin-right: -3px;
+    margin-left: -3px;
+    padding-bottom: 10px;
+    padding-left: 3px;
+    background-color: #d9edf7;
 }
 
 .spinner {
@@ -182,4 +186,12 @@ body {
 
 .key-advanced-closed::after {
   content: ' >>';
+}
+
+.list-group .active a {
+    color: white;
+}
+
+.list-group a:hover {
+    text-decoration: none;
 }
