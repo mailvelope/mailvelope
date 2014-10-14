@@ -70,7 +70,7 @@
             <li class="list-group-item active"><a href="#displayKeys" data-toggle="tab" data-l10n-id="keyring_display_keys"></a></li>
             <li class="list-group-item"><a href="#importKey" data-toggle="tab" data-l10n-id="keyring_import_keys"></a></li>
             <li class="list-group-item"><a href="#generateKey" data-toggle="tab" data-l10n-id="keyring_generate_key"></a></li>
-            <li id="migNavEntry" style="display:none;"><a href="#migrationError"  style="font-weight:bold;" data-toggle="tab" data-l10n-id="keyring_migration_error"></a></li>
+            <li id="migNavEntry"><a href="#migrationError" data-toggle="tab" data-l10n-id="keyring_migration_error"></a></li>
             <li class="list-group-item disabled" data-l10n-id="options_settings"></li>
             <li class="list-group-item"><a href="#general" data-toggle="tab" data-l10n-id="settings_general"></a></li>
             <li class="list-group-item"><a href="#security" data-toggle="tab" data-l10n-id="settings_security"></a></li>
@@ -98,7 +98,7 @@
                     </div><!-- /btn-group -->
                     <div class="keyType-selector">
                       <label class="keyType-label" for="keyType">#= keygrid_sort_type #:</label>
-                      <input type="search" id="keyType" style="width: 200px" />
+                      <input type="search" id="keyType" />
                     </div>
                   </div>
                 </script>
@@ -293,8 +293,8 @@
                 <div class="form-group">
                   <label class="control-label" for="errorKeys"><h4>The following keys could not be migrated to Mailvelope v0.8.0</h4></label>
                   <div>Please contact support@mailvelope.com for help. <b>Warning!</b> The box below can also include private keys, don't send them by email.</div>
-                  <div class="" style="margin-top: 10px">
-                    <textarea id="errorKeys" rows="12" style="width: 650px; font-family: monospace;"></textarea>
+                  <div id="errorKeysArea">
+                    <textarea id="errorKeys" rows="12"></textarea>
                   </div>
                 </div>
                 <div class="form-group">
@@ -328,17 +328,17 @@
                 </div>
                 <div class="form-group" id="securityTokenPanel">
                   <label>
-                    <strong data-l10n-id="security_token_header"></strong><button id="secTokenInfo" class="btn btn-link" style="padding-top: 2px;" data-toggle="popover" data-placement="right">
+                    <strong data-l10n-id="security_token_header"></strong><button id="secTokenInfo" class="btn btn-link" data-toggle="popover" data-placement="right">
                     <span class="glyphicon glyphicon-info-sign"></span></button>
                   </label>
-                  <div class="radio form-inline" style="margin-top: 0;">
-                    <label data-l10n-id="security_char_code" style="width: 150px;" for="secCode"></label>
-                    <input type="text" id="secCode" maxlength="3" style="width: 55px;" class="form-control">
+                  <div class="radio form-inline">
+                    <label data-l10n-id="security_char_code" for="secCode" id="secCodeLabel"></label>
+                    <input type="text" id="secCode" maxlength="3" class="form-control">
                     <span class="help-block hide" data-l10n-id="security_char_help"></span>
                   </div>
                   <div class="radio form-inline">
-                    <label data-l10n-id="security_custom_color" style="width: 150px;" for="secColor"></label>
-                    <input type="color" id="secColor" class="form-control" style="width: 55px; padding: 1px;">
+                    <label data-l10n-id="security_custom_color" for="secColor" id="secColorLabel"></label>
+                    <input type="color" id="secColor" class="form-control">
                   </div>
                 </div>
                 <div class="form-group">
@@ -363,10 +363,10 @@
                 <div class="form-group">
                   <label class="control-label" data-l10n-id="security_cache_header"></label>
                   <div class="radio form-inline">
-                    <label class="radio" id="pwdCacheLabel" style="padding-left: 0">
+                    <label class="radio" id="pwdCacheLabel">
                       <input type="radio" name="pwdCacheRadios" id="pwdCacheRadios1" value="true">
                       <span data-l10n-id="security_cache_on"></span>
-                      <input type="text" id="pwdCacheTime" maxlength="3" style="width: 50px;" class="form-control">
+                      <input type="text" id="pwdCacheTime" maxlength="3" class="form-control">
                       <span data-l10n-id="security_cache_time"></span>
                       <span class="help-block hide" data-l10n-id="security_cache_help"></span>
                     </label>

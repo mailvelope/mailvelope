@@ -70,6 +70,7 @@ body {
 
 #keyType {
   vertical-align: middle;
+    width: 200px;
 }
 
 .keyType-selector {
@@ -131,9 +132,14 @@ body {
   margin-left: 300px;
 }
 
-#secCode, #pwdCacheTime {
+#secCode {
   font-family: monospace;
-  width: 26px;
+  width: 55px;
+}
+
+#pwdCacheTime {
+  font-family: monospace;
+  width: 50px;
 }
 
 #secureCode {
@@ -157,8 +163,21 @@ body {
   display: none;
 }
 
+#secCodeLabel, #secColorLabel {
+  width: 150px;
+}
+
+#secColor {
+  width: 55px;
+  padding: 1px;
+}
+
+#securityTokenPanel .form-inline {
+  margin-top: 0;
+}
+
 #secTokenInfo {
-  float: right;
+  padding-top: 2px;
 }
 
 #securityTokenPanel {
@@ -167,6 +186,10 @@ body {
     padding-bottom: 10px;
     padding-left: 3px;
     background-color: #d9edf7;
+}
+
+#pwdCacheLabel {
+    padding-left: 0;
 }
 
 .spinner {
@@ -189,4 +212,21 @@ body {
 
 .list-group a:hover {
     text-decoration: none;
+}
+
+#errorKeysArea {
+    margin-top: 10px;
+}
+
+#keyMigrationBox {
+    width: 650px;
+    font-family: monospace;
+}
+
+#migNavEntry {
+    display:none;
+}
+
+#migNavEntry .a {
+    font-weight:bold;
 }
