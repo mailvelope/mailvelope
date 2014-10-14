@@ -38,13 +38,6 @@ var keyRing = {};
       keyRing.l10n = result;
       event.triggerHandler('ready');
     });
-    // check for native color picker support and load polyfill
-    if (typeof Modernizr !== 'undefined') {
-      Modernizr.load({
-        test: Modernizr.inputtypes.color,
-        nope: ['../dep/spectrum/spectrum.js', '../dep/spectrum/spectrum.css']
-      });
-    }
     sendMessage({
       event: "get-version"
     }, function(version) {

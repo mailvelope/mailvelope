@@ -86,11 +86,6 @@ body {
   cursor: wait !important;
 }
 
-.progress-bar {
-  line-height: 115px;
-  text-align: center;
-}
-
 .checkb-active, td[data-container-for='active'] {
   text-align: center;
   vertical-align: middle;

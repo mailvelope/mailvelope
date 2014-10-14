@@ -123,7 +123,8 @@
   function onGenerateKey() {
     validateEmail(function() {
       $('body').addClass('busy');
-      $('#genKeyWait').one('shown', generateKey);
+      $('#genKeyWait').one('show.bs.modal', generateKey);
+      $('#genKeyWait').modal({backdrop: 'static',keyboard: false});
       $('#genKeyWait').modal('show');
     });
     return false;
