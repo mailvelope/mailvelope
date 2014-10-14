@@ -44,6 +44,9 @@ var keyRing = {};
       $('#version').text(version);
     });
     migrate08();
+
+    // Disable submitting of forms by for example pressing enter
+    $(".form").submit(function (e) { e.preventDefault(); });
   }
 
   function localizeHTML() {
