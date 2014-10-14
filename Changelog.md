@@ -1,6 +1,14 @@
 Mailvelope Changelog
 ====================
 
+v0.10.2
+------
+__Oct. 14, 2014__
+
+  * Remove keys on uninstall of Firefox addon (optional)
+  * Fix font CSP issue in Chrome
+  * Fix message adapter API for Firefox 33
+
 v0.10.0
 ------
 __Oct. 1, 2014__

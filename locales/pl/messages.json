@@ -95,12 +95,16 @@
         "message": "Podstawowy Klucz Prywatny",
         "description": "Label for primary private key option."
     },
+    "clear_localstorage_confirm_title": {
+        "message": "Potwierdź",
+        "description": "The title of the confirmation dialog."
+    },
     "key_import_file_select": {
         "message": "Wybierz plik klucza do importu",
         "description": "File selection button label."
     },
     "watchlist_title_frame": {
-        "message": "Domain match pattern",
+        "message": "Dopasuj domenę do wzorca",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "keygrid_key_length": {
@@ -160,11 +164,11 @@
         "description": "Import error message. $1: error message"
     },
     "watchlist_title_active": {
-        "message": "Active",
+        "message": "Działa",
         "description": "Entry in watchlist is active."
     },
     "key_gen_pwd": {
-        "message": "Enter Password",
+        "message": "Wpisz Hasło",
         "description": "Label for passphrase input field"
     },
     "key_gen_error": {
@@ -192,7 +196,7 @@
         "description": "Mail compose options warning"
     },
     "popup_active_on": {
-        "message": "Włącz",
+        "message": "ON",
         "description": "Activity status of the extension."
     },
     "encrypt_dialog_header": {
@@ -226,6 +230,10 @@
     "general_editor_plain": {
         "message": "Zwykły Tekst",
         "description": "Editor option: plain text."
+    },
+    "clear_localstorage_confirm_message": {
+        "message": "Czy chcesz usunąć swoje wszystkie klucze PGP z profilu tej przeglądarki?",
+        "description": "The message of the confirmation dialog."
     },
     "keygrid_key_not_expire": {
         "message": "Klucz nie wygaśnie",
@@ -320,7 +328,7 @@
         "description": "Checkbox label."
     },
     "key_gen_pwd_reenter": {
-        "message": "Re-enter Password",
+        "message": "Powtórz Hasło",
         "description": "Label for passphrase input field"
     },
     "keygrid_user_name": {
@@ -448,7 +456,7 @@
         "description": "Store password in memory for $1 minutes."
     },
     "settings_watchlist": {
-        "message": "List of Mail Providers",
+        "message": "Lista dostawców usługi E-mail",
         "description": "Tab of options to display list of supported mail providers."
     },
     "general_editor_rich": {
@@ -516,7 +524,7 @@
         "description": "Passphrase input field status"
     },
     "popup_active_off": {
-        "message": "Wyłącz",
+        "message": "OFF",
         "description": "Activity status of the extension."
     },
     "watchlist_command_edit": {
@@ -540,7 +548,7 @@
         "description": "Cleartext message read error message: $1: error message."
     },
     "editor_header": {
-        "message": "Utwórz Maila",
+        "message": "Utwórz nową wiadomość",
         "description": "Header of editor popup."
     },
     "form_ok": {

@@ -95,6 +95,10 @@
         "message": "Clave privada primaria",
         "description": "Label for primary private key option."
     },
+    "clear_localstorage_confirm_title": {
+        "message": "Confirm",
+        "description": "The title of the confirmation dialog."
+    },
     "key_import_file_select": {
         "message": "Seleccione un fichero de texto de clave a importar",
         "description": "File selection button label."
@@ -226,6 +230,10 @@
     "general_editor_plain": {
         "message": "Texto simple",
         "description": "Editor option: plain text."
+    },
+    "clear_localstorage_confirm_message": {
+        "message": "Do you want to delete all your PGP keys from this browser profile?",
+        "description": "The message of the confirmation dialog."
     },
     "keygrid_key_not_expire": {
         "message": "La clave no expira",
@@ -540,7 +548,7 @@
         "description": "Cleartext message read error message: $1: error message."
     },
     "editor_header": {
-        "message": "Componer correo",
+        "message": "Redactar correo",
         "description": "Header of editor popup."
     },
     "form_ok": {
@@ -636,7 +644,7 @@
         "description": "Export key menu."
     },
     "ext_description": {
-        "message": "Enhance your webmail provider with end-to-end encryption. Secure email communication based on the OpenPGP standard.",
+        "message": "Mejore su proveedor de correo web con cifrado extremo-a-extremo. Asegure su comunicación de email en base al estándar OpenPGP.",
         "description": "Description of the extension."
     },
     "key_gen_advanced_btn": {

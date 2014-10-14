@@ -95,6 +95,10 @@
         "message": "Privater Hauptschlüssel",
         "description": "Label for primary private key option."
     },
+    "clear_localstorage_confirm_title": {
+        "message": "Confirm",
+        "description": "The title of the confirmation dialog."
+    },
     "key_import_file_select": {
         "message": "Bitte eine Schlüsseltextdatei zum Importieren auswählen",
         "description": "File selection button label."
@@ -226,6 +230,10 @@
     "general_editor_plain": {
         "message": "Einfacher Text",
         "description": "Editor option: plain text."
+    },
+    "clear_localstorage_confirm_message": {
+        "message": "Do you want to delete all your PGP keys from this browser profile?",
+        "description": "The message of the confirmation dialog."
     },
     "keygrid_key_not_expire": {
         "message": "Der Schlüssel verfällt nicht",
