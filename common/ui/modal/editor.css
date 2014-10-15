@@ -31,14 +31,10 @@
   right: 0;
 }
 
-.m-modal > .modal-header h3 {
-  float: left;
-}
-
 .m-modal > .modal-body {
   position: absolute;
-  top: 49px;
-  bottom: 58px;
+  top: 60px;
+  bottom: 55px;
   right: 0;
   left: 0;
   overflow: hidden;

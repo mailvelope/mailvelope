@@ -76,7 +76,7 @@
     // transfer warning modal
     $('#transferWarn .btn-primary').click(transfer);
     // observe modals for blur warning
-    $('.modal').on('shown', startBlurValid);
+    $('.modal').on('show.bs.modal', startBlurValid);
     mvelo.l10n.localizeHTML();
   }
 
@@ -113,6 +113,7 @@
     sandbox.show();
     var text = $('<textarea/>', {
       id: 'content',
+      class: 'form-control',
       rows: 12,
       autofocus: '',
       css: {

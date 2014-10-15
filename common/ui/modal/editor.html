@@ -24,21 +24,22 @@
 <body>
   <div class="m-modal">
     <div class="modal-header clearfix">
-      <h3 data-l10n-id="editor_header"></h3>
       <div id='secureCode'></div>
+      <h4 data-l10n-id="editor_header"></h4>
     </div>
     <div class="modal-body">
       <iframe id="plainText" sandbox="allow-same-origin allow-scripts" frameBorder="0"></iframe>
       <div id="rte-toolbar"></div>
       <div id="rte-box">
-        <textarea id="richText" autofocus></textarea>
+        <textarea id="richText" autofocus class="form-control"></textarea>
       </div>
     </div>
     <div class="modal-footer">
-      <button id="cancelBtn" class="btn" data-l10n-id="form_cancel"></button>
+      <button id="cancelBtn" class="btn btn-default" data-l10n-id="form_cancel"></button>
       <button id="transferBtn" class="btn btn-primary" data-l10n-id="editor_transfer"></button>
     </div>
   </div>
+
   <div id="transferWarn" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -48,7 +49,7 @@
       <p data-l10n-id="editor_transfer_unencrypted"></p>
     </div>
     <div class="modal-footer">
-      <button class="btn" data-dismiss="modal" aria-hidden="true" data-l10n-id="form_cancel"></button>
+      <button class="btn btn-default" data-dismiss="modal" aria-hidden="true" data-l10n-id="form_cancel"></button>
       <button class="btn btn-primary" data-l10n-id="form_continue"></button>
     </div>
   </div>
