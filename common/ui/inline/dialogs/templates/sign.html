@@ -1,21 +1,12 @@
 <div id="keyDialog">
-  <div class="row well">
-    <div class="span4">
-      <div class="row">
-        <div class="span4">
-          <label for="keySelect">
-              <span data-l10n-id="sign_dialog_header"></span>
-              <select id="keySelect" class="span4">
-              </select>
-          </label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="span4">
-          <button id="okBtn" class="btn btn-small btn-primary" data-l10n-id="form_ok"></button>
-          <button id="cancelBtn" class="btn btn-small" data-l10n-id="form_cancel"></button>
-        </div>
-      </div>
+  <form class="well form">
+    <div class="form-group">
+      <label for="keySelect" data-l10n-id="sign_dialog_header"></label>
+      <select id="keySelect" class="form-control"></select>
     </div>
-  </div>
+    <div class="form-group">
+      <button id="okBtn" class="btn btn-sm btn-primary" data-l10n-id="form_ok"></button>
+      <button id="cancelBtn" class="btn btn-sm btn-default" data-l10n-id="form_cancel"></button>
+    </div>
+  </form>
 </div>
