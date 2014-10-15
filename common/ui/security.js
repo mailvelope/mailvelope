@@ -102,7 +102,8 @@
   }
 
   function normalize() {
-    $('#security .form-group button').prop('disabled', true);
+    $('#security #secBtnSave').prop('disabled', true);
+    $('#security #secBtnCancel').prop('disabled', true);
     $('#security .control-group').removeClass('error');
     $('#security .help-inline').addClass('hide');
     $('#secReloadInfo').hide();
