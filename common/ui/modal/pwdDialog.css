@@ -24,25 +24,31 @@ body {
   background-clip: padding-box;
 }
 
-.m-modal .control-label {
-  width: 65px;
+.modal-body .well {
+  margin-bottom: 0;
+  padding-bottom: 10px;
 }
 
-.m-modal .form-horizontal .controls {
-  margin-left: 85px;
+.modal-header h4 {
+  margin-top: 7px;
+  margin-bottom: 0;
 }
 
-.m-modal .form-horizontal .control-group {
-  margin-bottom: 15px;
+.modal-body .form-control-static {
+  padding-top: 0;
+}
+
+.modal-body .form-group {
+  margin-bottom: 0;
 }
 
 #rememberGroup {
   margin-bottom: 0;
 }
 
-.m-modal .form-horizontal {
+/*.m-modal .form-horizontal {
   margin-bottom: 0;
-}
+}*/
 
 .busy {
   cursor: wait !important;
