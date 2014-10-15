@@ -3,7 +3,6 @@
  * Copyright (C) 2012  Thomas Oberndörfer
  */
 
-
 .m-modal {
   position: absolute;
   top: 0;
@@ -103,4 +102,10 @@
   top:50%;
   margin-left: -231px;
   margin-top: -188px;
+}
+
+#transferWarn {
+    z-index: 5000;
+    top: 100px;
+    bottom: 100px;
 }

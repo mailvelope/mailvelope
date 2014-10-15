@@ -78,6 +78,7 @@
     // observe modals for blur warning
     $('.modal').on('show.bs.modal', startBlurValid);
     mvelo.l10n.localizeHTML();
+    $('#transferWarn').hide();
   }
 
   function onCancel() {
