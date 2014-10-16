@@ -35,6 +35,8 @@
   // timeoutID for period in which blur events are non-critical
   var blurValid = null;
 
+  var maxFileUploadSize = 50000000;
+
   function init() {
     var qs = jQuery.parseQuerystring();
     parentID = qs.parent;
@@ -79,6 +81,29 @@
     $('.modal').on('show.bs.modal', startBlurValid);
     mvelo.l10n.localizeHTML();
     $('#transferWarn').hide();
+
+    $('#uploadBtn').on("click", function() {
+      $('#addFileInput').click();
+    });
+
+    var addFileInputName;
+    $("#addFileInput").on("change", function(selection) {
+      //console.log("Selected File: "+$("#addFileInput").val());
+      var file = selection.currentTarget.files[0];
+      //console.log("Selected File: "+JSON.stringify(selection.currentTarget.files[0]));
+      addFileInputName = file.name;
+      console.log("File Meta - Name: "+file.name+" Size: "+file.size+" Type"+file.type);
+      var reader = new FileReader();
+      reader.onload = onFileReadComplete;
+      reader.readAsDataURL(file);
+    });
+
+  }
+
+  function onFileReadComplete(event) {
+    console.log(JSON.stringify(event.currentTarget.result));
+    editor.val(event.currentTarget.result);
+    addFileInputName = undefined;
   }
 
   function onCancel() {

@@ -109,3 +109,10 @@
     top: 100px;
     bottom: 100px;
 }
+
+#addFileInput {
+    visibility:hidden;
+    position:absolute;
+    top:-50;
+    left:-50;
+}
