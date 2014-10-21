@@ -680,7 +680,7 @@
     "description": "The message of the confirmation dialog."
   },
   "upload_attachment": {
-    "message": "Upload",
+    "message": "Add attachment",
     "description": "Text in the upload attachment button of the message editor dialog"
   }
 }
