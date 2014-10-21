@@ -43,3 +43,7 @@ li {
   -moz-transition: none;
   transition: none;
 }
+
+.switch-light span {
+    cursor: pointer;
+}
