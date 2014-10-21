@@ -15,20 +15,17 @@
   <script src="verifyPopup.js"></script>
 </head>
 <body>
-  <div class="modal" id="verifymail" class="m-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div id="secureCode"></div>
-          <h4 data-l10n-id="decrypt_popup_header"></h4>
-        </div>
-        <div class="modal-body"></div>
-        <div class="modal-footer">
-          <button id="copyBtn" class="btn btn-default" data-l10n-id="decrypt_popup_copy"></button>
-          <button id="closeBtn" class="btn btn-primary" data-l10n-id="dialog_popup_close"></button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+  <div id="verifymail" class="m-modal">
+    <div class="modal-header clearfix">
+      <div id='secureCode'></div>
+      <h4 data-l10n-id="decrypt_popup_header"></h4>
+    </div>
+    <div class="modal-body">
+    </div>
+    <div class="modal-footer">
+      <button id="copyBtn" class="btn btn-default" data-l10n-id="decrypt_popup_copy"></button>
+      <button id="closeBtn" class="btn btn-primary" data-l10n-id="dialog_popup_close"></button>
+    </div>
+  </div>
 </body>
 </html>
