@@ -66,6 +66,13 @@
   function addSandbox() {
     sandbox = $('<iframe/>', {
       sandbox: 'allow-same-origin',
+      css: {
+        position: 'absolute',
+        top: 24,
+        left: 0,
+        right: 0,
+        bottom: 0
+      },
       frameBorder: 0
     });
     var content = $('<div/>', {
