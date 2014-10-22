@@ -187,7 +187,7 @@ var keyRing = {};
         if (prefs.migrate08.err.length) {
           $('#migNavEntry').show();
           prefs.migrate08.err.forEach(function(error) {
-            $('#migrationAlert').showAlert('Import Error', error.message, 'error', true);
+            $('#migrationAlert').showAlert('Import Error', error.message, 'danger', true);
           });
           var armored = prefs.migrate08.keys.reduce(function(prev, curr) {
             return prev + curr + '\n\n';

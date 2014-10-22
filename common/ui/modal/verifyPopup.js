@@ -103,7 +103,7 @@
     // hide sandbox
     $('.modal-body iframe').hide();
     $('#errorbox').show();
-    $('#errorwell').showAlert(l10n.alert_header_error, msg, 'error');
+    $('#errorwell').showAlert(l10n.alert_header_error, msg, 'danger');
     $('#copyBtn').prop('disabled', true);
   }
 

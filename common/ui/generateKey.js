@@ -162,7 +162,7 @@
         // refresh grid
         keyRing.event.triggerHandler('keygrid-reload');
       } else {
-        $('#genAlert').showAlert(keyRing.l10n.key_gen_error, error.type === 'error' ? error.message : '', 'error');
+        $('#genAlert').showAlert(keyRing.l10n.key_gen_error, error.type === 'error' ? error.message : '', 'danger');
       }
       $('body').removeClass('busy');
       $('#genKeyWait').modal('hide');
