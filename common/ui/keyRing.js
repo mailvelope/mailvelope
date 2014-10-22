@@ -38,19 +38,26 @@ var keyRing = {};
       keyRing.l10n = result;
       event.triggerHandler('ready');
     });
-    // check for native color picker support and load polyfill
-    if (typeof Modernizr !== 'undefined') {
-      Modernizr.load({
-        test: Modernizr.inputtypes.color,
-        nope: ['../dep/spectrum/spectrum.js', '../dep/spectrum/spectrum.css']
-      });
-    }
     sendMessage({
       event: "get-version"
     }, function(version) {
       $('#version').text(version);
     });
     migrate08();
+
+    // Disable submitting of forms by for example pressing enter
+    $("form").submit(function (e) { e.preventDefault(); });
+
+    // Enabling selection of the elements in settings navigation
+    $(".list-group-item").on("click", function() {
+      var self = $(this);
+      if(!self.hasClass("disabled")) {
+        self.parent().find(".list-group-item").each(function () {
+          $(this).removeClass("active");
+        });
+        self.addClass("active");
+      }
+    });
   }
 
   function localizeHTML() {

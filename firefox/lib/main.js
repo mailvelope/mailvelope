@@ -59,34 +59,21 @@ function onPanelMessage(msg) {
   mailvelopePanel.hide();
 }
 
-var toggleButton;
-
-if (ToggleButton && browserVersion !== 29) {
-  // Australis UI
-  toggleButton = ToggleButton({
-    id: 'mailvelope-options',
-    label: 'mailvelope-options',
-    icon: {
-      '16': data.url('common/img/cryptography-icon16.png'),
-      '48': data.url('common/img/cryptography-icon48.png')
-    },
-    onChange: function(state) {
-      if (state.checked) {
-        mailvelopePanel.show({
-          position: toggleButton
-        });
-      }
+var toggleButton = ToggleButton({
+  id: 'mailvelope-options',
+  label: 'mailvelope-options',
+  icon: {
+    '16': data.url('common/img/cryptography-icon16.png'),
+    '48': data.url('common/img/cryptography-icon48.png')
+  },
+  onChange: function(state) {
+    if (state.checked) {
+      mailvelopePanel.show({
+        position: toggleButton
+      });
     }
-  });
-} else {
-  // FF <=29
-  require('sdk/widget').Widget({
-    id: 'mailvelope-options',
-    label: 'Mailvelope Options',
-    contentURL: data.url('common/img/cryptography-icon16.png'),
-    panel: mailvelopePanel
-  });
-}
+  }
+});
 
 unload.when(function(reason) {
   // with FF24 reason is never 'uninstall' https://bugzilla.mozilla.org/show_bug.cgi?id=571049

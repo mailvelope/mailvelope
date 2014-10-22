@@ -26,10 +26,6 @@ html, body {
   margin-left: -221px;
 }
 
-#keyDialog .well {
-  padding-left: 0;
-}
-
 #keyList {
   /* https://bugs.webkit.org/show_bug.cgi?id=28900 */
   height: 60px;

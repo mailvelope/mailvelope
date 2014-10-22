@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "jquery": "2.1.0",
-    "bootstrap": "~2.2.2",
+    "bootstrap": "~3.2.0",
     "spectrum": "~1.1.0",
     "requirejs": "2.1.14",
     "kendo-ui": "2013.1.319",

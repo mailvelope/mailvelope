@@ -24,20 +24,22 @@ mvelo.ffa = mvelo.ffa || typeof self !== 'undefined' && self.port || !mvelo.crx;
 // for fixfox, mvelo.extension is exposed from a content script
 mvelo.extension = mvelo.extension || mvelo.crx && chrome.runtime;
 // extension.connect shim for Firefox
-mvelo.extension.connect = mvelo.extension.connect || mvelo.ffa && function(obj) {
-  mvelo.extension._connect(obj);
-  obj.events = {};
-  var port = {
-    postMessage: mvelo.extension.port.postMessage,
-    disconnect: mvelo.extension.port.disconnect.bind(null, obj),
-    onMessage: {
-      addListener: mvelo.extension.port.addListener.bind(null, obj)
-    }
+if (mvelo.ffa) {
+  mvelo.extension.connect = function(obj) {
+    mvelo.extension._connect(obj);
+    obj.events = {};
+    var port = {
+      postMessage: mvelo.extension.port.postMessage,
+      disconnect: mvelo.extension.port.disconnect.bind(null, obj),
+      onMessage: {
+        addListener: mvelo.extension.port.addListener.bind(null, obj)
+      }
+    };
+    // page unload triggers port disconnect
+    window.addEventListener('unload', port.disconnect);
+    return port;
   };
-  // page unload triggers port disconnect
-  window.addEventListener('unload', port.disconnect);
-  return port;
-};
+}
 // for fixfox, mvelo.l10n is exposed from a content script
 mvelo.l10n = mvelo.l10n || mvelo.crx && {
   getMessages: function(ids, callback) {

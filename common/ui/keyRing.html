@@ -39,46 +39,46 @@
     <script src="general.js"></script>
   </head>
   <body>
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
-          </a>
-          <div class="brand" data-l10n-id="ext_name"></div>
-          <div class="nav-collapse">
-            <ul class="nav">
-              <li class="active"><a href="#" data-l10n-id="options_home"></a></li>
-              <li><a href="../doc/help.html" data-l10n-id="options_docu"></a></li>
-              <li><a href="../doc/about.html" data-l10n-id="options_about"></a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-          <div id='secureCode'></div>
+          </button>
+          <div class="navbar-brand" data-l10n-id="ext_name"></div>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#" data-l10n-id="options_home"></a></li>
+            <li><a href="../doc/help.html" data-l10n-id="options_docu"></a></li>
+            <li><a href="../doc/about.html" data-l10n-id="options_about"></a></li>
+          </ul>
+          <div class="nav navbar-nav navbar-right" id='secureCode'></div>
         </div>
       </div>
     </div>
 
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list" id="navList">
-              <li class="nav-header" data-l10n-id="keyring_header"></li>
-              <li class="active"><a href="#displayKeys" data-toggle="tab" data-l10n-id="keyring_display_keys"></a></li>
-              <li><a href="#importKey" data-toggle="tab" data-l10n-id="keyring_import_keys"></a></li>
-              <li><a href="#generateKey" data-toggle="tab" data-l10n-id="keyring_generate_key"></a></li>
-              <li id="migNavEntry" style="display:none;"><a href="#migrationError" data-toggle="tab" style="font-weight:bold;" data-toggle="tab" data-l10n-id="keyring_migration_error"></a></li>
-              <li class="nav-header" data-l10n-id="options_settings"></li>
-              <li><a href="#general" data-toggle="tab" data-l10n-id="settings_general"></a></li>
-              <li><a href="#security" data-toggle="tab" data-l10n-id="settings_security"></a></li>
-              <li><a href="#watchList" data-toggle="tab" data-l10n-id="settings_watchlist"></a></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-        <div class="span9">
-          <div class="hero-unit tab-content">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="list-group" id="navList">
+            <a class="list-group-item disabled" data-l10n-id="keyring_header"></a>
+            <a class="list-group-item active" href="#displayKeys" data-toggle="tab" data-l10n-id="keyring_display_keys"></a>
+            <a class="list-group-item" href="#importKey" data-toggle="tab" data-l10n-id="keyring_import_keys"></a>
+            <a class="list-group-item" href="#generateKey" data-toggle="tab" data-l10n-id="keyring_generate_key"></a>
+            <a id="migNavEntry" href="#migrationError" data-toggle="tab" data-l10n-id="keyring_migration_error"></a>
+            <a class="list-group-item disabled" data-l10n-id="options_settings"></a>
+            <a class="list-group-item" href="#general" data-toggle="tab" data-l10n-id="settings_general"></a>
+            <a class="list-group-item" href="#security" data-toggle="tab" data-l10n-id="settings_security"></a>
+            <a class="list-group-item" href="#watchList" data-toggle="tab" data-l10n-id="settings_watchlist"></a>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="tab-content jumbotron">
             <div id="displayKeys" class="tab-pane fade active in">
               <h3 data-l10n-id="keyring_header"></h3>
               <div id="mainKeyGrid">
@@ -98,7 +98,7 @@
                     </div><!-- /btn-group -->
                     <div class="keyType-selector">
                       <label class="keyType-label" for="keyType">#= keygrid_sort_type #:</label>
-                      <input type="search" id="keyType" style="width: 200px"></input>
+                      <input type="search" id="keyType" />
                     </div>
                   </div>
                 </script>
@@ -121,7 +121,7 @@
                             if (validity) {
                               #<span class="label label-success">#= l10n.keygrid_status_valid #</span>#
                             } else {
-                              #<span class="label label-important">#= l10n.keygrid_status_invalid #</span>#
+                              #<span class="label label-danger">#= l10n.keygrid_status_invalid #</span>#
                             }
                           #</li>
                           <li><label>#= l10n.keygrid_key_fingerprint #:</label>#= fingerprint.match(/.{1,4}/g).join(' ') #</li>
@@ -130,14 +130,14 @@
                     </div>
                     <div>
                       <div class="subkeys">
-                        <div><label>#= l10n.keygrid_subkeyid #:</label><input class="subkeyID" /></li></div>
+                        <div><label>#= l10n.keygrid_subkeyid #:</label><input class="subkeyID" /></div>
                         <ul class="subkeyDetails well">
                         </ul>
                       </div>
                     </div>
                     <div>
                       <div class="userids">
-                        <div><label>#= l10n.keygrid_userid #:</label><input class="userID" /></li></div>
+                        <div><label>#= l10n.keygrid_userid #:</label><input class="userID" /></div>
                         <div><label>#= l10n.keygrid_userid_signatures #:</label></div>
                         <div class="signerGrid">
                         </div>
@@ -153,99 +153,94 @@
                   <li><label>#= l10n.keygrid_key_fingerprint #:</label>#= fingerprint.match(/.{1,4}/g).join(' ') #</li>
                 </script>
               </div>
-              <div class="modal fade hide" id="exportKey">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                  <h3 data-l10n-id="key_export_header"></h3>
-                </div>
-                <div class="modal-body">
-                  <textarea id="armoredKey" class="input-xxlarge" rows=12></textarea>
-                  <form id="exportDownload" class="form-inline">
-                    <input type="text">
-                    <button type="button" class="btn" data-l10n-id="key_export_create_file"></button>
-                    <a class="hide" data-l10n-id="key_export_download"></a>
-                  </form>
-                  <div id="exportWarn" class="alert hide"></div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn" data-dismiss="modal" aria-hidden="true" data-l10n-id="dialog_popup_close"></button>
-                  <button id="exportToCb" type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true" data-l10n-id="key_export_clipboard"></button>
-                </div>
-              </div>
+              <div class="modal" id="exportKey" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h3 data-l10n-id="key_export_header"></h3>
+                    </div>
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <textarea id="armoredKey" class="form-control" rows="12"></textarea>
+                      </div>
+                      <form id="exportDownload" class="form-inline">
+                        <input type="text" class="form-control">
+                        <button type="button" class="btn btn-default" data-l10n-id="key_export_create_file"></button>
+                        <a class="btn btn-link hide" data-l10n-id="key_export_download"></a>
+                      </form>
+                      <div id="exportWarn" class="alert hide"></div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true" data-l10n-id="dialog_popup_close"></button>
+                      <button id="exportToCb" type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true" data-l10n-id="key_export_clipboard"></button>
+                    </div>
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->
             </div>
             <div id="importKey" class="tab-pane fade">
               <h3 data-l10n-id="keyring_import_keys"></h3>
-              <form class="form-vertical well" onsubmit="return false">
-                <div class="control-group">
-                  <label class="control-label" for="textarea"><h4 data-l10n-id="key_import_textarea"></h4></label>
-                  <div data-l10n-id="key_import_multiple_keys"></div>
-                  <div class="controls">
-                    <textarea id="newKey" rows="12"></textarea>
+              <form class="form well">
+                <div class="form-group">
+                  <label class="control-label" for="newKey"><h4 data-l10n-id="key_import_textarea"></h4></label>
+                  <div class="" data-l10n-id="key_import_multiple_keys"></div>
+                  <div class="help-block">
+                    <textarea id="newKey" class="form-control" rows="12"></textarea>
                   </div>
                 </div>
-                <div class="control-group">
-                  <label class="control-label" for="impKeyFilepath"><h4 data-l10n-id="key_import_file_select"><h4></label>
+                <div class="form-group">
+                  <label class="control-label" for="impKeyFilepath"><h4 data-l10n-id="key_import_file_select"></h4></label>
                   <input type="file" name="filepath" id="impKeyFilepath" />
                 </div>
-                <div class="control-group">
+                <div class="form-group">
                   <div id="importAlert">
                   </div>
                 </div>
-                <div class="form-actions">
+                <div class="form-group">
                   <button id="impKeySubmit" class="btn btn-primary" data-l10n-id="form_submit"></button>
-                  <button id="impKeyClear" class="btn" data-l10n-id="form_clear"></button>
-                  <button id="impKeyAnother" class="btn hide" data-l10n-id="key_import_another"></button>
+                  <button id="impKeyClear" class="btn btn-default" data-l10n-id="form_clear"></button>
+                  <button id="impKeyAnother" class="btn btn-default hide" data-l10n-id="key_import_another"></button>
                 </div>
               </form>
             </div>
             <div id="generateKey" class="tab-pane fade">
               <h3 data-l10n-id="keyring_generate_key"></h3>
-              <form class="form-horizontal well" onsubmit="return false" autocomplete="off">
-                <div class="control-group">
-                  <label class="control-label" data-l10n-id="keygrid_user_name"></label>
-                  <div class="controls">
-                    <input type="text" class="input-xlarge" id="genKeyName">
-                    <span class="help-block" data-l10n-id="key_gen_name_help"></span>
-                  </div>
+              <form class="form well" autocomplete="off">
+                <div class="form-group">
+                  <label class="control-label" for="genKeyName" data-l10n-id="keygrid_user_name"></label>
+                  <input type="text" class="form-control" id="genKeyName">
+                  <span class="help-block" data-l10n-id="key_gen_name_help"></span>
                 </div>
-                <div class="control-group">
-                  <label class="control-label" data-l10n-id="keygrid_user_email"></label>
-                  <div class="controls">
-                    <input type="text" class="input-xlarge" id="genKeyEmail">
-                    <span class="help-inline hide" data-l10n-id="key_gen_invalid_email"></span>
-                  </div>
+                <div class="form-group">
+                  <label class="control-label" data-l10n-id="keygrid_user_email" for="genKeyEmail"></label>
+                  <input type="text" class="form-control" id="genKeyEmail">
+                  <span class="help-block hide" data-l10n-id="key_gen_invalid_email"></span>
                 </div>
-                <div class="control-group">
-                  <div class="controls">
-                    <button id="genKeyAdv" class="btn key-advanced-closed" data-l10n-id="key_gen_advanced_btn"></button>
-                  </div>
+                <div class="form-group">
+                    <button id="genKeyAdv" class="btn btn-default key-advanced-closed" data-l10n-id="key_gen_advanced_btn"></button>
                 </div>
-                <div id="genKeyAdvSection" class="alert alert-info hide">
-                  <div class="control-group">
-                    <label class="control-label" data-l10n-id="keygrid_algorithm"></label>
-                    <div class="controls">
-                      <select id="genKeyAlgo" class="input-medium" disabled>
-                        <option selected>RSA/RSA</option>
-                        <option>DSA/ElGamal</option>
-                      </select>
-                    </div>
+                <div id="genKeyAdvSection" class="alert alert-info">
+                  <div class="form-group">
+                    <label class="control-label" data-l10n-id="keygrid_algorithm" for="genKeyAlgo"></label>
+                    <select id="genKeyAlgo" class="form-control" disabled>
+                      <option selected>RSA/RSA</option>
+                      <option>DSA/ElGamal</option>
+                    </select>
                   </div>
-                  <div class="control-group">
-                    <label class="control-label" data-l10n-id="key_gen_key_size"></label>
-                    <div class="controls">
-                      <select id="genKeySize" class="input-medium">
-                        <option>1024</option>
-                        <option selected>2048</option>
-                        <option>4096</option>
-                      </select>
-                      <span class="help-inline">bits</span>
-                    </div>
+                  <div class="form-group">
+                    <label class="control-label"><span data-l10n-id="key_gen_key_size" for="genKeySize"></span>&nbsp;(<span>bits</span>)</label>
+                    <select id="genKeySize" class="form-control">
+                      <option>1024</option>
+                      <option selected>2048</option>
+                      <option>4096</option>
+                    </select>
                   </div>
-                  <div class="control-group">
-                    <label class="control-label" data-l10n-id="key_gen_expiration"></label>
-                    <div class="controls">
-                      <input type="text" class="input-small" id="genKeyExp" value="0" disabled>
-                      <select id="genKeyExpUnit" class="input-small" disabled>
+                  <div class="form-group">
+                    <label class="control-label" data-l10n-id="key_gen_expiration" for="genKeyExpUnit"></label>
+                    <div class="form-inline">
+                      <input type="text" class="form-control col-md-4" id="genKeyExp" value="0" disabled>
+                      <select id="genKeyExpUnit" class="form-control col-md-4" disabled>
                         <option data-l10n-id="key_gen_never"></option>
                         <option data-l10n-id="key_gen_days"></option>
                         <option data-l10n-id="key_gen_months"></option>
@@ -253,57 +248,56 @@
                       </select>
                     </div>
                   </div>
+                  <div class="form-group">&nbsp;</div>
                 </div>
-                <div class="control-group">
-                  <label class="control-label" data-l10n-id="key_gen_pwd"></label>
-                  <div class="controls">
-                    <input type="password" class="input-xlarge" id="genKeyPwd">
-                    <span class="label label-important" data-l10n-id="key_gen_pwd_empty"></span>
-                  </div>
+                <div class="form-group">
+                  <label class="control-label" for="genKeyPwd" data-l10n-id="key_gen_pwd"></label>
+                  <input type="password" class="form-control" id="genKeyPwd">
+                  <span class="label label-danger" data-l10n-id="key_gen_pwd_empty"></span>
                 </div>
-                <div class="control-group">
-                  <label class="control-label" data-l10n-id="key_gen_pwd_reenter"></label>
-                  <div class="controls">
-                    <input type="password" class="input-xlarge" id="genKeyRePwd">
-                    <span class="label label-important hide" data-l10n-id="key_gen_pwd_unequal"></span>
-                    <span class="label label-success hide" data-l10n-id="key_gen_pwd_match"></span>
-                  </div>
+                <div class="form-group">
+                  <label class="control-label" for="genKeyRePwd" data-l10n-id="key_gen_pwd_reenter"></label>
+                  <input type="password" class="form-control" id="genKeyRePwd">
+                  <span class="label label-danger hide" data-l10n-id="key_gen_pwd_unequal"></span>
+                  <span class="label label-success hide" data-l10n-id="key_gen_pwd_match"></span>
                 </div>
-                <div class="control-group">
-                  <div id="genAlert">
-                  </div>
+                <div class="form-group">
+                  <div id="genAlert"></div>
                 </div>
-                <div class="form-actions">
+                <div class="form-group">
                   <button id="genKeySubmit" class="btn btn-primary" disabled data-l10n-id="form_submit"></button>
-                  <button id="genKeyClear" class="btn" data-l10n-id="form_clear"></button>
-                  <button id="genKeyAnother" class="btn hide" data-l10n-id="key_gen_another"></button>
+                  <button id="genKeyClear" class="btn btn-default" data-l10n-id="form_clear"></button>
+                  <button id="genKeyAnother" class="btn btn-default hide" data-l10n-id="key_gen_another"></button>
                 </div>
               </form>
-              <div class="modal fade hide" id="genKeyWait">
-                <div class="modal-header">
-                  <h3 data-l10n-id="key_gen_wait_header"></h3>
-                </div>
-                <div class="modal-body">
-                  <div class="progress-bar">
-                    <img alt="activity indicator" src="../img/progress-bar.gif">
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <p data-l10n-id="key_gen_wait_info"></p>
-                </div>
-              </div>
+              <div class="modal" id="genKeyWait" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <!--button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button-->
+                      <h3 data-l10n-id="key_gen_wait_header"></h3>
+                    </div>
+                    <div class="modal-body">
+                      <img alt="activity indicator" src="../img/progress-bar.gif" class="img-responsive center-block">
+                    </div>
+                    <div class="modal-footer">
+                      <span data-l10n-id="key_gen_wait_info"></span>
+                    </div>
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->
             </div>
             <div id="migrationError" class="tab-pane fade">
               <h3>Key migration error</h3>
-              <form class="form-vertical well" onsubmit="return false">
-                <div class="control-group">
-                  <label class="control-label" for="textarea"><h4>The following keys could not be migrated to Mailvelope v0.8.0</h4></label>
+              <form class="form well">
+                <div class="form-group">
+                  <label class="control-label" for="errorKeys"><h4>The following keys could not be migrated to Mailvelope v0.8.0</h4></label>
                   <div>Please contact support@mailvelope.com for help. <b>Warning!</b> The box below can also include private keys, don't send them by email.</div>
-                  <div class="controls" style="margin-top: 10px">
-                    <textarea id="errorKeys" rows="12" style="width: 650px; font-family: monospace;"></textarea>
+                  <div id="errorKeysArea">
+                    <textarea id="errorKeys" rows="12"></textarea>
                   </div>
                 </div>
-                <div class="control-group">
+                <div class="form-group">
                   <div id="migrationAlert">
                   </div>
                 </div>
@@ -316,114 +310,117 @@
             </div>
             <div id="security" class="tab-pane fade">
               <h3 data-l10n-id="settings_security"></h3>
-              <form class="form-horizontal well" onsubmit="return false">
-                <div class="control-group">
-                  <label class="control-label"><strong data-l10n-id="security_display_decrypted"></strong></label>
-                  <div class="controls">
-                    <label class="radio">
+              <form class="form well">
+                <div class="form-group">
+                  <label class="control-label" data-l10n-id="security_display_decrypted"></label>
+                  <div class="radio">
+                    <label>
                       <input type="radio" name="decryptRadios" id="decryptRadios1" value="inline">
                       <span data-l10n-id="security_display_inline"></span>
                     </label>
-                    <label class="radio">
+                 </div>
+                 <div class="radio">
+                    <label>
                       <input type="radio" name="decryptRadios" id="decryptRadios2" value="popup">
                       <span data-l10n-id="security_display_popup"></span>
                     </label>
                   </div>
                 </div>
-                <div class="alert alert-info">
-                  <strong data-l10n-id="security_token_header"></strong>
-                  <button id="secTokenInfo" class="btn" data-toggle="popover" data-placement="left"><i class="icon-info-sign"></i></button>
-                  <div class="control-group">
-                    <label class="control-label" data-l10n-id="security_char_code"></label>
-                    <div class="controls">
-                      <input type="text" class="input-mini" id="secCode" maxlength="3">
-                      <span class="help-inline hide" data-l10n-id="security_char_help"></span>
-                    </div>
+                <div class="form-group" id="securityTokenPanel">
+                  <label>
+                    <strong data-l10n-id="security_token_header"></strong><button id="secTokenInfo" class="btn btn-link" data-toggle="popover" data-placement="right">
+                    <span class="glyphicon glyphicon-info-sign"></span></button>
+                  </label>
+                  <div class="radio form-inline">
+                    <label data-l10n-id="security_char_code" for="secCode" id="secCodeLabel"></label>
+                    <input type="text" id="secCode" maxlength="3" class="form-control">
+                    <span class="help-block hide" data-l10n-id="security_char_help"></span>
                   </div>
-                  <div class="control-group">
-                    <label class="control-label" data-l10n-id="security_custom_color"></label>
-                    <div class="controls">
-                      <input type="color" class="input-small" id="secColor">
-                    </div>
+                  <div class="radio form-inline">
+                    <label data-l10n-id="security_custom_color" for="secColor" id="secColorLabel"></label>
+                    <input type="color" id="secColor" class="form-control">
                   </div>
                 </div>
-                <div class="control-group">
-                  <label class="control-label"><strong data-l10n-id="security_compose_mail"></strong></label>
-                  <div class="controls">
-                    <label class="radio">
+                <div class="form-group">
+                  <label class="control-label" data-l10n-id="security_compose_mail"></label>
+                  <div class="radio">
+                    <label>
                       <input type="radio" name="editorModeRadios" id="editorModeRadios1" value="external">
                       <span data-l10n-id="security_compose_external"></span>
                     </label>
-                    <label class="radio">
+                  </div>
+                  <div class="radio">
+                    <label>
                       <input type="radio" name="editorModeRadios" id="editorModeRadios2" value="webmail">
                       <span data-l10n-id="security_compose_webmail"></span>
                     </label>
-                    <div id="editorModeWarn" class="alert alert-error hide">
-                      <h4 data-l10n-id="header_warning"></h4>
-                      <span data-l10n-id="security_compose_warn"></span>
-                    </div>
+                  </div>
+                  <div id="editorModeWarn" class="alert alert-danger">
+                    <h4 data-l10n-id="header_warning"></h4>
+                    <span data-l10n-id="security_compose_warn"></span>
                   </div>
                 </div>
-                <div class="control-group">
-                  <label class="control-label"><strong data-l10n-id="security_cache_header"></strong></label>
-                  <div class="controls">
+                <div class="form-group">
+                  <label class="control-label" data-l10n-id="security_cache_header"></label>
+                  <div class="radio form-inline">
                     <label class="radio" id="pwdCacheLabel">
                       <input type="radio" name="pwdCacheRadios" id="pwdCacheRadios1" value="true">
                       <span data-l10n-id="security_cache_on"></span>
-                      <input type="text" class="input-mini" id="pwdCacheTime" maxlength="3">
+                      <input type="text" id="pwdCacheTime" maxlength="3" class="form-control">
                       <span data-l10n-id="security_cache_time"></span>
-                      <span class="help-inline hide" data-l10n-id="security_cache_help"></span>
+                      <span class="help-block hide" data-l10n-id="security_cache_help"></span>
                     </label>
+                  </div>
+                  <div class="radio">
                     <label class="radio">
                       <input type="radio" name="pwdCacheRadios" id="pwdCacheRadios2" value="false">
                       <span data-l10n-id="security_cache_off"></span>
                     </label>
                   </div>
                 </div>
-                <div id="secReloadInfo" class="alert alert-success hide" data-l10n-id="reload_webmail_tab">
+                <div id="secReloadInfo" class="alert alert-success" data-l10n-id="reload_webmail_tab">
                 </div>
-                <div class="form-actions">
+                <div class="form-group">
                   <button id="secBtnSave" class="btn btn-primary" disabled data-l10n-id="form_save"></button>
-                  <button id="secBtnCancel" class="btn" disabled data-l10n-id="form_cancel"></button>
+                  <button id="secBtnCancel" class="btn btn-default" disabled data-l10n-id="form_cancel"></button>
                 </div>
               </form>
             </div>
             <div id="general" class="tab-pane fade">
               <h3 data-l10n-id="settings_general"></h3>
-              <form class="form-horizontal well" onsubmit="return false">
-                <div class="control-group">
-                  <label class="control-label"><strong data-l10n-id="general_editor_type"></strong></label>
-                  <div class="controls">
-                    <label class="radio">
+              <form class="form well">
+                <div class="form-group">
+                  <label class="control-label" data-l10n-id="general_editor_type"></label>
+                  <div class="radio">
+                    <label>
                       <input type="radio" name="editorRadios" id="editorRadios1" value="rich">
                       <span data-l10n-id="general_editor_rich"></span>
                     </label>
-                    <label class="radio">
+                  </div>
+                  <div class="radio">
+                    <label>
                       <input type="radio" name="editorRadios" id="editorRadios2" value="plain">
                       <span data-l10n-id="general_editor_plain"></span>
                     </label>
                   </div>
                 </div>
-                <div class="control-group">
-                  <label class="control-label"><strong data-l10n-id="general_primary_key_label"></strong></label>
-                  <div class="controls">
-                    <label>
-                      <select id="primaryKey" class="span6">
-                      </select>
-                    </label>
-                  </div>
-                  <div class="controls">
-                    <label class="checkbox">
-                      <input type="checkbox" id="autoAddPrimary">
+                <div class="form-group">
+                  <label data-l10n-id="general_primary_key_label" for="primaryKey"></label>
+                  <select id="primaryKey" class="form-control"></select>
+                </div>
+                <div class="form-group">
+                  <div class="radio">
+                    <label class="checkbox" for="autoAddPrimary">
+                      <input type="checkbox" id="autoAddPrimary" >
                       <span data-l10n-id="general_primary_key_always"></span>
                     </label>
                   </div>
                 </div>
-                <div id="genReloadInfo" class="alert alert-success hide" data-l10n-id="reload_webmail_tab">
+                <div id="genReloadInfo" class="alert alert-success" data-l10n-id="reload_webmail_tab">
                 </div>
-                <div class="form-actions">
+                <div class="form-group">
                   <button id="genBtnSave" class="btn btn-primary" disabled data-l10n-id="form_save"></button>
-                  <button id="genBtnCancel" class="btn" disabled data-l10n-id="form_cancel"></button>
+                  <button id="genBtnCancel" class="btn btn-default" disabled data-l10n-id="form_cancel"></button>
                 </div>
               </form>
             </div>
@@ -432,7 +429,6 @@
       </div><!--/row-->
 
       <hr>
-
       <footer>
         <p class="pull-left">&copy; 2012-2014 Mailvelope</p>
         <div id="version" class="pull-right"></div>
