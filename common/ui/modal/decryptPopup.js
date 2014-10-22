@@ -122,7 +122,7 @@
 
   function addErrorView() {
     var errorbox = $('<div/>', {id: 'errorbox'});
-    $('<div/>', {id: 'errorwell', class: 'well span5'}).appendTo(errorbox);
+    $('<div/>', {id: 'errorwell', class: 'well'}).appendTo(errorbox);
     $('.modal-body').append(errorbox);
   }
 
