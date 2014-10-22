@@ -47,9 +47,7 @@ $.fn.showAlert = function(heading, message, type, keep) {
     row.append(message);
   }
   row.attr('class', 'alert fade in');
-  //if (type !== 'warning') {
-    row.addClass('alert-' + type);
-  //}
+  row.addClass('alert-' + type);
   this.show();
   return this;
-}
+};
