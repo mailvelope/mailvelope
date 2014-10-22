@@ -36,6 +36,7 @@
   var blurValid = null;
 
   var maxFileUploadSize = 50000000;
+  var currentUploadFileName;
 
   function init() {
     var qs = jQuery.parseQuerystring();
@@ -86,24 +87,81 @@
       $('#addFileInput').click();
     });
 
-    var addFileInputName;
-    $("#addFileInput").on("change", function(selection) {
-      //console.log("Selected File: "+$("#addFileInput").val());
-      var file = selection.currentTarget.files[0];
-      //console.log("Selected File: "+JSON.stringify(selection.currentTarget.files[0]));
-      addFileInputName = file.name;
-      console.log("File Meta - Name: "+file.name+" Size: "+file.size+" Type"+file.type);
-      var reader = new FileReader();
-      reader.onload = onFileReadComplete;
-      reader.readAsDataURL(file);
-    });
+    $("#addFileInput").on("change", onAddAttachment);
 
   }
 
+  var attachments = [];
+
+  function addAttachment(filename, id, content) {
+    // check if id exists
+    attachments.push({"filename":filename, "id":""+id, "content":content});
+    $uploadPanel = $("#uploadPanel");
+    // <span class="label label-default">FileName1.txt  <span class="glyphicon glyphicon-remove"></span></span>
+
+    var removeUploadButton = $('<span/>', {
+      "data-id": id,
+      "class": 'glyphicon glyphicon-remove'
+    }).on("click", function() {
+      removeAttachment($(this).attr("data-id"));
+      $(this).parent().remove();
+    });
+
+    var fileUI = $('<span/>', {
+      "class": 'label label-default'
+    })
+    .append(filename+" ")
+    .append(removeUploadButton);
+
+    $uploadPanel.append(fileUI);
+    currentUploadFileName = undefined;
+  }
+
+  function removeAttachment(id) {
+    attachments.forEach(function(element, index) {
+      if(element.id === id) {
+        attachments.splice( index, 1 );
+      }
+    });
+    getAttachmentsContent();
+  }
+
+  function disableAttachmentsUI() {
+
+  }
+
+  function downloadAttachment(id) {
+
+  }
+
+  function getAttachmentsContent() {
+    var result = "";
+    attachments.forEach(function(element, index) {
+      result += element.filename+"-----------------------\n"+element.content;
+    });
+    console.log("Attachment content: "+result);
+    return result;
+  }
+
+  function onAddAttachment(selection) {
+    //console.log("Selected File: "+$("#addFileInput").val());
+    var file = selection.currentTarget.files[0];
+    //console.log("Selected File: "+JSON.stringify(selection.currentTarget.files[0]));
+    console.log("File Meta - Name: "+file.name+" Size: "+file.size+" Type"+file.type);
+    if(file.size > maxFileUploadSize) {
+      alert("Attachment size exceeds "+maxFileUploadSize+" bytes. File upload will be aborted.");
+      return;
+    }
+    currentUploadFileName = file.name;
+    var reader = new FileReader();
+    reader.onload = onFileReadComplete;
+    reader.readAsDataURL(file);
+  }
+
   function onFileReadComplete(event) {
-    console.log(JSON.stringify(event.currentTarget.result));
-    editor.val(event.currentTarget.result);
-    addFileInputName = undefined;
+    //console.log(JSON.stringify(event.currentTarget.result));
+    //editor.val(editor.val()+"\n\n"+event.currentTarget.result);
+    addAttachment(currentUploadFileName,event.timeStamp,event.currentTarget.result);
   }
 
   function onCancel() {
@@ -258,7 +316,7 @@
       src: '../modal/pwdDialog.html?id=' + eFrame.getID(),
       frameBorder: 0
     });
-    $('body').find('div.m-modal').fadeOut(function() {
+    $('body').find('#editorDialog').fadeOut(function() {
       //$('.m-encrypt-frame').hide();
       $('body').append(pwd);
     });
@@ -267,7 +325,7 @@
   function hidePwdDialog() {
     $('body #pwdDialog').fadeOut(function() {
       $('body #pwdDialog').remove();
-      $('body').find('div.m-modal').show();
+      $('body').find('#editorDialog').show();
       //$('.m-encrypt-frame').fadeIn();
       eFrame._setFrameDim();
     });
