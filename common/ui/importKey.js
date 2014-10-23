@@ -60,11 +60,11 @@
     }
 
     if (keys.length === 0) {
-      $('#importAlert').showAlert(keyRing.l10n.key_import_error, keyRing.l10n.key_import_invalid_text, 'error', true);
+      $('#importAlert').showAlert(keyRing.l10n.key_import_error, keyRing.l10n.key_import_invalid_text, 'danger', true);
     } else {
       keyRing.viewModel('importKeys', [keys], function(result, error) {
         if (error) {
-          $('#importAlert').showAlert(keyRing.l10n.key_import_error, error.type === 'error' ? error.message : keyRing.l10n.key_import_exception, 'error', true);
+          $('#importAlert').showAlert(keyRing.l10n.key_import_error, error.type === 'error' ? error.message : keyRing.l10n.key_import_exception, 'danger', true);
           if (callback) callback([{type: 'error'}]);
         } else {
           var success = false;

@@ -95,7 +95,7 @@
 
   function addErrorView() {
     var errorbox = $('<div/>', {id: 'errorbox'});
-    $('<div/>', {id: 'errorwell', class: 'well span5'}).appendTo(errorbox);
+    $('<div/>', {id: 'errorwell', class: 'well'}).appendTo(errorbox);
     $('.modal-body').append(errorbox);
   }
 
@@ -103,7 +103,7 @@
     // hide sandbox
     $('.modal-body iframe').hide();
     $('#errorbox').show();
-    $('#errorwell').showAlert(l10n.alert_header_error, msg, 'error');
+    $('#errorwell').showAlert(l10n.alert_header_error, msg, 'danger');
     $('#copyBtn').prop('disabled', true);
   }
 

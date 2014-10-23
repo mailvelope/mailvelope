@@ -678,5 +678,9 @@
   "clear_localstorage_confirm_message": {
     "message": "Do you want to delete all your PGP keys from this browser profile?",
     "description": "The message of the confirmation dialog."
+  },
+  "upload_attachment": {
+    "message": "Add attachment",
+    "description": "Text in the upload attachment button of the message editor dialog"
   }
 }

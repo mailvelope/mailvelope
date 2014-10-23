@@ -25,7 +25,7 @@
   function init() {
     loadPrefs();
     $('#security input').on('input change', function() {
-      $('#security .form-actions button').prop('disabled', false);
+      $('#security .form-group button').prop('disabled', false);
       $('#secReloadInfo').hide();
     });
     $('input:radio[name="editorModeRadios"]').on('change', editorModeWarning);
@@ -102,7 +102,8 @@
   }
 
   function normalize() {
-    $('#security .form-actions button').prop('disabled', true);
+    $('#security #secBtnSave').prop('disabled', true);
+    $('#security #secBtnCancel').prop('disabled', true);
     $('#security .control-group').removeClass('error');
     $('#security .help-inline').addClass('hide');
     $('#secReloadInfo').hide();

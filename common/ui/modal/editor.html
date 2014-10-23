@@ -22,38 +22,44 @@
   <script src="editor.js"></script>
 </head>
 <body>
-  <div class="m-modal">
+  <div id="editorDialog" class="m-modal">
     <div class="modal-header clearfix">
-      <h3 data-l10n-id="editor_header"></h3>
       <div id='secureCode'></div>
+      <h4 data-l10n-id="editor_header"></h4>
     </div>
     <div class="modal-body">
       <iframe id="plainText" sandbox="allow-same-origin allow-scripts" frameBorder="0"></iframe>
       <div id="rte-toolbar"></div>
       <div id="rte-box">
-        <textarea id="richText" autofocus></textarea>
+        <textarea id="richText" autofocus class="form-control"></textarea>
       </div>
+      <div class="row" id="uploadPanel"></div>
     </div>
     <div class="modal-footer">
-      <button id="cancelBtn" class="btn" data-l10n-id="form_cancel"></button>
+      <!--button id="uploadBtn" class="btn btn-info pull-left" data-l10n-id="upload_attachment"></button-->
+      <button id="cancelBtn" class="btn btn-default" data-l10n-id="form_cancel"></button>
       <button id="transferBtn" class="btn btn-primary" data-l10n-id="editor_transfer"></button>
     </div>
   </div>
-  <div id="transferWarn" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+
+  <div id="transferWarn" class="m-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      <h3 class="text-warning" data-l10n-id="alert_header_warning"></h3>
+      <h4 class="text-warning" data-l10n-id="alert_header_warning"></h4>
     </div>
     <div class="modal-body">
       <p data-l10n-id="editor_transfer_unencrypted"></p>
     </div>
     <div class="modal-footer">
-      <button class="btn" data-dismiss="modal" aria-hidden="true" data-l10n-id="form_cancel"></button>
+      <button class="btn btn-default" data-dismiss="modal" aria-hidden="true" data-l10n-id="form_cancel"></button>
       <button class="btn btn-primary" data-l10n-id="form_continue"></button>
     </div>
   </div>
   <div id="blurWarn" class="alert alert-block hide">
     <h3 data-l10n-id="editor_blur_warn"></h3>
   </div>
+
+  <input type="file" id="addFileInput" />
+
 </body>
 </html>

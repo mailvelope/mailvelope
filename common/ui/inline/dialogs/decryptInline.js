@@ -133,7 +133,7 @@
     $('body').removeClass('spinner');
     clearTimeout(spinnerTimer);
     $('#errorbox').show();
-    $('#errorwell').showAlert(l10n.alert_header_error, msg, 'error')
+    $('#errorwell').showAlert(l10n.alert_header_error, msg, 'danger')
                    .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
                    .find('button').click(function() {
                       port.postMessage({event: 'decrypt-dialog-cancel', sender: id});

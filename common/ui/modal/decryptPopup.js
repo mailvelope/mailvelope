@@ -66,6 +66,13 @@
   function addSandbox() {
     sandbox = $('<iframe/>', {
       sandbox: 'allow-same-origin',
+      css: {
+        position: 'absolute',
+        top: 24,
+        left: 0,
+        right: 0,
+        bottom: 0
+      },
       frameBorder: 0
     });
     var content = $('<div/>', {
@@ -115,7 +122,7 @@
 
   function addErrorView() {
     var errorbox = $('<div/>', {id: 'errorbox'});
-    $('<div/>', {id: 'errorwell', class: 'well span5'}).appendTo(errorbox);
+    $('<div/>', {id: 'errorwell', class: 'well'}).appendTo(errorbox);
     $('.modal-body').append(errorbox);
   }
 
@@ -124,7 +131,7 @@
     // hide sandbox
     $('.modal-body iframe').hide();
     $('#errorbox').show();
-    $('#errorwell').showAlert(l10n.alert_header_error, msg, 'error');
+    $('#errorwell').showAlert(l10n.alert_header_error, msg, 'danger');
     $('#copyBtn').prop('disabled', true);
   }
 

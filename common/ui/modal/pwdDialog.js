@@ -63,7 +63,7 @@
 
   function showError(heading, message) {
     $('#pwdGroup, #rememberGroup').addClass('hide');
-    $('#decryptAlert').showAlert(heading, message, 'error');
+    $('#decryptAlert').showAlert(heading, message, 'danger');
     $('#okBtn').prop('disabled', true);
   }
 

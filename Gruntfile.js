@@ -72,19 +72,13 @@ module.exports = function (grunt) {
         files: [
           {
             expand: true,
-            cwd: 'bower_components/bootstrap/docs/assets/',
+            cwd: 'bower_components/bootstrap/dist/',
             src: [
               'css/bootstrap.css',
               'js/bootstrap.js',
-              'img/glyphicons*'
+              'fonts/*'
             ],
             dest: 'build/common/dep/bootstrap/'
-          },
-          {
-            expand: true,
-            cwd: 'bower_components/',
-            src: 'spectrum/spectrum.{css,js}',
-            dest: 'build/common/dep/'
           },
           {
             expand: true,

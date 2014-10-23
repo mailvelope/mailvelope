@@ -18,42 +18,44 @@
 <body>
   <div class="m-modal">
     <div class="modal-header clearfix">
-      <h3 data-l10n-id="pwd_dialog_header"></h3>
       <div id='secureCode'></div>
+      <h4 data-l10n-id="pwd_dialog_header"></h4>
     </div>
     <div class="modal-body">
       <form class="well form-horizontal">
-        <div class="control-group">
-          <label class="control-label" data-l10n-id="pwd_dialog_userid"></label>
-          <div class="controls">
-            <span class="input-xlarge uneditable-input" id="userId"></span>
+        <div class="form-group">
+          <label for="userId" class="control-label col-xs-3" data-l10n-id="pwd_dialog_userid"></label>
+          <div class="col-xs-9">
+            <p id="userId" class="form-control-static"></p>
           </div>
         </div>
-        <div class="control-group">
-          <label class="control-label" data-l10n-id="dialog_keyid_label"></label>
-          <div class="controls">
-            <span class="input-medium uneditable-input" id="keyId"></span>
+        <div class="form-group">
+          <label for="keyId" class="control-label col-xs-3" data-l10n-id="dialog_keyid_label"></label>
+          <div class="col-xs-9">
+            <p id="keyId" class="form-control-static"></p>
           </div>
         </div>
-        <div class="control-group" id="pwdGroup">
-          <label class="control-label" data-l10n-id="pwd_dialog_password"></label>
-          <div class="controls">
-            <input id="password" type="password" class="span3">
-            <span class="help-inline hide" data-l10n-id="pwd_dialog_wrong_pwd"></span>
+        <div class="form-group" id="pwdGroup">
+          <label for="password" class="control-label col-xs-3" data-l10n-id="pwd_dialog_password"></label>
+          <div class="col-xs-9">
+            <input type="password" class="form-control" id="password">
+            <span class="label label-danger hide" data-l10n-id="pwd_dialog_wrong_pwd"></span>
           </div>
         </div>
-        <div class="control-group" id="rememberGroup">
-          <div class="controls">
-            <label class="checkbox">
-              <input id="remember" type="checkbox">&nbsp;<span data-l10n-id="pwd_dialog_cache_pwd"></span>
-            </label>
+        <div class="form-group" id="rememberGroup">
+          <div class="col-xs-offset-3 col-xs-9">
+            <div class="checkbox">
+              <label>
+                <input id="remember" type="checkbox">&nbsp;<span data-l10n-id="pwd_dialog_cache_pwd"></span>
+              </label>
+            </div>
           </div>
         </div>
         <div id="decryptAlert"></div>
       </form>
     </div>
     <div class="modal-footer">
-      <button id="cancelBtn" class="btn" data-l10n-id="form_cancel"></button>
+      <button id="cancelBtn" class="btn btn-default" data-l10n-id="form_cancel"></button>
       <button id="okBtn" class="btn btn-primary" data-l10n-id="form_ok"></button>
     </div>
   </div>

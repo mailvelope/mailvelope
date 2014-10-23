@@ -36,6 +36,7 @@
     match = nequ.next();
     submit = $('#genKeySubmit');
     $('#genKeyAdv').click(onKeyAdvanced);
+    $('#genKeyAdvSection').hide();
     pwd.on('keyup', onKeyPwdChange);
     repwd.on('keyup', onKeyPwdChange);
     submit.click(onGenerateKey);
@@ -122,7 +123,8 @@
   function onGenerateKey() {
     validateEmail(function() {
       $('body').addClass('busy');
-      $('#genKeyWait').one('shown', generateKey);
+      $('#genKeyWait').one('show.bs.modal', generateKey);
+      $('#genKeyWait').modal({backdrop: 'static',keyboard: false});
       $('#genKeyWait').modal('show');
     });
     return false;
@@ -133,11 +135,11 @@
     // validate email
     keyRing.viewModel('validateEmail', [email.val()], function(valid) {
       if (valid) {
-        email.closest('.control-group').removeClass('error');
+        email.closest('.form-group').removeClass('has-error');
         email.next().addClass('hide');
         next();
       } else {
-        email.closest('.control-group').addClass('error');
+        email.closest('.form-group').addClass('has-error');
         email.next().removeClass('hide');
         return;
       }
@@ -160,7 +162,7 @@
         // refresh grid
         keyRing.event.triggerHandler('keygrid-reload');
       } else {
-        $('#genAlert').showAlert(keyRing.l10n.key_gen_error, error.type === 'error' ? error.message : '', 'error');
+        $('#genAlert').showAlert(keyRing.l10n.key_gen_error, error.type === 'error' ? error.message : '', 'danger');
       }
       $('body').removeClass('busy');
       $('#genKeyWait').modal('hide');

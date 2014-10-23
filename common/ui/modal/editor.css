@@ -3,7 +3,6 @@
  * Copyright (C) 2012  Thomas Oberndörfer
  */
 
-
 .m-modal {
   position: absolute;
   top: 0;
@@ -31,14 +30,10 @@
   right: 0;
 }
 
-.m-modal > .modal-header h3 {
-  float: left;
-}
-
 .m-modal > .modal-body {
   position: absolute;
-  top: 49px;
-  bottom: 58px;
+  top: 60px;
+  bottom: 55px;
   right: 0;
   left: 0;
   overflow: hidden;
@@ -107,4 +102,37 @@
   top:50%;
   margin-left: -231px;
   margin-top: -188px;
+}
+
+#transferWarn {
+    z-index: 5000;
+    top: 100px;
+    bottom: 100px;
+    left: 80px;
+    right: 80px;
+}
+
+#addFileInput {
+    visibility:hidden;
+    position:absolute;
+    top:-50;
+    left:-50;
+}
+
+#uploadPanel {
+    padding: 0 15px 5px 15px;
+    max-height: 30px;
+    overflow-y: auto;
+}
+
+#uploadPanel .label {
+    margin-right: 4px;
+}
+
+#uploadPanel .glyphicon:hover {
+
+}
+
+#uploadPanel .glyphicon:hover {
+    color: lightcoral;
 }

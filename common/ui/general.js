@@ -22,7 +22,7 @@
     keyRing.event.on('keygrid-data-change', keyRingUpdate);
     // change event enables form buttons
     $('#general input, #primaryKey').on('input change', function() {
-      $('#general .form-actions button').prop('disabled', false);
+      $('#general .form-group button').prop('disabled', false);
       $('#genReloadInfo').hide();
     });
     // empty selection disables primary key options
@@ -59,7 +59,7 @@
   }
 
   function normalize() {
-    $('#general .form-actions button').prop('disabled', true);
+    $('#general .form-group button').prop('disabled', true);
     $('#general .control-group').removeClass('error');
     $('#general .help-inline').addClass('hide');
     $('#genReloadInfo').hide();

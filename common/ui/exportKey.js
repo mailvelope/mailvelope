@@ -111,6 +111,7 @@
     } else {
       $('#exportWarn').hide();
     }
+    $('#exportKey').modal({backdrop: 'static',keyboard: false});
     $('#exportKey').modal('show');
   }
 
