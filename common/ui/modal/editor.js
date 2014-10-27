@@ -48,7 +48,7 @@
     blurWarn = $('#blurWarn');
     $(window).on('focus', startBlurValid);
     // create encrypt frame
-    eFrame = new EncryptFrame({
+    eFrame = new mvelo.EncryptFrame({
       security: {
         editor_mode: mvelo.EDITOR_WEBMAIL
       },
