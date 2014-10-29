@@ -214,7 +214,7 @@ var dompurifyWorker = require("sdk/page-worker").Page({
 mvelo.util.parseHTML = function(html, callback) {
   var message = {
     data: html,
-    response: mvelo.getHash()
+    response: mvelo.util.getHash()
   };
   dompurifyWorker.port.once(message.response, callback);
   dompurifyWorker.port.emit('parse', message);

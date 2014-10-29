@@ -20,7 +20,7 @@
 var mvelo = mvelo || {};
 
 mvelo.EncryptFrame = function(prefs) {
-  this.id = mvelo.getHash();
+  this.id = mvelo.util.getHash();
   this._editElement = null;
   this._eFrame = null;
   this._eDialog = null;

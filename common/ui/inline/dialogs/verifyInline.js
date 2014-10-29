@@ -46,7 +46,7 @@ var mvelo = mvelo || null;
     addWrapper();
     addSandbox();
     mvelo.extension.sendMessage({event: "get-security-token"}, function(token) {
-      $('#watermark').html(mvelo.encodeHTML(token.code));
+      $('#watermark').html(mvelo.util.encodeHTML(token.code));
     });
     $(window).on('resize', resizeFont);
     addErrorView();

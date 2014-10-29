@@ -27,23 +27,35 @@ mvelo.main.regex = /END\sPGP/;
 mvelo.main.minEditHeight = 84;
 mvelo.main.contextTarget = null;
 mvelo.main.prefs = null;
-mvelo.main.name = 'mainCS-' + mvelo.getHash();
+mvelo.main.name = 'mainCS-' + mvelo.util.getHash();
 mvelo.main.port = null;
 
-mvelo.main.init = function() {
-  if (document.mveloControl) {
-    return;
-  }
-  this.port = mvelo.extension.connect({name: this.name});
-  this.addMessageListener();
-  this.port.postMessage({event: 'get-prefs', sender: this.name});
-  //this.initContextMenu();
+mvelo.main.connect = function() {
+  if (document.mveloControl) return;
+  mvelo.main.port = mvelo.extension.connect({name: mvelo.main.name});
+  mvelo.main.addMessageListener();
+  mvelo.main.port.postMessage({event: 'get-prefs', sender: mvelo.main.name});
+  //mvelo.main.initContextMenu();
   document.mveloControl = true;
+};
+
+$(document).ready(mvelo.main.connect);
+
+mvelo.main.init = function(prefs, watchList) {
+  mvelo.main.prefs = prefs;
+  mvelo.main.watchList = watchList;
+  if (mvelo.main.prefs.main_active) {
+    mvelo.main.on();
+  } else {
+    mvelo.main.off();
+  }
+  mvelo.domAPI.init();
 };
 
 mvelo.main.on = function() {
   //console.log('inside cs: ', document.location.host);
   if (mvelo.main.intervalID === 0) {
+    mvelo.main.scanLoop();
     mvelo.main.intervalID = window.setInterval(mvelo.main.scanLoop, mvelo.main.interval);
   }
 };
@@ -233,7 +245,7 @@ mvelo.main.attachEncryptFrame = function(element, expanded) {
 };
 
 mvelo.main.addMessageListener = function() {
-  this.port.onMessage.addListener(
+  mvelo.main.port.onMessage.addListener(
     function(request) {
       //console.log('contentscript: %s onRequest: %o', document.location.toString(), request);
       if (request.event === undefined) {
@@ -257,12 +269,7 @@ mvelo.main.addMessageListener = function() {
           }
           break;
         case 'set-prefs':
-          mvelo.main.prefs = request.prefs;
-          if (mvelo.main.prefs.main_active) {
-            mvelo.main.on();
-          } else {
-            mvelo.main.off();
-          }
+          mvelo.main.init(request.prefs, request.watchList);
           break;
         default:
           console.log('unknown event');
@@ -273,7 +280,7 @@ mvelo.main.addMessageListener = function() {
 
 mvelo.main.initContextMenu = function() {
   // set handler
-  $("body").on("contextmenu", this.onContextMenu);
+  $("body").on("contextmenu", mvelo.main.onContextMenu);
 };
 
 mvelo.main.onContextMenu = function(e) {
@@ -304,5 +311,3 @@ mvelo.main.onContextMenu = function(e) {
   // no suitable element found
   mvelo.main.contextTarget = null;
 };
-
-mvelo.main.init();

@@ -25,7 +25,7 @@ mvelo.ExtractFrame = function(prefs) {
       message: 'mvelo.ExtractFrame constructor: prefs not provided.'
     };
   }
-  this.id = mvelo.getHash();
+  this.id = mvelo.util.getHash();
   // element with Armor Tail Line '-----END PGP...'
   this._pgpEnd = null;
   // element that contains complete ASCII Armored Message

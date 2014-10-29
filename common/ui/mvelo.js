@@ -26,7 +26,7 @@ mvelo.ffa = mvelo.ffa || typeof self !== 'undefined' && self.port || !mvelo.crx;
 // for fixfox, mvelo.extension is exposed from a content script
 mvelo.extension = mvelo.extension || mvelo.crx && chrome.runtime;
 // extension.connect shim for Firefox
-if (mvelo.ffa) {
+if (mvelo.ffa && mvelo.extension) {
   mvelo.extension.connect = function(obj) {
     mvelo.extension._connect(obj);
     obj.events = {};
@@ -125,9 +125,9 @@ mvelo.util.sortAndDeDup = function(unordered, compFn) {
 };
 
 // random hash generator
-mvelo.getHash = function() { return Math.random().toString(36).substr(2, 8); };
+mvelo.util.getHash = function() { return Math.random().toString(36).substr(2, 8); };
 
-mvelo.encodeHTML = function(text) {
+mvelo.util.encodeHTML = function(text) {
   return String(text)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -170,6 +170,19 @@ mvelo.util.extractFileExtension = function(fileName) {
   } else {
     return fileName.substring(lastindexDot + 1, fileName.length).toLowerCase().trim();
   }
+};
+
+mvelo.util.sortAndDeDup = function(unordered, compFn) {
+  var result = [];
+  var prev = -1;
+  unordered.sort(compFn).forEach(function(item) {
+    var equal = (compFn !== undefined && prev !== undefined) ? compFn(prev, item) === 0 : prev === item;
+    if (!equal) {
+      result.push(item);
+      prev = item;
+    }
+  });
+  return result;
 };
 
 if (typeof exports !== 'undefined') {

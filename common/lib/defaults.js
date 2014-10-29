@@ -76,6 +76,11 @@ define(function(require, exports, module) {
           if (!localFrame) {
             localSite.frames.push(defaultFrame);
             mod = true;
+          } else {
+            if (typeof localFrame.api === 'undefined') {
+              localFrame.api = false;
+              mod = true;
+            }
           }
         });
       } else {

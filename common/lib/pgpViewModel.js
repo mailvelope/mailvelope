@@ -33,6 +33,8 @@ define(function(require, exports, module) {
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
   var keyring = new openpgp.Keyring();
 
+  var watchListBuffer = null;
+
   function getKeys() {
     // map keys to UI format
     var keys = getPublicKeys().concat(getPrivateKeys());
@@ -577,11 +579,13 @@ define(function(require, exports, module) {
   }
 
   function getWatchList() {
-    return mvelo.storage.get('mailvelopeWatchList');
+    watchListBuffer = watchListBuffer || mvelo.storage.get('mailvelopeWatchList');
+    return watchListBuffer;
   }
 
   function setWatchList(watchList) {
     mvelo.storage.set('mailvelopeWatchList', watchList);
+    watchListBuffer = watchList;
   }
 
   function getHostname(url) {

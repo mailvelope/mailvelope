@@ -30,7 +30,11 @@ define(function(require, exports, module) {
   MainCsController.prototype.handlePortMessage = function(msg) {
     switch (msg.event) {
       case 'get-prefs':
-        this.ports.mainCS.postMessage({event: 'set-prefs', prefs: this.prefs.data()});
+        this.ports.mainCS.postMessage({
+          event: 'set-prefs',
+          prefs: this.prefs.data,
+          watchList: this.model.getWatchList()
+        });
         break;
       default:
         console.log('unknown event', msg);

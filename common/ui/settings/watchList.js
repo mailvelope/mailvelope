@@ -132,10 +132,14 @@ var options = options || null;
 
   function addMatchPattern() {
     var tableRow = $.parseHTML(matchPatternTmpl);
-    $(tableRow).find('.matchPatternSwitch').attr("checked", true);
+    $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').attr("checked", true);
+    $(tableRow).find('.apiSwitch .onoffswitch-checkbox').attr("checked", false);
     var id = (new Date()).getTime();
-    $(tableRow).find('.matchPatternSwitch').attr("id", "matchPatter" + id);
-    $(tableRow).find('.onoffswitch-label').attr("for", "matchPatter" + id);
+    $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').attr("id", "matchPattern" + id);
+    $(tableRow).find('.matchPatternSwitch .onoffswitch-label').attr("for", "matchPattern" + id);
+    id = (new Date()).getTime();
+    $(tableRow).find('.apiSwitch .onoffswitch-checkbox').attr("id", "api" + id);
+    $(tableRow).find('.apiSwitch .onoffswitch-label').attr("for", "api" + id);
     $(tableRow).find('.matchPatternName').val("");
     $(tableRow).find(".deleteMatchPatternBtn").on("click", deleteMatchPattern);
     $matchPatternContainer.append(tableRow);
@@ -163,9 +167,12 @@ var options = options || null;
       $("#switchWebSite").attr("checked", data.active);
       data.frames.forEach(function(frame, index) {
         tableRow = $.parseHTML(matchPatternTmpl);
-        $(tableRow).find('.matchPatternSwitch').attr("checked", frame.scan);
-        $(tableRow).find('.matchPatternSwitch').attr("id", "matchPatter" + index);
-        $(tableRow).find('.onoffswitch-label').attr("for", "matchPatter" + index);
+        $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').attr("checked" ,frame.scan);
+        $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').attr("id", "matchPattern" + index);
+        $(tableRow).find('.matchPatternSwitch .onoffswitch-label').attr("for", "matchPattern" + index);
+        $(tableRow).find('.apiSwitch .onoffswitch-checkbox').attr("checked" ,frame.api);
+        $(tableRow).find('.apiSwitch .onoffswitch-checkbox').attr("id", "api" + index);
+        $(tableRow).find('.apiSwitch .onoffswitch-label').attr("for", "api" + index);
         $(tableRow).find('.matchPatternName').val(frame.frame);
         $(tableRow).find(".deleteMatchPatternBtn").on("click", deleteMatchPattern);
         $matchPatternContainer.append(tableRow);
@@ -204,7 +211,8 @@ var options = options || null;
       }
       site.frames.push({
         "frame": $(child).find(".matchPatternName").val(),
-        "scan": $(child).find(".matchPatternSwitch").is(":checked")
+        "scan": $(child).find(".matchPatternSwitch .onoffswitch-checkbox").is(":checked"),
+        "api": $(child).find(".apiSwitch .onoffswitch-checkbox").is(":checked")
       });
     });
     if (formNotValid) {

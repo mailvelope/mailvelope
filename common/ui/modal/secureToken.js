@@ -34,7 +34,7 @@ var keyRing = keyRing || null;
   function loadToken() {
     comm.sendMessage({event: "get-security-token"}, function(token) {
       //console.log('token', token);
-      $('#secureCode').html(mvelo.encodeHTML(token.code))
+      $('#secureCode').html(mvelo.util.encodeHTML(token.code))
                       .attr('style', getStyle(token.color));
       $('#secureCode:hidden').fadeIn();
     });

@@ -53,7 +53,8 @@
     "common/dep/bootstrap/fonts/glyphicons-halflings-regular.eot",
     "common/dep/bootstrap/fonts/glyphicons-halflings-regular.svg",
     "common/dep/bootstrap/fonts/glyphicons-halflings-regular.ttf",
-    "common/dep/bootstrap/fonts/glyphicons-halflings-regular.woff"
+    "common/dep/bootstrap/fonts/glyphicons-halflings-regular.woff",
+    "common/client-API/mailvelope-client-api.js"
   ],
   "default_locale": "en"
 }

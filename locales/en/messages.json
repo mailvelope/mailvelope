@@ -671,6 +671,10 @@
     "message": "Domain match pattern",
     "description": "Web domain URL match pattern of site in watchlist."
   },
+  "watchlist_expose_api": {
+    "message": "API",
+    "description": "Expose API to Webmailer."
+  },
   "watchlist_command_edit": {
     "message": "Edit",
     "description": "Edit entry in watchlist."
