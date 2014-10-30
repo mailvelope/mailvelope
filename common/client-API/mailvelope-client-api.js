@@ -29,6 +29,7 @@
   window.mailvelope = mailvelope;
   window.addEventListener('message', eventListener);
   document.body.dataset.mailvelope = 'true';
+  document.body.dispatchEvent(new Event('mailvelope'));
 
   function eventListener(event) {
     console.log('clientAPI eventListener', event.data);
@@ -37,6 +38,6 @@
 
   mailvelope.getVersion = function() {
     return document.body.dataset.mailvelopeVersion;
-  }
+  };
 
 }());

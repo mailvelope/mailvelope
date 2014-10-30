@@ -18,6 +18,7 @@ module.exports = function(grunt) {
           'common/ui/**/*.js',
           'common/lib/*.js',
           'common/lib/controller/*.js',
+          'common/client-API/*.js',
           'chrome/background.js',
           'chrome/lib/*.js',
           'firefox/**/*.js'

@@ -185,6 +185,28 @@ mvelo.util.sortAndDeDup = function(unordered, compFn) {
   return result;
 };
 
+mvelo.util.Timer = function(interval) {
+  this.interval = interval;
+  this.timeoutID = 0;
+};
+
+mvelo.util.Timer.prototype.start = function() {
+  if (this.timeoutID) {
+    clearTimeout(this.timeoutID);
+  }
+  this.timeoutID = setTimeout(function() {
+    mvelo.timeoutID = 0;
+  }, this.interval);
+};
+
+mvelo.util.Timer.prototype.isOn = function() {
+  return this.timeoutID !== 0;
+};
+
+mvelo.util.Timer.prototype.isOff = function() {
+  return this.timeoutID === 0;
+};
+
 if (typeof exports !== 'undefined') {
   exports.mvelo = mvelo;
 }
