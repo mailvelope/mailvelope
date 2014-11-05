@@ -18,7 +18,7 @@ Mailvelope uses the following OpenPGP implementation
 Mailvelope is available in the Chrome Web Store:
 https://chrome.google.com/webstore/detail/kajibbejlbohfaggdiogboambcijhkke
 
-Check the [releases](https://github.com/toberndo/mailvelope/releases) section for latest builds of Firefox and Chrome installation packages.
+Check the [releases](https://github.com/mailvelope/mailvelope/releases) section for latest builds of Firefox and Chrome installation packages.
 
 ## Build instructions
 
@@ -28,7 +28,7 @@ If you don’t have grunt and bower installed, yet:
 
 and then get and build the sources:
 
-    git clone git://github.com/toberndo/mailvelope.git
+    git clone git://github.com/mailvelope/mailvelope.git
     cd mailvelope
     git submodule update --init
     cd dep/chrome/openpgpjs
@@ -77,7 +77,7 @@ There are a few more tasks available through grunt:
 
 ## Website
 
-http://www.mailvelope.com
+https://www.mailvelope.com
 
 ## Licence
 
@@ -85,6 +85,6 @@ Use of this source code is governed by the GNU AFFERO GENERAL PUBLIC LICENSE tha
 
 ## About
 
-written by Thomas Oberndörfer <toberndo@yarkon.de>  
-Blog: http://www.chasinclouds.com/  
+Project lead: Thomas Oberndörfer <toberndo@yarkon.de>
 follow me on [Twitter](https://twitter.com/#!/toberndo)  
+Contributors: see [list on GitHub](https://github.com/mailvelope/mailvelope/graphs/contributors)
