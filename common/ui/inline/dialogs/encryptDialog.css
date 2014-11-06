@@ -42,6 +42,7 @@ html, body {
 }
 
 #keySelect {
+  padding: 1px;
   height: 26px;
   line-height: 26px;
   font-size: 12px;
