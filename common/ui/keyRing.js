@@ -158,15 +158,15 @@ var keyRing = {};
         delete callbacks[data.id];
         break;
       case 'add-watchlist-item':
-        $('#navList a[href="#watchList"]').tab('show');
+        $('#navList a[href="#watchList"]').get(0).click();
         watchList.addSite(data.site, data.hosts);
         break;
       case 'remove-watchlist-item':
-        $('#navList a[href="#watchList"]').tab('show');
+        $('#navList a[href="#watchList"]').get(0).click();
         watchList.removeSite(data.site);
         break;
       case 'import-key':
-        $('#navList a[href="#importKey"]').tab('show');
+        $('#navList a[href="#importKey"]').get(0).click();
         keyRing.importKey(data.armored, function(result) {
           sendMessage({
             event: "import-key-result",
