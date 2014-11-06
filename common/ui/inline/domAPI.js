@@ -46,7 +46,38 @@ mvelo.domAPI.matchPattern2RegEx = function(matchPattern) {
                 .replace('\\w*\\.', '(\\w+\\.)?') + '$');
 };
 
+mvelo.domAPI.postMessage = function(eventName, id, data) {
+  window.postMessage({
+    event: eventName,
+    mvelo_extension: true,
+    id: id,
+    data: data
+  }, document.location.origin);
+};
+
+mvelo.domAPI.reply = function(id, data) {
+  mvelo.domAPI.postMessage('callback-reply', id, data);
+};
+
 mvelo.domAPI.eventListener = function(event) {
+  if (event.origin !== document.location.origin ||
+      event.data.mvelo_extension ||
+      !event.data.mvelo_client) {
+    return;
+  }
   console.log('domAPI eventListener', event.data);
-  console.log(event.origin);
+  var data = event.data.data;
+  switch (event.data.event) {
+    case 'display-container':
+      mvelo.domAPI.displayContainer(data.selector, data.armored, mvelo.domAPI.reply.bind(null, event.data.id));
+      break;
+    default:
+      console.log('unknown event', event.data.event);
+  }
+};
+
+mvelo.domAPI.displayContainer = function(selector, armored, done) {
+  var container = new mvelo.DisplayContainer(selector);
+  container.create(armored, done);
+  //TODO: deacticate scanLoop
 };

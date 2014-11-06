@@ -26,18 +26,56 @@
 
   var mailvelope = {};
 
+  var callbacks = {};
+
   window.mailvelope = mailvelope;
   window.addEventListener('message', eventListener);
   document.body.dataset.mailvelope = 'true';
-  document.body.dispatchEvent(new Event('mailvelope'));
+  window.setTimeout(function() {
+    document.body.dispatchEvent(new Event('mailvelope'));
+  }, 1);
 
   function eventListener(event) {
+    if (event.origin !== document.location.origin ||
+        event.data.mvelo_client ||
+        !event.data.mvelo_extension) {
+      return;
+    }
     console.log('clientAPI eventListener', event.data);
-    console.log(event.origin);
+    var data = event.data.data;
+    switch (event.data.event) {
+      case 'callback-reply':
+        callbacks[event.data.id](data);
+        delete callbacks[event.data.id];
+        break;
+      default:
+        console.log('unknown event', event.data.event);
+    }
+  }
+
+  function getHash() {
+    return Math.random().toString(36).substr(2, 8);
+  }
+
+  function postMessage(eventName, data, callback) {
+    var message = {
+      event: eventName,
+      mvelo_client: true,
+      data: data
+    };
+    if (typeof callback !== 'undefined') {
+      message.id = getHash();
+      callbacks[message.id] = callback;
+    }
+    window.postMessage(message, document.location.origin);
   }
 
   mailvelope.getVersion = function() {
     return document.body.dataset.mailvelopeVersion;
+  };
+
+  mailvelope.createDisplayContainer = function(selector, armored, done) {
+    postMessage('display-container', {selector: selector, armored: armored}, done);
   };
 
 }());
