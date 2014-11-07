@@ -65,7 +65,6 @@ if (self.options.expose_messaging) {
   }
 
   function disconnect(obj) {
-    //console.log('disconnect called');
     // remove events
     for (var ev in obj.events) {
       if (obj.events.hasOwnProperty(ev)) {
