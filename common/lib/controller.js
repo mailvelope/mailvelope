@@ -641,7 +641,7 @@ define(function (require, exports, module) {
     function deletePort(portHash, port) {
       for (var p in portHash) {
         if (portHash.hasOwnProperty(p)) {
-          if (p.ref === port || p === port) {
+          if (portHash[p].ref === port) {
             delete portHash[p];
           }
         }

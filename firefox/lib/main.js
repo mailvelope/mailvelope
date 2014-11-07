@@ -179,6 +179,9 @@ function onCsAttach(worker) {
           that.emit(eventName, message);
         }
       },
+      disconnect: function() {
+        controller.removePort({name: portName});
+      },
       ref: that
     };
     controller.addPort(port);
@@ -190,7 +193,7 @@ function onCsAttach(worker) {
     pageHidden = true;
   });
   worker.on('detach', function() {
-    controller.removePortByRef(this);
+    controller.removePortByRef(this.port);
   });
   worker.port.on('message-event', function(msg) {
     var that = this;
