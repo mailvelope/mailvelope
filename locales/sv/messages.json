@@ -1,66 +1,66 @@
 {
     "options_settings": {
-        "message": "Ustawienia",
+        "message": "Inställningar",
         "description": "Options header: Settings."
     },
     "security_cache_help": {
-        "message": "Numer musi być pomiędzy 1-999",
+        "message": "Måste vara ett tal mellan 1-999",
         "description": "Help text for cache time."
     },
     "key_gen_wait_info": {
-        "message": "Proszę czekać, generowanie klucza może potrwać nawet klika minut w zależności np. od wielkości klucza.",
+        "message": "Vänta medan en nyckel skapas. Det kan ta flera minuter och styrs av faktorer som nyckelstorlek.",
         "description": "Wait dialog info message"
     },
     "message_read_error": {
-        "message": "Nie można było odczytać szyfrowanej wiadomości: $1",
+        "message": "Kunde inte läsa detta krypterade meddelande: $1",
         "description": "Message read error message: $1: error message."
     },
     "keygrid_all_keys": {
-        "message": "Wszystkie",
+        "message": "Alla",
         "description": "Selection of key type."
     },
     "security_token_title": {
-        "message": "Token Identyfikacji",
+        "message": "Token-autentisering",
         "description": "Security token title"
     },
     "security_display_inline": {
-        "message": "Na stronie dostawcy e-mail.",
+        "message": "På e-postleverantörens sida",
         "description": "Decrypted message display option"
     },
     "verify_result_error": {
-        "message": "Zły podpis",
+        "message": "Fel signatur för",
         "description": "Verfiy signature error. Wrong signature of [userid]."
     },
     "pwd_dialog_header": {
-        "message": "Otwarcie Klucza",
+        "message": "Nyckelupplåsning",
         "description": "Header of the password dialog."
     },
     "keygrid_creation_date_short": {
-        "message": "Utworzono",
+        "message": "Skapad",
         "description": "Short creation date of a PGP key. Max. width: 90px"
     },
     "security_display_decrypted": {
-        "message": "Gdzie są wyświetlane rozszyfrowane komunikaty?",
+        "message": "Var visas dekrypterade meddelanden?",
         "description": "Label for display options"
     },
     "general_primary_key_always": {
-        "message": "Zawsze dodaj podstawowy klucz do listy odbiorców. (Pozwala na odszyfrowanie wysłanych wiadomości email)",
+        "message": "Lägg alltid till primär nyckel i mottagarlistan. (Möjliggör dekryptering av skickad e-post)",
         "description": "Label for primary private key option."
     },
     "security_compose_webmail": {
-        "message": "W edytorze wiadomości Twojego dostawcy email.",
+        "message": "I e-postleverantörens textredigerare för nya meddelanden",
         "description": "Mail compose option"
     },
     "keygrid_user_email": {
-        "message": "Email",
+        "message": "E-post",
         "description": "Email address in User ID of a PGP key."
     },
     "key_export_header": {
-        "message": "Eksportuj Klucz",
+        "message": "Exportera nyckel",
         "description": "Export key dialog header."
     },
     "key_import_private_exists": {
-        "message": "Część klucza prywatnego z istniejącego klucza publicznego $1, użytkownika $2 został zaimportowany do pęku kluczy",
+        "message": "Privat nyckel-del för befintlig publik nyckel $1  för användare $2 importerad till nyckelring",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "upload_attachment": {
@@ -68,83 +68,83 @@
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "verify_error": {
-        "message": "Nie można było zweryfikować tej wiadomości: $1",
+        "message": "Kunde inte verifiera detta meddelande: $1",
         "description": "Error during verification process."
     },
     "pwd_dialog_wrong_pwd": {
-        "message": "Nieprawidłowe hasło",
+        "message": "Fel lösenord",
         "description": "Password error message."
     },
     "security_cache_header": {
-        "message": "Pamiętaj hasło dla tej sesji?",
+        "message": "Kom ihåg lösenord för webbläsarsession?",
         "description": "Password cache header"
     },
     "alert_header_success": {
-        "message": "Sukces!",
+        "message": "Det fungerade!",
         "description": "Alert header of category success."
     },
     "keygrid_public_keys": {
-        "message": "Klucze Publiczne",
+        "message": "Publika nycklar",
         "description": "Selection of key type."
     },
     "key_gen_success": {
-        "message": "Wygenerowano nowy klucz i zaimportowano go do pęku kluczy",
+        "message": "Ny nyckel skapad och importerad till nyckelring",
         "description": "Key generation success message"
     },
     "key_gen_never": {
-        "message": "nigdy",
+        "message": "aldrig",
         "description": "Key expires after time range"
     },
     "general_primary_key_label": {
-        "message": "Podstawowy Klucz Prywatny",
+        "message": "Primär privat nyckel",
         "description": "Label for primary private key option."
     },
     "clear_localstorage_confirm_title": {
-        "message": "Potwierdź",
+        "message": "Bekräfta",
         "description": "The title of the confirmation dialog."
     },
     "key_import_file_select": {
-        "message": "Wybierz plik klucza do importu",
+        "message": "Markera en nyckeltextfil att importera",
         "description": "File selection button label."
     },
     "watchlist_title_frame": {
-        "message": "Dopasuj domenę do wzorca",
+        "message": "Mönster i domän att matcha",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "keygrid_key_length": {
-        "message": "Długość",
+        "message": "Längd",
         "description": "Key length of a PGP key."
     },
     "keygrid_private_keys": {
-        "message": "Klucze Prywatne",
+        "message": "Privata nycklar",
         "description": "Selection of key type."
     },
     "keyring_display_keys": {
-        "message": "Wyświetl Klucze",
+        "message": "Visa nycklar",
         "description": "Tab of keyring to display keys."
     },
     "popup_options": {
-        "message": "Opcje",
+        "message": "Alternativ",
         "description": "Open options dialog."
     },
     "keyring_generate_key": {
-        "message": "Generuj Klucze",
+        "message": "Skapa nyckel",
         "description": "Tab of keyring to generate key."
     },
     "key_import_error": {
-        "message": "Błąd importowania.",
+        "message": "Importfel.",
         "description": "Import error alert."
     },
     "key_import_multiple_keys": {
-        "message": "Aby importować wiele kluczy wklej je wszystkie tutaj. dodatkowy tekst dookoła kluczy jest ignorowany.",
+        "message": "För att klistra in flera nycklar klistrar du helt enkelt in dem här. Annan text runtom nycklarna ignoreras.",
         "description": "Info message."
     },
     "popup_help": {
-        "message": "Pomoc",
+        "message": "Hjälp",
         "description": "Open help dialog."
     },
     "security_token_info": {
-        "message": "Token bezpieczeństwa jest mechanizmem identyfikacji: wszystkie dialogi Mailvelope będą wyświetlać kod zdefiniowany przez użytkownika, a tym samym identyfikacji samych siebie i swojego pochodzenia.",
+        "message": "Säkerhetstoken är en mekanism för autentisering: alla Mailvelopes dialogrutor kommer att visa denna användardefinierade kod och därmed identifiera sig själva och varifrån de kommer.",
         "description": "Security token help message"
     },
     "keygrid_subkeyid": {
@@ -152,35 +152,35 @@
         "description": "Subkey ID of a PGP key."
     },
     "key_gen_pwd_match": {
-        "message": "Hasła zgadzają się",
+        "message": "Lösenord stämmer överens",
         "description": "Passphrase input field status"
     },
     "key_import_another": {
-        "message": "Importuj inny...",
+        "message": "Importera annan..",
         "description": "Import another key button."
     },
     "keygrid_delete": {
-        "message": "Usuń",
+        "message": "Radera",
         "description": "Max. 6 characters."
     },
     "key_import_public_read": {
-        "message": "Nie można odczytać klucza publicznego: $1",
+        "message": "Kunde inte läsa en publik nyckel: $1",
         "description": "Import error message. $1: error message"
     },
     "watchlist_title_active": {
-        "message": "Działa",
+        "message": "Aktiv",
         "description": "Entry in watchlist is active."
     },
     "key_gen_pwd": {
-        "message": "Wpisz Hasło",
+        "message": "Ange lösenord",
         "description": "Label for passphrase input field"
     },
     "key_gen_error": {
-        "message": "Wystąpił błąd podczas generowania klucza.",
+        "message": "Fel när nyckel skulle skapas.",
         "description": "Key generation error message"
     },
     "form_busy": {
-        "message": "Zajęta",
+        "message": "Upptagen",
         "description": "Form in busy state."
     },
     "keygrid_userid": {
@@ -188,95 +188,95 @@
         "description": "User ID of a PGP key."
     },
     "keygrid_algorithm": {
-        "message": "Algorytm",
+        "message": "Algoritm",
         "description": "Public-key algorithm of a PGP key."
     },
     "watchlist_command_cancel": {
-        "message": "Anuluj zmiany",
+        "message": "Avbryt ändringar",
         "description": "Cancel changes in watchlist."
     },
     "security_compose_warn": {
-        "message": "Takie ustawienie obniża bezpieczeństwo Mailvelope. Twój dostawca email może potencjalnie mieć dostęp do Twoich wiadomości.",
+        "message": "Den här inställningen försämrar säkerheten hos Mailvelope. Din e-postleverantör kan eventuellt få tillgång till ditt meddelande.",
         "description": "Mail compose options warning"
     },
     "popup_active_on": {
-        "message": "ON",
+        "message": "På",
         "description": "Activity status of the extension."
     },
     "encrypt_dialog_header": {
-        "message": "Szyfruj dla:",
+        "message": "Kryptera för:",
         "description": "Header of encrypt dialog."
     },
     "keygrid_send_pub_key": {
-        "message": "Wyślij klucz publiczny przez e-mail",
+        "message": "E-posta publik nyckel",
         "description": "Export key menu."
     },
     "keygrid_export": {
-        "message": "Eksport",
+        "message": "Exportera",
         "description": "Export key."
     },
     "keyring_header": {
-        "message": "Klucze",
+        "message": "Nyckelring",
         "description": "Header of the key ring."
     },
     "keygrid_userid_signatures": {
-        "message": "Podpisy",
+        "message": "Signaturer",
         "description": "Signatures on User ID of a PGP key."
     },
     "form_cancel": {
-        "message": "Anuluj",
+        "message": "Avbryt",
         "description": "Cancel form button."
     },
     "encrypt_dialog_no_recipient": {
-        "message": "Proszę dodać odbiorcę.",
+        "message": "Lägg till en mottagare.",
         "description": "Error message if no recipient selected."
     },
     "general_editor_plain": {
-        "message": "Zwykły Tekst",
+        "message": "Ren text",
         "description": "Editor option: plain text."
     },
     "clear_localstorage_confirm_message": {
-        "message": "Czy chcesz usunąć swoje wszystkie klucze PGP z profilu tej przeglądarki?",
+        "message": "Do you want to delete all your PGP keys from this browser profile?",
         "description": "The message of the confirmation dialog."
     },
     "keygrid_key_not_expire": {
-        "message": "Klucz nie wygaśnie",
+        "message": "Nyckeln går inte ut",
         "description": "Expiration date of a PGP key not set."
     },
     "popup_reload": {
-        "message": "Odśwież",
+        "message": "Ladda om",
         "description": "Reload all Mailvelope UI elements on page."
     },
     "options_title": {
-        "message": "Opcje Mailvelope",
+        "message": "Mailvelope-alternativ",
         "description": "Title of options page."
     },
     "form_continue": {
-        "message": "Kontynuuj",
+        "message": "Fortsätt",
         "description": "Continue form button."
     },
     "decrypt_popup_header": {
-        "message": "Wiadomość",
+        "message": "Meddelande",
         "description": "Header of decrypt popup."
     },
     "keygrid_status_invalid": {
-        "message": "nieważny",
+        "message": "ogiltig",
         "description": "Validity status of a PGP key."
     },
     "security_compose_external": {
-        "message": "W oddzielnym edytorze tekstowym należącym do Mailvelope (zalecane)",
+        "message": "I ett separat textredigeringsfönster tillhörande Mailvelope.",
         "description": "Mail compose option"
     },
     "keygrid_primary_key": {
-        "message": "Główny Klucz",
+        "message": "Primär nyckel",
         "description": "Primary key of a PGP key."
     },
     "verify_result_success": {
-        "message": "Podpisany przez",
+        "message": "Signerat av",
         "description": "Verfiy signature succeeded."
     },
     "keygrid_user_ids": {
-        "message": "ID Użytkownika",
+        "message": "Användar-ID:n",
         "description": "User IDs of a PGP key."
     },
     "watchlist_title_scan": {
@@ -284,135 +284,135 @@
         "description": "Scan status of site in watchlist."
     },
     "key_import_textarea": {
-        "message": "Wklej treść klucza tutaj:",
+        "message": "Klistra in nyckeltext här:",
         "description": "Key import box."
     },
     "watchlist_command_create": {
-        "message": "Dodaj nowy rekord",
+        "message": "Lägg till ny post",
         "description": "Create entry in watchlist."
     },
     "key_gen_name_help": {
-        "message": "Pełna nazwa właściciela klucza",
+        "message": "Nyckelinnehavarens fullständiga namn",
         "description": "Help text for name field."
     },
     "encrypt_error": {
-        "message": "Nie udało się zaszyfrować tej wiadomości: $1",
+        "message": "Kunde inte kryptera detta meddelande: $1",
         "description": "Error during encryption process."
     },
     "key_gen_months": {
-        "message": "miesięcy",
+        "message": "månader",
         "description": "Key expires after time range"
     },
     "encrypt_dialog_add": {
-        "message": "Dodaj",
+        "message": "Lägg till",
         "description": "Max 6 character."
     },
     "keygrid_status_valid": {
-        "message": "ważny",
+        "message": "giltig",
         "description": "Validity status of a PGP key."
     },
     "message_no_keys": {
-        "message": "Nie znaleziono żadnego klucza prywatnego dla tej wiadomości. Wymagany klucz prywatny IDs: $1",
+        "message": "Ingen privat nyckel hittades för detta meddelande. Privat nyckel-ID som krävs: $1",
         "description": "Decrypt error message."
     },
     "security_cache_off": {
-        "message": "Nie.",
+        "message": "Nej.",
         "description": "Don't store password."
     },
     "keygrid_signer_name": {
-        "message": "Podpisujący",
+        "message": "ID för signatur",
         "description": "User ID of signer."
     },
     "dialog_keyid_label": {
-        "message": "ID Klucza:",
+        "message": "Nyckel-ID",
         "description": "Label for key ID."
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Pamiętaj hasło dla tej sesji",
+        "message": "Kom ihåg lösenord för den här sessionen",
         "description": "Checkbox label."
     },
     "key_gen_pwd_reenter": {
-        "message": "Powtórz Hasło",
+        "message": "Ange lösenord igen",
         "description": "Label for passphrase input field"
     },
     "keygrid_user_name": {
-        "message": "Nazwa",
+        "message": "Namn",
         "description": "Name in User ID of a PGP key."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Proszę wpisać...",
+        "message": "Ange...",
         "description": "Placeholder for password."
     },
     "security_display_popup": {
-        "message": "W oddzielnym wyskakującym oknie w Mailvelope.",
+        "message": "I en separat popup från Mailvelope.",
         "description": "Decrypted message display option"
     },
     "key_import_public_update": {
-        "message": "Klucz publiczny $1 użytkownika $2 został zaktualizowany",
+        "message": "Publik nyckel $1 för användare $2 uppdaterad",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "form_submit": {
-        "message": "Wyślij",
+        "message": "Skicka",
         "description": "Submit form button."
     },
     "key_export_clipboard": {
-        "message": "Kopiuj do schowka",
+        "message": "Kopiera till urklipp",
         "description": "Copy to clipboard button."
     },
     "dialog_popup_close": {
-        "message": "Zamknij",
+        "message": "Stäng",
         "description": "Close decrypt popup."
     },
     "verify_result_warning": {
-        "message": "Podpisany nieznanym kluczem",
+        "message": "Signerat med okänd nyckel",
         "description": "Verfiy signature warning."
     },
     "alert_header_warning": {
-        "message": "Uwaga!",
+        "message": "Varning!",
         "description": "Alert header of category warning."
     },
     "key_gen_key_size": {
-        "message": "Wielkość klucza",
+        "message": "Nyckelstorlek",
         "description": "Advanced key generation settings: Key size"
     },
     "security_custom_color": {
-        "message": "Wybierz kolor",
+        "message": "Anpassad färg",
         "description": "Custom color for security token"
     },
     "keygrid_delete_confirmation": {
-        "message": "Czy jesteś pewny, że chcesz usunąć ten klucz?",
+        "message": "Vill du verkligen ta bort den här nyckeln?",
         "description": "Delete confirmation dialog."
     },
     "security_char_help": {
-        "message": "Musi zawierać 3 znaki",
+        "message": "Måste vara 3 tecken lång",
         "description": "Char code help"
     },
     "pwd_dialog_password": {
-        "message": "Hasło:",
+        "message": "Lösenord:",
         "description": "Label for password."
     },
     "pwd_dialog_title": {
-        "message": "Wprowadzenie Hasła | Mailvelope",
+        "message": "Ange lösenord i Mailvelope",
         "description": "Title of the password dialog."
     },
     "keygrid_subkeys": {
-        "message": "Pod-klucze",
+        "message": "Undernycklar",
         "description": "Subkeys of a PGP key."
     },
     "form_clear": {
-        "message": "Wyczyść",
+        "message": "Rensa",
         "description": "Clear form button."
     },
     "key_gen_another": {
-        "message": "Generuj inny...",
+        "message": "Skapa annan...",
         "description": "Key import button"
     },
     "popup_remove_page": {
-        "message": "Usuń stronę",
+        "message": "Ta bort sida",
         "description": "Remove page from watchlist."
     },
     "key_gen_expiration": {
-        "message": "Wygaśnięcie",
+        "message": "Går ut",
         "description": "Key expires after time range"
     },
     "keygrid_validity_status": {
@@ -420,139 +420,139 @@
         "description": "Validity status of a PGP key."
     },
     "keyring_import_keys": {
-        "message": "Importuj Klucze",
+        "message": "Importera nycklar",
         "description": "Tab of keyring to import keys."
     },
     "key_export_create_file": {
-        "message": "Utwórz plik",
+        "message": "Skapa fil",
         "description": "Create file button."
     },
     "key_import_public_success": {
-        "message": "Klucz publiczny $1 użytkownika $2 został zaimportowany do pęku kluczy",
+        "message": "Publik nyckel $1 för användare $2 importerad till nyckelring",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "keygrid_key_fingerprint": {
-        "message": "Fingerprint",
+        "message": "Fingeravtryck",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_sort_type": {
-        "message": "Pokaż według rodzaju kluczy",
+        "message": "Visa nycklar efter typ",
         "description": "Key grid sort selector."
     },
     "key_gen_years": {
-        "message": "lat",
+        "message": "år",
         "description": "Key expires after time range"
     },
     "editor_blur_warn": {
-        "message": "Uwaga. Edytor tekstu stracił ostrość.",
+        "message": "Varning. Textredigerare tappade fokus.",
         "description": "Warning for lost focus."
     },
     "header_warning": {
-        "message": "Uwaga!",
+        "message": "Varning!",
         "description": "Header warning."
     },
     "keyring_migration_error": {
-        "message": "Błędy Migracji Kluczy",
+        "message": "Fel vid flytt av nyckel",
         "description": "Tab of keyring to display migration errors."
     },
     "security_cache_time": {
-        "message": "minut.",
+        "message": "minuter.",
         "description": "Store password in memory for $1 minutes."
     },
     "settings_watchlist": {
-        "message": "Lista dostawców usługi E-mail",
+        "message": "Lista med e-postleverantörer",
         "description": "Tab of options to display list of supported mail providers."
     },
     "general_editor_rich": {
-        "message": "Bogaty Edytor Tekstowy",
+        "message": "Redigerare för formaterad text",
         "description": "Editor option: rich text."
     },
     "security_cache_on": {
-        "message": "Tak, trzymaj w pamięci przez",
+        "message": "Ja, behåll i minnet i ",
         "description": "Store password in memory for $1 minutes."
     },
     "options_home": {
-        "message": "Opcje",
+        "message": "Alternativ",
         "description": "Options navigation: Home."
     },
     "key_gen_wait_header": {
-        "message": "Trwa generowanie kluczy...",
+        "message": "Nyckel skapas...",
         "description": "Wait dialog header"
     },
     "watchlist_title_site": {
-        "message": "Strona",
+        "message": "Sida",
         "description": "Site in watchlist."
     },
     "editor_transfer": {
-        "message": "Transfer",
+        "message": "Överför",
         "description": "Transfer button of editor popup."
     },
     "keygrid_display_all_keys": {
-        "message": "Wyświetl wszystkie klucze",
+        "message": "Visa alla nycklar",
         "description": "Export key menu."
     },
     "key_export_warning_private": {
-        "message": "Ten plik zawiera także klucze prywatne.",
+        "message": "Den här filen innehåller även privata nycklar.",
         "description": "Key export warning."
     },
     "key_import_invalid_text": {
-        "message": "Nie znaleziono ważnego klucza",
+        "message": "Ingen giltig nyckeltext hittades",
         "description": "Import error alert."
     },
     "word_or": {
-        "message": "albo",
+        "message": "eller",
         "description": "Separate list of elements."
     },
     "key_import_exception": {
-        "message": "Wystąpił wyjątek podczas przetwarzania kluczy",
+        "message": "An exception occured while processing the keys",
         "description": "Import error alert."
     },
     "keygrid_display_key_pair": {
-        "message": "Wyświetl parę kluczy",
+        "message": "Visa nyckelpar",
         "description": "Export key menu."
     },
     "security_compose_mail": {
-        "message": "Gdzie chcesz tworzyć nowe wiadomości email?",
+        "message": "Var vill du skriva ditt e-postmeddelande?",
         "description": "Label for compose options"
     },
     "security_token_header": {
-        "message": "Token Bezpieczeństwa",
+        "message": "Säkerhetstoken",
         "description": "Security token header"
     },
     "general_editor_type": {
-        "message": "Wybór edytora email",
+        "message": "Email editor selection",
         "description": "Label for editor options."
     },
     "key_gen_pwd_unequal": {
-        "message": "Hasła nie zgadzają się",
+        "message": "Lösenorden stämmer inte överens",
         "description": "Passphrase input field status"
     },
     "popup_active_off": {
-        "message": "OFF",
+        "message": "Av",
         "description": "Activity status of the extension."
     },
     "watchlist_command_edit": {
-        "message": "Edytuj",
+        "message": "Ändra",
         "description": "Edit entry in watchlist."
     },
     "editor_transfer_unencrypted": {
-        "message": "Próbujesz wysłać nieszyfrowaną treść z powrotem do dostawcy emaila.",
+        "message": "Du försöker överföra okrypterat innehåll tillbaka till e-postleverantören.",
         "description": "Warning for unencrypted content."
     },
     "decrypt_popup_title": {
-        "message": "Odszyfruj Wiadomość",
+        "message": "Dekrypterat meddelande",
         "description": "Title of decrypt popup."
     },
     "watchlist_command_save": {
-        "message": "Zapisz zmiany",
+        "message": "Spara ändringar",
         "description": "Save changes in watchlist."
     },
     "cleartext_read_error": {
-        "message": "Nie można było odczytaj tej nieszyfrowanej wiadomości: $1",
+        "message": "Kunde inte läsa detta klartext-meddelande: $1",
         "description": "Cleartext message read error message: $1: error message."
     },
     "editor_header": {
-        "message": "Utwórz nową wiadomość",
+        "message": "Skriv meddelande",
         "description": "Header of editor popup."
     },
     "form_ok": {
@@ -560,15 +560,15 @@
         "description": "Ok form button."
     },
     "key_import_private_update": {
-        "message": "Klucz prywatny $1 użytkownika $2 został zaktualizowany",
+        "message": "Privat nyckel $1 för användare $2 uppdaterad",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_gen_pwd_empty": {
-        "message": "Hasło jest puste",
+        "message": "Lösenord är tomt",
         "description": "Passphrase input field status"
     },
     "form_save": {
-        "message": "Zapisz",
+        "message": "Spara",
         "description": "Save form button."
     },
     "ext_name": {
@@ -576,111 +576,111 @@
         "description": "Name of the extension."
     },
     "key_gen_days": {
-        "message": "dni",
+        "message": "dagar",
         "description": "Key expires after time range"
     },
     "keygrid_expiration_date": {
-        "message": "Data Wygaśnięcia",
+        "message": "Utgångsdatum",
         "description": "Expiration date of a PGP key."
     },
     "alert_header_error": {
-        "message": "Błąd!",
+        "message": "Fel!",
         "description": "Alert header of category error."
     },
     "security_char_code": {
-        "message": "Kod Char",
+        "message": "Teckenkod",
         "description": "Char code for security token"
     },
     "key_export_too_large": {
-        "message": "Klucz jest zbyt duży, aby mógł się zmieścić w adresie URL, proszę skopiuj i wklej.",
+        "message": "Nyckeln får inte plats i en URL, använd kopiera & klistra in istället.",
         "description": "Key export warning message."
     },
     "keygrid_no_subkeys": {
-        "message": "Brak pod-kluczy",
+        "message": "Inga undernycklar tillgängliga",
         "description": "No subkeys of a PGP key found."
     },
     "keygrid_keyid": {
-        "message": "ID Klucza",
+        "message": "Nyckel-ID",
         "description": "Key ID of a PGP key."
     },
     "sign_dialog_header": {
-        "message": "Podpisz wiadomość kluczem:",
+        "message": "Signera meddelande med nyckel:",
         "description": "Header of sign dialog."
     },
     "key_import_private_read": {
-        "message": "Nie można było odczytać jednego prywatnego klucza: $1",
+        "message": "Kunde inte läsa en privat nyckel: $1",
         "description": "Import error message. $1: error message"
     },
     "keygrid_signer_unknown": {
-        "message": "Nieznany podpisujący",
+        "message": "ID för signatur okänt",
         "description": "Key of signer not available."
     },
     "popup_add_page": {
-        "message": "Dodaj stronę",
+        "message": "Lägg till sida",
         "description": "Add page to watchlist."
     },
     "options_docu": {
-        "message": "Dokumentacja",
+        "message": "Dokumentation",
         "description": "Options navigation: Documentation."
     },
     "options_about": {
-        "message": "O Mailvelope",
+        "message": "Om",
         "description": "Options navigation: About."
     },
     "key_gen_invalid_email": {
-        "message": "Nieprawidłowy adres e-mail",
+        "message": "Ogiltig e-postadress",
         "description": "Error message."
     },
     "pwd_dialog_userid": {
-        "message": "ID Osoby:",
+        "message": "Anv.-ID",
         "description": "Label for user ID."
     },
     "decrypt_popup_copy": {
-        "message": "Skopiuj do schowka",
+        "message": "Kopiera till urklipp",
         "description": "Copy decrypted message to clipboard."
     },
     "reload_webmail_tab": {
-        "message": "Proszę odśwież kartę dostawcy email (naciśnij F5), aby ustawienia weszły w życie.",
+        "message": "Ladda om fliken med din e-postleverantör (F5) för att dessa inställningar ska börja gälla.",
         "description": "Info message."
     },
     "keygrid_display_priv_key": {
-        "message": "Wyświetl klucz prywatny",
+        "message": "Visa privat nyckel",
         "description": "Export key menu."
     },
     "ext_description": {
-        "message": "Popraw i dodaj do swojej internetowej poczty szyfrowanie end-to-end. Bezpieczna komunikacja e-mail oparta na standardzie OpenPGP.",
+        "message": "Förbättra din webbaserade e-posttjänst med end-to-end-kryptering. Säker e-postkommunikation baserad på OpenPGP-standarden.",
         "description": "Description of the extension."
     },
     "key_gen_advanced_btn": {
-        "message": "Zaawansowane",
+        "message": "Avancerat",
         "description": "Advanced key generation settings."
     },
     "key_import_private_success": {
-        "message": "Klucz prywatny $1 użytkownika $2 został zaimportowany do pęku kluczy",
+        "message": "Privat nyckel $1 för användare $2 importerad till nyckelring",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "settings_security": {
-        "message": "Bezpieczeństwo",
+        "message": "Säkerhet",
         "description": "Tab of options to display security settings."
     },
     "settings_general": {
-        "message": "Ogólne",
+        "message": "Allmänt",
         "description": "Tab of options to display general settings."
     },
     "key_import_unable": {
-        "message": "Nie można było zaimportować jednego klucza z powodu wyjątku: $1",
+        "message": "Kunde inte importera nyckel pga: $1",
         "description": "Import error message: $1: error message."
     },
     "keygrid_display_pub_key": {
-        "message": "Wyświetl klucz publiczny",
+        "message": "Visa publik nyckel",
         "description": "Export key menu."
     },
     "keygrid_creation_date": {
-        "message": "Data Utworzenia",
+        "message": "Skapelsedatum",
         "description": "Creation date of a PGP key."
     },
     "key_export_download": {
-        "message": "Pobierz klucz",
+        "message": "Ladda ner nyckel",
         "description": "Download key link."
     }
 }

@@ -63,6 +63,10 @@
         "message": "Clave privada-parte de un clave pública existente $1 de un usuario $2 importada al juego de claves",
         "description": "Import success message: $1: keyid, $2: userid."
     },
+    "upload_attachment": {
+        "message": "Add attachment",
+        "description": "Text in the upload attachment button of the message editor dialog"
+    },
     "verify_error": {
         "message": "No se pudo verificar este mensaje: $1",
         "description": "Error during verification process."
