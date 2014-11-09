@@ -63,6 +63,10 @@
         "message": "Privat nøkkeldel av ekisterende offentlig nøkkel $1 fra bruker $2 importert til nøkkelring.",
         "description": "Import success message: $1: keyid, $2: userid."
     },
+    "upload_attachment": {
+        "message": "Add attachment",
+        "description": "Text in the upload attachment button of the message editor dialog"
+    },
     "verify_error": {
         "message": "Kunne ikke verifisere denne meldingen: $1",
         "description": "Error during verification process."

@@ -63,6 +63,10 @@
         "message": "Закрытая часть существующего открытого ключа $1 пользователя $2 импортирована в связку ключей",
         "description": "Import success message: $1: keyid, $2: userid."
     },
+    "upload_attachment": {
+        "message": "Add attachment",
+        "description": "Text in the upload attachment button of the message editor dialog"
+    },
     "verify_error": {
         "message": "Невозможно проверить это сообщение: $1",
         "description": "Error during verification process."
@@ -96,7 +100,7 @@
         "description": "Label for primary private key option."
     },
     "clear_localstorage_confirm_title": {
-        "message": "Confirm",
+        "message": "Подтверждение",
         "description": "The title of the confirmation dialog."
     },
     "key_import_file_select": {
@@ -104,7 +108,7 @@
         "description": "File selection button label."
     },
     "watchlist_title_frame": {
-        "message": "Domain match pattern",
+        "message": "Доменное имя совпадает с шаблоном",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "keygrid_key_length": {
@@ -164,11 +168,11 @@
         "description": "Import error message. $1: error message"
     },
     "watchlist_title_active": {
-        "message": "Active",
+        "message": "Актив.",
         "description": "Entry in watchlist is active."
     },
     "key_gen_pwd": {
-        "message": "Enter Password",
+        "message": "Введите пароль",
         "description": "Label for passphrase input field"
     },
     "key_gen_error": {
@@ -232,7 +236,7 @@
         "description": "Editor option: plain text."
     },
     "clear_localstorage_confirm_message": {
-        "message": "Do you want to delete all your PGP keys from this browser profile?",
+        "message": "Вы хотите удалить все ваши ключи PGP из этого профиля браузера?",
         "description": "The message of the confirmation dialog."
     },
     "keygrid_key_not_expire": {
@@ -276,7 +280,7 @@
         "description": "User IDs of a PGP key."
     },
     "watchlist_title_scan": {
-        "message": "Status",
+        "message": "Статус",
         "description": "Scan status of site in watchlist."
     },
     "key_import_textarea": {
@@ -328,7 +332,7 @@
         "description": "Checkbox label."
     },
     "key_gen_pwd_reenter": {
-        "message": "Re-enter Password",
+        "message": "Повторите пароль",
         "description": "Label for passphrase input field"
     },
     "keygrid_user_name": {
@@ -456,7 +460,7 @@
         "description": "Store password in memory for $1 minutes."
     },
     "settings_watchlist": {
-        "message": "List of Mail Providers",
+        "message": "Список почтовых серверов",
         "description": "Tab of options to display list of supported mail providers."
     },
     "general_editor_rich": {
@@ -516,7 +520,7 @@
         "description": "Security token header"
     },
     "general_editor_type": {
-        "message": "Email editor selection",
+        "message": "Выбор текстового редактора для создания письма",
         "description": "Label for editor options."
     },
     "key_gen_pwd_unequal": {
@@ -528,7 +532,7 @@
         "description": "Activity status of the extension."
     },
     "watchlist_command_edit": {
-        "message": "Edit",
+        "message": "Редакт",
         "description": "Edit entry in watchlist."
     },
     "editor_transfer_unencrypted": {
@@ -644,7 +648,7 @@
         "description": "Export key menu."
     },
     "ext_description": {
-        "message": "Enhance your webmail provider with end-to-end encryption. Secure email communication based on the OpenPGP standard.",
+        "message": "Добавьте сквозное шифрование электронной почты при использовании браузера. Стандарт OpenPGP обеспечит безопасную передачу данных.",
         "description": "Description of the extension."
     },
     "key_gen_advanced_btn": {

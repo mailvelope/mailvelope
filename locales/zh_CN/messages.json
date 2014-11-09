@@ -63,6 +63,10 @@
         "message": "用户 $2 的公钥已存在, $1 密钥已经加入密钥环",
         "description": "Import success message: $1: keyid, $2: userid."
     },
+    "upload_attachment": {
+        "message": "Add attachment",
+        "description": "Text in the upload attachment button of the message editor dialog"
+    },
     "verify_error": {
         "message": "不能验证信息: $1",
         "description": "Error during verification process."
