@@ -16,7 +16,7 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "2.1.0",
+    "jquery": "https://code.jquery.com/jquery-2.1.0.min.js",
     "bootstrap": "~3.2.0",
     "spectrum": "~1.1.0",
     "requirejs": "2.1.14",
@@ -25,6 +25,6 @@
     "css-toggle-switch": "2.1.6"
   },
   "resolutions": {
-    "jquery": "2.1.0"
+    "jquery": "e-tag:533225b6-"
   }
 }
