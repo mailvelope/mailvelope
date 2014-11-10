@@ -166,3 +166,4 @@ mvelo.util.extractFileExtension = function(fileName) {
 if (typeof exports !== 'undefined') {
   exports.mvelo = mvelo;
 }
+

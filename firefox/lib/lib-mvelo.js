@@ -24,7 +24,8 @@ var ss = require('sdk/simple-storage');
 var url = require('sdk/url');
 var l10nGet = require("sdk/l10n").get;
 
-var mvelo = require('./common/mvelo').mvelo;
+// create mvelo namespace
+eval(data.load('common/ui/inline/mvelo.js'));
 
 mvelo.ffa = true;
 mvelo.crx = false;
