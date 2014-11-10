@@ -98,7 +98,3 @@ mvelo.encodeHTML = function(text) {
     .replace(/'/g, "&#039;")
     .replace(/\//g, "&#x2F;");
 };
-
-if (typeof exports !== 'undefined') {
-  exports.mvelo = mvelo;
-}
