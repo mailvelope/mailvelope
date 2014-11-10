@@ -35,8 +35,8 @@
   // timeoutID for period in which blur events are non-critical
   var blurValid = null;
 
-  var maxFileUploadSize = 50000000;
-  var currentUploadFileName;
+  // maximal size of the attachments in bytes, ca 50 MB
+  var maxFileUploadSize = 50*1024*1024;
 
   function init() {
     var qs = jQuery.parseQuerystring();
@@ -91,57 +91,68 @@
 
   }
 
-  var attachments = [];
+  function addAttachment(file) {
+    onChange();
+    var fileNameNoExt = mvelo.util.extractFileNameWithoutExt(file.name);
+    var fileExt = mvelo.util.extractFileExtension(file.name);
+    var extColor = mvelo.util.getExtensionColor(fileExt);
+    var id = Date.now();
+    // TODO check if id exists
 
-  function addAttachment(filename, id, content) {
-    // check if id exists
-    attachments.push({"filename":filename, "id":""+id, "content":content});
-    $uploadPanel = $("#uploadPanel");
-    // <span class="label label-default">FileName1.txt  <span class="glyphicon glyphicon-remove"></span></span>
+    var unint8Array;
+    var fileReader = new FileReader();
+    fileReader.onload = function() {
+      unint8Array = new Uint8Array(this.result);
+      eFrame.addAttachment(id, {
+        "content": unint8Array,
+        "filename": file.name,
+        "size": file.size,
+        "type": file.type
+      });
+    };
+    fileReader.readAsArrayBuffer(file);
+
+    var objectURL = window.URL.createObjectURL(file);
 
     var removeUploadButton = $('<span/>', {
       "data-id": id,
+      "style": "background-color: #b5b45b",
       "class": 'glyphicon glyphicon-remove'
-    }).on("click", function() {
-      removeAttachment($(this).attr("data-id"));
+    }).on("click", function(e) {
+      e.preventDefault();
+      eFrame.removeAttachment($(this).attr("data-id"));
       $(this).parent().remove();
     });
 
-    var fileUI = $('<span/>', {
-      "class": 'label label-default'
+    var extensionButton = $('<span/>', {
+      "data-id": id,
+      "style": "text-transform: uppercase; background-color: "+extColor,
+      "class": 'label'
+    }).append(fileExt);
+
+    var fileUI = $('<a/>', {
+      "download": file.name,
+      "href": objectURL,
+      "class": 'label label-default',
+      "style": 'background-color: #ddd'
     })
-    .append(filename+" ")
+    .append(extensionButton)
+    .append(" "+fileNameNoExt+" ")
     .append(removeUploadButton);
 
-    $uploadPanel.append(fileUI);
-    currentUploadFileName = undefined;
+    var $uploadPanel = $("#uploadPanel");
+    $uploadPanel.append(fileUI).append("&nbsp;");
   }
 
-  function removeAttachment(id) {
-    attachments.forEach(function(element, index) {
-      if(element.id === id) {
-        attachments.splice( index, 1 );
-      }
-    });
-    getAttachmentsContent();
+  /*function removeAttachment(id) {
+    delete attachments[id];
   }
 
-  function disableAttachmentsUI() {
-
-  }
-
-  function downloadAttachment(id) {
-
-  }
-
-  function getAttachmentsContent() {
-    var result = "";
-    attachments.forEach(function(element, index) {
-      result += element.filename+"-----------------------\n"+element.content;
-    });
+  function getAttachmentsContent(id) {
+    var result = attachments[id];
     console.log("Attachment content: "+result);
     return result;
-  }
+  }*/
 
   function onAddAttachment(selection) {
     //console.log("Selected File: "+$("#addFileInput").val());
@@ -152,16 +163,7 @@
       alert("Attachment size exceeds "+maxFileUploadSize+" bytes. File upload will be aborted.");
       return;
     }
-    currentUploadFileName = file.name;
-    var reader = new FileReader();
-    reader.onload = onFileReadComplete;
-    reader.readAsDataURL(file);
-  }
-
-  function onFileReadComplete(event) {
-    //console.log(JSON.stringify(event.currentTarget.result));
-    //editor.val(editor.val()+"\n\n"+event.currentTarget.result);
-    addAttachment(currentUploadFileName,event.timeStamp,event.currentTarget.result);
+    addAttachment(file);
   }
 
   function onCancel() {

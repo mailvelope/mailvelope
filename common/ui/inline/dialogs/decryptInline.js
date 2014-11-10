@@ -40,6 +40,7 @@
     }
     setStyles();
     addWrapper();
+    addAttachmentPanel();
     addSandbox();
     mvelo.extension.sendMessage({event: "get-security-token"}, function(token) {
       $('#watermark').html(mvelo.encodeHTML(token.code));
@@ -81,6 +82,52 @@
     wrapper.appendTo('body');
   }
 
+  function addAttachmentPanel() {
+    var attachments = $('<div/>', {
+      id: 'attachments',
+      css: {
+        position: 'absolute',
+        top: '0',
+        left: 0,
+        right: 0,
+        bottom: '0',
+        padding: '3px',
+        'background-color': 'rgba(0,0,0,0)', // #D7E3FF
+        overflow: 'auto'
+      }
+    });
+    $('#wrapper').append(attachments);
+  }
+
+  function addAttachmentPanel2() {
+    var attachmentPanel = $('<iframe/>', {
+      id: 'attachmentarea',
+      frameBorder: 0
+    });
+    var attachments = $('<div/>', {
+      id: 'attachments',
+      css: {
+        position: 'absolute',
+        top: '0',
+        left: 0,
+        right: 0,
+        bottom: '0',
+        padding: '3px',
+        'background-color': 'rgba(0,0,0,0)', // #D7E3FF
+        overflow: 'auto'
+      }
+    });
+    var style = $('<link/>', {
+      rel: 'stylesheet',
+      href: commonPath + '/dep/bootstrap/css/bootstrap.css'
+    });
+    attachmentPanel.on('load', function() {
+      $(this).contents().find('head').append(style);
+      $(this).contents().find('body').append(attachments);
+    });
+    $('#wrapper').append(attachmentPanel);
+  }
+
   function addSandbox() {
     var sandbox = $('<iframe/>', {
       id: 'decryptmail',
@@ -91,11 +138,12 @@
       id: 'content',
       css: {
         position: 'absolute',
-        top: 0,
+        top: '0',
         left: 0,
         right: 0,
         bottom: 0,
         padding: '3px',
+        //'margin-top': '40px',
         'background-color': 'rgba(0,0,0,0)',
         overflow: 'auto'
       }
@@ -144,6 +192,39 @@
     watermark.css('font-size', Math.floor(Math.min(watermark.width() / 3, watermark.height())));
   }
 
+  function addAttachment(filename, content, mimeType) {
+    var fileNameNoExt = mvelo.util.extractFileNameWithoutExt(filename);
+    var fileExt = mvelo.util.extractFileExtension(filename);
+    var extColor = mvelo.util.getExtensionColor(fileExt);
+
+    var extensionButton = $('<span/>', {
+      "style": "text-transform: uppercase; background-color: "+extColor,
+      "class": 'label'
+    }).append(fileExt);
+
+    var contentLength = Object.keys(content).length;
+    var uint8Array = new Uint8Array(contentLength);
+    for (var i = 0; i < contentLength; i++) {
+      uint8Array[i] = content[i];
+    }
+    var blob = new Blob([uint8Array], { type: mimeType });
+
+    var objectURL = window.URL.createObjectURL(blob);
+    var fileUI = $('<a/>', {
+        "href": objectURL,
+        "class": 'label label-default',
+        "download": filename,
+        "style": 'background-color: #ddd'
+      })
+        .append(extensionButton)
+        .append(" "+fileNameNoExt+" ");
+
+    //$attachments = $('#attachmentarea').contents().find('#attachments');
+    $attachments = $('#attachments');
+    $attachments.append(fileUI);
+    $attachments.append("&nbsp;");
+  }
+
   function messageListener(msg) {
     //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
@@ -153,6 +234,11 @@
         var message = msg.message.replace(/\n/g, '<br>');
         message = $.parseHTML(message);
         $('#decryptmail').contents().find('#content').append(message);
+        break;
+      case 'add-decrypted-attachment':
+        //console.log('popup adding decrypted attachment: ', JSON.stringify(msg.message));
+        showMessageArea();
+        addAttachment(msg.message.filename, msg.message.content, msg.message.mimeType);
         break;
       case 'error-message':
         showErrorMsg(msg.error);

@@ -23,6 +23,7 @@ define(function (require, exports, module) {
   var prefs = require('./prefs');
   var pwdCache = require('./pwdCache');
   var mailreader = require('mailreader-parser');
+  //var mailbuilder = require('mailbuild');
 
   // ports to main content scripts
   var mainCsPorts = {};
@@ -157,7 +158,6 @@ define(function (require, exports, module) {
   }
 
   function handlePortMessage(msg) {
-    //console.log('controller handlePortMessage:', msg.event, msg.sender);
     var id = parseName(msg.sender).id;
     switch (msg.event) {
       case 'pwd-dialog-cancel':
@@ -399,12 +399,45 @@ define(function (require, exports, module) {
         }
         break;
       case 'eframe-email-text':
+        /*
+        //console.log('controller handlePortMessage:', msg.event, msg.sender);
+        console.log("Encrypt text: "+JSON.stringify(msg.data)+" with attachments "+msg.attachments);
+        var mainMessage = new mailbuilder("multipart/mixed");
+        if(msg.data !== undefined) {
+          var textMime = new  mailbuilder("text/plain")
+            .setHeader("Content-Type","text/plain; charset=utf-8")
+            .addHeader("Content-Transfer-Encoding","quoted-printable")
+            .setContent(msg.data);
+          mainMessage.appendChild(textMime);
+        }
+
+        var contentLength;
+        var uint8Array;
+        if(msg.attachments !== undefined && Object.keys(msg.attachments).length > 0) {
+          for (var attachment in msg.attachments) {
+            contentLength = Object.keys(msg.attachments[attachment].content).length;
+            uint8Array = new Uint8Array(contentLength);
+            for (var i = 0; i < contentLength; i++) {
+              uint8Array[i] = msg.attachments[attachment].content[i];
+            }
+            var attachmentMime = new mailbuilder("text/plain")
+              .createChild(false, {filename: msg.attachments[attachment].filename})
+              //.setHeader("Content-Type", msg.attachments[attachment].type+"; charset=utf-8")
+              .addHeader("Content-Transfer-Encoding", "base64")
+              .addHeader("Content-Disposition", "attachment") // ; filename="+msg.attachments[attachment].filename
+              .setContent(uint8Array);
+            mainMessage.appendChild(attachmentMime);
+          }
+        }
+        var composedMessage = mainMessage.build();*/
+        var composedMessage = msg.data;
+        console.log("Created Message: "+composedMessage);
         if (msg.action === 'encrypt') {
-          model.encryptMessage(msg.data, keyidBuffer[id], function(err, msg) {
+          model.encryptMessage(composedMessage, keyidBuffer[id], function(err, msg) {
             eFramePorts[id].postMessage({event: 'encrypted-message', message: msg});
           });
         } else if (msg.action === 'sign') {
-          model.signMessage(msg.data, messageBuffer[id].key, function(err, msg) {
+          model.signMessage(composedMessage, messageBuffer[id].key, function(err, msg) {
             editor && editor.port.postMessage({event: 'hide-pwd-dialog'});
             eFramePorts[id].postMessage({event: 'signed-message', message: msg});
           });
@@ -579,21 +612,38 @@ define(function (require, exports, module) {
         if (/^Content-Type:\smultipart\//.test(rawText)) {
           // MIME
           mailreader.parse([{raw: rawText}], function(parsed) {
-            if (parsed && parsed[0] && parsed[0].content) {
-              var html = parsed[0].content.filter(function(entry) {
-                return entry.type === 'html';
+            if(parsed && parsed.length > 0) {
+              var hasHTMLPart = false;
+              /*if(parsed[0].content[1] !== undefined && parsed[0].content[1].type === "html") {
+                hasHTMLPart = true;
+              }*/
+              parsed[0].content.forEach(function(part){
+                if(part.type === "html") {
+                  hasHTMLPart = true;
+                }
               });
-              if (html.length) {
-                mvelo.util.parseHTML(html[0].content, function(sanitized) {
-                  port.postMessage({event: 'decrypted-message', message: sanitized});
-                });
-                return;
-              }
-              var text = parsed[0].content.filter(function(entry) {
-                return entry.type === 'text';
+              parsed[0].content.forEach(function(part, index){
+                console.log("Mail message----: "+index+"-"+part.type+"\n"+part.content);
+                if(part.type === "text" && !hasHTMLPart) {
+                  var text = parsed[0].content.filter(function (entry) {
+                    return entry.type === 'text';
+                  });
+                  msgText = mvelo.encodeHTML(text.length ? text[0].content : rawText);
+                  port.postMessage({event: 'decrypted-message', message: msgText});
+                } else if(part.type === "html") {
+                  var html = parsed[0].content.filter(function (entry) {
+                    return entry.type === 'html';
+                  });
+                  if (html.length) {
+                    mvelo.util.parseHTML(html[0].content, function (sanitized) {
+                      port.postMessage({event: 'decrypted-message', message: sanitized});
+                    });
+                  }
+                } else if(part.content && part.type === "attachment") { // Handling attachments
+                  //console.log("Mail attachment----: "+part.filename+" - "+part.mimeType+"\n"+part.content);
+                  port.postMessage({event: 'add-decrypted-attachment', message: part});
+                }
               });
-              msgText = mvelo.encodeHTML(text.length ? text[0].content : rawText);
-              port.postMessage({event: 'decrypted-message', message: msgText});
             }
           });
         } else {

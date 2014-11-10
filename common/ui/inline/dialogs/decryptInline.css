@@ -19,11 +19,19 @@ html, body {
   background-color: white;
 }
 
+#attachmentarea {
+    position: absolute;
+    background-color: rgba(0,0,0,0);
+    width: 100%;
+    height: 100%;
+}
+
 #decryptmail {
   position: absolute;
   background-color: rgba(0,0,0,0);
   width: 100%;
   height: 100%;
+  top: 40px;
 }
 
 .hide_bg {
