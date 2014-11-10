@@ -249,3 +249,7 @@ body {
         width: 1470px;
     }
 }
+
+#version::before {
+  content: 'v';
+}
