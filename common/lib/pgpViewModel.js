@@ -624,51 +624,10 @@ define(function(require, exports, module) {
 
   function migrate08() {
     var prefs = getPreferences();
-    if (mvelo.crx && (!prefs.migrate08 || !prefs.migrate08.done)) {
-      prefs.migrate08 = {};
-      prefs.migrate08.keys = [];
-      prefs.migrate08.err = [];
-      var privKeys = JSON.parse(window.localStorage.getItem("privatekeys"));
-      var pubKeys = JSON.parse(window.localStorage.getItem("publickeys"));
-      if ((!privKeys || !privKeys.length) && (!pubKeys || !pubKeys.length)) {
-        prefs.migrate08.done = true;
-        setPreferences(prefs);
-        return;
-      }
-      var import08 = function(keys, type) {
-        keys.forEach(function(key) {
-          var result;
-          try {
-            if (type == 'public') {
-              result = importPublicKey(key);
-            } else if (type == 'private') {
-              result = importPrivateKey(key);
-            }
-            result = result.filter(function(log) {
-              return log.type == 'error';
-            });
-            if (result.length !== 0) {
-              prefs.migrate08.keys.push(key);
-              prefs.migrate08.err = prefs.migrate08.err.concat(result);
-            }
-          } catch (e) {
-            prefs.migrate08.keys.push(key);
-            prefs.migrate08.err.push(e);
-          }
-        });
-      };
-      import08(pubKeys, 'public');
-      import08(privKeys, 'private');
-      try {
-        keyring.store();
-      } catch (e) {
-        prefs.migrate08.keys = pubKeys.concat(privKeys);
-        prefs.migrate08.err.push({
-          type: 'error',
-          message: 'Exception on storing keyring: ' + e
-        });
-      }
-      prefs.migrate08.done = true;
+    if (mvelo.crx && prefs.migrate08 && prefs.migrate08.done) {
+      window.localStorage.removeItem("privatekeys");
+      window.localStorage.removeItem("publickeys");
+      delete prefs.migrate08;
       setPreferences(prefs);
     }
 

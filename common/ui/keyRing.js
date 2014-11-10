@@ -43,7 +43,6 @@ var keyRing = {};
     }, function(version) {
       $('#version').text(version);
     });
-    migrate08();
 
     // Disable submitting of forms by for example pressing enter
     $("form").submit(function (e) { e.preventDefault(); });
@@ -180,22 +179,5 @@ var keyRing = {};
   }
 
   $(document).ready(init);
-
-  function migrate08() {
-    keyRing.viewModel('getPreferences', function(prefs) {
-      if (mvelo.crx && prefs.migrate08 && prefs.migrate08.done && $('#migNavEntry').length) {
-        if (prefs.migrate08.err.length) {
-          $('#migNavEntry').show();
-          prefs.migrate08.err.forEach(function(error) {
-            $('#migrationAlert').showAlert('Import Error', error.message, 'danger', true);
-          });
-          var armored = prefs.migrate08.keys.reduce(function(prev, curr) {
-            return prev + curr + '\n\n';
-          }, '');
-          $('#errorKeys').val(armored);
-        }
-      }
-    });
-  }
 
 }(keyRing, jQuery));

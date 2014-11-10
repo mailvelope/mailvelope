@@ -70,7 +70,6 @@
             <a class="list-group-item active" href="#displayKeys" data-toggle="tab" data-l10n-id="keyring_display_keys"></a>
             <a class="list-group-item" href="#importKey" data-toggle="tab" data-l10n-id="keyring_import_keys"></a>
             <a class="list-group-item" href="#generateKey" data-toggle="tab" data-l10n-id="keyring_generate_key"></a>
-            <a id="migNavEntry" href="#migrationError" data-toggle="tab" data-l10n-id="keyring_migration_error"></a>
             <a class="list-group-item disabled" data-l10n-id="options_settings"></a>
             <a class="list-group-item" href="#general" data-toggle="tab" data-l10n-id="settings_general"></a>
             <a class="list-group-item" href="#security" data-toggle="tab" data-l10n-id="settings_security"></a>
@@ -286,22 +285,6 @@
                   </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
               </div><!-- /.modal -->
-            </div>
-            <div id="migrationError" class="tab-pane fade">
-              <h3>Key migration error</h3>
-              <form class="form well">
-                <div class="form-group">
-                  <label class="control-label" for="errorKeys"><h4>The following keys could not be migrated to Mailvelope v0.8.0</h4></label>
-                  <div>Please contact support@mailvelope.com for help. <b>Warning!</b> The box below can also include private keys, don't send them by email.</div>
-                  <div id="errorKeysArea">
-                    <textarea id="errorKeys" rows="12"></textarea>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div id="migrationAlert">
-                  </div>
-                </div>
-              </form>
             </div>
             <div id="watchList" class="tab-pane fade">
               <h3 data-l10n-id="settings_watchlist"></h3>
