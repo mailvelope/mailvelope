@@ -280,7 +280,8 @@ module.exports = function (grunt) {
         commit: true,
         createTag: false,
         push: false,
-        files: ['package.json', 'bower.json', 'chrome/manifest.json', 'firefox/package.json']
+        files: ['package.json', 'bower.json', 'chrome/manifest.json', 'firefox/package.json', 'common/res/defaults.json'],
+        commitMessage: 'Version bumped to v%VERSION%'
       }
     }
   });
