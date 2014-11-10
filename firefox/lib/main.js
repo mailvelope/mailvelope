@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const {components, Cc, Ci, Cr, Cu} = require("chrome");
-var utils = require('sdk/window/utils');
 var system = require('sdk/system');
 var ss = require('sdk/simple-storage');
 var data = require('sdk/self').data;
@@ -35,6 +33,7 @@ checkStaticArgs();
 var mvelo = require('./lib-mvelo.js').mvelo;
 var controller = require('./common/controller');
 var prefs = require('./common/prefs').data;
+var prompts = require('./prompt');
 
 var pageMods = {};
 // recipients of encrypted mail
@@ -76,11 +75,10 @@ var toggleButton = ToggleButton({
 });
 
 unload.when(function(reason) {
-  // with FF24 reason is never 'uninstall' https://bugzilla.mozilla.org/show_bug.cgi?id=571049
+  // reason is never 'uninstall' https://bugzilla.mozilla.org/show_bug.cgi?id=571049
   if (reason === 'uninstall' || reason === 'disable') {
     //console.log("Extension disabled or unistalled");
-    let prompts = Cc["@mozilla.org/embedcomp/prompt-service;1"].getService(Ci.nsIPromptService);
-    if (prompts.confirm(utils.getMostRecentBrowserWindow(), l10nGet("clear_localstorage_confirm_title"), l10nGet("clear_localstorage_confirm_message"))) {
+    if (prompts.confirm(l10nGet("clear_localstorage_confirm_title"), l10nGet("clear_localstorage_confirm_message"))) {
       clearStorage();
     }
   }
