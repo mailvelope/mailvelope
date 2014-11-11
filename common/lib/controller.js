@@ -623,7 +623,7 @@ define(function (require, exports, module) {
                 }
               });
               parsed[0].content.forEach(function(part, index){
-                console.log("Mail message----: "+index+"-"+part.type+"\n"+part.content);
+                //console.log("Mail message----: "+index+"-"+part.type+"\n"+part.content);
                 if(part.type === "text" && !hasHTMLPart) {
                   var text = parsed[0].content.filter(function (entry) {
                     return entry.type === 'text';
@@ -640,8 +640,41 @@ define(function (require, exports, module) {
                     });
                   }
                 } else if(part.content && part.type === "attachment") { // Handling attachments
-                  //console.log("Mail attachment----: "+part.filename+" - "+part.mimeType+"\n"+part.content);
                   port.postMessage({event: 'add-decrypted-attachment', message: part});
+                  //console.log("Mail attachment----: "+part.filename+" - "+part.mimeType+"\n"+part.content);
+                  //mvelo.util.openAttachment(part, port);
+                  //pageWorker.port.on("blobURL", function(message) {
+                  //  //port.postMessage({event: 'add-decrypted-attachment', message: part});
+                  //  console.log("Blob url: "+message);
+                  //});
+                  if(mvelo.ffa) {
+                    const {Cc, Ci} = require("chrome");
+                    var utils = require('sdk/window/utils');
+                    var nsIFilePicker = Ci.nsIFilePicker,dirPicker = Cc["@mozilla.org/filepicker;1"].createInstance(Ci.nsIFilePicker);
+                    dirPicker.init(utils.getMostRecentBrowserWindow(),"Select the folder, where do you want to save the attachment", nsIFilePicker.modeGetFolder);
+                    var ret = dirPicker.show();
+                    //dirPicker.displayDirectory = "/home/na/Desktop";
+                    if (ret == nsIFilePicker.returnOK || ret == nsIFilePicker.returnReplace) {
+                      //console.log("Selected folder: "+dirPicker.file.path);
+                      var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsIFile);
+                      var dirSeparator = (require("sdk/system/runtime").OS.toLowerCase().indexOf("win")!=-1)?"\\":"/";
+                      file.initWithPath(dirPicker.file.path+dirSeparator+part.filename);
+                      if(!file.exists()) {
+                        file.create(0,0664);
+                      }
+                      //console.log("File created!");
+                      var out = Cc["@mozilla.org/network/file-output-stream;1"].createInstance(Ci.nsIFileOutputStream);
+                      out.init(file,0x20|0x02,00004,null); // jshint ignore:line
+                      var contentString = '';
+                      for (var i = 0; i < part.content.length; i++) {
+                        contentString += String.fromCharCode(part.content[i]);
+                      }
+                      //console.log("Content: "+contentString);
+                      out.write(contentString, contentString.length);
+                      out.flush();
+                      out.close();
+                    }
+                  }
                 }
               });
             }

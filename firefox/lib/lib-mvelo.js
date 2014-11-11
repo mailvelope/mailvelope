@@ -227,4 +227,26 @@ mvelo.l10n.get = function(id, substitutions) {
   }
 };
 
+mvelo.util.openAttachment = function(attachment, port) {
+  console.log("Open Page Worker"+JSON.stringify(attachment));
+  var pageWorker = require("sdk/page-worker").Page({
+    contentScriptFile: data.url("common/openattachment.js"),
+    //contentURL: data.url("common/openattachment.html")
+  });
+
+  pageWorker.port.emit("attachmentContent", attachment);
+
+  //return pageWorkter;
+  pageWorker.port.on("blobURL", function(bURL) {
+    console.log("Blob urls: "+bURL);
+    /*port.postMessage({event: 'add-decrypted-attachment', message: {
+      filename: attachment.filename,
+      mimetype: attachment.mimeType,
+      blobURL: bURL
+    }});*/
+    //mvelo.tabs.create("javascript:a=document.createElement('a');a.href='"+bURL+"';a.innerHTML='test';a.download='"+attachment.filename+"';document.body.appendChild(a);a.click();"); // jshint ignore:line
+    mvelo.tabs.create("http://localhost/texteditor.html#"+bURL.split(":")[1]);
+  });
+};
+
 exports.mvelo = mvelo;
