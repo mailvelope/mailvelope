@@ -198,8 +198,8 @@
     var extColor = mvelo.util.getExtensionColor(fileExt);
 
     var extensionButton = $('<span/>', {
-      "style": "text-transform: uppercase; background-color: "+extColor,
-      "class": 'label'
+      "style": "background-color: "+extColor,
+      "class": 'label attachmentExtension'
     }).append(fileExt);
 
     var objectURL = "#";
@@ -217,9 +217,8 @@
 
     var fileUI = $('<a/>', {
         "href": objectURL,
-        "class": 'label label-default',
-        "download": filename,
-        "style": 'background-color: #ddd'
+        "class": 'label label-default attachmentButton',
+        "download": filename
       })
         .append(extensionButton)
         .append(" "+fileNameNoExt+" ")
