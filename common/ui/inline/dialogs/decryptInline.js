@@ -192,7 +192,7 @@
     watermark.css('font-size', Math.floor(Math.min(watermark.width() / 3, watermark.height())));
   }
 
-  function addAttachment(filename, content, mimeType) {
+  function addAttachment(filename, content, mimeType, attachmentId) {
     var fileNameNoExt = mvelo.util.extractFileNameWithoutExt(filename);
     var fileExt = mvelo.util.extractFileExtension(filename);
     var extColor = mvelo.util.getExtensionColor(fileExt);
@@ -202,14 +202,19 @@
       "class": 'label'
     }).append(fileExt);
 
-    var contentLength = Object.keys(content).length;
-    var uint8Array = new Uint8Array(contentLength);
-    for (var i = 0; i < contentLength; i++) {
-      uint8Array[i] = content[i];
-    }
-    var blob = new Blob([uint8Array], { type: mimeType });
+    var objectURL = "#";
 
-    var objectURL = window.URL.createObjectURL(blob);
+    // workarround until ff36 is out, using addonsdk for file saving
+    if(mvelo.crx) {
+      var contentLength = Object.keys(content).length;
+      var uint8Array = new Uint8Array(contentLength);
+      for (var i = 0; i < contentLength; i++) {
+        uint8Array[i] = content[i];
+      }
+      var blob = new Blob([uint8Array], { type: mimeType });
+      objectURL = window.URL.createObjectURL(blob);
+    }
+
     var fileUI = $('<a/>', {
         "href": objectURL,
         "class": 'label label-default',
@@ -217,7 +222,15 @@
         "style": 'background-color: #ddd'
       })
         .append(extensionButton)
-        .append(" "+fileNameNoExt+" ");
+        .append(" "+fileNameNoExt+" ")
+        // workarround until ff36 is out, using addonsdk for file saving
+        .on("click", function(e) {
+          if(mvelo.ffa) {
+            e.preventDefault();
+            port.postMessage({event: 'get-attachment', sender: id, attachmentId: attachmentId});
+          }
+        })
+      ;
 
     //$attachments = $('#attachmentarea').contents().find('#attachments');
     $attachments = $('#attachments');
@@ -238,7 +251,7 @@
       case 'add-decrypted-attachment':
         //console.log('popup adding decrypted attachment: ', JSON.stringify(msg.message));
         showMessageArea();
-        addAttachment(msg.message.filename, msg.message.content, msg.message.mimeType);
+        addAttachment(msg.message.filename, msg.message.content, msg.message.mimeType, msg.message.attachmentId);
         break;
       case 'error-message':
         showErrorMsg(msg.error);

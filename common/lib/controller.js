@@ -58,6 +58,9 @@ define(function (require, exports, module) {
 
   var specific = {};
 
+  var attachments = {};
+
+
   function extend(obj) {
     specific.initScriptInjection = obj.initScriptInjection;
     specific.activate = obj.activate;
@@ -510,6 +513,14 @@ define(function (require, exports, module) {
       case 'get-prefs':
         mainCsPorts[id].postMessage({event: 'set-prefs', prefs: prefs.data});
         break;
+      case 'get-attachment':
+        console.log("Get Attachment: "+JSON.stringify(msg.event));
+        var attachmentId = msg.attachmentId;
+        var attachment = attachments[attachmentId];
+        if(mvelo.ffa) {
+          mvelo.util.saveAsAttachment(attachment[0], attachment[1]);
+        }
+        break;
       default:
         console.log('unknown event', msg);
     }
@@ -640,6 +651,10 @@ define(function (require, exports, module) {
                     });
                   }
                 } else if(part.content && part.type === "attachment") { // Handling attachments
+                  if(mvelo.ffa) {
+                    part.attachmentId = (new Date()).getTime();
+                    attachments[part.attachmentId] = [part.filename, part.content];
+                  }
                   port.postMessage({event: 'add-decrypted-attachment', message: part});
                   //console.log("Mail attachment----: "+part.filename+" - "+part.mimeType+"\n"+part.content);
                   //mvelo.util.openAttachment(part, port);
@@ -647,34 +662,6 @@ define(function (require, exports, module) {
                   //  //port.postMessage({event: 'add-decrypted-attachment', message: part});
                   //  console.log("Blob url: "+message);
                   //});
-                  if(mvelo.ffa) {
-                    const {Cc, Ci} = require("chrome");
-                    var utils = require('sdk/window/utils');
-                    var nsIFilePicker = Ci.nsIFilePicker,dirPicker = Cc["@mozilla.org/filepicker;1"].createInstance(Ci.nsIFilePicker);
-                    dirPicker.init(utils.getMostRecentBrowserWindow(),"Select the folder, where do you want to save the attachment", nsIFilePicker.modeGetFolder);
-                    var ret = dirPicker.show();
-                    //dirPicker.displayDirectory = "/home/na/Desktop";
-                    if (ret == nsIFilePicker.returnOK || ret == nsIFilePicker.returnReplace) {
-                      //console.log("Selected folder: "+dirPicker.file.path);
-                      var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsIFile);
-                      var dirSeparator = (require("sdk/system/runtime").OS.toLowerCase().indexOf("win")!=-1)?"\\":"/";
-                      file.initWithPath(dirPicker.file.path+dirSeparator+part.filename);
-                      if(!file.exists()) {
-                        file.create(0,0664);
-                      }
-                      //console.log("File created!");
-                      var out = Cc["@mozilla.org/network/file-output-stream;1"].createInstance(Ci.nsIFileOutputStream);
-                      out.init(file,0x20|0x02,00004,null); // jshint ignore:line
-                      var contentString = '';
-                      for (var i = 0; i < part.content.length; i++) {
-                        contentString += String.fromCharCode(part.content[i]);
-                      }
-                      //console.log("Content: "+contentString);
-                      out.write(contentString, contentString.length);
-                      out.flush();
-                      out.close();
-                    }
-                  }
                 }
               });
             }
