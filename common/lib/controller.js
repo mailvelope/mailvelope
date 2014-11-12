@@ -23,7 +23,7 @@ define(function (require, exports, module) {
   var prefs = require('./prefs');
   var pwdCache = require('./pwdCache');
   var mailreader = require('mailreader-parser');
-  //var mailbuilder = require('mailbuild');
+  var mailbuilder = require('mailbuild');
 
   // ports to main content scripts
   var mainCsPorts = {};
@@ -402,7 +402,6 @@ define(function (require, exports, module) {
         }
         break;
       case 'eframe-email-text':
-        /*
         //console.log('controller handlePortMessage:', msg.event, msg.sender);
         console.log("Encrypt text: "+JSON.stringify(msg.data)+" with attachments "+msg.attachments);
         var mainMessage = new mailbuilder("multipart/mixed");
@@ -413,10 +412,9 @@ define(function (require, exports, module) {
             .setContent(msg.data);
           mainMessage.appendChild(textMime);
         }
-
-        var contentLength;
-        var uint8Array;
         if(msg.attachments !== undefined && Object.keys(msg.attachments).length > 0) {
+          var contentLength;
+          var uint8Array;
           for (var attachment in msg.attachments) {
             contentLength = Object.keys(msg.attachments[attachment].content).length;
             uint8Array = new Uint8Array(contentLength);
@@ -432,8 +430,8 @@ define(function (require, exports, module) {
             mainMessage.appendChild(attachmentMime);
           }
         }
-        var composedMessage = mainMessage.build();*/
-        var composedMessage = msg.data;
+        var composedMessage = mainMessage.build();
+        //var composedMessage = msg.data;
         console.log("Created Message: "+composedMessage);
         if (msg.action === 'encrypt') {
           model.encryptMessage(composedMessage, keyidBuffer[id], function(err, msg) {
