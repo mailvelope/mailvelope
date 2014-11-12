@@ -92,7 +92,7 @@
   }
 
   function addAttachment(file) {
-    onChange();
+    onChange(); // setting the message as dirty
     var fileNameNoExt = mvelo.util.extractFileNameWithoutExt(file.name);
     var fileExt = mvelo.util.extractFileExtension(file.name);
     var extColor = mvelo.util.getExtensionColor(fileExt);
@@ -143,16 +143,6 @@
     var $uploadPanel = $("#uploadPanel");
     $uploadPanel.append(fileUI).append("&nbsp;");
   }
-
-  /*function removeAttachment(id) {
-    delete attachments[id];
-  }
-
-  function getAttachmentsContent(id) {
-    var result = attachments[id];
-    console.log("Attachment content: "+result);
-    return result;
-  }*/
 
   function onAddAttachment(selection) {
     //console.log("Selected File: "+$("#addFileInput").val());
