@@ -192,7 +192,10 @@ module.exports = function (grunt) {
             'mailreader/node_modules/mimeparser/src/*.js',
             'mailreader/node_modules/mimeparser/node_modules/addressparser/src/*.js',
             'mailreader/node_modules/mimeparser/node_modules/mimefuncs/src/*.js',
-            'mailreader/node_modules/stringencoding/dist/stringencoding.js'
+            'mailreader/node_modules/stringencoding/dist/stringencoding.js',
+            'mailbuild/src/mailbuild.js',
+            'mailbuild/node_modules/mimetypes/src/*.js',
+            'mailbuild/node_modules/punycode/punycode.js'
           ],
           dest: 'build/chrome/lib/'
         },
@@ -217,7 +220,10 @@ module.exports = function (grunt) {
             'mailreader/node_modules/mimeparser/src/*.js',
             'mailreader/node_modules/mimeparser/node_modules/addressparser/src/*.js',
             'mailreader/node_modules/mimeparser/node_modules/mimefuncs/src/*.js',
-            'mailreader/node_modules/stringencoding/dist/stringencoding.js'
+            'mailreader/node_modules/stringencoding/dist/stringencoding.js',
+            'mailbuild/src/mailbuild.js',
+            'mailbuild/node_modules/mimetypes/src/*.js',
+            'mailbuild/node_modules/punycode/punycode.js'
           ],
           dest: 'build/firefox/lib/'
         }]
