@@ -32,6 +32,15 @@ mvelo.EncryptFrame = function(prefs) {
   this._editorType = prefs.general.editor_type;
   this._options = {expanded: false, closeBtn: true};
   this._keyCounter = 0;
+  this._attachments = {};
+};
+
+mvelo.EncryptFrame.prototype.addAttachment = function(id, content){
+  this._attachments[id] = content;
+};
+
+mvelo.EncryptFrame.prototype.removeAttachment = function(id){
+  delete this._attachments[id];
 };
 
 mvelo.EncryptFrame.prototype.attachTo = function(element, options) {
@@ -392,6 +401,7 @@ mvelo.EncryptFrame.prototype._registerEventListener = function() {
         that._port.postMessage({
           event: 'eframe-email-text',
           data: that._getEmailText(msg.type),
+          attachments: that._attachments,
           action: msg.action,
           sender: 'eFrame-' + that.id
         });
