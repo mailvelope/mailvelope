@@ -129,10 +129,33 @@
     margin-right: 4px;
 }
 
-#uploadPanel .glyphicon:hover {
-
+#uploadPanel .removeAttachment {
+    border: 2px solid #a3a3a3;
+    border-radius: 2px;
+    padding: 0;
+    color: white;
+    background-color: #a3a3a3;
 }
 
-#uploadPanel .glyphicon:hover {
-    color: lightcoral;
+#uploadPanel .removeAttachment:hover {
+    border: 2px solid lightcoral;
+    background-color: lightcoral;
+}
+
+#uploadPanel .attachmentButton {
+    font-weight: normal;
+    color: #333;
+    background-color: #ccc;
+    padding: 5px;
+}
+
+#uploadPanel .attachmentButton:hover {
+    background-color: #ddd !important;
+    color: black !important;
+}
+
+#uploadPanel .attachmentExtension {
+    font-weight: normal;
+    color: black;
+    text-transform: uppercase;
 }

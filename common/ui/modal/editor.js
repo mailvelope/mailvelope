@@ -116,8 +116,7 @@
 
     var removeUploadButton = $('<span/>', {
       "data-id": id,
-      "style": "background-color: #b5b45b",
-      "class": 'glyphicon glyphicon-remove'
+      "class": 'glyphicon glyphicon-remove removeAttachment'
     }).on("click", function(e) {
       e.preventDefault();
       eFrame.removeAttachment($(this).attr("data-id"));
@@ -126,15 +125,14 @@
 
     var extensionButton = $('<span/>', {
       "data-id": id,
-      "style": "text-transform: uppercase; background-color: "+extColor,
-      "class": 'label'
+      "style": "background-color: "+extColor,
+      "class": 'label attachmentExtension'
     }).append(fileExt);
 
     var fileUI = $('<a/>', {
       "download": file.name,
       "href": objectURL,
-      "class": 'label label-default',
-      "style": 'background-color: #ddd'
+      "class": 'label label-default attachmentButton'
     })
     .append(extensionButton)
     .append(" "+fileNameNoExt+" ")
