@@ -226,6 +226,10 @@ module.exports = function (grunt) {
             'mailbuild/node_modules/punycode/punycode.js'
           ],
           dest: 'build/firefox/lib/'
+        },
+        { // fixing issue with mailbuilder and firefox addon
+          src: 'build/firefox/lib/addressparser.js',
+          dest: 'build/firefox/lib/wo-addressparser.js'
         }]
       }
     },
