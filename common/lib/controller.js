@@ -404,6 +404,8 @@ define(function (require, exports, module) {
       case 'eframe-email-text':
         //console.log('controller handlePortMessage:', msg.event, msg.sender);
         console.log("Encrypt text: "+JSON.stringify(msg.data)+" with attachments "+msg.attachments);
+        var composedMessage;
+        var hasAttachment;
         var mainMessage = new mailbuilder("multipart/mixed");
         if(msg.data !== undefined) {
           var textMime = new  mailbuilder("text/plain")
@@ -415,6 +417,7 @@ define(function (require, exports, module) {
         if(msg.attachments !== undefined && Object.keys(msg.attachments).length > 0) {
           var contentLength;
           var uint8Array;
+          hasAttachment = true;
           for (var attachment in msg.attachments) {
             contentLength = Object.keys(msg.attachments[attachment].content).length;
             uint8Array = new Uint8Array(contentLength);
@@ -430,8 +433,11 @@ define(function (require, exports, module) {
             mainMessage.appendChild(attachmentMime);
           }
         }
-        var composedMessage = mainMessage.build();
-        //var composedMessage = msg.data;
+        if(hasAttachment) {
+          composedMessage = mainMessage.build();
+        } else {
+          composedMessage = msg.data;
+        }
         console.log("Created Message: "+composedMessage);
         if (msg.action === 'encrypt') {
           model.encryptMessage(composedMessage, keyidBuffer[id], function(err, msg) {
