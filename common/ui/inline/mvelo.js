@@ -86,6 +86,21 @@ mvelo.DISPLAY_POPUP = 'popup';
 mvelo.PLAIN_TEXT = 'plain';
 mvelo.RICH_TEXT = 'rich';
 
+mvelo.util = {};
+
+mvelo.util.sortAndDeDup = function(unordered, compFn) {
+  var result = [];
+  var prev = -1;
+  unordered.sort(compFn).forEach(function(item) {
+    var equal = (compFn !== undefined && prev !== undefined) ? compFn(prev, item) === 0 : prev === item;
+    if (!equal) {
+      result.push(item);
+      prev = item;
+    }
+  });
+  return result;
+};
+
 // random hash generator
 mvelo.getHash = function() { return Math.random().toString(36).substr(2, 8); };
 

@@ -407,7 +407,7 @@ mvelo.EncryptFrame.prototype._registerEventListener = function() {
         });
         that._port.postMessage({
           event: 'eframe-textarea-element',
-          data: that._emailTextElement.is('textarea'),
+          isTextElement: that._emailTextElement.is('textarea'),
           sender: 'eFrame-' + that.id
         });
         break;

@@ -75,7 +75,7 @@
     id = 'editor-' + eFrame.getID();
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
-    port.postMessage({event: 'editor-init', sender: id});
+    port.postMessage({event: 'editor-init', sender: 'eFrame-' + parentID});
     // transfer warning modal
     $('#transferWarn .btn-primary').click(transfer);
     // observe modals for blur warning

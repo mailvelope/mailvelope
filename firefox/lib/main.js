@@ -31,7 +31,8 @@ try {
 checkStaticArgs();
 
 var mvelo = require('./lib-mvelo.js').mvelo;
-var controller = require('./common/controller');
+var controller = require('./common/controller/main.controller');
+var subController = require('./common/controller/sub.controller');
 var prefs = require('./common/prefs').data;
 var prompts = require('./prompt');
 
@@ -166,7 +167,7 @@ function injectMainCS() {
 function onCsAttach(worker) {
   //console.log("Attaching content scripts", worker.url);
   var pageHidden = false;
-  worker.port.on('port-message', controller.handlePortMessage);
+  worker.port.on('port-message', subController.handlePortMessage);
   worker.port.on('connect', function(portName) {
     var eventName = 'port-message' + '.' + portName;
     var that = this;
@@ -178,20 +179,20 @@ function onCsAttach(worker) {
         }
       },
       disconnect: function() {
-        controller.removePort({name: portName});
+        subController.removePort({name: portName});
       },
       ref: that
     };
-    controller.addPort(port);
+    subController.addPort(port);
   });
   worker.port.on('disconnect', function(portName) {
-    controller.removePort({name: portName});
+    subController.removePort({name: portName});
   });
   worker.on('pagehide', function() {
     pageHidden = true;
   });
   worker.on('detach', function() {
-    controller.removePortByRef(this.port);
+    subController.removePort(this.port);
   });
   worker.port.on('message-event', function(msg) {
     var that = this;

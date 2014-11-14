@@ -44,7 +44,14 @@ requirejs.config({
   }
 });
 
-define(["common/controller", "common/pgpViewModel", "common/prefs", "openpgp", "jquery"], function(controller, model, prefs, openpgp, $) {
+define([
+  "common/controller/main.controller",
+  "common/controller/sub.controller",
+  "common/pgpViewModel",
+  "common/prefs",
+  "openpgp",
+  "jquery"
+], function(controller, subController, model, prefs, openpgp, $) {
 
   // inject content script only once per time slot
   var injectTimeSlot = 600;
@@ -75,11 +82,11 @@ define(["common/controller", "common/pgpViewModel", "common/prefs", "openpgp", "
   function initConnectionManager() {
     // store incoming connections by name and id
     chrome.runtime.onConnect.addListener(function(port) {
-      //console.log('ConnectionManager: onConnect:', port);
-      controller.addPort(port);
-      port.onMessage.addListener(controller.handlePortMessage);
+      console.log('ConnectionManager: onConnect:', port);
+      subController.addPort(port);
+      port.onMessage.addListener(subController.handlePortMessage);
       // update active ports on disconnect
-      port.onDisconnect.addListener(controller.removePort);
+      port.onDisconnect.addListener(subController.removePort);
     });
   }
 

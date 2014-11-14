@@ -25,7 +25,7 @@
   function init() {
     // open port to background page
     var qs = jQuery.parseQuerystring();
-    id = 'eDialog-' + qs.id;
+    id = 'sDialog-' + qs.id;
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
     setStyles();
@@ -81,7 +81,7 @@
   }
 
   function onCancel() {
-    port.postMessage({event: 'encrypt-dialog-cancel', sender: id});
+    port.postMessage({event: 'sign-dialog-cancel', sender: id});
     return false;
   }
 
