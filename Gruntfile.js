@@ -226,10 +226,6 @@ module.exports = function (grunt) {
             'mailbuild/node_modules/punycode/punycode.js'
           ],
           dest: 'build/firefox/lib/'
-        },
-        { // fixing issue with mailbuilder and firefox addon
-          src: 'build/firefox/lib/addressparser.js',
-          dest: 'build/firefox/lib/wo-addressparser.js'
         }]
       }
     },
@@ -311,8 +307,11 @@ module.exports = function (grunt) {
   grunt.registerTask('dist-cr', ['compress:chrome']);
   grunt.registerTask('dist-ff', ['mozilla-addon-sdk', 'mozilla-cfx-xpi']);
   grunt.registerTask('start-ff-clean', ['mozilla-cfx:run_stable']);
+  grunt.registerTask('create-dumme-ap', 'Creates an dummy wo-addressparser.js needed for compatibility with firefox addons.', function() {
+    grunt.file.write('build/firefox/lib/wo-addressparser.js', '//file needed for compatibility with firefox addon sdk');
+  });
 
   grunt.registerTask('copy_default', ['copy:vendor', 'copy:common', 'copy:plugins', 'copy:common_browser', 'copy:locale_firefox', 'copy:dep']);
 
-  grunt.registerTask('default', ['jshint', 'modernizr', 'copy:jquery', 'concat', 'copy_default']);
+  grunt.registerTask('default', ['jshint', 'modernizr', 'copy:jquery', 'concat', 'copy_default', 'create-dumme-ap']);
 };
