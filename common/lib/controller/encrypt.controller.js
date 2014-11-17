@@ -21,7 +21,6 @@ define(function (require, exports, module) {
 
   function EncryptController(port) {
     sub.SubController.call(this, port);
-    this.pwdControl = sub.factory.get('pwdDialog');
     this.pwdCache = require('../pwdCache');
     this.keyidBuffer = null;
     this.messageBuffer = null;
@@ -91,7 +90,7 @@ define(function (require, exports, module) {
           } else {
             // open password dialog
             if (this.prefs.data.security.editor_mode == this.mvelo.EDITOR_WEBMAIL) {
-              this.pwdControl.unlockKey(message, function(err) {
+              sub.factory.get('pwdDialog').unlockKey(signBuffer, function(err) {
                 if (err === 'pwd-dialog-cancel') {
                   that.ports.eFrame.postMessage({event: 'dialog-cancel'});
                   return;

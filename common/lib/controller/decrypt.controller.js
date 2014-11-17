@@ -21,7 +21,7 @@ define(function (require, exports, module) {
 
   function DecryptController(port) {
     sub.SubController.call(this, port);
-    this.pwdControl = sub.factory.get('pwdDialog');
+    this.pwdControl = null;
     this.pwdCache = require('../pwdCache');
     this.decryptPopup = null;
     this.mailreader = require('mailreader-parser');
@@ -71,6 +71,7 @@ define(function (require, exports, module) {
           var cacheEntry = this.pwdCache.get(message.key.primaryKey.getKeyId().toHex(), message.keyid);
           if (!cacheEntry) {
             // open password dialog
+            this.pwdControl = sub.factory.get('pwdDialog');
             this.pwdControl.unlockKey(message, function(err) {
               if (err === 'pwd-dialog-cancel') {
                 that.dialogCancel();
@@ -83,7 +84,6 @@ define(function (require, exports, module) {
               that.decryptMessage(message);
             });
             if (this.prefs.data.security.display_decrypted == this.mvelo.DISPLAY_POPUP) {
-              console.log('show-pwd-dialog', this.pwdControl.id);
               this.ports.dDialog.postMessage({event: 'show-pwd-dialog', id: this.pwdControl.id});
             }
           } else {

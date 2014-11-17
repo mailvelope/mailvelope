@@ -29,6 +29,7 @@ define(function (require, exports, module) {
   sub.factory.register('mainCS', require('./mainCs.controller').MainCsController);
   sub.factory.register('vFrame', require('./verify.controller').VerifyController);
   sub.factory.register('pwdDialog', require('./pwd.controller').PwdController);
+  sub.factory.register('editor', require('./editor.controller').EditorController);
 
   // recipients of encrypted mail
   var scannedHosts = [];
@@ -256,20 +257,7 @@ define(function (require, exports, module) {
         reduced.push('*.' + labels.slice(-3).join('.'));
       }
     });
-    return sortAndDeDup(reduced);
-  }
-
-  function sortAndDeDup(unordered, compFn) {
-    var result = [];
-    var prev = -1;
-    unordered.sort(compFn).forEach(function(item) {
-      var equal = (compFn !== undefined && prev !== undefined) ? compFn(prev, item) === 0 : prev === item;
-      if (!equal) {
-        result.push(item);
-        prev = item;
-      }
-    });
-    return result;
+    return mvelo.util.sortAndDeDup(reduced);
   }
 
   function getWatchListFilterURLs() {
@@ -280,7 +268,7 @@ define(function (require, exports, module) {
       });
     });
     if (result.length !== 0) {
-      result = sortAndDeDup(result);
+      result = mvelo.util.sortAndDeDup(result);
     }
     return result;
   }

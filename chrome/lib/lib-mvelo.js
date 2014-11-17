@@ -170,7 +170,7 @@ define(function(require, exports, module) {
     chrome.windows.remove(this._id);
   };
 
-  mvelo.util = {};
+  mvelo.util = mvelo.util || {};
 
   mvelo.util.parseHTML = function(html, callback) {
     callback(dompurify.sanitize(html));

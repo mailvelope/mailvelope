@@ -82,7 +82,7 @@ define([
   function initConnectionManager() {
     // store incoming connections by name and id
     chrome.runtime.onConnect.addListener(function(port) {
-      console.log('ConnectionManager: onConnect:', port);
+      //console.log('ConnectionManager: onConnect:', port);
       subController.addPort(port);
       port.onMessage.addListener(subController.handlePortMessage);
       // update active ports on disconnect
