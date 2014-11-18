@@ -398,10 +398,46 @@ mvelo.EncryptFrame.prototype._registerEventListener = function() {
         that._removeDialog();
         break;
       case 'email-text':
+        var mainMessage = new window.mailbuild("multipart/mixed");
+        var composedMessage;
+        var hasAttachment;
+        var attachments = that._attachments;
+        var message = that._getEmailText(msg.type);
+        if(message !== undefined) {
+          var textMime = new window.mailbuild("text/plain")
+            .setHeader("Content-Type","text/plain; charset=utf-8")
+            .addHeader("Content-Transfer-Encoding","quoted-printable")
+            .setContent(message);
+          mainMessage.appendChild(textMime);
+        }
+        if(attachments !== undefined && Object.keys(attachments).length > 0) {
+          var contentLength;
+          var uint8Array;
+          hasAttachment = true;
+          for (var attachment in attachments) {
+            contentLength = Object.keys(attachments[attachment].content).length;
+            uint8Array = new Uint8Array(contentLength);
+            for (var i = 0; i < contentLength; i++) {
+              uint8Array[i] = attachments[attachment].content[i];
+            }
+            var attachmentMime = new window.mailbuild("text/plain")
+              .createChild(false, {filename: attachments[attachment].filename})
+              //.setHeader("Content-Type", msg.attachments[attachment].type+"; charset=utf-8")
+              .addHeader("Content-Transfer-Encoding", "base64")
+              .addHeader("Content-Disposition", "attachment") // ; filename="+msg.attachments[attachment].filename
+              .setContent(uint8Array);
+            mainMessage.appendChild(attachmentMime);
+          }
+        }
+        if(hasAttachment) {
+          composedMessage = mainMessage.build();
+        } else {
+          composedMessage = message;
+        }
         that._port.postMessage({
           event: 'eframe-email-text',
-          data: that._getEmailText(msg.type),
-          attachments: that._attachments,
+          data: composedMessage,
+//          attachments: that._attachments,
           action: msg.action,
           sender: 'eFrame-' + that.id
         });
