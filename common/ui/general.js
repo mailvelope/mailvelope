@@ -29,6 +29,8 @@
     $('#primaryKey').on('change', onPrimaryChange);
     $('#genBtnSave').click(onSave);
     $('#genBtnCancel').click(onCancel);
+    // disable editor selection
+    $('input:radio[name="editorRadios"]').prop('disabled', true);
   }
 
   function onSave() {

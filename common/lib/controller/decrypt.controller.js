@@ -28,7 +28,6 @@ define(function (require, exports, module) {
   }
 
   DecryptController.prototype = Object.create(sub.SubController.prototype);
-  DecryptController.prototype.parent = sub.SubController.prototype;
 
   DecryptController.prototype.handlePortMessage = function(msg) {
     var that = this;
@@ -72,7 +71,10 @@ define(function (require, exports, module) {
           if (!cacheEntry) {
             // open password dialog
             this.pwdControl = sub.factory.get('pwdDialog');
-            this.pwdControl.unlockKey(message, function(err) {
+            this.pwdControl.unlockKey({
+              message: message,
+              openPopup: this.prefs.data.security.display_decrypted == this.mvelo.DISPLAY_INLINE
+            }, function(err) {
               if (err === 'pwd-dialog-cancel') {
                 that.dialogCancel();
                 return;

@@ -16,13 +16,11 @@
  */
 
 (function() {
-  // shares ID with EncryptFrame
+
   var id;
-  // id of encrypt frame that triggered this dialog
-  var parentID;
+  var name;
   // plain or rich text
   var editor_type;
-  var eFrame;
   var port;
   // editor element
   var editor;
@@ -34,48 +32,36 @@
   var blurWarnPeriod = null;
   // timeoutID for period in which blur events are non-critical
   var blurValid = null;
+  var undoText = null;
 
   var maxFileUploadSize = 50000000;
   var currentUploadFileName;
 
   function init() {
     var qs = jQuery.parseQuerystring();
-    parentID = qs.parent;
-    editor_type = qs.editor_type;
+    id = qs.id;
+    name = 'editor-' + id;
+    // plain text only
+    editor_type = mvelo.PLAIN_TEXT; //qs.editor_type;
     $('#cancelBtn').click(onCancel);
     $('#transferBtn').click(onTransfer);
+    $('#signBtn').click(onSign);
+    $('#encryptBtn').click(onEncrypt);
+    $('#undoBtn').click(onUndo);
+    //$('#signBtn, #encryptBtn').hide();
     // blur warning
     blurWarn = $('#blurWarn');
     $(window).on('focus', startBlurValid);
-    // create encrypt frame
-    eFrame = new mvelo.EncryptFrame({
-      security: {
-        editor_mode: mvelo.EDITOR_WEBMAIL
-      },
-      general: {
-        editor_type: editor_type
-      }
-    });
     if (editor_type == mvelo.PLAIN_TEXT) {
       editor = createPlainText();
-      eFrame.attachTo($('#plainText'), {
-        editor: editor,
-        closeBtn: false,
-        set_text: setPlainText
-      });
     } else {
       createRichText(function(ed) {
         editor = ed;
-        eFrame.attachTo($('iframe.wysihtml5-sandbox'), {
-          set_text: setRichText,
-          closeBtn: false
-        });
       });
     }
-    id = 'editor-' + eFrame.getID();
-    port = mvelo.extension.connect({name: id});
+    port = mvelo.extension.connect({name: name});
     port.onMessage.addListener(messageListener);
-    port.postMessage({event: 'editor-init', sender: 'eFrame-' + parentID});
+    port.postMessage({event: 'editor-init', sender: name});
     // transfer warning modal
     $('#transferWarn .btn-primary').click(transfer);
     // observe modals for blur warning
@@ -167,7 +153,7 @@
   function onCancel() {
     port.postMessage({
       event: 'editor-cancel',
-      sender: id
+      sender: name
     });
     return false;
   }
@@ -186,10 +172,50 @@
     port.postMessage({
       event: 'editor-transfer-output',
       data: armored,
-      sender: id,
-      recipient: parentID
+      sender: name
     });
     return true;
+  }
+
+  function onSign() {
+    showDialog('signDialog');
+  }
+
+  function onEncrypt() {
+    showDialog('encryptDialog');
+  }
+
+  function onUndo() {
+    setText(undoText);
+    undoText = null;
+    $('#undoBtn').prop('disabled', true);
+  }
+
+  function showDialog(type) {
+    var dialog = $('<iframe/>', {
+      'class': 'm-dialog',
+      frameBorder: 0,
+      scrolling: 'no'
+    });
+    var url;
+    if (mvelo.crx) {
+      url = mvelo.extension.getURL('common/ui/inline/dialogs/' + type + '.html?id=' + id);
+    } else if (mvelo.ffa) {
+      url = 'about:blank?mvelo=' + dialog + '&id=' + id;
+    }
+    dialog.attr('src', url);
+    $('#encryptModal .modal-body').append(dialog);
+    $('#encryptModal').modal('show');
+  }
+
+  function removeDialog(done) {
+    $('#encryptModal').modal('hide');
+    $('#encryptModal').on('hidden.bs.modal', function() {
+      $('#encryptModal iframe').remove();
+      if (done) {
+        done();
+      }
+    });
   }
 
   function createPlainText() {
@@ -241,7 +267,10 @@
     });
   }
 
-  function setRichText(text) {
+  function setRichText(text, type) {
+    if (type === 'text') {
+      text = '<pre>' + text + '</pre>';
+    }
     editor.data("wysihtml5").editor.setValue(text, true);
     isDirty = false;
   }
@@ -249,6 +278,14 @@
   function setPlainText(text) {
     editor.val(text);
     isDirty = false;
+  }
+
+  function setText(text, type) {
+    if (editor_type == mvelo.PLAIN_TEXT) {
+      setPlainText(text);
+    } else {
+      setRichText(text, type);
+    }
   }
 
   function onChange() {
@@ -310,14 +347,13 @@
     return true;
   }
 
-  function addPwdDialog() {
+  function addPwdDialog(id) {
     var pwd = $('<iframe/>', {
       id: 'pwdDialog',
-      src: '../modal/pwdDialog.html?id=' + eFrame.getID(),
+      src: '../modal/pwdDialog.html?id=' + id,
       frameBorder: 0
     });
     $('body').find('#editorDialog').fadeOut(function() {
-      //$('.m-encrypt-frame').hide();
       $('body').append(pwd);
     });
   }
@@ -326,8 +362,6 @@
     $('body #pwdDialog').fadeOut(function() {
       $('body #pwdDialog').remove();
       $('body').find('#editorDialog').show();
-      //$('.m-encrypt-frame').fadeIn();
-      eFrame._setFrameDim();
     });
   }
 
@@ -335,17 +369,37 @@
     //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
       case 'set-text':
-        if (editor_type == mvelo.PLAIN_TEXT) {
-          editor.val(msg.text);
-        } else {
-          setRichText(msg.text);
-        }
+        setText(msg.text);
         break;
       case 'show-pwd-dialog':
-        addPwdDialog();
+        removeDialog(function() {
+          addPwdDialog(msg.id);
+        });
         break;
       case 'hide-pwd-dialog':
         hidePwdDialog();
+        break;
+      case 'encrypt-dialog-cancel':
+      case 'sign-dialog-cancel':
+        removeDialog();
+        break;
+      case 'get-plaintext':
+        port.postMessage({
+          event: 'editor-plaintext',
+          sender: name,
+          data: editor.val(),
+          action: msg.action
+        });
+        break;
+      case 'encrypted-message':
+      case 'signed-message':
+        undoText = editor.val();
+        $('#undoBtn').prop('disabled', false);
+        removeDialog();
+        setText(msg.message, 'text');
+        if (msg.event == 'signed-message') {
+          hidePwdDialog();
+        }
         break;
       default:
         console.log('unknown event');

@@ -30,7 +30,6 @@ define(function (require, exports, module) {
   }
 
   PwdController.prototype = Object.create(sub.SubController.prototype);
-  PwdController.prototype.parent = sub.SubController.prototype;
 
   PwdController.prototype.handlePortMessage = function(msg) {
     var that = this;
@@ -92,11 +91,14 @@ define(function (require, exports, module) {
     }
   };
 
-  PwdController.prototype.unlockKey = function(message, callback) {
+  PwdController.prototype.unlockKey = function(options, callback) {
     var that = this;
-    this.message = message;
+    this.message = options.message;
     this.done = callback;
-    if (this.prefs.data.security.display_decrypted == this.mvelo.DISPLAY_INLINE) {
+    if (typeof options.openPopup == 'undefined') {
+      options.openPopup = true;
+    }
+    if (options.openPopup) {
       this.mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + this.id, {width: 462, height: 377, modal: true}, function(window) {
         that.pwdPopup = window;
       });

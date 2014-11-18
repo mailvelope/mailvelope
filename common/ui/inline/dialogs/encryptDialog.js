@@ -173,6 +173,7 @@
         if (!msg.defaults.editable) {
           $('input[name="encodeRadios"]').prop('disabled', true);
         }
+        $('#encoding').show();
         break;
       default:
         console.log('unknown event');

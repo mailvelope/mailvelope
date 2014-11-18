@@ -71,6 +71,14 @@
     "message": "Warning. Text editor lost focus.",
     "description": "Warning for lost focus."
   },
+  "editor_encrypt_button": {
+    "message": "Encrypt",
+    "description": "Encrypt button."
+  },
+  "editor_sign_button": {
+    "message": "Sign",
+    "description": "Sign button."
+  },
   "pwd_dialog_title": {
     "message": "Password entry | Mailvelope",
     "description": "Title of the password dialog."
@@ -610,6 +618,10 @@
   "form_continue": {
     "message": "Continue",
     "description": "Continue form button."
+  },
+  "form_undo": {
+    "message": "Undo",
+    "description": "Undo form button."
   },
   "watchlist_title_active": {
     "message": "Active",

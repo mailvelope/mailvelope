@@ -24,7 +24,6 @@ define(function (require, exports, module) {
   }
 
   ImportController.prototype = Object.create(sub.SubController.prototype);
-  ImportController.prototype.parent = sub.SubController.prototype;
 
   ImportController.prototype.handlePortMessage = function(msg) {
     var that = this;

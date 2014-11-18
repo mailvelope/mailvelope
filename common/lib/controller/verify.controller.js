@@ -25,7 +25,6 @@ define(function (require, exports, module) {
   }
 
   VerifyController.prototype = Object.create(sub.SubController.prototype);
-  VerifyController.prototype.parent = sub.SubController.prototype;
 
   VerifyController.prototype.handlePortMessage = function(msg) {
     var that = this;

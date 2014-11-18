@@ -24,7 +24,6 @@ define(function (require, exports, module) {
   }
 
   MainCsController.prototype = Object.create(sub.SubController.prototype);
-  MainCsController.prototype.parent = sub.SubController.prototype;
 
   MainCsController.prototype.handlePortMessage = function(msg) {
     switch (msg.event) {

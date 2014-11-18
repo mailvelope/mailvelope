@@ -23,13 +23,13 @@ define(function (require, exports, module) {
     sub.SubController.call(this, port);
     this.pwdCache = require('../pwdCache');
     this.keyidBuffer = null;
-    this.messageBuffer = null;
+    this.signBuffer = null;
     this.pwdCache = require('../pwdCache');
-    this.editorControl = sub.factory.get('editor');
+    this.editorControl = null;
+    this.recipientsCallback = null;
   }
 
   EncryptController.prototype = Object.create(sub.SubController.prototype);
-  EncryptController.prototype.parent = sub.SubController.prototype;
 
   EncryptController.prototype.handlePortMessage = function(msg) {
     var that = this;
@@ -62,8 +62,12 @@ define(function (require, exports, module) {
         var emails = this.mvelo.util.sortAndDeDup(msg.data);
         var keys = this.model.getKeyUserIDs(emails);
         var primary = this.prefs.data.general.auto_add_primary && this.prefs.data.general.primary_key.toLowerCase();
-        // if editor is active send to corresponding eDialog
-        this.ports.eDialog.postMessage({event: 'public-key-userids', keys: keys, primary: primary});
+        if (this.recipientsCallback) {
+          this.recipientsCallback({ keys: keys, primary: primary });
+          this.recipientsCallback = null;
+        } else {
+          this.ports.eDialog.postMessage({event: 'public-key-userids', keys: keys, primary: primary});
+        }
         break;
       case 'encrypt-dialog-ok':
         // add recipients to buffer
@@ -72,47 +76,45 @@ define(function (require, exports, module) {
         this.ports.eFrame.postMessage({event: 'email-text', type: msg.type, action: 'encrypt'});
         break;
       case 'sign-dialog-ok':
-        var signBuffer = this.messageBuffer = {};
+        this.signBuffer = {};
         var cacheEntry = this.pwdCache.get(msg.signKeyId, msg.signKeyId);
         if (cacheEntry && cacheEntry.key) {
-          signBuffer.key = cacheEntry.key;
+          this.signBuffer.key = cacheEntry.key;
           this.ports.eFrame.postMessage({event: 'email-text', type: msg.type, action: 'sign'});
         } else {
           var key = this.model.getKeyForSigning(msg.signKeyId);
           // add key in buffer
-          signBuffer.key = key.signKey;
-          signBuffer.keyid = msg.signKeyId;
-          signBuffer.userid = key.userId;
+          this.signBuffer.key = key.signKey;
+          this.signBuffer.keyid = msg.signKeyId;
+          this.signBuffer.userid = key.userId;
           if (cacheEntry) {
-            this.pwdCache.unlock(cacheEntry, signBuffer, function() {
+            this.pwdCache.unlock(cacheEntry, this.signBuffer, function() {
               that.ports.eFrame.postMessage({event: 'email-text', type: msg.type, action: 'sign'});
             });
           } else {
             // open password dialog
-            if (this.prefs.data.security.editor_mode == this.mvelo.EDITOR_WEBMAIL) {
-              sub.factory.get('pwdDialog').unlockKey(signBuffer, function(err) {
-                if (err === 'pwd-dialog-cancel') {
-                  that.ports.eFrame.postMessage({event: 'dialog-cancel'});
-                  return;
-                }
-                if (err) {
-                  // TODO: propagate error to sign dialog
-                }
-                // success
-                that.ports.eFrame.postMessage({event: 'email-text', type: msg.type, action: 'sign'});
-              });
-            }
+            sub.factory.get('pwdDialog').unlockKey({message: this.signBuffer}, function(err) {
+              if (err === 'pwd-dialog-cancel') {
+                that.ports.eFrame.postMessage({event: 'dialog-cancel'});
+                return;
+              }
+              if (err) {
+                // TODO: propagate error to sign dialog
+              }
+              // success
+              that.ports.eFrame.postMessage({event: 'email-text', type: msg.type, action: 'sign'});
+            });
           }
         }
         break;
       case 'eframe-email-text':
         if (msg.action === 'encrypt') {
           this.model.encryptMessage(msg.data, this.keyidBuffer, function(err, msg) {
-            that.ports.eFrame.postMessage({event: 'encrypted-message', message: msg});
+            that.ports.editor.postMessage({event: 'encrypted-message', message: msg});
           });
         } else if (msg.action === 'sign') {
-          this.model.signMessage(msg.data, this.messageBuffer.key, function(err, msg) {
-            that.ports.eFrame.postMessage({event: 'signed-message', message: msg});
+          this.model.signMessage(msg.data, this.signBuffer.key, function(err, msg) {
+            that.ports.editor.postMessage({event: 'signed-message', message: msg});
           });
         } else {
           throw new Error('Unknown eframe action:', msg.action);
@@ -127,15 +129,19 @@ define(function (require, exports, module) {
           defaultEncoding.type = 'html';
           defaultEncoding.editable = true;
         }
-        // if editor is active send to corresponding eDialog
-        this.ports.eDialog.postMessage({event: 'encoding-defaults', defaults: defaultEncoding});
+        // if eDialog is active in inline mode
+        this.ports.eDialog && this.ports.eDialog.postMessage({event: 'encoding-defaults', defaults: defaultEncoding});
         break;
       case 'eframe-display-editor':
         if (this.mvelo.windows.modalActive) {
           // modal dialog already open
           // TODO show error, fix modalActive on FF
         } else {
-          this.editorControl.encrypt(msg.text, function(err, armored) {
+          this.editorControl = sub.factory.get('editor');
+          this.editorControl.encrypt({
+            initText: msg.text,
+            getRecipients: this.getRecipients.bind(this)
+          }, function(err, armored) {
             if (!err) {
               // sanitize if content from plain text, rich text already sanitized by editor
               if (that.prefs.data.general.editor_type == that.mvelo.PLAIN_TEXT) {
@@ -154,6 +160,14 @@ define(function (require, exports, module) {
       default:
         console.log('unknown event', msg);
     }
+  };
+
+  EncryptController.prototype.getRecipients = function(callback) {
+    if (this.recipientsCallback) {
+      throw new Error('Waiting for recipients result.');
+    }
+    this.ports.eFrame.postMessage({event: 'recipient-proposal'});
+    this.recipientsCallback = callback;
   };
 
   exports.EncryptController = EncryptController;
