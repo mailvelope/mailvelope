@@ -4,7 +4,7 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
 
-    clean: ['build/', 'dist/**/*'],
+    clean: ['build/**/*', 'dist/**/*'],
 
     clean_all: ['build/', 'tmp/', 'dist/**/*'],
 
@@ -21,7 +21,7 @@ module.exports = function (grunt) {
           'chrome/lib/*.js',
           'firefox/**/*.js'
         ]
-      },
+      }
     },
     concat: {
       content_script: {
@@ -99,6 +99,20 @@ module.exports = function (grunt) {
             cwd: 'bower_components/css-toggle-switch/dist/',
             src: 'toggle-switch.css',
             dest: 'build/common/dep/toggle-switch/'
+          },
+          {
+            expand: true,
+            flatten: true,
+            cwd: 'node_modules/',
+            src: [
+              'mailbuild/src/mailbuild.js',
+              'mailbuild/node_modules/mimetypes/src/*.js',
+              'mailbuild/node_modules/mimefuncs/src/*.js',
+              'mailbuild/node_modules/mimefuncs/node_modules/wo-stringencoding/dist/stringencoding.js',
+              'mailbuild/node_modules/punycode/punycode.js',
+              'mailbuild/node_modules/wo-addressparser/src/addressparser.js'
+            ],
+            dest: 'build/common/dep/mailbuilder'
           },
           {
             expand: true,
@@ -192,10 +206,7 @@ module.exports = function (grunt) {
             'mailreader/node_modules/mimeparser/src/*.js',
             'mailreader/node_modules/mimeparser/node_modules/addressparser/src/*.js',
             'mailreader/node_modules/mimeparser/node_modules/mimefuncs/src/*.js',
-            'mailreader/node_modules/stringencoding/dist/stringencoding.js',
-            'mailbuild/src/mailbuild.js',
-            'mailbuild/node_modules/mimetypes/src/*.js',
-            'mailbuild/node_modules/punycode/punycode.js'
+            'mailreader/node_modules/stringencoding/dist/stringencoding.js'
           ],
           dest: 'build/chrome/lib/'
         },
@@ -220,10 +231,7 @@ module.exports = function (grunt) {
             'mailreader/node_modules/mimeparser/src/*.js',
             'mailreader/node_modules/mimeparser/node_modules/addressparser/src/*.js',
             'mailreader/node_modules/mimeparser/node_modules/mimefuncs/src/*.js',
-            'mailreader/node_modules/stringencoding/dist/stringencoding.js',
-            'mailbuild/src/mailbuild.js',
-            'mailbuild/node_modules/mimetypes/src/*.js',
-            'mailbuild/node_modules/punycode/punycode.js'
+            'mailreader/node_modules/stringencoding/dist/stringencoding.js'
           ],
           dest: 'build/firefox/lib/'
         }]
@@ -307,11 +315,8 @@ module.exports = function (grunt) {
   grunt.registerTask('dist-cr', ['compress:chrome']);
   grunt.registerTask('dist-ff', ['mozilla-addon-sdk', 'mozilla-cfx-xpi']);
   grunt.registerTask('start-ff-clean', ['mozilla-cfx:run_stable']);
-  grunt.registerTask('create-dumme-ap', 'Creates an dummy wo-addressparser.js needed for compatibility with firefox addons.', function() {
-    grunt.file.write('build/firefox/lib/wo-addressparser.js', '//file needed for compatibility with firefox addon sdk');
-  });
 
   grunt.registerTask('copy_default', ['copy:vendor', 'copy:common', 'copy:plugins', 'copy:common_browser', 'copy:locale_firefox', 'copy:dep']);
 
-  grunt.registerTask('default', ['jshint', 'modernizr', 'copy:jquery', 'concat', 'copy_default', 'create-dumme-ap']);
+  grunt.registerTask('default', ['clean','jshint', 'modernizr', 'copy:jquery', 'concat', 'copy_default']);
 };
