@@ -23,7 +23,6 @@ define(function (require, exports, module) {
   var prefs = require('./prefs');
   var pwdCache = require('./pwdCache');
   var mailreader = require('mailreader-parser');
-  var mailbuilder = require('mailbuild');
 
   // ports to main content scripts
   var mainCsPorts = {};
@@ -403,48 +402,13 @@ define(function (require, exports, module) {
         break;
       case 'eframe-email-text':
         //console.log('controller handlePortMessage:', msg.event, msg.sender);
-        console.log("Encrypt text: "+JSON.stringify(msg.data)+" with attachments "+msg.attachments);
-        var composedMessage;
-        var hasAttachment;
-        var mainMessage = new mailbuilder("multipart/mixed");
-        if(msg.data !== undefined) {
-          var textMime = new  mailbuilder("text/plain")
-            .setHeader("Content-Type","text/plain; charset=utf-8")
-            .addHeader("Content-Transfer-Encoding","quoted-printable")
-            .setContent(msg.data);
-          mainMessage.appendChild(textMime);
-        }
-        if(msg.attachments !== undefined && Object.keys(msg.attachments).length > 0) {
-          var contentLength;
-          var uint8Array;
-          hasAttachment = true;
-          for (var attachment in msg.attachments) {
-            contentLength = Object.keys(msg.attachments[attachment].content).length;
-            uint8Array = new Uint8Array(contentLength);
-            for (var i = 0; i < contentLength; i++) {
-              uint8Array[i] = msg.attachments[attachment].content[i];
-            }
-            var attachmentMime = new mailbuilder("text/plain")
-              .createChild(false, {filename: msg.attachments[attachment].filename})
-              //.setHeader("Content-Type", msg.attachments[attachment].type+"; charset=utf-8")
-              .addHeader("Content-Transfer-Encoding", "base64")
-              .addHeader("Content-Disposition", "attachment") // ; filename="+msg.attachments[attachment].filename
-              .setContent(uint8Array);
-            mainMessage.appendChild(attachmentMime);
-          }
-        }
-        if(hasAttachment) {
-          composedMessage = mainMessage.build();
-        } else {
-          composedMessage = msg.data;
-        }
-        console.log("Created Message: "+composedMessage);
+        //console.log("Encrypt text: "+JSON.stringify(msg.data)); // msg.attachments
         if (msg.action === 'encrypt') {
-          model.encryptMessage(composedMessage, keyidBuffer[id], function(err, msg) {
+          model.encryptMessage(msg.data, keyidBuffer[id], function(err, msg) {
             eFramePorts[id].postMessage({event: 'encrypted-message', message: msg});
           });
         } else if (msg.action === 'sign') {
-          model.signMessage(composedMessage, messageBuffer[id].key, function(err, msg) {
+          model.signMessage(msg.data, messageBuffer[id].key, function(err, msg) {
             editor && editor.port.postMessage({event: 'hide-pwd-dialog'});
             eFramePorts[id].postMessage({event: 'signed-message', message: msg});
           });
