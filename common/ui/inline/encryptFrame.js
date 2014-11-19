@@ -398,6 +398,7 @@ mvelo.EncryptFrame.prototype._registerEventListener = function() {
         that._removeDialog();
         break;
       case 'email-text':
+        //var t0 = Date.now();
         var mainMessage = new window.mailbuild("multipart/mixed");
         var composedMessage;
         var hasAttachment;
@@ -434,6 +435,8 @@ mvelo.EncryptFrame.prototype._registerEventListener = function() {
         } else {
           composedMessage = message;
         }
+        //var t1 = Date.now();
+        //console.log("Building mime message took " + (t1 - t0) + " milliseconds. Current time: "+t1);
         that._port.postMessage({
           event: 'eframe-email-text',
           data: composedMessage,
