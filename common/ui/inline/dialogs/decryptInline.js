@@ -99,35 +99,6 @@
     $('#wrapper').append(attachments);
   }
 
-  function addAttachmentPanel2() {
-    var attachmentPanel = $('<iframe/>', {
-      id: 'attachmentarea',
-      frameBorder: 0
-    });
-    var attachments = $('<div/>', {
-      id: 'attachments',
-      css: {
-        position: 'absolute',
-        top: '0',
-        left: 0,
-        right: 0,
-        bottom: '0',
-        padding: '3px',
-        'background-color': 'rgba(0,0,0,0)', // #D7E3FF
-        overflow: 'auto'
-      }
-    });
-    var style = $('<link/>', {
-      rel: 'stylesheet',
-      href: commonPath + '/dep/bootstrap/css/bootstrap.css'
-    });
-    attachmentPanel.on('load', function() {
-      $(this).contents().find('head').append(style);
-      $(this).contents().find('body').append(attachments);
-    });
-    $('#wrapper').append(attachmentPanel);
-  }
-
   function addSandbox() {
     var sandbox = $('<iframe/>', {
       id: 'decryptmail',

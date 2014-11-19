@@ -33,6 +33,7 @@
   // timeoutID for period in which blur events are non-critical
   var blurValid = null;
   var undoText = null;
+  var attachments = {};
 
   // maximal size of the attachments in bytes, ca 50 MB
   var maxFileUploadSize = 50*1024*1024;
@@ -77,6 +78,10 @@
 
   }
 
+  function removeAttachment(id) {
+    delete attachments[id];
+  }
+
   function addAttachment(file) {
     onChange(); // setting the message as dirty
     var fileNameNoExt = mvelo.util.extractFileNameWithoutExt(file.name);
@@ -89,12 +94,13 @@
     var fileReader = new FileReader();
     fileReader.onload = function() {
       unint8Array = new Uint8Array(this.result);
-      eFrame.addAttachment(id, {
+      // Add attachment
+      attachments[id] = {
         "content": unint8Array,
         "filename": file.name,
         "size": file.size,
         "type": file.type
-      });
+      };
     };
     fileReader.readAsArrayBuffer(file);
 
@@ -105,7 +111,7 @@
       "class": 'glyphicon glyphicon-remove removeAttachment'
     }).on("click", function(e) {
       e.preventDefault();
-      eFrame.removeAttachment($(this).attr("data-id"));
+      removeAttachment($(this).attr("data-id"));
       $(this).parent().remove();
     });
 
@@ -352,6 +358,48 @@
     $('#encryptModal iframe').remove();
   }
 
+  function composedMessage() {
+    //var t0 = Date.now();
+    var mainMessage = new window.mailbuild("multipart/mixed");
+    var composedMessage;
+    var hasAttachment;
+    var message = editor.val();
+    if(message !== undefined) {
+      var textMime = new window.mailbuild("text/plain")
+        .setHeader("Content-Type","text/plain; charset=utf-8")
+        .addHeader("Content-Transfer-Encoding","quoted-printable")
+        .setContent(message);
+      mainMessage.appendChild(textMime);
+    }
+    if(attachments !== undefined && Object.keys(attachments).length > 0) {
+      var contentLength;
+      var uint8Array;
+      hasAttachment = true;
+      for (var attachment in attachments) {
+        contentLength = Object.keys(attachments[attachment].content).length;
+        uint8Array = new Uint8Array(contentLength);
+        for (var i = 0; i < contentLength; i++) {
+          uint8Array[i] = attachments[attachment].content[i];
+        }
+        var attachmentMime = new window.mailbuild("text/plain")
+          .createChild(false, {filename: attachments[attachment].filename})
+          //.setHeader("Content-Type", msg.attachments[attachment].type+"; charset=utf-8")
+          .addHeader("Content-Transfer-Encoding", "base64")
+          .addHeader("Content-Disposition", "attachment") // ; filename="+msg.attachments[attachment].filename
+          .setContent(uint8Array);
+        mainMessage.appendChild(attachmentMime);
+      }
+    }
+    if(hasAttachment) {
+      composedMessage = mainMessage.build();
+    } else {
+      composedMessage = message;
+    }
+    //var t1 = Date.now();
+    //console.log("Building mime message took " + (t1 - t0) + " milliseconds. Current time: "+t1);
+    return composedMessage;
+  }
+
   function messageListener(msg) {
     //console.log('editor messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
@@ -373,7 +421,7 @@
         port.postMessage({
           event: 'editor-plaintext',
           sender: name,
-          data: editor.val(),
+          data: composedMessage(),
           action: msg.action
         });
         break;
