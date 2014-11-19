@@ -37,6 +37,7 @@ define(function (require, exports, module) {
 
   EditorController.prototype.handlePortMessage = function(msg) {
     var that = this;
+    //console.log('EditorController.handlePortMessage', msg);
     switch (msg.event) {
       case 'editor-init':
         this.ports.editor.postMessage({event: 'set-text', text: this.initText});

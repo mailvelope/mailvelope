@@ -48,7 +48,7 @@
     $('#signBtn').click(onSign);
     $('#encryptBtn').click(onEncrypt);
     $('#undoBtn').click(onUndo);
-    //$('#signBtn, #encryptBtn').hide();
+    $('#transferBtn').hide();
     // blur warning
     blurWarn = $('#blurWarn');
     $(window).on('focus', startBlurValid);
@@ -189,33 +189,8 @@
     setText(undoText);
     undoText = null;
     $('#undoBtn').prop('disabled', true);
-  }
-
-  function showDialog(type) {
-    var dialog = $('<iframe/>', {
-      'class': 'm-dialog',
-      frameBorder: 0,
-      scrolling: 'no'
-    });
-    var url;
-    if (mvelo.crx) {
-      url = mvelo.extension.getURL('common/ui/inline/dialogs/' + type + '.html?id=' + id);
-    } else if (mvelo.ffa) {
-      url = 'about:blank?mvelo=' + dialog + '&id=' + id;
-    }
-    dialog.attr('src', url);
-    $('#encryptModal .modal-body').append(dialog);
-    $('#encryptModal').modal('show');
-  }
-
-  function removeDialog(done) {
-    $('#encryptModal').modal('hide');
-    $('#encryptModal').on('hidden.bs.modal', function() {
-      $('#encryptModal iframe').remove();
-      if (done) {
-        done();
-      }
-    });
+    $('#signBtn, #encryptBtn').show();
+    $('#transferBtn').hide();
   }
 
   function createPlainText() {
@@ -365,16 +340,37 @@
     });
   }
 
+  function showDialog(type) {
+    var dialog = $('<iframe/>', {
+      'class': 'm-dialog',
+      frameBorder: 0,
+      scrolling: 'no'
+    });
+    var url;
+    if (mvelo.crx) {
+      url = mvelo.extension.getURL('common/ui/inline/dialogs/' + type + '.html?id=' + id);
+    } else if (mvelo.ffa) {
+      url = 'about:blank?mvelo=' + dialog + '&id=' + id;
+    }
+    dialog.attr('src', url);
+    $('#encryptModal .modal-body').append(dialog);
+    $('#encryptModal').modal('show');
+  }
+
+  function removeDialog() {
+    $('#encryptModal').modal('hide');
+    $('#encryptModal iframe').remove();
+  }
+
   function messageListener(msg) {
-    //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
+    //console.log('editor messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
       case 'set-text':
         setText(msg.text);
         break;
       case 'show-pwd-dialog':
-        removeDialog(function() {
-          addPwdDialog(msg.id);
-        });
+        removeDialog();
+        addPwdDialog(msg.id);
         break;
       case 'hide-pwd-dialog':
         hidePwdDialog();
@@ -400,6 +396,8 @@
         if (msg.event == 'signed-message') {
           hidePwdDialog();
         }
+        $('#signBtn, #encryptBtn').hide();
+        $('#transferBtn').show();
         break;
       default:
         console.log('unknown event');

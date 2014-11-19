@@ -110,11 +110,11 @@ define(function (require, exports, module) {
       case 'eframe-email-text':
         if (msg.action === 'encrypt') {
           this.model.encryptMessage(msg.data, this.keyidBuffer, function(err, msg) {
-            that.ports.editor.postMessage({event: 'encrypted-message', message: msg});
+            that.ports.eFrame.postMessage({event: 'encrypted-message', message: msg});
           });
         } else if (msg.action === 'sign') {
           this.model.signMessage(msg.data, this.signBuffer.key, function(err, msg) {
-            that.ports.editor.postMessage({event: 'signed-message', message: msg});
+            that.ports.eFrame.postMessage({event: 'signed-message', message: msg});
           });
         } else {
           throw new Error('Unknown eframe action:', msg.action);
