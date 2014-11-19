@@ -29,7 +29,7 @@ mvelo.EncryptFrame = function(prefs) {
   this._emailUndoText = null;
   this._editorMode = prefs.security.editor_mode;
   // type of external editor
-  this._editorType = prefs.general.editor_type;
+  this._editorType = mvelo.PLAIN_TEXT; //prefs.general.editor_type;
   this._options = {expanded: false, closeBtn: true};
   this._keyCounter = 0;
   this._attachments = {};
@@ -456,7 +456,7 @@ mvelo.EncryptFrame.prototype._registerEventListener = function() {
         });
         that._port.postMessage({
           event: 'eframe-textarea-element',
-          data: that._emailTextElement.is('textarea'),
+          isTextElement: that._emailTextElement.is('textarea'),
           sender: 'eFrame-' + that.id
         });
         break;
@@ -469,7 +469,7 @@ mvelo.EncryptFrame.prototype._registerEventListener = function() {
       case 'set-editor-output':
         that._saveEmailText();
         that._normalizeButtons();
-        that._setMessage(msg.text, that._editorType == mvelo.PLAIN_TEXT ? 'text' : 'html');
+        that._setMessage(msg.text, 'text');
         break;
       case 'dialog-cancel':
         that._removeDialog();

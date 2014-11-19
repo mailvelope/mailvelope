@@ -51,6 +51,7 @@ define(function (require, exports, module) {
       }
       if (prefs.version !== defaults.version) {
         prefs.version = defaults.version;
+        prefs.general.editor_type = mvelo.PLAIN_TEXT;
         model.setPreferences(prefs);
         mergeWatchlist(defaults);
       }

@@ -189,7 +189,7 @@ mvelo.windows.BrowserWindow.prototype.activate = function() {
   chrome.windows.update(this._id, {focused: true});
 };
 
-mvelo.util = {};
+mvelo.util = mvelo.util || {};
 
 var dompurifyWorker = require("sdk/page-worker").Page({
   contentScriptFile: [

@@ -120,7 +120,7 @@
     $('.modal-body').append(sandbox);
   }
 
-  function addPwdDialog() {
+  function addPwdDialog(id) {
     pwd = $('<iframe/>', {
       id: 'pwdDialog',
       src: 'pwdDialog.html?id=' + id,
@@ -210,7 +210,7 @@
         addAttachment(msg.message.filename, msg.message.content, msg.message.mimeType);
         break;
       case 'show-pwd-dialog':
-        addPwdDialog();
+        addPwdDialog(msg.id);
         break;
       case 'error-message':
         showError(msg.error);

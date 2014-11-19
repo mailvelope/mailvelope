@@ -28,6 +28,7 @@
   <script src="editor.js"></script>
 </head>
 <body>
+
   <div id="editorDialog" class="m-modal">
     <div class="modal-header clearfix">
       <div id='secureCode'></div>
@@ -44,23 +45,40 @@
     <div class="modal-footer">
       <!--button id="uploadBtn" class="btn btn-info pull-left" data-l10n-id="upload_attachment"></button-->
       <button id="cancelBtn" class="btn btn-default" data-l10n-id="form_cancel"></button>
+      <button id="undoBtn" class="btn btn-default" data-l10n-id="form_undo" disabled="true"></button>
       <button id="transferBtn" class="btn btn-primary" data-l10n-id="editor_transfer"></button>
+      <button id="signBtn" class="btn btn-default" data-l10n-id="editor_sign_button"></button>
+      <button id="encryptBtn" class="btn btn-primary" data-l10n-id="editor_encrypt_button"></button>
     </div>
   </div>
 
-  <div id="transferWarn" class="m-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      <h4 class="text-warning" data-l10n-id="alert_header_warning"></h4>
-    </div>
-    <div class="modal-body">
-      <p data-l10n-id="editor_transfer_unencrypted"></p>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-default" data-dismiss="modal" aria-hidden="true" data-l10n-id="form_cancel"></button>
-      <button class="btn btn-primary" data-l10n-id="form_continue"></button>
-    </div>
-  </div>
+  <div class="modal" id="transferWarn" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title text-warning" data-l10n-id="alert_header_warning"></h4>
+        </div>
+        <div class="modal-body">
+          <p data-l10n-id="editor_transfer_unencrypted"></p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default" data-dismiss="modal" aria-hidden="true" data-l10n-id="form_cancel"></button>
+          <button class="btn btn-primary" data-l10n-id="form_continue"></button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div class="modal" id="encryptModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
   <div id="blurWarn" class="alert alert-block hide">
     <h3 data-l10n-id="editor_blur_warn"></h3>
   </div>

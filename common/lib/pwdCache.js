@@ -19,6 +19,7 @@ define(function (require, exports, module) {
 
   var mvelo = require('../lib-mvelo').mvelo;
   var prefs = require('./prefs');
+  var model = require('./pgpViewModel');
   
   // password and key cache
   var cache;
@@ -78,9 +79,8 @@ define(function (require, exports, module) {
   /**
    * Set key and password in cache, start timeout
    * @param {Object} message
-   *                   primkeyid: key ID of the primary key
    *                   keyid: key ID of key that should be cached
-   *                   privkey: private key packet of keyid, expected unlocked
+   *                   key: private key, packet of keyid expected unlocked
    * @param {String} pwd     password, optional
    */
   function set(message, pwd) {
@@ -103,7 +103,38 @@ define(function (require, exports, module) {
     }
   }
 
+  /**
+   * Unlocked key if required and update cache
+   * @param  {Object}   cacheEntry consisting of password and key
+   * @param  {Object}   message
+   *                      keyid: key ID of key packet that should be unlocked
+   *                      key: private key, will be unlocked if not yet done
+   * @param  {Function} callback   when done
+   */
+  function unlock(cacheEntry, message, callback) {
+    if (!cacheEntry.key) {
+      // unlock key
+      model.unlockKey(message.key, message.keyid, cacheEntry.password, function(err, key) {
+        if (!key) {
+          throw {
+            type: 'error',
+            message: 'Password caching does not support different passphrases for primary key and subkeys'
+          };
+        }
+        message.key = key;
+        // set unlocked key in cache
+        set(message);
+        callback();
+      });
+    } else {
+      // take unlocked key from cache
+      message.key = cacheEntry.key;
+      callback();
+    }
+  }
+
   exports.get = get;
   exports.set = set;
+  exports.unlock = unlock;
 
 });

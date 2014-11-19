@@ -104,12 +104,19 @@
   margin-top: -188px;
 }
 
-#transferWarn {
-    z-index: 5000;
-    top: 100px;
-    bottom: 100px;
-    left: 80px;
-    right: 80px;
+.m-dialog {
+  height: 220px;
+  width: 100%;
+}
+
+#encryptModal .modal-dialog {
+  margin-top: 80px;
+}
+
+#encryptModal {
+  width: 550px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 #addFileInput {
