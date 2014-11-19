@@ -128,25 +128,6 @@ define(function (require, exports, module) {
         // decrypted correctly
         if (/^Content-Type:\smultipart\//.test(rawText)) {
           // MIME
-          /*that.mailreader.parse([{raw: rawText}], function(parsed) {
-            if (parsed && parsed[0] && parsed[0].content) {
-              var html = parsed[0].content.filter(function(entry) {
-                return entry.type === 'html';
-              });
-              if (html.length) {
-                that.mvelo.util.parseHTML(html[0].content, function(sanitized) {
-                  port.postMessage({event: 'decrypted-message', message: sanitized});
-                });
-                return;
-              }
-              var text = parsed[0].content.filter(function(entry) {
-                return entry.type === 'text';
-              });
-              msgText = that.mvelo.encodeHTML(text.length ? text[0].content : rawText);
-              port.postMessage({event: 'decrypted-message', message: msgText});
-            }
-          });*/
-
           that.mailreader.parse([{raw: rawText}], function(parsed) {
             if(parsed && parsed.length > 0) {
               var hasHTMLPart = false;
@@ -182,7 +163,6 @@ define(function (require, exports, module) {
               });
             }
           });
-
         } else {
           if (/(<\/a>|<br>|<\/div>|<\/p>|<\/b>|<\/u>|<\/i>|<\/ul>|<\/li>)/.test(rawText)) {
             // legacy html mode
