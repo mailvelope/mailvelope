@@ -19,7 +19,10 @@ define(function (require, exports, module) {
 
   var sub = require('./sub.controller');
 
-  function PwdController() {
+  function PwdController(port) {
+    if (port) {
+      throw new Error('Do not instantiate PwdController with a port');
+    }
     sub.SubController.call(this, null);
     this.mainType = 'pwdDialog';
     this.id = this.mvelo.getHash();
@@ -33,6 +36,7 @@ define(function (require, exports, module) {
 
   PwdController.prototype.handlePortMessage = function(msg) {
     var that = this;
+    //console.log('pwd.controller handlePortMessage msg', msg);
     switch (msg.event) {
       case 'pwd-dialog-init':
         // pass over keyid and userid to dialog

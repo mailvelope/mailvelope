@@ -170,18 +170,17 @@ function onCsAttach(worker) {
   worker.port.on('port-message', subController.handlePortMessage);
   worker.port.on('connect', function(portName) {
     var eventName = 'port-message' + '.' + portName;
-    var that = this;
     var port = {
       name: portName,
       postMessage: function(message) {
         if (!pageHidden) {
-          that.emit(eventName, message);
+          worker.port.emit(eventName, message);
         }
       },
       disconnect: function() {
         subController.removePort({name: portName});
       },
-      ref: that
+      ref: worker.port
     };
     subController.addPort(port);
   });
@@ -192,7 +191,7 @@ function onCsAttach(worker) {
     pageHidden = true;
   });
   worker.on('detach', function() {
-    subController.removePort(this.port);
+    subController.removePort(worker.port);
   });
   worker.port.on('message-event', function(msg) {
     var that = this;
@@ -232,8 +231,6 @@ function injectMessageAdapter() {
       data.url('common/ui/modal/decryptPopup.html*'),
       data.url('common/ui/modal/verifyPopup.html*'),
       data.url('common/ui/modal/editor.html*'),
-      data.url('common/ui/inline/dialogs/encryptDialog.html*'),
-      data.url('common/ui/inline/dialogs/signDialog.html*'),
       data.url('common/ui/modal/pwdDialog.html*'),
       data.url('common/ui/options.html*')
     ],

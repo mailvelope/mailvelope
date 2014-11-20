@@ -386,6 +386,7 @@ mvelo.EncryptFrame.prototype._registerEventListener = function() {
     //console.log('eFrame-%s event %s received', that.id, msg.event);
     switch (msg.event) {
       case 'encrypt-dialog-cancel':
+      case 'sign-dialog-cancel':
         that._removeDialog();
         break;
       case 'email-text':
@@ -422,11 +423,8 @@ mvelo.EncryptFrame.prototype._registerEventListener = function() {
         that._normalizeButtons();
         that._setMessage(msg.text, 'text');
         break;
-      case 'dialog-cancel':
-        that._removeDialog();
-        break;
       default:
-        console.log('unknown event');
+        console.log('unknown event', msg);
     }
   });
 };

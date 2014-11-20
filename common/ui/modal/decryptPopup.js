@@ -92,10 +92,8 @@
       rel: 'stylesheet',
       href: '../../dep/bootstrap/css/bootstrap.css'
     });
-    var style2 = style.clone().attr('href', '../../dep/wysihtml5/css/wysihtml5.css');
     sandbox.one('load', function() {
-      sandbox.contents().find('head').append(style)
-                                     .append(style2);
+      sandbox.contents().find('head').append(style);
       sandbox.contents().find('body').append(content);
     });
     $('.modal-body').append(sandbox);
