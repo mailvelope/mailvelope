@@ -176,7 +176,7 @@ define(function(require, exports, module) {
             });
           } else {
             // plain text
-            msgText = that.mvelo.encodeHTML(rawText);
+            msgText = that.mvelo.util.encodeHTML(rawText);
             msgText = msgText.replace(/\n/g, '<br>');
             port.postMessage({event: 'decrypted-message', message: msgText});
           }

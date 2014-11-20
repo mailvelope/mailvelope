@@ -21,14 +21,19 @@ var mvelo = mvelo || {};
 
 mvelo.domAPI = {};
 
+mvelo.domAPI.active = false;
+mvelo.domAPI.name = 'domAPI-' + mvelo.util.getHash();
+mvelo.domAPI.port = null;
+
 mvelo.domAPI.init = function() {
-  var registeredSite = mvelo.main.watchList.some(function(site) {
+  this.active = mvelo.main.watchList.some(function(site) {
     return site.active && site.frames && site.frames.some(function(frame) {
       var hosts = mvelo.domAPI.matchPattern2RegEx(frame.frame);
       return frame.scan && frame.api && hosts.test(document.location.hostname);
     });
   });
-  if (registeredSite) {
+  if (this.active) {
+    mvelo.domAPI.port = mvelo.extension.connect({name: mvelo.domAPI.name});
     window.addEventListener('message', mvelo.domAPI.eventListener);
     document.body.dataset.mailvelopeVersion = mvelo.main.prefs.version;
     if (!document.body.dataset.mailvelope) {
@@ -79,5 +84,4 @@ mvelo.domAPI.eventListener = function(event) {
 mvelo.domAPI.displayContainer = function(selector, armored, done) {
   var container = new mvelo.DisplayContainer(selector);
   container.create(armored, done);
-  //TODO: deacticate scanLoop
 };

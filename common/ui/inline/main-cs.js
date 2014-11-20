@@ -44,7 +44,8 @@ $(document).ready(mvelo.main.connect);
 mvelo.main.init = function(prefs, watchList) {
   mvelo.main.prefs = prefs;
   mvelo.main.watchList = watchList;
-  if (mvelo.main.prefs.main_active) {
+  mvelo.domAPI.init();
+  if (mvelo.main.prefs.main_active && !mvelo.domAPI.active) {
     mvelo.main.on();
   } else {
     mvelo.main.off();
