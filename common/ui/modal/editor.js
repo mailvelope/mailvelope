@@ -15,6 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
+var mvelo = mvelo || null;
+
 (function() {
 
   var id;
@@ -82,7 +86,7 @@
   function addAttachment(filename, id, content) {
     // check if id exists
     attachments.push({"filename":filename, "id":""+id, "content":content});
-    $uploadPanel = $("#uploadPanel");
+    var $uploadPanel = $("#uploadPanel");
     // <span class="label label-default">FileName1.txt  <span class="glyphicon glyphicon-remove"></span></span>
 
     var removeUploadButton = $('<span/>', {
@@ -222,6 +226,7 @@
   }
 
   function createRichText(callback) {
+    /*
     $('#rte-box').show();
     $('#richText').wysihtml5('deepExtend', {
       toolbar_element: 'rte-toolbar',
@@ -240,6 +245,7 @@
         }
       }
     });
+    */
   }
 
   function setRichText(text, type) {

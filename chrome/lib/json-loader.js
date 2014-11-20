@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
 define({
   load: function (name, req, load, config) {
     req(['jquery'], function ($) {

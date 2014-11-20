@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
 define(function (require, exports, module) {
 
   function SubController(port) {
@@ -68,8 +70,8 @@ define(function (require, exports, module) {
 
   factory.get = function(type, port) {
     if (factory.repo[type]) {
-      var className = factory.repo[type];
-      var subContr = new className(port);
+      var ClassName = factory.repo[type];
+      var subContr = new ClassName(port);
       if (!port) {
         if (!subContr.id) {
           throw new Error('Subcontroller instantiated without port requires id.');

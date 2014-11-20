@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* jshint strict: false */
+
 var data = require('sdk/self').data;
 var tabs = require('sdk/tabs');
 var windows = require('sdk/windows').browserWindows;

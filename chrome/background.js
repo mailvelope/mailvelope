@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
 requirejs.config({
   baseUrl: 'lib',
   paths: {
@@ -30,7 +32,8 @@ requirejs.config({
     },
     'parser_rules': {
       exports: 'wysihtml5ParserRules'
-    },
+    }
+    /*
     'wysihtml5': {
       deps: ['parser_rules', 'jquery'],
       exports: 'wysihtml5',
@@ -41,6 +44,7 @@ requirejs.config({
         });
       }
     }
+    */
   }
 });
 

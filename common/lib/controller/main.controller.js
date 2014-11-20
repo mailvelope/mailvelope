@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
 define(function (require, exports, module) {
 
   var mvelo = require('../../lib-mvelo').mvelo;
@@ -120,7 +122,7 @@ define(function (require, exports, module) {
         prefs.update({main_active: false});
         break;
       default:
-        console.log('unknown event:', msg.event);
+        console.log('unknown event:', request);
     }
   }
 

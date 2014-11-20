@@ -15,6 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
+var mvelo = mvelo || null;
+
 (function() {
 
   var crx = typeof chrome !== 'undefined';

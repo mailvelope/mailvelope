@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* jshint strict: false */
+
 var mvelo = mvelo || {};
 
 // expose mvelo.extension to page script

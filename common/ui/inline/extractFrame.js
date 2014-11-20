@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
 var mvelo = mvelo || {};
 
 mvelo.ExtractFrame = function(prefs) {

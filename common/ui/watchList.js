@@ -15,7 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var watchList = {};
+'use strict';
+
+var keyRing = keyRing || null;
+keyRing.watchList = {};
 
 (function(exports, keyRing) {
 
@@ -250,4 +253,4 @@ var watchList = {};
 
   keyRing.event.on('ready', init);
 
-}(watchList, keyRing));
+}(keyRing.watchList, keyRing));

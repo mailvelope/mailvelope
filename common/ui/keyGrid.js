@@ -15,6 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
+var keyRing = keyRing || null;
+var mvelo = mvelo || null;
+
 (function(keyRing) {
 
   var keyGridColumns;

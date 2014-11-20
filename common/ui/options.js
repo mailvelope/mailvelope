@@ -19,6 +19,10 @@
  * Listens for events from options UI in sandbox, forwards requests to view model pgpViewModel.js
  */
 
+'use strict';
+
+var mvelo = mvelo || null;
+
 (function() {
 
   // window of options iframe

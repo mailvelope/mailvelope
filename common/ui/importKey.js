@@ -15,6 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
+var keyRing = keyRing || null;
+
 (function(exports, keyRing) {
 
   var publicKeyRegex = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
@@ -99,7 +103,7 @@
 
   function onChangeFile(event) {
     var reader = new FileReader();
-    file = event.target.files[0];
+    var file = event.target.files[0];
     reader.onloadend = function(ev) { $('#newKey').val(ev.target.result); };
     reader.readAsText(file);
   }

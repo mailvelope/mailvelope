@@ -1,4 +1,6 @@
 
+'use strict';
+
 var {Cc, Ci} = require("chrome");
 var utils = require('sdk/window/utils');
 

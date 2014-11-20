@@ -1,4 +1,6 @@
 
+'use strict';
+
 var ss = require('sdk/simple-storage');
 
 function LocalStorage() {

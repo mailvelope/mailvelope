@@ -21,6 +21,7 @@
     "evil"          : true,    // true: Tolerate use of `eval` and `new Function()`
     "expr"          : true,    // true: allow `arr && arr.forEach(...)`
     "multistr"      : true,
+    "strict"        : true,
 
     // Environments
 
@@ -37,11 +38,16 @@
     // Custom Globals
     "globals": {
         "$": false,
+        "jQuery": false,
         "_": false,
         "Modernizr": false,
         "define": false,
         "require": false,
         "requirejs": false,
-        "Backbone": false
+        "Backbone": false,
+        "self": false,
+        "chrome": false,
+        "kendo": false,
+        "addon": false
     }
 }

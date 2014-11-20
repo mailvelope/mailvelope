@@ -15,6 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
+var keyRing = keyRing || null;
+
 (function(keyRing) {
 
   keyRing.registerL10nMessages([

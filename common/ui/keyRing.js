@@ -15,7 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
 var keyRing = {};
+var mvelo = mvelo || null;
 
 (function(exports, $) {
   // counter for method ids
@@ -158,11 +161,11 @@ var keyRing = {};
         break;
       case 'add-watchlist-item':
         $('#navList a[href="#watchList"]').get(0).click();
-        watchList.addSite(data.site, data.hosts);
+        keyRing.watchList.addSite(data.site, data.hosts);
         break;
       case 'remove-watchlist-item':
         $('#navList a[href="#watchList"]').get(0).click();
-        watchList.removeSite(data.site);
+        keyRing.watchList.removeSite(data.site);
         break;
       case 'import-key':
         $('#navList a[href="#importKey"]').get(0).click();

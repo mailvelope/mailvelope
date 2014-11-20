@@ -16,6 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* jshint strict: false */
+
 var mvelo = mvelo || {};
 // chrome extension
 mvelo.crx = typeof chrome !== 'undefined';

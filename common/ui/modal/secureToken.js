@@ -15,13 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
+var mvelo = mvelo || null;
+var keyRing = keyRing || null;
+
 (function() {
 
   var comm = typeof mvelo !== 'undefined' && mvelo.extension || keyRing;
 
   function init() {
     loadToken();
-    if (typeof keyRing !== 'undefined') {
+    if (keyRing !== null) {
       keyRing.event.on('prefs-security-update', loadToken);
     }
   }

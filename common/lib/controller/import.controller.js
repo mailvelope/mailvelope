@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
 define(function (require, exports, module) {
 
   var sub = require('./sub.controller');

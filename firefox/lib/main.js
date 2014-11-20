@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
 var system = require('sdk/system');
 var ss = require('sdk/simple-storage');
 var data = require('sdk/self').data;
@@ -59,7 +61,7 @@ function onPanelMessage(msg) {
   mailvelopePanel.hide();
 }
 
-var toggleButton = ToggleButton({
+var toggleButton = new ToggleButton({
   id: 'mailvelope-options',
   label: 'mailvelope-options',
   icon: {

@@ -1,4 +1,6 @@
 
+'use strict';
+
 var browserWindow = require('sdk/window/utils').getMostRecentBrowserWindow();
 
 exports.randomBytes = function(size) {
