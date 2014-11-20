@@ -114,7 +114,7 @@ mvelo.encodeHTML = function(text) {
     .replace(/\//g, "&#x2F;");
 };
 
-mvelo.util.extensionColors = [];
+mvelo.util.extensionColors = {};
 mvelo.util.extensionColors.jpg  = "#4ba5cb"; // Images
 mvelo.util.extensionColors.png  = "#4ba5cb";
 mvelo.util.extensionColors.bmp  = "#4ba5cb";

@@ -200,8 +200,7 @@
         })
       ;
 
-    //$attachments = $('#attachmentarea').contents().find('#attachments');
-    $attachments = $('#attachments');
+    var $attachments = $('#attachments');
     $attachments.append(fileUI);
     $attachments.append("&nbsp;");
   }

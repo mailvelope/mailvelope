@@ -32,15 +32,6 @@ mvelo.EncryptFrame = function(prefs) {
   this._editorType = mvelo.PLAIN_TEXT; //prefs.general.editor_type;
   this._options = {expanded: false, closeBtn: true};
   this._keyCounter = 0;
-  this._attachments = {};
-};
-
-mvelo.EncryptFrame.prototype.addAttachment = function(id, content){
-  this._attachments[id] = content;
-};
-
-mvelo.EncryptFrame.prototype.removeAttachment = function(id){
-  delete this._attachments[id];
 };
 
 mvelo.EncryptFrame.prototype.attachTo = function(element, options) {
@@ -397,54 +388,6 @@ mvelo.EncryptFrame.prototype._registerEventListener = function() {
       case 'encrypt-dialog-cancel':
       case 'sign-dialog-cancel':
         that._removeDialog();
-        break;
-      case 'email-text':
-        //var t0 = Date.now();
-        var mainMessage = new window.mailbuild("multipart/mixed");
-        var composedMessage;
-        var hasAttachment;
-        var attachments = that._attachments;
-        var message = that._getEmailText(msg.type);
-        if(message !== undefined) {
-          var textMime = new window.mailbuild("text/plain")
-            .setHeader("Content-Type","text/plain; charset=utf-8")
-            .addHeader("Content-Transfer-Encoding","quoted-printable")
-            .setContent(message);
-          mainMessage.appendChild(textMime);
-        }
-        if(attachments !== undefined && Object.keys(attachments).length > 0) {
-          var contentLength;
-          var uint8Array;
-          hasAttachment = true;
-          for (var attachment in attachments) {
-            contentLength = Object.keys(attachments[attachment].content).length;
-            uint8Array = new Uint8Array(contentLength);
-            for (var i = 0; i < contentLength; i++) {
-              uint8Array[i] = attachments[attachment].content[i];
-            }
-            var attachmentMime = new window.mailbuild("text/plain")
-              .createChild(false, {filename: attachments[attachment].filename})
-              //.setHeader("Content-Type", msg.attachments[attachment].type+"; charset=utf-8")
-              .addHeader("Content-Transfer-Encoding", "base64")
-              .addHeader("Content-Disposition", "attachment") // ; filename="+msg.attachments[attachment].filename
-              .setContent(uint8Array);
-            mainMessage.appendChild(attachmentMime);
-          }
-        }
-        if(hasAttachment) {
-          composedMessage = mainMessage.build();
-        } else {
-          composedMessage = message;
-        }
-        //var t1 = Date.now();
-        //console.log("Building mime message took " + (t1 - t0) + " milliseconds. Current time: "+t1);
-        that._port.postMessage({
-          event: 'eframe-email-text',
-          data: composedMessage,
-//          attachments: that._attachments,
-          action: msg.action,
-          sender: 'eFrame-' + that.id
-        });
         break;
       case 'destroy':
         that._closeFrame(true);
