@@ -123,10 +123,8 @@
       rel: 'stylesheet',
       href: commonPath + '/dep/bootstrap/css/bootstrap.css'
     });
-    var style2 = style.clone().attr('href', commonPath + '/dep/wysihtml5/css/wysihtml5.css');
     sandbox.on('load', function() {
-      $(this).contents().find('head').append(style)
-                                     .append(style2);
+      $(this).contents().find('head').append(style);
       $(this).contents().find('body').css('background-color', 'rgba(0,0,0,0)');
       $(this).contents().find('body').append(content);
     });

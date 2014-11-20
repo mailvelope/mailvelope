@@ -129,7 +129,7 @@ module.exports = function (grunt) {
             'common/**/*',
             '!common/ui/inline/*.js',
             'common/ui/inline/mvelo.js',
-            'common/ui/inline/encryptFrame.js'
+            '!common/dep/wysihtml5/**/*'
           ],
           dest: 'build/'
         }]

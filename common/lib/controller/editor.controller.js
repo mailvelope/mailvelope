@@ -19,7 +19,10 @@ define(function (require, exports, module) {
 
   var sub = require('./sub.controller');
 
-  function EditorController() {
+  function EditorController(port) {
+    if (port) {
+      throw new Error('Do not instantiate editor with a port');
+    }
     sub.SubController.call(this, null);
     this.mainType = 'editor';
     this.id = this.mvelo.getHash();

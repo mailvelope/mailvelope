@@ -32,12 +32,14 @@ define(function (require, exports, module) {
 
   SubController.prototype.addPort = function(port) {
     var type = this.parseViewName(port.name).type;
-    //console.log('addPort', type, this.id);
     this.ports[type] = port;
   };
 
   SubController.prototype.removePort = function(port) {
-    //console.log('removePort', port);
+    if (Object.keys(this.ports).length === 0) {
+      // controllers instantiated without port should not be deleted
+      return false;
+    }
     if (port.name) {
       var view = this.parseViewName(port.name);
       if (view.id !== this.id) {

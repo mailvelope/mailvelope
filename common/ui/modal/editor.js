@@ -321,7 +321,7 @@
   function addPwdDialog(id) {
     var pwd = $('<iframe/>', {
       id: 'pwdDialog',
-      src: '../modal/pwdDialog.html?id=' + id,
+      src: 'pwdDialog.html?id=' + id,
       frameBorder: 0
     });
     $('body').find('#editorDialog').fadeOut(function() {
@@ -346,7 +346,7 @@
     if (mvelo.crx) {
       url = mvelo.extension.getURL('common/ui/inline/dialogs/' + type + '.html?id=' + id);
     } else if (mvelo.ffa) {
-      url = 'about:blank?mvelo=' + dialog + '&id=' + id;
+      url = 'about:blank?mvelo=' + type + '&id=' + id;
     }
     dialog.attr('src', url);
     $('#encryptModal .modal-body').append(dialog);

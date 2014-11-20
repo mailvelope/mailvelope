@@ -82,11 +82,9 @@
       rel: 'stylesheet',
       href: '../../dep/bootstrap/css/bootstrap.css'
     });
-    var style2 = style.clone().attr('href', '../../dep/wysihtml5/css/wysihtml5.css');
     var style3 = style.clone().attr('href', '../../ui/modal/verifyPopupSig.css');
     sandbox.one('load', function() {
       sandbox.contents().find('head').append(style)
-                                     .append(style2)
                                      .append(style3);
       sandbox.contents().find('body').append(content);
     });
