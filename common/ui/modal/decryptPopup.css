@@ -60,8 +60,9 @@ html, body {
   position: absolute;
   top: 49px;
   bottom: 58px;
-  right: 0px;
-  left: 0px;
+  right: 0;
+  left: 0;
+  padding: 0;
   overflow: hidden;
 }
 

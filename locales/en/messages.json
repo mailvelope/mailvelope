@@ -694,5 +694,9 @@
   "upload_attachment": {
     "message": "Add attachment",
     "description": "Text in the upload attachment button of the message editor dialog"
+  },
+  "save_attachment_as_message": {
+    "message": "Select the folder, where you want to save the attachment.",
+    "description": "Message in the attachment save dialog"
   }
 }

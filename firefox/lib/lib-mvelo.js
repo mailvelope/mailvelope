@@ -26,6 +26,7 @@ var l10nGet = require("sdk/l10n").get;
 
 // create mvelo namespace
 eval(data.load('common/ui/inline/mvelo.js'));
+var attachments = require('./attachments');
 
 mvelo.ffa = true;
 mvelo.crx = false;
@@ -225,6 +226,10 @@ mvelo.l10n.get = function(id, substitutions) {
   } else {
     return l10nGet(id);
   }
+};
+
+mvelo.util.saveAsAttachment = function(filename, content) {
+  attachments.saveAs(filename, content);
 };
 
 exports.mvelo = mvelo;

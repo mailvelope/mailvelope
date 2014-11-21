@@ -40,6 +40,7 @@
     }
     setStyles();
     addWrapper();
+    addAttachmentPanel();
     addSandbox();
     mvelo.extension.sendMessage({event: "get-security-token"}, function(token) {
       $('#watermark').html(mvelo.encodeHTML(token.code));
@@ -81,6 +82,23 @@
     wrapper.appendTo('body');
   }
 
+  function addAttachmentPanel() {
+    var attachments = $('<div/>', {
+      id: 'attachments',
+      css: {
+        position: 'absolute',
+        top: '0',
+        left: 0,
+        right: 0,
+        bottom: '0',
+        padding: '3px',
+        'background-color': 'rgba(0,0,0,0)', // #D7E3FF
+        overflow: 'auto'
+      }
+    });
+    $('#wrapper').append(attachments);
+  }
+
   function addSandbox() {
     var sandbox = $('<iframe/>', {
       id: 'decryptmail',
@@ -91,11 +109,12 @@
       id: 'content',
       css: {
         position: 'absolute',
-        top: 0,
+        top: '0',
         left: 0,
         right: 0,
         bottom: 0,
         padding: '3px',
+        //'margin-top': '40px',
         'background-color': 'rgba(0,0,0,0)',
         overflow: 'auto'
       }
@@ -142,6 +161,50 @@
     watermark.css('font-size', Math.floor(Math.min(watermark.width() / 3, watermark.height())));
   }
 
+  function addAttachment(filename, content, mimeType, attachmentId) {
+    var fileNameNoExt = mvelo.util.extractFileNameWithoutExt(filename);
+    var fileExt = mvelo.util.extractFileExtension(filename);
+    var extColor = mvelo.util.getExtensionColor(fileExt);
+
+    var extensionButton = $('<span/>', {
+      "style": "background-color: "+extColor,
+      "class": 'label attachmentExtension'
+    }).append(fileExt);
+
+    var objectURL = "#";
+
+    // workarround until ff36 is out, using addonsdk for file saving
+    if(mvelo.crx) {
+      var contentLength = Object.keys(content).length;
+      var uint8Array = new Uint8Array(contentLength);
+      for (var i = 0; i < contentLength; i++) {
+        uint8Array[i] = content[i];
+      }
+      var blob = new Blob([uint8Array], { type: mimeType });
+      objectURL = window.URL.createObjectURL(blob);
+    }
+
+    var fileUI = $('<a/>', {
+        "href": objectURL,
+        "class": 'label label-default attachmentButton',
+        "download": filename
+      })
+        .append(extensionButton)
+        .append(" "+fileNameNoExt+" ")
+        // workarround until ff36 is out, using addonsdk for file saving
+        .on("click", function(e) {
+          if(mvelo.ffa) {
+            e.preventDefault();
+            port.postMessage({event: 'get-attachment', sender: id, attachmentId: attachmentId});
+          }
+        })
+      ;
+
+    var $attachments = $('#attachments');
+    $attachments.append(fileUI);
+    $attachments.append("&nbsp;");
+  }
+
   function messageListener(msg) {
     //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
@@ -151,6 +214,11 @@
         var message = msg.message.replace(/\n/g, '<br>');
         message = $.parseHTML(message);
         $('#decryptmail').contents().find('#content').append(message);
+        break;
+      case 'add-decrypted-attachment':
+        //console.log('popup adding decrypted attachment: ', JSON.stringify(msg.message));
+        showMessageArea();
+        addAttachment(msg.message.filename, msg.message.content, msg.message.mimeType, msg.message.attachmentId);
         break;
       case 'error-message':
         showErrorMsg(msg.error);
