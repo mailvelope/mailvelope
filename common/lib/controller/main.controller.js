@@ -121,6 +121,9 @@ define(function (require, exports, module) {
         reloadFrames(mvelo.ffa);
         prefs.update({main_active: false});
         break;
+      case 'open-popup':
+        mvelo.windows.openPopup(request.url);
+        break;
       default:
         console.log('unknown event:', request);
     }
@@ -225,7 +228,7 @@ define(function (require, exports, module) {
         loadOptions('#home');
         break;
       case 'help':
-        loadOptions('#help');
+        mvelo.windows.openPopup('https://www.mailvelope.com/help');
         break;
       default:
         console.log('unknown browser action');

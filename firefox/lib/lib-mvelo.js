@@ -139,16 +139,19 @@ mvelo.windows = {};
 
 mvelo.windows.modalActive = false;
 
+mvelo.windows.internalURL = new RegExp('^' + data.url(''));
+
 // FIFO list for window options
 mvelo.windows.options = [];
 
 mvelo.windows.openPopup = function(url, options, callback) {
-  //console.log('openPopup:', url);
-  this.options.push(options);
   var winOpts = {};
   winOpts.url = data.url(url);
+  if (mvelo.windows.internalURL.test(winOpts.url)) {
+    this.options.push(options);
+  }
   winOpts.onDeactivate = function() {
-    if (options.modal) {
+    if (options && options.modal) {
       this.activate();
     }
   };
@@ -161,19 +164,21 @@ mvelo.windows.openPopup = function(url, options, callback) {
 var delegate = {
   onTrack: function (window) {
     // check for mailvelope popup
-    if (window.arguments && /\/mailvelope/.test(window.arguments[0])) {
+    if (window.arguments && mvelo.windows.internalURL.test(window.arguments[0])) {
       window.locationbar.visible = false;
       window.menubar.visible = false;
       window.personalbar.visible = false;
       window.toolbar.visible = false;
       var options = mvelo.windows.options.shift();
-      window.innerWidth = options.width;
-      window.innerHeight = options.height;
-      for (var main in winUtils.windowIterator()) {
-        var y = parseInt(main.screenY + (main.outerHeight - options.height) / 2);
-        var x = parseInt(main.screenX + (main.outerWidth - options.width) / 2);
-        window.moveTo(x, y);
-        break;
+      if (options) {
+        window.innerWidth = options.width;
+        window.innerHeight = options.height;
+        for (var main in winUtils.windowIterator()) {
+          var y = parseInt(main.screenY + (main.outerHeight - options.height) / 2);
+          var x = parseInt(main.screenX + (main.outerWidth - options.width) / 2);
+          window.moveTo(x, y);
+          break;
+        }
       }
     }
   }
