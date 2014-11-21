@@ -43,7 +43,7 @@ define(function (require, exports, module) {
         break;
       case 'sign-dialog-init':
         var keys = this.model.getPrivateKeys();
-        var primary = this.prefs.data.general.primary_key;
+        var primary = this.prefs.data().general.primary_key;
         this.mvelo.data.load('common/ui/inline/dialogs/templates/sign.html', function(content) {
           var port = that.ports.sDialog;
           port.postMessage({event: 'sign-dialog-content', data: content});
@@ -63,7 +63,7 @@ define(function (require, exports, module) {
       case 'eframe-recipient-proposal':
         var emails = this.mvelo.util.sortAndDeDup(msg.data);
         var keys = this.model.getKeyUserIDs(emails);
-        var primary = this.prefs.data.general.auto_add_primary && this.prefs.data.general.primary_key.toLowerCase();
+        var primary = this.prefs.data().general.auto_add_primary && this.prefs.data().general.primary_key.toLowerCase();
         if (this.recipientsCallback) {
           this.recipientsCallback({ keys: keys, primary: primary });
           this.recipientsCallback = null;
@@ -124,7 +124,7 @@ define(function (require, exports, module) {
         break;
       case 'eframe-textarea-element':
         var defaultEncoding = {};
-        if (msg.isTextElement || this.prefs.data.general.editor_type == this.mvelo.PLAIN_TEXT) {
+        if (msg.isTextElement || this.prefs.data().general.editor_type == this.mvelo.PLAIN_TEXT) {
           defaultEncoding.type = 'text';
           defaultEncoding.editable = false;
         } else {
@@ -146,7 +146,7 @@ define(function (require, exports, module) {
           }, function(err, armored) {
             if (!err) {
               // sanitize if content from plain text, rich text already sanitized by editor
-              if (that.prefs.data.general.editor_type == that.mvelo.PLAIN_TEXT) {
+              if (that.prefs.data().general.editor_type == that.mvelo.PLAIN_TEXT) {
                 that.mvelo.util.parseHTML(armored, function(parsed) {
                   that.ports.eFrame.postMessage({event: 'set-editor-output', text: parsed});
                 });

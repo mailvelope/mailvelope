@@ -69,7 +69,7 @@ define(function (require, exports, module) {
         break;
       case 'sign-dialog-init':
         var keys = this.model.getPrivateKeys();
-        var primary = this.prefs.data.general.primary_key;
+        var primary = this.prefs.data().general.primary_key;
         this.mvelo.data.load('common/ui/inline/dialogs/templates/sign.html', function(content) {
           var port = that.ports.sDialog;
           port.postMessage({event: 'sign-dialog-content', data: content});
@@ -147,7 +147,7 @@ define(function (require, exports, module) {
     this.initText = options.initText;
     this.getRecipients = options.getRecipients;
     this.done = callback;
-    this.mvelo.windows.openPopup('common/ui/modal/editor.html?id=' + this.id + '&editor_type=' + this.prefs.data.general.editor_type, {width: 742, height: 450, modal: false}, function(window) {
+    this.mvelo.windows.openPopup('common/ui/modal/editor.html?id=' + this.id + '&editor_type=' + this.prefs.data().general.editor_type, {width: 742, height: 450, modal: false}, function(window) {
       that.editorPopup = window;
     });
   };

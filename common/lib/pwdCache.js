@@ -34,8 +34,8 @@ define(function (require, exports, module) {
   init();
 
   function init() {
-    active = prefs.data.security.password_cache;
-    timeout = prefs.data.security.password_timeout;
+    active = prefs.data().security.password_cache;
+    timeout = prefs.data().security.password_timeout;
     cache = {};
     // register for updates
     prefs.addUpdateHandler(update);
@@ -51,13 +51,13 @@ define(function (require, exports, module) {
   }
 
   function update() {
-    if (active != prefs.data.security.password_cache ||
-        timeout != prefs.data.security.password_timeout) {
+    if (active != prefs.data().security.password_cache ||
+        timeout != prefs.data().security.password_timeout) {
       // init cache
       clearTimeouts();
       cache = {};
-      active = prefs.data.security.password_cache;
-      timeout = prefs.data.security.password_timeout;
+      active = prefs.data().security.password_cache;
+      timeout = prefs.data().security.password_timeout;
     }
   }
 

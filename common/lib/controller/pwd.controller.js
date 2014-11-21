@@ -42,7 +42,7 @@ define(function (require, exports, module) {
     switch (msg.event) {
       case 'pwd-dialog-init':
         // pass over keyid and userid to dialog
-        this.ports.pwdDialog.postMessage({event: 'message-userid', userid: this.message.userid, keyid: this.message.key.primaryKey.getKeyId().toHex(), cache: this.prefs.data.security.password_cache});
+        this.ports.pwdDialog.postMessage({event: 'message-userid', userid: this.message.userid, keyid: this.message.key.primaryKey.getKeyId().toHex(), cache: this.prefs.data().security.password_cache});
         break;
       case 'pwd-dialog-cancel':
         if (this.pwdPopup) {
@@ -68,7 +68,7 @@ define(function (require, exports, module) {
             } else if (key) {
               // password correct
               that.message.key = key;
-              if (msg.cache != that.prefs.data.security.password_cache) {
+              if (msg.cache != that.prefs.data().security.password_cache) {
                 // update pwd cache status
                 that.prefs.update({security: {password_cache: msg.cache}});
               }

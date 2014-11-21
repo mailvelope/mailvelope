@@ -31,7 +31,6 @@ define(function (require, exports, module) {
    */
   function update(obj) {
     prefs = model.getPreferences();
-    this.data = prefs;
     if (obj.security) {
       prefs.security = extend(prefs.security, obj.security);
     }
@@ -68,8 +67,12 @@ define(function (require, exports, module) {
     updateHandlers.push(fn);
   }
 
+  function data() {
+    return prefs;
+  }
+
   exports.update = update;
   exports.addUpdateHandler = addUpdateHandler;
-  exports.data = prefs;
+  exports.data = data;
 
 });

@@ -35,7 +35,7 @@ checkStaticArgs();
 var mvelo = require('./lib-mvelo.js').mvelo;
 var controller = require('./common/controller/main.controller');
 var subController = require('./common/controller/sub.controller');
-var prefs = require('./common/prefs').data;
+var prefs = require('./common/prefs').data();
 var prompts = require('./prompt');
 
 var pageMods = {};

@@ -75,7 +75,7 @@ define(function (require, exports, module) {
             this.pwdControl = sub.factory.get('pwdDialog');
             this.pwdControl.unlockKey({
               message: message,
-              openPopup: this.prefs.data.security.display_decrypted == this.mvelo.DISPLAY_INLINE
+              openPopup: this.prefs.data().security.display_decrypted == this.mvelo.DISPLAY_INLINE
             }, function(err) {
               if (err === 'pwd-dialog-cancel') {
                 that.dialogCancel();
@@ -87,7 +87,7 @@ define(function (require, exports, module) {
               // success
               that.decryptMessage(message);
             });
-            if (this.prefs.data.security.display_decrypted == this.mvelo.DISPLAY_POPUP) {
+            if (this.prefs.data().security.display_decrypted == this.mvelo.DISPLAY_POPUP) {
               this.ports.dDialog.postMessage({event: 'show-pwd-dialog', id: this.pwdControl.id});
             }
           } else {
