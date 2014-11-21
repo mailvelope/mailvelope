@@ -389,6 +389,14 @@ mvelo.EncryptFrame.prototype._registerEventListener = function() {
       case 'sign-dialog-cancel':
         that._removeDialog();
         break;
+      case 'email-text':
+        that._port.postMessage({
+          event: 'eframe-email-text',
+          data: that._getEmailText(msg.type),
+          action: msg.action,
+          sender: 'eFrame-' + that.id
+        });
+        break;
       case 'destroy':
         that._closeFrame(true);
         break;
