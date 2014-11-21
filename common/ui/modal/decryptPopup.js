@@ -178,16 +178,9 @@
       .append(extensionButton)
       .append(" "+fileNameNoExt+" ");
 
-    $attachments = $('#attachments');
+    var $attachments = $('#attachments');
     $attachments.append(fileUI);
     $attachments.append("&nbsp;");
-
-    /*      .click(function() {
-     var link = document.createElement("a");
-     link.download = $(this).attr("download");
-     link.href = $(this).attr("href");
-     link.click();
-     }) */
   }
 
   function messageListener(msg) {
