@@ -60,6 +60,16 @@ var mvelo = mvelo || null;
         self.addClass("active");
       }
     });
+
+    $('#extern_docu').on('click', function() {
+      exports.openPopup('https://www.mailvelope.com/help');
+      return false;
+    });
+
+    $('#extern_about').on('click', function() {
+      exports.openPopup('https://www.mailvelope.com/about');
+      return false;
+    });
   }
 
   function localizeHTML() {
@@ -94,6 +104,13 @@ var mvelo = mvelo || null;
       args: args,
       id: id,
       callback: (callback !== undefined)
+    }), '*');
+  };
+
+  exports.openPopup = function(url) {
+    parent.postMessage(JSON.stringify({
+      event: "open-popup",
+      url: url
     }), '*');
   };
 

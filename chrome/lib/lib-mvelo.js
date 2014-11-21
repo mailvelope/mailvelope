@@ -127,15 +127,15 @@ define(function(require, exports, module) {
     chrome.windows.getCurrent(null, function(current) {
       chrome.windows.create({
         url: url,
-        width: options.width,
-        height: options.height,
-        top: parseInt(current.top + (current.height - options.height) / 2),
-        left: parseInt(current.left + (current.width - options.width) / 2),
+        width: options && options.width,
+        height: options && options.height,
+        top: options && parseInt(current.top + (current.height - options.height) / 2),
+        left: options && parseInt(current.left + (current.width - options.width) / 2),
         focused: true,
         type: 'popup'
       }, function(popup) {
         //console.log('popup created', popup);
-        if (options.modal) {
+        if (options && options.modal) {
           mvelo.windows.modalActive = true;
           var focusChangeHandler = function(newFocus) {
             //console.log('focus changed', newFocus);

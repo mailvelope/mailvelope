@@ -30,17 +30,11 @@ var mvelo = mvelo || null;
   // jquery object for event handling
   var iframeEvents;
 
-  var hashMap = {
-    "#home": "common/ui/keyRing.html",
-    "#help": "common/doc/help.html"
-  };
-
   function init() {
     iframeEvents = $('#optionsIframe');
     window.addEventListener("message", receiveMessage);
     initMessageListener();
-    var hash = location.hash || '#home';
-    $('#optionsIframe').attr('src', mvelo.extension.getURL(hashMap[hash]));
+    $('#optionsIframe').attr('src', mvelo.extension.getURL('common/ui/keyRing.html'));
     mvelo.l10n.localizeHTML();
   }
 
@@ -102,6 +96,9 @@ var mvelo = mvelo || null;
           event.source.postMessage(JSON.stringify(respObj), '*');
         });
         break;
+      case 'open-popup':
+        mvelo.extension.sendMessage(data);
+        break;
     }
   }
 
@@ -145,7 +142,7 @@ var mvelo = mvelo || null;
 
   function reloadOptions(hash, callback) {
     $('#optionsIframe').one('load', callback);
-    $('#optionsIframe').attr('src', mvelo.extension.getURL(hashMap[hash]));
+    $('#optionsIframe').attr('src', mvelo.extension.getURL('common/ui/keyRing.html'));
   }
 
   function postEvent(request) {

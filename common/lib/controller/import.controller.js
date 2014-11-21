@@ -45,6 +45,6 @@ define(function (require, exports, module) {
     }
   };
 
-  exports.ImportController;
+  exports.ImportController = ImportController;
 
 });

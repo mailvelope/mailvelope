@@ -114,7 +114,7 @@ define(function (require, exports, module) {
       subContrIDs = Object.keys(controllers);
     }
     subContrIDs.forEach(function(id) {
-      var del = controllers[id].removePort(port);
+      var del = controllers[id] && controllers[id].removePort(port);
       if (del) {
         delete controllers[id];
       }
