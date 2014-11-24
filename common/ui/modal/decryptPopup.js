@@ -30,6 +30,7 @@ var mvelo = mvelo || null;
   var pwd, sandbox;
   var l10n;
 
+
   function init() {
     var qs = jQuery.parseQuerystring();
     id = qs.id;
@@ -38,6 +39,7 @@ var mvelo = mvelo || null;
     port = mvelo.extension.connect({name: name});
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'decrypt-popup-init', sender: name});
+    addAttachmentPanel();
     addSandbox();
     addErrorView();
     $(window).on('unload', onClose);
@@ -67,12 +69,29 @@ var mvelo = mvelo || null;
     sel.removeAllRanges();
   }
 
+  function addAttachmentPanel() {
+    var attachments = $('<div/>', {
+      id: 'attachments',
+      css: {
+        position: 'absolute',
+        top: "20px",
+        left: 0,
+        right: 0,
+        bottom: '0',
+        margin: '3px',
+        padding: '3px',
+        overflow: 'auto'
+      }
+    });
+    $('.modal-body').append(attachments);
+  }
+
   function addSandbox() {
     sandbox = $('<iframe/>', {
       sandbox: 'allow-same-origin',
       css: {
         position: 'absolute',
-        top: 24,
+        top: "50px",
         left: 0,
         right: 0,
         bottom: 0
@@ -86,7 +105,7 @@ var mvelo = mvelo || null;
         top: 0,
         left: 0,
         right: 0,
-        bottom: 0,
+        bottom: '60px',
         margin: '3px',
         padding: '3px',
         overflow: 'auto'
@@ -137,6 +156,37 @@ var mvelo = mvelo || null;
     $('#copyBtn').prop('disabled', true);
   }
 
+  function addAttachment(filename, content, mimeType) {
+    var fileNameNoExt = mvelo.util.extractFileNameWithoutExt(filename);
+    var fileExt = mvelo.util.extractFileExtension(filename);
+    var extColor = mvelo.util.getExtensionColor(fileExt);
+
+    var extensionButton = $('<span/>', {
+      "style": "text-transform: uppercase; background-color: "+extColor,
+      "class": 'label'
+    }).append(fileExt);
+
+    var contentLength = Object.keys(content).length;
+    var uint8Array = new Uint8Array(contentLength);
+    for (var i = 0; i < contentLength; i++) {
+      uint8Array[i] = content[i];
+    }
+    var blob = new Blob([uint8Array], { type: mimeType }); // 'application/octet-binary'
+    var objectURL = window.URL.createObjectURL(blob);
+    var fileUI = $('<a/>', {
+      "href": objectURL,
+      "class": 'label label-default',
+      "download": filename,
+      "style": 'background-color: #ddd'
+    })
+      .append(extensionButton)
+      .append(" "+fileNameNoExt+" ");
+
+    var $attachments = $('#attachments');
+    $attachments.append(fileUI);
+    $attachments.append("&nbsp;");
+  }
+
   function messageListener(msg) {
     // remove spinner for all events
     $('body').removeClass('spinner');
@@ -148,6 +198,11 @@ var mvelo = mvelo || null;
         var message = msg.message.replace(/\n/g, '<br>');
         message = $.parseHTML(message);
         sandbox.contents().find('#content').append(message);
+        break;
+      case 'add-decrypted-attachment':
+        //console.log('popup adding decrypted attachment: ', JSON.stringify(msg.message));
+        showMessageArea();
+        addAttachment(msg.message.filename, msg.message.content, msg.message.mimeType);
         break;
       case 'show-pwd-dialog':
         addPwdDialog(msg.id);

@@ -4,7 +4,7 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
 
-    clean: ['build/', 'dist/**/*'],
+    clean: ['build/**/*', 'dist/**/*'],
 
     clean_all: ['build/', 'tmp/', 'dist/**/*'],
 
@@ -22,7 +22,7 @@ module.exports = function (grunt) {
           'chrome/lib/*.js',
           'firefox/**/*.js'
         ]
-      },
+      }
     },
     concat: {
       content_script: {
@@ -100,6 +100,20 @@ module.exports = function (grunt) {
             cwd: 'bower_components/css-toggle-switch/dist/',
             src: 'toggle-switch.css',
             dest: 'build/common/dep/toggle-switch/'
+          },
+          {
+            expand: true,
+            flatten: true,
+            cwd: 'node_modules/',
+            src: [
+              'mailbuild/src/mailbuild.js',
+              'mailbuild/node_modules/mimetypes/src/*.js',
+              'mailbuild/node_modules/mimefuncs/src/*.js',
+              'mailbuild/node_modules/mimefuncs/node_modules/wo-stringencoding/dist/stringencoding.js',
+              'mailbuild/node_modules/punycode/punycode.js',
+              'mailbuild/node_modules/wo-addressparser/src/addressparser.js'
+            ],
+            dest: 'build/common/dep/mailbuilder'
           },
           {
             expand: true,
@@ -305,5 +319,5 @@ module.exports = function (grunt) {
 
   grunt.registerTask('copy_default', ['copy:vendor', 'copy:common', 'copy:plugins', 'copy:common_browser', 'copy:locale_firefox', 'copy:dep']);
 
-  grunt.registerTask('default', ['jshint', 'modernizr', 'copy:jquery', 'concat', 'copy_default']);
+  grunt.registerTask('default', ['clean','jshint', 'modernizr', 'copy:jquery', 'concat', 'copy_default']);
 };

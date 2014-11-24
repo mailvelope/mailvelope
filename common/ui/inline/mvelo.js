@@ -115,3 +115,71 @@ mvelo.encodeHTML = function(text) {
     .replace(/'/g, "&#039;")
     .replace(/\//g, "&#x2F;");
 };
+
+mvelo.util.extensionColors = {};
+mvelo.util.extensionColors.jpg  = "#4ba5cb"; // Images
+mvelo.util.extensionColors.png  = "#4ba5cb";
+mvelo.util.extensionColors.bmp  = "#4ba5cb";
+mvelo.util.extensionColors.tif  = "#4ba5cb";
+mvelo.util.extensionColors.tiff = "#4ba5cb";
+mvelo.util.extensionColors.jpg  = "#4ba5cb";
+mvelo.util.extensionColors.jpeg = "#4ba5cb";
+mvelo.util.extensionColors.psd  = "#4ba5cb";
+mvelo.util.extensionColors.txt  = "#427bba"; // Text
+mvelo.util.extensionColors.doc  = "#427bba";
+mvelo.util.extensionColors.docx = "#427bba";
+mvelo.util.extensionColors.rtf  = "#427bba";
+mvelo.util.extensionColors.pdf  = "#ad1e24";
+mvelo.util.extensionColors.html = "#ad1e24";
+mvelo.util.extensionColors.htm  = "#ad1e24";
+mvelo.util.extensionColors.mov  = "#bc4fa9"; // Video
+mvelo.util.extensionColors.avi  = "#bc4fa9";
+mvelo.util.extensionColors.wmv  = "#bc4fa9";
+mvelo.util.extensionColors.mpeg = "#bc4fa9";
+mvelo.util.extensionColors.flv  = "#bc4fa9";
+mvelo.util.extensionColors.divx = "#bc4fa9";
+mvelo.util.extensionColors.xvid = "#bc4fa9";
+mvelo.util.extensionColors.mp3  = "#563b8c"; // Music
+mvelo.util.extensionColors.wav  = "#563b8c";
+mvelo.util.extensionColors.zip  = "#e7ab30"; // Sonstige
+mvelo.util.extensionColors.rar  = "#e7ab30";
+mvelo.util.extensionColors.xml  = "#d6732c";
+mvelo.util.extensionColors.ppt  = "#d6732c";
+mvelo.util.extensionColors.pptx = "#d6732c";
+mvelo.util.extensionColors.xls  = "#6ea64e";
+mvelo.util.extensionColors.xlsx = "#6ea64e";
+mvelo.util.extensionColors.exe  = "#4b4a4a";
+mvelo.util.extensionColors.unknown = "#8a8a8a"; // Unbekannt
+
+mvelo.util.getExtensionColor = function(fileExt) {
+  var color = mvelo.util.extensionColors[fileExt];
+  if (color === undefined) {
+    color = mvelo.util.extensionColors.unknown;
+  }
+  return color;
+};
+
+mvelo.util.extractFileNameWithoutExt = function(fileName) {
+  var indexOfDot = fileName.lastIndexOf(".");
+  if(indexOfDot > 0 ) { // case: regular
+    return fileName.substring(0, indexOfDot);
+  } else if(indexOfDot === 0) { // case ".txt"
+    return "";
+  } else {
+    return fileName;
+  }
+};
+
+mvelo.util.extractFileExtension = function(fileName) {
+  var lastindexDot = fileName.lastIndexOf(".");
+  if (lastindexDot < 0) { // no extension
+    return "";
+  } else {
+    return fileName.substring(lastindexDot + 1, fileName.length).toLowerCase().trim();
+  }
+};
+
+if (typeof exports !== 'undefined') {
+  exports.mvelo = mvelo;
+}
+
