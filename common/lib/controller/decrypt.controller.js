@@ -101,6 +101,14 @@ define(function (require, exports, module) {
           this.ports.dDialog.postMessage({event: 'error-message', error: e.message});
         }
         break;
+      case 'get-attachment':
+        console.log("Get Attachment: "+JSON.stringify(msg.event));
+        if(this.mvelo.ffa) {
+          var attachmentId = msg.attachmentId;
+          var attachment = that.attachments[attachmentId];
+          this.mvelo.util.saveAsAttachment(attachment[0], attachment[1]);
+        }
+        break;
       default:
         console.log('unknown event', msg);
     }
@@ -144,7 +152,7 @@ define(function (require, exports, module) {
                   var text = parsed[0].content.filter(function (entry) {
                     return entry.type === 'text';
                   });
-                  msgText = this.mvelo.encodeHTML(text.length ? text[0].content : rawText);
+                  msgText = that.mvelo.encodeHTML(text.length ? text[0].content : rawText);
                   port.postMessage({event: 'decrypted-message', message: msgText});
                 } else if(part.type === "html") {
                   var html = parsed[0].content.filter(function (entry) {
