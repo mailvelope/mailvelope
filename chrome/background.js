@@ -17,6 +17,8 @@
 
 'use strict';
 
+var mvelo = mvelo || null;
+
 requirejs.config({
   baseUrl: 'lib',
   paths: {

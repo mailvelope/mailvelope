@@ -22,6 +22,8 @@
  * THE SOFTWARE.
  */
 
+'use strict';
+
 (function() {
 
   var mailvelope = {};
