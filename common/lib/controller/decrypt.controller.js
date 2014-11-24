@@ -144,7 +144,7 @@ define(function (require, exports, module) {
                   var text = parsed[0].content.filter(function (entry) {
                     return entry.type === 'text';
                   });
-                  msgText = mvelo.encodeHTML(text.length ? text[0].content : rawText);
+                  msgText = this.mvelo.encodeHTML(text.length ? text[0].content : rawText);
                   port.postMessage({event: 'decrypted-message', message: msgText});
                 } else if(part.type === "html") {
                   var html = parsed[0].content.filter(function (entry) {

@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
 const {Cc, Ci} = require("chrome");
 var utils = require('sdk/window/utils');
 var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsIFile);
@@ -54,7 +56,7 @@ function checkFileExists(folderPath, fileNameWithoutExt, fileExt) {
     fileExistsCounter = fileExistsCounter+1;
     checkFileExists(folderPath, fileNameWithoutExt, fileExt);
   } else {
-    file.create(0,0664);
+    file.create(0,0664); // jshint  ignore:line
   }
 }
 
