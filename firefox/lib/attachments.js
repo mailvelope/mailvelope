@@ -34,7 +34,7 @@ function saveAs(filename, content) {
   if (ret == nsIFilePicker.returnOK || ret == nsIFilePicker.returnReplace) {
     checkFileExists(dirPicker.file.path, extractFileNameWithoutExt(filename),extractFileExtension(filename));
     var out = Cc["@mozilla.org/network/file-output-stream;1"].createInstance(Ci.nsIFileOutputStream);
-    out.init(file,0x20|0x02,00004,null); // jshint ignore:line
+    out.init(file,0x20|0x02,-1,null); // -1 0664
     var contentString = '';
     for (var i = 0; i < content.length; i++) {
       contentString += String.fromCharCode(content[i]);
@@ -56,7 +56,7 @@ function checkFileExists(folderPath, fileNameWithoutExt, fileExt) {
     fileExistsCounter = fileExistsCounter+1;
     checkFileExists(folderPath, fileNameWithoutExt, fileExt);
   } else {
-    file.create(0,0664); // jshint  ignore:line
+    file.create(0,-1); // -1 0664
   }
 }
 
