@@ -27,7 +27,7 @@ define(function(require, exports, module) {
     }
     sub.SubController.call(this, null);
     this.mainType = 'pwdDialog';
-    this.id = this.mvelo.getHash();
+    this.id = this.mvelo.util.getHash();
     this.pwdPopup = null;
     this.message = null;
     this.done = null;

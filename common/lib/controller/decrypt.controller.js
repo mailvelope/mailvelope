@@ -43,16 +43,21 @@ define(function(require, exports, module) {
       case 'decrypt-inline-init':
         if (this.mvelo.windows.modalActive) {
           // password dialog or modal dialog already open
-          this.ports.dFrame.postMessage({event: 'remove-dialog'});
+          if (this.ports.dFrame) {
+            this.ports.dFrame.postMessage({event: 'remove-dialog'});
+          } else if (this.ports.decryptCont) {
+            this.ports.decryptCont.postMessage({event: 'error-message', error: 'modal-active'});
+          }
         } else {
-          // get armored message from dFrame
-          this.ports.dFrame.postMessage({event: 'armored-message'});
+          var port = this.ports.dFrame || this.ports.decryptCont;
+          // get armored message
+          port.postMessage({event: 'get-armored'});
         }
         break;
       // done
       case 'decrypt-popup-init':
         // get armored message from dFrame
-        this.ports.dFrame.postMessage({event: 'armored-message'});
+        this.ports.dFrame.postMessage({event: 'get-armored'});
         break;
       // done
       case 'dframe-display-popup':
@@ -66,43 +71,10 @@ define(function(require, exports, module) {
           });
         }
         break;
-      case 'dframe-armored-message':
-        try {
-          var message = this.model.readMessage(msg.data);
-          // password or unlocked key in cache?
-          var cacheEntry = this.pwdCache.get(message.key.primaryKey.getKeyId().toHex(), message.keyid);
-          if (!cacheEntry) {
-            // open password dialog
-            this.pwdControl = sub.factory.get('pwdDialog');
-            this.pwdControl.unlockKey({
-              message: message,
-              openPopup: this.prefs.data().security.display_decrypted == this.mvelo.DISPLAY_INLINE
-            }, function(err) {
-              if (err === 'pwd-dialog-cancel') {
-                that.dialogCancel();
-                return;
-              }
-              if (err) {
-                throw { message: err };
-              }
-              // success
-              that.decryptMessage(message);
-            });
-            if (this.prefs.data().security.display_decrypted == this.mvelo.DISPLAY_POPUP) {
-              this.ports.dDialog.postMessage({event: 'show-pwd-dialog', id: this.pwdControl.id});
-            }
-          } else {
-            this.pwdCache.unlock(cacheEntry, message, function() {
-              that.decryptMessage(message);
-            });
-          }
-        } catch (e) {
-          // display error message in decrypt dialog
-          this.ports.dDialog.postMessage({event: 'error-message', error: e.message});
-        }
+      case 'set-armored':
+        this.readMessage(msg.data);
         break;
       case 'get-attachment':
-        console.log("Get Attachment: " + JSON.stringify(msg.event));
         if (this.mvelo.ffa) {
           var attachmentId = msg.attachmentId;
           var attachment = that.attachments[attachmentId];
@@ -120,6 +92,51 @@ define(function(require, exports, module) {
     if (this.decryptPopup) {
       this.decryptPopup.close();
       this.decryptPopup = null;
+    }
+  };
+
+  DecryptController.prototype.readMessage = function(armored) {
+    var that = this;
+    try {
+      var message = this.model.readMessage(armored);
+      // password or unlocked key in cache?
+      var cacheEntry = this.pwdCache.get(message.key.primaryKey.getKeyId().toHex(), message.keyid);
+      if (!cacheEntry) {
+        // open password dialog
+        this.pwdControl = sub.factory.get('pwdDialog');
+        this.pwdControl.unlockKey({
+          message: message,
+          openPopup: this.ports.decryptCont || this.prefs.data().security.display_decrypted == this.mvelo.DISPLAY_INLINE
+        }, function(err) {
+          if (err === 'pwd-dialog-cancel') {
+            if (that.ports.dFrame) {
+              that.dialogCancel();
+            } else if (that.ports.decryptCont) {
+              that.ports.dDialog.postMessage({event: 'error-message', error: 'Key unlock canceled.'});
+              that.ports.decryptCont.postMessage({event: 'decrypt-done'});
+            }
+            return;
+          }
+          if (err) {
+            throw { message: err };
+          }
+          // success
+          that.decryptMessage(message);
+        });
+        if (this.ports.dFrame && this.prefs.data().security.display_decrypted == this.mvelo.DISPLAY_POPUP) {
+          this.ports.dDialog.postMessage({event: 'show-pwd-dialog', id: this.pwdControl.id});
+        }
+      } else {
+        this.pwdCache.unlock(cacheEntry, message, function() {
+          that.decryptMessage(message);
+        });
+      }
+    } catch (e) {
+      // display error message in decrypt dialog
+      this.ports.dDialog.postMessage({event: 'error-message', error: e.message});
+      if (that.ports.decryptCont) {
+        that.ports.decryptCont.postMessage({event: 'decrypt-done'});
+      }
     }
   };
 
@@ -150,7 +167,7 @@ define(function(require, exports, module) {
                 var textParts = [];
                 that.filterBodyParts(parsed, 'text', textParts);
                 if (textParts.length) {
-                  var text = that.mvelo.encodeHTML(textParts[0].content);
+                  var text = that.mvelo.util.encodeHTML(textParts[0].content);
                   text = text.replace(/\n/g, '<br>');
                   port.postMessage({event: 'decrypted-message', message: text});
                 }
@@ -181,6 +198,9 @@ define(function(require, exports, module) {
             port.postMessage({event: 'decrypted-message', message: msgText});
           }
         }
+      }
+      if (that.ports.decryptCont) {
+        that.ports.decryptCont.postMessage({event: 'decrypt-done'});
       }
     });
   };

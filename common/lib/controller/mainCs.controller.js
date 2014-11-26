@@ -32,7 +32,7 @@ define(function(require, exports, module) {
       case 'get-prefs':
         this.ports.mainCS.postMessage({
           event: 'set-prefs',
-          prefs: this.prefs.data,
+          prefs: this.prefs.data(),
           watchList: this.model.getWatchList()
         });
         break;

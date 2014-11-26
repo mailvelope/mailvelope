@@ -50,7 +50,6 @@ mvelo.main.init = function(prefs, watchList) {
   } else {
     mvelo.main.off();
   }
-  mvelo.domAPI.init();
 };
 
 mvelo.main.on = function() {
@@ -177,8 +176,7 @@ mvelo.main.findEditable = function() {
   return editable;
 };
 
-mvelo.main.getMessageType = function(pgpEnd) {
-  var armored = pgpEnd.text();
+mvelo.main.getMessageType = function(armored) {
   if (/END\sPGP\sMESSAGE/.test(armored)) {
     return mvelo.PGP_MESSAGE;
   } else if (/END\sPGP\sSIGNATURE/.test(armored)) {
@@ -199,7 +197,7 @@ mvelo.main.attachExtractFrame = function(element) {
   newObj.each(function(index, element) {
     // parent element of text node
     var pgpEnd = $(element).parent();
-    switch (mvelo.main.getMessageType(pgpEnd)) {
+    switch (mvelo.main.getMessageType(pgpEnd.text())) {
       case mvelo.PGP_MESSAGE:
         var dFrame = new mvelo.DecryptFrame(mvelo.main.prefs);
         dFrame.attachTo(pgpEnd);

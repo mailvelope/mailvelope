@@ -43,7 +43,7 @@
         !event.data.mvelo_extension) {
       return;
     }
-    console.log('clientAPI eventListener', event.data);
+    console.log('clientAPI eventListener', event.data.event);
     var data = event.data.data;
     switch (event.data.event) {
       case 'callback-reply':

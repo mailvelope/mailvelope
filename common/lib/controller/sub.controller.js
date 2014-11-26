@@ -80,7 +80,7 @@ define(function(require, exports, module) {
       }
       return subContr;
     } else {
-      throw new Error('No controller found for this view type.');
+      throw new Error('No controller found for view type: ' + type);
     }
   };
 

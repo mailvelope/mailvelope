@@ -146,7 +146,8 @@ var mvelo = mvelo || null;
 
   function showMessageArea() {
     $('html, body').addClass('hide_bg');
-    $('#wrapper').fadeIn();
+    $('body').removeClass('spinner');
+    $('#wrapper').addClass('fade-in');
     resizeFont();
   }
 

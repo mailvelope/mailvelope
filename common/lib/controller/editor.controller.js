@@ -27,7 +27,7 @@ define(function(require, exports, module) {
     }
     sub.SubController.call(this, null);
     this.mainType = 'editor';
-    this.id = this.mvelo.getHash();
+    this.id = this.mvelo.util.getHash();
     this.initText = '';
     this.done = null;
     this.pwdCache = require('../pwdCache');

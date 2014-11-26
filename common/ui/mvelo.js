@@ -172,19 +172,6 @@ mvelo.util.extractFileExtension = function(fileName) {
   }
 };
 
-mvelo.util.sortAndDeDup = function(unordered, compFn) {
-  var result = [];
-  var prev = -1;
-  unordered.sort(compFn).forEach(function(item) {
-    var equal = (compFn !== undefined && prev !== undefined) ? compFn(prev, item) === 0 : prev === item;
-    if (!equal) {
-      result.push(item);
-      prev = item;
-    }
-  });
-  return result;
-};
-
 mvelo.util.Timer = function(interval) {
   this.interval = interval;
   this.timeoutID = 0;

@@ -22,8 +22,6 @@ var mvelo = mvelo || {};
 mvelo.domAPI = {};
 
 mvelo.domAPI.active = false;
-mvelo.domAPI.name = 'domAPI-' + mvelo.util.getHash();
-mvelo.domAPI.port = null;
 
 mvelo.domAPI.init = function() {
   this.active = mvelo.main.watchList.some(function(site) {
@@ -33,7 +31,6 @@ mvelo.domAPI.init = function() {
     });
   });
   if (this.active) {
-    mvelo.domAPI.port = mvelo.extension.connect({name: mvelo.domAPI.name});
     window.addEventListener('message', mvelo.domAPI.eventListener);
     document.body.dataset.mailvelopeVersion = mvelo.main.prefs.version;
     if (!document.body.dataset.mailvelope) {
@@ -70,7 +67,7 @@ mvelo.domAPI.eventListener = function(event) {
       !event.data.mvelo_client) {
     return;
   }
-  console.log('domAPI eventListener', event.data);
+  console.log('domAPI eventListener', event.data.event);
   var data = event.data.data;
   switch (event.data.event) {
     case 'display-container':
@@ -82,6 +79,17 @@ mvelo.domAPI.eventListener = function(event) {
 };
 
 mvelo.domAPI.displayContainer = function(selector, armored, done) {
-  var container = new mvelo.DisplayContainer(selector);
+  var container;
+  switch (mvelo.main.getMessageType(armored)) {
+    case mvelo.PGP_MESSAGE:
+      container = new mvelo.DecryptContainer(selector);
+      break;
+    case mvelo.PGP_SIGNATURE:
+      // TODO
+      break;
+    case mvelo.PGP_PUBLIC_KEY:
+      // TODO
+      break;
+  }
   container.create(armored, done);
 };

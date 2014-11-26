@@ -26,6 +26,7 @@ define(function(require, exports, module) {
   var sub = require('./sub.controller');
 
   sub.factory.register('dFrame', require('./decrypt.controller').DecryptController);
+  sub.factory.register('decryptCont', require('./decrypt.controller').DecryptController);
   sub.factory.register('eFrame', require('./encrypt.controller').EncryptController);
   sub.factory.register('imFrame', require('./import.controller').ImportController);
   sub.factory.register('mainCS', require('./mainCs.controller').MainCsController);

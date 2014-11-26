@@ -102,9 +102,9 @@ mvelo.DecryptFrame.prototype._registerEventListener = function() {
       case 'dialog-cancel':
         that._removeDialog();
         break;
-      case 'armored-message':
+      case 'get-armored':
         that._port.postMessage({
-          event: 'dframe-armored-message',
+          event: 'set-armored',
           data: that._getArmoredMessage(),
           sender: that._ctrlName
         });
