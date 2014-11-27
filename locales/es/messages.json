@@ -79,6 +79,10 @@
         "message": "¿Recordar contraseñas para la sesión del navegador?",
         "description": "Password cache header"
     },
+    "save_attachment_as_message": {
+        "message": "Select the folder, where you want to save the attachment.",
+        "description": "Message in the attachment save dialog"
+    },
     "alert_header_success": {
         "message": "¡Completado con éxito!",
         "description": "Alert header of category success."
@@ -86,6 +90,10 @@
     "keygrid_public_keys": {
         "message": "Claves públicas",
         "description": "Selection of key type."
+    },
+    "editor_sign_button": {
+        "message": "Sign",
+        "description": "Sign button."
     },
     "key_gen_success": {
         "message": "Nueva clave generada e importada al juego de claves",
@@ -239,6 +247,10 @@
         "message": "Do you want to delete all your PGP keys from this browser profile?",
         "description": "The message of the confirmation dialog."
     },
+    "form_undo": {
+        "message": "Undo",
+        "description": "Undo form button."
+    },
     "keygrid_key_not_expire": {
         "message": "La clave no expira",
         "description": "Expiration date of a PGP key not set."
@@ -330,6 +342,10 @@
     "pwd_dialog_cache_pwd": {
         "message": "Recordar contraseñas para esta sesión.",
         "description": "Checkbox label."
+    },
+    "editor_encrypt_button": {
+        "message": "Encrypt",
+        "description": "Encrypt button."
     },
     "key_gen_pwd_reenter": {
         "message": "Vuelva a introducir la contraseña",

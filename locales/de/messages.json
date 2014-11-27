@@ -79,6 +79,10 @@
         "message": "Passwörter für diese Browser-Sitzung speichern?",
         "description": "Password cache header"
     },
+    "save_attachment_as_message": {
+        "message": "Wählen Sie den Ordner, in dem Sie den Anhang speichern möchten.",
+        "description": "Message in the attachment save dialog"
+    },
     "alert_header_success": {
         "message": "Erfolg!",
         "description": "Alert header of category success."
@@ -86,6 +90,10 @@
     "keygrid_public_keys": {
         "message": "Öffentliche Schlüssel",
         "description": "Selection of key type."
+    },
+    "editor_sign_button": {
+        "message": "Signieren",
+        "description": "Sign button."
     },
     "key_gen_success": {
         "message": "Neuer Schlüssel erzeugt und in den Schlüsselbund importiert",
@@ -239,6 +247,10 @@
         "message": "Wollen Sie wirklich alle Ihre PGP-Schlüssel aus diesem Browserprofil löschen?",
         "description": "The message of the confirmation dialog."
     },
+    "form_undo": {
+        "message": "Rückgängig",
+        "description": "Undo form button."
+    },
     "keygrid_key_not_expire": {
         "message": "Der Schlüssel verfällt nicht",
         "description": "Expiration date of a PGP key not set."
@@ -330,6 +342,10 @@
     "pwd_dialog_cache_pwd": {
         "message": "Passwörter für diese Sitzung merken",
         "description": "Checkbox label."
+    },
+    "editor_encrypt_button": {
+        "message": "Verschlüsseln",
+        "description": "Encrypt button."
     },
     "key_gen_pwd_reenter": {
         "message": "Passwort erneut eingeben",

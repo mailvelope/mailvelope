@@ -79,6 +79,10 @@
         "message": "Kom ihåg lösenord för webbläsarsession?",
         "description": "Password cache header"
     },
+    "save_attachment_as_message": {
+        "message": "Select the folder, where you want to save the attachment.",
+        "description": "Message in the attachment save dialog"
+    },
     "alert_header_success": {
         "message": "Det fungerade!",
         "description": "Alert header of category success."
@@ -86,6 +90,10 @@
     "keygrid_public_keys": {
         "message": "Publika nycklar",
         "description": "Selection of key type."
+    },
+    "editor_sign_button": {
+        "message": "Sign",
+        "description": "Sign button."
     },
     "key_gen_success": {
         "message": "Ny nyckel skapad och importerad till nyckelring",
@@ -239,6 +247,10 @@
         "message": "Do you want to delete all your PGP keys from this browser profile?",
         "description": "The message of the confirmation dialog."
     },
+    "form_undo": {
+        "message": "Undo",
+        "description": "Undo form button."
+    },
     "keygrid_key_not_expire": {
         "message": "Nyckeln går inte ut",
         "description": "Expiration date of a PGP key not set."
@@ -330,6 +342,10 @@
     "pwd_dialog_cache_pwd": {
         "message": "Kom ihåg lösenord för den här sessionen",
         "description": "Checkbox label."
+    },
+    "editor_encrypt_button": {
+        "message": "Encrypt",
+        "description": "Encrypt button."
     },
     "key_gen_pwd_reenter": {
         "message": "Ange lösenord igen",
