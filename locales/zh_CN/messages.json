@@ -79,6 +79,10 @@
         "message": "在会话中记住密码?",
         "description": "Password cache header"
     },
+    "save_attachment_as_message": {
+        "message": "Select the folder, where you want to save the attachment.",
+        "description": "Message in the attachment save dialog"
+    },
     "alert_header_success": {
         "message": "成功!",
         "description": "Alert header of category success."
@@ -86,6 +90,10 @@
     "keygrid_public_keys": {
         "message": "公钥",
         "description": "Selection of key type."
+    },
+    "editor_sign_button": {
+        "message": "Sign",
+        "description": "Sign button."
     },
     "key_gen_success": {
         "message": "新密钥已经建立并导入密钥环",
@@ -239,6 +247,10 @@
         "message": "Do you want to delete all your PGP keys from this browser profile?",
         "description": "The message of the confirmation dialog."
     },
+    "form_undo": {
+        "message": "Undo",
+        "description": "Undo form button."
+    },
     "keygrid_key_not_expire": {
         "message": "这个密钥永不失效",
         "description": "Expiration date of a PGP key not set."
@@ -330,6 +342,10 @@
     "pwd_dialog_cache_pwd": {
         "message": "在本次回话中记住密码",
         "description": "Checkbox label."
+    },
+    "editor_encrypt_button": {
+        "message": "Encrypt",
+        "description": "Encrypt button."
     },
     "key_gen_pwd_reenter": {
         "message": "再次输入密码",

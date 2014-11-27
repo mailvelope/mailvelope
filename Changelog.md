@@ -1,6 +1,31 @@
 Mailvelope Changelog
 ====================
 
+v0.11.0
+------
+__Nov. 27, 2014__
+
+  * Remove v0.8 local storage migration, delete old keys
+  * Controller refactoring
+  * Redesign of editor controls
+  * Use JavaScript strict mode
+  * Deactivate rich-text editor as we currently only support PGP/Inline
+  * [Security fix]: Load documentation in separate browser window to prevent access to priviledged API
+
+v0.10.4
+------
+__Nov. 10, 2014__
+
+  * Fixes for addons.mozilla.org review
+
+v0.10.3
+------
+__Nov. 9, 2014__
+
+  * Migrate to Bootstrap 3.2
+  * Refactor content scripts
+  * Transfer repository to https://github.com/mailvelope/mailvelope
+
 v0.10.2
 ------
 __Oct. 14, 2014__
@@ -36,7 +61,7 @@ __June 16, 2014__
 
 v0.8.3
 ------
-__May. 11, 2014__
+__May 11, 2014__
 
   * Update jQuery to 2.1.0
   * Enable sign and encrypt in included textareas for Firefox
@@ -45,7 +70,7 @@ __May. 11, 2014__
 
 v0.8.2
 ------
-__May. 2, 2014__
+__May 2, 2014__
 
   * Decrypt inline mode for Firefox
   * Short term fix for changes of unsafeWindow coming to Firefox 30

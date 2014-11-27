@@ -79,6 +79,10 @@
         "message": "Запомнить пароли для сессии браузера?",
         "description": "Password cache header"
     },
+    "save_attachment_as_message": {
+        "message": "Select the folder, where you want to save the attachment.",
+        "description": "Message in the attachment save dialog"
+    },
     "alert_header_success": {
         "message": "Удачно!",
         "description": "Alert header of category success."
@@ -86,6 +90,10 @@
     "keygrid_public_keys": {
         "message": "Открытые ключи",
         "description": "Selection of key type."
+    },
+    "editor_sign_button": {
+        "message": "Sign",
+        "description": "Sign button."
     },
     "key_gen_success": {
         "message": "Новый ключ создан и импортирован в связку.",
@@ -239,6 +247,10 @@
         "message": "Вы хотите удалить все ваши ключи PGP из этого профиля браузера?",
         "description": "The message of the confirmation dialog."
     },
+    "form_undo": {
+        "message": "Undo",
+        "description": "Undo form button."
+    },
     "keygrid_key_not_expire": {
         "message": "Срок действия ключа неограничен",
         "description": "Expiration date of a PGP key not set."
@@ -330,6 +342,10 @@
     "pwd_dialog_cache_pwd": {
         "message": "Запомнить пароль на протяжении этой сессии",
         "description": "Checkbox label."
+    },
+    "editor_encrypt_button": {
+        "message": "Encrypt",
+        "description": "Encrypt button."
     },
     "key_gen_pwd_reenter": {
         "message": "Повторите пароль",
