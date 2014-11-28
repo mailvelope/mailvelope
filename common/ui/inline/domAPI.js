@@ -23,6 +23,8 @@ mvelo.domAPI = {};
 
 mvelo.domAPI.active = false;
 
+mvelo.domAPI.containers = {};
+
 mvelo.domAPI.init = function() {
   this.active = mvelo.main.watchList.some(function(site) {
     return site.active && site.frames && site.frames.some(function(frame) {
@@ -73,6 +75,12 @@ mvelo.domAPI.eventListener = function(event) {
     case 'display-container':
       mvelo.domAPI.displayContainer(data.selector, data.armored, mvelo.domAPI.reply.bind(null, event.data.id));
       break;
+    case 'editor-container':
+      mvelo.domAPI.editorContainer(data.selector, mvelo.domAPI.reply.bind(null, event.data.id));
+      break;
+    case 'editor-encrypt':
+      mvelo.domAPI.editorEncrypt(data.editor_id, mvelo.domAPI.reply.bind(null, event.data.id));
+      break;
     default:
       console.log('unknown event', event.data.event);
   }
@@ -92,4 +100,14 @@ mvelo.domAPI.displayContainer = function(selector, armored, done) {
       break;
   }
   container.create(armored, done);
+};
+
+mvelo.domAPI.editorContainer = function(selector, done) {
+  var container = new mvelo.EditorContainer(selector);
+  this.containers[container.id] = container;
+  container.create(done);
+};
+
+mvelo.domAPI.editorEncrypt = function(editor_id, callback) {
+  this.containers[editor_id].encrypt(callback);
 };

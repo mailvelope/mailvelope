@@ -33,6 +33,7 @@ define(function(require, exports, module) {
   sub.factory.register('vFrame', require('./verify.controller').VerifyController);
   sub.factory.register('pwdDialog', require('./pwd.controller').PwdController);
   sub.factory.register('editor', require('./editor.controller').EditorController);
+  sub.factory.register('editorCont', require('./editor.controller').EditorController);
 
   // recipients of encrypted mail
   var scannedHosts = [];

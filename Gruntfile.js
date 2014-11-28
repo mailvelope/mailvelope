@@ -59,6 +59,7 @@ module.exports = function(grunt) {
             'common/ui/inline/importFrame.js',
             'common/ui/inline/encryptFrame.js',
             'common/ui/inline/decryptContainer.js',
+            'common/ui/inline/editorContainer.js',
             'common/ui/inline/domAPI.js'
           ],
           dest: 'build/common/ui/inline/cs-mailvelope.js'

@@ -26,7 +26,6 @@ define(function(require, exports, module) {
     this.pwdCache = require('../pwdCache');
     this.keyidBuffer = null;
     this.signBuffer = null;
-    this.pwdCache = require('../pwdCache');
     this.editorControl = null;
     this.recipientsCallback = null;
   }

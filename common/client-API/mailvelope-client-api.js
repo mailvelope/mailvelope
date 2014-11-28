@@ -80,4 +80,14 @@
     postMessage('display-container', {selector: selector, armored: armored}, done);
   };
 
+  mailvelope.createEditorContainer = function(selector, done) {
+    postMessage('editor-container', {selector: selector}, function(editor_id) {
+      done({
+        encrypt: function(recipients, callback) {
+          postMessage('editor-encrypt', {recipients: recipients, editor_id: editor_id}, callback);
+        }
+      });
+    });
+  };
+
 }());
