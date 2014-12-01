@@ -31,7 +31,7 @@ module.exports = function (grunt) {
         },
         files: [{
           src: [
-            'common/ui/inline/mvelo.js',
+            'common/ui/mvelo.js',
             'common/ui/inline/main-cs.js',
             'common/ui/inline/extractFrame.js',
             'common/ui/inline/decryptFrame.js',
@@ -128,7 +128,7 @@ module.exports = function (grunt) {
           src: [
             'common/**/*',
             '!common/ui/inline/*.js',
-            'common/ui/inline/mvelo.js',
+            'common/ui/mvelo.js',
             '!common/dep/wysihtml5/**/*'
           ],
           dest: 'build/'

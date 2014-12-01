@@ -169,7 +169,7 @@ define(function (require, exports, module) {
         var options = {};
         options.contentScriptFile = [];
         options.contentScriptFile.push("common/dep/jquery.min.js");
-        options.contentScriptFile.push("common/ui/inline/mvelo.js");
+        options.contentScriptFile.push("common/ui/mvelo.js");
         options.contentScript = scanScript;
         options.onMessage = handleMessageEvent;
         // inject scan script

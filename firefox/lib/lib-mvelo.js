@@ -27,7 +27,7 @@ var url = require('sdk/url');
 var l10nGet = require("sdk/l10n").get;
 
 // create mvelo namespace
-eval(data.load('common/ui/inline/mvelo.js'));
+eval(data.load('common/ui/mvelo.js'));
 var attachments = require('./attachments');
 var CWorker = require('web-worker').Worker;
 
