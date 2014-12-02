@@ -79,7 +79,7 @@ mvelo.domAPI.eventListener = function(event) {
       mvelo.domAPI.editorContainer(data.selector, mvelo.domAPI.reply.bind(null, event.data.id));
       break;
     case 'editor-encrypt':
-      mvelo.domAPI.editorEncrypt(data.editor_id, mvelo.domAPI.reply.bind(null, event.data.id));
+      mvelo.domAPI.editorEncrypt(data.editor_id, data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
       break;
     default:
       console.log('unknown event', event.data.event);
@@ -108,6 +108,6 @@ mvelo.domAPI.editorContainer = function(selector, done) {
   container.create(done);
 };
 
-mvelo.domAPI.editorEncrypt = function(editor_id, callback) {
-  this.containers[editor_id].encrypt(callback);
+mvelo.domAPI.editorEncrypt = function(editor_id, recipients, callback) {
+  this.containers[editor_id].encrypt(recipients, callback);
 };

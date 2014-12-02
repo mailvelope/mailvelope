@@ -22,7 +22,7 @@ define(function(require, exports, module) {
   var sub = require('./sub.controller');
 
   function EditorController(port) {
-    sub.SubController.call(this, null);
+    sub.SubController.call(this, port);
     if (!port) {
       this.mainType = 'editor';
       this.id = this.mvelo.util.getHash();
@@ -86,6 +86,15 @@ define(function(require, exports, module) {
         // get email text from eFrame
         this.ports.editor.postMessage({event: 'get-plaintext', action: 'encrypt'});
         break;
+      case 'editor-container-encrypt':
+        var keyIdMap = this.model.getKeyIdByAddress(msg.recipients);
+        var keyIds = [];
+        msg.recipients.forEach(function(recipient) {
+          keyIds = keyIds.concat(keyIdMap[recipient]);
+        });
+        this.keyidBuffer = this.mvelo.util.sortAndDeDup(keyIds);
+        this.ports.editor.postMessage({event: 'get-plaintext', action: 'encrypt'});
+        break;
       case 'sign-dialog-ok':
         this.signBuffer = {};
         var cacheEntry = this.pwdCache.get(msg.signKeyId, msg.signKeyId);
@@ -126,7 +135,8 @@ define(function(require, exports, module) {
       case 'editor-plaintext':
         if (msg.action === 'encrypt') {
           this.model.encryptMessage(msg.data, this.keyidBuffer, function(err, msg) {
-            that.ports.editor.postMessage({event: 'encrypted-message', message: msg});
+            var port = that.ports.editorCont || that.ports.editor;
+            port.postMessage({event: 'encrypted-message', message: msg});
           });
         } else if (msg.action === 'sign') {
           this.model.signMessage(msg.data, this.signBuffer.key, function(err, msg) {

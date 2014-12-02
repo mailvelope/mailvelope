@@ -218,6 +218,18 @@ define(function(require, exports, module) {
     }
   }
 
+  function getKeyIdByAddress(emailAddr) {
+    var result = {};
+    emailAddr.forEach(function(emailAddr) {
+      result[emailAddr] = keyring.publicKeys.getForAddress(emailAddr);
+      result[emailAddr] = result[emailAddr].concat(keyring.privateKeys.getForAddress(emailAddr));
+      result[emailAddr] = result[emailAddr].map(function(key) {
+        return key.primaryKey.getKeyId().toHex();
+      });
+    });
+    return result;
+  }
+
   function getArmoredKeys(keyids, options) {
     var result = [];
     var keys = null;
@@ -595,6 +607,7 @@ define(function(require, exports, module) {
   }
 
   exports.getKeyUserIDs = getKeyUserIDs;
+  exports.getKeyIdByAddress = getKeyIdByAddress;
   exports.getKeyForSigning = getKeyForSigning;
   exports.importKeys = importKeys;
   exports.removeKey = removeKey;

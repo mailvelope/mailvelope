@@ -28,45 +28,35 @@ mvelo.EditorContainer = function(selector) {
   this.parent = null;
   this.container = null;
   this.done = null;
+  this.encryptCallback = null;
 };
 
 mvelo.EditorContainer.prototype.create = function(done) {
   this.done = done;
   this.parent = document.querySelector(this.selector);
   this.container = document.createElement('iframe');
-  /*
   var url;
   if (mvelo.crx) {
-    url = mvelo.extension.getURL('common/ui/inline/dialogs/decryptInline.html?id=' + this.id);
+    url = mvelo.extension.getURL('common/ui/editor/editor.html?id=' + this.id + '&embedded=true');
   } else if (mvelo.ffa) {
-    url = 'about:blank?mvelo=decryptInline&id=' + this.id;
+    url = 'about:blank?mvelo=editor&id=' + this.id + '&embedded=true';
   }
   this.container.setAttribute('src', url);
-  */
-  this.container.setAttribute('srcdoc', '<h3>Editor</h3><textarea rows="12" style="width: 500px;"></textarea>');
   this.container.setAttribute('frameBorder', 0);
   this.container.setAttribute('scrolling', 'no');
   this.container.style.width = '100%';
   this.container.style.height = '100%';
+  this.container.addEventListener('load', this.done.bind(this, this.id));
   this.parent.appendChild(this.container);
-  this.done(this.id);
 };
 
-mvelo.EditorContainer.prototype.encrypt = function(callback) {
-  callback('\n\
-    -----BEGIN PGP MESSAGE-----\n\
-    Version: GnuPG v1.4.11 (GNU/Linux)\n\
-    \n\
-    OcgV2ELuIsCTNGGdQPv0FQDl0SS6TTgCjVytfHvgP8STWms2w/ynuMuEz/rZJMQJ\n\
-    jKaE+dry2CqkSg9xWCm3Ji9xaxGAkYVeLcX2FEeieQo8YQ6Vk9EFVRpjJgjkrkQJ\n\
-    /8fBQHHCks/L12KZniS55ivhnkRD6YxaRfV7eRqH7LrsvtZ2JYS9uq86VdW9s1Tm\n\
-    i+nAQ4jO4FA8/FAmoN45IxzIAdC84k8+CapcjJ08wNWZ5vYyxCN4oKhOCVs2INwZ\n\
-    vGFOclsjqcZFuqU8KtCX/3etWR5rpdi1RU7GJF+1u8nf4noSOXWBu3ZqXZj0grVs\n\
-    jsNlzQLKmrGsw6bQkaC2NdLyVBjJqGyeWUBQ2OYpBD3+hvpMM95fYRYOhBXxKJps\n\
-    58gCgxa/yymi6wWGCvgIPY0KajoSRlir3H/avqLGkUUdi6XEla51Y0kUi3PJPHa2\n\
-    qD3/8chOMo1J16GQG52jDrDThnk8F38hazepZJ462Q==\n\
-    =AQVY\n\
-    -----END PGP MESSAGE-----\n');
+mvelo.EditorContainer.prototype.encrypt = function(recipients, callback) {
+  this.port.postMessage({
+    event: 'editor-container-encrypt',
+    sender: this.name,
+    recipients: recipients
+  });
+  this.encryptCallback = callback;
 };
 
 mvelo.EditorContainer.prototype.registerEventListener = function() {
@@ -79,6 +69,9 @@ mvelo.EditorContainer.prototype.registerEventListener = function() {
         break;
       case 'error-message':
         that.done(msg.error);
+        break;
+      case 'encrypted-message':
+        that.encryptCallback(msg.message);
         break;
       default:
         console.log('unknown event', msg);
