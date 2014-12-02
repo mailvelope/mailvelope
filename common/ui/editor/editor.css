@@ -39,8 +39,8 @@
   overflow: hidden;
 }
 
-#plainText {
-  display: none;
+#plainText,
+#plainText iframe {
   width: 100%;
   height: 100%;
 }

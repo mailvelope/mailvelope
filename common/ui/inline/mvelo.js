@@ -42,6 +42,27 @@ if (mvelo.ffa) {
     return port;
   };
 }
+
+mvelo.appendTpl = function($element, path) {
+  return new Promise(function(resolve, reject) {
+    var req = new XMLHttpRequest();
+    req.open('GET', path);
+    req.responseType = 'text';
+    req.onload = function() {
+      if (req.status == 200) {
+        $element.append($.parseHTML(req.response));
+        resolve($element);
+      } else {
+        reject(new Error(req.statusText));
+      }
+    };
+    req.onerror = function() {
+      reject(new Error("Network Error"));
+    };
+    req.send();
+  });
+};
+
 // for fixfox, mvelo.l10n is exposed from a content script
 mvelo.l10n = mvelo.l10n || mvelo.crx && {
   getMessages: function(ids, callback) {

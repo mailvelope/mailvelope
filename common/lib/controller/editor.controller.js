@@ -147,7 +147,7 @@ define(function (require, exports, module) {
     this.initText = options.initText;
     this.getRecipients = options.getRecipients;
     this.done = callback;
-    this.mvelo.windows.openPopup('common/ui/modal/editor.html?id=' + this.id + '&editor_type=' + this.prefs.data().general.editor_type, {width: 742, height: 450, modal: false}, function(window) {
+    this.mvelo.windows.openPopup('common/ui/editor/editor.html?id=' + this.id + '&editor_type=' + this.prefs.data().general.editor_type, {width: 742, height: 450, modal: false}, function(window) {
       that.editorPopup = window;
     });
   };

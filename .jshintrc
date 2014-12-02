@@ -48,6 +48,7 @@
         "self": false,
         "chrome": false,
         "kendo": false,
-        "addon": false
+        "addon": false,
+        "Promise": false
     }
 }

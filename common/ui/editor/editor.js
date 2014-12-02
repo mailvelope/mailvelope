@@ -37,6 +37,7 @@ var mvelo = mvelo || null;
   // timeoutID for period in which blur events are non-critical
   var blurValid = null;
   var undoText = null;
+  var initText = null;
   var attachments = {};
 
   // maximal size of the attachments in bytes, ca 50 MB
@@ -48,38 +49,58 @@ var mvelo = mvelo || null;
     name = 'editor-' + id;
     // plain text only
     editor_type = mvelo.PLAIN_TEXT; //qs.editor_type;
-    $('#cancelBtn').click(onCancel);
-    $('#transferBtn').click(onTransfer);
-    $('#signBtn').click(onSign);
-    $('#encryptBtn').click(onEncrypt);
-    $('#undoBtn').click(onUndo);
-    $('#transferBtn').hide();
-    // blur warning
-    blurWarn = $('#blurWarn');
-    $(window).on('focus', startBlurValid);
-    if (editor_type == mvelo.PLAIN_TEXT) {
-      editor = createPlainText();
-    } else {
-      createRichText(function(ed) {
-        editor = ed;
-      });
-    }
     port = mvelo.extension.connect({name: name});
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'editor-init', sender: name});
-    // transfer warning modal
-    $('#transferWarn .btn-primary').click(transfer);
-    // observe modals for blur warning
-    $('.modal').on('show.bs.modal', startBlurValid);
-    mvelo.l10n.localizeHTML();
-    $('#transferWarn').hide();
-
-    $('#uploadBtn').on("click", function() {
-      $('#addFileInput').click();
+    loadTemplates(qs.embedded, function() {
+      $(window).on('focus', startBlurValid);
+      if (editor_type == mvelo.PLAIN_TEXT) {
+        editor = createPlainText();
+      } else {
+        createRichText(function(ed) {
+          editor = ed;
+        });
+      }
+      // blur warning
+      blurWarn = $('#blurWarn');
+      // observe modals for blur warning
+      $('.modal').on('show.bs.modal', startBlurValid);
+      if (initText) {
+        setText(initText);
+        initText = null;
+      }
+      mvelo.l10n.localizeHTML();
     });
+  }
 
-    $("#addFileInput").on("change", onAddAttachment);
-
+  function loadTemplates(embedded, callback) {
+    if (embedded) {
+      mvelo.appendTpl($('body'), 'tpl/editor-body.html').then(callback);
+    } else {
+      mvelo.appendTpl($('body'), 'tpl/editor-popup.html').then(function() {
+        $('#cancelBtn').click(onCancel);
+        $('#transferBtn').click(onTransfer);
+        $('#signBtn').click(onSign);
+        $('#encryptBtn').click(onEncrypt);
+        $('#undoBtn').click(onUndo)
+                     .prop('disabled', true);
+        $('#transferBtn').hide();
+        $('#uploadBtn').on("click", function() {
+          $('#addFileInput').click();
+        });
+        $("#addFileInput").on("change", onAddAttachment);
+        Promise.all([
+          mvelo.appendTpl($('#editorDialog .modal-body'), 'tpl/editor-body.html'),
+          mvelo.appendTpl($('body'), 'tpl/encrypt-modal.html'),
+          mvelo.appendTpl($('body'), 'tpl/transfer-warn.html').then(function() {
+            // transfer warning modal
+            $('#transferWarn .btn-primary').click(transfer);
+            $('#transferWarn').hide();
+            return Promise.resolve();
+          })
+        ]).then(callback);
+      });
+    }
   }
 
   function removeAttachment(id) {
@@ -194,8 +215,10 @@ var mvelo = mvelo || null;
   }
 
   function createPlainText() {
-    var sandbox = $('#plainText');
-    sandbox.show();
+    var sandbox = $('<iframe/>', {
+      sandbox: 'allow-same-origin allow-scripts',
+      frameBorder: 0
+    });
     var text = $('<textarea/>', {
       id: 'content',
       class: 'form-control',
@@ -212,9 +235,11 @@ var mvelo = mvelo || null;
       rel: 'stylesheet',
       href: '../../dep/bootstrap/css/bootstrap.css'
     });
-    var head = sandbox.contents().find('head');
-    style.appendTo(head);
-    sandbox.contents().find('body').append(text);
+    sandbox.one('load', function() {
+      sandbox.contents().find('head').append(style);
+      sandbox.contents().find('body').append(text);
+    });
+    $('#plainText').append(sandbox);
     text.on('change', onChange);
     text.on('input', startBlurWarnInterval);
     text.on('blur', onBlur);
@@ -327,7 +352,7 @@ var mvelo = mvelo || null;
   function addPwdDialog(id) {
     var pwd = $('<iframe/>', {
       id: 'pwdDialog',
-      src: 'pwdDialog.html?id=' + id,
+      src: '../modal/pwdDialog.html?id=' + id,
       frameBorder: 0
     });
     $('body').find('#editorDialog').fadeOut(function() {
@@ -410,7 +435,11 @@ var mvelo = mvelo || null;
     //console.log('editor messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
       case 'set-text':
-        setText(msg.text);
+        if (editor) {
+          setText(msg.text);
+        } else {
+          initText = msg.text;
+        }
         break;
       case 'show-pwd-dialog':
         removeDialog();

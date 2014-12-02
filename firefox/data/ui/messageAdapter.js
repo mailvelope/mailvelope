@@ -93,11 +93,14 @@ if (self.options.expose_messaging) {
 
   function localizeHTML(l10n) {
     if (l10n) {
-      $('[data-l10n-id]').each(function() {
-        var jqElement = $(this);
-        var text = l10n[jqElement.data('l10n-id')];
-        jqElement.text(text);
+      [].forEach.call(document.querySelectorAll('[data-l10n-id]'), function(element) {
+        element.textContent = l10n[element.dataset.l10nId];
       });
+    } else {
+      l10n = [].map.call(document.querySelectorAll('[data-l10n-id]'), function(element) {
+        return element.dataset.l10nId;
+      });
+      getMessages(l10n, localizeHTML);
     }
   }
 
