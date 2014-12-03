@@ -22,6 +22,7 @@
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
+  min-width: 720px;
 }
 
 .m-modal > .modal-header {
@@ -119,7 +120,7 @@
 }
 
 #addFileInput {
-    display: none;
+  display: none;
 }
 
 #uploadPanel {

@@ -69,13 +69,19 @@ var mvelo = mvelo || null;
         setText(initText);
         initText = null;
       }
+      $('#uploadBtn').on("click", function() {
+        $('#addFileInput').click();
+      });
+      $("#addFileInput").on("change", onAddAttachment);
       mvelo.l10n.localizeHTML();
     });
   }
 
   function loadTemplates(embedded, callback) {
     if (embedded) {
-      mvelo.appendTpl($('body'), 'tpl/editor-body.html').then(callback);
+      mvelo.appendTpl($('body'), 'tpl/editor-body.html').then(function() {
+        mvelo.appendTpl($('body'), 'tpl/editor-upload.html').then(callback);
+      });
     } else {
       mvelo.appendTpl($('body'), 'tpl/editor-popup.html').then(function() {
         $('#cancelBtn').click(onCancel);
@@ -85,12 +91,9 @@ var mvelo = mvelo || null;
         $('#undoBtn').click(onUndo)
                      .prop('disabled', true);
         $('#transferBtn').hide();
-        $('#uploadBtn').on("click", function() {
-          $('#addFileInput').click();
-        });
-        $("#addFileInput").on("change", onAddAttachment);
         Promise.all([
           mvelo.appendTpl($('#editorDialog .modal-body'), 'tpl/editor-body.html'),
+          mvelo.appendTpl($('#editorDialog .modal-footer'), 'tpl/editor-upload.html'),
           mvelo.appendTpl($('body'), 'tpl/encrypt-modal.html'),
           mvelo.appendTpl($('body'), 'tpl/transfer-warn.html').then(function() {
             // transfer warning modal
