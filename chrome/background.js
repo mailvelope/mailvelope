@@ -22,7 +22,7 @@ requirejs.config({
   paths: {
     jquery: '../common/dep/jquery.min',
     openpgp: '../dep/openpgp',
-    mvelo: '../common/ui/inline/mvelo',
+    mvelo: '../common/ui/mvelo',
     parser_rules: '../common/dep/wysihtml5/js/advanced_parser_rules',
     dompurify: '../common/dep/purify'
   },
