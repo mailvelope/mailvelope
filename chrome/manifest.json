@@ -55,10 +55,5 @@
     "common/dep/bootstrap/fonts/glyphicons-halflings-regular.ttf",
     "common/dep/bootstrap/fonts/glyphicons-halflings-regular.woff"
   ],
-  "sandbox": {
-    "pages": [
-      "common/ui/keyRing.html"
-    ]
-  },
   "default_locale": "en"
 }

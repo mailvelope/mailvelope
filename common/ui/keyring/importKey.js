@@ -20,12 +20,12 @@
 var keyRing = keyRing || null;
 var mvelo = mvelo || null;
 
-(function(exports, keyRing) {
+(function(exports, options) {
 
   var publicKeyRegex = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
   var privateKeyRegex = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END PGP PRIVATE KEY BLOCK-----/g;
 
-  keyRing.registerL10nMessages([
+  options.registerL10nMessages([
     "key_import_error",
     "key_import_invalid_text",
     "key_import_exception",
@@ -34,9 +34,14 @@ var mvelo = mvelo || null;
   ]);
 
   function init() {
+    $('#selectFileButton').on("click", function() {
+      $('#impKeyFilepath').click();
+    });
+
     $('#impKeySubmit').click(function() {
       onImportKey();
     });
+
     $('#impKeyClear').click(onClear);
     $('#impKeyAnother').click(onAnother);
     $('#impKeyFilepath').change(onChangeFile);
@@ -67,11 +72,11 @@ var mvelo = mvelo || null;
     }
 
     if (keys.length === 0) {
-      $('#importAlert').showAlert(keyRing.l10n.key_import_error, keyRing.l10n.key_import_invalid_text, 'danger', true);
+      $('#importAlert').showAlert(options.l10n.key_import_error, options.l10n.key_import_invalid_text, 'danger', true);
     } else {
-      keyRing.viewModel('importKeys', [keys], function(result, error) {
+      options.viewModel('importKeys', [keys], function(result, error) {
         if (error) {
-          $('#importAlert').showAlert(keyRing.l10n.key_import_error, error.type === 'error' ? error.message : keyRing.l10n.key_import_exception, 'danger', true);
+          $('#importAlert').showAlert(options.l10n.key_import_error, error.type === 'error' ? error.message : options.l10n.key_import_exception, 'danger', true);
           if (callback) callback([{type: 'error'}]);
         } else {
           var success = false;
@@ -79,14 +84,14 @@ var mvelo = mvelo || null;
             var heading;
             switch (imported.type) {
               case 'success':
-                heading = keyRing.l10n.alert_header_success;
+                heading = options.l10n.alert_header_success;
                 success = true;
                 break;
               case 'warning':
-                heading = keyRing.l10n.alert_header_warning;
+                heading = options.l10n.alert_header_warning;
                 break;
               case 'error':
-                heading = keyRing.l10n.key_import_error;
+                heading = options.l10n.key_import_error;
                 break;
             }
             $('#importAlert').showAlert(heading, imported.message, imported.type, true);
@@ -117,7 +122,7 @@ var mvelo = mvelo || null;
       $('#newKey, #impKeySubmit, #impKeyClear, #impKeyFilepath').prop('disabled', true);
       $('#impKeyAnother').removeClass('hide');
       // refresh grid
-      keyRing.event.triggerHandler('keygrid-reload');
+      options.event.triggerHandler('keygrid-reload');
     }
   }
 
@@ -137,6 +142,6 @@ var mvelo = mvelo || null;
     $('#importAlert').hide();
   }
 
-  keyRing.event.on('ready', init);
+  options.event.on('ready', init);
 
-}(keyRing, keyRing));
+}(options, options));

@@ -17,15 +17,16 @@
 
 'use strict';
 
-var keyRing = keyRing || null;
+var mvelo = mvelo || null;
+var options = options || null;
 
-(function(keyRing) {
+(function(options) {
 
   var grid;
 
   window.URL = window.URL || window.webkitURL;
 
-  keyRing.registerL10nMessages([
+  options.registerL10nMessages([
     "key_export_too_large",
     "header_warning",
     "key_export_warning_private"
@@ -53,15 +54,15 @@ var keyRing = keyRing || null;
     var pub = this.id !== 'exportPrivate';
     var priv = this.id === 'exportPrivate' || this.id === 'exportKeyPair' || this.id === 'exportAllKeys';
     var that = this;
-    keyRing.viewModel('getArmoredKeys', [[keyid], {pub: pub, priv: priv, all: allKeys}], function(result, error) {
+    options.viewModel('getArmoredKeys', [[keyid], {pub: pub, priv: priv, all: allKeys}], function(result, error) {
       switch (that.id) {
         case 'exportByMail':
           // keys longer than 1600 chars don't fit into URL
           if (result[0].armoredPublic.length > 1600) {
-            showModal(key, result[0].armoredPublic, 'pub', keyRing.l10n.key_export_too_large);
+            showModal(key, result[0].armoredPublic, 'pub', options.l10n.key_export_too_large);
           } else {
             key.armoredPublic = result[0].armoredPublic;
-            keyRing.sendMessage({
+            mvelo.extension.sendMessage({
               event: "send-by-mail",
               data: key.toJSON()
             });
@@ -92,7 +93,7 @@ var keyRing = keyRing || null;
             }
             return prev;
           }, '');
-          showModal(null, allKeys, 'all_keys', hasPrivate ? '<b>' + keyRing.l10n.header_warning + '</b> ' + keyRing.l10n.key_export_warning_private : null);
+          showModal(null, allKeys, 'all_keys', hasPrivate ? '<b>' + options.l10n.header_warning + '</b> ' + options.l10n.key_export_warning_private : null);
           break;
         default:
           console.log('unknown export action');
@@ -134,9 +135,9 @@ var keyRing = keyRing || null;
   }
 
   function exportToClipboard() {
-    keyRing.copyToClipboard($('#armoredKey').val());
+    options.copyToClipboard($('#armoredKey').val());
   }
 
-  keyRing.event.on('ready', init);
+  options.event.on('ready', init);
 
-}(keyRing));
+}(options));

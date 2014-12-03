@@ -17,15 +17,16 @@
 
 'use strict';
 
-var keyRing = keyRing || null;
+var mvelo = mvelo || null;
+var options = options || null;
 
-(function(keyRing) {
+(function(options) {
 
   var advShown = false;
 
   var pwd, repwd, empty, nequ, match, submit;
 
-  keyRing.registerL10nMessages([
+  options.registerL10nMessages([
     "key_gen_never",
     "alert_header_success",
     "key_gen_success",
@@ -103,7 +104,7 @@ var keyRing = keyRing || null;
     $('#genKeySize').val('2048');
     $('#genKeyExp').val('0')
                    .prop('disabled', true);
-    $('#genKeyExpUnit').val(keyRing.l10n.key_gen_never)
+    $('#genKeyExpUnit').val(options.l10n.key_gen_never)
                    .prop('disabled', true);
     $('#genKeyEmail').closest('.control-group').removeClass('error')
                      .end().next().addClass('hide');
@@ -137,7 +138,7 @@ var keyRing = keyRing || null;
   function validateEmail(next) {
     var email = $('#genKeyEmail');
     // validate email
-    keyRing.viewModel('validateEmail', [email.val()], function(valid) {
+    options.viewModel('validateEmail', [email.val()], function(valid) {
       if (valid) {
         email.closest('.form-group').removeClass('has-error');
         email.next().addClass('hide');
@@ -151,29 +152,28 @@ var keyRing = keyRing || null;
   }
 
   function generateKey() {
-    var options = {};
-    options.algorithm = $('#genKeyAlgo').val();
-    options.numBits = $('#genKeySize').val();
-    options.user = $('#genKeyName').val();
-    options.email = $('#genKeyEmail').val();
-    options.passphrase = $('#genKeyPwd').val();
-    keyRing.viewModel('generateKey', [options], function(result, error) {
+    var parameters = {};
+    parameters.algorithm = $('#genKeyAlgo').val();
+    parameters.numBits = $('#genKeySize').val();
+    parameters.user = $('#genKeyName').val();
+    parameters.email = $('#genKeyEmail').val();
+    parameters.passphrase = $('#genKeyPwd').val();
+    options.viewModel('generateKey', [parameters], function(result, error) {
       if (!error) {
-        $('#genAlert').showAlert(keyRing.l10n.alert_header_success, keyRing.l10n.key_gen_success, 'success');
+        $('#genAlert').showAlert(options.l10n.alert_header_success, options.l10n.key_gen_success, 'success');
         $('#generateKey').find('input, select').prop('disabled', true);
         $('#genKeySubmit, #genKeyClear').prop('disabled', true);
         $('#genKeyAnother').removeClass('hide');
         // refresh grid
-        keyRing.event.triggerHandler('keygrid-reload');
+        options.event.triggerHandler('keygrid-reload');
       } else {
-        $('#genAlert').showAlert(keyRing.l10n.key_gen_error, error.type === 'error' ? error.message : '', 'danger');
+        $('#genAlert').showAlert(options.l10n.key_gen_error, error.type === 'error' ? error.message : '', 'danger');
       }
       $('body').removeClass('busy');
       $('#genKeyWait').modal('hide');
     });
   }
 
-  keyRing.event.on('ready', init);
+  options.event.on('ready', init);
 
-}(keyRing));
-
+}(options));

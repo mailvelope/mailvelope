@@ -44,24 +44,6 @@ module.exports = function (grunt) {
       }
     },
 
-    modernizr: {
-      dist: {
-        'devFile' : 'build/common/dep/modernizr.js',
-        'outputFile' : 'build/common/dep/modernizr.js',
-        'extra' : {
-          'shiv' : false,
-          'printshiv' : false,
-          'load' : true,
-          'mq' : false,
-          'cssclasses' : false
-        },
-        'uglify' : true,
-        'tests' : ['inputtypes'],
-        'parseFiles' : false,
-        'customTests' : []
-      }
-    },
-
     copy: {
       jquery: {
         src: 'bower_components/jquery/index.js',
@@ -306,7 +288,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-mozilla-addon-sdk');
-  grunt.loadNpmTasks('grunt-modernizr');
   grunt.loadNpmTasks('grunt-bump');
 
   //custom tasks
@@ -316,5 +297,5 @@ module.exports = function (grunt) {
 
   grunt.registerTask('copy_default', ['copy:vendor', 'copy:common', 'copy:plugins', 'copy:common_browser', 'copy:locale_firefox', 'copy:dep']);
 
-  grunt.registerTask('default', ['clean','jshint', 'modernizr', 'copy:jquery', 'concat', 'copy_default']);
+  grunt.registerTask('default', ['clean', 'jshint', 'copy:jquery', 'concat', 'copy_default']);
 };

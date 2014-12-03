@@ -1,0 +1,36 @@
+<h3 data-l10n-id="settings_general"></h3>
+<form class="form well">
+  <div class="form-group">
+    <label class="control-label" data-l10n-id="general_editor_type"></label>
+    <div class="radio">
+      <label>
+        <input type="radio" name="editorRadios" id="editorRadios1" value="rich">
+        <span data-l10n-id="general_editor_rich"></span>
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="editorRadios" id="editorRadios2" value="plain">
+        <span data-l10n-id="general_editor_plain"></span>
+      </label>
+    </div>
+  </div>
+  <div class="form-group">
+    <label data-l10n-id="general_primary_key_label" for="primaryKey"></label>
+    <select id="primaryKey" class="form-control"></select>
+  </div>
+  <div class="form-group">
+    <div class="radio">
+      <label class="checkbox" for="autoAddPrimary">
+        <input type="checkbox" id="autoAddPrimary" >
+        <span data-l10n-id="general_primary_key_always"></span>
+      </label>
+    </div>
+  </div>
+  <div id="genReloadInfo" class="alert alert-success" data-l10n-id="reload_webmail_tab">
+  </div>
+  <div class="form-group">
+    <button id="genBtnSave" class="btn btn-primary" disabled data-l10n-id="form_save"></button>
+    <button id="genBtnCancel" class="btn btn-default" disabled data-l10n-id="form_cancel"></button>
+  </div>
+</form>

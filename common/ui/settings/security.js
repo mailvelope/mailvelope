@@ -17,17 +17,19 @@
 
 'use strict';
 
-var keyRing = keyRing || null;
+var mvelo = mvelo || null;
+var options = options || null;
 
-(function(keyRing) {
+(function(options) {
 
-  keyRing.registerL10nMessages([
+  options.registerL10nMessages([
     "security_token_title",
     "security_token_info"
   ]);
 
   function init() {
     loadPrefs();
+    $('#secReloadInfo').hide();
     $('#security input').on('input change', function() {
       $('#security .form-group button').prop('disabled', false);
       $('#secReloadInfo').hide();
@@ -37,8 +39,8 @@ var keyRing = keyRing || null;
     $('#secBtnSave').click(onSave);
     $('#secBtnCancel').click(onCancel);
     $('#secTokenInfo').popover({
-      title: keyRing.l10n.security_token_title,
-      content: keyRing.l10n.security_token_info
+      title: options.l10n.security_token_title,
+      content: options.l10n.security_token_info
     });
     // https://bugzilla.mozilla.org/show_bug.cgi?id=213519
     $('#pwdCacheTime').click(function() {
@@ -74,8 +76,8 @@ var keyRing = keyRing || null;
         password_timeout: $('#pwdCacheTime').val()
       }
     };
-    keyRing.sendMessage({ event: 'set-prefs', data: update }, function() {
-      keyRing.event.triggerHandler('prefs-security-update');
+    mvelo.extension.sendMessage({ event: 'set-prefs', data: update }, function() {
+      options.event.triggerHandler('prefs-security-update');
       normalize();
       $('#secReloadInfo').show();
     });
@@ -120,7 +122,7 @@ var keyRing = keyRing || null;
   }
 
   function loadPrefs() {
-    keyRing.viewModel('getPreferences', function(prefs) {
+    options.viewModel('getPreferences', function(prefs) {
       $('input:radio[name="decryptRadios"]').filter(function() {
         return $(this).val() === prefs.security.display_decrypted;
       }).prop('checked', true);
@@ -138,7 +140,7 @@ var keyRing = keyRing || null;
     });
   }
 
-  keyRing.event.on('ready', init);
+  options.event.on('ready', init);
 
-}(keyRing));
+}(options));
 

@@ -1,0 +1,23 @@
+<h3 data-l10n-id="keyring_import_keys"></h3>
+<form class="form well">
+  <div class="form-group">
+    <label class="control-label" for="newKey"><h4 data-l10n-id="key_import_textarea"></h4></label>
+    <div class="" data-l10n-id="key_import_multiple_keys"></div>
+    <div class="help-block">
+      <textarea id="newKey" class="form-control" rows="12"></textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <button id="selectFileButton" class="btn btn-info" data-l10n-id="key_import_file_select"></button>
+    <input type="file" name="filepath" id="impKeyFilepath" style="display: none;"/>
+  </div>
+  <div class="form-group">
+    <div id="importAlert">
+    </div>
+  </div>
+  <div class="form-group">
+    <button id="impKeySubmit" class="btn btn-primary" data-l10n-id="form_submit"></button>
+    <button id="impKeyClear" class="btn btn-default" data-l10n-id="form_clear"></button>
+    <button id="impKeyAnother" class="btn btn-default hide" data-l10n-id="key_import_another"></button>
+  </div>
+</form>

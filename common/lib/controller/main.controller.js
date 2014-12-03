@@ -64,7 +64,7 @@ define(function (require, exports, module) {
           response.error = e;
         }
         if (response.result !== undefined || response.error) {
-          sendResponse(response);
+          sendResponse(response.result, response.error);
         } else {
           return true;
         }
@@ -94,7 +94,7 @@ define(function (require, exports, module) {
         sendResponse(request);
         break;
       case 'set-prefs':
-        prefs.update(request.message.data);
+        prefs.update(request.data);
         sendResponse(true);
         break;
       case 'get-security-token':

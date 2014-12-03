@@ -1,0 +1,82 @@
+<h3 data-l10n-id="keyring_generate_key"></h3>
+<form class="form well" autocomplete="off">
+  <div class="form-group">
+    <label class="control-label" for="genKeyName" data-l10n-id="keygrid_user_name"></label>
+    <input type="text" class="form-control" id="genKeyName">
+    <span class="help-block" data-l10n-id="key_gen_name_help"></span>
+  </div>
+  <div class="form-group">
+    <label class="control-label" data-l10n-id="keygrid_user_email" for="genKeyEmail"></label>
+    <input type="text" class="form-control" id="genKeyEmail">
+    <span class="help-block hide" data-l10n-id="key_gen_invalid_email"></span>
+  </div>
+  <div class="form-group">
+    <button id="genKeyAdv" class="btn btn-default key-advanced-closed" data-l10n-id="key_gen_advanced_btn"></button>
+  </div>
+  <div id="genKeyAdvSection" class="alert alert-info">
+    <div class="form-group">
+      <label class="control-label" data-l10n-id="keygrid_algorithm" for="genKeyAlgo"></label>
+      <select id="genKeyAlgo" class="form-control" disabled>
+        <option selected>RSA/RSA</option>
+        <option>DSA/ElGamal</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="control-label"><span data-l10n-id="key_gen_key_size" for="genKeySize"></span>&nbsp;(<span>bits</span>)</label>
+      <select id="genKeySize" class="form-control">
+        <option>1024</option>
+        <option selected>2048</option>
+        <option>4096</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="control-label" data-l10n-id="key_gen_expiration" for="genKeyExpUnit"></label>
+      <div class="form-inline">
+        <input type="text" class="form-control col-md-4" id="genKeyExp" value="0" disabled>
+        <select id="genKeyExpUnit" class="form-control col-md-4" disabled>
+          <option data-l10n-id="key_gen_never"></option>
+          <option data-l10n-id="key_gen_days"></option>
+          <option data-l10n-id="key_gen_months"></option>
+          <option data-l10n-id="key_gen_years"></option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">&nbsp;</div>
+  </div>
+  <div class="form-group">
+    <label class="control-label" for="genKeyPwd" data-l10n-id="key_gen_pwd"></label>
+    <input type="password" class="form-control" id="genKeyPwd">
+    <span class="label label-danger" data-l10n-id="key_gen_pwd_empty"></span>
+  </div>
+  <div class="form-group">
+    <label class="control-label" for="genKeyRePwd" data-l10n-id="key_gen_pwd_reenter"></label>
+    <input type="password" class="form-control" id="genKeyRePwd">
+    <span class="label label-danger hide" data-l10n-id="key_gen_pwd_unequal"></span>
+    <span class="label label-success hide" data-l10n-id="key_gen_pwd_match"></span>
+  </div>
+  <div class="form-group">
+    <div id="genAlert"></div>
+  </div>
+  <div class="form-group">
+    <button id="genKeySubmit" class="btn btn-primary" disabled data-l10n-id="form_submit"></button>
+    <button id="genKeyClear" class="btn btn-default" data-l10n-id="form_clear"></button>
+    <button id="genKeyAnother" class="btn btn-default hide" data-l10n-id="key_gen_another"></button>
+  </div>
+</form>
+
+<div class="modal" id="genKeyWait" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!--button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button-->
+        <h3 data-l10n-id="key_gen_wait_header"></h3>
+      </div>
+      <div class="modal-body">
+        <img alt="activity indicator" src="../img/progress-bar.gif" class="img-responsive center-block">
+      </div>
+      <div class="modal-footer">
+        <span data-l10n-id="key_gen_wait_info"></span>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

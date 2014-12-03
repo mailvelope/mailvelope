@@ -1,0 +1,76 @@
+<h3 data-l10n-id="settings_security"></h3>
+<form class="form well">
+  <div class="form-group">
+    <label class="control-label" data-l10n-id="security_display_decrypted"></label>
+    <div class="radio">
+      <label>
+        <input type="radio" name="decryptRadios" id="decryptRadios1" value="inline">
+        <span data-l10n-id="security_display_inline"></span>
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="decryptRadios" id="decryptRadios2" value="popup">
+        <span data-l10n-id="security_display_popup"></span>
+      </label>
+    </div>
+  </div>
+  <div class="form-group" id="securityTokenPanel">
+    <label>
+      <strong data-l10n-id="security_token_header"></strong><button id="secTokenInfo" class="btn btn-link" data-toggle="popover" data-placement="right">
+      <span class="glyphicon glyphicon-info-sign"></span></button>
+    </label>
+    <div class="radio form-inline">
+      <label data-l10n-id="security_char_code" for="secCode" id="secCodeLabel"></label>
+      <input type="text" id="secCode" maxlength="3" class="form-control">
+      <span class="help-block hide" data-l10n-id="security_char_help"></span>
+    </div>
+    <div class="radio form-inline">
+      <label data-l10n-id="security_custom_color" for="secColor" id="secColorLabel"></label>
+      <input type="color" id="secColor" class="form-control">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label" data-l10n-id="security_compose_mail"></label>
+    <div class="radio">
+      <label>
+        <input type="radio" name="editorModeRadios" id="editorModeRadios1" value="external">
+        <span data-l10n-id="security_compose_external"></span>
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="editorModeRadios" id="editorModeRadios2" value="webmail">
+        <span data-l10n-id="security_compose_webmail"></span>
+      </label>
+    </div>
+    <div id="editorModeWarn" class="alert alert-danger">
+      <h4 data-l10n-id="header_warning"></h4>
+      <span data-l10n-id="security_compose_warn"></span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label" data-l10n-id="security_cache_header"></label>
+    <div class="radio form-inline">
+      <label class="radio" id="pwdCacheLabel">
+        <input type="radio" name="pwdCacheRadios" id="pwdCacheRadios1" value="true">
+        <span data-l10n-id="security_cache_on"></span>
+        <input type="text" id="pwdCacheTime" maxlength="3" class="form-control">
+        <span data-l10n-id="security_cache_time"></span>
+        <span class="help-block hide" data-l10n-id="security_cache_help"></span>
+      </label>
+    </div>
+    <div class="radio">
+      <label class="radio">
+        <input type="radio" name="pwdCacheRadios" id="pwdCacheRadios2" value="false">
+        <span data-l10n-id="security_cache_off"></span>
+      </label>
+    </div>
+  </div>
+  <div id="secReloadInfo" class="alert alert-success" data-l10n-id="reload_webmail_tab">
+  </div>
+  <div class="form-group">
+    <button id="secBtnSave" class="btn btn-primary" disabled data-l10n-id="form_save"></button>
+    <button id="secBtnCancel" class="btn btn-default" disabled data-l10n-id="form_cancel"></button>
+  </div>
+</form>

@@ -17,13 +17,16 @@
 
 'use strict';
 
-var keyRing = keyRing || null;
+var mvelo = mvelo || null;
+var options = options || null;
 
-(function(keyRing) {
+(function(options) {
 
   function init() {
+    loadPrefs();
+    $('#genReloadInfo').hide();
     // this is triggered on startup
-    keyRing.event.on('keygrid-data-change', keyRingUpdate);
+    options.event.on('keygrid-data-change', keyRingUpdate);
     // change event enables form buttons
     $('#general input, #primaryKey').on('input change', function() {
       $('#general .form-group button').prop('disabled', false);
@@ -46,7 +49,7 @@ var keyRing = keyRing || null;
         auto_add_primary: $('#autoAddPrimary:checked').length !== 0
       }
     };
-    keyRing.sendMessage({ event: 'set-prefs', data: update }, function() {
+    mvelo.extension.sendMessage({ event: 'set-prefs', data: update }, function() {
       normalize();
       $('#genReloadInfo').show();
     });
@@ -109,7 +112,7 @@ var keyRing = keyRing || null;
   }
 
   function loadPrivateKeys(callback) {
-    keyRing.viewModel('getPrivateKeys', function(keys) {
+    options.viewModel('getPrivateKeys', function(keys) {
       var select = $('#primaryKey');
       keys && keys.forEach(function(key) {
         select.append($('<option/>', {
@@ -122,7 +125,7 @@ var keyRing = keyRing || null;
   }
 
   function loadPrefs(callback) {
-    keyRing.viewModel('getPreferences', function(prefs) {
+    options.viewModel('getPreferences', function(prefs) {
       $('input:radio[name="editorRadios"]').filter(function() {
         return $(this).val() === prefs.general.editor_type;
       }).prop('checked', true);
@@ -137,7 +140,7 @@ var keyRing = keyRing || null;
     });
   }
 
-  keyRing.event.on('ready', init);
+  options.event.on('ready', init);
 
-}(keyRing));
+}(options));
 
