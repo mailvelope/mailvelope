@@ -153,6 +153,7 @@ mvelo.ExtractFrame.prototype._getArmoredMessage = function() {
   msg = msg.replace(/^\s+/gm, ''); // remove leading whitespace
   msg = msg.replace(/:.*\n(?!.*:)/, '$&\n');  // insert new line after last armor header
   msg = msg.replace(/-----\n(?!.*:)/, '$&\n'); // insert new line if no header
+  msg = mvelo.util.decodeQuotedPrint(msg);
   return msg;
 };
 

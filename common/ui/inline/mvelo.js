@@ -137,6 +137,13 @@ mvelo.encodeHTML = function(text) {
     .replace(/\//g, "&#x2F;");
 };
 
+mvelo.util.decodeQuotedPrint = function(armored) {
+  return armored
+    .replace(/=3D=3D\s*$/m, "==")
+    .replace(/=3D\s*$/m, "=")
+    .replace(/=3D(\S{4})\s*$/m, "=$1");
+};
+
 mvelo.util.extensionColors = {};
 mvelo.util.extensionColors.jpg  = "#4ba5cb"; // Images
 mvelo.util.extensionColors.png  = "#4ba5cb";

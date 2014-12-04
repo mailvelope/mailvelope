@@ -18,6 +18,7 @@
 'use strict';
 
 var keyRing = keyRing || null;
+var mvelo = mvelo || null;
 
 (function(exports, keyRing) {
 
@@ -53,12 +54,14 @@ var keyRing = keyRing || null;
 
     if (publicKeys) {
       publicKeys.forEach(function(pub) {
+        pub = mvelo.util.decodeQuotedPrint(pub);
         keys.push({type: 'public', armored: pub});
       });
     }
 
     if (privateKeys) {
       privateKeys.forEach(function(priv) {
+        priv = mvelo.util.decodeQuotedPrint(priv);
         keys.push({type: 'private', armored: priv});
       });
     }
