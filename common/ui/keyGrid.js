@@ -42,9 +42,9 @@ var mvelo = mvelo || null;
       },
       {
         field: "id",
-        width: 85,
+        width: 146,
         title: keyRing.l10n.keygrid_keyid,
-        template: '#= id.substr(-8) #',
+        template: '#= id #',
         attributes: {
           style: "font-family: monospace;"
         }
