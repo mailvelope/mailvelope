@@ -215,9 +215,8 @@ var mvelo = mvelo || null;
       case 'decrypted-message':
         showMessageArea();
         // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
-        var message = msg.message.replace(/\n/g, '<br>');
-        message = $.parseHTML(message);
-        $('#decryptmail').contents().find('#content').append(message);
+        msg.message = $.parseHTML(msg.message);
+        $('#decryptmail').contents().find('#content').append(msg.message);
         break;
       case 'add-decrypted-attachment':
         //console.log('popup adding decrypted attachment: ', JSON.stringify(msg.message));

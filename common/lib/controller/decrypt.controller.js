@@ -139,38 +139,33 @@ define(function (require, exports, module) {
         if (/^Content-Type:\smultipart\//.test(rawText)) {
           // MIME
           that.mailreader.parse([{raw: rawText}], function(parsed) {
-            if(parsed && parsed.length > 0) {
-              var hasHTMLPart = false;
-              parsed[0].content.forEach(function(part){
-                if(part.type === "html") {
-                  hasHTMLPart = true;
+            if (parsed && parsed.length > 0) {
+              var htmlParts = [];
+              that.filterBodyParts(parsed, 'html', htmlParts);
+              if (htmlParts.length) {
+                that.mvelo.util.parseHTML(htmlParts[0].content, function (sanitized) {
+                  port.postMessage({event: 'decrypted-message', message: sanitized});
+                });
+              } else {
+                var textParts = [];
+                that.filterBodyParts(parsed, 'text', textParts);
+                if (textParts.length) {
+                  var text = that.mvelo.encodeHTML(textParts[0].content);
+                  text = text.replace(/\n/g, '<br>');
+                  port.postMessage({event: 'decrypted-message', message: text});
                 }
-              });
-              parsed[0].content.forEach(function(part, index){
-                //console.log("Mail message----: "+index+"-"+part.type+"\n"+part.content);
-                if(part.type === "text" && !hasHTMLPart) {
-                  var text = parsed[0].content.filter(function (entry) {
-                    return entry.type === 'text';
-                  });
-                  msgText = that.mvelo.encodeHTML(text.length ? text[0].content : rawText);
-                  port.postMessage({event: 'decrypted-message', message: msgText});
-                } else if(part.type === "html") {
-                  var html = parsed[0].content.filter(function (entry) {
-                    return entry.type === 'html';
-                  });
-                  if (html.length) {
-                    that.mvelo.util.parseHTML(html[0].content, function (sanitized) {
-                      port.postMessage({event: 'decrypted-message', message: sanitized});
-                    });
-                  }
-                } else if(part.content && part.type === "attachment") { // Handling attachments
-                  if(that.mvelo.ffa) {
-                    part.attachmentId = (new Date()).getTime();
-                    that.attachments[part.attachmentId] = [part.filename, part.content];
-                  }
-                  port.postMessage({event: 'add-decrypted-attachment', message: part});
+              }
+              var attachmentParts = [];
+              that.filterBodyParts(parsed, 'attachment', attachmentParts);
+              attachmentParts.forEach(function(part) {
+                if (that.mvelo.ffa) {
+                  part.attachmentId = (new Date()).getTime();
+                  that.attachments[part.attachmentId] = [part.filename, part.content];
                 }
+                port.postMessage({event: 'add-decrypted-attachment', message: part});
               });
+            } else {
+              port.postMessage({event: 'error-message', error: 'No content found in PGP/MIME.'});
             }
           });
         } else {
@@ -182,11 +177,26 @@ define(function (require, exports, module) {
           } else {
             // plain text
             msgText = that.mvelo.encodeHTML(rawText);
+            msgText = msgText.replace(/\n/g, '<br>');
             port.postMessage({event: 'decrypted-message', message: msgText});
           }
         }
       }
     });
+  };
+
+  // attribution: https://github.com/whiteout-io/mail-html5
+  DecryptController.prototype.filterBodyParts = function(bodyParts, type, result) {
+    var that = this;
+    result = result || [];
+    bodyParts.forEach(function(part) {
+      if (part.type === type) {
+        result.push(part);
+      } else if (Array.isArray(part.content)) {
+        that.filterBodyParts(part.content, type, result);
+      }
+    });
+    return result;
   };
 
   exports.DecryptController = DecryptController;
