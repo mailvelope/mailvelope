@@ -38,8 +38,8 @@ define(function (require, exports, module) {
   }
 
   function init() {
-    model.setOpenPGPComment('Email security by Mailvelope - https://www.mailvelope.com');
-    model.setOpenPGPVersion('Mailvelope ' + defaults.version);
+    model.setOpenPGPComment('https://www.mailvelope.com');
+    model.setOpenPGPVersion('Mailvelope v' + defaults.version);
     var prefs = model.getPreferences();
     if (!prefs) {
       defaults.preferences.security.secure_color = randomColor();
