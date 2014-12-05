@@ -74,9 +74,6 @@ var keyRing = keyRing || null;
     var normal = hex;
     var bright = increase_brightness(hex, 35);
     var style = 'background-color: ' + normal + ';';
-    style += 'background-image: -moz-linear-gradient(top, ' + bright + ', ' + normal + ');';
-    style += 'background-image: -webkit-gradient(linear, 0 0, 0 100%, from(' + bright + '), to(' + normal + '));';
-    style += 'background-image: -webkit-linear-gradient(top, ' + bright + ', ' + normal + ');';
     style += 'background-image: linear-gradient(to bottom, ' + bright + ', ' + normal + ');';
     if (isDark(normal)) {
       style += 'color: #FFFFFF';

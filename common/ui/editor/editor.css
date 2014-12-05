@@ -13,14 +13,8 @@
   background-color: #ffffff;
   border: 1px solid #999;
   border: 1px solid rgba(0, 0, 0, 0.3);
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
   border-radius: 6px;
-  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding-box;
   background-clip: padding-box;
   min-width: 720px;
 }
@@ -29,21 +23,29 @@
   position: absolute;
   left: 0;
   right: 0;
+  border-bottom: 0;
 }
 
 .m-modal > .modal-body {
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
   position: absolute;
   top: 60px;
   bottom: 55px;
   right: 0;
   left: 0;
   overflow: hidden;
+  padding-top: 5px;
 }
 
-#plainText,
+#plainText {
+  width: 100%;
+  height: 93%;
+}
+
 #plainText iframe {
   width: 100%;
-  height: 100%;
+  height: 99%;
 }
 
 #richText {
@@ -67,6 +69,7 @@
   bottom: 0;
   right: 0;
   left: 0;
+  border-top: 0;
 }
 
 #blurWarn {
@@ -125,8 +128,27 @@
 
 #uploadPanel {
     padding: 0 15px 5px 15px;
-    max-height: 30px;
     overflow-y: auto;
+
+    display: flex;
+    -webkit-box-direction: normal;
+    -moz-box-direction: normal;
+    -webkit-box-orient: horizontal;
+    -moz-box-orient: horizontal;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: start;
+    -moz-box-pack: start;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    -webkit-align-content: flex-start;
+    align-content: flex-start;
+    -webkit-box-align: start;
+    -moz-box-align: start;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
 }
 
 #uploadPanel .label {
@@ -148,18 +170,45 @@
 
 #uploadPanel .attachmentButton {
     font-weight: normal;
-    color: #333;
-    background-color: #ccc;
-    padding: 5px;
+    font-family: "Verdana",Sans-Serif;
+    color: #5E5E5E;
+    font-size: 11px;
+    padding: 2px;
+    margin-top: 3px;
+    background: #efefef;
+    background-image: linear-gradient(to bottom,#ffffff,#ececec);
+    border: 1px solid #cbcbcb;
+    border-radius: 4px;
+    cursor: pointer;
+
+    -webkit-box-ordinal-group: 1;
+    -moz-box-ordinal-group: 1;
+    -webkit-order: 0;
+    order: 0;
+    -webkit-box-flex: 0;
+    -moz-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    -webkit-align-self: auto;
+    align-self: auto;
 }
 
 #uploadPanel .attachmentButton:hover {
-    background-color: #ddd !important;
-    color: black !important;
+    color: #333333;
+    background-image: linear-gradient(to bottom,#ececec,#ececec);
 }
 
 #uploadPanel .attachmentExtension {
+    display: inline-block;
+    padding: 0 3px;
+    border-radius: 2px;
+    height: 14px;
+    background-color: #b9b9b9;
+    color: #ffffff;
+    font-family: "Verdana",Sans-Serif;
+    font-size: 10px;
     font-weight: normal;
-    color: black;
+    line-height: 14px;
+    cursor: pointer;
     text-transform: uppercase;
 }
