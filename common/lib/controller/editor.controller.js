@@ -28,7 +28,7 @@ define(function(require, exports, module) {
       this.id = this.mvelo.util.getHash();
     }
     this.initText = '';
-    this.done = null;
+    this.encryptCallback = null;
     this.pwdCache = require('../pwdCache');
     this.editorPopup = null;
     this.getRecipients = null;
@@ -53,7 +53,7 @@ define(function(require, exports, module) {
       case 'editor-transfer-output':
         this.editorPopup.close();
         this.editorPopup = null;
-        this.done(null, msg.data);
+        this.encryptCallback(null, msg.data);
         break;
       case 'encrypt-dialog-init':
         // send content
@@ -87,7 +87,13 @@ define(function(require, exports, module) {
         this.ports.editor.postMessage({event: 'get-plaintext', action: 'encrypt'});
         break;
       case 'editor-container-encrypt':
-        var keyIdMap = this.model.getKeyIdByAddress(msg.recipients);
+        var keyIdMap = this.model.getKeyIdByAddress(msg.recipients, true);
+        if (Object.keys(keyIdMap).some(function(keyId) {
+          return keyIdMap[keyId] === false;
+        })) {
+          this.ports.editorCont.postMessage({event: 'error-message', error: 'No valid encryption key for recipient address'});
+          return;
+        }
         var keyIds = [];
         msg.recipients.forEach(function(recipient) {
           keyIds = keyIds.concat(keyIdMap[recipient]);
@@ -155,8 +161,8 @@ define(function(require, exports, module) {
     var that = this;
     this.initText = options.initText;
     this.getRecipients = options.getRecipients;
-    this.done = callback;
-    this.mvelo.windows.openPopup('common/ui/editor/editor.html?id=' + this.id + '&editor_type=' + this.prefs.data().general.editor_type, {width: 780, height: 450, modal: false}, function(window) {
+    this.encryptCallback = callback;
+    this.mvelo.windows.openPopup('common/ui/editor/editor.html?id=' + this.id + '&editor_type=' + this.prefs.data().general.editor_type, {width: 742, height: 450, modal: false}, function(window) {
       that.editorPopup = window;
     });
   };

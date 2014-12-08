@@ -44,10 +44,9 @@
       return;
     }
     console.log('clientAPI eventListener', event.data.event);
-    var data = event.data.data;
     switch (event.data.event) {
       case 'callback-reply':
-        callbacks[event.data.id](data);
+        callbacks[event.data.id](event.data.error, event.data.data);
         delete callbacks[event.data.id];
         break;
       default:
@@ -76,18 +75,22 @@
     return document.body.dataset.mailvelopeVersion;
   };
 
-  mailvelope.createDisplayContainer = function(selector, armored, done) {
-    postMessage('display-container', {selector: selector, armored: armored}, done);
+  mailvelope.createDisplayContainer = function(selector, armored, callback) {
+    postMessage('display-container', {selector: selector, armored: armored}, callback);
   };
 
-  mailvelope.createEditorContainer = function(selector, done) {
+  mailvelope.createEditorContainer = function(selector, callback) {
     postMessage('editor-container', {selector: selector}, function(editor_id) {
-      done({
+      callback(null, {
         encrypt: function(recipients, callback) {
           postMessage('editor-encrypt', {recipients: recipients, editor_id: editor_id}, callback);
         }
       });
     });
+  };
+
+  mailvelope.validKeyForAddress = function(recipients, callback) {
+    postMessage('query-valid-key', {recipients: recipients}, callback);
   };
 
 }());

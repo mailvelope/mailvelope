@@ -46,11 +46,14 @@ mvelo.EditorContainer.prototype.create = function(done) {
   this.container.setAttribute('scrolling', 'no');
   this.container.style.width = '100%';
   this.container.style.height = '100%';
-  this.container.addEventListener('load', this.done.bind(this, this.id));
+  this.container.addEventListener('load', this.done.bind(this, this.id, null, null));
   this.parent.appendChild(this.container);
 };
 
 mvelo.EditorContainer.prototype.encrypt = function(recipients, callback) {
+  if (this.encryptCallback) {
+    throw new Error('Encyption already in progress');
+  }
   this.port.postMessage({
     event: 'editor-container-encrypt',
     sender: this.name,
@@ -68,10 +71,12 @@ mvelo.EditorContainer.prototype.registerEventListener = function() {
         that.port.disconnect();
         break;
       case 'error-message':
-        that.done(msg.error);
+        that.encryptCallback(msg.error);
+        that.encryptCallback = null;
         break;
       case 'encrypted-message':
-        that.encryptCallback(msg.message);
+        that.encryptCallback(null, msg.message);
+        that.encryptCallback = null;
         break;
       default:
         console.log('unknown event', msg);

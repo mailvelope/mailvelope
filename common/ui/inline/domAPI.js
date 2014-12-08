@@ -50,17 +50,18 @@ mvelo.domAPI.matchPattern2RegEx = function(matchPattern) {
                 .replace('\\w*\\.', '(\\w+\\.)?') + '$');
 };
 
-mvelo.domAPI.postMessage = function(eventName, id, data) {
+mvelo.domAPI.postMessage = function(eventName, id, data, error) {
   window.postMessage({
     event: eventName,
     mvelo_extension: true,
     id: id,
-    data: data
+    data: data,
+    error: error
   }, document.location.origin);
 };
 
-mvelo.domAPI.reply = function(id, data) {
-  mvelo.domAPI.postMessage('callback-reply', id, data);
+mvelo.domAPI.reply = function(id, error, data) {
+  mvelo.domAPI.postMessage('callback-reply', id, data, error);
 };
 
 mvelo.domAPI.eventListener = function(event) {
@@ -81,12 +82,15 @@ mvelo.domAPI.eventListener = function(event) {
     case 'editor-encrypt':
       mvelo.domAPI.editorEncrypt(data.editor_id, data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
       break;
+    case 'query-valid-key':
+      mvelo.domAPI.validKeyForAddress(data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
+      break;
     default:
       console.log('unknown event', event.data.event);
   }
 };
 
-mvelo.domAPI.displayContainer = function(selector, armored, done) {
+mvelo.domAPI.displayContainer = function(selector, armored, callback) {
   var container;
   switch (mvelo.main.getMessageType(armored)) {
     case mvelo.PGP_MESSAGE:
@@ -99,15 +103,22 @@ mvelo.domAPI.displayContainer = function(selector, armored, done) {
       // TODO
       break;
   }
-  container.create(armored, done);
+  container.create(armored, callback);
 };
 
-mvelo.domAPI.editorContainer = function(selector, done) {
+mvelo.domAPI.editorContainer = function(selector, callback) {
   var container = new mvelo.EditorContainer(selector);
   this.containers[container.id] = container;
-  container.create(done);
+  container.create(callback);
 };
 
 mvelo.domAPI.editorEncrypt = function(editor_id, recipients, callback) {
   this.containers[editor_id].encrypt(recipients, callback);
+};
+
+mvelo.domAPI.validKeyForAddress = function(recipients, callback) {
+  chrome.extension.sendMessage({
+    event: 'query-valid-key',
+    recipients: recipients
+  }, callback.bind(null, null));
 };
