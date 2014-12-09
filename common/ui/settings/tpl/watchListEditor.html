@@ -1,0 +1,135 @@
+<div id="watchListEditor" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header clearfix">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        </button>
+        <h4>Watch List Entry</h4>
+      </div>
+      <div class="modal-body">
+        <label class="switch-light well" style="width: 30%">
+          <input type="checkbox" checked="true">
+          <span>
+            <div data-l10n-id="watchlist_title_active"></div>
+            <span data-l10n-id="popup_active_off"></span>
+            <span data-l10n-id="popup_active_on"></span>
+          </span>
+          <a class="btn btn-primary"></a>
+        </label>
+        <div class="form-group">
+          <label for="exampleInputEmail1" data-l10n-id="watchlist_title_site"></label>
+          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="e.g. GMX or GMail">
+        </div>
+        <table class="table table-hover table-condensed" id="watchList">
+          <div style="text-align: left; padding-top: 4px; padding-bottom: 4px;">
+            <button type="button" class="btn btn-default" id="addDomainMatchPatternBtn">
+              <span class="glyphicon glyphicon-plus"></span>&nbsp;<span data-l10n-id="watchlist_title_frame"></span>
+            </button>
+          </div>
+          <thead>
+          <tr>
+            <th data-l10n-id="watchlist_title_scan"></th>
+            <th data-l10n-id="watchlist_title_frame"></th>
+            <th data-l10n-id=""></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>
+              <label class="switch-light well" style="margin-left: 0;">
+                <input type="checkbox">
+                <span>
+                  <span></span>
+                  <span data-l10n-id="popup_active_off"></span>
+                  <span data-l10n-id="popup_active_on"></span>
+                </span>
+                <a class="btn btn-primary"></a>
+              </label>
+            </td>
+            <td class="form-group"><input type="email" class="form-control" placeholder="e.g.: *.gmx.de" value="*.gmx.de"></td>
+            <td>
+              <button class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>&nbsp;<span data-l10n-id="keygrid_delete"></span></button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="switch-light well" style="margin-left: 0;">
+                <input type="checkbox">
+                <span>
+                  <span></span>
+                  <span data-l10n-id="popup_active_off"></span>
+                  <span data-l10n-id="popup_active_on"></span>
+                </span>
+                <a class="btn btn-primary"></a>
+              </label>
+            </td>
+            <td class="form-group"><input type="email" class="form-control" placeholder="e.g.: *.gmx.de" value="*.gmx.de"></td>
+            <td>
+              <button class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>&nbsp;<span data-l10n-id="keygrid_delete"></span></button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="switch-light well" style="margin-left: 0;">
+                <input type="checkbox">
+                <span>
+                  <span></span>
+                  <span data-l10n-id="popup_active_off"></span>
+                  <span data-l10n-id="popup_active_on"></span>
+                </span>
+                <a class="btn btn-primary"></a>
+              </label>
+            </td>
+            <td class="form-group"><input type="email" class="form-control" placeholder="e.g.: *.gmx.de" value="*.gmx.de"></td>
+            <td>
+              <button class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>&nbsp;<span data-l10n-id="keygrid_delete"></span></button>
+            </td>
+          </tr>          <tr>
+            <td>
+              <label class="switch-light well" style="margin-left: 0;">
+                <input type="checkbox">
+                <span>
+                  <span></span>
+                  <span data-l10n-id="popup_active_off"></span>
+                  <span data-l10n-id="popup_active_on"></span>
+                </span>
+                <a class="btn btn-primary"></a>
+              </label>
+            </td>
+            <td class="form-group"><input type="email" class="form-control" placeholder="e.g.: *.gmx.de" value="*.gmx.de"></td>
+            <td>
+              <button class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>&nbsp;<span data-l10n-id="keygrid_delete"></span></button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="switch-light well" style="margin-left: 0;">
+                <input type="checkbox">
+                <span>
+                  <span></span>
+                  <span data-l10n-id="popup_active_off"></span>
+                  <span data-l10n-id="popup_active_on"></span>
+                </span>
+                <a class="btn btn-primary"></a>
+              </label>
+            </td>
+            <td class="form-group"><input type="email" class="form-control" placeholder="e.g.: *.gmx.de" value="*.gmx.de"></td>
+            <td>
+              <button class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>&nbsp;<span data-l10n-id="keygrid_delete"></span></button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <!--button id="deleteWatchListItemBtn" class="btn btn-warning pull-left"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;<span data-l10n-id="keygrid_delete"></span></button-->
+        <button id="cancelBtn" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;<span data-l10n-id="form_cancel"></span></button>
+        <button id="okWatchListEditorBtn" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;<span data-l10n-id="form_ok"></span></button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="blurWarn" class="alert alert-block hide">
+  <h3 data-l10n-id="editor_blur_warn"></h3>
+</div>

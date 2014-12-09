@@ -102,10 +102,11 @@ body {
 }
 
 #displayKeys {
-  min-height: 200px;
+  min-height: 300px;
 }
 
 #exportKey {
+  width: auto;
   width: auto;
 }
 
@@ -193,7 +194,7 @@ body {
 }
 
 .spinner {
-  background-image: url('../dep/kendoui/styles/Default/loading-image.gif');
+  background-image: url('../img/loading.gif');
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -251,5 +252,32 @@ body {
 }
 
 #version::before {
-  content: 'v';
+    content: 'v';
+}
+
+#watchList td {
+    vertical-align: middle;
+}
+
+.tableToolbar {
+    text-align: left;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+#keyRingTable tr {
+    cursor: pointer;
+}
+
+#keyRingTable td {
+    vertical-align: middle;
+}
+
+.monospaced {
+    font-family: monospace;
+}
+
+.optionsTable {
+    background-color: white;
+    border: 1px solid #ccc;
 }

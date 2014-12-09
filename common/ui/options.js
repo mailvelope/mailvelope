@@ -42,6 +42,7 @@ var options = {};
       mvelo.appendTpl($('#general'), 'settings/tpl/general.html'),
       mvelo.appendTpl($('#security'), 'settings/tpl/security.html'),
       mvelo.appendTpl($('#watchList'), 'settings/tpl/watchList.html'),
+      mvelo.appendTpl($('#watchList'), 'settings/tpl/watchListEditor.html'),
       mvelo.appendTpl($('#displayKeys'), 'keyring/tpl/displayKeys.html'),
       mvelo.appendTpl($('#importKey'), 'keyring/tpl/importKey.html'),
       mvelo.appendTpl($('#generateKey'), 'keyring/tpl/generateKey.html')
