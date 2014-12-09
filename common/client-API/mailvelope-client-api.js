@@ -93,4 +93,8 @@
     postMessage('query-valid-key', {recipients: recipients}, callback);
   };
 
+  mailvelope.exportOwnPublicKey = function(emailAddr, callback) {
+    postMessage('export-own-pub-key', {emailAddr: emailAddr}, callback);
+  };
+
 }());

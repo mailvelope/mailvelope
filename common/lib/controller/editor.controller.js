@@ -87,7 +87,7 @@ define(function(require, exports, module) {
         this.ports.editor.postMessage({event: 'get-plaintext', action: 'encrypt'});
         break;
       case 'editor-container-encrypt':
-        var keyIdMap = this.model.getKeyIdByAddress(msg.recipients, true);
+        var keyIdMap = this.model.getKeyIdByAddress(msg.recipients, {validity: true});
         if (Object.keys(keyIdMap).some(function(keyId) {
           return keyIdMap[keyId] === false;
         })) {

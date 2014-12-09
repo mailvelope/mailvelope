@@ -127,13 +127,26 @@ define(function(require, exports, module) {
         mvelo.windows.openPopup(request.url);
         break;
       case 'query-valid-key':
-        var keyIdMap = model.getKeyIdByAddress(request.recipients, true);
+        var keyIdMap = model.getKeyIdByAddress(request.recipients, {validity: true});
         Object.keys(keyIdMap).forEach(function(email) {
           if (keyIdMap[email]) {
             keyIdMap[email] = true;
           }
         });
-        sendResponse(keyIdMap);
+        sendResponse({error: null, data: keyIdMap});
+        break;
+      case 'export-own-pub-key':
+        var keyIdMap = model.getKeyIdByAddress([request.emailAddr], {validity: true, pub: false, priv: true});
+        if (!keyIdMap[request.emailAddr]) {
+          sendResponse({error: 'No key pair found for this email address.'});
+          return;
+        }
+        // only take first valid key
+        if (keyIdMap[request.emailAddr].length > 1) {
+          keyIdMap[request.emailAddr].length = 1;
+        }
+        var armored = model.getArmoredKeys(keyIdMap[request.emailAddr], {pub: true});
+        sendResponse({error: null, data: armored[0].armoredPublic});
         break;
       default:
         console.log('unknown event:', request);

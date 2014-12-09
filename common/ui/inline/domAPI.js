@@ -85,6 +85,9 @@ mvelo.domAPI.eventListener = function(event) {
     case 'query-valid-key':
       mvelo.domAPI.validKeyForAddress(data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
       break;
+    case 'export-own-pub-key':
+      mvelo.domAPI.exportOwnPublicKey(data.emailAddr, mvelo.domAPI.reply.bind(null, event.data.id));
+      break;
     default:
       console.log('unknown event', event.data.event);
   }
@@ -120,5 +123,16 @@ mvelo.domAPI.validKeyForAddress = function(recipients, callback) {
   chrome.extension.sendMessage({
     event: 'query-valid-key',
     recipients: recipients
-  }, callback.bind(null, null));
+  }, function(result) {
+    callback(result.error, result.data);
+  });
+};
+
+mvelo.domAPI.exportOwnPublicKey = function(emailAddr, callback) {
+  chrome.extension.sendMessage({
+    event: 'export-own-pub-key',
+    emailAddr: emailAddr
+  }, function(result) {
+    callback(result.error, result.data);
+  });
 };

@@ -218,13 +218,24 @@ define(function(require, exports, module) {
     }
   }
 
-  function getKeyIdByAddress(emailAddr, validity) {
+  function getKeyIdByAddress(emailAddr, options) {
+    if (typeof options.pub === 'undefined') {
+      options.pub = true;
+    }
+    if (typeof options.priv === 'undefined') {
+      options.priv = true;
+    }
     var result = {};
     emailAddr.forEach(function(emailAddr) {
-      result[emailAddr] = keyring.publicKeys.getForAddress(emailAddr);
-      result[emailAddr] = result[emailAddr].concat(keyring.privateKeys.getForAddress(emailAddr));
+      result[emailAddr] = [];
+      if (options.pub) {
+        result[emailAddr] = result[emailAddr].concat(keyring.publicKeys.getForAddress(emailAddr));
+      }
+      if (options.priv) {
+        result[emailAddr] = result[emailAddr].concat(keyring.privateKeys.getForAddress(emailAddr));
+      }
       result[emailAddr] = result[emailAddr].map(function(key) {
-        if (validity && (key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
+        if (options.validity && (key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
                          key.getEncryptionKeyPacket() === null)) {
           return;
         }
