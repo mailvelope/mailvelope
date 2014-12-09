@@ -63,16 +63,6 @@ module.exports = function (grunt) {
           },
           {
             expand: true,
-            cwd: 'bower_components/kendo-ui/',
-            src: [
-              'js/kendo.web.min.js',
-              'styles/{Default,textures}/*',
-              'styles/kendo.{common,default}.min.css'
-            ],
-            dest: 'build/common/dep/kendoui/'
-          },
-          {
-            expand: true,
             cwd: 'bower_components/dompurify/',
             src: 'purify.js',
             dest: 'build/common/dep/'
