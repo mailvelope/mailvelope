@@ -22,11 +22,10 @@ define(function(require, exports, module) {
   var mvelo = require('../lib-mvelo').mvelo;
   var l10n = mvelo.l10n.get;
   var openpgp = require('openpgp');
-  var proxy;
   if (mvelo.crx) {
-    proxy = new openpgp.AsyncProxy('dep/openpgp.worker.js');
+    openpgp.initWorker('dep/openpgp.worker.js');
   } else if (mvelo.ffa) {
-    proxy = new openpgp.AsyncProxy(mvelo.data.url('openpgp.worker.min.js'));
+    openpgp.initWorker(mvelo.data.url('openpgp.worker.min.js'));
   }
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
   var keyring = new openpgp.Keyring();
@@ -406,13 +405,13 @@ define(function(require, exports, module) {
   function generateKey(options, callback) {
     //var keyType = getKeyType(options.algorithm);
     var emailAdr = new goog.format.EmailAddress(options.email, options.user);
-    proxy.generateKeyPair({numBits: parseInt(options.numBits), userId: emailAdr.toString(), passphrase: options.passphrase}, function(err, data) {
+    openpgp.generateKeyPair({numBits: parseInt(options.numBits), userId: emailAdr.toString(), passphrase: options.passphrase}).then(function(data) {
       if (data) {
         keyring.privateKeys.push(data.key);
         keyring.store();
       }
-      callback(err, data);
-    });
+      callback(null, data);
+    }, callback);
   }
 
   function getUserId(key) {
@@ -508,14 +507,11 @@ define(function(require, exports, module) {
   }
 
   function unlockKey(privKey, keyid, passwd, callback) {
-    var keyIdObj = new openpgp.Keyid();
-    // TODO OpenPGP.js helper method
-    keyIdObj.read(openpgp.util.hex2bin(keyid));
-    proxy.decryptKeyPacket(privKey, [keyIdObj], passwd, callback);
+    openpgp.worker.decryptKeyPacket(privKey, [openpgp.Keyid.fromId(keyid)], passwd).then(callback.bind(null, null), callback);
   }
 
   function decryptMessage(message, callback) {
-    proxy.decryptMessage(message.key, message.message, callback);
+    openpgp.worker.decryptMessage(message.key, message.message).then(callback.bind(null, null), callback);
   }
 
   function encryptMessage(message, keyIdsHex, callback) {
@@ -531,15 +527,12 @@ define(function(require, exports, module) {
         message: 'No key found for encryption'
       });
     }
-    try {
-      var encrypted = openpgp.encryptMessage(keys, message);
-      callback(null, encrypted);
-    } catch (e) {
+    openpgp.worker.encryptMessage(keys, message).then(callback.bind(null, null), function(e) {
       callback({
         type: 'error',
         message: l10n('encrypt_error', [e])
       });
-    }
+    });
   }
 
   function verifyMessage(message, signers, callback) {
@@ -577,7 +570,7 @@ define(function(require, exports, module) {
   }
 
   function signMessage(message, signKey, callback) {
-    proxy.signClearMessage([signKey], message, callback);
+    openpgp.worker.signClearMessage([signKey], message).then(callback.bind(null, null), callback);
   }
 
   function getWatchList() {

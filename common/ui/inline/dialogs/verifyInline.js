@@ -170,7 +170,7 @@ var mvelo = mvelo || null;
             type = 'warning';
             message.append(l10n.verify_result_warning, ' ', keyid);
           } else {
-            type = 'error';
+            type = 'danger';
             message.append(l10n.verify_result_error, ' ', userid, ' ', keyid);
           }
           header.showAlert('', message, type, true);
