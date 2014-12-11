@@ -1,0 +1,205 @@
+<div id="keyEditor" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header clearfix">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        </button>
+        <h4>Key Details</h4>
+      </div>
+      <div class="modal-body">
+        <div role="tabpanel">
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#primaryKeyTab" aria-controls="primaryKeyTab" role="tab" data-toggle="tab" data-l10n-id="keygrid_primary_key" id="primaryKeyTabSwitch"></a></li>
+            <li role="presentation"><a href="#subKeysTab" aria-controls="subKeysTab" role="tab" data-toggle="tab" data-l10n-id="keygrid_subkeys"></a></li>
+            <li role="presentation"><a href="#userIdsTab" aria-controls="userIdsTab" role="tab" data-toggle="tab" data-l10n-id="keygrid_user_ids"></a></li>
+            <li role="presentation"><a href="#exportTab" aria-controls="exportTab" role="tab" data-toggle="tab" data-l10n-id="keygrid_export" id="exportTabSwitch"></a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="primaryKeyTab">
+              <form class="form-horizontal" role="form">
+                <div class="form-group">
+                  <label for="keyName" class="col-sm-3 control-label" data-l10n-id="keygrid_user_name"></label>
+                  <div class="col-sm-9">
+                    <input type="text" readonly class="form-control" id="keyName">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="keyEmail" class="col-sm-3 control-label" data-l10n-id="keygrid_user_email"></label>
+                  <div class="col-sm-9">
+                    <input type="text" readonly class="form-control" id="keyEmail">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="keyId" class="col-sm-3 control-label" data-l10n-id="keygrid_keyid"></label>
+                  <div class="col-sm-9">
+                    <input type="text" readonly class="form-control" id="keyId">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="keyAlgorithm" class="col-sm-3 control-label" data-l10n-id="keygrid_algorithm"></label>
+                  <div class="col-sm-9">
+                    <input type="text" readonly class="form-control" id="keyAlgorithm">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="keyLength" class="col-sm-3 control-label" data-l10n-id="keygrid_key_length"></label>
+                  <div class="col-sm-9">
+                    <input type="text" readonly class="form-control" id="keyLength">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="keyCreationDate" class="col-sm-3 control-label" data-l10n-id="keygrid_creation_date"></label>
+                  <div class="col-sm-9">
+                    <input type="text" readonly class="form-control" id="keyCreationDate">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="keyExpirationDate" class="col-sm-3 control-label" data-l10n-id="keygrid_expiration_date"></label>
+                  <div class="col-sm-9">
+                    <input type="text" readonly class="form-control" id="keyExpirationDate">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="keyFingerPrint" class="col-sm-3 control-label" data-l10n-id="keygrid_key_fingerprint"></label>
+                  <div class="col-sm-9">
+                    <input type="text" readonly class="form-control" id="keyFingerPrint">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" data-l10n-id="keygrid_validity_status"></label>
+                  <div class="col-sm-2" style="padding-top: 5px;">
+                    <span class="label label-success" id="keyValid" data-l10n-id="keygrid_status_valid"></span>
+                    <span class="label label-danger" id="keyInValid" data-l10n-id="keygrid_status_invalid"></span>
+                  </div>
+                  <label for="keyType" class="col-sm-2 control-label">Type</label>
+                  <div class="col-sm-5" id="keyType" style="padding-top: 5px;">
+                    <span class="glyphicon glyphicon-eye-open" id="keyPublic"></span>
+                    <span class="glyphicon glyphicon-eye-close" id="keyPrivate"></span>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="subKeysTab">
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <label for="keyName" class="col-sm-3 control-label" data-l10n-id="keygrid_subkeyid"></label>
+                  <div class="col-sm-9">
+                    <select class="form-control" id="subKeysList">
+                      <option></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="tab-content">
+                  <div role="tabpanel" class="tab-pane well">
+                    <div class="form-group">
+                      <label for="subkeyAlgorithm" class="col-sm-3 control-label" data-l10n-id="keygrid_algorithm"></label>
+                      <div class="col-sm-9">
+                        <input type="text" readonly class="form-control" id="subkeyAlgorithm">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="subkeyLength" class="col-sm-3 control-label" data-l10n-id="keygrid_key_length"></label>
+                      <div class="col-sm-9">
+                        <input type="text" readonly class="form-control" id="subkeyLength">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="subkeyCreationDate" class="col-sm-3 control-label" data-l10n-id="keygrid_creation_date"></label>
+                      <div class="col-sm-9">
+                        <input type="text" readonly class="form-control" id="subkeyCreationDate">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="subkeyExpirationDate" class="col-sm-3 control-label" data-l10n-id="keygrid_expiration_date"></label>
+                      <div class="col-sm-9">
+                        <input type="text" readonly class="form-control" id="subkeyExpirationDate">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="subkeyFingerPrint" class="col-sm-3 control-label" data-l10n-id="keygrid_key_fingerprint"></label>
+                      <div class="col-sm-9">
+                        <input type="text" readonly class="form-control" id="subkeyFingerPrint">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div role="tabpanel" class="tab-pane" id="userIdsTab">
+              <form class="form-horizontal" role="form">
+                <div class="form-group">
+                  <label for="keyName" class="col-sm-3 control-label" data-l10n-id="keygrid_userid"></label>
+                  <div class="col-sm-9">
+                    <select class="form-control" id="userIdsList">
+                      <option></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="tab-content">
+                  <div role="tabpanel" class="tab-pane well active">
+                    <table class="table table-hover table-condensed table-striped optionsTable">
+                      <caption data-l10n-id="keygrid_userid_signatures"></caption>
+                      <thead>
+                      <tr>
+                        <th data-l10n-id="keygrid_signer_name"></th>
+                        <th data-l10n-id="keygrid_keyid"></th>
+                        <th data-l10n-id="keygrid_creation_date_short"></th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="exportTab">
+              <div class="btn-group" data-toggle="buttons" style="margin-bottom: 10px;">
+                <label class="btn btn-primary active exportPublic" data-id="exportPublic">
+                  <input type="radio" name="exportType" autocomplete="off" checked>
+                  <span class="glyphicon glyphicon-eye-open"></span>&nbsp;
+                  <span data-l10n-id="keygrid_public_keys"></span>
+                </label>
+                <label class="btn btn-primary exportPrivate" data-id="exportPrivate">
+                  <input type="radio" name="exportType" autocomplete="off">
+                  <span class="glyphicon glyphicon-eye-close"></span>&nbsp;
+                  <span data-l10n-id="keygrid_private_keys"></span>
+                </label>
+                <label class="btn btn-primary exportKeyPair" data-id="exportKeyPair">
+                  <input type="radio" name="exportType" autocomplete="off">
+                  <span class="glyphicon glyphicon-eye-open"></span>/<span class="glyphicon glyphicon-eye-close"></span>&nbsp;
+                  <span data-l10n-id="keygrid_all_keys"></span>
+                </label>
+              </div>
+              <div class="form-group">
+                <textarea id="armoredKey2" class="form-control" rows="12"></textarea>
+              </div>
+              <div id="exportDownload" class="form-inline">
+                <button id="exportToCb2" type="button" class="btn btn-primary" data-l10n-id="key_export_clipboard"></button>
+                <input type="text" class="form-control" style="width: 120px;">
+                <button id="createExportFile" type="button" class="btn btn-default" data-l10n-id="key_export_create_file"></button>
+                <a class="btn btn-link hide" data-l10n-id="key_export_download"></a>
+              </div>
+              <div id="exportWarn" class="alert hide"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="closeBtn" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;<span data-l10n-id="dialog_popup_close"></span></button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="blurWarn" class="alert alert-block hide">
+  <h3 data-l10n-id="editor_blur_warn"></h3>
+</div>

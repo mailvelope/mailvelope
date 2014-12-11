@@ -23,61 +23,34 @@ var options = options || null;
 (function(options) {
 
   options.registerL10nMessages([
-    "keygrid_export",
-    "keygrid_display_pub_key",
-    "keygrid_send_pub_key",
-    "keygrid_display_priv_key",
-    "keygrid_display_key_pair",
-    "keygrid_display_all_keys",
-    "keygrid_sort_type",
-    "keygrid_primary_key",
-    "keygrid_subkeys",
-    "keygrid_no_subkeys",
-    "keygrid_user_ids",
-    "keygrid_keyid",
-    "keygrid_algorithm",
-    "keygrid_key_length",
-    "keygrid_creation_date",
-    "keygrid_creation_date_short",
-    "keygrid_expiration_date",
-    "keygrid_key_not_expire",
-    "keygrid_validity_status",
-    "keygrid_status_valid",
-    "keygrid_status_invalid",
-    "keygrid_key_fingerprint",
-    "keygrid_subkeyid",
-    "keygrid_userid",
-    "keygrid_userid_signatures",
-    "keygrid_signer_name",
-    "keygrid_user_name",
-    "keygrid_user_email",
-    "keygrid_delete",
-    "keygrid_delete_confirmation",
-    "keygrid_all_keys",
-    "keygrid_public_keys",
-    "keygrid_private_keys",
-    "key_export_too_large",
     "header_warning",
     "key_export_warning_private"
   ]);
 
   var keyTmpl;
+  var subKeyTmpl;
+  var singaturesTmpl;
+
   var keyRing;
 
-  var exDateField = {
-    type: "date",
-    parse: function(value) {
-      return kendo.parseDate(value) || options.l10n.keygrid_key_not_expire;
+  function initTemplates() {
+    if(keyTmpl === undefined) {
+      keyTmpl = $("#keyRingTable tbody").html();
     }
-  };
+    if(subKeyTmpl === undefined) {
+      subKeyTmpl = $("#subKeysTab .tab-content").html();
+    }
+    if(singaturesTmpl === undefined) {
+      singaturesTmpl = $("#userIdsTab tbody").html();
+    }
+  }
 
   function init() {
     keyRing = undefined;
     var tableRow;
+    initTemplates();
+
     var $tableBody = $("#keyRingTable tbody");
-    if(keyTmpl === undefined) {
-      keyTmpl = $tableBody.html();
-    }
     $tableBody.children().remove();
 
     $('#displayKeys').addClass('spinner');
@@ -85,9 +58,30 @@ var options = options || null;
     options.viewModel('getKeys', function(data) {
       keyRing = data;
       //console.log(JSON.stringify(data));
+      //"type":"private",
+      //"validity":true,
+      //"guid":"8fe0e3926c15175e3a68dd8703c986e66afe22ea",
+      //"id":"03C986E66AFE22EA",
+      //"fingerprint":"8FE0E3926C15175E3A68DD8703C986E66AFE22EA",
+      //"name":"as",
+      //"email":"as@as.com",
+      //"exDate":false,
+      //"crDate":"2014-12-03T13:51:08.000Z",
+      //"algorithm":"RSA (Encrypt or Sign)",
+      //"bitLength":1024
       keyRing.forEach(function(key){
         tableRow = $.parseHTML(keyTmpl);
         $(tableRow).attr("data-keytype",key.type);
+        $(tableRow).attr("data-keyguid",key.guid);
+        $(tableRow).attr("data-keyid",key.id);
+        $(tableRow).attr("data-keyname",key.name);
+        $(tableRow).attr("data-keyemail",key.email);
+        $(tableRow).attr("data-keyalgorithm",key.algorithm);
+        $(tableRow).attr("data-keylength",key.bitLength);
+        $(tableRow).attr("data-keycreationdate",key.crDate);
+        $(tableRow).attr("data-keyexpirationdate",key.exDate);
+        $(tableRow).attr("data-keyfingerprint",key.fingerprint);
+        $(tableRow).attr("data-keyvalid",key.validity);
         $(tableRow).find('td:nth-child(2)').text(key.name);
         $(tableRow).find('td:nth-child(3)').text(key.email);
         $(tableRow).find('td:nth-child(4)').text(key.id.substr(-8));
@@ -100,71 +94,157 @@ var options = options || null;
         $tableBody.append(tableRow);
       });
       mvelo.l10n.localizeHTML();
-      $tableBody.find("tr").on("click", function() {
-        alert();
-      });
+      $tableBody.find("tr").on("click", openKeyDetails);
       $tableBody.find("tr").hover(function() {
-        $(this).find(".btn-group").css("visibility","visible");
+        $(this).find(".actions").css("visibility","visible");
       }, function() {
-        $(this).find(".btn-group").css("visibility","hidden");
+        $(this).find(".actions").css("visibility","hidden");
       });
+      $tableBody.find(".keyDeleteBtn").on("click", deleteKeyEntry);
       $('#displayKeys').removeClass('spinner');
     });
+
+    $('#exportMenuBtn').click(function() {
+      $('#exportKeysModal').modal({backdrop: 'static'});
+      $("#exportKeysModal").modal("show");
+    });
+    $('#exportToCb2').click(exportToClipboard);
+    $('#createExportFile').click(createFile);
   }
 
   window.URL = window.URL || window.webkitURL;
 
+  function openKeyDetails() {
+    $("#keyPublic").show();
+    $("#keyPrivate").show();
+    $("#keyInValid").show();
+    $("#keyValid").show();
+    var $keyData = $(this);
+    options.viewModel('getKeyDetails', [$keyData.attr('data-keyguid')], function(details) {
+      //console.log('keyGrid key details received', JSON.stringify(details));
+      // Init primary key tab
+      $('#keyEditor').attr("data-keyguid",$keyData.attr('data-keyguid'));
+      $('#keyId').val($keyData.attr('data-keyid'));
+      $('#keyName').val($keyData.attr('data-keyname'));
+      $('#keyEmail').val($keyData.attr('data-keyemail'));
+      $('#keyAlgorithm').val($keyData.attr('data-keyalgorithm'));
+      $('#keyLength').val($keyData.attr('data-keylength'));
+      $('#keyCreationDate').val($keyData.attr('data-keycreationdate'));
+      $('#keyExpirationDate').val($keyData.attr('data-keyexpirationdate'));
+      $('#keyFingerPrint').val($keyData.attr('data-keyfingerprint'));
+      if($keyData.attr('data-keytype') === "private") { // '<img src="../img/#= type #-key.png" alt="#= type #" />'
+        $("#keyPublic").hide();
+      } else {
+        $("#keyPrivate").hide();
+      }
+      if($keyData.attr('data-keyvalid') === 'true') {
+        $("#keyInValid").hide();
+      } else {
+        $("#keyValid").hide();
+      }
 
-  function init2() {
-    $('#mainKeyGrid').one('mainKeyGridReady', function() {
-      $("#gridMainToolbar .dropdown-menu").on("click", "li", onExport);
-      //grid = $(this).data("kendoGrid");
+      // Init subkeys tab
+      var subKey;
+      var $subKeyContainer = $("#subKeysTab .tab-content");
+      $("#subKeysList").children().remove();
+      $subKeyContainer.children().remove();
+      details.subkeys.forEach(function(subkey, index) {
+        $("#subKeysList").append($("<option>")
+          .text(subkey.id)
+          .attr("id",subkey.id)
+        );
+        subKey = $.parseHTML(subKeyTmpl);
+        $(subKey).attr("id","tab"+subkey.id);
+        if(index === 0) {
+          $(subKey).addClass("active");
+        }
+        $(subKey).find('#subkeyAlgorithm').val(subkey.algorithm);
+        $(subKey).find('#subkeyLength').val(subkey.bitLength);
+        $(subKey).find('#subkeyCreationDate').val(subkey.crDate);
+        $(subKey).find('#subkeyExpirationDate').val(subkey.exDate);
+        $(subKey).find('#subkeyFingerPrint').val(subkey.fingerprint);
+        $subKeyContainer.append(subKey);
+      });
+      $("#subKeysList").on("change", function() {
+        var id = $(this).val();
+        $("#subKeysTab .tab-pane").removeClass("active");
+        var tabEl = $("#tab"+id);
+        tabEl.addClass("active");
+      });
+
+      // Init user ids tab
+      var signature;
+      var $signatureContainer = $("#userIdsTab tbody");
+      $signatureContainer.children().remove();
+      $("#userIdsList").children().remove();
+      details.users.forEach(function(user, index) {
+        $("#userIdsList").append($("<option>")
+            .text(user.userID)
+            .attr("id",user.userID)
+        );
+        user.signatures.forEach(function(sgn){
+          signature = $.parseHTML(singaturesTmpl);
+          $(signature).attr("data-userid",user.userID);
+          if(index > 0) {
+            $(signature).css("display","none");
+          }
+          $(signature).find('td:nth-child(1)').text(sgn.signer);
+          $(signature).find('td:nth-child(2)').text(sgn.id);
+          $(signature).find('td:nth-child(3)').text(sgn.crDate);
+          $signatureContainer.append(signature);
+        });
+      });
+      $("#userIdsList").on("change", function() {
+        $signatureContainer.find("tr").css("display","none");
+        $signatureContainer.find("[data-userid='"+$(this).val()+"']").css("display","table-row");
+      });
+
+      // Init export tab
+      $(".exportPublic").on("click",initExportTab);
+      $(".exportPrivate").on("click",initExportTab);
+      $(".exportKeyPair").on("click",initExportTab);
+      $("#exportTabSwitch").on("click",function() {
+        $(".exportPublic").get(0).click();
+      });
+
+      $("#primaryKeyTabSwitch").get(0).click();
+
+      // Show modal
+      $('#keyEditor').modal({backdrop: 'static'});
+      $("#keyEditor").modal("show");
     });
-    $('#exportToCb').click(exportToClipboard);
-    $('#exportDownload button').click(createFile);
   }
 
-  function onExport() {
-    var key;// = grid.dataItem(grid.select());
-    var keyid, allKeys;
-    if (this.id === 'exportAllKeys') {
-      allKeys = true;
-    } else if (key) {
-      keyid = key.id.toLowerCase();
-    } else {
-      throw new Error('Invalid export condition');
+  function deleteKeyEntry() {
+    var $entryForRemove;
+    var confirmResult = confirm("Do you want to delete this key?");
+    if(confirmResult) {
+      $entryForRemove = $(this).parent().parent().parent();
+      options.viewModel('removeKey', [$entryForRemove.attr('data-keyguid'), $entryForRemove.attr('data-keytype')]);
+      init();
     }
-    var pub = this.id !== 'exportPrivate';
-    var priv = this.id === 'exportPrivate' || this.id === 'exportKeyPair' || this.id === 'exportAllKeys';
-    var that = this;
+    return false;
+  }
+
+  function initExportTab() {
+    $('#exportWarn').hide();
+    var sourceId = $(this).attr("data-id");
+    var keyid = $('#keyEditor').attr("data-keyguid"); //$("#keyId").val();
+    var allKeys = false;
+    var pub = sourceId !== 'exportPrivate';
+    var priv = sourceId === 'exportPrivate' || sourceId === 'exportKeyPair' || sourceId === 'exportAllKeys';
     options.viewModel('getArmoredKeys', [[keyid], {pub: pub, priv: priv, all: allKeys}], function(result, error) {
-      switch (that.id) {
-        case 'exportByMail':
-          // keys longer than 1600 chars don't fit into URL
-          if (result[0].armoredPublic.length > 1600) {
-            showModal(key, result[0].armoredPublic, 'pub', options.l10n.key_export_too_large);
-          } else {
-            key.armoredPublic = result[0].armoredPublic;
-            mvelo.extension.sendMessage({
-              event: "send-by-mail",
-              data: key.toJSON()
-            });
-          }
-          break;
+      switch (sourceId) {
         case 'exportPublic':
-          showModal(key, result[0].armoredPublic, 'pub');
+          initExport(result[0].armoredPublic, 'pub');
           break;
         case 'exportPrivate':
-          if (key.type === 'private') {
-            showModal(key, result[0].armoredPrivate, 'priv');
-          }
+          initExport(result[0].armoredPrivate, 'priv');
           break;
         case 'exportKeyPair':
-          if (key.type === 'private') {
-            showModal(key, result[0].armoredPublic + '\n' + result[0].armoredPrivate, 'keypair');
-          }
+          initExport(result[0].armoredPublic + '\n' + result[0].armoredPrivate, 'keypair');
           break;
-        case 'exportAllKeys':
+        /*case 'exportAllKeys':
           var hasPrivate = false;
           allKeys = result.reduce(function(prev, curr) {
             if (curr.armoredPublic) {
@@ -177,7 +257,7 @@ var options = options || null;
             return prev;
           }, '');
           showModal(null, allKeys, 'all_keys', hasPrivate ? '<b>' + options.l10n.header_warning + '</b> ' + options.l10n.key_export_warning_private : null);
-          break;
+          break; */
         default:
           console.log('unknown export action');
       }
@@ -185,12 +265,14 @@ var options = options || null;
     return false;
   }
 
-  function showModal(key, text, fprefix, warning) {
+  function initExport(text, fprefix, warning) {
     $('#exportDownload a').addClass('hide');
     $('#armoredKey').val(text);
+    $('#armoredKey2').val(text);
     var filename = '';
-    if (key) {
-      filename += key.name.replace(/\s/g, '_') + '_';
+    var keyname = $("#keyName").val();
+    if (keyname) {
+      filename += keyname.replace(/\s/g, '_') + '_';
     }
     filename += fprefix + '.asc';
     $('#exportDownload input').val(filename);
@@ -199,8 +281,6 @@ var options = options || null;
     } else {
       $('#exportWarn').hide();
     }
-    $('#exportKey').modal({backdrop: 'static',keyboard: false});
-    $('#exportKey').modal('show');
   }
 
   function createFile() {
@@ -218,57 +298,8 @@ var options = options || null;
   }
 
   function exportToClipboard() {
-    options.copyToClipboard($('#armoredKey').val());
+    options.copyToClipboard($('#armoredKey2').val());
   }
-
-/*  function reload() {
-      options.viewModel('getKeys', function(keys) {
-      keys.forEach(function(key) {
-        key.l10n = options.l10n;
-      });
-      $("#mainKeyGrid").data("kendoGrid").setDataSource(new kendo.data.DataSource({
-        data: keys,
-        schema: keyGridSchema,
-        change: onDataChange
-      }));
-    });
-  }
-
-  function initGrid(keys) {
-
-    $('#displayKeys').removeClass('spinner');
-
-    initKeyGridColumns();
-
-    keys.forEach(function(key) {
-      key.l10n = keyRing.l10n;
-    });
-
-    function onRemoveKey(e) {
-      keyRing.viewModel('removeKey', [e.model.guid, e.model.type]);
-    }
-
-  }
-
-  function loadDetails(e) {
-    //console.log('loadDetails')
-    e.detailRow.find(".tabstrip").kendoTabStrip({
-      animation: {
-        open: { effects: "fadeIn" }
-      }
-    });
-    keyRing.viewModel('getKeyDetails', [e.data.guid], function(details) {
-      //console.log('keyGrid key details received', details);
-      e.data.subkeys = details.subkeys;
-      e.data.subkeys.forEach(function(subkey) {
-        subkey.l10n = keyRing.l10n;
-      });
-      e.data.users = details.users;
-      detailInit(e);
-    });
-  }
-
-  */
 
   options.event.on('ready', init);
 
