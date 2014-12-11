@@ -8,25 +8,27 @@
         <h4>Watch List Entry</h4>
       </div>
       <div class="modal-body">
-        <label class="switch-light well" style="width: 30%">
-          <input type="checkbox" checked="true">
-          <span>
-            <div data-l10n-id="watchlist_title_active"></div>
-            <span data-l10n-id="popup_active_off"></span>
-            <span data-l10n-id="popup_active_on"></span>
-          </span>
-          <a class="btn btn-primary"></a>
-        </label>
-        <div class="form-group">
-          <label for="exampleInputEmail1" data-l10n-id="watchlist_title_site"></label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="e.g. GMX or GMail">
-        </div>
-        <table class="table table-hover table-condensed" id="watchList">
-          <div style="text-align: left; padding-top: 4px; padding-bottom: 4px;">
-            <button type="button" class="btn btn-default" id="addDomainMatchPatternBtn">
-              <span class="glyphicon glyphicon-plus"></span>&nbsp;<span data-l10n-id="watchlist_title_frame"></span>
-            </button>
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label" data-l10n-id="watchlist_title_active"></label>
+            <div class="col-sm-10">
+              <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitchMajor" checked>
+                <label class="onoffswitch-label" for="myonoffswitchMajor">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+                </label>
+              </div>
+            </div>
           </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1" class="col-sm-2 control-label" data-l10n-id="watchlist_title_site"></label>
+            <div class="col-sm-10">
+              <input type="email" class="form-control" id="exampleInputEmail1" placeholder="e.g. GMX or GMail">
+            </div>
+          </div>
+        </form>
+        <table class="table table-hover table-condensed table-striped optionsTable" id="watchList">
           <thead>
           <tr>
             <th data-l10n-id="watchlist_title_scan"></th>
@@ -37,92 +39,85 @@
           <tbody>
           <tr>
             <td>
-              <label class="switch-light well" style="margin-left: 0;">
-                <input type="checkbox">
-                <span>
-                  <span></span>
-                  <span data-l10n-id="popup_active_off"></span>
-                  <span data-l10n-id="popup_active_on"></span>
-                </span>
-                <a class="btn btn-primary"></a>
-              </label>
+              <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch1" checked>
+                <label class="onoffswitch-label" for="myonoffswitch1">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+                </label>
+              </div>
             </td>
             <td class="form-group"><input type="email" class="form-control" placeholder="e.g.: *.gmx.de" value="*.gmx.de"></td>
-            <td>
-              <button class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>&nbsp;<span data-l10n-id="keygrid_delete"></span></button>
+            <td class="text-center">
+              <button class="btn btn-default"><span class="glyphicon glyphicon-trash"></span>&nbsp;<span data-l10n-id="keygrid_delete"></span></button>
             </td>
           </tr>
           <tr>
             <td>
-              <label class="switch-light well" style="margin-left: 0;">
-                <input type="checkbox">
-                <span>
-                  <span></span>
-                  <span data-l10n-id="popup_active_off"></span>
-                  <span data-l10n-id="popup_active_on"></span>
-                </span>
-                <a class="btn btn-primary"></a>
-              </label>
+              <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch2" checked>
+                <label class="onoffswitch-label" for="myonoffswitch2">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+                </label>
+              </div>
             </td>
             <td class="form-group"><input type="email" class="form-control" placeholder="e.g.: *.gmx.de" value="*.gmx.de"></td>
-            <td>
-              <button class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>&nbsp;<span data-l10n-id="keygrid_delete"></span></button>
+            <td class="text-center">
+              <button class="btn btn-default"><span class="glyphicon glyphicon-trash"></span>&nbsp;<span data-l10n-id="keygrid_delete"></span></button>
             </td>
           </tr>
           <tr>
             <td>
-              <label class="switch-light well" style="margin-left: 0;">
-                <input type="checkbox">
-                <span>
-                  <span></span>
-                  <span data-l10n-id="popup_active_off"></span>
-                  <span data-l10n-id="popup_active_on"></span>
-                </span>
-                <a class="btn btn-primary"></a>
-              </label>
+              <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch3" checked>
+                <label class="onoffswitch-label" for="myonoffswitch3">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+                </label>
+              </div>
             </td>
             <td class="form-group"><input type="email" class="form-control" placeholder="e.g.: *.gmx.de" value="*.gmx.de"></td>
-            <td>
-              <button class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>&nbsp;<span data-l10n-id="keygrid_delete"></span></button>
+            <td class="text-center">
+              <button class="btn btn-default"><span class="glyphicon glyphicon-trash"></span>&nbsp;<span data-l10n-id="keygrid_delete"></span></button>
             </td>
           </tr>          <tr>
             <td>
-              <label class="switch-light well" style="margin-left: 0;">
-                <input type="checkbox">
-                <span>
-                  <span></span>
-                  <span data-l10n-id="popup_active_off"></span>
-                  <span data-l10n-id="popup_active_on"></span>
-                </span>
-                <a class="btn btn-primary"></a>
-              </label>
+              <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch4" checked>
+                <label class="onoffswitch-label" for="myonoffswitch4">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+                </label>
+              </div>
             </td>
             <td class="form-group"><input type="email" class="form-control" placeholder="e.g.: *.gmx.de" value="*.gmx.de"></td>
-            <td>
-              <button class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>&nbsp;<span data-l10n-id="keygrid_delete"></span></button>
+            <td class="text-center">
+              <button class="btn btn-default"><span class="glyphicon glyphicon-trash"></span>&nbsp;<span data-l10n-id="keygrid_delete"></span></button>
             </td>
           </tr>
           <tr>
             <td>
-              <label class="switch-light well" style="margin-left: 0;">
-                <input type="checkbox">
-                <span>
-                  <span></span>
-                  <span data-l10n-id="popup_active_off"></span>
-                  <span data-l10n-id="popup_active_on"></span>
-                </span>
-                <a class="btn btn-primary"></a>
-              </label>
+              <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch5" checked>
+                <label class="onoffswitch-label" for="myonoffswitch5">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+                </label>
+              </div>
             </td>
             <td class="form-group"><input type="email" class="form-control" placeholder="e.g.: *.gmx.de" value="*.gmx.de"></td>
-            <td>
-              <button class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>&nbsp;<span data-l10n-id="keygrid_delete"></span></button>
+            <td class="text-center">
+              <button class="btn btn-default"><span class="glyphicon glyphicon-trash"></span>&nbsp;<span data-l10n-id="keygrid_delete"></span></button>
             </td>
           </tr>
           </tbody>
         </table>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-warning pull-left" id="addDomainMatchPatternBtn">
+          <span class="glyphicon glyphicon-plus"></span>&nbsp;<span data-l10n-id="watchlist_title_frame"></span>
+        </button>
         <!--button id="deleteWatchListItemBtn" class="btn btn-warning pull-left"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;<span data-l10n-id="keygrid_delete"></span></button-->
         <button id="cancelBtn" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;<span data-l10n-id="form_cancel"></span></button>
         <button id="okWatchListEditorBtn" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;<span data-l10n-id="form_ok"></span></button>

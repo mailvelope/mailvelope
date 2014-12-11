@@ -76,27 +76,34 @@ options.watchList = {};
           $(tableRow).find(".glyphicon-check").removeClass("glyphicon-check").addClass("glyphicon-unchecked");
         }
         $tableBody.append(tableRow);
-        //console.log(JSON.stringify(site));
       });
       mvelo.l10n.localizeHTML();
-      $tableBody.find(".editWatchListBtn").on("click", function() {
+      $tableBody.find(".editWatchListBtn").on("click", function(e) {
+        showWatchListEditor();
+        return false;
+      });
+      $tableBody.find(".deleteWatchListBtn").on("click", deleteWatchListEntry);
+      $tableBody.find("tr").on("click", function() {
         showWatchListEditor();
       });
-      $tableBody.find(".deleteWatchListBtn").on("click", function() {
-        deleteWatchListEntry($(this));
+      $tableBody.find("tr").hover(function() {
+        $(this).find(".btn-group").css("visibility","visible");
+      }, function() {
+        $(this).find(".btn-group").css("visibility","hidden");
       });
     });
   }
 
-  function deleteWatchListEntry($element) {
+  function deleteWatchListEntry() {
     var entryForRemove;
     var confirmResult = confirm("Do you want to delete this entry?");
     if(confirmResult) {
-      entryForRemove = $element.parent().parent().parent();
+      entryForRemove = $(this).parent().parent().parent();
       entryForRemove.remove();
-      //saveWatchListData();
+      //saveData();
       // init();
     }
+    return false;
   }
 
   function showWatchListEditor() {
