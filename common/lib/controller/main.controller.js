@@ -76,7 +76,7 @@ define(function (require, exports, module) {
         scannedHosts = scannedHosts.concat(request.result);
         break;
       case 'set-watch-list':
-        model.setWatchList(request.message.data);
+        model.setWatchList(request.data);
         if (mvelo.ffa) {
           reloadFrames(true);
         }
@@ -105,10 +105,10 @@ define(function (require, exports, module) {
         break;
       case 'import-key-result':
         var resultType = {};
-        for (var i = 0; i < request.message.result.length; i++) {
-          resultType[request.message.result[i].type] = true;
+        for (var i = 0; i < request.result.length; i++) {
+          resultType[request.result[i].type] = true;
         }
-        sub.getByID(request.message.id).ports.imFrame.postMessage({event: 'import-result', resultType: resultType});
+        sub.getByID(request.id).ports.imFrame.postMessage({event: 'import-result', resultType: resultType});
         break;
       case 'activate':
         postToNodes(sub.getByMainType('mainCS'), {event: 'on'});

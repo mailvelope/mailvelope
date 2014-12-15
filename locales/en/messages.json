@@ -171,6 +171,18 @@
     "message": "Key Migration Error",
     "description": "Tab of keyring to display migration errors."
   },
+  "keyring_public": {
+    "message": "Public",
+    "description": "public key type"
+  },
+  "keyring_private": {
+    "message": "Private",
+    "description": "private key type"
+  },
+  "keyring_public_private": {
+    "message": "Key Pair",
+    "description": "public and private key types"
+  },
   "options_settings": {
     "message": "Settings",
     "description": "Options header: Settings."
@@ -646,6 +658,10 @@
   "watchlist_command_create": {
     "message": "Add new record",
     "description": "Create entry in watchlist."
+  },
+  "watchlist_delete_confirmation": {
+    "message": "Do you really want to remove this site from the watchlist?",
+    "description": "Mesage in the watchlist delete confirmation dialog."
   },
   "watchlist_command_save": {
     "message": "Save changes",
