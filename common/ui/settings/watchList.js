@@ -43,6 +43,14 @@ options.watchList = {};
     return result;
   };
 
+  var $watchListEditor;
+  var mailProviderTmpl;
+  var matchPatternTmpl;
+  var $matchPatternContainer;
+  var siteData;
+  var $tableBody;
+  var currentSiteID;
+
   options.registerL10nMessages([
     "watchlist_title_active",
     "watchlist_title_site",
@@ -53,21 +61,37 @@ options.watchList = {};
     "watchlist_command_create",
     "watchlist_command_save",
     "watchlist_command_cancel",
+    "watchlist_delete_confirmation",
     "keygrid_delete"
   ]);
 
-  var mailProviderTmpl;
-  var siteData;
-
   function init() {
-    siteData = undefined;
-    var tableRow;
-    var $tableBody = $("#watchListTable tbody");
+    $tableBody = $("#watchListTable tbody");
+    $watchListEditor = $("#watchListEditor");
     if(mailProviderTmpl === undefined) {
       mailProviderTmpl = $tableBody.html();
     }
+
+    $matchPatternContainer = $("#watchListEditor tbody");
+    if(matchPatternTmpl === undefined) {
+      matchPatternTmpl = $matchPatternContainer.html();
+    }
+    $matchPatternContainer.children().remove();
+
+    reloadWatchList();
+
+    $("#okWatchListEditorBtn").on("click", saveWatchList);
+    $("#addMatchPatternBtn").on("click", addMatchPattern);
+    $("#addMailProviderBtn").on("click", showWatchListEditor);
+  }
+
+  function reloadWatchList() {
+    siteData = undefined;
+    var tableRow;
     $tableBody.children().remove();
     options.viewModel('getWatchList', function(data) {
+      // console.log("Watchlist: "+JSON.stringify(data));
+      // {"site":"server.lan","active":true,"frames":[{"frame":"*.server.lan","scan":true}]},
       siteData = data;
       data.forEach(function(site){
         tableRow = $.parseHTML(mailProviderTmpl);
@@ -75,16 +99,15 @@ options.watchList = {};
         if(!site.active) {
           $(tableRow).find(".glyphicon-check").removeClass("glyphicon-check").addClass("glyphicon-unchecked");
         }
+        $(tableRow).attr("data-website",JSON.stringify(site));
         $tableBody.append(tableRow);
       });
       mvelo.l10n.localizeHTML();
-      $tableBody.find(".editWatchListBtn").on("click", function(e) {
-        showWatchListEditor();
-        return false;
-      });
       $tableBody.find(".deleteWatchListBtn").on("click", deleteWatchListEntry);
       $tableBody.find("tr").on("click", function() {
-        showWatchListEditor();
+        var data = $(this).attr("data-website");
+        showWatchListEditor(data);
+        return false;
       });
       $tableBody.find("tr").hover(function() {
         $(this).find(".btn-group").css("visibility","visible");
@@ -94,123 +117,112 @@ options.watchList = {};
     });
   }
 
+  function addMatchPattern() {
+    var tableRow = $.parseHTML(matchPatternTmpl);
+    $(tableRow).find('.matchPatternSwitch').attr("checked",true);
+    var id = (new Date()).getTime();
+    $(tableRow).find('.matchPatternSwitch').attr("id","matchPatter"+id);
+    $(tableRow).find('.onoffswitch-label').attr("for","matchPatter"+id);
+    $(tableRow).find('.matchPatternName').val("");
+    $(tableRow).find(".deleteMatchPatternBtn").on("click", deleteMatchPattern);
+    $matchPatternContainer.append(tableRow);
+  }
+
+  function deleteMatchPattern() {
+    $(this).parent().parent().remove();
+  }
+
   function deleteWatchListEntry() {
     var entryForRemove;
-    var confirmResult = confirm("Do you want to delete this entry?");
+    var confirmResult = confirm(options.l10n.watchlist_delete_confirmation);
     if(confirmResult) {
       entryForRemove = $(this).parent().parent().parent();
       entryForRemove.remove();
-      //saveData();
-      // init();
+      saveWatchList();
     }
     return false;
   }
 
-  function showWatchListEditor() {
-    var $watchListEditor = $("#watchListEditor");
-
+  function showWatchListEditor(data) {
+    // console.log("website data: "+data);
+    // {"site":"server.lan","active":true,"frames":[{"frame":"*.server.lan","scan":true}]},
+    currentSiteID = "newSite";
+    $matchPatternContainer.children().remove();
+    var tableRow;
+    if(data !== undefined && data.type === "click") {
+      $("#webSiteName").val("");
+      $("#switchWebSite").attr("checked",true);
+      tableRow = $.parseHTML(matchPatternTmpl);
+      addMatchPattern();
+    } else if(data !== undefined) {
+      data = JSON.parse(data);
+      currentSiteID = data.site;
+      $("#webSiteName").val(data.site);
+      $("#switchWebSite").attr("checked",data.active);
+      data.frames.forEach(function(frame, index) {
+        tableRow = $.parseHTML(matchPatternTmpl);
+        $(tableRow).find('.matchPatternSwitch').attr("checked",frame.scan);
+        $(tableRow).find('.matchPatternSwitch').attr("id","matchPatter"+index);
+        $(tableRow).find('.onoffswitch-label').attr("for","matchPatter"+index);
+        $(tableRow).find('.matchPatternName').val(frame.frame);
+        $(tableRow).find(".deleteMatchPatternBtn").on("click", deleteMatchPattern);
+        $matchPatternContainer.append(tableRow);
+      });
+    }
+    $watchListEditor.modal({backdrop: 'static'});
     $watchListEditor.modal("show");
   }
 
-  function saveWatchListData() {
-    var data;
-    options.sendMessage({
+  function saveWatchList() {
+    var site = {};
+    site.site = $("#webSiteName").val();
+    site.active = $("#switchWebSite").is(":checked");
+    site.frames = [];
+    $matchPatternContainer.children().get().forEach( function (child) {
+      site.frames.push({
+        "frame": $(child).find(".matchPatternName").val(),
+        "scan": $(child).find(".matchPatternSwitch").is(":checked")
+      });
+    });
+
+    if(currentSiteID === "newSite" ) {
+      var tableRow = $.parseHTML(mailProviderTmpl);
+      $(tableRow).find('td:nth-child(2)').text(site.site);
+      if(site.acitve) {
+        $(tableRow).find(".glyphicon-check").removeClass("glyphicon-check").addClass("glyphicon-unchecked");
+      }
+      $(tableRow).attr("data-website",JSON.stringify(site));
+      $tableBody.append(tableRow);
+    } else {
+      $tableBody.children().get().forEach( function (siteRow) {
+        var sData = JSON.parse($(siteRow).attr("data-website"));
+        if(currentSiteID === sData.site) {
+          $(siteRow).find('td:nth-child(2)').text(site.site);
+          if(site.acitve) {
+            $(siteRow).find(".glyphicon-check").removeClass("glyphicon-check").addClass("glyphicon-unchecked");
+          }
+          $(siteRow).attr("data-website",JSON.stringify(site));
+        }
+      });
+    }
+
+    var data = [];
+    $tableBody.children().get().forEach( function (siteRow) {
+      var siteData = JSON.parse($(siteRow).attr("data-website"));
+      data.push(siteData);
+    });
+    saveWatchListData(data);
+    $watchListEditor.modal("hide");
+  }
+
+  function saveWatchListData(data) {
+    console.log("website data: "+JSON.stringify(data));
+    mvelo.extension.sendMessage({
       event: "set-watch-list",
       data: data
     });
+    reloadWatchList();
   }
-
-  /*
-
-  function detailInit(e) {
-    var masterRow = e;
-    // create new datasource for frame list
-    var frameList = new kendo.data.DataSource({
-      data: e.data.frames && e.data.frames.toJSON ? e.data.frames.toJSON() : e.data.frames,
-      schema: framesSchema
-    });
-    $("<div/>").appendTo(e.detailCell).kendoGrid({
-      dataSource: frameList,
-      sortable: true,
-      columns: framesColumns,
-      toolbar: [
-        { text: keyRing.l10n.watchlist_command_create, name: "create" },
-        { text: keyRing.l10n.watchlist_command_save, name: "save" },
-        { text: keyRing.l10n.watchlist_command_cancel, name: "cancel" }
-      ],
-      editable: {
-        update: true,
-        destroy: true,
-        confirmation: false
-      },
-      navigatable: true,
-      saveChanges: updateFrames
-    });
-    function updateFrames() {
-      var frames = frameList.data().toJSON();
-      watchListData.getByUid(masterRow.data.uid).set('frames', frames);
-      setWatchListData();
-    }
-  }
-
-  exports.addSite = function(site, hosts) {
-    var item = {};
-    item.active = true;
-    item.site = site;
-    item.frames = hosts.map(function(host) {
-      return {scan: true, frame: host, api: false};
-    });
-    if (watchListData) {
-      updateWatchListData(item);
-    } else {
-      $("#watchListGrid").one('watchListDataReady', updateWatchListData.bind(undefined, item));
-    }
-  };
-
-  function updateWatchListData(item) {
-    var entry = watchListData.get(item.site);
-    if (entry) {
-      var newAndOld = item.frames.concat(entry.toJSON().frames);
-      var unique = objectDeDup(newAndOld, 'frame');
-      // this updates watchListData
-      entry.set('frames', unique);
-    } else {
-      entry = watchListData.insert(0, item);
-    }
-    setWatchListData();
-    var grid = mainGrid.data("kendoGrid");
-    var row = grid.tbody.find(">tr[data-uid='" + entry.uid + "']");
-    grid.select(row);
-    grid.expandRow(row);
-  }
-
-  exports.removeSite = function(site) {
-    if (watchListData) {
-      removeWatchListItem(site);
-    } else {
-      $("#watchListGrid").one('watchListDataReady', function() {
-        mainGrid.data("kendoGrid").saveChanges();
-        removeWatchListItem(site);
-      });
-    }
-  };
-
-  function removeWatchListItem(site) {
-    var entry = watchListData.get(site);
-    if (entry) {
-      var grid = mainGrid.data("kendoGrid");
-      var row = grid.tbody.find(">tr[data-uid='" + entry.uid + "']");
-      grid.select(row);
-      // timeout required to show grid below confirmation box
-      setTimeout(function() {
-        grid.removeRow(row);
-      }, 200);
-    } else {
-      setTimeout(function() {
-        alert('Site ' + site + ' is not in the watch list.');
-      }, 200);
-    }
-  } */
 
   options.event.on('ready', init);
 
