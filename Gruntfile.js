@@ -212,10 +212,8 @@ module.exports = function (grunt) {
           dest: 'build/chrome/lib/'
         },
         {
-          expand: true,
-          flatten: true,
-          src: 'dep/firefox/openpgpjs/dist/openpgp.js',
-          dest: 'build/firefox/lib/'
+          src: 'dep/firefox/openpgpjs/dist/openpgp.preload_dep.min.js',
+          dest: 'build/firefox/lib/openpgp.js'
         },
         {
           expand: true,

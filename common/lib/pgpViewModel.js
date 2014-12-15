@@ -23,9 +23,12 @@ define(function(require, exports, module) {
   var l10n = mvelo.l10n.get;
   var openpgp = require('openpgp');
   if (mvelo.crx) {
-    openpgp.initWorker('dep/openpgp.worker.js');
+    openpgp.initWorker({path: 'dep/openpgp.worker.js'});
   } else if (mvelo.ffa) {
-    openpgp.initWorker(mvelo.data.url('openpgp.worker.min.js'));
+    var CWorker = mvelo.util.getWorker();
+    openpgp.initWorker({
+      worker: new CWorker(mvelo.data.url('openpgp.worker.min.js'))
+    });
   }
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
   var keyring = new openpgp.Keyring();
@@ -507,11 +510,11 @@ define(function(require, exports, module) {
   }
 
   function unlockKey(privKey, keyid, passwd, callback) {
-    openpgp.worker.decryptKeyPacket(privKey, [openpgp.Keyid.fromId(keyid)], passwd).then(callback.bind(null, null), callback);
+    openpgp.getWorker().decryptKeyPacket(privKey, [openpgp.Keyid.fromId(keyid)], passwd).then(callback.bind(null, null), callback);
   }
 
   function decryptMessage(message, callback) {
-    openpgp.worker.decryptMessage(message.key, message.message).then(callback.bind(null, null), callback);
+    openpgp.getWorker().decryptMessage(message.key, message.message).then(callback.bind(null, null), callback);
   }
 
   function encryptMessage(message, keyIdsHex, callback) {
@@ -527,7 +530,7 @@ define(function(require, exports, module) {
         message: 'No key found for encryption'
       });
     }
-    openpgp.worker.encryptMessage(keys, message).then(callback.bind(null, null), function(e) {
+    openpgp.getWorker().encryptMessage(keys, message).then(callback.bind(null, null), function(e) {
       callback({
         type: 'error',
         message: l10n('encrypt_error', [e])
@@ -570,7 +573,7 @@ define(function(require, exports, module) {
   }
 
   function signMessage(message, signKey, callback) {
-    openpgp.worker.signClearMessage([signKey], message).then(callback.bind(null, null), callback);
+    openpgp.getWorker().signClearMessage([signKey], message).then(callback.bind(null, null), callback);
   }
 
   function getWatchList() {
