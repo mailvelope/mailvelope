@@ -225,7 +225,7 @@ define(function (require, exports, module) {
         removeFromWatchList();
         break;
       case 'options':
-        loadOptions('#home');
+        loadOptions();
         break;
       case 'help':
         mvelo.windows.openPopup('https://www.mailvelope.com/help');
