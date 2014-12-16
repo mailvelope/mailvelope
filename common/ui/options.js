@@ -44,7 +44,6 @@ var options = {};
       mvelo.appendTpl($('#watchList'), 'settings/tpl/watchList.html'),
       mvelo.appendTpl($('#watchList'), 'settings/tpl/watchListEditor.html'),
       mvelo.appendTpl($('#displayKeys'), 'keyring/tpl/displayKeys.html'),
-      mvelo.appendTpl($('#displayKeys'), 'keyring/tpl/exportKeys.html'),
       mvelo.appendTpl($('#displayKeys'), 'keyring/tpl/keyEditor.html'),
       mvelo.appendTpl($('#importKey'), 'keyring/tpl/importKey.html'),
       mvelo.appendTpl($('#generateKey'), 'keyring/tpl/generateKey.html')
@@ -79,13 +78,6 @@ var options = {};
     mvelo.extension.onMessage.addListener(
       function(request, sender, sendResponse) {
         handleRequests(request, sender, sendResponse);
-        /*if (iframeWindow) {
-          // iframe ready, process event
-          handleRequests(request, sender, sendResponse);
-        } else {
-          // iframe not ready, bind handler
-          iframeEvents.one('iframeLoaded', handleRequests.bind(undefined, request, sender, sendResponse));
-        }*/
       }
     );
   }
@@ -95,44 +87,26 @@ var options = {};
       case 'add-watchlist-item':
         $('#showKeySettings a').get(0).click();
         $('#settingsList a[href="#watchList"]').get(0).click();
-        postEvent(request);
+        options.addToWatchList(request.site);
         break;
       case 'remove-watchlist-item':
         $('#showKeySettings a').get(0).click();
         $('#settingsList a[href="#watchList"]').get(0).click();
-        postEvent(request);
-        break;
-      case 'options-response':
-        /**iframeWindow.postMessage(JSON.stringify({
-          event: "message-response",
-          message: request.message,
-          id: request.id
-        }), '*');**/
+        options.removeFromWatchList(request.site);
         break;
       case 'reload-options':
-        reloadOptions(request.hash);
+        reloadOptions();
         break;
       case 'import-key':
         $('#showKeyRing a').get(0).click();
         $('#keyringList a[href="#importKey"]').get(0).click();
-        postEvent(request);
+        // TODO reload keys
         break;
     }
   }
 
-  function reloadOptions(hash, callback) {
-    $('#optionsIframe').one('load', callback);
-    //$('#optionsIframe').attr('src', mvelo.extension.getURL(hashMap[hash]));
-  }
-
-  function postEvent(request) {
-    /*if (request.old) {
-      reloadOptions('#home', function() {
-        iframeWindow.postMessage(JSON.stringify(request), '*');
-      });
-    } else {
-      iframeWindow.postMessage(JSON.stringify(request), '*');
-    }*/
+  function reloadOptions() {
+    document.location.reload();
   }
 
   exports.viewModel = function(method, args, callback) {
@@ -148,9 +122,10 @@ var options = {};
   };
 
   exports.copyToClipboard = function(text) {
-    var copyFrom = $('<textarea/>');
-    copyFrom.val(text);
+    var copyFrom = $('<textarea />');
     $('body').append(copyFrom);
+    copyFrom.hide();
+    copyFrom.text(text);
     copyFrom.select();
     document.execCommand('copy');
     copyFrom.remove();
