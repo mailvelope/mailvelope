@@ -62,6 +62,8 @@ options.watchList = {};
     "watchlist_command_save",
     "watchlist_command_cancel",
     "watchlist_delete_confirmation",
+    "alert_invalid_domainmatchpattern_warning",
+    "alert_no_domainmatchpattern_warning",
     "keygrid_delete"
   ]);
 
@@ -83,6 +85,8 @@ options.watchList = {};
     $("#okWatchListEditorBtn").on("click", saveWatchList);
     $("#addMatchPatternBtn").on("click", addMatchPattern);
     $("#addMailProviderBtn").on("click", showWatchListEditor);
+
+    $("#watchListEditor form").on("submit", function() { return false; });
   }
 
   function reloadWatchList() {
@@ -174,49 +178,91 @@ options.watchList = {};
   }
 
   function saveWatchList() {
+    var $form = $("#watchListEditor form");
     var site = {};
     site.site = $("#webSiteName").val();
     site.active = $("#switchWebSite").is(":checked");
     site.frames = [];
-    $matchPatternContainer.children().get().forEach( function (child) {
+    var formNotValid;
+    $matchPatternContainer.children().get().forEach(function (child) {
+      if($(child).find(".matchPatternName").val().indexOf("*.") !== 0) {
+        formNotValid = true;
+      }
       site.frames.push({
         "frame": $(child).find(".matchPatternName").val(),
         "scan": $(child).find(".matchPatternSwitch").is(":checked")
       });
     });
+    if(formNotValid) {
+      alert(options.l10n.alert_invalid_domainmatchpattern_warning);
+      return false;
+    }
+    if(site.frames.length < 1) {
+      alert(options.l10n.alert_no_domainmatchpattern_warning);
+      return false;
+    }
 
-    if(currentSiteID === "newSite" ) {
+    if (currentSiteID === "newSite") {
       var tableRow = $.parseHTML(mailProviderTmpl);
       $(tableRow).find('td:nth-child(2)').text(site.site);
-      if(site.acitve) {
+      if (site.acitve) {
         $(tableRow).find(".glyphicon-check").removeClass("glyphicon-check").addClass("glyphicon-unchecked");
       }
-      $(tableRow).attr("data-website",JSON.stringify(site));
+      $(tableRow).attr("data-website", JSON.stringify(site));
       $tableBody.append(tableRow);
     } else {
-      $tableBody.children().get().forEach( function (siteRow) {
+      $tableBody.children().get().forEach(function (siteRow) {
         var sData = JSON.parse($(siteRow).attr("data-website"));
-        if(currentSiteID === sData.site) {
+        if (currentSiteID === sData.site) {
           $(siteRow).find('td:nth-child(2)').text(site.site);
-          if(site.acitve) {
+          if (site.acitve) {
             $(siteRow).find(".glyphicon-check").removeClass("glyphicon-check").addClass("glyphicon-unchecked");
           }
-          $(siteRow).attr("data-website",JSON.stringify(site));
+          $(siteRow).attr("data-website", JSON.stringify(site));
         }
       });
     }
 
     var data = [];
-    $tableBody.children().get().forEach( function (siteRow) {
+    $tableBody.children().get().forEach(function (siteRow) {
       var siteData = JSON.parse($(siteRow).attr("data-website"));
       data.push(siteData);
     });
     saveWatchListData(data);
     $watchListEditor.modal("hide");
+
   }
 
+  function addToWatchList(website) {
+    //console.log("Adding to watchlist: "+website);
+    var site = {};
+    site.site = website;
+    site.active = true;
+    site.frames = [];
+    site.frames.push( { frame: "*."+website, scan:true } );
+    options.viewModel('getWatchList', function(data) {
+      data.push(site);
+      saveWatchListData(data);
+    });
+  }
+  options.addToWatchList = addToWatchList;
+
+  function removeFromWatchList(website) {
+    //console.log("Removing from watchlist: "+website);
+    options.viewModel('getWatchList', function(data) {
+      data.forEach(function (siteEntry, index) {
+        if (siteEntry.site === website) {
+          data.splice(index, 1);
+        }
+      });
+      saveWatchListData(siteData);
+    });
+  }
+  options.removeFromWatchList = removeFromWatchList;
+
+
   function saveWatchListData(data) {
-    console.log("website data: "+JSON.stringify(data));
+    //console.log("website data: "+JSON.stringify(data));
     mvelo.extension.sendMessage({
       event: "set-watch-list",
       data: data

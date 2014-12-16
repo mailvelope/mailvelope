@@ -1,21 +1,17 @@
 <h3 data-l10n-id="keyring_header"></h3>
 <table class="table table-striped table-hover optionsTable" id="keyRingTable">
   <div class="tableToolbar">
-    <button class="btn btn-default dropdown-toggle" type="button" id="exportMenuBtn" aria-expanded="true">
+    <button class="btn btn-default" type="button" id="exportMenuBtn">
       <span class="glyphicon glyphicon-export"></span>&nbsp;
       <span data-l10n-id="keygrid_export"></span>
     </button>
-    <div class="dropdown pull-right">
-      <span data-l10n-id="keygrid_sort_type"></span>
-      <button class="btn btn-default dropdown-toggle" type="button" id="keyringFilterBtn" data-toggle="dropdown" aria-expanded="true">
-        <span class="glyphicon glyphicon-eye-open"></span>/<span class="glyphicon glyphicon-eye-close"></span> <span data-l10n-id="keygrid_all_keys"></span>
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu" role="menu" aria-labelledby="exportMenuBtn">
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="glyphicon glyphicon-eye-open"></span>/<span class="glyphicon glyphicon-eye-close"></span> <span data-l10n-id="keygrid_all_keys"></span></a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="glyphicon glyphicon-eye-open"></span> <span data-l10n-id="keygrid_public_keys"></span></a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="glyphicon glyphicon-eye-close"></span> <span data-l10n-id="keygrid_private_keys"></span></a></li>
-      </ul>
+    <div class="pull-right form-inline">
+      <label data-l10n-id="keygrid_sort_type" for="keyringFilterBtn"></label>&nbsp;
+      <select class="form-control" id="keyringFilterBtn">
+        <option data-l10n-id="keygrid_all_keys" value="allkeys"></option>
+        <option data-l10n-id="keygrid_public_keys" value="publickeys"></option>
+        <option data-l10n-id="keyring_public_private" value="keypairs"></option>
+      </select>
     </div>
   </div>
   <thead>
@@ -30,15 +26,18 @@
   </thead>
   <tbody>
   <tr>
-    <td class="text-center text-nowrap"><span class="glyphicon glyphicon-eye-open"></span><span class="glyphicon glyphicon-eye-close"></span></td>
+    <td class="text-center text-nowrap">
+      <img src="../img/public-key.png" alt="public key" class="publicKey" />
+      <img src="../img/private-key.png" alt="key pair" class="keyPair" />
+    </td>
     <td></td>
     <td></td>
     <td class="monospaced"></td>
     <td class="monospaced"></td>
     <td class="text-center text-nowrap">
       <div class="actions" style="visibility: hidden;">
-        <button class="btn btn-default keyDetailsBtn"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;<!--span >Details</span--></button>
-        <button class="btn btn-default keyDeleteBtn"><span class="glyphicon glyphicon-trash"></span>&nbsp;<!--span data-l10n-id="keygrid_delete"></span--></button>
+        <button class="btn btn-default keyDetailsBtn"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;</button>
+        <button class="btn btn-default keyDeleteBtn"><span class="glyphicon glyphicon-trash"></span>&nbsp;</button>
       </div>
     </td>
   </tr>

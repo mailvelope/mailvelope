@@ -180,7 +180,7 @@
     "description": "private key type"
   },
   "keyring_public_private": {
-    "message": "Key Pair",
+    "message": "Public- Private-Key Pair",
     "description": "public and private key types"
   },
   "options_settings": {
@@ -287,6 +287,10 @@
     "message": "Fingerprint",
     "description": "Unique string identifier for a PGP key."
   },
+  "keygrid_key_type": {
+    "message": "Type",
+    "description": "The type of the key."
+  },
   "keygrid_subkeyid": {
     "message": "ID",
     "description": "Subkey ID of a PGP key."
@@ -340,8 +344,8 @@
     "description": "Export key dialog header."
   },
   "key_export_create_file": {
-    "message": "Create file",
-    "description": "Create file button."
+    "message": "Download",
+    "description": "Download file button."
   },
   "key_export_download": {
     "message": "Download key",
@@ -383,6 +387,10 @@
     "message": "Clear",
     "description": "Clear form button."
   },
+  "key_details_title": {
+    "message": "Key Details",
+    "description": "The title of the key details dialog."
+  },
   "key_import_another": {
     "message": "Import another...",
     "description": "Import another key button."
@@ -398,6 +406,14 @@
   "key_import_exception": {
     "message": "An exception occured while processing the keys",
     "description": "Import error alert."
+  },
+  "alert_invalid_domainmatchpattern_warning": {
+    "message": "Domain match pattern should begin with *.",
+    "description": "Alert header of category warning."
+  },
+  "alert_no_domainmatchpattern_warning": {
+    "message": "At least one domain match pattern is needed.",
+    "description": "Alert header of category warning."
   },
   "alert_header_warning": {
     "message": "Warning!",
@@ -634,6 +650,10 @@
   "form_undo": {
     "message": "Undo",
     "description": "Undo form button."
+  },
+  "watchlist_record_title": {
+    "message": "Watch List Record",
+    "description": "Title of the watchlist editor dialog."
   },
   "watchlist_title_active": {
     "message": "Active",

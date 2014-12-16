@@ -5,7 +5,7 @@
         <button type="button" class="close" data-dismiss="modal">
           <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
         </button>
-        <h4>Watch List Entry</h4>
+        <h4 data-l10n-id="watchlist_record_title"></h4>
       </div>
       <div class="modal-body">
         <form class="form-horizontal" role="form">
@@ -24,36 +24,36 @@
           <div class="form-group">
             <label for="webSiteName" class="col-sm-2 control-label" data-l10n-id="watchlist_title_site"></label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="webSiteName" placeholder="e.g. GMX or GMail">
+              <input type="text" class="form-control" id="webSiteName" placeholder="e.g. GMX or GMail" required>
             </div>
           </div>
+          <table class="table table-hover table-condensed table-striped optionsTable" id="watchList">
+            <thead>
+            <tr>
+              <th data-l10n-id="watchlist_title_scan"></th>
+              <th data-l10n-id="watchlist_title_frame"></th>
+              <th data-l10n-id=""></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>
+                <div class="onoffswitch">
+                  <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox matchPatternSwitch" checked>
+                  <label class="onoffswitch-label">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
+                </div>
+              </td>
+              <td class="form-group"><input type="text" class="form-control matchPatternName" placeholder="e.g.: *.gmx.de" value="*.gmx.de" pattern="\d+(\.\d{2})?" required></td>
+              <td class="text-center">
+                <button class="btn btn-default deleteMatchPatternBtn"><span class="glyphicon glyphicon-trash"></span>&nbsp;<span data-l10n-id="keygrid_delete"></span></button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
         </form>
-        <table class="table table-hover table-condensed table-striped optionsTable" id="watchList">
-          <thead>
-          <tr>
-            <th data-l10n-id="watchlist_title_scan"></th>
-            <th data-l10n-id="watchlist_title_frame"></th>
-            <th data-l10n-id=""></th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td>
-              <div class="onoffswitch">
-                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox matchPatternSwitch" checked>
-                <label class="onoffswitch-label">
-                  <span class="onoffswitch-inner"></span>
-                  <span class="onoffswitch-switch"></span>
-                </label>
-              </div>
-            </td>
-            <td class="form-group"><input type="text" class="form-control matchPatternName" placeholder="e.g.: *.gmx.de" value="*.gmx.de"></td>
-            <td class="text-center">
-              <button class="btn btn-default deleteMatchPatternBtn"><span class="glyphicon glyphicon-trash"></span>&nbsp;<span data-l10n-id="keygrid_delete"></span></button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-warning pull-left" id="addMatchPatternBtn">

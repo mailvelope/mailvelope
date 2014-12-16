@@ -23,13 +23,13 @@ var options = options || null;
 (function(options) {
 
   options.registerL10nMessages([
-    "header_warning",
-    "key_export_warning_private"
+    "keygrid_key_not_expire"
   ]);
 
   var keyTmpl;
   var subKeyTmpl;
-  var singaturesTmpl;
+  var signaturesTmpl;
+  var $tableBody;
 
   var keyRing;
 
@@ -40,8 +40,8 @@ var options = options || null;
     if(subKeyTmpl === undefined) {
       subKeyTmpl = $("#subKeysTab .tab-content").html();
     }
-    if(singaturesTmpl === undefined) {
-      singaturesTmpl = $("#userIdsTab tbody").html();
+    if(signaturesTmpl === undefined) {
+      signaturesTmpl = $("#userIdsTab tbody").html();
     }
   }
 
@@ -50,7 +50,7 @@ var options = options || null;
     var tableRow;
     initTemplates();
 
-    var $tableBody = $("#keyRingTable tbody");
+    $tableBody = $("#keyRingTable tbody");
     $tableBody.children().remove();
 
     $('#displayKeys').addClass('spinner');
@@ -84,12 +84,12 @@ var options = options || null;
         $(tableRow).attr("data-keyvalid",key.validity);
         $(tableRow).find('td:nth-child(2)').text(key.name);
         $(tableRow).find('td:nth-child(3)').text(key.email);
-        $(tableRow).find('td:nth-child(4)').text(key.id.substr(-8));
+        $(tableRow).find('td:nth-child(4)').text(key.id);
         $(tableRow).find('td:nth-child(5)').text(key.crDate.substr(0,10));
-        if(key.type === "private") { // '<img src="../img/#= type #-key.png" alt="#= type #" />'
-          $(tableRow).find('.glyphicon-eye-open').remove();
+        if(key.type === "private") {
+          $(tableRow).find('.publicKey').remove();
         } else {
-          $(tableRow).find('.glyphicon-eye-close').remove();
+          $(tableRow).find('.keyPair').remove();
         }
         $tableBody.append(tableRow);
       });
@@ -104,19 +104,43 @@ var options = options || null;
       $('#displayKeys').removeClass('spinner');
     });
 
-    $('#exportMenuBtn').click(function() {
-      $('#exportKeysModal').modal({backdrop: 'static'});
-      $("#exportKeysModal").modal("show");
-    });
+    $('#exportMenuBtn').click(openExportAllDialog);
     $('#exportToCb2').click(exportToClipboard);
     $('#createExportFile').click(createFile);
+    $('#keyringFilterBtn').on("change",filterKeys);
   }
 
   window.URL = window.URL || window.webkitURL;
 
+  function filterKeys() {
+    var type = $(this).val();
+    $tableBody.children().show();
+    switch(type) {
+      //case 'allkeys':
+      //  $tableBody.children().show();
+      //  break;
+      case 'publickeys':
+        $tableBody.children().get().forEach(function (tableRow) {
+          if($(tableRow).attr("data-keytype") !== "public") {
+            $(tableRow).hide();
+          }
+        });
+        break;
+      case 'keypairs':
+        $tableBody.children().get().forEach(function (tableRow) {
+          if($(tableRow).attr("data-keytype") !== "private") {
+            $(tableRow).hide();
+          }
+        });
+        break;
+      default:
+        console.log('unknown filter');
+    }
+  }
+
   function openKeyDetails() {
-    $("#keyPublic").show();
-    $("#keyPrivate").show();
+    $("#keyType .publicKey").show();
+    $("#keyType .keyPair").show();
     $("#keyInValid").show();
     $("#keyValid").show();
     var $keyData = $(this);
@@ -129,13 +153,19 @@ var options = options || null;
       $('#keyEmail').val($keyData.attr('data-keyemail'));
       $('#keyAlgorithm').val($keyData.attr('data-keyalgorithm'));
       $('#keyLength').val($keyData.attr('data-keylength'));
-      $('#keyCreationDate').val($keyData.attr('data-keycreationdate'));
-      $('#keyExpirationDate').val($keyData.attr('data-keyexpirationdate'));
-      $('#keyFingerPrint').val($keyData.attr('data-keyfingerprint'));
-      if($keyData.attr('data-keytype') === "private") { // '<img src="../img/#= type #-key.png" alt="#= type #" />'
-        $("#keyPublic").hide();
+      $('#keyCreationDate').val($keyData.attr('data-keycreationdate').substr(0,10));
+      var expirationDate = $keyData.attr('data-keyexpirationdate');
+      if(expirationDate === "false") {
+        expirationDate = options.l10n.keygrid_key_not_expire;
       } else {
-        $("#keyPrivate").hide();
+        expirationDate = expirationDate.substr(0,10);
+      }
+      $('#keyExpirationDate').val(expirationDate);
+      $('#keyFingerPrint').val($keyData.attr('data-keyfingerprint').match(/.{1,4}/g).join(' '));
+      if($keyData.attr('data-keytype') === "private") {
+        $("#keyType .publicKey").hide();
+      } else {
+        $("#keyType .keyPair").hide();
       }
       if($keyData.attr('data-keyvalid') === 'true') {
         $("#keyInValid").hide();
@@ -160,9 +190,15 @@ var options = options || null;
         }
         $(subKey).find('#subkeyAlgorithm').val(subkey.algorithm);
         $(subKey).find('#subkeyLength').val(subkey.bitLength);
-        $(subKey).find('#subkeyCreationDate').val(subkey.crDate);
-        $(subKey).find('#subkeyExpirationDate').val(subkey.exDate);
-        $(subKey).find('#subkeyFingerPrint').val(subkey.fingerprint);
+        $(subKey).find('#subkeyCreationDate').val(subkey.crDate.substr(0,10));
+        var expDate = subkey.exDate;
+        if(expDate === false) {
+          expDate = options.l10n.keygrid_key_not_expire;
+        } else {
+          expDate = expDate.substr(0,10);
+        }
+        $(subKey).find('#subkeyExpirationDate').val(expDate);
+        $(subKey).find('#subkeyFingerPrint').val(subkey.fingerprint.match(/.{1,4}/g).join(' '));
         $subKeyContainer.append(subKey);
       });
       $("#subKeysList").on("change", function() {
@@ -183,14 +219,14 @@ var options = options || null;
             .attr("id",user.userID)
         );
         user.signatures.forEach(function(sgn){
-          signature = $.parseHTML(singaturesTmpl);
+          signature = $.parseHTML(signaturesTmpl);
           $(signature).attr("data-userid",user.userID);
           if(index > 0) {
             $(signature).css("display","none");
           }
           $(signature).find('td:nth-child(1)').text(sgn.signer);
           $(signature).find('td:nth-child(2)').text(sgn.id);
-          $(signature).find('td:nth-child(3)').text(sgn.crDate);
+          $(signature).find('td:nth-child(3)').text(sgn.crDate.substr(0,10));
           $signatureContainer.append(signature);
         });
       });
@@ -200,19 +236,53 @@ var options = options || null;
       });
 
       // Init export tab
-      $(".exportPublic").on("click",initExportTab);
-      $(".exportPrivate").on("click",initExportTab);
-      $(".exportKeyPair").on("click",initExportTab);
+      $("#exportPublic").on("click",initExportTab);
+      $("#exportPrivate").on("click",initExportTab);
+      $("#exportKeyPair").on("click",initExportTab);
       $("#exportTabSwitch").on("click",function() {
-        $(".exportPublic").get(0).click();
+        $("#exportPublic").get(0).click();
       });
 
       $("#primaryKeyTabSwitch").get(0).click();
 
       // Show modal
+      $("#primaryKeyTabSwitch").show();
+      $("#subkeysTabSwitch").show();
+      $("#userIdTabSwitch").show();
+      $("#exportSwitcher").show();
       $('#keyEditor').modal({backdrop: 'static'});
       $("#keyEditor").modal("show");
     });
+  }
+
+  function openExportAllDialog() {
+    $('#armoredKey').val("");
+    options.viewModel('getArmoredKeys', [[], {pub: true, priv: true, all: true}], function(result, error) {
+      var hasPrivate = false;
+      var allKeys = result.reduce(function(prev, curr) {
+        if (curr.armoredPublic) {
+          prev += '\n' + curr.armoredPublic;
+        }
+        if (curr.armoredPrivate) {
+          hasPrivate = true;
+          prev += '\n' + curr.armoredPrivate;
+        }
+        return prev;
+      }, '');
+
+      initExport(allKeys,'all_keys',hasPrivate ? '<b>' + options.l10n.header_warning + '</b> ' + options.l10n.key_export_warning_private : null);
+    });
+
+    // Show modal
+    $("#primaryKeyTabSwitch").hide();
+    $("#subkeysTabSwitch").hide();
+    $("#userIdTabSwitch").hide();
+    $("#exportSwitcher").hide();
+
+    $("#keyDetailsTabSwitcher #exportTabSwitch").tab("show");
+
+    $('#keyEditor').modal({backdrop: 'static'});
+    $("#keyEditor").modal("show");
   }
 
   function deleteKeyEntry() {
@@ -227,48 +297,32 @@ var options = options || null;
   }
 
   function initExportTab() {
-    $('#exportWarn').hide();
-    var sourceId = $(this).attr("data-id");
-    var keyid = $('#keyEditor').attr("data-keyguid"); //$("#keyId").val();
+    var sourceId = $(this).attr("id");
+    var keyid = $('#keyEditor').attr("data-keyguid");
     var allKeys = false;
     var pub = sourceId !== 'exportPrivate';
     var priv = sourceId === 'exportPrivate' || sourceId === 'exportKeyPair' || sourceId === 'exportAllKeys';
     options.viewModel('getArmoredKeys', [[keyid], {pub: pub, priv: priv, all: allKeys}], function(result, error) {
       switch (sourceId) {
         case 'exportPublic':
-          initExport(result[0].armoredPublic, 'pub');
+          initExport(result[0].armoredPublic, 'pub',false);
           break;
         case 'exportPrivate':
-          initExport(result[0].armoredPrivate, 'priv');
+          initExport(result[0].armoredPrivate, 'priv', true);
           break;
         case 'exportKeyPair':
-          initExport(result[0].armoredPublic + '\n' + result[0].armoredPrivate, 'keypair');
+          initExport(result[0].armoredPublic + '\n' + result[0].armoredPrivate, 'keypair', true);
           break;
-        /*case 'exportAllKeys':
-          var hasPrivate = false;
-          allKeys = result.reduce(function(prev, curr) {
-            if (curr.armoredPublic) {
-              prev += '\n' + curr.armoredPublic;
-            }
-            if (curr.armoredPrivate) {
-              hasPrivate = true;
-              prev += '\n' + curr.armoredPrivate;
-            }
-            return prev;
-          }, '');
-          showModal(null, allKeys, 'all_keys', hasPrivate ? '<b>' + options.l10n.header_warning + '</b> ' + options.l10n.key_export_warning_private : null);
-          break; */
         default:
+          $('#exportWarn').hide();
           console.log('unknown export action');
       }
     });
-    return false;
   }
 
   function initExport(text, fprefix, warning) {
     $('#exportDownload a').addClass('hide');
     $('#armoredKey').val(text);
-    $('#armoredKey2').val(text);
     var filename = '';
     var keyname = $("#keyName").val();
     if (keyname) {
@@ -277,7 +331,7 @@ var options = options || null;
     filename += fprefix + '.asc';
     $('#exportDownload input').val(filename);
     if (warning) {
-      $('#exportWarn').html(warning).show();
+      $('#exportWarn').show();
     } else {
       $('#exportWarn').hide();
     }
@@ -292,13 +346,14 @@ var options = options || null;
     // create new
     var blob = new Blob([$('#armoredKey').val()], {type: 'application/pgp-keys'});
     var url = window.URL.createObjectURL(blob);
-    $('#exportDownload a').attr('download', $('#exportDownload input').val())
+    $('#exportDownload a')
+      .attr('download', $('#exportDownload input').val())
       .attr('href', url)
       .get(0).click();
   }
 
   function exportToClipboard() {
-    options.copyToClipboard($('#armoredKey2').val());
+    options.copyToClipboard($('#armoredKey').val());
   }
 
   options.event.on('ready', init);
