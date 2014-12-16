@@ -17,7 +17,7 @@
 
 'use strict';
 
-var keyRing = keyRing || null;
+var options = options || null;
 var mvelo = mvelo || null;
 
 (function(exports, options) {
