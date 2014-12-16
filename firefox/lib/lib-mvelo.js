@@ -119,6 +119,9 @@ mvelo.tabs.loadOptionsTab = function(hash, callback) {
   this.query(data.url("common/ui/options.html"), function(tabs) {
     if (tabs.length === 0) {
       // if not existent, create tab
+      if(hash === undefined) {
+        hash = "";
+      }
       mvelo.tabs.create(data.url("common/ui/options.html") + hash, true, callback.bind(this, false));
     } else {
       // if existent, set as active tab
