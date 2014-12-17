@@ -120,7 +120,7 @@ mvelo.domAPI.editorEncrypt = function(editor_id, recipients, callback) {
 };
 
 mvelo.domAPI.validKeyForAddress = function(recipients, callback) {
-  chrome.extension.sendMessage({
+  mvelo.extension.sendMessage({
     event: 'query-valid-key',
     recipients: recipients
   }, function(result) {
@@ -129,7 +129,7 @@ mvelo.domAPI.validKeyForAddress = function(recipients, callback) {
 };
 
 mvelo.domAPI.exportOwnPublicKey = function(emailAddr, callback) {
-  chrome.extension.sendMessage({
+  mvelo.extension.sendMessage({
     event: 'export-own-pub-key',
     emailAddr: emailAddr
   }, function(result) {

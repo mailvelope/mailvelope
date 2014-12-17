@@ -118,6 +118,7 @@ function activatePageMods() {
   injectVerifyInline();
   injectEncryptDialog();
   injectSignDialog();
+  injectEmbeddedEditor();
 }
 
 function deactivate() {
@@ -315,6 +316,33 @@ function injectSignDialog() {
       data.url('ui/messageAdapter.js'),
       data.url('common/ui/mvelo.js'),
       data.url('common/ui/inline/dialogs/signDialog.js')
+    ],
+    contentScriptWhen: 'ready',
+    contentScriptOptions: {
+      expose_messaging: false,
+      data_path: data.url()
+    }
+  });
+}
+
+function injectEmbeddedEditor() {
+  pageMods.embeddedEditorPageMod = pageMod.PageMod({
+    include: 'about:blank?mvelo=editor*',
+    onAttach: onCsAttach,
+    contentScriptFile: [
+      data.url('common/dep/jquery.min.js'),
+      data.url('common/dep/jquery.ext.js'),
+      data.url('common/dep/bootstrap/js/bootstrap.js'),
+      data.url('ui/messageAdapter.js'),
+      data.url('common/ui/inline/mvelo.js'),
+      data.url('common/ui/modal/secureToken.js'),
+      data.url('common/dep/mailbuilder/addressparser.js'),
+      data.url('common/dep/mailbuilder/stringencoding.js'),
+      data.url('common/dep/mailbuilder/punycode.js'),
+      data.url('common/dep/mailbuilder/mimefuncs.js'),
+      data.url('common/dep/mailbuilder/mimetypes.js'),
+      data.url('common/dep/mailbuilder/mailbuild.js'),
+      data.url('common/ui/editor/editor.js')
     ],
     contentScriptWhen: 'ready',
     contentScriptOptions: {
