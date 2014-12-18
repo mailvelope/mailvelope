@@ -63,6 +63,18 @@ module.exports = function (grunt) {
           },
           {
             expand: true,
+            cwd: 'bower_components/bootstrap-sortable/Scripts/',
+            src: 'bootstrap-sortable.js',
+            dest: 'build/common/dep/bootstrap-sortable/'
+          },
+          {
+            expand: true,
+            cwd: 'bower_components/bootstrap-sortable/Contents/',
+            src: 'bootstrap-sortable.css',
+            dest: 'build/common/dep/bootstrap-sortable/'
+          },
+          {
+            expand: true,
             cwd: 'bower_components/dompurify/',
             src: 'purify.js',
             dest: 'build/common/dep/'

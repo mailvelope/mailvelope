@@ -1,5 +1,5 @@
 <h3 data-l10n-id="keyring_header"></h3>
-<table class="table table-striped table-hover optionsTable" id="keyRingTable">
+<table class="table table-striped table-hover optionsTable sortable" id="keyRingTable">
   <div class="tableToolbar">
     <button class="btn btn-default" type="button" id="exportMenuBtn">
       <span class="glyphicon glyphicon-export"></span>&nbsp;
@@ -16,12 +16,12 @@
   </div>
   <thead>
   <tr>
-    <th></th>
-    <th data-l10n-id="keygrid_user_name"></th>
+    <th data-defaultsort='disabled' ></th>
+    <th data-defaultsort='asc' data-l10n-id="keygrid_user_name"></th>
     <th data-l10n-id="keygrid_user_email" style="width: 20%;"></th>
     <th data-l10n-id="keygrid_keyid"></th>
     <th data-l10n-id="keygrid_creation_date_short"></th>
-    <th style="max-width: 100px;"></th>
+    <th data-defaultsort='disabled' style="max-width: 100px;"></th>
   </tr>
   </thead>
   <tbody>

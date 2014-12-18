@@ -101,6 +101,7 @@ var options = options || null;
         $(this).find(".actions").css("visibility","hidden");
       });
       $tableBody.find(".keyDeleteBtn").on("click", deleteKeyEntry);
+      $.bootstrapSortable();
       $('#displayKeys').removeClass('spinner');
     });
 
