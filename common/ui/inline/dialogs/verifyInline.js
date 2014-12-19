@@ -42,7 +42,6 @@ var mvelo = mvelo || null;
     } else if (mvelo.ffa) {
       commonPath = mvelo.extension._dataPath + 'common';
     }
-    setStyles();
     addWrapper();
     addSandbox();
     mvelo.extension.sendMessage({event: "get-security-token"}, function(token) {
@@ -67,18 +66,6 @@ var mvelo = mvelo || null;
     $('body').addClass('spinner');
     if ($('body').height() + 2 > mvelo.LARGE_FRAME) {
       $('body').addClass('spinner-large');
-    }
-  }
-
-  function setStyles() {
-    if (mvelo.ffa) {
-      var style = $('<link/>', {
-        rel: 'stylesheet',
-        href: commonPath + '/dep/bootstrap/css/bootstrap.css'
-      });
-      var style2 = style.clone().attr('href', commonPath + '/ui/inline/dialogs/verifyInline.css');
-      $('head').append(style)
-               .append(style2);
     }
   }
 

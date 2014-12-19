@@ -265,6 +265,10 @@ function injectDecryptInline() {
       data.url('common/ui/mvelo.js'),
       data.url('common/ui/inline/dialogs/decryptInline.js')
     ],
+    contentStyleFile: [
+      data.url("common/dep/bootstrap/css/bootstrap.css"),
+      data.url("common/ui/inline/dialogs/decryptInline.css")
+    ],
     contentScriptWhen: 'ready',
     contentScriptOptions: {
       expose_messaging: false,
@@ -283,6 +287,10 @@ function injectVerifyInline() {
       data.url('ui/messageAdapter.js'),
       data.url('common/ui/mvelo.js'),
       data.url('common/ui/inline/dialogs/verifyInline.js')
+    ],
+    contentStyleFile: [
+      data.url("common/dep/bootstrap/css/bootstrap.css"),
+      data.url("common/ui/inline/dialogs/verifyInline.css")
     ],
     contentScriptWhen: 'ready',
     contentScriptOptions: {
@@ -303,6 +311,10 @@ function injectEncryptDialog() {
       data.url('common/ui/mvelo.js'),
       data.url('common/ui/inline/dialogs/encryptDialog.js')
     ],
+    contentStyleFile: [
+      data.url("common/dep/bootstrap/css/bootstrap.css"),
+      data.url("common/ui/inline/dialogs/encryptDialog.css")
+    ],
     contentScriptWhen: 'ready',
     contentScriptOptions: {
       expose_messaging: false,
@@ -322,6 +334,10 @@ function injectSignDialog() {
       data.url('ui/messageAdapter.js'),
       data.url('common/ui/mvelo.js'),
       data.url('common/ui/inline/dialogs/signDialog.js')
+    ],
+    contentStyleFile: [
+      data.url("common/dep/bootstrap/css/bootstrap.css"),
+      data.url("common/ui/inline/dialogs/signDialog.css")
     ],
     contentScriptWhen: 'ready',
     contentScriptOptions: {
