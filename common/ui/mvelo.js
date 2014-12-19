@@ -44,23 +44,32 @@ if (mvelo.ffa && mvelo.extension) {
 }
 
 mvelo.appendTpl = function($element, path) {
-  return new Promise(function(resolve, reject) {
-    var req = new XMLHttpRequest();
-    req.open('GET', path);
-    req.responseType = 'text';
-    req.onload = function() {
-      if (req.status == 200) {
-        $element.append($.parseHTML(req.response));
+  if (mvelo.ffa && !/^resource/.test(document.location.protocol)) {
+    return new Promise(function(resolve, reject) {
+      mvelo.data.load(path, function(result) {
+        $element.append($.parseHTML(result));
         resolve($element);
-      } else {
-        reject(new Error(req.statusText));
-      }
-    };
-    req.onerror = function() {
-      reject(new Error("Network Error"));
-    };
-    req.send();
-  });
+      });
+    });
+  } else {
+    return new Promise(function(resolve, reject) {
+      var req = new XMLHttpRequest();
+      req.open('GET', path);
+      req.responseType = 'text';
+      req.onload = function() {
+        if (req.status == 200) {
+          $element.append($.parseHTML(req.response));
+          resolve($element);
+        } else {
+          reject(new Error(req.statusText));
+        }
+      };
+      req.onerror = function() {
+        reject(new Error("Network Error"));
+      };
+      req.send();
+    });
+  }
 };
 
 // for fixfox, mvelo.l10n is exposed from a content script

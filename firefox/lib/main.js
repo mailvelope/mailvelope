@@ -208,6 +208,12 @@ function onCsAttach(worker) {
           that.emit(msg.response, result);
         }
         break;
+      case 'data-load':
+        if (!pageHidden) { // otherwise exception
+          var result = data.load(msg.path);
+          that.emit(msg.response, result);
+        }
+        break;
       default:
         controller.handleMessageEvent(msg, null, function(respData) {
           if (!pageHidden) { // otherwise exception
@@ -337,12 +343,15 @@ function injectEmbeddedEditor() {
       data.url('common/ui/inline/mvelo.js'),
       data.url('common/ui/modal/secureToken.js'),
       data.url('common/dep/mailbuilder/addressparser.js'),
-      data.url('common/dep/mailbuilder/stringencoding.js'),
       data.url('common/dep/mailbuilder/punycode.js'),
       data.url('common/dep/mailbuilder/mimefuncs.js'),
       data.url('common/dep/mailbuilder/mimetypes.js'),
       data.url('common/dep/mailbuilder/mailbuild.js'),
       data.url('common/ui/editor/editor.js')
+    ],
+    contentStyleFile: [
+      data.url("common/dep/bootstrap/css/bootstrap.css"),
+      data.url("common/ui/editor/editor.css")
     ],
     contentScriptWhen: 'ready',
     contentScriptOptions: {

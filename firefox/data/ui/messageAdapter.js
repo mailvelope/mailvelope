@@ -104,6 +104,15 @@ if (self.options.expose_messaging) {
     }
   }
 
+  var data = {};
+
+  function load(path, callback) {
+    mvelo.extension.sendMessage({
+      event: 'data-load',
+      path: path
+    }, callback);
+  }
+
   if (self.options.expose_messaging && self.options.browser_version >= 33) {
     mvelo.extension = cloneInto(extension, mvelo);
     exportFunction(sendMessage, mvelo.extension, {defineAs: "sendMessage", allowCallbacks: true});
@@ -116,6 +125,8 @@ if (self.options.expose_messaging) {
     mvelo.l10n = cloneInto(l10n, mvelo);
     exportFunction(getMessages, mvelo.l10n, {defineAs: "getMessages", allowCallbacks: true});
     exportFunction(localizeHTML, mvelo.l10n, {defineAs: "localizeHTML"});
+    mvelo.data = cloneInto(data, mvelo);
+    exportFunction(load, mvelo.data, {defineAs: "load", allowCallbacks: true});
   } else {
     mvelo.extension = extension;
     mvelo.extension.sendMessage = sendMessage;
@@ -129,6 +140,8 @@ if (self.options.expose_messaging) {
     mvelo.l10n = l10n;
     mvelo.l10n.getMessages = getMessages;
     mvelo.l10n.localizeHTML = localizeHTML;
+    mvelo.data = data;
+    mvelo.data.load = load;
   }
 
 }());
