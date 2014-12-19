@@ -1,6 +1,6 @@
 [submodule "dep/chrome/openpgpjs"]
 	path = dep/chrome/openpgpjs
-	url = git://github.com/toberndo/openpgpjs.git
+	url = git://github.com/mailvelope/openpgpjs.git
 [submodule "dep/firefox/openpgpjs"]
 	path = dep/firefox/openpgpjs
-	url = git://github.com/toberndo/openpgpjs.git
+	url = git://github.com/mailvelope/openpgpjs.git
