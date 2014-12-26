@@ -227,9 +227,6 @@ define(function (require, exports, module) {
       case 'options':
         loadOptions();
         break;
-      case 'help':
-        mvelo.windows.openPopup('https://www.mailvelope.com/help');
-        break;
       default:
         console.log('unknown browser action');
     }
