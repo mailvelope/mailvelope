@@ -13,6 +13,10 @@ body {
   padding-bottom: 40px;
 }
 
+input[readonly] {
+    cursor: text !important;
+}
+
 .sidebar-nav {
   padding: 9px 0;
 }
@@ -296,7 +300,7 @@ body {
 
 /* on/off switch begin*/
 .onoffswitch {
-    position: relative; width: 87px;
+    position: relative; width: 70px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
 .onoffswitch-checkbox {
@@ -319,7 +323,7 @@ body {
 .onoffswitch-inner:before {
     content: "I";
     padding-left: 10px;
-    background-color: #6194FD; color: #FFFFFF;
+    background-color: #337ab7; color: #FFFFFF;
 }
 .onoffswitch-inner:after {
     content: "O";
@@ -328,10 +332,10 @@ body {
     text-align: right;
 }
 .onoffswitch-switch {
-    display: block; width: 37px; margin: 0px;
+    display: block; width: 35px; margin: 0;
     background: #FFFFFF;
     border: 1px solid #666666; border-radius: 5px;
-    position: absolute; top: 0; bottom: 0; right: 46px;
+    position: absolute; top: 0; bottom: 0; right: 35px;
     -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
     -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s;
     background-image: -moz-linear-gradient(center top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%);
@@ -343,6 +347,6 @@ body {
     margin-left: 0;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-    right: 0px;
+    right: 0;
 }
 /* on/off switch end*/
