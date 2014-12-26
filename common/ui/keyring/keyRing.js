@@ -23,7 +23,8 @@ var options = options || null;
 (function(options) {
 
   options.registerL10nMessages([
-    "keygrid_key_not_expire"
+    "keygrid_key_not_expire",
+    "keygrid_delete_confirmation"
   ]);
 
   var keyTmpl;
@@ -108,7 +109,10 @@ var options = options || null;
     $('#exportMenuBtn').click(openExportAllDialog);
     $('#exportToCb2').click(exportToClipboard);
     $('#createExportFile').click(createFile);
+    $('#keyringFilterBtn').off();
     $('#keyringFilterBtn').on("change",filterKeys);
+
+    options.event.triggerHandler('keygrid-data-change');
   }
 
   window.URL = window.URL || window.webkitURL;
@@ -135,7 +139,8 @@ var options = options || null;
         });
         break;
       default:
-        console.log('unknown filter');
+        //console.log('unknown filter');
+        break;
     }
   }
 
@@ -145,6 +150,7 @@ var options = options || null;
     $("#keyInValid").show();
     $("#keyValid").show();
     var $keyData = $(this);
+    var keyPair = false;
     options.viewModel('getKeyDetails', [$keyData.attr('data-keyguid')], function(details) {
       //console.log('keyGrid key details received', JSON.stringify(details));
       // Init primary key tab
@@ -165,6 +171,7 @@ var options = options || null;
       $('#keyFingerPrint').val($keyData.attr('data-keyfingerprint').match(/.{1,4}/g).join(' '));
       if($keyData.attr('data-keytype') === "private") {
         $("#keyType .publicKey").hide();
+        keyPair = true;
       } else {
         $("#keyType .keyPair").hide();
       }
@@ -202,6 +209,7 @@ var options = options || null;
         $(subKey).find('#subkeyFingerPrint').val(subkey.fingerprint.match(/.{1,4}/g).join(' '));
         $subKeyContainer.append(subKey);
       });
+      $("#subKeysList").off();
       $("#subKeysList").on("change", function() {
         var id = $(this).val();
         $("#subKeysTab .tab-pane").removeClass("active");
@@ -231,18 +239,29 @@ var options = options || null;
           $signatureContainer.append(signature);
         });
       });
+      $("#userIdsList").off();
       $("#userIdsList").on("change", function() {
         $signatureContainer.find("tr").css("display","none");
         $signatureContainer.find("[data-userid='"+$(this).val()+"']").css("display","table-row");
       });
 
       // Init export tab
-      $("#exportPublic").on("click",initExportTab);
-      $("#exportPrivate").on("click",initExportTab);
-      $("#exportKeyPair").on("click",initExportTab);
-      $("#exportTabSwitch").on("click",function() {
+      $("#exportPublic").off();
+      $("#exportPrivate").off();
+      $("#exportKeyPair").off();
+      $("#exportTabSwitch").off();
+      $("#exportPublic").on("click", initExportTab);
+      $("#exportPrivate").on("click", initExportTab);
+      $("#exportKeyPair").on("click", initExportTab);
+      $("#exportTabSwitch").on("click", function () {
         $("#exportPublic").get(0).click();
       });
+
+      if(keyPair) {
+        $("#exportSwitcher").show();
+      } else {
+        $("#exportSwitcher").hide();
+      }
 
       $("#primaryKeyTabSwitch").get(0).click();
 
@@ -250,14 +269,15 @@ var options = options || null;
       $("#primaryKeyTabSwitch").show();
       $("#subkeysTabSwitch").show();
       $("#userIdTabSwitch").show();
-      $("#exportSwitcher").show();
+      //$("#exportSwitcher").show();
       $('#keyEditor').modal({backdrop: 'static'});
       $("#keyEditor").modal("show");
     });
   }
 
   function openExportAllDialog() {
-    $('#armoredKey').val("");
+    $("#armoredKey").val("");
+    $("#keyName").val("");
     options.viewModel('getArmoredKeys', [[], {pub: true, priv: true, all: true}], function(result, error) {
       var hasPrivate = false;
       var allKeys = result.reduce(function(prev, curr) {
@@ -288,7 +308,7 @@ var options = options || null;
 
   function deleteKeyEntry() {
     var $entryForRemove;
-    var confirmResult = confirm("Do you want to delete this key?");
+    var confirmResult = confirm(options.l10n.keygrid_delete_confirmation);
     if(confirmResult) {
       $entryForRemove = $(this).parent().parent().parent();
       options.viewModel('removeKey', [$entryForRemove.attr('data-keyguid'), $entryForRemove.attr('data-keytype')]);
@@ -358,5 +378,7 @@ var options = options || null;
   }
 
   options.event.on('ready', init);
+
+  options.event.on('keygrid-reload', init);
 
 }(options));

@@ -79,8 +79,8 @@
                   </div>
                   <label for="keyType" class="col-sm-2 control-label" data-l10n-id="keygrid_key_type"></label>
                   <div class="col-sm-5" id="keyType" style="padding-top: 5px;">
-                    <img src="../img/public-key.png" alt="public key" class="publicKey" />
-                    <img src="../img/private-key.png" alt="key pair" class="keyPair" />
+                    <span class="publicKey"><img src="../img/public-key.png" alt="public key" />&nbsp;<span data-l10n-id="keyring_public"></span></span>
+                    <span class="keyPair"><img src="../img/private-key.png" alt="key pair" />&nbsp;<span data-l10n-id="keyring_public_private"></span></span>
                   </div>
                 </div>
               </form>
@@ -177,7 +177,7 @@
                   <span data-l10n-id="keyring_public"></span>
                 </label>
                 <label class="btn btn-primary" id="exportPrivate">
-                  <input type="radio" name="exportType" autocomplete="off">
+                  <input type="radio" name="exportType" disabled autocomplete="off">
                   <span data-l10n-id="keyring_private"></span>
                 </label>
                 <label class="btn btn-primary" id="exportKeyPair">
@@ -190,7 +190,7 @@
               </div>
               <div id="exportDownload" class="form-inline">
                 <!--button id="exportToCb2" type="button" class="btn btn-primary" data-l10n-id="key_export_clipboard"></button-->
-                <input type="text" class="form-control" style="width: 120px;">
+                <input type="text" class="form-control" style="width: 250px;">
                 <button id="createExportFile" type="button" class="btn btn-primary" data-l10n-id="key_export_create_file"></button>
                 <a class="btn btn-link hide" data-l10n-id="key_export_download"></a>
               </div>
