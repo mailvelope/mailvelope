@@ -19,9 +19,8 @@
 
 var mvelo = mvelo || null;
 var options = options || null;
-options.watchList = {};
 
-(function(exports, options) {
+(function(options) {
 
   /**
    * remove duplicates from array, last duplicate entry wins
@@ -136,17 +135,6 @@ options.watchList = {};
     $(this).parent().parent().remove();
   }
 
-  function deleteWatchListEntry() {
-    var entryForRemove;
-    var confirmResult = confirm(options.l10n.watchlist_delete_confirmation);
-    if(confirmResult) {
-      entryForRemove = $(this).parent().parent().parent();
-      entryForRemove.remove();
-      saveWatchList();
-    }
-    return false;
-  }
-
   function showWatchListEditor(data) {
     // console.log("website data: "+data);
     // {"site":"server.lan","active":true,"frames":[{"frame":"*.server.lan","scan":true}]},
@@ -175,6 +163,22 @@ options.watchList = {};
     }
     $watchListEditor.modal({backdrop: 'static'});
     $watchListEditor.modal("show");
+  }
+
+  function deleteWatchListEntry() {
+    var entryForRemove;
+    var confirmResult = confirm(options.l10n.watchlist_delete_confirmation);
+    if(confirmResult) {
+      entryForRemove = $(this).parent().parent().parent();
+      entryForRemove.remove();
+      var data = [];
+      $tableBody.children().get().forEach(function (siteRow) {
+        var siteData = JSON.parse($(siteRow).attr("data-website"));
+        data.push(siteData);
+      });
+      saveWatchListData(data);
+    }
+    return false;
   }
 
   function saveWatchList() {
@@ -233,33 +237,48 @@ options.watchList = {};
 
   }
 
+  function cleanWebSiteName(website) {
+    if(website.indexOf("www.") === 0) {
+      website = website.substr(4,website.length);
+    }
+    return website;
+  }
+
   function addToWatchList(website) {
     //console.log("Adding to watchlist: "+website);
+    var siteExist = false;
     var site = {};
+    website = cleanWebSiteName(website);
     site.site = website;
     site.active = true;
     site.frames = [];
     site.frames.push( { frame: "*."+website, scan:true } );
     options.viewModel('getWatchList', function(data) {
-      data.push(site);
+      data.forEach(function (siteEntry, index) {
+        if (siteEntry.site === website) {
+          siteExist = true;
+        }
+      });
+      if(!siteExist) {
+        data.push(site);
+      }
       saveWatchListData(data);
     });
   }
   options.addToWatchList = addToWatchList;
 
   function removeFromWatchList(website) {
-    //console.log("Removing from watchlist: "+website);
+    website = cleanWebSiteName(website);
     options.viewModel('getWatchList', function(data) {
       data.forEach(function (siteEntry, index) {
         if (siteEntry.site === website) {
           data.splice(index, 1);
         }
       });
-      saveWatchListData(siteData);
+      saveWatchListData(data);
     });
   }
   options.removeFromWatchList = removeFromWatchList;
-
 
   function saveWatchListData(data) {
     //console.log("website data: "+JSON.stringify(data));
@@ -272,4 +291,4 @@ options.watchList = {};
 
   options.event.on('ready', init);
 
-}(options.watchList, options));
+}(options));
