@@ -299,6 +299,10 @@ input[readonly] {
     height: 500px;
 }
 
+#keyRingTable td {
+    word-wrap: break-word;
+}
+
 @media (max-width: 1200px) {
     #keyRingTable td {
         max-width: 90px;
