@@ -302,9 +302,17 @@ input[readonly] {
     word-wrap: break-word;
 }
 
+.tab-content .jumbotron {
+    min-width: 1000px;
+}
+
 @media (max-width: 1200px) {
     #keyRingTable .emailCell {
         max-width: 100px;
+    }
+
+    .tab-content .jumbotron {
+        min-width: 800px;
     }
 }
 
