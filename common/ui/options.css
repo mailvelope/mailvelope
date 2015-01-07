@@ -283,6 +283,7 @@ input[readonly] {
 
 .monospaced {
     font-family: monospace;
+    white-space: nowrap;
 }
 
 .optionsTable {
@@ -298,21 +299,17 @@ input[readonly] {
     height: 500px;
 }
 
-#keyRingTable td {
-    word-wrap: break-word;
-}
-
-.tab-content .jumbotron {
-    min-width: 1000px;
-}
-
 @media (max-width: 1200px) {
-    #keyRingTable .emailCell {
-        max-width: 100px;
+    #keyRingTable td {
+        max-width: 90px;
+        word-wrap: break-word;
     }
+}
 
-    .tab-content .jumbotron {
-        min-width: 800px;
+@media (max-width: 1300px) {
+    #keyRingTable td {
+        max-width: 130px;
+        word-wrap: break-word;
     }
 }
 
