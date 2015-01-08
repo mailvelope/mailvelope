@@ -144,47 +144,12 @@ mvelo.util.decodeQuotedPrint = function(armored) {
     .replace(/=3D(\S{4})\s*$/m, "=$1");
 };
 
-mvelo.util.extensionColors = {};
-mvelo.util.extensionColors.jpg  = "#4ba5cb"; // Images
-mvelo.util.extensionColors.png  = "#4ba5cb";
-mvelo.util.extensionColors.bmp  = "#4ba5cb";
-mvelo.util.extensionColors.tif  = "#4ba5cb";
-mvelo.util.extensionColors.tiff = "#4ba5cb";
-mvelo.util.extensionColors.jpg  = "#4ba5cb";
-mvelo.util.extensionColors.jpeg = "#4ba5cb";
-mvelo.util.extensionColors.psd  = "#4ba5cb";
-mvelo.util.extensionColors.txt  = "#427bba"; // Text
-mvelo.util.extensionColors.doc  = "#427bba";
-mvelo.util.extensionColors.docx = "#427bba";
-mvelo.util.extensionColors.rtf  = "#427bba";
-mvelo.util.extensionColors.pdf  = "#ad1e24";
-mvelo.util.extensionColors.html = "#ad1e24";
-mvelo.util.extensionColors.htm  = "#ad1e24";
-mvelo.util.extensionColors.mov  = "#bc4fa9"; // Video
-mvelo.util.extensionColors.avi  = "#bc4fa9";
-mvelo.util.extensionColors.wmv  = "#bc4fa9";
-mvelo.util.extensionColors.mpeg = "#bc4fa9";
-mvelo.util.extensionColors.flv  = "#bc4fa9";
-mvelo.util.extensionColors.divx = "#bc4fa9";
-mvelo.util.extensionColors.xvid = "#bc4fa9";
-mvelo.util.extensionColors.mp3  = "#563b8c"; // Music
-mvelo.util.extensionColors.wav  = "#563b8c";
-mvelo.util.extensionColors.zip  = "#e7ab30"; // Sonstige
-mvelo.util.extensionColors.rar  = "#e7ab30";
-mvelo.util.extensionColors.xml  = "#d6732c";
-mvelo.util.extensionColors.ppt  = "#d6732c";
-mvelo.util.extensionColors.pptx = "#d6732c";
-mvelo.util.extensionColors.xls  = "#6ea64e";
-mvelo.util.extensionColors.xlsx = "#6ea64e";
-mvelo.util.extensionColors.exe  = "#4b4a4a";
-mvelo.util.extensionColors.unknown = "#8a8a8a"; // Unbekannt
-
-mvelo.util.getExtensionColor = function(fileExt) {
-  var color = mvelo.util.extensionColors[fileExt];
-  if (color === undefined) {
-    color = mvelo.util.extensionColors.unknown;
+mvelo.util.getExtensionClass = function(fileExt) {
+  var extClass ="";
+  if(fileExt !== undefined) {
+    extClass = "ext-color-"+fileExt;
   }
-  return color;
+  return extClass;
 };
 
 mvelo.util.extractFileNameWithoutExt = function(fileName) {

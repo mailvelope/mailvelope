@@ -159,11 +159,10 @@ var mvelo = mvelo || null;
   function addAttachment(filename, content, mimeType) {
     var fileNameNoExt = mvelo.util.extractFileNameWithoutExt(filename);
     var fileExt = mvelo.util.extractFileExtension(filename);
-    var extColor = mvelo.util.getExtensionColor(fileExt);
+    var extClass = mvelo.util.getExtensionClass(fileExt);
 
     var extensionButton = $('<span/>', {
-      "style": "text-transform: uppercase; background-color: "+extColor,
-      "class": 'label'
+      "class": 'label attachmentExtension '+extClass
     }).append(fileExt);
 
     var contentLength = Object.keys(content).length;
@@ -175,9 +174,8 @@ var mvelo = mvelo || null;
     var objectURL = window.URL.createObjectURL(blob);
     var fileUI = $('<a/>', {
       "href": objectURL,
-      "class": 'label label-default',
-      "download": filename,
-      "style": 'background-color: #ddd'
+      "class": 'label label-default attachmentButton',
+      "download": filename
     })
       .append(extensionButton)
       .append(" "+fileNameNoExt+" ");

@@ -168,11 +168,10 @@ var mvelo = mvelo || null;
   function addAttachment(filename, content, mimeType, attachmentId) {
     var fileNameNoExt = mvelo.util.extractFileNameWithoutExt(filename);
     var fileExt = mvelo.util.extractFileExtension(filename);
-    var extColor = mvelo.util.getExtensionColor(fileExt);
+    var extClass = mvelo.util.getExtensionClass(fileExt);
 
     var extensionButton = $('<span/>', {
-      "style": "background-color: "+extColor,
-      "class": 'label attachmentExtension'
+      "class": 'label attachmentExtension '+extClass
     }).append(fileExt);
 
     var objectURL = "#";

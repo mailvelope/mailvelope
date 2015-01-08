@@ -79,21 +79,3 @@ html, body {
 .spinner-large {
   background-position: center 160px;
 }
-
-.attachmentButton {
-  font-weight: normal;
-  color: #333;
-  background-color: #ccc;
-  padding: 5px;
-}
-
-.attachmentButton:hover {
-  background-color: #ddd !important;
-  color: black !important;
-}
-
-.attachmentExtension {
-  font-weight: normal;
-  color: black;
-  text-transform: uppercase;
-}

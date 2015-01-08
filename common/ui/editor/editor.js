@@ -111,7 +111,7 @@ var mvelo = mvelo || null;
     onChange(); // setting the message as dirty
     var fileNameNoExt = mvelo.util.extractFileNameWithoutExt(file.name);
     var fileExt = mvelo.util.extractFileExtension(file.name);
-    var extColor = mvelo.util.getExtensionColor(fileExt);
+    var extClass = mvelo.util.getExtensionClass(fileExt);
     var id = Date.now();
     // TODO check if id exists
 
@@ -142,8 +142,7 @@ var mvelo = mvelo || null;
 
     var extensionButton = $('<span/>', {
       "data-id": id,
-      "style": "background-color: "+extColor,
-      "class": 'label attachmentExtension'
+      "class": 'label attachmentExtension '+extClass
     }).append(fileExt);
 
     var fileUI = $('<a/>', {

@@ -1,0 +1,89 @@
+.ext-color-pdf  { background-color: #ad1e24 !important; }
+.ext-color-html { background-color: #ad1e24 !important; }
+.ext-color-htm  { background-color: #ad1e24 !important; }
+.ext-color-jpg  { background-color: #4ba5cb !important; }
+.ext-color-jpeg { background-color: #4ba5cb !important; }
+.ext-color-png  { background-color: #4ba5cb !important; }
+.ext-color-bmp  { background-color: #4ba5cb !important; }
+.ext-color-tif  { background-color: #4ba5cb !important; }
+.ext-color-tiff { background-color: #4ba5cb !important; }
+.ext-color-psd  { background-color: #4ba5cb !important; }
+.ext-color-txt  { background-color: #427bba !important; }
+.ext-color-doc  { background-color: #427bba !important; }
+.ext-color-docx { background-color: #427bba !important; }
+.ext-color-rtf  { background-color: #427bba !important; }
+.ext-color-mov  { background-color: #bc4fa9 !important; }
+.ext-color-avi  { background-color: #bc4fa9 !important; }
+.ext-color-wmv  { background-color: #bc4fa9 !important; }
+.ext-color-mpeg { background-color: #bc4fa9 !important; }
+.ext-color-flv  { background-color: #bc4fa9 !important; }
+.ext-color-xvid { background-color: #bc4fa9 !important; }
+.ext-color-mp3  { background-color: #563b8c !important; }
+.ext-color-wav  { background-color: #563b8c !important; }
+.ext-color-zip  { background-color: #e7ab30 !important; }
+.ext-color-rar  { background-color: #e7ab30 !important; }
+.ext-color-xml  { background-color: #d6732c !important; }
+.ext-color-ppt  { background-color: #d6732c !important; }
+.ext-color-pptx { background-color: #d6732c !important; }
+.ext-color-xls  { background-color: #6ea64e !important; }
+.ext-color-xlsx { background-color: #6ea64e !important; }
+.ext-color-exe  { background-color: #4b4a4a !important; }
+
+.attachmentExtension {
+    display: inline-block;
+    padding: 0 3px;
+    border-radius: 2px;
+    height: 14px;
+    background-color: #8a8a8a;
+    color: #ffffff;
+    font-family: "Verdana",Sans-Serif;
+    font-size: 10px;
+    font-weight: normal;
+    line-height: 14px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.attachmentButton {
+    font-weight: normal;
+    font-family: "Verdana",Sans-Serif;
+    color: #5E5E5E;
+    font-size: 11px;
+    padding: 2px;
+    margin-top: 3px;
+    background: #efefef;
+    background-image: linear-gradient(to bottom,#ffffff,#ececec);
+    border: 1px solid #cbcbcb;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 4px;
+
+    -webkit-box-ordinal-group: 1;
+    -moz-box-ordinal-group: 1;
+    -webkit-order: 0;
+    order: 0;
+    -webkit-box-flex: 0;
+    -moz-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    -webkit-align-self: auto;
+    align-self: auto;
+}
+
+.attachmentButton:hover, .attachmentButton:focus {
+    color: #333333 !important;
+    background-image: linear-gradient(to bottom,#ececec,#ececec);
+}
+
+.removeAttachment {
+    border: 2px solid #a3a3a3;
+    border-radius: 2px;
+    padding: 0;
+    color: white;
+    background-color: #a3a3a3;
+}
+
+.removeAttachment:hover {
+    border: 2px solid lightcoral;
+    background-color: lightcoral;
+}
