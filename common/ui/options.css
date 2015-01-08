@@ -303,13 +303,46 @@ input[readonly] {
     word-wrap: break-word;
 }
 
-.addedSite {
-    background-color: lightcoral;
+.addedSiteFade {
+    -webkit-animation: pulse1 4s linear 1;
+    -moz-animation: pulse1 4s linear 1;
+    animation: pulse1 4s linear 1;
 }
 
-.addedSiteFade {
-    background-color: transparent;
-    transition: background-color 5s linear 0s;
+@-webkit-keyframes "pulse1" {
+    0% {
+        background-color: rgba(0,0,0,0);
+    }
+    30% {
+        background-color: rgba(255,0,0,0.5);
+    }
+    100% {
+        background-color: rgba(0,0,0,0);
+    }
+}
+
+@-moz-keyframes pulse1 {
+    0% {
+        background-color: rgba(0,0,0,0);
+    }
+    30% {
+        background-color: rgba(255,0,0,0.5);
+    }
+    100% {
+        background-color: rgba(0,0,0,0);
+    }
+}
+
+@keyframes pulse1 {
+    0% {
+        background-color: rgba(0,0,0,0);
+    }
+    30% {
+        background-color: rgba(255,0,0,0.5);
+    }
+    100% {
+        background-color: rgba(0,0,0,0);
+    }
 }
 
 @media (max-width: 1200px) {

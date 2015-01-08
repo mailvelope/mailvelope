@@ -121,9 +121,9 @@ var options = options || null;
 
       if(newWebSite !== undefined) {
         var $selectedRow = $( "td:contains('"+newWebSite+"')").parent();
-        $selectedRow.css("background-color","lightcoral");
         $selectedRow.addClass("addedSiteFade");
         $selectedRow.trigger("hover");
+        window.scrollTo(0,document.body.scrollHeight);
         newWebSite = undefined;
       }
 
