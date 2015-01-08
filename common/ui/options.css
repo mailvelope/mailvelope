@@ -303,6 +303,15 @@ input[readonly] {
     word-wrap: break-word;
 }
 
+.addedSite {
+    background-color: lightcoral;
+}
+
+.addedSiteFade {
+    background-color: transparent;
+    transition: background-color 5s linear 0s;
+}
+
 @media (max-width: 1200px) {
     #keyRingTable td {
         max-width: 90px;

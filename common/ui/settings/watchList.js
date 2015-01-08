@@ -49,6 +49,7 @@ var options = options || null;
   var siteData;
   var $tableBody;
   var currentSiteID;
+  var newWebSite;
 
   options.registerL10nMessages([
     "watchlist_title_active",
@@ -113,10 +114,19 @@ var options = options || null;
         return false;
       });
       $tableBody.find("tr").hover(function() {
-        $(this).find(".btn-group").css("visibility","visible");
+        $(this).find(".actions").css("visibility","visible");
       }, function() {
-        $(this).find(".btn-group").css("visibility","hidden");
+        $(this).find(".actions").css("visibility","hidden");
       });
+
+      if(newWebSite !== undefined) {
+        var $selectedRow = $( "td:contains('"+newWebSite+"')").parent();
+        $selectedRow.css("background-color","lightcoral");
+        $selectedRow.addClass("addedSiteFade");
+        $selectedRow.trigger("hover");
+        newWebSite = undefined;
+      }
+
     });
   }
 
@@ -249,6 +259,7 @@ var options = options || null;
     var siteExist = false;
     var site = {};
     website = cleanWebSiteName(website);
+    newWebSite = website;
     site.site = website;
     site.active = true;
     site.frames = [];
@@ -268,15 +279,17 @@ var options = options || null;
   options.addToWatchList = addToWatchList;
 
   function removeFromWatchList(website) {
-    website = cleanWebSiteName(website);
-    options.viewModel('getWatchList', function(data) {
-      data.forEach(function (siteEntry, index) {
-        if (siteEntry.site === website) {
-          data.splice(index, 1);
-        }
+    if(confirm(options.l10n.watchlist_delete_confirmation)) {
+      website = cleanWebSiteName(website);
+      options.viewModel('getWatchList', function(data) {
+        data.forEach(function (siteEntry, index) {
+          if (siteEntry.site === website) {
+            data.splice(index, 1);
+          }
+        });
+        saveWatchListData(data);
       });
-      saveWatchListData(data);
-    });
+    }
   }
   options.removeFromWatchList = removeFromWatchList;
 

@@ -100,8 +100,11 @@ var options = {};
       case 'import-key':
         $('#showKeyRing a').get(0).click();
         $('#keyringList a[href="#importKey"]').get(0).click();
-        // TODO reload keys
+        options.importKey(request.armored);
         break;
+      default:
+        // TODO analyse message events
+        //console.log('unknown event:', request);
     }
   }
 
