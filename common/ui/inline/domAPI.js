@@ -45,9 +45,10 @@ mvelo.domAPI.init = function() {
 
 mvelo.domAPI.matchPattern2RegEx = function(matchPattern) {
   return new RegExp(
-    matchPattern.replace('.', '\\.')
-                .replace('*', '\\w*')
-                .replace('\\w*\\.', '(\\w+\\.)?') + '$');
+    '^' + matchPattern.replace(/\./g, '\\.')
+                      .replace(/\*/g, '\\w*')
+                      .replace(/\\w\*\\./g, '(\\w+\\.)?') + '$'
+  );
 };
 
 mvelo.domAPI.postMessage = function(eventName, id, data, error) {
