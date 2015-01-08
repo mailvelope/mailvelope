@@ -114,16 +114,12 @@
 }
 
 #encryptModal {
-  width: 550px;
   margin-right: auto;
   margin-left: auto;
 }
 
 #addFileInput {
-    visibility:hidden;
-    position:absolute;
-    top:-50;
-    left:-50;
+    display: none;
 }
 
 #uploadPanel {
