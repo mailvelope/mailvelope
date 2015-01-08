@@ -29,6 +29,7 @@ mvelo.EditorContainer = function(selector) {
   this.container = null;
   this.done = null;
   this.encryptCallback = null;
+  this.encryptCounter = 0;
 };
 
 mvelo.EditorContainer.prototype.create = function(done) {
@@ -54,6 +55,9 @@ mvelo.EditorContainer.prototype.encrypt = function(recipients, callback) {
   if (this.encryptCallback) {
     throw new Error('Encyption already in progress');
   }
+  if (this.encryptCounter) {
+    throw new Error('Encrypt method call limit: only one call per container');
+  }
   this.port.postMessage({
     event: 'editor-container-encrypt',
     sender: this.name,
@@ -77,6 +81,7 @@ mvelo.EditorContainer.prototype.registerEventListener = function() {
       case 'encrypted-message':
         that.encryptCallback(null, msg.message);
         that.encryptCallback = null;
+        that.encryptCounter++;
         break;
       default:
         console.log('unknown event', msg);
