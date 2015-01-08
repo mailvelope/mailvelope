@@ -81,7 +81,7 @@ html, body {
 }
 
 .spinner {
-  background-image: url('../../dep/kendoui/styles/Default/loading-image.gif');
+  background-image: url('../../img/loading.gif');
   background-repeat: no-repeat;
   background-position: center;
 }
