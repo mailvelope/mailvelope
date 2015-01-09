@@ -23,7 +23,7 @@ mvelo.domAPI = {};
 
 mvelo.domAPI.active = false;
 
-mvelo.domAPI.containers = {};
+mvelo.domAPI.containers = new Map();
 
 mvelo.domAPI.init = function() {
   this.active = mvelo.main.watchList.some(function(site) {
@@ -145,12 +145,12 @@ mvelo.domAPI.displayContainer = function(selector, armored, callback) {
 
 mvelo.domAPI.editorContainer = function(selector, callback) {
   var container = new mvelo.EditorContainer(selector);
-  this.containers[container.id] = container;
+  this.containers.set(container.id, container);
   container.create(callback);
 };
 
 mvelo.domAPI.editorEncrypt = function(editor_id, recipients, callback) {
-  this.containers[editor_id].encrypt(recipients, callback);
+  this.containers.get(editor_id).encrypt(recipients, callback);
 };
 
 mvelo.domAPI.validKeyForAddress = function(recipients, callback) {
