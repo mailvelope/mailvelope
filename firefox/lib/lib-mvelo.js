@@ -20,6 +20,7 @@
 var data = require('sdk/self').data;
 var tabs = require('sdk/tabs');
 var windows = require('sdk/windows').browserWindows;
+var addonWindow = require('sdk/addon/window');
 //var {open} = require('sdk/window/utils');
 var timer = require('sdk/timers');
 var ss = require('sdk/simple-storage');
@@ -230,6 +231,10 @@ mvelo.util.getHostname = function(source) {
 
 mvelo.util.getHost = function(source) {
   return url.URL(source).host;
+};
+
+mvelo.util.getDOMWindow = function() {
+  return addonWindow.window;
 };
 
 mvelo.l10n = {};

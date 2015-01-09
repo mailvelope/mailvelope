@@ -203,6 +203,10 @@ define(function(require, exports, module) {
     return a.host;
   };
 
+  mvelo.util.getDOMWindow = function() {
+    return window;
+  };
+
   mvelo.l10n.get = chrome.i18n.getMessage;
 
   exports.mvelo = mvelo;

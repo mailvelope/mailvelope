@@ -55,7 +55,13 @@
   }
 
   function getHash() {
-    return Math.random().toString(36).substr(2, 8);
+    var result = '';
+    var buf = new Uint16Array(6);
+    window.crypto.getRandomValues(buf);
+    for (var i = 0; i < buf.length; i++) {
+      result += buf[i].toString(16);
+    }
+    return result;
   }
 
   function postMessage(eventName, data, callback) {

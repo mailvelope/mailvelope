@@ -1,10 +1,10 @@
 
 'use strict';
 
-var browserWindow = require('sdk/window/utils').getMostRecentBrowserWindow();
+var addonWindow = require('sdk/addon/window');
 
 exports.randomBytes = function(size) {
   var buf = new Uint8Array(size);
-  browserWindow.crypto.getRandomValues(buf);
+  addonWindow.window.crypto.getRandomValues(buf);
   return buf;
 };

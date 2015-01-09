@@ -134,7 +134,19 @@ mvelo.util.sortAndDeDup = function(unordered, compFn) {
 };
 
 // random hash generator
-mvelo.util.getHash = function() { return Math.random().toString(36).substr(2, 8); };
+mvelo.util.getHash = function() {
+  var result = '';
+  var buf = new Uint16Array(6);
+  if (typeof window !== 'undefined') {
+    window.crypto.getRandomValues(buf);
+  } else {
+    mvelo.util.getDOMWindow().crypto.getRandomValues(buf);
+  }
+  for (var i = 0; i < buf.length; i++) {
+    result += buf[i].toString(16);
+  }
+  return result;
+};
 
 mvelo.util.encodeHTML = function(text) {
   return String(text)
