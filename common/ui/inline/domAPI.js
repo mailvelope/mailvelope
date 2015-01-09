@@ -65,6 +65,38 @@ mvelo.domAPI.reply = function(id, error, data) {
   mvelo.domAPI.postMessage('callback-reply', id, data, error);
 };
 
+// default type: string
+mvelo.domAPI.dataTypes = {
+  recipients: 'array'
+};
+
+mvelo.domAPI.checkTypes = function(data) {
+  if (data.id && typeof data.id !== 'string') {
+    throw new Error('Type mismatch: data.id should be of type string.');
+  }
+  var parameters = Object.keys(data.data);
+  for (var i = 0; i < parameters.length; i++) {
+    var parameter = parameters[i];
+    var dataType = mvelo.domAPI.dataTypes[parameter] || 'string';
+    var value = data.data[parameter];
+    var wrong = false;
+    switch (dataType) {
+      case 'array':
+        if (!Array.isArray(value)) {
+          wrong = true;
+        }
+        break;
+      default:
+        if (typeof value !== dataType) {
+          wrong = true;
+        }
+    }
+    if (wrong) {
+      throw new Error('Type mismatch: ' + parameter + ' should be of type ' + dataType + '.');
+    }
+  }
+};
+
 mvelo.domAPI.eventListener = function(event) {
   if (event.origin !== document.location.origin ||
       event.data.mvelo_extension ||
@@ -72,6 +104,7 @@ mvelo.domAPI.eventListener = function(event) {
     return;
   }
   console.log('domAPI eventListener', event.data.event);
+  mvelo.domAPI.checkTypes(event.data);
   var data = event.data.data;
   switch (event.data.event) {
     case 'display-container':
