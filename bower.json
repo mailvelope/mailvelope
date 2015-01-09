@@ -24,6 +24,6 @@
     "bootstrap-sortable": "~1.10.0"
   },
   "resolutions": {
-    "jquery": "e-tag:533225b6-"
+    "jquery": "e-tag:54499a47-"
   }
 }
