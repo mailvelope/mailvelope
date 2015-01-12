@@ -31,7 +31,9 @@ mvelo.main.name = 'mainCS-' + mvelo.getHash();
 mvelo.main.port = null;
 
 mvelo.main.init = function() {
-  if (document.mveloControl) return;
+  if (document.mveloControl) {
+    return;
+  }
   this.port = mvelo.extension.connect({name: this.name});
   this.addMessageListener();
   this.port.postMessage({event: 'get-prefs', sender: this.name});
@@ -84,7 +86,9 @@ mvelo.main.findPGPTag = function(regex) {
 
   var nodeList = [];
 
-  while (treeWalker.nextNode()) nodeList.push(treeWalker.currentNode);
+  while (treeWalker.nextNode()) {
+    nodeList.push(treeWalker.currentNode);
+  }
 
   // filter out hidden elements
   nodeList = $(nodeList).filter(function() {
@@ -232,7 +236,9 @@ mvelo.main.addMessageListener = function() {
   this.port.onMessage.addListener(
     function(request) {
       //console.log('contentscript: %s onRequest: %o', document.location.toString(), request);
-      if (request.event === undefined) return;
+      if (request.event === undefined) {
+        return;
+      }
       switch (request.event) {
         case 'on':
           mvelo.main.on();

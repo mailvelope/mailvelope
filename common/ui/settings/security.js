@@ -65,7 +65,9 @@ var options = options || null;
   }
 
   function onSave() {
-    if (!validate()) return false;
+    if (!validate()) {
+      return false;
+    }
     var update = {
       security: {
         display_decrypted: $('input:radio[name="decryptRadios"]:checked').val(),

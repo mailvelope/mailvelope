@@ -253,7 +253,9 @@ mvelo.EncryptFrame.prototype._establishConnection = function() {
 };
 
 mvelo.EncryptFrame.prototype._removeDialog = function() {
-  if (!this._eDialog) return;
+  if (!this._eDialog) {
+    return;
+  }
   this._eDialog.fadeOut();
   // removal triggers disconnect event
   this._eDialog.remove();

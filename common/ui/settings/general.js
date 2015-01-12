@@ -41,7 +41,9 @@ var options = options || null;
   }
 
   function onSave() {
-    if (!validate()) return false;
+    if (!validate()) {
+      return false;
+    }
     var update = {
       general: {
         editor_type: $('input:radio[name="editorRadios"]:checked').val(),
@@ -136,7 +138,9 @@ var options = options || null;
         $('#autoAddPrimary').prop('checked', true);
       }
       onPrimaryChange();
-      if (callback) callback(prefs);
+      if (callback) {
+        callback(prefs);
+      }
     });
   }
 

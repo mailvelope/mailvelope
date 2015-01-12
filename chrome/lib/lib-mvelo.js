@@ -79,11 +79,15 @@ define(function(require, exports, module) {
         chrome.tabs.onUpdated.addListener(function updateListener(tabid, info) {
           if (tabid === tab.id && info.status === 'complete') {
             chrome.tabs.onUpdated.removeListener(updateListener);
-            if (callback) callback(tab);
+            if (callback) {
+              callback(tab);
+            }
           }
         });
       } else {
-        if (callback) callback(tab);
+        if (callback) {
+          callback(tab);
+        }
       }
     });
   };
@@ -158,7 +162,9 @@ define(function(require, exports, module) {
           };
           chrome.windows.onRemoved.addListener(removedHandler);
         }
-        if (callback) callback(new mvelo.windows.BrowserWindow(popup.id));
+        if (callback) {
+          callback(new mvelo.windows.BrowserWindow(popup.id));
+        }
       });
     });
   };

@@ -77,7 +77,9 @@ var mvelo = mvelo || null;
       options.viewModel('importKeys', [keys], function(result, error) {
         if (error) {
           $('#importAlert').showAlert(options.l10n.key_import_error, error.type === 'error' ? error.message : options.l10n.key_import_exception, 'danger', true);
-          if (callback) callback([{type: 'error'}]);
+          if (callback) {
+            callback([{type: 'error'}]);
+          }
         } else {
           var success = false;
           result.forEach(function(imported) {
@@ -96,7 +98,9 @@ var mvelo = mvelo || null;
             }
             $('#importAlert').showAlert(heading, imported.message, imported.type, true);
           });
-          if (callback) callback(result);
+          if (callback) {
+            callback(result);
+          }
           importDone(success);
         }
       });

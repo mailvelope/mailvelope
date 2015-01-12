@@ -107,7 +107,9 @@ mvelo.tabs.create = function(url, complete, callback) {
 
 mvelo.tabs.activate = function(tab, callback) {
   tab.activate();
-  if (callback) callback(tab);
+  if (callback) {
+    callback(tab);
+  }
 };
 
 mvelo.tabs.sendMessage = function(tab, msg) {

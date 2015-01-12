@@ -174,7 +174,9 @@ define(function (require, exports, module) {
         options.onMessage = handleMessageEvent;
         // inject scan script
         mvelo.tabs.attach(tab, options, function() {
-          if (scannedHosts.length === 0) return;
+          if (scannedHosts.length === 0) {
+            return;
+          }
           // remove duplicates and add wildcards
           var hosts = reduceHosts(scannedHosts);
           var site = model.getHostname(tab.url);
@@ -247,7 +249,9 @@ define(function (require, exports, module) {
     var reduced = [];
     hosts.forEach(function(element) {
       var labels = element.split('.');
-      if (labels.length < 2) return;
+      if (labels.length < 2) {
+        return;
+      }
       if (labels.length <= 3) {
         if (/www.*/.test(labels[0])) {
           labels[0] = '*';

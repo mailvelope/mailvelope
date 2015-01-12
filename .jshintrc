@@ -5,50 +5,38 @@
     "maxerr"        : 5,       // {int} Maximum error before stopping
 
     // Enforcing
-    "bitwise"       : false,   // true: Prohibit bitwise operators (&, |, ^, etc.)
-    "forin"         : false,   // true: Require filtering for..in loops with obj.hasOwnProperty()
-    "immed"         : true,    // true: Require immediate invocations to be wrapped in parens e.g. `(function () { } ());`,
-    "undef"         : false,
-    "unused"        : false,
+    "curly"         : true,     // true: Require {} for every new block or scope
+    "immed"         : true,    // true: Require immediate invocations to be wrapped in parens e.g. `(function () { } ());`
+    "indent"        : 2,        // {int} Number of spaces to use for indentation
+    "newcap"        : true,    // true: Require capitalization of all constructor functions e.g. `new F()`
+    "noarg"         : true,     // true: Prohibit use of `arguments.caller` and `arguments.callee`
+    "nonbsp"        : true,     // true: Prohibit "non-breaking whitespace" characters.
+    "nonew"         : true,    // true: Prohibit use of constructors for side-effects (without assignment)
 
     // Relaxing
-    "debug"         : true,    // true: Allow debugger statements e.g. browser breakpoints.
-    "browser"       : true,    // true: defines globals exposed by modern browsers
-    "devel"         : true,    // true: define globals for some development functions (alert, console)
-    "shadow"        : true,    // true: Allows re-define variables later in code e.g. `var x=1; x=2;`
-    "validthis"     : true,    // true: Tolerate using this in a non-constructor function
-    "boss"          : true,    // true: Tolerate assignments where comparisons would be expected
-    "evil"          : true,    // true: Tolerate use of `eval` and `new Function()`
-    "expr"          : true,    // true: allow `arr && arr.forEach(...)`
-    "multistr"      : true,
-    "strict"        : true,
+    "boss"          : true,     // true: Tolerate assignments where comparisons would be expected
+    "debug"         : true,     // true: Allow debugger statements e.g. browser breakpoints.
+    "esnext"        : true,     // true: Allow ES.next (ES6) syntax (ex: `const`)
+    "evil"          : true,     // true: Tolerate use of `eval` and `new Function()`
+    "expr"          : true,     // true: Tolerate `ExpressionStatement` as Programs
+    "globalstrict"  : true,     // true: Allow global "use strict" (also enables 'strict')
+    "multistr"      : true,     // true: Tolerate multi-line strings
+    "shadow"        : true,     // true: Allows re-define variables later in code e.g. `var x=1; x=2;`
+    "validthis"     : true,     // true: Tolerate using this in a non-constructor function
 
     // Environments
-
-    "trailing"      : true,    // true: Prohibit trailing whitespaces
+    "browser"       : true,     // Web Browser (window, document, etc)
+    "devel"         : true,     // Development/debugging (alert, confirm, etc)
+    "jquery"        : true,    // jQuery
     "node"          : true,    // Node.js
     "nonstandard"   : true,    // Widely adopted globals (escape, unescape, etc)
-    "esnext"        : true,
-
-    // Legacy
-    "white"         : false,    // true: Check against strict whitespace and indentation rules
-
-    "indent": 2,
 
     // Custom Globals
     "globals": {
-        "$": false,
-        "jQuery": false,
-        "_": false,
-        "Modernizr": false,
         "define": false,
-        "require": false,
         "requirejs": false,
-        "Backbone": false,
         "self": false,
         "chrome": false,
-        "kendo": false,
-        "addon": false,
-        "Promise": false
+        "addon": false
     }
 }
