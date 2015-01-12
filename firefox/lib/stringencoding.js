@@ -1,5 +1,8 @@
- 
-var {TextEncoder, TextDecoder} = require('sdk/io/buffer');
 
-exports.TextEncoder = TextEncoder;
-exports.TextDecoder = TextDecoder;
+'use strict';
+
+var textEncoder = require('sdk/io/buffer').TextEncoder;
+var textDecoder = require('sdk/io/buffer').TextDecoder;
+
+exports.TextEncoder = textEncoder;
+exports.TextDecoder = textDecoder;

@@ -31,7 +31,9 @@ mvelo.main.name = 'mainCS-' + mvelo.util.getHash();
 mvelo.main.port = null;
 
 mvelo.main.connect = function() {
-  if (document.mveloControl) return;
+  if (document.mveloControl) {
+    return;
+  }
   mvelo.main.port = mvelo.extension.connect({name: mvelo.main.name});
   mvelo.main.addMessageListener();
   mvelo.main.port.postMessage({event: 'get-prefs', sender: mvelo.main.name});
