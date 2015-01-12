@@ -46,6 +46,7 @@ var options = {};
       mvelo.appendTpl($('#displayKeys'), 'keyring/tpl/displayKeys.html'),
       mvelo.appendTpl($('#displayKeys'), 'keyring/tpl/keyEditor.html'),
       mvelo.appendTpl($('#importKey'), 'keyring/tpl/importKey.html'),
+      mvelo.appendTpl($('#exportKeys'), 'keyring/tpl/exportKeys.html'),
       mvelo.appendTpl($('#generateKey'), 'keyring/tpl/generateKey.html')
     ]).then(initUI);
   }
