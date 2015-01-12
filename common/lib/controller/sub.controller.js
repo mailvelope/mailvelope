@@ -17,7 +17,7 @@
 
 'use strict';
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
   function SubController(port) {
     this.mvelo = require('../../lib-mvelo').mvelo;

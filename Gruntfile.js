@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 
   grunt.initConfig({
 
@@ -24,6 +24,25 @@ module.exports = function (grunt) {
         ]
       }
     },
+
+    jscs: {
+      options: {
+        config: ".jscs.json",
+        maxErrors: 5
+      },
+      files: {
+        src: [
+          'Gruntfile.js',
+          'common/ui/**/*.js',
+          'common/lib/*.js',
+          'common/lib/controller/*.js',
+          'chrome/background.js',
+          'chrome/lib/*.js',
+          'firefox/**/*.js'
+        ]
+      }
+    },
+
     concat: {
       content_script: {
         options: {
@@ -165,7 +184,7 @@ module.exports = function (grunt) {
           return dest + src.match(/^[\w-]{2,5}/)[0].replace('_', '-') + '.properties';
         },
         options: {
-          process: function (content, srcpath) {
+          process: function(content, srcpath) {
             var locale = JSON.parse(content);
             var result = '';
             for (var key in locale) {
@@ -291,6 +310,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-mozilla-addon-sdk');
   grunt.loadNpmTasks('grunt-bump');
+  grunt.loadNpmTasks("grunt-jscs");
 
   //custom tasks
   grunt.registerTask('dist-cr', ['compress:chrome']);
@@ -299,5 +319,5 @@ module.exports = function (grunt) {
 
   grunt.registerTask('copy_default', ['copy:vendor', 'copy:common', 'copy:plugins', 'copy:common_browser', 'copy:locale_firefox', 'copy:dep']);
 
-  grunt.registerTask('default', ['clean', 'jshint', 'copy:jquery', 'concat', 'copy_default']);
+  grunt.registerTask('default', ['clean', 'jshint', 'jscs', 'copy:jquery', 'concat', 'copy_default']);
 };

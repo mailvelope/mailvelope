@@ -171,13 +171,13 @@ var mvelo = mvelo || null;
     var extClass = mvelo.util.getExtensionClass(fileExt);
 
     var extensionButton = $('<span/>', {
-      "class": 'label attachmentExtension '+extClass
+      "class": 'label attachmentExtension ' + extClass
     }).append(fileExt);
 
     var objectURL = "#";
 
     // workarround until ff36 is out, using addonsdk for file saving
-    if(mvelo.crx) {
+    if (mvelo.crx) {
       var contentLength = Object.keys(content).length;
       var uint8Array = new Uint8Array(contentLength);
       for (var i = 0; i < contentLength; i++) {
@@ -193,10 +193,10 @@ var mvelo = mvelo || null;
         "download": filename
       })
         .append(extensionButton)
-        .append(" "+fileNameNoExt+" ")
+        .append(" " + fileNameNoExt + " ")
         // workarround until ff36 is out, using addonsdk for file saving
         .on("click", function(e) {
-          if(mvelo.ffa) {
+          if (mvelo.ffa) {
             e.preventDefault();
             port.postMessage({event: 'get-attachment', sender: id, attachmentId: attachmentId});
           }

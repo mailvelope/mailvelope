@@ -19,7 +19,7 @@
 
 var mvelo = mvelo || null;
 
-(function () {
+(function() {
   // communication to background page
   var port;
   // shares ID with VerifyFrame
@@ -28,7 +28,7 @@ var mvelo = mvelo || null;
   var spinnerTimer;
   var commonPath;
   var l10n;
-  
+
   function init() {
     //console.log('init decryptInline.js');
     var qs = jQuery.parseQuerystring();
@@ -45,7 +45,7 @@ var mvelo = mvelo || null;
     setStyles();
     addWrapper();
     addSandbox();
-    mvelo.extension.sendMessage({event: "get-security-token"}, function (token) {
+    mvelo.extension.sendMessage({event: "get-security-token"}, function(token) {
       $('#watermark').html(mvelo.encodeHTML(token.code));
     });
     $(window).on('resize', resizeFont);
@@ -136,7 +136,7 @@ var mvelo = mvelo || null;
     $('#errorbox').show();
     $('#errorwell').showAlert(l10n.alert_header_error, msg, 'danger')
                    .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
-                   .find('button').click(function () {
+                   .find('button').click(function() {
                       port.postMessage({event: 'verify-dialog-cancel', sender: id});
                     });
   }
@@ -185,7 +185,7 @@ var mvelo = mvelo || null;
         console.log('unknown event');
     }
   }
-  
+
   $(document).ready(init);
-  
+
 }());

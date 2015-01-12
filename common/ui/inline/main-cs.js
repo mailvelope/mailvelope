@@ -70,7 +70,7 @@ mvelo.main.scanLoop = function() {
 
 /**
  * find text nodes in DOM that match certain pattern
- * @param regex
+ * @param {Regex} regex
  * @return $([nodes])
  */
 mvelo.main.findPGPTag = function(regex) {

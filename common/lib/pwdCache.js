@@ -17,19 +17,18 @@
 
 'use strict';
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
   var mvelo = require('../lib-mvelo').mvelo;
   var prefs = require('./prefs');
   var model = require('./pgpViewModel');
-  
+
   // password and key cache
   var cache;
   // caching active
   var active;
   // timeout in minutes
   var timeout;
-
 
   init();
 

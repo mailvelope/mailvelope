@@ -129,7 +129,7 @@ var options = options || null;
     validateEmail(function() {
       $('body').addClass('busy');
       $('#genKeyWait').one('show.bs.modal', generateKey);
-      $('#genKeyWait').modal({backdrop: 'static',keyboard: false});
+      $('#genKeyWait').modal({backdrop: 'static', keyboard: false});
       $('#genKeyWait').modal('show');
     });
     return false;

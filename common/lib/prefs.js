@@ -17,7 +17,7 @@
 
 'use strict';
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
   var mvelo = require('../lib-mvelo').mvelo;
   var defaults = require('./defaults');
@@ -50,7 +50,7 @@ define(function (require, exports, module) {
   // Attribution: http://www.2ality.com/2012/08/underscore-extend.html
   function extend(target) {
     var sources = [].slice.call(arguments, 1);
-    sources.forEach(function (source) {
+    sources.forEach(function(source) {
       Object.getOwnPropertyNames(source).forEach(function(propName) {
           Object.defineProperty(target, propName,
               Object.getOwnPropertyDescriptor(source, propName));

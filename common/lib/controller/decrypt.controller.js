@@ -17,7 +17,7 @@
 
 'use strict';
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
   var sub = require('./sub.controller');
 
@@ -102,8 +102,8 @@ define(function (require, exports, module) {
         }
         break;
       case 'get-attachment':
-        console.log("Get Attachment: "+JSON.stringify(msg.event));
-        if(this.mvelo.ffa) {
+        console.log("Get Attachment: " + JSON.stringify(msg.event));
+        if (this.mvelo.ffa) {
           var attachmentId = msg.attachmentId;
           var attachment = that.attachments[attachmentId];
           this.mvelo.util.saveAsAttachment(attachment[0], attachment[1]);
@@ -143,7 +143,7 @@ define(function (require, exports, module) {
               var htmlParts = [];
               that.filterBodyParts(parsed, 'html', htmlParts);
               if (htmlParts.length) {
-                that.mvelo.util.parseHTML(htmlParts[0].content, function (sanitized) {
+                that.mvelo.util.parseHTML(htmlParts[0].content, function(sanitized) {
                   port.postMessage({event: 'decrypted-message', message: sanitized});
                 });
               } else {

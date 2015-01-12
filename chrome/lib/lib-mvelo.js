@@ -105,7 +105,7 @@ define(function(require, exports, module) {
     this.query(chrome.runtime.getURL('common/ui/options.html'), function(tabs) {
       if (tabs.length === 0) {
         // if not existent, create tab
-        if(hash === undefined) {
+        if (hash === undefined) {
           hash = "";
         }
         mvelo.tabs.create('common/ui/options.html' + hash, callback !== undefined, callback.bind(this, false));

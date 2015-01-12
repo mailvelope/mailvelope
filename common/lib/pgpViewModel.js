@@ -32,7 +32,7 @@ define(function(require, exports, module) {
   }
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
   var keyring = new openpgp.Keyring();
-  
+
   function getKeys() {
     // map keys to UI format
     var keys = getPublicKeys().concat(getPrivateKeys());
@@ -129,7 +129,7 @@ define(function(require, exports, module) {
   exports.getPublicKeys = getPublicKeys;
   exports.getPrivateKeys = getPrivateKeys;
   exports.getKeyDetails = getKeyDetails;
-  
+
   function mapSubKeys(subkeys, toKey) {
     toKey.subkeys = [];
     subkeys && subkeys.forEach(function(subkey) {
@@ -152,7 +152,7 @@ define(function(require, exports, module) {
       }
     });
   }
-  
+
   function mapUsers(users, toKey) {
     toKey.users = [];
     users && users.forEach(function(user) {
@@ -347,7 +347,7 @@ define(function(require, exports, module) {
     }
     return result;
   }
-  
+
   function getAlgorithmString(keyType) {
     var result = '';
     switch (keyType) {
@@ -371,7 +371,7 @@ define(function(require, exports, module) {
     }
     return result;
   }
-  
+
   function getKeyType(algorithm) {
     var result;
     switch (algorithm) {
@@ -395,16 +395,16 @@ define(function(require, exports, module) {
       return str;
     }
   }
-  
+
   function removeKey(guid, type) {
     keyring.removeKeysForId(guid);
     keyring.store();
   }
-  
+
   function validateEmail(email) {
     return goog.format.EmailAddress.isValidAddrSpec(email);
   }
-  
+
   function generateKey(options, callback) {
     //var keyType = getKeyType(options.algorithm);
     var emailAdr = new goog.format.EmailAddress(options.email, options.user);
@@ -431,7 +431,7 @@ define(function(require, exports, module) {
       return 'UNKNOWN';
     }
   }
-  
+
   function readMessage(armoredText) {
     var result = {};
     try {
@@ -631,5 +631,5 @@ define(function(require, exports, module) {
   }
 
   exports.migrate08 = migrate08;
-  
+
 });

@@ -70,12 +70,12 @@ var options = options || null;
   function init() {
     $tableBody = $("#watchListTable tbody");
     $watchListEditor = $("#watchListEditor");
-    if(mailProviderTmpl === undefined) {
+    if (mailProviderTmpl === undefined) {
       mailProviderTmpl = $tableBody.html();
     }
 
     $matchPatternContainer = $("#watchListEditor tbody");
-    if(matchPatternTmpl === undefined) {
+    if (matchPatternTmpl === undefined) {
       matchPatternTmpl = $matchPatternContainer.html();
     }
     $matchPatternContainer.children().remove();
@@ -97,13 +97,13 @@ var options = options || null;
       // console.log("Watchlist: "+JSON.stringify(data));
       // {"site":"server.lan","active":true,"frames":[{"frame":"*.server.lan","scan":true}]},
       siteData = data;
-      data.forEach(function(site){
+      data.forEach(function(site) {
         tableRow = $.parseHTML(mailProviderTmpl);
         $(tableRow).find('td:nth-child(2)').text(site.site);
-        if(!site.active) {
+        if (!site.active) {
           $(tableRow).find(".glyphicon-check").removeClass("glyphicon-check").addClass("glyphicon-unchecked");
         }
-        $(tableRow).attr("data-website",JSON.stringify(site));
+        $(tableRow).attr("data-website", JSON.stringify(site));
         $tableBody.append(tableRow);
       });
       mvelo.l10n.localizeHTML();
@@ -114,16 +114,16 @@ var options = options || null;
         return false;
       });
       $tableBody.find("tr").hover(function() {
-        $(this).find(".actions").css("visibility","visible");
+        $(this).find(".actions").css("visibility", "visible");
       }, function() {
-        $(this).find(".actions").css("visibility","hidden");
+        $(this).find(".actions").css("visibility", "hidden");
       });
 
-      if(newWebSite !== undefined) {
-        var $selectedRow = $( "td:contains('"+newWebSite+"')").parent();
+      if (newWebSite !== undefined) {
+        var $selectedRow = $("td:contains('" + newWebSite + "')").parent();
         $selectedRow.addClass("addedSiteFade");
         $selectedRow.trigger("hover");
-        window.scrollTo(0,document.body.scrollHeight);
+        window.scrollTo(0, document.body.scrollHeight);
         newWebSite = undefined;
       }
 
@@ -132,10 +132,10 @@ var options = options || null;
 
   function addMatchPattern() {
     var tableRow = $.parseHTML(matchPatternTmpl);
-    $(tableRow).find('.matchPatternSwitch').attr("checked",true);
+    $(tableRow).find('.matchPatternSwitch').attr("checked", true);
     var id = (new Date()).getTime();
-    $(tableRow).find('.matchPatternSwitch').attr("id","matchPatter"+id);
-    $(tableRow).find('.onoffswitch-label').attr("for","matchPatter"+id);
+    $(tableRow).find('.matchPatternSwitch').attr("id", "matchPatter" + id);
+    $(tableRow).find('.onoffswitch-label').attr("for", "matchPatter" + id);
     $(tableRow).find('.matchPatternName').val("");
     $(tableRow).find(".deleteMatchPatternBtn").on("click", deleteMatchPattern);
     $matchPatternContainer.append(tableRow);
@@ -151,21 +151,21 @@ var options = options || null;
     currentSiteID = "newSite";
     $matchPatternContainer.children().remove();
     var tableRow;
-    if(data !== undefined && data.type === "click") {
+    if (data !== undefined && data.type === "click") {
       $("#webSiteName").val("");
-      $("#switchWebSite").attr("checked",true);
+      $("#switchWebSite").attr("checked", true);
       tableRow = $.parseHTML(matchPatternTmpl);
       addMatchPattern();
-    } else if(data !== undefined) {
+    } else if (data !== undefined) {
       data = JSON.parse(data);
       currentSiteID = data.site;
       $("#webSiteName").val(data.site);
-      $("#switchWebSite").attr("checked",data.active);
+      $("#switchWebSite").attr("checked", data.active);
       data.frames.forEach(function(frame, index) {
         tableRow = $.parseHTML(matchPatternTmpl);
-        $(tableRow).find('.matchPatternSwitch').attr("checked",frame.scan);
-        $(tableRow).find('.matchPatternSwitch').attr("id","matchPatter"+index);
-        $(tableRow).find('.onoffswitch-label').attr("for","matchPatter"+index);
+        $(tableRow).find('.matchPatternSwitch').attr("checked", frame.scan);
+        $(tableRow).find('.matchPatternSwitch').attr("id", "matchPatter" + index);
+        $(tableRow).find('.onoffswitch-label').attr("for", "matchPatter" + index);
         $(tableRow).find('.matchPatternName').val(frame.frame);
         $(tableRow).find(".deleteMatchPatternBtn").on("click", deleteMatchPattern);
         $matchPatternContainer.append(tableRow);
@@ -178,11 +178,11 @@ var options = options || null;
   function deleteWatchListEntry() {
     var entryForRemove;
     var confirmResult = confirm(options.l10n.watchlist_delete_confirmation);
-    if(confirmResult) {
+    if (confirmResult) {
       entryForRemove = $(this).parent().parent().parent();
       entryForRemove.remove();
       var data = [];
-      $tableBody.children().get().forEach(function (siteRow) {
+      $tableBody.children().get().forEach(function(siteRow) {
         var siteData = JSON.parse($(siteRow).attr("data-website"));
         data.push(siteData);
       });
@@ -198,8 +198,8 @@ var options = options || null;
     site.active = $("#switchWebSite").is(":checked");
     site.frames = [];
     var formNotValid;
-    $matchPatternContainer.children().get().forEach(function (child) {
-      if($(child).find(".matchPatternName").val().indexOf("*.") !== 0) {
+    $matchPatternContainer.children().get().forEach(function(child) {
+      if ($(child).find(".matchPatternName").val().indexOf("*.") !== 0) {
         formNotValid = true;
       }
       site.frames.push({
@@ -207,11 +207,11 @@ var options = options || null;
         "scan": $(child).find(".matchPatternSwitch").is(":checked")
       });
     });
-    if(formNotValid) {
+    if (formNotValid) {
       alert(options.l10n.alert_invalid_domainmatchpattern_warning);
       return false;
     }
-    if(site.frames.length < 1) {
+    if (site.frames.length < 1) {
       alert(options.l10n.alert_no_domainmatchpattern_warning);
       return false;
     }
@@ -225,7 +225,7 @@ var options = options || null;
       $(tableRow).attr("data-website", JSON.stringify(site));
       $tableBody.append(tableRow);
     } else {
-      $tableBody.children().get().forEach(function (siteRow) {
+      $tableBody.children().get().forEach(function(siteRow) {
         var sData = JSON.parse($(siteRow).attr("data-website"));
         if (currentSiteID === sData.site) {
           $(siteRow).find('td:nth-child(2)').text(site.site);
@@ -238,7 +238,7 @@ var options = options || null;
     }
 
     var data = [];
-    $tableBody.children().get().forEach(function (siteRow) {
+    $tableBody.children().get().forEach(function(siteRow) {
       var siteData = JSON.parse($(siteRow).attr("data-website"));
       data.push(siteData);
     });
@@ -248,8 +248,8 @@ var options = options || null;
   }
 
   function cleanWebSiteName(website) {
-    if(website.indexOf("www.") === 0) {
-      website = website.substr(4,website.length);
+    if (website.indexOf("www.") === 0) {
+      website = website.substr(4, website.length);
     }
     return website;
   }
@@ -263,14 +263,14 @@ var options = options || null;
     site.site = website;
     site.active = true;
     site.frames = [];
-    site.frames.push( { frame: "*."+website, scan:true } );
+    site.frames.push({ frame: "*." + website, scan:true });
     options.viewModel('getWatchList', function(data) {
-      data.forEach(function (siteEntry, index) {
+      data.forEach(function(siteEntry, index) {
         if (siteEntry.site === website) {
           siteExist = true;
         }
       });
-      if(!siteExist) {
+      if (!siteExist) {
         data.push(site);
       }
       saveWatchListData(data);
@@ -279,10 +279,10 @@ var options = options || null;
   options.addToWatchList = addToWatchList;
 
   function removeFromWatchList(website) {
-    if(confirm(options.l10n.watchlist_delete_confirmation)) {
+    if (confirm(options.l10n.watchlist_delete_confirmation)) {
       website = cleanWebSiteName(website);
       options.viewModel('getWatchList', function(data) {
-        data.forEach(function (siteEntry, index) {
+        data.forEach(function(siteEntry, index) {
           if (siteEntry.site === website) {
             data.splice(index, 1);
           }

@@ -145,18 +145,18 @@ mvelo.util.decodeQuotedPrint = function(armored) {
 };
 
 mvelo.util.getExtensionClass = function(fileExt) {
-  var extClass ="";
-  if(fileExt !== undefined) {
-    extClass = "ext-color-"+fileExt;
+  var extClass = "";
+  if (fileExt !== undefined) {
+    extClass = "ext-color-" + fileExt;
   }
   return extClass;
 };
 
 mvelo.util.extractFileNameWithoutExt = function(fileName) {
   var indexOfDot = fileName.lastIndexOf(".");
-  if(indexOfDot > 0 ) { // case: regular
+  if (indexOfDot > 0) { // case: regular
     return fileName.substring(0, indexOfDot);
-  } else if(indexOfDot === 0) { // case ".txt"
+  } else if (indexOfDot === 0) { // case ".txt"
     return "";
   } else {
     return fileName;
@@ -175,4 +175,3 @@ mvelo.util.extractFileExtension = function(fileName) {
 if (typeof exports !== 'undefined') {
   exports.mvelo = mvelo;
 }
-

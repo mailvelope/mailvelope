@@ -30,7 +30,6 @@ var mvelo = mvelo || null;
   var pwd, sandbox;
   var l10n;
 
-
   function init() {
     var qs = jQuery.parseQuerystring();
     id = qs.id;
@@ -162,7 +161,7 @@ var mvelo = mvelo || null;
     var extClass = mvelo.util.getExtensionClass(fileExt);
 
     var extensionButton = $('<span/>', {
-      "class": 'label attachmentExtension '+extClass
+      "class": 'label attachmentExtension ' + extClass
     }).append(fileExt);
 
     var contentLength = Object.keys(content).length;
@@ -178,7 +177,7 @@ var mvelo = mvelo || null;
       "download": filename
     })
       .append(extensionButton)
-      .append(" "+fileNameNoExt+" ");
+      .append(" " + fileNameNoExt + " ");
 
     var $attachments = $('#attachments');
     $attachments.append(fileUI);

@@ -35,13 +35,13 @@ var options = options || null;
   var keyRing;
 
   function initTemplates() {
-    if(keyTmpl === undefined) {
+    if (keyTmpl === undefined) {
       keyTmpl = $("#keyRingTable tbody").html();
     }
-    if(subKeyTmpl === undefined) {
+    if (subKeyTmpl === undefined) {
       subKeyTmpl = $("#subKeysTab .tab-content").html();
     }
-    if(signaturesTmpl === undefined) {
+    if (signaturesTmpl === undefined) {
       signaturesTmpl = $("#userIdsTab tbody").html();
     }
   }
@@ -70,24 +70,24 @@ var options = options || null;
       //"crDate":"2014-12-03T13:51:08.000Z",
       //"algorithm":"RSA (Encrypt or Sign)",
       //"bitLength":1024
-      keyRing.forEach(function(key){
+      keyRing.forEach(function(key) {
         tableRow = $.parseHTML(keyTmpl);
-        $(tableRow).attr("data-keytype",key.type);
-        $(tableRow).attr("data-keyguid",key.guid);
-        $(tableRow).attr("data-keyid",key.id);
-        $(tableRow).attr("data-keyname",key.name);
-        $(tableRow).attr("data-keyemail",key.email);
-        $(tableRow).attr("data-keyalgorithm",key.algorithm);
-        $(tableRow).attr("data-keylength",key.bitLength);
-        $(tableRow).attr("data-keycreationdate",key.crDate);
-        $(tableRow).attr("data-keyexpirationdate",key.exDate);
-        $(tableRow).attr("data-keyfingerprint",key.fingerprint);
-        $(tableRow).attr("data-keyvalid",key.validity);
+        $(tableRow).attr("data-keytype", key.type);
+        $(tableRow).attr("data-keyguid", key.guid);
+        $(tableRow).attr("data-keyid", key.id);
+        $(tableRow).attr("data-keyname", key.name);
+        $(tableRow).attr("data-keyemail", key.email);
+        $(tableRow).attr("data-keyalgorithm", key.algorithm);
+        $(tableRow).attr("data-keylength", key.bitLength);
+        $(tableRow).attr("data-keycreationdate", key.crDate);
+        $(tableRow).attr("data-keyexpirationdate", key.exDate);
+        $(tableRow).attr("data-keyfingerprint", key.fingerprint);
+        $(tableRow).attr("data-keyvalid", key.validity);
         $(tableRow).find('td:nth-child(2)').text(key.name);
         $(tableRow).find('td:nth-child(3)').text(key.email);
         $(tableRow).find('td:nth-child(4)').text(key.id);
-        $(tableRow).find('td:nth-child(5)').text(key.crDate.substr(0,10));
-        if(key.type === "private") {
+        $(tableRow).find('td:nth-child(5)').text(key.crDate.substr(0, 10));
+        if (key.type === "private") {
           $(tableRow).find('.publicKey').remove();
         } else {
           $(tableRow).find('.keyPair').remove();
@@ -97,9 +97,9 @@ var options = options || null;
       mvelo.l10n.localizeHTML();
       $tableBody.find("tr").on("click", openKeyDetails);
       $tableBody.find("tr").hover(function() {
-        $(this).find(".actions").css("visibility","visible");
+        $(this).find(".actions").css("visibility", "visible");
       }, function() {
-        $(this).find(".actions").css("visibility","hidden");
+        $(this).find(".actions").css("visibility", "hidden");
       });
       $tableBody.find(".keyDeleteBtn").on("click", deleteKeyEntry);
       $.bootstrapSortable();
@@ -110,7 +110,7 @@ var options = options || null;
     $('#exportToCb2').click(exportToClipboard);
     $('#createExportFile').click(createFile);
     $('#keyringFilterBtn').off();
-    $('#keyringFilterBtn').on("change",filterKeys);
+    $('#keyringFilterBtn').on("change", filterKeys);
 
     options.event.triggerHandler('keygrid-data-change');
   }
@@ -120,20 +120,20 @@ var options = options || null;
   function filterKeys() {
     var type = $(this).val();
     $tableBody.children().show();
-    switch(type) {
+    switch (type) {
       //case 'allkeys':
       //  $tableBody.children().show();
       //  break;
       case 'publickeys':
-        $tableBody.children().get().forEach(function (tableRow) {
-          if($(tableRow).attr("data-keytype") !== "public") {
+        $tableBody.children().get().forEach(function(tableRow) {
+          if ($(tableRow).attr("data-keytype") !== "public") {
             $(tableRow).hide();
           }
         });
         break;
       case 'keypairs':
-        $tableBody.children().get().forEach(function (tableRow) {
-          if($(tableRow).attr("data-keytype") !== "private") {
+        $tableBody.children().get().forEach(function(tableRow) {
+          if ($(tableRow).attr("data-keytype") !== "private") {
             $(tableRow).hide();
           }
         });
@@ -154,28 +154,28 @@ var options = options || null;
     options.viewModel('getKeyDetails', [$keyData.attr('data-keyguid')], function(details) {
       //console.log('keyGrid key details received', JSON.stringify(details));
       // Init primary key tab
-      $('#keyEditor').attr("data-keyguid",$keyData.attr('data-keyguid'));
+      $('#keyEditor').attr("data-keyguid", $keyData.attr('data-keyguid'));
       $('#keyId').val($keyData.attr('data-keyid'));
       $('#keyName').val($keyData.attr('data-keyname'));
       $('#keyEmail').val($keyData.attr('data-keyemail'));
       $('#keyAlgorithm').val($keyData.attr('data-keyalgorithm'));
       $('#keyLength').val($keyData.attr('data-keylength'));
-      $('#keyCreationDate').val($keyData.attr('data-keycreationdate').substr(0,10));
+      $('#keyCreationDate').val($keyData.attr('data-keycreationdate').substr(0, 10));
       var expirationDate = $keyData.attr('data-keyexpirationdate');
-      if(expirationDate === "false") {
+      if (expirationDate === "false") {
         expirationDate = options.l10n.keygrid_key_not_expire;
       } else {
-        expirationDate = expirationDate.substr(0,10);
+        expirationDate = expirationDate.substr(0, 10);
       }
       $('#keyExpirationDate').val(expirationDate);
       $('#keyFingerPrint').val($keyData.attr('data-keyfingerprint').match(/.{1,4}/g).join(' '));
-      if($keyData.attr('data-keytype') === "private") {
+      if ($keyData.attr('data-keytype') === "private") {
         $("#keyType .publicKey").hide();
         keyPair = true;
       } else {
         $("#keyType .keyPair").hide();
       }
-      if($keyData.attr('data-keyvalid') === 'true') {
+      if ($keyData.attr('data-keyvalid') === 'true') {
         $("#keyInValid").hide();
       } else {
         $("#keyValid").hide();
@@ -189,21 +189,21 @@ var options = options || null;
       details.subkeys.forEach(function(subkey, index) {
         $("#subKeysList").append($("<option>")
           .text(subkey.id)
-          .attr("id",subkey.id)
+          .attr("id", subkey.id)
         );
         subKey = $.parseHTML(subKeyTmpl);
-        $(subKey).attr("id","tab"+subkey.id);
-        if(index === 0) {
+        $(subKey).attr("id", "tab" + subkey.id);
+        if (index === 0) {
           $(subKey).addClass("active");
         }
         $(subKey).find('#subkeyAlgorithm').val(subkey.algorithm);
         $(subKey).find('#subkeyLength').val(subkey.bitLength);
-        $(subKey).find('#subkeyCreationDate').val(subkey.crDate.substr(0,10));
+        $(subKey).find('#subkeyCreationDate').val(subkey.crDate.substr(0, 10));
         var expDate = subkey.exDate;
-        if(expDate === false) {
+        if (expDate === false) {
           expDate = options.l10n.keygrid_key_not_expire;
         } else {
-          expDate = expDate.substr(0,10);
+          expDate = expDate.substr(0, 10);
         }
         $(subKey).find('#subkeyExpirationDate').val(expDate);
         $(subKey).find('#subkeyFingerPrint').val(subkey.fingerprint.match(/.{1,4}/g).join(' '));
@@ -213,7 +213,7 @@ var options = options || null;
       $("#subKeysList").on("change", function() {
         var id = $(this).val();
         $("#subKeysTab .tab-pane").removeClass("active");
-        var tabEl = $("#tab"+id);
+        var tabEl = $("#tab" + id);
         tabEl.addClass("active");
       });
 
@@ -225,24 +225,24 @@ var options = options || null;
       details.users.forEach(function(user, index) {
         $("#userIdsList").append($("<option>")
             .text(user.userID)
-            .attr("id",user.userID)
+            .attr("id", user.userID)
         );
-        user.signatures.forEach(function(sgn){
+        user.signatures.forEach(function(sgn) {
           signature = $.parseHTML(signaturesTmpl);
-          $(signature).attr("data-userid",user.userID);
-          if(index > 0) {
-            $(signature).css("display","none");
+          $(signature).attr("data-userid", user.userID);
+          if (index > 0) {
+            $(signature).css("display", "none");
           }
           $(signature).find('td:nth-child(1)').text(sgn.signer);
           $(signature).find('td:nth-child(2)').text(sgn.id);
-          $(signature).find('td:nth-child(3)').text(sgn.crDate.substr(0,10));
+          $(signature).find('td:nth-child(3)').text(sgn.crDate.substr(0, 10));
           $signatureContainer.append(signature);
         });
       });
       $("#userIdsList").off();
       $("#userIdsList").on("change", function() {
-        $signatureContainer.find("tr").css("display","none");
-        $signatureContainer.find("[data-userid='"+$(this).val()+"']").css("display","table-row");
+        $signatureContainer.find("tr").css("display", "none");
+        $signatureContainer.find("[data-userid='" + $(this).val() + "']").css("display", "table-row");
       });
 
       // Init export tab
@@ -253,11 +253,11 @@ var options = options || null;
       $("#exportPublic").on("click", initExportTab);
       $("#exportPrivate").on("click", initExportTab);
       $("#exportKeyPair").on("click", initExportTab);
-      $("#exportTabSwitch").on("click", function () {
+      $("#exportTabSwitch").on("click", function() {
         $("#exportPublic").get(0).click();
       });
 
-      if(keyPair) {
+      if (keyPair) {
         $("#exportSwitcher").show();
       } else {
         $("#exportSwitcher").hide();
@@ -291,7 +291,7 @@ var options = options || null;
         return prev;
       }, '');
 
-      initExport(allKeys,'all_keys',hasPrivate ? '<b>' + options.l10n.header_warning + '</b> ' + options.l10n.key_export_warning_private : null);
+      initExport(allKeys, 'all_keys', hasPrivate ? '<b>' + options.l10n.header_warning + '</b> ' + options.l10n.key_export_warning_private : null);
     });
 
     // Show modal
@@ -309,7 +309,7 @@ var options = options || null;
   function deleteKeyEntry() {
     var $entryForRemove;
     var confirmResult = confirm(options.l10n.keygrid_delete_confirmation);
-    if(confirmResult) {
+    if (confirmResult) {
       $entryForRemove = $(this).parent().parent().parent();
       options.viewModel('removeKey', [$entryForRemove.attr('data-keyguid'), $entryForRemove.attr('data-keytype')]);
       init();
@@ -326,7 +326,7 @@ var options = options || null;
     options.viewModel('getArmoredKeys', [[keyid], {pub: pub, priv: priv, all: allKeys}], function(result, error) {
       switch (sourceId) {
         case 'exportPublic':
-          initExport(result[0].armoredPublic, 'pub',false);
+          initExport(result[0].armoredPublic, 'pub', false);
           break;
         case 'exportPrivate':
           initExport(result[0].armoredPrivate, 'priv', true);

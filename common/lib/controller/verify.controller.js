@@ -17,7 +17,7 @@
 
 'use strict';
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
   var sub = require('./sub.controller');
 
@@ -58,7 +58,7 @@ define(function (require, exports, module) {
           });
           return;
         }
-        this.model.verifyMessage(result.message, result.signers, function (err, verified) {
+        this.model.verifyMessage(result.message, result.signers, function(err, verified) {
           if (err) {
             that.ports.vDialog.postMessage({
               event: 'error-message',

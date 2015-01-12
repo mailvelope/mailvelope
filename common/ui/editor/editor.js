@@ -41,7 +41,7 @@ var mvelo = mvelo || null;
   var attachments = {};
 
   // maximal size of the attachments in bytes, ca 50 MB
-  var maxFileUploadSize = 50*1024*1024;
+  var maxFileUploadSize = 50 * 1024 * 1024;
 
   function init() {
     var qs = jQuery.parseQuerystring();
@@ -142,7 +142,7 @@ var mvelo = mvelo || null;
 
     var extensionButton = $('<span/>', {
       "data-id": id,
-      "class": 'label attachmentExtension '+extClass
+      "class": 'label attachmentExtension ' + extClass
     }).append(fileExt);
 
     var fileUI = $('<a/>', {
@@ -151,7 +151,7 @@ var mvelo = mvelo || null;
       "class": 'label label-default attachmentButton'
     })
     .append(extensionButton)
-    .append(" "+fileNameNoExt+" ")
+    .append(" " + fileNameNoExt + " ")
     .append(removeUploadButton);
 
     var $uploadPanel = $("#uploadPanel");
@@ -162,9 +162,9 @@ var mvelo = mvelo || null;
     //console.log("Selected File: "+$("#addFileInput").val());
     var file = selection.currentTarget.files[0];
     //console.log("Selected File: "+JSON.stringify(selection.currentTarget.files[0]));
-    console.log("File Meta - Name: "+file.name+" Size: "+file.size+" Type"+file.type);
-    if(file.size > maxFileUploadSize) {
-      alert("Attachment size exceeds "+maxFileUploadSize+" bytes. File upload will be aborted.");
+    console.log("File Meta - Name: " + file.name + " Size: " + file.size + " Type" + file.type);
+    if (file.size > maxFileUploadSize) {
+      alert("Attachment size exceeds " + maxFileUploadSize + " bytes. File upload will be aborted.");
       return;
     }
     addAttachment(file);
@@ -394,14 +394,14 @@ var mvelo = mvelo || null;
     var composedMessage;
     var hasAttachment;
     var message = editor.val();
-    if(message !== undefined) {
+    if (message !== undefined) {
       var textMime = new window.mailbuild("text/plain")
-        .setHeader("Content-Type","text/plain; charset=utf-8")
-        .addHeader("Content-Transfer-Encoding","quoted-printable")
+        .setHeader("Content-Type", "text/plain; charset=utf-8")
+        .addHeader("Content-Transfer-Encoding", "quoted-printable")
         .setContent(message);
       mainMessage.appendChild(textMime);
     }
-    if(attachments !== undefined && Object.keys(attachments).length > 0) {
+    if (attachments !== undefined && Object.keys(attachments).length > 0) {
       var contentLength;
       var uint8Array;
       hasAttachment = true;
@@ -420,7 +420,7 @@ var mvelo = mvelo || null;
         mainMessage.appendChild(attachmentMime);
       }
     }
-    if(hasAttachment) {
+    if (hasAttachment) {
       composedMessage = mainMessage.build();
     } else {
       composedMessage = message;

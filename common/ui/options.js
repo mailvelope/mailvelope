@@ -54,13 +54,13 @@ var options = {};
     mvelo.l10n.localizeHTML();
 
     // Disable submitting of forms by for example pressing enter
-    $("form").submit(function (e) { e.preventDefault(); });
+    $("form").submit(function(e) { e.preventDefault(); });
 
     // Enabling selection of the elements in settings navigation
     $(".list-group-item").on("click", function() {
       var self = $(this);
-      if(!self.hasClass("disabled")) {
-        self.parent().find(".list-group-item").each(function () {
+      if (!self.hasClass("disabled")) {
+        self.parent().find(".list-group-item").each(function() {
           $(this).removeClass("active");
         });
         self.addClass("active");

@@ -17,7 +17,7 @@
 
 'use strict';
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
   var mvelo = require('../../lib-mvelo').mvelo;
   var model = require('../pgpViewModel');

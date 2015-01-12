@@ -17,7 +17,7 @@
 
 'use strict';
 
-define(function (require, exports, module) {
+define(function(require, exports, module) {
 
   var mvelo = require('../lib-mvelo').mvelo;
   var model = require('./pgpViewModel');
@@ -25,7 +25,7 @@ define(function (require, exports, module) {
   var defaults = mvelo.data.loadDefaults();
 
   function randomColor() {
-    return '#'+('00000'+(Math.random()*(1<<24)|0).toString(16)).toUpperCase().slice(-6);
+    return '#' + ('00000' + (Math.random() * (1 << 24) | 0).toString(16)).toUpperCase().slice(-6);
   }
 
   function randomString(length) {

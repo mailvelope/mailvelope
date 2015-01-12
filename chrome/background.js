@@ -63,13 +63,13 @@ define([
   var injectOpen = true;
   // optimized cs injection variant, bootstrap code injected that loads cs
   var injectOptimized = true;
-  // keep reloaded iframes 
+  // keep reloaded iframes
   var frameHosts = [];
   // content script coding as string
   var csCode = '';
   // framestyles as string
   var framestyles = '';
-  
+
   function init() {
     controller.extend({
       initScriptInjection: initScriptInjection,
@@ -82,7 +82,7 @@ define([
     initScriptInjection();
     initMessageListener();
   }
-  
+
   function initConnectionManager() {
     // store incoming connections by name and id
     chrome.runtime.onConnect.addListener(function(port) {
@@ -148,7 +148,7 @@ define([
     filterURL = filterURL.map(function(host) {
       return '*://' + host + '/*';
     });
-    
+
     var filterType = ["main_frame", "sub_frame"];
 
     var requestFilter = {
@@ -216,7 +216,7 @@ define([
   function migrate() {
     model.migrate08();
   }
-  
+
   init();
 
 });

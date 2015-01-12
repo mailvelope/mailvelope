@@ -27,7 +27,7 @@ var l10nGet = require("sdk/l10n").get;
 var browserVersion = parseInt(system.version.substr(0, 2));
 
 try {
-  var { ToggleButton } = require("sdk/ui/button/toggle");
+  var ToggleButton = require("sdk/ui/button/toggle").ToggleButton;
 } catch (e) {}
 
 checkStaticArgs();

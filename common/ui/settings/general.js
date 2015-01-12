@@ -147,4 +147,3 @@ var options = options || null;
   options.event.on('ready', init);
 
 }(options));
-

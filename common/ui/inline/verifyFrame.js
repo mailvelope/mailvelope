@@ -19,7 +19,7 @@
 
 var mvelo = mvelo || {};
 
-mvelo.VerifyFrame = function (prefs) {
+mvelo.VerifyFrame = function(prefs) {
   mvelo.ExtractFrame.call(this, prefs);
   this._displayMode = prefs.security.display_decrypted;
   this._vDialog = null;
@@ -39,13 +39,13 @@ mvelo.VerifyFrame.prototype._init = function(pgpEnd) {
   this._calcSignatureHeight();
 };
 
-mvelo.VerifyFrame.prototype._renderFrame = function () {
+mvelo.VerifyFrame.prototype._renderFrame = function() {
   this.parent._renderFrame.call(this);
   this._eFrame.addClass('m-verify');
   this._eFrame.removeClass('m-large');
 };
 
-mvelo.VerifyFrame.prototype._calcSignatureHeight = function () {
+mvelo.VerifyFrame.prototype._calcSignatureHeight = function() {
   var msg = this._getArmoredMessage();
   msg = msg.split('\n');
   for (var i = 0; i < msg.length; i++) {
@@ -57,7 +57,7 @@ mvelo.VerifyFrame.prototype._calcSignatureHeight = function () {
   }
 };
 
-mvelo.VerifyFrame.prototype._clickHandler = function () {
+mvelo.VerifyFrame.prototype._clickHandler = function() {
   this.parent._clickHandler.call(this);
   if (this._displayMode == mvelo.DISPLAY_INLINE) {
     this._inlineDialog();
@@ -67,7 +67,7 @@ mvelo.VerifyFrame.prototype._clickHandler = function () {
   return false;
 };
 
-mvelo.VerifyFrame.prototype._inlineDialog = function () {
+mvelo.VerifyFrame.prototype._inlineDialog = function() {
   this._vDialog = $('<iframe/>', {
     id: 'vDialog-' + this.id,
     'class': 'm-frame-dialog',
@@ -86,7 +86,7 @@ mvelo.VerifyFrame.prototype._inlineDialog = function () {
   this._vDialog.fadeIn();
 };
 
-mvelo.VerifyFrame.prototype._popupDialog = function () {
+mvelo.VerifyFrame.prototype._popupDialog = function() {
   this._port.postMessage({
     event: 'vframe-display-popup',
     sender: this._ctrlName
@@ -94,7 +94,7 @@ mvelo.VerifyFrame.prototype._popupDialog = function () {
   this._vPopup = true;
 };
 
-mvelo.VerifyFrame.prototype._removeDialog = function () {
+mvelo.VerifyFrame.prototype._removeDialog = function() {
   // check if dialog is active
   if (!this._vDialog && !this._vPopup) {
     return;
@@ -140,10 +140,10 @@ mvelo.VerifyFrame.prototype._setFrameDim = function() {
   }
 },
 
-mvelo.VerifyFrame.prototype._registerEventListener = function () {
+mvelo.VerifyFrame.prototype._registerEventListener = function() {
   this.parent._registerEventListener.call(this);
   var that = this;
-  this._port.onMessage.addListener(function (msg) {
+  this._port.onMessage.addListener(function(msg) {
     //console.log('dFrame-%s event %s received', that.id, msg.event);
     switch (msg.event) {
       case 'remove-dialog':

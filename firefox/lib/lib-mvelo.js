@@ -121,7 +121,7 @@ mvelo.tabs.loadOptionsTab = function(hash, callback) {
   this.query(data.url("common/ui/options.html"), function(tabs) {
     if (tabs.length === 0) {
       // if not existent, create tab
-      if(hash === undefined) {
+      if (hash === undefined) {
         hash = "";
       }
       mvelo.tabs.create(data.url("common/ui/options.html") + hash, true, callback.bind(this, false));
@@ -169,7 +169,7 @@ mvelo.windows.openPopup = function(url, options, callback) {
 };
 
 var delegate = {
-  onTrack: function (window) {
+  onTrack: function(window) {
     // check for mailvelope popup
     if (window.arguments && mvelo.windows.internalURL.test(window.arguments[0])) {
       window.locationbar.visible = false;
