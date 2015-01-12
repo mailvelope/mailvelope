@@ -133,7 +133,7 @@ var mvelo = mvelo || null;
 
     var removeUploadButton = $('<span/>', {
       "data-id": id,
-      "class": 'glyphicon glyphicon-remove removeAttachment'
+      "class": 'glyphicon removeAttachment'
     }).on("click", function(e) {
       e.preventDefault();
       removeAttachment($(this).attr("data-id"));
@@ -216,7 +216,11 @@ var mvelo = mvelo || null;
   function createPlainText() {
     var sandbox = $('<iframe/>', {
       sandbox: 'allow-same-origin allow-scripts',
-      frameBorder: 0
+      frameBorder: 0,
+      css: {
+        opacity:      '0.9',
+        "overflow-y": 'hidden'
+      }
     });
     var text = $('<textarea/>', {
       id: 'content',
@@ -227,7 +231,8 @@ var mvelo = mvelo || null;
         width: '100%',
         height: '100%',
         'margin-bottom': 0,
-        color: 'black'
+        color: 'black',
+        resize: 'none'
       }
     });
     var style = $('<link/>', {
@@ -236,7 +241,7 @@ var mvelo = mvelo || null;
     });
     sandbox.one('load', function() {
       sandbox.contents().find('head').append(style);
-      sandbox.contents().find('body').append(text);
+      sandbox.contents().find('body').attr("style","overflow: hidden; margin: 0").append(text);
     });
     $('#plainText').append(sandbox);
     text.on('change', onChange);
