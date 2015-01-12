@@ -163,6 +163,10 @@
     "message": "Import Keys",
     "description": "Tab of keyring to import keys."
   },
+  "keyring_export_keys": {
+    "message": "Export Keys",
+    "description": "Tab of keyring to export keys."
+  },
   "keyring_generate_key": {
     "message": "Generate Key",
     "description": "Tab of keyring to generate key."
