@@ -225,7 +225,7 @@ define(function(require, exports, module) {
     if (typeof options.priv === 'undefined') {
       options.priv = true;
     }
-    var result = {};
+    var result = Object.create(null);
     emailAddr.forEach(function(emailAddr) {
       result[emailAddr] = [];
       if (options.pub) {
