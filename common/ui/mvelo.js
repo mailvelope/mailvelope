@@ -216,6 +216,14 @@ mvelo.util.extend = function(target) {
   return target;
 };
 
+mvelo.util.showLoadingAnimation = function() {
+  $(".m-spinner").show();
+};
+
+mvelo.util.hideLoadingAnimation = function() {
+  $(".m-spinner").hide();
+};
+
 mvelo.util.showSecurityBackground = function() {
   mvelo.extension.sendMessage({event: "get-security-background"}, function(background) {
     var bgndColor = background.color; //"#f5f5f5";

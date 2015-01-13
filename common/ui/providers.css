@@ -1,0 +1,23 @@
+.provider1SettingsLogo {
+    background-position: right+10px top+10px;
+    background-repeat: no-repeat;
+    background-image: url(../img/dummy-provider1-logo.png);
+}
+
+.provider2SettingsLogo {
+    background-position: right+10px top+10px;
+    background-repeat: no-repeat;
+    background-image: url(../img/dummy-provider2-logo.png);
+}
+
+.provider3SettingsLogo {
+    background-position: right+10px top+10px;
+    background-repeat: no-repeat;
+    background-image: url(../img/dummy-provider3-logo.png);
+}
+
+.provider4SettingsLogo {
+    background-position: right+10px top+10px;
+    background-repeat: no-repeat;
+    background-image: url(../img/dummy-provider4-logo.png);
+}

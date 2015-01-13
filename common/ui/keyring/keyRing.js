@@ -55,9 +55,12 @@ var options = options || null;
     $tableBody = $("#keyRingTable tbody");
     $tableBody.children().remove();
 
-    $('#displayKeys').addClass('spinner');
+    //$('#displayKeys').addClass('spinner');
 
     options.keyring('getKeys', function(err, data) {
+      if (data === undefined) {
+        mvelo.util.hideLoadingAnimation();
+      }
       keyRing = data;
       //console.log(JSON.stringify(data));
       //"type":"private",
@@ -105,7 +108,8 @@ var options = options || null;
       });
       $tableBody.find(".keyDeleteBtn").on("click", deleteKeyEntry);
       $.bootstrapSortable();
-      $('#displayKeys').removeClass('spinner');
+      mvelo.util.hideLoadingAnimation();
+      //$('#displayKeys').removeClass('spinner');
     });
 
     $('#exportMenuBtn').click(openExportAllDialog);

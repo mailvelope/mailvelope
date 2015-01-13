@@ -152,7 +152,7 @@
     "description": "Options navigation: About."
   },
   "keyring_header": {
-    "message": "Key Ring",
+    "message": "Key Management",
     "description": "Header of the key ring."
   },
   "keyring_display_keys": {
@@ -171,6 +171,10 @@
     "message": "Generate Key",
     "description": "Tab of keyring to generate key."
   },
+  "keyring_setup": {
+    "message": "Setup",
+    "description": "Setup keyring for mail provider."
+  },
   "keyring_migration_error": {
     "message": "Key Migration Error",
     "description": "Tab of keyring to display migration errors."
@@ -184,7 +188,7 @@
     "description": "private key type"
   },
   "keyring_public_private": {
-    "message": "Public- Private-Key Pair",
+    "message": "Key Pair",
     "description": "public and private key types"
   },
   "options_settings": {
@@ -202,6 +206,10 @@
   "settings_watchlist": {
     "message": "List of Mail Providers",
     "description": "Tab of options to display list of supported mail providers."
+  },
+  "settings_backup": {
+    "message": "Backup",
+    "description": "Tab allowing to backup and restore the settings."
   },
   "keygrid_export": {
     "message": "Export",
@@ -232,8 +240,8 @@
     "description": "Key grid sort selector."
   },
   "keygrid_primary_key": {
-    "message": "Primary Key",
-    "description": "Primary key of a PGP key."
+    "message": "Main Key",
+    "description": "Main key in the PGP key."
   },
   "keygrid_subkeys": {
     "message": "Subkeys",
@@ -342,6 +350,10 @@
   "keygrid_private_keys": {
     "message": "Private Keys",
     "description": "Selection of key type."
+  },
+  "key_set_as_primary": {
+    "message": "Set as Primary",
+    "description": "Set as primary key for the keyring button"
   },
   "key_export_header": {
     "message": "Export Key",

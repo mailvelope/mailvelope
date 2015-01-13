@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="../dep/bootstrap/css/bootstrap.css" />
   <link rel="stylesheet" href="../dep/bootstrap-sortable/bootstrap-sortable.css" />
   <link rel="stylesheet" href="options.css">
+  <link rel="stylesheet" href="providers.css">
   <link rel="stylesheet" href="mvelo.css">
   <script src="../dep/jquery.min.js"></script>
   <script src="../dep/jquery.ext.js"></script>
@@ -63,23 +64,38 @@
       </div>
     </div>
   </div>
-  <div class="container">
+</div>
+<div class="container">
   <div class="tab-content">
     <div class="tab-pane fade active in" role="tabpanel" id="keyring">
       <div class="col-md-3">
-        <div class="list-group" id="keyringList">
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" id="keyringSwitcher" data-toggle="dropdown" aria-expanded="true" style="width: 100%; text-align: left; margin-bottom: 10px;">
+            <span id="providerChangerText"></span>
+            <span class="caret pull-right" style="margin-top: 8px;"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu" id="keyringList" style="margin-top: -5px; width: 100%;">
+            <li role="presentation" class="flex-container">
+              <a role="menuitem" tabindex="-1" href="#" class="flex-item keyRingName"></a>
+              <a class="btn btn-link pull-right flex-item deleteKeyRing"><span class="glyphicon glyphicon-trash"></span></a>
+            </li>
+          </ul>
+        </div>
+        <div class="list-group">
           <a class="list-group-item active" href="#displayKeys" data-toggle="tab" data-l10n-id="keyring_display_keys"></a>
           <a class="list-group-item" href="#importKey" data-toggle="tab" data-l10n-id="keyring_import_keys"></a>
-          <!--a class="list-group-item" href="#exportKeys" data-toggle="tab" data-l10n-id="keyring_export_keys"></a-->
+          <a class="list-group-item" href="#exportKeys" data-toggle="tab" data-l10n-id="keyring_export_keys"></a>
           <a class="list-group-item" href="#generateKey" data-toggle="tab" data-l10n-id="keyring_generate_key"></a>
+          <a class="list-group-item" href="#setupProvider" data-toggle="tab" data-l10n-id="keyring_setup"></a>
         </div>
       </div>
       <div class="col-md-9">
-        <div class="tab-content jumbotron">
+        <div class="tab-content jumbotron" id="settingsArea">
           <div id="displayKeys" class="tab-pane fade active in"></div>
           <div id="importKey" class="tab-pane fade"></div>
           <div id="exportKeys" class="tab-pane fade"></div>
           <div id="generateKey" class="tab-pane fade"></div>
+          <div id="setupProvider" class="tab-pane fade"></div>
         </div>
       </div>
     </div><!--/keyring-->
@@ -89,6 +105,7 @@
           <a class="list-group-item active" href="#general" data-toggle="tab" data-l10n-id="settings_general"></a>
           <a class="list-group-item" href="#security" data-toggle="tab" data-l10n-id="settings_security"></a>
           <a class="list-group-item" href="#watchList" data-toggle="tab" data-l10n-id="settings_watchlist"></a>
+          <a class="list-group-item" href="#backup" data-toggle="tab" data-l10n-id="settings_backup"></a>
         </div>
       </div>
       <div class="col-md-9">
@@ -96,16 +113,16 @@
           <div id="general" class="tab-pane fade active in"></div>
           <div id="security" class="tab-pane fade"></div>
           <div id="watchList" class="tab-pane fade"></div>
+          <div id="backup" class="tab-pane fade"></div>
         </div>
       </div>
     </div><!--/settings-->
   </div><!--/tab-content-->
-    <footer>
-      <hr>
-      <p class="pull-left">&copy; 2012-2015 Mailvelope</p>
-      <div id="version" class="pull-right"></div>
-    </footer>
-  </div><!--/container-->
-</div>
+  <footer>
+    <hr>
+    <p class="pull-left">&copy; 2012-2015 Mailvelope</p>
+    <div id="version" class="pull-right"></div>
+  </footer>
+</div><!--/container-->
 </body>
 </html>
