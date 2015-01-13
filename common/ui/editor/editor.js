@@ -244,7 +244,7 @@ var mvelo = mvelo || null;
     });
     sandbox.one('load', function() {
       sandbox.contents().find('head').append(style);
-      sandbox.contents().find('body').attr("style","overflow: hidden; margin: 0").append(text);
+      sandbox.contents().find('body').attr("style", "overflow: hidden; margin: 0").append(text);
     });
     $('#plainText').append(sandbox);
     text.on('change', onChange);

@@ -31,8 +31,9 @@ var options = options || null;
   var subKeyTmpl;
   var signaturesTmpl;
   var $tableBody;
-
   var keyRing;
+  var filterType;
+  window.URL = window.URL || window.webkitURL;
 
   function initTemplates() {
     if (keyTmpl === undefined) {
@@ -93,6 +94,7 @@ var options = options || null;
           $(tableRow).find('.keyPair').remove();
         }
         $tableBody.append(tableRow);
+        filterKeys();
       });
       mvelo.l10n.localizeHTML();
       $tableBody.find("tr").on("click", openKeyDetails);
@@ -110,20 +112,17 @@ var options = options || null;
     $('#exportToCb2').click(exportToClipboard);
     $('#createExportFile').click(createFile);
     $('#keyringFilterBtn').off();
-    $('#keyringFilterBtn').on("change", filterKeys);
+    $('#keyringFilterBtn').on("change", function() {
+      filterType = $(this).val();
+      filterKeys();
+    });
 
     options.event.triggerHandler('keygrid-data-change');
   }
 
-  window.URL = window.URL || window.webkitURL;
-
   function filterKeys() {
-    var type = $(this).val();
     $tableBody.children().show();
-    switch (type) {
-      //case 'allkeys':
-      //  $tableBody.children().show();
-      //  break;
+    switch (filterType) {
       case 'publickeys':
         $tableBody.children().get().forEach(function(tableRow) {
           if ($(tableRow).attr("data-keytype") !== "public") {
@@ -278,6 +277,16 @@ var options = options || null;
   function openExportAllDialog() {
     $("#armoredKey").val("");
     $("#keyName").val("");
+    // Show modal
+    $("#primaryKeyTabSwitch").hide();
+    $("#subkeysTabSwitch").hide();
+    $("#userIdTabSwitch").hide();
+    $("#exportSwitcher").hide();
+
+    $("#keyDetailsTabSwitcher #exportTabSwitch").tab("show");
+
+    $('#keyEditor').modal({backdrop: 'static'});
+    $("#keyEditor").modal("show");
     options.viewModel('getArmoredKeys', [[], {pub: true, priv: true, all: true}], function(result, error) {
       var hasPrivate = false;
       var allKeys = result.reduce(function(prev, curr) {
@@ -290,20 +299,8 @@ var options = options || null;
         }
         return prev;
       }, '');
-
       initExport(allKeys, 'all_keys', hasPrivate ? '<b>' + options.l10n.header_warning + '</b> ' + options.l10n.key_export_warning_private : null);
     });
-
-    // Show modal
-    $("#primaryKeyTabSwitch").hide();
-    $("#subkeysTabSwitch").hide();
-    $("#userIdTabSwitch").hide();
-    $("#exportSwitcher").hide();
-
-    $("#keyDetailsTabSwitcher #exportTabSwitch").tab("show");
-
-    $('#keyEditor').modal({backdrop: 'static'});
-    $("#keyEditor").modal("show");
   }
 
   function deleteKeyEntry() {
