@@ -5,14 +5,14 @@
       <span class="glyphicon glyphicon-export"></span>&nbsp;
       <span data-l10n-id="keygrid_export"></span>
     </button>
-    <div class="pull-right form-inline" style="margin-bottom: 4px;">
-      <label data-l10n-id="keygrid_sort_type" for="keyringFilterBtn"></label>&nbsp;
-      <select class="form-control" id="keyringFilterBtn">
+    <div class="pull-right form-inline" >
+      <select class="form-control" id="keyringFilterBtn" style="margin-bottom: 4px;">
         <option data-l10n-id="keygrid_all_keys" value="allkeys"></option>
         <option data-l10n-id="keygrid_public_keys" value="publickeys"></option>
         <option data-l10n-id="keyring_public_private" value="keypairs"></option>
       </select>
     </div>
+    <label class="pull-right" data-l10n-id="keygrid_sort_type" for="keyringFilterBtn" style="padding-top: 7px; margin-right: 6px;"></label>
   </div>
   <thead>
   <tr>
@@ -26,14 +26,14 @@
   </thead>
   <tbody>
   <tr>
-    <td class="text-center text-nowrap">
+    <td class="text-center">
       <img src="../img/public-key.png" alt="public key" class="publicKey" />
       <img src="../img/private-key.png" alt="key pair" class="keyPair" />
     </td>
     <td></td>
     <td class="emailCell"></td>
     <td class="monospaced"></td>
-    <td class="monospaced text-nowrap"></td>
+    <td class="monospaced"></td>
     <td class="text-center text-nowrap">
       <div class="actions" style="visibility: hidden;">
         <button class="btn btn-default keyDetailsBtn"><span class="glyphicon glyphicon-info-sign"></span></button>

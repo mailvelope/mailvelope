@@ -47,6 +47,7 @@
     "common/ui/inline/dialogs/encryptDialog.html",
     "common/ui/inline/dialogs/signDialog.html",
     "common/ui/editor/editor.html",
+    "common/ui/options.html",
     "common/dep/bootstrap/css/bootstrap.css",
     "common/ui/mvelo.css",
     "common/dep/wysihtml5/css/wysihtml5.css",

@@ -216,6 +216,10 @@ mvelo.util.extend = function(target) {
   return target;
 };
 
+mvelo.util.getRandomNumber = function(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
 mvelo.util.showLoadingAnimation = function() {
   $(".m-spinner").show();
 };
