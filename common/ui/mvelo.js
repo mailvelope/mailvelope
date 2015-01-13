@@ -220,6 +220,14 @@ mvelo.util.getRandomNumber = function(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
+mvelo.util.showLoadingAnimation = function() {
+  $(".m-spinner").show();
+};
+
+mvelo.util.hideLoadingAnimation = function() {
+  $(".m-spinner").hide();
+};
+
 mvelo.util.showSecurityBackground = function() {
   mvelo.extension.sendMessage({event: "get-security-background"}, function(background) {
     var bgndColor = background.color; //"#f5f5f5";

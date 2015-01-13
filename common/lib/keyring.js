@@ -64,8 +64,8 @@ define(function(require, exports, module) {
     var keyRng = keyringMap.get(keyringId);
     keyRng.keyring.clear();
     keyRng.keyring.store();
-    keyRng.keyring.storeHandler.storage.removeItem(keyRng.keyring.storeHandler.storage.publicKeysItem);
-    keyRng.keyring.storeHandler.storage.removeItem(keyRng.keyring.storeHandler.storage.privateKeysItem);
+    keyRng.keyring.storeHandler.storage.removeItem(keyRng.keyring.storeHandler.publicKeysItem);
+    keyRng.keyring.storeHandler.storage.removeItem(keyRng.keyring.storeHandler.privateKeysItem);
     keyringMap.delete(keyringId);
     delete keyringAttr[keyringId];
     mvelo.storage.set('mailvelopeKeyringAttr', keyringAttr);

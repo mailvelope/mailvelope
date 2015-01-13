@@ -67,6 +67,19 @@ define(function(require, exports, module) {
         }
         specific.initScriptInjection();
         break;
+      case 'get-all-keyring-attr':
+        sendResponse(keyring.getAllKeyringAttr());
+        break;
+      case 'set-keyring-attr':
+        keyring.setKeyringAttr(request.keyringId, request.keyringAttr);
+        break;
+      case 'delete-keyring':
+        if (request.keyringId !== mvelo.LOCAL_KEYRING_ID) {
+          keyring.deleteKeyring(request.keyringId);
+        } else {
+          console.log("Keyring could not be deleted");
+        }
+        break;
       case 'send-by-mail':
         var link = encodeURI('mailto:?subject=Public OpenPGP key of ');
         link += encodeURIComponent(request.message.data.name);
