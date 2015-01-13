@@ -46,7 +46,12 @@
     console.log('clientAPI eventListener', event.data.event);
     switch (event.data.event) {
       case 'callback-reply':
-        callbacks[event.data.id](event.data.error, event.data.data);
+        var error;
+        if (event.data.error) {
+          error = new Error(event.data.error.message);
+          error.code = event.data.error.code;
+        }
+        callbacks[event.data.id](error, event.data.data);
         delete callbacks[event.data.id];
         break;
       default:

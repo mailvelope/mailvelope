@@ -62,6 +62,9 @@ mvelo.domAPI.postMessage = function(eventName, id, data, error) {
 };
 
 mvelo.domAPI.reply = function(id, error, data) {
+  if (error) {
+    error = { message: error.message, code: error.code || 'INTERNAL_ERROR' };
+  }
   mvelo.domAPI.postMessage('callback-reply', id, data, error);
 };
 
@@ -103,42 +106,52 @@ mvelo.domAPI.eventListener = function(event) {
       !event.data.mvelo_client) {
     return;
   }
-  console.log('domAPI eventListener', event.data.event);
-  mvelo.domAPI.checkTypes(event.data);
-  var data = event.data.data;
-  switch (event.data.event) {
-    case 'display-container':
-      mvelo.domAPI.displayContainer(data.selector, data.armored, mvelo.domAPI.reply.bind(null, event.data.id));
-      break;
-    case 'editor-container':
-      mvelo.domAPI.editorContainer(data.selector, mvelo.domAPI.reply.bind(null, event.data.id));
-      break;
-    case 'editor-encrypt':
-      mvelo.domAPI.editorEncrypt(data.editor_id, data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
-      break;
-    case 'query-valid-key':
-      mvelo.domAPI.validKeyForAddress(data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
-      break;
-    case 'export-own-pub-key':
-      mvelo.domAPI.exportOwnPublicKey(data.emailAddr, mvelo.domAPI.reply.bind(null, event.data.id));
-      break;
-    default:
-      console.log('unknown event', event.data.event);
+  //console.log('domAPI eventListener', event.data.event);
+  try {
+    mvelo.domAPI.checkTypes(event.data);
+    var data = event.data.data;
+    switch (event.data.event) {
+      case 'display-container':
+        mvelo.domAPI.displayContainer(data.selector, data.armored, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
+      case 'editor-container':
+        mvelo.domAPI.editorContainer(data.selector, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
+      case 'editor-encrypt':
+        mvelo.domAPI.editorEncrypt(data.editor_id, data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
+      case 'query-valid-key':
+        mvelo.domAPI.validKeyForAddress(data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
+      case 'export-own-pub-key':
+        mvelo.domAPI.exportOwnPublicKey(data.emailAddr, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
+      default:
+        console.log('unknown event', event.data.event);
+    }
+  } catch (err) {
+    mvelo.domAPI.reply(event.data.id, err);
   }
 };
 
 mvelo.domAPI.displayContainer = function(selector, armored, callback) {
-  var container;
+  var container, error;
   switch (mvelo.main.getMessageType(armored)) {
     case mvelo.PGP_MESSAGE:
       container = new mvelo.DecryptContainer(selector);
       break;
     case mvelo.PGP_SIGNATURE:
-      // TODO
-      break;
+      error = new Error('PGP signatures not supported.');
+      error.code = 'WRONG_ARMORED_TYPE';
+      throw error;
     case mvelo.PGP_PUBLIC_KEY:
-      // TODO
-      break;
+      error = new Error('PGP keys not supported.');
+      error.code = 'WRONG_ARMORED_TYPE';
+      throw error;
+    default:
+      error = new Error('No valid armored block found.');
+      error.code = 'WRONG_ARMORED_TYPE';
+      throw error;
   }
   container.create(armored, callback);
 };
