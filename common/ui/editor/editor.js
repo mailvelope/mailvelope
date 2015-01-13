@@ -79,11 +79,16 @@ var mvelo = mvelo || null;
 
   function loadTemplates(embedded, callback) {
     if (embedded) {
-      mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')).then(function() {
-        mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-upload.html')).then(callback);
-      });
+      mvelo.appendTpl($('body'), 'tpl/editor-body.html').then(function() {
+        $('#editorBody').addClass('secureBackground');
+        $('#uploadEmbeddedBtn').on("click", function() {
+          $('#addFileInput').click();
+        });
+        $("#addFileInput").on("change", onAddAttachment);
+      }).then(callback);
     } else {
       mvelo.appendTpl($('body'), 'tpl/editor-popup.html').then(function() {
+        $('#editorDialog').addClass('secureBackground');
         $('#cancelBtn').click(onCancel);
         $('#transferBtn').click(onTransfer);
         $('#signBtn').click(onSign);
@@ -91,6 +96,7 @@ var mvelo = mvelo || null;
         $('#undoBtn').click(onUndo)
                      .prop('disabled', true);
         $('#transferBtn').hide();
+        $('#uploadBtn').hide(); // Disable Uploading Attachment
         Promise.all([
           mvelo.appendTpl($('#editorDialog .modal-body'), 'tpl/editor-body.html'),
           mvelo.appendTpl($('#editorDialog .modal-footer'), 'tpl/editor-upload.html'),
@@ -101,7 +107,13 @@ var mvelo = mvelo || null;
             $('#transferWarn').hide();
             return Promise.resolve();
           })
-        ]).then(callback);
+        ]).then(function() {
+          $('#uploadBtn').on("click", function() {
+            $('#addFileInput').click();
+          });
+          $("#addFileInput").on("change", onAddAttachment);
+          $('#footer').hide();
+        }).then(callback);
       });
     }
   }
@@ -165,7 +177,7 @@ var mvelo = mvelo || null;
     //console.log("Selected File: "+$("#addFileInput").val());
     var file = selection.currentTarget.files[0];
     //console.log("Selected File: "+JSON.stringify(selection.currentTarget.files[0]));
-    console.log("File Meta - Name: " + file.name + " Size: " + file.size + " Type" + file.type);
+    //console.log("File Meta - Name: " + file.name + " Size: " + file.size + " Type" + file.type);
     if (file.size > maxFileUploadSize) {
       alert("Attachment size exceeds " + maxFileUploadSize + " bytes. File upload will be aborted.");
       return;

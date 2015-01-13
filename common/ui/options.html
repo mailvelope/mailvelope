@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="../dep/bootstrap/css/bootstrap.css" />
   <link rel="stylesheet" href="../dep/bootstrap-sortable/bootstrap-sortable.css" />
   <link rel="stylesheet" href="options.css">
+  <link rel="stylesheet" href="mvelo.css">
   <script src="../dep/jquery.min.js"></script>
   <script src="../dep/jquery.ext.js"></script>
   <script src="../dep/bootstrap/js/bootstrap.js"></script>
@@ -36,73 +37,75 @@
   <script src="keyring/importKey.js"></script>
   <script src="keyring/generateKey.js"></script>
 </head>
-<body>
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <div class="navbar-brand" data-l10n-id="ext_name"></div>
-    </div>
-    <div class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li role="presentation" id="showKeyRing" class="active"><a href="#keyring" aria-controls="keyring" role="tab" data-toggle="tab" data-l10n-id="keyring_header"></a></li>
-        <li role="presentation" id="showKeySettings"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" data-l10n-id="options_home"></a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="http://mailvelope.com/help" target="_blank" data-l10n-id="options_docu"></a></li>
-        <li><a href="http://mailvelope.com/about" target="_blank" data-l10n-id="options_about"></a></li>
-        <li><div class="" id='secureCode'></div></li>
-      </ul>
+<body class="secureBackground">
+<div id="settingsPanel">
+  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <div class="navbar-brand" data-l10n-id="ext_name"></div>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li role="presentation" id="showKeyRing" class="active"><a href="#keyring" aria-controls="keyring" role="tab" data-toggle="tab" data-l10n-id="keyring_header"></a></li>
+          <li role="presentation" id="showKeySettings"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" data-l10n-id="options_home"></a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="http://mailvelope.com/help" target="_blank" data-l10n-id="options_docu"></a></li>
+          <li><a href="http://mailvelope.com/about" target="_blank" data-l10n-id="options_about"></a></li>
+          <li><div class="" id='secureCode'></div></li>
+        </ul>
+      </div>
     </div>
   </div>
+  <div class="container">
+  <div class="tab-content">
+    <div class="tab-pane fade active in" role="tabpanel" id="keyring">
+      <div class="col-md-3">
+        <div class="list-group" id="keyringList">
+          <a class="list-group-item active" href="#displayKeys" data-toggle="tab" data-l10n-id="keyring_display_keys"></a>
+          <a class="list-group-item" href="#importKey" data-toggle="tab" data-l10n-id="keyring_import_keys"></a>
+          <!--a class="list-group-item" href="#exportKeys" data-toggle="tab" data-l10n-id="keyring_export_keys"></a-->
+          <a class="list-group-item" href="#generateKey" data-toggle="tab" data-l10n-id="keyring_generate_key"></a>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="tab-content jumbotron">
+          <div id="displayKeys" class="tab-pane fade active in"></div>
+          <div id="importKey" class="tab-pane fade"></div>
+          <div id="exportKeys" class="tab-pane fade"></div>
+          <div id="generateKey" class="tab-pane fade"></div>
+        </div>
+      </div>
+    </div><!--/keyring-->
+    <div class="tab-pane fade" role="tabpanel" id="settings">
+      <div class="col-md-3">
+        <div class="list-group" id="settingsList">
+          <a class="list-group-item active" href="#general" data-toggle="tab" data-l10n-id="settings_general"></a>
+          <a class="list-group-item" href="#security" data-toggle="tab" data-l10n-id="settings_security"></a>
+          <a class="list-group-item" href="#watchList" data-toggle="tab" data-l10n-id="settings_watchlist"></a>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="tab-content jumbotron">
+          <div id="general" class="tab-pane fade active in"></div>
+          <div id="security" class="tab-pane fade"></div>
+          <div id="watchList" class="tab-pane fade"></div>
+        </div>
+      </div>
+    </div><!--/settings-->
+  </div><!--/tab-content-->
+    <footer>
+      <hr>
+      <p class="pull-left">&copy; 2012-2015 Mailvelope</p>
+      <div id="version" class="pull-right"></div>
+    </footer>
+  </div><!--/container-->
 </div>
-<div class="container">
-<div class="tab-content">
-  <div class="tab-pane fade active in" role="tabpanel" id="keyring">
-    <div class="col-md-3">
-      <div class="list-group" id="keyringList">
-        <a class="list-group-item active" href="#displayKeys" data-toggle="tab" data-l10n-id="keyring_display_keys"></a>
-        <a class="list-group-item" href="#importKey" data-toggle="tab" data-l10n-id="keyring_import_keys"></a>
-        <!--a class="list-group-item" href="#exportKeys" data-toggle="tab" data-l10n-id="keyring_export_keys"></a-->
-        <a class="list-group-item" href="#generateKey" data-toggle="tab" data-l10n-id="keyring_generate_key"></a>
-      </div>
-    </div>
-    <div class="col-md-9">
-      <div class="tab-content jumbotron">
-        <div id="displayKeys" class="tab-pane fade active in"></div>
-        <div id="importKey" class="tab-pane fade"></div>
-        <div id="exportKeys" class="tab-pane fade"></div>
-        <div id="generateKey" class="tab-pane fade"></div>
-      </div>
-    </div>
-  </div><!--/keyring-->
-  <div class="tab-pane fade" role="tabpanel" id="settings">
-    <div class="col-md-3">
-      <div class="list-group" id="settingsList">
-        <a class="list-group-item active" href="#general" data-toggle="tab" data-l10n-id="settings_general"></a>
-        <a class="list-group-item" href="#security" data-toggle="tab" data-l10n-id="settings_security"></a>
-        <a class="list-group-item" href="#watchList" data-toggle="tab" data-l10n-id="settings_watchlist"></a>
-      </div>
-    </div>
-    <div class="col-md-9">
-      <div class="tab-content jumbotron">
-        <div id="general" class="tab-pane fade active in"></div>
-        <div id="security" class="tab-pane fade"></div>
-        <div id="watchList" class="tab-pane fade"></div>
-      </div>
-    </div>
-  </div><!--/settings-->
-</div><!--/tab-content-->
-  <footer>
-    <hr>
-    <p class="pull-left">&copy; 2012-2015 Mailvelope</p>
-    <div id="version" class="pull-right"></div>
-  </footer>
-</div><!--/container-->
 </body>
 </html>

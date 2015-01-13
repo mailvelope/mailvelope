@@ -359,6 +359,19 @@ input[readonly] {
     }
 }
 
+body {
+    overflow-x: hidden;
+}
+
+#settingsPanel {
+    position: absolute;
+    top: 60px;
+    left:20px;
+    right: 20px;
+    bottom: 20px;
+    /*background-color: white;*/
+}
+
 /* on/off switch begin*/
 .onoffswitch {
     position: relative; width: 70px;
