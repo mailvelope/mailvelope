@@ -1,6 +1,6 @@
 {
   "name": "__MSG_ext_name__",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "__MSG_ext_description__",
   "homepage_url":"https://www.mailvelope.com",
   "manifest_version": 2,
