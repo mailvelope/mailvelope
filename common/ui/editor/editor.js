@@ -84,6 +84,7 @@ var mvelo = mvelo || null;
       }).then(callback);
     } else {
       mvelo.appendTpl($('body'), 'tpl/editor-popup.html').then(function() {
+        $('#editorDialog').addClass('secureBackground');
         $('#cancelBtn').click(onCancel);
         $('#transferBtn').click(onTransfer);
         $('#signBtn').click(onSign);
