@@ -69,10 +69,8 @@ var mvelo = mvelo || null;
         setText(initText);
         initText = null;
       }
-      $('#uploadBtn').on("click", function() {
-        $('#addFileInput').click();
-      });
       $("#addFileInput").on("change", onAddAttachment);
+      $('#uploadBtn').hide(); // Disable Uploading Attachment
       mvelo.l10n.localizeHTML();
     });
   }
@@ -80,15 +78,12 @@ var mvelo = mvelo || null;
   function loadTemplates(embedded, callback) {
     if (embedded) {
       mvelo.appendTpl($('body'), 'tpl/editor-body.html').then(function() {
-        $('#editorBody').addClass('secureBackground');
         $('#uploadEmbeddedBtn').on("click", function() {
           $('#addFileInput').click();
         });
-        $("#addFileInput").on("change", onAddAttachment);
       }).then(callback);
     } else {
       mvelo.appendTpl($('body'), 'tpl/editor-popup.html').then(function() {
-        $('#editorDialog').addClass('secureBackground');
         $('#cancelBtn').click(onCancel);
         $('#transferBtn').click(onTransfer);
         $('#signBtn').click(onSign);
@@ -96,10 +91,9 @@ var mvelo = mvelo || null;
         $('#undoBtn').click(onUndo)
                      .prop('disabled', true);
         $('#transferBtn').hide();
-        $('#uploadBtn').hide(); // Disable Uploading Attachment
         Promise.all([
           mvelo.appendTpl($('#editorDialog .modal-body'), 'tpl/editor-body.html'),
-          mvelo.appendTpl($('#editorDialog .modal-footer'), 'tpl/editor-upload.html'),
+          //mvelo.appendTpl($('#editorDialog .modal-footer'), 'tpl/editor-upload.html'),
           mvelo.appendTpl($('body'), 'tpl/encrypt-modal.html'),
           mvelo.appendTpl($('body'), 'tpl/transfer-warn.html').then(function() {
             // transfer warning modal
@@ -111,7 +105,6 @@ var mvelo = mvelo || null;
           $('#uploadBtn').on("click", function() {
             $('#addFileInput').click();
           });
-          $("#addFileInput").on("change", onAddAttachment);
           $('#footer').hide();
         }).then(callback);
       });
