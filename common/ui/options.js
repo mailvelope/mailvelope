@@ -52,6 +52,7 @@ var options = {};
 
   function initUI() {
     mvelo.l10n.localizeHTML();
+    mvelo.util.showSecurityBackground();
 
     // Disable submitting of forms by for example pressing enter
     $("form").submit(function(e) { e.preventDefault(); });
@@ -71,7 +72,6 @@ var options = {};
       exports.l10n = result;
       event.triggerHandler('ready');
     });
-
   }
 
   function initMessageListener() {

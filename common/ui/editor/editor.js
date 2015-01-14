@@ -72,6 +72,7 @@ var mvelo = mvelo || null;
       $("#addFileInput").on("change", onAddAttachment);
       $('#uploadBtn').hide(); // Disable Uploading Attachment
       mvelo.l10n.localizeHTML();
+      mvelo.util.showSecurityBackground();
     });
   }
 
@@ -227,7 +228,6 @@ var mvelo = mvelo || null;
       sandbox: 'allow-same-origin allow-scripts',
       frameBorder: 0,
       css: {
-        opacity:      '0.9',
         "overflow-y": 'hidden'
       }
     });

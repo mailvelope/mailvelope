@@ -45,6 +45,7 @@ var mvelo = mvelo || null;
       l10n = result;
       $('#password').attr('placeholder', l10n.pwd_dialog_pwd_please);
     });
+    mvelo.util.showSecurityBackground();
   }
 
   function onOk() {

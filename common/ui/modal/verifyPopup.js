@@ -55,6 +55,7 @@ var mvelo = mvelo || null;
     ], function(result) {
       l10n = result;
     });
+    mvelo.util.showSecurityBackground();
   }
 
   function onClose() {

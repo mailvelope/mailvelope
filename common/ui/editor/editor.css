@@ -14,7 +14,8 @@ body {
   left: 10px;
   right: 10px;
   margin: 0;
-  background-color: #ffffff;
+  background-color: #ffffff !important;
+  background-image: none !important;
   border: 1px solid #999;
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 6px;
