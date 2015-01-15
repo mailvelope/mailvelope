@@ -198,13 +198,21 @@ if (typeof exports !== 'undefined') {
 }
 
 mvelo.util.showSecurityBackground = function() {
-  var bgndColor = "greenyellow";
-  var color = "#ff6600;";
-  var rotation = "45 15 15";
+  var bgndColor = "#f5f5f5";
+  var color = "#e9e9e9;";
 
-  var secBgnd1 = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" style="fill:#ff6600" width="100px" height="100px" viewBox="0 0 30 30" xml:space="preserve"><defs id="defs7" /><path d="m 15.378559,27.111864 c -4.69,0 -8.5,-3.78 -8.5,-8.44 0,-1.64 0.47,-3.17 1.2900002,-4.47 v -3.950001 c 0,-3.9399998 3.2299998,-7.1499998 7.1999998,-7.1499998 3.97,0 7.2,3.21 7.2,7.1499998 v 3.950001 c 0.82,1.3 1.3,2.83 1.3,4.48 0,4.65 -3.8,8.43 -8.49,8.43 z m -1.35,-7.99 v 3.33 h 0 c 0,0.02 0,0.03 0,0.05 0,0.74 0.61,1.34 1.35,1.34 0.75,0 1.35,-0.6 1.35,-1.34 0,-0.02 0,-0.03 0,-0.05 h 0 v -3.33 c 0.63,-0.43 1.04,-1.15 1.04,-1.97 0,-1.32 -1.07,-2.38 -2.4,-2.38 -1.32,0 -2.4,1.07 -2.4,2.38 0.01,0.82 0.43,1.54 1.06,1.97 z m 6.29,-8.870001 c 0,-2.7099998 -2.22,-4.9099998 -4.95,-4.9099998 -2.73,0 -4.95,2.2 -4.95,4.9099998 v 1.570001 c 1.39,-0.990001 3.1,-1.580001 4.95,-1.580001 1.85,0 3.55,0.59 4.94,1.580001 l 0.01,-1.570001 z" id="path3" fill-opacity="0.5" transform="rotate(' + rotation + ')" style="fill:' + color + ';fill-rule:evenodd" /></svg>';
+  var rotation = "45 10 10";
+  var scale = "0.4";
 
+  var secText  = "Mailvelope";
+  var opacity = "0.90";
+
+  var secBgnd1 = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" style="fill:#ff6600" width="100px" height="100px" viewBox="0 0 30 30" xml:space="preserve"><defs id="defs7" /><path d="m 15.378559,27.111864 c -4.69,0 -8.5,-3.78 -8.5,-8.44 0,-1.64 0.47,-3.17 1.2900002,-4.47 v -3.950001 c 0,-3.9399998 3.2299998,-7.1499998 7.1999998,-7.1499998 3.97,0 7.2,3.21 7.2,7.1499998 v 3.950001 c 0.82,1.3 1.3,2.83 1.3,4.48 0,4.65 -3.8,8.43 -8.49,8.43 z m -1.35,-7.99 v 3.33 h 0 c 0,0.02 0,0.03 0,0.05 0,0.74 0.61,1.34 1.35,1.34 0.75,0 1.35,-0.6 1.35,-1.34 0,-0.02 0,-0.03 0,-0.05 h 0 v -3.33 c 0.63,-0.43 1.04,-1.15 1.04,-1.97 0,-1.32 -1.07,-2.38 -2.4,-2.38 -1.32,0 -2.4,1.07 -2.4,2.38 0.01,0.82 0.43,1.54 1.06,1.97 z m 6.29,-8.870001 c 0,-2.7099998 -2.22,-4.9099998 -4.95,-4.9099998 -2.73,0 -4.95,2.2 -4.95,4.9099998 v 1.570001 c 1.39,-0.990001 3.1,-1.580001 4.95,-1.580001 1.85,0 3.55,0.59 4.94,1.580001 l 0.01,-1.570001 z" id="path3" fill-opacity="' + opacity + '" transform="rotate(' + rotation + ') scale(' + scale + ')" style="fill:' + color + ';fill-rule:evenodd" /></svg>';
   var secureStyle1 = ".secureBackground { background-color: " + bgndColor + "; background-image: url(data:image/svg+xml;base64," + btoa(secBgnd1) + "); }";
+
+  var secBgnd2 = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg" version="1.1" width="250" height="60" id="svg2"><defs id="defs4" /><g transform="translate(0,-992.36218)" id="layer1"><text x="17.531542" y="1033.6388" id="text2985" xml:space="preserve" style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans" ><tspan x="17.531542" y="1033.6388" id="tspan2987"  style="fill:' + color + ';fill-rule:evenodd;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Courgette;" fill-opacity="' + opacity + '">' + secText + '</tspan></text></g></svg>';
+  var secureStyle2 = ".secureBackground { background-color: " + bgndColor + "; background-image: url(data:image/svg+xml;base64," + btoa(secBgnd2) + "); }";
+
   var mmodalStyle = ".m-modal { background-color: #ffffff !important; background-image: none !important; opacity: 0.9; }";
 
   $('body').addClass("secureBackground");
