@@ -35,13 +35,14 @@
   /**
    * Creates a new instance
    * @constructor
+   * @private
    * @alias mailvelope.Mailvelope
    * @tutorial client-api-basics
    */
   var Mailvelope = function () {}
 
   /**
-   * Gives access to the mailvelope Plugin Version
+   * Gives access to the mailvelope extension version
    * @returns {string} current mailvelope version
    */
   Mailvelope.prototype.getVersion = function() {
@@ -133,7 +134,9 @@
 
 
   /**
+   * Constructs a new Keyring instance
    * @constructor
+   * @private
    * @alias mailvelope.Keyring
    * @param {string} identifier - the keyring identifier
    */
@@ -155,6 +158,7 @@
 
   /**
    * Constructs a new editor instance
+   * @private
    * @param {string} editorId - the internal id of the editor
    * @alias mailvelope.Editor
    * @constructor
