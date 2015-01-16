@@ -77,7 +77,7 @@ var mvelo = mvelo || null;
 
   function loadTemplates(embedded, callback) {
     if (embedded) {
-      mvelo.appendTpl($('body'), 'tpl/editor-body.html').then(function() {
+      mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')).then(function() {
         $('#uploadEmbeddedBtn').on("click", function() {
           $('#addFileInput').click();
         });
