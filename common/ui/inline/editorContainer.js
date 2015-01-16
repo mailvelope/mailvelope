@@ -47,16 +47,26 @@ mvelo.EditorContainer.prototype.create = function(done) {
   this.container.setAttribute('scrolling', 'no');
   this.container.style.width = '100%';
   this.container.style.height = '100%';
-  this.container.addEventListener('load', this.done.bind(this, this.id, null, null));
+  this.container.addEventListener('load', this.done.bind(this, null, this.id));
   this.parent.appendChild(this.container);
 };
 
 mvelo.EditorContainer.prototype.encrypt = function(recipients, callback) {
+  var error;
   if (this.encryptCallback) {
-    throw new Error('Encyption already in progress');
+    error = new Error('Encyption already in progress.');
+    error.code = 'ENCRYPT_IN_PROGRESS';
+    throw error;
   }
   if (this.encryptCounter) {
-    throw new Error('Encrypt method call limit: only one call per container');
+    error = new Error('Encrypt method call limit: only one call per container.');
+    error.code = 'CALL_LIMIT_EXCEEDED';
+    throw error;
+  }
+  if (recipients.length === 0) {
+    error = new Error('Recipients array is empty.');
+    error.code = 'NO_RECIPIENTS';
+    throw error;
   }
   this.port.postMessage({
     event: 'editor-container-encrypt',

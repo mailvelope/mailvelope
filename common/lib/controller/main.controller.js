@@ -126,11 +126,11 @@ define(function(require, exports, module) {
       case 'open-popup':
         mvelo.windows.openPopup(request.url);
         break;
-      case 'query-valid-key':
+      case 'get-key-info':
         var keyIdMap = model.getKeyIdByAddress(request.recipients, {validity: true});
         Object.keys(keyIdMap).forEach(function(email) {
           if (keyIdMap[email]) {
-            keyIdMap[email] = true;
+            keyIdMap[email] = {};
           }
         });
         sendResponse({error: null, data: keyIdMap});

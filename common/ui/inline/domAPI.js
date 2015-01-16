@@ -63,14 +63,15 @@ mvelo.domAPI.postMessage = function(eventName, id, data, error) {
 
 mvelo.domAPI.reply = function(id, error, data) {
   if (error) {
-    error = { message: error.message, code: error.code || 'INTERNAL_ERROR' };
+    error = { message: error.message || error, code: error.code || 'INTERNAL_ERROR' };
   }
   mvelo.domAPI.postMessage('callback-reply', id, data, error);
 };
 
 // default type: string
 mvelo.domAPI.dataTypes = {
-  recipients: 'array'
+  recipients: 'array',
+  options: 'object'
 };
 
 mvelo.domAPI.checkTypes = function(data) {
@@ -82,6 +83,9 @@ mvelo.domAPI.checkTypes = function(data) {
     var parameter = parameters[i];
     var dataType = mvelo.domAPI.dataTypes[parameter] || 'string';
     var value = data.data[parameter];
+    if (value === undefined) {
+      continue;
+    }
     var wrong = false;
     switch (dataType) {
       case 'array':
@@ -111,20 +115,32 @@ mvelo.domAPI.eventListener = function(event) {
     mvelo.domAPI.checkTypes(event.data);
     var data = event.data.data;
     switch (event.data.event) {
+      case 'get-keyring':
+        mvelo.domAPI.getKeyring(data.identifier, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
+      case 'create-keyring':
+        mvelo.domAPI.createKeyring(data.identifier, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
       case 'display-container':
-        mvelo.domAPI.displayContainer(data.selector, data.armored, mvelo.domAPI.reply.bind(null, event.data.id));
+        mvelo.domAPI.displayContainer(data.selector, data.armored, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'editor-container':
-        mvelo.domAPI.editorContainer(data.selector, mvelo.domAPI.reply.bind(null, event.data.id));
+        mvelo.domAPI.editorContainer(data.selector, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
+      case 'settings-container':
+        mvelo.domAPI.settingsContainer(data.identifier, data.selector, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'editor-encrypt':
-        mvelo.domAPI.editorEncrypt(data.editor_id, data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
+        mvelo.domAPI.editorEncrypt(data.editorId, data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
-      case 'query-valid-key':
-        mvelo.domAPI.validKeyForAddress(data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
+      case 'get-key-info':
+        mvelo.domAPI.getKeyInfoForAddress(data.identifier, data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'export-own-pub-key':
-        mvelo.domAPI.exportOwnPublicKey(data.emailAddr, mvelo.domAPI.reply.bind(null, event.data.id));
+        mvelo.domAPI.exportOwnPublicKey(data.identifier, data.emailAddr, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
+      case 'import-pub-key':
+        mvelo.domAPI.importPublicKey(data.identifier, data.armored, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       default:
         console.log('unknown event', event.data.event);
@@ -134,7 +150,17 @@ mvelo.domAPI.eventListener = function(event) {
   }
 };
 
-mvelo.domAPI.displayContainer = function(selector, armored, callback) {
+mvelo.domAPI.getKeyring = function(identifier, callback) {
+  // TODO
+  callback();
+};
+
+mvelo.domAPI.createKeyring = function(identifier, callback) {
+  // TODO
+  callback();
+};
+
+mvelo.domAPI.displayContainer = function(selector, armored, options, callback) {
   var container, error;
   switch (mvelo.main.getMessageType(armored)) {
     case mvelo.PGP_MESSAGE:
@@ -156,30 +182,42 @@ mvelo.domAPI.displayContainer = function(selector, armored, callback) {
   container.create(armored, callback);
 };
 
-mvelo.domAPI.editorContainer = function(selector, callback) {
+mvelo.domAPI.editorContainer = function(selector, options, callback) {
   var container = new mvelo.EditorContainer(selector);
   this.containers.set(container.id, container);
   container.create(callback);
 };
 
-mvelo.domAPI.editorEncrypt = function(editor_id, recipients, callback) {
-  this.containers.get(editor_id).encrypt(recipients, callback);
+mvelo.domAPI.settingsContainer = function(identifier, selector, callback) {
+  // TODO
+  callback();
 };
 
-mvelo.domAPI.validKeyForAddress = function(recipients, callback) {
+mvelo.domAPI.editorEncrypt = function(editorId, recipients, callback) {
+  this.containers.get(editorId).encrypt(recipients, callback);
+};
+
+mvelo.domAPI.getKeyInfoForAddress = function(identifier, recipients, callback) {
   mvelo.extension.sendMessage({
-    event: 'query-valid-key',
+    event: 'get-key-info',
+    identifier: identifier,
     recipients: recipients
   }, function(result) {
     callback(result.error, result.data);
   });
 };
 
-mvelo.domAPI.exportOwnPublicKey = function(emailAddr, callback) {
+mvelo.domAPI.exportOwnPublicKey = function(identifier, emailAddr, callback) {
   mvelo.extension.sendMessage({
     event: 'export-own-pub-key',
+    identifier: identifier,
     emailAddr: emailAddr
   }, function(result) {
     callback(result.error, result.data);
   });
+};
+
+mvelo.domAPI.importPublicKey = function(identifier, armored, callback) {
+  // TODO
+  callback();
 };

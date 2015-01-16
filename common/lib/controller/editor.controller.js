@@ -91,7 +91,9 @@ define(function(require, exports, module) {
         if (Object.keys(keyIdMap).some(function(keyId) {
           return keyIdMap[keyId] === false;
         })) {
-          this.ports.editorCont.postMessage({event: 'error-message', error: 'No valid encryption key for recipient address'});
+          var error = new Error('No valid encryption key for recipient address');
+          error.code = 'NO_KEY_FOR_RECIPIENT';
+          this.ports.editorCont.postMessage({event: 'error-message', error: error});
           return;
         }
         var keyIds = [];

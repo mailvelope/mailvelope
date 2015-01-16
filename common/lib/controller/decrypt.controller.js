@@ -102,6 +102,11 @@ define(function(require, exports, module) {
       // password or unlocked key in cache?
       var cacheEntry = this.pwdCache.get(message.key.primaryKey.getKeyId().toHex(), message.keyid);
       if (!cacheEntry) {
+        if (message.key.primaryKey.isDecrypted) {
+          // secret-key data is not encrypted
+          this.decryptMessage(message);
+          return;
+        }
         // open password dialog
         this.pwdControl = sub.factory.get('pwdDialog');
         this.pwdControl.unlockKey({

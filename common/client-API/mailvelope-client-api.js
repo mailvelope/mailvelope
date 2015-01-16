@@ -26,16 +26,63 @@
 
 (function() {
 
-  var mailvelope = {};
+  function Mailvelope() {}
 
-  var callbacks = {};
+  Mailvelope.prototype.getVersion = function() {
+    return document.body.dataset.mailvelopeVersion;
+  };
 
-  window.mailvelope = mailvelope;
-  window.addEventListener('message', eventListener);
-  document.body.dataset.mailvelope = 'true';
-  window.setTimeout(function() {
-    document.body.dispatchEvent(new Event('mailvelope'));
-  }, 1);
+  Mailvelope.prototype.getKeyring = function(identifier) {
+    return postMessage('get-keyring', {identifier: identifier}).then(function() {
+      return new Keyring(identifier);
+    });
+  };
+
+  Mailvelope.prototype.createKeyring = function(identifier) {
+    return postMessage('create-keyring', {identifier: identifier}).then(function() {
+      return new Keyring(identifier);
+    });
+  };
+
+  Mailvelope.prototype.createDisplayContainer = function(selector, armored, options) {
+    return postMessage('display-container', {selector: selector, armored: armored, options: options});
+  };
+
+  Mailvelope.prototype.createEditorContainer = function(selector, options) {
+    return postMessage('editor-container', {selector: selector, options: options}).then(function(editorId) {
+      return new Editor(editorId);
+    });
+  };
+
+  Mailvelope.prototype.createSettingsContainer = function(selector, keyring) {
+    return postMessage('settings-container', {selector: selector, identifier: keyring.identifier});
+  };
+
+  function Keyring(identifier) {
+    this.identifier = identifier;
+  }
+
+  Keyring.prototype.getKeyInfoForAddress = function(recipients) {
+    return postMessage('get-key-info', {identifier: this.identifier, recipients: recipients});
+  };
+
+  Keyring.prototype.exportOwnPublicKey = function(emailAddr) {
+    return postMessage('export-own-pub-key', {identifier: this.identifier, emailAddr: emailAddr});
+  };
+
+  Keyring.prototype.importPublicKey = function(armored) {
+    return postMessage('import-pub-key', {identifier: this.identifier, armored: armored});
+  };
+
+  function Editor(editorId) {
+    this.editorId = editorId;
+  }
+
+  Editor.prototype.encrypt = function(recipients) {
+    return postMessage('editor-encrypt', {recipients: recipients, editorId: this.editorId});
+  };
+
+  var callbacks = Object.create(null);
 
   function eventListener(event) {
     if (event.origin !== document.location.origin ||
@@ -43,7 +90,7 @@
         !event.data.mvelo_extension) {
       return;
     }
-    console.log('clientAPI eventListener', event.data.event);
+    //console.log('clientAPI eventListener', event.data.event);
     switch (event.data.event) {
       case 'callback-reply':
         var error;
@@ -69,43 +116,31 @@
     return result;
   }
 
-  function postMessage(eventName, data, callback) {
-    var message = {
-      event: eventName,
-      mvelo_client: true,
-      data: data
-    };
-    if (typeof callback !== 'undefined') {
-      message.id = getHash();
-      callbacks[message.id] = callback;
-    }
-    window.postMessage(message, document.location.origin);
+  function postMessage(eventName, data) {
+    return new Promise(function(resolve, reject) {
+      var message = {
+        event: eventName,
+        mvelo_client: true,
+        data: data,
+        id: getHash()
+      };
+      callbacks[message.id] = function(err, data) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      };
+      window.postMessage(message, document.location.origin);
+    });
   }
 
-  mailvelope.getVersion = function() {
-    return document.body.dataset.mailvelopeVersion;
-  };
+  window.mailvelope = new Mailvelope();
 
-  mailvelope.createDisplayContainer = function(selector, armored, callback) {
-    postMessage('display-container', {selector: selector, armored: armored}, callback);
-  };
+  window.addEventListener('message', eventListener);
 
-  mailvelope.createEditorContainer = function(selector, callback) {
-    postMessage('editor-container', {selector: selector}, function(editor_id) {
-      callback(null, {
-        encrypt: function(recipients, callback) {
-          postMessage('editor-encrypt', {recipients: recipients, editor_id: editor_id}, callback);
-        }
-      });
-    });
-  };
-
-  mailvelope.validKeyForAddress = function(recipients, callback) {
-    postMessage('query-valid-key', {recipients: recipients}, callback);
-  };
-
-  mailvelope.exportOwnPublicKey = function(emailAddr, callback) {
-    postMessage('export-own-pub-key', {emailAddr: emailAddr}, callback);
-  };
+  window.setTimeout(function() {
+    document.dispatchEvent(new CustomEvent('mailvelope', { detail: window.mailvelope }));
+  }, 1);
 
 }());
