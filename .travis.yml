@@ -1,0 +1,30 @@
+language: node_js
+node_js:
+- '0.10'
+install:
+- cd dep/chrome/openpgpjs
+- npm install && grunt
+- cd ../../firefox/openpgpjs
+- npm install && grunt
+- cd ../../..
+- npm install && bower install && grunt
+script:
+- grunt dist-cr
+- grunt dist-ff
+- grunt dist-doc
+- npm run-script deploy-doc
+env:
+ global:
+ - GH_REF=github.com/mailvelope/mailvelope.git
+ - secure: "evnYoSpdhcwSlYS+PvMZFvh1xairXh+CUhKwzFvoccDoxSoDtZvzSibyntky0mz+UK7XC0JC515vKSqRn3zn9/4BEedGv8Xfrvc4q1+Ln5v2zO/2pmzcqXh3dWNnlpB5teyFb0nvpaB9cTtM8MPXkMqbn47OEM0sLTEayYAXAB4="
+deploy:
+ provider: releases
+ api-key: ${GH_TOKEN}
+ files:
+ - dist/mailvelope.chrome.zip
+ - dist/mailvelope.firefox.xpi
+ - dist/mailvelope.client-api-documentation.zip
+ skip_cleanup: true
+ on:
+  tags: true
+  all_branches: true
