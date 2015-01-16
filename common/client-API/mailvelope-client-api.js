@@ -24,41 +24,120 @@
 
 'use strict';
 
+/**
+ * @name MailvelopeNS
+ * @namespace mailvelope
+ * @tutorial client-api-basics
+ */
+
 (function() {
 
-  function Mailvelope() {}
+  /**
+   * Creates a new instance
+   * @constructor
+   * @alias mailvelope.Mailvelope
+   * @tutorial client-api-basics
+   */
+  var Mailvelope = function () {}
 
+  /**
+   * Gives access to the mailvelope Plugin Version
+   * @returns {string} current mailvelope version
+   */
   Mailvelope.prototype.getVersion = function() {
     return document.body.dataset.mailvelopeVersion;
   };
 
+  /**
+   * Retrieves the Keyring for the given identifier
+   * @param {string} identifier - the identifier of the keyring
+   * @returns {Promise.<mailvelope.Keyring>}
+   */
   Mailvelope.prototype.getKeyring = function(identifier) {
     return postMessage('get-keyring', {identifier: identifier}).then(function() {
       return new Keyring(identifier);
     });
   };
 
+  /**
+   * Creates a Keyring for the given identifier
+   * @param identifier - the identifier of the new keyring
+   * @returns {Promise.<mailvelope.Keyring>}
+   */
   Mailvelope.prototype.createKeyring = function(identifier) {
     return postMessage('create-keyring', {identifier: identifier}).then(function() {
       return new Keyring(identifier);
     });
   };
 
+  /**
+   * Ascii Armored PGP Text Block
+   * @typedef {string} mailvelope.AsciiArmored
+   */
+
+  /**
+   * CSS Selector String
+   * @typedef {string} mailvelope.CssSelector
+   */
+
+  /**
+   * @typedef {Object} mailvelope.DisplayContainerOptions
+   * @property {boolean} showExternalContent - if true loads external content into the display container (default: true)
+   */
+
+  /**
+   * Creates an iframe to display the decrypted content of the encrypted mail.
+   * The iframe will be injected into the container identified by selector.
+   * @param {mailvelope.CssSelector} selector - target container
+   * @param {mailvelope.AsciiArmored} armored - the encrypted mail to display
+   * @param {mailvelope.DisplayContainerOptions} options
+   * @returns {Promise.<void>}
+   */
   Mailvelope.prototype.createDisplayContainer = function(selector, armored, options) {
     return postMessage('display-container', {selector: selector, armored: armored, options: options});
   };
 
+
+  /**
+   * @typedef {Object} mailvelope.EditorContainerOptions
+   * @property {int} quota - limit of the encrypted mail size in kilobytes (default: 20480)
+   * @property {string} predefinedText - text that will be added to the editor
+   * @property {mailvelope.AsciiArmored} quotedMail - mail that should be quoted
+   * @property {boolean} quotedMailIndent - if true the quoted mail will be indented (default: true)
+   * @property {string} quotedMailHeader - header to be added before the quoted mail
+   */
+
+  /**
+   * Creates an iframe to with an editor for a new encrypted mail.
+   * The iframe will be injected into the container identified by selector.
+   * @param {mailvelope.CssSelector} selector - target container
+   * @param {mailvelope.EditorContainerOptions} options
+   * @returns {Promise.<mailvelope.Editor>}
+   */
   Mailvelope.prototype.createEditorContainer = function(selector, options) {
     return postMessage('editor-container', {selector: selector, options: options}).then(function(editorId) {
       return new Editor(editorId);
     });
   };
 
+  /**
+   * Creates an iframe to display the keyring settings.
+   * The iframe will be injected into the container identified by selector.
+   * @param {mailvelope.CssSelector} selector - target container
+   * @param {mailvelope.Keyring} keyring - the keyring to use for the setup
+   * @returns {Promise.<void>}
+   */
   Mailvelope.prototype.createSettingsContainer = function(selector, keyring) {
     return postMessage('settings-container', {selector: selector, identifier: keyring.identifier});
   };
 
-  function Keyring(identifier) {
+
+  /**
+   * @constructor
+   * @alias mailvelope.Keyring
+   * @param {string} identifier - the keyring identifier
+   */
+  var Keyring = function (identifier) {
     this.identifier = identifier;
   }
 
@@ -74,7 +153,13 @@
     return postMessage('import-pub-key', {identifier: this.identifier, armored: armored});
   };
 
-  function Editor(editorId) {
+  /**
+   * Constructs a new editor instance
+   * @param {string} editorId - the internal id of the editor
+   * @alias mailvelope.Editor
+   * @constructor
+   */
+  var Editor = function (editorId) {
     this.editorId = editorId;
   }
 

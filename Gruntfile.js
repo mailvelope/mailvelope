@@ -45,6 +45,18 @@ module.exports = function(grunt) {
       }
     },
 
+    jsdoc : {
+        dist : {
+            src: ['common/client-API/*.js', "Readme.md"],
+            options: {
+                destination: 'build/doc',
+                template: "node_modules/grunt-jsdoc/node_modules/ink-docstrap/template",
+                tutorials: "doc/client-api",
+                configure: "jsdoc.conf.json"
+            }
+        }
+    },
+
     concat: {
       content_script: {
         options: {
@@ -313,6 +325,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mozilla-addon-sdk');
   grunt.loadNpmTasks('grunt-bump');
   grunt.loadNpmTasks("grunt-jscs");
+  grunt.loadNpmTasks('grunt-jsdoc');
 
   //custom tasks
   grunt.registerTask('dist-cr', ['compress:chrome']);
@@ -321,5 +334,5 @@ module.exports = function(grunt) {
 
   grunt.registerTask('copy_default', ['copy:vendor', 'copy:common', 'copy:plugins', 'copy:common_browser', 'copy:locale_firefox', 'copy:dep']);
 
-  grunt.registerTask('default', ['clean', 'jshint', 'jscs', 'copy:jquery', 'concat', 'copy_default']);
+  grunt.registerTask('default', ['clean', 'jshint', 'jscs', 'jsdoc', 'copy:jquery', 'concat', 'copy_default']);
 };
