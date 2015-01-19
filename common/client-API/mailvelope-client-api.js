@@ -39,7 +39,7 @@
    * @alias mailvelope.Mailvelope
    * @tutorial client-api-basics
    */
-  var Mailvelope = function () {}
+  var Mailvelope = function() {};
 
   /**
    * Gives access to the mailvelope extension version
@@ -62,7 +62,7 @@
 
   /**
    * Creates a Keyring for the given identifier
-   * @param identifier - the identifier of the new keyring
+   * @param {string} identifier - the identifier of the new keyring
    * @returns {Promise.<mailvelope.Keyring>}
    */
   Mailvelope.prototype.createKeyring = function(identifier) {
@@ -98,7 +98,6 @@
     return postMessage('display-container', {selector: selector, armored: armored, options: options});
   };
 
-
   /**
    * @typedef {Object} mailvelope.EditorContainerOptions
    * @property {int} quota - limit of the encrypted mail size in kilobytes (default: 20480)
@@ -132,7 +131,6 @@
     return postMessage('settings-container', {selector: selector, identifier: keyring.identifier});
   };
 
-
   /**
    * Constructs a new Keyring instance
    * @constructor
@@ -140,9 +138,9 @@
    * @alias mailvelope.Keyring
    * @param {string} identifier - the keyring identifier
    */
-  var Keyring = function (identifier) {
+  var Keyring = function(identifier) {
     this.identifier = identifier;
-  }
+  };
 
   Keyring.prototype.getKeyInfoForAddress = function(recipients) {
     return postMessage('get-key-info', {identifier: this.identifier, recipients: recipients});
@@ -163,9 +161,9 @@
    * @alias mailvelope.Editor
    * @constructor
    */
-  var Editor = function (editorId) {
+  var Editor = function(editorId) {
     this.editorId = editorId;
-  }
+  };
 
   Editor.prototype.encrypt = function(recipients) {
     return postMessage('editor-encrypt', {recipients: recipients, editorId: this.editorId});
