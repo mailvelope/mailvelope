@@ -1,5 +1,7 @@
 # Mailvelope
 
+[![Build Status](https://travis-ci.org/mailvelope/mailvelope.svg?branch=master)](https://travis-ci.org/mailvelope/mailvelope)
+
 Mailvelope is a browser extension for Google Chrome and Firefox that allows secure email communication based on the OpenPGP standard. It can be configured to work with arbitrary Webmail provider.
 
 ## OpenPGP backends
@@ -47,7 +49,7 @@ The extension will be in `dist/mailvelope.chrome.zip`.
 #### Firefox
 
     grunt dist-ff
-    
+
 This will get you the latest firefox addons-sdk to build the addon.
 
 The addon will be in `dist/mailvelope.firefox.xpi`.
@@ -86,5 +88,5 @@ Use of this source code is governed by the GNU AFFERO GENERAL PUBLIC LICENSE tha
 ## About
 
 Project lead: Thomas Oberndörfer <toberndo@yarkon.de>
-follow me on [Twitter](https://twitter.com/#!/toberndo)  
+follow me on [Twitter](https://twitter.com/#!/toberndo)
 Contributors: see [list on GitHub](https://github.com/mailvelope/mailvelope/graphs/contributors)
