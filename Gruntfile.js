@@ -276,6 +276,18 @@ module.exports = function(grunt) {
           src: ['chrome/**/*', 'chrome/!**/.*'],
           cwd: 'build/'
         }]
+      },
+      doc: {
+        options: {
+          mode: 'zip',
+          archive: 'dist/mailvelope.client-api-documentation.zip',
+          pretty: true
+        },
+        files: [{
+          expand: true,
+          src: ['**/*'],
+          cwd: 'build/doc/'
+        }]
       }
     },
 
@@ -330,6 +342,7 @@ module.exports = function(grunt) {
   //custom tasks
   grunt.registerTask('dist-cr', ['compress:chrome']);
   grunt.registerTask('dist-ff', ['mozilla-addon-sdk', 'mozilla-cfx-xpi']);
+  grunt.registerTask('dist-doc', ['jsdoc', 'compress:doc']);
   grunt.registerTask('start-ff-clean', ['mozilla-cfx:run_stable']);
 
   grunt.registerTask('copy_default', ['copy:vendor', 'copy:common', 'copy:plugins', 'copy:common_browser', 'copy:locale_firefox', 'copy:dep']);
