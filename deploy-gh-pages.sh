@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $TRAVIS_BRANCH -ne "master" ] || [ $TRAVIS_SECURE_ENV_VARS -ne "true" ]; then
+if [ $TRAVIS_BRANCH != "master" ] || [ $TRAVIS_SECURE_ENV_VARS != "true" ]; then
  echo "Not building on master branch or building a pull request -> not updating gh-pages";
  exit 0;
 fi
