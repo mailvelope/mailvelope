@@ -5,11 +5,15 @@ before_install:
 - npm install -g bower
 install:
 - cd dep/chrome/openpgpjs
-- npm install && grunt
+- npm install
+- grunt
 - cd ../../firefox/openpgpjs
-- npm install && grunt
+- npm install
+- grunt
 - cd ../../..
-- npm install && bower install && grunt
+- npm install
+- bower install
+- grunt
 script:
 - grunt dist-cr
 - grunt dist-ff
