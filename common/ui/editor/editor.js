@@ -84,7 +84,7 @@ var mvelo = mvelo || null;
         });
       }).then(callback);
     } else {
-      mvelo.appendTpl($('body'), 'tpl/editor-popup.html').then(function() {
+      mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-popup.html')).then(function() {
         $('#editorDialog').addClass('secureBackground');
         $('#cancelBtn').click(onCancel);
         $('#transferBtn').click(onTransfer);
@@ -94,10 +94,10 @@ var mvelo = mvelo || null;
                      .prop('disabled', true);
         $('#transferBtn').hide();
         Promise.all([
-          mvelo.appendTpl($('#editorDialog .modal-body'), 'tpl/editor-body.html'),
-          //mvelo.appendTpl($('#editorDialog .modal-footer'), 'tpl/editor-upload.html'),
-          mvelo.appendTpl($('body'), 'tpl/encrypt-modal.html'),
-          mvelo.appendTpl($('body'), 'tpl/transfer-warn.html').then(function() {
+          mvelo.appendTpl($('#editorDialog .modal-body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')),
+          //mvelo.appendTpl($('#editorDialog .modal-footer'), mvelo.extension.getURL('common/ui/editor/tpl/editor-upload.html')),
+          mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/encrypt-modal.html')),
+          mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/transfer-warn.html')).then(function() {
             // transfer warning modal
             $('#transferWarn .btn-primary').click(transfer);
             $('#transferWarn').hide();
