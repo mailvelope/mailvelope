@@ -159,7 +159,7 @@
   /**
    * Exports the public key as an ascii armored string.
    * Only keys belonging to the user (corresponding private key exists) can be exported.
-   * @param emailAddr - email address to identify the public key
+   * @param {string} emailAddr - email address to identify the public key
    * @returns {Promise.<mailvelope.AsciiArmored>}
    * @example
    * mailvelope.exportOwnPublicKey('abc@web.de').then(function(armoredPublicKey) {
