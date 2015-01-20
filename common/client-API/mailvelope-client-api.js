@@ -33,11 +33,10 @@
 (function() {
 
   /**
-   * Creates a new instance
+   * Not accessible, see {@tutorial Readme} instead on how to optain access to an insance.
    * @constructor
    * @private
    * @alias mailvelope.Mailvelope
-   * @tutorial client-api-basics
    */
   var Mailvelope = function() {};
 
@@ -113,6 +112,16 @@
    * @param {mailvelope.CssSelector} selector - target container
    * @param {mailvelope.EditorContainerOptions} options
    * @returns {Promise.<mailvelope.Editor>}
+   * @example
+   * mailvelope.createEditorContainer('#editor-element').then(function(editor) {
+   *     // register event handler for mail client send button
+   *     $('#mailer-send').click(function() {
+   *         // encrypt current content of editor for array of recipients
+   *         editor.encrypt(['info@mailvelope.com', 'abc@web.de']).then( function(armored) {
+   *           console.log('encrypted message', armored);
+   *         });
+   *     });
+   * });
    */
   Mailvelope.prototype.createEditorContainer = function(selector, options) {
     return postMessage('editor-container', {selector: selector, options: options}).then(function(editorId) {
@@ -132,7 +141,8 @@
   };
 
   /**
-   * Constructs a new Keyring instance
+   * Not accessible, instance can be obtained using {@link mailvelope.Mailvelope#getKeyring}
+   * or {@link mailvelope.Mailvelope#createKeyring}.
    * @constructor
    * @private
    * @alias mailvelope.Keyring
@@ -146,16 +156,31 @@
     return postMessage('get-key-info', {identifier: this.identifier, recipients: recipients});
   };
 
+  /**
+   * Exports the public key as an ascii armored string.
+   * Only keys belonging to the user (corresponding private key exists) can be exported.
+   * @param emailAddr - email address to identify the public key
+   * @returns {Promise.<mailvelope.AsciiArmored>}
+   * @example
+   * mailvelope.exportOwnPublicKey('abc@web.de').then(function(armoredPublicKey) {
+   *   console.log('exportOwnPublicKey', armoredPublicKey); // prints: "-----BEGIN PGP PUBLIC KEY BLOCK..."
+   * });
+   */
   Keyring.prototype.exportOwnPublicKey = function(emailAddr) {
     return postMessage('export-own-pub-key', {identifier: this.identifier, emailAddr: emailAddr});
   };
 
+  /**
+   * Asks the user if he wants to import the public key.
+   * @param {mailvelope.AsciiArmored} armored - public key to import
+   * @returns {Promise.<void>}
+   */
   Keyring.prototype.importPublicKey = function(armored) {
     return postMessage('import-pub-key', {identifier: this.identifier, armored: armored});
   };
 
   /**
-   * Constructs a new editor instance
+   * Not accessible, instance can be obtained using {@link mailvelope.Mailvelope#createEditorContainer}.
    * @private
    * @param {string} editorId - the internal id of the editor
    * @alias mailvelope.Editor
@@ -165,6 +190,15 @@
     this.editorId = editorId;
   };
 
+  /**
+   * Requests the encryption of the editor content for the given recipients.
+   * @param {Array} recipients - list of email addresses for public key lookup and encryption
+   * @returns {Promise.<mailvelope.AsciiArmored>}
+   * @example
+   * editor.encrypt(['abc@web.de', 'info@mailvelope.com']).then(function (armoredMessage) {
+   *     console.log('encrypt', armoredMessage); // prints: "-----BEGIN PGP MESSAGE..."
+   * }
+   */
   Editor.prototype.encrypt = function(recipients) {
     return postMessage('editor-encrypt', {recipients: recipients, editorId: this.editorId});
   };
