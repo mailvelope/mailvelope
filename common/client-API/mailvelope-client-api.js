@@ -24,19 +24,13 @@
 
 'use strict';
 
-/**
- * @name MailvelopeNS
- * @namespace mailvelope
- * @tutorial client-api-basics
- */
-
 (function() {
 
   /**
-   * Not accessible, see {@tutorial Readme} instead on how to optain access to an insance.
+   * Not accessible, see {@tutorial Readme} instead on how to obtain access to an instance.
    * @constructor
    * @private
-   * @alias mailvelope.Mailvelope
+   * @alias Mailvelope
    */
   var Mailvelope = function() {};
 
@@ -51,7 +45,7 @@
   /**
    * Retrieves the Keyring for the given identifier
    * @param {string} identifier - the identifier of the keyring
-   * @returns {Promise.<mailvelope.Keyring>}
+   * @returns {Promise.<Keyring>}
    */
   Mailvelope.prototype.getKeyring = function(identifier) {
     return postMessage('get-keyring', {identifier: identifier}).then(function() {
@@ -62,7 +56,7 @@
   /**
    * Creates a Keyring for the given identifier
    * @param {string} identifier - the identifier of the new keyring
-   * @returns {Promise.<mailvelope.Keyring>}
+   * @returns {Promise.<Keyring>}
    */
   Mailvelope.prototype.createKeyring = function(identifier) {
     return postMessage('create-keyring', {identifier: identifier}).then(function() {
@@ -72,25 +66,25 @@
 
   /**
    * Ascii Armored PGP Text Block
-   * @typedef {string} mailvelope.AsciiArmored
+   * @typedef {string} AsciiArmored
    */
 
   /**
    * CSS Selector String
-   * @typedef {string} mailvelope.CssSelector
+   * @typedef {string} CssSelector
    */
 
   /**
-   * @typedef {Object} mailvelope.DisplayContainerOptions
+   * @typedef {Object} DisplayContainerOptions
    * @property {boolean} showExternalContent - if true loads external content into the display container (default: true)
    */
 
   /**
    * Creates an iframe to display the decrypted content of the encrypted mail.
    * The iframe will be injected into the container identified by selector.
-   * @param {mailvelope.CssSelector} selector - target container
-   * @param {mailvelope.AsciiArmored} armored - the encrypted mail to display
-   * @param {mailvelope.DisplayContainerOptions} options
+   * @param {CssSelector} selector - target container
+   * @param {AsciiArmored} armored - the encrypted mail to display
+   * @param {DisplayContainerOptions} options
    * @returns {Promise.<void>}
    */
   Mailvelope.prototype.createDisplayContainer = function(selector, armored, options) {
@@ -98,10 +92,10 @@
   };
 
   /**
-   * @typedef {Object} mailvelope.EditorContainerOptions
+   * @typedef {Object} EditorContainerOptions
    * @property {int} quota - limit of the encrypted mail size in kilobytes (default: 20480)
    * @property {string} predefinedText - text that will be added to the editor
-   * @property {mailvelope.AsciiArmored} quotedMail - mail that should be quoted
+   * @property {AsciiArmored} quotedMail - mail that should be quoted
    * @property {boolean} quotedMailIndent - if true the quoted mail will be indented (default: true)
    * @property {string} quotedMailHeader - header to be added before the quoted mail
    */
@@ -109,9 +103,9 @@
   /**
    * Creates an iframe to with an editor for a new encrypted mail.
    * The iframe will be injected into the container identified by selector.
-   * @param {mailvelope.CssSelector} selector - target container
-   * @param {mailvelope.EditorContainerOptions} options
-   * @returns {Promise.<mailvelope.Editor>}
+   * @param {CssSelector} selector - target container
+   * @param {EditorContainerOptions} options
+   * @returns {Promise.<Editor>}
    * @example
    * mailvelope.createEditorContainer('#editor-element').then(function(editor) {
    *     // register event handler for mail client send button
@@ -132,8 +126,8 @@
   /**
    * Creates an iframe to display the keyring settings.
    * The iframe will be injected into the container identified by selector.
-   * @param {mailvelope.CssSelector} selector - target container
-   * @param {mailvelope.Keyring} keyring - the keyring to use for the setup
+   * @param {CssSelector} selector - target container
+   * @param {Keyring} keyring - the keyring to use for the setup
    * @returns {Promise.<void>}
    */
   Mailvelope.prototype.createSettingsContainer = function(selector, keyring) {
@@ -141,11 +135,11 @@
   };
 
   /**
-   * Not accessible, instance can be obtained using {@link mailvelope.Mailvelope#getKeyring}
-   * or {@link mailvelope.Mailvelope#createKeyring}.
+   * Not accessible, instance can be obtained using {@link Mailvelope#getKeyring}
+   * or {@link Mailvelope#createKeyring}.
    * @constructor
    * @private
-   * @alias mailvelope.Keyring
+   * @alias Keyring
    * @param {string} identifier - the keyring identifier
    */
   var Keyring = function(identifier) {
@@ -159,8 +153,8 @@
   /**
    * Exports the public key as an ascii armored string.
    * Only keys belonging to the user (corresponding private key exists) can be exported.
-   * @param {string} emailAddr - email address to identify the public key
-   * @returns {Promise.<mailvelope.AsciiArmored>}
+   * @param {string} emailAddr - email address to identify the public+private key
+   * @returns {Promise.<AsciiArmored>}
    * @example
    * mailvelope.exportOwnPublicKey('abc@web.de').then(function(armoredPublicKey) {
    *   console.log('exportOwnPublicKey', armoredPublicKey); // prints: "-----BEGIN PGP PUBLIC KEY BLOCK..."
@@ -172,7 +166,7 @@
 
   /**
    * Asks the user if he wants to import the public key.
-   * @param {mailvelope.AsciiArmored} armored - public key to import
+   * @param {AsciiArmored} armored - public key to import
    * @returns {Promise.<void>}
    */
   Keyring.prototype.importPublicKey = function(armored) {
@@ -180,10 +174,10 @@
   };
 
   /**
-   * Not accessible, instance can be obtained using {@link mailvelope.Mailvelope#createEditorContainer}.
+   * Not accessible, instance can be obtained using {@link Mailvelope#createEditorContainer}.
    * @private
    * @param {string} editorId - the internal id of the editor
-   * @alias mailvelope.Editor
+   * @alias Editor
    * @constructor
    */
   var Editor = function(editorId) {
@@ -192,10 +186,10 @@
 
   /**
    * Requests the encryption of the editor content for the given recipients.
-   * @param {Array} recipients - list of email addresses for public key lookup and encryption
-   * @returns {Promise.<mailvelope.AsciiArmored>}
+   * @param {Array.<string>} recipients - list of email addresses for public key lookup and encryption
+   * @returns {Promise.<AsciiArmored>}
    * @example
-   * editor.encrypt(['abc@web.de', 'info@mailvelope.com']).then(function (armoredMessage) {
+   * editor.encrypt(['abc@web.de', 'info@com']).then(function (armoredMessage) {
    *     console.log('encrypt', armoredMessage); // prints: "-----BEGIN PGP MESSAGE..."
    * }
    */
@@ -256,6 +250,11 @@
     });
   }
 
+  /**
+   * Global instance of {@link Mailvelope}
+   * @global
+   * @type {Mailvelope}
+   */
   window.mailvelope = new Mailvelope();
 
   window.addEventListener('message', eventListener);
