@@ -171,6 +171,15 @@
   };
 
   /**
+   * Checks if the user has a private key for the emailAddr.
+   * @param {string} emailAddr - email address to identify the public+private key
+   * @returns {Promise.<void>}
+   */
+  Keyring.prototype.hasPrivateKey = function(emailAddr) {
+    this.exportOwnPublicKey(emailAddr).then(function() {});
+  };
+
+  /**
    * Asks the user if he wants to import the public key.
    * @param {mailvelope.AsciiArmored} armored - public key to import
    * @returns {Promise.<void>}
