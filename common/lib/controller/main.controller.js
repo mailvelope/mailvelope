@@ -126,7 +126,7 @@ define(function(require, exports, module) {
       case 'open-popup':
         mvelo.windows.openPopup(request.url);
         break;
-      case 'get-key-info':
+      case 'query-valid-key':
         var keyIdMap = model.getKeyIdByAddress(request.recipients, {validity: true});
         Object.keys(keyIdMap).forEach(function(email) {
           if (keyIdMap[email]) {

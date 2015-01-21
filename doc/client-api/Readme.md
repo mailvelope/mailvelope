@@ -1,8 +1,7 @@
 Basic Usage
 -----------
 The Mailvelope extension injects a script into the page to make its client-api accessible.
-Since the timing is not defined consumers will have to use the following method or something equivalent to reliably obtain a
-reference to the Mailvelope client-api.
+Since the timing is not defined consumers will have to use the following method or something equivalent to reliably obtain a reference to the Mailvelope client-API.
 ```
 (function() {
 
@@ -10,7 +9,7 @@ reference to the Mailvelope client-api.
     if (typeof mailvelope !== 'undefined') {
       mailvelopeLoaded();
     } else {
-      $('body').on('mailvelope', mailvelopeLoaded);
+      $(document).on('mailvelope', mailvelopeLoaded);
     }
   }
 
@@ -23,5 +22,4 @@ reference to the Mailvelope client-api.
 }());
 ```
 
-The `mailvelope` object will be an instance of the [mailvelope.Mailvelope](mailvelope.Mailvelope.html) class, please refer to
-its methods for further documentation.
+The `mailvelope` object will be an instance of the [mailvelope.Mailvelope](mailvelope.Mailvelope.html) class, please refer to its methods for further documentation.

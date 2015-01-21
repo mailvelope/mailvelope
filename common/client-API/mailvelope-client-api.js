@@ -33,7 +33,7 @@
 (function() {
 
   /**
-   * Not accessible, see {@tutorial Readme} instead on how to optain access to an insance.
+   * Not accessible, see {@tutorial Readme} instead on how to optain access to an instance.
    * @constructor
    * @private
    * @alias mailvelope.Mailvelope
@@ -63,6 +63,11 @@
    * Creates a Keyring for the given identifier
    * @param {string} identifier - the identifier of the new keyring
    * @returns {Promise.<mailvelope.Keyring>}
+   * @example
+   * mailvelope.createKeyring('Account-ID-4711').then(function(keyring) {
+   *     // continue to display the settings container and start the setup wizard
+   *     mailvelope.createSettingsContainer('#mailvelope-settings', keyring);
+   * });
    */
   Mailvelope.prototype.createKeyring = function(identifier) {
     return postMessage('create-keyring', {identifier: identifier}).then(function() {
@@ -90,11 +95,12 @@
    * The iframe will be injected into the container identified by selector.
    * @param {mailvelope.CssSelector} selector - target container
    * @param {mailvelope.AsciiArmored} armored - the encrypted mail to display
+   * @param {mailvelope.Keyring} keyring - the keyring to use for this operation
    * @param {mailvelope.DisplayContainerOptions} options
    * @returns {Promise.<void>}
    */
-  Mailvelope.prototype.createDisplayContainer = function(selector, armored, options) {
-    return postMessage('display-container', {selector: selector, armored: armored, options: options});
+  Mailvelope.prototype.createDisplayContainer = function(selector, armored, keyring, options) {
+    return postMessage('display-container', {selector: selector, armored: armored, identifier: keyring.identifier, options: options});
   };
 
   /**
@@ -110,21 +116,22 @@
    * Creates an iframe to with an editor for a new encrypted mail.
    * The iframe will be injected into the container identified by selector.
    * @param {mailvelope.CssSelector} selector - target container
+   * @param {mailvelope.Keyring} keyring - the keyring to use for this operation
    * @param {mailvelope.EditorContainerOptions} options
    * @returns {Promise.<mailvelope.Editor>}
    * @example
-   * mailvelope.createEditorContainer('#editor-element').then(function(editor) {
+   * mailvelope.createEditorContainer('#editor-element', keyring).then(function(editor) {
    *     // register event handler for mail client send button
    *     $('#mailer-send').click(function() {
    *         // encrypt current content of editor for array of recipients
-   *         editor.encrypt(['info@mailvelope.com', 'abc@web.de']).then( function(armored) {
+   *         editor.encrypt(['info@mailvelope.com', 'abc@web.de']).then(function(armored) {
    *           console.log('encrypted message', armored);
    *         });
    *     });
    * });
    */
-  Mailvelope.prototype.createEditorContainer = function(selector, options) {
-    return postMessage('editor-container', {selector: selector, options: options}).then(function(editorId) {
+  Mailvelope.prototype.createEditorContainer = function(selector, keyring, options) {
+    return postMessage('editor-container', {selector: selector, identifier: keyring.identifier, options: options}).then(function(editorId) {
       return new Editor(editorId);
     });
   };
@@ -152,8 +159,17 @@
     this.identifier = identifier;
   };
 
-  Keyring.prototype.getKeyInfoForAddress = function(recipients) {
-    return postMessage('get-key-info', {identifier: this.identifier, recipients: recipients});
+  /**
+   * Checks for valid key in the keyring for provided email addresses
+   * @param  {Array} recipients - list of email addresses for key lookup
+   * @return {Promise.<Object>} an object that maps email addresses to a status (false: no valid key, {}: valid key)
+   * @example
+   * keyring.validKeyForAddress(['abc@web.de', 'info@mailvelope.com']).then(function(result) {
+   *     console.log(result); // {'abc@web.de': false, 'info@mailvelope.com': {}}
+   * });
+   */
+  Keyring.prototype.validKeyForAddress = function(recipients) {
+    return postMessage('query-valid-key', {identifier: this.identifier, recipients: recipients});
   };
 
   /**
@@ -162,7 +178,7 @@
    * @param {string} emailAddr - email address to identify the public key
    * @returns {Promise.<mailvelope.AsciiArmored>}
    * @example
-   * mailvelope.exportOwnPublicKey('abc@web.de').then(function(armoredPublicKey) {
+   * keyring.exportOwnPublicKey('abc@web.de').then(function(armoredPublicKey) {
    *   console.log('exportOwnPublicKey', armoredPublicKey); // prints: "-----BEGIN PGP PUBLIC KEY BLOCK..."
    * });
    */
@@ -171,7 +187,7 @@
   };
 
   /**
-   * Asks the user if he wants to import the public key.
+   * Asks the user if they want to import the public key.
    * @param {mailvelope.AsciiArmored} armored - public key to import
    * @returns {Promise.<void>}
    */

@@ -122,19 +122,19 @@ mvelo.domAPI.eventListener = function(event) {
         mvelo.domAPI.createKeyring(data.identifier, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'display-container':
-        mvelo.domAPI.displayContainer(data.selector, data.armored, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
+        mvelo.domAPI.displayContainer(data.selector, data.armored, data.identifier, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'editor-container':
-        mvelo.domAPI.editorContainer(data.selector, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
+        mvelo.domAPI.editorContainer(data.selector, data.identifier, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'settings-container':
-        mvelo.domAPI.settingsContainer(data.identifier, data.selector, mvelo.domAPI.reply.bind(null, event.data.id));
+        mvelo.domAPI.settingsContainer(data.selector, data.identifier, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'editor-encrypt':
         mvelo.domAPI.editorEncrypt(data.editorId, data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
-      case 'get-key-info':
-        mvelo.domAPI.getKeyInfoForAddress(data.identifier, data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
+      case 'query-valid-key':
+        mvelo.domAPI.validKeyForAddress(data.identifier, data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'export-own-pub-key':
         mvelo.domAPI.exportOwnPublicKey(data.identifier, data.emailAddr, mvelo.domAPI.reply.bind(null, event.data.id));
@@ -160,7 +160,7 @@ mvelo.domAPI.createKeyring = function(identifier, callback) {
   callback();
 };
 
-mvelo.domAPI.displayContainer = function(selector, armored, options, callback) {
+mvelo.domAPI.displayContainer = function(selector, armored, identifier, options, callback) {
   var container, error;
   switch (mvelo.main.getMessageType(armored)) {
     case mvelo.PGP_MESSAGE:
@@ -182,13 +182,13 @@ mvelo.domAPI.displayContainer = function(selector, armored, options, callback) {
   container.create(armored, callback);
 };
 
-mvelo.domAPI.editorContainer = function(selector, options, callback) {
+mvelo.domAPI.editorContainer = function(selector, identifier, options, callback) {
   var container = new mvelo.EditorContainer(selector);
   this.containers.set(container.id, container);
   container.create(callback);
 };
 
-mvelo.domAPI.settingsContainer = function(identifier, selector, callback) {
+mvelo.domAPI.settingsContainer = function(selector, identifier, callback) {
   // TODO
   callback();
 };
@@ -197,9 +197,9 @@ mvelo.domAPI.editorEncrypt = function(editorId, recipients, callback) {
   this.containers.get(editorId).encrypt(recipients, callback);
 };
 
-mvelo.domAPI.getKeyInfoForAddress = function(identifier, recipients, callback) {
+mvelo.domAPI.validKeyForAddress = function(identifier, recipients, callback) {
   mvelo.extension.sendMessage({
-    event: 'get-key-info',
+    event: 'query-valid-key',
     identifier: identifier,
     recipients: recipients
   }, function(result) {
