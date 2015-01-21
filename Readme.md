@@ -22,6 +22,11 @@ https://chrome.google.com/webstore/detail/kajibbejlbohfaggdiogboambcijhkke
 
 Check the [releases](https://github.com/mailvelope/mailvelope/releases) section for latest builds of Firefox and Chrome installation packages.
 
+## Client Api Documentation
+
+You can find the current [Api Documentation](https://mailvelope.github.io/mailvelope) on github pages. The version will correspond
+to the current master branch.
+
 ## Build instructions
 
 If you don’t have grunt and bower installed, yet:
