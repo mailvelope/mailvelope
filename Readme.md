@@ -22,6 +22,10 @@ https://chrome.google.com/webstore/detail/kajibbejlbohfaggdiogboambcijhkke
 
 Check the [releases](https://github.com/mailvelope/mailvelope/releases) section for latest builds of Firefox and Chrome installation packages.
 
+## Client API (experimental)
+
+You can find the current [API Documentation](https://mailvelope.github.io/mailvelope) on GitHub pages. The version will correspond to the current master branch.
+
 ## Build instructions
 
 If you don’t have grunt and bower installed, yet:
@@ -87,6 +91,6 @@ Use of this source code is governed by the GNU AFFERO GENERAL PUBLIC LICENSE tha
 
 ## About
 
-Project lead: Thomas Oberndörfer <toberndo@yarkon.de>
-follow me on [Twitter](https://twitter.com/#!/toberndo)
+Project lead: Thomas Oberndörfer <thomas@mailvelope.com>
+Twitter: [@mailvelope](https://twitter.com/mailvelope) 
 Contributors: see [list on GitHub](https://github.com/mailvelope/mailvelope/graphs/contributors)
