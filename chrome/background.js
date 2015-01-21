@@ -63,9 +63,6 @@ define([
   var injectTimeSlot = 600;
   // injection time slot currently open
   var injectOpen = true;
-
-  var injectTimer = new mvelo.util.Timer(600);
-
   // optimized cs injection variant, bootstrap code injected that loads cs
   var injectOptimized = true;
   // keep reloaded iframes
@@ -169,26 +166,32 @@ define([
   function watchListRequestHandler(details) {
     // store frame URL
     frameHosts.push(model.getHost(details.url));
-    if (injectTimer.isOff() || details.type === "main_frame") {
-      injectTimer.start();
-      if (frameHosts.length !== 0) {
-        // requests since last inject
+    if (injectOpen || details.type === "main_frame") {
+      setTimeout(function() {
+        if (frameHosts.length === 0) {
+          // no requests since last inject
+          return;
+        }
         if (injectOptimized) {
           chrome.tabs.executeScript(details.tabId, {code: csBootstrap(), allFrames: true}, function() {
             chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
-            injectTimer.start();
+            // open injection time slot
+            injectOpen = true;
           });
         } else {
           chrome.tabs.executeScript(details.tabId, {file: "common/dep/jquery.min.js", allFrames: true}, function() {
             chrome.tabs.executeScript(details.tabId, {file: "common/ui/inline/cs-mailvelope.js", allFrames: true}, function() {
               chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
-              injectTimer.start();
+              // open injection time slot
+              injectOpen = true;
             });
           });
         }
         // reset buffer after injection
         frameHosts.length = 0;
-      }
+      }, injectTimeSlot);
+      // close injection time slot
+      injectOpen = false;
     }
   }
 
