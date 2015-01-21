@@ -46,6 +46,11 @@ define(function(require, exports, module) {
     specific.deactivate = obj.deactivate;
   }
 
+  // needed only for demo purposes
+  function randomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
   function handleMessageEvent(request, sender, sendResponse) {
     //console.log('controller: handleMessageEvent', request);
     switch (request.event) {
@@ -101,6 +106,20 @@ define(function(require, exports, module) {
         break;
       case 'get-security-token':
         sendResponse({code: prefs.data().security.secure_code, color: prefs.data().security.secure_color});
+        break;
+      case 'get-security-background':
+        sendResponse({
+          color: prefs.data().security.secureBgndColor,
+          iconColor: prefs.data().security.secureBgndIconColor,
+          //angle: prefs.data().security.secureBgndAngle,
+          //scaling: prefs.data().security.secureBgndScaling,
+          //width: prefs.data().security.secureBgndWidth,
+          //height: prefs.data().security.secureBgndHeight
+          angle: randomNumber(0, 120) - 60,
+          scaling: randomNumber(9, 15) / 10,
+          width: randomNumber(30, 60),
+          height: randomNumber(30, 60)
+        });
         break;
       case 'get-version':
         sendResponse(defaults.getVersion());
