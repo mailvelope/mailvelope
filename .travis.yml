@@ -27,10 +27,8 @@ env:
 deploy:
  provider: releases
  api-key: ${GH_TOKEN}
- files:
- - dist/mailvelope.chrome.zip
- - dist/mailvelope.firefox.xpi
- - dist/mailvelope.client-api-documentation.zip
+ file: dist/*
+ file_glob: true
  skip_cleanup: true
  on:
   tags: true
