@@ -75,7 +75,6 @@
 .attachmentExtension {
     display: inline-block;
     font-weight: normal !important;
-    padding: 0 3px;
     border-radius: 2px;
     height: 14px;
     background-color: #8a8a8a;
@@ -85,6 +84,7 @@
     cursor: pointer;
     text-transform: uppercase;
     vertical-align: middle;
+    padding: 1px 3px 1px 3px;
 }
 
 .attachmentExtension:hover {
@@ -97,14 +97,7 @@
     padding: 0;
     color: white;
     background-color: #a3a3a3;
-    line-height: 11px;
-    font-weight: bold;
     margin-left: 3px;
-    vertical-align: middle;
-}
-
-.removeAttachment:before {
-    content: "×";
 }
 
 .removeAttachment:hover {
@@ -113,8 +106,9 @@
 }
 
 /* Overwriting some Bootstrap */
-textarea:active {
-    border: greenyellow !important;
+textarea.form-control:active, textarea.form-control:focus {
+    border-color: #aaaaaa !important;
+    box-shadow: none;
 }
 
 .btn {
