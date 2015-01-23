@@ -194,14 +194,6 @@ body {
     align-items: flex-start;
 }
 
-#uploadPanel .label {
-    margin-right: 4px;
-}
-
-#uploadPanel .removeAttachment:before {
-    content: "×";
-}
-
 .uploadBtnIcon {
      width: 20px;
      height: 20px;
