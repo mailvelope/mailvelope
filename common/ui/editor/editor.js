@@ -74,10 +74,18 @@ var mvelo = mvelo || null;
       mvelo.l10n.localizeHTML();
       mvelo.util.showSecurityBackground();
     });
+    if (mvelo.ffa) {
+      var commonPath = mvelo.extension._dataPath + 'common';
+      var styleBootstrap = $('<link/>', {rel: 'stylesheet', href: commonPath + '/dep/bootstrap/css/bootstrap.css'});
+      var styleMvelo = $('<link/>', {rel: 'stylesheet', href: commonPath + '/ui/mvelo.css'});
+      $(document).contents().find('head').append(styleBootstrap);
+      $(document).contents().find('head').append(styleMvelo);
+    }
   }
 
   function loadTemplates(embedded, callback) {
     if (embedded) {
+      $('body').addClass("secureBackground");
       mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')).then(function() {
         $('#uploadEmbeddedBtn').on("click", function() {
           $('#addFileInput').click();
@@ -141,7 +149,7 @@ var mvelo = mvelo || null;
 
     var objectURL = window.URL.createObjectURL(file);
 
-    var removeUploadButton = $('<span/>', {
+    var $removeUploadButton = $('<span/>', {
       "data-id": id,
       "class": 'glyphicon removeAttachment'
     }).on("click", function(e) {
@@ -150,22 +158,26 @@ var mvelo = mvelo || null;
       $(this).parent().remove();
     });
 
-    var extensionButton = $('<span/>', {
+    var $extensionButton = $('<span/>', {
       "data-id": id,
       "class": 'label attachmentExtension ' + extClass
     }).append(fileExt);
 
-    var fileUI = $('<a/>', {
-      "download": file.name,
-      "href": objectURL,
-      "class": 'label label-default attachmentButton'
-    })
-    .append(extensionButton)
-    .append(" " + fileNameNoExt + " ")
-    .append(removeUploadButton);
+    var $fileName = $('<span/>', {
+      "class": 'filename'
+    }).append(fileNameNoExt);
 
-    var $uploadPanel = $("#uploadPanel");
-    $uploadPanel.append(fileUI).append("&nbsp;");
+    var fileUI = $('<a/>', {
+      //"download": file.name, // enabling the downloading of the attachments in the editor
+      "title": file.name,
+      "href": "#", //objectURL,
+      "class": 'attachmentButton'
+    })
+      .append($extensionButton)
+      .append($fileName)
+      .append($removeUploadButton);
+
+    $("#uploadPanel").append(fileUI);
   }
 
   function onAddAttachment(selection) {
@@ -228,7 +240,8 @@ var mvelo = mvelo || null;
       sandbox: 'allow-same-origin allow-scripts',
       frameBorder: 0,
       css: {
-        "overflow-y": 'hidden'
+        'overflow-y': 'hidden',
+        'opacity':    '0.8'
       }
     });
     var text = $('<textarea/>', {
@@ -237,19 +250,24 @@ var mvelo = mvelo || null;
       rows: 12,
       autofocus: '',
       css: {
-        width: '100%',
-        height: '100%',
-        'margin-bottom': 0,
-        color: 'black',
-        resize: 'none'
+        'width':        '100%',
+        'height':       '100%',
+        'margin-bottom': '0',
+        'color':        'black',
+        'resize':       'none'
       }
     });
     var style = $('<link/>', {
       rel: 'stylesheet',
       href: '../../dep/bootstrap/css/bootstrap.css'
     });
+    var style2 = $('<link/>', {
+      rel: 'stylesheet',
+      href: '../../ui/mvelo.css'
+    });
     sandbox.one('load', function() {
       sandbox.contents().find('head').append(style);
+      sandbox.contents().find('head').append(style2);
       sandbox.contents().find('body').attr("style", "overflow: hidden; margin: 0").append(text);
     });
     $('#plainText').append(sandbox);
