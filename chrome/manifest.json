@@ -48,6 +48,7 @@
     "common/ui/inline/dialogs/signDialog.html",
     "common/ui/editor/editor.html",
     "common/dep/bootstrap/css/bootstrap.css",
+    "common/ui/mvelo.css",
     "common/dep/wysihtml5/css/wysihtml5.css",
     "common/ui/inline/dialogs/verifyInlineSig.css",
     "common/res/fonts/Courgette-Regular.ttf",
