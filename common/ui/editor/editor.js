@@ -39,6 +39,7 @@ var mvelo = mvelo || null;
   var undoText = null;
   var initText = null;
   var attachments = {};
+  var commonPath;
 
   // maximal size of the attachments in bytes, ca 50 MB
   var maxFileUploadSize = 50 * 1024 * 1024;
@@ -75,7 +76,7 @@ var mvelo = mvelo || null;
       mvelo.util.showSecurityBackground();
     });
     if (mvelo.ffa) {
-      var commonPath = mvelo.extension._dataPath + 'common';
+      commonPath = mvelo.extension._dataPath + 'common';
       var styleBootstrap = $('<link/>', {rel: 'stylesheet', href: commonPath + '/dep/bootstrap/css/bootstrap.css'});
       var styleMvelo = $('<link/>', {rel: 'stylesheet', href: commonPath + '/ui/mvelo.css'});
       $(document).contents().find('head').append(styleBootstrap);
@@ -103,7 +104,6 @@ var mvelo = mvelo || null;
         $('#transferBtn').hide();
         Promise.all([
           mvelo.appendTpl($('#editorDialog .modal-body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')),
-          //mvelo.appendTpl($('#editorDialog .modal-footer'), mvelo.extension.getURL('common/ui/editor/tpl/editor-upload.html')),
           mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/encrypt-modal.html')),
           mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/transfer-warn.html')).then(function() {
             // transfer warning modal
@@ -147,11 +147,11 @@ var mvelo = mvelo || null;
     };
     fileReader.readAsArrayBuffer(file);
 
-    var objectURL = window.URL.createObjectURL(file);
+    //var objectURL = window.URL.createObjectURL(file);
 
     var $removeUploadButton = $('<span/>', {
       "data-id": id,
-      "class": 'glyphicon removeAttachment'
+      "class": 'glyphicon glyphicon-remove removeAttachment'
     }).on("click", function(e) {
       e.preventDefault();
       removeAttachment($(this).attr("data-id"));
@@ -167,10 +167,8 @@ var mvelo = mvelo || null;
       "class": 'filename'
     }).append(fileNameNoExt);
 
-    var fileUI = $('<a/>', {
-      //"download": file.name, // enabling the downloading of the attachments in the editor
+    var fileUI = $('<div/>', {
       "title": file.name,
-      "href": "#", //objectURL,
       "class": 'attachmentButton'
     })
       .append($extensionButton)
@@ -257,14 +255,8 @@ var mvelo = mvelo || null;
         'resize':       'none'
       }
     });
-    var style = $('<link/>', {
-      rel: 'stylesheet',
-      href: '../../dep/bootstrap/css/bootstrap.css'
-    });
-    var style2 = $('<link/>', {
-      rel: 'stylesheet',
-      href: '../../ui/mvelo.css'
-    });
+    var style = $('<link/>', { rel: 'stylesheet', href: commonPath + '/dep/bootstrap/css/bootstrap.css' });
+    var style2 = $('<link/>', { rel: 'stylesheet', href: commonPath + '/ui/mvelo.css' });
     sandbox.one('load', function() {
       sandbox.contents().find('head').append(style);
       sandbox.contents().find('head').append(style2);
