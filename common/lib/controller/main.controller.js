@@ -111,14 +111,14 @@ define(function(require, exports, module) {
         sendResponse({
           color: prefs.data().security.secureBgndColor,
           iconColor: prefs.data().security.secureBgndIconColor,
-          //angle: prefs.data().security.secureBgndAngle,
-          //scaling: prefs.data().security.secureBgndScaling,
-          //width: prefs.data().security.secureBgndWidth,
-          //height: prefs.data().security.secureBgndHeight
-          angle: randomNumber(0, 120) - 60,
-          scaling: randomNumber(9, 15) / 10,
-          width: randomNumber(30, 60),
-          height: randomNumber(30, 60)
+          angle: prefs.data().security.secureBgndAngle,
+          scaling: prefs.data().security.secureBgndScaling,
+          width: prefs.data().security.secureBgndWidth,
+          height: prefs.data().security.secureBgndHeight
+          //angle: randomNumber(0, 120) - 60, // (10, 350) | (0, 120) - 60
+          //scaling: randomNumber(9, 15) / 10,
+          //width: randomNumber(30, 60),
+          //height: randomNumber(30, 60)
         });
         break;
       case 'get-version':
