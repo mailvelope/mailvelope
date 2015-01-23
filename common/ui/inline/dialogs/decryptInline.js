@@ -82,17 +82,7 @@ var mvelo = mvelo || null;
 
   function addAttachmentPanel() {
     var attachments = $('<div/>', {
-      id: 'attachments',
-      css: {
-        position: 'absolute',
-        top: '0',
-        left: 0,
-        right: 0,
-        bottom: '0',
-        padding: '3px',
-        'background-color': 'rgba(0,0,0,0)', // #D7E3FF
-        overflow: 'auto'
-      }
+      id: 'attachments'
     });
     $('#wrapper').append(attachments);
   }
@@ -165,7 +155,7 @@ var mvelo = mvelo || null;
     var fileExt = mvelo.util.extractFileExtension(filename);
     var extClass = mvelo.util.getExtensionClass(fileExt);
 
-    var extensionButton = $('<span/>', {
+    var $extensionButton = $('<span/>', {
       "class": 'label attachmentExtension ' + extClass
     }).append(fileExt);
 
@@ -182,25 +172,28 @@ var mvelo = mvelo || null;
       objectURL = window.URL.createObjectURL(blob);
     }
 
-    var fileUI = $('<a/>', {
+    var $fileName = $('<span/>', {
+      "class": 'filename'
+    }).append(fileNameNoExt);
+
+    var $fileUI = $('<a/>', {
+        "download": filename,
         "href": objectURL,
-        "class": 'label label-default attachmentButton',
-        "download": filename
+        "title": filename,
+        "class": 'attachmentButton'
       })
-        .append(extensionButton)
-        .append(" " + fileNameNoExt + " ")
-        // workarround until ff36 is out, using addonsdk for file saving
+        .append($extensionButton)
+        .append($fileName)
         .on("click", function(e) {
+          // workarround for Firefox, using addonsdk for file saving
+          //var version = navigator.userAgent.substring(navigator.userAgent.indexOf("Firefox/") + 8, navigator.userAgent.length);
           if (mvelo.ffa) {
             e.preventDefault();
             port.postMessage({event: 'get-attachment', sender: id, attachmentId: attachmentId});
           }
-        })
-      ;
+        });
 
-    var $attachments = $('#attachments');
-    $attachments.append(fileUI);
-    $attachments.append("&nbsp;");
+    $('#attachments').append($fileUI);
   }
 
   function messageListener(msg) {
