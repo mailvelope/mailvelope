@@ -138,7 +138,7 @@ var options = options || null;
   function validateEmail(next) {
     var email = $('#genKeyEmail');
     // validate email
-    options.viewModel('validateEmail', [email.val()], function(valid) {
+    options.pgpModel('validateEmail', [email.val()], function(valid) {
       if (valid) {
         email.closest('.form-group').removeClass('has-error');
         email.next().addClass('hide');
@@ -158,7 +158,7 @@ var options = options || null;
     parameters.user = $('#genKeyName').val();
     parameters.email = $('#genKeyEmail').val();
     parameters.passphrase = $('#genKeyPwd').val();
-    options.viewModel('generateKey', [parameters], function(result, error) {
+    options.pgpModel('generateKey', [parameters], function(result, error) {
       if (!error) {
         $('#genAlert').showAlert(options.l10n.alert_header_success, options.l10n.key_gen_success, 'success');
         $('#generateKey').find('input, select').prop('disabled', true);

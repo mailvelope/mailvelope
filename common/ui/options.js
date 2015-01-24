@@ -16,7 +16,7 @@
  */
 
 /**
- * Listens for events from options UI in sandbox, forwards requests to view model pgpViewModel.js
+ * Listens for events from options UI in sandbox, forwards requests to pgpModel.js
  */
 
 'use strict';
@@ -112,13 +112,13 @@ var options = {};
     document.location.reload();
   }
 
-  exports.viewModel = function(method, args, callback) {
+  exports.pgpModel = function(method, args, callback) {
     if (typeof args === 'function') {
       callback = args;
       args = undefined;
     }
     mvelo.extension.sendMessage({
-      event: 'viewmodel',
+      event: 'pgpmodel',
       method: method,
       args: args
     }, callback);

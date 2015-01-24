@@ -20,7 +20,7 @@
 define(function(require, exports, module) {
 
   var mvelo = require('../../lib-mvelo').mvelo;
-  var model = require('../pgpViewModel');
+  var model = require('../pgpModel');
   var defaults = require('../defaults');
   var prefs = require('../prefs');
   var sub = require('./sub.controller');
@@ -49,7 +49,7 @@ define(function(require, exports, module) {
   function handleMessageEvent(request, sender, sendResponse) {
     //console.log('controller: handleMessageEvent', request);
     switch (request.event) {
-      case 'viewmodel':
+      case 'pgpmodel':
         var response = {};
         var callback = function(error, result) {
           sendResponse({error: error, result: result});
@@ -62,7 +62,7 @@ define(function(require, exports, module) {
         try {
           response.result = model[request.method].apply(model, request.args);
         } catch (e) {
-          console.log('error in viewmodel: ', e);
+          console.log('error in pgpmodel: ', e);
           response.error = e;
         }
         if (response.result !== undefined || response.error) {

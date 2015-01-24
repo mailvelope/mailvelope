@@ -124,7 +124,7 @@ var options = options || null;
   }
 
   function loadPrefs() {
-    options.viewModel('getPreferences', function(prefs) {
+    options.pgpModel('getPreferences', function(prefs) {
       $('input:radio[name="decryptRadios"]').filter(function() {
         return $(this).val() === prefs.security.display_decrypted;
       }).prop('checked', true);

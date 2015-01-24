@@ -122,6 +122,8 @@ mvelo.DISPLAY_POPUP = 'popup';
 // editor type
 mvelo.PLAIN_TEXT = 'plain';
 mvelo.RICH_TEXT = 'rich';
+// standard keyring
+mvelo.LOCAL_KEYRING_ID = 'mailvelope.com#local';
 
 mvelo.util = {};
 

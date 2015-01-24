@@ -53,7 +53,7 @@ requirejs.config({
 define([
   "common/controller/main.controller",
   "common/controller/sub.controller",
-  "common/pgpViewModel",
+  "common/pgpModel",
   "common/prefs",
   "openpgp",
   "jquery"

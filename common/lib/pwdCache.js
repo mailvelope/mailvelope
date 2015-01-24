@@ -21,7 +21,7 @@ define(function(require, exports, module) {
 
   var mvelo = require('../lib-mvelo').mvelo;
   var prefs = require('./prefs');
-  var model = require('./pgpViewModel');
+  var model = require('./pgpModel');
 
   // password and key cache
   var cache;

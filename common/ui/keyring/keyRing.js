@@ -57,7 +57,7 @@ var options = options || null;
 
     $('#displayKeys').addClass('spinner');
 
-    options.viewModel('getKeys', function(data) {
+    options.pgpModel('getKeys', function(data) {
       keyRing = data;
       //console.log(JSON.stringify(data));
       //"type":"private",
@@ -150,7 +150,7 @@ var options = options || null;
     $("#keyValid").show();
     var $keyData = $(this);
     var keyPair = false;
-    options.viewModel('getKeyDetails', [$keyData.attr('data-keyguid')], function(details) {
+    options.pgpModel('getKeyDetails', [$keyData.attr('data-keyguid')], function(details) {
       //console.log('keyGrid key details received', JSON.stringify(details));
       // Init primary key tab
       $('#keyEditor').attr("data-keyguid", $keyData.attr('data-keyguid'));
@@ -287,7 +287,7 @@ var options = options || null;
 
     $('#keyEditor').modal({backdrop: 'static'});
     $("#keyEditor").modal("show");
-    options.viewModel('getArmoredKeys', [[], {pub: true, priv: true, all: true}], function(result, error) {
+    options.pgpModel('getArmoredKeys', [[], {pub: true, priv: true, all: true}], function(result, error) {
       var hasPrivate = false;
       var allKeys = result.reduce(function(prev, curr) {
         if (curr.armoredPublic) {
@@ -308,7 +308,7 @@ var options = options || null;
     var confirmResult = confirm(options.l10n.keygrid_delete_confirmation);
     if (confirmResult) {
       $entryForRemove = $(this).parent().parent().parent();
-      options.viewModel('removeKey', [$entryForRemove.attr('data-keyguid'), $entryForRemove.attr('data-keytype')]);
+      options.pgpModel('removeKey', [$entryForRemove.attr('data-keyguid'), $entryForRemove.attr('data-keytype')]);
       init();
     }
     return false;
@@ -320,7 +320,7 @@ var options = options || null;
     var allKeys = false;
     var pub = sourceId !== 'exportPrivate';
     var priv = sourceId === 'exportPrivate' || sourceId === 'exportKeyPair' || sourceId === 'exportAllKeys';
-    options.viewModel('getArmoredKeys', [[keyid], {pub: pub, priv: priv, all: allKeys}], function(result, error) {
+    options.pgpModel('getArmoredKeys', [[keyid], {pub: pub, priv: priv, all: allKeys}], function(result, error) {
       switch (sourceId) {
         case 'exportPublic':
           initExport(result[0].armoredPublic, 'pub', false);

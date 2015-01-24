@@ -21,7 +21,7 @@ define(function(require, exports, module) {
 
   var mvelo = require('../lib-mvelo').mvelo;
   var defaults = require('./defaults');
-  var model = require('./pgpViewModel');
+  var model = require('./pgpModel');
   var prefs = model.getPreferences();
   var updateHandlers = [];
 

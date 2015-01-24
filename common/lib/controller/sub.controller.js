@@ -22,7 +22,7 @@ define(function(require, exports, module) {
   function SubController(port) {
     this.mvelo = require('../../lib-mvelo').mvelo;
     this.prefs = require('../prefs');
-    this.model = require('../pgpViewModel');
+    this.model = require('../pgpModel');
     this.ports = {};
     if (port) {
       var sender = this.parseViewName(port.name);
