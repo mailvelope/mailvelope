@@ -48,6 +48,7 @@ var options = {};
       mvelo.appendTpl($('#importKey'), 'keyring/tpl/importKey.html'),
       mvelo.appendTpl($('#generateKey'), 'keyring/tpl/generateKey.html')
     ]).then(initUI);
+    exports.keyringId = mvelo.LOCAL_KEYRING_ID;
   }
 
   function initUI() {
@@ -121,6 +122,19 @@ var options = {};
       event: 'pgpmodel',
       method: method,
       args: args
+    }, callback);
+  };
+
+  exports.keyring = function(method, args, callback) {
+    if (typeof args === 'function') {
+      callback = args;
+      args = undefined;
+    }
+    mvelo.extension.sendMessage({
+      event: 'keyring',
+      method: method,
+      args: args,
+      keyringId: options.keyringId
     }, callback);
   };
 

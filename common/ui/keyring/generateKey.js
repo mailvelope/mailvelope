@@ -158,7 +158,7 @@ var options = options || null;
     parameters.user = $('#genKeyName').val();
     parameters.email = $('#genKeyEmail').val();
     parameters.passphrase = $('#genKeyPwd').val();
-    options.pgpModel('generateKey', [parameters], function(result, error) {
+    options.keyring('generateKey', [parameters], function(result, error) {
       if (!error) {
         $('#genAlert').showAlert(options.l10n.alert_header_success, options.l10n.key_gen_success, 'success');
         $('#generateKey').find('input, select').prop('disabled', true);

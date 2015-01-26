@@ -32,10 +32,10 @@ define(function(require, exports, module) {
   function update(obj) {
     prefs = model.getPreferences();
     if (obj.security) {
-      prefs.security = extend(prefs.security, obj.security);
+      prefs.security = mvelo.util.extend(prefs.security, obj.security);
     }
     if (obj.general) {
-      prefs.general = extend(prefs.general, obj.general);
+      prefs.general = mvelo.util.extend(prefs.general, obj.general);
     }
     if (typeof obj.main_active !== 'undefined') {
       prefs.main_active = obj.main_active;
@@ -45,18 +45,6 @@ define(function(require, exports, module) {
     updateHandlers.forEach(function(fn) {
       fn();
     });
-  }
-
-  // Attribution: http://www.2ality.com/2012/08/underscore-extend.html
-  function extend(target) {
-    var sources = [].slice.call(arguments, 1);
-    sources.forEach(function(source) {
-      Object.getOwnPropertyNames(source).forEach(function(propName) {
-          Object.defineProperty(target, propName,
-              Object.getOwnPropertyDescriptor(source, propName));
-        });
-    });
-    return target;
   }
 
   /**

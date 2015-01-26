@@ -50,7 +50,7 @@ define(function(require, exports, module) {
       case 'vframe-armored-message':
         var result;
         try {
-          result = this.model.readCleartextMessage(msg.data);
+          result = this.model.readCleartextMessage(msg.data, this.mvelo.LOCAL_KEYRING_ID);
         } catch (e) {
           this.ports.vDialog.postMessage({
             event: 'error-message',

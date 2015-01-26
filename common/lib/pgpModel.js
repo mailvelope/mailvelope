@@ -31,7 +31,7 @@ define(function(require, exports, module) {
     });
   }
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
-  var keyring = require('.keyring');
+  var keyring = require('./keyring');
   keyring.init();
 
   var watchListBuffer = null;

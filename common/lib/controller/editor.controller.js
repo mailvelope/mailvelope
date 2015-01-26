@@ -29,12 +29,14 @@ define(function(require, exports, module) {
     }
     this.initText = '';
     this.encryptCallback = null;
+    this.keyringId = null;
     this.pwdCache = require('../pwdCache');
     this.editorPopup = null;
     this.getRecipients = null;
     this.keyidBuffer = null;
     this.signBuffer = null;
     this.pwdControl = null;
+    this.keyring = require('../keyring');
   }
 
   EditorController.prototype = Object.create(sub.SubController.prototype);
@@ -67,7 +69,7 @@ define(function(require, exports, module) {
         });
         break;
       case 'sign-dialog-init':
-        var keys = this.model.getPrivateKeys();
+        var keys = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID).getPrivateKeys();
         var primary = this.prefs.data().general.primary_key;
         this.mvelo.data.load('common/ui/inline/dialogs/templates/sign.html', function(content) {
           var port = that.ports.sDialog;
@@ -87,7 +89,8 @@ define(function(require, exports, module) {
         this.ports.editor.postMessage({event: 'get-plaintext', action: 'encrypt'});
         break;
       case 'editor-container-encrypt':
-        var keyIdMap = this.model.getKeyIdByAddress(msg.recipients, {validity: true});
+        this.keyringId = msg.keyringId;
+        var keyIdMap = this.keyring.getById(this.keyringId).getKeyIdByAddress(msg.recipients, {validity: true});
         if (Object.keys(keyIdMap).some(function(keyId) {
           return keyIdMap[keyId] === false;
         })) {
@@ -110,7 +113,7 @@ define(function(require, exports, module) {
           this.signBuffer.key = cacheEntry.key;
           this.ports.editor.postMessage({event: 'get-plaintext', action: 'sign'});
         } else {
-          var key = this.model.getKeyForSigning(msg.signKeyId);
+          var key = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
           // add key in buffer
           this.signBuffer.key = key.signKey;
           this.signBuffer.keyid = msg.signKeyId;
@@ -142,7 +145,7 @@ define(function(require, exports, module) {
         break;
       case 'editor-plaintext':
         if (msg.action === 'encrypt') {
-          this.model.encryptMessage(msg.data, this.keyidBuffer, function(err, msg) {
+          this.model.encryptMessage(msg.data, this.keyringId, this.keyidBuffer, function(err, msg) {
             var port = that.ports.editorCont || that.ports.editor;
             port.postMessage({event: 'encrypted-message', message: msg});
           });
@@ -163,6 +166,7 @@ define(function(require, exports, module) {
     var that = this;
     this.initText = options.initText;
     this.getRecipients = options.getRecipients;
+    this.keyringId = options.keyringId || this.mvelo.LOCAL_KEYRING_ID;
     this.encryptCallback = callback;
     this.mvelo.windows.openPopup('common/ui/editor/editor.html?id=' + this.id + '&editor_type=' + this.prefs.data().general.editor_type, {width: 820, height: 450, modal: false}, function(window) {
       that.editorPopup = window;

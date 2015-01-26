@@ -72,7 +72,7 @@ define(function(require, exports, module) {
         }
         break;
       case 'set-armored':
-        this.readMessage(msg.data);
+        this.readMessage(msg.data, msg.keyringId || this.mvelo.LOCAL_KEYRING_ID);
         break;
       case 'get-attachment':
         if (this.mvelo.ffa) {
@@ -95,10 +95,10 @@ define(function(require, exports, module) {
     }
   };
 
-  DecryptController.prototype.readMessage = function(armored) {
+  DecryptController.prototype.readMessage = function(armored, keyringId) {
     var that = this;
     try {
-      var message = this.model.readMessage(armored);
+      var message = this.model.readMessage(armored, keyringId);
       // password or unlocked key in cache?
       var cacheEntry = this.pwdCache.get(message.key.primaryKey.getKeyId().toHex(), message.keyid);
       if (!cacheEntry) {

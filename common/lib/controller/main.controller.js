@@ -21,6 +21,7 @@ define(function(require, exports, module) {
 
   var mvelo = require('../../lib-mvelo').mvelo;
   var model = require('../pgpModel');
+  var keyring = require('../keyring');
   var defaults = require('../defaults');
   var prefs = require('../prefs');
   var sub = require('./sub.controller');
@@ -50,27 +51,9 @@ define(function(require, exports, module) {
     //console.log('controller: handleMessageEvent', request);
     switch (request.event) {
       case 'pgpmodel':
-        var response = {};
-        var callback = function(error, result) {
-          sendResponse({error: error, result: result});
-        };
-        request.args = request.args || [];
-        if (!Array.isArray(request.args)) {
-          request.args = [request.args];
-        }
-        request.args.push(callback);
-        try {
-          response.result = model[request.method].apply(model, request.args);
-        } catch (e) {
-          console.log('error in pgpmodel: ', e);
-          response.error = e;
-        }
-        if (response.result !== undefined || response.error) {
-          sendResponse(response.result, response.error);
-        } else {
-          return true;
-        }
-        break;
+        return methodEvent(model, request, sendResponse);
+      case 'keyring':
+        return methodEvent(keyring.getById(request.keyringId), request, sendResponse);
       case 'browser-action':
         onBrowserAction(request.action);
         break;
@@ -146,7 +129,7 @@ define(function(require, exports, module) {
       case 'get-keyring':
         break;
       case 'query-valid-key':
-        var keyIdMap = model.getKeyIdByAddress(request.recipients, {validity: true});
+        var keyIdMap = keyring.getById(request.keyringId).getKeyIdByAddress(request.recipients, {validity: true});
         Object.keys(keyIdMap).forEach(function(email) {
           if (keyIdMap[email]) {
             keyIdMap[email] = {};
@@ -155,7 +138,7 @@ define(function(require, exports, module) {
         sendResponse({error: null, data: keyIdMap});
         break;
       case 'export-own-pub-key':
-        var keyIdMap = model.getKeyIdByAddress([request.emailAddr], {validity: true, pub: false, priv: true});
+        var keyIdMap = keyring.getById(request.keyringId).getKeyIdByAddress([request.emailAddr], {validity: true, pub: false, priv: true});
         if (!keyIdMap[request.emailAddr]) {
           sendResponse({error: 'No key pair found for this email address.'});
           return;
@@ -164,11 +147,35 @@ define(function(require, exports, module) {
         if (keyIdMap[request.emailAddr].length > 1) {
           keyIdMap[request.emailAddr].length = 1;
         }
-        var armored = model.getArmoredKeys(keyIdMap[request.emailAddr], {pub: true});
+        var armored = keyring.getById(request.keyringId).getArmoredKeys(keyIdMap[request.emailAddr], {pub: true});
         sendResponse({error: null, data: armored[0].armoredPublic});
         break;
       default:
         console.log('unknown event:', request);
+    }
+  }
+
+  function methodEvent(thisArg, request, sendResponse) {
+    var response = {};
+    var callback = function(error, result) {
+      sendResponse({error: error, result: result});
+    };
+    request.args = request.args || [];
+    if (!Array.isArray(request.args)) {
+      request.args = [request.args];
+    }
+    request.args.push(callback);
+    try {
+      response.result = thisArg[request.method].apply(thisArg, request.args);
+    } catch (e) {
+      console.log('error in method ' + request.method + ': ', e);
+      response.error = e;
+    }
+    if (response.result !== undefined || response.error) {
+      sendResponse(response.result, response.error);
+    } else {
+      // important to return true for async calls, otherwise Chrome does not handle sendResponse
+      return true;
     }
   }
 

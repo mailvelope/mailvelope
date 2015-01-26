@@ -114,7 +114,7 @@ var options = options || null;
   }
 
   function loadPrivateKeys(callback) {
-    options.pgpModel('getPrivateKeys', function(keys) {
+    options.keyring('getPrivateKeys', function(keys) {
       var select = $('#primaryKey');
       keys && keys.forEach(function(key) {
         select.append($('<option/>', {

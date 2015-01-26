@@ -122,8 +122,9 @@ mvelo.DISPLAY_POPUP = 'popup';
 // editor type
 mvelo.PLAIN_TEXT = 'plain';
 mvelo.RICH_TEXT = 'rich';
-// standard keyring
-mvelo.LOCAL_KEYRING_ID = 'mailvelope.com#local';
+// keyring
+mvelo.KEYRING_DELIMITER = '#';
+mvelo.LOCAL_KEYRING_ID = 'mailvelope.com' + mvelo.KEYRING_DELIMITER + 'local';
 
 mvelo.util = {};
 
@@ -198,6 +199,18 @@ mvelo.util.extractFileExtension = function(fileName) {
   } else {
     return fileName.substring(lastindexDot + 1, fileName.length).toLowerCase().trim();
   }
+};
+
+// Attribution: http://www.2ality.com/2012/08/underscore-extend.html
+mvelo.util.extend = function(target) {
+  var sources = [].slice.call(arguments, 1);
+  sources.forEach(function(source) {
+    Object.getOwnPropertyNames(source).forEach(function(propName) {
+        Object.defineProperty(target, propName,
+            Object.getOwnPropertyDescriptor(source, propName));
+      });
+  });
+  return target;
 };
 
 if (typeof exports !== 'undefined') {

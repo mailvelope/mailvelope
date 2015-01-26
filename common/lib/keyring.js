@@ -22,15 +22,51 @@ define(function(require, exports, module) {
   var mvelo = require('../lib-mvelo').mvelo;
   var openpgp = require('openpgp');
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
-  var delimiter = '#';
+  var l10n = mvelo.l10n.get;
+  var keyringAttr = null;
   var keyringMap = new Map();
 
   function init() {
-    keyringMap.set(mvelo.LOCAL_KEYRING_ID, new Keyring(mvelo.LOCAL_KEYRING_ID));
+    keyringAttr = getAllKeyringAttr();
+    if (keyringAttr) {
+      for (var keyringId in keyringAttr) {
+        if (keyringAttr.hasOwnProperty(keyringId)) {
+          keyringMap.set(keyringId, new Keyring(keyringId));
+        }
+      }
+    } else {
+      createKeyring(mvelo.LOCAL_KEYRING_ID);
+    }
+  }
+
+  function createKeyring(keyringId, options) {
+    if (!keyringAttr) {
+      keyringAttr = {};
+    }
+    if (keyringAttr[keyringId]) {
+      var error = new Error('Keyring for id ' + keyringId + ' already exists.');
+      error.code = "KEYRING_ALREADY_EXISTS";
+      throw error;
+    }
+    keyringAttr[keyringId] = {};
+    keyringMap.set(keyringId, new Keyring(keyringId));
+    setKeyringAttr(keyringId, {} || options);
   }
 
   function getById(keyringId) {
     return keyringMap.get(keyringId);
+  }
+
+  function getAllKeyringAttr() {
+    return mvelo.storage.get('mailvelopeKeyringAttr');
+  }
+
+  function setKeyringAttr(keyringId, attr) {
+    if (!keyringAttr[keyringId]) {
+      throw new Error('Keyring does not exist for id: ' + keyringId);
+    }
+    mvelo.util.extend(keyringAttr[keyringId], attr);
+    mvelo.storage.set('mailvelopeKeyringAttr', keyringAttr);
   }
 
   function getUserId(key) {
@@ -49,7 +85,10 @@ define(function(require, exports, module) {
   }
 
   exports.init = init;
-  exports.getById = getById
+  exports.createKeyring = createKeyring;
+  exports.getAllKeyringAttr = getAllKeyringAttr;
+  exports.setKeyringAttr = setKeyringAttr;
+  exports.getById = getById;
   exports.getUserId = getUserId;
 
   function Keyring(keyringId) {
@@ -63,7 +102,7 @@ define(function(require, exports, module) {
 
   Keyring.prototype.getKeys = function() {
     // map keys to UI format
-    var keys = getPublicKeys().concat(getPrivateKeys());
+    var keys = this.getPublicKeys().concat(this.getPrivateKeys());
     // sort by key type and name
     keys = keys.sort(function(a, b) {
       var compType = a.type.localeCompare(b.type);
@@ -74,15 +113,15 @@ define(function(require, exports, module) {
       }
     });
     return keys;
-  }
+  };
 
   Keyring.prototype.getPublicKeys = function() {
     return mapKeys(this.keyring.publicKeys.keys);
-  }
+  };
 
   Keyring.prototype.getPrivateKeys = function() {
     return mapKeys(this.keyring.privateKeys.keys);
-  }
+  };
 
   function mapKeys(keys) {
     var result = [];
@@ -177,12 +216,12 @@ define(function(require, exports, module) {
       // subkeys
       mapSubKeys(key.subKeys, details);
       // users
-      mapUsers(key.users, details);
+      mapUsers(key.users, details, this.keyring);
       return details;
     } else {
       throw new Error('Key with this fingerprint not found: ', guid);
     }
-  }
+  };
 
   function mapSubKeys(subkeys, toKey) {
     toKey.subkeys = [];
@@ -207,7 +246,7 @@ define(function(require, exports, module) {
     });
   }
 
-  function mapUsers(users, toKey) {
+  function mapUsers(users, toKey, keyring) {
     toKey.users = [];
     users && users.forEach(function(user) {
       try {
@@ -239,7 +278,7 @@ define(function(require, exports, module) {
         console.log('Exception in mapUsers', e);
       }
     });
-  } 
+  }
 
   Keyring.prototype.getKeyUserIDs = function(proposal) {
     var result = [];
@@ -254,7 +293,7 @@ define(function(require, exports, module) {
       return a.userid.localeCompare(b.userid);
     });
     return result;
-  }
+  };
 
   function mapKeyUserIds(key, user, proposal) {
     user.keyid = key.primaryKey.getKeyId().toHex();
@@ -301,7 +340,7 @@ define(function(require, exports, module) {
       }
     });
     return result;
-  }
+  };
 
   Keyring.prototype.getArmoredKeys = function(keyids, options) {
     var that = this;
@@ -325,9 +364,10 @@ define(function(require, exports, module) {
       result.push(armored);
     });
     return result;
-  }
+  };
 
   Keyring.prototype.importKeys = function(armoredKeys) {
+    var that = this;
     var result = [];
     // sort, public keys first
     armoredKeys = armoredKeys.sort(function(a, b) {
@@ -337,9 +377,9 @@ define(function(require, exports, module) {
     armoredKeys.forEach(function(key) {
       try {
         if (key.type === 'public') {
-          result = result.concat(importPublicKey(key.armored));
+          result = result.concat(importPublicKey(key.armored, that.keyring));
         } else if (key.type === 'private') {
-          result = result.concat(importPrivateKey(key.armored));
+          result = result.concat(importPrivateKey(key.armored, that.keyring));
         }
       } catch (e) {
         result.push({
@@ -353,9 +393,9 @@ define(function(require, exports, module) {
       this.keyring.store();
     }
     return result;
-  }
+  };
 
-  function importPublicKey(armored) {
+  function importPublicKey(armored, keyring) {
     var result = [];
     var imported = openpgp.key.readArmored(armored);
     if (imported.err) {
@@ -389,7 +429,7 @@ define(function(require, exports, module) {
     return result;
   }
 
-  function importPrivateKey(armored) {
+  function importPrivateKey(armored, keyring) {
     var result = [];
     var imported = openpgp.key.readArmored(armored);
     if (imported.err) {
@@ -437,7 +477,7 @@ define(function(require, exports, module) {
   Keyring.prototype.removeKey = function(guid, type) {
     this.keyring.removeKeysForId(guid);
     this.keyring.store();
-  }
+  };
 
   Keyring.prototype.generateKey = function(options, callback) {
     var that = this;
@@ -449,7 +489,7 @@ define(function(require, exports, module) {
       }
       callback(null, data);
     }, callback);
-  }
+  };
 
   Keyring.prototype.getKeyForSigning = function(keyIdHex) {
     var key = this.keyring.privateKeys.getForId(keyIdHex);
@@ -458,6 +498,6 @@ define(function(require, exports, module) {
       signKey: key,
       userId : userId
     };
-  }
+  };
 
 });

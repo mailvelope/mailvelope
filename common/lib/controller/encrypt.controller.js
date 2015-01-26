@@ -28,6 +28,7 @@ define(function(require, exports, module) {
     this.signBuffer = null;
     this.editorControl = null;
     this.recipientsCallback = null;
+    this.keyring = require('../keyring');
   }
 
   EncryptController.prototype = Object.create(sub.SubController.prototype);
@@ -41,7 +42,7 @@ define(function(require, exports, module) {
         this.ports.eFrame.postMessage(msg);
         break;
       case 'sign-dialog-init':
-        var keys = this.model.getPrivateKeys();
+        var keys = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID).getPrivateKeys();
         var primary = this.prefs.data().general.primary_key;
         this.mvelo.data.load('common/ui/inline/dialogs/templates/sign.html', function(content) {
           var port = that.ports.sDialog;
@@ -61,7 +62,7 @@ define(function(require, exports, module) {
         break;
       case 'eframe-recipient-proposal':
         var emails = this.mvelo.util.sortAndDeDup(msg.data);
-        var keys = this.model.getKeyUserIDs(emails);
+        var keys = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID).getKeyUserIDs(emails);
         var primary = this.prefs.data().general.auto_add_primary && this.prefs.data().general.primary_key.toLowerCase();
         if (this.recipientsCallback) {
           this.recipientsCallback({ keys: keys, primary: primary });
@@ -83,7 +84,7 @@ define(function(require, exports, module) {
           this.signBuffer.key = cacheEntry.key;
           this.ports.eFrame.postMessage({event: 'email-text', type: msg.type, action: 'sign'});
         } else {
-          var key = this.model.getKeyForSigning(msg.signKeyId);
+          var key = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
           // add key in buffer
           this.signBuffer.key = key.signKey;
           this.signBuffer.keyid = msg.signKeyId;
@@ -110,7 +111,7 @@ define(function(require, exports, module) {
         break;
       case 'eframe-email-text':
         if (msg.action === 'encrypt') {
-          this.model.encryptMessage(msg.data, this.keyidBuffer, function(err, msg) {
+          this.model.encryptMessage(msg.data, this.mvelo.LOCAL_KEYRING_ID, this.keyidBuffer, function(err, msg) {
             that.ports.eFrame.postMessage({event: 'encrypted-message', message: msg});
           });
         } else if (msg.action === 'sign') {
