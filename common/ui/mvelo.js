@@ -24,6 +24,11 @@ mvelo.crx = typeof chrome !== 'undefined';
 // firefox addon
 mvelo.ffa = mvelo.ffa || typeof self !== 'undefined' && self.port || !mvelo.crx;
 // for fixfox, mvelo.extension is exposed from a content script
+
+mvelo.getFirefoxVersion = function() {
+  return parseInt(navigator.userAgent.substring(navigator.userAgent.indexOf("Firefox/") + 8, navigator.userAgent.length));
+};
+
 mvelo.extension = mvelo.extension || mvelo.crx && chrome.runtime;
 // extension.connect shim for Firefox
 if (mvelo.ffa && mvelo.extension) {
@@ -196,6 +201,10 @@ mvelo.util.extractFileExtension = function(fileName) {
 if (typeof exports !== 'undefined') {
   exports.mvelo = mvelo;
 }
+
+mvelo.util.getRandomNumber = function(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
 
 mvelo.util.showSecurityBackground = function() {
   mvelo.extension.sendMessage({event: "get-security-background"}, function(background) {
