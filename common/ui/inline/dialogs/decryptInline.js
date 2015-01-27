@@ -41,13 +41,6 @@ var mvelo = mvelo || null;
       commonPath = '../../..';
     } else if (mvelo.ffa) {
       commonPath = mvelo.extension._dataPath + 'common';
-
-      var styleMvelo = $('<link/>', { rel: 'stylesheet', href: commonPath + '/ui/mvelo.css' });
-      var styleBootstrap = $('<link/>', { rel: 'stylesheet', href: commonPath + '/dep/bootstrap/css/bootstrap.css' });
-      var styleDecryptInline = $('<link/>', { rel: 'stylesheet', href: commonPath + '/ui/inline/dialogs/decryptInline.css' });
-      $(document).contents().find('head').append(styleBootstrap);
-      $(document).contents().find('head').append(styleMvelo);
-      $(document).contents().find('head').append(styleDecryptInline);
     }
     addWrapper();
     addAttachmentPanel();
@@ -161,16 +154,13 @@ var mvelo = mvelo || null;
 
     var objectURL = "#";
 
-    // workarround until ff36 is out, using addonsdk for file saving
-    if (mvelo.crx) {
-      var contentLength = Object.keys(content).length;
-      var uint8Array = new Uint8Array(contentLength);
-      for (var i = 0; i < contentLength; i++) {
-        uint8Array[i] = content[i];
-      }
-      var blob = new Blob([uint8Array], { type: mimeType });
-      objectURL = window.URL.createObjectURL(blob);
+    var contentLength = Object.keys(content).length;
+    var uint8Array = new Uint8Array(contentLength);
+    for (var i = 0; i < contentLength; i++) {
+      uint8Array[i] = content[i];
     }
+    var blob = new Blob([uint8Array], { type: mimeType });
+    objectURL = window.URL.createObjectURL(blob);
 
     var $fileName = $('<span/>', {
       "class": 'filename'
@@ -183,15 +173,15 @@ var mvelo = mvelo || null;
         "class": 'attachmentButton'
       })
         .append($extensionButton)
-        .append($fileName)
-        .on("click", function(e) {
-          // workarround for Firefox, using addonsdk for file saving
-          //var version = navigator.userAgent.substring(navigator.userAgent.indexOf("Firefox/") + 8, navigator.userAgent.length);
-          if (mvelo.ffa) {
-            e.preventDefault();
-            port.postMessage({event: 'get-attachment', sender: id, attachmentId: attachmentId});
-          }
-        });
+        .append($fileName);
+
+    //var firefoxVersion = parseInt(navigator.userAgent.substring(navigator.userAgent.indexOf("Firefox/") + 8, navigator.userAgent.length));
+    if (mvelo.ffa && mvelo.getFirefoxVersion() < 36) {
+      $fileUI.on("click", function(e) {
+        e.preventDefault();
+        port.postMessage({event: 'get-attachment', sender: id, attachmentId: attachmentId});
+      });
+    }
 
     $('#attachments').append($fileUI);
   }
