@@ -24,10 +24,6 @@ define(function(require, exports, module) {
 
   var defaults = mvelo.data.loadDefaults();
 
-  function randomColor() {
-    return '#' + ('00000' + (Math.random() * (1 << 24) | 0).toString(16)).toUpperCase().slice(-6);
-  }
-
   function randomString(length) {
     var result = '';
     while (length > 0) {
@@ -37,17 +33,15 @@ define(function(require, exports, module) {
     return result;
   }
 
-  function randomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+  function randomColor() {
+    return '#' + ('00000' + (Math.random() * (1 << 24) | 0).toString(16)).toUpperCase().slice(-6);
   }
 
-  function initSecurityBgnd() {
-    defaults.preferences.security.secureBgndColor = "#f5f5f5";
-    defaults.preferences.security.secureBgndIconColor = "#e9e9e9";
-    defaults.preferences.security.secureBgndAngle = randomNumber(0, 120) - 60;
-    defaults.preferences.security.secureBgndScaling = randomNumber(9, 15) / 10;
-    defaults.preferences.security.secureBgndWidth = randomNumber(30, 60);
-    defaults.preferences.security.secureBgndHeight = randomNumber(30, 60);
+  function initSecurityBgnd(pref) {
+    pref.security.secureBgndAngle =  mvelo.util.getRandomNumber(0, 120) - 60;
+    pref.security.secureBgndScaling = mvelo.util.getRandomNumber(9, 15) / 10;
+    pref.security.secureBgndWidth = mvelo.util.getRandomNumber(30, 60);
+    pref.security.secureBgndHeight = mvelo.util.getRandomNumber(30, 60);
   }
 
   function init() {
@@ -57,19 +51,15 @@ define(function(require, exports, module) {
     if (!prefs) {
       defaults.preferences.security.secure_color = randomColor();
       defaults.preferences.security.secure_code = randomString(3);
-      initSecurityBgnd();
+      initSecurityBgnd(defaults.preferences);
       model.setPreferences(defaults.preferences);
       model.setWatchList(defaults.watch_list);
     } else {
       // Adding security bgnd settings for users comming from ver. <= 0.11
       if (typeof prefs.security.secureBgndColor == 'undefined') {
-        initSecurityBgnd();
+        initSecurityBgnd(prefs);
         prefs.security.secureBgndColor = defaults.preferences.security.secureBgndColor;
         prefs.security.secureBgndIconColor = defaults.preferences.security.secureBgndIconColor;
-        prefs.security.secureBgndAngle = defaults.preferences.security.secureBgndAngle;
-        prefs.security.secureBgndScaling = defaults.preferences.security.secureBgndScaling;
-        prefs.security.secureBgndWidth = defaults.preferences.security.secureBgndWidth;
-        prefs.security.secureBgndHeight = defaults.preferences.security.secureBgndHeight;
         model.setPreferences(prefs);
       }
       if (typeof prefs.main_active == 'undefined') {
