@@ -122,7 +122,9 @@ var options = {};
       event: 'pgpmodel',
       method: method,
       args: args
-    }, callback);
+    }, function(data) {
+      callback(data.error, data.result);
+    });
   };
 
   exports.keyring = function(method, args, callback) {
@@ -135,7 +137,9 @@ var options = {};
       method: method,
       args: args,
       keyringId: options.keyringId
-    }, callback);
+    }, function(data) {
+      callback(data.error, data.result);
+    });
   };
 
   exports.copyToClipboard = function(text) {

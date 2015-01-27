@@ -114,7 +114,7 @@ var options = options || null;
   }
 
   function loadPrivateKeys(callback) {
-    options.keyring('getPrivateKeys', function(keys) {
+    options.keyring('getPrivateKeys', function(err, keys) {
       var select = $('#primaryKey');
       keys && keys.forEach(function(key) {
         select.append($('<option/>', {
@@ -127,7 +127,7 @@ var options = options || null;
   }
 
   function loadPrefs(callback) {
-    options.pgpModel('getPreferences', function(prefs) {
+    options.pgpModel('getPreferences', function(err, prefs) {
       $('input:radio[name="editorRadios"]').filter(function() {
         return $(this).val() === prefs.general.editor_type;
       }).prop('checked', true);

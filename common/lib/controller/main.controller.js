@@ -172,7 +172,7 @@ define(function(require, exports, module) {
       response.error = e;
     }
     if (response.result !== undefined || response.error) {
-      sendResponse(response.result, response.error);
+      sendResponse({error: response.error, result: response.result});
     } else {
       // important to return true for async calls, otherwise Chrome does not handle sendResponse
       return true;

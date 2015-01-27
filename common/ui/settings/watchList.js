@@ -93,7 +93,7 @@ var options = options || null;
     siteData = undefined;
     var tableRow;
     $tableBody.children().remove();
-    options.pgpModel('getWatchList', function(data) {
+    options.pgpModel('getWatchList', function(err, data) {
       // console.log("Watchlist: "+JSON.stringify(data));
       // {"site":"server.lan","active":true,"frames":[{"frame":"*.server.lan","scan":true}]},
       siteData = data;
@@ -273,7 +273,7 @@ var options = options || null;
     site.active = true;
     site.frames = [];
     site.frames.push({ frame: "*." + website, scan:true });
-    options.pgpModel('getWatchList', function(data) {
+    options.pgpModel('getWatchList', function(err, data) {
       data.forEach(function(siteEntry, index) {
         if (siteEntry.site === website) {
           siteExist = true;
@@ -290,7 +290,7 @@ var options = options || null;
   function removeFromWatchList(website) {
     if (confirm(options.l10n.watchlist_delete_confirmation)) {
       website = cleanWebSiteName(website);
-      options.pgpModel('getWatchList', function(data) {
+      options.pgpModel('getWatchList', function(err, data) {
         data.forEach(function(siteEntry, index) {
           if (siteEntry.site === website) {
             data.splice(index, 1);

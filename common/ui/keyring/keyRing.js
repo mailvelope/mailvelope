@@ -57,7 +57,7 @@ var options = options || null;
 
     $('#displayKeys').addClass('spinner');
 
-    options.keyring('getKeys', function(data) {
+    options.keyring('getKeys', function(err, data) {
       keyRing = data;
       //console.log(JSON.stringify(data));
       //"type":"private",
@@ -150,7 +150,7 @@ var options = options || null;
     $("#keyValid").show();
     var $keyData = $(this);
     var keyPair = false;
-    options.keyring('getKeyDetails', [$keyData.attr('data-keyguid')], function(details) {
+    options.keyring('getKeyDetails', [$keyData.attr('data-keyguid')], function(err, details) {
       //console.log('keyGrid key details received', JSON.stringify(details));
       // Init primary key tab
       $('#keyEditor').attr("data-keyguid", $keyData.attr('data-keyguid'));
@@ -287,7 +287,7 @@ var options = options || null;
 
     $('#keyEditor').modal({backdrop: 'static'});
     $("#keyEditor").modal("show");
-    options.keyring('getArmoredKeys', [[], {pub: true, priv: true, all: true}], function(result, error) {
+    options.keyring('getArmoredKeys', [[], {pub: true, priv: true, all: true}], function(error, result) {
       var hasPrivate = false;
       var allKeys = result.reduce(function(prev, curr) {
         if (curr.armoredPublic) {
@@ -320,7 +320,7 @@ var options = options || null;
     var allKeys = false;
     var pub = sourceId !== 'exportPrivate';
     var priv = sourceId === 'exportPrivate' || sourceId === 'exportKeyPair' || sourceId === 'exportAllKeys';
-    options.keyring('getArmoredKeys', [[keyid], {pub: pub, priv: priv, all: allKeys}], function(result, error) {
+    options.keyring('getArmoredKeys', [[keyid], {pub: pub, priv: priv, all: allKeys}], function(error, result) {
       switch (sourceId) {
         case 'exportPublic':
           initExport(result[0].armoredPublic, 'pub', false);
