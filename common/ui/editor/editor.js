@@ -79,10 +79,6 @@ var mvelo = mvelo || null;
       commonPath = '../..';
     } else if (mvelo.ffa) {
       commonPath = mvelo.extension._dataPath + 'common';
-      var styleBootstrap = $('<link/>', {rel: 'stylesheet', href: commonPath + '/dep/bootstrap/css/bootstrap.css'});
-      var styleMvelo = $('<link/>', {rel: 'stylesheet', href: commonPath + '/ui/mvelo.css'});
-      $(document).contents().find('head').append(styleBootstrap);
-      $(document).contents().find('head').append(styleMvelo);
     }
   }
 
