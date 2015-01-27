@@ -267,6 +267,7 @@ function injectDecryptInline() {
     ],
     contentStyleFile: [
       data.url("common/dep/bootstrap/css/bootstrap.css"),
+      data.url("common/ui/mvelo.css"),
       data.url("common/ui/inline/dialogs/decryptInline.css")
     ],
     contentScriptWhen: 'ready',
@@ -290,6 +291,7 @@ function injectVerifyInline() {
     ],
     contentStyleFile: [
       data.url("common/dep/bootstrap/css/bootstrap.css"),
+      data.url("common/ui/mvelo.css"),
       data.url("common/ui/inline/dialogs/verifyInline.css")
     ],
     contentScriptWhen: 'ready',
@@ -313,6 +315,7 @@ function injectEncryptDialog() {
     ],
     contentStyleFile: [
       data.url("common/dep/bootstrap/css/bootstrap.css"),
+      data.url("common/ui/mvelo.css"),
       data.url("common/ui/inline/dialogs/encryptDialog.css")
     ],
     contentScriptWhen: 'ready',
@@ -337,6 +340,7 @@ function injectSignDialog() {
     ],
     contentStyleFile: [
       data.url("common/dep/bootstrap/css/bootstrap.css"),
+      data.url("common/ui/mvelo.css"),
       data.url("common/ui/inline/dialogs/signDialog.css")
     ],
     contentScriptWhen: 'ready',
@@ -367,6 +371,7 @@ function injectEmbeddedEditor() {
     ],
     contentStyleFile: [
       data.url("common/dep/bootstrap/css/bootstrap.css"),
+      data.url("common/ui/mvelo.css"),
       data.url("common/ui/editor/editor.css")
     ],
     contentScriptWhen: 'ready',
