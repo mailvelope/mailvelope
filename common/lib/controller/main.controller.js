@@ -46,11 +46,6 @@ define(function(require, exports, module) {
     specific.deactivate = obj.deactivate;
   }
 
-  // needed only for demo purposes
-  function randomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
-
   function handleMessageEvent(request, sender, sendResponse) {
     //console.log('controller: handleMessageEvent', request);
     switch (request.event) {
@@ -115,10 +110,10 @@ define(function(require, exports, module) {
           scaling: prefs.data().security.secureBgndScaling,
           width: prefs.data().security.secureBgndWidth,
           height: prefs.data().security.secureBgndHeight
-          //angle: randomNumber(0, 120) - 60, // (10, 350) | (0, 120) - 60
-          //scaling: randomNumber(9, 15) / 10,
-          //width: randomNumber(30, 60),
-          //height: randomNumber(30, 60)
+          //angle: mvelo.util.getRandomNumber(0, 120) - 60, // (10, 350) | (0, 120) - 60
+          //scaling: mvelo.util.getRandomNumber(9, 15) / 10,
+          //width: mvelo.util.getRandomNumber(30, 60),
+          //height: mvelo.util.getRandomNumber(30, 60)
         });
         break;
       case 'get-version':
