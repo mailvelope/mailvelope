@@ -145,8 +145,6 @@ var mvelo = mvelo || null;
     };
     fileReader.readAsArrayBuffer(file);
 
-    //var objectURL = window.URL.createObjectURL(file);
-
     var $removeUploadButton = $('<span/>', {
       "data-id": id,
       "class": 'glyphicon glyphicon-remove removeAttachment'
