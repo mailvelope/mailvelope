@@ -372,6 +372,10 @@ body {
     /*background-color: white;*/
 }
 
+button.keyDetailsBtn, button.keyDeleteBtn {
+    min-width: 30px;
+}
+
 /* on/off switch begin*/
 .onoffswitch {
     position: relative; width: 70px;
