@@ -35,8 +35,8 @@
 .ext-color-exe  { background-color: #4b4a4a !important; }
 
 .attachmentButton {
-    color: #5E5E5E !important;
-    font-weight: normal !important;
+    color: #5E5E5E;
+    font-weight: normal;
     font-family: Verdana, Geneva, sans-serif;
     font-size: 11px;
     padding: 2px;
@@ -51,19 +51,13 @@
     order: 0;
     flex: 0 0 auto;
     align-self: auto;
-}
 
-.attachmentButton .filename{
-    margin-left: 3px;
-    margin-right: 3px;
-    max-width: 160px;
-    text-align:center;
-    text-decoration:none;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    display:inline-block;
-    vertical-align: middle;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: flex-start;
 }
 
 .attachmentButton:hover, .attachmentButton:focus {
@@ -76,28 +70,50 @@
     display: inline-block;
     font-weight: normal !important;
     border-radius: 2px;
-    height: 14px;
     background-color: #8a8a8a;
     color: #ffffff;
     font-size: 10px;
     line-height: 14px;
     cursor: pointer;
     text-transform: uppercase;
-    vertical-align: middle;
     padding: 1px 3px 1px 3px;
+
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
 }
 
 .attachmentExtension:hover {
     text-decoration: none !important;
 }
 
+.attachmentButton .filename{
+    margin-left: 3px;
+    margin-right: 3px;
+    max-width: 160px;
+    text-align:center;
+    text-decoration:none;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+}
+
 .removeAttachment {
     border: 2px solid #a3a3a3;
     border-radius: 2px;
     padding: 0;
+    padding-top: 1px;
     color: white;
     background-color: #a3a3a3;
     margin-left: 3px;
+
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
 }
 
 .removeAttachment:hover {
