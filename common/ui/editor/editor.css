@@ -226,3 +226,9 @@ body {
 #uploadEmbeddedBtn:focus {
     outline:none;
 }
+
+.lockBtnIcon {
+    width: 30px !important;
+    height: 30px;
+    margin-right: -44px;
+}
