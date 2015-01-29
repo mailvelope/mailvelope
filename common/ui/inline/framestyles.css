@@ -41,9 +41,9 @@
   background-size: 80px, 48px;
 }
 
-:root .m-extract-frame.m-open.m-decrypt {
+/*:root .m-extract-frame.m-open.m-decrypt {
   background-image: url('../../img/mail_open_96.png'), url('../../img/loading.gif');
-}
+}*/
 
 :root .m-extract-frame.m-open.m-import {
   background-image: url('../../img/key-icon-blue96.png'), url('../../img/loading.gif');

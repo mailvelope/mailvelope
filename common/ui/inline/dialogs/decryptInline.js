@@ -25,7 +25,7 @@ var mvelo = mvelo || null;
   // shares ID with DecryptFrame
   var id;
   var watermark;
-  var spinnerTimer;
+  //var spinnerTimer;
   var commonPath;
   var l10n;
 
@@ -45,13 +45,14 @@ var mvelo = mvelo || null;
     addWrapper();
     addAttachmentPanel();
     addSandbox();
+    addSecuritySettingsButton();
+    addSpinner();
     mvelo.extension.sendMessage({event: "get-security-token"}, function(token) {
       $('#watermark').html(mvelo.util.encodeHTML(token.code));
     });
     $(window).on('resize', resizeFont);
     addErrorView();
     // show spinner
-    spinnerTimer = setTimeout(showSpinner, 600);
     mvelo.l10n.getMessages([
       'alert_header_error'
     ], function(result) {
@@ -60,11 +61,17 @@ var mvelo = mvelo || null;
     mvelo.util.showSecurityBackground();
   }
 
+  function addSpinner() {
+    var spinner = $('<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>');
+    spinner.appendTo('body');
+  }
+
   function showSpinner() {
-    $('body').addClass('spinner');
-    if ($('body').height() + 2 > mvelo.LARGE_FRAME) {
-      $('body').addClass('spinner-large');
-    }
+    $(".spinner").show();
+  }
+
+  function hideSpinner() {
+    $(".spinner").hide();
   }
 
   function addWrapper() {
@@ -79,6 +86,11 @@ var mvelo = mvelo || null;
       id: 'attachments'
     });
     $('body').append(attachments);
+  }
+
+  function addSecuritySettingsButton() {
+    var securitySettingsBtn = $('<button id="secureBgndSettingsBtn" class="btn btn-link pull-right"><span class="glyphicon lockBtnIcon"></span></button>');
+    $('body').append(securitySettingsBtn);
   }
 
   function addSandbox() {
@@ -124,16 +136,14 @@ var mvelo = mvelo || null;
 
   function showMessageArea() {
     $('html, body').addClass('hide_bg');
-    $('body').removeClass('spinner');
-    $('body').removeClass('spinner-large');
+    hideSpinner();
     $('#wrapper').addClass('fade-in');
     resizeFont();
   }
 
   function showErrorMsg(msg) {
-    $('body').removeClass('spinner');
-    $('body').removeClass('spinner-large');
-    clearTimeout(spinnerTimer);
+    hideSpinner();
+    //clearTimeout(spinnerTimer);
     $('#errorbox').show();
     $('#errorwell').showAlert(l10n.alert_header_error, msg, 'danger')
                    .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
@@ -197,8 +207,7 @@ var mvelo = mvelo || null;
         // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
         msg.message = $.parseHTML(msg.message);
         $('#decryptmail').contents().find('#content').append(msg.message);
-        $('body').removeClass('spinner');
-        $('body').removeClass('spinner-large');
+        hideSpinner();
         $('body').addClass('secureBackground');
         break;
       case 'add-decrypted-attachment':
