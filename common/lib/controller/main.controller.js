@@ -127,6 +127,20 @@ define(function(require, exports, module) {
       Client-API
        */
       case 'get-keyring':
+        if (keyring.getById(request.keyringId)) {
+          sendResponse({data: true});
+        } else {
+          sendResponse({error: {message: 'No keyring found for this identifier.', code: 'NO_KEYRING_FOR_ID'}});
+        }
+        break;
+      case 'create-keyring':
+        try {
+          if (keyring.createKeyring(request.keyringId)) {
+            sendResponse({data: true});
+          }
+        } catch (e) {
+          sendResponse({error: {message: e.message, code: e.code}});
+        }
         break;
       case 'query-valid-key':
         var keyIdMap = keyring.getById(request.keyringId).getKeyIdByAddress(request.recipients, {validity: true});
@@ -140,7 +154,7 @@ define(function(require, exports, module) {
       case 'export-own-pub-key':
         var keyIdMap = keyring.getById(request.keyringId).getKeyIdByAddress([request.emailAddr], {validity: true, pub: false, priv: true});
         if (!keyIdMap[request.emailAddr]) {
-          sendResponse({error: 'No key pair found for this email address.'});
+          sendResponse({error: {message: 'No key pair found for this email address.', code: 'NO_KEY_FOR_ADDRESS'}});
           return;
         }
         // only take first valid key

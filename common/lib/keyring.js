@@ -45,12 +45,30 @@ define(function(require, exports, module) {
     }
     if (keyringAttr[keyringId]) {
       var error = new Error('Keyring for id ' + keyringId + ' already exists.');
-      error.code = "KEYRING_ALREADY_EXISTS";
+      error.code = 'KEYRING_ALREADY_EXISTS';
       throw error;
     }
     keyringAttr[keyringId] = {};
-    keyringMap.set(keyringId, new Keyring(keyringId));
+    var keyRng = new Keyring(keyringId);
+    keyringMap.set(keyringId, keyRng);
     setKeyringAttr(keyringId, {} || options);
+    return keyRng;
+  }
+
+  function deleteKeyring(keyringId) {
+    if (!keyringAttr[keyringId]) {
+      var error = new Error('Keyring for id ' + keyringId + ' does not exist.');
+      error.code = 'NO_KEYRING_FOR_ID';
+      throw error;
+    }
+    var keyRng = keyringMap.get(keyringId);
+    keyRng.keyring.clear();
+    keyRng.keyring.store();
+    keyRng.keyring.storeHandler.storage.removeItem(keyRng.keyring.storeHandler.storage.publicKeysItem);
+    keyRng.keyring.storeHandler.storage.removeItem(keyRng.keyring.storeHandler.storage.privateKeysItem);
+    keyringMap.delete(keyringId);
+    delete keyringAttr[keyringId];
+    mvelo.storage.set('mailvelopeKeyringAttr', keyringAttr);
   }
 
   function getById(keyringId) {
@@ -86,6 +104,7 @@ define(function(require, exports, module) {
 
   exports.init = init;
   exports.createKeyring = createKeyring;
+  exports.deleteKeyring = deleteKeyring;
   exports.getAllKeyringAttr = getAllKeyringAttr;
   exports.setKeyringAttr = setKeyringAttr;
   exports.getById = getById;

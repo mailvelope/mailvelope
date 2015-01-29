@@ -45,7 +45,8 @@
   /**
    * Retrieves the Keyring for the given identifier
    * @param {string} identifier - the identifier of the keyring
-   * @returns {Promise.<Keyring>}
+   * @returns {Promise.<Keyring, Error>}
+   * @throws {Error} error.code = 'NO_KEYRING_FOR_ID'
    */
   Mailvelope.prototype.getKeyring = function(identifier) {
     return postMessage('get-keyring', {identifier: identifier}).then(function() {
@@ -56,7 +57,8 @@
   /**
    * Creates a Keyring for the given identifier
    * @param {string} identifier - the identifier of the new keyring
-   * @returns {Promise.<Keyring>}
+   * @returns {Promise.<Keyring, Error>}
+   * @throws {Error} error.code = 'KEYRING_ALREADY_EXISTS'
    * @example
    * mailvelope.createKeyring('Account-ID-4711').then(function(keyring) {
    *     // continue to display the settings container and start the setup wizard
@@ -135,7 +137,7 @@
    * The iframe will be injected into the container identified by selector.
    * @param {CssSelector} selector - target container
    * @param {Keyring} keyring - the keyring to use for the setup
-   * @returns {Promise.<void>}
+   * @returns {Promise.<undefined>}
    */
   Mailvelope.prototype.createSettingsContainer = function(selector, keyring) {
     return postMessage('settings-container', {selector: selector, identifier: keyring.identifier});
@@ -170,7 +172,8 @@
    * Exports the public key as an ascii armored string.
    * Only keys belonging to the user (corresponding private key exists) can be exported.
    * @param {string} emailAddr - email address to identify the public+private key
-   * @returns {Promise.<AsciiArmored>}
+   * @returns {Promise.<AsciiArmored, Error>}
+   * @throws {Error} error.code = 'NO_KEY_FOR_ADDRESS'
    * @example
    * keyring.exportOwnPublicKey('abc@web.de').then(function(armoredPublicKey) {
    *   console.log('exportOwnPublicKey', armoredPublicKey); // prints: "-----BEGIN PGP PUBLIC KEY BLOCK..."
@@ -203,7 +206,8 @@
   /**
    * Requests the encryption of the editor content for the given recipients.
    * @param {Array.<string>} recipients - list of email addresses for public key lookup and encryption
-   * @returns {Promise.<AsciiArmored>}
+   * @returns {Promise.<AsciiArmored, Error>}
+   * @throws {Error} error.code = 'ENCRYPT_IN_PROGRESS'
    * @example
    * editor.encrypt(['abc@web.de', 'info@com']).then(function (armoredMessage) {
    *     console.log('encrypt', armoredMessage); // prints: "-----BEGIN PGP MESSAGE..."

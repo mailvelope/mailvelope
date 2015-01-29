@@ -25,11 +25,18 @@ mvelo.domAPI.active = false;
 
 mvelo.domAPI.containers = new Map();
 
+mvelo.domAPI.host = null;
+
 mvelo.domAPI.init = function() {
   this.active = mvelo.main.watchList.some(function(site) {
     return site.active && site.frames && site.frames.some(function(frame) {
-      var hosts = mvelo.domAPI.matchPattern2RegEx(frame.frame);
-      return frame.scan && frame.api && hosts.test(document.location.hostname);
+      var hostRegex = mvelo.domAPI.matchPattern2RegEx(frame.frame);
+      var validHost = hostRegex.test(document.location.hostname);
+      if (frame.scan && frame.api && validHost) {
+        // host = match pattern without *. prefix
+        mvelo.domAPI.host = frame.frame.replace(/^\*\./, '');
+        return true;
+      }
     });
   });
   if (this.active) {
@@ -62,7 +69,7 @@ mvelo.domAPI.postMessage = function(eventName, id, data, error) {
 
 mvelo.domAPI.reply = function(id, error, data) {
   if (error) {
-    error = { message: error.message || error, code: error.code || 'INTERNAL_ERROR' };
+    error = { message: error.message || error, code: error.code  || 'INTERNAL_ERROR' };
   }
   mvelo.domAPI.postMessage('callback-reply', id, data, error);
 };
@@ -113,33 +120,34 @@ mvelo.domAPI.eventListener = function(event) {
   try {
     mvelo.domAPI.checkTypes(event.data);
     var data = event.data.data;
+    var keyringId = data.identifier ? mvelo.domAPI.host + mvelo.KEYRING_DELIMITER + data.identifier : null;
     switch (event.data.event) {
       case 'get-keyring':
-        mvelo.domAPI.getKeyring(data.identifier, mvelo.domAPI.reply.bind(null, event.data.id));
+        mvelo.domAPI.getKeyring(keyringId, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'create-keyring':
-        mvelo.domAPI.createKeyring(data.identifier, mvelo.domAPI.reply.bind(null, event.data.id));
+        mvelo.domAPI.createKeyring(keyringId, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'display-container':
-        mvelo.domAPI.displayContainer(data.selector, data.armored, data.identifier, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
+        mvelo.domAPI.displayContainer(data.selector, data.armored, keyringId, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'editor-container':
-        mvelo.domAPI.editorContainer(data.selector, data.identifier, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
+        mvelo.domAPI.editorContainer(data.selector, keyringId, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'settings-container':
-        mvelo.domAPI.settingsContainer(data.selector, data.identifier, mvelo.domAPI.reply.bind(null, event.data.id));
+        mvelo.domAPI.settingsContainer(data.selector, keyringId, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'editor-encrypt':
         mvelo.domAPI.editorEncrypt(data.editorId, data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'query-valid-key':
-        mvelo.domAPI.validKeyForAddress(data.identifier, data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
+        mvelo.domAPI.validKeyForAddress(keyringId, data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'export-own-pub-key':
-        mvelo.domAPI.exportOwnPublicKey(data.identifier, data.emailAddr, mvelo.domAPI.reply.bind(null, event.data.id));
+        mvelo.domAPI.exportOwnPublicKey(keyringId, data.emailAddr, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'import-pub-key':
-        mvelo.domAPI.importPublicKey(data.identifier, data.armored, mvelo.domAPI.reply.bind(null, event.data.id));
+        mvelo.domAPI.importPublicKey(keyringId, data.armored, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       default:
         console.log('unknown event', event.data.event);
@@ -149,21 +157,25 @@ mvelo.domAPI.eventListener = function(event) {
   }
 };
 
-mvelo.domAPI.getKeyring = function(identifier, callback) {
+mvelo.domAPI.getKeyring = function(keyringId, callback) {
   mvelo.extension.sendMessage({
     event: 'get-keyring',
-    identifier: identifier,
+    keyringId: keyringId,
   }, function(result) {
     callback(result.error, result.data);
   });
 };
 
-mvelo.domAPI.createKeyring = function(identifier, callback) {
-  // TODO
-  callback();
+mvelo.domAPI.createKeyring = function(keyringId, callback) {
+  mvelo.extension.sendMessage({
+    event: 'create-keyring',
+    keyringId: keyringId,
+  }, function(result) {
+    callback(result.error, result.data);
+  });
 };
 
-mvelo.domAPI.displayContainer = function(selector, armored, identifier, options, callback) {
+mvelo.domAPI.displayContainer = function(selector, armored, keyringId, options, callback) {
   var container, error;
   switch (mvelo.main.getMessageType(armored)) {
     case mvelo.PGP_MESSAGE:
@@ -185,13 +197,13 @@ mvelo.domAPI.displayContainer = function(selector, armored, identifier, options,
   container.create(armored, callback);
 };
 
-mvelo.domAPI.editorContainer = function(selector, identifier, options, callback) {
-  var container = new mvelo.EditorContainer(selector);
+mvelo.domAPI.editorContainer = function(selector, keyringId, options, callback) {
+  var container = new mvelo.EditorContainer(selector, keyringId, options);
   this.containers.set(container.id, container);
   container.create(callback);
 };
 
-mvelo.domAPI.settingsContainer = function(selector, identifier, callback) {
+mvelo.domAPI.settingsContainer = function(selector, keyringId, callback) {
   // TODO
   callback();
 };
@@ -200,27 +212,27 @@ mvelo.domAPI.editorEncrypt = function(editorId, recipients, callback) {
   this.containers.get(editorId).encrypt(recipients, callback);
 };
 
-mvelo.domAPI.validKeyForAddress = function(identifier, recipients, callback) {
+mvelo.domAPI.validKeyForAddress = function(keyringId, recipients, callback) {
   mvelo.extension.sendMessage({
     event: 'query-valid-key',
-    identifier: identifier,
+    keyringId: keyringId,
     recipients: recipients
   }, function(result) {
     callback(result.error, result.data);
   });
 };
 
-mvelo.domAPI.exportOwnPublicKey = function(identifier, emailAddr, callback) {
+mvelo.domAPI.exportOwnPublicKey = function(keyringId, emailAddr, callback) {
   mvelo.extension.sendMessage({
     event: 'export-own-pub-key',
-    identifier: identifier,
+    keyringId: keyringId,
     emailAddr: emailAddr
   }, function(result) {
     callback(result.error, result.data);
   });
 };
 
-mvelo.domAPI.importPublicKey = function(identifier, armored, callback) {
+mvelo.domAPI.importPublicKey = function(keyringId, armored, callback) {
   // TODO
   callback();
 };

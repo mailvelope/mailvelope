@@ -19,8 +19,10 @@
 
 var mvelo = mvelo || {};
 
-mvelo.EditorContainer = function(selector) {
+mvelo.EditorContainer = function(selector, keyringId, options) {
   this.selector = selector;
+  this.keyringId = keyringId;
+  this.options = options;
   this.id = mvelo.util.getHash();
   this.name = 'editorCont-' + this.id;
   this.port = mvelo.extension.connect({name: this.name});
@@ -60,6 +62,7 @@ mvelo.EditorContainer.prototype.encrypt = function(recipients, callback) {
   this.port.postMessage({
     event: 'editor-container-encrypt',
     sender: this.name,
+    keyringId: this.keyringId,
     recipients: recipients
   });
   this.encryptCallback = callback;

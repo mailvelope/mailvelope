@@ -25,28 +25,38 @@ mvelo.crx = typeof chrome !== 'undefined';
 mvelo.ffa = mvelo.ffa || typeof self !== 'undefined' && self.port || !mvelo.crx;
 // for fixfox, mvelo.extension is exposed from a content script
 
-mvelo.getFirefoxVersion = function() {
-  return parseInt(navigator.userAgent.substring(navigator.userAgent.indexOf("Firefox/") + 8, navigator.userAgent.length));
-};
+/* constants */
 
-mvelo.extension = mvelo.extension || mvelo.crx && chrome.runtime;
-// extension.connect shim for Firefox
-if (mvelo.ffa && mvelo.extension) {
-  mvelo.extension.connect = function(obj) {
-    mvelo.extension._connect(obj);
-    obj.events = {};
-    var port = {
-      postMessage: mvelo.extension.port.postMessage,
-      disconnect: mvelo.extension.port.disconnect.bind(null, obj),
-      onMessage: {
-        addListener: mvelo.extension.port.addListener.bind(null, obj)
-      }
-    };
-    // page unload triggers port disconnect
-    window.addEventListener('unload', port.disconnect);
-    return port;
-  };
-}
+// min height for large frame
+mvelo.LARGE_FRAME = 600;
+// frame constants
+mvelo.FRAME_STATUS = 'stat';
+// frame status
+mvelo.FRAME_ATTACHED = 'att';
+mvelo.FRAME_DETACHED = 'det';
+// key for reference to frame object
+mvelo.FRAME_OBJ = 'fra';
+// marker for dynamically created iframes
+mvelo.DYN_IFRAME = 'dyn';
+mvelo.IFRAME_OBJ = 'obj';
+// armor header type
+mvelo.PGP_MESSAGE = 'msg';
+mvelo.PGP_SIGNATURE = 'sig';
+mvelo.PGP_PUBLIC_KEY = 'pub';
+mvelo.PGP_PRIVATE_KEY = 'priv';
+// editor mode
+mvelo.EDITOR_WEBMAIL = 'webmail';
+mvelo.EDITOR_EXTERNAL = 'external';
+mvelo.EDITOR_BOTH = 'both';
+// display decrypted message
+mvelo.DISPLAY_INLINE = 'inline';
+mvelo.DISPLAY_POPUP = 'popup';
+// editor type
+mvelo.PLAIN_TEXT = 'plain';
+mvelo.RICH_TEXT = 'rich';
+// keyring
+mvelo.KEYRING_DELIMITER = '#';
+mvelo.LOCAL_KEYRING_ID = 'localhost' + mvelo.KEYRING_DELIMITER + 'mailvelope';
 
 mvelo.appendTpl = function($element, path) {
   if (mvelo.ffa && !/^resource/.test(document.location.protocol)) {
@@ -77,6 +87,29 @@ mvelo.appendTpl = function($element, path) {
   }
 };
 
+mvelo.getFirefoxVersion = function() {
+  return parseInt(navigator.userAgent.substring(navigator.userAgent.indexOf("Firefox/") + 8, navigator.userAgent.length));
+};
+
+mvelo.extension = mvelo.extension || mvelo.crx && chrome.runtime;
+// extension.connect shim for Firefox
+if (mvelo.ffa && mvelo.extension) {
+  mvelo.extension.connect = function(obj) {
+    mvelo.extension._connect(obj);
+    obj.events = {};
+    var port = {
+      postMessage: mvelo.extension.port.postMessage,
+      disconnect: mvelo.extension.port.disconnect.bind(null, obj),
+      onMessage: {
+        addListener: mvelo.extension.port.addListener.bind(null, obj)
+      }
+    };
+    // page unload triggers port disconnect
+    window.addEventListener('unload', port.disconnect);
+    return port;
+  };
+}
+
 // for fixfox, mvelo.l10n is exposed from a content script
 mvelo.l10n = mvelo.l10n || mvelo.crx && {
   getMessages: function(ids, callback) {
@@ -95,36 +128,6 @@ mvelo.l10n = mvelo.l10n || mvelo.crx && {
     });
   }
 };
-// min height for large frame
-mvelo.LARGE_FRAME = 600;
-// frame constants
-mvelo.FRAME_STATUS = 'stat';
-// frame status
-mvelo.FRAME_ATTACHED = 'att';
-mvelo.FRAME_DETACHED = 'det';
-// key for reference to frame object
-mvelo.FRAME_OBJ = 'fra';
-// marker for dynamically created iframes
-mvelo.DYN_IFRAME = 'dyn';
-mvelo.IFRAME_OBJ = 'obj';
-// armor header type
-mvelo.PGP_MESSAGE = 'msg';
-mvelo.PGP_SIGNATURE = 'sig';
-mvelo.PGP_PUBLIC_KEY = 'pub';
-mvelo.PGP_PRIVATE_KEY = 'priv';
-// editor mode
-mvelo.EDITOR_WEBMAIL = 'webmail';
-mvelo.EDITOR_EXTERNAL = 'external';
-mvelo.EDITOR_BOTH = 'both';
-// display decrypted message
-mvelo.DISPLAY_INLINE = 'inline';
-mvelo.DISPLAY_POPUP = 'popup';
-// editor type
-mvelo.PLAIN_TEXT = 'plain';
-mvelo.RICH_TEXT = 'rich';
-// keyring
-mvelo.KEYRING_DELIMITER = '#';
-mvelo.LOCAL_KEYRING_ID = 'mailvelope.com' + mvelo.KEYRING_DELIMITER + 'local';
 
 mvelo.util = {};
 
@@ -213,10 +216,6 @@ mvelo.util.extend = function(target) {
   return target;
 };
 
-if (typeof exports !== 'undefined') {
-  exports.mvelo = mvelo;
-}
-
 mvelo.util.getRandomNumber = function(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
@@ -251,3 +250,7 @@ mvelo.util.showSecurityBackground = function() {
     $('head').append($("<style>").text(secureStyle + mmodalStyle + lockButton));
   });
 };
+
+if (typeof exports !== 'undefined') {
+  exports.mvelo = mvelo;
+}

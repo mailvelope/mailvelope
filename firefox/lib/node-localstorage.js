@@ -15,4 +15,8 @@ LocalStorage.prototype.setItem = function(keyStr, valueStr) {
   this.storage[keyStr] = valueStr;
 };
 
+LocalStorage.prototype.removeItem = function(keyStr) {
+  delete this.storage[keyStr];
+};
+
 exports.LocalStorage = LocalStorage;
