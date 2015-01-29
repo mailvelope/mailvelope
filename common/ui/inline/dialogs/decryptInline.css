@@ -16,7 +16,7 @@ html, body {
   left: 10px;
   right: 10px;
   bottom: 10px;
-  margin: 15px 15px 3px 3px;
+  margin: 15px 3px 3px 3px;
   background-color: white;
 }
 
@@ -58,7 +58,7 @@ html, body {
 #watermark {
   position: absolute;
   font-size: 250px;
-  top: 0px;
+  top: 0;
   bottom: 0;
   left: 0;
   right: 0;
@@ -87,18 +87,8 @@ html, body {
   margin-left: 0;
 }
 
-.spinner {
-  background-image: url('../../../img/loading.gif');
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.spinner-large {
-  background-position: center 160px;
-}
-
 .lockBtnIcon {
     width: 30px !important;
     height: 30px;
-    margin-right: -44px;
+    margin-right: -20px;
 }
