@@ -57,6 +57,7 @@ var mvelo = mvelo || null;
     ], function(result) {
       l10n = result;
     });
+    mvelo.util.showSecurityBackground();
   }
 
   function showSpinner() {
@@ -77,7 +78,7 @@ var mvelo = mvelo || null;
     var attachments = $('<div/>', {
       id: 'attachments'
     });
-    $('#wrapper').append(attachments);
+    $('body').append(attachments);
   }
 
   function addSandbox() {
@@ -124,12 +125,14 @@ var mvelo = mvelo || null;
   function showMessageArea() {
     $('html, body').addClass('hide_bg');
     $('body').removeClass('spinner');
+    $('body').removeClass('spinner-large');
     $('#wrapper').addClass('fade-in');
     resizeFont();
   }
 
   function showErrorMsg(msg) {
     $('body').removeClass('spinner');
+    $('body').removeClass('spinner-large');
     clearTimeout(spinnerTimer);
     $('#errorbox').show();
     $('#errorwell').showAlert(l10n.alert_header_error, msg, 'danger')
@@ -194,6 +197,9 @@ var mvelo = mvelo || null;
         // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
         msg.message = $.parseHTML(msg.message);
         $('#decryptmail').contents().find('#content').append(msg.message);
+        $('body').removeClass('spinner');
+        $('body').removeClass('spinner-large');
+        $('body').addClass('secureBackground');
         break;
       case 'add-decrypted-attachment':
         //console.log('popup adding decrypted attachment: ', JSON.stringify(msg.message));
