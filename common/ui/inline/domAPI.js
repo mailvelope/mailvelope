@@ -46,8 +46,7 @@ mvelo.domAPI.init = function() {
 mvelo.domAPI.matchPattern2RegEx = function(matchPattern) {
   return new RegExp(
     '^' + matchPattern.replace(/\./g, '\\.')
-                      .replace(/\*/g, '\\w*')
-                      .replace(/\\w\*\\./g, '(\\w+\\.)?') + '$'
+                      .replace(/\*\\\./, '(\\w+(-\\w+)*\\.)*') + '$'
   );
 };
 
@@ -151,8 +150,12 @@ mvelo.domAPI.eventListener = function(event) {
 };
 
 mvelo.domAPI.getKeyring = function(identifier, callback) {
-  // TODO
-  callback();
+  mvelo.extension.sendMessage({
+    event: 'get-keyring',
+    identifier: identifier,
+  }, function(result) {
+    callback(result.error, result.data);
+  });
 };
 
 mvelo.domAPI.createKeyring = function(identifier, callback) {

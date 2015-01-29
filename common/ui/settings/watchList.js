@@ -206,7 +206,8 @@ var options = options || null;
     site.frames = [];
     var formNotValid;
     $matchPatternContainer.children().get().forEach(function(child) {
-      if ($(child).find(".matchPatternName").val().indexOf("*.") !== 0) {
+      var patternValue = $(child).find(".matchPatternName").val();
+      if (!/^\*(\.\w+(-\w+)*)+(\.\w{2,})?$/.test(patternValue)) {
         formNotValid = true;
       }
       site.frames.push({
