@@ -55,7 +55,7 @@ mvelo.DISPLAY_POPUP = 'popup';
 mvelo.PLAIN_TEXT = 'plain';
 mvelo.RICH_TEXT = 'rich';
 // keyring
-mvelo.KEYRING_DELIMITER = '#';
+mvelo.KEYRING_DELIMITER = '|#|';
 mvelo.LOCAL_KEYRING_ID = 'localhost' + mvelo.KEYRING_DELIMITER + 'mailvelope';
 
 mvelo.appendTpl = function($element, path) {

@@ -28,7 +28,7 @@ define(function(require, exports, module) {
 
   function init() {
     keyringAttr = getAllKeyringAttr();
-    if (keyringAttr) {
+    if (keyringAttr && keyringAttr[mvelo.LOCAL_KEYRING_ID]) {
       for (var keyringId in keyringAttr) {
         if (keyringAttr.hasOwnProperty(keyringId)) {
           keyringMap.set(keyringId, new Keyring(keyringId));

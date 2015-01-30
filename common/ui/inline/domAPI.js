@@ -81,8 +81,11 @@ mvelo.domAPI.dataTypes = {
 };
 
 mvelo.domAPI.checkTypes = function(data) {
+  var error;
   if (data.id && typeof data.id !== 'string') {
-    throw new Error('Type mismatch: data.id should be of type string.');
+    error = new Error('Type mismatch: data.id should be of type string.');
+    error.code = 'TYPE_MISMATCH';
+    throw error;
   }
   var parameters = Object.keys(data.data);
   for (var i = 0; i < parameters.length; i++) {
@@ -105,7 +108,9 @@ mvelo.domAPI.checkTypes = function(data) {
         }
     }
     if (wrong) {
-      throw new Error('Type mismatch: ' + parameter + ' should be of type ' + dataType + '.');
+      error = new Error('Type mismatch: ' + parameter + ' should be of type ' + dataType + '.');
+      error.code = 'TYPE_MISMATCH';
+      throw error;
     }
   }
 };
@@ -120,7 +125,13 @@ mvelo.domAPI.eventListener = function(event) {
   try {
     mvelo.domAPI.checkTypes(event.data);
     var data = event.data.data;
-    var keyringId = data.identifier ? mvelo.domAPI.host + mvelo.KEYRING_DELIMITER + data.identifier : null;
+    var keyringId = null;
+    if (data.identifier) {
+      if (data.identifier.indexOf(mvelo.KEYRING_DELIMITER) !== -1) {
+        throw {message: 'Identifier invalid.', code: 'INVALID_IDENTIFIER'};
+      }
+      keyringId = mvelo.domAPI.host + mvelo.KEYRING_DELIMITER + data.identifier;
+    }
     switch (event.data.event) {
       case 'get-keyring':
         mvelo.domAPI.getKeyring(keyringId, mvelo.domAPI.reply.bind(null, event.data.id));
