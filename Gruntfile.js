@@ -226,7 +226,7 @@ module.exports = function(grunt) {
           src: [
             'mailreader/src/mailreader-parser.js',
             'mailreader/node_modules/mimeparser/src/*.js',
-            'mailreader/node_modules/mimeparser/node_modules/addressparser/src/*.js',
+            'mailreader/node_modules/mimeparser/node_modules/wo-addressparser/src/*.js',
             'mailreader/node_modules/mimeparser/node_modules/mimefuncs/src/*.js'
           ],
           dest: 'build/chrome/lib/'
@@ -248,10 +248,13 @@ module.exports = function(grunt) {
           src: [
             'mailreader/src/mailreader-parser.js',
             'mailreader/node_modules/mimeparser/src/*.js',
-            'mailreader/node_modules/mimeparser/node_modules/addressparser/src/*.js',
             'mailreader/node_modules/mimeparser/node_modules/mimefuncs/src/*.js'
           ],
           dest: 'build/firefox/lib/'
+        },
+        {
+          src: 'node_modules/mailreader/node_modules/mimeparser/node_modules/wo-addressparser/src/addressparser.js',
+          dest: 'build/firefox/lib/wo-addressparser.js'
         }]
       }
     },

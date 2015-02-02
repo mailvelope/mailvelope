@@ -16,8 +16,8 @@
   "license": "AGPL",
   "readmeFilename": "Readme.md",
   "dependencies": {
-    "mailreader": "https://github.com/whiteout-io/mailreader/tarball/v0.3.4",
-    "mailbuild": "https://github.com/whiteout-io/mailbuild/tarball/v0.3.7"
+    "mailreader": "~0.4.0",
+    "mailbuild": "~0.3.7"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
