@@ -45,7 +45,6 @@ var mvelo = mvelo || null;
     addWrapper();
     addAttachmentPanel();
     addSandbox();
-    addSecuritySettingsButton();
     addSpinner();
     mvelo.extension.sendMessage({event: "get-security-token"}, function(token) {
       $('#watermark').html(mvelo.util.encodeHTML(token.code));
@@ -62,16 +61,16 @@ var mvelo = mvelo || null;
   }
 
   function addSpinner() {
-    var spinner = $('<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>');
+    var spinner = $('<div class="m-spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>');
     spinner.appendTo('body');
   }
 
   function showSpinner() {
-    $(".spinner").show();
+    $(".m-spinner").show();
   }
 
   function hideSpinner() {
-    $(".spinner").hide();
+    $(".m-spinner").hide();
   }
 
   function addWrapper() {
@@ -204,6 +203,7 @@ var mvelo = mvelo || null;
     switch (msg.event) {
       case 'decrypted-message':
         showMessageArea();
+        addSecuritySettingsButton();
         // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
         msg.message = $.parseHTML(msg.message);
         $('#decryptmail').contents().find('#content').append(msg.message);

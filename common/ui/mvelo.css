@@ -158,13 +158,13 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 */
-.spinner {
-    margin: 100px auto 0;
+.m-spinner {
+    margin: 160px auto 0;
     width: 70px;
     text-align: center;
 }
 
-.spinner > div {
+.m-spinner > div {
     width: 18px;
     height: 18px;
     background-color: #333;
@@ -178,12 +178,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     animation-fill-mode: both;
 }
 
-.spinner .bounce1 {
+.m-spinner .bounce1 {
     -webkit-animation-delay: -0.32s;
     animation-delay: -0.32s;
 }
 
-.spinner .bounce2 {
+.m-spinner .bounce2 {
     -webkit-animation-delay: -0.16s;
     animation-delay: -0.16s;
 }
