@@ -158,7 +158,7 @@ define(function(require, exports, module) {
       } else {
         var msgText;
         // decrypted correctly
-        if (/^Content-Type:\smultipart\//.test(rawText)) {
+        if (/^\s*(MIME-Version|Content-Type|Content-Transfer-Encoding):/.test(rawText)) {
           // MIME
           that.mailreader.parse([{raw: rawText}], function(parsed) {
             if (parsed && parsed.length > 0) {
