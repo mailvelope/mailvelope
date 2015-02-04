@@ -55,6 +55,10 @@
         "message": "Email",
         "description": "Email address in User ID of a PGP key."
     },
+    "watchlist_delete_confirmation": {
+        "message": "Do you really want to remove this site from the watchlist?",
+        "description": "Mesage in the watchlist delete confirmation dialog."
+    },
     "key_export_header": {
         "message": "Eksportuj Klucz",
         "description": "Export key dialog header."
@@ -64,7 +68,7 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "upload_attachment": {
-        "message": "Add attachment",
+        "message": "Dodaj załącznik",
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "verify_error": {
@@ -80,7 +84,7 @@
         "description": "Password cache header"
     },
     "save_attachment_as_message": {
-        "message": "Select the folder, where you want to save the attachment.",
+        "message": "Wybierz folder w którym chcesz zapisać załącznik.",
         "description": "Message in the attachment save dialog"
     },
     "alert_header_success": {
@@ -92,7 +96,7 @@
         "description": "Selection of key type."
     },
     "editor_sign_button": {
-        "message": "Sign",
+        "message": "Podpisz",
         "description": "Sign button."
     },
     "key_gen_success": {
@@ -223,6 +227,10 @@
         "message": "Eksport",
         "description": "Export key."
     },
+    "keyring_public": {
+        "message": "Public",
+        "description": "public key type"
+    },
     "keyring_header": {
         "message": "Klucze",
         "description": "Header of the key ring."
@@ -234,6 +242,10 @@
     "form_cancel": {
         "message": "Anuluj",
         "description": "Cancel form button."
+    },
+    "keyring_private": {
+        "message": "Private",
+        "description": "private key type"
     },
     "encrypt_dialog_no_recipient": {
         "message": "Proszę dodać odbiorcę.",
@@ -248,7 +260,7 @@
         "description": "The message of the confirmation dialog."
     },
     "form_undo": {
-        "message": "Undo",
+        "message": "Cofnij",
         "description": "Undo form button."
     },
     "keygrid_key_not_expire": {
@@ -274,6 +286,10 @@
     "keygrid_status_invalid": {
         "message": "nieważny",
         "description": "Validity status of a PGP key."
+    },
+    "keyring_public_private": {
+        "message": "Public- Private-Key Pair",
+        "description": "public and private key types"
     },
     "security_compose_external": {
         "message": "W oddzielnym edytorze tekstowym należącym do Mailvelope (zalecane)",
@@ -319,6 +335,10 @@
         "message": "Dodaj",
         "description": "Max 6 character."
     },
+    "alert_invalid_domainmatchpattern_warning": {
+        "message": "Domain match pattern should begin with *.",
+        "description": "Alert header of category warning."
+    },
     "keygrid_status_valid": {
         "message": "ważny",
         "description": "Validity status of a PGP key."
@@ -330,6 +350,10 @@
     "security_cache_off": {
         "message": "Nie.",
         "description": "Don't store password."
+    },
+    "keyring_export_keys": {
+        "message": "Export Keys",
+        "description": "Tab of keyring to export keys."
     },
     "keygrid_signer_name": {
         "message": "Podpisujący",
@@ -344,7 +368,7 @@
         "description": "Checkbox label."
     },
     "editor_encrypt_button": {
-        "message": "Encrypt",
+        "message": "Szyfruj",
         "description": "Encrypt button."
     },
     "key_gen_pwd_reenter": {
@@ -370,6 +394,10 @@
     "form_submit": {
         "message": "Wyślij",
         "description": "Submit form button."
+    },
+    "watchlist_record_title": {
+        "message": "Watch List Record",
+        "description": "Title of the watchlist editor dialog."
     },
     "key_export_clipboard": {
         "message": "Kopiuj do schowka",
@@ -440,8 +468,12 @@
         "description": "Tab of keyring to import keys."
     },
     "key_export_create_file": {
-        "message": "Utwórz plik",
-        "description": "Create file button."
+        "message": "Download",
+        "description": "Download file button."
+    },
+    "alert_no_domainmatchpattern_warning": {
+        "message": "At least one domain match pattern is needed.",
+        "description": "Alert header of category warning."
     },
     "key_import_public_success": {
         "message": "Klucz publiczny $1 użytkownika $2 został zaimportowany do pęku kluczy",
@@ -467,9 +499,17 @@
         "message": "Uwaga!",
         "description": "Header warning."
     },
+    "keygrid_key_type": {
+        "message": "Type",
+        "description": "The type of the key."
+    },
     "keyring_migration_error": {
         "message": "Błędy Migracji Kluczy",
         "description": "Tab of keyring to display migration errors."
+    },
+    "key_details_title": {
+        "message": "Key Details",
+        "description": "The title of the key details dialog."
     },
     "security_cache_time": {
         "message": "minut.",
@@ -506,6 +546,10 @@
     "keygrid_display_all_keys": {
         "message": "Wyświetl wszystkie klucze",
         "description": "Export key menu."
+    },
+    "watchlist_expose_api": {
+        "message": "API",
+        "description": "Expose API to Webmailer."
     },
     "key_export_warning_private": {
         "message": "Ten plik zawiera także klucze prywatne.",

@@ -55,6 +55,10 @@
         "message": "E-Mail",
         "description": "Email address in User ID of a PGP key."
     },
+    "watchlist_delete_confirmation": {
+        "message": "Wollen Sie diese Seite wirklich von der Beobachtungsliste entfernen?",
+        "description": "Mesage in the watchlist delete confirmation dialog."
+    },
     "key_export_header": {
         "message": "Schlüssel exportieren",
         "description": "Export key dialog header."
@@ -208,7 +212,7 @@
         "description": "Mail compose options warning"
     },
     "popup_active_on": {
-        "message": "An",
+        "message": "Ein",
         "description": "Activity status of the extension."
     },
     "encrypt_dialog_header": {
@@ -223,6 +227,10 @@
         "message": "Exportieren",
         "description": "Export key."
     },
+    "keyring_public": {
+        "message": "Öffentlich",
+        "description": "public key type"
+    },
     "keyring_header": {
         "message": "Schlüsselbund",
         "description": "Header of the key ring."
@@ -234,6 +242,10 @@
     "form_cancel": {
         "message": "Abbrechen",
         "description": "Cancel form button."
+    },
+    "keyring_private": {
+        "message": "Privat",
+        "description": "private key type"
     },
     "encrypt_dialog_no_recipient": {
         "message": "Bitte einen Empfänger hinzufügen.",
@@ -274,6 +286,10 @@
     "keygrid_status_invalid": {
         "message": "nicht gültig",
         "description": "Validity status of a PGP key."
+    },
+    "keyring_public_private": {
+        "message": "Öffentlich-Privates-Schlüsselpaar",
+        "description": "public and private key types"
     },
     "security_compose_external": {
         "message": "In einem separaten Bearbeitungsfenster das zu Mailvelope gehört.",
@@ -319,6 +335,10 @@
         "message": "Hinzufügen",
         "description": "Max 6 character."
     },
+    "alert_invalid_domainmatchpattern_warning": {
+        "message": "Domain-Übereinstimmungsmuster muss mit *. beginnen",
+        "description": "Alert header of category warning."
+    },
     "keygrid_status_valid": {
         "message": "gültig",
         "description": "Validity status of a PGP key."
@@ -330,6 +350,10 @@
     "security_cache_off": {
         "message": "Nein.",
         "description": "Don't store password."
+    },
+    "keyring_export_keys": {
+        "message": "Schlüssel exportieren",
+        "description": "Tab of keyring to export keys."
     },
     "keygrid_signer_name": {
         "message": "Unterzeichner",
@@ -370,6 +394,10 @@
     "form_submit": {
         "message": "Senden",
         "description": "Submit form button."
+    },
+    "watchlist_record_title": {
+        "message": "Beobachtungslisteneintrag",
+        "description": "Title of the watchlist editor dialog."
     },
     "key_export_clipboard": {
         "message": "In die Zwischenablage kopieren",
@@ -440,8 +468,12 @@
         "description": "Tab of keyring to import keys."
     },
     "key_export_create_file": {
-        "message": "Datei erstellen",
-        "description": "Create file button."
+        "message": "Herunterladen",
+        "description": "Download file button."
+    },
+    "alert_no_domainmatchpattern_warning": {
+        "message": "Mindestens ein Domain-Übereinstimmungsmuster wird benötigt.",
+        "description": "Alert header of category warning."
     },
     "key_import_public_success": {
         "message": "Der öffentliche Schlüssel $1 vom Benutzer $2 wurde in den Schlüsselbund importiert",
@@ -467,9 +499,17 @@
         "message": "Achtung!",
         "description": "Header warning."
     },
+    "keygrid_key_type": {
+        "message": "Typ",
+        "description": "The type of the key."
+    },
     "keyring_migration_error": {
         "message": "Fehler bei der Schlüsselmigration",
         "description": "Tab of keyring to display migration errors."
+    },
+    "key_details_title": {
+        "message": "Schlüsseldetails",
+        "description": "The title of the key details dialog."
     },
     "security_cache_time": {
         "message": "Minuten.",
@@ -506,6 +546,10 @@
     "keygrid_display_all_keys": {
         "message": "Alle Schlüssel anzeigen",
         "description": "Export key menu."
+    },
+    "watchlist_expose_api": {
+        "message": "API",
+        "description": "Expose API to Webmailer."
     },
     "key_export_warning_private": {
         "message": "Diese Datei enthält auch private Schlüssel.",

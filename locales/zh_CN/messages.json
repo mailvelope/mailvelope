@@ -55,6 +55,10 @@
         "message": "邮件",
         "description": "Email address in User ID of a PGP key."
     },
+    "watchlist_delete_confirmation": {
+        "message": "Do you really want to remove this site from the watchlist?",
+        "description": "Mesage in the watchlist delete confirmation dialog."
+    },
     "key_export_header": {
         "message": "E导出密钥",
         "description": "Export key dialog header."
@@ -223,6 +227,10 @@
         "message": "导出",
         "description": "Export key."
     },
+    "keyring_public": {
+        "message": "Public",
+        "description": "public key type"
+    },
     "keyring_header": {
         "message": "密钥环",
         "description": "Header of the key ring."
@@ -234,6 +242,10 @@
     "form_cancel": {
         "message": "取消",
         "description": "Cancel form button."
+    },
+    "keyring_private": {
+        "message": "Private",
+        "description": "private key type"
     },
     "encrypt_dialog_no_recipient": {
         "message": "请加入收件人",
@@ -274,6 +286,10 @@
     "keygrid_status_invalid": {
         "message": "不合法",
         "description": "Validity status of a PGP key."
+    },
+    "keyring_public_private": {
+        "message": "Public- Private-Key Pair",
+        "description": "public and private key types"
     },
     "security_compose_external": {
         "message": "在Mailvelope的单独窗口.",
@@ -319,6 +335,10 @@
         "message": "加入",
         "description": "Max 6 character."
     },
+    "alert_invalid_domainmatchpattern_warning": {
+        "message": "Domain match pattern should begin with *.",
+        "description": "Alert header of category warning."
+    },
     "keygrid_status_valid": {
         "message": "合法",
         "description": "Validity status of a PGP key."
@@ -330,6 +350,10 @@
     "security_cache_off": {
         "message": "不记录.",
         "description": "Don't store password."
+    },
+    "keyring_export_keys": {
+        "message": "Export Keys",
+        "description": "Tab of keyring to export keys."
     },
     "keygrid_signer_name": {
         "message": "签署人",
@@ -370,6 +394,10 @@
     "form_submit": {
         "message": "提交",
         "description": "Submit form button."
+    },
+    "watchlist_record_title": {
+        "message": "Watch List Record",
+        "description": "Title of the watchlist editor dialog."
     },
     "key_export_clipboard": {
         "message": "复制到剪贴板",
@@ -440,8 +468,12 @@
         "description": "Tab of keyring to import keys."
     },
     "key_export_create_file": {
-        "message": "创建文件",
-        "description": "Create file button."
+        "message": "Download",
+        "description": "Download file button."
+    },
+    "alert_no_domainmatchpattern_warning": {
+        "message": "At least one domain match pattern is needed.",
+        "description": "Alert header of category warning."
     },
     "key_import_public_success": {
         "message": "用户 $2 的公钥 $1 已经加入密钥环",
@@ -467,9 +499,17 @@
         "message": "警告!",
         "description": "Header warning."
     },
+    "keygrid_key_type": {
+        "message": "Type",
+        "description": "The type of the key."
+    },
     "keyring_migration_error": {
         "message": "密钥导入错误",
         "description": "Tab of keyring to display migration errors."
+    },
+    "key_details_title": {
+        "message": "Key Details",
+        "description": "The title of the key details dialog."
     },
     "security_cache_time": {
         "message": "分钟.",
@@ -506,6 +546,10 @@
     "keygrid_display_all_keys": {
         "message": "显示所有密钥",
         "description": "Export key menu."
+    },
+    "watchlist_expose_api": {
+        "message": "API",
+        "description": "Expose API to Webmailer."
     },
     "key_export_warning_private": {
         "message": "此文件也包含私钥",
