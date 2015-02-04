@@ -1,550 +1,550 @@
 {
     "options_settings": {
-        "message": "Inställningar",
+        "message": "الإعدادات",
         "description": "Options header: Settings."
     },
     "security_cache_help": {
-        "message": "Måste vara ett tal mellan 1-999",
+        "message": "يجب أن يكون العدد ضمن نطاق 1-999",
         "description": "Help text for cache time."
     },
     "key_gen_wait_info": {
-        "message": "Vänta medan en nyckel skapas. Det kan ta flera minuter och styrs av faktorer som nyckelstorlek.",
+        "message": "يٌرجى الانتظار، قد يستلزم توليد المفتاحين عدة دقائق، وذلك حسب عدة عوامل كطول المفتاح مثلا.",
         "description": "Wait dialog info message"
     },
     "message_read_error": {
-        "message": "Kunde inte läsa detta krypterade meddelande: $1",
+        "message": "لم يتمكن من قراءة هذه الرسالة المُعمَّاة : $1",
         "description": "Message read error message: $1: error message."
     },
     "keygrid_all_keys": {
-        "message": "Alla",
+        "message": "كل",
         "description": "Selection of key type."
     },
     "security_token_title": {
-        "message": "Token-autentisering",
+        "message": "شارة تحديد الهوية",
         "description": "Security token title"
     },
     "security_display_inline": {
-        "message": "På e-postleverantörens sida",
+        "message": "في صفحة مزود خدمة البريد الإلكتروني.",
         "description": "Decrypted message display option"
     },
     "verify_result_error": {
-        "message": "Fel signatur för",
+        "message": "توقيع غير صحيح ل",
         "description": "Verfiy signature error. Wrong signature of [userid]."
     },
     "pwd_dialog_header": {
-        "message": "Nyckelupplåsning",
+        "message": "فك قفل المفتاح",
         "description": "Header of the password dialog."
     },
     "keygrid_creation_date_short": {
-        "message": "Skapad",
+        "message": "أٌنشِيء",
         "description": "Short creation date of a PGP key. Max. width: 90px"
     },
     "security_display_decrypted": {
-        "message": "Var visas dekrypterade meddelanden?",
+        "message": "أين تُعرَض الرسائل التي فُكَّت تعميتها ؟",
         "description": "Label for display options"
     },
     "general_primary_key_always": {
-        "message": "Lägg alltid till primär nyckel i mottagarlistan. (Möjliggör dekryptering av skickad e-post)",
+        "message": "أَضِف دائما المفتاح الأوَّلي إلى لائحة المُستلِمين. (اسمح بفك تعمية الرسائل المُرسلَة)",
         "description": "Label for primary private key option."
     },
     "security_compose_webmail": {
-        "message": "I e-postleverantörens textredigerare för nya meddelanden",
+        "message": "داخل مُحرِّر نصوص مزود خدمة البريد الإلكتروني.",
         "description": "Mail compose option"
     },
     "keygrid_user_email": {
-        "message": "E-post",
+        "message": "البريد الإلكتروني",
         "description": "Email address in User ID of a PGP key."
     },
     "watchlist_delete_confirmation": {
-        "message": "Do you really want to remove this site from the watchlist?",
+        "message": "هل تريد حقا حذف الموقع التالي من لائحة المشاهدات ؟",
         "description": "Mesage in the watchlist delete confirmation dialog."
     },
     "key_export_header": {
-        "message": "Exportera nyckel",
+        "message": "تصدير المفاتيح",
         "description": "Export key dialog header."
     },
     "key_import_private_exists": {
-        "message": "Privat nyckel-del för befintlig publik nyckel $1  för användare $2 importerad till nyckelring",
+        "message": "تم استيراد الأجزاء السرية للمفتاح العلني المُسبَق $1 للمستخدم $2 نحو مستودع المفاتيح",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "upload_attachment": {
-        "message": "Bifoga fil",
+        "message": "إضافة مرفقات",
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "verify_error": {
-        "message": "Kunde inte verifiera detta meddelande: $1",
+        "message": "لم يتمكن من التحقق من هذه الرسالة : $1",
         "description": "Error during verification process."
     },
     "pwd_dialog_wrong_pwd": {
-        "message": "Fel lösenord",
+        "message": "كلمة السر غير صحيحة",
         "description": "Password error message."
     },
     "security_cache_header": {
-        "message": "Kom ihåg lösenord för webbläsarsession?",
+        "message": "هل أتذكَّر كلمات السر خلال جلسات المتصفح ؟",
         "description": "Password cache header"
     },
     "save_attachment_as_message": {
-        "message": "Markera mappen där du vill spara den bifogade filen",
+        "message": "اختر المجلد الذي تريد أن تحفظ فيه المرفق.",
         "description": "Message in the attachment save dialog"
     },
     "alert_header_success": {
-        "message": "Det fungerade!",
+        "message": "نجَح !",
         "description": "Alert header of category success."
     },
     "keygrid_public_keys": {
-        "message": "Publika nycklar",
+        "message": "المفاتيح العلنية",
         "description": "Selection of key type."
     },
     "editor_sign_button": {
-        "message": "Signera",
+        "message": "وَقِّع",
         "description": "Sign button."
     },
     "key_gen_success": {
-        "message": "Ny nyckel skapad och importerad till nyckelring",
+        "message": "وَلَّد المفتاح الجديد ثم استورده نحو مستودع المفاتيح",
         "description": "Key generation success message"
     },
     "key_gen_never": {
-        "message": "aldrig",
+        "message": "أبدا",
         "description": "Key expires after time range"
     },
     "general_primary_key_label": {
-        "message": "Primär privat nyckel",
+        "message": "المفتاح السري الأوَّلي",
         "description": "Label for primary private key option."
     },
     "clear_localstorage_confirm_title": {
-        "message": "Bekräfta",
+        "message": "تأكيد",
         "description": "The title of the confirmation dialog."
     },
     "key_import_file_select": {
-        "message": "Markera en nyckeltextfil att importera",
+        "message": "حدِّد نص المفتاح الذي تريد استيراده",
         "description": "File selection button label."
     },
     "watchlist_title_frame": {
-        "message": "Mönster i domän att matcha",
+        "message": "نمط تطابق النطاق",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "keygrid_key_length": {
-        "message": "Längd",
+        "message": "الطول",
         "description": "Key length of a PGP key."
     },
     "keygrid_private_keys": {
-        "message": "Privata nycklar",
+        "message": "المفاتيح السرية",
         "description": "Selection of key type."
     },
     "keyring_display_keys": {
-        "message": "Visa nycklar",
+        "message": "عرض المفاتيح",
         "description": "Tab of keyring to display keys."
     },
     "popup_options": {
-        "message": "Alternativ",
+        "message": "خيارات",
         "description": "Open options dialog."
     },
     "keyring_generate_key": {
-        "message": "Skapa nyckel",
+        "message": "توليد المفاتيح",
         "description": "Tab of keyring to generate key."
     },
     "key_import_error": {
-        "message": "Importfel.",
+        "message": "حدث خطأ في الاستيراد.",
         "description": "Import error alert."
     },
     "key_import_multiple_keys": {
-        "message": "För att klistra in flera nycklar klistrar du helt enkelt in dem här. Annan text runtom nycklarna ignoreras.",
+        "message": "لاستيراد عدة مفاتيح، ألصقها كلها هنا. سيتجاهل النصوص زائدة المحيطة بالمفاتيح.",
         "description": "Info message."
     },
     "popup_help": {
-        "message": "Hjälp",
+        "message": "مساعدة",
         "description": "Open help dialog."
     },
     "security_token_info": {
-        "message": "Säkerhetstoken är en mekanism för autentisering: alla Mailvelopes dialogrutor kommer att visa denna användardefinierade kod och därmed identifiera sig själva och varifrån de kommer.",
+        "message": "إن شارة الأمان آلية لتحديد الهوية : كل مربعات حوار Mailvelope تعرض هذا الرمز المحدَّد من طرف المستخدم، أي أنها تكشف عن نفسها وأصولها.",
         "description": "Security token help message"
     },
     "keygrid_subkeyid": {
-        "message": "ID",
+        "message": "المُعرِّف",
         "description": "Subkey ID of a PGP key."
     },
     "key_gen_pwd_match": {
-        "message": "Lösenord stämmer överens",
+        "message": "كلمتا السر متطابقتان",
         "description": "Passphrase input field status"
     },
     "key_import_another": {
-        "message": "Importera annan..",
+        "message": "استورد آخراً...",
         "description": "Import another key button."
     },
     "keygrid_delete": {
-        "message": "Radera",
+        "message": "حذف",
         "description": "Max. 6 characters."
     },
     "key_import_public_read": {
-        "message": "Kunde inte läsa en publik nyckel: $1",
+        "message": "تعذَّرت قراءة مفتاح علني : $1",
         "description": "Import error message. $1: error message"
     },
     "watchlist_title_active": {
-        "message": "Aktiv",
+        "message": "نشيط",
         "description": "Entry in watchlist is active."
     },
     "key_gen_pwd": {
-        "message": "Ange lösenord",
+        "message": "أَدخِل كلمة السر",
         "description": "Label for passphrase input field"
     },
     "key_gen_error": {
-        "message": "Fel när nyckel skulle skapas.",
+        "message": "حدث خطأ خلال توليد المفتاح.",
         "description": "Key generation error message"
     },
     "form_busy": {
-        "message": "Upptagen",
+        "message": "مشغول",
         "description": "Form in busy state."
     },
     "keygrid_userid": {
-        "message": "ID",
+        "message": "المُعرِّف",
         "description": "User ID of a PGP key."
     },
     "keygrid_algorithm": {
-        "message": "Algoritm",
+        "message": "الخوارزمية",
         "description": "Public-key algorithm of a PGP key."
     },
     "watchlist_command_cancel": {
-        "message": "Avbryt ändringar",
+        "message": "إلغاء التغييرات",
         "description": "Cancel changes in watchlist."
     },
     "security_compose_warn": {
-        "message": "Den här inställningen försämrar säkerheten hos Mailvelope. Din e-postleverantör kan eventuellt få tillgång till ditt meddelande.",
+        "message": "إن هذا الإعداد يدهوِر مستوى أمان Mailvelope. قد يتمكن مزود خدمة البريد الإلكتروني من الوصول إلى رسالتك.",
         "description": "Mail compose options warning"
     },
     "popup_active_on": {
-        "message": "På",
+        "message": "مُشغَّل",
         "description": "Activity status of the extension."
     },
     "encrypt_dialog_header": {
-        "message": "Kryptera för:",
+        "message": "عَمِّ ل :",
         "description": "Header of encrypt dialog."
     },
     "keygrid_send_pub_key": {
-        "message": "E-posta publik nyckel",
+        "message": "إرسال المفتاح العلني بالبريد الإلكتروني",
         "description": "Export key menu."
     },
     "keygrid_export": {
-        "message": "Exportera",
+        "message": "تصدير",
         "description": "Export key."
     },
     "keyring_public": {
-        "message": "Publik",
+        "message": "عمومي",
         "description": "public key type"
     },
     "keyring_header": {
-        "message": "Nyckelring",
+        "message": "مستودع المفاتيح",
         "description": "Header of the key ring."
     },
     "keygrid_userid_signatures": {
-        "message": "Signaturer",
+        "message": "التوقيعات",
         "description": "Signatures on User ID of a PGP key."
     },
     "form_cancel": {
-        "message": "Avbryt",
+        "message": "إلغاء",
         "description": "Cancel form button."
     },
     "keyring_private": {
-        "message": "Privat",
+        "message": "خاص",
         "description": "private key type"
     },
     "encrypt_dialog_no_recipient": {
-        "message": "Lägg till en mottagare.",
+        "message": "يُرجى إضافة مُستلِم.",
         "description": "Error message if no recipient selected."
     },
     "general_editor_plain": {
-        "message": "Ren text",
+        "message": "النص الصِّرف",
         "description": "Editor option: plain text."
     },
     "clear_localstorage_confirm_message": {
-        "message": "Do you want to delete all your PGP keys from this browser profile?",
+        "message": "هل تريد حذف جميع مفاتيح PGP التي تملك من تشكيلة هذا المتصفح ؟",
         "description": "The message of the confirmation dialog."
     },
     "form_undo": {
-        "message": "Ångra",
+        "message": "تراجع",
         "description": "Undo form button."
     },
     "keygrid_key_not_expire": {
-        "message": "Nyckeln går inte ut",
+        "message": "إن صلاحية المفتاح لا تنتهي",
         "description": "Expiration date of a PGP key not set."
     },
     "popup_reload": {
-        "message": "Ladda om",
+        "message": "إعادة التحميل",
         "description": "Reload all Mailvelope UI elements on page."
     },
     "options_title": {
-        "message": "Mailvelope-alternativ",
+        "message": "خيارات Mailvelope",
         "description": "Title of options page."
     },
     "form_continue": {
-        "message": "Fortsätt",
+        "message": "استمرار",
         "description": "Continue form button."
     },
     "decrypt_popup_header": {
-        "message": "Meddelande",
+        "message": "الرسالة",
         "description": "Header of decrypt popup."
     },
     "keygrid_status_invalid": {
-        "message": "ogiltig",
+        "message": "غير صالح",
         "description": "Validity status of a PGP key."
     },
     "keyring_public_private": {
-        "message": "Public- Private-Key Pair",
+        "message": "زوج المفتاحين العمومي والخاص",
         "description": "public and private key types"
     },
     "security_compose_external": {
-        "message": "I ett separat textredigeringsfönster tillhörande Mailvelope.",
+        "message": "في نافذة أخرى منفصلة لمُحرِّر النصوص والمنتمية إلى Mailvelope.",
         "description": "Mail compose option"
     },
     "keygrid_primary_key": {
-        "message": "Primär nyckel",
+        "message": "المفتاح الأوَّلي",
         "description": "Primary key of a PGP key."
     },
     "verify_result_success": {
-        "message": "Signerat av",
+        "message": "مُوقَّع من طرف",
         "description": "Verfiy signature succeeded."
     },
     "keygrid_user_ids": {
-        "message": "Användar-ID:n",
+        "message": "مُعرِّفات المستخدمين",
         "description": "User IDs of a PGP key."
     },
     "watchlist_title_scan": {
-        "message": "Status",
+        "message": "الحالة",
         "description": "Scan status of site in watchlist."
     },
     "key_import_textarea": {
-        "message": "Klistra in nyckeltext här:",
+        "message": "ألصق نص المفتاح هنا :",
         "description": "Key import box."
     },
     "watchlist_command_create": {
-        "message": "Lägg till ny post",
+        "message": "إضافة تسجيلة جديدة",
         "description": "Create entry in watchlist."
     },
     "key_gen_name_help": {
-        "message": "Nyckelinnehavarens fullständiga namn",
+        "message": "الإسم الكامل لمالك المفتاح",
         "description": "Help text for name field."
     },
     "encrypt_error": {
-        "message": "Kunde inte kryptera detta meddelande: $1",
+        "message": "لم يتمكن من تعمية هذه الرسالة : $1",
         "description": "Error during encryption process."
     },
     "key_gen_months": {
-        "message": "månader",
+        "message": "الشهور",
         "description": "Key expires after time range"
     },
     "encrypt_dialog_add": {
-        "message": "Lägg till",
+        "message": "إضافة",
         "description": "Max 6 character."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Domain match pattern should begin with *.",
+        "message": "يجب أن يبتدأ نمط تطابق النطاق بـ *.",
         "description": "Alert header of category warning."
     },
     "keygrid_status_valid": {
-        "message": "giltig",
+        "message": "صالح",
         "description": "Validity status of a PGP key."
     },
     "message_no_keys": {
-        "message": "Ingen privat nyckel hittades för detta meddelande. Privat nyckel-ID som krävs: $1",
+        "message": "لم يجد المفتاح السري في هذه الرسالة. مُعرِّفات المفاتيح السرية المطلوبة : $1",
         "description": "Decrypt error message."
     },
     "security_cache_off": {
-        "message": "Nej.",
+        "message": "لا.",
         "description": "Don't store password."
     },
     "keyring_export_keys": {
-        "message": "Exportera nycklar",
+        "message": "تصدير المفاتيح",
         "description": "Tab of keyring to export keys."
     },
     "keygrid_signer_name": {
-        "message": "ID för signatur",
+        "message": "المُوقِّع",
         "description": "User ID of signer."
     },
     "dialog_keyid_label": {
-        "message": "Nyckel-ID",
+        "message": "مُعرِّف المفتاح :",
         "description": "Label for key ID."
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Kom ihåg lösenord för den här sessionen",
+        "message": "تذكَّر كلمات السر لهذه الجلسة.",
         "description": "Checkbox label."
     },
     "editor_encrypt_button": {
-        "message": "Kryptera",
+        "message": "عَمِّ",
         "description": "Encrypt button."
     },
     "key_gen_pwd_reenter": {
-        "message": "Ange lösenord igen",
+        "message": "أَعِد إدخال كلمة السر",
         "description": "Label for passphrase input field"
     },
     "keygrid_user_name": {
-        "message": "Namn",
+        "message": "الإسم",
         "description": "Name in User ID of a PGP key."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Ange...",
+        "message": "يُرجى إدخال...",
         "description": "Placeholder for password."
     },
     "security_display_popup": {
-        "message": "I en separat popup från Mailvelope.",
+        "message": "في نافذة منبثقة ومنفصلة عن Mailvelope.",
         "description": "Decrypted message display option"
     },
     "key_import_public_update": {
-        "message": "Publik nyckel $1 för användare $2 uppdaterad",
+        "message": "حُدِّث المفتاح العلني $1 للمستخدم $2",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "form_submit": {
-        "message": "Skicka",
+        "message": "إرسال",
         "description": "Submit form button."
     },
     "watchlist_record_title": {
-        "message": "Watch List Record",
+        "message": "تسجيل لائحة المشاهدات",
         "description": "Title of the watchlist editor dialog."
     },
     "key_export_clipboard": {
-        "message": "Kopiera till urklipp",
+        "message": "نسخ في الحافظة",
         "description": "Copy to clipboard button."
     },
     "dialog_popup_close": {
-        "message": "Stäng",
+        "message": "أَغلِق",
         "description": "Close decrypt popup."
     },
     "verify_result_warning": {
-        "message": "Signerat med okänd nyckel",
+        "message": "وُقِّع بواسطة مفتاح مجهول",
         "description": "Verfiy signature warning."
     },
     "alert_header_warning": {
-        "message": "Varning!",
+        "message": "تحذير !",
         "description": "Alert header of category warning."
     },
     "key_gen_key_size": {
-        "message": "Nyckelstorlek",
+        "message": "طول المفتاح",
         "description": "Advanced key generation settings: Key size"
     },
     "security_custom_color": {
-        "message": "Anpassad färg",
+        "message": "تخصيص اللون",
         "description": "Custom color for security token"
     },
     "keygrid_delete_confirmation": {
-        "message": "Vill du verkligen ta bort den här nyckeln?",
+        "message": "هل تريد حقا حذف هذا المفتاح ؟",
         "description": "Delete confirmation dialog."
     },
     "security_char_help": {
-        "message": "Måste vara 3 tecken lång",
+        "message": "يجب أن يكون الطول بمقدار 3 حروف.",
         "description": "Char code help"
     },
     "pwd_dialog_password": {
-        "message": "Lösenord:",
+        "message": "كلمة السر :",
         "description": "Label for password."
     },
     "pwd_dialog_title": {
-        "message": "Ange lösenord i Mailvelope",
+        "message": "مدخلة كلمة السر | Mailvelope",
         "description": "Title of the password dialog."
     },
     "keygrid_subkeys": {
-        "message": "Undernycklar",
+        "message": "المفاتيح التابعة",
         "description": "Subkeys of a PGP key."
     },
     "form_clear": {
-        "message": "Rensa",
+        "message": "محو",
         "description": "Clear form button."
     },
     "key_gen_another": {
-        "message": "Skapa annan...",
+        "message": "وَلِّد أخرى...",
         "description": "Key import button"
     },
     "popup_remove_page": {
-        "message": "Ta bort sida",
+        "message": "إزالة صفحة",
         "description": "Remove page from watchlist."
     },
     "key_gen_expiration": {
-        "message": "Går ut",
+        "message": "الصلاحية",
         "description": "Key expires after time range"
     },
     "keygrid_validity_status": {
-        "message": "Status",
+        "message": "الحالة",
         "description": "Validity status of a PGP key."
     },
     "keyring_import_keys": {
-        "message": "Importera nycklar",
+        "message": "استيراد المفاتيح",
         "description": "Tab of keyring to import keys."
     },
     "key_export_create_file": {
-        "message": "Ladda ner",
+        "message": "تنزيل",
         "description": "Download file button."
     },
     "alert_no_domainmatchpattern_warning": {
-        "message": "At least one domain match pattern is needed.",
+        "message": "يجب أن يتوفر نمط تطابق نطاق واحد على الأقل,",
         "description": "Alert header of category warning."
     },
     "key_import_public_success": {
-        "message": "Publik nyckel $1 för användare $2 importerad till nyckelring",
+        "message": "تم استيراد المفتاح العلني $1 للمستخدم $2 نحو مستودع المفاتيح",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "keygrid_key_fingerprint": {
-        "message": "Fingeravtryck",
+        "message": "البصمة",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_sort_type": {
-        "message": "Visa nycklar efter typ",
+        "message": "إظهار المفاتيح حسب النوع",
         "description": "Key grid sort selector."
     },
     "key_gen_years": {
-        "message": "år",
+        "message": "السنوات",
         "description": "Key expires after time range"
     },
     "editor_blur_warn": {
-        "message": "Varning. Textredigerare tappade fokus.",
+        "message": "تحذير. فُقد التركيز على مُحرِّر النصوص.",
         "description": "Warning for lost focus."
     },
     "header_warning": {
-        "message": "Varning!",
+        "message": "تحذير !",
         "description": "Header warning."
     },
     "keygrid_key_type": {
-        "message": "Type",
+        "message": "النوع",
         "description": "The type of the key."
     },
     "keyring_migration_error": {
-        "message": "Fel vid flytt av nyckel",
+        "message": "حدث خطأ خلال ترحيل المفاتيح",
         "description": "Tab of keyring to display migration errors."
     },
     "key_details_title": {
-        "message": "Key Details",
+        "message": "تفاصيل المفتاح",
         "description": "The title of the key details dialog."
     },
     "security_cache_time": {
-        "message": "minuter.",
+        "message": "دقائق",
         "description": "Store password in memory for $1 minutes."
     },
     "settings_watchlist": {
-        "message": "Lista med e-postleverantörer",
+        "message": "لائحة مزودي خدمة البريد الإلكتروني",
         "description": "Tab of options to display list of supported mail providers."
     },
     "general_editor_rich": {
-        "message": "Redigerare för formaterad text",
+        "message": "مُحرِّر وافر للنصوص",
         "description": "Editor option: rich text."
     },
     "security_cache_on": {
-        "message": "Ja, behåll i minnet i ",
+        "message": "نعم، احفظ في الذاكرة لمدة",
         "description": "Store password in memory for $1 minutes."
     },
     "options_home": {
-        "message": "Alternativ",
+        "message": "خيارات",
         "description": "Options navigation: Home."
     },
     "key_gen_wait_header": {
-        "message": "Nyckel skapas...",
+        "message": "يجري توليد المفاتيح...",
         "description": "Wait dialog header"
     },
     "watchlist_title_site": {
-        "message": "Sida",
+        "message": "الموقع",
         "description": "Site in watchlist."
     },
     "editor_transfer": {
-        "message": "Överför",
+        "message": "نقل",
         "description": "Transfer button of editor popup."
     },
     "keygrid_display_all_keys": {
-        "message": "Visa alla nycklar",
+        "message": "عرض جميع المفاتيح",
         "description": "Export key menu."
     },
     "watchlist_expose_api": {
@@ -552,83 +552,83 @@
         "description": "Expose API to Webmailer."
     },
     "key_export_warning_private": {
-        "message": "Den här filen innehåller även privata nycklar.",
+        "message": "إن هذا الملف يحوي أيضا مفاتيح سرية.",
         "description": "Key export warning."
     },
     "key_import_invalid_text": {
-        "message": "Ingen giltig nyckeltext hittades",
+        "message": "لم يعثر على نص صحيح للمفتاح",
         "description": "Import error alert."
     },
     "word_or": {
-        "message": "eller",
+        "message": "أو",
         "description": "Separate list of elements."
     },
     "key_import_exception": {
-        "message": "An exception occured while processing the keys",
+        "message": "حدث استثناء خلال معالجة المفاتيح",
         "description": "Import error alert."
     },
     "keygrid_display_key_pair": {
-        "message": "Visa nyckelpar",
+        "message": "عرض المفتاحين",
         "description": "Export key menu."
     },
     "security_compose_mail": {
-        "message": "Var vill du skriva ditt e-postmeddelande?",
+        "message": "أين تريد كتابة رسالتك ؟",
         "description": "Label for compose options"
     },
     "security_token_header": {
-        "message": "Säkerhetstoken",
+        "message": "شارة الأمان",
         "description": "Security token header"
     },
     "general_editor_type": {
-        "message": "Val av e-postredigerare",
+        "message": "اختيار مُحرِّر البريد الإلكتروني",
         "description": "Label for editor options."
     },
     "key_gen_pwd_unequal": {
-        "message": "Lösenorden stämmer inte överens",
+        "message": "كلمتا السر غير متطابقتين",
         "description": "Passphrase input field status"
     },
     "popup_active_off": {
-        "message": "Av",
+        "message": "غير مُشغَّل",
         "description": "Activity status of the extension."
     },
     "watchlist_command_edit": {
-        "message": "Ändra",
+        "message": "تحرير",
         "description": "Edit entry in watchlist."
     },
     "editor_transfer_unencrypted": {
-        "message": "Du försöker överföra okrypterat innehåll tillbaka till e-postleverantören.",
+        "message": "إنك تحاول نقل محتوى غير مُعمَّى إلى مزود خدمة البريد الإلكتروني.",
         "description": "Warning for unencrypted content."
     },
     "decrypt_popup_title": {
-        "message": "Dekrypterat meddelande",
+        "message": "الرسالة التي فُكَّت تعميتها",
         "description": "Title of decrypt popup."
     },
     "watchlist_command_save": {
-        "message": "Spara ändringar",
+        "message": "حفظ التغييرات",
         "description": "Save changes in watchlist."
     },
     "cleartext_read_error": {
-        "message": "Kunde inte läsa detta klartext-meddelande: $1",
+        "message": "لم يتمكن من قراءة هذا النص الصِّرف للرسالة : $1",
         "description": "Cleartext message read error message: $1: error message."
     },
     "editor_header": {
-        "message": "Skriv meddelande",
+        "message": "كتابة الرسالة",
         "description": "Header of editor popup."
     },
     "form_ok": {
-        "message": "Ok",
+        "message": "موافق",
         "description": "Ok form button."
     },
     "key_import_private_update": {
-        "message": "Privat nyckel $1 för användare $2 uppdaterad",
+        "message": "حُدِّث المفتاح السري $1 للمستخدم $2",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_gen_pwd_empty": {
-        "message": "Lösenord är tomt",
+        "message": "كلمة السر فارغة",
         "description": "Passphrase input field status"
     },
     "form_save": {
-        "message": "Spara",
+        "message": "حفظ",
         "description": "Save form button."
     },
     "ext_name": {
@@ -636,111 +636,111 @@
         "description": "Name of the extension."
     },
     "key_gen_days": {
-        "message": "dagar",
+        "message": "الأيام",
         "description": "Key expires after time range"
     },
     "keygrid_expiration_date": {
-        "message": "Utgångsdatum",
+        "message": "تاريخ الانتهاء",
         "description": "Expiration date of a PGP key."
     },
     "alert_header_error": {
-        "message": "Fel!",
+        "message": "خطأ !",
         "description": "Alert header of category error."
     },
     "security_char_code": {
-        "message": "Teckenkod",
+        "message": "رمز الحرف",
         "description": "Char code for security token"
     },
     "key_export_too_large": {
-        "message": "Nyckeln får inte plats i en URL, använd kopiera & klistra in istället.",
+        "message": "إن المفتاح أطول من أن يسَعَه المسار، استخدم بدل ذلك النسخ ثم اللصق.",
         "description": "Key export warning message."
     },
     "keygrid_no_subkeys": {
-        "message": "Inga undernycklar tillgängliga",
+        "message": "المفاتيح التابعة غير متاحة",
         "description": "No subkeys of a PGP key found."
     },
     "keygrid_keyid": {
-        "message": "Nyckel-ID",
+        "message": "مُعرِّف المفتاح",
         "description": "Key ID of a PGP key."
     },
     "sign_dialog_header": {
-        "message": "Signera meddelande med nyckel:",
+        "message": "وقِّع الرسالة بالمفتاح :",
         "description": "Header of sign dialog."
     },
     "key_import_private_read": {
-        "message": "Kunde inte läsa en privat nyckel: $1",
+        "message": "تعذَّرت قراءة المفتاح السري : $1",
         "description": "Import error message. $1: error message"
     },
     "keygrid_signer_unknown": {
-        "message": "ID för signatur okänt",
+        "message": "مُوقِّع مجهول",
         "description": "Key of signer not available."
     },
     "popup_add_page": {
-        "message": "Lägg till sida",
+        "message": "إضافة صفحة",
         "description": "Add page to watchlist."
     },
     "options_docu": {
-        "message": "Dokumentation",
+        "message": "الدليل",
         "description": "Options navigation: Documentation."
     },
     "options_about": {
-        "message": "Om",
+        "message": "حول البرنامج",
         "description": "Options navigation: About."
     },
     "key_gen_invalid_email": {
-        "message": "Ogiltig e-postadress",
+        "message": "عنوان البريد الإلكتروني غير صالح",
         "description": "Error message."
     },
     "pwd_dialog_userid": {
-        "message": "Anv.-ID",
+        "message": "مُعرِّف المستخدم :",
         "description": "Label for user ID."
     },
     "decrypt_popup_copy": {
-        "message": "Kopiera till urklipp",
+        "message": "نسخ في الحافظة",
         "description": "Copy decrypted message to clipboard."
     },
     "reload_webmail_tab": {
-        "message": "Ladda om fliken med din e-postleverantör (F5) för att dessa inställningar ska börja gälla.",
+        "message": "يُرجى إنعاش لسان مزود خدمة البريد الإلكتروني (F5) لتفعيل هذه الإعدادات.",
         "description": "Info message."
     },
     "keygrid_display_priv_key": {
-        "message": "Visa privat nyckel",
+        "message": "عرض المفتاح السري",
         "description": "Export key menu."
     },
     "ext_description": {
-        "message": "Förbättra din webbaserade e-posttjänst med end-to-end-kryptering. Säker e-postkommunikation baserad på OpenPGP-standarden.",
+        "message": "عَزِّز مزود بريدك الإلكتروني عبر الشبكة العنكبوتية بالتعمية من طرف لطرف. أَمِّن اتصالاتك بالبريد الإلكتروني وفق معيار OpenPGP.",
         "description": "Description of the extension."
     },
     "key_gen_advanced_btn": {
-        "message": "Avancerat",
+        "message": "متقدم",
         "description": "Advanced key generation settings."
     },
     "key_import_private_success": {
-        "message": "Privat nyckel $1 för användare $2 importerad till nyckelring",
+        "message": "تم استيراد المفتاح السري $1 للمستخدم $2 نحو مستودع المفاتيح",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "settings_security": {
-        "message": "Säkerhet",
+        "message": "الأمان",
         "description": "Tab of options to display security settings."
     },
     "settings_general": {
-        "message": "Allmänt",
+        "message": "عام",
         "description": "Tab of options to display general settings."
     },
     "key_import_unable": {
-        "message": "Kunde inte importera nyckel pga: $1",
+        "message": "تعذَّر استيراد المفتاح بسبب الاستثناء : $1",
         "description": "Import error message: $1: error message."
     },
     "keygrid_display_pub_key": {
-        "message": "Visa publik nyckel",
+        "message": "عرض المفتاح العلني",
         "description": "Export key menu."
     },
     "keygrid_creation_date": {
-        "message": "Skapelsedatum",
+        "message": "تاريخ الإنشاء",
         "description": "Creation date of a PGP key."
     },
     "key_export_download": {
-        "message": "Ladda ner nyckel",
+        "message": "تنزيل المفتاح",
         "description": "Download key link."
     }
 }

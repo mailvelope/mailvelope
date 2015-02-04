@@ -55,6 +55,10 @@
         "message": "E-post",
         "description": "Email address in User ID of a PGP key."
     },
+    "watchlist_delete_confirmation": {
+        "message": "Bekreft at du vil flytte denne siden fra oppsynslisten.",
+        "description": "Mesage in the watchlist delete confirmation dialog."
+    },
     "key_export_header": {
         "message": "Eksporter nøkkel",
         "description": "Export key dialog header."
@@ -80,7 +84,7 @@
         "description": "Password cache header"
     },
     "save_attachment_as_message": {
-        "message": "Select the folder, where you want to save the attachment.",
+        "message": "Velg mappe for lagring av vedlegg.",
         "description": "Message in the attachment save dialog"
     },
     "alert_header_success": {
@@ -223,6 +227,10 @@
         "message": "Eksporter",
         "description": "Export key."
     },
+    "keyring_public": {
+        "message": "Offentlig",
+        "description": "public key type"
+    },
     "keyring_header": {
         "message": "Nøkkelring",
         "description": "Header of the key ring."
@@ -234,6 +242,10 @@
     "form_cancel": {
         "message": "Avbryt",
         "description": "Cancel form button."
+    },
+    "keyring_private": {
+        "message": "Privat",
+        "description": "private key type"
     },
     "encrypt_dialog_no_recipient": {
         "message": "Legg til en mottaker.",
@@ -274,6 +286,10 @@
     "keygrid_status_invalid": {
         "message": "ugyldig",
         "description": "Validity status of a PGP key."
+    },
+    "keyring_public_private": {
+        "message": "Offentlig- privatnøkkel -par",
+        "description": "public and private key types"
     },
     "security_compose_external": {
         "message": "I eget tekstbehandlingsvindu tilhørende Mailvelope.",
@@ -319,6 +335,10 @@
         "message": "Legg til",
         "description": "Max 6 character."
     },
+    "alert_invalid_domainmatchpattern_warning": {
+        "message": "Mønster for jamførsel av domener bør starte med *.",
+        "description": "Alert header of category warning."
+    },
     "keygrid_status_valid": {
         "message": "gyldig",
         "description": "Validity status of a PGP key."
@@ -330,6 +350,10 @@
     "security_cache_off": {
         "message": "Nei.",
         "description": "Don't store password."
+    },
+    "keyring_export_keys": {
+        "message": "Export Keys",
+        "description": "Tab of keyring to export keys."
     },
     "keygrid_signer_name": {
         "message": "Undertegnet",
@@ -370,6 +394,10 @@
     "form_submit": {
         "message": "Send inn",
         "description": "Submit form button."
+    },
+    "watchlist_record_title": {
+        "message": "Oppsynsliste",
+        "description": "Title of the watchlist editor dialog."
     },
     "key_export_clipboard": {
         "message": "Kopier til utklippstavle",
@@ -440,8 +468,12 @@
         "description": "Tab of keyring to import keys."
     },
     "key_export_create_file": {
-        "message": "Opprett fil",
-        "description": "Create file button."
+        "message": "Last ned",
+        "description": "Download file button."
+    },
+    "alert_no_domainmatchpattern_warning": {
+        "message": "Ihvertfall et mønster for jamførsel av domener behøves.",
+        "description": "Alert header of category warning."
     },
     "key_import_public_success": {
         "message": "Offentlig nøkkel $1 tilhørende bruker $2 importert til nøkkelring",
@@ -467,9 +499,17 @@
         "message": "Advarsel!",
         "description": "Header warning."
     },
+    "keygrid_key_type": {
+        "message": "Type",
+        "description": "The type of the key."
+    },
     "keyring_migration_error": {
         "message": "Nøkkeloverførings-feil",
         "description": "Tab of keyring to display migration errors."
+    },
+    "key_details_title": {
+        "message": "Detaljer for nøkkel",
+        "description": "The title of the key details dialog."
     },
     "security_cache_time": {
         "message": "minutter.",
@@ -506,6 +546,10 @@
     "keygrid_display_all_keys": {
         "message": "Vis alle nøkler",
         "description": "Export key menu."
+    },
+    "watchlist_expose_api": {
+        "message": "API",
+        "description": "Expose API to Webmailer."
     },
     "key_export_warning_private": {
         "message": "Denne filen inneholder også private nøkler.",

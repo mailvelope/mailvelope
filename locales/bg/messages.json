@@ -1,58 +1,58 @@
 {
     "options_settings": {
-        "message": "Inställningar",
+        "message": "Настройки",
         "description": "Options header: Settings."
     },
     "security_cache_help": {
-        "message": "Måste vara ett tal mellan 1-999",
+        "message": "Трябва да е число между 1 и 999",
         "description": "Help text for cache time."
     },
     "key_gen_wait_info": {
-        "message": "Vänta medan en nyckel skapas. Det kan ta flera minuter och styrs av faktorer som nyckelstorlek.",
+        "message": "Моля изчакайте, генерирането на ключа може да отнеме до няколко минути, в зависимост от фактори като гомемината му.",
         "description": "Wait dialog info message"
     },
     "message_read_error": {
-        "message": "Kunde inte läsa detta krypterade meddelande: $1",
+        "message": "Това криптирано съобщение не може да бъде прочетено: $1",
         "description": "Message read error message: $1: error message."
     },
     "keygrid_all_keys": {
-        "message": "Alla",
+        "message": "Всички",
         "description": "Selection of key type."
     },
     "security_token_title": {
-        "message": "Token-autentisering",
+        "message": "Идентифициране с токен",
         "description": "Security token title"
     },
     "security_display_inline": {
-        "message": "På e-postleverantörens sida",
+        "message": "На страницата на емайл клиента.",
         "description": "Decrypted message display option"
     },
     "verify_result_error": {
-        "message": "Fel signatur för",
+        "message": "Грешна сигнатура на",
         "description": "Verfiy signature error. Wrong signature of [userid]."
     },
     "pwd_dialog_header": {
-        "message": "Nyckelupplåsning",
+        "message": "Отвори ключа",
         "description": "Header of the password dialog."
     },
     "keygrid_creation_date_short": {
-        "message": "Skapad",
+        "message": "Създаден",
         "description": "Short creation date of a PGP key. Max. width: 90px"
     },
     "security_display_decrypted": {
-        "message": "Var visas dekrypterade meddelanden?",
+        "message": "Къде да се показват декриптираните съобщения?",
         "description": "Label for display options"
     },
     "general_primary_key_always": {
-        "message": "Lägg alltid till primär nyckel i mottagarlistan. (Möjliggör dekryptering av skickad e-post)",
+        "message": "Винаги добавяй публичният ключ към списъка с получатели. (Позволява декриптирането на изпратените емайли)",
         "description": "Label for primary private key option."
     },
     "security_compose_webmail": {
-        "message": "I e-postleverantörens textredigerare för nya meddelanden",
+        "message": "В текстовия редактор на емайл клиентът.",
         "description": "Mail compose option"
     },
     "keygrid_user_email": {
-        "message": "E-post",
+        "message": "Емайл",
         "description": "Email address in User ID of a PGP key."
     },
     "watchlist_delete_confirmation": {
@@ -60,103 +60,103 @@
         "description": "Mesage in the watchlist delete confirmation dialog."
     },
     "key_export_header": {
-        "message": "Exportera nyckel",
+        "message": "Експортирай ключа",
         "description": "Export key dialog header."
     },
     "key_import_private_exists": {
-        "message": "Privat nyckel-del för befintlig publik nyckel $1  för användare $2 importerad till nyckelring",
+        "message": "Частният ключ на съществуващ публичен ключ $1 на потребител $2 беше импортиран в каталога с ключове.",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "upload_attachment": {
-        "message": "Bifoga fil",
+        "message": "Прикачи файл",
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "verify_error": {
-        "message": "Kunde inte verifiera detta meddelande: $1",
+        "message": "Това съобщение не може да бъде проверено: $1",
         "description": "Error during verification process."
     },
     "pwd_dialog_wrong_pwd": {
-        "message": "Fel lösenord",
+        "message": "Грешна парола",
         "description": "Password error message."
     },
     "security_cache_header": {
-        "message": "Kom ihåg lösenord för webbläsarsession?",
+        "message": "Запомни парoлата за текущата сесия на браузера.",
         "description": "Password cache header"
     },
     "save_attachment_as_message": {
-        "message": "Markera mappen där du vill spara den bifogade filen",
+        "message": "Изберете директория, където да се запишат прикачените файлове.",
         "description": "Message in the attachment save dialog"
     },
     "alert_header_success": {
-        "message": "Det fungerade!",
+        "message": "Операцията е успешна!",
         "description": "Alert header of category success."
     },
     "keygrid_public_keys": {
-        "message": "Publika nycklar",
+        "message": "Публични ключове",
         "description": "Selection of key type."
     },
     "editor_sign_button": {
-        "message": "Signera",
+        "message": "Подпиши",
         "description": "Sign button."
     },
     "key_gen_success": {
-        "message": "Ny nyckel skapad och importerad till nyckelring",
+        "message": "Нов ключ беше генериран и импортиран в каталога с ключове.",
         "description": "Key generation success message"
     },
     "key_gen_never": {
-        "message": "aldrig",
+        "message": "никога",
         "description": "Key expires after time range"
     },
     "general_primary_key_label": {
-        "message": "Primär privat nyckel",
+        "message": "Главен частен ключ",
         "description": "Label for primary private key option."
     },
     "clear_localstorage_confirm_title": {
-        "message": "Bekräfta",
+        "message": "Потвърди",
         "description": "The title of the confirmation dialog."
     },
     "key_import_file_select": {
-        "message": "Markera en nyckeltextfil att importera",
+        "message": "Избери текстов файл с ключове за импортиране",
         "description": "File selection button label."
     },
     "watchlist_title_frame": {
-        "message": "Mönster i domän att matcha",
+        "message": "Модели за разпознаване на домайни",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "keygrid_key_length": {
-        "message": "Längd",
+        "message": "Дължина",
         "description": "Key length of a PGP key."
     },
     "keygrid_private_keys": {
-        "message": "Privata nycklar",
+        "message": "Частни ключове",
         "description": "Selection of key type."
     },
     "keyring_display_keys": {
-        "message": "Visa nycklar",
+        "message": "Покажи ключовете",
         "description": "Tab of keyring to display keys."
     },
     "popup_options": {
-        "message": "Alternativ",
+        "message": "Настройки",
         "description": "Open options dialog."
     },
     "keyring_generate_key": {
-        "message": "Skapa nyckel",
+        "message": "Генерирай ключ",
         "description": "Tab of keyring to generate key."
     },
     "key_import_error": {
-        "message": "Importfel.",
+        "message": "Грешка при импортирането.",
         "description": "Import error alert."
     },
     "key_import_multiple_keys": {
-        "message": "För att klistra in flera nycklar klistrar du helt enkelt in dem här. Annan text runtom nycklarna ignoreras.",
+        "message": "За да импортирате много ключове на веднъж, просто копирайте всички тук. Екстра текстът около ключовете ще бъде игнориран.",
         "description": "Info message."
     },
     "popup_help": {
-        "message": "Hjälp",
+        "message": "Помощ",
         "description": "Open help dialog."
     },
     "security_token_info": {
-        "message": "Säkerhetstoken är en mekanism för autentisering: alla Mailvelopes dialogrutor kommer att visa denna användardefinierade kod och därmed identifiera sig själva och varifrån de kommer.",
+        "message": "Токенът е механизъм за идентифициране: Всички диалози на Mailvelope ще показват този код, генериран от потребителя и по този начин ще се идентицира техният произход.",
         "description": "Security token help message"
     },
     "keygrid_subkeyid": {
@@ -164,35 +164,35 @@
         "description": "Subkey ID of a PGP key."
     },
     "key_gen_pwd_match": {
-        "message": "Lösenord stämmer överens",
+        "message": "Паролоте съответстват",
         "description": "Passphrase input field status"
     },
     "key_import_another": {
-        "message": "Importera annan..",
+        "message": "Импортирай още един...",
         "description": "Import another key button."
     },
     "keygrid_delete": {
-        "message": "Radera",
+        "message": "Изтрий",
         "description": "Max. 6 characters."
     },
     "key_import_public_read": {
-        "message": "Kunde inte läsa en publik nyckel: $1",
+        "message": "Публичният ключ не може да бъде прочетен: $1",
         "description": "Import error message. $1: error message"
     },
     "watchlist_title_active": {
-        "message": "Aktiv",
+        "message": "Текущ",
         "description": "Entry in watchlist is active."
     },
     "key_gen_pwd": {
-        "message": "Ange lösenord",
+        "message": "Въведи парола",
         "description": "Label for passphrase input field"
     },
     "key_gen_error": {
-        "message": "Fel när nyckel skulle skapas.",
+        "message": "Грешка при генерирането на ключа.",
         "description": "Key generation error message"
     },
     "form_busy": {
-        "message": "Upptagen",
+        "message": "Зает",
         "description": "Form in busy state."
     },
     "keygrid_userid": {
@@ -200,91 +200,91 @@
         "description": "User ID of a PGP key."
     },
     "keygrid_algorithm": {
-        "message": "Algoritm",
+        "message": "Алгоритъм",
         "description": "Public-key algorithm of a PGP key."
     },
     "watchlist_command_cancel": {
-        "message": "Avbryt ändringar",
+        "message": "Отмени промените",
         "description": "Cancel changes in watchlist."
     },
     "security_compose_warn": {
-        "message": "Den här inställningen försämrar säkerheten hos Mailvelope. Din e-postleverantör kan eventuellt få tillgång till ditt meddelande.",
+        "message": "Тази опция намалява степента на сигурност на Mailvelope. Вашият емайл доставчик може да придобие достъп до съобщението.",
         "description": "Mail compose options warning"
     },
     "popup_active_on": {
-        "message": "På",
+        "message": "I",
         "description": "Activity status of the extension."
     },
     "encrypt_dialog_header": {
-        "message": "Kryptera för:",
+        "message": "Криптирай за:",
         "description": "Header of encrypt dialog."
     },
     "keygrid_send_pub_key": {
-        "message": "E-posta publik nyckel",
+        "message": "Изпрати публичния ключ по емайл",
         "description": "Export key menu."
     },
     "keygrid_export": {
-        "message": "Exportera",
+        "message": "Експорт",
         "description": "Export key."
     },
     "keyring_public": {
-        "message": "Publik",
+        "message": "Public",
         "description": "public key type"
     },
     "keyring_header": {
-        "message": "Nyckelring",
+        "message": "Каталог с ключове",
         "description": "Header of the key ring."
     },
     "keygrid_userid_signatures": {
-        "message": "Signaturer",
+        "message": "Сигнатури",
         "description": "Signatures on User ID of a PGP key."
     },
     "form_cancel": {
-        "message": "Avbryt",
+        "message": "Отмени",
         "description": "Cancel form button."
     },
     "keyring_private": {
-        "message": "Privat",
+        "message": "Private",
         "description": "private key type"
     },
     "encrypt_dialog_no_recipient": {
-        "message": "Lägg till en mottagare.",
+        "message": "Моля добавете получател.",
         "description": "Error message if no recipient selected."
     },
     "general_editor_plain": {
-        "message": "Ren text",
+        "message": "Обикновен текст",
         "description": "Editor option: plain text."
     },
     "clear_localstorage_confirm_message": {
-        "message": "Do you want to delete all your PGP keys from this browser profile?",
+        "message": "Наистина ли желаете да изтриете всичките PGP ключове от профила на браузера?",
         "description": "The message of the confirmation dialog."
     },
     "form_undo": {
-        "message": "Ångra",
+        "message": "Отмени",
         "description": "Undo form button."
     },
     "keygrid_key_not_expire": {
-        "message": "Nyckeln går inte ut",
+        "message": "Ключът не изтича",
         "description": "Expiration date of a PGP key not set."
     },
     "popup_reload": {
-        "message": "Ladda om",
+        "message": "Презареди",
         "description": "Reload all Mailvelope UI elements on page."
     },
     "options_title": {
-        "message": "Mailvelope-alternativ",
+        "message": "Настройки",
         "description": "Title of options page."
     },
     "form_continue": {
-        "message": "Fortsätt",
+        "message": "Продължи",
         "description": "Continue form button."
     },
     "decrypt_popup_header": {
-        "message": "Meddelande",
+        "message": "Съобщение",
         "description": "Header of decrypt popup."
     },
     "keygrid_status_invalid": {
-        "message": "ogiltig",
+        "message": "невалиден",
         "description": "Validity status of a PGP key."
     },
     "keyring_public_private": {
@@ -292,47 +292,47 @@
         "description": "public and private key types"
     },
     "security_compose_external": {
-        "message": "I ett separat textredigeringsfönster tillhörande Mailvelope.",
+        "message": "В отделен текстов редактор принадлежащ към Mailvelope",
         "description": "Mail compose option"
     },
     "keygrid_primary_key": {
-        "message": "Primär nyckel",
+        "message": "Главен ключ",
         "description": "Primary key of a PGP key."
     },
     "verify_result_success": {
-        "message": "Signerat av",
+        "message": "Сигнирано от",
         "description": "Verfiy signature succeeded."
     },
     "keygrid_user_ids": {
-        "message": "Användar-ID:n",
+        "message": "Потребителско ID",
         "description": "User IDs of a PGP key."
     },
     "watchlist_title_scan": {
-        "message": "Status",
+        "message": "Статус",
         "description": "Scan status of site in watchlist."
     },
     "key_import_textarea": {
-        "message": "Klistra in nyckeltext här:",
+        "message": "Поставете тук текста с ключа:",
         "description": "Key import box."
     },
     "watchlist_command_create": {
-        "message": "Lägg till ny post",
+        "message": "Добави нов запис",
         "description": "Create entry in watchlist."
     },
     "key_gen_name_help": {
-        "message": "Nyckelinnehavarens fullständiga namn",
+        "message": "Име на собственика на ключа",
         "description": "Help text for name field."
     },
     "encrypt_error": {
-        "message": "Kunde inte kryptera detta meddelande: $1",
+        "message": "Това съобщение не може да бъде криптирано: $1",
         "description": "Error during encryption process."
     },
     "key_gen_months": {
-        "message": "månader",
+        "message": "месеци",
         "description": "Key expires after time range"
     },
     "encrypt_dialog_add": {
-        "message": "Lägg till",
+        "message": "Добави",
         "description": "Max 6 character."
     },
     "alert_invalid_domainmatchpattern_warning": {
@@ -340,59 +340,59 @@
         "description": "Alert header of category warning."
     },
     "keygrid_status_valid": {
-        "message": "giltig",
+        "message": "валиден",
         "description": "Validity status of a PGP key."
     },
     "message_no_keys": {
-        "message": "Ingen privat nyckel hittades för detta meddelande. Privat nyckel-ID som krävs: $1",
+        "message": "Не беше намерен частен ключ за това съобщение. Нужен e частен ключ със следното ID: $1",
         "description": "Decrypt error message."
     },
     "security_cache_off": {
-        "message": "Nej.",
+        "message": "Не.",
         "description": "Don't store password."
     },
     "keyring_export_keys": {
-        "message": "Exportera nycklar",
+        "message": "Export Keys",
         "description": "Tab of keyring to export keys."
     },
     "keygrid_signer_name": {
-        "message": "ID för signatur",
+        "message": "Автор на сигнирането",
         "description": "User ID of signer."
     },
     "dialog_keyid_label": {
-        "message": "Nyckel-ID",
+        "message": "Ключ ID:",
         "description": "Label for key ID."
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Kom ihåg lösenord för den här sessionen",
+        "message": "Запомни паролата за тази сесия",
         "description": "Checkbox label."
     },
     "editor_encrypt_button": {
-        "message": "Kryptera",
+        "message": "Криптирай",
         "description": "Encrypt button."
     },
     "key_gen_pwd_reenter": {
-        "message": "Ange lösenord igen",
+        "message": "Повторете паралота",
         "description": "Label for passphrase input field"
     },
     "keygrid_user_name": {
-        "message": "Namn",
+        "message": "Име",
         "description": "Name in User ID of a PGP key."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Ange...",
+        "message": "Моля въведете...",
         "description": "Placeholder for password."
     },
     "security_display_popup": {
-        "message": "I en separat popup från Mailvelope.",
+        "message": "В отделен прозорец на Mailvelope",
         "description": "Decrypted message display option"
     },
     "key_import_public_update": {
-        "message": "Publik nyckel $1 för användare $2 uppdaterad",
+        "message": "Публичният ключ $1 на потребител $2 беше актуализиран",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "form_submit": {
-        "message": "Skicka",
+        "message": "Изпрати",
         "description": "Submit form button."
     },
     "watchlist_record_title": {
@@ -400,75 +400,75 @@
         "description": "Title of the watchlist editor dialog."
     },
     "key_export_clipboard": {
-        "message": "Kopiera till urklipp",
+        "message": "Копирай в клипборда",
         "description": "Copy to clipboard button."
     },
     "dialog_popup_close": {
-        "message": "Stäng",
+        "message": "Затвори",
         "description": "Close decrypt popup."
     },
     "verify_result_warning": {
-        "message": "Signerat med okänd nyckel",
+        "message": "Сигнорано с непознат ключ",
         "description": "Verfiy signature warning."
     },
     "alert_header_warning": {
-        "message": "Varning!",
+        "message": "Внимание!",
         "description": "Alert header of category warning."
     },
     "key_gen_key_size": {
-        "message": "Nyckelstorlek",
+        "message": "Размер на ключа",
         "description": "Advanced key generation settings: Key size"
     },
     "security_custom_color": {
-        "message": "Anpassad färg",
+        "message": "Цвят по избор",
         "description": "Custom color for security token"
     },
     "keygrid_delete_confirmation": {
-        "message": "Vill du verkligen ta bort den här nyckeln?",
+        "message": "Сигурни ли сте че искате да изтриете този ключ?",
         "description": "Delete confirmation dialog."
     },
     "security_char_help": {
-        "message": "Måste vara 3 tecken lång",
+        "message": "Дължината трябва да е 3 символа",
         "description": "Char code help"
     },
     "pwd_dialog_password": {
-        "message": "Lösenord:",
+        "message": "Парола:",
         "description": "Label for password."
     },
     "pwd_dialog_title": {
-        "message": "Ange lösenord i Mailvelope",
+        "message": "Въвеждане на парола | Mailvelope",
         "description": "Title of the password dialog."
     },
     "keygrid_subkeys": {
-        "message": "Undernycklar",
+        "message": "Подключ",
         "description": "Subkeys of a PGP key."
     },
     "form_clear": {
-        "message": "Rensa",
+        "message": "Изчисти",
         "description": "Clear form button."
     },
     "key_gen_another": {
-        "message": "Skapa annan...",
+        "message": "Генерирай друг...",
         "description": "Key import button"
     },
     "popup_remove_page": {
-        "message": "Ta bort sida",
+        "message": "Премахни страница",
         "description": "Remove page from watchlist."
     },
     "key_gen_expiration": {
-        "message": "Går ut",
+        "message": "Изтичащ на",
         "description": "Key expires after time range"
     },
     "keygrid_validity_status": {
-        "message": "Status",
+        "message": "Статус",
         "description": "Validity status of a PGP key."
     },
     "keyring_import_keys": {
-        "message": "Importera nycklar",
+        "message": "Импортирай ключове",
         "description": "Tab of keyring to import keys."
     },
     "key_export_create_file": {
-        "message": "Ladda ner",
+        "message": "Download",
         "description": "Download file button."
     },
     "alert_no_domainmatchpattern_warning": {
@@ -476,27 +476,27 @@
         "description": "Alert header of category warning."
     },
     "key_import_public_success": {
-        "message": "Publik nyckel $1 för användare $2 importerad till nyckelring",
+        "message": "Публичният ключ $1 на потребител $2 е импортиран в каталога с ключове",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "keygrid_key_fingerprint": {
-        "message": "Fingeravtryck",
+        "message": "Пръстов отпечатък",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_sort_type": {
-        "message": "Visa nycklar efter typ",
+        "message": "Покажи ключове по тип",
         "description": "Key grid sort selector."
     },
     "key_gen_years": {
-        "message": "år",
+        "message": "години",
         "description": "Key expires after time range"
     },
     "editor_blur_warn": {
-        "message": "Varning. Textredigerare tappade fokus.",
+        "message": "Внимание. Текстовия редактор загуби фокус.",
         "description": "Warning for lost focus."
     },
     "header_warning": {
-        "message": "Varning!",
+        "message": "Внимание!",
         "description": "Header warning."
     },
     "keygrid_key_type": {
@@ -504,7 +504,7 @@
         "description": "The type of the key."
     },
     "keyring_migration_error": {
-        "message": "Fel vid flytt av nyckel",
+        "message": "Грешка при миграцията на ключа",
         "description": "Tab of keyring to display migration errors."
     },
     "key_details_title": {
@@ -512,39 +512,39 @@
         "description": "The title of the key details dialog."
     },
     "security_cache_time": {
-        "message": "minuter.",
+        "message": "минути.",
         "description": "Store password in memory for $1 minutes."
     },
     "settings_watchlist": {
-        "message": "Lista med e-postleverantörer",
+        "message": "Списък с емайл клиентите",
         "description": "Tab of options to display list of supported mail providers."
     },
     "general_editor_rich": {
-        "message": "Redigerare för formaterad text",
+        "message": "Редактор за обогатен текст",
         "description": "Editor option: rich text."
     },
     "security_cache_on": {
-        "message": "Ja, behåll i minnet i ",
+        "message": "Да, запази в паметта за",
         "description": "Store password in memory for $1 minutes."
     },
     "options_home": {
-        "message": "Alternativ",
+        "message": "Настройки",
         "description": "Options navigation: Home."
     },
     "key_gen_wait_header": {
-        "message": "Nyckel skapas...",
+        "message": "Ключът се генерира в момента...",
         "description": "Wait dialog header"
     },
     "watchlist_title_site": {
-        "message": "Sida",
+        "message": "Сайт",
         "description": "Site in watchlist."
     },
     "editor_transfer": {
-        "message": "Överför",
+        "message": "Прехвърли",
         "description": "Transfer button of editor popup."
     },
     "keygrid_display_all_keys": {
-        "message": "Visa alla nycklar",
+        "message": "Покажи всички ключове",
         "description": "Export key menu."
     },
     "watchlist_expose_api": {
@@ -552,83 +552,83 @@
         "description": "Expose API to Webmailer."
     },
     "key_export_warning_private": {
-        "message": "Den här filen innehåller även privata nycklar.",
+        "message": "Този файл съдържа също и частни ключове.",
         "description": "Key export warning."
     },
     "key_import_invalid_text": {
-        "message": "Ingen giltig nyckeltext hittades",
+        "message": "Не е намерен валиден ключ",
         "description": "Import error alert."
     },
     "word_or": {
-        "message": "eller",
+        "message": "или",
         "description": "Separate list of elements."
     },
     "key_import_exception": {
-        "message": "An exception occured while processing the keys",
+        "message": "Грешка при обработката на ключовете",
         "description": "Import error alert."
     },
     "keygrid_display_key_pair": {
-        "message": "Visa nyckelpar",
+        "message": "Покажи ключовите двойки",
         "description": "Export key menu."
     },
     "security_compose_mail": {
-        "message": "Var vill du skriva ditt e-postmeddelande?",
+        "message": "Къде искате да пишете емайлите?",
         "description": "Label for compose options"
     },
     "security_token_header": {
-        "message": "Säkerhetstoken",
+        "message": "Токен",
         "description": "Security token header"
     },
     "general_editor_type": {
-        "message": "Val av e-postredigerare",
+        "message": "Избор на емайл редактор",
         "description": "Label for editor options."
     },
     "key_gen_pwd_unequal": {
-        "message": "Lösenorden stämmer inte överens",
+        "message": "Паролите не съответстват",
         "description": "Passphrase input field status"
     },
     "popup_active_off": {
-        "message": "Av",
+        "message": "O",
         "description": "Activity status of the extension."
     },
     "watchlist_command_edit": {
-        "message": "Ändra",
+        "message": "Редак.",
         "description": "Edit entry in watchlist."
     },
     "editor_transfer_unencrypted": {
-        "message": "Du försöker överföra okrypterat innehåll tillbaka till e-postleverantören.",
+        "message": "Опитвате се да прехвърлите некриптирано съдържание обратно към емайл клиента.",
         "description": "Warning for unencrypted content."
     },
     "decrypt_popup_title": {
-        "message": "Dekrypterat meddelande",
+        "message": "Декриптирано съобщение",
         "description": "Title of decrypt popup."
     },
     "watchlist_command_save": {
-        "message": "Spara ändringar",
+        "message": "Запази промените",
         "description": "Save changes in watchlist."
     },
     "cleartext_read_error": {
-        "message": "Kunde inte läsa detta klartext-meddelande: $1",
+        "message": "Този некриптиран текст не може да бъде прочетен: $1",
         "description": "Cleartext message read error message: $1: error message."
     },
     "editor_header": {
-        "message": "Skriv meddelande",
+        "message": "Създай Емайл",
         "description": "Header of editor popup."
     },
     "form_ok": {
-        "message": "Ok",
+        "message": "Ок",
         "description": "Ok form button."
     },
     "key_import_private_update": {
-        "message": "Privat nyckel $1 för användare $2 uppdaterad",
+        "message": "Частният ключ $1 на потребител $2 беше актуализиран.",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_gen_pwd_empty": {
-        "message": "Lösenord är tomt",
+        "message": "Няма въведена парола",
         "description": "Passphrase input field status"
     },
     "form_save": {
-        "message": "Spara",
+        "message": "Запиши",
         "description": "Save form button."
     },
     "ext_name": {
@@ -636,111 +636,111 @@
         "description": "Name of the extension."
     },
     "key_gen_days": {
-        "message": "dagar",
+        "message": "дни",
         "description": "Key expires after time range"
     },
     "keygrid_expiration_date": {
-        "message": "Utgångsdatum",
+        "message": "Срок на годност",
         "description": "Expiration date of a PGP key."
     },
     "alert_header_error": {
-        "message": "Fel!",
+        "message": "Грешка!",
         "description": "Alert header of category error."
     },
     "security_char_code": {
-        "message": "Teckenkod",
+        "message": "Низ от символи",
         "description": "Char code for security token"
     },
     "key_export_too_large": {
-        "message": "Nyckeln får inte plats i en URL, använd kopiera & klistra in istället.",
+        "message": "Ключът е прекалено дълъг за да пасне в URK, използвайте копиране и поставяне вместо това.",
         "description": "Key export warning message."
     },
     "keygrid_no_subkeys": {
-        "message": "Inga undernycklar tillgängliga",
+        "message": "Няма подключове",
         "description": "No subkeys of a PGP key found."
     },
     "keygrid_keyid": {
-        "message": "Nyckel-ID",
+        "message": "ключ ID",
         "description": "Key ID of a PGP key."
     },
     "sign_dialog_header": {
-        "message": "Signera meddelande med nyckel:",
+        "message": "Сигнирай съобщението с ключ: ",
         "description": "Header of sign dialog."
     },
     "key_import_private_read": {
-        "message": "Kunde inte läsa en privat nyckel: $1",
+        "message": "Не беше възможно да се прочете частният ключ: $1",
         "description": "Import error message. $1: error message"
     },
     "keygrid_signer_unknown": {
-        "message": "ID för signatur okänt",
+        "message": "Авторът на сигнирането е неизвестен",
         "description": "Key of signer not available."
     },
     "popup_add_page": {
-        "message": "Lägg till sida",
+        "message": "Добави страница",
         "description": "Add page to watchlist."
     },
     "options_docu": {
-        "message": "Dokumentation",
+        "message": "Документация",
         "description": "Options navigation: Documentation."
     },
     "options_about": {
-        "message": "Om",
+        "message": "Относно",
         "description": "Options navigation: About."
     },
     "key_gen_invalid_email": {
-        "message": "Ogiltig e-postadress",
+        "message": "Невалиден емайл",
         "description": "Error message."
     },
     "pwd_dialog_userid": {
-        "message": "Anv.-ID",
+        "message": "Потреб. ID",
         "description": "Label for user ID."
     },
     "decrypt_popup_copy": {
-        "message": "Kopiera till urklipp",
+        "message": "Копирай в клипборда",
         "description": "Copy decrypted message to clipboard."
     },
     "reload_webmail_tab": {
-        "message": "Ladda om fliken med din e-postleverantör (F5) för att dessa inställningar ska börja gälla.",
+        "message": "Моля презаредете (F5) табът където се намира вашия емайл клиент, за да активирате последните промени.",
         "description": "Info message."
     },
     "keygrid_display_priv_key": {
-        "message": "Visa privat nyckel",
+        "message": "Покажи частния ключ",
         "description": "Export key menu."
     },
     "ext_description": {
-        "message": "Förbättra din webbaserade e-posttjänst med end-to-end-kryptering. Säker e-postkommunikation baserad på OpenPGP-standarden.",
+        "message": "Добавя end-to-end криптиране към вашия емайл клиент. Сигурна емайл комуникация с помоща на OpenPGP стандарта.",
         "description": "Description of the extension."
     },
     "key_gen_advanced_btn": {
-        "message": "Avancerat",
+        "message": "Напреднали",
         "description": "Advanced key generation settings."
     },
     "key_import_private_success": {
-        "message": "Privat nyckel $1 för användare $2 importerad till nyckelring",
+        "message": "Частният ключ $1 на потребител $2 беше импоритиран в каталога с ключове.",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "settings_security": {
-        "message": "Säkerhet",
+        "message": "Сигурност",
         "description": "Tab of options to display security settings."
     },
     "settings_general": {
-        "message": "Allmänt",
+        "message": "Главни",
         "description": "Tab of options to display general settings."
     },
     "key_import_unable": {
-        "message": "Kunde inte importera nyckel pga: $1",
+        "message": "Поради грешка: $1 не беше възможно импортирането на ключа.",
         "description": "Import error message: $1: error message."
     },
     "keygrid_display_pub_key": {
-        "message": "Visa publik nyckel",
+        "message": "Покажи публичния ключ",
         "description": "Export key menu."
     },
     "keygrid_creation_date": {
-        "message": "Skapelsedatum",
+        "message": "Дата на създаване",
         "description": "Creation date of a PGP key."
     },
     "key_export_download": {
-        "message": "Ladda ner nyckel",
+        "message": "Свали ключа",
         "description": "Download key link."
     }
 }

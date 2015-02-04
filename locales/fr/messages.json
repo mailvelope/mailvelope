@@ -8,7 +8,7 @@
         "description": "Help text for cache time."
     },
     "key_gen_wait_info": {
-        "message": "Patienter s'il vous plait, la génération de la clé peut prendre plusieurs minutes en fonction de différents facteurs comme la taille de la clé.",
+        "message": "Veuillez patienter, la génération de la clé peut prendre plusieurs minutes en fonction de différents facteurs comme la taille de la clé.",
         "description": "Wait dialog info message"
     },
     "message_read_error": {
@@ -20,11 +20,11 @@
         "description": "Selection of key type."
     },
     "security_token_title": {
-        "message": "Jeton d'Authentication",
+        "message": "Jeton d'Authentification",
         "description": "Security token title"
     },
     "security_display_inline": {
-        "message": "Sur la page du fournisseaur de messagerie.",
+        "message": "Sur la page du fournisseur de messagerie.",
         "description": "Decrypted message display option"
     },
     "verify_result_error": {
@@ -36,7 +36,7 @@
         "description": "Header of the password dialog."
     },
     "keygrid_creation_date_short": {
-        "message": "Crée",
+        "message": "Créée le",
         "description": "Short creation date of a PGP key. Max. width: 90px"
     },
     "security_display_decrypted": {
@@ -44,16 +44,20 @@
         "description": "Label for display options"
     },
     "general_primary_key_always": {
-        "message": "Toujours ajouter la clé principale à la liste des destinataires. (Permet de déchiffrer les couriels envoyés)",
+        "message": "Toujours ajouter la clé principale à la liste des destinataires. (Permet de déchiffrer les courriels envoyés)",
         "description": "Label for primary private key option."
     },
     "security_compose_webmail": {
-        "message": "Dans l'éditeur de texte du fournisseur de messegarie.",
+        "message": "Dans l'éditeur de texte du fournisseur de messagerie.",
         "description": "Mail compose option"
     },
     "keygrid_user_email": {
         "message": "Courriel",
         "description": "Email address in User ID of a PGP key."
+    },
+    "watchlist_delete_confirmation": {
+        "message": "Do you really want to remove this site from the watchlist?",
+        "description": "Mesage in the watchlist delete confirmation dialog."
     },
     "key_export_header": {
         "message": "Exporter la Clé",
@@ -64,7 +68,7 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "upload_attachment": {
-        "message": "Add attachment",
+        "message": "Ajouter une pièce jointe",
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "verify_error": {
@@ -80,11 +84,11 @@
         "description": "Password cache header"
     },
     "save_attachment_as_message": {
-        "message": "Select the folder, where you want to save the attachment.",
+        "message": "Choisissez le dossier où la pièce jointe doit être enregistrée.",
         "description": "Message in the attachment save dialog"
     },
     "alert_header_success": {
-        "message": "Succès!",
+        "message": "Succès !",
         "description": "Alert header of category success."
     },
     "keygrid_public_keys": {
@@ -92,7 +96,7 @@
         "description": "Selection of key type."
     },
     "editor_sign_button": {
-        "message": "Sign",
+        "message": "Signer",
         "description": "Sign button."
     },
     "key_gen_success": {
@@ -140,11 +144,11 @@
         "description": "Tab of keyring to generate key."
     },
     "key_import_error": {
-        "message": "Error d'importation.",
+        "message": "Erreur d'importation.",
         "description": "Import error alert."
     },
     "key_import_multiple_keys": {
-        "message": "Pour importer plusieurs clés, il suffit de toutes les coller ici. Tout texte autour de la clé sera ignoré.",
+        "message": "Pour importer plusieurs clés, il suffit de toutes les coller ici. Tout texte autour des clés sera ignoré.",
         "description": "Info message."
     },
     "popup_help": {
@@ -152,7 +156,7 @@
         "description": "Open help dialog."
     },
     "security_token_info": {
-        "message": "Le jeton de sécurité est un mécanisme d'authentification : Toutes les boîtes de dialogues de Mailvelope vont afficher ce code définit par l'utilisateur et permet les identifier elles-mêmes et ainsi que leur origine.",
+        "message": "Le jeton de sécurité est un mécanisme d'authentification : toutes les boîtes de dialogue de Mailvelope vont afficher ce code défini par l'utilisateur, ce qui permettra de les identifier ainsi que leur origine.",
         "description": "Security token help message"
     },
     "keygrid_subkeyid": {
@@ -188,7 +192,7 @@
         "description": "Key generation error message"
     },
     "form_busy": {
-        "message": "Occuper",
+        "message": "Occupé",
         "description": "Form in busy state."
     },
     "keygrid_userid": {
@@ -223,6 +227,10 @@
         "message": "Exporter",
         "description": "Export key."
     },
+    "keyring_public": {
+        "message": "Public",
+        "description": "public key type"
+    },
     "keyring_header": {
         "message": "Trousseau de clés",
         "description": "Header of the key ring."
@@ -235,20 +243,24 @@
         "message": "Annuler",
         "description": "Cancel form button."
     },
+    "keyring_private": {
+        "message": "Private",
+        "description": "private key type"
+    },
     "encrypt_dialog_no_recipient": {
-        "message": "Ajouter un destinataire, s'il vout plait.",
+        "message": "Veuillez ajouter un destinataire.",
         "description": "Error message if no recipient selected."
     },
     "general_editor_plain": {
-        "message": "Texte Brute",
+        "message": "Texte Brut",
         "description": "Editor option: plain text."
     },
     "clear_localstorage_confirm_message": {
-        "message": "Voulez-vous vraiment effacer tous vos clés PGP de ce profil du navigateur?",
+        "message": "Voulez-vous vraiment effacer toutes vos clés PGP de ce profil du navigateur ?",
         "description": "The message of the confirmation dialog."
     },
     "form_undo": {
-        "message": "Undo",
+        "message": "Annuler",
         "description": "Undo form button."
     },
     "keygrid_key_not_expire": {
@@ -274,6 +286,10 @@
     "keygrid_status_invalid": {
         "message": "invalide",
         "description": "Validity status of a PGP key."
+    },
+    "keyring_public_private": {
+        "message": "Public- Private-Key Pair",
+        "description": "public and private key types"
     },
     "security_compose_external": {
         "message": "Dans une fenêtre d'édition de texte séparée appartenant à Mailvelope.",
@@ -312,31 +328,39 @@
         "description": "Error during encryption process."
     },
     "key_gen_months": {
-        "message": "moins",
+        "message": "mois",
         "description": "Key expires after time range"
     },
     "encrypt_dialog_add": {
         "message": "Ajouter",
         "description": "Max 6 character."
     },
+    "alert_invalid_domainmatchpattern_warning": {
+        "message": "Domain match pattern should begin with *.",
+        "description": "Alert header of category warning."
+    },
     "keygrid_status_valid": {
         "message": "valide",
         "description": "Validity status of a PGP key."
     },
     "message_no_keys": {
-        "message": "Aucune clé privée trouvée pour ce message. Identifiant de la clé privée nécessaire : $1",
+        "message": "Aucune clé privée trouvée pour ce message. Identifiants de la clé privée nécessaire : $1",
         "description": "Decrypt error message."
     },
     "security_cache_off": {
         "message": "Non.",
         "description": "Don't store password."
     },
+    "keyring_export_keys": {
+        "message": "Export Keys",
+        "description": "Tab of keyring to export keys."
+    },
     "keygrid_signer_name": {
         "message": "Signataire",
         "description": "User ID of signer."
     },
     "dialog_keyid_label": {
-        "message": "Key ID:",
+        "message": "Clé",
         "description": "Label for key ID."
     },
     "pwd_dialog_cache_pwd": {
@@ -344,7 +368,7 @@
         "description": "Checkbox label."
     },
     "editor_encrypt_button": {
-        "message": "Encrypt",
+        "message": "Chiffrer",
         "description": "Encrypt button."
     },
     "key_gen_pwd_reenter": {
@@ -360,7 +384,7 @@
         "description": "Placeholder for password."
     },
     "security_display_popup": {
-        "message": "Dans une fenêtre surgissante de Mailvelope.",
+        "message": "Dans une fenêtre externe de Mailvelope.",
         "description": "Decrypted message display option"
     },
     "key_import_public_update": {
@@ -371,8 +395,12 @@
         "message": "Soumettre",
         "description": "Submit form button."
     },
+    "watchlist_record_title": {
+        "message": "Watch List Record",
+        "description": "Title of the watchlist editor dialog."
+    },
     "key_export_clipboard": {
-        "message": "Copier sur le presse-papiers",
+        "message": "Copier vers le presse-papiers",
         "description": "Copy to clipboard button."
     },
     "dialog_popup_close": {
@@ -384,7 +412,7 @@
         "description": "Verfiy signature warning."
     },
     "alert_header_warning": {
-        "message": "Attention!",
+        "message": "Attention !",
         "description": "Alert header of category warning."
     },
     "key_gen_key_size": {
@@ -392,11 +420,11 @@
         "description": "Advanced key generation settings: Key size"
     },
     "security_custom_color": {
-        "message": "Couleur Personalisée",
+        "message": "Couleur Personnalisée",
         "description": "Custom color for security token"
     },
     "keygrid_delete_confirmation": {
-        "message": "Etes-vous sûr de vouloir supprimer cette clé?",
+        "message": "Etes-vous sûr de vouloir supprimer cette clé ?",
         "description": "Delete confirmation dialog."
     },
     "security_char_help": {
@@ -404,7 +432,7 @@
         "description": "Char code help"
     },
     "pwd_dialog_password": {
-        "message": "Password:",
+        "message": "Motdepasse",
         "description": "Label for password."
     },
     "pwd_dialog_title": {
@@ -440,8 +468,12 @@
         "description": "Tab of keyring to import keys."
     },
     "key_export_create_file": {
-        "message": "Créer un fichier",
-        "description": "Create file button."
+        "message": "Download",
+        "description": "Download file button."
+    },
+    "alert_no_domainmatchpattern_warning": {
+        "message": "At least one domain match pattern is needed.",
+        "description": "Alert header of category warning."
     },
     "key_import_public_success": {
         "message": "La clé publique $1 de l'utilisateur $2 a été importée dans le trousseau",
@@ -464,12 +496,20 @@
         "description": "Warning for lost focus."
     },
     "header_warning": {
-        "message": "Attention!",
+        "message": "Attention !",
         "description": "Header warning."
+    },
+    "keygrid_key_type": {
+        "message": "Type",
+        "description": "The type of the key."
     },
     "keyring_migration_error": {
         "message": "Erreur de migration de la clé",
         "description": "Tab of keyring to display migration errors."
+    },
+    "key_details_title": {
+        "message": "Key Details",
+        "description": "The title of the key details dialog."
     },
     "security_cache_time": {
         "message": "minutes.",
@@ -507,6 +547,10 @@
         "message": "Afficher toutes les clés",
         "description": "Export key menu."
     },
+    "watchlist_expose_api": {
+        "message": "API",
+        "description": "Expose API to Webmailer."
+    },
     "key_export_warning_private": {
         "message": "Ce fichier contient aussi des clé privées.",
         "description": "Key export warning."
@@ -528,7 +572,7 @@
         "description": "Export key menu."
     },
     "security_compose_mail": {
-        "message": "Où voulez-vous écrire votre courriel ?",
+        "message": "Où voulez-vous rédiger votre courriel ?",
         "description": "Label for compose options"
     },
     "security_token_header": {
@@ -576,7 +620,7 @@
         "description": "Ok form button."
     },
     "key_import_private_update": {
-        "message": "LA clé privée $1 de l'utilisateur $2 a été mise à jour",
+        "message": "La clé privée $1 de l'utilisateur $2 a été mise à jour",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_gen_pwd_empty": {
@@ -600,7 +644,7 @@
         "description": "Expiration date of a PGP key."
     },
     "alert_header_error": {
-        "message": "Erreur!",
+        "message": "Erreur !",
         "description": "Alert header of category error."
     },
     "security_char_code": {
@@ -616,7 +660,7 @@
         "description": "No subkeys of a PGP key found."
     },
     "keygrid_keyid": {
-        "message": "Key ID",
+        "message": "Clé",
         "description": "Key ID of a PGP key."
     },
     "sign_dialog_header": {
@@ -624,7 +668,7 @@
         "description": "Header of sign dialog."
     },
     "key_import_private_read": {
-        "message": "Impossible de lire une clé privée: $1",
+        "message": "Impossible de lire une clé privée : $1",
         "description": "Import error message. $1: error message"
     },
     "keygrid_signer_unknown": {
@@ -648,7 +692,7 @@
         "description": "Error message."
     },
     "pwd_dialog_userid": {
-        "message": "User ID:",
+        "message": "Usager",
         "description": "Label for user ID."
     },
     "decrypt_popup_copy": {
@@ -656,7 +700,7 @@
         "description": "Copy decrypted message to clipboard."
     },
     "reload_webmail_tab": {
-        "message": "S'il vous plaît recharger(F5) l'onglet de votre fournisseur de messagerie pour que les nouveaux paramètres prennent effet.",
+        "message": "Veuillez recharger (F5) l'onglet de votre fournisseur de messagerie pour que les nouveaux paramètres prennent effet.",
         "description": "Info message."
     },
     "keygrid_display_priv_key": {
@@ -684,7 +728,7 @@
         "description": "Tab of options to display general settings."
     },
     "key_import_unable": {
-        "message": "Impossible d'importer une à cause d'un problème : $1",
+        "message": "Impossible d'importer une clé à cause d'un problème : $1",
         "description": "Import error message: $1: error message."
     },
     "keygrid_display_pub_key": {

@@ -1,58 +1,58 @@
 {
     "options_settings": {
-        "message": "Inställningar",
+        "message": "Nastavitve",
         "description": "Options header: Settings."
     },
     "security_cache_help": {
-        "message": "Måste vara ett tal mellan 1-999",
+        "message": "Število mora biti med 1-999",
         "description": "Help text for cache time."
     },
     "key_gen_wait_info": {
-        "message": "Vänta medan en nyckel skapas. Det kan ta flera minuter och styrs av faktorer som nyckelstorlek.",
+        "message": "Prosimo počakajte, generiranje ključa lahko traja nekaj minut, odvisno od dejavnikov kot je npr. njegova dolžina.",
         "description": "Wait dialog info message"
     },
     "message_read_error": {
-        "message": "Kunde inte läsa detta krypterade meddelande: $1",
+        "message": "Tega šifriranega sporočila ne morem prebrati: $1",
         "description": "Message read error message: $1: error message."
     },
     "keygrid_all_keys": {
-        "message": "Alla",
+        "message": "Vsi",
         "description": "Selection of key type."
     },
     "security_token_title": {
-        "message": "Token-autentisering",
+        "message": "Overitev z varnostnim žetonom",
         "description": "Security token title"
     },
     "security_display_inline": {
-        "message": "På e-postleverantörens sida",
+        "message": "Na strani ponudnika e-pošte.",
         "description": "Decrypted message display option"
     },
     "verify_result_error": {
-        "message": "Fel signatur för",
+        "message": "Napačen podpis od",
         "description": "Verfiy signature error. Wrong signature of [userid]."
     },
     "pwd_dialog_header": {
-        "message": "Nyckelupplåsning",
+        "message": "Odklepanje sporočila",
         "description": "Header of the password dialog."
     },
     "keygrid_creation_date_short": {
-        "message": "Skapad",
+        "message": "Ustvarjen",
         "description": "Short creation date of a PGP key. Max. width: 90px"
     },
     "security_display_decrypted": {
-        "message": "Var visas dekrypterade meddelanden?",
+        "message": "Kje naj bodo prikazana dešifrirana sporočila?",
         "description": "Label for display options"
     },
     "general_primary_key_always": {
-        "message": "Lägg alltid till primär nyckel i mottagarlistan. (Möjliggör dekryptering av skickad e-post)",
+        "message": "Vedno dodaj glavni ključ na listo prejemnikov. (Omogoča dešifriranje poslane pošte)",
         "description": "Label for primary private key option."
     },
     "security_compose_webmail": {
-        "message": "I e-postleverantörens textredigerare för nya meddelanden",
+        "message": "V urejevalniku besedila ponudnika e-pošte.",
         "description": "Mail compose option"
     },
     "keygrid_user_email": {
-        "message": "E-post",
+        "message": "E-pošta",
         "description": "Email address in User ID of a PGP key."
     },
     "watchlist_delete_confirmation": {
@@ -60,103 +60,103 @@
         "description": "Mesage in the watchlist delete confirmation dialog."
     },
     "key_export_header": {
-        "message": "Exportera nyckel",
+        "message": "Izvozi ključ",
         "description": "Export key dialog header."
     },
     "key_import_private_exists": {
-        "message": "Privat nyckel-del för befintlig publik nyckel $1  för användare $2 importerad till nyckelring",
+        "message": "Zasebni del obstoječega javnega ključa $1 uporabnika $2 je bil uvožen v zbirko",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "upload_attachment": {
-        "message": "Bifoga fil",
+        "message": "Dodaj priponko",
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "verify_error": {
-        "message": "Kunde inte verifiera detta meddelande: $1",
+        "message": "Tega sporočila ne morem overiti: $1",
         "description": "Error during verification process."
     },
     "pwd_dialog_wrong_pwd": {
-        "message": "Fel lösenord",
+        "message": "Napačno geslo",
         "description": "Password error message."
     },
     "security_cache_header": {
-        "message": "Kom ihåg lösenord för webbläsarsession?",
+        "message": "Naj si Mailvelope zapomni gesla trenutne seje?",
         "description": "Password cache header"
     },
     "save_attachment_as_message": {
-        "message": "Markera mappen där du vill spara den bifogade filen",
+        "message": "Izberite mapo, kamor želite shraniti priponko.",
         "description": "Message in the attachment save dialog"
     },
     "alert_header_success": {
-        "message": "Det fungerade!",
+        "message": "Uspeh!",
         "description": "Alert header of category success."
     },
     "keygrid_public_keys": {
-        "message": "Publika nycklar",
+        "message": "Javni ključi",
         "description": "Selection of key type."
     },
     "editor_sign_button": {
-        "message": "Signera",
+        "message": "Podpiši",
         "description": "Sign button."
     },
     "key_gen_success": {
-        "message": "Ny nyckel skapad och importerad till nyckelring",
+        "message": "Nov ključ je bil ustvarjen in dodan v zbirko.",
         "description": "Key generation success message"
     },
     "key_gen_never": {
-        "message": "aldrig",
+        "message": "nikoli",
         "description": "Key expires after time range"
     },
     "general_primary_key_label": {
-        "message": "Primär privat nyckel",
+        "message": "Glavni zasebni ključ",
         "description": "Label for primary private key option."
     },
     "clear_localstorage_confirm_title": {
-        "message": "Bekräfta",
+        "message": "Potrdi",
         "description": "The title of the confirmation dialog."
     },
     "key_import_file_select": {
-        "message": "Markera en nyckeltextfil att importera",
+        "message": "Za uvoz izberite datoteko z besedilom ključa",
         "description": "File selection button label."
     },
     "watchlist_title_frame": {
-        "message": "Mönster i domän att matcha",
+        "message": "Vzorec ujemanja domen",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "keygrid_key_length": {
-        "message": "Längd",
+        "message": "Dolžina",
         "description": "Key length of a PGP key."
     },
     "keygrid_private_keys": {
-        "message": "Privata nycklar",
+        "message": "Zasebni ključi",
         "description": "Selection of key type."
     },
     "keyring_display_keys": {
-        "message": "Visa nycklar",
+        "message": "Prikaži ključe",
         "description": "Tab of keyring to display keys."
     },
     "popup_options": {
-        "message": "Alternativ",
+        "message": "Možnosti",
         "description": "Open options dialog."
     },
     "keyring_generate_key": {
-        "message": "Skapa nyckel",
+        "message": "Ustvari ključ",
         "description": "Tab of keyring to generate key."
     },
     "key_import_error": {
-        "message": "Importfel.",
+        "message": "Napaka pri uvozu.",
         "description": "Import error alert."
     },
     "key_import_multiple_keys": {
-        "message": "För att klistra in flera nycklar klistrar du helt enkelt in dem här. Annan text runtom nycklarna ignoreras.",
+        "message": "Za uvoz večih ključev, jih enostavno vse prekopirajte sem. Dodatni tekst okoli ključev ne bo upoštevan.",
         "description": "Info message."
     },
     "popup_help": {
-        "message": "Hjälp",
+        "message": "Pomoč",
         "description": "Open help dialog."
     },
     "security_token_info": {
-        "message": "Säkerhetstoken är en mekanism för autentisering: alla Mailvelopes dialogrutor kommer att visa denna användardefinierade kod och därmed identifiera sig själva och varifrån de kommer.",
+        "message": "Varnostni žeton (security token) je metoda overitve: vsa pojavna okna Mailvelope bodo prikazovala ta uporabniško-generirani žeton in tako dokazovala svojo istovetnost in izvor.",
         "description": "Security token help message"
     },
     "keygrid_subkeyid": {
@@ -164,35 +164,35 @@
         "description": "Subkey ID of a PGP key."
     },
     "key_gen_pwd_match": {
-        "message": "Lösenord stämmer överens",
+        "message": "Gesli se ujemata",
         "description": "Passphrase input field status"
     },
     "key_import_another": {
-        "message": "Importera annan..",
+        "message": "Uvozi naslednjega...",
         "description": "Import another key button."
     },
     "keygrid_delete": {
-        "message": "Radera",
+        "message": "Izbriši",
         "description": "Max. 6 characters."
     },
     "key_import_public_read": {
-        "message": "Kunde inte läsa en publik nyckel: $1",
+        "message": "Ne morem prebrati enega javnega ključa: $1",
         "description": "Import error message. $1: error message"
     },
     "watchlist_title_active": {
-        "message": "Aktiv",
+        "message": "Aktiv.",
         "description": "Entry in watchlist is active."
     },
     "key_gen_pwd": {
-        "message": "Ange lösenord",
+        "message": "Vnesite geslo",
         "description": "Label for passphrase input field"
     },
     "key_gen_error": {
-        "message": "Fel när nyckel skulle skapas.",
+        "message": "Napaka pri generiranju ključa.",
         "description": "Key generation error message"
     },
     "form_busy": {
-        "message": "Upptagen",
+        "message": "Zaposlen",
         "description": "Form in busy state."
     },
     "keygrid_userid": {
@@ -200,91 +200,91 @@
         "description": "User ID of a PGP key."
     },
     "keygrid_algorithm": {
-        "message": "Algoritm",
+        "message": "Algoritem",
         "description": "Public-key algorithm of a PGP key."
     },
     "watchlist_command_cancel": {
-        "message": "Avbryt ändringar",
+        "message": "Zavrzi spremembe",
         "description": "Cancel changes in watchlist."
     },
     "security_compose_warn": {
-        "message": "Den här inställningen försämrar säkerheten hos Mailvelope. Din e-postleverantör kan eventuellt få tillgång till ditt meddelande.",
+        "message": "Takšna nastavitev znižuje nivo varnosti dodatka Mailvelope. Vaš e-poštni ponudnik ima v tem primeru potencialno dostop do vašega sporočila.",
         "description": "Mail compose options warning"
     },
     "popup_active_on": {
-        "message": "På",
+        "message": "Vklop",
         "description": "Activity status of the extension."
     },
     "encrypt_dialog_header": {
-        "message": "Kryptera för:",
+        "message": "Šifriraj za:",
         "description": "Header of encrypt dialog."
     },
     "keygrid_send_pub_key": {
-        "message": "E-posta publik nyckel",
+        "message": "Pošlji javni ključ preko e-pošte",
         "description": "Export key menu."
     },
     "keygrid_export": {
-        "message": "Exportera",
+        "message": "Izvoz",
         "description": "Export key."
     },
     "keyring_public": {
-        "message": "Publik",
+        "message": "Public",
         "description": "public key type"
     },
     "keyring_header": {
-        "message": "Nyckelring",
+        "message": "Zbirka ključev",
         "description": "Header of the key ring."
     },
     "keygrid_userid_signatures": {
-        "message": "Signaturer",
+        "message": "Podpisi",
         "description": "Signatures on User ID of a PGP key."
     },
     "form_cancel": {
-        "message": "Avbryt",
+        "message": "Preklic",
         "description": "Cancel form button."
     },
     "keyring_private": {
-        "message": "Privat",
+        "message": "Private",
         "description": "private key type"
     },
     "encrypt_dialog_no_recipient": {
-        "message": "Lägg till en mottagare.",
+        "message": "Prosim dodajte naslovnika.",
         "description": "Error message if no recipient selected."
     },
     "general_editor_plain": {
-        "message": "Ren text",
+        "message": "Urejevalnik za golo besedilo",
         "description": "Editor option: plain text."
     },
     "clear_localstorage_confirm_message": {
-        "message": "Do you want to delete all your PGP keys from this browser profile?",
+        "message": "Želite izbrisati vse vaše PGP ključe tega profila brskalnika?",
         "description": "The message of the confirmation dialog."
     },
     "form_undo": {
-        "message": "Ångra",
+        "message": "Razveljavi",
         "description": "Undo form button."
     },
     "keygrid_key_not_expire": {
-        "message": "Nyckeln går inte ut",
+        "message": "Ta ključ ne poteče",
         "description": "Expiration date of a PGP key not set."
     },
     "popup_reload": {
-        "message": "Ladda om",
+        "message": "Ponovno naloži",
         "description": "Reload all Mailvelope UI elements on page."
     },
     "options_title": {
-        "message": "Mailvelope-alternativ",
+        "message": "Možnosti Mailvelope",
         "description": "Title of options page."
     },
     "form_continue": {
-        "message": "Fortsätt",
+        "message": "Nadaljuj",
         "description": "Continue form button."
     },
     "decrypt_popup_header": {
-        "message": "Meddelande",
+        "message": "Sporočilo",
         "description": "Header of decrypt popup."
     },
     "keygrid_status_invalid": {
-        "message": "ogiltig",
+        "message": "neveljaven",
         "description": "Validity status of a PGP key."
     },
     "keyring_public_private": {
@@ -292,19 +292,19 @@
         "description": "public and private key types"
     },
     "security_compose_external": {
-        "message": "I ett separat textredigeringsfönster tillhörande Mailvelope.",
+        "message": "V urejevalniku besedila Mailvelope, ki se nahaja v ločenem pojavnem oknu.",
         "description": "Mail compose option"
     },
     "keygrid_primary_key": {
-        "message": "Primär nyckel",
+        "message": "Glavni ključ",
         "description": "Primary key of a PGP key."
     },
     "verify_result_success": {
-        "message": "Signerat av",
+        "message": "Podpisano od",
         "description": "Verfiy signature succeeded."
     },
     "keygrid_user_ids": {
-        "message": "Användar-ID:n",
+        "message": "Uporabniki",
         "description": "User IDs of a PGP key."
     },
     "watchlist_title_scan": {
@@ -312,27 +312,27 @@
         "description": "Scan status of site in watchlist."
     },
     "key_import_textarea": {
-        "message": "Klistra in nyckeltext här:",
+        "message": "Tu prilepite besedilo ključa:",
         "description": "Key import box."
     },
     "watchlist_command_create": {
-        "message": "Lägg till ny post",
+        "message": "Dodaj nov zapis",
         "description": "Create entry in watchlist."
     },
     "key_gen_name_help": {
-        "message": "Nyckelinnehavarens fullständiga namn",
+        "message": "Polno ime lastnika ključa",
         "description": "Help text for name field."
     },
     "encrypt_error": {
-        "message": "Kunde inte kryptera detta meddelande: $1",
+        "message": "Tega sporočila ne morem šifrirati: $1",
         "description": "Error during encryption process."
     },
     "key_gen_months": {
-        "message": "månader",
+        "message": "mesecev",
         "description": "Key expires after time range"
     },
     "encrypt_dialog_add": {
-        "message": "Lägg till",
+        "message": "Dodaj",
         "description": "Max 6 character."
     },
     "alert_invalid_domainmatchpattern_warning": {
@@ -340,59 +340,59 @@
         "description": "Alert header of category warning."
     },
     "keygrid_status_valid": {
-        "message": "giltig",
+        "message": "veljaven",
         "description": "Validity status of a PGP key."
     },
     "message_no_keys": {
-        "message": "Ingen privat nyckel hittades för detta meddelande. Privat nyckel-ID som krävs: $1",
+        "message": " Za to sporočilo ni bil najden noben zasebni ključ. Potreben je privatni ključ za: $1",
         "description": "Decrypt error message."
     },
     "security_cache_off": {
-        "message": "Nej.",
+        "message": "Ne.",
         "description": "Don't store password."
     },
     "keyring_export_keys": {
-        "message": "Exportera nycklar",
+        "message": "Export Keys",
         "description": "Tab of keyring to export keys."
     },
     "keygrid_signer_name": {
-        "message": "ID för signatur",
+        "message": "Podpisnik",
         "description": "User ID of signer."
     },
     "dialog_keyid_label": {
-        "message": "Nyckel-ID",
+        "message": "Ključ:",
         "description": "Label for key ID."
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Kom ihåg lösenord för den här sessionen",
+        "message": "Zapomni si gesla za čas trajanja seje",
         "description": "Checkbox label."
     },
     "editor_encrypt_button": {
-        "message": "Kryptera",
+        "message": "Šifriraj",
         "description": "Encrypt button."
     },
     "key_gen_pwd_reenter": {
-        "message": "Ange lösenord igen",
+        "message": "Ponovno vnesite geslo",
         "description": "Label for passphrase input field"
     },
     "keygrid_user_name": {
-        "message": "Namn",
+        "message": "Ime",
         "description": "Name in User ID of a PGP key."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Ange...",
+        "message": "Vnesite...",
         "description": "Placeholder for password."
     },
     "security_display_popup": {
-        "message": "I en separat popup från Mailvelope.",
+        "message": "V ločenem pojavnem oknu Mailvelope.",
         "description": "Decrypted message display option"
     },
     "key_import_public_update": {
-        "message": "Publik nyckel $1 för användare $2 uppdaterad",
+        "message": "Javni ključ $1 uporabnika $2 je bil posodobljen",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "form_submit": {
-        "message": "Skicka",
+        "message": "Vloži",
         "description": "Submit form button."
     },
     "watchlist_record_title": {
@@ -400,63 +400,63 @@
         "description": "Title of the watchlist editor dialog."
     },
     "key_export_clipboard": {
-        "message": "Kopiera till urklipp",
+        "message": "Kopiraj v odložišče",
         "description": "Copy to clipboard button."
     },
     "dialog_popup_close": {
-        "message": "Stäng",
+        "message": "Zapri",
         "description": "Close decrypt popup."
     },
     "verify_result_warning": {
-        "message": "Signerat med okänd nyckel",
+        "message": "Podpisano z neznanim ključem",
         "description": "Verfiy signature warning."
     },
     "alert_header_warning": {
-        "message": "Varning!",
+        "message": "Opozorilo!",
         "description": "Alert header of category warning."
     },
     "key_gen_key_size": {
-        "message": "Nyckelstorlek",
+        "message": "Velikost ključa",
         "description": "Advanced key generation settings: Key size"
     },
     "security_custom_color": {
-        "message": "Anpassad färg",
+        "message": "Barva po meri",
         "description": "Custom color for security token"
     },
     "keygrid_delete_confirmation": {
-        "message": "Vill du verkligen ta bort den här nyckeln?",
+        "message": "Ste prepričani, da želite odstraniti ta ključ?",
         "description": "Delete confirmation dialog."
     },
     "security_char_help": {
-        "message": "Måste vara 3 tecken lång",
+        "message": "Dolžina mora biti vsaj 3 črke",
         "description": "Char code help"
     },
     "pwd_dialog_password": {
-        "message": "Lösenord:",
+        "message": "Geslo:",
         "description": "Label for password."
     },
     "pwd_dialog_title": {
-        "message": "Ange lösenord i Mailvelope",
+        "message": "Vnos gesla | Mailvelope",
         "description": "Title of the password dialog."
     },
     "keygrid_subkeys": {
-        "message": "Undernycklar",
+        "message": "Podključi",
         "description": "Subkeys of a PGP key."
     },
     "form_clear": {
-        "message": "Rensa",
+        "message": "Izbriši",
         "description": "Clear form button."
     },
     "key_gen_another": {
-        "message": "Skapa annan...",
+        "message": "Ustvari naslednjega...",
         "description": "Key import button"
     },
     "popup_remove_page": {
-        "message": "Ta bort sida",
+        "message": "Odstrani stran",
         "description": "Remove page from watchlist."
     },
     "key_gen_expiration": {
-        "message": "Går ut",
+        "message": "Datum poteka",
         "description": "Key expires after time range"
     },
     "keygrid_validity_status": {
@@ -464,11 +464,11 @@
         "description": "Validity status of a PGP key."
     },
     "keyring_import_keys": {
-        "message": "Importera nycklar",
+        "message": "Uvozi ključe",
         "description": "Tab of keyring to import keys."
     },
     "key_export_create_file": {
-        "message": "Ladda ner",
+        "message": "Download",
         "description": "Download file button."
     },
     "alert_no_domainmatchpattern_warning": {
@@ -476,27 +476,27 @@
         "description": "Alert header of category warning."
     },
     "key_import_public_success": {
-        "message": "Publik nyckel $1 för användare $2 importerad till nyckelring",
+        "message": "Javni ključ $1 uporabnika $2 je bil uvožen v zbirko",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "keygrid_key_fingerprint": {
-        "message": "Fingeravtryck",
+        "message": "Prstni odtis",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_sort_type": {
-        "message": "Visa nycklar efter typ",
+        "message": "Prikaži ključe glede na tip",
         "description": "Key grid sort selector."
     },
     "key_gen_years": {
-        "message": "år",
+        "message": "let",
         "description": "Key expires after time range"
     },
     "editor_blur_warn": {
-        "message": "Varning. Textredigerare tappade fokus.",
+        "message": "Pozor! Urejevalnik besedil izven fokusa.",
         "description": "Warning for lost focus."
     },
     "header_warning": {
-        "message": "Varning!",
+        "message": "Opozorilo!",
         "description": "Header warning."
     },
     "keygrid_key_type": {
@@ -504,7 +504,7 @@
         "description": "The type of the key."
     },
     "keyring_migration_error": {
-        "message": "Fel vid flytt av nyckel",
+        "message": "Napaka pri selitvi ključa",
         "description": "Tab of keyring to display migration errors."
     },
     "key_details_title": {
@@ -512,39 +512,39 @@
         "description": "The title of the key details dialog."
     },
     "security_cache_time": {
-        "message": "minuter.",
+        "message": "minut.",
         "description": "Store password in memory for $1 minutes."
     },
     "settings_watchlist": {
-        "message": "Lista med e-postleverantörer",
+        "message": "Lista e-poštnih ponudnikov",
         "description": "Tab of options to display list of supported mail providers."
     },
     "general_editor_rich": {
-        "message": "Redigerare för formaterad text",
+        "message": "Urejevalnik za obogateno besedilo",
         "description": "Editor option: rich text."
     },
     "security_cache_on": {
-        "message": "Ja, behåll i minnet i ",
+        "message": "Da, imej v spominu",
         "description": "Store password in memory for $1 minutes."
     },
     "options_home": {
-        "message": "Alternativ",
+        "message": "Možnosti",
         "description": "Options navigation: Home."
     },
     "key_gen_wait_header": {
-        "message": "Nyckel skapas...",
+        "message": "Generiram ključ...",
         "description": "Wait dialog header"
     },
     "watchlist_title_site": {
-        "message": "Sida",
+        "message": "Stran",
         "description": "Site in watchlist."
     },
     "editor_transfer": {
-        "message": "Överför",
+        "message": "Prenesi",
         "description": "Transfer button of editor popup."
     },
     "keygrid_display_all_keys": {
-        "message": "Visa alla nycklar",
+        "message": "Prikaži vse ključe",
         "description": "Export key menu."
     },
     "watchlist_expose_api": {
@@ -552,67 +552,67 @@
         "description": "Expose API to Webmailer."
     },
     "key_export_warning_private": {
-        "message": "Den här filen innehåller även privata nycklar.",
+        "message": "Ta datoteka vsebuje tudi zasebne ključe.",
         "description": "Key export warning."
     },
     "key_import_invalid_text": {
-        "message": "Ingen giltig nyckeltext hittades",
+        "message": "Najdeno ni bilo nobeno veljevno besedilo",
         "description": "Import error alert."
     },
     "word_or": {
-        "message": "eller",
+        "message": "ali",
         "description": "Separate list of elements."
     },
     "key_import_exception": {
-        "message": "An exception occured while processing the keys",
+        "message": "Pri procesiranju ključev je prišlo do napake",
         "description": "Import error alert."
     },
     "keygrid_display_key_pair": {
-        "message": "Visa nyckelpar",
+        "message": "Prikaži par ključev",
         "description": "Export key menu."
     },
     "security_compose_mail": {
-        "message": "Var vill du skriva ditt e-postmeddelande?",
+        "message": "Kje želite ustvariti svoje e-poštno sporočilo?",
         "description": "Label for compose options"
     },
     "security_token_header": {
-        "message": "Säkerhetstoken",
+        "message": "Varnostni žeton (Token)",
         "description": "Security token header"
     },
     "general_editor_type": {
-        "message": "Val av e-postredigerare",
+        "message": "Izbira urejevalnika e-pošte",
         "description": "Label for editor options."
     },
     "key_gen_pwd_unequal": {
-        "message": "Lösenorden stämmer inte överens",
+        "message": "Gesli se ne ujemata",
         "description": "Passphrase input field status"
     },
     "popup_active_off": {
-        "message": "Av",
+        "message": "Izklop",
         "description": "Activity status of the extension."
     },
     "watchlist_command_edit": {
-        "message": "Ändra",
+        "message": "Uredi",
         "description": "Edit entry in watchlist."
     },
     "editor_transfer_unencrypted": {
-        "message": "Du försöker överföra okrypterat innehåll tillbaka till e-postleverantören.",
+        "message": "Nešifrirano vsebino želite prenesti nazaj k vašemu e-poštnemu ponudniku.",
         "description": "Warning for unencrypted content."
     },
     "decrypt_popup_title": {
-        "message": "Dekrypterat meddelande",
+        "message": "Dešifrirano sporočilo",
         "description": "Title of decrypt popup."
     },
     "watchlist_command_save": {
-        "message": "Spara ändringar",
+        "message": "Shrani spremembe",
         "description": "Save changes in watchlist."
     },
     "cleartext_read_error": {
-        "message": "Kunde inte läsa detta klartext-meddelande: $1",
+        "message": "Tega golega besedila ne morem prebrati: $1",
         "description": "Cleartext message read error message: $1: error message."
     },
     "editor_header": {
-        "message": "Skriv meddelande",
+        "message": "Ustvari sporočilo",
         "description": "Header of editor popup."
     },
     "form_ok": {
@@ -620,15 +620,15 @@
         "description": "Ok form button."
     },
     "key_import_private_update": {
-        "message": "Privat nyckel $1 för användare $2 uppdaterad",
+        "message": "Zasebni ključ $1 uporabnika $2 je bil posodobljen",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_gen_pwd_empty": {
-        "message": "Lösenord är tomt",
+        "message": "Geslo je prazno",
         "description": "Passphrase input field status"
     },
     "form_save": {
-        "message": "Spara",
+        "message": "Shrani",
         "description": "Save form button."
     },
     "ext_name": {
@@ -636,111 +636,111 @@
         "description": "Name of the extension."
     },
     "key_gen_days": {
-        "message": "dagar",
+        "message": "dni",
         "description": "Key expires after time range"
     },
     "keygrid_expiration_date": {
-        "message": "Utgångsdatum",
+        "message": "Datum poteka",
         "description": "Expiration date of a PGP key."
     },
     "alert_header_error": {
-        "message": "Fel!",
+        "message": "Napaka!",
         "description": "Alert header of category error."
     },
     "security_char_code": {
-        "message": "Teckenkod",
+        "message": "Znakovni tip",
         "description": "Char code for security token"
     },
     "key_export_too_large": {
-        "message": "Nyckeln får inte plats i en URL, använd kopiera & klistra in istället.",
+        "message": "Ključ je predolg za URL, raje uporabite \"kopiraj in prilepi\".",
         "description": "Key export warning message."
     },
     "keygrid_no_subkeys": {
-        "message": "Inga undernycklar tillgängliga",
+        "message": "Noben podključ ni na voljo",
         "description": "No subkeys of a PGP key found."
     },
     "keygrid_keyid": {
-        "message": "Nyckel-ID",
+        "message": "Ključi",
         "description": "Key ID of a PGP key."
     },
     "sign_dialog_header": {
-        "message": "Signera meddelande med nyckel:",
+        "message": "Podpiši sporočilo s ključem:",
         "description": "Header of sign dialog."
     },
     "key_import_private_read": {
-        "message": "Kunde inte läsa en privat nyckel: $1",
+        "message": "Ne morem prebrati enega zasebnega ključa: $1",
         "description": "Import error message. $1: error message"
     },
     "keygrid_signer_unknown": {
-        "message": "ID för signatur okänt",
+        "message": "Neznan podpisnik",
         "description": "Key of signer not available."
     },
     "popup_add_page": {
-        "message": "Lägg till sida",
+        "message": "Dodaj stran",
         "description": "Add page to watchlist."
     },
     "options_docu": {
-        "message": "Dokumentation",
+        "message": "Dokumentacija",
         "description": "Options navigation: Documentation."
     },
     "options_about": {
-        "message": "Om",
+        "message": "O dodatku",
         "description": "Options navigation: About."
     },
     "key_gen_invalid_email": {
-        "message": "Ogiltig e-postadress",
+        "message": "Neveljaven e-poštni naslov",
         "description": "Error message."
     },
     "pwd_dialog_userid": {
-        "message": "Anv.-ID",
+        "message": "Uporabnik:",
         "description": "Label for user ID."
     },
     "decrypt_popup_copy": {
-        "message": "Kopiera till urklipp",
+        "message": "Kopiraj v odložišče",
         "description": "Copy decrypted message to clipboard."
     },
     "reload_webmail_tab": {
-        "message": "Ladda om fliken med din e-postleverantör (F5) för att dessa inställningar ska börja gälla.",
+        "message": "Za uveljavitev sprememb ponovno naložite zavihek vešega ponudnika e-pošte (F5).",
         "description": "Info message."
     },
     "keygrid_display_priv_key": {
-        "message": "Visa privat nyckel",
+        "message": "Prikaži zasebni ključ",
         "description": "Export key menu."
     },
     "ext_description": {
-        "message": "Förbättra din webbaserade e-posttjänst med end-to-end-kryptering. Säker e-postkommunikation baserad på OpenPGP-standarden.",
+        "message": "Izboljšajte varnost vaše spletne poštne storitve z enkripcijo. Zavarujte e-poštno komunikacijo na osnovi standarda OpenPGP.",
         "description": "Description of the extension."
     },
     "key_gen_advanced_btn": {
-        "message": "Avancerat",
+        "message": "Napredno",
         "description": "Advanced key generation settings."
     },
     "key_import_private_success": {
-        "message": "Privat nyckel $1 för användare $2 importerad till nyckelring",
+        "message": "Zasebni ključ $1 uporabnika $2 je bil uvožen v zbirko",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "settings_security": {
-        "message": "Säkerhet",
+        "message": "Varnost",
         "description": "Tab of options to display security settings."
     },
     "settings_general": {
-        "message": "Allmänt",
+        "message": "Splošno",
         "description": "Tab of options to display general settings."
     },
     "key_import_unable": {
-        "message": "Kunde inte importera nyckel pga: $1",
+        "message": "Ne morem uvoziti enega ključa. Vzrok: $1",
         "description": "Import error message: $1: error message."
     },
     "keygrid_display_pub_key": {
-        "message": "Visa publik nyckel",
+        "message": "Prikaži javni ključ",
         "description": "Export key menu."
     },
     "keygrid_creation_date": {
-        "message": "Skapelsedatum",
+        "message": "Datum nastanka",
         "description": "Creation date of a PGP key."
     },
     "key_export_download": {
-        "message": "Ladda ner nyckel",
+        "message": "Prenesi ključ",
         "description": "Download key link."
     }
 }
