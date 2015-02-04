@@ -37,6 +37,7 @@ define(function(require, exports, module) {
     this.signBuffer = null;
     this.pwdControl = null;
     this.keyring = require('../keyring');
+    this.mailbuild = require('../../mailbuild');
   }
 
   EditorController.prototype = Object.create(sub.SubController.prototype);
@@ -145,12 +146,13 @@ define(function(require, exports, module) {
         break;
       case 'editor-plaintext':
         if (msg.action === 'encrypt') {
-          this.model.encryptMessage(msg.data, this.keyringId, this.keyidBuffer, function(err, msg) {
+          var data = this.buildMail(msg.message, msg.attachments);
+          this.model.encryptMessage(data, this.keyringId, this.keyidBuffer, function(err, msg) {
             var port = that.ports.editorCont || that.ports.editor;
             port.postMessage({event: 'encrypted-message', message: msg});
           });
         } else if (msg.action === 'sign') {
-          this.model.signMessage(msg.data, this.signBuffer.key, function(err, msg) {
+          this.model.signMessage(msg.message, this.signBuffer.key, function(err, msg) {
             that.ports.editor.postMessage({event: 'signed-message', message: msg});
           });
         } else {
@@ -171,6 +173,40 @@ define(function(require, exports, module) {
     this.mvelo.windows.openPopup('common/ui/editor/editor.html?id=' + this.id + '&editor_type=' + this.prefs.data().general.editor_type, {width: 820, height: 450, modal: false}, function(window) {
       that.editorPopup = window;
     });
+  };
+
+  EditorController.prototype.buildMail = function(message, attachments) {
+    //var t0 = Date.now();
+    var mainMessage = new this.mailbuild("multipart/mixed");
+    var composedMessage;
+    var hasAttachment;
+    if (message) {
+      var textMime = new this.mailbuild("text/plain")
+        .setHeader("Content-Type", "text/plain; charset=utf-8")
+        .addHeader("Content-Transfer-Encoding", "quoted-printable")
+        .setContent(message);
+      mainMessage.appendChild(textMime);
+    }
+    if (attachments && Object.keys(attachments).length > 0) {
+      hasAttachment = true;
+      for (var attachment in attachments) {
+        var attachmentMime = new this.mailbuild("text/plain")
+          .createChild(false, {filename: attachments[attachment].filename})
+          //.setHeader("Content-Type", msg.attachments[attachment].type+"; charset=utf-8")
+          .addHeader("Content-Transfer-Encoding", "base64")
+          .addHeader("Content-Disposition", "attachment") // ; filename="+msg.attachments[attachment].filename
+          .setContent(attachments[attachment].content);
+        mainMessage.appendChild(attachmentMime);
+      }
+    }
+    if (hasAttachment) {
+      composedMessage = mainMessage.build();
+    } else {
+      composedMessage = message;
+    }
+    //var t1 = Date.now();
+    //console.log("Building mime message took " + (t1 - t0) + " milliseconds. Current time: " + t1);
+    return composedMessage;
   };
 
   exports.EditorController = EditorController;

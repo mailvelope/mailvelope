@@ -130,21 +130,17 @@ var mvelo = mvelo || null;
     var extClass = mvelo.util.getExtensionClass(fileExt);
     var id = Date.now();
     // TODO check if id exists
-
-    var unint8Array;
     var fileReader = new FileReader();
     fileReader.onload = function() {
-      unint8Array = new Uint8Array(this.result);
       // Add attachment
       attachments[id] = {
-        "content": unint8Array,
-        "filename": file.name,
-        "size": file.size,
-        "type": file.type
+        filename: file.name,
+        content: this.result,
+        size: file.size,
+        type: file.type
       };
     };
-    fileReader.readAsArrayBuffer(file);
-
+    fileReader.readAsDataURL(file);
     var $removeUploadButton = $('<span/>', {
       "data-id": id,
       "class": 'glyphicon glyphicon-remove removeAttachment'
@@ -408,48 +404,6 @@ var mvelo = mvelo || null;
     $('#encryptModal iframe').remove();
   }
 
-  function composedMessage() {
-    //var t0 = Date.now();
-    var mainMessage = new window.mailbuild("multipart/mixed");
-    var composedMessage;
-    var hasAttachment;
-    var message = editor.val();
-    if (message !== undefined) {
-      var textMime = new window.mailbuild("text/plain")
-        .setHeader("Content-Type", "text/plain; charset=utf-8")
-        .addHeader("Content-Transfer-Encoding", "quoted-printable")
-        .setContent(message);
-      mainMessage.appendChild(textMime);
-    }
-    if (attachments !== undefined && Object.keys(attachments).length > 0) {
-      var contentLength;
-      var uint8Array;
-      hasAttachment = true;
-      for (var attachment in attachments) {
-        contentLength = Object.keys(attachments[attachment].content).length;
-        uint8Array = new Uint8Array(contentLength);
-        for (var i = 0; i < contentLength; i++) {
-          uint8Array[i] = attachments[attachment].content[i];
-        }
-        var attachmentMime = new window.mailbuild("text/plain")
-          .createChild(false, {filename: attachments[attachment].filename})
-          //.setHeader("Content-Type", msg.attachments[attachment].type+"; charset=utf-8")
-          .addHeader("Content-Transfer-Encoding", "base64")
-          .addHeader("Content-Disposition", "attachment") // ; filename="+msg.attachments[attachment].filename
-          .setContent(uint8Array);
-        mainMessage.appendChild(attachmentMime);
-      }
-    }
-    if (hasAttachment) {
-      composedMessage = mainMessage.build();
-    } else {
-      composedMessage = message;
-    }
-    //var t1 = Date.now();
-    //console.log("Building mime message took " + (t1 - t0) + " milliseconds. Current time: "+t1);
-    return composedMessage;
-  }
-
   function messageListener(msg) {
     //console.log('editor messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
@@ -475,7 +429,8 @@ var mvelo = mvelo || null;
         port.postMessage({
           event: 'editor-plaintext',
           sender: name,
-          data: composedMessage(),
+          message: editor.val(),
+          attachments: attachments,
           action: msg.action
         });
         break;

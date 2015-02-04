@@ -17,7 +17,8 @@
   "readmeFilename": "Readme.md",
   "dependencies": {
     "mailreader": "~0.4.0",
-    "mailbuild": "~0.3.7"
+    "mailbuild": "~0.3.7",
+    "mimefuncs": "mailvelope/mimefuncs#v0.3.9m"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

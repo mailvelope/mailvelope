@@ -362,11 +362,6 @@ function injectEmbeddedEditor() {
       data.url('ui/messageAdapter.js'),
       data.url('common/ui/mvelo.js'),
       data.url('common/ui/modal/secureToken.js'),
-      data.url('common/dep/mailbuilder/addressparser.js'),
-      data.url('common/dep/mailbuilder/punycode.js'),
-      data.url('common/dep/mailbuilder/mimefuncs.js'),
-      data.url('common/dep/mailbuilder/mimetypes.js'),
-      data.url('common/dep/mailbuilder/mailbuild.js'),
       data.url('common/ui/editor/editor.js')
     ],
     contentStyleFile: [

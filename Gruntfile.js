@@ -125,19 +125,6 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
-            flatten: true,
-            cwd: 'node_modules/',
-            src: [
-              'mailbuild/src/mailbuild.js',
-              'mailbuild/node_modules/mimetypes/src/*.js',
-              'mailbuild/node_modules/mimefuncs/src/*.js',
-              'mailbuild/node_modules/punycode/punycode.js',
-              'mailbuild/node_modules/wo-addressparser/src/addressparser.js'
-            ],
-            dest: 'build/common/dep/mailbuilder'
-          },
-          {
-            expand: true,
             cwd: 'bower_components/requirejs/',
             src: 'require.js',
             dest: 'build/chrome/'
@@ -227,7 +214,18 @@ module.exports = function(grunt) {
             'mailreader/src/mailreader-parser.js',
             'mailreader/node_modules/mimeparser/src/*.js',
             'mailreader/node_modules/mimeparser/node_modules/wo-addressparser/src/*.js',
-            'mailreader/node_modules/mimeparser/node_modules/mimefuncs/src/*.js'
+            'mimefuncs/src/*.js'
+          ],
+          dest: 'build/chrome/lib/'
+        },
+        {
+          expand: true,
+          flatten: true,
+          cwd: 'node_modules/',
+          src: [
+            'mailbuild/src/mailbuild.js',
+            'mailbuild/node_modules/mimetypes/src/*.js',
+            'mailbuild/node_modules/punycode/punycode.js'
           ],
           dest: 'build/chrome/lib/'
         },
@@ -248,13 +246,24 @@ module.exports = function(grunt) {
           src: [
             'mailreader/src/mailreader-parser.js',
             'mailreader/node_modules/mimeparser/src/*.js',
-            'mailreader/node_modules/mimeparser/node_modules/mimefuncs/src/*.js'
+            'mimefuncs/src/*.js'
           ],
           dest: 'build/firefox/lib/'
         },
         {
           src: 'node_modules/mailreader/node_modules/mimeparser/node_modules/wo-addressparser/src/addressparser.js',
           dest: 'build/firefox/lib/wo-addressparser.js'
+        },
+        {
+          expand: true,
+          flatten: true,
+          cwd: 'node_modules/',
+          src: [
+            'mailbuild/src/mailbuild.js',
+            'mailbuild/node_modules/mimetypes/src/*.js',
+            'mailbuild/node_modules/punycode/punycode.js'
+          ],
+          dest: 'build/firefox/lib/'
         }]
       }
     },
@@ -303,6 +312,10 @@ module.exports = function(grunt) {
         replacements: [{
           from: /@font-face[\.\S\s]+\.glyphicon\ {/g,
           to: "@font-face {\n  font-family:'Glyphicons Halflings';src:url('<%= glyphIconDataURL %>') format('woff')\n}\n.glyphicon {"
+        },
+        {
+          from: '# sourceMappingURL=bootstrap.css.map',
+          to: ''
         }]
       }
     },

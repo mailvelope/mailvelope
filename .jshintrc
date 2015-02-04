@@ -37,7 +37,8 @@
         "requirejs": false,
         "self": false,
         "chrome": false,
-        "addon": false
+        "addon": false,
+        "performance": false
     }
 
 }
