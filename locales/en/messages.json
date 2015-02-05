@@ -188,8 +188,12 @@
     "description": "private key type"
   },
   "keyring_public_private": {
-    "message": "Key Pair",
+    "message": "Key Pairs",
     "description": "public and private key types"
+  },
+  "keyring_keypair": {
+    "message": "Key Pair",
+    "description": "key pair"
   },
   "options_settings": {
     "message": "Settings",
