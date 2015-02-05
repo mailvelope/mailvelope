@@ -303,6 +303,11 @@ input[readonly] {
     word-wrap: break-word;
 }
 
+#keyringList {
+    margin-top: -10px;
+    width: 100%;
+}
+
 .addedSiteFade {
     -webkit-animation: pulse1 4s linear 1;
     -moz-animation: pulse1 4s linear 1;

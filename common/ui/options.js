@@ -52,12 +52,12 @@ var options = {};
       mvelo.appendTpl($('#setupProvider'), 'keyring/tpl/setupProvider.html'),
       mvelo.appendTpl($('#generateKey'), 'keyring/tpl/generateKey.html')
     ]).then(initUI);
-
-    // Setting the default keyring to mailvelope
-    setKeyRing(mvelo.LOCAL_KEYRING_ID, "Mailvelope", "mailvelope");
   }
 
   function initUI() {
+    // Setting the default keyring to mailvelope
+    setKeyRing(mvelo.LOCAL_KEYRING_ID, "Mailvelope", "mailvelope");
+
     mvelo.l10n.localizeHTML();
     mvelo.util.showSecurityBackground();
 
@@ -81,41 +81,36 @@ var options = {};
       }
     });
 
-    exports.getL10nMessages(Object.keys(l10n), function(result) {
-      exports.l10n = result;
-      event.triggerHandler('ready');
-    });
-
     //deleteKeyring("localhost|#|mailvelope");
 
-    setKeyringAttr(mvelo.LOCAL_KEYRING_ID, {
+    /*setKeyringAttr(mvelo.LOCAL_KEYRING_ID, {
       primary_key: "03C986E66AFE22EA",
       provider_styling: "mailvelope"
     });
 
     createKeyring("provider1.de" + mvelo.KEYRING_DELIMITER + "test@provider1.de");
-    setKeyringAttr("provider1.de" + mvelo.KEYRING_DELIMITER + "test@provider1.de", {
+    exports.setKeyringAttr("provider1.de" + mvelo.KEYRING_DELIMITER + "test@provider1.de", {
       primary_key: "03C986E66AFE22EA",
       provider_styling: "provider1SettingsLogo"
     });
 
     createKeyring("provider2.bg" + mvelo.KEYRING_DELIMITER + "test@provider2.bg");
-    setKeyringAttr("provider2.bg" + mvelo.KEYRING_DELIMITER + "test@provider2.bg", {
+    exports.setKeyringAttr("provider2.bg" + mvelo.KEYRING_DELIMITER + "test@provider2.bg", {
       primary_key: "03C986E66AFE22EA",
       provider_styling: "provider2SettingsLogo"
     });
 
     createKeyring("provider3.com" + mvelo.KEYRING_DELIMITER + "test@provider3.com");
-    setKeyringAttr("provider3.com" + mvelo.KEYRING_DELIMITER + "test@provider3.com", {
+    exports.setKeyringAttr("provider3.com" + mvelo.KEYRING_DELIMITER + "test@provider3.com", {
       primary_key: "03C986E66AFE22EA",
       provider_styling: "provider3SettingsLogo"
     });
 
     createKeyring("provider4.ch" + mvelo.KEYRING_DELIMITER + "test@provider4.ch");
-    setKeyringAttr("provider4.ch" + mvelo.KEYRING_DELIMITER + "test@provider4.ch", {
+    exports.setKeyringAttr("provider4.ch" + mvelo.KEYRING_DELIMITER + "test@provider4.ch", {
       primary_key: "03C986E66AFE22EA",
       provider_styling: "provider4SettingsLogo"
-    });
+    });*/
 
     getAllKeyringAttr(function(data) {
       if (data === undefined) {
@@ -130,9 +125,11 @@ var options = {};
         keyringName = keyRingId.split(mvelo.KEYRING_DELIMITER)[0] + " (" + keyRingId.split(mvelo.KEYRING_DELIMITER)[1] + ")";
         keyringHTML = $.parseHTML(keyringTmpl);
 
-        //console.log("Attr. for keyring: " + keyRingId);
         var obj = data[keyRingId];
         if (obj.hasOwnProperty("primary_key")) {
+          if (exports.keyringId === keyRingId) {
+            exports.primaryKey = obj.primary_key;
+          }
           $(keyringHTML).find(".keyRingName").attr("primaryKeyId", obj.primary_key);
         }
         if (obj.hasOwnProperty("provider_styling")) {
@@ -143,6 +140,7 @@ var options = {};
           keyringName = "Mailvelope";
           $(keyringHTML).find(".deleteKeyRing").hide();
         }
+
         $(keyringHTML).find(".keyRingName").text(keyringName);
         $(keyringHTML).find(".keyRingName").attr("keyringId", keyRingId);
         $(keyringHTML).find(".deleteKeyRing").attr("keyringId", keyRingId);
@@ -153,13 +151,21 @@ var options = {};
       $keyringList.find(".deleteKeyRing").on("click", deleteKeyring);
     });
 
+    exports.getL10nMessages(Object.keys(l10n), function(result) {
+      exports.l10n = result;
+      event.triggerHandler('ready');
+    });
   }
 
-  function setKeyRing(keyringId, keyringName, providerStyling) {
+  function setKeyRing(keyringId, keyringName, providerStyling, primaryKeyId) {
     var $settingsArea = $("#settingsArea");
     $("#providerChangerText").text(keyringName);
     exports.keyringId = keyringId;
     exports.providerStyling = providerStyling;
+
+    if (primaryKeyId !== undefined) {
+      exports.primaryKeyId = primaryKeyId;
+    }
 
     if (keyringId === mvelo.LOCAL_KEYRING_ID) {
       $settingsArea.removeClass();
@@ -171,7 +177,13 @@ var options = {};
   }
 
   function switchKeyring() {
-    setKeyRing($(this).attr("keyringId"), $(this).text(), $(this).attr("providerStyling"));
+    setKeyRing(
+      $(this).attr("keyringId"),
+      $(this).text(),
+      $(this).attr("providerStyling"),
+      $(this).attr("primaryKeyId")
+    );
+    mvelo.util.showLoadingAnimation();
     options.event.triggerHandler('keygrid-reload');
   }
 
@@ -241,7 +253,7 @@ var options = {};
     });
   }
 
-  function setKeyringAttr(keyRingId, keyRingAttr, callback) {
+  exports.setKeyringAttr = function(keyRingId, keyRingAttr, callback) {
     mvelo.extension.sendMessage({
       event: 'set-keyring-attr',
       keyringId: keyRingId,
@@ -249,7 +261,7 @@ var options = {};
     }, function() {
       console.log("Set keyring attr");
     });
-  }
+  };
 
   exports.pgpModel = function(method, args, callback) {
     if (typeof args === 'function') {
