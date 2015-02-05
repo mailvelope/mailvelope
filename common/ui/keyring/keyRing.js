@@ -103,9 +103,9 @@ var options = options || null;
       $(tableRow).attr("data-keyvalid", key.validity);
       $(tableRow).attr("data-keyisprimary", false);
       $(tableRow).find('td:nth-child(2)').text(key.name);
-      if (options.primaryKey === key.id) {
+      if (options.primaryKeyId === key.id) {
         $(tableRow).attr("data-keyisprimary", true);
-        $(tableRow).find('td:nth-child(2)').append("&nbsp;<span class='label label-warning' data-l10n-id='keygrid_primary_label'></span>");
+        $(tableRow).find('td:nth-child(2)').append("&nbsp;&nbsp;<span class='label label-warning' data-l10n-id='keygrid_primary_label'></span>");
       }
       $(tableRow).find('td:nth-child(3)').text(key.email);
       $(tableRow).find('td:nth-child(4)').text(key.id);
@@ -195,6 +195,7 @@ var options = options || null;
           $setAsPrimaryBtn.append($("<span>")).text(options.l10n.key_set_as_primary);
           $setAsPrimaryBtn.prepend('<span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>&nbsp;');
         }
+        $setAsPrimaryBtn.off();
         $setAsPrimaryBtn.on("click", setPrimaryKey);
       } else {
         $("#keyType .keyPair").hide();
@@ -308,7 +309,9 @@ var options = options || null;
       });
       $(this).addClass("btn-warning");
       $(this).text(options.l10n.keygrid_primary_label);
+      $(this).prop('disabled', true);
       $(this).removeAttr("data-primarykeyid");
+      options.primaryKeyId = primaryKeyId;
       options.event.triggerHandler('keygrid-reload');
     } else {
       return false;
@@ -414,6 +417,36 @@ var options = options || null;
   function exportToClipboard() {
     options.copyToClipboard($('#armoredKey').val());
   }
+
+  options.deleteKeyring = function() {
+    var keyRingId = $(this).attr("keyringId");
+    if (confirm("Do you want to remove keyring? " + keyRingId)) {
+      mvelo.extension.sendMessage({
+        event: 'delete-keyring',
+        keyringId: keyRingId
+      });
+      options.reloadOptions();
+    }
+  };
+
+  options.createKeyring = function(keyRingId, callback) {
+    mvelo.extension.sendMessage({
+      event: 'create-keyring',
+      keyringId: keyRingId
+    }, function() {
+      console.log("Create keyring");
+    });
+  };
+
+  options.setKeyringAttr = function(keyRingId, keyRingAttr, callback) {
+    mvelo.extension.sendMessage({
+      event: 'set-keyring-attr',
+      keyringId: keyRingId,
+      keyringAttr: keyRingAttr
+    }, function() {
+      console.log("Set keyring attr");
+    });
+  };
 
   options.event.on('ready', init);
 

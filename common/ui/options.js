@@ -81,38 +81,7 @@ var options = {};
       }
     });
 
-    //deleteKeyring("localhost|#|mailvelope");
-
-    /*setKeyringAttr(mvelo.LOCAL_KEYRING_ID, {
-      primary_key: "03C986E66AFE22EA",
-      provider_styling: "mailvelope"
-    });
-
-    createKeyring("provider1.de" + mvelo.KEYRING_DELIMITER + "test@provider1.de");
-    exports.setKeyringAttr("provider1.de" + mvelo.KEYRING_DELIMITER + "test@provider1.de", {
-      primary_key: "03C986E66AFE22EA",
-      provider_styling: "provider1SettingsLogo"
-    });
-
-    createKeyring("provider2.bg" + mvelo.KEYRING_DELIMITER + "test@provider2.bg");
-    exports.setKeyringAttr("provider2.bg" + mvelo.KEYRING_DELIMITER + "test@provider2.bg", {
-      primary_key: "03C986E66AFE22EA",
-      provider_styling: "provider2SettingsLogo"
-    });
-
-    createKeyring("provider3.com" + mvelo.KEYRING_DELIMITER + "test@provider3.com");
-    exports.setKeyringAttr("provider3.com" + mvelo.KEYRING_DELIMITER + "test@provider3.com", {
-      primary_key: "03C986E66AFE22EA",
-      provider_styling: "provider3SettingsLogo"
-    });
-
-    createKeyring("provider4.ch" + mvelo.KEYRING_DELIMITER + "test@provider4.ch");
-    exports.setKeyringAttr("provider4.ch" + mvelo.KEYRING_DELIMITER + "test@provider4.ch", {
-      primary_key: "03C986E66AFE22EA",
-      provider_styling: "provider4SettingsLogo"
-    });*/
-
-    getAllKeyringAttr(function(data) {
+    exports.getAllKeyringAttr(function(data) {
       if (data === undefined) {
         return false;
       }
@@ -128,7 +97,7 @@ var options = {};
         var obj = data[keyRingId];
         if (obj.hasOwnProperty("primary_key")) {
           if (exports.keyringId === keyRingId) {
-            exports.primaryKey = obj.primary_key;
+            exports.primaryKeyId = obj.primary_key;
           }
           $(keyringHTML).find(".keyRingName").attr("primaryKeyId", obj.primary_key);
         }
@@ -148,12 +117,12 @@ var options = {};
       }
 
       $keyringList.find(".keyRingName").on("click", switchKeyring);
-      $keyringList.find(".deleteKeyRing").on("click", deleteKeyring);
-    });
+      $keyringList.find(".deleteKeyRing").on("click", exports.deleteKeyring);
 
-    exports.getL10nMessages(Object.keys(l10n), function(result) {
-      exports.l10n = result;
-      event.triggerHandler('ready');
+      exports.getL10nMessages(Object.keys(l10n), function(result) {
+        exports.l10n = result;
+        event.triggerHandler('ready');
+      });
     });
   }
 
@@ -208,7 +177,7 @@ var options = {};
         options.removeFromWatchList(request.site);
         break;
       case 'reload-options':
-        reloadOptions();
+        options.reloadOptions();
         break;
       case 'import-key':
         $('#showKeyRing a').get(0).click();
@@ -221,45 +190,15 @@ var options = {};
     }
   }
 
-  function reloadOptions() {
+  exports.reloadOptions = function() {
     document.location.reload();
-  }
+  };
 
-  function getAllKeyringAttr(callback) {
+  exports.getAllKeyringAttr = function(callback) {
     mvelo.extension.sendMessage({
       event: 'get-all-keyring-attr'
     }, function(data) {
       callback(data);
-    });
-  }
-
-  function deleteKeyring() {
-    var keyRingId = $(this).attr("keyringId");
-    if (confirm("Do you want to remove keyring? " + keyRingId)) {
-      mvelo.extension.sendMessage({
-        event: 'delete-keyring',
-        keyringId: keyRingId
-      });
-      reloadOptions();
-    }
-  }
-
-  function createKeyring(keyRingId, callback) {
-    mvelo.extension.sendMessage({
-      event: 'create-keyring',
-      keyringId: keyRingId
-    }, function() {
-      console.log("Create keyring");
-    });
-  }
-
-  exports.setKeyringAttr = function(keyRingId, keyRingAttr, callback) {
-    mvelo.extension.sendMessage({
-      event: 'set-keyring-attr',
-      keyringId: keyRingId,
-      keyringAttr: keyRingAttr
-    }, function() {
-      console.log("Set keyring attr");
     });
   };
 
