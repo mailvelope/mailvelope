@@ -243,6 +243,10 @@
     "message": "Main Key",
     "description": "Main key in the PGP key."
   },
+  "keygrid_primary_label": {
+    "message": "Primary",
+    "description": "Label for the primary key"
+  },
   "keygrid_subkeys": {
     "message": "Subkeys",
     "description": "Subkeys of a PGP key."

@@ -24,15 +24,19 @@ var options = options || null;
 
   options.registerL10nMessages([
     "keygrid_key_not_expire",
-    "keygrid_delete_confirmation"
+    "keygrid_delete_confirmation",
+    "keygrid_primary_label",
+    "key_set_as_primary"
   ]);
 
   var keyTmpl;
   var subKeyTmpl;
   var signaturesTmpl;
   var $tableBody;
+  var tableRow;
   var keyRing;
   var filterType;
+
   window.URL = window.URL || window.webkitURL;
 
   function initTemplates() {
@@ -49,68 +53,11 @@ var options = options || null;
 
   function init() {
     keyRing = undefined;
-    var tableRow;
     initTemplates();
-
     $tableBody = $("#keyRingTable tbody");
     $tableBody.children().remove();
 
-    //$('#displayKeys').addClass('spinner');
-
-    options.keyring('getKeys', function(err, data) {
-      if (data === undefined) {
-        mvelo.util.hideLoadingAnimation();
-      }
-      keyRing = data;
-      //console.log(JSON.stringify(data));
-      //"type":"private",
-      //"validity":true,
-      //"guid":"8fe0e3926c15175e3a68dd8703c986e66afe22ea",
-      //"id":"03C986E66AFE22EA",
-      //"fingerprint":"8FE0E3926C15175E3A68DD8703C986E66AFE22EA",
-      //"name":"as",
-      //"email":"as@as.com",
-      //"exDate":false,
-      //"crDate":"2014-12-03T13:51:08.000Z",
-      //"algorithm":"RSA (Encrypt or Sign)",
-      //"bitLength":1024
-      keyRing.forEach(function(key) {
-        tableRow = $.parseHTML(keyTmpl);
-        $(tableRow).attr("data-keytype", key.type);
-        $(tableRow).attr("data-keyguid", key.guid);
-        $(tableRow).attr("data-keyid", key.id);
-        $(tableRow).attr("data-keyname", key.name);
-        $(tableRow).attr("data-keyemail", key.email);
-        $(tableRow).attr("data-keyalgorithm", key.algorithm);
-        $(tableRow).attr("data-keylength", key.bitLength);
-        $(tableRow).attr("data-keycreationdate", key.crDate);
-        $(tableRow).attr("data-keyexpirationdate", key.exDate);
-        $(tableRow).attr("data-keyfingerprint", key.fingerprint);
-        $(tableRow).attr("data-keyvalid", key.validity);
-        $(tableRow).find('td:nth-child(2)').text(key.name);
-        $(tableRow).find('td:nth-child(3)').text(key.email);
-        $(tableRow).find('td:nth-child(4)').text(key.id);
-        $(tableRow).find('td:nth-child(5)').text(key.crDate.substr(0, 10));
-        if (key.type === "private") {
-          $(tableRow).find('.publicKey').remove();
-        } else {
-          $(tableRow).find('.keyPair').remove();
-        }
-        $tableBody.append(tableRow);
-        filterKeys();
-      });
-      mvelo.l10n.localizeHTML();
-      $tableBody.find("tr").on("click", openKeyDetails);
-      $tableBody.find("tr").hover(function() {
-        $(this).find(".actions").css("visibility", "visible");
-      }, function() {
-        $(this).find(".actions").css("visibility", "hidden");
-      });
-      $tableBody.find(".keyDeleteBtn").on("click", deleteKeyEntry);
-      $.bootstrapSortable();
-      mvelo.util.hideLoadingAnimation();
-      //$('#displayKeys').removeClass('spinner');
-    });
+    options.keyring('getKeys', initKeyringTable);
 
     $('#exportMenuBtn').click(openExportAllDialog);
     $('#exportToCb2').click(exportToClipboard);
@@ -122,6 +69,65 @@ var options = options || null;
     });
 
     options.event.triggerHandler('keygrid-data-change');
+  }
+
+  function initKeyringTable(err, data) {
+    if (data === undefined) {
+      mvelo.util.hideLoadingAnimation();
+    }
+    keyRing = data;
+    //console.log(JSON.stringify(data));
+    //"type":"private",
+    //"validity":true,
+    //"guid":"8fe0e3926c15175e3a68dd8703c986e66afe22ea",
+    //"id":"03C986E66AFE22EA",
+    //"fingerprint":"8FE0E3926C15175E3A68DD8703C986E66AFE22EA",
+    //"name":"as",
+    //"email":"as@as.com",
+    //"exDate":false,
+    //"crDate":"2014-12-03T13:51:08.000Z",
+    //"algorithm":"RSA (Encrypt or Sign)",
+    //"bitLength":1024
+    keyRing.forEach(function(key) {
+      tableRow = $.parseHTML(keyTmpl);
+      $(tableRow).attr("data-keytype", key.type);
+      $(tableRow).attr("data-keyguid", key.guid);
+      $(tableRow).attr("data-keyid", key.id);
+      $(tableRow).attr("data-keyname", key.name);
+      $(tableRow).attr("data-keyemail", key.email);
+      $(tableRow).attr("data-keyalgorithm", key.algorithm);
+      $(tableRow).attr("data-keylength", key.bitLength);
+      $(tableRow).attr("data-keycreationdate", key.crDate);
+      $(tableRow).attr("data-keyexpirationdate", key.exDate);
+      $(tableRow).attr("data-keyfingerprint", key.fingerprint);
+      $(tableRow).attr("data-keyvalid", key.validity);
+      $(tableRow).attr("data-keyisprimary", false);
+      $(tableRow).find('td:nth-child(2)').text(key.name);
+      if (options.primaryKey === key.id) {
+        $(tableRow).attr("data-keyisprimary", true);
+        $(tableRow).find('td:nth-child(2)').append("&nbsp;<span class='label label-warning' data-l10n-id='keygrid_primary_label'></span>");
+      }
+      $(tableRow).find('td:nth-child(3)').text(key.email);
+      $(tableRow).find('td:nth-child(4)').text(key.id);
+      $(tableRow).find('td:nth-child(5)').text(key.crDate.substr(0, 10));
+      if (key.type === "private") {
+        $(tableRow).find('.publicKey').remove();
+      } else {
+        $(tableRow).find('.keyPair').remove();
+      }
+      $tableBody.append(tableRow);
+      filterKeys();
+    });
+    mvelo.l10n.localizeHTML();
+    $tableBody.find("tr").on("click", openKeyDetails);
+    $tableBody.find("tr").hover(function() {
+      $(this).find(".actions").css("visibility", "visible");
+    }, function() {
+      $(this).find(".actions").css("visibility", "hidden");
+    });
+    $tableBody.find(".keyDeleteBtn").on("click", deleteKeyEntry);
+    $.bootstrapSortable();
+    mvelo.util.hideLoadingAnimation();
   }
 
   function filterKeys() {
@@ -154,6 +160,7 @@ var options = options || null;
     $("#keyValid").show();
     var $keyData = $(this);
     var keyPair = false;
+    var $setAsPrimaryBtn = $("#setAsPrimaryBtn");
     options.keyring('getKeyDetails', [$keyData.attr('data-keyguid')], function(err, details) {
       //console.log('keyGrid key details received', JSON.stringify(details));
       // Init primary key tab
@@ -175,8 +182,23 @@ var options = options || null;
       if ($keyData.attr('data-keytype') === "private") {
         $("#keyType .publicKey").hide();
         keyPair = true;
+        $setAsPrimaryBtn.show();
+        if ($keyData.attr('data-keyisprimary') === 'true') {
+          $setAsPrimaryBtn.prop('disabled', true);
+          $setAsPrimaryBtn.addClass("btn-warning");
+          $setAsPrimaryBtn.text(options.l10n.keygrid_primary_label);
+          $setAsPrimaryBtn.removeAttr("data-primarykeyid");
+        } else {
+          $setAsPrimaryBtn.removeClass("btn-warning");
+          $setAsPrimaryBtn.prop('disabled', false);
+          $setAsPrimaryBtn.attr("data-primarykeyid", $keyData.attr('data-keyid'));
+          $setAsPrimaryBtn.append($("<span>")).text(options.l10n.key_set_as_primary);
+          $setAsPrimaryBtn.prepend('<span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>&nbsp;');
+        }
+        $setAsPrimaryBtn.on("click", setPrimaryKey);
       } else {
         $("#keyType .keyPair").hide();
+        $setAsPrimaryBtn.hide();
       }
       if ($keyData.attr('data-keyvalid') === 'true') {
         $("#keyInValid").hide();
@@ -276,6 +298,21 @@ var options = options || null;
       $('#keyEditor').modal({backdrop: 'static'});
       $("#keyEditor").modal("show");
     });
+  }
+
+  function setPrimaryKey() {
+    var primaryKeyId = $(this).attr("data-primarykeyid");
+    if (primaryKeyId !== undefined && primaryKeyId.length > 1) {
+      options.setKeyringAttr(options.keyringId, {
+        primary_key: primaryKeyId,
+      });
+      $(this).addClass("btn-warning");
+      $(this).text(options.l10n.keygrid_primary_label);
+      $(this).removeAttr("data-primarykeyid");
+      options.event.triggerHandler('keygrid-reload');
+    } else {
+      return false;
+    }
   }
 
   function openExportAllDialog() {
