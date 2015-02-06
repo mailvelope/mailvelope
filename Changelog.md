@@ -1,6 +1,26 @@
 Mailvelope Changelog
 ====================
 
+v0.12.0
+------
+__Feb. 5, 2015__
+
+  * Settings UI: replace Kendo UI components, use templating, replace short with long key ID
+  * Client-API: allow web applications to interact with Mailvelope (experimental)
+  * Client-API: documentation available at: https://mailvelope.github.io/mailvelope
+  * Client-API: unit tests available at: https://github.com/mailvelope/mailvelope-api-test
+  * [OpenPGP.js] Upgrade to v0.9.0: fix zlib/zip compression bug
+  * fix bug with quoted printable in armored blocks
+  * support nested MIME structure in PGP/MIME
+  * Enable JSCS style checking
+  * use flexbox to resize editor
+  * automated builds with travis-ci
+  * generate RSA 4096 bit keys by default
+  * restrict watchlist match pattern
+  * improve MIME detection
+  * defer loading of keyring
+  * localization updates. New languages: Arabic, Bulgarian, Dutch, Slovenian
+
 v0.11.0
 ------
 __Nov. 27, 2014__
