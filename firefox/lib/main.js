@@ -26,13 +26,13 @@ var unload = require('sdk/system/unload');
 var l10nGet = require("sdk/l10n").get;
 var browserVersion = parseInt(system.version.substr(0, 2));
 
-try {
-  var ToggleButton = require("sdk/ui/button/toggle").ToggleButton;
-} catch (e) {}
+var ToggleButton = require("sdk/ui/button/toggle").ToggleButton;
+var Panel = require('sdk/panel').Panel;
 
 checkStaticArgs();
 
 var mvelo = require('./lib-mvelo.js').mvelo;
+var model = require('./common/pgpViewModel');
 var controller = require('./common/controller/main.controller');
 var subController = require('./common/controller/sub.controller');
 var prefs = require('./common/prefs').data();
@@ -43,39 +43,8 @@ var pageMods = {};
 var eRecipientBuffer = {};
 var scannedHosts = [];
 
-var mailvelopePanel = require('sdk/panel').Panel({
-  width: 180,
-  height: 216,
-  contentURL: data.url('common/ui/popup.html'),
-  onMessage: onPanelMessage,
-  onHide: function() {
-    if (toggleButton) {
-      toggleButton.state('window', {checked: false});
-    }
-  }
-});
-
-function onPanelMessage(msg) {
-  //console.log('onPanelMessage', mailvelopePanel.postMessage);
-  controller.handleMessageEvent(msg, null, mailvelopePanel.postMessage.bind(mailvelopePanel));
-  mailvelopePanel.hide();
-}
-
-var toggleButton = new ToggleButton({
-  id: 'mailvelope-options',
-  label: 'mailvelope-options',
-  icon: {
-    '16': data.url('common/img/cryptography-icon16.png'),
-    '48': data.url('common/img/cryptography-icon48.png')
-  },
-  onChange: function(state) {
-    if (state.checked) {
-      mailvelopePanel.show({
-        position: toggleButton
-      });
-    }
-  }
-});
+var mailvelopePanel = null;
+var toggleButton = null;
 
 unload.when(function(reason) {
   // reason is never 'uninstall' https://bugzilla.mozilla.org/show_bug.cgi?id=571049
@@ -104,12 +73,49 @@ function init() {
     activate: activatePageMods,
     deactivate: deactivate
   });
+  model.init();
+  initAddonButton();
   if (prefs.main_active) {
     activatePageMods();
   }
 }
 
 init();
+
+function onPanelMessage(msg) {
+  //console.log('onPanelMessage', mailvelopePanel.postMessage);
+  controller.handleMessageEvent(msg, null, mailvelopePanel.postMessage.bind(mailvelopePanel));
+  mailvelopePanel.hide();
+}
+
+function initAddonButton() {
+  mailvelopePanel = new Panel({
+    width: 180,
+    height: 216,
+    contentURL: data.url('common/ui/popup.html'),
+    onMessage: onPanelMessage,
+    onHide: function() {
+      if (toggleButton) {
+        toggleButton.state('window', {checked: false});
+      }
+    }
+  });
+  toggleButton = new ToggleButton({
+    id: 'mailvelope-options',
+    label: 'mailvelope-options',
+    icon: {
+      '16': data.url('common/img/cryptography-icon16.png'),
+      '48': data.url('common/img/cryptography-icon48.png')
+    },
+    onChange: function(state) {
+      if (state.checked) {
+        mailvelopePanel.show({
+          position: toggleButton
+        });
+      }
+    }
+  });
+}
 
 function activatePageMods() {
   injectMainCS();

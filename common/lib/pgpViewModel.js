@@ -31,9 +31,13 @@ define(function(require, exports, module) {
     });
   }
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
-  var keyring = new openpgp.Keyring();
+  var keyring = null;
 
   var watchListBuffer = null;
+
+  function init() {
+    keyring = new openpgp.Keyring();
+  }
 
   function getKeys() {
     // map keys to UI format
@@ -127,6 +131,7 @@ define(function(require, exports, module) {
 
   exports.setOpenPGPComment = setOpenPGPComment;
   exports.setOpenPGPVersion = setOpenPGPVersion;
+  exports.init = init;
   exports.getKeys = getKeys;
   exports.getPublicKeys = getPublicKeys;
   exports.getPrivateKeys = getPrivateKeys;
