@@ -78,6 +78,7 @@ define([
       activate: function() {},
       deactivate: function() {}
     });
+    model.init();
     migrate();
     initConnectionManager();
     //initContextMenu();

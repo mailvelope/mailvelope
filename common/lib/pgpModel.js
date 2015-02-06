@@ -32,9 +32,12 @@ define(function(require, exports, module) {
   }
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
   var keyring = require('./keyring');
-  keyring.init();
 
   var watchListBuffer = null;
+
+  function init() {
+    keyring.init();
+  }
 
   function setOpenPGPComment(text) {
     openpgp.config.commentstring = text;
@@ -44,6 +47,7 @@ define(function(require, exports, module) {
     openpgp.config.versionstring = text;
   }
 
+  exports.init = init;
   exports.setOpenPGPComment = setOpenPGPComment;
   exports.setOpenPGPVersion = setOpenPGPVersion;
 
