@@ -21,6 +21,7 @@ define(function(require, exports, module) {
 
   var mvelo = require('../lib-mvelo').mvelo;
   var model = require('./pgpViewModel');
+  var openpgp = require('openpgp');
 
   var defaults = mvelo.data.loadDefaults();
 
@@ -38,10 +39,10 @@ define(function(require, exports, module) {
   }
 
   function initSecurityBgnd(pref) {
-    pref.security.secureBgndAngle =  mvelo.util.getRandomNumber(0, 120) - 60;
-    pref.security.secureBgndScaling = mvelo.util.getRandomNumber(9, 15) / 10;
-    pref.security.secureBgndWidth = mvelo.util.getRandomNumber(30, 60);
-    pref.security.secureBgndHeight = mvelo.util.getRandomNumber(30, 60);
+    pref.security.secureBgndAngle =  openpgp.crypto.random.getSecureRandom(0, 120) - 60;
+    pref.security.secureBgndScaling = openpgp.crypto.random.getSecureRandom(9, 15) / 10;
+    pref.security.secureBgndWidth = openpgp.crypto.random.getSecureRandom(30, 60);
+    pref.security.secureBgndHeight = openpgp.crypto.random.getSecureRandom(30, 60);
   }
 
   function init() {
