@@ -25,6 +25,7 @@ define(function(require, exports, module) {
   var defaults = require('../defaults');
   var prefs = require('../prefs');
   var sub = require('./sub.controller');
+  var openpgp = require('openpgp');
 
   sub.factory.register('dFrame', require('./decrypt.controller').DecryptController);
   sub.factory.register('decryptCont', require('./decrypt.controller').DecryptController);
@@ -93,10 +94,10 @@ define(function(require, exports, module) {
           scaling: prefs.data().security.secureBgndScaling,
           width: prefs.data().security.secureBgndWidth,
           height: prefs.data().security.secureBgndHeight
-          //angle: mvelo.util.getRandomNumber(0, 120) - 60, // (10, 350) | (0, 120) - 60
-          //scaling: mvelo.util.getRandomNumber(9, 15) / 10,
-          //width: mvelo.util.getRandomNumber(30, 60),
-          //height: mvelo.util.getRandomNumber(30, 60)
+          //angle: openpgp.crypto.random.getSecureRandom(0, 120) - 60, // (10, 350) | (0, 120) - 60
+          //scaling: openpgp.crypto.random.getSecureRandom(9, 15) / 10,
+          //width: openpgp.crypto.random.getSecureRandom(30, 60),
+          //height: openpgp.crypto.random.getSecureRandom(30, 60)
         });
         break;
       case 'get-version':
