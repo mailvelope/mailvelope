@@ -101,7 +101,7 @@ var options = options || null;
   function onClear() {
     $('#generateKey').find('input').val('');
     $('#genKeyAlgo').val('RSA/RSA');
-    $('#genKeySize').val('2048');
+    $('#genKeySize').val('4096');
     $('#genKeyExp').val('0')
                    .prop('disabled', true);
     $('#genKeyExpUnit').val(options.l10n.key_gen_never)
