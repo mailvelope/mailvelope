@@ -35,11 +35,7 @@
 .ext-color-exe  { background-color: #4b4a4a !important; }
 
 .attachmentButton {
-<<<<<<< HEAD
-    color: #5E5E5E;
-=======
     color: #5E5E5E !important;
->>>>>>> implementing security background embedded email read
     font-weight: normal;
     font-family: Verdana, Geneva, sans-serif;
     font-size: 11px;
