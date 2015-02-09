@@ -303,11 +303,6 @@ input[readonly] {
     word-wrap: break-word;
 }
 
-#keyringList {
-    margin-top: -10px;
-    width: 100%;
-}
-
 .addedSiteFade {
     -webkit-animation: pulse1 4s linear 1;
     -moz-animation: pulse1 4s linear 1;
@@ -375,6 +370,15 @@ input[readonly] {
 
 button.keyDetailsBtn, button.keyDeleteBtn {
     min-width: 30px;
+}
+
+#keyringList {
+/*    margin-top: -5px;*/
+    width: 100%;
+}
+
+#keyringSwitcherCaret {
+    margin-top: 8px;
 }
 
 #keyring li.flex-container {
