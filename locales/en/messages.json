@@ -411,6 +411,10 @@
     "message": "An exception occured while processing the keys",
     "description": "Import error alert."
   },
+  "key_import_too_big": {
+    "message": "The key text you tried to import is too long to handle. Try doing it in smaller parts.",
+    "description": "Import error alert."
+  },
   "alert_invalid_domainmatchpattern_warning": {
     "message": "Domain match pattern should begin with *.",
     "description": "Alert header of category warning."
