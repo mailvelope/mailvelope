@@ -519,6 +519,10 @@
     "description": "Label",
     "message": "Import key as text"
   },
+  "key_import_too_big": {
+    "message": "The key text you tried to import is too long to handle. Try doing it in smaller parts.",
+    "description": "Import error alert."
+  },
   "key_import_unable": {
     "description": "Import error message: $1: error message.",
     "message": "Unable to import a key due to exception: $1"
