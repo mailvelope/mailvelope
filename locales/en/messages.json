@@ -403,6 +403,10 @@
     "message": "Select a key text file to import",
     "description": "File selection button label."
   },
+  "key_import_dialog_header": {
+    "message": "Add key to keyring",
+    "description": "Key import dialog header."
+  },
   "form_submit": {
     "message": "Submit",
     "description": "Submit form button."

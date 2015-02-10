@@ -186,7 +186,12 @@
   /**
    * Asks the user if they want to import the public key.
    * @param {AsciiArmored} armored - public key to import
-   * @returns {Promise.<undefined>}
+   * @returns {Promise.<String, Error>} 'IMPORTED' - key has been imported <br>
+                                        'UPDATED' - key already in keyring, new key merged with existing key <br>
+                                        'INVALIDATED' - key has been updated, new status of key is 'invalid' (e.g. revoked) <br>
+                                        'REJECTED' - key import rejected by user
+     @throws {Error} error.code = 'IMPORT_ERROR' <br>
+                     error.code = 'WRONG_ARMORED_TYPE'
    */
   Keyring.prototype.importPublicKey = function(armored) {
     return postMessage('import-pub-key', {identifier: this.identifier, armored: armored});

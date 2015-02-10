@@ -72,7 +72,14 @@ define(function(require, exports, module) {
   }
 
   function getById(keyringId) {
-    return keyringMap.get(keyringId);
+    var keyring = keyringMap.get(keyringId);
+    if (keyring) {
+      return keyring;
+    } else {
+      var error = new Error('No keyring found for this identifier.');
+      error.code = 'NO_KEYRING_FOR_ID';
+      throw error;
+    }
   }
 
   function getAllKeyringAttr() {
@@ -102,6 +109,15 @@ define(function(require, exports, module) {
     }
   }
 
+  function readKey(armored) {
+    var parsedKey = openpgp.key.readArmored(armored);
+    if (parsedKey.err) {
+      return parsedKey;
+    }
+    parsedKey.keys = mapKeys(parsedKey.keys);
+    return parsedKey;
+  }
+
   exports.init = init;
   exports.createKeyring = createKeyring;
   exports.deleteKeyring = deleteKeyring;
@@ -109,6 +125,7 @@ define(function(require, exports, module) {
   exports.setKeyringAttr = setKeyringAttr;
   exports.getById = getById;
   exports.getUserId = getUserId;
+  exports.readKey = readKey;
 
   function Keyring(keyringId) {
     this.id = keyringId;
@@ -163,7 +180,8 @@ define(function(require, exports, module) {
       uiKey.fingerprint = uiKey.guid.toUpperCase();
       // primary user
       try {
-        var address = goog.format.EmailAddress.parse(getUserId(key));
+        uiKey.userId = getUserId(key);
+        var address = goog.format.EmailAddress.parse(uiKey.userId);
         uiKey.name = address.getName();
         uiKey.email = address.getAddress();
         uiKey.exDate = key.getExpirationTime();

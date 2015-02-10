@@ -171,6 +171,7 @@ mvelo.domAPI.eventListener = function(event) {
 mvelo.domAPI.getKeyring = function(keyringId, callback) {
   mvelo.extension.sendMessage({
     event: 'get-keyring',
+    api_event: true,
     keyringId: keyringId,
   }, function(result) {
     callback(result.error, result.data);
@@ -180,6 +181,7 @@ mvelo.domAPI.getKeyring = function(keyringId, callback) {
 mvelo.domAPI.createKeyring = function(keyringId, callback) {
   mvelo.extension.sendMessage({
     event: 'create-keyring',
+    api_event: true,
     keyringId: keyringId,
   }, function(result) {
     callback(result.error, result.data);
@@ -226,6 +228,7 @@ mvelo.domAPI.editorEncrypt = function(editorId, recipients, callback) {
 mvelo.domAPI.validKeyForAddress = function(keyringId, recipients, callback) {
   mvelo.extension.sendMessage({
     event: 'query-valid-key',
+    api_event: true,
     keyringId: keyringId,
     recipients: recipients
   }, function(result) {
@@ -236,6 +239,7 @@ mvelo.domAPI.validKeyForAddress = function(keyringId, recipients, callback) {
 mvelo.domAPI.exportOwnPublicKey = function(keyringId, emailAddr, callback) {
   mvelo.extension.sendMessage({
     event: 'export-own-pub-key',
+    api_event: true,
     keyringId: keyringId,
     emailAddr: emailAddr
   }, function(result) {
@@ -244,6 +248,26 @@ mvelo.domAPI.exportOwnPublicKey = function(keyringId, emailAddr, callback) {
 };
 
 mvelo.domAPI.importPublicKey = function(keyringId, armored, callback) {
-  // TODO
-  callback();
+  var error;
+  switch (mvelo.main.getMessageType(armored)) {
+    case mvelo.PGP_PUBLIC_KEY:
+      // ok
+      break;
+    case mvelo.PGP_PRIVATE_KEY:
+      error = new Error('No import of private PGP keys allowed.');
+      error.code = 'WRONG_ARMORED_TYPE';
+      throw error;
+    default:
+      error = new Error('No valid armored block found.');
+      error.code = 'WRONG_ARMORED_TYPE';
+      throw error;
+  }
+  mvelo.extension.sendMessage({
+    event: 'import-pub-key',
+    api_event: true,
+    keyringId: keyringId,
+    armored: armored
+  }, function(result) {
+    callback(result.error, result.data);
+  });
 };

@@ -26,11 +26,13 @@ define(function(require, exports, module) {
   var prefs = require('../prefs');
   var sub = require('./sub.controller');
   var openpgp = require('openpgp');
+  var api = require('./api.controller');
 
   sub.factory.register('dFrame', require('./decrypt.controller').DecryptController);
   sub.factory.register('decryptCont', require('./decrypt.controller').DecryptController);
   sub.factory.register('eFrame', require('./encrypt.controller').EncryptController);
   sub.factory.register('imFrame', require('./import.controller').ImportController);
+  sub.factory.register('importKeyDialog', require('./import.controller').ImportController);
   sub.factory.register('mainCS', require('./mainCs.controller').MainCsController);
   sub.factory.register('vFrame', require('./verify.controller').VerifyController);
   sub.factory.register('pwdDialog', require('./pwd.controller').PwdController);
@@ -50,6 +52,9 @@ define(function(require, exports, module) {
 
   function handleMessageEvent(request, sender, sendResponse) {
     //console.log('controller: handleMessageEvent', request);
+    if (request.api_event) {
+      return api.handleApiEvent(request, sender, sendResponse);
+    }
     switch (request.event) {
       case 'pgpmodel':
         return methodEvent(model, request, sendResponse);
@@ -136,47 +141,6 @@ define(function(require, exports, module) {
         break;
       case 'open-popup':
         mvelo.windows.openPopup(request.url);
-        break;
-      /*
-      Client-API
-       */
-      case 'get-keyring':
-        if (keyring.getById(request.keyringId)) {
-          sendResponse({data: true});
-        } else {
-          sendResponse({error: {message: 'No keyring found for this identifier.', code: 'NO_KEYRING_FOR_ID'}});
-        }
-        break;
-      case 'create-keyring':
-        try {
-          if (keyring.createKeyring(request.keyringId)) {
-            sendResponse({data: true});
-          }
-        } catch (e) {
-          sendResponse({error: {message: e.message, code: e.code}});
-        }
-        break;
-      case 'query-valid-key':
-        var keyIdMap = keyring.getById(request.keyringId).getKeyIdByAddress(request.recipients, {validity: true});
-        Object.keys(keyIdMap).forEach(function(email) {
-          if (keyIdMap[email]) {
-            keyIdMap[email] = {};
-          }
-        });
-        sendResponse({error: null, data: keyIdMap});
-        break;
-      case 'export-own-pub-key':
-        var keyIdMap = keyring.getById(request.keyringId).getKeyIdByAddress([request.emailAddr], {validity: true, pub: false, priv: true});
-        if (!keyIdMap[request.emailAddr]) {
-          sendResponse({error: {message: 'No key pair found for this email address.', code: 'NO_KEY_FOR_ADDRESS'}});
-          return;
-        }
-        // only take first valid key
-        if (keyIdMap[request.emailAddr].length > 1) {
-          keyIdMap[request.emailAddr].length = 1;
-        }
-        var armored = keyring.getById(request.keyringId).getArmoredKeys(keyIdMap[request.emailAddr], {pub: true});
-        sendResponse({error: null, data: armored[0].armoredPublic});
         break;
       default:
         console.log('unknown event:', request);

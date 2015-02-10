@@ -247,6 +247,7 @@ function injectMessageAdapter() {
       data.url('common/ui/modal/verifyPopup.html*'),
       data.url('common/ui/editor/editor.html*'),
       data.url('common/ui/modal/pwdDialog.html*'),
+      data.url('common/ui/modal/importKeyDialog.html*'),
       data.url('common/ui/options.html*')
     ],
     onAttach: onCsAttach,

@@ -23,6 +23,15 @@ define(function(require, exports, module) {
 
   function ImportController(port) {
     sub.SubController.call(this, port);
+    if (!port) {
+      this.mainType = 'importKeyDialog';
+      this.id = this.mvelo.util.getHash();
+    }
+    this.armored = null;
+    this.done = null;
+    this.importPopup = null;
+    this.keyring = require('../keyring');
+    this.importError = false;
   }
 
   ImportController.prototype = Object.create(sub.SubController.prototype);
@@ -40,9 +49,67 @@ define(function(require, exports, module) {
           });
         });
         break;
+      case 'key-import-dialog-init':
+        if (this.keys.keys.length > 1) {
+          this.ports.importKeyDialog.postMessage({event: 'import-warning', message: 'More than 1 key in armored block.'});
+        }
+        if (!this.key.validity) {
+          this.ports.importKeyDialog.postMessage({event: 'import-error', message: 'Key is not valid.'});
+        }
+        this.ports.importKeyDialog.postMessage({event: 'key-details', key: this.key});
+        break;
+      case 'key-import-dialog-ok':
+        var importResult = this.keyring.getById(this.keyringId).importKeys([{type: 'public', armored: this.armored}])[0];
+        if (importResult.type === 'error') {
+          this.ports.importKeyDialog.postMessage({event: 'import-error', message: importResult.message});
+          this.importError = true;
+        } else if (importResult.type === 'success') {
+          this.importPopup.close();
+          this.importPopup = null;
+          this.done(null, 'IMPORTED');
+        } else {
+          this.done({message: 'An error occured during key import', code: 'IMPORT_ERROR'});
+        }
+        break;
+      case 'key-import-dialog-cancel':
+        this.importPopup.close();
+        this.importPopup = null;
+        if (this.importError) {
+          this.done({message: 'An error occured during key import', code: 'IMPORT_ERROR'});
+        } else {
+          this.done(null, 'REJECTED');
+        }
+        break;
       default:
         console.log('unknown event', msg);
     }
+  };
+
+  ImportController.prototype.importKey = function(keyringId, armored, callback) {
+    var that = this;
+    this.keyringId = keyringId;
+    // check keyringId
+    this.keyring.getById(keyringId);
+    this.armored = armored;
+    this.done = callback;
+
+    this.keys = this.keyring.readKey(this.armored);
+    if (this.keys.err) {
+      callback({message: this.keys.err[0].message, code: 'IMPORT_ERROR'});
+      return;
+    }
+    this.key = this.keys.keys[0];
+    if (this.key.type === 'private') {
+      callback({message: 'Import of private keys not allowed.', code: 'IMPORT_ERROR'});
+      return;
+    }
+    if (this.keys.keys.length > 1) {
+      // only import first key in armored block
+      this.armored = this.key.armor();
+    }
+    this.mvelo.windows.openPopup('common/ui/modal/importKeyDialog.html?id=' + this.id, {width: 510, height: 385, modal: false}, function(window) {
+      that.importPopup = window;
+    });
   };
 
   exports.ImportController = ImportController;

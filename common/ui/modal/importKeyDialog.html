@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+   - Mailvelope - secure email with OpenPGP encryption for Webmail
+   - Copyright (C) 2015  Thomas Oberndörfer
+  -->
+  <title data-l10n-id="keyring_import_keys"></title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../../dep/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="importKeyDialog.css">
+  <link rel="stylesheet" href="../mvelo.css">
+  <script src="../../dep/jquery.min.js"></script>
+  <script src="../../dep/jquery.ext.js"></script>
+  <script src="../mvelo.js"></script>
+  <script src="importKeyDialog.js"></script>
+</head>
+<body>
+  <div class="modal m-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" data-l10n-id="key_import_dialog_header"></h4>
+        </div>
+        <div class="modal-body">
+          <form class="well">
+            <div class="form-group">
+              <label for="userId" data-l10n-id="keygrid_user_name"></label>
+              <input id="userId" class="form-control" disabled>
+            </div>
+            <div class="form-group">
+              <label for="keyId" data-l10n-id="keygrid_key_fingerprint"></label>
+              <input id="fingerprint" class="form-control" disabled>
+            </div>
+            <div id="importAlert"></div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button id="cancelBtn" class="btn btn-default" data-l10n-id="form_cancel"></button>
+          <button id="okBtn" class="btn btn-primary" data-l10n-id="form_ok"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="spinner"></div>
+</body>
+</html>
