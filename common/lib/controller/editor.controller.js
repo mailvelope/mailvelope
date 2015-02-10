@@ -38,6 +38,7 @@ define(function(require, exports, module) {
     this.pwdControl = null;
     this.keyring = require('../keyring');
     this.mailbuild = require('../../mailbuild');
+    this.pgpMIME = false;
   }
 
   EditorController.prototype = Object.create(sub.SubController.prototype);
@@ -90,6 +91,7 @@ define(function(require, exports, module) {
         this.ports.editor.postMessage({event: 'get-plaintext', action: 'encrypt'});
         break;
       case 'editor-container-encrypt':
+        this.pgpMIME = true;
         this.keyringId = msg.keyringId;
         var keyIdMap = this.keyring.getById(this.keyringId).getKeyIdByAddress(msg.recipients, {validity: true});
         if (Object.keys(keyIdMap).some(function(keyId) {
@@ -199,7 +201,7 @@ define(function(require, exports, module) {
         mainMessage.appendChild(attachmentMime);
       }
     }
-    if (hasAttachment) {
+    if (hasAttachment || this.pgpMIME) {
       composedMessage = mainMessage.build();
     } else {
       composedMessage = message;
