@@ -377,5 +377,5 @@ module.exports = function(grunt) {
 
   grunt.registerTask('copy_default', ['copy:vendor', 'copy:common', 'replace:bootstrap', 'copy:plugins', 'copy:common_browser', 'copy:locale_firefox', 'copy:dep']);
 
-  grunt.registerTask('default', ['clean', 'jshint', 'jscs', 'jsdoc', 'copy:jquery', 'concat', 'copy_default']);
+  grunt.registerTask('default', ['clean', 'jshint', 'jscs', 'copy:jquery', 'concat', 'copy_default']);
 };
