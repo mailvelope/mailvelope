@@ -537,4 +537,8 @@ define(function(require, exports, module) {
     };
   };
 
+  Keyring.prototype.getAttributes = function() {
+    return keyringAttr[this.id];
+  };
+
 });

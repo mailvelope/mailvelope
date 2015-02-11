@@ -42,8 +42,9 @@ define(function(require, exports, module) {
         this.ports.eFrame.postMessage(msg);
         break;
       case 'sign-dialog-init':
-        var keys = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID).getPrivateKeys();
-        var primary = this.prefs.data().general.primary_key;
+        var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
+        var keys = localKeyring.getPrivateKeys();
+        var primary = localKeyring.getAttributes().primary_key;
         this.mvelo.data.load('common/ui/inline/dialogs/templates/sign.html', function(content) {
           var port = that.ports.sDialog;
           port.postMessage({event: 'sign-dialog-content', data: content});
@@ -62,8 +63,9 @@ define(function(require, exports, module) {
         break;
       case 'eframe-recipient-proposal':
         var emails = this.mvelo.util.sortAndDeDup(msg.data);
-        var keys = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID).getKeyUserIDs(emails);
-        var primary = this.prefs.data().general.auto_add_primary && this.prefs.data().general.primary_key.toLowerCase();
+        var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
+        var keys = localKeyring.getKeyUserIDs(emails);
+        var primary = this.prefs.data().general.auto_add_primary && localKeyring.getAttributes().primary_key.toLowerCase();
         if (this.recipientsCallback) {
           this.recipientsCallback({ keys: keys, primary: primary });
           this.recipientsCallback = null;
