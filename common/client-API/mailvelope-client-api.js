@@ -93,7 +93,7 @@
    * @param {AsciiArmored} armored - the encrypted mail to display
    * @param {Keyring} keyring - the keyring to use for this operation
    * @param {DisplayContainerOptions} options
-   * @returns {Promise.<undefined>}
+   * @returns {Promise.<undefined, Error>}
    */
   Mailvelope.prototype.createDisplayContainer = function(selector, armored, keyring, options) {
     return postMessage('display-container', {selector: selector, armored: armored, identifier: keyring.identifier, options: options});
@@ -109,12 +109,12 @@
    */
 
   /**
-   * Creates an iframe to with an editor for a new encrypted mail.
+   * Creates an iframe with an editor for a new encrypted mail.
    * The iframe will be injected into the container identified by selector.
    * @param {CssSelector} selector - target container
    * @param {Keyring} keyring - the keyring to use for this operation
    * @param {EditorContainerOptions} options
-   * @returns {Promise.<Editor>}
+   * @returns {Promise.<Editor, Error>}
    * @example
    * mailvelope.createEditorContainer('#editor-element', keyring).then(function(editor) {
    *     // register event handler for mail client send button
@@ -137,7 +137,7 @@
    * The iframe will be injected into the container identified by selector.
    * @param {CssSelector} selector - target container
    * @param {Keyring} keyring - the keyring to use for the setup
-   * @returns {Promise.<undefined>}
+   * @returns {Promise.<undefined, Error>}
    */
   Mailvelope.prototype.createSettingsContainer = function(selector, keyring) {
     return postMessage('settings-container', {selector: selector, identifier: keyring.identifier});
@@ -150,15 +150,17 @@
    * @private
    * @alias Keyring
    * @param {string} identifier - the keyring identifier
+   * @property {number} logoRev - revision number of the keyring logo, initial value: 0
    */
   var Keyring = function(identifier) {
     this.identifier = identifier;
+    this.logoRev = 0;
   };
 
   /**
    * Checks for valid key in the keyring for provided email addresses
    * @param  {Array} recipients - list of email addresses for key lookup
-   * @return {Promise.<Object>} an object that maps email addresses to a status (false: no valid key, {}: valid key)
+   * @return {Promise.<Object, Error>} an object that maps email addresses to a status (false: no valid key, {}: valid key)
    * @example
    * keyring.validKeyForAddress(['abc@web.de', 'info@mailvelope.com']).then(function(result) {
    *     console.log(result); // {'abc@web.de': false, 'info@mailvelope.com': {}}
@@ -195,6 +197,23 @@
    */
   Keyring.prototype.importPublicKey = function(armored) {
     return postMessage('import-pub-key', {identifier: this.identifier, armored: armored});
+  };
+
+  /**
+   * Set logo for keyring. The image is persisted in Mailvelope with a revision number,
+   * therefore the method is only required after new keyring generation or if logo and revision number changes.
+   * @param {string} dataURL  - data-URL representing the logo, max. size: 10KB, content-type: image/png
+   * @param {number} revision - revision number
+   * @returns {Promise.<Boolean, Error>} true if logo successfully set
+   * @throws {Error} error.code = 'LOGO_INVALID'
+   * @example
+   * keyring.setLogo('data:image/png;base64,iVBORS==', 1).then(function(result) {
+   *   // result: true
+   * });
+   *
+   */
+  Keyring.prototype.setLogo = function(dataURL, revision) {
+    return postMessage('set-logo', {identifier: this.identifier, dataURL: dataURL, revision: revision});
   };
 
   /**
