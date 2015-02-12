@@ -107,6 +107,11 @@ define(function(require, exports, module) {
         msg.recipients.forEach(function(recipient) {
           keyIds = keyIds.concat(keyIdMap[recipient]);
         });
+        var primary = this.prefs.data().general.auto_add_primary &&
+                      this.keyring.getById(this.keyringId).getAttributes().primary_key.toLowerCase();
+        if (primary) {
+          keyIds.push(primary);
+        }
         this.keyidBuffer = this.mvelo.util.sortAndDeDup(keyIds);
         this.ports.editor.postMessage({event: 'get-plaintext', action: 'encrypt'});
         break;
