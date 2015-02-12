@@ -59,8 +59,11 @@ var options = options || null;
 
     options.keyring('getKeys', initKeyringTable);
 
+    $('#exportMenuBtn').off();
     $('#exportMenuBtn').click(openExportAllDialog);
+    $('#exportToCb2').off();
     $('#exportToCb2').click(exportToClipboard);
+    $('#createExportFile').off();
     $('#createExportFile').click(createFile);
     $('#keyringFilterBtn').off();
     $('#keyringFilterBtn').on("change", function() {
