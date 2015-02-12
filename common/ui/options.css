@@ -484,3 +484,15 @@ button.keyDetailsBtn, button.keyDeleteBtn {
     padding-top: 15px;
     padding-bottom: 15px;
 }
+
+.publicKey {
+    background: no-repeat url(../img/public-key.png);
+}
+
+.keyPair {
+    background: no-repeat url(../img/private-key.png);
+}
+
+.keyTypeDetails {
+    padding-left: 25px;
+}
