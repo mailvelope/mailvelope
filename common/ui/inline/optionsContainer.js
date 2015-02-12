@@ -37,9 +37,9 @@ mvelo.OptionsContainer.prototype.create = function(done) {
   this.container = document.createElement('iframe');
   var url;
   if (mvelo.crx) {
-    url = mvelo.extension.getURL('common/ui/options.html?krid=' + this.keyringId);
+    url = mvelo.extension.getURL('common/ui/options.html?krid=' + encodeURIComponent(this.keyringId));
   } else if (mvelo.ffa) {
-    url = 'about:blank?mvelo=options&krid=' + this.keyringId;
+    url = 'about:blank?mvelo=options&krid=' + encodeURIComponent(this.keyringId);
   }
   this.container.setAttribute('src', url);
   this.container.setAttribute('frameBorder', 0);
