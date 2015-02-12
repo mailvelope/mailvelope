@@ -136,11 +136,11 @@ var options = {};
 
       $keyringList.find(".keyRingName").on("click", switchKeyring);
       $keyringList.find(".deleteKeyRing").on("click", exports.deleteKeyring);
+    });
 
-      exports.getL10nMessages(Object.keys(l10n), function(result) {
-        exports.l10n = result;
-        event.triggerHandler('ready');
-      });
+    exports.getL10nMessages(Object.keys(l10n), function(result) {
+      exports.l10n = result;
+      event.triggerHandler('ready');
     });
   }
 
