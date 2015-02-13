@@ -217,8 +217,9 @@ mvelo.domAPI.editorContainer = function(selector, keyringId, options, callback) 
 };
 
 mvelo.domAPI.settingsContainer = function(selector, keyringId, callback) {
-  // TODO
-  callback();
+  var container = new mvelo.OptionsContainer(selector, keyringId);
+  this.containers.set(container.id, container);
+  container.create(callback);
 };
 
 mvelo.domAPI.editorEncrypt = function(editorId, recipients, callback) {

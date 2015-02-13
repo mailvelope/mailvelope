@@ -59,9 +59,8 @@ var options = options || null;
 
     options.keyring('getKeys', initKeyringTable);
 
+    $('#exportMenuBtn').off();
     $('#exportMenuBtn').click(openExportAllDialog);
-    $('#exportToCb2').click(exportToClipboard);
-    $('#createExportFile').click(createFile);
     $('#keyringFilterBtn').off();
     $('#keyringFilterBtn').on("change", function() {
       filterType = $(this).val();
@@ -272,13 +271,17 @@ var options = options || null;
       });
 
       // Init export tab
+      $('#exportToCb2').off();
+      $('#exportToCb2').click(exportToClipboard);
+      $('#createExportFile').off();
+      $('#createExportFile').click(createFile);
       $("#exportPublic").off();
-      $("#exportPrivate").off();
-      $("#exportKeyPair").off();
-      $("#exportTabSwitch").off();
       $("#exportPublic").on("click", initExportTab);
+      $("#exportPrivate").off();
       $("#exportPrivate").on("click", initExportTab);
+      $("#exportKeyPair").off();
       $("#exportKeyPair").on("click", initExportTab);
+      $("#exportTabSwitch").off();
       $("#exportTabSwitch").on("click", function() {
         $("#exportPublic").get(0).click();
       });
@@ -328,6 +331,11 @@ var options = options || null;
     $("#exportSwitcher").hide();
 
     $("#keyDetailsTabSwitcher #exportTabSwitch").tab("show");
+
+    $('#exportToCb2').off();
+    $('#exportToCb2').click(exportToClipboard);
+    $('#createExportFile').off();
+    $('#createExportFile').click(createFile);
 
     $('#keyEditor').modal({backdrop: 'static'});
     $("#keyEditor").modal("show");

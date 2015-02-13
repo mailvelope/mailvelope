@@ -9,11 +9,13 @@ $.extend({
     } else {
       qs = window.location.href.split('?')[1];
     }
-    var pairs = qs.split('&');
-    $.each(pairs, function(i, v){
-      var pair = v.split('=');
-      nvpair[pair[0]] = pair[1];
-    });
+    if(qs !== undefined) {
+      var pairs = qs.split('&');
+      $.each(pairs, function(i, v){
+        var pair = v.split('=');
+        nvpair[pair[0]] = pair[1];
+      });
+    }
     return nvpair;
   }
 });

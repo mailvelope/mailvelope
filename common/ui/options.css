@@ -359,6 +359,13 @@ input[readonly] {
     }
 }
 
+@media (max-width: 1000px) {
+    .monospaced {
+        white-space: normal;
+        word-wrap: break-word;
+    }
+}
+
 #settingsPanel {
     position: absolute;
     top: 60px;
@@ -375,6 +382,13 @@ button.keyDetailsBtn, button.keyDeleteBtn {
 #keyringList {
     margin-top: -8px;
     width: 100%;
+}
+
+#keyringSwitcherLabel {
+    width: 94%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
 }
 
 #keyringSwitcherCaret {
@@ -458,3 +472,27 @@ button.keyDetailsBtn, button.keyDeleteBtn {
     right: 0;
 }
 /* on/off switch end*/
+
+.navbar-nav {
+    float: left;
+    margin: 0;
+}
+.navbar-nav > li {
+    float: left;
+}
+.navbar-nav > li > a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.publicKey {
+    background: no-repeat url(../img/public-key.png);
+}
+
+.keyPair {
+    background: no-repeat url(../img/private-key.png);
+}
+
+.keyTypeDetails {
+    padding-left: 25px;
+}

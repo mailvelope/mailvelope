@@ -25,15 +25,10 @@ var options = options || null;
   function init() {
     loadPrefs();
     $('#genReloadInfo').hide();
-    // this is triggered on startup
-    options.event.on('keygrid-data-change', keyRingUpdate);
-    // change event enables form buttons
-    $('#general input, #primaryKey').on('input change', function() {
-      $('#general .form-group button').prop('disabled', false);
-      $('#genReloadInfo').hide();
+    $('#autoAddPrimary').on('change', function() {
+      $('#genBtnSave').prop("disabled", false);
+      $('#genBtnCancel').prop("disabled", false);
     });
-    // empty selection disables primary key options
-    $('#primaryKey').on('change', onPrimaryChange);
     $('#genBtnSave').click(onSave);
     $('#genBtnCancel').click(onCancel);
     // disable editor selection
@@ -47,7 +42,6 @@ var options = options || null;
     var update = {
       general: {
         editor_type: $('input:radio[name="editorRadios"]:checked').val(),
-        primary_key: $('#primaryKey > option:selected').val(),
         auto_add_primary: $('#autoAddPrimary:checked').length !== 0
       }
     };
@@ -60,7 +54,6 @@ var options = options || null;
 
   function onCancel() {
     normalize();
-    clearPrimarySelect();
     loadPrefs();
     return false;
   }
@@ -76,68 +69,12 @@ var options = options || null;
     $('#genReloadInfo').hide();
   }
 
-  function initPrimarySelect(callback) {
-    $('#primaryKey').empty()
-                    .append($('<option/>'));
-    loadPrivateKeys(function() {
-      clearPrimarySelect();
-      callback();
-    });
-  }
-
-  function onPrimaryChange() {
-    if ($('#primaryKey > option:selected').val() === '') {
-      $('#autoAddPrimary').prop('checked', false)
-                          .prop('disabled', true);
-    } else {
-      $('#autoAddPrimary').prop('disabled', false);
-    }
-  }
-
-  function clearPrimarySelect() {
-    $('#primaryKey > option:first').prop('selected', true);
-    $('#autoAddPrimary').prop('checked', false)
-                        .prop('disabled', true);
-  }
-
-  function keyRingUpdate() {
-    // init primary select and call save if primary_key was deleted
-    initPrimarySelect(function() {
-      loadPrefs(function(prefs) {
-        if (prefs.general.primary_key !== $('#primaryKey > option:selected').val()) {
-          onSave();
-        } else {
-          normalize();
-        }
-      });
-    });
-  }
-
-  function loadPrivateKeys(callback) {
-    options.keyring('getPrivateKeys', function(err, keys) {
-      var select = $('#primaryKey');
-      keys && keys.forEach(function(key) {
-        select.append($('<option/>', {
-          value: key.id,
-          text: key.name + ' <' + key.email + '> - ' + key.id.toUpperCase()
-        }));
-      });
-      callback();
-    });
-  }
-
   function loadPrefs(callback) {
     options.pgpModel('getPreferences', function(err, prefs) {
+      $('#autoAddPrimary').prop('checked', prefs.general.auto_add_primary);
       $('input:radio[name="editorRadios"]').filter(function() {
         return $(this).val() === prefs.general.editor_type;
       }).prop('checked', true);
-      $('#primaryKey > option').filter(function() {
-        return $(this).val() === prefs.general.primary_key;
-      }).prop('selected', true);
-      if (prefs.general.auto_add_primary) {
-        $('#autoAddPrimary').prop('checked', true);
-      }
-      onPrimaryChange();
       if (callback) {
         callback(prefs);
       }

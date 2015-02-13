@@ -125,6 +125,7 @@ function activatePageMods() {
   injectEncryptDialog();
   injectSignDialog();
   injectEmbeddedEditor();
+  injectEmbeddedOptions();
 }
 
 function deactivate() {
@@ -375,6 +376,41 @@ function injectEmbeddedEditor() {
       data.url("common/dep/bootstrap/css/bootstrap.css"),
       data.url("common/ui/mvelo.css"),
       data.url("common/ui/editor/editor.css")
+    ],
+    contentScriptWhen: 'ready',
+    contentScriptOptions: {
+      expose_messaging: false,
+      data_path: data.url()
+    }
+  });
+}
+
+function injectEmbeddedOptions() {
+  pageMods.embeddedOptionsPageMod = pageMod.PageMod({
+    include: 'about:blank?mvelo=options*',
+    onAttach: onCsAttach,
+    contentScriptFile: [
+      data.url('common/dep/jquery.min.js'),
+      data.url('common/dep/jquery.ext.js'),
+      data.url('ui/messageAdapter.js'),
+      data.url('common/dep/bootstrap/js/bootstrap.js'),
+      data.url('common/dep/bootstrap-sortable/bootstrap-sortable.js'),
+      data.url('common/ui/mvelo.js'),
+      data.url('common/ui/options.js'),
+      data.url('common/ui/modal/secureToken.js'),
+      data.url('common/ui/settings/watchList.js'),
+      data.url('common/ui/settings/security.js'),
+      data.url('common/ui/settings/general.js'),
+      data.url('common/ui/keyring/keyRing.js'),
+      data.url('common/ui/keyring/importKey.js'),
+      data.url('common/ui/keyring/generateKey.js')
+    ],
+    contentStyleFile: [
+      data.url("common/dep/bootstrap/css/bootstrap.css"),
+      data.url("common/dep//bootstrap-sortable/bootstrap-sortable.css"),
+      data.url("common/ui/mvelo.css"),
+      data.url("common/ui/options.css"),
+      data.url("common/ui/providers.css")
     ],
     contentScriptWhen: 'ready',
     contentScriptOptions: {

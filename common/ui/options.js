@@ -31,32 +31,50 @@ var options = {};
   var l10n = {};
   var keyringTmpl;
   var $keyringList;
+  var mail123Suffix = "123mail.zt";
 
   function init() {
     initMessageListener();
+
+    window.Promise.resolve(
+      mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/settings/tpl/main.html'))
+    ).then(function() {
+      window.Promise.all([
+        mvelo.appendTpl($('#general'), mvelo.extension.getURL('common/ui/settings/tpl/general.html')),
+        mvelo.appendTpl($('#security'), mvelo.extension.getURL('common/ui/settings/tpl/security.html')),
+        mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('common/ui/settings/tpl/watchList.html')),
+        mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('common/ui/settings/tpl/watchListEditor.html')),
+        mvelo.appendTpl($('#displayKeys'), mvelo.extension.getURL('common/ui/keyring/tpl/displayKeys.html')),
+        mvelo.appendTpl($('#displayKeys'), mvelo.extension.getURL('common/ui/keyring/tpl/keyEditor.html')),
+        mvelo.appendTpl($('#importKey'), mvelo.extension.getURL('common/ui/keyring/tpl/importKey.html')),
+        mvelo.appendTpl($('#exportsKey'), mvelo.extension.getURL('common/ui/keyring/tpl/exportKeys.html')),
+        mvelo.appendTpl($('#setupProvider'), mvelo.extension.getURL('common/ui/keyring/tpl/setupProvider.html')),
+        mvelo.appendTpl($('#generateKey'), mvelo.extension.getURL('common/ui/keyring/tpl/generateKey.html'))
+      ]).then(initUI);
+    });
+  }
+
+  function initUI() {
     mvelo.extension.sendMessage({
       event: "get-version"
     }, function(version) {
       $('#version').text(version);
     });
 
-    window.Promise.all([
-      mvelo.appendTpl($('#general'), 'settings/tpl/general.html'),
-      mvelo.appendTpl($('#security'), 'settings/tpl/security.html'),
-      mvelo.appendTpl($('#watchList'), 'settings/tpl/watchList.html'),
-      mvelo.appendTpl($('#watchList'), 'settings/tpl/watchListEditor.html'),
-      mvelo.appendTpl($('#displayKeys'), 'keyring/tpl/displayKeys.html'),
-      mvelo.appendTpl($('#displayKeys'), 'keyring/tpl/keyEditor.html'),
-      mvelo.appendTpl($('#importKey'), 'keyring/tpl/importKey.html'),
-      mvelo.appendTpl($('#exportsKey'), 'keyring/tpl/exportKeys.html'),
-      mvelo.appendTpl($('#setupProvider'), 'keyring/tpl/setupProvider.html'),
-      mvelo.appendTpl($('#generateKey'), 'keyring/tpl/generateKey.html')
-    ]).then(initUI);
-  }
+    var qs = jQuery.parseQuerystring();
+    var krid = decodeURIComponent(qs.krid);
+    if (qs.krid !== undefined) {
+      setKeyRing(krid, krid.split(mvelo.KEYRING_DELIMITER)[0] + " (" + krid.split(mvelo.KEYRING_DELIMITER)[1] + ")");
+    } else {
+      // Setting the default keyring to mailvelope
+      setKeyRing(mvelo.LOCAL_KEYRING_ID, "Mailvelope", "mailvelope");
+    }
 
-  function initUI() {
-    // Setting the default keyring to mailvelope
-    setKeyRing(mvelo.LOCAL_KEYRING_ID, "Mailvelope", "mailvelope");
+    exports.registerL10nMessages([
+      "keygrid_user_email"
+    ]);
+
+    customize123Mail(krid);
 
     mvelo.l10n.localizeHTML();
     mvelo.util.showSecurityBackground();
@@ -118,17 +136,17 @@ var options = {};
 
       $keyringList.find(".keyRingName").on("click", switchKeyring);
       $keyringList.find(".deleteKeyRing").on("click", exports.deleteKeyring);
+    });
 
-      exports.getL10nMessages(Object.keys(l10n), function(result) {
-        exports.l10n = result;
-        event.triggerHandler('ready');
-      });
+    exports.getL10nMessages(Object.keys(l10n), function(result) {
+      exports.l10n = result;
+      event.triggerHandler('ready');
     });
   }
 
   function setKeyRing(keyringId, keyringName, providerStyling, primaryKeyId) {
     var $settingsArea = $("#settingsArea");
-    $("#providerChangerText").text(keyringName);
+    $("#keyringSwitcherLabel").text(keyringName);
     exports.keyringId = keyringId;
     exports.providerStyling = providerStyling;
 
@@ -146,14 +164,30 @@ var options = {};
   }
 
   function switchKeyring() {
+    var keyringId = $(this).attr("keyringId");
     setKeyRing(
-      $(this).attr("keyringId"),
+      keyringId,
       $(this).text(),
       $(this).attr("providerStyling"),
       $(this).attr("primaryKeyId")
     );
+
+    $("#genKeyEmailLabel").removeAttr("data-l10n-id");
+
+    customize123Mail(keyringId);
+
     mvelo.util.showLoadingAnimation();
     options.event.triggerHandler('keygrid-reload');
+
+    $('#displayKeysButton').get(0).click();
+  }
+
+  function customize123Mail(keyringId) {
+    if ((keyringId.indexOf(mail123Suffix) > 3)) {
+      $("#genKeyEmailLabel").text("123Mail");
+    } else {
+      $("#genKeyEmailLabel").text(exports.l10n.keygrid_user_email);
+    }
   }
 
   function initMessageListener() {
