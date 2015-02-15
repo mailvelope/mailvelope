@@ -480,7 +480,7 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "keygrid_key_fingerprint": {
-        "message": "ongeldig",
+        "message": "Vingerafdruk",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_sort_type": {
