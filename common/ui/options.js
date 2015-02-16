@@ -70,7 +70,7 @@ var options = {};
       setKeyRing(mvelo.LOCAL_KEYRING_ID, "Mailvelope", "mailvelope");
     }
 
-    exports.registerL10nMessages([
+    registerL10nMessages([
       "keygrid_user_email"
     ]);
 
@@ -99,7 +99,7 @@ var options = {};
       }
     });
 
-    exports.getAllKeyringAttr(function(data) {
+    getAllKeyringAttr(function(data) {
       if (data === undefined) {
         return false;
       }
@@ -138,7 +138,7 @@ var options = {};
       $keyringList.find(".deleteKeyRing").on("click", exports.deleteKeyring);
     });
 
-    exports.getL10nMessages(Object.keys(l10n), function(result) {
+    getL10nMessages(Object.keys(l10n), function(result) {
       exports.l10n = result;
       event.triggerHandler('ready');
     });
@@ -224,19 +224,19 @@ var options = {};
     }
   }
 
-  exports.reloadOptions = function() {
+  function reloadOptions() {
     document.location.reload();
-  };
+  }
 
-  exports.getAllKeyringAttr = function(callback) {
+  function getAllKeyringAttr(callback) {
     mvelo.extension.sendMessage({
       event: 'get-all-keyring-attr'
     }, function(data) {
       callback(data);
     });
-  };
+  }
 
-  exports.pgpModel = function(method, args, callback) {
+  function pgpModel(method, args, callback) {
     if (typeof args === 'function') {
       callback = args;
       args = undefined;
@@ -248,9 +248,9 @@ var options = {};
     }, function(data) {
       callback(data.error, data.result);
     });
-  };
+  }
 
-  exports.keyring = function(method, args, callback) {
+  function keyring(method, args, callback) {
     if (typeof args === 'function') {
       callback = args;
       args = undefined;
@@ -263,9 +263,9 @@ var options = {};
     }, function(data) {
       callback(data.error, data.result);
     });
-  };
+  }
 
-  exports.copyToClipboard = function(text) {
+  function copyToClipboard(text) {
     var copyFrom = $('<textarea />');
     $('body').append(copyFrom);
     copyFrom.hide();
@@ -273,17 +273,25 @@ var options = {};
     copyFrom.select();
     document.execCommand('copy');
     copyFrom.remove();
-  };
+  }
 
-  exports.getL10nMessages = function(ids, callback) {
+  function getL10nMessages(ids, callback) {
     mvelo.l10n.getMessages(ids, callback);
-  };
+  }
 
-  exports.registerL10nMessages = function(ids) {
+  function registerL10nMessages(ids) {
     ids.forEach(function(id) {
       exports.l10n[id] = true;
     });
-  };
+  }
+
+  exports.reloadOptions = reloadOptions;
+  exports.getAllKeyringAttr = getAllKeyringAttr;
+  exports.pgpModel = pgpModel;
+  exports.keyring = keyring;
+  exports.copyToClipboard = copyToClipboard;
+  exports.getL10nMessages = getL10nMessages;
+  exports.registerL10nMessages = registerL10nMessages;
 
   exports.event = event;
   exports.l10n = l10n;
