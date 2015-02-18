@@ -70,6 +70,25 @@ var options = {};
       setKeyRing(mvelo.LOCAL_KEYRING_ID, "Mailvelope", "mailvelope");
     }
 
+    // No private key yet? Navigate to setup tab
+    options.keyring('getPrivateKeys', function(err, data) {
+      if (!data.length) {
+        $('.keyring_setup_message').addClass('active');
+        // Activate setup tab
+        $('a[href="#setupProvider"]').tab('show');
+        // Activate setup navigation
+        $('a[href="#setupProvider"]').siblings('a.list-group-item').removeClass('active');
+        $('a[href="#setupProvider"]').addClass('active');
+      }
+      else {
+        // Activate display keys tab
+        $('a[href="#displayKeys"]').tab('show');
+        // Activate display keys navigation
+        $('a[href="#displayKeys"]').siblings('a.list-group-item').removeClass('active');
+        $('a[href="#displayKeys"]').addClass('active');
+      }
+    });
+
     registerL10nMessages([
       "keygrid_user_email"
     ]);
@@ -96,6 +115,17 @@ var options = {};
           $(this).removeClass("active");
         });
         self.addClass("active");
+      }
+    });
+
+    // Activate tab after switch from links to tabs outside
+    $('[data-toggle="tab"]:not(.list-group-item)').on('click', function() {
+      var id = $(this).attr('href'),
+      tabTrigger = $('.list-group a[href="' + id + '"]');
+
+      if (id && tabTrigger) {
+        tabTrigger.siblings('a.list-group-item').removeClass('active');
+        tabTrigger.addClass('active');
       }
     });
 
@@ -295,6 +325,18 @@ var options = {};
 
   exports.event = event;
   exports.l10n = l10n;
+
+  // Update visibility of setup alert box
+  options.event.on('keygrid-reload', function() {
+    options.keyring('getPrivateKeys', function(err, data) {
+      if (!data.length) {
+        $('.keyring_setup_message').addClass('active');
+      }
+      else {
+        $('.keyring_setup_message').removeClass('active');
+      }
+    });
+  });
 
   $(document).ready(init);
 

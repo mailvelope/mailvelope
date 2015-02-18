@@ -200,3 +200,21 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }
 
 /* End spinner */
+
+
+/**
+ * Setup page
+ */
+
+.jumbotron .well p {
+    font-size: inherit;
+    margin-bottom: inherit;
+}
+
+.keyring_setup_message {
+    display: none;
+}
+
+.keyring_setup_message.active {
+    display: block;
+}

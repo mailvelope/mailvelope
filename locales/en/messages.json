@@ -195,6 +195,30 @@
     "message": "Key Pair",
     "description": "key pair"
   },
+  "keyring_setup_no_keypair_heading": {
+    "message": "This keyring does not contain it's own keypair yet.",
+    "description": "Setup heading if no keypair available"
+  },
+  "keyring_setup_no_keypair": {
+    "message": " A keypair is needed to encrypt and decrypt messages and if you want to invite your contacts to end-to-end encrypted communication.",
+    "description": "Setup text if no keypair available"
+  },
+  "keyring_setup_generate_key": {
+    "message": "Generate key",
+    "description": "Generate key"
+  },
+  "keyring_setup_generate_key_explanation": {
+    "message": "If you're using this extension for the first time and you don't have a keypair yet, you need to generate a key.",
+    "description": "Generate key"
+  },
+  "keyring_setup_import_key": {
+    "message": "Import key",
+    "description": "Import key"
+  },
+  "keyring_setup_import_key_explanation": {
+    "message": "You already have a keypair on another device? You can import your existing keys. Just export the keypair on your other device and import it here.",
+    "description": "Import key"
+  },
   "options_settings": {
     "message": "Settings",
     "description": "Options header: Settings."
@@ -406,6 +430,10 @@
   "key_import_dialog_header": {
     "message": "Add key to keyring",
     "description": "Key import dialog header."
+  },
+  "form_import": {
+    "message": "Import",
+    "description": "Import form button."
   },
   "form_submit": {
     "message": "Submit",

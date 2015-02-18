@@ -361,6 +361,7 @@ var options = options || null;
     if (confirmResult) {
       $entryForRemove = $(this).parent().parent().parent();
       options.keyring('removeKey', [$entryForRemove.attr('data-keyguid'), $entryForRemove.attr('data-keytype')]);
+      options.event.triggerHandler('keygrid-reload');
       init();
     }
     return false;
