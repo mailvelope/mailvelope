@@ -147,10 +147,10 @@ body {
      align-items: center;
 
      position: absolute;
-     top: 20px;
-     left:20px;
-     right: 20px;
-     bottom: 20px;
+     top: 3px;
+     left:10px;
+     right: 10px;
+     bottom: 8px;
      /*background-color: lightgoldenrodyellow;*/
 }
 
@@ -196,7 +196,7 @@ body {
 
 
 #uploadEmbeddedBtn {
-    margin-top: 12px;
+    margin-top: 8px;
     font-family: Verdana, sans-serif;
     font-size: 11px;
     font-style: normal;

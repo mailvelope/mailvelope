@@ -40,6 +40,15 @@ var mvelo = mvelo || null;
   var initText = null;
   var attachments = {};
   var commonPath;
+  var l10n;
+
+  // Get language strings from JSON
+  mvelo.l10n.getMessages([
+    'editor_remove_upload'
+    ], function(result) {
+      l10n = result;
+    }
+  );
 
   // maximal size of the attachments in bytes, ca 50 MB
   var maxFileUploadSize = 50 * 1024 * 1024;
@@ -143,6 +152,7 @@ var mvelo = mvelo || null;
     fileReader.readAsDataURL(file);
     var $removeUploadButton = $('<span/>', {
       "data-id": id,
+      "title": l10n.editor_remove_upload,
       "class": 'glyphicon glyphicon-remove removeAttachment'
     }).on("click", function(e) {
       e.preventDefault();
@@ -230,8 +240,7 @@ var mvelo = mvelo || null;
       sandbox: 'allow-same-origin allow-scripts',
       frameBorder: 0,
       css: {
-        'overflow-y': 'hidden',
-        'opacity':    '0.8'
+        'overflow-y': 'hidden'
       }
     });
     var text = $('<textarea/>', {

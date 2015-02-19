@@ -59,6 +59,10 @@
     "message": "Compose Mail",
     "description": "Header of editor popup."
   },
+  "editor_remove_upload": {
+    "message": "Remove",
+    "description": "Remove uploaded attachment"
+  },
   "editor_transfer": {
     "message": "Transfer",
     "description": "Transfer button of editor popup."
