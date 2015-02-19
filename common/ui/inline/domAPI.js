@@ -192,7 +192,7 @@ mvelo.domAPI.displayContainer = function(selector, armored, keyringId, options, 
   var container, error;
   switch (mvelo.main.getMessageType(armored)) {
     case mvelo.PGP_MESSAGE:
-      container = new mvelo.DecryptContainer(selector);
+      container = new mvelo.DecryptContainer(selector, keyringId, options);
       break;
     case mvelo.PGP_SIGNATURE:
       error = new Error('PGP signatures not supported.');

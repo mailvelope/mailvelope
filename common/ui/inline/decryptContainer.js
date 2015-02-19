@@ -19,8 +19,10 @@
 
 var mvelo = mvelo || {};
 
-mvelo.DecryptContainer = function(selector) {
+mvelo.DecryptContainer = function(selector, keyringId, options) {
   this.selector = selector;
+  this.keyringId = keyringId;
+  this.options = options;
   this.id = mvelo.util.getHash();
   this.name = 'decryptCont-' + this.id;
   this.port = mvelo.extension.connect({name: this.name});
@@ -65,6 +67,7 @@ mvelo.DecryptContainer.prototype.registerEventListener = function() {
         that.port.postMessage({
           event: 'set-armored',
           data: that.armored,
+          keyringId: that.keyringId,
           sender: that.name
         });
         break;
