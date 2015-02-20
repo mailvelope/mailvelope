@@ -1,17 +1,25 @@
 <div id="settingsPanel">
   <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
-      <div class="navbar-header" style="width: 100%;">
-        <div class="navbar-brand pull-left settings-logo"></div>
-        <ul class="nav navbar-nav pull-left">
-          <li role="presentation" id="showKeyRing" class="active"><a href="#keyring" aria-controls="keyring" role="tab" data-toggle="tab" data-l10n-id="keyring_header"></a></li>
-          <li role="presentation" id="showKeySettings"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" data-l10n-id="options_home"></a></li>
-        </ul>
-        <ul class="nav navbar-nav pull-right">
-          <li><a href="http://mailvelope.com/help" target="_blank" data-l10n-id="options_docu"></a></li>
-          <li><a href="http://mailvelope.com/about" target="_blank" data-l10n-id="options_about"></a></li>
-          <!--li><div class="" id='secureCode'></div></li-->
-        </ul>
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <div class="navbar-brand settings-logo"></div>
+      </div>
+      <div class="collapse navbar-collapse bs-navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li role="presentation" id="showKeyRing" class="active"><a href="#keyring" aria-controls="keyring" role="tab" data-toggle="tab" data-l10n-id="keyring_header"></a></li>
+            <li role="presentation" id="showKeySettings"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" data-l10n-id="options_home"></a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="http://mailvelope.com/help" target="_blank" data-l10n-id="options_docu"></a></li>
+            <li><a href="http://mailvelope.com/about" target="_blank" data-l10n-id="options_about"></a></li>
+            <!--li><div class="" id='secureCode'></div></li-->
+          </ul>
       </div>
     </div>
   </div>
@@ -69,9 +77,8 @@
       </div>
     </div><!--/settings-->
   </div><!--/tab-content-->
-  <footer>
-    <hr>
-    <p class="pull-left">&copy; 2012-2015 Mailvelope</p>
-    <div id="version" class="pull-right"></div>
+  <footer class="row">
+    <p class="pull-left col-md-6">&copy; 2012-2015 Mailvelope</p>
+    <div id="version" class="pull-right col-md-6"></div>
   </footer>
 </div><!--/container-->
