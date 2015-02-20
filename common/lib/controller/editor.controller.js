@@ -49,6 +49,9 @@ define(function(require, exports, module) {
     switch (msg.event) {
       case 'editor-init':
         this.ports.editor.postMessage({event: 'set-text', text: this.initText});
+        if (this.ports.editorCont) {
+          this.ports.editorCont.postMessage({event: 'editor-ready'});
+        }
         break;
       case 'editor-cancel':
         this.editorPopup.close();

@@ -49,9 +49,6 @@ mvelo.EditorContainer.prototype.create = function(done) {
   this.container.setAttribute('scrolling', 'no');
   this.container.style.width = '100%';
   this.container.style.height = '100%';
-  this.container.addEventListener('load', function() {
-    that.done(that.processOptions(), this.id);
-  });
   this.parent.appendChild(this.container);
 };
 
@@ -90,6 +87,9 @@ mvelo.EditorContainer.prototype.registerEventListener = function() {
   var that = this;
   this.port.onMessage.addListener(function(msg) {
     switch (msg.event) {
+      case 'editor-ready':
+        that.done(that.options && that.processOptions(), that.id);
+        break;
       case 'destroy':
         that.parent.removeChild(this.container);
         that.port.disconnect();
