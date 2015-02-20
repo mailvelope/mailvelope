@@ -115,6 +115,14 @@ define(function(require, exports, module) {
         this.keyidBuffer = this.mvelo.util.sortAndDeDup(keyIds);
         this.ports.editor.postMessage({event: 'get-plaintext', action: 'encrypt'});
         break;
+      case 'editor-options':
+        if (msg.options.predefinedText) {
+          this.ports.editor.postMessage({event: 'set-text', text: msg.options.predefinedText});
+        }
+        if (msg.options.quotedMail) {
+
+        }
+        break;
       case 'sign-dialog-ok':
         this.signBuffer = {};
         var cacheEntry = this.pwdCache.get(msg.signKeyId, msg.signKeyId);
@@ -137,7 +145,10 @@ define(function(require, exports, module) {
             this.pwdControl.unlockKey({
               message: this.signBuffer,
               openPopup: false
-            }, function(err) {
+            }).then(function() {
+              // success
+              that.ports.editor.postMessage({event: 'get-plaintext', action: 'sign'});
+            }).catch(function(err) {
               if (err === 'pwd-dialog-cancel') {
                 that.ports.editor.postMessage({event: 'hide-pwd-dialog'});
                 return;
@@ -145,8 +156,6 @@ define(function(require, exports, module) {
               if (err) {
                 // TODO: propagate error to sign dialog
               }
-              // success
-              that.ports.editor.postMessage({event: 'get-plaintext', action: 'sign'});
             });
             this.ports.editor.postMessage({event: 'show-pwd-dialog', id: this.pwdControl.id});
           }

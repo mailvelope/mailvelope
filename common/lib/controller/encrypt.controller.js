@@ -97,7 +97,10 @@ define(function(require, exports, module) {
             });
           } else {
             // open password dialog
-            sub.factory.get('pwdDialog').unlockKey({message: this.signBuffer}, function(err) {
+            sub.factory.get('pwdDialog').unlockKey({message: this.signBuffer}).then(function() {
+              // success
+              that.ports.eFrame.postMessage({event: 'email-text', type: msg.type, action: 'sign'});
+            }).catch(function(err) {
               if (err === 'pwd-dialog-cancel') {
                 that.ports.eFrame.postMessage({event: 'dialog-cancel'});
                 return;
@@ -105,8 +108,6 @@ define(function(require, exports, module) {
               if (err) {
                 // TODO: propagate error to sign dialog
               }
-              // success
-              that.ports.eFrame.postMessage({event: 'email-text', type: msg.type, action: 'sign'});
             });
           }
         }

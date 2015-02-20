@@ -72,7 +72,7 @@ define(function(require, exports, module) {
         }
         break;
       case 'set-armored':
-        this.readMessage(msg.data, msg.keyringId || this.mvelo.LOCAL_KEYRING_ID);
+        this.decrypt(msg.data, msg.keyringId || this.mvelo.LOCAL_KEYRING_ID);
         break;
       case 'get-attachment':
         if (this.mvelo.ffa) {
@@ -95,118 +95,93 @@ define(function(require, exports, module) {
     }
   };
 
-  DecryptController.prototype.readMessage = function(armored, keyringId) {
+  DecryptController.prototype.decrypt = function(armored, keyringId) {
     var that = this;
-    try {
-      var message = this.model.readMessage(armored, keyringId);
-      // password or unlocked key in cache?
-      var cacheEntry = this.pwdCache.get(message.key.primaryKey.getKeyId().toHex(), message.keyid);
-      if (!cacheEntry) {
-        if (message.key.primaryKey.isDecrypted) {
-          // secret-key data is not encrypted
-          this.decryptMessage(message);
-          return;
+    this.readMessage(armored, keyringId).then(function(message) {
+      return that.prepareKey(message);
+    }).then(function(message) {
+      return that.decryptMessage(message);
+    }).then(function(rawText) {
+      return that.parseMessage(rawText);
+    }).catch(function(error) {
+      if (error.message === 'pwd-dialog-cancel') {
+        if (that.ports.dFrame) {
+          return that.dialogCancel();
         }
-        // open password dialog
-        this.pwdControl = sub.factory.get('pwdDialog');
-        this.pwdControl.unlockKey({
-          message: message,
-          openPopup: this.ports.decryptCont || this.prefs.data().security.display_decrypted == this.mvelo.DISPLAY_INLINE
-        }, function(err) {
-          if (err === 'pwd-dialog-cancel') {
-            if (that.ports.dFrame) {
-              that.dialogCancel();
-            } else if (that.ports.decryptCont) {
-              that.ports.dDialog.postMessage({event: 'error-message', error: 'Key unlock canceled.'});
-              that.ports.decryptCont.postMessage({event: 'decrypt-done'});
-            }
-            return;
-          }
-          if (err) {
-            throw { message: err };
-          }
-          // success
-          that.decryptMessage(message);
-        });
-        if (this.ports.dFrame && this.prefs.data().security.display_decrypted == this.mvelo.DISPLAY_POPUP) {
-          this.ports.dDialog.postMessage({event: 'show-pwd-dialog', id: this.pwdControl.id});
-        }
-      } else {
-        this.pwdCache.unlock(cacheEntry, message, function() {
-          that.decryptMessage(message);
-        });
       }
-    } catch (e) {
-      // display error message in decrypt dialog
-      this.ports.dDialog.postMessage({event: 'error-message', error: e.message});
+      if (that.ports.dDialog) {
+        that.ports.dDialog.postMessage({event: 'error-message', error: error.message});
+      }
+    }).then(function() {
       if (that.ports.decryptCont) {
         that.ports.decryptCont.postMessage({event: 'decrypt-done'});
       }
-    }
+    });
+  };
+
+  DecryptController.prototype.readMessage = function(armored, keyringId) {
+    var that = this;
+    return new Promise(function(resolve, reject) {
+      resolve(that.model.readMessage(armored, keyringId));
+    });
+  };
+
+  DecryptController.prototype.prepareKey = function(message) {
+    var that = this;
+    return new Promise(function(resolve, reject) {
+      // password or unlocked key in cache?
+      var cacheEntry = that.pwdCache.get(message.key.primaryKey.getKeyId().toHex(), message.keyid);
+      if (!cacheEntry) {
+        if (message.key.primaryKey.isDecrypted) {
+          // secret-key data is not encrypted, nothing to do
+          return resolve(message);
+        }
+        // open password dialog
+        that.pwdControl = sub.factory.get('pwdDialog');
+        if (that.ports.dFrame && that.prefs.data().security.display_decrypted == that.mvelo.DISPLAY_POPUP) {
+          that.ports.dDialog.postMessage({event: 'show-pwd-dialog', id: that.pwdControl.id});
+        }
+        resolve(that.pwdControl.unlockKey({
+          message: message,
+          openPopup: that.ports.decryptCont || that.prefs.data().security.display_decrypted == that.mvelo.DISPLAY_INLINE
+        }));
+      } else {
+        that.pwdCache.unlock(cacheEntry, message, function() {
+          return resolve(message);
+        });
+      }
+    });
   };
 
   DecryptController.prototype.decryptMessage = function(message) {
     var that = this;
-    this.model.decryptMessage(message, function(err, rawText) {
+    return new Promise(function(resolve, reject) {
+      that.model.decryptMessage(message, function(err, rawText) {
+        if (err) {
+          return reject(err);
+        }
+        resolve(rawText);
+      });
+    });
+  };
+
+  DecryptController.prototype.parseMessage = function(rawText) {
+    var that = this;
+    return new Promise(function(resolve, reject) {
       var port = that.ports.dDialog;
       if (!port) {
-        return;
+        throw new Error('No decrypt dialog found');
       }
-      if (err) {
-        // display error message in decrypt dialog
-        port.postMessage({event: 'error-message', error: err.message});
-      } else {
-        var msgText;
-        // decrypted correctly
-        if (/^\s*(MIME-Version|Content-Type|Content-Transfer-Encoding):/.test(rawText)) {
-          // MIME
-          that.mailreader.parse([{raw: rawText}], function(parsed) {
-            if (parsed && parsed.length > 0) {
-              var htmlParts = [];
-              that.filterBodyParts(parsed, 'html', htmlParts);
-              if (htmlParts.length) {
-                that.mvelo.util.parseHTML(htmlParts[0].content, function(sanitized) {
-                  port.postMessage({event: 'decrypted-message', message: sanitized});
-                });
-              } else {
-                var textParts = [];
-                that.filterBodyParts(parsed, 'text', textParts);
-                if (textParts.length) {
-                  var text = that.mvelo.util.encodeHTML(textParts[0].content);
-                  text = text.replace(/\n/g, '<br>');
-                  port.postMessage({event: 'decrypted-message', message: text});
-                }
-              }
-              var attachmentParts = [];
-              that.filterBodyParts(parsed, 'attachment', attachmentParts);
-              attachmentParts.forEach(function(part) {
-                if (that.mvelo.ffa) {
-                  part.attachmentId = (new Date()).getTime();
-                  that.attachments[part.attachmentId] = [part.filename, part.content];
-                }
-                port.postMessage({event: 'add-decrypted-attachment', message: part});
-              });
-            } else {
-              port.postMessage({event: 'error-message', error: 'No content found in PGP/MIME.'});
-            }
-          });
-        } else {
-          if (/(<\/a>|<br>|<\/div>|<\/p>|<\/b>|<\/u>|<\/i>|<\/ul>|<\/li>)/.test(rawText)) {
-            // legacy html mode
-            that.mvelo.util.parseHTML(rawText, function(sanitized) {
-              port.postMessage({event: 'decrypted-message', message: sanitized});
-            });
-          } else {
-            // plain text
-            msgText = that.mvelo.util.encodeHTML(rawText);
-            msgText = msgText.replace(/\n/g, '<br>');
-            port.postMessage({event: 'decrypted-message', message: msgText});
-          }
-        }
-      }
-      if (that.ports.decryptCont) {
-        that.ports.decryptCont.postMessage({event: 'decrypt-done'});
-      }
+      that.readMail(rawText, {
+        onMessage: function(msg) {
+          port.postMessage({event: 'decrypted-message', message: msg});
+        },
+        onAttachment: function(part) {
+          port.postMessage({event: 'add-decrypted-attachment', message: part});
+        },
+        onError: reject
+      });
+      resolve();
     });
   };
 
@@ -222,6 +197,58 @@ define(function(require, exports, module) {
       }
     });
     return result;
+  };
+
+  /**
+   * handlers: onError, onAttachment, onMessage
+   */
+  DecryptController.prototype.readMail = function(rawText, handlers) {
+    var that = this;
+    if (/^\s*(MIME-Version|Content-Type|Content-Transfer-Encoding):/.test(rawText)) {
+      // MIME
+      that.mailreader.parse([{raw: rawText}], function(parsed) {
+        if (parsed && parsed.length > 0) {
+          var htmlParts = [];
+          that.filterBodyParts(parsed, 'html', htmlParts);
+          if (htmlParts.length) {
+            that.mvelo.util.parseHTML(htmlParts[0].content, function(sanitized) {
+              handlers.onMessage(sanitized);
+            });
+          } else {
+            var textParts = [];
+            that.filterBodyParts(parsed, 'text', textParts);
+            if (textParts.length) {
+              var text = that.mvelo.util.encodeHTML(textParts[0].content);
+              text = text.replace(/\n/g, '<br>');
+              handlers.onMessage(text);
+            }
+          }
+          var attachmentParts = [];
+          that.filterBodyParts(parsed, 'attachment', attachmentParts);
+          attachmentParts.forEach(function(part) {
+            if (that.mvelo.ffa) {
+              part.attachmentId = (new Date()).getTime();
+              that.attachments[part.attachmentId] = [part.filename, part.content];
+            }
+            handlers.onAttachment(part);
+          });
+        } else {
+          handlers.onError(new Error('No content found in PGP/MIME.'));
+        }
+      });
+    } else {
+      if (/(<\/a>|<br>|<\/div>|<\/p>|<\/b>|<\/u>|<\/i>|<\/ul>|<\/li>)/.test(rawText)) {
+        // legacy html mode
+        that.mvelo.util.parseHTML(rawText, function(sanitized) {
+          handlers.onMessage(sanitized);
+        });
+      } else {
+        // plain text
+        var msgText = that.mvelo.util.encodeHTML(rawText);
+        msgText = msgText.replace(/\n/g, '<br>');
+        handlers.onMessage(msgText);
+      }
+    }
   };
 
   exports.DecryptController = DecryptController;

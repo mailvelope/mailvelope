@@ -30,7 +30,8 @@ define(function(require, exports, module) {
     this.id = this.mvelo.util.getHash();
     this.pwdPopup = null;
     this.message = null;
-    this.done = null;
+    this.resolve = null;
+    this.reject = null;
     this.pwdCache = require('../pwdCache');
   }
 
@@ -49,7 +50,7 @@ define(function(require, exports, module) {
           this.pwdPopup.close();
           this.pwdPopup = null;
         }
-        this.done(msg.event);
+        this.reject(new Error(msg.event));
         break;
       case 'pwd-dialog-ok':
         try {
@@ -80,7 +81,7 @@ define(function(require, exports, module) {
                 that.pwdPopup.close();
                 that.pwdPopup = null;
               }
-              that.done();
+              that.resolve(that.message);
             }
           });
         } catch (e) {
@@ -89,7 +90,7 @@ define(function(require, exports, module) {
             this.pwdPopup.close();
             this.pwdPopup = null;
           }
-          this.done(e.message);
+          this.reject(e);
         }
         break;
       default:
@@ -97,18 +98,21 @@ define(function(require, exports, module) {
     }
   };
 
-  PwdController.prototype.unlockKey = function(options, callback) {
+  PwdController.prototype.unlockKey = function(options) {
     var that = this;
     this.message = options.message;
-    this.done = callback;
     if (typeof options.openPopup == 'undefined') {
       options.openPopup = true;
     }
     if (options.openPopup) {
-      this.mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + this.id, {width: 462, height: 377, modal: true}, function(window) {
+      this.mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + this.id, {width: 462, height: 377, modal: false}, function(window) {
         that.pwdPopup = window;
       });
     }
+    return new Promise(function(resolve, reject) {
+      that.resolve = resolve;
+      that.reject = reject;
+    });
   };
 
   exports.PwdController = PwdController;

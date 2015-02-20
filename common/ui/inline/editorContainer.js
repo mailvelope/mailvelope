@@ -34,6 +34,7 @@ mvelo.EditorContainer = function(selector, keyringId, options) {
 };
 
 mvelo.EditorContainer.prototype.create = function(done) {
+  var that = this;
   this.done = done;
   this.parent = document.querySelector(this.selector);
   this.container = document.createElement('iframe');
@@ -48,7 +49,9 @@ mvelo.EditorContainer.prototype.create = function(done) {
   this.container.setAttribute('scrolling', 'no');
   this.container.style.width = '100%';
   this.container.style.height = '100%';
-  this.container.addEventListener('load', this.done.bind(this, null, this.id));
+  this.container.addEventListener('load', function() {
+    that.done(that.processOptions(), this.id);
+  });
   this.parent.appendChild(this.container);
 };
 
@@ -66,6 +69,21 @@ mvelo.EditorContainer.prototype.encrypt = function(recipients, callback) {
     recipients: recipients
   });
   this.encryptCallback = callback;
+};
+
+mvelo.EditorContainer.prototype.processOptions = function() {
+  var error;
+  if (this.options.quotedMail && mvelo.main.getMessageType(this.options.quotedMail) !== mvelo.PGP_MESSAGE) {
+    error = new Error('Quoted mail is not a PGP message.');
+    error.code = 'WRONG_QUOTED_MAIL_TYPE';
+    return error;
+  }
+  this.port.postMessage({
+    event: 'editor-options',
+    sender: this.name,
+    keyringId: this.keyringId,
+    options: this.options
+  });
 };
 
 mvelo.EditorContainer.prototype.registerEventListener = function() {
