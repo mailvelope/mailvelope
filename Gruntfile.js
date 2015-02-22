@@ -176,6 +176,12 @@ module.exports = function(grunt) {
         },
         {
           expand: true,
+          src: 'mvelo.js',
+          cwd: 'build/common/ui',
+          dest: 'build/firefox/lib/common/'
+        },
+        {
+          expand: true,
           src: '**/*',
           cwd: 'locales',
           dest: 'build/chrome/_locales'
