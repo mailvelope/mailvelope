@@ -27,8 +27,7 @@ var ss = require('sdk/simple-storage');
 var url = require('sdk/url');
 var l10nGet = require("sdk/l10n").get;
 
-// create mvelo namespace
-eval(data.load('common/ui/mvelo.js'));
+var mvelo = require('./common/mvelo').mvelo;
 var attachments = require('./attachments');
 var CWorker = require('web-worker').Worker;
 

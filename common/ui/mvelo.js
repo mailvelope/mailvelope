@@ -228,8 +228,8 @@ mvelo.util.showSecurityBackground = function() {
     $('head').append($("<style>").text(secureStyle + mmodalStyle + lockButton));
   });
 
-  if (typeof exports !== 'undefined') {
-    exports.mvelo = mvelo;
-  }
-
 };
+
+if (typeof exports !== 'undefined') {
+  exports.mvelo = mvelo;
+}
