@@ -93,6 +93,10 @@ td[data-container-for='active'] {
     font-size: 14px;
     margin-left: 5px;
 }
+#exportDownload > input {
+  display: inline-block;
+  width: 250px;
+}
 #exportBtn {
     margin-left: 5px;
 }
@@ -143,6 +147,13 @@ td[data-container-for='active'] {
     width: 55px;
     padding: 1px;
 }
+@media (max-width:767px) {
+  #secColor,
+  #secCode {
+    display: inline-block;
+  }
+}
+
 #securityTokenPanel .form-inline {
     margin-top: 0;
 }
@@ -158,6 +169,17 @@ td[data-container-for='active'] {
 }
 #pwdCacheLabel {
     padding-left: 0;
+}
+@media (max-width:767px) {
+  #pwdCacheLabel {
+    padding-left: 20px;
+  }
+  #pwdCacheRadios1 {
+    margin-top: 9px;
+  }
+  #pwdCacheTime {
+    display: inline-block;
+  }
 }
 .spinner {
     background-image: url('../img/loading.gif');
@@ -215,6 +237,10 @@ td[data-container-for='active'] {
     padding-top: 4px;
     padding-bottom: 4px;
 }
+#keyringFilterBtn {
+  width: auto;
+  display: inline-block;
+}
 #keyRingTable tr {
     cursor: pointer;
 }
@@ -236,7 +262,7 @@ td[data-container-for='active'] {
     padding: 10px;
 }
 #keyEditor .modal-body {
-    height: 500px;
+    min-height: 550px;
 }
 #keyRingTable td {
     word-wrap: break-word;

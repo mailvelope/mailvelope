@@ -120,7 +120,7 @@
         "description": "File selection button label."
     },
     "watchlist_title_frame": {
-        "message": "Domain-Übereinstimmungsmuster",
+        "message": "Domain-Muster",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "keygrid_key_length": {
@@ -484,7 +484,7 @@
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_sort_type": {
-        "message": "Schlüssel nach Typ anzeigen",
+        "message": "Schlüsseltyp",
         "description": "Key grid sort selector."
     },
     "key_gen_years": {

@@ -268,7 +268,7 @@
     "description": "Export key menu."
   },
   "keygrid_sort_type": {
-    "message": "Show keys by type",
+    "message": "Keytype",
     "description": "Key grid sort selector."
   },
   "keygrid_primary_key": {
@@ -728,7 +728,7 @@
     "description": "Scan status of site in watchlist."
   },
   "watchlist_title_frame": {
-    "message": "Domain match pattern",
+    "message": "Domain pattern",
     "description": "Web domain URL match pattern of site in watchlist."
   },
   "watchlist_expose_api": {
