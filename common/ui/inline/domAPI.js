@@ -211,6 +211,10 @@ mvelo.domAPI.displayContainer = function(selector, armored, keyringId, options, 
 };
 
 mvelo.domAPI.editorContainer = function(selector, keyringId, options, callback) {
+  options = options || {};
+  if (options.quotedMailIndent === undefined) {
+    options.quotedMailIndent = true;
+  }
   var container = new mvelo.EditorContainer(selector, keyringId, options);
   this.containers.set(container.id, container);
   container.create(callback);

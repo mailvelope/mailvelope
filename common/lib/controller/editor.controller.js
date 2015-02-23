@@ -20,6 +20,7 @@
 define(function(require, exports, module) {
 
   var sub = require('./sub.controller');
+  var DecryptController = require('./decrypt.controller').DecryptController;
 
   function EditorController(port) {
     sub.SubController.call(this, port);
@@ -111,19 +112,20 @@ define(function(require, exports, module) {
           keyIds = keyIds.concat(keyIdMap[recipient]);
         });
         var primary = this.prefs.data().general.auto_add_primary &&
-                      this.keyring.getById(this.keyringId).getAttributes().primary_key.toLowerCase();
+                      this.keyring.getById(this.keyringId).getAttributes().primary_key;
         if (primary) {
-          keyIds.push(primary);
+          keyIds.push(primary.toLowerCase());
         }
         this.keyidBuffer = this.mvelo.util.sortAndDeDup(keyIds);
         this.ports.editor.postMessage({event: 'get-plaintext', action: 'encrypt'});
         break;
       case 'editor-options':
-        if (msg.options.predefinedText) {
-          this.ports.editor.postMessage({event: 'set-text', text: msg.options.predefinedText});
-        }
-        if (msg.options.quotedMail) {
-
+        this.keyringId = msg.keyringId;
+        this.options = msg.options;
+        if (this.options.quotedMail) {
+          this.decryptQuoted(this.options.quotedMail);
+        } else if (this.options.predefinedText) {
+          this.ports.editor.postMessage({event: 'set-text', text: this.options.predefinedText});
         }
         break;
       case 'sign-dialog-ok':
@@ -227,6 +229,40 @@ define(function(require, exports, module) {
     //var t1 = Date.now();
     //console.log("Building mime message took " + (t1 - t0) + " milliseconds. Current time: " + t1);
     return composedMessage;
+  };
+
+  EditorController.prototype.decryptQuoted = function(armored) {
+    var that = this;
+    var decryptCtrl = new DecryptController();
+    decryptCtrl.readMessage(armored, this.keyringId).then(function(message) {
+      return decryptCtrl.prepareKey(message, !that.editorPopup);
+    }).then(function(message) {
+      return decryptCtrl.decryptMessage(message);
+    }).then(function(rawText) {
+      var handlers = {
+        onMessage: function(msg) {
+          if (that.options.quotedMailIndent) {
+            msg = msg.replace(/^(.|\n)/gm, '> $&');
+          }
+          if (that.options.quotedMailHeader) {
+            msg = that.options.quotedMailHeader + '\n' + msg;
+          }
+          msg = '\n\n' + msg;
+          if (that.options.predefinedText) {
+            msg = msg + '\n\n' + that.options.predefinedText;
+          }
+          that.ports.editor.postMessage({event: 'set-text', text: msg});
+        },
+        onAttachment: function(part) {
+          // only reply scenario at the moment
+        }
+      };
+      decryptCtrl.parseMessage(rawText, handlers, 'text');
+    }).catch(function(error) {
+      // TODO
+    }).then(function() {
+      // TODO
+    });
   };
 
   exports.EditorController = EditorController;

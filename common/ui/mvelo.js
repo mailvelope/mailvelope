@@ -169,11 +169,35 @@ mvelo.util.encodeHTML = function(text) {
     .replace(/\//g, "&#x2F;");
 };
 
+mvelo.util.decodeHTML = function(html) {
+  return String(html)
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, "\"")
+    .replace(/&#039;/g, "\'")
+    .replace(/&#x2F;/g, "\/");
+};
+
 mvelo.util.decodeQuotedPrint = function(armored) {
   return armored
     .replace(/=3D=3D\s*$/m, "==")
     .replace(/=3D\s*$/m, "=")
     .replace(/=3D(\S{4})\s*$/m, "=$1");
+};
+
+mvelo.util.text2html = function(text) {
+  return this.encodeHTML(text).replace(/\n/g, '<br>');
+};
+
+mvelo.util.html2text = function(html) {
+  html = html.replace(/\n/g, ' '); // replace new line with space
+  html = html.replace(/(<br>)/g, '\n'); // replace <br> with new line
+  html = html.replace(/<\/(blockquote|div|dl|dt|dd|form|h1|h2|h3|h4|h5|h6|hr|ol|p|pre|table|tr|td|ul|li|section|header|footer)>/g, '\n'); // replace block closing tags </..> with new line
+  html = html.replace(/<(.+?)>/g, ''); // remove tags
+  html = html.replace(/&nbsp;/g, ' '); // replace non-breaking space with whitespace
+  html = html.replace(/\n{3,}/g, '\n\n'); // compress new line
+  return mvelo.util.decodeHTML(html);
 };
 
 mvelo.util.getExtensionClass = function(fileExt) {

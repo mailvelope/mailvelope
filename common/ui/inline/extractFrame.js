@@ -122,16 +122,6 @@ mvelo.ExtractFrame.prototype._establishConnection = function() {
   //console.log('Port connected: %o', this._port);
 };
 
-mvelo.ExtractFrame.prototype._htmlDecode = function(html) {
-  return String(html)
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, "\"")
-    .replace(/&#039;/g, "\'")
-    .replace(/&#x2F;/g, "\/");
-};
-
 mvelo.ExtractFrame.prototype._getArmoredMessage = function() {
   var msg;
   if (this._pgpElement.is('pre')) {
@@ -145,7 +135,7 @@ mvelo.ExtractFrame.prototype._getArmoredMessage = function() {
     msg = msg.replace(/<\/(blockquote|div|dl|dt|dd|form|h1|h2|h3|h4|h5|h6|hr|ol|p|pre|table|tr|td|ul|li|section|header|footer)>/g, '\n'); // replace block closing tags </..> with new line
     msg = msg.replace(/<(.+?)>/g, ''); // remove tags
     msg = msg.replace(/&nbsp;/g, ' '); // replace non-breaking space with whitespace
-    msg = this._htmlDecode(msg);
+    msg = mvelo.util.decodeHTML(msg);
   }
   msg = msg.replace(/\n\s+/g, '\n'); // compress sequence of whitespace and new line characters to one new line
   msg = msg.match(this._typeRegex)[0];
