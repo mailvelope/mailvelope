@@ -3,11 +3,6 @@
  * Copyright (C) 2012  Thomas Oberndörfer
  */
 
-@font-face{
-  font-family: 'Courgette';
-  src: url('../res/fonts/Courgette-Regular.ttf') format('truetype');
-}
-
 body {
   padding-top: 60px;
   padding-bottom: 40px;
@@ -495,4 +490,9 @@ button.keyDetailsBtn, button.keyDeleteBtn {
 
 .keyTypeDetails {
     padding-left: 25px;
+}
+
+.settings-logo {
+    width: 130px;
+    background: 27px 14px no-repeat url(../img/maivelope-logo.svg);
 }
