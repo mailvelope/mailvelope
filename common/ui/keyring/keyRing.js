@@ -36,10 +36,13 @@ var options = options || null;
   var tableRow;
   var keyRing;
   var filterType;
+  var $setAsPrimaryBtn;
+  var isKeyPair;
 
   window.URL = window.URL || window.webkitURL;
 
-  function initTemplates() {
+  function init() {
+    //Init templates
     if (keyTmpl === undefined) {
       keyTmpl = $("#keyRingTable tbody").html();
     }
@@ -49,23 +52,33 @@ var options = options || null;
     if (signaturesTmpl === undefined) {
       signaturesTmpl = $("#userIdsTab tbody").html();
     }
-  }
 
-  function init() {
-    keyRing = undefined;
-    initTemplates();
-    $tableBody = $("#keyRingTable tbody");
-    $tableBody.children().remove();
+    $setAsPrimaryBtn = $("#setAsPrimaryBtn");
 
-    options.keyring('getKeys', initKeyringTable);
-
-    $('#exportMenuBtn').off();
-    $('#exportMenuBtn').click(openExportAllDialog);
-    $('#keyringFilterBtn').off();
+    $('#exportMenuBtn').on("click", openExportAllDialog);
     $('#keyringFilterBtn').on("change", function() {
       filterType = $(this).val();
       filterKeys();
     });
+
+    $('#exportToCb2').on("click", exportToClipboard);
+    $('#createExportFile').on("click", createFile);
+    $("#exportPublic").on("click", startExport);
+    $("#exportPrivate").on("click", startExport);
+    $("#exportKeyPair").on("click", startExport);
+    $("#exportTabSwitch").on("click", function() {
+      $("#exportPublic").get(0).click();
+    });
+
+    reload();
+  }
+
+  function reload() {
+    $tableBody = $("#keyRingTable tbody");
+    $tableBody.children().remove();
+
+    keyRing = undefined;
+    options.keyring('getKeys', initKeyringTable);
 
     options.event.triggerHandler('keygrid-data-change');
   }
@@ -75,18 +88,6 @@ var options = options || null;
       mvelo.util.hideLoadingAnimation();
     }
     keyRing = data;
-    //console.log(JSON.stringify(data));
-    //"type":"private",
-    //"validity":true,
-    //"guid":"8fe0e3926c15175e3a68dd8703c986e66afe22ea",
-    //"id":"03C986E66AFE22EA",
-    //"fingerprint":"8FE0E3926C15175E3A68DD8703C986E66AFE22EA",
-    //"name":"as",
-    //"email":"as@as.com",
-    //"exDate":false,
-    //"crDate":"2014-12-03T13:51:08.000Z",
-    //"algorithm":"RSA (Encrypt or Sign)",
-    //"bitLength":1024
     keyRing.forEach(function(key) {
       tableRow = $.parseHTML(keyTmpl);
       $(tableRow).attr("data-keytype", key.type);
@@ -158,135 +159,17 @@ var options = options || null;
     $("#keyInValid").show();
     $("#keyValid").show();
     var $keyData = $(this);
-    var keyPair = false;
-    var $setAsPrimaryBtn = $("#setAsPrimaryBtn");
+    isKeyPair = false;
+
+    initPrimaryKeyTab($keyData);
+
     options.keyring('getKeyDetails', [$keyData.attr('data-keyguid')], function(err, details) {
-      //console.log('keyGrid key details received', JSON.stringify(details));
-      // Init primary key tab
-      $('#keyEditor').attr("data-keyguid", $keyData.attr('data-keyguid'));
-      $('#keyId').val($keyData.attr('data-keyid'));
-      $('#keyName').val($keyData.attr('data-keyname'));
-      $('#keyEmail').val($keyData.attr('data-keyemail'));
-      $('#keyAlgorithm').val($keyData.attr('data-keyalgorithm'));
-      $('#keyLength').val($keyData.attr('data-keylength'));
-      $('#keyCreationDate').val($keyData.attr('data-keycreationdate').substr(0, 10));
-      var expirationDate = $keyData.attr('data-keyexpirationdate');
-      if (expirationDate === "false") {
-        expirationDate = options.l10n.keygrid_key_not_expire;
-      } else {
-        expirationDate = expirationDate.substr(0, 10);
-      }
-      $('#keyExpirationDate').val(expirationDate);
-      $('#keyFingerPrint').val($keyData.attr('data-keyfingerprint').match(/.{1,4}/g).join(' '));
-      if ($keyData.attr('data-keytype') === "private") {
-        $("#keyType .publicKey").hide();
-        keyPair = true;
-        $setAsPrimaryBtn.show();
-        if ($keyData.attr('data-keyisprimary') === 'true') {
-          $setAsPrimaryBtn.prop('disabled', true);
-          $setAsPrimaryBtn.addClass("btn-warning");
-          $setAsPrimaryBtn.text(options.l10n.keygrid_primary_label);
-          $setAsPrimaryBtn.removeAttr("data-primarykeyid");
-        } else {
-          $setAsPrimaryBtn.removeClass("btn-warning");
-          $setAsPrimaryBtn.prop('disabled', false);
-          $setAsPrimaryBtn.attr("data-primarykeyid", $keyData.attr('data-keyid'));
-          $setAsPrimaryBtn.append($("<span>")).text(options.l10n.key_set_as_primary);
-          $setAsPrimaryBtn.prepend('<span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>&nbsp;');
-        }
-        $setAsPrimaryBtn.off();
-        $setAsPrimaryBtn.on("click", setPrimaryKey);
-      } else {
-        $("#keyType .keyPair").hide();
-        $setAsPrimaryBtn.hide();
-      }
-      if ($keyData.attr('data-keyvalid') === 'true') {
-        $("#keyInValid").hide();
-      } else {
-        $("#keyValid").hide();
-      }
 
-      // Init subkeys tab
-      var subKey;
-      var $subKeyContainer = $("#subKeysTab .tab-content");
-      $("#subKeysList").children().remove();
-      $subKeyContainer.children().remove();
-      details.subkeys.forEach(function(subkey, index) {
-        $("#subKeysList").append($("<option>")
-          .text(subkey.id)
-          .attr("id", subkey.id)
-        );
-        subKey = $.parseHTML(subKeyTmpl);
-        $(subKey).attr("id", "tab" + subkey.id);
-        if (index === 0) {
-          $(subKey).addClass("active");
-        }
-        $(subKey).find('#subkeyAlgorithm').val(subkey.algorithm);
-        $(subKey).find('#subkeyLength').val(subkey.bitLength);
-        $(subKey).find('#subkeyCreationDate').val(subkey.crDate.substr(0, 10));
-        var expDate = subkey.exDate;
-        if (expDate === false) {
-          expDate = options.l10n.keygrid_key_not_expire;
-        } else {
-          expDate = expDate.substr(0, 10);
-        }
-        $(subKey).find('#subkeyExpirationDate').val(expDate);
-        $(subKey).find('#subkeyFingerPrint').val(subkey.fingerprint.match(/.{1,4}/g).join(' '));
-        $subKeyContainer.append(subKey);
-      });
-      $("#subKeysList").off();
-      $("#subKeysList").on("change", function() {
-        var id = $(this).val();
-        $("#subKeysTab .tab-pane").removeClass("active");
-        var tabEl = $("#tab" + id);
-        tabEl.addClass("active");
-      });
+      initSubKeysTab(details);
 
-      // Init user ids tab
-      var signature;
-      var $signatureContainer = $("#userIdsTab tbody");
-      $signatureContainer.children().remove();
-      $("#userIdsList").children().remove();
-      details.users.forEach(function(user, index) {
-        $("#userIdsList").append($("<option>")
-            .text(user.userID)
-            .attr("id", user.userID)
-        );
-        user.signatures.forEach(function(sgn) {
-          signature = $.parseHTML(signaturesTmpl);
-          $(signature).attr("data-userid", user.userID);
-          if (index > 0) {
-            $(signature).css("display", "none");
-          }
-          $(signature).find('td:nth-child(1)').text(sgn.signer);
-          $(signature).find('td:nth-child(2)').text(sgn.id);
-          $(signature).find('td:nth-child(3)').text(sgn.crDate.substr(0, 10));
-          $signatureContainer.append(signature);
-        });
-      });
-      $("#userIdsList").off();
-      $("#userIdsList").on("change", function() {
-        $signatureContainer.find("tr").css("display", "none");
-        $signatureContainer.find("[data-userid='" + $(this).val() + "']").css("display", "table-row");
-      });
+      initUserIdsTab(details);
 
-      // Init export tab
-      $('#exportToCb2').off();
-      $('#exportToCb2').click(exportToClipboard);
-      $('#createExportFile').off();
-      $('#createExportFile').click(createFile);
-      $("#exportPublic").off();
-      $("#exportPublic").on("click", initExportTab);
-      $("#exportPrivate").off();
-      $("#exportPrivate").on("click", initExportTab);
-      $("#exportKeyPair").off();
-      $("#exportKeyPair").on("click", initExportTab);
-      $("#exportTabSwitch").off();
-      $("#exportTabSwitch").on("click", function() {
-        $("#exportPublic").get(0).click();
-      });
-
-      if (keyPair) {
+      if (isKeyPair) {
         $("#exportSwitcher").show();
       } else {
         $("#exportSwitcher").hide();
@@ -298,9 +181,118 @@ var options = options || null;
       $("#primaryKeyTabSwitch").show();
       $("#subkeysTabSwitch").show();
       $("#userIdTabSwitch").show();
-      //$("#exportSwitcher").show();
-      $('#keyEditor').modal({backdrop: 'static'});
-      $("#keyEditor").modal("show");
+      $('#keyEditor').modal({backdrop: 'static'}).modal("show");
+    });
+  }
+
+  function initPrimaryKeyTab($keyData) {
+    $('#keyEditor').attr("data-keyguid", $keyData.attr('data-keyguid'));
+    $('#keyId').val($keyData.attr('data-keyid'));
+    $('#keyName').val($keyData.attr('data-keyname'));
+    $('#keyEmail').val($keyData.attr('data-keyemail'));
+    $('#keyAlgorithm').val($keyData.attr('data-keyalgorithm'));
+    $('#keyLength').val($keyData.attr('data-keylength'));
+    $('#keyCreationDate').val($keyData.attr('data-keycreationdate').substr(0, 10));
+    var expirationDate = $keyData.attr('data-keyexpirationdate');
+    if (expirationDate === "false") {
+      expirationDate = options.l10n.keygrid_key_not_expire;
+    } else {
+      expirationDate = expirationDate.substr(0, 10);
+    }
+    $('#keyExpirationDate').val(expirationDate);
+    $('#keyFingerPrint').val($keyData.attr('data-keyfingerprint').match(/.{1,4}/g).join(' '));
+    if ($keyData.attr('data-keytype') === "private") {
+      $("#keyType .publicKey").hide();
+      isKeyPair = true;
+      $setAsPrimaryBtn.show();
+      if ($keyData.attr('data-keyisprimary') === 'true') {
+        $setAsPrimaryBtn.prop('disabled', true);
+        $setAsPrimaryBtn.addClass("btn-warning");
+        $setAsPrimaryBtn.text(options.l10n.keygrid_primary_label);
+        $setAsPrimaryBtn.removeAttr("data-primarykeyid");
+      } else {
+        $setAsPrimaryBtn.removeClass("btn-warning");
+        $setAsPrimaryBtn.prop('disabled', false);
+        $setAsPrimaryBtn.attr("data-primarykeyid", $keyData.attr('data-keyid'));
+        $setAsPrimaryBtn.append($("<span>")).text(options.l10n.key_set_as_primary);
+        $setAsPrimaryBtn.prepend('<span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>&nbsp;');
+      }
+      $setAsPrimaryBtn.off();
+      $setAsPrimaryBtn.on("click", setPrimaryKey);
+    } else {
+      $("#keyType .keyPair").hide();
+      $setAsPrimaryBtn.hide();
+    }
+    if ($keyData.attr('data-keyvalid') === 'true') {
+      $("#keyInValid").hide();
+    } else {
+      $("#keyValid").hide();
+    }
+  }
+
+  function initSubKeysTab(details) {
+    var subKey;
+    var $subKeyContainer = $("#subKeysTab .tab-content");
+    $("#subKeysList").children().remove();
+    $subKeyContainer.children().remove();
+    details.subkeys.forEach(function(subkey, index) {
+      $("#subKeysList").append($("<option>")
+          .text(subkey.id)
+          .attr("id", subkey.id)
+      );
+      subKey = $.parseHTML(subKeyTmpl);
+      $(subKey).attr("id", "tab" + subkey.id);
+      if (index === 0) {
+        $(subKey).addClass("active");
+      }
+      $(subKey).find('#subkeyAlgorithm').val(subkey.algorithm);
+      $(subKey).find('#subkeyLength').val(subkey.bitLength);
+      $(subKey).find('#subkeyCreationDate').val(subkey.crDate.substr(0, 10));
+      var expDate = subkey.exDate;
+      if (expDate === false) {
+        expDate = options.l10n.keygrid_key_not_expire;
+      } else {
+        expDate = expDate.substr(0, 10);
+      }
+      $(subKey).find('#subkeyExpirationDate').val(expDate);
+      $(subKey).find('#subkeyFingerPrint').val(subkey.fingerprint.match(/.{1,4}/g).join(' '));
+      $subKeyContainer.append(subKey);
+    });
+    $("#subKeysList").off();
+    $("#subKeysList").on("change", function() {
+      var id = $(this).val();
+      $("#subKeysTab .tab-pane").removeClass("active");
+      var tabEl = $("#tab" + id);
+      tabEl.addClass("active");
+    });
+  }
+
+  function initUserIdsTab(details) {
+    var signature;
+    var $signatureContainer = $("#userIdsTab tbody");
+    $signatureContainer.children().remove();
+    $("#userIdsList").children().remove();
+    details.users.forEach(function(user, index) {
+      $("#userIdsList").append($("<option>")
+          .text(user.userID)
+          .attr("id", user.userID)
+      );
+      user.signatures.forEach(function(sgn) {
+        signature = $.parseHTML(signaturesTmpl);
+        $(signature).attr("data-userid", user.userID);
+        if (index > 0) {
+          $(signature).css("display", "none");
+        }
+        $(signature).find('td:nth-child(1)').text(sgn.signer);
+        $(signature).find('td:nth-child(2)').text(sgn.id);
+        $(signature).find('td:nth-child(3)').text(sgn.crDate.substr(0, 10));
+        $signatureContainer.append(signature);
+      });
+    });
+    $("#userIdsList").off();
+    $("#userIdsList").on("change", function() {
+      $signatureContainer.find("tr").css("display", "none");
+      $signatureContainer.find("[data-userid='" + $(this).val() + "']").css("display", "table-row");
     });
   }
 
@@ -308,7 +300,7 @@ var options = options || null;
     var primaryKeyId = $(this).attr("data-primarykeyid");
     if (primaryKeyId !== undefined && primaryKeyId.length > 1) {
       options.setKeyringAttr(options.keyringId, {
-        primary_key: primaryKeyId,
+        primary_key: primaryKeyId
       });
       $(this).addClass("btn-warning");
       $(this).text(options.l10n.keygrid_primary_label);
@@ -329,6 +321,7 @@ var options = options || null;
     $("#subkeysTabSwitch").hide();
     $("#userIdTabSwitch").hide();
     $("#exportSwitcher").hide();
+    $setAsPrimaryBtn.hide();
 
     $("#keyDetailsTabSwitcher #exportTabSwitch").tab("show");
 
@@ -367,7 +360,7 @@ var options = options || null;
     return false;
   }
 
-  function initExportTab() {
+  function startExport() {
     var sourceId = $(this).attr("id");
     var keyid = $('#keyEditor').attr("data-keyguid");
     var allKeys = false;
@@ -459,6 +452,6 @@ var options = options || null;
 
   options.event.on('ready', init);
 
-  options.event.on('keygrid-reload', init);
+  options.event.on('keygrid-reload', reload);
 
 }(options));
