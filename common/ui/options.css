@@ -1,152 +1,181 @@
-/* *
-* Mailvelope - secure email with OpenPGP encryption for Webmail
-* Copyright (C) 2012  Thomas Oberndörfer */
+/**
+ * Mailvelope - secure email with OpenPGP encryption for Webmail
+ * Copyright (C) 2012  Thomas Oberndörfer
+ */
 
 body {
-    padding-top: 60px;
-    padding-bottom: 40px;
+  padding-top: 60px;
+  padding-bottom: 40px;
 }
+
 input[readonly] {
     cursor: text !important;
 }
+
 .sidebar-nav {
-    padding: 9px 0;
+  padding: 9px 0;
 }
+
 .hero-unit.tab-content {
-    padding: 30px;
-    font-size: inherit;
-    line-height: inherit;
-    font-weight: inherit;
+  padding: 30px;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: inherit;
 }
+
 .hero-unit li {
-    line-height: inherit;
+  line-height: inherit;
 }
-.primaryKey ul {
-    list-style: none;
-    font-style: italic;
-    margin: 20px 40px;
+
+.primaryKey ul
+{
+  list-style:none;
+  font-style:italic;
+  margin: 20px 40px;
 }
-.subkeys ul {
-    list-style: none;
-    font-style: italic;
-    margin: 20px;
+
+.subkeys ul
+{
+  list-style:none;
+  font-style:italic;
+  margin: 20px;
 }
-.primaryKey label,
-.subkeys label,
-.userids label {
-    display: inline-block;
-    width: 140px;
-    font-style: normal;
-    font-weight: bold;
+
+.primaryKey label, .subkeys label, .userids label {
+  display:inline-block;
+  width:140px;
+  font-style:normal;
+  font-weight:bold;
 }
-.subkeys > div,
-.userids > div {
-    margin: 20px 40px;
+
+.subkeys > div, .userids > div  {
+  margin: 20px 40px;
 }
+
 #mainKeyGrid .k-toolbar {
-    min-height: 27px;
+  min-height: 27px;
 }
+
 #gridMainToolbar {
-    margin-top: 2px;
-    margin-bottom: 2px;
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
+
 .keyType-label {
-    vertical-align: middle;
-    padding-right: .5em;
-    display: inline;
+  vertical-align: middle;
+  padding-right: .5em;
+  display: inline;
 }
+
 #keyType {
-    vertical-align: middle;
+  vertical-align: middle;
     width: 200px;
 }
+
 .keyType-selector {
-    float: right;
-    margin-right: .8em;
-    font-size: 13px;
+  float: right;
+  margin-right: .8em;
+  font-size: 13px;
 }
+
 .k-button:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
+
 .busy {
-    cursor: wait !important;
+  cursor: wait !important;
 }
-.checkb-active,
-td[data-container-for='active'] {
-    text-align: center;
-    vertical-align: middle;
+
+.checkb-active, td[data-container-for='active'] {
+  text-align: center;
+  vertical-align: middle;
 }
+
 .navbar-brand {
-    font-family: 'Courgette';
+  font-family: 'Courgette';
 }
+
 #newKey {
-    width: 100%;
-    font-family: monospace;
+  width: 100%;
+  font-family: monospace;
 }
+
 #displayKeys {
-    min-height: 300px;
+  min-height: 300px;
 }
+
 #exportKey {
-    width: auto;
-    width: auto;
+  width: auto;
+  width: auto;
 }
+
 #exportDownload a {
-    font-size: 14px;
-    margin-left: 5px;
+  font-size: 14px;
+  margin-left: 5px;
 }
 #exportDownload > input {
   display: inline-block;
   width: 250px;
 }
+
 #exportBtn {
-    margin-left: 5px;
+  margin-left: 5px;
 }
+
 #genKeyWait .modal-footer {
-    text-align: left;
+  text-align: left;
 }
+
 #security .form-horizontal .control-label,
 #general .form-horizontal .control-label {
-    width: 280px;
+  width: 280px;
 }
+
 #security .form-horizontal .controls,
 #general .form-horizontal .controls {
-    margin-left: 300px;
+  margin-left: 300px;
 }
+
 #secCode {
-    font-family: monospace;
-    width: 55px;
+  font-family: monospace;
+  width: 55px;
 }
+
 #pwdCacheTime {
-    font-family: monospace;
-    width: 50px;
+  font-family: monospace;
+  width: 50px;
 }
+
 #secureCode {
-    float: right;
-    padding: 4px 14px;
-    margin-bottom: 0;
-    margin-top: 8px;
-    margin-right: 0;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
-    border: 1px solid #cccccc;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    font-weight: bold;
-    font-family: monospace;
-    font-size: 14px;
-    line-height: 20px;
-    color: #555555;
-    display: none;
+  float: right;
+  padding: 4px 14px;
+  margin-bottom: 0;
+  margin-top: 8px;
+  margin-right: 0;
+  -webkit-border-radius: 15px;
+     -moz-border-radius: 15px;
+          border-radius: 15px;
+  border: 1px solid #cccccc;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 20px;
+  color: #555555;
+  display: none;
 }
-#secCodeLabel,
-#secColorLabel {
-    width: 280px;
+
+#secCodeLabel, #secColorLabel {
+  width: 280px;
 }
+
 #secColor {
-    width: 55px;
-    padding: 1px;
+  width: 55px;
+  padding: 1px;
 }
+
 @media (max-width:767px) {
   #secColor,
   #secCode {
@@ -155,11 +184,13 @@ td[data-container-for='active'] {
 }
 
 #securityTokenPanel .form-inline {
-    margin-top: 0;
+  margin-top: 0;
 }
+
 #secTokenInfo {
-    padding-top: 2px;
+  padding-top: 2px;
 }
+
 #securityTokenPanel {
     margin-right: -3px;
     margin-left: -3px;
@@ -167,9 +198,11 @@ td[data-container-for='active'] {
     padding-left: 3px;
     background-color: #d9edf7;
 }
+
 #pwdCacheLabel {
     padding-left: 0;
 }
+
 @media (max-width:767px) {
   #pwdCacheLabel {
     padding-left: 20px;
@@ -182,61 +215,77 @@ td[data-container-for='active'] {
   }
 }
 .spinner {
-    background-image: url('../img/loading.gif');
-    background-repeat: no-repeat;
-    background-position: center;
+  background-image: url('../img/loading.gif');
+  background-repeat: no-repeat;
+  background-position: center;
 }
+
 .key-advanced-open::before {
-    content: '<< ';
+  content: '<< ';
 }
+
 .key-advanced-closed::after {
-    content: ' >>';
+  content: ' >>';
 }
+
 .list-group .active a {
     color: white;
 }
+
 .list-group a:hover {
     text-decoration: none;
 }
+
 #errorKeysArea {
     margin-top: 10px;
 }
+
 #keyMigrationBox {
     width: 650px;
     font-family: monospace;
 }
+
 #migNavEntry {
-    display: none;
+    display:none;
 }
+
 #migNavEntry .a {
-    font-weight: bold;
+    font-weight:bold;
 }
-@media (min-width:1300px) {
+
+
+@media (min-width: 1300px) {
     .container {
         width: 1270px;
     }
 }
-@media (min-width:1400px) {
+
+@media (min-width: 1400px) {
     .container {
         width: 1370px;
     }
 }
-@media (min-width:1500px) {
+
+@media (min-width: 1500px) {
     .container {
         width: 1470px;
     }
 }
+
 #version::before {
     content: 'v';
 }
+
 #watchList td {
     vertical-align: middle;
 }
+
 .tableToolbar {
     text-align: left;
     padding-top: 4px;
     padding-bottom: 4px;
 }
+
 #keyringFilterBtn {
   width: auto;
   display: inline-block;
@@ -244,111 +293,128 @@ td[data-container-for='active'] {
 #keyRingTable tr {
     cursor: pointer;
 }
+
 #watchListTable tr {
     cursor: pointer;
 }
+
 #keyRingTable td {
     vertical-align: middle;
 }
+
 .monospaced {
     font-family: monospace;
     white-space: nowrap;
 }
+
 .optionsTable {
     background-color: white;
     border: 1px solid #ccc;
 }
+
 #keyEditor .tab-pane {
     padding: 10px;
 }
+
 #keyEditor .modal-body {
     min-height: 550px;
 }
 #keyRingTable td {
     word-wrap: break-word;
 }
+
 .addedSiteFade {
     -webkit-animation: pulse1 4s linear 1;
     -moz-animation: pulse1 4s linear 1;
     animation: pulse1 4s linear 1;
 }
+
 @-webkit-keyframes "pulse1" {
     0% {
-        background-color: rgba(0, 0, 0, 0);
+        background-color: rgba(0,0,0,0);
     }
     30% {
-        background-color: rgba(255, 0, 0, 0.5);
+        background-color: rgba(255,0,0,0.5);
     }
     100% {
-        background-color: rgba(0, 0, 0, 0);
+        background-color: rgba(0,0,0,0);
     }
 }
+
 @-moz-keyframes pulse1 {
     0% {
-        background-color: rgba(0, 0, 0, 0);
+        background-color: rgba(0,0,0,0);
     }
     30% {
-        background-color: rgba(255, 0, 0, 0.5);
+        background-color: rgba(255,0,0,0.5);
     }
     100% {
-        background-color: rgba(0, 0, 0, 0);
+        background-color: rgba(0,0,0,0);
     }
 }
+
 @keyframes pulse1 {
     0% {
-        background-color: rgba(0, 0, 0, 0);
+        background-color: rgba(0,0,0,0);
     }
     30% {
-        background-color: rgba(255, 0, 0, 0.5);
+        background-color: rgba(255,0,0,0.5);
     }
     100% {
-        background-color: rgba(0, 0, 0, 0);
+        background-color: rgba(0,0,0,0);
     }
 }
-@media (max-width:1200px) {
+
+@media (max-width: 1200px) {
     #keyRingTable td {
         max-width: 90px;
         word-wrap: break-word;
     }
 }
-@media (max-width:1300px) {
+
+@media (max-width: 1300px) {
     #keyRingTable td {
         max-width: 130px;
         word-wrap: break-word;
     }
 }
-@media (max-width:1000px) {
+
+@media (max-width: 1000px) {
     .monospaced {
         white-space: normal;
         word-wrap: break-word;
     }
 }
+
 #settingsPanel {
     position: absolute;
     top: 60px;
     left: 20px;
     right: 20px;
     bottom: 20px;
-    /* background-color: white;
-    */
+    /*background-color: white;*/
 }
-button.keyDetailsBtn,
-button.keyDeleteBtn {
+
+button.keyDetailsBtn, button.keyDeleteBtn {
     min-width: 30px;
 }
+
 #keyringList {
     margin-top: -8px;
     width: 100%;
 }
+
 #keyringSwitcherLabel {
     width: 94%;
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
 }
+
 #keyringSwitcherCaret {
     margin-top: 8px;
 }
+
 #keyring li.flex-container {
     display: flex;
     flex-direction: row;
@@ -357,6 +423,7 @@ button.keyDeleteBtn {
     align-content: stretch;
     align-items: flex-start;
 }
+
 #keyring a.flex-item {
     order: 0;
     flex: 1 1 auto;
@@ -364,12 +431,14 @@ button.keyDeleteBtn {
     min-width: 30px;
     white-space: normal;
 }
+
 .deleteKeyRing {
     max-width: 40px;
     background-color: white;
     padding-right: 25px !important;
     padding-left: 15px !important;
 }
+
 .deleteKeyRing:hover {
     background-color: white !important;
     color: #808080 !important;
@@ -377,75 +446,44 @@ button.keyDeleteBtn {
 
 /* on/off switch begin */
 .onoffswitch {
-    position: relative;
-    width: 70px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+    position: relative; width: 70px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
 .onoffswitch-checkbox {
     display: none;
 }
 .onoffswitch-label {
-    display: block;
-    overflow: hidden;
-    cursor: pointer;
-    border: 1px solid #666666;
-    border-radius: 5px;
+    display: block; overflow: hidden; cursor: pointer;
+    border: 1px solid #666666; border-radius: 5px;
 }
 .onoffswitch-inner {
-    display: block;
-    width: 200%;
-    margin-left: -100%;
-    -moz-transition: margin 0.3s ease-in 0s;
-    -webkit-transition: margin 0.3s ease-in 0s;
-    -o-transition: margin 0.3s ease-in 0s;
-    transition: margin 0.3s ease-in 0s;
+    display: block; width: 200%; margin-left: -100%;
+    -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
 }
-.onoffswitch-inner:before,
-.onoffswitch-inner:after {
-    display: block;
-    float: left;
-    width: 50%;
-    height: 24px;
-    padding: 0;
-    line-height: 24px;
-    font-size: 16px;
-    color: white;
-    font-family: Trebuchet, Arial, sans-serif;
-    font-weight: bold;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 24px; padding: 0; line-height: 24px;
+    font-size: 16px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
 }
 .onoffswitch-inner:before {
     content: "I";
     padding-left: 10px;
-    background-color: #337ab7;
-    color: #FFFFFF;
+    background-color: #337ab7; color: #FFFFFF;
 }
 .onoffswitch-inner:after {
     content: "O";
     padding-right: 10px;
-    background-color: #F8F8F8;
-    color: #666666;
+    background-color: #F8F8F8; color: #666666;
     text-align: right;
 }
 .onoffswitch-switch {
-    display: block;
-    width: 35px;
-    margin: 0;
+    display: block; width: 35px; margin: 0;
     background: #FFFFFF;
-    border: 1px solid #666666;
-    border-radius: 5px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 35px;
-    -moz-transition: all 0.3s ease-in 0s;
-    -webkit-transition: all 0.3s ease-in 0s;
-    -o-transition: all 0.3s ease-in 0s;
-    transition: all 0.3s ease-in 0s;
+    border: 1px solid #666666; border-radius: 5px;
+    position: absolute; top: 0; bottom: 0; right: 35px;
+    -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
+    -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
     margin-left: 0;
@@ -464,17 +502,19 @@ button.keyDeleteBtn {
     float: left;
 }
 .navbar-nav > li > a {
-    padding-top: 15px;
-    padding-bottom: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 */
 
 .publicKey {
     background: no-repeat url(../img/public-key.png);
 }
+
 .keyPair {
     background: no-repeat url(../img/private-key.png);
 }
+
 .keyTypeDetails {
     padding-left: 25px;
 }
@@ -487,25 +527,25 @@ button.keyDeleteBtn {
 /* Navbar */
 
 .navbar-fixed-top > .container {
-    padding-left: 30px;
-    padding-right: 30px;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 
 /* Footer */
 
 footer.row {
-    border-top: 1px solid #eee;
-    padding-top: 10px;
-    margin: 0 15px;
-    clear: both;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  margin: 0 15px;
+  clear: both;
 }
 
 footer > p.col-md-6 {
-    padding-left:0;
+  padding-left:0;
 }
 
 #version {
-    padding-right:0;
-    text-align: right;
+  padding-right:0;
+  text-align: right;
 }
