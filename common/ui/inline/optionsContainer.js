@@ -19,13 +19,18 @@
 
 var mvelo = mvelo || {};
 
-mvelo.OptionsContainer = function(selector, keyringId) {
+mvelo.OptionsContainer = function(selector, keyringId, options) {
   this.selector = selector;
   this.keyringId = keyringId;
+  this.email = "";
+  this.fullName = "";
+  if (options && options.email) {
+    this.email = options.email;
+  }
+  if (options && options.fullName) {
+    this.fullName = options.fullName;
+  }
   this.id = mvelo.util.getHash();
-  //this.name = 'decryptCont-' + this.id;
-  //this.port = mvelo.extension.connect({name: this.name});
-  //this.registerEventListener();
   this.parent = null;
   this.container = null;
   this.done = null;
@@ -36,10 +41,11 @@ mvelo.OptionsContainer.prototype.create = function(done) {
   this.parent = document.querySelector(this.selector);
   this.container = document.createElement('iframe');
   var url;
+  var options = 'krid=' + encodeURIComponent(this.keyringId) + '&email=' + encodeURIComponent(this.email) + '&fname=' + encodeURIComponent(this.fullName);
   if (mvelo.crx) {
-    url = mvelo.extension.getURL('common/ui/options.html?krid=' + encodeURIComponent(this.keyringId));
+    url = mvelo.extension.getURL('common/ui/options.html?' + options);
   } else if (mvelo.ffa) {
-    url = 'about:blank?mvelo=options&krid=' + encodeURIComponent(this.keyringId);
+    url = 'about:blank?mvelo=options&' + options;
   }
   this.container.setAttribute('src', url);
   this.container.setAttribute('frameBorder', 0);

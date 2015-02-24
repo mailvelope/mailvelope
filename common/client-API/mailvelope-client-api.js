@@ -133,14 +133,21 @@
   };
 
   /**
+   * @typedef {Object} SettingsContainerOptions
+   * @property {string} email - the email address of the current user
+   * @property {string} fullName - the full name of the current user
+   */
+
+  /**
    * Creates an iframe to display the keyring settings.
    * The iframe will be injected into the container identified by selector.
    * @param {CssSelector} selector - target container
    * @param {Keyring} keyring - the keyring to use for the setup
+   * @param {SettingsContainerOptions} options
    * @returns {Promise.<undefined, Error>}
    */
-  Mailvelope.prototype.createSettingsContainer = function(selector, keyring) {
-    return postMessage('settings-container', {selector: selector, identifier: keyring.identifier});
+  Mailvelope.prototype.createSettingsContainer = function(selector, keyring, options) {
+    return postMessage('settings-container', {selector: selector, identifier: keyring.identifier, options: options});
   };
 
   /**
