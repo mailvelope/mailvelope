@@ -224,6 +224,7 @@ define(function(require, exports, module) {
           var attachmentParts = [];
           that.filterBodyParts(parsed, 'attachment', attachmentParts);
           attachmentParts.forEach(function(part) {
+            part.filename = that.mvelo.util.encodeHTML(part.filename);
             if (that.mvelo.ffa) {
               part.attachmentId = (new Date()).getTime();
               that.attachments[part.attachmentId] = [part.filename, part.content];
