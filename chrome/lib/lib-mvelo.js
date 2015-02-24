@@ -184,7 +184,7 @@ define(function(require, exports, module) {
   mvelo.util = mvelo.util || {};
 
   mvelo.util.parseHTML = function(html, callback) {
-    callback(dompurify.sanitize(html));
+    callback(dompurify.sanitize(html, {SAFE_FOR_JQUERY: true}));
   };
 
   // must be bound to window, otherwise illegal invocation

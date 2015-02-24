@@ -19,7 +19,7 @@
     "jquery": "https://code.jquery.com/jquery-2.1.0.min.js",
     "bootstrap": "~3.3.1",
     "requirejs": "2.1.14",
-    "dompurify": "0.4.2",
+    "dompurify": "0.6.1",
     "css-toggle-switch": "~3.1.1",
     "bootstrap-sortable": "~1.10.0"
   },
