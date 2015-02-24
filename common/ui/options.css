@@ -272,10 +272,6 @@ input[readonly] {
     }
 }
 
-#version::before {
-    content: 'v';
-}
-
 #watchList td {
     vertical-align: middle;
 }

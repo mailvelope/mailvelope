@@ -58,7 +58,7 @@ var options = {};
     mvelo.extension.sendMessage({
       event: "get-version"
     }, function(version) {
-      $('#version').text(version);
+      $('#version').text('v' + version);
     });
 
     var qs = jQuery.parseQuerystring();

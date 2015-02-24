@@ -268,7 +268,7 @@
     "description": "Export key menu."
   },
   "keygrid_sort_type": {
-    "message": "Keytype",
+    "message": "Key type",
     "description": "Key grid sort selector."
   },
   "keygrid_primary_key": {

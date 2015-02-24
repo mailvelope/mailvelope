@@ -247,3 +247,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     display: none;
   }
 }
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  .tab-content.jumbotron {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
