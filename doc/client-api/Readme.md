@@ -9,7 +9,7 @@ Since the timing is not defined consumers will have to use the following method 
     if (typeof mailvelope !== 'undefined') {
       mailvelopeLoaded();
     } else {
-      $(document).on('mailvelope', mailvelopeLoaded);
+      $(window).on('mailvelope', mailvelopeLoaded);
     }
   }
 

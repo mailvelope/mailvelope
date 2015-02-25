@@ -31,7 +31,7 @@ mvelo.domAPI.init = function() {
   this.active = mvelo.main.watchList.some(function(site) {
     return site.active && site.frames && site.frames.some(function(frame) {
       var hostRegex = mvelo.domAPI.matchPattern2RegEx(frame.frame);
-      var validHost = hostRegex.test(document.location.hostname);
+      var validHost = hostRegex.test(window.location.hostname);
       if (frame.scan && frame.api && validHost) {
         // host = match pattern without *. prefix
         mvelo.domAPI.host = frame.frame.replace(/^\*\./, '');
@@ -64,7 +64,7 @@ mvelo.domAPI.postMessage = function(eventName, id, data, error) {
     id: id,
     data: data,
     error: error
-  }, document.location.origin);
+  }, window.location.origin);
 };
 
 mvelo.domAPI.reply = function(id, error, data) {
@@ -117,7 +117,7 @@ mvelo.domAPI.checkTypes = function(data) {
 };
 
 mvelo.domAPI.eventListener = function(event) {
-  if (event.origin !== document.location.origin ||
+  if (event.origin !== window.location.origin ||
       event.data.mvelo_extension ||
       !event.data.mvelo_client) {
     return;

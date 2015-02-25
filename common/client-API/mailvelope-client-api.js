@@ -257,7 +257,7 @@
   var callbacks = Object.create(null);
 
   function eventListener(event) {
-    if (event.origin !== document.location.origin ||
+    if (event.origin !== window.location.origin ||
         event.data.mvelo_client ||
         !event.data.mvelo_extension) {
       return;
@@ -303,7 +303,7 @@
           resolve(data);
         }
       };
-      window.postMessage(message, document.location.origin);
+      window.postMessage(message, window.location.origin);
     });
   }
 
@@ -317,7 +317,7 @@
   window.addEventListener('message', eventListener);
 
   window.setTimeout(function() {
-    document.dispatchEvent(new CustomEvent('mailvelope', { detail: window.mailvelope }));
+    window.dispatchEvent(new CustomEvent('mailvelope', { detail: window.mailvelope }));
   }, 1);
 
 }());
