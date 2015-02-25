@@ -77,10 +77,20 @@ var options = options || null;
     $tableBody = $("#keyRingTable tbody");
     $tableBody.children().remove();
 
-    keyRing = undefined;
-    options.keyring('getKeys', initKeyringTable);
-
-    options.event.triggerHandler('keygrid-data-change');
+    options.getAllKeyringAttr(function(data) {
+      if (data !== undefined) {
+        for (var keyRingId in data) {
+          var obj = data[keyRingId];
+          if (obj.hasOwnProperty("primary_key")) {
+            if (options.keyringId === keyRingId) {
+              options.primaryKeyId = obj.primary_key;
+            }
+          }
+        }
+      }
+      keyRing = undefined;
+      options.keyring('getKeys', initKeyringTable);
+    });
   }
 
   function initKeyringTable(err, data) {

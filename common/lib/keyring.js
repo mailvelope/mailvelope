@@ -403,6 +403,23 @@ define(function(require, exports, module) {
     return result;
   };
 
+  Keyring.prototype.hasPrimaryKey = function() {
+    var primaryKey = this.getAttributes().primary_key;
+
+    /* var primaryKeyDetails;
+    try {
+      primaryKeyDetails = this.keyring.privateKeys.getKeyById(keyringAttr.primary_key.toLowerCase());
+    } catch (e) {
+      console.log("No primary key found");
+    } */
+
+    if (primaryKey !== undefined && primaryKey.length > 1) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   Keyring.prototype.importKeys = function(armoredKeys) {
     var that = this;
     var result = [];
@@ -428,6 +445,10 @@ define(function(require, exports, module) {
     // store if import succeeded
     if (result.some(function(message) { return message.type === 'success';})) {
       this.keyring.store();
+      // by no primary key in the keyring set the first found private keys as primary for the keyring
+      if (!that.hasPrimaryKey() && that.keyring.privateKeys.keys.length > 0) {
+        setKeyringAttr(that.id, {primary_key: that.keyring.privateKeys.keys[0].primaryKey.keyid.toHex().toUpperCase()});
+      }
     }
     return result;
   };
@@ -512,7 +533,14 @@ define(function(require, exports, module) {
   }
 
   Keyring.prototype.removeKey = function(guid, type) {
-    this.keyring.removeKeysForId(guid);
+    var primaryKey = this.getAttributes().primary_key;
+    var removedKey = this.keyring.removeKeysForId(guid);
+
+    // Remove the key from the keyring attributes if primary
+    if (primaryKey.toLowerCase() === removedKey[0].primaryKey.keyid.toHex().toLowerCase()) {
+      setKeyringAttr(this.id, {primary_key: ""});
+    }
+
     this.keyring.store();
   };
 
@@ -523,6 +551,10 @@ define(function(require, exports, module) {
       if (data) {
         that.keyring.privateKeys.push(data.key);
         that.keyring.store();
+        // by no primary key in the keyring set the generated key as primary
+        if (!that.hasPrimaryKey()) {
+          setKeyringAttr(that.id, {primary_key: data.key.primaryKey.keyid.toHex().toUpperCase()});
+        }
       }
       callback(null, data);
     }, callback);
