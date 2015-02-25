@@ -406,7 +406,8 @@ define(function(require, exports, module) {
   Keyring.prototype.hasPrimaryKey = function() {
     var primaryKey = this.getAttributes().primary_key;
 
-    /* var primaryKeyDetails;
+    /* // check if the primary key is valid
+    var primaryKeyDetails;
     try {
       primaryKeyDetails = this.keyring.privateKeys.getKeyById(keyringAttr.primary_key.toLowerCase());
     } catch (e) {
