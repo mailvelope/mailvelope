@@ -63,21 +63,19 @@ var options = {};
 
     var qs = jQuery.parseQuerystring();
     var krid = decodeURIComponent(qs.krid);
-    var email = decodeURIComponent(qs.email);
-    var fullName = decodeURIComponent(qs.fname);
-    if (qs.krid !== undefined) {
+    if (qs.hasOwnProperty("krid")) {
       setKeyRing(krid, krid.split(mvelo.KEYRING_DELIMITER)[0] + " (" + krid.split(mvelo.KEYRING_DELIMITER)[1] + ")");
     } else {
       // Setting the default keyring to mailvelope
       setKeyRing(mvelo.LOCAL_KEYRING_ID, "Mailvelope", "mailvelope");
     }
 
-    if (qs.email !== undefined && qs.email !== "undefined") {
-      $("#genKeyEmail").val(email);
+    if (qs.hasOwnProperty("email")) {
+      $("#genKeyEmail").val(decodeURIComponent(qs.email));
     }
 
-    if (qs.fname !== undefined && qs.fname !== "undefined") {
-      $("#genKeyName").val(fullName);
+    if (qs.hasOwnProperty("fname")) {
+      $("#genKeyName").val(decodeURIComponent(qs.fname));
     }
 
     // No private key yet? Navigate to setup tab

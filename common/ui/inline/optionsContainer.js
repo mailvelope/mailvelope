@@ -22,14 +22,17 @@ var mvelo = mvelo || {};
 mvelo.OptionsContainer = function(selector, keyringId, options) {
   this.selector = selector;
   this.keyringId = keyringId;
-  this.email = "";
-  this.fullName = "";
-  if (options && options.email) {
-    this.email = options.email;
+
+  this.email = '';
+  if (options.email) {
+    this.email = '&email=' + encodeURIComponent(options.email);
   }
-  if (options && options.fullName) {
-    this.fullName = options.fullName;
+
+  this.fullName = '';
+  if (options.fullName) {
+    this.fullName = '&fname=' + encodeURIComponent(options.fullName);
   }
+
   this.id = mvelo.util.getHash();
   this.parent = null;
   this.container = null;
@@ -41,7 +44,7 @@ mvelo.OptionsContainer.prototype.create = function(done) {
   this.parent = document.querySelector(this.selector);
   this.container = document.createElement('iframe');
   var url;
-  var options = 'krid=' + encodeURIComponent(this.keyringId) + '&email=' + encodeURIComponent(this.email) + '&fname=' + encodeURIComponent(this.fullName);
+  var options = 'krid=' + encodeURIComponent(this.keyringId) + this.email + this.fullName;
   if (mvelo.crx) {
     url = mvelo.extension.getURL('common/ui/options.html?' + options);
   } else if (mvelo.ffa) {
