@@ -404,21 +404,7 @@ define(function(require, exports, module) {
   };
 
   Keyring.prototype.hasPrimaryKey = function() {
-    var primaryKey = this.getAttributes().primary_key;
-
-    /* // check if the primary key is valid
-    var primaryKeyDetails;
-    try {
-      primaryKeyDetails = this.keyring.privateKeys.getKeyById(keyringAttr.primary_key.toLowerCase());
-    } catch (e) {
-      console.log("No primary key found");
-    } */
-
-    if (primaryKey !== undefined && primaryKey.length > 1) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.getAttributes().primary_key ? true : false;
   };
 
   Keyring.prototype.importKeys = function(armoredKeys) {
