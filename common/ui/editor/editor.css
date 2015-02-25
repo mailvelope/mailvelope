@@ -232,3 +232,8 @@ body {
     height: 30px;
     margin-right: -44px;
 }
+
+#waitingModal .modal-dialog {
+  width: 500px;
+  margin: 50px auto;
+}

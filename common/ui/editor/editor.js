@@ -94,6 +94,9 @@ var mvelo = mvelo || null;
   function loadTemplates(embedded, callback) {
     if (embedded) {
       $('body').addClass("secureBackground");
+      mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/waiting-modal.html')).then(function() {
+        $('#waitingModal').modal({keyboard: false}).modal("show");
+      });
       mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')).then(function() {
         $('#uploadEmbeddedBtn').on("click", function() {
           $('#addFileInput').click();
@@ -417,11 +420,15 @@ var mvelo = mvelo || null;
     //console.log('editor messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
       case 'set-text':
+        $('#waitingModal').modal("hide");
         if (editor) {
           setText(msg.text);
         } else {
           initText = msg.text;
         }
+        break;
+      case 'decrypt-failed':
+        $('.text-center').text(msg.text);
         break;
       case 'show-pwd-dialog':
         removeDialog();
