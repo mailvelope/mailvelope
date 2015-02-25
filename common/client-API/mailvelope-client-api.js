@@ -36,10 +36,10 @@
 
   /**
    * Gives access to the mailvelope extension version
-   * @returns {string} current mailvelope version
+   * @returns {Promise.<String, Error>}
    */
   Mailvelope.prototype.getVersion = function() {
-    return document.body.dataset.mailvelopeVersion;
+    return postMessage('get-version');
   };
 
   /**

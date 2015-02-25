@@ -41,8 +41,7 @@ mvelo.domAPI.init = function() {
   });
   if (this.active) {
     window.addEventListener('message', mvelo.domAPI.eventListener);
-    document.body.dataset.mailvelopeVersion = mvelo.main.prefs.version;
-    if (!document.body.dataset.mailvelope) {
+    if (!window.mailvelope) {
       $('<script/>', {
         src: mvelo.extension.getURL('common/client-API/mailvelope-client-api.js')
       }).appendTo($('head'));
@@ -88,6 +87,9 @@ mvelo.domAPI.checkTypes = function(data) {
     error.code = 'TYPE_MISMATCH';
     throw error;
   }
+  if (!data.data) {
+    return;
+  }
   var parameters = Object.keys(data.data);
   for (var i = 0; i < parameters.length; i++) {
     var parameter = parameters[i];
@@ -127,13 +129,16 @@ mvelo.domAPI.eventListener = function(event) {
     mvelo.domAPI.checkTypes(event.data);
     var data = event.data.data;
     var keyringId = null;
-    if (data.identifier) {
+    if (data && data.identifier) {
       if (data.identifier.indexOf(mvelo.KEYRING_DELIMITER) !== -1) {
         throw {message: 'Identifier invalid.', code: 'INVALID_IDENTIFIER'};
       }
       keyringId = mvelo.domAPI.host + mvelo.KEYRING_DELIMITER + data.identifier;
     }
     switch (event.data.event) {
+      case 'get-version':
+        mvelo.domAPI.reply(event.data.id, null, mvelo.main.prefs.version);
+        break;
       case 'get-keyring':
         mvelo.domAPI.getKeyring(keyringId, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
