@@ -798,5 +798,9 @@
   "save_attachment_as_message": {
     "message": "Select the folder, where you want to save the attachment.",
     "description": "Message in the attachment save dialog"
+  },
+  "waiting_dialog_prepare_email": {
+    "message": "Your email is prepared.",
+    "description": "Message in the waiting dialog for quoting email"
   }
 }
