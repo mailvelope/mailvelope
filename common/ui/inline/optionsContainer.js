@@ -24,12 +24,12 @@ mvelo.OptionsContainer = function(selector, keyringId, options) {
   this.keyringId = keyringId;
 
   this.email = '';
-  if (options.email) {
+  if (options && options.email) {
     this.email = '&email=' + encodeURIComponent(options.email);
   }
 
   this.fullName = '';
-  if (options.fullName) {
+  if (options && options.fullName) {
     this.fullName = '&fname=' + encodeURIComponent(options.fullName);
   }
 
