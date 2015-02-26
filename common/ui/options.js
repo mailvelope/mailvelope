@@ -185,18 +185,14 @@ var options = {};
     var $settingsArea = $("#settingsArea");
     $("#keyringSwitcherLabel").text(keyringName);
     exports.keyringId = keyringId;
-    exports.providerLogo = providerLogo;
 
     if (primaryKeyId !== undefined) {
       exports.primaryKeyId = primaryKeyId;
     }
 
-    if (keyringId === mvelo.LOCAL_KEYRING_ID) {
-      $settingsArea.removeClass();
-      $settingsArea.addClass("tab-content jumbotron");
-    } else {
-      $settingsArea.removeClass();
-      $settingsArea.addClass(providerLogo + " tab-content jumbotron");
+    $settingsArea.css("background", "none");
+    if (providerLogo) {
+      $settingsArea.css("background", "url(" + providerLogo + ") no-repeat top+10px right+10px");
     }
   }
 
