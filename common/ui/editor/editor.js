@@ -44,7 +44,8 @@ var mvelo = mvelo || null;
 
   // Get language strings from JSON
   mvelo.l10n.getMessages([
-    'editor_remove_upload'
+    'editor_remove_upload',
+    'waiting_dialog_decryption_failed'
     ], function(result) {
       l10n = result;
     }
@@ -428,7 +429,9 @@ var mvelo = mvelo || null;
         }
         break;
       case 'decrypt-failed':
-        $('.text-center').text(msg.text);
+        $('.text-center').addClass('alert alert-danger').text(l10n.waiting_dialog_decryption_failed);
+        $('#waitingModal .m-spinner').hide();
+        $('#waitingModal .btn-primary').show();
         break;
       case 'show-pwd-dialog':
         removeDialog();

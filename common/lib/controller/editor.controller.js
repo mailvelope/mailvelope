@@ -251,7 +251,8 @@ define(function(require, exports, module) {
           if (that.options.predefinedText) {
             msg = msg + '\n\n' + that.options.predefinedText;
           }
-          that.ports.editor.postMessage({event: 'decrypt-failed', text: 'Ha ha...'});
+          that.ports.editor.postMessage({event: 'set-text', text: msg});
+          //that.ports.editor.postMessage({event: 'decrypt-failed'});
         },
         onAttachment: function(part) {
           // only reply scenario at the moment
@@ -259,7 +260,7 @@ define(function(require, exports, module) {
       };
       decryptCtrl.parseMessage(rawText, handlers, 'text');
     }).catch(function(error) {
-      that.ports.editor.postMessage({event: 'decrypt-failed', text: 'Decryption failed.'});
+      that.ports.editor.postMessage({event: 'decrypt-failed'});
     });
   };
 

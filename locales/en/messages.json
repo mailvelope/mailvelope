@@ -800,7 +800,11 @@
     "description": "Message in the attachment save dialog"
   },
   "waiting_dialog_prepare_email": {
-    "message": "Your email is prepared.",
+    "message": "Your email is prepared...",
     "description": "Message in the waiting dialog for quoting email"
+  },
+  "waiting_dialog_decryption_failed": {
+    "message": "Decryption failed!",
+    "description": "Error message in the waiting dialog after failing to decrypt a message"
   }
 }
