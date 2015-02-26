@@ -77,7 +77,8 @@ mvelo.domAPI.reply = function(id, error, data) {
 // default type: string
 mvelo.domAPI.dataTypes = {
   recipients: 'array',
-  options: 'object'
+  options: 'object',
+  revision: 'number'
 };
 
 mvelo.domAPI.checkTypes = function(data) {
@@ -159,6 +160,9 @@ mvelo.domAPI.eventListener = function(event) {
         break;
       case 'import-pub-key':
         mvelo.domAPI.importPublicKey(keyringId, data.armored, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
+      case 'set-logo':
+        mvelo.domAPI.setLogo(keyringId, data.dataURL, data.revision, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       default:
         console.log('unknown event', event.data.event);
@@ -272,6 +276,29 @@ mvelo.domAPI.importPublicKey = function(keyringId, armored, callback) {
     api_event: true,
     keyringId: keyringId,
     armored: armored
+  }, function(result) {
+    callback(result.error, result.data);
+  });
+};
+
+mvelo.domAPI.setLogo = function(keyringId, dataURL, revision, callback) {
+  var error;
+  if (!/^data:image\/png;base64,/.test(dataURL)) {
+    error = new Error('Data URL must start with "data:image/png;base64,".');
+    error.code = 'LOGO_INVALID';
+    throw error;
+  }
+  if (dataURL.length > 10 * 1024) {
+    error = new Error('Data URL exceeds 10KB limit.');
+    error.code = 'LOGO_INVALID';
+    throw error;
+  }
+  mvelo.extension.sendMessage({
+    event: 'set-logo',
+    api_event: true,
+    keyringId: keyringId,
+    dataURL: dataURL,
+    revision: revision
   }, function(result) {
     callback(result.error, result.data);
   });

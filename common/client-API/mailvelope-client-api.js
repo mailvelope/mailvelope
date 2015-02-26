@@ -49,8 +49,8 @@
    * @throws {Error} error.code = 'NO_KEYRING_FOR_ID'
    */
   Mailvelope.prototype.getKeyring = function(identifier) {
-    return postMessage('get-keyring', {identifier: identifier}).then(function() {
-      return new Keyring(identifier);
+    return postMessage('get-keyring', {identifier: identifier}).then(function(options) {
+      return new Keyring(identifier, options);
     });
   };
 
@@ -66,8 +66,8 @@
    * });
    */
   Mailvelope.prototype.createKeyring = function(identifier) {
-    return postMessage('create-keyring', {identifier: identifier}).then(function() {
-      return new Keyring(identifier);
+    return postMessage('create-keyring', {identifier: identifier}).then(function(options) {
+      return new Keyring(identifier, options);
     });
   };
 
@@ -159,9 +159,9 @@
    * @param {string} identifier - the keyring identifier
    * @property {number} logoRev - revision number of the keyring logo, initial value: 0
    */
-  var Keyring = function(identifier) {
+  var Keyring = function(identifier, options) {
     this.identifier = identifier;
-    this.logoRev = 0;
+    this.logoRev = options.revision || 0;
   };
 
   /**
@@ -211,16 +211,22 @@
    * therefore the method is only required after new keyring generation or if logo and revision number changes.
    * @param {string} dataURL  - data-URL representing the logo, max. size: 10KB, content-type: image/png
    * @param {number} revision - revision number
-   * @returns {Promise.<Boolean, Error>} true if logo successfully set
-   * @throws {Error} error.code = 'LOGO_INVALID'
+   * @returns {Promise.<undefined, Error>}
+   * @throws {Error} error.code = 'LOGO_INVALID' <br>
+   *                 error.code = 'REVISION_INVALID'
    * @example
-   * keyring.setLogo('data:image/png;base64,iVBORS==', 1).then(function(result) {
-   *   // result: true
+   * keyring.setLogo('data:image/png;base64,iVBORS==', 3).then(function() {
+   *   // keyring.logoRev == 3
+   * }).catch(function(error) {
+   *   // logo update failed
    * });
    *
    */
   Keyring.prototype.setLogo = function(dataURL, revision) {
-    return postMessage('set-logo', {identifier: this.identifier, dataURL: dataURL, revision: revision});
+    var that = this;
+    return postMessage('set-logo', {identifier: this.identifier, dataURL: dataURL, revision: revision}).then(function() {
+      that.logoRev = revision;
+    });
   };
 
   /**

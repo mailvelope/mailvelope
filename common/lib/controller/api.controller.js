@@ -26,13 +26,15 @@ define(function(require, exports, module) {
     try {
       switch (request.event) {
         case 'get-keyring':
-          if (keyring.getById(request.keyringId)) {
-            sendResponse({data: true});
+          var keyRing = keyring.getById(request.keyringId);
+          if (keyRing) {
+            var attr = keyRing.getAttributes();
+            sendResponse({data: {revision: attr.logo_revision}});
           }
           break;
         case 'create-keyring':
           if (keyring.createKeyring(request.keyringId)) {
-            sendResponse({data: true});
+            sendResponse({data: {}});
           }
           break;
         case 'query-valid-key':
@@ -62,6 +64,15 @@ define(function(require, exports, module) {
             sendResponse({error: err, data: status});
           });
           return true;
+        case 'set-logo':
+          var attr = keyring.getById(request.keyringId).getAttributes();
+          if (attr.logo_revision && attr.logo_revision > request.revision) {
+            sendResponse({error: {message: 'New logo revision < existing revision.', code: 'REVISION_INVALID'}});
+            return;
+          }
+          keyring.setKeyringAttr(request.keyringId, {logo_revision: request.revision, logo_data_url: request.dataURL});
+          sendResponse({error: null, data: null});
+          break;
         default:
           console.log('unknown event:', request);
       }
