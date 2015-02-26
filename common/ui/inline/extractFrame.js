@@ -48,13 +48,27 @@ mvelo.ExtractFrame.prototype._init = function(pgpEnd) {
   this._pgpEnd = pgpEnd;
   // find element with complete armored text and width > 0
   this._pgpElement = pgpEnd;
-  while (!this._pgpStartRegex.test(this._pgpElement.text()) || this._pgpElement.width() <= 0) {
+  var maxNesting = 8;
+  var beginFound = false;
+  for (var i = 0; i < maxNesting; i++) {
+    if (this._pgpStartRegex.test(this._pgpElement.text()) &&
+        this._pgpElement.width() > 0) {
+      beginFound = true;
+      break;
+    }
     this._pgpElement = this._pgpElement.parent();
+    if (this._pgpElement.get(0).nodeName === 'HTML') {
+      break;
+    }
   }
   // set status to attached
   this._pgpEnd.data(mvelo.FRAME_STATUS, mvelo.FRAME_ATTACHED);
   // store frame obj in pgpText tag
   this._pgpEnd.data(mvelo.FRAME_OBJ, this);
+
+  if (!beginFound) {
+    throw new Error('Missing BEGIN PGP header.');
+  }
 
   this._pgpElementAttr.marginTop = parseInt(this._pgpElement.css('margin-top'), 10);
   this._pgpElementAttr.paddingTop = parseInt(this._pgpElement.css('padding-top'), 10);

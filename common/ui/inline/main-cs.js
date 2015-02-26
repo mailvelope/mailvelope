@@ -197,22 +197,24 @@ mvelo.main.attachExtractFrame = function(element) {
   });
   // create new decrypt frames for new discovered PGP tags
   newObj.each(function(index, element) {
-    // parent element of text node
-    var pgpEnd = $(element).parent();
-    switch (mvelo.main.getMessageType(pgpEnd.text())) {
-      case mvelo.PGP_MESSAGE:
-        var dFrame = new mvelo.DecryptFrame(mvelo.main.prefs);
-        dFrame.attachTo(pgpEnd);
-        break;
-      case mvelo.PGP_SIGNATURE:
-        var vFrame = new mvelo.VerifyFrame(mvelo.main.prefs);
-        vFrame.attachTo(pgpEnd);
-        break;
-      case mvelo.PGP_PUBLIC_KEY:
-        var imFrame = new mvelo.ImportFrame(mvelo.main.prefs);
-        imFrame.attachTo(pgpEnd);
-        break;
-    }
+    try {
+      // parent element of text node
+      var pgpEnd = $(element).parent();
+      switch (mvelo.main.getMessageType(pgpEnd.text())) {
+        case mvelo.PGP_MESSAGE:
+          var dFrame = new mvelo.DecryptFrame(mvelo.main.prefs);
+          dFrame.attachTo(pgpEnd);
+          break;
+        case mvelo.PGP_SIGNATURE:
+          var vFrame = new mvelo.VerifyFrame(mvelo.main.prefs);
+          vFrame.attachTo(pgpEnd);
+          break;
+        case mvelo.PGP_PUBLIC_KEY:
+          var imFrame = new mvelo.ImportFrame(mvelo.main.prefs);
+          imFrame.attachTo(pgpEnd);
+          break;
+      }
+    } catch (e) {}
   });
 };
 
