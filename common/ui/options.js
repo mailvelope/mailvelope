@@ -144,7 +144,6 @@ var options = {};
 
       var keyringHTML;
       var keyringName;
-      var providerStyling;
 
       for (var keyRingId in data) {
         keyringName = keyRingId.split(mvelo.KEYRING_DELIMITER)[0] + " (" + keyRingId.split(mvelo.KEYRING_DELIMITER)[1] + ")";
@@ -157,8 +156,8 @@ var options = {};
           }
           $(keyringHTML).find(".keyRingName").attr("primaryKeyId", obj.primary_key);
         }
-        if (obj.hasOwnProperty("provider_styling")) {
-          $(keyringHTML).find(".keyRingName").attr("providerStyling", obj.provider_styling);
+        if (obj.hasOwnProperty("logo_data_url")) {
+          $(keyringHTML).find(".keyRingName").attr("providerLogo", obj.logo_data_url);
         }
 
         if (keyRingId === mvelo.LOCAL_KEYRING_ID) {
@@ -182,11 +181,11 @@ var options = {};
     });
   }
 
-  function setKeyRing(keyringId, keyringName, providerStyling, primaryKeyId) {
+  function setKeyRing(keyringId, keyringName, providerLogo, primaryKeyId) {
     var $settingsArea = $("#settingsArea");
     $("#keyringSwitcherLabel").text(keyringName);
     exports.keyringId = keyringId;
-    exports.providerStyling = providerStyling;
+    exports.providerLogo = providerLogo;
 
     if (primaryKeyId !== undefined) {
       exports.primaryKeyId = primaryKeyId;
@@ -197,7 +196,7 @@ var options = {};
       $settingsArea.addClass("tab-content jumbotron");
     } else {
       $settingsArea.removeClass();
-      $settingsArea.addClass(providerStyling + " tab-content jumbotron");
+      $settingsArea.addClass(providerLogo + " tab-content jumbotron");
     }
   }
 
@@ -206,7 +205,7 @@ var options = {};
     setKeyRing(
       keyringId,
       $(this).text(),
-      $(this).attr("providerStyling"),
+      $(this).attr("providerLogo"),
       $(this).attr("primaryKeyId")
     );
 
