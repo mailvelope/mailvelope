@@ -83,7 +83,8 @@
       "password_timeout": 30
     },
     "general": {
-      "editor_type": "plain"
+      "editor_type": "plain",
+      "auto_add_primary": true
     },
     "main_active": true
   }
