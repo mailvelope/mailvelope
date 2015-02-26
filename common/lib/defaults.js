@@ -23,7 +23,7 @@ define(function(require, exports, module) {
   var model = require('./pgpModel');
   var openpgp = require('openpgp');
 
-  var defaults = mvelo.data.loadDefaults();
+  var defaults = null;
 
   function randomString(length) {
     var result = '';
@@ -46,8 +46,7 @@ define(function(require, exports, module) {
   }
 
   function init() {
-    model.setOpenPGPComment('https://www.mailvelope.com');
-    model.setOpenPGPVersion('Mailvelope v' + defaults.version);
+    defaults = mvelo.data.loadDefaults();
     var prefs = model.getPreferences();
     if (!prefs) {
       defaults.preferences.security.secure_color = randomColor();
@@ -137,8 +136,7 @@ define(function(require, exports, module) {
     return defaults.version;
   }
 
-  init();
-
+  exports.init = init;
   exports.getVersion = getVersion;
 
 });

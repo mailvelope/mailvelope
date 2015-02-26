@@ -22,34 +22,33 @@ define(function(require, exports, module) {
   var mvelo = require('../lib-mvelo').mvelo;
   var l10n = mvelo.l10n.get;
   var openpgp = require('openpgp');
-  if (mvelo.crx) {
-    openpgp.initWorker({path: 'dep/openpgp.worker.js'});
-  } else if (mvelo.ffa) {
-    var CWorker = mvelo.util.getWorker();
-    openpgp.initWorker({
-      worker: new CWorker(mvelo.data.url('openpgp.worker.min.js'))
-    });
-  }
+  var defaults = require('./defaults');
+
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
   var keyring = require('./keyring');
 
   var watchListBuffer = null;
 
   function init() {
+    defaults.init();
+    initOpenPGP();
     keyring.init();
   }
 
-  function setOpenPGPComment(text) {
-    openpgp.config.commentstring = text;
-  }
-
-  function setOpenPGPVersion(text) {
-    openpgp.config.versionstring = text;
+  function initOpenPGP() {
+    openpgp.config.commentstring = 'https://www.mailvelope.com';
+    openpgp.config.versionstring = 'Mailvelope v' + defaults.getVersion();
+    if (mvelo.crx) {
+      openpgp.initWorker('dep/openpgp.worker.js');
+    } else if (mvelo.ffa) {
+      var CWorker = mvelo.util.getWorker();
+      openpgp.initWorker('', {
+        worker: new CWorker(mvelo.data.url('openpgp.worker.min.js'))
+      });
+    }
   }
 
   exports.init = init;
-  exports.setOpenPGPComment = setOpenPGPComment;
-  exports.setOpenPGPVersion = setOpenPGPVersion;
 
 /*
   function decode_utf8(str) {
