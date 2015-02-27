@@ -454,6 +454,7 @@ define(function(require, exports, module) {
     }
     imported.keys.forEach(function(pubKey) {
       // check for existing keys
+      checkKeyId(pubKey, keyring);
       var key = keyring.getKeysForId(pubKey.primaryKey.getFingerprint());
       var keyid = pubKey.primaryKey.getKeyId().toHex().toUpperCase();
       if (key) {
@@ -488,6 +489,7 @@ define(function(require, exports, module) {
     }
     imported.keys.forEach(function(privKey) {
       // check for existing keys
+      checkKeyId(privKey, keyring);
       var key = keyring.getKeysForId(privKey.primaryKey.getFingerprint());
       var keyid = privKey.primaryKey.getKeyId().toHex().toUpperCase();
       if (key) {
@@ -517,6 +519,32 @@ define(function(require, exports, module) {
 
     });
     return result;
+  }
+
+  function checkKeyId(sourceKey, keyring) {
+    var primKeyId = sourceKey.primaryKey.getKeyId();
+    var keys = keyring.getKeysForId(primKeyId.toHex(), true);
+    if (keys) {
+      keys.forEach(function(key) {
+        if (!key.primaryKey.getKeyId().equals(primKeyId)) {
+          throw new Error('Primary keyId equals existing sub keyId.');
+        }
+      });
+    }
+    sourceKey.getSubkeyPackets().forEach(function(subKey) {
+      var subKeyId = subKey.getKeyId();
+      var keys = keyring.getKeysForId(subKeyId.toHex(), true);
+      if (keys) {
+        keys.forEach(function(key) {
+          if (key.primaryKey.getKeyId().equals(subKeyId)) {
+            throw new Error('Sub keyId equals existing primary keyId.');
+          }
+          if (!key.primaryKey.getKeyId().equals(primKeyId)) {
+            throw new Error('Sub keyId equals existing sub keyId in key with different primary keyId.');
+          }
+        });
+      }
+    });
   }
 
   Keyring.prototype.removeKey = function(guid, type) {
