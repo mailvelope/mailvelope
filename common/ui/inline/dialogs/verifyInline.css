@@ -15,7 +15,7 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
-  margin: 15px 15px 3px 3px;
+  margin: 45px 5px 5px 5px;
   background-color: white;
 }
 
@@ -24,6 +24,7 @@ html, body {
   background-color: rgba(0,0,0,0);
   width: 100%;
   height: 100%;
+  border:1px solid lightgray;
 }
 
 .hide_bg {
@@ -70,4 +71,10 @@ html, body {
 
 .spinner-large {
   background-position: center 160px;
+}
+
+.lockBtnIcon {
+    width: 30px !important;
+    height: 30px;
+    margin-right: -20px;
 }

@@ -33,3 +33,25 @@ body {
 #fingerprint {
   font-family: monospace;
 }
+
+.modal-body.secureBackground {
+  padding-top: 40px;
+  position: relative;
+}
+
+.secureBackground .well {
+    background-color: #fff;
+    margin-bottom: 0;
+}
+
+#secureBgndSettingsBtn {
+  position: absolute;
+  top: -3px;
+  right: 12px;
+}
+
+.lockBtnIcon {
+    width: 30px !important;
+    height: 30px;
+    margin-right: -44px;
+}

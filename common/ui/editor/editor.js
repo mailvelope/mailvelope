@@ -106,7 +106,7 @@ var mvelo = mvelo || null;
       }).then(callback);
     } else {
       mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-popup.html')).then(function() {
-        $('#editorDialog').addClass('secureBackground');
+        $('.modal-body').addClass('secureBackground');
         $('#cancelBtn').click(onCancel);
         $('#transferBtn').click(onTransfer);
         $('#signBtn').click(onSign);
@@ -127,7 +127,7 @@ var mvelo = mvelo || null;
           $('#uploadBtn').on("click", function() {
             $('#addFileInput').click();
           });
-          $('#footer').hide();
+          $('#uploadEmbeddedBtn, #addFileInput').hide();
         }).then(callback);
       });
     }

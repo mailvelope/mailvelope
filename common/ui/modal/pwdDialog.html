@@ -19,11 +19,13 @@
 <body>
   <div class="m-modal">
     <div class="modal-header clearfix">
-      <div id='secureCode'></div>
       <h4 data-l10n-id="pwd_dialog_header"></h4>
       <h6><span id="userId"></span> - <span id="keyId"></span></h6>
     </div>
-    <div class="modal-body">
+    <div class="modal-body secureBackground">
+      <button id="secureBgndSettingsBtn" class="btn btn-link pull-right">
+        <span class="glyphicon lockBtnIcon"></span>
+      </button>
       <form class="well form">
         <div class="form-group" id="pwdGroup">
           <input type="password" class="form-control" id="password">

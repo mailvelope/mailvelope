@@ -38,6 +38,7 @@ var mvelo = mvelo || null;
     $('form').on('submit', onOk);
     $(window).on('unload', onCancel);
     mvelo.l10n.localizeHTML();
+    mvelo.util.showSecurityBackground();
   }
 
   function onOk() {

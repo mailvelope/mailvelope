@@ -31,6 +31,7 @@ body {
 .modal-body .well {
   margin-bottom: 0;
   padding-bottom: 10px;
+  background-color: #fff;
 }
 
 .modal-header h4 {
@@ -49,10 +50,6 @@ body {
 #rememberGroup {
   margin-bottom: 0;
 }
-
-/*.m-modal .form-horizontal {
-  margin-bottom: 0;
-}*/
 
 .busy {
   cursor: wait !important;
@@ -93,4 +90,21 @@ body {
   font-size: 14px;
   line-height: 20px;
   color: #555555;
+}
+
+.modal-body.secureBackground {
+  padding-top: 40px;
+  position: relative;
+}
+
+#secureBgndSettingsBtn {
+  position: absolute;
+  top: -3px;
+  right: 12px;
+}
+
+.lockBtnIcon {
+    width: 30px !important;
+    height: 30px;
+    margin-right: -44px;
 }

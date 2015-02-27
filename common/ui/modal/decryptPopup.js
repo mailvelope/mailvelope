@@ -52,12 +52,18 @@ var mvelo = mvelo || null;
       l10n = result;
     });
     mvelo.util.showSecurityBackground();
+    addSecuritySettingsButton();
   }
 
   function onClose() {
     $(window).off('unload');
     port.postMessage({event: 'decrypt-dialog-cancel', sender: name});
     return false;
+  }
+
+  function addSecuritySettingsButton() {
+    var securitySettingsBtn = $('<button id="secureBgndSettingsBtn" class="btn btn-link pull-right"><span class="glyphicon lockBtnIcon"></span></button>');
+    $('.modal-body .footer').append(securitySettingsBtn);
   }
 
   function onCopy() {
@@ -71,19 +77,9 @@ var mvelo = mvelo || null;
 
   function addAttachmentPanel() {
     var attachments = $('<div/>', {
-      id: 'attachments',
-      css: {
-        position: 'absolute',
-        top: "20px",
-        left: 0,
-        right: 0,
-        bottom: '0',
-        margin: '3px',
-        padding: '3px',
-        overflow: 'auto'
-      }
+      id: 'attachments'
     });
-    $('.modal-body').append(attachments);
+    $('.modal-body .header').append(attachments);
   }
 
   function addSandbox() {
@@ -91,7 +87,7 @@ var mvelo = mvelo || null;
       sandbox: 'allow-same-origin allow-popups',
       css: {
         position: 'absolute',
-        top: "50px",
+        top: "0px",
         left: 0,
         right: 0,
         bottom: 0
@@ -105,9 +101,9 @@ var mvelo = mvelo || null;
         top: 0,
         left: 0,
         right: 0,
-        bottom: '60px',
+        bottom: '0px',
         margin: '3px',
-        padding: '3px',
+        padding: '8px 10px',
         overflow: 'auto'
       }
     });
@@ -121,7 +117,7 @@ var mvelo = mvelo || null;
                                      .append(style);
       sandbox.contents().find('body').append(content);
     });
-    $('.modal-body').append(sandbox);
+    $('.modal-body .content').append(sandbox);
   }
 
   function addPwdDialog(id) {
@@ -146,7 +142,7 @@ var mvelo = mvelo || null;
   function addErrorView() {
     var errorbox = $('<div/>', {id: 'errorbox'});
     $('<div/>', {id: 'errorwell', class: 'well'}).appendTo(errorbox);
-    $('.modal-body').append(errorbox);
+    $('.modal-body .header').append(errorbox);
   }
 
   function showError(msg) {

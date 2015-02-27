@@ -44,9 +44,9 @@ var mvelo = mvelo || null;
     }
     addWrapper();
     addSandbox();
-    mvelo.extension.sendMessage({event: "get-security-token"}, function(token) {
-      $('#watermark').html(mvelo.util.encodeHTML(token.code));
-    });
+    // mvelo.extension.sendMessage({event: "get-security-token"}, function(token) {
+    //   $('#watermark').html(mvelo.util.encodeHTML(token.code));
+    // });
     $(window).on('resize', resizeFont);
     addErrorView();
     // show spinner
@@ -60,6 +60,7 @@ var mvelo = mvelo || null;
     ], function(result) {
       l10n = result;
     });
+    mvelo.util.showSecurityBackground();
   }
 
   function showSpinner() {
@@ -115,8 +116,14 @@ var mvelo = mvelo || null;
 
   function showMessageArea() {
     $('html, body').addClass('hide_bg');
+    $('body').addClass('secureBackground');
     $('#wrapper').fadeIn();
     resizeFont();
+  }
+
+  function addSecuritySettingsButton() {
+    var securitySettingsBtn = $('<button id="secureBgndSettingsBtn" class="btn btn-link pull-right"><span class="glyphicon lockBtnIcon"></span></button>');
+    $('body').append(securitySettingsBtn);
   }
 
   function showErrorMsg(msg) {
@@ -139,6 +146,7 @@ var mvelo = mvelo || null;
     switch (msg.event) {
       case 'verified-message':
         showMessageArea();
+        addSecuritySettingsButton();
         // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
         var message = msg.message.replace(/\n/g, '<br>');
         var node = $('#verifymail').contents();
@@ -173,6 +181,8 @@ var mvelo = mvelo || null;
       default:
         console.log('unknown event');
     }
+    clearTimeout(spinnerTimer);
+    $('body').removeClass('spinner spinner-large');
   }
 
   $(document).ready(init);

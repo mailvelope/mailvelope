@@ -42,13 +42,13 @@ var mvelo = mvelo || null;
     } else if (mvelo.ffa) {
       commonPath = mvelo.extension._dataPath + 'common';
     }
-    addWrapper();
     addAttachmentPanel();
+    addWrapper();
     addSandbox();
     addSpinner();
-    mvelo.extension.sendMessage({event: "get-security-token"}, function(token) {
-      $('#watermark').html(mvelo.util.encodeHTML(token.code));
-    });
+    // mvelo.extension.sendMessage({event: "get-security-token"}, function(token) {
+    //   $('#watermark').html(mvelo.util.encodeHTML(token.code));
+    // });
     $(window).on('resize', resizeFont);
     addErrorView();
     // show spinner
@@ -88,7 +88,7 @@ var mvelo = mvelo || null;
   }
 
   function addSecuritySettingsButton() {
-    var securitySettingsBtn = $('<button id="secureBgndSettingsBtn" class="btn btn-link pull-right"><span class="glyphicon lockBtnIcon"></span></button>');
+    var securitySettingsBtn = $('<div id="footer"><button id="secureBgndSettingsBtn" class="btn btn-link pull-right"><span class="glyphicon lockBtnIcon"></span></button></div>');
     $('body').append(securitySettingsBtn);
   }
 

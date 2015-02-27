@@ -41,6 +41,7 @@ var mvelo = mvelo || null;
     port.postMessage({event: 'verify-popup-init', sender: name});
     addSandbox();
     addErrorView();
+    addSecuritySettingsButton();
     $(window).on('unload', onClose);
     $('#closeBtn').click(onClose);
     $('#copyBtn').click(onCopy);
@@ -56,6 +57,11 @@ var mvelo = mvelo || null;
       l10n = result;
     });
     mvelo.util.showSecurityBackground();
+  }
+
+  function addSecuritySettingsButton() {
+    var securitySettingsBtn = $('<button id="secureBgndSettingsBtn" class="btn btn-link pull-right"><span class="glyphicon lockBtnIcon"></span></button>');
+    $('.modal-body .header').append(securitySettingsBtn);
   }
 
   function onClose() {
@@ -75,7 +81,6 @@ var mvelo = mvelo || null;
 
   function addSandbox() {
     sandbox = $('<iframe/>', {
-      id: 'verifymail',
       sandbox: 'allow-same-origin allow-popups',
       frameBorder: 0
     });
@@ -95,13 +100,13 @@ var mvelo = mvelo || null;
                                      .append(style3);
       sandbox.contents().find('body').append(content);
     });
-    $('.modal-body').append(sandbox);
+    $('.modal-body .content').append(sandbox);
   }
 
   function addErrorView() {
     var errorbox = $('<div/>', {id: 'errorbox'});
     $('<div/>', {id: 'errorwell', class: 'well'}).appendTo(errorbox);
-    $('.modal-body').append(errorbox);
+    $('.modal-body .content').append(errorbox);
   }
 
   function showError(msg) {

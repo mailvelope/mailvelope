@@ -47,16 +47,38 @@ html, body {
 
 .modal-body {
   position: absolute;
-  top: 49px;
-  bottom: 58px;
+  top: 70px;
+  bottom: 65px;
   right: 0px;
   left: 0px;
   overflow: hidden;
+  padding-top:0px;
+  padding-left:8px;
+  padding-right:8px;
+
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  align-items: stretch;
+}
+
+.modal-body .header {
+  flex: 0 0 auto;
+  margin-bottom: -12px;
+}
+
+.modal-body .content {
+  flex: 1 0 auto;
+  position: relative;
 }
 
 .modal-body iframe {
   width: 100%;
   height: 100%;
+  position: absolute;
+  top:8px;
+  bottom:0;
+  border: 1px solid #ccc;
 }
 
 .modal-footer {
@@ -102,4 +124,10 @@ html, body {
   font-size: 14px;
   line-height: 20px;
   color: #555555;
+}
+
+.lockBtnIcon {
+    width: 30px !important;
+    height: 30px;
+    margin-right: -44px;
 }

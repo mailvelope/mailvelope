@@ -8,39 +8,51 @@ html, body {
   background-color: rgba(0,0,0,0);
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  align-items: stretch;
+}
+
 #wrapper {
   opacity: 0;
   transition: opacity 0.6s ease-in;
-  position: absolute;
+/*  position: absolute;
   top: 32px;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
-  margin: 15px 3px 3px 3px;
+  left: 7px;
+  right: 8px;
+  bottom: 5px;*/
+  margin:0 7px 7px;
   background-color: white;
   z-index: 1;
+  flex: 1 0 auto;
+  position: relative;
 }
 
 #wrapper.fade-in {
   opacity: 1;
 }
 
-#attachments {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 10px 13px 10px 13px;
-    background-color: rgba(0,0,0,0);
-    overflow: auto;
+#footer {
+  flex: 0 0 auto;
+}
 
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-content: flex-start;
-    align-items: flex-start;
+#attachments {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  align-items: flex-start;
+  flex: 0 0 auto;
+  padding: 5px 7px 5px 7px;
+  background-color: rgba(0,0,0,0);
+  overflow: auto;
+}
+
+#attachments .attachmentButton {
+  /*display: inline-block;*/
 }
 
 #decryptmail {
@@ -50,6 +62,10 @@ html, body {
   height: 100%;
   padding: 5px;
   border: 1px solid lightgray;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
 }
 
 .hide_bg {
@@ -71,11 +87,13 @@ html, body {
 
 #errorbox {
   display: none;
-  background-color: rgba(254,251,243,.7);
+  /*background-color: rgba(254,251,243,.7);*/
   position: absolute;
   top: 50%;
-  padding: 20px 20px 0 20px;
-  margin-left: 110px;
+  left: 50%;
+  /*padding: 20px 20px 0 20px;*/
+  width: 500px;
+  margin-left: -250px;
   margin-top: -70px;
 }
 
@@ -86,6 +104,10 @@ html, body {
 
 #errorwell {
   margin-left: 0;
+}
+
+#errorwell .alert {
+  margin-bottom: 0;
 }
 
 .lockBtnIcon {
