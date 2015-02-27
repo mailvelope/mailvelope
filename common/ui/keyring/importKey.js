@@ -84,6 +84,7 @@ var mvelo = mvelo || null;
           var success = false;
           result.forEach(function(imported) {
             var heading;
+            var type = imported.type;
             switch (imported.type) {
               case 'success':
                 heading = options.l10n.alert_header_success;
@@ -94,9 +95,10 @@ var mvelo = mvelo || null;
                 break;
               case 'error':
                 heading = options.l10n.key_import_error;
+                type = 'danger';
                 break;
             }
-            $('#importAlert').showAlert(heading, imported.message, imported.type, true);
+            $('#importAlert').showAlert(heading, imported.message, type, true);
           });
           if (callback) {
             callback(result);
