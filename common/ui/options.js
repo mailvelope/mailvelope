@@ -190,9 +190,11 @@ var options = {};
       exports.primaryKeyId = primaryKeyId;
     }
 
-    $settingsArea.css("background", "none");
+    $settingsArea.css("background-image", "none");
     if (providerLogo) {
-      $settingsArea.css("background", "url(" + providerLogo + ") no-repeat top+10px right+10px");
+      $settingsArea.css("background-image", "url(" + providerLogo + ")");
+      $settingsArea.css("background-repeat", "no-repeat");
+      $settingsArea.css("background-position", "top+10px right+10px");
     }
   }
 
