@@ -88,7 +88,7 @@
     "description": "Title of the password dialog."
   },
   "pwd_dialog_header": {
-    "message": "Key password prompt",
+    "message": "Key password entry dialog",
     "description": "Header of the password dialog."
   },
   "pwd_dialog_userid": {
@@ -439,6 +439,10 @@
     "message": "Add key to keyring",
     "description": "Key import dialog header."
   },
+  "key_import_question": {
+    "message": "Do you want to import this key?",
+    "description": "Key import dialog header."
+  },
   "form_import": {
     "message": "Import",
     "description": "Import form button."
@@ -702,6 +706,14 @@
   "form_ok": {
     "message": "Ok",
     "description": "Ok form button."
+  },
+  "form_yes": {
+    "message": "Yes",
+    "description": "Yes form button."
+  },
+  "form_no": {
+    "message": "No",
+    "description": "No form button."
   },
   "form_busy": {
     "message": "Busy",
