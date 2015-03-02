@@ -105,7 +105,7 @@ define(function(require, exports, module) {
       options.openPopup = true;
     }
     if (options.openPopup) {
-      this.mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + this.id, {width: 462, height: 377, modal: false}, function(window) {
+      this.mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + this.id, {width: 470, height: 340, modal: false}, function(window) {
         that.pwdPopup = window;
       });
     }

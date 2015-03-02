@@ -21,35 +21,19 @@
     <div class="modal-header clearfix">
       <div id='secureCode'></div>
       <h4 data-l10n-id="pwd_dialog_header"></h4>
+      <h6><span id="userId"></span> - <span id="keyId"></span></h6>
     </div>
     <div class="modal-body">
-      <form class="well form-horizontal">
-        <div class="form-group">
-          <label for="userId" class="control-label col-xs-3" data-l10n-id="pwd_dialog_userid"></label>
-          <div class="col-xs-9">
-            <p id="userId" class="form-control-static"></p>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="keyId" class="control-label col-xs-3" data-l10n-id="dialog_keyid_label"></label>
-          <div class="col-xs-9">
-            <p id="keyId" class="form-control-static"></p>
-          </div>
-        </div>
+      <form class="well form">
         <div class="form-group" id="pwdGroup">
-          <label for="password" class="control-label col-xs-3" data-l10n-id="pwd_dialog_password"></label>
-          <div class="col-xs-9">
-            <input type="password" class="form-control" id="password">
-            <span class="label label-danger hide" data-l10n-id="pwd_dialog_wrong_pwd"></span>
-          </div>
+          <input type="password" class="form-control" id="password">
+          <span class="label label-danger hide" data-l10n-id="pwd_dialog_wrong_pwd"></span>
         </div>
         <div class="form-group" id="rememberGroup">
-          <div class="col-xs-offset-3 col-xs-9">
-            <div class="checkbox">
-              <label>
-                <input id="remember" type="checkbox">&nbsp;<span data-l10n-id="pwd_dialog_cache_pwd"></span>
-              </label>
-            </div>
+          <div class="checkbox">
+            <label>
+              <input id="remember" type="checkbox">&nbsp;<span data-l10n-id="pwd_dialog_cache_pwd"></span>
+            </label>
           </div>
         </div>
         <div id="decryptAlert"></div>

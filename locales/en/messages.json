@@ -88,7 +88,7 @@
     "description": "Title of the password dialog."
   },
   "pwd_dialog_header": {
-    "message": "Key unlock",
+    "message": "Key password prompt",
     "description": "Header of the password dialog."
   },
   "pwd_dialog_userid": {
@@ -104,16 +104,20 @@
     "description": "Label for password."
   },
   "pwd_dialog_pwd_please": {
-    "message": "Please enter...",
+    "message": "Please enter your password",
     "description": "Placeholder for password."
+  },
+  "pwd_dialog_keyid_tooltip": {
+    "message": "The id of your key",
+    "description": "Tooltip explaining the key id."
   },
   "pwd_dialog_wrong_pwd": {
     "message": "Wrong password",
     "description": "Password error message."
   },
   "pwd_dialog_cache_pwd": {
-    "message": "Remember passwords for this session",
-    "description": "Checkbox label."
+    "message": "Remember password temporarily",
+    "description": "Checkbox label for remembering of the password."
   },
   "verify_result_success": {
     "message": "Signed by",

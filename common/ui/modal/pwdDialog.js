@@ -40,10 +40,12 @@ var mvelo = mvelo || null;
     $('#password').focus();
     mvelo.l10n.localizeHTML();
     mvelo.l10n.getMessages([
-      'pwd_dialog_pwd_please'
+      'pwd_dialog_pwd_please',
+      'pwd_dialog_keyid_tooltip'
     ], function(result) {
       l10n = result;
       $('#password').attr('placeholder', l10n.pwd_dialog_pwd_please);
+      $('#keyId').attr('title', l10n.pwd_dialog_keyid_tooltip);
     });
     mvelo.util.showSecurityBackground();
   }
