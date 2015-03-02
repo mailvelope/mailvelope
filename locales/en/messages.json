@@ -88,7 +88,7 @@
     "description": "Title of the password dialog."
   },
   "pwd_dialog_header": {
-    "message": "Key password entry dialog",
+    "message": "Enter key password",
     "description": "Header of the password dialog."
   },
   "pwd_dialog_userid": {
