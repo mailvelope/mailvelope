@@ -96,6 +96,7 @@ var mvelo = mvelo || null;
     if (embedded) {
       $('body').addClass("secureBackground");
       mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/waiting-modal.html')).then(function() {
+        $('#waitingModal .modal-title').hide();
         $('#waitingModal').modal({keyboard: false}).modal("show");
       });
       mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')).then(function() {
@@ -429,6 +430,7 @@ var mvelo = mvelo || null;
         }
         break;
       case 'decrypt-failed':
+        $('#waitingModal .modal-title').show();
         $('.text-center').addClass('alert alert-danger').text(l10n.waiting_dialog_decryption_failed);
         $('#waitingModal .m-spinner').hide();
         $('#waitingModal .btn-primary').show();
