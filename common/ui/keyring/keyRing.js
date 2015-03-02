@@ -430,8 +430,8 @@ var options = options || null;
   }
 
   options.deleteKeyring = function() {
-    var keyRingId = $(this).attr("keyringId");
-    if (confirm("Do you want to remove keyring? " + keyRingId)) {
+    var keyRingId = $(this).attr("data-keyringid");
+    if (confirm("Do you want to remove the keyring with id: " + keyRingId + " ?")) {
       mvelo.extension.sendMessage({
         event: 'delete-keyring',
         keyringId: keyRingId

@@ -62,13 +62,11 @@ var options = {};
     });
 
     var qs = jQuery.parseQuerystring();
-    var krid = decodeURIComponent(qs.krid);
+    var krid = mvelo.LOCAL_KEYRING_ID;
     if (qs.hasOwnProperty("krid")) {
-      setKeyRing(krid, krid.split(mvelo.KEYRING_DELIMITER)[0] + " (" + krid.split(mvelo.KEYRING_DELIMITER)[1] + ")");
-    } else {
-      // Setting the default keyring to mailvelope
-      setKeyRing(mvelo.LOCAL_KEYRING_ID, "Mailvelope", "mailvelope");
+      krid = decodeURIComponent(qs.krid);
     }
+    setKeyRing(krid);
 
     if (qs.hasOwnProperty("email")) {
       $("#genKeyEmail").val(decodeURIComponent(qs.email));
@@ -154,10 +152,10 @@ var options = {};
           if (exports.keyringId === keyRingId) {
             exports.primaryKeyId = obj.primary_key;
           }
-          $(keyringHTML).find(".keyRingName").attr("primaryKeyId", obj.primary_key);
+          $(keyringHTML).find(".keyRingName").attr("data-primarykeyid", obj.primary_key);
         }
         if (obj.hasOwnProperty("logo_data_url")) {
-          $(keyringHTML).find(".keyRingName").attr("providerLogo", obj.logo_data_url);
+          $(keyringHTML).find(".keyRingName").attr("data-providerlogo", obj.logo_data_url);
         }
 
         if (keyRingId === mvelo.LOCAL_KEYRING_ID) {
@@ -166,13 +164,15 @@ var options = {};
         }
 
         $(keyringHTML).find(".keyRingName").text(keyringName);
-        $(keyringHTML).find(".keyRingName").attr("keyringId", keyRingId);
-        $(keyringHTML).find(".deleteKeyRing").attr("keyringId", keyRingId);
+        $(keyringHTML).find(".keyRingName").attr("data-keyringid", keyRingId);
+        $(keyringHTML).find(".deleteKeyRing").attr("data-keyringid", keyRingId);
         $keyringList.append(keyringHTML);
       }
 
       $keyringList.find(".keyRingName").on("click", switchKeyring);
       $keyringList.find(".deleteKeyRing").on("click", exports.deleteKeyring);
+
+      setKeyRing(krid);
     });
 
     getL10nMessages(Object.keys(l10n), function(result) {
@@ -181,12 +181,22 @@ var options = {};
     });
   }
 
-  function setKeyRing(keyringId, keyringName, providerLogo, primaryKeyId) {
+  function setKeyRing(keyringId) {
+    var primaryKeyId = $('a[data-keyringid="' + keyringId + '"]').attr('data-primarykeyid');
+    var providerLogo = $('a[data-keyringid="' + keyringId + '"]').attr('data-providerlogo');
+
+    var keyringName;
+    if (keyringId === mvelo.LOCAL_KEYRING_ID) {
+      keyringName = "Mailvelope";
+    } else if (keyringId) {
+      keyringName = keyringId.split(mvelo.KEYRING_DELIMITER)[0] + " (" + keyringId.split(mvelo.KEYRING_DELIMITER)[1] + ")";
+    }
+
     var $settingsArea = $("#settingsArea");
     $("#keyringSwitcherLabel").text(keyringName);
     exports.keyringId = keyringId;
 
-    if (primaryKeyId !== undefined) {
+    if (primaryKeyId) {
       exports.primaryKeyId = primaryKeyId;
     }
 
@@ -199,13 +209,8 @@ var options = {};
   }
 
   function switchKeyring() {
-    var keyringId = $(this).attr("keyringId");
-    setKeyRing(
-      keyringId,
-      $(this).text(),
-      $(this).attr("providerLogo"),
-      $(this).attr("primaryKeyId")
-    );
+    var keyringId = $(this).attr("data-keyringid");
+    setKeyRing(keyringId);
 
     $("#genKeyEmailLabel").removeAttr("data-l10n-id");
 
@@ -218,7 +223,7 @@ var options = {};
   }
 
   function customize123Mail(keyringId) {
-    if ((keyringId.indexOf(mail123Suffix) > 3)) {
+    if (keyringId && (keyringId.indexOf(mail123Suffix) > 3)) {
       $("#genKeyEmailLabel").text("123Mail");
     } else {
       $("#genKeyEmailLabel").text(exports.l10n.keygrid_user_email);
