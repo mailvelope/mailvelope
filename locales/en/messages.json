@@ -351,6 +351,10 @@
     "message": "ID",
     "description": "User ID of a PGP key."
   },
+  "keygrid_invalid_userid": {
+    "message": "Invalid user ID",
+    "description": "User ID invalid."
+  },
   "keygrid_userid_signatures": {
     "message": "Signatures",
     "description": "Signatures on User ID of a PGP key."

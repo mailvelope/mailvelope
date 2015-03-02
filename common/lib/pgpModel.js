@@ -91,7 +91,7 @@ define(function(require, exports, module) {
     }
 
     if (result.key) {
-      result.userid = keyring.getUserId(result.key);
+      result.userid = keyring.getUserId(result.key, false);
     } else {
       // unknown private key
       result.keyid = encryptionKeyIds[0].toHex();

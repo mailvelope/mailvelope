@@ -94,18 +94,21 @@ define(function(require, exports, module) {
     mvelo.storage.set('mailvelopeKeyringAttr', keyringAttr);
   }
 
-  function getUserId(key) {
+  function getUserId(key, validityCheck) {
+    validityCheck = typeof validityCheck === 'undefined' ? true : false;
     var primaryUser = key.getPrimaryUser();
     if (primaryUser) {
       return primaryUser.user.userId.userid;
     } else {
-      // take first available user ID
-      for (var i = 0; i < key.users.length; i++) {
-        if (key.users[i].userId) {
-          return key.users[i].userId.userid;
+      if (!validityCheck) {
+        // take first available user ID
+        for (var i = 0; i < key.users.length; i++) {
+          if (key.users[i].userId) {
+            return key.users[i].userId.userid;
+          }
         }
       }
-      return 'UNKNOWN';
+      return l10n('keygrid_invalid_userid');
     }
   }
 
@@ -180,7 +183,7 @@ define(function(require, exports, module) {
       uiKey.fingerprint = uiKey.guid.toUpperCase();
       // primary user
       try {
-        uiKey.userId = getUserId(key);
+        uiKey.userId = getUserId(key, false);
         var address = goog.format.EmailAddress.parse(uiKey.userId);
         uiKey.name = address.getName();
         uiKey.email = address.getAddress();
@@ -253,7 +256,7 @@ define(function(require, exports, module) {
       // subkeys
       mapSubKeys(key.subKeys, details);
       // users
-      mapUsers(key.users, details, this.keyring);
+      mapUsers(key.users, details, this.keyring, key.primaryKey);
       return details;
     } else {
       throw new Error('Key with this fingerprint not found: ', guid);
@@ -283,7 +286,7 @@ define(function(require, exports, module) {
     });
   }
 
-  function mapUsers(users, toKey, keyring) {
+  function mapUsers(users, toKey, keyring, primaryKey) {
     toKey.users = [];
     users && users.forEach(function(user) {
       try {
@@ -291,6 +294,9 @@ define(function(require, exports, module) {
         uiUser.userID = user.userId.userid;
         uiUser.signatures = [];
         user.selfCertifications && user.selfCertifications.forEach(function(selfCert) {
+          if (!user.isValidSelfCertificate(primaryKey, selfCert)) {
+            return;
+          }
           var sig = {};
           sig.signer = user.userId.userid;
           sig.id = selfCert.issuerKeyId.toHex().toUpperCase();
@@ -301,8 +307,14 @@ define(function(require, exports, module) {
           var sig = {};
           var keyidHex = otherCert.issuerKeyId.toHex();
           var issuerKeys = keyring.getKeysForId(keyidHex);
-          if (issuerKeys !== null) {
-            sig.signer = getUserId(issuerKeys[0]);
+          if (issuerKeys) {
+            var signingKeyPacket = issuerKeys[0].getKeyPacket([otherCert.issuerKeyId]);
+            if (signingKeyPacket && (otherCert.verified || otherCert.verify(signingKeyPacket, {userid: user.userId, key: primaryKey}))) {
+              sig.signer = getUserId(issuerKeys[0]);
+            } else {
+              // invalid signature
+              return;
+            }
           } else {
             sig.signer = l10n("keygrid_signer_unknown");
           }
@@ -341,8 +353,7 @@ define(function(require, exports, module) {
         return email === element;
       });
     } catch (e) {
-      user.userid = user.userid || 'UNKNOWN';
-      console.log('Exception in mapKeyUserIds', e);
+      user.userid = l10n('keygrid_invalid_userid');
     }
   }
 
