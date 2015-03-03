@@ -183,6 +183,19 @@ define(function(require, exports, module) {
 
   mvelo.util = mvelo.util || {};
 
+  // Add a hook to make all links open a new window
+  // attribution: https://github.com/cure53/DOMPurify/blob/master/demos/hooks-target-blank-demo.html
+  dompurify.addHook('afterSantitizeAttributes', function(node) {
+    // set all elements owning target to target=_blank
+    if ('target' in node) {
+      node.setAttribute('target', '_blank');
+    }
+    // set MathML links to xlink:show=new
+    if (node.tagName === 'math' && node.hasAttribute('href')) {
+      node.setAttribute('xlink:show', 'new');
+    }
+  });
+
   mvelo.util.parseHTML = function(html, callback) {
     callback(dompurify.sanitize(html, {SAFE_FOR_JQUERY: true}));
   };

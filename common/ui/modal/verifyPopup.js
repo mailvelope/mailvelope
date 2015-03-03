@@ -76,7 +76,7 @@ var mvelo = mvelo || null;
   function addSandbox() {
     sandbox = $('<iframe/>', {
       id: 'verifymail',
-      sandbox: 'allow-same-origin',
+      sandbox: 'allow-same-origin allow-popups',
       frameBorder: 0
     });
     var header = $('<header/>');

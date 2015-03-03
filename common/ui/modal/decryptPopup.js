@@ -88,7 +88,7 @@ var mvelo = mvelo || null;
 
   function addSandbox() {
     sandbox = $('<iframe/>', {
-      sandbox: 'allow-same-origin',
+      sandbox: 'allow-same-origin allow-popups',
       css: {
         position: 'absolute',
         top: "50px",
