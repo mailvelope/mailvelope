@@ -1,7 +1,7 @@
 
 body {
-  width: 300px;
-  height: 200px;
+  width: 200px;
+  height: 300px;
 }
 
 .popup {
@@ -16,14 +16,18 @@ body {
   align-items: flex-start;  
 }
 
+/*.popup button {
+  width: 95%;
+}*/
+
 .popupHeader {
     order: 0;
-    flex: 1 1 30px;
+    flex: 1 1 50px;
     align-self: stretch;
     
     padding: 5px;
-    min-height: 40px;
-    max-height: 40px;
+    min-height: 50px;
+    max-height: 50px;
     /*background-color: lightgray;*/
 }
 
@@ -31,10 +35,11 @@ body {
     order: 0;
     flex: 1 1 auto;
     align-self: stretch;
-    overflow-y: auto;
-    
-    /*background-color: lightgray;*/
+
+    overflow-y: none;
     padding: 4px;
+    border-bottom: 1px lightgray solid;
+    /*border-top: 1px lightgray solid;*/
 }
 
 .popupFooter {
@@ -45,13 +50,12 @@ body {
     padding: 4px;
     min-height: 35px;
     max-height: 35px;
-    /*background-color: lightgray;*/
 }
 
 .popupLogo {
-    width: 90px;
+    width: 100%;
     height: 25px;
-    background: -5px 5px no-repeat url(../img/maivelope-logo.svg);
+    background: center no-repeat url(../img/maivelope-logo.svg);
 }
 
 /* on/off switch begin */

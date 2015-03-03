@@ -8,41 +8,48 @@
 <body>
   <div class="popup">
     <div class="popupHeader btn-toolbar" role="toolbar">
-      <div class="btn-group" role="group">
         <button type="button " class="btn popupLogo btn-link btn-xs"></button>
+        <br>
+        <button id="activate" type="button" class="btn btn-link btn-sm" style="padding-left: 0px;">
+          <span class="glyphicon glyphicon-check"></span> <span>Deaktivieren</span>
+        </button>
+    </div>
+    <div class="popupBody" style="padding: 0px;">
+      <h6 style="border-top: 1px solid lightgrey; padding-top: 5px; padding-left: 5px;">Aktions for the current web site:</h6>
+      <div class="row" style="padding: 5px;">
+        <div class="col-xs-6" style="">
+          <button id="add" type="button" class="btn btn-default btn-sm" style="">
+            <span class="glyphicon glyphicon-plus"></span> <span data-l10n-id="popup_add_page"></span>
+          </button>
+        </div>
+        <div class="col-xs-6" style="">
+          <button id="reload" type="button" class="btn btn-default btn-sm" style="">
+            <span class="glyphicon glyphicon-refresh"></span> <span data-l10n-id="popup_reload"></span>
+          </button>
+        </div>
       </div>
-      <div class="btn-group pull-right" role="group">
-        <button id="add" type="button" class="btn btn-default btn-sm">
-          <span class="glyphicon glyphicon-plus"></span> <!--span data-l10n-id="popup_add_page"></span-->
-        </button>
-        <button id="reload" type="button" class="btn btn-default btn-sm">
-          <span class="glyphicon glyphicon-refresh"></span> <!--span data-l10n-id="popup_reload"></span-->
-        </button>
-        <button id="help" type="button" class="btn btn-default btn-sm">
-          <span class="glyphicon glyphicon-question-sign"></span> <!--span data-l10n-id="popup_help"></span-->
-        </button>
-        <button id="options" type="button " class="btn btn-primary btn-sm">
-          <span class="glyphicon glyphicon-wrench"></span> <span data-l10n-id="popup_options"></span>
+      <h6 style="border-top: 1px solid lightgrey; padding-top: 5px; padding-left: 5px; margin-bottom: 0px;">Last activities:</h6>
+      <div style="padding: 5px;">
+        <small>&#9899; Typing text (15:64:23)</small><br>
+        <small>&#9899; Entering key pass (15:45:33)</small><br>
+        <small>&#9899; Sending email (15:34:41)</small><br>
+        <button id="activate" type="button" class="btn btn-link btn-sm" style="padding-left: 0px;">
+          <span class="glyphicon glyphicon-list"></span> <span>More</span>
         </button>
       </div>
     </div>
-    <div class="popupBody">
-      <h6>Activity log:</h6>
-      <ul class="well">
-        <li>15:64 - Typing text</li>
-        <li>15:45 - TEntering key password</li>
-        <li>15:34 - TSending email</li>
-      </ul>
-    </div>
-    <div class="popupFooter btn-group">
-      <div class="onoffswitch">
-        <input type="checkbox" name="onoffswitch" id="activeState" class="onoffswitch-checkbox" checked>
-        <label class="onoffswitch-label">
-          <span class="onoffswitch-inner"></span>
-          <span class="onoffswitch-switch"></span>
-        </label>
-      </div>
-      <span></span>
+    <div class="popupFooter btn-toolbar">
+      <div class="row" style="padding: 5px;">
+        <div class="col-xs-6" style="">      
+          <button id="help" type="button" class="btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-question-sign"></span> <span data-l10n-id="popup_help"></span>
+          </button>
+        </div>
+        <div class="col-xs-6" style="">          
+          <button id="options" type="button " class="btn btn-primary btn-sm">
+            <span class="glyphicon glyphicon-wrench"></span> <span data-l10n-id="popup_options"></span>
+          </button>
+        </div>
     </div>
   </div>
   <script src="../dep/jquery.min.js"></script>
