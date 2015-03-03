@@ -1,49 +1,105 @@
 
 body {
-  margin: 8px;
+  width: 300px;
+  height: 200px;
 }
 
-li {
-  line-height: 18px;
+.popup {
+  width: 100%;
+  height: 100%;
+  
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: flex-start;  
 }
 
-.dropdown-menu {
-  position: inherit;
-  float: inherit;
-  display: block;
-  padding: 4px 0;
-  margin: 0;
-  font-size: 13px;
-  min-width: 150px;
+.popupHeader {
+    order: 0;
+    flex: 1 1 30px;
+    align-self: stretch;
+    
+    padding: 5px;
+    min-height: 40px;
+    max-height: 40px;
+    /*background-color: lightgray;*/
 }
 
-.dropdown-menu .divider {
-  margin: 8px 1px;
+.popupBody {
+    order: 0;
+    flex: 1 1 auto;
+    align-self: stretch;
+    overflow-y: auto;
+    
+    /*background-color: lightgray;*/
+    padding: 4px;
 }
 
-.dropdown-menu li > a,
-#state {
-  padding: 3px 15px;
-  line-height: 18px;
+.popupFooter {
+    order: 0;
+    flex: 1 1 35px;
+    align-self: stretch;
+    
+    padding: 4px;
+    min-height: 35px;
+    max-height: 35px;
+    /*background-color: lightgray;*/
 }
 
-.dropdown-menu .switch-light {
-  margin: 0;
-  height: 24px;
-  font-size: 13px;
+.popupLogo {
+    width: 90px;
+    height: 25px;
+    background: -5px 5px no-repeat url(../img/maivelope-logo.svg);
 }
 
-.dropdown-menu .switch-light label,
-.dropdown-menu .switch-light > span {
-  line-height: 24px;
+/* on/off switch begin */
+.onoffswitch {
+    position: relative; width: 60px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 1px solid #666666; border-radius: 3px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 24px; padding: 0; line-height: 24px;
+    font-size: 16px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "I";
+    padding-left: 10px;
+    background-color: #337ab7; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "O";
+    padding-right: 10px;
+    background-color: #F8F8F8; color: #666666;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 30px; margin: 0;
+    background: #FFFFFF;
+    border: 1px solid #666666; border-radius: 3px;
+    position: absolute; top: 0; bottom: 0; right: 30px;
+    -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
+    -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0;
 }
 
-.dropdown-menu .switch-light.no-transition a {
-  -webkit-transition: none;
-  -moz-transition: none;
-  transition: none;
-}
-
-.switch-light span {
-    cursor: pointer;
-}
+/* on/off switch end */

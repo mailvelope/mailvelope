@@ -3,29 +3,48 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="../dep/bootstrap/css/bootstrap.css">
-  <link rel="stylesheet" href="../dep/toggle-switch/toggle-switch.css">
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <ul class="dropdown-menu">
-    <li id="state">
-      <label class="switch-light well no-transition">
-        <input type="checkbox" id="activeState"/>
-        <span>
-          <span data-l10n-id="popup_active_off"></span>
-          <span data-l10n-id="popup_active_on"></span>
-        </span>
-        <a class="btn btn-small btn-info"></a>
-      </label>
-    </li>
-    <li class="divider"></li>
-    <li id="reload"><a href="#"><span class="glyphicon glyphicon-refresh"></span> <span data-l10n-id="popup_reload"></span></a></li>
-    <li id="add"><a href="#"><span class="glyphicon glyphicon-plus"></span> <span data-l10n-id="popup_add_page"></span></a></li>
-    <li id="remove"><a href="#"><span class="glyphicon glyphicon-minus"></span> <span data-l10n-id="popup_remove_page"></span></a></li>
-    <li class="divider"></li>
-    <li id="options"><a href="#"><span class="glyphicon glyphicon-edit"></span> <span data-l10n-id="popup_options"></span></a></li>
-    <li id="help"><a href="#"><span class="glyphicon glyphicon-question-sign"></span> <span data-l10n-id="popup_help"></span></a></li>
-  </ul>
+  <div class="popup">
+    <div class="popupHeader btn-toolbar" role="toolbar">
+      <div class="btn-group" role="group">
+        <button type="button " class="btn popupLogo btn-link btn-xs"></button>
+      </div>
+      <div class="btn-group pull-right" role="group">
+        <button id="add" type="button" class="btn btn-default btn-sm">
+          <span class="glyphicon glyphicon-plus"></span> <!--span data-l10n-id="popup_add_page"></span-->
+        </button>
+        <button id="reload" type="button" class="btn btn-default btn-sm">
+          <span class="glyphicon glyphicon-refresh"></span> <!--span data-l10n-id="popup_reload"></span-->
+        </button>
+        <button id="help" type="button" class="btn btn-default btn-sm">
+          <span class="glyphicon glyphicon-question-sign"></span> <!--span data-l10n-id="popup_help"></span-->
+        </button>
+        <button id="options" type="button " class="btn btn-primary btn-sm">
+          <span class="glyphicon glyphicon-wrench"></span> <span data-l10n-id="popup_options"></span>
+        </button>
+      </div>
+    </div>
+    <div class="popupBody">
+      <h6>Activity log:</h6>
+      <ul class="well">
+        <li>15:64 - Typing text</li>
+        <li>15:45 - TEntering key password</li>
+        <li>15:34 - TSending email</li>
+      </ul>
+    </div>
+    <div class="popupFooter btn-group">
+      <div class="onoffswitch">
+        <input type="checkbox" name="onoffswitch" id="activeState" class="onoffswitch-checkbox" checked>
+        <label class="onoffswitch-label">
+          <span class="onoffswitch-inner"></span>
+          <span class="onoffswitch-switch"></span>
+        </label>
+      </div>
+      <span></span>
+    </div>
+  </div>
   <script src="../dep/jquery.min.js"></script>
   <script src="../ui/mvelo.js"></script>
   <script src="popup.js"></script>

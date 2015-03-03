@@ -90,8 +90,8 @@ function onPanelMessage(msg) {
 
 function initAddonButton() {
   mailvelopePanel = new Panel({
-    width: 180,
-    height: 216,
+    width: 280,
+    height: 400,
     contentURL: data.url('common/ui/popup.html'),
     onMessage: onPanelMessage,
     onHide: function() {
