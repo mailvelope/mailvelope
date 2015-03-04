@@ -32,8 +32,12 @@
         "description": "Verfiy signature error. Wrong signature of [userid]."
     },
     "pwd_dialog_header": {
-        "message": "فك قفل المفتاح",
+        "message": "Enter key password",
         "description": "Header of the password dialog."
+    },
+    "waiting_dialog_prepare_email": {
+        "message": "يُحضَّر بريدك الإلكتروني...",
+        "description": "Message in the waiting dialog for quoting email"
     },
     "keygrid_creation_date_short": {
         "message": "أٌنشِيء",
@@ -87,6 +91,10 @@
         "message": "اختر المجلد الذي تريد أن تحفظ فيه المرفق.",
         "description": "Message in the attachment save dialog"
     },
+    "pwd_dialog_keyid_tooltip": {
+        "message": "The id of your key",
+        "description": "Tooltip explaining the key id."
+    },
     "alert_header_success": {
         "message": "نجَح !",
         "description": "Alert header of category success."
@@ -120,7 +128,7 @@
         "description": "File selection button label."
     },
     "watchlist_title_frame": {
-        "message": "نمط تطابق النطاق",
+        "message": "نمط النطاق",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "keygrid_key_length": {
@@ -147,6 +155,10 @@
         "message": "حدث خطأ في الاستيراد.",
         "description": "Import error alert."
     },
+    "key_import_question": {
+        "message": "Do you want to import this key?",
+        "description": "Key import dialog header."
+    },
     "key_import_multiple_keys": {
         "message": "لاستيراد عدة مفاتيح، ألصقها كلها هنا. سيتجاهل النصوص زائدة المحيطة بالمفاتيح.",
         "description": "Info message."
@@ -162,6 +174,10 @@
     "keygrid_subkeyid": {
         "message": "المُعرِّف",
         "description": "Subkey ID of a PGP key."
+    },
+    "key_import_dialog_header": {
+        "message": "إضافة مفتاح إلى مستودع المفاتيح",
+        "description": "Key import dialog header."
     },
     "key_gen_pwd_match": {
         "message": "كلمتا السر متطابقتان",
@@ -232,7 +248,7 @@
         "description": "public key type"
     },
     "keyring_header": {
-        "message": "مستودع المفاتيح",
+        "message": "إدارة المفاتيح",
         "description": "Header of the key ring."
     },
     "keygrid_userid_signatures": {
@@ -242,6 +258,14 @@
     "form_cancel": {
         "message": "إلغاء",
         "description": "Cancel form button."
+    },
+    "keyring_setup_import_key": {
+        "message": "استيراد المفاتيح",
+        "description": "Import key"
+    },
+    "keyring_setup_no_keypair": {
+        "message": "يجب التوفر على المفتاحين لتعمية وفك تعمية الرسائل وكذلك إذا أردت دعوة جهة اتصالك لإنشاء تواصل مُعمَّى من طرف لطرف.",
+        "description": "Setup text if no keypair available"
     },
     "keyring_private": {
         "message": "خاص",
@@ -271,6 +295,10 @@
         "message": "إعادة التحميل",
         "description": "Reload all Mailvelope UI elements on page."
     },
+    "form_no": {
+        "message": "No",
+        "description": "No form button."
+    },
     "options_title": {
         "message": "خيارات Mailvelope",
         "description": "Title of options page."
@@ -288,7 +316,7 @@
         "description": "Validity status of a PGP key."
     },
     "keyring_public_private": {
-        "message": "زوج المفتاحين العمومي والخاص",
+        "message": "أزواج المفاتيح",
         "description": "public and private key types"
     },
     "security_compose_external": {
@@ -296,8 +324,8 @@
         "description": "Mail compose option"
     },
     "keygrid_primary_key": {
-        "message": "المفتاح الأوَّلي",
-        "description": "Primary key of a PGP key."
+        "message": "المفتاح الرئيسي",
+        "description": "Main key in the PGP key."
     },
     "verify_result_success": {
         "message": "مُوقَّع من طرف",
@@ -307,9 +335,17 @@
         "message": "مُعرِّفات المستخدمين",
         "description": "User IDs of a PGP key."
     },
+    "keyring_setup_no_keypair_heading": {
+        "message": "لا یحوي مستودع المفاتيح مفتاحيه بعد.",
+        "description": "Setup heading if no keypair available"
+    },
     "watchlist_title_scan": {
         "message": "الحالة",
         "description": "Scan status of site in watchlist."
+    },
+    "waiting_dialog_decryption_failed": {
+        "message": "فشل فك التعمية !",
+        "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "key_import_textarea": {
         "message": "ألصق نص المفتاح هنا :",
@@ -364,8 +400,12 @@
         "description": "Label for key ID."
     },
     "pwd_dialog_cache_pwd": {
-        "message": "تذكَّر كلمات السر لهذه الجلسة.",
-        "description": "Checkbox label."
+        "message": "Remember password temporarily",
+        "description": "Checkbox label for remembering of the password."
+    },
+    "form_import": {
+        "message": "استيراد",
+        "description": "Import form button."
     },
     "editor_encrypt_button": {
         "message": "عَمِّ",
@@ -380,8 +420,12 @@
         "description": "Name in User ID of a PGP key."
     },
     "pwd_dialog_pwd_please": {
-        "message": "يُرجى إدخال...",
+        "message": "Please enter your password",
         "description": "Placeholder for password."
+    },
+    "keyring_setup_import_key_explanation": {
+        "message": "هل لديك المفتاحان في جهاز آخر ؟ يمكنك استيراد مفتاحيك. ما عليك إلا أن تصدِّر المفتاحين نحو جهازك ثم تستوردهما إلى هنا.",
+        "description": "Import key"
     },
     "security_display_popup": {
         "message": "في نافذة منبثقة ومنفصلة عن Mailvelope.",
@@ -479,12 +523,16 @@
         "message": "تم استيراد المفتاح العلني $1 للمستخدم $2 نحو مستودع المفاتيح",
         "description": "Import success message: $1: keyid, $2: userid."
     },
+    "key_set_as_primary": {
+        "message": "تحديد كأولي",
+        "description": "Set as primary key for the keyring button"
+    },
     "keygrid_key_fingerprint": {
         "message": "البصمة",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_sort_type": {
-        "message": "إظهار المفاتيح حسب النوع",
+        "message": "نوع المفتاح",
         "description": "Key grid sort selector."
     },
     "key_gen_years": {
@@ -558,6 +606,10 @@
     "key_import_invalid_text": {
         "message": "لم يعثر على نص صحيح للمفتاح",
         "description": "Import error alert."
+    },
+    "keyring_setup_generate_key": {
+        "message": "توليد المفاتيح",
+        "description": "Generate key"
     },
     "word_or": {
         "message": "أو",
@@ -647,6 +699,10 @@
         "message": "خطأ !",
         "description": "Alert header of category error."
     },
+    "editor_remove_upload": {
+        "message": "إزالة",
+        "description": "Remove uploaded attachment"
+    },
     "security_char_code": {
         "message": "رمز الحرف",
         "description": "Char code for security token"
@@ -683,9 +739,17 @@
         "message": "الدليل",
         "description": "Options navigation: Documentation."
     },
+    "keyring_keypair": {
+        "message": "المفتاحان",
+        "description": "key pair"
+    },
     "options_about": {
         "message": "حول البرنامج",
         "description": "Options navigation: About."
+    },
+    "keygrid_primary_label": {
+        "message": "الأولي",
+        "description": "Label for the primary key"
     },
     "key_gen_invalid_email": {
         "message": "عنوان البريد الإلكتروني غير صالح",
@@ -699,9 +763,21 @@
         "message": "نسخ في الحافظة",
         "description": "Copy decrypted message to clipboard."
     },
+    "settings_backup": {
+        "message": "النسخ الاحتياطي",
+        "description": "Tab allowing to backup and restore the settings."
+    },
     "reload_webmail_tab": {
         "message": "يُرجى إنعاش لسان مزود خدمة البريد الإلكتروني (F5) لتفعيل هذه الإعدادات.",
         "description": "Info message."
+    },
+    "form_yes": {
+        "message": "Yes",
+        "description": "Yes form button."
+    },
+    "keyring_setup_generate_key_explanation": {
+        "message": "إن كنت تستخدم هذا الامتداد للمرة الأولى ولا تتوفر على مفتاحين بعد، يجب عليك توليد المفتاح أولا.",
+        "description": "Generate key"
     },
     "keygrid_display_priv_key": {
         "message": "عرض المفتاح السري",
@@ -734,6 +810,10 @@
     "keygrid_display_pub_key": {
         "message": "عرض المفتاح العلني",
         "description": "Export key menu."
+    },
+    "keyring_setup": {
+        "message": "الإعداد",
+        "description": "Setup keyring for mail provider."
     },
     "keygrid_creation_date": {
         "message": "تاريخ الإنشاء",

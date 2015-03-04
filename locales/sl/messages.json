@@ -32,8 +32,12 @@
         "description": "Verfiy signature error. Wrong signature of [userid]."
     },
     "pwd_dialog_header": {
-        "message": "Odklepanje sporočila",
+        "message": "Enter key password",
         "description": "Header of the password dialog."
+    },
+    "waiting_dialog_prepare_email": {
+        "message": "Your email is prepared...",
+        "description": "Message in the waiting dialog for quoting email"
     },
     "keygrid_creation_date_short": {
         "message": "Ustvarjen",
@@ -56,7 +60,7 @@
         "description": "Email address in User ID of a PGP key."
     },
     "watchlist_delete_confirmation": {
-        "message": "Do you really want to remove this site from the watchlist?",
+        "message": "Ali si resnično želite odstraniti to stran s seznama opazovanih?",
         "description": "Mesage in the watchlist delete confirmation dialog."
     },
     "key_export_header": {
@@ -86,6 +90,10 @@
     "save_attachment_as_message": {
         "message": "Izberite mapo, kamor želite shraniti priponko.",
         "description": "Message in the attachment save dialog"
+    },
+    "pwd_dialog_keyid_tooltip": {
+        "message": "The id of your key",
+        "description": "Tooltip explaining the key id."
     },
     "alert_header_success": {
         "message": "Uspeh!",
@@ -147,6 +155,10 @@
         "message": "Napaka pri uvozu.",
         "description": "Import error alert."
     },
+    "key_import_question": {
+        "message": "Do you want to import this key?",
+        "description": "Key import dialog header."
+    },
     "key_import_multiple_keys": {
         "message": "Za uvoz večih ključev, jih enostavno vse prekopirajte sem. Dodatni tekst okoli ključev ne bo upoštevan.",
         "description": "Info message."
@@ -162,6 +174,10 @@
     "keygrid_subkeyid": {
         "message": "ID",
         "description": "Subkey ID of a PGP key."
+    },
+    "key_import_dialog_header": {
+        "message": "Dodaj ključ v zbirko",
+        "description": "Key import dialog header."
     },
     "key_gen_pwd_match": {
         "message": "Gesli se ujemata",
@@ -228,11 +244,11 @@
         "description": "Export key."
     },
     "keyring_public": {
-        "message": "Public",
+        "message": "Javni",
         "description": "public key type"
     },
     "keyring_header": {
-        "message": "Zbirka ključev",
+        "message": "Upravljanje ključev",
         "description": "Header of the key ring."
     },
     "keygrid_userid_signatures": {
@@ -243,8 +259,16 @@
         "message": "Preklic",
         "description": "Cancel form button."
     },
+    "keyring_setup_import_key": {
+        "message": "Uvozi ključ",
+        "description": "Import key"
+    },
+    "keyring_setup_no_keypair": {
+        "message": "Par ključev je potreben za šifriranje in dešifriranje sporočil ter zato, da lahko vaše stike sploh povabite k šifrirani komunikaciji.",
+        "description": "Setup text if no keypair available"
+    },
     "keyring_private": {
-        "message": "Private",
+        "message": "Zasebni",
         "description": "private key type"
     },
     "encrypt_dialog_no_recipient": {
@@ -271,6 +295,10 @@
         "message": "Ponovno naloži",
         "description": "Reload all Mailvelope UI elements on page."
     },
+    "form_no": {
+        "message": "No",
+        "description": "No form button."
+    },
     "options_title": {
         "message": "Možnosti Mailvelope",
         "description": "Title of options page."
@@ -288,7 +316,7 @@
         "description": "Validity status of a PGP key."
     },
     "keyring_public_private": {
-        "message": "Public- Private-Key Pair",
+        "message": "Pari ključev",
         "description": "public and private key types"
     },
     "security_compose_external": {
@@ -297,7 +325,7 @@
     },
     "keygrid_primary_key": {
         "message": "Glavni ključ",
-        "description": "Primary key of a PGP key."
+        "description": "Main key in the PGP key."
     },
     "verify_result_success": {
         "message": "Podpisano od",
@@ -307,9 +335,17 @@
         "message": "Uporabniki",
         "description": "User IDs of a PGP key."
     },
+    "keyring_setup_no_keypair_heading": {
+        "message": "Ta zbirka ključev še ne vsebuje svojega para ključev.",
+        "description": "Setup heading if no keypair available"
+    },
     "watchlist_title_scan": {
         "message": "Status",
         "description": "Scan status of site in watchlist."
+    },
+    "waiting_dialog_decryption_failed": {
+        "message": "Decryption failed!",
+        "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "key_import_textarea": {
         "message": "Tu prilepite besedilo ključa:",
@@ -336,7 +372,7 @@
         "description": "Max 6 character."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Domain match pattern should begin with *.",
+        "message": "Vzorec ujemanja domen se mora pričeti z *.",
         "description": "Alert header of category warning."
     },
     "keygrid_status_valid": {
@@ -352,7 +388,7 @@
         "description": "Don't store password."
     },
     "keyring_export_keys": {
-        "message": "Export Keys",
+        "message": "Izvozi ključe",
         "description": "Tab of keyring to export keys."
     },
     "keygrid_signer_name": {
@@ -364,8 +400,12 @@
         "description": "Label for key ID."
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Zapomni si gesla za čas trajanja seje",
-        "description": "Checkbox label."
+        "message": "Remember password temporarily",
+        "description": "Checkbox label for remembering of the password."
+    },
+    "form_import": {
+        "message": "Uvozi",
+        "description": "Import form button."
     },
     "editor_encrypt_button": {
         "message": "Šifriraj",
@@ -380,8 +420,12 @@
         "description": "Name in User ID of a PGP key."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Vnesite...",
+        "message": "Please enter your password",
         "description": "Placeholder for password."
+    },
+    "keyring_setup_import_key_explanation": {
+        "message": "Ali že imate par ključev na drugi napravi? Nič lažjega, tam ga izvozite in tu ponovno uvozite.",
+        "description": "Import key"
     },
     "security_display_popup": {
         "message": "V ločenem pojavnem oknu Mailvelope.",
@@ -396,7 +440,7 @@
         "description": "Submit form button."
     },
     "watchlist_record_title": {
-        "message": "Watch List Record",
+        "message": "Zapis z opazovalnega seznama",
         "description": "Title of the watchlist editor dialog."
     },
     "key_export_clipboard": {
@@ -468,23 +512,27 @@
         "description": "Tab of keyring to import keys."
     },
     "key_export_create_file": {
-        "message": "Download",
+        "message": "Prenesi",
         "description": "Download file button."
     },
     "alert_no_domainmatchpattern_warning": {
-        "message": "At least one domain match pattern is needed.",
+        "message": "Potreben je vsaj en vzorec ujemanja domen.",
         "description": "Alert header of category warning."
     },
     "key_import_public_success": {
         "message": "Javni ključ $1 uporabnika $2 je bil uvožen v zbirko",
         "description": "Import success message: $1: keyid, $2: userid."
     },
+    "key_set_as_primary": {
+        "message": "Nastavi ključ za primarnega",
+        "description": "Set as primary key for the keyring button"
+    },
     "keygrid_key_fingerprint": {
         "message": "Prstni odtis",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_sort_type": {
-        "message": "Prikaži ključe glede na tip",
+        "message": "Vrsta ključa",
         "description": "Key grid sort selector."
     },
     "key_gen_years": {
@@ -500,7 +548,7 @@
         "description": "Header warning."
     },
     "keygrid_key_type": {
-        "message": "Type",
+        "message": "Vrsta",
         "description": "The type of the key."
     },
     "keyring_migration_error": {
@@ -508,7 +556,7 @@
         "description": "Tab of keyring to display migration errors."
     },
     "key_details_title": {
-        "message": "Key Details",
+        "message": "Podrobnosti ključa",
         "description": "The title of the key details dialog."
     },
     "security_cache_time": {
@@ -558,6 +606,10 @@
     "key_import_invalid_text": {
         "message": "Najdeno ni bilo nobeno veljevno besedilo",
         "description": "Import error alert."
+    },
+    "keyring_setup_generate_key": {
+        "message": "Ustvari ključ",
+        "description": "Generate key"
     },
     "word_or": {
         "message": "ali",
@@ -647,6 +699,10 @@
         "message": "Napaka!",
         "description": "Alert header of category error."
     },
+    "editor_remove_upload": {
+        "message": "Odstrani",
+        "description": "Remove uploaded attachment"
+    },
     "security_char_code": {
         "message": "Znakovni tip",
         "description": "Char code for security token"
@@ -683,9 +739,17 @@
         "message": "Dokumentacija",
         "description": "Options navigation: Documentation."
     },
+    "keyring_keypair": {
+        "message": "Par ključev",
+        "description": "key pair"
+    },
     "options_about": {
         "message": "O dodatku",
         "description": "Options navigation: About."
+    },
+    "keygrid_primary_label": {
+        "message": "Primarni",
+        "description": "Label for the primary key"
     },
     "key_gen_invalid_email": {
         "message": "Neveljaven e-poštni naslov",
@@ -699,9 +763,21 @@
         "message": "Kopiraj v odložišče",
         "description": "Copy decrypted message to clipboard."
     },
+    "settings_backup": {
+        "message": "Varnostna kopija",
+        "description": "Tab allowing to backup and restore the settings."
+    },
     "reload_webmail_tab": {
         "message": "Za uveljavitev sprememb ponovno naložite zavihek vešega ponudnika e-pošte (F5).",
         "description": "Info message."
+    },
+    "form_yes": {
+        "message": "Yes",
+        "description": "Yes form button."
+    },
+    "keyring_setup_generate_key_explanation": {
+        "message": "V kolikor uporabljate to razširitev prvič in še nimate svojega para ključev, si ga morate ustvariti.",
+        "description": "Generate key"
     },
     "keygrid_display_priv_key": {
         "message": "Prikaži zasebni ključ",
@@ -734,6 +810,10 @@
     "keygrid_display_pub_key": {
         "message": "Prikaži javni ključ",
         "description": "Export key menu."
+    },
+    "keyring_setup": {
+        "message": "Namesti",
+        "description": "Setup keyring for mail provider."
     },
     "keygrid_creation_date": {
         "message": "Datum nastanka",

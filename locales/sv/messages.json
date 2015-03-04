@@ -32,8 +32,12 @@
         "description": "Verfiy signature error. Wrong signature of [userid]."
     },
     "pwd_dialog_header": {
-        "message": "Nyckelupplåsning",
+        "message": "Enter key password",
         "description": "Header of the password dialog."
+    },
+    "waiting_dialog_prepare_email": {
+        "message": "Your email is prepared...",
+        "description": "Message in the waiting dialog for quoting email"
     },
     "keygrid_creation_date_short": {
         "message": "Skapad",
@@ -56,7 +60,7 @@
         "description": "Email address in User ID of a PGP key."
     },
     "watchlist_delete_confirmation": {
-        "message": "Do you really want to remove this site from the watchlist?",
+        "message": "Vill du verkligen ta bort denna webbsida från bevakningslistan?",
         "description": "Mesage in the watchlist delete confirmation dialog."
     },
     "key_export_header": {
@@ -86,6 +90,10 @@
     "save_attachment_as_message": {
         "message": "Markera mappen där du vill spara den bifogade filen",
         "description": "Message in the attachment save dialog"
+    },
+    "pwd_dialog_keyid_tooltip": {
+        "message": "The id of your key",
+        "description": "Tooltip explaining the key id."
     },
     "alert_header_success": {
         "message": "Det fungerade!",
@@ -120,7 +128,7 @@
         "description": "File selection button label."
     },
     "watchlist_title_frame": {
-        "message": "Mönster i domän att matcha",
+        "message": "Domain pattern",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "keygrid_key_length": {
@@ -147,6 +155,10 @@
         "message": "Importfel.",
         "description": "Import error alert."
     },
+    "key_import_question": {
+        "message": "Do you want to import this key?",
+        "description": "Key import dialog header."
+    },
     "key_import_multiple_keys": {
         "message": "För att klistra in flera nycklar klistrar du helt enkelt in dem här. Annan text runtom nycklarna ignoreras.",
         "description": "Info message."
@@ -162,6 +174,10 @@
     "keygrid_subkeyid": {
         "message": "ID",
         "description": "Subkey ID of a PGP key."
+    },
+    "key_import_dialog_header": {
+        "message": "Lägg till nyckel till nyckelring",
+        "description": "Key import dialog header."
     },
     "key_gen_pwd_match": {
         "message": "Lösenord stämmer överens",
@@ -232,7 +248,7 @@
         "description": "public key type"
     },
     "keyring_header": {
-        "message": "Nyckelring",
+        "message": "Nyckelhantering",
         "description": "Header of the key ring."
     },
     "keygrid_userid_signatures": {
@@ -242,6 +258,14 @@
     "form_cancel": {
         "message": "Avbryt",
         "description": "Cancel form button."
+    },
+    "keyring_setup_import_key": {
+        "message": "Importera nyckel",
+        "description": "Import key"
+    },
+    "keyring_setup_no_keypair": {
+        "message": "Ett nyckelpar behöver för att kryptera och dekryptera meddelanden och om du vill bjuda in dina kontakter till end-to-end krypterad kommunikation.",
+        "description": "Setup text if no keypair available"
     },
     "keyring_private": {
         "message": "Privat",
@@ -256,7 +280,7 @@
         "description": "Editor option: plain text."
     },
     "clear_localstorage_confirm_message": {
-        "message": "Do you want to delete all your PGP keys from this browser profile?",
+        "message": "Vill du radera alla dina PGP-nycklar från den här webbläsarprofilen?",
         "description": "The message of the confirmation dialog."
     },
     "form_undo": {
@@ -270,6 +294,10 @@
     "popup_reload": {
         "message": "Ladda om",
         "description": "Reload all Mailvelope UI elements on page."
+    },
+    "form_no": {
+        "message": "No",
+        "description": "No form button."
     },
     "options_title": {
         "message": "Mailvelope-alternativ",
@@ -288,7 +316,7 @@
         "description": "Validity status of a PGP key."
     },
     "keyring_public_private": {
-        "message": "Public- Private-Key Pair",
+        "message": "Nyckelpar",
         "description": "public and private key types"
     },
     "security_compose_external": {
@@ -296,8 +324,8 @@
         "description": "Mail compose option"
     },
     "keygrid_primary_key": {
-        "message": "Primär nyckel",
-        "description": "Primary key of a PGP key."
+        "message": "Huvudnyckel",
+        "description": "Main key in the PGP key."
     },
     "verify_result_success": {
         "message": "Signerat av",
@@ -307,9 +335,17 @@
         "message": "Användar-ID:n",
         "description": "User IDs of a PGP key."
     },
+    "keyring_setup_no_keypair_heading": {
+        "message": "Denna nyckelring innehåller inte sitt eget nyckelpar ännu.",
+        "description": "Setup heading if no keypair available"
+    },
     "watchlist_title_scan": {
         "message": "Status",
         "description": "Scan status of site in watchlist."
+    },
+    "waiting_dialog_decryption_failed": {
+        "message": "Decryption failed!",
+        "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "key_import_textarea": {
         "message": "Klistra in nyckeltext här:",
@@ -336,7 +372,7 @@
         "description": "Max 6 character."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Domain match pattern should begin with *.",
+        "message": "Domänmatchnings-mönster ska börja med *.",
         "description": "Alert header of category warning."
     },
     "keygrid_status_valid": {
@@ -364,8 +400,12 @@
         "description": "Label for key ID."
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Kom ihåg lösenord för den här sessionen",
-        "description": "Checkbox label."
+        "message": "Remember password temporarily",
+        "description": "Checkbox label for remembering of the password."
+    },
+    "form_import": {
+        "message": "Importera",
+        "description": "Import form button."
     },
     "editor_encrypt_button": {
         "message": "Kryptera",
@@ -380,8 +420,12 @@
         "description": "Name in User ID of a PGP key."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Ange...",
+        "message": "Please enter your password",
         "description": "Placeholder for password."
+    },
+    "keyring_setup_import_key_explanation": {
+        "message": "Har du redan ett nyckelpar på en annan enhet? Du kan importera dina existerande nycklar. Exportera bara nyckelparet på din andra enhet och importera det här.",
+        "description": "Import key"
     },
     "security_display_popup": {
         "message": "I en separat popup från Mailvelope.",
@@ -396,7 +440,7 @@
         "description": "Submit form button."
     },
     "watchlist_record_title": {
-        "message": "Watch List Record",
+        "message": "Bevakningslista",
         "description": "Title of the watchlist editor dialog."
     },
     "key_export_clipboard": {
@@ -472,19 +516,23 @@
         "description": "Download file button."
     },
     "alert_no_domainmatchpattern_warning": {
-        "message": "At least one domain match pattern is needed.",
+        "message": "Åtminstone ett domänmatchnings-mönster behövs.",
         "description": "Alert header of category warning."
     },
     "key_import_public_success": {
         "message": "Publik nyckel $1 för användare $2 importerad till nyckelring",
         "description": "Import success message: $1: keyid, $2: userid."
     },
+    "key_set_as_primary": {
+        "message": "Sätt som primär",
+        "description": "Set as primary key for the keyring button"
+    },
     "keygrid_key_fingerprint": {
         "message": "Fingeravtryck",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_sort_type": {
-        "message": "Visa nycklar efter typ",
+        "message": "Key type",
         "description": "Key grid sort selector."
     },
     "key_gen_years": {
@@ -500,7 +548,7 @@
         "description": "Header warning."
     },
     "keygrid_key_type": {
-        "message": "Type",
+        "message": "Typ",
         "description": "The type of the key."
     },
     "keyring_migration_error": {
@@ -508,7 +556,7 @@
         "description": "Tab of keyring to display migration errors."
     },
     "key_details_title": {
-        "message": "Key Details",
+        "message": "Nyckeldetaljer",
         "description": "The title of the key details dialog."
     },
     "security_cache_time": {
@@ -559,12 +607,16 @@
         "message": "Ingen giltig nyckeltext hittades",
         "description": "Import error alert."
     },
+    "keyring_setup_generate_key": {
+        "message": "Generera nyckel",
+        "description": "Generate key"
+    },
     "word_or": {
         "message": "eller",
         "description": "Separate list of elements."
     },
     "key_import_exception": {
-        "message": "An exception occured while processing the keys",
+        "message": "Ett fel uppstod vid bearbetning av nycklarna",
         "description": "Import error alert."
     },
     "keygrid_display_key_pair": {
@@ -647,6 +699,10 @@
         "message": "Fel!",
         "description": "Alert header of category error."
     },
+    "editor_remove_upload": {
+        "message": "Ta bort",
+        "description": "Remove uploaded attachment"
+    },
     "security_char_code": {
         "message": "Teckenkod",
         "description": "Char code for security token"
@@ -683,9 +739,17 @@
         "message": "Dokumentation",
         "description": "Options navigation: Documentation."
     },
+    "keyring_keypair": {
+        "message": "Nyckelpar",
+        "description": "key pair"
+    },
     "options_about": {
         "message": "Om",
         "description": "Options navigation: About."
+    },
+    "keygrid_primary_label": {
+        "message": "Primär",
+        "description": "Label for the primary key"
     },
     "key_gen_invalid_email": {
         "message": "Ogiltig e-postadress",
@@ -699,9 +763,21 @@
         "message": "Kopiera till urklipp",
         "description": "Copy decrypted message to clipboard."
     },
+    "settings_backup": {
+        "message": "Säkerhetskopiera",
+        "description": "Tab allowing to backup and restore the settings."
+    },
     "reload_webmail_tab": {
         "message": "Ladda om fliken med din e-postleverantör (F5) för att dessa inställningar ska börja gälla.",
         "description": "Info message."
+    },
+    "form_yes": {
+        "message": "Yes",
+        "description": "Yes form button."
+    },
+    "keyring_setup_generate_key_explanation": {
+        "message": "Om du använder detta tillägg för första gången och inte har ett nyckelpar ännu, så behöver du generera en nyckel.",
+        "description": "Generate key"
     },
     "keygrid_display_priv_key": {
         "message": "Visa privat nyckel",
@@ -734,6 +810,10 @@
     "keygrid_display_pub_key": {
         "message": "Visa publik nyckel",
         "description": "Export key menu."
+    },
+    "keyring_setup": {
+        "message": "Konfigurera",
+        "description": "Setup keyring for mail provider."
     },
     "keygrid_creation_date": {
         "message": "Skapelsedatum",

@@ -32,8 +32,12 @@
         "description": "Verfiy signature error. Wrong signature of [userid]."
     },
     "pwd_dialog_header": {
-        "message": "Desbloqueo con clave",
+        "message": "Enter key password",
         "description": "Header of the password dialog."
+    },
+    "waiting_dialog_prepare_email": {
+        "message": "Su correo electrónico está preparado...",
+        "description": "Message in the waiting dialog for quoting email"
     },
     "keygrid_creation_date_short": {
         "message": "Creada",
@@ -87,6 +91,10 @@
         "message": "Seleccione la carpeta donde quiera guardar el adjunto.",
         "description": "Message in the attachment save dialog"
     },
+    "pwd_dialog_keyid_tooltip": {
+        "message": "The id of your key",
+        "description": "Tooltip explaining the key id."
+    },
     "alert_header_success": {
         "message": "¡Completado con éxito!",
         "description": "Alert header of category success."
@@ -120,7 +128,7 @@
         "description": "File selection button label."
     },
     "watchlist_title_frame": {
-        "message": "Patrón de coincidencia de dominio",
+        "message": "Patrón del dominio",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "keygrid_key_length": {
@@ -147,6 +155,10 @@
         "message": "Error de importación.",
         "description": "Import error alert."
     },
+    "key_import_question": {
+        "message": "Do you want to import this key?",
+        "description": "Key import dialog header."
+    },
     "key_import_multiple_keys": {
         "message": "Para importar múltiples claves, simplemente péguelas todas aquí. El texto extra alrededor de las claves se ignora.",
         "description": "Info message."
@@ -162,6 +174,10 @@
     "keygrid_subkeyid": {
         "message": "Identidad",
         "description": "Subkey ID of a PGP key."
+    },
+    "key_import_dialog_header": {
+        "message": "Añadir clave al juego de claves",
+        "description": "Key import dialog header."
     },
     "key_gen_pwd_match": {
         "message": "Las contraseñas coinciden",
@@ -232,7 +248,7 @@
         "description": "public key type"
     },
     "keyring_header": {
-        "message": "Juego de claves",
+        "message": "Administración de claves",
         "description": "Header of the key ring."
     },
     "keygrid_userid_signatures": {
@@ -242,6 +258,14 @@
     "form_cancel": {
         "message": "Cancelar",
         "description": "Cancel form button."
+    },
+    "keyring_setup_import_key": {
+        "message": "Importar clave",
+        "description": "Import key"
+    },
+    "keyring_setup_no_keypair": {
+        "message": "Un par de claves es necesario para cifrar y descifrar mensajes y si quiere invitar a sus contactos a una comunicación cifrada extremo-a-extremo.",
+        "description": "Setup text if no keypair available"
     },
     "keyring_private": {
         "message": "Privado",
@@ -271,6 +295,10 @@
         "message": "Recargar",
         "description": "Reload all Mailvelope UI elements on page."
     },
+    "form_no": {
+        "message": "No",
+        "description": "No form button."
+    },
     "options_title": {
         "message": "Opciones de Mailvelope",
         "description": "Title of options page."
@@ -288,7 +316,7 @@
         "description": "Validity status of a PGP key."
     },
     "keyring_public_private": {
-        "message": "Par de claves - pública-privada",
+        "message": "Pares de claves",
         "description": "public and private key types"
     },
     "security_compose_external": {
@@ -296,8 +324,8 @@
         "description": "Mail compose option"
     },
     "keygrid_primary_key": {
-        "message": "Clave primaria",
-        "description": "Primary key of a PGP key."
+        "message": "Clave principal",
+        "description": "Main key in the PGP key."
     },
     "verify_result_success": {
         "message": "Firmado por",
@@ -307,9 +335,17 @@
         "message": "Identidades de usuario",
         "description": "User IDs of a PGP key."
     },
+    "keyring_setup_no_keypair_heading": {
+        "message": "Este juego de claves aún no contiene su propio par de claves.",
+        "description": "Setup heading if no keypair available"
+    },
     "watchlist_title_scan": {
         "message": "Estado",
         "description": "Scan status of site in watchlist."
+    },
+    "waiting_dialog_decryption_failed": {
+        "message": "¡Fallo al descifrar!",
+        "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "key_import_textarea": {
         "message": "Pegue aquí el texto de la clave:",
@@ -364,8 +400,12 @@
         "description": "Label for key ID."
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Recordar contraseñas para esta sesión.",
-        "description": "Checkbox label."
+        "message": "Remember password temporarily",
+        "description": "Checkbox label for remembering of the password."
+    },
+    "form_import": {
+        "message": "Importar",
+        "description": "Import form button."
     },
     "editor_encrypt_button": {
         "message": "Cifrar",
@@ -380,8 +420,12 @@
         "description": "Name in User ID of a PGP key."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Por favor introduzca...",
+        "message": "Please enter your password",
         "description": "Placeholder for password."
+    },
+    "keyring_setup_import_key_explanation": {
+        "message": "¿Tiene ya un par de claves en otro dispositivo?  Puede importar sus claves existentes. Simplemente exporte el par de claves de su otro dispositivo e importelo aquí.",
+        "description": "Import key"
     },
     "security_display_popup": {
         "message": "En un cuadro emergente separado de Mailvelope.",
@@ -479,12 +523,16 @@
         "message": "Se importó la clave pública $1 del usuario $2 en el juego de claves",
         "description": "Import success message: $1: keyid, $2: userid."
     },
+    "key_set_as_primary": {
+        "message": "Establecer como primaria",
+        "description": "Set as primary key for the keyring button"
+    },
     "keygrid_key_fingerprint": {
         "message": "Huella de verificación",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_sort_type": {
-        "message": "Mostrar claves por tipo",
+        "message": "Tipo de clave",
         "description": "Key grid sort selector."
     },
     "key_gen_years": {
@@ -558,6 +606,10 @@
     "key_import_invalid_text": {
         "message": "No se encontró texto válido de clave",
         "description": "Import error alert."
+    },
+    "keyring_setup_generate_key": {
+        "message": "Generar clave",
+        "description": "Generate key"
     },
     "word_or": {
         "message": "o",
@@ -647,6 +699,10 @@
         "message": "¡Error!",
         "description": "Alert header of category error."
     },
+    "editor_remove_upload": {
+        "message": "Eliminar",
+        "description": "Remove uploaded attachment"
+    },
     "security_char_code": {
         "message": "Código de caracteres",
         "description": "Char code for security token"
@@ -683,9 +739,17 @@
         "message": "Documentación",
         "description": "Options navigation: Documentation."
     },
+    "keyring_keypair": {
+        "message": "Par de claves",
+        "description": "key pair"
+    },
     "options_about": {
         "message": "Acerca de",
         "description": "Options navigation: About."
+    },
+    "keygrid_primary_label": {
+        "message": "Primaria",
+        "description": "Label for the primary key"
     },
     "key_gen_invalid_email": {
         "message": "Dirección de correo electrónico no válida",
@@ -699,9 +763,21 @@
         "message": "Copiar al Portapapeles",
         "description": "Copy decrypted message to clipboard."
     },
+    "settings_backup": {
+        "message": "Copia de seguridad",
+        "description": "Tab allowing to backup and restore the settings."
+    },
     "reload_webmail_tab": {
         "message": "Por favor recargue la pestaña de su proveedor de correo (F5) para hacer que estas configuraciones tomen efecto.",
         "description": "Info message."
+    },
+    "form_yes": {
+        "message": "Yes",
+        "description": "Yes form button."
+    },
+    "keyring_setup_generate_key_explanation": {
+        "message": "Si está usando esta extensión por primera vez y aún no tiene un par de claves, necesita generar una clave.",
+        "description": "Generate key"
     },
     "keygrid_display_priv_key": {
         "message": "Mostrar clave privada",
@@ -734,6 +810,10 @@
     "keygrid_display_pub_key": {
         "message": "Mostrar clave pública",
         "description": "Export key menu."
+    },
+    "keyring_setup": {
+        "message": "Configuración",
+        "description": "Setup keyring for mail provider."
     },
     "keygrid_creation_date": {
         "message": "Fecha de creación",

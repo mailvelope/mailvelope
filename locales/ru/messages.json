@@ -32,8 +32,12 @@
         "description": "Verfiy signature error. Wrong signature of [userid]."
     },
     "pwd_dialog_header": {
-        "message": "Разблокировка ключа",
+        "message": "Enter key password",
         "description": "Header of the password dialog."
+    },
+    "waiting_dialog_prepare_email": {
+        "message": "Your email is prepared...",
+        "description": "Message in the waiting dialog for quoting email"
     },
     "keygrid_creation_date_short": {
         "message": "Создан",
@@ -87,6 +91,10 @@
         "message": "Select the folder, where you want to save the attachment.",
         "description": "Message in the attachment save dialog"
     },
+    "pwd_dialog_keyid_tooltip": {
+        "message": "The id of your key",
+        "description": "Tooltip explaining the key id."
+    },
     "alert_header_success": {
         "message": "Удачно!",
         "description": "Alert header of category success."
@@ -120,7 +128,7 @@
         "description": "File selection button label."
     },
     "watchlist_title_frame": {
-        "message": "Доменное имя совпадает с шаблоном",
+        "message": "Domain pattern",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "keygrid_key_length": {
@@ -147,6 +155,10 @@
         "message": "Ошибка импорта.",
         "description": "Import error alert."
     },
+    "key_import_question": {
+        "message": "Do you want to import this key?",
+        "description": "Key import dialog header."
+    },
     "key_import_multiple_keys": {
         "message": "Для импорта нескольких ключей, просто вставьте их все сюда. Лишний текст будет проигнорирован.",
         "description": "Info message."
@@ -162,6 +174,10 @@
     "keygrid_subkeyid": {
         "message": "ID подключа",
         "description": "Subkey ID of a PGP key."
+    },
+    "key_import_dialog_header": {
+        "message": "Add key to keyring",
+        "description": "Key import dialog header."
     },
     "key_gen_pwd_match": {
         "message": "Пароли совпадают",
@@ -232,7 +248,7 @@
         "description": "public key type"
     },
     "keyring_header": {
-        "message": "Связка ключей",
+        "message": "Key Management",
         "description": "Header of the key ring."
     },
     "keygrid_userid_signatures": {
@@ -242,6 +258,14 @@
     "form_cancel": {
         "message": "Отмена",
         "description": "Cancel form button."
+    },
+    "keyring_setup_import_key": {
+        "message": "Import key",
+        "description": "Import key"
+    },
+    "keyring_setup_no_keypair": {
+        "message": " A keypair is needed to encrypt and decrypt messages and if you want to invite your contacts to end-to-end encrypted communication.",
+        "description": "Setup text if no keypair available"
     },
     "keyring_private": {
         "message": "Private",
@@ -271,6 +295,10 @@
         "message": "Перезагрузить",
         "description": "Reload all Mailvelope UI elements on page."
     },
+    "form_no": {
+        "message": "No",
+        "description": "No form button."
+    },
     "options_title": {
         "message": "Настройки Mailvelope",
         "description": "Title of options page."
@@ -288,7 +316,7 @@
         "description": "Validity status of a PGP key."
     },
     "keyring_public_private": {
-        "message": "Public- Private-Key Pair",
+        "message": "Key Pairs",
         "description": "public and private key types"
     },
     "security_compose_external": {
@@ -296,8 +324,8 @@
         "description": "Mail compose option"
     },
     "keygrid_primary_key": {
-        "message": "Первичный ключ",
-        "description": "Primary key of a PGP key."
+        "message": "Main Key",
+        "description": "Main key in the PGP key."
     },
     "verify_result_success": {
         "message": "Подписано",
@@ -307,9 +335,17 @@
         "message": "ID пользователя",
         "description": "User IDs of a PGP key."
     },
+    "keyring_setup_no_keypair_heading": {
+        "message": "This keyring does not contain it's own keypair yet.",
+        "description": "Setup heading if no keypair available"
+    },
     "watchlist_title_scan": {
         "message": "Статус",
         "description": "Scan status of site in watchlist."
+    },
+    "waiting_dialog_decryption_failed": {
+        "message": "Decryption failed!",
+        "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "key_import_textarea": {
         "message": "Вставьте текст ключа сюда:",
@@ -364,8 +400,12 @@
         "description": "Label for key ID."
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Запомнить пароль на протяжении этой сессии",
-        "description": "Checkbox label."
+        "message": "Remember password temporarily",
+        "description": "Checkbox label for remembering of the password."
+    },
+    "form_import": {
+        "message": "Import",
+        "description": "Import form button."
     },
     "editor_encrypt_button": {
         "message": "Encrypt",
@@ -380,8 +420,12 @@
         "description": "Name in User ID of a PGP key."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Введите...",
+        "message": "Please enter your password",
         "description": "Placeholder for password."
+    },
+    "keyring_setup_import_key_explanation": {
+        "message": "You already have a keypair on another device? You can import your existing keys. Just export the keypair on your other device and import it here.",
+        "description": "Import key"
     },
     "security_display_popup": {
         "message": "В отдельном всплывающем окне Mailvelope.",
@@ -479,12 +523,16 @@
         "message": "Открытый ключ $1 пользователя $2 импортирован в связку ключей",
         "description": "Import success message: $1: keyid, $2: userid."
     },
+    "key_set_as_primary": {
+        "message": "Set as Primary",
+        "description": "Set as primary key for the keyring button"
+    },
     "keygrid_key_fingerprint": {
         "message": "Отпечаток",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_sort_type": {
-        "message": "Фильтр ключей по типу",
+        "message": "Key type",
         "description": "Key grid sort selector."
     },
     "key_gen_years": {
@@ -558,6 +606,10 @@
     "key_import_invalid_text": {
         "message": "Не найден текст действительного ключа",
         "description": "Import error alert."
+    },
+    "keyring_setup_generate_key": {
+        "message": "Generate key",
+        "description": "Generate key"
     },
     "word_or": {
         "message": "или",
@@ -647,6 +699,10 @@
         "message": "Ошибка!",
         "description": "Alert header of category error."
     },
+    "editor_remove_upload": {
+        "message": "Remove",
+        "description": "Remove uploaded attachment"
+    },
     "security_char_code": {
         "message": "Символьный код",
         "description": "Char code for security token"
@@ -683,9 +739,17 @@
         "message": "Документация",
         "description": "Options navigation: Documentation."
     },
+    "keyring_keypair": {
+        "message": "Key Pair",
+        "description": "key pair"
+    },
     "options_about": {
         "message": "О настройках",
         "description": "Options navigation: About."
+    },
+    "keygrid_primary_label": {
+        "message": "Primary",
+        "description": "Label for the primary key"
     },
     "key_gen_invalid_email": {
         "message": "Неверный адрес эл. почты",
@@ -699,9 +763,21 @@
         "message": "Скопировать в буфер обмена",
         "description": "Copy decrypted message to clipboard."
     },
+    "settings_backup": {
+        "message": "Backup",
+        "description": "Tab allowing to backup and restore the settings."
+    },
     "reload_webmail_tab": {
         "message": "Пожалуйста, обновите страницу почтового сервера (F5) для того, чтобы эти изменения вступили в силу.",
         "description": "Info message."
+    },
+    "form_yes": {
+        "message": "Yes",
+        "description": "Yes form button."
+    },
+    "keyring_setup_generate_key_explanation": {
+        "message": "If you're using this extension for the first time and you don't have a keypair yet, you need to generate a key.",
+        "description": "Generate key"
     },
     "keygrid_display_priv_key": {
         "message": "Показать закрытый ключ",
@@ -734,6 +810,10 @@
     "keygrid_display_pub_key": {
         "message": "Показать открытый ключ",
         "description": "Export key menu."
+    },
+    "keyring_setup": {
+        "message": "Setup",
+        "description": "Setup keyring for mail provider."
     },
     "keygrid_creation_date": {
         "message": "Дата создания",

@@ -32,8 +32,12 @@
         "description": "Verfiy signature error. Wrong signature of [userid]."
     },
     "pwd_dialog_header": {
-        "message": "Sleutelontgrendeling",
+        "message": "Sleutelwachtwoord invoeren",
         "description": "Header of the password dialog."
+    },
+    "waiting_dialog_prepare_email": {
+        "message": "Je e-mail wordt voorbereid...",
+        "description": "Message in the waiting dialog for quoting email"
     },
     "keygrid_creation_date_short": {
         "message": "Aangemaakt",
@@ -87,6 +91,10 @@
         "message": "Kies de map waarin u de bijlage wilt opslaan.",
         "description": "Message in the attachment save dialog"
     },
+    "pwd_dialog_keyid_tooltip": {
+        "message": "De ID van je sleutel",
+        "description": "Tooltip explaining the key id."
+    },
     "alert_header_success": {
         "message": "Gelukt!",
         "description": "Alert header of category success."
@@ -120,7 +128,7 @@
         "description": "File selection button label."
     },
     "watchlist_title_frame": {
-        "message": "Overeenkomstpatroon van domein",
+        "message": "Domeinpatroon",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "keygrid_key_length": {
@@ -147,6 +155,10 @@
         "message": "Fout bij importeren.",
         "description": "Import error alert."
     },
+    "key_import_question": {
+        "message": "Wil je deze sleutel importeren?",
+        "description": "Key import dialog header."
+    },
     "key_import_multiple_keys": {
         "message": "Om meerdere sleutels te importeren, kunt u ze gewoon hier plakken. Extra tekst rond de sleutels wordt genegeerd.",
         "description": "Info message."
@@ -162,6 +174,10 @@
     "keygrid_subkeyid": {
         "message": "ID",
         "description": "Subkey ID of a PGP key."
+    },
+    "key_import_dialog_header": {
+        "message": "Sleutel toevoegen aan sleutelbos",
+        "description": "Key import dialog header."
     },
     "key_gen_pwd_match": {
         "message": "Wachtwoorden komen overeen",
@@ -232,7 +248,7 @@
         "description": "public key type"
     },
     "keyring_header": {
-        "message": "Sleutelbos",
+        "message": "Sleutelbeheer",
         "description": "Header of the key ring."
     },
     "keygrid_userid_signatures": {
@@ -242,6 +258,14 @@
     "form_cancel": {
         "message": "Annuleren",
         "description": "Cancel form button."
+    },
+    "keyring_setup_import_key": {
+        "message": "Sleutel importeren",
+        "description": "Import key"
+    },
+    "keyring_setup_no_keypair": {
+        "message": "Een sleutelpaar is vereist voor het versleutelen en ontsleutelen van berichten, en als je je contacten wil uitnodigen om end-to-end-versleutelde communicatie te gebruiken.",
+        "description": "Setup text if no keypair available"
     },
     "keyring_private": {
         "message": "Privé",
@@ -271,6 +295,10 @@
         "message": "Herladen",
         "description": "Reload all Mailvelope UI elements on page."
     },
+    "form_no": {
+        "message": "Nee",
+        "description": "No form button."
+    },
     "options_title": {
         "message": "Opties voor Mailvelope",
         "description": "Title of options page."
@@ -288,7 +316,7 @@
         "description": "Validity status of a PGP key."
     },
     "keyring_public_private": {
-        "message": "Openbare- Privésleutelpaar",
+        "message": "Sleutelparen",
         "description": "public and private key types"
     },
     "security_compose_external": {
@@ -296,8 +324,8 @@
         "description": "Mail compose option"
     },
     "keygrid_primary_key": {
-        "message": "Primaire sleutel",
-        "description": "Primary key of a PGP key."
+        "message": "Hoofdsleutel",
+        "description": "Main key in the PGP key."
     },
     "verify_result_success": {
         "message": "Ondertekend door",
@@ -307,9 +335,17 @@
         "message": "Gebruikers-ID's",
         "description": "User IDs of a PGP key."
     },
+    "keyring_setup_no_keypair_heading": {
+        "message": "Deze sleutelbos bevat nog geen eigen sleutelpaar.",
+        "description": "Setup heading if no keypair available"
+    },
     "watchlist_title_scan": {
         "message": "Status",
         "description": "Scan status of site in watchlist."
+    },
+    "waiting_dialog_decryption_failed": {
+        "message": "Ontsleuteling mislukt!",
+        "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "key_import_textarea": {
         "message": "Plak sleuteltekst hier:",
@@ -364,8 +400,12 @@
         "description": "Label for key ID."
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Onthoud wachtwoorden voor deze sessie",
-        "description": "Checkbox label."
+        "message": "Wachtwoord tijdelijk onthouden",
+        "description": "Checkbox label for remembering of the password."
+    },
+    "form_import": {
+        "message": "Importeren",
+        "description": "Import form button."
     },
     "editor_encrypt_button": {
         "message": "Versleutelen",
@@ -380,8 +420,12 @@
         "description": "Name in User ID of a PGP key."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Voer aub in...",
+        "message": "Gelieve je wachtwoord in te voeren",
         "description": "Placeholder for password."
+    },
+    "keyring_setup_import_key_explanation": {
+        "message": "Heb je al een sleutelpaar op een ander apparaat? Je kan je bestaande sleutels importeren. Exporteer gewoon het sleutelpaar op het andere apparaat en importeer het hier.",
+        "description": "Import key"
     },
     "security_display_popup": {
         "message": "In een aparte pop-up van Mailvelope.",
@@ -479,12 +523,16 @@
         "message": "Openbare sleutel $1 van gebruiker $2 geïmporteerd in sleutelbos",
         "description": "Import success message: $1: keyid, $2: userid."
     },
+    "key_set_as_primary": {
+        "message": "Instellen als primair",
+        "description": "Set as primary key for the keyring button"
+    },
     "keygrid_key_fingerprint": {
         "message": "ongeldig",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_sort_type": {
-        "message": "Sleutel op type laten zien",
+        "message": "Sleuteltype",
         "description": "Key grid sort selector."
     },
     "key_gen_years": {
@@ -558,6 +606,10 @@
     "key_import_invalid_text": {
         "message": "Geen geldige sleuteltekst gevonden",
         "description": "Import error alert."
+    },
+    "keyring_setup_generate_key": {
+        "message": "Sleutel aanmaken",
+        "description": "Generate key"
     },
     "word_or": {
         "message": "of",
@@ -647,6 +699,10 @@
         "message": "Fout!",
         "description": "Alert header of category error."
     },
+    "editor_remove_upload": {
+        "message": "Verwijderen",
+        "description": "Remove uploaded attachment"
+    },
     "security_char_code": {
         "message": "Tekencode",
         "description": "Char code for security token"
@@ -683,9 +739,17 @@
         "message": "Documentatie",
         "description": "Options navigation: Documentation."
     },
+    "keyring_keypair": {
+        "message": "Sleutelpaar",
+        "description": "key pair"
+    },
     "options_about": {
         "message": "Over",
         "description": "Options navigation: About."
+    },
+    "keygrid_primary_label": {
+        "message": "Primair",
+        "description": "Label for the primary key"
     },
     "key_gen_invalid_email": {
         "message": "Ongeldig e-mailadres",
@@ -699,9 +763,21 @@
         "message": "Naar het klembord kopiëren",
         "description": "Copy decrypted message to clipboard."
     },
+    "settings_backup": {
+        "message": "Back-up",
+        "description": "Tab allowing to backup and restore the settings."
+    },
     "reload_webmail_tab": {
         "message": "Laad uw e-mailprovidertab opnieuw (F5) zodat de nieuwe instellingen toegepast kunnen worden.",
         "description": "Info message."
+    },
+    "form_yes": {
+        "message": "Ja",
+        "description": "Yes form button."
+    },
+    "keyring_setup_generate_key_explanation": {
+        "message": "Als je deze extensie voor de eerste keer gebruikt en nog geen sleutelpaar hebt, moet je een sleutel aanmaken.",
+        "description": "Generate key"
     },
     "keygrid_display_priv_key": {
         "message": "Privésleutel weergeven",
@@ -734,6 +810,10 @@
     "keygrid_display_pub_key": {
         "message": "Publieke sleutel weergeven",
         "description": "Export key menu."
+    },
+    "keyring_setup": {
+        "message": "Configuratie",
+        "description": "Setup keyring for mail provider."
     },
     "keygrid_creation_date": {
         "message": "Datum van aanmaak",

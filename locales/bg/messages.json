@@ -28,12 +28,16 @@
         "description": "Decrypted message display option"
     },
     "verify_result_error": {
-        "message": "Грешна сигнатура на",
+        "message": "Грешен подпис на",
         "description": "Verfiy signature error. Wrong signature of [userid]."
     },
     "pwd_dialog_header": {
-        "message": "Отвори ключа",
+        "message": "Enter key password",
         "description": "Header of the password dialog."
+    },
+    "waiting_dialog_prepare_email": {
+        "message": "Your email is prepared...",
+        "description": "Message in the waiting dialog for quoting email"
     },
     "keygrid_creation_date_short": {
         "message": "Създаден",
@@ -56,7 +60,7 @@
         "description": "Email address in User ID of a PGP key."
     },
     "watchlist_delete_confirmation": {
-        "message": "Do you really want to remove this site from the watchlist?",
+        "message": "Наистина ли искате да премахнете тази страница от листата с домейни.",
         "description": "Mesage in the watchlist delete confirmation dialog."
     },
     "key_export_header": {
@@ -86,6 +90,10 @@
     "save_attachment_as_message": {
         "message": "Изберете директория, където да се запишат прикачените файлове.",
         "description": "Message in the attachment save dialog"
+    },
+    "pwd_dialog_keyid_tooltip": {
+        "message": "The id of your key",
+        "description": "Tooltip explaining the key id."
     },
     "alert_header_success": {
         "message": "Операцията е успешна!",
@@ -120,7 +128,7 @@
         "description": "File selection button label."
     },
     "watchlist_title_frame": {
-        "message": "Модели за разпознаване на домайни",
+        "message": "Патерн на домейна",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "keygrid_key_length": {
@@ -147,6 +155,10 @@
         "message": "Грешка при импортирането.",
         "description": "Import error alert."
     },
+    "key_import_question": {
+        "message": "Do you want to import this key?",
+        "description": "Key import dialog header."
+    },
     "key_import_multiple_keys": {
         "message": "За да импортирате много ключове на веднъж, просто копирайте всички тук. Екстра текстът около ключовете ще бъде игнориран.",
         "description": "Info message."
@@ -162,6 +174,10 @@
     "keygrid_subkeyid": {
         "message": "ID",
         "description": "Subkey ID of a PGP key."
+    },
+    "key_import_dialog_header": {
+        "message": "Добави ключ към набора от ключове.",
+        "description": "Key import dialog header."
     },
     "key_gen_pwd_match": {
         "message": "Паролоте съответстват",
@@ -228,23 +244,31 @@
         "description": "Export key."
     },
     "keyring_public": {
-        "message": "Public",
+        "message": "Публучен",
         "description": "public key type"
     },
     "keyring_header": {
-        "message": "Каталог с ключове",
+        "message": "Управление на ключовете",
         "description": "Header of the key ring."
     },
     "keygrid_userid_signatures": {
-        "message": "Сигнатури",
+        "message": "Подписи",
         "description": "Signatures on User ID of a PGP key."
     },
     "form_cancel": {
         "message": "Отмени",
         "description": "Cancel form button."
     },
+    "keyring_setup_import_key": {
+        "message": "Импортирай ключ",
+        "description": "Import key"
+    },
+    "keyring_setup_no_keypair": {
+        "message": "Ключовата двойка е нужна за криптирането и декриптирането на съобщения и ако иксате да поканите ваши контакти за да комуницирате криптирано (end to end).",
+        "description": "Setup text if no keypair available"
+    },
     "keyring_private": {
-        "message": "Private",
+        "message": "Частен",
         "description": "private key type"
     },
     "encrypt_dialog_no_recipient": {
@@ -271,6 +295,10 @@
         "message": "Презареди",
         "description": "Reload all Mailvelope UI elements on page."
     },
+    "form_no": {
+        "message": "No",
+        "description": "No form button."
+    },
     "options_title": {
         "message": "Настройки",
         "description": "Title of options page."
@@ -288,7 +316,7 @@
         "description": "Validity status of a PGP key."
     },
     "keyring_public_private": {
-        "message": "Public- Private-Key Pair",
+        "message": "Ключова двойка",
         "description": "public and private key types"
     },
     "security_compose_external": {
@@ -296,20 +324,28 @@
         "description": "Mail compose option"
     },
     "keygrid_primary_key": {
-        "message": "Главен ключ",
-        "description": "Primary key of a PGP key."
+        "message": "Основен ключ",
+        "description": "Main key in the PGP key."
     },
     "verify_result_success": {
-        "message": "Сигнирано от",
+        "message": "Подписано от",
         "description": "Verfiy signature succeeded."
     },
     "keygrid_user_ids": {
         "message": "Потребителско ID",
         "description": "User IDs of a PGP key."
     },
+    "keyring_setup_no_keypair_heading": {
+        "message": "Този набор от ключове не съдържа собствена ключова двойка.",
+        "description": "Setup heading if no keypair available"
+    },
     "watchlist_title_scan": {
         "message": "Статус",
         "description": "Scan status of site in watchlist."
+    },
+    "waiting_dialog_decryption_failed": {
+        "message": "Decryption failed!",
+        "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "key_import_textarea": {
         "message": "Поставете тук текста с ключа:",
@@ -320,7 +356,7 @@
         "description": "Create entry in watchlist."
     },
     "key_gen_name_help": {
-        "message": "Име на собственика на ключа",
+        "message": "Пълно име на притежателя на ключа",
         "description": "Help text for name field."
     },
     "encrypt_error": {
@@ -336,7 +372,7 @@
         "description": "Max 6 character."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Domain match pattern should begin with *.",
+        "message": "Патерна на домейна трябва да започва с *.",
         "description": "Alert header of category warning."
     },
     "keygrid_status_valid": {
@@ -352,11 +388,11 @@
         "description": "Don't store password."
     },
     "keyring_export_keys": {
-        "message": "Export Keys",
+        "message": "Експортирай ключовете",
         "description": "Tab of keyring to export keys."
     },
     "keygrid_signer_name": {
-        "message": "Автор на сигнирането",
+        "message": "Автор на подписа",
         "description": "User ID of signer."
     },
     "dialog_keyid_label": {
@@ -364,8 +400,12 @@
         "description": "Label for key ID."
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Запомни паролата за тази сесия",
-        "description": "Checkbox label."
+        "message": "Remember password temporarily",
+        "description": "Checkbox label for remembering of the password."
+    },
+    "form_import": {
+        "message": "Импортирай",
+        "description": "Import form button."
     },
     "editor_encrypt_button": {
         "message": "Криптирай",
@@ -380,8 +420,12 @@
         "description": "Name in User ID of a PGP key."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Моля въведете...",
+        "message": "Please enter your password",
         "description": "Placeholder for password."
+    },
+    "keyring_setup_import_key_explanation": {
+        "message": "Вие притежавате ключова двойка от друго устройство? Тук можете да импортирате притежаваните от вас ключове. Просто ги експортирайте от другото устройство и ги импортирайте тук.",
+        "description": "Import key"
     },
     "security_display_popup": {
         "message": "В отделен прозорец на Mailvelope",
@@ -396,7 +440,7 @@
         "description": "Submit form button."
     },
     "watchlist_record_title": {
-        "message": "Watch List Record",
+        "message": "Листа от домейни",
         "description": "Title of the watchlist editor dialog."
     },
     "key_export_clipboard": {
@@ -408,7 +452,7 @@
         "description": "Close decrypt popup."
     },
     "verify_result_warning": {
-        "message": "Сигнорано с непознат ключ",
+        "message": "Подписано с непознат ключ",
         "description": "Verfiy signature warning."
     },
     "alert_header_warning": {
@@ -440,7 +484,7 @@
         "description": "Title of the password dialog."
     },
     "keygrid_subkeys": {
-        "message": "Подключ",
+        "message": "Подключове",
         "description": "Subkeys of a PGP key."
     },
     "form_clear": {
@@ -456,7 +500,7 @@
         "description": "Remove page from watchlist."
     },
     "key_gen_expiration": {
-        "message": "Изтичащ на",
+        "message": "Валиден до",
         "description": "Key expires after time range"
     },
     "keygrid_validity_status": {
@@ -468,23 +512,27 @@
         "description": "Tab of keyring to import keys."
     },
     "key_export_create_file": {
-        "message": "Download",
+        "message": "Изтегли",
         "description": "Download file button."
     },
     "alert_no_domainmatchpattern_warning": {
-        "message": "At least one domain match pattern is needed.",
+        "message": "Необходим е минимум един патерн на домейн.",
         "description": "Alert header of category warning."
     },
     "key_import_public_success": {
         "message": "Публичният ключ $1 на потребител $2 е импортиран в каталога с ключове",
         "description": "Import success message: $1: keyid, $2: userid."
     },
+    "key_set_as_primary": {
+        "message": "Избери като първичен",
+        "description": "Set as primary key for the keyring button"
+    },
     "keygrid_key_fingerprint": {
         "message": "Пръстов отпечатък",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_sort_type": {
-        "message": "Покажи ключове по тип",
+        "message": "Тип на ключа",
         "description": "Key grid sort selector."
     },
     "key_gen_years": {
@@ -500,7 +548,7 @@
         "description": "Header warning."
     },
     "keygrid_key_type": {
-        "message": "Type",
+        "message": "Тип",
         "description": "The type of the key."
     },
     "keyring_migration_error": {
@@ -508,7 +556,7 @@
         "description": "Tab of keyring to display migration errors."
     },
     "key_details_title": {
-        "message": "Key Details",
+        "message": "Детайли на ключа",
         "description": "The title of the key details dialog."
     },
     "security_cache_time": {
@@ -532,7 +580,7 @@
         "description": "Options navigation: Home."
     },
     "key_gen_wait_header": {
-        "message": "Ключът се генерира в момента...",
+        "message": "В момента ключът се генерира....",
         "description": "Wait dialog header"
     },
     "watchlist_title_site": {
@@ -558,6 +606,10 @@
     "key_import_invalid_text": {
         "message": "Не е намерен валиден ключ",
         "description": "Import error alert."
+    },
+    "keyring_setup_generate_key": {
+        "message": "Генерирай ключ",
+        "description": "Generate key"
     },
     "word_or": {
         "message": "или",
@@ -596,7 +648,7 @@
         "description": "Edit entry in watchlist."
     },
     "editor_transfer_unencrypted": {
-        "message": "Опитвате се да прехвърлите некриптирано съдържание обратно към емайл клиента.",
+        "message": "Опитвате се да прехвърлите некриптирано съдържание към емайл клиента.",
         "description": "Warning for unencrypted content."
     },
     "decrypt_popup_title": {
@@ -640,12 +692,16 @@
         "description": "Key expires after time range"
     },
     "keygrid_expiration_date": {
-        "message": "Срок на годност",
+        "message": "Срок на валидност",
         "description": "Expiration date of a PGP key."
     },
     "alert_header_error": {
         "message": "Грешка!",
         "description": "Alert header of category error."
+    },
+    "editor_remove_upload": {
+        "message": "Премахни",
+        "description": "Remove uploaded attachment"
     },
     "security_char_code": {
         "message": "Низ от символи",
@@ -656,15 +712,15 @@
         "description": "Key export warning message."
     },
     "keygrid_no_subkeys": {
-        "message": "Няма подключове",
+        "message": "Няма намерени подключове",
         "description": "No subkeys of a PGP key found."
     },
     "keygrid_keyid": {
-        "message": "ключ ID",
+        "message": "Ключ ID",
         "description": "Key ID of a PGP key."
     },
     "sign_dialog_header": {
-        "message": "Сигнирай съобщението с ключ: ",
+        "message": "Подпиши съобщението с ключ: ",
         "description": "Header of sign dialog."
     },
     "key_import_private_read": {
@@ -672,7 +728,7 @@
         "description": "Import error message. $1: error message"
     },
     "keygrid_signer_unknown": {
-        "message": "Авторът на сигнирането е неизвестен",
+        "message": "Авторът на подписа е неизвестен",
         "description": "Key of signer not available."
     },
     "popup_add_page": {
@@ -683,12 +739,20 @@
         "message": "Документация",
         "description": "Options navigation: Documentation."
     },
+    "keyring_keypair": {
+        "message": "Ключова двойка",
+        "description": "key pair"
+    },
     "options_about": {
         "message": "Относно",
         "description": "Options navigation: About."
     },
+    "keygrid_primary_label": {
+        "message": "Първичен",
+        "description": "Label for the primary key"
+    },
     "key_gen_invalid_email": {
-        "message": "Невалиден емайл",
+        "message": "Невалиден емайл адрес",
         "description": "Error message."
     },
     "pwd_dialog_userid": {
@@ -699,9 +763,21 @@
         "message": "Копирай в клипборда",
         "description": "Copy decrypted message to clipboard."
     },
+    "settings_backup": {
+        "message": "Резервно копие",
+        "description": "Tab allowing to backup and restore the settings."
+    },
     "reload_webmail_tab": {
         "message": "Моля презаредете (F5) табът където се намира вашия емайл клиент, за да активирате последните промени.",
         "description": "Info message."
+    },
+    "form_yes": {
+        "message": "Yes",
+        "description": "Yes form button."
+    },
+    "keyring_setup_generate_key_explanation": {
+        "message": "Ако използвате тази програма за първи път и не претежавате ключова двойка, ще трябва да генерирате такава.",
+        "description": "Generate key"
     },
     "keygrid_display_priv_key": {
         "message": "Покажи частния ключ",
@@ -735,12 +811,16 @@
         "message": "Покажи публичния ключ",
         "description": "Export key menu."
     },
+    "keyring_setup": {
+        "message": "Настройки",
+        "description": "Setup keyring for mail provider."
+    },
     "keygrid_creation_date": {
         "message": "Дата на създаване",
         "description": "Creation date of a PGP key."
     },
     "key_export_download": {
-        "message": "Свали ключа",
+        "message": "Изтегли ключа",
         "description": "Download key link."
     }
 }
