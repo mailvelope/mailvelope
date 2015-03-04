@@ -35,7 +35,7 @@ var mvelo = require('./lib-mvelo.js').mvelo;
 var model = require('./common/pgpModel');
 var controller = require('./common/controller/main.controller');
 var subController = require('./common/controller/sub.controller');
-var prefs = require('./common/prefs').data();
+var prefs = require('./common/prefs');
 var prompts = require('./prompt');
 
 var pageMods = {};
@@ -66,7 +66,7 @@ function checkStaticArgs() {
 function init() {
   controller.extend({
     initScriptInjection: function() {
-      if (prefs.main_active) {
+      if (prefs.data().main_active) {
         injectMainCS();
       }
     },
@@ -75,7 +75,7 @@ function init() {
   });
   model.init();
   initAddonButton();
-  if (prefs.main_active) {
+  if (prefs.data().main_active) {
     activatePageMods();
   }
 }

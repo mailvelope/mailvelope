@@ -54,10 +54,9 @@ define([
   "common/controller/main.controller",
   "common/controller/sub.controller",
   "common/pgpModel",
-  "common/prefs",
   "openpgp",
   "jquery"
-], function(controller, subController, model, prefs, openpgp, $) {
+], function(controller, subController, model, openpgp, $) {
 
   // inject content script only once per time slot
   var injectTimeSlot = 600;

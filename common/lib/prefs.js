@@ -56,6 +56,9 @@ define(function(require, exports, module) {
   }
 
   function data() {
+    if (!prefs) {
+      prefs = model.getPreferences();
+    }
     return prefs;
   }
 
