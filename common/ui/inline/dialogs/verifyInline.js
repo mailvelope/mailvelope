@@ -92,8 +92,10 @@ var mvelo = mvelo || null;
     });
     var style2 = style.clone().attr('href', commonPath + '/dep/wysihtml5/css/wysihtml5.css');
     var style3 = style.clone().attr('href', commonPath + '/ui/inline/dialogs/verifyInlineSig.css');
+    var meta = $('<meta/>', { charset: 'UTF-8' });
     sandbox.on('load', function() {
-      $(this).contents().find('head').append(style)
+      $(this).contents().find('head').append(meta)
+                                     .append(style)
                                      .append(style2)
                                      .append(style3);
       $(this).contents().find('body').css('background-color', 'rgba(0,0,0,0)');

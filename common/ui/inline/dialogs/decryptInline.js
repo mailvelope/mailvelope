@@ -116,8 +116,10 @@ var mvelo = mvelo || null;
       rel: 'stylesheet',
       href: commonPath + '/dep/bootstrap/css/bootstrap.css'
     });
+    var meta = $('<meta/>', { charset: 'UTF-8' });
     sandbox.on('load', function() {
-      $(this).contents().find('head').append(style);
+      $(this).contents().find('head').append(meta)
+                                     .append(style);
       $(this).contents().find('body').css('background-color', 'rgba(0,0,0,0)');
       $(this).contents().find('body').append(content);
     });

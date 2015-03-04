@@ -115,8 +115,10 @@ var mvelo = mvelo || null;
       rel: 'stylesheet',
       href: '../../dep/bootstrap/css/bootstrap.css'
     });
+    var meta = $('<meta/>', { charset: 'UTF-8' });
     sandbox.one('load', function() {
-      sandbox.contents().find('head').append(style);
+      sandbox.contents().find('head').append(meta)
+                                     .append(style);
       sandbox.contents().find('body').append(content);
     });
     $('.modal-body').append(sandbox);

@@ -263,9 +263,11 @@ var mvelo = mvelo || null;
     });
     var style = $('<link/>', { rel: 'stylesheet', href: commonPath + '/dep/bootstrap/css/bootstrap.css' });
     var style2 = $('<link/>', { rel: 'stylesheet', href: commonPath + '/ui/mvelo.css' });
+    var meta = $('<meta/>', { charset: 'UTF-8' });
     sandbox.one('load', function() {
-      sandbox.contents().find('head').append(style);
-      sandbox.contents().find('head').append(style2);
+      sandbox.contents().find('head').append(meta)
+                                     .append(style)
+                                     .append(style2);
       sandbox.contents().find('body').attr("style", "overflow: hidden; margin: 0").append(text);
     });
     $('#plainText').append(sandbox);

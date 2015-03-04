@@ -88,8 +88,10 @@ var mvelo = mvelo || null;
       href: '../../dep/bootstrap/css/bootstrap.css'
     });
     var style3 = style.clone().attr('href', '../../ui/modal/verifyPopupSig.css');
+    var meta = $('<meta/>', { charset: 'UTF-8' });
     sandbox.one('load', function() {
-      sandbox.contents().find('head').append(style)
+      sandbox.contents().find('head').append(meta)
+                                     .append(style)
                                      .append(style3);
       sandbox.contents().find('body').append(content);
     });
