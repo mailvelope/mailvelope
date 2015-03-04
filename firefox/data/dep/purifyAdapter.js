@@ -11,7 +11,9 @@ DOMPurify.addHook('afterSantitizeAttributes', function(node) {
     node.setAttribute('target', '_blank');
   }
   // set MathML links to xlink:show=new
-  if (node.tagName === 'math' && node.hasAttribute('href')) {
+  if (!node.hasAttribute('target') &&
+      (node.hasAttribute('xlink:href') ||
+       node.hasAttribute('href'))) {
     node.setAttribute('xlink:show', 'new');
   }
 });
