@@ -142,6 +142,9 @@ define(function(require, exports, module) {
       case 'open-popup':
         mvelo.windows.openPopup(request.url);
         break;
+      case 'close-popup':
+        // needed as workarround for firefox
+        break;
       default:
         console.log('unknown event:', request);
     }

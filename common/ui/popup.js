@@ -43,7 +43,7 @@ var mvelo = mvelo || null;
       if (mvelo.crx) {
         hide();
       } else {
-        sendMessage({event: 'dummy'});
+        sendMessage({event: 'close-popup'});
       }
     });
     $('.popup').on('click', 'button', function(event) {
