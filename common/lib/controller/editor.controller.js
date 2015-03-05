@@ -126,6 +126,8 @@ define(function(require, exports, module) {
           this.decryptQuoted(this.options.quotedMail);
         } else if (this.options.predefinedText) {
           this.ports.editor.postMessage({event: 'set-text', text: this.options.predefinedText});
+        } else {
+          this.ports.editor.postMessage({event: 'set-text', text: ""});
         }
         break;
       case 'sign-dialog-ok':
