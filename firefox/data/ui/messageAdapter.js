@@ -96,9 +96,15 @@ if (self.options.expose_messaging) {
       [].forEach.call(document.querySelectorAll('[data-l10n-id]'), function(element) {
         element.textContent = l10n[element.dataset.l10nId];
       });
+      [].forEach.call(document.querySelectorAll('[data-l10n-title-id]'), function(element) {
+        element.setAttribute("title", l10n[element.dataset.l10nTitleId]);
+      });
     } else {
       l10n = [].map.call(document.querySelectorAll('[data-l10n-id]'), function(element) {
         return element.dataset.l10nId;
+      });
+      [].map.call(document.querySelectorAll('[data-l10n-title-id]'), function(element) {
+        l10n.push(element.dataset.l10nTitleId);
       });
       getMessages(l10n, localizeHTML);
     }

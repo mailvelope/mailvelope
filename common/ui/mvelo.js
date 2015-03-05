@@ -126,6 +126,12 @@ mvelo.l10n = mvelo.l10n || mvelo.crx && {
       var text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id ;
       jqElement.text(text);
     });
+    $('[data-l10n-title-id]').each(function() {
+      var jqElement = $(this);
+      var id = jqElement.data('l10n-title-id');
+      var text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id ;
+      jqElement.attr("title", text);
+    });
   }
 };
 
