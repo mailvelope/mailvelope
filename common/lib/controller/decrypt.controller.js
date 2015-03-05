@@ -194,6 +194,8 @@ define(function(require, exports, module) {
     var that = this;
     if (/^\s*(MIME-Version|Content-Type|Content-Transfer-Encoding):/.test(rawText)) {
       // MIME
+      // mailreader expects rawText in pseudo-binary
+      rawText = unescape(encodeURIComponent(rawText));
       that.mailreader.parse([{raw: rawText}], function(parsed) {
         if (parsed && parsed.length > 0) {
           var htmlParts = [];
