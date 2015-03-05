@@ -8,51 +8,43 @@
 <body>
   <div class="popup">
     <div class="popupHeader btn-toolbar" role="toolbar">
-        <button type="button " class="btn popupLogo btn-link btn-xs"></button>
-        <br>
-        <button id="activate" type="button" class="btn btn-link btn-sm" style="padding-left: 0px;">
-          <span class="glyphicon glyphicon-check"></span> <span>Deaktivieren</span>
+        <a href="https://mailvelope.com" rel="noreferrer" target="_blank" class="btn popupLogo btn-link btn-xs"></a><br>
+        <a data-placement="bottom" data-toggle="tooltip" href="https://mailvelope.com/help" target="_blank" rel="noreferrer" class="btn btn-link btn-sm pull-right" data-l10n-title-id="popup_help_tooltip">
+          <span class="glyphicon glyphicon-question-sign"></span><span data-l10n-id="popup_help"></span>
+        </a>
+        <button data-placement="bottom" data-toggle="tooltip" id="state" type="button" class="btn btn-link btn-sm" style="padding-left: 0px;" data-l10n-title-id="popup_actived_checkbox_tooltip">
+          <span class="glyphicon glyphicon-check"></span><span data-l10n-id="popup_actived_checkbox"></span>
         </button>
     </div>
     <div class="popupBody" style="padding: 0px;">
-      <h6 style="border-top: 1px solid lightgrey; padding-top: 5px; padding-left: 5px;">Aktions for the current web site:</h6>
-      <div class="row" style="padding: 5px;">
-        <div class="col-xs-6" style="">
-          <button id="add" type="button" class="btn btn-default btn-sm" style="">
-            <span class="glyphicon glyphicon-plus"></span> <span data-l10n-id="popup_add_page"></span>
-          </button>
-        </div>
-        <div class="col-xs-6" style="">
-          <button id="reload" type="button" class="btn btn-default btn-sm" style="">
-            <span class="glyphicon glyphicon-refresh"></span> <span data-l10n-id="popup_reload"></span>
-          </button>
-        </div>
-      </div>
-      <h6 style="border-top: 1px solid lightgrey; padding-top: 5px; padding-left: 5px; margin-bottom: 0px;">Last activities:</h6>
-      <div style="padding: 5px;">
-        <small>&#9899; Typing text (15:64:23)</small><br>
-        <small>&#9899; Entering key pass (15:45:33)</small><br>
-        <small>&#9899; Sending email (15:34:41)</small><br>
-        <button id="activate" type="button" class="btn btn-link btn-sm" style="padding-left: 0px;">
-          <span class="glyphicon glyphicon-list"></span> <span>More</span>
+      <h6 class="separationLine" data-l10n-id="popup_actions_current_page"></h6>
+      <div class="btn-toolbar" style="padding: 5px; white-space: nowrap">
+        <button data-toggle="tooltip" id="add" type="button" class="btn btn-default btn-sm" data-l10n-title-id="popup_add_page_tooltip">
+          <span class="glyphicon glyphicon-plus"></span><span data-l10n-id="popup_add_page"></span>
+        </button>
+        <button data-toggle="tooltip" id="reload" type="button" class="btn btn-default btn-sm" data-l10n-title-id="popup_reload_tooltip">
+          <span class="glyphicon glyphicon-refresh"></span><span data-l10n-id="popup_reload"></span>
         </button>
       </div>
+      <h6 class="separationLine" data-l10n-id="popup_last_activities"></h6>
+      <div style="padding: 5px;" id="activityLog">
+        <small style="color: lightgray;">Feature not activated yet</small>
+        <!--div>Typing text <timestamp>15:64:23</timestamp></div>
+        <div>Entering key pass <timestamp>15:45:33</timestamp></div>
+        <div>Sending email <timestamp>15:34:41</timestamp></div>
+        <button id="showlog" type="button" class="btn btn-link btn-sm" style="padding-left: 0px;">
+          <span class="glyphicon glyphicon-list"></span><span>More</span>
+        </button-->
+      </div>
     </div>
-    <div class="popupFooter btn-toolbar">
-      <div class="row" style="padding: 5px;">
-        <div class="col-xs-6" style="">      
-          <button id="help" type="button" class="btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-question-sign"></span> <span data-l10n-id="popup_help"></span>
-          </button>
-        </div>
-        <div class="col-xs-6" style="">          
-          <button id="options" type="button " class="btn btn-primary btn-sm">
-            <span class="glyphicon glyphicon-wrench"></span> <span data-l10n-id="popup_options"></span>
-          </button>
-        </div>
+    <div class="popupFooter btn-toolbar text-center">
+      <button id="options" type="button " class="btn btn-primary btn-sm" style="width: 96%">
+        <span class="glyphicon glyphicon-wrench"></span><span data-l10n-id="popup_options"></span>
+      </button>
     </div>
   </div>
   <script src="../dep/jquery.min.js"></script>
+  <script src="../dep/bootstrap/js/bootstrap.js"></script>
   <script src="../ui/mvelo.js"></script>
   <script src="popup.js"></script>
 </body>

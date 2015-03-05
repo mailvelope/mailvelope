@@ -20,9 +20,10 @@
 var mvelo = mvelo || null;
 
 (function() {
-
   var crx = typeof chrome !== 'undefined';
+  var activeState;
   var sendMessage;
+
   if (!crx) {
     // Firefox
     sendMessage = function(msg) {
@@ -37,7 +38,15 @@ var mvelo = mvelo || null;
   }
 
   function init() {
-    $('.dropdown-menu').on('click', 'li', function(event) {
+    console.log("Init");
+    $('.popup').on('click', 'a', function(event) {
+      if (mvelo.crx) {
+        hide();
+      } else {
+        sendMessage({event: 'dummy'});
+      }
+    });
+    $('.popup').on('click', 'button', function(event) {
       // id of dropdown entry = action
       if (this.id === 'state' || this.id === '') {
         return;
@@ -50,23 +59,22 @@ var mvelo = mvelo || null;
       hide();
     });
     sendMessage({event: 'get-prefs'});
-    $('#activeState').on('change', function() {
+    $('#state').on('click', function() {
       var msg;
-      if (this.checked) {
-        msg = {event: 'activate'};
-      } else {
+      if (activeState) {
         msg = {event: 'deactivate'};
+      } else {
+        msg = {event: 'activate'};
       }
-      disableOptions(this.checked);
-      // wait for animation to finish
-      setTimeout(function() {
-        sendMessage(msg);
-        hide();
-      }, 600);
+      activeState = !activeState;
+      handleAppActivation();
+      sendMessage(msg);
+      hide();
     });
     if (mvelo.crx) {
       mvelo.l10n.localizeHTML();
     }
+    $('[data-toggle="tooltip"]').tooltip();
   }
 
   function hide() {
@@ -77,10 +85,14 @@ var mvelo = mvelo || null;
     }
   }
 
-  function disableOptions(state) {
-    if (state) {
+  function handleAppActivation() {
+    if (activeState) {
+      $('#state .glyphicon').removeClass('glyphicon-unchecked').addClass('glyphicon-check');
+      $('#add').removeClass('disabled').css('pointer-events', 'auto');
       $('#reload').removeClass('disabled').css('pointer-events', 'auto');
     } else {
+      $('#state .glyphicon').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+      $('#add').addClass('disabled').css('pointer-events', 'none');
       $('#reload').addClass('disabled').css('pointer-events', 'none');
     }
   }
@@ -88,11 +100,12 @@ var mvelo = mvelo || null;
   function messageListener(msg) {
     switch (msg.event) {
       case 'get-prefs':
-        $('#activeState').prop('checked', msg.prefs.main_active);
-        disableOptions(msg.prefs.main_active);
-        setTimeout(function() {
-          $('.switch-light').removeClass('no-transition');
-        }, 10);
+        activeState = msg.prefs.main_active;
+        handleAppActivation();
+        break;
+      case 'is-supported-noapi':
+        console.log("App active: " + msg.isSupported);
+        //handleActivation(msg.isSupported);
         break;
     }
   }

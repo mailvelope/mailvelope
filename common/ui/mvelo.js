@@ -285,6 +285,13 @@ mvelo.util.showSecurityBackground = function() {
 
 };
 
+mvelo.util.matchPattern2RegEx = function(matchPattern) {
+  return new RegExp(
+    '^' + matchPattern.replace(/\./g, '\\.')
+                      .replace(/\*\\\./, '(\\w+(-\\w+)*\\.)*') + '$'
+  );
+};
+
 if (typeof exports !== 'undefined') {
   exports.mvelo = mvelo;
 }

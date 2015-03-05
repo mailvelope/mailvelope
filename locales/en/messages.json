@@ -7,6 +7,14 @@
     "message": "Enhance your webmail provider with end-to-end encryption. Secure email communication based on the OpenPGP standard.",
     "description": "Description of the extension."
   },
+  "popup_actived_checkbox": {
+    "message": "Activated",
+    "description": "Text of the checkbox for activating/deactivating the plugin"
+  },
+  "popup_actived_checkbox_tooltip": {
+    "message": "Activate or deactivate the plugin",
+    "description": "Text of the checkbox for activating/deactivating the plugin"
+  },
   "popup_active_off": {
     "message": "Off",
     "description": "Activity status of the extension."
@@ -17,14 +25,34 @@
   },
   "popup_reload": {
     "message": "Reload",
+    "description": "Reload all Mailvelope elements on page."
+  },
+  "popup_reload_tooltip": {
+    "message": "Reload all Mailvelope element",
     "description": "Reload all Mailvelope UI elements on page."
   },
+  "popup_actions_current_page": {
+    "message": "Aktions for the current web site:",
+    "description": "Title text for the reload and add buttons"
+  },
+  "popup_last_activities": {
+    "message": "Last activities:",
+    "description": "Title text for the last activities area"
+  },
   "popup_add_page": {
-    "message": "Add page",
+    "message": "Add",
+    "description": "Add page to watchlist."
+  },
+  "popup_add_page_tooltip": {
+    "message": "Add current page to the watchlist",
     "description": "Add page to watchlist."
   },
   "popup_remove_page": {
-    "message": "Remove page",
+    "message": "Remove",
+    "description": "Remove page from watchlist."
+  },
+  "popup_remove_page_tooltip": {
+    "message": "Remove current page from the watchlist",
     "description": "Remove page from watchlist."
   },
   "popup_options": {
@@ -34,6 +62,10 @@
   "popup_help": {
     "message": "Help",
     "description": "Open help dialog."
+  },
+  "popup_help_tooltip": {
+    "message": "Opens the documentation page",
+    "description": "Opens the help page on mailvelope.com."
   },
   "options_title": {
     "message": "Mailvelope Options",
