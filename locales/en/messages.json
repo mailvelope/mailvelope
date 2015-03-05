@@ -667,6 +667,10 @@
     "message": "In a separate popup from Mailvelope.",
     "description": "Decrypted message display option"
   },
+  "security_background_header": {
+    "message": "Security Background",
+    "description": "Security background header"
+  },
   "security_token_header": {
     "message": "Security Token",
     "description": "Security token header"

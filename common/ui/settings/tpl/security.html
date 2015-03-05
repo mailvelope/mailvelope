@@ -17,17 +17,25 @@
   </div>
   <div class="form-group" id="securityTokenPanel">
     <label>
-      <strong data-l10n-id="security_token_header"></strong><button id="secTokenInfo" class="btn btn-link" data-toggle="popover" data-placement="right">
-      <span class="glyphicon glyphicon-info-sign"></span></button>
+      <strong data-l10n-id="security_background_header"></strong>
     </label>
-    <div class="radio form-inline">
-      <label data-l10n-id="security_char_code" for="secCode" id="secCodeLabel"></label>
-      <input type="text" id="secCode" maxlength="3" class="form-control">
-      <span class="help-block hide" data-l10n-id="security_char_help"></span>
+    <div id="securityBgndSliders">
+      <div class="form-inline" style="white-space: nowrap;">
+        <label for="angle">Angle</label>
+        <input type="range" min="0" max="360" id="angle" step="2">
+      </div>
+      <div class="form-inline" style="white-space: nowrap;">
+        <label for="scaling">Scaling</label>
+        <input type="range" min="5" max="20" id="scaling" step="1">
+      </div>
+      <div class="form-inline" style="white-space: nowrap;">
+        <label for="whitespace">Spacing</label>
+        <input type="range" min="20" max="80" id="whitespace" step="1">
+      </div>
     </div>
-    <div class="radio form-inline">
-      <label data-l10n-id="security_custom_color" for="secColor" id="secColorLabel"></label>
-      <input type="color" id="secColor" class="form-control">
+    <div>
+      <!--label for="previewArea">Preview</label-->
+      <div id="previewArea"></div>
     </div>
   </div>
   <div class="form-group">
