@@ -31,7 +31,7 @@ mvelo.domAPI.init = function() {
   this.active = mvelo.main.watchList.some(function(site) {
     return site.active && site.frames && site.frames.some(function(frame) {
       var hostRegex = mvelo.util.matchPattern2RegEx(frame.frame);
-      var validHost = hostRegex.test(document.location.hostname);
+      var validHost = hostRegex.test(window.location.hostname);
       if (frame.scan && frame.api && validHost) {
         // host = match pattern without *. prefix
         mvelo.domAPI.host = frame.frame.replace(/^\*\./, '');
