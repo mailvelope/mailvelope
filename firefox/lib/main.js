@@ -84,7 +84,9 @@ init();
 
 function onPanelMessage(msg) {
   //console.log('onPanelMessage', mailvelopePanel.postMessage);
-  controller.handleMessageEvent(msg, null, mailvelopePanel.postMessage.bind(mailvelopePanel));
+  if (msg.event !== "close-popup") {
+    controller.handleMessageEvent(msg, null, mailvelopePanel.postMessage.bind(mailvelopePanel));
+  }
   mailvelopePanel.hide();
 }
 
