@@ -151,6 +151,10 @@
     "message": "Remember password temporarily",
     "description": "Checkbox label for remembering of the password."
   },
+  "pwd_dialog_cancel": {
+    "message": "Key unlock canceled.",
+    "description": "User canceled key unlock dialog."
+  },
   "verify_result_success": {
     "message": "Signed by",
     "description": "Verfiy signature succeeded."
