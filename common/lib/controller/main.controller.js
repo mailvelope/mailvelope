@@ -136,7 +136,7 @@ define(function(require, exports, module) {
       case 'deactivate':
         postToNodes(sub.getByMainType('mainCS'), {event: 'off'});
         specific.deactivate();
-        reloadFrames(mvelo.ffa);
+        reloadFrames();
         prefs.update({main_active: false});
         break;
       case 'open-popup':

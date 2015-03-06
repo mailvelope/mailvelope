@@ -66,18 +66,14 @@ function checkStaticArgs() {
 function init() {
   controller.extend({
     initScriptInjection: function() {
-      if (prefs.data().main_active) {
-        injectMainCS();
-      }
+      injectMainCS();
     },
-    activate: activatePageMods,
-    deactivate: deactivate
+    activate: function() {},
+    deactivate: function() {}
   });
   model.init();
   initAddonButton();
-  if (prefs.data().main_active) {
-    activatePageMods();
-  }
+  activatePageMods();
 }
 
 init();
