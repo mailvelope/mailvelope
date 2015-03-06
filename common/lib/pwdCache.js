@@ -30,8 +30,6 @@ define(function(require, exports, module) {
   // timeout in minutes
   var timeout;
 
-  init();
-
   function init() {
     active = prefs.data().security.password_cache;
     timeout = prefs.data().security.password_timeout;
@@ -134,6 +132,7 @@ define(function(require, exports, module) {
     }
   }
 
+  exports.init = init;
   exports.get = get;
   exports.set = set;
   exports.unlock = unlock;

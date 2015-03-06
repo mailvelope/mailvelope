@@ -23,6 +23,8 @@ define(function(require, exports, module) {
   var l10n = mvelo.l10n.get;
   var openpgp = require('openpgp');
   var defaults = require('./defaults');
+  var prefs = require('./prefs');
+  var pwdCache = require('./pwdCache');
 
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
   var keyring = require('./keyring');
@@ -31,6 +33,8 @@ define(function(require, exports, module) {
 
   function init() {
     defaults.init();
+    prefs.init();
+    pwdCache.init();
     initOpenPGP();
     keyring.init();
   }

@@ -22,8 +22,12 @@ define(function(require, exports, module) {
   var mvelo = require('../lib-mvelo').mvelo;
   var defaults = require('./defaults');
   var model = require('./pgpModel');
-  var prefs = model.getPreferences();
+  var prefs = null;
   var updateHandlers = [];
+
+  function init() {
+    prefs = model.getPreferences();
+  }
 
   /**
    * Update preferences
@@ -56,12 +60,10 @@ define(function(require, exports, module) {
   }
 
   function data() {
-    if (!prefs) {
-      prefs = model.getPreferences();
-    }
     return prefs;
   }
 
+  exports.init = init;
   exports.update = update;
   exports.addUpdateHandler = addUpdateHandler;
   exports.data = data;
