@@ -42,7 +42,7 @@ define(function(require, exports, module) {
           // password dialog or modal dialog already open
           this.ports.vFrame.postMessage({event: 'remove-dialog'});
         } else {
-          this.mvelo.windows.openPopup('common/ui/modal/verifyPopup.html?id=' + this.id, {width: 742, height: 450, modal: true}, function(window) {
+          this.mvelo.windows.openPopup('common/ui/modal/verifyPopup.html?id=' + this.id, {width: 742, height: 550, modal: true}, function(window) {
             that.verifyPopup = window;
           });
         }

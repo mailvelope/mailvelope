@@ -194,7 +194,7 @@ define(function(require, exports, module) {
     this.getRecipients = options.getRecipients;
     this.keyringId = options.keyringId || this.mvelo.LOCAL_KEYRING_ID;
     this.encryptCallback = callback;
-    this.mvelo.windows.openPopup('common/ui/editor/editor.html?id=' + this.id + '&editor_type=' + this.prefs.data().general.editor_type, {width: 820, height: 450, modal: false}, function(window) {
+    this.mvelo.windows.openPopup('common/ui/editor/editor.html?id=' + this.id + '&editor_type=' + this.prefs.data().general.editor_type, {width: 820, height: 550, modal: false}, function(window) {
       that.editorPopup = window;
     });
   };

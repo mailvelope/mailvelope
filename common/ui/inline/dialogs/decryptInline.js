@@ -42,10 +42,10 @@ var mvelo = mvelo || null;
     } else if (mvelo.ffa) {
       commonPath = mvelo.extension._dataPath + 'common';
     }
+    addSpinner();
     addAttachmentPanel();
     addWrapper();
     addSandbox();
-    addSpinner();
     // mvelo.extension.sendMessage({event: "get-security-token"}, function(token) {
     //   $('#watermark').html(mvelo.util.encodeHTML(token.code));
     // });
