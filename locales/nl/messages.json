@@ -63,6 +63,10 @@
         "message": "Wilt u echt deze site van de volglijst afhalen?",
         "description": "Mesage in the watchlist delete confirmation dialog."
     },
+    "popup_last_activities": {
+        "message": "Last activities:",
+        "description": "Title text for the last activities area"
+    },
     "key_export_header": {
         "message": "Sleutel exporteren",
         "description": "Export key dialog header."
@@ -86,6 +90,10 @@
     "security_cache_header": {
         "message": "Wachtwoorden onthouden voor browsersessie?",
         "description": "Password cache header"
+    },
+    "popup_actived_checkbox_tooltip": {
+        "message": "Activate or deactivate the plugin",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "save_attachment_as_message": {
         "message": "Kies de map waarin u de bijlage wilt opslaan.",
@@ -231,6 +239,10 @@
         "message": "Aan",
         "description": "Activity status of the extension."
     },
+    "pwd_dialog_cancel": {
+        "message": "Key unlock canceled.",
+        "description": "User canceled key unlock dialog."
+    },
     "encrypt_dialog_header": {
         "message": "Versleutelen voor:",
         "description": "Header of encrypt dialog."
@@ -259,6 +271,14 @@
         "message": "Annuleren",
         "description": "Cancel form button."
     },
+    "keygrid_invalid_userid": {
+        "message": "Ongeldige gebruikers-ID",
+        "description": "User ID invalid."
+    },
+    "popup_reload_tooltip": {
+        "message": "Reload all Mailvelope element",
+        "description": "Reload all Mailvelope UI elements on page."
+    },
     "keyring_setup_import_key": {
         "message": "Sleutel importeren",
         "description": "Import key"
@@ -274,6 +294,10 @@
     "encrypt_dialog_no_recipient": {
         "message": "Voeg een ontvanger toe.",
         "description": "Error message if no recipient selected."
+    },
+    "popup_actived_checkbox": {
+        "message": "Activated",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "general_editor_plain": {
         "message": "Tekst zonder opmaak",
@@ -293,7 +317,7 @@
     },
     "popup_reload": {
         "message": "Herladen",
-        "description": "Reload all Mailvelope UI elements on page."
+        "description": "Reload all Mailvelope elements on page."
     },
     "form_no": {
         "message": "Nee",
@@ -363,6 +387,10 @@
         "message": "Kon dit bericht niet versleutelen: $1",
         "description": "Error during encryption process."
     },
+    "popup_actions_current_page": {
+        "message": "Aktions for the current web site:",
+        "description": "Title text for the reload and add buttons"
+    },
     "key_gen_months": {
         "message": "maaden",
         "description": "Key expires after time range"
@@ -402,6 +430,10 @@
     "pwd_dialog_cache_pwd": {
         "message": "Wachtwoord tijdelijk onthouden",
         "description": "Checkbox label for remembering of the password."
+    },
+    "popup_remove_page_tooltip": {
+        "message": "Remove current page from the watchlist",
+        "description": "Remove page from watchlist."
     },
     "form_import": {
         "message": "Importeren",
@@ -496,7 +528,7 @@
         "description": "Key import button"
     },
     "popup_remove_page": {
-        "message": "Pagina verwijderen",
+        "message": "Remove",
         "description": "Remove page from watchlist."
     },
     "key_gen_expiration": {
@@ -530,6 +562,10 @@
     "keygrid_key_fingerprint": {
         "message": "ongeldig",
         "description": "Unique string identifier for a PGP key."
+    },
+    "popup_add_page_tooltip": {
+        "message": "Add current page to the watchlist",
+        "description": "Add page to watchlist."
     },
     "keygrid_sort_type": {
         "message": "Sleuteltype",
@@ -727,12 +763,16 @@
         "message": "Niet in staat een privésleutel te lezen: $1",
         "description": "Import error message. $1: error message"
     },
+    "popup_help_tooltip": {
+        "message": "Opens the documentation page",
+        "description": "Opens the help page on mailvelope.com."
+    },
     "keygrid_signer_unknown": {
         "message": "Ondertekenaar onbekend",
         "description": "Key of signer not available."
     },
     "popup_add_page": {
-        "message": "Pagina toevoegen",
+        "message": "Add",
         "description": "Add page to watchlist."
     },
     "options_docu": {

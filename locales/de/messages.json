@@ -63,6 +63,10 @@
         "message": "Wollen Sie diese Seite wirklich von der Beobachtungsliste entfernen?",
         "description": "Mesage in the watchlist delete confirmation dialog."
     },
+    "popup_last_activities": {
+        "message": "Last activities:",
+        "description": "Title text for the last activities area"
+    },
     "key_export_header": {
         "message": "Schlüssel exportieren",
         "description": "Export key dialog header."
@@ -86,6 +90,10 @@
     "security_cache_header": {
         "message": "Passwörter für diese Browser-Sitzung speichern?",
         "description": "Password cache header"
+    },
+    "popup_actived_checkbox_tooltip": {
+        "message": "Activate or deactivate the plugin",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "save_attachment_as_message": {
         "message": "Wählen Sie den Ordner, in dem Sie den Anhang speichern möchten.",
@@ -231,6 +239,10 @@
         "message": "Ein",
         "description": "Activity status of the extension."
     },
+    "pwd_dialog_cancel": {
+        "message": "Key unlock canceled.",
+        "description": "User canceled key unlock dialog."
+    },
     "encrypt_dialog_header": {
         "message": "Verschlüsseln für:",
         "description": "Header of encrypt dialog."
@@ -259,6 +271,14 @@
         "message": "Abbrechen",
         "description": "Cancel form button."
     },
+    "keygrid_invalid_userid": {
+        "message": "Ungültige Benutzerkennung",
+        "description": "User ID invalid."
+    },
+    "popup_reload_tooltip": {
+        "message": "Reload all Mailvelope element",
+        "description": "Reload all Mailvelope UI elements on page."
+    },
     "keyring_setup_import_key": {
         "message": "Schlüssel importieren",
         "description": "Import key"
@@ -274,6 +294,10 @@
     "encrypt_dialog_no_recipient": {
         "message": "Bitte einen Empfänger hinzufügen.",
         "description": "Error message if no recipient selected."
+    },
+    "popup_actived_checkbox": {
+        "message": "Activated",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "general_editor_plain": {
         "message": "Einfacher Text",
@@ -293,7 +317,7 @@
     },
     "popup_reload": {
         "message": "Neuladen",
-        "description": "Reload all Mailvelope UI elements on page."
+        "description": "Reload all Mailvelope elements on page."
     },
     "form_no": {
         "message": "Nein",
@@ -363,6 +387,10 @@
         "message": "Diese Nachricht konnte nicht verschlüsselt werden: $1",
         "description": "Error during encryption process."
     },
+    "popup_actions_current_page": {
+        "message": "Aktions for the current web site:",
+        "description": "Title text for the reload and add buttons"
+    },
     "key_gen_months": {
         "message": "Monate",
         "description": "Key expires after time range"
@@ -402,6 +430,10 @@
     "pwd_dialog_cache_pwd": {
         "message": "Passwort temporär merken",
         "description": "Checkbox label for remembering of the password."
+    },
+    "popup_remove_page_tooltip": {
+        "message": "Remove current page from the watchlist",
+        "description": "Remove page from watchlist."
     },
     "form_import": {
         "message": "Importieren",
@@ -496,7 +528,7 @@
         "description": "Key import button"
     },
     "popup_remove_page": {
-        "message": "Seite entfernen",
+        "message": "Remove",
         "description": "Remove page from watchlist."
     },
     "key_gen_expiration": {
@@ -530,6 +562,10 @@
     "keygrid_key_fingerprint": {
         "message": "Fingerabdruck",
         "description": "Unique string identifier for a PGP key."
+    },
+    "popup_add_page_tooltip": {
+        "message": "Add current page to the watchlist",
+        "description": "Add page to watchlist."
     },
     "keygrid_sort_type": {
         "message": "Schlüsseltyp",
@@ -727,12 +763,16 @@
         "message": "Ein privater Schlüssel konnte nicht gelesen werden: $1",
         "description": "Import error message. $1: error message"
     },
+    "popup_help_tooltip": {
+        "message": "Opens the documentation page",
+        "description": "Opens the help page on mailvelope.com."
+    },
     "keygrid_signer_unknown": {
         "message": "Unterzeichner nicht bekannt",
         "description": "Key of signer not available."
     },
     "popup_add_page": {
-        "message": "Seite hinzufügen",
+        "message": "Add",
         "description": "Add page to watchlist."
     },
     "options_docu": {

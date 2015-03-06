@@ -35,7 +35,6 @@ var mvelo = require('./lib-mvelo.js').mvelo;
 var model = require('./common/pgpModel');
 var controller = require('./common/controller/main.controller');
 var subController = require('./common/controller/sub.controller');
-var prefs = require('./common/prefs');
 var prompts = require('./prompt');
 
 var pageMods = {};

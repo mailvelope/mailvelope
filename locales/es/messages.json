@@ -32,7 +32,7 @@
         "description": "Verfiy signature error. Wrong signature of [userid]."
     },
     "pwd_dialog_header": {
-        "message": "Enter key password",
+        "message": "Introduzca la contraseña de la clave",
         "description": "Header of the password dialog."
     },
     "waiting_dialog_prepare_email": {
@@ -63,6 +63,10 @@
         "message": "¿De verdad quiere eliminar este sitio de la lista de vigilancia?",
         "description": "Mesage in the watchlist delete confirmation dialog."
     },
+    "popup_last_activities": {
+        "message": "Last activities:",
+        "description": "Title text for the last activities area"
+    },
     "key_export_header": {
         "message": "Exportar clave",
         "description": "Export key dialog header."
@@ -87,12 +91,16 @@
         "message": "¿Recordar contraseñas para la sesión del navegador?",
         "description": "Password cache header"
     },
+    "popup_actived_checkbox_tooltip": {
+        "message": "Activate or deactivate the plugin",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
+    },
     "save_attachment_as_message": {
         "message": "Seleccione la carpeta donde quiera guardar el adjunto.",
         "description": "Message in the attachment save dialog"
     },
     "pwd_dialog_keyid_tooltip": {
-        "message": "The id of your key",
+        "message": "La identificación de su clave",
         "description": "Tooltip explaining the key id."
     },
     "alert_header_success": {
@@ -156,7 +164,7 @@
         "description": "Import error alert."
     },
     "key_import_question": {
-        "message": "Do you want to import this key?",
+        "message": "¿Quiere importar esta clave?",
         "description": "Key import dialog header."
     },
     "key_import_multiple_keys": {
@@ -231,6 +239,10 @@
         "message": "Encen.",
         "description": "Activity status of the extension."
     },
+    "pwd_dialog_cancel": {
+        "message": "Key unlock canceled.",
+        "description": "User canceled key unlock dialog."
+    },
     "encrypt_dialog_header": {
         "message": "Cifrar para:",
         "description": "Header of encrypt dialog."
@@ -259,6 +271,14 @@
         "message": "Cancelar",
         "description": "Cancel form button."
     },
+    "keygrid_invalid_userid": {
+        "message": "Identificación de usuario no válida",
+        "description": "User ID invalid."
+    },
+    "popup_reload_tooltip": {
+        "message": "Reload all Mailvelope element",
+        "description": "Reload all Mailvelope UI elements on page."
+    },
     "keyring_setup_import_key": {
         "message": "Importar clave",
         "description": "Import key"
@@ -274,6 +294,10 @@
     "encrypt_dialog_no_recipient": {
         "message": "Por favor añada un receptor.",
         "description": "Error message if no recipient selected."
+    },
+    "popup_actived_checkbox": {
+        "message": "Activated",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "general_editor_plain": {
         "message": "Texto simple",
@@ -293,7 +317,7 @@
     },
     "popup_reload": {
         "message": "Recargar",
-        "description": "Reload all Mailvelope UI elements on page."
+        "description": "Reload all Mailvelope elements on page."
     },
     "form_no": {
         "message": "No",
@@ -363,6 +387,10 @@
         "message": "No se pudo cifrar este mensaje: $1",
         "description": "Error during encryption process."
     },
+    "popup_actions_current_page": {
+        "message": "Aktions for the current web site:",
+        "description": "Title text for the reload and add buttons"
+    },
     "key_gen_months": {
         "message": "meses",
         "description": "Key expires after time range"
@@ -400,8 +428,12 @@
         "description": "Label for key ID."
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Remember password temporarily",
+        "message": "Recuerde la contraseña temporalmente",
         "description": "Checkbox label for remembering of the password."
+    },
+    "popup_remove_page_tooltip": {
+        "message": "Remove current page from the watchlist",
+        "description": "Remove page from watchlist."
     },
     "form_import": {
         "message": "Importar",
@@ -420,7 +452,7 @@
         "description": "Name in User ID of a PGP key."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Please enter your password",
+        "message": "Por favor introduzca su contraseña",
         "description": "Placeholder for password."
     },
     "keyring_setup_import_key_explanation": {
@@ -496,7 +528,7 @@
         "description": "Key import button"
     },
     "popup_remove_page": {
-        "message": "Eliminar página",
+        "message": "Remove",
         "description": "Remove page from watchlist."
     },
     "key_gen_expiration": {
@@ -530,6 +562,10 @@
     "keygrid_key_fingerprint": {
         "message": "Huella de verificación",
         "description": "Unique string identifier for a PGP key."
+    },
+    "popup_add_page_tooltip": {
+        "message": "Add current page to the watchlist",
+        "description": "Add page to watchlist."
     },
     "keygrid_sort_type": {
         "message": "Tipo de clave",
@@ -727,12 +763,16 @@
         "message": "No se pudo leer una clave privada: $1",
         "description": "Import error message. $1: error message"
     },
+    "popup_help_tooltip": {
+        "message": "Opens the documentation page",
+        "description": "Opens the help page on mailvelope.com."
+    },
     "keygrid_signer_unknown": {
         "message": "Firmante desconocido",
         "description": "Key of signer not available."
     },
     "popup_add_page": {
-        "message": "Añadir página",
+        "message": "Add",
         "description": "Add page to watchlist."
     },
     "options_docu": {
@@ -772,7 +812,7 @@
         "description": "Info message."
     },
     "form_yes": {
-        "message": "Yes",
+        "message": "Sí",
         "description": "Yes form button."
     },
     "keyring_setup_generate_key_explanation": {
