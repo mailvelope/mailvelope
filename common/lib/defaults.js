@@ -49,10 +49,11 @@ define(function(require, exports, module) {
     defaults = mvelo.data.loadDefaults();
     var prefs = model.getPreferences();
     if (!prefs) {
-      defaults.preferences.security.secure_color = randomColor();
-      defaults.preferences.security.secure_code = randomString(3);
-      initSecurityBgnd(defaults.preferences);
-      model.setPreferences(defaults.preferences);
+      prefs = defaults.preferences;
+      prefs.version = defaults.version;
+      prefs.security.secure_color = randomColor();
+      prefs.security.secure_code = randomString(3);
+      initSecurityBgnd(prefs);
       model.setWatchList(defaults.watch_list);
     } else {
       // Adding security bgnd settings for users comming from ver. <= 0.11
@@ -60,19 +61,18 @@ define(function(require, exports, module) {
         initSecurityBgnd(prefs);
         prefs.security.secureBgndColor = defaults.preferences.security.secureBgndColor;
         prefs.security.secureBgndIconColor = defaults.preferences.security.secureBgndIconColor;
-        model.setPreferences(prefs);
       }
       if (typeof prefs.main_active == 'undefined') {
         prefs.main_active = defaults.preferences.main_active;
-        model.setPreferences(prefs);
       }
       if (prefs.version !== defaults.version) {
         prefs.version = defaults.version;
         prefs.general.editor_type = mvelo.PLAIN_TEXT;
-        model.setPreferences(prefs);
+        // merge watchlist on version change
         mergeWatchlist(defaults);
       }
     }
+    model.setPreferences(prefs);
   }
 
   function mergeWatchlist(defaults) {
