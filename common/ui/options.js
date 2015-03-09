@@ -205,7 +205,7 @@ var options = {};
       exports.primaryKeyId = primaryKeyId;
     }
 
-    $settingsArea.css("background-image", "none");
+    // $settingsArea.css("background-image", "none");
     if (providerLogo) {
       $settingsArea.css("background-image", "url(" + providerLogo + ")");
       $settingsArea.css("background-repeat", "no-repeat");

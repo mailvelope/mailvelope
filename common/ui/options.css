@@ -164,14 +164,27 @@ input[readonly] {
     padding-left: 3px;
 }
 
+#securityTokenPanel:after {
+  content: ' ';
+  clear: both;
+  display: block;
+  visibility: hidden;
+  height: 0;
+}
+
 #securityTokenPanel input[type="range"] {
   display: inline;
   width: 200px;
   margin: 20px;
 }
 
+#securityBgndSliders {
+  width: 335px;
+  float: left;
+}
+
 #securityBgndSliders label {
-  width: 150px;
+  width: 110px;
 }
 
 #previewArea {
@@ -181,6 +194,7 @@ input[readonly] {
   padding: 20px;
   background-color: #f5f5f5;
   margin: 20px;
+  float: left;
 }
 
 #pwdCacheLabel {
@@ -511,7 +525,6 @@ button.keyDetailsBtn, button.keyDeleteBtn {
   padding-right: 30px;
 }
 
-
 /* Footer */
 
 footer.row {
@@ -528,4 +541,10 @@ footer > p.col-md-6 {
 #version {
   padding-right:0;
   text-align: right;
+}
+
+.lockBtnIcon {
+    width: 30px !important;
+    height: 30px;
+    margin-right: -44px;
 }

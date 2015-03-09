@@ -212,7 +212,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 .jumbotron .well p {
     font-size: inherit;
-    margin-bottom: inherit;
+    margin-bottom: 20px;
 }
 
 .keyring_setup_message {
@@ -224,14 +224,34 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }
 
 /**
+ * Secure background
+ */
+
+.jumbotron.secureBackground {
+    padding: 10px;
+}
+
+.jumbotron.secureBackground > div {
+    margin-bottom: 10px;
+}
+
+/* Clearfix */
+.jumbotron.secureBackground:after {
+    content: '';
+    display: block;
+    clear: both;
+    heigth: 0;
+}
+
+/**
  * Smallscreen optimization
  */
 
 @media (max-width:767px) {
-  .tab-content.jumbotron {
+  /*.tab-content.jumbotron {
     padding: 0;
     background: transparent;
-  }
+  }*/
 
   /* Responsive table */
   .table-responsive-custom {
@@ -250,7 +270,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 @media (min-width: 992px) and (max-width: 1200px) {
   .tab-content.jumbotron {
-    padding-left: 30px;
-    padding-right: 30px;
+   /* padding-left: 30px;
+    padding-right: 30px;*/
   }
 }
