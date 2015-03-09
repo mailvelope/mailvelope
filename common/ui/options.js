@@ -31,7 +31,7 @@ var options = {};
   var l10n = {};
   var keyringTmpl;
   var $keyringList;
-  var mail123Suffix = "123mail.zt";
+  var demailSuffix = "de-mail.de";
 
   function init() {
     initMessageListener();
@@ -99,7 +99,7 @@ var options = {};
       "keygrid_user_email"
     ]);
 
-    customize123Mail(krid);
+    customizeDeMail(krid);
 
     mvelo.l10n.localizeHTML();
     mvelo.util.showSecurityBackground();
@@ -214,7 +214,7 @@ var options = {};
 
     $("#genKeyEmailLabel").removeAttr("data-l10n-id");
 
-    customize123Mail(keyringId);
+    customizeDeMail(keyringId);
 
     mvelo.util.showLoadingAnimation();
     options.event.triggerHandler('keygrid-reload');
@@ -222,10 +222,17 @@ var options = {};
     $('#displayKeysButton').get(0).click();
   }
 
-  function customize123Mail(keyringId) {
-    if (keyringId && (keyringId.indexOf(mail123Suffix) > 3)) {
-      $("#genKeyEmailLabel").text("123Mail");
+  function customizeDeMail(keyringId) {
+    if (keyringId && (keyringId.indexOf(demailSuffix) > 3)) {
+      var deMail = keyringId.split(mvelo.KEYRING_DELIMITER)[1];
+      if (deMail) {
+        $("#genKeyEmail").val(deMail);
+      }
+      $("#genKeyEmail").attr("disabled", "disabled");
+      $("#genKeyEmailLabel").text("De-Mail");
     } else {
+      $("#genKeyEmail").val("");
+      $("#genKeyEmail").removeAttr("disabled");
       $("#genKeyEmailLabel").text(exports.l10n.keygrid_user_email);
     }
   }
