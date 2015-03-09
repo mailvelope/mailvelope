@@ -19,6 +19,7 @@
 
 define(function(require, exports, module) {
 
+  var mvelo = require('../../lib-mvelo').mvelo;
   var sub = require('./sub.controller');
   var DecryptController = require('./decrypt.controller').DecryptController;
 
@@ -123,6 +124,9 @@ define(function(require, exports, module) {
         this.keyringId = msg.keyringId;
         this.options = msg.options;
         if (this.options.quotedMail) {
+          mvelo.util.setTimeout(function() {
+            that.ports.editor.postMessage({event: 'show-loading-animation'});
+          }, 1000);
           this.decryptQuoted(this.options.quotedMail);
         } else if (this.options.predefinedText) {
           this.ports.editor.postMessage({event: 'set-text', text: this.options.predefinedText});
@@ -254,7 +258,6 @@ define(function(require, exports, module) {
             msg = msg + '\n\n' + that.options.predefinedText;
           }
           that.ports.editor.postMessage({event: 'set-text', text: msg});
-          //that.ports.editor.postMessage({event: 'decrypt-failed'});
         },
         onAttachment: function(part) {
           // only reply scenario at the moment

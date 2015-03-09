@@ -41,6 +41,7 @@ var mvelo = mvelo || null;
   var attachments = {};
   var commonPath;
   var l10n;
+  //var textTransfered;
 
   // Get language strings from JSON
   mvelo.l10n.getMessages([
@@ -97,7 +98,11 @@ var mvelo = mvelo || null;
       $('body').addClass("secureBackground");
       mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/waiting-modal.html')).then(function() {
         $('#waitingModal .modal-title').hide();
-        $('#waitingModal').modal({keyboard: false}).modal("show");
+        //setTimeout(function() {
+        //  if (!textTransfered) {
+        //    $('#waitingModal').modal({keyboard: false}).modal("show");
+        //  }
+        //}, 1000);
       });
       mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')).then(function() {
         $('#uploadEmbeddedBtn').on("click", function() {
@@ -252,7 +257,7 @@ var mvelo = mvelo || null;
       id: 'content',
       class: 'form-control',
       rows: 12,
-      autofocus: '',
+      //autofocus: '',
       css: {
         'width':        '100%',
         'height':       '100%',
@@ -309,7 +314,10 @@ var mvelo = mvelo || null;
   }
 
   function setPlainText(text) {
-    editor.val(text);
+    editor.focus()
+          .val(text)
+          .prop('selectionStart', 0)
+          .prop('selectionEnd', 0);
     isDirty = false;
   }
 
@@ -423,7 +431,11 @@ var mvelo = mvelo || null;
   function messageListener(msg) {
     //console.log('editor messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
+      case 'show-loading-animation':
+        $('#waitingModal').modal({keyboard: false}).modal("show");
+        break;
       case 'set-text':
+        //textTransfered = true;
         $('#waitingModal').modal("hide");
         if (editor) {
           setText(msg.text);
@@ -436,6 +448,7 @@ var mvelo = mvelo || null;
         $('.text-center').addClass('alert alert-danger').text(l10n.waiting_dialog_decryption_failed);
         $('#waitingModal .m-spinner').hide();
         $('#waitingModal .btn-primary').show();
+        $('#waitingModal').modal("show");
         break;
       case 'show-pwd-dialog':
         removeDialog();
