@@ -41,7 +41,7 @@ var mvelo = mvelo || null;
   var attachments = {};
   var commonPath;
   var l10n;
-  //var textTransfered;
+  var textTransfered;
 
   // Get language strings from JSON
   mvelo.l10n.getMessages([
@@ -98,11 +98,16 @@ var mvelo = mvelo || null;
       $('body').addClass("secureBackground");
       mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/waiting-modal.html')).then(function() {
         $('#waitingModal .modal-title').hide();
-        //setTimeout(function() {
-        //  if (!textTransfered) {
-        //    $('#waitingModal').modal({keyboard: false}).modal("show");
-        //  }
-        //}, 1000);
+        $('#waitingModal').on('hidden.bs.modal', function(e) {
+          editor.focus()
+                .prop('selectionStart', 0)
+                .prop('selectionEnd', 0);
+        });
+        setTimeout(function() {
+          if (!textTransfered) {
+            $('#waitingModal').modal({keyboard: false}).modal("show");
+          }
+        }, 1000);
       });
       mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')).then(function() {
         $('#uploadEmbeddedBtn').on("click", function() {
@@ -257,7 +262,6 @@ var mvelo = mvelo || null;
       id: 'content',
       class: 'form-control',
       rows: 12,
-      //autofocus: '',
       css: {
         'width':        '100%',
         'height':       '100%',
@@ -431,11 +435,10 @@ var mvelo = mvelo || null;
   function messageListener(msg) {
     //console.log('editor messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
-      case 'show-loading-animation':
-        $('#waitingModal').modal({keyboard: false}).modal("show");
-        break;
       case 'set-text':
-        //textTransfered = true;
+        if (msg.text.length > 0) {
+          textTransfered = true;
+        }
         $('#waitingModal').modal("hide");
         if (editor) {
           setText(msg.text);

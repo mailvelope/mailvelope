@@ -19,7 +19,6 @@
 
 define(function(require, exports, module) {
 
-  var mvelo = require('../../lib-mvelo').mvelo;
   var sub = require('./sub.controller');
   var DecryptController = require('./decrypt.controller').DecryptController;
 
@@ -124,9 +123,6 @@ define(function(require, exports, module) {
         this.keyringId = msg.keyringId;
         this.options = msg.options;
         if (this.options.quotedMail) {
-          mvelo.util.setTimeout(function() {
-            that.ports.editor.postMessage({event: 'show-loading-animation'});
-          }, 1000);
           this.decryptQuoted(this.options.quotedMail);
         } else if (this.options.predefinedText) {
           this.ports.editor.postMessage({event: 'set-text', text: this.options.predefinedText});
