@@ -671,6 +671,10 @@
     "message": "Security Background",
     "description": "Security background header"
   },
+  "security_background_text": {
+    "message": "The security background is your personal Mailvelope background and it helps to prevent user interface manipulation by third-party websites and applications. To increase security, create and change your personal background here.",
+    "description": "Security background text"
+  },
   "security_token_header": {
     "message": "Security Token",
     "description": "Security token header"

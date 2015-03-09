@@ -136,6 +136,10 @@ input[readonly] {
   margin-left: 300px;
 }
 
+#security .form-group {
+  margin-bottom: 30px;
+}
+
 #secCode {
   font-family: monospace;
   width: 55px;
@@ -172,8 +176,9 @@ input[readonly] {
 
 #previewArea {
   height: 200px;
+  width: 200px;
   border: 1px solid gray;
-  padding: 20px; 
+  padding: 20px;
   background-color: #f5f5f5;
   margin: 20px;
 }

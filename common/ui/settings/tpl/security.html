@@ -1,24 +1,26 @@
 <h3 data-l10n-id="settings_security"></h3>
 <form class="form well">
   <div class="form-group">
-    <label class="control-label" data-l10n-id="security_display_decrypted"></label>
-    <div class="radio">
-      <label>
-        <input type="radio" name="decryptRadios" id="decryptRadios1" value="inline">
-        <span data-l10n-id="security_display_inline"></span>
+    <h4 class="control-label" data-l10n-id="security_cache_header"></h4>
+    <div class="radio form-inline">
+      <label class="radio" id="pwdCacheLabel">
+        <input type="radio" name="pwdCacheRadios" id="pwdCacheRadios1" value="true">
+        <span data-l10n-id="security_cache_on"></span>
+        <input type="text" id="pwdCacheTime" maxlength="3" class="form-control">
+        <span data-l10n-id="security_cache_time"></span>
+        <span class="help-block hide" data-l10n-id="security_cache_help"></span>
       </label>
     </div>
     <div class="radio">
-      <label>
-        <input type="radio" name="decryptRadios" id="decryptRadios2" value="popup">
-        <span data-l10n-id="security_display_popup"></span>
+      <label class="radio">
+        <input type="radio" name="pwdCacheRadios" id="pwdCacheRadios2" value="false">
+        <span data-l10n-id="security_cache_off"></span>
       </label>
     </div>
   </div>
   <div class="form-group" id="securityTokenPanel">
-    <label>
-      <strong data-l10n-id="security_background_header"></strong>
-    </label>
+    <h4 data-l10n-id="security_background_header"></h4>
+    <p data-l10n-id="security_background_text"></p>
     <div id="securityBgndSliders">
       <div class="form-inline" style="white-space: nowrap;">
         <label for="angle">Angle</label>
@@ -26,7 +28,7 @@
       </div>
       <div class="form-inline" style="white-space: nowrap;">
         <label for="scaling">Scaling</label>
-        <input type="range" min="5" max="20" id="scaling" step="1">
+        <input type="range" min="5" max="100" id="scaling" step="1">
       </div>
       <div class="form-inline" style="white-space: nowrap;">
         <label for="whitespace">Spacing</label>
@@ -39,7 +41,22 @@
     </div>
   </div>
   <div class="form-group">
-    <label class="control-label" data-l10n-id="security_compose_mail"></label>
+    <h4 class="control-label" data-l10n-id="security_display_decrypted"></h4>
+    <div class="radio">
+      <label>
+        <input type="radio" name="decryptRadios" id="decryptRadios2" value="popup">
+        <span data-l10n-id="security_display_popup"></span>
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="decryptRadios" id="decryptRadios1" value="inline">
+        <span data-l10n-id="security_display_inline"></span>
+      </label>
+    </div>
+  </div>
+  <div class="form-group">
+    <h4 class="control-label" data-l10n-id="security_compose_mail"></h4>
     <div class="radio">
       <label>
         <input type="radio" name="editorModeRadios" id="editorModeRadios1" value="external">
@@ -55,24 +72,6 @@
     <div id="editorModeWarn" class="alert alert-danger">
       <h4 data-l10n-id="header_warning"></h4>
       <span data-l10n-id="security_compose_warn"></span>
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="control-label" data-l10n-id="security_cache_header"></label>
-    <div class="radio form-inline">
-      <label class="radio" id="pwdCacheLabel">
-        <input type="radio" name="pwdCacheRadios" id="pwdCacheRadios1" value="true">
-        <span data-l10n-id="security_cache_on"></span>
-        <input type="text" id="pwdCacheTime" maxlength="3" class="form-control">
-        <span data-l10n-id="security_cache_time"></span>
-        <span class="help-block hide" data-l10n-id="security_cache_help"></span>
-      </label>
-    </div>
-    <div class="radio">
-      <label class="radio">
-        <input type="radio" name="pwdCacheRadios" id="pwdCacheRadios2" value="false">
-        <span data-l10n-id="security_cache_off"></span>
-      </label>
     </div>
   </div>
   <div id="secReloadInfo" class="alert alert-success" data-l10n-id="reload_webmail_tab">
