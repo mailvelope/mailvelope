@@ -45,7 +45,7 @@
     background-image: linear-gradient(to bottom,#ffffff,#ececec);
     border: 1px solid #cbcbcb;
     border-radius: 4px;
-    cursor: default;
+    /*cursor: default;*/
     margin-right: 5px;
 
     order: 0;
