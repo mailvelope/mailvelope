@@ -209,7 +209,7 @@
   /**
    * Set logo for keyring. The image is persisted in Mailvelope with a revision number,
    * therefore the method is only required after new keyring generation or if logo and revision number changes.
-   * @param {string} dataURL  - data-URL representing the logo, max. size: 10KB, content-type: image/png
+   * @param {string} dataURL  - data-URL representing the logo, max. file size: ~10KB, max. image size: 192x96px, content-type: image/png
    * @param {number} revision - revision number
    * @returns {Promise.<undefined, Error>}
    * @throws {Error} error.code = 'LOGO_INVALID' <br>
