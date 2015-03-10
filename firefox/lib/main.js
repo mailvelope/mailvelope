@@ -87,7 +87,7 @@ function onPanelMessage(msg) {
 
 function initAddonButton() {
   mailvelopePanel = new Panel({
-    width: 200,
+    width: 202,
     height: 310,
     contentURL: data.url('common/ui/popup.html'),
     onMessage: onPanelMessage,
@@ -99,7 +99,7 @@ function initAddonButton() {
   });
   toggleButton = new ToggleButton({
     id: 'mailvelope-options',
-    label: 'mailvelope-options',
+    label: 'Mailvelope',
     icon: {
       '16': data.url('common/img/cryptography-icon16.png'),
       '48': data.url('common/img/cryptography-icon48.png')

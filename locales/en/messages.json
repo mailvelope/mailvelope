@@ -12,7 +12,7 @@
     "description": "Text of the checkbox for activating/deactivating the plugin"
   },
   "popup_actived_checkbox_tooltip": {
-    "message": "Activate or deactivate the plugin",
+    "message": "Activate / deactivate external editor",
     "description": "Text of the checkbox for activating/deactivating the plugin"
   },
   "popup_active_off": {
@@ -28,7 +28,7 @@
     "description": "Reload all Mailvelope elements on page."
   },
   "popup_reload_tooltip": {
-    "message": "Reload all Mailvelope element",
+    "message": "Reload all Mailvelope elements",
     "description": "Reload all Mailvelope UI elements on page."
   },
   "popup_actions_current_page": {
@@ -44,7 +44,7 @@
     "description": "Add page to watchlist."
   },
   "popup_add_page_tooltip": {
-    "message": "Add current page to the watchlist",
+    "message": "Enable Mailvelope for this page",
     "description": "Add page to watchlist."
   },
   "popup_remove_page": {
@@ -52,7 +52,7 @@
     "description": "Remove page from watchlist."
   },
   "popup_remove_page_tooltip": {
-    "message": "Remove current page from the watchlist",
+    "message": "Remove current page from the list of mail providers",
     "description": "Remove page from watchlist."
   },
   "popup_options": {
@@ -796,7 +796,7 @@
     "description": "Create entry in watchlist."
   },
   "watchlist_delete_confirmation": {
-    "message": "Do you really want to remove this site from the watchlist?",
+    "message": "Do you really want to remove this site from the list of mail providers?",
     "description": "Mesage in the watchlist delete confirmation dialog."
   },
   "watchlist_command_save": {

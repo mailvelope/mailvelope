@@ -2,7 +2,11 @@
 body {
   width: 200px;
   height: 310px;
-  overflow: none;
+  overflow: hidden;
+}
+
+.btn, .btn:active, .btn:focus {
+  outline: none !important;
 }
 
 #add {

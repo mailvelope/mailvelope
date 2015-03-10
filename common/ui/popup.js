@@ -38,7 +38,6 @@ var mvelo = mvelo || null;
   }
 
   function init() {
-    console.log("Init");
     $('.popup').on('click', 'a', function(event) {
       if (mvelo.crx) {
         hide();
