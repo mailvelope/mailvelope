@@ -244,7 +244,8 @@
    * Requests the encryption of the editor content for the given recipients.
    * @param {Array.<string>} recipients - list of email addresses for public key lookup and encryption
    * @returns {Promise.<AsciiArmored, Error>}
-   * @throws {Error} error.code = 'ENCRYPT_IN_PROGRESS'
+   * @throws {Error} error.code = 'ENCRYPT_IN_PROGRESS' <br>
+   *                 error.code = 'NO_KEY_FOR_RECIPIENT'
    * @example
    * editor.encrypt(['abc@web.de', 'info@com']).then(function (armoredMessage) {
    *     console.log('encrypt', armoredMessage); // prints: "-----BEGIN PGP MESSAGE..."
