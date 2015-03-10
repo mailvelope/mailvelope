@@ -197,7 +197,6 @@ var options = {};
       keyringName = keyringId.split(mvelo.KEYRING_DELIMITER)[0] + " (" + keyringId.split(mvelo.KEYRING_DELIMITER)[1] + ")";
     }
 
-    var $settingsArea = $("#settingsArea");
     $("#keyringSwitcherLabel").text(keyringName);
     exports.keyringId = keyringId;
 
@@ -205,11 +204,11 @@ var options = {};
       exports.primaryKeyId = primaryKeyId;
     }
 
-    // $settingsArea.css("background-image", "none");
+    var $logoArea = $(".third-party-logo");
     if (providerLogo) {
-      $settingsArea.css("background-image", "url(" + providerLogo + ")");
-      $settingsArea.css("background-repeat", "no-repeat");
-      $settingsArea.css("background-position", "top+10px right+10px");
+      $logoArea.css("background-image", "url(" + providerLogo + ")");
+      $logoArea.css("background-repeat", "no-repeat");
+      $logoArea.css("background-position", "top+10px right+10px");
     }
   }
 
