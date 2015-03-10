@@ -31,8 +31,8 @@ var options = options || null;
   var color;
   var scale;
   var rotationDeg;
-  var width;
-  var height;
+  var unscaledWidth;
+  var unscaledHeight;
 
   function init() {
     loadPrefs();
@@ -64,13 +64,12 @@ var options = options || null;
       bgndColor = background.color; //"#f5f5f5";
       color = background.iconColor; //"#e9e9e9;";
       scale = background.scaling; //1.5;
-      rotationDeg = background.angle; //45;
-      width =  background.width; //40;
-      height = background.height; //20;
+      rotationDeg = background.angle; //35;
+      unscaledWidth =  background.width; //45;
+      unscaledHeight = background.height; //25;
 
       $("#angle").val(rotationDeg);
       $("#scaling").val(scale * 10);
-      $("#whitespace").val(width);
 
       previewSecurityBgnd();
     });
@@ -79,11 +78,11 @@ var options = options || null;
   function previewSecurityBgnd() {
     scale = $('#scaling').val();
     rotationDeg = $('#angle').val();
-    var whitespace = $('#whitespace').val();
-    var rwidth =  whitespace * (scale / 10);
-    var rheight = height * (scale / 10);
+    var width =  unscaledWidth * (scale / 10);
+    var height = unscaledHeight * (scale / 10);
 
-    var secBgndIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" id="secBgnd" version="1.1" width="' + rwidth + 'px" height="' + rheight + 'px" viewBox="0 0 27 27"><path transform="rotate(' + rotationDeg + ' 14 14)" style="fill: ' + color + ';" d="m 13.963649,25.901754 c -4.6900005,0 -8.5000005,-3.78 -8.5000005,-8.44 0,-1.64 0.47,-3.17 1.29,-4.47 V 9.0417546 c 0,-3.9399992 3.23,-7.1499992 7.2000005,-7.1499992 3.97,0 7.2,3.21 7.2,7.1499992 v 3.9499994 c 0.82,1.3 1.3,2.83 1.3,4.48 0,4.65 -3.8,8.43 -8.49,8.43 z m -1.35,-7.99 v 3.33 h 0 c 0,0.02 0,0.03 0,0.05 0,0.74 0.61,1.34 1.35,1.34 0.75,0 1.35,-0.6 1.35,-1.34 0,-0.02 0,-0.03 0,-0.05 h 0 v -3.33 c 0.63,-0.43 1.04,-1.15 1.04,-1.97 0,-1.32 -1.07,-2.38 -2.4,-2.38 -1.32,0 -2.4,1.07 -2.4,2.38 0.01,0.82 0.43,1.54 1.06,1.97 z m 6.29,-8.8699994 c 0,-2.7099992 -2.22,-4.9099992 -4.95,-4.9099992 -2.73,0 -4.9500005,2.2 -4.9500005,4.9099992 V 10.611754 C 10.393649,9.6217544 12.103649,9.0317546 13.953649,9.0317546 c 1.85,0 3.55,0.5899998 4.94,1.5799994 l 0.01,-1.5699994 z" /></svg>';
+    var secBgndIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" id="secBgnd" version="1.1" width="' + width + 'px" height="' + height + 'px" viewBox="0 0 27 27"><path transform="rotate(' + rotationDeg + ' 14 14)" style="fill: ' + color + ';" d="m 13.963649,25.901754 c -4.6900005,0 -8.5000005,-3.78 -8.5000005,-8.44 0,-1.64 0.47,-3.17 1.29,-4.47 V 9.0417546 c 0,-3.9399992 3.23,-7.1499992 7.2000005,-7.1499992 3.97,0 7.2,3.21 7.2,7.1499992 v 3.9499994 c 0.82,1.3 1.3,2.83 1.3,4.48 0,4.65 -3.8,8.43 -8.49,8.43 z m -1.35,-7.99 v 3.33 h 0 c 0,0.02 0,0.03 0,0.05 0,0.74 0.61,1.34 1.35,1.34 0.75,0 1.35,-0.6 1.35,-1.34 0,-0.02 0,-0.03 0,-0.05 h 0 v -3.33 c 0.63,-0.43 1.04,-1.15 1.04,-1.97 0,-1.32 -1.07,-2.38 -2.4,-2.38 -1.32,0 -2.4,1.07 -2.4,2.38 0.01,0.82 0.43,1.54 1.06,1.97 z m 6.29,-8.8699994 c 0,-2.7099992 -2.22,-4.9099992 -4.95,-4.9099992 -2.73,0 -4.9500005,2.2 -4.9500005,4.9099992 V 10.611754 C 10.393649,9.6217544 12.103649,9.0317546 13.953649,9.0317546 c 1.85,0 3.55,0.5899998 4.94,1.5799994 l 0.01,-1.5699994 z" /></svg>';
+    //var secBgndIcon = `<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" id="secBgnd" version="1.1" width="${width}'px" height="${height}px" viewBox="0 0 27 27"><path transform="rotate(${rotationDeg} 14 14)" style="fill:${color};" d="m 13.963649,25.901754 c -4.6900005,0 -8.5000005,-3.78 -8.5000005,-8.44 0,-1.64 0.47,-3.17 1.29,-4.47 V 9.0417546 c 0,-3.9399992 3.23,-7.1499992 7.2000005,-7.1499992 3.97,0 7.2,3.21 7.2,7.1499992 v 3.9499994 c 0.82,1.3 1.3,2.83 1.3,4.48 0,4.65 -3.8,8.43 -8.49,8.43 z m -1.35,-7.99 v 3.33 h 0 c 0,0.02 0,0.03 0,0.05 0,0.74 0.61,1.34 1.35,1.34 0.75,0 1.35,-0.6 1.35,-1.34 0,-0.02 0,-0.03 0,-0.05 h 0 v -3.33 c 0.63,-0.43 1.04,-1.15 1.04,-1.97 0,-1.32 -1.07,-2.38 -2.4,-2.38 -1.32,0 -2.4,1.07 -2.4,2.38 0.01,0.82 0.43,1.54 1.06,1.97 z m 6.29,-8.8699994 c 0,-2.7099992 -2.22,-4.9099992 -4.95,-4.9099992 -2.73,0 -4.9500005,2.2 -4.9500005,4.9099992 V 10.611754 C 10.393649,9.6217544 12.103649,9.0317546 13.953649,9.0317546 c 1.85,0 3.55,0.5899998 4.94,1.5799994 l 0.01,-1.5699994 z" /></svg>`;
 
     $("#previewArea").css("background-color", bgndColor + " !important;");
     $("#previewArea").css("background-position", "-20px -20px !important;");
@@ -116,7 +115,6 @@ var options = options || null;
         editor_mode: $('input:radio[name="editorModeRadios"]:checked').val(),
         secureBgndAngle: $("#angle").val(),
         secureBgndScaling: ($("#scaling").val() / 10),
-        secureBgndWidth: $("#whitespace").val(),
         password_cache: $('input:radio[name="pwdCacheRadios"]:checked').val() === 'true',
         password_timeout: $('#pwdCacheTime').val()
       }
