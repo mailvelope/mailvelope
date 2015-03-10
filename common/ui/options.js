@@ -208,7 +208,7 @@ var options = {};
     if (providerLogo) {
       $logoArea.css("background-image", "url(" + providerLogo + ")");
       $logoArea.css("background-repeat", "no-repeat");
-      $logoArea.css("background-position", "top+10px right+10px");
+      $logoArea.css("background-position", "right top");
     }
   }
 
