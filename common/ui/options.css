@@ -175,26 +175,33 @@ input[readonly] {
 #securityTokenPanel input[type="range"] {
   display: inline;
   width: 200px;
-  margin: 20px;
+  margin: 20px 20px 20px 10px;
+  vertical-align: middle;
 }
 
 #securityBgndSliders {
-  width: 335px;
+  width: 320px;
   float: left;
+  margin-top: 27px;
 }
 
 #securityBgndSliders label {
-  width: 110px;
+  width: 85px;
+  text-align: right;
+}
+
+.previewContainer {
+  height: 230px;
+  width: 300px;
+  margin: -15px 20px 0 0;
+  float: left;
 }
 
 #previewArea {
   height: 200px;
-  width: 200px;
+  width: 300px;
   border: 1px solid gray;
-  padding: 20px;
   background-color: #f5f5f5;
-  margin: 20px;
-  float: left;
 }
 
 #pwdCacheLabel {
