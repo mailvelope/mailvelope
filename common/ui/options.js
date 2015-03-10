@@ -65,11 +65,18 @@ var options = {};
     var krid = mvelo.LOCAL_KEYRING_ID;
     if (qs.hasOwnProperty("krid")) {
       krid = decodeURIComponent(qs.krid);
+      $("#keyringSwitcher").addClass("disabled");
+      if (krid.indexOf(demailSuffix) > 3) {
+        $("#genKeyEmail").attr("disabled", "disabled");
+        $("#genKeyEmailLabel").removeAttr("data-l10n-id");
+        $("#genKeyEmailLabel").text("De-Mail");
+      }
     }
     setKeyRing(krid);
 
     if (qs.hasOwnProperty("email")) {
-      $("#genKeyEmail").val(decodeURIComponent(qs.email));
+      var decodedEmail = decodeURIComponent(qs.email);
+      $("#genKeyEmail").val(decodedEmail);
     }
 
     if (qs.hasOwnProperty("fname")) {
@@ -98,8 +105,6 @@ var options = {};
     registerL10nMessages([
       "keygrid_user_email"
     ]);
-
-    customizeDeMail(krid);
 
     mvelo.l10n.localizeHTML();
     mvelo.util.showSecurityBackground();
@@ -214,27 +219,10 @@ var options = {};
 
     $("#genKeyEmailLabel").removeAttr("data-l10n-id");
 
-    customizeDeMail(keyringId);
-
     mvelo.util.showLoadingAnimation();
     options.event.triggerHandler('keygrid-reload');
 
     $('#displayKeysButton').get(0).click();
-  }
-
-  function customizeDeMail(keyringId) {
-    if (keyringId && (keyringId.indexOf(demailSuffix) > 3)) {
-      var deMail = keyringId.split(mvelo.KEYRING_DELIMITER)[1];
-      if (deMail) {
-        $("#genKeyEmail").val(deMail);
-      }
-      $("#genKeyEmail").attr("disabled", "disabled");
-      $("#genKeyEmailLabel").text("De-Mail");
-    } else {
-      $("#genKeyEmail").val("");
-      $("#genKeyEmail").removeAttr("disabled");
-      $("#genKeyEmailLabel").text(exports.l10n.keygrid_user_email);
-    }
   }
 
   function initMessageListener() {
