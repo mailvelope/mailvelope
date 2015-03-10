@@ -182,7 +182,8 @@ input[readonly] {
 #securityBgndSliders {
   width: 320px;
   float: left;
-  margin-top: 27px;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 #securityBgndSliders label {
@@ -191,10 +192,10 @@ input[readonly] {
 }
 
 .previewContainer {
-  height: 230px;
-  width: 300px;
-  margin: -15px 20px 0 0;
+  margin: -15px 20px 0 20px;
   float: left;
+  padding: 10px 20px 20px;
+  background-color: #FFF;
 }
 
 #previewArea {
@@ -207,6 +208,16 @@ input[readonly] {
 #pwdCacheLabel {
     padding-left: 0;
 }
+
+@media (max-width: 1200px) {
+  #securityBgndSliders label {
+    text-align: left;
+  }
+  .previewContainer {
+    margin-left: 0;
+  }
+}
+
 
 @media (max-width:767px) {
   #pwdCacheLabel {
