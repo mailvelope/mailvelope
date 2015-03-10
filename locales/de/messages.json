@@ -36,7 +36,7 @@
         "description": "Header of the password dialog."
     },
     "waiting_dialog_prepare_email": {
-        "message": "Ihre E-Mail ist vorbereitet …",
+        "message": "E-Mail wird vorbereitet …",
         "description": "Message in the waiting dialog for quoting email"
     },
     "keygrid_creation_date_short": {
@@ -55,16 +55,20 @@
         "message": "Im Nachrichtenverfasser des E-Mail-Anbieters.",
         "description": "Mail compose option"
     },
+    "security_background_header": {
+        "message": "Sicherheitshintergrund",
+        "description": "Security background header"
+    },
     "keygrid_user_email": {
         "message": "E-Mail",
         "description": "Email address in User ID of a PGP key."
     },
     "watchlist_delete_confirmation": {
-        "message": "Wollen Sie diese Seite wirklich von der Beobachtungsliste entfernen?",
+        "message": "Wollen Sie diese Seite wirklich von der Liste der E-Mail-Anbieter entfernen?",
         "description": "Mesage in the watchlist delete confirmation dialog."
     },
     "popup_last_activities": {
-        "message": "Last activities:",
+        "message": "Letzte Aktivitäten:",
         "description": "Title text for the last activities area"
     },
     "key_export_header": {
@@ -92,7 +96,7 @@
         "description": "Password cache header"
     },
     "popup_actived_checkbox_tooltip": {
-        "message": "Activate or deactivate the plugin",
+        "message": "Externern Editor aktivieren / deaktivieren",
         "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "save_attachment_as_message": {
@@ -151,9 +155,17 @@
         "message": "Schlüssel anzeigen",
         "description": "Tab of keyring to display keys."
     },
+    "security_background_preview": {
+        "message": "Vorschau",
+        "description": "Preview"
+    },
     "popup_options": {
         "message": "Optionen",
         "description": "Open options dialog."
+    },
+    "security_background_text": {
+        "message": "The security background is your personal Mailvelope background and it helps to prevent user interface manipulation by third-party websites and applications. To increase security, create and change your personal background here.",
+        "description": "Security background text"
     },
     "keyring_generate_key": {
         "message": "Schlüssel erstellen",
@@ -240,7 +252,7 @@
         "description": "Activity status of the extension."
     },
     "pwd_dialog_cancel": {
-        "message": "Key unlock canceled.",
+        "message": "Schlüsselentsperren abgebrochen.",
         "description": "User canceled key unlock dialog."
     },
     "encrypt_dialog_header": {
@@ -276,7 +288,7 @@
         "description": "User ID invalid."
     },
     "popup_reload_tooltip": {
-        "message": "Reload all Mailvelope element",
+        "message": "Alle Mailvelope-Elemente neu laden",
         "description": "Reload all Mailvelope UI elements on page."
     },
     "keyring_setup_import_key": {
@@ -296,7 +308,7 @@
         "description": "Error message if no recipient selected."
     },
     "popup_actived_checkbox": {
-        "message": "Activated",
+        "message": "Aktiviert",
         "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "general_editor_plain": {
@@ -388,7 +400,7 @@
         "description": "Error during encryption process."
     },
     "popup_actions_current_page": {
-        "message": "Aktions for the current web site:",
+        "message": "Tätigkeiten für die aktuelle Internetseite:",
         "description": "Title text for the reload and add buttons"
     },
     "key_gen_months": {
@@ -432,7 +444,7 @@
         "description": "Checkbox label for remembering of the password."
     },
     "popup_remove_page_tooltip": {
-        "message": "Remove current page from the watchlist",
+        "message": "Aktuelle Seite von Liste der Email-Anbieter entfernen",
         "description": "Remove page from watchlist."
     },
     "form_import": {
@@ -507,10 +519,6 @@
         "message": "Muss 3 Zeichen lang sein",
         "description": "Char code help"
     },
-    "pwd_dialog_password": {
-        "message": "Passwort:",
-        "description": "Label for password."
-    },
     "pwd_dialog_title": {
         "message": "Passworteingabe | Mailvelope",
         "description": "Title of the password dialog."
@@ -528,7 +536,7 @@
         "description": "Key import button"
     },
     "popup_remove_page": {
-        "message": "Remove",
+        "message": "Entfernen",
         "description": "Remove page from watchlist."
     },
     "key_gen_expiration": {
@@ -564,7 +572,7 @@
         "description": "Unique string identifier for a PGP key."
     },
     "popup_add_page_tooltip": {
-        "message": "Add current page to the watchlist",
+        "message": "Mailvelope für aktuelle Seite aktivieren",
         "description": "Add page to watchlist."
     },
     "keygrid_sort_type": {
@@ -764,7 +772,7 @@
         "description": "Import error message. $1: error message"
     },
     "popup_help_tooltip": {
-        "message": "Opens the documentation page",
+        "message": "Öffnet die Dokumentationsseite",
         "description": "Opens the help page on mailvelope.com."
     },
     "keygrid_signer_unknown": {
@@ -772,7 +780,7 @@
         "description": "Key of signer not available."
     },
     "popup_add_page": {
-        "message": "Add",
+        "message": "Hinzufügen",
         "description": "Add page to watchlist."
     },
     "options_docu": {
