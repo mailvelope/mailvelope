@@ -547,6 +547,32 @@ button.keyDetailsBtn, button.keyDeleteBtn {
   padding-right: 30px;
 }
 
+
+/* Third party logo */
+
+.tab-pane > h3 {
+  vertical-align: middle;
+}
+
+.tab-pane > h3:after {
+  content: ' ';
+  clear: both;
+  display: block;
+  visibility: hidden;
+  height: 0;
+}
+
+.third-party-logo {
+  width: 192px;
+  height: 96px;
+  background: blue;
+  float: right;
+  display: block;
+  vertical-align: middle;
+  margin-top: -20px;
+}
+
+
 /* Footer */
 
 footer.row {
