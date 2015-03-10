@@ -71,6 +71,50 @@
           "api": false
         }
       ]
+    },
+    {
+      "active": true,
+      "site": "1und1 De-Mail",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.de-mail.1und1.de",
+          "api": true
+        }
+      ]
+    },
+    {
+      "active": true,
+      "site": "GMX De-Mail",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.de-mail.gmx.de",
+          "api": true
+        }
+      ]
+    },
+    {
+      "active": true,
+      "site": "WEB.DE De-Mail",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.de-mail.web.de",
+          "api": true
+        }
+      ]
+    },
+    {
+      "active": true,
+      "site": "Telekom De-Mail",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.de-mail.t-online.de",
+          "api": true
+        }
+      ]
     }
   ],
   "preferences": {
