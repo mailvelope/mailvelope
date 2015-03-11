@@ -68,8 +68,7 @@ var options = {};
       $("#keyringSwitcher").addClass("disabled");
       if (krid.indexOf(demailSuffix) > 3) {
         $("#genKeyEmail").attr("disabled", "disabled");
-        $("#genKeyEmailLabel").removeAttr("data-l10n-id");
-        $("#genKeyEmailLabel").text("De-Mail");
+        $("#genKeyEmailLabel").attr("data-l10n-id", "key_gen_demail");
       }
     }
     setKeyRing(krid);
@@ -103,7 +102,8 @@ var options = {};
     });
 
     registerL10nMessages([
-      "keygrid_user_email"
+      "keygrid_user_email",
+      "key_gen_demail"
     ]);
 
     mvelo.l10n.localizeHTML();
@@ -209,6 +209,8 @@ var options = {};
       $logoArea.css("background-image", "url(" + providerLogo + ")");
       $logoArea.css("background-repeat", "no-repeat");
       $logoArea.css("background-position", "right top");
+    } else {
+      $logoArea.css("background-image", "none");
     }
   }
 
