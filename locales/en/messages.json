@@ -587,6 +587,10 @@
     "message": "Invalid email address",
     "description": "Error message."
   },
+  "key_gen_demail": {
+    "message": "De-Mail Address",
+    "description": "De-Mail address name."
+  },
   "key_gen_advanced_btn": {
     "message": "Advanced",
     "description": "Advanced key generation settings."
@@ -858,6 +862,14 @@
   "upload_attachment": {
     "message": "Add attachment",
     "description": "Text in the upload attachment button of the message editor dialog"
+  },
+  "upload_quota_exceeded_warning": {
+    "message": "Attachments size exceeds ",
+    "description": "A warning shown when the attachments upload quota is exceeded."
+  },
+  "upload_aborting_warning": {
+    "message": "File upload will be aborted.",
+    "description": "A warning for the aborting of the file upload."
   },
   "save_attachment_as_message": {
     "message": "Select the folder, where you want to save the attachment.",

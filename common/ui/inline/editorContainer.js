@@ -39,10 +39,15 @@ mvelo.EditorContainer.prototype.create = function(done) {
   this.parent = document.querySelector(this.selector);
   this.container = document.createElement('iframe');
   var url;
+  var quota = "";
+  if (this.options.quota) {
+    quota = '&quota=' + this.options.quota;
+  }
+
   if (mvelo.crx) {
-    url = mvelo.extension.getURL('common/ui/editor/editor.html?id=' + this.id + '&embedded=true');
+    url = mvelo.extension.getURL('common/ui/editor/editor.html?id=' + this.id + quota + '&embedded=true');
   } else if (mvelo.ffa) {
-    url = 'about:blank?mvelo=editor&id=' + this.id + '&embedded=true';
+    url = 'about:blank?mvelo=editor&id=' + this.id + quota + '&embedded=true';
   }
   this.container.setAttribute('src', url);
   this.container.setAttribute('frameBorder', 0);

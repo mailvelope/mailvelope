@@ -45,19 +45,27 @@ var mvelo = mvelo || null;
   // Get language strings from JSON
   mvelo.l10n.getMessages([
     'editor_remove_upload',
-    'waiting_dialog_decryption_failed'
+    'waiting_dialog_decryption_failed',
+    'upload_quota_exceeded_warning',
+    'upload_aborting_warning'
     ], function(result) {
       l10n = result;
     }
   );
 
-  // maximal size of the attachments in bytes, ca 50 MB
-  var maxFileUploadSize = 50 * 1024 * 1024;
+  var maxFileUploadSize = 32 * 1024 * 1024;
+  var maxFileUploadSizeChrome = 8 * 1024 * 1024; // temporal fix due issue in Chrome
 
   function init() {
     var qs = jQuery.parseQuerystring();
     id = qs.id;
     name = 'editor-' + id;
+    if (qs.quota) {
+      maxFileUploadSize = parseInt(qs.quota);
+    }
+    if (mvelo.crx && maxFileUploadSize > maxFileUploadSizeChrome) {
+      maxFileUploadSize = maxFileUploadSizeChrome;
+    }
     // plain text only
     editor_type = mvelo.PLAIN_TEXT; //qs.editor_type;
     port = mvelo.extension.connect({name: name});
@@ -193,8 +201,15 @@ var mvelo = mvelo || null;
     var file = selection.currentTarget.files[0];
     //console.log("Selected File: "+JSON.stringify(selection.currentTarget.files[0]));
     //console.log("File Meta - Name: " + file.name + " Size: " + file.size + " Type" + file.type);
-    if (file.size > maxFileUploadSize) {
-      alert("Attachment size exceeds " + maxFileUploadSize + " bytes. File upload will be aborted.");
+    var currentAttachmentsSize = 0;
+    for (var property in attachments) {
+      if (attachments.hasOwnProperty(property)) {
+        currentAttachmentsSize = currentAttachmentsSize + attachments[property].size;
+      }
+    }
+    currentAttachmentsSize = currentAttachmentsSize + file.size;
+    if (currentAttachmentsSize > maxFileUploadSize) {
+      alert(l10n.upload_quota_exceeded_warning + " " + Math.floor(maxFileUploadSize / (1024 * 1024)) + "MB. " + l10n.upload_aborting_warning);
       return;
     }
     addAttachment(file);
