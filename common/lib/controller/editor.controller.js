@@ -126,8 +126,6 @@ define(function(require, exports, module) {
           this.decryptQuoted(this.options.quotedMail);
         } else if (this.options.predefinedText) {
           this.ports.editor.postMessage({event: 'set-text', text: this.options.predefinedText});
-        } else {
-          this.ports.editor.postMessage({event: 'set-text', text: ""});
         }
         break;
       case 'sign-dialog-ok':
@@ -235,6 +233,9 @@ define(function(require, exports, module) {
 
   EditorController.prototype.decryptQuoted = function(armored) {
     var that = this;
+    var decryptTimer = this.mvelo.util.setTimeout(function() {
+      that.ports.editor.postMessage({event: 'decrypt-in-progress'});
+    }, 800);
     var decryptCtrl = new DecryptController();
     decryptCtrl.readMessage(armored, this.keyringId).then(function(message) {
       return decryptCtrl.prepareKey(message, !that.editorPopup);
@@ -260,6 +261,9 @@ define(function(require, exports, module) {
         }
       };
       decryptCtrl.parseMessage(rawText, handlers, 'text');
+    }).then(function() {
+      that.mvelo.util.clearTimeout(decryptTimer);
+      that.ports.editor.postMessage({event: 'decrypt-end'});
     }).catch(function(error) {
       that.ports.editor.postMessage({event: 'decrypt-failed'});
     });

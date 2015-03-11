@@ -32,7 +32,7 @@
     "description": "Reload all Mailvelope UI elements on page."
   },
   "popup_actions_current_page": {
-    "message": "Actions for the current web site:",
+    "message": "Current tab:",
     "description": "Title text for the reload and add buttons"
   },
   "popup_last_activities": {
@@ -864,7 +864,7 @@
     "description": "Message in the attachment save dialog"
   },
   "waiting_dialog_prepare_email": {
-    "message": "Preparing your e-mail...",
+    "message": "Preparing your message...",
     "description": "Message in the waiting dialog for quoting email"
   },
   "waiting_dialog_decryption_failed": {
