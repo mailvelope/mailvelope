@@ -36,7 +36,7 @@
         "description": "Header of the password dialog."
     },
     "waiting_dialog_prepare_email": {
-        "message": "E-Mail wird vorbereitet …",
+        "message": "Nachricht wird vorbereitet…",
         "description": "Message in the waiting dialog for quoting email"
     },
     "keygrid_creation_date_short": {
@@ -96,7 +96,7 @@
         "description": "Password cache header"
     },
     "popup_actived_checkbox_tooltip": {
-        "message": "Externern Editor aktivieren / deaktivieren",
+        "message": "Externes Bearbeitungsprogramm aktivieren/deaktivieren",
         "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "save_attachment_as_message": {
@@ -164,7 +164,7 @@
         "description": "Open options dialog."
     },
     "security_background_text": {
-        "message": "The security background is your personal Mailvelope background and it helps to prevent user interface manipulation by third-party websites and applications. To increase security, create and change your personal background here.",
+        "message": "Der Sicherheitshintergrund ist Ihr persönlicher Mailvelope-Hintergrund. Er hilft die Veränderung der Benutzerschnittstelle durch Drittanbieterseiten und -anwendungen zu verhindern. Um die Sicherheit zu erhöhen, bitte den persönlichen Hintergrund hier erstellen und ändern.",
         "description": "Security background text"
     },
     "keyring_generate_key": {
@@ -356,7 +356,7 @@
         "description": "public and private key types"
     },
     "security_compose_external": {
-        "message": "In einem separaten Bearbeitungsfenster das zu Mailvelope gehört.",
+        "message": "In einem getrennten Bearbeitungsfenster, das zu Mailvelope gehört.",
         "description": "Mail compose option"
     },
     "keygrid_primary_key": {
@@ -400,7 +400,7 @@
         "description": "Error during encryption process."
     },
     "popup_actions_current_page": {
-        "message": "Tätigkeiten für die aktuelle Internetseite:",
+        "message": "Aktueller Tab:",
         "description": "Title text for the reload and add buttons"
     },
     "key_gen_months": {
@@ -444,7 +444,7 @@
         "description": "Checkbox label for remembering of the password."
     },
     "popup_remove_page_tooltip": {
-        "message": "Aktuelle Seite von Liste der Email-Anbieter entfernen",
+        "message": "Aktuelle Seite von Liste der E-Mail-Anbieter entfernen",
         "description": "Remove page from watchlist."
     },
     "form_import": {
