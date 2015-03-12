@@ -89,7 +89,7 @@
       "frames": [
         {
           "scan": true,
-          "frame": "*.de-mail.gmx.de",
+          "frame": "*.de-mail.gmx.net",
           "api": true
         }
       ]
