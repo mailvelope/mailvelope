@@ -267,6 +267,18 @@
     "message": "General",
     "description": "Tab of options to display general settings."
   },
+  "settings_security_log": {
+    "message": "Security Log",
+    "description": "Tab of options to display security log."
+  },
+  "security_log_timestamp": {
+    "message": "Timestamp",
+    "description": "Title of the timestamp column of the security log table."
+  },
+  "security_log_action": {
+    "message": "Action",
+    "description": "Title of the action column of the security log table."
+  },
   "settings_security": {
     "message": "Security",
     "description": "Tab of options to display security settings."

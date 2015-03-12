@@ -73,7 +73,7 @@ var mvelo = mvelo || null;
     if (mvelo.crx) {
       mvelo.l10n.localizeHTML();
     }
-    $('[data-toggle="tooltip"]').tooltip();
+    //$('[data-toggle="tooltip"]').tooltip();
   }
 
   function hide() {
