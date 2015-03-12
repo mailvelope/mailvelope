@@ -448,6 +448,10 @@ button.keyDetailsBtn, button.keyDeleteBtn {
     white-space: normal;
 }
 
+.keyRingName {
+    word-wrap: break-word;
+}
+
 .deleteKeyRing {
     max-width: 40px;
     background-color: white;
