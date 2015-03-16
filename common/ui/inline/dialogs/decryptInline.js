@@ -24,6 +24,7 @@ var mvelo = mvelo || null;
   var port;
   // shares ID with DecryptFrame
   var id;
+  var name;
   var watermark;
   //var spinnerTimer;
   var commonPath;
@@ -32,11 +33,12 @@ var mvelo = mvelo || null;
   function init() {
     //console.log('init decryptInline.js');
     var qs = jQuery.parseQuerystring();
-    id = 'dDialog-' + qs.id;
+    id = qs.id;
+    name = 'dDialog-' + id;
     // open port to background page
-    port = mvelo.extension.connect({name: id});
+    port = mvelo.extension.connect({name: name});
     port.onMessage.addListener(messageListener);
-    port.postMessage({event: 'decrypt-inline-init', sender: id});
+    port.postMessage({event: 'decrypt-inline-init', sender: name});
     if (mvelo.crx) {
       commonPath = '../../..';
     } else if (mvelo.ffa) {
@@ -123,6 +125,10 @@ var mvelo = mvelo || null;
       $(this).contents().find('body').css('background-color', 'rgba(0,0,0,0)');
       $(this).contents().find('body').append(content);
     });
+    content.on('mouseup', function(event) {
+      // exception due to sandbox
+      //logUserInput('CONTENT_MOUSEUP');
+    });
     $('#wrapper').append(sandbox);
   }
 
@@ -149,7 +155,7 @@ var mvelo = mvelo || null;
     $('#errorwell').showAlert(l10n.alert_header_error, msg, 'danger')
                    .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
                    .find('button').click(function() {
-                      port.postMessage({event: 'decrypt-dialog-cancel', sender: id});
+                      port.postMessage({event: 'decrypt-dialog-cancel', sender: name});
                     });
   }
 
@@ -189,15 +195,27 @@ var mvelo = mvelo || null;
         .append($extensionButton)
         .append($fileName);
 
-    //var firefoxVersion = parseInt(navigator.userAgent.substring(navigator.userAgent.indexOf("Firefox/") + 8, navigator.userAgent.length));
     if (mvelo.ffa && mvelo.getFirefoxVersion() < 36) {
       $fileUI.on("click", function(e) {
         e.preventDefault();
-        port.postMessage({event: 'get-attachment', sender: id, attachmentId: attachmentId});
+        port.postMessage({event: 'get-attachment', sender: name, attachmentId: attachmentId});
       });
     }
 
+    $fileUI.on("click", function() {
+      logUserInput('DOWNLOAD_ATTACHMENT');
+    });
+
     $('#attachments').append($fileUI);
+  }
+
+  function logUserInput(type) {
+    port.postMessage({
+      event: 'decrypt-inline-user-input',
+      sender: name,
+      source: 'DECRYPT_INLINE',
+      type: type
+    });
   }
 
   function messageListener(msg) {

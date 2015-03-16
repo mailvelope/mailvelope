@@ -20,6 +20,7 @@
 define(function(require, exports, module) {
 
   var sub = require('./sub.controller');
+  var uiLog = require('../uiLog');
 
   function DecryptController(port) {
     sub.SubController.call(this, port);
@@ -80,6 +81,9 @@ define(function(require, exports, module) {
           var attachment = that.attachments[attachmentId];
           this.mvelo.util.saveAsAttachment(attachment[0], attachment[1]);
         }
+        break;
+      case 'decrypt-inline-user-input':
+        uiLog.push(msg.source, msg.type);
         break;
       default:
         console.log('unknown event', msg);

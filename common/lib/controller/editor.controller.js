@@ -21,6 +21,7 @@ define(function(require, exports, module) {
 
   var sub = require('./sub.controller');
   var DecryptController = require('./decrypt.controller').DecryptController;
+  var uiLog = require('../uiLog');
 
   function EditorController(port) {
     sub.SubController.call(this, port);
@@ -180,6 +181,9 @@ define(function(require, exports, module) {
         } else {
           throw new Error('Unknown eframe action:', msg.action);
         }
+        break;
+      case 'editor-user-input':
+        uiLog.push(msg.source, msg.type);
         break;
       default:
         console.log('unknown event', msg);

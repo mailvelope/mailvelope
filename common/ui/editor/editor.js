@@ -41,6 +41,7 @@ var mvelo = mvelo || null;
   var attachments = {};
   var commonPath;
   var l10n;
+  var logTextareaInput = true;
 
   // Get language strings from JSON
   mvelo.l10n.getMessages([
@@ -113,6 +114,7 @@ var mvelo = mvelo || null;
       mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')).then(function() {
         $('#uploadEmbeddedBtn').on("click", function() {
           $('#addFileInput').click();
+          logUserInput('UPLOAD_BUTTON');
         });
       }).then(callback);
     } else {
@@ -137,11 +139,21 @@ var mvelo = mvelo || null;
         ]).then(function() {
           $('#uploadBtn').on("click", function() {
             $('#addFileInput').click();
+            logUserInput('UPLOAD_BUTTON');
           });
           $('#uploadEmbeddedBtn, #addFileInput').hide();
         }).then(callback);
       });
     }
+  }
+
+  function logUserInput(type) {
+    port.postMessage({
+      event: 'editor-user-input',
+      sender: name,
+      source: 'EDITOR',
+      type: type
+    });
   }
 
   function removeAttachment(id) {
@@ -174,6 +186,7 @@ var mvelo = mvelo || null;
       e.preventDefault();
       removeAttachment($(this).attr("data-id"));
       $(this).parent().remove();
+      logUserInput('REMOVE_ATTACHMENT');
     });
 
     var $extensionButton = $('<span/>', {
@@ -213,6 +226,7 @@ var mvelo = mvelo || null;
       return;
     }
     addAttachment(file);
+    logUserInput('ADD_ATTACHMENT');
   }
 
   function onCancel() {
@@ -289,8 +303,26 @@ var mvelo = mvelo || null;
     });
     $('#plainText').append(sandbox);
     text.on('change', onChange);
-    text.on('input', startBlurWarnInterval);
+    text.on('input', function() {
+      startBlurWarnInterval();
+      if (logTextareaInput) {
+        logUserInput('TEXTAREA_INPUT');
+        // limit textarea log to 1 event per second
+        logTextareaInput = false;
+        window.setTimeout(function() {
+          logTextareaInput = true;
+        }, 1000);
+      }
+    });
     text.on('blur', onBlur);
+    text.on('mouseup', function() {
+      var textElement = text.get(0);
+      if (textElement.selectionStart === textElement.selectionEnd) {
+        logUserInput('TEXTAREA_CLICK');
+      } else {
+        logUserInput('TEXTAREA_SELECT');
+      }
+    });
     return text;
   }
 
