@@ -27,9 +27,7 @@ var options = options || null;
     "security_token_info"
   ]);
 
-  function init() {
-  }
-
+  function init() { }
 
   options.event.on('ready', init);
 
