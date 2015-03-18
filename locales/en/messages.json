@@ -279,6 +279,14 @@
     "message": "Action",
     "description": "Title of the action column of the security log table."
   },
+  "security_log_source": {
+    "message": "Source",
+    "description": "Title of the source column of the security log table."
+  },
+  "security_log_text": {
+    "message": "Text explaining the purpose of the security log.",
+    "description": "Text explaining the purpose of the security log"
+  },
   "settings_security": {
     "message": "Security",
     "description": "Tab of options to display security settings."

@@ -27,6 +27,7 @@ define(function(require, exports, module) {
   var sub = require('./sub.controller');
   var openpgp = require('openpgp');
   var api = require('./api.controller');
+  var uiLog = require('../uiLog');
 
   sub.factory.register('dFrame', require('./decrypt.controller').DecryptController);
   sub.factory.register('decryptCont', require('./decrypt.controller').DecryptController);
@@ -100,6 +101,9 @@ define(function(require, exports, module) {
       case 'set-prefs':
         prefs.update(request.data);
         sendResponse(true);
+        break;
+      case 'get-ui-log':
+        sendResponse(uiLog.getAll());
         break;
       case 'get-security-token':
         sendResponse({code: prefs.data().security.secure_code, color: prefs.data().security.secure_color});

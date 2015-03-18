@@ -57,7 +57,10 @@ var mvelo = mvelo || null;
       sendMessage(message);
       hide();
     });
+
     sendMessage({event: 'get-prefs'});
+    sendMessage({event: "get-ui-log"});
+
     $('#state').on('click', function() {
       var msg;
       if (activeState) {
@@ -101,6 +104,9 @@ var mvelo = mvelo || null;
       case 'get-prefs':
         activeState = msg.prefs.main_active;
         handleAppActivation();
+        break;
+      case 'get-ui-log':
+        $("#activityLog").text(msg);
         break;
       case 'is-supported-noapi':
         console.log("App active: " + msg.isSupported);
