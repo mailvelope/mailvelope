@@ -36,7 +36,16 @@ var mvelo = mvelo || null;
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);
     $('form').on('submit', onOk);
-    $(window).on('unload', onCancel);
+    window.onbeforeunload = function() {
+      onCancel();
+    };
+
+    // Closing the dialog with the escape key
+    $(document).on('keyup', function(e) {
+      if (e.keyCode === 27) {
+        onCancel();
+      }
+    });
     $('#password').focus();
     mvelo.l10n.localizeHTML();
     mvelo.l10n.getMessages([

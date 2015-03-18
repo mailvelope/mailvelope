@@ -107,7 +107,7 @@ define(function(require, exports, module) {
       // only import first key in armored block
       this.armored = this.key.armor();
     }
-    this.mvelo.windows.openPopup('common/ui/modal/importKeyDialog.html?id=' + this.id, {width: 535, height: 385, modal: false}, function(window) {
+    this.mvelo.windows.openPopup('common/ui/modal/importKeyDialog.html?id=' + this.id, {width: 535, height: 425, modal: false}, function(window) {
       that.importPopup = window;
     });
   };
