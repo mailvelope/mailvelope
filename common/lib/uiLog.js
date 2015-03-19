@@ -21,7 +21,9 @@ define(function(require, exports, module) {
 
   var mvelo = require('../lib-mvelo').mvelo;
   var l10n = mvelo.l10n.get;
+
   var log = [];
+  var logTimer = 0;
 
   function push(source, type) {
     var entry = {
@@ -41,6 +43,26 @@ define(function(require, exports, module) {
     } else {
       log.push(entry);
     }
+    if (logTimer) {
+      mvelo.util.clearTimeout(logTimer);
+    } else {
+      setBadge();
+    }
+    logTimer = mvelo.util.setTimeout(clearBadge, 2000);
+  }
+
+  function setBadge() {
+    mvelo.browserAction.state({
+      badge: 'Ok',
+      badgeColor: '#29A000'
+    });
+  }
+
+  function clearBadge() {
+    logTimer = 0;
+    mvelo.browserAction.state({
+      badge: ''
+    });
   }
 
   function getAll() {

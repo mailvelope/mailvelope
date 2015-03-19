@@ -137,10 +137,6 @@ var mvelo = mvelo || null;
           cnt++;
         });
         break;
-      case 'is-supported-noapi':
-        console.log("App active: " + msg.isSupported);
-        //handleActivation(msg.isSupported);
-        break;
     }
   }
 

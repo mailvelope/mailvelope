@@ -224,6 +224,17 @@ define(function(require, exports, module) {
 
   mvelo.l10n.get = chrome.i18n.getMessage;
 
+  mvelo.browserAction = {};
+
+  mvelo.browserAction.state = function(options) {
+    if (typeof options.badge !== 'undefined') {
+      chrome.browserAction.setBadgeText({text: options.badge});
+    }
+    if (typeof options.badgeColor !== 'undefined') {
+      chrome.browserAction.setBadgeBackgroundColor({color: options.badgeColor});
+    }
+  };
+
   exports.mvelo = mvelo;
 
 });

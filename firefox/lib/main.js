@@ -43,7 +43,6 @@ var eRecipientBuffer = {};
 var scannedHosts = [];
 
 var mailvelopePanel = null;
-var toggleButton = null;
 
 unload.when(function(reason) {
   // reason is never 'uninstall' https://bugzilla.mozilla.org/show_bug.cgi?id=571049
@@ -78,16 +77,19 @@ function init() {
 init();
 
 function onPanelMessage(msg) {
-  console.log('onPanelMessage: ' + msg.event);
-  if (msg.event === "close-popup") {
-    mailvelopePanel.hide();
-  } else if (msg.event === ("browser-action") || msg.event === ("activate") || msg.event === ("deactivate")) {
-    mailvelopePanel.hide();
-    controller.handleMessageEvent(msg, null, mailvelopePanel.postMessage.bind(mailvelopePanel));
-  } else {
-    controller.handleMessageEvent(msg, null, mailvelopePanel.postMessage.bind(mailvelopePanel));
+  switch (msg.event) {
+    case 'close-popup':
+      mailvelopePanel.hide();
+      break;
+    case 'browser-action':
+    case 'activate':
+    case 'deactivate':
+      mailvelopePanel.hide();
+      controller.handleMessageEvent(msg, null, mailvelopePanel.postMessage.bind(mailvelopePanel));
+      break;
+    default:
+      controller.handleMessageEvent(msg, null, mailvelopePanel.postMessage.bind(mailvelopePanel));
   }
-
 }
 
 function initAddonButton() {
@@ -97,15 +99,15 @@ function initAddonButton() {
     contentURL: data.url('common/ui/popup.html'),
     onMessage: onPanelMessage,
     onHide: function() {
-      if (toggleButton) {
-        toggleButton.state('window', {checked: false});
+      if (mvelo.browserAction.toggleButton) {
+        mvelo.browserAction.toggleButton.state('window', {checked: false});
       }
     },
     onShow: function() {
       this.postMessage({"event": "init"});
     }
   });
-  toggleButton = new ToggleButton({
+  mvelo.browserAction.toggleButton = new ToggleButton({
     id: 'mailvelope-options',
     label: 'Mailvelope',
     icon: {
@@ -115,7 +117,7 @@ function initAddonButton() {
     onChange: function(state) {
       if (state.checked) {
         mailvelopePanel.show({
-          position: toggleButton
+          position: mvelo.browserAction.toggleButton
         });
       }
     }

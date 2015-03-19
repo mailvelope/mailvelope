@@ -236,7 +236,16 @@ mvelo.util.getDOMWindow = function() {
   return addonWindow.window;
 };
 
-mvelo.l10n = {};
+mvelo.util.saveAsAttachment = function(filename, content) {
+  attachments.saveAs(filename, content);
+};
+
+mvelo.util.getWorker = function() {
+  return CWorker;
+};
+
+mvelo.l10n = mvelo.l10n || {};
+
 mvelo.l10n.get = function(id, substitutions) {
   if (substitutions) {
     return l10nGet.apply(null, [id].concat(substitutions));
@@ -245,12 +254,12 @@ mvelo.l10n.get = function(id, substitutions) {
   }
 };
 
-mvelo.util.saveAsAttachment = function(filename, content) {
-  attachments.saveAs(filename, content);
-};
+mvelo.browserAction = {};
 
-mvelo.util.getWorker = function() {
-  return CWorker;
+mvelo.browserAction.toggleButton = null;
+
+mvelo.browserAction.state = function(options) {
+  this.toggleButton.state('window', options);
 };
 
 exports.mvelo = mvelo;
