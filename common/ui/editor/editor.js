@@ -114,7 +114,7 @@ var mvelo = mvelo || null;
       mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')).then(function() {
         $('#uploadEmbeddedBtn').on("click", function() {
           $('#addFileInput').click();
-          logUserInput('UPLOAD_BUTTON');
+          logUserInput('security_log_add_attachment');
         });
       }).then(callback);
     } else {
@@ -139,7 +139,7 @@ var mvelo = mvelo || null;
         ]).then(function() {
           $('#uploadBtn').on("click", function() {
             $('#addFileInput').click();
-            logUserInput('UPLOAD_BUTTON');
+            logUserInput('security_log_add_attachment');
           });
           $('#uploadEmbeddedBtn, #addFileInput').hide();
         }).then(callback);
@@ -151,7 +151,7 @@ var mvelo = mvelo || null;
     port.postMessage({
       event: 'editor-user-input',
       sender: name,
-      source: 'EDITOR',
+      source: 'security_log_editor',
       type: type
     });
   }
@@ -186,7 +186,7 @@ var mvelo = mvelo || null;
       e.preventDefault();
       removeAttachment($(this).attr("data-id"));
       $(this).parent().remove();
-      logUserInput('REMOVE_ATTACHMENT');
+      logUserInput('security_log_remove_attachment');
     });
 
     var $extensionButton = $('<span/>', {
@@ -226,7 +226,7 @@ var mvelo = mvelo || null;
       return;
     }
     addAttachment(file);
-    logUserInput('ADD_ATTACHMENT');
+    logUserInput('security_log_attachment_added');
   }
 
   function onCancel() {
@@ -306,7 +306,7 @@ var mvelo = mvelo || null;
     text.on('input', function() {
       startBlurWarnInterval();
       if (logTextareaInput) {
-        logUserInput('TEXTAREA_INPUT');
+        logUserInput('security_log_textarea_input');
         // limit textarea log to 1 event per second
         logTextareaInput = false;
         window.setTimeout(function() {
@@ -318,9 +318,9 @@ var mvelo = mvelo || null;
     text.on('mouseup', function() {
       var textElement = text.get(0);
       if (textElement.selectionStart === textElement.selectionEnd) {
-        logUserInput('TEXTAREA_CLICK');
+        logUserInput('security_log_textarea_click');
       } else {
-        logUserInput('TEXTAREA_SELECT');
+        logUserInput('security_log_textarea_select');
       }
     });
     return text;

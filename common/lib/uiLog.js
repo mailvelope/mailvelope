@@ -31,7 +31,7 @@ define(function(require, exports, module) {
     if (lastEntry &&
         source === lastEntry.source &&
         type === lastEntry.type &&
-        type === 'TEXTAREA_INPUT') {
+        type === 'security_log_textarea_input') {
       // aggregate text input events
       log[log.length - 1] = entry;
     } else {

@@ -24,10 +24,20 @@ var options = options || null;
 
   var $tableBody;
   var logEntryTmpl;
+  var autoRefresh;
 
   options.registerL10nMessages([
     "security_token_title",
-    "security_token_info"
+    "security_token_info",
+    "security_log_editor",
+    "security_log_textarea_click",
+    "security_log_textarea_input",
+    "security_log_textarea_select",
+    "security_log_add_attachment",
+    "security_log_attachment_added",
+    "security_log_remove_attachment",
+    "security_log_attachment_download",
+    "security_log_email_viewer"
   ]);
 
   function init() {
@@ -35,7 +45,11 @@ var options = options || null;
     if (logEntryTmpl === undefined) {
       logEntryTmpl = $tableBody.html();
     }
-    $("#openSecurityLog").on("click", updateSecurityLog);
+    $("#openSecurityLog").on("click", function() {
+      updateSecurityLog();
+      clearInterval(autoRefresh);
+      autoRefresh = setInterval(updateSecurityLog, 1000);
+    });
   }
 
   function updateSecurityLog() {
@@ -48,14 +62,14 @@ var options = options || null;
     var tmpDate;
     $tableBody.children().remove();
     //console.log("UI Log: " + JSON.stringify(uiLog));
-    uiLog.forEach(function(entry) {
+    uiLog.reverse().forEach(function(entry) {
       tableRow = $.parseHTML(logEntryTmpl);
       tmpDate = new Date(entry.timestamp);
       timestamp = pad(tmpDate.getUTCHours()) + ":" + pad(tmpDate.getUTCMinutes()) + ":" + pad(tmpDate.getUTCSeconds());
       $(tableRow).find('.timestamp').text(timestamp);
       $(tableRow).find('td:nth-child(1)').attr("title", entry.timestamp);
-      $(tableRow).find('td:nth-child(2)').text(entry.source);
-      $(tableRow).find('td:nth-child(3)').text(entry.type);
+      $(tableRow).find('td:nth-child(2)').text(options.l10n[entry.source]);
+      $(tableRow).find('td:nth-child(3)').text(options.l10n[entry.type]);
       $tableBody.append(tableRow);
     });
   }

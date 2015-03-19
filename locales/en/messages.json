@@ -287,6 +287,42 @@
     "message": "Text explaining the purpose of the security log.",
     "description": "Text explaining the purpose of the security log"
   },
+  "security_log_email_viewer": {
+    "message": "Email viewer dialog",
+    "description": "Email viewer dialog as an event source"
+  },
+  "security_log_attachment_download": {
+    "message": "Attachment downloaded",
+    "description": "Attachment downloaded as an event source"
+  },
+  "security_log_editor": {
+    "message": "Email create dialog",
+    "description": "Message create dialog as an event source"
+  },
+  "security_log_textarea_click": {
+    "message": "Click in the text area",
+    "description": "A click in the text area as an event type"
+  },
+  "security_log_textarea_select": {
+    "message": "Text area selected",
+    "description": "Selection of the text area as an event type"
+  },
+  "security_log_textarea_input": {
+    "message": "Text entered",
+    "description": "A click in the text area as an event type"
+  },
+  "security_log_add_attachment": {
+    "message": "Attachment upload button clicked",
+    "description": "A click on the attachment upload button as an event type"
+  },
+  "security_log_attachment_added": {
+    "message": "Attachment added to the message",
+    "description": "Attachment added as an event type"
+  },
+  "security_log_remove_attachment": {
+    "message": "Attachment remove button clicked",
+    "description": "A click on the attachment remove button as event type"
+  },
   "settings_security": {
     "message": "Security",
     "description": "Tab of options to display security settings."

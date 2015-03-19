@@ -203,7 +203,7 @@ var mvelo = mvelo || null;
     }
 
     $fileUI.on("click", function() {
-      logUserInput('DOWNLOAD_ATTACHMENT');
+      logUserInput('security_log_attachment_download');
     });
 
     $('#attachments').append($fileUI);
@@ -213,7 +213,7 @@ var mvelo = mvelo || null;
     port.postMessage({
       event: 'decrypt-inline-user-input',
       sender: name,
-      source: 'DECRYPT_INLINE',
+      source: 'security_log_email_viewer',
       type: type
     });
   }
