@@ -110,6 +110,11 @@ var options = {};
     mvelo.l10n.localizeHTML();
     mvelo.util.showSecurityBackground();
 
+    $(".lockBtnIcon").on("click", function() {
+      $('#showKeySettings a').get(0).click();
+      $('a[href="#security"]').get(0).click();
+    });
+
     $keyringList = $("#keyringList");
     if (keyringTmpl === undefined) {
       keyringTmpl = $keyringList.html();
@@ -248,7 +253,12 @@ var options = {};
         options.removeFromWatchList(request.site);
         break;
       case 'reload-options':
-        options.reloadOptions();
+        if (request.hash === "#showlog") {
+          $('#showKeySettings a').get(0).click();
+          $('#openSecurityLog').get(0).click();
+        } else {
+          options.reloadOptions();
+        }
         break;
       case 'import-key':
         $('#showKeyRing a').get(0).click();
