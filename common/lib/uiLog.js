@@ -19,12 +19,14 @@
 
 define(function(require, exports, module) {
 
+  var mvelo = require('../lib-mvelo').mvelo;
+  var l10n = mvelo.l10n.get;
   var log = [];
 
   function push(source, type) {
     var entry = {
-      source: source,
-      type: type,
+      source: l10n(source),
+      type: l10n(type),
       timestamp: new Date().toISOString()
     };
     var lastEntry = log[log.length - 1];

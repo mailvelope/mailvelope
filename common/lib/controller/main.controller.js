@@ -103,7 +103,8 @@ define(function(require, exports, module) {
         sendResponse(true);
         break;
       case 'get-ui-log':
-        sendResponse(uiLog.getAll());
+        request.secLog = uiLog.getAll();
+        sendResponse(request);
         break;
       case 'get-security-token':
         sendResponse({code: prefs.data().security.secure_code, color: prefs.data().security.secure_color});
@@ -274,6 +275,9 @@ define(function(require, exports, module) {
         break;
       case 'options':
         loadOptions();
+        break;
+      case 'showlog':
+        loadOptions("#showlog");
         break;
       default:
         console.log('unknown browser action');

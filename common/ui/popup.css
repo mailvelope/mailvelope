@@ -117,9 +117,17 @@ body {
 }
 
 #activityLog timestamp::before {
-  content: "["
+  content: ""
 }
 
 #activityLog timestamp::after {
-  content: "]"
+  content: " - "
+}
+
+.logEntry {
+  white-space: nowrap;
+  width: 185px;
+  text-overflow: ellipsis;
+  display: block;
+  overflow: hidden;
 }

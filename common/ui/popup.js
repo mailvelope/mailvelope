@@ -23,6 +23,7 @@ var mvelo = mvelo || null;
   var crx = typeof chrome !== 'undefined';
   var activeState;
   var sendMessage;
+  var logEntryTmpl;
 
   if (!crx) {
     // Firefox
@@ -38,6 +39,8 @@ var mvelo = mvelo || null;
   }
 
   function init() {
+    $("#showlog").hide();
+    $('.popup').off();
     $('.popup').on('click', 'a', function(event) {
       if (mvelo.crx) {
         hide();
@@ -61,6 +64,7 @@ var mvelo = mvelo || null;
     sendMessage({event: 'get-prefs'});
     sendMessage({event: "get-ui-log"});
 
+    $('#state').off();
     $('#state').on('click', function() {
       var msg;
       if (activeState) {
@@ -76,7 +80,7 @@ var mvelo = mvelo || null;
     if (mvelo.crx) {
       mvelo.l10n.localizeHTML();
     }
-    //$('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="tooltip"]').tooltip();
   }
 
   function hide() {
@@ -101,18 +105,50 @@ var mvelo = mvelo || null;
 
   function messageListener(msg) {
     switch (msg.event) {
+      case 'init':
+        init();
+        break;
       case 'get-prefs':
         activeState = msg.prefs.main_active;
         handleAppActivation();
         break;
       case 'get-ui-log':
-        $("#activityLog").text(msg);
+        var tmpDate;
+        var timestamp;
+        var logEntry;
+        var cnt = 0;
+        if (logEntryTmpl === undefined) {
+          logEntryTmpl = $("#activityLog").html();
+        }
+        $("#activityLog").empty();
+        if (!msg.secLog || msg.secLog.length === 0) {
+          $("#activityLog").append("<small style='color: lightgray;'>No entries</small>");
+        }
+        msg.secLog.reverse().forEach(function(entry) {
+          $("#showlog").show();
+          if (cnt < 3) {
+            logEntry = $.parseHTML(logEntryTmpl);
+            tmpDate = new Date(entry.timestamp);
+            timestamp = pad(tmpDate.getUTCHours()) + ":" + pad(tmpDate.getUTCMinutes()) + ":" + pad(tmpDate.getUTCSeconds());
+            $(logEntry).find('timestamp').text(timestamp);
+            $(logEntry).find('.logDescription').text(entry.type);
+            $("#activityLog").append(logEntry);
+          }
+          cnt++;
+        });
         break;
       case 'is-supported-noapi':
         console.log("App active: " + msg.isSupported);
         //handleActivation(msg.isSupported);
         break;
     }
+  }
+
+  function pad(number) {
+    if (number < 10) {
+      return '0' + number;
+    }
+    return number;
   }
 
   $(document).ready(init);

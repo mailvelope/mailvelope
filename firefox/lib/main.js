@@ -78,11 +78,16 @@ function init() {
 init();
 
 function onPanelMessage(msg) {
-  //console.log('onPanelMessage', mailvelopePanel.postMessage);
-  if (msg.event !== "close-popup") {
+  console.log('onPanelMessage: ' + msg.event);
+  if (msg.event === "close-popup") {
+    mailvelopePanel.hide();
+  } else if (msg.event === ("browser-action") || msg.event === ("activate") || msg.event === ("deactivate")) {
+    mailvelopePanel.hide();
+    controller.handleMessageEvent(msg, null, mailvelopePanel.postMessage.bind(mailvelopePanel));
+  } else {
     controller.handleMessageEvent(msg, null, mailvelopePanel.postMessage.bind(mailvelopePanel));
   }
-  mailvelopePanel.hide();
+
 }
 
 function initAddonButton() {
@@ -95,6 +100,9 @@ function initAddonButton() {
       if (toggleButton) {
         toggleButton.state('window', {checked: false});
       }
+    },
+    onShow: function() {
+      this.postMessage({"event": "init"});
     }
   });
   toggleButton = new ToggleButton({
