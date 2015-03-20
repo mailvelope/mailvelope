@@ -190,6 +190,12 @@ var options = {};
       exports.l10n = result;
       event.triggerHandler('ready');
     });
+
+    if (window.location.hash === "#showlog") {
+      $('#showKeySettings a').get(0).click();
+      $('#openSecurityLog').get(0).click();
+      options.startSecurityLogMonitoring();
+    }
   }
 
   function setKeyRing(keyringId) {

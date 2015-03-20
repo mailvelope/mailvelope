@@ -31,11 +31,13 @@ var options = options || null;
     if (logEntryTmpl === undefined) {
       logEntryTmpl = $tableBody.html();
     }
-    $("#openSecurityLog").on("click", function() {
-      updateSecurityLog();
-      clearInterval(autoRefresh);
-      autoRefresh = setInterval(updateSecurityLog, 1000);
-    });
+    $("#openSecurityLog").on("click", startSecurityLogMonitoring);
+  }
+
+  function startSecurityLogMonitoring() {
+    updateSecurityLog();
+    clearInterval(autoRefresh);
+    autoRefresh = setInterval(updateSecurityLog, 1000);
   }
 
   function updateSecurityLog() {
@@ -66,6 +68,7 @@ var options = options || null;
     return number;
   }
 
+  options.startSecurityLogMonitoring = startSecurityLogMonitoring;
   options.event.on('ready', init);
 
 }(options));
