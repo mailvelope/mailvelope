@@ -55,8 +55,8 @@ var options = options || null;
       timestamp = pad(tmpDate.getUTCHours()) + ":" + pad(tmpDate.getUTCMinutes()) + ":" + pad(tmpDate.getUTCSeconds());
       $(tableRow).find('.timestamp').text(timestamp);
       $(tableRow).find('td:nth-child(1)').attr("title", entry.timestamp);
-      $(tableRow).find('td:nth-child(2)').text(entry.source);
-      $(tableRow).find('td:nth-child(3)').text(entry.type);
+      $(tableRow).find('td:nth-child(2)').text(entry.sourcei18n);
+      $(tableRow).find('td:nth-child(3)').text(entry.typei18n);
       $tableBody.append(tableRow);
     });
   }

@@ -25,8 +25,10 @@ define(function(require, exports, module) {
 
   function push(source, type) {
     var entry = {
-      source: l10n(source),
-      type: l10n(type),
+      source: source,
+      sourcei18n: l10n(source),
+      type: type,
+      typei18n: l10n(type),
       timestamp: new Date().toISOString()
     };
     var lastEntry = log[log.length - 1];

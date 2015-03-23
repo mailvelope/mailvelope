@@ -113,7 +113,7 @@ body {
 }
 
 #activityLog div::before {
-  content: "⚫ "
+  content: ""
 }
 
 #activityLog timestamp::before {

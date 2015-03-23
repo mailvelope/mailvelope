@@ -131,7 +131,7 @@ var mvelo = mvelo || null;
             tmpDate = new Date(entry.timestamp);
             timestamp = pad(tmpDate.getUTCHours()) + ":" + pad(tmpDate.getUTCMinutes()) + ":" + pad(tmpDate.getUTCSeconds());
             $(logEntry).find('timestamp').text(timestamp);
-            $(logEntry).find('.logDescription').text(entry.type);
+            $(logEntry).find('.logDescription').text(entry.typei18n);
             $("#activityLog").append(logEntry);
           }
           cnt++;
