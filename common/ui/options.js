@@ -110,11 +110,6 @@ var options = {};
     mvelo.l10n.localizeHTML();
     mvelo.util.showSecurityBackground();
 
-    $(".lockBtnIcon").on("click", function() {
-      $('#showKeySettings a').get(0).click();
-      $('a[href="#security"]').get(0).click();
-    });
-
     $keyringList = $("#keyringList");
     if (keyringTmpl === undefined) {
       keyringTmpl = $keyringList.html();
