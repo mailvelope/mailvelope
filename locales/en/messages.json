@@ -727,6 +727,10 @@
     "message": "In a separate popup from Mailvelope.",
     "description": "Decrypted message display option"
   },
+  "security_background_button_title": {
+    "message": "The security background can be adjusted in the Mailvelope-Options area",
+    "description": "The tooltip text for the keylock button"
+  },
   "security_background_header": {
     "message": "Security Background",
     "description": "Security background header"

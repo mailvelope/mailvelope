@@ -91,7 +91,14 @@ var mvelo = mvelo || null;
       $("#addFileInput").on("change", onAddAttachment);
       $('#uploadBtn').hide(); // Disable Uploading Attachment
       mvelo.l10n.localizeHTML();
-      mvelo.util.showSecurityBackground();
+      mvelo.util.showSecurityBackground(qs.embedded);
+
+      if (qs.embedded) {
+        $(".secureBgndSettingsBtn").on("click", function() {
+          port.postMessage({ event: 'open-security-settings', sender: name });
+        });
+      }
+
     });
     if (mvelo.crx) {
       commonPath = '../..';

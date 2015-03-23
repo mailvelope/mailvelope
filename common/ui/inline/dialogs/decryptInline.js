@@ -48,6 +48,7 @@ var mvelo = mvelo || null;
     addAttachmentPanel();
     addWrapper();
     addSandbox();
+    addSecuritySettingsButton();
     // mvelo.extension.sendMessage({event: "get-security-token"}, function(token) {
     //   $('#watermark').html(mvelo.util.encodeHTML(token.code));
     // });
@@ -59,7 +60,8 @@ var mvelo = mvelo || null;
     ], function(result) {
       l10n = result;
     });
-    mvelo.util.showSecurityBackground();
+    mvelo.util.showSecurityBackground(true);
+    mvelo.l10n.localizeHTML();
   }
 
   function addSpinner() {
@@ -90,8 +92,12 @@ var mvelo = mvelo || null;
   }
 
   function addSecuritySettingsButton() {
-    var securitySettingsBtn = $('<div id="footer"><button id="secureBgndSettingsBtn" class="btn btn-link pull-right"><span class="glyphicon lockBtnIcon"></span></button></div>');
+    var securitySettingsBtn = $('<div id="footer"><button class="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" style="margin-right: 7px; margin-bottom: 7px;" data-l10n-title-id="security_background_button_title"></button></div>');
     $('body').append(securitySettingsBtn);
+
+    $(".secureBgndSettingsBtn").on("click", function() {
+      port.postMessage({ event: 'open-security-settings', sender: name });
+    });
   }
 
   function addSandbox() {
@@ -223,7 +229,6 @@ var mvelo = mvelo || null;
     switch (msg.event) {
       case 'decrypted-message':
         showMessageArea();
-        addSecuritySettingsButton();
         // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
         msg.message = $.parseHTML(msg.message);
         $('#decryptmail').contents().find('#content').append(msg.message);

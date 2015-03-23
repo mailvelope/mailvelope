@@ -110,6 +110,8 @@ var options = {};
     mvelo.l10n.localizeHTML();
     mvelo.util.showSecurityBackground();
 
+    $(".secureBgndSettingsBtn").on("click", openSecuritySettings);
+
     $keyringList = $("#keyringList");
     if (keyringTmpl === undefined) {
       keyringTmpl = $keyringList.html();
@@ -190,6 +192,8 @@ var options = {};
       $('#showKeySettings a').get(0).click();
       $('#openSecurityLog').get(0).click();
       options.startSecurityLogMonitoring();
+    } else if (window.location.hash === "#securitysettings") {
+      openSecuritySettings();
     }
   }
 
@@ -270,6 +274,11 @@ var options = {};
         // TODO analyse message events
         //console.log('unknown event:', request);
     }
+  }
+
+  function openSecuritySettings() {
+    $('#showKeySettings a').get(0).click();
+    $('a[href="#security"]').get(0).click();
   }
 
   function reloadOptions() {
