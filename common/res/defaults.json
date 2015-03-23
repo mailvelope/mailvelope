@@ -1,5 +1,5 @@
 {
-  "version" : "0.13.0b10",
+  "version" : "0.13.0b11",
   "watch_list": [
     {
       "active": true,
@@ -112,6 +112,17 @@
         {
           "scan": true,
           "frame": "*.de-mail.t-online.de",
+          "api": true
+        }
+      ]
+    },
+    {
+      "active": true,
+      "site": "Mailvelope Demo",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.demo.mailvelope.com",
           "api": true
         }
       ]
