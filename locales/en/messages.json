@@ -271,6 +271,10 @@
     "message": "Security Log",
     "description": "Tab of options to display security log."
   },
+  "security_log_empty": {
+    "message": "No entries",
+    "description": "Message when the security log is empty"
+  },
   "security_log_timestamp": {
     "message": "Timestamp",
     "description": "Title of the timestamp column of the security log table."

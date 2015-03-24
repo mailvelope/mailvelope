@@ -24,6 +24,7 @@ var mvelo = mvelo || null;
   var activeState;
   var sendMessage;
   var logEntryTmpl;
+  var logEmptyTmpl;
 
   if (!crx) {
     // Firefox
@@ -61,6 +62,18 @@ var mvelo = mvelo || null;
       hide();
     });
 
+    if (mvelo.crx) {
+      mvelo.l10n.localizeHTML();
+    }
+
+    if (logEntryTmpl === undefined) {
+      logEntryTmpl = $("#activityLog .logEntry").parent().html();
+    }
+
+    if (logEmptyTmpl === undefined) {
+      logEmptyTmpl = $("#emptySecurityLog").parent().html();
+    }
+
     sendMessage({event: 'get-prefs'});
     sendMessage({event: "get-ui-log"});
 
@@ -77,9 +90,7 @@ var mvelo = mvelo || null;
       sendMessage(msg);
       hide();
     });
-    if (mvelo.crx) {
-      mvelo.l10n.localizeHTML();
-    }
+
     $('[data-toggle="tooltip"]').tooltip();
   }
 
@@ -117,12 +128,9 @@ var mvelo = mvelo || null;
         var timestamp;
         var logEntry;
         var cnt = 0;
-        if (logEntryTmpl === undefined) {
-          logEntryTmpl = $("#activityLog").html();
-        }
         $("#activityLog").empty();
         if (!msg.secLog || msg.secLog.length === 0) {
-          $("#activityLog").append("<small style='color: lightgray;'>No entries</small>");
+          $("#activityLog").append(logEmptyTmpl);
         }
         msg.secLog.reverse().forEach(function(entry) {
           $("#showlog").show();

@@ -131,3 +131,7 @@ body {
   display: block;
   overflow: hidden;
 }
+
+#emptySecurityLog {
+  color: lightgray;
+}
