@@ -217,10 +217,11 @@ var mvelo = mvelo || null;
 
   function onAddAttachment(selection) {
     //console.log("Selected File: "+$("#addFileInput").val());
-    var file = selection.currentTarget.files[0];
+    var files = selection.currentTarget.files;
+    var numFiles = selection.currentTarget.files.length;
     //console.log("Selected File: "+JSON.stringify(selection.currentTarget.files[0]));
     //console.log("File Meta - Name: " + file.name + " Size: " + file.size + " Type" + file.type);
-    var currentAttachmentsSize = 0;
+    /* var currentAttachmentsSize = 0;
     for (var property in attachments) {
       if (attachments.hasOwnProperty(property)) {
         currentAttachmentsSize = currentAttachmentsSize + attachments[property].size;
@@ -230,8 +231,12 @@ var mvelo = mvelo || null;
     if (currentAttachmentsSize > maxFileUploadSize) {
       alert(l10n.upload_quota_exceeded_warning + " " + Math.floor(maxFileUploadSize / (1024 * 1024)) + "MB.");
       return;
+    } */
+    var i;
+    for (i = 0; i < numFiles; i++) {
+      //fileSize = parseInt(e.currentTarget.files[i].fileSize, 10)/1024;
+      addAttachment(files[i]);
     }
-    addAttachment(file);
     logUserInput('security_log_attachment_added');
   }
 
