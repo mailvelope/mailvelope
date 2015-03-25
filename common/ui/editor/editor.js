@@ -54,7 +54,7 @@ var mvelo = mvelo || null;
   );
 
   var maxFileUploadSize = 32 * 1024 * 1024;
-  var maxFileUploadSizeChrome = 8 * 1024 * 1024; // temporal fix due issue in Chrome
+  var maxFileUploadSizeChrome = 10 * 1024 * 1024; // temporal fix due issue in Chrome
 
   function init() {
     var qs = jQuery.parseQuerystring();
@@ -221,20 +221,23 @@ var mvelo = mvelo || null;
     var numFiles = selection.currentTarget.files.length;
     //console.log("Selected File: "+JSON.stringify(selection.currentTarget.files[0]));
     //console.log("File Meta - Name: " + file.name + " Size: " + file.size + " Type" + file.type);
-    /* var currentAttachmentsSize = 0;
+    var i;
+    var fileSizeAll = 0;
+    for (i = 0; i < numFiles; i++) {
+      fileSizeAll = fileSizeAll + parseInt(files[i].size);
+    }
+    var currentAttachmentsSize = 0;
     for (var property in attachments) {
       if (attachments.hasOwnProperty(property)) {
         currentAttachmentsSize = currentAttachmentsSize + attachments[property].size;
       }
     }
-    currentAttachmentsSize = currentAttachmentsSize + file.size;
+    currentAttachmentsSize = currentAttachmentsSize + fileSizeAll;
     if (currentAttachmentsSize > maxFileUploadSize) {
       alert(l10n.upload_quota_exceeded_warning + " " + Math.floor(maxFileUploadSize / (1024 * 1024)) + "MB.");
       return;
-    } */
-    var i;
+    }
     for (i = 0; i < numFiles; i++) {
-      //fileSize = parseInt(e.currentTarget.files[i].fileSize, 10)/1024;
       addAttachment(files[i]);
     }
     logUserInput('security_log_attachment_added');
