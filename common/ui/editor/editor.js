@@ -47,8 +47,7 @@ var mvelo = mvelo || null;
   mvelo.l10n.getMessages([
     'editor_remove_upload',
     'waiting_dialog_decryption_failed',
-    'upload_quota_exceeded_warning',
-    'upload_aborting_warning'
+    'upload_quota_exceeded_warning'
     ], function(result) {
       l10n = result;
     }
@@ -222,7 +221,7 @@ var mvelo = mvelo || null;
     }
     currentAttachmentsSize = currentAttachmentsSize + file.size;
     if (currentAttachmentsSize > maxFileUploadSize) {
-      alert(l10n.upload_quota_exceeded_warning + " " + Math.floor(maxFileUploadSize / (1024 * 1024)) + "MB. " + l10n.upload_aborting_warning);
+      alert(l10n.upload_quota_exceeded_warning + " " + Math.floor(maxFileUploadSize / (1024 * 1024)) + "MB.");
       return;
     }
     addAttachment(file);

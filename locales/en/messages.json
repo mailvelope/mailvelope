@@ -284,43 +284,43 @@
     "description": "Title of the source column of the security log table."
   },
   "security_log_text": {
-    "message": "Text explaining the purpose of the security log.",
+    "message": "The security log shows user actions in integrated components of Mailvelope.",
     "description": "Text explaining the purpose of the security log"
   },
   "security_log_email_viewer": {
-    "message": "Email viewer dialog",
-    "description": "Email viewer dialog as an event source"
+    "message": "Decrypted PGP Mail",
+    "description": "Email decryption container as an event source"
   },
   "security_log_attachment_download": {
     "message": "Attachment downloaded",
     "description": "Attachment downloaded as an event source"
   },
   "security_log_editor": {
-    "message": "Email create dialog",
-    "description": "Message create dialog as an event source"
+    "message": "PGP Editor",
+    "description": "Message editor container as an event source"
   },
   "security_log_textarea_click": {
-    "message": "Click in the text area",
+    "message": "Click event in text area",
     "description": "A click in the text area as an event type"
   },
   "security_log_textarea_select": {
-    "message": "Text area selected",
+    "message": "Select event in text area",
     "description": "Selection of the text area as an event type"
   },
   "security_log_textarea_input": {
-    "message": "Text entered",
+    "message": "Input event in text area",
     "description": "A click in the text area as an event type"
   },
   "security_log_add_attachment": {
-    "message": "Attachment upload button clicked",
+    "message": "Add attachment button clicked",
     "description": "A click on the attachment upload button as an event type"
   },
   "security_log_attachment_added": {
-    "message": "Attachment added to the message",
+    "message": "Attachment uploaded",
     "description": "Attachment added as an event type"
   },
   "security_log_remove_attachment": {
-    "message": "Attachment remove button clicked",
+    "message": "Remove attachment button clicked",
     "description": "A click on the attachment remove button as event type"
   },
   "settings_security": {
@@ -928,7 +928,7 @@
     "description": "Text in the upload attachment button of the message editor dialog"
   },
   "upload_quota_exceeded_warning": {
-    "message": "Attachments size exceeds ",
+    "message": "Attachment size exceeds the allowable limit:",
     "description": "A warning shown when the attachments upload quota is exceeded."
   },
   "upload_aborting_warning": {
