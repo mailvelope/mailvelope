@@ -106,9 +106,6 @@ define(function(require, exports, module) {
         request.secLog = uiLog.getAll();
         sendResponse(request);
         break;
-      case 'get-security-token':
-        sendResponse({code: prefs.data().security.secure_code, color: prefs.data().security.secure_color});
-        break;
       case 'get-security-background':
         sendResponse({
           color: prefs.data().security.secureBgndColor,
