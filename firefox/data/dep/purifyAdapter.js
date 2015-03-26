@@ -5,7 +5,7 @@ var DOMPurify = DOMPurify || null;
 
 // Add a hook to make all links open a new window
 // attribution: https://github.com/cure53/DOMPurify/blob/master/demos/hooks-target-blank-demo.html
-DOMPurify.addHook('afterSantitizeAttributes', function(node) {
+DOMPurify.addHook('afterSanitizeAttributes', function(node) {
   // set all elements owning target to target=_blank
   if ('target' in node) {
     node.setAttribute('target', '_blank');
