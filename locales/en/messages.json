@@ -236,7 +236,7 @@
     "description": "key pair"
   },
   "keyring_setup_no_keypair_heading": {
-    "message": "This keyring does not contain it's own keypair yet.",
+    "message": "This keyring does not contain a keypair yet.",
     "description": "Setup heading if no keypair available"
   },
   "keyring_setup_no_keypair": {
@@ -747,30 +747,6 @@
     "message": "Scaling",
     "description": "Scaling"
   },
-  "security_token_header": {
-    "message": "Security Token",
-    "description": "Security token header"
-  },
-  "security_token_title": {
-    "message": "Token Authentication",
-    "description": "Security token title"
-  },
-  "security_token_info": {
-    "message": "The security token is an authentication mechanism: all Mailvelope dialogs will display this user-defined code and thereby identify themselves and their origin.",
-    "description": "Security token help message"
-  },
-  "security_char_code": {
-    "message": "Char Code",
-    "description": "Char code for security token"
-  },
-  "security_char_help": {
-    "message": "Must be 3 characters long",
-    "description": "Char code help"
-  },
-  "security_custom_color": {
-    "message": "Custom Color",
-    "description": "Custom color for security token"
-  },
   "security_compose_mail": {
     "message": "Where do you want to compose your mail?",
     "description": "Label for compose options"
@@ -780,7 +756,7 @@
     "description": "Mail compose option"
   },
   "security_compose_webmail": {
-    "message": "In the mail compose text editor of the mail provider.",
+    "message": "In the text editor of the mail provider.",
     "description": "Mail compose option"
   },
   "security_compose_warn": {
@@ -844,7 +820,7 @@
     "description": "Undo form button."
   },
   "watchlist_record_title": {
-    "message": "Watch List Record",
+    "message": "Mail Provider",
     "description": "Title of the watchlist editor dialog."
   },
   "watchlist_title_active": {

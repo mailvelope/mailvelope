@@ -22,11 +22,6 @@ var options = options || null;
 
 (function(options) {
 
-  options.registerL10nMessages([
-    "security_token_title",
-    "security_token_info"
-  ]);
-
   var bgndColor;
 
   function init() {
@@ -40,10 +35,6 @@ var options = options || null;
     $('input:radio[name="pwdCacheRadios"]').on('change', toggleCacheTime);
     $('#secBtnSave').click(onSave);
     $('#secBtnCancel').click(onCancel);
-    $('#secTokenInfo').popover({
-      title: options.l10n.security_token_title,
-      content: options.l10n.security_token_info
-    });
     // https://bugzilla.mozilla.org/show_bug.cgi?id=213519
     $('#pwdCacheTime').click(function() {
       return false;
