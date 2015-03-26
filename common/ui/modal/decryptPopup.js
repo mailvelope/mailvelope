@@ -159,28 +159,35 @@ var mvelo = mvelo || null;
     var fileExt = mvelo.util.extractFileExtension(filename);
     var extClass = mvelo.util.getExtensionClass(fileExt);
 
-    var extensionButton = $('<span/>', {
+    var $extensionButton = $('<span/>', {
       "class": 'label attachmentExtension ' + extClass
     }).append(fileExt);
+
+    var objectURL = "#";
 
     var contentLength = Object.keys(content).length;
     var uint8Array = new Uint8Array(contentLength);
     for (var i = 0; i < contentLength; i++) {
       uint8Array[i] = content[i];
     }
-    var blob = new Blob([uint8Array], { type: mimeType }); // 'application/octet-binary'
-    var objectURL = window.URL.createObjectURL(blob);
-    var fileUI = $('<a/>', {
-      "href": objectURL,
-      "class": 'label label-default attachmentButton',
-      "download": filename
-    })
-      .append(extensionButton)
-      .append(" " + fileNameNoExt + " ");
+    var blob = new Blob([uint8Array], { type: mimeType });
+    objectURL = window.URL.createObjectURL(blob);
+
+    var $fileName = $('<span/>', {
+      "class": 'filename'
+    }).append(fileNameNoExt);
+
+    var $fileUI = $('<a/>', {
+        "download": filename,
+        "href": objectURL,
+        "title": filename,
+        "class": 'attachmentButton'
+      })
+        .append($extensionButton)
+        .append($fileName);
 
     var $attachments = $('#attachments');
-    $attachments.append(fileUI);
-    $attachments.append("&nbsp;");
+    $attachments.append($fileUI);
   }
 
   function messageListener(msg) {
