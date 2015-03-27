@@ -53,7 +53,7 @@ var mvelo = mvelo || null;
     }
   );
 
-  var maxFileUploadSize = 32 * 1024 * 1024;
+  var maxFileUploadSize = 25 * 1024 * 1024;
   var maxFileUploadSizeChrome = 10 * 1024 * 1024; // temporal fix due issue in Chrome
 
   function init() {
@@ -61,7 +61,7 @@ var mvelo = mvelo || null;
     id = qs.id;
     name = 'editor-' + id;
     if (qs.quota) {
-      maxFileUploadSize = parseInt(qs.quota);
+      maxFileUploadSize = parseInt(qs.quota) * 1024;
     }
     if (mvelo.crx && maxFileUploadSize > maxFileUploadSizeChrome) {
       maxFileUploadSize = maxFileUploadSizeChrome;

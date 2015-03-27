@@ -286,7 +286,7 @@ mvelo.domAPI.setLogo = function(keyringId, dataURL, revision, callback) {
     error.code = 'LOGO_INVALID';
     throw error;
   }
-  if (dataURL.length > 15360) {
+  if (dataURL.length > 15 * 1024) {
     error = new Error('Data URL string size exceeds 15KB limit.');
     error.code = 'LOGO_INVALID';
     throw error;
