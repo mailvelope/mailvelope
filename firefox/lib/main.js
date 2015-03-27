@@ -376,7 +376,6 @@ function injectEmbeddedEditor() {
       data.url('common/dep/bootstrap/js/bootstrap.js'),
       data.url('ui/messageAdapter.js'),
       data.url('common/ui/mvelo.js'),
-      data.url('common/ui/modal/secureToken.js'),
       data.url('common/ui/editor/editor.js')
     ],
     contentStyleFile: [
@@ -404,7 +403,6 @@ function injectEmbeddedOptions() {
       data.url('common/dep/bootstrap-sortable/bootstrap-sortable.js'),
       data.url('common/ui/mvelo.js'),
       data.url('common/ui/options.js'),
-      data.url('common/ui/modal/secureToken.js'),
       data.url('common/ui/settings/watchList.js'),
       data.url('common/ui/settings/security.js'),
       data.url('common/ui/settings/general.js'),
