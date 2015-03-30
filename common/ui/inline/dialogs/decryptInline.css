@@ -109,9 +109,3 @@ body {
 #errorwell .alert {
   margin-bottom: 0;
 }
-
-.lockBtnIcon {
-    width: 30px !important;
-    height: 30px;
-    margin-right: -20px;
-}

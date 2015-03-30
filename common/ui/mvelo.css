@@ -277,5 +277,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 .secureBgndSettingsBtn {
   min-width: 10px !important;
-  margin-right: 0px;
+  margin-right: 0;
+  width: 32px;
+  height: 32px;
+  padding: 0;
 }

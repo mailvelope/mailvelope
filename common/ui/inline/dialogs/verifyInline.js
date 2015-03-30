@@ -44,6 +44,7 @@ var mvelo = mvelo || null;
     }
     addWrapper();
     addSandbox();
+    addSecuritySettingsButton();
     $(window).on('resize', resizeFont);
     addErrorView();
     // show spinner
@@ -57,6 +58,7 @@ var mvelo = mvelo || null;
     ], function(result) {
       l10n = result;
     });
+    mvelo.l10n.localizeHTML();
     mvelo.util.showSecurityBackground();
   }
 
@@ -119,7 +121,7 @@ var mvelo = mvelo || null;
   }
 
   function addSecuritySettingsButton() {
-    var securitySettingsBtn = $('<button id="secureBgndSettingsBtn" class="btn btn-link pull-right"><span class="glyphicon lockBtnIcon"></span></button>');
+    var securitySettingsBtn = $('<div data-l10n-title-id="security_background_button_title" style="margin-top: 12px; margin-right: 6px;" class="pull-right"><span class="glyphicon lockBtnIcon"></span></div>');
     $('body').append(securitySettingsBtn);
   }
 
@@ -143,7 +145,6 @@ var mvelo = mvelo || null;
     switch (msg.event) {
       case 'verified-message':
         showMessageArea();
-        addSecuritySettingsButton();
         // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
         var message = msg.message.replace(/\n/g, '<br>');
         var node = $('#verifymail').contents();

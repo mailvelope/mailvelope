@@ -89,7 +89,7 @@ var mvelo = mvelo || null;
   }
 
   function addSecuritySettingsButton() {
-    var securitySettingsBtn = $('<div id="footer"><button class="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" style="margin-right: 7px; margin-bottom: 7px;" data-l10n-title-id="security_background_button_title"></button></div>');
+    var securitySettingsBtn = $('<div id="footer"><button class="btn btn-link pull-right secureBgndSettingsBtn" style="margin-right: 7px; margin-bottom: 7px;" data-l10n-title-id="security_background_button_title"><span class="glyphicon lockBtnIcon"></span></button></div>');
     $('body').append(securitySettingsBtn);
 
     $(".secureBgndSettingsBtn").on("click", function() {

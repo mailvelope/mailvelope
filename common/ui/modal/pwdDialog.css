@@ -97,14 +97,8 @@ body {
   position: relative;
 }
 
-#secureBgndSettingsBtn {
+#lockIcon {
   position: absolute;
-  top: -3px;
+  top: 3px;
   right: 12px;
-}
-
-.lockBtnIcon {
-    width: 30px !important;
-    height: 30px;
-    margin-right: -44px;
 }
