@@ -60,7 +60,7 @@ var mvelo = mvelo || null;
   }
 
   function addSecuritySettingsButton() {
-    var securitySettingsBtn = $('<button id="secureBgndSettingsBtn" class="btn btn-link pull-right"><span class="glyphicon lockBtnIcon"></span></button>');
+    var securitySettingsBtn = $('<button id="secureBgndSettingsBtn" data-l10n-title-id="security_background_button_title" class="btn btn-link pull-right"><span class="glyphicon lockBtnIcon"></span></button>');
     $('.modal-body .header').append(securitySettingsBtn);
   }
 

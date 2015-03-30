@@ -45,6 +45,7 @@ var mvelo = mvelo || null;
     $('#closeBtn').click(onClose);
     $('#copyBtn').click(onCopy);
     $('body').addClass('spinner');
+    addSecuritySettingsButton();
     mvelo.l10n.localizeHTML();
     mvelo.l10n.getMessages([
       'alert_header_error'
@@ -52,7 +53,6 @@ var mvelo = mvelo || null;
       l10n = result;
     });
     mvelo.util.showSecurityBackground();
-    addSecuritySettingsButton();
   }
 
   function onClose() {
@@ -62,7 +62,7 @@ var mvelo = mvelo || null;
   }
 
   function addSecuritySettingsButton() {
-    var securitySettingsBtn = $('<button id="secureBgndSettingsBtn" class="btn btn-link pull-right"><span class="glyphicon lockBtnIcon"></span></button>');
+    var securitySettingsBtn = $('<button id="secureBgndSettingsBtn" data-l10n-title-id="security_background_button_title" class="btn btn-link pull-right"><span class="glyphicon lockBtnIcon"></span></button>');
     $('.modal-body .footer').append(securitySettingsBtn);
   }
 
