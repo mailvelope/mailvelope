@@ -52,7 +52,7 @@
         "description": "Label for primary private key option."
     },
     "security_compose_webmail": {
-        "message": "Im Text-Editor des E-Mail-Anbieters.",
+        "message": "In der Textbearbeitung des E-Mail-Anbieters.",
         "description": "Mail compose option"
     },
     "security_background_header": {
@@ -168,8 +168,12 @@
         "description": "Open options dialog."
     },
     "security_log_textarea_click": {
-        "message": "Klick-Ereignis in Textfeld",
+        "message": "Klickereignis im Textfeld",
         "description": "A click in the text area as an event type"
+    },
+    "security_log_empty": {
+        "message": "Keine Einträge",
+        "description": "Message when the security log is empty"
     },
     "security_background_text": {
         "message": "Der Sicherheitshintergrund ist Ihr persönlicher Mailvelope-Hintergrund. Er hilft die Veränderung der Benutzerschnittstelle durch Drittanbieterseiten und -anwendungen zu verhindern. Um die Sicherheit zu erhöhen, bitte den persönlichen Hintergrund hier erstellen und ändern.",
@@ -328,7 +332,7 @@
         "description": "Editor option: plain text."
     },
     "security_log_editor": {
-        "message": "PGP Editor",
+        "message": "PGP-Bearbeitung",
         "description": "Message editor container as an event source"
     },
     "clear_localstorage_confirm_message": {
@@ -368,7 +372,7 @@
         "description": "Validity status of a PGP key."
     },
     "security_log_email_viewer": {
-        "message": "Entschlüsselte PGP Mail",
+        "message": "Entschlüsselte PGP-E-Mail",
         "description": "Email decryption container as an event source"
     },
     "security_log_text": {
@@ -394,6 +398,10 @@
     "keygrid_user_ids": {
         "message": "Benutzerkennungen",
         "description": "User IDs of a PGP key."
+    },
+    "security_background_button_title": {
+        "message": "Der Sicherheitshintergrund kann im Mailvelope-Optionsbereich angepasst werden",
+        "description": "The tooltip text for the keylock button"
     },
     "keyring_setup_no_keypair_heading": {
         "message": "Dieser Schlüsselbund enthält noch kein Schlüsselpaar.",
@@ -516,7 +524,7 @@
         "description": "Submit form button."
     },
     "watchlist_record_title": {
-        "message": "E-Mail Anbieter",
+        "message": "E-Mail-Anbieter",
         "description": "Title of the watchlist editor dialog."
     },
     "key_export_clipboard": {
@@ -540,7 +548,7 @@
         "description": "Advanced key generation settings: Key size"
     },
     "security_log_textarea_input": {
-        "message": "Eingabe-Ereignis in Textfeld",
+        "message": "Eingabeereignis im Textfeld",
         "description": "A click in the text area as an event type"
     },
     "key_gen_demail": {
@@ -820,7 +828,7 @@
         "description": "Opens the help page on mailvelope.com."
     },
     "security_log_textarea_select": {
-        "message": "Selektion in Textfeld",
+        "message": "Auswahlereignis im Textfeld",
         "description": "Selection of the text area as an event type"
     },
     "keygrid_signer_unknown": {

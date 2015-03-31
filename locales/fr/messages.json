@@ -11,6 +11,10 @@
         "message": "Veuillez patienter, la génération de la clé peut prendre plusieurs minutes en fonction de différents facteurs comme la taille de la clé.",
         "description": "Wait dialog info message"
     },
+    "security_log_attachment_added": {
+        "message": "Attachment uploaded",
+        "description": "Attachment added as an event type"
+    },
     "message_read_error": {
         "message": "Ne peut pas lire ce message chiffré : $1",
         "description": "Message read error message: $1: error message."
@@ -18,10 +22,6 @@
     "keygrid_all_keys": {
         "message": "Tout",
         "description": "Selection of key type."
-    },
-    "security_token_title": {
-        "message": "Jeton d'Authentification",
-        "description": "Security token title"
     },
     "security_display_inline": {
         "message": "Sur la page du fournisseur de messagerie.",
@@ -32,11 +32,11 @@
         "description": "Verfiy signature error. Wrong signature of [userid]."
     },
     "pwd_dialog_header": {
-        "message": "Enter key password",
+        "message": "Entrer le mot de passe clé",
         "description": "Header of the password dialog."
     },
     "waiting_dialog_prepare_email": {
-        "message": "Your email is prepared...",
+        "message": "Préparation de votre message...",
         "description": "Message in the waiting dialog for quoting email"
     },
     "keygrid_creation_date_short": {
@@ -52,16 +52,24 @@
         "description": "Label for primary private key option."
     },
     "security_compose_webmail": {
-        "message": "Dans l'éditeur de texte du fournisseur de messagerie.",
+        "message": "In the text editor of the mail provider.",
         "description": "Mail compose option"
+    },
+    "security_background_header": {
+        "message": "Contexte de sécurité",
+        "description": "Security background header"
     },
     "keygrid_user_email": {
         "message": "Courriel",
         "description": "Email address in User ID of a PGP key."
     },
     "watchlist_delete_confirmation": {
-        "message": "Do you really want to remove this site from the watchlist?",
+        "message": "Voulez-vous vraiment supprimer ce site de la list des fournisseurs ?",
         "description": "Mesage in the watchlist delete confirmation dialog."
+    },
+    "popup_last_activities": {
+        "message": "Dernières activitées:",
+        "description": "Title text for the last activities area"
     },
     "key_export_header": {
         "message": "Exporter la Clé",
@@ -87,12 +95,16 @@
         "message": "Se souvenir des mots de passe pour cette session de navigation ?",
         "description": "Password cache header"
     },
+    "popup_actived_checkbox_tooltip": {
+        "message": "Activer / desactiver l'éditeur externe",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
+    },
     "save_attachment_as_message": {
         "message": "Choisissez le dossier où la pièce jointe doit être enregistrée.",
         "description": "Message in the attachment save dialog"
     },
     "pwd_dialog_keyid_tooltip": {
-        "message": "The id of your key",
+        "message": "L'identifiant de votre clé",
         "description": "Tooltip explaining the key id."
     },
     "alert_header_success": {
@@ -111,6 +123,10 @@
         "message": "La nouvelle clé a été générée et importée dans le trousseau",
         "description": "Key generation success message"
     },
+    "security_log_action": {
+        "message": "Action",
+        "description": "Title of the action column of the security log table."
+    },
     "key_gen_never": {
         "message": "jamais",
         "description": "Key expires after time range"
@@ -128,7 +144,7 @@
         "description": "File selection button label."
     },
     "watchlist_title_frame": {
-        "message": "Domain pattern",
+        "message": "Modèle de domaine",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "keygrid_key_length": {
@@ -143,9 +159,25 @@
         "message": "Afficher les clés",
         "description": "Tab of keyring to display keys."
     },
+    "security_background_preview": {
+        "message": "Prévisualisation",
+        "description": "Preview"
+    },
     "popup_options": {
         "message": "Options",
         "description": "Open options dialog."
+    },
+    "security_log_textarea_click": {
+        "message": "Click-event in text area",
+        "description": "A click in the text area as an event type"
+    },
+    "security_log_empty": {
+        "message": "No entries",
+        "description": "Message when the security log is empty"
+    },
+    "security_background_text": {
+        "message": "The security background is your personal Mailvelope background and it helps to prevent user interface manipulation by third-party websites and applications. To increase security, create and change your personal background here.",
+        "description": "Security background text"
     },
     "keyring_generate_key": {
         "message": "Générer une Clé",
@@ -156,7 +188,7 @@
         "description": "Import error alert."
     },
     "key_import_question": {
-        "message": "Do you want to import this key?",
+        "message": "Voulez-vous importer cette clé?",
         "description": "Key import dialog header."
     },
     "key_import_multiple_keys": {
@@ -167,16 +199,12 @@
         "message": "Aide",
         "description": "Open help dialog."
     },
-    "security_token_info": {
-        "message": "Le jeton de sécurité est un mécanisme d'authentification : toutes les boîtes de dialogue de Mailvelope vont afficher ce code défini par l'utilisateur, ce qui permettra de les identifier ainsi que leur origine.",
-        "description": "Security token help message"
-    },
     "keygrid_subkeyid": {
         "message": "Identifiant",
         "description": "Subkey ID of a PGP key."
     },
     "key_import_dialog_header": {
-        "message": "Add key to keyring",
+        "message": "Ajouter la clé au trousseau de clés",
         "description": "Key import dialog header."
     },
     "key_gen_pwd_match": {
@@ -190,6 +218,10 @@
     "keygrid_delete": {
         "message": "Supprimer",
         "description": "Max. 6 characters."
+    },
+    "security_log_add_attachment": {
+        "message": "Add attachment button clicked",
+        "description": "A click on the attachment upload button as an event type"
     },
     "key_import_public_read": {
         "message": "Impossible de lire une clé publique : $1",
@@ -231,6 +263,10 @@
         "message": "On",
         "description": "Activity status of the extension."
     },
+    "pwd_dialog_cancel": {
+        "message": "Déverrouillage de clé annulée.",
+        "description": "User canceled key unlock dialog."
+    },
     "encrypt_dialog_header": {
         "message": "Chiffrer pour :",
         "description": "Header of encrypt dialog."
@@ -244,11 +280,11 @@
         "description": "Export key."
     },
     "keyring_public": {
-        "message": "Public",
+        "message": "Publique",
         "description": "public key type"
     },
     "keyring_header": {
-        "message": "Key Management",
+        "message": "Gestion de clés",
         "description": "Header of the key ring."
     },
     "keygrid_userid_signatures": {
@@ -259,25 +295,45 @@
         "message": "Annuler",
         "description": "Cancel form button."
     },
+    "keygrid_invalid_userid": {
+        "message": "Utilisateur invalide",
+        "description": "User ID invalid."
+    },
+    "popup_reload_tooltip": {
+        "message": "Recharger tous les éléments Mailvelope",
+        "description": "Reload all Mailvelope UI elements on page."
+    },
     "keyring_setup_import_key": {
-        "message": "Import key",
+        "message": "Importer la clé",
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": " A keypair is needed to encrypt and decrypt messages and if you want to invite your contacts to end-to-end encrypted communication.",
+        "message": "Une paire de clés est nécessaire pour chiffrer et déchiffrer les messages, et si vous souhaitez inviter vos contacts à la communication cryptée de bout-en-bout.",
         "description": "Setup text if no keypair available"
     },
+    "settings_security_log": {
+        "message": "Security Log",
+        "description": "Tab of options to display security log."
+    },
     "keyring_private": {
-        "message": "Private",
+        "message": "Privée",
         "description": "private key type"
     },
     "encrypt_dialog_no_recipient": {
         "message": "Veuillez ajouter un destinataire.",
         "description": "Error message if no recipient selected."
     },
+    "popup_actived_checkbox": {
+        "message": "Activé(e)",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
+    },
     "general_editor_plain": {
         "message": "Texte Brut",
         "description": "Editor option: plain text."
+    },
+    "security_log_editor": {
+        "message": "PGP Editor",
+        "description": "Message editor container as an event source"
     },
     "clear_localstorage_confirm_message": {
         "message": "Voulez-vous vraiment effacer toutes vos clés PGP de ce profil du navigateur ?",
@@ -293,10 +349,10 @@
     },
     "popup_reload": {
         "message": "Recharger",
-        "description": "Reload all Mailvelope UI elements on page."
+        "description": "Reload all Mailvelope elements on page."
     },
     "form_no": {
-        "message": "No",
+        "message": "Non",
         "description": "No form button."
     },
     "options_title": {
@@ -315,8 +371,16 @@
         "message": "invalide",
         "description": "Validity status of a PGP key."
     },
+    "security_log_email_viewer": {
+        "message": "Decrypted PGP Mail",
+        "description": "Email decryption container as an event source"
+    },
+    "security_log_text": {
+        "message": "The security log shows user actions in integrated components of Mailvelope.",
+        "description": "Text explaining the purpose of the security log"
+    },
     "keyring_public_private": {
-        "message": "Key Pairs",
+        "message": "Paires de clés",
         "description": "public and private key types"
     },
     "security_compose_external": {
@@ -324,7 +388,7 @@
         "description": "Mail compose option"
     },
     "keygrid_primary_key": {
-        "message": "Main Key",
+        "message": "Clé principale",
         "description": "Main key in the PGP key."
     },
     "verify_result_success": {
@@ -335,16 +399,24 @@
         "message": "Identifiants Utilisateurs",
         "description": "User IDs of a PGP key."
     },
+    "security_background_button_title": {
+        "message": "The security background can be adjusted in the Mailvelope-Options area",
+        "description": "The tooltip text for the keylock button"
+    },
     "keyring_setup_no_keypair_heading": {
-        "message": "This keyring does not contain it's own keypair yet.",
+        "message": "This keyring does not contain a keypair yet.",
         "description": "Setup heading if no keypair available"
     },
     "watchlist_title_scan": {
         "message": "Statut",
         "description": "Scan status of site in watchlist."
     },
+    "upload_aborting_warning": {
+        "message": "Le téléchargement du fichier sera annulée.",
+        "description": "A warning for the aborting of the file upload."
+    },
     "waiting_dialog_decryption_failed": {
-        "message": "Decryption failed!",
+        "message": "Déchiffrement échoué",
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "key_import_textarea": {
@@ -363,6 +435,10 @@
         "message": "Ne peut pas chiffrer ce message : $1",
         "description": "Error during encryption process."
     },
+    "popup_actions_current_page": {
+        "message": "Onglet actif:",
+        "description": "Title text for the reload and add buttons"
+    },
     "key_gen_months": {
         "message": "mois",
         "description": "Key expires after time range"
@@ -372,7 +448,7 @@
         "description": "Max 6 character."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Domain match pattern should begin with *.",
+        "message": "Modèle de correspondance de domaine devrait commencer avec *.",
         "description": "Alert header of category warning."
     },
     "keygrid_status_valid": {
@@ -388,7 +464,7 @@
         "description": "Don't store password."
     },
     "keyring_export_keys": {
-        "message": "Export Keys",
+        "message": "Exporter les clés",
         "description": "Tab of keyring to export keys."
     },
     "keygrid_signer_name": {
@@ -400,11 +476,15 @@
         "description": "Label for key ID."
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Remember password temporarily",
+        "message": "Se souvenir du mot de passe temporairement",
         "description": "Checkbox label for remembering of the password."
     },
+    "popup_remove_page_tooltip": {
+        "message": "Retirer la page actuelle de la liste des fournisseurs de messagerie",
+        "description": "Remove page from watchlist."
+    },
     "form_import": {
-        "message": "Import",
+        "message": "Importer",
         "description": "Import form button."
     },
     "editor_encrypt_button": {
@@ -420,11 +500,15 @@
         "description": "Name in User ID of a PGP key."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Please enter your password",
+        "message": "Veuillez entrer votre mot de passe",
         "description": "Placeholder for password."
     },
+    "security_log_timestamp": {
+        "message": "Timestamp",
+        "description": "Title of the timestamp column of the security log table."
+    },
     "keyring_setup_import_key_explanation": {
-        "message": "You already have a keypair on another device? You can import your existing keys. Just export the keypair on your other device and import it here.",
+        "message": "Vous avez déjà une paire de clés sur un autre appareil? Vous pouvez importer vos clés existantes. Juste exporter la paire de clés sur l'autre appareil et l'importer ici.",
         "description": "Import key"
     },
     "security_display_popup": {
@@ -440,7 +524,7 @@
         "description": "Submit form button."
     },
     "watchlist_record_title": {
-        "message": "Watch List Record",
+        "message": "Mail Provider",
         "description": "Title of the watchlist editor dialog."
     },
     "key_export_clipboard": {
@@ -463,21 +547,17 @@
         "message": "Taille de la clé",
         "description": "Advanced key generation settings: Key size"
     },
-    "security_custom_color": {
-        "message": "Couleur Personnalisée",
-        "description": "Custom color for security token"
+    "security_log_textarea_input": {
+        "message": "Input-event in text area",
+        "description": "A click in the text area as an event type"
+    },
+    "key_gen_demail": {
+        "message": "Adresse De-Mail",
+        "description": "De-Mail address name."
     },
     "keygrid_delete_confirmation": {
         "message": "Etes-vous sûr de vouloir supprimer cette clé ?",
         "description": "Delete confirmation dialog."
-    },
-    "security_char_help": {
-        "message": "Doit être de 3 caractères de long",
-        "description": "Char code help"
-    },
-    "pwd_dialog_password": {
-        "message": "Motdepasse",
-        "description": "Label for password."
     },
     "pwd_dialog_title": {
         "message": "Saisie du mot de passe | Mailvelope",
@@ -496,7 +576,7 @@
         "description": "Key import button"
     },
     "popup_remove_page": {
-        "message": "Retirer la page",
+        "message": "Supprimer",
         "description": "Remove page from watchlist."
     },
     "key_gen_expiration": {
@@ -512,11 +592,11 @@
         "description": "Tab of keyring to import keys."
     },
     "key_export_create_file": {
-        "message": "Download",
+        "message": "Telécharger",
         "description": "Download file button."
     },
     "alert_no_domainmatchpattern_warning": {
-        "message": "At least one domain match pattern is needed.",
+        "message": "Au moins un modèle de correspondance de domaine est nécessaire.",
         "description": "Alert header of category warning."
     },
     "key_import_public_success": {
@@ -524,15 +604,19 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_set_as_primary": {
-        "message": "Set as Primary",
+        "message": "Définir comme primaire",
         "description": "Set as primary key for the keyring button"
     },
     "keygrid_key_fingerprint": {
         "message": "Empreinte",
         "description": "Unique string identifier for a PGP key."
     },
+    "popup_add_page_tooltip": {
+        "message": "Activer Mailvelope pour cette page",
+        "description": "Add page to watchlist."
+    },
     "keygrid_sort_type": {
-        "message": "Key type",
+        "message": "Genre de clé",
         "description": "Key grid sort selector."
     },
     "key_gen_years": {
@@ -555,8 +639,16 @@
         "message": "Erreur de migration de la clé",
         "description": "Tab of keyring to display migration errors."
     },
+    "security_log_attachment_download": {
+        "message": "Attachment downloaded",
+        "description": "Attachment downloaded as an event source"
+    },
+    "security_background_angle": {
+        "message": "Angle",
+        "description": "Angle"
+    },
     "key_details_title": {
-        "message": "Key Details",
+        "message": "Détails de la clé",
         "description": "The title of the key details dialog."
     },
     "security_cache_time": {
@@ -574,6 +666,10 @@
     "security_cache_on": {
         "message": "Oui, les garder en mémoire pendant ",
         "description": "Store password in memory for $1 minutes."
+    },
+    "security_log_remove_attachment": {
+        "message": "Remove attachment button clicked",
+        "description": "A click on the attachment remove button as event type"
     },
     "options_home": {
         "message": "Options",
@@ -596,7 +692,7 @@
         "description": "Export key menu."
     },
     "watchlist_expose_api": {
-        "message": "API",
+        "message": "Interface de programmation",
         "description": "Expose API to Webmailer."
     },
     "key_export_warning_private": {
@@ -608,7 +704,7 @@
         "description": "Import error alert."
     },
     "keyring_setup_generate_key": {
-        "message": "Generate key",
+        "message": "Générer la clé",
         "description": "Generate key"
     },
     "word_or": {
@@ -627,10 +723,6 @@
         "message": "Où voulez-vous rédiger votre courriel ?",
         "description": "Label for compose options"
     },
-    "security_token_header": {
-        "message": "Jeton de Sécurité",
-        "description": "Security token header"
-    },
     "general_editor_type": {
         "message": "Sélection de l'éditeur de courriel",
         "description": "Label for editor options."
@@ -638,6 +730,10 @@
     "key_gen_pwd_unequal": {
         "message": "Les mots de passe ne correspondent pas",
         "description": "Passphrase input field status"
+    },
+    "security_background_scaling": {
+        "message": "Scaling",
+        "description": "Scaling"
     },
     "popup_active_off": {
         "message": "Off",
@@ -699,13 +795,13 @@
         "message": "Erreur !",
         "description": "Alert header of category error."
     },
-    "editor_remove_upload": {
-        "message": "Remove",
-        "description": "Remove uploaded attachment"
+    "security_log_source": {
+        "message": "Source",
+        "description": "Title of the source column of the security log table."
     },
-    "security_char_code": {
-        "message": "Caractères du Code",
-        "description": "Char code for security token"
+    "editor_remove_upload": {
+        "message": "Supprimer",
+        "description": "Remove uploaded attachment"
     },
     "key_export_too_large": {
         "message": "La clé est trop grande pour rentrer dans une adresse, utilisez le Copier & Coller à la place.",
@@ -727,12 +823,20 @@
         "message": "Impossible de lire une clé privée : $1",
         "description": "Import error message. $1: error message"
     },
+    "popup_help_tooltip": {
+        "message": "Ouvre la page de documentation",
+        "description": "Opens the help page on mailvelope.com."
+    },
+    "security_log_textarea_select": {
+        "message": "Select-event in text area",
+        "description": "Selection of the text area as an event type"
+    },
     "keygrid_signer_unknown": {
         "message": "Signataire inconnu",
         "description": "Key of signer not available."
     },
     "popup_add_page": {
-        "message": "Ajouter la page",
+        "message": "Ajouter",
         "description": "Add page to watchlist."
     },
     "options_docu": {
@@ -740,7 +844,7 @@
         "description": "Options navigation: Documentation."
     },
     "keyring_keypair": {
-        "message": "Key Pair",
+        "message": "Paire de clés",
         "description": "key pair"
     },
     "options_about": {
@@ -748,7 +852,7 @@
         "description": "Options navigation: About."
     },
     "keygrid_primary_label": {
-        "message": "Primary",
+        "message": "Primaire",
         "description": "Label for the primary key"
     },
     "key_gen_invalid_email": {
@@ -764,7 +868,7 @@
         "description": "Copy decrypted message to clipboard."
     },
     "settings_backup": {
-        "message": "Backup",
+        "message": "Sauvegarde",
         "description": "Tab allowing to backup and restore the settings."
     },
     "reload_webmail_tab": {
@@ -772,11 +876,11 @@
         "description": "Info message."
     },
     "form_yes": {
-        "message": "Yes",
+        "message": "Oui",
         "description": "Yes form button."
     },
     "keyring_setup_generate_key_explanation": {
-        "message": "If you're using this extension for the first time and you don't have a keypair yet, you need to generate a key.",
+        "message": "Si vous utilisez cette extension pour la première fois, et vous n'avez pas encore une paire de clés, vous devez générer une clé.",
         "description": "Generate key"
     },
     "keygrid_display_priv_key": {
@@ -811,8 +915,12 @@
         "message": "Afficher la clé publique",
         "description": "Export key menu."
     },
+    "upload_quota_exceeded_warning": {
+        "message": "Attachment size exceeds the allowable limit:",
+        "description": "A warning shown when the attachments upload quota is exceeded."
+    },
     "keyring_setup": {
-        "message": "Setup",
+        "message": "Configuration",
         "description": "Setup keyring for mail provider."
     },
     "keygrid_creation_date": {

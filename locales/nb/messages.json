@@ -11,6 +11,10 @@
         "message": "Vent, nøkkelgenerering kan ta flere minutter avhengig av faktorer som nøkkelstørrelse.",
         "description": "Wait dialog info message"
     },
+    "security_log_attachment_added": {
+        "message": "Vedlegg lastet opp",
+        "description": "Attachment added as an event type"
+    },
     "message_read_error": {
         "message": "Kunne ikke lese denne krypterte meldingen: $1",
         "description": "Message read error message: $1: error message."
@@ -18,10 +22,6 @@
     "keygrid_all_keys": {
         "message": "Alle",
         "description": "Selection of key type."
-    },
-    "security_token_title": {
-        "message": "Symbol-identitetsbekreftelse",
-        "description": "Security token title"
     },
     "security_display_inline": {
         "message": "På siden til e-posttilbyderen.",
@@ -32,11 +32,11 @@
         "description": "Verfiy signature error. Wrong signature of [userid]."
     },
     "pwd_dialog_header": {
-        "message": "Enter key password",
+        "message": "Skriv inn nøkkelpassord",
         "description": "Header of the password dialog."
     },
     "waiting_dialog_prepare_email": {
-        "message": "Your email is prepared...",
+        "message": "Forbereder din melding...",
         "description": "Message in the waiting dialog for quoting email"
     },
     "keygrid_creation_date_short": {
@@ -52,16 +52,24 @@
         "description": "Label for primary private key option."
     },
     "security_compose_webmail": {
-        "message": "I epost-feltet til vevmail-tilbyderen.",
+        "message": "I tekstbehandleren til din e-posttilbyder",
         "description": "Mail compose option"
+    },
+    "security_background_header": {
+        "message": "Sikkerhetsbakgrunn",
+        "description": "Security background header"
     },
     "keygrid_user_email": {
         "message": "E-post",
         "description": "Email address in User ID of a PGP key."
     },
     "watchlist_delete_confirmation": {
-        "message": "Bekreft at du vil flytte denne siden fra oppsynslisten.",
+        "message": "Bekreft at du vil fjerne denne siden fra listen over e-posttilbydere.",
         "description": "Mesage in the watchlist delete confirmation dialog."
+    },
+    "popup_last_activities": {
+        "message": "Siste aktivitet:",
+        "description": "Title text for the last activities area"
     },
     "key_export_header": {
         "message": "Eksporter nøkkel",
@@ -87,12 +95,16 @@
         "message": "Husk passord for nettleser-økt?",
         "description": "Password cache header"
     },
+    "popup_actived_checkbox_tooltip": {
+        "message": "Aktiver / de-aktiver ekstern tekstbehandler",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
+    },
     "save_attachment_as_message": {
         "message": "Velg mappe for lagring av vedlegg.",
         "description": "Message in the attachment save dialog"
     },
     "pwd_dialog_keyid_tooltip": {
-        "message": "The id of your key",
+        "message": "ID-en til din nøkkel",
         "description": "Tooltip explaining the key id."
     },
     "alert_header_success": {
@@ -111,6 +123,10 @@
         "message": "Ny nøkkel generert og importer til nøkkelring",
         "description": "Key generation success message"
     },
+    "security_log_action": {
+        "message": "Handling",
+        "description": "Title of the action column of the security log table."
+    },
     "key_gen_never": {
         "message": "aldri",
         "description": "Key expires after time range"
@@ -128,7 +144,7 @@
         "description": "File selection button label."
     },
     "watchlist_title_frame": {
-        "message": "Domain pattern",
+        "message": "Domenemønster",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "keygrid_key_length": {
@@ -143,9 +159,25 @@
         "message": "Vis nøkler",
         "description": "Tab of keyring to display keys."
     },
+    "security_background_preview": {
+        "message": "Forhåndsvisning",
+        "description": "Preview"
+    },
     "popup_options": {
         "message": "Valg",
         "description": "Open options dialog."
+    },
+    "security_log_textarea_click": {
+        "message": "Click-event in text area",
+        "description": "A click in the text area as an event type"
+    },
+    "security_log_empty": {
+        "message": "Ingen oppføringer",
+        "description": "Message when the security log is empty"
+    },
+    "security_background_text": {
+        "message": "Sikkerhetsbakgrunnen er din personlige Mailvelope-bakgrunn. Den forhindrer tredjepart og nettsider i å manipulere brukergrensesnittet. For bedre sikkerhet kan du opprette og endre til din personlige bakgrunn her.",
+        "description": "Security background text"
     },
     "keyring_generate_key": {
         "message": "Opprett nøkkel",
@@ -156,7 +188,7 @@
         "description": "Import error alert."
     },
     "key_import_question": {
-        "message": "Do you want to import this key?",
+        "message": "Ønsker du å importere denne nøkkelen?",
         "description": "Key import dialog header."
     },
     "key_import_multiple_keys": {
@@ -166,10 +198,6 @@
     "popup_help": {
         "message": "Hjelp",
         "description": "Open help dialog."
-    },
-    "security_token_info": {
-        "message": "Sikkerhetssymbolet er en identitetsbekreftelses-mekanisme: Alle Mailvelope-dialoger vil vise denne brukerdefinerte koden og derav identifisere seg selv og sitt opphav.",
-        "description": "Security token help message"
     },
     "keygrid_subkeyid": {
         "message": "ID",
@@ -190,6 +218,10 @@
     "keygrid_delete": {
         "message": "Slett",
         "description": "Max. 6 characters."
+    },
+    "security_log_add_attachment": {
+        "message": "Knappen for å legge til vedlegg har blitt trykket på",
+        "description": "A click on the attachment upload button as an event type"
     },
     "key_import_public_read": {
         "message": "Kunne ikke lese én offentlig nøkkel: $1",
@@ -231,6 +263,10 @@
         "message": "På",
         "description": "Activity status of the extension."
     },
+    "pwd_dialog_cancel": {
+        "message": "Opplåsing av nøkkel avbrutt.",
+        "description": "User canceled key unlock dialog."
+    },
     "encrypt_dialog_header": {
         "message": "Krypter for:",
         "description": "Header of encrypt dialog."
@@ -259,6 +295,14 @@
         "message": "Avbryt",
         "description": "Cancel form button."
     },
+    "keygrid_invalid_userid": {
+        "message": "Ugyldig bruker-ID",
+        "description": "User ID invalid."
+    },
+    "popup_reload_tooltip": {
+        "message": "Gjeninnlast alle Mailvelope-elementer",
+        "description": "Reload all Mailvelope UI elements on page."
+    },
     "keyring_setup_import_key": {
         "message": "Importer nøkkel",
         "description": "Import key"
@@ -266,6 +310,10 @@
     "keyring_setup_no_keypair": {
         "message": "Et nøkkelpar trengs for å kryptere og dekryptere meldinger og hvis du ønsker å invitere dine kontakter til ende-til-ende-kryptert kommunikasjon.",
         "description": "Setup text if no keypair available"
+    },
+    "settings_security_log": {
+        "message": "Sikkerhetslogg",
+        "description": "Tab of options to display security log."
     },
     "keyring_private": {
         "message": "Privat",
@@ -275,9 +323,17 @@
         "message": "Legg til en mottaker.",
         "description": "Error message if no recipient selected."
     },
+    "popup_actived_checkbox": {
+        "message": "Aktivert",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
+    },
     "general_editor_plain": {
         "message": "Klartekst-behandler",
         "description": "Editor option: plain text."
+    },
+    "security_log_editor": {
+        "message": "PGP-tekstbehandler",
+        "description": "Message editor container as an event source"
     },
     "clear_localstorage_confirm_message": {
         "message": "Vil du slette alle dine PGP-nøkler fra denne nettleserprofilen?",
@@ -293,10 +349,10 @@
     },
     "popup_reload": {
         "message": "Last inn på ny",
-        "description": "Reload all Mailvelope UI elements on page."
+        "description": "Reload all Mailvelope elements on page."
     },
     "form_no": {
-        "message": "No",
+        "message": "Nei",
         "description": "No form button."
     },
     "options_title": {
@@ -314,6 +370,14 @@
     "keygrid_status_invalid": {
         "message": "ugyldig",
         "description": "Validity status of a PGP key."
+    },
+    "security_log_email_viewer": {
+        "message": "Dekryptert PGP-e-post",
+        "description": "Email decryption container as an event source"
+    },
+    "security_log_text": {
+        "message": "Sikkerhetsloggen viser brukerhandlinger i delene som er å finne integrert Mailvelope.",
+        "description": "Text explaining the purpose of the security log"
     },
     "keyring_public_private": {
         "message": "Nøkkelpar",
@@ -335,16 +399,24 @@
         "message": "Bruker-ID-er",
         "description": "User IDs of a PGP key."
     },
+    "security_background_button_title": {
+        "message": "Sikkerhetsbakgrunnen kan justeres i Mailvelopes innstillingsfelt",
+        "description": "The tooltip text for the keylock button"
+    },
     "keyring_setup_no_keypair_heading": {
-        "message": "Dette nøkkelknippet inneholder ikke sitt eget nøkkelpar enda.",
+        "message": "Dette nøkkelknippet inneholder ikke et nøkkelpar enda.",
         "description": "Setup heading if no keypair available"
     },
     "watchlist_title_scan": {
         "message": "Status",
         "description": "Scan status of site in watchlist."
     },
+    "upload_aborting_warning": {
+        "message": "Filopplasting vil bli kansellert.",
+        "description": "A warning for the aborting of the file upload."
+    },
     "waiting_dialog_decryption_failed": {
-        "message": "Decryption failed!",
+        "message": "Dekryptering feilet!",
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "key_import_textarea": {
@@ -362,6 +434,10 @@
     "encrypt_error": {
         "message": "Kunne ikke kryptere denne meldingen: $1",
         "description": "Error during encryption process."
+    },
+    "popup_actions_current_page": {
+        "message": "Gjeldende fane:",
+        "description": "Title text for the reload and add buttons"
     },
     "key_gen_months": {
         "message": "måneder",
@@ -400,8 +476,12 @@
         "description": "Label for key ID."
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Remember password temporarily",
+        "message": "Husk dette passordet midlertidig",
         "description": "Checkbox label for remembering of the password."
+    },
+    "popup_remove_page_tooltip": {
+        "message": "Fjern gjeldende side fra listen over e-posttilbydere",
+        "description": "Remove page from watchlist."
     },
     "form_import": {
         "message": "Importer",
@@ -420,8 +500,12 @@
         "description": "Name in User ID of a PGP key."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Please enter your password",
+        "message": "Skriv inn ditt passord",
         "description": "Placeholder for password."
+    },
+    "security_log_timestamp": {
+        "message": "Tidsstempel",
+        "description": "Title of the timestamp column of the security log table."
     },
     "keyring_setup_import_key_explanation": {
         "message": "Har du allerede et nøkkelpar på en annen enhet? Du kan importere dine eksisterende nøkler. Bare eksporter nøkkelparet på den andre enheten og importer her.",
@@ -440,7 +524,7 @@
         "description": "Submit form button."
     },
     "watchlist_record_title": {
-        "message": "Oppsynsliste",
+        "message": "E-posttilbyder",
         "description": "Title of the watchlist editor dialog."
     },
     "key_export_clipboard": {
@@ -463,21 +547,17 @@
         "message": "Nøkkelstørrelse",
         "description": "Advanced key generation settings: Key size"
     },
-    "security_custom_color": {
-        "message": "Brukervalgt farge",
-        "description": "Custom color for security token"
+    "security_log_textarea_input": {
+        "message": "Input-event in text area",
+        "description": "A click in the text area as an event type"
+    },
+    "key_gen_demail": {
+        "message": "De-Mail -adresse",
+        "description": "De-Mail address name."
     },
     "keygrid_delete_confirmation": {
         "message": "Er du sikker på at du vil fjerne denne nøkkelen?",
         "description": "Delete confirmation dialog."
-    },
-    "security_char_help": {
-        "message": "Må være akkurat 3 tegn langt",
-        "description": "Char code help"
-    },
-    "pwd_dialog_password": {
-        "message": "Passord:",
-        "description": "Label for password."
     },
     "pwd_dialog_title": {
         "message": "Passordoppføring i Mailvelope",
@@ -496,7 +576,7 @@
         "description": "Key import button"
     },
     "popup_remove_page": {
-        "message": "Fjern side",
+        "message": "Fjern",
         "description": "Remove page from watchlist."
     },
     "key_gen_expiration": {
@@ -531,8 +611,12 @@
         "message": "Fingeravtrykk",
         "description": "Unique string identifier for a PGP key."
     },
+    "popup_add_page_tooltip": {
+        "message": "Skru på Mailvelope for denne siden",
+        "description": "Add page to watchlist."
+    },
     "keygrid_sort_type": {
-        "message": "Key type",
+        "message": "Nøkkeltype",
         "description": "Key grid sort selector."
     },
     "key_gen_years": {
@@ -555,6 +639,14 @@
         "message": "Nøkkeloverførings-feil",
         "description": "Tab of keyring to display migration errors."
     },
+    "security_log_attachment_download": {
+        "message": "Vedlegg nedlastet",
+        "description": "Attachment downloaded as an event source"
+    },
+    "security_background_angle": {
+        "message": "Vinkel",
+        "description": "Angle"
+    },
     "key_details_title": {
         "message": "Detaljer for nøkkel",
         "description": "The title of the key details dialog."
@@ -574,6 +666,10 @@
     "security_cache_on": {
         "message": "Ja, ha i minnet i",
         "description": "Store password in memory for $1 minutes."
+    },
+    "security_log_remove_attachment": {
+        "message": "Knappen for fjerning av vedlegg har blitt trykket på",
+        "description": "A click on the attachment remove button as event type"
     },
     "options_home": {
         "message": "Valg",
@@ -627,10 +723,6 @@
         "message": "Hvor vil du forfatte din e-post?",
         "description": "Label for compose options"
     },
-    "security_token_header": {
-        "message": "Sikkerhetssymbol",
-        "description": "Security token header"
-    },
     "general_editor_type": {
         "message": "Epostbehandlings-utvalg",
         "description": "Label for editor options."
@@ -638,6 +730,10 @@
     "key_gen_pwd_unequal": {
         "message": "Passord samsvarer ikke",
         "description": "Passphrase input field status"
+    },
+    "security_background_scaling": {
+        "message": "Skalering",
+        "description": "Scaling"
     },
     "popup_active_off": {
         "message": "Av",
@@ -699,13 +795,13 @@
         "message": "Feil!",
         "description": "Alert header of category error."
     },
+    "security_log_source": {
+        "message": "Kilde",
+        "description": "Title of the source column of the security log table."
+    },
     "editor_remove_upload": {
         "message": "Fjern",
         "description": "Remove uploaded attachment"
-    },
-    "security_char_code": {
-        "message": "Tegnkoding",
-        "description": "Char code for security token"
     },
     "key_export_too_large": {
         "message": "Nøkkel er for stor til å passe inn i en nettadresse, bruk kopier og lim inn istedenfor.",
@@ -727,12 +823,20 @@
         "message": "Kunne ikke lese én privat nøkkel: $1",
         "description": "Import error message. $1: error message"
     },
+    "popup_help_tooltip": {
+        "message": "Åpner dokmumentasjonssiden",
+        "description": "Opens the help page on mailvelope.com."
+    },
+    "security_log_textarea_select": {
+        "message": "Select-event in text area",
+        "description": "Selection of the text area as an event type"
+    },
     "keygrid_signer_unknown": {
         "message": "Ukjent undertegner",
         "description": "Key of signer not available."
     },
     "popup_add_page": {
-        "message": "Legg til side",
+        "message": "Legg til",
         "description": "Add page to watchlist."
     },
     "options_docu": {
@@ -772,7 +876,7 @@
         "description": "Info message."
     },
     "form_yes": {
-        "message": "Yes",
+        "message": "Ja",
         "description": "Yes form button."
     },
     "keyring_setup_generate_key_explanation": {
@@ -810,6 +914,10 @@
     "keygrid_display_pub_key": {
         "message": "Vis offentlig nøkkel",
         "description": "Export key menu."
+    },
+    "upload_quota_exceeded_warning": {
+        "message": "Vedleggsstørrelse overskrider:",
+        "description": "A warning shown when the attachments upload quota is exceeded."
     },
     "keyring_setup": {
         "message": "Oppsett",

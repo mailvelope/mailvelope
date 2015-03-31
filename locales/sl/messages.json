@@ -11,6 +11,10 @@
         "message": "Prosimo počakajte, generiranje ključa lahko traja nekaj minut, odvisno od dejavnikov kot je npr. njegova dolžina.",
         "description": "Wait dialog info message"
     },
+    "security_log_attachment_added": {
+        "message": "Naložena priponka",
+        "description": "Attachment added as an event type"
+    },
     "message_read_error": {
         "message": "Tega šifriranega sporočila ne morem prebrati: $1",
         "description": "Message read error message: $1: error message."
@@ -18,10 +22,6 @@
     "keygrid_all_keys": {
         "message": "Vsi",
         "description": "Selection of key type."
-    },
-    "security_token_title": {
-        "message": "Overitev z varnostnim žetonom",
-        "description": "Security token title"
     },
     "security_display_inline": {
         "message": "Na strani ponudnika e-pošte.",
@@ -32,11 +32,11 @@
         "description": "Verfiy signature error. Wrong signature of [userid]."
     },
     "pwd_dialog_header": {
-        "message": "Enter key password",
+        "message": "Vnesite geslo ključa",
         "description": "Header of the password dialog."
     },
     "waiting_dialog_prepare_email": {
-        "message": "Your email is prepared...",
+        "message": "Pripravljam vaše sporočilo...",
         "description": "Message in the waiting dialog for quoting email"
     },
     "keygrid_creation_date_short": {
@@ -52,16 +52,24 @@
         "description": "Label for primary private key option."
     },
     "security_compose_webmail": {
-        "message": "V urejevalniku besedila ponudnika e-pošte.",
+        "message": "V urejevalniku besedil ponudnika e-pošte.",
         "description": "Mail compose option"
+    },
+    "security_background_header": {
+        "message": "Varnostno ozadje",
+        "description": "Security background header"
     },
     "keygrid_user_email": {
         "message": "E-pošta",
         "description": "Email address in User ID of a PGP key."
     },
     "watchlist_delete_confirmation": {
-        "message": "Ali si resnično želite odstraniti to stran s seznama opazovanih?",
+        "message": "Ali resnično želite odstraniti to stran s seznama ponudnikov e-pošte?",
         "description": "Mesage in the watchlist delete confirmation dialog."
+    },
+    "popup_last_activities": {
+        "message": "Nedavne dejavnosti:",
+        "description": "Title text for the last activities area"
     },
     "key_export_header": {
         "message": "Izvozi ključ",
@@ -87,12 +95,16 @@
         "message": "Naj si Mailvelope zapomni gesla trenutne seje?",
         "description": "Password cache header"
     },
+    "popup_actived_checkbox_tooltip": {
+        "message": "Vklopi/izklopi zunanji urejevalnik",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
+    },
     "save_attachment_as_message": {
         "message": "Izberite mapo, kamor želite shraniti priponko.",
         "description": "Message in the attachment save dialog"
     },
     "pwd_dialog_keyid_tooltip": {
-        "message": "The id of your key",
+        "message": "ID vašega ključa",
         "description": "Tooltip explaining the key id."
     },
     "alert_header_success": {
@@ -110,6 +122,10 @@
     "key_gen_success": {
         "message": "Nov ključ je bil ustvarjen in dodan v zbirko.",
         "description": "Key generation success message"
+    },
+    "security_log_action": {
+        "message": "Dejanje",
+        "description": "Title of the action column of the security log table."
     },
     "key_gen_never": {
         "message": "nikoli",
@@ -143,9 +159,25 @@
         "message": "Prikaži ključe",
         "description": "Tab of keyring to display keys."
     },
+    "security_background_preview": {
+        "message": "Predogled",
+        "description": "Preview"
+    },
     "popup_options": {
         "message": "Možnosti",
         "description": "Open options dialog."
+    },
+    "security_log_textarea_click": {
+        "message": "Click-event in text area",
+        "description": "A click in the text area as an event type"
+    },
+    "security_log_empty": {
+        "message": "Brez vnosov",
+        "description": "Message when the security log is empty"
+    },
+    "security_background_text": {
+        "message": "Varnostno ozadje je ozadje vtičnika Mailvelope, oblikovano po vaši meri. To preprečuje manipulacijo uporabniškega vmesnika s strani tretjih oseb. Za povečano varnost spremenite prednastavljeno ozadje in ga oblikujte po lastni meri.",
+        "description": "Security background text"
     },
     "keyring_generate_key": {
         "message": "Ustvari ključ",
@@ -156,7 +188,7 @@
         "description": "Import error alert."
     },
     "key_import_question": {
-        "message": "Do you want to import this key?",
+        "message": "Ali želite uvoziti ta ključ?",
         "description": "Key import dialog header."
     },
     "key_import_multiple_keys": {
@@ -166,10 +198,6 @@
     "popup_help": {
         "message": "Pomoč",
         "description": "Open help dialog."
-    },
-    "security_token_info": {
-        "message": "Varnostni žeton (security token) je metoda overitve: vsa pojavna okna Mailvelope bodo prikazovala ta uporabniško-generirani žeton in tako dokazovala svojo istovetnost in izvor.",
-        "description": "Security token help message"
     },
     "keygrid_subkeyid": {
         "message": "ID",
@@ -190,6 +218,10 @@
     "keygrid_delete": {
         "message": "Izbriši",
         "description": "Max. 6 characters."
+    },
+    "security_log_add_attachment": {
+        "message": " Pritisnjen gumb za dodajanje priponke",
+        "description": "A click on the attachment upload button as an event type"
     },
     "key_import_public_read": {
         "message": "Ne morem prebrati enega javnega ključa: $1",
@@ -231,6 +263,10 @@
         "message": "Vklop",
         "description": "Activity status of the extension."
     },
+    "pwd_dialog_cancel": {
+        "message": "Odklep ključa prekinjen.",
+        "description": "User canceled key unlock dialog."
+    },
     "encrypt_dialog_header": {
         "message": "Šifriraj za:",
         "description": "Header of encrypt dialog."
@@ -259,6 +295,14 @@
         "message": "Preklic",
         "description": "Cancel form button."
     },
+    "keygrid_invalid_userid": {
+        "message": "Neveljaven uporabnik",
+        "description": "User ID invalid."
+    },
+    "popup_reload_tooltip": {
+        "message": "Ponovno naloži vse elemente Mailvelope",
+        "description": "Reload all Mailvelope UI elements on page."
+    },
     "keyring_setup_import_key": {
         "message": "Uvozi ključ",
         "description": "Import key"
@@ -266,6 +310,10 @@
     "keyring_setup_no_keypair": {
         "message": "Par ključev je potreben za šifriranje in dešifriranje sporočil ter zato, da lahko vaše stike sploh povabite k šifrirani komunikaciji.",
         "description": "Setup text if no keypair available"
+    },
+    "settings_security_log": {
+        "message": "Varnostna zabeležka",
+        "description": "Tab of options to display security log."
     },
     "keyring_private": {
         "message": "Zasebni",
@@ -275,9 +323,17 @@
         "message": "Prosim dodajte naslovnika.",
         "description": "Error message if no recipient selected."
     },
+    "popup_actived_checkbox": {
+        "message": "Aktivirano",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
+    },
     "general_editor_plain": {
         "message": "Urejevalnik za golo besedilo",
         "description": "Editor option: plain text."
+    },
+    "security_log_editor": {
+        "message": "Urejevalnik PGP",
+        "description": "Message editor container as an event source"
     },
     "clear_localstorage_confirm_message": {
         "message": "Želite izbrisati vse vaše PGP ključe tega profila brskalnika?",
@@ -293,10 +349,10 @@
     },
     "popup_reload": {
         "message": "Ponovno naloži",
-        "description": "Reload all Mailvelope UI elements on page."
+        "description": "Reload all Mailvelope elements on page."
     },
     "form_no": {
-        "message": "No",
+        "message": "Ne",
         "description": "No form button."
     },
     "options_title": {
@@ -314,6 +370,14 @@
     "keygrid_status_invalid": {
         "message": "neveljaven",
         "description": "Validity status of a PGP key."
+    },
+    "security_log_email_viewer": {
+        "message": "Dešifrirana e-pošta PGP",
+        "description": "Email decryption container as an event source"
+    },
+    "security_log_text": {
+        "message": "Varnostna zabeležka beleži dejanja uporabnika v aplikaciji Mailvelope.",
+        "description": "Text explaining the purpose of the security log"
     },
     "keyring_public_private": {
         "message": "Pari ključev",
@@ -335,16 +399,24 @@
         "message": "Uporabniki",
         "description": "User IDs of a PGP key."
     },
+    "security_background_button_title": {
+        "message": "Varnostno ozadje lahko nastavite na Možnosti Mailvelope",
+        "description": "The tooltip text for the keylock button"
+    },
     "keyring_setup_no_keypair_heading": {
-        "message": "Ta zbirka ključev še ne vsebuje svojega para ključev.",
+        "message": "Ta zbirka še ne vsebuje para ključev.",
         "description": "Setup heading if no keypair available"
     },
     "watchlist_title_scan": {
         "message": "Status",
         "description": "Scan status of site in watchlist."
     },
+    "upload_aborting_warning": {
+        "message": "Nalaganje datoteke bo prekinjeno.",
+        "description": "A warning for the aborting of the file upload."
+    },
     "waiting_dialog_decryption_failed": {
-        "message": "Decryption failed!",
+        "message": "Dešifriranje spodletelo!",
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "key_import_textarea": {
@@ -362,6 +434,10 @@
     "encrypt_error": {
         "message": "Tega sporočila ne morem šifrirati: $1",
         "description": "Error during encryption process."
+    },
+    "popup_actions_current_page": {
+        "message": "Trenutni zavihek:",
+        "description": "Title text for the reload and add buttons"
     },
     "key_gen_months": {
         "message": "mesecev",
@@ -400,8 +476,12 @@
         "description": "Label for key ID."
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Remember password temporarily",
+        "message": "Začasno si zapomnite geslo",
         "description": "Checkbox label for remembering of the password."
+    },
+    "popup_remove_page_tooltip": {
+        "message": "Odstrani trenutno stran s seznama ponudnikov e-pošte",
+        "description": "Remove page from watchlist."
     },
     "form_import": {
         "message": "Uvozi",
@@ -420,8 +500,12 @@
         "description": "Name in User ID of a PGP key."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Please enter your password",
+        "message": "Vnesite vaše geslo",
         "description": "Placeholder for password."
+    },
+    "security_log_timestamp": {
+        "message": "Časovni žig",
+        "description": "Title of the timestamp column of the security log table."
     },
     "keyring_setup_import_key_explanation": {
         "message": "Ali že imate par ključev na drugi napravi? Nič lažjega, tam ga izvozite in tu ponovno uvozite.",
@@ -440,7 +524,7 @@
         "description": "Submit form button."
     },
     "watchlist_record_title": {
-        "message": "Zapis z opazovalnega seznama",
+        "message": "Ponudnik e-pošte",
         "description": "Title of the watchlist editor dialog."
     },
     "key_export_clipboard": {
@@ -463,21 +547,17 @@
         "message": "Velikost ključa",
         "description": "Advanced key generation settings: Key size"
     },
-    "security_custom_color": {
-        "message": "Barva po meri",
-        "description": "Custom color for security token"
+    "security_log_textarea_input": {
+        "message": "Input-event in text area",
+        "description": "A click in the text area as an event type"
+    },
+    "key_gen_demail": {
+        "message": "Naslov De-Mail",
+        "description": "De-Mail address name."
     },
     "keygrid_delete_confirmation": {
         "message": "Ste prepričani, da želite odstraniti ta ključ?",
         "description": "Delete confirmation dialog."
-    },
-    "security_char_help": {
-        "message": "Dolžina mora biti vsaj 3 črke",
-        "description": "Char code help"
-    },
-    "pwd_dialog_password": {
-        "message": "Geslo:",
-        "description": "Label for password."
     },
     "pwd_dialog_title": {
         "message": "Vnos gesla | Mailvelope",
@@ -496,7 +576,7 @@
         "description": "Key import button"
     },
     "popup_remove_page": {
-        "message": "Odstrani stran",
+        "message": "Odstrani",
         "description": "Remove page from watchlist."
     },
     "key_gen_expiration": {
@@ -531,6 +611,10 @@
         "message": "Prstni odtis",
         "description": "Unique string identifier for a PGP key."
     },
+    "popup_add_page_tooltip": {
+        "message": "Omogoči Mailvelope za to stran",
+        "description": "Add page to watchlist."
+    },
     "keygrid_sort_type": {
         "message": "Vrsta ključa",
         "description": "Key grid sort selector."
@@ -555,6 +639,14 @@
         "message": "Napaka pri selitvi ključa",
         "description": "Tab of keyring to display migration errors."
     },
+    "security_log_attachment_download": {
+        "message": "Prenešena priponka",
+        "description": "Attachment downloaded as an event source"
+    },
+    "security_background_angle": {
+        "message": "Kot",
+        "description": "Angle"
+    },
     "key_details_title": {
         "message": "Podrobnosti ključa",
         "description": "The title of the key details dialog."
@@ -574,6 +666,10 @@
     "security_cache_on": {
         "message": "Da, imej v spominu",
         "description": "Store password in memory for $1 minutes."
+    },
+    "security_log_remove_attachment": {
+        "message": "Pritisnjen gumb za odstranitev priponke",
+        "description": "A click on the attachment remove button as event type"
     },
     "options_home": {
         "message": "Možnosti",
@@ -627,10 +723,6 @@
         "message": "Kje želite ustvariti svoje e-poštno sporočilo?",
         "description": "Label for compose options"
     },
-    "security_token_header": {
-        "message": "Varnostni žeton (Token)",
-        "description": "Security token header"
-    },
     "general_editor_type": {
         "message": "Izbira urejevalnika e-pošte",
         "description": "Label for editor options."
@@ -638,6 +730,10 @@
     "key_gen_pwd_unequal": {
         "message": "Gesli se ne ujemata",
         "description": "Passphrase input field status"
+    },
+    "security_background_scaling": {
+        "message": "Povečava",
+        "description": "Scaling"
     },
     "popup_active_off": {
         "message": "Izklop",
@@ -699,13 +795,13 @@
         "message": "Napaka!",
         "description": "Alert header of category error."
     },
+    "security_log_source": {
+        "message": "Vir",
+        "description": "Title of the source column of the security log table."
+    },
     "editor_remove_upload": {
         "message": "Odstrani",
         "description": "Remove uploaded attachment"
-    },
-    "security_char_code": {
-        "message": "Znakovni tip",
-        "description": "Char code for security token"
     },
     "key_export_too_large": {
         "message": "Ključ je predolg za URL, raje uporabite \"kopiraj in prilepi\".",
@@ -727,12 +823,20 @@
         "message": "Ne morem prebrati enega zasebnega ključa: $1",
         "description": "Import error message. $1: error message"
     },
+    "popup_help_tooltip": {
+        "message": "Odpre stran z dokumentacijo",
+        "description": "Opens the help page on mailvelope.com."
+    },
+    "security_log_textarea_select": {
+        "message": "Select-event in text area",
+        "description": "Selection of the text area as an event type"
+    },
     "keygrid_signer_unknown": {
         "message": "Neznan podpisnik",
         "description": "Key of signer not available."
     },
     "popup_add_page": {
-        "message": "Dodaj stran",
+        "message": "Dodaj",
         "description": "Add page to watchlist."
     },
     "options_docu": {
@@ -772,7 +876,7 @@
         "description": "Info message."
     },
     "form_yes": {
-        "message": "Yes",
+        "message": "Da",
         "description": "Yes form button."
     },
     "keyring_setup_generate_key_explanation": {
@@ -810,6 +914,10 @@
     "keygrid_display_pub_key": {
         "message": "Prikaži javni ključ",
         "description": "Export key menu."
+    },
+    "upload_quota_exceeded_warning": {
+        "message": "Velikost priponke presega dovoljeno:",
+        "description": "A warning shown when the attachments upload quota is exceeded."
     },
     "keyring_setup": {
         "message": "Namesti",
