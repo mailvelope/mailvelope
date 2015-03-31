@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v0.12.1
+------
+__Feb. 23, 2015__
+
+  * Fix AMO review issue: use duplicate mvelo.js instead of eval
+
 v0.12.0
 ------
 __Feb. 5, 2015__

@@ -22,9 +22,9 @@ https://chrome.google.com/webstore/detail/kajibbejlbohfaggdiogboambcijhkke
 
 Check the [releases](https://github.com/mailvelope/mailvelope/releases) section for latest builds of Firefox and Chrome installation packages.
 
-## Client API (experimental)
+## Client API
 
-You can find the current [API Documentation](https://mailvelope.github.io/mailvelope) on GitHub pages. The version will correspond to the current master branch.
+You can find the current [API Documentation](https://mailvelope.github.io/mailvelope) on GitHub pages. The version will correspond to the current master branch. A demo page with unit tests is available at: [https://demo.mailvelope.com](https://demo.mailvelope.com).
 
 ## Build instructions
 
