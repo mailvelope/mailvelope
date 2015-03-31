@@ -112,7 +112,13 @@ mvelo.tabs.activate = function(tab, callback) {
   }
 };
 
-mvelo.tabs.sendMessage = function(tab, msg) {
+mvelo.tabs.eventIndex = 0;
+
+mvelo.tabs.sendMessage = function(tab, msg, callback) {
+  if (callback) {
+    msg.response = 'resp' + this.eventIndex++;
+    this.worker[tab.index].port.once(msg.response, callback);
+  }
   this.worker[tab.index].port.emit('message-event', msg);
 };
 

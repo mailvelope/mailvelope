@@ -96,8 +96,8 @@ define(function(require, exports, module) {
     chrome.tabs.update(tab.id, { active: true }, callback);
   };
 
-  mvelo.tabs.sendMessage = function(tab, msg) {
-    chrome.tabs.sendMessage(tab.id, msg);
+  mvelo.tabs.sendMessage = function(tab, msg, callback) {
+    chrome.tabs.sendMessage(tab.id, msg, null, callback);
   };
 
   mvelo.tabs.loadOptionsTab = function(hash, callback) {

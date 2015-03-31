@@ -50,7 +50,11 @@ if (self.options.expose_messaging) {
   }
 
   function addListener(listener) {
-    self.port.on('message-event', listener);
+    self.port.on('message-event', function(msg) {
+      listener(msg, null, msg.response && function(respMsg) {
+        self.port.emit(msg.response, respMsg);
+      });
+    });
   }
 
   function _connect(obj) {

@@ -123,13 +123,6 @@ define(function(require, exports, module) {
       case 'get-version':
         sendResponse(defaults.getVersion());
         break;
-      case 'import-key-result':
-        var resultType = {};
-        for (var i = 0; i < request.result.length; i++) {
-          resultType[request.result[i].type] = true;
-        }
-        sub.getByID(request.id).ports.imFrame.postMessage({event: 'import-result', resultType: resultType});
-        break;
       case 'activate':
         postToNodes(sub.getByMainType('mainCS'), {event: 'on'});
         specific.activate();

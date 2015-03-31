@@ -44,8 +44,13 @@ define(function(require, exports, module) {
           that.mvelo.tabs.sendMessage(tab, {
             event: "import-key",
             armored: msg.data,
-            id: that.id,
-            old: old
+            id: that.id
+          }, function(msg) {
+            var resultType = {};
+            for (var i = 0; i < msg.result.length; i++) {
+              resultType[msg.result[i].type] = true;
+            }
+            that.ports.imFrame.postMessage({event: 'import-result', resultType: resultType});
           });
         });
         break;

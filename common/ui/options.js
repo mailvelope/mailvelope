@@ -240,7 +240,7 @@ var options = {};
   function initMessageListener() {
     mvelo.extension.onMessage.addListener(
       function(request, sender, sendResponse) {
-        handleRequests(request, sender, sendResponse);
+        return handleRequests(request, sender, sendResponse);
       }
     );
   }
@@ -268,8 +268,13 @@ var options = {};
       case 'import-key':
         $('#showKeyRing a').get(0).click();
         $('a[href="#importKey"]').get(0).click();
-        options.importKey(request.armored);
-        break;
+        options.importKey(request.armored, function(result) {
+          sendResponse({
+            result: result,
+            id: request.id
+          });
+        });
+        return true;
       default:
         // TODO analyse message events
         //console.log('unknown event:', request);
