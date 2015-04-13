@@ -124,8 +124,6 @@ var mvelo = mvelo || null;
         handleAppActivation();
         break;
       case 'get-ui-log':
-        var tmpDate;
-        var timestamp;
         var logEntry;
         var cnt = 0;
         $("#activityLog").empty();
@@ -136,9 +134,7 @@ var mvelo = mvelo || null;
           $("#showlog").show();
           if (cnt < 3) {
             logEntry = $.parseHTML(logEntryTmpl);
-            tmpDate = new Date(entry.timestamp);
-            timestamp = pad(tmpDate.getUTCHours()) + ":" + pad(tmpDate.getUTCMinutes()) + ":" + pad(tmpDate.getUTCSeconds());
-            $(logEntry).find('timestamp').text(timestamp);
+            $(logEntry).find('timestamp').text((new Date(entry.timestamp)).toLocaleTimeString());
             $(logEntry).find('.logDescription').text(entry.typei18n);
             $("#activityLog").append(logEntry);
           }
@@ -146,13 +142,6 @@ var mvelo = mvelo || null;
         });
         break;
     }
-  }
-
-  function pad(number) {
-    if (number < 10) {
-      return '0' + number;
-    }
-    return number;
   }
 
   $(document).ready(init);

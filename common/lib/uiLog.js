@@ -31,7 +31,7 @@ define(function(require, exports, module) {
       sourcei18n: l10n(source),
       type: type,
       typei18n: l10n(type),
-      timestamp: new Date().toISOString()
+      timestamp: (new Date()).toISOString()
     };
     var lastEntry = log[log.length - 1];
     if (lastEntry &&

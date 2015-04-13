@@ -46,26 +46,15 @@ var options = options || null;
 
   function refreshSecurityLog(request) {
     var tableRow;
-    var timestamp;
-    var tmpDate;
     $tableBody.children().remove();
     request.secLog.reverse().forEach(function(entry) {
       tableRow = $.parseHTML(logEntryTmpl);
-      tmpDate = new Date(entry.timestamp);
-      timestamp = pad(tmpDate.getUTCHours()) + ":" + pad(tmpDate.getUTCMinutes()) + ":" + pad(tmpDate.getUTCSeconds());
-      $(tableRow).find('.timestamp').text(timestamp);
+      $(tableRow).find('.timestamp').text((new Date(entry.timestamp)).toLocaleTimeString());
       $(tableRow).find('td:nth-child(1)').attr("title", entry.timestamp);
       $(tableRow).find('td:nth-child(2)').text(entry.sourcei18n);
       $(tableRow).find('td:nth-child(3)').text(entry.typei18n);
       $tableBody.append(tableRow);
     });
-  }
-
-  function pad(number) {
-    if (number < 10) {
-      return '0' + number;
-    }
-    return number;
   }
 
   options.startSecurityLogMonitoring = startSecurityLogMonitoring;
