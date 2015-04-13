@@ -168,7 +168,7 @@
         "description": "Open options dialog."
     },
     "security_log_textarea_click": {
-        "message": "Click-event in text area",
+        "message": "文本区域中的点击事件",
         "description": "A click in the text area as an event type"
     },
     "security_log_empty": {
@@ -548,7 +548,7 @@
         "description": "Advanced key generation settings: Key size"
     },
     "security_log_textarea_input": {
-        "message": "Input-event in text area",
+        "message": "文本区域中的输入事件",
         "description": "A click in the text area as an event type"
     },
     "key_gen_demail": {
@@ -828,7 +828,7 @@
         "description": "Opens the help page on mailvelope.com."
     },
     "security_log_textarea_select": {
-        "message": "Select-event in text area",
+        "message": "文本区域中的选择事件",
         "description": "Selection of the text area as an event type"
     },
     "keygrid_signer_unknown": {
