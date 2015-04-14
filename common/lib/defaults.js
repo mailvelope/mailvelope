@@ -40,7 +40,7 @@ define(function(require, exports, module) {
 
   function initSecurityBgnd(pref) {
     pref.security.secureBgndAngle =  openpgp.crypto.random.getSecureRandom(0, 120) - 60;
-    pref.security.secureBgndScaling = openpgp.crypto.random.getSecureRandom(9, 15) / 10;
+    pref.security.secureBgndScaling = openpgp.crypto.random.getSecureRandom(9, 20) / 10;
     pref.security.secureBgndWidth = 45; //openpgp.crypto.random.getSecureRandom(30, 60);
     pref.security.secureBgndHeight = 45; //openpgp.crypto.random.getSecureRandom(30, 60);
   }

@@ -888,7 +888,7 @@
         "description": "Export key menu."
     },
     "ext_description": {
-        "message": "Erweitern Sie Ihren Webmail-Anbieter mit Ende-zu-Ende-Verschlüsselung. Sichere E-Mail-Kommunikation mit dem OpenPGP-Standard.",
+        "message": "Erweitern Sie Ihren Webmail-Anbieter mit Ende-zu-Ende-Verschlüsselung. Sichere E-Mail-Kommunikation, mit dem OpenPGP-Standard – jetzt auch für De-Mail.",
         "description": "Description of the extension."
     },
     "key_gen_advanced_btn": {

@@ -1,14 +1,49 @@
 Mailvelope Changelog
 ====================
 
+v0.13.0
+-------
+__Apr. 14, 2015__
+
+  * Finalize Client-API v1: http://mailvelope.github.io/mailvelope/
+  * Optimize attachment styling
+  * Support for multiple keyrings
+  * Update mailreader to v0.4.0
+  * Fix attachment upload bug in FF
+  * Replace security token with security background
+  * Small screen-optimization for settings
+  * Automatically set primary key at key generation and key import
+  * Set auto adding of the primary key by default
+  * Redesign password entry and import key dialogs
+  * [Security] Encode attachment filename
+  * [Security] Update DOMPurify to 0.6.1, use jQuery output option
+  * Fix endless loop in armored block detection on the mail client page
+  * [Security] Update OpenPGP.js to v0.11.1, fix bug in DSA signature verification
+  * [Security] Add noreferrer to external links
+  * [Security] Check for ambiguous keyIds on key import
+  * [Security] Validate key and user IDs of signatories
+  * [Security] Open all links in message body in new window
+  * [Security] Set charcode in sandboxed iframes
+  * Localization updates
+  * Sign Firefox XPI packages
+  * Fix decoding of MIME messages with transfer encoding: 8bit
+  * Redesign browser action menu
+  * Limit on/off action to non client-API controls (Firefox)
+  * Establish new Firefox download link: https://download.mailvelope.com/releases/latest/mailvelope.firefox.xpi
+  * Add De-Mail providers to default list of supported mail providers
+  * UI to set custom security background
+  * Establish demo page for client API at: https://demo.mailvelope.com
+  * Log user actions in embedded components and display indicator as badge of the addon toolbar icon
+  * Add multiple file upload functionality
+
 v0.12.1
-------
+-------
 __Feb. 23, 2015__
 
   * Fix AMO review issue: use duplicate mvelo.js instead of eval
 
 v0.12.0
-------
+-------
 __Feb. 5, 2015__
 
   * Settings UI: replace Kendo UI components, use templating, replace short with long key ID
@@ -28,7 +63,7 @@ __Feb. 5, 2015__
   * localization updates. New languages: Arabic, Bulgarian, Dutch, Slovenian
 
 v0.11.0
-------
+-------
 __Nov. 27, 2014__
 
   * Remove v0.8 local storage migration, delete old keys
@@ -39,13 +74,13 @@ __Nov. 27, 2014__
   * [Security fix]: Load documentation in separate browser window to prevent access to priviledged API
 
 v0.10.4
-------
+-------
 __Nov. 10, 2014__
 
   * Fixes for addons.mozilla.org review
 
 v0.10.3
-------
+-------
 __Nov. 9, 2014__
 
   * Migrate to Bootstrap 3.2
@@ -53,7 +88,7 @@ __Nov. 9, 2014__
   * Transfer repository to https://github.com/mailvelope/mailvelope
 
 v0.10.2
-------
+-------
 __Oct. 14, 2014__
 
   * Remove keys on uninstall of Firefox addon (optional)
@@ -61,7 +96,7 @@ __Oct. 14, 2014__
   * Fix message adapter API for Firefox 33
 
 v0.10.0
-------
+-------
 __Oct. 1, 2014__
 
   * Add support for localization

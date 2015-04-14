@@ -10,11 +10,6 @@ Mailvelope uses the following OpenPGP implementation
 
   - [OpenPGP.js](http://openpgpjs.org/) for the Chrome Extension and for the Firefox Addon
 
-## Status
-
-  - Chrome Extension: _beta_
-  - Firefox Addon: _beta_
-
 ## Installation
 
 Mailvelope is available in the Chrome Web Store:
@@ -91,6 +86,6 @@ Use of this source code is governed by the GNU AFFERO GENERAL PUBLIC LICENSE tha
 
 ## About
 
-Project lead: Thomas Oberndörfer <thomas@mailvelope.com>
-Twitter: [@mailvelope](https://twitter.com/mailvelope) 
-Contributors: see [list on GitHub](https://github.com/mailvelope/mailvelope/graphs/contributors)
+Contact: Thomas Oberndörfer <thomas@mailvelope.com>  
+Twitter: [@mailvelope](https://twitter.com/mailvelope)  
+Contributors: see [list on GitHub](https://github.com/mailvelope/mailvelope/graphs/contributors)  
