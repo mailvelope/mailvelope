@@ -1,6 +1,14 @@
 Mailvelope Changelog
 ====================
 
+v0.13.1
+-------
+__Apr. 15, 2015__
+
+  * Fix empty list of recipients due to bug in primary key setting
+  * Fix positioning of sign/encrypt dialogs
+  * Update OpenPGP.js to 1.0.1
+
 v0.13.0
 -------
 __Apr. 14, 2015__
