@@ -126,6 +126,17 @@
           "api": true
         }
       ]
+    },
+    {
+      "active": true,
+      "site": "ownCloud Mail",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*://*/*apps/mail*",
+          "api": false
+        }
+      ]
     }
   ],
   "preferences": {
