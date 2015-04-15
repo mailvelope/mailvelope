@@ -65,7 +65,11 @@ define(function(require, exports, module) {
         var emails = this.mvelo.util.sortAndDeDup(msg.data);
         var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
         var keys = localKeyring.getKeyUserIDs(emails);
-        var primary = this.prefs.data().general.auto_add_primary && localKeyring.getAttributes().primary_key.toLowerCase();
+        var primary;
+        if (this.prefs.data().general.auto_add_primary) {
+          primary = localKeyring.getAttributes().primary_key;
+          primary = primary && primary.toLowerCase();
+        }
         if (this.recipientsCallback) {
           this.recipientsCallback({ keys: keys, primary: primary });
           this.recipientsCallback = null;

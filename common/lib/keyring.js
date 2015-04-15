@@ -22,6 +22,7 @@ define(function(require, exports, module) {
   var mvelo = require('../lib-mvelo').mvelo;
   var openpgp = require('openpgp');
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
+  var prefs = require('./prefs');
   var l10n = mvelo.l10n.get;
   var keyringAttr = null;
   var keyringMap = new Map();
@@ -36,6 +37,10 @@ define(function(require, exports, module) {
       }
     } else {
       createKeyring(mvelo.LOCAL_KEYRING_ID);
+      // migrate primary_key attribute
+      if (prefs.data().general.primary_key) {
+        setKeyringAttr(mvelo.LOCAL_KEYRING_ID, {primary_key: prefs.data().general.primary_key});
+      }
     }
   }
 
@@ -563,7 +568,7 @@ define(function(require, exports, module) {
     var removedKey = this.keyring.removeKeysForId(guid);
 
     // Remove the key from the keyring attributes if primary
-    if (primaryKey.toLowerCase() === removedKey[0].primaryKey.keyid.toHex().toLowerCase()) {
+    if (primaryKey && primaryKey.toLowerCase() === removedKey[0].primaryKey.keyid.toHex()) {
       setKeyringAttr(this.id, {primary_key: ""});
     }
 

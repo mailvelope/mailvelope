@@ -308,7 +308,7 @@ var options = options || null;
 
   function setPrimaryKey() {
     var primaryKeyId = $(this).attr("data-primarykeyid");
-    if (primaryKeyId !== undefined && primaryKeyId.length > 1) {
+    if (primaryKeyId) {
       options.setKeyringAttr(options.keyringId, {
         primary_key: primaryKeyId
       });
