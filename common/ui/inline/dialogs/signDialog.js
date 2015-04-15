@@ -56,7 +56,6 @@ var mvelo = mvelo || null;
     // align width
     $.setEqualWidth($('#okBtn'), $('#cancelBtn'));
     $.setEqualWidth($('#addBtn'), $('#deleteBtn'));
-    keyDialogPos();
   }
 
   function onOk() {
@@ -76,11 +75,6 @@ var mvelo = mvelo || null;
     return false;
   }
 
-  function keyDialogPos() {
-    var keyDialog = $('#keyDialog');
-    keyDialog.css('margin-top', Math.round(-keyDialog.outerHeight() / 2));
-  }
-
   function messageListener(msg) {
     switch (msg.event) {
       case 'sign-dialog-content':
@@ -91,7 +85,7 @@ var mvelo = mvelo || null;
         keySelect.append(
           msg.keys.map(function(key) {
             var option = $('<option/>').val(key.id.toLowerCase()).text(key.name + ' <' + key.email + '>');
-            if (key.keyid === msg.primary) {
+            if (key.id === msg.primary) {
               option.prop('selected', true);
             }
             return option;

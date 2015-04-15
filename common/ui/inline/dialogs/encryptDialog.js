@@ -56,7 +56,6 @@ var mvelo = mvelo || null;
     // align width
     $.setEqualWidth($('#okBtn'), $('#cancelBtn'));
     $.setEqualWidth($('#addBtn'), $('#deleteBtn'));
-    keyDialogPos();
   }
 
   function onOk() {
@@ -123,11 +122,6 @@ var mvelo = mvelo || null;
 
   function onDelete() {
     $('#keyList option:selected').remove();
-  }
-
-  function keyDialogPos() {
-    var keyDialog = $('#keyDialog');
-    keyDialog.css('margin-top', Math.round(-keyDialog.outerHeight() / 2));
   }
 
   function messageListener(msg) {
