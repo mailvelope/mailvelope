@@ -42,28 +42,32 @@ var options = options || null;
     $('#scaling').on("input", previewSecurityBgnd);
     $('#angle').on("input", previewSecurityBgnd);
     $('#whitespace').on("input", previewSecurityBgnd);
+    $('#coloring').on("input", previewSecurityBgnd);
     getSecurityBgndConfig();
   }
 
   function getSecurityBgndConfig() {
     mvelo.extension.sendMessage({event: "get-security-background"}, function(background) {
-      bgndColor = background.color; //"#f5f5f5";
+      bgndColor = background.color;
       $("#angle").val(background.angle);
       $("#scaling").val(background.scaling * 10);
+      $("#coloring").val(background.colorId);
 
       previewSecurityBgnd();
     });
   }
 
   function previewSecurityBgnd() {
-    var scale = $('#scaling').val();
-    var rotationDeg = $('#angle').val();
+    var scale = $('#scaling').val(),
+        rotationDeg = $('#angle').val(),
+        colorId = $('#coloring').val(),
+        secBgndIcon = mvelo.util.generateSecurityBackground(rotationDeg, scale / 10, colorId);
 
-    var secBgndIcon = mvelo.util.generateSecurityBackground(rotationDeg, scale / 10);
-
-    $("#previewArea").css("background-color", bgndColor + " !important;");
-    $("#previewArea").css("background-position", "-20px -20px !important;");
-    $("#previewArea").css("background-image", "url(data:image/svg+xml;base64," + btoa(secBgndIcon) + ")");
+    $('#previewArea').css({
+      'backgroundColor': bgndColor,
+      'backgroundPosition': '-20px -20px',
+      'backgroundImage': 'url(data:image/svg+xml;base64,' + btoa(secBgndIcon) + ')'
+    });
   }
 
   function editorModeWarning() {
@@ -86,21 +90,30 @@ var options = options || null;
     if (!validate()) {
       return false;
     }
-    var update = {
-      security: {
-        display_decrypted: $('input:radio[name="decryptRadios"]:checked').val(),
-        editor_mode: $('input:radio[name="editorModeRadios"]:checked').val(),
-        secureBgndAngle: $("#angle").val(),
-        secureBgndScaling: ($("#scaling").val() / 10),
-        password_cache: $('input:radio[name="pwdCacheRadios"]:checked').val() === 'true',
-        password_timeout: $('#pwdCacheTime').val()
-      }
-    };
-    mvelo.extension.sendMessage({ event: 'set-prefs', data: update }, function() {
-      options.event.triggerHandler('prefs-security-update');
-      normalize();
-      $('#secReloadInfo').show();
-      mvelo.util.showSecurityBackground();
+
+    mvelo.extension.sendMessage({event: "get-security-background"}, function(background) {
+      var angel = $("#angle").val(),
+          scaling = ($("#scaling").val() / 10),
+          coloring = $("#coloring").val(),
+          iconColor = background.colors[coloring],
+          update = {
+            security: {
+              display_decrypted: $('input:radio[name="decryptRadios"]:checked').val(),
+              editor_mode: $('input:radio[name="editorModeRadios"]:checked').val(),
+              secureBgndAngle: angel,
+              secureBgndScaling: scaling,
+              secureBgndColorId: coloring,
+              secureBgndIconColor: iconColor,
+              password_cache: $('input:radio[name="pwdCacheRadios"]:checked').val() === 'true',
+              password_timeout: $('#pwdCacheTime').val()
+            }
+          };
+      mvelo.extension.sendMessage({ event: 'set-prefs', data: update }, function() {
+        options.event.triggerHandler('prefs-security-update');
+        normalize();
+        $('#secReloadInfo').show();
+        mvelo.util.showSecurityBackground();
+      });
     });
     return false;
   }

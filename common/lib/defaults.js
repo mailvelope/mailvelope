@@ -39,7 +39,12 @@ define(function(require, exports, module) {
   }
 
   function initSecurityBgnd(pref) {
-    pref.security.secureBgndAngle =  openpgp.crypto.random.getSecureRandom(0, 120) - 60;
+    var angle = openpgp.crypto.random.getSecureRandom(0, 120) - 60;
+    if (angle < 0) {
+      angle += 360;
+    }
+
+    pref.security.secureBgndAngle =  angle;
     pref.security.secureBgndScaling = openpgp.crypto.random.getSecureRandom(9, 20) / 10;
     pref.security.secureBgndWidth = 45; //openpgp.crypto.random.getSecureRandom(30, 60);
     pref.security.secureBgndHeight = 45; //openpgp.crypto.random.getSecureRandom(30, 60);
@@ -61,7 +66,11 @@ define(function(require, exports, module) {
         initSecurityBgnd(prefs);
         prefs.security.secureBgndColor = defaults.preferences.security.secureBgndColor;
         prefs.security.secureBgndIconColor = defaults.preferences.security.secureBgndIconColor;
+
+        prefs.security.secureBgndColors = defaults.preferences.security.secureBgndColors;
+        prefs.security.secureBgndColorId = defaults.preferences.security.secureBgndColorId;
       }
+
       if (typeof prefs.main_active == 'undefined') {
         prefs.main_active = defaults.preferences.main_active;
       }

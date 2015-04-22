@@ -735,6 +735,10 @@
         "message": "Skalierung",
         "description": "Scaling"
     },
+    "security_background_coloring": {
+        "message": "Farbe",
+        "description": "Coloring"
+    },
     "popup_active_off": {
         "message": "Aus",
         "description": "Activity status of the extension."

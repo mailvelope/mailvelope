@@ -134,6 +134,8 @@
       "display_decrypted": "inline",
       "secureBgndColor": "#f5f5f5",
       "secureBgndIconColor": "#e9e9e9",
+      "secureBgndColors": ["#e9e9e9","#c0c0c0","#808080","#ffce1e","#ff0000","#85154a","#6f2b8b","#b3d1e3","#315bab","#1c449b","#4c759c","#1e8e9f","#93b536"],
+      "secureBgndColorId": 0,
       "password_cache": false,
       "password_timeout": 30
     },

@@ -755,6 +755,10 @@
     "message": "Scaling",
     "description": "Scaling"
   },
+  "security_background_coloring": {
+    "message": "Color",
+    "description": "Coloring"
+  },
   "security_compose_mail": {
     "message": "Where do you want to compose your mail?",
     "description": "Label for compose options"
