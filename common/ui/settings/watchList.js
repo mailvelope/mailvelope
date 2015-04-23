@@ -157,22 +157,22 @@ var options = options || null;
     var tableRow;
     if (data !== undefined && data.type === "click") {
       $("#webSiteName").val("");
-      $("#switchWebSite").attr("checked", true);
+      $("#switchWebSite").prop("checked", true);
       tableRow = $.parseHTML(matchPatternTmpl);
       addMatchPattern();
     } else if (data !== undefined) {
       data = JSON.parse(data);
       currentSiteID = data.site;
       $("#webSiteName").val(data.site);
-      $("#switchWebSite").attr("checked", data.active);
+      $("#switchWebSite").prop("checked", data.active);
       data.frames.forEach(function(frame, index) {
         tableRow = $.parseHTML(matchPatternTmpl);
-        $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').attr("checked", frame.scan);
-        $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').attr("id", "matchPattern" + index);
-        $(tableRow).find('.matchPatternSwitch .onoffswitch-label').attr("for", "matchPattern" + index);
-        $(tableRow).find('.apiSwitch .onoffswitch-checkbox').attr("checked", frame.api);
-        $(tableRow).find('.apiSwitch .onoffswitch-checkbox').attr("id", "api" + index);
-        $(tableRow).find('.apiSwitch .onoffswitch-label').attr("for", "api" + index);
+        $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').prop("checked", frame.scan);
+        $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').prop("id", "matchPattern" + index);
+        $(tableRow).find('.matchPatternSwitch .onoffswitch-label').prop("for", "matchPattern" + index);
+        $(tableRow).find('.apiSwitch .onoffswitch-checkbox').prop("checked", frame.api);
+        $(tableRow).find('.apiSwitch .onoffswitch-checkbox').prop("id", "api" + index);
+        $(tableRow).find('.apiSwitch .onoffswitch-label').prop("for", "api" + index);
         $(tableRow).find('.matchPatternName').val(frame.frame);
         $(tableRow).find(".deleteMatchPatternBtn").on("click", deleteMatchPattern);
         $matchPatternContainer.append(tableRow);
