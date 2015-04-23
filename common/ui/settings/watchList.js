@@ -52,29 +52,29 @@ var options = options || null;
   var newWebSite;
 
   options.registerL10nMessages([
-    "watchlist_title_active",
-    "watchlist_title_site",
-    "watchlist_title_scan",
-    "watchlist_title_frame",
-    "watchlist_expose_api",
-    "watchlist_command_edit",
-    "watchlist_command_create",
-    "watchlist_command_save",
-    "watchlist_command_cancel",
-    "watchlist_delete_confirmation",
-    "alert_invalid_domainmatchpattern_warning",
-    "alert_no_domainmatchpattern_warning",
-    "keygrid_delete"
+    'watchlist_title_active',
+    'watchlist_title_site',
+    'watchlist_title_scan',
+    'watchlist_title_frame',
+    'watchlist_expose_api',
+    'watchlist_command_edit',
+    'watchlist_command_create',
+    'watchlist_command_save',
+    'watchlist_command_cancel',
+    'watchlist_delete_confirmation',
+    'alert_invalid_domainmatchpattern_warning',
+    'alert_no_domainmatchpattern_warning',
+    'keygrid_delete'
   ]);
 
   function init() {
-    $tableBody = $("#watchListTable tbody");
-    $watchListEditor = $("#watchListEditor");
+    $tableBody = $('#watchListTable tbody');
+    $watchListEditor = $('#watchListEditor');
     if (mailProviderTmpl === undefined) {
       mailProviderTmpl = $tableBody.html();
     }
 
-    $matchPatternContainer = $("#watchListEditor tbody");
+    $matchPatternContainer = $('#watchListEditor tbody');
     if (matchPatternTmpl === undefined) {
       matchPatternTmpl = $matchPatternContainer.html();
     }
@@ -82,11 +82,11 @@ var options = options || null;
 
     reloadWatchList();
 
-    $("#okWatchListEditorBtn").on("click", saveWatchList);
-    $("#addMatchPatternBtn").on("click", addMatchPattern);
-    $("#addMailProviderBtn").on("click", showWatchListEditor);
+    $('#okWatchListEditorBtn').on('click', saveWatchList);
+    $('#addMatchPatternBtn').on('click', addMatchPattern);
+    $('#addMailProviderBtn').on('click', showWatchListEditor);
 
-    $("#watchListEditor form").on("submit", function() { return false; });
+    $('#watchListEditor form').on('submit', function() { return false; });
   }
 
   function reloadWatchList() {
@@ -94,35 +94,33 @@ var options = options || null;
     var tableRow;
     $tableBody.children().remove();
     options.pgpModel('getWatchList', function(err, data) {
-      // console.log("Watchlist: "+JSON.stringify(data));
-      // {"site":"server.lan","active":true,"frames":[{"frame":"*.server.lan","scan":true}]},
       siteData = data;
       data.forEach(function(site) {
         tableRow = $.parseHTML(mailProviderTmpl);
         $(tableRow).find('td:nth-child(2)').text(site.site);
         if (!site.active) {
-          $(tableRow).find(".glyphicon-check").removeClass("glyphicon-check").addClass("glyphicon-unchecked");
+          $(tableRow).find('.glyphicon-check').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
         }
-        $(tableRow).attr("data-website", JSON.stringify(site));
+        $(tableRow).attr('data-website', JSON.stringify(site));
         $tableBody.append(tableRow);
       });
       mvelo.l10n.localizeHTML();
-      $tableBody.find(".deleteWatchListBtn").on("click", deleteWatchListEntry);
-      $tableBody.find("tr").on("click", function() {
-        var data = $(this).attr("data-website");
+      $tableBody.find('.deleteWatchListBtn').on('click', deleteWatchListEntry);
+      $tableBody.find('tr').on('click', function() {
+        var data = $(this).attr('data-website');
         showWatchListEditor(data);
         return false;
       });
-      $tableBody.find("tr").hover(function() {
-        $(this).find(".actions").css("visibility", "visible");
+      $tableBody.find('tr').hover(function() {
+        $(this).find('.actions').css('visibility', 'visible');
       }, function() {
-        $(this).find(".actions").css("visibility", "hidden");
+        $(this).find('.actions').css('visibility', 'hidden');
       });
 
       if (newWebSite !== undefined) {
-        var $selectedRow = $("td:contains('" + newWebSite + "')").parent();
-        $selectedRow.addClass("addedSiteFade");
-        $selectedRow.trigger("hover");
+        var $selectedRow = $('td:contains("' + newWebSite + '")').parent();
+        $selectedRow.addClass('addedSiteFade');
+        $selectedRow.trigger('hover');
         window.scrollTo(0, document.body.scrollHeight);
         newWebSite = undefined;
       }
@@ -132,16 +130,16 @@ var options = options || null;
 
   function addMatchPattern() {
     var tableRow = $.parseHTML(matchPatternTmpl);
-    $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').attr("checked", true);
-    $(tableRow).find('.apiSwitch .onoffswitch-checkbox').attr("checked", false);
+    $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').attr('checked', true);
+    $(tableRow).find('.apiSwitch .onoffswitch-checkbox').attr('checked', false);
     var id = (new Date()).getTime();
-    $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').attr("id", "matchPattern" + id);
-    $(tableRow).find('.matchPatternSwitch .onoffswitch-label').attr("for", "matchPattern" + id);
+    $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').attr('id', 'matchPattern' + id);
+    $(tableRow).find('.matchPatternSwitch .onoffswitch-label').attr('for', 'matchPattern' + id);
     id = (new Date()).getTime();
-    $(tableRow).find('.apiSwitch .onoffswitch-checkbox').attr("id", "api" + id);
-    $(tableRow).find('.apiSwitch .onoffswitch-label').attr("for", "api" + id);
-    $(tableRow).find('.matchPatternName').val("");
-    $(tableRow).find(".deleteMatchPatternBtn").on("click", deleteMatchPattern);
+    $(tableRow).find('.apiSwitch .onoffswitch-checkbox').attr('id', 'api' + id);
+    $(tableRow).find('.apiSwitch .onoffswitch-label').attr('for', 'api' + id);
+    $(tableRow).find('.matchPatternName').val('');
+    $(tableRow).find('.deleteMatchPatternBtn').on('click', deleteMatchPattern);
     $matchPatternContainer.append(tableRow);
   }
 
@@ -150,36 +148,34 @@ var options = options || null;
   }
 
   function showWatchListEditor(data) {
-    // console.log("website data: "+data);
-    // {"site":"server.lan","active":true,"frames":[{"frame":"*.server.lan","scan":true}]},
-    currentSiteID = "newSite";
+    currentSiteID = 'newSite';
     $matchPatternContainer.children().remove();
     var tableRow;
-    if (data !== undefined && data.type === "click") {
-      $("#webSiteName").val("");
-      $("#switchWebSite").prop("checked", true);
+    if (data !== undefined && data.type === 'click') {
+      $('#webSiteName').val('');
+      $('#switchWebSite').prop('checked', true);
       tableRow = $.parseHTML(matchPatternTmpl);
       addMatchPattern();
     } else if (data !== undefined) {
       data = JSON.parse(data);
       currentSiteID = data.site;
-      $("#webSiteName").val(data.site);
-      $("#switchWebSite").prop("checked", data.active);
+      $('#webSiteName').val(data.site);
+      $('#switchWebSite').prop('checked', data.active);
       data.frames.forEach(function(frame, index) {
         tableRow = $.parseHTML(matchPatternTmpl);
-        $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').prop("checked", frame.scan);
-        $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').prop("id", "matchPattern" + index);
-        $(tableRow).find('.matchPatternSwitch .onoffswitch-label').prop("for", "matchPattern" + index);
-        $(tableRow).find('.apiSwitch .onoffswitch-checkbox').prop("checked", frame.api);
-        $(tableRow).find('.apiSwitch .onoffswitch-checkbox').prop("id", "api" + index);
-        $(tableRow).find('.apiSwitch .onoffswitch-label').prop("for", "api" + index);
+        $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').prop('checked', frame.scan);
+        $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').prop('id', 'matchPattern' + index);
+        $(tableRow).find('.matchPatternSwitch .onoffswitch-label').prop('for', 'matchPattern' + index);
+        $(tableRow).find('.apiSwitch .onoffswitch-checkbox').prop('checked', frame.api);
+        $(tableRow).find('.apiSwitch .onoffswitch-checkbox').prop('id', 'api' + index);
+        $(tableRow).find('.apiSwitch .onoffswitch-label').prop('for', 'api' + index);
         $(tableRow).find('.matchPatternName').val(frame.frame);
-        $(tableRow).find(".deleteMatchPatternBtn").on("click", deleteMatchPattern);
+        $(tableRow).find('.deleteMatchPatternBtn').on('click', deleteMatchPattern);
         $matchPatternContainer.append(tableRow);
       });
     }
     $watchListEditor.modal({backdrop: 'static'});
-    $watchListEditor.modal("show");
+    $watchListEditor.modal('show');
   }
 
   function deleteWatchListEntry() {
@@ -190,7 +186,7 @@ var options = options || null;
       entryForRemove.remove();
       var data = [];
       $tableBody.children().get().forEach(function(siteRow) {
-        var siteData = JSON.parse($(siteRow).attr("data-website"));
+        var siteData = JSON.parse($(siteRow).attr('data-website'));
         data.push(siteData);
       });
       saveWatchListData(data);
@@ -199,21 +195,21 @@ var options = options || null;
   }
 
   function saveWatchList() {
-    var $form = $("#watchListEditor form");
+    var $form = $('#watchListEditor form');
     var site = {};
-    site.site = $("#webSiteName").val();
-    site.active = $("#switchWebSite").is(":checked");
+    site.site = $('#webSiteName').val();
+    site.active = $('#switchWebSite').is(':checked');
     site.frames = [];
     var formNotValid;
     $matchPatternContainer.children().get().forEach(function(child) {
-      var patternValue = $(child).find(".matchPatternName").val();
+      var patternValue = $(child).find('.matchPatternName').val();
       if (!/^\*(\.\w+(-\w+)*)+(\.\w{2,})?$/.test(patternValue)) {
         formNotValid = true;
       }
       site.frames.push({
-        "frame": $(child).find(".matchPatternName").val(),
-        "scan": $(child).find(".matchPatternSwitch .onoffswitch-checkbox").is(":checked"),
-        "api": $(child).find(".apiSwitch .onoffswitch-checkbox").is(":checked")
+        'frame': $(child).find('.matchPatternName').val(),
+        'scan': $(child).find('.matchPatternSwitch .onoffswitch-checkbox').is(':checked'),
+        'api': $(child).find('.apiSwitch .onoffswitch-checkbox').is(':checked')
       });
     });
     if (formNotValid) {
@@ -225,46 +221,45 @@ var options = options || null;
       return false;
     }
 
-    if (currentSiteID === "newSite") {
+    if (currentSiteID === 'newSite') {
       var tableRow = $.parseHTML(mailProviderTmpl);
       $(tableRow).find('td:nth-child(2)').text(site.site);
       if (site.acitve) {
-        $(tableRow).find(".glyphicon-check").removeClass("glyphicon-check").addClass("glyphicon-unchecked");
+        $(tableRow).find('.glyphicon-check').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
       }
-      $(tableRow).attr("data-website", JSON.stringify(site));
+      $(tableRow).attr('data-website', JSON.stringify(site));
       $tableBody.append(tableRow);
     } else {
       $tableBody.children().get().forEach(function(siteRow) {
-        var sData = JSON.parse($(siteRow).attr("data-website"));
+        var sData = JSON.parse($(siteRow).attr('data-website'));
         if (currentSiteID === sData.site) {
           $(siteRow).find('td:nth-child(2)').text(site.site);
           if (site.acitve) {
-            $(siteRow).find(".glyphicon-check").removeClass("glyphicon-check").addClass("glyphicon-unchecked");
+            $(siteRow).find('.glyphicon-check').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
           }
-          $(siteRow).attr("data-website", JSON.stringify(site));
+          $(siteRow).attr('data-website', JSON.stringify(site));
         }
       });
     }
 
     var data = [];
     $tableBody.children().get().forEach(function(siteRow) {
-      var siteData = JSON.parse($(siteRow).attr("data-website"));
+      var siteData = JSON.parse($(siteRow).attr('data-website'));
       data.push(siteData);
     });
     saveWatchListData(data);
-    $watchListEditor.modal("hide");
+    $watchListEditor.modal('hide');
 
   }
 
   function cleanWebSiteName(website) {
-    if (website.indexOf("www.") === 0) {
+    if (website.indexOf('www.') === 0) {
       website = website.substr(4, website.length);
     }
     return website;
   }
 
   function addToWatchList(website) {
-    //console.log("Adding to watchlist: "+website);
     var siteExist = false;
     var site = {};
     website = cleanWebSiteName(website);
@@ -272,7 +267,7 @@ var options = options || null;
     site.site = website;
     site.active = true;
     site.frames = [];
-    site.frames.push({ frame: "*." + website, scan:true });
+    site.frames.push({ frame: '*.' + website, scan:true });
     options.pgpModel('getWatchList', function(err, data) {
       data.forEach(function(siteEntry, index) {
         if (siteEntry.site === website) {
@@ -303,9 +298,8 @@ var options = options || null;
   options.removeFromWatchList = removeFromWatchList;
 
   function saveWatchListData(data) {
-    //console.log("website data: "+JSON.stringify(data));
     mvelo.extension.sendMessage({
-      event: "set-watch-list",
+      event: 'set-watch-list',
       data: data
     });
     reloadWatchList();
