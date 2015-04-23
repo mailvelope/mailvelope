@@ -91,29 +91,27 @@ var options = options || null;
       return false;
     }
 
-    mvelo.extension.sendMessage({event: "get-security-background"}, function(background) {
-      var angel = $("#angle").val(),
-          scaling = ($("#scaling").val() / 10),
-          coloring = $("#coloring").val(),
-          iconColor = background.colors[coloring],
-          update = {
-            security: {
-              display_decrypted: $('input:radio[name="decryptRadios"]:checked').val(),
-              editor_mode: $('input:radio[name="editorModeRadios"]:checked').val(),
-              secureBgndAngle: angel,
-              secureBgndScaling: scaling,
-              secureBgndColorId: coloring,
-              secureBgndIconColor: iconColor,
-              password_cache: $('input:radio[name="pwdCacheRadios"]:checked').val() === 'true',
-              password_timeout: $('#pwdCacheTime').val()
-            }
-          };
-      mvelo.extension.sendMessage({ event: 'set-prefs', data: update }, function() {
-        options.event.triggerHandler('prefs-security-update');
-        normalize();
-        $('#secReloadInfo').show();
-        mvelo.util.showSecurityBackground();
-      });
+    var angel = $("#angle").val(),
+        scaling = ($("#scaling").val() / 10),
+        coloring = $("#coloring").val(),
+        iconColor = mvelo.SECURE_COLORS[coloring],
+        update = {
+          security: {
+            display_decrypted: $('input:radio[name="decryptRadios"]:checked').val(),
+            editor_mode: $('input:radio[name="editorModeRadios"]:checked').val(),
+            secureBgndAngle: angel,
+            secureBgndScaling: scaling,
+            secureBgndColorId: coloring,
+            secureBgndIconColor: iconColor,
+            password_cache: $('input:radio[name="pwdCacheRadios"]:checked').val() === 'true',
+            password_timeout: $('#pwdCacheTime').val()
+          }
+        };
+    mvelo.extension.sendMessage({ event: 'set-prefs', data: update }, function() {
+      options.event.triggerHandler('prefs-security-update');
+      normalize();
+      $('#secReloadInfo').show();
+      mvelo.util.showSecurityBackground();
     });
     return false;
   }
@@ -126,8 +124,11 @@ var options = options || null;
       if (timeout >= 1 && timeout <= 999) {
         return true;
       } else {
-        pwdCacheTime.closest('.control-group').addClass('error')
-                                              .find('span.help-inline').removeClass('hide');
+        pwdCacheTime
+          .closest('.control-group')
+          .addClass('error')
+          .find('span.help-inline')
+          .removeClass('hide');
         return false;
       }
     }

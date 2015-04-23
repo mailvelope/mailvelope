@@ -114,12 +114,7 @@ define(function(require, exports, module) {
           scaling: prefs.data().security.secureBgndScaling,
           width: prefs.data().security.secureBgndWidth,
           height: prefs.data().security.secureBgndHeight,
-          colors: prefs.data().security.secureBgndColors,
           colorId: prefs.data().security.secureBgndColorId
-          //angle: openpgp.crypto.random.getSecureRandom(0, 120) - 60, // (10, 350) | (0, 120) - 60
-          //scaling: openpgp.crypto.random.getSecureRandom(9, 15) / 10,
-          //width: openpgp.crypto.random.getSecureRandom(30, 60),
-          //height: openpgp.crypto.random.getSecureRandom(30, 60)
         });
         break;
       case 'get-version':

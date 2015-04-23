@@ -57,6 +57,8 @@ mvelo.RICH_TEXT = 'rich';
 // keyring
 mvelo.KEYRING_DELIMITER = '|#|';
 mvelo.LOCAL_KEYRING_ID = 'localhost' + mvelo.KEYRING_DELIMITER + 'mailvelope';
+// colors for secure background
+mvelo.SECURE_COLORS = ['#e9e9e9', '#c0c0c0', '#808080', '#ffce1e', '#ff0000', '#85154a', '#6f2b8b', '#b3d1e3', '#315bab', '#1c449b', '#4c759c', '#1e8e9f', '#93b536'];
 
 mvelo.appendTpl = function($element, path) {
   if (mvelo.ffa && !/^resource/.test(document.location.protocol)) {
@@ -80,7 +82,7 @@ mvelo.appendTpl = function($element, path) {
         }
       };
       req.onerror = function() {
-        reject(new Error("Network Error"));
+        reject(new Error('Network Error'));
       };
       req.send();
     });
@@ -88,7 +90,7 @@ mvelo.appendTpl = function($element, path) {
 };
 
 mvelo.getFirefoxVersion = function() {
-  return parseInt(navigator.userAgent.substring(navigator.userAgent.indexOf("Firefox/") + 8, navigator.userAgent.length));
+  return parseInt(navigator.userAgent.substring(navigator.userAgent.indexOf('Firefox/') + 8, navigator.userAgent.length));
 };
 
 mvelo.extension = mvelo.extension || mvelo.crx && chrome.runtime;
@@ -130,7 +132,7 @@ mvelo.l10n = mvelo.l10n || mvelo.crx && {
       var jqElement = $(this);
       var id = jqElement.data('l10n-title-id');
       var text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id ;
-      jqElement.attr("title", text);
+      jqElement.attr('title', text);
     });
   }
 };
@@ -207,28 +209,28 @@ mvelo.util.html2text = function(html) {
 };
 
 mvelo.util.getExtensionClass = function(fileExt) {
-  var extClass = "";
+  var extClass = '';
   if (fileExt !== undefined) {
-    extClass = "ext-color-" + fileExt;
+    extClass = 'ext-color-' + fileExt;
   }
   return extClass;
 };
 
 mvelo.util.extractFileNameWithoutExt = function(fileName) {
-  var indexOfDot = fileName.lastIndexOf(".");
+  var indexOfDot = fileName.lastIndexOf('.');
   if (indexOfDot > 0) { // case: regular
     return fileName.substring(0, indexOfDot);
-  } else if (indexOfDot === 0) { // case ".txt"
-    return "";
+  } else if (indexOfDot === 0) { // case '.txt'
+    return '';
   } else {
     return fileName;
   }
 };
 
 mvelo.util.extractFileExtension = function(fileName) {
-  var lastindexDot = fileName.lastIndexOf(".");
+  var lastindexDot = fileName.lastIndexOf('.');
   if (lastindexDot < 0) { // no extension
-    return "";
+    return '';
   } else {
     return fileName.substring(lastindexDot + 1, fileName.length).toLowerCase().trim();
   }
@@ -239,65 +241,77 @@ mvelo.util.extend = function(target) {
   var sources = [].slice.call(arguments, 1);
   sources.forEach(function(source) {
     Object.getOwnPropertyNames(source).forEach(function(propName) {
-        Object.defineProperty(target, propName,
-            Object.getOwnPropertyDescriptor(source, propName));
-      });
+      Object.defineProperty(target, propName,
+          Object.getOwnPropertyDescriptor(source, propName));
+    });
   });
   return target;
 };
 
 mvelo.util.showLoadingAnimation = function() {
-  $(".m-spinner").show();
+  $('.m-spinner').show();
 };
 
 mvelo.util.hideLoadingAnimation = function() {
-  $(".m-spinner").hide();
+  $('.m-spinner').hide();
 };
 
 mvelo.util.generateSecurityBackground = function(angle, scaling, coloring) {
-  var width = mvelo.util.secBgnd.width * mvelo.util.secBgnd.scaling;
-  var height = mvelo.util.secBgnd.height * mvelo.util.secBgnd.scaling;
+  var security = mvelo.util.secBgnd,
+    iconWidth = security.width * security.scaling,
+    iconHeight = security.height * security.scaling,
+    iconAngle = security.angle,
+    iconColor = mvelo.SECURE_COLORS[security.colorId];
   if (angle) {
-    mvelo.util.secBgnd.angle = angle;
+    iconAngle = angle;
   }
   if (scaling) {
-    width = mvelo.util.secBgnd.width * scaling;
-    height = mvelo.util.secBgnd.height * scaling;
+    iconWidth = security.width * scaling;
+    iconHeight = security.height * scaling;
   }
   if (coloring) {
-    mvelo.util.secBgnd.colorId = coloring;
+    iconColor = mvelo.SECURE_COLORS[coloring];
   }
-  mvelo.util.secBgnd.iconColor = mvelo.util.secBgnd.colors[mvelo.util.secBgnd.colorId];
 
-  return '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" id="secBgnd" version="1.1" width="' + width + 'px" height="' + height + 'px" viewBox="0 0 27 27"><path transform="rotate(' + mvelo.util.secBgnd.angle + ' 14 14)" style="fill: ' + mvelo.util.secBgnd.iconColor + ';" d="m 13.963649,25.901754 c -4.6900005,0 -8.5000005,-3.78 -8.5000005,-8.44 0,-1.64 0.47,-3.17 1.29,-4.47 V 9.0417546 c 0,-3.9399992 3.23,-7.1499992 7.2000005,-7.1499992 3.97,0 7.2,3.21 7.2,7.1499992 v 3.9499994 c 0.82,1.3 1.3,2.83 1.3,4.48 0,4.65 -3.8,8.43 -8.49,8.43 z m -1.35,-7.99 v 3.33 h 0 c 0,0.02 0,0.03 0,0.05 0,0.74 0.61,1.34 1.35,1.34 0.75,0 1.35,-0.6 1.35,-1.34 0,-0.02 0,-0.03 0,-0.05 h 0 v -3.33 c 0.63,-0.43 1.04,-1.15 1.04,-1.97 0,-1.32 -1.07,-2.38 -2.4,-2.38 -1.32,0 -2.4,1.07 -2.4,2.38 0.01,0.82 0.43,1.54 1.06,1.97 z m 6.29,-8.8699994 c 0,-2.7099992 -2.22,-4.9099992 -4.95,-4.9099992 -2.73,0 -4.9500005,2.2 -4.9500005,4.9099992 V 10.611754 C 10.393649,9.6217544 12.103649,9.0317546 13.953649,9.0317546 c 1.85,0 3.55,0.5899998 4.94,1.5799994 l 0.01,-1.5699994 z" /></svg>';
+  return '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" id="secBgnd" version="1.1" width="' + iconWidth + 'px" height="' + iconHeight + 'px" viewBox="0 0 27 27"><path transform="rotate(' + iconAngle + ' 14 14)" style="fill: ' + iconColor + ';" d="m 13.963649,25.901754 c -4.6900005,0 -8.5000005,-3.78 -8.5000005,-8.44 0,-1.64 0.47,-3.17 1.29,-4.47 V 9.0417546 c 0,-3.9399992 3.23,-7.1499992 7.2000005,-7.1499992 3.97,0 7.2,3.21 7.2,7.1499992 v 3.9499994 c 0.82,1.3 1.3,2.83 1.3,4.48 0,4.65 -3.8,8.43 -8.49,8.43 z m -1.35,-7.99 v 3.33 h 0 c 0,0.02 0,0.03 0,0.05 0,0.74 0.61,1.34 1.35,1.34 0.75,0 1.35,-0.6 1.35,-1.34 0,-0.02 0,-0.03 0,-0.05 h 0 v -3.33 c 0.63,-0.43 1.04,-1.15 1.04,-1.97 0,-1.32 -1.07,-2.38 -2.4,-2.38 -1.32,0 -2.4,1.07 -2.4,2.38 0.01,0.82 0.43,1.54 1.06,1.97 z m 6.29,-8.8699994 c 0,-2.7099992 -2.22,-4.9099992 -4.95,-4.9099992 -2.73,0 -4.9500005,2.2 -4.9500005,4.9099992 V 10.611754 C 10.393649,9.6217544 12.103649,9.0317546 13.953649,9.0317546 c 1.85,0 3.55,0.5899998 4.94,1.5799994 l 0.01,-1.5699994 z" /></svg>';
 };
 
 mvelo.util.showSecurityBackground = function(isEmbedded) {
   if (isEmbedded) {
-    $(".secureBgndSettingsBtn").on("mouseenter", function() {
-      $(".secureBgndSettingsBtn").removeClass("btn-link").addClass("btn-default");
+    $('.secureBgndSettingsBtn').on('mouseenter', function() {
+      $('.secureBgndSettingsBtn').removeClass('btn-link').addClass('btn-default');
     });
 
-    $(".secureBgndSettingsBtn").on("mouseleave", function() {
-      $(".secureBgndSettingsBtn").removeClass("btn-default").addClass("btn-link");
+    $('.secureBgndSettingsBtn').on('mouseleave', function() {
+      $('.secureBgndSettingsBtn').removeClass('btn-default').addClass('btn-link');
     });
   }
+
   mvelo.extension.sendMessage({event: "get-security-background"}, function(background) {
     mvelo.util.secBgnd = background;
 
     var secBgndIcon = mvelo.util.generateSecurityBackground(),
-        secureStyle = ".secureBackground { background-color: " + mvelo.util.secBgnd.color + "; background-position: -20px -20px; background-image: url(data:image/svg+xml;base64," + btoa(secBgndIcon) + "); }";
+      secureStyle = '.secureBackground {' +
+        'background-color: ' + mvelo.util.secBgnd.color + ';' +
+        'background-position: -20px -20px;' +
+        'background-image: url(data:image/svg+xml;base64,' + btoa(secBgndIcon) + ');' +
+        '}';
 
     var color = mvelo.util.secBgnd.color,
-        rotationDeg = 0,
-        lockIcon = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" id="secBgnd" version="1.1" width="100%" height="100%" viewBox="0 0 27 27"><path transform="rotate(' + rotationDeg + ' 14 14)" style="fill: ' + color + ';" d="m 13.963649,25.901754 c -4.6900005,0 -8.5000005,-3.78 -8.5000005,-8.44 0,-1.64 0.47,-3.17 1.29,-4.47 V 9.0417546 c 0,-3.9399992 3.23,-7.1499992 7.2000005,-7.1499992 3.97,0 7.2,3.21 7.2,7.1499992 v 3.9499994 c 0.82,1.3 1.3,2.83 1.3,4.48 0,4.65 -3.8,8.43 -8.49,8.43 z m -1.35,-7.99 v 3.33 h 0 c 0,0.02 0,0.03 0,0.05 0,0.74 0.61,1.34 1.35,1.34 0.75,0 1.35,-0.6 1.35,-1.34 0,-0.02 0,-0.03 0,-0.05 h 0 v -3.33 c 0.63,-0.43 1.04,-1.15 1.04,-1.97 0,-1.32 -1.07,-2.38 -2.4,-2.38 -1.32,0 -2.4,1.07 -2.4,2.38 0.01,0.82 0.43,1.54 1.06,1.97 z m 6.29,-8.8699994 c 0,-2.7099992 -2.22,-4.9099992 -4.95,-4.9099992 -2.73,0 -4.9500005,2.2 -4.9500005,4.9099992 V 10.611754 C 10.393649,9.6217544 12.103649,9.0317546 13.953649,9.0317546 c 1.85,0 3.55,0.5899998 4.94,1.5799994 l 0.01,-1.5699994 z" /></svg>',
-        lockButton = ".lockBtnIcon, .lockBtnIcon:active { margin: 0px; width: 28px; height: 28px; background-size: 100% 100%; background-repeat: no-repeat; background-image: url(data:image/svg+xml;base64," + btoa(lockIcon) + ") !important; }";
+      lockIcon = mvelo.util.generateSecurityBackground(null, null, 2),
+      lockButton = '.lockBtnIcon, .lockBtnIcon:active {' +
+        'margin: 0px;' +
+        'width: 28px; height: 28px;' +
+        'background-size: 100% 100%;' +
+        'background-repeat: no-repeat;' +
+        'background-image: url(data:image/svg+xml;base64,' + btoa(lockIcon) + ');' +
+        '}';
 
     var secBgndStyle = document.getElementById('secBgndCss');
     if (secBgndStyle) {
       secBgndStyle.parentNode.removeChild(secBgndStyle);
     }
-    $("head").append($("<style>").attr("id", "secBgndCss").text(secureStyle + lockButton));
+    $('head').append($('<style>').attr('id', 'secBgndCss').text(secureStyle + lockButton));
   });
 };
 

@@ -66,8 +66,6 @@ define(function(require, exports, module) {
         initSecurityBgnd(prefs);
         prefs.security.secureBgndColor = defaults.preferences.security.secureBgndColor;
         prefs.security.secureBgndIconColor = defaults.preferences.security.secureBgndIconColor;
-
-        prefs.security.secureBgndColors = defaults.preferences.security.secureBgndColors;
         prefs.security.secureBgndColorId = defaults.preferences.security.secureBgndColorId;
       }
 
