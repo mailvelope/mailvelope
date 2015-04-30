@@ -54,7 +54,7 @@ mvelo.EncryptFrame.prototype.getID = function() {
 
 mvelo.EncryptFrame.prototype._init = function(element) {
   this._editElement = element;
-  this._emailTextElement = this._options.editor || (this._editElement.is('iframe') ? this._editElement.contents().find('body') : this._editElement);
+  this._emailTextElement = this._editElement.is('iframe') ? this._editElement.contents().find('body') : this._editElement;
   // inject style if we have a non-body editable element inside a dynamic iframe
   if (!this._editElement.is('body') && this._editElement.closest('body').data(mvelo.DYN_IFRAME)) {
     var html = this._editElement.closest('html');
@@ -354,24 +354,14 @@ mvelo.EncryptFrame.prototype._getEmailRecipient = function() {
 mvelo.EncryptFrame.prototype._setMessage = function(msg, type) {
   if (this._emailTextElement.is('textarea')) {
     // decode HTML entities for type text due to previous HTML parsing
-    msg = $('<div/>').html(msg).text(); // decode
-    if (this._options.set_text) {
-      this._options.set_text(msg);
-    } else {
-      this._emailTextElement.val(msg);
-    }
+    msg = mvelo.util.decodeHTML(msg);
+    this._emailTextElement.val(msg);
   } else {
     // element is contenteditable or RTE
     if (type == 'text') {
-      var wrapper = $('<div/>');
-      wrapper.append($('<pre/>').html(msg));
-      msg = wrapper.html();
+      msg = '<pre>' + msg + '<pre/>';
     }
-    if (this._options.set_text) {
-      this._options.set_text(msg);
-    } else {
-      this._emailTextElement.html(msg);
-    }
+    this._emailTextElement.html(msg);
   }
 };
 
