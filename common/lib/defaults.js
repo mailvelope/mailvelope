@@ -75,6 +75,7 @@ define(function(require, exports, module) {
       if (prefs.version !== defaults.version) {
         prefs.version = defaults.version;
         prefs.general.editor_type = mvelo.PLAIN_TEXT;
+        prefs.security.secureBgndColor = defaults.preferences.security.secureBgndColor;
         // merge watchlist on version change
         mergeWatchlist(defaults);
       }
