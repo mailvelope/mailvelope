@@ -262,7 +262,8 @@ mvelo.util.generateSecurityBackground = function(angle, scaling, coloring) {
     iconHeight = security.height * security.scaling,
     iconAngle = security.angle,
     iconColor = mvelo.SECURE_COLORS[security.colorId];
-  if (angle) {
+
+  if (angle || angle === 0) {
     iconAngle = angle;
   }
   if (scaling) {
@@ -298,7 +299,7 @@ mvelo.util.showSecurityBackground = function(isEmbedded) {
         '}';
 
     var color = mvelo.util.secBgnd.color,
-      lockIcon = mvelo.util.generateSecurityBackground(null, null, 2),
+      lockIcon = mvelo.util.generateSecurityBackground(0, null, 2),
       lockButton = '.lockBtnIcon, .lockBtnIcon:active {' +
         'margin: 0px;' +
         'width: 28px; height: 28px;' +
