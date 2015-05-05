@@ -25,29 +25,22 @@ define(function(require, exports, module) {
 
   var defaults = null;
 
-  function randomString(length) {
-    var result = '';
-    while (length > 0) {
-      result += String.fromCharCode(Math.floor(33 + Math.random() * 94));
-      --length;
-    }
-    return result;
-  }
-
-  function randomColor() {
-    return '#' + ('00000' + (Math.random() * (1 << 24) | 0).toString(16)).toUpperCase().slice(-6);
-  }
-
-  function initSecurityBgnd(pref) {
+  function getRandomAngel() {
     var angle = openpgp.crypto.random.getSecureRandom(0, 120) - 60;
     if (angle < 0) {
       angle += 360;
     }
+    return angle;
+  }
 
-    pref.security.secureBgndAngle =  angle;
-    pref.security.secureBgndScaling = openpgp.crypto.random.getSecureRandom(9, 20) / 10;
-    pref.security.secureBgndWidth = 45; //openpgp.crypto.random.getSecureRandom(30, 60);
-    pref.security.secureBgndHeight = 45; //openpgp.crypto.random.getSecureRandom(30, 60);
+  function initSecurityBgnd(pref) {
+    pref.security.secureBgndAngle       = pref.security.secureBgndAngle      || getRandomAngel();
+    pref.security.secureBgndScaling     = pref.security.secureBgndScaling    || (openpgp.crypto.random.getSecureRandom(9, 20) / 10);
+    pref.security.secureBgndWidth       = pref.security.secureBgndWidth      || 45;
+    pref.security.secureBgndHeight      = pref.security.secureBgndHeight     || 45;
+    pref.security.secureBgndColor       = pref.security.secureBgndColor      || defaults.preferences.security.secureBgndColor;
+    pref.security.secureBgndIconColor   = pref.security.secureBgndIconColor  || defaults.preferences.security.secureBgndIconColor;
+    pref.security.secureBgndColorId     = pref.security.secureBgndColorId    || defaults.preferences.security.secureBgndColorId;
   }
 
   function init() {
@@ -56,26 +49,19 @@ define(function(require, exports, module) {
     if (!prefs) {
       prefs = defaults.preferences;
       prefs.version = defaults.version;
-      prefs.security.secure_color = randomColor();
-      prefs.security.secure_code = randomString(3);
       initSecurityBgnd(prefs);
       model.setWatchList(defaults.watch_list);
     } else {
-      // Adding security bgnd settings for users comming from ver. <= 0.11
-      if (typeof prefs.security.secureBgndColor == 'undefined') {
-        initSecurityBgnd(prefs);
-        prefs.security.secureBgndColor = defaults.preferences.security.secureBgndColor;
-        prefs.security.secureBgndIconColor = defaults.preferences.security.secureBgndIconColor;
-        prefs.security.secureBgndColorId = defaults.preferences.security.secureBgndColorId;
-      }
-
-      if (typeof prefs.main_active == 'undefined') {
-        prefs.main_active = defaults.preferences.main_active;
-      }
       if (prefs.version !== defaults.version) {
         prefs.version = defaults.version;
         prefs.general.editor_type = mvelo.PLAIN_TEXT;
-        prefs.security.secureBgndColor = defaults.preferences.security.secureBgndColor;
+
+        initSecurityBgnd(prefs);
+
+        if (typeof prefs.main_active == 'undefined') {
+          prefs.main_active = defaults.preferences.main_active;
+        }
+
         // merge watchlist on version change
         mergeWatchlist(defaults);
       }

@@ -154,8 +154,6 @@ var options = options || null;
       $('input:radio[name="decryptRadios"]').filter(function() {
         return $(this).val() === prefs.security.display_decrypted;
       }).prop('checked', true);
-      $('#secCode').val(prefs.security.secure_code);
-      $('#secColor').val(prefs.security.secure_color);
       $('input:radio[name="editorModeRadios"]').filter(function() {
         return $(this).val() === prefs.security.editor_mode;
       }).prop('checked', true);
