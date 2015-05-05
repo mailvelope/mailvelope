@@ -34,13 +34,19 @@ define(function(require, exports, module) {
   }
 
   function initSecurityBgnd(pref) {
-    pref.security.secureBgndAngle       = pref.security.secureBgndAngle      || getRandomAngel();
     pref.security.secureBgndScaling     = pref.security.secureBgndScaling    || (openpgp.crypto.random.getSecureRandom(9, 20) / 10);
     pref.security.secureBgndWidth       = pref.security.secureBgndWidth      || 45;
     pref.security.secureBgndHeight      = pref.security.secureBgndHeight     || 45;
     pref.security.secureBgndColor       = pref.security.secureBgndColor      || defaults.preferences.security.secureBgndColor;
     pref.security.secureBgndIconColor   = pref.security.secureBgndIconColor  || defaults.preferences.security.secureBgndIconColor;
-    pref.security.secureBgndColorId     = pref.security.secureBgndColorId    || defaults.preferences.security.secureBgndColorId;
+
+    if (typeof pref.security.secureBgndAngle === 'undefined') {
+      pref.security.secureBgndAngle = getRandomAngel();
+    }
+
+    if (typeof pref.security.secureBgndColorId === 'undefined') {
+      pref.security.secureBgndColorId = defaults.preferences.security.secureBgndColorId;
+    }
   }
 
   function init() {
