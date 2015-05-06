@@ -39,6 +39,8 @@ define(function(require, exports, module) {
   sub.factory.register('pwdDialog', require('./pwd.controller').PwdController);
   sub.factory.register('editor', require('./editor.controller').EditorController);
   sub.factory.register('editorCont', require('./editor.controller').EditorController);
+  sub.factory.register('keyGenCont', require('./privateKeyBackup.controller').PrivateKeyBackupController);
+  sub.factory.register('keyGenDialog', require('./privateKeyBackup.controller').PrivateKeyBackupController);
 
   // recipients of encrypted mail
   var scannedHosts = [];

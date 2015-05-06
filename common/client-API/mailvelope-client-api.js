@@ -157,6 +157,7 @@
    * @private
    * @alias Keyring
    * @param {string} identifier - the keyring identifier
+   * @param {object} options - the options
    * @property {number} logoRev - revision number of the keyring logo, initial value: 0
    */
   var Keyring = function(identifier, options) {
@@ -199,7 +200,7 @@
                                         'UPDATED' - key already in keyring, new key merged with existing key <br>
                                         'INVALIDATED' - key has been updated, new status of key is 'invalid' (e.g. revoked) <br>
                                         'REJECTED' - key import rejected by user
-     @throws {Error} error.code = 'IMPORT_ERROR' <br>
+   * @throws {Error} error.code = 'IMPORT_ERROR' <br>
                      error.code = 'WRONG_ARMORED_TYPE'
    */
   Keyring.prototype.importPublicKey = function(armored) {
@@ -227,6 +228,50 @@
     return postMessage('set-logo', {identifier: this.identifier, dataURL: dataURL, revision: revision}).then(function() {
       that.logoRev = revision;
     });
+  };
+
+  /**
+   * @typedef {Object} KeyGenContainerOptions
+   * @property {string} email - the email address of the current user
+   * @property {string} fullName - the full name of the current user
+   * @property {string} algorithm
+   * @property {string} length
+   * @property {string} expire
+   */
+
+  /**
+   * Creates an iframe to display the private key backup container.
+   * The iframe will be injected into the container identified by selector.
+   * @param {CssSelector} selector - target container
+   * @param {Keyring} keyring - the keyring to use for the setup
+   * @param {KeyGenContainerOptions} options
+   * @returns {Promise <Generator. Error>}
+   */
+  Keyring.prototype.createKeyGenContainer = function(selector, keyring, options) {
+    return postMessage('key-gen-container', {selector: selector, identifier: keyring.identifier, options: options}).then(function(generatorId) {
+      return new Generator(generatorId);
+    });
+  };
+
+  /**
+   * Not accessible, instance can be obtained using {@link Keyring#createKeyGenContainer}.
+   * @private
+   * @param {string} generatorId - the internal id of the generator
+   * @alias Generator
+   * @constructor
+   */
+  var Generator = function(generatorId) {
+    this.generatorId = generatorId;
+  };
+
+  /**
+   * Check if are password correct and the confirm password equal
+   * @param {object} options
+   * @returns {Promise.<String, Error>}
+   * @throws {Error}
+   */
+  Generator.prototype.generate = function(options) {
+    return postMessage('generator-generate', {options: options, generatorId: this.generatorId});
   };
 
   /**

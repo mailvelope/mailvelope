@@ -934,5 +934,33 @@
   "waiting_dialog_decryption_failed": {
     "message": "Decryption failed!",
     "description": "Error message in the waiting dialog after failing to decrypt a message"
+  },
+  "keygen_dialog_prolog": {
+    "message": "Assign password to protect your encrypted communication:",
+    "description": ""
+  },
+  "keygen_dialog_password": {
+    "message": "Key Password",
+    "description": ""
+  },
+  "keygen_dialog_password_placeholder": {
+    "message": "min 4 characters",
+    "description": ""
+  },
+  "keygen_dialog_password_error": {
+    "message": "Password must have at least 4 characters.",
+    "description": ""
+  },
+  "keygen_dialog_confirm": {
+    "message": "Repeat",
+    "description": ""
+  },
+  "keygen_dialog_confirm_error_noempty": {
+    "message": "Password can not be empty.",
+    "description": ""
+  },
+  "keygen_dialog_confirm_error_unequal": {
+    "message": "The passwords do not match.",
+    "description": ""
   }
 }
