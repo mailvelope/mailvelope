@@ -147,6 +147,12 @@ mvelo.domAPI.eventListener = function(event) {
       case 'settings-container':
         mvelo.domAPI.settingsContainer(data.selector, keyringId, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
+      case 'key-gen-container':
+        mvelo.domAPI.keyGenContainer(data.selector, keyringId, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
+      case 'generator-generate':
+        mvelo.domAPI.generatorGenerate(data.generatorId, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
       case 'editor-encrypt':
         mvelo.domAPI.editorEncrypt(data.editorId, data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
@@ -174,7 +180,7 @@ mvelo.domAPI.getKeyring = function(keyringId, callback) {
   mvelo.extension.sendMessage({
     event: 'get-keyring',
     api_event: true,
-    keyringId: keyringId,
+    keyringId: keyringId
   }, function(result) {
     callback(result.error, result.data);
   });
@@ -184,7 +190,7 @@ mvelo.domAPI.createKeyring = function(keyringId, callback) {
   mvelo.extension.sendMessage({
     event: 'create-keyring',
     api_event: true,
-    keyringId: keyringId,
+    keyringId: keyringId
   }, function(result) {
     callback(result.error, result.data);
   });
@@ -226,6 +232,17 @@ mvelo.domAPI.settingsContainer = function(selector, keyringId, options, callback
   var container = new mvelo.OptionsContainer(selector, keyringId, options);
   this.containers.set(container.id, container);
   container.create(callback);
+};
+
+mvelo.domAPI.keyGenContainer = function(selector, keyringId, options, callback) {
+  options = options || {};
+  var container = new mvelo.KeyGenContainer(selector, keyringId, options);
+  this.containers.set(container.id, container);
+  container.create(callback);
+};
+
+mvelo.domAPI.generatorGenerate = function(generatorId, options, callback) {
+  this.containers.get(generatorId).generate(options, callback);
 };
 
 mvelo.domAPI.editorEncrypt = function(editorId, recipients, callback) {

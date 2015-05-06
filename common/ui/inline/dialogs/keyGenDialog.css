@@ -1,0 +1,12 @@
+/**
+ * Mailvelope - secure email with OpenPGP encryption for Webmail
+ * Copyright (C) 2015  Thomas Oberndörfer
+ */
+
+#key_gen_generator {
+  padding: 2em;
+}
+
+#key_gen_generator header {
+  display: block;
+}
