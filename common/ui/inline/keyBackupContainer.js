@@ -37,6 +37,7 @@ mvelo.KeyBackupContainer = function(selector, keyringId, options) {
   this.parent = null;
   this.container = null;
   this.done = null;
+  this.popupDone = null;
 };
 
 /**
@@ -54,7 +55,7 @@ mvelo.KeyBackupContainer.prototype.create = function(done) {
   if (mvelo.crx) {
     url = mvelo.extension.getURL('common/ui/inline/dialogs/keyBackupDialog.html?id=' + this.id + '&embedded=true');
   } else if (mvelo.ffa) {
-    url = 'about:blank?mvelo=editor&id=' + this.id + '&embedded=true';
+    url = 'about:blank?mvelo=keybackup&id=' + this.id + '&embedded=true';
   }
 
   this.container.setAttribute('src', url);
@@ -66,19 +67,27 @@ mvelo.KeyBackupContainer.prototype.create = function(done) {
   return this;
 };
 
-/**
- * @returns {mvelo.KeyBackupContainer}
- */
+mvelo.KeyBackupContainer.prototype.remove = function() {
+  if (this.container) {
+    this.parent.removeChild(this.container);
+  }
+
+  this.popupDone(null, this.id);
+  return this;
+};
+
+mvelo.KeyBackupContainer.prototype.popupDone = function(done) {
+  this.popupDone = done;
+  return this;
+};
+
 mvelo.KeyBackupContainer.prototype.registerEventListener = function() {
   var that = this;
 
   this.port.onMessage.addListener(function(msg) {
     switch (msg.event) {
-      case 'key-gen-valid':
-        that.done(null, null);
-        break;
-      case 'key-gen-invalid':
-        that.done(msg.error);
+      case 'popup-done':
+        that.remove();
         break;
       case 'dialog-done':
         that.done(null, that.id);

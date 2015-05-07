@@ -10,3 +10,38 @@
 #key_backup_generator header {
   display: block;
 }
+
+.waiting {
+  display: block;
+  background-color: #fff;
+  padding: 50px 100px;
+}
+
+.waiting img {
+  float: left;
+  margin: 13px 20px 13px 0;
+}
+
+.waiting .caption {
+  display: block;
+  float: left;
+  color: #333;
+}
+
+.waiting:after {
+  display: block;
+  height: 0;
+  clear: both;
+  content: ' ';
+}
+
+.waiting .caption h1 {
+  font: 16px/19px Verdana, Geneva, sans-serif;
+  font-weight: bold;
+  margin: 0;
+}
+
+.waiting .caption p {
+  font: 12px/15px Verdana, Geneva, sans-serif;
+  margin: 10px 0;
+}

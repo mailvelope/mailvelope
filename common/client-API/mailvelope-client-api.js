@@ -264,7 +264,27 @@
    * @returns {Promise.<undefined, Error>}
    */
   Keyring.prototype.createKeyBackupContainer = function(selector, keyring, options) {
-    return postMessage('key-backup-container', {selector: selector, identifier: keyring.identifier, options: options});
+    return postMessage('key-backup-container', {selector: selector, identifier: keyring.identifier, options: options}).then(function(popupId) {
+      return new Popup(popupId);
+    });
+  };
+
+  /**
+   * @private
+   * @param {string} popupId
+   * @alis Popup
+   * @constructor
+   */
+  var Popup = function(popupId) {
+    this.popupId = popupId;
+  };
+
+  /**
+   * @returns {Promise.<undefined, Error>}
+   * @throws {Error}
+   */
+  Popup.prototype.done = function() {
+    return postMessage('popup-done', {popupId: this.popupId});
   };
 
   /**
