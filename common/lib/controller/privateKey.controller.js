@@ -22,19 +22,28 @@ define(function(require, exports, module) {
   var sub = require('./sub.controller');
   var uiLog = require('../uiLog');
 
-  function PrivateKeyBackupController(port) {
+  function PrivateKeyController(port) {
     sub.SubController.call(this, port);
-    if (!port) {
-      this.mainType = 'keyGenCont';
-      this.id = this.mvelo.util.getHash();
-    }
     this.done = null;
     this.keyring = require('../keyring');
   }
 
-  PrivateKeyBackupController.prototype = Object.create(sub.SubController.prototype);
+  PrivateKeyController.prototype = Object.create(sub.SubController.prototype);
 
-  PrivateKeyBackupController.prototype.handlePortMessage = function(msg) {
+  PrivateKeyController.prototype.generatePublicKey = function() {
+    // TODO here generate the key pair
+    var keyPair = {};
+
+    if (keyPair) {
+      this.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: keyPair});
+    } else {
+      var error = new Error('Error on generate keyPair');
+      error.code = 'KEYPAIR_ERROR';
+      this.ports.keyGenCont.postMessage({event: 'generate-done', error: error});
+    }
+  };
+
+  PrivateKeyController.prototype.handlePortMessage = function(msg) {
     var that = this;
     switch (msg.event) {
       case 'open-security-settings':
@@ -48,14 +57,17 @@ define(function(require, exports, module) {
           }
         });
         break;
-      case 'is-key-gen-valid':
-        this.ports.keyGenDialog.postMessage({event: 'is-dialog-valide'});
+      case 'generate-key':
+        this.ports.keyGenDialog.postMessage({event: 'check-dialog-inputs'});
         break;
-      case 'key-gen-valid':
-        this.ports.keyGenCont.postMessage({event: 'key-gen-valid'});
-        break;
-      case 'key-gen-invalid':
-        this.ports.keyGenCont.postMessage({event: 'key-gen-invalid', error: 'key-gen-invalid'});
+      case 'input-check':
+        if (msg.isVvalid) {
+          this.generatePublicKey();
+        } else {
+          var error = new Error('The inputs "password" and "confirm" are not valid');
+          error.code = 'INPUT_NOT_VALID';
+          this.ports.keyGenCont.postMessage({event: 'generate-done', error: error});
+        }
         break;
       case 'dialog-init':
         this.ports.keyGenCont.postMessage({event: 'dialog-done'});
@@ -65,6 +77,6 @@ define(function(require, exports, module) {
     }
   };
 
-  exports.PrivateKeyBackupController = PrivateKeyBackupController;
+  exports.PrivateKeyController = PrivateKeyController;
 
 });

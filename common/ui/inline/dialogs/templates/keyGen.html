@@ -1,0 +1,29 @@
+<section id="key_gen_generator" class="secureBackground">
+  <header>
+    <p class="text-right">
+      <button class="btn btn-link secureBgndSettingsBtn" data-l10n-title-id="security_background_button_title"><span class="glyphicon lockBtnIcon"></span></button>
+    </p>
+  </header>
+  <section class="well form-horizontal" role="main">
+    <p data-l10n-title-id="generator_prolog" data-l10n-id="keygen_dialog_prolog"></p>
+
+    <div class="form-group has-error" id="pwd-form-group">
+      <label for="keygen-password" class="col-sm-3 control-label" data-l10n-id="keygen_dialog_password"></label>
+
+      <div class="col-sm-9">
+        <input type="password" class="form-control" id="keygen-password" data-length-min="4" data-l10n-placeholder-id="keygen_dialog_password_placeholder" autocomplete="off">
+        <span class="help label label-danger" data-l10n-id="keygen_dialog_password_error"></span>
+      </div>
+    </div>
+
+    <div class="row form-group has-error" id="confirm-form-group">
+      <label for="password_confirm" class="col-sm-3 control-label" data-l10n-id="keygen_dialog_confirm"></label>
+
+      <div class="col-sm-9">
+        <input type="password" class="form-control" id="password_confirm" autocomplete="off">
+        <span class="help label label-danger" data-l10n-id="keygen_dialog_confirm_error_noempty"></span>
+        <span class="help label label-danger" data-l10n-id="keygen_dialog_confirm_error_unequal"></span>
+      </div>
+    </div>
+  </section>
+</section>

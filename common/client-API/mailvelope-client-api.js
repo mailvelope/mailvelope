@@ -234,13 +234,11 @@
    * @typedef {Object} KeyGenContainerOptions
    * @property {string} email - the email address of the current user
    * @property {string} fullName - the full name of the current user
-   * @property {string} algorithm
    * @property {string} length
-   * @property {string} expire
    */
 
   /**
-   * Creates an iframe to display the private key backup container.
+   * Creates an iframe to display the keyGen container.
    * The iframe will be injected into the container identified by selector.
    * @param {CssSelector} selector - target container
    * @param {Keyring} keyring - the keyring to use for the setup
@@ -265,13 +263,12 @@
   };
 
   /**
-   * Check if are password correct and the confirm password equal
-   * @param {object} options
+   * Generate a private key
    * @returns {Promise.<String, Error>}
    * @throws {Error}
    */
-  Generator.prototype.generate = function(options) {
-    return postMessage('generator-generate', {options: options, generatorId: this.generatorId});
+  Generator.prototype.generate = function() {
+    return postMessage('generator-generate', {generatorId: this.generatorId});
   };
 
   /**
@@ -297,6 +294,7 @@
    * }
    */
   Editor.prototype.encrypt = function(recipients) {
+    console.log('Editor.prototype.encrypt', this);
     return postMessage('editor-encrypt', {recipients: recipients, editorId: this.editorId});
   };
 

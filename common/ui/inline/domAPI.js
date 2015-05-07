@@ -151,7 +151,7 @@ mvelo.domAPI.eventListener = function(event) {
         mvelo.domAPI.keyGenContainer(data.selector, keyringId, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'generator-generate':
-        mvelo.domAPI.generatorGenerate(data.generatorId, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
+        mvelo.domAPI.generatorGenerate(data.generatorId, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'editor-encrypt':
         mvelo.domAPI.editorEncrypt(data.editorId, data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
@@ -236,13 +236,16 @@ mvelo.domAPI.settingsContainer = function(selector, keyringId, options, callback
 
 mvelo.domAPI.keyGenContainer = function(selector, keyringId, options, callback) {
   options = options || {};
+  if (options.length === undefined) {
+    options.length = 2048;
+  }
   var container = new mvelo.KeyGenContainer(selector, keyringId, options);
   this.containers.set(container.id, container);
   container.create(callback);
 };
 
-mvelo.domAPI.generatorGenerate = function(generatorId, options, callback) {
-  this.containers.get(generatorId).generate(options, callback);
+mvelo.domAPI.generatorGenerate = function(generatorId, callback) {
+  this.containers.get(generatorId).generate(callback);
 };
 
 mvelo.domAPI.editorEncrypt = function(editorId, recipients, callback) {

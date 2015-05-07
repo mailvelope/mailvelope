@@ -37,6 +37,7 @@ mvelo.KeyGenContainer = function(selector, keyringId, options) {
   this.parent = null;
   this.container = null;
   this.done = null;
+  this.generateCallback = null;
 };
 
 /**
@@ -54,7 +55,7 @@ mvelo.KeyGenContainer.prototype.create = function(done) {
   if (mvelo.crx) {
     url = mvelo.extension.getURL('common/ui/inline/dialogs/keyGenDialog.html?id=' + this.id + '&embedded=true');
   } else if (mvelo.ffa) {
-    url = 'about:blank?mvelo=editor&id=' + this.id + '&embedded=true';
+    url = 'about:blank?mvelo=keyGenDialog&id=' + this.id + '&embedded=true';
   }
 
   this.container.setAttribute('src', url);
@@ -68,19 +69,16 @@ mvelo.KeyGenContainer.prototype.create = function(done) {
 
 /**
  * Generate a key pair and check if the inputs are correct
- * @param {object} options
- * @param {function} done - callback function
+ * @param {function} generateCallback - callback function
  * @returns {mvelo.KeyGenContainer}
  */
-mvelo.KeyGenContainer.prototype.generate = function(options, done) {
-  this.options = options;
-  this.done = done;
+mvelo.KeyGenContainer.prototype.generate = function(generateCallback) {
+  this.generateCallback = generateCallback;
 
   this.port.postMessage({
-    event: 'is-key-gen-valid',
+    event: 'generate-key',
     sender: this.name,
-    keyringId: this.keyringId,
-    options: this.options
+    keyringId: this.keyringId
   });
   return this;
 };
@@ -93,11 +91,12 @@ mvelo.KeyGenContainer.prototype.registerEventListener = function() {
 
   this.port.onMessage.addListener(function(msg) {
     switch (msg.event) {
-      case 'key-gen-valid':
-        that.done(null, null);
-        break;
-      case 'key-gen-invalid':
-        that.done(msg.error);
+      case 'generate-done':
+        if (msg.error) {
+          that.generateCallback(msg.error, that.id);
+        } else {
+          that.generateCallback(null, that.id);
+        }
         break;
       case 'dialog-done':
         that.done(null, that.id);
