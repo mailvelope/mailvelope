@@ -155,6 +155,9 @@ mvelo.domAPI.eventListener = function(event) {
       case 'key-gen-container':
         mvelo.domAPI.keyGenContainer(data.selector, keyringId, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
+      case 'key-backup-container':
+        mvelo.domAPI.keyBackupContainer(data.selector, keyringId, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
       case 'generator-generate':
         mvelo.domAPI.generatorGenerate(data.generatorId, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
@@ -245,6 +248,13 @@ mvelo.domAPI.keyGenContainer = function(selector, keyringId, options, callback) 
     options.length = 2048;
   }
   var container = new mvelo.KeyGenContainer(selector, keyringId, options);
+  this.containers.set(container.id, container);
+  container.create(callback);
+};
+
+mvelo.domAPI.keyBackupContainer = function(selector, keyringId, options, callback) {
+  options = options || {};
+  var container = new mvelo.KeyBackupContainer(selector, keyringId, options);
   this.containers.set(container.id, container);
   container.create(callback);
 };

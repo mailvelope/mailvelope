@@ -73,7 +73,8 @@ var mvelo = mvelo || null;
       checkPwdInput();
       checkConfirmInput();
 
-      port.postMessage({event: 'dialog-init', sender: name});
+      port.postMessage({ event: 'keygen-dialog-init', sender: name });
+    },
 
       isInputChange = true;
     });

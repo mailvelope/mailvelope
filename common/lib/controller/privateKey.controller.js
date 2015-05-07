@@ -77,8 +77,10 @@ define(function(require, exports, module) {
           this.ports.keyGenCont.postMessage({event: 'generate-done', error: {message: 'The inputs "password" and "confirm" are not valid', code: 'INPUT_NOT_VALID'}});
         }
         break;
-      case 'dialog-init':
+      case 'keygen-dialog-init':
         this.ports.keyGenCont.postMessage({event: 'dialog-done'});
+        break;
+      case 'keybackup-dialog-init':
         break;
       default:
         console.log('unknown event', msg);

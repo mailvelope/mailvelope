@@ -253,6 +253,21 @@
   };
 
   /**
+   * @typedef {Object} KeyBackupContainerOptions
+   */
+
+  /**
+   * ...
+   * @param {CssSelector} selector - target container
+   * @param {Keyring} keyring - the keyring to use for the setup
+   * @param {KeyBackupContainerOptions} options
+   * @returns {Promise.<undefined, Error>}
+   */
+  Keyring.prototype.createKeyBackupContainer = function(selector, keyring, options) {
+    return postMessage('key-backup-container', {selector: selector, identifier: keyring.identifier, options: options});
+  };
+
+  /**
    * Not accessible, instance can be obtained using {@link Keyring#createKeyGenContainer}.
    * @private
    * @param {string} generatorId - the internal id of the generator
