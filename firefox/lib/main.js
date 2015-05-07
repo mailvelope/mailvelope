@@ -133,6 +133,7 @@ function activatePageMods() {
   injectSignDialog();
   injectEmbeddedEditor();
   injectEmbeddedOptions();
+  injectEmbeddedKeyGen();
 }
 
 function deactivate() {
@@ -416,6 +417,31 @@ function injectEmbeddedOptions() {
       data.url("common/ui/mvelo.css"),
       data.url("common/ui/options.css"),
       data.url("common/ui/providers.css")
+    ],
+    contentScriptWhen: 'ready',
+    contentScriptOptions: {
+      expose_messaging: false,
+      data_path: data.url()
+    }
+  });
+}
+
+function injectEmbeddedKeyGen() {
+  pageMods.embeddedOptionsPageMod = pageMod.PageMod({
+    include: 'about:blank?mvelo=keyGenDialog*',
+    onAttach: onCsAttach,
+    contentScriptFile: [
+      data.url('common/dep/jquery.min.js'),
+      data.url('common/dep/jquery.ext.js'),
+      data.url('ui/messageAdapter.js'),
+      data.url('common/dep/bootstrap/js/bootstrap.js'),
+      data.url('common/ui/mvelo.js'),
+      data.url('common/ui/inline/dialogs/keyGenDialog.js')
+    ],
+    contentStyleFile: [
+      data.url("common/dep/bootstrap/css/bootstrap.css"),
+      data.url("common/ui/mvelo.css"),
+      data.url("common/ui/inline/dialogs/keyGenDialog.css")
     ],
     contentScriptWhen: 'ready',
     contentScriptOptions: {
