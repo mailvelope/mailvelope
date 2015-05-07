@@ -22,26 +22,18 @@ var mvelo = mvelo || null;
 (function() {
   var id, name, port, l10n;
 
-  var
-    $secureBgndButton,
-    $pwdInput,
-    $pwdError,
-    $pwdParent,
-    $replyInput,
-    $replyParent,
-    $replyErrorNoEmpty,
-    $replyErrorNoEqual
-    ;
+  var $secureBgndButton;
+  var $securingNoteButton;
 
-  var
-    init = function() {
-      var
-        qs = jQuery.parseQuerystring(),
-        id = qs.id,
-        name = 'keyBackupDialog-' + id
-      ;
+  function init() {
+    var qs = jQuery.parseQuerystring();
+    id = qs.id;
+    name = 'keyBackupDialog-' + id;
 
+    $('body').addClass("secureBackground");
+    mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/inline/dialogs/templates/keybackup.html')).then(function() {
       $secureBgndButton = $('.secureBgndSettingsBtn');
+      $securingNoteButton = $('#createSecuringNoteBtn');
 
       port = mvelo.extension.connect({name: name});
       port.onMessage.addListener(messageListener);
@@ -59,21 +51,38 @@ var mvelo = mvelo || null;
         port.postMessage({ event: 'open-security-settings', sender: name });
       });
 
-      port.postMessage({ event: 'keybackup-dialog-init', sender: name });
-    },
+      $securingNoteButton.on('click', function() {
+        var $spinner = $('<figure />')
+          .addClass('waiting')
+          .append($('<img/>')
+            .attr('src', '../../../img/spinner.gif'))
+          .append($('<figcation />')
+            .addClass('caption')
+            .append($('<h1 />').html('Sicherung wird eingerichtet'))
+            .append($('<p />').html('Ein Dokument mit ihrem Wiederherstellungscode wird vorbereitet &hellip;')));
 
-    /**
-     * Mananaged the different post messages
-     * @param {string} msg
-     */
-    messageListener = function(msg) {
-      //console.log('generator messageListener: ', JSON.stringify(msg));
-      switch (msg.event) {
-        default:
-          console.log('unknown event');
-      }
-    };
+        $('#key_backup_generator').parent().removeClass('secureBackground').empty().append($spinner);
+
+        window.setTimeout(function() {
+          port.postMessage({ event: 'create-securing-note-popup', sender: name });
+        }, 30000); // 3sec
+      });
+
+      port.postMessage({ event: 'keybackup-dialog-init', sender: name });
+    });
+  }
+
+  /**
+   * Mananaged the different post messages
+   * @param {string} msg
+   */
+  function messageListener(msg) {
+    //console.log('generator messageListener: ', JSON.stringify(msg));
+    switch (msg.event) {
+      default:
+        console.log('unknown event');
+    }
+  }
 
   $(document).ready(init);
-
 }());

@@ -28,6 +28,7 @@ define(function(require, exports, module) {
     this.keyring = require('../keyring');
     this.keyringId = null;
     this.options = null;
+    this.securingNotePopup = null;
   }
 
   PrivateKeyController.prototype = Object.create(sub.SubController.prototype);
@@ -81,6 +82,11 @@ define(function(require, exports, module) {
         this.ports.keyGenCont.postMessage({event: 'dialog-done'});
         break;
       case 'keybackup-dialog-init':
+        this.ports.keyBackupCont.postMessage({event: 'dialog-done'});
+        break;
+      case 'create-securing-note-popup':
+        this.createPrivateKeyBackup();
+        this.ports.keyBackupCont.postMessage({event: 'popup-done'});
         break;
       default:
         console.log('unknown event', msg);
