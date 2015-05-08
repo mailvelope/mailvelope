@@ -1,0 +1,154 @@
+html, body {
+
+}
+.recovery-sheet {
+    max-width: 920px;
+    display: flex;
+    flex-direction: column;
+}
+
+/***************************************
+ * CONTENT
+ */
+.recovery-sheet_teaser {
+    position: relative;
+    background-color: #ccc;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.recovery-sheet_teaser h1 {
+    margin: 10px 0;
+    font-size: 54px;
+    color: #515151;
+}
+
+.recovery-sheet_teaser::before,
+.recovery-sheet_teaser::after {
+    content: "";
+    width: 30px;
+    height: 30px;
+    background-color: #333;
+    display: flex;
+    align-self: center;
+    margin: 30px;
+}
+
+/***************************************
+ * CONTENT
+ */
+.recovery-sheet_content {
+    font-size: 12px;
+    margin: 30px 0 50px;
+}
+
+.recovery-sheet_content h2,
+.recovery-sheet_content h3,
+.recovery-sheet_content h4 {
+    color: #515151;
+}
+
+.recovery-sheet_content h3 {
+    font-size: 15px;
+}
+
+.recovery-sheet_content h4 {
+    font-size: 13px;
+}
+
+.recovery-sheet_content h2 {
+    font-size: 43px;
+    line-height: 50px;
+    margin-top: 0;
+}
+
+/***************************************
+ * SHEET PANEL
+ */
+.recovery-sheet_panel {
+    background-color: #ccc;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.recovery-sheet_panel-content {
+    margin: 20px;
+}
+
+/***************************************
+ * RECOVERY CODE PANEL
+ */
+.recovery-sheet_code {
+    display: flex;
+    flex-direction: column;
+}
+
+.recovery-sheet_code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.recovery-sheet_code-header * {
+    margin-top: 0;
+}
+
+.recovery-sheet_code-container {
+    background-color: #bbb;
+    height: 50px;
+}
+
+/***************************************
+ * RECOVERY DEVICES
+ */
+.recovery-sheet_devices {
+    display: flex;
+    flex-direction: row;
+    margin: 20px 0;
+}
+
+.recovery-sheet_devices-item {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.recovery-sheet_devices-item:first-of-type {
+    padding-right: 50px;
+    border-right: 2px solid #333;
+}
+
+.recovery-sheet_devices-item:last-of-type {
+    padding-left: 50px;
+    border-left: 2px solid #333;
+}
+
+.recovery-sheet_devices-image {
+    width: 100px;
+    height: 60px;
+    background-color: #999;
+}
+
+.recovery-sheet_devices-split-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.recovery-sheet_devices-split-content p,
+.recovery-sheet_devices-split-content h4 {
+    max-width: 150px;
+}
+
+/***************************************
+ * TEMPORARY
+ */
+.logo {
+    width: 100px;
+    height: 60px;
+    background-color: #999;
+}
