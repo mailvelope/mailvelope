@@ -25,15 +25,8 @@ html, body {
     color: #515151;
 }
 
-.recovery-sheet_teaser::before,
-.recovery-sheet_teaser::after {
-    content: "";
-    width: 30px;
-    height: 30px;
-    background-color: #333;
-    display: flex;
-    align-self: center;
-    margin: 30px;
+.recovery-sheet_teaser img {
+    margin: 20px;
 }
 
 /***************************************
@@ -142,6 +135,14 @@ html, body {
 .recovery-sheet_devices-split-content p,
 .recovery-sheet_devices-split-content h4 {
     max-width: 150px;
+}
+
+/***************************************
+ * RECOVERY DESCRIPTION
+ */
+.recovery-sheet_description {
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 /***************************************
