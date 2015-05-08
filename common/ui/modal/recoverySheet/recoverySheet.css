@@ -64,7 +64,7 @@ html, body {
 .recovery-sheet_panel {
     background-color: #e8eef7;
     border: 1px solid #c6c6c6;
-    margin-top: 20px;
+    margin: 20px 15px 0;
     overflow: hidden;
 }
 
@@ -111,12 +111,12 @@ html, body {
 }
 
 .recovery-sheet_devices-item:first-of-type {
-    padding-right: 50px;
+    padding-right: 45px;
     border-right: 1px solid #c6c6c6;
 }
 
 .recovery-sheet_devices-item:last-of-type {
-    padding-left: 50px;
+    padding-left: 45px;
     border-left: 1px solid #c6c6c6;
 }
 
