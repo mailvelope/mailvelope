@@ -161,6 +161,12 @@ html, body {
 
 .recovery-sheet_print-button {
     margin: 0 15px;
+    opacity: 0.75;
+    cursor: pointer;
+}
+
+.recovery-sheet_print-button:hover {
+    opacity: 1;
 }
 
 
