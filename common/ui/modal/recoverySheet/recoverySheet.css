@@ -5,6 +5,7 @@ html, body {
     max-width: 920px;
     display: flex;
     flex-direction: column;
+    color: #262626;
 }
 
 /***************************************
@@ -34,7 +35,7 @@ html, body {
  */
 .recovery-sheet_content {
     font-size: 12px;
-    margin: 30px 0 50px;
+    margin-top: 30px;
 }
 
 .recovery-sheet_content h2,
@@ -61,7 +62,8 @@ html, body {
  * SHEET PANEL
  */
 .recovery-sheet_panel {
-    background-color: #ccc;
+    background-color: #e8eef7;
+    border: 1px solid #c6c6c6;
     margin-top: 20px;
     overflow: hidden;
 }
@@ -90,7 +92,7 @@ html, body {
 
 .recovery-sheet_code-container {
     background-color: #bbb;
-    height: 50px;
+    height: 85px;
 }
 
 /***************************************
@@ -110,12 +112,12 @@ html, body {
 
 .recovery-sheet_devices-item:first-of-type {
     padding-right: 50px;
-    border-right: 2px solid #333;
+    border-right: 1px solid #c6c6c6;
 }
 
 .recovery-sheet_devices-item:last-of-type {
     padding-left: 50px;
-    border-left: 2px solid #333;
+    border-left: 1px solid #c6c6c6;
 }
 
 .recovery-sheet_devices-image {
@@ -144,6 +146,23 @@ html, body {
     margin-top: 50px;
     margin-bottom: 50px;
 }
+
+/***************************************
+ * RECOVERY SHEET - PRINT BUTTON
+ */
+.recovery-sheet_print {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    margin: 30px 0;
+}
+
+.recovery-sheet_print-button {
+    margin: 0 15px;
+}
+
 
 /***************************************
  * TEMPORARY
