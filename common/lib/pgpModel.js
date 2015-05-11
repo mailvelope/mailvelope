@@ -38,6 +38,9 @@ define(function(require, exports, module) {
     pwdCache.init();
     initOpenPGP();
     keyring.init();
+    // test
+    var backup = createPrivateKeyBackup(mvelo.LOCAL_KEYRING_ID);
+    console.log(backup);
   }
 
   function initOpenPGP() {
