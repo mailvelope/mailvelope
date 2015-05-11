@@ -189,10 +189,6 @@ html, body {
     background-color: #999;
 }
 
-.print-invisible {
-    display: none;
-}
-
 .page-breaker {
     border: 0;
     margin: 0;
