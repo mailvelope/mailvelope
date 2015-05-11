@@ -22,7 +22,8 @@
                     </div>
                     <div class="col-xs-10">
                         <h2>Wiederherstellungsbeleg zur verschlüsselten Kommunikation</h2>
-                        <h3>Bitte drucken Sie diesen Beleg aus und verwahren Sie ihn sicher!</h3>
+                        <h3 class="hidden-print">Bitte drucken Sie diesen Beleg aus und verwahren Sie ihn sicher!</h3>
+                        <h3 class="visible-print-block">Bitte bewahren Sie diesen Beleg sicher auf!</h3>
                     </div>
                 </div>
 
@@ -33,7 +34,19 @@
                                 <h3>Wiederherstellungscode</h3>
                                 <h3>Erstellungsdatum: DD.MM.JJJJ</h3>
                             </div>
-                            <div class="recovery-sheet_code-container"></div>
+                            <div class="recovery-sheet_code-container">
+                                <span class="recovery-sheet_code-digit">52791</span>
+                                <span class="recovery-sheet_code-separator">-</span>
+                                <span class="recovery-sheet_code-digit">65931</span>
+                                <span class="recovery-sheet_code-separator">-</span>
+                                <span class="recovery-sheet_code-digit">78547</span>
+                                <span class="recovery-sheet_code-separator">-</span>
+                                <span class="recovery-sheet_code-digit">26854</span>
+                                <span class="recovery-sheet_code-separator">-</span>
+                                <span class="recovery-sheet_code-digit">99856</span>
+                                <span class="recovery-sheet_code-separator">-</span>
+                                <span class="recovery-sheet_code-digit">6</span>
+                            </div>
                         </div>
 
                         <div class="recovery-sheet_plain-content">
@@ -72,7 +85,9 @@
                                 </div>
                                 <div class="recovery-sheet_devices-split-content">
                                     <p>Scannen Sie den QR- Code mit Ihrem mobilen Gerät.</p>
-                                    <span class="recovery-sheet_devices-qr-code"></span>
+                                    <span class="recovery-sheet_devices-qr-code">
+                                        <img src="http://www.reichmann-racing.de/wp-content/download/qrcode.png" width="100" height="100" />
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -139,6 +154,12 @@
                         <p>Weitere Informationen und Einstellungsmöglichkeiten finden Sie In Ihrem WEB.DE Postfach unter Einstellungen > Verschlüsselte Kommunikation.</p>
                     </div>
                 </div>
+                <section class="recovery-sheet_print hidden-print">
+                    <img src="assets/printer.png" />
+                    <img src="assets/web.de/btn.png" class="recovery-sheet_print-button" />
+                    <img src="assets/printer.png" />
+                </section>
+
             </section>
 
             <footer class="recovery-sheet_teaser">
