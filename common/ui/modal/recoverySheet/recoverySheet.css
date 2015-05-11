@@ -102,8 +102,24 @@ html, body {
 }
 
 .recovery-sheet_code-container {
-    background-color: #bbb;
+    background-color: #fff;
     height: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.recovery-sheet_code-digit {
+    background-color: #ccc;
+    border: 1px dotted #c6c6c6;
+    padding: 5px 10px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.recovery-sheet_code-separator {
+    font-size: 30px;
+    margin: 5px;
 }
 
 /***************************************
@@ -217,12 +233,12 @@ html, body {
         border: 1px solid #000;
     }
 
-    .recovery-sheet_code-container {
-        border: 1px solid #000;
-    }
-
     .recovery-sheet_panel {
         max-width: 680px;
+    }
+
+    .recovery-sheet_code-container {
+        height: auto;
     }
 
     .recovery-sheet_content h2 {
