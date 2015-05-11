@@ -197,13 +197,18 @@ html, body {
 }
 
 .page-breaker {
-    border: 0;
-    margin: 0;
     padding: 0;
+    margin: 0;
+    border: 0;
 }
 
 
 @media print {
+
+    .recovery-sheet {
+        display: block;
+    }
+
     .visible-print-block {
         display: flex !important;
     }
@@ -229,6 +234,7 @@ html, body {
     }
 
     .page-breaker {
-        page-break-before: always;
+        page-break-after: always;
+        page-break-inside: avoid;
     }
 }
