@@ -51,18 +51,17 @@ html, body {
     color: #515151;
 }
 
+.recovery-sheet_content h2 {
+    font-size: 43px;
+    margin-top: 0;
+}
+
 .recovery-sheet_content h3 {
     font-size: 15px;
 }
 
 .recovery-sheet_content h4 {
     font-size: 14px;
-}
-
-.recovery-sheet_content h2 {
-    font-size: 43px;
-    line-height: 50px;
-    margin-top: 0;
 }
 
 .recovery-sheet_content p:last-of-type {
@@ -188,4 +187,45 @@ html, body {
     width: 100px;
     height: 60px;
     background-color: #999;
+}
+
+.print-invisible {
+    display: none;
+}
+
+.page-breaker {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+
+@media print {
+    .visible-print-block {
+        display: flex !important;
+    }
+
+    .recovery-sheet_teaser {
+        border: 1px solid #000;
+    }
+
+    .recovery-sheet_code-container {
+        border: 1px solid #000;
+    }
+
+    .recovery-sheet_panel {
+        max-width: 680px;
+    }
+
+    .recovery-sheet_content h2 {
+        font-size: 30px;
+    }
+
+    .recovery-sheet_description {
+        margin: 20px 0;
+    }
+
+    .page-breaker {
+        page-break-before: always;
+    }
 }
