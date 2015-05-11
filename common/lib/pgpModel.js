@@ -25,6 +25,7 @@ define(function(require, exports, module) {
   var defaults = require('./defaults');
   var prefs = require('./prefs');
   var pwdCache = require('./pwdCache');
+  var crypto = require('./crypto');
 
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
   var keyring = require('./keyring');
@@ -37,6 +38,9 @@ define(function(require, exports, module) {
     pwdCache.init();
     initOpenPGP();
     keyring.init();
+    // test
+    var backup = createPrivateKeyBackup(mvelo.LOCAL_KEYRING_ID);
+    console.log(backup);
   }
 
   function initOpenPGP() {
@@ -204,6 +208,52 @@ define(function(require, exports, module) {
     openpgp.getWorker().signClearMessage([signKey], message).then(callback.bind(null, null), callback);
   }
 
+  function createPrivateKeyBackup(keyringId) {
+    // get primary private key
+    var primaryKey;
+    var primaryKeyid = keyring.getById(keyringId).getAttributes().primary_key;
+    if (!primaryKeyid) {
+      // get newest private key
+      keyring.getById(keyringId).keyring.privateKeys.keys.forEach(function(key) {
+        if (!primaryKey || primaryKey.primaryKey.created < key.primaryKey.created) {
+          primaryKey = key;
+        }
+      });
+    } else {
+      primaryKey = keyring.getById(keyringId).keyring.privateKeys.getForId(primaryKeyid.toLowerCase());
+    }
+    if (!primaryKey) {
+      throw new Error('No private key for backup');
+    }
+    // create backup code
+    var backupCode = crypto.randomString(26);
+    // create packet structure
+    var packetList = new openpgp.packet.List();
+    var literal = new openpgp.packet.Literal();
+    var text = 'Version: 1\n';
+    text += 'Pwd: ' + '123' + '\n';
+    literal.setText(text);
+    packetList.push(literal);
+    packetList.concat(primaryKey.toPacketlist());
+    // symmetrically encrypt with backup code
+    var msg = new openpgp.message.Message(packetList);
+    msg = msg.symEncrypt(backupCode);
+    return {
+      backupCode: backupCode,
+      message: msg.armor()
+    };
+  }
+
+  exports.validateEmail = validateEmail;
+  exports.readMessage = readMessage;
+  exports.readCleartextMessage = readCleartextMessage;
+  exports.decryptMessage = decryptMessage;
+  exports.unlockKey = unlockKey;
+  exports.encryptMessage = encryptMessage;
+  exports.signMessage = signMessage;
+  exports.verifyMessage = verifyMessage;
+  exports.createPrivateKeyBackup = createPrivateKeyBackup;
+
   function getWatchList() {
     watchListBuffer = watchListBuffer || mvelo.storage.get('mailvelopeWatchList');
     return watchListBuffer;
@@ -220,19 +270,6 @@ define(function(require, exports, module) {
     return hostname.split('.').slice(-3).join('.');
   }
 
-  exports.validateEmail = validateEmail;
-  exports.readMessage = readMessage;
-  exports.readCleartextMessage = readCleartextMessage;
-  exports.decryptMessage = decryptMessage;
-  exports.unlockKey = unlockKey;
-  exports.encryptMessage = encryptMessage;
-  exports.signMessage = signMessage;
-  exports.verifyMessage = verifyMessage;
-  exports.getWatchList = getWatchList;
-  exports.setWatchList = setWatchList;
-  exports.getHostname = getHostname;
-  exports.getHost = mvelo.util.getHost;
-
   function getPreferences() {
     return mvelo.storage.get('mailvelopePreferences');
   }
@@ -241,6 +278,10 @@ define(function(require, exports, module) {
     mvelo.storage.set('mailvelopePreferences', preferences);
   }
 
+  exports.getWatchList = getWatchList;
+  exports.setWatchList = setWatchList;
+  exports.getHostname = getHostname;
+  exports.getHost = mvelo.util.getHost;
   exports.getPreferences = getPreferences;
   exports.setPreferences = setPreferences;
 
