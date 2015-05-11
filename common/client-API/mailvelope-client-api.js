@@ -101,7 +101,7 @@
 
   /**
    * @typedef {Object} EditorContainerOptions
-   * @property {int} quota - limit of the encrypted mail size in kilobytes (default: 25600)
+   * @property {number} quota - limit of the encrypted mail size in kilobytes (default: 25600)
    * @property {string} predefinedText - text that will be added to the editor
    * @property {AsciiArmored} quotedMail - mail that should be quoted
    * @property {boolean} quotedMailIndent - if true the quoted mail will be indented (default: true)
@@ -234,16 +234,17 @@
    * @typedef {Object} KeyGenContainerOptions
    * @property {string} email - the email address of the current user
    * @property {string} fullName - the full name of the current user
-   * @property {string} length
+   * @property {number} length
    */
 
   /**
-   * Creates an iframe to display the keyGen container.
+   * Creates an iframe to display "key generation" container.
    * The iframe will be injected into the container identified by selector.
    * @param {CssSelector} selector - target container
    * @param {Keyring} keyring - the keyring to use for the setup
    * @param {KeyGenContainerOptions} options
-   * @returns {Promise <Generator. Error>}
+   * @returns {Promise <Generator, Error>}
+   * @throws {Error} error.conde = 'INPUT_NOT_VALID'
    */
   Keyring.prototype.createKeyGenContainer = function(selector, keyring, options) {
     return postMessage('key-gen-container', {selector: selector, identifier: keyring.identifier, options: options}).then(function(generatorId) {

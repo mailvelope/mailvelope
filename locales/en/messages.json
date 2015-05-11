@@ -303,6 +303,10 @@
     "message": "PGP Editor",
     "description": "Message editor container as an event source"
   },
+  "security_log_key_generator": {
+    "message": "Key Generator",
+    "description": "Key generator container as an event source"
+  },
   "security_log_textarea_click": {
     "message": "Click-event in text area",
     "description": "A click in the text area as an event type"
@@ -326,6 +330,10 @@
   "security_log_remove_attachment": {
     "message": "Attachment removed",
     "description": "A click on the attachment remove button as event type"
+  },
+  "security_log_password_input": {
+    "message": "Input-event in password input",
+    "description": "A click in the text area as an event type"
   },
   "settings_security": {
     "message": "Security",
