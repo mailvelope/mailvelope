@@ -2,10 +2,11 @@ html, body {
 
 }
 .recovery-sheet {
-    max-width: 920px;
+    min-width: 740px;
     display: flex;
     flex-direction: column;
     color: #262626;
+    box-sizing: border-box;
 }
 
 /***************************************
@@ -36,6 +37,9 @@ html, body {
 .recovery-sheet_content {
     font-size: 12px;
     margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .recovery-sheet_content h2,
@@ -66,6 +70,8 @@ html, body {
     border: 1px solid #c6c6c6;
     margin: 20px 15px 0;
     overflow: hidden;
+    max-width: 880px;
+    width: 100%;
 }
 
 .recovery-sheet_panel-content {
