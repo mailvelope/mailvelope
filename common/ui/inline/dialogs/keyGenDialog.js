@@ -20,7 +20,7 @@
 var mvelo = mvelo || null;
 
 (function() {
-  var id, name, port, l10n;
+  var id, name, port, l10n, isInputChange;
 
   var $secureBgndButton;
   var $pwdInput;
@@ -31,129 +31,153 @@ var mvelo = mvelo || null;
   var $confirmErrorNoEmpty;
   var $confirmErrorNoEqual;
 
-  var
-    init = function() {
-      var qs = jQuery.parseQuerystring();
-      var id = qs.id;
-      name = 'keyGenDialog-' + id;
+  function init() {
+    var qs = jQuery.parseQuerystring();
+    id = qs.id;
+    name = 'keyGenDialog-' + id;
 
-      $('body').addClass("secureBackground");
-      mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/inline/dialogs/templates/keygen.html')).then(function() {
-        $secureBgndButton = $('.secureBgndSettingsBtn');
-        $pwdInput = $('#keygen-password');
-        $pwdError = $pwdInput.next();
-        $pwdParent = $('#pwd-form-group');
-        $confirmInput = $('#password_confirm');
-        $confirmParent = $('#confirm-form-group');
-        $confirmErrorNoEmpty = $confirmInput.next();
-        $confirmErrorNoEqual = $confirmErrorNoEmpty.next();
+    port = mvelo.extension.connect({name: name});
+    port.onMessage.addListener(messageListener);
 
-        port = mvelo.extension.connect({name: name});
-        port.onMessage.addListener(messageListener);
+    $('body').addClass("secureBackground");
 
-        // Get language strings from JSON
-        mvelo.l10n.getMessages([], function(result) {
-          l10n = result;
-        });
+    mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/inline/dialogs/templates/keyGen.html')).then(function() {
+      $secureBgndButton = $('.secureBgndSettingsBtn');
+      $pwdInput = $('#keygen-password');
+      $pwdError = $pwdInput.next();
+      $pwdParent = $('#pwd-form-group');
+      $confirmInput = $('#password_confirm');
+      $confirmParent = $('#confirm-form-group');
+      $confirmErrorNoEmpty = $confirmInput.next();
+      $confirmErrorNoEqual = $confirmErrorNoEmpty.next();
 
-        mvelo.l10n.localizeHTML();
-        mvelo.util.showSecurityBackground(qs.embedded);
-
-        $secureBgndButton.on('click', function() {
-          port.postMessage({ event: 'open-security-settings', sender: name });
-        });
-
-        $pwdInput.focus().on('keyup', checkPwdInput);
-        $confirmInput.on('keyup', checkConfirmInput);
-
-        checkPwdInput();
-        checkConfirmInput();
-
-        port.postMessage({ event: 'dialog-init', sender: name });
+      // Get language strings from JSON
+      mvelo.l10n.getMessages([], function(result) {
+        l10n = result;
       });
-    },
 
-    /**
-     * return true or false if the password input is valid
-     * @returns {boolean}
-     */
-    checkPwdInput = function() {
-      var pwdVal = $pwdInput.val();
+      mvelo.l10n.localizeHTML();
+      mvelo.util.showSecurityBackground(qs.embedded);
+
+      $secureBgndButton.on('click', function() {
+        port.postMessage({event: 'open-security-settings', sender: name});
+      });
+
+      $pwdInput.focus().on('keyup', checkPwdInput);
+      $confirmInput.on('keyup', checkConfirmInput);
+
+      checkPwdInput();
       checkConfirmInput();
 
-      if (pwdVal.length >= parseInt($pwdInput.data('lengthMin'))) {
-        $pwdParent
+      port.postMessage({event: 'dialog-init', sender: name});
+
+      isInputChange = true;
+    });
+  }
+
+  /**
+   * return true or false if the password input is valid
+   * @returns {boolean}
+   */
+  function checkPwdInput() {
+    var pwdVal = $pwdInput.val();
+    checkConfirmInput();
+
+    if (pwdVal.length >= parseInt($pwdInput.data('lengthMin'))) {
+      $pwdParent
+        .removeClass('has-error')
+        .addClass('has-success');
+      $pwdError.fadeOut();
+
+      $confirmInput
+        .prop('disabled', false);
+      return true;
+    }
+    $pwdParent
+      .addClass('has-error')
+      .removeClass('has-success');
+    $pwdError.fadeIn();
+    $confirmInput.prop('disabled', true);
+    return false;
+  }
+
+  /**
+   * return true or false if the confirm input is valid
+   * @returns {boolean}
+   */
+  function checkConfirmInput() {
+    var confirmVal = $confirmInput.val();
+
+    if (isInputChange) {
+      logUserInput('security_log_password_input');
+      // limit textarea log to 1 event per second
+      isInputChange = false;
+      window.setTimeout(function() {
+        isInputChange = true;
+      }, 1000);
+    }
+
+    if (confirmVal && confirmVal.length >= 1) {
+      if (confirmVal !== $pwdInput.val()) {
+        $confirmErrorNoEqual.fadeIn();
+        $confirmParent
+          .addClass('has-error')
+          .removeClass('has-success');
+        $confirmErrorNoEmpty.hide();
+        $confirmErrorNoEqual.fadeIn();
+        return false;
+      } else {
+        $confirmParent
           .removeClass('has-error')
           .addClass('has-success');
-        $pwdError.fadeOut();
-
-        $confirmInput
-          .prop('disabled', false);
+        $confirmErrorNoEmpty.fadeOut();
+        $confirmErrorNoEqual.fadeOut();
         return true;
       }
-      $pwdParent
-        .addClass('has-error')
-        .removeClass('has-success');
-      $pwdError.fadeIn();
-      $confirmInput.prop('disabled', true);
-      return false;
-    },
+    }
+    $confirmInput
+      .addClass('has-error')
+      .removeClass('has-success');
+    $confirmErrorNoEmpty.fadeIn();
+    $confirmErrorNoEqual.hide();
+    return false;
+  }
 
-    /**
-     * return true or false if the confirm input is valid
-     * @returns {boolean}
-     */
-    checkConfirmInput = function() {
-      var confirmVal = $confirmInput.val();
+  /**
+   * returns true or false if the inputs are correct
+   * @returns {boolean}
+   */
+  function validate() {
+    return (checkPwdInput() && checkConfirmInput());
+  }
 
-      if (confirmVal && confirmVal.length >= 1) {
-        if (confirmVal !== $pwdInput.val()) {
-          $confirmErrorNoEqual.fadeIn();
-          $confirmParent
-            .addClass('has-error')
-            .removeClass('has-success');
-          $confirmErrorNoEmpty.hide();
-          $confirmErrorNoEqual.fadeIn();
-          return false;
-        } else {
-          $confirmParent
-            .removeClass('has-error')
-            .addClass('has-success');
-          $confirmErrorNoEmpty.fadeOut();
-          $confirmErrorNoEqual.fadeOut();
-          return true;
-        }
-      }
-      $confirmInput
-        .addClass('has-error')
-        .removeClass('has-success');
-      $confirmErrorNoEmpty.fadeIn();
-      $confirmErrorNoEqual.hide();
-      return false;
-    },
+  /**
+   * send log entry for the extension
+   * @param {string} type
+   */
+  function logUserInput(type) {
+    port.postMessage({
+      event: 'keygen-user-input',
+      sender: name,
+      source: 'security_log_key_generator',
+      type: type
+    });
+  }
 
-    /**
-     * returns true or false if the inputs are correct
-     * @returns {boolean}
-     */
-    validate = function() {
-      return (checkPwdInput() && checkConfirmInput());
-    },
-
-    /**
-     * Mananaged the different post messages
-     * @param {string} msg
-     */
-    messageListener = function(msg) {
-      //console.log('keyGenDialog messageListener: ', JSON.stringify(msg));
-      switch (msg.event) {
-        case 'check-dialog-inputs':
-          port.postMessage({ event: 'input-check', sender: name, isVvalid: validate()});
-          break;
-        default:
-          console.log('unknown event');
-      }
-    };
+  /**
+   * Mananaged the different post messages
+   * @param {string} msg
+   */
+  function messageListener(msg) {
+    //console.log('keyGenDialog messageListener: ', JSON.stringify(msg));
+    switch (msg.event) {
+      case 'check-dialog-inputs':
+        port.postMessage({event: 'input-check', sender: name, isValid: validate()});
+        break;
+      default:
+        console.log('unknown event');
+    }
+  }
 
   $(document).ready(init);
 

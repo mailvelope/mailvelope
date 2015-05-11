@@ -53,9 +53,9 @@ mvelo.KeyGenContainer.prototype.create = function(done) {
   this.container = document.createElement('iframe');
 
   if (mvelo.crx) {
-    url = mvelo.extension.getURL('common/ui/inline/dialogs/keyGenDialog.html?id=' + this.id + '&embedded=true');
+    url = mvelo.extension.getURL('common/ui/inline/dialogs/keyGenDialog.html?id=' + this.id);
   } else if (mvelo.ffa) {
-    url = 'about:blank?mvelo=keyGenDialog&id=' + this.id + '&embedded=true';
+    url = 'about:blank?mvelo=keyGenDialog&id=' + this.id;
   }
 
   this.container.setAttribute('src', url);
@@ -63,6 +63,10 @@ mvelo.KeyGenContainer.prototype.create = function(done) {
   this.container.setAttribute('scrolling', 'no');
   this.container.style.width = '100%';
   this.container.style.height = '100%';
+
+  while (this.parent.firstChild) {
+    this.parent.removeChild(this.parent.firstChild);
+  }
   this.parent.appendChild(this.container);
   return this;
 };
@@ -92,11 +96,7 @@ mvelo.KeyGenContainer.prototype.registerEventListener = function() {
   this.port.onMessage.addListener(function(msg) {
     switch (msg.event) {
       case 'generate-done':
-        if (msg.error) {
-          that.generateCallback(msg.error, that.id);
-        } else {
-          that.generateCallback(null, that.id);
-        }
+        that.generateCallback(msg.error, that.id);
         break;
       case 'dialog-done':
         that.done(null, that.id);

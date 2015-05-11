@@ -30,22 +30,19 @@ define(function(require, exports, module) {
 
   PrivateKeyController.prototype = Object.create(sub.SubController.prototype);
 
-  PrivateKeyController.prototype.generatePublicKey = function() {
+  PrivateKeyController.prototype.generateKey = function() {
     // TODO here generate the key pair
     var keyPair = {};
 
-    if (keyPair) {
-      this.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: keyPair});
-    } else {
-      var error = new Error('Error on generate keyPair');
-      error.code = 'KEYPAIR_ERROR';
-      this.ports.keyGenCont.postMessage({event: 'generate-done', error: error});
-    }
+    this.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: keyPair});
   };
 
   PrivateKeyController.prototype.handlePortMessage = function(msg) {
     var that = this;
     switch (msg.event) {
+      case 'keygen-user-input':
+        uiLog.push(msg.source, msg.type);
+        break;
       case 'open-security-settings':
         var hash = "#securitysettings";
         this.mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
@@ -61,8 +58,8 @@ define(function(require, exports, module) {
         this.ports.keyGenDialog.postMessage({event: 'check-dialog-inputs'});
         break;
       case 'input-check':
-        if (msg.isVvalid) {
-          this.generatePublicKey();
+        if (msg.isValid) {
+          this.generateKey();
         } else {
           var error = new Error('The inputs "password" and "confirm" are not valid');
           error.code = 'INPUT_NOT_VALID';
