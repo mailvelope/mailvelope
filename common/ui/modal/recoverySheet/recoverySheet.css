@@ -150,6 +150,13 @@ html, body {
     max-width: 150px;
 }
 
+.recovery-sheet_devices-qr-code {
+    width: 100px;
+    height: 100px;
+    background-color: #ccc;
+    border: 1px solid #c6c6c6;
+}
+
 /***************************************
  * RECOVERY DESCRIPTION
  */
