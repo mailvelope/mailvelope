@@ -5,6 +5,7 @@ html, body {
     min-width: 740px;
     display: flex;
     flex-direction: column;
+    align-items: center;
     color: #262626;
     box-sizing: border-box;
 }
@@ -19,6 +20,7 @@ html, body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
 
 .recovery-sheet_teaser h1 {
@@ -36,10 +38,11 @@ html, body {
  */
 .recovery-sheet_content {
     font-size: 12px;
-    margin-top: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 30px 0;
+    max-width: 880px;
 }
 
 .recovery-sheet_content h2,
@@ -53,13 +56,17 @@ html, body {
 }
 
 .recovery-sheet_content h4 {
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .recovery-sheet_content h2 {
     font-size: 43px;
     line-height: 50px;
     margin-top: 0;
+}
+
+.recovery-sheet_content p:last-of-type {
+    margin-bottom: 0;
 }
 
 /***************************************
@@ -70,7 +77,6 @@ html, body {
     border: 1px solid #c6c6c6;
     margin: 20px 15px 0;
     overflow: hidden;
-    max-width: 880px;
     width: 100%;
 }
 
@@ -161,8 +167,7 @@ html, body {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-
-    margin: 30px 0;
+    margin-top: 30px;
 }
 
 .recovery-sheet_print-button {
