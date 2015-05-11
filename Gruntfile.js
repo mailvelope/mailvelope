@@ -48,15 +48,15 @@ module.exports = function(grunt) {
     },
 
     jsdoc : {
-        dist : {
-            src: ['common/client-API/*.js', "doc/client-api/Readme.md"],
-            options: {
-                destination: 'build/doc',
-                template: "node_modules/grunt-jsdoc/node_modules/ink-docstrap/template",
-                tutorials: "doc/client-api",
-                configure: "jsdoc.conf.json"
-            }
+      dist : {
+        src: ['common/client-API/*.js', "doc/client-api/Readme.md"],
+        options: {
+          destination: 'build/doc',
+          template: "node_modules/grunt-jsdoc/node_modules/ink-docstrap/template",
+          tutorials: "doc/client-api",
+          configure: "jsdoc.conf.json"
         }
+      }
     },
 
     concat: {

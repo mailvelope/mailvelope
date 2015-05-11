@@ -6,7 +6,6 @@ bower_components
 node_modules/
 tmp/
 build/
-*.sh
 apidoc/
 .idea/
 atlassian-ide-plugin.xml

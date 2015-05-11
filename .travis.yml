@@ -21,15 +21,20 @@ script:
 - grunt dist-doc
 - npm run-script deploy-doc
 env:
- global:
- - GH_REF=github.com/mailvelope/mailvelope.git
- - secure: "evnYoSpdhcwSlYS+PvMZFvh1xairXh+CUhKwzFvoccDoxSoDtZvzSibyntky0mz+UK7XC0JC515vKSqRn3zn9/4BEedGv8Xfrvc4q1+Ln5v2zO/2pmzcqXh3dWNnlpB5teyFb0nvpaB9cTtM8MPXkMqbn47OEM0sLTEayYAXAB4="
+  global:
+  - GH_REF=github.com/mailvelope/mailvelope.git
+  - secure: evnYoSpdhcwSlYS+PvMZFvh1xairXh+CUhKwzFvoccDoxSoDtZvzSibyntky0mz+UK7XC0JC515vKSqRn3zn9/4BEedGv8Xfrvc4q1+Ln5v2zO/2pmzcqXh3dWNnlpB5teyFb0nvpaB9cTtM8MPXkMqbn47OEM0sLTEayYAXAB4=
+  - secure: EzXGSPLyViYC/SQyu9RZ55q4s+7jqtr2DvfFqzE65KsThFq8aAenaVkRikkWxAn0AT44a39eP29YWIABpFJdnDJCR4Gjqm0GRTpRig4kKuyTavbShST8ZPLTInklt9qpWtRS8D48+bbdjFvibpUs7YHhYMfRWVPVLRlerlp6MjQ=
+  - secure: Fm4m7fFmD1NfBZdXcNCdnkRlcwvaJtKSOgUy1nkm21Wzjzx2tjxJD90j9aaxF7VeWJr3AOO7k4EN5qdtrkGi5bILYprCwujBa8wLR0etMI/SkAfCd/bLfqAglubqOaaGu//vLN0IL1wDv9HDz9DU42EbbR9vM9cmMebPctrKTy0=
 deploy:
- provider: releases
- api-key: ${GH_TOKEN}
- file: dist/*
- file_glob: true
- skip_cleanup: true
- on:
-  tags: true
-  all_branches: true
+  provider: releases
+  api-key: ${GH_TOKEN}
+  file: dist/*
+  file_glob: true
+  skip_cleanup: true
+  on:
+    tags: true
+    branch: master
+addons:
+  ssh_known_hosts: build.mailvelope.com
+after_success: ./deploy-nightly.sh
