@@ -38,6 +38,7 @@ mvelo.KeyBackupContainer = function(selector, keyringId, options) {
   this.container = null;
   this.done = null;
   this.popupDone = null;
+  this.host = mvelo.domAPI.host;
 };
 
 /**
@@ -53,9 +54,9 @@ mvelo.KeyBackupContainer.prototype.create = function(done) {
   this.container = document.createElement('iframe');
 
   if (mvelo.crx) {
-    url = mvelo.extension.getURL('common/ui/inline/dialogs/keyBackupDialog.html?id=' + this.id + '&embedded=true');
+    url = mvelo.extension.getURL('common/ui/inline/dialogs/keyBackupDialog.html?id=' + this.id + '&embedded=true' + '&host=' + mvelo.domAPI.host);
   } else if (mvelo.ffa) {
-    url = 'about:blank?mvelo=keybackup&id=' + this.id + '&embedded=true';
+    url = 'about:blank?mvelo=keybackup&id=' + this.id + '&embedded=true' + '&host=' + mvelo.domAPI.host;
   }
 
   this.container.setAttribute('src', url);

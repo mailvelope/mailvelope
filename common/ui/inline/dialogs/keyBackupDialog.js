@@ -20,7 +20,7 @@
 var mvelo = mvelo || null;
 
 (function() {
-  var id, name, port, l10n;
+  var id, name, port, host, l10n;
 
   var $secureBgndButton;
   var $securingNoteButton;
@@ -29,6 +29,7 @@ var mvelo = mvelo || null;
     var qs = jQuery.parseQuerystring();
     id = qs.id;
     name = 'keyBackupDialog-' + id;
+    host = qs.host;
 
     $('body').addClass("secureBackground");
     mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/inline/dialogs/templates/keybackup.html')).then(function() {
@@ -64,10 +65,9 @@ var mvelo = mvelo || null;
         $('#key_backup_generator').parent().removeClass('secureBackground').empty().append($spinner);
 
         window.setTimeout(function() {
-          port.postMessage({ event: 'create-securing-note-popup', sender: name });
-        }, 30000); // 3sec
+          port.postMessage({ event: 'create-backup-code-window', sender: name, host: host });
+        }, 3000); // 3sec 
       });
-
       port.postMessage({ event: 'keybackup-dialog-init', sender: name });
     });
   }
