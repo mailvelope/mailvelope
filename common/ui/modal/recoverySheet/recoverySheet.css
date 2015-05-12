@@ -8,6 +8,7 @@ html, body {
     align-items: center;
     color: #262626;
     box-sizing: border-box;
+
 }
 
 /***************************************
@@ -230,6 +231,10 @@ html, body {
         border: 1px solid #000;
     }
 
+    .recovery-sheet_teaser img {
+        margin: 10px;
+    }
+
     .recovery-sheet_panel {
         max-width: 680px;
     }
@@ -238,8 +243,16 @@ html, body {
         height: auto;
     }
 
+    .recovery-sheet_content {
+        margin: 20px 0;
+    }
+
     .recovery-sheet_content h2 {
         font-size: 30px;
+    }
+
+    .recovery-sheet_content h3 {
+        margin-bottom: 0;
     }
 
     .recovery-sheet_description {
