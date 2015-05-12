@@ -1,6 +1,6 @@
-html, body {
-
-}
+/***************************************
+ * RECOVERY SHEET ROOT ELEMENT
+ */
 .recovery-sheet {
     min-width: 740px;
     display: flex;
@@ -8,11 +8,10 @@ html, body {
     align-items: center;
     color: #262626;
     box-sizing: border-box;
-
 }
 
 /***************************************
- * CONTENT
+ * TEASER ELEMENT
  */
 .recovery-sheet_teaser {
     position: relative;
@@ -35,7 +34,7 @@ html, body {
 }
 
 /***************************************
- * CONTENT
+ * GLOBAL CONTENT
  */
 .recovery-sheet_content {
     font-size: 12px;
@@ -70,7 +69,7 @@ html, body {
 }
 
 /***************************************
- * SHEET PANEL
+ * CONTENT PANEL ELEMENT
  */
 .recovery-sheet_panel {
     background-color: #e8eef7;
@@ -85,7 +84,7 @@ html, body {
 }
 
 /***************************************
- * RECOVERY CODE PANEL
+ * CODE PANEL ELEMENT
  */
 .recovery-sheet_code {
     display: flex;
@@ -124,7 +123,7 @@ html, body {
 }
 
 /***************************************
- * RECOVERY DEVICES
+ * DEVICE ELEMENTS
  */
 .recovery-sheet_devices {
     display: flex;
@@ -173,7 +172,7 @@ html, body {
 }
 
 /***************************************
- * RECOVERY DESCRIPTION
+ * DESCRIPTION
  */
 .recovery-sheet_description {
     margin-top: 50px;
@@ -181,7 +180,7 @@ html, body {
 }
 
 /***************************************
- * RECOVERY SHEET - PRINT BUTTON
+ * PRINT BUTTON
  */
 .recovery-sheet_print {
     display: flex;
@@ -201,6 +200,15 @@ html, body {
     opacity: 1;
 }
 
+/***************************************
+ * MISC CLASSES
+ */
+
+.page-breaker {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
 
 /***************************************
  * TEMPORARY
@@ -210,13 +218,9 @@ html, body {
     background-color: #999;
 }
 
-.page-breaker {
-    padding: 0;
-    margin: 0;
-    border: 0;
-}
-
-
+/***************************************
+ * PRINT SPECIFIC LAYOUT
+ */
 @media print {
 
     .recovery-sheet {
