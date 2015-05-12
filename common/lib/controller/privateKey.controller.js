@@ -49,6 +49,29 @@ define(function(require, exports, module) {
     });
   };
 
+  PrivateKeyController.prototype.createPrivateKeyBackup = function(host) {
+    var that = this;
+
+    console.log(host);
+
+    var page = 'recoverySheet';
+    switch (host) {
+      case 'webde':
+        page += '.webde.html';
+        break;
+      case 'gmx':
+        page += '.gmxnet.html';
+        break;
+      default:
+        page += '.html';
+    }
+    var path = 'common/ui/modal/recoverySheet/' + page;
+
+    this.mvelo.windows.openPopup(path + '?id=' + this.id, {width: 800, height: 550, modal: false}, function(window) {
+      that.securingNotePopup = window;
+    });
+  };
+
   PrivateKeyController.prototype.handlePortMessage = function(msg) {
     var that = this;
     switch (msg.event) {
@@ -84,8 +107,8 @@ define(function(require, exports, module) {
       case 'keybackup-dialog-init':
         this.ports.keyBackupCont.postMessage({event: 'dialog-done'});
         break;
-      case 'create-securing-note-popup':
-        this.createPrivateKeyBackup();
+      case 'create-backup-code-window':
+        this.createPrivateKeyBackup(msg.host);
         this.ports.keyBackupCont.postMessage({event: 'popup-done'});
         break;
       default:
