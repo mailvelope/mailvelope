@@ -243,7 +243,7 @@
    * @param {CssSelector} selector - target container
    * @param {Keyring} keyring - the keyring to use for the setup
    * @param {KeyGenContainerOptions} options
-   * @returns {Promise <Generator, Error>}
+   * @returns {Promise.<Generator, Error>}
    * @throws {Error} error.conde = 'INPUT_NOT_VALID'
    */
   Keyring.prototype.createKeyGenContainer = function(selector, keyring, options) {
