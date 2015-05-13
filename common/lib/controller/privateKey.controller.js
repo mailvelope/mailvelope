@@ -107,6 +107,9 @@ define(function(require, exports, module) {
       case 'keybackup-dialog-init':
         this.ports.keyBackupCont.postMessage({event: 'dialog-done'});
         break;
+      case 'backup-code-window-init':
+        this.ports.backupCodeWindow.postMessage({event: 'get-backup-code', backupCode: '52791659317854726854998566'});
+        break;
       case 'create-backup-code-window':
         this.createPrivateKeyBackup(msg.host);
         this.ports.keyBackupCont.postMessage({event: 'popup-done'});

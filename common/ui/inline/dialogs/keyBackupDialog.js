@@ -66,7 +66,7 @@ var mvelo = mvelo || null;
 
         window.setTimeout(function() {
           port.postMessage({ event: 'create-backup-code-window', sender: name, host: host });
-        }, 3000); // 3sec 
+        }, 3000); // 3sec
       });
       port.postMessage({ event: 'keybackup-dialog-init', sender: name });
     });

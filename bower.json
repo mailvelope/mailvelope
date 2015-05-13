@@ -21,7 +21,8 @@
     "requirejs": "2.1.14",
     "dompurify": "0.6.1",
     "css-toggle-switch": "~3.1.1",
-    "bootstrap-sortable": "~1.10.0"
+    "bootstrap-sortable": "~1.10.0",
+    "qrcodejs": "~0.1.0"
   },
   "resolutions": {
     "jquery": "e-tag:54499a47-"
