@@ -74,7 +74,6 @@ var mvelo = mvelo || null;
       checkConfirmInput();
 
       port.postMessage({ event: 'keygen-dialog-init', sender: name });
-    },
 
       isInputChange = true;
     });

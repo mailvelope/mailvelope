@@ -131,6 +131,12 @@ module.exports = function(grunt) {
             cwd: 'bower_components/requirejs/',
             src: 'require.js',
             dest: 'build/chrome/'
+          },
+          {
+            expand: true,
+            cwd: 'bower_components/qrcodejs/',
+            src: 'qrcode.js',
+            dest: 'build/common/dep/qrcodejs/'
           }
         ]
       },

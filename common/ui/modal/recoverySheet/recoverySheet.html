@@ -1,170 +1,189 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title></title>
-        <link rel="stylesheet" href="../../../dep/bootstrap/css/bootstrap.css">
-        <link rel="stylesheet" href="recoverySheet.css">
-    </head>
-    <body>
-        <div class="recovery-sheet">
-            <header class="recovery-sheet_teaser">
-                <img src="assets/lock.png" />
-                <h1 class="recovery-sheet_panel-headline">Wichtige Information!</h1>
-                <img src="assets/lock.png" />
-            </header>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link rel="stylesheet" href="../../../dep/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="../../mvelo.css">
+  <link rel="stylesheet" href="recoverySheet.css">
 
-            <section class="recovery-sheet_content container">
-                <div class="row">
-                    <div class="col-xs-2">
-                        <img src="http://placehold.it/100x100&text=Mailvelope" class="logo" />
-                    </div>
-                    <div class="col-xs-10">
-                        <h2>Wiederherstellungsbeleg zur verschlüsselten Kommunikation</h2>
-                        <h3 class="hidden-print">Bitte drucken Sie diesen Beleg aus und verwahren Sie ihn sicher!</h3>
-                        <h3 class="visible-print-block">Bitte bewahren Sie diesen Beleg sicher auf!</h3>
-                    </div>
-                </div>
+  <script src="../../../dep/jquery.min.js"></script>
+  <script src="../../../dep/jquery.ext.js"></script>
+  <script src="../../../dep/qrcodejs/qrcode.js"></script>
+  <script src="../../mvelo.js"></script>
+  <script src="recoverySheet.js"></script>
+</head>
+<body>
+<div class="recovery-sheet">
+  <header class="recovery-sheet_teaser">
+    <img src="assets/lock.png"/>
 
-                <section class="recovery-sheet_panel">
-                    <div class="recovery-sheet_panel-content">
-                        <div class="recovery-sheet_code">
-                            <div class="recovery-sheet_code-header">
-                                <h3>Wiederherstellungscode</h3>
-                                <h3>Erstellungsdatum: DD.MM.JJJJ</h3>
-                            </div>
-                            <div class="recovery-sheet_code-container">
-                                <span class="recovery-sheet_code-digit">52791</span>
-                                <span class="recovery-sheet_code-separator">-</span>
-                                <span class="recovery-sheet_code-digit">65931</span>
-                                <span class="recovery-sheet_code-separator">-</span>
-                                <span class="recovery-sheet_code-digit">78547</span>
-                                <span class="recovery-sheet_code-separator">-</span>
-                                <span class="recovery-sheet_code-digit">26854</span>
-                                <span class="recovery-sheet_code-separator">-</span>
-                                <span class="recovery-sheet_code-digit">99856</span>
-                                <span class="recovery-sheet_code-separator">-</span>
-                                <span class="recovery-sheet_code-digit">6</span>
-                            </div>
-                        </div>
+    <h1 class="recovery-sheet_panel-headline">Wichtige Information!</h1>
+    <img src="assets/lock.png"/>
+  </header>
 
-                        <div class="recovery-sheet_plain-content">
-                            <h3>Verschlüsselte Kommunikation wiederherstellen</h3>
-                            <p>Wenn Ihre verschlüsselte Kommunikation nicht mehr funktioniert, z. B.</p>
+  <section class="recovery-sheet_content container">
+    <div class="row">
+      <div class="col-xs-2">
+        <img src="http://placehold.it/100x100&text=Mailvelope" class="logo"/>
+      </div>
+      <div class="col-xs-10">
+        <h2>Wiederherstellungsbeleg zur verschlüsselten Kommunikation</h2>
 
-                            <ul>
-                                <li>weil Sie Ihr Schlüssel-Passwort vergessen haben</li>
-                                <li>weil es Probleme mit der Browser-Erweiterung gibt</li>
-                                <li>aus sonstigen Gründen</li>
-                            </ul>
+        <h3 class="hidden-print">Bitte drucken Sie diesen Beleg aus und verwahren Sie ihn sicher!</h3>
 
-                            <p>prüfen Sie bitte die Einstellungen in Ihrem Postfach unter:</p>
-                            <p><em>Posteingang</em> > <em>Einstellungen</em> > <em>Verschlüsselte Kommunikation</em>.</p>
-                        </div>
-                    </div>
-                </section>
+        <h3 class="visible-print-block">Bitte bewahren Sie diesen Beleg sicher auf!</h3>
+      </div>
+    </div>
 
-                <section class="recovery-sheet_panel">
-                    <div class="recovery-sheet_panel-content">
-                        <h3>Verschlüsselte Kommunikation auf weiteren Geräten</h3>
-                        <div class="recovery-sheet_devices">
-                            <div class="recovery-sheet_devices-item recovery-sheet_devices-desktop">
-                                <div class="recovery-sheet_devices-split-content">
-                                    <h4>Auf einem anderen Computer</h4>
-                                    <img src="assets/web.de/desktop.png" />
-                                </div>
-                                <p>Geben Sie den Wiederherstellungscode zur Einrichtung auf anderen Computern in den Einstellungen unter</p>
-                                <p><em>Posteingang</em> > <em>Einstellungen</em> > <em>Sicherheit Verschlüsselung ein</em>.</p>
-                            </div>
-                            <div class="recovery-sheet_devices-item recovery-sheet_devices-mobile">
-                                <div class="recovery-sheet_devices-split-content">
-                                    <h4>Auf mobilen Geräten</h4>
-                                    <img src="assets/web.de/smartphone.png" />
-                                    <img src="assets/web.de/tablet.png" />
-                                </div>
-                                <div class="recovery-sheet_devices-split-content">
-                                    <p>Scannen Sie den QR- Code mit Ihrem mobilen Gerät.</p>
-                                    <img class="recovery-sheet_devices-qr-code" src="http://placehold.it/100x100" width="100" height="100" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+    <section class="recovery-sheet_panel">
+      <div class="recovery-sheet_panel-content">
+        <div class="recovery-sheet_code">
+          <div class="recovery-sheet_code-header">
+            <h3>Wiederherstellungscode</h3>
 
-                <section class="recovery-sheet_print hidden-print">
-                    <img src="assets/printer.png" />
-                    <img src="assets/web.de/btn.png" class="recovery-sheet_print-button" onClick="window.print();"/>
-                    <img src="assets/printer.png" />
-                </section>
-            </section>
-
-            <footer class="recovery-sheet_teaser visible-print-block">
-                <img src="assets/lock.png" />
-                <h1 class="recovery-sheet_panel-headline">Wichtige Information!</h1>
-                <img src="assets/lock.png" />
-            </footer>
-
-            <hr class="page-breaker" />
-
-            <header class="recovery-sheet_teaser">
-                <img src="assets/lock.png" />
-                <h1 class="recovery-sheet_panel-headline">Wichtige Information!</h1>
-                <img src="assets/lock.png" />
-            </header>
-
-            <section class="recovery-sheet_content container">
-                <div class="row">
-                    <div class="col-xs-2">
-                      <img src="http://placehold.it/100x100&text=Mailvelope" class="logo" />
-                    </div>
-                    <div class="col-xs-10">
-                        <h2>Hinweise zur verschlüsselten Kommunikation bei WEB.DE</h2>
-                        <p>Verschlüsselte Kommunikation bei WEB.DE ist ein PGP-basiertes Verfahren. Es ermöglicht Ihnen, bei Bedarf E-Mails verschlüsselt zu versenden und stellt zugleich sicher, dass nur Sie und der Empfänger diese lesen können.</p>
-
-                        <div class="recovery-sheet_description">
-                            <h4>Sicherung Ihrer Daten</h4>
-                            <ul>
-                                <li>Zur Sicherung Ihrer, für die verschlüsselte Kommunikation wichtigen Daten (z. B. Schlüssel-Passwort), werden diese von unserem deutschen Sicherheitspartner „Mailvelope“ verschlüsselt auf unseren WEB.DE Servern gespeichert.</li>
-                                <li>Möchten Sie Ihre Daten ausschließlich lokal auf Ihrem Computer speichern, finden Sie diese Möglichkeit in den Einstellungen zur verschlüsselten Kommunikation in Ihrem WEB.DE Postfach.</li>
-                                <li><em>Bitte beachten Sie</em>: Ohne Sicherung können Ihre verschlüsselten Nachrichten bei Verlust Ihres Schlüssel-Passworts, Defekt Ihres Endgeräts oder Problemen mit der Browser-Erweiterung nicht wieder entschlüsselt werden!</li>
-                            </ul>
-
-                            <h4>Wiederherstellen Ihrer Daten</h4>
-                            <ul>
-                                <li>Die Sicherungskopie Ihrer Daten lässt sich nur mit Hilfe des Wiederherstellungscodes auf diesem Beleg entschlüsseln.</li>
-                                <li><em>Empfehlung</em>: Legen Sie dieses Dokument als Ausdruck an einem sicheren Ort ab und gewähren Sie auch keinem Dritten Zugriff auf den Wiederherstellungscode.</li>
-                            </ul>
-
-                            <h4>Verschlüsselte Kommunikation mit anderen Kontakten</h4>
-                            <ul>
-                                <li>Sie können mit anderen Kontakten verschlüsselt kommunizieren, wenn diese auch verschlüsselte Kommunikation (PGP) nutzen.</li>
-                                <li>WEB.DE Nutzer, die das von WEB.DE und GMX verwendete PGP-Verfahren verewnden, finden Sie direkt in einem zentralen Verzeichnis in Ihrem WEB.DE Postfach. Wenn Sie keinen Eintrag in diesem Verzeichnis wünschen, widersprechen Sie diesem bitte in Ihren WEB.DE Postfach Einstellungen.</li>
-                                <li>Sie haben die Möglichkeit, über Ihre Einstellungen zur verschlüsselten Kommunikation im WEB.DE Postfach, weitere Kontakte zur Kommunikation mit PGP einzuladen. Bereits erfolgreich eingeladene Kontakte erkennen Sie anhand des Schlosssymbols an der E-Mail-Adresse.</li>
-                                <li><em>Empfehlung</em>: Bei WEB.DE und GMX Kontakten können Sie sicher sein, dass es sich tatsächlich um die angezeigten Nutzer handelt. Bei Kontakten, die Ihre E-Mail-Adresse bei anderen E-Mail-Anbietern haben, sollten Sie die Identität stets noch einmal überprüfen.</li>
-                            </ul>
-
-                            <h4>Verschlüsselte Kommunikation auf weiteren Geräten einrichten</h4>
-                            <ul>
-                                <li><em>Generell gilt</em>: Richten Sie verschlüsselte Kommunikation nur auf sicheren Geräten ein, auf die kein unbekannter Dritter Zugriff hat.</li>
-                            </ul>
-                        </div>
-
-                        <p>Weitere Informationen und Einstellungsmöglichkeiten finden Sie In Ihrem WEB.DE Postfach unter <em>Einstellungen</em> > <em>Verschlüsselte Kommunikation</em>.</p>
-                    </div>
-                </div>
-                <section class="recovery-sheet_print hidden-print">
-                    <img src="assets/printer.png" />
-                    <img src="assets/web.de/btn.png" class="recovery-sheet_print-button" onClick="window.print();"/>
-                    <img src="assets/printer.png" />
-                </section>
-
-            </section>
-
-            <footer class="recovery-sheet_teaser">
-                <img src="assets/lock.png" />
-                <h1 class="recovery-sheet_panel-headline">Wichtige Information!</h1>
-                <img src="assets/lock.png" />
-            </footer>
+            <h3>Erstellungsdatum: <span id="currentDate"></span></h3>
+          </div>
+          <div class="recovery-sheet_code-container">
+            <span class="recovery-sheet_code-digit">52791</span>
+            <span class="recovery-sheet_code-separator">-</span>
+            <span class="recovery-sheet_code-digit">65931</span>
+            <span class="recovery-sheet_code-separator">-</span>
+            <span class="recovery-sheet_code-digit">78547</span>
+            <span class="recovery-sheet_code-separator">-</span>
+            <span class="recovery-sheet_code-digit">26854</span>
+            <span class="recovery-sheet_code-separator">-</span>
+            <span class="recovery-sheet_code-digit">99856</span>
+            <span class="recovery-sheet_code-separator">-</span>
+            <span class="recovery-sheet_code-digit">6</span>
+          </div>
         </div>
-    </body>
+
+        <div class="recovery-sheet_plain-content">
+          <h3>Verschlüsselte Kommunikation wiederherstellen</h3>
+
+          <p>Wenn Ihre verschlüsselte Kommunikation nicht mehr funktioniert, z. B.</p>
+
+          <ul>
+            <li>weil Sie Ihr Schlüssel-Passwort vergessen haben</li>
+            <li>weil es Probleme mit der Browser-Erweiterung gibt</li>
+            <li>aus sonstigen Gründen</li>
+          </ul>
+
+          <p>prüfen Sie bitte die Einstellungen in Ihrem Postfach unter:</p>
+
+          <p><em>Posteingang</em> > <em>Einstellungen</em> > <em>Verschlüsselte Kommunikation</em>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="recovery-sheet_panel">
+      <div class="recovery-sheet_panel-content">
+        <h3>Verschlüsselte Kommunikation auf weiteren Geräten</h3>
+
+        <div class="recovery-sheet_devices">
+          <div class="recovery-sheet_devices-item recovery-sheet_devices-desktop">
+            <div class="recovery-sheet_devices-split-content">
+              <h4>Auf einem anderen Computer</h4>
+              <img src="assets/web.de/desktop.png"/>
+            </div>
+            <p>Geben Sie den Wiederherstellungscode zur Einrichtung auf anderen Computern in den Einstellungen unter</p>
+
+            <p><em>Posteingang</em> > <em>Einstellungen</em> > <em>Sicherheit Verschlüsselung ein</em>.</p>
+          </div>
+          <div class="recovery-sheet_devices-item recovery-sheet_devices-mobile">
+            <div class="recovery-sheet_devices-split-content">
+              <h4>Auf mobilen Geräten</h4>
+              <img src="assets/web.de/smartphone.png"/>
+              <img src="assets/web.de/tablet.png"/>
+            </div>
+            <div class="recovery-sheet_devices-split-content">
+              <p>Scannen Sie den QR- Code mit Ihrem mobilen Gerät.</p>
+              <div id="qrcode"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="recovery-sheet_print hidden-print">
+      <img src="assets/printer.png"/>
+      <img src="assets/web.de/btn.png" class="recovery-sheet_print-button"/>
+      <img src="assets/printer.png"/>
+    </section>
+  </section>
+
+  <footer class="recovery-sheet_teaser visible-print-block">
+    <img src="assets/lock.png"/>
+
+    <h1 class="recovery-sheet_panel-headline">Wichtige Information!</h1>
+    <img src="assets/lock.png"/>
+  </footer>
+
+  <hr class="page-breaker"/>
+
+  <header class="recovery-sheet_teaser">
+    <img src="assets/lock.png"/>
+
+    <h1 class="recovery-sheet_panel-headline">Wichtige Information!</h1>
+    <img src="assets/lock.png"/>
+  </header>
+
+  <section class="recovery-sheet_content container">
+    <div class="row">
+      <div class="col-xs-2">
+        <img src="http://placehold.it/100x100&text=Mailvelope" class="logo"/>
+      </div>
+      <div class="col-xs-10">
+        <h2>Hinweise zur verschlüsselten Kommunikation bei WEB.DE</h2>
+
+        <p>Verschlüsselte Kommunikation bei WEB.DE ist ein PGP-basiertes Verfahren. Es ermöglicht Ihnen, bei Bedarf E-Mails verschlüsselt zu versenden und stellt zugleich sicher, dass nur Sie und der Empfänger diese lesen können.</p>
+
+        <div class="recovery-sheet_description">
+          <h4>Sicherung Ihrer Daten</h4>
+          <ul>
+            <li>Zur Sicherung Ihrer, für die verschlüsselte Kommunikation wichtigen Daten (z. B. Schlüssel-Passwort), werden diese von unserem deutschen Sicherheitspartner „Mailvelope“ verschlüsselt auf unseren WEB.DE Servern gespeichert.</li>
+            <li>Möchten Sie Ihre Daten ausschließlich lokal auf Ihrem Computer speichern, finden Sie diese Möglichkeit in den Einstellungen zur verschlüsselten Kommunikation in Ihrem WEB.DE Postfach.</li>
+            <li><em>Bitte beachten Sie</em>: Ohne Sicherung können Ihre verschlüsselten Nachrichten bei Verlust Ihres Schlüssel-Passworts, Defekt Ihres Endgeräts oder Problemen mit der Browser-Erweiterung nicht wieder entschlüsselt werden!</li>
+          </ul>
+
+          <h4>Wiederherstellen Ihrer Daten</h4>
+          <ul>
+            <li>Die Sicherungskopie Ihrer Daten lässt sich nur mit Hilfe des Wiederherstellungscodes auf diesem Beleg entschlüsseln.</li>
+            <li><em>Empfehlung</em>: Legen Sie dieses Dokument als Ausdruck an einem sicheren Ort ab und gewähren Sie auch keinem Dritten Zugriff auf den Wiederherstellungscode.</li>
+          </ul>
+
+          <h4>Verschlüsselte Kommunikation mit anderen Kontakten</h4>
+          <ul>
+            <li>Sie können mit anderen Kontakten verschlüsselt kommunizieren, wenn diese auch verschlüsselte Kommunikation (PGP) nutzen.</li>
+            <li>WEB.DE Nutzer, die das von WEB.DE und GMX verwendete PGP-Verfahren verewnden, finden Sie direkt in einem zentralen Verzeichnis in Ihrem WEB.DE Postfach. Wenn Sie keinen Eintrag in diesem Verzeichnis wünschen, widersprechen Sie diesem bitte in Ihren WEB.DE Postfach Einstellungen.</li>
+            <li>Sie haben die Möglichkeit, über Ihre Einstellungen zur verschlüsselten Kommunikation im WEB.DE Postfach, weitere Kontakte zur Kommunikation mit PGP einzuladen. Bereits erfolgreich eingeladene Kontakte erkennen Sie anhand des Schlosssymbols an der E-Mail-Adresse.</li>
+            <li><em>Empfehlung</em>: Bei WEB.DE und GMX Kontakten können Sie sicher sein, dass es sich tatsächlich um die angezeigten Nutzer handelt. Bei Kontakten, die Ihre E-Mail-Adresse bei anderen E-Mail-Anbietern haben, sollten Sie die Identität stets noch einmal überprüfen.</li>
+          </ul>
+
+          <h4>Verschlüsselte Kommunikation auf weiteren Geräten einrichten</h4>
+          <ul>
+            <li><em>Generell gilt</em>: Richten Sie verschlüsselte Kommunikation nur auf sicheren Geräten ein, auf die kein unbekannter Dritter Zugriff hat.</li>
+          </ul>
+        </div>
+
+        <p>Weitere Informationen und Einstellungsmöglichkeiten finden Sie In Ihrem WEB.DE Postfach unter <em>Einstellungen</em> > <em>Verschlüsselte Kommunikation</em>.</p>
+      </div>
+    </div>
+    <section class="recovery-sheet_print hidden-print">
+      <img src="assets/printer.png"/>
+      <img src="assets/web.de/btn.png" class="recovery-sheet_print-button"/>
+      <img src="assets/printer.png"/>
+    </section>
+
+  </section>
+
+  <footer class="recovery-sheet_teaser">
+    <img src="assets/lock.png"/>
+
+    <h1 class="recovery-sheet_panel-headline">Wichtige Information!</h1>
+    <img src="assets/lock.png"/>
+  </footer>
+</div>
+</body>
 </html>
