@@ -73,6 +73,12 @@ define(function(require, exports, module) {
           keyring.setKeyringAttr(request.keyringId, {logo_revision: request.revision, logo_data_url: request.dataURL});
           sendResponse({error: null, data: null});
           break;
+        case 'has-private-key':
+          var fingerprint = request.fingerprint.toLowerCase().replace(/\s/g, '');
+          var key = keyring.getById(request.keyringId).keyring.privateKeys.getForId(fingerprint);
+
+          sendResponse({error: null, data: (key ? true : false)});
+          break;
         default:
           console.log('unknown event:', request);
       }

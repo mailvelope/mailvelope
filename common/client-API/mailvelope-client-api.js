@@ -244,7 +244,7 @@
    * @param {Keyring} keyring - the keyring to use for the setup
    * @param {KeyGenContainerOptions} options
    * @returns {Promise.<Generator, Error>}
-   * @throws {Error} error.conde = 'INPUT_NOT_VALID'
+   * @throws {Error} error.code = 'INPUT_NOT_VALID'
    */
   Keyring.prototype.createKeyGenContainer = function(selector, keyring, options) {
     return postMessage('key-gen-container', {selector: selector, identifier: keyring.identifier, options: options}).then(function(generatorId) {
@@ -266,6 +266,17 @@
   Keyring.prototype.createKeyBackupContainer = function(selector, keyring, options) {
     return postMessage('key-backup-container', {selector: selector, identifier: keyring.identifier, options: options}).then(function(popupId) {
       return new KeyBackupPopup(popupId);
+    });
+  };
+
+  /**
+   * Check if keyring contains private key with given fingerprint
+   * @param {string} fingerprint
+   * @returns {Promise.<boolean, Error>}
+   */
+  Keyring.prototype.hasPrivateKey = function(fingerprint) {
+    return postMessage('has-private-key', {identifier: this.identifier, fingerprint: fingerprint}).then(function(result) {
+      return result;
     });
   };
 
@@ -330,7 +341,6 @@
    * }
    */
   Editor.prototype.encrypt = function(recipients) {
-    console.log('Editor.prototype.encrypt', this);
     return postMessage('editor-encrypt', {recipients: recipients, editorId: this.editorId});
   };
 

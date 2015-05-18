@@ -164,6 +164,9 @@ mvelo.domAPI.eventListener = function(event) {
       case 'generator-generate':
         mvelo.domAPI.generatorGenerate(data.generatorId, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
+      case 'has-private-key':
+        mvelo.domAPI.hasPrivateKey(keyringId, data.fingerprint, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
       case 'editor-encrypt':
         mvelo.domAPI.editorEncrypt(data.editorId, data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
@@ -268,6 +271,17 @@ mvelo.domAPI.keyBackupPopupIsReady = function(popupId, callback) {
 
 mvelo.domAPI.generatorGenerate = function(generatorId, callback) {
   this.containers.get(generatorId).generate(callback);
+};
+
+mvelo.domAPI.hasPrivateKey = function(keyringId, fingerprint, callback) {
+  mvelo.extension.sendMessage({
+    event: 'has-private-key',
+    api_event: true,
+    keyringId: keyringId,
+    fingerprint: fingerprint
+  }, function(result) {
+    callback(result.error, result.data);
+  });
 };
 
 mvelo.domAPI.editorEncrypt = function(editorId, recipients, callback) {
