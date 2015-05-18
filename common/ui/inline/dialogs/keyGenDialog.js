@@ -52,12 +52,16 @@ var mvelo = mvelo || null;
       $confirmErrorNoEqual = $confirmErrorNoEmpty.next();
 
       // Get language strings from JSON
-      mvelo.l10n.getMessages([], function(result) {
+      mvelo.l10n.getMessages([
+        'keygen_dialog_password_placeholder'
+      ], function(result) {
         l10n = result;
       });
 
       mvelo.l10n.localizeHTML();
       mvelo.util.showSecurityBackground(qs.embedded);
+
+      $pwdInput.prop('placeholder', l10n.keygen_dialog_password_placeholder);
 
       $secureBgndButton.on('click', function() {
         port.postMessage({event: 'open-security-settings', sender: name});

@@ -163,6 +163,10 @@
         "message": "Vorschau",
         "description": "Preview"
     },
+    "security_background_coloring": {
+        "message": "Farbe",
+        "description": "Coloring"
+    },
     "popup_options": {
         "message": "Optionen",
         "description": "Open options dialog."
@@ -272,7 +276,7 @@
         "description": "Header of encrypt dialog."
     },
     "keygrid_send_pub_key": {
-        "message": "Den öffentlichen Schlüssel per E-Mail versenden",
+        "message": "Öffentlichen Schlüssel per E-Mail versenden",
         "description": "Export key menu."
     },
     "keygrid_export": {
@@ -332,7 +336,7 @@
         "description": "Editor option: plain text."
     },
     "security_log_editor": {
-        "message": "PGP Editor",
+        "message": "PGP-Editor",
         "description": "Message editor container as an event source"
     },
     "clear_localstorage_confirm_message": {
@@ -350,6 +354,10 @@
     "popup_reload": {
         "message": "Neuladen",
         "description": "Reload all Mailvelope elements on page."
+    },
+    "keygen_dialog_password_placeholder": {
+        "message": "mindestens 4 Zeichen",
+        "description": ""
     },
     "form_no": {
         "message": "Nein",
@@ -382,6 +390,10 @@
     "keyring_public_private": {
         "message": "Schlüsselpaare",
         "description": "public and private key types"
+    },
+    "keygen_dialog_confirm_error_unequal": {
+        "message": "Die Passwörter stimmen nicht überein.",
+        "description": ""
     },
     "security_compose_external": {
         "message": "In einem getrennten, zu Mailvelope gehörenden Bearbeitungsfenster.",
@@ -419,6 +431,10 @@
         "message": "Entschlüsselung fehlgeschlagen!",
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
+    "keygen_dialog_confirm": {
+        "message": "Wiederholen",
+        "description": ""
+    },
     "key_import_textarea": {
         "message": "Schlüsseltext hier einfügen:",
         "description": "Key import box."
@@ -426,6 +442,10 @@
     "watchlist_command_create": {
         "message": "Neuen Eintrag hinzufügen",
         "description": "Create entry in watchlist."
+    },
+    "security_log_password_input": {
+        "message": "Eingabeereignis im Textfeld",
+        "description": "A click in the text area as an event type"
     },
     "key_gen_name_help": {
         "message": "Voller Name des Schlüsseleigentümers",
@@ -571,6 +591,10 @@
         "message": "Leeren",
         "description": "Clear form button."
     },
+    "keygen_dialog_password_error": {
+        "message": "Passwort muss mindestens aus 4 Zeichen bestehen.",
+        "description": ""
+    },
     "key_gen_another": {
         "message": "Einen anderen erstellen …",
         "description": "Key import button"
@@ -590,6 +614,14 @@
     "keyring_import_keys": {
         "message": "Schlüssel importieren",
         "description": "Tab of keyring to import keys."
+    },
+    "keygen_dialog_prolog": {
+        "message": "Passwort vergeben zum Schutz Ihrer verschlüsselten Kommunikation:",
+        "description": ""
+    },
+    "security_log_key_generator": {
+        "message": "Schlüsselgenerator",
+        "description": "Key generator container as an event source"
     },
     "key_export_create_file": {
         "message": "Herunterladen",
@@ -624,7 +656,7 @@
         "description": "Key expires after time range"
     },
     "editor_blur_warn": {
-        "message": "Achtung. Bearbeitungsprogramm hat den Fokus verloren.",
+        "message": "Achtung. Texteditor hat den Fokus verloren.",
         "description": "Warning for lost focus."
     },
     "header_warning": {
@@ -668,12 +700,16 @@
         "description": "Store password in memory for $1 minutes."
     },
     "security_log_remove_attachment": {
-        "message": "Anhang entfernen ausgewählt",
+        "message": "Anhang entfernt",
         "description": "A click on the attachment remove button as event type"
     },
     "options_home": {
         "message": "Optionen",
         "description": "Options navigation: Home."
+    },
+    "keygen_dialog_password": {
+        "message": "Schlüsselpasswort",
+        "description": ""
     },
     "key_gen_wait_header": {
         "message": "Schlüssel wird erstellt …",
@@ -735,10 +771,6 @@
         "message": "Skalierung",
         "description": "Scaling"
     },
-    "security_background_coloring": {
-        "message": "Farbe",
-        "description": "Coloring"
-    },
     "popup_active_off": {
         "message": "Aus",
         "description": "Activity status of the extension."
@@ -748,7 +780,7 @@
         "description": "Edit entry in watchlist."
     },
     "editor_transfer_unencrypted": {
-        "message": "Sie versuchen, unverschlüsselten Inhalt zurück zum Nachrichtenanbieter zu übertragen.",
+        "message": "Sie versuchen, unverschlüsselten Inhalt zurück zum E-Mail-Anbieter zu übertragen.",
         "description": "Warning for unencrypted content."
     },
     "decrypt_popup_title": {
@@ -888,11 +920,11 @@
         "description": "Generate key"
     },
     "keygrid_display_priv_key": {
-        "message": "Den privaten Schlüssel anzeigen",
+        "message": "Privaten Schlüssel anzeigen",
         "description": "Export key menu."
     },
     "ext_description": {
-        "message": "Erweitern Sie Ihren Webmail-Anbieter mit Ende-zu-Ende-Verschlüsselung. Sichere E-Mail-Kommunikation, mit dem OpenPGP-Standard – jetzt auch für De-Mail.",
+        "message": "Erweitern Sie Ihren Webmail-Anbieter mit Ende-zu-Ende-Verschlüsselung. Sichere E-Mail-Kommunikation mit dem OpenPGP-Standard.",
         "description": "Description of the extension."
     },
     "key_gen_advanced_btn": {
@@ -915,8 +947,12 @@
         "message": "Ein Schlüssel konnte aufgrund eines Ausnahmefalls nicht importiert werden: $1",
         "description": "Import error message: $1: error message."
     },
+    "keygen_dialog_confirm_error_noempty": {
+        "message": "Passwort darf nicht leer sein.",
+        "description": ""
+    },
     "keygrid_display_pub_key": {
-        "message": "Den öffentlichen Schlüssel anzeigen",
+        "message": "Öffentlichen Schlüssel anzeigen",
         "description": "Export key menu."
     },
     "upload_quota_exceeded_warning": {
