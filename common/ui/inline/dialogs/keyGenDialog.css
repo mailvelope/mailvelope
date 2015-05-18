@@ -10,3 +10,8 @@
 #key_gen_generator header {
   display: block;
 }
+
+#key_gen_generator .label {
+  display: inline-block;
+  color: #fff;
+}
