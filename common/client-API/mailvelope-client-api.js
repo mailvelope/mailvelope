@@ -234,7 +234,7 @@
    * @typedef {Object} KeyGenContainerOptions
    * @property {string} email - the email address of the current user
    * @property {string} fullName - the full name of the current user
-   * @property {number} length
+   * @property {number} length - key length in bit, optional, default: 2048, valid values: 2048, 4096.
    */
 
   /**
@@ -265,7 +265,7 @@
 
   /**
    * Generate a private key
-   * @returns {Promise.<String, Error>}
+   * @returns {Promise.<AsciiArmored, Error>} - the newly generated public key
    * @throws {Error}
    */
   Generator.prototype.generate = function() {
