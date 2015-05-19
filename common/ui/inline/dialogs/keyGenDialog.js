@@ -176,7 +176,7 @@ var mvelo = mvelo || null;
     //console.log('keyGenDialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
       case 'check-dialog-inputs':
-        port.postMessage({event: 'input-check', sender: name, isValid: validate()});
+        port.postMessage({event: 'input-check', sender: name, isValid: validate(), pwd: $pwdInput.val()});
         break;
       default:
         console.log('unknown event');

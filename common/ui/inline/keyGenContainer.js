@@ -82,7 +82,8 @@ mvelo.KeyGenContainer.prototype.generate = function(generateCallback) {
   this.port.postMessage({
     event: 'generate-key',
     sender: this.name,
-    keyringId: this.keyringId
+    keyringId: this.keyringId,
+    options: this.options
   });
   return this;
 };
@@ -96,7 +97,7 @@ mvelo.KeyGenContainer.prototype.registerEventListener = function() {
   this.port.onMessage.addListener(function(msg) {
     switch (msg.event) {
       case 'generate-done':
-        that.generateCallback(msg.error, that.id);
+        that.generateCallback(msg.error, msg.publicKey);
         break;
       case 'dialog-done':
         that.done(null, that.id);

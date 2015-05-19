@@ -26,15 +26,26 @@ define(function(require, exports, module) {
     sub.SubController.call(this, port);
     this.done = null;
     this.keyring = require('../keyring');
+    this.keyringId = null;
+    this.options = null;
   }
 
   PrivateKeyController.prototype = Object.create(sub.SubController.prototype);
 
-  PrivateKeyController.prototype.generateKey = function() {
-    // TODO here generate the key pair
-    var keyPair = {};
-
-    this.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: keyPair});
+  PrivateKeyController.prototype.generateKey = function(password, options) {
+    var that = this;
+    if (options.length !== 2048 && options.length !== 4096) {
+      this.ports.keyGenCont.postMessage({event: 'generate-done', error: {message: 'Invalid key length', code: 'KEY_LENGTH_INVALID'}});
+      return;
+    }
+    this.keyring.getById(this.keyringId).generateKey({
+      email: options.email,
+      user: options.fullName,
+      numBits: options.length,
+      passphrase: password
+    }, function(err, data) {
+      that.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: data.publicKeyArmored, error: err});
+    });
   };
 
   PrivateKeyController.prototype.handlePortMessage = function(msg) {
@@ -55,15 +66,15 @@ define(function(require, exports, module) {
         });
         break;
       case 'generate-key':
+        this.keyringId = msg.keyringId;
+        this.options = msg.options;
         this.ports.keyGenDialog.postMessage({event: 'check-dialog-inputs'});
         break;
       case 'input-check':
         if (msg.isValid) {
-          this.generateKey();
+          this.generateKey(msg.pwd, this.options);
         } else {
-          var error = new Error('The inputs "password" and "confirm" are not valid');
-          error.code = 'INPUT_NOT_VALID';
-          this.ports.keyGenCont.postMessage({event: 'generate-done', error: error});
+          this.ports.keyGenCont.postMessage({event: 'generate-done', error: {message: 'The inputs "password" and "confirm" are not valid', code: 'INPUT_NOT_VALID'}});
         }
         break;
       case 'dialog-init':

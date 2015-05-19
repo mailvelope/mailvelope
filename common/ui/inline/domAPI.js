@@ -70,7 +70,9 @@ mvelo.domAPI.reply = function(id, error, data) {
 mvelo.domAPI.dataTypes = {
   recipients: 'array',
   options: 'object',
-  revision: 'number'
+  revision: 'number',
+  length: 'number',
+  quota: 'number'
 };
 
 mvelo.domAPI.checkTypes = function(data) {
@@ -83,11 +85,14 @@ mvelo.domAPI.checkTypes = function(data) {
   if (!data.data) {
     return;
   }
-  var parameters = Object.keys(data.data);
+  var parameters = Object.keys(data.data) || [];
+  if (data.data.options && typeof data.data.options === 'object') {
+    parameters = parameters.concat(Object.keys(data.data.options));
+  }
   for (var i = 0; i < parameters.length; i++) {
     var parameter = parameters[i];
     var dataType = mvelo.domAPI.dataTypes[parameter] || 'string';
-    var value = data.data[parameter];
+    var value = data.data[parameter] || data.data.options && data.data.options[parameter];
     if (value === undefined) {
       continue;
     }
