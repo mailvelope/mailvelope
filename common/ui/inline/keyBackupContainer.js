@@ -53,10 +53,17 @@ mvelo.KeyBackupContainer.prototype.create = function(done) {
   this.parent = document.querySelector(this.selector);
   this.container = document.createElement('iframe');
 
+  this.port.postMessage({
+    event: 'set-keybackup-window-props',
+    sender: this.name,
+    host: mvelo.domAPI.host,
+    keyringId: this.keyringId
+  });
+
   if (mvelo.crx) {
-    url = mvelo.extension.getURL('common/ui/inline/dialogs/keyBackupDialog.html?id=' + this.id + '&embedded=true' + '&host=' + mvelo.domAPI.host);
+    url = mvelo.extension.getURL('common/ui/inline/dialogs/keyBackupDialog.html?id=' + this.id);
   } else if (mvelo.ffa) {
-    url = 'about:blank?mvelo=keybackup&id=' + this.id + '&embedded=true' + '&host=' + mvelo.domAPI.host;
+    url = 'about:blank?mvelo=keybackup&id=' + this.id;
   }
 
   this.container.setAttribute('src', url);
@@ -73,11 +80,10 @@ mvelo.KeyBackupContainer.prototype.remove = function() {
     this.parent.removeChild(this.container);
   }
 
-  this.popupDone(null, this.id);
   return this;
 };
 
-mvelo.KeyBackupContainer.prototype.popupDone = function(done) {
+mvelo.KeyBackupContainer.prototype.keyBackupDone = function(done) {
   this.popupDone = done;
   return this;
 };
@@ -87,8 +93,9 @@ mvelo.KeyBackupContainer.prototype.registerEventListener = function() {
 
   this.port.onMessage.addListener(function(msg) {
     switch (msg.event) {
-      case 'popup-done':
+      case 'popup-isready':
         that.remove();
+        that.popupDone(null, that.id);
         break;
       case 'dialog-done':
         that.done(null, that.id);

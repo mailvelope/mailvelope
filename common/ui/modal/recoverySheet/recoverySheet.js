@@ -23,7 +23,7 @@ var QRCode = QRCode || null;
 (function() {
   // communication to background page
   var port;
-  // shares ID with DecryptFrame
+  // shares ID with KeyBackup Frame
   var id;
   // type + id
   var name;
@@ -40,18 +40,22 @@ var QRCode = QRCode || null;
     port.onMessage.addListener(messageListener);
 
     var formattedDate = new Date();
-    var d = formattedDate.getUTCDate(),
-      m = formattedDate.getUTCMonth() + 1,
-      y = formattedDate.getUTCFullYear();
 
-    $('#currentDate').html(d + '. ' + m + '. ' + y);
+    $('#currentDate').html(formattedDate.toLocaleDateString());
 
     mvelo.l10n.localizeHTML();
     mvelo.l10n.getMessages([], function(result) {
       l10n = result;
     });
     mvelo.util.showSecurityBackground(qs.embedded);
-    port.postMessage({event: 'backup-code-window-init', sender: name});
+    port.postMessage({event: 'get-logo-image', sender: name});
+  }
+
+  function setLogoImage(image) {
+    if (image) {
+      $('.logo').attr('src', image);
+    }
+    port.postMessage({event: 'get-backup-code', sender: name});
   }
 
   function setBackupCode(backupCode) {
@@ -71,17 +75,21 @@ var QRCode = QRCode || null;
       correctLevel : QRCode.CorrectLevel.H
     });
 
-    window.print();
-
     $('.recovery-sheet_print-button').on('click', function() {
       window.print();
     });
+
+    window.print();
+    port.postMessage({event: 'backup-code-window-init', sender: name});
   }
 
   function messageListener(msg) {
     switch (msg.event) {
-      case 'get-backup-code':
+      case 'set-backup-code':
         setBackupCode(msg.backupCode);
+        break;
+      case 'set-logo-image':
+        setLogoImage(msg.image);
         break;
       default:
         console.log('unknown event');

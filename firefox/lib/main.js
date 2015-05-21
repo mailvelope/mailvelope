@@ -134,6 +134,7 @@ function activatePageMods() {
   injectEmbeddedEditor();
   injectEmbeddedOptions();
   injectEmbeddedKeyGen();
+  injectEmbeddedKeyBackup();
 }
 
 function deactivate() {
@@ -257,7 +258,8 @@ function injectMessageAdapter() {
       data.url('common/ui/editor/editor.html*'),
       data.url('common/ui/modal/pwdDialog.html*'),
       data.url('common/ui/modal/importKeyDialog.html*'),
-      data.url('common/ui/options.html*')
+      data.url('common/ui/options.html*'),
+      data.url('common/ui/modal/recoverySheet/recoverySheet.html*')
     ],
     onAttach: onCsAttach,
     contentScriptFile: data.url('ui/messageAdapter.js'),
@@ -442,6 +444,31 @@ function injectEmbeddedKeyGen() {
       data.url("common/dep/bootstrap/css/bootstrap.css"),
       data.url("common/ui/mvelo.css"),
       data.url("common/ui/inline/dialogs/keyGenDialog.css")
+    ],
+    contentScriptWhen: 'ready',
+    contentScriptOptions: {
+      expose_messaging: false,
+      data_path: data.url()
+    }
+  });
+}
+
+function injectEmbeddedKeyBackup() {
+  pageMods.embeddedOptionsPageMod = pageMod.PageMod({
+    include: 'about:blank?mvelo=keybackup*',
+    onAttach: onCsAttach,
+    contentScriptFile: [
+      data.url('common/dep/jquery.min.js'),
+      data.url('common/dep/jquery.ext.js'),
+      data.url('ui/messageAdapter.js'),
+      data.url('common/dep/bootstrap/js/bootstrap.js'),
+      data.url('common/ui/mvelo.js'),
+      data.url('common/ui/inline/dialogs/keyBackupDialog.js')
+    ],
+    contentStyleFile: [
+      data.url("common/dep/bootstrap/css/bootstrap.css"),
+      data.url("common/ui/mvelo.css"),
+      data.url("common/ui/inline/dialogs/keyBackupDialog.css")
     ],
     contentScriptWhen: 'ready',
     contentScriptOptions: {

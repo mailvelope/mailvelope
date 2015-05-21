@@ -257,15 +257,15 @@
    */
 
   /**
-   * ...
+   * Creates an iframe to display the key backup progress.
    * @param {CssSelector} selector - target container
    * @param {Keyring} keyring - the keyring to use for the setup
    * @param {KeyBackupContainerOptions} options
-   * @returns {Promise.<undefined, Error>}
+   * @returns {Promise.<KeyBackupPopup, Error>}
    */
   Keyring.prototype.createKeyBackupContainer = function(selector, keyring, options) {
     return postMessage('key-backup-container', {selector: selector, identifier: keyring.identifier, options: options}).then(function(popupId) {
-      return new Popup(popupId);
+      return new KeyBackupPopup(popupId);
     });
   };
 
@@ -275,7 +275,7 @@
    * @alis Popup
    * @constructor
    */
-  var Popup = function(popupId) {
+  var KeyBackupPopup = function(popupId) {
     this.popupId = popupId;
   };
 
@@ -283,8 +283,8 @@
    * @returns {Promise.<undefined, Error>}
    * @throws {Error}
    */
-  Popup.prototype.done = function() {
-    return postMessage('popup-done', {popupId: this.popupId});
+  KeyBackupPopup.prototype.isReady = function() {
+    return postMessage('keybackuppopup-isready', {popupId: this.popupId});
   };
 
   /**
