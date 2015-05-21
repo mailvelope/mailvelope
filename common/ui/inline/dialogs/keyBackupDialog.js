@@ -32,6 +32,9 @@ var mvelo = mvelo || null;
     id = qs.id;
     name = 'keyBackupDialog-' + id;
 
+    port = mvelo.extension.connect({name: name});
+    port.onMessage.addListener(messageListener);
+
     $body = $('body');
 
     $body.addClass("secureBackground");
@@ -39,9 +42,6 @@ var mvelo = mvelo || null;
       $keyBackupGenerator = $('#key_backup_generator');
       $secureBgndButton = $('.secureBgndSettingsBtn');
       $createBackupCodeBtn = $('#createBackupCodeBtn');
-
-      port = mvelo.extension.connect({name: name});
-      port.onMessage.addListener(messageListener);
 
       // Get language strings from JSON
       mvelo.l10n.getMessages([

@@ -972,35 +972,31 @@
     "description": ""
   },
   "keybackup_dialog_headline": {
-    "message": "Recommendation: Set up security",
+    "message": "Recommendation: Setup backup",
     "description": ""
   },
   "keybackup_dialog_description": {
-    "message": "The assurance is necessary to your encrypted communication:",
+    "message": "The backup is required to ensure your encrypted communication is:",
     "description": ""
   },
   "keybackup_dialog_list_1": {
-    "message": "Restore If you lose.",
+    "message": "Restored on data loss.",
     "description": ""
   },
   "keybackup_dialog_list_2": {
-    "message": "Transfer them to other devices.",
+    "message": "Transferred to other devices.",
     "description": ""
   },
   "keybackup_dialog_button": {
-    "message": "Setting up security",
-    "description": ""
-  },
-  "keybackup_description": {
-    "message": "Security is established",
+    "message": "Setting up backup",
     "description": ""
   },
   "keybackup_waiting_headline": {
-    "message": "Security is established",
+    "message": "Create backup!",
     "description": ""
   },
   "keybackup_waiting_description": {
-    "message": "A document with your recovery code is being prepared",
+    "message": "A document with your backup code is being prepared",
     "description": ""
   }
 }

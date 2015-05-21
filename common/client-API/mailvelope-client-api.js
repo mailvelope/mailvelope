@@ -238,7 +238,7 @@
    */
 
   /**
-   * Creates an iframe to display "key generation" container.
+   * Creates an iframe to display the key generation container.
    * The iframe will be injected into the container identified by selector.
    * @param {CssSelector} selector - target container
    * @param {Keyring} keyring - the keyring to use for the setup
@@ -257,7 +257,7 @@
    */
 
   /**
-   * Creates an iframe to display the key backup progress.
+   * Creates an iframe to initiate the key backup process.
    * @param {CssSelector} selector - target container
    * @param {Keyring} keyring - the keyring to use for the setup
    * @param {KeyBackupContainerOptions} options
