@@ -11,13 +11,13 @@ body {
 
 #add {
   width: 90px;
-  max-width 90px;
+  max-width: 90px;
   padding: 3px;
 }
 
 #reload {
   width: 90px;
-  max-width 90px;
+  max-width: 90px;
   padding: 3px;
 }
 
@@ -50,22 +50,17 @@ body {
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-content: center;
-  align-items: flex-start;  
+  align-items: flex-start;
 }
-
-/*.popup button {
-  width: 95%;
-}*/
 
 .popupHeader {
     order: 0;
     flex: 1 1 50px;
     align-self: stretch;
-    
+
     padding: 5px;
     min-height: 50px;
     max-height: 50px;
-    /*background-color: lightgray;*/
 }
 
 .popupBody {
@@ -73,17 +68,16 @@ body {
     flex: 1 1 auto;
     align-self: stretch;
 
-    overflow-y: none;
+    overflow-y: hidden;
     padding: 4px;
     border-bottom: 1px lightgray solid;
-    /*border-top: 1px lightgray solid;*/
 }
 
 .popupFooter {
     order: 0;
     flex: 1 1 40px;
     align-self: stretch;
-    
+
     padding: 6px;
     min-height: 40px;
     max-height: 40px;
@@ -96,15 +90,13 @@ body {
 }
 
 .popupLogo:active {
-    background-color: transparent;
-    background: center no-repeat url(../img/maivelope-logo.svg);
+  background: transparent url(../img/maivelope-logo.svg) no-repeat center;
 }
 
 .separationLine {
-    border-top: 1px solid lightgrey; 
-    padding-top: 5px; 
-    padding-left: 5px; 
-    margin-bottom: 3px; 
+    border-top: 1px solid lightgrey;
+    padding-top: 5px;
+    padding-left: 5px;
     margin-bottom: 3px;
 }
 
@@ -116,11 +108,11 @@ body {
   content: ""
 }
 
-#activityLog timestamp::before {
+#activityLog .timestamp::before {
   content: ""
 }
 
-#activityLog timestamp::after {
+#activityLog .timestamp::after {
   content: " - "
 }
 

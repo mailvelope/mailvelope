@@ -92,7 +92,7 @@ input[readonly] {
 }
 
 .navbar-brand {
-  font-family: 'Courgette';
+  font-family: 'Courgette', serif;
 }
 
 #newKey {
@@ -105,7 +105,6 @@ input[readonly] {
 }
 
 #exportKey {
-  width: auto;
   width: auto;
 }
 
@@ -235,9 +234,7 @@ input[readonly] {
   }
 }
 .spinner {
-  background-image: url('../img/loading.gif');
-  background-repeat: no-repeat;
-  background-position: center;
+  background: url('../img/loading.gif') no-repeat center;
 }
 
 .key-advanced-open::before {
@@ -345,7 +342,7 @@ input[readonly] {
     animation: pulse1 4s linear 1;
 }
 
-@-webkit-keyframes "pulse1" {
+@-webkit-keyframes pulse1 {
     0% {
         background-color: rgba(0,0,0,0);
     }

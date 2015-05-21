@@ -134,7 +134,7 @@ var mvelo = mvelo || null;
           $("#showlog").show();
           if (cnt < 3) {
             logEntry = $.parseHTML(logEntryTmpl);
-            $(logEntry).find('timestamp').text((new Date(entry.timestamp)).toLocaleTimeString());
+            $(logEntry).find('.timestamp').text((new Date(entry.timestamp)).toLocaleTimeString());
             $(logEntry).find('.logDescription').text(entry.typei18n);
             $("#activityLog").append(logEntry);
           }
