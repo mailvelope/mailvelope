@@ -380,13 +380,17 @@ define(function(require, exports, module) {
         result[emailAddr] = result[emailAddr].concat(that.keyring.privateKeys.getForAddress(emailAddr));
       }
       result[emailAddr] = result[emailAddr].map(function(key) {
-        if (options.validity && (key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
-                         key.getEncryptionKeyPacket() === null)) {
+        if (options.validity && (
+            key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
+            key.getEncryptionKeyPacket() === null)) {
           return;
         }
+        if (options.fingerprint) {
+          return key.primaryKey.getFingerprint();
+        }
         return key.primaryKey.getKeyId().toHex();
-      }).filter(function(keyid) {
-        return keyid;
+      }).filter(function(entry) { // filter out empty entries
+        return entry;
       });
       if (!result[emailAddr].length) {
         result[emailAddr] = false;

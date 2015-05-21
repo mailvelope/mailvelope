@@ -39,13 +39,13 @@ define(function(require, exports, module) {
           }
           break;
         case 'query-valid-key':
-          var keyIdMap = keyring.getById(request.keyringId).getKeyIdByAddress(request.recipients, {validity: true});
-          Object.keys(keyIdMap).forEach(function(email) {
-            if (keyIdMap[email]) {
-              keyIdMap[email] = {};
+          var keyMap = keyring.getById(request.keyringId).getKeyIdByAddress(request.recipients, {validity: true, fingerprint: true});
+          Object.keys(keyMap).forEach(function(email) {
+            if (keyMap[email]) {
+              keyMap[email] = { fingerprints: keyMap[email] };
             }
           });
-          sendResponse({error: null, data: keyIdMap});
+          sendResponse({error: null, data: keyMap});
           break;
         case 'export-own-pub-key':
           var keyIdMap = keyring.getById(request.keyringId).getKeyIdByAddress([request.emailAddr], {validity: true, pub: false, priv: true});

@@ -165,10 +165,15 @@
     this.logoRev = options.revision || 0;
   };
 
+ /**
+   * @typedef {Object} KeySearchDetails
+   * @property {Array} fingerprints - all fingerprints matching the key search
+   */
+
   /**
    * Checks for valid key in the keyring for provided email addresses
    * @param  {Array} recipients - list of email addresses for key lookup
-   * @return {Promise.<Object, Error>} an object that maps email addresses to a status (false: no valid key, {}: valid key)
+   * @return {Promise.<Object, Error>} an object that maps email addresses to a status (false: no valid key, {KeySearchDetails}: valid key)
    * @example
    * keyring.validKeyForAddress(['abc@web.de', 'info@mailvelope.com']).then(function(result) {
    *     console.log(result); // {'abc@web.de': false, 'info@mailvelope.com': {}}
