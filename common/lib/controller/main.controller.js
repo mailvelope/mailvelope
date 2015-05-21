@@ -39,10 +39,10 @@ define(function(require, exports, module) {
   sub.factory.register('pwdDialog', require('./pwd.controller').PwdController);
   sub.factory.register('editor', require('./editor.controller').EditorController);
   sub.factory.register('editorCont', require('./editor.controller').EditorController);
-  sub.factory.register('keyGenCont', require('./privateKeyBackup.controller').PrivateKeyBackupController);
-  sub.factory.register('keyGenDialog', require('./privateKeyBackup.controller').PrivateKeyBackupController);
-  sub.factory.register('keyBackupCont', require('./privateKeyBackup.controller').PrivateKeyBackupController);
-  sub.factory.register('keyBackupialog', require('./privateKeyBackup.controller').PrivateKeyBackupController);
+  sub.factory.register('keyGenCont', require('./privateKey.controller').PrivateKeyController);
+  sub.factory.register('keyGenDialog', require('./privateKey.controller').PrivateKeyController);
+  sub.factory.register('keyBackupCont', require('./privateKey.controller').PrivateKeyController);
+  sub.factory.register('keyBackupialog', require('./privateKey.controller').PrivateKeyController);
 
   // recipients of encrypted mail
   var scannedHosts = [];

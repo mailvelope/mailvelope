@@ -20,21 +20,25 @@
 var mvelo = mvelo || null;
 
 (function() {
-  var id, name, port, host, l10n;
+  var id, name, port, l10n;
 
+  var $keyBackupGenerator;
   var $secureBgndButton;
-  var $securingNoteButton;
+  var $createBackupCodeBtn;
+  var $body;
 
   function init() {
     var qs = jQuery.parseQuerystring();
     id = qs.id;
     name = 'keyBackupDialog-' + id;
-    host = qs.host;
 
-    $('body').addClass("secureBackground");
-    mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/inline/dialogs/templates/keybackup.html')).then(function() {
+    $body = $('body');
+
+    $body.addClass("secureBackground");
+    mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/inline/dialogs/templates/keybackup.html')).then(function() {
+      $keyBackupGenerator = $('#key_backup_generator');
       $secureBgndButton = $('.secureBgndSettingsBtn');
-      $securingNoteButton = $('#createSecuringNoteBtn');
+      $createBackupCodeBtn = $('#createBackupCodeBtn');
 
       port = mvelo.extension.connect({name: name});
       port.onMessage.addListener(messageListener);
@@ -52,21 +56,14 @@ var mvelo = mvelo || null;
         port.postMessage({ event: 'open-security-settings', sender: name });
       });
 
-      $securingNoteButton.on('click', function() {
-        var $spinner = $('<figure />')
-          .addClass('waiting')
-          .append($('<img/>')
-            .attr('src', '../../../img/spinner.gif'))
-          .append($('<figcation />')
-            .addClass('caption')
-            .append($('<h1 />').html('Sicherung wird eingerichtet'))
-            .append($('<p />').html('Ein Dokument mit ihrem Wiederherstellungscode wird vorbereitet &hellip;')));
-
-        $('#key_backup_generator').parent().removeClass('secureBackground').empty().append($spinner);
-
-        window.setTimeout(function() {
-          port.postMessage({ event: 'create-backup-code-window', sender: name, host: host });
-        }, 3000); // 3sec
+      $createBackupCodeBtn.on('click', function() {
+        $body.removeClass('secureBackground').empty();
+        mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/inline/dialogs/templates/keybackup-waiting.html')).then(function() {
+          mvelo.l10n.localizeHTML();
+          window.setTimeout(function() {
+            port.postMessage({ event: 'create-backup-code-window', sender: name });
+          }, 3000); // 3sec
+        });
       });
       port.postMessage({ event: 'keybackup-dialog-init', sender: name });
     });

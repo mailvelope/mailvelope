@@ -28,7 +28,8 @@ define(function(require, exports, module) {
     this.keyring = require('../keyring');
     this.keyringId = null;
     this.options = null;
-    this.securingNotePopup = null;
+    this.backupCodePopup = null;
+    this.host = null;
   }
 
   PrivateKeyController.prototype = Object.create(sub.SubController.prototype);
@@ -49,13 +50,11 @@ define(function(require, exports, module) {
     });
   };
 
-  PrivateKeyController.prototype.createPrivateKeyBackup = function(host) {
+  PrivateKeyController.prototype.createPrivateKeyBackup = function() {
     var that = this;
 
-    console.log(host);
-
     var page = 'recoverySheet';
-    switch (host) {
+    switch (this.host) {
       case 'webde':
         page += '.webde.html';
         break;
@@ -67,9 +66,18 @@ define(function(require, exports, module) {
     }
     var path = 'common/ui/modal/recoverySheet/' + page;
 
-    this.mvelo.windows.openPopup(path + '?id=' + this.id, {width: 800, height: 550, modal: false}, function(window) {
-      that.securingNotePopup = window;
+    this.mvelo.windows.openPopup(path + '?id=' + this.id, {width: 1024, height: 550, modal: false}, function(window) {
+      that.backupCodePopup = window;
     });
+  };
+
+  PrivateKeyController.prototype.getLogoImage = function() {
+    var attr = this.keyring.getById(this.keyringId).getAttributes();
+    return (attr && attr.logo_data_url) ? attr.logo_data_url : null;
+  };
+
+  PrivateKeyController.prototype.getBackupCode = function() {
+    return '52791659317854726854998566';
   };
 
   PrivateKeyController.prototype.handlePortMessage = function(msg) {
@@ -94,6 +102,10 @@ define(function(require, exports, module) {
         this.options = msg.options;
         this.ports.keyGenDialog.postMessage({event: 'check-dialog-inputs'});
         break;
+      case 'set-keybackup-window-props':
+        this.keyringId = msg.keyringId;
+        this.host = msg.host;
+        break;
       case 'input-check':
         if (msg.isValid) {
           this.generateKey(msg.pwd, this.options);
@@ -108,11 +120,16 @@ define(function(require, exports, module) {
         this.ports.keyBackupCont.postMessage({event: 'dialog-done'});
         break;
       case 'backup-code-window-init':
-        this.ports.backupCodeWindow.postMessage({event: 'get-backup-code', backupCode: '52791659317854726854998566'});
+        this.ports.keyBackupCont.postMessage({event: 'popup-isready'});
+        break;
+      case 'get-logo-image':
+        this.ports.backupCodeWindow.postMessage({event: 'set-logo-image', image: this.getLogoImage()});
+        break;
+      case 'get-backup-code':
+        this.ports.backupCodeWindow.postMessage({event: 'set-backup-code', backupCode: this.getBackupCode()});
         break;
       case 'create-backup-code-window':
-        this.createPrivateKeyBackup(msg.host);
-        this.ports.keyBackupCont.postMessage({event: 'popup-done'});
+        this.createPrivateKeyBackup();
         break;
       default:
         console.log('unknown event', msg);

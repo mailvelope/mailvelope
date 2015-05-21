@@ -970,5 +970,37 @@
   "keygen_dialog_confirm_error_unequal": {
     "message": "The passwords do not match.",
     "description": ""
+  },
+  "keybackup_dialog_headline": {
+    "message": "Recommendation: Set up security",
+    "description": ""
+  },
+  "keybackup_dialog_description": {
+    "message": "The assurance is necessary to your encrypted communication:",
+    "description": ""
+  },
+  "keybackup_dialog_list_1": {
+    "message": "Restore If you lose.",
+    "description": ""
+  },
+  "keybackup_dialog_list_2": {
+    "message": "Transfer them to other devices.",
+    "description": ""
+  },
+  "keybackup_dialog_button": {
+    "message": "Setting up security",
+    "description": ""
+  },
+  "keybackup_description": {
+    "message": "Security is established",
+    "description": ""
+  },
+  "keybackup_waiting_headline": {
+    "message": "Security is established",
+    "description": ""
+  },
+  "keybackup_waiting_description": {
+    "message": "A document with your recovery code is being prepared",
+    "description": ""
   }
 }
