@@ -25,9 +25,7 @@ body {
   top:50%;
   margin-left: -24px;
   margin-top: -24px;
-  background-image: url('../../img/loading.gif');
-  background-repeat: no-repeat;
-  background-position: center;
+  background: url('../../img/loading.gif') no-repeat center;
 }
 
 #fingerprint {

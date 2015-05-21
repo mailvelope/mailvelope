@@ -41,8 +41,7 @@
     font-size: 11px;
     padding: 2px;
     margin-top: 3px;
-    background: #efefef;
-    background-image: linear-gradient(to bottom,#ffffff,#ececec);
+    background: #efefef linear-gradient(to bottom,#ffffff,#ececec);
     border: 1px solid #cbcbcb;
     border-radius: 4px;
     /*cursor: default;*/
@@ -108,7 +107,6 @@
     border: 2px solid #a3a3a3;
     border-radius: 2px;
     padding: 0;
-    padding-top: 0px;
     color: white;
     background-color: #a3a3a3;
     margin-left: 3px;
@@ -205,7 +203,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* End spinner */
 
-
 /**
  * Setup page
  */
@@ -240,7 +237,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     content: '';
     display: block;
     clear: both;
-    heigth: 0;
+    height: 0;
 }
 
 /**
@@ -248,11 +245,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 @media (max-width:767px) {
-  /*.tab-content.jumbotron {
-    padding: 0;
-    background: transparent;
-  }*/
-
   /* Responsive table */
   .table-responsive-custom {
     overflow:auto;
@@ -269,10 +261,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }
 
 @media (min-width: 992px) and (max-width: 1200px) {
-  .tab-content.jumbotron {
-   /* padding-left: 30px;
-    padding-right: 30px;*/
-  }
 }
 
 .secureBgndSettingsBtn {

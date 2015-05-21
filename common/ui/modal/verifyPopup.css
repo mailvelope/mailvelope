@@ -31,7 +31,7 @@ html, body {
   -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   -webkit-background-clip: padding-box;
-  -moz-background-clip: padding-box;
+  -moz-background-clip: padding;
   background-clip: padding-box;
 }
 
@@ -103,7 +103,5 @@ html, body {
 }
 
 .spinner {
-  background-image: url('../../img/loading.gif');
-  background-repeat: no-repeat;
-  background-position: center;
+  background: url('../../img/loading.gif') no-repeat center;
 }

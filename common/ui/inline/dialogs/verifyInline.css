@@ -39,7 +39,7 @@ html, body {
   left: 0;
   right: 0;
   opacity: 0.04;
-  font-family: 'Comic Sans MS';
+  font-family: 'Comic Sans MS' fantasy;
   text-align: center;
   line-height: 100%;
 }
@@ -64,9 +64,7 @@ html, body {
 }
 
 .spinner {
-  background-image: url('../../../img/loading.gif');
-  background-repeat: no-repeat;
-  background-position: center;
+  background: url('../../../img/loading.gif') no-repeat center;
 }
 
 .spinner-large {

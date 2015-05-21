@@ -18,11 +18,7 @@ body {
 #wrapper {
   opacity: 0;
   transition: opacity 0.6s ease-in;
-/*  position: absolute;
-  top: 32px;
-  left: 7px;
-  right: 8px;
-  bottom: 5px;*/
+  bottom: 5px;
   margin:0 7px 7px;
   background-color: white;
   z-index: 1;
@@ -80,18 +76,16 @@ body {
   left: 0;
   right: 0;
   opacity: 0.04;
-  font-family: 'Comic Sans MS';
+  font-family: 'Comic Sans MS', fantasy;
   text-align: center;
   line-height: 100%;
 }
 
 #errorbox {
   display: none;
-  /*background-color: rgba(254,251,243,.7);*/
   position: absolute;
   top: 50%;
   left: 50%;
-  /*padding: 20px 20px 0 20px;*/
   width: 500px;
   margin-left: -250px;
   margin-top: -70px;
