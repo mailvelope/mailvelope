@@ -27,6 +27,9 @@ mvelo.domAPI.containers = new Map();
 
 mvelo.domAPI.host = null;
 
+// must be a singelton
+mvelo.syncHandler = null;
+
 mvelo.domAPI.init = function() {
   this.active = mvelo.main.watchList.some(function(site) {
     return site.active && site.frames && site.frames.some(function(frame) {
@@ -182,8 +185,11 @@ mvelo.domAPI.eventListener = function(event) {
       case 'set-logo':
         mvelo.domAPI.setLogo(keyringId, data.dataURL, data.revision, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
+      case 'add-sync-handler':
+        mvelo.domAPI.addSyncHandler(keyringId, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
       default:
-        console.log('unknown event', event.data.event);
+        console.log('domApi unknown event', event.data.event);
     }
   } catch (err) {
     mvelo.domAPI.reply(event.data.id, err);
@@ -356,4 +362,11 @@ mvelo.domAPI.setLogo = function(keyringId, dataURL, revision, callback) {
   }, function(result) {
     callback(result.error, result.data);
   });
+};
+
+mvelo.domAPI.addSyncHandler = function(keyringId, callback) {
+  mvelo.syncHandler = mvelo.syncHandler || new mvelo.SyncHandler(keyringId);
+  this.containers.set(mvelo.syncHandler.id, mvelo.syncHandler);
+
+  callback(null, keyringId);
 };

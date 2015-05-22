@@ -39,6 +39,7 @@ define(function(require, exports, module) {
   sub.factory.register('pwdDialog', require('./pwd.controller').PwdController);
   sub.factory.register('editor', require('./editor.controller').EditorController);
   sub.factory.register('editorCont', require('./editor.controller').EditorController);
+  sub.factory.register('syncHandler', require('./sync.controller').SyncController);
   sub.factory.register('keyGenCont', require('./privateKey.controller').PrivateKeyController);
   sub.factory.register('keyGenDialog', require('./privateKey.controller').PrivateKeyController);
   sub.factory.register('keyBackupCont', require('./privateKey.controller').PrivateKeyController);
