@@ -297,6 +297,24 @@
   };
 
   /**
+   * @typedef {Object} SyncHandlerObject
+   * @function uploadSync
+   * @function downloadSync
+   * @function backup
+   * @function restore
+   */
+
+  /**
+   * add various function to sync keyring
+   * @param {SyncHandlerObject} syncHandlerObj
+   * @returns {Promise.<undefined, Error>}
+   */
+  Keyring.prototype.addSyncHandler = function(syncHandlerObj) {
+    callbacks.syncHandler = syncHandlerObj;
+    return postMessage('add-sync-handler', {identifier: this.identifier});
+  };
+
+  /**
    * @private
    * @param {string} popupId
    * @alis Popup
@@ -370,6 +388,18 @@
     }
     //console.log('clientAPI eventListener', event.data.event);
     switch (event.data.event) {
+      case 'keyring-upload':
+        callbacks.syncHandler.uploadSync(event.data);
+        break;
+      case 'keyring-download':
+        callbacks.syncHandler.downloadSync(event.data);
+        break;
+      case 'keyring-backup':
+        callbacks.syncHandler.backup(event.data);
+        break;
+      case 'keyring-restore':
+        callbacks.syncHandler.restore(event.data);
+        break;
       case 'callback-reply':
         var error;
         if (event.data.error) {
@@ -379,8 +409,9 @@
         callbacks[event.data.id](error, event.data.data);
         delete callbacks[event.data.id];
         break;
+
       default:
-        console.log('unknown event', event.data.event);
+        console.log('mailvelope-client-api unknown event', event.data.event);
     }
   }
 
