@@ -158,7 +158,7 @@ mvelo.domAPI.eventListener = function(event) {
       case 'key-backup-container':
         mvelo.domAPI.keyBackupContainer(data.selector, keyringId, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
-      case 'keybackuppopup-isready':
+      case 'keybackup-popup-isready':
         mvelo.domAPI.keyBackupPopupIsReady(data.popupId, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'generator-generate':

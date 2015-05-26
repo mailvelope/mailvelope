@@ -423,6 +423,29 @@ define(function(require, exports, module) {
     return this.getAttributes().primary_key ? true : false;
   };
 
+  Keyring.prototype.getPrimaryKey = function() {
+    var primaryKey;
+    var primaryKeyid = this.getAttributes().primary_key;
+    if (!primaryKeyid) {
+      // get newest private key
+      this.keyring.privateKeys.keys.forEach(function(key) {
+        if (!primaryKey || primaryKey.primaryKey.created < key.primaryKey.created) {
+          primaryKey = key;
+        }
+      });
+    } else {
+      primaryKey = this.keyring.privateKeys.getForId(primaryKeyid.toLowerCase());
+    }
+    if (!primaryKey) {
+      return null;
+    }
+    return {
+      key: primaryKey,
+      keyid: primaryKey.primaryKey.getKeyId().toHex(),
+      userid: getUserId(primaryKey)
+    };
+  };
+
   Keyring.prototype.importKeys = function(armoredKeys) {
     var that = this;
     var result = [];
