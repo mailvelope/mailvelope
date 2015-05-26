@@ -69,6 +69,7 @@ define(function(require, exports, module) {
             } else if (key) {
               // password correct
               that.message.key = key;
+              that.message.password = msg.password;
               if (msg.cache != that.prefs.data().security.password_cache) {
                 // update pwd cache status
                 that.prefs.update({security: {password_cache: msg.cache}});
@@ -113,6 +114,35 @@ define(function(require, exports, module) {
       that.resolve = resolve;
       that.reject = reject;
     });
+  };
+
+  PwdController.prototype.unlockCachedKey = function(options) {
+    var that = this;
+    this.message = options.message;
+    if (typeof options.openPopup == 'undefined') {
+      options.openPopup = true;
+    }
+    var cacheEntry = this.pwdCache.get(options.message.key.primaryKey.getKeyId().toHex(), options.message.keyid);
+    if (cacheEntry) {
+      return new Promise(function(resolve, reject) {
+        options.message.password = cacheEntry.password;
+        if (!cacheEntry.key) {
+          that.pwdCache.unlock(cacheEntry, options.message, resolve.bind(null, options.message));
+        } else {
+          resolve(options.message);
+        }
+      });
+    } else {
+      if (options.openPopup) {
+        this.mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + this.id, {width: 470, height: 400, modal: false}, function(window) {
+          that.pwdPopup = window;
+        });
+      }
+      return new Promise(function(resolve, reject) {
+        that.resolve = resolve;
+        that.reject = reject;
+      });
+    }
   };
 
   exports.PwdController = PwdController;

@@ -65,13 +65,11 @@ define(function(require, exports, module) {
    * @return {Object}           password of key, if available unlocked key for keyid
    */
   function get(primkeyid, keyid) {
-    if (active) {
-      if (cache[primkeyid]) {
-        return {
-          password: cache[primkeyid].password,
-          key: cache[primkeyid][keyid]
-        };
-      }
+    if (cache[primkeyid]) {
+      return {
+        password: cache[primkeyid].password,
+        key: cache[primkeyid][keyid]
+      };
     }
   }
 
@@ -81,8 +79,9 @@ define(function(require, exports, module) {
    *                   keyid: key ID of key that should be cached
    *                   key: private key, packet of keyid expected unlocked
    * @param {String} pwd     password, optional
+   * @param {Number} cacheTime    timeout in minutes
    */
-  function set(message, pwd) {
+  function set(message, pwd, cacheTime) {
     // primary key id is main key of cache
     var primKeyIdHex = message.key.primaryKey.getKeyId().toHex();
     var entry = cache[primKeyIdHex];
@@ -98,7 +97,7 @@ define(function(require, exports, module) {
       // clear after timeout
       newEntry.timer = mvelo.util.setTimeout(function() {
         delete cache[primKeyIdHex];
-      }, timeout * 60 * 1000);
+      }, (cacheTime || timeout) * 60 * 1000);
     }
   }
 

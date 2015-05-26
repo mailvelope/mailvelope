@@ -75,14 +75,6 @@ mvelo.KeyBackupContainer.prototype.create = function(done) {
   return this;
 };
 
-mvelo.KeyBackupContainer.prototype.remove = function() {
-  if (this.container) {
-    this.parent.removeChild(this.container);
-  }
-
-  return this;
-};
-
 mvelo.KeyBackupContainer.prototype.keyBackupDone = function(done) {
   this.popupDone = done;
   return this;
@@ -94,8 +86,7 @@ mvelo.KeyBackupContainer.prototype.registerEventListener = function() {
   this.port.onMessage.addListener(function(msg) {
     switch (msg.event) {
       case 'popup-isready':
-        that.remove();
-        that.popupDone(null, that.id);
+        that.popupDone(msg.error, msg.backupMessage);
         break;
       case 'dialog-done':
         that.done(null, that.id);

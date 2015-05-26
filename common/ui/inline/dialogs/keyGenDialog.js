@@ -56,12 +56,11 @@ var mvelo = mvelo || null;
         'keygen_dialog_password_placeholder'
       ], function(result) {
         l10n = result;
+        $pwdInput.attr('placeholder', l10n.keygen_dialog_password_placeholder);
       });
 
       mvelo.l10n.localizeHTML();
       mvelo.util.showSecurityBackground(qs.embedded);
-
-      $pwdInput.prop('placeholder', l10n.keygen_dialog_password_placeholder);
 
       $secureBgndButton.on('click', function() {
         port.postMessage({event: 'open-security-settings', sender: name});

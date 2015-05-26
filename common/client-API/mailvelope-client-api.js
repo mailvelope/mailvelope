@@ -280,11 +280,11 @@
   };
 
   /**
-   * @returns {Promise.<undefined, Error>}
+   * @returns {Promise.<AsciiArmored, Error>} - the encrypted key backup
    * @throws {Error}
    */
   KeyBackupPopup.prototype.isReady = function() {
-    return postMessage('keybackuppopup-isready', {popupId: this.popupId});
+    return postMessage('keybackup-popup-isready', {popupId: this.popupId});
   };
 
   /**

@@ -21,6 +21,7 @@ define(function(require, exports, module) {
 
   var sub = require('./sub.controller');
   var uiLog = require('../uiLog');
+  var pwdCache = require('../pwdCache');
 
   function PrivateKeyController(port) {
     sub.SubController.call(this, port);
@@ -30,6 +31,8 @@ define(function(require, exports, module) {
     this.options = null;
     this.backupCodePopup = null;
     this.host = null;
+    this.keyBackup = null;
+    this.pwdControl = null;
   }
 
   PrivateKeyController.prototype = Object.create(sub.SubController.prototype);
@@ -46,28 +49,37 @@ define(function(require, exports, module) {
       numBits: options.length,
       passphrase: password
     }, function(err, data) {
+      pwdCache.set({keyid: data.key.primaryKey.getKeyId().toHex(), key: data.key}, password, 5);
       that.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: data.publicKeyArmored, error: err});
     });
   };
 
   PrivateKeyController.prototype.createPrivateKeyBackup = function() {
     var that = this;
-
-    var page = 'recoverySheet';
-    switch (this.host) {
-      case 'webde':
-        page += '.webde.html';
-        break;
-      case 'gmx':
-        page += '.gmxnet.html';
-        break;
-      default:
-        page += '.html';
+    var primaryKey = this.keyring.getById(this.keyringId).getPrimaryKey();
+    if (!primaryKey) {
+      throw { message: 'No private key for backup', code: 'NO_PRIVATE_KEY' };
     }
-    var path = 'common/ui/modal/recoverySheet/' + page;
-
-    this.mvelo.windows.openPopup(path + '?id=' + this.id, {width: 1024, height: 550, modal: false}, function(window) {
-      that.backupCodePopup = window;
+    this.pwdControl = sub.factory.get('pwdDialog');
+    this.pwdControl.unlockCachedKey({
+      message: primaryKey,
+    }).then(function(primaryKey) {
+      that.keyBackup = that.model.createPrivateKeyBackup(primaryKey.key, primaryKey.password);
+      var page = 'recoverySheet';
+      switch (that.host) {
+        case 'webde':
+          page += '.webde.html';
+          break;
+        case 'gmx':
+          page += '.gmxnet.html';
+          break;
+        default:
+          page += '.html';
+      }
+      var path = 'common/ui/modal/recoverySheet/' + page;
+      that.mvelo.windows.openPopup(path + '?id=' + that.id, {width: 1024, height: 550, modal: false}, function(window) {
+        that.backupCodePopup = window;
+      });
     });
   };
 
@@ -77,7 +89,7 @@ define(function(require, exports, module) {
   };
 
   PrivateKeyController.prototype.getBackupCode = function() {
-    return '52791659317854726854998566';
+    return this.keyBackup.backupCode;
   };
 
   PrivateKeyController.prototype.handlePortMessage = function(msg) {
@@ -120,7 +132,7 @@ define(function(require, exports, module) {
         this.ports.keyBackupCont.postMessage({event: 'dialog-done'});
         break;
       case 'backup-code-window-init':
-        this.ports.keyBackupCont.postMessage({event: 'popup-isready'});
+        this.ports.keyBackupCont.postMessage({event: 'popup-isready', backupMessage: this.keyBackup.message});
         break;
       case 'get-logo-image':
         this.ports.backupCodeWindow.postMessage({event: 'set-logo-image', image: this.getLogoImage()});
@@ -129,7 +141,11 @@ define(function(require, exports, module) {
         this.ports.backupCodeWindow.postMessage({event: 'set-backup-code', backupCode: this.getBackupCode()});
         break;
       case 'create-backup-code-window':
-        this.createPrivateKeyBackup();
+        try {
+          this.createPrivateKeyBackup();
+        } catch (err) {
+          this.ports.keyBackupCont.postMessage({event: 'popup-isready', error: err});
+        }
         break;
       default:
         console.log('unknown event', msg);

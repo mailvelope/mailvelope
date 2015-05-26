@@ -19,13 +19,13 @@
 
 define(function(require, exports, module) {
 
-  var openpgp = require('openpgp');
+  var mvelo = require('../lib-mvelo').mvelo;
 
   function randomString(length) {
     var result = '';
     var base = 32;
     var buf = new Uint8Array(length);
-    openpgp.crypto.random.getRandomValues(buf);
+    mvelo.util.getDOMWindow().crypto.getRandomValues(buf);
     for (var i = 0; i < buf.length; i++) {
       result += (buf[i] % base).toString(base);
     }
