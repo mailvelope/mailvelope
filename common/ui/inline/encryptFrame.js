@@ -363,6 +363,10 @@ mvelo.EncryptFrame.prototype._setMessage = function(msg, type) {
     }
     this._emailTextElement.html(msg);
   }
+  // trigger input event
+  var inputEvent = document.createEvent('HTMLEvents');
+  inputEvent.initEvent('input', true, true);
+  this._emailTextElement.get(0).dispatchEvent(inputEvent);
 };
 
 mvelo.EncryptFrame.prototype._resetEmailText = function() {
