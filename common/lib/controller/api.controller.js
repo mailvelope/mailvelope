@@ -21,6 +21,7 @@ define(function(require, exports, module) {
 
   var keyring = require('../keyring');
   var sub = require('./sub.controller');
+  var openpgp = require('openpgp');
 
   function handleApiEvent(request, sender, sendResponse) {
     try {
@@ -76,8 +77,8 @@ define(function(require, exports, module) {
         case 'has-private-key':
           var fingerprint = request.fingerprint.toLowerCase().replace(/\s/g, '');
           var key = keyring.getById(request.keyringId).keyring.privateKeys.getForId(fingerprint);
-
-          sendResponse({error: null, data: (key ? true : false)});
+          var valid = key && key.verifyPrimaryKey() === openpgp.enums.keyStatus.valid;
+          sendResponse({error: null, data: (key && valid ? true : false)});
           break;
         default:
           console.log('unknown event:', request);
