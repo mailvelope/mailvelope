@@ -270,7 +270,7 @@
   };
 
   /**
-   * Check if keyring contains private key with given fingerprint
+   * Check if keyring contains valid private key with given fingerprint
    * @param {string} fingerprint
    * @returns {Promise.<boolean, Error>}
    */
