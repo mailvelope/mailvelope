@@ -33,11 +33,13 @@ define(function(require, exports, module) {
           if (keyRing) {
             var attr = keyRing.getAttributes();
             sendResponse({data: {revision: attr.logo_revision}});
+            sub.setActiveKeyringId(request.keyringId);
           }
           break;
         case 'create-keyring':
           if (keyring.createKeyring(request.keyringId)) {
             sendResponse({data: {}});
+            sub.setActiveKeyringId(request.keyringId);
           }
           break;
         case 'query-valid-key':

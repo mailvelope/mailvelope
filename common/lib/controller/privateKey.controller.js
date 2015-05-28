@@ -99,15 +99,7 @@ define(function(require, exports, module) {
         uiLog.push(msg.source, msg.type);
         break;
       case 'open-security-settings':
-        var hash = "#securitysettings";
-        this.mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
-          if (old) {
-            that.mvelo.tabs.sendMessage(tab, {
-              event: "reload-options",
-              hash: hash
-            });
-          }
-        });
+        this.openKeyringSettings();
         break;
       case 'generate-key':
         this.keyringId = msg.keyringId;

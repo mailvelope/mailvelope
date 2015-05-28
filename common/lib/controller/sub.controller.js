@@ -30,6 +30,7 @@ define(function(require, exports, module) {
       this.id = sender.id;
       this.ports[this.mainType] = port;
     }
+    this.activeKeyringId = null;
   }
 
   SubController.prototype.addPort = function(port) {
@@ -59,10 +60,43 @@ define(function(require, exports, module) {
     return Object.keys(this.ports).length === 0;
   };
 
+  SubController.prototype.openSettings = function() {
+    var keyringId = this.keyringId || getActiveKeyringId();
+    var hash = "#securitysettings";
+    var that = this;
+
+    if (keyringId) {
+      hash = '?krid=' + encodeURIComponent(keyringId) + hash;
+    }
+    this.mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
+      if (old) {
+        that.mvelo.tabs.sendMessage(tab, {
+          event: "reload-options",
+          hash: hash
+        });
+      }
+    });
+  };
+
   SubController.prototype.parseViewName = parseViewName;
 
   SubController.prototype.handlePortMessage = function(port) {
     throw new Error('Abstract method.');
+  };
+
+  SubController.prototype.openKeyringSettings = function(keyringId) {
+    keyringId = keyringId || this.mvelo.LOCAL_KEYRING_ID;
+    var hash = '#securitysettings' + '?krid=' + encodeURIComponent(keyringId);
+    var that = this;
+
+    this.mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
+      if (old) {
+        that.mvelo.tabs.sendMessage(tab, {
+          event: 'reload-options',
+          hash: hash
+        });
+      }
+    });
   };
 
   var factory = {};
@@ -155,6 +189,16 @@ define(function(require, exports, module) {
     return { type: pair[0], id: pair[1] };
   }
 
+  var activeKeyringId = null;
+
+  function setActiveKeyringId(keyringId) {
+    activeKeyringId = keyringId;
+  }
+
+  function getActiveKeyringId() {
+    return activeKeyringId;
+  }
+
   exports.SubController = SubController;
   exports.addPort = addPort;
   exports.removePort = removePort;
@@ -163,5 +207,7 @@ define(function(require, exports, module) {
   exports.getByID = getByID;
   exports.getByMainType = getByMainType;
   exports.isActive = isActive;
+  exports.setActiveKeyringId = setActiveKeyringId;
+  exports.getActiveKeyringId = getActiveKeyringId;
 
 });
