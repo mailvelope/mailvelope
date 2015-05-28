@@ -155,6 +155,9 @@ mvelo.domAPI.eventListener = function(event) {
       case 'settings-container':
         mvelo.domAPI.settingsContainer(data.selector, keyringId, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
+      case 'open-settings':
+        mvelo.domAPI.openSettings(keyringId, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
       case 'key-gen-container':
         mvelo.domAPI.keyGenContainer(data.selector, keyringId, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
@@ -252,6 +255,16 @@ mvelo.domAPI.settingsContainer = function(selector, keyringId, options, callback
   var container = new mvelo.OptionsContainer(selector, keyringId, options);
   this.containers.set(container.id, container);
   container.create(callback);
+};
+
+mvelo.domAPI.openSettings = function(keyringId, callback) {
+  mvelo.extension.sendMessage({
+    event: 'open-settings',
+    api_event: true,
+    keyringId: keyringId
+  }, function(result) {
+    callback(result.error, result.data);
+  });
 };
 
 mvelo.domAPI.keyGenContainer = function(selector, keyringId, options, callback) {

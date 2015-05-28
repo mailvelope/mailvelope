@@ -315,6 +315,14 @@
   };
 
   /**
+   * Open the extension settings in a new browser tab
+   * @returns {Promise.<undefined, Error>}
+   */
+  Keyring.prototype.openSettings = function() {
+    return postMessage('open-settings', {identifier: this.identifier});
+  };
+
+  /**
    * @private
    * @param {string} popupId
    * @alis Popup
