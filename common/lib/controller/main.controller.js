@@ -277,6 +277,12 @@ define(function(require, exports, module) {
   }
 
   function loadOptions(hash) {
+    var keyringId = sub.getActiveKeyringId();
+
+    if (keyringId) {
+      hash = '?krid=' + encodeURIComponent(keyringId) + ((hash === undefined) ? '' : hash);
+    }
+
     mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
       if (old) {
         mvelo.tabs.sendMessage(tab, {

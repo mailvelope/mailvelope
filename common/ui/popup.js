@@ -40,56 +40,58 @@ var mvelo = mvelo || null;
   }
 
   function init() {
-    $("#showlog").hide();
-    $('.popup').off();
-    $('.popup').on('click', 'a', function(event) {
-      if (mvelo.crx) {
+    $('#showlog').hide();
+    $('.popup')
+      .off()
+      .on('click', 'a', function(event) {
+        if (mvelo.crx) {
+          hide();
+        } else {
+          sendMessage({event: 'close-popup'});
+        }
+      })
+      .on('click', 'button', function(event) {
+        // id of dropdown entry = action
+        if (this.id === 'state' || this.id === '') {
+          return;
+        }
+        var message = {
+          event: 'browser-action',
+          action: this.id
+        };
+        sendMessage(message);
         hide();
-      } else {
-        sendMessage({event: 'close-popup'});
-      }
-    });
-    $('.popup').on('click', 'button', function(event) {
-      // id of dropdown entry = action
-      if (this.id === 'state' || this.id === '') {
-        return;
-      }
-      var message = {
-        event: 'browser-action',
-        action: this.id
-      };
-      sendMessage(message);
-      hide();
-    });
+      });
 
     if (mvelo.crx) {
       mvelo.l10n.localizeHTML();
     }
 
     if (logEntryTmpl === undefined) {
-      logEntryTmpl = $("#activityLog .logEntry").parent().html();
+      logEntryTmpl = $('#activityLog .logEntry').parent().html();
     }
 
     if (logEmptyTmpl === undefined) {
-      logEmptyTmpl = $("#emptySecurityLog").parent().html();
+      logEmptyTmpl = $('#emptySecurityLog').parent().html();
     }
 
     sendMessage({event: 'get-prefs'});
-    sendMessage({event: "get-ui-log"});
+    sendMessage({event: 'get-ui-log'});
 
-    $('#state').off();
-    $('#state').on('click', function() {
-      var msg;
-      if (activeState) {
-        msg = {event: 'deactivate'};
-      } else {
-        msg = {event: 'activate'};
-      }
-      activeState = !activeState;
-      handleAppActivation();
-      sendMessage(msg);
-      hide();
-    });
+    $('#state')
+      .off()
+      .on('click', function() {
+        var msg;
+        if (activeState) {
+          msg = {event: 'deactivate'};
+        } else {
+          msg = {event: 'activate'};
+        }
+        activeState = !activeState;
+        handleAppActivation();
+        sendMessage(msg);
+        hide();
+      });
 
     $('[data-toggle="tooltip"]').tooltip();
   }
@@ -126,17 +128,17 @@ var mvelo = mvelo || null;
       case 'get-ui-log':
         var logEntry;
         var cnt = 0;
-        $("#activityLog").empty();
+        $('#activityLog').empty();
         if (!msg.secLog || msg.secLog.length === 0) {
-          $("#activityLog").append(logEmptyTmpl);
+          $('#activityLog').append(logEmptyTmpl);
         }
         msg.secLog.reverse().forEach(function(entry) {
-          $("#showlog").show();
+          $('#showlog').show();
           if (cnt < 3) {
             logEntry = $.parseHTML(logEntryTmpl);
             $(logEntry).find('.timestamp').text((new Date(entry.timestamp)).toLocaleTimeString());
             $(logEntry).find('.logDescription').text(entry.typei18n);
-            $("#activityLog").append(logEntry);
+            $('#activityLog').append(logEntry);
           }
           cnt++;
         });
