@@ -19,6 +19,7 @@
 
 define(function(require, exports, module) {
 
+  var mvelo = require('../../lib-mvelo').mvelo;
   var keyring = require('../keyring');
   var sub = require('./sub.controller');
   var openpgp = require('openpgp');
@@ -87,6 +88,22 @@ define(function(require, exports, module) {
           var key = keyring.getById(request.keyringId).keyring.privateKeys.getForId(fingerprint);
           var valid = key && key.verifyPrimaryKey() === openpgp.enums.keyStatus.valid;
           sendResponse({error: null, data: (key && valid ? true : false)});
+          break;
+        case 'open-settings':
+          var that = this;
+          request.keyringId = request.keyringId || mvelo.LOCAL_KEYRING_ID;
+
+          var hash = "#keyring?krid=" + request.keyringId;
+          mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
+            if (old) {
+              mvelo.tabs.sendMessage(tab, {
+                event: "reload-options",
+                hash: hash
+              });
+            }
+          });
+
+          sendResponse({error: null, data: null});
           break;
         default:
           console.log('unknown event:', request);
