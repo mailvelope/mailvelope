@@ -299,11 +299,11 @@ var mvelo = mvelo || null;
       class: 'form-control',
       rows: 12,
       css: {
-        'width':        '100%',
-        'height':       '100%',
+        'width':         '100%',
+        'height':        '100%',
         'margin-bottom': '0',
-        'color':        'black',
-        'resize':       'none'
+        'color':         'black',
+        'resize':        'none'
       }
     });
     var style = $('<link/>', { rel: 'stylesheet', href: commonPath + '/dep/bootstrap/css/bootstrap.css' });
@@ -313,7 +313,8 @@ var mvelo = mvelo || null;
       sandbox.contents().find('head').append(meta)
                                      .append(style)
                                      .append(style2);
-      sandbox.contents().find('body').attr("style", "overflow: hidden; margin: 0").append(text);
+      sandbox.contents().find('body').attr("style", "overflow: hidden; margin: 0")
+                                     .append(text);
     });
     $('#plainText').append(sandbox);
     text.on('change', onChange);
