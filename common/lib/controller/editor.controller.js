@@ -255,9 +255,11 @@ define(function(require, exports, module) {
             msg = msg.replace(/^(.|\n)/gm, '> $&');
           }
           if (that.options.quotedMailHeader) {
-            msg = that.options.quotedMailHeader + '\n' + msg;
+            msg = '> ' + that.options.quotedMailHeader + '\n' + msg;
           }
-          msg = '\n\n' + msg;
+          if (that.options.quotedMailIndent || that.options.quotedMailHeader) {
+            msg = '\n\n' + msg;
+          }
           if (that.options.predefinedText) {
             msg = msg + '\n\n' + that.options.predefinedText;
           }
