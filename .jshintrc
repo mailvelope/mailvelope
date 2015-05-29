@@ -23,6 +23,7 @@
     "multistr"      : true,     // true: Tolerate multi-line strings
     "shadow"        : true,     // true: Allows re-define variables later in code e.g. `var x=1; x=2;`
     "validthis"     : true,     // true: Tolerate using this in a non-constructor function
+    "loopfunc"      : true,     // true: Tolerate functions within loops
 
     // Environments
     "browser"       : true,     // Web Browser (window, document, etc)

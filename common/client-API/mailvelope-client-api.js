@@ -165,22 +165,33 @@
     this.logoRev = options.revision || 0;
   };
 
- /**
-   * @typedef {Object} KeySearchDetails
-   * @property {Array} fingerprints - all fingerprints matching the key search
-   */
-
   /**
    * Checks for valid key in the keyring for provided email addresses
    * @param  {Array} recipients - list of email addresses for key lookup
-   * @return {Promise.<Object, Error>} an object that maps email addresses to a status (false: no valid key, {KeySearchDetails}: valid key)
+   * @return {Promise.<Object, Error>} an object that maps email addresses to a status or key info object (false: no valid key, {}: valid key)
    * @example
    * keyring.validKeyForAddress(['abc@web.de', 'info@mailvelope.com']).then(function(result) {
-   *     console.log(result); // {'abc@web.de': false, 'info@mailvelope.com': {}}
+   *     console.log(result);
+   * // {
+   * //   'abc@web.de': false,
+   * //   'info@mailvelope.com': {
+   * //     keys: [
+   * //       {fingerprint: 'f37377c39898d05ffd39157a98bbec557ce08def', lastModified: Tue May 19 2015 10:36:53 GMT+0200 (CEST)}
+   * //     ]
+   * // }
    * });
    */
   Keyring.prototype.validKeyForAddress = function(recipients) {
-    return postMessage('query-valid-key', {identifier: this.identifier, recipients: recipients});
+    return postMessage('query-valid-key', {identifier: this.identifier, recipients: recipients}).then(function(keyMap) {
+      for (var address in keyMap) {
+        if (keyMap[address]) {
+          keyMap[address].keys.forEach(function(key) {
+            key.lastModified = new Date(key.lastModified);
+          });
+        }
+      }
+      return keyMap;
+    });
   };
 
   /**

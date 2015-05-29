@@ -364,6 +364,20 @@ define(function(require, exports, module) {
 
   Keyring.prototype.getKeyIdByAddress = function(emailAddr, options) {
     var that = this;
+    var addressMap = this.getKeyByAddress(emailAddr, options);
+    for (var address in addressMap) {
+      addressMap[address] = addressMap[address] && addressMap[address].map(function(key) {
+        if (options.fingerprint) {
+          return key.primaryKey.getFingerprint();
+        }
+        return key.primaryKey.getKeyId().toHex();
+      });
+    }
+    return addressMap;
+  };
+
+  Keyring.prototype.getKeyByAddress = function(emailAddr, options) {
+    var that = this;
     if (typeof options.pub === 'undefined') {
       options.pub = true;
     }
@@ -379,21 +393,31 @@ define(function(require, exports, module) {
       if (options.priv) {
         result[emailAddr] = result[emailAddr].concat(that.keyring.privateKeys.getForAddress(emailAddr));
       }
-      result[emailAddr] = result[emailAddr].map(function(key) {
+      result[emailAddr] = result[emailAddr].filter(function(key) {
         if (options.validity && (
             key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
             key.getEncryptionKeyPacket() === null)) {
           return;
         }
-        if (options.fingerprint) {
-          return key.primaryKey.getFingerprint();
-        }
-        return key.primaryKey.getKeyId().toHex();
-      }).filter(function(entry) { // filter out empty entries
-        return entry;
+        return true;
       });
       if (!result[emailAddr].length) {
         result[emailAddr] = false;
+      } else if (options.sort) {
+        // sort by key creation date and primary key status
+        var primaryKeyId = that.getAttributes().primary_key;
+        result[emailAddr].sort(function(a, b) {
+          if (primaryKeyId) {
+            primaryKeyId = primaryKeyId.toLowerCase();
+            if (primaryKeyId === a.primaryKey.getKeyId().toHex()) {
+              return -1;
+            }
+            if (primaryKeyId === b.primaryKey.getKeyId().toHex()) {
+              return 1;
+            }
+          }
+          return b.primaryKey.created - a.primaryKey.created;
+        });
       }
     });
     return result;

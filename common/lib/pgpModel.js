@@ -225,6 +225,16 @@ define(function(require, exports, module) {
     };
   }
 
+  function getLastModifiedDate(key) {
+    var lastModified = new Date(0);
+    key.toPacketlist().forEach(function(packet) {
+      if (packet.created && packet.created > lastModified) {
+        lastModified = packet.created;
+      }
+    });
+    return lastModified;
+  }
+
   exports.validateEmail = validateEmail;
   exports.readMessage = readMessage;
   exports.readCleartextMessage = readCleartextMessage;
@@ -234,6 +244,7 @@ define(function(require, exports, module) {
   exports.signMessage = signMessage;
   exports.verifyMessage = verifyMessage;
   exports.createPrivateKeyBackup = createPrivateKeyBackup;
+  exports.getLastModifiedDate = getLastModifiedDate;
 
   function getWatchList() {
     watchListBuffer = watchListBuffer || mvelo.storage.get('mailvelopeWatchList');
