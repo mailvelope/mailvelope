@@ -22,6 +22,7 @@ define(function(require, exports, module) {
   var keyring = require('../keyring');
   var sub = require('./sub.controller');
   var openpgp = require('openpgp');
+  var model = require('../pgpModel');
 
   function handleApiEvent(request, sender, sendResponse) {
     try {
@@ -39,16 +40,23 @@ define(function(require, exports, module) {
           }
           break;
         case 'query-valid-key':
-          var keyMap = keyring.getById(request.keyringId).getKeyIdByAddress(request.recipients, {validity: true, fingerprint: true});
+          var keyMap = keyring.getById(request.keyringId).getKeyByAddress(request.recipients, {validity: true, fingerprint: true, sort: true});
           Object.keys(keyMap).forEach(function(email) {
             if (keyMap[email]) {
-              keyMap[email] = { fingerprints: keyMap[email] };
+              keyMap[email] = {
+                keys: keyMap[email].map(function(key) {
+                  return {
+                    fingerprint: key.primaryKey.getFingerprint(),
+                    lastModified: model.getLastModifiedDate(key).toISOString()
+                  };
+                })
+              };
             }
           });
           sendResponse({error: null, data: keyMap});
           break;
         case 'export-own-pub-key':
-          var keyIdMap = keyring.getById(request.keyringId).getKeyIdByAddress([request.emailAddr], {validity: true, pub: false, priv: true});
+          var keyIdMap = keyring.getById(request.keyringId).getKeyIdByAddress([request.emailAddr], {validity: true, pub: false, priv: true, sort: true});
           if (!keyIdMap[request.emailAddr]) {
             sendResponse({error: {message: 'No key pair found for this email address.', code: 'NO_KEY_FOR_ADDRESS'}});
             return;
