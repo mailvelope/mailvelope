@@ -75,7 +75,9 @@ mvelo.domAPI.dataTypes = {
   options: 'object',
   revision: 'number',
   length: 'number',
-  quota: 'number'
+  quota: 'number',
+  quotedMailIndent: 'boolean',
+  showExternalContent: 'boolean'
 };
 
 mvelo.domAPI.checkTypes = function(data) {
