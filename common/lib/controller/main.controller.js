@@ -43,7 +43,7 @@ define(function(require, exports, module) {
   sub.factory.register('keyGenCont', require('./privateKey.controller').PrivateKeyController);
   sub.factory.register('keyGenDialog', require('./privateKey.controller').PrivateKeyController);
   sub.factory.register('keyBackupCont', require('./privateKey.controller').PrivateKeyController);
-  sub.factory.register('keyBackupialog', require('./privateKey.controller').PrivateKeyController);
+  sub.factory.register('keyBackupDialog', require('./privateKey.controller').PrivateKeyController);
 
   // recipients of encrypted mail
   var scannedHosts = [];
