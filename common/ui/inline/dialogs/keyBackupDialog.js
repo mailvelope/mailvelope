@@ -50,7 +50,7 @@ var mvelo = mvelo || null;
       });
 
       mvelo.l10n.localizeHTML();
-      mvelo.util.showSecurityBackground(qs.embedded);
+      mvelo.util.showSecurityBackground(true);
 
       $secureBgndButton.on('click', function() {
         port.postMessage({ event: 'open-security-settings', sender: name });
