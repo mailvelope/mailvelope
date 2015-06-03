@@ -77,20 +77,21 @@ var options = options || null;
     $tableBody = $("#keyRingTable tbody");
     $tableBody.children().remove();
 
-    options.getAllKeyringAttr(function(data) {
-      if (data !== undefined) {
-        for (var keyRingId in data) {
-          var obj = data[keyRingId];
-          if (obj.hasOwnProperty("primary_key")) {
-            if (options.keyringId === keyRingId) {
-              options.primaryKeyId = obj.primary_key;
+    options.getAllKeyringAttr()
+      .then(function(data) {
+        if (data !== undefined) {
+          for (var keyRingId in data) {
+            var obj = data[keyRingId];
+            if (obj.hasOwnProperty("primary_key")) {
+              if (options.keyringId === keyRingId) {
+                options.primaryKeyId = obj.primary_key;
+              }
             }
           }
         }
-      }
-      keyRing = undefined;
-      options.keyring('getKeys', initKeyringTable);
-    });
+        keyRing = undefined;
+        options.keyring('getKeys', initKeyringTable);
+      });
   }
 
   function initKeyringTable(err, data) {

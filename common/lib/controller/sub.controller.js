@@ -19,8 +19,10 @@
 
 define(function(require, exports, module) {
 
+  var mvelo = require('../../lib-mvelo').mvelo;
+
   function SubController(port) {
-    this.mvelo = require('../../lib-mvelo').mvelo;
+    this.mvelo = mvelo;
     this.prefs = require('../prefs');
     this.model = require('../pgpModel');
     this.ports = {};
@@ -30,7 +32,6 @@ define(function(require, exports, module) {
       this.id = sender.id;
       this.ports[this.mainType] = port;
     }
-    this.activeKeyringId = null;
   }
 
   SubController.prototype.addPort = function(port) {
@@ -62,7 +63,7 @@ define(function(require, exports, module) {
 
   SubController.prototype.openSettings = function() {
     var keyringId = this.keyringId || getActiveKeyringId();
-    var hash = "#securitysettings";
+    var hash = '#security';
     var that = this;
 
     if (keyringId) {
@@ -71,7 +72,7 @@ define(function(require, exports, module) {
     this.mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
       if (old) {
         that.mvelo.tabs.sendMessage(tab, {
-          event: "reload-options",
+          event: 'reload-options',
           hash: hash
         });
       }
@@ -86,7 +87,7 @@ define(function(require, exports, module) {
 
   SubController.prototype.openKeyringSettings = function(keyringId) {
     keyringId = keyringId || this.mvelo.LOCAL_KEYRING_ID;
-    var hash = '#securitysettings' + '?krid=' + encodeURIComponent(keyringId);
+    var hash = '?krid=' + encodeURIComponent(keyringId) + '#security';
     var that = this;
 
     this.mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
@@ -189,7 +190,7 @@ define(function(require, exports, module) {
     return { type: pair[0], id: pair[1] };
   }
 
-  var activeKeyringId = null;
+  var activeKeyringId = mvelo.LOCAL_KEYRING_ID;
 
   function setActiveKeyringId(keyringId) {
     activeKeyringId = keyringId;

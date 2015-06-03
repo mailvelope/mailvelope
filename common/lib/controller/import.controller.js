@@ -40,9 +40,9 @@ define(function(require, exports, module) {
     var that = this;
     switch (msg.event) {
       case 'imframe-armored-key':
-        this.mvelo.tabs.loadOptionsTab('', function(old, tab) {
+        this.mvelo.tabs.loadOptionsTab('#importKey', function(old, tab) {
           that.mvelo.tabs.sendMessage(tab, {
-            event: "import-key",
+            event: 'import-key',
             armored: msg.data,
             id: that.id
           }, function(msg) {
