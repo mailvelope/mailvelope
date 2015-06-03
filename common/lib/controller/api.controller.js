@@ -95,11 +95,11 @@ define(function(require, exports, module) {
           var that = this;
           request.keyringId = request.keyringId || mvelo.LOCAL_KEYRING_ID;
 
-          var hash = "#keyring?krid=" + request.keyringId;
+          var hash = '?krid=' + encodeURIComponent(request.keyringId) + '#keyring';
           mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
             if (old) {
               mvelo.tabs.sendMessage(tab, {
-                event: "reload-options",
+                event: 'reload-options',
                 hash: hash
               });
             }

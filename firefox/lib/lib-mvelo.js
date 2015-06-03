@@ -25,7 +25,7 @@ var addonWindow = require('sdk/addon/window');
 var timer = require('sdk/timers');
 var ss = require('sdk/simple-storage');
 var url = require('sdk/url');
-var l10nGet = require("sdk/l10n").get;
+var l10nGet = require('sdk/l10n').get;
 
 var mvelo = require('./common/mvelo').mvelo;
 var attachments = require('./attachments');
@@ -106,7 +106,10 @@ mvelo.tabs.create = function(url, complete, callback) {
   });
 };
 
-mvelo.tabs.activate = function(tab, callback) {
+mvelo.tabs.activate = function(tab, options, callback) {
+  if (options.url) {
+    tab.url = options.url;
+  }
   tab.activate();
   if (callback) {
     callback(tab);
@@ -125,16 +128,17 @@ mvelo.tabs.sendMessage = function(tab, msg, callback) {
 
 mvelo.tabs.loadOptionsTab = function(hash, callback) {
   // check if options tab already exists
-  this.query(data.url("common/ui/options.html"), function(tabs) {
+  var url = data.url('common/ui/options.html');
+  this.query(url, function(tabs) {
     if (tabs.length === 0) {
       // if not existent, create tab
       if (hash === undefined) {
-        hash = "";
+        hash = '';
       }
-      mvelo.tabs.create(data.url("common/ui/options.html") + hash, true, callback.bind(this, false));
+      mvelo.tabs.create(url + hash, true, callback.bind(this, false));
     } else {
       // if existent, set as active tab
-      mvelo.tabs.activate(tabs[0], callback.bind(this, true));
+      mvelo.tabs.activate(tabs[0], {url: url + hash}, callback.bind(this, true));
     }
   });
 };
@@ -198,7 +202,7 @@ var delegate = {
   }
 };
 
-var winUtils = require("sdk/deprecated/window-utils");
+var winUtils = require('sdk/deprecated/window-utils');
 var tracker = new winUtils.WindowTracker(delegate);
 
 mvelo.windows.BrowserWindow = function(id) {
@@ -211,7 +215,7 @@ mvelo.windows.BrowserWindow.prototype.activate = function() {
 
 mvelo.util = mvelo.util || {};
 
-var dompurifyWorker = require("sdk/page-worker").Page({
+var dompurifyWorker = require('sdk/page-worker').Page({
   contentScriptFile: [
     data.url('common/dep/purify.js'),
     data.url('dep/purifyAdapter.js')

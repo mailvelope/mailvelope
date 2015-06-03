@@ -282,21 +282,6 @@ var options = options || null;
   }
   options.addToWatchList = addToWatchList;
 
-  function removeFromWatchList(website) {
-    if (confirm(options.l10n.watchlist_delete_confirmation)) {
-      website = cleanWebSiteName(website);
-      options.pgpModel('getWatchList', function(err, data) {
-        data.forEach(function(siteEntry, index) {
-          if (siteEntry.site === website) {
-            data.splice(index, 1);
-          }
-        });
-        saveWatchListData(data);
-      });
-    }
-  }
-  options.removeFromWatchList = removeFromWatchList;
-
   function saveWatchListData(data) {
     mvelo.extension.sendMessage({
       event: 'set-watch-list',

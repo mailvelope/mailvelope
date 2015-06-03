@@ -84,21 +84,25 @@ define(function(require, exports, module) {
   };
 
   mvelo.tabs.query = function(url, callback) {
-    chrome.tabs.query({url: url, currentWindow: true}, callback);
+    chrome.tabs.query({url: url + '*', currentWindow: true}, callback);
   };
 
   mvelo.tabs.create = function(url, complete, callback) {
+    var newTab;
+    if (complete) {
+      // wait for tab to be loaded
+      chrome.tabs.onUpdated.addListener(function updateListener(tabid, info) {
+        if (tabid === newTab.id && info.status === 'complete') {
+          chrome.tabs.onUpdated.removeListener(updateListener);
+          if (callback) {
+            callback(newTab);
+          }
+        }
+      });
+    }
     chrome.tabs.create({url: url}, function(tab) {
       if (complete) {
-        // wait for tab to be loaded
-        chrome.tabs.onUpdated.addListener(function updateListener(tabid, info) {
-          if (tabid === tab.id && info.status === 'complete') {
-            chrome.tabs.onUpdated.removeListener(updateListener);
-            if (callback) {
-              callback(tab);
-            }
-          }
-        });
+        newTab = tab;
       } else {
         if (callback) {
           callback(tab);
@@ -107,8 +111,9 @@ define(function(require, exports, module) {
     });
   };
 
-  mvelo.tabs.activate = function(tab, callback) {
-    chrome.tabs.update(tab.id, { active: true }, callback);
+  mvelo.tabs.activate = function(tab, options, callback) {
+    options = $.extend(options, { active: true });
+    chrome.tabs.update(tab.id, options, callback);
   };
 
   mvelo.tabs.sendMessage = function(tab, msg, callback) {
@@ -117,16 +122,17 @@ define(function(require, exports, module) {
 
   mvelo.tabs.loadOptionsTab = function(hash, callback) {
     // check if options tab already exists
-    this.query(chrome.runtime.getURL('common/ui/options.html'), function(tabs) {
+    var url = chrome.runtime.getURL('common/ui/options.html');
+    this.query(url, function(tabs) {
       if (tabs.length === 0) {
         // if not existent, create tab
         if (hash === undefined) {
-          hash = "";
+          hash = '';
         }
-        mvelo.tabs.create('common/ui/options.html' + hash, callback !== undefined, callback.bind(this, false));
+        mvelo.tabs.create(url + hash, callback !== undefined, callback.bind(this, false));
       } else {
         // if existent, set as active tab
-        mvelo.tabs.activate(tabs[0], callback.bind(this, true));
+        mvelo.tabs.activate(tabs[0], {url: url + hash} , callback.bind(this, true));
       }
     });
   };

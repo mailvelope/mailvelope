@@ -31,7 +31,8 @@ var options = {};
   var l10n = {};
   var keyringTmpl;
   var $keyringList;
-  var demailSuffix = "de-mail.de";
+  var krid;
+  var demailSuffix = 'de-mail.de';
 
   function init() {
     initMessageListener();
@@ -57,78 +58,83 @@ var options = {};
 
   function initUI() {
     mvelo.extension.sendMessage({
-      event: "get-version"
+      event: 'get-version'
     }, function(version) {
       $('#version').text('v' + version);
     });
 
     var qs = jQuery.parseQuerystring();
-    var krid = mvelo.LOCAL_KEYRING_ID;
-    if (qs.hasOwnProperty("krid")) {
+    krid = mvelo.LOCAL_KEYRING_ID;
+    if (qs.hasOwnProperty('krid')) {
       krid = decodeURIComponent(qs.krid);
-      $("#keyringSwitcher").addClass("disabled");
+      //$('#keyringSwitcher').addClass('disabled');
       if (krid.indexOf(demailSuffix) > 3) {
-        $("#genKeyEmail").attr("disabled", "disabled");
-        $("#genKeyEmailLabel").attr("data-l10n-id", "key_gen_demail");
+        $('#genKeyEmail').attr('disabled', 'disabled');
+        $('#genKeyEmailLabel').attr('data-l10n-id', 'key_gen_demail');
       }
     }
     setKeyRing(krid);
 
-    if (qs.hasOwnProperty("email")) {
+    if (qs.hasOwnProperty('email')) {
       var decodedEmail = decodeURIComponent(qs.email);
-      $("#genKeyEmail").val(decodedEmail);
+      $('#genKeyEmail').val(decodedEmail);
     }
 
-    if (qs.hasOwnProperty("fname")) {
-      $("#genKeyName").val(decodeURIComponent(qs.fname));
+    if (qs.hasOwnProperty('fname')) {
+      $('#genKeyName').val(decodeURIComponent(qs.fname));
     }
 
     // No private key yet? Navigate to setup tab
     options.keyring('getPrivateKeys', function(err, data) {
       if (!data.length) {
         $('.keyring_setup_message').addClass('active');
-        // Activate setup tab
-        $('a[href="#setupProvider"]').tab('show');
-        // Activate setup navigation
-        $('a[href="#setupProvider"]').siblings('a.list-group-item').removeClass('active');
-        $('a[href="#setupProvider"]').addClass('active');
+
+        $('a[href=#setupProvider]')
+          .tab('show') // Activate setup tab
+          .addClass('active')
+          .siblings('a.list-group-item').removeClass('active') // Activate setup navigation
+        ;
       }
       else {
-        // Activate display keys tab
-        $('a[href="#displayKeys"]').tab('show');
-        // Activate display keys navigation
-        $('a[href="#displayKeys"]').siblings('a.list-group-item').removeClass('active');
-        $('a[href="#displayKeys"]').addClass('active');
+        $('a[href=#displayKeys]')
+          .tab('show') // Activate display keys tab
+          .addClass('active')
+          .siblings('a.list-group-item').removeClass('active') // Activate display keys navigation
+        ;
       }
     });
 
     registerL10nMessages([
-      "keygrid_user_email",
-      "key_gen_demail"
+      'keygrid_user_email',
+      'key_gen_demail'
     ]);
 
     mvelo.l10n.localizeHTML();
     mvelo.util.showSecurityBackground();
 
-    $(".secureBgndSettingsBtn").on("click", openSecuritySettings);
+    $('.secureBgndSettingsBtn').on('click', function() {
+      $('#settingsButton').trigger('click');
+      $('#securityButton').trigger('click');
+    });
 
-    $keyringList = $("#keyringList");
+    $keyringList = $('#keyringList');
     if (keyringTmpl === undefined) {
       keyringTmpl = $keyringList.html();
       $keyringList.empty();
     }
 
     // Disable submitting of forms by for example pressing enter
-    $("form").submit(function(e) { e.preventDefault(); });
+    $('form').submit(function(e) { e.preventDefault(); });
 
     // Enabling selection of the elements in settings navigation
-    $(".list-group-item").on("click", function() {
+    $('.list-group-item').on('click', function() {
+      window.location.hash = $(this).attr('href');
       var self = $(this);
-      if (!self.hasClass("disabled")) {
-        self.parent().find(".list-group-item").each(function() {
-          $(this).removeClass("active");
+      if (!self.hasClass('disabled')) {
+        self.parent().find('.list-group-item').each(function() {
+          $(this).removeClass('active');
         });
-        self.addClass("active");
+        self.addClass('active');
       }
     });
 
@@ -143,58 +149,95 @@ var options = {};
       }
     });
 
-    getAllKeyringAttr(function(data) {
-      if (data === undefined) {
-        return false;
-      }
+    getAllKeyringAttr()
+      .then(function(data) {
+        initKeyringSelection(data);
 
-      var keyringHTML;
-      var keyringName;
-
-      for (var keyRingId in data) {
-        keyringName = keyRingId.split(mvelo.KEYRING_DELIMITER)[0] + " (" + keyRingId.split(mvelo.KEYRING_DELIMITER)[1] + ")";
-        keyringHTML = $.parseHTML(keyringTmpl);
-
-        var obj = data[keyRingId];
-        if (obj.hasOwnProperty("primary_key")) {
-          if (exports.keyringId === keyRingId) {
-            exports.primaryKeyId = obj.primary_key;
-          }
-          $(keyringHTML).find(".keyRingName").attr("data-primarykeyid", obj.primary_key);
+        switch (window.location.hash) {
+          case '#general':
+          case '#security':
+          case '#watchList':
+          case '#securityLog':
+          case '#backup':
+            $('#settingsButton').tab('show');
+            $(window.location.hash + 'Button').tab('show');
+            break;
+          case '#displayKeys':
+          case '#importKey':
+          case '#exportKeys':
+          case '#generateKey':
+          case '#setupProvider':
+            $('#keyringButton').tab('show');
+            $(window.location.hash + 'Button').tab('show');
+            break;
+          default:
+            if (window.location.hash == '#settings') {
+              $('#settingsButton').tab('show');
+            } else if (window.location.hash == '#keyring') {
+              $('#keyringButton').tab('show');
+            } else {
+              console.log(window.location.hash);
+              $('#keyringButton').tab('show');
+            }
         }
-        if (obj.hasOwnProperty("logo_data_url")) {
-          $(keyringHTML).find(".keyRingName").attr("data-providerlogo", obj.logo_data_url);
-        }
+        activateTabButton(window.location.hash + 'Button');
 
-        if (keyRingId === mvelo.LOCAL_KEYRING_ID) {
-          keyringName = "Mailvelope";
-          $(keyringHTML).find(".deleteKeyRing").hide();
-        }
+        getL10nMessages(Object.keys(l10n), function(result) {
+          exports.l10n = result;
+          event.triggerHandler('ready');
+        });
+      });
+  }
 
-        $(keyringHTML).find(".keyRingName").text(keyringName);
-        $(keyringHTML).find(".keyRingName").attr("data-keyringid", keyRingId);
-        $(keyringHTML).find(".deleteKeyRing").attr("data-keyringid", keyRingId);
-        $keyringList.append(keyringHTML);
-      }
+  /**
+   * renders keyring dropdown selection
+   */
+  function initKeyringSelection(data) {
 
-      $keyringList.find(".keyRingName").on("click", switchKeyring);
-      $keyringList.find(".deleteKeyRing").on("click", exports.deleteKeyring);
-
-      setKeyRing(krid);
-    });
-
-    getL10nMessages(Object.keys(l10n), function(result) {
-      exports.l10n = result;
-      event.triggerHandler('ready');
-    });
-
-    if (window.location.hash === "#showlog") {
-      $('#showKeySettings a').get(0).click();
-      $('#openSecurityLog').get(0).click();
-      options.startSecurityLogMonitoring();
-    } else if (window.location.hash === "#securitysettings") {
-      openSecuritySettings();
+    if (data === undefined) {
+      return false;
     }
+
+    var keyringHTML;
+    var keyringName;
+
+    for (var keyRingId in data) {
+      keyringName = keyRingId.split(mvelo.KEYRING_DELIMITER)[0] + ' (' + keyRingId.split(mvelo.KEYRING_DELIMITER)[1] + ')';
+      keyringHTML = $.parseHTML(keyringTmpl);
+
+      var obj = data[keyRingId];
+      if (obj.hasOwnProperty('primary_key')) {
+        if (exports.keyringId === keyRingId) {
+          exports.primaryKeyId = obj.primary_key;
+        }
+        $(keyringHTML).find('.keyRingName').attr('data-primarykeyid', obj.primary_key);
+      }
+      if (obj.hasOwnProperty('logo_data_url')) {
+        $(keyringHTML).find('.keyRingName').attr('data-providerlogo', obj.logo_data_url);
+      }
+
+      if (keyRingId === mvelo.LOCAL_KEYRING_ID) {
+        keyringName = 'Mailvelope';
+        $(keyringHTML).find('.deleteKeyRing').hide();
+      }
+
+      $(keyringHTML).find('.keyRingName').text(keyringName);
+      $(keyringHTML).find('.keyRingName').attr('data-keyringid', keyRingId);
+      $(keyringHTML).find('.deleteKeyRing').attr('data-keyringid', keyRingId);
+      $keyringList.append(keyringHTML);
+    }
+
+    $keyringList.find('.keyRingName').on('click', switchKeyring);
+    $keyringList.find('.deleteKeyRing').on('click', exports.deleteKeyring);
+
+    setKeyRing(krid);
+  }
+
+  function activateTabButton(name) {
+    $('.list-group-item').each(function() {
+      $(this).removeClass('active');
+    });
+    $(name).addClass('active');
   }
 
   function setKeyRing(keyringId) {
@@ -203,38 +246,36 @@ var options = {};
 
     var keyringName;
     if (keyringId === mvelo.LOCAL_KEYRING_ID) {
-      keyringName = "Mailvelope";
+      keyringName = 'Mailvelope';
     } else if (keyringId) {
-      keyringName = keyringId.split(mvelo.KEYRING_DELIMITER)[0] + " (" + keyringId.split(mvelo.KEYRING_DELIMITER)[1] + ")";
+      keyringName = keyringId.split(mvelo.KEYRING_DELIMITER)[0] + ' (' + keyringId.split(mvelo.KEYRING_DELIMITER)[1] + ')';
     }
 
-    $("#keyringSwitcherLabel").text(keyringName);
+    $('#keyringSwitcherLabel').text(keyringName);
     exports.keyringId = keyringId;
 
     if (primaryKeyId) {
       exports.primaryKeyId = primaryKeyId;
     }
 
-    var $logoArea = $(".third-party-logo");
+    var $logoArea = $('.third-party-logo');
     if (providerLogo) {
-      $logoArea.css("background-image", "url(" + providerLogo + ")");
-      $logoArea.css("background-repeat", "no-repeat");
-      $logoArea.css("background-position", "right top");
+      $logoArea.css('background-image', 'url(' + providerLogo + ')');
+      $logoArea.css('background-repeat', 'no-repeat');
+      $logoArea.css('background-position', 'right top');
     } else {
-      $logoArea.css("background-image", "none");
+      $logoArea.css('background-image', 'none');
     }
   }
 
   function switchKeyring() {
-    var keyringId = $(this).attr("data-keyringid");
+    var keyringId = $(this).attr('data-keyringid');
     setKeyRing(keyringId);
 
-    $("#genKeyEmailLabel").removeAttr("data-l10n-id");
+    $('#genKeyEmailLabel').removeAttr('data-l10n-id');
 
     mvelo.util.showLoadingAnimation();
     options.event.triggerHandler('keygrid-reload');
-
-    $('#displayKeysButton').get(0).click();
   }
 
   function initMessageListener() {
@@ -248,27 +289,24 @@ var options = {};
   function handleRequests(request, sender, sendResponse) {
     switch (request.event) {
       case 'add-watchlist-item':
-        $('#showKeySettings a').get(0).click();
-        $('#settingsList a[href="#watchList"]').get(0).click();
+        $('#settingsButton').trigger('click');
+        $('#watchListButton').trigger('click');
         options.addToWatchList(request.site);
         break;
-      case 'remove-watchlist-item':
-        $('#showKeySettings a').get(0).click();
-        $('#settingsList a[href="#watchList"]').get(0).click();
-        options.removeFromWatchList(request.site);
-        break;
       case 'reload-options':
-        if (request.hash === "#showlog") {
-          $('#showKeySettings a').get(0).click();
-          $('#openSecurityLog').get(0).click();
+        if (request.hash === '#showlog') {
+          $('#settingsButton').trigger('click');
+          $('#securityLogButton').trigger('click');
         } else {
           options.reloadOptions();
         }
         break;
       case 'import-key':
-        $('#showKeyRing a').get(0).click();
-        $('a[href="#importKey"]').get(0).click();
+        console.log('options.js import-key', request);
+        $('keyringbutton').trigger('click');
+        $('importKeyButton').trigger('click');
         options.importKey(request.armored, function(result) {
+          console.log('options.js importKey callback', result);
           sendResponse({
             result: result,
             id: request.id
@@ -281,20 +319,15 @@ var options = {};
     }
   }
 
-  function openSecuritySettings() {
-    $('#showKeySettings a').get(0).click();
-    $('a[href="#security"]').get(0).click();
-  }
-
   function reloadOptions() {
     document.location.reload();
   }
 
-  function getAllKeyringAttr(callback) {
-    mvelo.extension.sendMessage({
-      event: 'get-all-keyring-attr'
-    }, function(data) {
-      callback(data);
+  function getAllKeyringAttr() {
+    return new Promise(function(resolve, reject) {
+      mvelo.extension.sendMessage({ event: 'get-all-keyring-attr'}, function(data) {
+        resolve(data);
+      });
     });
   }
 
@@ -313,17 +346,19 @@ var options = {};
   }
 
   function keyring(method, args, callback) {
-    if (typeof args === 'function') {
-      callback = args;
-      args = undefined;
-    }
-    mvelo.extension.sendMessage({
-      event: 'keyring',
-      method: method,
-      args: args,
-      keyringId: options.keyringId
-    }, function(data) {
-      callback(data.error, data.result);
+    return new Promise(function(resolve, reject) {
+      if (typeof args === 'function') {
+        callback = args;
+        args = undefined;
+      }
+      mvelo.extension.sendMessage({
+        event: 'keyring',
+        method: method,
+        args: args,
+        keyringId: options.keyringId
+      }, function(data) {
+        resolve(callback(data.error, data.result));
+      });
     });
   }
 

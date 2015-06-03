@@ -89,7 +89,7 @@ define(function(require, exports, module) {
         if (request.keyringId !== mvelo.LOCAL_KEYRING_ID) {
           keyring.deleteKeyring(request.keyringId);
         } else {
-          console.log("Keyring could not be deleted");
+          console.log('Keyring could not be deleted');
         }
         break;
       case 'send-by-mail':
@@ -207,8 +207,8 @@ define(function(require, exports, module) {
         scannedHosts.length = 0;
         var options = {};
         options.contentScriptFile = [];
-        options.contentScriptFile.push("common/dep/jquery.min.js");
-        options.contentScriptFile.push("common/ui/mvelo.js");
+        options.contentScriptFile.push('common/dep/jquery.min.js');
+        options.contentScriptFile.push('common/ui/mvelo.js');
         options.contentScript = scanScript;
         options.onMessage = handleMessageEvent;
         // inject scan script
@@ -220,7 +220,7 @@ define(function(require, exports, module) {
           var hosts = reduceHosts(scannedHosts);
           var site = model.getHostname(tab.url);
           scannedHosts.length = 0;
-          mvelo.tabs.loadOptionsTab('', function(old, tab) {
+          mvelo.tabs.loadOptionsTab('#watchList', function(old, tab) {
             sendToWatchList(tab, site, hosts, old);
           });
         });
@@ -231,26 +231,10 @@ define(function(require, exports, module) {
 
   function sendToWatchList(tab, site, hosts, old) {
     mvelo.tabs.sendMessage(tab, {
-      event: "add-watchlist-item",
+      event: 'add-watchlist-item',
       site: site,
       hosts: hosts,
       old: old
-    });
-  }
-
-  function removeFromWatchList() {
-    // get selected tab
-    mvelo.tabs.getActive(function(tab) {
-      if (tab) {
-        var site = model.getHostname(tab.url);
-        mvelo.tabs.loadOptionsTab('', function(old, tab) {
-          mvelo.tabs.sendMessage(tab, {
-            event: "remove-watchlist-item",
-            site: site,
-            old: old
-          });
-        });
-      }
     });
   }
 
@@ -262,14 +246,11 @@ define(function(require, exports, module) {
       case 'add':
         addToWatchList();
         break;
-      case 'remove':
-        removeFromWatchList();
-        break;
       case 'options':
-        loadOptions();
+        loadOptions('#keyring');
         break;
       case 'showlog':
-        loadOptions("#showlog");
+        loadOptions('#showlog');
         break;
       default:
         console.log('unknown browser action');
@@ -286,7 +267,7 @@ define(function(require, exports, module) {
     mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
       if (old) {
         mvelo.tabs.sendMessage(tab, {
-          event: "reload-options",
+          event: 'reload-options',
           hash: hash
         });
       }
