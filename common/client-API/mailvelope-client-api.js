@@ -257,13 +257,12 @@
    * Creates an iframe to display the key generation container.
    * The iframe will be injected into the container identified by selector.
    * @param {CssSelector} selector - target container
-   * @param {Keyring} keyring - the keyring to use for the setup
    * @param {KeyGenContainerOptions} options
    * @returns {Promise.<Generator, Error>}
    * @throws {Error} error.code = 'INPUT_NOT_VALID'
    */
-  Keyring.prototype.createKeyGenContainer = function(selector, keyring, options) {
-    return postMessage('key-gen-container', {selector: selector, identifier: keyring.identifier, options: options}).then(function(generatorId) {
+  Keyring.prototype.createKeyGenContainer = function(selector, options) {
+    return postMessage('key-gen-container', {selector: selector, identifier: this.identifier, options: options}).then(function(generatorId) {
       return new Generator(generatorId);
     });
   };
@@ -275,12 +274,11 @@
   /**
    * Creates an iframe to initiate the key backup process.
    * @param {CssSelector} selector - target container
-   * @param {Keyring} keyring - the keyring to use for the setup
    * @param {KeyBackupContainerOptions} options
    * @returns {Promise.<KeyBackupPopup, Error>}
    */
-  Keyring.prototype.createKeyBackupContainer = function(selector, keyring, options) {
-    return postMessage('key-backup-container', {selector: selector, identifier: keyring.identifier, options: options}).then(function(popupId) {
+  Keyring.prototype.createKeyBackupContainer = function(selector, options) {
+    return postMessage('key-backup-container', {selector: selector, identifier: this.identifier, options: options}).then(function(popupId) {
       return new KeyBackupPopup(popupId);
     });
   };
