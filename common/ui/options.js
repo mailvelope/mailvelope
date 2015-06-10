@@ -157,10 +157,14 @@ var options = {};
           case '#general':
           case '#security':
           case '#watchList':
-          case '#securityLog':
           case '#backup':
             $('#settingsButton').tab('show');
             $(window.location.hash + 'Button').tab('show');
+            break;
+          case '#securityLog':
+            $('#settingsButton').tab('show');
+            $(window.location.hash + 'Button').tab('show');
+            options.startSecurityLogMonitoring();
             break;
           case '#displayKeys':
           case '#importKey':
@@ -176,11 +180,14 @@ var options = {};
             } else if (window.location.hash == '#keyring') {
               $('#keyringButton').tab('show');
             } else {
-              console.log(window.location.hash);
+              console.log((window.location.hash) ? window.location.hash : 'no hash found');
               $('#keyringButton').tab('show');
             }
         }
-        activateTabButton(window.location.hash + 'Button');
+
+        if ((window.location.hash)) {
+          activateTabButton(window.location.hash + 'Button');
+        }
 
         getL10nMessages(Object.keys(l10n), function(result) {
           exports.l10n = result;
@@ -302,11 +309,9 @@ var options = {};
         }
         break;
       case 'import-key':
-        console.log('options.js import-key', request);
         $('keyringbutton').trigger('click');
         $('importKeyButton').trigger('click');
         options.importKey(request.armored, function(result) {
-          console.log('options.js importKey callback', result);
           sendResponse({
             result: result,
             id: request.id
