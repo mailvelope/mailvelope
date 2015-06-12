@@ -170,6 +170,9 @@ mvelo.ExtractFrame.prototype._registerEventListener = function() {
         break;
     }
   });
+  this._port.onDisconnect.addListener(function(msg) {
+    that._closeFrame(false);
+  });
 };
 
 mvelo.ExtractFrame.isAttached = function(pgpEnd) {

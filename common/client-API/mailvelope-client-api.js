@@ -392,7 +392,7 @@
         !event.data.mvelo_extension) {
       return;
     }
-    //console.log('clientAPI eventListener', event.data.event);
+    //console.log('clientAPI eventListener', event.data);
     switch (event.data.event) {
       case 'keyring-upload':
         callbacks.syncHandler.uploadSync(event.data);

@@ -425,6 +425,9 @@ mvelo.EncryptFrame.prototype._registerEventListener = function() {
         console.log('unknown event', msg);
     }
   });
+  this._port.onDisconnect.addListener(function(msg) {
+    that._closeFrame(false);
+  });
 };
 
 mvelo.EncryptFrame.isAttached = function(element) {

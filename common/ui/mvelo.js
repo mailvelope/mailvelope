@@ -104,6 +104,9 @@ if (mvelo.ffa && mvelo.extension) {
       disconnect: mvelo.extension.port.disconnect.bind(null, obj),
       onMessage: {
         addListener: mvelo.extension.port.addListener.bind(null, obj)
+      },
+      onDisconnect: {
+        addListener: function() { /* TODO */ }
       }
     };
     // page unload triggers port disconnect

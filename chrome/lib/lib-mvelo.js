@@ -32,8 +32,23 @@ define(function(require, exports, module) {
     return chrome.runtime.getURL(path);
   };
 
-  mvelo.data.load = function(path, callback) {
-    $.get(chrome.runtime.getURL(path), callback);
+  mvelo.data.load = function(path) {
+    return new Promise(function(resolve, reject) {
+      var req = new XMLHttpRequest();
+      req.open('GET', chrome.runtime.getURL(path));
+      req.responseType = 'text';
+      req.onload = function() {
+        if (req.status == 200) {
+          resolve(req.response);
+        } else {
+          reject(new Error(req.statusText));
+        }
+      };
+      req.onerror = function() {
+        reject(new Error('Network Error'));
+      };
+      req.send();
+    });
   };
 
   mvelo.data.loadDefaults = function() {

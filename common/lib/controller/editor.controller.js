@@ -66,7 +66,7 @@ define(function(require, exports, module) {
         break;
       case 'encrypt-dialog-init':
         // send content
-        this.mvelo.data.load('common/ui/inline/dialogs/templates/encrypt.html', function(content) {
+        this.mvelo.data.load('common/ui/inline/dialogs/templates/encrypt.html').then(function(content) {
           //console.log('content rendered', content);
           that.ports.eDialog.postMessage({event: 'encrypt-dialog-content', data: content});
           // get potential recipients
@@ -79,7 +79,7 @@ define(function(require, exports, module) {
         var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
         var keys = localKeyring.getPrivateKeys();
         var primary = localKeyring.getAttributes().primary_key;
-        this.mvelo.data.load('common/ui/inline/dialogs/templates/sign.html', function(content) {
+        this.mvelo.data.load('common/ui/inline/dialogs/templates/sign.html').then(function(content) {
           var port = that.ports.sDialog;
           port.postMessage({event: 'sign-dialog-content', data: content});
           port.postMessage({event: 'signing-key-userids', keys: keys, primary: primary});
