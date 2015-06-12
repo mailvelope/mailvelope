@@ -40,9 +40,10 @@ mvelo.data.url = function(path) {
   return data.url(path);
 };
 
-mvelo.data.load = function(path, callback) {
-  var result = data.load(path);
-  callback(result);
+mvelo.data.load = function(path) {
+  return new Promise(function(resolve, reject) {
+    resolve(data.load(path));
+  });
 };
 
 mvelo.data.loadDefaults = function() {

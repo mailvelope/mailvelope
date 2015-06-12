@@ -126,44 +126,73 @@ define([
     });
   }
 
-  function initScriptInjection() {
+  function loadContentCode() {
     if (injectOptimized && csCode === '') {
-      // load content script
-      $.get(chrome.runtime.getURL('common/ui/inline/cs-mailvelope.js'), function(csmSrc) {
-        $.get(chrome.runtime.getURL('common/dep/jquery.min.js'), function(jquerySrc) {
+      return mvelo.data.load('common/ui/inline/cs-mailvelope.js').then(function(csmSrc) {
+        return mvelo.data.load('common/dep/jquery.min.js').then(function(jquerySrc) {
           csCode = jquerySrc + csmSrc;
         });
       });
     }
+    return Promise.resolve();
+  }
 
+  function loadFramestyles() {
     // load framestyles and replace path
     if (framestyles === '') {
-      $.get(chrome.runtime.getURL('common/ui/inline/framestyles.css'), function(data) {
+      return mvelo.data.load('common/ui/inline/framestyles.css').then(function(data) {
         framestyles = data;
         var token = /\.\.\/\.\./g;
         framestyles = framestyles.replace(token, chrome.runtime.getURL('common'));
       });
     }
+    return Promise.resolve();
+  }
 
-    var filterURL = controller.getWatchListFilterURLs();
+  function initScriptInjection() {
+    loadContentCode()
+    .then(loadFramestyles)
+    .then(function() {
+      var filterURL = controller.getWatchListFilterURLs();
 
-    filterURL = filterURL.map(function(host) {
-      return '*://' + host + '/*';
+      filterURL = filterURL.map(function(host) {
+        return '*://' + host + '/*';
+      });
+
+      injectOpenTabs(filterURL)
+      .then(function() {
+        var filterType = ["main_frame", "sub_frame"];
+        var requestFilter = {
+          urls: filterURL,
+          types: filterType
+        };
+        chrome.webRequest.onCompleted.removeListener(watchListRequestHandler);
+        if (filterURL.length !== 0) {
+          chrome.webRequest.onCompleted.addListener(watchListRequestHandler, requestFilter);
+        }
+      });
     });
+  }
 
-    var filterType = ["main_frame", "sub_frame"];
-
-    var requestFilter = {
-      urls: filterURL,
-      types: filterType
-    };
-    chrome.webRequest.onCompleted.removeListener(watchListRequestHandler);
-    if (filterURL.length !== 0) {
-      chrome.webRequest.onCompleted.addListener(watchListRequestHandler, requestFilter);
-    }
+  function injectOpenTabs(filterURL) {
+    return new Promise(function(resolve, reject) {
+      // query open tabs
+      mvelo.tabs.query(filterURL, function(tabs) {
+        tabs.forEach(function(tab) {
+          console.log('tab', tab);
+          chrome.tabs.executeScript(tab.id, {code: csBootstrap(), allFrames: true}, function() {
+            chrome.tabs.insertCSS(tab.id, {code: framestyles, allFrames: true});
+          });
+        });
+        resolve();
+      });
+    });
   }
 
   function watchListRequestHandler(details) {
+    if (details.tabId === -1) {
+      return;
+    }
     // store frame URL
     frameHosts.push(model.getHost(details.url));
     if (injectOpen || details.type === "main_frame") {
@@ -175,18 +204,16 @@ define([
         if (injectOptimized) {
           chrome.tabs.executeScript(details.tabId, {code: csBootstrap(), allFrames: true}, function() {
             chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
-            // open injection time slot
-            injectOpen = true;
           });
         } else {
           chrome.tabs.executeScript(details.tabId, {file: "common/dep/jquery.min.js", allFrames: true}, function() {
             chrome.tabs.executeScript(details.tabId, {file: "common/ui/inline/cs-mailvelope.js", allFrames: true}, function() {
               chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
-              // open injection time slot
-              injectOpen = true;
             });
           });
         }
+        // open injection time slot
+        injectOpen = true;
         // reset buffer after injection
         frameHosts.length = 0;
       }, injectTimeSlot);
@@ -198,17 +225,17 @@ define([
   function csBootstrap() {
     var bootstrapSrc =
     " \
-      if (!document.mveloBootstrap) { \
+      if (!window.mveloBootstrap) { \
         var hosts = " + JSON.stringify(frameHosts) + "; \
-        var match = hosts.some(function(host) { \
+        var match = !hosts.length || hosts.some(function(host) { \
           return host === document.location.host; \
         }); \
         if (match) { \
           chrome.runtime.sendMessage({event: 'get-cs'}, function(response) { \
             eval(response.code); \
           }); \
+          window.mveloBootstrap = true; \
         } \
-        document.mveloBootstrap = true;\
       } \
     ";
     return bootstrapSrc;
