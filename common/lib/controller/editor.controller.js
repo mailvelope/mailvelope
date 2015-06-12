@@ -148,21 +148,20 @@ define(function(require, exports, module) {
           } else {
             // open password dialog
             this.pwdControl = sub.factory.get('pwdDialog');
-            this.pwdControl.unlockKey({
-              message: this.signBuffer,
-              openPopup: false
-            }).then(function() {
-              // success
-              that.ports.editor.postMessage({event: 'get-plaintext', action: 'sign'});
-            }).catch(function(err) {
-              if (err === 'pwd-dialog-cancel') {
-                that.ports.editor.postMessage({event: 'hide-pwd-dialog'});
-                return;
-              }
-              if (err) {
-                // TODO: propagate error to sign dialog
-              }
-            });
+            this.pwdControl.unlockKey({message: this.signBuffer, openPopup: false})
+              .then(function() {
+                that.ports.editor.postMessage({event: 'get-plaintext', action: 'sign'});
+              })
+              .catch(function(err) {
+                if (err === 'pwd-dialog-cancel') {
+                  that.ports.editor.postMessage({event: 'hide-pwd-dialog'});
+                  return;
+                }
+                if (err) {
+                  // TODO: propagate error to sign dialog
+                }
+              });
+
             this.ports.editor.postMessage({event: 'show-pwd-dialog', id: this.pwdControl.id});
           }
         }
@@ -186,7 +185,7 @@ define(function(require, exports, module) {
         uiLog.push(msg.source, msg.type);
         break;
       case 'open-security-settings':
-        this.openKeyringSettings();
+        this.openSecuritySettings();
         break;
       default:
         console.log('unknown event', msg);
@@ -244,38 +243,43 @@ define(function(require, exports, module) {
       that.ports.editor.postMessage({event: 'decrypt-in-progress'});
     }, 800);
     var decryptCtrl = new DecryptController();
-    decryptCtrl.readMessage(armored, this.keyringId).then(function(message) {
-      return decryptCtrl.prepareKey(message, !that.editorPopup);
-    }).then(function(message) {
-      return decryptCtrl.decryptMessage(message);
-    }).then(function(rawText) {
-      var handlers = {
-        onMessage: function(msg) {
-          if (that.options.quotedMailIndent) {
-            msg = msg.replace(/^(.|\n)/gm, '> $&');
+    decryptCtrl.readMessage(armored, this.keyringId)
+      .then(function(message) {
+        return decryptCtrl.prepareKey(message, !that.editorPopup);
+      })
+      .then(function(message) {
+        return decryptCtrl.decryptMessage(message);
+      })
+      .then(function(rawText) {
+        var handlers = {
+          onMessage: function(msg) {
+            if (that.options.quotedMailIndent) {
+              msg = msg.replace(/^(.|\n)/gm, '> $&');
+            }
+            if (that.options.quotedMailHeader) {
+              msg = '> ' + that.options.quotedMailHeader + '\n' + msg;
+            }
+            if (that.options.quotedMailIndent || that.options.quotedMailHeader) {
+              msg = '\n\n' + msg;
+            }
+            if (that.options.predefinedText) {
+              msg = msg + '\n\n' + that.options.predefinedText;
+            }
+            that.ports.editor.postMessage({event: 'set-text', text: msg});
+          },
+          onAttachment: function(part) {
+            // only reply scenario at the moment
           }
-          if (that.options.quotedMailHeader) {
-            msg = '> ' + that.options.quotedMailHeader + '\n' + msg;
-          }
-          if (that.options.quotedMailIndent || that.options.quotedMailHeader) {
-            msg = '\n\n' + msg;
-          }
-          if (that.options.predefinedText) {
-            msg = msg + '\n\n' + that.options.predefinedText;
-          }
-          that.ports.editor.postMessage({event: 'set-text', text: msg});
-        },
-        onAttachment: function(part) {
-          // only reply scenario at the moment
-        }
-      };
-      decryptCtrl.parseMessage(rawText, handlers, 'text');
-    }).then(function() {
-      that.mvelo.util.clearTimeout(decryptTimer);
-      that.ports.editor.postMessage({event: 'decrypt-end'});
-    }).catch(function(error) {
-      that.ports.editor.postMessage({event: 'decrypt-failed'});
-    });
+        };
+        decryptCtrl.parseMessage(rawText, handlers, 'text');
+      })
+      .then(function() {
+        that.mvelo.util.clearTimeout(decryptTimer);
+        that.ports.editor.postMessage({event: 'decrypt-end'});
+      })
+      .catch(function(error) {
+        that.ports.editor.postMessage({event: 'decrypt-failed'});
+      });
   };
 
   exports.EditorController = EditorController;

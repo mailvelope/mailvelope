@@ -128,9 +128,10 @@ var options = options || null;
   function onGenerateKey() {
     validateEmail(function() {
       $('body').addClass('busy');
-      $('#genKeyWait').one('show.bs.modal', generateKey);
-      $('#genKeyWait').modal({backdrop: 'static', keyboard: false});
-      $('#genKeyWait').modal('show');
+      $('#genKeyWait')
+        .modal({backdrop: 'static', keyboard: false})
+        .modal('show')
+        .one('show.bs.modal', generateKey);
     });
     return false;
   }
@@ -158,20 +159,23 @@ var options = options || null;
     parameters.user = $('#genKeyName').val();
     parameters.email = $('#genKeyEmail').val();
     parameters.passphrase = $('#genKeyPwd').val();
-    options.keyring('generateKey', [parameters], function(error, result) {
-      if (!error) {
+    options.keyring('generateKey', [parameters])
+      .then(function(result) {
         $('#genAlert').showAlert(options.l10n.alert_header_success, options.l10n.key_gen_success, 'success');
         $('#generateKey').find('input, select').prop('disabled', true);
         $('#genKeySubmit, #genKeyClear').prop('disabled', true);
         $('#genKeyAnother').removeClass('hide');
         // refresh grid
         options.event.triggerHandler('keygrid-reload');
-      } else {
+      })
+      .catch(function(error) {
+        //console.log('generateKey() options.keyring(generateKey)', error);
         $('#genAlert').showAlert(options.l10n.key_gen_error, error.type === 'error' ? error.message : '', 'danger');
-      }
-      $('body').removeClass('busy');
-      $('#genKeyWait').modal('hide');
-    });
+      })
+      .then(function() {
+        $('body').removeClass('busy');
+        $('#genKeyWait').modal('hide');
+      });
   }
 
   options.event.on('ready', init);

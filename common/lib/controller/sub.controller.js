@@ -61,33 +61,14 @@ define(function(require, exports, module) {
     return Object.keys(this.ports).length === 0;
   };
 
-  SubController.prototype.openSettings = function() {
-    var keyringId = this.keyringId || getActiveKeyringId();
-    var hash = '#security';
-    var that = this;
-
-    if (keyringId) {
-      hash = '?krid=' + encodeURIComponent(keyringId) + hash;
-    }
-    this.mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
-      if (old) {
-        that.mvelo.tabs.sendMessage(tab, {
-          event: 'reload-options',
-          hash: hash
-        });
-      }
-    });
-  };
-
   SubController.prototype.parseViewName = parseViewName;
 
   SubController.prototype.handlePortMessage = function(port) {
     throw new Error('Abstract method.');
   };
 
-  SubController.prototype.openKeyringSettings = function(keyringId) {
-    keyringId = keyringId || this.mvelo.LOCAL_KEYRING_ID;
-    var hash = '?krid=' + encodeURIComponent(keyringId) + '#security';
+  SubController.prototype.openSecuritySettings = function() {
+    var hash = '#security';
     var that = this;
 
     this.mvelo.tabs.loadOptionsTab(hash, function(old, tab) {

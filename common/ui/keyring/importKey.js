@@ -74,13 +74,8 @@ var mvelo = mvelo || null;
     if (keys.length === 0) {
       $('#importAlert').showAlert(options.l10n.key_import_error, options.l10n.key_import_invalid_text, 'danger', true);
     } else {
-      options.keyring('importKeys', [keys], function(error, result) {
-        if (error) {
-          $('#importAlert').showAlert(options.l10n.key_import_error, error.type === 'error' ? error.message : options.l10n.key_import_exception, 'danger', true);
-          if (callback) {
-            callback([{type: 'error'}]);
-          }
-        } else {
+      options.keyring('importKeys', [keys])
+        .then(function(result) {
           var success = false;
           result.forEach(function(imported) {
             var heading;
@@ -104,8 +99,13 @@ var mvelo = mvelo || null;
             callback(result);
           }
           importDone(success);
-        }
-      });
+        })
+        .catch(function(error) {
+          $('#importAlert').showAlert(options.l10n.key_import_error, error.type === 'error' ? error.message : options.l10n.key_import_exception, 'danger', true);
+          if (callback) {
+            callback([{type: 'error'}]);
+          }
+        });
     }
   }
 

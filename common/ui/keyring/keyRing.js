@@ -81,10 +81,11 @@ var options = options || null;
     $tableBody = $('#keyRingTable tbody');
 
     options.getAllKeyringAttr()
-      .then(function(data) {
-        if (data !== undefined) {
-          for (var keyRingId in data) {
-            var obj = data[keyRingId];
+      .then(function(result) {
+        if (result !== undefined) {
+          options.primaryKeyId = undefined;
+          for (var keyRingId in result) {
+            var obj = result[keyRingId];
             if (obj.hasOwnProperty('primary_key')) {
               if (options.keyringId === keyRingId) {
                 options.primaryKeyId = obj.primary_key;
@@ -92,18 +93,18 @@ var options = options || null;
             }
           }
         }
-        keyRing = undefined;
-        options.keyring('getKeys', initKeyringTable);
+
+        options.keyring('getKeys')
+          .then(initKeyringTable);
       });
   }
 
-  function initKeyringTable(err, data) {
-    if (data === undefined) {
+  function initKeyringTable(result) {
+    if (result === undefined) {
       mvelo.util.hideLoadingAnimation();
     }
     $tableBody.empty();
-    keyRing = data;
-    keyRing.forEach(function(key) {
+    result.forEach(function(key) {
       tableRow = $.parseHTML(keyTmpl);
       $(tableRow).attr('data-keytype', key.type);
       $(tableRow).attr('data-keyguid', key.guid);
@@ -178,26 +179,27 @@ var options = options || null;
 
     initPrimaryKeyTab($keyData);
 
-    options.keyring('getKeyDetails', [$keyData.attr('data-keyguid')], function(err, details) {
+    options.keyring('getKeyDetails', [$keyData.attr('data-keyguid')])
+      .then(function(result) {
+        var details = result;
+        initSubKeysTab(details);
 
-      initSubKeysTab(details);
+        initUserIdsTab(details);
 
-      initUserIdsTab(details);
+        if (isKeyPair) {
+          $('#exportSwitcher').show();
+        } else {
+          $('#exportSwitcher').hide();
+        }
 
-      if (isKeyPair) {
-        $('#exportSwitcher').show();
-      } else {
-        $('#exportSwitcher').hide();
-      }
+        $('#primaryKeyTabSwitch').get(0).click();
 
-      $('#primaryKeyTabSwitch').get(0).click();
-
-      // Show modal
-      $('#primaryKeyTabSwitch').show();
-      $('#subkeysTabSwitch').show();
-      $('#userIdTabSwitch').show();
-      $('#keyEditor').modal({backdrop: 'static'}).modal('show');
-    });
+        // Show modal
+        $('#primaryKeyTabSwitch').show();
+        $('#subkeysTabSwitch').show();
+        $('#userIdTabSwitch').show();
+        $('#keyEditor').modal({backdrop: 'static'}).modal('show');
+      });
   }
 
   function initPrimaryKeyTab($keyData) {
@@ -347,20 +349,21 @@ var options = options || null;
 
     $('#keyEditor').modal({backdrop: 'static'});
     $('#keyEditor').modal('show');
-    options.keyring('getArmoredKeys', [[], {pub: true, priv: true, all: true}], function(error, result) {
-      var hasPrivate = false;
-      var allKeys = result.reduce(function(prev, curr) {
-        if (curr.armoredPublic) {
-          prev += '\n' + curr.armoredPublic;
-        }
-        if (curr.armoredPrivate) {
-          hasPrivate = true;
-          prev += '\n' + curr.armoredPrivate;
-        }
-        return prev;
-      }, '');
-      initExport(allKeys, 'all_keys', hasPrivate ? '<b>' + options.l10n.header_warning + '</b> ' + options.l10n.key_export_warning_private : null);
-    });
+    options.keyring('getArmoredKeys', [[], {pub: true, priv: true, all: true}])
+      .then(function(result) {
+        var hasPrivate = false;
+        var allKeys = result.reduce(function(prev, curr) {
+          if (curr.armoredPublic) {
+            prev += '\n' + curr.armoredPublic;
+          }
+          if (curr.armoredPrivate) {
+            hasPrivate = true;
+            prev += '\n' + curr.armoredPrivate;
+          }
+          return prev;
+        }, '');
+        initExport(allKeys, 'all_keys', hasPrivate ? '<b>' + options.l10n.header_warning + '</b> ' + options.l10n.key_export_warning_private : null);
+      });
   }
 
   function deleteKeyEntry() {
@@ -380,22 +383,23 @@ var options = options || null;
     var allKeys = false;
     var pub = sourceId !== 'exportPrivate';
     var priv = sourceId === 'exportPrivate' || sourceId === 'exportKeyPair' || sourceId === 'exportAllKeys';
-    options.keyring('getArmoredKeys', [[keyid], {pub: pub, priv: priv, all: allKeys}], function(error, result) {
-      switch (sourceId) {
-        case 'exportPublic':
-          initExport(result[0].armoredPublic, 'pub', false);
-          break;
-        case 'exportPrivate':
-          initExport(result[0].armoredPrivate, 'priv', true);
-          break;
-        case 'exportKeyPair':
-          initExport(result[0].armoredPublic + '\n' + result[0].armoredPrivate, 'keypair', true);
-          break;
-        default:
-          $('#exportWarn').hide();
-          console.log('unknown export action');
-      }
-    });
+    options.keyring('getArmoredKeys', [[keyid], {pub: pub, priv: priv, all: allKeys}])
+      .then(function(result) {
+        switch (sourceId) {
+          case 'exportPublic':
+            initExport(result[0].armoredPublic, 'pub', false);
+            break;
+          case 'exportPrivate':
+            initExport(result[0].armoredPrivate, 'priv', true);
+            break;
+          case 'exportKeyPair':
+            initExport(result[0].armoredPublic + '\n' + result[0].armoredPrivate, 'keypair', true);
+            break;
+          default:
+            $('#exportWarn').hide();
+            console.log('unknown export action');
+        }
+      });
   }
 
   function initExport(text, fprefix, warning) {
