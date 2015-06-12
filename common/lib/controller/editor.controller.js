@@ -41,7 +41,7 @@ define(function(require, exports, module) {
     this.keyring = require('../keyring');
     this.mailbuild = require('../../mailbuild');
     this.pgpMIME = false;
-    this.signMode = true;
+    this.signMsg = null;
   }
 
   EditorController.prototype = Object.create(sub.SubController.prototype);
@@ -124,11 +124,17 @@ define(function(require, exports, module) {
       case 'editor-options':
         this.keyringId = msg.keyringId;
         this.options = msg.options;
+        if (msg.options.signMsg !== null) {
+          this.signMsg = msg.options.signMsg;
+        }
+        var data = {signMsg: this.signMsg};
+
         if (this.options.quotedMail) {
           this.decryptQuoted(this.options.quotedMail);
         } else if (this.options.predefinedText) {
-          this.ports.editor.postMessage({event: 'set-text', text: this.options.predefinedText});
+          data.text = this.options.predefinedText;
         }
+        this.ports.editor.postMessage({event: 'set-init-data', data: data});
         break;
       case 'sign-dialog-ok':
         this.signBuffer = {};
@@ -170,10 +176,18 @@ define(function(require, exports, module) {
       case 'editor-plaintext':
         if (msg.action === 'encrypt') {
           var data = this.buildMail(msg.message, msg.attachments);
-          this.model.encryptMessage(data, this.keyringId, this.keyidBuffer, function(err, msg) {
-            var port = that.ports.editorCont || that.ports.editor;
-            port.postMessage({event: 'encrypted-message', message: msg});
-          });
+
+          if (this.signMsg) {
+            this.model.signAndEncryptMessage(data, this.keyringId, this.keyidBuffer, function(err, msg) {
+              var port = that.ports.editorCont || that.ports.editor;
+              port.postMessage({event: 'encrypted-message', message: msg});
+            });
+          } else {
+            this.model.encryptMessage(data, this.keyringId, this.keyidBuffer, function(err, msg) {
+              var port = that.ports.editorCont || that.ports.editor;
+              port.postMessage({event: 'encrypted-message', message: msg});
+            });
+          }
         } else if (msg.action === 'sign') {
           this.model.signMessage(msg.message, this.signBuffer.key, function(err, msg) {
             that.ports.editor.postMessage({event: 'signed-message', message: msg});
@@ -187,12 +201,6 @@ define(function(require, exports, module) {
         break;
       case 'open-security-settings':
         this.openSecuritySettings();
-        break;
-      case 'set-sign-mode':
-        this.signMode = msg.signMode;
-        break;
-      case 'get-sign-mode':
-        this.ports.editor.postMessage({event: 'set-sign-mode', signMode: this.signMode});
         break;
       default:
         console.log('unknown event', msg);
@@ -249,9 +257,9 @@ define(function(require, exports, module) {
     var decryptTimer = this.mvelo.util.setTimeout(function() {
       that.ports.editor.postMessage({event: 'decrypt-in-progress'});
     }, 800);
+
     var decryptCtrl = new DecryptController();
-    decryptCtrl
-      .readMessage(armored, this.keyringId)
+    decryptCtrl.readMessage(armored, this.keyringId)
       .then(function(message) {
         return decryptCtrl.prepareKey(message, !that.editorPopup);
       })

@@ -73,7 +73,6 @@ var mvelo = mvelo || null;
     editor_type = mvelo.PLAIN_TEXT; //qs.editor_type;
     port = mvelo.extension.connect({name: name});
     port.onMessage.addListener(messageListener);
-    port.postMessage({event: 'editor-init', sender: name});
     loadTemplates(qs.embedded, function() {
       $(window).on('focus', startBlurValid);
       if (editor_type == mvelo.PLAIN_TEXT) {
@@ -96,14 +95,13 @@ var mvelo = mvelo || null;
       mvelo.l10n.localizeHTML();
       mvelo.util.showSecurityBackground(qs.embedded);
 
-      port.postMessage({event: 'get-sign-mode', sender: name});
-
       if (qs.embedded) {
         $(".secureBgndSettingsBtn").on("click", function() {
           port.postMessage({ event: 'open-security-settings', sender: name });
         });
       }
 
+      port.postMessage({event: 'editor-init', sender: name});
     });
     if (mvelo.crx) {
       commonPath = '../..';
@@ -494,16 +492,40 @@ var mvelo = mvelo || null;
     $('#encryptModal iframe').remove();
   }
 
+  function setSignMode(signMsg) {
+    var short, long;
+    if (signMsg) {
+      short = l10n.editor_sign_caption_short;
+      long = l10n.editor_sign_caption_long;
+    } else {
+      short = l10n.editor_no_sign_caption_short;
+      long = l10n.editor_no_sign_caption_long;
+    }
+    $('#editor_digital_signature')
+      .html(short)
+      .attr('title', long)
+      .tooltip();
+  }
+
+  function onSetText(text) {
+    $('#waitingModal').modal("hide");
+    if (editor) {
+      setText(text);
+    } else {
+      initText = text;
+    }
+  }
+
   function messageListener(msg) {
     //console.log('editor messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
       case 'set-text':
-        $('#waitingModal').modal("hide");
-        if (editor) {
-          setText(msg.text);
-        } else {
-          initText = msg.text;
-        }
+        onSetText(msg.text);
+        break;
+      case 'set-init-data':
+        var data = msg.data;
+        onSetText(data.text);
+        setSignMode(data.signMsg || false);
         break;
       case 'decrypt-in-progress':
         $('#waitingModal').modal({keyboard: false}).modal("show");
@@ -549,20 +571,6 @@ var mvelo = mvelo || null;
         }
         $('#signBtn, #encryptBtn').hide();
         $('#transferBtn').show();
-        break;
-      case 'set-sign-mode':
-        var short, long;
-        if (msg.signMode) {
-          short = l10n.editor_sign_caption_short;
-          long = l10n.editor_sign_caption_long;
-        } else {
-          short = l10n.editor_no_sign_caption_short;
-          long = l10n.editor_no_sign_caption_long;
-        }
-        $('#editor_digital_signature')
-          .html(short)
-          .attr('title', long)
-          .tooltip();
         break;
       default:
         console.log('unknown event');
