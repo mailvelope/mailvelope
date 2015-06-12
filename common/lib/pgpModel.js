@@ -176,6 +176,37 @@ define(function(require, exports, module) {
     });
   }
 
+  function signAndEncryptMessage(message, keyringId, keyIdsHex, callback) {
+    var keys = keyIdsHex.map(function(keyIdHex) {
+      var keyArray = keyring.getById(keyringId).keyring.getKeysForId(keyIdHex);
+      return keyArray ? keyArray[0] : null;
+    }).filter(function(key) {
+      return key !== null;
+    });
+    if (keys.length === 0) {
+      callback({
+        type: 'error',
+        message: 'No key found for encryption'
+      });
+    }
+
+    var primaryKey = keyring.getById(keyringId).getPrimaryKey();
+    if (primaryKey) {
+      openpgp.getWorker().signAndEncryptMessage(keys, primaryKey.key, message).then(callback.bind(null, null), function(e) {
+        callback({
+          type: 'error',
+          message: l10n('encrypt_error', [e])
+        });
+      });
+    } else {
+      callback({
+        type: 'error',
+        message: 'no primarykey found'
+      });
+    }
+
+  }
+
   function verifyMessage(message, signers, callback) {
     var keys = signers.map(function(signer) {
       return signer.key;
@@ -272,6 +303,7 @@ define(function(require, exports, module) {
   exports.decryptMessage = decryptMessage;
   exports.unlockKey = unlockKey;
   exports.encryptMessage = encryptMessage;
+  exports.signAndEncryptMessage = signAndEncryptMessage;
   exports.signMessage = signMessage;
   exports.verifyMessage = verifyMessage;
   exports.createPrivateKeyBackup = createPrivateKeyBackup;

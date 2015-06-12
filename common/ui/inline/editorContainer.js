@@ -31,11 +31,6 @@ mvelo.EditorContainer = function(selector, keyringId, options) {
   this.container = null;
   this.done = null;
   this.encryptCallback = null;
-  this.port.postMessage({
-    event: 'set-sign-mode',
-    sender: this.name,
-    signMode: this.options.signMode || true
-  });
 };
 
 mvelo.EditorContainer.prototype.create = function(done) {
@@ -84,6 +79,7 @@ mvelo.EditorContainer.prototype.processOptions = function() {
     error.code = 'WRONG_QUOTED_MAIL_TYPE';
     return error;
   }
+
   this.port.postMessage({
     event: 'editor-options',
     sender: this.name,

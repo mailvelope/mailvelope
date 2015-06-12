@@ -96,7 +96,7 @@ mvelo.domAPI.optionsTypes = {
   quota: 'number',
   predefinedText: 'string',
   quotedMail: 'string',
-  signMode: 'boolean',
+  signMsg: 'boolean',
   quotedMailIndent: 'boolean',
   quotedMailHeader: 'string',
   userIds: 'array',
@@ -290,6 +290,9 @@ mvelo.domAPI.editorContainer = function(selector, keyringId, options, callback) 
   options = options || {};
   if (options.quotedMailIndent === undefined) {
     options.quotedMailIndent = true;
+  }
+  if (options.signMsg === undefined) {
+    options.signMsg = true;
   }
   var container = new mvelo.EditorContainer(selector, keyringId, options);
   this.containers.set(container.id, container);
