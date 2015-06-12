@@ -92,10 +92,8 @@ define(function(require, exports, module) {
           sendResponse({error: null, data: (key && valid ? true : false)});
           break;
         case 'open-settings':
-          var that = this;
           request.keyringId = request.keyringId || mvelo.LOCAL_KEYRING_ID;
-
-          var hash = '?krid=' + encodeURIComponent(request.keyringId) + '#keyring';
+          var hash = '?krid=' + encodeURIComponent(request.keyringId) + '#settings';
           mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
             if (old) {
               mvelo.tabs.sendMessage(tab, {

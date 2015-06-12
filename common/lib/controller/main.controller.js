@@ -85,6 +85,9 @@ define(function(require, exports, module) {
       case 'set-keyring-attr':
         keyring.setKeyringAttr(request.keyringId, request.keyringAttr);
         break;
+      case 'get-active-keyring':
+        sendResponse(sub.getActiveKeyringId());
+        break;
       case 'delete-keyring':
         if (request.keyringId !== mvelo.LOCAL_KEYRING_ID) {
           keyring.deleteKeyring(request.keyringId);
@@ -145,6 +148,7 @@ define(function(require, exports, module) {
   }
 
   function methodEvent(thisArg, request, sendResponse) {
+    //console.log('controller: methodEvent', request);
     var response = {};
     var callback = function(error, result) {
       sendResponse({error: error, result: result});
@@ -258,12 +262,6 @@ define(function(require, exports, module) {
   }
 
   function loadOptions(hash) {
-    var keyringId = sub.getActiveKeyringId();
-
-    if (keyringId) {
-      hash = '?krid=' + encodeURIComponent(keyringId) + ((hash === undefined) ? '' : hash);
-    }
-
     mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
       if (old) {
         mvelo.tabs.sendMessage(tab, {

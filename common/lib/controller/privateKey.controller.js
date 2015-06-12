@@ -25,8 +25,8 @@ define(function(require, exports, module) {
 
   function PrivateKeyController(port) {
     sub.SubController.call(this, port);
-    this.done = null;
     this.keyring = require('../keyring');
+    this.done = null;
     this.keyringId = null;
     this.options = null;
     this.backupCodePopup = null;
@@ -62,7 +62,7 @@ define(function(require, exports, module) {
     }
     this.pwdControl = sub.factory.get('pwdDialog');
     this.pwdControl.unlockCachedKey({
-      message: primaryKey,
+      message: primaryKey
     }).then(function(primaryKey) {
       that.keyBackup = that.model.createPrivateKeyBackup(primaryKey.key, primaryKey.password);
       var page = 'recoverySheet';
@@ -99,7 +99,7 @@ define(function(require, exports, module) {
         uiLog.push(msg.source, msg.type);
         break;
       case 'open-security-settings':
-        this.openKeyringSettings();
+        this.openSecuritySettings();
         break;
       case 'generate-key':
         this.keyringId = msg.keyringId;

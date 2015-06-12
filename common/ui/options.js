@@ -27,19 +27,17 @@ var options = {};
 (function(exports, $) {
   // event controller
   var event = $('<div/>');
-  // l10n messages
   var l10n = {};
   var keyringTmpl;
   var $keyringList;
-  var krid;
+  var keyringId = null;
   var demailSuffix = 'de-mail.de';
 
   function init() {
     initMessageListener();
 
-    window.Promise.resolve(
-      mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/settings/tpl/main.html'))
-    ).then(function() {
+    mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/settings/tpl/main.html'))
+    .then(function() {
       window.Promise.all([
         mvelo.appendTpl($('#general'), mvelo.extension.getURL('common/ui/settings/tpl/general.html')),
         mvelo.appendTpl($('#security'), mvelo.extension.getURL('common/ui/settings/tpl/security.html')),
@@ -64,17 +62,128 @@ var options = {};
     });
 
     var qs = jQuery.parseQuerystring();
-    krid = mvelo.LOCAL_KEYRING_ID;
-    if (qs.hasOwnProperty('krid')) {
-      krid = decodeURIComponent(qs.krid);
-      //$('#keyringSwitcher').addClass('disabled');
-      if (krid.indexOf(demailSuffix) > 3) {
-        $('#genKeyEmail').attr('disabled', 'disabled');
-        $('#genKeyEmailLabel').attr('data-l10n-id', 'key_gen_demail');
-      }
-    }
-    setKeyRing(krid);
 
+    mvelo.extension.sendMessage({event: 'get-active-keyring'}, function(data) {
+      keyringId = data || mvelo.LOCAL_KEYRING_ID;
+      if (qs.hasOwnProperty('krid')) {
+        keyringId = decodeURIComponent(qs.krid);
+        if (keyringId.indexOf(demailSuffix) > 3) {
+          $('#genKeyEmail').attr('disabled', 'disabled');
+          $('#genKeyEmailLabel').attr('data-l10n-id', 'key_gen_demail');
+        }
+      }
+
+      setKeyRing(keyringId);
+      setKeyGenDefaults(qs);
+
+      // No private key yet? Navigate to setup tab
+      options.keyring('getPrivateKeys')
+        .then(function(result) {
+          if (!result.length) {
+            $('.keyring_setup_message').addClass('active');
+
+            $('#setupProviderButton')
+              .tab('show') // Activate setup tab
+              .addClass('active')
+              .siblings('a.list-group-item').removeClass('active') // Activate setup navigation
+            ;
+          } else {
+            $('#displayKeysButton')
+              .tab('show') // Activate display keys tab
+              .addClass('active')
+              .siblings('a.list-group-item').removeClass('active') // Activate display keys navigation
+            ;
+            $('.keyring_setup_message').removeClass('active');
+          }
+
+          registerL10nMessages([
+            'keygrid_user_email',
+            'key_gen_demail'
+          ]);
+
+          mvelo.l10n.localizeHTML();
+          mvelo.util.showSecurityBackground();
+
+          $keyringList = $('#keyringList');
+          if (keyringTmpl === undefined) {
+            keyringTmpl = $keyringList.html();
+            $keyringList.empty();
+          }
+
+          // Disable submitting of forms by for example pressing enter
+          $('form').submit(function(e) { e.preventDefault(); });
+
+          // Enabling selection of the elements in settings navigation
+          $('.list-group-item').on('click', function() {
+            window.location.hash = $(this).attr('href');
+            var self = $(this);
+            if (!self.hasClass('disabled')) {
+              self.parent().find('.list-group-item').each(function() {
+                $(this).removeClass('active');
+              });
+              self.addClass('active');
+            }
+          });
+
+          // Activate tab after switch from links to tabs outside
+          $('[data-toggle="tab"]:not(.list-group-item)').on('click', function() {
+            window.location.hash = $(this).attr('href');
+            var id = $(this).attr('href'),
+              tabTrigger = $('.list-group a[href="' + id + '"]');
+
+            if (id && tabTrigger) {
+              tabTrigger.siblings('a.list-group-item').removeClass('active');
+              tabTrigger.addClass('active');
+            }
+          });
+
+          options.getAllKeyringAttr()
+            .then(function(result) {
+              initKeyringSelection(result);
+
+              switch (window.location.hash) {
+                case '#securityLog':
+                  $('#settingsButton').tab('show');
+                  options.startSecurityLogMonitoring();
+                  break;
+                case '#general':
+                case '#security':
+                case '#watchList':
+                case '#backup':
+                  $('#settingsButton').tab('show');
+                  activateTabButton(window.location.hash);
+                  break;
+                case '#displayKeys':
+                case '#importKey':
+                case '#exportKeys':
+                case '#generateKey':
+                case '#setupProvider':
+                  $('#keyringButton').tab('show');
+                  activateTabButton(window.location.hash);
+                  break;
+                default:
+                  if (window.location.hash == '#settings') {
+                    $('#settingsButton').tab('show');
+                  } else if (window.location.hash == '#keyring') {
+                    $('#keyringButton').tab('show');
+                  } else {
+                    console.log((window.location.hash) ? window.location.hash : 'no hash found');
+                    window.location.hash = 'displayKeys';
+                    $('#keyringButton').tab('show');
+                  }
+              }
+              activateTabButton(window.location.hash);
+
+              getL10nMessages(Object.keys(l10n), function(result) {
+                exports.l10n = result;
+                event.triggerHandler('ready');
+              });
+            });
+        });
+    });
+  }
+
+  function setKeyGenDefaults(qs) {
     if (qs.hasOwnProperty('email')) {
       var decodedEmail = decodeURIComponent(qs.email);
       $('#genKeyEmail').val(decodedEmail);
@@ -83,124 +192,9 @@ var options = {};
     if (qs.hasOwnProperty('fname')) {
       $('#genKeyName').val(decodeURIComponent(qs.fname));
     }
-
-    // No private key yet? Navigate to setup tab
-    options.keyring('getPrivateKeys', function(err, data) {
-      if (!data.length) {
-        $('.keyring_setup_message').addClass('active');
-
-        $('a[href=#setupProvider]')
-          .tab('show') // Activate setup tab
-          .addClass('active')
-          .siblings('a.list-group-item').removeClass('active') // Activate setup navigation
-        ;
-      }
-      else {
-        $('a[href=#displayKeys]')
-          .tab('show') // Activate display keys tab
-          .addClass('active')
-          .siblings('a.list-group-item').removeClass('active') // Activate display keys navigation
-        ;
-      }
-    });
-
-    registerL10nMessages([
-      'keygrid_user_email',
-      'key_gen_demail'
-    ]);
-
-    mvelo.l10n.localizeHTML();
-    mvelo.util.showSecurityBackground();
-
-    $('.secureBgndSettingsBtn').on('click', function() {
-      $('#settingsButton').trigger('click');
-      $('#securityButton').trigger('click');
-    });
-
-    $keyringList = $('#keyringList');
-    if (keyringTmpl === undefined) {
-      keyringTmpl = $keyringList.html();
-      $keyringList.empty();
-    }
-
-    // Disable submitting of forms by for example pressing enter
-    $('form').submit(function(e) { e.preventDefault(); });
-
-    // Enabling selection of the elements in settings navigation
-    $('.list-group-item').on('click', function() {
-      window.location.hash = $(this).attr('href');
-      var self = $(this);
-      if (!self.hasClass('disabled')) {
-        self.parent().find('.list-group-item').each(function() {
-          $(this).removeClass('active');
-        });
-        self.addClass('active');
-      }
-    });
-
-    // Activate tab after switch from links to tabs outside
-    $('[data-toggle="tab"]:not(.list-group-item)').on('click', function() {
-      var id = $(this).attr('href'),
-      tabTrigger = $('.list-group a[href="' + id + '"]');
-
-      if (id && tabTrigger) {
-        tabTrigger.siblings('a.list-group-item').removeClass('active');
-        tabTrigger.addClass('active');
-      }
-    });
-
-    getAllKeyringAttr()
-      .then(function(data) {
-        initKeyringSelection(data);
-
-        switch (window.location.hash) {
-          case '#general':
-          case '#security':
-          case '#watchList':
-          case '#backup':
-            $('#settingsButton').tab('show');
-            $(window.location.hash + 'Button').tab('show');
-            break;
-          case '#securityLog':
-            $('#settingsButton').tab('show');
-            $(window.location.hash + 'Button').tab('show');
-            options.startSecurityLogMonitoring();
-            break;
-          case '#displayKeys':
-          case '#importKey':
-          case '#exportKeys':
-          case '#generateKey':
-          case '#setupProvider':
-            $('#keyringButton').tab('show');
-            $(window.location.hash + 'Button').tab('show');
-            break;
-          default:
-            if (window.location.hash == '#settings') {
-              $('#settingsButton').tab('show');
-            } else if (window.location.hash == '#keyring') {
-              $('#keyringButton').tab('show');
-            } else {
-              console.log((window.location.hash) ? window.location.hash : 'no hash found');
-              $('#keyringButton').tab('show');
-            }
-        }
-
-        if ((window.location.hash)) {
-          activateTabButton(window.location.hash + 'Button');
-        }
-
-        getL10nMessages(Object.keys(l10n), function(result) {
-          exports.l10n = result;
-          event.triggerHandler('ready');
-        });
-      });
   }
 
-  /**
-   * renders keyring dropdown selection
-   */
   function initKeyringSelection(data) {
-
     if (data === undefined) {
       return false;
     }
@@ -209,7 +203,7 @@ var options = {};
     var keyringName;
 
     for (var keyRingId in data) {
-      keyringName = keyRingId.split(mvelo.KEYRING_DELIMITER)[0] + ' (' + keyRingId.split(mvelo.KEYRING_DELIMITER)[1] + ')';
+      keyringName = splitKeyringId(keyRingId);
       keyringHTML = $.parseHTML(keyringTmpl);
 
       var obj = data[keyRingId];
@@ -237,14 +231,20 @@ var options = {};
     $keyringList.find('.keyRingName').on('click', switchKeyring);
     $keyringList.find('.deleteKeyRing').on('click', exports.deleteKeyring);
 
-    setKeyRing(krid);
+    setKeyRing(keyringId);
   }
 
-  function activateTabButton(name) {
-    $('.list-group-item').each(function() {
-      $(this).removeClass('active');
-    });
-    $(name).addClass('active');
+  function activateTabButton(hash) {
+    if (!hash) {
+      return;
+    }
+
+    var name = hash + 'Button';
+    $(name)
+      .tab('show')
+      .addClass('active')
+      .siblings('a.list-group-item').removeClass('active')
+    ;
   }
 
   function setKeyRing(keyringId) {
@@ -255,7 +255,7 @@ var options = {};
     if (keyringId === mvelo.LOCAL_KEYRING_ID) {
       keyringName = 'Mailvelope';
     } else if (keyringId) {
-      keyringName = keyringId.split(mvelo.KEYRING_DELIMITER)[0] + ' (' + keyringId.split(mvelo.KEYRING_DELIMITER)[1] + ')';
+      keyringName = splitKeyringId(keyringId);
     }
 
     $('#keyringSwitcherLabel').text(keyringName);
@@ -263,13 +263,18 @@ var options = {};
 
     if (primaryKeyId) {
       exports.primaryKeyId = primaryKeyId;
+      $('.keyring_setup_message').removeClass('active');
+    } else {
+      $('.keyring_setup_message').addClass('active');
     }
 
     var $logoArea = $('.third-party-logo');
     if (providerLogo) {
-      $logoArea.css('background-image', 'url(' + providerLogo + ')');
-      $logoArea.css('background-repeat', 'no-repeat');
-      $logoArea.css('background-position', 'right top');
+      $logoArea.css({
+        'background-image': 'url(' + providerLogo + ')',
+        'background-repeat': 'no-repeat',
+        'background-position': 'right top'
+      });
     } else {
       $logoArea.css('background-image', 'none');
     }
@@ -293,6 +298,10 @@ var options = {};
     );
   }
 
+  function splitKeyringId(keyringId) {
+    return keyringId.split(mvelo.KEYRING_DELIMITER)[0] + ' (' + keyringId.split(mvelo.KEYRING_DELIMITER)[1] + ')';
+  }
+
   function handleRequests(request, sender, sendResponse) {
     switch (request.event) {
       case 'add-watchlist-item':
@@ -309,8 +318,8 @@ var options = {};
         }
         break;
       case 'import-key':
-        $('keyringbutton').trigger('click');
-        $('importKeyButton').trigger('click');
+        $('#keyringButton').trigger('click');
+        $('#importKeyButton').trigger('click');
         options.importKey(request.armored, function(result) {
           sendResponse({
             result: result,
@@ -331,7 +340,11 @@ var options = {};
   function getAllKeyringAttr() {
     return new Promise(function(resolve, reject) {
       mvelo.extension.sendMessage({ event: 'get-all-keyring-attr'}, function(data) {
-        resolve(data);
+        if (data.error) {
+          reject(data.error);
+        } else {
+          resolve(data.result);
+        }
       });
     });
   }
@@ -350,19 +363,19 @@ var options = {};
     });
   }
 
-  function keyring(method, args, callback) {
+  function keyring(method, args) {
     return new Promise(function(resolve, reject) {
-      if (typeof args === 'function') {
-        callback = args;
-        args = undefined;
-      }
       mvelo.extension.sendMessage({
         event: 'keyring',
         method: method,
         args: args,
         keyringId: options.keyringId
       }, function(data) {
-        resolve(callback(data.error, data.result));
+        if (data.error) {
+          reject(data.error);
+        } else {
+          resolve(data.result);
+        }
       });
     });
   }
@@ -394,20 +407,21 @@ var options = {};
   exports.copyToClipboard = copyToClipboard;
   exports.getL10nMessages = getL10nMessages;
   exports.registerL10nMessages = registerL10nMessages;
+  exports.keyringId = keyringId;
 
   exports.event = event;
   exports.l10n = l10n;
 
   // Update visibility of setup alert box
   options.event.on('keygrid-reload', function() {
-    options.keyring('getPrivateKeys', function(err, data) {
-      if (!data.length) {
-        $('.keyring_setup_message').addClass('active');
-      }
-      else {
-        $('.keyring_setup_message').removeClass('active');
-      }
-    });
+    options.keyring('getPrivateKeys')
+      .then(function(result) {
+        if (!result.length) {
+          $('.keyring_setup_message').addClass('active');
+        } else {
+          $('.keyring_setup_message').removeClass('active');
+        }
+      });
   });
 
   $(document).ready(init);

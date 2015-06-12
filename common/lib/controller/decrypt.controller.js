@@ -86,7 +86,7 @@ define(function(require, exports, module) {
         uiLog.push(msg.source, msg.type);
         break;
       case 'open-security-settings':
-        this.openKeyringSettings();
+        this.openSecuritySettings();
         break;
       default:
         console.log('unknown event', msg);
@@ -104,35 +104,40 @@ define(function(require, exports, module) {
 
   DecryptController.prototype.decrypt = function(armored, keyringId) {
     var that = this;
-    this.readMessage(armored, keyringId).then(function(message) {
-      return that.prepareKey(message);
-    }).then(function(message) {
-      return that.decryptMessage(message);
-    }).then(function(rawText) {
-      var handlers = {
-        onMessage: function(msg) {
-          that.ports.dDialog.postMessage({event: 'decrypted-message', message: msg});
-        },
-        onAttachment: function(part) {
-          that.ports.dDialog.postMessage({event: 'add-decrypted-attachment', message: part});
+    this.readMessage(armored, keyringId)
+      .then(function(message) {
+        return that.prepareKey(message);
+      })
+      .then(function(message) {
+        return that.decryptMessage(message);
+      })
+      .then(function(rawText) {
+        var handlers = {
+          onMessage: function(msg) {
+            that.ports.dDialog.postMessage({event: 'decrypted-message', message: msg});
+          },
+          onAttachment: function(part) {
+            that.ports.dDialog.postMessage({event: 'add-decrypted-attachment', message: part});
+          }
+        };
+        that.parseMessage(rawText, handlers, 'html');
+      })
+      .catch(function(error) {
+        if (error.message === 'pwd-dialog-cancel') {
+          if (that.ports.dFrame) {
+            return that.dialogCancel();
+          }
+          error.message = that.mvelo.l10n.get('pwd_dialog_cancel');
         }
-      };
-      that.parseMessage(rawText, handlers, 'html');
-    }).catch(function(error) {
-      if (error.message === 'pwd-dialog-cancel') {
-        if (that.ports.dFrame) {
-          return that.dialogCancel();
+        if (that.ports.dDialog) {
+          that.ports.dDialog.postMessage({event: 'error-message', error: error.message});
         }
-        error.message = that.mvelo.l10n.get('pwd_dialog_cancel');
-      }
-      if (that.ports.dDialog) {
-        that.ports.dDialog.postMessage({event: 'error-message', error: error.message});
-      }
-    }).then(function() {
-      if (that.ports.decryptCont) {
-        that.ports.decryptCont.postMessage({event: 'decrypt-done'});
-      }
-    });
+      })
+      .then(function() {
+        if (that.ports.decryptCont) {
+          that.ports.decryptCont.postMessage({event: 'decrypt-done'});
+        }
+      });
   };
 
   DecryptController.prototype.readMessage = function(armored, keyringId) {
