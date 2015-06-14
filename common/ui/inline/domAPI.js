@@ -94,7 +94,8 @@ mvelo.domAPI.optionsTypes = {
   quotedMailHeader: 'string',
   email: 'string',
   fullName: 'string',
-  keySize: 'number'
+  keySize: 'number',
+  initialSetup: 'boolean'
 };
 
 mvelo.domAPI.checkTypes = function(data) {

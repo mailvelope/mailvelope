@@ -20,7 +20,8 @@
   margin: 0;
 }
 
-#key_backup_generator p {
+#key_backup_generator p,
+#key_backup_generator li {
   font-size: 12px;
   line-height: 15px;
   margin: 10px 0;

@@ -57,7 +57,8 @@ mvelo.KeyBackupContainer.prototype.create = function(done) {
     event: 'set-keybackup-window-props',
     sender: this.name,
     host: mvelo.domAPI.host,
-    keyringId: this.keyringId
+    keyringId: this.keyringId,
+    initialSetup: (this.options.initialSetup === undefined) ? true : this.initialSetup
   });
 
   if (mvelo.crx) {

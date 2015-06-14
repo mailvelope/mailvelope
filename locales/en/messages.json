@@ -971,24 +971,44 @@
     "message": "The passwords do not match.",
     "description": ""
   },
-  "keybackup_dialog_headline": {
+  "keybackup_setup_dialog_headline": {
     "message": "Recommendation: Setup backup",
     "description": ""
   },
-  "keybackup_dialog_description": {
+  "keybackup_setup_dialog_description": {
     "message": "The backup is required to ensure your encrypted communication is:",
     "description": ""
   },
-  "keybackup_dialog_list_1": {
+  "keybackup_setup_dialog_list_1": {
     "message": "Restored on data loss.",
     "description": ""
   },
-  "keybackup_dialog_list_2": {
+  "keybackup_setup_dialog_list_2": {
     "message": "Transferred to other devices.",
     "description": ""
   },
-  "keybackup_dialog_button": {
+  "keybackup_setup_dialog_button": {
     "message": "Setting up backup",
+    "description": ""
+  },
+  "keybackup_restore_dialog_headline": {
+    "message": "Recommendation: Restore backup",
+    "description": ""
+  },
+  "keybackup_restore_dialog_description": {
+    "message": "Create a new backup:",
+    "description": ""
+  },
+  "keybackup_restore_dialog_list_1": {
+    "message": "When you lost the recovery sheet.",
+    "description": ""
+  },
+  "keybackup_restore_dialog_list_2": {
+    "message": "You need a new one for safety reason.",
+    "description": ""
+  },
+  "keybackup_restore_dialog_button": {
+    "message": "Restore backup",
     "description": ""
   },
   "keybackup_waiting_headline": {
