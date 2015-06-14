@@ -970,5 +970,45 @@
     "key_export_download": {
         "message": "Schlüssel herunterladen",
         "description": "Download key link."
+    },
+    "keybackup_setup_dialog_headline": {
+      "message": "Empfehlung: Sicherung einrichten",
+      "description": ""
+    },
+    "keybackup_setup_dialog_description": {
+      "message": "Die Sicherung ist notwendig um Ihre verschlüsselte Kommunikation:",
+      "description": ""
+    },
+    "keybackup_setup_dialog_list_1": {
+      "message": "Bei Verlust wiederherzustellen.",
+      "description": ""
+    },
+    "keybackup_setup_dialog_list_2": {
+      "message": "Auf andere Geräte zu übertragen.",
+      "description": ""
+    },
+    "keybackup_setup_dialog_button": {
+      "message": "Sicherung einrichten",
+      "description": ""
+    },
+    "keybackup_restore_dialog_headline": {
+      "message": "Neuen Wiederherstellungsbeleg erstellen",
+      "description": ""
+    },
+    "keybackup_restore_dialog_description": {
+      "message": "Erstellen Sie hier einen neuen Wiederherstellungsbeleg, falls",
+      "description": ""
+    },
+    "keybackup_restore_dialog_list_1": {
+      "message": "&hellip;Sie ihren Beleg verloren haben",
+      "description": ""
+    },
+    "keybackup_restore_dialog_list_2": {
+      "message": "&hellip;aus Sicherheitsgründen ein neuer Wiederherstellungsbeleg erstellt werden muss",
+      "description": ""
+    },
+    "keybackup_restore_dialog_button": {
+      "message": "Wiederherstellungsbeleg erstellen",
+      "description": ""
     }
 }

@@ -33,6 +33,7 @@ define(function(require, exports, module) {
     this.host = null;
     this.keyBackup = null;
     this.pwdControl = null;
+    this.initialSetup = true;
   }
 
   PrivateKeyController.prototype = Object.create(sub.SubController.prototype);
@@ -109,6 +110,7 @@ define(function(require, exports, module) {
       case 'set-keybackup-window-props':
         this.keyringId = msg.keyringId;
         this.host = msg.host;
+        this.initialSetup = msg.initialSetup;
         break;
       case 'input-check':
         if (msg.isValid) {
@@ -121,6 +123,7 @@ define(function(require, exports, module) {
         this.ports.keyGenCont.postMessage({event: 'dialog-done'});
         break;
       case 'keybackup-dialog-init':
+        this.ports.keyBackupDialog.postMessage({event: 'set-init-data', data: {initialSetup: this.initialSetup}});
         this.ports.keyBackupCont.postMessage({event: 'dialog-done'});
         break;
       case 'backup-code-window-init':

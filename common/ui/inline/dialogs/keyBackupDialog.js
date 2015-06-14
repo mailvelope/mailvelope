@@ -45,6 +45,16 @@ var mvelo = mvelo || null;
 
       // Get language strings from JSON
       mvelo.l10n.getMessages([
+        'keybackup_setup_dialog_headline',
+        'keybackup_setup_dialog_description',
+        'keybackup_setup_dialog_list_1',
+        'keybackup_setup_dialog_list_2',
+        'keybackup_setup_dialog_button',
+        'keybackup_restore_dialog_headline',
+        'keybackup_restore_dialog_description',
+        'keybackup_restore_dialog_list_1',
+        'keybackup_restore_dialog_list_2',
+        'keybackup_restore_dialog_button'
       ], function(result) {
         l10n = result;
       });
@@ -65,8 +75,25 @@ var mvelo = mvelo || null;
           }, 3000); // 3sec
         });
       });
+
       port.postMessage({ event: 'keybackup-dialog-init', sender: name });
     });
+  }
+
+  function translateTexts(initialSetup) {
+    if (initialSetup) {
+      $('[data-l10n-id=keybackup_dialog_headline]').html(l10n.keybackup_setup_dialog_headline);
+      $('[data-l10n-id=keybackup_dialog_description]').html(l10n.keybackup_setup_dialog_description);
+      $('[data-l10n-id=keybackup_dialog_list_1]').html(l10n.keybackup_setup_dialog_list_1);
+      $('[data-l10n-id=keybackup_dialog_list_2]').html(l10n.keybackup_setup_dialog_list_2);
+      $('[data-l10n-id=keybackup_dialog_button]').html(l10n.keybackup_setup_dialog_button);
+    } else {
+      $('[data-l10n-id=keybackup_dialog_headline]').html(l10n.keybackup_restore_dialog_headline);
+      $('[data-l10n-id=keybackup_dialog_description]').html(l10n.keybackup_restore_dialog_description);
+      $('[data-l10n-id=keybackup_dialog_list_1]').html(l10n.keybackup_restore_dialog_list_1);
+      $('[data-l10n-id=keybackup_dialog_list_2]').html(l10n.keybackup_restore_dialog_list_2);
+      $('[data-l10n-id=keybackup_dialog_button]').html(l10n.keybackup_restore_dialog_button);
+    }
   }
 
   /**
@@ -76,6 +103,10 @@ var mvelo = mvelo || null;
   function messageListener(msg) {
     //console.log('generator messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
+      case 'set-init-data':
+        var data = msg.data;
+        translateTexts(data.initialSetup);
+        break;
       default:
         console.log('unknown event');
     }
