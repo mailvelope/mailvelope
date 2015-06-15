@@ -39,14 +39,14 @@ define(function(require, exports, module) {
 
   PrivateKeyController.prototype.generateKey = function(password, options) {
     var that = this;
-    if (options.length !== 2048 && options.length !== 4096) {
+    if (options.keySize !== 2048 && options.keySize !== 4096) {
       this.ports.keyGenCont.postMessage({event: 'generate-done', error: {message: 'Invalid key length', code: 'KEY_LENGTH_INVALID'}});
       return;
     }
     this.keyring.getById(this.keyringId).generateKey({
       email: options.email,
       user: options.fullName,
-      numBits: options.length,
+      numBits: options.keySize,
       passphrase: password
     }, function(err, data) {
       pwdCache.set({keyid: data.key.primaryKey.getKeyId().toHex(), key: data.key}, password, 5);

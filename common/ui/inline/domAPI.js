@@ -94,7 +94,7 @@ mvelo.domAPI.optionsTypes = {
   quotedMailHeader: 'string',
   email: 'string',
   fullName: 'string',
-  length: 'number'
+  keySize: 'number'
 };
 
 mvelo.domAPI.checkTypes = function(data) {
@@ -298,8 +298,8 @@ mvelo.domAPI.openSettings = function(keyringId, callback) {
 
 mvelo.domAPI.keyGenContainer = function(selector, keyringId, options, callback) {
   options = options || {};
-  if (options.length === undefined) {
-    options.length = 2048;
+  if (options.keySize === undefined) {
+    options.keySize = 2048;
   }
   var container = new mvelo.KeyGenContainer(selector, keyringId, options);
   this.containers.set(container.id, container);
