@@ -71,6 +71,14 @@
     });
   };
 
+  var checkTypeKeyring = function(keyring) {
+    if (!(keyring instanceof Keyring)) {
+      var error = new Error('Type mismatch: keyring should be instance of Keyring.');
+      error.code = 'TYPE_MISMATCH';
+      throw error;
+    }
+  };
+
   /**
    * Ascii Armored PGP Text Block
    * @typedef {string} AsciiArmored
@@ -96,6 +104,11 @@
    * @returns {Promise.<undefined, Error>}
    */
   Mailvelope.prototype.createDisplayContainer = function(selector, armored, keyring, options) {
+    try {
+      checkTypeKeyring(keyring);
+    } catch (e) {
+      return Promise.reject(e);
+    }
     return postMessage('display-container', {selector: selector, armored: armored, identifier: keyring.identifier, options: options});
   };
 
@@ -127,6 +140,11 @@
    * });
    */
   Mailvelope.prototype.createEditorContainer = function(selector, keyring, options) {
+    try {
+      checkTypeKeyring(keyring);
+    } catch (e) {
+      return Promise.reject(e);
+    }
     return postMessage('editor-container', {selector: selector, identifier: keyring.identifier, options: options}).then(function(editorId) {
       return new Editor(editorId);
     });
@@ -147,6 +165,11 @@
    * @returns {Promise.<undefined, Error>}
    */
   Mailvelope.prototype.createSettingsContainer = function(selector, keyring, options) {
+    try {
+      checkTypeKeyring(keyring);
+    } catch (e) {
+      return Promise.reject(e);
+    }
     return postMessage('settings-container', {selector: selector, identifier: keyring.identifier, options: options});
   };
 
