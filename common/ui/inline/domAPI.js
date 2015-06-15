@@ -69,15 +69,32 @@ mvelo.domAPI.reply = function(id, error, data) {
   mvelo.domAPI.postMessage('callback-reply', id, data, error);
 };
 
-// default type: string
 mvelo.domAPI.dataTypes = {
-  recipients: 'array',
+  identifier: 'string',
+  selector: 'string',
+  armored: 'string',
   options: 'object',
+  recipients: 'array',
+  emailAddr: 'string',
+  dataURL: 'string',
   revision: 'number',
-  length: 'number',
+  fingerprint: 'string',
+  syncHandlerObj: 'object',
+  editorId: 'string',
+  generatorId: 'string',
+  popupId: 'string'
+};
+
+mvelo.domAPI.optionsTypes = {
+  showExternalContent: 'boolean',
   quota: 'number',
+  predefinedText: 'string',
+  quotedMail: 'string',
   quotedMailIndent: 'boolean',
-  showExternalContent: 'boolean'
+  quotedMailHeader: 'string',
+  email: 'string',
+  fullName: 'string',
+  length: 'number'
 };
 
 mvelo.domAPI.checkTypes = function(data) {
@@ -90,14 +107,24 @@ mvelo.domAPI.checkTypes = function(data) {
   if (!data.data) {
     return;
   }
-  var parameters = Object.keys(data.data) || [];
+  this.enforceTypeWhitelist(data.data, mvelo.domAPI.dataTypes);
   if (data.data.options && typeof data.data.options === 'object') {
-    parameters = parameters.concat(Object.keys(data.data.options));
+    this.enforceTypeWhitelist(data.data.options, mvelo.domAPI.optionsTypes);
   }
+};
+
+mvelo.domAPI.enforceTypeWhitelist = function(data, whitelist) {
+  var error;
+  var parameters = Object.keys(data) || [];
   for (var i = 0; i < parameters.length; i++) {
     var parameter = parameters[i];
-    var dataType = mvelo.domAPI.dataTypes[parameter] || 'string';
-    var value = data.data[parameter] || data.data.options && data.data.options[parameter];
+    var dataType = whitelist[parameter];
+    var value = data[parameter];
+    if (dataType === undefined) {
+      console.log('Mailvelope client-API type checker: parameter ' + parameter + ' not accepted.');
+      delete data[parameter];
+      continue;
+    }
     if (value === undefined) {
       continue;
     }
