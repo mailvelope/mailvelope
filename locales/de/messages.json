@@ -1074,5 +1074,13 @@
     "keygen_waiting_description": {
       "message": "Bitte haben Sie einen Moment Geduld",
       "description": ""
+    },
+    "digital_signature_dialog_header": {
+        "message": "Digitale Signatur",
+        "description": "Header of digital signature dialog."
+    },
+    "decrypt_digital_signature": {
+        "message": "Digitale Signatur",
+        "description": "Caption digital signature"
     }
 }

@@ -44,21 +44,24 @@ var mvelo = mvelo || null;
     } else if (mvelo.ffa) {
       commonPath = mvelo.extension._dataPath + 'common';
     }
-    addSpinner();
-    addAttachmentPanel();
-    addWrapper();
-    addSandbox();
-    addSecuritySettingsButton();
-    $(window).on('resize', resizeFont);
-    addErrorView();
+
     // show spinner
-    mvelo.l10n.getMessages([
-      'alert_header_error'
-    ], function(result) {
-      l10n = result;
-    });
+    addSpinner();
+    addDecryptBody();
+    addErrorView();
+
+    mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/inline/dialogs/templates/signature-modal.html'))
+      .then(function() {
+        mvelo.l10n.getMessages([
+          'alert_header_error'
+        ], function(result) {
+          l10n = result;
+        });
+        mvelo.l10n.localizeHTML();
+      });
+
     mvelo.util.showSecurityBackground(true);
-    mvelo.l10n.localizeHTML();
+    $(window).on('resize', resizeFont);
   }
 
   function addSpinner() {
@@ -74,65 +77,94 @@ var mvelo = mvelo || null;
     $(".m-spinner").hide();
   }
 
+  function addDecryptBody() {
+    var $flex = $('<div />', {id: 'flex-container'})
+      .append(addFlexHeader())
+      .append(addWrapper())
+      .append(addFlexFooter());
+
+    $('<div/>', {class: 'decryptBody'})
+      .append($flex)
+      .appendTo('body');
+  }
+
   function addWrapper() {
-    var wrapper = $('<div/>', {id: 'wrapper'});
+    var $plainText = $('<div/>', {id: 'plainText'});
+
     watermark = $('<div/>', {id: 'watermark'});
-    watermark.appendTo(wrapper);
-    wrapper.appendTo('body');
+
+    return $('<div/>', {id: 'wrapper'})
+      .append(watermark)
+      .append($plainText.append(addSandbox()));
+  }
+
+  function addFlexHeader() {
+    return $('<div/>', {id: 'header'})
+      .append(addButtonBar())
+      .append(addAttachmentPanel());
   }
 
   function addAttachmentPanel() {
-    var attachments = $('<div/>', {
-      id: 'attachments'
-    });
-    $('body').append(attachments);
+    return $('<div/>', {id: 'attachments'});
+  }
+
+  function addButtonBar() {
+    return $('<div/>', {id: 'buttonBar'})
+      .append(addSecuritySettingsButton());
   }
 
   function addSecuritySettingsButton() {
-    var securitySettingsBtn = $('<div id="footer"><button class="btn btn-link pull-right secureBgndSettingsBtn" style="margin-right: 7px; margin-bottom: 7px;" data-l10n-title-id="security_background_button_title"><span class="glyphicon lockBtnIcon"></span></button></div>');
-    $('body').append(securitySettingsBtn);
-
-    $(".secureBgndSettingsBtn").on("click", function() {
-      port.postMessage({ event: 'open-security-settings', sender: name });
-    });
+    return $('<button/>', {
+      class: 'btn btn-link secureBgndSettingsBtn',
+      'l10n-title-id': 'security_background_button_title'
+    })
+      .append($('<span/>', {class: 'glyphicon lockBtnIcon'}))
+      .on("click", function() {
+        port.postMessage({ event: 'open-security-settings', sender: name });
+      });
   }
 
   function addSandbox() {
-    var sandbox = $('<iframe/>', {
-      id: 'decryptmail',
-      sandbox: 'allow-same-origin allow-popups',
-      frameBorder: 0
-    });
-    var content = $('<div/>', {
+    var $content = $('<div/>', {
       id: 'content',
       css: {
-        position: 'absolute',
-        top: '0',
-        left: 0,
-        right: 0,
-        bottom: 0,
-        padding: '3px',
-        //'margin-top': '40px',
-        'background-color': 'rgba(0,0,0,0)',
+        padding: '6px 12px',
         overflow: 'auto'
       }
     });
-    var style = $('<link/>', {
-      rel: 'stylesheet',
-      href: commonPath + '/dep/bootstrap/css/bootstrap.css'
-    });
-    var meta = $('<meta/>', { charset: 'UTF-8' });
-    sandbox.on('load', function() {
-      $(this).contents().find('head').append(meta)
-                                     .append(style);
-      $(this).contents().find('body').css('background-color', 'rgba(0,0,0,0)');
-      $(this).contents().find('body').append(content);
-    });
-    content.on('mouseup', function(event) {
-      // exception due to sandbox
-      //logUserInput('CONTENT_MOUSEUP');
-    });
-    $('#wrapper').append(sandbox);
+
+    var $style = $('<link/>', {rel: 'stylesheet', href: commonPath + '/dep/bootstrap/css/bootstrap.css'});
+    var $meta = $('<meta/>', { charset: 'UTF-8' });
+
+    return $('<iframe/>', {
+      id: 'decryptmail',
+      sandbox: 'allow-same-origin allow-popups',
+      frameBorder: 0
+    })
+      .on('load', function() {
+        $(this).contents().find('head').append($meta)
+          .append($style);
+        $(this).contents().find('body').append($content);
+      });
+  }
+
+  function addFlexFooter() {
+    var $footer = $('<div/>', {class: 'pull-right'})
+      .append(addSignatureButton());
+
+    return $('<div/>', {id: 'footer'})
+      .append($footer);
+  }
+
+  function addSignatureButton () {
+    return $('<button/>', {
+      class: 'btn btn-digital-signature',
+      'data-l10n-id': 'decrypt_digital_signature'
+    }).on('click', onClickSignature);
+  }
+
+  function onClickSignature() {
+    showDialog('#signatureModal');
   }
 
   function addErrorView() {
@@ -156,14 +188,16 @@ var mvelo = mvelo || null;
     //clearTimeout(spinnerTimer);
     $('#errorbox').show();
     $('#errorwell').showAlert(l10n.alert_header_error, msg, 'danger')
-                   .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
-                   .find('button').click(function() {
-                      port.postMessage({event: 'decrypt-dialog-cancel', sender: name});
-                    });
+      .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
+      .find('button').click(function() {
+        port.postMessage({event: 'decrypt-dialog-cancel', sender: name});
+      });
   }
 
   function resizeFont() {
-    watermark.css('font-size', Math.floor(Math.min(watermark.width() / 3, watermark.height())));
+    watermark.css({
+      fontSize: Math.floor(Math.min(watermark.width() / 3, watermark.height()))
+    });
   }
 
   function addAttachment(filename, content, mimeType, attachmentId) {
@@ -186,13 +220,13 @@ var mvelo = mvelo || null;
     }).append(fileNameNoExt);
 
     var $fileUI = $('<a/>', {
-        "download": filename,
-        "href": objectURL,
-        "title": filename,
-        "class": 'attachmentButton'
-      })
-        .append($extensionButton)
-        .append($fileName);
+      "download": filename,
+      "href": objectURL,
+      "title": filename,
+      "class": 'attachmentButton'
+    })
+      .append($extensionButton)
+      .append($fileName);
 
     $fileUI.on("click", function() {
       logUserInput('security_log_attachment_download');
@@ -208,6 +242,14 @@ var mvelo = mvelo || null;
       source: 'security_log_email_viewer',
       type: type
     });
+  }
+
+  function showDialog(parentModal) {
+
+    var dialog = 'Hello World';
+
+    $('.modal-body', parentModal).empty().append(dialog);
+    $(parentModal).modal('show');
   }
 
   function messageListener(msg) {

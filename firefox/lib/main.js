@@ -278,6 +278,7 @@ function injectDecryptInline() {
     contentScriptFile: [
       data.url('common/dep/jquery.min.js'),
       data.url('common/dep/jquery.ext.js'),
+      data.url('common/dep/bootstrap/js/bootstrap.js'),
       data.url('ui/messageAdapter.js'),
       data.url('common/ui/mvelo.js'),
       data.url('common/ui/inline/dialogs/decryptInline.js')
