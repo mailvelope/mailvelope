@@ -35,106 +35,101 @@
 .ext-color-exe  { background-color: #4b4a4a !important; }
 
 .attachmentButton {
-    color: #5E5E5E;
-    font-weight: normal;
-    font-family: Verdana, Geneva, sans-serif;
-    font-size: 11px;
-    padding: 2px;
-    margin-top: 3px;
-    background: #efefef linear-gradient(to bottom,#ffffff,#ececec);
-    border: 1px solid #cbcbcb;
-    border-radius: 4px;
-    /*cursor: default;*/
-    margin-right: 5px;
+  color: #5E5E5E;
+  font-weight: normal;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 11px;
+  padding: 2px;
+  margin-top: 3px;
+  background: #efefef linear-gradient(to bottom,#ffffff,#ececec);
+  border: 1px solid #cbcbcb;
+  border-radius: 4px;
+  cursor: default;
+  margin-right: 5px;
 
-    order: 0;
-    flex: 0 0 auto;
-    align-self: auto;
+  order: 0;
+  flex: 0 0 auto;
+  align-self: auto;
 
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-content: stretch;
-    align-items: flex-start;
+  display: inline-block;
 }
 
 .attachmentButton:hover, .attachmentButton:focus {
-    text-decoration: none !important;
-    color: #333333 !important;
-    background-image: linear-gradient(to bottom,#ececec,#ececec);
+  text-decoration: none !important;
+  color: #333333 !important;
+  background-image: linear-gradient(to bottom,#ececec,#ececec);
 }
 
 .attachmentExtension {
-    display: inline-block;
-    font-weight: normal !important;
-    border-radius: 2px;
-    background-color: #8a8a8a;
-    color: #ffffff;
-    font-size: 10px;
-    line-height: 14px;
-    cursor: default;
-    text-transform: uppercase;
-    padding: 1px 3px 1px 3px;
-    margin: 1px 0 1px 1px;
+  display: inline-block;
+  font-weight: normal !important;
+  border-radius: 2px;
+  background-color: #8a8a8a;
+  color: #ffffff;
+  font-size: 10px;
+  line-height: 14px;
+  cursor: default;
+  text-transform: uppercase;
+  padding: 1px 3px 1px 3px;
+  margin: 1px 0 1px 1px;
 
-    order: 0;
-    flex: 0 1 auto;
-    align-self: auto;
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
 }
 
 .attachmentExtension:hover {
-    text-decoration: none !important;
+  text-decoration: none !important;
 }
 
 .attachmentButton .filename{
-    margin-top: 1px;
-    margin-left: 5px;
-    margin-right: 5px;
-    max-width: 160px;
-    text-align:center;
-    text-decoration:none;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
+  margin-top: 1px;
+  margin-left: 5px;
+  margin-right: 5px;
+  max-width: 160px;
+  text-align:center;
+  text-decoration:none;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 
-    order: 0;
-    flex: 0 1 auto;
-    align-self: auto;
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
 }
 
 .removeAttachment {
-    border: 2px solid #a3a3a3;
-    border-radius: 2px;
-    padding: 0;
-    color: white;
-    background-color: #a3a3a3;
-    margin-left: 3px;
-    margin-right: 1px;
-    cursor: pointer;
+  border: 2px solid #a3a3a3;
+  border-radius: 2px;
+  padding: 0;
+  color: white;
+  background-color: #a3a3a3;
+  margin-left: 3px;
+  margin-right: 1px;
+  cursor: pointer;
 
-    order: 0;
-    flex: 0 1 auto;
-    align-self: auto;
+  order: 0;
+  flex: 0 1 auto;
+  align-self: auto;
 }
 
 .removeAttachment:hover {
-    border: 2px solid #a85152;
-    background-color: #a85152;
+  border: 2px solid #a85152;
+  background-color: #a85152;
 }
 
 /* Overwriting some Bootstrap */
 textarea.form-control:active, textarea.form-control:focus {
-    border-color: #aaaaaa !important;
-    box-shadow: none;
+  border-color: #aaaaaa !important;
+  box-shadow: none;
 }
 
 .btn {
-    min-width: 70px;
+  min-width: 70px;
 }
 
 .btn, .btn-link, .btn:active, .btn-link:active, .btn:focus, .btn-link:focus {
-    outline: none !important;
+  outline: none !important;
 }
 
 
@@ -157,48 +152,48 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 .m-spinner {
-    margin: 160px auto 0;
-    width: 70px;
-    text-align: center;
+  margin: 160px auto 0;
+  width: 70px;
+  text-align: center;
 }
 
 .m-spinner > div {
-    width: 18px;
-    height: 18px;
-    background-color: #333;
+  width: 18px;
+  height: 18px;
+  background-color: #333;
 
-    border-radius: 100%;
-    display: inline-block;
-    -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
-    animation: bouncedelay 1.4s infinite ease-in-out;
-    /* Prevent first frame from flickering when animation starts */
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+  animation: bouncedelay 1.4s infinite ease-in-out;
+  /* Prevent first frame from flickering when animation starts */
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
 }
 
 .m-spinner .bounce1 {
-    -webkit-animation-delay: -0.32s;
-    animation-delay: -0.32s;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
 }
 
 .m-spinner .bounce2 {
-    -webkit-animation-delay: -0.16s;
-    animation-delay: -0.16s;
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
 }
 
 @-webkit-keyframes bouncedelay {
-    0%, 80%, 100% { -webkit-transform: scale(0.0) }
-    40% { -webkit-transform: scale(1.0) }
+  0%, 80%, 100% { -webkit-transform: scale(0.0) }
+  40% { -webkit-transform: scale(1.0) }
 }
 
 @keyframes bouncedelay {
-    0%, 80%, 100% {
-        transform: scale(0.0);
-        -webkit-transform: scale(0.0);
-    } 40% {
-          transform: scale(1.0);
-          -webkit-transform: scale(1.0);
-      }
+  0%, 80%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 40% {
+      transform: scale(1.0);
+      -webkit-transform: scale(1.0);
+    }
 }
 
 /* End spinner */
@@ -208,16 +203,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 .jumbotron .well p {
-    font-size: inherit;
-    margin-bottom: 20px;
+  font-size: inherit;
+  margin-bottom: 20px;
 }
 
 .keyring_setup_message {
-    display: none;
+  display: none;
 }
 
 .keyring_setup_message.active {
-    display: block;
+  display: block;
 }
 
 /**
@@ -225,19 +220,45 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 .jumbotron.secureBackground {
-    padding: 10px;
+  padding: 10px;
 }
 
 .jumbotron.secureBackground > div {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
+
+.secureBgndSettingsBtn {
+  min-width: 10px !important;
+  margin-right: 0;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  color: transparent;
+  background: radial-gradient(ellipse at center, rgba(245,245,245,1) 0%,rgba(245,245,245,1) 55%,rgba(245,245,245,0) 75%,rgba(245,245,245,0) 100%);
+}
+.secureBgndSettingsBtn:hover {
+  color: transparent;
+}
+
+.btn-digital-signature,
+.txt-digital-signature {
+  color: #888;
+  padding: 0;
+  border: none;
+  background: rgba(255,255,255,.15);
+  font: 11px Verdana, sans-serif;
+}
+.btn-digital-signature:hover {
+  text-decoration: underline;
+}
+
 
 /* Clearfix */
 .jumbotron.secureBackground:after {
-    content: '';
-    display: block;
-    clear: both;
-    height: 0;
+  content: '';
+  display: block;
+  clear: both;
+  height: 0;
 }
 
 /**
@@ -261,12 +282,4 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }
 
 @media (min-width: 992px) and (max-width: 1200px) {
-}
-
-.secureBgndSettingsBtn {
-  min-width: 10px !important;
-  margin-right: 0;
-  width: 32px;
-  height: 32px;
-  padding: 0;
 }

@@ -31,15 +31,19 @@ mvelo.EditorContainer = function(selector, keyringId, options) {
   this.container = null;
   this.done = null;
   this.encryptCallback = null;
+  this.port.postMessage({
+    event: 'set-sign-mode',
+    sender: this.name,
+    signMode: this.options.signMode || true
+  });
 };
 
 mvelo.EditorContainer.prototype.create = function(done) {
-  var that = this;
   this.done = done;
   this.parent = document.querySelector(this.selector);
   this.container = document.createElement('iframe');
   var url;
-  var quota = "";
+  var quota = '';
   if (this.options.quota) {
     quota = '&quota=' + this.options.quota;
   }

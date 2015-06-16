@@ -41,6 +41,7 @@ define(function(require, exports, module) {
     this.keyring = require('../keyring');
     this.mailbuild = require('../../mailbuild');
     this.pgpMIME = false;
+    this.signMode = true;
   }
 
   EditorController.prototype = Object.create(sub.SubController.prototype);
@@ -187,6 +188,12 @@ define(function(require, exports, module) {
       case 'open-security-settings':
         this.openSecuritySettings();
         break;
+      case 'set-sign-mode':
+        this.signMode = msg.signMode;
+        break;
+      case 'get-sign-mode':
+        this.ports.editor.postMessage({event: 'set-sign-mode', signMode: this.signMode});
+        break;
       default:
         console.log('unknown event', msg);
     }
@@ -243,7 +250,8 @@ define(function(require, exports, module) {
       that.ports.editor.postMessage({event: 'decrypt-in-progress'});
     }, 800);
     var decryptCtrl = new DecryptController();
-    decryptCtrl.readMessage(armored, this.keyringId)
+    decryptCtrl
+      .readMessage(armored, this.keyringId)
       .then(function(message) {
         return decryptCtrl.prepareKey(message, !that.editorPopup);
       })
@@ -257,11 +265,9 @@ define(function(require, exports, module) {
               msg = msg.replace(/^(.|\n)/gm, '> $&');
             }
             if (that.options.quotedMailHeader) {
-              msg = '> ' + that.options.quotedMailHeader + '\n' + msg;
+              msg = that.options.quotedMailHeader + '\n' + msg;
             }
-            if (that.options.quotedMailIndent || that.options.quotedMailHeader) {
-              msg = '\n\n' + msg;
-            }
+            msg = '\n\n' + msg;
             if (that.options.predefinedText) {
               msg = msg + '\n\n' + that.options.predefinedText;
             }
@@ -271,6 +277,7 @@ define(function(require, exports, module) {
             // only reply scenario at the moment
           }
         };
+
         decryptCtrl.parseMessage(rawText, handlers, 'text');
       })
       .then(function() {
