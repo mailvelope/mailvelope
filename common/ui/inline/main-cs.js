@@ -279,6 +279,9 @@ mvelo.main.addMessageListener = function() {
       }
     }
   );
+  mvelo.main.port.onDisconnect.addListener(function() {
+    mvelo.main.off();
+  });
 };
 
 mvelo.main.initContextMenu = function() {

@@ -39,8 +39,8 @@ mvelo.EncryptFrame = function(prefs) {
 mvelo.EncryptFrame.prototype.attachTo = function(element, options) {
   $.extend(this._options, options);
   this._init(element);
-  this._renderFrame(this._options.expanded);
   this._establishConnection();
+  this._renderFrame(this._options.expanded);
   this._registerEventListener();
   // set status to attached
   this._editElement.data(mvelo.FRAME_STATUS, mvelo.FRAME_ATTACHED);
