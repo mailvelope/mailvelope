@@ -1,19 +1,22 @@
 <div id="editorBody">
   <div id="flex-container">
     <div style="" id="header">
-      <div class="row" id="uploadPanel"></div>
+      <div class="" id="buttonBar">
+        <button class="btn btn-link secureBgndSettingsBtn" data-l10n-title-id="security_background_button_title"><span class="glyphicon lockBtnIcon"></span></button>
+      </div>
+      <div class="" id="uploadPanel"></div>
     </div>
     <div id="body">
       <div id="plainText"></div>
-      <!--div id="rte-toolbar"></div>
-      <div id="rte-box">
-        <textarea id="richText" autofocus class="form-control"></textarea>
-      </div-->
     </div>
     <div id="footer">
-      <button id="uploadEmbeddedBtn" class="pull-left"><span class="glyphicon glyphicon-paperclip" style="transform: rotate(180deg);"></span>&nbsp;<span data-l10n-id="upload_attachment"></span></button>
-      <input type="file" id="addFileInput" multiple="multiple" />
-      <button class="btn btn-link pull-right secureBgndSettingsBtn" data-l10n-title-id="security_background_button_title"><span class="glyphicon lockBtnIcon"></span></button>
+      <div class="form-group pull-left">
+        <button id="uploadEmbeddedBtn" class="btn btn-default btn-upload-embedded"><span class="glyphicon glyphicon-paperclip" style="transform: rotate(180deg);"></span>&nbsp;<span data-l10n-id="upload_attachment"></span></button>
+        <input type="file" id="addFileInput" multiple="multiple" />
+      </div>
+      <div class="pull-right">
+        <span class="txt-digital-signature" id="editor_digital_signature" data-toggle="tooltip" data-placement="left" title="test" data-l10n-id-title="editor_sign_caption_long"></span>
+      </div>
     </div>
   </div>
 </div>

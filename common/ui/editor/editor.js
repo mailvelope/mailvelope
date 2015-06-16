@@ -47,11 +47,14 @@ var mvelo = mvelo || null;
   mvelo.l10n.getMessages([
     'editor_remove_upload',
     'waiting_dialog_decryption_failed',
-    'upload_quota_exceeded_warning'
-    ], function(result) {
-      l10n = result;
-    }
-  );
+    'upload_quota_exceeded_warning',
+    'editor_sign_caption_short',
+    'editor_sign_caption_long',
+    'editor_no_sign_caption_short',
+    'editor_no_sign_caption_long'
+  ], function(result) {
+    l10n = result;
+  });
 
   var maxFileUploadSize = 25 * 1024 * 1024;
   var maxFileUploadSizeChrome = 10 * 1024 * 1024; // temporal fix due issue in Chrome
@@ -92,6 +95,8 @@ var mvelo = mvelo || null;
       $('#uploadBtn').hide(); // Disable Uploading Attachment
       mvelo.l10n.localizeHTML();
       mvelo.util.showSecurityBackground(qs.embedded);
+
+      port.postMessage({event: 'get-sign-mode', sender: name});
 
       if (qs.embedded) {
         $(".secureBgndSettingsBtn").on("click", function() {
@@ -136,6 +141,7 @@ var mvelo = mvelo || null;
         Promise.all([
           mvelo.appendTpl($('#editorDialog .modal-body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')),
           mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/encrypt-modal.html')),
+          mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/signature-modal.html')),
           mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/transfer-warn.html')).then(function() {
             // transfer warning modal
             $('#transferWarn .btn-primary').click(transfer);
@@ -478,7 +484,8 @@ var mvelo = mvelo || null;
       url = 'about:blank?mvelo=' + type + '&id=' + id;
     }
     dialog.attr('src', url);
-    $('#encryptModal .modal-body').append(dialog);
+
+    $('.modal-body', $('#encryptModal')).empty().append(dialog);
     $('#encryptModal').modal('show');
   }
 
@@ -542,6 +549,20 @@ var mvelo = mvelo || null;
         }
         $('#signBtn, #encryptBtn').hide();
         $('#transferBtn').show();
+        break;
+      case 'set-sign-mode':
+        var short, long;
+        if (msg.signMode) {
+          short = l10n.editor_sign_caption_short;
+          long = l10n.editor_sign_caption_long;
+        } else {
+          short = l10n.editor_no_sign_caption_short;
+          long = l10n.editor_no_sign_caption_long;
+        }
+        $('#editor_digital_signature')
+          .html(short)
+          .attr('title', long)
+          .tooltip();
         break;
       default:
         console.log('unknown event');

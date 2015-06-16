@@ -1030,5 +1030,21 @@
     "wrong_restore_code": {
         "message": "Der Wiederherstellungscode ist nicht korrekt.",
         "description": ""
+    },
+    "editor_sign_caption_short": {
+        "message": "Email wird digital signiert",
+        "description": ""
+    },
+    "editor_sign_caption_long": {
+        "message": "Wenn die Email abgeschickt wird, wird sie gleichzeitig digital signiert.",
+        "description": ""
+    },
+    "editor_no_sign_caption_short": {
+        "message": "Email wird nicht digital signiert",
+        "description": ""
+    },
+    "editor_no_sign_caption_long": {
+        "message": "Die Email wird nicht vor dem Abschicken digital signiert.",
+        "description": ""
     }
 }

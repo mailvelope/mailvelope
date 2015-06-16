@@ -96,6 +96,7 @@ mvelo.domAPI.optionsTypes = {
   quota: 'number',
   predefinedText: 'string',
   quotedMail: 'string',
+  signMode: 'boolean',
   quotedMailIndent: 'boolean',
   quotedMailHeader: 'string',
   userIds: 'array',

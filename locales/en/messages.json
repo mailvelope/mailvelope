@@ -179,6 +179,22 @@
     "message": "Sign message with key:",
     "description": "Header of sign dialog."
   },
+  "editor_sign_cation_short": {
+    "message": "Email is digitally signed",
+    "description": "Caption digital signature"
+  },
+  "editor_sign_cation_long": {
+    "message": "Email is digitally signed",
+    "description": "Caption digital signature"
+  },
+  "editor_no_sign_cation_short": {
+    "message": "Email isn´t digitally signed",
+    "description": "Caption digital signature"
+  },
+  "editor_no_sign_cation_long": {
+    "message": "Email isn´t digitally signed",
+    "description": "Caption digital signature"
+  },
   "options_home": {
     "message": "Options",
     "description": "Options navigation: Home."

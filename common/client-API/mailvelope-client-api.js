@@ -120,6 +120,7 @@
    * @property {AsciiArmored} quotedMail - mail that should be quoted
    * @property {boolean} quotedMailIndent - if true the quoted mail will be indented (default: true)
    * @property {string} quotedMailHeader - header to be added before the quoted mail
+   * @property {boolean} signMode
    */
 
   /**
