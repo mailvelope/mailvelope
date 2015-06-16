@@ -179,6 +179,14 @@
     "message": "Sign message with key:",
     "description": "Header of sign dialog."
   },
+  "digital_signature_dialog_header": {
+    "message": "Digital signature",
+    "description": "Header of digital signature dialog."
+  },
+  "decrypt_digital_signature": {
+    "message": "Digital signature",
+    "description": "Caption digital signature"
+  },
   "options_home": {
     "message": "Options",
     "description": "Options navigation: Home."
