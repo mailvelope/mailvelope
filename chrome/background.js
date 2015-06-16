@@ -179,7 +179,7 @@ define([
       // query open tabs
       mvelo.tabs.query(filterURL, function(tabs) {
         tabs.forEach(function(tab) {
-          console.log('tab', tab);
+          //console.log('tab', tab);
           chrome.tabs.executeScript(tab.id, {code: csBootstrap(), allFrames: true}, function() {
             chrome.tabs.insertCSS(tab.id, {code: framestyles, allFrames: true});
           });

@@ -39,8 +39,8 @@ mvelo.ExtractFrame = function(prefs) {
 
 mvelo.ExtractFrame.prototype.attachTo = function(pgpEnd) {
   this._init(pgpEnd);
-  this._renderFrame();
   this._establishConnection();
+  this._renderFrame();
   this._registerEventListener();
 };
 

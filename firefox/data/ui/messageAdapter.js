@@ -86,6 +86,11 @@ if (self.options.expose_messaging) {
     obj.events[eventName] = listener;
   }
 
+  function addPortDisconnectListener(listener) {
+    // currently deactivated, detach event is fired too late: Mailvelope components are already detached from the DOM
+    //self.port.on('detach', listener);
+  }
+
   var l10n = {};
 
   function getMessages(ids, callback) {
@@ -132,6 +137,7 @@ if (self.options.expose_messaging) {
     exportFunction(postMessage, mvelo.extension.port, {defineAs: "postMessage"});
     exportFunction(disconnect, mvelo.extension.port, {defineAs: "disconnect"});
     exportFunction(addPortListener, mvelo.extension.port, {defineAs: "addListener", allowCallbacks: true});
+    exportFunction(addPortDisconnectListener, mvelo.extension.port, {defineAs: "addDisconnectListener", allowCallbacks: true});
     mvelo.l10n = cloneInto(l10n, mvelo);
     exportFunction(getMessages, mvelo.l10n, {defineAs: "getMessages", allowCallbacks: true});
     exportFunction(localizeHTML, mvelo.l10n, {defineAs: "localizeHTML"});
@@ -147,6 +153,7 @@ if (self.options.expose_messaging) {
     mvelo.extension.port.postMessage = postMessage;
     mvelo.extension.port.disconnect = disconnect;
     mvelo.extension.port.addListener = addPortListener;
+    mvelo.extension.port.addDisconnectListener = addPortDisconnectListener;
     mvelo.l10n = l10n;
     mvelo.l10n.getMessages = getMessages;
     mvelo.l10n.localizeHTML = localizeHTML;
