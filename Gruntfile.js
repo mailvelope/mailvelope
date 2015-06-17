@@ -78,6 +78,7 @@ module.exports = function(grunt) {
             'common/ui/inline/optionsContainer.js',
             'common/ui/inline/keyGenContainer.js',
             'common/ui/inline/keyBackupContainer.js',
+            'common/ui/inline/restoreBackupContainer.js',
             'common/ui/inline/syncHandler.js',
             'common/ui/inline/domAPI.js'
           ],

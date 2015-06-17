@@ -30,6 +30,13 @@ mvelo.SyncHandler = function(keyringId) {
   this.name = 'syncHandler-' + this.id;
   this.port = mvelo.extension.connect({name: this.name});
   this.registerEventListener();
+
+  this.port.postMessage({event: 'init', sender: this.name, keyringId: this.keyringId});
+};
+
+mvelo.SyncHandler.prototype.restoreDone = function(restoreBackup) {
+  //console.log('mvelo.SyncHandler.prototype.restoreDone()', restoreBackup);
+  this.port.postMessage({event: 'restore-done', sender: this.name, restoreBackup: restoreBackup});
 };
 
 /**
@@ -39,17 +46,17 @@ mvelo.SyncHandler.prototype.registerEventListener = function() {
   var that = this;
   this.port.onMessage.addListener(function(msg) {
     switch (msg.event) {
-      case 'keyring-upload':
-        mvelo.domAPI.postMessage('keyring-upload', that.keyringId, msg.syncObj, null);
+      case 'sync-upload':
+        mvelo.domAPI.postMessage('sync-upload', that.keyringId, msg.syncObj, null);
         break;
-      case 'keyring-download':
-        mvelo.domAPI.postMessage('keyring-download', that.keyringId, msg.syncObj, null);
+      case 'sync-download':
+        mvelo.domAPI.postMessage('sync-download', that.keyringId, msg.syncObj, null);
         break;
-      case 'keyring-backup':
-        mvelo.domAPI.postMessage('keyring-backup', that.keyringId, msg.syncObj, null);
+      case 'sync-backup':
+        mvelo.domAPI.postMessage('sync-backup', that.keyringId, msg.syncObj, null);
         break;
-      case 'keyring-restore':
-        mvelo.domAPI.postMessage('keyring-restore', that.keyringId, msg.syncObj, null);
+      case 'sync-restore':
+        mvelo.domAPI.postMessage('sync-restore', that.keyringId, null);
         break;
       default:
         console.log('unknown event', msg);
