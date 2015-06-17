@@ -25,7 +25,7 @@ define(function(require, exports, module) {
 
   var defaults = null;
 
-  function getRandomAngel() {
+  function getRandomAngle() {
     var angle = openpgp.crypto.random.getSecureRandom(0, 120) - 60;
     if (angle < 0) {
       angle += 360;
@@ -41,7 +41,7 @@ define(function(require, exports, module) {
     pref.security.secureBgndIconColor   = pref.security.secureBgndIconColor  || defaults.preferences.security.secureBgndIconColor;
 
     if (typeof pref.security.secureBgndAngle === 'undefined') {
-      pref.security.secureBgndAngle = getRandomAngel();
+      pref.security.secureBgndAngle = getRandomAngle();
     }
 
     if (typeof pref.security.secureBgndColorId === 'undefined') {

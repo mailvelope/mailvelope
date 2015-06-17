@@ -1010,5 +1010,13 @@
     "keybackup_restore_dialog_button": {
       "message": "Wiederherstellungsbeleg erstellen",
       "description": ""
+    },
+    "restore_backup_dialog_headline": {
+        "message": "Wiederherstellungscode:",
+        "description": ""
+    },
+    "restore_backup_dialog_button": {
+        "message": "Bestätigen",
+        "description": ""
     }
 }

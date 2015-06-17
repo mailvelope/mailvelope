@@ -83,6 +83,24 @@ define(function(require, exports, module) {
     });
   };
 
+  PrivateKeyController.prototype.restorePrivateKeyBackup = function(code) {
+    //console.log('PrivateKeyController.prototype.restorePrivateKeyBackup()', code);
+    var that = this;
+
+    var syncController = sub.getByMainType('syncHandler').filter(function(obj) {
+      return obj.keyringId === that.keyringId;
+    })[0];
+
+    syncController.restore(function(restoreBackup) {
+      //console.log('syncController.restore()', restoreBackup);
+
+      var primaryKey = that.keyring.getById(this.keyringId).getAttributes().primary_key;
+      var result = that.model.restorePrivateKeyBackup(primaryKey, restoreBackup, code);
+
+      that.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', sender: name, data: result});
+    });
+  };
+
   PrivateKeyController.prototype.getLogoImage = function() {
     var attr = this.keyring.getById(this.keyringId).getAttributes();
     return (attr && attr.logo_data_url) ? attr.logo_data_url : null;
@@ -93,8 +111,11 @@ define(function(require, exports, module) {
   };
 
   PrivateKeyController.prototype.handlePortMessage = function(msg) {
-    var that = this;
     switch (msg.event) {
+      case 'set-init-data':
+        var data = msg.data;
+        this.keyringId = data.keyringId;
+        break;
       case 'keygen-user-input':
         uiLog.push(msg.source, msg.type);
         break;
@@ -124,6 +145,12 @@ define(function(require, exports, module) {
       case 'keybackup-dialog-init':
         this.ports.keyBackupDialog.postMessage({event: 'set-init-data', data: {initialSetup: this.initialSetup}});
         this.ports.keyBackupCont.postMessage({event: 'dialog-done'});
+        break;
+      case 'restore-backup-dialog-init':
+        this.ports.restoreBackupCont.postMessage({event: 'dialog-done'});
+        break;
+      case 'restore-backup-code':
+        this.restorePrivateKeyBackup(msg.code);
         break;
       case 'backup-code-window-init':
         this.ports.keyBackupCont.postMessage({event: 'popup-isready', backupMessage: this.keyBackup.message});

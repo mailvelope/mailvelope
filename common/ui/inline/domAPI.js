@@ -82,7 +82,10 @@ mvelo.domAPI.dataTypes = {
   syncHandlerObj: 'object',
   editorId: 'string',
   generatorId: 'string',
-  popupId: 'string'
+  popupId: 'string',
+  syncHandlerId: 'string',
+  restoreId: 'string',
+  restoreBackup: 'string'
 };
 
 mvelo.domAPI.optionsTypes = {
@@ -193,6 +196,12 @@ mvelo.domAPI.eventListener = function(event) {
       case 'key-backup-container':
         mvelo.domAPI.keyBackupContainer(data.selector, keyringId, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
+      case 'restore-backup-container':
+        mvelo.domAPI.restoreBackupContainer(data.selector, keyringId, data.options, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
+      case 'restore-backup-isready':
+        mvelo.domAPI.restoreBackupIsReady(data.restoreId, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
       case 'keybackup-popup-isready':
         mvelo.domAPI.keyBackupPopupIsReady(data.popupId, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
@@ -219,6 +228,9 @@ mvelo.domAPI.eventListener = function(event) {
         break;
       case 'add-sync-handler':
         mvelo.domAPI.addSyncHandler(keyringId, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
+      case 'sync-handler-restore-done':
+        mvelo.domAPI.syncHandlerRestoreDone(data.syncHandlerId, data.restoreBackup, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       default:
         console.log('domApi unknown event', event.data.event);
@@ -311,6 +323,18 @@ mvelo.domAPI.keyBackupContainer = function(selector, keyringId, options, callbac
   var container = new mvelo.KeyBackupContainer(selector, keyringId, options);
   this.containers.set(container.id, container);
   container.create(callback);
+};
+
+mvelo.domAPI.restoreBackupContainer = function(selector, keyringId, options, callback) {
+  options = options || {};
+  var container = new mvelo.RestoreBackupContainer(selector, keyringId, options);
+  this.containers.set(container.id, container);
+  container.create(callback);
+};
+
+mvelo.domAPI.restoreBackupIsReady = function(restoreId, callback) {
+  console.log('mvelo.domAPI.restoreBackupIsReady()', restoreId);
+  this.containers.get(restoreId).restoreBackupReady(callback);
 };
 
 mvelo.domAPI.keyBackupPopupIsReady = function(popupId, callback) {
@@ -410,5 +434,12 @@ mvelo.domAPI.addSyncHandler = function(keyringId, callback) {
   mvelo.syncHandler = mvelo.syncHandler || new mvelo.SyncHandler(keyringId);
   this.containers.set(mvelo.syncHandler.id, mvelo.syncHandler);
 
-  callback(null, keyringId);
+  callback(null, mvelo.syncHandler.id);
+};
+
+mvelo.domAPI.syncHandlerRestoreDone = function(syncHandlerId, restoreBackup) {
+  //console.log('mvelo.domAPI.syncHandlerRestoreDone()', syncHandlerId);
+  var container = this.containers.get(syncHandlerId);
+
+  container.restoreDone(restoreBackup);
 };

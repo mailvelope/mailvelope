@@ -225,6 +225,18 @@ define(function(require, exports, module) {
     };
   }
 
+  function restorePrivateKeyBackup(primaryKey, armoredBlock, code) {
+
+    var message = openpgp.message.readArmored(armoredBlock);
+
+   // var msg = message.symDecrypt(primaryKey);
+
+    return {
+      message: JSON.stringify(message),
+     // msg: JSON.stringify(msg)
+    };
+  }
+
   function getLastModifiedDate(key) {
     var lastModified = new Date(0);
     key.toPacketlist().forEach(function(packet) {
@@ -244,6 +256,7 @@ define(function(require, exports, module) {
   exports.signMessage = signMessage;
   exports.verifyMessage = verifyMessage;
   exports.createPrivateKeyBackup = createPrivateKeyBackup;
+  exports.restorePrivateKeyBackup = restorePrivateKeyBackup;
   exports.getLastModifiedDate = getLastModifiedDate;
 
   function getWatchList() {

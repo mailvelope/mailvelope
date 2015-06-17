@@ -78,6 +78,7 @@
       throw error;
     }
   };
+  var syncHandler = null;
 
   /**
    * Ascii Armored PGP Text Block
@@ -312,6 +313,22 @@
   };
 
   /**
+   * @typedef {Object} PrivateKeyContainerOptions
+   */
+
+  /**
+   * Creates an iframe to restore the backup.
+   * @param {CssSelector} selector - target container
+   * @param {PrivateKeyContainerOptions} options
+   * @returns {Promise.<undefined, Error>}
+   */
+  Keyring.prototype.restoreBackupContainer = function(selector, options) {
+    return postMessage('restore-backup-container', {selector: selector, identifier: this.identifier, options: options}).then(function(restoreId) {
+      return new RestoreBackup(restoreId);
+    });
+  };
+
+  /**
    * Check if keyring contains valid private key with given fingerprint
    * @param {string} fingerprint
    * @returns {Promise.<boolean, Error>}
@@ -336,8 +353,10 @@
    * @returns {Promise.<undefined, Error>}
    */
   Keyring.prototype.addSyncHandler = function(syncHandlerObj) {
-    callbacks.syncHandler = syncHandlerObj;
-    return postMessage('add-sync-handler', {identifier: this.identifier});
+    return postMessage('add-sync-handler', {identifier: this.identifier}).then(function(syncHandlerId) {
+      syncHandler = new SyncHandler(syncHandlerId, syncHandlerObj);
+      return syncHandlerId;
+    });
   };
 
   /**
@@ -387,6 +406,29 @@
   };
 
   /**
+   * Not accessible, instance can be obtained using {@link Keyring#restoreBackupContainer}.
+   * @private
+   * @param {string} restoreId - the internal id of the restore backup
+   * @alias RestoreBackup
+   * @constructor
+   */
+  var RestoreBackup = function(restoreId) {
+    this.restoreId = restoreId;
+  };
+
+  /**
+   * @returns {Promise.<AsciiArmored, Error>}
+   * @throws {Error}
+   */
+  RestoreBackup.prototype.isReady = function() {
+    //console.log('RestoreBackup.prototype.isReady()');
+    return postMessage('restore-backup-isready', {restoreId: this.restoreId}).then(function(result) {
+      //console.log('postMessage(restore-backup-isready)', result);
+      return result;
+    });
+  };
+
+  /**
    * Not accessible, instance can be obtained using {@link Mailvelope#createEditorContainer}.
    * @private
    * @param {string} editorId - the internal id of the editor
@@ -414,6 +456,11 @@
 
   var callbacks = Object.create(null);
 
+  var SyncHandler = function(syncHandlerId, callbacks) {
+    this.syncHandlerId = syncHandlerId;
+    this.callbacks = callbacks;
+  };
+
   function eventListener(event) {
     if (event.origin !== window.location.origin ||
         event.data.mvelo_client ||
@@ -422,17 +469,45 @@
     }
     //console.log('clientAPI eventListener', event.data);
     switch (event.data.event) {
-      case 'keyring-upload':
-        callbacks.syncHandler.uploadSync(event.data);
+      case 'sync-upload':
+        syncHandler.callbacks.uploadSync(event.data)
+          .then(function(result) {
+            //console.log('callbacks.syncHandler.uploadSync() success', result);
+            return postMessage('sync-handler-upload-done', {syncHandlerId: syncHandler.syncHandlerId, downloadBackup: result});
+          })
+          .catch(function(error) {
+            console.log('callbacks.syncHandler.uploadSync() error', error);
+          });
         break;
-      case 'keyring-download':
-        callbacks.syncHandler.downloadSync(event.data);
+      case 'sync-download':
+        syncHandler.callbacks.downloadSync(event.data)
+          .then(function(result) {
+            //console.log('callbacks.syncHandler.downloadSync() success', result);
+            return postMessage('sync-handler-download-done', {syncHandlerId: syncHandler.syncHandlerId, downloadBackup: result});
+          })
+          .catch(function(error) {
+            console.log('callbacks.syncHandler.downloadSync() error', error);
+          });
         break;
-      case 'keyring-backup':
-        callbacks.syncHandler.backup(event.data);
+      case 'sync-backup':
+        syncHandler.callbacks.backup(event.data)
+          .then(function(result) {
+            //console.log('callbacks.syncHandler.backup() success', result);
+            return postMessage('sync-handler-backup-done', {syncHandlerId: syncHandler.syncHandlerId, backup: result});
+          })
+          .catch(function(error) {
+            console.log('callbacks.syncHandler.backup() error', error);
+          });
         break;
-      case 'keyring-restore':
-        callbacks.syncHandler.restore(event.data);
+      case 'sync-restore':
+        syncHandler.callbacks.restore()
+          .then(function(result) {
+            //console.log('callbacks.syncHandler.restore() success', result);
+            return postMessage('sync-handler-restore-done', {syncHandlerId: syncHandler.syncHandlerId, restoreBackup: result});
+          })
+          .catch(function(error) {
+            console.log('callbacks.syncHandler.restore() error', error);
+          });
         break;
       case 'callback-reply':
         var error;
@@ -442,6 +517,7 @@
         }
         callbacks[event.data.id](error, event.data.data);
         delete callbacks[event.data.id];
+
         break;
 
       default:

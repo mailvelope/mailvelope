@@ -29,21 +29,23 @@ define(function(require, exports, module) {
   var api = require('./api.controller');
   var uiLog = require('../uiLog');
 
-  sub.factory.register('dFrame', require('./decrypt.controller').DecryptController);
-  sub.factory.register('decryptCont', require('./decrypt.controller').DecryptController);
-  sub.factory.register('eFrame', require('./encrypt.controller').EncryptController);
-  sub.factory.register('imFrame', require('./import.controller').ImportController);
-  sub.factory.register('importKeyDialog', require('./import.controller').ImportController);
-  sub.factory.register('mainCS', require('./mainCs.controller').MainCsController);
-  sub.factory.register('vFrame', require('./verify.controller').VerifyController);
-  sub.factory.register('pwdDialog', require('./pwd.controller').PwdController);
-  sub.factory.register('editor', require('./editor.controller').EditorController);
-  sub.factory.register('editorCont', require('./editor.controller').EditorController);
-  sub.factory.register('syncHandler', require('./sync.controller').SyncController);
-  sub.factory.register('keyGenCont', require('./privateKey.controller').PrivateKeyController);
-  sub.factory.register('keyGenDialog', require('./privateKey.controller').PrivateKeyController);
-  sub.factory.register('keyBackupCont', require('./privateKey.controller').PrivateKeyController);
-  sub.factory.register('keyBackupDialog', require('./privateKey.controller').PrivateKeyController);
+  sub.factory.register('dFrame',              require('./decrypt.controller').DecryptController);
+  sub.factory.register('decryptCont',         require('./decrypt.controller').DecryptController);
+  sub.factory.register('eFrame',              require('./encrypt.controller').EncryptController);
+  sub.factory.register('imFrame',             require('./import.controller').ImportController);
+  sub.factory.register('importKeyDialog',     require('./import.controller').ImportController);
+  sub.factory.register('mainCS',              require('./mainCs.controller').MainCsController);
+  sub.factory.register('vFrame',              require('./verify.controller').VerifyController);
+  sub.factory.register('pwdDialog',           require('./pwd.controller').PwdController);
+  sub.factory.register('editor',              require('./editor.controller').EditorController);
+  sub.factory.register('editorCont',          require('./editor.controller').EditorController);
+  sub.factory.register('syncHandler',         require('./sync.controller').SyncController);
+  sub.factory.register('keyGenCont',          require('./privateKey.controller').PrivateKeyController);
+  sub.factory.register('keyGenDialog',        require('./privateKey.controller').PrivateKeyController);
+  sub.factory.register('keyBackupCont',       require('./privateKey.controller').PrivateKeyController);
+  sub.factory.register('keyBackupDialog',     require('./privateKey.controller').PrivateKeyController);
+  sub.factory.register('restoreBackupCont',   require('./privateKey.controller').PrivateKeyController);
+  sub.factory.register('restoreBackupDialog', require('./privateKey.controller').PrivateKeyController);
 
   // recipients of encrypted mail
   var scannedHosts = [];

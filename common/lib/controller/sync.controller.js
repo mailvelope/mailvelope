@@ -27,9 +27,16 @@ define(function(require, exports, module) {
       this.mainType = 'syncHandler';
       this.id = this.mvelo.util.getHash();
     }
+
+    this.keyringId = null;
+    this.restoreDone = null;
   }
 
   SyncController.prototype = Object.create(sub.SubController.prototype);
+
+  SyncController.prototype.init = function(keyringId) {
+    this.keyringId = keyringId;
+  };
 
   SyncController.prototype.upload = function(uploadObj) {
     this.ports.syncHandler.postMessage({
@@ -52,16 +59,23 @@ define(function(require, exports, module) {
     });
   };
 
-  SyncController.prototype.restore = function(restoreObj) {
-    this.ports.syncHandler.postMessage({
-      event: 'keyring-restore',
-      syncObj: restoreObj
-    });
+  SyncController.prototype.restore = function(done) {
+    //console.log('SyncController.prototype.restore()');
+
+    this.restoreDone = done;
+    this.ports.syncHandler.postMessage({event: 'sync-restore'});
   };
 
   SyncController.prototype.handlePortMessage = function(msg) {
     //console.log('pwd.controller handlePortMessage msg', msg);
     switch (msg.event) {
+      case 'init':
+        this.init(msg.keyringId);
+        break;
+      case 'restore-done':
+        //console.log('SyncController.prototype.handlePortMessage(restore-done)', msg);
+        this.restoreDone(msg.restoreBackup);
+        break;
       default:
         console.log('unknown event', msg);
     }

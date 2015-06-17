@@ -134,6 +134,7 @@ function activatePageMods() {
   injectEmbeddedOptions();
   injectEmbeddedKeyGen();
   injectEmbeddedKeyBackup();
+  injectEmbeddedRestoreBackup();
 }
 
 function deactivate() {
@@ -467,6 +468,31 @@ function injectEmbeddedKeyBackup() {
       data.url("common/dep/bootstrap/css/bootstrap.css"),
       data.url("common/ui/mvelo.css"),
       data.url("common/ui/inline/dialogs/keyBackupDialog.css")
+    ],
+    contentScriptWhen: 'ready',
+    contentScriptOptions: {
+      expose_messaging: false,
+      data_path: data.url()
+    }
+  });
+}
+
+function injectEmbeddedRestoreBackup() {
+  pageMods.embeddedOptionsPageMod = pageMod.PageMod({
+    include: 'about:blank?mvelo=restoreBackup*',
+    onAttach: onCsAttach,
+    contentScriptFile: [
+      data.url('common/dep/jquery.min.js'),
+      data.url('common/dep/jquery.ext.js'),
+      data.url('ui/messageAdapter.js'),
+      data.url('common/dep/bootstrap/js/bootstrap.js'),
+      data.url('common/ui/mvelo.js'),
+      data.url('common/ui/inline/dialogs/restoreBackupDialog.js')
+    ],
+    contentStyleFile: [
+      data.url("common/dep/bootstrap/css/bootstrap.css"),
+      data.url("common/ui/mvelo.css"),
+      data.url("common/ui/inline/dialogs/restoreBackupDialog.css")
     ],
     contentScriptWhen: 'ready',
     contentScriptOptions: {

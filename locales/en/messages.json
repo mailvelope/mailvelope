@@ -1018,5 +1018,13 @@
   "keybackup_waiting_description": {
     "message": "A document with your backup code is being prepared",
     "description": ""
+  },
+  "restore_backup_dialog_headline": {
+    "message": "Restore code:",
+    "description": ""
+  },
+  "restore_backup_dialog_button": {
+    "message": "Confirm",
+    "description": ""
   }
 }
