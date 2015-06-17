@@ -128,10 +128,9 @@ var options = options || null;
   function onGenerateKey() {
     validateEmail(function() {
       $('body').addClass('busy');
-      $('#genKeyWait')
-        .modal({backdrop: 'static', keyboard: false})
-        .modal('show')
-        .one('show.bs.modal', generateKey);
+      $('#genKeyWait').one('show.bs.modal', generateKey);
+      $('#genKeyWait').modal({backdrop: 'static', keyboard: false});
+      $('#genKeyWait').modal('show');
     });
     return false;
   }
