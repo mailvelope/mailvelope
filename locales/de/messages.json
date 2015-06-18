@@ -1032,19 +1032,27 @@
         "description": ""
     },
     "editor_sign_caption_short": {
-        "message": "Email wird digital signiert",
+        "message": "Email wird digital unterschrieben",
         "description": ""
     },
     "editor_sign_caption_long": {
-        "message": "Wenn die Email abgeschickt wird, wird sie gleichzeitig digital signiert.",
+        "message": "Wenn die Email abgeschickt wird, wird sie gleichzeitig digital unterschrieben.",
         "description": ""
     },
     "editor_no_sign_caption_short": {
-        "message": "Email wird nicht digital signiert",
+        "message": "Email wird nicht digital unterschrieben",
         "description": ""
     },
     "editor_no_sign_caption_long": {
-        "message": "Die Email wird nicht vor dem Abschicken digital signiert.",
+        "message": "Die Email wird nicht vor dem Abschicken digital unterschrieben.",
+        "description": ""
+    },
+    "editor_no_primary_key_caption_short": {
+        "message": "Email kann nicht digital unterschrieben werden",
+        "description": ""
+    },
+    "editor_no_primary_key_caption_long": {
+        "message": "Die Email kann nicht digital unterschrieben werden, da der Primärschlüssel fehlt.",
         "description": ""
     }
 }

@@ -162,18 +162,20 @@ define(function(require, exports, module) {
     }).filter(function(key) {
       return key !== null;
     });
+
     if (keys.length === 0) {
       callback({
         type: 'error',
         message: 'No key found for encryption'
       });
-    }
-    openpgp.getWorker().encryptMessage(keys, message).then(callback.bind(null, null), function(e) {
-      callback({
-        type: 'error',
-        message: l10n('encrypt_error', [e])
+    } else {
+      openpgp.getWorker().encryptMessage(keys, message).then(callback.bind(null, null), function(e) {
+        callback({
+          type: 'error',
+          message: l10n('encrypt_error', [e])
+        });
       });
-    });
+    }
   }
 
   function signAndEncryptMessage(message, keyringId, keyIdsHex, callback) {
@@ -183,28 +185,31 @@ define(function(require, exports, module) {
     }).filter(function(key) {
       return key !== null;
     });
+
     if (keys.length === 0) {
       callback({
         type: 'error',
+        code: 'NO_KEY_FOUND_FOR_ENCRYPTION',
         message: 'No key found for encryption'
       });
-    }
-
-    var primaryKey = keyring.getById(keyringId).getPrimaryKey();
-    if (primaryKey) {
-      openpgp.getWorker().signAndEncryptMessage(keys, primaryKey.key, message).then(callback.bind(null, null), function(e) {
+    } else {
+      var primaryKey = keyring.getById(keyringId).getPrimaryKey();
+      if (primaryKey) {
+        openpgp.getWorker().signAndEncryptMessage(keys, primaryKey.key, message).then(callback.bind(null, null), function(e) {
+          callback({
+            type: 'error',
+            code: 'ENCRYPT_ERROR',
+            message: l10n('encrypt_error', [e])
+          });
+        });
+      } else {
         callback({
           type: 'error',
-          message: l10n('encrypt_error', [e])
+          code: 'NO_PRIMARY_KEY_FOUND',
+          message: 'no primary key found'
         });
-      });
-    } else {
-      callback({
-        type: 'error',
-        message: 'no primarykey found'
-      });
+      }
     }
-
   }
 
   function verifyMessage(message, signers, callback) {
