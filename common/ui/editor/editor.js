@@ -51,7 +51,9 @@ var mvelo = mvelo || null;
     'editor_sign_caption_short',
     'editor_sign_caption_long',
     'editor_no_sign_caption_short',
-    'editor_no_sign_caption_long'
+    'editor_no_sign_caption_long',
+    'editor_error_header',
+    'editor_error_content'
   ], function(result) {
     l10n = result;
   });
@@ -113,19 +115,25 @@ var mvelo = mvelo || null;
   function loadTemplates(embedded, callback) {
     if (embedded) {
       $('body').addClass("secureBackground");
-      mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/waiting-modal.html')).then(function() {
+
+      Promise.all([
+        mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')),
+        mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/waiting-modal.html')),
+        mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/error-modal.html'))
+      ]).then(function() {
         $('#waitingModal').on('hidden.bs.modal', function(e) {
           editor.focus()
                 .prop('selectionStart', 0)
                 .prop('selectionEnd', 0);
         });
-      });
-      mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')).then(function() {
+
         $('#uploadEmbeddedBtn').on("click", function() {
           $('#addFileInput').click();
           logUserInput('security_log_add_attachment');
         });
-      }).then(callback);
+      })
+      .then(callback);
+
     } else {
       mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-popup.html')).then(function() {
         $('.modal-body').addClass('secureBackground');
@@ -136,10 +144,11 @@ var mvelo = mvelo || null;
         $('#undoBtn').click(onUndo)
                      .prop('disabled', true);
         $('#transferBtn').hide();
+
         Promise.all([
           mvelo.appendTpl($('#editorDialog .modal-body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')),
           mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/encrypt-modal.html')),
-          mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/signature-modal.html')),
+          mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/error-modal.html')),
           mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/transfer-warn.html')).then(function() {
             // transfer warning modal
             $('#transferWarn .btn-primary').click(transfer);
@@ -492,14 +501,45 @@ var mvelo = mvelo || null;
     $('#encryptModal iframe').remove();
   }
 
-  function setSignMode(signMsg) {
+  function showErrorModal(error) {
+
+    var title = '',
+      content = '',
+      $errorModal = $('#errorModal');
+
+    switch (error.code) {
+      case 'NO_KEY_FOUND_FOR_ENCRYPTION':
+        title = l10n.editor_error_header;
+        content = error.message;
+        break;
+      default:
+        title = l10n.editor_error_header;
+        content = l10n.editor_error_content;
+    }
+
+    $('.modal-body', $errorModal).empty().append(content);
+    $('.modal-title', $errorModal).empty().append(title);
+    $errorModal.modal('show');
+  }
+
+  function removeErrorModal() {
+    $('#errorModal').modal('hide');
+  }
+
+  function setSignMode(signMsg, primaryKey) {
     var short, long;
-    if (signMsg) {
+
+    if (signMsg === false) {
+      $('#editor_digital_signature').hide();
+      return;
+    }
+
+    if (primaryKey) {
       short = l10n.editor_sign_caption_short;
       long = l10n.editor_sign_caption_long;
     } else {
-      short = l10n.editor_no_sign_caption_short;
-      long = l10n.editor_no_sign_caption_long;
+      short = l10n.editor_no_primary_key_caption_short;
+      long = l10n.editor_no_primary_key_caption_long;
     }
     $('#editor_digital_signature')
       .html(short)
@@ -525,7 +565,7 @@ var mvelo = mvelo || null;
       case 'set-init-data':
         var data = msg.data;
         onSetText(data.text);
-        setSignMode(data.signMsg || false);
+        setSignMode(data.signMsg || false, data.primary);
         break;
       case 'decrypt-in-progress':
         $('#waitingModal').modal({keyboard: false}).modal("show");
@@ -571,6 +611,10 @@ var mvelo = mvelo || null;
         }
         $('#signBtn, #encryptBtn').hide();
         $('#transferBtn').show();
+        break;
+      case 'send-error':
+        console.log('editor.js send-error', msg.error);
+        showErrorModal(msg.error);
         break;
       default:
         console.log('unknown event');

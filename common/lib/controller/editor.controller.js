@@ -124,16 +124,18 @@ define(function(require, exports, module) {
       case 'editor-options':
         this.keyringId = msg.keyringId;
         this.options = msg.options;
-        if (msg.options.signMsg !== null) {
-          this.signMsg = msg.options.signMsg;
-        }
-        var data = {signMsg: this.signMsg};
+        this.signMsg = msg.options.signMsg;
+        var data = {
+          signMsg: this.signMsg,
+          primary: this.keyring.getById(this.keyringId).getPrimaryKey() || false
+        };
 
         if (this.options.quotedMail) {
           this.decryptQuoted(this.options.quotedMail);
         } else if (this.options.predefinedText) {
           data.text = this.options.predefinedText;
         }
+
         this.ports.editor.postMessage({event: 'set-init-data', data: data});
         break;
       case 'sign-dialog-ok':
@@ -180,12 +182,26 @@ define(function(require, exports, module) {
           if (this.signMsg) {
             this.model.signAndEncryptMessage(data, this.keyringId, this.keyidBuffer, function(err, msg) {
               var port = that.ports.editorCont || that.ports.editor;
-              port.postMessage({event: 'encrypted-message', message: msg});
+              if (err) {
+                that.ports.editor.postMessage({event: 'send-error', error: err});
+                if (that.ports.editorCont) {
+                  port.postMessage({event: 'send-error', error: err});
+                }
+              } else {
+                port.postMessage({event: 'encrypted-message', message: msg});
+              }
             });
           } else {
             this.model.encryptMessage(data, this.keyringId, this.keyidBuffer, function(err, msg) {
               var port = that.ports.editorCont || that.ports.editor;
-              port.postMessage({event: 'encrypted-message', message: msg});
+              if (err) {
+                that.ports.editor.postMessage({event: 'send-error', error: err});
+                if (that.ports.editorCont) {
+                  port.postMessage({event: 'send-error', error: err});
+                }
+              } else {
+                port.postMessage({event: 'encrypted-message', message: msg});
+              }
             });
           }
         } else if (msg.action === 'sign') {
@@ -273,7 +289,7 @@ define(function(require, exports, module) {
               msg = msg.replace(/^(.|\n)/gm, '> $&');
             }
             if (that.options.quotedMailHeader) {
-              msg = that.options.quotedMailHeader + '\n' + msg;
+              msg = '> ' + that.options.quotedMailHeader + '\n' + msg;
             }
             msg = '\n\n' + msg;
             if (that.options.predefinedText) {
