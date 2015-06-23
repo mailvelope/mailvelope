@@ -80,7 +80,11 @@ define(function(require, exports, module) {
         specific.initScriptInjection();
         break;
       case 'get-all-keyring-attr':
-        sendResponse(keyring.getAllKeyringAttr());
+        try {
+          sendResponse({result: keyring.getAllKeyringAttr()});
+        } catch (e) {
+          sendResponse({error: e});
+        }
         break;
       case 'set-keyring-attr':
         keyring.setKeyringAttr(request.keyringId, request.keyringAttr);
