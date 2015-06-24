@@ -282,7 +282,7 @@ define(function(require, exports, module) {
       .then(function(message) {
         return decryptCtrl.decryptMessage(message);
       })
-      .then(function(rawText) {
+      .then(function(content) {
         var handlers = {
           onMessage: function(msg) {
             if (that.options.quotedMailIndent) {
@@ -303,8 +303,7 @@ define(function(require, exports, module) {
             // only reply scenario at the moment
           }
         };
-
-        decryptCtrl.parseMessage(rawText, handlers, 'text');
+        decryptCtrl.parseMessage(content.text, handlers, 'text');
       })
       .then(function() {
         that.mvelo.util.clearTimeout(decryptTimer);

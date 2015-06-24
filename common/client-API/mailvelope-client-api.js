@@ -93,6 +93,7 @@
   /**
    * @typedef {Object} DisplayContainerOptions
    * @property {boolean} showExternalContent - if true loads external content into the display container (default: true)
+   * @property {string} senderAddress - email address of sender, used to indentify key for signature verification
    */
 
   /**

@@ -68,6 +68,7 @@ mvelo.DecryptContainer.prototype.registerEventListener = function() {
           event: 'set-armored',
           data: that.armored,
           keyringId: that.keyringId,
+          options: that.options,
           sender: that.name
         });
         break;

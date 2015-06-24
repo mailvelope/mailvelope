@@ -102,6 +102,7 @@ mvelo.domAPI.optionsTypes = {
   userIds: 'array',
   keySize: 'number',
   initialSetup: 'boolean',
+  senderAddress: 'string',
   restorePassword: 'boolean'
 };
 

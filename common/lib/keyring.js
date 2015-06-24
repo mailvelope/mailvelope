@@ -134,6 +134,7 @@ define(function(require, exports, module) {
   exports.getById = getById;
   exports.getUserId = getUserId;
   exports.readKey = readKey;
+  exports.mapKeys = mapKeys;
 
   function Keyring(keyringId) {
     this.id = keyringId;

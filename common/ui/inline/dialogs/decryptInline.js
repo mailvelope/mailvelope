@@ -268,6 +268,9 @@ var mvelo = mvelo || null;
         showMessageArea();
         addAttachment(msg.message.filename, msg.message.content, msg.message.mimeType, msg.message.attachmentId);
         break;
+      case 'signature-verification':
+        console.log('signers', msg.signers);
+        break;
       case 'error-message':
         showErrorMsg(msg.error);
         break;
