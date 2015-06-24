@@ -28,6 +28,9 @@ define(function(require, exports, module) {
     this.pwdCache = require('../pwdCache');
     this.decryptPopup = null;
     this.mailreader = require('mailreader-parser');
+    this.attachments = {};
+    this.options = {};
+    this.keyringId = this.mvelo.LOCAL_KEYRING_ID;
   }
 
   DecryptController.prototype = Object.create(sub.SubController.prototype);
@@ -72,7 +75,11 @@ define(function(require, exports, module) {
         }
         break;
       case 'set-armored':
-        this.decrypt(msg.data, msg.keyringId || this.mvelo.LOCAL_KEYRING_ID);
+        this.options = msg.options;
+        if (msg.keyringId) {
+          this.keyringId = msg.keyringId;
+        }
+        this.decrypt(msg.data, this.keyringId);
         break;
       case 'decrypt-inline-user-input':
         uiLog.push(msg.source, msg.type);
@@ -103,7 +110,7 @@ define(function(require, exports, module) {
       .then(function(message) {
         return that.decryptMessage(message);
       })
-      .then(function(rawText) {
+      .then(function(content) {
         var handlers = {
           onMessage: function(msg) {
             that.ports.dDialog.postMessage({event: 'decrypted-message', message: msg});
@@ -112,7 +119,10 @@ define(function(require, exports, module) {
             that.ports.dDialog.postMessage({event: 'add-decrypted-attachment', message: part});
           }
         };
-        that.parseMessage(rawText, handlers, 'html');
+        that.parseMessage(content.text, handlers, 'html');
+        if (content.signatures) {
+          that.ports.dDialog.postMessage({event: 'signature-verification', signers: content.signatures});
+        }
       })
       .catch(function(error) {
         if (error.message === 'pwd-dialog-cancel') {
@@ -169,11 +179,12 @@ define(function(require, exports, module) {
   DecryptController.prototype.decryptMessage = function(message) {
     var that = this;
     return new Promise(function(resolve, reject) {
-      that.model.decryptMessage(message, function(err, rawText) {
+      message.options = that.options;
+      that.model.decryptMessage(message, that.keyringId, function(err, content) {
         if (err) {
           return reject(err);
         }
-        resolve(rawText);
+        resolve(content);
       });
     });
   };

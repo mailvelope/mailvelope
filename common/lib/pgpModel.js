@@ -151,8 +151,27 @@ define(function(require, exports, module) {
     openpgp.getWorker().decryptKeyPacket(privKey, [openpgp.Keyid.fromId(keyid)], passwd).then(callback.bind(null, null), callback);
   }
 
-  function decryptMessage(message, callback) {
-    openpgp.getWorker().decryptMessage(message.key, message.message).then(callback.bind(null, null), callback);
+  function decryptMessage(message, keyringId, callback) {
+    if (message.options.senderAddress) {
+      var keyRing = keyring.getById(keyringId);
+      var signingKeys = keyRing.getKeyByAddress([message.options.senderAddress], {validity: true});
+      signingKeys = signingKeys[message.options.senderAddress] || [message.key];
+      openpgp.getWorker().decryptAndVerifyMessage(message.key, signingKeys, message.message).then(function(result) {
+        result.signatures = result.signatures.map(function(signature) {
+          signature.keyid = signature.keyid.toHex();
+          if (signature.valid !== null) {
+            var signingKey = keyRing.keyring.getKeysForId(signature.keyid, true);
+            signature.keyDetails = keyring.mapKeys(signingKey)[0];
+          }
+          return signature;
+        });
+        callback(null, result);
+      }, callback);
+    } else {
+      openpgp.getWorker().decryptMessage(message.key, message.message).then(function(result) {
+        callback(null, {text: result});
+      }, callback);
+    }
   }
 
   function encryptMessage(message, keyringId, keyIdsHex, callback) {
