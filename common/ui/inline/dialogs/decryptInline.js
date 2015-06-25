@@ -29,6 +29,7 @@ var mvelo = mvelo || null;
   //var spinnerTimer;
   var commonPath;
   var l10n;
+  var signers = [];
 
   function init() {
     //console.log('init decryptInline.js');
@@ -44,19 +45,26 @@ var mvelo = mvelo || null;
     } else if (mvelo.ffa) {
       commonPath = mvelo.extension._dataPath + 'common';
     }
+    mvelo.l10n.getMessages([
+      'alert_header_error',
+      'digital_signature_status_true',
+      'digital_signature_status_false',
+      'digital_signature_status_null',
+      'decrypt_digital_signature',
+      'decrypt_digital_signature_failure'
+    ], function(result) {
+      l10n = result;
+    });
 
     // show spinner
     addSpinner();
     addDecryptBody();
     addErrorView();
 
+    mvelo.l10n.localizeHTML();
+
     mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/inline/dialogs/templates/signature-modal.html'))
       .then(function() {
-        mvelo.l10n.getMessages([
-          'alert_header_error'
-        ], function(result) {
-          l10n = result;
-        });
         mvelo.l10n.localizeHTML();
       });
 
@@ -160,11 +168,13 @@ var mvelo = mvelo || null;
     return $('<button/>', {
       class: 'btn btn-digital-signature',
       'data-l10n-id': 'decrypt_digital_signature'
-    }).on('click', onClickSignature);
+    })
+      .hide()
+      .on('click', onClickSignature);
   }
 
   function onClickSignature() {
-    showDialog('#signatureModal');
+    showSignatureDialog('#signatureModal');
   }
 
   function addErrorView() {
@@ -187,7 +197,7 @@ var mvelo = mvelo || null;
     hideSpinner();
     //clearTimeout(spinnerTimer);
     $('#errorbox').show();
-    $('#errorwell').showAlert(l10n.alert_header_error, msg, 'danger')
+    $('#errorwell').showAlert(l10n.alert_header_error || 'alert_error', msg, 'danger')
       .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
       .find('button').click(function() {
         port.postMessage({event: 'decrypt-dialog-cancel', sender: name});
@@ -244,12 +254,67 @@ var mvelo = mvelo || null;
     });
   }
 
-  function showDialog(parentModal) {
+  function showSignatureDialog(modalEleent) {
+    $(modalEleent).modal('show');
+  }
 
-    var dialog = 'Hello World';
+  function setSignatureDialog(signer) {
+    if (signer === null) {
+      $('.modal-body', '#signatureModal').empty();
+      return;
+    }
 
-    $('.modal-body', parentModal).empty().append(dialog);
-    $(parentModal).modal('show');
+    var dialog = $('<div/>');
+    var status;
+
+    if (signer.valid !== null) {
+      var details = signer.keyDetails;
+      var fingerprint = (details.fingerprint.match(/.{1,4}/g)).join(' ');
+
+      dialog
+        .append($('<p/>').html('<b>Name:</b> ' + details.name))
+        .append($('<p/>').html('<b>Email:</b> ' + details.email))
+        .append($('<p/>').html('<b>Fingerprint:</b> ' + fingerprint))
+      ;
+    } else {
+      dialog
+        .append($('<p/>').html('<b>Key-ID:</b> ' + signer.keyid))
+      ;
+    }
+    $('.modal-body', '#signatureModal').empty().append(dialog);
+
+    var $heading = $('.modal-header', '#signatureModal').removeClass('bg-success bg-danger bg-warning');
+    var $title = $('.modal-title', '#signatureModal').empty();
+
+    if (signer.valid === true) {
+      $heading.addClass('bg-success');
+      $title.html('<b>Status:</b> ' + l10n.digital_signature_status_true);
+    } else if (signer.valid === false) {
+      $heading.addClass('bg-danger');
+      $title.html('<b>Status:</b> ' + l10n.digital_signature_status_false);
+    } else if (signer.valid === null) {
+      $heading.addClass('bg-warning');
+      $title.html('<b>Status:</b> ' + l10n.digital_signature_status_null);
+    }
+  }
+
+  function setSignatureButton() {
+    var $btn = $('.btn-digital-signature');
+    var signer = signers[0];
+
+    if (signers.length === 0) {
+      setSignatureDialog(null);
+      $btn.hide();
+      return;
+    }
+
+    if (signer.valid !== true) {
+      $btn.html(l10n.decrypt_digital_signature_failure);
+    }
+
+    setSignatureDialog(signer);
+
+    $btn.show();
   }
 
   function messageListener(msg) {
@@ -270,6 +335,8 @@ var mvelo = mvelo || null;
         break;
       case 'signature-verification':
         console.log('signers', msg.signers);
+        signers = msg.signers;
+        setSignatureButton();
         break;
       case 'error-message':
         showErrorMsg(msg.error);

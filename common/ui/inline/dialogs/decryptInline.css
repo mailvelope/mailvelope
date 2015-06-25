@@ -141,3 +141,8 @@ body {
 #errorwell .alert {
   margin-bottom: 0;
 }
+
+#signatureModal .modal-header {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
