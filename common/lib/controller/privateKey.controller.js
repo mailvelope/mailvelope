@@ -94,10 +94,23 @@ define(function(require, exports, module) {
     syncController.restore(function(restoreBackup) {
       //console.log('syncController.restore()', restoreBackup);
 
-      var primaryKey = that.keyring.getById(this.keyringId).getAttributes().primary_key;
-      var result = that.model.restorePrivateKeyBackup(primaryKey, restoreBackup, code);
-
-      that.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', sender: name, data: result});
+      var backup = that.model.restorePrivateKeyBackup(restoreBackup, code);
+      if (backup.error) {
+        if (backup.error.code === 'WRONG_RESTORE_CODE') {
+          that.ports.restoreBackupDialog.postMessage({event: 'error-message', sender: name, error: backup.error});
+        } else {
+          that.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', sender: name, error: backup.error});
+        }
+        return;
+      }
+      var result = that.keyring.getById(that.keyringId).importKeys([{armored: backup.key.armor(), type: 'private'}]);
+      for (var i = 0; i < result.length; i++) {
+        if (result[i].type === 'error') {
+          that.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', sender: name, error: result[i].message});
+          return;
+        }
+      }
+      that.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', sender: name});
     });
   };
 

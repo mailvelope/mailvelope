@@ -119,6 +119,10 @@ var mvelo = mvelo || null;
   function messageListener(msg) {
     //console.log('keyGenDialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
+      case 'error-message':
+        //TODO
+        console.log('restoreBackupDialog error', msg.error);
+        break;
       default:
         console.log('unknown event');
     }
