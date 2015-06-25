@@ -225,16 +225,35 @@ define(function(require, exports, module) {
     };
   }
 
-  function restorePrivateKeyBackup(primaryKey, armoredBlock, code) {
+  function parseMetaInfo(txt) {
+    var result = {};
+    txt.replace(/\r/g, '').split('\n').forEach(function(row) {
+      if (row.length) {
+        var keyValue = row.split(/:\s/);
+        result[keyValue[0]] = keyValue[1];
+      }
+    });
+    return result;
+  }
 
-    var message = openpgp.message.readArmored(armoredBlock);
-
-   // var msg = message.symDecrypt(primaryKey);
-
-    return {
-      message: JSON.stringify(message),
-     // msg: JSON.stringify(msg)
-    };
+  function restorePrivateKeyBackup(armoredBlock, code) {
+    //console.log('restorePrivateKeyBackup', armoredBlock);
+    try {
+      var message = openpgp.message.readArmored(armoredBlock);
+      try {
+        message = message.symDecrypt(code);
+      } catch (e) {
+        return { error: {message: 'Could not decrypt message with this restore code', code: 'WRONG_RESTORE_CODE'}};
+      }
+      // extract password
+      var pwd = parseMetaInfo(message.getText()).Pwd;
+      // remove literal data packet
+      var keyPackets = message.packets.slice(1);
+      var privKey =  new openpgp.key.Key(keyPackets);
+      return { key: privKey };
+    } catch (e) {
+      return { error: e.message };
+    }
   }
 
   function getLastModifiedDate(key) {
