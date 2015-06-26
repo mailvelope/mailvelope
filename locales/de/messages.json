@@ -1018,5 +1018,9 @@
     "restore_backup_dialog_button": {
         "message": "Bestätigen",
         "description": ""
+    },
+    "wrong_restore_code": {
+        "message": "Der Wiederherstellungscode ist nicht korrekt.",
+        "description": ""
     }
 }

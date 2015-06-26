@@ -27,34 +27,40 @@ body {
 }
 
 .flex-box {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   margin: 1em 0;
 }
 
 .flex-digit {
-  min-width:  5em;
+  width:  5em;
   height: auto;
   text-align: center;
-  font-size: 11px;
+  font-size: 12px;
   padding: 6px;
+  font-family: Consolas, "Lucida Console", Monaco, monospace;
 }
 .flex-digit.invalid {
 }
 .flex-digit.valid {
 }
 .flex-digit.last {
-  width: 3em;
+  width: 2em;
   min-width: 3em;
 }
 
 .flex-separator {
-  width: 2em;
+  width: 1em;
   text-align: center;
   display: block;
 }
 
 .flex-button {
+}
+
+#errorMsg {
+  padding: .5em 1em;
 }
