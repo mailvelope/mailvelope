@@ -40,6 +40,7 @@ var mvelo = mvelo || null;
       $restoreBackupButton = $('#restoreBackupBtn');
 
       mvelo.l10n.getMessages([
+        'wrong_restore_code'
       ], function(result) {
         l10n = result;
       });
@@ -60,8 +61,12 @@ var mvelo = mvelo || null;
           if (val.length === maxlength) {
             $this
               .removeClass('invalid')
-              .addClass('valid')
-              .next('input').focus();
+              .addClass('valid');
+
+            var $next = $this.next().next();
+            if ($next) {
+              $next.focus();
+            }
           } else {
             $this
               .removeClass('valid')
@@ -73,6 +78,8 @@ var mvelo = mvelo || null;
           } else {
             $restoreBackupButton.attr('disabled', true);
           }
+
+          $('#errorMsg').empty().hide();
         })
         .on('blur', function() {
           if (isCodeValid()) {
@@ -80,6 +87,7 @@ var mvelo = mvelo || null;
           } else {
             $restoreBackupButton.attr('disabled', true);
           }
+          $('#errorMsg').empty().hide();
         });
 
       $restoreBackupButton.on('click', function() {
@@ -88,6 +96,8 @@ var mvelo = mvelo || null;
         $('.flex-digit').each(function(idx, ele) {
           code += $(ele).val();
         });
+
+        $('#errorMsg').empty().hide();
 
         port.postMessage({
           event: 'restore-backup-code',
@@ -112,6 +122,10 @@ var mvelo = mvelo || null;
     return valid;
   }
 
+  function showErrorMsg(msg) {
+    $('#errorMsg').html(msg).fadeIn();
+  }
+
   /**
    * Mananaged the different post messages
    * @param {string} msg
@@ -122,6 +136,12 @@ var mvelo = mvelo || null;
       case 'error-message':
         //TODO
         console.log('restoreBackupDialog error', msg.error);
+
+        switch (msg.error.code) {
+          case 'WRONG_RESTORE_CODE':
+            // Der Wiederherstellungscode ist nicht korrekt.
+            showErrorMsg(l10n.wrong_restore_code);
+        }
         break;
       default:
         console.log('unknown event');
