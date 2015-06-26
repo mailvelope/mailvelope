@@ -1,5 +1,15 @@
 #!/bin/bash
 
+if [ $TRAVIS_PULL_REQUEST == "false" ] && [ $TRAVIS_BRANCH == "dev" ]; then
+ grunt nightly
+else
+ grunt
+fi
+
+grunt dist-cr
+grunt dist-ff
+grunt dist-doc
+
 if [ $TRAVIS_BRANCH != "master" ] || [ $TRAVIS_SECURE_ENV_VARS != "true" ]; then
  echo "Not building on master branch or building a pull request -> not updating gh-pages";
  exit 0;

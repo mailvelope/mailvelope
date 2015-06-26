@@ -14,12 +14,7 @@ install:
 - cd ../../..
 - npm install
 - bower install
-- grunt
-script:
-- grunt dist-cr
-- grunt dist-ff
-- grunt dist-doc
-- npm run-script deploy-doc
+script: ./deploy-grunt.sh
 env:
   global:
   - GH_REF=github.com/mailvelope/mailvelope.git

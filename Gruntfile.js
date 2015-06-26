@@ -324,6 +324,14 @@ module.exports = function(grunt) {
           from: '# sourceMappingURL=bootstrap.css.map',
           to: ''
         }]
+      },
+      build_version: {
+        src: ['build/common/res/defaults.json'],
+        dest: ['build/common/res/defaults.json'],
+        replacements: [{
+          from: /("version"\s:\s"[\d\.]+)/,
+          to: '$1' + ' build: ' + (new Date()).toISOString().slice(0, 19)
+        }]
       }
     },
 
@@ -382,7 +390,10 @@ module.exports = function(grunt) {
   grunt.registerTask('dist-doc', ['jsdoc', 'compress:doc']);
   grunt.registerTask('start-ff-clean', ['mozilla-cfx:run_stable']);
 
-  grunt.registerTask('copy_default', ['copy:vendor', 'copy:common', 'replace:bootstrap', 'copy:plugins', 'copy:common_browser', 'copy:locale_firefox', 'copy:dep']);
+  grunt.registerTask('copy_common', ['copy:vendor', 'copy:common', 'replace:bootstrap']);
+  grunt.registerTask('final_assembly', ['copy:plugins', 'copy:common_browser', 'copy:locale_firefox', 'copy:dep']);
 
-  grunt.registerTask('default', ['clean', 'jshint', 'jscs', 'copy:jquery', 'concat', 'copy_default']);
+  grunt.registerTask('default', ['clean', 'jshint', 'jscs', 'copy:jquery', 'concat', 'copy_common', 'final_assembly']);
+  grunt.registerTask('nightly', ['clean', 'jshint', 'jscs', 'copy:jquery', 'concat', 'copy_common', 'replace:build_version', 'final_assembly']);
+
 };
