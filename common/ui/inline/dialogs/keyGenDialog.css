@@ -4,16 +4,51 @@
  */
 
 #key_gen_generator {
-  padding: 2em;
+  padding: 6px;
+  overflow: auto;
 }
 
 #key_gen_generator header {
   display: block;
 }
 
+#key_gen_generator p {
+  font-weight: bold;
+}
+
+#key_gen_generator .panel {
+  padding: 20px;
+}
+
+#key_gen_generator .form-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-top: 1em;
+}
+
+#key_gen_generator .form-row_label {
+  min-width: 9em;
+  margin-bottom: 0;
+  text-align: right;
+  font-weight: normal;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#key_gen_generator .form-row_content {
+  flex-grow: 1;
+  margin-left: 2em;
+}
+
 #key_gen_generator .label {
   display: inline-block;
   color: #fff;
+  white-space: inherit;
+  font-weight: normal;
+  text-align: left;
 }
 
 
