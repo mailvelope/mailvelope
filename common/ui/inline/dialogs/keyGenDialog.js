@@ -90,6 +90,12 @@ var mvelo = mvelo || null;
     var pwdVal = $pwdInput.val();
     checkConfirmInput();
 
+    if (pwdVal.length === 0) {
+      $pwdParent.removeClass('has-error has-success');
+      $pwdError.hide();
+      return true;
+    }
+
     if (pwdVal.length >= parseInt($pwdInput.data('lengthMin'))) {
       $pwdParent
         .removeClass('has-error')
@@ -114,6 +120,13 @@ var mvelo = mvelo || null;
    */
   function checkConfirmInput() {
     var confirmVal = $confirmInput.val();
+
+    if (confirmVal.length === 0) {
+      $confirmParent.removeClass('has-error has-success');
+      $confirmErrorNoEmpty.hide();
+      $confirmErrorNoEqual.hide();
+      return true;
+    }
 
     if (isInputChange) {
       logUserInput('security_log_password_input');

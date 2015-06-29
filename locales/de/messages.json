@@ -32,7 +32,7 @@
         "description": "Verfiy signature error. Wrong signature of [userid]."
     },
     "pwd_dialog_header": {
-        "message": "Schlüsselpasswort eingeben",
+        "message": "Schlüssel-Passwort eingeben",
         "description": "Header of the password dialog."
     },
     "waiting_dialog_prepare_email": {
