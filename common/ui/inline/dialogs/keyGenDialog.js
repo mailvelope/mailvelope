@@ -24,7 +24,6 @@ var mvelo = mvelo || null;
 
   var $secureBgndButton;
   var $pwdInput;
-  var $pwdError;
   var $pwdParent;
   var $confirmInput;
   var $confirmParent;
@@ -46,7 +45,6 @@ var mvelo = mvelo || null;
     mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/inline/dialogs/templates/keyGen.html')).then(function() {
       $secureBgndButton = $('.secureBgndSettingsBtn');
       $pwdInput = $('#keygen-password');
-      $pwdError = $pwdInput.next();
       $pwdParent = $('#pwd-form-group');
       $confirmInput = $('#password_confirm');
       $confirmParent = $('#confirm-form-group');
@@ -88,29 +86,22 @@ var mvelo = mvelo || null;
    */
   function checkPwdInput() {
     var pwdVal = $pwdInput.val();
-    checkConfirmInput();
 
     if (pwdVal.length === 0) {
       $pwdParent.removeClass('has-error has-success');
-      $pwdError.hide();
+      $confirmInput.prop('disabled', true);
       return true;
     }
+
+    checkConfirmInput();
 
     if (pwdVal.length >= parseInt($pwdInput.data('lengthMin'))) {
-      $pwdParent
-        .removeClass('has-error')
-        .addClass('has-success');
-      $pwdError.fadeOut();
-
-      $confirmInput
-        .prop('disabled', false);
+      $pwdParent.addClass('has-success');
+      $confirmInput.prop('disabled', false);
       return true;
     }
-    $pwdParent
-      .addClass('has-error')
-      .removeClass('has-success');
-    $pwdError.fadeIn();
-    $confirmInput.prop('disabled', true);
+
+    $pwdParent.addClass('has-error');
     return false;
   }
 
