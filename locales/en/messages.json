@@ -955,10 +955,6 @@
     "message": "min 4 characters",
     "description": ""
   },
-  "keygen_dialog_password_error": {
-    "message": "Password must have at least 4 characters.",
-    "description": ""
-  },
   "keygen_dialog_confirm": {
     "message": "Repeat",
     "description": ""

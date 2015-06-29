@@ -13,6 +13,10 @@
   display: block;
 }
 
+#key_backup_generator .panel {
+  padding: 20px;
+}
+
 #key_backup_generator h1 {
   font-size: 16px;
   line-height: 19px;

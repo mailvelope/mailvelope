@@ -591,10 +591,6 @@
         "message": "Leeren",
         "description": "Clear form button."
     },
-    "keygen_dialog_password_error": {
-        "message": "Passwort muss mindestens aus 4 Zeichen bestehen.",
-        "description": ""
-    },
     "key_gen_another": {
         "message": "Einen anderen erstellen …",
         "description": "Key import button"
