@@ -92,8 +92,7 @@ mvelo.domAPI.optionsTypes = {
   quotedMail: 'string',
   quotedMailIndent: 'boolean',
   quotedMailHeader: 'string',
-  email: 'string',
-  fullName: 'string',
+  userIds: 'array',
   keySize: 'number',
   initialSetup: 'boolean'
 };

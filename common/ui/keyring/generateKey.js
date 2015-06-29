@@ -155,8 +155,10 @@ var options = options || null;
     var parameters = {};
     parameters.algorithm = $('#genKeyAlgo').val();
     parameters.numBits = $('#genKeySize').val();
-    parameters.user = $('#genKeyName').val();
-    parameters.email = $('#genKeyEmail').val();
+    parameters.userIds = [{
+      fullName: $('#genKeyName').val(),
+      email: $('#genKeyEmail').val()
+    }];
     parameters.passphrase = $('#genKeyPwd').val();
     options.keyring('generateKey', [parameters])
       .then(function(result) {

@@ -45,8 +45,7 @@ define(function(require, exports, module) {
       return;
     }
     this.keyring.getById(this.keyringId).generateKey({
-      email: options.email,
-      user: options.fullName,
+      userIds: options.userIds,
       numBits: options.keySize,
       passphrase: password
     }, function(err, data) {

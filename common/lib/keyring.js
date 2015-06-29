@@ -628,8 +628,10 @@ define(function(require, exports, module) {
 
   Keyring.prototype.generateKey = function(options, callback) {
     var that = this;
-    var emailAdr = new goog.format.EmailAddress(options.email, options.user);
-    openpgp.generateKeyPair({numBits: parseInt(options.numBits), userId: emailAdr.toString(), passphrase: options.passphrase}).then(function(data) {
+    options.userIds = options.userIds.map(function(userId) {
+      return (new goog.format.EmailAddress(userId.email, userId.fullName)).toString();
+    });
+    openpgp.generateKeyPair({numBits: parseInt(options.numBits), userId: options.userIds, passphrase: options.passphrase}).then(function(data) {
       if (data) {
         that.keyring.privateKeys.push(data.key);
         that.keyring.store();
