@@ -270,9 +270,14 @@
   };
 
   /**
-   * @typedef {Object} KeyGenContainerOptions
+   * @typedef {Object} UserId
    * @property {string} email - the email address of the current user
    * @property {string} fullName - the full name of the current user
+   */
+
+  /**
+   * @typedef {Object} KeyGenContainerOptions
+   * @property {Array.<UserId>} userIds - array of user IDs. The first entry in the array is set as the primary user ID.
    * @property {number} keySize - key size in bit, optional, default: 2048, valid values: 2048, 4096.
    */
 
