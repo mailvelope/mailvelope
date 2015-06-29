@@ -1011,6 +1011,14 @@
       "message": "Wiederherstellungsbeleg erstellen",
       "description": ""
     },
+    "keybackup_waiting_headline": {
+      "message": "Sicherung wird eingerichtet!",
+      "description": ""
+    },
+    "keybackup_waiting_description": {
+      "message": "Ein Dokument mit ihrem Wiederherstellungscode wird vorbereitet",
+      "description": ""
+    },
     "restore_backup_dialog_headline": {
         "message": "Wiederherstellungscode:",
         "description": ""
