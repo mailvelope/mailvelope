@@ -211,6 +211,27 @@ mvelo.util.html2text = function(html) {
   return mvelo.util.decodeHTML(html);
 };
 
+mvelo.util.ab2str = function(buf) {
+  var str = '';
+  var ab = new Uint8Array(buf);
+  var CHUNK_SIZE = Math.pow(2, 16);
+  var offset, len, subab;
+  for (offset = 0; offset < ab.length; offset += CHUNK_SIZE) {
+    len = Math.min(CHUNK_SIZE, ab.length - offset);
+    subab = ab.subarray(offset, offset + len);
+    str += String.fromCharCode.apply(null, subab);
+  }
+  return str;
+};
+
+mvelo.util.str2ab = function(str) {
+  var bufView = new Uint8Array(str.length);
+  for (var i = 0; i < str.length; i++) {
+    bufView[i] = str.charCodeAt(i);
+  }
+  return bufView.buffer;
+};
+
 mvelo.util.getExtensionClass = function(fileExt) {
   var extClass = '';
   if (fileExt !== undefined) {

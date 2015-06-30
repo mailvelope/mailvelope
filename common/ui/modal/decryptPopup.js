@@ -165,12 +165,8 @@ var mvelo = mvelo || null;
 
     var objectURL = "#";
 
-    var contentLength = Object.keys(content).length;
-    var uint8Array = new Uint8Array(contentLength);
-    for (var i = 0; i < contentLength; i++) {
-      uint8Array[i] = content[i];
-    }
-    var blob = new Blob([uint8Array], { type: mimeType });
+    content = mvelo.util.str2ab(content);
+    var blob = new Blob([content], { type: mimeType });
     objectURL = window.URL.createObjectURL(blob);
 
     var $fileName = $('<span/>', {
