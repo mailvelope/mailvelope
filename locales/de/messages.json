@@ -1019,6 +1019,14 @@
       "message": "Ein Dokument mit ihrem Wiederherstellungscode wird vorbereitet",
       "description": ""
     },
+    "editor_error_header": {
+      "message": "Fehler Überschrift",
+      "description": ""
+    },
+    "editor_error_content": {
+      "message": "Fehler Inhalt",
+      "description": ""
+    },
     "restore_backup_dialog_headline": {
         "message": "Wiederherstellungscode:",
         "description": ""

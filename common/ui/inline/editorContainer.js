@@ -107,9 +107,6 @@ mvelo.EditorContainer.prototype.registerEventListener = function() {
         that.encryptCallback(null, msg.message);
         that.encryptCallback = null;
         break;
-      case 'send-error':
-        console.log('editorContainer send-error', msg.error);
-        break;
       default:
         console.log('unknown event', msg);
     }

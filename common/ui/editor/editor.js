@@ -503,19 +503,9 @@ var mvelo = mvelo || null;
 
   function showErrorModal(error) {
 
-    var title = '',
-      content = '',
-      $errorModal = $('#errorModal');
-
-    switch (error.code) {
-      case 'NO_KEY_FOUND_FOR_ENCRYPTION':
-        title = l10n.editor_error_header;
-        content = error.message;
-        break;
-      default:
-        title = l10n.editor_error_header;
-        content = l10n.editor_error_content;
-    }
+    var title = l10n.editor_error_header;
+    var content = error.message;
+    var $errorModal = $('#errorModal');
 
     $('.modal-body', $errorModal).empty().append(content);
     $('.modal-title', $errorModal).empty().append(title);
@@ -575,7 +565,11 @@ var mvelo = mvelo || null;
         break;
       case 'decrypt-failed':
         $('#waitingModal .modal-title').show();
-        $('.text-center').addClass('alert alert-danger').text(l10n.waiting_dialog_decryption_failed);
+        if (msg.error) {
+          $('.text-center').addClass('alert alert-danger').text(msg.error.message);
+        } else {
+          $('.text-center').addClass('alert alert-danger').text(l10n.waiting_dialog_decryption_failed);
+        }
         $('#waitingModal .m-spinner').hide();
         $('#waitingModal .btn-primary').show();
         $('#waitingModal').modal("show");
@@ -612,8 +606,7 @@ var mvelo = mvelo || null;
         $('#signBtn, #encryptBtn').hide();
         $('#transferBtn').show();
         break;
-      case 'send-error':
-        console.log('editor.js send-error', msg.error);
+      case 'error-message':
         showErrorModal(msg.error);
         break;
       default:

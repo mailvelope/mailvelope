@@ -1024,23 +1024,23 @@
     "description": "Caption digital signature"
   },
   "editor_sign_caption_long": {
-    "message": "Email is digitally signed",
+    "message": "Email will be digitally signed",
     "description": "Caption digital signature"
   },
   "editor_no_sign_caption_short": {
-    "message": "Email isn´t digitally signed",
+    "message": "Email is not digitally signed",
     "description": "Caption digital signature"
   },
   "editor_no_sign_caption_long": {
-    "message": "Email isn´t digitally signed",
+    "message": "Email won't be digitally signed",
     "description": "Caption digital signature"
   },
   "editor_no_primary_key_caption_short": {
-    "message": "Email can´t digitally signed",
+    "message": "Email cannot be digitally signed",
     "description": "Caption digital signature"
   },
   "editor_no_primary_key_caption_long": {
-    "message": "Email can´t digitally signed because the primary key fail",
+    "message": "Email cannot be digitally signed because the primary key is missing",
     "description": "Caption digital signature"
   },
   "editor_error_header": {

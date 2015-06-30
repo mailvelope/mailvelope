@@ -19,7 +19,6 @@ body {
   right: 10px;
   margin: 0;
   background: #ffffff none !important;
-  border: 1px solid #999;
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 6px;
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
@@ -75,13 +74,9 @@ body {
   float: right;
   padding: 4px 14px;
   margin-bottom: 0;
-  -webkit-border-radius: 15px;
-     -moz-border-radius: 15px;
-          border-radius: 15px;
+  border-radius: 15px;
   border: 1px solid #cccccc;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   font-weight: bold;
   font-family: monospace;
   font-size: 14px;
@@ -146,8 +141,7 @@ body {
 }
 
 #flex-container {
-  display: -webkit-flex;
-  display:         flex;
+  display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
@@ -162,27 +156,22 @@ body {
 
 #flex-container #header {
   width: 100%;
-  -webkit-order: 0;
-          order: 0;
-  display: -webkit-flex;
-  display:         flex;
+  order: 0;
+  display: flex;
   justify-content: space-between
 }
 
 #flex-container #header #uploadPanel {
-  -webkit-order: 1;
-          order: 1;
+  order: 1;
 }
 #flex-container #header #buttonBar {
-  -webkit-order: 2;
-          order: 2;
+  order: 2;
 }
 
 #flex-container #body {
   width: 100%;
   position: relative;
-  -webkit-order: 0;
-          order: 0;
+  order: 0;
   flex: 1 0 auto;
   align-self: center;
 }
@@ -190,8 +179,7 @@ body {
 #flex-container #footer {
   width: 100%;
   padding-top: 4px;
-  -webkit-order: 0;
-          order: 0;
+  order: 0;
   flex: 0 1 40px;
   align-self: auto;
 }

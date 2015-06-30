@@ -183,9 +183,9 @@ define(function(require, exports, module) {
             this.model.signAndEncryptMessage(data, this.keyringId, this.keyidBuffer, function(err, msg) {
               var port = that.ports.editorCont || that.ports.editor;
               if (err) {
-                that.ports.editor.postMessage({event: 'send-error', error: err});
+                that.ports.editor.postMessage({event: 'error-message', error: err});
                 if (that.ports.editorCont) {
-                  port.postMessage({event: 'send-error', error: err});
+                  port.postMessage({event: 'error-message', error: err});
                 }
               } else {
                 port.postMessage({event: 'encrypted-message', message: msg});
@@ -195,9 +195,9 @@ define(function(require, exports, module) {
             this.model.encryptMessage(data, this.keyringId, this.keyidBuffer, function(err, msg) {
               var port = that.ports.editorCont || that.ports.editor;
               if (err) {
-                that.ports.editor.postMessage({event: 'send-error', error: err});
+                that.ports.editor.postMessage({event: 'error-message', error: err});
                 if (that.ports.editorCont) {
-                  port.postMessage({event: 'send-error', error: err});
+                  port.postMessage({event: 'error-message', error: err});
                 }
               } else {
                 port.postMessage({event: 'encrypted-message', message: msg});
@@ -291,7 +291,9 @@ define(function(require, exports, module) {
             if (that.options.quotedMailHeader) {
               msg = '> ' + that.options.quotedMailHeader + '\n' + msg;
             }
-            msg = '\n\n' + msg;
+            if (that.options.quotedMailIndent || that.options.quotedMailHeader) {
+              msg = '\n\n' + msg;
+            }
             if (that.options.predefinedText) {
               msg = msg + '\n\n' + that.options.predefinedText;
             }
@@ -309,7 +311,7 @@ define(function(require, exports, module) {
         that.ports.editor.postMessage({event: 'decrypt-end'});
       })
       .catch(function(error) {
-        that.ports.editor.postMessage({event: 'decrypt-failed'});
+        that.ports.editor.postMessage({event: 'decrypt-failed', error: error});
       });
   };
 
