@@ -115,6 +115,7 @@
     padding: 5px 10px;
     font-size: 30px;
     text-align: center;
+    font-family: Consolas, "Lucida Console", Monaco, monospace;
 }
 
 .recovery-sheet_code-separator {
