@@ -89,10 +89,6 @@ mvelo.appendTpl = function($element, path) {
   }
 };
 
-mvelo.getFirefoxVersion = function() {
-  return parseInt(navigator.userAgent.substring(navigator.userAgent.indexOf('Firefox/') + 8, navigator.userAgent.length));
-};
-
 mvelo.extension = mvelo.extension || mvelo.crx && chrome.runtime;
 // extension.connect shim for Firefox
 if (mvelo.ffa && mvelo.extension) {
