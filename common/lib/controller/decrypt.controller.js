@@ -240,6 +240,7 @@ define(function(require, exports, module) {
           that.filterBodyParts(parsed, 'attachment', attachmentParts);
           attachmentParts.forEach(function(part) {
             part.filename = that.mvelo.util.encodeHTML(part.filename);
+            part.content = that.mvelo.util.ab2str(part.content.buffer);
             if (that.mvelo.ffa) {
               part.attachmentId = (new Date()).getTime();
               that.attachments[part.attachmentId] = [part.filename, part.content];
