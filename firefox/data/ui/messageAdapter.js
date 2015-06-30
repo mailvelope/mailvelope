@@ -21,11 +21,7 @@ var mvelo = mvelo || {};
 
 // expose mvelo.extension to page script
 if (self.options.expose_messaging) {
-  if (self.options.browser_version >= 33) {
-    mvelo = createObjectIn(unsafeWindow, {defineAs: "mvelo"});
-  } else {
-    window.unsafeWindow.mvelo = mvelo;
-  }
+  mvelo = createObjectIn(unsafeWindow, {defineAs: "mvelo"});
 }
 
 (function() {
@@ -128,7 +124,7 @@ if (self.options.expose_messaging) {
     }, callback);
   }
 
-  if (self.options.expose_messaging && self.options.browser_version >= 33) {
+  if (self.options.expose_messaging) {
     mvelo.extension = cloneInto(extension, mvelo);
     exportFunction(sendMessage, mvelo.extension, {defineAs: "sendMessage", allowCallbacks: true});
     exportFunction(addListener, mvelo.extension.onMessage, {defineAs: "addListener", allowCallbacks: true});

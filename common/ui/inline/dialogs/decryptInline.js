@@ -194,13 +194,6 @@ var mvelo = mvelo || null;
         .append($extensionButton)
         .append($fileName);
 
-    if (mvelo.ffa && mvelo.getFirefoxVersion() < 36) {
-      $fileUI.on("click", function(e) {
-        e.preventDefault();
-        port.postMessage({event: 'get-attachment', sender: name, attachmentId: attachmentId});
-      });
-    }
-
     $fileUI.on("click", function() {
       logUserInput('security_log_attachment_download');
     });

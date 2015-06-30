@@ -28,7 +28,6 @@ define(function(require, exports, module) {
     this.pwdCache = require('../pwdCache');
     this.decryptPopup = null;
     this.mailreader = require('mailreader-parser');
-    this.attachments = {};
   }
 
   DecryptController.prototype = Object.create(sub.SubController.prototype);
@@ -74,13 +73,6 @@ define(function(require, exports, module) {
         break;
       case 'set-armored':
         this.decrypt(msg.data, msg.keyringId || this.mvelo.LOCAL_KEYRING_ID);
-        break;
-      case 'get-attachment':
-        if (this.mvelo.ffa) {
-          var attachmentId = msg.attachmentId;
-          var attachment = that.attachments[attachmentId];
-          this.mvelo.util.saveAsAttachment(attachment[0], attachment[1]);
-        }
         break;
       case 'decrypt-inline-user-input':
         uiLog.push(msg.source, msg.type);
@@ -241,10 +233,6 @@ define(function(require, exports, module) {
           attachmentParts.forEach(function(part) {
             part.filename = that.mvelo.util.encodeHTML(part.filename);
             part.content = that.mvelo.util.ab2str(part.content.buffer);
-            if (that.mvelo.ffa) {
-              part.attachmentId = (new Date()).getTime();
-              that.attachments[part.attachmentId] = [part.filename, part.content];
-            }
             handlers.onAttachment(part);
           });
         } else {

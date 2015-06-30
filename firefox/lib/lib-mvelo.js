@@ -28,7 +28,6 @@ var url = require('sdk/url');
 var l10nGet = require('sdk/l10n').get;
 
 var mvelo = require('./common/mvelo').mvelo;
-var attachments = require('./attachments');
 var CWorker = require('web-worker').Worker;
 
 mvelo.ffa = true;
@@ -245,10 +244,6 @@ mvelo.util.getHost = function(source) {
 
 mvelo.util.getDOMWindow = function() {
   return addonWindow.window;
-};
-
-mvelo.util.saveAsAttachment = function(filename, content) {
-  attachments.saveAs(filename, content);
 };
 
 mvelo.util.getWorker = function() {

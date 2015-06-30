@@ -24,7 +24,6 @@ var pageMod = require('sdk/page-mod');
 var tabs = require('sdk/tabs');
 var unload = require('sdk/system/unload');
 var l10nGet = require("sdk/l10n").get;
-var browserVersion = parseInt(system.version.substr(0, 2));
 
 var ToggleButton = require("sdk/ui/button/toggle").ToggleButton;
 var Panel = require('sdk/panel').Panel;
@@ -266,8 +265,7 @@ function injectMessageAdapter() {
     contentScriptWhen: 'start',
     contentScriptOptions: {
       expose_messaging: true,
-      data_path: data.url(),
-      browser_version: browserVersion
+      data_path: data.url()
     }
   });
 }
