@@ -61,7 +61,7 @@ var QRCode = QRCode || null;
   function setBackupCode(backupCode) {
     var length = 5, splitCode = '';
     $('.recovery-sheet_code-digit').each(function(index) {
-      splitCode = backupCode.slice(length * index, (length * index) + length - 1);
+      splitCode = backupCode.slice(length * index, (length * index) + length);
       $(this).text(splitCode);
     });
     $('.recovery-sheet_code-container').addClass('secureBackground');
