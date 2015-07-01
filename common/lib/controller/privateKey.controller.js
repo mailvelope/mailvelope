@@ -34,6 +34,7 @@ define(function(require, exports, module) {
     this.keyBackup = null;
     this.pwdControl = null;
     this.initialSetup = true;
+    this.restorePassword = false;
   }
 
   PrivateKeyController.prototype = Object.create(sub.SubController.prototype);
@@ -114,6 +115,7 @@ define(function(require, exports, module) {
             return;
           }
         }
+        that.ports.restoreBackupDialog.postMessage({event: 'set-password', password: backup.password});
         that.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', data: backup.key.toPublic().armor()});
       })
       .catch(function(err) {
@@ -141,7 +143,8 @@ define(function(require, exports, module) {
     switch (msg.event) {
       case 'set-init-data':
         var data = msg.data;
-        this.keyringId = data.keyringId;
+        this.keyringId = data.keyringId || this.keyringId;
+        this.restorePassword = data.restorePassword || this.restorePassword;
         break;
       case 'keygen-user-input':
         uiLog.push(msg.source, msg.type);

@@ -286,7 +286,7 @@ define(function(require, exports, module) {
       // remove literal data packet
       var keyPackets = message.packets.slice(1);
       var privKey =  new openpgp.key.Key(keyPackets);
-      return { key: privKey };
+      return { key: privKey, password: pwd };
     } catch (e) {
       return { error: e.message };
     }

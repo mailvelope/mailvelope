@@ -1024,7 +1024,7 @@
       "description": ""
     },
     "restore_backup_dialog_headline": {
-        "message": "Wiederherstellungscode:",
+        "message": "Wiederherstellungscode eingeben:",
         "description": ""
     },
     "restore_backup_dialog_button": {
@@ -1057,6 +1057,14 @@
     },
     "editor_no_primary_key_caption_long": {
         "message": "Die Email kann nicht digital unterschrieben werden, da der Primärschlüssel fehlt.",
+        "description": ""
+    },
+    "restore_password_dialog_headline": {
+        "message": "Ihr Schlüssel-Passwort:",
+        "description": ""
+    },
+    "restore_password_dialog_button": {
+        "message": "Anzeigen",
         "description": ""
     },
     "keygen_waiting_headline": {

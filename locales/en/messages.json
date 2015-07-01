@@ -1048,7 +1048,7 @@
     "description": ""
   },
   "restore_backup_dialog_headline": {
-    "message": "Restore code:",
+    "message": "Enter restore code:",
     "description": ""
   },
   "restore_backup_dialog_button": {
@@ -1065,6 +1065,14 @@
   },
   "keygen_waiting_description": {
     "message": "Please be patient",
+    "description": ""
+  },
+  "restore_password_dialog_headline": {
+    "message": "Your key password:",
+    "description": ""
+  },
+  "restore_password_dialog_button": {
+    "message": "Show",
     "description": ""
   }
 }

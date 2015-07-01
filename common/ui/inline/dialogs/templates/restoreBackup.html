@@ -4,10 +4,10 @@
       <button class="btn btn-link secureBgndSettingsBtn" data-l10n-title-id="security_background_button_title"><span class="glyphicon lockBtnIcon"></span></button>
     </div>
   </header>
-  <section class="well form-horizontal" role="main">
+  <section id="restoreBackupPanel" class="panel panel-default" role="main">
     <h3 data-l10n-id="restore_backup_dialog_headline"></h3>
     <section class="flex-box">
-      <input type="text" class="form-control form- flex-digit" maxlength="5" autofocus>
+      <input type="text" class="form-control flex-digit" maxlength="5" autofocus>
       <span class="flex-separator"> – </span>
       <input type="text" class="form-control flex-digit" maxlength="5">
       <span class="flex-separator"> – </span>
@@ -27,5 +27,14 @@
       <button id="restoreBackupBtn" class="btn btn-primary flex-button" disabled data-l10n-id="restore_backup_dialog_button"></button>
       </div>
     </footer>
+  </section>
+  <section id="restorePasswordPanel" class="panel panel-default" role="main">
+    <h3 data-l10n-id="restore_password_dialog_headline">Ihr Schlüssel-Passwort:</h3>
+    <section class="flex-box">
+      <div class="flex-row-content">
+        <input type="password" class="form-control" id="restorePasswordInput" readonly>
+      </div>
+      <button id="restorePasswordBtn" class="btn btn-primary flex-button" data-l10n-id="restore_password_dialog_button">anzeigen</button>
+    </section>
   </section>
 </section>

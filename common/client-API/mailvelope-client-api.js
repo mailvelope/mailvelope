@@ -315,6 +315,7 @@
 
   /**
    * @typedef {Object} PrivateKeyContainerOptions
+   * @property {boolean} restorePassword
    */
 
   /**
@@ -388,6 +389,7 @@
   };
 
   /**
+   * Not accessible, instance can be obtained using {@link Keyring#createKeyBackupContainer}
    * @private
    * @param {string} popupId
    * @alis Popup
