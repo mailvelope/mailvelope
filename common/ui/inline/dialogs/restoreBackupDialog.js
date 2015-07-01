@@ -23,7 +23,11 @@ var mvelo = mvelo || null;
   var id, name, port, l10n, isInputChange;
 
   var $secureBgndButton;
+  var $restoreBackupPanel;
   var $restoreBackupButton;
+  var $restorePasswordButton;
+  var $restorePasswordPanel;
+  var $restorePasswordInput;
 
   function init() {
     var qs = jQuery.parseQuerystring();
@@ -37,7 +41,11 @@ var mvelo = mvelo || null;
 
     mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/inline/dialogs/templates/restoreBackup.html')).then(function() {
       $secureBgndButton = $('.secureBgndSettingsBtn');
+      $restoreBackupPanel = $('#restoreBackupPanel');
       $restoreBackupButton = $('#restoreBackupBtn');
+      $restorePasswordButton = $('#restorePasswordBtn');
+      $restorePasswordInput = $('#restorePasswordInput');
+      $restorePasswordPanel = $('#restorePasswordPanel').hide();
 
       mvelo.l10n.getMessages([
         'wrong_restore_code'
@@ -106,6 +114,17 @@ var mvelo = mvelo || null;
         });
       });
 
+      $restorePasswordButton.on('click', function() {
+        $restorePasswordInput.attr('type', 'text');
+
+        $(this).attr('disabled', true);
+
+        setTimeout(function() {
+          $restorePasswordInput.attr('type', 'password');
+          $restorePasswordButton.removeAttr('disabled');
+        }, 5000);
+      });
+
       port.postMessage({ event: 'restore-backup-dialog-init', sender: name });
 
       isInputChange = true;
@@ -126,6 +145,15 @@ var mvelo = mvelo || null;
     $('#errorMsg').html(msg).fadeIn();
   }
 
+  function showPassword(pwd) {
+    console.log('restoreBackupDialog showPassword()', pwd);
+    $restorePasswordInput.val(pwd);
+
+    $restoreBackupPanel.fadeOut('fast', function() {
+      $restorePasswordPanel.fadeIn('fast');
+    });
+  }
+
   /**
    * Mananaged the different post messages
    * @param {string} msg
@@ -142,6 +170,10 @@ var mvelo = mvelo || null;
             // Der Wiederherstellungscode ist nicht korrekt.
             showErrorMsg(l10n.wrong_restore_code);
         }
+        break;
+      case 'set-password':
+        //console.log('restoreBackupDialog show-password', msg);
+        showPassword(msg.password);
         break;
       default:
         console.log('unknown event');

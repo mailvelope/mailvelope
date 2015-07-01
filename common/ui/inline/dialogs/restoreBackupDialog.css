@@ -64,3 +64,25 @@ body {
 #errorMsg {
   padding: .5em 1em;
 }
+
+.panel {
+  padding: 20px;
+}
+
+#restorePasswordPanel .flex-box {
+  display: flex;
+  margin-top: 20px;
+}
+
+#restorePasswordPanel .flex-row-content {
+  margin-right: 20px;
+  flex-grow: 1;
+}
+
+#restorePasswordInput {
+  font-family: Consolas, "Lucida Console", Monaco, monospace;
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */
+}

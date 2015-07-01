@@ -101,7 +101,8 @@ mvelo.domAPI.optionsTypes = {
   quotedMailHeader: 'string',
   userIds: 'array',
   keySize: 'number',
-  initialSetup: 'boolean'
+  initialSetup: 'boolean',
+  restorePassword: 'boolean'
 };
 
 mvelo.domAPI.checkTypes = function(data) {
