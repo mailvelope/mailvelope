@@ -76,7 +76,7 @@ mvelo.RestoreBackupContainer.prototype.create = function(done) {
 };
 
 mvelo.RestoreBackupContainer.prototype.restoreBackupReady = function(done) {
-  console.log('mvelo.RestoreBackupContainer.prototype.restoreBackupReady()');
+  //console.log('mvelo.RestoreBackupContainer.prototype.restoreBackupReady()');
   this.restoreDone = done;
   return this;
 };

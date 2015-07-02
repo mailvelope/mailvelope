@@ -340,15 +340,34 @@
   };
 
   /**
-   * @typedef {Object} SyncHandlerObject
-   * @function uploadSync
-   * @function downloadSync
-   * @function backup
-   * @function restore
+   * @typedef {Function} UploadSyncHandler
    */
 
   /**
-   * add various function to sync keyring
+   * @typedef {Function} DownloadSyncHandler
+   */
+
+  /**
+   * @typedef {Function} BackupSyncHandler
+   * @param {AsciiArmored} - encrypted key backup as PGP armored message
+   * @returns {Promise.<undefined, Error>}
+   */
+
+  /**
+   * @typedef {Function} RestoreSyncHandler
+   * @returns {Promise.<Object, Error>} - the promise returns an object with the attribute 'backup' containing the ASCII armored key backup
+   */
+
+  /**
+   * @typedef {Object} SyncHandlerObject
+   * @property {UploadSyncHandler} uploadSync - function called by Mailvelope to upload encrypted private key backup
+   * @property {DownloadSyncHandler} downloadSync - function called by Mailvelope to download encrypted private key backup
+   * @property {BackupSyncHandler} backup - function called by Mailvelope to upload a public keyring backup
+   * @property {RestoreSyncHandler} restore - function called by Mailvelope to restore a public keyring backup
+   */
+
+  /**
+   * Add various functions for keyring synchronization
    * @param {SyncHandlerObject} syncHandlerObj
    * @returns {Promise.<undefined, Error>}
    */
@@ -398,7 +417,7 @@
 
   /**
    * Generate a private key
-   * @returns {Promise.<AsciiArmored, Error>} - the newly generated public key
+   * @returns {Promise.<AsciiArmored, Error>} - the newly generated key (public part)
    * @throws {Error}
    */
   Generator.prototype.generate = function() {
@@ -417,15 +436,11 @@
   };
 
   /**
-   * @returns {Promise.<AsciiArmored, Error>}
+   * @returns {Promise.<AsciiArmored, Error>} - the restored key (public part)
    * @throws {Error}
    */
   RestoreBackup.prototype.isReady = function() {
-    //console.log('RestoreBackup.prototype.isReady()');
-    return postMessage('restore-backup-isready', {restoreId: this.restoreId}).then(function(result) {
-      //console.log('postMessage(restore-backup-isready)', result);
-      return result;
-    });
+    return postMessage('restore-backup-isready', {restoreId: this.restoreId});
   };
 
   /**
@@ -461,6 +476,36 @@
     this.callbacks = callbacks;
   };
 
+  function handleSyncEvent(msg) {
+    var handler = null;
+    switch (msg.data.type) {
+      case 'upload':
+        handler = syncHandler.callbacks.uploadSync;
+        break;
+      case 'download':
+        handler = syncHandler.callbacks.downloadSync;
+        break;
+      case 'backup':
+        handler = syncHandler.callbacks.backup;
+        break;
+      case 'restore':
+        handler = syncHandler.callbacks.restore;
+        break;
+      default:
+        console.log('mailvelope-client-api unknown sync event', msg.type);
+    }
+    handler(msg.data.data)
+      .then(function(result) {
+        postMessage('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: msg.data.type, syncData: result});
+      })
+      .catch(function(error) {
+        if (error instanceof Error || typeof error === 'string') {
+          error = { message: error.message || '' + error };
+        }
+        postMessage('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: msg.data.type, error: error});
+      });
+  }
+
   function eventListener(event) {
     if (event.origin !== window.location.origin ||
         event.data.mvelo_client ||
@@ -469,45 +514,8 @@
     }
     //console.log('clientAPI eventListener', event.data);
     switch (event.data.event) {
-      case 'sync-upload':
-        syncHandler.callbacks.uploadSync(event.data)
-          .then(function(result) {
-            //console.log('callbacks.syncHandler.uploadSync() success', result);
-            return postMessage('sync-handler-upload-done', {syncHandlerId: syncHandler.syncHandlerId, downloadBackup: result});
-          })
-          .catch(function(error) {
-            console.log('callbacks.syncHandler.uploadSync() error', error);
-          });
-        break;
-      case 'sync-download':
-        syncHandler.callbacks.downloadSync(event.data)
-          .then(function(result) {
-            //console.log('callbacks.syncHandler.downloadSync() success', result);
-            return postMessage('sync-handler-download-done', {syncHandlerId: syncHandler.syncHandlerId, downloadBackup: result});
-          })
-          .catch(function(error) {
-            console.log('callbacks.syncHandler.downloadSync() error', error);
-          });
-        break;
-      case 'sync-backup':
-        syncHandler.callbacks.backup(event.data)
-          .then(function(result) {
-            //console.log('callbacks.syncHandler.backup() success', result);
-            return postMessage('sync-handler-backup-done', {syncHandlerId: syncHandler.syncHandlerId, backup: result});
-          })
-          .catch(function(error) {
-            console.log('callbacks.syncHandler.backup() error', error);
-          });
-        break;
-      case 'sync-restore':
-        syncHandler.callbacks.restore()
-          .then(function(result) {
-            //console.log('callbacks.syncHandler.restore() success', result);
-            return postMessage('sync-handler-restore-done', {syncHandlerId: syncHandler.syncHandlerId, restoreBackup: result});
-          })
-          .catch(function(error) {
-            console.log('callbacks.syncHandler.restore() error', error);
-          });
+      case 'sync-event':
+        handleSyncEvent(event.data);
         break;
       case 'callback-reply':
         var error;
@@ -517,9 +525,7 @@
         }
         callbacks[event.data.id](error, event.data.data);
         delete callbacks[event.data.id];
-
         break;
-
       default:
         console.log('mailvelope-client-api unknown event', event.data.event);
     }

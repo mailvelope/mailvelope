@@ -181,10 +181,6 @@ define(function(require, exports, module) {
     return activeKeyringId;
   }
 
-  function getControllers() {
-    return controllers;
-  }
-
   exports.SubController = SubController;
   exports.addPort = addPort;
   exports.removePort = removePort;
@@ -192,7 +188,6 @@ define(function(require, exports, module) {
   exports.factory = factory;
   exports.getByID = getByID;
   exports.getByMainType = getByMainType;
-  exports.getControllers = getControllers;
   exports.isActive = isActive;
   exports.setActiveKeyringId = setActiveKeyringId;
   exports.getActiveKeyringId = getActiveKeyringId;

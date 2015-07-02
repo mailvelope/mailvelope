@@ -29,7 +29,7 @@ define(function(require, exports, module) {
     }
 
     this.keyringId = null;
-    this.restoreDone = null;
+    this.syncDoneHandler = {};
   }
 
   SyncController.prototype = Object.create(sub.SubController.prototype);
@@ -38,43 +38,53 @@ define(function(require, exports, module) {
     this.keyringId = keyringId;
   };
 
-  SyncController.prototype.upload = function(uploadObj) {
-    this.ports.syncHandler.postMessage({
-      event: 'keyring-upload',
-      syncObj: uploadObj
+  SyncController.prototype.sync = function(type, data) {
+    var that = this;
+    return new Promise(function(resolve, reject) {
+      that.ports.syncHandler.postMessage({
+        event: 'sync-event',
+        type: type,
+        data: data
+      });
+      that.syncDoneHandler[type] = function(err, data) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      };
     });
+  };
+
+  SyncController.prototype.syncDone = function(data) {
+    this.syncDoneHandler[data.syncType](data.error, data.syncData);
+    delete this.syncDoneHandler[data.syncType];
+  };
+
+  SyncController.prototype.upload = function(uploadObj) {
+    return this.sync('upload', uploadObj);
   };
 
   SyncController.prototype.download = function(downloadObj) {
-    this.ports.syncHandler.postMessage({
-      event: 'keyring-download',
-      syncObj: downloadObj
-    });
+    return this.sync('download', downloadObj);
   };
 
   SyncController.prototype.backup = function(backupObj) {
-    this.ports.syncHandler.postMessage({
-      event: 'keyring-backup',
-      syncObj: backupObj
-    });
+    return this.sync('backup', backupObj);
   };
 
-  SyncController.prototype.restore = function(done) {
-    //console.log('SyncController.prototype.restore()');
-
-    this.restoreDone = done;
-    this.ports.syncHandler.postMessage({event: 'sync-restore'});
+  SyncController.prototype.restore = function() {
+    return this.sync('restore');
   };
 
   SyncController.prototype.handlePortMessage = function(msg) {
-    //console.log('pwd.controller handlePortMessage msg', msg);
+    //console.log('sync.controller handlePortMessage msg', msg);
     switch (msg.event) {
       case 'init':
         this.init(msg.keyringId);
         break;
-      case 'restore-done':
-        //console.log('SyncController.prototype.handlePortMessage(restore-done)', msg);
-        this.restoreDone(msg.restoreBackup);
+      case 'sync-done':
+        this.syncDone(msg.data);
         break;
       default:
         console.log('unknown event', msg);
