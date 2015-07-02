@@ -30,6 +30,8 @@ var mvelo = mvelo || null;
   var $confirmParent;
   var $confirmErrorNoEmpty;
   var $confirmErrorNoEqual;
+  var $keyGenPasswordPanel;
+  var $keyGenWaitingPanel;
 
   function init() {
     var qs = jQuery.parseQuerystring();
@@ -50,6 +52,8 @@ var mvelo = mvelo || null;
       $confirmParent = $('#confirm-form-group');
       $confirmErrorNoEmpty = $confirmInput.next();
       $confirmErrorNoEqual = $confirmErrorNoEmpty.next();
+      $keyGenPasswordPanel = $('#keyGenPasswordPanel');
+      $keyGenWaitingPanel = $('#keyGenWaitingPanel').hide();
 
       // Get language strings from JSON
       mvelo.l10n.getMessages([
@@ -167,6 +171,18 @@ var mvelo = mvelo || null;
     });
   }
 
+  function showPasswordPanel() {
+    $keyGenWaitingPanel.fadeOut('fast', function() {
+      $keyGenPasswordPanel.fadeIn('fast');
+    });
+  }
+
+  function showWaitingPanel() {
+    $keyGenPasswordPanel.fadeOut('fast', function() {
+      $keyGenWaitingPanel.fadeIn('fast');
+    });
+  }
+
   /**
    * Mananaged the different post messages
    * @param {string} msg
@@ -176,6 +192,12 @@ var mvelo = mvelo || null;
     switch (msg.event) {
       case 'check-dialog-inputs':
         port.postMessage({event: 'input-check', sender: name, isValid: validate(), pwd: $pwdInput.val()});
+        break;
+      case 'show-password':
+        showPasswordPanel();
+        break;
+      case 'show-waiting':
+        showWaitingPanel();
         break;
       default:
         console.log('unknown event');

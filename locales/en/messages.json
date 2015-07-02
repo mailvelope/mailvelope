@@ -1062,5 +1062,13 @@
   "wrong_restore_code": {
     "message": "Restore code is wrong",
     "description": ""
+  },
+  "keygen_waiting_headline": {
+    "message": "The encrypted communication will established",
+    "description": ""
+  },
+  "keygen_waiting_description": {
+    "message": "Please be patient",
+    "description": ""
   }
 }

@@ -15,3 +15,47 @@
   display: inline-block;
   color: #fff;
 }
+
+
+.waiting {
+  display: block;
+  color: #333;
+  overflow: auto;
+}
+.waiting:after {
+  content: '';
+  display: table;
+  height: 0;
+  width: 0;
+}
+
+.waiting h1 {
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.waiting p {
+  font-size: 12px;
+  line-height: 15px;
+  margin: 10px 0;
+}
+
+.waiting .m-spinner {
+  float: left;
+  margin: 13px 20px 13px 0;
+  width: 40px;
+  text-align: center;
+}
+
+.waiting .m-spinner > div {
+  width: 12px;
+  height: 12px;
+  background-color: #337ab7;
+}
+
+.waiting .caption {
+  display: block;
+  float: left;
+}

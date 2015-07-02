@@ -4,7 +4,7 @@
       <button class="btn btn-link secureBgndSettingsBtn" data-l10n-title-id="security_background_button_title"><span class="glyphicon lockBtnIcon"></span></button>
     </div>
   </header>
-  <section class="well form-horizontal" role="main">
+  <section id="keyGenPasswordPanel" class="well form-horizontal" role="main">
     <p data-l10n-title-id="generator_prolog" data-l10n-id="keygen_dialog_prolog"></p>
 
     <div class="form-group has-error" id="pwd-form-group">
@@ -26,4 +26,11 @@
       </div>
     </div>
   </section>
+  <figure id="keyGenWaitingPanel" class="panel panel-default waiting">
+    <div class="m-spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
+    <figcaption class="caption">
+      <h1 data-l10n-id="keygen_waiting_headline"></h1>
+      <p><span data-l10n-id="keygen_waiting_description"></span> &hellip;</p>
+    </figcaption>
+  </figure>
 </section>
