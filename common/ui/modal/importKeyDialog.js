@@ -36,7 +36,9 @@ var mvelo = mvelo || null;
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);
     $('form').on('submit', onOk);
-    $(window).on('unload', onCancel);
+    window.onbeforeunload = function() {
+      onCancel();
+    };
     mvelo.l10n.localizeHTML();
     mvelo.util.showSecurityBackground();
   }
