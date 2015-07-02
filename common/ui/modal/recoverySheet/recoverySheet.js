@@ -68,8 +68,8 @@ var QRCode = QRCode || null;
 
     qrcode = new QRCode(document.getElementById('qrcode'), {
       text: backupCode,
-      width: 100,
-      height: 100,
+      width: 175,
+      height: 175,
       colorDark : "#000000",
       colorLight : "#ffffff",
       correctLevel : QRCode.CorrectLevel.H

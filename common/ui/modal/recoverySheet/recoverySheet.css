@@ -162,6 +162,10 @@
     margin-bottom: 20px;
 }
 
+.recovery-sheet_devices-split-content:last-child {
+    margin-bottom: 0;
+}
+
 .recovery-sheet_devices-split-content p,
 .recovery-sheet_devices-split-content h4 {
     max-width: 150px;
