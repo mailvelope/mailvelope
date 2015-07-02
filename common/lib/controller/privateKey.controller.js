@@ -61,57 +61,62 @@ define(function(require, exports, module) {
       throw { message: 'No private key for backup', code: 'NO_PRIVATE_KEY' };
     }
     this.pwdControl = sub.factory.get('pwdDialog');
-    this.pwdControl.unlockCachedKey({
-      message: primaryKey
-    }).then(function(primaryKey) {
-      that.keyBackup = that.model.createPrivateKeyBackup(primaryKey.key, primaryKey.password);
-      var page = 'recoverySheet';
-      switch (that.host) {
-        case 'webde':
-          page += '.webde.html';
-          break;
-        case 'gmx':
-          page += '.gmxnet.html';
-          break;
-        default:
-          page += '.html';
-      }
-      var path = 'common/ui/modal/recoverySheet/' + page;
-      that.mvelo.windows.openPopup(path + '?id=' + that.id, {width: 1024, height: 550, modal: false}, function(window) {
-        that.backupCodePopup = window;
+    this.pwdControl.unlockCachedKey({ message: primaryKey })
+      .then(function(primaryKey) {
+        that.keyBackup = that.model.createPrivateKeyBackup(primaryKey.key, primaryKey.password);
+      })
+      .then(function() {
+        return that.getSyncController().backup(that.keyBackup.message);
+      })
+      .then(function(syncResult) {
+        var page = 'recoverySheet';
+        switch (that.host) {
+          case 'webde':
+            page += '.webde.html';
+            break;
+          case 'gmx':
+            page += '.gmxnet.html';
+            break;
+          default:
+            page += '.html';
+        }
+        var path = 'common/ui/modal/recoverySheet/' + page;
+        that.mvelo.windows.openPopup(path + '?id=' + that.id, {width: 1024, height: 550, modal: false}, function(window) {
+          that.backupCodePopup = window;
+        });
+      })
+      .catch(function(err) {
+        that.ports.keyBackupDialog.postMessage({event: 'error-message', error: err});
       });
-    });
   };
 
   PrivateKeyController.prototype.restorePrivateKeyBackup = function(code) {
     //console.log('PrivateKeyController.prototype.restorePrivateKeyBackup()', code);
     var that = this;
 
-    var syncController = sub.getByMainType('syncHandler').filter(function(obj) {
-      return obj.keyringId === that.keyringId;
-    })[0];
-
-    syncController.restore(function(restoreBackup) {
-      //console.log('syncController.restore()', restoreBackup);
-
-      var backup = that.model.restorePrivateKeyBackup(restoreBackup, code);
-      if (backup.error) {
-        if (backup.error.code === 'WRONG_RESTORE_CODE') {
-          that.ports.restoreBackupDialog.postMessage({event: 'error-message', sender: name, error: backup.error});
-        } else {
-          that.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', sender: name, error: backup.error});
-        }
-        return;
-      }
-      var result = that.keyring.getById(that.keyringId).importKeys([{armored: backup.key.armor(), type: 'private'}]);
-      for (var i = 0; i < result.length; i++) {
-        if (result[i].type === 'error') {
-          that.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', sender: name, error: result[i].message});
+    this.getSyncController().restore()
+      .then(function(data) {
+        var backup = that.model.restorePrivateKeyBackup(data.backup, code);
+        if (backup.error) {
+          if (backup.error.code === 'WRONG_RESTORE_CODE') {
+            that.ports.restoreBackupDialog.postMessage({event: 'error-message', error: backup.error});
+          } else {
+            that.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', error: backup.error});
+          }
           return;
         }
-      }
-      that.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', sender: name});
-    });
+        var result = that.keyring.getById(that.keyringId).importKeys([{armored: backup.key.armor(), type: 'private'}]);
+        for (var i = 0; i < result.length; i++) {
+          if (result[i].type === 'error') {
+            that.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', error: result[i].message});
+            return;
+          }
+        }
+        that.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', data: backup.key.toPublic().armor()});
+      })
+      .catch(function(err) {
+        that.ports.restoreBackupDialog.postMessage({event: 'error-message', error: err});
+      });
   };
 
   PrivateKeyController.prototype.getLogoImage = function() {
@@ -121,6 +126,13 @@ define(function(require, exports, module) {
 
   PrivateKeyController.prototype.getBackupCode = function() {
     return this.keyBackup.backupCode;
+  };
+
+  PrivateKeyController.prototype.getSyncController = function() {
+    var that = this;
+    return sub.getByMainType('syncHandler').filter(function(obj) {
+      return obj.keyringId === that.keyringId;
+    })[0];
   };
 
   PrivateKeyController.prototype.handlePortMessage = function(msg) {
@@ -166,7 +178,7 @@ define(function(require, exports, module) {
         this.restorePrivateKeyBackup(msg.code);
         break;
       case 'backup-code-window-init':
-        this.ports.keyBackupCont.postMessage({event: 'popup-isready', backupMessage: this.keyBackup.message});
+        this.ports.keyBackupCont.postMessage({event: 'popup-isready', backup: this.keyBackup.message});
         break;
       case 'get-logo-image':
         this.ports.backupCodeWindow.postMessage({event: 'set-logo-image', image: this.getLogoImage()});

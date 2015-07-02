@@ -87,7 +87,7 @@ mvelo.KeyBackupContainer.prototype.registerEventListener = function() {
   this.port.onMessage.addListener(function(msg) {
     switch (msg.event) {
       case 'popup-isready':
-        that.popupDone(msg.error, msg.backupMessage);
+        that.popupDone(msg.error, msg.backup);
         break;
       case 'dialog-done':
         that.done(null, that.id);
