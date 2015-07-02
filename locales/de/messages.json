@@ -1062,5 +1062,13 @@
     "editor_no_primary_key_caption_long": {
         "message": "Die Email kann nicht digital unterschrieben werden, da der Primärschlüssel fehlt.",
         "description": ""
+    },
+    "keygen_waiting_headline": {
+      "message": "Die verschlüsselte Kommunikation wird eingerichtet",
+      "description": ""
+    },
+    "keygen_waiting_description": {
+      "message": "Bitte haben Sie einen Moment Geduld",
+      "description": ""
     }
 }

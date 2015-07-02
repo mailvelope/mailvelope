@@ -41,9 +41,11 @@ define(function(require, exports, module) {
   PrivateKeyController.prototype.generateKey = function(password, options) {
     var that = this;
     if (options.keySize !== 2048 && options.keySize !== 4096) {
+      this.ports.keyGenDialog.postMessage({event: 'show-password'});
       this.ports.keyGenCont.postMessage({event: 'generate-done', error: {message: 'Invalid key length', code: 'KEY_LENGTH_INVALID'}});
       return;
     }
+    this.ports.keyGenDialog.postMessage({event: 'show-waiting'});
     this.keyring.getById(this.keyringId).generateKey({
       userIds: options.userIds,
       numBits: options.keySize,
