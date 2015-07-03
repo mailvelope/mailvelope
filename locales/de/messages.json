@@ -1098,5 +1098,21 @@
     "decrypt_digital_signature_failure": {
         "message": "Digitale Unterschrift fehlerhaft",
         "description": "Caption digital signature"
+    },
+    "pwd_dialog_reason_decrypt": {
+      "message": "Bitte Schlüssel-Passwort eingeben, um diese E-Mail zu entschlüsseln.",
+      "description": ""
+    },
+    "pwd_dialog_reason_sign": {
+      "message": "Bitte Schlüssel-Passwort eingeben, um diese E-Mail zu versenden.",
+      "description": ""
+    },
+    "pwd_dialog_reason_editor": {
+      "message": "Bitte Schlüssel-Passwort eingeben, um ihre Einstellungen zur verschlüsselten Kommunikation zu aktualisieren.",
+      "description": ""
+    },
+    "pwd_dialog_reason_create_backup": {
+      "message": "Bitte Schlüssel-Passwort eingeben, um den Wiederherstellungsbeleg zu erstellen.",
+      "description": ""
     }
 }

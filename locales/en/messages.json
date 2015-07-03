@@ -1098,5 +1098,21 @@
   "decrypt_digital_signature_failure": {
     "message": "Digital signature error",
     "description": "Caption digital signature"
+  },
+  "pwd_dialog_reason_decrypt": {
+    "message": "Enter key password to decrypt this email.",
+    "description": ""
+  },
+  "pwd_dialog_reason_sign": {
+    "message": "Enter key password to sign this email.",
+    "description": ""
+  },
+  "pwd_dialog_reason_editor": {
+    "message": "Enter key password to update the settings for encrypted communication.",
+    "description": ""
+  },
+  "pwd_dialog_reason_create_backup": {
+    "message": "Enter key password to create the recovery sheet.",
+    "description": ""
   }
 }

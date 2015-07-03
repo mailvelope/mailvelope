@@ -101,7 +101,10 @@ define(function(require, exports, module) {
             });
           } else {
             // open password dialog
-            sub.factory.get('pwdDialog').unlockKey({message: this.signBuffer})
+            sub.factory.get('pwdDialog').unlockKey({
+              message: this.signBuffer,
+              reason: 'PWD_DIALOG_REASON_SIGN'
+            })
               .then(function() {
                 that.ports.eFrame.postMessage({event: 'email-text', type: msg.type, action: 'sign'});
               })

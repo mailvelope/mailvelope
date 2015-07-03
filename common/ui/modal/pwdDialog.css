@@ -8,17 +8,17 @@ body {
 }
 
 .m-modal {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 10px;
-    background-color: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    border-radius: 6px;
-    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-    background-clip: padding-box;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 10px;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  background-clip: padding-box;
 }
 
 .modal-body .panel {
@@ -52,9 +52,9 @@ body {
   opacity: 0.8;
   width: 48px;
   height: 48px;
-  position:absolute;
-  left:50%;
-  top:50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
   margin-left: -24px;
   margin-top: -24px;
   background: url('../../img/loading.gif') no-repeat center;

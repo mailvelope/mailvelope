@@ -32,13 +32,10 @@ var mvelo = mvelo || null;
     // open port to background page
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
-    port.postMessage({event: 'pwd-dialog-init', sender: id});
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);
     $('form').on('submit', onOk);
-    window.onbeforeunload = function() {
-      onCancel();
-    };
+    $(window).on('onbeforeunload', onCancel);
 
     // Closing the dialog with the escape key
     $(document).on('keyup', function(e) {
@@ -50,17 +47,22 @@ var mvelo = mvelo || null;
     mvelo.l10n.localizeHTML();
     mvelo.l10n.getMessages([
       'pwd_dialog_pwd_please',
-      'pwd_dialog_keyid_tooltip'
+      'pwd_dialog_keyid_tooltip',
+      'pwd_dialog_reason_decrypt',
+      'pwd_dialog_reason_sign',
+      'pwd_dialog_reason_editor',
+      'pwd_dialog_reason_create_backup'
     ], function(result) {
       l10n = result;
       $('#password').attr('placeholder', l10n.pwd_dialog_pwd_please);
       $('#keyId').attr('title', l10n.pwd_dialog_keyid_tooltip);
     });
     mvelo.util.showSecurityBackground();
+    port.postMessage({event: 'pwd-dialog-init', sender: id});
   }
 
   function onOk() {
-    $(window).off('unload');
+    $(window).off('onbeforeunload');
     var pwd = $('#password').val();
     var cache = $('#remember').prop('checked');
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
@@ -72,7 +74,7 @@ var mvelo = mvelo || null;
   }
 
   function onCancel() {
-    $(window).off('unload');
+    $(window).off('onbeforeunload');
     port.postMessage({event: 'pwd-dialog-cancel', sender: id});
     return false;
   }
@@ -86,15 +88,18 @@ var mvelo = mvelo || null;
   function messageListener(msg) {
     //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
-      case 'message-userid':
-        $('#keyId').text(msg.keyid.toUpperCase());
-        $('#userId').text(msg.userid);
-        if (msg.cache) {
+      case 'set-init-data':
+        var data = msg.data;
+
+        $('#keyId').text(data.keyid.toUpperCase());
+        $('#userId').text(data.userid);
+        $('#pwdDialogReason').text(data.reason !== '' ? l10n[data.reason.toLowerCase()] : '');
+        if (data.cache) {
           $('#remember').prop('checked', true);
         }
         break;
       case 'wrong-password':
-        $(window).on('unload', onCancel);
+        $(window).on('onbeforeunload', onCancel);
         $('#okBtn').prop('disabled', false);
         $('body').removeClass('busy');
         $('#spinner').hide();
