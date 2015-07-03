@@ -157,7 +157,11 @@ define(function(require, exports, module) {
           } else {
             // open password dialog
             this.pwdControl = sub.factory.get('pwdDialog');
-            this.pwdControl.unlockKey({message: this.signBuffer, openPopup: false})
+            this.pwdControl.unlockKey({
+              message: this.signBuffer,
+              openPopup: false,
+              reason: 'PWD_DIALOG_REASON_SIGN'
+            })
               .then(function() {
                 that.ports.editor.postMessage({event: 'get-plaintext', action: 'sign'});
               })

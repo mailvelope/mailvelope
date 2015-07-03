@@ -64,7 +64,10 @@ define(function(require, exports, module) {
       throw { message: 'No private key for backup', code: 'NO_PRIVATE_KEY' };
     }
     this.pwdControl = sub.factory.get('pwdDialog');
-    this.pwdControl.unlockCachedKey({ message: primaryKey })
+    this.pwdControl.unlockCachedKey({
+      message: primaryKey,
+      reason: 'PWD_DIALOG_REASON_CREATE_BACKUP'
+    })
       .then(function(primaryKey) {
         that.keyBackup = that.model.createPrivateKeyBackup(primaryKey.key, primaryKey.password);
       })
@@ -196,6 +199,11 @@ define(function(require, exports, module) {
           this.createPrivateKeyBackup();
         } catch (err) {
           this.ports.keyBackupCont.postMessage({event: 'popup-isready', error: err});
+        }
+        break;
+      case 'error-message':
+        if (msg.sender.indexOf('keyBackupDialog') >= 0) {
+          this.ports.keyBackupCont.postMessage({event: 'error-message', error: msg.err});
         }
         break;
       default:

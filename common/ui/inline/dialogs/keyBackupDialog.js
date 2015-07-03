@@ -23,6 +23,7 @@ var mvelo = mvelo || null;
   var id, name, port, l10n;
 
   var $keyBackupGenerator;
+  var $keyBackupWaiting;
   var $secureBgndButton;
   var $createBackupCodeBtn;
   var $body;
@@ -35,11 +36,11 @@ var mvelo = mvelo || null;
     port = mvelo.extension.connect({name: name});
     port.onMessage.addListener(messageListener);
 
-    $body = $('body');
+    var $body = $('body').empty().addClass("secureBackground");
 
-    $body.addClass("secureBackground");
     mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/inline/dialogs/templates/keybackup.html')).then(function() {
       $keyBackupGenerator = $('#key_backup_generator');
+      $keyBackupWaiting = $('#keyBackupWaiting').hide();
       $secureBgndButton = $('.secureBgndSettingsBtn');
       $createBackupCodeBtn = $('#createBackupCodeBtn');
 
@@ -67,16 +68,26 @@ var mvelo = mvelo || null;
       });
 
       $createBackupCodeBtn.on('click', function() {
-        $body.removeClass('secureBackground').empty();
-        mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/inline/dialogs/templates/keybackup-waiting.html')).then(function() {
-          mvelo.l10n.localizeHTML();
-          window.setTimeout(function() {
-            port.postMessage({ event: 'create-backup-code-window', sender: name });
-          }, 3000); // 3sec
-        });
+        showWaitingDialog();
       });
 
       port.postMessage({ event: 'keybackup-dialog-init', sender: name });
+    });
+  }
+
+  function showWaitingDialog() {
+    $keyBackupGenerator.fadeOut('fast', function() {
+      $keyBackupWaiting.fadeIn('fast', function() {
+        window.setTimeout(function() {
+          port.postMessage({ event: 'create-backup-code-window', sender: name });
+        }, 3000); // 3sec
+      });
+    });
+  }
+
+  function showKeyBackupGenerator() {
+    $keyBackupWaiting.fadeOut('fast', function() {
+      $keyBackupGenerator.fadeIn('fast');
     });
   }
 
@@ -106,6 +117,15 @@ var mvelo = mvelo || null;
       case 'set-init-data':
         var data = msg.data;
         translateTexts(data.initialSetup);
+        break;
+      case 'error-message':
+        switch (msg.error.code) {
+          case 'PWD_DIALOG_CANCEL':
+            showKeyBackupGenerator();
+            break;
+          default:
+            port.postMessage({ event: 'error-message', sender: name, error: msg.error });
+        }
         break;
       default:
         console.log('unknown event');

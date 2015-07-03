@@ -165,7 +165,8 @@ define(function(require, exports, module) {
         }
         resolve(that.pwdControl.unlockKey({
           message: message,
-          openPopup: openPopup !== undefined ? openPopup : that.ports.decryptCont || that.prefs.data().security.display_decrypted == that.mvelo.DISPLAY_INLINE
+          openPopup: openPopup !== undefined ? openPopup : that.ports.decryptCont || that.prefs.data().security.display_decrypted == that.mvelo.DISPLAY_INLINE,
+          reason: 'PWD_DIALOG_REASON_DECRYPT'
         }));
       } else {
         that.pwdCache.unlock(cacheEntry, message, function() {

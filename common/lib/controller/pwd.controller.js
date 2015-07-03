@@ -30,6 +30,7 @@ define(function(require, exports, module) {
     this.id = this.mvelo.util.getHash();
     this.pwdPopup = null;
     this.message = null;
+    this.reason = '';
     this.resolve = null;
     this.reject = null;
     this.pwdCache = require('../pwdCache');
@@ -43,14 +44,21 @@ define(function(require, exports, module) {
     switch (msg.event) {
       case 'pwd-dialog-init':
         // pass over keyid and userid to dialog
-        this.ports.pwdDialog.postMessage({event: 'message-userid', userid: this.message.userid, keyid: this.message.key.primaryKey.getKeyId().toHex(), cache: this.prefs.data().security.password_cache});
+        this.ports.pwdDialog.postMessage({event: 'set-init-data', data: {
+          userid: this.message.userid,
+          keyid: this.message.key.primaryKey.getKeyId().toHex(),
+          cache: this.prefs.data().security.password_cache,
+          reason: this.reason
+        }});
         break;
       case 'pwd-dialog-cancel':
         if (this.pwdPopup) {
           this.pwdPopup.close();
           this.pwdPopup = null;
         }
-        this.reject(new Error(msg.event));
+        var error = new Error(msg.event);
+        error.code = 'PWD_DIALOG_CANCEL';
+        this.reject(error);
         break;
       case 'pwd-dialog-ok':
         try {
@@ -102,11 +110,14 @@ define(function(require, exports, module) {
   PwdController.prototype.unlockKey = function(options) {
     var that = this;
     this.message = options.message;
+    if (typeof options.reason !== 'undefined') {
+      this.reason = options.reason;
+    }
     if (typeof options.openPopup == 'undefined') {
       options.openPopup = true;
     }
     if (options.openPopup) {
-      this.mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + this.id, {width: 470, height: 400, modal: false}, function(window) {
+      this.mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + this.id, {width: 470, height: 425, modal: false}, function(window) {
         that.pwdPopup = window;
       });
     }
@@ -119,6 +130,9 @@ define(function(require, exports, module) {
   PwdController.prototype.unlockCachedKey = function(options) {
     var that = this;
     this.message = options.message;
+    if (typeof options.reason !== 'undefined') {
+      this.reason = options.reason;
+    }
     if (typeof options.openPopup == 'undefined') {
       options.openPopup = true;
     }
@@ -134,7 +148,7 @@ define(function(require, exports, module) {
       });
     } else {
       if (options.openPopup) {
-        this.mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + this.id, {width: 470, height: 400, modal: false}, function(window) {
+        this.mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + this.id, {width: 470, height: 425, modal: false}, function(window) {
           that.pwdPopup = window;
         });
       }
