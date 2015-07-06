@@ -1064,7 +1064,7 @@
     "description": ""
   },
   "keygen_waiting_headline": {
-    "message": "The encrypted communication will established",
+    "message": "Setting up encrypted communication",
     "description": ""
   },
   "keygen_waiting_description": {
