@@ -21,6 +21,7 @@
   display: block;
   color: #333;
   overflow: auto;
+  padding: 20px;
 }
 .waiting:after {
   content: '';
