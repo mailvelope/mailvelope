@@ -1092,11 +1092,11 @@
     "description": ""
   },
   "decrypt_digital_signature": {
-    "message": "Digital signature",
+    "message": "Digitally signed",
     "description": "Caption digital signature"
   },
   "decrypt_digital_signature_failure": {
-    "message": "Digitale Unterschrift fehlerhaft",
+    "message": "Digital signature error",
     "description": "Caption digital signature"
   }
 }

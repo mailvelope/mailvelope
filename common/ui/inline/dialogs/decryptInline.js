@@ -273,7 +273,7 @@ var mvelo = mvelo || null;
 
       dialog
         .append($('<p/>').html('<b>Name:</b> ' + details.name))
-        .append($('<p/>').html('<b>Email:</b> ' + details.email))
+        .append($('<p/>').html('<b>E-Mail:</b> ' + details.email))
         .append($('<p/>').html('<b>Fingerprint:</b> ' + fingerprint))
       ;
     } else {
