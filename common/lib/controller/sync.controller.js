@@ -20,15 +20,12 @@
 define(function(require, exports, module) {
 
   var sub = require('./sub.controller');
+  var keyringMod = require('./keyring');
 
   function SyncController(port) {
     sub.SubController.call(this, port);
-    if (!port) {
-      this.mainType = 'syncHandler';
-      this.id = this.mvelo.util.getHash();
-    }
-
     this.keyringId = null;
+    this.keyring = null;
     this.syncDoneHandler = {};
   }
 
@@ -36,6 +33,19 @@ define(function(require, exports, module) {
 
   SyncController.prototype.init = function(keyringId) {
     this.keyringId = keyringId;
+    this.keyring = keyringMod.getById(this.keyringId);
+    this.keyring.activateSync();
+  };
+
+  SyncController.prototype.triggerSync = function(force) {
+    var eTag = this.keyring.sync.data.eTag;
+    this.download({eTag: eTag})
+      .then(function(download) {
+        if (download && download.keyringMsg) {
+          // new version available on server
+
+        }
+      })
   };
 
   SyncController.prototype.sync = function(type, data) {
@@ -91,6 +101,13 @@ define(function(require, exports, module) {
     }
   };
 
+  function getByKeyring(keyringId) {
+    return sub.getByMainType('syncHandler').filter(function(obj) {
+      return obj.keyringId === keyringId;
+    })[0];
+  }
+
   exports.SyncController = SyncController;
+  exports.getByKeyring = getByKeyring;
 
 });

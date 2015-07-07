@@ -22,6 +22,7 @@ define(function(require, exports, module) {
   var sub = require('./sub.controller');
   var DecryptController = require('./decrypt.controller').DecryptController;
   var uiLog = require('../uiLog');
+  var syncCtrl = require('./sync.controller');
 
   function EditorController(port) {
     sub.SubController.call(this, port);
@@ -138,6 +139,7 @@ define(function(require, exports, module) {
           data.text = this.options.predefinedText;
         }
 
+        syncCtrl.getByKeyring(this.keyringId).triggerSync(true);
         this.ports.editor.postMessage({event: 'set-init-data', data: data});
         break;
       case 'sign-dialog-ok':

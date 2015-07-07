@@ -24,6 +24,7 @@ define(function(require, exports, module) {
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
   var prefs = require('./prefs');
   var l10n = mvelo.l10n.get;
+  var keyringSync = require('./keyringSync');
   var keyringAttr = null;
   var keyringMap = new Map();
 
@@ -99,6 +100,13 @@ define(function(require, exports, module) {
     mvelo.storage.set('mailvelopeKeyringAttr', keyringAttr);
   }
 
+  function getKeyringAttr(keyringId, attr) {
+    if (!keyringAttr[keyringId]) {
+      throw new Error('Keyring does not exist for id: ' + keyringId);
+    }
+    return keyringAttr[keyringId][attr];
+  }
+
   function getUserId(key, validityCheck) {
     validityCheck = typeof validityCheck === 'undefined' ? true : false;
     var primaryUser = key.getPrimaryUser();
@@ -131,6 +139,7 @@ define(function(require, exports, module) {
   exports.deleteKeyring = deleteKeyring;
   exports.getAllKeyringAttr = getAllKeyringAttr;
   exports.setKeyringAttr = setKeyringAttr;
+  exports.getKeyringAttr = getKeyringAttr;
   exports.getById = getById;
   exports.getUserId = getUserId;
   exports.readKey = readKey;
@@ -143,6 +152,7 @@ define(function(require, exports, module) {
       localstore = new openpgp.Keyring.localstore(this.id);
     }
     this.keyring = new openpgp.Keyring(localstore);
+    this.sync = new keyringSync.KeyringSync(this.id);
   }
 
   Keyring.prototype.getKeys = function() {
@@ -500,6 +510,7 @@ define(function(require, exports, module) {
     // store if import succeeded
     if (result.some(function(message) { return message.type === 'success';})) {
       this.keyring.store();
+      this.sync.commit();
       // by no primary key in the keyring set the first found private keys as primary for the keyring
       if (!that.hasPrimaryKey() && that.keyring.privateKeys.keys.length > 0) {
         setKeyringAttr(that.id, {primary_key: that.keyring.privateKeys.keys[0].primaryKey.keyid.toHex().toUpperCase()});
@@ -509,6 +520,7 @@ define(function(require, exports, module) {
   };
 
   function importPublicKey(armored, keyring) {
+    var that = this;
     var result = [];
     var imported = openpgp.key.readArmored(armored);
     if (imported.err) {
@@ -523,7 +535,8 @@ define(function(require, exports, module) {
     imported.keys.forEach(function(pubKey) {
       // check for existing keys
       checkKeyId(pubKey, keyring);
-      var key = keyring.getKeysForId(pubKey.primaryKey.getFingerprint());
+      var fingerprint = pubKey.primaryKey.getFingerprint();
+      var key = keyring.getKeysForId(fingerprint);
       var keyid = pubKey.primaryKey.getKeyId().toHex().toUpperCase();
       if (key) {
         key = key[0];
@@ -532,18 +545,21 @@ define(function(require, exports, module) {
           type: 'success',
           message: l10n('key_import_public_update', [keyid, getUserId(pubKey)])
         });
+        that.sync.add(fingerprint, that.sync.UPDATE);
       } else {
         keyring.publicKeys.push(pubKey);
         result.push({
           type: 'success',
           message: l10n('key_import_public_success', [keyid, getUserId(pubKey)])
         });
+        that.sync.add(fingerprint, that.sync.INSERT);
       }
     });
     return result;
   }
 
   function importPrivateKey(armored, keyring) {
+    var that = this;
     var result = [];
     var imported = openpgp.key.readArmored(armored);
     if (imported.err) {
@@ -558,24 +574,27 @@ define(function(require, exports, module) {
     imported.keys.forEach(function(privKey) {
       // check for existing keys
       checkKeyId(privKey, keyring);
-      var key = keyring.getKeysForId(privKey.primaryKey.getFingerprint());
+      var fingerprint = privKey.primaryKey.getFingerprint();
+      var key = keyring.getKeysForId(fingerprint);
       var keyid = privKey.primaryKey.getKeyId().toHex().toUpperCase();
       if (key) {
         key = key[0];
         if (key.isPublic()) {
           privKey.update(key);
-          keyring.publicKeys.removeForId(privKey.primaryKey.getFingerprint());
+          keyring.publicKeys.removeForId(fingerprint);
           keyring.privateKeys.push(privKey);
           result.push({
             type: 'success',
             message: l10n('key_import_private_exists', [keyid, getUserId(privKey)])
           });
+          that.sync.add(fingerprint, that.sync.UPDATE);
         } else {
           key.update(privKey);
           result.push({
             type: 'success',
             message: l10n('key_import_private_update', [keyid, getUserId(privKey)])
           });
+          that.sync.add(fingerprint, that.sync.UPDATE);
         }
       } else {
         keyring.privateKeys.push(privKey);
@@ -583,8 +602,8 @@ define(function(require, exports, module) {
           type: 'success',
           message: l10n('key_import_private_success', [keyid, getUserId(privKey)])
         });
+        that.sync.add(fingerprint, that.sync.INSERT);
       }
-
     });
     return result;
   }
@@ -623,8 +642,9 @@ define(function(require, exports, module) {
     if (primaryKey && primaryKey.toLowerCase() === removedKey[0].primaryKey.keyid.toHex()) {
       setKeyringAttr(this.id, {primary_key: ""});
     }
-
+    this.sync.add(removedKey[0].primaryKey.getFingerprint(), this.sync.DELETE);
     this.keyring.store();
+    this.sync.commit();
   };
 
   Keyring.prototype.generateKey = function(options, callback) {
@@ -635,7 +655,9 @@ define(function(require, exports, module) {
     openpgp.generateKeyPair({numBits: parseInt(options.numBits), userId: options.userIds, passphrase: options.passphrase}).then(function(data) {
       if (data) {
         that.keyring.privateKeys.push(data.key);
+        that.sync.add(data.key.primaryKey.getFingerprint(), that.sync.INSERT);
         that.keyring.store();
+        this.sync.commit();
         // by no primary key in the keyring set the generated key as primary
         if (!that.hasPrimaryKey()) {
           setKeyringAttr(that.id, {primary_key: data.key.primaryKey.keyid.toHex().toUpperCase()});
@@ -656,6 +678,10 @@ define(function(require, exports, module) {
 
   Keyring.prototype.getAttributes = function() {
     return keyringAttr[this.id];
+  };
+
+  Keyring.prototype.activateSync = function() {
+    this.sync.init();
   };
 
 });

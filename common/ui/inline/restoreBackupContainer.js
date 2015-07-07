@@ -87,7 +87,7 @@ mvelo.RestoreBackupContainer.prototype.registerEventListener = function() {
   this.port.onMessage.addListener(function(msg) {
     switch (msg.event) {
       case 'restore-backup-done':
-        that.restoreDone(msg.error, msg.data);
+        that.restoreDone(msg.error);
         break;
       case 'dialog-done':
         that.port.postMessage({event: 'set-init-data', sender: that.name, data: that.options});
