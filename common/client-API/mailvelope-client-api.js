@@ -78,7 +78,6 @@
       throw error;
     }
   };
-  var syncHandler = null;
 
   /**
    * Ascii Armored PGP Text Block
@@ -175,6 +174,8 @@
     }
     return postMessage('settings-container', {selector: selector, identifier: keyring.identifier, options: options});
   };
+
+  var syncHandler = null;
 
   /**
    * Not accessible, instance can be obtained using {@link Mailvelope#getKeyring}
@@ -344,22 +345,45 @@
   };
 
   /**
+   * @typedef {Object} UploadSyncReply
+   * @property {String} eTag - entity tag for the uploaded encrypted keyring
+   */
+
+  /**
    * @typedef {Function} UploadSyncHandler
+   * @param {Object} uploadObj - object with upload data
+   * @param {string} uploadObj.eTag - entity tag for the uploaded encrypted keyring
+   * @param {AsciiArmored} uploadObj.keyringMsg - encrypted keyring as PGP armored message
+   * @returns {Promise.<UploadSyncReply, Error>} - if version on server has different eTag, then the promise is rejected
+   */
+
+  /**
+   * @typedef {Object} DownloadSyncReply
+   * @property {AsciiArmored} keyringMsg - encrypted keyring as PGP armored message
+   * @property {String} eTag - entity tag for the encrypted keyring
    */
 
   /**
    * @typedef {Function} DownloadSyncHandler
+   * @param {Object} downloadObj - meta info for download
+   * @param {string} downloadObj.eTag - entity tag for the current local keyring
+   * @returns {Promise.<DownloadSyncReply, Error>} - if version on server has same eTag, then keyringMsg property of reply is empty
+   */
+
+  /**
+   * @typedef {Object} BackupSyncPacket
+   * @property {AsciiArmored} backup - encrypted key backup as PGP armored message
    */
 
   /**
    * @typedef {Function} BackupSyncHandler
-   * @param {AsciiArmored} - encrypted key backup as PGP armored message
+   * @param {BackupSyncPacket} - object with backup data
    * @returns {Promise.<undefined, Error>}
    */
 
   /**
    * @typedef {Function} RestoreSyncHandler
-   * @returns {Promise.<Object, Error>} - the promise returns an object with the attribute 'backup' containing the ASCII armored key backup
+   * @returns {Promise.<BackupSyncPacket, Error>}
    */
 
   /**
@@ -378,7 +402,6 @@
   Keyring.prototype.addSyncHandler = function(syncHandlerObj) {
     return postMessage('add-sync-handler', {identifier: this.identifier}).then(function(syncHandlerId) {
       syncHandler = new SyncHandler(syncHandlerId, syncHandlerObj);
-      return syncHandlerId;
     });
   };
 
@@ -402,7 +425,7 @@
   };
 
   /**
-   * @returns {Promise.<AsciiArmored, Error>} - the encrypted key backup
+   * @returns {Promise.<undefined, Error>} - key backup ready or error
    * @throws {Error}
    */
   KeyBackupPopup.prototype.isReady = function() {
@@ -441,7 +464,7 @@
   };
 
   /**
-   * @returns {Promise.<AsciiArmored, Error>} - the restored key (public part)
+   * @returns {Promise.<undefined, Error>} - key restore ready or error
    * @throws {Error}
    */
   RestoreBackup.prototype.isReady = function() {
@@ -483,21 +506,22 @@
 
   function handleSyncEvent(msg) {
     var handler = null;
+    var callbacks = syncHandler.callbacks;
     switch (msg.data.type) {
       case 'upload':
-        handler = syncHandler.callbacks.uploadSync;
+        handler = callbacks.uploadSync;
         break;
       case 'download':
-        handler = syncHandler.callbacks.downloadSync;
+        handler = callbacks.downloadSync;
         break;
       case 'backup':
-        handler = syncHandler.callbacks.backup;
+        handler = callbacks.backup;
         break;
       case 'restore':
-        handler = syncHandler.callbacks.restore;
+        handler = callbacks.restore;
         break;
       default:
-        console.log('mailvelope-client-api unknown sync event', msg.type);
+        console.log('mailvelope-client-api unknown sync event', msg.data.type);
     }
     handler(msg.data.data)
       .then(function(result) {

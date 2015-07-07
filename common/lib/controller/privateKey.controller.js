@@ -22,6 +22,7 @@ define(function(require, exports, module) {
   var sub = require('./sub.controller');
   var uiLog = require('../uiLog');
   var pwdCache = require('../pwdCache');
+  var sync = require('./sync.controller');
 
   function PrivateKeyController(port) {
     sub.SubController.call(this, port);
@@ -72,7 +73,7 @@ define(function(require, exports, module) {
         that.keyBackup = that.model.createPrivateKeyBackup(primaryKey.key, primaryKey.password);
       })
       .then(function() {
-        return that.getSyncController().backup(that.keyBackup.message);
+        return sync.getByKeyring(that.keyringId).backup({backup: that.keyBackup.message});
       })
       .then(function(syncResult) {
         var page = 'recoverySheet';
@@ -100,7 +101,7 @@ define(function(require, exports, module) {
     //console.log('PrivateKeyController.prototype.restorePrivateKeyBackup()', code);
     var that = this;
 
-    this.getSyncController().restore()
+    sync.getByKeyring(that.keyringId).restore()
       .then(function(data) {
         var backup = that.model.restorePrivateKeyBackup(data.backup, code);
         if (backup.error) {
@@ -135,13 +136,6 @@ define(function(require, exports, module) {
 
   PrivateKeyController.prototype.getBackupCode = function() {
     return this.keyBackup.backupCode;
-  };
-
-  PrivateKeyController.prototype.getSyncController = function() {
-    var that = this;
-    return sub.getByMainType('syncHandler').filter(function(obj) {
-      return obj.keyringId === that.keyringId;
-    })[0];
   };
 
   PrivateKeyController.prototype.handlePortMessage = function(msg) {
@@ -188,7 +182,7 @@ define(function(require, exports, module) {
         this.restorePrivateKeyBackup(msg.code);
         break;
       case 'backup-code-window-init':
-        this.ports.keyBackupCont.postMessage({event: 'popup-isready', backup: this.keyBackup.message});
+        this.ports.keyBackupCont.postMessage({event: 'popup-isready'});
         break;
       case 'get-logo-image':
         this.ports.backupCodeWindow.postMessage({event: 'set-logo-image', image: this.getLogoImage()});
