@@ -152,7 +152,7 @@ define(function(require, exports, module) {
   }
 
   function decryptMessage(message, keyringId, callback) {
-    if (message.options.senderAddress) {
+    if (message.options && message.options.senderAddress) {
       var keyRing = keyring.getById(keyringId);
       var signingKeys = keyRing.getKeyByAddress([message.options.senderAddress], {validity: true});
       signingKeys = signingKeys[message.options.senderAddress] || [message.key];

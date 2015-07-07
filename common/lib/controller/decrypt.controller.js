@@ -28,7 +28,6 @@ define(function(require, exports, module) {
     this.pwdCache = require('../pwdCache');
     this.decryptPopup = null;
     this.mailreader = require('mailreader-parser');
-    this.attachments = {};
     this.options = {};
     this.keyringId = this.mvelo.LOCAL_KEYRING_ID;
   }
