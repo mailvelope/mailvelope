@@ -502,7 +502,6 @@ var mvelo = mvelo || null;
   }
 
   function showErrorModal(error) {
-
     var title = l10n.editor_error_header;
     var content = error.message;
     var $errorModal = $('#errorModal');
@@ -607,6 +606,9 @@ var mvelo = mvelo || null;
         $('#transferBtn').show();
         break;
       case 'error-message':
+        if (msg.error.message === 'pwd-dialog-cancel') {
+          break;
+        }
         showErrorModal(msg.error);
         break;
       default:

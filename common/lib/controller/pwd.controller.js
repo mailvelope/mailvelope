@@ -127,6 +127,12 @@ define(function(require, exports, module) {
     });
   };
 
+  /**
+   *
+   * @param {Object} options.message - primaryKey
+   * @param {Boolean} [options.openPopup]
+   * @return {Promise<>}
+   */
   PwdController.prototype.unlockCachedKey = function(options) {
     var that = this;
     this.message = options.message;
