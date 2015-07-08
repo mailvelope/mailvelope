@@ -122,13 +122,21 @@ define(function(require, exports, module) {
         break;
       case 'eframe-email-text':
         if (msg.action === 'encrypt') {
-          this.model.encryptMessage(msg.data, this.mvelo.LOCAL_KEYRING_ID, this.keyidBuffer, function(err, msg) {
-            that.ports.eFrame.postMessage({event: 'encrypted-message', message: msg});
-          });
+          this.model.encryptMessage(msg.data, this.mvelo.LOCAL_KEYRING_ID, this.keyidBuffer)
+            .then(function(msg) {
+              that.ports.eFrame.postMessage({event: 'encrypted-message', message: msg});
+            })
+            .catch(function(error) {
+              console.log('model.encryptMessage() error', error);
+            });
         } else if (msg.action === 'sign') {
-          this.model.signMessage(msg.data, this.signBuffer.key, function(err, msg) {
-            that.ports.eFrame.postMessage({event: 'signed-message', message: msg});
-          });
+          this.model.signMessage(msg.data, this.signBuffer.key)
+            .then(function(msg) {
+              that.ports.eFrame.postMessage({event: 'signed-message', message: msg});
+            })
+            .catch(function(error) {
+              console.log('model.signMessage() error', error);
+            });
         } else {
           throw new Error('Unknown eframe action:', msg.action);
         }

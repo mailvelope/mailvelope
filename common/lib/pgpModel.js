@@ -106,7 +106,7 @@ define(function(require, exports, module) {
       }
       throw {
         type: 'error',
-        message: message,
+        message: message
       };
     }
 
@@ -174,61 +174,81 @@ define(function(require, exports, module) {
     }
   }
 
-  function encryptMessage(message, keyringId, keyIdsHex, callback) {
-    var keys = keyIdsHex.map(function(keyIdHex) {
-      var keyArray = keyring.getById(keyringId).keyring.getKeysForId(keyIdHex);
-      return keyArray ? keyArray[0] : null;
-    }).filter(function(key) {
-      return key !== null;
-    });
-
-    if (keys.length === 0) {
-      callback({
-        type: 'error',
-        message: 'No key found for encryption'
+  /**
+   * @param {Object} options
+   * @param {String} options.keyIdsHex
+   * @param {String} options.keyringId
+   * @param {String} options.message  message as native JavaScript string
+   * @returns {Promise<String.{type: String, code: String, message: String}>}
+   */
+  function encryptMessage(options) {
+    return new Promise(function(resolve, reject) {
+      var keys = options.keyIdsHex.map(function(keyIdHex) {
+        var keyArray = keyring.getById(options.keyringId).keyring.getKeysForId(keyIdHex);
+        return keyArray ? keyArray[0] : null;
+      }).filter(function(key) {
+        return key !== null;
       });
-    } else {
-      openpgp.getWorker().encryptMessage(keys, message).then(callback.bind(null, null), function(e) {
-        callback({
+
+      if (keys.length === 0) {
+        reject({
           type: 'error',
-          message: l10n('encrypt_error', [e])
-        });
-      });
-    }
-  }
-
-  function signAndEncryptMessage(message, keyringId, keyIdsHex, callback) {
-    var keys = keyIdsHex.map(function(keyIdHex) {
-      var keyArray = keyring.getById(keyringId).keyring.getKeysForId(keyIdHex);
-      return keyArray ? keyArray[0] : null;
-    }).filter(function(key) {
-      return key !== null;
-    });
-
-    if (keys.length === 0) {
-      callback({
-        type: 'error',
-        code: 'NO_KEY_FOUND_FOR_ENCRYPTION',
-        message: 'No key found for encryption'
-      });
-    } else {
-      var primaryKey = keyring.getById(keyringId).getPrimaryKey();
-      if (primaryKey) {
-        openpgp.getWorker().signAndEncryptMessage(keys, primaryKey.key, message).then(callback.bind(null, null), function(e) {
-          callback({
-            type: 'error',
-            code: 'ENCRYPT_ERROR',
-            message: l10n('encrypt_error', [e])
-          });
+          message: 'No key found for encryption'
         });
       } else {
-        callback({
-          type: 'error',
-          code: 'NO_PRIMARY_KEY_FOUND',
-          message: 'no primary key found'
-        });
+        openpgp.getWorker().encryptMessage(keys, options.message)
+          .then(function(msg) {
+            resolve(msg);
+          })
+          .catch(function(e) {
+            console.log('openpgp.getWorker().encryptMessage() error', e);
+            reject({
+              type: 'error',
+              message: l10n('encrypt_error', [e])
+            });
+          });
       }
-    }
+    });
+  }
+
+  /**
+   * @param {Object} options
+   * @param {String} options.keyIdsHex
+   * @param {String} options.keyringId
+   * @param {String} options.message  message as native JavaScript string
+   * @param {Object} options.primaryKey
+   * @return {Promise.<String>}
+   */
+  function signAndEncryptMessage(options) {
+    return new Promise(function(resolve, reject) {
+      var keys = options.keyIdsHex.map(function(keyIdHex) {
+        var keyArray = keyring.getById(options.keyringId).keyring.getKeysForId(keyIdHex);
+        return keyArray ? keyArray[0] : null;
+      }).filter(function(key) {
+        return key !== null;
+      });
+
+      if (keys.length === 0) {
+        reject({
+          type: 'error',
+          code: 'NO_KEY_FOUND_FOR_ENCRYPTION',
+          message: 'No key found for encryption'
+        });
+      } else {
+        openpgp.getWorker().signAndEncryptMessage(keys, options.primaryKey.key, options.message)
+          .then(function(msg) {
+            resolve(msg);
+          })
+          .catch(function(e) {
+            console.log('openpgp.getWorker().signAndEncryptMessage() error', e);
+            reject({
+              type: 'error',
+              code: 'ENCRYPT_ERROR',
+              message: l10n('encrypt_error', [e])
+            });
+          });
+      }
+    });
   }
 
   function verifyMessage(message, signers, callback) {
@@ -256,8 +276,13 @@ define(function(require, exports, module) {
     }
   }
 
-  function signMessage(message, signKey, callback) {
-    openpgp.getWorker().signClearMessage([signKey], message).then(callback.bind(null, null), callback);
+  /**
+   * @param {String} message
+   * @param {String} signKey
+   * @return {Promise<String>}
+   */
+  function signMessage(message, signKey) {
+    return openpgp.getWorker().signClearMessage([signKey], message);
   }
 
   function createPrivateKeyBackup(primaryKey, keyPwd) {

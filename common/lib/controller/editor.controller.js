@@ -104,8 +104,10 @@ define(function(require, exports, module) {
         if (Object.keys(keyIdMap).some(function(keyId) {
           return keyIdMap[keyId] === false;
         })) {
-          var error = new Error('No valid encryption key for recipient address');
-          error.code = 'NO_KEY_FOR_RECIPIENT';
+          var error = {
+            message: 'No valid encryption key for recipient address',
+            code: 'NO_KEY_FOR_RECIPIENT'
+          };
           this.ports.editorCont.postMessage({event: 'error-message', error: error});
           return;
         }
@@ -180,41 +182,7 @@ define(function(require, exports, module) {
         }
         break;
       case 'editor-plaintext':
-        if (msg.action === 'encrypt') {
-          var data = this.buildMail(msg.message, msg.attachments);
-
-          if (this.signMsg) {
-            this.model.signAndEncryptMessage(data, this.keyringId, this.keyidBuffer, function(err, msg) {
-              var port = that.ports.editorCont || that.ports.editor;
-              if (err) {
-                that.ports.editor.postMessage({event: 'error-message', error: err});
-                if (that.ports.editorCont) {
-                  port.postMessage({event: 'error-message', error: err});
-                }
-              } else {
-                port.postMessage({event: 'encrypted-message', message: msg});
-              }
-            });
-          } else {
-            this.model.encryptMessage(data, this.keyringId, this.keyidBuffer, function(err, msg) {
-              var port = that.ports.editorCont || that.ports.editor;
-              if (err) {
-                that.ports.editor.postMessage({event: 'error-message', error: err});
-                if (that.ports.editorCont) {
-                  port.postMessage({event: 'error-message', error: err});
-                }
-              } else {
-                port.postMessage({event: 'encrypted-message', message: msg});
-              }
-            });
-          }
-        } else if (msg.action === 'sign') {
-          this.model.signMessage(msg.message, this.signBuffer.key, function(err, msg) {
-            that.ports.editor.postMessage({event: 'signed-message', message: msg});
-          });
-        } else {
-          throw new Error('Unknown eframe action:', msg.action);
-        }
+        this.signAndEncrypt(msg);
         break;
       case 'editor-user-input':
         uiLog.push(msg.source, msg.type);
@@ -316,6 +284,144 @@ define(function(require, exports, module) {
       .catch(function(error) {
         that.ports.editor.postMessage({event: 'decrypt-failed', error: error});
       });
+  };
+
+  /**
+   * @param {Object} options
+   * @param {String} options.message
+   * @param {Array} options.keyIdsHex
+   * @return {undefined}
+   */
+  EditorController.prototype.signAndEncryptMessage = function(options) {
+    var that = this;
+    var port = this.ports.editorCont || this.ports.editor;
+    var primaryKey = this.keyring.getById(this.keyringId).getPrimaryKey();
+
+    if (!primaryKey) {
+      this.ports.editor.postMessage({
+        event: 'error-message',
+        error: {
+          type: 'error',
+          code: 'NO_PRIMARY_KEY_FOUND',
+          message: 'No primary key found'
+        }
+      });
+      return;
+    }
+
+    var signKeyPacket = primaryKey.key.getSigningKeyPacket();
+    var signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
+    if (!signKeyid) {
+      this.ports.editor.postMessage({
+        event: 'error-message',
+        error: {
+          type: 'error',
+          code: 'NO_SIGN_KEY_FOUND',
+          message: 'No valid signing key packet found'
+        }
+      });
+      return;
+    }
+
+    that.pwdControl = sub.factory.get('pwdDialog');
+    that.pwdControl.unlockCachedKey({message: primaryKey})
+      .then(function() {
+        return that.model.signAndEncryptMessage({
+          keyIdsHex: options.keyIdsHex,
+          keyringId: that.keyringId,
+          primaryKey: primaryKey,
+          message: options.message
+        });
+      })
+      .then(function(msg) {
+        port.postMessage({event: 'encrypted-message', message: msg});
+      })
+      .catch(function(error) {
+        console.log('signAndEncryptMessage() error', error);
+
+        if (error.message === 'pwd-dialog-cancel') {
+          error = {
+            type: 'error',
+            code: 'PWD_DIALOG_CANCEL',
+            message: error.message
+          };
+        }
+        that.ports.editor.postMessage({event: 'error-message', error: error});
+        if (that.ports.editorCont) {
+          port.postMessage({event: 'error-message', error: error});
+        }
+      });
+  };
+
+  /**
+   * @param {Object} options
+   * @param {String} options.message
+   * @param {String} options.keyringId
+   * @param {Array} options.keyIdsHex
+   * @return {undefined}
+   */
+  EditorController.prototype.encryptMessage = function(options) {
+    var that = this;
+    var port = this.ports.editorCont || this.ports.editor;
+
+    this.model.encryptMessage(options)
+      .then(function(msg) {
+        port.postMessage({event: 'encrypted-message', message: msg});
+      })
+      .catch(function(error) {
+        console.log('model.encryptMessage() error', error);
+        that.ports.editor.postMessage({event: 'error-message', error: error});
+        if (that.ports.editorCont) {
+          port.postMessage({event: 'error-message', error: error});
+        }
+      });
+  };
+
+  /**
+   * @param {String} message
+   * @return {undefined}
+   */
+  EditorController.prototype.signMessage = function(message) {
+    var that = this;
+
+    this.model.signMessage(message, this.signBuffer.key)
+      .then(function(msg) {
+        that.ports.editor.postMessage({event: 'signed-message', message: msg});
+      })
+      .catch(function(error) {
+        console.log('model.signMessage() error', error);
+      });
+  };
+
+  /**
+   * @param {Object} options
+   * @param {String} options.action
+   * @param {String} options.message
+   * @param {Array} options.attachment
+   * @return {undefined}
+   * @error {Error}
+   */
+  EditorController.prototype.signAndEncrypt = function(options) {
+    if (options.action === 'encrypt') {
+      var data = this.buildMail(options.message, options.attachments);
+
+      if (this.signMsg) {
+        this.signAndEncryptMessage({
+          message: data,
+          keyIdsHex: this.keyidBuffer
+        });
+      } else {
+        this.encryptMessage({
+          message: data,
+          keyringId: this.keyringId,
+          keyIdsHex: this.keyidBuffer
+        });
+      }
+    } else if (options.action === 'sign') {
+      this.signMessage(options.message);
+    } else {
+      throw new Error('Unknown eframe action:', options.action);
+    }
   };
 
   exports.EditorController = EditorController;
