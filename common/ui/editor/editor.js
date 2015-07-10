@@ -59,13 +59,13 @@ var mvelo = mvelo || null;
   });
 
   var maxFileUploadSize = 25 * 1024 * 1024;
-  var maxFileUploadSizeChrome = 10 * 1024 * 1024; // temporal fix due issue in Chrome
+  var maxFileUploadSizeChrome = 20 * 1024 * 1024; // temporal fix due issue in Chrome
 
   function init() {
     var qs = jQuery.parseQuerystring();
     id = qs.id;
     name = 'editor-' + id;
-    if (qs.quota) {
+    if (qs.quota && (parseInt(qs.quota) * 1024) < maxFileUploadSize) {
       maxFileUploadSize = parseInt(qs.quota) * 1024;
     }
     if (mvelo.crx && maxFileUploadSize > maxFileUploadSizeChrome) {
