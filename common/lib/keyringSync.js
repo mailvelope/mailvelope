@@ -20,7 +20,7 @@
 define(function(require, exports, module) {
 
   var keyringMod = require('./keyring');
-  var syncCtrl = require('./sync.controller');
+  var syncCtrl = require('./controller/sync.controller');
 
   var INSERT = 'INSERT';
   var DELETE = 'DELETE';
@@ -30,10 +30,14 @@ define(function(require, exports, module) {
     this.keyringId = keyringId;
     this.data = null;
     this.SYNC_DATA = 'sync_data';
+    this.muted = false;
   }
 
-  KeyringSync.prototype.init = function() {
-    this.data = this.keyring.getKeyringAttr(this.keyringId, this.SYNC_DATA) || {
+  KeyringSync.prototype.init = function(active) {
+    if (!active) {
+      return;
+    }
+    this.data = keyringMod.getKeyringAttr(this.keyringId, this.SYNC_DATA) || {
       eTag: '',
       changeLog: {},
       modified: false
@@ -41,32 +45,68 @@ define(function(require, exports, module) {
   };
 
   KeyringSync.prototype.add = function(keyid, type) {
-    if (!this.data) {
+    if (!this.data || this.muted) {
       return;
     }
     if (!(type === INSERT || type === DELETE || type === UPDATE)) {
       throw new Error('Unknown log entry type');
     }
-    this.modified = true;
+    this.data.modified = true;
     if (type === UPDATE) {
       return;
     }
     keyid = keyid.toLowerCase();
-    this.data[keyid] = {
+    this.data.changeLog[keyid] = {
       type: type,
-      time: (new Date()).toISOString()
+      time: Date.now()
     };
   };
 
-  KeyringSync.prototype.commit = function() {
+  KeyringSync.prototype.save = function() {
+    if (!this.data) {
+      return;
+    }
     var data = {};
     data[this.SYNC_DATA] = this.data;
-    this.keyring.setKeyringAttr(this.keyringId, data);
+    keyringMod.setKeyringAttr(this.keyringId, data);
+  };
+
+  KeyringSync.prototype.commit = function() {
+    if (!this.data || this.muted) {
+      return;
+    }
+    this.save();
     syncCtrl.getByKeyring(this.keyringId).triggerSync();
+  };
+
+  KeyringSync.prototype.merge = function(update) {
+    if (!this.data) {
+      return;
+    }
+    for (var fingerprint in update) {
+      if (!this.data.changeLog[fingerprint] || (this.data.changeLog[fingerprint].time < update[fingerprint].time)) {
+        this.data.changeLog[fingerprint] = update[fingerprint];
+      }
+    }
+  };
+
+  KeyringSync.prototype.getDeleteEntries = function() {
+    var result = [];
+    for (var fingerprint in this.data.changeLog) {
+      if (this.data.changeLog[fingerprint].type === DELETE) {
+        result.push(fingerprint);
+      }
+    }
+    return result;
+  };
+
+  KeyringSync.prototype.mute = function(muted) {
+    this.muted = muted;
   };
 
   exports.KeyringSync = KeyringSync;
   exports.INSERT = INSERT;
   exports.DELETE = DELETE;
+  exports.UPDATE = UPDATE;
 
 });

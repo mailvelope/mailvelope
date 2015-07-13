@@ -496,9 +496,9 @@ define(function(require, exports, module) {
     armoredKeys.forEach(function(key) {
       try {
         if (key.type === 'public') {
-          result = result.concat(importPublicKey(key.armored, that.keyring));
+          result = result.concat(that.importPublicKey(key.armored, that.keyring));
         } else if (key.type === 'private') {
-          result = result.concat(importPrivateKey(key.armored, that.keyring));
+          result = result.concat(that.importPrivateKey(key.armored, that.keyring));
         }
       } catch (e) {
         result.push({
@@ -519,7 +519,7 @@ define(function(require, exports, module) {
     return result;
   };
 
-  function importPublicKey(armored, keyring) {
+  Keyring.prototype.importPublicKey = function(armored) {
     var that = this;
     var result = [];
     var imported = openpgp.key.readArmored(armored);
@@ -534,9 +534,9 @@ define(function(require, exports, module) {
     }
     imported.keys.forEach(function(pubKey) {
       // check for existing keys
-      checkKeyId(pubKey, keyring);
+      checkKeyId(pubKey, that.keyring);
       var fingerprint = pubKey.primaryKey.getFingerprint();
-      var key = keyring.getKeysForId(fingerprint);
+      var key = that.keyring.getKeysForId(fingerprint);
       var keyid = pubKey.primaryKey.getKeyId().toHex().toUpperCase();
       if (key) {
         key = key[0];
@@ -545,20 +545,20 @@ define(function(require, exports, module) {
           type: 'success',
           message: l10n('key_import_public_update', [keyid, getUserId(pubKey)])
         });
-        that.sync.add(fingerprint, that.sync.UPDATE);
+        that.sync.add(fingerprint, keyringSync.UPDATE);
       } else {
-        keyring.publicKeys.push(pubKey);
+        that.keyring.publicKeys.push(pubKey);
         result.push({
           type: 'success',
           message: l10n('key_import_public_success', [keyid, getUserId(pubKey)])
         });
-        that.sync.add(fingerprint, that.sync.INSERT);
+        that.sync.add(fingerprint, keyringSync.INSERT);
       }
     });
     return result;
-  }
+  };
 
-  function importPrivateKey(armored, keyring) {
+  Keyring.prototype.importPrivateKey = function(armored) {
     var that = this;
     var result = [];
     var imported = openpgp.key.readArmored(armored);
@@ -573,40 +573,40 @@ define(function(require, exports, module) {
     }
     imported.keys.forEach(function(privKey) {
       // check for existing keys
-      checkKeyId(privKey, keyring);
+      checkKeyId(privKey, that.keyring);
       var fingerprint = privKey.primaryKey.getFingerprint();
-      var key = keyring.getKeysForId(fingerprint);
+      var key = that.keyring.getKeysForId(fingerprint);
       var keyid = privKey.primaryKey.getKeyId().toHex().toUpperCase();
       if (key) {
         key = key[0];
         if (key.isPublic()) {
           privKey.update(key);
-          keyring.publicKeys.removeForId(fingerprint);
-          keyring.privateKeys.push(privKey);
+          that.keyring.publicKeys.removeForId(fingerprint);
+          that.keyring.privateKeys.push(privKey);
           result.push({
             type: 'success',
             message: l10n('key_import_private_exists', [keyid, getUserId(privKey)])
           });
-          that.sync.add(fingerprint, that.sync.UPDATE);
+          that.sync.add(fingerprint, keyringSync.UPDATE);
         } else {
           key.update(privKey);
           result.push({
             type: 'success',
             message: l10n('key_import_private_update', [keyid, getUserId(privKey)])
           });
-          that.sync.add(fingerprint, that.sync.UPDATE);
+          that.sync.add(fingerprint, keyringSync.UPDATE);
         }
       } else {
-        keyring.privateKeys.push(privKey);
+        that.keyring.privateKeys.push(privKey);
         result.push({
           type: 'success',
           message: l10n('key_import_private_success', [keyid, getUserId(privKey)])
         });
-        that.sync.add(fingerprint, that.sync.INSERT);
+        that.sync.add(fingerprint, keyringSync.INSERT);
       }
     });
     return result;
-  }
+  };
 
   function checkKeyId(sourceKey, keyring) {
     var primKeyId = sourceKey.primaryKey.getKeyId();
@@ -642,7 +642,7 @@ define(function(require, exports, module) {
     if (primaryKey && primaryKey.toLowerCase() === removedKey[0].primaryKey.keyid.toHex()) {
       setKeyringAttr(this.id, {primary_key: ""});
     }
-    this.sync.add(removedKey[0].primaryKey.getFingerprint(), this.sync.DELETE);
+    this.sync.add(removedKey[0].primaryKey.getFingerprint(), keyringSync.DELETE);
     this.keyring.store();
     this.sync.commit();
   };
@@ -655,9 +655,9 @@ define(function(require, exports, module) {
     openpgp.generateKeyPair({numBits: parseInt(options.numBits), userId: options.userIds, passphrase: options.passphrase}).then(function(data) {
       if (data) {
         that.keyring.privateKeys.push(data.key);
-        that.sync.add(data.key.primaryKey.getFingerprint(), that.sync.INSERT);
+        that.sync.add(data.key.primaryKey.getFingerprint(), keyringSync.INSERT);
         that.keyring.store();
-        this.sync.commit();
+        that.sync.commit();
         // by no primary key in the keyring set the generated key as primary
         if (!that.hasPrimaryKey()) {
           setKeyringAttr(that.id, {primary_key: data.key.primaryKey.keyid.toHex().toUpperCase()});
@@ -681,7 +681,7 @@ define(function(require, exports, module) {
   };
 
   Keyring.prototype.activateSync = function() {
-    this.sync.init();
+    this.sync.init(true);
   };
 
 });
