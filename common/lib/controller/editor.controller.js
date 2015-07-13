@@ -138,7 +138,7 @@ define(function(require, exports, module) {
         } else if (this.options.predefinedText) {
           data.text = this.options.predefinedText;
         }
-
+        console.log('editor.controller triggerSync', this.id);
         syncCtrl.getByKeyring(this.keyringId).triggerSync(true);
         this.ports.editor.postMessage({event: 'set-init-data', data: data});
         break;
@@ -249,7 +249,7 @@ define(function(require, exports, module) {
     }, 800);
 
     var decryptCtrl = new DecryptController();
-    decryptCtrl.readMessage(armored, this.keyringId)
+    this.model.readMessage(armored, this.keyringId)
       .then(function(message) {
         return decryptCtrl.prepareKey(message, !that.editorPopup);
       })

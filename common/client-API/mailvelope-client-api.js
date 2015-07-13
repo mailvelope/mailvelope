@@ -352,9 +352,10 @@
   /**
    * @typedef {Function} UploadSyncHandler
    * @param {Object} uploadObj - object with upload data
-   * @param {string} uploadObj.eTag - entity tag for the uploaded encrypted keyring
+   * @param {string} uploadObj.eTag - entity tag for the uploaded encrypted keyring, or null if initial upload
    * @param {AsciiArmored} uploadObj.keyringMsg - encrypted keyring as PGP armored message
    * @returns {Promise.<UploadSyncReply, Error>} - if version on server has different eTag, then the promise is rejected
+   *                                               if server is initial and uploadObj.eTag is not null, then the promise is rejected
    */
 
   /**
@@ -366,8 +367,9 @@
   /**
    * @typedef {Function} DownloadSyncHandler
    * @param {Object} downloadObj - meta info for download
-   * @param {string} downloadObj.eTag - entity tag for the current local keyring
+   * @param {string} downloadObj.eTag - entity tag for the current local keyring, or null if no local eTag
    * @returns {Promise.<DownloadSyncReply, Error>} - if version on server has same eTag, then keyringMsg property of reply is empty
+   *                                                 if server is initial and downloadObj.eTag is not null, then the promise is rejected
    */
 
   /**
@@ -525,13 +527,13 @@
     }
     handler(msg.data.data)
       .then(function(result) {
-        postMessage('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: msg.data.type, syncData: result});
+        postMessage('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: msg.data.type, syncData: result, id: msg.data.id}, true);
       })
       .catch(function(error) {
         if (error instanceof Error || typeof error === 'string') {
           error = { message: error.message || '' + error };
         }
-        postMessage('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: msg.data.type, error: error});
+        postMessage('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: msg.data.type, error: error, id: msg.data.id}, true);
       });
   }
 
@@ -570,7 +572,7 @@
     return result;
   }
 
-  function postMessage(eventName, data) {
+  function postMessage(eventName, data, noResp) {
     return new Promise(function(resolve, reject) {
       var message = {
         event: eventName,
@@ -578,13 +580,15 @@
         data: data,
         id: getHash()
       };
-      callbacks[message.id] = function(err, data) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(data);
-        }
-      };
+      if (!noResp) {
+        callbacks[message.id] = function(err, data) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(data);
+          }
+        };
+      }
       window.postMessage(message, window.location.origin);
     });
   }

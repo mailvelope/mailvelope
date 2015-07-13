@@ -71,46 +71,48 @@ define(function(require, exports, module) {
   }
 
   function readMessage(armoredText, keyringId) {
-    var result = {};
-    try {
-      result.message = openpgp.message.readArmored(armoredText);
-    } catch (e) {
-      console.log('openpgp.message.readArmored', e);
-      throw {
-        type: 'error',
-        message: l10n('message_read_error', [e])
-      };
-    }
+    return new Promise(function(resolve, reject) {
+      var result = {};
+      try {
+        result.message = openpgp.message.readArmored(armoredText);
+      } catch (e) {
+        console.log('openpgp.message.readArmored', e);
+        return reject({
+          type: 'error',
+          message: l10n('message_read_error', [e])
+        });
+      }
 
-    result.key = null;
-    result.userid = '';
-    result.keyid = null;
+      result.key = null;
+      result.userid = '';
+      result.keyid = null;
 
-    var encryptionKeyIds = result.message.getEncryptionKeyIds();
-    for (var i = 0; i < encryptionKeyIds.length; i++) {
-      result.keyid = encryptionKeyIds[i].toHex();
-      result.key = keyring.getById(keyringId).keyring.privateKeys.getForId(result.keyid, true);
+      var encryptionKeyIds = result.message.getEncryptionKeyIds();
+      for (var i = 0; i < encryptionKeyIds.length; i++) {
+        result.keyid = encryptionKeyIds[i].toHex();
+        result.key = keyring.getById(keyringId).keyring.privateKeys.getForId(result.keyid, true);
+        if (result.key) {
+          break;
+        }
+      }
+
       if (result.key) {
-        break;
+        result.userid = keyring.getUserId(result.key, false);
+      } else {
+        // unknown private key
+        result.keyid = encryptionKeyIds[0].toHex();
+        var message = l10n("message_no_keys", [result.keyid.toUpperCase()]);
+        for (var i = 1; i < encryptionKeyIds.length; i++) {
+          message = message + ' ' + l10n("word_or") + ' ' + encryptionKeyIds[i].toHex().toUpperCase();
+        }
+        return reject({
+          type: 'error',
+          message: message,
+        });
       }
-    }
 
-    if (result.key) {
-      result.userid = keyring.getUserId(result.key, false);
-    } else {
-      // unknown private key
-      result.keyid = encryptionKeyIds[0].toHex();
-      var message = l10n("message_no_keys", [result.keyid.toUpperCase()]);
-      for (var i = 1; i < encryptionKeyIds.length; i++) {
-        message = message + ' ' + l10n("word_or") + ' ' + encryptionKeyIds[i].toHex().toUpperCase();
-      }
-      throw {
-        type: 'error',
-        message: message
-      };
-    }
-
-    return result;
+      resolve(result);
+    });
   }
 
   function readCleartextMessage(armoredText, keyringId) {
@@ -336,6 +338,55 @@ define(function(require, exports, module) {
     }
   }
 
+  /**
+   * @param  {openpgp.key.Key} key - key to decrypt and verify signature
+   * @param  {openpgp.message.Message} message - sync packet
+   * @return {Promise<Object,Error>}
+   */
+  function decryptSyncMessage(key, message) {
+    return openpgp.getWorker().decryptAndVerifyMessage(key, [key], message)
+      .then(function(msg) {
+        // check signature
+        var sig = msg.signatures[0];
+        if (!(sig && sig.valid && sig.keyid.equals(key.getSigningKeyPacket().getKeyId()))) {
+          throw new Error('Signature of synced keyring is invalid');
+        }
+        var syncData = JSON.parse(msg.text);
+        var publicKeys = [];
+        for (var fingerprint in syncData.publicKeys) {
+          publicKeys.push({
+            type: 'public',
+            armored: syncData.publicKeys[fingerprint]
+          });
+        }
+        return {
+          changeLog: syncData.changeLog,
+          keys: publicKeys
+        };
+      });
+  }
+
+  /**
+   * @param  {Key} key - used to sign and encrypt the package
+   * @param  {Object} changeLog
+   * @param  {String} keyringId - selects keyring for the sync
+   * @return {Promise<String, Error>}
+   */
+  function encryptSyncMessage(key, changeLog, keyringId) {
+    var syncData = {};
+    syncData.changeLog = changeLog;
+    syncData.publicKeys = {};
+    var keyRing = keyring.getById(keyringId).keyring;
+    keyRing.publicKeys.keys.forEach(function(pubKey) {
+      syncData.publicKeys[pubKey.primaryKey.getFingerprint()] = pubKey.armor();
+    });
+    keyRing.privateKeys.keys.forEach(function(privKey) {
+      syncData.publicKeys[privKey.primaryKey.getFingerprint()] = privKey.toPublic().armor();
+    });
+    syncData = JSON.stringify(syncData);
+    return openpgp.getWorker().signAndEncryptMessage([key], key, syncData);
+  }
+
   function getLastModifiedDate(key) {
     var lastModified = new Date(0);
     key.toPacketlist().forEach(function(packet) {
@@ -357,6 +408,8 @@ define(function(require, exports, module) {
   exports.verifyMessage = verifyMessage;
   exports.createPrivateKeyBackup = createPrivateKeyBackup;
   exports.restorePrivateKeyBackup = restorePrivateKeyBackup;
+  exports.decryptSyncMessage = decryptSyncMessage;
+  exports.encryptSyncMessage = encryptSyncMessage;
   exports.getLastModifiedDate = getLastModifiedDate;
 
   function getWatchList() {

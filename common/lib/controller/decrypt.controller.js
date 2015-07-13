@@ -102,7 +102,7 @@ define(function(require, exports, module) {
 
   DecryptController.prototype.decrypt = function(armored, keyringId) {
     var that = this;
-    this.readMessage(armored, keyringId)
+    this.model.readMessage(armored, keyringId)
       .then(function(message) {
         return that.prepareKey(message);
       })
@@ -139,13 +139,6 @@ define(function(require, exports, module) {
           that.ports.decryptCont.postMessage({event: 'decrypt-done'});
         }
       });
-  };
-
-  DecryptController.prototype.readMessage = function(armored, keyringId) {
-    var that = this;
-    return new Promise(function(resolve, reject) {
-      resolve(that.model.readMessage(armored, keyringId));
-    });
   };
 
   DecryptController.prototype.prepareKey = function(message, openPopup) {

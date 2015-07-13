@@ -88,7 +88,8 @@ mvelo.domAPI.dataTypes = {
   syncData: 'object',
   error: 'object',
   restoreId: 'string',
-  restoreBackup: 'string'
+  restoreBackup: 'string',
+  id: 'string'
 };
 
 mvelo.domAPI.optionsTypes = {
