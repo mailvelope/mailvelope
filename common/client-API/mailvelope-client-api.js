@@ -300,6 +300,7 @@
 
   /**
    * @typedef {Object} KeyBackupContainerOptions
+   * @param {Boolean} initialSetup - default true
    */
 
   /**
