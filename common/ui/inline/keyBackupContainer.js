@@ -58,7 +58,7 @@ mvelo.KeyBackupContainer.prototype.create = function(done) {
     sender: this.name,
     host: mvelo.domAPI.host,
     keyringId: this.keyringId,
-    initialSetup: (this.options.initialSetup === undefined) ? true : this.initialSetup
+    initialSetup: (this.options.initialSetup === undefined) ? true : this.options.initialSetup
   });
 
   if (mvelo.crx) {
