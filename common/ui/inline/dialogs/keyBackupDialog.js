@@ -40,7 +40,7 @@ var mvelo = mvelo || null;
 
     mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/inline/dialogs/templates/keybackup.html')).then(function() {
       $keyBackupGenerator = $('#key_backup_generator');
-      $keyBackupWaiting = $('#keyBackupWaiting').hide();
+      $keyBackupWaiting = $('#key_backup_waiting').hide();
       $secureBgndButton = $('.secureBgndSettingsBtn');
       $createBackupCodeBtn = $('#createBackupCodeBtn');
 

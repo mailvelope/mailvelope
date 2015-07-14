@@ -50,8 +50,8 @@ var mvelo = mvelo || null;
       $confirmParent = $('#confirm-form-group');
       $confirmErrorNoEmpty = $confirmInput.next();
       $confirmErrorNoEqual = $confirmErrorNoEmpty.next();
-      $keyGenPasswordPanel = $('#keyGenPasswordPanel');
-      $keyGenWaitingPanel = $('#keyGenWaitingPanel').hide();
+      $keyGenPasswordPanel = $('#key_gen_generator');
+      $keyGenWaitingPanel = $('#key_gen_waiting').hide();
 
       // Get language strings from JSON
       mvelo.l10n.getMessages([

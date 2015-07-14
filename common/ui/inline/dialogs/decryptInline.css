@@ -27,10 +27,6 @@ body {
 #flex-container {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
 
   position: absolute;
   top: 3px;
@@ -41,37 +37,26 @@ body {
 
 #flex-container #header {
   width: 100%;
-  -webkit-order: 0;
-          order: 0;
   display: flex;
   justify-content: space-between
 }
 
 #flex-container #header #uploadPanel {
-  -webkit-order: 1;
-          order: 1;
+  order: 1;
 }
 #flex-container #header #buttonBar {
-  -webkit-order: 2;
-          order: 2;
+  order: 2;
 }
 
 #flex-container #wrapper {
   width: 100%;
   position: relative;
-  -webkit-order: 0;
-          order: 0;
   flex: 1 0 auto;
-  align-self: center;
 }
 
 #flex-container #footer {
   width: 100%;
   padding-top: 4px;
-  -webkit-order: 0;
-          order: 0;
-  flex: 0 1 25px;
-  align-self: auto;
 }
 
 #uploadPanel {

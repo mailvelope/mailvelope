@@ -35,29 +35,20 @@
 .ext-color-exe  { background-color: #4b4a4a !important; }
 
 .attachmentButton {
+  display: inline-flex;
+  align-items: center;
+
   color: #5E5E5E;
   font-weight: normal;
   font-family: Verdana, Geneva, sans-serif;
   font-size: 11px;
-  padding: 2px;
-  margin-top: 3px;
+  padding: 3px;
+  margin-bottom: 3px;
   background: #efefef linear-gradient(to bottom,#ffffff,#ececec);
   border: 1px solid #cbcbcb;
   border-radius: 4px;
   cursor: default;
   margin-right: 5px;
-
-  order: 0;
-  flex: 0 0 auto;
-  align-self: auto;
-
-  display: inline-block;
-}
-
-.attachmentButton:hover, .attachmentButton:focus {
-  text-decoration: none !important;
-  color: #333333 !important;
-  background-image: linear-gradient(to bottom,#ececec,#ececec);
 }
 
 .attachmentExtension {
@@ -66,56 +57,30 @@
   border-radius: 2px;
   background-color: #8a8a8a;
   color: #ffffff;
-  font-size: 10px;
-  line-height: 14px;
+  padding: 1px 3px;
   cursor: default;
   text-transform: uppercase;
-  padding: 1px 3px 1px 3px;
-  margin: 1px 0 1px 1px;
-
-  order: 0;
-  flex: 0 1 auto;
-  align-self: auto;
+  font-size: 10px;
 }
-
-.attachmentExtension:hover {
-  text-decoration: none !important;
-}
-
-.attachmentButton .filename{
-  margin-top: 1px;
-  margin-left: 5px;
-  margin-right: 5px;
+.attachmentFilename{
   max-width: 160px;
-  text-align:center;
-  text-decoration:none;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-
-  order: 0;
-  flex: 0 1 auto;
-  align-self: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  margin: 0 3px;
 }
-
 .removeAttachment {
-  border: 2px solid #a3a3a3;
+  display: inline-block;
   border-radius: 2px;
-  padding: 0;
   color: white;
   background-color: #a3a3a3;
-  margin-left: 3px;
-  margin-right: 1px;
   cursor: pointer;
-
-  order: 0;
-  flex: 0 1 auto;
-  align-self: auto;
-}
-
-.removeAttachment:hover {
-  border: 2px solid #a85152;
-  background-color: #a85152;
+  text-transform: uppercase;
+  padding: 2px;
+  position: inherit;
+  top: 0;
+  font-size: 12px;
 }
 
 /* Overwriting some Bootstrap */
@@ -232,12 +197,23 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   margin-right: 0;
   width: 32px;
   height: 32px;
-  padding: 0;
+  padding: 0 !important;
+  margin-bottom: 3px;
   color: transparent;
   background: radial-gradient(ellipse at center, rgba(245,245,245,1) 0%,rgba(245,245,245,1) 55%,rgba(245,245,245,0) 75%,rgba(245,245,245,0) 100%);
 }
 .secureBgndSettingsBtn:hover {
   color: transparent;
+}
+
+/* General icon for secure button */
+.lockBtnIcon, .lockBtnIcon:active {
+  margin: 0px;
+  width: 28px;
+  height: 28px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJzZWNCZ25kIiB2ZXJzaW9uPSIxLjEiIHdpZHRoPSI3MnB4IiBoZWlnaHQ9IjcycHgiIHZpZXdCb3g9IjAgMCAyNyAyNyI+PHBhdGggdHJhbnNmb3JtPSJyb3RhdGUoMCAxNCAxNCkiIHN0eWxlPSJmaWxsOiAjODA4MDgwOyIgZD0ibSAxMy45NjM2NDksMjUuOTAxNzU0IGMgLTQuNjkwMDAwNSwwIC04LjUwMDAwMDUsLTMuNzggLTguNTAwMDAwNSwtOC40NCAwLC0xLjY0IDAuNDcsLTMuMTcgMS4yOSwtNC40NyBWIDkuMDQxNzU0NiBjIDAsLTMuOTM5OTk5MiAzLjIzLC03LjE0OTk5OTIgNy4yMDAwMDA1LC03LjE0OTk5OTIgMy45NywwIDcuMiwzLjIxIDcuMiw3LjE0OTk5OTIgdiAzLjk0OTk5OTQgYyAwLjgyLDEuMyAxLjMsMi44MyAxLjMsNC40OCAwLDQuNjUgLTMuOCw4LjQzIC04LjQ5LDguNDMgeiBtIC0xLjM1LC03Ljk5IHYgMy4zMyBoIDAgYyAwLDAuMDIgMCwwLjAzIDAsMC4wNSAwLDAuNzQgMC42MSwxLjM0IDEuMzUsMS4zNCAwLjc1LDAgMS4zNSwtMC42IDEuMzUsLTEuMzQgMCwtMC4wMiAwLC0wLjAzIDAsLTAuMDUgaCAwIHYgLTMuMzMgYyAwLjYzLC0wLjQzIDEuMDQsLTEuMTUgMS4wNCwtMS45NyAwLC0xLjMyIC0xLjA3LC0yLjM4IC0yLjQsLTIuMzggLTEuMzIsMCAtMi40LDEuMDcgLTIuNCwyLjM4IDAuMDEsMC44MiAwLjQzLDEuNTQgMS4wNiwxLjk3IHogbSA2LjI5LC04Ljg2OTk5OTQgYyAwLC0yLjcwOTk5OTIgLTIuMjIsLTQuOTA5OTk5MiAtNC45NSwtNC45MDk5OTkyIC0yLjczLDAgLTQuOTUwMDAwNSwyLjIgLTQuOTUwMDAwNSw0LjkwOTk5OTIgViAxMC42MTE3NTQgQyAxMC4zOTM2NDksOS42MjE3NTQ0IDEyLjEwMzY0OSw5LjAzMTc1NDYgMTMuOTUzNjQ5LDkuMDMxNzU0NiBjIDEuODUsMCAzLjU1LDAuNTg5OTk5OCA0Ljk0LDEuNTc5OTk5NCBsIDAuMDEsLTEuNTY5OTk5NCB6IiAvPjwvc3ZnPg==");
 }
 
 .btn-digital-signature,
@@ -251,7 +227,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 .btn-digital-signature:hover {
   text-decoration: underline;
 }
-
 
 /* Clearfix */
 .jumbotron.secureBackground:after {

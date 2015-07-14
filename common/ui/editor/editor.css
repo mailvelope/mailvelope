@@ -162,10 +162,13 @@ body {
 }
 
 #flex-container #header #uploadPanel {
+  flex: 100%;
   order: 1;
 }
 #flex-container #header #buttonBar {
+  flex: 30px;
   order: 2;
+  margin-bottom: 3px;
 }
 
 #flex-container #body {

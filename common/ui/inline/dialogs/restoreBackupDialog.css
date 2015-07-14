@@ -8,11 +8,7 @@ body {
 }
 
 #restorePrivateKey {
-  position: absolute;
-  top: 3px;
-  right: 10px;
-  bottom: 3px;
-  left: 10px;
+  padding: 6px;
   font-size: 11px;
 }
 

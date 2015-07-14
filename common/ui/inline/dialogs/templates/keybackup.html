@@ -1,25 +1,29 @@
-<section id="key_backup_generator" class="secureBackground">
-  <header>
-    <div class="text-right">
-      <button class="btn btn-link secureBgndSettingsBtn" data-l10n-title-id="security_background_button_title"><span class="glyphicon lockBtnIcon"></span></button>
-    </div>
-  </header>
-  <section class="panel panel-default" role="main">
-    <h1 data-l10n-id="keybackup_dialog_headline"></h1>
-    <p data-l10n-id="keybackup_dialog_description"></p>
-    <ul>
-      <li data-l10n-id="keybackup_dialog_list_1"></li>
-      <li data-l10n-id="keybackup_dialog_list_2"></li>
-    </ul>
-    <div class="text-right">
-      <button id="createBackupCodeBtn" class="btn btn-primary" data-l10n-id="keybackup_dialog_button"></button>
-    </div>
+<section id="keyBackup" class="secureBackground">
+  <section id="key_backup_generator">
+    <header>
+      <div class="text-right">
+        <button class="btn btn-link secureBgndSettingsBtn" data-l10n-title-id="security_background_button_title"><span class="glyphicon lockBtnIcon"></span></button>
+      </div>
+    </header>
+    <section class="panel panel-default" role="main">
+      <h1 data-l10n-id="keybackup_dialog_headline"></h1>
+      <p data-l10n-id="keybackup_dialog_description"></p>
+      <ul>
+        <li data-l10n-id="keybackup_dialog_list_1"></li>
+        <li data-l10n-id="keybackup_dialog_list_2"></li>
+      </ul>
+      <div class="text-right">
+        <button id="createBackupCodeBtn" class="btn btn-primary" data-l10n-id="keybackup_dialog_button"></button>
+      </div>
+    </section>
+  </section>
+  <section id="key_backup_waiting">
+    <figure class="panel panel-default">
+      <div class="m-spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
+      <figcaption class="caption">
+        <h1 data-l10n-id="keybackup_waiting_headline"></h1>
+        <p><span data-l10n-id="keybackup_waiting_description"></span> &hellip;</p>
+      </figcaption>
+    </figure>
   </section>
 </section>
-<figure id="keyBackupWaiting" class="panel panel-default">
-  <div class="m-spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
-  <figcaption class="caption">
-    <h1 data-l10n-id="keybackup_waiting_headline"></h1>
-    <p><span data-l10n-id="keybackup_waiting_description"></span> &hellip;</p>
-  </figcaption>
-</figure>

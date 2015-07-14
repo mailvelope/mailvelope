@@ -187,7 +187,7 @@ var mvelo = mvelo || null;
   }
 
   function showMessageArea() {
-    $('html, body').addClass('hide_bg');
+    //$('html, body').addClass('hide_bg');
     hideSpinner();
     $('#wrapper').addClass('fade-in');
     resizeFont();
