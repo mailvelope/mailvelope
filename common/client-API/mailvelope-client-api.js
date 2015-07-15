@@ -301,7 +301,7 @@
 
   /**
    * @typedef {Object} KeyBackupContainerOptions
-   * @param {Boolean} initialSetup - default true
+   * @param {Boolean} initialSetup (default: true)
    */
 
   /**
@@ -318,7 +318,7 @@
 
   /**
    * @typedef {Object} PrivateKeyContainerOptions
-   * @property {boolean} restorePassword
+   * @property {boolean} restorePassword (default: false)
    */
 
   /**

@@ -192,7 +192,7 @@
         "description": "Import error alert."
     },
     "key_import_question": {
-        "message": "Möchten Sie diesen Schlüssel importieren?",
+        "message": "Absender als Kontakt zur verschlüsselten Kommunikation bestätigen?",
         "description": "Key import dialog header."
     },
     "key_import_multiple_keys": {
@@ -298,6 +298,10 @@
     "form_cancel": {
         "message": "Abbrechen",
         "description": "Cancel form button."
+    },
+    "form_confirm": {
+        "message": "Bestätigen",
+        "description": "Confirm form button."
     },
     "keygrid_invalid_userid": {
         "message": "Ungültige Benutzerkennung",
@@ -746,6 +750,30 @@
     "key_import_exception": {
         "message": "Während der Verarbeitung der Schlüssel ist ein Ausnahmefall aufgetreten",
         "description": "Import error alert."
+    },
+    "key_import_default_description": {
+        "message": "Nachdem [CONTACT] zur verschlüsselten Kommunikation bestätigt wurde, können Sie mit Ihrem Kontakt verschlüsselt kommunizieren.",
+        "description": ""
+    },
+    "key_import_extend_headline": {
+        "message": "Erweiterte Informationen zur verschlüsselten Kommunikation:",
+        "description": ""
+    },
+    "key_import_extend_fingerprint": {
+        "message": "PGP-Prüfnummer („Fingerprint“):",
+        "description": ""
+    },
+    "key_import_extend_date": {
+        "message": "Erstellt am:",
+        "description": ""
+    },
+    "key_import_extend_hint": {
+        "message": "Hinweis:",
+        "description": ""
+    },
+    "key_import_extend_description": {
+        "message": "Die PGP-Prüfnummer dient zur Identifikation der Schlüsselinformationen Ihrer Kommunikation.",
+        "description": ""
     },
     "keygrid_display_key_pair": {
         "message": "Schlüsselpaar anzeigen",
