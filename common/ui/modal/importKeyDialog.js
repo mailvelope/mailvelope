@@ -32,15 +32,24 @@ var mvelo = mvelo || null;
     // open port to background page
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
-    port.postMessage({event: 'key-import-dialog-init', sender: id});
+
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);
     $('form').on('submit', onOk);
+
     window.onbeforeunload = function() {
       onCancel();
     };
+
+    mvelo.l10n.getMessages([
+      'key_import_default_description'
+    ], function(result) {
+      l10n = result;
+    });
+
     mvelo.l10n.localizeHTML();
     mvelo.util.showSecurityBackground();
+    port.postMessage({event: 'key-import-dialog-init', sender: id});
   }
 
   function onOk() {
@@ -63,8 +72,16 @@ var mvelo = mvelo || null;
     //console.log('key import dialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
       case 'key-details':
-        $('#userId').val(msg.key.userId);
-        $('#fingerprint').val(msg.key.fingerprint.match(/.{1,4}/g).join(' '));
+        var userName = $('<span/>').addClass('userName').text(msg.key.name);
+        var userEmail = $('<span/>').addClass('userEmail').text('(' + msg.key.email + ')');
+        var date = (new Date(msg.key.crDate)).toLocaleString();
+        var contact = l10n.key_import_default_description.replace('[CONTACT]', '<em>' + msg.key.email + '</em>');
+
+        $('#key_import_default_description').html(contact);
+
+        $('.userId').empty().append(userName, ' ', userEmail);
+        $('.fingerprint').text(msg.key.fingerprint.match(/.{1,4}/g).join(' '));
+        $('.createDate').text(date);
         break;
       case 'import-error':
         $('#okBtn').prop('disabled', false);

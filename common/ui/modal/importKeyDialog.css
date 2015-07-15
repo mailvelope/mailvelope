@@ -28,22 +28,55 @@ body {
   background: url('../../img/loading.gif') no-repeat center;
 }
 
+.modal-body {
+  overflow-y: auto;
+  height: 20.5em;
+  padding-bottom: 0;
+}
+
 #fingerprint {
   font-family: monospace;
 }
 
-.modal-body.secureBackground {
-  padding-top: 40px;
+.panel {
+  position: relative;
+  margin-top: 20px;
+  padding: 20px 20px 10px;
+}
+
+.tab-pane {
   position: relative;
 }
 
-.secureBackground .well {
-    background-color: #fff;
-    margin-bottom: 0;
+.tab-pane .tab-change {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+}
+
+.tab-pane h5 {
+  margin: 0;
+}
+
+.tab-pane hr {
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
 
 #lockIcon {
   position: absolute;
   top: 3px;
   right: 12px;
+}
+
+.glyphicon.glyphicon-small, .glyphicon.glyphicon-small:active  {
+  width: 15px;
+  height: 15px;
+}
+.userId {
+  margin: 0 .25em;
+}
+
+.userId .userName, .userId .userEmail {
+  white-space: nowrap;
 }
