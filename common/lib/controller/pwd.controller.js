@@ -149,16 +149,21 @@ define(function(require, exports, module) {
         if (!cacheEntry.key) {
           that.pwdCache.unlock(cacheEntry, options.message, resolve.bind(null, options.message));
         } else {
+          options.message.key = cacheEntry.key;
           resolve(options.message);
         }
       });
     } else {
-      if (options.openPopup) {
-        this.mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + this.id, {width: 470, height: 425, modal: false}, function(window) {
-          that.pwdPopup = window;
-        });
-      }
       return new Promise(function(resolve, reject) {
+        if (options.message.key.primaryKey.isDecrypted) {
+          // secret-key data is not encrypted, nothing to do
+          return resolve(options.message);
+        }
+        if (options.openPopup) {
+          that.mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + that.id, {width: 470, height: 400, modal: false}, function(window) {
+            that.pwdPopup = window;
+          });
+        }
         that.resolve = resolve;
         that.reject = reject;
       });
