@@ -118,7 +118,9 @@ define(function(require, exports, module) {
             return;
           }
         }
-        that.ports.restoreBackupDialog.postMessage({event: 'set-password', password: backup.password});
+        if (that.restorePassword) {
+          that.ports.restoreBackupDialog.postMessage({event: 'set-password', password: backup.password});
+        }
         that.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', data: backup.key.toPublic().armor()});
       })
       .catch(function(err) {
