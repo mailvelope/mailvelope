@@ -146,7 +146,6 @@ var mvelo = mvelo || null;
   }
 
   function showPassword(pwd) {
-    console.log('restoreBackupDialog showPassword()', pwd);
     $restorePasswordInput.val(pwd);
 
     $restoreBackupPanel.fadeOut('fast', function() {
