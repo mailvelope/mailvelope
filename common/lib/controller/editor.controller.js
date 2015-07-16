@@ -323,6 +323,8 @@ define(function(require, exports, module) {
       return;
     }
 
+    primaryKey.keyid = signKeyid;
+
     that.pwdControl = sub.factory.get('pwdDialog');
     that.pwdControl.unlockCachedKey({message: primaryKey})
       .then(function() {
