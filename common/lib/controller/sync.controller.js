@@ -68,12 +68,13 @@ define(function(require, exports, module) {
       .then(function() {
         if (modified) {
           // unlock key if still locked
-          var message = {
+          var unlockKey = {
             key: key,
-            keyid: key.getSigningKeyPacket().getKeyId().toHex()
+            keyid: key.getSigningKeyPacket().getKeyId().toHex(),
+            userid: keyringMod.getUserId(key)
           };
           that.pwdControl = that.pwdControl || sub.factory.get('pwdDialog');
-          return that.pwdControl.unlockCachedKey({message: message})
+          return that.pwdControl.unlockCachedKey(unlockKey)
             .then(function(message) {
               // encrypt keyring sync message
               return that.model.encryptSyncMessage(message.key, that.keyring.sync.data.changeLog, that.keyringId);
@@ -125,7 +126,7 @@ define(function(require, exports, module) {
               }
               // unlock key if still locked
               that.pwdControl = sub.factory.get('pwdDialog');
-              return that.pwdControl.unlockCachedKey({message: message});
+              return that.pwdControl.unlockCachedKey(message);
             })
             .then(function(message) {
               return that.model.decryptSyncMessage(message.key, message.message);

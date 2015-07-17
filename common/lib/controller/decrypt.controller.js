@@ -143,30 +143,15 @@ define(function(require, exports, module) {
 
   DecryptController.prototype.prepareKey = function(message, openPopup) {
     var that = this;
-    return new Promise(function(resolve, reject) {
-      // password or unlocked key in cache?
-      var cacheEntry = that.pwdCache.get(message.key.primaryKey.getKeyId().toHex(), message.keyid);
-      if (!cacheEntry) {
-        if (message.key.primaryKey.isDecrypted) {
-          // secret-key data is not encrypted, nothing to do
-          return resolve(message);
-        }
-        // open password dialog
-        that.pwdControl = sub.factory.get('pwdDialog');
-        if (that.ports.dFrame && that.prefs.data().security.display_decrypted == that.mvelo.DISPLAY_POPUP) {
-          that.ports.dDialog.postMessage({event: 'show-pwd-dialog', id: that.pwdControl.id});
-        }
-        resolve(that.pwdControl.unlockKey({
-          message: message,
-          openPopup: openPopup !== undefined ? openPopup : that.ports.decryptCont || that.prefs.data().security.display_decrypted == that.mvelo.DISPLAY_INLINE,
-          reason: 'PWD_DIALOG_REASON_DECRYPT'
-        }));
-      } else {
-        that.pwdCache.unlock(cacheEntry, message, function() {
-          return resolve(message);
-        });
+    this.pwdControl = sub.factory.get('pwdDialog');
+    message.reason = 'PWD_DIALOG_REASON_DECRYPT';
+    message.openPopup = openPopup !== undefined ? openPopup : this.ports.decryptCont || this.prefs.data().security.display_decrypted == this.mvelo.DISPLAY_INLINE;
+    message.beforePasswordRequest = function() {
+      if (that.ports.dFrame && that.prefs.data().security.display_decrypted == that.mvelo.DISPLAY_POPUP) {
+        that.ports.dDialog.postMessage({event: 'show-pwd-dialog', id: that.pwdControl.id});
       }
-    });
+    };
+    return this.pwdControl.unlockCachedKey(message);
   };
 
   DecryptController.prototype.decryptMessage = function(message) {

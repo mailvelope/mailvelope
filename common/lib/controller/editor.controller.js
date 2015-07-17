@@ -144,44 +144,30 @@ define(function(require, exports, module) {
         break;
       case 'sign-dialog-ok':
         this.signBuffer = {};
-        var cacheEntry = this.pwdCache.get(msg.signKeyId, msg.signKeyId);
-        if (cacheEntry && cacheEntry.key) {
-          this.signBuffer.key = cacheEntry.key;
-          this.ports.editor.postMessage({event: 'get-plaintext', action: 'sign'});
-        } else {
-          var key = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
-          // add key in buffer
-          this.signBuffer.key = key.signKey;
-          this.signBuffer.keyid = msg.signKeyId;
-          this.signBuffer.userid = key.userId;
-          if (cacheEntry) {
-            this.pwdCache.unlock(cacheEntry, this.signBuffer, function() {
-              that.ports.editor.postMessage({event: 'get-plaintext', action: 'sign'});
-            });
-          } else {
-            // open password dialog
-            this.pwdControl = sub.factory.get('pwdDialog');
-            this.pwdControl.unlockKey({
-              message: this.signBuffer,
-              openPopup: false,
-              reason: 'PWD_DIALOG_REASON_SIGN'
-            })
-              .then(function() {
-                that.ports.editor.postMessage({event: 'get-plaintext', action: 'sign'});
-              })
-              .catch(function(err) {
-                if (err === 'pwd-dialog-cancel') {
-                  that.ports.editor.postMessage({event: 'hide-pwd-dialog'});
-                  return;
-                }
-                if (err) {
-                  // TODO: propagate error to sign dialog
-                }
-              });
-
-            this.ports.editor.postMessage({event: 'show-pwd-dialog', id: this.pwdControl.id});
-          }
-        }
+        var key = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
+        // add key in buffer
+        this.signBuffer.key = key.signKey;
+        this.signBuffer.keyid = msg.signKeyId;
+        this.signBuffer.userid = key.userId;
+        this.signBuffer.openPopup = false;
+        this.signBuffer.reason = 'PWD_DIALOG_REASON_SIGN';
+        this.signBuffer.beforePasswordRequest = function() {
+          that.ports.editor.postMessage({event: 'show-pwd-dialog', id: that.pwdControl.id});
+        };
+        this.pwdControl = sub.factory.get('pwdDialog');
+        this.pwdControl.unlockCachedKey(this.signBuffer)
+          .then(function() {
+            that.ports.editor.postMessage({event: 'get-plaintext', action: 'sign'});
+          })
+          .catch(function(err) {
+            if (err.code = 'PWD_DIALOG_CANCEL') {
+              that.ports.editor.postMessage({event: 'hide-pwd-dialog'});
+              return;
+            }
+            if (err) {
+              // TODO: propagate error to sign dialog
+            }
+          });
         break;
       case 'editor-plaintext':
         this.signAndEncrypt(msg);
@@ -328,7 +314,7 @@ define(function(require, exports, module) {
     primaryKey.keyid = signKeyid;
 
     that.pwdControl = sub.factory.get('pwdDialog');
-    that.pwdControl.unlockCachedKey({message: primaryKey})
+    that.pwdControl.unlockCachedKey(primaryKey)
       .then(function() {
         return that.model.signAndEncryptMessage({
           keyIdsHex: options.keyIdsHex,
