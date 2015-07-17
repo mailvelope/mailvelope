@@ -85,40 +85,26 @@ define(function(require, exports, module) {
         break;
       case 'sign-dialog-ok':
         this.signBuffer = {};
-        var cacheEntry = this.pwdCache.get(msg.signKeyId, msg.signKeyId);
-        if (cacheEntry && cacheEntry.key) {
-          this.signBuffer.key = cacheEntry.key;
-          this.ports.eFrame.postMessage({event: 'email-text', type: msg.type, action: 'sign'});
-        } else {
-          var key = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
-          // add key in buffer
-          this.signBuffer.key = key.signKey;
-          this.signBuffer.keyid = msg.signKeyId;
-          this.signBuffer.userid = key.userId;
-          if (cacheEntry) {
-            this.pwdCache.unlock(cacheEntry, this.signBuffer, function() {
-              that.ports.eFrame.postMessage({event: 'email-text', type: msg.type, action: 'sign'});
-            });
-          } else {
-            // open password dialog
-            sub.factory.get('pwdDialog').unlockKey({
-              message: this.signBuffer,
-              reason: 'PWD_DIALOG_REASON_SIGN'
-            })
-              .then(function() {
-                that.ports.eFrame.postMessage({event: 'email-text', type: msg.type, action: 'sign'});
-              })
-              .catch(function(err) {
-                if (err === 'pwd-dialog-cancel') {
-                  that.ports.eFrame.postMessage({event: 'dialog-cancel'});
-                  return;
-                }
-                if (err) {
-                  // TODO: propagate error to sign dialog
-                }
-              });
-          }
-        }
+        var key = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
+        // add key in buffer
+        this.signBuffer.key = key.signKey;
+        this.signBuffer.keyid = msg.signKeyId;
+        this.signBuffer.userid = key.userId;
+        this.signBuffer.reason = 'PWD_DIALOG_REASON_SIGN';
+        this.pwdControl = sub.factory.get('pwdDialog');
+        this.pwdControl.unlockCachedKey(this.signBuffer)
+          .then(function() {
+            that.ports.eFrame.postMessage({event: 'email-text', type: msg.type, action: 'sign'});
+          })
+          .catch(function(err) {
+            if (err.code = 'PWD_DIALOG_CANCEL') {
+              that.ports.eFrame.postMessage({event: 'sign-dialog-cancel'});
+              return;
+            }
+            if (err) {
+              // TODO: propagate error to sign dialog
+            }
+          });
         break;
       case 'eframe-email-text':
         if (msg.action === 'encrypt') {

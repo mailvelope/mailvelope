@@ -65,10 +65,8 @@ define(function(require, exports, module) {
       throw { message: 'No private key for backup', code: 'NO_PRIVATE_KEY' };
     }
     this.pwdControl = sub.factory.get('pwdDialog');
-    this.pwdControl.unlockCachedKey({
-      message: primaryKey,
-      reason: 'PWD_DIALOG_REASON_CREATE_BACKUP'
-    })
+    primaryKey.reason = 'PWD_DIALOG_REASON_CREATE_BACKUP';
+    this.pwdControl.unlockCachedKey(primaryKey)
       .then(function(primaryKey) {
         that.keyBackup = that.model.createPrivateKeyBackup(primaryKey.key, primaryKey.password);
       })

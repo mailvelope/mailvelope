@@ -29,8 +29,7 @@ define(function(require, exports, module) {
     this.mainType = 'pwdDialog';
     this.id = this.mvelo.util.getHash();
     this.pwdPopup = null;
-    this.message = null;
-    this.reason = '';
+    this.options = null;
     this.resolve = null;
     this.reject = null;
     this.pwdCache = require('../pwdCache');
@@ -45,10 +44,10 @@ define(function(require, exports, module) {
       case 'pwd-dialog-init':
         // pass over keyid and userid to dialog
         this.ports.pwdDialog.postMessage({event: 'set-init-data', data: {
-          userid: this.message.userid,
-          keyid: this.message.key.primaryKey.getKeyId().toHex(),
+          userid: this.options.userid,
+          keyid: this.options.key.primaryKey.getKeyId().toHex(),
           cache: this.prefs.data().security.password_cache,
-          reason: this.reason
+          reason: this.options.reason
         }});
         break;
       case 'pwd-dialog-cancel':
@@ -62,7 +61,7 @@ define(function(require, exports, module) {
         break;
       case 'pwd-dialog-ok':
         try {
-          this.model.unlockKey(this.message.key, this.message.keyid, msg.password, function(err, key) {
+          this.model.unlockKey(this.options.key, this.options.keyid, msg.password, function(err, key) {
             if (err) {
               if (err.message == 'Wrong password') {
                 that.ports.pwdDialog.postMessage({event: 'wrong-password'});
@@ -76,21 +75,21 @@ define(function(require, exports, module) {
               }
             } else if (key) {
               // password correct
-              that.message.key = key;
-              that.message.password = msg.password;
+              that.options.key = key;
+              that.options.password = msg.password;
               if (msg.cache != that.prefs.data().security.password_cache) {
                 // update pwd cache status
                 that.prefs.update({security: {password_cache: msg.cache}});
               }
               if (msg.cache) {
                 // set unlocked key and password in cache
-                that.pwdCache.set(that.message, msg.password);
+                that.pwdCache.set(that.options, msg.password);
               }
               if (that.pwdPopup) {
                 that.pwdPopup.close();
                 that.pwdPopup = null;
               }
-              that.resolve(that.message);
+              that.resolve(that.options);
             }
           });
         } catch (e) {
@@ -107,59 +106,46 @@ define(function(require, exports, module) {
     }
   };
 
-  PwdController.prototype.unlockKey = function(options) {
-    var that = this;
-    this.message = options.message;
-    if (typeof options.reason !== 'undefined') {
-      this.reason = options.reason;
-    }
-    if (typeof options.openPopup == 'undefined') {
-      options.openPopup = true;
-    }
-    if (options.openPopup) {
-      this.mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + this.id, {width: 470, height: 425, modal: false}, function(window) {
-        that.pwdPopup = window;
-      });
-    }
-    return new Promise(function(resolve, reject) {
-      that.resolve = resolve;
-      that.reject = reject;
-    });
-  };
-
   /**
-   *
-   * @param {Object} options.message - primaryKey
-   * @param {Boolean} [options.openPopup]
-   * @return {Promise<>}
+   * @param {Object} options
+   * @param {openpgp.key.Key} options.key - key to unlock
+   * @param {String} options.keyid - keyid of key packet that needs to be unlocked
+   * @param {String} options.userid - userid of key that needs to be unlocked
+   * @param {String} [options.reason] - optional explanation for password dialog
+   * @param {Boolean} [options.openPopup=true] - password popup required (false if dialog appears integrated)
+   * @param {Function} [options.beforePasswordRequest] - called before password entry required
+   * @return {Promise<Object, Error>} - resolves with unlocked key and password
    */
   PwdController.prototype.unlockCachedKey = function(options) {
     var that = this;
-    this.message = options.message;
-    if (typeof options.reason !== 'undefined') {
-      this.reason = options.reason;
+    this.options = options;
+    if (typeof options.reason == 'undefined') {
+      this.options.reason = '';
     }
-    if (typeof options.openPopup == 'undefined') {
-      options.openPopup = true;
+    if (typeof this.options.openPopup == 'undefined') {
+      this.options.openPopup = true;
     }
-    var cacheEntry = this.pwdCache.get(options.message.key.primaryKey.getKeyId().toHex(), options.message.keyid);
+    var cacheEntry = this.pwdCache.get(this.options.key.primaryKey.getKeyId().toHex(), this.options.keyid);
     if (cacheEntry) {
       return new Promise(function(resolve, reject) {
-        options.message.password = cacheEntry.password;
+        that.options.password = cacheEntry.password;
         if (!cacheEntry.key) {
-          that.pwdCache.unlock(cacheEntry, options.message, resolve.bind(null, options.message));
+          that.pwdCache.unlock(cacheEntry, that.options, resolve.bind(null, that.options));
         } else {
-          options.message.key = cacheEntry.key;
-          resolve(options.message);
+          that.options.key = cacheEntry.key;
+          resolve(that.options);
         }
       });
     } else {
       return new Promise(function(resolve, reject) {
-        if (options.message.key.primaryKey.isDecrypted) {
+        if (that.options.key.primaryKey.isDecrypted) {
           // secret-key data is not encrypted, nothing to do
-          return resolve(options.message);
+          return resolve(that.options);
         }
-        if (options.openPopup) {
+        if (that.options.beforePasswordRequest) {
+          that.options.beforePasswordRequest();
+        }
+        if (that.options.openPopup) {
           that.mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + that.id, {width: 470, height: 400, modal: false}, function(window) {
             that.pwdPopup = window;
           });
