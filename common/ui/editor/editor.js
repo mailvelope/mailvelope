@@ -53,7 +53,8 @@ var mvelo = mvelo || null;
     'editor_no_sign_caption_short',
     'editor_no_sign_caption_long',
     'editor_error_header',
-    'editor_error_content'
+    'editor_error_content',
+    'upload_quota_warning_headline'
   ], function(result) {
     l10n = result;
   });
@@ -247,7 +248,12 @@ var mvelo = mvelo || null;
     }
     currentAttachmentsSize = currentAttachmentsSize + fileSizeAll;
     if (currentAttachmentsSize > maxFileUploadSize) {
-      alert(l10n.upload_quota_exceeded_warning + " " + Math.floor(maxFileUploadSize / (1024 * 1024)) + "MB.");
+      var error = {
+        title: l10n.upload_quota_warning_headline,
+        message: l10n.upload_quota_exceeded_warning + " " + Math.floor(maxFileUploadSize / (1024 * 1024)) + "MB."
+      };
+
+      showErrorModal(error);
       return;
     }
     for (i = 0; i < numFiles; i++) {
@@ -502,7 +508,7 @@ var mvelo = mvelo || null;
   }
 
   function showErrorModal(error) {
-    var title = l10n.editor_error_header;
+    var title = error.title || l10n.editor_error_header;
     var content = error.message;
     var $errorModal = $('#errorModal');
 
@@ -538,6 +544,7 @@ var mvelo = mvelo || null;
 
   function onSetText(text) {
     $('#waitingModal').modal("hide");
+
     if (editor) {
       setText(text);
     } else {

@@ -184,6 +184,13 @@ define(function(require, exports, module) {
     }
   };
 
+  /**
+   * @param {Object} options
+   * @param {String} options.initText
+   * @param {String} options.keyringId
+   * @param {Function} options.getRecipients
+   * @param {Function} callback
+   */
   EditorController.prototype.encrypt = function(options, callback) {
     var that = this;
     this.initText = options.initText;
@@ -195,12 +202,24 @@ define(function(require, exports, module) {
     });
   };
 
+  /**
+   * @param {String} message
+   * @param {Map} attachments
+   * @param {String} attachments.filename
+   * @param {String} attachments.content
+   * @param {Integer} attachments.size
+   * @param {String} attachments.type
+   * @returns {String | null}
+   */
   EditorController.prototype.buildMail = function(message, attachments) {
     //var t0 = Date.now();
     var mainMessage = new this.mailbuild("multipart/mixed");
-    var composedMessage;
+    var composedMessage = null;
     var hasAttachment;
+    var quotaSize = 0;
+
     if (message) {
+      quotaSize += this.mvelo.util.byteCount(message);
       var textMime = new this.mailbuild("text/plain")
         .setHeader("Content-Type", "text/plain; charset=utf-8")
         .addHeader("Content-Transfer-Encoding", "quoted-printable")
@@ -210,6 +229,7 @@ define(function(require, exports, module) {
     if (attachments && Object.keys(attachments).length > 0) {
       hasAttachment = true;
       for (var attachment in attachments) {
+        quotaSize += attachments[attachment].size;
         var attachmentMime = new this.mailbuild("text/plain")
           .createChild(false, {filename: attachments[attachment].filename})
           //.setHeader("Content-Type", msg.attachments[attachment].type+"; charset=utf-8")
@@ -219,6 +239,20 @@ define(function(require, exports, module) {
         mainMessage.appendChild(attachmentMime);
       }
     }
+
+    if (quotaSize > this.options.quota) {
+      var error = {
+        type: 'error',
+        code: 'ENCRYPT_QUOTA_SIZE',
+        message: 'ENCRYPT_QUOTA_SIZE'
+      };
+
+      if (this.ports.editorCont) {
+        this.ports.editorCont.postMessage({event: 'error-message', error: error});
+      }
+      return composedMessage;
+    }
+
     if (hasAttachment || this.pgpMIME) {
       composedMessage = mainMessage.build();
     } else {
@@ -229,6 +263,10 @@ define(function(require, exports, module) {
     return composedMessage;
   };
 
+  /**
+   * @param {String} armored
+   * @returns {undefined}
+   */
   EditorController.prototype.decryptQuoted = function(armored) {
     var that = this;
     var decryptTimer = this.mvelo.util.setTimeout(function() {
@@ -396,6 +434,10 @@ define(function(require, exports, module) {
   EditorController.prototype.signAndEncrypt = function(options) {
     if (options.action === 'encrypt') {
       var data = this.buildMail(options.message, options.attachments);
+
+      if (data === null) {
+        return;
+      }
 
       if (this.signMsg) {
         this.signAndEncryptMessage({

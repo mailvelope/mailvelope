@@ -207,6 +207,15 @@ mvelo.util.html2text = function(html) {
   return mvelo.util.decodeHTML(html);
 };
 
+/**
+ * This function will return the byte size of any UTF-8 string you pass to it.
+ * @param {String} s
+ * @returns {Integer}
+ */
+mvelo.util.byteCount = function(s) {
+  return encodeURI(s).split(/%..|./).length - 1;
+};
+
 mvelo.util.ab2str = function(buf) {
   var str = '';
   var ab = new Uint8Array(buf);
