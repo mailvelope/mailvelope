@@ -354,6 +354,7 @@
    * @param {Object} uploadObj - object with upload data
    * @param {string} uploadObj.eTag - entity tag for the uploaded encrypted keyring, or null if initial upload
    * @param {AsciiArmored} uploadObj.keyringMsg - encrypted keyring as PGP armored message
+   * @param {AsciiArmored} uploadObj.pubKey - current public key of the user
    * @returns {Promise.<UploadSyncReply, Error>} - if version on server has different eTag, then the promise is rejected
    *                                               if server is initial and uploadObj.eTag is not null, then the promise is rejected
    */

@@ -370,7 +370,7 @@ define(function(require, exports, module) {
    * @param  {Key} key - used to sign and encrypt the package
    * @param  {Object} changeLog
    * @param  {String} keyringId - selects keyring for the sync
-   * @return {Promise<String, Error>}
+   * @return {Promise<Object, Error>} - the encrypted message and the own public key
    */
   function encryptSyncMessage(key, changeLog, keyringId) {
     var syncData = {};
@@ -384,7 +384,13 @@ define(function(require, exports, module) {
       syncData.publicKeys[privKey.primaryKey.getFingerprint()] = privKey.toPublic().armor();
     });
     syncData = JSON.stringify(syncData);
-    return openpgp.getWorker().signAndEncryptMessage([key], key, syncData);
+    return openpgp.getWorker().signAndEncryptMessage([key], key, syncData)
+      .then(function(armored) {
+        return {
+          armored: armored,
+          pubKey: key.toPublic().armor()
+        };
+      });
   }
 
   function getLastModifiedDate(key) {

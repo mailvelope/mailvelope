@@ -66,6 +66,7 @@ define(function(require, exports, module) {
     }
     this.pwdControl = sub.factory.get('pwdDialog');
     primaryKey.reason = 'PWD_DIALOG_REASON_CREATE_BACKUP';
+    primaryKey.keyringId = this.keyringId;
     this.pwdControl.unlockCachedKey(primaryKey)
       .then(function(primaryKey) {
         that.keyBackup = that.model.createPrivateKeyBackup(primaryKey.key, primaryKey.password);

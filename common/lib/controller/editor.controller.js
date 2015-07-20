@@ -139,7 +139,7 @@ define(function(require, exports, module) {
           data.text = this.options.predefinedText;
         }
         console.log('editor.controller triggerSync', this.id);
-        syncCtrl.getByKeyring(this.keyringId).triggerSync(true);
+        syncCtrl.triggerSync({keyringId: this.keyringId, force: true});
         this.ports.editor.postMessage({event: 'set-init-data', data: data});
         break;
       case 'sign-dialog-ok':
@@ -154,6 +154,7 @@ define(function(require, exports, module) {
         this.signBuffer.beforePasswordRequest = function() {
           that.ports.editor.postMessage({event: 'show-pwd-dialog', id: that.pwdControl.id});
         };
+        this.signBuffer.keyringId = this.keyringId;
         this.pwdControl = sub.factory.get('pwdDialog');
         this.pwdControl.unlockCachedKey(this.signBuffer)
           .then(function() {
@@ -312,6 +313,7 @@ define(function(require, exports, module) {
     }
 
     primaryKey.keyid = signKeyid;
+    primaryKey.keyringId = this.keyringId;
 
     that.pwdControl = sub.factory.get('pwdDialog');
     that.pwdControl.unlockCachedKey(primaryKey)

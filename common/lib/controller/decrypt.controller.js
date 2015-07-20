@@ -151,6 +151,7 @@ define(function(require, exports, module) {
         that.ports.dDialog.postMessage({event: 'show-pwd-dialog', id: that.pwdControl.id});
       }
     };
+    message.keyringId = this.keyringId;
     return this.pwdControl.unlockCachedKey(message);
   };
 

@@ -20,6 +20,7 @@
 define(function(require, exports, module) {
 
   var sub = require('./sub.controller');
+  var syncCtrl = require('./sync.controller');
 
   function PwdController(port) {
     if (port) {
@@ -90,6 +91,15 @@ define(function(require, exports, module) {
                 that.pwdPopup = null;
               }
               that.resolve(that.options);
+              if (!that.options.noSync) {
+                // trigger sync after short delay
+                that.mvelo.util.setTimeout(function() {
+                  syncCtrl.triggerSync({
+                    keyringId: that.options.keyringId,
+                    key: that.options.key
+                  });
+                }, 1000);
+              }
             }
           });
         } catch (e) {
@@ -111,6 +121,8 @@ define(function(require, exports, module) {
    * @param {openpgp.key.Key} options.key - key to unlock
    * @param {String} options.keyid - keyid of key packet that needs to be unlocked
    * @param {String} options.userid - userid of key that needs to be unlocked
+   * @param {String} options.keyringId - keyring assignment of provided key
+   * @param {Boolean} [options.noSync=false] - do not trigger sync
    * @param {String} [options.reason] - optional explanation for password dialog
    * @param {Boolean} [options.openPopup=true] - password popup required (false if dialog appears integrated)
    * @param {Function} [options.beforePasswordRequest] - called before password entry required

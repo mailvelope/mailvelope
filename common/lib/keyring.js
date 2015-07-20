@@ -635,14 +635,23 @@ define(function(require, exports, module) {
   }
 
   Keyring.prototype.removeKey = function(guid, type) {
-    var primaryKey = this.getAttributes().primary_key;
-    var removedKey = this.keyring.removeKeysForId(guid);
-
-    // Remove the key from the keyring attributes if primary
-    if (primaryKey && primaryKey.toLowerCase() === removedKey[0].primaryKey.keyid.toHex()) {
-      setKeyringAttr(this.id, {primary_key: ""});
+    var removedKey;
+    if (type === 'public') {
+      removedKey = this.keyring.publicKeys.removeForId(guid);
+    } else if (type === 'private') {
+      removedKey = this.keyring.privateKeys.removeForId(guid);
     }
-    this.sync.add(removedKey[0].primaryKey.getFingerprint(), keyringSync.DELETE);
+    if (!removedKey) {
+      return;
+    }
+    if (type === 'private') {
+      var primaryKey = this.getAttributes().primary_key;
+      // Remove the key from the keyring attributes if primary
+      if (primaryKey && primaryKey.toLowerCase() === removedKey.primaryKey.keyid.toHex()) {
+        setKeyringAttr(this.id, {primary_key: ''});
+      }
+    }
+    this.sync.add(removedKey.primaryKey.getFingerprint(), keyringSync.DELETE);
     this.keyring.store();
     this.sync.commit();
   };
@@ -678,10 +687,6 @@ define(function(require, exports, module) {
 
   Keyring.prototype.getAttributes = function() {
     return keyringAttr[this.id];
-  };
-
-  Keyring.prototype.activateSync = function() {
-    this.sync.init(true);
   };
 
 });
