@@ -979,6 +979,10 @@
         "message": "Öffentlichen Schlüssel anzeigen",
         "description": "Export key menu."
     },
+    "upload_quota_warning_headline": {
+        "message": "Anhang zu groß",
+        "description": ""
+    },
     "upload_quota_exceeded_warning": {
         "message": "Anhang überschreitet die zulässige Größe:",
         "description": "A warning shown when the attachments upload quota is exceeded."

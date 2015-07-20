@@ -951,6 +951,10 @@
     "message": "Add attachment",
     "description": "Text in the upload attachment button of the message editor dialog"
   },
+  "upload_quota_warning_headline": {
+    "message": "Attachment size too big",
+    "description": ""
+  },
   "upload_quota_exceeded_warning": {
     "message": "Attachment size exceeds the allowable limit:",
     "description": "A warning shown when the attachments upload quota is exceeded."
