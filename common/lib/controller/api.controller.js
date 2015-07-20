@@ -26,10 +26,11 @@ define(function(require, exports, module) {
   var model = require('../pgpModel');
 
   function handleApiEvent(request, sender, sendResponse) {
+    var keyRing;
     try {
       switch (request.event) {
         case 'get-keyring':
-          var keyRing = keyring.getById(request.keyringId);
+          keyRing = keyring.getById(request.keyringId);
           if (keyRing) {
             var attr = keyRing.getAttributes();
             sendResponse({data: {revision: attr.logo_revision}});
@@ -37,7 +38,9 @@ define(function(require, exports, module) {
           }
           break;
         case 'create-keyring':
-          if (keyring.createKeyring(request.keyringId)) {
+          keyRing = keyring.createKeyring(request.keyringId);
+          if (keyRing) {
+            keyRing.sync.activate();
             sendResponse({data: {}});
             sub.setActiveKeyringId(request.keyringId);
           }

@@ -28,20 +28,20 @@ define(function(require, exports, module) {
 
   function KeyringSync(keyringId) {
     this.keyringId = keyringId;
-    this.data = null;
     this.SYNC_DATA = 'sync_data';
+    this.data = keyringMod.getKeyringAttr(this.keyringId, this.SYNC_DATA);
     this.muted = false;
   }
 
-  KeyringSync.prototype.init = function(active) {
-    if (!active) {
-      return;
+  KeyringSync.prototype.activate = function() {
+    if (!this.data) {
+      this.data = {
+        eTag: '',
+        changeLog: {},
+        modified: false
+      };
     }
-    this.data = keyringMod.getKeyringAttr(this.keyringId, this.SYNC_DATA) || {
-      eTag: '',
-      changeLog: {},
-      modified: false
-    };
+    this.save();
   };
 
   KeyringSync.prototype.add = function(keyid, type) {
@@ -76,7 +76,7 @@ define(function(require, exports, module) {
       return;
     }
     this.save();
-    syncCtrl.getByKeyring(this.keyringId).triggerSync();
+    syncCtrl.triggerSync({keyringId: this.keyringId});
   };
 
   KeyringSync.prototype.merge = function(update) {

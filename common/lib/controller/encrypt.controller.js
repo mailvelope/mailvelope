@@ -91,6 +91,7 @@ define(function(require, exports, module) {
         this.signBuffer.keyid = msg.signKeyId;
         this.signBuffer.userid = key.userId;
         this.signBuffer.reason = 'PWD_DIALOG_REASON_SIGN';
+        this.signBuffer.keyringId = this.mvelo.LOCAL_KEYRING_ID;
         this.pwdControl = sub.factory.get('pwdDialog');
         this.pwdControl.unlockCachedKey(this.signBuffer)
           .then(function() {
