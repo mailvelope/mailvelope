@@ -31,6 +31,9 @@ body {
   margin-bottom: 0;
 }
 
+.modal-body {
+  height: 240px;
+}
 .modal-body .form-control-static {
   padding-top: 0;
 }

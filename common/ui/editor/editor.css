@@ -86,12 +86,12 @@ body {
 
 #pwdDialog {
   width: 462px;
-  height: 377px;
+  height: 417px;
   position: absolute;
   left: 50%;
   top: 50%;
   margin-left: -231px;
-  margin-top: -188px;
+  margin-top: -208px;
 }
 
 .m-dialog {
