@@ -191,10 +191,6 @@ body {
   display: inline-block;
 }
 
-#uploadPanel {
-  display: inline-block;
-}
-
 .btn-upload-embedded {
   font-size: 11px;
   border: 1px solid #b9b9b9;

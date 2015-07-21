@@ -50,6 +50,10 @@
   cursor: default;
   margin-right: 5px;
 }
+a.attachmentButton {
+  text-decoration: none;
+  cursor: pointer;
+}
 
 .attachmentExtension {
   display: inline-block;

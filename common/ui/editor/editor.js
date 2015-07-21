@@ -54,6 +54,7 @@ var mvelo = mvelo || null;
     'editor_no_sign_caption_long',
     'editor_error_header',
     'editor_error_content',
+    'waiting_dialog_prepare_email',
     'upload_quota_warning_headline'
   ], function(result) {
     l10n = result;
@@ -114,13 +115,14 @@ var mvelo = mvelo || null;
   }
 
   function loadTemplates(embedded, callback) {
+    var $body = $('body');
     if (embedded) {
-      $('body').addClass("secureBackground");
+      $body.addClass("secureBackground");
 
       Promise.all([
-        mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')),
-        mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/waiting-modal.html')),
-        mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/error-modal.html'))
+        mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')),
+        mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/waiting-modal.html')),
+        mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/error-modal.html'))
       ]).then(function() {
         $('#waitingModal').on('hidden.bs.modal', function(e) {
           editor.focus()
@@ -136,21 +138,20 @@ var mvelo = mvelo || null;
       .then(callback);
 
     } else {
-      mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-popup.html')).then(function() {
+      mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/editor-popup.html')).then(function() {
         $('.modal-body').addClass('secureBackground');
         $('#cancelBtn').click(onCancel);
-        $('#transferBtn').click(onTransfer);
+        $('#transferBtn').hide().click(onTransfer);
         $('#signBtn').click(onSign);
         $('#encryptBtn').click(onEncrypt);
         $('#undoBtn').click(onUndo)
                      .prop('disabled', true);
-        $('#transferBtn').hide();
 
         Promise.all([
           mvelo.appendTpl($('#editorDialog .modal-body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')),
-          mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/encrypt-modal.html')),
-          mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/error-modal.html')),
-          mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/editor/tpl/transfer-warn.html')).then(function() {
+          mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/encrypt-modal.html')),
+          mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/error-modal.html')),
+          mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/transfer-warn.html')).then(function() {
             // transfer warning modal
             $('#transferWarn .btn-primary').click(transfer);
             $('#transferWarn').hide();
@@ -507,14 +508,26 @@ var mvelo = mvelo || null;
     $('#encryptModal iframe').remove();
   }
 
+  /**
+   * @param {Object} error
+   * @param {String} [error.title]
+   * @param {String} error.message
+   * @param {String} [error.class]
+   */
   function showErrorModal(error) {
     var title = error.title || l10n.editor_error_header;
     var content = error.message;
     var $errorModal = $('#errorModal');
 
+    if (error.class && typeof error.class == 'string') {
+      content = $('<div/>').addClass(error.class).html(content);
+    }
+
     $('.modal-body', $errorModal).empty().append(content);
     $('.modal-title', $errorModal).empty().append(title);
-    $errorModal.modal('show');
+    $errorModal.modal('show').on('hidden.bs.modal', function() {
+      $('#waitingModal').modal('hide');
+    });
   }
 
   function removeErrorModal() {
@@ -564,21 +577,21 @@ var mvelo = mvelo || null;
         setSignMode(data.signMsg || false, data.primary);
         break;
       case 'decrypt-in-progress':
-        $('#waitingModal').modal({keyboard: false}).modal("show");
+      case 'encrypt-in-progress':
+        $('#waitingModal').modal({keyboard: false}).modal('show');
         break;
       case 'decrypt-end':
-        $('#waitingModal').modal("hide");
+      case 'encrypt-end':
+      case 'encrypt-failed':
+        $('#waitingModal').modal('hide');
         break;
       case 'decrypt-failed':
-        $('#waitingModal .modal-title').show();
-        if (msg.error) {
-          $('.text-center').addClass('alert alert-danger').text(msg.error.message);
-        } else {
-          $('.text-center').addClass('alert alert-danger').text(l10n.waiting_dialog_decryption_failed);
-        }
-        $('#waitingModal .m-spinner').hide();
-        $('#waitingModal .btn-primary').show();
-        $('#waitingModal').modal("show");
+        var error = {
+          title: l10n.waiting_dialog_decryption_failed,
+          message: (msg.error) ? msg.error.message : l10n.waiting_dialog_decryption_failed,
+          class: 'alert alert-danger'
+        };
+        showErrorModal(error);
         break;
       case 'show-pwd-dialog':
         removeDialog();

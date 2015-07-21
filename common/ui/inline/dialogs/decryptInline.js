@@ -113,7 +113,7 @@ var mvelo = mvelo || null;
   }
 
   function addAttachmentPanel() {
-    return $('<div/>', {id: 'attachments'});
+    return $('<div/>', {id: 'uploadPanel'});
   }
 
   function addButtonBar() {
@@ -189,7 +189,7 @@ var mvelo = mvelo || null;
   function showMessageArea() {
     //$('html, body').addClass('hide_bg');
     hideSpinner();
-    $('#wrapper').addClass('fade-in');
+    $('#flex-container').addClass('fade-in');
     resizeFont();
   }
 
@@ -226,7 +226,7 @@ var mvelo = mvelo || null;
     objectURL = window.URL.createObjectURL(blob);
 
     var $fileName = $('<span/>', {
-      "class": 'filename'
+      "class": 'attachmentFilename'
     }).append(fileNameNoExt);
 
     var $fileUI = $('<a/>', {
@@ -242,7 +242,7 @@ var mvelo = mvelo || null;
       logUserInput('security_log_attachment_download');
     });
 
-    $('#attachments').append($fileUI);
+    $('#uploadPanel').append($fileUI);
   }
 
   function logUserInput(type) {
@@ -334,7 +334,6 @@ var mvelo = mvelo || null;
         addAttachment(msg.message.filename, msg.message.content, msg.message.mimeType, msg.message.attachmentId);
         break;
       case 'signature-verification':
-        console.log('signers', msg.signers);
         signers = msg.signers;
         setSignatureButton();
         break;

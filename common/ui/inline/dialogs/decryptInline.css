@@ -15,15 +15,6 @@ body {
   align-items: stretch;
 }
 
-#wrapper {
-  opacity: 0;
-  transition: opacity 0.6s ease-in;
-}
-
-#wrapper.fade-in {
-  opacity: 1;
-}
-
 #flex-container {
   display: flex;
   flex-direction: column;
@@ -33,6 +24,13 @@ body {
   left: 10px;
   right: 10px;
   bottom: 8px;
+
+  opacity: 0;
+  transition: opacity 0.6s ease-in;
+}
+
+#flex-container.fade-in {
+  opacity: 1;
 }
 
 #flex-container #header {
@@ -42,6 +40,7 @@ body {
 }
 
 #flex-container #header #uploadPanel {
+  flex: 100%;
   order: 1;
 }
 #flex-container #header #buttonBar {

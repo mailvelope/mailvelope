@@ -22,7 +22,7 @@ body {
 }
 
 .modal-body .panel {
-  padding: 20px;
+  padding: 10px 20px 20px;
   margin-bottom: 0;
 }
 
@@ -42,7 +42,7 @@ body {
   margin-bottom: 0;
 }
 
-#rememberGroup {
+#rememberGroup .checkbox {
   margin-bottom: 0;
 }
 
