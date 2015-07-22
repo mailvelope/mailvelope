@@ -187,7 +187,7 @@ define(function(require, exports, module) {
    */
   DecryptController.prototype.parseMessage = function(rawText, handlers, encoding) {
     var that = this;
-    if (/^\s*(MIME-Version|Content-Type|Content-Transfer-Encoding):/.test(rawText)) {
+    if (/^\s*(MIME-Version|Content-Type|Content-Transfer-Encoding|From|Date):/.test(rawText)) {
       // MIME
       // mailreader expects rawText in pseudo-binary
       rawText = unescape(encodeURIComponent(rawText));
