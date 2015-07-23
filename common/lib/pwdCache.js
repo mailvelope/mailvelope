@@ -76,8 +76,8 @@ define(function(require, exports, module) {
   /**
    * Set key and password in cache, start timeout
    * @param {Object} message
-   *                   keyid: key ID of key that should be cached
-   *                   key: private key, packet of keyid expected unlocked
+   * @param {String} [message.keyid] - key ID of key that should be cached
+   * @param {openpgp.key.Key} message.key - private key, packet of keyid expected unlocked
    * @param {String} pwd     password, optional
    * @param {Number} cacheTime    timeout in minutes
    */
@@ -87,13 +87,15 @@ define(function(require, exports, module) {
     var entry = cache[primKeyIdHex];
     if (entry) {
       // set unlocked private key for this keyid
-      if (!entry[message.keyid]) {
+      if (message.keyid && !entry[message.keyid]) {
         entry[message.keyid] = message.key;
       }
     } else {
       var newEntry = cache[primKeyIdHex] = {};
       newEntry.password = pwd;
-      newEntry[message.keyid] = message.key;
+      if (message.keyid) {
+        newEntry[message.keyid] = message.key;
+      }
       // clear after timeout
       newEntry.timer = mvelo.util.setTimeout(function() {
         delete cache[primKeyIdHex];
