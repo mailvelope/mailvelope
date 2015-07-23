@@ -1,6 +1,13 @@
 Mailvelope Changelog
 ====================
 
+v0.13.2
+-------
+__July 22, 2015__
+
+  * Update OpenPGP.js to 1.2.0
+  * Custom icon color for security background
+
 v0.13.1
 -------
 __Apr. 15, 2015__
