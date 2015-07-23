@@ -384,13 +384,7 @@ define(function(require, exports, module) {
       syncData.publicKeys[privKey.primaryKey.getFingerprint()] = privKey.toPublic().armor();
     });
     syncData = JSON.stringify(syncData);
-    return openpgp.getWorker().signAndEncryptMessage([key], key, syncData)
-      .then(function(armored) {
-        return {
-          armored: armored,
-          pubKey: key.toPublic().armor()
-        };
-      });
+    return openpgp.getWorker().signAndEncryptMessage([key], key, syncData);
   }
 
   function getLastModifiedDate(key) {
