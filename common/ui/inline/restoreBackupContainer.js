@@ -37,7 +37,7 @@ mvelo.RestoreBackupContainer = function(selector, keyringId, options) {
   this.parent = null;
   this.container = null;
   this.done = null;
-  this.restoreIsReady = null;
+  this.restoreDone = null;
 };
 
 /**
@@ -87,7 +87,9 @@ mvelo.RestoreBackupContainer.prototype.registerEventListener = function() {
   this.port.onMessage.addListener(function(msg) {
     switch (msg.event) {
       case 'restore-backup-done':
-        that.restoreDone(msg.error);
+        if (that.restoreDone) {
+          that.restoreDone(msg.error);
+        }
         break;
       case 'dialog-done':
         that.port.postMessage({event: 'set-init-data', sender: that.name, data: that.options});
