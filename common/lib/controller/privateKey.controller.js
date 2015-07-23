@@ -53,7 +53,7 @@ define(function(require, exports, module) {
       numBits: options.keySize,
       passphrase: password
     }, function(err, data) {
-      pwdCache.set({keyid: data.key.primaryKey.getKeyId().toHex(), key: data.key}, password, 5);
+      pwdCache.set({key: data.key}, password, 5);
       that.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: data.publicKeyArmored, error: err});
     });
   };
