@@ -168,9 +168,9 @@ define(function(require, exports, module) {
         return that.model.encryptSyncMessage(message.key, that.keyring.sync.data.changeLog, that.keyringId);
       })
       // upload
-      .then(function(syncObj) {
+      .then(function(armored) {
         console.log('uploadSyncMessage');
-        return that.upload({eTag: that.keyring.sync.data.eTag, keyringMsg: syncObj.armored, pubKey: syncObj.pubKey});
+        return that.upload({eTag: that.keyring.sync.data.eTag, keyringMsg: armored});
       })
       .then(function(result) {
         that.keyring.sync.data.eTag = result.eTag;
