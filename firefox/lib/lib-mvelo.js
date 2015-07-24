@@ -26,6 +26,7 @@ var timer = require('sdk/timers');
 var ss = require('sdk/simple-storage');
 var url = require('sdk/url');
 var l10nGet = require('sdk/l10n').get;
+var indexedDBMod = require('sdk/indexed-db');
 
 var mvelo = require('./common/mvelo').mvelo;
 var CWorker = require('web-worker').Worker;
@@ -151,6 +152,13 @@ mvelo.storage.get = function(id) {
 mvelo.storage.set = function(id, obj) {
   ss.storage[id] = obj;
 };
+
+mvelo.storage.remove = function(id) {
+  delete ss.storage[id];
+};
+
+mvelo.storage.indexedDB = indexedDBMod.indexedDB;
+mvelo.storage.IDBKeyRange = indexedDBMod.IDBKeyRange;
 
 mvelo.windows = {};
 

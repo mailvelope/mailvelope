@@ -207,11 +207,11 @@ var options = {};
       keyringHTML = $.parseHTML(keyringTmpl);
 
       var obj = data[keyRingId];
-      if (obj.hasOwnProperty('primary_key')) {
+      if (obj.hasOwnProperty('primaryPrivateKey')) {
         if (exports.keyringId === keyRingId) {
-          exports.primaryKeyId = obj.primary_key;
+          exports.primaryKeyId = obj.primaryPrivateKey;
         }
-        $(keyringHTML).find('.keyRingName').attr('data-primarykeyid', obj.primary_key);
+        $(keyringHTML).find('.keyRingName').attr('data-primarykeyid', obj.primaryPrivateKey);
       }
       if (obj.hasOwnProperty('logo_data_url')) {
         $(keyringHTML).find('.keyRingName').attr('data-providerlogo', obj.logo_data_url);

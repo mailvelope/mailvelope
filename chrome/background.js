@@ -77,12 +77,13 @@ define([
       activate: function() {},
       deactivate: function() {}
     });
-    model.init();
-    migrate();
-    initConnectionManager();
-    //initContextMenu();
-    initScriptInjection();
-    initMessageListener();
+    model.init()
+      .then(function() {
+        initConnectionManager();
+        //initContextMenu();
+        initScriptInjection();
+        initMessageListener();
+      });
   }
 
   function initConnectionManager() {
@@ -239,10 +240,6 @@ define([
       } \
     ";
     return bootstrapSrc;
-  }
-
-  function migrate() {
-    model.migrate08();
   }
 
   init();

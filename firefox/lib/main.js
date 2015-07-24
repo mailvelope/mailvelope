@@ -68,9 +68,11 @@ function init() {
     activate: function() {},
     deactivate: function() {}
   });
-  model.init();
-  initAddonButton();
-  activatePageMods();
+  model.init()
+    .then(function() {
+      initAddonButton();
+      activatePageMods();
+    });
 }
 
 init();

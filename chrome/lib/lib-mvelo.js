@@ -147,6 +147,13 @@ define(function(require, exports, module) {
     window.localStorage.setItem(id, JSON.stringify(obj));
   };
 
+  mvelo.storage.remove = function(id) {
+    window.localStorage.removeItem(id);
+  };
+
+  mvelo.storage.indexedDB = window.indexedDB;
+  mvelo.storage.IDBKeyRange = window.IDBKeyRange;
+
   mvelo.windows = {};
 
   mvelo.windows.modalActive = false;

@@ -86,9 +86,9 @@ var options = options || null;
           options.primaryKeyId = undefined;
           for (var keyRingId in result) {
             var obj = result[keyRingId];
-            if (obj.hasOwnProperty('primary_key')) {
+            if (obj.hasOwnProperty('primaryPrivateKey')) {
               if (options.keyringId === keyRingId) {
-                options.primaryKeyId = obj.primary_key;
+                options.primaryKeyId = obj.primaryPrivateKey;
               }
             }
           }
@@ -317,7 +317,7 @@ var options = options || null;
     var primaryKeyId = $(this).attr('data-primarykeyid');
     if (primaryKeyId) {
       options.setKeyringAttr(options.keyringId, {
-        primary_key: primaryKeyId
+        primaryPrivateKey: primaryKeyId
       });
       $(this).addClass('btn-warning');
       $(this).text(options.l10n.keygrid_primary_label);

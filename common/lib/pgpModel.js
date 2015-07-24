@@ -26,6 +26,7 @@ define(function(require, exports, module) {
   var prefs = require('./prefs');
   var pwdCache = require('./pwdCache');
   var crypto = require('./crypto');
+  var indexedDB = require('./indexedDB');
 
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
   var keyring = require('./keyring');
@@ -33,11 +34,14 @@ define(function(require, exports, module) {
   var watchListBuffer = null;
 
   function init() {
-    defaults.init();
-    prefs.init();
-    pwdCache.init();
-    initOpenPGP();
-    keyring.init();
+    return indexedDB.init()
+      .then(function() {
+        defaults.init();
+        prefs.init();
+        pwdCache.init();
+        initOpenPGP();
+        return keyring.init();
+      });
   }
 
   function initOpenPGP() {
@@ -442,18 +446,5 @@ define(function(require, exports, module) {
   exports.getHost = mvelo.util.getHost;
   exports.getPreferences = getPreferences;
   exports.setPreferences = setPreferences;
-
-  function migrate08() {
-    var prefs = getPreferences();
-    if (mvelo.crx && prefs.migrate08 && prefs.migrate08.done) {
-      window.localStorage.removeItem("privatekeys");
-      window.localStorage.removeItem("publickeys");
-      delete prefs.migrate08;
-      setPreferences(prefs);
-    }
-
-  }
-
-  exports.migrate08 = migrate08;
 
 });

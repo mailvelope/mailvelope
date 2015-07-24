@@ -25,24 +25,21 @@ define(function(require, exports, module) {
   var prefs = require('./prefs');
   var l10n = mvelo.l10n.get;
   var keyringSync = require('./keyringSync');
+  var keyStore = require('./keyStore');
   var keyringAttr = null;
   var keyringMap = new Map();
 
   function init() {
     keyringAttr = getAllKeyringAttr();
-    if (keyringAttr && keyringAttr[mvelo.LOCAL_KEYRING_ID]) {
-      for (var keyringId in keyringAttr) {
-        if (keyringAttr.hasOwnProperty(keyringId)) {
-          keyringMap.set(keyringId, new Keyring(keyringId));
-        }
-      }
-    } else {
-      createKeyring(mvelo.LOCAL_KEYRING_ID);
-      // migrate primary_key attribute
-      if (prefs.data().general.primary_key) {
-        setKeyringAttr(mvelo.LOCAL_KEYRING_ID, {primary_key: prefs.data().general.primary_key});
+    var keyringInit = [];
+    for (var keyringId in keyringAttr) {
+      if (keyringAttr.hasOwnProperty(keyringId)) {
+        var keyRng = new Keyring(keyringId);
+        keyringMap.set(keyringId, keyRng);
+        keyringInit.push(keyRng.init());
       }
     }
+    return Promise.all(keyringInit);
   }
 
   function createKeyring(keyringId, options) {
@@ -57,8 +54,10 @@ define(function(require, exports, module) {
     keyringAttr[keyringId] = {};
     var keyRng = new Keyring(keyringId);
     keyringMap.set(keyringId, keyRng);
-    setKeyringAttr(keyringId, {} || options);
-    return keyRng;
+    return keyRng.init()
+      .then(function() {
+        return setKeyringAttr(keyringId, {} || options);
+      });
   }
 
   function deleteKeyring(keyringId) {
@@ -147,13 +146,13 @@ define(function(require, exports, module) {
 
   function Keyring(keyringId) {
     this.id = keyringId;
-    var localstore = null;
-    if (this.id !== mvelo.LOCAL_KEYRING_ID) {
-      localstore = new openpgp.Keyring.localstore(this.id);
-    }
-    this.keyring = new openpgp.Keyring(localstore);
+    this.keyStore = new keyStore.KeyStore(this.id);
     this.sync = new keyringSync.KeyringSync(this.id);
   }
+
+  Keyring.prototype.init = function() {
+    return this.keyStore.init();
+  };
 
   Keyring.prototype.getKeys = function() {
     // map keys to UI format
@@ -416,7 +415,7 @@ define(function(require, exports, module) {
         result[emailAddr] = false;
       } else if (options.sort) {
         // sort by key creation date and primary key status
-        var primaryKeyId = that.getAttributes().primary_key;
+        var primaryKeyId = that.getAttributes().primaryPrivateKey;
         result[emailAddr].sort(function(a, b) {
           if (primaryKeyId) {
             primaryKeyId = primaryKeyId.toLowerCase();
@@ -459,12 +458,12 @@ define(function(require, exports, module) {
   };
 
   Keyring.prototype.hasPrimaryKey = function() {
-    return this.getAttributes().primary_key ? true : false;
+    return this.getAttributes().primaryPrivateKey ? true : false;
   };
 
   Keyring.prototype.getPrimaryKey = function() {
     var primaryKey;
-    var primaryKeyid = this.getAttributes().primary_key;
+    var primaryKeyid = this.getAttributes().primaryPrivateKey;
     if (!primaryKeyid) {
       // get newest private key
       this.keyring.privateKeys.keys.forEach(function(key) {
@@ -513,7 +512,7 @@ define(function(require, exports, module) {
       this.sync.commit();
       // by no primary key in the keyring set the first found private keys as primary for the keyring
       if (!that.hasPrimaryKey() && that.keyring.privateKeys.keys.length > 0) {
-        setKeyringAttr(that.id, {primary_key: that.keyring.privateKeys.keys[0].primaryKey.keyid.toHex().toUpperCase()});
+        setKeyringAttr(that.id, {primaryPrivateKey: that.keyring.privateKeys.keys[0].primaryKey.keyid.toHex().toUpperCase()});
       }
     }
     return result;
@@ -645,10 +644,10 @@ define(function(require, exports, module) {
       return;
     }
     if (type === 'private') {
-      var primaryKey = this.getAttributes().primary_key;
+      var primaryKey = this.getAttributes().primaryPrivateKey;
       // Remove the key from the keyring attributes if primary
       if (primaryKey && primaryKey.toLowerCase() === removedKey.primaryKey.keyid.toHex()) {
-        setKeyringAttr(this.id, {primary_key: ''});
+        setKeyringAttr(this.id, {primaryPrivateKey: ''});
       }
     }
     this.sync.add(removedKey.primaryKey.getFingerprint(), keyringSync.DELETE);
@@ -669,7 +668,7 @@ define(function(require, exports, module) {
         that.sync.commit();
         // by no primary key in the keyring set the generated key as primary
         if (!that.hasPrimaryKey()) {
-          setKeyringAttr(that.id, {primary_key: data.key.primaryKey.keyid.toHex().toUpperCase()});
+          setKeyringAttr(that.id, {primaryPrivateKey: data.key.primaryKey.keyid.toHex().toUpperCase()});
         }
       }
       callback(null, data);

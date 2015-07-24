@@ -80,7 +80,7 @@ define(function(require, exports, module) {
       case 'sign-dialog-init':
         var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
         var keys = localKeyring.getPrivateKeys();
-        var primary = localKeyring.getAttributes().primary_key;
+        var primary = localKeyring.getAttributes().primaryPrivateKey;
         this.mvelo.data.load('common/ui/inline/dialogs/templates/sign.html').then(function(content) {
           var port = that.ports.sDialog;
           port.postMessage({event: 'sign-dialog-content', data: content});
@@ -117,7 +117,7 @@ define(function(require, exports, module) {
           keyIds = keyIds.concat(keyIdMap[recipient]);
         });
         var primary = this.prefs.data().general.auto_add_primary &&
-                      this.keyring.getById(this.keyringId).getAttributes().primary_key;
+                      this.keyring.getById(this.keyringId).getAttributes().primaryPrivateKey;
         if (primary) {
           keyIds.push(primary.toLowerCase());
         }
