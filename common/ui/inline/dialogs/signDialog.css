@@ -29,6 +29,11 @@ html, body {
   /* https://bugs.webkit.org/show_bug.cgi?id=28900 */
   height: 60px;
   font-size: 12px;
+  padding: 0;
+}
+
+#keyList option {
+  padding: 3px 6px;
 }
 
 #keyDialog h5 {
@@ -36,8 +41,6 @@ html, body {
 }
 
 #keySelect {
-  height: 26px;
-  line-height: 26px;
   font-size: 12px;
   margin-bottom: 6px;
 }
