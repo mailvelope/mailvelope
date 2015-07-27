@@ -35,7 +35,7 @@ body {
   margin: 1em 0;
 }
 
-.flex-digit {
+.form-control.flex-digit {
   width:  5em;
   height: auto;
   text-align: center;
@@ -43,11 +43,7 @@ body {
   padding: 6px;
   font-family: Consolas, "Lucida Console", Monaco, monospace;
 }
-.flex-digit.invalid {
-}
-.flex-digit.valid {
-}
-.flex-digit.last {
+.form-control.flex-digit.last {
   width: 2em;
   min-width: 3em;
 }
