@@ -20,6 +20,9 @@
 define(function(require, exports, module) {
 
   var sub = require('./sub.controller');
+  var keyringMod = require('../keyring');
+  var keyringSync = require('../keyringSync');
+  var openpgp = require('openpgp');
 
   function ImportController(port) {
     sub.SubController.call(this, port);
@@ -27,10 +30,12 @@ define(function(require, exports, module) {
       this.mainType = 'importKeyDialog';
       this.id = this.mvelo.util.getHash();
     }
-    this.armored = null;
+    this.armored = '';
     this.done = null;
     this.importPopup = null;
-    this.keyring = require('../keyring');
+    this.keyringId = '';
+    this.keyring = null;
+    this.key = null;
     this.importError = false;
   }
 
@@ -64,7 +69,7 @@ define(function(require, exports, module) {
         this.ports.importKeyDialog.postMessage({event: 'key-details', key: this.key});
         break;
       case 'key-import-dialog-ok':
-        var importResult = this.keyring.getById(this.keyringId).importKeys([{type: 'public', armored: this.armored}])[0];
+        var importResult = this.keyring.importKeys([{type: 'public', armored: this.armored}])[0];
         if (importResult.type === 'error') {
           this.ports.importKeyDialog.postMessage({event: 'import-error', message: importResult.message});
           this.importError = true;
@@ -94,11 +99,11 @@ define(function(require, exports, module) {
     var that = this;
     this.keyringId = keyringId;
     // check keyringId
-    this.keyring.getById(keyringId);
+    this.keyring = keyringMod.getById(keyringId);
     this.armored = armored;
     this.done = callback;
 
-    this.keys = this.keyring.readKey(this.armored);
+    this.keys = keyringMod.readKey(this.armored);
     if (this.keys.err) {
       callback({message: this.keys.err[0].message, code: 'IMPORT_ERROR'});
       return;
@@ -112,9 +117,36 @@ define(function(require, exports, module) {
       // only import first key in armored block
       this.armored = this.key.armor();
     }
-    this.mvelo.windows.openPopup('common/ui/modal/importKeyDialog.html?id=' + this.id, {width: 535, height: 495, modal: false}, function(window) {
-      that.importPopup = window;
-    });
+    // check if key already in keyring
+    try {
+      var fingerprint = this.key.primaryKey.getFingerprint();
+      var stockKey = this.keyring.getKeysForId(fingerprint);
+      if (!stockKey) {
+        this.mvelo.windows.openPopup('common/ui/modal/importKeyDialog.html?id=' + this.id, {width: 535, height: 425, modal: false}, function(window) {
+          that.importPopup = window;
+        });
+      } else {
+        stockKey = stockKey[0];
+        var statusBefore = stockKey.verifyPrimaryKey();
+        var beforeLastModified = this.model.getLastModifiedDate(stockKey);
+        stockKey.update(this.key);
+        var statusAfter = stockKey.verifyPrimaryKey();
+        var afterLastModified = this.model.getLastModifiedDate(stockKey);
+        if (beforeLastModified !== afterLastModified) {
+          this.keyring.sync.add(fingerprint, keyringSync.UPDATE);
+          this.keyring.store();
+          this.keyring.sync.commit();
+          if (statusBefore === openpgp.enums.keyStatus.valid &&
+              statusAfter !== openpgp.enums.keyStatus.valid) {
+            callback(null, 'INVALIDATED');
+            return;
+          }
+        }
+        callback(null, 'UPDATED');
+      }
+    } catch (err) {
+      callback({message: err.message, code: 'IMPORT_ERROR'});
+    }
   };
 
   exports.ImportController = ImportController;
