@@ -554,6 +554,9 @@
         if (event.data.error) {
           error = new Error(event.data.error.message);
           error.code = event.data.error.code;
+          if (!callbacks[event.data.id]) {
+            throw error;
+          }
         }
         callbacks[event.data.id](error, event.data.data);
         delete callbacks[event.data.id];
