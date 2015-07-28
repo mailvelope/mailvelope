@@ -22,27 +22,20 @@ html, body {
 
 #pwdDialog {
   width: 462px;
-  height: 345px;
+  height: 420px;
   position:absolute;
   left:50%;
   top:50%;
   margin-left: -231px;
-  margin-top: -188px;
+  margin-top: -215px;
 }
 
 .m-modal {
   margin: 10px;
   background-color: #ffffff;
-  border: 1px solid #999;
   border: 1px solid rgba(0, 0, 0, 0.3);
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
   border-radius: 6px;
-  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding;
   background-clip: padding-box;
 }
 
