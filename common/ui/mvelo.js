@@ -209,11 +209,11 @@ mvelo.util.html2text = function(html) {
 
 /**
  * This function will return the byte size of any UTF-8 string you pass to it.
- * @param {String} s
- * @returns {Integer}
+ * @param {string} str
+ * @returns {number}
  */
-mvelo.util.byteCount = function(s) {
-  return encodeURI(s).split(/%..|./).length - 1;
+mvelo.util.byteCount = function(str) {
+  return encodeURI(str).split(/%..|./).length - 1;
 };
 
 mvelo.util.ab2str = function(buf) {

@@ -240,7 +240,7 @@ define(function(require, exports, module) {
       }
     }
 
-    if (quotaSize > this.options.quota) {
+    if ((Math.ceil(quotaSize / 3) * 4) > this.options.quota) {
       var error = {
         type: 'error',
         code: 'ENCRYPT_QUOTA_SIZE',
