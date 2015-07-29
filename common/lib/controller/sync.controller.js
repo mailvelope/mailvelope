@@ -125,6 +125,7 @@ define(function(require, exports, module) {
               }
               message.keyringId = that.keyringId;
               message.noSync = true;
+              message.reason = 'PWD_DIALOG_REASON_EDITOR';
               // unlock key if still locked
               that.pwdControl = sub.factory.get('pwdDialog');
               return that.pwdControl.unlockCachedKey(message);
