@@ -153,6 +153,9 @@ define(function(require, exports, module) {
 
   mvelo.windows.openPopup = function(url, options, callback) {
     chrome.windows.getCurrent(null, function(current) {
+      if (window.navigator.platform.indexOf('Win') >= 0 && options.height) {
+        options.height += 36;
+      }
       chrome.windows.create({
         url: url,
         width: options && options.width,

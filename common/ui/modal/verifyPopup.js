@@ -64,7 +64,7 @@ var mvelo = mvelo || null;
   }
 
   function onClose() {
-    $(window).off('unload');
+    $(window).off('beforeunload unload');
     port.postMessage({event: 'verify-dialog-cancel', sender: name});
     return false;
   }

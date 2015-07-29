@@ -36,10 +36,7 @@ var mvelo = mvelo || null;
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);
     $('form').on('submit', onOk);
-
-    window.onbeforeunload = function() {
-      onCancel();
-    };
+    $(window).on('unload', onCancel);
 
     mvelo.l10n.getMessages([
       'key_import_default_description'
@@ -53,7 +50,7 @@ var mvelo = mvelo || null;
   }
 
   function onOk() {
-    $(window).off('unload');
+    $(window).off('beforeunload unload');
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
     $('#spinner').show();
     $('.modal-body').css('opacity', '0.4');
@@ -63,7 +60,7 @@ var mvelo = mvelo || null;
   }
 
   function onCancel() {
-    $(window).off('unload');
+    $(window).off('beforeunload unload');
     port.postMessage({event: 'key-import-dialog-cancel', sender: id});
     return false;
   }

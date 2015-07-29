@@ -56,7 +56,7 @@ var mvelo = mvelo || null;
   }
 
   function onClose() {
-    $(window).off('unload');
+    $(window).off('beforeunload unload');
     port.postMessage({event: 'decrypt-dialog-cancel', sender: name});
     return false;
   }

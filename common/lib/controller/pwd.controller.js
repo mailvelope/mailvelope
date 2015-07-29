@@ -158,7 +158,7 @@ define(function(require, exports, module) {
           that.options.beforePasswordRequest();
         }
         if (that.options.openPopup) {
-          that.mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + that.id, {width: 470, height: 435, modal: false}, function(window) {
+          that.mvelo.windows.openPopup('common/ui/modal/pwdDialog.html?id=' + that.id, {width: 470, height: 417, modal: false}, function(window) {
             that.pwdPopup = window;
           });
         }

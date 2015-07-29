@@ -376,7 +376,7 @@ define(function(require, exports, module) {
         that.ports.editor.postMessage({event: 'encrypt-end'});
       })
       .catch(function(error) {
-        console.log('signAndEncryptMessage() error', error);
+        //console.log('signAndEncryptMessage() error', error);
 
         if (error.message === 'pwd-dialog-cancel') {
           error = {
