@@ -240,7 +240,7 @@ define(function(require, exports, module) {
       }
     }
 
-    if ((Math.ceil(quotaSize / 3) * 4) > this.options.quota) {
+    if (this.options && this.options.quota && ((Math.ceil(quotaSize / 3) * 4) > this.options.quota)) {
       var error = {
         type: 'error',
         code: 'ENCRYPT_QUOTA_SIZE',
@@ -354,13 +354,7 @@ define(function(require, exports, module) {
 
     primaryKey.keyid = signKeyid;
     primaryKey.keyringId = this.keyringId;
-    primaryKey.reason = 'PWD_DIALOG_REASON_DECRYPT';
-    primaryKey.openPopup = true;
-    primaryKey.beforePasswordRequest = function() {
-      if (that.port && that.prefs.data().security.display_decrypted == that.mvelo.DISPLAY_POPUP) {
-        that.port.editor.postMessage({event: 'show-pwd-dialog', id: that.pwdControl.id});
-      }
-    };
+    primaryKey.reason = 'PWD_DIALOG_REASON_SIGN';
 
     that.pwdControl = sub.factory.get('pwdDialog');
     that.pwdControl.unlockCachedKey(primaryKey)
