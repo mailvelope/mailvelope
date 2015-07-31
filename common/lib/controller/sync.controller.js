@@ -61,7 +61,7 @@ define(function(require, exports, module) {
     if (!options.key) {
       return;
     }
-    if (!this.keyIsUnlocked(options.key) && !options.force) {
+    if (!this.keyIsUnlocked(options.key, 'decrypt') && !options.force) {
       return;
     }
     this.syncRunning = true;
@@ -119,7 +119,7 @@ define(function(require, exports, module) {
             .then(function(message) {
               if (!message.key.primaryKey.getKeyId().equals(options.key.primaryKey.getKeyId())) {
                 console.log('Key used for sync packet from server is not primary key on client');
-                if (!this.keyIsUnlocked(message.key) && !options.force) {
+                if (!this.keyIsUnlocked(message.key, 'decrypt') && !options.force) {
                   throw new Error('Key used for sync packet is locked');
                 }
               }
@@ -188,6 +188,9 @@ define(function(require, exports, module) {
     }
     if (operation === 'sign') {
       var keyPacket = key.getSigningKeyPacket();
+      return keyPacket && keyPacket.isDecrypted;
+    } else if (operation === 'decrypt') {
+      var keyPacket = key.getEncryptionKeyPacket();
       return keyPacket && keyPacket.isDecrypted;
     }
   };
