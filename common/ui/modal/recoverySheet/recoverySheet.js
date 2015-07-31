@@ -79,7 +79,6 @@ var QRCode = QRCode || null;
       window.print();
     });
 
-    window.setTimeout(window.print, 500);
     port.postMessage({event: 'backup-code-window-init', sender: name});
   }
 
