@@ -115,7 +115,7 @@
 
   /**
    * @typedef {Object} EditorContainerOptions
-   * @property {number} quota - limit of the encrypted mail size in kilobytes (default: 20480)
+   * @property {number} quota - mail content (text + attachments) limit in kilobytes (default: 20480)
    * @property {string} predefinedText - text that will be added to the editor
    * @property {AsciiArmored} quotedMail - mail that should be quoted
    * @property {boolean} quotedMailIndent - if true the quoted mail will be indented (default: true)

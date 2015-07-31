@@ -67,8 +67,8 @@ var mvelo = mvelo || null;
     var qs = jQuery.parseQuerystring();
     id = qs.id;
     name = 'editor-' + id;
-    if (qs.quota && (parseInt(qs.quota) * 1024) < maxFileUploadSize) {
-      maxFileUploadSize = parseInt(qs.quota) * 1024;
+    if (qs.quota && parseInt(qs.quota) < maxFileUploadSize) {
+      maxFileUploadSize = parseInt(qs.quota);
     }
     if (mvelo.crx && maxFileUploadSize > maxFileUploadSizeChrome) {
       maxFileUploadSize = maxFileUploadSizeChrome;

@@ -240,11 +240,11 @@ define(function(require, exports, module) {
       }
     }
 
-    if (this.options && this.options.quota && ((Math.ceil(quotaSize / 3) * 4) > this.options.quota)) {
+    if (this.options && this.options.quota && (quotaSize > this.options.quota)) {
       var error = {
         type: 'error',
         code: 'ENCRYPT_QUOTA_SIZE',
-        message: 'ENCRYPT_QUOTA_SIZE'
+        message: 'Mail content exceeds quota limit.'
       };
 
       if (this.ports.editorCont) {
