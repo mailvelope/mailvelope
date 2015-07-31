@@ -543,10 +543,6 @@
     "message": "Add key to keyring",
     "description": "Key import dialog header."
   },
-  "key_import_question": {
-    "message": "Confirm the sender as a contact for encrypted communication?",
-    "description": "Key import dialog header."
-  },
   "form_import": {
     "message": "Import",
     "description": "Import form button."
@@ -579,13 +575,25 @@
     "message": "An exception occured while processing the keys",
     "description": "Import error alert."
   },
+  "key_import_default_headline": {
+    "message": "Confirm the sender as a contact for encrypted communication?",
+    "description": "Key import dialog header"
+  },
   "key_import_default_description": {
-    "message": "After [CONTACT] has been confirmed for encrypted communication, you can communicate encrypted with your contact.",
-    "description": ""
+    "message": "The setup for encrypted communication with this contact is ready after confirmation.",
+    "description": "Key import dialog description"
+  },
+  "key_import_invalidated_headline": {
+    "message": "Warning! The existing data for encrypted communication is expired.",
+    "description": "Key import dialog header"
+  },
+  "key_import_invalidated_description": {
+    "message": "An encrypted communication with [CONTACT] is no longer possible. The contact must be re-invited.",
+    "description": "Key import dialog description"
   },
   "key_import_extend_headline": {
     "message": "Advanced information for encrypted communication:",
-    "description": ""
+    "description": "Key import dialog header"
   },
   "key_import_extend_fingerprint": {
     "message": "PGP-Fingerprint:",
@@ -838,6 +846,10 @@
   "form_cancel": {
     "message": "Cancel",
     "description": "Cancel form button."
+  },
+  "form_close": {
+    "message": "Close",
+    "description": "Close form button."
   },
   "form_confirm": {
     "message": "Confirm",

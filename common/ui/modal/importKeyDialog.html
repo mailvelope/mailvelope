@@ -21,28 +21,28 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" data-l10n-id="key_import_question"></h4>
+        <h4 class="modal-title" id="key_import_headline"></h4>
       </div>
       <div class="modal-body secureBackground">
         <div data-l10n-title-id="security_background_button_title" id="lockIcon" class="glyphicon lockBtnIcon"></div>
 
         <div class="panel panel-default tab-content">
-            <section role="tabpanel" class="tab-pane active" id="default">
+            <section role="tabpanel" class="tab-pane active" id="defaultContent">
               <header>
                 <h5>
                   <i class="glyphicon lockBtnIcon glyphicon-small"></i>
                   <span class="userId"></span>
-                  <a href="#extend" aria-controls="extend" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-info-sign"></i></a>
+                  <a href="#extendContent" aria-controls="extendContent" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-info-sign"></i></a>
                 </h5>
               </header>
               <hr>
-              <p id="key_import_default_description"></p>
+              <p id="key_import_default_description" data-l10n-id="key_import_default_description"></p>
               <div id="importAlert"></div>
             </section>
-            <section role="tabpanel" class="tab-pane" id="extend">
+            <section role="tabpanel" class="tab-pane" id="extendContent">
               <header>
                 <div class="tab-change">
-                  <a href="#default" aria-controls="default" role="tab" data-toggle="tab">zurück</a>
+                  <a href="#defaultContent" aria-controls="defaultContent" role="tab" data-toggle="tab">zurück</a>
                 </div>
                 <h5>
                   <i class="glyphicon lockBtnIcon glyphicon-small"></i>
@@ -59,9 +59,12 @@
             </section>
           </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" id="defaultFooter">
         <button id="cancelBtn" class="btn btn-default" data-l10n-id="form_cancel"></button>
         <button id="okBtn" class="btn btn-primary" data-l10n-id="form_confirm"></button>
+      </div>
+      <div class="modal-footer" id="closeFooter">
+        <button id="closeBtn" class="btn btn-default" data-l10n-id="form_close"></button>
       </div>
     </div>
   </div>

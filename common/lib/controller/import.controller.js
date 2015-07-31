@@ -60,13 +60,14 @@ define(function(require, exports, module) {
         });
         break;
       case 'key-import-dialog-init':
-        if (this.keys.keys.length > 1) {
-          this.ports.importKeyDialog.postMessage({event: 'import-warning', message: 'More than 1 key in armored block.'});
-        }
         if (!this.key.validity) {
           this.ports.importKeyDialog.postMessage({event: 'import-error', message: 'Key is not valid.'});
+        } else if (this.keys.keys.length > 1) {
+          this.ports.importKeyDialog.postMessage({event: 'import-warning', message: 'More than 1 key in armored block.'});
+        } else {
+          // TODO invalidated flag is not static
+          this.ports.importKeyDialog.postMessage({event: 'key-details', key: this.key, invalidated: false});
         }
-        this.ports.importKeyDialog.postMessage({event: 'key-details', key: this.key});
         break;
       case 'key-import-dialog-ok':
         var importResult = this.keyring.importKeys([{type: 'public', armored: this.armored}])[0];

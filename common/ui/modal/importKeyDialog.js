@@ -35,11 +35,16 @@ var mvelo = mvelo || null;
 
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);
+    $('#closeBtn').click(onCancel);
     $('form').on('submit', onOk);
     $(window).on('unload', onCancel);
+    $('closeFooter').hide();
 
     mvelo.l10n.getMessages([
-      'key_import_default_description'
+      'key_import_default_headline',
+      'key_import_default_description',
+      'key_import_invalidated_headline',
+      'key_import_invalidated_description'
     ], function(result) {
       l10n = result;
     });
@@ -67,32 +72,57 @@ var mvelo = mvelo || null;
 
   function messageListener(msg) {
     //console.log('key import dialog messageListener: ', JSON.stringify(msg));
+    var $okBtn = $('okBtn');
+    var $body = $('body');
+    var $spinner = $('#spinner');
+    var $modalBody = $('.modal-body');
+    var $importAlert = $('#importAlert');
+
     switch (msg.event) {
       case 'key-details':
+        var importDialogHeadline = (msg.invalidated) ? l10n.key_import_invalidated_headline : l10n.key_import_default_headline;
+        var importDialogDescription = (msg.invalidated) ? l10n.key_import_invalidated_description : l10n.key_import_default_description;
+
         var userName = $('<span/>').addClass('userName').text(msg.key.name);
         var userEmail = $('<span/>').addClass('userEmail').text('(' + msg.key.email + ')');
         var date = (new Date(msg.key.crDate)).toLocaleString();
-        var contact = l10n.key_import_default_description.replace('[CONTACT]', '<em>' + msg.key.email + '</em>');
+        var contact = msg.key.email ? msg.key.email : msg.key.name;
+        importDialogDescription = importDialogDescription.replace('[CONTACT]', '<em>' + contact.replace(/\((.*|\s)\)/ , '') + '</em>');
 
-        $('#key_import_default_description').html(contact);
+        $('#key_import_headline').html(importDialogHeadline);
+        $('#key_import_default_description').html(importDialogDescription);
 
-        $('.userId').empty().append(userName, ' ', userEmail);
+        if (msg.key.email) {
+          $('.userId').empty().append(userName, ' ', userEmail);
+        } else {
+          $('.userId').empty().append(userName);
+        }
         $('.fingerprint').text(msg.key.fingerprint.match(/.{1,4}/g).join(' '));
         $('.createDate').text(date);
+
+        if (msg.invalidated) {
+          $('#closeFooter').show();
+          $('#defaultFooter').hide();
+        } else {
+          $('#closeFooter').hide();
+          $('#defaultFooter').show();
+        }
         break;
       case 'import-error':
-        $('#okBtn').prop('disabled', false);
-        $('body').removeClass('busy');
-        $('#spinner').hide();
-        $('.modal-body').css('opacity', '1');
-        $('#importAlert').showAlert('Error', msg.message, 'danger');
-        $('#okBtn').prop('disabled', true);
+        $okBtn.prop('disabled', false);
+        $body.removeClass('busy');
+        $spinner.hide();
+        $modalBody.css('opacity', '1');
+        $importAlert.showAlert('Error', msg.message, 'danger');
+        $okBtn.prop('disabled', true);
         break;
       case 'import-warning':
-        $('body').removeClass('busy');
-        $('#spinner').hide();
-        $('.modal-body').css('opacity', '1');
-        $('#importAlert').showAlert('Warning', msg.message, 'warning');
+        $okBtn.prop('disabled', false);
+        $body.removeClass('busy');
+        $spinner.hide();
+        $modalBody.css('opacity', '1');
+        $importAlert.showAlert('Warning', msg.message, 'warning');
+        $okBtn.prop('disabled', true);
         break;
       default:
         console.log('unknown event');

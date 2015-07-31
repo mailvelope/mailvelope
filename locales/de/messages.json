@@ -191,10 +191,6 @@
         "message": "Importfehler.",
         "description": "Import error alert."
     },
-    "key_import_question": {
-        "message": "Absender als Kontakt zur verschlüsselten Kommunikation bestätigen?",
-        "description": "Key import dialog header."
-    },
     "key_import_multiple_keys": {
         "message": "Um mehrere Schlüssel zu importieren, einfach alle hier einfügen. Zusätzlicher, die Schlüssel umgebender Text wird ignoriert.",
         "description": "Info message."
@@ -298,6 +294,10 @@
     "form_cancel": {
         "message": "Abbrechen",
         "description": "Cancel form button."
+    },
+    "form_close": {
+        "message": "Schließen",
+        "description": "Close form button."
     },
     "form_confirm": {
         "message": "Bestätigen",
@@ -751,13 +751,25 @@
         "message": "Während der Verarbeitung der Schlüssel ist ein Ausnahmefall aufgetreten",
         "description": "Import error alert."
     },
+    "key_import_default_headline": {
+        "message": "Absender als Kontakt zur verschlüsselten Kommunikation bestätigen?",
+        "description": "Key import dialog header."
+    },
     "key_import_default_description": {
-        "message": "Nachdem [CONTACT] zur verschlüsselten Kommunikation bestätigt wurde, können Sie mit Ihrem Kontakt verschlüsselt kommunizieren.",
+        "message": "Nach der Bestätigung ist die verschlüsseltet Kommunikation mit diesem Kontakt eingerichtet.",
+        "description": "Key import dialog description."
+    },
+    "key_import_invalidated_headline": {
+        "message": "Achtung! Die vorhandenen Daten zur verschlüsselten Kommunikation sind abgelaufen.",
+        "description": "Key import dialog header."
+    },
+    "key_import_invalidated_description": {
+        "message": "Eine verschlüsselte Kommunikation mit [CONTACT] ist nicht mehr möglich. Der Kontakt muss neu eingeladen werden.",
         "description": ""
     },
     "key_import_extend_headline": {
         "message": "Erweiterte Informationen zur verschlüsselten Kommunikation:",
-        "description": ""
+        "description": "Key import dialog description."
     },
     "key_import_extend_fingerprint": {
         "message": "PGP-Prüfnummer („Fingerprint“):",
@@ -773,7 +785,7 @@
     },
     "key_import_extend_description": {
         "message": "Die PGP-Prüfnummer dient zur Identifikation der Schlüsselinformationen Ihrer Kommunikation.",
-        "description": ""
+        "description": "Key import dialog description."
     },
     "keygrid_display_key_pair": {
         "message": "Schlüsselpaar anzeigen",

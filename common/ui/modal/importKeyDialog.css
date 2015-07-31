@@ -57,6 +57,11 @@ body {
 .tab-pane h5 {
   margin: 0;
 }
+.tab-pane h5 > i,
+.tab-pane h5 > span,
+.tab-pane h5 > a {
+  vertical-align: top;
+}
 
 .tab-pane hr {
   margin-top: 6px;
@@ -74,9 +79,8 @@ body {
   height: 15px;
 }
 .userId {
-  margin: 0 .25em;
-}
-
-.userId .userName, .userId .userEmail {
-  white-space: nowrap;
+  margin: 0 3px;
+  max-width: 398px;
+  display: inline-block;
+  vertical-align: top;
 }
