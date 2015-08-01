@@ -116,14 +116,6 @@ var mvelo = mvelo || null;
         $importAlert.showAlert('Error', msg.message, 'danger');
         $okBtn.prop('disabled', true);
         break;
-      case 'import-warning':
-        $okBtn.prop('disabled', false);
-        $body.removeClass('busy');
-        $spinner.hide();
-        $modalBody.css('opacity', '1');
-        $importAlert.showAlert('Warning', msg.message, 'warning');
-        $okBtn.prop('disabled', true);
-        break;
       default:
         console.log('unknown event');
     }

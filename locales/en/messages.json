@@ -588,7 +588,7 @@
     "description": "Key import dialog header"
   },
   "key_import_invalidated_description": {
-    "message": "An encrypted communication with [CONTACT] is no longer possible. The contact must be re-invited.",
+    "message": "An encrypted communication with [CONTACT] is no longer possible. The contact must re-invite you.",
     "description": "Key import dialog description"
   },
   "key_import_extend_headline": {

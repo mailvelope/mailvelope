@@ -764,7 +764,7 @@
         "description": "Key import dialog header."
     },
     "key_import_invalidated_description": {
-        "message": "Eine verschlüsselte Kommunikation mit [CONTACT] ist nicht mehr möglich. Der Kontakt muss neu eingeladen werden.",
+        "message": "Eine verschlüsselte Kommunikation mit [CONTACT] ist nicht mehr möglich. Der Kontakt muss Sie neu einladen.",
         "description": ""
     },
     "key_import_extend_headline": {

@@ -134,6 +134,13 @@ define(function(require, exports, module) {
     return parsedKey;
   }
 
+  function cloneKey(key) {
+    var binary = key.toPacketlist().write();
+    var packetList = new openpgp.packet.List();
+    packetList.read(binary);
+    return new openpgp.key.Key(packetList);
+  }
+
   exports.init = init;
   exports.createKeyring = createKeyring;
   exports.deleteKeyring = deleteKeyring;
@@ -144,6 +151,7 @@ define(function(require, exports, module) {
   exports.getUserId = getUserId;
   exports.readKey = readKey;
   exports.mapKeys = mapKeys;
+  exports.cloneKey = cloneKey;
 
   function Keyring(keyringId) {
     this.id = keyringId;
