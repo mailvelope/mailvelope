@@ -64,12 +64,14 @@ var mvelo = mvelo || null;
   }
 
   function onClose() {
+    logUserInput('security_log_dialog_ok');
     $(window).off('beforeunload unload');
     port.postMessage({event: 'verify-dialog-cancel', sender: name});
     return false;
   }
 
   function onCopy() {
+    logUserInput('security_log_content_copy');
     // copy to clipboard
     var doc = sandbox.contents().get(0);
     var sel = doc.defaultView.getSelection();
@@ -114,6 +116,19 @@ var mvelo = mvelo || null;
     $('#errorbox').show();
     $('#errorwell').showAlert(l10n.alert_header_error, msg, 'danger');
     $('#copyBtn').prop('disabled', true);
+  }
+
+  /**
+   * send log entry for the extension
+   * @param {string} type
+   */
+  function logUserInput(type) {
+    port.postMessage({
+      event: 'verify-user-input',
+      sender: name,
+      source: 'security_log_verify_dialog',
+      type: type
+    });
   }
 
   function messageListener(msg) {

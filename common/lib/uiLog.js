@@ -25,6 +25,40 @@ define(function(require, exports, module) {
   var log = [];
   var logTimer = 0;
 
+  /**
+   * @param {String} source = 'security_log_editor' <br>
+   *                 source = 'security_log_key_generator' <br>
+   *                 source = 'security_log_key_backup' <br>
+   *                 source = 'security_log_email_viewer' <br>
+   *                 source = 'security_log_password_dialog' <br>
+   *                 source = 'security_log_import_dialog' <br>
+   *                 source = 'security_log_verify_dialog' <br>
+   *                 source = 'security_log_sign_dialog' <br>
+   *                 source = 'security_log_encrypt_dialog' <br>
+   * @param {String} type = 'security_log_textarea_input' <br>
+   *                 type = 'security_log_textarea_select' <br>
+   *                 type = 'security_log_textarea_click' <br>
+   *                 type = 'security_log_text_input' <br>
+   *                 type = 'security_log_password_input' <br>
+   *                 type = 'security_log_password_show' <br>
+   *                 type = 'security_log_remember_click' <br>
+   *                 type = 'security_log_attachment_added' <br>
+   *                 type = 'security_log_attachment_download' <br>
+   *                 type = 'security_log_add_attachment' <br>
+   *                 type = 'security_log_remove_attachment' <br>
+   *                 type = 'security_log_backup_create' <br>
+   *                 type = 'security_log_backup_restore' <br>
+   *                 type = 'security_log_backup_code_input' <br>
+   *                 type = 'security_log_dialog_ok' <br>
+   *                 type = 'security_log_dialog_cancel' <br>
+   *                 type = 'security_log_dialog_undo' <br>
+   *                 type = 'security_log_dialog_transfer' <br>
+   *                 type = 'security_log_dialog_sign' <br>
+   *                 type = 'security_log_dialog_encrypt' <br>
+   *                 type = 'security_log_content_copy' <br>
+   *                 type = 'security_log_signature_modal_open' <br>
+   *                 type = 'security_log_signature_modal_close' <br>
+   */
   function push(source, type) {
     var entry = {
       source: source,

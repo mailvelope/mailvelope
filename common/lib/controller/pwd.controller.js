@@ -20,6 +20,7 @@
 define(function(require, exports, module) {
 
   var sub = require('./sub.controller');
+  var uiLog = require('../uiLog');
   var syncCtrl = require('./sync.controller');
   var openpgp = require('openpgp');
 
@@ -96,6 +97,9 @@ define(function(require, exports, module) {
               that.reject(err);
             }
           });
+        break;
+      case 'pwd-user-input':
+        uiLog.push(msg.source, msg.type);
         break;
       default:
         console.log('unknown event', msg);

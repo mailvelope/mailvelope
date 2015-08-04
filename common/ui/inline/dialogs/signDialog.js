@@ -20,17 +20,14 @@
 var mvelo = mvelo || null;
 
 (function() {
-  // communication to background page
-  var port;
-  // shares ID with EncryptFrame
-  var id;
-  var l10n;
+  var id, name, port, l10n;
 
   function init() {
     // open port to background page
     var qs = jQuery.parseQuerystring();
-    id = 'sDialog-' + qs.id;
-    port = mvelo.extension.connect({name: id});
+    id = qs.id;
+    name = 'sDialog-' + id;
+    port = mvelo.extension.connect({name: name});
     port.onMessage.addListener(messageListener);
     mvelo.l10n.getMessages([
       'sign_dialog_header',
@@ -38,7 +35,7 @@ var mvelo = mvelo || null;
       'form_ok',
       'form_busy'
     ], function(result) {
-      port.postMessage({event: 'sign-dialog-init', sender: id});
+      port.postMessage({event: 'sign-dialog-init', sender: name});
       l10n = result;
     });
   }
@@ -61,9 +58,10 @@ var mvelo = mvelo || null;
   function onOk() {
     $('body').addClass('busy');
     $('#okBtn').button('loading');
+    logUserInput('security_log_dialog_ok');
     port.postMessage({
       event: 'sign-dialog-ok',
-      sender: id,
+      sender: name,
       signKeyId: $('#keySelect').val(),
       type: 'text'
     });
@@ -71,8 +69,22 @@ var mvelo = mvelo || null;
   }
 
   function onCancel() {
-    port.postMessage({event: 'sign-dialog-cancel', sender: id});
+    logUserInput('security_log_dialog_cancel');
+    port.postMessage({event: 'sign-dialog-cancel', sender: name});
     return false;
+  }
+
+  /**
+   * send log entry for the extension
+   * @param {string} type
+   */
+  function logUserInput(type) {
+    port.postMessage({
+      event: 'editor-user-input',
+      sender: name,
+      source: 'security_log_sign_dialog',
+      type: type
+    });
   }
 
   function messageListener(msg) {

@@ -168,6 +168,10 @@ var mvelo = mvelo || null;
     }
   }
 
+  /**
+   * send log entry for the extension
+   * @param {string} type
+   */
   function logUserInput(type) {
     port.postMessage({
       event: 'editor-user-input',
@@ -264,6 +268,7 @@ var mvelo = mvelo || null;
   }
 
   function onCancel() {
+    logUserInput('security_log_dialog_cancel');
     port.postMessage({
       event: 'editor-cancel',
       sender: name
@@ -275,6 +280,7 @@ var mvelo = mvelo || null;
     if (isDirty) {
       $('#transferWarn').modal('show');
     } else {
+      logUserInput('security_log_dialog_transfer');
       transfer();
     }
   }
@@ -291,14 +297,17 @@ var mvelo = mvelo || null;
   }
 
   function onSign() {
+    logUserInput('security_log_dialog_sign');
     showDialog('signDialog');
   }
 
   function onEncrypt() {
+    logUserInput('security_log_dialog_encrypt');
     showDialog('encryptDialog');
   }
 
   function onUndo() {
+    logUserInput('security_log_dialog_undo');
     setText(undoText);
     undoText = null;
     $('#undoBtn').prop('disabled', true);

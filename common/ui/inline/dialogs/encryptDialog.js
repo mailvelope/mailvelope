@@ -20,17 +20,14 @@
 var mvelo = mvelo || null;
 
 (function() {
-  // communication to background page
-  var port;
-  // shares ID with EncryptFrame
-  var id;
-  var l10n;
+  var id, name, port, l10n;
 
   function init() {
     // open port to background page
     var qs = jQuery.parseQuerystring();
-    id = 'eDialog-' + qs.id;
-    port = mvelo.extension.connect({name: id});
+    id = qs.id;
+    name = 'eDialog-' + id;
+    port = mvelo.extension.connect({name: name});
     port.onMessage.addListener(messageListener);
     mvelo.l10n.getMessages([
       'encrypt_dialog_no_recipient',
@@ -40,7 +37,7 @@ var mvelo = mvelo || null;
       'form_cancel',
       'form_ok'
     ], function(result) {
-      port.postMessage({event: 'encrypt-dialog-init', sender: id});
+      port.postMessage({event: 'encrypt-dialog-init', sender: name});
       l10n = result;
     });
   }
@@ -75,16 +72,18 @@ var mvelo = mvelo || null;
       $('body').addClass('busy');
       port.postMessage({
         event: 'encrypt-dialog-ok',
-        sender: id,
+        sender: name,
         recipient: recipient,
         type: $('input:radio[name="encodeRadios"]:checked').val()
       });
+      logUserInput('security_log_dialog_ok');
     }
     return false;
   }
 
   function onCancel() {
-    port.postMessage({event: 'encrypt-dialog-cancel', sender: id});
+    logUserInput('security_log_dialog_cancel');
+    port.postMessage({event: 'encrypt-dialog-cancel', sender: name});
     return false;
   }
 
@@ -122,6 +121,19 @@ var mvelo = mvelo || null;
 
   function onDelete() {
     $('#keyList option:selected').remove();
+  }
+
+  /**
+   * send log entry for the extension
+   * @param {string} type
+   */
+  function logUserInput(type) {
+    port.postMessage({
+      event: 'editor-user-input',
+      sender: name,
+      source: 'security_log_encrypt_dialog',
+      type: type
+    });
   }
 
   function messageListener(msg) {

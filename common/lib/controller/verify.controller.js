@@ -20,6 +20,7 @@
 define(function(require, exports, module) {
 
   var sub = require('./sub.controller');
+  var uiLog = require('../uiLog');
 
   function VerifyController(port) {
     sub.SubController.call(this, port);
@@ -83,6 +84,9 @@ define(function(require, exports, module) {
           this.verifyPopup.close();
           this.verifyPopup = null;
         }
+        break;
+      case 'verify-user-input':
+        uiLog.push(msg.source, msg.type);
         break;
       default:
         console.log('unknown event', msg);

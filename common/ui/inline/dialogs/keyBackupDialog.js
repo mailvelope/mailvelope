@@ -68,6 +68,7 @@ var mvelo = mvelo || null;
       });
 
       $createBackupCodeBtn.on('click', function() {
+        logUserInput('security_log_backup_create');
         showWaitingDialog();
       });
 
@@ -105,6 +106,19 @@ var mvelo = mvelo || null;
       $('[data-l10n-id=keybackup_dialog_list_2]').html(l10n.keybackup_restore_dialog_list_2);
       $('[data-l10n-id=keybackup_dialog_button]').html(l10n.keybackup_restore_dialog_button);
     }
+  }
+
+  /**
+   * send log entry for the extension
+   * @param {string} type
+   */
+  function logUserInput(type) {
+    port.postMessage({
+      event: 'key-backup-user-input',
+      sender: name,
+      source: 'security_log_key_backup',
+      type: type
+    });
   }
 
   /**

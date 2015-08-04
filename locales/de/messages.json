@@ -11,9 +11,157 @@
         "message": "Bitte warten, die Schlüsselerstellung kann mehrere Minuten dauern, abhängig von Faktoren wie der Schlüsselgröße.",
         "description": "Wait dialog info message"
     },
+    "settings_security_log": {
+        "message": "Sicherheitsprotokoll",
+        "description": "Tab of options to display security log."
+    },
+    "security_log_empty": {
+        "message": "Keine Einträge",
+        "description": "Message when the security log is empty"
+    },
+    "security_log_timestamp": {
+        "message": "Zeitstempel",
+        "description": "Title of the timestamp column of the security log table."
+    },
+    "security_log_action": {
+        "message": "Aktion",
+        "description": "Title of the action column of the security log table."
+    },
+    "security_log_source": {
+        "message": "Quelle",
+        "description": "Title of the source column of the security log table."
+    },
+    "security_log_text": {
+        "message": "Im Sicherheitsprotokoll werden Benutzeraktionen in integrierten Komponenten von Mailvelope angezeigt.",
+        "description": "Text explaining the purpose of the security log"
+    },
+    "security_log_editor": {
+        "message": "PGP-Editor",
+        "description": "Message editor container as an event source"
+    },
+    "security_log_key_generator": {
+        "message": "Schlüsselgenerator",
+        "description": "Key generator container as an event source"
+    },
+    "security_log_key_backup": {
+        "message": "Key Backup",
+        "description": "Message keybackup container as an event source"
+    },
+    "security_log_email_viewer": {
+        "message": "Entschlüsselte PGP-E-Mail",
+        "description": "Email decryption container as an event source"
+    },
+    "security_log_password_dialog": {
+        "message": "Passwort Dialog",
+        "description": "Password dialog as an event source"
+    },
+    "security_log_import_dialog": {
+        "message": "Schlüssel Import Dialog",
+        "description": "Key import dialog as an event source"
+    },
+    "security_log_verify_dialog": {
+        "message": "Verifizieren Dialog",
+        "description": "Verify dialog as an event source"
+    },
+    "security_log_sign_dialog": {
+        "message": "Signieren Dialog",
+        "description": "Sign dialog as an event source"
+    },
+    "security_log_encrypt_dialog": {
+        "message": "Verschlüsseln Dialog",
+        "description": "Encrypt dialog as an event source"
+    },
+    "security_log_textarea_input": {
+        "message": "Eingabeereignis im Textfeld",
+        "description": "A click in the text area as an event type"
+    },
+    "security_log_textarea_select": {
+        "message": "Auswahlereignis im Textfeld",
+        "description": "Selection of the text area as an event type"
+    },
+    "security_log_textarea_click": {
+        "message": "Klickereignis im Textfeld",
+        "description": "A click in the text area as an event type"
+    },
+    "security_log_text_input": {
+        "message": "Eingabeereignis im Textfeld",
+        "description": "A click in the text area as an event type"
+    },
+    "security_log_password_input": {
+        "message": "Eingabeereignis im Passwortfeld",
+        "description": ""
+    },
+    "security_log_password_show": {
+        "message": "Anzeigeereignis im Passwortfeld",
+        "description": ""
+    },
+    "security_log_remember_click": {
+        "message": "Klickereignis des Passwort merken Feldes",
+        "description": ""
+    },
     "security_log_attachment_added": {
         "message": "Anhang hinzugefügt",
         "description": "Attachment added as an event type"
+    },
+    "security_log_attachment_download": {
+        "message": "Anhang heruntergeladen",
+        "description": "Attachment downloaded as an event source"
+    },
+    "security_log_add_attachment": {
+        "message": "Anhang hinzufügen ausgewählt",
+        "description": "A click on the attachment upload button as an event type"
+    },
+    "security_log_remove_attachment": {
+        "message": "Anhang entfernt",
+        "description": "A click on the attachment remove button as event type"
+    },
+    "security_log_backup_create": {
+        "message": "Klickereignis für Backup erzeugen",
+        "description": ""
+    },
+    "security_log_backup_restore": {
+        "message": "Klickereignis für Backup wiederherstellen",
+        "description": ""
+    },
+    "security_log_backup_code_input": {
+        "message": "Eingabeereignis in den Backup-Code-Feldern",
+        "description": ""
+    },
+    "security_log_dialog_ok": {
+        "message": "Klickereignis auf Bestätigen im Dialog",
+        "description": ""
+    },
+    "security_log_dialog_cancel": {
+        "message": "Klickereignis auf Abbruchs im Dialog",
+        "description": ""
+    },
+    "security_log_dialog_undo": {
+        "message": "Klickereignis auf Rückgängig im Dialog",
+        "description": ""
+    },
+    "security_log_dialog_transfer": {
+        "message": "Klickereignis auf Übertragen im Dialog",
+        "description": ""
+    },
+    "security_log_dialog_sign": {
+        "message": "Klickereignis auf Signieren im Dialog",
+        "description": ""
+    },
+    "security_log_dialog_encrypt": {
+        "message": "Klickereignis auf Verschlüsseln im Dialog",
+        "description": ""
+    },
+    "security_log_content_copy": {
+        "message": "Kopierereignis im Dialog",
+        "description": ""
+    },
+    "security_log_signature_modal_open": {
+        "message": "Klickereignis zum Öffnen des Signaturdialoges",
+        "description": ""
+    },
+    "security_log_signature_modal_close": {
+        "message": "Klickereignis auf Schliessen im Signaturdialog",
+        "description": ""
     },
     "message_read_error": {
         "message": "Diese verschlüsselte Nachricht konnte nicht gelesen werden: $1",
@@ -123,10 +271,6 @@
         "message": "Neuer Schlüssel erstellt und in den Schlüsselbund importiert",
         "description": "Key generation success message"
     },
-    "security_log_action": {
-        "message": "Aktion",
-        "description": "Title of the action column of the security log table."
-    },
     "key_gen_never": {
         "message": "nie",
         "description": "Key expires after time range"
@@ -171,14 +315,6 @@
         "message": "Optionen",
         "description": "Open options dialog."
     },
-    "security_log_textarea_click": {
-        "message": "Klickereignis im Textfeld",
-        "description": "A click in the text area as an event type"
-    },
-    "security_log_empty": {
-        "message": "Keine Einträge",
-        "description": "Message when the security log is empty"
-    },
     "security_background_text": {
         "message": "Der Sicherheitshintergrund ist Ihr persönlicher Mailvelope-Hintergrund. Er hilft die Veränderung der Benutzerschnittstelle durch Drittanbieterseiten und -anwendungen zu verhindern. Um die Sicherheit zu erhöhen, bitte den persönlichen Hintergrund hier erstellen und ändern.",
         "description": "Security background text"
@@ -218,10 +354,6 @@
     "keygrid_delete": {
         "message": "Löschen",
         "description": "Max. 6 characters."
-    },
-    "security_log_add_attachment": {
-        "message": "Anhang hinzufügen ausgewählt",
-        "description": "A click on the attachment upload button as an event type"
     },
     "key_import_public_read": {
         "message": "Ein öffentlicher Schlüssel konnte nicht gelesen werden: $1",
@@ -339,10 +471,6 @@
         "message": "Einfacher Text",
         "description": "Editor option: plain text."
     },
-    "security_log_editor": {
-        "message": "PGP-Editor",
-        "description": "Message editor container as an event source"
-    },
     "clear_localstorage_confirm_message": {
         "message": "Wollen Sie wirklich alle Ihre PGP-Schlüssel aus diesem Browserprofil löschen?",
         "description": "The message of the confirmation dialog."
@@ -382,14 +510,6 @@
     "keygrid_status_invalid": {
         "message": "ungültig",
         "description": "Validity status of a PGP key."
-    },
-    "security_log_email_viewer": {
-        "message": "Entschlüsselte PGP-E-Mail",
-        "description": "Email decryption container as an event source"
-    },
-    "security_log_text": {
-        "message": "Im Sicherheitsprotokoll werden Benutzeraktionen in integrierten Komponenten von Mailvelope angezeigt.",
-        "description": "Text explaining the purpose of the security log"
     },
     "keyring_public_private": {
         "message": "Schlüsselpaare",
@@ -446,10 +566,6 @@
     "watchlist_command_create": {
         "message": "Neuen Eintrag hinzufügen",
         "description": "Create entry in watchlist."
-    },
-    "security_log_password_input": {
-        "message": "Eingabeereignis im Textfeld",
-        "description": "A click in the text area as an event type"
     },
     "key_gen_name_help": {
         "message": "Voller Name des Schlüsseleigentümers",
@@ -527,10 +643,6 @@
         "message": "Bitte Ihr Passwort eingeben",
         "description": "Placeholder for password."
     },
-    "security_log_timestamp": {
-        "message": "Zeitstempel",
-        "description": "Title of the timestamp column of the security log table."
-    },
     "keyring_setup_import_key_explanation": {
         "message": "Haben sie bereits ein Schlüsselpaar auf einem anderen Gerät? Sie können Ihre bestehenden Schlüssel importieren. Einfach das Schlüsselpaar auf dem anderen Gerät exportieren und hier importieren.",
         "description": "Import key"
@@ -570,10 +682,6 @@
     "key_gen_key_size": {
         "message": "Schlüsselgröße",
         "description": "Advanced key generation settings: Key size"
-    },
-    "security_log_textarea_input": {
-        "message": "Eingabeereignis im Textfeld",
-        "description": "A click in the text area as an event type"
     },
     "key_gen_demail": {
         "message": "De-Mail-Adresse",
@@ -618,10 +726,6 @@
     "keygen_dialog_prolog": {
         "message": "Passwort vergeben zum Schutz Ihrer verschlüsselten Kommunikation:",
         "description": ""
-    },
-    "security_log_key_generator": {
-        "message": "Schlüsselgenerator",
-        "description": "Key generator container as an event source"
     },
     "key_export_create_file": {
         "message": "Herunterladen",
@@ -671,10 +775,6 @@
         "message": "Fehler bei der Schlüsselmigration",
         "description": "Tab of keyring to display migration errors."
     },
-    "security_log_attachment_download": {
-        "message": "Anhang heruntergeladen",
-        "description": "Attachment downloaded as an event source"
-    },
     "security_background_angle": {
         "message": "Winkel",
         "description": "Angle"
@@ -698,10 +798,6 @@
     "security_cache_on": {
         "message": "Ja, im Speicher behalten für",
         "description": "Store password in memory for $1 minutes."
-    },
-    "security_log_remove_attachment": {
-        "message": "Anhang entfernt",
-        "description": "A click on the attachment remove button as event type"
     },
     "options_home": {
         "message": "Optionen",
@@ -867,10 +963,6 @@
         "message": "Fehler!",
         "description": "Alert header of category error."
     },
-    "security_log_source": {
-        "message": "Quelle",
-        "description": "Title of the source column of the security log table."
-    },
     "editor_remove_upload": {
         "message": "Entfernen",
         "description": "Remove uploaded attachment"
@@ -898,10 +990,6 @@
     "popup_help_tooltip": {
         "message": "Öffnet die Dokumentationsseite",
         "description": "Opens the help page on mailvelope.com."
-    },
-    "security_log_textarea_select": {
-        "message": "Auswahlereignis im Textfeld",
-        "description": "Selection of the text area as an event type"
     },
     "keygrid_signer_unknown": {
         "message": "Unterzeichner unbekannt",

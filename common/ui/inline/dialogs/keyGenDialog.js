@@ -64,12 +64,23 @@ var mvelo = mvelo || null;
       mvelo.l10n.localizeHTML();
       mvelo.util.showSecurityBackground(true);
 
-      $secureBgndButton.on('click', function() {
-        port.postMessage({event: 'open-security-settings', sender: name});
-      });
+      $secureBgndButton
+        .on('click', function() {
+          port.postMessage({event: 'open-security-settings', sender: name});
+        });
 
-      $pwdInput.focus().on('keyup', checkPwdInput);
-      $confirmInput.on('keyup', checkConfirmInput);
+      $pwdInput
+        .on('input paste', function() {
+          logUserInput('security_log_password_input');
+          checkPwdInput();
+        })
+        .focus();
+
+      $confirmInput
+        .on('input paste', function() {
+          logUserInput('security_log_password_input');
+          checkConfirmInput();
+        });
 
       checkPwdInput();
       checkConfirmInput();
@@ -120,7 +131,6 @@ var mvelo = mvelo || null;
     }
 
     if (isInputChange) {
-      logUserInput('security_log_password_input');
       // limit textarea log to 1 event per second
       isInputChange = false;
       window.setTimeout(function() {

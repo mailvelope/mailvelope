@@ -20,17 +20,14 @@
 var mvelo = mvelo || null;
 
 (function() {
-  // communication to background page
-  var port;
-  // shares ID with DecryptFrame
-  var id;
-  var l10n;
+  var id, name, port, l10n;
 
   function init() {
     var qs = jQuery.parseQuerystring();
-    id = 'importKeyDialog-' + qs.id;
+    id = qs.id;
+    name = 'importKeyDialog-' + id;
     // open port to background page
-    port = mvelo.extension.connect({name: id});
+    port = mvelo.extension.connect({name: name});
     port.onMessage.addListener(messageListener);
 
     $('#okBtn').click(onOk);
@@ -51,23 +48,38 @@ var mvelo = mvelo || null;
 
     mvelo.l10n.localizeHTML();
     mvelo.util.showSecurityBackground();
-    port.postMessage({event: 'key-import-dialog-init', sender: id});
+    port.postMessage({event: 'key-import-dialog-init', sender: name});
   }
 
   function onOk() {
+    logUserInput('security_log_dialog_ok');
     $(window).off('beforeunload unload');
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
     $('#spinner').show();
     $('.modal-body').css('opacity', '0.4');
-    port.postMessage({event: 'key-import-dialog-ok', sender: id});
+    port.postMessage({event: 'key-import-dialog-ok', sender: name});
     $('#okBtn').prop('disabled', true);
     return false;
   }
 
   function onCancel() {
+    logUserInput('security_log_dialog_cancel');
     $(window).off('beforeunload unload');
-    port.postMessage({event: 'key-import-dialog-cancel', sender: id});
+    port.postMessage({event: 'key-import-dialog-cancel', sender: name});
     return false;
+  }
+
+  /**
+   * send log entry for the extension
+   * @param {string} type
+   */
+  function logUserInput(type) {
+    port.postMessage({
+      event: 'key-import-user-input',
+      sender: name,
+      source: 'security_log_import_dialog',
+      type: type
+    });
   }
 
   function messageListener(msg) {

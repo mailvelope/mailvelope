@@ -20,17 +20,14 @@
 var mvelo = mvelo || null;
 
 (function() {
-  // communication to background page
-  var port;
-  // shares ID with DecryptFrame
-  var id;
-  var l10n;
+  var id, name, port, l10n;
 
   function init() {
     var qs = jQuery.parseQuerystring();
-    id = 'pwdDialog-' + qs.id;
+    id = qs.id;
+    name = 'pwdDialog-' + id;
     // open port to background page
-    port = mvelo.extension.connect({name: id});
+    port = mvelo.extension.connect({name: name});
     port.onMessage.addListener(messageListener);
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);
@@ -43,7 +40,15 @@ var mvelo = mvelo || null;
         onCancel();
       }
     });
-    $('#password').focus();
+
+    $('#password').on('input paste', function() {
+      logUserInput('security_log_password_input');
+    }).focus();
+
+    $('#remember').on('click', function() {
+      logUserInput('security_log_remember_click');
+    });
+
     mvelo.l10n.localizeHTML();
     mvelo.l10n.getMessages([
       'pwd_dialog_pwd_please',
@@ -58,24 +63,26 @@ var mvelo = mvelo || null;
       $('#keyId').attr('title', l10n.pwd_dialog_keyid_tooltip);
     });
     mvelo.util.showSecurityBackground();
-    port.postMessage({event: 'pwd-dialog-init', sender: id});
+    port.postMessage({event: 'pwd-dialog-init', sender: name});
   }
 
   function onOk() {
+    logUserInput('security_log_dialog_ok');
     $(window).off('beforeunload unload');
     var pwd = $('#password').val();
     var cache = $('#remember').prop('checked');
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
     $('#spinner').show();
     $('.modal-body').css('opacity', '0.4');
-    port.postMessage({event: 'pwd-dialog-ok', sender: id, password: pwd, cache: cache});
+    port.postMessage({event: 'pwd-dialog-ok', sender: name, password: pwd, cache: cache});
     $('#okBtn').prop('disabled', true);
     return false;
   }
 
   function onCancel() {
+    logUserInput('security_log_dialog_cancel');
     $(window).off('beforeunload unload');
-    port.postMessage({event: 'pwd-dialog-cancel', sender: id});
+    port.postMessage({event: 'pwd-dialog-cancel', sender: name});
     return false;
   }
 
@@ -83,6 +90,19 @@ var mvelo = mvelo || null;
     $('#pwdGroup, #rememberGroup').addClass('hide');
     $('#decryptAlert').showAlert(heading, message, 'danger');
     $('#okBtn').prop('disabled', true);
+  }
+
+  /**
+   * send log entry for the extension
+   * @param {string} type
+   */
+  function logUserInput(type) {
+    port.postMessage({
+      event: 'pwd-user-input',
+      sender: name,
+      source: 'security_log_password_dialog',
+      type: type
+    });
   }
 
   function messageListener(msg) {

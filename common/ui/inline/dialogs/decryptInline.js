@@ -68,6 +68,9 @@ var mvelo = mvelo || null;
     mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/inline/dialogs/templates/signature-modal.html'))
       .then(function() {
         mvelo.l10n.localizeHTML();
+        $('#signatureModal .close, #signatureModal .modal-footer button').on('click', function() {
+          logUserInput('security_log_signature_modal_close');
+        });
       });
 
     mvelo.util.showSecurityBackground(true);
@@ -176,6 +179,7 @@ var mvelo = mvelo || null;
   }
 
   function onClickSignature() {
+    logUserInput('security_log_signature_modal_open');
     showSignatureDialog('#signatureModal');
   }
 
@@ -247,6 +251,10 @@ var mvelo = mvelo || null;
     $('#uploadPanel').append($fileUI);
   }
 
+  /**
+   * send log entry for the extension
+   * @param {string} type
+   */
   function logUserInput(type) {
     port.postMessage({
       event: 'decrypt-inline-user-input',

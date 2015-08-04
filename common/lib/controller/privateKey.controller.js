@@ -146,6 +146,7 @@ define(function(require, exports, module) {
         this.restorePassword = data.restorePassword || this.restorePassword;
         break;
       case 'keygen-user-input':
+      case 'key-backup-user-input':
         uiLog.push(msg.source, msg.type);
         break;
       case 'open-security-settings':

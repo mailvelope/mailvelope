@@ -23,6 +23,7 @@ define(function(require, exports, module) {
   var keyringMod = require('../keyring');
   var keyringSync = require('../keyringSync');
   var openpgp = require('openpgp');
+  var uiLog = require('../uiLog');
 
   function ImportController(port) {
     sub.SubController.call(this, port);
@@ -85,6 +86,9 @@ define(function(require, exports, module) {
         } else {
           this.done(null, 'REJECTED');
         }
+        break;
+      case 'key-import-user-input':
+        uiLog.push(msg.source, msg.type);
         break;
       default:
         console.log('unknown event', msg);

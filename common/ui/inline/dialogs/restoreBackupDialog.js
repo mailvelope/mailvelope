@@ -61,7 +61,8 @@ var mvelo = mvelo || null;
       });
 
       $('.flex-digit')
-        .on('keyup', function() {
+        .on('input paste', function() {
+          logUserInput('security_log_text_input');
           var $this = $(this),
             val = $this.val(),
             maxlength = parseInt($this.attr('maxlength'));
@@ -99,6 +100,7 @@ var mvelo = mvelo || null;
         });
 
       $restoreBackupButton.on('click', function() {
+        logUserInput('security_log_backup_restore');
         var code = '';
 
         $('.flex-digit').each(function(idx, ele) {
@@ -115,6 +117,7 @@ var mvelo = mvelo || null;
       });
 
       $restorePasswordButton.on('click', function() {
+        logUserInput('security_log_password_show');
         $restorePasswordInput.attr('type', 'text');
 
         $(this).attr('disabled', true);
@@ -150,6 +153,19 @@ var mvelo = mvelo || null;
 
     $restoreBackupPanel.fadeOut('fast', function() {
       $restorePasswordPanel.fadeIn('fast');
+    });
+  }
+
+  /**
+   * send log entry for the extension
+   * @param {string} type
+   */
+  function logUserInput(type) {
+    port.postMessage({
+      event: 'key-backup-user-input',
+      sender: name,
+      source: 'security_log_key_backup',
+      type: type
     });
   }
 
