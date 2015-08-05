@@ -111,10 +111,13 @@ define(function(require, exports, module) {
       })
       .then(function(content) {
         var handlers = {
+          noEvent: true,
           onMessage: function(msg) {
+            this.noEvent = false;
             that.ports.dDialog.postMessage({event: 'decrypted-message', message: msg});
           },
           onAttachment: function(part) {
+            this.noEvent = false;
             that.ports.dDialog.postMessage({event: 'add-decrypted-attachment', message: part});
           }
         };
@@ -186,66 +189,74 @@ define(function(require, exports, module) {
    * handlers: onAttachment, onMessage
    */
   DecryptController.prototype.parseMessage = function(rawText, handlers, encoding) {
-    var that = this;
     if (/^\s*(MIME-Version|Content-Type|Content-Transfer-Encoding|From|Date):/.test(rawText)) {
-      // MIME
-      // mailreader expects rawText in pseudo-binary
-      rawText = unescape(encodeURIComponent(rawText));
-      that.mailreader.parse([{raw: rawText}], function(parsed) {
-        if (parsed && parsed.length > 0) {
-          var htmlParts = [];
-          var textParts = [];
-          if (encoding === 'html') {
-            that.filterBodyParts(parsed, 'html', htmlParts);
-            if (htmlParts.length) {
-              that.mvelo.util.parseHTML(htmlParts[0].content, function(sanitized) {
-                handlers.onMessage(sanitized);
-              });
-            } else {
-              that.filterBodyParts(parsed, 'text', textParts);
-              if (textParts.length) {
-                handlers.onMessage(that.mvelo.util.text2html(textParts[0].content));
-              }
-            }
-          } else if (encoding === 'text') {
+      this.parseMIME(rawText, handlers, encoding);
+    } else {
+      this.parseInline(rawText, handlers, encoding);
+    }
+  };
+
+  DecryptController.prototype.parseMIME = function(rawText, handlers, encoding) {
+    var that = this;
+    // mailreader expects rawText in pseudo-binary
+    rawText = unescape(encodeURIComponent(rawText));
+    this.mailreader.parse([{raw: rawText}], function(parsed) {
+      if (parsed && parsed.length > 0) {
+        var htmlParts = [];
+        var textParts = [];
+        if (encoding === 'html') {
+          that.filterBodyParts(parsed, 'html', htmlParts);
+          if (htmlParts.length) {
+            that.mvelo.util.parseHTML(htmlParts[0].content, function(sanitized) {
+              handlers.onMessage(sanitized);
+            });
+          } else {
             that.filterBodyParts(parsed, 'text', textParts);
             if (textParts.length) {
-              handlers.onMessage(textParts[0].content);
-            } else {
-              that.filterBodyParts(parsed, 'html', htmlParts);
-              if (htmlParts.length) {
-                handlers.onMessage(that.mvelo.util.html2text(textParts[0].content));
-              }
+              handlers.onMessage(that.mvelo.util.text2html(textParts[0].content));
             }
           }
-          var attachmentParts = [];
-          that.filterBodyParts(parsed, 'attachment', attachmentParts);
-          attachmentParts.forEach(function(part) {
-            part.filename = that.mvelo.util.encodeHTML(part.filename);
-            part.content = that.mvelo.util.ab2str(part.content.buffer);
-            handlers.onAttachment(part);
-          });
-        } else {
-          throw new Error('No content found in PGP/MIME.');
+        } else if (encoding === 'text') {
+          that.filterBodyParts(parsed, 'text', textParts);
+          if (textParts.length) {
+            handlers.onMessage(textParts[0].content);
+          } else {
+            that.filterBodyParts(parsed, 'html', htmlParts);
+            if (htmlParts.length) {
+              handlers.onMessage(that.mvelo.util.html2text(textParts[0].content));
+            }
+          }
         }
-      });
+        var attachmentParts = [];
+        that.filterBodyParts(parsed, 'attachment', attachmentParts);
+        attachmentParts.forEach(function(part) {
+          part.filename = that.mvelo.util.encodeHTML(part.filename);
+          part.content = that.mvelo.util.ab2str(part.content.buffer);
+          handlers.onAttachment(part);
+        });
+      }
+      if (handlers.noEvent) {
+        handlers.onMessage('');
+      }
+    });
+  };
+
+  DecryptController.prototype.parseInline = function(rawText, handlers, encoding) {
+    if (/(<\/a>|<br>|<\/div>|<\/p>|<\/b>|<\/u>|<\/i>|<\/ul>|<\/li>)/.test(rawText)) {
+      // legacy html mode
+      if (encoding === 'html') {
+        this.mvelo.util.parseHTML(rawText, function(sanitized) {
+          handlers.onMessage(sanitized);
+        });
+      } else if (encoding === 'text') {
+        handlers.onMessage(this.mvelo.util.html2text(rawText));
+      }
     } else {
-      if (/(<\/a>|<br>|<\/div>|<\/p>|<\/b>|<\/u>|<\/i>|<\/ul>|<\/li>)/.test(rawText)) {
-        // legacy html mode
-        if (encoding === 'html') {
-          that.mvelo.util.parseHTML(rawText, function(sanitized) {
-            handlers.onMessage(sanitized);
-          });
-        } else if (encoding === 'text') {
-          handlers.onMessage(that.mvelo.util.html2text(rawText));
-        }
-      } else {
-        // plain text
-        if (encoding === 'html') {
-          handlers.onMessage(that.mvelo.util.text2html(rawText));
-        } else if (encoding === 'text') {
-          handlers.onMessage(rawText);
-        }
+      // plain text
+      if (encoding === 'html') {
+        handlers.onMessage(this.mvelo.util.text2html(rawText));
+      } else if (encoding === 'text') {
+        handlers.onMessage(rawText);
       }
     }
   };

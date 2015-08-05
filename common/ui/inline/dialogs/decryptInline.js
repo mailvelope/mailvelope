@@ -332,6 +332,7 @@ var mvelo = mvelo || null;
         //console.log('popup adding decrypted attachment: ', JSON.stringify(msg.message));
         showMessageArea();
         addAttachment(msg.message.filename, msg.message.content, msg.message.mimeType, msg.message.attachmentId);
+        $('body').addClass('secureBackground');
         break;
       case 'signature-verification':
         signers = msg.signers;
