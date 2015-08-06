@@ -23,37 +23,47 @@ var options = options || null;
 (function(options) {
 
   var $tableBody;
+  var tableRow;
   var logEntryTmpl;
   var autoRefresh;
+  var initialTab = false;
+  var securityLogLength = 0;
 
   function init() {
+    $('#securityLogButton').on('show.bs.tab', function() {
+      console.log('securityLog show.bs.tab');
+      if (!initialTab) {
+        startSecurityLogMonitoring();
+        initialTab = true;
+      }
+    });
+  }
+
+  function startSecurityLogMonitoring() {
     $tableBody = $("#secrityLogTable tbody");
     if (logEntryTmpl === undefined) {
       logEntryTmpl = $tableBody.html();
     }
-    $("#openSecurityLog").on("click", startSecurityLogMonitoring);
-  }
-
-  function startSecurityLogMonitoring() {
+    $tableBody.children().remove();
     updateSecurityLog();
     clearInterval(autoRefresh);
     autoRefresh = setInterval(updateSecurityLog, 1000);
   }
 
   function updateSecurityLog() {
-    mvelo.extension.sendMessage({event: "get-ui-log"}, refreshSecurityLog);
+    mvelo.extension.sendMessage({event: 'get-ui-log', securityLogLength: securityLogLength}, refreshSecurityLog);
   }
 
   function refreshSecurityLog(request) {
-    var tableRow;
-    $tableBody.children().remove();
-    request.secLog.reverse().forEach(function(entry) {
+    securityLogLength += request.secLog.length;
+
+    request.secLog.forEach(function(entry) {
       tableRow = $.parseHTML(logEntryTmpl);
       $(tableRow).find('.timestamp').text((new Date(entry.timestamp)).toLocaleTimeString());
-      $(tableRow).find('td:nth-child(1)').attr("title", entry.timestamp);
+      $(tableRow).find('td:nth-child(1)').attr('title', entry.timestamp);
       $(tableRow).find('td:nth-child(2)').text(entry.sourcei18n);
       $(tableRow).find('td:nth-child(3)').text(entry.typei18n);
-      $tableBody.append(tableRow);
+      $tableBody.prepend(tableRow);
     });
   }
 

@@ -49,7 +49,6 @@ define(function(require, exports, module) {
 
   // recipients of encrypted mail
   var scannedHosts = [];
-
   var specific = {};
 
   function extend(obj) {
@@ -118,6 +117,7 @@ define(function(require, exports, module) {
         break;
       case 'get-ui-log':
         request.secLog = uiLog.getAll();
+        request.secLog = request.secLog.slice(request.securityLogLength);
         sendResponse(request);
         break;
       case 'get-security-background':
@@ -260,7 +260,7 @@ define(function(require, exports, module) {
         loadOptions('#keyring');
         break;
       case 'showlog':
-        loadOptions('#showlog');
+        loadOptions('#securityLog');
         break;
       default:
         console.log('unknown browser action');
