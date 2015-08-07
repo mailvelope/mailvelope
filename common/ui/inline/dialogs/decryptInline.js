@@ -51,7 +51,9 @@ var mvelo = mvelo || null;
       'digital_signature_status_false',
       'digital_signature_status_null',
       'decrypt_digital_signature',
-      'decrypt_digital_signature_failure'
+      'decrypt_digital_signature_failure',
+      'decrypt_digital_signature_null',
+      'digital_signature_status_null_description'
     ], function(result) {
       l10n = result;
     });
@@ -254,8 +256,8 @@ var mvelo = mvelo || null;
     });
   }
 
-  function showSignatureDialog(modalEleent) {
-    $(modalEleent).modal('show');
+  function showSignatureDialog(modalElement) {
+    $(modalElement).modal('show');
   }
 
   function setSignatureDialog(signer) {
@@ -264,8 +266,9 @@ var mvelo = mvelo || null;
       return;
     }
 
+    var $body = $('.modal-body', '#signatureModal');
+
     var dialog = $('<div/>');
-    var status;
 
     if (signer.valid !== null) {
       var details = signer.keyDetails;
@@ -281,7 +284,7 @@ var mvelo = mvelo || null;
         .append($('<p/>').html('<b>Key-ID:</b> ' + signer.keyid))
       ;
     }
-    $('.modal-body', '#signatureModal').empty().append(dialog);
+    $body.empty().append(dialog);
 
     var $heading = $('.modal-header', '#signatureModal').removeClass('bg-success bg-danger bg-warning');
     var $title = $('.modal-title', '#signatureModal').empty();
@@ -295,12 +298,12 @@ var mvelo = mvelo || null;
     } else if (signer.valid === null) {
       $heading.addClass('bg-warning');
       $title.html('<b>Status:</b> ' + l10n.digital_signature_status_null);
+      $body.prepend($('<p/>').html(l10n.digital_signature_status_null_description));
     }
   }
 
   function setSignatureButton() {
     var $btn = $('.btn-digital-signature');
-    var signer = signers[0];
 
     if (signers.length === 0) {
       setSignatureDialog(null);
@@ -308,11 +311,23 @@ var mvelo = mvelo || null;
       return;
     }
 
-    if (signer.valid !== true) {
-      $btn.html(l10n.decrypt_digital_signature_failure);
-    }
+    var signersTrue = signers.filter(function(signer) {
+      return signer.valid === true;
+    });
+    var signersFalse = signers.filter(function(signer) {
+      return signer.valid === false;
+    });
 
-    setSignatureDialog(signer);
+    if (!signersTrue.length && !signersFalse.length) {
+      $btn.html(l10n.decrypt_digital_signature_null);
+      setSignatureDialog(signers[0]);
+    } else if (signersFalse.length && !signersTrue.length) {
+      $btn.html(l10n.decrypt_digital_signature_failure);
+      setSignatureDialog(signersFalse[0]);
+    } else if (signersTrue.length) {
+      $btn.html(l10n.decrypt_digital_signature);
+      setSignatureDialog(signersTrue[0]);
+    }
 
     $btn.show();
   }

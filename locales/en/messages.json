@@ -1132,7 +1132,11 @@
     "description": ""
   },
   "digital_signature_status_null": {
-    "message": "can't find recepient",
+    "message": "Signature can not be verified",
+    "description": ""
+  },
+  "digital_signature_status_null_description": {
+    "message": "The contact of the digital signature has not yet been confirmed for encrypted communication. Ask the contact for an invite.",
     "description": ""
   },
   "decrypt_digital_signature": {
@@ -1141,6 +1145,10 @@
   },
   "decrypt_digital_signature_failure": {
     "message": "Digital signature error",
+    "description": "Caption digital signature"
+  },
+  "decrypt_digital_signature_null": {
+    "message": "Digital signature not identified",
     "description": "Caption digital signature"
   },
   "pwd_dialog_reason_decrypt": {

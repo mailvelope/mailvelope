@@ -222,10 +222,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 .btn-digital-signature,
 .txt-digital-signature {
-  color: #888;
-  padding: 0;
+  color: #717171;
+  padding: .1em .3em;
   border: none;
-  background: rgba(255,255,255,.15);
+  background: rgba(255,255,255,.5);
   font: 11px Verdana, sans-serif;
 }
 .btn-digital-signature:hover {
