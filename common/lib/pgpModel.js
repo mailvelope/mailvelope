@@ -150,7 +150,7 @@ define(function(require, exports, module) {
   }
 
   function unlockKey(privKey, keyid, passwd, callback) {
-    openpgp.getWorker().decryptKeyPacket(privKey, [openpgp.Keyid.fromId(keyid)], passwd).then(callback.bind(null, null), callback);
+    return openpgp.getWorker().decryptKeyPacket(privKey, [openpgp.Keyid.fromId(keyid)], passwd);
   }
 
   function decryptMessage(message, keyringId, callback) {

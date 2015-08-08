@@ -23,7 +23,6 @@ define(function(require, exports, module) {
 
   function EncryptController(port) {
     sub.SubController.call(this, port);
-    this.pwdCache = require('../pwdCache');
     this.keyidBuffer = null;
     this.signBuffer = null;
     this.editorControl = null;
@@ -93,7 +92,7 @@ define(function(require, exports, module) {
         this.signBuffer.reason = 'PWD_DIALOG_REASON_SIGN';
         this.signBuffer.keyringId = this.mvelo.LOCAL_KEYRING_ID;
         this.pwdControl = sub.factory.get('pwdDialog');
-        this.pwdControl.unlockCachedKey(this.signBuffer)
+        this.pwdControl.unlockKey(this.signBuffer)
           .then(function() {
             that.ports.eFrame.postMessage({event: 'email-text', type: msg.type, action: 'sign'});
           })

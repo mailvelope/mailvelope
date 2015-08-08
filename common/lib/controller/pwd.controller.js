@@ -21,6 +21,7 @@ define(function(require, exports, module) {
 
   var sub = require('./sub.controller');
   var syncCtrl = require('./sync.controller');
+  var openpgp = require('openpgp');
 
   function PwdController(port) {
     if (port) {
@@ -61,55 +62,40 @@ define(function(require, exports, module) {
         this.reject(error);
         break;
       case 'pwd-dialog-ok':
-        try {
-          this.model.unlockKey(this.options.key, this.options.keyid, msg.password, function(err, key) {
-            if (err) {
-              if (err.message == 'Wrong password') {
-                that.ports.pwdDialog.postMessage({event: 'wrong-password'});
-              } else {
+        this.model.unlockKey(this.options.key, this.options.keyid, msg.password)
+          .then(function(key) {
+            // password correct
+            that.options.key = key;
+            that.options.password = msg.password;
+            if (msg.cache != that.prefs.data().security.password_cache) {
+              // update pwd cache status
+              that.prefs.update({security: {password_cache: msg.cache}});
+            }
+            if (msg.cache) {
+              // set unlocked key and password in cache
+              that.pwdCache.set(that.options, msg.password);
+            }
+            if (that.pwdPopup) {
+              that.pwdPopup.close();
+              that.pwdPopup = null;
+            }
+            that.resolve(that.options);
+          })
+          .catch(function(err) {
+            if (err.message == 'Wrong password') {
+              that.ports.pwdDialog.postMessage({event: 'wrong-password'});
+            } else {
+              if (that.ports.dDialog) {
                 that.ports.dDialog.postMessage({event: 'error-message', error: err.message});
-                if (that.pwdPopup) {
-                  // close pwd dialog
-                  that.pwdPopup.close();
-                  that.pwdPopup = null;
-                }
-              }
-            } else if (key) {
-              // password correct
-              that.options.key = key;
-              that.options.password = msg.password;
-              if (msg.cache != that.prefs.data().security.password_cache) {
-                // update pwd cache status
-                that.prefs.update({security: {password_cache: msg.cache}});
-              }
-              if (msg.cache) {
-                // set unlocked key and password in cache
-                that.pwdCache.set(that.options, msg.password);
               }
               if (that.pwdPopup) {
+                // close pwd dialog
                 that.pwdPopup.close();
                 that.pwdPopup = null;
               }
-              that.resolve(that.options);
-              if (!that.options.noSync) {
-                // trigger sync after short delay
-                that.mvelo.util.setTimeout(function() {
-                  syncCtrl.triggerSync({
-                    keyringId: that.options.keyringId,
-                    key: that.options.key
-                  });
-                }, 1000);
-              }
+              that.reject(err);
             }
           });
-        } catch (e) {
-          if (this.pwdPopup) {
-            // close pwd dialog
-            this.pwdPopup.close();
-            this.pwdPopup = null;
-          }
-          this.reject(e);
-        }
         break;
       default:
         console.log('unknown event', msg);
@@ -122,13 +108,13 @@ define(function(require, exports, module) {
    * @param {String} options.keyid - keyid of key packet that needs to be unlocked
    * @param {String} options.userid - userid of key that needs to be unlocked
    * @param {String} options.keyringId - keyring assignment of provided key
-   * @param {Boolean} [options.noSync=false] - do not trigger sync
    * @param {String} [options.reason] - optional explanation for password dialog
    * @param {Boolean} [options.openPopup=true] - password popup required (false if dialog appears integrated)
    * @param {Function} [options.beforePasswordRequest] - called before password entry required
+   * @param {String} [options.password] - password to unlock key
    * @return {Promise<Object, Error>} - resolves with unlocked key and password
    */
-  PwdController.prototype.unlockCachedKey = function(options) {
+  PwdController.prototype.unlockKey = function(options) {
     var that = this;
     this.options = options;
     if (typeof options.reason == 'undefined') {
@@ -142,7 +128,10 @@ define(function(require, exports, module) {
       return new Promise(function(resolve, reject) {
         that.options.password = cacheEntry.password;
         if (!cacheEntry.key) {
-          that.pwdCache.unlock(cacheEntry, that.options, resolve.bind(null, that.options));
+          that.pwdCache.unlock(that.options)
+            .then(function() {
+              resolve(that.options);
+            });
         } else {
           that.options.key = cacheEntry.key;
           resolve(that.options);
@@ -150,9 +139,17 @@ define(function(require, exports, module) {
       });
     } else {
       return new Promise(function(resolve, reject) {
-        if (that.options.key.primaryKey.isDecrypted) {
+        if (that.keyIsDecrypted(that.options)) {
           // secret-key data is not encrypted, nothing to do
           return resolve(that.options);
+        }
+        if (that.options.password) {
+          // secret-key data is encrypted, but we have password
+          return that.model.unlockKey(that.options.key, that.options.keyid, that.options.password)
+            .then(function(key) {
+              that.options.key = key;
+              resolve(that.options);
+            });
         }
         if (that.options.beforePasswordRequest) {
           that.options.beforePasswordRequest();
@@ -165,6 +162,13 @@ define(function(require, exports, module) {
         that.resolve = resolve;
         that.reject = reject;
       });
+    }
+  };
+
+  PwdController.prototype.keyIsDecrypted = function(options) {
+    var keyPacket = options.key.getKeyPacket([openpgp.Keyid.fromId(options.keyid)]);
+    if (keyPacket) {
+      return keyPacket.isDecrypted;
     }
   };
 

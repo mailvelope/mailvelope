@@ -53,7 +53,7 @@ define(function(require, exports, module) {
       numBits: options.keySize,
       passphrase: password
     }, function(err, data) {
-      pwdCache.set({key: data.key}, password, 5);
+      pwdCache.set({key: data.key}, password);
       that.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: data.publicKeyArmored, error: err});
     });
   };
@@ -67,8 +67,10 @@ define(function(require, exports, module) {
     this.pwdControl = sub.factory.get('pwdDialog');
     primaryKey.reason = 'PWD_DIALOG_REASON_CREATE_BACKUP';
     primaryKey.keyringId = this.keyringId;
-    this.pwdControl.unlockCachedKey(primaryKey)
+    // get password from cache or ask user
+    this.pwdControl.unlockKey(primaryKey)
       .then(function(primaryKey) {
+        sync.triggerSync(primaryKey);
         that.keyBackup = that.model.createPrivateKeyBackup(primaryKey.key, primaryKey.password);
       })
       .then(function() {
@@ -120,6 +122,7 @@ define(function(require, exports, module) {
           that.ports.restoreBackupDialog.postMessage({event: 'set-password', password: backup.password});
         }
         that.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', data: backup.key.toPublic().armor()});
+        sync.triggerSync({keyringId: that.keyringId, key: backup.key, password: backup.password});
       })
       .catch(function(err) {
         that.ports.restoreBackupDialog.postMessage({event: 'error-message', error: err});

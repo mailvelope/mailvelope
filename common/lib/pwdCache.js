@@ -78,8 +78,8 @@ define(function(require, exports, module) {
    * @param {Object} message
    * @param {String} [message.keyid] - key ID of key that should be cached
    * @param {openpgp.key.Key} message.key - private key, packet of keyid expected unlocked
-   * @param {String} pwd     password, optional
-   * @param {Number} cacheTime    timeout in minutes
+   * @param {String} message.pwd - password
+   * @param {Number} [message.cacheTime] - timeout in minutes
    */
   function set(message, pwd, cacheTime) {
     // primary key id is main key of cache
@@ -105,32 +105,25 @@ define(function(require, exports, module) {
 
   /**
    * Unlocked key if required and update cache
-   * @param  {Object}   cacheEntry consisting of password and key
-   * @param  {Object}   message
-   *                      keyid: key ID of key packet that should be unlocked
-   *                      key: private key, will be unlocked if not yet done
-   * @param  {Function} callback   when done
+   * @param {Object} options
+   * @param {openpgp.key.Key} options.key - key to unlock
+   * @param {String} options.keyid - keyid of required key packet
+   * @param {String} options.password - password to unlock key
+   * @return {Promise<undefined, Error>}
    */
-  function unlock(cacheEntry, message, callback) {
-    if (!cacheEntry.key) {
-      // unlock key
-      model.unlockKey(message.key, message.keyid, cacheEntry.password, function(err, key) {
-        if (!key) {
-          throw {
-            type: 'error',
-            message: 'Password caching does not support different passphrases for primary key and subkeys'
-          };
-        }
-        message.key = key;
+  function unlock(options) {
+    return model.unlockKey(options.key, options.keyid, options.password)
+      .then(function(key) {
+        options.key = key;
         // set unlocked key in cache
-        set(message);
-        callback();
+        set(options);
+      })
+      .catch(function(err) {
+        throw {
+          type: 'error',
+          message: 'Password caching does not support different passphrases for primary key and subkeys'
+        };
       });
-    } else {
-      // take unlocked key from cache
-      message.key = cacheEntry.key;
-      callback();
-    }
   }
 
   exports.init = init;

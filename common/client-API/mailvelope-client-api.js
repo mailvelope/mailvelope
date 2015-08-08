@@ -360,16 +360,16 @@
 
   /**
    * @typedef {Object} DownloadSyncReply
-   * @property {AsciiArmored} keyringMsg - encrypted keyring as PGP armored message
-   * @property {String} eTag - entity tag for the encrypted keyring
+   * @property {AsciiArmored} keyringMsg - encrypted keyring as PGP armored message, or null if no newer version available
+   * @property {String} eTag - entity tag for the current encrypted keyring message, or null if server is intial
    */
 
   /**
    * @typedef {Function} DownloadSyncHandler
    * @param {Object} downloadObj - meta info for download
    * @param {string} downloadObj.eTag - entity tag for the current local keyring, or null if no local eTag
-   * @returns {Promise.<DownloadSyncReply, Error>} - if version on server has same eTag, then keyringMsg property of reply is empty
-   *                                                 if server is initial and downloadObj.eTag is not null, then the promise is rejected
+   * @returns {Promise.<DownloadSyncReply, Error>} - if version on server has same eTag, then keyringMsg property of reply is empty, but eTag in reply has to be set
+   *                                                 if server is initial and downloadObj.eTag is not null, then the promise is resolved with empty eTag
    */
 
   /**
@@ -402,8 +402,15 @@
    * @returns {Promise.<undefined, Error>}
    */
   Keyring.prototype.addSyncHandler = function(syncHandlerObj) {
+    if (typeof syncHandlerObj.uploadSync !== typeof syncHandlerObj.downloadSync) {
+      return Promise.reject(new Error('uploadSync and downloadSync Handler cannot be set exclusively.'));
+    }
     return postMessage('add-sync-handler', {identifier: this.identifier}).then(function(syncHandlerId) {
-      syncHandler = new SyncHandler(syncHandlerId, syncHandlerObj);
+      if (syncHandler) {
+        syncHandler.update(syncHandlerObj);
+      } else {
+        syncHandler = new SyncHandler(syncHandlerId, syncHandlerObj);
+      }
     });
   };
 
@@ -502,29 +509,37 @@
 
   var callbacks = Object.create(null);
 
-  var SyncHandler = function(syncHandlerId, callbacks) {
+  var SyncHandler = function(syncHandlerId, handlers) {
     this.syncHandlerId = syncHandlerId;
-    this.callbacks = callbacks;
+    this.handlers = handlers;
+  };
+
+  SyncHandler.prototype.update = function(handlers) {
+    for (var handle in handlers) {
+      this.handlers[handle] = handlers[handle];
+    }
   };
 
   function handleSyncEvent(msg) {
     var handler = null;
-    var callbacks = syncHandler.callbacks;
     switch (msg.data.type) {
       case 'upload':
-        handler = callbacks.uploadSync;
+        handler = syncHandler.handlers.uploadSync;
         break;
       case 'download':
-        handler = callbacks.downloadSync;
+        handler = syncHandler.handlers.downloadSync;
         break;
       case 'backup':
-        handler = callbacks.backup;
+        handler = syncHandler.handlers.backup;
         break;
       case 'restore':
-        handler = callbacks.restore;
+        handler = syncHandler.handlers.restore;
         break;
       default:
         console.log('mailvelope-client-api unknown sync event', msg.data.type);
+    }
+    if (!handler) {
+      postMessage('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: msg.data.type, error: 'Sync handler not available', id: msg.data.id}, true);
     }
     handler(msg.data.data)
       .then(function(result) {

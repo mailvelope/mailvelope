@@ -21,11 +21,11 @@ define(function(require, exports, module) {
 
   var sub = require('./sub.controller');
   var uiLog = require('../uiLog');
+  var syncCtrl = require('./sync.controller');
 
   function DecryptController(port) {
     sub.SubController.call(this, port);
     this.pwdControl = null;
-    this.pwdCache = require('../pwdCache');
     this.decryptPopup = null;
     this.mailreader = require('mailreader-parser');
     this.options = {};
@@ -107,6 +107,7 @@ define(function(require, exports, module) {
         return that.prepareKey(message);
       })
       .then(function(message) {
+        syncCtrl.triggerSync(message);
         return that.decryptMessage(message);
       })
       .then(function(content) {
@@ -155,7 +156,7 @@ define(function(require, exports, module) {
       }
     };
     message.keyringId = this.keyringId;
-    return this.pwdControl.unlockCachedKey(message);
+    return this.pwdControl.unlockKey(message);
   };
 
   DecryptController.prototype.decryptMessage = function(message) {

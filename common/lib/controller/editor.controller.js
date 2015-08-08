@@ -33,7 +33,6 @@ define(function(require, exports, module) {
     this.initText = '';
     this.encryptCallback = null;
     this.keyringId = null;
-    this.pwdCache = require('../pwdCache');
     this.editorPopup = null;
     this.getRecipients = null;
     this.keyidBuffer = null;
@@ -156,7 +155,7 @@ define(function(require, exports, module) {
         };
         this.signBuffer.keyringId = this.keyringId;
         this.pwdControl = sub.factory.get('pwdDialog');
-        this.pwdControl.unlockCachedKey(this.signBuffer)
+        this.pwdControl.unlockKey(this.signBuffer)
           .then(function() {
             that.ports.editor.postMessage({event: 'get-plaintext', action: 'sign'});
           })
@@ -357,7 +356,7 @@ define(function(require, exports, module) {
     primaryKey.reason = 'PWD_DIALOG_REASON_SIGN';
 
     that.pwdControl = sub.factory.get('pwdDialog');
-    that.pwdControl.unlockCachedKey(primaryKey)
+    that.pwdControl.unlockKey(primaryKey)
       .then(function() {
         encryptTimer = that.mvelo.util.setTimeout(function() {
           that.ports.editor.postMessage({event: 'encrypt-in-progress'});
