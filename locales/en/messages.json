@@ -1087,12 +1087,12 @@
     "message": "Repeat",
     "description": ""
   },
-  "keygen_dialog_confirm_error_noempty": {
-    "message": "Password can not be empty.",
+  "keygen_dialog_confirm_error_unequal": {
+    "message": "Please check the inputs.",
     "description": ""
   },
-  "keygen_dialog_confirm_error_unequal": {
-    "message": "The passwords do not match.",
+  "keygen_dialog_confirm_success": {
+    "message": "Inputs are correct.",
     "description": ""
   },
   "keybackup_setup_dialog_headline": {

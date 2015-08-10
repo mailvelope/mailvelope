@@ -516,7 +516,11 @@
         "description": "public and private key types"
     },
     "keygen_dialog_confirm_error_unequal": {
-        "message": "Die Passwörter stimmen nicht überein.",
+        "message": "Bitte die Eingabe überprüfen.",
+        "description": ""
+    },
+    "keygen_dialog_confirm_success": {
+        "message": "Eingaben sind korrekt.",
         "description": ""
     },
     "security_compose_external": {
@@ -1070,10 +1074,6 @@
     "key_import_unable": {
         "message": "Ein Schlüssel konnte aufgrund eines Ausnahmefalls nicht importiert werden: $1",
         "description": "Import error message: $1: error message."
-    },
-    "keygen_dialog_confirm_error_noempty": {
-        "message": "Passwort darf nicht leer sein.",
-        "description": ""
     },
     "keygrid_display_pub_key": {
         "message": "Öffentlichen Schlüssel anzeigen",

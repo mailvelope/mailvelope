@@ -8,19 +8,20 @@
     <section id="keyGenPasswordPanel" class="panel panel-default" role="main">
       <p data-l10n-title-id="generator_prolog" data-l10n-id="keygen_dialog_prolog"></p>
 
-      <section class="form-row">
+      <section id="pwd-form-group" class="form-row">
         <label for="keygen-password" class="form-row_label control-label" data-l10n-id="keygen_dialog_password"></label>
         <div class="form-row_content">
           <input type="password" class="form-control" id="keygen-password" data-length-min="4" autocomplete="off" aria-describedby="helpBlock">
+          <!--span class="help-block label label-danger" data-l10n-id="keygen_dialog_confirm_error_noempty"></span-->
         </div>
       </section>
 
-      <section class="form-row">
+      <section id="confirm-form-group" class="form-row">
         <label for="password_confirm" class="form-row_label control-label" data-l10n-id="keygen_dialog_confirm"></label>
         <div class="form-row_content">
           <input type="password" class="form-control" id="password_confirm" autocomplete="off" aria-describedby="helpBlock">
-          <span class="help-block label label-danger" data-l10n-id="keygen_dialog_confirm_error_noempty"></span>
           <span class="help-block label label-danger" data-l10n-id="keygen_dialog_confirm_error_unequal"></span>
+          <span class="help-block label label-success" data-l10n-id="keygen_dialog_confirm_success"></span>
         </div>
       </section>
     </section>

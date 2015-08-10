@@ -28,10 +28,11 @@
 }
 
 #key_gen_generator .form-row_label {
-  min-width: 9em;
+  min-width: 9.5em;
   margin-bottom: 0;
   text-align: right;
   font-weight: normal;
+  font-size: 12px;
   padding-top: 6px;
   padding-bottom: 6px;
   overflow: hidden;

@@ -27,8 +27,8 @@ var mvelo = mvelo || null;
   var $pwdParent;
   var $confirmInput;
   var $confirmParent;
-  var $confirmErrorNoEmpty;
   var $confirmErrorNoEqual;
+  var $confirmSuccess;
   var $keyGenPasswordPanel;
   var $keyGenWaitingPanel;
 
@@ -48,8 +48,8 @@ var mvelo = mvelo || null;
       $pwdParent = $('#pwd-form-group');
       $confirmInput = $('#password_confirm');
       $confirmParent = $('#confirm-form-group');
-      $confirmErrorNoEmpty = $confirmInput.next();
-      $confirmErrorNoEqual = $confirmErrorNoEmpty.next();
+      $confirmErrorNoEqual = $confirmInput.next();
+      $confirmSuccess = $confirmErrorNoEqual.next();
       $keyGenPasswordPanel = $('#key_gen_generator');
       $keyGenWaitingPanel = $('#key_gen_waiting').hide();
 
@@ -80,10 +80,12 @@ var mvelo = mvelo || null;
         .on('input paste', function() {
           logUserInput('security_log_password_input');
           checkConfirmInput();
+          checkInputsEqual();
         });
 
-      checkPwdInput();
-      checkConfirmInput();
+      $confirmSuccess.hide();
+      $confirmErrorNoEqual.hide();
+      $confirmInput.prop('disabled', true);
 
       port.postMessage({ event: 'keygen-dialog-init', sender: name });
 
@@ -97,23 +99,67 @@ var mvelo = mvelo || null;
    */
   function checkPwdInput() {
     var pwdVal = $pwdInput.val();
+    var maxLength = parseInt($pwdInput.data('lengthMin'));
+    var result = false;
 
-    if (pwdVal.length === 0) {
-      $pwdParent.removeClass('has-error has-success');
-      $confirmInput.prop('disabled', true);
-      return true;
+    if (isInputChange) {
+      logUserInput('security_log_password_input');
+      // limit textarea log to 1 event per second
+      isInputChange = false;
+      window.setTimeout(function() {
+        isInputChange = true;
+      }, 1000);
     }
 
-    checkConfirmInput();
-
-    if (pwdVal.length >= parseInt($pwdInput.data('lengthMin'))) {
-      $pwdParent.addClass('has-success');
+    if (pwdVal.length >= maxLength) {
+      $pwdParent.removeClass('has-error');
       $confirmInput.prop('disabled', false);
-      return true;
+      result = true;
+    } else {
+      $pwdParent.addClass('has-error');
+      $confirmInput.prop('disabled', true);
     }
 
-    $pwdParent.addClass('has-error');
-    return false;
+    if (checkConfirmInput()) {
+      checkInputsEqual();
+    }
+    return result;
+  }
+
+  /**
+   * return true or false if the inputs are equal return true
+   * @returns {boolean}
+   */
+  function checkInputsEqual() {
+    var result = $pwdInput.val() === $confirmInput.val();
+    var maxLength = parseInt($pwdInput.data('lengthMin'));
+
+    if (!$pwdInput.val().length || !$confirmInput.val().length) {
+      $confirmSuccess.fadeOut(100, function() {
+        $confirmErrorNoEqual.fadeOut(100);
+      });
+      return false;
+    }
+
+    if (!result) {
+      $confirmSuccess.fadeOut(100, function() {
+        $confirmErrorNoEqual.fadeIn(100);
+      });
+      return false;
+    }
+
+    if ($pwdInput.val().length < maxLength) {
+      $confirmSuccess.fadeOut(100, function() {
+        $confirmErrorNoEqual.fadeIn(100);
+      });
+      return false;
+    }
+
+    $confirmParent.removeClass('has-error');
+    $confirmErrorNoEqual.fadeOut(100, function() {
+      $confirmSuccess.fadeIn(100);
+    });
+    return true;
   }
 
   /**
@@ -122,13 +168,7 @@ var mvelo = mvelo || null;
    */
   function checkConfirmInput() {
     var confirmVal = $confirmInput.val();
-
-    if (confirmVal.length === 0) {
-      $confirmParent.removeClass('has-error has-success');
-      $confirmErrorNoEmpty.hide();
-      $confirmErrorNoEqual.hide();
-      return true;
-    }
+    var maxLength = parseInt($pwdInput.data('lengthMin'));
 
     if (isInputChange) {
       // limit textarea log to 1 event per second
@@ -138,29 +178,11 @@ var mvelo = mvelo || null;
       }, 1000);
     }
 
-    if (confirmVal && confirmVal.length >= 1) {
-      if (confirmVal !== $pwdInput.val()) {
-        $confirmErrorNoEqual.fadeIn();
-        $confirmParent
-          .addClass('has-error')
-          .removeClass('has-success');
-        $confirmErrorNoEmpty.hide();
-        $confirmErrorNoEqual.fadeIn();
-        return false;
-      } else {
-        $confirmParent
-          .removeClass('has-error')
-          .addClass('has-success');
-        $confirmErrorNoEmpty.fadeOut();
-        $confirmErrorNoEqual.fadeOut();
-        return true;
-      }
+    if (confirmVal.length >= maxLength) {
+      return true;
     }
-    $confirmInput
-      .addClass('has-error')
-      .removeClass('has-success');
-    $confirmErrorNoEmpty.fadeIn();
-    $confirmErrorNoEqual.hide();
+
+    $confirmParent.addClass('has-error');
     return false;
   }
 
@@ -169,7 +191,7 @@ var mvelo = mvelo || null;
    * @returns {boolean}
    */
   function validate() {
-    return (checkPwdInput() && checkConfirmInput());
+    return checkInputsEqual();
   }
 
   /**
