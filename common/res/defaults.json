@@ -3,28 +3,23 @@
   "watch_list": [
     {
       "active": true,
-      "site": "mail.yahoo.com",
+      "site": "GMX",
       "frames": [
         {
           "scan": true,
-          "frame": "*.mail.yahoo.com",
-          "api": false
-        },
-        {
-          "scan": true,
-          "frame": "*.mail.yahoo.net",
-          "api": false
+          "frame": "*.gmx.net",
+          "api": true
         }
       ]
     },
     {
       "active": true,
-      "site": "navigator.gmx.net",
+      "site": "WEB.DE",
       "frames": [
         {
           "scan": true,
-          "frame": "*.gmx.net",
-          "api": false
+          "frame": "*.web.de",
+          "api": true
         }
       ]
     },
@@ -52,22 +47,27 @@
     },
     {
       "active": true,
-      "site": "posteo.de",
+      "site": "mail.yahoo.com",
       "frames": [
         {
           "scan": true,
-          "frame": "*.posteo.de",
+          "frame": "*.mail.yahoo.com",
+          "api": false
+        },
+        {
+          "scan": true,
+          "frame": "*.mail.yahoo.net",
           "api": false
         }
       ]
     },
     {
       "active": true,
-      "site": "web.de",
+      "site": "posteo.de",
       "frames": [
         {
           "scan": true,
-          "frame": "*.web.de",
+          "frame": "*.posteo.de",
           "api": false
         }
       ]
@@ -96,22 +96,22 @@
     },
     {
       "active": true,
-      "site": "WEB.DE De-Mail",
+      "site": "Telekom De-Mail",
       "frames": [
         {
           "scan": true,
-          "frame": "*.de-mail.web.de",
+          "frame": "*.de-mail.t-online.de",
           "api": true
         }
       ]
     },
     {
       "active": true,
-      "site": "Telekom De-Mail",
+      "site": "WEB.DE De-Mail",
       "frames": [
         {
           "scan": true,
-          "frame": "*.de-mail.t-online.de",
+          "frame": "*.de-mail.web.de",
           "api": true
         }
       ]
