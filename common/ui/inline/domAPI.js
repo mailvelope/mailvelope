@@ -104,7 +104,9 @@ mvelo.domAPI.optionsTypes = {
   keySize: 'number',
   initialSetup: 'boolean',
   senderAddress: 'string',
-  restorePassword: 'boolean'
+  restorePassword: 'boolean',
+  email: 'string',
+  fullName: 'string'
 };
 
 mvelo.domAPI.checkTypes = function(data) {
