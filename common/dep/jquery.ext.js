@@ -8,6 +8,9 @@ $.extend({
       qs = window.location.search.replace('?', '');
     } else {
       qs = window.location.href.split('?')[1];
+      if (window.location.hash) {
+        qs = window.location.href.split(window.location.hash)[0]
+      }
     }
     if(qs !== undefined) {
       var pairs = qs.split('&');

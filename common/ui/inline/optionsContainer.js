@@ -46,9 +46,9 @@ mvelo.OptionsContainer.prototype.create = function(done) {
   var url;
   var options = 'krid=' + encodeURIComponent(this.keyringId) + this.email + this.fullName;
   if (mvelo.crx) {
-    url = mvelo.extension.getURL('common/ui/options.html?' + options);
+    url = mvelo.extension.getURL('common/ui/options.html?' + options + '#keyring');
   } else if (mvelo.ffa) {
-    url = 'about:blank?mvelo=options&' + options;
+    url = 'about:blank?mvelo=options&' + options + '#keyring';
   }
   this.container.setAttribute('src', url);
   this.container.setAttribute('frameBorder', 0);
