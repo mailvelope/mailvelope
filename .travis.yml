@@ -1,3 +1,4 @@
+sudo: false
 language: node_js
 node_js:
 - '0.10'
@@ -32,4 +33,7 @@ deploy:
     branch: master
 addons:
   ssh_known_hosts: build.mailvelope.com
+  apt:
+    packages:
+      - sshpass
 after_success: ./deploy-nightly.sh
