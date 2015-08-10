@@ -84,7 +84,10 @@ define(function(require, exports, module) {
   };
 
   mvelo.tabs.query = function(url, callback) {
-    chrome.tabs.query({url: url + '*', currentWindow: true}, callback);
+    if (!/\*$/.test(url)) {
+      url += '*';
+    }
+    chrome.tabs.query({url: url, currentWindow: true}, callback);
   };
 
   mvelo.tabs.create = function(url, complete, callback) {
