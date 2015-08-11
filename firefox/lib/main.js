@@ -259,6 +259,8 @@ function injectMessageAdapter() {
       data.url('common/ui/modal/pwdDialog.html*'),
       data.url('common/ui/modal/importKeyDialog.html*'),
       data.url('common/ui/options.html*'),
+      data.url('common/ui/modal/recoverySheet/recoverySheet.gmxnet.html*'),
+      data.url('common/ui/modal/recoverySheet/recoverySheet.webde.html*'),
       data.url('common/ui/modal/recoverySheet/recoverySheet.html*')
     ],
     onAttach: onCsAttach,
