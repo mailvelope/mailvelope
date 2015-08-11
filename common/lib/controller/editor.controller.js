@@ -362,6 +362,10 @@ define(function(require, exports, module) {
           that.ports.editor.postMessage({event: 'encrypt-in-progress'});
         }, 800);
 
+        if (!that.prefs.data().security.password_cache) {
+          syncCtrl.triggerSync(primaryKey);
+        }
+
         return that.model.signAndEncryptMessage({
           keyIdsHex: options.keyIdsHex,
           keyringId: that.keyringId,
