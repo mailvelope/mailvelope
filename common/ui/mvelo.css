@@ -62,7 +62,6 @@ a.attachmentButton {
   background-color: #8a8a8a;
   color: #ffffff;
   padding: 1px 3px;
-  cursor: default;
   text-transform: uppercase;
   font-size: 10px;
 }
@@ -70,6 +69,7 @@ a.attachmentButton {
   max-width: 160px;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-decoration: none;
   white-space: nowrap;
   display: inline-block;
   margin: 0 3px;

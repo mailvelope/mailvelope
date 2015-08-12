@@ -190,7 +190,7 @@ var mvelo = mvelo || null;
     var fileNameNoExt = mvelo.util.extractFileNameWithoutExt(file.name);
     var fileExt = mvelo.util.extractFileExtension(file.name);
     var extClass = mvelo.util.getExtensionClass(fileExt);
-    var id = Date.now();
+    var id = mvelo.util.getHash();
     // TODO check if id exists
     var fileReader = new FileReader();
     fileReader.onload = function() {
@@ -235,7 +235,7 @@ var mvelo = mvelo || null;
   }
 
   function onAddAttachment(selection) {
-    //console.log("Selected File: "+$("#addFileInput").val());
+    //console.log("Selected File: " + $("#addFileInput").val());
     var files = selection.currentTarget.files;
     var numFiles = selection.currentTarget.files.length;
     //console.log("Selected File: "+JSON.stringify(selection.currentTarget.files[0]));
@@ -264,6 +264,7 @@ var mvelo = mvelo || null;
     for (i = 0; i < numFiles; i++) {
       addAttachment(files[i]);
     }
+    $('#addFileInput').val('');
     logUserInput('security_log_attachment_added');
   }
 
