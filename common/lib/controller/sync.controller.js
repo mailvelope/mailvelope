@@ -33,6 +33,7 @@ define(function(require, exports, module) {
     this.syncRunning = false;
     this.repeatSync = null;
     this.TIMEOUT = 8; // sync timeout in seconds
+    this.modified = false;
   }
 
   SyncController.prototype = Object.create(sub.SubController.prototype);
@@ -56,7 +57,7 @@ define(function(require, exports, module) {
       this.repeatSync = options;
       return;
     }
-    var modified = this.keyring.sync.data.modified;
+    this.modified = this.keyring.sync.data.modified;
     var primKey = this.keyring.getPrimaryKey();
     if (!options.key) {
       // if no key provided we take the primary key
@@ -79,7 +80,7 @@ define(function(require, exports, module) {
     this.keyring.sync.data.modified = false;
     this.downloadSyncMessage(options)
       .then(function() {
-        if (!modified) {
+        if (!that.modified) {
           return;
         }
         if (that.canUnlockKey('sign', options)) {
@@ -95,7 +96,7 @@ define(function(require, exports, module) {
       })
       .catch(function(err) {
         console.log('Sync error', err);
-        if (modified || that.keyring.sync.data.modified) {
+        if (that.modified || that.keyring.sync.data.modified) {
           that.keyring.sync.data.modified = true;
         }
         that.checkRepeat();
@@ -125,8 +126,12 @@ define(function(require, exports, module) {
       .then(function(download) {
         console.log('download.then');
         if (!download.eTag) {
-          // initialize eTag
-          that.keyring.sync.data.eTag = '';
+          if (that.keyring.sync.data.eTag) {
+            // initialize eTag
+            that.keyring.sync.data.eTag = '';
+            // set modified flag to trigger upload
+            that.modified = true;
+          }
           return;
         }
         if (!download.keyringMsg) {
