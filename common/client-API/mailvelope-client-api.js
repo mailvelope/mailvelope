@@ -539,7 +539,8 @@
         console.log('mailvelope-client-api unknown sync event', msg.data.type);
     }
     if (!handler) {
-      postMessage('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: msg.data.type, error: 'Sync handler not available', id: msg.data.id}, true);
+      postMessage('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: msg.data.type, error: {message: 'Sync handler not available'}, id: msg.data.id}, true);
+      return;
     }
     handler(msg.data.data)
       .then(function(result) {

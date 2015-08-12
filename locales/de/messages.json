@@ -852,7 +852,7 @@
         "description": "Key import dialog header."
     },
     "key_import_default_description": {
-        "message": "Nach der Bestätigung ist die verschlüsseltet Kommunikation mit diesem Kontakt eingerichtet.",
+        "message": "Nach der Bestätigung ist die verschlüsselte Kommunikation mit diesem Kontakt eingerichtet.",
         "description": "Key import dialog description."
     },
     "key_import_invalidated_headline": {
