@@ -71,6 +71,7 @@ define(function(require, exports, module) {
           this.ports.importKeyDialog.postMessage({event: 'import-error', message: importResult.message});
           this.importError = true;
         } else {
+          this.ports.importKeyDialog.postMessage({event: 'import-ok'});
           this.importPopup.close();
           this.importPopup = null;
           this.done(null, 'IMPORTED');

@@ -32,7 +32,12 @@ var mvelo = mvelo || null;
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);
     $('form').on('submit', onOk);
-    $(window).on('unload', onCancel);
+
+    if (mvelo.ffa) {
+      $(window).on('beforeunload', onCancel);
+    } else {
+      $(window).on('unload', onCancel);
+    }
 
     // Closing the dialog with the escape key
     $(document).on('keyup', function(e) {
@@ -125,6 +130,12 @@ var mvelo = mvelo || null;
         $('.modal-body').css('opacity', '1');
         $('#password').closest('.control-group').addClass('error')
                       .end().next().removeClass('hide');
+
+        if (mvelo.ffa) {
+          $(window).on('beforeunload', onCancel);
+        } else {
+          $(window).on('unload', onCancel);
+        }
         break;
       default:
         console.log('unknown event');

@@ -34,8 +34,13 @@ var mvelo = mvelo || null;
     $('#cancelBtn').click(onCancel);
     $('#closeBtn').click(onCancel);
     $('form').on('submit', onOk);
-    $(window).on('unload', onCancel);
     $('closeFooter').hide();
+
+    if (mvelo.ffa) {
+      $(window).on('beforeunload', onCancel);
+    } else {
+      $(window).on('unload', onCancel);
+    }
 
     mvelo.l10n.getMessages([
       'key_import_default_headline',
@@ -53,7 +58,6 @@ var mvelo = mvelo || null;
 
   function onOk() {
     logUserInput('security_log_dialog_ok');
-    $(window).off('beforeunload unload');
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
     $('#spinner').show();
     $('.modal-body').css('opacity', '0.4');
@@ -127,6 +131,9 @@ var mvelo = mvelo || null;
         $modalBody.css('opacity', '1');
         $importAlert.showAlert('Error', msg.message, 'danger');
         $okBtn.prop('disabled', true);
+        break;
+      case 'import-ok':
+        $(window).off('beforeunload unload');
         break;
       default:
         console.log('unknown event');

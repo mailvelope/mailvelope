@@ -41,10 +41,16 @@ var mvelo = mvelo || null;
     addSandbox();
     addErrorView();
     addSecuritySettingsButton();
-    $(window).on('unload', onClose);
     $('#closeBtn').click(onClose);
     $('#copyBtn').click(onCopy);
     $('body').addClass('spinner');
+
+    if (mvelo.ffa) {
+      $(window).on('beforeunload', onClose);
+    } else {
+      $(window).on('unload', onClose);
+    }
+
     mvelo.l10n.localizeHTML();
     mvelo.l10n.getMessages([
       'verify_result_success',
