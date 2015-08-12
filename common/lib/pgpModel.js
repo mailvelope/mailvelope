@@ -29,6 +29,7 @@ define(function(require, exports, module) {
 
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
   var keyring = require('./keyring');
+  var keyringSync = require('./keyringSync');
 
   var watchListBuffer = null;
 
@@ -353,14 +354,25 @@ define(function(require, exports, module) {
         }
         var syncData = JSON.parse(msg.text);
         var publicKeys = [];
-        for (var fingerprint in syncData.publicKeys) {
+        var changeLog = {};
+        for (var fingerprint in syncData.insertedKeys) {
           publicKeys.push({
             type: 'public',
-            armored: syncData.publicKeys[fingerprint]
+            armored: syncData.insertedKeys[fingerprint].armored
           });
+          changeLog[fingerprint] = {
+            type: keyringSync.INSERT,
+            time: syncData.insertedKeys[fingerprint].time
+          };
+        }
+        for (var fingerprint in syncData.deletedKeys) {
+          changeLog[fingerprint] = {
+            type: keyringSync.DELETE,
+            time: syncData.deletedKeys[fingerprint].time
+          };
         }
         return {
-          changeLog: syncData.changeLog,
+          changeLog: changeLog,
           keys: publicKeys
         };
       });
@@ -374,17 +386,43 @@ define(function(require, exports, module) {
    */
   function encryptSyncMessage(key, changeLog, keyringId) {
     var syncData = {};
-    syncData.changeLog = changeLog;
-    syncData.publicKeys = {};
+    syncData.insertedKeys = {};
+    syncData.deletedKeys = {};
     var keyRing = keyring.getById(keyringId).keyring;
     keyRing.publicKeys.keys.forEach(function(pubKey) {
-      syncData.publicKeys[pubKey.primaryKey.getFingerprint()] = pubKey.armor();
+      convertChangeLog(pubKey, changeLog, syncData);
     });
     keyRing.privateKeys.keys.forEach(function(privKey) {
-      syncData.publicKeys[privKey.primaryKey.getFingerprint()] = privKey.toPublic().armor();
+      convertChangeLog(privKey.toPublic(), changeLog, syncData);
     });
+    for (var fingerprint in changeLog) {
+      if (changeLog[fingerprint].type === keyringSync.DELETE) {
+        syncData.deletedKeys[fingerprint] = {
+          time: changeLog[fingerprint].time
+        };
+      }
+    }
     syncData = JSON.stringify(syncData);
     return openpgp.getWorker().signAndEncryptMessage([key], key, syncData);
+  }
+
+  function convertChangeLog(key, changeLog, syncData) {
+    var fingerprint = key.primaryKey.getFingerprint();
+    var logEntry = changeLog[fingerprint];
+    if (!logEntry) {
+      console.log('Key ' + fingerprint + ' in keyring but not in changeLog.');
+      return;
+    }
+    if (logEntry.type === keyringSync.INSERT) {
+      syncData.insertedKeys[fingerprint] = {
+        armored: key.armor(),
+        time: logEntry.time
+      };
+    } else if (logEntry.type === keyringSync.DELETE) {
+      console.log('Key ' + fingerprint + ' in keyring but has DELETE in changeLog.');
+    } else {
+      console.log('Invalid changeLog type:', logEntry.type);
+    }
   }
 
   function getLastModifiedDate(key) {
