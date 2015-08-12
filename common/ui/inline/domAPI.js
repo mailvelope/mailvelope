@@ -296,9 +296,6 @@ mvelo.domAPI.editorContainer = function(selector, keyringId, options, callback) 
   if (options.quotedMailIndent === undefined) {
     options.quotedMailIndent = true;
   }
-  if (options.signMsg === undefined) {
-    options.signMsg = true;
-  }
   if (options.quota) {
     // kilobyte -> byte
     options.quota = parseInt(options.quota) * 1024;
