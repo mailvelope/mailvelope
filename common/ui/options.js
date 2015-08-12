@@ -37,21 +37,21 @@ var options = {};
     initMessageListener();
 
     mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/settings/tpl/main.html'))
-    .then(function() {
-      window.Promise.all([
-        mvelo.appendTpl($('#general'), mvelo.extension.getURL('common/ui/settings/tpl/general.html')),
-        mvelo.appendTpl($('#security'), mvelo.extension.getURL('common/ui/settings/tpl/security.html')),
-        mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('common/ui/settings/tpl/watchList.html')),
-        mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('common/ui/settings/tpl/watchListEditor.html')),
-        mvelo.appendTpl($('#securityLog'), mvelo.extension.getURL('common/ui/settings/tpl/securityLog.html')),
-        mvelo.appendTpl($('#displayKeys'), mvelo.extension.getURL('common/ui/keyring/tpl/displayKeys.html')),
-        mvelo.appendTpl($('#displayKeys'), mvelo.extension.getURL('common/ui/keyring/tpl/keyEditor.html')),
-        mvelo.appendTpl($('#importKey'), mvelo.extension.getURL('common/ui/keyring/tpl/importKey.html')),
-        mvelo.appendTpl($('#exportsKey'), mvelo.extension.getURL('common/ui/keyring/tpl/exportKeys.html')),
-        mvelo.appendTpl($('#setupProvider'), mvelo.extension.getURL('common/ui/keyring/tpl/setupProvider.html')),
-        mvelo.appendTpl($('#generateKey'), mvelo.extension.getURL('common/ui/keyring/tpl/generateKey.html'))
-      ]).then(initUI);
-    });
+      .then(function() {
+        window.Promise.all([
+          mvelo.appendTpl($('#general'), mvelo.extension.getURL('common/ui/settings/tpl/general.html')),
+          mvelo.appendTpl($('#security'), mvelo.extension.getURL('common/ui/settings/tpl/security.html')),
+          mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('common/ui/settings/tpl/watchList.html')),
+          mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('common/ui/settings/tpl/watchListEditor.html')),
+          mvelo.appendTpl($('#securityLog'), mvelo.extension.getURL('common/ui/settings/tpl/securityLog.html')),
+          mvelo.appendTpl($('#displayKeys'), mvelo.extension.getURL('common/ui/keyring/tpl/displayKeys.html')),
+          mvelo.appendTpl($('#displayKeys'), mvelo.extension.getURL('common/ui/keyring/tpl/keyEditor.html')),
+          mvelo.appendTpl($('#importKey'), mvelo.extension.getURL('common/ui/keyring/tpl/importKey.html')),
+          mvelo.appendTpl($('#exportsKey'), mvelo.extension.getURL('common/ui/keyring/tpl/exportKeys.html')),
+          mvelo.appendTpl($('#setupProvider'), mvelo.extension.getURL('common/ui/keyring/tpl/setupProvider.html')),
+          mvelo.appendTpl($('#generateKey'), mvelo.extension.getURL('common/ui/keyring/tpl/generateKey.html'))
+        ]).then(initUI);
+      });
   }
 
   function initUI() {
@@ -328,8 +328,8 @@ var options = {};
         });
         return true;
       default:
-        // TODO analyse message events
-        //console.log('unknown event:', request);
+      // TODO analyse message events
+      //console.log('unknown event:', request);
     }
   }
 
