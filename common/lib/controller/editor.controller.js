@@ -137,7 +137,6 @@ define(function(require, exports, module) {
         } else if (this.options.predefinedText) {
           data.text = this.options.predefinedText;
         }
-        console.log('editor.controller triggerSync', this.id);
         syncCtrl.triggerSync({keyringId: this.keyringId, force: true});
         this.ports.editor.postMessage({event: 'set-init-data', data: data});
         break;

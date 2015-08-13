@@ -623,7 +623,6 @@
   window.addEventListener('message', eventListener);
 
   window.setTimeout(function() {
-    console.log('Fire mailvelope event', Date.now());
     window.dispatchEvent(new CustomEvent('mailvelope', { detail: window.mailvelope }));
   }, 1);
 

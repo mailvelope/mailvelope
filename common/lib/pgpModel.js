@@ -121,7 +121,7 @@ define(function(require, exports, module) {
     try {
       result.message = openpgp.cleartext.readArmored(armoredText);
     } catch (e) {
-      //console.log('openpgp.cleartext.readArmored', e);
+      console.log('openpgp.cleartext.readArmored', e);
       throw {
         type: 'error',
         message: l10n('cleartext_read_error', [e])

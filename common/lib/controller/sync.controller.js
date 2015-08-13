@@ -52,7 +52,6 @@ define(function(require, exports, module) {
   SyncController.prototype.triggerSync = function(options) {
     var that = this;
     options = options || {};
-    console.log('triggerSync', this.id);
     if (this.syncRunning) {
       this.repeatSync = options;
       return;
@@ -92,7 +91,6 @@ define(function(require, exports, module) {
       .then(function() {
         that.keyring.sync.save();
         that.checkRepeat();
-        console.log('triggerSync finish');
       })
       .catch(function(err) {
         console.log('Sync error', err);
@@ -121,10 +119,8 @@ define(function(require, exports, module) {
    */
   SyncController.prototype.downloadSyncMessage = function(options) {
     var that = this;
-    console.log('downloadSyncMessage');
     return this.download({eTag: this.keyring.sync.data.eTag})
       .then(function(download) {
-        console.log('download.then');
         if (!download.eTag) {
           if (that.keyring.sync.data.eTag) {
             // initialize eTag
@@ -170,7 +166,6 @@ define(function(require, exports, module) {
             that.keyring.sync.mute(false);
             // set eTag
             that.keyring.sync.data.eTag = download.eTag;
-            console.log('downloadSyncMessage finish');
           });
       });
   };
@@ -194,12 +189,10 @@ define(function(require, exports, module) {
       })
       // upload
       .then(function(armored) {
-        console.log('uploadSyncMessage');
         return that.upload({eTag: that.keyring.sync.data.eTag, keyringMsg: armored});
       })
       .then(function(result) {
         that.keyring.sync.data.eTag = result.eTag;
-        console.log('uploadSyncMessage finish');
       });
   };
 
@@ -231,7 +224,6 @@ define(function(require, exports, module) {
 
   SyncController.prototype.sync = function(type, data) {
     var that = this;
-    console.log('sync');
     return new Promise(function(resolve, reject) {
       var id = that.mvelo.util.getHash();
       that.ports.syncHandler.postMessage({
@@ -241,7 +233,6 @@ define(function(require, exports, module) {
         id: id
       });
       that.syncDoneHandler[id] = function(err, data) {
-        console.log('syncDoneHandler');
         if (timeout) {
           that.mvelo.util.clearTimeout(timeout);
         }
