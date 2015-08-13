@@ -58,7 +58,7 @@ define(function(require, exports, module) {
     keyid = keyid.toLowerCase();
     this.data.changeLog[keyid] = {
       type: type,
-      time: Date.now()
+      time: Math.floor(Date.now() / 1000)
     };
   };
 
