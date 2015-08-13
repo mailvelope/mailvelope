@@ -443,6 +443,7 @@ button.keyDetailsBtn, button.keyDeleteBtn {
     align-self: auto;
     min-width: 30px;
     white-space: normal;
+    cursor: pointer;
 }
 
 .keyRingName {

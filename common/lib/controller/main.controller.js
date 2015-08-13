@@ -96,6 +96,7 @@ define(function(require, exports, module) {
       case 'delete-keyring':
         if (request.keyringId !== mvelo.LOCAL_KEYRING_ID) {
           keyring.deleteKeyring(request.keyringId);
+          sub.setActiveKeyringId(mvelo.LOCAL_KEYRING_ID);
         } else {
           console.log('Keyring could not be deleted');
         }
