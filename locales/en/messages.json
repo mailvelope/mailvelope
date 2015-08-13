@@ -1236,11 +1236,11 @@
     "description": "Caption digital signature"
   },
   "pwd_dialog_reason_decrypt": {
-    "message": "Enter key password to decrypt this email.",
+    "message": "Enter key password to decrypt this message.",
     "description": ""
   },
   "pwd_dialog_reason_sign": {
-    "message": "Enter key password to sign this email.",
+    "message": "Enter key password to sign this message.",
     "description": ""
   },
   "pwd_dialog_reason_editor": {

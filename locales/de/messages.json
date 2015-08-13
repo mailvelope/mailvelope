@@ -1240,11 +1240,11 @@
         "description": "Caption digital signature"
     },
     "pwd_dialog_reason_decrypt": {
-      "message": "Bitte Schlüssel-Passwort eingeben, um diese E-Mail zu entschlüsseln.",
+      "message": "Bitte Schlüssel-Passwort eingeben, um diese Nachricht zu entschlüsseln.",
       "description": ""
     },
     "pwd_dialog_reason_sign": {
-      "message": "Bitte Schlüssel-Passwort eingeben, um diese E-Mail zu versenden.",
+      "message": "Bitte Schlüssel-Passwort eingeben, um diese Nachricht zu versenden.",
       "description": ""
     },
     "pwd_dialog_reason_editor": {
