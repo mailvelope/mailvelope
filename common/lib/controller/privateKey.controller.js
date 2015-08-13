@@ -53,7 +53,9 @@ define(function(require, exports, module) {
       numBits: options.keySize,
       passphrase: password
     }, function(err, data) {
-      pwdCache.set({key: data.key}, password);
+      if (that.prefs.data().security.password_cache) {
+        pwdCache.set({key: data.key}, password);
+      }
       that.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: data.publicKeyArmored, error: err});
     });
   };
