@@ -19,9 +19,17 @@
         "message": "Tega šifriranega sporočila ne morem prebrati: $1",
         "description": "Message read error message: $1: error message."
     },
+    "security_log_key_backup": {
+        "message": "Key Backup",
+        "description": "Key backup container as an event source"
+    },
     "keygrid_all_keys": {
         "message": "Vsi",
         "description": "Selection of key type."
+    },
+    "security_log_text_input": {
+        "message": "Input-event in text field",
+        "description": "A click in the text field as an event type"
     },
     "security_display_inline": {
         "message": "Na strani ponudnika e-pošte.",
@@ -63,6 +71,14 @@
         "message": "E-pošta",
         "description": "Email address in User ID of a PGP key."
     },
+    "key_import_extend_description": {
+        "message": "The PGP fingerprint is used to identify the key information of your communication.",
+        "description": ""
+    },
+    "form_confirm": {
+        "message": "Confirm",
+        "description": "Confirm form button."
+    },
     "watchlist_delete_confirmation": {
         "message": "Ali resnično želite odstraniti to stran s seznama ponudnikov e-pošte?",
         "description": "Mesage in the watchlist delete confirmation dialog."
@@ -83,6 +99,14 @@
         "message": "Dodaj priponko",
         "description": "Text in the upload attachment button of the message editor dialog"
     },
+    "keybackup_restore_dialog_button": {
+        "message": "Obnovi iz varnostne kopije",
+        "description": ""
+    },
+    "decrypt_digital_signature_failure": {
+        "message": "Napaka v digitalnem podpisu",
+        "description": "Caption digital signature"
+    },
     "verify_error": {
         "message": "Tega sporočila ne morem overiti: $1",
         "description": "Error during verification process."
@@ -90,6 +114,10 @@
     "pwd_dialog_wrong_pwd": {
         "message": "Napačno geslo",
         "description": "Password error message."
+    },
+    "key_import_extend_date": {
+        "message": "Created:",
+        "description": ""
     },
     "security_cache_header": {
         "message": "Naj si Mailvelope zapomni gesla trenutne seje?",
@@ -119,6 +147,10 @@
         "message": "Podpiši",
         "description": "Sign button."
     },
+    "security_log_remeber_click": {
+        "message": "Click-event in password dialog",
+        "description": ""
+    },
     "key_gen_success": {
         "message": "Nov ključ je bil ustvarjen in dodan v zbirko.",
         "description": "Key generation success message"
@@ -143,6 +175,10 @@
         "message": "Za uvoz izberite datoteko z besedilom ključa",
         "description": "File selection button label."
     },
+    "security_log_dialog_encrypt": {
+        "message": "Click-event to encrypt on dialog",
+        "description": ""
+    },
     "watchlist_title_frame": {
         "message": "Vzorec ujemanja domen",
         "description": "Web domain URL match pattern of site in watchlist."
@@ -163,13 +199,25 @@
         "message": "Predogled",
         "description": "Preview"
     },
+    "security_log_content_copy": {
+        "message": "Copy-event in verify dialog",
+        "description": ""
+    },
+    "security_background_coloring": {
+        "message": "Barva",
+        "description": "Coloring"
+    },
     "popup_options": {
         "message": "Možnosti",
         "description": "Open options dialog."
     },
     "security_log_textarea_click": {
-        "message": "Click-event in text area",
+        "message": "Klik z miško v besedilu",
         "description": "A click in the text area as an event type"
+    },
+    "digital_signature_status_false": {
+        "message": "neveljaven",
+        "description": ""
     },
     "security_log_empty": {
         "message": "Brez vnosov",
@@ -187,9 +235,9 @@
         "message": "Napaka pri uvozu.",
         "description": "Import error alert."
     },
-    "key_import_question": {
-        "message": "Ali želite uvoziti ta ključ?",
-        "description": "Key import dialog header."
+    "key_import_extend_headline": {
+        "message": "Advanced information for encrypted communication:",
+        "description": "Key import dialog header"
     },
     "key_import_multiple_keys": {
         "message": "Za uvoz večih ključev, jih enostavno vse prekopirajte sem. Dodatni tekst okoli ključev ne bo upoštevan.",
@@ -211,9 +259,21 @@
         "message": "Gesli se ujemata",
         "description": "Passphrase input field status"
     },
+    "security_log_dialog_undo": {
+        "message": "Click-event to undo on dialog",
+        "description": ""
+    },
     "key_import_another": {
         "message": "Uvozi naslednjega...",
         "description": "Import another key button."
+    },
+    "editor_no_sign_caption_long": {
+        "message": "E-pošta ne bo digitalno podpisana",
+        "description": "Caption digital signature"
+    },
+    "pwd_dialog_reason_decrypt": {
+        "message": "Enter key password to decrypt this message.",
+        "description": ""
     },
     "keygrid_delete": {
         "message": "Izbriši",
@@ -251,6 +311,18 @@
         "message": "Algoritem",
         "description": "Public-key algorithm of a PGP key."
     },
+    "keybackup_restore_dialog_list_1": {
+        "message": "When you lost the recovery sheet.",
+        "description": ""
+    },
+    "security_log_import_dialog": {
+        "message": "Import Dialog",
+        "description": "Import dialog popup as an event source"
+    },
+    "decrypt_digital_signature": {
+        "message": "Digitalno podpisano",
+        "description": "Caption digital signature"
+    },
     "watchlist_command_cancel": {
         "message": "Zavrzi spremembe",
         "description": "Cancel changes in watchlist."
@@ -271,13 +343,29 @@
         "message": "Šifriraj za:",
         "description": "Header of encrypt dialog."
     },
+    "keybackup_waiting_description": {
+        "message": "Dokument z vašo varnostno kopijo je v pripravi",
+        "description": ""
+    },
     "keygrid_send_pub_key": {
         "message": "Pošlji javni ključ preko e-pošte",
         "description": "Export key menu."
     },
+    "security_log_password_show": {
+        "message": "Click-event in password dialog",
+        "description": ""
+    },
+    "security_log_password_dialog": {
+        "message": "Password Dialog",
+        "description": "Password dialog popup as an event source"
+    },
     "keygrid_export": {
         "message": "Izvoz",
         "description": "Export key."
+    },
+    "security_log_backup_code_input": {
+        "message": "Input-event in backup code",
+        "description": ""
     },
     "keyring_public": {
         "message": "Javni",
@@ -319,17 +407,33 @@
         "message": "Zasebni",
         "description": "private key type"
     },
+    "keybackup_setup_dialog_list_2": {
+        "message": "prenešena na druge naprave.",
+        "description": ""
+    },
     "encrypt_dialog_no_recipient": {
         "message": "Prosim dodajte naslovnika.",
         "description": "Error message if no recipient selected."
+    },
+    "digital_signature_status_null": {
+        "message": "Signature can not be verified",
+        "description": ""
     },
     "popup_actived_checkbox": {
         "message": "Aktivirano",
         "description": "Text of the checkbox for activating/deactivating the plugin"
     },
+    "editor_sign_caption_short": {
+        "message": "E-pošta je digitalno podpisana",
+        "description": "Caption digital signature"
+    },
     "general_editor_plain": {
         "message": "Urejevalnik za golo besedilo",
         "description": "Editor option: plain text."
+    },
+    "key_import_invalidated_description": {
+        "message": "An encrypted communication with [CONTACT] is no longer possible. The contact must re-invite you.",
+        "description": "Key import dialog description"
     },
     "security_log_editor": {
         "message": "Urejevalnik PGP",
@@ -338,6 +442,10 @@
     "clear_localstorage_confirm_message": {
         "message": "Želite izbrisati vse vaše PGP ključe tega profila brskalnika?",
         "description": "The message of the confirmation dialog."
+    },
+    "security_log_backup_dialog_cancel": {
+        "message": "Click-event to close on dialog",
+        "description": ""
     },
     "form_undo": {
         "message": "Razveljavi",
@@ -351,6 +459,10 @@
         "message": "Ponovno naloži",
         "description": "Reload all Mailvelope elements on page."
     },
+    "keygen_dialog_password_placeholder": {
+        "message": "najmanj 4 znaki",
+        "description": ""
+    },
     "form_no": {
         "message": "Ne",
         "description": "No form button."
@@ -359,17 +471,33 @@
         "message": "Možnosti Mailvelope",
         "description": "Title of options page."
     },
+    "keybackup_waiting_headline": {
+        "message": "Ustvari varnostno kopijo!",
+        "description": ""
+    },
     "form_continue": {
         "message": "Nadaljuj",
         "description": "Continue form button."
+    },
+    "security_log_signature_modal_close": {
+        "message": "Click-event to close the signature dialog",
+        "description": ""
     },
     "decrypt_popup_header": {
         "message": "Sporočilo",
         "description": "Header of decrypt popup."
     },
+    "security_log_backup_dialog_ok": {
+        "message": "Click-event to ok on dialog",
+        "description": ""
+    },
     "keygrid_status_invalid": {
         "message": "neveljaven",
         "description": "Validity status of a PGP key."
+    },
+    "restore_password_dialog_button": {
+        "message": "Pokaži",
+        "description": ""
     },
     "security_log_email_viewer": {
         "message": "Dešifrirana e-pošta PGP",
@@ -383,6 +511,10 @@
         "message": "Pari ključev",
         "description": "public and private key types"
     },
+    "keygen_dialog_confirm_error_unequal": {
+        "message": "Please check the inputs.",
+        "description": ""
+    },
     "security_compose_external": {
         "message": "V urejevalniku besedila Mailvelope, ki se nahaja v ločenem pojavnem oknu.",
         "description": "Mail compose option"
@@ -390,6 +522,10 @@
     "keygrid_primary_key": {
         "message": "Glavni ključ",
         "description": "Main key in the PGP key."
+    },
+    "editor_no_sign_caption_short": {
+        "message": "E-pošta ni digitalno podpisana",
+        "description": "Caption digital signature"
     },
     "verify_result_success": {
         "message": "Podpisano od",
@@ -419,6 +555,14 @@
         "message": "Dešifriranje spodletelo!",
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
+    "keygen_dialog_confirm": {
+        "message": "Ponovite",
+        "description": ""
+    },
+    "keybackup_setup_dialog_headline": {
+        "message": "Nasvet: ustvarite varnostno kopijo",
+        "description": ""
+    },
     "key_import_textarea": {
         "message": "Tu prilepite besedilo ključa:",
         "description": "Key import box."
@@ -426,6 +570,10 @@
     "watchlist_command_create": {
         "message": "Dodaj nov zapis",
         "description": "Create entry in watchlist."
+    },
+    "security_log_password_input": {
+        "message": "Vnos gesla",
+        "description": "A click in the text area as an event type"
     },
     "key_gen_name_help": {
         "message": "Polno ime lastnika ključa",
@@ -471,6 +619,10 @@
         "message": "Podpisnik",
         "description": "User ID of signer."
     },
+    "security_log_verify_dialog": {
+        "message": "Verify Dialog",
+        "description": "Verify dialog as an event source"
+    },
     "dialog_keyid_label": {
         "message": "Ključ:",
         "description": "Label for key ID."
@@ -491,9 +643,21 @@
         "message": "Šifriraj",
         "description": "Encrypt button."
     },
+    "digital_signature_dialog_header": {
+        "message": "Digitalni podpis",
+        "description": "Header of digital signature dialog."
+    },
     "key_gen_pwd_reenter": {
         "message": "Ponovno vnesite geslo",
         "description": "Label for passphrase input field"
+    },
+    "digital_signature_status_null_description": {
+        "message": "The contact of the digital signature has not yet been confirmed for encrypted communication. Ask the contact for an invite.",
+        "description": ""
+    },
+    "pwd_dialog_reason_create_backup": {
+        "message": "Za obnovitveno polo vnesite geslo ključa",
+        "description": ""
     },
     "keygrid_user_name": {
         "message": "Ime",
@@ -503,6 +667,10 @@
         "message": "Vnesite vaše geslo",
         "description": "Placeholder for password."
     },
+    "keybackup_restore_dialog_headline": {
+        "message": "Nasvet: obnovite iz varnostne kopije",
+        "description": ""
+    },
     "security_log_timestamp": {
         "message": "Časovni žig",
         "description": "Title of the timestamp column of the security log table."
@@ -510,6 +678,10 @@
     "keyring_setup_import_key_explanation": {
         "message": "Ali že imate par ključev na drugi napravi? Nič lažjega, tam ga izvozite in tu ponovno uvozite.",
         "description": "Import key"
+    },
+    "key_import_extend_hint": {
+        "message": "Hint:",
+        "description": ""
     },
     "security_display_popup": {
         "message": "V ločenem pojavnem oknu Mailvelope.",
@@ -522,6 +694,14 @@
     "form_submit": {
         "message": "Vloži",
         "description": "Submit form button."
+    },
+    "restore_backup_dialog_headline": {
+        "message": "Vnesite kodo za obnovitev",
+        "description": ""
+    },
+    "editor_no_primary_key_caption_short": {
+        "message": "E-pošta ne more biti digitalno podpisana",
+        "description": "Caption digital signature"
     },
     "watchlist_record_title": {
         "message": "Ponudnik e-pošte",
@@ -543,12 +723,20 @@
         "message": "Opozorilo!",
         "description": "Alert header of category warning."
     },
+    "digital_signature_status_true": {
+        "message": "veljaven",
+        "description": ""
+    },
     "key_gen_key_size": {
         "message": "Velikost ključa",
         "description": "Advanced key generation settings: Key size"
     },
+    "keygen_waiting_headline": {
+        "message": "Nastavljam šifrirano komunikacijo",
+        "description": ""
+    },
     "security_log_textarea_input": {
-        "message": "Input-event in text area",
+        "message": "Vnos besedila",
         "description": "A click in the text area as an event type"
     },
     "key_gen_demail": {
@@ -563,6 +751,10 @@
         "message": "Vnos gesla | Mailvelope",
         "description": "Title of the password dialog."
     },
+    "security_log_backup_create": {
+        "message": "Click-event for create backup",
+        "description": ""
+    },
     "keygrid_subkeys": {
         "message": "Podključi",
         "description": "Subkeys of a PGP key."
@@ -570,6 +762,10 @@
     "form_clear": {
         "message": "Izbriši",
         "description": "Clear form button."
+    },
+    "pwd_dialog_reason_sign": {
+        "message": "Enter key password to sign this message.",
+        "description": ""
     },
     "key_gen_another": {
         "message": "Ustvari naslednjega...",
@@ -579,9 +775,17 @@
         "message": "Odstrani",
         "description": "Remove page from watchlist."
     },
+    "security_log_dialog_transfer": {
+        "message": "Click-event to transfer on dialog",
+        "description": ""
+    },
     "key_gen_expiration": {
         "message": "Datum poteka",
         "description": "Key expires after time range"
+    },
+    "security_log_sign_dialog": {
+        "message": "Sign Dialog",
+        "description": "Sign dialog as an event source"
     },
     "keygrid_validity_status": {
         "message": "Status",
@@ -590,6 +794,14 @@
     "keyring_import_keys": {
         "message": "Uvozi ključe",
         "description": "Tab of keyring to import keys."
+    },
+    "keygen_dialog_prolog": {
+        "message": "Določite geslo za zaščito vaše šifrirane komunikacije:",
+        "description": ""
+    },
+    "security_log_key_generator": {
+        "message": "Generator ključev",
+        "description": "Key generator container as an event source"
     },
     "key_export_create_file": {
         "message": "Prenesi",
@@ -603,6 +815,10 @@
         "message": "Javni ključ $1 uporabnika $2 je bil uvožen v zbirko",
         "description": "Import success message: $1: keyid, $2: userid."
     },
+    "pwd_dialog_reason_editor": {
+        "message": "Za posodobitev nastavitev šifrirane komunikacije vnesite geslo ključa",
+        "description": ""
+    },
     "key_set_as_primary": {
         "message": "Nastavi ključ za primarnega",
         "description": "Set as primary key for the keyring button"
@@ -610,6 +826,14 @@
     "keygrid_key_fingerprint": {
         "message": "Prstni odtis",
         "description": "Unique string identifier for a PGP key."
+    },
+    "editor_error_content": {
+        "message": "Napačna vsebina",
+        "description": ""
+    },
+    "keybackup_setup_dialog_button": {
+        "message": "Ustvarjam varnostno kopijo",
+        "description": ""
     },
     "popup_add_page_tooltip": {
         "message": "Omogoči Mailvelope za to stran",
@@ -635,9 +859,21 @@
         "message": "Vrsta",
         "description": "The type of the key."
     },
+    "editor_no_primary_key_caption_long": {
+        "message": "E-pošta ne more biti digitalno podpisana, ker manjka glavni ključ",
+        "description": "Caption digital signature"
+    },
+    "keygen_dialog_confirm_success": {
+        "message": "Inputs are correct.",
+        "description": ""
+    },
     "keyring_migration_error": {
         "message": "Napaka pri selitvi ključa",
         "description": "Tab of keyring to display migration errors."
+    },
+    "keybackup_restore_dialog_list_2": {
+        "message": "ko potrebujete novo iz varnostnih razlogov.",
+        "description": ""
     },
     "security_log_attachment_download": {
         "message": "Prenešena priponka",
@@ -655,6 +891,10 @@
         "message": "minut.",
         "description": "Store password in memory for $1 minutes."
     },
+    "wrong_restore_code": {
+        "message": "Koda za obnovitev je napačna",
+        "description": ""
+    },
     "settings_watchlist": {
         "message": "Lista e-poštnih ponudnikov",
         "description": "Tab of options to display list of supported mail providers."
@@ -668,12 +908,20 @@
         "description": "Store password in memory for $1 minutes."
     },
     "security_log_remove_attachment": {
-        "message": "Pritisnjen gumb za odstranitev priponke",
+        "message": "Priponka je bila odstranjena",
         "description": "A click on the attachment remove button as event type"
     },
     "options_home": {
         "message": "Možnosti",
         "description": "Options navigation: Home."
+    },
+    "keygen_dialog_password": {
+        "message": "Geslo ključa",
+        "description": ""
+    },
+    "keybackup_setup_dialog_description": {
+        "message": "Varnostna kopija je potrebna, da bo vaša varna komunikacija lahko:",
+        "description": ""
     },
     "key_gen_wait_header": {
         "message": "Generiram ključ...",
@@ -694,6 +942,10 @@
     "watchlist_expose_api": {
         "message": "API",
         "description": "Expose API to Webmailer."
+    },
+    "key_import_extend_fingerprint": {
+        "message": "PGP-Fingerprint:",
+        "description": ""
     },
     "key_export_warning_private": {
         "message": "Ta datoteka vsebuje tudi zasebne ključe.",
@@ -718,6 +970,10 @@
     "keygrid_display_key_pair": {
         "message": "Prikaži par ključev",
         "description": "Export key menu."
+    },
+    "key_import_invalidated_headline": {
+        "message": "Warning! The existing data for encrypted communication is expired.",
+        "description": "Key import dialog header"
     },
     "security_compose_mail": {
         "message": "Kje želite ustvariti svoje e-poštno sporočilo?",
@@ -751,6 +1007,26 @@
         "message": "Dešifrirano sporočilo",
         "description": "Title of decrypt popup."
     },
+    "form_close": {
+        "message": "Close",
+        "description": "Close form button."
+    },
+    "security_log_signature_modal_open": {
+        "message": "Click-event to open the signature dialog",
+        "description": ""
+    },
+    "security_log_backup_restore": {
+        "message": "Click-event for restore backup",
+        "description": ""
+    },
+    "keybackup_restore_dialog_description": {
+        "message": "Ustvarite novo varnostno kopijo:",
+        "description": ""
+    },
+    "key_import_default_headline": {
+        "message": "Confirm the sender as a contact for encrypted communication?",
+        "description": "Key import dialog header"
+    },
     "watchlist_command_save": {
         "message": "Shrani spremembe",
         "description": "Save changes in watchlist."
@@ -766,6 +1042,10 @@
     "form_ok": {
         "message": "Ok",
         "description": "Ok form button."
+    },
+    "security_log_encrypt_dialog": {
+        "message": "Encrypt Dialog",
+        "description": "Encrypt dialog as an event source"
     },
     "key_import_private_update": {
         "message": "Zasebni ključ $1 uporabnika $2 je bil posodobljen",
@@ -783,6 +1063,10 @@
         "message": "Mailvelope",
         "description": "Name of the extension."
     },
+    "restore_backup_dialog_button": {
+        "message": "Potrdi",
+        "description": ""
+    },
     "key_gen_days": {
         "message": "dni",
         "description": "Key expires after time range"
@@ -790,6 +1074,14 @@
     "keygrid_expiration_date": {
         "message": "Datum poteka",
         "description": "Expiration date of a PGP key."
+    },
+    "restore_password_dialog_headline": {
+        "message": "Geslo vašega ključa:",
+        "description": ""
+    },
+    "keygen_waiting_description": {
+        "message": "Počakajte trenutek",
+        "description": ""
     },
     "alert_header_error": {
         "message": "Napaka!",
@@ -799,9 +1091,17 @@
         "message": "Vir",
         "description": "Title of the source column of the security log table."
     },
+    "editor_error_header": {
+        "message": "Napačna glava sporočila",
+        "description": ""
+    },
     "editor_remove_upload": {
         "message": "Odstrani",
         "description": "Remove uploaded attachment"
+    },
+    "decrypt_digital_signature_null": {
+        "message": "Digital signature not identified",
+        "description": "Caption digital signature"
     },
     "key_export_too_large": {
         "message": "Ključ je predolg za URL, raje uporabite \"kopiraj in prilepi\".",
@@ -828,7 +1128,7 @@
         "description": "Opens the help page on mailvelope.com."
     },
     "security_log_textarea_select": {
-        "message": "Select-event in text area",
+        "message": "Izbor besedila",
         "description": "Selection of the text area as an event type"
     },
     "keygrid_signer_unknown": {
@@ -838,6 +1138,10 @@
     "popup_add_page": {
         "message": "Dodaj",
         "description": "Add page to watchlist."
+    },
+    "security_log_dialog_sign": {
+        "message": "Click-event to sign on dialog",
+        "description": ""
     },
     "options_docu": {
         "message": "Dokumentacija",
@@ -854,6 +1158,10 @@
     "keygrid_primary_label": {
         "message": "Primarni",
         "description": "Label for the primary key"
+    },
+    "upload_quota_warning_headline": {
+        "message": "Attachment size too big",
+        "description": ""
     },
     "key_gen_invalid_email": {
         "message": "Neveljaven e-poštni naslov",
@@ -891,6 +1199,14 @@
         "message": "Izboljšajte varnost vaše spletne poštne storitve z enkripcijo. Zavarujte e-poštno komunikacijo na osnovi standarda OpenPGP.",
         "description": "Description of the extension."
     },
+    "keybackup_setup_dialog_list_1": {
+        "message": "obnovljena v primeru izgube podatkov.",
+        "description": ""
+    },
+    "key_import_default_description": {
+        "message": "The setup for encrypted communication with this contact is ready after confirmation.",
+        "description": "Key import dialog description"
+    },
     "key_gen_advanced_btn": {
         "message": "Napredno",
         "description": "Advanced key generation settings."
@@ -910,6 +1226,10 @@
     "key_import_unable": {
         "message": "Ne morem uvoziti enega ključa. Vzrok: $1",
         "description": "Import error message: $1: error message."
+    },
+    "editor_sign_caption_long": {
+        "message": "E-pošta bo digitalno podpisana",
+        "description": "Caption digital signature"
     },
     "keygrid_display_pub_key": {
         "message": "Prikaži javni ključ",
