@@ -49,13 +49,13 @@ var QRCode = QRCode || null;
     });
     mvelo.util.showSecurityBackground(qs.embedded);
     port.postMessage({event: 'get-logo-image', sender: name});
+    port.postMessage({event: 'get-backup-code', sender: name});
   }
 
   function setLogoImage(image) {
     if (image) {
       $('.logo').attr('src', image);
     }
-    port.postMessage({event: 'get-backup-code', sender: name});
   }
 
   function setBackupCode(backupCode) {
