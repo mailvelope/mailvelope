@@ -71,15 +71,12 @@ define(function(require, exports, module) {
           this.ports.importKeyDialog.postMessage({event: 'import-error', message: importResult.message});
           this.importError = true;
         } else {
-          this.ports.importKeyDialog.postMessage({event: 'import-ok'});
-          this.importPopup.close();
-          this.importPopup = null;
+          this.closePopup();
           this.done(null, 'IMPORTED');
         }
         break;
       case 'key-import-dialog-cancel':
-        this.importPopup.close();
-        this.importPopup = null;
+        this.closePopup();
         if (this.invalidated) {
           this.done(null, 'INVALIDATED');
         } else if (this.importError) {
@@ -93,6 +90,15 @@ define(function(require, exports, module) {
         break;
       default:
         console.log('unknown event', msg);
+    }
+  };
+
+  ImportController.prototype.closePopup = function() {
+    if (this.importPopup) {
+      try {
+        this.importPopup.close();
+      } catch (e) {}
+      this.importPopup = null;
     }
   };
 

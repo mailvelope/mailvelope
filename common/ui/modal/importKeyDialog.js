@@ -36,11 +36,7 @@ var mvelo = mvelo || null;
     $('form').on('submit', onOk);
     $('closeFooter').hide();
 
-    if (mvelo.ffa) {
-      $(window).on('beforeunload', onCancel);
-    } else {
-      $(window).on('unload', onCancel);
-    }
+    $(window).on('beforeunload', onClose);
 
     mvelo.l10n.getMessages([
       'key_import_default_headline',
@@ -57,6 +53,7 @@ var mvelo = mvelo || null;
   }
 
   function onOk() {
+    $(window).off('beforeunload');
     logUserInput('security_log_dialog_ok');
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
     $('#spinner').show();
@@ -67,10 +64,14 @@ var mvelo = mvelo || null;
   }
 
   function onCancel() {
+    $(window).off('beforeunload');
     logUserInput('security_log_dialog_cancel');
-    $(window).off('beforeunload unload');
     port.postMessage({event: 'key-import-dialog-cancel', sender: name});
     return false;
+  }
+
+  function onClose() {
+    port.postMessage({event: 'key-import-dialog-cancel', sender: name});
   }
 
   /**
@@ -125,15 +126,13 @@ var mvelo = mvelo || null;
         }
         break;
       case 'import-error':
+        $(window).on('beforeunload', onClose);
         $okBtn.prop('disabled', false);
         $body.removeClass('busy');
         $spinner.hide();
         $modalBody.css('opacity', '1');
         $importAlert.showAlert('Error', msg.message, 'danger');
         $okBtn.prop('disabled', true);
-        break;
-      case 'import-ok':
-        $(window).off('beforeunload unload');
         break;
       default:
         console.log('unknown event');

@@ -41,15 +41,11 @@ var mvelo = mvelo || null;
     addSandbox();
     addErrorView();
     addSecuritySettingsButton();
-    $('#closeBtn').click(onClose);
+    $('#closeBtn').click(onCancel);
     $('#copyBtn').click(onCopy);
     $('body').addClass('spinner');
 
-    if (mvelo.ffa) {
-      $(window).on('beforeunload', onClose);
-    } else {
-      $(window).on('unload', onClose);
-    }
+    $(window).on('beforeunload', onClose);
 
     mvelo.l10n.localizeHTML();
     mvelo.l10n.getMessages([
@@ -69,11 +65,15 @@ var mvelo = mvelo || null;
     $('.modal-body .header').append(securitySettingsBtn);
   }
 
-  function onClose() {
+  function onCancel() {
+    $(window).off('beforeunload');
     logUserInput('security_log_dialog_ok');
-    $(window).off('beforeunload unload');
     port.postMessage({event: 'verify-dialog-cancel', sender: name});
     return false;
+  }
+
+  function onClose() {
+    port.postMessage({event: 'verify-dialog-cancel', sender: name});
   }
 
   function onCopy() {

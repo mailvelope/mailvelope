@@ -41,15 +41,10 @@ var mvelo = mvelo || null;
     addAttachmentPanel();
     addSandbox();
     addErrorView();
-    $('#closeBtn').click(onClose);
+    $('#closeBtn').click(onCancel);
     $('#copyBtn').click(onCopy);
     $('body').addClass('spinner');
-
-    if (mvelo.ffa) {
-      $(window).on('beforeunload', onClose);
-    } else {
-      $(window).on('unload', onClose);
-    }
+    $(window).on('beforeunload', onClose);
 
     addSecuritySettingsButton();
     mvelo.l10n.localizeHTML();
@@ -61,10 +56,14 @@ var mvelo = mvelo || null;
     mvelo.util.showSecurityBackground();
   }
 
-  function onClose() {
-    $(window).off('beforeunload unload');
+  function onCancel() {
+    $(window).off('beforeunload');
     port.postMessage({event: 'decrypt-dialog-cancel', sender: name});
     return false;
+  }
+
+  function onClose() {
+    port.postMessage({event: 'decrypt-dialog-cancel', sender: name});
   }
 
   function addSecuritySettingsButton() {

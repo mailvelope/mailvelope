@@ -32,12 +32,7 @@ var mvelo = mvelo || null;
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);
     $('form').on('submit', onOk);
-
-    if (mvelo.ffa) {
-      $(window).on('beforeunload', onCancel);
-    } else {
-      $(window).on('unload', onCancel);
-    }
+    $(window).on('beforeunload', onClose);
 
     // Closing the dialog with the escape key
     $(document).on('keyup', function(e) {
@@ -72,8 +67,8 @@ var mvelo = mvelo || null;
   }
 
   function onOk() {
+    $(window).off('beforeunload');
     logUserInput('security_log_dialog_ok');
-    $(window).off('beforeunload unload');
     var pwd = $('#password').val();
     var cache = $('#remember').prop('checked');
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
@@ -85,10 +80,14 @@ var mvelo = mvelo || null;
   }
 
   function onCancel() {
+    $(window).off('beforeunload');
     logUserInput('security_log_dialog_cancel');
-    $(window).off('beforeunload unload');
     port.postMessage({event: 'pwd-dialog-cancel', sender: name});
     return false;
+  }
+
+  function onClose() {
+    port.postMessage({event: 'pwd-dialog-cancel', sender: name});
   }
 
   function showError(heading, message) {
@@ -124,18 +123,13 @@ var mvelo = mvelo || null;
         }
         break;
       case 'wrong-password':
+        $(window).on('beforeunload', onClose);
         $('#okBtn').prop('disabled', false);
         $('body').removeClass('busy');
         $('#spinner').hide();
         $('.modal-body').css('opacity', '1');
         $('#password').closest('.control-group').addClass('error')
                       .end().next().removeClass('hide');
-
-        if (mvelo.ffa) {
-          $(window).on('beforeunload', onCancel);
-        } else {
-          $(window).on('unload', onCancel);
-        }
         break;
       default:
         console.log('unknown event');

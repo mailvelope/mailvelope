@@ -95,7 +95,9 @@ define(function(require, exports, module) {
     // forward event to decrypt frame
     this.ports.dFrame.postMessage({event: 'dialog-cancel'});
     if (this.decryptPopup) {
-      this.decryptPopup.close();
+      try {
+        this.decryptPopup.close();
+      } catch (e) {}
       this.decryptPopup = null;
     }
   };

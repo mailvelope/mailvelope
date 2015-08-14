@@ -80,16 +80,22 @@ define(function(require, exports, module) {
             event: 'remove-dialog'
           });
         }
-        if (this.verifyPopup) {
-          this.verifyPopup.close();
-          this.verifyPopup = null;
-        }
+        this.closePopup();
         break;
       case 'verify-user-input':
         uiLog.push(msg.source, msg.type);
         break;
       default:
         console.log('unknown event', msg);
+    }
+  };
+
+  VerifyController.prototype.closePopup = function() {
+    if (this.verifyPopup) {
+      try {
+        this.verifyPopup.close();
+      } catch (e) {}
+      this.verifyPopup = null;
     }
   };
 

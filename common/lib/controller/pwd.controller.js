@@ -54,10 +54,7 @@ define(function(require, exports, module) {
         }});
         break;
       case 'pwd-dialog-cancel':
-        if (this.pwdPopup) {
-          this.pwdPopup.close();
-          this.pwdPopup = null;
-        }
+        this.closePopup();
         var error = new Error(msg.event);
         error.code = 'PWD_DIALOG_CANCEL';
         this.reject(error);
@@ -76,10 +73,7 @@ define(function(require, exports, module) {
               // set unlocked key and password in cache
               that.pwdCache.set(that.options, msg.password);
             }
-            if (that.pwdPopup) {
-              that.pwdPopup.close();
-              that.pwdPopup = null;
-            }
+            that.closePopup();
             that.resolve(that.options);
           })
           .catch(function(err) {
@@ -89,11 +83,7 @@ define(function(require, exports, module) {
               if (that.ports.dDialog) {
                 that.ports.dDialog.postMessage({event: 'error-message', error: err.message});
               }
-              if (that.pwdPopup) {
-                // close pwd dialog
-                that.pwdPopup.close();
-                that.pwdPopup = null;
-              }
+              that.closePopup();
               that.reject(err);
             }
           });
@@ -103,6 +93,15 @@ define(function(require, exports, module) {
         break;
       default:
         console.log('unknown event', msg);
+    }
+  };
+
+  PwdController.prototype.closePopup = function() {
+    if (this.pwdPopup) {
+      try {
+        this.pwdPopup.close();
+      } catch (e) {}
+      this.pwdPopup = null;
     }
   };
 
