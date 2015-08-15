@@ -25,8 +25,11 @@ var mvelo = mvelo || null;
   var publicKeyRegex = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
   var privateKeyRegex = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END PGP PRIVATE KEY BLOCK-----/g;
 
+  var MAX_KEY_IMPORT_SIZE = 10000000;
+
   options.registerL10nMessages([
     "key_import_error",
+    "key_import_too_big",
     "key_import_invalid_text",
     "key_import_exception",
     "alert_header_warning",
@@ -50,6 +53,14 @@ var mvelo = mvelo || null;
   function onImportKey(callback) {
     clearAlert();
     var keyText = $('#newKey').val();
+    importKeysInText(keyText, callback);
+  }
+
+  function importKeysInText(keyText, callback) {
+    if (keyText.length > MAX_KEY_IMPORT_SIZE) {
+      $('#importAlert').showAlert(options.l10n.key_import_error, options.l10n.key_import_too_big, 'danger', true);
+      return;
+    }
 
     // find all public and private keys in the textbox
     var publicKeys = keyText.match(publicKeyRegex);
@@ -109,16 +120,18 @@ var mvelo = mvelo || null;
     }
   }
 
-  exports.importKey = function(armored, callback) {
-    $('#impKeyClear').click();
-    $('#newKey').val(armored);
-    onImportKey(callback);
-  };
+  exports.importKey = importKeysInText;
 
   function onChangeFile(event) {
+    clearAlert();
     var reader = new FileReader();
     var file = event.target.files[0];
-    reader.onloadend = function(ev) { $('#newKey').val(ev.target.result); };
+    reader.onloadend = function(ev) { importKeysInText(ev.target.result); };
+
+    if (file.size > MAX_KEY_IMPORT_SIZE) {
+      $('#importAlert').showAlert(options.l10n.key_import_error, options.l10n.key_import_too_big, 'danger', true);
+      return;
+    }
     reader.readAsText(file);
   }
 
