@@ -1,6 +1,29 @@
 Mailvelope Changelog
 ====================
 
+v1.0.0
+-------
+__Aug 18, 2015__
+
+  * API: sign PGP/MIME messages
+  * API: support for signature verification in the decrypt container
+  * Set password cache to on by default (30 min)
+  * Deprecate Firefox 31 support
+  * Improve attachment decrypt performance (Firefox)
+  * Auto select right keyring when opening the settings
+  * Inject content scripts in all open tabs on installation of extension
+  * API: register handlers to allow backup and restore of keys and public keyring synchronization
+  * API: validateKeyForAddress method returns fingerprint and lastModified date
+  * API: add container to create symmetrically encrypted key backup and recovery sheet
+  * API: add container to restore key and password
+  * API: add container to generate key
+  * API: display key details in the key import dialog
+  * API: fix editor quota limit calculation
+  * [OpenPGP.js] Generate keys with multiple user IDs
+  * [OpenPGP.js] Use Web Crypto API to generate keys (Firefox)
+  * Show reason of password request in password dialogs
+  * Many style fixes and layout improvements
+
 v0.13.2
 -------
 __July 22, 2015__
