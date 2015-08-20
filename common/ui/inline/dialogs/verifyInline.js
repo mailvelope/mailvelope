@@ -48,7 +48,9 @@ var mvelo = mvelo || null;
     $(window).on('resize', resizeFont);
     addErrorView();
     // show spinner
-    spinnerTimer = setTimeout(showSpinner, 600);
+    spinnerTimer = window.setTimeout(function() {
+      showSpinner();
+    }, 600);
     mvelo.l10n.getMessages([
       'verify_result_success',
       'verify_result_warning',

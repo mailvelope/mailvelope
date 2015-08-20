@@ -58,7 +58,9 @@ mvelo.main.on = function() {
   //console.log('inside cs: ', document.location.host);
   if (mvelo.main.intervalID === 0) {
     mvelo.main.scanLoop();
-    mvelo.main.intervalID = window.setInterval(mvelo.main.scanLoop, mvelo.main.interval);
+    mvelo.main.intervalID = window.setInterval(function() {
+      mvelo.main.scanLoop();
+    }, mvelo.main.interval);
   }
 };
 

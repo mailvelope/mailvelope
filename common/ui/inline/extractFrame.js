@@ -75,6 +75,7 @@ mvelo.ExtractFrame.prototype._init = function(pgpEnd) {
 };
 
 mvelo.ExtractFrame.prototype._renderFrame = function() {
+  var that = this;
   this._eFrame = $('<div/>', {
     id: 'eFrame-' + this.id,
     'class': 'm-extract-frame m-cursor',
@@ -93,7 +94,9 @@ mvelo.ExtractFrame.prototype._renderFrame = function() {
   this._eFrame.find('.m-frame-close').on('click', this._closeFrame.bind(this));
 
   $(window).resize(this._setFrameDim.bind(this));
-  this._refreshPosIntervalID = window.setInterval(this._setFrameDim.bind(this), 1000);
+  this._refreshPosIntervalID = window.setInterval(function() {
+    that._setFrameDim();
+  }, 1000);
 };
 
 mvelo.ExtractFrame.prototype._clickHandler = function(callback) {

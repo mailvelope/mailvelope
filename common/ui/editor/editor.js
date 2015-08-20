@@ -431,7 +431,9 @@ var mvelo = mvelo || null;
     - not within 40ms before focus event (window, modal)
      */
     if (blurWarnPeriod && !blurValid) {
-      setTimeout(showBlurWarning, 40);
+      window.setTimeout(function() {
+        showBlurWarning();
+      }, 40);
     }
     return true;
   }

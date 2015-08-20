@@ -145,7 +145,6 @@ if (self.options.expose_messaging) {
     mvelo.extension.onMessage.addListener = addListener;
     mvelo.extension._connect = _connect;
     mvelo.extension.getURL = getURL;
-    mvelo.__exposedProps__ = { extension : "r" };
     mvelo.extension.port.postMessage = postMessage;
     mvelo.extension.port.disconnect = disconnect;
     mvelo.extension.port.addListener = addPortListener;

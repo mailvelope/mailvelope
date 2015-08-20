@@ -96,7 +96,9 @@ mvelo.EncryptFrame.prototype._renderFrame = function(expanded) {
   this._eFrame.insertAfter(this._editElement);
   $(window).on('resize', this._setFrameDim.bind(this));
   // to react on position changes of edit element, e.g. click on CC or BCC in GMail
-  this._refreshPosIntervalID = window.setInterval(this._setFrameDim.bind(this), 1000);
+  this._refreshPosIntervalID = window.setInterval(function() {
+    that._setFrameDim();
+  }, 1000);
   this._eFrame.find('.m-frame-close').on('click', this._closeFrame.bind(this));
   this._eFrame.find('#signBtn').on('click', this._onSignButton.bind(this));
   this._eFrame.find('#encryptBtn').on('click', this._onEncryptButton.bind(this));

@@ -47,7 +47,9 @@ var options = options || null;
     $tableBody.children().remove();
     updateSecurityLog();
     clearInterval(autoRefresh);
-    autoRefresh = setInterval(updateSecurityLog, 1000);
+    autoRefresh = window.setInterval(function() {
+      updateSecurityLog();
+    }, 1000);
   }
 
   function updateSecurityLog() {
