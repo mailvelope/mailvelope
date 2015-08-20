@@ -1,9 +1,15 @@
 Mailvelope Changelog
 ====================
 
+v1.0.1
+-------
+__Aug. 20, 2015__
+
+  * Fix false positives from Mozilla signing review
+
 v1.0.0
 -------
-__Aug 18, 2015__
+__Aug. 18, 2015__
 
   * API: sign PGP/MIME messages
   * API: support for signature verification in the decrypt container
