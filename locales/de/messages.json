@@ -852,7 +852,7 @@
         "description": "Import error alert."
     },
     "key_import_default_headline": {
-        "message": "Absender als Kontakt zur verschlüsselten Kommunikation bestätigen?",
+        "message": "Als Kontakt zur verschlüsselten Kommunikation bestätigen?",
         "description": "Key import dialog header."
     },
     "key_import_default_description": {
@@ -1144,7 +1144,7 @@
       "description": ""
     },
     "keybackup_waiting_description": {
-      "message": "Ein Dokument mit ihrem Wiederherstellungscode wird vorbereitet",
+      "message": "Ein Dokument mit ihrem Wiederherstellungscode wird vorbereitet.",
       "description": ""
     },
     "editor_error_header": {
@@ -1204,7 +1204,7 @@
       "description": ""
     },
     "keygen_waiting_description": {
-      "message": "Bitte haben Sie einen Moment Geduld",
+      "message": "Das Einrichten der verschlüsselten Kommunikation kann mehrere Minuten dauern. Ihr Browser reagiert ggf. gewisse Zeit nicht. Bitte haben Sie einen Moment Geduld.",
       "description": ""
     },
     "digital_signature_dialog_header": {

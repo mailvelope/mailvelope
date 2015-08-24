@@ -549,7 +549,7 @@ var mvelo = mvelo || null;
   function setSignMode(signMsg, primaryKey) {
     var short, long;
 
-    if (signMsg === false) {
+    if (!signMsg) {
       $('#editor_digital_signature').hide();
       return;
     }
@@ -568,8 +568,9 @@ var mvelo = mvelo || null;
   }
 
   function onSetText(text) {
-    $('#waitingModal').modal("hide");
-
+    if (!text) {
+      return;
+    }
     if (editor) {
       setText(text);
     } else {
@@ -578,7 +579,7 @@ var mvelo = mvelo || null;
   }
 
   function messageListener(msg) {
-    //console.log('editor messageListener: ', JSON.stringify(msg));
+    //console.log('editor messageListener: ', msg.event);
     switch (msg.event) {
       case 'set-text':
         onSetText(msg.text);

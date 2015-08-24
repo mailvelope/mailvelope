@@ -51,7 +51,9 @@ define(function(require, exports, module) {
     //console.log('EditorController.handlePortMessage', msg);
     switch (msg.event) {
       case 'editor-init':
-        this.ports.editor.postMessage({event: 'set-text', text: this.initText});
+        if (this.initText) {
+          this.ports.editor.postMessage({event: 'set-text', text: this.initText});
+        }
         if (this.ports.editorCont) {
           this.ports.editorCont.postMessage({event: 'editor-ready'});
         }
@@ -133,7 +135,13 @@ define(function(require, exports, module) {
         };
 
         if (this.options.quotedMail) {
-          this.decryptQuoted(this.options.quotedMail);
+          if (this.options.quotedMail.length > 400000) {
+            // show spinner for large messages
+            this.ports.editor.postMessage({event: 'decrypt-in-progress'});
+          }
+          this.mvelo.util.setTimeout(function() {
+            that.decryptQuoted(that.options.quotedMail);
+          }, 50);
         } else if (this.options.predefinedText) {
           data.text = this.options.predefinedText;
         }
@@ -267,17 +275,12 @@ define(function(require, exports, module) {
    */
   EditorController.prototype.decryptQuoted = function(armored) {
     var that = this;
-    var decryptTimer = null;
-
     var decryptCtrl = new DecryptController();
     this.model.readMessage(armored, this.keyringId)
       .then(function(message) {
         return decryptCtrl.prepareKey(message, !that.editorPopup);
       })
       .then(function(message) {
-        decryptTimer = that.mvelo.util.setTimeout(function() {
-          that.ports.editor.postMessage({event: 'decrypt-in-progress'});
-        }, 800);
         return decryptCtrl.decryptMessage(message);
       })
       .then(function(content) {
@@ -301,10 +304,9 @@ define(function(require, exports, module) {
             // only reply scenario at the moment
           }
         };
-        decryptCtrl.parseMessage(content.text, handlers, 'text');
+        return decryptCtrl.parseMessage(content.text, handlers, 'text');
       })
       .then(function() {
-        that.mvelo.util.clearTimeout(decryptTimer);
         that.ports.editor.postMessage({event: 'decrypt-end'});
       })
       .catch(function(error) {

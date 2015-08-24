@@ -660,7 +660,7 @@
     "description": "Import error alert."
   },
   "key_import_default_headline": {
-    "message": "Confirm the sender as a contact for encrypted communication?",
+    "message": "Confirm contact for encrypted communication?",
     "description": "Key import dialog header"
   },
   "key_import_default_description": {
@@ -1140,7 +1140,7 @@
     "description": ""
   },
   "keybackup_waiting_description": {
-    "message": "A document with your backup code is being prepared",
+    "message": "A document with your backup code is being prepared.",
     "description": ""
   },
   "editor_sign_caption_short": {
@@ -1192,7 +1192,7 @@
     "description": ""
   },
   "keygen_waiting_description": {
-    "message": "Please be patient",
+    "message": "The setup for encrypted communication can take several minutes. Your browser may become unresponsive. Please be patient.",
     "description": ""
   },
   "restore_password_dialog_headline": {
