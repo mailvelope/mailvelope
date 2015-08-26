@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v1.0.2
+-------
+__Aug. 25, 2015__
+
+  * Fix spinner for large messages in reply scenario
+
 v1.0.1
 -------
 __Aug. 20, 2015__
