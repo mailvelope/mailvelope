@@ -42,6 +42,8 @@ var mvelo = mvelo || null;
   var commonPath;
   var l10n;
   var logTextareaInput = true;
+  var numUploadsInProgress = 0;
+  var delayedAction = '';
 
   // Get language strings from JSON
   mvelo.l10n.getMessages([
@@ -202,6 +204,15 @@ var mvelo = mvelo || null;
         type: file.type
       };
     };
+
+    fileReader.onloadend = function() {
+      numUploadsInProgress--;
+      if (numUploadsInProgress === 0 && delayedAction) {
+        sendPlainText(delayedAction);
+        delayedAction = '';
+      }
+    };
+
     fileReader.readAsDataURL(file);
     var $removeUploadButton = $('<span/>', {
       "data-id": id,
@@ -252,6 +263,9 @@ var mvelo = mvelo || null;
     for (i = 0; i < numFiles; i++) {
       fileSizeAll = fileSizeAll + parseInt(files[i].size);
     }
+
+    numUploadsInProgress += numFiles;
+
     var currentAttachmentsSize = 0;
     for (var property in attachments) {
       if (attachments.hasOwnProperty(property)) {
@@ -585,6 +599,16 @@ var mvelo = mvelo || null;
     }
   }
 
+  function sendPlainText(action) {
+    port.postMessage({
+      event: 'editor-plaintext',
+      sender: name,
+      message: editor.val(),
+      attachments: attachments,
+      action: action
+    });
+  }
+
   function messageListener(msg) {
     //console.log('editor messageListener: ', msg.event);
     switch (msg.event) {
@@ -628,13 +652,12 @@ var mvelo = mvelo || null;
         removeDialog();
         break;
       case 'get-plaintext':
-        port.postMessage({
-          event: 'editor-plaintext',
-          sender: name,
-          message: editor.val(),
-          attachments: attachments,
-          action: msg.action
-        });
+        if (numUploadsInProgress !== 0) {
+          delayedAction = msg.action;
+        } else {
+          sendPlainText(msg.action);
+        }
+
         break;
       case 'encrypted-message':
       case 'signed-message':
