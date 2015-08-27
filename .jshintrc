@@ -39,7 +39,8 @@
         "self": false,
         "chrome": false,
         "addon": false,
-        "performance": false
+        "performance": false,
+        "File": false
     }
 
 }

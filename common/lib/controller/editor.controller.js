@@ -301,7 +301,9 @@ define(function(require, exports, module) {
             that.ports.editor.postMessage({event: 'set-text', text: msg});
           },
           onAttachment: function(part) {
-            // only reply scenario at the moment
+            if (that.options.keepAttachments) {
+              that.ports.editor.postMessage({event: 'set-attachment', attachment: part});
+            }
           }
         };
         return decryptCtrl.parseMessage(content.text, handlers, 'text');

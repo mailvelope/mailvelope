@@ -234,6 +234,13 @@ var mvelo = mvelo || null;
     $("#uploadPanel").append(fileUI);
   }
 
+  function setAttachment(attachment) {
+    var buffer = mvelo.util.str2ab(attachment.content);
+    var blob = new Blob([buffer], {type: attachment.mimeType});
+    var file = new File([blob], attachment.filename, {type: attachment.mimeType});
+    addAttachment(file);
+  }
+
   function onAddAttachment(selection) {
     //console.log("Selected File: " + $("#addFileInput").val());
     var files = selection.currentTarget.files;
@@ -588,6 +595,9 @@ var mvelo = mvelo || null;
         var data = msg.data;
         onSetText(data.text);
         setSignMode(data.signMsg || false, data.primary);
+        break;
+      case 'set-attachment':
+        setAttachment(msg.attachment);
         break;
       case 'decrypt-in-progress':
       case 'encrypt-in-progress':

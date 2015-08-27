@@ -106,7 +106,8 @@ mvelo.domAPI.optionsTypes = {
   senderAddress: 'string',
   restorePassword: 'boolean',
   email: 'string',
-  fullName: 'string'
+  fullName: 'string',
+  keepAttachments: 'boolean'
 };
 
 mvelo.domAPI.checkTypes = function(data) {
