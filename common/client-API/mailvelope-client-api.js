@@ -391,10 +391,10 @@
 
   /**
    * @typedef {Object} SyncHandlerObject
-   * @property {UploadSyncHandler} uploadSync - function called by Mailvelope to upload encrypted private key backup
-   * @property {DownloadSyncHandler} downloadSync - function called by Mailvelope to download encrypted private key backup
-   * @property {BackupSyncHandler} backup - function called by Mailvelope to upload a public keyring backup
-   * @property {RestoreSyncHandler} restore - function called by Mailvelope to restore a public keyring backup
+   * @property {UploadSyncHandler} uploadSync - function called by Mailvelope to upload the keyring (public keys), the message is encrypted with the primary private key
+   * @property {DownloadSyncHandler} downloadSync - function called by Mailvelope to download the encrypted keyring (public keys)
+   * @property {BackupSyncHandler} backup - function called by Mailvelope to upload a symmetrically encrypted private key backup
+   * @property {RestoreSyncHandler} restore - function called by Mailvelope to restore a private key backup
    */
 
   /**
