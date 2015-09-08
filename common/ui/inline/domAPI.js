@@ -138,7 +138,7 @@ mvelo.domAPI.enforceTypeWhitelist = function(data, whitelist) {
       delete data[parameter];
       continue;
     }
-    if (value === undefined) {
+    if (value === undefined || value === null) {
       continue;
     }
     var wrong = false;
