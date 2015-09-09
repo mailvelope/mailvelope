@@ -128,8 +128,8 @@ var mvelo = mvelo || null;
       ]).then(function() {
         $('#waitingModal').on('hidden.bs.modal', function(e) {
           editor.focus()
-                .prop('selectionStart', 0)
-                .prop('selectionEnd', 0);
+            .prop('selectionStart', 0)
+            .prop('selectionEnd', 0);
         });
 
         $('#uploadEmbeddedBtn').on("click", function() {
@@ -137,7 +137,7 @@ var mvelo = mvelo || null;
           logUserInput('security_log_add_attachment');
         });
       })
-      .then(callback);
+        .then(callback);
 
     } else {
       mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/editor-popup.html')).then(function() {
@@ -147,7 +147,7 @@ var mvelo = mvelo || null;
         $('#signBtn').click(onSign);
         $('#encryptBtn').click(onEncrypt);
         $('#undoBtn').click(onUndo)
-                     .prop('disabled', true);
+          .prop('disabled', true);
 
         Promise.all([
           mvelo.appendTpl($('#editorDialog .modal-body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')),
@@ -249,6 +249,7 @@ var mvelo = mvelo || null;
     var buffer = mvelo.util.str2ab(attachment.content);
     var blob = new Blob([buffer], {type: attachment.mimeType});
     var file = new File([blob], attachment.filename, {type: attachment.mimeType});
+    numUploadsInProgress++;
     addAttachment(file);
   }
 
@@ -263,8 +264,6 @@ var mvelo = mvelo || null;
     for (i = 0; i < numFiles; i++) {
       fileSizeAll = fileSizeAll + parseInt(files[i].size);
     }
-
-    numUploadsInProgress += numFiles;
 
     var currentAttachmentsSize = 0;
     for (var property in attachments) {
@@ -283,6 +282,7 @@ var mvelo = mvelo || null;
       return;
     }
     for (i = 0; i < numFiles; i++) {
+      numUploadsInProgress++;
       addAttachment(files[i]);
     }
     $('#addFileInput').val('');
@@ -308,7 +308,7 @@ var mvelo = mvelo || null;
   }
 
   function transfer() {
-     // wysihtml5 <body> is automatically copied to the hidden <textarea>
+    // wysihtml5 <body> is automatically copied to the hidden <textarea>
     var armored = editor.val();
     port.postMessage({
       event: 'editor-transfer-output',
@@ -362,10 +362,10 @@ var mvelo = mvelo || null;
     var meta = $('<meta/>', { charset: 'UTF-8' });
     sandbox.one('load', function() {
       sandbox.contents().find('head').append(meta)
-                                     .append(style)
-                                     .append(style2);
+        .append(style)
+        .append(style2);
       sandbox.contents().find('body').attr("style", "overflow: hidden; margin: 0")
-                                     .append(text);
+        .append(text);
     });
     $('#plainText').append(sandbox);
     text.on('change', onChange);
@@ -394,25 +394,25 @@ var mvelo = mvelo || null;
 
   function createRichText(callback) {
     /*
-    $('#rte-box').show();
-    $('#richText').wysihtml5('deepExtend', {
-      toolbar_element: 'rte-toolbar',
-      stylesheets: ['../../dep/wysihtml5/css/wysiwyg-color.css'],
-      color: true,
-      parserRules: wysihtml5ParserRules,
-      events: {
-        change: onChange,
-        blur: onBlur,
-        load: function() {
-          // if user clicks in non-editable area of text editor then next blur event is not considered as relevant
-          $('iframe.wysihtml5-sandbox').contents().find('html').on('mousedown', startBlurValid);
-          // each input event restarts the blur warning interval
-          $('iframe.wysihtml5-sandbox').contents().find('body').on('input', startBlurWarnInterval);
-          callback($('#richText'));
-        }
-      }
-    });
-    */
+     $('#rte-box').show();
+     $('#richText').wysihtml5('deepExtend', {
+     toolbar_element: 'rte-toolbar',
+     stylesheets: ['../../dep/wysihtml5/css/wysiwyg-color.css'],
+     color: true,
+     parserRules: wysihtml5ParserRules,
+     events: {
+     change: onChange,
+     blur: onBlur,
+     load: function() {
+     // if user clicks in non-editable area of text editor then next blur event is not considered as relevant
+     $('iframe.wysihtml5-sandbox').contents().find('html').on('mousedown', startBlurValid);
+     // each input event restarts the blur warning interval
+     $('iframe.wysihtml5-sandbox').contents().find('body').on('input', startBlurWarnInterval);
+     callback($('#richText'));
+     }
+     }
+     });
+     */
   }
 
   function setRichText(text, type) {
@@ -425,9 +425,9 @@ var mvelo = mvelo || null;
 
   function setPlainText(text) {
     editor.focus()
-          .val(text)
-          .prop('selectionStart', 0)
-          .prop('selectionEnd', 0);
+      .val(text)
+      .prop('selectionStart', 0)
+      .prop('selectionEnd', 0);
     isDirty = false;
   }
 
@@ -446,10 +446,10 @@ var mvelo = mvelo || null;
 
   function onBlur() {
     /*
-    blur warning displayed if blur occurs:
-    - inside blur warning period (2s after input)
-    - not within 40ms after mousedown event (RTE)
-    - not within 40ms before focus event (window, modal)
+     blur warning displayed if blur occurs:
+     - inside blur warning period (2s after input)
+     - not within 40ms after mousedown event (RTE)
+     - not within 40ms before focus event (window, modal)
      */
     if (blurWarnPeriod && !blurValid) {
       window.setTimeout(function() {
@@ -463,14 +463,14 @@ var mvelo = mvelo || null;
     if (!blurValid) {
       // fade in 600ms, wait 200ms, fade out 600ms
       blurWarn.removeClass('hide')
-              .stop(true)
-              .animate({opacity: 1}, 'slow', 'swing', function() {
-                setTimeout(function() {
-                  blurWarn.animate({opacity: 0}, 'slow', 'swing', function() {
-                    blurWarn.addClass('hide');
-                  });
-                }, 200);
-              });
+        .stop(true)
+        .animate({opacity: 1}, 'slow', 'swing', function() {
+          setTimeout(function() {
+            blurWarn.animate({opacity: 0}, 'slow', 'swing', function() {
+              blurWarn.addClass('hide');
+            });
+          }, 200);
+        });
     }
   }
 
