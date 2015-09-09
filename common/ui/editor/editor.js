@@ -241,8 +241,8 @@ var mvelo = mvelo || null;
       .append($extensionButton)
       .append($fileName)
       .append($removeUploadButton);
-
-    $("#uploadPanel").append(fileUI);
+    var uploadPanelHeight = $("#uploadPanel")[0].scrollHeight;
+    $("#uploadPanel").append(fileUI).scrollTop(uploadPanelHeight); //Append attachment element and scroll to bottom of #uploadPanel to show current uploads
   }
 
   function setAttachment(attachment) {

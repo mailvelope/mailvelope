@@ -164,6 +164,8 @@ body {
 #flex-container #header #uploadPanel {
   flex: 100%;
   order: 1;
+  max-height: 107px;
+  overflow-y: auto;
 }
 #flex-container #header #buttonBar {
   flex: 30px;
