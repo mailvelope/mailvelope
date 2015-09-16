@@ -1,6 +1,15 @@
 Mailvelope Changelog
 ====================
 
+v1.1.0
+-------
+__Sep. 16, 2015__
+
+  * Editor container supports keepAttachment flag for message forwarding scenarios
+  * Fix race condition on attachment upload that can lead to lost attachments
+  * Ignore null values in API type checker
+  * [OpenPGP.js] Support plain email address in user IDs of keys
+
 v1.0.2
 -------
 __Aug. 25, 2015__
