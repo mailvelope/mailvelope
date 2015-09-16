@@ -33,6 +33,10 @@ var mvelo = mvelo || null;
 
   function init() {
     //console.log('init decryptInline.js');
+    if (document.body.dataset.mvelo) {
+      return;
+    }
+    document.body.dataset.mvelo = true;
     var qs = jQuery.parseQuerystring();
     id = qs.id;
     name = 'dDialog-' + id;

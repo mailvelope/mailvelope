@@ -43,10 +43,21 @@ mvelo.domAPI.init = function() {
     });
   });
   if (this.active) {
+    var apiTag = document.getElementById('mailvelope-api');
+    if (apiTag) {
+      if (apiTag.dataset.version !== mvelo.main.prefs.version) {
+        window.setTimeout(function() {
+          window.dispatchEvent(new CustomEvent('mailvelope-disconnect'));
+        }, 1);
+      }
+      return;
+    }
     window.addEventListener('message', mvelo.domAPI.eventListener);
     if (!window.mailvelope) {
       $('<script/>', {
-        src: mvelo.extension.getURL('common/client-API/mailvelope-client-api.js')
+        id: 'mailvelope-api',
+        src: mvelo.extension.getURL('common/client-API/mailvelope-client-api.js'),
+        'data-version': mvelo.main.prefs.version
       }).appendTo($('head'));
     }
   }

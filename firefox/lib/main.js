@@ -291,6 +291,7 @@ function injectDecryptInline() {
       data.url("common/ui/inline/dialogs/decryptInline.css")
     ],
     contentScriptWhen: 'ready',
+    attachTo: ['existing', 'frame'],
     contentScriptOptions: {
       expose_messaging: false,
       data_path: data.url()
@@ -315,6 +316,7 @@ function injectVerifyInline() {
       data.url("common/ui/inline/dialogs/verifyInline.css")
     ],
     contentScriptWhen: 'ready',
+    attachTo: ['existing', 'frame'],
     contentScriptOptions: {
       expose_messaging: false,
       data_path: data.url()
@@ -339,6 +341,7 @@ function injectEncryptDialog() {
       data.url("common/ui/inline/dialogs/encryptDialog.css")
     ],
     contentScriptWhen: 'ready',
+    attachTo: ['existing', 'frame'],
     contentScriptOptions: {
       expose_messaging: false,
       data_path: data.url()
@@ -364,6 +367,7 @@ function injectSignDialog() {
       data.url("common/ui/inline/dialogs/signDialog.css")
     ],
     contentScriptWhen: 'ready',
+    attachTo: ['existing', 'frame'],
     contentScriptOptions: {
       expose_messaging: false,
       data_path: data.url()
@@ -389,6 +393,7 @@ function injectEmbeddedEditor() {
       data.url("common/ui/editor/editor.css")
     ],
     contentScriptWhen: 'ready',
+    attachTo: ['existing', 'frame'],
     contentScriptOptions: {
       expose_messaging: false,
       data_path: data.url()
@@ -422,6 +427,7 @@ function injectEmbeddedOptions() {
       data.url("common/ui/options.css")
     ],
     contentScriptWhen: 'ready',
+    attachTo: ['existing', 'frame'],
     contentScriptOptions: {
       expose_messaging: false,
       data_path: data.url()
@@ -447,6 +453,7 @@ function injectEmbeddedKeyGen() {
       data.url("common/ui/inline/dialogs/keyGenDialog.css")
     ],
     contentScriptWhen: 'ready',
+    attachTo: ['existing', 'frame'],
     contentScriptOptions: {
       expose_messaging: false,
       data_path: data.url()
@@ -472,6 +479,7 @@ function injectEmbeddedKeyBackup() {
       data.url("common/ui/inline/dialogs/keyBackupDialog.css")
     ],
     contentScriptWhen: 'ready',
+    attachTo: ['existing', 'frame'],
     contentScriptOptions: {
       expose_messaging: false,
       data_path: data.url()
@@ -497,6 +505,7 @@ function injectEmbeddedRestoreBackup() {
       data.url("common/ui/inline/dialogs/restoreBackupDialog.css")
     ],
     contentScriptWhen: 'ready',
+    attachTo: ['existing', 'frame'],
     contentScriptOptions: {
       expose_messaging: false,
       data_path: data.url()

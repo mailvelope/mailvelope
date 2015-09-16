@@ -34,6 +34,10 @@ var options = {};
   var demailSuffix = 'de-mail.de';
 
   function init() {
+    if (document.body.dataset.mvelo) {
+      return;
+    }
+    document.body.dataset.mvelo = true;
     initMessageListener();
 
     mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/settings/tpl/main.html'))

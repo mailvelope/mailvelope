@@ -30,6 +30,10 @@ var mvelo = mvelo || null;
   var $restorePasswordInput;
 
   function init() {
+    if (document.body.dataset.mvelo) {
+      return;
+    }
+    document.body.dataset.mvelo = true;
     var qs = jQuery.parseQuerystring();
     id = qs.id;
     name = 'restoreBackupDialog-' + id;

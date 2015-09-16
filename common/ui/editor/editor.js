@@ -66,6 +66,10 @@ var mvelo = mvelo || null;
   var maxFileUploadSizeChrome = 20 * 1024 * 1024; // temporal fix due issue in Chrome
 
   function init() {
+    if (document.body.dataset.mvelo) {
+      return;
+    }
+    document.body.dataset.mvelo = true;
     var qs = jQuery.parseQuerystring();
     id = qs.id;
     name = 'editor-' + id;

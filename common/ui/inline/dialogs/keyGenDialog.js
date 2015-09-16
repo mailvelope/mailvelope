@@ -33,6 +33,10 @@ var mvelo = mvelo || null;
   var $keyGenWaitingPanel;
 
   function init() {
+    if (document.body.dataset.mvelo) {
+      return;
+    }
+    document.body.dataset.mvelo = true;
     var qs = jQuery.parseQuerystring();
     id = qs.id;
     name = 'keyGenDialog-' + id;

@@ -176,6 +176,9 @@
     return postMessage('settings-container', {selector: selector, identifier: keyring.identifier, options: options});
   };
 
+  // connection to content script is alive
+  var connected = true;
+
   var syncHandler = null;
 
   /**
@@ -583,6 +586,11 @@
     }
   }
 
+  function disconnectListener(event) {
+    window.removeEventListener('message', eventListener);
+    connected = false;
+  }
+
   function getHash() {
     var result = '';
     var buf = new Uint16Array(6);
@@ -594,6 +602,11 @@
   }
 
   function postMessage(eventName, data, noResp) {
+    if (!connected) {
+      var error = new Error('Connection to Mailvelope extension is no longer alive.');
+      error.code = 'NO_CONNECTION';
+      throw error;
+    }
     return new Promise(function(resolve, reject) {
       var message = {
         event: eventName,
@@ -622,6 +635,7 @@
   window.mailvelope = new Mailvelope();
 
   window.addEventListener('message', eventListener);
+  window.addEventListener('mailvelope-disconnect', disconnectListener);
 
   window.setTimeout(function() {
     window.dispatchEvent(new CustomEvent('mailvelope', { detail: window.mailvelope }));

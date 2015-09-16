@@ -23,6 +23,10 @@ var mvelo = mvelo || null;
   var id, name, port, l10n;
 
   function init() {
+    if (document.body.dataset.mvelo) {
+      return;
+    }
+    document.body.dataset.mvelo = true;
     // open port to background page
     var qs = jQuery.parseQuerystring();
     id = qs.id;
