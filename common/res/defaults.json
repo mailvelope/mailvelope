@@ -107,6 +107,17 @@
     },
     {
       "active": true,
+      "site": "T-Systems De-Mail",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.de-mail.t-systems.de",
+          "api": true
+        }
+      ]
+    },
+    {
+      "active": true,
       "site": "WEB.DE De-Mail",
       "frames": [
         {
