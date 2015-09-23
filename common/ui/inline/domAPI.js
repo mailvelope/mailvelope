@@ -47,7 +47,7 @@ mvelo.domAPI.init = function() {
     if (apiTag) {
       if (apiTag.dataset.version !== mvelo.main.prefs.version) {
         window.setTimeout(function() {
-          window.dispatchEvent(new CustomEvent('mailvelope-disconnect'));
+          window.dispatchEvent(new CustomEvent('mailvelope-disconnect', { detail: {version: mvelo.main.prefs.version} }));
         }, 1);
       }
       return;
