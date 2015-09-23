@@ -73,12 +73,13 @@ mvelo.KeyGenContainer.prototype.create = function(done) {
 
 /**
  * Generate a key pair and check if the inputs are correct
+ * @param {boolean} confirmRequired - generated key only valid after confirm
  * @param {function} generateCallback - callback function
  * @returns {mvelo.KeyGenContainer}
  */
-mvelo.KeyGenContainer.prototype.generate = function(generateCallback) {
+mvelo.KeyGenContainer.prototype.generate = function(confirmRequired, generateCallback) {
   this.generateCallback = generateCallback;
-
+  this.options.confirmRequired = confirmRequired;
   this.port.postMessage({
     event: 'generate-key',
     sender: this.name,
@@ -86,6 +87,20 @@ mvelo.KeyGenContainer.prototype.generate = function(generateCallback) {
     options: this.options
   });
   return this;
+};
+
+mvelo.KeyGenContainer.prototype.confirm = function() {
+  this.port.postMessage({
+    event: 'generate-confirm',
+    sender: this.name,
+  });
+};
+
+mvelo.KeyGenContainer.prototype.reject = function() {
+  this.port.postMessage({
+    event: 'generate-reject',
+    sender: this.name,
+  });
 };
 
 /**

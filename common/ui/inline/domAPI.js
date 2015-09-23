@@ -100,7 +100,8 @@ mvelo.domAPI.dataTypes = {
   error: 'object',
   restoreId: 'string',
   restoreBackup: 'string',
-  id: 'string'
+  id: 'string',
+  confirmRequired: 'boolean'
 };
 
 mvelo.domAPI.optionsTypes = {
@@ -227,7 +228,13 @@ mvelo.domAPI.eventListener = function(event) {
         mvelo.domAPI.keyBackupPopupIsReady(data.popupId, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
       case 'generator-generate':
-        mvelo.domAPI.generatorGenerate(data.generatorId, mvelo.domAPI.reply.bind(null, event.data.id));
+        mvelo.domAPI.generatorGenerate(data.generatorId, data.confirmRequired, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
+      case 'generator-generate-confirm':
+        mvelo.domAPI.generatorConfirm(data.generatorId);
+        break;
+      case 'generator-generate-reject':
+        mvelo.domAPI.generatorReject(data.generatorId);
         break;
       case 'has-private-key':
         mvelo.domAPI.hasPrivateKey(keyringId, data.fingerprint, mvelo.domAPI.reply.bind(null, event.data.id));
@@ -365,8 +372,16 @@ mvelo.domAPI.keyBackupPopupIsReady = function(popupId, callback) {
   this.containers.get(popupId).keyBackupDone(callback);
 };
 
-mvelo.domAPI.generatorGenerate = function(generatorId, callback) {
-  this.containers.get(generatorId).generate(callback);
+mvelo.domAPI.generatorGenerate = function(generatorId, confirmRequired, callback) {
+  this.containers.get(generatorId).generate(confirmRequired, callback);
+};
+
+mvelo.domAPI.generatorConfirm = function(generatorId) {
+  this.containers.get(generatorId).confirm();
+};
+
+mvelo.domAPI.generatorReject = function(generatorId) {
+  this.containers.get(generatorId).reject();
 };
 
 mvelo.domAPI.hasPrivateKey = function(keyringId, fingerprint, callback) {

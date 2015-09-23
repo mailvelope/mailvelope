@@ -74,6 +74,14 @@ define(function(require, exports, module) {
   }
 
   /**
+   * Delete key from cache
+   * @param  {String} primkeyid primary key id
+   */
+  function deleteEntry(primkeyid) {
+    delete cache[primkeyid];
+  }
+
+  /**
    * Set key and password in cache, start timeout
    * @param {Object} message
    * @param {String} [message.keyid] - key ID of key that should be cached
@@ -128,6 +136,7 @@ define(function(require, exports, module) {
 
   exports.init = init;
   exports.get = get;
+  exports.delete = deleteEntry;
   exports.set = set;
   exports.unlock = unlock;
 

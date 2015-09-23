@@ -458,11 +458,23 @@
 
   /**
    * Generate a private key
+   * @param {Promise.<undefined, Error>} [confirm] - newly generate key is only persisted if Promise resolves,
+   *                                                 in the reject or timeout case the generated key is rejected
    * @returns {Promise.<AsciiArmored, Error>} - the newly generated key (public part)
    * @throws {Error}
    */
-  Generator.prototype.generate = function() {
-    return postMessage('generator-generate', {generatorId: this.generatorId});
+  Generator.prototype.generate = function(confirm) {
+    var that = this;
+    return postMessage('generator-generate', {generatorId: this.generatorId, confirmRequired: Boolean(confirm)}).then(function(armored) {
+      if (confirm) {
+        confirm.then(function() {
+          postMessage('generator-generate-confirm', {generatorId: that.generatorId});
+        }).catch(function(e) {
+          postMessage('generator-generate-reject', {generatorId: that.generatorId, error: e});
+        });
+      }
+      return armored;
+    });
   };
 
   /**

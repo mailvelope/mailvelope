@@ -36,6 +36,8 @@ define(function(require, exports, module) {
     this.pwdControl = null;
     this.initialSetup = true;
     this.restorePassword = false;
+    this.newKeyId = '';
+    this.rejectTimer = 0;
   }
 
   PrivateKeyController.prototype = Object.create(sub.SubController.prototype);
@@ -53,11 +55,28 @@ define(function(require, exports, module) {
       numBits: options.keySize,
       passphrase: password
     }, function(err, data) {
+      that.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: data.publicKeyArmored, error: err});
+      if (err) {
+        return;
+      }
       if (that.prefs.data().security.password_cache) {
         pwdCache.set({key: data.key}, password);
       }
-      that.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: data.publicKeyArmored, error: err});
+      if (options.confirmRequired) {
+        that.newKeyId = data.key.primaryKey.keyid.toHex();
+        that.rejectTimer = that.mvelo.util.setTimeout(function() {
+          that.rejectKey(that.newKeyId);
+          that.rejectTimer = 0;
+        }, 10000); // trigger timeout after 10s
+      }
     });
+  };
+
+  PrivateKeyController.prototype.rejectKey = function(keyId) {
+    this.keyring.getById(this.keyringId).removeKey(this.newKeyId, 'private');
+    if (this.prefs.data().security.password_cache) {
+      pwdCache.delete(this.newKeyId);
+    }
   };
 
   PrivateKeyController.prototype.createPrivateKeyBackup = function() {
@@ -158,6 +177,19 @@ define(function(require, exports, module) {
         this.keyringId = msg.keyringId;
         this.options = msg.options;
         this.ports.keyGenDialog.postMessage({event: 'check-dialog-inputs'});
+        break;
+      case 'generate-confirm':
+        if (this.rejectTimer) {
+          this.mvelo.util.clearTimeout(this.rejectTimer);
+          this.rejectTimer = 0;
+        }
+        break;
+      case 'generate-reject':
+        if (this.rejectTimer) {
+          this.mvelo.util.clearTimeout(this.rejectTimer);
+          this.rejectTimer = 0;
+          this.rejectKey(this.newKeyId);
+        }
         break;
       case 'set-keybackup-window-props':
         this.keyringId = msg.keyringId;
