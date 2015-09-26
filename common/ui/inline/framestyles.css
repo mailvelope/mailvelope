@@ -81,6 +81,7 @@
   white-space: nowrap;
   font-size: 0;
   display: none;
+  z-index: 11;
 }
 
 :root .m-encrypt-frame-expanded {
