@@ -1,6 +1,15 @@
 Mailvelope Changelog
 ====================
 
+v1.2.0
+-------
+__Oct. 4, 2015__
+
+  * API: trigger disconnect event on extension update
+  * API: add confirm parameter to key generate method to allow rejecting key if public key upload fails
+  * Fix Mailvelope editor button in certain mail providers
+  * [Security][OpenPGP.js] Fix S2K to prevent decryption of malformed private key backup messages
+
 v1.1.0
 -------
 __Sep. 16, 2015__
