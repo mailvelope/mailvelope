@@ -1,6 +1,13 @@
 Mailvelope Changelog
 ====================
 
+v1.2.1
+-------
+__Oct. 14, 2015__
+
+  * Recovery sheet layout fixes
+  * [OpenPGP.js] Update OpenPGP.js, enforce integrity protection, deprecate Symmetrically Encrypted Data Packet (Tag 9)
+
 v1.2.0
 -------
 __Oct. 4, 2015__
