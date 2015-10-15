@@ -100,7 +100,7 @@ var mvelo = mvelo || null;
         var keySelect = $('#keySelect');
         keySelect.append(
           msg.keys.map(function(key) {
-            var option = $('<option/>').val(key.id.toLowerCase()).text(key.name + ' <' + key.email + '>');
+            var option = $('<option/>').val(key.id.toLowerCase()).text(key.name + ' <' + key.email + '> (0x' + key.id.slice(-8).toUpperCase() + ')');
             if (key.id === msg.primary) {
               option.prop('selected', true);
             }
