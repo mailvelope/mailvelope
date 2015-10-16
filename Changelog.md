@@ -1,6 +1,13 @@
 Mailvelope Changelog
 ====================
 
+v1.2.2
+-------
+__Oct. 16, 2015__
+
+  * Fix key generation activity indicator (Firefox)
+  * Don't show recovery sheet when backup upload fails
+
 v1.2.1
 -------
 __Oct. 14, 2015__
