@@ -125,6 +125,12 @@ input[readonly] {
   text-align: left;
 }
 
+#genKeyWait .wait-indicator {
+  background: no-repeat url(../img/progress-bar.gif);
+  width: 220px;
+  height: 19px;
+}
+
 #security .form-horizontal .control-label,
 #general .form-horizontal .control-label {
   width: 280px;
