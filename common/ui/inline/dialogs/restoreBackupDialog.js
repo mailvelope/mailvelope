@@ -52,7 +52,8 @@ var mvelo = mvelo || null;
       $restorePasswordPanel = $('#restorePasswordPanel').hide();
 
       mvelo.l10n.getMessages([
-        'wrong_restore_code'
+        'wrong_restore_code',
+        'key_recovery_failed'
       ], function(result) {
         l10n = result;
       });
@@ -181,13 +182,13 @@ var mvelo = mvelo || null;
     //console.log('keyGenDialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
       case 'error-message':
-        //TODO
-        console.log('restoreBackupDialog error', msg.error);
-
         switch (msg.error.code) {
           case 'WRONG_RESTORE_CODE':
-            // Der Wiederherstellungscode ist nicht korrekt.
+            // the recovery code is not correct
             showErrorMsg(l10n.wrong_restore_code);
+            break;
+          default:
+            showErrorMsg(l10n.key_recovery_failed);
         }
         break;
       case 'set-password':

@@ -1139,6 +1139,9 @@
       "message": "Wiederherstellungsbeleg erstellen",
       "description": ""
     },
+    "keybackup_failed": {
+      "message": "Fehler beim Erstellen der Sicherungskopie."
+    },
     "keybackup_waiting_headline": {
       "message": "Sicherung wird eingerichtet!",
       "description": ""
@@ -1198,6 +1201,9 @@
     "restore_password_dialog_button": {
         "message": "Anzeigen",
         "description": ""
+    },
+    "key_recovery_failed": {
+      "message": "Fehler bei Wiederherstellung der Sicherungskopie."
     },
     "keygen_waiting_headline": {
       "message": "Die verschlüsselte Kommunikation wird eingerichtet",

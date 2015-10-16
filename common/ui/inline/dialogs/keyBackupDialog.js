@@ -59,7 +59,8 @@ var mvelo = mvelo || null;
         'keybackup_restore_dialog_description',
         'keybackup_restore_dialog_list_1',
         'keybackup_restore_dialog_list_2',
-        'keybackup_restore_dialog_button'
+        'keybackup_restore_dialog_button',
+        'keybackup_failed'
       ], function(result) {
         l10n = result;
       });
@@ -125,6 +126,10 @@ var mvelo = mvelo || null;
     });
   }
 
+  function showErrorMsg(msg) {
+    $('#errorMsg').html(msg).fadeIn();
+  }
+
   /**
    * Mananaged the different post messages
    * @param {string} msg
@@ -137,12 +142,9 @@ var mvelo = mvelo || null;
         translateTexts(data.initialSetup);
         break;
       case 'error-message':
-        switch (msg.error.code) {
-          case 'PWD_DIALOG_CANCEL':
-            showKeyBackupGenerator();
-            break;
-          default:
-            port.postMessage({ event: 'error-message', sender: name, error: msg.error });
+        showKeyBackupGenerator();
+        if (msg.error.code !== 'PWD_DIALOG_CANCEL') {
+          showErrorMsg(l10n.keybackup_failed);
         }
         break;
       default:

@@ -147,6 +147,7 @@ define(function(require, exports, module) {
       })
       .catch(function(err) {
         that.ports.restoreBackupDialog.postMessage({event: 'error-message', error: err});
+        that.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', error: err});
       });
   };
 
@@ -230,11 +231,6 @@ define(function(require, exports, module) {
           this.createPrivateKeyBackup();
         } catch (err) {
           this.ports.keyBackupCont.postMessage({event: 'popup-isready', error: err});
-        }
-        break;
-      case 'error-message':
-        if (msg.sender.indexOf('keyBackupDialog') >= 0) {
-          this.ports.keyBackupCont.postMessage({event: 'error-message', error: msg.err});
         }
         break;
       default:

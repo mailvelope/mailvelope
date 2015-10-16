@@ -1135,6 +1135,9 @@
     "message": "Restore backup",
     "description": ""
   },
+  "keybackup_failed": {
+    "message": "Key backup failed."
+  },
   "keybackup_waiting_headline": {
     "message": "Create backup!",
     "description": ""
@@ -1186,6 +1189,9 @@
   "wrong_restore_code": {
     "message": "Restore code is wrong",
     "description": ""
+  },
+  "key_recovery_failed": {
+    "message": "Recovering key from backup failed."
   },
   "keygen_waiting_headline": {
     "message": "Setting up encrypted communication",

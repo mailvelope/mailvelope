@@ -563,6 +563,9 @@
         postMessage('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: msg.data.type, syncData: result, id: msg.data.id}, true);
       })
       .catch(function(error) {
+        if (!error) {
+          error = new Error('Unknown Error');
+        }
         if (error instanceof Error || typeof error === 'string') {
           error = { message: error.message || '' + error };
         }
