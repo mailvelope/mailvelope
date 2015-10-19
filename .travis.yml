@@ -3,6 +3,7 @@ language: node_js
 node_js:
 - '0.10'
 before_install:
+- openssl aes-256-cbc -K $encrypted_5d28b41102c4_key -iv $encrypted_5d28b41102c4_iv -in .travis/crx_signing.pem.enc -out .travis/crx_signing.pem -d
 - npm install -g grunt-cli
 - npm install -g bower
 install:
@@ -15,7 +16,9 @@ install:
 - cd ../../..
 - npm install
 - bower install
-script: ./deploy-grunt.sh
+script:
+- .travis/deploy-grunt.sh
+- .travis/crxmake.sh build/chrome .travis/crx_signing.pem
 env:
   global:
   - GH_REF=github.com/mailvelope/mailvelope.git
@@ -24,7 +27,7 @@ env:
   - secure: Fm4m7fFmD1NfBZdXcNCdnkRlcwvaJtKSOgUy1nkm21Wzjzx2tjxJD90j9aaxF7VeWJr3AOO7k4EN5qdtrkGi5bILYprCwujBa8wLR0etMI/SkAfCd/bLfqAglubqOaaGu//vLN0IL1wDv9HDz9DU42EbbR9vM9cmMebPctrKTy0=
 deploy:
   provider: releases
-  api-key: ${GH_TOKEN}
+  api-key: "${GH_TOKEN}"
   file: dist/*
   file_glob: true
   skip_cleanup: true
@@ -35,5 +38,5 @@ addons:
   ssh_known_hosts: build.mailvelope.com
   apt:
     packages:
-      - sshpass
-after_success: ./deploy-nightly.sh
+    - sshpass
+after_success: ".travis/deploy-nightly.sh"
