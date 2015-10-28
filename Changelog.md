@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v1.2.3
+-------
+__Oct. 28, 2015__
+
+  * [OpenPGP.js] Enforce integrity protection only for modern ciphers, fix compatibility issues
+
 v1.2.2
 -------
 __Oct. 16, 2015__
