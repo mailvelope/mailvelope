@@ -1260,5 +1260,9 @@
     "pwd_dialog_reason_create_backup": {
       "message": "Bitte Schlüssel-Passwort eingeben, um den Wiederherstellungsbeleg zu erstellen.",
       "description": ""
+    },
+    "pwd_dialog_reason_create_draft": {
+      "message": "Bitte Schlüssel-Passwort eingeben, um den Entwurf zu speichern.",
+      "description": ""
     }
 }

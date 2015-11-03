@@ -42,6 +42,7 @@ define(function(require, exports, module) {
     this.mailbuild = require('../../mailbuild');
     this.pgpMIME = false;
     this.signMsg = null;
+    this.options = {};
   }
 
   EditorController.prototype = Object.create(sub.SubController.prototype);
@@ -125,6 +126,23 @@ define(function(require, exports, module) {
         this.keyidBuffer = this.mvelo.util.sortAndDeDup(keyIds);
         this.ports.editor.postMessage({event: 'get-plaintext', action: 'encrypt'});
         break;
+      case 'editor-container-create-draft':
+        this.pgpMIME = true;
+        this.keyringId = msg.keyringId;
+        this.options.reason = 'PWD_DIALOG_REASON_CREATE_DRAFT';
+        var primary = this.keyring.getById(this.keyringId).getPrimaryKey();
+        if (primary) {
+          this.keyidBuffer = [primary.keyid.toLowerCase()];
+        } else {
+          var error = {
+            message: 'No private key found for creating draft.',
+            code: 'NO_KEY_FOR_ENCRYPTION'
+          };
+          this.ports.editorCont.postMessage({event: 'error-message', error: error});
+          return;
+        }
+        this.ports.editor.postMessage({event: 'get-plaintext', action: 'encrypt'});
+        break;
       case 'editor-options':
         this.keyringId = msg.keyringId;
         this.options = msg.options;
@@ -133,17 +151,15 @@ define(function(require, exports, module) {
           signMsg: this.signMsg,
           primary: this.keyring.getById(this.keyringId).getPrimaryKey() || false
         };
-
-        if (this.options.quotedMail) {
-          if (this.options.quotedMail.length > 400000) {
-            // show spinner for large messages
-            this.ports.editor.postMessage({event: 'decrypt-in-progress'});
+        if (this.options.armoredDraft) {
+          this.options.keepAttachments = true;
+          this.scheduleDecrypt(this.options.armoredDraft);
+        } else {
+          if (this.options.quotedMail) {
+            this.scheduleDecrypt(this.options.quotedMail);
+          } else if (this.options.predefinedText) {
+            data.text = this.options.predefinedText;
           }
-          this.mvelo.util.setTimeout(function() {
-            that.decryptQuoted(that.options.quotedMail);
-          }, 50);
-        } else if (this.options.predefinedText) {
-          data.text = this.options.predefinedText;
         }
         syncCtrl.triggerSync({keyringId: this.keyringId, force: true});
         this.ports.editor.postMessage({event: 'set-init-data', data: data});
@@ -246,7 +262,7 @@ define(function(require, exports, module) {
       }
     }
 
-    if (this.options && this.options.quota && (quotaSize > this.options.quota)) {
+    if (this.options.quota && (quotaSize > this.options.quota)) {
       var error = {
         type: 'error',
         code: 'ENCRYPT_QUOTA_SIZE',
@@ -269,18 +285,32 @@ define(function(require, exports, module) {
     return composedMessage;
   };
 
+  EditorController.prototype.scheduleDecrypt = function(armored) {
+    var that = this;
+    if (armored.length > 400000) {
+      // show spinner for large messages
+      this.ports.editor.postMessage({event: 'decrypt-in-progress'});
+    }
+    this.mvelo.util.setTimeout(function() {
+      that.decryptArmored(armored);
+    }, 50);
+  };
+
   /**
    * @param {String} armored
    * @returns {undefined}
    */
-  EditorController.prototype.decryptQuoted = function(armored) {
+  EditorController.prototype.decryptArmored = function(armored) {
     var that = this;
     var decryptCtrl = new DecryptController();
+    decryptCtrl.keyringId = this.keyringId;
     this.model.readMessage(armored, this.keyringId)
       .then(function(message) {
         return decryptCtrl.prepareKey(message, !that.editorPopup);
       })
       .then(function(message) {
+        message.options = message.options || {};
+        message.options.selfSigned = Boolean(that.options.armoredDraft);
         return decryptCtrl.decryptMessage(message);
       })
       .then(function(content) {
@@ -306,6 +336,11 @@ define(function(require, exports, module) {
             }
           }
         };
+        if (that.options.armoredDraft) {
+          if (!(content.signatures && content.signatures[0].valid)) {
+            throw { message: 'Restoring of the draft failed due to invalid signature.' };
+          }
+        }
         return decryptCtrl.parseMessage(content.text, handlers, 'text');
       })
       .then(function() {
@@ -356,7 +391,7 @@ define(function(require, exports, module) {
 
     primaryKey.keyid = signKeyid;
     primaryKey.keyringId = this.keyringId;
-    primaryKey.reason = 'PWD_DIALOG_REASON_SIGN';
+    primaryKey.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
 
     that.pwdControl = sub.factory.get('pwdDialog');
     that.pwdControl.unlockKey(primaryKey)
@@ -472,7 +507,7 @@ define(function(require, exports, module) {
         return;
       }
 
-      if (this.signMsg) {
+      if (this.signMsg || this.options.armoredDraft) {
         this.signAndEncryptMessage({
           message: data,
           keyIdsHex: this.keyidBuffer

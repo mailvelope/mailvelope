@@ -116,12 +116,13 @@
   /**
    * @typedef {Object} EditorContainerOptions
    * @property {number} quota - mail content (text + attachments) limit in kilobytes (default: 20480)
+   * @property {boolean} signMsg - if true then the mail will be signed (default: false)
+   * @property {AsciiArmored} armoredDraft - a PGP message, signed and encrypted with the primary key of the user, will be used to restore a draft in the editor
    * @property {string} predefinedText - text that will be added to the editor
    * @property {AsciiArmored} quotedMail - mail that should be quoted
    * @property {boolean} quotedMailIndent - if true the quoted mail will be indented (default: true)
    * @property {string} quotedMailHeader - header to be added before the quoted mail
    * @property {boolean} keepAttachments - add attachments of quotedMail to editor (default: false)
-   * @property {boolean} signMsg - if true then the mail would signed automaticly (default: false)
    */
 
   /**
@@ -131,6 +132,8 @@
    * @param {Keyring} keyring - the keyring to use for this operation
    * @param {EditorContainerOptions} options
    * @returns {Promise.<Editor, Error>}
+   * @throws {Error} error.code = 'WRONG_ARMORED_TYPE' - parameters of type AsciiArmored do not have the correct armor type <br>
+                     error.code = 'INVALID_OPTIONS' - invalid combination of options parameter
    * @example
    * mailvelope.createEditorContainer('#editor-element', keyring).then(function(editor) {
    *     // register event handler for mail client send button
@@ -521,6 +524,18 @@
    */
   Editor.prototype.encrypt = function(recipients) {
     return postMessage('editor-encrypt', {recipients: recipients, editorId: this.editorId});
+  };
+
+  /**
+   * Encrypt and sign the content of the editor with the primary key of the user.
+   * To be used to save drafts, restore with the options.armoredDraft parameter of the createEditorContainer method.
+   * @returns {Promise.<AsciiArmored, Error>}
+   * @throws {Error} error.code = 'ENCRYPT_IN_PROGRESS' <br>
+   *                 error.code = 'NO_KEY_FOR_ENCRYPTION' <br>
+   *                 error.code = 'ENCRYPT_QUOTA_SIZE'
+   */
+  Editor.prototype.createDraft = function() {
+    return postMessage('editor-create-draft', {editorId: this.editorId});
   };
 
   var callbacks = Object.create(null);

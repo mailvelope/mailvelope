@@ -119,7 +119,8 @@ mvelo.domAPI.optionsTypes = {
   restorePassword: 'boolean',
   email: 'string',
   fullName: 'string',
-  keepAttachments: 'boolean'
+  keepAttachments: 'boolean',
+  armoredDraft: 'string'
 };
 
 mvelo.domAPI.checkTypes = function(data) {
@@ -242,6 +243,9 @@ mvelo.domAPI.eventListener = function(event) {
       case 'editor-encrypt':
         mvelo.domAPI.editorEncrypt(data.editorId, data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
+      case 'editor-create-draft':
+        mvelo.domAPI.editorCreateDraft(data.editorId, mvelo.domAPI.reply.bind(null, event.data.id));
+        break;
       case 'query-valid-key':
         mvelo.domAPI.validKeyForAddress(keyringId, data.recipients, mvelo.domAPI.reply.bind(null, event.data.id));
         break;
@@ -312,7 +316,7 @@ mvelo.domAPI.displayContainer = function(selector, armored, keyringId, options, 
 
 mvelo.domAPI.editorContainer = function(selector, keyringId, options, callback) {
   options = options || {};
-  if (options.quotedMailIndent === undefined) {
+  if (options.quotedMailIndent === undefined && !options.armoredDraft) {
     options.quotedMailIndent = true;
   }
   if (options.quota) {
@@ -397,6 +401,10 @@ mvelo.domAPI.hasPrivateKey = function(keyringId, fingerprint, callback) {
 
 mvelo.domAPI.editorEncrypt = function(editorId, recipients, callback) {
   this.containers.get(editorId).encrypt(recipients, callback);
+};
+
+mvelo.domAPI.editorCreateDraft = function(editorId, callback) {
+  this.containers.get(editorId).createDraft(callback);
 };
 
 mvelo.domAPI.validKeyForAddress = function(keyringId, recipients, callback) {

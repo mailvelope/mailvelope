@@ -31,6 +31,7 @@ mvelo.EditorContainer = function(selector, keyringId, options) {
   this.container = null;
   this.done = null;
   this.encryptCallback = null;
+  this.createDraftCallback = null;
 };
 
 mvelo.EditorContainer.prototype.create = function(done) {
@@ -57,12 +58,7 @@ mvelo.EditorContainer.prototype.create = function(done) {
 };
 
 mvelo.EditorContainer.prototype.encrypt = function(recipients, callback) {
-  var error;
-  if (this.encryptCallback) {
-    error = new Error('Encyption already in progress.');
-    error.code = 'ENCRYPT_IN_PROGRESS';
-    throw error;
-  }
+  this.checkInProgress();
   this.port.postMessage({
     event: 'editor-container-encrypt',
     sender: this.name,
@@ -72,11 +68,36 @@ mvelo.EditorContainer.prototype.encrypt = function(recipients, callback) {
   this.encryptCallback = callback;
 };
 
+mvelo.EditorContainer.prototype.createDraft = function(callback) {
+  this.checkInProgress();
+  this.port.postMessage({
+    event: 'editor-container-create-draft',
+    sender: this.name,
+    keyringId: this.keyringId
+  });
+  this.createDraftCallback = callback;
+};
+
+mvelo.EditorContainer.prototype.checkInProgress = function() {
+  if (this.encryptCallback || this.createDraftCallback) {
+    var error = new Error('Encyption already in progress.');
+    error.code = 'ENCRYPT_IN_PROGRESS';
+    throw error;
+  }
+};
+
 mvelo.EditorContainer.prototype.processOptions = function() {
   var error;
-  if (this.options.quotedMail && mvelo.main.getMessageType(this.options.quotedMail) !== mvelo.PGP_MESSAGE) {
-    error = new Error('Quoted mail is not a PGP message.');
-    error.code = 'WRONG_QUOTED_MAIL_TYPE';
+  if (this.options.quotedMail && mvelo.main.getMessageType(this.options.quotedMail) !== mvelo.PGP_MESSAGE ||
+      this.options.armoredDraft && mvelo.main.getMessageType(this.options.armoredDraft) !== mvelo.PGP_MESSAGE) {
+    error = new Error('quotedMail or armoredDraft parameter need to be a PGP message.');
+    error.code = 'WRONG_ARMOR_TYPE';
+    return error;
+  }
+  if (this.options.armoredDraft && (this.options.predefinedText || this.options.quotedMail ||
+                                    this.options.quotedMailIndent || this.options.quotedMailHeader)) {
+    error = new Error('armoredDraft parameter cannot be combined with parameters: predefinedText, quotedMail, quotedMailIndent, quotedMailHeader.');
+    error.code = 'INVALID_OPTIONS';
     return error;
   }
 
@@ -100,12 +121,22 @@ mvelo.EditorContainer.prototype.registerEventListener = function() {
         that.port.disconnect();
         break;
       case 'error-message':
-        that.encryptCallback(msg.error);
-        that.encryptCallback = null;
+        if (that.encryptCallback) {
+          that.encryptCallback(msg.error);
+          that.encryptCallback = null;
+        } else if (that.createDraftCallback) {
+          that.createDraftCallback(msg.error);
+          that.createDraftCallback = null;
+        }
         break;
       case 'encrypted-message':
-        that.encryptCallback(null, msg.message);
-        that.encryptCallback = null;
+        if (that.encryptCallback) {
+          that.encryptCallback(null, msg.message);
+          that.encryptCallback = null;
+        } else if (that.createDraftCallback) {
+          that.createDraftCallback(null, msg.message);
+          that.createDraftCallback = null;
+        }
         break;
       default:
         console.log('unknown event', msg);

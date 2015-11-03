@@ -155,10 +155,16 @@ define(function(require, exports, module) {
   }
 
   function decryptMessage(message, keyringId, callback) {
-    if (message.options && message.options.senderAddress) {
+    if (message.options && (message.options.senderAddress || message.options.selfSigned)) {
       var keyRing = keyring.getById(keyringId);
-      var signingKeys = keyRing.getKeyByAddress([message.options.senderAddress], {validity: true});
-      signingKeys = signingKeys[message.options.senderAddress] || [message.key];
+      var signingKeys;
+      if (message.options.senderAddress) {
+        signingKeys = keyRing.getKeyByAddress([message.options.senderAddress], {validity: true});
+        signingKeys = signingKeys[message.options.senderAddress];
+      }
+      if (!signingKeys) {
+        signingKeys = [message.key];
+      }
       openpgp.getWorker().decryptAndVerifyMessage(message.key, signingKeys, message.message).then(function(result) {
         result.signatures = result.signatures.map(function(signature) {
           signature.keyid = signature.keyid.toHex();

@@ -56,7 +56,8 @@ var mvelo = mvelo || null;
       'pwd_dialog_reason_decrypt',
       'pwd_dialog_reason_sign',
       'pwd_dialog_reason_editor',
-      'pwd_dialog_reason_create_backup'
+      'pwd_dialog_reason_create_backup',
+      'pwd_dialog_reason_create_draft'
     ], function(result) {
       l10n = result;
       $('#password').attr('placeholder', l10n.pwd_dialog_pwd_please);

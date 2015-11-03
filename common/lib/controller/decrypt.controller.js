@@ -164,7 +164,7 @@ define(function(require, exports, module) {
   DecryptController.prototype.decryptMessage = function(message) {
     var that = this;
     return new Promise(function(resolve, reject) {
-      message.options = that.options;
+      message.options = message.options || that.options;
       that.model.decryptMessage(message, that.keyringId, function(err, content) {
         if (err) {
           return reject(err);

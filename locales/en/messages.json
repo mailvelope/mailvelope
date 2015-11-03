@@ -1256,5 +1256,9 @@
   "pwd_dialog_reason_create_backup": {
     "message": "Enter key password to create the recovery sheet.",
     "description": ""
+  },
+  "pwd_dialog_reason_create_draft": {
+    "message": "Enter key password to save the draft.",
+    "description": ""
   }
 }
