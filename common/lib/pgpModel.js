@@ -329,6 +329,14 @@ define(function(require, exports, module) {
     //console.log('restorePrivateKeyBackup', armoredBlock);
     try {
       var message = openpgp.message.readArmored(armoredBlock);
+      if (!(message.packets.length === 2 &&
+            message.packets[0].tag === 3 && // Symmetric-Key Encrypted Session Key Packet
+            message.packets[0].sessionKeyAlgorithm === 'aes256' &&
+            (message.packets[0].sessionKeyEncryptionAlgorithm === null || message.packets[0].sessionKeyEncryptionAlgorithm === 'aes256') &&
+            message.packets[1].tag === 18 // Sym. Encrypted Integrity Protected Data Packet
+         )) {
+        return { error: {message: 'Illegal private key backup structure.'}};
+      }
       try {
         message = message.symDecrypt(code);
       } catch (e) {
