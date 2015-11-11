@@ -732,7 +732,7 @@
         "description": ""
     },
     "key_export_create_file": {
-        "message": "Herunterladen",
+        "message": "Speichern",
         "description": "Download file button."
     },
     "alert_no_domainmatchpattern_warning": {

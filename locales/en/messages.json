@@ -588,7 +588,7 @@
     "description": "Export key dialog header."
   },
   "key_export_create_file": {
-    "message": "Download",
+    "message": "Save",
     "description": "Download file button."
   },
   "key_export_download": {

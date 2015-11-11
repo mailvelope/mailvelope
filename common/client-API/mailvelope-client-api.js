@@ -118,6 +118,7 @@
    * @property {number} quota - mail content (text + attachments) limit in kilobytes (default: 20480)
    * @property {boolean} signMsg - if true then the mail will be signed (default: false)
    * @property {AsciiArmored} armoredDraft - a PGP message, signed and encrypted with the primary key of the user, will be used to restore a draft in the editor
+   *                                         The armoredDraft parameter can't be combined with the parameters: predefinedText, quotedMail... parameters, keepAttachments
    * @property {string} predefinedText - text that will be added to the editor
    * @property {AsciiArmored} quotedMail - mail that should be quoted
    * @property {boolean} quotedMailIndent - if true the quoted mail will be indented (default: true)
@@ -528,7 +529,7 @@
 
   /**
    * Encrypt and sign the content of the editor with the primary key of the user.
-   * To be used to save drafts, restore with the options.armoredDraft parameter of the createEditorContainer method.
+   * To be used to save drafts. To restore drafts use the options.armoredDraft parameter of the createEditorContainer method.
    * @returns {Promise.<AsciiArmored, Error>}
    * @throws {Error} error.code = 'ENCRYPT_IN_PROGRESS' <br>
    *                 error.code = 'NO_KEY_FOR_ENCRYPTION' <br>

@@ -27,6 +27,7 @@ define(function(require, exports, module) {
   var keyringSync = require('./keyringSync');
   var keyringAttr = null;
   var keyringMap = new Map();
+  var trustKey = require('./trustKey');
 
   function init() {
     keyringAttr = getAllKeyringAttr();
@@ -354,9 +355,11 @@ define(function(require, exports, module) {
   }
 
   Keyring.prototype.getKeyUserIDs = function(proposal) {
+    var that = this;
     var result = [];
     this.keyring.getAllKeys().forEach(function(key) {
-      if (key.verifyPrimaryKey() === openpgp.enums.keyStatus.valid) {
+      if (key.verifyPrimaryKey() === openpgp.enums.keyStatus.valid &&
+          !trustKey.isKeyPseudoRevoked(that.id, key)) {
         var user = {};
         mapKeyUserIds(key, user, proposal);
         result.push(user);
@@ -415,7 +418,8 @@ define(function(require, exports, module) {
       result[emailAddr] = result[emailAddr].filter(function(key) {
         if (options.validity && (
             key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
-            key.getEncryptionKeyPacket() === null)) {
+            key.getEncryptionKeyPacket() === null) ||
+            trustKey.isKeyPseudoRevoked(that.id, key)) {
           return;
         }
         return true;

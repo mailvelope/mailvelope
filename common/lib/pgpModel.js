@@ -30,6 +30,7 @@ define(function(require, exports, module) {
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
   var keyring = require('./keyring');
   var keyringSync = require('./keyringSync');
+  var trustKey = require('./trustKey');
 
   var watchListBuffer = null;
 
@@ -39,6 +40,7 @@ define(function(require, exports, module) {
     pwdCache.init();
     initOpenPGP();
     keyring.init();
+    trustKey.init();
   }
 
   function initOpenPGP() {
