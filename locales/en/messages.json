@@ -419,6 +419,10 @@
     "message": "Click-event to close the signature dialog",
     "description": ""
   },
+  "security_log_encryption_operation": {
+    "message": "Message has been encrypted for: $1",
+    "description": ""
+  },
   "settings_security": {
     "message": "Security",
     "description": "Tab of options to display security settings."

@@ -163,6 +163,10 @@
         "message": "Klickereignis auf Schliessen im Signaturdialog",
         "description": ""
     },
+    "security_log_encryption_operation": {
+        "message": "Nachricht wurde verschlüsselt für: $1",
+        "description": ""
+    },
     "message_read_error": {
         "message": "Diese verschlüsselte Nachricht konnte nicht gelesen werden: $1",
         "description": "Message read error message: $1: error message."

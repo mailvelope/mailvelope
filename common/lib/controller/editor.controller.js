@@ -408,7 +408,8 @@ define(function(require, exports, module) {
           keyIdsHex: options.keyIdsHex,
           keyringId: that.keyringId,
           primaryKey: primaryKey,
-          message: options.message
+          message: options.message,
+          uiLogSource: 'security_log_editor'
         });
       })
       .then(function(msg) {
@@ -450,6 +451,7 @@ define(function(require, exports, module) {
       that.ports.editor.postMessage({event: 'encrypt-in-progress'});
     }, 800);
 
+    options.uiLogSource = 'security_log_editor';
     this.model.encryptMessage(options)
       .then(function(msg) {
         port.postMessage({event: 'encrypted-message', message: msg});

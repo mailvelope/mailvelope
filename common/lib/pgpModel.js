@@ -26,6 +26,7 @@ define(function(require, exports, module) {
   var prefs = require('./prefs');
   var pwdCache = require('./pwdCache');
   var crypto = require('./crypto');
+  var uiLog = require('./uiLog');
 
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
   var keyring = require('./keyring');
@@ -190,6 +191,7 @@ define(function(require, exports, module) {
    * @param {String} options.keyIdsHex
    * @param {String} options.keyringId
    * @param {String} options.message  message as native JavaScript string
+   * @param {String} options.uiLogSource
    * @returns {Promise<String.{type: String, code: String, message: String}>}
    */
   function encryptMessage(options) {
@@ -209,6 +211,7 @@ define(function(require, exports, module) {
       } else {
         openpgp.getWorker().encryptMessage(keys, options.message)
           .then(function(msg) {
+            logEncryption(options.uiLogSource, keys);
             resolve(msg);
           })
           .catch(function(e) {
@@ -228,6 +231,7 @@ define(function(require, exports, module) {
    * @param {String} options.keyringId
    * @param {String} options.message  message as native JavaScript string
    * @param {Object} options.primaryKey
+   * @param {String} options.uiLogSource
    * @return {Promise.<String>}
    */
   function signAndEncryptMessage(options) {
@@ -248,6 +252,7 @@ define(function(require, exports, module) {
       } else {
         openpgp.getWorker().signAndEncryptMessage(keys, options.primaryKey.key, options.message)
           .then(function(msg) {
+            logEncryption(options.uiLogSource, keys);
             resolve(msg);
           })
           .catch(function(e) {
@@ -260,6 +265,15 @@ define(function(require, exports, module) {
           });
       }
     });
+  }
+
+  function logEncryption(source, keys) {
+    if (source) {
+      var recipients = keys.map(function(key) {
+        return keyring.getUserId(key, false);
+      });
+      uiLog.push(source, l10n('security_log_encryption_operation', [recipients.join(', ')]));
+    }
   }
 
   function verifyMessage(message, signers, callback) {
