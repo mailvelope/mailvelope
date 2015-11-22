@@ -56,6 +56,9 @@ mvelo.LOCAL_KEYRING_ID = 'localhost' + mvelo.KEYRING_DELIMITER + 'mailvelope';
 // colors for secure background
 mvelo.SECURE_COLORS = ['#e9e9e9', '#c0c0c0', '#808080', '#ffce1e', '#ff0000', '#85154a', '#6f2b8b', '#b3d1e3', '#315bab', '#1c449b', '#4c759c', '#1e8e9f', '#93b536'];
 
+mvelo.MAXFILEUPLOADSIZE = 25 * 1024 * 1024;
+mvelo.MAXFILEUPLOADSIZECHROME = 20 * 1024 * 1024; // temporal fix due issue in Chrome
+
 mvelo.appendTpl = function($element, path) {
   if (mvelo.ffa && !/^resource/.test(document.location.protocol)) {
     return new Promise(function(resolve, reject) {
@@ -273,12 +276,20 @@ mvelo.util.extend = function(target) {
   return target;
 };
 
-mvelo.util.showLoadingAnimation = function() {
-  $('.m-spinner').show();
+mvelo.util.addLoadingAnimation = function($parent) {
+  $parent = $parent || $('body')[0];
+  var spinner = $('<div class="m-spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>');
+  spinner.appendTo($parent);
 };
 
-mvelo.util.hideLoadingAnimation = function() {
-  $('.m-spinner').hide();
+mvelo.util.showLoadingAnimation = function($parent) {
+  $parent = $parent || $('body')[0];
+  $('.m-spinner', $parent).show();
+};
+
+mvelo.util.hideLoadingAnimation = function($parent) {
+  $parent = $parent || $('body')[0];
+  $('.m-spinner', $parent).hide();
 };
 
 mvelo.util.generateSecurityBackground = function(angle, scaling, coloring) {

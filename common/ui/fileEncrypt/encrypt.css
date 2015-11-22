@@ -1,0 +1,76 @@
+#encrypting .help-block {
+  font-size: 14px;
+}
+
+#encrypting .alert {
+  font-size: 14px;
+  margin: 15px 0 0;
+}
+
+.itemSelection {
+  display: block;
+  height: 300px;
+  border: thin dashed #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  padding: .5em;
+}
+
+.recipientButton {
+  display: inline-flex;
+  border: thin solid silver;
+  padding: 0.2em;
+  border-radius: 5px;
+  align-items: center;
+  font-size: 0.9em;
+  background: #efefef linear-gradient(to bottom,#ffffff,#ececec);
+  margin-right: .5em;
+  margin-bottom: .5em;
+  max-width: 200px;
+}
+.recipientButton span.glyphicon {
+  color: green;
+  font-size: 1.5em;
+}
+.recipientButton > div {
+  margin: 0 0.5em;
+  line-height: 1;
+}
+.recipientButton > div b,.recipientButton > div small {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.recipientButton button {
+  border: none;
+  border-radius: 2px;
+  color: white;
+  background-color: #a3a3a3;
+  cursor: pointer;
+  text-transform: uppercase;
+  padding: 2px;
+  position: inherit;
+  top: 0;
+  font-size: 12px;
+}
+
+.attachmentButton .secure-icon {
+  margin: 0 0.25em;
+  line-height: 1.5em;
+}
+
+#encrypt_fileDownloadPanel .waiting {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#encrypt_fileDownloadPanel .m-spinner {
+  margin: inherit;
+}

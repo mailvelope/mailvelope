@@ -53,7 +53,9 @@ var options = {};
           mvelo.appendTpl($('#importKey'), mvelo.extension.getURL('common/ui/keyring/tpl/importKey.html')),
           mvelo.appendTpl($('#exportsKey'), mvelo.extension.getURL('common/ui/keyring/tpl/exportKeys.html')),
           mvelo.appendTpl($('#setupProvider'), mvelo.extension.getURL('common/ui/keyring/tpl/setupProvider.html')),
-          mvelo.appendTpl($('#generateKey'), mvelo.extension.getURL('common/ui/keyring/tpl/generateKey.html'))
+          mvelo.appendTpl($('#generateKey'), mvelo.extension.getURL('common/ui/keyring/tpl/generateKey.html')),
+          mvelo.appendTpl($('#encrypting'), mvelo.extension.getURL('common/ui/fileEncrypt/encrypt.html'))
+
         ]).then(initUI);
       });
   }
@@ -353,6 +355,78 @@ var options = {};
     });
   }
 
+  /**
+   * @param {Object} files - list of files
+   * @returns {Promise<Array>}
+   */
+  function getEncryptFiles(files) {
+    return new Promise(function(resolve, reject) {
+      setTimeout(function() {
+        // TODO encrypt files
+        resolve(files);
+      }, 2000);
+    });
+  }
+
+  /**
+   * @param {Object} files - list of files
+   * @returns {Promise<Array>}
+   */
+  function getDecryptFiles(files) {
+    return new Promise(function(resolve, reject) {
+      setTimeout(function() {
+        // TODO decrypt files
+        resolve(files);
+      }, 2000);
+    });
+  }
+
+  /**
+   * @returns {Promise<Array>}
+   */
+  function getPublicKeys() {
+    return new Promise(function(resolve, reject) {
+      // TODO
+      resolve([{
+        keyid: '4570d39ba0038c94',
+        proposal: false,
+        userid: 'eltuctuc@web.de1 <eltuctuc@web.de>',
+        name: 'eltuctuc@web.de1',
+        email: '<eltuctuc@web.de>'
+      }, {
+        keyid: 'c8983a5abad5d62d',
+        proposal: false,
+        userid: 'Eltuctuc2 <eltuctuc@gmail.com>',
+        name: 'Eltuctuc2',
+        email: '<eltuctuc@gmail.com>'
+      }, {
+        keyid: '4570d39ba0038c94',
+        proposal: false,
+        userid: 'eltuctuc@web.de3 <eltuctuc@web.de>',
+        name: 'eltuctuc@web.de3',
+        email: '<eltuctuc@web.de>'
+      }, {
+        keyid: 'c8983a5abad5d62d',
+        proposal: false,
+        userid: 'Eltuctuc4 <eltuctuc@gmail.com>',
+        name: 'Eltuctuc4',
+        email: '<eltuctuc@gmail.com>'
+      }, {
+        keyid: '4570d39ba0038c94',
+        proposal: false,
+        userid: 'eltuctuc@web.de5 <eltuctuc@web.de>',
+        name: 'eltuctuc@web.de5',
+        email: '<eltuctuc@web.de>'
+      }, {
+        keyid: 'c8983a5abad5d62d',
+        proposal: false,
+        userid: 'Eltuctuc6 <eltuctuc@gmail.com>',
+        name: 'Eltuctuc6',
+        email: '<eltuctuc@gmail.com>'
+      }]);
+    });
+  }
+
   function pgpModel(method, args, callback) {
     if (typeof args === 'function') {
       callback = args;
@@ -406,6 +480,9 @@ var options = {};
 
   exports.reloadOptions = reloadOptions;
   exports.getAllKeyringAttr = getAllKeyringAttr;
+  exports.getPublicKeys = getPublicKeys;
+  exports.getEncryptFiles = getEncryptFiles;
+  exports.getDecryptFiles = getDecryptFiles;
   exports.pgpModel = pgpModel;
   exports.keyring = keyring;
   exports.copyToClipboard = copyToClipboard;

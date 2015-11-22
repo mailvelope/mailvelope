@@ -155,9 +155,29 @@
     "message": "Bitte einen Empfänger hinzufügen.",
     "description": "Error message if no recipient selected."
   },
+  "encrypt_dialog_subheader": {
+    "message": "Personen:",
+    "description": "Header of encrypt dialog."
+  },
   "encrypt_error": {
     "message": "Diese Nachricht konnte nicht verschlüsselt werden: $1",
     "description": "Error during encryption process."
+  },
+  "encrypt_file_selection": {
+    "message": "Dateiauswahl",
+    "description": "File upload selection"
+  },
+  "encrypt_upload_file_help": {
+    "message": "Die Größe der einzelnen Dateien darf nicht größer als [size]MB sein.",
+    "description": "Help text"
+  },
+  "encrypt_upload_file_warning_too_big": {
+    "message": "Eine der Dateien ist zu groß.",
+    "description": "."
+  },
+  "encrypting_home": {
+    "message": "Dateiverschlüsselung",
+    "description": "File encrypting navigation: Home."
   },
   "ext_description": {
     "message": "Erweitern Sie Ihren Webmail-Anbieter mit Ende-zu-Ende-Verschlüsselung. Sichere E-Mail-Kommunikation mit dem OpenPGP-Standard.",
@@ -166,6 +186,18 @@
   "ext_name": {
     "message": "Mailvelope",
     "description": "Name of the extension."
+  },
+  "file_decrypting": {
+    "message": "Entschlüsselung",
+    "description": ""
+  },
+  "file_encrypting": {
+    "message": "Verschlüsselung",
+    "description": ""
+  },
+  "form_back": {
+    "message": "Zurück",
+    "description": "back form button."
   },
   "form_busy": {
     "message": "Beschäftigt",
@@ -191,9 +223,17 @@
     "message": "Weiter",
     "description": "Continue form button."
   },
+  "form_forward": {
+    "message": "Vorwärts",
+    "description": "forward form button."
+  },
   "form_import": {
     "message": "Importieren",
     "description": "Import form button."
+  },
+  "form_next": {
+    "message": "Weiter",
+    "description": "next form button."
   },
   "form_no": {
     "message": "Nein",
@@ -801,6 +841,10 @@
     "message": "Mailvelope für aktuelle Seite aktivieren",
     "description": "Add page to watchlist."
   },
+  "popup_file_encrypting": {
+    "message": "Dateiverschlüsselung",
+    "description": "Title text for file encrypting"
+  },
   "popup_help": {
     "message": "Hilfe",
     "description": "Open help dialog."
@@ -812,6 +856,14 @@
   "popup_last_activities": {
     "message": "Letzte Aktivitäten:",
     "description": "Title text for the last activities area"
+  },
+  "popup_open_page": {
+    "message": "Öffnen",
+    "description": "Add page to watchlist."
+  },
+  "popup_open_page_tooltip": {
+    "message": "Mailvelope für Dateiverschlüsselung öffnen",
+    "description": "Open page to file encrypt."
   },
   "popup_options": {
     "message": "Optionen",

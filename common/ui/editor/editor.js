@@ -38,7 +38,7 @@ var mvelo = mvelo || null;
   var blurValid = null;
   var undoText = null;
   var initText = null;
-  var attachments = {};
+  var file;
   var commonPath;
   var l10n;
   var logTextareaInput = true;
@@ -62,8 +62,8 @@ var mvelo = mvelo || null;
     l10n = result;
   });
 
-  var maxFileUploadSize = 25 * 1024 * 1024;
-  var maxFileUploadSizeChrome = 20 * 1024 * 1024; // temporal fix due issue in Chrome
+  var maxFileUploadSize = mvelo.MAXFILEUPLOADSIZE;
+  var maxFileUploadSizeChrome = mvelo.MAXFILEUPLOADSIZECHROME; // temporal fix due issue in Chrome
 
   function init() {
     if (document.body.dataset.mvelo) {
@@ -129,7 +129,8 @@ var mvelo = mvelo || null;
         mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')),
         mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/waiting-modal.html')),
         mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/error-modal.html'))
-      ]).then(function() {
+      ])
+      .then(function() {
         $('#waitingModal').on('hidden.bs.modal', function(e) {
           editor.focus()
             .prop('selectionStart', 0)
@@ -141,7 +142,7 @@ var mvelo = mvelo || null;
           logUserInput('security_log_add_attachment');
         });
       })
-        .then(callback);
+      .then(callback);
 
     } else {
       mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/editor-popup.html')).then(function() {
@@ -163,13 +164,15 @@ var mvelo = mvelo || null;
             $('#transferWarn').hide();
             return Promise.resolve();
           })
-        ]).then(function() {
+        ])
+        .then(function() {
           $('#uploadBtn').on("click", function() {
             $('#addFileInput').click();
             logUserInput('security_log_add_attachment');
           });
           $('#uploadEmbeddedBtn, #addFileInput').hide();
-        }).then(callback);
+        })
+        .then(callback);
       });
     }
   }
@@ -187,66 +190,44 @@ var mvelo = mvelo || null;
     });
   }
 
-  function removeAttachment(id) {
-    delete attachments[id];
-  }
-
   function addAttachment(file) {
     onChange(); // setting the message as dirty
-    var fileNameNoExt = mvelo.util.extractFileNameWithoutExt(file.name);
-    var fileExt = mvelo.util.extractFileExtension(file.name);
-    var extClass = mvelo.util.getExtensionClass(fileExt);
-    var id = mvelo.util.getHash();
-    // TODO check if id exists
-    var fileReader = new FileReader();
-    fileReader.onload = function() {
-      // Add attachment
-      attachments[id] = {
-        filename: file.name,
-        content: this.result,
-        size: file.size,
-        type: file.type
-      };
-    };
 
-    fileReader.onloadend = function() {
-      numUploadsInProgress--;
-      if (numUploadsInProgress === 0 && delayedAction) {
-        sendPlainText(delayedAction);
-        delayedAction = '';
-      }
-    };
+    if (!mvelo.attachments.isLowerThanMaxSize(file)) {
+      throw Error('File is too big');
+    }
 
-    fileReader.readAsDataURL(file);
-    var $removeUploadButton = $('<span/>', {
-      "data-id": id,
-      "title": l10n.editor_remove_upload,
-      "class": 'glyphicon glyphicon-remove removeAttachment'
-    }).on("click", function(e) {
-      e.preventDefault();
-      removeAttachment($(this).attr("data-id"));
-      $(this).parent().remove();
-      logUserInput('security_log_remove_attachment');
-    });
+    mvelo.attachments.readUploadFile(file)
+      .then(function(response) {
+        //console.log('readUploadFile(file)', result);
 
-    var $extensionButton = $('<span/>', {
-      "data-id": id,
-      "class": 'attachmentExtension ' + extClass
-    }).append(fileExt);
+        //if (numUploadsInProgress === 0 && delayedAction) {
+        //  sendPlainText(delayedAction);
+        //  delayedAction = '';
+        //}
 
-    var $fileName = $('<span/>', {
-      "class": 'attachmentFilename'
-    }).append(fileNameNoExt);
+        file.result = response.result;
+        file.id = mvelo.util.getHash();
 
-    var fileUI = $('<div/>', {
-      "title": file.name,
-      "class": 'attachmentButton'
-    })
-      .append($extensionButton)
-      .append($fileName)
-      .append($removeUploadButton);
-    var uploadPanelHeight = $("#uploadPanel")[0].scrollHeight;
-    $("#uploadPanel").append(fileUI).scrollTop(uploadPanelHeight); //Append attachment element and scroll to bottom of #uploadPanel to show current uploads
+        return mvelo.attachments.addAttachment(response.file);
+      })
+      .then(function(fileUI) {
+        var $fileUI = fileUI;
+        var $uploadPanel = $("#uploadPanel");
+
+        $fileUI.find('.removeAttachment').on('click', onRemoveAttachment);
+
+        var uploadPanelHeight = $uploadPanel[0].scrollHeight;
+
+        $uploadPanel
+          .append($fileUI)
+          .scrollTop(uploadPanelHeight); //Append attachment element and scroll to bottom of #uploadPanel to show current uploads
+
+        numUploadsInProgress--;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   }
 
   function setAttachment(attachment) {
@@ -257,25 +238,17 @@ var mvelo = mvelo || null;
     addAttachment(file);
   }
 
-  function onAddAttachment(selection) {
-    //console.log("Selected File: " + $("#addFileInput").val());
-    var files = selection.currentTarget.files;
-    var numFiles = selection.currentTarget.files.length;
-    //console.log("Selected File: "+JSON.stringify(selection.currentTarget.files[0]));
-    //console.log("File Meta - Name: " + file.name + " Size: " + file.size + " Type" + file.type);
+  function onAddAttachment(evt) {
+    var files = evt.target.files;
+    var numFiles = files.length;
+
     var i;
     var fileSizeAll = 0;
     for (i = 0; i < numFiles; i++) {
       fileSizeAll = fileSizeAll + parseInt(files[i].size);
     }
 
-    var currentAttachmentsSize = 0;
-    for (var property in attachments) {
-      if (attachments.hasOwnProperty(property)) {
-        currentAttachmentsSize = currentAttachmentsSize + attachments[property].size;
-      }
-    }
-    currentAttachmentsSize = currentAttachmentsSize + fileSizeAll;
+    var currentAttachmentsSize = mvelo.attachments.getFileSize() + fileSizeAll;
     if (currentAttachmentsSize > maxFileUploadSize) {
       var error = {
         title: l10n.upload_quota_warning_headline,
@@ -285,12 +258,23 @@ var mvelo = mvelo || null;
       showErrorModal(error);
       return;
     }
-    for (i = 0; i < numFiles; i++) {
+
+    for (i = 0; i < files.length; i++) {
+      file = files[i];
+
       numUploadsInProgress++;
-      addAttachment(files[i]);
+      addAttachment(file);
     }
-    $('#addFileInput').val('');
-    logUserInput('security_log_attachment_added');
+  }
+
+  function onRemoveAttachment(evt) {
+    evt.preventDefault();
+    removeAttachment($(this).data('id'));
+    logUserInput('security_log_remove_attachment');
+  }
+
+  function removeAttachment(id) {
+    mvelo.attachments.removeAttachment(id);
   }
 
   function onCancel() {
@@ -608,7 +592,7 @@ var mvelo = mvelo || null;
       event: 'editor-plaintext',
       sender: name,
       message: editor.val(),
-      attachments: attachments,
+      attachments: mvelo.attachments.getAttachments(),
       action: action
     });
   }

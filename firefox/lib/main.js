@@ -375,7 +375,8 @@ function injectEmbeddedEditor() {
       data.url('common/dep/bootstrap/js/bootstrap.js'),
       data.url('ui/messageAdapter.js'),
       data.url('common/ui/mvelo.js'),
-      data.url('common/ui/editor/editor.js')
+      data.url('common/ui/editor/editor.js'),
+      data.url('common/ui/attachments.js')
     ],
     contentStyleFile: [
       data.url("common/dep/bootstrap/css/bootstrap.css"),
@@ -408,13 +409,15 @@ function injectEmbeddedOptions() {
       data.url('common/ui/settings/general.js'),
       data.url('common/ui/keyring/keyRing.js'),
       data.url('common/ui/keyring/importKey.js'),
-      data.url('common/ui/keyring/generateKey.js')
+      data.url('common/ui/keyring/generateKey.js'),
+      data.url('common/ui/fileEncrypt/encryptFile.js')
     ],
     contentStyleFile: [
       data.url("common/dep/bootstrap/css/bootstrap.css"),
       data.url("common/dep//bootstrap-sortable/bootstrap-sortable.css"),
       data.url("common/ui/mvelo.css"),
-      data.url("common/ui/options.css")
+      data.url("common/ui/options.css"),
+      data.url("common/ui/fileEncrypt/encrypt.css")
     ],
     contentScriptWhen: 'ready',
     attachTo: ['existing', 'frame'],

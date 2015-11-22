@@ -63,7 +63,7 @@ var mvelo = mvelo || null;
     });
 
     // show spinner
-    addSpinner();
+    mvelo.util.addLoadingAnimation();
     addDecryptBody();
     addErrorView();
 
@@ -79,11 +79,6 @@ var mvelo = mvelo || null;
 
     mvelo.util.showSecurityBackground(true);
     $(window).on('resize', resizeFont);
-  }
-
-  function addSpinner() {
-    var spinner = $('<div class="m-spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>');
-    spinner.appendTo('body');
   }
 
   function showSpinner() {

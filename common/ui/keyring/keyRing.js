@@ -100,8 +100,9 @@ var options = options || null;
   }
 
   function initKeyringTable(result) {
+    var $displayKeys = $('#displayKeys');
     if (result === undefined) {
-      mvelo.util.hideLoadingAnimation();
+      mvelo.util.hideLoadingAnimation($displayKeys);
     }
     $tableBody.empty();
     result.forEach(function(key) {
@@ -143,7 +144,7 @@ var options = options || null;
     });
     $tableBody.find('.keyDeleteBtn').on('click', deleteKeyEntry);
     $.bootstrapSortable();
-    mvelo.util.hideLoadingAnimation();
+    mvelo.util.hideLoadingAnimation($displayKeys);
   }
 
   function filterKeys() {

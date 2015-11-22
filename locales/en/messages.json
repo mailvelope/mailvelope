@@ -155,9 +155,21 @@
     "description": "Error message if no recipient selected.",
     "message": "Please add a recipient."
   },
+  "encrypt_dialog_subheader": {
+    "message": "Persons:",
+    "description": "Subheader of encrypt dialog."
+  },
   "encrypt_error": {
     "description": "Error during encryption process.",
     "message": "Could not encrypt this message: $1"
+  },
+  "encrypt_file_selection": {
+    "message": "Fiel selection",
+    "description": "File upload selection"
+  },
+  "encrypting_home": {
+    "message": "File encrypting",
+    "description": "File encrypting navigation: Home."
   },
   "ext_description": {
     "description": "Description of the extension.",
@@ -166,6 +178,18 @@
   "ext_name": {
     "description": "Name of the extension.",
     "message": "Mailvelope"
+  },
+  "file_decrypting": {
+    "message": "File decrypting",
+    "description": ""
+  },
+  "file_encrypting": {
+    "message": "File encrypting",
+    "description": ""
+  },
+  "form_back": {
+    "message": "Back",
+    "description": "Back form button."
   },
   "form_busy": {
     "description": "Form in busy state.",
@@ -191,9 +215,17 @@
     "description": "Continue form button.",
     "message": "Continue"
   },
+  "form_forward": {
+    "message": "Forward",
+    "description": "Forward form button."
+  },
   "form_import": {
     "description": "Import form button.",
     "message": "Import"
+  },
+  "form_next": {
+    "message": "Next",
+    "description": "Next form button."
   },
   "form_no": {
     "description": "No form button.",
@@ -803,6 +835,10 @@
     "description": "Add page to watchlist.",
     "message": "Enable Mailvelope for this page"
   },
+  "popup_file_encrypting": {
+    "message": "File encrypting",
+    "description": "Title text for file encrypting"
+  },
   "popup_help": {
     "description": "Open help dialog.",
     "message": "Help"
@@ -814,6 +850,14 @@
   "popup_last_activities": {
     "description": "Title text for the last activities area",
     "message": "Last activities:"
+  },
+  "popup_open_page": {
+    "message": "Open",
+    "description": "Open page to file encrypt."
+  },
+  "popup_open_page_tooltip": {
+    "message": "Open Mailvelope for file encrypt",
+    "description": "Open page to file encrypt."
   },
   "popup_options": {
     "description": "Open options dialog.",
