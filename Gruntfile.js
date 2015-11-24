@@ -396,6 +396,9 @@ module.exports = function(grunt) {
 
   //custom tasks
   grunt.registerTask('dist-cr', ['compress:chrome']);
+  grunt.registerTask('dist-crx', function() {
+    grunt.util.spawn({cmd: '.travis/crxmake.sh', args: ['build/chrome', '.travis/crx_signing.pem'], opts: {stdio: 'ignore'}});
+  });
   grunt.registerTask('dist-ff', ['mozilla-addon-sdk', 'mozilla-cfx-xpi']);
   grunt.registerTask('dist-doc', ['jsdoc', 'compress:doc']);
   grunt.registerTask('start-ff-clean', ['mozilla-cfx:run_stable']);

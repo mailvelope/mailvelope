@@ -12,3 +12,4 @@ atlassian-ide-plugin.xml
 mailvelope.iml
 cert/
 .DS_Store
+.travis/crx_signing.pem
