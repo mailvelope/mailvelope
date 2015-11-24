@@ -46,7 +46,7 @@ var mvelo = mvelo || null;
     }).focus();
 
     $('#remember').on('click', function() {
-      logUserInput('security_log_remember_click');
+      logUserInput('security_log_password_click');
     });
 
     mvelo.l10n.localizeHTML();

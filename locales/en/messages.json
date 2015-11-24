@@ -347,11 +347,11 @@
     "message": "Input-event in password input",
     "description": "A click in the text area as an event type"
   },
-  "security_log_password_show": {
-    "message": "Click-event in password dialog",
+  "security_log_restore_backup_click": {
+    "message": "Click-event in restore backup dialog",
     "description": ""
   },
-  "security_log_remeber_click": {
+  "security_log_password_click": {
     "message": "Click-event in password dialog",
     "description": ""
   },

@@ -40,8 +40,8 @@ define(function(require, exports, module) {
    *                 type = 'security_log_textarea_click' <br>
    *                 type = 'security_log_text_input' <br>
    *                 type = 'security_log_password_input' <br>
-   *                 type = 'security_log_password_show' <br>
-   *                 type = 'security_log_remember_click' <br>
+   *                 type = 'security_log_restore_backup_click' <br>
+   *                 type = 'security_log_password_click' <br>
    *                 type = 'security_log_attachment_added' <br>
    *                 type = 'security_log_attachment_download' <br>
    *                 type = 'security_log_add_attachment' <br>

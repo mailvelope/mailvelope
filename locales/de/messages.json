@@ -91,12 +91,12 @@
         "message": "Eingabeereignis im Passwortfeld",
         "description": ""
     },
-    "security_log_password_show": {
-        "message": "Anzeigeereignis im Passwortfeld",
+    "security_log_restore_backup_click": {
+        "message": "Klickereignis im Wiederherstellungsdialog",
         "description": ""
     },
-    "security_log_remember_click": {
-        "message": "Klickereignis des Passwort merken Feldes",
+    "security_log_password_click": {
+        "message": "Klickereignis im Passwortdialog",
         "description": ""
     },
     "security_log_attachment_added": {

@@ -122,7 +122,7 @@ var mvelo = mvelo || null;
       });
 
       $restorePasswordButton.on('click', function() {
-        logUserInput('security_log_password_show');
+        logUserInput('security_log_restore_backup_click');
         $restorePasswordInput.attr('type', 'text');
 
         $(this).attr('disabled', true);
