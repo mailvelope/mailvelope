@@ -124,12 +124,6 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
-            cwd: 'bower_components/css-toggle-switch/dist/',
-            src: 'toggle-switch.css',
-            dest: 'build/common/dep/toggle-switch/'
-          },
-          {
-            expand: true,
             cwd: 'bower_components/requirejs/',
             src: 'require.js',
             dest: 'build/chrome/'
