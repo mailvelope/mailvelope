@@ -118,7 +118,7 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
-            cwd: 'bower_components/dompurify/',
+            cwd: 'bower_components/dompurify/src',
             src: 'purify.js',
             dest: 'build/common/dep/'
           },
