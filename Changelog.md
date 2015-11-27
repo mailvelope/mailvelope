@@ -1,6 +1,16 @@
 Mailvelope Changelog
 ====================
 
+v1.3.0
+-------
+__Nov. 27, 2015__
+
+  * API: create and restore drafts in the editor container
+  * Grunt task to build crx packages for Chrome
+  * Strict check on packet structure for private key restore
+  * Pseudo-revoke mechanism to allow mail provider to invalidate keys
+  * Update DOMpurify to 0.7.3
+
 v1.2.3
 -------
 __Oct. 28, 2015__
