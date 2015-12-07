@@ -42,6 +42,11 @@
           "scan": true,
           "frame": "*.mail.live.com",
           "api": false
+        },
+        {
+          "scan": true,
+          "frame": "*.outlook.live.com",
+          "api": false
         }
       ]
     },
