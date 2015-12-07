@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v1.3.1
+-------
+__Dec. 7, 2015__
+
+  * Increment patch version to allow new upload to Mozilla signing process
+
 v1.3.0
 -------
 __Nov. 27, 2015__
