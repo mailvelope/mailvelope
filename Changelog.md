@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v1.3.2
+-------
+__Dec. 15, 2015__
+
+  * [Security] Fix XSS via HTML file download link
+
 v1.3.1
 -------
 __Dec. 7, 2015__
