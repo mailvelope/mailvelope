@@ -168,7 +168,7 @@ var mvelo = mvelo || null;
             $('#addFileInput').click();
             logUserInput('security_log_add_attachment');
           });
-          $('#uploadEmbeddedBtn, #addFileInput').hide();
+          $('#uploadEmbeddedBtn, #addFileInput', '#editor_digital_signature').hide();
         }).then(callback);
       });
     }
