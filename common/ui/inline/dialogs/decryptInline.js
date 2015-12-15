@@ -232,6 +232,8 @@ var mvelo = mvelo || null;
     var objectURL = "#";
 
     content = mvelo.util.str2ab(content);
+    // set MIME type fix to application/octet-stream as other types can be exploited in Chrome
+    mimeType = 'application/octet-stream';
     var blob = new Blob([content], { type: mimeType });
     objectURL = window.URL.createObjectURL(blob);
 
