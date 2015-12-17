@@ -54,9 +54,30 @@ var mvelo = mvelo || null;
     $('#addBtn').click(onAdd);
     $('#deleteBtn').click(onDelete);
     $('#keyDialog').fadeIn('fast');
+    $('#key_available_search').keyup(keySearch); // Added code
     // align width
     $.setEqualWidth($('#okBtn'), $('#cancelBtn'));
     $.setEqualWidth($('#addBtn'), $('#deleteBtn'));
+  }
+
+  function keySearch() {
+    var $this, i, filter, $input = $('#key_available_search'), $options = $('#keySelect').find('option');
+    $options = $('#keySelect').find('option');
+    filter = $(this).val();
+    i = 1;
+    $options.each(function() {
+      $this = $(this);
+      $this.removeAttr('selected');
+      if ($this.text().toLowerCase().indexOf(filter.toLowerCase()) != -1) {
+        $this.show();
+        if (i == 1) {
+          $this.attr('selected', 'selected');
+        }
+        i++;
+      } else {
+        $this.hide();
+      }
+    });
   }
 
   function onOk() {
