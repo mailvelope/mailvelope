@@ -60,7 +60,7 @@ var mvelo = mvelo || null;
     $.setEqualWidth($('#addBtn'), $('#deleteBtn'));
   }
 
-  function keySearch() {
+  /*function keySearch() {
     var $this, i, filter, $input = $('#key_available_search'), $options = $('#keySelect').find('option');
     $options = $('#keySelect').find('option');
     filter = $(this).val();
@@ -78,7 +78,7 @@ var mvelo = mvelo || null;
         $this.hide();
       }
     });
-  }
+  }*/
 
   function onOk() {
     if ($('#keyList').hasClass('alert-error')) {
