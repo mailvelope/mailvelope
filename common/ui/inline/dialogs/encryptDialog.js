@@ -54,7 +54,8 @@ var mvelo = mvelo || null;
     $('#addBtn').click(onAdd);
     $('#deleteBtn').click(onDelete);
     $('#keyDialog').fadeIn('fast');
-    $('#key_available_search').keyup(keySearch); // Added code
+    //$('#key_available_search').keyup(keySearch); // Added code
+    $('#keySelect').select2();
     // align width
     $.setEqualWidth($('#okBtn'), $('#cancelBtn'));
     $.setEqualWidth($('#addBtn'), $('#deleteBtn'));
