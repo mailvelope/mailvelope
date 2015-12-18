@@ -133,6 +133,18 @@ module.exports = function(grunt) {
             cwd: 'bower_components/qrcodejs/',
             src: 'qrcode.js',
             dest: 'build/common/dep/qrcodejs/'
+          },
+          {
+            expand: true,
+            cwd: 'bower_components/select2/',
+            src: 'select2.js',
+            dest: 'build/common/dep/'
+          },
+          {
+            expand: true,
+            cwd: 'bower_components/select2/',
+            src: 'select2.css',
+            dest: 'build/common/dep/'
           }
         ]
       },
