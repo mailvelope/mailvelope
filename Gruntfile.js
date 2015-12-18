@@ -136,13 +136,13 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
-            cwd: 'bower_components/select2/',
+            cwd: 'bower_components/select2/dist/js/',
             src: 'select2.js',
             dest: 'build/common/dep/'
           },
           {
             expand: true,
-            cwd: 'bower_components/select2/',
+            cwd: 'bower_components/select2/dist/css/',
             src: 'select2.css',
             dest: 'build/common/dep/'
           }
