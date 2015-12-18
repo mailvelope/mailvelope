@@ -23,6 +23,7 @@
     "dompurify": "0.7.3",
     "bootstrap-sortable": "~1.10.0",
     "qrcodejs": "0.1.0"
+    "select2": "^4.0.1"
   },
   "resolutions": {
     "jquery": "e-tag:54499a47-"
