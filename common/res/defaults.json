@@ -73,7 +73,7 @@
         {
           "scan": true,
           "frame": "*.posteo.de",
-          "api": false
+          "api": true
         }
       ]
     },
