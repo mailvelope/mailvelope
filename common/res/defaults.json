@@ -79,6 +79,17 @@
     },
     {
       "active": true,
+      "site": "mail.ru",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.mail.ru",
+          "api": false
+        }
+      ]
+    },
+    {
+      "active": true,
       "site": "1und1 De-Mail",
       "frames": [
         {
