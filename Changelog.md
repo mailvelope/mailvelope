@@ -1,6 +1,16 @@
 Mailvelope Changelog
 ====================
 
+v1.3.3
+-------
+__Jan. 7, 2016__
+
+  * Update watchlist for Outlook.com
+  * Activate API for Posteo
+  * Log API encryption operations
+  * Always sign editor drafts
+  * Add mail.ru to list of supported mail providers
+
 v1.3.2
 -------
 __Dec. 15, 2015__
