@@ -128,6 +128,7 @@ define(function(require, exports, module) {
         break;
       case 'editor-container-create-draft':
         this.pgpMIME = true;
+        this.signMsg = true;
         this.keyringId = msg.keyringId;
         this.options.reason = 'PWD_DIALOG_REASON_CREATE_DRAFT';
         var primary = this.keyring.getById(this.keyringId).getPrimaryKey();
@@ -509,7 +510,7 @@ define(function(require, exports, module) {
         return;
       }
 
-      if (this.signMsg || this.options.armoredDraft) {
+      if (this.signMsg) {
         this.signAndEncryptMessage({
           message: data,
           keyIdsHex: this.keyidBuffer
