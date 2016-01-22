@@ -671,7 +671,11 @@ define(function(require, exports, module) {
   Keyring.prototype.generateKey = function(options, callback) {
     var that = this;
     options.userIds = options.userIds.map(function(userId) {
-      return (new goog.format.EmailAddress(userId.email, userId.fullName)).toString();
+      if (userId.fullName) {
+        return (new goog.format.EmailAddress(userId.email, userId.fullName)).toString();
+      } else {
+        return '<' + userId.email + '>';
+      }
     });
     openpgp.generateKeyPair({numBits: parseInt(options.numBits), userId: options.userIds, passphrase: options.passphrase}).then(function(data) {
       if (data) {
