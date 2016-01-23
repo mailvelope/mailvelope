@@ -53,6 +53,9 @@ body {
   width: 100%;
   position: relative;
   flex: 1 0 auto;
+  /* https://code.google.com/p/chromium/issues/detail?id=551336 */
+  min-width: 0;
+  min-height: 0;
 }
 
 #flex-container #footer {
