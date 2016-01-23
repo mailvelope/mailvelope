@@ -1,6 +1,14 @@
 Mailvelope Changelog
 ====================
 
+v1.3.4
+-------
+__Jan. 23, 2016__
+
+  * Fix editor flexbox rendering for Chrome 48
+  * Use name-addr format if no name provided in userid at key generation
+  * Add language file for Ukrainian
+
 v1.3.3
 -------
 __Jan. 7, 2016__
