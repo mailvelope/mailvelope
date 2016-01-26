@@ -44,10 +44,6 @@ mvelo.PGP_MESSAGE = 'msg';
 mvelo.PGP_SIGNATURE = 'sig';
 mvelo.PGP_PUBLIC_KEY = 'pub';
 mvelo.PGP_PRIVATE_KEY = 'priv';
-// editor mode
-mvelo.EDITOR_WEBMAIL = 'webmail';
-mvelo.EDITOR_EXTERNAL = 'external';
-mvelo.EDITOR_BOTH = 'both';
 // display decrypted message
 mvelo.DISPLAY_INLINE = 'inline';
 mvelo.DISPLAY_POPUP = 'popup';

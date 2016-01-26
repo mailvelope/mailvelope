@@ -84,12 +84,6 @@
   z-index: 11;
 }
 
-:root .m-encrypt-frame-expanded {
-  top: 0;
-  right: 0;
-  padding: 0;
-}
-
 :root .m-encrypt-frame .m-encrypt-button {
   height: 30px;
   width: 30px;
@@ -105,14 +99,6 @@
   height: 22px;
   background-position: center;
   background-repeat: no-repeat;
-}
-
-:root .m-encrypt-frame .m-icon-encrypt {
-  background-image: url('../../img/encrypt-22.png');
-}
-
-:root .m-encrypt-frame .m-icon-sign {
-  background-image: url('../../img/sign-22.png');
 }
 
 :root .m-encrypt-frame .m-icon-undo {
@@ -135,8 +121,7 @@
   cursor: url('../../img/edit_add-22.png'), auto;
 }
 
-:root .m-extract-frame .m-frame-dialog,
-:root .m-encrypt-frame .m-frame-dialog {
+:root .m-extract-frame .m-frame-dialog {
   position: absolute;
   display: none;
   height: 100%;

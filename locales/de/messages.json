@@ -203,10 +203,6 @@
         "message": "Immer den Hauptschlüssel zur Liste der Empfänger hinzufügen (ermöglicht es, gesendete Nachrichten zu entschlüsseln).",
         "description": "Label for primary private key option."
     },
-    "security_compose_webmail": {
-        "message": "In der Textbearbeitung des E-Mail-Anbieters.",
-        "description": "Mail compose option"
-    },
     "security_background_header": {
         "message": "Sicherheitshintergrund",
         "description": "Security background header"
@@ -391,10 +387,6 @@
         "message": "Änderungen verwerfen",
         "description": "Cancel changes in watchlist."
     },
-    "security_compose_warn": {
-        "message": "Diese Einstellung verschlechtert die Sicherheitsstufe von Mailvelope. Ihr E-Mail-Anbieter kann möglicherweise auf Ihre Nachricht zugreifen.",
-        "description": "Mail compose options warning"
-    },
     "popup_active_on": {
         "message": "An",
         "description": "Activity status of the extension."
@@ -526,10 +518,6 @@
     "keygen_dialog_confirm_success": {
         "message": "Eingaben sind korrekt.",
         "description": ""
-    },
-    "security_compose_external": {
-        "message": "In einem getrennten, zu Mailvelope gehörenden Bearbeitungsfenster.",
-        "description": "Mail compose option"
     },
     "keygrid_primary_key": {
         "message": "Hauptschlüssel",
@@ -894,10 +882,6 @@
     "keygrid_display_key_pair": {
         "message": "Schlüsselpaar anzeigen",
         "description": "Export key menu."
-    },
-    "security_compose_mail": {
-        "message": "Wo wollen Sie Ihre Nachricht verfassen?",
-        "description": "Label for compose options"
     },
     "general_editor_type": {
         "message": "Auswahl der E-Mail-Bearbeitung",

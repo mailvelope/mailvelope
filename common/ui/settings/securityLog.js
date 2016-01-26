@@ -31,7 +31,7 @@ var options = options || null;
 
   function init() {
     $('#securityLogButton').on('show.bs.tab', function() {
-      console.log('securityLog show.bs.tab');
+      //console.log('securityLog show.bs.tab');
       if (!initialTab) {
         startSecurityLogMonitoring();
         initialTab = true;

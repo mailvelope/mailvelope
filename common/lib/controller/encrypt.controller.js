@@ -23,8 +23,6 @@ define(function(require, exports, module) {
 
   function EncryptController(port) {
     sub.SubController.call(this, port);
-    this.keyidBuffer = null;
-    this.signBuffer = null;
     this.editorControl = null;
     this.recipientsCallback = null;
     this.keyring = require('../keyring');
@@ -35,31 +33,6 @@ define(function(require, exports, module) {
   EncryptController.prototype.handlePortMessage = function(msg) {
     var that = this;
     switch (msg.event) {
-      case 'encrypt-dialog-cancel':
-      case 'sign-dialog-cancel':
-        // forward event to encrypt frame
-        this.ports.eFrame.postMessage(msg);
-        break;
-      case 'sign-dialog-init':
-        var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
-        var keys = localKeyring.getPrivateKeys();
-        var primary = localKeyring.getAttributes().primary_key;
-        this.mvelo.data.load('common/ui/inline/dialogs/templates/sign.html').then(function(content) {
-          var port = that.ports.sDialog;
-          port.postMessage({event: 'sign-dialog-content', data: content});
-          port.postMessage({event: 'signing-key-userids', keys: keys, primary: primary});
-        });
-        break;
-      case 'encrypt-dialog-init':
-        // send content
-        this.mvelo.data.load('common/ui/inline/dialogs/templates/encrypt.html').then(function(content) {
-          //console.log('content rendered', content);
-          that.ports.eDialog.postMessage({event: 'encrypt-dialog-content', data: content});
-          // get potential recipients from eFrame
-          // if editor is active get recipients from parent eFrame
-          that.ports.eFrame.postMessage({event: 'recipient-proposal'});
-        });
-        break;
       case 'eframe-recipient-proposal':
         var emails = this.mvelo.util.sortAndDeDup(msg.data);
         var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
@@ -72,72 +45,7 @@ define(function(require, exports, module) {
         if (this.recipientsCallback) {
           this.recipientsCallback({ keys: keys, primary: primary });
           this.recipientsCallback = null;
-        } else {
-          this.ports.eDialog.postMessage({event: 'public-key-userids', keys: keys, primary: primary});
         }
-        break;
-      case 'encrypt-dialog-ok':
-        // add recipients to buffer
-        this.keyidBuffer = msg.recipient;
-        // get email text from eFrame
-        this.ports.eFrame.postMessage({event: 'email-text', type: msg.type, action: 'encrypt'});
-        break;
-      case 'sign-dialog-ok':
-        this.signBuffer = {};
-        var key = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
-        // add key in buffer
-        this.signBuffer.key = key.signKey;
-        this.signBuffer.keyid = msg.signKeyId;
-        this.signBuffer.userid = key.userId;
-        this.signBuffer.reason = 'PWD_DIALOG_REASON_SIGN';
-        this.signBuffer.keyringId = this.mvelo.LOCAL_KEYRING_ID;
-        this.pwdControl = sub.factory.get('pwdDialog');
-        this.pwdControl.unlockKey(this.signBuffer)
-          .then(function() {
-            that.ports.eFrame.postMessage({event: 'email-text', type: msg.type, action: 'sign'});
-          })
-          .catch(function(err) {
-            if (err.code = 'PWD_DIALOG_CANCEL') {
-              that.ports.eFrame.postMessage({event: 'sign-dialog-cancel'});
-              return;
-            }
-            if (err) {
-              // TODO: propagate error to sign dialog
-            }
-          });
-        break;
-      case 'eframe-email-text':
-        if (msg.action === 'encrypt') {
-          this.model.encryptMessage(msg.data, this.mvelo.LOCAL_KEYRING_ID, this.keyidBuffer)
-            .then(function(msg) {
-              that.ports.eFrame.postMessage({event: 'encrypted-message', message: msg});
-            })
-            .catch(function(error) {
-              console.log('model.encryptMessage() error', error);
-            });
-        } else if (msg.action === 'sign') {
-          this.model.signMessage(msg.data, this.signBuffer.key)
-            .then(function(msg) {
-              that.ports.eFrame.postMessage({event: 'signed-message', message: msg});
-            })
-            .catch(function(error) {
-              console.log('model.signMessage() error', error);
-            });
-        } else {
-          throw new Error('Unknown eframe action:', msg.action);
-        }
-        break;
-      case 'eframe-textarea-element':
-        var defaultEncoding = {};
-        if (msg.isTextElement || this.prefs.data().general.editor_type == this.mvelo.PLAIN_TEXT) {
-          defaultEncoding.type = 'text';
-          defaultEncoding.editable = false;
-        } else {
-          defaultEncoding.type = 'html';
-          defaultEncoding.editable = true;
-        }
-        // if eDialog is active in inline mode
-        this.ports.eDialog && this.ports.eDialog.postMessage({event: 'encoding-defaults', defaults: defaultEncoding});
         break;
       case 'eframe-display-editor':
         if (this.mvelo.windows.modalActive) {

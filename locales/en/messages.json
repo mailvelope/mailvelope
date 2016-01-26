@@ -887,22 +887,6 @@
     "message": "Color",
     "description": "Coloring"
   },
-  "security_compose_mail": {
-    "message": "Where do you want to compose your mail?",
-    "description": "Label for compose options"
-  },
-  "security_compose_external": {
-    "message": "In a separate text editor window belonging to Mailvelope.",
-    "description": "Mail compose option"
-  },
-  "security_compose_webmail": {
-    "message": "In the text editor of the mail provider.",
-    "description": "Mail compose option"
-  },
-  "security_compose_warn": {
-    "message": "This setting degrades the security level of Mailvelope. Your mail provider can potentially get access to your message.",
-    "description": "Mail compose options warning"
-  },
   "security_cache_header": {
     "message": "Remember passwords for browser session?",
     "description": "Password cache header"

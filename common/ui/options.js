@@ -171,7 +171,7 @@ var options = {};
                   } else if (window.location.hash == '#keyring') {
                     $('#keyringButton').tab('show');
                   } else {
-                    console.log((window.location.hash) ? window.location.hash : 'no hash found');
+                    //console.log((window.location.hash) ? window.location.hash : 'no hash found');
                     window.location.hash = 'displayKeys';
                     $('#keyringButton').tab('show');
                   }

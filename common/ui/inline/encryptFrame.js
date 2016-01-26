@@ -23,16 +23,13 @@ mvelo.EncryptFrame = function(prefs) {
   this.id = mvelo.util.getHash();
   this._editElement = null;
   this._eFrame = null;
-  this._eDialog = null;
   this._port = null;
-  this._isToolbar = false;
   this._refreshPosIntervalID = 0;
   this._emailTextElement = null;
   this._emailUndoText = null;
-  this._editorMode = prefs.security.editor_mode;
   // type of external editor
   this._editorType = mvelo.PLAIN_TEXT; //prefs.general.editor_type;
-  this._options = {expanded: false, closeBtn: true};
+  this._options = {closeBtn: true};
   this._keyCounter = 0;
 };
 
@@ -40,7 +37,7 @@ mvelo.EncryptFrame.prototype.attachTo = function(element, options) {
   $.extend(this._options, options);
   this._init(element);
   this._establishConnection();
-  this._renderFrame(this._options.expanded);
+  this._renderFrame();
   this._registerEventListener();
   // set status to attached
   this._editElement.data(mvelo.FRAME_STATUS, mvelo.FRAME_ATTACHED);
@@ -71,7 +68,7 @@ mvelo.EncryptFrame.prototype._init = function(element) {
   }
 };
 
-mvelo.EncryptFrame.prototype._renderFrame = function(expanded) {
+mvelo.EncryptFrame.prototype._renderFrame = function() {
   var that = this;
   // create frame
   var toolbar = '';
@@ -82,8 +79,6 @@ mvelo.EncryptFrame.prototype._renderFrame = function(expanded) {
   }
   /* jshint multistr: true */
   toolbar = toolbar + '\
-            <button id="signBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-sign"></i></button> \
-            <button id="encryptBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-encrypt"></i></button> \
             <button id="undoBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-undo"></i></button> \
             <button id="editorBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-editor"></i></button> \
             ';
@@ -100,61 +95,30 @@ mvelo.EncryptFrame.prototype._renderFrame = function(expanded) {
     that._setFrameDim();
   }, 1000);
   this._eFrame.find('.m-frame-close').on('click', this._closeFrame.bind(this));
-  this._eFrame.find('#signBtn').on('click', this._onSignButton.bind(this));
-  this._eFrame.find('#encryptBtn').on('click', this._onEncryptButton.bind(this));
   this._eFrame.find('#undoBtn').on('click', this._onUndoButton.bind(this));
   this._eFrame.find('#editorBtn').on('click', this._onEditorButton.bind(this));
-  if (!expanded) {
-    this._isToolbar = true;
-    this._normalizeButtons();
-    this._eFrame.fadeIn('slow');
-  } else {
-    this.showEncryptDialog();
-  }
-  if (this._editorMode === mvelo.EDITOR_EXTERNAL) {
-    this._emailTextElement.on('keypress', function() {
-      if (++that._keyCounter >= 13) {
-        that._emailTextElement.off('keypress');
-        that._eFrame.fadeOut('slow', function() {
-          that._closeFrame();
-        });
-      }
-    });
-  }
+  this._normalizeButtons();
+  this._eFrame.fadeIn('slow');
+
+  this._emailTextElement.on('keypress', function() {
+    if (++that._keyCounter >= 13) {
+      that._emailTextElement.off('keypress');
+      that._eFrame.fadeOut('slow', function() {
+        that._closeFrame();
+      });
+    }
+  });
+
 };
 
 mvelo.EncryptFrame.prototype._normalizeButtons = function() {
   //console.log('editor mode', this._editorMode);
   this._eFrame.find('.m-encrypt-button').hide();
-  switch (this._editorMode) {
-    case mvelo.EDITOR_WEBMAIL:
-      this._eFrame.find('#encryptBtn').show();
-      this._eFrame.find('#signBtn').show();
-      break;
-    case mvelo.EDITOR_EXTERNAL:
-      this._eFrame.find('#editorBtn').show();
-      break;
-    case mvelo.EDITOR_BOTH:
-      this._eFrame.find('#encryptBtn').show();
-      this._eFrame.find('#editorBtn').show();
-      break;
-    default:
-      throw 'Unknown editor mode';
-  }
+  this._eFrame.find('#editorBtn').show();
   if (this._emailUndoText) {
     this._eFrame.find('#undoBtn').show();
   }
   this._setFrameDim();
-};
-
-mvelo.EncryptFrame.prototype._onSignButton = function() {
-  this.showSignDialog();
-  return false;
-};
-
-mvelo.EncryptFrame.prototype._onEncryptButton = function() {
-  this.showEncryptDialog();
-  return false;
 };
 
 mvelo.EncryptFrame.prototype._onUndoButton = function() {
@@ -167,24 +131,6 @@ mvelo.EncryptFrame.prototype._onEditorButton = function() {
   this._emailTextElement.off('keypress');
   this._showMailEditor();
   return false;
-};
-
-mvelo.EncryptFrame.prototype.showSignDialog = function() {
-  this._expandFrame(this._showDialog.bind(this, 'sign'));
-};
-
-mvelo.EncryptFrame.prototype.showEncryptDialog = function() {
-  this._expandFrame(this._showDialog.bind(this, 'encrypt'));
-};
-
-mvelo.EncryptFrame.prototype._expandFrame = function(callback) {
-  this._eFrame.hide();
-  this._eFrame.find('.m-encrypt-button').hide();
-  this._eFrame.addClass('m-encrypt-frame-expanded');
-  this._eFrame.css('margin', this._editElement.css('margin'));
-  this._isToolbar = false;
-  this._setFrameDim();
-  this._eFrame.fadeIn('slow', callback);
 };
 
 mvelo.EncryptFrame.prototype._closeFrame = function(finalClose) {
@@ -206,40 +152,9 @@ mvelo.EncryptFrame.prototype._closeFrame = function(finalClose) {
 mvelo.EncryptFrame.prototype._setFrameDim = function() {
   var editElementPos = this._editElement.position();
   var editElementWidth = this._editElement.width();
-  if (this._isToolbar) {
-    var toolbarWidth = this._eFrame.width();
-    this._eFrame.css('top', editElementPos.top + 3);
-    this._eFrame.css('left', editElementPos.left + editElementWidth - toolbarWidth - 20);
-  } else {
-    this._eFrame.css('top', editElementPos.top + 2);
-    this._eFrame.css('left', editElementPos.left + 2);
-    this._eFrame.width(editElementWidth - 20);
-    this._eFrame.height(this._editElement.height() - 4);
-  }
-};
-
-mvelo.EncryptFrame.prototype._showDialog = function(type) {
-  this._eDialog = $('<iframe/>', {
-    id: 'eDialog-' + this.id,
-    'class': 'm-frame-dialog',
-    frameBorder: 0,
-    scrolling: 'no'
-  });
-  var url, dialog;
-  if (type === 'encrypt') {
-    dialog = 'encryptDialog';
-  } else if (type === 'sign') {
-    dialog = 'signDialog';
-  }
-  if (mvelo.crx) {
-    url = mvelo.extension.getURL('common/ui/inline/dialogs/' + dialog + '.html?id=' + this.id);
-  } else if (mvelo.ffa) {
-    url = 'about:blank?mvelo=' + dialog + '&id=' + this.id;
-  }
-  this._eDialog.attr('src', url);
-  this._eFrame.append(this._eDialog);
-  this._setFrameDim();
-  this._eDialog.fadeIn();
+  var toolbarWidth = this._eFrame.width();
+  this._eFrame.css('top', editElementPos.top + 3);
+  this._eFrame.css('left', editElementPos.left + editElementWidth - toolbarWidth - 20);
 };
 
 mvelo.EncryptFrame.prototype._showMailEditor = function() {
@@ -252,28 +167,6 @@ mvelo.EncryptFrame.prototype._showMailEditor = function() {
 
 mvelo.EncryptFrame.prototype._establishConnection = function() {
   this._port = mvelo.extension.connect({name: 'eFrame-' + this.id});
-};
-
-mvelo.EncryptFrame.prototype._removeDialog = function() {
-  if (!this._eDialog) {
-    return;
-  }
-  this._eDialog.fadeOut();
-  // removal triggers disconnect event
-  this._eDialog.remove();
-  this._eDialog = null;
-  this._showToolbar();
-};
-
-mvelo.EncryptFrame.prototype._showToolbar = function() {
-  this._eFrame.fadeOut(function() {
-    this._eFrame.removeClass('m-encrypt-frame-expanded');
-    this._eFrame.removeAttr('style');
-    this._isToolbar = true;
-    this._normalizeButtons();
-    this._eFrame.fadeIn('slow');
-  }.bind(this));
-  return false;
 };
 
 mvelo.EncryptFrame.prototype._html2text = function(html) {
@@ -385,10 +278,6 @@ mvelo.EncryptFrame.prototype._registerEventListener = function() {
   this._port.onMessage.addListener(function(msg) {
     //console.log('eFrame-%s event %s received', that.id, msg.event);
     switch (msg.event) {
-      case 'encrypt-dialog-cancel':
-      case 'sign-dialog-cancel':
-        that._removeDialog();
-        break;
       case 'email-text':
         that._port.postMessage({
           event: 'eframe-email-text',
@@ -406,17 +295,6 @@ mvelo.EncryptFrame.prototype._registerEventListener = function() {
           data: that._getEmailRecipient(),
           sender: 'eFrame-' + that.id
         });
-        that._port.postMessage({
-          event: 'eframe-textarea-element',
-          isTextElement: that._emailTextElement.is('textarea'),
-          sender: 'eFrame-' + that.id
-        });
-        break;
-      case 'encrypted-message':
-      case 'signed-message':
-        that._saveEmailText();
-        that._removeDialog();
-        that._setMessage(msg.message, 'text');
         break;
       case 'set-editor-output':
         that._saveEmailText();

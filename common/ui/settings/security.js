@@ -31,7 +31,6 @@ var options = options || null;
       $('#security .form-group button').prop('disabled', false);
       $('#secReloadInfo').hide();
     });
-    $('input:radio[name="editorModeRadios"]').on('change', editorModeWarning);
     $('input:radio[name="pwdCacheRadios"]').on('change', toggleCacheTime);
     $('#secBtnSave').click(onSave);
     $('#secBtnCancel').click(onCancel);
@@ -70,14 +69,6 @@ var options = options || null;
     });
   }
 
-  function editorModeWarning() {
-    if ($('#editorModeRadios2').prop('checked')) {
-      $('#editorModeWarn').show();
-    } else {
-      $('#editorModeWarn').hide();
-    }
-  }
-
   function toggleCacheTime() {
     if ($('#pwdCacheRadios1').prop('checked')) {
       $('#pwdCacheTime').prop('disabled', false);
@@ -98,7 +89,6 @@ var options = options || null;
         update = {
           security: {
             display_decrypted: $('input:radio[name="decryptRadios"]:checked').val(),
-            editor_mode: $('input:radio[name="editorModeRadios"]:checked').val(),
             secureBgndAngle: angel,
             secureBgndScaling: scaling,
             secureBgndColorId: coloring,
@@ -154,14 +144,10 @@ var options = options || null;
       $('input:radio[name="decryptRadios"]').filter(function() {
         return $(this).val() === prefs.security.display_decrypted;
       }).prop('checked', true);
-      $('input:radio[name="editorModeRadios"]').filter(function() {
-        return $(this).val() === prefs.security.editor_mode;
-      }).prop('checked', true);
       $('input:radio[name="pwdCacheRadios"]').filter(function() {
         return $(this).val() === (prefs.security.password_cache ? 'true' : 'false');
       }).prop('checked', true);
       $('#pwdCacheTime').val(prefs.security.password_timeout);
-      editorModeWarning();
       toggleCacheTime();
     });
   }
