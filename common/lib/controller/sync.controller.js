@@ -71,7 +71,7 @@ define(function(require, exports, module) {
         return;
       }
     }
-    if (!(this.canUnlockKey('decrypt', options) || options.force)) {
+    if (!(options.force || this.canUnlockKey('decrypt', options))) {
       return;
     }
     this.syncRunning = true;
@@ -140,7 +140,7 @@ define(function(require, exports, module) {
             message.reason = 'PWD_DIALOG_REASON_EDITOR';
             if (!message.key.primaryKey.getKeyId().equals(options.key.primaryKey.getKeyId())) {
               console.log('Key used for sync packet from server is not primary key on client');
-              if (!this.canUnlockKey('decrypt', {key: message.key}) && !options.force) {
+              if (!options.force && !this.canUnlockKey('decrypt', {key: message.key})) {
                 throw new Error('Key used for sync packet is locked');
               }
             } else {
@@ -209,8 +209,8 @@ define(function(require, exports, module) {
       // key can always be unlocked with password
       return true;
     }
-    var cacheEntry = pwdCache.get(options.key.primaryKey.getKeyId().toHex());
-    if (cacheEntry) {
+    var isCached = pwdCache.isCached(options.key.primaryKey.getKeyId().toHex());
+    if (isCached) {
       return true;
     }
     if (operation === 'sign') {

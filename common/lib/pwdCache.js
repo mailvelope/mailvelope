@@ -29,6 +29,8 @@ define(function(require, exports, module) {
   var active;
   // timeout in minutes
   var timeout;
+  // max. number of operations per key
+  var RATE_LIMIT = 1000;
 
   function init() {
     active = prefs.data().security.password_cache;
@@ -66,11 +68,26 @@ define(function(require, exports, module) {
    */
   function get(primkeyid, keyid) {
     if (cache[primkeyid]) {
-      return {
-        password: cache[primkeyid].password,
-        key: cache[primkeyid][keyid]
-      };
+      cache[primkeyid].operations--;
+      if (cache[primkeyid].operations) {
+        return {
+          password: cache[primkeyid].password,
+          key: cache[primkeyid][keyid]
+        };
+      } else {
+        // number of allowed operations exhausted
+        delete cache[primkeyid];
+      }
     }
+  }
+
+  /**
+   * Return true if key is cached
+   * @param  {String}  primkeyid primary key id
+   * @return {Boolean}           true if cached
+   */
+  function isCached(primkeyid) {
+    return Boolean(cache[primkeyid]);
   }
 
   /**
@@ -108,6 +125,8 @@ define(function(require, exports, module) {
       newEntry.timer = mvelo.util.setTimeout(function() {
         delete cache[primKeyIdHex];
       }, (cacheTime || timeout) * 60 * 1000);
+      // set max. number of operations
+      newEntry.operations = RATE_LIMIT;
     }
   }
 
@@ -136,6 +155,7 @@ define(function(require, exports, module) {
 
   exports.init = init;
   exports.get = get;
+  exports.isCached = isCached;
   exports.delete = deleteEntry;
   exports.set = set;
   exports.unlock = unlock;
