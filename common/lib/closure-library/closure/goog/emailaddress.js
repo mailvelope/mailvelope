@@ -104,6 +104,46 @@ goog.format.EmailAddress.ALL_BACKSLASHES_ = /\\/g;
  */
 goog.format.EmailAddress.ESCAPED_BACKSLASHES_ = /\\\\/g;
 
+/**
+ * A string representing the RegExp for the local part of an email address.
+ * @private {string}
+ */
+goog.format.EmailAddress.LOCAL_PART_REGEXP_STR_ =
+    '[+a-zA-Z0-9_.!#$%&\'*\\/=?^`{|}~-]+';
+
+
+/**
+ * A string representing the RegExp for the domain part of an email address.
+ * @private {string}
+ */
+goog.format.EmailAddress.DOMAIN_PART_REGEXP_STR_ =
+    '([a-zA-Z0-9-]+\\.)+[a-zA-Z0-9]{2,63}';
+
+
+/**
+ * A RegExp to match the local part of an email address.
+ * @private {!RegExp}
+ */
+goog.format.EmailAddress.LOCAL_PART_ =
+    new RegExp('^' + goog.format.EmailAddress.LOCAL_PART_REGEXP_STR_ + '$');
+
+
+/**
+ * A RegExp to match the domain part of an email address.
+ * @private {!RegExp}
+ */
+goog.format.EmailAddress.DOMAIN_PART_ =
+    new RegExp('^' + goog.format.EmailAddress.DOMAIN_PART_REGEXP_STR_ + '$');
+
+
+/**
+ * A RegExp to match an email address.
+ * @private {!RegExp}
+ */
+goog.format.EmailAddress.EMAIL_ADDRESS_ = new RegExp(
+    '^' + goog.format.EmailAddress.LOCAL_PART_REGEXP_STR_ + '@' +
+    goog.format.EmailAddress.DOMAIN_PART_REGEXP_STR_ + '$');
+
 
 /**
  * Get the name associated with the email address.
@@ -199,11 +239,8 @@ goog.format.EmailAddress.isValidAddress = function(str) {
  */
 goog.format.EmailAddress.isValidAddrSpec = function(str) {
   // This is a fairly naive implementation, but it covers 99% of use cases.
-  // For example, having two dots in a row isn't valid, but I don't think we
-  // need that level of validation.  Also, things like [a@b]@c.com is valid, but
-  // I don't think anyone would accept it.
-  var filter = /^[+a-zA-Z0-9_.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,6}$/;
-  return filter.test(str);
+  // For more details, see http://en.wikipedia.org/wiki/Email_address#Syntax
+  return goog.format.EmailAddress.EMAIL_ADDRESS_.test(str);
 };
 
 
