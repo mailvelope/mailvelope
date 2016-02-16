@@ -1,6 +1,14 @@
 Mailvelope Changelog
 ====================
 
+v1.3.5
+-------
+__Feb. 16, 2016__
+
+  * Update closure library to support new email address TLDs for key generation
+  * [Security] Limit operations for keys in cache
+  * Remove feature to sign/encrypt in DOM of website
+
 v1.3.4
 -------
 __Jan. 23, 2016__
