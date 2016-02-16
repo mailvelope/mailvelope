@@ -167,6 +167,12 @@ var options = {};
                   $('#keyringButton').tab('show');
                   activateTabButton(window.location.hash);
                   break;
+                case '#encrypting':
+                case '#file_encrypting':
+                case '#file_decrypting':
+                  $('#encryptingButton').tab('show');
+                  activateTabButton(window.location.hash);
+                  break;
                 default:
                   if (window.location.hash == '#settings') {
                     $('#settingsButton').tab('show');
@@ -343,9 +349,9 @@ var options = {};
     document.location.reload();
   }
 
-  function getAllKeyringAttr() {
+  function sendMessage(obj) {
     return new Promise(function(resolve, reject) {
-      mvelo.extension.sendMessage({ event: 'get-all-keyring-attr'}, function(data) {
+      mvelo.extension.sendMessage(obj, function(data) {
         if (data.error) {
           reject(data.error);
         } else {
@@ -355,106 +361,28 @@ var options = {};
     });
   }
 
-  /**
-   * @param {Object} files - list of files
-   * @returns {Promise<Array>}
-   */
-  function getEncryptFiles(files) {
-    return new Promise(function(resolve, reject) {
-      setTimeout(function() {
-        // TODO encrypt files
-        resolve(files);
-      }, 2000);
-    });
+  function getAllKeyringAttr() {
+    return sendMessage({ event: 'get-all-keyring-attr'});
   }
 
-  /**
-   * @param {Object} files - list of files
-   * @returns {Promise<Array>}
-   */
-  function getDecryptFiles(files) {
-    return new Promise(function(resolve, reject) {
-      setTimeout(function() {
-        // TODO decrypt files
-        resolve(files);
-      }, 2000);
-    });
+  function getAllKeyUserId() {
+    return sendMessage({ event: 'get-all-key-userid'});
   }
 
-  /**
-   * @returns {Promise<Array>}
-   */
-  function getPublicKeys() {
-    return new Promise(function(resolve, reject) {
-      // TODO
-      resolve([{
-        keyid: '4570d39ba0038c94',
-        proposal: false,
-        userid: 'eltuctuc@web.de1 <eltuctuc@web.de>',
-        name: 'eltuctuc@web.de1',
-        email: '<eltuctuc@web.de>'
-      }, {
-        keyid: 'c8983a5abad5d62d',
-        proposal: false,
-        userid: 'Eltuctuc2 <eltuctuc@gmail.com>',
-        name: 'Eltuctuc2',
-        email: '<eltuctuc@gmail.com>'
-      }, {
-        keyid: '4570d39ba0038c94',
-        proposal: false,
-        userid: 'eltuctuc@web.de3 <eltuctuc@web.de>',
-        name: 'eltuctuc@web.de3',
-        email: '<eltuctuc@web.de>'
-      }, {
-        keyid: 'c8983a5abad5d62d',
-        proposal: false,
-        userid: 'Eltuctuc4 <eltuctuc@gmail.com>',
-        name: 'Eltuctuc4',
-        email: '<eltuctuc@gmail.com>'
-      }, {
-        keyid: '4570d39ba0038c94',
-        proposal: false,
-        userid: 'eltuctuc@web.de5 <eltuctuc@web.de>',
-        name: 'eltuctuc@web.de5',
-        email: '<eltuctuc@web.de>'
-      }, {
-        keyid: 'c8983a5abad5d62d',
-        proposal: false,
-        userid: 'Eltuctuc6 <eltuctuc@gmail.com>',
-        name: 'Eltuctuc6',
-        email: '<eltuctuc@gmail.com>'
-      }]);
-    });
-  }
-
-  function pgpModel(method, args, callback) {
-    if (typeof args === 'function') {
-      callback = args;
-      args = undefined;
-    }
-    mvelo.extension.sendMessage({
+  function pgpModel(method, args) {
+    return sendMessage({
       event: 'pgpmodel',
       method: method,
       args: args
-    }, function(data) {
-      callback(data.error, data.result);
     });
   }
 
   function keyring(method, args) {
-    return new Promise(function(resolve, reject) {
-      mvelo.extension.sendMessage({
-        event: 'keyring',
-        method: method,
-        args: args,
-        keyringId: options.keyringId
-      }, function(data) {
-        if (data.error) {
-          reject(data.error);
-        } else {
-          resolve(data.result);
-        }
-      });
+    return sendMessage({
+      event: 'keyring',
+      method: method,
+      args: args,
+      keyringId: options.keyringId
     });
   }
 
@@ -480,9 +408,7 @@ var options = {};
 
   exports.reloadOptions = reloadOptions;
   exports.getAllKeyringAttr = getAllKeyringAttr;
-  exports.getPublicKeys = getPublicKeys;
-  exports.getEncryptFiles = getEncryptFiles;
-  exports.getDecryptFiles = getDecryptFiles;
+  exports.getAllKeyUserId = getAllKeyUserId;
   exports.pgpModel = pgpModel;
   exports.keyring = keyring;
   exports.copyToClipboard = copyToClipboard;

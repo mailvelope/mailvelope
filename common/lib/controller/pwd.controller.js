@@ -55,7 +55,7 @@ define(function(require, exports, module) {
         break;
       case 'pwd-dialog-cancel':
         this.closePopup();
-        var error = new Error(msg.event);
+        var error = new Error(this.mvelo.l10n.get('pwd_dialog_cancel'));
         error.code = 'PWD_DIALOG_CANCEL';
         this.reject(error);
         break;

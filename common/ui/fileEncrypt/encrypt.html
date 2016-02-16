@@ -1,7 +1,7 @@
 <div class="col-md-3">
   <div class="list-group" id="encryptList">
-    <a class="list-group-item active" href="#file_encrypting" data-toggle="tab" data-l10n-id="file_encrypting" id="encryptButton"></a>
-    <a class="list-group-item" href="#file_decrypting" data-toggle="tab" data-l10n-id="file_decrypting" id="decryptButton"></a>
+    <a class="list-group-item active" href="#file_encrypting" data-toggle="tab" data-l10n-id="file_encrypting" id="file_encryptingButton"></a>
+    <a class="list-group-item" href="#file_decrypting" data-toggle="tab" data-l10n-id="file_decrypting" id="file_decryptingButton"></a>
   </div>
 </div>
 <div class="col-md-9">
@@ -30,7 +30,7 @@
               </p>
             </div>
           </div>
-          <div id="encrypt_fileUploadError" class="alert alert-danger" role="alert"></div>
+          <div class="fileUploadError alert alert-danger" role="alert"></div>
         </div>
         <div class="panel-footer text-right">
           <button id="encrypt_goToPersonBtn" class="btn btn-primary btn-sm" data-l10n-id="form_next"></button>
@@ -71,7 +71,7 @@
       <div id="encrypt_fileDownloadPanel" class="encrypt-panel panel panel-default">
 
         <div class="panel-heading">
-          <h3 class="panel-title">Dateidownload</h3>
+          <h3 class="panel-title" data-l10n-id="encrypt_download_file_title"></h3>
         </div>
 
         <div class="panel-body">
@@ -85,7 +85,7 @@
 
         <div class="panel-footer text-right">
           <button id="encrypt_backToPersonBtn" class="btn btn-sm btn-default" data-l10n-id="form_back"></button>
-          <button id="encrypt_downloadAllBtn" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-save"></i> Alle herunterladen</button></button>
+          <button id="encrypt_downloadAllBtn" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-save"></i> <span data-l10n-id="encrypt_download_all_button"></span></button></button>
         </div>
 
         <div class="panel-overlay">
@@ -118,7 +118,7 @@
               </p>
             </div>
           </div>
-          <div id="decrypt_fileUploadError" class="alert alert-danger" role="alert"></div>
+          <div class="fileUploadError alert alert-danger" role="alert"></div>
         </div>
         <div class="panel-footer text-right">
           <button id="decrypt_goToDownloadBtn" class="btn btn-primary btn-sm" data-l10n-id="form_next"></button>
@@ -129,7 +129,7 @@
       <div id="decrypt_fileDownloadPanel" class="decrypt-panel panel panel-default">
 
         <div class="panel-heading">
-          <h3 class="panel-title">Dateidownload</h3>
+          <h3 class="panel-title" data-l10n-id="encrypt_download_file_title"></h3>
         </div>
 
         <div class="panel-body">
@@ -143,7 +143,7 @@
 
         <div class="panel-footer text-right">
           <button id="decrypt_backToUploadBtn" class="btn btn-sm btn-default" data-l10n-id="form_back"></button>
-          <button id="decrypt_downloadAllBtn" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-save"></i> Alle herunterladen</button></button>
+          <button id="decrypt_downloadAllBtn" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-save"></i> <span data-l10n-id="encrypt_download_all_button"></span></button></button>
         </div>
 
         <div class="panel-overlay">

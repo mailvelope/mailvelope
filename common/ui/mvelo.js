@@ -139,14 +139,13 @@ mvelo.util = {};
 
 mvelo.util.sortAndDeDup = function(unordered, compFn) {
   var result = [];
-  var prev = -1;
-  unordered.sort(compFn).forEach(function(item) {
-    var equal = (compFn !== undefined && prev !== undefined) ? compFn(prev, item) === 0 : prev === item;
-    if (!equal) {
-      result.push(item);
-      prev = item;
+  var sorted = unordered.sort(compFn);
+  // remove duplicates
+  for (var i = 0; i < sorted.length; i++) {
+    if (i === 0 || compFn && compFn(sorted[i - 1], sorted[i]) !== 0 || !compFn && sorted[i - 1] !== sorted[i]) {
+      result.push(sorted[i]);
     }
-  });
+  }
   return result;
 };
 
@@ -238,7 +237,7 @@ mvelo.util.str2ab = function(str) {
 
 mvelo.util.getExtensionClass = function(fileExt) {
   var extClass = '';
-  if (fileExt !== undefined) {
+  if (fileExt) {
     extClass = 'ext-color-' + fileExt;
   }
   return extClass;
@@ -248,8 +247,6 @@ mvelo.util.extractFileNameWithoutExt = function(fileName) {
   var indexOfDot = fileName.lastIndexOf('.');
   if (indexOfDot > 0) { // case: regular
     return fileName.substring(0, indexOfDot);
-  } else if (indexOfDot === 0) { // case '.txt'
-    return '';
   } else {
     return fileName;
   }
@@ -257,7 +254,7 @@ mvelo.util.extractFileNameWithoutExt = function(fileName) {
 
 mvelo.util.extractFileExtension = function(fileName) {
   var lastindexDot = fileName.lastIndexOf('.');
-  if (lastindexDot < 0) { // no extension
+  if (lastindexDot <= 0) { // no extension
     return '';
   } else {
     return fileName.substring(lastindexDot + 1, fileName.length).toLowerCase().trim();
@@ -357,6 +354,10 @@ mvelo.util.matchPattern2RegEx = function(matchPattern) {
     '^' + matchPattern.replace(/\./g, '\\.')
                       .replace(/\*\\\./, '(\\w+(-\\w+)*\\.)*') + '$'
   );
+};
+
+mvelo.util.mapError = function(error) {
+  return { message: error.message, code: error.code  || 'INTERNAL_ERROR' };
 };
 
 if (typeof exports !== 'undefined') {

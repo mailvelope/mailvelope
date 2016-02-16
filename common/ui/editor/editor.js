@@ -193,41 +193,34 @@ var mvelo = mvelo || null;
   function addAttachment(file) {
     onChange(); // setting the message as dirty
 
-    if (!mvelo.attachments.isLowerThanMaxSize(file)) {
-      throw Error('File is too big');
+    if (mvelo.file.isOversize(file)) {
+      throw new Error('File is too big');
     }
 
-    mvelo.attachments.readUploadFile(file)
+    mvelo.file.readUploadFile(file, afterLoadEnd)
       .then(function(response) {
-        //console.log('readUploadFile(file)', result);
-
-        //if (numUploadsInProgress === 0 && delayedAction) {
-        //  sendPlainText(delayedAction);
-        //  delayedAction = '';
-        //}
-
-        file.result = response.result;
-        file.id = mvelo.util.getHash();
-
-        return mvelo.attachments.addAttachment(response.file);
-      })
-      .then(function(fileUI) {
-        var $fileUI = fileUI;
-        var $uploadPanel = $("#uploadPanel");
-
-        $fileUI.find('.removeAttachment').on('click', onRemoveAttachment);
-
+        var $fileElement = mvelo.file.createFileElement(response, {
+          removeButton: true,
+          onRemove: onRemoveAttachment
+        });
+        var $uploadPanel = $('#uploadPanel');
         var uploadPanelHeight = $uploadPanel[0].scrollHeight;
-
         $uploadPanel
-          .append($fileUI)
+          .append($fileElement)
           .scrollTop(uploadPanelHeight); //Append attachment element and scroll to bottom of #uploadPanel to show current uploads
 
-        numUploadsInProgress--;
       })
       .catch(function(error) {
         console.log(error);
       });
+  }
+
+  function afterLoadEnd() {
+    numUploadsInProgress--;
+    if (numUploadsInProgress === 0 && delayedAction) {
+      sendPlainText(delayedAction);
+      delayedAction = '';
+    }
   }
 
   function setAttachment(attachment) {
@@ -245,10 +238,10 @@ var mvelo = mvelo || null;
     var i;
     var fileSizeAll = 0;
     for (i = 0; i < numFiles; i++) {
-      fileSizeAll = fileSizeAll + parseInt(files[i].size);
+      fileSizeAll += parseInt(files[i].size);
     }
 
-    var currentAttachmentsSize = mvelo.attachments.getFileSize() + fileSizeAll;
+    var currentAttachmentsSize = mvelo.file.getFileSize($('#uploadPanel')) + fileSizeAll;
     if (currentAttachmentsSize > maxFileUploadSize) {
       var error = {
         title: l10n.upload_quota_warning_headline,
@@ -260,21 +253,13 @@ var mvelo = mvelo || null;
     }
 
     for (i = 0; i < files.length; i++) {
-      file = files[i];
-
       numUploadsInProgress++;
-      addAttachment(file);
+      addAttachment(files[i]);
     }
   }
 
-  function onRemoveAttachment(evt) {
-    evt.preventDefault();
-    removeAttachment($(this).data('id'));
+  function onRemoveAttachment() {
     logUserInput('security_log_remove_attachment');
-  }
-
-  function removeAttachment(id) {
-    mvelo.attachments.removeAttachment(id);
   }
 
   function onCancel() {
@@ -592,7 +577,7 @@ var mvelo = mvelo || null;
       event: 'editor-plaintext',
       sender: name,
       message: editor.val(),
-      attachments: mvelo.attachments.getAttachments(),
+      attachments: mvelo.file.getFiles($('#uploadPanel')),
       action: action
     });
   }
@@ -660,7 +645,7 @@ var mvelo = mvelo || null;
         $('#transferBtn').show();
         break;
       case 'error-message':
-        if (msg.error.message === 'pwd-dialog-cancel') {
+        if (msg.error.code === 'PWD_DIALOG_CANCEL') {
           break;
         }
         showErrorModal(msg.error);

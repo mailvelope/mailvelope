@@ -126,7 +126,7 @@ var options = options || null;
   }
 
   function onGenerateKey() {
-    validateEmail(function() {
+    validateEmail().then(function() {
       $('body').addClass('busy');
       $('#genKeyWait').one('show.bs.modal', generateKey);
       $('#genKeyWait').modal({backdrop: 'static', keyboard: false});
@@ -135,20 +135,18 @@ var options = options || null;
     return false;
   }
 
-  function validateEmail(next) {
+  function validateEmail() {
     var email = $('#genKeyEmail');
     // validate email
-    options.pgpModel('validateEmail', [email.val()], function(err, valid) {
-      if (valid) {
+    return options.pgpModel('validateEmail', [email.val()])
+      .then(function(valid) {
         email.closest('.form-group').removeClass('has-error');
         email.next().addClass('hide');
-        next();
-      } else {
+      })
+      .catch(function(err) {
         email.closest('.form-group').addClass('has-error');
         email.next().removeClass('hide');
-        return;
-      }
-    });
+      });
   }
 
   function generateKey() {
@@ -171,7 +169,7 @@ var options = options || null;
       })
       .catch(function(error) {
         //console.log('generateKey() options.keyring(generateKey)', error);
-        $('#genAlert').showAlert(options.l10n.key_gen_error, error.type === 'error' ? error.message : '', 'danger');
+        $('#genAlert').showAlert(options.l10n.key_gen_error, error.message || '', 'danger');
       })
       .then(function() {
         $('body').removeClass('busy');

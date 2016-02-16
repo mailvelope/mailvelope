@@ -54,11 +54,8 @@ define(function(require, exports, module) {
       userIds: options.userIds,
       numBits: options.keySize,
       passphrase: password
-    }, function(err, data) {
-      that.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: data.publicKeyArmored, error: err});
-      if (err) {
-        return;
-      }
+    }).then(function(data) {
+      that.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: data.publicKeyArmored});
       if (that.prefs.data().security.password_cache) {
         pwdCache.set({key: data.key}, password);
       }
@@ -69,6 +66,8 @@ define(function(require, exports, module) {
           that.rejectTimer = 0;
         }, 10000); // trigger timeout after 10s
       }
+    }).catch(function(err) {
+      that.ports.keyGenCont.postMessage({event: 'generate-done', error: err});
     });
   };
 

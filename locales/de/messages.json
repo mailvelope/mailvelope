@@ -159,6 +159,18 @@
     "message": "Personen:",
     "description": "Header of encrypt dialog."
   },
+  "encrypt_download_all_button": {
+    "message": "Alle herunterladen",
+    "description": "Button to download all files"
+  },
+  "encrypt_download_file_button": {
+    "message": "Klick um Datei herunterzuladen",
+    "description": "Download icon"
+  },
+  "encrypt_download_file_title": {
+    "message": "Dateidownload",
+    "description": "Title of download area"
+  },
   "encrypt_error": {
     "message": "Diese Nachricht konnte nicht verschlüsselt werden: $1",
     "description": "Error during encryption process."
@@ -168,7 +180,7 @@
     "description": "File upload selection"
   },
   "encrypt_upload_file_help": {
-    "message": "Die Größe der einzelnen Dateien darf nicht größer als [size]MB sein.",
+    "message": "Die Größe der einzelnen Dateien darf nicht größer als ## MB sein.",
     "description": "Help text"
   },
   "encrypt_upload_file_warning_too_big": {

@@ -376,7 +376,7 @@ function injectEmbeddedEditor() {
       data.url('ui/messageAdapter.js'),
       data.url('common/ui/mvelo.js'),
       data.url('common/ui/editor/editor.js'),
-      data.url('common/ui/attachments.js')
+      data.url('common/ui/file.js')
     ],
     contentStyleFile: [
       data.url("common/dep/bootstrap/css/bootstrap.css"),

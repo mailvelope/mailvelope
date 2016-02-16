@@ -140,16 +140,17 @@ var options = options || null;
   }
 
   function loadPrefs() {
-    options.pgpModel('getPreferences', function(err, prefs) {
-      $('input:radio[name="decryptRadios"]').filter(function() {
-        return $(this).val() === prefs.security.display_decrypted;
-      }).prop('checked', true);
-      $('input:radio[name="pwdCacheRadios"]').filter(function() {
-        return $(this).val() === (prefs.security.password_cache ? 'true' : 'false');
-      }).prop('checked', true);
-      $('#pwdCacheTime').val(prefs.security.password_timeout);
-      toggleCacheTime();
-    });
+    options.pgpModel('getPreferences')
+      .then(function(prefs) {
+        $('input:radio[name="decryptRadios"]').filter(function() {
+          return $(this).val() === prefs.security.display_decrypted;
+        }).prop('checked', true);
+        $('input:radio[name="pwdCacheRadios"]').filter(function() {
+          return $(this).val() === (prefs.security.password_cache ? 'true' : 'false');
+        }).prop('checked', true);
+        $('#pwdCacheTime').val(prefs.security.password_timeout);
+        toggleCacheTime();
+      });
   }
 
   options.event.on('ready', init);

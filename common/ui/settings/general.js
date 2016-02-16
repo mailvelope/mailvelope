@@ -69,16 +69,14 @@ var options = options || null;
     $('#genReloadInfo').hide();
   }
 
-  function loadPrefs(callback) {
-    options.pgpModel('getPreferences', function(err, prefs) {
-      $('#autoAddPrimary').prop('checked', prefs.general.auto_add_primary);
-      $('input:radio[name="editorRadios"]').filter(function() {
-        return $(this).val() === prefs.general.editor_type;
-      }).prop('checked', true);
-      if (callback) {
-        callback(prefs);
-      }
-    });
+  function loadPrefs() {
+    options.pgpModel('getPreferences')
+      .then(function(prefs) {
+        $('#autoAddPrimary').prop('checked', prefs.general.auto_add_primary);
+        $('input:radio[name="editorRadios"]').filter(function() {
+          return $(this).val() === prefs.general.editor_type;
+        }).prop('checked', true);
+      });
   }
 
   options.event.on('ready', init);

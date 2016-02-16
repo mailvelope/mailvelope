@@ -93,39 +93,40 @@ var options = options || null;
     siteData = undefined;
     var tableRow;
     $tableBody.children().remove();
-    options.pgpModel('getWatchList', function(err, data) {
-      siteData = data;
-      data.forEach(function(site) {
-        tableRow = $.parseHTML(mailProviderTmpl);
-        $(tableRow).find('td:nth-child(2)').text(site.site);
-        if (!site.active) {
-          $(tableRow).find('.glyphicon-check').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+    options.pgpModel('getWatchList')
+      .then(function(data) {
+        siteData = data;
+        data.forEach(function(site) {
+          tableRow = $.parseHTML(mailProviderTmpl);
+          $(tableRow).find('td:nth-child(2)').text(site.site);
+          if (!site.active) {
+            $(tableRow).find('.glyphicon-check').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+          }
+          $(tableRow).attr('data-website', JSON.stringify(site));
+          $tableBody.append(tableRow);
+        });
+        mvelo.l10n.localizeHTML();
+        $tableBody.find('.deleteWatchListBtn').on('click', deleteWatchListEntry);
+        $tableBody.find('tr').on('click', function() {
+          var data = $(this).attr('data-website');
+          showWatchListEditor(data);
+          return false;
+        });
+        $tableBody.find('tr').hover(function() {
+          $(this).find('.actions').css('visibility', 'visible');
+        }, function() {
+          $(this).find('.actions').css('visibility', 'hidden');
+        });
+
+        if (newWebSite !== undefined) {
+          var $selectedRow = $('td:contains("' + newWebSite + '")').parent();
+          $selectedRow.addClass('addedSiteFade');
+          $selectedRow.trigger('hover');
+          window.scrollTo(0, document.body.scrollHeight);
+          newWebSite = undefined;
         }
-        $(tableRow).attr('data-website', JSON.stringify(site));
-        $tableBody.append(tableRow);
-      });
-      mvelo.l10n.localizeHTML();
-      $tableBody.find('.deleteWatchListBtn').on('click', deleteWatchListEntry);
-      $tableBody.find('tr').on('click', function() {
-        var data = $(this).attr('data-website');
-        showWatchListEditor(data);
-        return false;
-      });
-      $tableBody.find('tr').hover(function() {
-        $(this).find('.actions').css('visibility', 'visible');
-      }, function() {
-        $(this).find('.actions').css('visibility', 'hidden');
-      });
 
-      if (newWebSite !== undefined) {
-        var $selectedRow = $('td:contains("' + newWebSite + '")').parent();
-        $selectedRow.addClass('addedSiteFade');
-        $selectedRow.trigger('hover');
-        window.scrollTo(0, document.body.scrollHeight);
-        newWebSite = undefined;
-      }
-
-    });
+      });
   }
 
   function addMatchPattern() {
@@ -268,17 +269,18 @@ var options = options || null;
     site.active = true;
     site.frames = [];
     site.frames.push({ frame: '*.' + website, scan:true });
-    options.pgpModel('getWatchList', function(err, data) {
-      data.forEach(function(siteEntry, index) {
-        if (siteEntry.site === website) {
-          siteExist = true;
+    options.pgpModel('getWatchList')
+      .then(function(data) {
+        data.forEach(function(siteEntry, index) {
+          if (siteEntry.site === website) {
+            siteExist = true;
+          }
+        });
+        if (!siteExist) {
+          data.push(site);
         }
+        saveWatchListData(data);
       });
-      if (!siteExist) {
-        data.push(site);
-      }
-      saveWatchListData(data);
-    });
   }
   options.addToWatchList = addToWatchList;
 

@@ -147,7 +147,6 @@ define(function(require, exports, module) {
       })
       .catch(function(err) {
         throw {
-          type: 'error',
           message: 'Password caching does not support different passphrases for primary key and subkeys'
         };
       });

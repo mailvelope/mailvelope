@@ -26,7 +26,6 @@
   background: #efefef linear-gradient(to bottom,#ffffff,#ececec);
   margin-right: .5em;
   margin-bottom: .5em;
-  max-width: 200px;
 }
 .recipientButton span.glyphicon {
   color: green;
@@ -35,6 +34,7 @@
 .recipientButton > div {
   margin: 0 0.5em;
   line-height: 1;
+  max-width: 200px;
 }
 .recipientButton > div b,.recipientButton > div small {
   display: block;
@@ -59,7 +59,8 @@
   line-height: 1.5em;
 }
 
-#encrypt_fileDownloadPanel .waiting {
+#encrypt_fileDownloadPanel .waiting,
+#decrypt_fileDownloadPanel .waiting {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -71,6 +72,7 @@
   justify-content: center;
 }
 
-#encrypt_fileDownloadPanel .m-spinner {
+#encrypt_fileDownloadPanel .m-spinner,
+#decrypt_fileDownloadPanel .m-spinner {
   margin: inherit;
 }

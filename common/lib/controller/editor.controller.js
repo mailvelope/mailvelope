@@ -236,6 +236,7 @@ define(function(require, exports, module) {
    */
   EditorController.prototype.buildMail = function(message, attachments) {
     //var t0 = Date.now();
+    var that = this;
     var mainMessage = new this.mailbuild("multipart/mixed");
     var composedMessage = null;
     var hasAttachment;
@@ -249,23 +250,22 @@ define(function(require, exports, module) {
         .setContent(message);
       mainMessage.appendChild(textMime);
     }
-    if (attachments && Object.keys(attachments).length > 0) {
+    if (attachments && attachments.length > 0) {
       hasAttachment = true;
-      for (var attachment in attachments) {
-        quotaSize += attachments[attachment].size;
-        var attachmentMime = new this.mailbuild("text/plain")
-          .createChild(false, {filename: attachments[attachment].filename})
-          //.setHeader("Content-Type", msg.attachments[attachment].type+"; charset=utf-8")
+      attachments.forEach(function(attachment) {
+        quotaSize += attachment.size;
+        var attachmentMime = new that.mailbuild("text/plain")
+          .createChild(false, {filename: attachment.name})
+          //.setHeader("Content-Type", attachment.type + "; charset=utf-8")
           .addHeader("Content-Transfer-Encoding", "base64")
-          .addHeader("Content-Disposition", "attachment") // ; filename="+msg.attachments[attachment].filename
-          .setContent(attachments[attachment].content);
+          .addHeader("Content-Disposition", "attachment") // ; filename="attachment.filename
+          .setContent(attachment.content);
         mainMessage.appendChild(attachmentMime);
-      }
+      });
     }
 
     if (this.options.quota && (quotaSize > this.options.quota)) {
       var error = {
-        type: 'error',
         code: 'ENCRYPT_QUOTA_SIZE',
         message: 'Mail content exceeds quota limit.'
       };
@@ -368,7 +368,6 @@ define(function(require, exports, module) {
       this.ports.editor.postMessage({
         event: 'error-message',
         error: {
-          type: 'error',
           code: 'NO_PRIMARY_KEY_FOUND',
           message: 'No primary key found'
         }
@@ -382,7 +381,6 @@ define(function(require, exports, module) {
       this.ports.editor.postMessage({
         event: 'error-message',
         error: {
-          type: 'error',
           code: 'NO_SIGN_KEY_FOUND',
           message: 'No valid signing key packet found'
         }
@@ -396,45 +394,37 @@ define(function(require, exports, module) {
 
     that.pwdControl = sub.factory.get('pwdDialog');
     that.pwdControl.unlockKey(primaryKey)
-      .then(function() {
-        encryptTimer = that.mvelo.util.setTimeout(function() {
-          that.ports.editor.postMessage({event: 'encrypt-in-progress'});
-        }, 800);
+    .then(function() {
+      encryptTimer = that.mvelo.util.setTimeout(function() {
+        that.ports.editor.postMessage({event: 'encrypt-in-progress'});
+      }, 800);
 
-        if (!that.prefs.data().security.password_cache) {
-          syncCtrl.triggerSync(primaryKey);
-        }
+      if (!that.prefs.data().security.password_cache) {
+        syncCtrl.triggerSync(primaryKey);
+      }
 
-        return that.model.signAndEncryptMessage({
-          keyIdsHex: options.keyIdsHex,
-          keyringId: that.keyringId,
-          primaryKey: primaryKey,
-          message: options.message,
-          uiLogSource: 'security_log_editor'
-        });
-      })
-      .then(function(msg) {
-        port.postMessage({event: 'encrypted-message', message: msg});
-        that.mvelo.util.clearTimeout(encryptTimer);
-        that.ports.editor.postMessage({event: 'encrypt-end'});
-      })
-      .catch(function(error) {
-        //console.log('signAndEncryptMessage() error', error);
-
-        if (error.message === 'pwd-dialog-cancel') {
-          error = {
-            type: 'error',
-            code: 'PWD_DIALOG_CANCEL',
-            message: error.message
-          };
-        }
-        that.ports.editor.postMessage({event: 'error-message', error: error});
-        if (that.ports.editorCont) {
-          port.postMessage({event: 'error-message', error: error});
-        }
-        that.mvelo.util.clearTimeout(encryptTimer);
-        that.ports.editor.postMessage({event: 'encrypt-failed'});
+      return that.model.signAndEncryptMessage({
+        keyIdsHex: options.keyIdsHex,
+        keyringId: that.keyringId,
+        primaryKey: primaryKey,
+        message: options.message,
+        uiLogSource: 'security_log_editor'
       });
+    })
+    .then(function(msg) {
+      port.postMessage({event: 'encrypted-message', message: msg});
+      that.mvelo.util.clearTimeout(encryptTimer);
+      that.ports.editor.postMessage({event: 'encrypt-end'});
+    })
+    .catch(function(error) {
+      error = that.mvelo.util.mapError(error);
+      that.ports.editor.postMessage({event: 'error-message', error: error});
+      if (that.ports.editorCont) {
+        port.postMessage({event: 'error-message', error: error});
+      }
+      that.mvelo.util.clearTimeout(encryptTimer);
+      that.ports.editor.postMessage({event: 'encrypt-failed'});
+    });
   };
 
   /**

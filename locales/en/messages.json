@@ -159,17 +159,37 @@
     "message": "Persons:",
     "description": "Subheader of encrypt dialog."
   },
+  "encrypt_download_all_button": {
+    "message": "Download All",
+    "description": "Button to download all files"
+  },
+  "encrypt_download_file_button": {
+    "message": "Click to download file",
+    "description": "Download icon"
+  },
+  "encrypt_download_file_title": {
+    "message": "File Download",
+    "description": "Title of download area"
+  },
   "encrypt_error": {
     "description": "Error during encryption process.",
     "message": "Could not encrypt this message: $1"
   },
   "encrypt_file_selection": {
-    "message": "Fiel selection",
+    "message": "File Selection",
     "description": "File upload selection"
   },
+  "encrypt_upload_file_help": {
+    "message": "The size of the individual files must not exceed ## MB.",
+    "description": "Help text"
+  },
+  "encrypt_upload_file_warning_too_big": {
+    "message": "Size of one file exceeds limit.",
+    "description": "."
+  },
   "encrypting_home": {
-    "message": "File encrypting",
-    "description": "File encrypting navigation: Home."
+    "message": "File Encryption",
+    "description": "File encryption top navigation."
   },
   "ext_description": {
     "description": "Description of the extension.",
@@ -180,11 +200,11 @@
     "message": "Mailvelope"
   },
   "file_decrypting": {
-    "message": "File decrypting",
+    "message": "Decryption",
     "description": ""
   },
   "file_encrypting": {
-    "message": "File encrypting",
+    "message": "Encryption",
     "description": ""
   },
   "form_back": {
@@ -836,8 +856,8 @@
     "message": "Enable Mailvelope for this page"
   },
   "popup_file_encrypting": {
-    "message": "File encrypting",
-    "description": "Title text for file encrypting"
+    "message": "File Encryption",
+    "description": "Title text for file encryption"
   },
   "popup_help": {
     "description": "Open help dialog.",

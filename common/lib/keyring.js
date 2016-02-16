@@ -89,6 +89,16 @@ define(function(require, exports, module) {
     }
   }
 
+  function getAll() {
+    var result = [];
+    for (var keyringId in keyringAttr) {
+      if (keyringAttr.hasOwnProperty(keyringId)) {
+        result.push(keyringMap.get(keyringId));
+      }
+    }
+    return result;
+  }
+
   function getAllKeyringAttr() {
     return mvelo.storage.get('mailvelopeKeyringAttr');
   }
@@ -126,6 +136,26 @@ define(function(require, exports, module) {
     }
   }
 
+  function getAllKeyUserId() {
+    var allKeyrings = getAll();
+    var result = [];
+    allKeyrings.forEach(function(keyring) {
+      result = result.concat(keyring.getKeyUserIDs().map(function(key) {
+        key.keyringId = keyring.id;
+        return key;
+      }));
+    });
+    // remove duplicate keys
+    result = mvelo.util.sortAndDeDup(result, function(a, b) {
+      return a.keyid.localeCompare(b.keyid);
+    });
+    // sort by name
+    result = result.sort(function(a, b) {
+      return a.name.localeCompare(b.name);
+    });
+    return result;
+  }
+
   function readKey(armored) {
     var parsedKey = openpgp.key.readArmored(armored);
     if (parsedKey.err) {
@@ -145,11 +175,13 @@ define(function(require, exports, module) {
   exports.init = init;
   exports.createKeyring = createKeyring;
   exports.deleteKeyring = deleteKeyring;
+  exports.getAll = getAll;
   exports.getAllKeyringAttr = getAllKeyringAttr;
   exports.setKeyringAttr = setKeyringAttr;
   exports.getKeyringAttr = getKeyringAttr;
   exports.getById = getById;
   exports.getUserId = getUserId;
+  exports.getAllKeyUserId = getAllKeyUserId;
   exports.readKey = readKey;
   exports.mapKeys = mapKeys;
   exports.cloneKey = cloneKey;
@@ -375,9 +407,11 @@ define(function(require, exports, module) {
     user.keyid = key.primaryKey.getKeyId().toHex();
     try {
       user.userid = getUserId(key);
-      var email = goog.format.EmailAddress.parse(user.userid).getAddress();
-      user.proposal = proposal.some(function(element) {
-        return email === element;
+      var emailAddress = goog.format.EmailAddress.parse(user.userid);
+      user.email = emailAddress.getAddress();
+      user.name = emailAddress.getName();
+      user.proposal = proposal && proposal.some(function(element) {
+        return user.email === element;
       });
     } catch (e) {
       user.userid = l10n('keygrid_invalid_userid');
@@ -668,7 +702,7 @@ define(function(require, exports, module) {
     this.sync.commit();
   };
 
-  Keyring.prototype.generateKey = function(options, callback) {
+  Keyring.prototype.generateKey = function(options) {
     var that = this;
     options.userIds = options.userIds.map(function(userId) {
       if (userId.fullName) {
@@ -677,19 +711,20 @@ define(function(require, exports, module) {
         return '<' + userId.email + '>';
       }
     });
-    openpgp.generateKeyPair({numBits: parseInt(options.numBits), userId: options.userIds, passphrase: options.passphrase}).then(function(data) {
-      if (data) {
-        that.keyring.privateKeys.push(data.key);
-        that.sync.add(data.key.primaryKey.getFingerprint(), keyringSync.INSERT);
-        that.keyring.store();
-        that.sync.commit();
-        // by no primary key in the keyring set the generated key as primary
-        if (!that.hasPrimaryKey()) {
-          setKeyringAttr(that.id, {primary_key: data.key.primaryKey.keyid.toHex().toUpperCase()});
+    return openpgp.generateKeyPair({numBits: parseInt(options.numBits), userId: options.userIds, passphrase: options.passphrase})
+      .then(function(data) {
+        if (data) {
+          that.keyring.privateKeys.push(data.key);
+          that.sync.add(data.key.primaryKey.getFingerprint(), keyringSync.INSERT);
+          that.keyring.store();
+          that.sync.commit();
+          // by no primary key in the keyring set the generated key as primary
+          if (!that.hasPrimaryKey()) {
+            setKeyringAttr(that.id, {primary_key: data.key.primaryKey.keyid.toHex().toUpperCase()});
+          }
         }
-      }
-      callback(null, data);
-    }, callback);
+        return data;
+      });
   };
 
   Keyring.prototype.getKeyForSigning = function(keyIdHex) {

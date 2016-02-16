@@ -149,6 +149,9 @@ define(function(require, exports, module) {
       case 'open-popup':
         mvelo.windows.openPopup(request.url);
         break;
+      case 'get-all-key-userid':
+        sendResponse({result: keyring.getAllKeyUserId()});
+        break;
       default:
         console.log('unknown event:', request);
     }
@@ -156,27 +159,23 @@ define(function(require, exports, module) {
 
   function methodEvent(thisArg, request, sendResponse) {
     //console.log('controller: methodEvent', request);
-    var response = {};
-    var callback = function(error, result) {
-      sendResponse({error: error, result: result});
-    };
     request.args = request.args || [];
     if (!Array.isArray(request.args)) {
       request.args = [request.args];
     }
-    request.args.push(callback);
-    try {
-      response.result = thisArg[request.method].apply(thisArg, request.args);
-    } catch (e) {
-      console.log('error in method ' + request.method + ': ', e);
-      response.error = e;
-    }
-    if (response.result !== undefined || response.error) {
-      sendResponse({error: response.error, result: response.result});
-    } else {
-      // important to return true for async calls, otherwise Chrome does not handle sendResponse
-      return true;
-    }
+    Promise.resolve()
+    .then(function() {
+      return thisArg[request.method].apply(thisArg, request.args);
+    })
+    .then(function(result) {
+      sendResponse({result: result});
+    })
+    .catch(function(error) {
+      console.log('error in method ' + request.method + ': ', error);
+      sendResponse({error: mvelo.util.mapError(error)});
+    });
+    // important to return true for async calls, otherwise Chrome does not handle sendResponse
+    return true;
   }
 
   function destroyNodes(subControllers) {

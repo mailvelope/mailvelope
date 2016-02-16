@@ -130,11 +130,10 @@ define(function(require, exports, module) {
         return that.parseMessage(content.text, handlers, 'html');
       })
       .catch(function(error) {
-        if (error.message === 'pwd-dialog-cancel') {
+        if (error.code === 'PWD_DIALOG_CANCEL') {
           if (that.ports.dFrame) {
             return that.dialogCancel();
           }
-          error.message = that.mvelo.l10n.get('pwd_dialog_cancel');
         }
         if (that.ports.dDialog) {
           that.ports.dDialog.postMessage({event: 'error-message', error: error.message});

@@ -32,6 +32,7 @@ define(function(require, exports, module) {
   var keyring = require('./keyring');
   var keyringSync = require('./keyringSync');
   var trustKey = require('./trustKey');
+  var sub = require('./controller/sub.controller');
 
   var watchListBuffer = null;
 
@@ -82,25 +83,16 @@ define(function(require, exports, module) {
       } catch (e) {
         console.log('openpgp.message.readArmored', e);
         return reject({
-          type: 'error',
           message: l10n('message_read_error', [e])
         });
       }
 
-      result.key = null;
-      result.userid = '';
-      result.keyid = null;
-
       var encryptionKeyIds = result.message.getEncryptionKeyIds();
-      for (var i = 0; i < encryptionKeyIds.length; i++) {
-        result.keyid = encryptionKeyIds[i].toHex();
-        result.key = keyring.getById(keyringId).keyring.privateKeys.getForId(result.keyid, true);
-        if (result.key) {
-          break;
-        }
-      }
+      var privKey = findPrivateKey(encryptionKeyIds, keyringId);
 
-      if (result.key) {
+      if (privKey && privKey.key) {
+        result.keyid = privKey.keyid;
+        result.key = privKey.key;
         result.userid = keyring.getUserId(result.key, false);
       } else {
         // unknown private key
@@ -110,13 +102,31 @@ define(function(require, exports, module) {
           message = message + ' ' + l10n("word_or") + ' ' + encryptionKeyIds[i].toHex().toUpperCase();
         }
         return reject({
-          type: 'error',
           message: message,
         });
       }
 
       resolve(result);
     });
+  }
+
+  function findPrivateKey(encryptionKeyIds, keyringId) {
+    var result = {};
+    for (var i = 0; i < encryptionKeyIds.length; i++) {
+      var keyrings;
+      if (keyringId) {
+        keyrings = [keyring.getById(keyringId)];
+      } else {
+        keyrings = keyring.getAll();
+      }
+      for (var j = 0; j < keyrings.length; j++) {
+        result.keyid = encryptionKeyIds[i].toHex();
+        result.key = keyrings[j].keyring.privateKeys.getForId(result.keyid, true);
+        if (result.key) {
+          return result;
+        }
+      }
+    }
   }
 
   function readCleartextMessage(armoredText, keyringId) {
@@ -126,7 +136,6 @@ define(function(require, exports, module) {
     } catch (e) {
       console.log('openpgp.cleartext.readArmored', e);
       throw {
-        type: 'error',
         message: l10n('cleartext_read_error', [e])
       };
     }
@@ -135,7 +144,6 @@ define(function(require, exports, module) {
     var signingKeyIds = result.message.getSigningKeyIds();
     if (signingKeyIds.length === 0) {
       throw {
-        type: 'error',
         message: 'No signatures found'
       };
     }
@@ -186,6 +194,22 @@ define(function(require, exports, module) {
     }
   }
 
+  function getKeysForEncryption(options) {
+    var keys = options.keyIdsHex.map(function(keyIdHex) {
+      var keyArray = keyring.getById(options.keyringId).keyring.getKeysForId(keyIdHex);
+      return keyArray ? keyArray[0] : null;
+    }).filter(function(key) {
+      return key !== null;
+    });
+    if (keys.length === 0) {
+      throw {
+        code: 'NO_KEY_FOUND_FOR_ENCRYPTION',
+        message: 'No key found for encryption'
+      };
+    }
+    return keys;
+  }
+
   /**
    * @param {Object} options
    * @param {String} options.keyIdsHex
@@ -196,32 +220,18 @@ define(function(require, exports, module) {
    */
   function encryptMessage(options) {
     return new Promise(function(resolve, reject) {
-      var keys = options.keyIdsHex.map(function(keyIdHex) {
-        var keyArray = keyring.getById(options.keyringId).keyring.getKeysForId(keyIdHex);
-        return keyArray ? keyArray[0] : null;
-      }).filter(function(key) {
-        return key !== null;
-      });
-
-      if (keys.length === 0) {
-        reject({
-          type: 'error',
-          message: 'No key found for encryption'
-        });
-      } else {
-        openpgp.getWorker().encryptMessage(keys, options.message)
-          .then(function(msg) {
-            logEncryption(options.uiLogSource, keys);
-            resolve(msg);
-          })
-          .catch(function(e) {
-            console.log('openpgp.getWorker().encryptMessage() error', e);
-            reject({
-              type: 'error',
-              message: l10n('encrypt_error', [e])
-            });
+      var keys = getKeysForEncryption(options);
+      openpgp.getWorker().encryptMessage(keys, options.message)
+        .then(function(msg) {
+          logEncryption(options.uiLogSource, keys);
+          resolve(msg);
+        })
+        .catch(function(e) {
+          console.log('openpgp.getWorker().encryptMessage() error', e);
+          reject({
+            message: l10n('encrypt_error', [e])
           });
-      }
+        });
     });
   }
 
@@ -236,34 +246,19 @@ define(function(require, exports, module) {
    */
   function signAndEncryptMessage(options) {
     return new Promise(function(resolve, reject) {
-      var keys = options.keyIdsHex.map(function(keyIdHex) {
-        var keyArray = keyring.getById(options.keyringId).keyring.getKeysForId(keyIdHex);
-        return keyArray ? keyArray[0] : null;
-      }).filter(function(key) {
-        return key !== null;
-      });
-
-      if (keys.length === 0) {
-        reject({
-          type: 'error',
-          code: 'NO_KEY_FOUND_FOR_ENCRYPTION',
-          message: 'No key found for encryption'
-        });
-      } else {
-        openpgp.getWorker().signAndEncryptMessage(keys, options.primaryKey.key, options.message)
-          .then(function(msg) {
-            logEncryption(options.uiLogSource, keys);
-            resolve(msg);
-          })
-          .catch(function(e) {
-            console.log('openpgp.getWorker().signAndEncryptMessage() error', e);
-            reject({
-              type: 'error',
-              code: 'ENCRYPT_ERROR',
-              message: l10n('encrypt_error', [e])
-            });
+      var keys = getKeysForEncryption(options);
+      openpgp.getWorker().signAndEncryptMessage(keys, options.primaryKey.key, options.message)
+        .then(function(msg) {
+          logEncryption(options.uiLogSource, keys);
+          resolve(msg);
+        })
+        .catch(function(e) {
+          console.log('openpgp.getWorker().signAndEncryptMessage() error', e);
+          reject({
+            code: 'ENCRYPT_ERROR',
+            message: l10n('encrypt_error', [e])
           });
-      }
+        });
     });
   }
 
@@ -295,7 +290,6 @@ define(function(require, exports, module) {
       callback(null, signers);
     } catch (e) {
       callback({
-        type: 'error',
         message: l10n('verify_error', [e])
       });
     }
@@ -465,6 +459,56 @@ define(function(require, exports, module) {
     return lastModified;
   }
 
+  function encryptFile(plainFile, receipients) {
+    var keys;
+    return Promise.resolve()
+    .then(function() {
+      keys = receipients.map(function(receipient) {
+        var keyArray = keyring.getById(receipient.keyringId).keyring.getKeysForId(receipient.keyid);
+        return keyArray ? keyArray[0] : null;
+      }).filter(function(key) {
+        return key !== null;
+      });
+      if (keys.length === 0) {
+        throw { message: 'No key found for encryption' };
+      }
+      return openpgp.getWorker().encryptMessage(keys, plainFile.content);
+    })
+    .then(function(msg) {
+      logEncryption('security_log_encrypt_dialog', keys);
+      return msg;
+    })
+    .catch(function(e) {
+      console.log('openpgp.getWorker().encryptFile() error', e);
+      throw { message: l10n('encrypt_error', [e.message]) };
+    });
+  }
+
+  function decryptFile(encryptedFile) {
+    return Promise.resolve()
+    .then(function() {
+      var base64 = encryptedFile.content.split('data:;base64,')[1];
+      var armored = mvelo.util.getDOMWindow().atob(base64);
+      return readMessage(armored);
+    })
+    .then(function(message) {
+      return sub.factory.get('pwdDialog').unlockKey(message);
+    })
+    .then(function(message) {
+      return openpgp.getWorker().decryptMessage(message.key, message.message);
+    })
+    .then(function(result) {
+      return {
+        name: encryptedFile.name.slice(0, -4),
+        content: result
+      };
+    })
+    .catch(function(e) {
+      console.log('openpgp.getWorker().decryptFile() error', e);
+      throw mvelo.util.mapError(e);
+    });
+  }
+
   exports.validateEmail = validateEmail;
   exports.readMessage = readMessage;
   exports.readCleartextMessage = readCleartextMessage;
@@ -479,6 +523,8 @@ define(function(require, exports, module) {
   exports.decryptSyncMessage = decryptSyncMessage;
   exports.encryptSyncMessage = encryptSyncMessage;
   exports.getLastModifiedDate = getLastModifiedDate;
+  exports.encryptFile = encryptFile;
+  exports.decryptFile = decryptFile;
 
   function getWatchList() {
     watchListBuffer = watchListBuffer || mvelo.storage.get('mailvelopeWatchList');

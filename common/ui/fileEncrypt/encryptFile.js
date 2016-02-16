@@ -21,11 +21,9 @@ var mvelo = mvelo || null;
 var options = options || null;
 
 (function(options) {
-  var file;
   var l10n;
   var numUploadsInProgress = 0;
   var recipients = [];
-  var currentProgress;
 
   var $encryptPanels;
   var $encryptFileUploadPanel;
@@ -44,7 +42,6 @@ var options = options || null;
   var $encryptKeyList;
   var $encryptKeySelect;
   var $encryptAddPersonBtn;
-  var $encryptFileUploadError;
   var $encryptFileDownloadError;
 
   var isEncryptCached = false;
@@ -56,10 +53,10 @@ var options = options || null;
   var $decryptFileSelection;
   var $decryptFileUpload;
   var $decryptAddFileBtn;
-  var $decryptFileUploadError;
   var $decryptFileDownloadError;
   var $decryptToDownloadBtn;
-  var $decryptToUploadBtn;
+  var $decryptBackToUploadBtn;
+  var $decryptDownloadAllBtn;
   var $decryptFileDownload;
 
   // Get language strings from JSON
@@ -72,28 +69,15 @@ var options = options || null;
 
   function init() {
     addEncryptInteractivity();
-    addDeCryptInteractivity();
+    addDecryptInteractivity();
 
-    var $waiting = $('.waiting', $encryptFileDownloadPanel).hide();
-    mvelo.util.addLoadingAnimation($waiting);
     $('.alert').hide();
 
-    options.getPublicKeys()
+    options.getAllKeyUserId()
       .then(function(result) {
         recipients = result;
         addRecipientsToSelect(recipients);
-      })
-      .catch(function(error) {
-        console.log(error);
       });
-
-    currentProgress = mvelo.attachments.FILEENCRYPT;
-    $('#encryptButton').on('click', function() {
-      currentProgress = mvelo.attachments.FILEENCRYPT;
-    });
-    $('#decryptButton').on('click', function() {
-      currentProgress = mvelo.attachments.FILEDECRYPT;
-    });
   }
 
   /**
@@ -105,10 +89,12 @@ var options = options || null;
     $encryptFileDownloadPanel = $('#encrypt_fileDownloadPanel');
     $encryptPanels = $('.panel.encrypt-panel');
     $encryptFileSelection = $('#encrypt_fileSelection');
-    $encryptFileUploadError = $('#encrypt_fileUploadError');
     $encryptFileDownloadError = $('#encrypt_fileDownloadError');
 
-    $encryptFileUpload = $('#encrypt_fileUpload').change(onAddAttachment);
+    var $waiting = $('.waiting', $encryptFileDownloadPanel).hide();
+    mvelo.util.addLoadingAnimation($waiting);
+
+    $encryptFileUpload = $('#encrypt_fileUpload').change(onAddFile.bind(null, $encryptFileUploadPanel));
     $encryptAddFileBtn = $('#encrypt_addFileBtn')
       .on('click', function() {
         $encryptFileUpload.click();
@@ -120,11 +106,13 @@ var options = options || null;
       });
     $encryptToDownloadBtn = $('#encrypt_goToDownloadBtn')
       .prop('disabled', true)
-      .on('click', onEncryptAttachments);
+      .on('click', onEncryptFiles);
     $encryptDownloadAllBtn = $('#encrypt_downloadAllBtn')
       .prop('disabled', true)
       .on('click', function() {
-        console.log($encryptFileDownloadPanel);
+        $encryptFileDownload.children().each(function() {
+          this.click();
+        });
       });
     $encryptBackToUploadBtn = $('#encrypt_backToUploadBtn')
       .on('click', function() {
@@ -136,11 +124,11 @@ var options = options || null;
       });
     $encryptFileDownload = $('#encrypt_fileDownload');
 
-    var MAXFILEUPLOADSIZE = (mvelo.crx) ? mvelo.MAXFILEUPLOADSIZECHROME : mvelo.MAXFILEUPLOADSIZE;
+    var MAXFILEUPLOADSIZE = mvelo.crx ? mvelo.MAXFILEUPLOADSIZECHROME : mvelo.MAXFILEUPLOADSIZE;
     MAXFILEUPLOADSIZE = Math.ceil(MAXFILEUPLOADSIZE / 1024 / 1024);
 
     $encryptAddFileBtn.next()
-      .text(l10n.encrypt_upload_file_help.replace('[size]', MAXFILEUPLOADSIZE));
+      .text(l10n.encrypt_upload_file_help.replace('##', MAXFILEUPLOADSIZE));
 
     $encryptKeyList = $('#encrypt_keyList');
     $encryptKeySelect = $('#encrypt_keySelect');
@@ -153,39 +141,45 @@ var options = options || null;
   /**
    *
    */
-  function addDeCryptInteractivity() {
+  function addDecryptInteractivity() {
     $decryptFileUploadPanel = $('#decrypt_fileUploadPanel');
     $decryptFileDownloadPanel = $('#decrypt_fileDownloadPanel');
     $decryptPanels = $('.panel.decrypt-panel');
-    $decryptFileUploadError = $('#decrypt_fileUploadError');
     $decryptFileDownloadError = $('#decrypt_fileDownloadError');
     $decryptFileSelection = $('#decrypt_fileSelection');
     $decryptFileDownload = $('#decrypt_fileDownload');
 
-    $decryptFileUpload = $('#decrypt_fileUpload').on('change', onAddAttachment);
+    var $waiting = $('.waiting', $decryptFileDownloadPanel).hide();
+    mvelo.util.addLoadingAnimation($waiting);
+
+    $decryptFileUpload = $('#decrypt_fileUpload').on('change', onAddFile.bind(null, $decryptFileUploadPanel));
     $decryptAddFileBtn = $('#decrypt_addFileBtn')
       .on('click', function() {
         $decryptFileUpload.click();
       });
 
-    var MAXFILEUPLOADSIZE = (mvelo.crx) ? mvelo.MAXFILEUPLOADSIZECHROME : mvelo.MAXFILEUPLOADSIZE;
+    var MAXFILEUPLOADSIZE = mvelo.crx ? mvelo.MAXFILEUPLOADSIZECHROME : mvelo.MAXFILEUPLOADSIZE;
     MAXFILEUPLOADSIZE = Math.ceil(MAXFILEUPLOADSIZE / 1024 / 1024);
 
     $decryptAddFileBtn.next()
-      .text(l10n.encrypt_upload_file_help.replace('[size]', MAXFILEUPLOADSIZE));
+      .text(l10n.encrypt_upload_file_help.replace('##', MAXFILEUPLOADSIZE));
 
     $decryptToDownloadBtn = $('#decrypt_goToDownloadBtn')
       .prop('disabled', true)
-      .on('click', onDecryptAttachments);
+      .on('click', onDecryptFiles);
 
-    $decryptToUploadBtn = $('#decrypt_backToUploadBtn')
+    $decryptDownloadAllBtn = $('#decrypt_downloadAllBtn')
+      .prop('disabled', true)
+      .on('click', function() {
+        $decryptFileDownload.children().each(function() {
+          this.click();
+        });
+      });
+
+    $decryptBackToUploadBtn = $('#decrypt_backToUploadBtn')
       .on('click', function() {
         switchPanel($decryptFileUploadPanel, $decryptPanels);
       });
-
-    $encryptToDownloadBtn = $('#encrypt_goToDownloadBtn')
-      .prop('disabled', true)
-      .on('click', onEncryptAttachments);
 
     switchPanel($decryptFileUploadPanel, $decryptPanels);
   }
@@ -193,46 +187,100 @@ var options = options || null;
   /**
    * @param {Event} e
    */
-  function onDecryptAttachments(e) {
+  function onDecryptFiles(e) {
     e.preventDefault();
 
     if (!isDecryptCached) {
+      $decryptFileDownload.children().remove();
+      hideError($decryptFileDownloadError);
       $('.waiting', $decryptFileDownloadPanel).show();
-      var attachments = mvelo.attachments.getAttachments(currentProgress);
-      options.getDecryptFiles(attachments)
-        .then(function(files) {
-          $('.waiting', $decryptFileDownloadPanel).hide();
-          addAttachmentsToDownload(files);
-          isDecryptCached = true;
-        })
+      var encryptedFiles = mvelo.file.getFiles($decryptFileUploadPanel);
+      decryptFiles(encryptedFiles)
         .catch(function(error) {
-          console.log(error);
+          showError(error.message, $decryptFileDownloadError);
+        })
+        .then(function() {
+          $('.waiting', $decryptFileDownloadPanel).hide();
+          isDecryptCached = hasError($decryptFileDownloadError) ? false : true;
+          if ($decryptFileDownload.children().length) {
+            $decryptDownloadAllBtn.prop('disabled', false);
+          }
         });
     }
 
     switchPanel($decryptFileDownloadPanel, $decryptPanels);
   }
 
+  function decryptFiles(encryptedFiles) {
+    var decryptProcesses = [];
+    encryptedFiles.forEach(function(encryptedFile) {
+      decryptProcesses.push(options.pgpModel('decryptFile', [encryptedFile])
+        .then(function(file) {
+          addFileToDownload({
+            name: file.name,
+            content: file.content,
+            type: 'application/octet-stream'
+          }, $decryptFileDownload);
+        })
+        .catch(function(error) {
+          showError(error.message, $decryptFileDownloadError);
+        })
+      );
+    });
+    return Promise.all(decryptProcesses);
+  }
+
   /**
    * @param {Event} e
    */
-  function onEncryptAttachments(e) {
+  function onEncryptFiles(e) {
     e.preventDefault();
 
     if (!isEncryptCached) {
+      $encryptFileDownload.children().remove();
+      hideError($encryptFileDownloadError);
       $('.waiting', $encryptFileDownloadPanel).show();
-      var attachments = mvelo.attachments.getAttachments(currentProgress);
-      options.getEncryptFiles(attachments)
-        .then(function(files) {
-          $('.waiting', $encryptFileDownloadPanel).hide();
-          addAttachmentsToDownload(files);
+      var plainFiles = mvelo.file.getFiles($encryptFileUploadPanel);
+      var receipients = getSelectedRecipients();
+      encryptFiles(plainFiles, receipients)
+        .then(function() {
           isEncryptCached = true;
+          $encryptDownloadAllBtn.prop('disabled', false);
         })
         .catch(function(error) {
-          console.log(error);
+          isEncryptCached = false;
+          $encryptDownloadAllBtn.prop('disabled', true);
+          showError(error.message, $encryptFileDownloadError);
+        })
+        .then(function() {
+          $('.waiting', $encryptFileDownloadPanel).hide();
         });
     }
     switchPanel($encryptFileDownloadPanel, $encryptPanels);
+  }
+
+  function encryptFiles(plainFiles, receipients) {
+    var encryptProcesses = [];
+    plainFiles.forEach(function(plainFile) {
+      encryptProcesses.push(options.pgpModel('encryptFile', [plainFile, receipients])
+        .then(function(armored) {
+          addFileToDownload({
+            name: plainFile.name + '.asc',
+            content: armored,
+            type: 'application/octet-stream'
+          }, $encryptFileDownload, {secureIcon: true});
+        })
+      );
+    });
+    return Promise.all(encryptProcesses);
+  }
+
+  function getSelectedRecipients() {
+    var result = [];
+    $encryptKeyList.find('.recipientButton').each(function() {
+      result.push(recipients[parseInt($(this).data('index'))]);
+    });
+    return result;
   }
 
   /**
@@ -274,70 +322,65 @@ var options = options || null;
   }
 
   /**
+   * @param {jQuery} $filePanel
    * @param {Event} evt
    */
-  function onAddAttachment(evt) {
+  function onAddFile($filePanel, evt) {
     var files = evt.target.files;
 
-    if (currentProgress === mvelo.attachments.FILEENCRYPT) {
-      hideError($encryptFileUploadError);
-    }
+    var $fileUploadError = $filePanel.find('.fileUploadError');
+
+    hideError($fileUploadError);
 
     for (var i = 0; i < files.length; i++) {
-      file = files[i];
+      var file = files[i];
 
-      if (!mvelo.attachments.isLowerThanMaxSize(file)) {
-        showError(l10n.encrypt_upload_file_warning_too_big, $encryptFileUploadError);
-        throw Error(l10n.encrypt_upload_file_warning_too_big);
+      if (mvelo.file.isOversize(file)) {
+        showError(l10n.encrypt_upload_file_warning_too_big, $fileUploadError, true);
+        continue;
       }
 
       numUploadsInProgress++;
-      mvelo.attachments.readUploadFile(file)
+      mvelo.file.readUploadFile(file, afterLoadEnd.bind(null, $filePanel))
         .then(function(response) {
-          response.file.content = response.content;
-          response.file.id = mvelo.util.getHash();
-
-          return mvelo.attachments.addAttachment(response.file, currentProgress);
-        })
-        .then(function(fileUI) {
-          var $fileUI = fileUI;
-
-          $fileUI.find('.removeAttachment').on('click', onRemoveAttachment);
-
-          if (currentProgress === mvelo.attachments.FILEENCRYPT) {
-            $encryptFileSelection.append($fileUI);
-            $encryptToPersonBtn.prop('disabled', false);
+          var $fileElement = mvelo.file.createFileElement(response, {
+            removeButton: true,
+            onRemove: onRemoveFile,
+            secureIcon: $filePanel.attr('id') === 'decrypt_fileUploadPanel' ? true : false
+          });
+          if ($filePanel.attr('id') === 'encrypt_fileUploadPanel') {
+            $encryptFileSelection.append($fileElement);
             isEncryptCached = false;
-          } else {
-            $decryptFileSelection.append($fileUI);
-            $decryptToDownloadBtn.prop('disabled', false);
+          } else if ($filePanel.attr('id') === 'decrypt_fileUploadPanel') {
+            $decryptFileSelection.append($fileElement);
             isDecryptCached = false;
           }
-          numUploadsInProgress--;
-
         })
         .catch(function(error) {
           console.log(error);
-
-          var msg = 'unbekannter Fehler';
-          showError(msg, $('#fileUploadError'));
+          showError('Unknown Error', $fileUploadError);
         });
     }
     evt.target.value = '';
   }
 
-  /**
-   * @param {Event} e
-   */
-  function onRemoveAttachment(e) {
-    e.preventDefault();
+  function afterLoadEnd($filePanel) {
+    numUploadsInProgress--;
+    if (numUploadsInProgress) {
+      return;
+    }
+    if ($filePanel.attr('id') === 'encrypt_fileUploadPanel') {
+      $encryptToPersonBtn.prop('disabled', false);
+    } else if ($filePanel.attr('id') === 'decrypt_fileUploadPanel') {
+      $decryptToDownloadBtn.prop('disabled', false);
+    }
+  }
 
-    removeAttachment($(this).data('id'));
-
-    if ($encryptFileSelection.children().length === 0) {
+  function onRemoveFile() {
+    if ($encryptFileSelection.children().length === 1) {
       $encryptToPersonBtn.prop('disabled', true);
     }
-    if ($decryptFileSelection.children().length === 0) {
+    if ($decryptFileSelection.children().length === 1) {
       $decryptToDownloadBtn.prop('disabled', true);
     }
     isEncryptCached = false;
@@ -357,36 +400,11 @@ var options = options || null;
   }
 
   /**
-   * @param {Array} files
+   * @param {File} file
    */
-  function addAttachmentsToDownload(files) {
-    console.log(files);
-
-    var keys = Object.keys(files);
-    for (var i = 0; i < keys.length; i++) {
-      file = files[keys[i]];
-
-      mvelo.attachments.getAttachment(file, currentProgress)
-        .then(function($fileUI) {
-          if (currentProgress === mvelo.attachments.FILEENCRYPT) {
-            $encryptFileDownload.append($fileUI);
-          } else {
-            $decryptFileDownload.append($fileUI);
-          }
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    }
-  }
-
-  /**
-   * @param {Number} id
-   * @returns {boolean}
-   * @throws {Error}
-   */
-  function removeAttachment(id) {
-    mvelo.attachments.removeAttachment(id, currentProgress);
+  function addFileToDownload(file, $panel, options) {
+    var $fileDownloadElement = mvelo.file.createFileDownloadElement(file, options);
+    $panel.append($fileDownloadElement);
   }
 
   /**
@@ -411,6 +429,7 @@ var options = options || null;
 
     return $('<div/>', {
       "title": recipient.name,
+      "data-index": recipient.index,
       "class": 'recipientButton'
     })
       .append($icon)
@@ -425,12 +444,9 @@ var options = options || null;
    * @returns {*|jQuery|HTMLElement}
    */
   function getContentForRecipientButton(content) {
-    var name = decodeURIComponent(escape(content.name));
-    var email = decodeURIComponent(escape(content.email));
-
     return $('<div/>')
-      .append($('<b/>').text(name))
-      .append($('<small/>').text(email));
+      .append($('<b/>').text(content.name))
+      .append($('<small/>').text(content.email));
   }
 
   /**
@@ -487,8 +503,13 @@ var options = options || null;
    * @param {String} msg
    * @param {jQuery} $uiComponent
    */
-  function showError(msg, $uiComponent) {
+  function showError(msg, $uiComponent, fadeOut) {
     $uiComponent.text(msg).show();
+    if (fadeOut) {
+      window.setTimeout(function() {
+        $uiComponent.fadeOut('slow');
+      }, 2000);
+    }
   }
 
   /**
@@ -499,23 +520,18 @@ var options = options || null;
   }
 
   /**
+   * @param {jQuery} $uiComponent
+   */
+  function hasError($uiComponent) {
+    return Boolean($uiComponent.text());
+  }
+
+  /**
    * @param {jQuery} $panel
    * @param {Array<jQuery>} $panels
    */
   function switchPanel($panel, $panels) {
     $panels.hide();
-
-    /*switch (id) {
-      case 'fileUploadPanel':
-        $encryptFileUploadPanel.show();
-        break;
-      case 'decryptPersonPanel':
-        $encryptPersonPanel.show();
-        break;
-      case 'fileDownloadPanel':
-        $encryptFileDownloadPanel.show();
-        break;
-    }*/
     $panel.show();
   }
 
