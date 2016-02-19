@@ -39,7 +39,7 @@ define(function(require, exports, module) {
     this.signBuffer = null;
     this.pwdControl = null;
     this.keyring = require('../keyring');
-    this.mailbuild = require('../../mailbuild');
+    this.mailbuild = require('emailjs-mime-builder');
     this.pgpMIME = false;
     this.signMsg = null;
     this.options = {};

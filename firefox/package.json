@@ -1,16 +1,62 @@
 {
   "name": "mailvelope",
-  "fullName": "Mailvelope",
-  "id": "jid1-AQqSMBYb0a8ADg",
+  "title": "Mailvelope",
+  "id": "jid1-AQqSMBYb0a8ADg@jetpack",
   "description": "Enhance your webmail provider with end-to-end encryption. Secure email communication based on the OpenPGP standard.",
   "author": "Mailvelope GmbH",
   "license": "AGPL 3",
+  "main": "lib/main.js",
   "version": "1.3.5",
   "homepage": "https://www.mailvelope.com",
-  "icon": "data/common/img/mail_locked_48.png",
-  "icon64": "data/common/img/mail_locked_64.png",
+  "icon": "resource://jid1-aqqsmbyb0a8adg-at-jetpack/data/common/img/mail_locked_48.png",
+  "updateURL": "https://download.mailvelope.com/update/mailvelope.firefox.xml",
   "permissions": {
     "private-browsing": true,
-    "unsafe-content-script": true
+    "unsafe-content-script": true,
+    "multiprocess": true
+  },
+  "engines": {
+    "firefox": ">=38.0 || <=46.*"
+  },
+  "locales": {
+    "ar": {
+      "description": "عَزِّز مزود بريدك الإلكتروني عبر الشبكة العنكبوتية بالتعمية من طرف لطرف. أَمِّن اتصالاتك بالبريد الإلكتروني وفق معيار OpenPGP."
+    },
+    "bg": {
+      "description": "Добавя end-to-end криптиране към вашия емайл клиент. Сигурна емайл комуникация с помоща на OpenPGP стандарта."
+    },
+    "de": {
+      "description": "Erweitern Sie ihren Webmail-Anbieter mit Ende-zu-Ende-Verschlüsselung. Sichere E-Mail-Kommunikation, mit dem OpenPGP-Standard."
+    },
+    "es": {
+      "description": "Mejore su proveedor de correo web con cifrado extremo-a-extremo. Asegure su comunicación de email en base al estándar OpenPGP."
+    },
+    "fa": {
+      "description": " ارائه دهنده ایمیلتان را بهبود ببخشید با رمزگزاری پایان-به-پایان. ارتباطات ایمیلی خود را بر اساس PGP باز استاندارد امن کنید. "
+    },
+    "fr": {
+      "description": "Améliorez votre messagerie web avec un chiffrement de bout-en-bout. Communication électronique sécurisée basée sur la norme OpenPGP."
+    },
+    "nb": {
+      "description": "Forbedre opplevelsen av din e-posttilbyder med ende-til-ende kryptering. Sikker e-postkommunikasjon basert på OpenPGP-standarden."
+    },
+    "nl": {
+      "description": "Verbeter uw webmailprovider met end-to-end-versleuteling. Beveilig e-mailcommunicatie gebaseerd op de OpenPGP-standaard."
+    },
+    "pl": {
+      "description": "Popraw i dodaj do swojej internetowej poczty szyfrowanie end-to-end. Bezpieczna komunikacja e-mail oparta na standardzie OpenPGP."
+    },
+    "ru": {
+      "description": "Добавьте сквозное шифрование электронной почты при использовании браузера. Стандарт OpenPGP обеспечит безопасную передачу данных."
+    },
+    "sl": {
+      "description": "Izboljšajte varnost vaše spletne poštne storitve z enkripcijo. Zavarujte e-poštno komunikacijo na osnovi standarda OpenPGP."
+    },
+    "sv": {
+      "description": "Förbättra din webbaserade e-posttjänst med end-to-end-kryptering. Säker e-postkommunikation baserad på OpenPGP-standarden."
+    },
+    "zh_CN": {
+      "description": "使用端到端加密增强您的在线邮件安全性。基于OpenPGP标准的安全邮件通信。"
+    }
   }
 }

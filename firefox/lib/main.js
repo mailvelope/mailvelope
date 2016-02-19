@@ -28,8 +28,6 @@ var l10nGet = require("sdk/l10n").get;
 var ToggleButton = require("sdk/ui/button/toggle").ToggleButton;
 var Panel = require('sdk/panel').Panel;
 
-checkStaticArgs();
-
 var mvelo = require('./lib-mvelo.js').mvelo;
 var model = require('./common/pgpModel');
 var controller = require('./common/controller/main.controller');
@@ -52,13 +50,6 @@ unload.when(function(reason) {
     }
   }
 });
-
-function checkStaticArgs() {
-  // call cfx run --static-args='{ "clear_storage": true }'
-  if (system.staticArgs.clear_storage) {
-    clearStorage();
-  }
-}
 
 function init() {
   controller.extend({

@@ -27,8 +27,8 @@ var ss = require('sdk/simple-storage');
 var url = require('sdk/url');
 var l10nGet = require('sdk/l10n').get;
 
-var mvelo = require('./common/mvelo').mvelo;
-var CWorker = require('web-worker').Worker;
+var mvelo = require('../data/common/ui/mvelo').mvelo;
+var CWorker = require('./web-worker').Worker;
 
 mvelo.ffa = true;
 mvelo.crx = false;

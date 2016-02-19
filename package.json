@@ -15,9 +15,9 @@
   "license": "AGPL",
   "readmeFilename": "Readme.md",
   "dependencies": {
-    "mailreader": "~0.4.0",
-    "mailbuild": "~0.3.7",
-    "mimefuncs": "mailvelope/mimefuncs#v0.3.9m"
+    "mailreader": "~1.0.0",
+    "emailjs-mime-builder": "mailvelope/emailjs-mime-builder#v1.0.1m",
+    "emailjs-mime-codec": "mailvelope/emailjs-mime-codec#v1.0.2m"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
@@ -31,7 +31,7 @@
     "grunt-contrib-watch": "~0.5.3",
     "grunt-jscs": "~1.1.0",
     "grunt-jsdoc": "^0.5.7",
-    "grunt-mozilla-addon-sdk": "~0.3.2"
+    "grunt-jpm": "~0.1.3"
   },
   "private": true
 }

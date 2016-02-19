@@ -3,7 +3,7 @@
 *.sublime*
 .svn
 bower_components
-node_modules/
+/node_modules/
 tmp/
 build/
 apidoc/
