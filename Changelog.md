@@ -1,6 +1,13 @@
 Mailvelope Changelog
 ====================
 
+v1.3.6
+-------
+__Feb. 24, 2016__
+
+  * Update to latest email.js components
+  * Port Firefox add-on to jpm build tool
+
 v1.3.5
 -------
 __Feb. 16, 2016__
