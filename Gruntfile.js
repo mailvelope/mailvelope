@@ -88,12 +88,14 @@ module.exports = function(grunt) {
     },
 
     copy: {
-      jquery: {
-        src: 'bower_components/jquery/index.js',
-        dest: 'build/common/dep/jquery.min.js'
-      },
       vendor: {
         files: [
+          {
+            expand: true,
+            flatten: true,
+            src: 'bower_components/jquery/dist/jquery.min.js',
+            dest: 'build/common/dep/'
+          },
           {
             expand: true,
             cwd: 'bower_components/bootstrap/dist/',
@@ -403,7 +405,7 @@ module.exports = function(grunt) {
   grunt.registerTask('copy_common', ['copy:vendor', 'copy:common', 'replace:bootstrap', 'replace:openpgp_ff']);
   grunt.registerTask('final_assembly', ['copy:plugins', 'copy:common_browser', 'copy:locale_firefox', 'copy:dep']);
 
-  grunt.registerTask('default', ['clean', 'jshint', 'jscs', 'copy:jquery', 'concat', 'copy_common', 'final_assembly']);
-  grunt.registerTask('nightly', ['clean', 'jshint', 'jscs', 'copy:jquery', 'concat', 'copy_common', 'replace:build_version', 'final_assembly']);
+  grunt.registerTask('default', ['clean', 'jshint', 'jscs', 'concat', 'copy_common', 'final_assembly']);
+  grunt.registerTask('nightly', ['clean', 'jshint', 'jscs', 'concat', 'copy_common', 'replace:build_version', 'final_assembly']);
 
 };
