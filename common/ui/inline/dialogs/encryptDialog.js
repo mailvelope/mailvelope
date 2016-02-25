@@ -54,6 +54,7 @@ var mvelo = mvelo || null;
     $('#addBtn').click(onAdd);
     $('#deleteBtn').click(onDelete);
     $('#keyDialog').fadeIn('fast');
+    $('#keySelect').select2(); //Added code
     // align width
     $.setEqualWidth($('#okBtn'), $('#cancelBtn'));
     $.setEqualWidth($('#addBtn'), $('#deleteBtn'));
