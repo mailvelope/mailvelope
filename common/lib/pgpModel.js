@@ -33,6 +33,7 @@ define(function(require, exports, module) {
   var keyringSync = require('./keyringSync');
   var trustKey = require('./trustKey');
   var sub = require('./controller/sub.controller');
+  var unlockQueue = new mvelo.util.PromiseQueue();
 
   var watchListBuffer = null;
 
@@ -492,7 +493,7 @@ define(function(require, exports, module) {
       return readMessage(armored);
     })
     .then(function(message) {
-      return sub.factory.get('pwdDialog').unlockKey(message);
+      return unlockQueue.push(sub.factory.get('pwdDialog'), 'unlockKey', [message]);
     })
     .then(function(message) {
       return openpgp.getWorker().decryptMessage(message.key, message.message);

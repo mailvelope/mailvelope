@@ -360,6 +360,41 @@ mvelo.util.mapError = function(error) {
   return { message: error.message, code: error.code  || 'INTERNAL_ERROR' };
 };
 
+mvelo.util.PromiseQueue = function() {
+  this.queue = [];
+};
+
+mvelo.util.PromiseQueue.prototype.push = function(thisArg, method, args) {
+  var that = this;
+  return new Promise(function(resolve, reject) {
+    that.queue.push({resolve: resolve, reject: reject, thisArg: thisArg, method: method, args: args});
+    if (that.queue.length === 1) {
+      that._next();
+    }
+  });
+};
+
+mvelo.util.PromiseQueue.prototype._next = function() {
+  if (this.queue.length === 0) {
+    return;
+  }
+  var that = this;
+  var nextEntry = this.queue[0];
+  mvelo.util.setTimeout(function() {
+    nextEntry.thisArg[nextEntry.method].apply(nextEntry.thisArg, nextEntry.args)
+    .then(function(result) {
+      nextEntry.resolve(result);
+    })
+    .catch(function(error) {
+      nextEntry.reject(error);
+    })
+    .then(function() {
+      that.queue.shift();
+      that._next();
+    });
+  }, 0);
+};
+
 if (typeof exports !== 'undefined') {
   exports.mvelo = mvelo;
 }

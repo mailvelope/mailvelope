@@ -25,7 +25,6 @@ define(function(require, exports, module) {
   var defaults = require('../defaults');
   var prefs = require('../prefs');
   var sub = require('./sub.controller');
-  var openpgp = require('openpgp');
   var api = require('./api.controller');
   var uiLog = require('../uiLog');
 
