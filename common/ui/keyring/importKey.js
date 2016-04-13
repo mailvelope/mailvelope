@@ -25,12 +25,16 @@ var mvelo = mvelo || null;
   var publicKeyRegex = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
   var privateKeyRegex = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END PGP PRIVATE KEY BLOCK-----/g;
 
+  var KEY_ID_REGEX = /^([0-9a-f]{8}|[0-9a-f]{16}|[0-9a-f]{40})$/i;
+  var HKP_SERVER_BASE_URL = 'https://keyserver.ubuntu.com';
+
   options.registerL10nMessages([
     "key_import_error",
     "key_import_invalid_text",
     "key_import_exception",
     "alert_header_warning",
-    "alert_header_success"
+    "alert_header_success",
+    "key_import_hkp_search_ph"
   ]);
 
   function init() {
@@ -45,6 +49,16 @@ var mvelo = mvelo || null;
     $('#impKeyClear').click(onClear);
     $('#impKeyAnother').click(onAnother);
     $('#impKeyFilepath').change(onChangeFile);
+
+    $('#keySearchInput').attr('placeholder', options.l10n.key_import_hkp_search_ph);
+    $('#keySearchForm').submit(onSearchKey);
+  }
+
+  function onSearchKey() {
+    var q = $('#keySearchInput').val();
+    q = KEY_ID_REGEX.test(q) ? ('0x' + q) : q; // prepend '0x' to query for key IDs
+    var url = HKP_SERVER_BASE_URL + '/pks/lookup?op=index&search=' + q;
+    window.open(url);
   }
 
   function onImportKey(callback) {

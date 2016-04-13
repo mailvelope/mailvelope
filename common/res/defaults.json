@@ -173,6 +173,17 @@
           "api": true
         }
       ]
+    },
+    {
+      "active": true,
+      "site": "HKP Key Server",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.keyserver.ubuntu.com",
+          "api": false
+        }
+      ]
     }
   ],
   "preferences": {

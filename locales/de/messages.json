@@ -451,6 +451,18 @@
     "message": "Bitte eine Schlüsseltextdatei zum Importieren auswählen",
     "description": "File selection button label."
   },
+  "key_import_hkp_search": {
+    "message": "Öffentlichen Schlüssel suchen:",
+    "decryption": "Key search input."
+  },
+  "key_import_hkp_search_btn": {
+    "message": "Suchen",
+    "decryption": "Key search input button."
+  },
+  "key_import_hkp_search_ph": {
+    "message": "Nach Name, Email Adresse, oder Schlüssel ID",
+    "decryption": "Key search input button."
+  },
   "key_import_invalid_text": {
     "message": "Kein gültiger Schlüsseltext gefunden",
     "description": "Import error alert."
