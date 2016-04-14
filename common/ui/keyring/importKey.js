@@ -58,7 +58,7 @@ var mvelo = mvelo || null;
     var q = $('#keySearchInput').val();
     q = KEY_ID_REGEX.test(q) ? ('0x' + q) : q; // prepend '0x' to query for key IDs
     var url = HKP_SERVER_BASE_URL + '/pks/lookup?op=index&search=' + q;
-    window.open(url);
+    options.openTab(url);
   }
 
   function onImportKey(callback) {

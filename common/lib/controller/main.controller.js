@@ -145,11 +145,11 @@ define(function(require, exports, module) {
         reloadFrames();
         prefs.update({main_active: false});
         break;
-      case 'open-popup':
-        mvelo.windows.openPopup(request.url);
-        break;
       case 'get-all-key-userid':
         sendResponse({result: keyring.getAllKeyUserId()});
+        break;
+      case 'open-tab':
+        mvelo.tabs.create(request.url);
         break;
       default:
         console.log('unknown event:', request);

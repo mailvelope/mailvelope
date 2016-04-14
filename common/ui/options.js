@@ -406,6 +406,25 @@ var options = {};
     });
   }
 
+  function openTab(url) {
+    return send({
+      event: 'open-tab',
+      url: url
+    });
+  }
+
+  function send(options) {
+    return new Promise(function(resolve, reject) {
+      mvelo.extension.sendMessage(options, function(data) {
+        if (data.error) {
+          reject(data.error);
+        } else {
+          resolve(data.result);
+        }
+      });
+    });
+  }
+
   exports.reloadOptions = reloadOptions;
   exports.getAllKeyringAttr = getAllKeyringAttr;
   exports.getAllKeyUserId = getAllKeyUserId;
@@ -415,6 +434,7 @@ var options = {};
   exports.getL10nMessages = getL10nMessages;
   exports.registerL10nMessages = registerL10nMessages;
   exports.keyringId = keyringId;
+  exports.openTab = openTab;
 
   exports.event = event;
   exports.l10n = l10n;
