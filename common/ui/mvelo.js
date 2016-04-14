@@ -119,10 +119,13 @@ mvelo.l10n = mvelo.l10n || mvelo.crx && {
     });
     callback(result);
   },
-  localizeHTML: function(l10n) {
+  localizeHTML: function(l10n, ids) {
     $('[data-l10n-id]').each(function() {
       var jqElement = $(this);
       var id = jqElement.data('l10n-id');
+      if (ids && ids.indexOf(id) === -1) {
+        return;
+      }
       var text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id ;
       jqElement.text(text);
     });

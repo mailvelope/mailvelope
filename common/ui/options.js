@@ -33,6 +33,11 @@ var options = {};
   var keyringId = null;
   var demailSuffix = 'de-mail.de';
 
+  registerL10nMessages([
+    'keygrid_user_email',
+    'key_gen_demail'
+  ]);
+
   function init() {
     if (document.body.dataset.mvelo) {
       return;
@@ -41,158 +46,176 @@ var options = {};
     initMessageListener();
 
     mvelo.appendTpl($('body'), mvelo.extension.getURL('common/ui/settings/tpl/main.html'))
-      .then(function() {
-        window.Promise.all([
-          mvelo.appendTpl($('#general'), mvelo.extension.getURL('common/ui/settings/tpl/general.html')),
-          mvelo.appendTpl($('#security'), mvelo.extension.getURL('common/ui/settings/tpl/security.html')),
-          mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('common/ui/settings/tpl/watchList.html')),
-          mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('common/ui/settings/tpl/watchListEditor.html')),
-          mvelo.appendTpl($('#securityLog'), mvelo.extension.getURL('common/ui/settings/tpl/securityLog.html')),
-          mvelo.appendTpl($('#displayKeys'), mvelo.extension.getURL('common/ui/keyring/tpl/displayKeys.html')),
-          mvelo.appendTpl($('#displayKeys'), mvelo.extension.getURL('common/ui/keyring/tpl/keyEditor.html')),
-          mvelo.appendTpl($('#importKey'), mvelo.extension.getURL('common/ui/keyring/tpl/importKey.html')),
-          mvelo.appendTpl($('#exportsKey'), mvelo.extension.getURL('common/ui/keyring/tpl/exportKeys.html')),
-          mvelo.appendTpl($('#setupProvider'), mvelo.extension.getURL('common/ui/keyring/tpl/setupProvider.html')),
-          mvelo.appendTpl($('#generateKey'), mvelo.extension.getURL('common/ui/keyring/tpl/generateKey.html')),
-          mvelo.appendTpl($('#encrypting'), mvelo.extension.getURL('common/ui/fileEncrypt/encrypt.html'))
-
-        ]).then(initUI);
-      });
+    .then(function() {
+      // load all html templates into the DOM
+      return window.Promise.all([
+        mvelo.appendTpl($('#general'), mvelo.extension.getURL('common/ui/settings/tpl/general.html')),
+        mvelo.appendTpl($('#security'), mvelo.extension.getURL('common/ui/settings/tpl/security.html')),
+        mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('common/ui/settings/tpl/watchList.html')),
+        mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('common/ui/settings/tpl/watchListEditor.html')),
+        mvelo.appendTpl($('#securityLog'), mvelo.extension.getURL('common/ui/settings/tpl/securityLog.html')),
+        mvelo.appendTpl($('#displayKeys'), mvelo.extension.getURL('common/ui/keyring/tpl/displayKeys.html')),
+        mvelo.appendTpl($('#displayKeys'), mvelo.extension.getURL('common/ui/keyring/tpl/keyEditor.html')),
+        mvelo.appendTpl($('#importKey'), mvelo.extension.getURL('common/ui/keyring/tpl/importKey.html')),
+        mvelo.appendTpl($('#exportsKey'), mvelo.extension.getURL('common/ui/keyring/tpl/exportKeys.html')),
+        mvelo.appendTpl($('#setupProvider'), mvelo.extension.getURL('common/ui/keyring/tpl/setupProvider.html')),
+        mvelo.appendTpl($('#generateKey'), mvelo.extension.getURL('common/ui/keyring/tpl/generateKey.html')),
+        mvelo.appendTpl($('#encrypting'), mvelo.extension.getURL('common/ui/fileEncrypt/encrypt.html'))
+      ]);
+    })
+    .then(function() {
+      // load language strings from json files
+      return getL10nMessages(Object.keys(l10n));
+    })
+    .then(function(localStrings) {
+      // set language strings globally
+      exports.l10n = l10n = localStrings;
+      // set localized strings
+      mvelo.l10n.localizeHTML();
+    })
+    .then(initUI)
+    .then(function() {
+      // fire ready event for sub views to listen to
+      event.triggerHandler('ready');
+    });
   }
 
+  /**
+   * Is executed once after all templates hasve been loaded
+   */
   function initUI() {
-    mvelo.extension.sendMessage({
-      event: 'get-version'
-    }, function(version) {
-      $('#version').text('v' + version);
+    return new Promise(function(resolve) {
+      mvelo.extension.sendMessage({
+        event: 'get-version'
+      }, function(version) {
+        $('#version').text('v' + version);
+      });
+      mvelo.extension.sendMessage({event: 'get-active-keyring'}, resolve);
+    })
+    .then(function(data) {
+      return initKeyRing(data);
+    })
+    .then(function() {
+      return options.keyring('getPrivateKeys');
+    })
+    .then(function(privateKeys) {
+      return showSetupView(privateKeys);
+    })
+    .then(function() {
+      return options.getAllKeyringAttr();
+    })
+    .then(function(keyRingAttr) {
+      return switchOptionsUI(keyRingAttr);
     });
+  }
 
+  function initKeyRing(data) {
     var qs = jQuery.parseQuerystring();
+    keyringId = data || mvelo.LOCAL_KEYRING_ID;
+    if (qs.hasOwnProperty('krid')) {
+      keyringId = decodeURIComponent(qs.krid);
+    }
 
-    mvelo.extension.sendMessage({event: 'get-active-keyring'}, function(data) {
-      keyringId = data || mvelo.LOCAL_KEYRING_ID;
-      if (qs.hasOwnProperty('krid')) {
-        keyringId = decodeURIComponent(qs.krid);
-        if (keyringId.indexOf(demailSuffix) > 3) {
-          $('#genKeyEmail').attr('disabled', 'disabled');
-          $('#genKeyEmailLabel').attr('data-l10n-id', 'key_gen_demail');
-        }
-      }
+    setKeyRing(keyringId);
+    setKeyGenDefaults(qs);
+  }
 
-      setKeyRing(keyringId);
-      setKeyGenDefaults(qs);
+  function showSetupView(privateKeys) {
+    // No private key yet? Navigate to setup tab
+    if (!privateKeys.length) {
+      $('.keyring_setup_message').addClass('active');
 
-      // No private key yet? Navigate to setup tab
-      options.keyring('getPrivateKeys')
-        .then(function(result) {
-          if (!result.length) {
-            $('.keyring_setup_message').addClass('active');
+      $('#setupProviderButton')
+        .tab('show') // Activate setup tab
+        .addClass('active')
+        .siblings('a.list-group-item').removeClass('active') // Activate setup navigation
+      ;
+    } else {
+      $('#displayKeysButton')
+        .tab('show') // Activate display keys tab
+        .addClass('active')
+        .siblings('a.list-group-item').removeClass('active') // Activate display keys navigation
+      ;
+      $('.keyring_setup_message').removeClass('active');
+    }
 
-            $('#setupProviderButton')
-              .tab('show') // Activate setup tab
-              .addClass('active')
-              .siblings('a.list-group-item').removeClass('active') // Activate setup navigation
-            ;
-          } else {
-            $('#displayKeysButton')
-              .tab('show') // Activate display keys tab
-              .addClass('active')
-              .siblings('a.list-group-item').removeClass('active') // Activate display keys navigation
-            ;
-            $('.keyring_setup_message').removeClass('active');
-          }
+    mvelo.util.showSecurityBackground();
 
-          registerL10nMessages([
-            'keygrid_user_email',
-            'key_gen_demail'
-          ]);
+    $keyringList = $('#keyringList');
+    if (keyringTmpl === undefined) {
+      keyringTmpl = $keyringList.html();
+      $keyringList.empty();
+    }
 
-          mvelo.l10n.localizeHTML();
-          mvelo.util.showSecurityBackground();
+    // Disable submitting of forms by for example pressing enter
+    $('form').submit(function(e) { e.preventDefault(); });
 
-          $keyringList = $('#keyringList');
-          if (keyringTmpl === undefined) {
-            keyringTmpl = $keyringList.html();
-            $keyringList.empty();
-          }
-
-          // Disable submitting of forms by for example pressing enter
-          $('form').submit(function(e) { e.preventDefault(); });
-
-          // Enabling selection of the elements in settings navigation
-          $('.list-group-item').on('click', function() {
-            window.location.hash = $(this).attr('href');
-            var self = $(this);
-            if (!self.hasClass('disabled')) {
-              self.parent().find('.list-group-item').each(function() {
-                $(this).removeClass('active');
-              });
-              self.addClass('active');
-            }
-          });
-
-          // Activate tab after switch from links to tabs outside
-          $('[data-toggle="tab"]:not(.list-group-item)').on('click', function() {
-            window.location.hash = $(this).attr('href');
-            var id = $(this).attr('href'),
-              tabTrigger = $('.list-group a[href="' + id + '"]');
-
-            if (id && tabTrigger) {
-              tabTrigger.siblings('a.list-group-item').removeClass('active');
-              tabTrigger.addClass('active');
-            }
-          });
-
-          options.getAllKeyringAttr()
-            .then(function(result) {
-              initKeyringSelection(result);
-
-              switch (window.location.hash) {
-                case '#securityLog':
-                  $('#settingsButton').tab('show');
-                  options.startSecurityLogMonitoring();
-                  break;
-                case '#general':
-                case '#security':
-                case '#watchList':
-                case '#backup':
-                  $('#settingsButton').tab('show');
-                  activateTabButton(window.location.hash);
-                  break;
-                case '#displayKeys':
-                case '#importKey':
-                case '#exportKeys':
-                case '#generateKey':
-                case '#setupProvider':
-                  $('#keyringButton').tab('show');
-                  activateTabButton(window.location.hash);
-                  break;
-                case '#encrypting':
-                case '#file_encrypting':
-                case '#file_decrypting':
-                  $('#encryptingButton').tab('show');
-                  activateTabButton(window.location.hash);
-                  break;
-                default:
-                  if (window.location.hash == '#settings') {
-                    $('#settingsButton').tab('show');
-                  } else if (window.location.hash == '#keyring') {
-                    $('#keyringButton').tab('show');
-                  } else {
-                    //console.log((window.location.hash) ? window.location.hash : 'no hash found');
-                    window.location.hash = 'displayKeys';
-                    $('#keyringButton').tab('show');
-                  }
-              }
-              activateTabButton(window.location.hash);
-
-              getL10nMessages(Object.keys(l10n), function(result) {
-                exports.l10n = result;
-                event.triggerHandler('ready');
-              });
-            });
+    // Enabling selection of the elements in settings navigation
+    $('.list-group-item').on('click', function() {
+      window.location.hash = $(this).attr('href');
+      var self = $(this);
+      if (!self.hasClass('disabled')) {
+        self.parent().find('.list-group-item').each(function() {
+          $(this).removeClass('active');
         });
+        self.addClass('active');
+      }
     });
+
+    // Activate tab after switch from links to tabs outside
+    $('[data-toggle="tab"]:not(.list-group-item)').on('click', function() {
+      window.location.hash = $(this).attr('href');
+      var id = $(this).attr('href'),
+        tabTrigger = $('.list-group a[href="' + id + '"]');
+
+      if (id && tabTrigger) {
+        tabTrigger.siblings('a.list-group-item').removeClass('active');
+        tabTrigger.addClass('active');
+      }
+    });
+  }
+
+  function switchOptionsUI(keyRingAttr) {
+    initKeyringSelection(keyRingAttr);
+
+    switch (window.location.hash) {
+      case '#securityLog':
+        $('#settingsButton').tab('show');
+        options.startSecurityLogMonitoring();
+        break;
+      case '#general':
+      case '#security':
+      case '#watchList':
+      case '#backup':
+        $('#settingsButton').tab('show');
+        activateTabButton(window.location.hash);
+        break;
+      case '#displayKeys':
+      case '#importKey':
+      case '#exportKeys':
+      case '#generateKey':
+      case '#setupProvider':
+        $('#keyringButton').tab('show');
+        activateTabButton(window.location.hash);
+        break;
+      case '#encrypting':
+      case '#file_encrypting':
+      case '#file_decrypting':
+        $('#encryptingButton').tab('show');
+        activateTabButton(window.location.hash);
+        break;
+      default:
+        if (window.location.hash == '#settings') {
+          $('#settingsButton').tab('show');
+        } else if (window.location.hash == '#keyring') {
+          $('#keyringButton').tab('show');
+        } else {
+          //console.log((window.location.hash) ? window.location.hash : 'no hash found');
+          window.location.hash = 'displayKeys';
+          $('#keyringButton').tab('show');
+        }
+    }
+    activateTabButton(window.location.hash);
   }
 
   function setKeyGenDefaults(qs) {
@@ -290,13 +313,18 @@ var options = {};
     } else {
       $logoArea.css('background-image', 'none');
     }
+
+    // Configure DE-Mail specific UI
+    if (keyringId.indexOf(demailSuffix) !== -1) {
+      $('#genKeyEmail').attr('disabled', 'disabled');
+      $('#genKeyEmailLabel').text(l10n.key_gen_demail);
+      $('#keySearchForm').hide();
+    }
   }
 
   function switchKeyring() {
     var keyringId = $(this).attr('data-keyringid');
     setKeyRing(keyringId);
-
-    $('#genKeyEmailLabel').removeAttr('data-l10n-id');
 
     mvelo.util.showLoadingAnimation();
     options.event.triggerHandler('keygrid-reload');
@@ -384,13 +412,15 @@ var options = {};
     copyFrom.remove();
   }
 
-  function getL10nMessages(ids, callback) {
-    mvelo.l10n.getMessages(ids, callback);
+  function getL10nMessages(ids) {
+    return new Promise(function(resolve) {
+      mvelo.l10n.getMessages(ids, resolve);
+    });
   }
 
   function registerL10nMessages(ids) {
     ids.forEach(function(id) {
-      exports.l10n[id] = true;
+      l10n[id] = true;
     });
   }
 

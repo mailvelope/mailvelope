@@ -96,9 +96,12 @@ if (self.options.expose_messaging) {
     }, callback);
   }
 
-  function localizeHTML(l10n) {
+  function localizeHTML(l10n, ids) {
     if (l10n) {
       [].forEach.call(document.querySelectorAll('[data-l10n-id]'), function(element) {
+        if (ids && ids.indexOf(element.dataset.l10nId) === -1) {
+          return;
+        }
         element.textContent = l10n[element.dataset.l10nId];
       });
       [].forEach.call(document.querySelectorAll('[data-l10n-title-id]'), function(element) {
@@ -106,6 +109,9 @@ if (self.options.expose_messaging) {
       });
     } else {
       l10n = [].map.call(document.querySelectorAll('[data-l10n-id]'), function(element) {
+        if (ids && ids.indexOf(element.dataset.l10nId) === -1) {
+          return;
+        }
         return element.dataset.l10nId;
       });
       [].map.call(document.querySelectorAll('[data-l10n-title-id]'), function(element) {
