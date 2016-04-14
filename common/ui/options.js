@@ -349,18 +349,6 @@ var options = {};
     document.location.reload();
   }
 
-  function sendMessage(obj) {
-    return new Promise(function(resolve, reject) {
-      mvelo.extension.sendMessage(obj, function(data) {
-        if (data.error) {
-          reject(data.error);
-        } else {
-          resolve(data.result);
-        }
-      });
-    });
-  }
-
   function getAllKeyringAttr() {
     return sendMessage({ event: 'get-all-keyring-attr'});
   }
@@ -407,13 +395,10 @@ var options = {};
   }
 
   function openTab(url) {
-    return send({
-      event: 'open-tab',
-      url: url
-    });
+    return sendMessage({event: 'open-tab', url: url});
   }
 
-  function send(options) {
+  function sendMessage(options) {
     return new Promise(function(resolve, reject) {
       mvelo.extension.sendMessage(options, function(data) {
         if (data.error) {
