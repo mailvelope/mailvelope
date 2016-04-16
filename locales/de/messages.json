@@ -1,1256 +1,1252 @@
 {
-    "options_settings": {
-        "message": "Einstellungen",
-        "description": "Options header: Settings."
-    },
-    "security_cache_help": {
-        "message": "Muss eine Zahl zwischen 1 und 999 sein",
-        "description": "Help text for cache time."
-    },
-    "key_gen_wait_info": {
-        "message": "Bitte warten, die Schlüsselerstellung kann mehrere Minuten dauern, abhängig von Faktoren wie der Schlüsselgröße.",
-        "description": "Wait dialog info message"
-    },
-    "settings_security_log": {
-        "message": "Sicherheitsprotokoll",
-        "description": "Tab of options to display security log."
-    },
-    "security_log_empty": {
-        "message": "Keine Einträge",
-        "description": "Message when the security log is empty"
-    },
-    "security_log_timestamp": {
-        "message": "Zeitstempel",
-        "description": "Title of the timestamp column of the security log table."
-    },
-    "security_log_action": {
-        "message": "Aktion",
-        "description": "Title of the action column of the security log table."
-    },
-    "security_log_source": {
-        "message": "Quelle",
-        "description": "Title of the source column of the security log table."
-    },
-    "security_log_text": {
-        "message": "Im Sicherheitsprotokoll werden Benutzeraktionen in integrierten Komponenten von Mailvelope angezeigt.",
-        "description": "Text explaining the purpose of the security log"
-    },
-    "security_log_editor": {
-        "message": "PGP-Editor",
-        "description": "Message editor container as an event source"
-    },
-    "security_log_key_generator": {
-        "message": "Schlüsselgenerator",
-        "description": "Key generator container as an event source"
-    },
-    "security_log_key_backup": {
-        "message": "Key Backup",
-        "description": "Message keybackup container as an event source"
-    },
-    "security_log_email_viewer": {
-        "message": "Entschlüsselte PGP-E-Mail",
-        "description": "Email decryption container as an event source"
-    },
-    "security_log_password_dialog": {
-        "message": "Passwort Dialog",
-        "description": "Password dialog as an event source"
-    },
-    "security_log_import_dialog": {
-        "message": "Schlüssel Import Dialog",
-        "description": "Key import dialog as an event source"
-    },
-    "security_log_verify_dialog": {
-        "message": "Verifizieren Dialog",
-        "description": "Verify dialog as an event source"
-    },
-    "security_log_sign_dialog": {
-        "message": "Signieren Dialog",
-        "description": "Sign dialog as an event source"
-    },
-    "security_log_encrypt_dialog": {
-        "message": "Verschlüsseln Dialog",
-        "description": "Encrypt dialog as an event source"
-    },
-    "security_log_textarea_input": {
-        "message": "Eingabeereignis im Textfeld",
-        "description": "A click in the text area as an event type"
-    },
-    "security_log_textarea_select": {
-        "message": "Auswahlereignis im Textfeld",
-        "description": "Selection of the text area as an event type"
-    },
-    "security_log_textarea_click": {
-        "message": "Klickereignis im Textfeld",
-        "description": "A click in the text area as an event type"
-    },
-    "security_log_text_input": {
-        "message": "Eingabeereignis im Textfeld",
-        "description": "A click in the text area as an event type"
-    },
-    "security_log_password_input": {
-        "message": "Eingabeereignis im Passwortfeld",
-        "description": ""
-    },
-    "security_log_restore_backup_click": {
-        "message": "Klickereignis im Wiederherstellungsdialog",
-        "description": ""
-    },
-    "security_log_password_click": {
-        "message": "Klickereignis im Passwortdialog",
-        "description": ""
-    },
-    "security_log_attachment_added": {
-        "message": "Anhang hinzugefügt",
-        "description": "Attachment added as an event type"
-    },
-    "security_log_attachment_download": {
-        "message": "Anhang heruntergeladen",
-        "description": "Attachment downloaded as an event source"
-    },
-    "security_log_add_attachment": {
-        "message": "Anhang hinzufügen ausgewählt",
-        "description": "A click on the attachment upload button as an event type"
-    },
-    "security_log_remove_attachment": {
-        "message": "Anhang entfernt",
-        "description": "A click on the attachment remove button as event type"
-    },
-    "security_log_backup_create": {
-        "message": "Klickereignis für Backup erzeugen",
-        "description": ""
-    },
-    "security_log_backup_restore": {
-        "message": "Klickereignis für Backup wiederherstellen",
-        "description": ""
-    },
-    "security_log_backup_code_input": {
-        "message": "Eingabeereignis in den Backup-Code-Feldern",
-        "description": ""
-    },
-    "security_log_dialog_ok": {
-        "message": "Klickereignis auf Bestätigen im Dialog",
-        "description": ""
-    },
-    "security_log_dialog_cancel": {
-        "message": "Klickereignis auf Abbruchs im Dialog",
-        "description": ""
-    },
-    "security_log_dialog_undo": {
-        "message": "Klickereignis auf Rückgängig im Dialog",
-        "description": ""
-    },
-    "security_log_dialog_transfer": {
-        "message": "Klickereignis auf Übertragen im Dialog",
-        "description": ""
-    },
-    "security_log_dialog_sign": {
-        "message": "Klickereignis auf Signieren im Dialog",
-        "description": ""
-    },
-    "security_log_dialog_encrypt": {
-        "message": "Klickereignis auf Verschlüsseln im Dialog",
-        "description": ""
-    },
-    "security_log_content_copy": {
-        "message": "Kopierereignis im Dialog",
-        "description": ""
-    },
-    "security_log_signature_modal_open": {
-        "message": "Klickereignis zum Öffnen des Signaturdialoges",
-        "description": ""
-    },
-    "security_log_signature_modal_close": {
-        "message": "Klickereignis auf Schliessen im Signaturdialog",
-        "description": ""
-    },
-    "security_log_encryption_operation": {
-        "message": "Nachricht wurde verschlüsselt für: $1",
-        "description": ""
-    },
-    "message_read_error": {
-        "message": "Diese verschlüsselte Nachricht konnte nicht gelesen werden: $1",
-        "description": "Message read error message: $1: error message."
-    },
-    "keygrid_all_keys": {
-        "message": "Alle",
-        "description": "Selection of key type."
-    },
-    "security_display_inline": {
-        "message": "Auf der Seite des E-Mail-Anbieters.",
-        "description": "Decrypted message display option"
-    },
-    "verify_result_error": {
-        "message": "Falsche Signatur von",
-        "description": "Verfiy signature error. Wrong signature of [userid]."
-    },
-    "pwd_dialog_header": {
-        "message": "Schlüssel-Passwort eingeben",
-        "description": "Header of the password dialog."
-    },
-    "waiting_dialog_prepare_email": {
-        "message": "Nachricht wird vorbereitet …",
-        "description": "Message in the waiting dialog for quoting email"
-    },
-    "keygrid_creation_date_short": {
-        "message": "Erstellt",
-        "description": "Short creation date of a PGP key. Max. width: 90px"
-    },
-    "security_display_decrypted": {
-        "message": "Wo werden entschlüsselte Nachrichten angezeigt?",
-        "description": "Label for display options"
-    },
-    "general_primary_key_always": {
-        "message": "Immer den Hauptschlüssel zur Liste der Empfänger hinzufügen (ermöglicht es, gesendete Nachrichten zu entschlüsseln).",
-        "description": "Label for primary private key option."
-    },
-    "security_background_header": {
-        "message": "Sicherheitshintergrund",
-        "description": "Security background header"
-    },
-    "keygrid_user_email": {
-        "message": "E-Mail",
-        "description": "Email address in User ID of a PGP key."
-    },
-    "watchlist_delete_confirmation": {
-        "message": "Wollen Sie diese Seite wirklich von der Liste der E-Mail-Anbieter entfernen?",
-        "description": "Mesage in the watchlist delete confirmation dialog."
-    },
-    "popup_last_activities": {
-        "message": "Letzte Aktivitäten:",
-        "description": "Title text for the last activities area"
-    },
-    "key_export_header": {
-        "message": "Schlüssel exportieren",
-        "description": "Export key dialog header."
-    },
-    "key_import_private_exists": {
-        "message": "Der private Teilschlüssel des bestehenden öffentlichen Schlüssels $1 des Benutzers $2 wurde in den Schlüsselbund importiert",
-        "description": "Import success message: $1: keyid, $2: userid."
-    },
-    "upload_attachment": {
-        "message": "Anhang hinzufügen",
-        "description": "Text in the upload attachment button of the message editor dialog"
-    },
-    "verify_error": {
-        "message": "Diese Nachricht konnte nicht überprüft werden: $1",
-        "description": "Error during verification process."
-    },
-    "pwd_dialog_wrong_pwd": {
-        "message": "Falsches Passwort",
-        "description": "Password error message."
-    },
-    "security_cache_header": {
-        "message": "Passwörter für diese Browsersitzung speichern?",
-        "description": "Password cache header"
-    },
-    "popup_actived_checkbox_tooltip": {
-        "message": "Externen Editor aktivieren/deaktivieren",
-        "description": "Text of the checkbox for activating/deactivating the plugin"
-    },
-    "save_attachment_as_message": {
-        "message": "Wählen Sie den Ordner, in dem Sie den Anhang speichern möchten.",
-        "description": "Message in the attachment save dialog"
-    },
-    "pwd_dialog_keyid_tooltip": {
-        "message": "Die Kennung Ihres Schlüssels",
-        "description": "Tooltip explaining the key id."
-    },
-    "alert_header_success": {
-        "message": "Erfolg!",
-        "description": "Alert header of category success."
-    },
-    "keygrid_public_keys": {
-        "message": "Öffentliche Schlüssel",
-        "description": "Selection of key type."
-    },
-    "editor_sign_button": {
-        "message": "Signieren",
-        "description": "Sign button."
-    },
-    "key_gen_success": {
-        "message": "Neuer Schlüssel erstellt und in den Schlüsselbund importiert",
-        "description": "Key generation success message"
-    },
-    "key_gen_never": {
-        "message": "nie",
-        "description": "Key expires after time range"
-    },
-    "general_primary_key_label": {
-        "message": "Privater Hauptschlüssel",
-        "description": "Label for primary private key option."
-    },
-    "clear_localstorage_confirm_title": {
-        "message": "Bestätigen",
-        "description": "The title of the confirmation dialog."
-    },
-    "key_import_file_select": {
-        "message": "Bitte eine Schlüsseltextdatei zum Importieren auswählen",
-        "description": "File selection button label."
-    },
-    "watchlist_title_frame": {
-        "message": "Domänenmuster",
-        "description": "Web domain URL match pattern of site in watchlist."
-    },
-    "keygrid_key_length": {
-        "message": "Länge",
-        "description": "Key length of a PGP key."
-    },
-    "keygrid_private_keys": {
-        "message": "Private Schlüssel",
-        "description": "Selection of key type."
-    },
-    "keyring_display_keys": {
-        "message": "Schlüssel anzeigen",
-        "description": "Tab of keyring to display keys."
-    },
-    "security_background_preview": {
-        "message": "Vorschau",
-        "description": "Preview"
-    },
-    "security_background_coloring": {
-        "message": "Farbe",
-        "description": "Coloring"
-    },
-    "popup_options": {
-        "message": "Optionen",
-        "description": "Open options dialog."
-    },
-    "security_background_text": {
-        "message": "Der Sicherheitshintergrund ist Ihr persönlicher Mailvelope-Hintergrund. Er hilft die Veränderung der Benutzerschnittstelle durch Drittanbieterseiten und -anwendungen zu verhindern. Um die Sicherheit zu erhöhen, bitte den persönlichen Hintergrund hier erstellen und ändern.",
-        "description": "Security background text"
-    },
-    "keyring_generate_key": {
-        "message": "Schlüssel erstellen",
-        "description": "Tab of keyring to generate key."
-    },
-    "key_import_error": {
-        "message": "Importfehler.",
-        "description": "Import error alert."
-    },
-    "key_import_multiple_keys": {
-        "message": "Um mehrere Schlüssel zu importieren, einfach alle hier einfügen. Zusätzlicher, die Schlüssel umgebender Text wird ignoriert.",
-        "description": "Info message."
-    },
-    "popup_help": {
-        "message": "Hilfe",
-        "description": "Open help dialog."
-    },
-    "keygrid_subkeyid": {
-        "message": "Kennung",
-        "description": "Subkey ID of a PGP key."
-    },
-    "key_import_dialog_header": {
-        "message": "Schlüssel zu Schlüsselbund hinzufügen",
-        "description": "Key import dialog header."
-    },
-    "key_gen_pwd_match": {
-        "message": "Passwörter stimmen überein",
-        "description": "Passphrase input field status"
-    },
-    "key_import_another": {
-        "message": "Einen anderen importieren …",
-        "description": "Import another key button."
-    },
-    "keygrid_delete": {
-        "message": "Löschen",
-        "description": "Max. 6 characters."
-    },
-    "key_import_public_read": {
-        "message": "Ein öffentlicher Schlüssel konnte nicht gelesen werden: $1",
-        "description": "Import error message. $1: error message"
-    },
-    "watchlist_title_active": {
-        "message": "Aktiv",
-        "description": "Entry in watchlist is active."
-    },
-    "key_gen_pwd": {
-        "message": "Passwort eingeben",
-        "description": "Label for passphrase input field"
-    },
-    "key_gen_error": {
-        "message": "Beim Erstellen des Schlüssels ist ein Fehler aufgetreten",
-        "description": "Key generation error message"
-    },
-    "form_busy": {
-        "message": "Beschäftigt",
-        "description": "Form in busy state."
-    },
-    "keygrid_userid": {
-        "message": "Kennung",
-        "description": "User ID of a PGP key."
-    },
-    "keygrid_algorithm": {
-        "message": "Algorithmus",
-        "description": "Public-key algorithm of a PGP key."
-    },
-    "watchlist_command_cancel": {
-        "message": "Änderungen verwerfen",
-        "description": "Cancel changes in watchlist."
-    },
-    "popup_active_on": {
-        "message": "An",
-        "description": "Activity status of the extension."
-    },
-    "pwd_dialog_cancel": {
-        "message": "Schlüsselentsperrung abgebrochen.",
-        "description": "User canceled key unlock dialog."
-    },
-    "encrypt_dialog_header": {
-        "message": "Verschlüsseln für:",
-        "description": "Header of encrypt dialog."
-    },
-    "keygrid_send_pub_key": {
-        "message": "Öffentlichen Schlüssel per E-Mail versenden",
-        "description": "Export key menu."
-    },
-    "keygrid_export": {
-        "message": "Exportieren",
-        "description": "Export key."
-    },
-    "keyring_public": {
-        "message": "Öffentlich",
-        "description": "public key type"
-    },
-    "keyring_header": {
-        "message": "Schlüsselverwaltung",
-        "description": "Header of the key ring."
-    },
-    "keygrid_userid_signatures": {
-        "message": "Signaturen",
-        "description": "Signatures on User ID of a PGP key."
-    },
-    "form_cancel": {
-        "message": "Abbrechen",
-        "description": "Cancel form button."
-    },
-    "form_close": {
-        "message": "Schließen",
-        "description": "Close form button."
-    },
-    "form_confirm": {
-        "message": "Bestätigen",
-        "description": "Confirm form button."
-    },
-    "keygrid_invalid_userid": {
-        "message": "Ungültige Benutzerkennung",
-        "description": "User ID invalid."
-    },
-    "popup_reload_tooltip": {
-        "message": "Alle Mailvelope-Elemente neu laden",
-        "description": "Reload all Mailvelope UI elements on page."
-    },
-    "keyring_setup_import_key": {
-        "message": "Schlüssel importieren",
-        "description": "Import key"
-    },
-    "keyring_setup_no_keypair": {
-        "message": "Ein Schlüsselpaar wird benötigt, um Nachrichten zu verschlüsseln und zu entschlüsseln, und wenn Sie Ihre Kontakte zu Ende-zu-Ende-verschlüsselter Kommunikation einladen wollen.",
-        "description": "Setup text if no keypair available"
-    },
-    "settings_security_log": {
-        "message": "Sicherheitsprotokoll",
-        "description": "Tab of options to display security log."
-    },
-    "keyring_private": {
-        "message": "Privat",
-        "description": "private key type"
-    },
-    "encrypt_dialog_no_recipient": {
-        "message": "Bitte einen Empfänger hinzufügen.",
-        "description": "Error message if no recipient selected."
-    },
-    "popup_actived_checkbox": {
-        "message": "Aktiviert",
-        "description": "Text of the checkbox for activating/deactivating the plugin"
-    },
-    "general_editor_plain": {
-        "message": "Einfacher Text",
-        "description": "Editor option: plain text."
-    },
-    "clear_localstorage_confirm_message": {
-        "message": "Wollen Sie wirklich alle Ihre PGP-Schlüssel aus diesem Browserprofil löschen?",
-        "description": "The message of the confirmation dialog."
-    },
-    "form_undo": {
-        "message": "Rückgängig",
-        "description": "Undo form button."
-    },
-    "keygrid_key_not_expire": {
-        "message": "Der Schlüssel verfällt nicht",
-        "description": "Expiration date of a PGP key not set."
-    },
-    "popup_reload": {
-        "message": "Neuladen",
-        "description": "Reload all Mailvelope elements on page."
-    },
-    "keygen_dialog_password_placeholder": {
-        "message": "mindestens 4 Zeichen",
-        "description": ""
-    },
-    "form_no": {
-        "message": "Nein",
-        "description": "No form button."
-    },
-    "options_title": {
-        "message": "Mailvelope-Optionen",
-        "description": "Title of options page."
-    },
-    "form_continue": {
-        "message": "Weiter",
-        "description": "Continue form button."
-    },
-    "decrypt_popup_header": {
-        "message": "Nachricht",
-        "description": "Header of decrypt popup."
-    },
-    "keygrid_status_invalid": {
-        "message": "ungültig",
-        "description": "Validity status of a PGP key."
-    },
-    "keyring_public_private": {
-        "message": "Schlüsselpaare",
-        "description": "public and private key types"
-    },
-    "keygen_dialog_confirm_error_unequal": {
-        "message": "Bitte die Eingabe überprüfen.",
-        "description": ""
-    },
-    "keygen_dialog_confirm_success": {
-        "message": "Eingaben sind korrekt.",
-        "description": ""
-    },
-    "keygrid_primary_key": {
-        "message": "Hauptschlüssel",
-        "description": "Main key in the PGP key."
-    },
-    "verify_result_success": {
-        "message": "Signiert von",
-        "description": "Verfiy signature succeeded."
-    },
-    "keygrid_user_ids": {
-        "message": "Benutzerkennungen",
-        "description": "User IDs of a PGP key."
-    },
-    "security_background_button_title": {
-        "message": "Der Sicherheitshintergrund kann im Mailvelope-Optionsbereich angepasst werden",
-        "description": "The tooltip text for the keylock button"
-    },
-    "keyring_setup_no_keypair_heading": {
-        "message": "Dieser Schlüsselbund enthält noch kein Schlüsselpaar.",
-        "description": "Setup heading if no keypair available"
-    },
-    "watchlist_title_scan": {
-        "message": "Status",
-        "description": "Scan status of site in watchlist."
-    },
-    "upload_aborting_warning": {
-        "message": "Dateihochladen wird abgebrochen.",
-        "description": "A warning for the aborting of the file upload."
-    },
-    "waiting_dialog_decryption_failed": {
-        "message": "Entschlüsselung fehlgeschlagen!",
-        "description": "Error message in the waiting dialog after failing to decrypt a message"
-    },
-    "keygen_dialog_confirm": {
-        "message": "Wiederholen",
-        "description": ""
-    },
-    "key_import_textarea": {
-        "message": "Schlüsseltext hier einfügen:",
-        "description": "Key import box."
-    },
-    "watchlist_command_create": {
-        "message": "Neuen Eintrag hinzufügen",
-        "description": "Create entry in watchlist."
-    },
-    "key_gen_name_help": {
-        "message": "Voller Name des Schlüsseleigentümers",
-        "description": "Help text for name field."
-    },
-    "encrypt_error": {
-        "message": "Diese Nachricht konnte nicht verschlüsselt werden: $1",
-        "description": "Error during encryption process."
-    },
-    "popup_actions_current_page": {
-        "message": "Aktueller Tab:",
-        "description": "Title text for the reload and add buttons"
-    },
-    "key_gen_months": {
-        "message": "Monate",
-        "description": "Key expires after time range"
-    },
-    "encrypt_dialog_add": {
-        "message": "Hinzufügen",
-        "description": "Max 6 character."
-    },
-    "alert_invalid_domainmatchpattern_warning": {
-        "message": "Domänen-Übereinstimmungsmuster muss mit * beginnen.",
-        "description": "Alert header of category warning."
-    },
-    "keygrid_status_valid": {
-        "message": "gültig",
-        "description": "Validity status of a PGP key."
-    },
-    "message_no_keys": {
-        "message": "Keine privaten Schlüssel für diese Nachricht gefunden. Erforderliche private Schlüsselkennungen: $1",
-        "description": "Decrypt error message."
-    },
-    "security_cache_off": {
-        "message": "Nein.",
-        "description": "Don't store password."
-    },
-    "keyring_export_keys": {
-        "message": "Schlüssel exportieren",
-        "description": "Tab of keyring to export keys."
-    },
-    "keygrid_signer_name": {
-        "message": "Unterzeichner",
-        "description": "User ID of signer."
-    },
-    "dialog_keyid_label": {
-        "message": "Schlüssel:",
-        "description": "Label for key ID."
-    },
-    "pwd_dialog_cache_pwd": {
-        "message": "Passwort temporär merken",
-        "description": "Checkbox label for remembering of the password."
-    },
-    "popup_remove_page_tooltip": {
-        "message": "Aktuelle Seite von Liste der E-Mail-Anbieter entfernen",
-        "description": "Remove page from watchlist."
-    },
-    "form_import": {
-        "message": "Importieren",
-        "description": "Import form button."
-    },
-    "editor_encrypt_button": {
-        "message": "Verschlüsseln",
-        "description": "Encrypt button."
-    },
-    "key_gen_pwd_reenter": {
-        "message": "Passwort erneut eingeben",
-        "description": "Label for passphrase input field"
-    },
-    "keygrid_user_name": {
-        "message": "Name",
-        "description": "Name in User ID of a PGP key."
-    },
-    "pwd_dialog_pwd_please": {
-        "message": "Bitte Ihr Passwort eingeben",
-        "description": "Placeholder for password."
-    },
-    "keyring_setup_import_key_explanation": {
-        "message": "Haben sie bereits ein Schlüsselpaar auf einem anderen Gerät? Sie können Ihre bestehenden Schlüssel importieren. Einfach das Schlüsselpaar auf dem anderen Gerät exportieren und hier importieren.",
-        "description": "Import key"
-    },
-    "security_display_popup": {
-        "message": "In einem getrennten Fenster von Mailvelope.",
-        "description": "Decrypted message display option"
-    },
-    "key_import_public_update": {
-        "message": "Der öffentliche Schlüssel $1 des Benutzers $2 wurde aktualisiert",
-        "description": "Import success message: $1: keyid, $2: userid."
-    },
-    "form_submit": {
-        "message": "Senden",
-        "description": "Submit form button."
-    },
-    "watchlist_record_title": {
-        "message": "E-Mail-Anbieter",
-        "description": "Title of the watchlist editor dialog."
-    },
-    "key_export_clipboard": {
-        "message": "In die Zwischenablage kopieren",
-        "description": "Copy to clipboard button."
-    },
-    "dialog_popup_close": {
-        "message": "Schließen",
-        "description": "Close decrypt popup."
-    },
-    "verify_result_warning": {
-        "message": "Mit unbekanntem Schlüssel signiert",
-        "description": "Verfiy signature warning."
-    },
-    "alert_header_warning": {
-        "message": "Achtung!",
-        "description": "Alert header of category warning."
-    },
-    "key_gen_key_size": {
-        "message": "Schlüsselgröße",
-        "description": "Advanced key generation settings: Key size"
-    },
-    "key_gen_demail": {
-        "message": "De-Mail-Adresse",
-        "description": "De-Mail address name."
-    },
-    "keygrid_delete_confirmation": {
-        "message": "Sind Sie sicher, dass Sie diesen Schlüssel entfernen möchten?",
-        "description": "Delete confirmation dialog."
-    },
-    "pwd_dialog_title": {
-        "message": "Passworteingabe | Mailvelope",
-        "description": "Title of the password dialog."
-    },
-    "keygrid_subkeys": {
-        "message": "Unterschlüssel",
-        "description": "Subkeys of a PGP key."
-    },
-    "form_clear": {
-        "message": "Leeren",
-        "description": "Clear form button."
-    },
-    "key_gen_another": {
-        "message": "Einen anderen erstellen …",
-        "description": "Key import button"
-    },
-    "popup_remove_page": {
-        "message": "Entfernen",
-        "description": "Remove page from watchlist."
-    },
-    "key_gen_expiration": {
-        "message": "Verfall",
-        "description": "Key expires after time range"
-    },
-    "keygrid_validity_status": {
-        "message": "Status",
-        "description": "Validity status of a PGP key."
-    },
-    "keyring_import_keys": {
-        "message": "Schlüssel importieren",
-        "description": "Tab of keyring to import keys."
-    },
-    "keygen_dialog_prolog": {
-        "message": "Passwort vergeben zum Schutz Ihrer verschlüsselten Kommunikation:",
-        "description": ""
-    },
-    "key_export_create_file": {
-        "message": "Speichern",
-        "description": "Download file button."
-    },
-    "alert_no_domainmatchpattern_warning": {
-        "message": "Mindestens ein Domänen-Übereinstimmungsmuster wird benötigt.",
-        "description": "Alert header of category warning."
-    },
-    "key_import_public_success": {
-        "message": "Der öffentliche Schlüssel $1 des Benutzers $2 wurde in den Schlüsselbund importiert",
-        "description": "Import success message: $1: keyid, $2: userid."
-    },
-    "key_set_as_primary": {
-        "message": "Als Hauptschlüssel einstellen",
-        "description": "Set as primary key for the keyring button"
-    },
-    "keygrid_key_fingerprint": {
-        "message": "Fingerabdruck",
-        "description": "Unique string identifier for a PGP key."
-    },
-    "popup_add_page_tooltip": {
-        "message": "Mailvelope für aktuelle Seite aktivieren",
-        "description": "Add page to watchlist."
-    },
-    "keygrid_sort_type": {
-        "message": "Schlüsseltyp",
-        "description": "Key grid sort selector."
-    },
-    "key_gen_years": {
-        "message": "Jahre",
-        "description": "Key expires after time range"
-    },
-    "editor_blur_warn": {
-        "message": "Achtung. Texteditor hat den Fokus verloren.",
-        "description": "Warning for lost focus."
-    },
-    "header_warning": {
-        "message": "Achtung!",
-        "description": "Header warning."
-    },
-    "keygrid_key_type": {
-        "message": "Typ",
-        "description": "The type of the key."
-    },
-    "keyring_migration_error": {
-        "message": "Fehler bei der Schlüsselmigration",
-        "description": "Tab of keyring to display migration errors."
-    },
-    "security_background_angle": {
-        "message": "Winkel",
-        "description": "Angle"
-    },
-    "key_details_title": {
-        "message": "Schlüsseldetails",
-        "description": "The title of the key details dialog."
-    },
-    "security_cache_time": {
-        "message": "Minuten.",
-        "description": "Store password in memory for $1 minutes."
-    },
-    "settings_watchlist": {
-        "message": "Liste der E-Mail-Anbieter",
-        "description": "Tab of options to display list of supported mail providers."
-    },
-    "general_editor_rich": {
-        "message": "»Rich Text«-Bearbeitung",
-        "description": "Editor option: rich text."
-    },
-    "security_cache_on": {
-        "message": "Ja, im Speicher behalten für",
-        "description": "Store password in memory for $1 minutes."
-    },
-    "options_home": {
-        "message": "Optionen",
-        "description": "Options navigation: Home."
-    },
-    "keygen_dialog_password": {
-        "message": "Schlüsselpasswort",
-        "description": ""
-    },
-    "key_gen_wait_header": {
-        "message": "Schlüssel wird erstellt …",
-        "description": "Wait dialog header"
-    },
-    "watchlist_title_site": {
-        "message": "Seite",
-        "description": "Site in watchlist."
-    },
-    "editor_transfer": {
-        "message": "Übertragen",
-        "description": "Transfer button of editor popup."
-    },
-    "keygrid_display_all_keys": {
-        "message": "Alle Schlüssel anzeigen",
-        "description": "Export key menu."
-    },
-    "watchlist_expose_api": {
-        "message": "API",
-        "description": "Expose API to Webmailer."
-    },
-    "key_export_warning_private": {
-        "message": "Diese Datei enthält auch private Schlüssel.",
-        "description": "Key export warning."
-    },
-    "key_import_invalid_text": {
-        "message": "Kein gültiger Schlüsseltext gefunden",
-        "description": "Import error alert."
-    },
-    "keyring_setup_generate_key": {
-        "message": "Schlüssel erstellen",
-        "description": "Generate key"
-    },
-    "word_or": {
-        "message": "oder",
-        "description": "Separate list of elements."
-    },
-    "key_import_exception": {
-        "message": "Während der Verarbeitung der Schlüssel ist ein Ausnahmefall aufgetreten",
-        "description": "Import error alert."
-    },
-    "key_import_default_headline": {
-        "message": "Als Kontakt zur verschlüsselten Kommunikation bestätigen?",
-        "description": "Key import dialog header."
-    },
-    "key_import_default_description": {
-        "message": "Nach der Bestätigung ist die verschlüsselte Kommunikation mit diesem Kontakt eingerichtet.",
-        "description": "Key import dialog description."
-    },
-    "key_import_invalidated_headline": {
-        "message": "Achtung! Die vorhandenen Daten zur verschlüsselten Kommunikation sind abgelaufen.",
-        "description": "Key import dialog header."
-    },
-    "key_import_invalidated_description": {
-        "message": "Eine verschlüsselte Kommunikation mit [CONTACT] ist nicht mehr möglich. Der Kontakt muss Sie neu einladen.",
-        "description": ""
-    },
-    "key_import_extend_headline": {
-        "message": "Erweiterte Informationen zur verschlüsselten Kommunikation:",
-        "description": "Key import dialog description."
-    },
-    "key_import_extend_fingerprint": {
-        "message": "PGP-Prüfnummer („Fingerprint“):",
-        "description": ""
-    },
-    "key_import_extend_date": {
-        "message": "Erstellt am:",
-        "description": ""
-    },
-    "key_import_extend_hint": {
-        "message": "Hinweis:",
-        "description": ""
-    },
-    "key_import_extend_description": {
-        "message": "Die PGP-Prüfnummer dient zur Identifikation der Schlüsselinformationen Ihrer Kommunikation.",
-        "description": "Key import dialog description."
-    },
-    "keygrid_display_key_pair": {
-        "message": "Schlüsselpaar anzeigen",
-        "description": "Export key menu."
-    },
-    "general_editor_type": {
-        "message": "Auswahl der E-Mail-Bearbeitung",
-        "description": "Label for editor options."
-    },
-    "key_gen_pwd_unequal": {
-        "message": "Passwörter stimmen nicht überein",
-        "description": "Passphrase input field status"
-    },
-    "security_background_scaling": {
-        "message": "Skalierung",
-        "description": "Scaling"
-    },
-    "popup_active_off": {
-        "message": "Aus",
-        "description": "Activity status of the extension."
-    },
-    "watchlist_command_edit": {
-        "message": "Bearb.",
-        "description": "Edit entry in watchlist."
-    },
-    "editor_transfer_unencrypted": {
-        "message": "Sie versuchen, unverschlüsselten Inhalt zurück zum E-Mail-Anbieter zu übertragen.",
-        "description": "Warning for unencrypted content."
-    },
-    "decrypt_popup_title": {
-        "message": "Entschlüsselte Nachricht",
-        "description": "Title of decrypt popup."
-    },
-    "watchlist_command_save": {
-        "message": "Änderungen speichern",
-        "description": "Save changes in watchlist."
-    },
-    "cleartext_read_error": {
-        "message": "Diese Klartextnachricht konnte nicht gelesen werden: $1",
-        "description": "Cleartext message read error message: $1: error message."
-    },
-    "editor_header": {
-        "message": "E-Mail verfassen",
-        "description": "Header of editor popup."
-    },
-    "form_ok": {
-        "message": "Ok",
-        "description": "Ok form button."
-    },
-    "key_import_private_update": {
-        "message": "Der private Schlüssel $1 des Benutzers $2 wurde aktualisiert",
-        "description": "Import success message: $1: keyid, $2: userid."
-    },
-    "key_gen_pwd_empty": {
-        "message": "Passwort ist leer",
-        "description": "Passphrase input field status"
-    },
-    "form_save": {
-        "message": "Speichern",
-        "description": "Save form button."
-    },
-    "ext_name": {
-        "message": "Mailvelope",
-        "description": "Name of the extension."
-    },
-    "key_gen_days": {
-        "message": "Tage",
-        "description": "Key expires after time range"
-    },
-    "keygrid_expiration_date": {
-        "message": "Verfallsdatum",
-        "description": "Expiration date of a PGP key."
-    },
-    "alert_header_error": {
-        "message": "Fehler!",
-        "description": "Alert header of category error."
-    },
-    "editor_remove_upload": {
-        "message": "Entfernen",
-        "description": "Remove uploaded attachment"
-    },
-    "key_export_too_large": {
-        "message": "Der Schlüssel ist zu groß, um in eine Adresse zu passen, bitte stattdessen Kopieren & Einfügen verwenden.",
-        "description": "Key export warning message."
-    },
-    "keygrid_no_subkeys": {
-        "message": "Keine Unterschlüssel verfügbar",
-        "description": "No subkeys of a PGP key found."
-    },
-    "keygrid_keyid": {
-        "message": "Schlüssel",
-        "description": "Key ID of a PGP key."
-    },
-    "sign_dialog_header": {
-        "message": "Nachricht mit Schlüssel signieren:",
-        "description": "Header of sign dialog."
-    },
-    "key_import_private_read": {
-        "message": "Ein privater Schlüssel konnte nicht gelesen werden: $1",
-        "description": "Import error message. $1: error message"
-    },
-    "popup_help_tooltip": {
-        "message": "Öffnet die Dokumentationsseite",
-        "description": "Opens the help page on mailvelope.com."
-    },
-    "keygrid_signer_unknown": {
-        "message": "Unterzeichner unbekannt",
-        "description": "Key of signer not available."
-    },
-    "popup_add_page": {
-        "message": "Hinzufügen",
-        "description": "Add page to watchlist."
-    },
-    "options_docu": {
-        "message": "Dokumentation",
-        "description": "Options navigation: Documentation."
-    },
-    "keyring_keypair": {
-        "message": "Schlüsselpaar",
-        "description": "key pair"
-    },
-    "options_about": {
-        "message": "Über",
-        "description": "Options navigation: About."
-    },
-    "keygrid_primary_label": {
-        "message": "Haupt",
-        "description": "Label for the primary key"
-    },
-    "key_gen_invalid_email": {
-        "message": "Nicht gültige E-Mail-Adresse",
-        "description": "Error message."
-    },
-    "pwd_dialog_userid": {
-        "message": "Benutzer:",
-        "description": "Label for user ID."
-    },
-    "decrypt_popup_copy": {
-        "message": "In die Zwischenablage kopieren",
-        "description": "Copy decrypted message to clipboard."
-    },
-    "settings_backup": {
-        "message": "Sicherung",
-        "description": "Tab allowing to backup and restore the settings."
-    },
-    "reload_webmail_tab": {
-        "message": "Bitte laden Sie den Reiter Ihres E-Mail-Anbieters erneut (F5), damit diese Einstellungen wirksam werden.",
-        "description": "Info message."
-    },
-    "form_yes": {
-        "message": "Ja",
-        "description": "Yes form button."
-    },
-    "keyring_setup_generate_key_explanation": {
-        "message": "Wenn Sie diese Erweiterung zum ersten Mal benutzen und noch kein Schlüsselpaar besitzen, müssen Sie einen Schlüssel erstellen.",
-        "description": "Generate key"
-    },
-    "keygrid_display_priv_key": {
-        "message": "Privaten Schlüssel anzeigen",
-        "description": "Export key menu."
-    },
-    "ext_description": {
-        "message": "Erweitern Sie Ihren Webmail-Anbieter mit Ende-zu-Ende-Verschlüsselung. Sichere E-Mail-Kommunikation mit dem OpenPGP-Standard.",
-        "description": "Description of the extension."
-    },
-    "key_gen_advanced_btn": {
-        "message": "Erweitert",
-        "description": "Advanced key generation settings."
-    },
-    "key_import_private_success": {
-        "message": "Der private Schlüssel $1 des Benutzers $2 wurde in den Schlüsselbund importiert",
-        "description": "Import success message: $1: keyid, $2: userid."
-    },
-    "settings_security": {
-        "message": "Sicherheit",
-        "description": "Tab of options to display security settings."
-    },
-    "settings_general": {
-        "message": "Allgemein",
-        "description": "Tab of options to display general settings."
-    },
-    "key_import_unable": {
-        "message": "Ein Schlüssel konnte aufgrund eines Ausnahmefalls nicht importiert werden: $1",
-        "description": "Import error message: $1: error message."
-    },
-    "keygrid_display_pub_key": {
-        "message": "Öffentlichen Schlüssel anzeigen",
-        "description": "Export key menu."
-    },
-    "upload_quota_warning_headline": {
-        "message": "Anhang zu groß",
-        "description": ""
-    },
-    "upload_quota_exceeded_warning": {
-        "message": "Anhang überschreitet die zulässige Größe:",
-        "description": "A warning shown when the attachments upload quota is exceeded."
-    },
-    "keyring_setup": {
-        "message": "Einrichtung",
-        "description": "Setup keyring for mail provider."
-    },
-    "keygrid_creation_date": {
-        "message": "Erstellungsdatum",
-        "description": "Creation date of a PGP key."
-    },
-    "key_export_download": {
-        "message": "Schlüssel herunterladen",
-        "description": "Download key link."
-    },
-    "keybackup_setup_dialog_headline": {
-      "message": "Empfehlung: Sicherung einrichten",
-      "description": ""
-    },
-    "keybackup_setup_dialog_description": {
-      "message": "Die Sicherung ist notwendig um Ihre verschlüsselte Kommunikation:",
-      "description": ""
-    },
-    "keybackup_setup_dialog_list_1": {
-      "message": "Bei Verlust wiederherzustellen.",
-      "description": ""
-    },
-    "keybackup_setup_dialog_list_2": {
-      "message": "Auf andere Geräte zu übertragen.",
-      "description": ""
-    },
-    "keybackup_setup_dialog_button": {
-      "message": "Sicherung einrichten",
-      "description": ""
-    },
-    "keybackup_restore_dialog_headline": {
-      "message": "Neuen Wiederherstellungsbeleg erstellen",
-      "description": ""
-    },
-    "keybackup_restore_dialog_description": {
-      "message": "Erstellen Sie hier einen neuen Wiederherstellungsbeleg, falls",
-      "description": ""
-    },
-    "keybackup_restore_dialog_list_1": {
-      "message": "&hellip;Sie ihren Beleg verloren haben",
-      "description": ""
-    },
-    "keybackup_restore_dialog_list_2": {
-      "message": "&hellip;aus Sicherheitsgründen ein neuer Wiederherstellungsbeleg erstellt werden muss",
-      "description": ""
-    },
-    "keybackup_restore_dialog_button": {
-      "message": "Wiederherstellungsbeleg erstellen",
-      "description": ""
-    },
-    "keybackup_failed": {
-      "message": "Fehler beim Erstellen der Sicherungskopie."
-    },
-    "keybackup_waiting_headline": {
-      "message": "Sicherung wird eingerichtet!",
-      "description": ""
-    },
-    "keybackup_waiting_description": {
-      "message": "Ein Dokument mit ihrem Wiederherstellungscode wird vorbereitet.",
-      "description": ""
-    },
-    "editor_error_header": {
-      "message": "Fehler Überschrift",
-      "description": ""
-    },
-    "editor_error_content": {
-      "message": "Fehler Inhalt",
-      "description": ""
-    },
-    "restore_backup_dialog_headline": {
-        "message": "Wiederherstellungscode eingeben:",
-        "description": ""
-    },
-    "restore_backup_dialog_button": {
-        "message": "Bestätigen",
-        "description": ""
-    },
-    "wrong_restore_code": {
-        "message": "Der Wiederherstellungscode ist nicht korrekt.",
-        "description": ""
-    },
-    "editor_sign_caption_short": {
-        "message": "E-Mail wird digital unterschrieben",
-        "description": ""
-    },
-    "editor_sign_caption_long": {
-        "message": "Wenn die E-Mail abgeschickt wird, wird sie gleichzeitig digital unterschrieben.",
-        "description": ""
-    },
-    "editor_no_sign_caption_short": {
-        "message": "E-Mail wird nicht digital unterschrieben",
-        "description": ""
-    },
-    "editor_no_sign_caption_long": {
-        "message": "Die E-Mail wird nicht vor dem Abschicken digital unterschrieben.",
-        "description": ""
-    },
-    "editor_no_primary_key_caption_short": {
-        "message": "E-Mail kann nicht digital unterschrieben werden",
-        "description": ""
-    },
-    "editor_no_primary_key_caption_long": {
-        "message": "Die E-Mail kann nicht digital unterschrieben werden, da der Primärschlüssel fehlt.",
-        "description": ""
-    },
-    "restore_password_dialog_headline": {
-        "message": "Ihr Schlüssel-Passwort:",
-        "description": ""
-    },
-    "restore_password_dialog_button": {
-        "message": "Anzeigen",
-        "description": ""
-    },
-    "key_recovery_failed": {
-      "message": "Fehler bei Wiederherstellung der Sicherungskopie."
-    },
-    "keygen_waiting_headline": {
-      "message": "Die verschlüsselte Kommunikation wird eingerichtet",
-      "description": ""
-    },
-    "keygen_waiting_description": {
-      "message": "Das Einrichten der verschlüsselten Kommunikation kann mehrere Minuten dauern. Ihr Browser reagiert ggf. gewisse Zeit nicht. Bitte haben Sie einen Moment Geduld.",
-      "description": ""
-    },
-    "digital_signature_dialog_header": {
-        "message": "Digitale Unterschrift",
-        "description": "Header of digital signature dialog."
-    },
-    "digital_signature_status_true": {
-        "message": "Unterschrift ist valide",
-        "description": ""
-    },
-    "digital_signature_status_false": {
-        "message": "Unterschrift ist fehlerhaft",
-        "description": ""
-    },
-    "digital_signature_status_null": {
-        "message": "Unterschrift kann nicht überprüft werden",
-        "description": ""
-    },
-    "digital_signature_status_null_description": {
-        "message": "Der Kontakt der digitalen Unterschrift wurde noch nicht zur verschlüsselten Kommunikation bestätigt. Fordern Sie ihren Kontakt auf Sie einzuladen.",
-        "description": ""
-    },
-    "decrypt_digital_signature": {
-        "message": "Digital unterschrieben",
-        "description": "Caption digital signature"
-    },
-    "decrypt_digital_signature_failure": {
-        "message": "Digitale Unterschrift fehlerhaft",
-        "description": "Caption digital signature"
-    },
-    "decrypt_digital_signature_null": {
-        "message": "Digitale Unterschrift nicht erkannt",
-        "description": "Caption digital signature"
-    },
-    "pwd_dialog_reason_decrypt": {
-      "message": "Bitte Schlüssel-Passwort eingeben, um diese Nachricht zu entschlüsseln.",
-      "description": ""
-    },
-    "pwd_dialog_reason_sign": {
-      "message": "Bitte Schlüssel-Passwort eingeben, um diese Nachricht zu versenden.",
-      "description": ""
-    },
-    "pwd_dialog_reason_editor": {
-      "message": "Bitte Schlüssel-Passwort eingeben, um ihre Einstellungen zur verschlüsselten Kommunikation zu aktualisieren.",
-      "description": ""
-    },
-    "pwd_dialog_reason_create_backup": {
-      "message": "Bitte Schlüssel-Passwort eingeben, um den Wiederherstellungsbeleg zu erstellen.",
-      "description": ""
-    },
-    "pwd_dialog_reason_create_draft": {
-      "message": "Bitte Schlüssel-Passwort eingeben, um den Entwurf zu speichern.",
-      "description": ""
-    }
+  "alert_header_error": {
+    "message": "Fehler!",
+    "description": "Alert header of category error."
+  },
+  "alert_header_success": {
+    "message": "Erfolg!",
+    "description": "Alert header of category success."
+  },
+  "alert_header_warning": {
+    "message": "Achtung!",
+    "description": "Alert header of category warning."
+  },
+  "alert_invalid_domainmatchpattern_warning": {
+    "message": "Domänen-Übereinstimmungsmuster muss mit * beginnen.",
+    "description": "Alert header of category warning."
+  },
+  "alert_no_domainmatchpattern_warning": {
+    "message": "Mindestens ein Domänen-Übereinstimmungsmuster wird benötigt.",
+    "description": "Alert header of category warning."
+  },
+  "clear_localstorage_confirm_message": {
+    "message": "Wollen Sie wirklich alle Ihre PGP-Schlüssel aus diesem Browserprofil löschen?",
+    "description": "The message of the confirmation dialog."
+  },
+  "clear_localstorage_confirm_title": {
+    "message": "Bestätigen",
+    "description": "The title of the confirmation dialog."
+  },
+  "cleartext_read_error": {
+    "message": "Diese Klartextnachricht konnte nicht gelesen werden: $1",
+    "description": "Cleartext message read error message: $1: error message."
+  },
+  "decrypt_digital_signature": {
+    "message": "Digital unterschrieben",
+    "description": "Caption digital signature"
+  },
+  "decrypt_digital_signature_failure": {
+    "message": "Digitale Unterschrift fehlerhaft",
+    "description": "Caption digital signature"
+  },
+  "decrypt_digital_signature_null": {
+    "message": "Digitale Unterschrift nicht erkannt",
+    "description": "Caption digital signature"
+  },
+  "decrypt_popup_copy": {
+    "message": "In die Zwischenablage kopieren",
+    "description": "Copy decrypted message to clipboard."
+  },
+  "decrypt_popup_header": {
+    "message": "Nachricht",
+    "description": "Header of decrypt popup."
+  },
+  "decrypt_popup_title": {
+    "message": "Entschlüsselte Nachricht",
+    "description": "Title of decrypt popup."
+  },
+  "dialog_keyid_label": {
+    "message": "Schlüssel:",
+    "description": "Label for key ID."
+  },
+  "dialog_popup_close": {
+    "message": "Schließen",
+    "description": "Close decrypt popup."
+  },
+  "digital_signature_dialog_header": {
+    "message": "Digitale Unterschrift",
+    "description": "Header of digital signature dialog."
+  },
+  "digital_signature_status_false": {
+    "message": "Unterschrift ist fehlerhaft",
+    "description": ""
+  },
+  "digital_signature_status_null": {
+    "message": "Unterschrift kann nicht überprüft werden",
+    "description": ""
+  },
+  "digital_signature_status_null_description": {
+    "message": "Der Kontakt der digitalen Unterschrift wurde noch nicht zur verschlüsselten Kommunikation bestätigt. Fordern Sie ihren Kontakt auf Sie einzuladen.",
+    "description": ""
+  },
+  "digital_signature_status_true": {
+    "message": "Unterschrift ist valide",
+    "description": ""
+  },
+  "editor_blur_warn": {
+    "message": "Achtung. Texteditor hat den Fokus verloren.",
+    "description": "Warning for lost focus."
+  },
+  "editor_encrypt_button": {
+    "message": "Verschlüsseln",
+    "description": "Encrypt button."
+  },
+  "editor_error_content": {
+    "message": "Fehler Inhalt",
+    "description": ""
+  },
+  "editor_error_header": {
+    "message": "Fehler Überschrift",
+    "description": ""
+  },
+  "editor_header": {
+    "message": "E-Mail verfassen",
+    "description": "Header of editor popup."
+  },
+  "editor_no_primary_key_caption_long": {
+    "message": "Die E-Mail kann nicht digital unterschrieben werden, da der Primärschlüssel fehlt.",
+    "description": ""
+  },
+  "editor_no_primary_key_caption_short": {
+    "message": "E-Mail kann nicht digital unterschrieben werden",
+    "description": ""
+  },
+  "editor_no_sign_caption_long": {
+    "message": "Die E-Mail wird nicht vor dem Abschicken digital unterschrieben.",
+    "description": ""
+  },
+  "editor_no_sign_caption_short": {
+    "message": "E-Mail wird nicht digital unterschrieben",
+    "description": ""
+  },
+  "editor_remove_upload": {
+    "message": "Entfernen",
+    "description": "Remove uploaded attachment"
+  },
+  "editor_sign_button": {
+    "message": "Signieren",
+    "description": "Sign button."
+  },
+  "editor_sign_caption_long": {
+    "message": "Wenn die E-Mail abgeschickt wird, wird sie gleichzeitig digital unterschrieben.",
+    "description": ""
+  },
+  "editor_sign_caption_short": {
+    "message": "E-Mail wird digital unterschrieben",
+    "description": ""
+  },
+  "editor_transfer": {
+    "message": "Übertragen",
+    "description": "Transfer button of editor popup."
+  },
+  "editor_transfer_unencrypted": {
+    "message": "Sie versuchen, unverschlüsselten Inhalt zurück zum E-Mail-Anbieter zu übertragen.",
+    "description": "Warning for unencrypted content."
+  },
+  "encrypt_dialog_add": {
+    "message": "Hinzufügen",
+    "description": "Max 6 character."
+  },
+  "encrypt_dialog_header": {
+    "message": "Verschlüsseln für:",
+    "description": "Header of encrypt dialog."
+  },
+  "encrypt_dialog_no_recipient": {
+    "message": "Bitte einen Empfänger hinzufügen.",
+    "description": "Error message if no recipient selected."
+  },
+  "encrypt_error": {
+    "message": "Diese Nachricht konnte nicht verschlüsselt werden: $1",
+    "description": "Error during encryption process."
+  },
+  "ext_description": {
+    "message": "Erweitern Sie Ihren Webmail-Anbieter mit Ende-zu-Ende-Verschlüsselung. Sichere E-Mail-Kommunikation mit dem OpenPGP-Standard.",
+    "description": "Description of the extension."
+  },
+  "ext_name": {
+    "message": "Mailvelope",
+    "description": "Name of the extension."
+  },
+  "form_busy": {
+    "message": "Beschäftigt",
+    "description": "Form in busy state."
+  },
+  "form_cancel": {
+    "message": "Abbrechen",
+    "description": "Cancel form button."
+  },
+  "form_clear": {
+    "message": "Leeren",
+    "description": "Clear form button."
+  },
+  "form_close": {
+    "message": "Schließen",
+    "description": "Close form button."
+  },
+  "form_confirm": {
+    "message": "Bestätigen",
+    "description": "Confirm form button."
+  },
+  "form_continue": {
+    "message": "Weiter",
+    "description": "Continue form button."
+  },
+  "form_import": {
+    "message": "Importieren",
+    "description": "Import form button."
+  },
+  "form_no": {
+    "message": "Nein",
+    "description": "No form button."
+  },
+  "form_ok": {
+    "message": "Ok",
+    "description": "Ok form button."
+  },
+  "form_save": {
+    "message": "Speichern",
+    "description": "Save form button."
+  },
+  "form_submit": {
+    "message": "Senden",
+    "description": "Submit form button."
+  },
+  "form_undo": {
+    "message": "Rückgängig",
+    "description": "Undo form button."
+  },
+  "form_yes": {
+    "message": "Ja",
+    "description": "Yes form button."
+  },
+  "general_editor_plain": {
+    "message": "Einfacher Text",
+    "description": "Editor option: plain text."
+  },
+  "general_editor_rich": {
+    "message": "»Rich Text«-Bearbeitung",
+    "description": "Editor option: rich text."
+  },
+  "general_editor_type": {
+    "message": "Auswahl der E-Mail-Bearbeitung",
+    "description": "Label for editor options."
+  },
+  "general_primary_key_always": {
+    "message": "Immer den Hauptschlüssel zur Liste der Empfänger hinzufügen (ermöglicht es, gesendete Nachrichten zu entschlüsseln).",
+    "description": "Label for primary private key option."
+  },
+  "general_primary_key_label": {
+    "message": "Privater Hauptschlüssel",
+    "description": "Label for primary private key option."
+  },
+  "header_warning": {
+    "message": "Achtung!",
+    "description": "Header warning."
+  },
+  "key_details_title": {
+    "message": "Schlüsseldetails",
+    "description": "The title of the key details dialog."
+  },
+  "key_export_clipboard": {
+    "message": "In die Zwischenablage kopieren",
+    "description": "Copy to clipboard button."
+  },
+  "key_export_create_file": {
+    "message": "Speichern",
+    "description": "Download file button."
+  },
+  "key_export_download": {
+    "message": "Schlüssel herunterladen",
+    "description": "Download key link."
+  },
+  "key_export_header": {
+    "message": "Schlüssel exportieren",
+    "description": "Export key dialog header."
+  },
+  "key_export_too_large": {
+    "message": "Der Schlüssel ist zu groß, um in eine Adresse zu passen, bitte stattdessen Kopieren & Einfügen verwenden.",
+    "description": "Key export warning message."
+  },
+  "key_export_warning_private": {
+    "message": "Diese Datei enthält auch private Schlüssel.",
+    "description": "Key export warning."
+  },
+  "key_gen_advanced_btn": {
+    "message": "Erweitert",
+    "description": "Advanced key generation settings."
+  },
+  "key_gen_another": {
+    "message": "Einen anderen erstellen …",
+    "description": "Key import button"
+  },
+  "key_gen_days": {
+    "message": "Tage",
+    "description": "Key expires after time range"
+  },
+  "key_gen_demail": {
+    "message": "De-Mail-Adresse",
+    "description": "De-Mail address name."
+  },
+  "key_gen_error": {
+    "message": "Beim Erstellen des Schlüssels ist ein Fehler aufgetreten",
+    "description": "Key generation error message"
+  },
+  "key_gen_expiration": {
+    "message": "Verfall",
+    "description": "Key expires after time range"
+  },
+  "key_gen_invalid_email": {
+    "message": "Nicht gültige E-Mail-Adresse",
+    "description": "Error message."
+  },
+  "key_gen_key_size": {
+    "message": "Schlüsselgröße",
+    "description": "Advanced key generation settings: Key size"
+  },
+  "key_gen_months": {
+    "message": "Monate",
+    "description": "Key expires after time range"
+  },
+  "key_gen_name_help": {
+    "message": "Voller Name des Schlüsseleigentümers",
+    "description": "Help text for name field."
+  },
+  "key_gen_never": {
+    "message": "nie",
+    "description": "Key expires after time range"
+  },
+  "key_gen_pwd": {
+    "message": "Passwort eingeben",
+    "description": "Label for passphrase input field"
+  },
+  "key_gen_pwd_empty": {
+    "message": "Passwort ist leer",
+    "description": "Passphrase input field status"
+  },
+  "key_gen_pwd_match": {
+    "message": "Passwörter stimmen überein",
+    "description": "Passphrase input field status"
+  },
+  "key_gen_pwd_reenter": {
+    "message": "Passwort erneut eingeben",
+    "description": "Label for passphrase input field"
+  },
+  "key_gen_pwd_unequal": {
+    "message": "Passwörter stimmen nicht überein",
+    "description": "Passphrase input field status"
+  },
+  "key_gen_success": {
+    "message": "Neuer Schlüssel erstellt und in den Schlüsselbund importiert",
+    "description": "Key generation success message"
+  },
+  "key_gen_wait_header": {
+    "message": "Schlüssel wird erstellt …",
+    "description": "Wait dialog header"
+  },
+  "key_gen_wait_info": {
+    "message": "Bitte warten, die Schlüsselerstellung kann mehrere Minuten dauern, abhängig von Faktoren wie der Schlüsselgröße.",
+    "description": "Wait dialog info message"
+  },
+  "key_gen_years": {
+    "message": "Jahre",
+    "description": "Key expires after time range"
+  },
+  "key_import_another": {
+    "message": "Einen anderen importieren …",
+    "description": "Import another key button."
+  },
+  "key_import_default_description": {
+    "message": "Nach der Bestätigung ist die verschlüsselte Kommunikation mit diesem Kontakt eingerichtet.",
+    "description": "Key import dialog description."
+  },
+  "key_import_default_headline": {
+    "message": "Als Kontakt zur verschlüsselten Kommunikation bestätigen?",
+    "description": "Key import dialog header."
+  },
+  "key_import_dialog_header": {
+    "message": "Schlüssel zu Schlüsselbund hinzufügen",
+    "description": "Key import dialog header."
+  },
+  "key_import_error": {
+    "message": "Importfehler.",
+    "description": "Import error alert."
+  },
+  "key_import_exception": {
+    "message": "Während der Verarbeitung der Schlüssel ist ein Ausnahmefall aufgetreten",
+    "description": "Import error alert."
+  },
+  "key_import_extend_date": {
+    "message": "Erstellt am:",
+    "description": ""
+  },
+  "key_import_extend_description": {
+    "message": "Die PGP-Prüfnummer dient zur Identifikation der Schlüsselinformationen Ihrer Kommunikation.",
+    "description": "Key import dialog description."
+  },
+  "key_import_extend_fingerprint": {
+    "message": "PGP-Prüfnummer („Fingerprint“):",
+    "description": ""
+  },
+  "key_import_extend_headline": {
+    "message": "Erweiterte Informationen zur verschlüsselten Kommunikation:",
+    "description": "Key import dialog description."
+  },
+  "key_import_extend_hint": {
+    "message": "Hinweis:",
+    "description": ""
+  },
+  "key_import_file_select": {
+    "message": "Bitte eine Schlüsseltextdatei zum Importieren auswählen",
+    "description": "File selection button label."
+  },
+  "key_import_invalid_text": {
+    "message": "Kein gültiger Schlüsseltext gefunden",
+    "description": "Import error alert."
+  },
+  "key_import_invalidated_description": {
+    "message": "Eine verschlüsselte Kommunikation mit [CONTACT] ist nicht mehr möglich. Der Kontakt muss Sie neu einladen.",
+    "description": ""
+  },
+  "key_import_invalidated_headline": {
+    "message": "Achtung! Die vorhandenen Daten zur verschlüsselten Kommunikation sind abgelaufen.",
+    "description": "Key import dialog header."
+  },
+  "key_import_multiple_keys": {
+    "message": "Um mehrere Schlüssel zu importieren, einfach alle hier einfügen. Zusätzlicher, die Schlüssel umgebender Text wird ignoriert.",
+    "description": "Info message."
+  },
+  "key_import_private_exists": {
+    "message": "Der private Teilschlüssel des bestehenden öffentlichen Schlüssels $1 des Benutzers $2 wurde in den Schlüsselbund importiert",
+    "description": "Import success message: $1: keyid, $2: userid."
+  },
+  "key_import_private_read": {
+    "message": "Ein privater Schlüssel konnte nicht gelesen werden: $1",
+    "description": "Import error message. $1: error message"
+  },
+  "key_import_private_success": {
+    "message": "Der private Schlüssel $1 des Benutzers $2 wurde in den Schlüsselbund importiert",
+    "description": "Import success message: $1: keyid, $2: userid."
+  },
+  "key_import_private_update": {
+    "message": "Der private Schlüssel $1 des Benutzers $2 wurde aktualisiert",
+    "description": "Import success message: $1: keyid, $2: userid."
+  },
+  "key_import_public_read": {
+    "message": "Ein öffentlicher Schlüssel konnte nicht gelesen werden: $1",
+    "description": "Import error message. $1: error message"
+  },
+  "key_import_public_success": {
+    "message": "Der öffentliche Schlüssel $1 des Benutzers $2 wurde in den Schlüsselbund importiert",
+    "description": "Import success message: $1: keyid, $2: userid."
+  },
+  "key_import_public_update": {
+    "message": "Der öffentliche Schlüssel $1 des Benutzers $2 wurde aktualisiert",
+    "description": "Import success message: $1: keyid, $2: userid."
+  },
+  "key_import_textarea": {
+    "message": "Schlüsseltext hier einfügen:",
+    "description": "Key import box."
+  },
+  "key_import_unable": {
+    "message": "Ein Schlüssel konnte aufgrund eines Ausnahmefalls nicht importiert werden: $1",
+    "description": "Import error message: $1: error message."
+  },
+  "key_recovery_failed": {
+    "message": "Fehler bei Wiederherstellung der Sicherungskopie."
+  },
+  "key_set_as_primary": {
+    "message": "Als Hauptschlüssel einstellen",
+    "description": "Set as primary key for the keyring button"
+  },
+  "keybackup_failed": {
+    "message": "Fehler beim Erstellen der Sicherungskopie."
+  },
+  "keybackup_restore_dialog_button": {
+    "message": "Wiederherstellungsbeleg erstellen",
+    "description": ""
+  },
+  "keybackup_restore_dialog_description": {
+    "message": "Erstellen Sie hier einen neuen Wiederherstellungsbeleg, falls",
+    "description": ""
+  },
+  "keybackup_restore_dialog_headline": {
+    "message": "Neuen Wiederherstellungsbeleg erstellen",
+    "description": ""
+  },
+  "keybackup_restore_dialog_list_1": {
+    "message": "&hellip;Sie ihren Beleg verloren haben",
+    "description": ""
+  },
+  "keybackup_restore_dialog_list_2": {
+    "message": "&hellip;aus Sicherheitsgründen ein neuer Wiederherstellungsbeleg erstellt werden muss",
+    "description": ""
+  },
+  "keybackup_setup_dialog_button": {
+    "message": "Sicherung einrichten",
+    "description": ""
+  },
+  "keybackup_setup_dialog_description": {
+    "message": "Die Sicherung ist notwendig um Ihre verschlüsselte Kommunikation:",
+    "description": ""
+  },
+  "keybackup_setup_dialog_headline": {
+    "message": "Empfehlung: Sicherung einrichten",
+    "description": ""
+  },
+  "keybackup_setup_dialog_list_1": {
+    "message": "Bei Verlust wiederherzustellen.",
+    "description": ""
+  },
+  "keybackup_setup_dialog_list_2": {
+    "message": "Auf andere Geräte zu übertragen.",
+    "description": ""
+  },
+  "keybackup_waiting_description": {
+    "message": "Ein Dokument mit ihrem Wiederherstellungscode wird vorbereitet.",
+    "description": ""
+  },
+  "keybackup_waiting_headline": {
+    "message": "Sicherung wird eingerichtet!",
+    "description": ""
+  },
+  "keygen_dialog_confirm": {
+    "message": "Wiederholen",
+    "description": ""
+  },
+  "keygen_dialog_confirm_error_unequal": {
+    "message": "Bitte die Eingabe überprüfen.",
+    "description": ""
+  },
+  "keygen_dialog_confirm_success": {
+    "message": "Eingaben sind korrekt.",
+    "description": ""
+  },
+  "keygen_dialog_password": {
+    "message": "Schlüsselpasswort",
+    "description": ""
+  },
+  "keygen_dialog_password_placeholder": {
+    "message": "mindestens 4 Zeichen",
+    "description": ""
+  },
+  "keygen_dialog_prolog": {
+    "message": "Passwort vergeben zum Schutz Ihrer verschlüsselten Kommunikation:",
+    "description": ""
+  },
+  "keygen_waiting_description": {
+    "message": "Das Einrichten der verschlüsselten Kommunikation kann mehrere Minuten dauern. Ihr Browser reagiert ggf. gewisse Zeit nicht. Bitte haben Sie einen Moment Geduld.",
+    "description": ""
+  },
+  "keygen_waiting_headline": {
+    "message": "Die verschlüsselte Kommunikation wird eingerichtet",
+    "description": ""
+  },
+  "keygrid_algorithm": {
+    "message": "Algorithmus",
+    "description": "Public-key algorithm of a PGP key."
+  },
+  "keygrid_all_keys": {
+    "message": "Alle",
+    "description": "Selection of key type."
+  },
+  "keygrid_creation_date": {
+    "message": "Erstellungsdatum",
+    "description": "Creation date of a PGP key."
+  },
+  "keygrid_creation_date_short": {
+    "message": "Erstellt",
+    "description": "Short creation date of a PGP key. Max. width: 90px"
+  },
+  "keygrid_delete": {
+    "message": "Löschen",
+    "description": "Max. 6 characters."
+  },
+  "keygrid_delete_confirmation": {
+    "message": "Sind Sie sicher, dass Sie diesen Schlüssel entfernen möchten?",
+    "description": "Delete confirmation dialog."
+  },
+  "keygrid_display_all_keys": {
+    "message": "Alle Schlüssel anzeigen",
+    "description": "Export key menu."
+  },
+  "keygrid_display_key_pair": {
+    "message": "Schlüsselpaar anzeigen",
+    "description": "Export key menu."
+  },
+  "keygrid_display_priv_key": {
+    "message": "Privaten Schlüssel anzeigen",
+    "description": "Export key menu."
+  },
+  "keygrid_display_pub_key": {
+    "message": "Öffentlichen Schlüssel anzeigen",
+    "description": "Export key menu."
+  },
+  "keygrid_expiration_date": {
+    "message": "Verfallsdatum",
+    "description": "Expiration date of a PGP key."
+  },
+  "keygrid_export": {
+    "message": "Exportieren",
+    "description": "Export key."
+  },
+  "keygrid_invalid_userid": {
+    "message": "Ungültige Benutzerkennung",
+    "description": "User ID invalid."
+  },
+  "keygrid_key_fingerprint": {
+    "message": "Fingerabdruck",
+    "description": "Unique string identifier for a PGP key."
+  },
+  "keygrid_key_length": {
+    "message": "Länge",
+    "description": "Key length of a PGP key."
+  },
+  "keygrid_key_not_expire": {
+    "message": "Der Schlüssel verfällt nicht",
+    "description": "Expiration date of a PGP key not set."
+  },
+  "keygrid_key_type": {
+    "message": "Typ",
+    "description": "The type of the key."
+  },
+  "keygrid_keyid": {
+    "message": "Schlüssel",
+    "description": "Key ID of a PGP key."
+  },
+  "keygrid_no_subkeys": {
+    "message": "Keine Unterschlüssel verfügbar",
+    "description": "No subkeys of a PGP key found."
+  },
+  "keygrid_primary_key": {
+    "message": "Hauptschlüssel",
+    "description": "Main key in the PGP key."
+  },
+  "keygrid_primary_label": {
+    "message": "Haupt",
+    "description": "Label for the primary key"
+  },
+  "keygrid_private_keys": {
+    "message": "Private Schlüssel",
+    "description": "Selection of key type."
+  },
+  "keygrid_public_keys": {
+    "message": "Öffentliche Schlüssel",
+    "description": "Selection of key type."
+  },
+  "keygrid_send_pub_key": {
+    "message": "Öffentlichen Schlüssel per E-Mail versenden",
+    "description": "Export key menu."
+  },
+  "keygrid_signer_name": {
+    "message": "Unterzeichner",
+    "description": "User ID of signer."
+  },
+  "keygrid_signer_unknown": {
+    "message": "Unterzeichner unbekannt",
+    "description": "Key of signer not available."
+  },
+  "keygrid_sort_type": {
+    "message": "Schlüsseltyp",
+    "description": "Key grid sort selector."
+  },
+  "keygrid_status_invalid": {
+    "message": "ungültig",
+    "description": "Validity status of a PGP key."
+  },
+  "keygrid_status_valid": {
+    "message": "gültig",
+    "description": "Validity status of a PGP key."
+  },
+  "keygrid_subkeyid": {
+    "message": "Kennung",
+    "description": "Subkey ID of a PGP key."
+  },
+  "keygrid_subkeys": {
+    "message": "Unterschlüssel",
+    "description": "Subkeys of a PGP key."
+  },
+  "keygrid_user_email": {
+    "message": "E-Mail",
+    "description": "Email address in User ID of a PGP key."
+  },
+  "keygrid_user_ids": {
+    "message": "Benutzerkennungen",
+    "description": "User IDs of a PGP key."
+  },
+  "keygrid_user_name": {
+    "message": "Name",
+    "description": "Name in User ID of a PGP key."
+  },
+  "keygrid_userid": {
+    "message": "Kennung",
+    "description": "User ID of a PGP key."
+  },
+  "keygrid_userid_signatures": {
+    "message": "Signaturen",
+    "description": "Signatures on User ID of a PGP key."
+  },
+  "keygrid_validity_status": {
+    "message": "Status",
+    "description": "Validity status of a PGP key."
+  },
+  "keyring_display_keys": {
+    "message": "Schlüssel anzeigen",
+    "description": "Tab of keyring to display keys."
+  },
+  "keyring_export_keys": {
+    "message": "Schlüssel exportieren",
+    "description": "Tab of keyring to export keys."
+  },
+  "keyring_generate_key": {
+    "message": "Schlüssel erstellen",
+    "description": "Tab of keyring to generate key."
+  },
+  "keyring_header": {
+    "message": "Schlüsselverwaltung",
+    "description": "Header of the key ring."
+  },
+  "keyring_import_keys": {
+    "message": "Schlüssel importieren",
+    "description": "Tab of keyring to import keys."
+  },
+  "keyring_keypair": {
+    "message": "Schlüsselpaar",
+    "description": "key pair"
+  },
+  "keyring_migration_error": {
+    "message": "Fehler bei der Schlüsselmigration",
+    "description": "Tab of keyring to display migration errors."
+  },
+  "keyring_private": {
+    "message": "Privat",
+    "description": "private key type"
+  },
+  "keyring_public": {
+    "message": "Öffentlich",
+    "description": "public key type"
+  },
+  "keyring_public_private": {
+    "message": "Schlüsselpaare",
+    "description": "public and private key types"
+  },
+  "keyring_setup": {
+    "message": "Einrichtung",
+    "description": "Setup keyring for mail provider."
+  },
+  "keyring_setup_generate_key": {
+    "message": "Schlüssel erstellen",
+    "description": "Generate key"
+  },
+  "keyring_setup_generate_key_explanation": {
+    "message": "Wenn Sie diese Erweiterung zum ersten Mal benutzen und noch kein Schlüsselpaar besitzen, müssen Sie einen Schlüssel erstellen.",
+    "description": "Generate key"
+  },
+  "keyring_setup_import_key": {
+    "message": "Schlüssel importieren",
+    "description": "Import key"
+  },
+  "keyring_setup_import_key_explanation": {
+    "message": "Haben sie bereits ein Schlüsselpaar auf einem anderen Gerät? Sie können Ihre bestehenden Schlüssel importieren. Einfach das Schlüsselpaar auf dem anderen Gerät exportieren und hier importieren.",
+    "description": "Import key"
+  },
+  "keyring_setup_no_keypair": {
+    "message": "Ein Schlüsselpaar wird benötigt, um Nachrichten zu verschlüsseln und zu entschlüsseln, und wenn Sie Ihre Kontakte zu Ende-zu-Ende-verschlüsselter Kommunikation einladen wollen.",
+    "description": "Setup text if no keypair available"
+  },
+  "keyring_setup_no_keypair_heading": {
+    "message": "Dieser Schlüsselbund enthält noch kein Schlüsselpaar.",
+    "description": "Setup heading if no keypair available"
+  },
+  "message_no_keys": {
+    "message": "Keine privaten Schlüssel für diese Nachricht gefunden. Erforderliche private Schlüsselkennungen: $1",
+    "description": "Decrypt error message."
+  },
+  "message_read_error": {
+    "message": "Diese verschlüsselte Nachricht konnte nicht gelesen werden: $1",
+    "description": "Message read error message: $1: error message."
+  },
+  "options_about": {
+    "message": "Über",
+    "description": "Options navigation: About."
+  },
+  "options_docu": {
+    "message": "Dokumentation",
+    "description": "Options navigation: Documentation."
+  },
+  "options_home": {
+    "message": "Optionen",
+    "description": "Options navigation: Home."
+  },
+  "options_settings": {
+    "message": "Einstellungen",
+    "description": "Options header: Settings."
+  },
+  "options_title": {
+    "message": "Mailvelope-Optionen",
+    "description": "Title of options page."
+  },
+  "popup_actions_current_page": {
+    "message": "Aktueller Tab:",
+    "description": "Title text for the reload and add buttons"
+  },
+  "popup_active_off": {
+    "message": "Aus",
+    "description": "Activity status of the extension."
+  },
+  "popup_active_on": {
+    "message": "An",
+    "description": "Activity status of the extension."
+  },
+  "popup_actived_checkbox": {
+    "message": "Aktiviert",
+    "description": "Text of the checkbox for activating/deactivating the plugin"
+  },
+  "popup_actived_checkbox_tooltip": {
+    "message": "Externen Editor aktivieren/deaktivieren",
+    "description": "Text of the checkbox for activating/deactivating the plugin"
+  },
+  "popup_add_page": {
+    "message": "Hinzufügen",
+    "description": "Add page to watchlist."
+  },
+  "popup_add_page_tooltip": {
+    "message": "Mailvelope für aktuelle Seite aktivieren",
+    "description": "Add page to watchlist."
+  },
+  "popup_help": {
+    "message": "Hilfe",
+    "description": "Open help dialog."
+  },
+  "popup_help_tooltip": {
+    "message": "Öffnet die Dokumentationsseite",
+    "description": "Opens the help page on mailvelope.com."
+  },
+  "popup_last_activities": {
+    "message": "Letzte Aktivitäten:",
+    "description": "Title text for the last activities area"
+  },
+  "popup_options": {
+    "message": "Optionen",
+    "description": "Open options dialog."
+  },
+  "popup_reload": {
+    "message": "Neuladen",
+    "description": "Reload all Mailvelope elements on page."
+  },
+  "popup_reload_tooltip": {
+    "message": "Alle Mailvelope-Elemente neu laden",
+    "description": "Reload all Mailvelope UI elements on page."
+  },
+  "popup_remove_page": {
+    "message": "Entfernen",
+    "description": "Remove page from watchlist."
+  },
+  "popup_remove_page_tooltip": {
+    "message": "Aktuelle Seite von Liste der E-Mail-Anbieter entfernen",
+    "description": "Remove page from watchlist."
+  },
+  "pwd_dialog_cache_pwd": {
+    "message": "Passwort temporär merken",
+    "description": "Checkbox label for remembering of the password."
+  },
+  "pwd_dialog_cancel": {
+    "message": "Schlüsselentsperrung abgebrochen.",
+    "description": "User canceled key unlock dialog."
+  },
+  "pwd_dialog_header": {
+    "message": "Schlüssel-Passwort eingeben",
+    "description": "Header of the password dialog."
+  },
+  "pwd_dialog_keyid_tooltip": {
+    "message": "Die Kennung Ihres Schlüssels",
+    "description": "Tooltip explaining the key id."
+  },
+  "pwd_dialog_pwd_please": {
+    "message": "Bitte Ihr Passwort eingeben",
+    "description": "Placeholder for password."
+  },
+  "pwd_dialog_reason_create_backup": {
+    "message": "Bitte Schlüssel-Passwort eingeben, um den Wiederherstellungsbeleg zu erstellen.",
+    "description": ""
+  },
+  "pwd_dialog_reason_create_draft": {
+    "message": "Bitte Schlüssel-Passwort eingeben, um den Entwurf zu speichern.",
+    "description": ""
+  },
+  "pwd_dialog_reason_decrypt": {
+    "message": "Bitte Schlüssel-Passwort eingeben, um diese Nachricht zu entschlüsseln.",
+    "description": ""
+  },
+  "pwd_dialog_reason_editor": {
+    "message": "Bitte Schlüssel-Passwort eingeben, um ihre Einstellungen zur verschlüsselten Kommunikation zu aktualisieren.",
+    "description": ""
+  },
+  "pwd_dialog_reason_sign": {
+    "message": "Bitte Schlüssel-Passwort eingeben, um diese Nachricht zu versenden.",
+    "description": ""
+  },
+  "pwd_dialog_title": {
+    "message": "Passworteingabe | Mailvelope",
+    "description": "Title of the password dialog."
+  },
+  "pwd_dialog_userid": {
+    "message": "Benutzer:",
+    "description": "Label for user ID."
+  },
+  "pwd_dialog_wrong_pwd": {
+    "message": "Falsches Passwort",
+    "description": "Password error message."
+  },
+  "reload_webmail_tab": {
+    "message": "Bitte laden Sie den Reiter Ihres E-Mail-Anbieters erneut (F5), damit diese Einstellungen wirksam werden.",
+    "description": "Info message."
+  },
+  "restore_backup_dialog_button": {
+    "message": "Bestätigen",
+    "description": ""
+  },
+  "restore_backup_dialog_headline": {
+    "message": "Wiederherstellungscode eingeben:",
+    "description": ""
+  },
+  "restore_password_dialog_button": {
+    "message": "Anzeigen",
+    "description": ""
+  },
+  "restore_password_dialog_headline": {
+    "message": "Ihr Schlüssel-Passwort:",
+    "description": ""
+  },
+  "save_attachment_as_message": {
+    "message": "Wählen Sie den Ordner, in dem Sie den Anhang speichern möchten.",
+    "description": "Message in the attachment save dialog"
+  },
+  "security_background_angle": {
+    "message": "Winkel",
+    "description": "Angle"
+  },
+  "security_background_button_title": {
+    "message": "Der Sicherheitshintergrund kann im Mailvelope-Optionsbereich angepasst werden",
+    "description": "The tooltip text for the keylock button"
+  },
+  "security_background_coloring": {
+    "message": "Farbe",
+    "description": "Coloring"
+  },
+  "security_background_header": {
+    "message": "Sicherheitshintergrund",
+    "description": "Security background header"
+  },
+  "security_background_preview": {
+    "message": "Vorschau",
+    "description": "Preview"
+  },
+  "security_background_scaling": {
+    "message": "Skalierung",
+    "description": "Scaling"
+  },
+  "security_background_text": {
+    "message": "Der Sicherheitshintergrund ist Ihr persönlicher Mailvelope-Hintergrund. Er hilft die Veränderung der Benutzerschnittstelle durch Drittanbieterseiten und -anwendungen zu verhindern. Um die Sicherheit zu erhöhen, bitte den persönlichen Hintergrund hier erstellen und ändern.",
+    "description": "Security background text"
+  },
+  "security_cache_header": {
+    "message": "Passwörter für diese Browsersitzung speichern?",
+    "description": "Password cache header"
+  },
+  "security_cache_help": {
+    "message": "Muss eine Zahl zwischen 1 und 999 sein",
+    "description": "Help text for cache time."
+  },
+  "security_cache_off": {
+    "message": "Nein.",
+    "description": "Don't store password."
+  },
+  "security_cache_on": {
+    "message": "Ja, im Speicher behalten für",
+    "description": "Store password in memory for $1 minutes."
+  },
+  "security_cache_time": {
+    "message": "Minuten.",
+    "description": "Store password in memory for $1 minutes."
+  },
+  "security_display_decrypted": {
+    "message": "Wo werden entschlüsselte Nachrichten angezeigt?",
+    "description": "Label for display options"
+  },
+  "security_display_inline": {
+    "message": "Auf der Seite des E-Mail-Anbieters.",
+    "description": "Decrypted message display option"
+  },
+  "security_display_popup": {
+    "message": "In einem getrennten Fenster von Mailvelope.",
+    "description": "Decrypted message display option"
+  },
+  "security_log_action": {
+    "message": "Aktion",
+    "description": "Title of the action column of the security log table."
+  },
+  "security_log_add_attachment": {
+    "message": "Anhang hinzufügen ausgewählt",
+    "description": "A click on the attachment upload button as an event type"
+  },
+  "security_log_attachment_added": {
+    "message": "Anhang hinzugefügt",
+    "description": "Attachment added as an event type"
+  },
+  "security_log_attachment_download": {
+    "message": "Anhang heruntergeladen",
+    "description": "Attachment downloaded as an event source"
+  },
+  "security_log_backup_code_input": {
+    "message": "Eingabeereignis in den Backup-Code-Feldern",
+    "description": ""
+  },
+  "security_log_backup_create": {
+    "message": "Klickereignis für Backup erzeugen",
+    "description": ""
+  },
+  "security_log_backup_restore": {
+    "message": "Klickereignis für Backup wiederherstellen",
+    "description": ""
+  },
+  "security_log_content_copy": {
+    "message": "Kopierereignis im Dialog",
+    "description": ""
+  },
+  "security_log_dialog_cancel": {
+    "message": "Klickereignis auf Abbruchs im Dialog",
+    "description": ""
+  },
+  "security_log_dialog_encrypt": {
+    "message": "Klickereignis auf Verschlüsseln im Dialog",
+    "description": ""
+  },
+  "security_log_dialog_ok": {
+    "message": "Klickereignis auf Bestätigen im Dialog",
+    "description": ""
+  },
+  "security_log_dialog_sign": {
+    "message": "Klickereignis auf Signieren im Dialog",
+    "description": ""
+  },
+  "security_log_dialog_transfer": {
+    "message": "Klickereignis auf Übertragen im Dialog",
+    "description": ""
+  },
+  "security_log_dialog_undo": {
+    "message": "Klickereignis auf Rückgängig im Dialog",
+    "description": ""
+  },
+  "security_log_editor": {
+    "message": "PGP-Editor",
+    "description": "Message editor container as an event source"
+  },
+  "security_log_email_viewer": {
+    "message": "Entschlüsselte PGP-E-Mail",
+    "description": "Email decryption container as an event source"
+  },
+  "security_log_empty": {
+    "message": "Keine Einträge",
+    "description": "Message when the security log is empty"
+  },
+  "security_log_encrypt_dialog": {
+    "message": "Verschlüsseln Dialog",
+    "description": "Encrypt dialog as an event source"
+  },
+  "security_log_encryption_operation": {
+    "message": "Nachricht wurde verschlüsselt für: $1",
+    "description": ""
+  },
+  "security_log_import_dialog": {
+    "message": "Schlüssel Import Dialog",
+    "description": "Key import dialog as an event source"
+  },
+  "security_log_key_backup": {
+    "message": "Key Backup",
+    "description": "Message keybackup container as an event source"
+  },
+  "security_log_key_generator": {
+    "message": "Schlüsselgenerator",
+    "description": "Key generator container as an event source"
+  },
+  "security_log_password_click": {
+    "message": "Klickereignis im Passwortdialog",
+    "description": ""
+  },
+  "security_log_password_dialog": {
+    "message": "Passwort Dialog",
+    "description": "Password dialog as an event source"
+  },
+  "security_log_password_input": {
+    "message": "Eingabeereignis im Passwortfeld",
+    "description": ""
+  },
+  "security_log_remove_attachment": {
+    "message": "Anhang entfernt",
+    "description": "A click on the attachment remove button as event type"
+  },
+  "security_log_restore_backup_click": {
+    "message": "Klickereignis im Wiederherstellungsdialog",
+    "description": ""
+  },
+  "security_log_sign_dialog": {
+    "message": "Signieren Dialog",
+    "description": "Sign dialog as an event source"
+  },
+  "security_log_signature_modal_close": {
+    "message": "Klickereignis auf Schliessen im Signaturdialog",
+    "description": ""
+  },
+  "security_log_signature_modal_open": {
+    "message": "Klickereignis zum Öffnen des Signaturdialoges",
+    "description": ""
+  },
+  "security_log_source": {
+    "message": "Quelle",
+    "description": "Title of the source column of the security log table."
+  },
+  "security_log_text": {
+    "message": "Im Sicherheitsprotokoll werden Benutzeraktionen in integrierten Komponenten von Mailvelope angezeigt.",
+    "description": "Text explaining the purpose of the security log"
+  },
+  "security_log_text_input": {
+    "message": "Eingabeereignis im Textfeld",
+    "description": "A click in the text area as an event type"
+  },
+  "security_log_textarea_click": {
+    "message": "Klickereignis im Textfeld",
+    "description": "A click in the text area as an event type"
+  },
+  "security_log_textarea_input": {
+    "message": "Eingabeereignis im Textfeld",
+    "description": "A click in the text area as an event type"
+  },
+  "security_log_textarea_select": {
+    "message": "Auswahlereignis im Textfeld",
+    "description": "Selection of the text area as an event type"
+  },
+  "security_log_timestamp": {
+    "message": "Zeitstempel",
+    "description": "Title of the timestamp column of the security log table."
+  },
+  "security_log_verify_dialog": {
+    "message": "Verifizieren Dialog",
+    "description": "Verify dialog as an event source"
+  },
+  "settings_backup": {
+    "message": "Sicherung",
+    "description": "Tab allowing to backup and restore the settings."
+  },
+  "settings_general": {
+    "message": "Allgemein",
+    "description": "Tab of options to display general settings."
+  },
+  "settings_security": {
+    "message": "Sicherheit",
+    "description": "Tab of options to display security settings."
+  },
+  "settings_security_log": {
+    "message": "Sicherheitsprotokoll",
+    "description": "Tab of options to display security log."
+  },
+  "settings_watchlist": {
+    "message": "Liste der E-Mail-Anbieter",
+    "description": "Tab of options to display list of supported mail providers."
+  },
+  "sign_dialog_header": {
+    "message": "Nachricht mit Schlüssel signieren:",
+    "description": "Header of sign dialog."
+  },
+  "upload_aborting_warning": {
+    "message": "Dateihochladen wird abgebrochen.",
+    "description": "A warning for the aborting of the file upload."
+  },
+  "upload_attachment": {
+    "message": "Anhang hinzufügen",
+    "description": "Text in the upload attachment button of the message editor dialog"
+  },
+  "upload_quota_exceeded_warning": {
+    "message": "Anhang überschreitet die zulässige Größe:",
+    "description": "A warning shown when the attachments upload quota is exceeded."
+  },
+  "upload_quota_warning_headline": {
+    "message": "Anhang zu groß",
+    "description": ""
+  },
+  "verify_error": {
+    "message": "Diese Nachricht konnte nicht überprüft werden: $1",
+    "description": "Error during verification process."
+  },
+  "verify_result_error": {
+    "message": "Falsche Signatur von",
+    "description": "Verfiy signature error. Wrong signature of [userid]."
+  },
+  "verify_result_success": {
+    "message": "Signiert von",
+    "description": "Verfiy signature succeeded."
+  },
+  "verify_result_warning": {
+    "message": "Mit unbekanntem Schlüssel signiert",
+    "description": "Verfiy signature warning."
+  },
+  "waiting_dialog_decryption_failed": {
+    "message": "Entschlüsselung fehlgeschlagen!",
+    "description": "Error message in the waiting dialog after failing to decrypt a message"
+  },
+  "waiting_dialog_prepare_email": {
+    "message": "Nachricht wird vorbereitet …",
+    "description": "Message in the waiting dialog for quoting email"
+  },
+  "watchlist_command_cancel": {
+    "message": "Änderungen verwerfen",
+    "description": "Cancel changes in watchlist."
+  },
+  "watchlist_command_create": {
+    "message": "Neuen Eintrag hinzufügen",
+    "description": "Create entry in watchlist."
+  },
+  "watchlist_command_edit": {
+    "message": "Bearb.",
+    "description": "Edit entry in watchlist."
+  },
+  "watchlist_command_save": {
+    "message": "Änderungen speichern",
+    "description": "Save changes in watchlist."
+  },
+  "watchlist_delete_confirmation": {
+    "message": "Wollen Sie diese Seite wirklich von der Liste der E-Mail-Anbieter entfernen?",
+    "description": "Mesage in the watchlist delete confirmation dialog."
+  },
+  "watchlist_expose_api": {
+    "message": "API",
+    "description": "Expose API to Webmailer."
+  },
+  "watchlist_record_title": {
+    "message": "E-Mail-Anbieter",
+    "description": "Title of the watchlist editor dialog."
+  },
+  "watchlist_title_active": {
+    "message": "Aktiv",
+    "description": "Entry in watchlist is active."
+  },
+  "watchlist_title_frame": {
+    "message": "Domänenmuster",
+    "description": "Web domain URL match pattern of site in watchlist."
+  },
+  "watchlist_title_scan": {
+    "message": "Status",
+    "description": "Scan status of site in watchlist."
+  },
+  "watchlist_title_site": {
+    "message": "Seite",
+    "description": "Site in watchlist."
+  },
+  "word_or": {
+    "message": "oder",
+    "description": "Separate list of elements."
+  },
+  "wrong_restore_code": {
+    "message": "Der Wiederherstellungscode ist nicht korrekt.",
+    "description": ""
+  }
 }
