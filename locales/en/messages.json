@@ -1,1252 +1,1250 @@
 {
   "alert_header_error": {
-    "message": "Error!",
-    "description": "Alert header of category error."
+    "description": "Alert header of category error.",
+    "message": "Error!"
   },
   "alert_header_success": {
-    "message": "Success!",
-    "description": "Alert header of category success."
+    "description": "Alert header of category success.",
+    "message": "Success!"
   },
   "alert_header_warning": {
-    "message": "Warning!",
-    "description": "Alert header of category warning."
+    "description": "Alert header of category warning.",
+    "message": "Warning!"
   },
   "alert_invalid_domainmatchpattern_warning": {
-    "message": "Domain match pattern should begin with *.",
-    "description": "Alert header of category warning."
+    "description": "Alert header of category warning.",
+    "message": "Domain match pattern should begin with *."
   },
   "alert_no_domainmatchpattern_warning": {
-    "message": "At least one domain match pattern is needed.",
-    "description": "Alert header of category warning."
+    "description": "Alert header of category warning.",
+    "message": "At least one domain match pattern is needed."
   },
   "clear_localstorage_confirm_message": {
-    "message": "Do you want to delete all your PGP keys from this browser profile?",
-    "description": "The message of the confirmation dialog."
+    "description": "The message of the confirmation dialog.",
+    "message": "Would you like to delete all your PGP keys from this browser profile?"
   },
   "clear_localstorage_confirm_title": {
-    "message": "Confirm",
-    "description": "The title of the confirmation dialog."
+    "description": "The title of the confirmation dialog.",
+    "message": "Confirm"
   },
   "cleartext_read_error": {
-    "message": "Could not read this cleartext message: $1",
-    "description": "Cleartext message read error message: $1: error message."
+    "description": "Cleartext message read error message: $1: error message.",
+    "message": "Could not read this cleartext message: $1"
   },
   "decrypt_digital_signature": {
-    "message": "Digitally signed",
-    "description": "Caption digital signature"
+    "description": "Caption digital signature",
+    "message": "Signed digitally"
   },
   "decrypt_digital_signature_failure": {
-    "message": "Digital signature error",
-    "description": "Caption digital signature"
+    "description": "Caption digital signature",
+    "message": "Invalid digital signature"
   },
   "decrypt_digital_signature_null": {
-    "message": "Digital signature not identified",
-    "description": "Caption digital signature"
+    "description": "Caption digital signature",
+    "message": "Digital signature could not be identified"
   },
   "decrypt_popup_copy": {
-    "message": "Copy to Clipboard",
-    "description": "Copy decrypted message to clipboard."
+    "description": "Copy decrypted message to clipboard.",
+    "message": "Copy to Clipboard"
   },
   "decrypt_popup_header": {
-    "message": "Message",
-    "description": "Header of decrypt popup."
+    "description": "Header of decrypt popup.",
+    "message": "Message"
   },
   "decrypt_popup_title": {
-    "message": "Decrypted Message",
-    "description": "Title of decrypt popup."
+    "description": "Title of decrypt popup.",
+    "message": "Decrypted Message"
   },
   "dialog_keyid_label": {
-    "message": "Key ID:",
-    "description": "Label for key ID."
+    "description": "Label for key ID.",
+    "message": "Key ID:"
   },
   "dialog_popup_close": {
-    "message": "Close",
-    "description": "Close decrypt popup."
+    "description": "Close decrypt popup.",
+    "message": "Close"
   },
   "digital_signature_dialog_header": {
-    "message": "Digital signature",
-    "description": "Header of digital signature dialog."
+    "description": "Header of digital signature dialog.",
+    "message": "Digital signature"
   },
   "digital_signature_status_false": {
-    "message": "invalid",
-    "description": ""
+    "description": "",
+    "message": "Invalid signature"
   },
   "digital_signature_status_null": {
-    "message": "Signature can not be verified",
-    "description": ""
+    "description": "",
+    "message": "Signature cannot be verified"
   },
   "digital_signature_status_null_description": {
-    "message": "The contact of the digital signature has not yet been confirmed for encrypted communication. Ask the contact for an invite.",
-    "description": ""
+    "description": "",
+    "message": "The contact of the digital signature has not yet been confirmed for encrypted communication. Please ask the contact for an invitation."
   },
   "digital_signature_status_true": {
-    "message": "valid",
-    "description": ""
+    "description": "",
+    "message": "Signature is valid"
   },
   "editor_blur_warn": {
-    "message": "Warning. Text editor lost focus.",
-    "description": "Warning for lost focus."
+    "description": "Warning for lost focus.",
+    "message": "Warning. Text editor lost focus."
   },
   "editor_encrypt_button": {
-    "message": "Encrypt",
-    "description": "Encrypt button."
+    "description": "Encrypt button.",
+    "message": "Encrypt"
   },
   "editor_error_content": {
-    "message": "Error Content",
-    "description": ""
+    "description": "",
+    "message": "Error Content"
   },
   "editor_error_header": {
-    "message": "Error Header",
-    "description": ""
+    "description": "",
+    "message": "Error Header"
   },
   "editor_header": {
-    "message": "Compose Mail",
-    "description": "Header of editor popup."
+    "description": "Header of editor popup.",
+    "message": "Compose E-mail"
   },
   "editor_no_primary_key_caption_long": {
-    "message": "Email cannot be digitally signed because the primary key is missing",
-    "description": "Caption digital signature"
+    "description": "",
+    "message": "E-mail cannot be signed digitally because the primary key is missing"
   },
   "editor_no_primary_key_caption_short": {
-    "message": "Email cannot be digitally signed",
-    "description": "Caption digital signature"
+    "description": "",
+    "message": "E-mail cannot be signed digitally"
   },
   "editor_no_sign_caption_long": {
-    "message": "Email won't be digitally signed",
-    "description": "Caption digital signature"
+    "description": "",
+    "message": "E-mail will not be signed digitally"
   },
   "editor_no_sign_caption_short": {
-    "message": "Email is not digitally signed",
-    "description": "Caption digital signature"
+    "description": "",
+    "message": "E-mail is not signed digitally"
   },
   "editor_remove_upload": {
-    "message": "Remove",
-    "description": "Remove uploaded attachment"
+    "description": "Remove uploaded attachment",
+    "message": "Remove"
   },
   "editor_sign_button": {
-    "message": "Sign",
-    "description": "Sign button."
+    "description": "Sign button.",
+    "message": "Sign"
   },
   "editor_sign_caption_long": {
-    "message": "Email will be digitally signed",
-    "description": "Caption digital signature"
+    "description": "",
+    "message": "E-mail will be signed digitally"
   },
   "editor_sign_caption_short": {
-    "message": "Email is digitally signed",
-    "description": "Caption digital signature"
+    "description": "",
+    "message": "E-mail is signed digitally"
   },
   "editor_transfer": {
-    "message": "Transfer",
-    "description": "Transfer button of editor popup."
+    "description": "Transfer button of editor popup.",
+    "message": "Transfer"
   },
   "editor_transfer_unencrypted": {
-    "message": "You are trying to transfer unencrypted content back to the mail provider.",
-    "description": "Warning for unencrypted content."
+    "description": "Warning for unencrypted content.",
+    "message": "You are trying to transfer unencrypted content to the e-mail provider."
   },
   "encrypt_dialog_add": {
-    "message": "Add",
-    "description": "Max 6 character."
+    "description": "Max 6 character.",
+    "message": "Add"
   },
   "encrypt_dialog_header": {
-    "message": "Encrypt for:",
-    "description": "Header of encrypt dialog."
+    "description": "Header of encrypt dialog.",
+    "message": "Encrypt for:"
   },
   "encrypt_dialog_no_recipient": {
-    "message": "Please add a recipient.",
-    "description": "Error message if no recipient selected."
+    "description": "Error message if no recipient selected.",
+    "message": "Please add a recipient."
   },
   "encrypt_error": {
-    "message": "Could not encrypt this message: $1",
-    "description": "Error during encryption process."
+    "description": "Error during encryption process.",
+    "message": "Could not encrypt this message: $1"
   },
   "ext_description": {
-    "message": "Enhance your webmail provider with end-to-end encryption. Secure email communication based on the OpenPGP standard.",
-    "description": "Description of the extension."
+    "description": "Description of the extension.",
+    "message": "Enhance your e-mail provider with end-to-end encryption. Secure e-mail communication based on the OpenPGP standard."
   },
   "ext_name": {
-    "message": "Mailvelope",
-    "description": "Name of the extension."
+    "description": "Name of the extension.",
+    "message": "Mailvelope"
   },
   "form_busy": {
-    "message": "Busy",
-    "description": "Form in busy state."
+    "description": "Form in busy state.",
+    "message": "Processing"
   },
   "form_cancel": {
-    "message": "Cancel",
-    "description": "Cancel form button."
+    "description": "Cancel form button.",
+    "message": "Cancel"
   },
   "form_clear": {
-    "message": "Clear",
-    "description": "Clear form button."
+    "description": "Clear form button.",
+    "message": "Clear"
   },
   "form_close": {
-    "message": "Close",
-    "description": "Close form button."
+    "description": "Close form button.",
+    "message": "Close"
   },
   "form_confirm": {
-    "message": "Confirm",
-    "description": "Confirm form button."
+    "description": "Confirm form button.",
+    "message": "Confirm"
   },
   "form_continue": {
-    "message": "Continue",
-    "description": "Continue form button."
+    "description": "Continue form button.",
+    "message": "Continue"
   },
   "form_import": {
-    "message": "Import",
-    "description": "Import form button."
+    "description": "Import form button.",
+    "message": "Import"
   },
   "form_no": {
-    "message": "No",
-    "description": "No form button."
+    "description": "No form button.",
+    "message": "No"
   },
   "form_ok": {
-    "message": "Ok",
-    "description": "Ok form button."
+    "description": "Ok form button.",
+    "message": "OK"
   },
   "form_save": {
-    "message": "Save",
-    "description": "Save form button."
+    "description": "Save form button.",
+    "message": "Save"
   },
   "form_submit": {
-    "message": "Submit",
-    "description": "Submit form button."
+    "description": "Submit form button.",
+    "message": "Submit"
   },
   "form_undo": {
-    "message": "Undo",
-    "description": "Undo form button."
+    "description": "Undo form button.",
+    "message": "Undo"
   },
   "form_yes": {
-    "message": "Yes",
-    "description": "Yes form button."
+    "description": "Yes form button.",
+    "message": "Yes"
   },
   "general_editor_plain": {
-    "message": "Plain Text",
-    "description": "Editor option: plain text."
+    "description": "Editor option: plain text.",
+    "message": "Plain Text"
   },
   "general_editor_rich": {
-    "message": "Rich Text Editor",
-    "description": "Editor option: rich text."
+    "description": "Editor option: rich text.",
+    "message": "Rich Text Editor"
   },
   "general_editor_type": {
-    "message": "Email editor selection",
-    "description": "Label for editor options."
+    "description": "Label for editor options.",
+    "message": "E-mail editor selection"
   },
   "general_primary_key_always": {
-    "message": "Always add primary key to list of recipients. (Allows to decrypt sent mails)",
-    "description": "Label for primary private key option."
+    "description": "Label for primary private key option.",
+    "message": "Always add my primary key to the list of recipients. (This allows you to decrypt sent mails)"
   },
   "general_primary_key_label": {
-    "message": "Primary Private Key",
-    "description": "Label for primary private key option."
+    "description": "Label for primary private key option.",
+    "message": "Primary Private Key"
   },
   "header_warning": {
-    "message": "Warning!",
-    "description": "Header warning."
+    "description": "Header warning.",
+    "message": "Warning!"
   },
   "key_details_title": {
-    "message": "Key Details",
-    "description": "The title of the key details dialog."
+    "description": "The title of the key details dialog.",
+    "message": "Key Details"
   },
   "key_export_clipboard": {
-    "message": "Copy to Clipboard",
-    "description": "Copy to clipboard button."
+    "description": "Copy to clipboard button.",
+    "message": "Copy to Clipboard"
   },
   "key_export_create_file": {
-    "message": "Save",
-    "description": "Download file button."
+    "description": "Download file button.",
+    "message": "Save"
   },
   "key_export_download": {
-    "message": "Download key",
-    "description": "Download key link."
+    "description": "Download key link.",
+    "message": "Download Key"
   },
   "key_export_header": {
-    "message": "Export Key",
-    "description": "Export key dialog header."
+    "description": "Export key dialog header.",
+    "message": "Export Key"
   },
   "key_export_too_large": {
-    "message": "Key is too large to fit into a URL, use copy & paste instead.",
-    "description": "Key export warning message."
+    "description": "Key export warning message.",
+    "message": "Key is too large for a URL, please use copy & paste instead."
   },
   "key_export_warning_private": {
-    "message": "This file contains also private keys.",
-    "description": "Key export warning."
+    "description": "Key export warning.",
+    "message": "This file also contains private keys."
   },
   "key_gen_advanced_btn": {
-    "message": "Advanced",
-    "description": "Advanced key generation settings."
+    "description": "Advanced key generation settings.",
+    "message": "Advanced"
   },
   "key_gen_another": {
-    "message": "Generate another...",
-    "description": "Key import button"
+    "description": "Key import button",
+    "message": "Generate another..."
   },
   "key_gen_days": {
-    "message": "days",
-    "description": "Key expires after time range"
+    "description": "Key expires after time range",
+    "message": "days"
   },
   "key_gen_demail": {
-    "message": "De-Mail Address",
-    "description": "De-Mail address name."
+    "description": "De-Mail address name.",
+    "message": "De-Mail Address"
   },
   "key_gen_error": {
-    "message": "Error while generating key.",
-    "description": "Key generation error message"
+    "description": "Key generation error message",
+    "message": "Error while generating key."
   },
   "key_gen_expiration": {
-    "message": "Expiration",
-    "description": "Key expires after time range"
+    "description": "Key expires after time range",
+    "message": "Expiration"
   },
   "key_gen_invalid_email": {
-    "message": "Invalid email address",
-    "description": "Error message."
+    "description": "Error message.",
+    "message": "Invalid e-mail address"
   },
   "key_gen_key_size": {
-    "message": "Key size",
-    "description": "Advanced key generation settings: Key size"
+    "description": "Advanced key generation settings: Key size",
+    "message": "Key size"
   },
   "key_gen_months": {
-    "message": "months",
-    "description": "Key expires after time range"
+    "description": "Key expires after time range",
+    "message": "months"
   },
   "key_gen_name_help": {
-    "message": "Full name of key owner",
-    "description": "Help text for name field."
+    "description": "Help text for name field.",
+    "message": "Full name of the key owner"
   },
   "key_gen_never": {
-    "message": "never",
-    "description": "Key expires after time range"
+    "description": "Key expires after time range",
+    "message": "never"
   },
   "key_gen_pwd": {
-    "message": "Enter Password",
-    "description": "Label for passphrase input field"
+    "description": "Label for passphrase input field",
+    "message": "Enter Password"
   },
   "key_gen_pwd_empty": {
-    "message": "Password is empty",
-    "description": "Passphrase input field status"
+    "description": "Passphrase input field status",
+    "message": "Password is empty"
   },
   "key_gen_pwd_match": {
-    "message": "Passwords match",
-    "description": "Passphrase input field status"
+    "description": "Passphrase input field status",
+    "message": "Passwords match"
   },
   "key_gen_pwd_reenter": {
-    "message": "Re-enter Password",
-    "description": "Label for passphrase input field"
+    "description": "Label for passphrase input field",
+    "message": "Re-enter Password"
   },
   "key_gen_pwd_unequal": {
-    "message": "Passwords not equal",
-    "description": "Passphrase input field status"
+    "description": "Passphrase input field status",
+    "message": "Passwords do not match"
   },
   "key_gen_success": {
-    "message": "New key generated and imported into key ring",
-    "description": "Key generation success message"
+    "description": "Key generation success message",
+    "message": "New key generated and imported into keyring"
   },
   "key_gen_wait_header": {
-    "message": "Key generation in progress...",
-    "description": "Wait dialog header"
+    "description": "Wait dialog header",
+    "message": "Key generation in progress..."
   },
   "key_gen_wait_info": {
-    "message": "Please wait, key generation can take up to several minutes depending on factors like the key size.",
-    "description": "Wait dialog info message"
+    "description": "Wait dialog info message",
+    "message": "Please wait, key generation can take up to several minutes depending on various factors, such as the key size."
   },
   "key_gen_years": {
-    "message": "years",
-    "description": "Key expires after time range"
+    "description": "Key expires after time range",
+    "message": "years"
   },
   "key_import_another": {
-    "message": "Import another...",
-    "description": "Import another key button."
+    "description": "Import another key button.",
+    "message": "Import another..."
   },
   "key_import_default_description": {
-    "message": "The setup for encrypted communication with this contact is ready after confirmation.",
-    "description": "Key import dialog description"
+    "description": "Key import dialog description.",
+    "message": "Encrypted communication with this recipient is ready after confirmation."
   },
   "key_import_default_headline": {
-    "message": "Confirm contact for encrypted communication?",
-    "description": "Key import dialog header"
+    "description": "Key import dialog header.",
+    "message": "Add contact to encrypted communication?"
   },
   "key_import_dialog_header": {
-    "message": "Add key to keyring",
-    "description": "Key import dialog header."
+    "description": "Key import dialog header.",
+    "message": "Add key to keyring"
   },
   "key_import_error": {
-    "message": "Import Error.",
-    "description": "Import error alert."
+    "description": "Import error alert.",
+    "message": "Import Error."
   },
   "key_import_exception": {
-    "message": "An exception occured while processing the keys",
-    "description": "Import error alert."
+    "description": "Import error alert.",
+    "message": "An exception occurred while processing the keys"
   },
   "key_import_extend_date": {
-    "message": "Created:",
-    "description": ""
+    "description": "",
+    "message": "Created:"
   },
   "key_import_extend_description": {
-    "message": "The PGP fingerprint is used to identify the key information of your communication.",
-    "description": ""
+    "description": "Key import dialog description.",
+    "message": "The PGP fingerprint is used to identify the key information of your correspondence."
   },
   "key_import_extend_fingerprint": {
-    "message": "PGP-Fingerprint:",
-    "description": ""
+    "description": "",
+    "message": "PGP-Fingerprint:"
   },
   "key_import_extend_headline": {
-    "message": "Advanced information for encrypted communication:",
-    "description": "Key import dialog header"
+    "description": "Key import dialog description.",
+    "message": "Further information on encrypted communication:"
   },
   "key_import_extend_hint": {
-    "message": "Hint:",
-    "description": ""
+    "description": "",
+    "message": "Hint:"
   },
   "key_import_file_select": {
-    "message": "Select a key text file to import",
-    "description": "File selection button label."
+    "description": "File selection button label.",
+    "message": "Select a key text file to import"
   },
   "key_import_invalid_text": {
-    "message": "No valid key text found",
-    "description": "Import error alert."
+    "description": "Import error alert.",
+    "message": "No valid key text found"
   },
   "key_import_invalidated_description": {
-    "message": "An encrypted communication with [CONTACT] is no longer possible. The contact must re-invite you.",
-    "description": "Key import dialog description"
+    "description": "",
+    "message": "Encrypted communication with [CONTACT] is no longer possible. The contact needs to re-invite you."
   },
   "key_import_invalidated_headline": {
-    "message": "Warning! The existing data for encrypted communication is expired.",
-    "description": "Key import dialog header"
+    "description": "Key import dialog header.",
+    "message": "Warning: Necessary data for encrypted communication has expired."
   },
   "key_import_multiple_keys": {
-    "message": "To import multiple keys, simply paste them all here. Extra text around the keys is ignored.",
-    "description": "Info message."
+    "description": "Info message.",
+    "message": "To import multiple keys, simply paste them all here. Extra text around the keys is ignored."
   },
   "key_import_private_exists": {
-    "message": "Private key-part of existing public key $1 of user $2 imported into key ring",
-    "description": "Import success message: $1: keyid, $2: userid."
+    "description": "Import success message: $1: keyid, $2: userid.",
+    "message": "Private key-part of existing public key $1 of user $2 imported into keyring"
   },
   "key_import_private_read": {
-    "message": "Unable to read one private key: $1",
-    "description": "Import error message. $1: error message"
+    "description": "Import error message. $1: error message",
+    "message": "Unable to read a private key: $1"
   },
   "key_import_private_success": {
-    "message": "Private key $1 of user $2 imported into key ring",
-    "description": "Import success message: $1: keyid, $2: userid."
+    "description": "Import success message: $1: keyid, $2: userid.",
+    "message": "Private key $1 of user $2 imported into keyring"
   },
   "key_import_private_update": {
-    "message": "Private key $1 of user $2 updated",
-    "description": "Import success message: $1: keyid, $2: userid."
+    "description": "Import success message: $1: keyid, $2: userid.",
+    "message": "Updated private key $1 of user $2"
   },
   "key_import_public_read": {
-    "message": "Unable to read one public key: $1",
-    "description": "Import error message. $1: error message"
+    "description": "Import error message. $1: error message",
+    "message": "Unable to read a public key: $1"
   },
   "key_import_public_success": {
-    "message": "Public key $1 of user $2 imported into key ring",
-    "description": "Import success message: $1: keyid, $2: userid."
+    "description": "Import success message: $1: keyid, $2: userid.",
+    "message": "Public key $1 of user $2 imported into keyring"
   },
   "key_import_public_update": {
-    "message": "Public key $1 of user $2 updated",
-    "description": "Import success message: $1: keyid, $2: userid."
+    "description": "Import success message: $1: keyid, $2: userid.",
+    "message": "Updated public key $1 of user $2"
   },
   "key_import_textarea": {
-    "message": "Paste key text here:",
-    "description": "Key import box."
+    "description": "Key import box.",
+    "message": "Paste key text here:"
   },
   "key_import_unable": {
-    "message": "Unable to import one key due to exception: $1",
-    "description": "Import error message: $1: error message."
+    "description": "Import error message: $1: error message.",
+    "message": "Unable to import a key due to exception: $1"
   },
   "key_recovery_failed": {
+    "description": "",
     "message": "Recovering key from backup failed."
   },
   "key_set_as_primary": {
-    "message": "Set as Primary",
-    "description": "Set as primary key for the keyring button"
+    "description": "Set as primary key for the keyring button",
+    "message": "Set as Primary"
   },
   "keybackup_failed": {
-    "message": "Key backup failed."
+    "description": "",
+    "message": "Creating key backup failed."
   },
   "keybackup_restore_dialog_button": {
-    "message": "Restore backup",
-    "description": ""
+    "description": "",
+    "message": "Restore backup"
   },
   "keybackup_restore_dialog_description": {
-    "message": "Create a new backup:",
-    "description": ""
+    "description": "",
+    "message": "Create a new recovery sheet, if:"
   },
   "keybackup_restore_dialog_headline": {
-    "message": "Recommendation: Restore backup",
-    "description": ""
+    "description": "",
+    "message": "Recommendation: Create a backup"
   },
   "keybackup_restore_dialog_list_1": {
-    "message": "When you lost the recovery sheet.",
-    "description": ""
+    "description": "",
+    "message": "If you lost the recovery sheet."
   },
   "keybackup_restore_dialog_list_2": {
-    "message": "You need a new one for safety reason.",
-    "description": ""
+    "description": "",
+    "message": "Please create a new recovery sheet for security reasons."
   },
   "keybackup_setup_dialog_button": {
-    "message": "Setting up backup",
-    "description": ""
+    "description": "",
+    "message": "Set up a backup"
   },
   "keybackup_setup_dialog_description": {
-    "message": "The backup is required to ensure your encrypted communication is:",
-    "description": ""
+    "description": "",
+    "message": "The backup is required to ensure your encrypted communication is:"
   },
   "keybackup_setup_dialog_headline": {
-    "message": "Recommendation: Setup backup",
-    "description": ""
+    "description": "",
+    "message": "Recommendation: Set up a backup"
   },
   "keybackup_setup_dialog_list_1": {
-    "message": "Restored on data loss.",
-    "description": ""
+    "description": "",
+    "message": "In order to restore it in case of data loss."
   },
   "keybackup_setup_dialog_list_2": {
-    "message": "Transferred to other devices.",
-    "description": ""
+    "description": "",
+    "message": "In order to transfer it to other devices."
   },
   "keybackup_waiting_description": {
-    "message": "A document with your backup code is being prepared.",
-    "description": ""
+    "description": "",
+    "message": "A document with your backup code is being prepared."
   },
   "keybackup_waiting_headline": {
-    "message": "Create backup!",
-    "description": ""
+    "description": "",
+    "message": "Creating backup!"
   },
   "keygen_dialog_confirm": {
-    "message": "Repeat",
-    "description": ""
+    "description": "",
+    "message": "Repeat"
   },
   "keygen_dialog_confirm_error_unequal": {
-    "message": "Please check the inputs.",
-    "description": ""
+    "description": "",
+    "message": "Please double-check your input."
   },
   "keygen_dialog_confirm_success": {
-    "message": "Inputs are correct.",
-    "description": ""
+    "description": "",
+    "message": "Input is valid."
   },
   "keygen_dialog_password": {
-    "message": "Key Password",
-    "description": ""
+    "description": "",
+    "message": "Key Password"
   },
   "keygen_dialog_password_placeholder": {
-    "message": "min 4 characters",
-    "description": ""
+    "description": "",
+    "message": "min 4 characters"
   },
   "keygen_dialog_prolog": {
-    "message": "Assign password to protect your encrypted communication:",
-    "description": ""
+    "description": "",
+    "message": "Please assign a password to protect your encrypted communication:"
   },
   "keygen_waiting_description": {
-    "message": "The setup for encrypted communication can take several minutes. Your browser may become unresponsive. Please be patient.",
-    "description": ""
+    "description": "",
+    "message": "Setting up encrypted communication can take several minutes. Your browser may become unresponsive. Please be patient."
   },
   "keygen_waiting_headline": {
-    "message": "Setting up encrypted communication",
-    "description": ""
+    "description": "",
+    "message": "Setting up encrypted communication"
   },
   "keygrid_algorithm": {
-    "message": "Algorithm",
-    "description": "Public-key algorithm of a PGP key."
+    "description": "Public-key algorithm of a PGP key.",
+    "message": "Algorithm"
   },
   "keygrid_all_keys": {
-    "message": "All",
-    "description": "Selection of key type."
+    "description": "Selection of key type.",
+    "message": "Any"
   },
   "keygrid_creation_date": {
-    "message": "Creation Date",
-    "description": "Creation date of a PGP key."
+    "description": "Creation date of a PGP key.",
+    "message": "Creation Date"
   },
   "keygrid_creation_date_short": {
-    "message": "Created",
-    "description": "Short creation date of a PGP key. Max. width: 90px"
+    "description": "Short creation date of a PGP key. Max. width: 90px",
+    "message": "Created"
   },
   "keygrid_delete": {
-    "message": "Delete",
-    "description": "Max. 6 characters."
+    "description": "Max. 6 characters.",
+    "message": "Delete"
   },
   "keygrid_delete_confirmation": {
-    "message": "Are you sure you want to remove this key?",
-    "description": "Delete confirmation dialog."
+    "description": "Delete confirmation dialog.",
+    "message": "Are you sure you want to remove this key?"
   },
   "keygrid_display_all_keys": {
-    "message": "Display all keys",
-    "description": "Export key menu."
-  },
-  "keygrid_display_key_pair": {
-    "message": "Display key pair",
-    "description": "Export key menu."
+    "description": "Export key menu.",
+    "message": "Display all keys"
   },
   "keygrid_display_priv_key": {
-    "message": "Display private key",
-    "description": "Export key menu."
+    "description": "Export key menu.",
+    "message": "Display Private Key"
   },
   "keygrid_display_pub_key": {
-    "message": "Display public key",
-    "description": "Export key menu."
+    "description": "Export key menu.",
+    "message": "Display public key"
   },
   "keygrid_expiration_date": {
-    "message": "Expiration Date",
-    "description": "Expiration date of a PGP key."
+    "description": "Expiration date of a PGP key.",
+    "message": "Expiration Date"
   },
   "keygrid_export": {
-    "message": "Export",
-    "description": "Export key."
+    "description": "Export key.",
+    "message": "Export"
   },
   "keygrid_invalid_userid": {
-    "message": "Invalid user ID",
-    "description": "User ID invalid."
+    "description": "User ID invalid.",
+    "message": "Invalid user ID"
   },
   "keygrid_key_fingerprint": {
-    "message": "Fingerprint",
-    "description": "Unique string identifier for a PGP key."
+    "description": "Unique string identifier for a PGP key.",
+    "message": "Fingerprint"
   },
   "keygrid_key_length": {
-    "message": "Length",
-    "description": "Key length of a PGP key."
+    "description": "Key length of a PGP key.",
+    "message": "Length"
   },
   "keygrid_key_not_expire": {
-    "message": "The key does not expire",
-    "description": "Expiration date of a PGP key not set."
+    "description": "Expiration date of a PGP key not set.",
+    "message": "This key does not expire"
   },
   "keygrid_key_type": {
-    "message": "Type",
-    "description": "The type of the key."
+    "description": "The type of the key.",
+    "message": "Type"
   },
   "keygrid_keyid": {
-    "message": "Key ID",
-    "description": "Key ID of a PGP key."
+    "description": "Key ID of a PGP key.",
+    "message": "Key ID"
   },
   "keygrid_no_subkeys": {
-    "message": "No subkeys available",
-    "description": "No subkeys of a PGP key found."
+    "description": "No subkeys of a PGP key found.",
+    "message": "No subkeys available"
   },
   "keygrid_primary_key": {
-    "message": "Main Key",
-    "description": "Main key in the PGP key."
+    "description": "Main key in the PGP key.",
+    "message": "Main Key"
   },
   "keygrid_primary_label": {
-    "message": "Primary",
-    "description": "Label for the primary key"
+    "description": "Label for the primary key",
+    "message": "Primary"
   },
   "keygrid_private_keys": {
-    "message": "Private Keys",
-    "description": "Selection of key type."
+    "description": "Selection of key type.",
+    "message": "Private Keys"
   },
   "keygrid_public_keys": {
-    "message": "Public Keys",
-    "description": "Selection of key type."
+    "description": "Selection of key type.",
+    "message": "Public Keys"
   },
   "keygrid_send_pub_key": {
-    "message": "Send public key by mail",
-    "description": "Export key menu."
+    "description": "Export key menu.",
+    "message": "Send public key via e-mail"
   },
   "keygrid_signer_name": {
-    "message": "Signatory",
-    "description": "User ID of signer."
+    "description": "User ID of signer.",
+    "message": "Signee"
   },
   "keygrid_signer_unknown": {
-    "message": "Signatory unknown",
-    "description": "Key of signer not available."
+    "description": "Key of signer not available.",
+    "message": "Unknown signee"
   },
   "keygrid_sort_type": {
-    "message": "Key type",
-    "description": "Key grid sort selector."
+    "description": "Key grid sort selector.",
+    "message": "Key type"
   },
   "keygrid_status_invalid": {
-    "message": "invalid",
-    "description": "Validity status of a PGP key."
+    "description": "Validity status of a PGP key.",
+    "message": "invalid"
   },
   "keygrid_status_valid": {
-    "message": "valid",
-    "description": "Validity status of a PGP key."
+    "description": "Validity status of a PGP key.",
+    "message": "valid"
   },
   "keygrid_subkeyid": {
-    "message": "ID",
-    "description": "Subkey ID of a PGP key."
+    "description": "Subkey ID of a PGP key.",
+    "message": "ID"
   },
   "keygrid_subkeys": {
-    "message": "Subkeys",
-    "description": "Subkeys of a PGP key."
+    "description": "Subkeys of a PGP key.",
+    "message": "Subkeys"
   },
   "keygrid_user_email": {
-    "message": "Email",
-    "description": "Email address in User ID of a PGP key."
+    "description": "Email address in User ID of a PGP key.",
+    "message": "E-mail"
   },
   "keygrid_user_ids": {
-    "message": "User IDs",
-    "description": "User IDs of a PGP key."
+    "description": "User IDs of a PGP key.",
+    "message": "User IDs"
   },
   "keygrid_user_name": {
-    "message": "Name",
-    "description": "Name in User ID of a PGP key."
+    "description": "Name in User ID of a PGP key.",
+    "message": "Name"
   },
   "keygrid_userid": {
-    "message": "ID",
-    "description": "User ID of a PGP key."
+    "description": "User ID of a PGP key.",
+    "message": "ID"
   },
   "keygrid_userid_signatures": {
-    "message": "Signatures",
-    "description": "Signatures on User ID of a PGP key."
+    "description": "Signatures on User ID of a PGP key.",
+    "message": "Signatures"
   },
   "keygrid_validity_status": {
-    "message": "Status",
-    "description": "Validity status of a PGP key."
+    "description": "Validity status of a PGP key.",
+    "message": "Status"
   },
   "keyring_display_keys": {
-    "message": "Display Keys",
-    "description": "Tab of keyring to display keys."
+    "description": "Tab of keyring to display keys.",
+    "message": "Display Keys"
   },
   "keyring_export_keys": {
-    "message": "Export Keys",
-    "description": "Tab of keyring to export keys."
+    "description": "Tab of keyring to export keys.",
+    "message": "Export Keyring"
   },
   "keyring_generate_key": {
-    "message": "Generate Key",
-    "description": "Tab of keyring to generate key."
+    "description": "Tab of keyring to generate key.",
+    "message": "Generate Key"
   },
   "keyring_header": {
-    "message": "Key Management",
-    "description": "Header of the key ring."
+    "description": "Header of the key ring.",
+    "message": "Managing Keys"
   },
   "keyring_import_keys": {
-    "message": "Import Keys",
-    "description": "Tab of keyring to import keys."
+    "description": "Tab of keyring to import keys.",
+    "message": "Import Keys"
   },
   "keyring_keypair": {
-    "message": "Key Pair",
-    "description": "key pair"
+    "description": "key pair",
+    "message": "Key Pair"
   },
   "keyring_migration_error": {
-    "message": "Key Migration Error",
-    "description": "Tab of keyring to display migration errors."
+    "description": "Tab of keyring to display migration errors.",
+    "message": "Key Migration Error"
   },
   "keyring_private": {
-    "message": "Private",
-    "description": "private key type"
+    "description": "private key type",
+    "message": "Private"
   },
   "keyring_public": {
-    "message": "Public",
-    "description": "public key type"
+    "description": "public key type",
+    "message": "Public"
   },
   "keyring_public_private": {
-    "message": "Key Pairs",
-    "description": "public and private key types"
+    "description": "public and private key types",
+    "message": "Key Pairs"
   },
   "keyring_setup": {
-    "message": "Setup",
-    "description": "Setup keyring for mail provider."
+    "description": "Setup keyring for mail provider.",
+    "message": "Setup"
   },
   "keyring_setup_generate_key": {
-    "message": "Generate key",
-    "description": "Generate key"
+    "description": "Generate key",
+    "message": "Generate key"
   },
   "keyring_setup_generate_key_explanation": {
-    "message": "If you're using this extension for the first time and you don't have a keypair yet, you need to generate a key.",
-    "description": "Generate key"
+    "description": "Generate key",
+    "message": "If you're using this extension for the first time and if you do not have a key pair yet, please generate one now."
   },
   "keyring_setup_import_key": {
-    "message": "Import key",
-    "description": "Import key"
+    "description": "Import key",
+    "message": "Import Key"
   },
   "keyring_setup_import_key_explanation": {
-    "message": "You already have a keypair on another device? You can import your existing keys. Just export the keypair on your other device and import it here.",
-    "description": "Import key"
+    "description": "Import key",
+    "message": "Do you already have a key pair on another device? You can import your existing keys. Just export the key pair from the other device and then import them here."
   },
   "keyring_setup_no_keypair": {
-    "message": " A keypair is needed to encrypt and decrypt messages and if you want to invite your contacts to end-to-end encrypted communication.",
-    "description": "Setup text if no keypair available"
+    "description": "Setup text if no keypair available",
+    "message": "A key pair is needed to encrypt and decrypt messages, as well as to to invite your contacts to end-to-end encrypted communication."
   },
   "keyring_setup_no_keypair_heading": {
-    "message": "This keyring does not contain a keypair yet.",
-    "description": "Setup heading if no keypair available"
+    "description": "Setup heading if no keypair available",
+    "message": "This keyring does not yet contain a key pair."
   },
   "message_no_keys": {
-    "message": "No private key found for this message. Required private key IDs: $1",
-    "description": "Decrypt error message."
+    "description": "Decrypt error message.",
+    "message": "No private key found for this message. Required private key IDs: $1"
   },
   "message_read_error": {
-    "message": "Could not read this encrypted message: $1",
-    "description": "Message read error message: $1: error message."
+    "description": "Message read error message: $1: error message.",
+    "message": "Could not decrypt this message: $1"
   },
   "options_about": {
-    "message": "About",
-    "description": "Options navigation: About."
+    "description": "Options navigation: About.",
+    "message": "About"
   },
   "options_docu": {
-    "message": "Documentation",
-    "description": "Options navigation: Documentation."
+    "description": "Options navigation: Documentation.",
+    "message": "Documentation"
   },
   "options_home": {
-    "message": "Options",
-    "description": "Options navigation: Home."
+    "description": "Options navigation: Home.",
+    "message": "Options"
   },
   "options_settings": {
-    "message": "Settings",
-    "description": "Options header: Settings."
+    "description": "Options header: Settings.",
+    "message": "Settings"
   },
   "options_title": {
-    "message": "Mailvelope Options",
-    "description": "Title of options page."
+    "description": "Title of options page.",
+    "message": "Mailvelope Options"
   },
   "popup_actions_current_page": {
-    "message": "Current tab:",
-    "description": "Title text for the reload and add buttons"
-  },
-  "popup_active_off": {
-    "message": "Off",
-    "description": "Activity status of the extension."
-  },
-  "popup_active_on": {
-    "message": "On",
-    "description": "Activity status of the extension."
+    "description": "Title text for the reload and add buttons",
+    "message": "Current tab:"
   },
   "popup_actived_checkbox": {
-    "message": "Activated",
-    "description": "Text of the checkbox for activating/deactivating the plugin"
+    "description": "Text of the checkbox for activating/deactivating the plugin",
+    "message": "Activated"
   },
   "popup_actived_checkbox_tooltip": {
-    "message": "Activate / deactivate external editor",
-    "description": "Text of the checkbox for activating/deactivating the plugin"
+    "description": "Text of the checkbox for activating/deactivating the plugin",
+    "message": "Activate / deactivate external editor"
   },
   "popup_add_page": {
-    "message": "Add",
-    "description": "Add page to watchlist."
+    "description": "Add page to watchlist.",
+    "message": "Add"
   },
   "popup_add_page_tooltip": {
-    "message": "Enable Mailvelope for this page",
-    "description": "Add page to watchlist."
+    "description": "Add page to watchlist.",
+    "message": "Enable Mailvelope for this page"
   },
   "popup_help": {
-    "message": "Help",
-    "description": "Open help dialog."
+    "description": "Open help dialog.",
+    "message": "Help"
   },
   "popup_help_tooltip": {
-    "message": "Opens the documentation page",
-    "description": "Opens the help page on mailvelope.com."
+    "description": "Opens the help page on mailvelope.com.",
+    "message": "Opens the documentation page"
   },
   "popup_last_activities": {
-    "message": "Last activities:",
-    "description": "Title text for the last activities area"
+    "description": "Title text for the last activities area",
+    "message": "Last activities:"
   },
   "popup_options": {
-    "message": "Options",
-    "description": "Open options dialog."
+    "description": "Open options dialog.",
+    "message": "Options"
   },
   "popup_reload": {
-    "message": "Reload",
-    "description": "Reload all Mailvelope elements on page."
+    "description": "Reload all Mailvelope elements on page.",
+    "message": "Reload"
   },
   "popup_reload_tooltip": {
-    "message": "Reload all Mailvelope elements",
-    "description": "Reload all Mailvelope UI elements on page."
+    "description": "Reload all Mailvelope UI elements on page.",
+    "message": "Reload all Mailvelope elements"
   },
   "popup_remove_page": {
-    "message": "Remove",
-    "description": "Remove page from watchlist."
+    "description": "Remove page from watchlist.",
+    "message": "Remove"
   },
   "popup_remove_page_tooltip": {
-    "message": "Remove current page from the list of mail providers",
-    "description": "Remove page from watchlist."
+    "description": "Remove page from watchlist.",
+    "message": "Remove current page from the list of e-mail providers"
   },
   "pwd_dialog_cache_pwd": {
-    "message": "Remember password temporarily",
-    "description": "Checkbox label for remembering of the password."
+    "description": "Checkbox label for remembering of the password.",
+    "message": "Remember password temporarily"
   },
   "pwd_dialog_cancel": {
-    "message": "Key unlock canceled.",
-    "description": "User canceled key unlock dialog."
+    "description": "User canceled key unlock dialog.",
+    "message": "Unlocking of keys was cancelled."
   },
   "pwd_dialog_header": {
-    "message": "Enter key password",
-    "description": "Header of the password dialog."
+    "description": "Header of the password dialog.",
+    "message": "Enter key password"
   },
   "pwd_dialog_keyid_tooltip": {
-    "message": "The id of your key",
-    "description": "Tooltip explaining the key id."
+    "description": "Tooltip explaining the key id.",
+    "message": "The ID of your key"
   },
   "pwd_dialog_pwd_please": {
-    "message": "Please enter your password",
-    "description": "Placeholder for password."
+    "description": "Placeholder for password.",
+    "message": "Please enter your password"
   },
   "pwd_dialog_reason_create_backup": {
-    "message": "Enter key password to create the recovery sheet.",
-    "description": ""
+    "description": "",
+    "message": "Please enter the key password to create a recovery sheet."
   },
   "pwd_dialog_reason_create_draft": {
-    "message": "Enter key password to save the draft.",
-    "description": ""
+    "description": "",
+    "message": "Enter key password to save the draft."
   },
   "pwd_dialog_reason_decrypt": {
-    "message": "Enter key password to decrypt this message.",
-    "description": ""
+    "description": "",
+    "message": "Please enter your key password to decrypt this message."
   },
   "pwd_dialog_reason_editor": {
-    "message": "Enter key password to update the settings for encrypted communication.",
-    "description": ""
+    "description": "",
+    "message": "Please enter your key password to update the encrypted communication settings."
   },
   "pwd_dialog_reason_sign": {
-    "message": "Enter key password to sign this message.",
-    "description": ""
+    "description": "",
+    "message": "Please enter your key password to sign this message."
   },
   "pwd_dialog_title": {
-    "message": "Password entry | Mailvelope",
-    "description": "Title of the password dialog."
+    "description": "Title of the password dialog.",
+    "message": "Enter a Password | Mailvelope"
   },
   "pwd_dialog_userid": {
-    "message": "User ID:",
-    "description": "Label for user ID."
+    "description": "Label for user ID.",
+    "message": "User ID:"
   },
   "pwd_dialog_wrong_pwd": {
-    "message": "Wrong password",
-    "description": "Password error message."
+    "description": "Password error message.",
+    "message": "Wrong password"
   },
   "reload_webmail_tab": {
-    "message": "Please reload your mail provider tab (F5) to make these settings take effect.",
-    "description": "Info message."
+    "description": "Info message.",
+    "message": "Please reload your e-mail provider tab (F5) for the settings to take effect."
   },
   "restore_backup_dialog_button": {
-    "message": "Confirm",
-    "description": ""
+    "description": "",
+    "message": "Confirm"
   },
   "restore_backup_dialog_headline": {
-    "message": "Enter restore code:",
-    "description": ""
+    "description": "",
+    "message": "Please enter your restore code:"
   },
   "restore_password_dialog_button": {
-    "message": "Show",
-    "description": ""
+    "description": "",
+    "message": "Show"
   },
   "restore_password_dialog_headline": {
-    "message": "Your key password:",
-    "description": ""
+    "description": "",
+    "message": "Your key password:"
   },
   "save_attachment_as_message": {
-    "message": "Select the folder, where you want to save the attachment.",
-    "description": "Message in the attachment save dialog"
+    "description": "Message in the attachment save dialog",
+    "message": "Select the folder in which you would like to save the attachment."
   },
   "security_background_angle": {
-    "message": "Angle",
-    "description": "Angle"
+    "description": "Angle",
+    "message": "Angle"
   },
   "security_background_button_title": {
-    "message": "The security background can be adjusted in the Mailvelope-Options area",
-    "description": "The tooltip text for the keylock button"
+    "description": "The tooltip text for the keylock button",
+    "message": "The security background can be adjusted in the Mailvelope Options"
   },
   "security_background_coloring": {
-    "message": "Color",
-    "description": "Coloring"
+    "description": "Coloring",
+    "message": "Color"
   },
   "security_background_header": {
-    "message": "Security Background",
-    "description": "Security background header"
+    "description": "Security background header",
+    "message": "Security Background"
   },
   "security_background_preview": {
-    "message": "Preview",
-    "description": "Preview"
+    "description": "Preview",
+    "message": "Preview"
   },
   "security_background_scaling": {
-    "message": "Scaling",
-    "description": "Scaling"
+    "description": "Scaling",
+    "message": "Scaling"
   },
   "security_background_text": {
-    "message": "The security background is your personal Mailvelope background and it helps to prevent user interface manipulation by third-party websites and applications. To increase security, create and change your personal background here.",
-    "description": "Security background text"
+    "description": "Security background text",
+    "message": "The security background is your personal Mailvelope background and it helps to prevent user interface manipulation by third-party websites and applications. To increase security, create and change your personal background here."
   },
   "security_cache_header": {
-    "message": "Remember passwords for browser session?",
-    "description": "Password cache header"
+    "description": "Password cache header",
+    "message": "Remember passwords for this browser session."
   },
   "security_cache_help": {
-    "message": "Must be a number between 1-999",
-    "description": "Help text for cache time."
+    "description": "Help text for cache time.",
+    "message": "Must be a number between 1-999"
   },
   "security_cache_off": {
-    "message": "No.",
-    "description": "Don't store password."
+    "description": "Don't store password.",
+    "message": "No."
   },
   "security_cache_on": {
-    "message": "Yes, keep in memory for",
-    "description": "Store password in memory for $1 minutes."
+    "description": "Store password in memory for $1 minutes.",
+    "message": "Yes, keep in memory for"
   },
   "security_cache_time": {
-    "message": "minutes.",
-    "description": "Store password in memory for $1 minutes."
+    "description": "Store password in memory for $1 minutes.",
+    "message": "minutes."
   },
   "security_display_decrypted": {
-    "message": "Where are decrypted messages displayed?",
-    "description": "Label for display options"
+    "description": "Label for display options",
+    "message": "Where are decrypted messages displayed?"
   },
   "security_display_inline": {
-    "message": "On the page of the mail provider.",
-    "description": "Decrypted message display option"
+    "description": "Decrypted message display option",
+    "message": "On the page of the e-mail provider."
   },
   "security_display_popup": {
-    "message": "In a separate popup from Mailvelope.",
-    "description": "Decrypted message display option"
+    "description": "Decrypted message display option",
+    "message": "In a separate Mailvelope-popup."
   },
   "security_log_action": {
-    "message": "Action",
-    "description": "Title of the action column of the security log table."
+    "description": "Title of the action column of the security log table.",
+    "message": "Action"
   },
   "security_log_add_attachment": {
-    "message": "Add attachment button clicked",
-    "description": "A click on the attachment upload button as an event type"
+    "description": "A click on the attachment upload button as an event type",
+    "message": "Add attachment button clicked"
   },
   "security_log_attachment_added": {
-    "message": "Attachment uploaded",
-    "description": "Attachment added as an event type"
+    "description": "Attachment added as an event type",
+    "message": "Attachment uploaded"
   },
   "security_log_attachment_download": {
-    "message": "Attachment downloaded",
-    "description": "Attachment downloaded as an event source"
+    "description": "Attachment downloaded as an event source",
+    "message": "Attachment downloaded"
   },
   "security_log_backup_code_input": {
-    "message": "Input-event in backup code",
-    "description": ""
+    "description": "",
+    "message": "Input-event in backup code"
   },
   "security_log_backup_create": {
-    "message": "Click-event for create backup",
-    "description": ""
+    "description": "",
+    "message": "Click-event for create backup"
   },
   "security_log_backup_dialog_cancel": {
-    "message": "Click-event to close on dialog",
-    "description": ""
+    "description": "",
+    "message": "Click-event to close on dialog"
   },
   "security_log_backup_dialog_ok": {
-    "message": "Click-event to ok on dialog",
-    "description": ""
+    "description": "",
+    "message": "Click-event to ok on dialog"
   },
   "security_log_backup_restore": {
-    "message": "Click-event for restore backup",
-    "description": ""
+    "description": "",
+    "message": "Click-event for restore backup"
   },
   "security_log_content_copy": {
-    "message": "Copy-event in verify dialog",
-    "description": ""
+    "description": "",
+    "message": "Copy-event in verify dialog"
+  },
+  "security_log_dialog_cancel": {
+    "description": "",
+    "message": "Click-event on Cancel in dialog"
   },
   "security_log_dialog_encrypt": {
-    "message": "Click-event to encrypt on dialog",
-    "description": ""
+    "description": "",
+    "message": "Click-event to encrypt on dialog"
+  },
+  "security_log_dialog_ok": {
+    "description": "",
+    "message": "Click-event to confirm on dialog"
   },
   "security_log_dialog_sign": {
-    "message": "Click-event to sign on dialog",
-    "description": ""
+    "description": "",
+    "message": "Click-event to sign on dialog"
   },
   "security_log_dialog_transfer": {
-    "message": "Click-event to transfer on dialog",
-    "description": ""
+    "description": "",
+    "message": "Click-event to transfer on dialog"
   },
   "security_log_dialog_undo": {
-    "message": "Click-event to undo on dialog",
-    "description": ""
+    "description": "",
+    "message": "Click-event to undo on dialog"
   },
   "security_log_editor": {
-    "message": "PGP Editor",
-    "description": "Message editor container as an event source"
+    "description": "Message editor container as an event source",
+    "message": "PGP Editor"
   },
   "security_log_email_viewer": {
-    "message": "Decrypted PGP Mail",
-    "description": "Email decryption container as an event source"
+    "description": "Email decryption container as an event source",
+    "message": "Decrypted PGP E-mail"
   },
   "security_log_empty": {
-    "message": "No entries",
-    "description": "Message when the security log is empty"
+    "description": "Message when the security log is empty",
+    "message": "No entries"
   },
   "security_log_encrypt_dialog": {
-    "message": "Encrypt Dialog",
-    "description": "Encrypt dialog as an event source"
+    "description": "Encrypt dialog as an event source",
+    "message": "Encrypt Dialog"
   },
   "security_log_encryption_operation": {
-    "message": "Message has been encrypted for: $1",
-    "description": ""
+    "description": "",
+    "message": "Message has been encrypted for: $1"
   },
   "security_log_import_dialog": {
-    "message": "Import Dialog",
-    "description": "Import dialog popup as an event source"
+    "description": "Key import dialog as an event source",
+    "message": "Import Dialog"
   },
   "security_log_key_backup": {
-    "message": "Key Backup",
-    "description": "Key backup container as an event source"
+    "description": "Message keybackup container as an event source",
+    "message": "Key Backup"
   },
   "security_log_key_generator": {
-    "message": "Key Generator",
-    "description": "Key generator container as an event source"
+    "description": "Key generator container as an event source",
+    "message": "Key Generator"
   },
   "security_log_password_click": {
-    "message": "Click-event in password dialog",
-    "description": ""
+    "description": "",
+    "message": "Click-event in password dialog"
   },
   "security_log_password_dialog": {
-    "message": "Password Dialog",
-    "description": "Password dialog popup as an event source"
+    "description": "Password dialog as an event source",
+    "message": "Password Dialog"
   },
   "security_log_password_input": {
-    "message": "Input-event in password input",
-    "description": "A click in the text area as an event type"
+    "description": "",
+    "message": "Input-event in password input"
   },
   "security_log_remove_attachment": {
-    "message": "Attachment removed",
-    "description": "A click on the attachment remove button as event type"
+    "description": "A click on the attachment remove button as event type",
+    "message": "Attachment removed"
   },
   "security_log_restore_backup_click": {
-    "message": "Click-event in restore backup dialog",
-    "description": ""
+    "description": "",
+    "message": "Click-event in restore backup dialog"
   },
   "security_log_sign_dialog": {
-    "message": "Sign Dialog",
-    "description": "Sign dialog as an event source"
+    "description": "Sign dialog as an event source",
+    "message": "Sign Dialog"
   },
   "security_log_signature_modal_close": {
-    "message": "Click-event to close the signature dialog",
-    "description": ""
+    "description": "",
+    "message": "Click-event to close the signature dialog"
   },
   "security_log_signature_modal_open": {
-    "message": "Click-event to open the signature dialog",
-    "description": ""
+    "description": "",
+    "message": "Click-event to open the signature dialog"
   },
   "security_log_source": {
-    "message": "Source",
-    "description": "Title of the source column of the security log table."
+    "description": "Title of the source column of the security log table.",
+    "message": "Source"
   },
   "security_log_text": {
-    "message": "The security log shows user actions in integrated components of Mailvelope.",
-    "description": "Text explaining the purpose of the security log"
+    "description": "Text explaining the purpose of the security log",
+    "message": "The security log shows user actions in all components of Mailvelope."
   },
   "security_log_text_input": {
-    "message": "Input-event in text field",
-    "description": "A click in the text field as an event type"
+    "description": "A click in the text area as an event type",
+    "message": "Input-event in text field"
   },
   "security_log_textarea_click": {
-    "message": "Click-event in text area",
-    "description": "A click in the text area as an event type"
+    "description": "A click in the text area as an event type",
+    "message": "Click-event in text area"
   },
   "security_log_textarea_input": {
-    "message": "Input-event in text area",
-    "description": "A click in the text area as an event type"
+    "description": "A click in the text area as an event type",
+    "message": "Input-event in text area"
   },
   "security_log_textarea_select": {
-    "message": "Select-event in text area",
-    "description": "Selection of the text area as an event type"
+    "description": "Selection of the text area as an event type",
+    "message": "Select-event in text area"
   },
   "security_log_timestamp": {
-    "message": "Timestamp",
-    "description": "Title of the timestamp column of the security log table."
+    "description": "Title of the timestamp column of the security log table.",
+    "message": "Timestamp"
   },
   "security_log_verify_dialog": {
-    "message": "Verify Dialog",
-    "description": "Verify dialog as an event source"
+    "description": "Verify dialog as an event source",
+    "message": "Verify Dialog"
   },
   "settings_backup": {
-    "message": "Backup",
-    "description": "Tab allowing to backup and restore the settings."
+    "description": "Tab allowing to backup and restore the settings.",
+    "message": "Backup"
   },
   "settings_general": {
-    "message": "General",
-    "description": "Tab of options to display general settings."
+    "description": "Tab of options to display general settings.",
+    "message": "General"
   },
   "settings_security": {
-    "message": "Security",
-    "description": "Tab of options to display security settings."
+    "description": "Tab of options to display security settings.",
+    "message": "Security"
   },
   "settings_security_log": {
-    "message": "Security Log",
-    "description": "Tab of options to display security log."
+    "description": "Tab of options to display security log.",
+    "message": "Security Log"
   },
   "settings_watchlist": {
-    "message": "List of Mail Providers",
-    "description": "Tab of options to display list of supported mail providers."
+    "description": "Tab of options to display list of supported mail providers.",
+    "message": "List of E-mail Providers"
   },
   "sign_dialog_header": {
-    "message": "Sign message with key:",
-    "description": "Header of sign dialog."
+    "description": "Header of sign dialog.",
+    "message": "Sign message with key:"
   },
   "upload_aborting_warning": {
-    "message": "File upload will be aborted.",
-    "description": "A warning for the aborting of the file upload."
+    "description": "A warning for the aborting of the file upload.",
+    "message": "File upload will be aborted."
   },
   "upload_attachment": {
-    "message": "Add attachment",
-    "description": "Text in the upload attachment button of the message editor dialog"
+    "description": "Text in the upload attachment button of the message editor dialog",
+    "message": "Add attachment"
   },
   "upload_quota_exceeded_warning": {
-    "message": "Attachment size exceeds the allowable limit:",
-    "description": "A warning shown when the attachments upload quota is exceeded."
+    "description": "A warning shown when the attachments upload quota is exceeded.",
+    "message": "Attachment size exceeds the size limit:"
   },
   "upload_quota_warning_headline": {
-    "message": "Attachment size too big",
-    "description": ""
+    "description": "",
+    "message": "Attachment size too big"
   },
   "verify_error": {
-    "message": "Could not verify this message: $1",
-    "description": "Error during verification process."
+    "description": "Error during verification process.",
+    "message": "Could not verify this message: $1"
   },
   "verify_result_error": {
-    "message": "Wrong signature of",
-    "description": "Verfiy signature error. Wrong signature of [userid]."
+    "description": "Verfiy signature error. Wrong signature of [userid].",
+    "message": "Invalid signature of"
   },
   "verify_result_success": {
-    "message": "Signed by",
-    "description": "Verfiy signature succeeded."
+    "description": "Verfiy signature succeeded.",
+    "message": "Signed by"
   },
   "verify_result_warning": {
-    "message": "Signed with unknown key",
-    "description": "Verfiy signature warning."
+    "description": "Verfiy signature warning.",
+    "message": "Signed with an unknown key"
   },
   "waiting_dialog_decryption_failed": {
-    "message": "Decryption failed!",
-    "description": "Error message in the waiting dialog after failing to decrypt a message"
+    "description": "Error message in the waiting dialog after failing to decrypt a message",
+    "message": "Decryption failed!"
   },
   "waiting_dialog_prepare_email": {
-    "message": "Preparing your message...",
-    "description": "Message in the waiting dialog for quoting email"
+    "description": "Message in the waiting dialog for quoting email",
+    "message": "Preparing your message..."
   },
   "watchlist_command_cancel": {
-    "message": "Cancel changes",
-    "description": "Cancel changes in watchlist."
+    "description": "Cancel changes in watchlist.",
+    "message": "Cancel changes"
   },
   "watchlist_command_create": {
-    "message": "Add new record",
-    "description": "Create entry in watchlist."
+    "description": "Create entry in watchlist.",
+    "message": "Add new entry"
   },
   "watchlist_command_edit": {
-    "message": "Edit",
-    "description": "Edit entry in watchlist."
+    "description": "Edit entry in watchlist.",
+    "message": "Edit"
   },
   "watchlist_command_save": {
-    "message": "Save changes",
-    "description": "Save changes in watchlist."
+    "description": "Save changes in watchlist.",
+    "message": "Save changes"
   },
   "watchlist_delete_confirmation": {
-    "message": "Do you really want to remove this site from the list of mail providers?",
-    "description": "Mesage in the watchlist delete confirmation dialog."
+    "description": "Mesage in the watchlist delete confirmation dialog.",
+    "message": "Do you really want to remove this site from the list of e-mail providers?"
   },
   "watchlist_expose_api": {
-    "message": "API",
-    "description": "Expose API to Webmailer."
+    "description": "Expose API to Webmailer.",
+    "message": "API"
   },
   "watchlist_record_title": {
-    "message": "Mail Provider",
-    "description": "Title of the watchlist editor dialog."
+    "description": "Title of the watchlist editor dialog.",
+    "message": "E-mail Provider"
   },
   "watchlist_title_active": {
-    "message": "Active",
-    "description": "Entry in watchlist is active."
+    "description": "Entry in watchlist is active.",
+    "message": "Active"
   },
   "watchlist_title_frame": {
-    "message": "Domain pattern",
-    "description": "Web domain URL match pattern of site in watchlist."
+    "description": "Web domain URL match pattern of site in watchlist.",
+    "message": "Domain pattern"
   },
   "watchlist_title_scan": {
-    "message": "Status",
-    "description": "Scan status of site in watchlist."
+    "description": "Scan status of site in watchlist.",
+    "message": "Status"
   },
   "watchlist_title_site": {
-    "message": "Site",
-    "description": "Site in watchlist."
+    "description": "Site in watchlist.",
+    "message": "Site"
   },
   "word_or": {
-    "message": "or",
-    "description": "Separate list of elements."
+    "description": "Separate list of elements.",
+    "message": "or"
   },
   "wrong_restore_code": {
-    "message": "Restore code is wrong",
-    "description": ""
+    "description": "",
+    "message": "Invalid Restore Code"
   }
 }
