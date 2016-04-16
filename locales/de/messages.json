@@ -569,10 +569,6 @@
     "message": "Alle Schlüssel anzeigen",
     "description": "Export key menu."
   },
-  "keygrid_display_key_pair": {
-    "message": "Schlüsselpaar anzeigen",
-    "description": "Export key menu."
-  },
   "keygrid_display_priv_key": {
     "message": "Privaten Schlüssel anzeigen",
     "description": "Export key menu."
@@ -788,14 +784,6 @@
   "popup_actions_current_page": {
     "message": "Aktueller Tab:",
     "description": "Title text for the reload and add buttons"
-  },
-  "popup_active_off": {
-    "message": "Aus",
-    "description": "Activity status of the extension."
-  },
-  "popup_active_on": {
-    "message": "An",
-    "description": "Activity status of the extension."
   },
   "popup_actived_checkbox": {
     "message": "Aktiviert",
