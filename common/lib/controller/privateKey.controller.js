@@ -100,15 +100,24 @@ define(function(require, exports, module) {
       .then(function() {
         var page = 'recoverySheet';
 
-        if (that.host.indexOf('web.de') >= 0) {
-          page += '.webde.html';
-        } else if (that.host.indexOf('gmx') >= 0) {
-          page += '.gmxnet.html';
-        } else {
-          page += '.html';
+        switch (that.host) {
+          case 'web.de':
+            page += '.1und1.html?brand=webde' + '&id=' + that.id;
+            break;
+          case 'gmx.net':
+          case 'gmx.com':
+          case 'gmx.co.uk':
+          case 'gmx.fr':
+          case 'gmx.es':
+            page += '.1und1.html?brand=gmx' + '&id=' + that.id;
+            break;
+          default:
+            page += '.html' + '?id=' + that.id;
+            break;
         }
+
         var path = 'common/ui/modal/recoverySheet/' + page;
-        that.mvelo.windows.openPopup(path + '?id=' + that.id, {width: 1024, height: 550, modal: false}, function(window) {
+        that.mvelo.windows.openPopup(path, {width: 1024, height: 550, modal: false}, function(window) {
           that.backupCodePopup = window;
         });
       })

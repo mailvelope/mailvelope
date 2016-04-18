@@ -44,12 +44,34 @@ var QRCode = QRCode || null;
     $('#currentDate').html(formattedDate.toLocaleDateString());
 
     mvelo.l10n.localizeHTML();
-    mvelo.l10n.getMessages([], function(result) {
-      l10n = result;
-    });
+    setBrand(qs.brand);
     mvelo.util.showSecurityBackground(qs.embedded);
     port.postMessage({event: 'get-logo-image', sender: name});
     port.postMessage({event: 'get-backup-code', sender: name});
+  }
+
+  function setBrand(brandId) {
+    if (!brandId) {
+      return;
+    }
+    var brand;
+    switch (brandId) {
+      case 'webde':
+        brand = 'WEB.DE';
+        break;
+      case 'gmx':
+        brand = 'GMX';
+        break;
+      default:
+        throw new Error('Unknown brand');
+    }
+    $('html').addClass(brandId);
+    $('[data-l10n-id]:contains("[BRAND]")').each(function() {
+      var $element = $(this);
+      var text = $element.text();
+      text = text.replace(/\[BRAND\]/g, brand);
+      $element.text(text);
+    });
   }
 
   function setLogoImage(image) {

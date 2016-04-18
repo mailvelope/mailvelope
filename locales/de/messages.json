@@ -885,6 +885,178 @@
     "message": "Falsches Passwort",
     "description": "Password error message."
   },
+  "recovery_sheet_header": {
+    "message": "Wichtige Information!",
+    "description": "Title of recovery sheet."
+  },
+  "recovery_sheet_subtitle_receipt": {
+    "message": "Wiederherstellungsbeleg zur verschlüsselten Kommunikation",
+    "description": "Sub title of recovery sheet."
+  },
+  "recovery_sheet_print_notice": {
+    "message": "Bitte drucken Sie diesen Beleg aus und verwahren Sie ihn sicher!",
+    "description": "Sub title of recovery sheet."
+  },
+  "recovery_sheet_print_block": {
+    "message": "Bitte bewahren Sie diesen Beleg sicher auf!",
+    "description": "Sub title of recovery sheet."
+  },
+  "recovery_sheet_print_button": {
+    "message": "Ausdrucken",
+    "description": ""
+  },
+  "recovery_sheet_recovery_code": {
+    "message": "Wiederherstellungscode",
+    "description": ""
+  },
+  "recovery_sheet_creation_date": {
+    "message": "Erstellungsdatum:",
+    "description": "Label for recovery sheet creation date"
+  },
+  "recovery_sheet_subtitle_recover": {
+    "message": "Verschlüsselte Kommunikation wiederherstellen",
+    "description": "Sub title"
+  },
+  "recovery_sheet_not_working": {
+    "message": "Wenn Ihre verschlüsselte Kommunikation nicht mehr funktioniert, z. B.",
+    "description": "Label for list"
+  },
+  "recovery_sheet_forgot_password": {
+    "message": "weil Sie Ihr Schlüssel-Passwort vergessen haben",
+    "description": "List item"
+  },
+  "recovery_sheet_extension_problems": {
+    "message": "weil es Probleme mit der Browser-Erweiterung gibt",
+    "description": "List item"
+  },
+  "recovery_sheet_other_problems": {
+    "message": "aus sonstigen Gründen",
+    "description": "List item"
+  },
+  "recovery_sheet_check_settings": {
+    "message": "prüfen Sie bitte die Einstellungen in Ihrem Postfach unter:",
+    "description": ""
+  },
+  "recovery_sheet_provider_inbox": {
+    "message": "Posteingang",
+    "description": ""
+  },
+  "recovery_sheet_provider_settings": {
+    "message": "Einstellungen",
+    "description": ""
+  },
+  "recovery_sheet_provider_security": {
+    "message": "Sicherheit",
+    "description": ""
+  },
+  "recovery_sheet_provider_communication": {
+    "message": "Verschlüsselte Kommunikation",
+    "description": ""
+  },
+  "recovery_sheet_other_devices": {
+    "message": "Verschlüsselte Kommunikation auf weiteren Geräten",
+    "description": "Sub title"
+  },
+  "recovery_sheet_other_computer": {
+    "message": "Auf einem anderen Computer",
+    "description": ""
+  },
+  "recovery_sheet_enter_code": {
+    "message": "Geben Sie den Wiederherstellungscode zur Einrichtung auf anderen Computern in den Einstellungen unter:",
+    "description": "Label for navigation path"
+  },
+  "recovery_sheet_type_in": {
+    "message": "ein.",
+    "description": "The 'in' as in 'type something in' refers to verb in RECOVERY_SHEET_ENTER_CODE, optional."
+  },
+  "recovery_sheet_mobile_devices": {
+    "message": "Auf mobilen Geräten",
+    "description": ""
+  },
+  "recovery_sheet_qr_code": {
+    "message": "Scannen Sie den QR-Code mit Ihrem mobilen Gerät.",
+    "description": ""
+  },
+  "recovery_sheet_encryption_note": {
+    "message": "Hinweise zur verschlüsselten Kommunikation bei [BRAND]",
+    "description": "Sub title"
+  },
+  "recovery_sheet_explain_pgp": {
+    "message": "Verschlüsselte Kommunikation bei [BRAND] ist ein PGP-basiertes Verfahren. Es ermöglicht Ihnen, bei Bedarf E-Mails verschlüsselt zu versenden und stellt zugleich sicher, dass nur Sie und der Empfänger diese lesen können.",
+    "description": ""
+  },
+  "recovery_sheet_backup_data": {
+    "message": "Sicherung Ihrer Daten",
+    "description": ""
+  },
+  "recovery_sheet_backup_server": {
+    "message": "Zur Sicherung Ihrer, für die verschlüsselte Kommunikation wichtigen Daten (z. B. Schlüssel-Passwort), werden diese von unserem deutschen Sicherheitspartner Mailvelope verschlüsselt auf unseren [BRAND] Servern gespeichert.",
+    "description": ""
+  },
+  "recovery_sheet_backup_local": {
+    "message": "Möchten Sie Ihre Daten ausschließlich lokal auf Ihrem Computer speichern, finden Sie diese Möglichkeit in den Einstellungen zur verschlüsselten Kommunikation in Ihrem [BRAND] Postfach.",
+    "description": ""
+  },
+  "recovery_sheet_be_aware": {
+    "message": "Bitte beachten Sie",
+    "description": "Label"
+  },
+  "recovery_sheet_data_lost": {
+    "message": "Ohne Sicherung können Ihre verschlüsselten Nachrichten bei Verlust Ihres Schlüssel-Passworts, Defekt Ihres Endgeräts oder Problemen mit der Browser-Erweiterung nicht wieder entschlüsselt werden!",
+    "description": ""
+  },
+  "recovery_sheet_recover_data": {
+    "message": "Wiederherstellen Ihrer Daten",
+    "description": "Sub title"
+  },
+  "recovery_sheet_unlock_backup": {
+    "message": "Die Sicherungskopie Ihrer Daten lässt sich nur mit Hilfe des Wiederherstellungscodes auf diesem Beleg entschlüsseln.",
+    "description": ""
+  },
+  "recovery_sheet_recommendation": {
+    "message": "Empfehlung",
+    "description": ""
+  },
+  "recovery_sheet_keep_safe": {
+    "message": "Legen Sie dieses Dokument als Ausdruck an einem sicheren Ort ab und gewähren Sie auch keinem Dritten Zugriff auf den Wiederherstellungscode.",
+    "description": ""
+  },
+  "recovery_sheet_other_contacts": {
+    "message": "Verschlüsselte Kommunikation mit anderen Kontakten",
+    "description": ""
+  },
+  "recovery_sheet_pgp_compat": {
+    "message": "Sie können mit anderen Kontakten verschlüsselt kommunizieren, wenn diese auch verschlüsselte Kommunikation (PGP) nutzen.",
+    "description": ""
+  },
+  "recovery_sheet_key_server": {
+    "message": "[BRAND] Nutzer, die das von GMX und WEB.DE verwendete PGP-Verfahren verwenden, finden Sie direkt in einem zentralen Verzeichnis in Ihrem [BRAND] Postfach. Wenn Sie keinen Eintrag in diesem Verzeichnis wünschen, widersprechen Sie diesem bitte in Ihren [BRAND] Postfach Einstellungen.",
+    "description": ""
+  },
+  "recovery_sheet_invite_contacts": {
+    "message": "Sie haben die Möglichkeit, über Ihre Einstellungen zur verschlüsselten Kommunikation im [BRAND] Postfach weitere Kontakte zur Kommunikation mit PGP einzuladen. Bereits erfolgreich eingeladene Kontakte erkennen Sie anhand des Schlosssymbols an der E-Mail-Adresse.",
+    "description": ""
+  },
+  "recovery_sheet_trusted_contacts": {
+    "message": "Bei GMX und WEB.DE Kontakten können Sie sicher sein, dass es sich tatsächlich um die angezeigten Nutzer handelt. Bei Kontakten, die Ihre E-Mail-Adresse bei anderen E-Mail-Anbietern haben, sollten Sie die Identität stets noch einmal überprüfen.",
+    "description": ""
+  },
+  "recovery_sheet_other_devices_setup": {
+    "message": "Verschlüsselte Kommunikation auf weiteren Geräten einrichten",
+    "description": ""
+  },
+  "recovery_sheet_in_general": {
+    "message": "Generell gilt",
+    "description": "Label"
+  },
+  "recovery_sheet_unknown_third": {
+    "message": "Richten Sie verschlüsselte Kommunikation nur auf sicheren Geräten ein, auf die kein unbekannter Dritter Zugriff hat.",
+    "description": ""
+  },
+  "recovery_sheet_further_info": {
+    "message": "Weitere Informationen und Einstellungsmöglichkeiten finden Sie In Ihrem [BRAND] Postfach unter",
+    "description": ""
+  },
   "reload_webmail_tab": {
     "message": "Bitte laden Sie den Reiter Ihres E-Mail-Anbieters erneut (F5), damit diese Einstellungen wirksam werden.",
     "description": "Info message."

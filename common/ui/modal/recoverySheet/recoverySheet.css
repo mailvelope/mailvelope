@@ -216,6 +216,10 @@ button.recovery-sheet_print-button {
     background: #ffe689 linear-gradient(to bottom,  #ffe689 0%,#ffcf1e 100%);
 }
 
+.gmx button.recovery-sheet_print-button {
+    /* TODO GMX style */
+}
+
 .recovery-sheet_print-button:hover {
     opacity: 1;
 }
@@ -231,7 +235,7 @@ button.recovery-sheet_print-button {
 }
 
 /***************************************
- * TEMPORARY
+ * BRAND SPECIFIC
  */
 .logo {
     width: 100px;
@@ -239,8 +243,12 @@ button.recovery-sheet_print-button {
     background-color: #fff;
 }
 
-.logo-gmx {  
-    margin-top:26px;
+.gmx .logo {
+    margin-top: 26px;
+}
+
+.webde .gmx-specific {
+    display: none;
 }
 
 /***************************************
