@@ -208,16 +208,27 @@ button.recovery-sheet_print-button {
 
     width: 150px;
     height: 46px;
-    border: thin solid #f2bd3e;
-    border-radius: 4px;
-    font-size: 15px;
+    font-size: 19px;
     line-height: 1em;
-
-    background: #ffe689 linear-gradient(to bottom,  #ffe689 0%,#ffcf1e 100%);
 }
 
 .gmx button.recovery-sheet_print-button {
-    /* TODO GMX style */
+    color: white;
+    font-weight: 500;
+    background: #90B157 linear-gradient(to bottom,  #90B157 0%, #5C8427 100%);
+    border: thin solid #A1A1A1;
+    border-radius: 7px;
+    box-shadow: 0 3px 1px -2px rgba(255,255,255,0.7) inset, 0 -3px 2px -3px rgba(0,0,0,0.8) inset;
+    text-shadow: 0 1px 1px rgba(59,59,59,0.5);
+}
+
+.webde button.recovery-sheet_print-button {
+    color: black;
+    font-weight: 600;
+    background: #FFE688 linear-gradient(to bottom,  #FFE688 0%, #FFCF20 100%);
+    border: thin solid #F2BD3E;
+    border-radius: 4px;
+    box-shadow: 0 0 1px 0 rgba(255,255,255,0.6) inset;
 }
 
 .recovery-sheet_print-button:hover {
@@ -249,6 +260,45 @@ button.recovery-sheet_print-button {
 
 .webde .gmx-specific {
     display: none;
+}
+
+.desktop-image {
+    width: 121px;
+    height: 99px;
+}
+
+.smartphone-image {
+    width: 45px;
+    height: 95px;
+}
+
+.tablet-image {
+    width: 70px;
+    height: 97px;
+}
+
+.gmx .desktop-image {
+    background: url('assets/gmx.net/desktop.png');
+}
+
+.webde .desktop-image {
+    background: url('assets/web.de/desktop.png');
+}
+
+.gmx .smartphone-image {
+    background: url('assets/gmx.net/smartphone.png');
+}
+
+.webde .smartphone-image {
+    background: url('assets/web.de/smartphone.png');
+}
+
+.gmx .tablet-image {
+    background: url('assets/gmx.net/tablet.png');
+}
+
+.webde .tablet-image {
+    background: url('assets/web.de/tablet.png');
 }
 
 /***************************************

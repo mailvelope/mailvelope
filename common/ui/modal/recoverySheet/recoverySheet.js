@@ -42,8 +42,9 @@ var QRCode = QRCode || null;
     var formattedDate = new Date();
 
     $('#currentDate').html(formattedDate.toLocaleDateString());
-
-    mvelo.l10n.localizeHTML();
+    if (mvelo.crx) {
+      mvelo.l10n.localizeHTML();
+    }
     setBrand(qs.brand);
     mvelo.util.showSecurityBackground(qs.embedded);
     port.postMessage({event: 'get-logo-image', sender: name});
