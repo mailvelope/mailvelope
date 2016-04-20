@@ -749,7 +749,7 @@
   },
   "keyring_setup_no_keypair": {
     "description": "Setup text if no keypair available",
-    "message": "A key pair is needed to encrypt and decrypt messages, as well as to to invite your contacts to end-to-end encrypted communication."
+    "message": "A key pair is needed to encrypt and decrypt messages, as well as to invite your contacts to end-to-end encrypted communication."
   },
   "keyring_setup_no_keypair_heading": {
     "description": "Setup heading if no keypair available",
