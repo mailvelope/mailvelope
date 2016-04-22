@@ -473,7 +473,8 @@ define(function(require, exports, module) {
       if (keys.length === 0) {
         throw { message: 'No key found for encryption' };
       }
-      return openpgp.getWorker().encryptMessage(keys, plainFile.content);
+      var content = dataURL2str(plainFile.content);
+      return openpgp.getWorker().encryptMessage(keys, content, 'binary', plainFile.name);
     })
     .then(function(msg) {
       logEncryption('security_log_encrypt_dialog', keys);
@@ -488,26 +489,30 @@ define(function(require, exports, module) {
   function decryptFile(encryptedFile) {
     return Promise.resolve()
     .then(function() {
-      var base64 = encryptedFile.content.split('data:;base64,')[1];
-      var armored = mvelo.util.getDOMWindow().atob(base64);
+      var armored = dataURL2str(encryptedFile.content);
       return readMessage(armored);
     })
     .then(function(message) {
       return unlockQueue.push(sub.factory.get('pwdDialog'), 'unlockKey', [message]);
     })
     .then(function(message) {
-      return openpgp.getWorker().decryptMessage(message.key, message.message);
+      return openpgp.getWorker().decryptMessage(message.key, message.message, 'binary');
     })
     .then(function(result) {
       return {
-        name: encryptedFile.name.slice(0, -4),
-        content: result
+        name: result.filename || encryptedFile.name.slice(0, -4),
+        content: result.text
       };
     })
     .catch(function(e) {
       console.log('openpgp.getWorker().decryptFile() error', e);
       throw mvelo.util.mapError(e);
     });
+  }
+
+  function dataURL2str(dataURL) {
+    var base64 = dataURL.split(';base64,')[1];
+    return mvelo.util.getDOMWindow().atob(base64);
   }
 
   exports.validateEmail = validateEmail;

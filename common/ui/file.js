@@ -130,7 +130,7 @@ var mvelo = mvelo || null;
 
     return $('<span/>', {
       "class": 'attachmentFilename'
-    }).append(fileNameNoExt);
+    }).text(fileNameNoExt);
   }
 
   /**
@@ -177,7 +177,7 @@ var mvelo = mvelo || null;
 
     return $('<span/>', {
       "class": 'attachmentExtension ' + extClass
-    }).append(fileExt);
+    }).text(fileExt);
   }
 
   /**
