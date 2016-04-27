@@ -40,16 +40,21 @@ var mvelo = mvelo || null;
   ]);
 
   function init() {
-    $('#selectFileButton').on("click", function() {
+    $('#selectFileButton').on('click', function() {
       $('#impKeyFilepath').click();
     });
 
     $('#impKeySubmit').click(function() {
-      onImportKey();
+      var keyText = $('#newKey').val();
+      onImportKey(keyText);
+    });
+
+    $('#impKeySubmit, #impKeyClear').prop('disabled', true);
+    $('#newKey').on('input', function() {
+      $('#impKeySubmit, #impKeyClear').prop('disabled', !Boolean($(this).val()));
     });
 
     $('#impKeyClear').click(onClear);
-    $('#impKeyAnother').click(onAnother);
     $('#impKeyFilepath').change(onChangeFile);
 
     $('#keySearchInput').attr('placeholder', options.l10n.key_import_hkp_search_ph);
@@ -63,9 +68,9 @@ var mvelo = mvelo || null;
     options.openTab(url);
   }
 
-  function onImportKey(callback) {
+  function onImportKey(keyText, callback) {
     clearAlert();
-    var keyText = $('#newKey').val();
+
     if (keyText.length > MAX_KEY_IMPORT_SIZE) {
       $('#importAlert').showAlert(options.l10n.key_import_error, options.l10n.key_import_too_big, 'danger', true);
       return;
@@ -93,53 +98,57 @@ var mvelo = mvelo || null;
 
     if (keys.length === 0) {
       $('#importAlert').showAlert(options.l10n.key_import_error, options.l10n.key_import_invalid_text, 'danger', true);
-    } else {
-      options.keyring('importKeys', [keys])
-        .then(function(result) {
-          var success = false;
-          result.forEach(function(imported) {
-            var heading;
-            var type = imported.type;
-            switch (imported.type) {
-              case 'success':
-                heading = options.l10n.alert_header_success;
-                success = true;
-                break;
-              case 'warning':
-                heading = options.l10n.alert_header_warning;
-                break;
-              case 'error':
-                heading = options.l10n.key_import_error;
-                type = 'danger';
-                break;
-            }
-            $('#importAlert').showAlert(heading, imported.message, type, true);
-          });
-          if (callback) {
-            callback(result);
-          }
-          importDone(success);
-        })
-        .catch(function(error) {
-          $('#importAlert').showAlert(options.l10n.key_import_error, error.type === 'error' ? error.message : options.l10n.key_import_exception, 'danger', true);
-          if (callback) {
-            callback([{type: 'error'}]);
-          }
-        });
+      return;
     }
+
+    options.keyring('importKeys', [keys])
+    .then(function(result) {
+      var success = false;
+      result.forEach(function(imported) {
+        var heading;
+        var type = imported.type;
+        switch (imported.type) {
+          case 'success':
+            heading = options.l10n.alert_header_success;
+            success = true;
+            break;
+          case 'warning':
+            heading = options.l10n.alert_header_warning;
+            break;
+          case 'error':
+            heading = options.l10n.key_import_error;
+            type = 'danger';
+            break;
+        }
+        $('#importAlert').showAlert(heading, imported.message, type, true);
+      });
+      if (callback) {
+        callback(result);
+      }
+      importDone(success);
+    })
+    .catch(function(error) {
+      $('#importAlert').showAlert(options.l10n.key_import_error, error.type === 'error' ? error.message : options.l10n.key_import_exception, 'danger', true);
+      if (callback) {
+        callback([{type: 'error'}]);
+      }
+    });
   }
 
   exports.importKey = function(armored, callback) {
-    $('#impKeyClear').click();
+    onClear();
     $('#newKey').val(armored);
-    onImportKey(callback);
+    $('#newKey').triggerHandler('input');
+    onImportKey(armored, callback);
   };
 
   function onChangeFile(event) {
     clearAlert();
     var reader = new FileReader();
     var file = event.target.files[0];
-    reader.onloadend = function(ev) { $('#newKey').val(ev.target.result); };
+    reader.onloadend = function(ev) {
+      onImportKey(ev.target.result);
+    };
 
     if (file.size > MAX_KEY_IMPORT_SIZE) {
       $('#importAlert').showAlert(options.l10n.key_import_error, options.l10n.key_import_too_big, 'danger', true);
@@ -150,28 +159,19 @@ var mvelo = mvelo || null;
 
   function importDone(success) {
     if (success) {
-      // at least one key was imported
-      $('#newKey, #impKeySubmit, #impKeyClear, #impKeyFilepath').prop('disabled', true);
-      $('#impKeyAnother').removeClass('hide');
       // refresh grid
       options.event.triggerHandler('keygrid-reload');
     }
   }
 
   function onClear() {
+    $('#impKeySubmit, #impKeyClear').prop('disabled', true);
     $('#importKey form').trigger('reset');
     clearAlert();
   }
 
-  function onAnother() {
-    onClear();
-    $('#newKey, #impKeySubmit, #impKeyClear, #impKeyFilepath').prop('disabled', false);
-    $('#impKeyAnother').addClass('hide');
-  }
-
   function clearAlert() {
     $('#importAlert').empty();
-    $('#importAlert').hide();
   }
 
   options.event.on('ready', init);

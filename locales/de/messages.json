@@ -403,10 +403,6 @@
     "message": "Jahre",
     "description": "Key expires after time range"
   },
-  "key_import_another": {
-    "message": "Einen anderen importieren …",
-    "description": "Import another key button."
-  },
   "key_import_default_description": {
     "message": "Nach der Bestätigung ist die verschlüsselte Kommunikation mit diesem Kontakt eingerichtet.",
     "description": "Key import dialog description."
@@ -518,6 +514,10 @@
   "key_import_textarea": {
     "message": "Schlüssel importieren als Text",
     "description": "Key import box."
+  },
+  "key_import_too_big": {
+    "message": "Der Schlüsseltext ist zu groß für die Verarbeitung. Bitte in kleineren Teilen importieren.",
+    "description": "Import error alert."
   },
   "key_import_unable": {
     "message": "Ein Schlüssel konnte aufgrund eines Ausnahmefalls nicht importiert werden: $1",

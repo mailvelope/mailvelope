@@ -403,10 +403,6 @@
     "description": "Key expires after time range",
     "message": "years"
   },
-  "key_import_another": {
-    "description": "Import another key button.",
-    "message": "Import another..."
-  },
   "key_import_default_description": {
     "description": "Key import dialog description.",
     "message": "Encrypted communication with this recipient is ready after confirmation."
