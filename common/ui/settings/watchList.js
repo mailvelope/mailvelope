@@ -105,7 +105,7 @@ var options = options || null;
           $(tableRow).attr('data-website', JSON.stringify(site));
           $tableBody.append(tableRow);
         });
-        mvelo.l10n.localizeHTML();
+        mvelo.l10n.localizeHTML(null, '#watchListTable tbody');
         $tableBody.find('.deleteWatchListBtn').on('click', deleteWatchListEntry);
         $tableBody.find('tr').on('click', function() {
           var data = $(this).attr('data-website');

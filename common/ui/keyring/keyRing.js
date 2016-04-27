@@ -135,7 +135,7 @@ var options = options || null;
       $tableBody.append(tableRow);
       filterKeys();
     });
-    mvelo.l10n.localizeHTML(undefined, ['keygrid_primary_label']);
+    mvelo.l10n.localizeHTML(null, '#keyRingTable tbody');
     $tableBody.find('tr').on('click', openKeyDetails);
     $tableBody.find('tr').hover(function() {
       $(this).find('.actions').css('visibility', 'visible');

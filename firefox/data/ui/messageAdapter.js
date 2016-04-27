@@ -96,28 +96,25 @@ if (self.options.expose_messaging) {
     }, callback);
   }
 
-  function localizeHTML(l10n, ids) {
+  function localizeHTML(l10n, idSelector) {
+    var selector = idSelector ? idSelector + ' [data-l10n-id]' : '[data-l10n-id]';
     if (l10n) {
-      [].forEach.call(document.querySelectorAll('[data-l10n-id]'), function(element) {
-        if (ids && ids.indexOf(element.dataset.l10nId) === -1) {
-          return;
-        }
-        element.textContent = l10n[element.dataset.l10nId];
+      [].forEach.call(document.querySelectorAll(selector), function(element) {
+        element.textContent = l10n[element.dataset.l10nId] || element.dataset.l10nId;
       });
       [].forEach.call(document.querySelectorAll('[data-l10n-title-id]'), function(element) {
-        element.setAttribute("title", l10n[element.dataset.l10nTitleId]);
+        element.setAttribute("title", l10n[element.dataset.l10nTitleId] || element.dataset.l10nTitleId);
       });
     } else {
-      l10n = [].map.call(document.querySelectorAll('[data-l10n-id]'), function(element) {
-        if (ids && ids.indexOf(element.dataset.l10nId) === -1) {
-          return;
-        }
+      l10n = [].map.call(document.querySelectorAll(selector), function(element) {
         return element.dataset.l10nId;
       });
       [].map.call(document.querySelectorAll('[data-l10n-title-id]'), function(element) {
         l10n.push(element.dataset.l10nTitleId);
       });
-      getMessages(l10n, localizeHTML);
+      getMessages(l10n, function(result) {
+        localizeHTML(result, idSelector);
+      });
     }
   }
 
