@@ -548,6 +548,12 @@ button.keyDetailsBtn, button.keyDeleteBtn {
     background: 27px 14px no-repeat url(../img/maivelope-logo.svg);
 }
 
+/* Key Import */
+
+#importKey .label-subtitle {
+  margin-bottom: 5px;
+}
+
 /* Navbar */
 
 .navbar-fixed-top > .container {

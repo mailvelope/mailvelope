@@ -447,13 +447,21 @@
     "description": "",
     "message": "Hint:"
   },
+  "key_import_file": {
+    "message": "Import key from file",
+    "description": "File selection label."
+  },
   "key_import_file_select": {
     "description": "File selection button label.",
     "message": "Select a key text file to import"
   },
   "key_import_hkp_search": {
-      "message": "Lookup public key:",
+      "message": "Key search",
       "decryption": "Key search input."
+  },
+  "key_import_hkp_search_public": {
+    "message": "Search for public keys on key server.",
+    "decryption": "Key search input."
   },
   "key_import_hkp_search_btn": {
       "message": "Search",
@@ -477,7 +485,7 @@
   },
   "key_import_multiple_keys": {
     "description": "Info message.",
-    "message": "To import multiple keys, simply paste them all here. Extra text around the keys is ignored."
+    "message": "Please insert here one or multiple keys in text format."
   },
   "key_import_private_exists": {
     "description": "Import success message: $1: keyid, $2: userid.",
@@ -508,8 +516,8 @@
     "message": "Updated public key $1 of user $2"
   },
   "key_import_textarea": {
-    "description": "Key import box.",
-    "message": "Paste key text here:"
+    "description": "Label",
+    "message": "Import key as text"
   },
   "key_import_unable": {
     "description": "Import error message: $1: error message.",
