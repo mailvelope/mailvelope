@@ -77,6 +77,7 @@ var options = {};
     .then(function() {
       // fire ready event for sub views to listen to
       event.triggerHandler('ready');
+      sendMessage({ event: 'options-ready'});
     });
   }
 
@@ -431,6 +432,7 @@ var options = {};
   function sendMessage(options) {
     return new Promise(function(resolve, reject) {
       mvelo.extension.sendMessage(options, function(data) {
+        data = data || {};
         if (data.error) {
           reject(data.error);
         } else {

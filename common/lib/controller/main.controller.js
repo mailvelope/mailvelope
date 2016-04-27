@@ -151,6 +151,9 @@ define(function(require, exports, module) {
       case 'open-tab':
         mvelo.tabs.create(request.url);
         break;
+      case 'options-ready':
+        mvelo.tabs.onOptionsTabReady();
+        break;
       default:
         console.log('unknown event:', request);
     }

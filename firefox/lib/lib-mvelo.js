@@ -134,12 +134,21 @@ mvelo.tabs.loadOptionsTab = function(hash, callback) {
       if (hash === undefined) {
         hash = '';
       }
-      mvelo.tabs.create(url + hash, true, callback.bind(this, false));
+      mvelo.tabs.create(url + hash, false, function(tab) {
+        mvelo.tabs._loadOptionsTabReady = callback.bind(this, false, tab);
+      });
     } else {
       // if existent, set as active tab
       mvelo.tabs.activate(tabs[0], {url: url + hash}, callback.bind(this, true));
     }
   });
+};
+
+mvelo.tabs.onOptionsTabReady = function() {
+  if (mvelo.tabs._loadOptionsTabReady) {
+    mvelo.tabs._loadOptionsTabReady();
+    mvelo.tabs._loadOptionsTabReady = null;
+  }
 };
 
 mvelo.storage = {};
