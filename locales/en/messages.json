@@ -773,7 +773,7 @@
   },
   "keyring_header": {
     "description": "Header of the key ring.",
-    "message": "Managing Keys"
+    "message": "Key Management"
   },
   "keyring_import_keys": {
     "description": "Tab of keyring to import keys.",
