@@ -129,7 +129,7 @@ var mvelo = mvelo || null;
         $('body').removeClass('busy');
         $('#spinner').hide();
         $('.modal-body').css('opacity', '1');
-        $('#password').val('').closest('.control-group').addClass('error')
+        $('#password').val('').focus().closest('.control-group').addClass('error')
                       .end().next().removeClass('hide');
         break;
       default:
