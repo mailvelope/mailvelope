@@ -44,9 +44,15 @@
         "mocha": true,
         "describe": true,
         "it": true,
+        "before": true,
+        "beforeEach": true,
+        "after": true,
+        "afterEach": true,
         "chai": true,
         "expect": true,
         "sinon": true,
+        "resolves": true,
+        "rejects": true
     }
 
 }

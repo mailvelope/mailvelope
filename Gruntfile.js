@@ -23,7 +23,8 @@ module.exports = function(grunt) {
           'common/client-API/*.js',
           'chrome/background.js',
           'chrome/lib/*.js',
-          'firefox/**/*.js'
+          'firefox/**/*.js',
+          'test/**/*.js'
         ]
       }
     },
@@ -42,7 +43,8 @@ module.exports = function(grunt) {
           'common/client-API/*.js',
           'chrome/background.js',
           'chrome/lib/*.js',
-          'firefox/**/*.js'
+          'firefox/**/*.js',
+          'test/**/*.js'
         ]
       }
     },

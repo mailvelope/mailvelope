@@ -1,18 +1,6 @@
 'use strict';
 
 //
-// Polyfills and globals required for tests
-//
-
-ES6Promise.polyfill(); // load ES6 Promises polyfill
-mocha.setup('bdd');
-var expect = chai.expect;
-chai.config.includeStack = true;
-
-function resolves(val) { return new Promise(function(res) { res(val); }); }
-function rejects(val) { return new Promise(function(res, rej) { rej(val || new Error()); }); }
-
-//
 // Require.js config ... add mock dependencies here
 //
 
@@ -32,10 +20,8 @@ require.config({
 // AMD unit tests ... add unit tests here
 //
 
-var AMD_TESTS = [
+require([
   'test/amd-example'
-];
-
-require(AMD_TESTS, function() {
+], function() {
   mocha.run();
 });

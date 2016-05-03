@@ -295,6 +295,14 @@
     "message": "HKP Schlüssel Server",
     "description": "HKP key server option: url."
   },
+  "keyserver_url_warning": {
+    "message": "Schlüssel server url muss folgendes format haben: http(s)://keys.example.com",
+    "description": "HKP key server url warning."
+  },
+  "keyserver_url_error": {
+    "message": "Schlüssel server ist nicht erreichbar",
+    "description": "HKP key server url error."
+  },
   "header_warning": {
     "message": "Achtung!",
     "description": "Header warning."

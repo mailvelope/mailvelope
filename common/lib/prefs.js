@@ -35,11 +35,15 @@ define(function(require, exports, module) {
    */
   function update(obj) {
     prefs = model.getPreferences();
+
     if (obj.security) {
       prefs.security = mvelo.util.extend(prefs.security, obj.security);
     }
     if (obj.general) {
       prefs.general = mvelo.util.extend(prefs.general, obj.general);
+    }
+    if (obj.keyserver) {
+      prefs.keyserver = mvelo.util.extend(prefs.keyserver, obj.keyserver);
     }
     if (typeof obj.main_active !== 'undefined') {
       prefs.main_active = obj.main_active;
