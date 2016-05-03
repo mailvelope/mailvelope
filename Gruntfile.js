@@ -379,7 +379,11 @@ module.exports = function(grunt) {
         push: false,
         files: ['package.json', 'bower.json', 'chrome/manifest.json', 'firefox/package.json', 'common/res/defaults.json']
       }
-    }
+    },
+
+    mocha_phantomjs: {
+      all: ['test/index.html']
+    },
   });
 
   grunt.loadNpmTasks('grunt-contrib-clean');
@@ -393,6 +397,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-jscs");
   grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-jpm');
+  grunt.loadNpmTasks('grunt-mocha-phantomjs');
 
   //custom tasks
   grunt.registerTask('dist-cr', ['compress:chrome']);
@@ -407,5 +412,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['clean', 'jshint', 'jscs', 'concat', 'copy_common', 'final_assembly']);
   grunt.registerTask('nightly', ['clean', 'jshint', 'jscs', 'concat', 'copy_common', 'replace:build_version', 'final_assembly']);
+
+  grunt.registerTask('test', ['mocha_phantomjs']);
 
 };

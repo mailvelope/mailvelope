@@ -40,7 +40,13 @@
         "chrome": false,
         "addon": false,
         "performance": false,
-        "File": false
+        "File": false,
+        "mocha": true,
+        "describe": true,
+        "it": true,
+        "chai": true,
+        "expect": true,
+        "sinon": true,
     }
 
 }
