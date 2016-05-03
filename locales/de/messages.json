@@ -291,6 +291,10 @@
     "message": "Privater Hauptschlüssel",
     "description": "Label for primary private key option."
   },
+  "keyserver_hkp_url": {
+    "message": "HKP Schlüssel Server",
+    "description": "HKP key server option: url."
+  },
   "header_warning": {
     "message": "Achtung!",
     "description": "Header warning."
@@ -1392,6 +1396,10 @@
   "settings_security_log": {
     "message": "Sicherheitsprotokoll",
     "description": "Tab of options to display security log."
+  },
+  "settings_keyserver": {
+    "message": "Schlüssel Server",
+    "description": "Tab of options to display key server settings."
   },
   "settings_watchlist": {
     "message": "Liste der E-Mail-Anbieter",

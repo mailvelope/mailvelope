@@ -26,7 +26,7 @@ var mvelo = mvelo || null;
   var privateKeyRegex = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END PGP PRIVATE KEY BLOCK-----/g;
 
   var KEY_ID_REGEX = /^([0-9a-f]{8}|[0-9a-f]{16}|[0-9a-f]{40})$/i;
-  var HKP_SERVER_BASE_URL = 'https://keyserver.ubuntu.com';
+  var HKP_SERVER_BASE_URL;
   var MAX_KEY_IMPORT_SIZE = 10000000;
 
   options.registerL10nMessages([
@@ -57,8 +57,15 @@ var mvelo = mvelo || null;
     $('#impKeyClear').click(onClear);
     $('#impKeyFilepath').change(onChangeFile);
 
+    hkpUrlLoad();
     $('#keySearchInput').attr('placeholder', options.l10n.key_import_hkp_search_ph);
     $('#keySearchForm').submit(onSearchKey);
+  }
+
+  function hkpUrlLoad() {
+    options.pgpModel('getPreferences').then(function(prefs) {
+      HKP_SERVER_BASE_URL = prefs.keyserver.hkp_base_url;
+    });
   }
 
   function onSearchKey() {
@@ -175,5 +182,6 @@ var mvelo = mvelo || null;
   }
 
   options.event.on('ready', init);
+  options.event.on('hkp-url-update', hkpUrlLoad);
 
 }(options, options));

@@ -291,6 +291,10 @@
     "description": "Label for primary private key option.",
     "message": "Primary Private Key"
   },
+  "keyserver_hkp_url": {
+    "description": "HKP key server option: url.",
+    "message": "HKP key server"
+  },
   "header_warning": {
     "description": "Header warning.",
     "message": "Warning!"
@@ -1230,6 +1234,10 @@
   "settings_security_log": {
     "description": "Tab of options to display security log.",
     "message": "Security Log"
+  },
+  "settings_keyserver": {
+    "description": "Tab of options to display key server settings.",
+    "message": "Key Server"
   },
   "settings_watchlist": {
     "description": "Tab of options to display list of supported mail providers.",

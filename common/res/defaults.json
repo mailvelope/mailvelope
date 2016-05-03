@@ -199,6 +199,9 @@
       "editor_type": "plain",
       "auto_add_primary": true
     },
+    "keyserver": {
+      "hkp_base_url": "https://keyserver.ubuntu.com"
+    },
     "main_active": true
   }
 }

@@ -54,6 +54,7 @@ var options = {};
         mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('common/ui/settings/tpl/watchList.html')),
         mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('common/ui/settings/tpl/watchListEditor.html')),
         mvelo.appendTpl($('#securityLog'), mvelo.extension.getURL('common/ui/settings/tpl/securityLog.html')),
+        mvelo.appendTpl($('#keyserver'), mvelo.extension.getURL('common/ui/settings/tpl/keyserver.html')),
         mvelo.appendTpl($('#displayKeys'), mvelo.extension.getURL('common/ui/keyring/tpl/displayKeys.html')),
         mvelo.appendTpl($('#displayKeys'), mvelo.extension.getURL('common/ui/keyring/tpl/keyEditor.html')),
         mvelo.appendTpl($('#importKey'), mvelo.extension.getURL('common/ui/keyring/tpl/importKey.html')),
