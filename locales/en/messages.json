@@ -160,15 +160,15 @@
     "description": "Subheader of encrypt dialog."
   },
   "encrypt_download_all_button": {
-    "message": "Download All",
+    "message": "Save all",
     "description": "Button to download all files"
   },
   "encrypt_download_file_button": {
-    "message": "Click to download file",
+    "message": "Click to save file",
     "description": "Download icon"
   },
   "encrypt_download_file_title": {
-    "message": "File Download",
+    "message": "Save file",
     "description": "Title of download area"
   },
   "encrypt_error": {
