@@ -291,21 +291,21 @@
     "description": "Label for primary private key option.",
     "message": "Primary Private Key"
   },
+  "header_warning": {
+    "description": "Header warning.",
+    "message": "Warning!"
+  },
   "keyserver_hkp_url": {
     "description": "HKP key server option: url.",
     "message": "HKP key server"
   },
   "keyserver_url_warning": {
     "description": "HKP key server url warning.",
-    "message": "Key server url must have the following format: http(s)://keys.example.com"
+    "message": "Key server URL must have the following format: http(s)://keys.example.com"
   },
   "keyserver_url_error": {
-    "description": "HKP key server url error.",
+    "description": "HKP key server URL error.",
     "message": "Key server not reachable"
-  },
-  "header_warning": {
-    "description": "Header warning.",
-    "message": "Warning!"
   },
   "key_details_title": {
     "description": "The title of the key details dialog.",
