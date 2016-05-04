@@ -33,8 +33,9 @@ define(function(require, exports, module) {
   EncryptController.prototype.handlePortMessage = function(msg) {
     var that = this;
     switch (msg.event) {
-      case 'eframe-recipient-proposal':
-        var emails = this.mvelo.util.sortAndDeDup(msg.data);
+      case 'eframe-recipients':
+        var emails = msg.data.map(function(recipient) { return recipient.address; });
+        emails = this.mvelo.util.sortAndDeDup(emails);
         var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
         var keys = localKeyring.getKeyUserIDs(emails);
         var primary;
@@ -81,7 +82,7 @@ define(function(require, exports, module) {
     if (this.recipientsCallback) {
       throw new Error('Waiting for recipients result.');
     }
-    this.ports.eFrame.postMessage({event: 'recipient-proposal'});
+    this.ports.eFrame.postMessage({event: 'get-recipients'});
     this.recipientsCallback = callback;
   };
 
