@@ -37,14 +37,13 @@ mvelo.providers.get = function(hostname) {
 
 (function(mvelo) {
 
-  var EMAIL_REGEX = /[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/g;
-
   //
   // Provider specific modules
   //
 
-  mvelo.providers.Default = Default;
   mvelo.providers.Gmail = Gmail;
+  mvelo.providers.Default = Default;
+  mvelo.providers.util = util;
 
   //
   // Default module ... generic handling for unsupported providers
@@ -55,33 +54,8 @@ mvelo.providers.get = function(hostname) {
   Default.prototype.getRecipients = function() {
     var recipients = []; // structure: [{ name: 'Jon Smith', address: 'jon@example.com' }]
 
-    function addRecipients(addresses) {
-      recipients = recipients.concat(addresses.map(function(address) {
-        return {address: address};
-      }));
-    }
-
-    $('span').filter(':visible').each(function() {
-      var valid = $(this).text().match(EMAIL_REGEX);
-      if (valid === null) {
-        return;
-      }
-      // second filtering: only direct text nodes of span elements
-      var spanClone = $(this).clone();
-      spanClone.children().remove();
-      valid = spanClone.text().match(EMAIL_REGEX);
-      if (valid === null) {
-        return;
-      }
-      addRecipients(valid);
-    });
-
-    $('input, textarea').filter(':visible').each(function() {
-      var valid = $(this).val().match(EMAIL_REGEX);
-      if (valid !== null) {
-        addRecipients(valid);
-      }
-    });
+    recipients = recipients.concat(util.getText($('span').filter(':visible')));
+    recipients = recipients.concat(util.getVal($('input, textarea').filter(':visible')));
 
     return recipients;
   };
@@ -94,8 +68,61 @@ mvelo.providers.get = function(hostname) {
 
   function Gmail() {}
 
-  Gmail.prototype.getRecipients = function() {};
+  Gmail.prototype.getRecipients = function() {
+    var recipients = util.getText($('span[email] div.vT'));
+    return recipients;
+  };
 
   Gmail.prototype.setRecipients = function() {};
+
+  //
+  // Helper functions
+  //
+
+  var EMAIL_REGEX = /[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/g;
+  var util = {};
+
+  util.getVal = function(elements) {
+    var recipients = [];
+    elements.each(function() {
+      var valid = $(this).val().match(EMAIL_REGEX);
+      if (valid !== null) {
+        recipients = recipients.concat(util.parse(valid));
+      }
+    });
+    return recipients;
+  };
+
+  util.getText = function(elements) {
+    var recipients = [];
+    elements.each(function() {
+      if (!$(this).text().match(EMAIL_REGEX)) {
+        return;
+      }
+      // second filtering: only direct text nodes of span elements
+      var spanClone = $(this).clone();
+      spanClone.children().remove();
+      recipients = recipients.concat(util.parse(spanClone.text()));
+    });
+    return recipients;
+  };
+
+  /**
+   * Parse an array of recipient objects in fhe form { address: 'jon@example.com' }
+   *   from string input.
+   * @param  {String} text   The text input
+   * @return {Array}         The recipient objects
+   */
+  util.parse = function(text) {
+    var valid = text.match(EMAIL_REGEX);
+    if (valid === null) {
+      return [];
+    }
+    return valid.map(function(address) {
+      return {
+        address: address
+      };
+    });
+  };
 
 }(mvelo));
