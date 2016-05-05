@@ -29,6 +29,7 @@ mvelo.main.contextTarget = null;
 mvelo.main.prefs = null;
 mvelo.main.name = 'mainCS-' + mvelo.util.getHash();
 mvelo.main.port = null;
+mvelo.main.host = null;
 
 mvelo.main.connect = function() {
   if (document.mveloControl) {
@@ -46,12 +47,33 @@ $(document).ready(mvelo.main.connect);
 mvelo.main.init = function(prefs, watchList) {
   mvelo.main.prefs = prefs;
   mvelo.main.watchList = watchList;
-  mvelo.domAPI.init();
+  mvelo.main.detectHost();
+  if (mvelo.domAPI.active) {
+    mvelo.domAPI.init();
+  } else {
+    // init provider specific
+  }
   if (mvelo.main.prefs.main_active && !mvelo.domAPI.active) {
     mvelo.main.on();
   } else {
     mvelo.main.off();
   }
+};
+
+mvelo.main.detectHost = function() {
+  mvelo.domAPI.active = mvelo.main.watchList.some(function(site) {
+    return site.active && site.frames && site.frames.some(function(frame) {
+      var hostRegex = mvelo.util.matchPattern2RegEx(frame.frame);
+      var validHost = hostRegex.test(window.location.hostname);
+      if (frame.scan && validHost) {
+        // host = match pattern without *. prefix
+        mvelo.main.host = frame.frame.replace(/^\*\./, '');
+        if (frame.api) {
+          return true;
+        }
+      }
+    });
+  });
 };
 
 mvelo.main.on = function() {
