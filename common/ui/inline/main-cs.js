@@ -48,12 +48,17 @@ mvelo.main.init = function(prefs, watchList) {
   mvelo.main.prefs = prefs;
   mvelo.main.watchList = watchList;
   mvelo.main.detectHost();
+
   if (mvelo.domAPI.active) {
+    // api case
     mvelo.domAPI.init();
-  } else {
-    // init provider specific
+    return;
   }
-  if (mvelo.main.prefs.main_active && !mvelo.domAPI.active) {
+
+  // non-api case ... use provider specific content scripts
+  mvelo.providers.init();
+  mvelo.main.currentProvider = mvelo.providers.get(mvelo.main.host);
+  if (mvelo.main.prefs.main_active) {
     mvelo.main.on();
   } else {
     mvelo.main.off();
@@ -83,8 +88,6 @@ mvelo.main.on = function() {
 
   //console.log('inside cs: ', document.location.host);
   if (mvelo.main.intervalID === 0) {
-    // set current provider
-    mvelo.main.setCurrentProvider();
     // start scan loop
     mvelo.main.scanLoop();
     mvelo.main.intervalID = window.setInterval(function() {
@@ -98,28 +101,6 @@ mvelo.main.off = function() {
     window.clearInterval(mvelo.main.intervalID);
     mvelo.main.intervalID = 0;
   }
-};
-
-/**
- * Set the mvelo.main.currentProvider attribute which offers provider specific logic
- * for the content script e.g. Gmail recipient read/write.
- */
-mvelo.main.setCurrentProvider = function() {
-  // initialize provider specific content scripts
-  mvelo.providers.init();
-  // iterate over watch list by matching hostnames
-  mvelo.main.watchList.some(function(site) {
-    return site.active && site.frames && site.frames.some(function(frame) {
-      var hostRegex = mvelo.util.matchPattern2RegEx(frame.frame);
-      var validHost = hostRegex.test(window.location.hostname);
-      if (frame.scan && validHost) {
-        // currentProvider = match pattern without *. prefix
-        var provider = frame.frame.replace(/^\*\./, '');
-        mvelo.main.currentProvider = mvelo.providers.get(provider);
-        return true;
-      }
-    });
-  });
 };
 
 mvelo.main.scanLoop = function() {
