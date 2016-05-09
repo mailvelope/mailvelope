@@ -30,9 +30,9 @@ mvelo.providers = {};
  * Initializes the map of provider specific modules.
  */
 mvelo.providers.init = function() {
-  mvelo.providers.map = new Map();
-  mvelo.providers.map.set('mail.google.com', new mvelo.providers.Gmail());
-  mvelo.providers.map.set('default', new mvelo.providers.Default());
+  mvelo.providers.map = {};
+  mvelo.providers.map['mail.google.com'] = new mvelo.providers.Gmail();
+  mvelo.providers.map['default'] = new mvelo.providers.Default();
 };
 
 /**
@@ -43,10 +43,10 @@ mvelo.providers.init = function() {
  * @return {Object}            An instanciated module
  */
 mvelo.providers.get = function(hostname) {
-  if (mvelo.providers.map.has(hostname)) {
-    return mvelo.providers.map.get(hostname);
+  if (mvelo.providers.map[hostname]) {
+    return mvelo.providers.map[hostname];
   } else {
-    return mvelo.providers.map.get('default');
+    return mvelo.providers.map['default'];
   }
 };
 
