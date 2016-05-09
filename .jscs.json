@@ -54,6 +54,5 @@
         "requireParamTypes": true
     },
 
-    "disallowMultipleLineBreaks": true,
     "disallowNewlineBeforeBlockStatements": true
 }
