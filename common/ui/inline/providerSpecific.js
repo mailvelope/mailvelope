@@ -15,18 +15,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * @fileOverview Implements provider specific content scripts to query
+ * recipients and set sender email addresses in the webmail ui.
+ */
+
 'use strict';
 
 var mvelo = mvelo || {};
 
 mvelo.providers = {};
 
+/**
+ * Initializes the map of provider specific modules.
+ */
 mvelo.providers.init = function() {
   mvelo.providers.map = new Map();
-  //mvelo.providers.map.set('mail.google.com', new mvelo.providers.Gmail());
+  mvelo.providers.map.set('mail.google.com', new mvelo.providers.Gmail());
   mvelo.providers.map.set('default', new mvelo.providers.Default());
 };
 
+/**
+ * Lookup function that return the vendor specific module to a hostname.
+ * If a hostname if not supported specifically, the default module will
+ * be returned.
+ * @param  {String} hostname   The hostname of the webmail interface
+ * @return {Object}            An instanciated module
+ */
 mvelo.providers.get = function(hostname) {
   if (mvelo.providers.map.has(hostname)) {
     return mvelo.providers.map.get(hostname);
@@ -35,94 +50,146 @@ mvelo.providers.get = function(hostname) {
   }
 };
 
-(function(mvelo) {
 
-  //
-  // Provider specific modules
-  //
+//
+// Provider specific modules
+//
+
+
+(function(mvelo) {
 
   mvelo.providers.Gmail = Gmail;
   mvelo.providers.Default = Default;
-  mvelo.providers.util = util;
+
 
   //
   // Default module ... generic handling for unsupported providers
   //
 
+
   function Default() {}
 
+  /**
+   * Parse recipients from the DOM for a generic webmail UI.
+   * @return {Array}   The recipient objects in fhe form { address: 'jon@example.com' }
+   */
   Default.prototype.getRecipients = function() {
-    var recipients = []; // structure: [{ name: 'Jon Smith', address: 'jon@example.com' }]
+    var recipients = [];
 
-    recipients = recipients.concat(util.getText($('span').filter(':visible')));
-    recipients = recipients.concat(util.getVal($('input, textarea').filter(':visible')));
+    recipients = recipients.concat(dom.getText($('span').filter(':visible')));
+    recipients = recipients.concat(dom.getVal($('input, textarea').filter(':visible')));
 
     return recipients;
   };
 
-  Default.prototype.setRecipients = function() {};
+  /**
+   * Since there is not way to enter recipients in a generic fashion
+   * this function does nothing.
+   */
+  Default.prototype.setRecipients = function() { /* do nothing */ };
+
 
   //
   // Gmail module
   //
 
+
   function Gmail() {}
 
+  /**
+   * Parse recipients from the Gmail Webmail interface
+   * @return {Array}   The recipient objects in fhe form { address: 'jon@example.com' }
+   */
   Gmail.prototype.getRecipients = function() {
-    var recipients = util.getText($('span[email] div.vT'));
-    return recipients;
+    return dom.getAttr($('span[email]'), 'email');
   };
 
-  Gmail.prototype.setRecipients = function() {};
-
-  //
-  // Helper functions
-  //
-
-  var EMAIL_REGEX = /[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/g;
-  var util = {};
-
-  util.getVal = function(elements) {
-    var recipients = [];
-    elements.each(function() {
-      var valid = $(this).val().match(EMAIL_REGEX);
-      if (valid !== null) {
-        recipients = recipients.concat(util.parse(valid));
+  /**
+   * Set tne recipients in the Gmail Webmail editor.
+   */
+  Gmail.prototype.setRecipients = function(recipients) {
+    var el = $('#\\:ab'); // div listing all recipient spans in the editor
+    recipients.forEach(function(recipient) {
+      var email = recipient.address;
+      if (EMAIL_REGEX.test(email)) { // validate to prevent XSS
+        el.append('<span email="' + email + '">' + email + '</span>');
       }
     });
-    return recipients;
   };
 
-  util.getText = function(elements) {
+
+  //
+  // DOM api util
+  //
+
+  var EMAIL_REGEX = /[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/;
+  var EMAIL_REGEXS = /[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/g;
+
+  var dom = {};
+
+  /**
+   * Filter the value of a list of elements for email addresses.
+   * @param  {[type]} elements   A list of jQuery elements to iteralte over
+   * @return {Array}             The recipient objects in fhe form { address: 'jon@example.com' }
+   */
+  dom.getVal = function(elements) {
     var recipients = [];
     elements.each(function() {
-      if (!$(this).text().match(EMAIL_REGEX)) {
-        return;
-      }
-      // second filtering: only direct text nodes of span elements
-      var spanClone = $(this).clone();
-      spanClone.children().remove();
-      recipients = recipients.concat(util.parse(spanClone.text()));
+      recipients = recipients.concat(parse($(this).val()));
     });
     return recipients;
   };
 
   /**
-   * Parse an array of recipient objects in fhe form { address: 'jon@example.com' }
-   *   from string input.
-   * @param  {String} text   The text input
-   * @return {Array}         The recipient objects
+   * Filter the text content of a list of elements for email addresses.
+   * @param  {[type]} elements   A list of jQuery elements to iteralte over
+   * @return {Array}             The recipient objects in fhe form { address: 'jon@example.com' }
    */
-  util.parse = function(text) {
-    var valid = text.match(EMAIL_REGEX);
+  dom.getText = function(elements) {
+    var recipients = [];
+    elements.each(function() {
+      if (!$(this).text().match(EMAIL_REGEXS)) {
+        return;
+      }
+      // second filtering: only direct text nodes of span elements
+      var spanClone = $(this).clone();
+      spanClone.children().remove();
+      recipients = recipients.concat(parse(spanClone.text()));
+    });
+    return recipients;
+  };
+
+  /**
+   * Filter a certain attribute of a list of elements for email addresses.
+   * @param  {[type]} elements   A list of jQuery elements to iteralte over
+   * @param  {[type]} attrName   The element's attribute name to query by
+   * @return {Array}             The recipient objects in fhe form { address: 'jon@example.com' }
+   */
+  dom.getAttr = function(elements, attrName) {
+    var recipients = [];
+    elements.each(function() {
+      recipients = recipients.concat(parse($(this).attr(attrName)));
+    });
+    return recipients;
+  };
+
+  function parse(text) {
+    if (!text) {
+      return [];
+    }
+    var valid = text.match(EMAIL_REGEXS);
     if (valid === null) {
       return [];
     }
-    return valid.map(function(address) {
+    return toRecipients(valid);
+  }
+
+  function toRecipients(addresses) {
+    return addresses.map(function(address) {
       return {
         address: address
       };
     });
-  };
+  }
 
 }(mvelo));
