@@ -165,6 +165,17 @@
     },
     {
       "active": true,
+      "site": "FP Mentana-Claimsoft De-Mail",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.fp-demail.de",
+          "api": true
+        }
+      ]
+    },
+    {
+      "active": true,
       "site": "Mailvelope Demo",
       "frames": [
         {
