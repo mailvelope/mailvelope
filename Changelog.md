@@ -1,6 +1,20 @@
 Mailvelope Changelog
 ====================
 
+v1.4.0
+-------
+__May 9, 2016__
+
+  * Implement HKP key search and import
+  * File encryption support
+  * Add mocha unit test infrastructure
+  * Localize recovery sheet for key backup
+  * Show key ID in sign message dialog
+  * Redesign key import UI
+  * Update OpenPGP.js to v1.6.0
+  * Update bower dependencies: jQuery to 2.2.1, DOMPurify to 0.7.4
+  * Bugfixes
+
 v1.3.6
 -------
 __Feb. 24, 2016__
