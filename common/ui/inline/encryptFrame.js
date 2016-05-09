@@ -217,29 +217,8 @@ mvelo.EncryptFrame.prototype._saveEmailText = function() {
   }
 };
 
-mvelo.EncryptFrame.prototype._getEmailRecipient = function() {
-  var emails = [];
-  var emailRegex = /[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/g;
-  $('span').filter(':visible').each(function() {
-    var valid = $(this).text().match(emailRegex);
-    if (valid !== null) {
-      // second filtering: only direct text nodes of span elements
-      var spanClone = $(this).clone();
-      spanClone.children().remove();
-      valid = spanClone.text().match(emailRegex);
-      if (valid !== null) {
-        emails = emails.concat(valid);
-      }
-    }
-  });
-  $('input, textarea').filter(':visible').each(function() {
-    var valid = $(this).val().match(emailRegex);
-    if (valid !== null) {
-      emails = emails.concat(valid);
-    }
-  });
-  //console.log('found emails', emails);
-  return emails;
+mvelo.EncryptFrame.prototype._getEmailRecipients = function() {
+  return mvelo.main.currentProvider.getRecipients();
 };
 
 /**
@@ -289,10 +268,10 @@ mvelo.EncryptFrame.prototype._registerEventListener = function() {
       case 'destroy':
         that._closeFrame(true);
         break;
-      case 'recipient-proposal':
+      case 'get-recipients':
         that._port.postMessage({
-          event: 'eframe-recipient-proposal',
-          data: that._getEmailRecipient(),
+          event: 'eframe-recipients',
+          data: that._getEmailRecipients(),
           sender: 'eFrame-' + that.id
         });
         break;

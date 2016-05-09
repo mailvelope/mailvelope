@@ -25,41 +25,26 @@ mvelo.domAPI.active = false;
 
 mvelo.domAPI.containers = new Map();
 
-mvelo.domAPI.host = null;
-
 // must be a singelton
 mvelo.syncHandler = null;
 
 mvelo.domAPI.init = function() {
-  this.active = mvelo.main.watchList.some(function(site) {
-    return site.active && site.frames && site.frames.some(function(frame) {
-      var hostRegex = mvelo.util.matchPattern2RegEx(frame.frame);
-      var validHost = hostRegex.test(window.location.hostname);
-      if (frame.scan && frame.api && validHost) {
-        // host = match pattern without *. prefix
-        mvelo.domAPI.host = frame.frame.replace(/^\*\./, '');
-        return true;
-      }
-    });
-  });
-  if (this.active) {
-    var apiTag = document.getElementById('mailvelope-api');
-    if (apiTag) {
-      if (apiTag.dataset.version !== mvelo.main.prefs.version) {
-        window.setTimeout(function() {
-          window.dispatchEvent(new CustomEvent('mailvelope-disconnect', { detail: {version: mvelo.main.prefs.version} }));
-        }, 1);
-      }
-      return;
+  var apiTag = document.getElementById('mailvelope-api');
+  if (apiTag) {
+    if (apiTag.dataset.version !== mvelo.main.prefs.version) {
+      window.setTimeout(function() {
+        window.dispatchEvent(new CustomEvent('mailvelope-disconnect', { detail: {version: mvelo.main.prefs.version} }));
+      }, 1);
     }
-    window.addEventListener('message', mvelo.domAPI.eventListener);
-    if (!window.mailvelope) {
-      $('<script/>', {
-        id: 'mailvelope-api',
-        src: mvelo.extension.getURL('common/client-API/mailvelope-client-api.js'),
-        'data-version': mvelo.main.prefs.version
-      }).appendTo($('head'));
-    }
+    return;
+  }
+  window.addEventListener('message', mvelo.domAPI.eventListener);
+  if (!window.mailvelope) {
+    $('<script/>', {
+      id: 'mailvelope-api',
+      src: mvelo.extension.getURL('common/client-API/mailvelope-client-api.js'),
+      'data-version': mvelo.main.prefs.version
+    }).appendTo($('head'));
   }
 };
 
@@ -189,7 +174,7 @@ mvelo.domAPI.eventListener = function(event) {
       if (data.identifier.indexOf(mvelo.KEYRING_DELIMITER) !== -1) {
         throw {message: 'Identifier invalid.', code: 'INVALID_IDENTIFIER'};
       }
-      keyringId = mvelo.domAPI.host + mvelo.KEYRING_DELIMITER + data.identifier;
+      keyringId = mvelo.main.host + mvelo.KEYRING_DELIMITER + data.identifier;
     }
     switch (event.data.event) {
       case 'get-version':

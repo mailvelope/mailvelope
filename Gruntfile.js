@@ -82,7 +82,8 @@ module.exports = function(grunt) {
             'common/ui/inline/keyBackupContainer.js',
             'common/ui/inline/restoreBackupContainer.js',
             'common/ui/inline/syncHandler.js',
-            'common/ui/inline/domAPI.js'
+            'common/ui/inline/domAPI.js',
+            'common/ui/inline/providerSpecific.js'
           ],
           dest: 'build/common/ui/inline/cs-mailvelope.js'
         }]

@@ -38,7 +38,7 @@ mvelo.KeyBackupContainer = function(selector, keyringId, options) {
   this.container = null;
   this.done = null;
   this.popupDone = null;
-  this.host = mvelo.domAPI.host;
+  this.host = mvelo.main.host;
 };
 
 /**
@@ -56,7 +56,7 @@ mvelo.KeyBackupContainer.prototype.create = function(done) {
   this.port.postMessage({
     event: 'set-keybackup-window-props',
     sender: this.name,
-    host: mvelo.domAPI.host,
+    host: mvelo.main.host,
     keyringId: this.keyringId,
     initialSetup: (this.options.initialSetup === undefined) ? true : this.options.initialSetup
   });

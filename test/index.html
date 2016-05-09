@@ -7,6 +7,8 @@
 <body>
   <div id="mocha"></div>
 
+  <div id="testElem"></div>
+
   <!-- libs -->
   <script src="../node_modules/es6-promise/dist/es6-promise.js"></script>
   <script src="../bower_components/jquery/dist/jquery.js"></script>
@@ -15,9 +17,11 @@
   <script src="../node_modules/sinon/pkg/sinon.js"></script>
   <script src="config.js"></script>
 
-  <!-- load non AMD unit tests -->
+  <!-- load non-AMD unit tests -->
   <script src="../common/ui/settings/keyserver.js"></script>
   <script src="common/ui/settings/keyserver-test.js"></script>
+  <script src="../common/ui/inline/providerSpecific.js"></script>
+  <script src="common/ui/inline/providerSpecific-test.js"></script>
 
   <!-- load AMD unit tests -->
   <script data-main="main.js" src="../bower_components/requirejs/require.js"></script>
