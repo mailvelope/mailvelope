@@ -123,7 +123,7 @@ mvelo.providers.get = function(hostname) {
   //
 
   var EMAIL_REGEX = /[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/;
-  var EMAIL_REGEXS = /[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/g;
+  var EMAILS_REGEX = /[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/g;
 
   var dom = {};
 
@@ -148,7 +148,7 @@ mvelo.providers.get = function(hostname) {
   dom.getText = function(elements) {
     var recipients = [];
     elements.each(function() {
-      if (!$(this).text().match(EMAIL_REGEXS)) {
+      if (!$(this).text().match(EMAILS_REGEX)) {
         return;
       }
       // second filtering: only direct text nodes of span elements
@@ -173,17 +173,27 @@ mvelo.providers.get = function(hostname) {
     return recipients;
   };
 
+  /**
+   * Parse email addresses from string input.
+   * @param  {String} text   The input to be matched
+   * @return {Array}         The recipient objects in fhe form { address: 'jon@example.com' }
+   */
   function parse(text) {
     if (!text) {
       return [];
     }
-    var valid = text.match(EMAIL_REGEXS);
+    var valid = text.match(EMAILS_REGEX);
     if (valid === null) {
       return [];
     }
     return toRecipients(valid);
   }
 
+  /**
+   * Maps an array of email addresses to an array of recipient objects.
+   * @param  {Array} addresses   An array of email addresses
+   * @return {Array}             The recipient objects in fhe form { address: 'jon@example.com' }
+   */
   function toRecipients(addresses) {
     return addresses.map(function(address) {
       return {
