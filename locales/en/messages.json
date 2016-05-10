@@ -983,6 +983,178 @@
     "description": "Password error message.",
     "message": "Wrong password"
   },
+  "recovery_sheet_backup_data" : {
+    "description" : "",
+    "message" : "Backup of your data"
+  },
+  "recovery_sheet_backup_local" : {
+    "description" : "",
+    "message" : "If you would like to exclusively save your data locally on your computer, you will find this option in the encrypted communication settings of your [BRAND] account. "
+  },
+  "recovery_sheet_backup_server" : {
+    "description" : "",
+    "message" : "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our [BRAND] servers by our security partner Mailvelope."
+  },
+  "recovery_sheet_be_aware" : {
+    "description" : "Label",
+    "message" : "Please be aware"
+  },
+  "recovery_sheet_check_settings" : {
+    "description" : "",
+    "message" : "please check the settings in your account under:"
+  },
+  "recovery_sheet_creation_date" : {
+    "description" : "Label for recovery sheet creation date",
+    "message" : "Creation date:"
+  },
+  "recovery_sheet_data_lost" : {
+    "description" : "",
+    "message" : "Without a backup, your encrypted messages cannot be decrypted again in case you lose your key password or in case of a defective device or problems with the browser extension!"
+  },
+  "recovery_sheet_encryption_note" : {
+    "description" : "Sub title",
+    "message" : "Hints for encrypted communication with [BRAND]"
+  },
+  "recovery_sheet_enter_code" : {
+    "description" : "Label for navigation path",
+    "message" : "For the installation on other computers, enter the recovery code in the settings under:"
+  },
+  "recovery_sheet_explain_pgp" : {
+    "description" : "",
+    "message" : "Encrypted communication with [BRAND] is a PGP-based procedure. It enables you to send encrypted e-mails and, at the same time, ensures that only you and the receiver are able to read them."
+  },
+  "recovery_sheet_extension_problems" : {
+    "description" : "List item",
+    "message" : "because of problems with the browser extension"
+  },
+  "recovery_sheet_forgot_password" : {
+    "description" : "List item",
+    "message" : "because you forgot your key password"
+  },
+  "recovery_sheet_further_info" : {
+    "description" : "",
+    "message" : "You can find more information and setting options in your [BRAND] account under"
+  },
+  "recovery_sheet_header" : {
+    "description" : "Title of recovery sheet.",
+    "message" : "Important information!"
+  },
+  "recovery_sheet_in_general" : {
+    "description" : "Label",
+    "message" : "In general, it is important"
+  },
+  "recovery_sheet_invite_contacts" : {
+    "description" : "",
+    "message" : "In your encrypted communication settings of your [BRAND] account, you have the possibility to invite additional contacts to use encrypted communication via PGP. Contacts that have already been invited successfully can be recognized by the padlock icon next to the e-mail address. "
+  },
+  "recovery_sheet_keep_safe" : {
+    "description" : "",
+    "message" : "Store a print-out of this document in a safe place and make sure no one else has access to the recovery code."
+  },
+  "recovery_sheet_key_server" : {
+    "description" : "",
+    "message" : "Other [BRAND] users who are using the PGP procedure of GMX can be directly found in a central directory in your [BRAND] account. If you do not want to have any entries in this directory, please deactivate this function in your [BRAND] account settings."
+  },
+  "recovery_sheet_mobile_devices" : {
+    "description" : "",
+    "message" : "On mobile devices"
+  },
+  "recovery_sheet_not_working" : {
+    "description" : "Label for list",
+    "message" : "If your encrypted communication is no longer working, e.g."
+  },
+  "recovery_sheet_other_computer" : {
+    "description" : "",
+    "message" : "On a different computer"
+  },
+  "recovery_sheet_other_contacts" : {
+    "description" : "",
+    "message" : "Encrypted communication with other contacts"
+  },
+  "recovery_sheet_other_devices" : {
+    "description" : "Sub title",
+    "message" : "Encrypted communication on other devices"
+  },
+  "recovery_sheet_other_devices_setup" : {
+    "description" : "",
+    "message" : "Setting up encrypted communication on other devices"
+  },
+  "recovery_sheet_other_problems" : {
+    "description" : "List item",
+    "message" : "for other reasons"
+  },
+  "recovery_sheet_pgp_compat" : {
+    "description" : "",
+    "message" : "You can communicate securely with other contacts if they are also using encrypted communication (PGP)."
+  },
+  "recovery_sheet_print_block" : {
+    "description" : "Sub title of recovery sheet.",
+    "message" : "Please store this document in a safe place!"
+  },
+  "recovery_sheet_print_button" : {
+    "description" : "",
+    "message" : "Print"
+  },
+  "recovery_sheet_print_notice" : {
+    "description" : "Sub title of recovery sheet.",
+    "message" : "Please print this document and store it in a safe place!"
+  },
+  "recovery_sheet_provider_communication" : {
+    "description" : "",
+    "message" : "Encrypted communication"
+  },
+  "recovery_sheet_provider_inbox" : {
+    "description" : "",
+    "message" : "Inbox"
+  },
+  "recovery_sheet_provider_security" : {
+    "description" : "",
+    "message" : "Security"
+  },
+  "recovery_sheet_provider_settings" : {
+    "description" : "",
+    "message" : "Settings"
+  },
+  "recovery_sheet_qr_code" : {
+    "description" : "",
+    "message" : "Scan the QR code with your mobile device."
+  },
+  "recovery_sheet_recommendation" : {
+    "description" : "",
+    "message" : "Recommendation"
+  },
+  "recovery_sheet_recover_data" : {
+    "description" : "Sub title",
+    "message" : "Recovering data"
+  },
+  "recovery_sheet_recovery_code" : {
+    "description" : "",
+    "message" : "Recovery code"
+  },
+  "recovery_sheet_subtitle_receipt" : {
+    "description" : "Sub title of recovery sheet.",
+    "message" : "Recovery sheet for encrypted communication"
+  },
+  "recovery_sheet_subtitle_recover" : {
+    "description" : "Sub title",
+    "message" : "Recover encrypted communication"
+  },
+  "recovery_sheet_trusted_contacts" : {
+    "description" : "",
+    "message" : "With GMX contacts you can be sure that the users displayed are in fact valid users. You should, however, always verify the identity of contacts with an e-mail address from another e-mail provider."
+  },
+  "recovery_sheet_type_in" : {
+    "description" : "The 'in' as in 'type something in' refers to verb in RECOVERY_SHEET_ENTER_CODE, optional.",
+    "message" : "in."
+  },
+  "recovery_sheet_unknown_third" : {
+    "description" : "",
+    "message" : "Only set up encrypted communication on secure devices that cannot be accessed by strangers."
+  },
+  "recovery_sheet_unlock_backup" : {
+    "description" : "",
+    "message" : "The backup of your data can only be decrypted with the help of the recovery code on this recovery sheet."
+  },
   "reload_webmail_tab": {
     "description": "Info message.",
     "message": "Please reload your e-mail provider tab (F5) for the settings to take effect."
