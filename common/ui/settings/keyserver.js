@@ -15,6 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * @fileOverview Implements the key server configuration ui in the
+ * settings dialog
+ */
+
 'use strict';
 
 function KeyServer(mvelo, options) {
@@ -22,6 +27,9 @@ function KeyServer(mvelo, options) {
   this._options = options;
 }
 
+/**
+ * Initialize jQuery elemens and event handlers.
+ */
 KeyServer.prototype.init = function() {
   // init jquery elements
   this._inputHkpUrl = $('#keyserverInputHkpUrl');
@@ -38,6 +46,10 @@ KeyServer.prototype.init = function() {
   this.loadPrefs();
 };
 
+/**
+ * Is triggered when the text input for the HKP url changes.
+ * @return {Boolean}   If the event was successful
+ */
 KeyServer.prototype.onChangeHkpUrl = function() {
   this.normalize();
   if (!this.validateUrl(this._inputHkpUrl.val())) {
@@ -49,6 +61,10 @@ KeyServer.prototype.onChangeHkpUrl = function() {
   this._cancelBtn.prop('disabled', false);
 };
 
+/**
+ * Save the key server settings.
+ * @return {Promise}   A promise with an empty result
+ */
 KeyServer.prototype.save = function() {
   var self = this;
   var opt = self._options;
@@ -66,17 +82,31 @@ KeyServer.prototype.save = function() {
   });
 };
 
+/**
+ * Cancels the configuration and restore original settings.
+ * @return {Boolean}   If the event was successful
+ */
 KeyServer.prototype.cancel = function() {
   this.normalize();
   this.loadPrefs();
   return false;
 };
 
+/**
+ * Validates a HKP url using a regex.
+ * @param  {String} url   The base url of the hkp server
+ * @return {Boolean}      If the url is valid
+ */
 KeyServer.prototype.validateUrl = function(url) {
   var urlPattern = /^(http|https):\/\/[\w-]+(?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|-){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|-){0,61}[0-9A-Za-z])?)*\.?$/;
   return urlPattern.test(url);
 };
 
+/**
+ * Validates a HKP url by query the key server using a well known public key ID.
+ * @param  {String} url   The base url of the hkp server
+ * @return {Promise}      If the test was valid. Rejects in case of an error.
+ */
 KeyServer.prototype.testUrl = function(url) {
   if (!this.validateUrl(url)) {
     return Promise.reject(new Error('Invalid url'));
@@ -94,6 +124,9 @@ KeyServer.prototype.testUrl = function(url) {
   });
 };
 
+/**
+ * Restore default UI state.
+ */
 KeyServer.prototype.normalize = function() {
   this._alert.empty();
   $('#keyserver .form-group button').prop('disabled', true);
@@ -101,6 +134,10 @@ KeyServer.prototype.normalize = function() {
   $('#keyserver .help-inline').addClass('hide');
 };
 
+/**
+ * Load the user's preferences from local storage.
+ * @return {Promise}   Resolves after the preferences have been loaded
+ */
 KeyServer.prototype.loadPrefs = function() {
   var self = this;
   return self._options.pgpModel('getPreferences').then(function(prefs) {

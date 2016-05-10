@@ -33,42 +33,16 @@ define(function(require, exports, module) {
   EncryptController.prototype.handlePortMessage = function(msg) {
     var that = this;
     switch (msg.event) {
-      case 'eframe-recipient-proposal':
-        var emails = this.mvelo.util.sortAndDeDup(msg.data);
-        var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
-        var keys = localKeyring.getKeyUserIDs(emails);
-        var primary;
-        if (this.prefs.data().general.auto_add_primary) {
-          primary = localKeyring.getAttributes().primary_key;
-          primary = primary && primary.toLowerCase();
-        }
-        if (this.recipientsCallback) {
-          this.recipientsCallback({ keys: keys, primary: primary });
-          this.recipientsCallback = null;
-        }
+      case 'eframe-recipients':
+        that.handleRecipients(msg.data);
         break;
       case 'eframe-display-editor':
         if (this.mvelo.windows.modalActive) {
           // modal dialog already open
           // TODO show error, fix modalActive on FF
         } else {
-          this.editorControl = sub.factory.get('editor');
-          this.editorControl.encrypt({
-            initText: msg.text,
-            getRecipients: this.getRecipients.bind(this)
-          }, function(err, armored) {
-            if (!err) {
-              // sanitize if content from plain text, rich text already sanitized by editor
-              if (that.prefs.data().general.editor_type == that.mvelo.PLAIN_TEXT) {
-                that.mvelo.util.parseHTML(armored, function(parsed) {
-                  that.ports.eFrame.postMessage({event: 'set-editor-output', text: parsed});
-                });
-              } else {
-                that.ports.eFrame.postMessage({event: 'set-editor-output', text: armored});
-              }
-            } else {
-              // TODO: error handling
-            }
+          this.encrypt(msg.text, function(err) {
+            // TODO: error handling
           });
         }
         break;
@@ -77,12 +51,77 @@ define(function(require, exports, module) {
     }
   };
 
+  /**
+   * Calls getRecipients() and then encrypt plaintext input to their public keys.
+   * @param  {String} text   The plaintext input to encrypt
+   */
+  EncryptController.prototype.encrypt = function(text, callback) {
+    var that = this;
+    this.editorControl = sub.factory.get('editor');
+    this.editorControl.encrypt({
+      initText: text,
+      getRecipients: this.getRecipients.bind(this)
+    }, function(err, armored) {
+      if (err) {
+        callback(err);
+        return;
+      }
+
+      // sanitize if content from plain text, rich text already sanitized by editor
+      if (that.prefs.data().general.editor_type == that.mvelo.PLAIN_TEXT) {
+        that.mvelo.util.parseHTML(armored, function(parsed) {
+          that._sendEvent('set-editor-output', {text: parsed});
+          callback();
+        });
+      } else {
+        that._sendEvent('set-editor-output', {text: armored});
+        callback();
+      }
+    });
+  };
+
+  /**
+   * Signal the encrypt frame to  call currentProvider.getRecipients().
+   * @param  {Function} callback   Will be called once recipients are set later
+   */
   EncryptController.prototype.getRecipients = function(callback) {
     if (this.recipientsCallback) {
       throw new Error('Waiting for recipients result.');
     }
-    this.ports.eFrame.postMessage({event: 'recipient-proposal'});
+    this._sendEvent('get-recipients');
     this.recipientsCallback = callback;
+  };
+
+  /**
+   * Handles gotten recipients after calling currentProvider.getRecipients() in
+   * the encrypt frame.
+   * @param  {Array} recipients   The recipient objects in the form: [{ address: 'jon@example.com' }]
+   */
+  EncryptController.prototype.handleRecipients = function(recipients) {
+    var emails = recipients.map(function(recipient) { return recipient.address; });
+    emails = this.mvelo.util.sortAndDeDup(emails);
+    var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
+    var keys = localKeyring.getKeyUserIDs(emails);
+    var primary;
+    if (this.prefs.data().general.auto_add_primary) {
+      primary = localKeyring.getAttributes().primary_key;
+      primary = primary && primary.toLowerCase();
+    }
+    if (this.recipientsCallback) {
+      this.recipientsCallback({keys: keys, primary: primary});
+      this.recipientsCallback = null;
+    }
+  };
+
+  /**
+   * Helper to send events via postMessage.
+   * @param  {String} event     The event descriptor
+   * @param  {Object} options   Data to be sent in the event
+   */
+  EncryptController.prototype._sendEvent = function(event, options) {
+    options = options || {};
+    options.event = event;
+    this.ports.eFrame.postMessage(options);
   };
 
   exports.EncryptController = EncryptController;
