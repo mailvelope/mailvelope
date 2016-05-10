@@ -41,7 +41,9 @@ define(function(require, exports, module) {
           // modal dialog already open
           // TODO show error, fix modalActive on FF
         } else {
-          this.encrypt(msg.text);
+          this.encrypt(msg.text, function(err) {
+            // TODO: error handling
+          });
         }
         break;
       default:
@@ -53,7 +55,7 @@ define(function(require, exports, module) {
    * Calls getRecipients() and then encrypt plaintext input to their public keys.
    * @param  {String} text   The plaintext input to encrypt
    */
-  EncryptController.prototype.encrypt = function(text) {
+  EncryptController.prototype.encrypt = function(text, callback) {
     var that = this;
     this.editorControl = sub.factory.get('editor');
     this.editorControl.encrypt({
@@ -61,17 +63,19 @@ define(function(require, exports, module) {
       getRecipients: this.getRecipients.bind(this)
     }, function(err, armored) {
       if (err) {
-        // TODO: error handling
+        callback(err);
         return;
       }
 
       // sanitize if content from plain text, rich text already sanitized by editor
       if (that.prefs.data().general.editor_type == that.mvelo.PLAIN_TEXT) {
         that.mvelo.util.parseHTML(armored, function(parsed) {
-          that.ports.eFrame.postMessage({event: 'set-editor-output', text: parsed});
+          that._sendEvent('set-editor-output', {text: parsed});
+          callback();
         });
       } else {
-        that.ports.eFrame.postMessage({event: 'set-editor-output', text: armored});
+        that._sendEvent('set-editor-output', {text: armored});
+        callback();
       }
     });
   };
@@ -84,7 +88,7 @@ define(function(require, exports, module) {
     if (this.recipientsCallback) {
       throw new Error('Waiting for recipients result.');
     }
-    this.ports.eFrame.postMessage({event: 'get-recipients'});
+    this._sendEvent('get-recipients');
     this.recipientsCallback = callback;
   };
 
@@ -104,9 +108,20 @@ define(function(require, exports, module) {
       primary = primary && primary.toLowerCase();
     }
     if (this.recipientsCallback) {
-      this.recipientsCallback({ keys: keys, primary: primary });
+      this.recipientsCallback({keys: keys, primary: primary});
       this.recipientsCallback = null;
     }
+  };
+
+  /**
+   * Helper to send events via postMessage.
+   * @param  {String} event     The event descriptor
+   * @param  {Object} options   Data to be sent in the event
+   */
+  EncryptController.prototype._sendEvent = function(event, options) {
+    options = options || {};
+    options.event = event;
+    this.ports.eFrame.postMessage(options);
   };
 
   exports.EncryptController = EncryptController;

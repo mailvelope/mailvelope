@@ -384,9 +384,30 @@ module.exports = function(grunt) {
       }
     },
 
-    mocha_phantomjs: {
-      all: ['test/index.html']
+    connect: {
+      dev: {
+        options: {
+          port: 8580,
+          base: '.',
+          keepalive: true
+        }
+      },
+      test: {
+        options: {
+          port: 8581,
+          base: '.'
+        }
+      }
     },
+
+    mocha_phantomjs: {
+      all: {
+        options: {
+          urls: ['http://localhost:<%= connect.test.options.port %>/test/index.html']
+        }
+      }
+    }
+
   });
 
   grunt.loadNpmTasks('grunt-contrib-clean');
@@ -400,6 +421,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-jscs");
   grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-jpm');
+  grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-mocha-phantomjs');
 
   //custom tasks
@@ -416,6 +438,6 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['clean', 'jshint', 'jscs', 'concat', 'copy_common', 'final_assembly']);
   grunt.registerTask('nightly', ['clean', 'jshint', 'jscs', 'concat', 'copy_common', 'replace:build_version', 'final_assembly']);
 
-  grunt.registerTask('test', ['mocha_phantomjs']);
+  grunt.registerTask('test', ['connect:test', 'mocha_phantomjs']);
 
 };
