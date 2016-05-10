@@ -3,11 +3,15 @@
 'use strict';
 
 describe('Provider specific content-script unit tests', function() {
+  var testElem;
 
-  beforeEach(function() {});
+  beforeEach(function() {
+    testElem = $('<div id="testElem"></div>');
+    $(document.body).append(testElem);
+  });
 
   afterEach(function() {
-    $('#testElem').empty();
+    testElem.remove();
   });
 
   describe('providers.init', function() {
@@ -43,7 +47,7 @@ describe('Provider specific content-script unit tests', function() {
 
     describe('getRecipients', function() {
       it('should work', function() {
-        $('#testElem').append('<span>test1@example.com</span><input value="test2@example.com"></input><textarea>test3@example.com</textarea>');
+        testElem.append('<span>test1@example.com</span><input value="test2@example.com"></input><textarea>test3@example.com</textarea>');
 
         var recipients = defMod.getRecipients();
 
@@ -71,7 +75,7 @@ describe('Provider specific content-script unit tests', function() {
 
     describe('getRecipients', function() {
       it('should work', function() {
-        $('#testElem').append('<span email="test@example.com"><div class="vT">Test User</div></span>');
+        testElem.append('<span email="test@example.com"><div class="vT">Test User</div></span>');
 
         var recipients = gmail.getRecipients();
 
@@ -83,7 +87,7 @@ describe('Provider specific content-script unit tests', function() {
     describe('setRecipients', function() {
       beforeEach(function() {
         // html copied from gmail interface
-        $('#testElem').append('<div id=":ab" class="oL aDm az9" style="overflow: visible; word-wrap: break-word; white-space: pre-wrap; max-width: 469px;"></div>');
+        testElem.append('<div id=":ab" class="oL aDm az9" style="overflow: visible; word-wrap: break-word; white-space: pre-wrap; max-width: 469px;"></div>');
       });
 
       it('should work', function() {
