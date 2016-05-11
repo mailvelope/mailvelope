@@ -100,6 +100,13 @@ describe('Provider specific content-script unit tests', function() {
         expect(recipients[0].address).to.equal('test@example.com');
       });
 
+      it('should work for undefined', function() {
+        gmail.setRecipients(undefined);
+        var recipients = gmail.getRecipients();
+
+        expect(recipients.length).to.equal(0);
+      });
+
       it('should not inject script', function() {
         var toSet = [{address: '<script>alert("xss")</script>'}];
 

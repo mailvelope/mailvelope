@@ -108,6 +108,7 @@ mvelo.providers.get = function(hostname) {
    * Set tne recipients in the Gmail Webmail editor.
    */
   Gmail.prototype.setRecipients = function(recipients) {
+    recipients = recipients || [];
     var el = $('#\\:ab'); // div listing all recipient spans in the editor
     recipients.forEach(function(recipient) {
       var email = recipient.address;
