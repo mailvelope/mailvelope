@@ -57,7 +57,7 @@ define(function(require) {
       });
 
       it('should display encrypt editor', function() {
-        sinon.stub(ctrl, 'encrypt');
+        sinon.stub(ctrl, 'openEditor');
 
         var text = 'foo';
         ctrl.handlePortMessage({
@@ -65,11 +65,11 @@ define(function(require) {
           text: text
         });
 
-        expect(ctrl.encrypt.withArgs(text).calledOnce).to.be.true;
+        expect(ctrl.openEditor.withArgs(text).calledOnce).to.be.true;
       });
 
       it('should not display encrypt editor a second time', function() {
-        sinon.stub(ctrl, 'encrypt');
+        sinon.stub(ctrl, 'openEditor');
         ctrl.mvelo.windows.modalActive = true;
 
         var text = 'foo';
@@ -78,11 +78,11 @@ define(function(require) {
           text: text
         });
 
-        expect(ctrl.encrypt.called).to.be.false;
+        expect(ctrl.openEditor.called).to.be.false;
       });
     });
 
-    describe('encrypt', function() {
+    describe('openEditor', function() {
       it('should work for editor type plain', function(done) {
         editorCtrlMock.encrypt.yields(null, 'armored');
         ctrl.prefs.data.returns({
@@ -91,7 +91,7 @@ define(function(require) {
           }
         });
 
-        ctrl.encrypt('foo', function(err) {
+        ctrl.openEditor('foo', function(err) {
           expect(ctrl._sendEvent.withArgs('set-editor-output', {text: 'parsed'}).calledOnce).to.be.true;
           expect(err).to.not.exist;
           done();
@@ -106,7 +106,7 @@ define(function(require) {
           }
         });
 
-        ctrl.encrypt('foo', function(err) {
+        ctrl.openEditor('foo', function(err) {
           expect(ctrl._sendEvent.withArgs('set-editor-output', {text: 'armored'}).calledOnce).to.be.true;
           expect(err).to.not.exist;
           done();
@@ -116,7 +116,7 @@ define(function(require) {
       it('should fail for error', function(done) {
         editorCtrlMock.encrypt.yields(new Error());
 
-        ctrl.encrypt('foo', function(err) {
+        ctrl.openEditor('foo', function(err) {
           expect(ctrl._sendEvent.called).to.be.false;
           expect(err).to.exist;
           done();
