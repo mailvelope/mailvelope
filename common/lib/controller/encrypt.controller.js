@@ -15,6 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * @fileOverview This controller handles events from the encryptFrame and
+ * opens an editor to encrypt plaintext to a list of recipients.
+ */
+
 'use strict';
 
 define(function(require, exports, module) {
@@ -41,7 +46,7 @@ define(function(require, exports, module) {
           // modal dialog already open
           // TODO show error, fix modalActive on FF
         } else {
-          this.encrypt(msg.text, function(err) {
+          this.openEditor(msg.text, function(err) {
             // TODO: error handling
           });
         }
@@ -52,10 +57,11 @@ define(function(require, exports, module) {
   };
 
   /**
-   * Calls getRecipients() and then encrypt plaintext input to their public keys.
+   * Opens a new editor control and gets the recipients to encrypt plaintext
+   * input to their public keys.
    * @param  {String} text   The plaintext input to encrypt
    */
-  EncryptController.prototype.encrypt = function(text, callback) {
+  EncryptController.prototype.openEditor = function(text, callback) {
     var that = this;
     this.editorControl = sub.factory.get('editor');
     this.editorControl.encrypt({
