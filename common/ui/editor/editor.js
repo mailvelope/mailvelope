@@ -298,7 +298,7 @@ var mvelo = mvelo || null;
 
   function onEncrypt() {
     logUserInput('security_log_dialog_encrypt');
-    showDialog('encryptDialog');
+    sendPlainText('encrypt');
   }
 
   function onUndo() {
@@ -577,14 +577,34 @@ var mvelo = mvelo || null;
       event: 'editor-plaintext',
       sender: name,
       message: editor.val(),
+      keys: getRecipientKeys(),
       attachments: mvelo.file.getFiles($('#uploadPanel')),
       action: action
+    });
+  }
+
+  // TODO: remove
+  var keyBuffer;
+
+  function getRecipientKeys() {
+    return keyBuffer;
+  }
+
+  function setRecipients(keys) {
+    keyBuffer = keys;
+    var recipientsInput = $('#recipientsInput');
+    keys.forEach(function(key) {
+      var val = recipientsInput.val();
+      recipientsInput.val(val ? (val + ', ' + key.userid) : key.userid);
     });
   }
 
   function messageListener(msg) {
     //console.log('editor messageListener: ', msg.event);
     switch (msg.event) {
+      case 'public-key-userids':
+        setRecipients(msg.keys);
+        break;
       case 'set-text':
         onSetText(msg.text);
         break;
@@ -620,7 +640,6 @@ var mvelo = mvelo || null;
       case 'hide-pwd-dialog':
         hidePwdDialog();
         break;
-      case 'encrypt-dialog-cancel':
       case 'sign-dialog-cancel':
         removeDialog();
         break;
@@ -631,18 +650,6 @@ var mvelo = mvelo || null;
           sendPlainText(msg.action);
         }
 
-        break;
-      case 'encrypted-message':
-      case 'signed-message':
-        undoText = editor.val();
-        $('#undoBtn').prop('disabled', false);
-        removeDialog();
-        setText(msg.message, 'text');
-        if (msg.event == 'signed-message') {
-          hidePwdDialog();
-        }
-        $('#signBtn, #encryptBtn').hide();
-        $('#transferBtn').show();
         break;
       case 'error-message':
         if (msg.error.code === 'PWD_DIALOG_CANCEL') {

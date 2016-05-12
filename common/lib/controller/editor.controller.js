@@ -15,6 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * @fileOverview This controller implements handling of state and events
+ * for the encryption editor like handling message data and recipients.
+ */
+
 'use strict';
 
 define(function(require, exports, module) {
@@ -34,7 +39,7 @@ define(function(require, exports, module) {
     this.encryptCallback = null;
     this.keyringId = null;
     this.editorPopup = null;
-    this.getRecipients = null;
+    this.getRecipientProposal = null;
     this.keyidBuffer = null;
     this.signBuffer = null;
     this.pwdControl = null;
@@ -58,26 +63,12 @@ define(function(require, exports, module) {
         if (this.ports.editorCont) {
           this.ports.editorCont.postMessage({event: 'editor-ready'});
         }
+        // display recipient proposal in the editor
+        this.getRecipientProposal(this.displayRecipientProposal.bind(this));
         break;
       case 'editor-cancel':
         this.editorPopup.close();
         this.editorPopup = null;
-        break;
-      case 'editor-transfer-output':
-        this.editorPopup.close();
-        this.editorPopup = null;
-        this.encryptCallback(null, msg.data);
-        break;
-      case 'encrypt-dialog-init':
-        // send content
-        this.mvelo.data.load('common/ui/inline/dialogs/templates/encrypt.html').then(function(content) {
-          //console.log('content rendered', content);
-          that.ports.eDialog.postMessage({event: 'encrypt-dialog-content', data: content});
-          // get potential recipients
-          that.getRecipients(function(result) {
-            that.ports.eDialog.postMessage({event: 'public-key-userids', keys: result.keys, primary: result.primary});
-          });
-        });
         break;
       case 'sign-dialog-init':
         var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
@@ -89,16 +80,9 @@ define(function(require, exports, module) {
           port.postMessage({event: 'signing-key-userids', keys: keys, primary: primary});
         });
         break;
-      case 'encrypt-dialog-cancel':
       case 'sign-dialog-cancel':
         // forward event to encrypt frame
         this.ports.editor.postMessage(msg);
-        break;
-      case 'encrypt-dialog-ok':
-        // add recipients to buffer
-        this.keyidBuffer = msg.recipient;
-        // get email text from eFrame
-        this.ports.editor.postMessage({event: 'get-plaintext', action: 'encrypt'});
         break;
       case 'editor-container-encrypt':
         this.pgpMIME = true;
@@ -211,18 +195,35 @@ define(function(require, exports, module) {
    * @param {Object} options
    * @param {String} options.initText
    * @param {String} options.keyringId
-   * @param {Function} options.getRecipients
+   * @param {Function} options.getRecipientProposal
    * @param {Function} callback
    */
   EditorController.prototype.encrypt = function(options, callback) {
     var that = this;
     this.initText = options.initText;
-    this.getRecipients = options.getRecipients;
+    this.getRecipientProposal = options.getRecipientProposal;
     this.keyringId = options.keyringId || this.mvelo.LOCAL_KEYRING_ID;
     this.encryptCallback = callback;
     this.mvelo.windows.openPopup('common/ui/editor/editor.html?id=' + this.id + '&editor_type=' + this.prefs.data().general.editor_type, {width: 820, height: 550, modal: false}, function(window) {
       that.editorPopup = window;
     });
+  };
+
+  /**
+   * Displays the recipient proposal in the editor.
+   * @param  {Array} recipients   A list of potential recipient from the webmail ui
+   */
+  EditorController.prototype.displayRecipientProposal = function(recipients) {
+    var emails = (recipients || []).map(function(recipient) { return recipient.email; });
+    emails = this.mvelo.util.sortAndDeDup(emails);
+    var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
+    var keys = localKeyring.getKeyUserIDs(emails);
+    var primary;
+    if (this.prefs.data().general.auto_add_primary) {
+      primary = localKeyring.getAttributes().primary_key;
+      primary = primary && primary.toLowerCase();
+    }
+    this.ports.editor.postMessage({event: 'public-key-userids', keys: keys, primary: primary});
   };
 
   /**
@@ -357,7 +358,7 @@ define(function(require, exports, module) {
    * @param {Object} options
    * @param {String} options.message
    * @param {Array} options.keyIdsHex
-   * @return {undefined}
+   * @return {Promise}
    */
   EditorController.prototype.signAndEncryptMessage = function(options) {
     var that = this;
@@ -394,7 +395,7 @@ define(function(require, exports, module) {
     primaryKey.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
 
     that.pwdControl = sub.factory.get('pwdDialog');
-    that.pwdControl.unlockKey(primaryKey)
+    return that.pwdControl.unlockKey(primaryKey)
     .then(function() {
       encryptTimer = that.mvelo.util.setTimeout(function() {
         that.ports.editor.postMessage({event: 'encrypt-in-progress'});
@@ -413,9 +414,9 @@ define(function(require, exports, module) {
       });
     })
     .then(function(msg) {
-      port.postMessage({event: 'encrypted-message', message: msg});
       that.mvelo.util.clearTimeout(encryptTimer);
       that.ports.editor.postMessage({event: 'encrypt-end'});
+      return msg;
     })
     .catch(function(error) {
       error = that.mvelo.util.mapError(error);
@@ -433,7 +434,7 @@ define(function(require, exports, module) {
    * @param {String} options.message
    * @param {String} options.keyringId
    * @param {Array} options.keyIdsHex
-   * @return {undefined}
+   * @return {Promise}
    */
   EditorController.prototype.encryptMessage = function(options) {
     var that = this;
@@ -444,11 +445,11 @@ define(function(require, exports, module) {
     }, 800);
 
     options.uiLogSource = 'security_log_editor';
-    this.model.encryptMessage(options)
+    return this.model.encryptMessage(options)
       .then(function(msg) {
-        port.postMessage({event: 'encrypted-message', message: msg});
         that.mvelo.util.clearTimeout(encryptTimer);
         that.ports.editor.postMessage({event: 'encrypt-end'});
+        return msg;
       })
       .catch(function(error) {
         console.log('model.encryptMessage() error', error);
@@ -463,7 +464,7 @@ define(function(require, exports, module) {
 
   /**
    * @param {String} message
-   * @return {undefined}
+   * @return {Promise}
    */
   EditorController.prototype.signMessage = function(message) {
     var that = this;
@@ -472,11 +473,11 @@ define(function(require, exports, module) {
       that.ports.editor.postMessage({event: 'encrypt-in-progress'});
     }, 800);
 
-    this.model.signMessage(message, this.signBuffer.key)
+    return this.model.signMessage(message, this.signBuffer.key)
       .then(function(msg) {
-        that.ports.editor.postMessage({event: 'signed-message', message: msg});
         that.mvelo.util.clearTimeout(encryptTimer);
         that.ports.editor.postMessage({event: 'encrypt-end'});
+        return msg;
       })
       .catch(function(error) {
         console.log('model.signMessage() error', error);
@@ -486,14 +487,33 @@ define(function(require, exports, module) {
   };
 
   /**
+   * Closes the editor popup and transfer the encrypted/signed armored
+   * message and recipients back to the webmail interface.
+   * @param  {String} options.armored   The encrypted/signed message
+   * @param  {String} options.keys      The keys used to encrypt the message
+   */
+  EditorController.prototype.transferAndCloseDialog = function(options) {
+    this.editorPopup.close();
+    this.editorPopup = null;
+    var recipients = options.keys.map(function(k) {
+      return {name: k.name, email: k.email};
+    });
+    this.encryptCallback(null, options.armored, recipients);
+  };
+
+  /**
    * @param {Object} options
    * @param {String} options.action
    * @param {String} options.message
+   * @param {String} options.keys
    * @param {Array} options.attachment
    * @return {undefined}
    * @error {Error}
    */
   EditorController.prototype.signAndEncrypt = function(options) {
+    var that = this, promise;
+    options.keys = options.keys || [];
+
     if (options.action === 'encrypt') {
       var data = this.buildMail(options.message, options.attachments);
 
@@ -501,23 +521,28 @@ define(function(require, exports, module) {
         return;
       }
 
+      var keyIdsHex = this.keyidBuffer || options.keys.map(function(key) { return key.keyid; });
       if (this.signMsg) {
-        this.signAndEncryptMessage({
+        promise = this.signAndEncryptMessage({
           message: data,
-          keyIdsHex: this.keyidBuffer
+          keyIdsHex: keyIdsHex
         });
       } else {
-        this.encryptMessage({
+        promise = this.encryptMessage({
           message: data,
           keyringId: this.keyringId,
-          keyIdsHex: this.keyidBuffer
+          keyIdsHex: keyIdsHex
         });
       }
     } else if (options.action === 'sign') {
-      this.signMessage(options.message);
+      promise = this.signMessage(options.message);
     } else {
       throw new Error('Unknown eframe action:', options.action);
     }
+
+    promise.then(function(armored) {
+      that.transferAndCloseDialog({armored:armored, keys:options.keys});
+    });
   };
 
   exports.EditorController = EditorController;

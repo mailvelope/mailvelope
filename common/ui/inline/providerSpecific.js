@@ -71,7 +71,7 @@ mvelo.providers.get = function(hostname) {
 
   /**
    * Parse recipients from the DOM for a generic webmail UI.
-   * @return {Array}   The recipient objects in fhe form { address: 'jon@example.com' }
+   * @return {Array}   The recipient objects in fhe form { email: 'jon@example.com' }
    */
   Default.prototype.getRecipients = function() {
     var recipients = [];
@@ -98,10 +98,10 @@ mvelo.providers.get = function(hostname) {
 
   /**
    * Parse recipients from the Gmail Webmail interface
-   * @return {Array}   The recipient objects in fhe form { address: 'jon@example.com' }
+   * @return {Array}   The recipient objects in fhe form { email: 'jon@example.com' }
    */
   Gmail.prototype.getRecipients = function() {
-    return dom.getAttr($('span[email]'), 'email');
+    return dom.getAttr($('.oL.aDm span[email], .vR span[email]'), 'email');
   };
 
   /**
@@ -109,11 +109,23 @@ mvelo.providers.get = function(hostname) {
    */
   Gmail.prototype.setRecipients = function(recipients) {
     recipients = recipients || [];
-    var el = $('#\\:ab'); // div listing all recipient spans in the editor
+    // find the relevant elements in the Gmail interface
+    var displayDiv = $('.oL.aDm'); // displays recipients when focus not on input
+    var tagDiv = $('.vR'); // diplays tags for each recipient when focus on input
+    var input = $('.vO'); // the actual email address text input (a textarea)
+    displayDiv.empty();
+    tagDiv.empty();
+    input.empty();
+    // enter address text into input
+    var text = recipients.map(function(r) { return r.email; }).join(', ');
+    input.text(text);
+    // display recipients in the displayDiv
     recipients.forEach(function(recipient) {
-      var email = recipient.address;
+      var email = recipient.email;
       if (EMAIL_REGEX.test(email)) { // validate to prevent XSS
-        el.append('<span email="' + email + '">' + email + '</span>');
+        var span = $('<span email="' + email + '"></span>');
+        span.text(recipient.name ? (recipient.name + ' (' + email + ')') : email);
+        displayDiv.append(span);
       }
     });
   };
@@ -131,7 +143,7 @@ mvelo.providers.get = function(hostname) {
   /**
    * Filter the value of a list of elements for email addresses.
    * @param  {[type]} elements   A list of jQuery elements to iteralte over
-   * @return {Array}             The recipient objects in fhe form { address: 'jon@example.com' }
+   * @return {Array}             The recipient objects in fhe form { email: 'jon@example.com' }
    */
   dom.getVal = function(elements) {
     var recipients = [];
@@ -144,7 +156,7 @@ mvelo.providers.get = function(hostname) {
   /**
    * Filter the text content of a list of elements for email addresses.
    * @param  {[type]} elements   A list of jQuery elements to iteralte over
-   * @return {Array}             The recipient objects in fhe form { address: 'jon@example.com' }
+   * @return {Array}             The recipient objects in fhe form { email: 'jon@example.com' }
    */
   dom.getText = function(elements) {
     var recipients = [];
@@ -164,7 +176,7 @@ mvelo.providers.get = function(hostname) {
    * Filter a certain attribute of a list of elements for email addresses.
    * @param  {[type]} elements   A list of jQuery elements to iteralte over
    * @param  {[type]} attrName   The element's attribute name to query by
-   * @return {Array}             The recipient objects in fhe form { address: 'jon@example.com' }
+   * @return {Array}             The recipient objects in fhe form { email: 'jon@example.com' }
    */
   dom.getAttr = function(elements, attrName) {
     var recipients = [];
@@ -177,7 +189,7 @@ mvelo.providers.get = function(hostname) {
   /**
    * Parse email addresses from string input.
    * @param  {String} text   The input to be matched
-   * @return {Array}         The recipient objects in fhe form { address: 'jon@example.com' }
+   * @return {Array}         The recipient objects in fhe form { email: 'jon@example.com' }
    */
   function parse(text) {
     if (!text) {
@@ -193,12 +205,12 @@ mvelo.providers.get = function(hostname) {
   /**
    * Maps an array of email addresses to an array of recipient objects.
    * @param  {Array} addresses   An array of email addresses
-   * @return {Array}             The recipient objects in fhe form { address: 'jon@example.com' }
+   * @return {Array}             The recipient objects in fhe form { email: 'jon@example.com' }
    */
   function toRecipients(addresses) {
     return addresses.map(function(address) {
       return {
-        address: address
+        email: address
       };
     });
   }

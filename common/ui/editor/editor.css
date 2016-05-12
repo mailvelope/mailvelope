@@ -173,6 +173,19 @@ body {
   margin-bottom: 3px;
 }
 
+#flex-container #recipients {
+  width: 100%;
+  position: relative;
+  order: 0;
+  padding-bottom: 5px;
+}
+#flex-container #recipients #recipientsInput {
+  width: 100%;
+  padding: 6px 12px;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 #flex-container #body {
   width: 100%;
   position: relative;

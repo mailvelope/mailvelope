@@ -52,9 +52,9 @@ describe('Provider specific content-script unit tests', function() {
         var recipients = defMod.getRecipients();
 
         expect(recipients.length).to.equal(3);
-        expect(recipients[0].address).to.equal('test1@example.com');
-        expect(recipients[1].address).to.equal('test2@example.com');
-        expect(recipients[2].address).to.equal('test3@example.com');
+        expect(recipients[0].email).to.equal('test1@example.com');
+        expect(recipients[1].email).to.equal('test2@example.com');
+        expect(recipients[2].email).to.equal('test3@example.com');
       });
     });
 
@@ -75,29 +75,35 @@ describe('Provider specific content-script unit tests', function() {
 
     describe('getRecipients', function() {
       it('should work', function() {
-        testElem.append('<span email="test@example.com"><div class="vT">Test User</div></span>');
+        testElem.append('<div class="vR"><span email="test1@example.com"><div class="vT">Test User</div></span></div>');
+        testElem.append('<div class="oL aDm"><span email="test2@example.com"><div class="vT">Test User</div></span></div>');
 
         var recipients = gmail.getRecipients();
 
-        expect(recipients.length).to.equal(1);
-        expect(recipients[0].address).to.equal('test@example.com');
+        expect(recipients.length).to.equal(2);
+        expect(recipients[0].email).to.equal('test1@example.com');
+        expect(recipients[1].email).to.equal('test2@example.com');
       });
     });
 
     describe('setRecipients', function() {
       beforeEach(function() {
-        // html copied from gmail interface
-        testElem.append('<div id=":ab" class="oL aDm az9" style="overflow: visible; word-wrap: break-word; white-space: pre-wrap; max-width: 469px;"></div>');
+        testElem.append('<div class="oL aDm"></div>');
+        testElem.append('<textarea class="vO"></textarea>');
       });
 
       it('should work', function() {
-        var toSet = [{address: 'test@example.com'}];
+        var toSet = [{name: 'Test 1', email: 'test1@example.com'}, {name: 'Test 2', email: 'test2@example.com'}];
 
         gmail.setRecipients(toSet);
         var recipients = gmail.getRecipients();
 
-        expect(recipients.length).to.equal(1);
-        expect(recipients[0].address).to.equal('test@example.com');
+        expect(recipients.length).to.equal(2);
+        expect(recipients[0].email).to.equal('test1@example.com');
+        expect(recipients[1].email).to.equal('test2@example.com');
+        expect($('.oL.aDm').children().eq(0).text()).to.equal('Test 1 (test1@example.com)');
+        expect($('.oL.aDm').children().eq(1).text()).to.equal('Test 2 (test2@example.com)');
+        expect($('.vO').text()).to.equal('test1@example.com, test2@example.com');
       });
 
       it('should work for undefined', function() {
@@ -108,7 +114,7 @@ describe('Provider specific content-script unit tests', function() {
       });
 
       it('should not inject script', function() {
-        var toSet = [{address: '<script>alert("xss")</script>'}];
+        var toSet = [{email: '<script>alert("xss")</script>'}];
 
         gmail.setRecipients(toSet);
         var recipients = gmail.getRecipients();

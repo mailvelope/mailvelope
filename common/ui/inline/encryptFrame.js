@@ -222,11 +222,13 @@ mvelo.EncryptFrame.prototype._saveEmailText = function() {
  * email addresses into the webmail interface.
  * @param {String} text   The encrypted message body
  */
-mvelo.EncryptFrame.prototype._setEditorOutput = function(text) {
+mvelo.EncryptFrame.prototype._setEditorOutput = function(text, recipients) {
   // set message body
   this._saveEmailText();
   this._normalizeButtons();
   this._setMessage(text, 'text');
+  // set recipient email addresses
+  mvelo.main.currentProvider.setRecipients(recipients);
 };
 
 /**
@@ -266,7 +268,7 @@ mvelo.EncryptFrame.prototype._registerEventListener = function() {
     //console.log('eFrame-%s event %s received', that.id, msg.event);
     switch (msg.event) {
       case 'email-text':
-        that._sendEvent('eframe-email-text', {
+        that.emit('eframe-email-text', {
           data: that._getEmailText(msg.type),
           action: msg.action
         });
@@ -275,12 +277,12 @@ mvelo.EncryptFrame.prototype._registerEventListener = function() {
         that._closeFrame(true);
         break;
       case 'get-recipients':
-        that._sendEvent('eframe-recipients', {
+        that.emit('eframe-recipients', {
           data: mvelo.main.currentProvider.getRecipients()
         });
         break;
       case 'set-editor-output':
-        that._setEditorOutput(msg.text);
+        that._setEditorOutput(msg.text, msg.recipients);
         break;
       default:
         console.log('unknown event', msg);
@@ -296,7 +298,7 @@ mvelo.EncryptFrame.prototype._registerEventListener = function() {
  * @param  {String} event     The event descriptor
  * @param  {Object} options   Data to be sent in the event
  */
-mvelo.EncryptFrame.prototype._sendEvent = function(event, options) {
+mvelo.EncryptFrame.prototype.emit = function(event, options) {
   options.event = event;
   options.sender = 'eFrame-' + this.id;
   this._port.postMessage(options);
