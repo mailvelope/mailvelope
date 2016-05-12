@@ -39,6 +39,7 @@ require.config({
 
 define([
   'common/lib/controller/main.controller', // required to bootstrap dependency tree
+  'test/common/lib/controller/sub.controller-test',
   'test/common/lib/controller/encrypt.controller-test'
 ], function() {
   mocha.run();

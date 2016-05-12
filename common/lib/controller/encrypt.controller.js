@@ -30,38 +30,29 @@ define(function(require, exports, module) {
     sub.SubController.call(this, port);
     this.editorControl = null;
     this.recipientsCallback = null;
+    // register event handlers
+    this.on('eframe-recipients', this.displayRecipientProposal);
+    this.on('eframe-display-editor', this.openEditor);
   }
 
   EncryptController.prototype = Object.create(sub.SubController.prototype);
 
-  EncryptController.prototype.handlePortMessage = function(msg) {
-    switch (msg.event) {
-      case 'eframe-recipients':
-        this.displayRecipientProposal(msg.data);
-        break;
-      case 'eframe-display-editor':
-        if (this.mvelo.windows.modalActive) {
-          // modal dialog already open
-          // TODO show error, fix modalActive on FF
-        } else {
-          this.openEditor(msg.text);
-        }
-        break;
-      default:
-        console.log('unknown event', msg);
-    }
-  };
-
   /**
    * Opens a new editor control and gets the recipients to encrypt plaintext
    * input to their public keys.
-   * @param  {String} text   The plaintext input to encrypt
+   * @param  {String} options.text   The plaintext input to encrypt
    */
-  EncryptController.prototype.openEditor = function(text) {
+  EncryptController.prototype.openEditor = function(options) {
+    if (this.mvelo.windows.modalActive) {
+      // modal dialog already open
+      // TODO show error, fix modalActive on FF
+      return;
+    }
+
     var that = this;
     this.editorControl = sub.factory.get('editor');
     this.editorControl.encrypt({
-      initText: text,
+      initText: options.text,
       getRecipientProposal: this.getRecipientProposal.bind(this)
     }, function(err, armored, recipients) {
       // sanitize if content from plain text, rich text already sanitized by editor
@@ -90,24 +81,13 @@ define(function(require, exports, module) {
   /**
    * Handles gotten recipients after calling currentProvider.getRecipients() in
    * the encrypt frame.
-   * @param  {Array} recipients   The recipient objects in the form: [{ email: 'jon@example.com' }]
+   * @param  {Array} options.recipients   The recipient objects in the form: [{ email: 'jon@example.com' }]
    */
-  EncryptController.prototype.displayRecipientProposal = function(recipients) {
+  EncryptController.prototype.displayRecipientProposal = function(options) {
     if (this.recipientsCallback) {
-      this.recipientsCallback(recipients);
+      this.recipientsCallback(options.recipients);
       this.recipientsCallback = null;
     }
-  };
-
-  /**
-   * Helper to send events via postMessage.
-   * @param  {String} event     The event descriptor
-   * @param  {Object} options   Data to be sent in the event
-   */
-  EncryptController.prototype.emit = function(event, options) {
-    options = options || {};
-    options.event = event;
-    this.ports.eFrame.postMessage(options);
   };
 
   exports.EncryptController = EncryptController;

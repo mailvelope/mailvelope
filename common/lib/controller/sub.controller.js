@@ -34,6 +34,8 @@ define(function(require, exports, module) {
     }
   }
 
+  SubController.prototype = Object.create(mvelo.EventHandler.prototype); // add new event api functions
+
   SubController.prototype.addPort = function(port) {
     var type = this.parseViewName(port.name).type;
     this.ports[type] = port;
@@ -62,10 +64,6 @@ define(function(require, exports, module) {
   };
 
   SubController.prototype.parseViewName = parseViewName;
-
-  SubController.prototype.handlePortMessage = function(port) {
-    throw new Error('Abstract method.');
-  };
 
   SubController.prototype.openSecuritySettings = function() {
     var hash = '#security';
