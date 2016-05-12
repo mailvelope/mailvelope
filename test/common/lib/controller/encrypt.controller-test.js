@@ -29,7 +29,14 @@ define(function(require) {
       ctrl.emit.restore();
     });
 
-    describe('handlePortMessage', function() {
+    describe('Check event handlers', function() {
+      it('should handle recipients', function() {
+        expect(ctrl._handlers.get('eframe-recipients')).to.equal(ctrl.displayRecipientProposal);
+        expect(ctrl._handlers.get('eframe-display-editor')).to.equal(ctrl.openEditor);
+      });
+    });
+
+    describe('openEditor', function() {
       var modalActiveVal;
 
       beforeEach(function() {
@@ -40,45 +47,14 @@ define(function(require) {
         ctrl.mvelo.windows.modalActive = modalActiveVal;
       });
 
-      it('should handle recipients', function() {
-        sinon.stub(ctrl, 'displayRecipientProposal');
-
-        var data = {};
-        ctrl.handlePortMessage({
-          event: 'eframe-recipients',
-          data: data
-        });
-
-        expect(ctrl.displayRecipientProposal.withArgs(data).calledOnce).to.be.true;
-      });
-
-      it('should display encrypt editor', function() {
-        sinon.stub(ctrl, 'openEditor');
-
-        var text = 'foo';
-        ctrl.handlePortMessage({
-          event: 'eframe-display-editor',
-          text: text
-        });
-
-        expect(ctrl.openEditor.withArgs(text).calledOnce).to.be.true;
-      });
-
-      it('should not display encrypt editor a second time', function() {
-        sinon.stub(ctrl, 'openEditor');
+      it('should not open editor a second time', function() {
         ctrl.mvelo.windows.modalActive = true;
 
-        var text = 'foo';
-        ctrl.handlePortMessage({
-          event: 'eframe-display-editor',
-          text: text
-        });
+        ctrl.openEditor({text:'foo'});
 
-        expect(ctrl.openEditor.called).to.be.false;
+        expect(ctrl.editorControl).to.be.null;
       });
-    });
 
-    describe('openEditor', function() {
       it('should work for editor type plain', function() {
         editorCtrlMock.encrypt.yields(null, 'armored', testRecipients);
         ctrl.prefs.data.returns({
@@ -87,7 +63,7 @@ define(function(require) {
           }
         });
 
-        ctrl.openEditor('foo');
+        ctrl.openEditor({text:'foo'});
 
         expect(ctrl.emit.withArgs('set-editor-output', {text: 'parsed', recipients:testRecipients}).calledOnce).to.be.true;
       });
@@ -100,7 +76,7 @@ define(function(require) {
           }
         });
 
-        ctrl.openEditor('foo');
+        ctrl.openEditor({text:'foo'});
 
         expect(ctrl.emit.withArgs('set-editor-output', {text: 'armored', recipients:testRecipients}).calledOnce).to.be.true;
       });
@@ -131,7 +107,7 @@ define(function(require) {
       });
 
       it('should callback', function() {
-        ctrl.displayRecipientProposal(testRecipients);
+        ctrl.displayRecipientProposal({recipients:testRecipients});
 
         expect(ctrl.recipientsCallback).to.be.null;
         expect(recipientsCallbackStub.withArgs(testRecipients).calledOnce).to.be.true;
@@ -140,33 +116,10 @@ define(function(require) {
       it('should not callback', function() {
         ctrl.recipientsCallback = null;
 
-        ctrl.displayRecipientProposal(testRecipients);
+        ctrl.displayRecipientProposal({recipients:testRecipients});
 
         expect(ctrl.recipientsCallback).to.be.null;
         expect(recipientsCallbackStub.called).to.be.false;
-      });
-    });
-
-    describe('emit', function() {
-      var event = 'event', options = {data:'data'};
-
-      beforeEach(function() {
-        ctrl.emit.restore();
-        ctrl.ports.eFrame = {postMessage: sinon.stub()};
-      });
-
-      afterEach(function() {
-        sinon.stub(ctrl, 'emit');
-      });
-
-      it('should work for empty options', function() {
-        ctrl.emit(event);
-        expect(ctrl.ports.eFrame.postMessage.withArgs({event:event}).calledOnce).to.be.true;
-      });
-
-      it('should work for options', function() {
-        ctrl.emit(event, options);
-        expect(ctrl.ports.eFrame.postMessage.withArgs({event:event, data:options.data}).calledOnce).to.be.true;
       });
     });
 
