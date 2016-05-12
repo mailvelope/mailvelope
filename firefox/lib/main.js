@@ -119,7 +119,6 @@ function activatePageMods() {
   injectMessageAdapter();
   injectDecryptInline();
   injectVerifyInline();
-  injectEncryptDialog();
   injectSignDialog();
   injectEmbeddedEditor();
   injectEmbeddedOptions();
@@ -304,31 +303,6 @@ function injectVerifyInline() {
       data.url("common/dep/bootstrap/css/bootstrap.css"),
       data.url("common/ui/mvelo.css"),
       data.url("common/ui/inline/dialogs/verifyInline.css")
-    ],
-    contentScriptWhen: 'ready',
-    attachTo: ['existing', 'frame'],
-    contentScriptOptions: {
-      expose_messaging: false,
-      data_path: data.url()
-    }
-  });
-}
-
-function injectEncryptDialog() {
-  pageMods.encryptDialogPageMod = pageMod.PageMod({
-    include: 'about:blank?mvelo=encryptDialog*',
-    onAttach: onCsAttach,
-    contentScriptFile: [
-      data.url('common/dep/jquery.min.js'),
-      data.url('common/dep/jquery.ext.js'),
-      data.url('ui/messageAdapter.js'),
-      data.url('common/ui/mvelo.js'),
-      data.url('common/ui/inline/dialogs/encryptDialog.js')
-    ],
-    contentStyleFile: [
-      data.url("common/dep/bootstrap/css/bootstrap.css"),
-      data.url("common/ui/mvelo.css"),
-      data.url("common/ui/inline/dialogs/encryptDialog.css")
     ],
     contentScriptWhen: 'ready',
     attachTo: ['existing', 'frame'],
