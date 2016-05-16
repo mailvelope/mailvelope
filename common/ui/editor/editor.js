@@ -15,9 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * @fileOverview This file implements the interface for encrypting and
+ * signing user data in an sandboxed environment that is secured from
+ * the webmail interface.
+ */
+
 'use strict';
 
 var mvelo = mvelo || null;
+
+mvelo.Editor = function() {
+  this.registerEventListeners();
+};
+
+mvelo.Editor.prototype = Object.create(mvelo.EventHandler.prototype); // add event api
 
 (function() {
 
@@ -65,7 +77,7 @@ var mvelo = mvelo || null;
   var maxFileUploadSize = mvelo.MAXFILEUPLOADSIZE;
   var maxFileUploadSizeChrome = mvelo.MAXFILEUPLOADSIZECHROME; // temporal fix due issue in Chrome
 
-  function init() {
+  mvelo.Editor.prototype.init = function() {
     if (document.body.dataset.mvelo) {
       return;
     }
@@ -82,7 +94,7 @@ var mvelo = mvelo || null;
     // plain text only
     editor_type = mvelo.PLAIN_TEXT; //qs.editor_type;
     port = mvelo.extension.connect({name: name});
-    port.onMessage.addListener(messageListener);
+    port.onMessage.addListener(this.handlePortMessage.bind(this));
     loadTemplates(qs.embedded, function() {
       $(window).on('focus', startBlurValid);
       if (editor_type == mvelo.PLAIN_TEXT) {
@@ -118,7 +130,7 @@ var mvelo = mvelo || null;
     } else if (mvelo.ffa) {
       commonPath = mvelo.extension._dataPath + 'common';
     }
-  }
+  };
 
   function loadTemplates(embedded, callback) {
     var $body = $('body');
@@ -590,78 +602,73 @@ var mvelo = mvelo || null;
     return keyBuffer;
   }
 
-  function setRecipients(keys) {
-    keyBuffer = keys;
+  mvelo.Editor.prototype.setRecipients = function(options) {
+    keyBuffer = options.keys;
     var recipientsInput = $('#recipientsInput');
-    keys.forEach(function(key) {
+    options.keys.forEach(function(key) {
       var val = recipientsInput.val();
       recipientsInput.val(val ? (val + ', ' + key.userid) : key.userid);
     });
-  }
+  };
 
-  function messageListener(msg) {
-    //console.log('editor messageListener: ', msg.event);
-    switch (msg.event) {
-      case 'public-key-userids':
-        setRecipients(msg.keys);
-        break;
-      case 'set-text':
-        onSetText(msg.text);
-        break;
-      case 'set-init-data':
-        var data = msg.data;
-        onSetText(data.text);
-        setSignMode(data.signMsg || false, data.primary);
-        break;
-      case 'set-attachment':
-        setAttachment(msg.attachment);
-        break;
-      case 'decrypt-in-progress':
-      case 'encrypt-in-progress':
-        $('#waitingModal').modal({keyboard: false}).modal('show');
-        break;
-      case 'decrypt-end':
-      case 'encrypt-end':
-      case 'encrypt-failed':
-        $('#waitingModal').modal('hide');
-        break;
-      case 'decrypt-failed':
-        var error = {
-          title: l10n.waiting_dialog_decryption_failed,
-          message: (msg.error) ? msg.error.message : l10n.waiting_dialog_decryption_failed,
-          class: 'alert alert-danger'
-        };
-        showErrorModal(error);
-        break;
-      case 'show-pwd-dialog':
-        removeDialog();
-        addPwdDialog(msg.id);
-        break;
-      case 'hide-pwd-dialog':
-        hidePwdDialog();
-        break;
-      case 'sign-dialog-cancel':
-        removeDialog();
-        break;
-      case 'get-plaintext':
-        if (numUploadsInProgress !== 0) {
-          delayedAction = msg.action;
-        } else {
-          sendPlainText(msg.action);
-        }
+  mvelo.Editor.prototype.showWaitingModal = function() {
+    $('#waitingModal').modal({keyboard: false}).modal('show');
+  };
 
-        break;
-      case 'error-message':
-        if (msg.error.code === 'PWD_DIALOG_CANCEL') {
-          break;
-        }
-        showErrorModal(msg.error);
-        break;
-      default:
-        console.log('unknown event');
-    }
-  }
+  mvelo.Editor.prototype.hideWaitingModal = function() {
+    $('#waitingModal').modal('hide');
+  };
 
-  $(document).ready(init);
+  mvelo.Editor.prototype.registerEventListeners = function() {
+    this.on('public-key-userids', this.setRecipients);
+    this.on('set-text', function(msg) {
+      onSetText(msg.text);
+    });
+    this.on('set-init-data', function(msg) {
+      var data = msg.data;
+      onSetText(data.text);
+      setSignMode(data.signMsg || false, data.primary);
+    });
+    this.on('set-attachment', function(msg) {
+      setAttachment(msg.attachment);
+    });
+    this.on('decrypt-in-progress', this.showWaitingModal);
+    this.on('encrypt-in-progress', this.showWaitingModal);
+    this.on('decrypt-end', this.hideWaitingModal);
+    this.on('encrypt-end', this.hideWaitingModal);
+    this.on('encrypt-failed', this.hideWaitingModal);
+    this.on('decrypt-failed', function(msg) {
+      var error = {
+        title: l10n.waiting_dialog_decryption_failed,
+        message: (msg.error) ? msg.error.message : l10n.waiting_dialog_decryption_failed,
+        class: 'alert alert-danger'
+      };
+      showErrorModal(error);
+    });
+    this.on('show-pwd-dialog', function(msg) {
+      removeDialog();
+      addPwdDialog(msg.id);
+    });
+    this.on('hide-pwd-dialog', hidePwdDialog);
+    this.on('sign-dialog-cancel', removeDialog);
+    this.on('get-plaintext', function(msg) {
+      if (numUploadsInProgress !== 0) {
+        delayedAction = msg.action;
+      } else {
+        sendPlainText(msg.action);
+      }
+    });
+    this.on('error-message', function(msg) {
+      if (msg.error.code === 'PWD_DIALOG_CANCEL') {
+        return;
+      }
+      showErrorModal(msg.error);
+    });
+  };
+
+  $(document).ready(function() {
+    var _editor = new mvelo.Editor();
+    _editor.init();
+  });
 
 }());
