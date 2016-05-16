@@ -67,10 +67,10 @@ define(function(require, exports, module) {
 
   EditorController.prototype._onEditorInit = function() {
     if (this.initText) {
-      this.ports.editor.postMessage({event: 'set-text', text: this.initText});
+      this.emit('set-text', {text: this.initText});
     }
     if (this.ports.editorCont) {
-      this.ports.editorCont.postMessage({event: 'editor-ready'});
+      this.emit('editor-ready', undefined, this.ports.editorCont);
     }
     // display recipient proposal in the editor
     this.getRecipientProposal(this.displayRecipientProposal.bind(this));
@@ -82,20 +82,18 @@ define(function(require, exports, module) {
   };
 
   EditorController.prototype._onSignDialogInit = function() {
-    var that = this;
     var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
     var keys = localKeyring.getPrivateKeys();
     var primary = localKeyring.getAttributes().primary_key;
     this.mvelo.data.load('common/ui/inline/dialogs/templates/sign.html').then(function(content) {
-      var port = that.ports.sDialog;
-      port.postMessage({event: 'sign-dialog-content', data: content});
-      port.postMessage({event: 'signing-key-userids', keys: keys, primary: primary});
-    });
+      this.emit('sign-dialog-content', {data: content}, this.ports.sDialog);
+      this.emit('signing-key-userids', {keys: keys, primary: primary}, this.ports.sDialog);
+    }.bind(this));
   };
 
   EditorController.prototype._onSignDialogCancel = function(msg) {
     // forward event to encrypt frame
-    this.ports.editor.postMessage(msg);
+    this.emit(msg.event, msg);
   };
 
   EditorController.prototype._onEditorContainerEncrypt = function(msg) {
@@ -109,7 +107,7 @@ define(function(require, exports, module) {
         message: 'No valid encryption key for recipient address',
         code: 'NO_KEY_FOR_RECIPIENT'
       };
-      this.ports.editorCont.postMessage({event: 'error-message', error: error});
+      this.emit('error-message', {error: error}, this.ports.editorCont);
       return;
     }
     var keyIds = [];
@@ -122,7 +120,7 @@ define(function(require, exports, module) {
       keyIds.push(primary.toLowerCase());
     }
     this.keyidBuffer = this.mvelo.util.sortAndDeDup(keyIds);
-    this.ports.editor.postMessage({event: 'get-plaintext', action: 'encrypt'});
+    this.emit('get-plaintext', {action: 'encrypt'});
   };
 
   EditorController.prototype._onEditorContainerCreateDraft = function(msg) {
@@ -138,10 +136,10 @@ define(function(require, exports, module) {
         message: 'No private key found for creating draft.',
         code: 'NO_KEY_FOR_ENCRYPTION'
       };
-      this.ports.editorCont.postMessage({event: 'error-message', error: error});
+      this.emit('error-message', {error: error}, this.ports.editorCont);
       return;
     }
-    this.ports.editor.postMessage({event: 'get-plaintext', action: 'encrypt'});
+    this.emit('get-plaintext', {action: 'encrypt'});
   };
 
   EditorController.prototype._onEditorOptions = function(msg) {
@@ -163,7 +161,7 @@ define(function(require, exports, module) {
       }
     }
     syncCtrl.triggerSync({keyringId: this.keyringId, force: true});
-    this.ports.editor.postMessage({event: 'set-init-data', data: data});
+    this.emit('set-init-data', {data: data});
   };
 
   EditorController.prototype._onSignDialogOk = function(msg) {
@@ -177,17 +175,17 @@ define(function(require, exports, module) {
     this.signBuffer.openPopup = false;
     this.signBuffer.reason = 'PWD_DIALOG_REASON_SIGN';
     this.signBuffer.beforePasswordRequest = function() {
-      that.ports.editor.postMessage({event: 'show-pwd-dialog', id: that.pwdControl.id});
+      that.emit('show-pwd-dialog', {id: that.pwdControl.id});
     };
     this.signBuffer.keyringId = this.keyringId;
     this.pwdControl = sub.factory.get('pwdDialog');
     this.pwdControl.unlockKey(this.signBuffer)
       .then(function() {
-        that.ports.editor.postMessage({event: 'get-plaintext', action: 'sign'});
+        that.emit('get-plaintext', {action: 'sign'});
       })
       .catch(function(err) {
         if (err.code = 'PWD_DIALOG_CANCEL') {
-          that.ports.editor.postMessage({event: 'hide-pwd-dialog'});
+          that.emit('hide-pwd-dialog');
           return;
         }
         if (err) {
@@ -232,7 +230,7 @@ define(function(require, exports, module) {
       primary = localKeyring.getAttributes().primary_key;
       primary = primary && primary.toLowerCase();
     }
-    this.ports.editor.postMessage({event: 'public-key-userids', keys: keys, primary: primary});
+    this.emit('public-key-userids', {keys: keys, primary: primary});
   };
 
   /**
@@ -281,7 +279,7 @@ define(function(require, exports, module) {
       };
 
       if (this.ports.editorCont) {
-        this.ports.editorCont.postMessage({event: 'error-message', error: error});
+        this.emit('error-message', {error: error}, this.ports.editorCont);
       }
       return composedMessage;
     }
@@ -300,7 +298,7 @@ define(function(require, exports, module) {
     var that = this;
     if (armored.length > 400000) {
       // show spinner for large messages
-      this.ports.editor.postMessage({event: 'decrypt-in-progress'});
+      this.emit('decrypt-in-progress');
     }
     this.mvelo.util.setTimeout(function() {
       that.decryptArmored(armored);
@@ -339,11 +337,11 @@ define(function(require, exports, module) {
             if (that.options.predefinedText) {
               msg = msg + '\n\n' + that.options.predefinedText;
             }
-            that.ports.editor.postMessage({event: 'set-text', text: msg});
+            that.emit('set-text', {text: msg});
           },
           onAttachment: function(part) {
             if (that.options.keepAttachments) {
-              that.ports.editor.postMessage({event: 'set-attachment', attachment: part});
+              that.emit('set-attachment', {attachment: part});
             }
           }
         };
@@ -355,10 +353,10 @@ define(function(require, exports, module) {
         return decryptCtrl.parseMessage(content.text, handlers, 'text');
       })
       .then(function() {
-        that.ports.editor.postMessage({event: 'decrypt-end'});
+        that.emit('decrypt-end');
       })
       .catch(function(error) {
-        that.ports.editor.postMessage({event: 'decrypt-failed', error: error});
+        that.emit('decrypt-failed', {error: error});
       });
   };
 
@@ -375,8 +373,7 @@ define(function(require, exports, module) {
     var encryptTimer = null;
 
     if (!primaryKey) {
-      this.ports.editor.postMessage({
-        event: 'error-message',
+      this.emit('error-message', {
         error: {
           code: 'NO_PRIMARY_KEY_FOUND',
           message: 'No primary key found'
@@ -388,8 +385,7 @@ define(function(require, exports, module) {
     var signKeyPacket = primaryKey.key.getSigningKeyPacket();
     var signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
     if (!signKeyid) {
-      this.ports.editor.postMessage({
-        event: 'error-message',
+      this.emit('error-message', {
         error: {
           code: 'NO_SIGN_KEY_FOUND',
           message: 'No valid signing key packet found'
@@ -406,7 +402,7 @@ define(function(require, exports, module) {
     return that.pwdControl.unlockKey(primaryKey)
     .then(function() {
       encryptTimer = that.mvelo.util.setTimeout(function() {
-        that.ports.editor.postMessage({event: 'encrypt-in-progress'});
+        that.emit('encrypt-in-progress');
       }, 800);
 
       if (!that.prefs.data().security.password_cache) {
@@ -423,17 +419,17 @@ define(function(require, exports, module) {
     })
     .then(function(msg) {
       that.mvelo.util.clearTimeout(encryptTimer);
-      that.ports.editor.postMessage({event: 'encrypt-end'});
+      that.emit('encrypt-end');
       return msg;
     })
     .catch(function(error) {
       error = that.mvelo.util.mapError(error);
-      that.ports.editor.postMessage({event: 'error-message', error: error});
+      that.emit('error-message', {error: error});
       if (that.ports.editorCont) {
-        port.postMessage({event: 'error-message', error: error});
+        that.emit('error-message', {error: error}, port);
       }
       that.mvelo.util.clearTimeout(encryptTimer);
-      that.ports.editor.postMessage({event: 'encrypt-failed'});
+      that.emit('encrypt-failed');
     });
   };
 
@@ -449,24 +445,24 @@ define(function(require, exports, module) {
     var port = this.ports.editorCont || this.ports.editor;
 
     var encryptTimer = this.mvelo.util.setTimeout(function() {
-      that.ports.editor.postMessage({event: 'encrypt-in-progress'});
+      that.emit('encrypt-in-progress');
     }, 800);
 
     options.uiLogSource = 'security_log_editor';
     return this.model.encryptMessage(options)
       .then(function(msg) {
         that.mvelo.util.clearTimeout(encryptTimer);
-        that.ports.editor.postMessage({event: 'encrypt-end'});
+        that.emit('encrypt-end');
         return msg;
       })
       .catch(function(error) {
         console.log('model.encryptMessage() error', error);
-        that.ports.editor.postMessage({event: 'error-message', error: error});
+        that.emit('error-message', {error: error});
         if (that.ports.editorCont) {
-          port.postMessage({event: 'error-message', error: error});
+          that.emit('error-message', {error: error}, port);
         }
         that.mvelo.util.clearTimeout(encryptTimer);
-        that.ports.editor.postMessage({event: 'encrypt-failed'});
+        that.emit('encrypt-failed');
       });
   };
 
@@ -478,19 +474,19 @@ define(function(require, exports, module) {
     var that = this;
 
     var encryptTimer = this.mvelo.util.setTimeout(function() {
-      that.ports.editor.postMessage({event: 'encrypt-in-progress'});
+      that.emit('encrypt-in-progress');
     }, 800);
 
     return this.model.signMessage(message, this.signBuffer.key)
       .then(function(msg) {
         that.mvelo.util.clearTimeout(encryptTimer);
-        that.ports.editor.postMessage({event: 'encrypt-end'});
+        that.emit('encrypt-end');
         return msg;
       })
       .catch(function(error) {
         console.log('model.signMessage() error', error);
         that.mvelo.util.clearTimeout(encryptTimer);
-        that.ports.editor.postMessage({event: 'encrypt-failed'});
+        that.emit('encrypt-failed');
       });
   };
 
