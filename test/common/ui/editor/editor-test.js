@@ -12,9 +12,11 @@ describe('Editor UI unit tests', function() {
 
   afterEach(function() {});
 
-  describe('init', function() {
+  describe('setRecipients', function() {
     it('should work', function() {
-      editor.init();
+      editor.setRecipients({
+        keys:[]
+      });
     });
   });
 
