@@ -27,3 +27,5 @@ window.chrome.i18n = window.chrome.i18n || {
     return '';
   }
 };
+
+sinon.stub($, 'ready'); // don't fire ready event for unit tests

@@ -25,9 +25,7 @@
 
 var mvelo = mvelo || null;
 
-mvelo.Editor = function() {
-  this.registerEventListeners();
-};
+mvelo.Editor = function() {};
 
 mvelo.Editor.prototype = Object.create(mvelo.EventHandler.prototype); // add event api
 
@@ -573,14 +571,14 @@ mvelo.Editor.prototype = Object.create(mvelo.EventHandler.prototype); // add eve
       .tooltip();
   }
 
-  function onSetText(text) {
-    if (!text) {
+  function onSetText(options) {
+    if (!options.text) {
       return;
     }
     if (editor) {
-      setText(text);
+      setText(options.text);
     } else {
-      initText = text;
+      initText = options.text;
     }
   }
 
@@ -619,55 +617,66 @@ mvelo.Editor.prototype = Object.create(mvelo.EventHandler.prototype); // add eve
     $('#waitingModal').modal('hide');
   };
 
+  mvelo.Editor.prototype._onSetInitData = function(msg) {
+    var data = msg.data;
+    onSetText(data);
+    setSignMode(data.signMsg || false, data.primary);
+  };
+
+  mvelo.Editor.prototype._onSetAttachment = function(msg) {
+    setAttachment(msg.attachment);
+  };
+
+  mvelo.Editor.prototype._decryptFailed = function(msg) {
+    var error = {
+      title: l10n.waiting_dialog_decryption_failed,
+      message: (msg.error) ? msg.error.message : l10n.waiting_dialog_decryption_failed,
+      class: 'alert alert-danger'
+    };
+    showErrorModal(error);
+  };
+
+  mvelo.Editor.prototype._onShowPwdDialog = function(msg) {
+    removeDialog();
+    addPwdDialog(msg.id);
+  };
+
+  mvelo.Editor.prototype._getPlaintext = function(msg) {
+    if (numUploadsInProgress !== 0) {
+      delayedAction = msg.action;
+    } else {
+      sendPlainText(msg.action);
+    }
+  };
+
+  mvelo.Editor.prototype._onErrorMessage = function(msg) {
+    if (msg.error.code === 'PWD_DIALOG_CANCEL') {
+      return;
+    }
+    showErrorModal(msg.error);
+  };
+
   mvelo.Editor.prototype.registerEventListeners = function() {
     this.on('public-key-userids', this.setRecipients);
-    this.on('set-text', function(msg) {
-      onSetText(msg.text);
-    });
-    this.on('set-init-data', function(msg) {
-      var data = msg.data;
-      onSetText(data.text);
-      setSignMode(data.signMsg || false, data.primary);
-    });
-    this.on('set-attachment', function(msg) {
-      setAttachment(msg.attachment);
-    });
+    this.on('set-text', onSetText);
+    this.on('set-init-data', this._onSetInitData);
+    this.on('set-attachment', this._onSetAttachment);
     this.on('decrypt-in-progress', this.showWaitingModal);
     this.on('encrypt-in-progress', this.showWaitingModal);
     this.on('decrypt-end', this.hideWaitingModal);
     this.on('encrypt-end', this.hideWaitingModal);
     this.on('encrypt-failed', this.hideWaitingModal);
-    this.on('decrypt-failed', function(msg) {
-      var error = {
-        title: l10n.waiting_dialog_decryption_failed,
-        message: (msg.error) ? msg.error.message : l10n.waiting_dialog_decryption_failed,
-        class: 'alert alert-danger'
-      };
-      showErrorModal(error);
-    });
-    this.on('show-pwd-dialog', function(msg) {
-      removeDialog();
-      addPwdDialog(msg.id);
-    });
+    this.on('decrypt-failed', this._decryptFailed);
+    this.on('show-pwd-dialog', this._onShowPwdDialog);
     this.on('hide-pwd-dialog', hidePwdDialog);
     this.on('sign-dialog-cancel', removeDialog);
-    this.on('get-plaintext', function(msg) {
-      if (numUploadsInProgress !== 0) {
-        delayedAction = msg.action;
-      } else {
-        sendPlainText(msg.action);
-      }
-    });
-    this.on('error-message', function(msg) {
-      if (msg.error.code === 'PWD_DIALOG_CANCEL') {
-        return;
-      }
-      showErrorModal(msg.error);
-    });
+    this.on('get-plaintext', this._getPlaintext);
+    this.on('error-message', this._onErrorMessage);
   };
 
   $(document).ready(function() {
     var _editor = new mvelo.Editor();
+    _editor.registerEventListeners();
     _editor.init();
   });
 
