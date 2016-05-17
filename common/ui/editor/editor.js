@@ -54,6 +54,7 @@ mvelo.Editor.prototype = Object.create(mvelo.EventHandler.prototype); // add eve
   var logTextareaInput = true;
   var numUploadsInProgress = 0;
   var delayedAction = '';
+  var keyBuffer;
 
   // Get language strings from JSON
   mvelo.l10n.getMessages([
@@ -593,20 +594,33 @@ mvelo.Editor.prototype = Object.create(mvelo.EventHandler.prototype); // add eve
     });
   }
 
-  // TODO: remove
-  var keyBuffer;
-
+  /**
+   * Matches the recipients from the input to their public keys
+   * and returns an array of keys.
+   * @return {Array}   the array of public key objects
+   */
   function getRecipientKeys() {
-    return keyBuffer;
+    var emails = $('#recipientsInput').val().split(',').map(Function.prototype.call, String.prototype.trim);
+    var keys = keyBuffer.filter(function(key) {
+      return emails.indexOf(key.email) !== -1;
+    });
+    return keys;
   }
 
+  /**
+   * Remember the available public keys for later and set the
+   * recipients proposal gotten from the webmail ui to the editor
+   * @param {Array} options.keys         A list of all available public
+   *                                     keys from the local keychain
+   * @param {Array} options.recipients   recipients gather from the
+   *                                     webmail ui
+   */
   mvelo.Editor.prototype.setRecipients = function(options) {
-    keyBuffer = options.keys;
-    var recipientsInput = $('#recipientsInput');
-    options.keys.forEach(function(key) {
-      var val = recipientsInput.val();
-      recipientsInput.val(val ? (val + ', ' + key.userid) : key.userid);
+    keyBuffer = options.keys; // remember list of all keys
+    var emails = options.recipients.map(function(r) {
+      return r.email;
     });
+    $('#recipientsInput').val(emails.join(', '));
   };
 
   mvelo.Editor.prototype.showWaitingModal = function() {

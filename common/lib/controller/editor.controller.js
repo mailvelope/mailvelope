@@ -221,16 +221,14 @@ define(function(require, exports, module) {
    * @param  {Array} recipients   A list of potential recipient from the webmail ui
    */
   EditorController.prototype.displayRecipientProposal = function(recipients) {
+    // deduplicate email addresses
     var emails = (recipients || []).map(function(recipient) { return recipient.email; });
     emails = this.mvelo.util.sortAndDeDup(emails);
+    recipients = emails.map(function(e) { return {email:e}; });
+    // get all public keys in the local keyring
     var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
-    var keys = localKeyring.getKeyUserIDs(emails);
-    var primary;
-    if (this.prefs.data().general.auto_add_primary) {
-      primary = localKeyring.getAttributes().primary_key;
-      primary = primary && primary.toLowerCase();
-    }
-    this.emit('public-key-userids', {keys: keys, primary: primary});
+    var keys = localKeyring.getKeyUserIDs();
+    this.emit('public-key-userids', {keys:keys, recipients:recipients});
   };
 
   /**
@@ -525,7 +523,7 @@ define(function(require, exports, module) {
         return;
       }
 
-      var keyIdsHex = this.keyidBuffer || options.keys.map(function(key) { return key.keyid; });
+      var keyIdsHex = this.getPublicKeyIds(options.keys);
       if (this.signMsg) {
         promise = this.signAndEncryptMessage({
           message: data,
@@ -538,6 +536,7 @@ define(function(require, exports, module) {
           keyIdsHex: keyIdsHex
         });
       }
+
     } else if (options.action === 'sign') {
       promise = this.signMessage(options.message);
     } else {
@@ -547,6 +546,24 @@ define(function(require, exports, module) {
     promise.then(function(armored) {
       that.transferAndCloseDialog({armored:armored, keys:options.keys});
     });
+  };
+
+  /**
+   * Collect all the key ids to encrypto to, including the sender's key id.
+   * @param  {Array} keys   The public key objects containing the key id
+   * @return {Array}        A collection of all key ids to encrypt to
+   */
+  EditorController.prototype.getPublicKeyIds = function(keys) {
+    var keyIdsHex = this.keyidBuffer || keys.map(function(key) { return key.keyid; });
+    // get the sender key id
+    if (this.prefs.data().general.auto_add_primary) {
+      var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
+      var primary = localKeyring.getAttributes().primary_key;
+      primary && keyIdsHex.push(primary.toLowerCase());
+    }
+    // deduplicate
+    keyIdsHex = this.mvelo.util.sortAndDeDup(keyIdsHex);
+    return keyIdsHex;
   };
 
   exports.EditorController = EditorController;

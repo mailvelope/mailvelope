@@ -15,7 +15,8 @@ describe('Editor UI unit tests', function() {
   describe('setRecipients', function() {
     it('should work', function() {
       editor.setRecipients({
-        keys:[]
+        keys:[],
+        recipients: []
       });
     });
   });
