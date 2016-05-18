@@ -8,8 +8,21 @@
     </div>
 
     <div id="recipients">
-      <!-- TODO: replace with https://github.com/xoxco/jQuery-Tags-Input -->
-      <input id="recipientsInput" type="text" class="form-control" placeholder="Encrypt to email addresses (comma separated)">
+      <tags-input
+        ng-model="recipients"
+        type="email"
+        add-on-space="true"
+        add-on-enter="true"
+        enable-editing-last-tag="true"
+        display-property="displayId"
+        on-tag-added="verify($tag)"
+        on-tag-removed="checkSendStatus()"
+        placeholder="add recipient">
+        <auto-complete
+          source="autocomplete($query)"
+          min-length="1">
+        </auto-complete>
+      </tags-input>
     </div>
 
     <div id="body">

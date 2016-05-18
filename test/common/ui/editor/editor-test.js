@@ -4,13 +4,20 @@
 
 describe('Editor UI unit tests', function() {
 
-  var editor;
+  var editor, $scope, $timeout;
 
   beforeEach(function() {
-    editor = new mvelo.Editor();
+    sinon.stub(mvelo.Editor.prototype, 'initComplete');
+    sinon.stub(mvelo.Editor.prototype, 'registerEventListeners');
+    $scope = {};
+    $timeout = function(callback) { callback(); };
+    editor = new mvelo.Editor($scope, $timeout);
   });
 
-  afterEach(function() {});
+  afterEach(function() {
+    mvelo.Editor.prototype.initComplete.restore();
+    mvelo.Editor.prototype.registerEventListeners.restore();
+  });
 
   describe('setRecipients', function() {
     it('should work', function() {

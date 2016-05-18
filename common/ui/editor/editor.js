@@ -16,6 +16,12 @@
  */
 
 /**
+ * Parts of the editor are based on Hoodiecrow (MIT License)
+ * Copyright (c) 2014 Whiteout Networks GmbH.
+ * See https://github.com/tanx/hoodiecrow/blob/master/LICENSE
+ */
+
+/**
  * @fileOverview This file implements the interface for encrypting and
  * signing user data in an sandboxed environment that is secured from
  * the webmail interface.
@@ -25,9 +31,56 @@
 
 var mvelo = mvelo || null;
 
-mvelo.Editor = function() {};
+mvelo.Editor = function($scope, $timeout, $q) {
+  this.setGlobal($scope, $timeout);
+  this.registerEventListeners();
+  this.initComplete();
+
+  $scope.checkSendStatus = function() {};
+
+  $scope.tagStyle = function(recipient) {};
+
+  $scope.verify = function(recipient) {
+    if (!recipient) {
+      return;
+    }
+
+    if (recipient.email) {
+      // display only email address after autocomplete
+      recipient.displayId = recipient.email;
+    } else {
+      // set address after manual input
+      recipient.email = recipient.displayId;
+    }
+  };
+
+  $scope.autocomplete = function(query) {
+    return $q(function(resolve) {
+      resolve();
+
+    }).then(function() {
+      var cache = $scope.keys.map(function(key) {
+        return {
+          email: key.email,
+          displayId: key.userid
+        };
+      });
+
+      return cache.filter(function(i) {
+        return i.displayId.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+      });
+
+    }).catch(function(err) {
+      console.log(err);
+    });
+  };
+};
 
 mvelo.Editor.prototype = Object.create(mvelo.EventHandler.prototype); // add event api
+
+if (typeof angular !== 'undefined') { // do not use angular in unit tests
+  angular.module('editor', ['ngTagsInput']).controller('EditorCtrl', mvelo.Editor);
+}
 
 (function() {
 
@@ -54,7 +107,9 @@ mvelo.Editor.prototype = Object.create(mvelo.EventHandler.prototype); // add eve
   var logTextareaInput = true;
   var numUploadsInProgress = 0;
   var delayedAction = '';
-  var keyBuffer;
+  var qs;
+  var $scope;
+  var $timeout;
 
   // Get language strings from JSON
   mvelo.l10n.getMessages([
@@ -76,12 +131,12 @@ mvelo.Editor.prototype = Object.create(mvelo.EventHandler.prototype); // add eve
   var maxFileUploadSize = mvelo.MAXFILEUPLOADSIZE;
   var maxFileUploadSizeChrome = mvelo.MAXFILEUPLOADSIZECHROME; // temporal fix due issue in Chrome
 
-  mvelo.Editor.prototype.init = function() {
+  function init() {
     if (document.body.dataset.mvelo) {
       return;
     }
     document.body.dataset.mvelo = true;
-    var qs = jQuery.parseQuerystring();
+    qs = jQuery.parseQuerystring();
     id = qs.id;
     name = 'editor-' + id;
     if (qs.quota && parseInt(qs.quota) < maxFileUploadSize) {
@@ -93,43 +148,13 @@ mvelo.Editor.prototype = Object.create(mvelo.EventHandler.prototype); // add eve
     // plain text only
     editor_type = mvelo.PLAIN_TEXT; //qs.editor_type;
     port = mvelo.extension.connect({name: name});
-    port.onMessage.addListener(this.handlePortMessage.bind(this));
-    loadTemplates(qs.embedded, function() {
-      $(window).on('focus', startBlurValid);
-      if (editor_type == mvelo.PLAIN_TEXT) {
-        editor = createPlainText();
-      } else {
-        createRichText(function(ed) {
-          editor = ed;
-        });
-      }
-      // blur warning
-      blurWarn = $('#blurWarn');
-      // observe modals for blur warning
-      $('.modal').on('show.bs.modal', startBlurValid);
-      if (initText) {
-        setText(initText);
-        initText = null;
-      }
-      $("#addFileInput").on("change", onAddAttachment);
-      $('#uploadBtn').hide(); // Disable Uploading Attachment
-      mvelo.l10n.localizeHTML();
-      mvelo.util.showSecurityBackground(qs.embedded);
-
-      if (qs.embedded) {
-        $(".secureBgndSettingsBtn").on("click", function() {
-          port.postMessage({ event: 'open-security-settings', sender: name });
-        });
-      }
-
-      port.postMessage({event: 'editor-init', sender: name});
-    });
+    loadTemplates(qs.embedded, templatesLoaded);
     if (mvelo.crx) {
       commonPath = '../..';
     } else if (mvelo.ffa) {
       commonPath = mvelo.extension._dataPath + 'common';
     }
-  };
+  }
 
   function loadTemplates(embedded, callback) {
     var $body = $('body');
@@ -187,6 +212,49 @@ mvelo.Editor.prototype = Object.create(mvelo.EventHandler.prototype); // add eve
       });
     }
   }
+
+  function templatesLoaded() {
+    $(window).on('focus', startBlurValid);
+    if (editor_type == mvelo.PLAIN_TEXT) {
+      editor = createPlainText();
+    } else {
+      createRichText(function(ed) {
+        editor = ed;
+      });
+    }
+    // blur warning
+    blurWarn = $('#blurWarn');
+    // observe modals for blur warning
+    $('.modal').on('show.bs.modal', startBlurValid);
+    if (initText) {
+      setText(initText);
+      initText = null;
+    }
+    $("#addFileInput").on("change", onAddAttachment);
+    $('#uploadBtn').hide(); // Disable Uploading Attachment
+    mvelo.l10n.localizeHTML();
+    mvelo.util.showSecurityBackground(qs.embedded);
+
+    // bootstrap angular
+    angular.bootstrap(document, ['editor']);
+  }
+
+  /**
+   * Remember global reference of $scope for use inside closure
+   */
+  mvelo.Editor.prototype.setGlobal = function(scope, timeout) {
+    $scope = scope;
+    $timeout = timeout;
+  };
+
+  mvelo.Editor.prototype.initComplete = function() {
+    if (qs.embedded) {
+      $(".secureBgndSettingsBtn").on("click", function() {
+        port.postMessage({event: 'open-security-settings', sender: name});
+      });
+    }
+    port.postMessage({event: 'editor-init', sender: name});
+  };
 
   /**
    * send log entry for the extension
@@ -600,8 +668,8 @@ mvelo.Editor.prototype = Object.create(mvelo.EventHandler.prototype); // add eve
    * @return {Array}   the array of public key objects
    */
   function getRecipientKeys() {
-    var emails = $('#recipientsInput').val().split(',').map(Function.prototype.call, String.prototype.trim);
-    var keys = keyBuffer.filter(function(key) {
+    var emails = $scope.recipients.map(function(r) { return r.email; });
+    var keys = $scope.keys.filter(function(key) {
       return emails.indexOf(key.email) !== -1;
     });
     return keys;
@@ -616,11 +684,12 @@ mvelo.Editor.prototype = Object.create(mvelo.EventHandler.prototype); // add eve
    *                                     webmail ui
    */
   mvelo.Editor.prototype.setRecipients = function(options) {
-    keyBuffer = options.keys; // remember list of all keys
-    var emails = options.recipients.map(function(r) {
-      return r.email;
+    $timeout(function() { // required to refresh $scope
+      $scope.recipients = options.recipients.map(function(r) {
+        return {email:r.email, displayId:r.email};
+      });
+      $scope.keys = options.keys; // remember list of all keys
     });
-    $('#recipientsInput').val(emails.join(', '));
   };
 
   mvelo.Editor.prototype.showWaitingModal = function() {
@@ -686,12 +755,10 @@ mvelo.Editor.prototype = Object.create(mvelo.EventHandler.prototype); // add eve
     this.on('sign-dialog-cancel', removeDialog);
     this.on('get-plaintext', this._getPlaintext);
     this.on('error-message', this._onErrorMessage);
+
+    port.onMessage.addListener(this.handlePortMessage.bind(this));
   };
 
-  $(document).ready(function() {
-    var _editor = new mvelo.Editor();
-    _editor.registerEventListeners();
-    _editor.init();
-  });
+  if (typeof angular !== 'undefined') { angular.element(document).ready(init); }
 
 }());
