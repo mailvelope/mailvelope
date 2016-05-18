@@ -176,6 +176,17 @@
     },
     {
       "active": true,
+      "site": "hemio.de – Die Post mit dem Esel",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.hemio.de",
+          "api": true
+        }
+      ]
+    },
+    {
+      "active": true,
       "site": "Mailvelope Demo",
       "frames": [
         {
