@@ -122,11 +122,9 @@ mvelo.providers.get = function(hostname) {
     // display recipients in the displayDiv
     recipients.forEach(function(recipient) {
       var email = recipient.email;
-      if (EMAIL_REGEX.test(email)) { // validate to prevent XSS
-        var span = $('<span email="' + email + '"></span>');
-        span.text(recipient.name ? (recipient.name + ' (' + email + ')') : email);
-        displayDiv.append(span);
-      }
+      var span = $('<span/>', {email:email});
+      span.text(recipient.name ? (recipient.name + ' (' + email + ')') : email);
+      displayDiv.append(span);
     });
   };
 
@@ -135,7 +133,6 @@ mvelo.providers.get = function(hostname) {
   // DOM api util
   //
 
-  var EMAIL_REGEX = /[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/;
   var EMAILS_REGEX = /[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/g;
 
   var dom = {};
