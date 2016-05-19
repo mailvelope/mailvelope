@@ -89,7 +89,7 @@ mvelo.Editor = function($scope, $timeout, $q) {
         if (recipient.key) {
           $(this).addClass('tag-success');
         } else {
-          $(this).addClass('tag-warning');
+          $(this).addClass('tag-danger');
         }
       });
     });

@@ -9,7 +9,7 @@
 
     <div id="recipients"
       ng-hide="embedded"
-      ng-class="{'has-warning': noEncrypt}">
+      ng-class="{'has-error': noEncrypt}">
       <tags-input
         ng-model="recipients"
         type="email"
@@ -28,7 +28,7 @@
           min-length="1">
         </auto-complete>
       </tags-input>
-      <div class="alert alert-warning" ng-show="noEncrypt">
+      <div class="alert alert-danger" ng-show="noEncrypt">
         <span class="glyphicon glyphicon-lock"></span>
         <strong data-l10n-id="editor_key_not_found"></strong> <span data-l10n-id="editor_key_not_found_msg"></span>
       </div>

@@ -196,6 +196,12 @@ body {
   border-color: #eea236;
 }
 
+#recipients tags-input .tags .tag-danger {
+  /* bootstrap btn-danger color */
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+
 #recipients .alert {
   margin: 10px 0 5px;
 }
