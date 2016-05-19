@@ -43,7 +43,6 @@
     "common/ui/inline/framestyles.css",
     "common/ui/inline/dialogs/decryptInline.html",
     "common/ui/inline/dialogs/verifyInline.html",
-    "common/ui/inline/dialogs/encryptDialog.html",
     "common/ui/inline/dialogs/signDialog.html",
     "common/ui/inline/dialogs/keyGenDialog.html",
     "common/ui/inline/dialogs/keyBackupDialog.html",

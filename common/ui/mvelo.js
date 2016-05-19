@@ -150,6 +150,21 @@ mvelo.util.sortAndDeDup = function(unordered, compFn) {
   return result;
 };
 
+/**
+ * Only deduplicates, does not sort
+ * @param  {Array} list   The list of items with duplicates
+ * @return {Array}        The list of items without duplicates
+ */
+mvelo.util.deDup = function(list) {
+  var result = [];
+  list.forEach(function(i) {
+    if (result.indexOf(i) === -1) {
+      result.push(i);
+    }
+  });
+  return result;
+};
+
 // random hash generator
 mvelo.util.getHash = function() {
   var result = '';
@@ -394,6 +409,69 @@ mvelo.util.PromiseQueue.prototype._next = function() {
       that._next();
     });
   }, 0);
+};
+
+/**
+ * Validate an email address.
+ * @param  {String} address   The email address to validate
+ * @return {Boolean}          True if valid, false if not
+ */
+mvelo.util.checkEmail = function(address) {
+  var pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  return pattern.test(address);
+};
+
+/**
+ * Inherit from mvelo.EventHandler.prototype to use the new event handling
+ * apis 'on' and 'emit'.
+ */
+mvelo.EventHandler = function() {};
+
+/**
+ * Generic port message handler that can be attached via port.onMessage.addListener().
+ * Once set up, events can be handled with on('event', function(options) {})
+ * @param  {String} options.event   The event descriptor
+ * @param  {Object} options         Contains message attributes and data
+ */
+mvelo.EventHandler.prototype.handlePortMessage = function(options) {
+  options = options || {};
+  if (this._handlers && this._handlers.has(options.event)) {
+    this._handlers.get(options.event).call(this, options);
+  } else {
+    console.log('Unknown event', options);
+  }
+};
+
+/**
+ * The new event handling style to asign a function to an event.
+ * @param  {String} event       The event descriptor
+ * @param  {Function} handler   The event handler
+ */
+mvelo.EventHandler.prototype.on = function(event, handler) {
+  if (!event || typeof event !== 'string' || typeof handler !== 'function') {
+    throw new Error('Invalid event handler!');
+  }
+  if (!this._handlers) {
+    this._handlers = new Map();
+  }
+  this._handlers.set(event, handler);
+};
+
+/**
+ * Helper to emit events via postMessage using a port.
+ * @param  {String} event     The event descriptor
+ * @param  {Object} options   (optional) Data to be sent in the event
+ * @param  {Object} port      (optional) The port to be used. If
+ *                            not specified, the main port is used.
+ */
+mvelo.EventHandler.prototype.emit = function(event, options, port) {
+  if (!event || typeof event !== 'string') {
+    throw new Error('Invalid event!');
+  }
+  options = options || {};
+  options.event = event;
+  options.sender = options.sender || this._senderId;
+  (port || this._port || this.ports[this.mainType]).postMessage(options);
 };
 
 if (typeof exports !== 'undefined') {

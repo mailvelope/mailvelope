@@ -15,11 +15,231 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Parts of the editor are based on Hoodiecrow (MIT License)
+ * Copyright (c) 2014 Whiteout Networks GmbH.
+ * See https://github.com/tanx/hoodiecrow/blob/master/LICENSE
+ */
+
+/**
+ * @fileOverview This file implements the interface for encrypting and
+ * signing user data in an sandboxed environment that is secured from
+ * the webmail interface.
+ */
+
 'use strict';
 
 var mvelo = mvelo || null;
 
+/**
+ * Angular controller for the editor UI.
+ */
+mvelo.Editor = function($scope, $timeout, $q) {
+  this.setGlobal($scope, $timeout); // share globals in legacy closure code
+  this.registerEventListeners(); // listen to incoming events
+  this.initComplete(); // emit event to backend that editor has initialized
+
+  /**
+   * Verifies a recipient after input, gets their key, colors the
+   * input tag accordingly and checks if encryption is possible.
+   * @param  {Object} recipient   The recipient object
+   */
+  $scope.verify = function(recipient) {
+    if (!recipient) {
+      return;
+    }
+
+    if (recipient.email) {
+      // display only email address after autocomplete
+      recipient.displayId = recipient.email;
+    } else {
+      // set address after manual input
+      recipient.email = recipient.displayId;
+    }
+
+    $scope.getKey(recipient);
+    $scope.colorTag(recipient);
+    $scope.checkEncryptStatus();
+  };
+
+  /**
+   * Finds the recipient's corresponding public key and sets it
+   * on the 'key' attribute on the recipient object.
+   * @param  {Object} recipient   The recipient object
+   * @return {Object}             The key object (undefined if none found)
+   */
+  $scope.getKey = function(recipient) {
+    recipient.key = $scope.keys.find(function(key) {
+      return key.email === recipient.email;
+    });
+    return recipient.key;
+  };
+
+  /**
+   * Uses jQuery to color the recipient's input tag depending on
+   * whether they have a key or not.
+   * @param  {Object} recipient   The recipient object
+   */
+  $scope.colorTag = function(recipient) {
+    $timeout(function() { // wait for html tag to appear
+      $('tags-input li.tag-item').each(function() {
+        if ($(this).text().indexOf(recipient.email) === -1) {
+          return;
+        }
+        if (recipient.key) {
+          $(this).addClass('tag-success');
+        } else {
+          $(this).addClass('tag-warning');
+        }
+      });
+    });
+  };
+
+  /**
+   * Checks if all recipients have a public key and prevents encryption
+   * if one of them does not have a key.
+   */
+  $scope.checkEncryptStatus = function() {
+    $scope.noEncrypt = $scope.recipients.some(function(r) { return !r.key; });
+  };
+
+  /**
+   * Queries the local cache of key objects to find a matching user ID
+   * @param  {String} query   The autocomplete query
+   * @return {Array}          A list of filtered items that match the query
+   */
+  $scope.autocomplete = function(query) {
+    var cache = $scope.keys.map(function(key) {
+      return {
+        email: key.email,
+        displayId: key.userid
+      };
+    });
+    return cache.filter(function(i) {
+      return i.displayId.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    });
+  };
+};
+
+mvelo.Editor.prototype = Object.create(mvelo.EventHandler.prototype); // add event api
+
+if (typeof angular !== 'undefined') { // do not use angular in unit tests
+  var ngModule = angular.module('editor', ['ngTagsInput']); // load module dependencies
+  ngModule.controller('EditorCtrl', mvelo.Editor); // attach controller to editor module
+}
+
+
+//
+// Legacy code is contained in a closure and needs to be refactored to use angular
+//
+
+
 (function() {
+
+  if (typeof angular !== 'undefined') { // do not init in unit tests
+    angular.element(document).ready(init); // do manual angular bootstraping after init
+  }
+
+  /**
+   * Register the event handlers for the editor.
+   */
+  mvelo.Editor.prototype.registerEventListeners = function() {
+    this.on('public-key-userids', this.setRecipients);
+    this.on('set-text', onSetText);
+    this.on('set-init-data', this._onSetInitData);
+    this.on('set-attachment', this._onSetAttachment);
+    this.on('decrypt-in-progress', this.showWaitingModal);
+    this.on('encrypt-in-progress', this.showWaitingModal);
+    this.on('decrypt-end', this.hideWaitingModal);
+    this.on('encrypt-end', this.hideWaitingModal);
+    this.on('encrypt-failed', this.hideWaitingModal);
+    this.on('decrypt-failed', this._decryptFailed);
+    this.on('show-pwd-dialog', this._onShowPwdDialog);
+    this.on('hide-pwd-dialog', hidePwdDialog);
+    this.on('sign-dialog-cancel', removeDialog);
+    this.on('get-plaintext', this._getPlaintext);
+    this.on('error-message', this._onErrorMessage);
+
+    port.onMessage.addListener(this.handlePortMessage.bind(this));
+  };
+
+  /**
+   * Matches the recipients from the input to their public keys
+   * and returns an array of keys.
+   * @return {Array}   the array of public key objects
+   */
+  function getRecipientKeys() {
+    return $scope.recipients.map(function(r) { return r.key; });
+  }
+
+  /**
+   * Remember the available public keys for later and set the
+   * recipients proposal gotten from the webmail ui to the editor
+   * @param {Array} options.keys         A list of all available public
+   *                                     keys from the local keychain
+   * @param {Array} options.recipients   recipients gather from the
+   *                                     webmail ui
+   */
+  mvelo.Editor.prototype.setRecipients = function(options) {
+    $timeout(function() { // required to refresh $scope
+      $scope.keys = options.keys;
+      $scope.recipients = options.recipients;
+      $scope.recipients.forEach($scope.verify);
+    });
+  };
+
+
+  //
+  // Legacy code using jQuery ... needs to be refactored to angular
+  //
+
+
+  mvelo.Editor.prototype.showWaitingModal = function() {
+    $('#waitingModal').modal({keyboard: false}).modal('show');
+  };
+
+  mvelo.Editor.prototype.hideWaitingModal = function() {
+    $('#waitingModal').modal('hide');
+  };
+
+  mvelo.Editor.prototype._onSetInitData = function(msg) {
+    var data = msg.data;
+    onSetText(data);
+    setSignMode(data.signMsg || false, data.primary);
+  };
+
+  mvelo.Editor.prototype._onSetAttachment = function(msg) {
+    setAttachment(msg.attachment);
+  };
+
+  mvelo.Editor.prototype._decryptFailed = function(msg) {
+    var error = {
+      title: l10n.waiting_dialog_decryption_failed,
+      message: (msg.error) ? msg.error.message : l10n.waiting_dialog_decryption_failed,
+      class: 'alert alert-danger'
+    };
+    showErrorModal(error);
+  };
+
+  mvelo.Editor.prototype._onShowPwdDialog = function(msg) {
+    removeDialog();
+    addPwdDialog(msg.id);
+  };
+
+  mvelo.Editor.prototype._getPlaintext = function(msg) {
+    if (numUploadsInProgress !== 0) {
+      delayedAction = msg.action;
+    } else {
+      sendPlainText(msg.action);
+    }
+  };
+
+  mvelo.Editor.prototype._onErrorMessage = function(msg) {
+    if (msg.error.code === 'PWD_DIALOG_CANCEL') {
+      return;
+    }
+    showErrorModal(msg.error);
+  };
 
   var id;
   var name;
@@ -44,6 +264,9 @@ var mvelo = mvelo || null;
   var logTextareaInput = true;
   var numUploadsInProgress = 0;
   var delayedAction = '';
+  var qs;
+  var $scope;
+  var $timeout;
 
   // Get language strings from JSON
   mvelo.l10n.getMessages([
@@ -57,7 +280,9 @@ var mvelo = mvelo || null;
     'editor_error_header',
     'editor_error_content',
     'waiting_dialog_prepare_email',
-    'upload_quota_warning_headline'
+    'upload_quota_warning_headline',
+    'editor_key_not_found',
+    'editor_key_not_found_msg'
   ], function(result) {
     l10n = result;
   });
@@ -65,12 +290,16 @@ var mvelo = mvelo || null;
   var maxFileUploadSize = mvelo.MAXFILEUPLOADSIZE;
   var maxFileUploadSizeChrome = mvelo.MAXFILEUPLOADSIZECHROME; // temporal fix due issue in Chrome
 
+  /**
+   * Inialized the editor by parsing query string parameters
+   * and loading templates into the DOM.
+   */
   function init() {
     if (document.body.dataset.mvelo) {
       return;
     }
     document.body.dataset.mvelo = true;
-    var qs = jQuery.parseQuerystring();
+    qs = jQuery.parseQuerystring();
     id = qs.id;
     name = 'editor-' + id;
     if (qs.quota && parseInt(qs.quota) < maxFileUploadSize) {
@@ -82,37 +311,7 @@ var mvelo = mvelo || null;
     // plain text only
     editor_type = mvelo.PLAIN_TEXT; //qs.editor_type;
     port = mvelo.extension.connect({name: name});
-    port.onMessage.addListener(messageListener);
-    loadTemplates(qs.embedded, function() {
-      $(window).on('focus', startBlurValid);
-      if (editor_type == mvelo.PLAIN_TEXT) {
-        editor = createPlainText();
-      } else {
-        createRichText(function(ed) {
-          editor = ed;
-        });
-      }
-      // blur warning
-      blurWarn = $('#blurWarn');
-      // observe modals for blur warning
-      $('.modal').on('show.bs.modal', startBlurValid);
-      if (initText) {
-        setText(initText);
-        initText = null;
-      }
-      $("#addFileInput").on("change", onAddAttachment);
-      $('#uploadBtn').hide(); // Disable Uploading Attachment
-      mvelo.l10n.localizeHTML();
-      mvelo.util.showSecurityBackground(qs.embedded);
-
-      if (qs.embedded) {
-        $(".secureBgndSettingsBtn").on("click", function() {
-          port.postMessage({ event: 'open-security-settings', sender: name });
-        });
-      }
-
-      port.postMessage({event: 'editor-init', sender: name});
-    });
+    loadTemplates(qs.embedded, templatesLoaded);
     if (mvelo.crx) {
       commonPath = '../..';
     } else if (mvelo.ffa) {
@@ -120,6 +319,9 @@ var mvelo = mvelo || null;
     }
   }
 
+  /**
+   * Load templates into the DOM.
+   */
   function loadTemplates(embedded, callback) {
     var $body = $('body');
     if (embedded) {
@@ -176,6 +378,57 @@ var mvelo = mvelo || null;
       });
     }
   }
+
+  /**
+   * Called after templates have loaded. Now is the time to bootstrap angular.
+   */
+  function templatesLoaded() {
+    $(window).on('focus', startBlurValid);
+    if (editor_type == mvelo.PLAIN_TEXT) {
+      editor = createPlainText();
+    } else {
+      createRichText(function(ed) {
+        editor = ed;
+      });
+    }
+    // blur warning
+    blurWarn = $('#blurWarn');
+    // observe modals for blur warning
+    $('.modal').on('show.bs.modal', startBlurValid);
+    if (initText) {
+      setText(initText);
+      initText = null;
+    }
+    $("#addFileInput").on("change", onAddAttachment);
+    $('#uploadBtn').hide(); // Disable Uploading Attachment
+    mvelo.l10n.localizeHTML();
+    mvelo.util.showSecurityBackground(qs.embedded);
+
+    // bootstrap angular
+    angular.bootstrap(document, ['editor']);
+  }
+
+  /**
+   * Remember global reference of $scope for use inside closure
+   */
+  mvelo.Editor.prototype.setGlobal = function(scope, timeout) {
+    $scope = scope;
+    $timeout = timeout;
+  };
+
+  /**
+   * Emit an event to the background script that the editor is finished initializing.
+   * Called when the angular controller is initialized (after templates have loaded)
+   */
+  mvelo.Editor.prototype.initComplete = function() {
+    $scope.embedded = qs.embedded; // hide recipients for api case
+    if (qs.embedded) {
+      $(".secureBgndSettingsBtn").on("click", function() {
+        port.postMessage({event: 'open-security-settings', sender: name});
+      });
+    }
+    port.postMessage({event: 'editor-init', sender: name});
+  };
 
   /**
    * send log entry for the extension
@@ -298,7 +551,7 @@ var mvelo = mvelo || null;
 
   function onEncrypt() {
     logUserInput('security_log_dialog_encrypt');
-    showDialog('encryptDialog');
+    sendPlainText('encrypt');
   }
 
   function onUndo() {
@@ -561,14 +814,14 @@ var mvelo = mvelo || null;
       .tooltip();
   }
 
-  function onSetText(text) {
-    if (!text) {
+  function onSetText(options) {
+    if (!options.text) {
       return;
     }
     if (editor) {
-      setText(text);
+      setText(options.text);
     } else {
-      initText = text;
+      initText = options.text;
     }
   }
 
@@ -577,84 +830,10 @@ var mvelo = mvelo || null;
       event: 'editor-plaintext',
       sender: name,
       message: editor.val(),
+      keys: getRecipientKeys(),
       attachments: mvelo.file.getFiles($('#uploadPanel')),
       action: action
     });
   }
-
-  function messageListener(msg) {
-    //console.log('editor messageListener: ', msg.event);
-    switch (msg.event) {
-      case 'set-text':
-        onSetText(msg.text);
-        break;
-      case 'set-init-data':
-        var data = msg.data;
-        onSetText(data.text);
-        setSignMode(data.signMsg || false, data.primary);
-        break;
-      case 'set-attachment':
-        setAttachment(msg.attachment);
-        break;
-      case 'decrypt-in-progress':
-      case 'encrypt-in-progress':
-        $('#waitingModal').modal({keyboard: false}).modal('show');
-        break;
-      case 'decrypt-end':
-      case 'encrypt-end':
-      case 'encrypt-failed':
-        $('#waitingModal').modal('hide');
-        break;
-      case 'decrypt-failed':
-        var error = {
-          title: l10n.waiting_dialog_decryption_failed,
-          message: (msg.error) ? msg.error.message : l10n.waiting_dialog_decryption_failed,
-          class: 'alert alert-danger'
-        };
-        showErrorModal(error);
-        break;
-      case 'show-pwd-dialog':
-        removeDialog();
-        addPwdDialog(msg.id);
-        break;
-      case 'hide-pwd-dialog':
-        hidePwdDialog();
-        break;
-      case 'encrypt-dialog-cancel':
-      case 'sign-dialog-cancel':
-        removeDialog();
-        break;
-      case 'get-plaintext':
-        if (numUploadsInProgress !== 0) {
-          delayedAction = msg.action;
-        } else {
-          sendPlainText(msg.action);
-        }
-
-        break;
-      case 'encrypted-message':
-      case 'signed-message':
-        undoText = editor.val();
-        $('#undoBtn').prop('disabled', false);
-        removeDialog();
-        setText(msg.message, 'text');
-        if (msg.event == 'signed-message') {
-          hidePwdDialog();
-        }
-        $('#signBtn, #encryptBtn').hide();
-        $('#transferBtn').show();
-        break;
-      case 'error-message':
-        if (msg.error.code === 'PWD_DIALOG_CANCEL') {
-          break;
-        }
-        showErrorModal(msg.error);
-        break;
-      default:
-        console.log('unknown event');
-    }
-  }
-
-  $(document).ready(init);
 
 }());

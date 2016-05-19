@@ -15,9 +15,11 @@
   "license": "AGPL",
   "readmeFilename": "Readme.md",
   "dependencies": {
-    "mailreader": "~1.0.0",
+    "angular": "~1.5.5",
     "emailjs-mime-builder": "mailvelope/emailjs-mime-builder#v1.0.1m",
-    "emailjs-mime-codec": "mailvelope/emailjs-mime-codec#v1.0.2m"
+    "emailjs-mime-codec": "mailvelope/emailjs-mime-codec#v1.0.2m",
+    "mailreader": "~1.0.0",
+    "ng-tags-input": "^3.0.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",

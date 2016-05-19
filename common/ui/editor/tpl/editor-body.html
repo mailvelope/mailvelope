@@ -6,9 +6,38 @@
       </div>
       <div class="" id="uploadPanel"></div>
     </div>
+
+    <div id="recipients"
+      ng-hide="embedded"
+      ng-class="{'has-warning': noEncrypt}">
+      <tags-input
+        ng-model="recipients"
+        type="email"
+        allowed-tags-pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
+        spellcheck="false"
+        tabindex="1"
+        add-on-space="true"
+        add-on-enter="true"
+        enable-editing-last-tag="true"
+        display-property="displayId"
+        on-tag-added="verify($tag)"
+        on-tag-removed="checkEncryptStatus()"
+        placeholder="add recipient">
+        <auto-complete
+          source="autocomplete($query)"
+          min-length="1">
+        </auto-complete>
+      </tags-input>
+      <div class="alert alert-warning" ng-show="noEncrypt">
+        <span class="glyphicon glyphicon-lock"></span>
+        <strong data-l10n-id="editor_key_not_found"></strong> <span data-l10n-id="editor_key_not_found_msg"></span>
+      </div>
+    </div>
+
     <div id="body">
       <div id="plainText"></div>
     </div>
+
     <div id="footer">
       <div class="form-group pull-left">
         <button id="uploadEmbeddedBtn" class="btn btn-default btn-upload-embedded"><span class="glyphicon glyphicon-paperclip" style="transform: rotate(180deg);"></span>&nbsp;<span data-l10n-id="upload_attachment"></span></button>

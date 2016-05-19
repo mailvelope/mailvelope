@@ -24,6 +24,7 @@ mvelo.EncryptFrame = function(prefs) {
   this._editElement = null;
   this._eFrame = null;
   this._port = null;
+  this._senderId = 'eFrame-' + this.id;
   this._refreshPosIntervalID = 0;
   this._emailTextElement = null;
   this._emailUndoText = null;
@@ -32,6 +33,8 @@ mvelo.EncryptFrame = function(prefs) {
   this._options = {closeBtn: true};
   this._keyCounter = 0;
 };
+
+mvelo.EncryptFrame.prototype = Object.create(mvelo.EventHandler.prototype); // add new event api functions
 
 mvelo.EncryptFrame.prototype.attachTo = function(element, options) {
   $.extend(this._options, options);
@@ -158,10 +161,14 @@ mvelo.EncryptFrame.prototype._setFrameDim = function() {
 };
 
 mvelo.EncryptFrame.prototype._showMailEditor = function() {
-  this._port.postMessage({
-    event: 'eframe-display-editor',
-    sender: 'eFrame-' + this.id,
+  this.emit('eframe-display-editor', {
     text: this._getEmailText(this._editorType == mvelo.PLAIN_TEXT ? 'text' : 'html')
+  });
+};
+
+mvelo.EncryptFrame.prototype._getRecipients = function() {
+  this.emit('eframe-recipients', {
+    recipients: mvelo.main.currentProvider.getRecipients()
   });
 };
 
@@ -220,13 +227,16 @@ mvelo.EncryptFrame.prototype._saveEmailText = function() {
 /**
  * Is called after encryption and injects ciphertext and recipient
  * email addresses into the webmail interface.
- * @param {String} text   The encrypted message body
+ * @param {String} options.text         The encrypted message body
+ * @param {Array}  options.recipients   The recipients to be added
  */
-mvelo.EncryptFrame.prototype._setEditorOutput = function(text) {
+mvelo.EncryptFrame.prototype._setEditorOutput = function(options) {
   // set message body
   this._saveEmailText();
   this._normalizeButtons();
-  this._setMessage(text, 'text');
+  this._setMessage(options.text, 'text');
+  // set recipient email addresses
+  mvelo.main.currentProvider.setRecipients(options.recipients);
 };
 
 /**
@@ -261,45 +271,13 @@ mvelo.EncryptFrame.prototype._resetEmailText = function() {
 };
 
 mvelo.EncryptFrame.prototype._registerEventListener = function() {
-  var that = this;
-  this._port.onMessage.addListener(function(msg) {
-    //console.log('eFrame-%s event %s received', that.id, msg.event);
-    switch (msg.event) {
-      case 'email-text':
-        that._sendEvent('eframe-email-text', {
-          data: that._getEmailText(msg.type),
-          action: msg.action
-        });
-        break;
-      case 'destroy':
-        that._closeFrame(true);
-        break;
-      case 'get-recipients':
-        that._sendEvent('eframe-recipients', {
-          data: mvelo.main.currentProvider.getRecipients()
-        });
-        break;
-      case 'set-editor-output':
-        that._setEditorOutput(msg.text);
-        break;
-      default:
-        console.log('unknown event', msg);
-    }
-  });
-  this._port.onDisconnect.addListener(function(msg) {
-    that._closeFrame(false);
-  });
-};
-
-/**
- * Helper to send events via postMessage.
- * @param  {String} event     The event descriptor
- * @param  {Object} options   Data to be sent in the event
- */
-mvelo.EncryptFrame.prototype._sendEvent = function(event, options) {
-  options.event = event;
-  options.sender = 'eFrame-' + this.id;
-  this._port.postMessage(options);
+  // attach event handlers
+  this.on('get-recipients', this._getRecipients);
+  this.on('set-editor-output', this._setEditorOutput);
+  this.on('destroy', this._closeFrame.bind(this, true));
+  // attach port message handler
+  this._port.onMessage.addListener(this.handlePortMessage.bind(this));
+  this._port.onDisconnect.addListener(this._closeFrame.bind(this, false));
 };
 
 mvelo.EncryptFrame.isAttached = function(element) {
