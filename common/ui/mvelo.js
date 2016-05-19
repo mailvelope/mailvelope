@@ -150,6 +150,21 @@ mvelo.util.sortAndDeDup = function(unordered, compFn) {
   return result;
 };
 
+/**
+ * Only deduplicates, does not sort
+ * @param  {Array} list   The list of items with duplicates
+ * @return {Array}        The list of items without duplicates
+ */
+mvelo.util.deDup = function(list) {
+  var result = [];
+  list.forEach(function(i) {
+    if (result.indexOf(i) === -1) {
+      result.push(i);
+    }
+  });
+  return result;
+};
+
 // random hash generator
 mvelo.util.getHash = function() {
   var result = '';
@@ -400,6 +415,16 @@ mvelo.util.PromiseQueue.prototype._next = function() {
       that._next();
     });
   }, 0);
+};
+
+/**
+ * Validate an email address.
+ * @param  {String} address   The email address to validate
+ * @return {Boolean}          True if valid, false if not
+ */
+mvelo.util.checkEmail = function(address) {
+  var pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  return pattern.test(address);
 };
 
 /**

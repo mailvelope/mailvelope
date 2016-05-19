@@ -223,7 +223,7 @@ define(function(require, exports, module) {
   EditorController.prototype.displayRecipientProposal = function(recipients) {
     // deduplicate email addresses
     var emails = (recipients || []).map(function(recipient) { return recipient.email; });
-    emails = this.mvelo.util.sortAndDeDup(emails);
+    emails = this.mvelo.util.deDup(emails); // just dedup, dont change order of user input
     recipients = emails.map(function(e) { return {email:e}; });
     // get all public keys in the local keyring
     var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
