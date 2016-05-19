@@ -248,6 +248,7 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
   };
 
   mvelo.Editor.prototype.initComplete = function() {
+    $scope.embedded = qs.embedded; // hide recipients for api case
     if (qs.embedded) {
       $(".secureBgndSettingsBtn").on("click", function() {
         port.postMessage({event: 'open-security-settings', sender: name});
