@@ -124,8 +124,8 @@ mvelo.Editor = function($scope, $timeout, $q) {
 mvelo.Editor.prototype = Object.create(mvelo.EventHandler.prototype); // add event api
 
 if (typeof angular !== 'undefined') { // do not use angular in unit tests
-  var module = angular.module('editor', ['ngTagsInput']); // load module dependencies
-  module.controller('EditorCtrl', mvelo.Editor); // attach controller to editor module
+  var ngModule = angular.module('editor', ['ngTagsInput']); // load module dependencies
+  ngModule.controller('EditorCtrl', mvelo.Editor); // attach controller to editor module
 }
 
 
