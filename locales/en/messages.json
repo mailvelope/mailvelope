@@ -143,6 +143,14 @@
     "description": "Warning for unencrypted content.",
     "message": "You are trying to transfer unencrypted content to the e-mail provider."
   },
+  "editor_key_not_found": {
+    "description": "Warning for when a recipient key was not found.",
+    "message": "Key not found!"
+  },
+  "editor_key_not_found_msg": {
+    "description": "Warning for when a recipient key was not found.",
+    "message": "All recipients need a PGP key to encrypt."
+  },
   "encrypt_dialog_add": {
     "description": "Max 6 character.",
     "message": "Add"

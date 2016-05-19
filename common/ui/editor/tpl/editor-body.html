@@ -7,23 +7,31 @@
       <div class="" id="uploadPanel"></div>
     </div>
 
-    <div id="recipients" ng-hide="embedded">
+    <div id="recipients"
+      ng-hide="embedded"
+      ng-class="{'has-warning': noEncrypt, 'has-feedback': noEncrypt}">
       <tags-input
         ng-model="recipients"
         type="email"
+        allowed-tags-pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
+        spellcheck="false"
         tabindex="1"
         add-on-space="true"
         add-on-enter="true"
         enable-editing-last-tag="true"
         display-property="displayId"
         on-tag-added="verify($tag)"
-        on-tag-removed="checkSendStatus()"
+        on-tag-removed="checkEncryptStatus()"
         placeholder="add recipient">
         <auto-complete
           source="autocomplete($query)"
           min-length="1">
         </auto-complete>
       </tags-input>
+      <span class="glyphicon glyphicon-warning-sign form-control-feedback" ng-show="noEncrypt"></span>
+      <div class="alert alert-warning" ng-show="noEncrypt">
+        <strong data-l10n-id="editor_key_not_found"></strong> <span data-l10n-id="editor_key_not_found_msg"></span>
+      </div>
     </div>
 
     <div id="body">

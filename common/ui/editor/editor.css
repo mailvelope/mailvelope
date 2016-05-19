@@ -177,13 +177,23 @@ body {
   width: 100%;
   position: relative;
   order: 0;
-  padding-bottom: 5px;
+  margin-bottom: 5px;
 }
-#flex-container #recipients #recipientsInput {
-  width: 100%;
-  padding: 6px 12px;
-  margin: 0;
-  box-sizing: border-box;
+
+#recipients tags-input .tags .tag-item {
+  transition: background-color 0.3s;
+}
+
+#recipients tags-input .tags .tag-success {
+  background-color: #5cb85c; /* bootstrap label-success color */
+}
+
+#recipients tags-input .tags .tag-warning {
+  background-color: #f0ad4e; /* bootstrap label-warning color */
+}
+
+#recipients .alert {
+  margin: 10px 0 5px;
 }
 
 #flex-container #body {
