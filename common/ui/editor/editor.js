@@ -31,6 +31,9 @@
 
 var mvelo = mvelo || null;
 
+/**
+ * Angular controller for the editor UI.
+ */
 mvelo.Editor = function($scope, $timeout, $q) {
   this.setGlobal($scope, $timeout); // share globals in legacy closure code
   this.registerEventListeners(); // listen to incoming events
@@ -121,7 +124,8 @@ mvelo.Editor = function($scope, $timeout, $q) {
 mvelo.Editor.prototype = Object.create(mvelo.EventHandler.prototype); // add event api
 
 if (typeof angular !== 'undefined') { // do not use angular in unit tests
-  angular.module('editor', ['ngTagsInput']).controller('EditorCtrl', mvelo.Editor);
+  var module = angular.module('editor', ['ngTagsInput']); // load module dependencies
+  module.controller('EditorCtrl', mvelo.Editor); // attach controller to editor module
 }
 
 
@@ -131,6 +135,111 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
 
 
 (function() {
+
+  if (typeof angular !== 'undefined') { // do not init in unit tests
+    angular.element(document).ready(init); // do manual angular bootstraping after init
+  }
+
+  /**
+   * Register the event handlers for the editor.
+   */
+  mvelo.Editor.prototype.registerEventListeners = function() {
+    this.on('public-key-userids', this.setRecipients);
+    this.on('set-text', onSetText);
+    this.on('set-init-data', this._onSetInitData);
+    this.on('set-attachment', this._onSetAttachment);
+    this.on('decrypt-in-progress', this.showWaitingModal);
+    this.on('encrypt-in-progress', this.showWaitingModal);
+    this.on('decrypt-end', this.hideWaitingModal);
+    this.on('encrypt-end', this.hideWaitingModal);
+    this.on('encrypt-failed', this.hideWaitingModal);
+    this.on('decrypt-failed', this._decryptFailed);
+    this.on('show-pwd-dialog', this._onShowPwdDialog);
+    this.on('hide-pwd-dialog', hidePwdDialog);
+    this.on('sign-dialog-cancel', removeDialog);
+    this.on('get-plaintext', this._getPlaintext);
+    this.on('error-message', this._onErrorMessage);
+
+    port.onMessage.addListener(this.handlePortMessage.bind(this));
+  };
+
+  /**
+   * Matches the recipients from the input to their public keys
+   * and returns an array of keys.
+   * @return {Array}   the array of public key objects
+   */
+  function getRecipientKeys() {
+    return $scope.recipients.map(function(r) { return r.key; });
+  }
+
+  /**
+   * Remember the available public keys for later and set the
+   * recipients proposal gotten from the webmail ui to the editor
+   * @param {Array} options.keys         A list of all available public
+   *                                     keys from the local keychain
+   * @param {Array} options.recipients   recipients gather from the
+   *                                     webmail ui
+   */
+  mvelo.Editor.prototype.setRecipients = function(options) {
+    $timeout(function() { // required to refresh $scope
+      $scope.keys = options.keys;
+      $scope.recipients = options.recipients;
+      $scope.recipients.forEach($scope.verify);
+    });
+  };
+
+
+  //
+  // Legacy code using jQuery ... needs to be refactored to angular
+  //
+
+
+  mvelo.Editor.prototype.showWaitingModal = function() {
+    $('#waitingModal').modal({keyboard: false}).modal('show');
+  };
+
+  mvelo.Editor.prototype.hideWaitingModal = function() {
+    $('#waitingModal').modal('hide');
+  };
+
+  mvelo.Editor.prototype._onSetInitData = function(msg) {
+    var data = msg.data;
+    onSetText(data);
+    setSignMode(data.signMsg || false, data.primary);
+  };
+
+  mvelo.Editor.prototype._onSetAttachment = function(msg) {
+    setAttachment(msg.attachment);
+  };
+
+  mvelo.Editor.prototype._decryptFailed = function(msg) {
+    var error = {
+      title: l10n.waiting_dialog_decryption_failed,
+      message: (msg.error) ? msg.error.message : l10n.waiting_dialog_decryption_failed,
+      class: 'alert alert-danger'
+    };
+    showErrorModal(error);
+  };
+
+  mvelo.Editor.prototype._onShowPwdDialog = function(msg) {
+    removeDialog();
+    addPwdDialog(msg.id);
+  };
+
+  mvelo.Editor.prototype._getPlaintext = function(msg) {
+    if (numUploadsInProgress !== 0) {
+      delayedAction = msg.action;
+    } else {
+      sendPlainText(msg.action);
+    }
+  };
+
+  mvelo.Editor.prototype._onErrorMessage = function(msg) {
+    if (msg.error.code === 'PWD_DIALOG_CANCEL') {
+      return;
+    }
+    showErrorModal(msg.error);
+  };
 
   var id;
   var name;
@@ -726,102 +835,5 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
       action: action
     });
   }
-
-  /**
-   * Matches the recipients from the input to their public keys
-   * and returns an array of keys.
-   * @return {Array}   the array of public key objects
-   */
-  function getRecipientKeys() {
-    return $scope.recipients.map(function(r) { return r.key; });
-  }
-
-  /**
-   * Remember the available public keys for later and set the
-   * recipients proposal gotten from the webmail ui to the editor
-   * @param {Array} options.keys         A list of all available public
-   *                                     keys from the local keychain
-   * @param {Array} options.recipients   recipients gather from the
-   *                                     webmail ui
-   */
-  mvelo.Editor.prototype.setRecipients = function(options) {
-    $timeout(function() { // required to refresh $scope
-      $scope.keys = options.keys;
-      $scope.recipients = options.recipients;
-      $scope.recipients.forEach($scope.verify);
-    });
-  };
-
-  mvelo.Editor.prototype.showWaitingModal = function() {
-    $('#waitingModal').modal({keyboard: false}).modal('show');
-  };
-
-  mvelo.Editor.prototype.hideWaitingModal = function() {
-    $('#waitingModal').modal('hide');
-  };
-
-  mvelo.Editor.prototype._onSetInitData = function(msg) {
-    var data = msg.data;
-    onSetText(data);
-    setSignMode(data.signMsg || false, data.primary);
-  };
-
-  mvelo.Editor.prototype._onSetAttachment = function(msg) {
-    setAttachment(msg.attachment);
-  };
-
-  mvelo.Editor.prototype._decryptFailed = function(msg) {
-    var error = {
-      title: l10n.waiting_dialog_decryption_failed,
-      message: (msg.error) ? msg.error.message : l10n.waiting_dialog_decryption_failed,
-      class: 'alert alert-danger'
-    };
-    showErrorModal(error);
-  };
-
-  mvelo.Editor.prototype._onShowPwdDialog = function(msg) {
-    removeDialog();
-    addPwdDialog(msg.id);
-  };
-
-  mvelo.Editor.prototype._getPlaintext = function(msg) {
-    if (numUploadsInProgress !== 0) {
-      delayedAction = msg.action;
-    } else {
-      sendPlainText(msg.action);
-    }
-  };
-
-  mvelo.Editor.prototype._onErrorMessage = function(msg) {
-    if (msg.error.code === 'PWD_DIALOG_CANCEL') {
-      return;
-    }
-    showErrorModal(msg.error);
-  };
-
-  /**
-   * Register the event handlers for the editor.
-   */
-  mvelo.Editor.prototype.registerEventListeners = function() {
-    this.on('public-key-userids', this.setRecipients);
-    this.on('set-text', onSetText);
-    this.on('set-init-data', this._onSetInitData);
-    this.on('set-attachment', this._onSetAttachment);
-    this.on('decrypt-in-progress', this.showWaitingModal);
-    this.on('encrypt-in-progress', this.showWaitingModal);
-    this.on('decrypt-end', this.hideWaitingModal);
-    this.on('encrypt-end', this.hideWaitingModal);
-    this.on('encrypt-failed', this.hideWaitingModal);
-    this.on('decrypt-failed', this._decryptFailed);
-    this.on('show-pwd-dialog', this._onShowPwdDialog);
-    this.on('hide-pwd-dialog', hidePwdDialog);
-    this.on('sign-dialog-cancel', removeDialog);
-    this.on('get-plaintext', this._getPlaintext);
-    this.on('error-message', this._onErrorMessage);
-
-    port.onMessage.addListener(this.handlePortMessage.bind(this));
-  };
-
-  if (typeof angular !== 'undefined') { angular.element(document).ready(init); }
 
 }());
