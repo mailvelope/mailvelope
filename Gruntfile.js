@@ -147,6 +147,12 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
+            cwd: 'node_modules/angular/',
+            src: 'angular-csp.css',
+            dest: 'build/common/dep/angular/'
+          },
+          {
+            expand: true,
             cwd: 'node_modules/ng-tags-input/build/',
             src: 'ng-tags-input*min.*',
             dest: 'build/common/dep/ng-tags-input/'
