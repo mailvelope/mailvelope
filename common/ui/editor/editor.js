@@ -32,14 +32,15 @@
 var mvelo = mvelo || null;
 
 mvelo.Editor = function($scope, $timeout, $q) {
-  this.setGlobal($scope, $timeout);
-  this.registerEventListeners();
-  this.initComplete();
+  this.setGlobal($scope, $timeout); // share globals in legacy closure code
+  this.registerEventListeners(); // listen to incoming events
+  this.initComplete(); // emit event to backend that editor has initialized
 
-  $scope.checkSendStatus = function() {};
-
-  $scope.tagStyle = function(recipient) {};
-
+  /**
+   * Verifies a recipient after input, gets their key, colors the
+   * input tag accordingly and checks if encryption is possible.
+   * @param  {Object} recipient   The recipient object
+   */
   $scope.verify = function(recipient) {
     if (!recipient) {
       return;
@@ -52,26 +53,67 @@ mvelo.Editor = function($scope, $timeout, $q) {
       // set address after manual input
       recipient.email = recipient.displayId;
     }
+
+    $scope.getKey(recipient);
+    $scope.colorTag(recipient);
+    $scope.checkEncryptStatus();
   };
 
+  /**
+   * Finds the recipient's corresponding public key and sets it
+   * on the 'key' attribute on the recipient object.
+   * @param  {Object} recipient   The recipient object
+   * @return {Object}             The key object (undefined if none found)
+   */
+  $scope.getKey = function(recipient) {
+    recipient.key = $scope.keys.find(function(key) {
+      return key.email === recipient.email;
+    });
+    return recipient.key;
+  };
+
+  /**
+   * Uses jQuery to color the recipient's input tag depending on
+   * whether they have a key or not.
+   * @param  {Object} recipient   The recipient object
+   */
+  $scope.colorTag = function(recipient) {
+    $timeout(function() { // wait for html tag to appear
+      $('tags-input li.tag-item').each(function() {
+        if ($(this).text().indexOf(recipient.email) === -1) {
+          return;
+        }
+        if (recipient.key) {
+          $(this).addClass('tag-success');
+        } else {
+          $(this).addClass('tag-warning');
+        }
+      });
+    });
+  };
+
+  /**
+   * Checks if all recipients have a public key and prevents encryption
+   * if one of them does not have a key.
+   */
+  $scope.checkEncryptStatus = function() {
+    $scope.noEncrypt = $scope.recipients.some(function(r) { return !r.key; });
+  };
+
+  /**
+   * Queries the local cache of key objects to find a matching user ID
+   * @param  {String} query   The autocomplete query
+   * @return {Array}          A list of filtered items that match the query
+   */
   $scope.autocomplete = function(query) {
-    return $q(function(resolve) {
-      resolve();
-
-    }).then(function() {
-      var cache = $scope.keys.map(function(key) {
-        return {
-          email: key.email,
-          displayId: key.userid
-        };
-      });
-
-      return cache.filter(function(i) {
-        return i.displayId.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-      });
-
-    }).catch(function(err) {
-      console.log(err);
+    var cache = $scope.keys.map(function(key) {
+      return {
+        email: key.email,
+        displayId: key.userid
+      };
+    });
+    return cache.filter(function(i) {
+      return i.displayId.toLowerCase().indexOf(query.toLowerCase()) !== -1;
     });
   };
 };
@@ -81,6 +123,12 @@ mvelo.Editor.prototype = Object.create(mvelo.EventHandler.prototype); // add eve
 if (typeof angular !== 'undefined') { // do not use angular in unit tests
   angular.module('editor', ['ngTagsInput']).controller('EditorCtrl', mvelo.Editor);
 }
+
+
+//
+// Legacy code is contained in a closure and needs to be refactored to use angular
+//
+
 
 (function() {
 
@@ -123,7 +171,9 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
     'editor_error_header',
     'editor_error_content',
     'waiting_dialog_prepare_email',
-    'upload_quota_warning_headline'
+    'upload_quota_warning_headline',
+    'editor_key_not_found',
+    'editor_key_not_found_msg'
   ], function(result) {
     l10n = result;
   });
@@ -131,6 +181,10 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
   var maxFileUploadSize = mvelo.MAXFILEUPLOADSIZE;
   var maxFileUploadSizeChrome = mvelo.MAXFILEUPLOADSIZECHROME; // temporal fix due issue in Chrome
 
+  /**
+   * Inialized the editor by parsing query string parameters
+   * and loading templates into the DOM.
+   */
   function init() {
     if (document.body.dataset.mvelo) {
       return;
@@ -156,6 +210,9 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
     }
   }
 
+  /**
+   * Load templates into the DOM.
+   */
   function loadTemplates(embedded, callback) {
     var $body = $('body');
     if (embedded) {
@@ -213,6 +270,9 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
     }
   }
 
+  /**
+   * Called after templates have loaded. Now is the time to bootstrap angular.
+   */
   function templatesLoaded() {
     $(window).on('focus', startBlurValid);
     if (editor_type == mvelo.PLAIN_TEXT) {
@@ -247,6 +307,10 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
     $timeout = timeout;
   };
 
+  /**
+   * Emit an event to the background script that the editor is finished initializing.
+   * Called when the angular controller is initialized (after templates have loaded)
+   */
   mvelo.Editor.prototype.initComplete = function() {
     $scope.embedded = qs.embedded; // hide recipients for api case
     if (qs.embedded) {
@@ -669,11 +733,7 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
    * @return {Array}   the array of public key objects
    */
   function getRecipientKeys() {
-    var emails = $scope.recipients.map(function(r) { return r.email; });
-    var keys = $scope.keys.filter(function(key) {
-      return emails.indexOf(key.email) !== -1;
-    });
-    return keys;
+    return $scope.recipients.map(function(r) { return r.key; });
   }
 
   /**
@@ -686,10 +746,9 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
    */
   mvelo.Editor.prototype.setRecipients = function(options) {
     $timeout(function() { // required to refresh $scope
-      $scope.recipients = options.recipients.map(function(r) {
-        return {email:r.email, displayId:r.email};
-      });
-      $scope.keys = options.keys; // remember list of all keys
+      $scope.keys = options.keys;
+      $scope.recipients = options.recipients;
+      $scope.recipients.forEach($scope.verify);
     });
   };
 
@@ -740,6 +799,9 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
     showErrorModal(msg.error);
   };
 
+  /**
+   * Register the event handlers for the editor.
+   */
   mvelo.Editor.prototype.registerEventListeners = function() {
     this.on('public-key-userids', this.setRecipients);
     this.on('set-text', onSetText);
