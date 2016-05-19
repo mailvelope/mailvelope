@@ -256,7 +256,6 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
   var blurWarnPeriod = null;
   // timeoutID for period in which blur events are non-critical
   var blurValid = null;
-  var undoText = null;
   var initText = null;
   var file;
   var commonPath;
@@ -353,8 +352,6 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
         $('#transferBtn').hide().click(onTransfer);
         $('#signBtn').click(onSign);
         $('#encryptBtn').click(onEncrypt);
-        $('#undoBtn').click(onUndo)
-          .prop('disabled', true);
 
         Promise.all([
           mvelo.appendTpl($('#editorDialog .modal-body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')),
@@ -552,15 +549,6 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
   function onEncrypt() {
     logUserInput('security_log_dialog_encrypt');
     sendPlainText('encrypt');
-  }
-
-  function onUndo() {
-    logUserInput('security_log_dialog_undo');
-    setText(undoText);
-    undoText = null;
-    $('#undoBtn').prop('disabled', true);
-    $('#signBtn, #encryptBtn').show();
-    $('#transferBtn').hide();
   }
 
   function createPlainText() {
