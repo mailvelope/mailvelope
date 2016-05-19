@@ -181,15 +181,19 @@ body {
 }
 
 #recipients tags-input .tags .tag-item {
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 #recipients tags-input .tags .tag-success {
-  background-color: #5cb85c; /* bootstrap label-success color */
+  /* bootstrap btn-success color */
+  background-color: #5cb85c;
+  border-color: #4cae4c;
 }
 
 #recipients tags-input .tags .tag-warning {
-  background-color: #f0ad4e; /* bootstrap label-warning color */
+  /* bootstrap btn-warning color */
+  background-color: #f0ad4e;
+  border-color: #eea236;
 }
 
 #recipients .alert {
