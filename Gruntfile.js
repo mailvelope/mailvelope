@@ -142,19 +142,13 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: 'node_modules/angular/',
-            src: 'angular.min.js',
-            dest: 'build/common/dep/angular/'
-          },
-          {
-            expand: true,
-            cwd: 'node_modules/angular/',
-            src: 'angular-csp.css',
+            src: ['angular.min.js', 'angular-csp.css'],
             dest: 'build/common/dep/angular/'
           },
           {
             expand: true,
             cwd: 'node_modules/ng-tags-input/build/',
-            src: 'ng-tags-input*min.*',
+            src: ['ng-tags-input.min.js', 'ng-tags-input.min.css', 'ng-tags-input.bootstrap.min.css'],
             dest: 'build/common/dep/ng-tags-input/'
           }
         ]
