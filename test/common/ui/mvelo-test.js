@@ -4,6 +4,36 @@
 
 describe('mvelo unit tests', function() {
 
+  describe('deDup', function() {
+    it('should work for undefined', function() {
+      expect(mvelo.util.deDup()).to.deep.equal([]);
+    });
+    it('should work for empty array', function() {
+      expect(mvelo.util.deDup([])).to.deep.equal([]);
+    });
+    it('should work for unsorted array', function() {
+      expect(mvelo.util.deDup(['c', 'b', 'a', 'b'])).to.deep.equal(['c', 'b', 'a']);
+    });
+  });
+
+  describe('checkEmail', function() {
+    it('should be false for undefined', function() {
+      expect(mvelo.util.checkEmail()).to.be.false;
+    });
+    it('should be false empty string', function() {
+      expect(mvelo.util.checkEmail('')).to.be.false;
+    });
+    it('should be false special char at the beginning', function() {
+      expect(mvelo.util.checkEmail('>foo@bar.co')).to.be.false;
+    });
+    it('should be false special char at the end', function() {
+      expect(mvelo.util.checkEmail('foo@bar.co>')).to.be.false;
+    });
+    it('should be true fo valid email address', function() {
+      expect(mvelo.util.checkEmail('foo@bar.co')).to.be.true;
+    });
+  });
+
   describe('Port message event handling', function() {
     var ctrl, port1, port2;
 

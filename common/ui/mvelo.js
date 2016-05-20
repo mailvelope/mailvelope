@@ -157,7 +157,7 @@ mvelo.util.sortAndDeDup = function(unordered, compFn) {
  */
 mvelo.util.deDup = function(list) {
   var result = [];
-  list.forEach(function(i) {
+  (list || []).forEach(function(i) {
     if (result.indexOf(i) === -1) {
       result.push(i);
     }
