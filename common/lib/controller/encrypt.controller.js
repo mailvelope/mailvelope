@@ -55,6 +55,11 @@ define(function(require, exports, module) {
       initText: options.text,
       getRecipientProposal: this.getRecipientProposal.bind(this)
     }, function(err, armored, recipients) {
+      if (err) {
+        // TODO: display error message
+        console.error(err);
+        return;
+      }
       // sanitize if content from plain text, rich text already sanitized by editor
       if (that.prefs.data().general.editor_type == that.mvelo.PLAIN_TEXT) {
         that.mvelo.util.parseHTML(armored, function(parsed) {

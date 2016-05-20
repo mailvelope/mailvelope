@@ -493,12 +493,17 @@ define(function(require, exports, module) {
    * Closes the editor popup and transfer the encrypted/signed armored
    * message and recipients back to the webmail interface.
    * @param  {String} options.armored   The encrypted/signed message
-   * @param  {String} options.keys      The keys used to encrypt the message
+   * @param  {Array}  options.keys      The keys used to encrypt the message
+   * @param  {Error}  options.error     An error
    */
   EditorController.prototype.transferAndCloseDialog = function(options) {
+    if (options.error) {
+      this.encryptCallback(options.error);
+      return;
+    }
     this.editorPopup.close();
     this.editorPopup = null;
-    var recipients = options.keys.map(function(k) {
+    var recipients = (options.keys || []).map(function(k) {
       return {name: k.name, email: k.email};
     });
     this.encryptCallback(null, options.armored, recipients);
@@ -541,11 +546,13 @@ define(function(require, exports, module) {
     } else if (options.action === 'sign') {
       promise = this.signMessage(options.message);
     } else {
-      throw new Error('Unknown eframe action:', options.action);
+      that.transferAndCloseDialog({error:new Error('Unknown eframe action:', options.action)});
     }
 
     promise.then(function(armored) {
       that.transferAndCloseDialog({armored:armored, keys:options.keys});
+    }).catch(function(err) {
+      that.transferAndCloseDialog({error:err});
     });
   };
 

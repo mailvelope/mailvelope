@@ -80,6 +80,17 @@ define(function(require) {
 
         expect(ctrl.emit.withArgs('set-editor-output', {text: 'armored', recipients:testRecipients}).calledOnce).to.be.true;
       });
+
+      it('should log error', function() {
+        sinon.stub(console, 'error');
+        editorCtrlMock.encrypt.yields(new Error('foo'));
+
+        ctrl.openEditor({text:'foo'});
+
+        expect(console.error.calledOnce).to.be.true;
+        expect(ctrl.emit.called).to.be.false;
+        console.error.restore();
+      });
     });
 
     describe('getRecipientProposal', function() {
