@@ -66,7 +66,7 @@ function EditorCtrl($scope, $timeout, $q) {
    * @return {Object}             The key object (undefined if none found)
    */
   $scope.getKey = function(recipient) {
-    recipient.key = $scope.keys.find(function(key) {
+    recipient.key = ($scope.keys || []).find(function(key) {
       return key.email === recipient.email;
     });
     return recipient.key;
@@ -97,7 +97,7 @@ function EditorCtrl($scope, $timeout, $q) {
    * if one of them does not have a key.
    */
   $scope.checkEncryptStatus = function() {
-    $scope.noEncrypt = $scope.recipients.some(function(r) { return !r.key; });
+    $scope.noEncrypt = ($scope.recipients || []).some(function(r) { return !r.key; });
   };
 
   /**
@@ -106,10 +106,10 @@ function EditorCtrl($scope, $timeout, $q) {
    * @return {Array}          A list of filtered items that match the query
    */
   $scope.autocomplete = function(query) {
-    var cache = $scope.keys.map(function(key) {
+    var cache = ($scope.keys || []).map(function(key) {
       return {
         email: key.email,
-        displayId: key.userid
+        displayId: key.userid || ''
       };
     });
     return cache.filter(function(i) {
@@ -173,7 +173,7 @@ function EditorCtrl($scope, $timeout, $q) {
    *                                     webmail ui
    */
   EditorCtrl.prototype.setRecipients = function(options) {
-    $timeout(function() { // required to refresh $scope
+    $timeout(function() { // trigger $scope.$digest() after async call
       $scope.keys = options.keys;
       $scope.recipients = options.recipients;
       $scope.recipients.forEach($scope.verify);

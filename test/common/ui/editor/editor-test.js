@@ -73,6 +73,133 @@ describe('Editor UI unit tests', function() {
     });
   });
 
+  describe('getKey', function() {
+    it('should not find a key for keys undefined', function() {
+      scope.keys = undefined;
+
+      var recipient = {
+        email: 'jon@smith.com'
+      };
+      expect(scope.getKey(recipient)).to.be.undefined;
+
+      expect(recipient.key).to.not.exist;
+    });
+
+    it('should work', function() {
+      scope.keys = [{email: 'jon@smith.com', keyid: 'a'}];
+
+      var recipient = {
+        email: 'jon@smith.com'
+      };
+      expect(scope.getKey(recipient).keyid).to.equal('a');
+
+      expect(recipient.key).to.exist;
+    });
+  });
+
+  describe('colorTag', function() {
+    var testElem;
+
+    beforeEach(function() {
+      testElem = $('<tags-input><ul><li class="tag-item">jon@smith.com</li></ul></tags-input>');
+      $(document.body).append(testElem);
+    });
+
+    afterEach(function() {
+      testElem.remove();
+    });
+
+    it('should work when recipient not found', function() {
+      var recipient = {
+        email: 'jonny@smith.com'
+      };
+
+      scope.colorTag(recipient);
+      timeout.flush();
+
+      var classList = $('tags-input li.tag-item').attr('class').split(/\s+/);
+      expect(classList.length).to.equal(1);
+    });
+
+    it('should color with no key', function() {
+      var recipient = {
+        email: 'jon@smith.com'
+      };
+
+      scope.colorTag(recipient);
+      timeout.flush();
+
+      var classList = $('tags-input li.tag-item').attr('class').split(/\s+/);
+      expect(classList.indexOf('tag-danger') !== -1).to.be.true;
+    });
+
+    it('should color with key', function() {
+      var recipient = {
+        email: 'jon@smith.com',
+        key: {}
+      };
+
+      scope.colorTag(recipient);
+      timeout.flush();
+
+      var classList = $('tags-input li.tag-item').attr('class').split(/\s+/);
+      expect(classList.indexOf('tag-success') !== -1).to.be.true;
+    });
+  });
+
+  describe('checkEncryptStatus', function() {
+    it('should not encrypt for recipients undefined', function() {
+      scope.recipients = undefined;
+      scope.checkEncryptStatus();
+      expect(scope.noEncrypt).to.be.false;
+    });
+
+    it('should not encrypt for empty recipient', function() {
+      scope.recipients = [];
+      scope.checkEncryptStatus();
+      expect(scope.noEncrypt).to.be.false;
+    });
+
+    it('should encrypt if all recipients have keys', function() {
+      scope.recipients = [{key:{}}];
+      scope.checkEncryptStatus();
+      expect(scope.noEncrypt).to.be.false;
+    });
+
+    it('should not encrypt if not all recipients have keys', function() {
+      scope.recipients = [{key:{}}, {}];
+      scope.checkEncryptStatus();
+      expect(scope.noEncrypt).to.be.true;
+    });
+  });
+
+  describe('autocomplete', function() {
+    it('should find none for keys undefined', function() {
+      scope.keys = undefined;
+      expect(scope.autocomplete('jon').length).to.equal(0);
+    });
+
+    it('should find none for empty keys', function() {
+      scope.keys = [];
+      expect(scope.autocomplete('jon').length).to.equal(0);
+    });
+
+    it('should find none for empty user id', function() {
+      scope.keys = [{email:'j@s.com'}];
+      expect(scope.autocomplete('j').length).to.equal(0);
+    });
+
+    it('should find two matches', function() {
+      scope.keys = [{userid: 'Jon Smith <j@s.com>'}, {userid: 'jon <j@b.com>'}];
+      expect(scope.autocomplete('jOn').length).to.equal(2);
+    });
+
+    it('should find one match', function() {
+      scope.keys = [{userid: 'Jon Smith <j@s.com>'}, {userid: 'jon <j@b.com>'}];
+      expect(scope.autocomplete('sMith').length).to.equal(1);
+    });
+  });
+
   describe('setRecipients', function() {
     beforeEach(function() {
       sinon.stub(scope, 'verify');
