@@ -29,12 +29,13 @@
 
 'use strict';
 
-var mvelo = mvelo || null;
+EditorCtrl.prototype = Object.create(mvelo.EventHandler.prototype); // add event api
+angular.module('editor', ['ngTagsInput']).controller('EditorCtrl', EditorCtrl); // attach ctrl to editor module
 
 /**
  * Angular controller for the editor UI.
  */
-mvelo.Editor = function($scope, $timeout, $q) {
+function EditorCtrl($scope, $timeout, $q) {
   this.setGlobal($scope, $timeout); // share globals in legacy closure code
   this.registerEventListeners(); // listen to incoming events
   this.initComplete(); // emit event to backend that editor has initialized
@@ -119,13 +120,6 @@ mvelo.Editor = function($scope, $timeout, $q) {
       return i.displayId.toLowerCase().indexOf(query.toLowerCase()) !== -1;
     });
   };
-};
-
-mvelo.Editor.prototype = Object.create(mvelo.EventHandler.prototype); // add event api
-
-if (typeof angular !== 'undefined') { // do not use angular in unit tests
-  var ngModule = angular.module('editor', ['ngTagsInput']); // load module dependencies
-  ngModule.controller('EditorCtrl', mvelo.Editor); // attach controller to editor module
 }
 
 
@@ -136,14 +130,14 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
 
 (function() {
 
-  if (typeof angular !== 'undefined') { // do not init in unit tests
+  if (!angular.mock) { // do not init in unit tests
     angular.element(document).ready(init); // do manual angular bootstraping after init
   }
 
   /**
    * Register the event handlers for the editor.
    */
-  mvelo.Editor.prototype.registerEventListeners = function() {
+  EditorCtrl.prototype.registerEventListeners = function() {
     this.on('public-key-userids', this.setRecipients);
     this.on('set-text', onSetText);
     this.on('set-init-data', this._onSetInitData);
@@ -180,7 +174,7 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
    * @param {Array} options.recipients   recipients gather from the
    *                                     webmail ui
    */
-  mvelo.Editor.prototype.setRecipients = function(options) {
+  EditorCtrl.prototype.setRecipients = function(options) {
     $timeout(function() { // required to refresh $scope
       $scope.keys = options.keys;
       $scope.recipients = options.recipients;
@@ -194,25 +188,25 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
   //
 
 
-  mvelo.Editor.prototype.showWaitingModal = function() {
+  EditorCtrl.prototype.showWaitingModal = function() {
     $('#waitingModal').modal({keyboard: false}).modal('show');
   };
 
-  mvelo.Editor.prototype.hideWaitingModal = function() {
+  EditorCtrl.prototype.hideWaitingModal = function() {
     $('#waitingModal').modal('hide');
   };
 
-  mvelo.Editor.prototype._onSetInitData = function(msg) {
+  EditorCtrl.prototype._onSetInitData = function(msg) {
     var data = msg.data;
     onSetText(data);
     setSignMode(data.signMsg || false, data.primary);
   };
 
-  mvelo.Editor.prototype._onSetAttachment = function(msg) {
+  EditorCtrl.prototype._onSetAttachment = function(msg) {
     setAttachment(msg.attachment);
   };
 
-  mvelo.Editor.prototype._decryptFailed = function(msg) {
+  EditorCtrl.prototype._decryptFailed = function(msg) {
     var error = {
       title: l10n.waiting_dialog_decryption_failed,
       message: (msg.error) ? msg.error.message : l10n.waiting_dialog_decryption_failed,
@@ -221,12 +215,12 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
     showErrorModal(error);
   };
 
-  mvelo.Editor.prototype._onShowPwdDialog = function(msg) {
+  EditorCtrl.prototype._onShowPwdDialog = function(msg) {
     removeDialog();
     addPwdDialog(msg.id);
   };
 
-  mvelo.Editor.prototype._getPlaintext = function(msg) {
+  EditorCtrl.prototype._getPlaintext = function(msg) {
     if (numUploadsInProgress !== 0) {
       delayedAction = msg.action;
     } else {
@@ -234,7 +228,7 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
     }
   };
 
-  mvelo.Editor.prototype._onErrorMessage = function(msg) {
+  EditorCtrl.prototype._onErrorMessage = function(msg) {
     if (msg.error.code === 'PWD_DIALOG_CANCEL') {
       return;
     }
@@ -408,7 +402,7 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
   /**
    * Remember global reference of $scope for use inside closure
    */
-  mvelo.Editor.prototype.setGlobal = function(scope, timeout) {
+  EditorCtrl.prototype.setGlobal = function(scope, timeout) {
     $scope = scope;
     $timeout = timeout;
   };
@@ -417,7 +411,7 @@ if (typeof angular !== 'undefined') { // do not use angular in unit tests
    * Emit an event to the background script that the editor is finished initializing.
    * Called when the angular controller is initialized (after templates have loaded)
    */
-  mvelo.Editor.prototype.initComplete = function() {
+  EditorCtrl.prototype.initComplete = function() {
     $scope.embedded = qs.embedded; // hide recipients for api case
     if (qs.embedded) {
       $(".secureBgndSettingsBtn").on("click", function() {

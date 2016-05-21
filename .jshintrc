@@ -53,7 +53,8 @@
         "sinon": true,
         "resolves": true,
         "rejects": true,
-        "angular": true
+        "angular": true,
+        "mvelo": true
     }
 
 }

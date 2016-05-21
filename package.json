@@ -22,6 +22,7 @@
     "ng-tags-input": "^3.0.0"
   },
   "devDependencies": {
+    "angular-mocks": "~1.5.5",
     "chai": "^3.5.0",
     "es6-map-shim": "^0.2.1",
     "es6-promise": "^3.1.2",
