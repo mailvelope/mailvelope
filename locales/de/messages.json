@@ -149,7 +149,7 @@
   },
   "editor_key_not_found_msg": {
     "description": "Warning for when a recipient key was not found.",
-    "message": "Alle empfänger benötigen einen PGP Schlüssel um zu verschlüsseln."
+    "message": "Alle empfänger benötigen einen PGP Schlüssel um zu verschlüsseln. Sie können die Nachricht derzeit nur signieren."
   },
   "encrypt_dialog_add": {
     "message": "Hinzufügen",

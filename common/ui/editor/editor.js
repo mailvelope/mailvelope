@@ -49,15 +49,11 @@ function EditorCtrl($scope, $timeout, $q) {
     if (!recipient) {
       return;
     }
-
-    if (recipient.email) {
-      // display only email address after autocomplete
+    if (recipient.email) { // display only address from autocomplete
       recipient.displayId = recipient.email;
-    } else {
-      // set address after manual input
+    } else { // set address after manual input
       recipient.email = recipient.displayId;
     }
-
     $scope.getKey(recipient);
     $scope.colorTag(recipient);
     $scope.checkEncryptStatus();
@@ -163,7 +159,9 @@ function EditorCtrl($scope, $timeout, $q) {
    * @return {Array}   the array of public key objects
    */
   function getRecipientKeys() {
-    return $scope.recipients.map(function(r) { return r.key; });
+    return $scope.recipients.map(function(r) {
+      return r.key || r; // some recipients don't have a key, still return address
+    });
   }
 
   /**

@@ -28,6 +28,51 @@ describe('Editor UI unit tests', function() {
     EditorCtrl.prototype.registerEventListeners.restore();
   });
 
+  describe('verify', function() {
+    beforeEach(function() {
+      sinon.stub(scope, 'getKey');
+      sinon.stub(scope, 'colorTag');
+      sinon.stub(scope, 'checkEncryptStatus');
+    });
+    afterEach(function() {
+      scope.getKey.restore();
+      scope.colorTag.restore();
+      scope.checkEncryptStatus.restore();
+    });
+
+    it('should display only email address', function() {
+      var recipient = {
+        email: 'jon@smith.com',
+        displayId: 'Jon Smith <jon@smith.com>'
+      };
+
+      scope.verify(recipient);
+
+      expect(recipient.displayId).to.equal('jon@smith.com');
+      expect(scope.getKey.withArgs(recipient).calledOnce).to.be.true;
+      expect(scope.colorTag.withArgs(recipient).calledOnce).to.be.true;
+      expect(scope.checkEncryptStatus.calledOnce).to.be.true;
+    });
+
+    it('should set email', function() {
+      var recipient = {
+        displayId: 'jon@smith.com'
+      };
+
+      scope.verify(recipient);
+
+      expect(recipient.email).to.equal('jon@smith.com');
+    });
+
+    it('should work for undefined', function() {
+      scope.verify(undefined);
+
+      expect(scope.getKey.called).to.be.false;
+      expect(scope.colorTag.called).to.be.false;
+      expect(scope.checkEncryptStatus.called).to.be.false;
+    });
+  });
+
   describe('setRecipients', function() {
     beforeEach(function() {
       sinon.stub(scope, 'verify');

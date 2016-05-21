@@ -149,7 +149,7 @@
   },
   "editor_key_not_found_msg": {
     "description": "Warning for when a recipient key was not found.",
-    "message": "All recipients need a PGP key to encrypt."
+    "message": "All recipients need a PGP key to encrypt. You can still sign the message though."
   },
   "encrypt_dialog_add": {
     "description": "Max 6 character.",
