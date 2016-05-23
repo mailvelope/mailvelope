@@ -112,7 +112,7 @@ mvelo.providers.get = function(hostname) {
     // find the relevant elements in the Gmail interface
     var displayDiv = $('.oL.aDm'); // displays recipients when focus not on input
     var tagDiv = $('.vR'); // diplays tags for each recipient when focus on input
-    var input = $('.vO'); // the actual email address text input (a textarea)
+    var input = $('.vO').first(); // the actual email address text input (a textarea)
     displayDiv.empty();
     tagDiv.empty();
     input.empty();
