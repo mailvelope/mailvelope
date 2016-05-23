@@ -4,21 +4,22 @@
 
 describe('Editor UI unit tests', function() {
 
-  var ctrl, scope, timeout;
+  var ctrl, scope;
 
   beforeEach(function() {
     sinon.stub(EditorCtrl.prototype, 'initComplete');
     sinon.stub(EditorCtrl.prototype, 'registerEventListeners');
+    $.parseQuerystring = $.parseQuerystring || function() {};
+    sinon.stub($, 'parseQuerystring', function() { return {embedded:false}; });
 
     angular.module('editor-test', []);
     angular.mock.module('editor-test');
     angular.mock.inject(function($rootScope, $timeout, $controller) {
       scope = $rootScope.$new();
-      timeout = $timeout;
 
       ctrl = $controller(EditorCtrl, {
         $scope: scope,
-        $timeout: timeout
+        $timeout: $timeout
       });
     });
   });
@@ -26,18 +27,19 @@ describe('Editor UI unit tests', function() {
   afterEach(function() {
     EditorCtrl.prototype.initComplete.restore();
     EditorCtrl.prototype.registerEventListeners.restore();
+    $.parseQuerystring.restore();
   });
 
   describe('verify', function() {
     beforeEach(function() {
-      sinon.stub(scope, 'getKey');
-      sinon.stub(scope, 'colorTag');
-      sinon.stub(scope, 'checkEncryptStatus');
+      sinon.stub(ctrl, 'getKey');
+      sinon.stub(ctrl, 'colorTag');
+      sinon.stub(ctrl, 'checkEncryptStatus');
     });
     afterEach(function() {
-      scope.getKey.restore();
-      scope.colorTag.restore();
-      scope.checkEncryptStatus.restore();
+      ctrl.getKey.restore();
+      ctrl.colorTag.restore();
+      ctrl.checkEncryptStatus.restore();
     });
 
     it('should display only email address', function() {
@@ -46,12 +48,12 @@ describe('Editor UI unit tests', function() {
         displayId: 'Jon Smith <jon@smith.com>'
       };
 
-      scope.verify(recipient);
+      ctrl.verify(recipient);
 
       expect(recipient.displayId).to.equal('jon@smith.com');
-      expect(scope.getKey.withArgs(recipient).calledOnce).to.be.true;
-      expect(scope.colorTag.withArgs(recipient).calledOnce).to.be.true;
-      expect(scope.checkEncryptStatus.calledOnce).to.be.true;
+      expect(ctrl.getKey.withArgs(recipient).calledOnce).to.be.true;
+      expect(ctrl.colorTag.withArgs(recipient).calledOnce).to.be.true;
+      expect(ctrl.checkEncryptStatus.calledOnce).to.be.true;
     });
 
     it('should set email', function() {
@@ -59,61 +61,61 @@ describe('Editor UI unit tests', function() {
         displayId: 'jon@smith.com'
       };
 
-      scope.verify(recipient);
+      ctrl.verify(recipient);
 
       expect(recipient.email).to.equal('jon@smith.com');
     });
 
     it('should work for undefined', function() {
-      scope.verify(undefined);
+      ctrl.verify(undefined);
 
-      expect(scope.getKey.called).to.be.false;
-      expect(scope.colorTag.called).to.be.false;
-      expect(scope.checkEncryptStatus.called).to.be.false;
+      expect(ctrl.getKey.called).to.be.false;
+      expect(ctrl.colorTag.called).to.be.false;
+      expect(ctrl.checkEncryptStatus.called).to.be.false;
     });
   });
 
   describe('getKey', function() {
     it('should not find a key for keys undefined', function() {
-      scope.keys = undefined;
+      ctrl.keys = undefined;
 
       var recipient = {
         email: 'jon@smith.com'
       };
-      expect(scope.getKey(recipient)).to.be.undefined;
+      expect(ctrl.getKey(recipient)).to.be.undefined;
 
       expect(recipient.key).to.not.exist;
     });
 
     it('should not find matching key', function() {
-      scope.keys = [{email: 'JO@smith.com', keyid: 'a'}];
+      ctrl.keys = [{email: 'JO@smith.com', keyid: 'a'}];
 
       var recipient = {
         email: 'jon@smith.com'
       };
-      expect(scope.getKey(recipient)).to.be.undefined;
+      expect(ctrl.getKey(recipient)).to.be.undefined;
 
       expect(recipient.key).to.not.exist;
     });
 
     it('should work for uppercase input', function() {
-      scope.keys = [{email: 'jon@smith.com', keyid: 'a'}];
+      ctrl.keys = [{email: 'jon@smith.com', keyid: 'a'}];
 
       var recipient = {
         email: 'JON@smith.com'
       };
-      expect(scope.getKey(recipient).keyid).to.equal('a');
+      expect(ctrl.getKey(recipient).keyid).to.equal('a');
 
       expect(recipient.key).to.exist;
     });
 
     it('should work for lowercase input', function() {
-      scope.keys = [{email: 'JON@smith.com', keyid: 'a'}];
+      ctrl.keys = [{email: 'JON@smith.com', keyid: 'a'}];
 
       var recipient = {
         email: 'jon@smith.com'
       };
-      expect(scope.getKey(recipient).keyid).to.equal('a');
+      expect(ctrl.getKey(recipient).keyid).to.equal('a');
 
       expect(recipient.key).to.exist;
     });
@@ -136,8 +138,8 @@ describe('Editor UI unit tests', function() {
         email: 'jonny@smith.com'
       };
 
-      scope.colorTag(recipient);
-      timeout.flush();
+      ctrl.colorTag(recipient);
+      ctrl._timeout.flush();
 
       var classList = $('tags-input li.tag-item').attr('class').split(/\s+/);
       expect(classList.length).to.equal(1);
@@ -148,8 +150,8 @@ describe('Editor UI unit tests', function() {
         email: 'jon@smith.com'
       };
 
-      scope.colorTag(recipient);
-      timeout.flush();
+      ctrl.colorTag(recipient);
+      ctrl._timeout.flush();
 
       var classList = $('tags-input li.tag-item').attr('class').split(/\s+/);
       expect(classList.indexOf('tag-danger') !== -1).to.be.true;
@@ -161,8 +163,8 @@ describe('Editor UI unit tests', function() {
         key: {}
       };
 
-      scope.colorTag(recipient);
-      timeout.flush();
+      ctrl.colorTag(recipient);
+      ctrl._timeout.flush();
 
       var classList = $('tags-input li.tag-item').attr('class').split(/\s+/);
       expect(classList.indexOf('tag-success') !== -1).to.be.true;
@@ -171,75 +173,75 @@ describe('Editor UI unit tests', function() {
 
   describe('checkEncryptStatus', function() {
     it('should not encrypt for recipients undefined', function() {
-      scope.recipients = undefined;
-      scope.checkEncryptStatus();
-      expect(scope.noEncrypt).to.be.false;
+      ctrl.recipients = undefined;
+      ctrl.checkEncryptStatus();
+      expect(ctrl.noEncrypt).to.be.false;
     });
 
     it('should not encrypt for empty recipient', function() {
-      scope.recipients = [];
-      scope.checkEncryptStatus();
-      expect(scope.noEncrypt).to.be.false;
+      ctrl.recipients = [];
+      ctrl.checkEncryptStatus();
+      expect(ctrl.noEncrypt).to.be.false;
     });
 
     it('should encrypt if all recipients have keys', function() {
-      scope.recipients = [{key:{}}];
-      scope.checkEncryptStatus();
-      expect(scope.noEncrypt).to.be.false;
+      ctrl.recipients = [{key:{}}];
+      ctrl.checkEncryptStatus();
+      expect(ctrl.noEncrypt).to.be.false;
     });
 
     it('should not encrypt if not all recipients have keys', function() {
-      scope.recipients = [{key:{}}, {}];
-      scope.checkEncryptStatus();
-      expect(scope.noEncrypt).to.be.true;
+      ctrl.recipients = [{key:{}}, {}];
+      ctrl.checkEncryptStatus();
+      expect(ctrl.noEncrypt).to.be.true;
     });
   });
 
   describe('autocomplete', function() {
     it('should find none for keys undefined', function() {
-      scope.keys = undefined;
-      expect(scope.autocomplete('jon').length).to.equal(0);
+      ctrl.keys = undefined;
+      expect(ctrl.autocomplete('jon').length).to.equal(0);
     });
 
     it('should find none for empty keys', function() {
-      scope.keys = [];
-      expect(scope.autocomplete('jon').length).to.equal(0);
+      ctrl.keys = [];
+      expect(ctrl.autocomplete('jon').length).to.equal(0);
     });
 
     it('should find none for empty user id', function() {
-      scope.keys = [{email:'j@s.com'}];
-      expect(scope.autocomplete('j').length).to.equal(0);
+      ctrl.keys = [{email:'j@s.com'}];
+      expect(ctrl.autocomplete('j').length).to.equal(0);
     });
 
     it('should find two matches', function() {
-      scope.keys = [{userid: 'Jon Smith <j@s.com>'}, {userid: 'jon <j@b.com>'}];
-      expect(scope.autocomplete('jOn').length).to.equal(2);
+      ctrl.keys = [{userid: 'Jon Smith <j@s.com>'}, {userid: 'jon <j@b.com>'}];
+      expect(ctrl.autocomplete('jOn').length).to.equal(2);
     });
 
     it('should find one match', function() {
-      scope.keys = [{userid: 'Jon Smith <j@s.com>'}, {userid: 'jon <j@b.com>'}];
-      expect(scope.autocomplete('sMith').length).to.equal(1);
+      ctrl.keys = [{userid: 'Jon Smith <j@s.com>'}, {userid: 'jon <j@b.com>'}];
+      expect(ctrl.autocomplete('sMith').length).to.equal(1);
     });
   });
 
-  describe('setRecipients', function() {
+  describe('_setRecipients', function() {
     beforeEach(function() {
-      sinon.stub(scope, 'verify');
+      sinon.stub(ctrl, 'verify');
     });
     afterEach(function() {
-      scope.verify.restore();
+      ctrl.verify.restore();
     });
 
     it('should work', function() {
-      ctrl.setRecipients({
+      ctrl._setRecipients({
         keys:[],
         recipients: [{}, {}]
       });
-      timeout.flush();
+      ctrl._timeout.flush();
 
-      expect(scope.keys).to.exist;
-      expect(scope.recipients).to.exist;
-      expect(scope.verify.callCount).to.equal(2);
+      expect(ctrl.keys).to.exist;
+      expect(ctrl.recipients).to.exist;
+      expect(ctrl.verify.callCount).to.equal(2);
     });
   });
 

@@ -29,96 +29,146 @@
 
 'use strict';
 
-EditorCtrl.prototype = Object.create(mvelo.EventHandler.prototype); // add event api
-angular.module('editor', ['ngTagsInput']).controller('EditorCtrl', EditorCtrl); // attach ctrl to editor module
+angular.module('editor', ['ngTagsInput']); // load editor module dependencies
+angular.module('editor').controller('EditorCtrl', EditorCtrl); // attach ctrl to editor module
 
 /**
  * Angular controller for the editor UI.
  */
-function EditorCtrl($scope, $timeout, $q) {
-  this.setGlobal($scope, $timeout); // share globals in legacy closure code
+function EditorCtrl($timeout) {
+  this._timeout = $timeout;
+  this.embedded = $.parseQuerystring().embedded;
+
+  this.setGlobal(this); // share 'this' as '_self' in legacy closure code
   this.registerEventListeners(); // listen to incoming events
   this.initComplete(); // emit event to backend that editor has initialized
+}
 
-  /**
-   * Verifies a recipient after input, gets their key, colors the
-   * input tag accordingly and checks if encryption is possible.
-   * @param  {Object} recipient   The recipient object
-   */
-  $scope.verify = function(recipient) {
-    if (!recipient) {
-      return;
-    }
-    if (recipient.email) { // display only address from autocomplete
-      recipient.displayId = recipient.email;
-    } else { // set address after manual input
-      recipient.email = recipient.displayId;
-    }
-    $scope.getKey(recipient);
-    $scope.colorTag(recipient);
-    $scope.checkEncryptStatus();
-  };
+EditorCtrl.prototype = Object.create(mvelo.EventHandler.prototype); // add event api
 
-  /**
-   * Finds the recipient's corresponding public key and sets it
-   * on the 'key' attribute on the recipient object.
-   * @param  {Object} recipient   The recipient object
-   * @return {Object}             The key object (undefined if none found)
-   */
-  $scope.getKey = function(recipient) {
-    recipient.key = ($scope.keys || []).find(function(key) {
-      if (key.email && recipient.email) {
-        return key.email.toLowerCase() === recipient.email.toLowerCase();
+/**
+ * Verifies a recipient after input, gets their key, colors the
+ * input tag accordingly and checks if encryption is possible.
+ * @param  {Object} recipient   The recipient object
+ */
+EditorCtrl.prototype.verify = function(recipient) {
+  if (!recipient) {
+    return;
+  }
+  if (recipient.email) { // display only address from autocomplete
+    recipient.displayId = recipient.email;
+  } else { // set address after manual input
+    recipient.email = recipient.displayId;
+  }
+  this.getKey(recipient);
+  this.colorTag(recipient);
+  this.checkEncryptStatus();
+};
+
+/**
+ * Finds the recipient's corresponding public key and sets it
+ * on the 'key' attribute on the recipient object.
+ * @param  {Object} recipient   The recipient object
+ * @return {Object}             The key object (undefined if none found)
+ */
+EditorCtrl.prototype.getKey = function(recipient) {
+  recipient.key = (this.keys || []).find(function(key) {
+    if (key.email && recipient.email) {
+      return key.email.toLowerCase() === recipient.email.toLowerCase();
+    }
+  });
+  return recipient.key;
+};
+
+/**
+ * Uses jQuery to color the recipient's input tag depending on
+ * whether they have a key or not.
+ * @param  {Object} recipient   The recipient object
+ */
+EditorCtrl.prototype.colorTag = function(recipient) {
+  this._timeout(function() { // wait for html tag to appear
+    $('tags-input li.tag-item').each(function() {
+      if ($(this).text().indexOf(recipient.email) === -1) {
+        return;
+      }
+      if (recipient.key) {
+        $(this).addClass('tag-success');
+      } else {
+        $(this).addClass('tag-danger');
       }
     });
-    return recipient.key;
-  };
+  });
+};
 
-  /**
-   * Uses jQuery to color the recipient's input tag depending on
-   * whether they have a key or not.
-   * @param  {Object} recipient   The recipient object
-   */
-  $scope.colorTag = function(recipient) {
-    $timeout(function() { // wait for html tag to appear
-      $('tags-input li.tag-item').each(function() {
-        if ($(this).text().indexOf(recipient.email) === -1) {
-          return;
-        }
-        if (recipient.key) {
-          $(this).addClass('tag-success');
-        } else {
-          $(this).addClass('tag-danger');
-        }
-      });
-    });
-  };
+/**
+ * Checks if all recipients have a public key and prevents encryption
+ * if one of them does not have a key.
+ */
+EditorCtrl.prototype.checkEncryptStatus = function() {
+  this.noEncrypt = (this.recipients || []).some(function(r) { return !r.key; });
+};
 
-  /**
-   * Checks if all recipients have a public key and prevents encryption
-   * if one of them does not have a key.
-   */
-  $scope.checkEncryptStatus = function() {
-    $scope.noEncrypt = ($scope.recipients || []).some(function(r) { return !r.key; });
-  };
+/**
+ * Queries the local cache of key objects to find a matching user ID
+ * @param  {String} query   The autocomplete query
+ * @return {Array}          A list of filtered items that match the query
+ */
+EditorCtrl.prototype.autocomplete = function(query) {
+  var cache = (this.keys || []).map(function(key) {
+    return {
+      email: key.email,
+      displayId: key.userid || ''
+    };
+  });
+  return cache.filter(function(i) {
+    return i.displayId.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+  });
+};
 
-  /**
-   * Queries the local cache of key objects to find a matching user ID
-   * @param  {String} query   The autocomplete query
-   * @return {Array}          A list of filtered items that match the query
-   */
-  $scope.autocomplete = function(query) {
-    var cache = ($scope.keys || []).map(function(key) {
-      return {
-        email: key.email,
-        displayId: key.userid || ''
-      };
-    });
-    return cache.filter(function(i) {
-      return i.displayId.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-    });
-  };
-}
+
+//
+// Evant handling from background script
+//
+
+
+/**
+ * Register the event handlers for the editor.
+ */
+EditorCtrl.prototype.registerEventListeners = function() {
+  this.on('public-key-userids', this._setRecipients);
+  this.on('set-text', this._onSetText);
+  this.on('set-init-data', this._onSetInitData);
+  this.on('set-attachment', this._onSetAttachment);
+  this.on('decrypt-in-progress', this._showWaitingModal);
+  this.on('encrypt-in-progress', this._showWaitingModal);
+  this.on('decrypt-end', this._hideWaitingModal);
+  this.on('encrypt-end', this._hideWaitingModal);
+  this.on('encrypt-failed', this._hideWaitingModal);
+  this.on('decrypt-failed', this._decryptFailed);
+  this.on('show-pwd-dialog', this._onShowPwdDialog);
+  this.on('hide-pwd-dialog', this._hidePwdDialog);
+  this.on('sign-dialog-cancel', this._removeDialog);
+  this.on('get-plaintext', this._getPlaintext);
+  this.on('error-message', this._onErrorMessage);
+
+  this._port.onMessage.addListener(this.handlePortMessage.bind(this));
+};
+
+/**
+ * Remember the available public keys for later and set the
+ * recipients proposal gotten from the webmail ui to the editor
+ * @param {Array} options.keys         A list of all available public
+ *                                     keys from the local keychain
+ * @param {Array} options.recipients   recipients gather from the
+ *                                     webmail ui
+ */
+EditorCtrl.prototype._setRecipients = function(options) {
+  this._timeout(function() { // trigger $scope.$digest() after async call
+    this.keys = options.keys;
+    this.recipients = options.recipients;
+    this.recipients.forEach(this.verify.bind(this));
+  }.bind(this));
+};
 
 
 //
@@ -133,66 +183,25 @@ function EditorCtrl($scope, $timeout, $q) {
   }
 
   /**
-   * Register the event handlers for the editor.
-   */
-  EditorCtrl.prototype.registerEventListeners = function() {
-    this.on('public-key-userids', this.setRecipients);
-    this.on('set-text', onSetText);
-    this.on('set-init-data', this._onSetInitData);
-    this.on('set-attachment', this._onSetAttachment);
-    this.on('decrypt-in-progress', this.showWaitingModal);
-    this.on('encrypt-in-progress', this.showWaitingModal);
-    this.on('decrypt-end', this.hideWaitingModal);
-    this.on('encrypt-end', this.hideWaitingModal);
-    this.on('encrypt-failed', this.hideWaitingModal);
-    this.on('decrypt-failed', this._decryptFailed);
-    this.on('show-pwd-dialog', this._onShowPwdDialog);
-    this.on('hide-pwd-dialog', hidePwdDialog);
-    this.on('sign-dialog-cancel', removeDialog);
-    this.on('get-plaintext', this._getPlaintext);
-    this.on('error-message', this._onErrorMessage);
-
-    port.onMessage.addListener(this.handlePortMessage.bind(this));
-  };
-
-  /**
    * Matches the recipients from the input to their public keys
    * and returns an array of keys.
    * @return {Array}   the array of public key objects
    */
   function getRecipientKeys() {
-    return $scope.recipients.map(function(r) {
+    return _self.recipients.map(function(r) {
       return r.key || r; // some recipients don't have a key, still return address
     });
   }
 
-  /**
-   * Remember the available public keys for later and set the
-   * recipients proposal gotten from the webmail ui to the editor
-   * @param {Array} options.keys         A list of all available public
-   *                                     keys from the local keychain
-   * @param {Array} options.recipients   recipients gather from the
-   *                                     webmail ui
-   */
-  EditorCtrl.prototype.setRecipients = function(options) {
-    $timeout(function() { // trigger $scope.$digest() after async call
-      $scope.keys = options.keys;
-      $scope.recipients = options.recipients;
-      $scope.recipients.forEach($scope.verify);
-    });
+  EditorCtrl.prototype._onSetText = function(msg) {
+    onSetText(msg);
   };
 
-
-  //
-  // Legacy code using jQuery ... needs to be refactored to angular
-  //
-
-
-  EditorCtrl.prototype.showWaitingModal = function() {
+  EditorCtrl.prototype._showWaitingModal = function() {
     $('#waitingModal').modal({keyboard: false}).modal('show');
   };
 
-  EditorCtrl.prototype.hideWaitingModal = function() {
+  EditorCtrl.prototype._hideWaitingModal = function() {
     $('#waitingModal').modal('hide');
   };
 
@@ -216,7 +225,7 @@ function EditorCtrl($scope, $timeout, $q) {
   };
 
   EditorCtrl.prototype._onShowPwdDialog = function(msg) {
-    removeDialog();
+    this._removeDialog();
     addPwdDialog(msg.id);
   };
 
@@ -233,6 +242,14 @@ function EditorCtrl($scope, $timeout, $q) {
       return;
     }
     showErrorModal(msg.error);
+  };
+
+  /**
+   * Remember global reference of $scope for use inside closure
+   */
+  EditorCtrl.prototype.setGlobal = function(global) {
+    _self = global;
+    _self._port = port;
   };
 
   var id;
@@ -258,8 +275,7 @@ function EditorCtrl($scope, $timeout, $q) {
   var numUploadsInProgress = 0;
   var delayedAction = '';
   var qs;
-  var $scope;
-  var $timeout;
+  var _self;
 
   // Get language strings from JSON
   mvelo.l10n.getMessages([
@@ -400,25 +416,16 @@ function EditorCtrl($scope, $timeout, $q) {
   }
 
   /**
-   * Remember global reference of $scope for use inside closure
-   */
-  EditorCtrl.prototype.setGlobal = function(scope, timeout) {
-    $scope = scope;
-    $timeout = timeout;
-  };
-
-  /**
    * Emit an event to the background script that the editor is finished initializing.
    * Called when the angular controller is initialized (after templates have loaded)
    */
   EditorCtrl.prototype.initComplete = function() {
-    $scope.embedded = qs.embedded; // hide recipients for api case
-    if (qs.embedded) {
+    if (this.embedded) {
       $(".secureBgndSettingsBtn").on("click", function() {
-        port.postMessage({event: 'open-security-settings', sender: name});
-      });
+        this.emit('open-security-settings', {sender: name});
+      }.bind(this));
     }
-    port.postMessage({event: 'editor-init', sender: name});
+    this.emit('editor-init', {sender: name});
   };
 
   /**
@@ -719,12 +726,12 @@ function EditorCtrl($scope, $timeout, $q) {
     });
   }
 
-  function hidePwdDialog() {
+  EditorCtrl.prototype._hidePwdDialog = function() {
     $('body #pwdDialog').fadeOut(function() {
       $('body #pwdDialog').remove();
       $('body').find('#editorDialog').show();
     });
-  }
+  };
 
   function showDialog(type) {
     var dialog = $('<iframe/>', {
@@ -744,10 +751,10 @@ function EditorCtrl($scope, $timeout, $q) {
     $('#encryptModal').modal('show');
   }
 
-  function removeDialog() {
+  EditorCtrl.prototype._removeDialog = function() {
     $('#encryptModal').modal('hide');
     $('#encryptModal iframe').remove();
-  }
+  };
 
   /**
    * @param {Object} error

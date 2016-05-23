@@ -8,10 +8,10 @@
     </div>
 
     <div id="recipients"
-      ng-hide="embedded"
-      ng-class="{'has-error': noEncrypt}">
+      ng-hide="edit.embedded"
+      ng-class="{'has-error': edit.noEncrypt}">
       <tags-input
-        ng-model="recipients"
+        ng-model="edit.recipients"
         type="email"
         allowed-tags-pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
         spellcheck="false"
@@ -20,15 +20,15 @@
         add-on-enter="true"
         enable-editing-last-tag="true"
         display-property="displayId"
-        on-tag-added="verify($tag)"
-        on-tag-removed="checkEncryptStatus()"
+        on-tag-added="edit.verify($tag)"
+        on-tag-removed="edit.checkEncryptStatus()"
         placeholder="add recipient">
         <auto-complete
-          source="autocomplete($query)"
+          source="edit.autocomplete($query)"
           min-length="1">
         </auto-complete>
       </tags-input>
-      <div class="alert alert-danger alert-dismissible" role="alert" ng-show="noEncrypt">
+      <div class="alert alert-danger alert-dismissible" role="alert" ng-show="edit.noEncrypt">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <span class="glyphicon glyphicon-lock"></span>
         <strong data-l10n-id="editor_key_not_found"></strong> <span data-l10n-id="editor_key_not_found_msg"></span>
