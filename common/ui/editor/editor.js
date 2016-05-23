@@ -67,7 +67,9 @@ function EditorCtrl($scope, $timeout, $q) {
    */
   $scope.getKey = function(recipient) {
     recipient.key = ($scope.keys || []).find(function(key) {
-      return key.email === recipient.email;
+      if (key.email && recipient.email) {
+        return key.email.toLowerCase() === recipient.email.toLowerCase();
+      }
     });
     return recipient.key;
   };

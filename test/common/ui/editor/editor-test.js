@@ -85,8 +85,30 @@ describe('Editor UI unit tests', function() {
       expect(recipient.key).to.not.exist;
     });
 
-    it('should work', function() {
+    it('should not find matching key', function() {
+      scope.keys = [{email: 'JO@smith.com', keyid: 'a'}];
+
+      var recipient = {
+        email: 'jon@smith.com'
+      };
+      expect(scope.getKey(recipient)).to.be.undefined;
+
+      expect(recipient.key).to.not.exist;
+    });
+
+    it('should work for uppercase input', function() {
       scope.keys = [{email: 'jon@smith.com', keyid: 'a'}];
+
+      var recipient = {
+        email: 'JON@smith.com'
+      };
+      expect(scope.getKey(recipient).keyid).to.equal('a');
+
+      expect(recipient.key).to.exist;
+    });
+
+    it('should work for lowercase input', function() {
+      scope.keys = [{email: 'JON@smith.com', keyid: 'a'}];
 
       var recipient = {
         email: 'jon@smith.com'
