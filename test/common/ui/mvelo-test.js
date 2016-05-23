@@ -29,6 +29,12 @@ describe('mvelo unit tests', function() {
     it('should be false special char at the end', function() {
       expect(mvelo.util.checkEmail('foo@bar.co>')).to.be.false;
     });
+    it('should be false no @', function() {
+      expect(mvelo.util.checkEmail('foobar.co')).to.be.false;
+    });
+    it('should be false no .', function() {
+      expect(mvelo.util.checkEmail('foo@barco')).to.be.false;
+    });
     it('should be true fo valid email address', function() {
       expect(mvelo.util.checkEmail('foo@bar.co')).to.be.true;
     });
