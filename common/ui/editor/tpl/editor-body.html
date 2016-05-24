@@ -26,7 +26,7 @@
         display-property="displayId"
         on-tag-added="edit.verify($tag)"
         on-tag-removed="edit.checkEncryptStatus()"
-        placeholder="{{edit.l10n.editor_label_add_recipient}}">
+        placeholder="{{edit.l10n.editor_label_add_recipient || 'Add recipient'}}">
         <auto-complete
           source="edit.autocomplete($query)"
           min-length="1">
