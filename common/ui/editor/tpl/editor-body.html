@@ -2,7 +2,11 @@
   <div id="flex-container">
     <div style="" id="header">
       <div class="" id="buttonBar">
-        <button class="btn btn-link secureBgndSettingsBtn" data-l10n-title-id="security_background_button_title"><span class="glyphicon lockBtnIcon"></span></button>
+        <button class="btn btn-link secureBgndSettingsBtn"
+          ng-click="edit.openSecuritySettings()"
+          data-l10n-title-id="security_background_button_title">
+          <span class="glyphicon lockBtnIcon"></span>
+        </button>
       </div>
       <div class="" id="uploadPanel"></div>
     </div>

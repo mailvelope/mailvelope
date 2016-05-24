@@ -37,14 +37,24 @@ angular.module('editor').controller('EditorCtrl', EditorCtrl); // attach ctrl to
  */
 function EditorCtrl($timeout) {
   this._timeout = $timeout;
-  this.embedded = $.parseQuerystring().embedded;
 
   this.setGlobal(this); // share 'this' as '_self' in legacy closure code
+  this.checkEnvironment(); // get environment vars
   this.registerEventListeners(); // listen to incoming events
   this.initComplete(); // emit event to backend that editor has initialized
 }
 
 EditorCtrl.prototype = Object.create(mvelo.EventHandler.prototype); // add event api
+
+/**
+ * Reads the urls query string to get environment context
+ */
+EditorCtrl.prototype.checkEnvironment = function() {
+  var qs = $.parseQuerystring();
+  this.embedded = qs.embedded;
+  this._id = qs.id;
+  this._name = 'editor-' + this._id;
+};
 
 /**
  * Verifies a recipient after input, gets their key, colors the
@@ -168,6 +178,23 @@ EditorCtrl.prototype._setRecipients = function(options) {
     this.recipients = options.recipients;
     this.recipients.forEach(this.verify.bind(this));
   }.bind(this));
+};
+
+/**
+ * Emit an event to the background script that the editor is finished initializing.
+ * Called when the angular controller is initialized (after templates have loaded)
+ */
+EditorCtrl.prototype.initComplete = function() {
+  this.emit('editor-init', {sender: this._name});
+};
+
+/**
+ * Opens the security settings if in embedded mode
+ */
+EditorCtrl.prototype.openSecuritySettings = function() {
+  if (this.embedded) {
+    this.emit('open-security-settings', {sender: this._name});
+  }
 };
 
 
@@ -414,19 +441,6 @@ EditorCtrl.prototype._setRecipients = function(options) {
     // bootstrap angular
     angular.bootstrap(document, ['editor']);
   }
-
-  /**
-   * Emit an event to the background script that the editor is finished initializing.
-   * Called when the angular controller is initialized (after templates have loaded)
-   */
-  EditorCtrl.prototype.initComplete = function() {
-    if (this.embedded) {
-      $(".secureBgndSettingsBtn").on("click", function() {
-        this.emit('open-security-settings', {sender: name});
-      }.bind(this));
-    }
-    this.emit('editor-init', {sender: name});
-  };
 
   /**
    * send log entry for the extension
@@ -776,10 +790,6 @@ EditorCtrl.prototype._setRecipients = function(options) {
     $errorModal.modal('show').on('hidden.bs.modal', function() {
       $('#waitingModal').modal('hide');
     });
-  }
-
-  function removeErrorModal() {
-    $('#errorModal').modal('hide');
   }
 
   function setSignMode(signMsg, primaryKey) {
