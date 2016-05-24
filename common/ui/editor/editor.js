@@ -422,20 +422,13 @@ EditorCtrl.prototype.logUserInput = function(type) {
       mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/editor-popup.html')).then(function() {
         $('.modal-body').addClass('secureBackground');
         $('#cancelBtn').click(onCancel);
-        $('#transferBtn').hide().click(onTransfer);
         $('#signBtn').click(onSign);
         $('#encryptBtn').click(onEncrypt);
 
         Promise.all([
           mvelo.appendTpl($('#editorDialog .modal-body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')),
           mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/encrypt-modal.html')),
-          mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/error-modal.html')),
-          mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/transfer-warn.html')).then(function() {
-            // transfer warning modal
-            $('#transferWarn .btn-primary').click(transfer);
-            $('#transferWarn').hide();
-            return Promise.resolve();
-          })
+          mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/error-modal.html'))
         ])
         .then(function() {
           $('#uploadBtn').on("click", function() {
@@ -557,26 +550,6 @@ EditorCtrl.prototype.logUserInput = function(type) {
       sender: name
     });
     return false;
-  }
-
-  function onTransfer() {
-    if (isDirty) {
-      $('#transferWarn').modal('show');
-    } else {
-      _self.logUserInput('security_log_dialog_transfer');
-      transfer();
-    }
-  }
-
-  function transfer() {
-    // wysihtml5 <body> is automatically copied to the hidden <textarea>
-    var armored = editor.val();
-    port.postMessage({
-      event: 'editor-transfer-output',
-      data: armored,
-      sender: name
-    });
-    return true;
   }
 
   function onSign() {
