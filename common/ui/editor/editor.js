@@ -224,6 +224,18 @@ EditorCtrl.prototype.sendPlainText = function(action) {
   });
 };
 
+/**
+ * send log entry for the extension
+ * @param {string} type
+ */
+EditorCtrl.prototype.logUserInput = function(type) {
+  this.emit('editor-user-input', {
+    sender: this._name,
+    source: 'security_log_editor',
+    type: type
+  });
+};
+
 
 //
 // Legacy code is contained in a closure and needs to be refactored to use angular
@@ -401,7 +413,7 @@ EditorCtrl.prototype.sendPlainText = function(action) {
 
         $('#uploadEmbeddedBtn').on("click", function() {
           $('#addFileInput').click();
-          logUserInput('security_log_add_attachment');
+          _self.logUserInput('security_log_add_attachment');
         });
       })
       .then(callback);
@@ -428,7 +440,7 @@ EditorCtrl.prototype.sendPlainText = function(action) {
         .then(function() {
           $('#uploadBtn').on("click", function() {
             $('#addFileInput').click();
-            logUserInput('security_log_add_attachment');
+            _self.logUserInput('security_log_add_attachment');
           });
           $('#uploadEmbeddedBtn, #addFileInput').hide();
         })
@@ -464,19 +476,6 @@ EditorCtrl.prototype.sendPlainText = function(action) {
 
     // bootstrap angular
     angular.bootstrap(document, ['editor']);
-  }
-
-  /**
-   * send log entry for the extension
-   * @param {string} type
-   */
-  function logUserInput(type) {
-    port.postMessage({
-      event: 'editor-user-input',
-      sender: name,
-      source: 'security_log_editor',
-      type: type
-    });
   }
 
   function addAttachment(file) {
@@ -548,11 +547,11 @@ EditorCtrl.prototype.sendPlainText = function(action) {
   }
 
   function onRemoveAttachment() {
-    logUserInput('security_log_remove_attachment');
+    _self.logUserInput('security_log_remove_attachment');
   }
 
   function onCancel() {
-    logUserInput('security_log_dialog_cancel');
+    _self.logUserInput('security_log_dialog_cancel');
     port.postMessage({
       event: 'editor-cancel',
       sender: name
@@ -564,7 +563,7 @@ EditorCtrl.prototype.sendPlainText = function(action) {
     if (isDirty) {
       $('#transferWarn').modal('show');
     } else {
-      logUserInput('security_log_dialog_transfer');
+      _self.logUserInput('security_log_dialog_transfer');
       transfer();
     }
   }
@@ -581,12 +580,12 @@ EditorCtrl.prototype.sendPlainText = function(action) {
   }
 
   function onSign() {
-    logUserInput('security_log_dialog_sign');
+    _self.logUserInput('security_log_dialog_sign');
     showDialog('signDialog');
   }
 
   function onEncrypt() {
-    logUserInput('security_log_dialog_encrypt');
+    _self.logUserInput('security_log_dialog_encrypt');
     _self.sendPlainText('encrypt');
   }
 
@@ -625,7 +624,7 @@ EditorCtrl.prototype.sendPlainText = function(action) {
     text.on('input', function() {
       startBlurWarnInterval();
       if (logTextareaInput) {
-        logUserInput('security_log_textarea_input');
+        _self.logUserInput('security_log_textarea_input');
         // limit textarea log to 1 event per second
         logTextareaInput = false;
         window.setTimeout(function() {
@@ -637,9 +636,9 @@ EditorCtrl.prototype.sendPlainText = function(action) {
     text.on('mouseup', function() {
       var textElement = text.get(0);
       if (textElement.selectionStart === textElement.selectionEnd) {
-        logUserInput('security_log_textarea_click');
+        _self.logUserInput('security_log_textarea_click');
       } else {
-        logUserInput('security_log_textarea_select');
+        _self.logUserInput('security_log_textarea_select');
       }
     });
     return text;
