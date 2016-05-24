@@ -143,6 +143,10 @@
     "message": "Sie versuchen, unverschlüsselten Inhalt zurück zum E-Mail-Anbieter zu übertragen.",
     "description": "Warning for unencrypted content."
   },
+  "editor_label_add_recipient": {
+    "description": "Label for recipient text input.",
+    "message": "Empfänger hinzufügen"
+  },
   "editor_key_not_found": {
     "description": "Warning for when a recipient key was not found.",
     "message": "Schlüssel nicht gefunden!"

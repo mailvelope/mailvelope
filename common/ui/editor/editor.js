@@ -339,6 +339,7 @@ EditorCtrl.prototype.cancel = function() {
   EditorCtrl.prototype.setGlobal = function(global) {
     _self = global;
     _self._port = port;
+    _self.l10n = l10n;
   };
 
   var id;
@@ -380,7 +381,8 @@ EditorCtrl.prototype.cancel = function() {
     'waiting_dialog_prepare_email',
     'upload_quota_warning_headline',
     'editor_key_not_found',
-    'editor_key_not_found_msg'
+    'editor_key_not_found_msg',
+    'editor_label_add_recipient'
   ], function(result) {
     l10n = result;
   });
