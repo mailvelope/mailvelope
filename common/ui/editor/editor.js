@@ -181,6 +181,18 @@ EditorCtrl.prototype._setRecipients = function(options) {
 };
 
 /**
+ * Matches the recipients from the input to their public keys
+ * and returns an array of keys. If a recipient does not have a key
+ * still return their address.
+ * @return {Array}   the array of public key objects
+ */
+EditorCtrl.prototype.getRecipientKeys = function() {
+  return this.recipients.map(function(r) {
+    return r.key || r; // some recipients don't have a key, still return address
+  });
+};
+
+/**
  * Emit an event to the background script that the editor is finished initializing.
  * Called when the angular controller is initialized (after templates have loaded)
  */
@@ -197,6 +209,21 @@ EditorCtrl.prototype.openSecuritySettings = function() {
   }
 };
 
+/**
+ * Send the plaintext body to the background script for either signing or
+ * encryption.
+ * @param  {String} action   Either 'sign' or 'encrypt'
+ */
+EditorCtrl.prototype.sendPlainText = function(action) {
+  this.emit('editor-plaintext', {
+    sender: this._name,
+    message: this.getEditorText(),
+    keys: this.getRecipientKeys(),
+    attachments: this.getAttachments(),
+    action: action
+  });
+};
+
 
 //
 // Legacy code is contained in a closure and needs to be refactored to use angular
@@ -209,16 +236,13 @@ EditorCtrl.prototype.openSecuritySettings = function() {
     angular.element(document).ready(init); // do manual angular bootstraping after init
   }
 
-  /**
-   * Matches the recipients from the input to their public keys
-   * and returns an array of keys.
-   * @return {Array}   the array of public key objects
-   */
-  function getRecipientKeys() {
-    return _self.recipients.map(function(r) {
-      return r.key || r; // some recipients don't have a key, still return address
-    });
-  }
+  EditorCtrl.prototype.getEditorText = function() {
+    return editor.val();
+  };
+
+  EditorCtrl.prototype.getAttachments = function() {
+    return mvelo.file.getFiles($('#uploadPanel'));
+  };
 
   EditorCtrl.prototype._onSetText = function(msg) {
     onSetText(msg);
@@ -260,7 +284,7 @@ EditorCtrl.prototype.openSecuritySettings = function() {
     if (numUploadsInProgress !== 0) {
       delayedAction = msg.action;
     } else {
-      sendPlainText(msg.action);
+      _self.sendPlainText(msg.action);
     }
   };
 
@@ -483,7 +507,7 @@ EditorCtrl.prototype.openSecuritySettings = function() {
   function afterLoadEnd() {
     numUploadsInProgress--;
     if (numUploadsInProgress === 0 && delayedAction) {
-      sendPlainText(delayedAction);
+      _self.sendPlainText(delayedAction);
       delayedAction = '';
     }
   }
@@ -563,7 +587,7 @@ EditorCtrl.prototype.openSecuritySettings = function() {
 
   function onEncrypt() {
     logUserInput('security_log_dialog_encrypt');
-    sendPlainText('encrypt');
+    _self.sendPlainText('encrypt');
   }
 
   function createPlainText() {
@@ -822,17 +846,6 @@ EditorCtrl.prototype.openSecuritySettings = function() {
     } else {
       initText = options.text;
     }
-  }
-
-  function sendPlainText(action) {
-    port.postMessage({
-      event: 'editor-plaintext',
-      sender: name,
-      message: editor.val(),
-      keys: getRecipientKeys(),
-      attachments: mvelo.file.getFiles($('#uploadPanel')),
-      action: action
-    });
   }
 
 }());
