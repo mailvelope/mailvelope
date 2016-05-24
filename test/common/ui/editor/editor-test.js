@@ -9,8 +9,8 @@ describe('Editor UI unit tests', function() {
   beforeEach(function() {
     sinon.stub(EditorCtrl.prototype, 'initComplete');
     sinon.stub(EditorCtrl.prototype, 'registerEventListeners');
-    $.parseQuerystring = $.parseQuerystring || function() {};
-    sinon.stub($, 'parseQuerystring', function() { return {embedded:false}; });
+    sinon.stub(EditorCtrl.prototype, 'checkEnvironment');
+    sinon.stub(EditorCtrl.prototype, 'emit');
 
     angular.module('editor-test', []);
     angular.mock.module('editor-test');
@@ -27,7 +27,34 @@ describe('Editor UI unit tests', function() {
   afterEach(function() {
     EditorCtrl.prototype.initComplete.restore();
     EditorCtrl.prototype.registerEventListeners.restore();
-    $.parseQuerystring.restore();
+    EditorCtrl.prototype.checkEnvironment.restore();
+    EditorCtrl.prototype.emit.restore();
+  });
+
+  describe('checkEnvironment', function() {
+    beforeEach(function() {
+      EditorCtrl.prototype.checkEnvironment.restore();
+      $.parseQuerystring = $.parseQuerystring || function() {};
+      sinon.stub($, 'parseQuerystring', function() {
+        return {
+          embedded: true,
+          id: '12345'
+        };
+      });
+    });
+
+    afterEach(function() {
+      $.parseQuerystring.restore();
+      sinon.stub(EditorCtrl.prototype, 'checkEnvironment');
+    });
+
+    it('should work', function() {
+      expect(ctrl.embedded).to.not.exist;
+      ctrl.checkEnvironment();
+      expect(ctrl.embedded).to.be.true;
+      expect(ctrl._id).to.equal('12345');
+      expect(ctrl._name).to.equal('editor-12345');
+    });
   });
 
   describe('verify', function() {
@@ -242,6 +269,121 @@ describe('Editor UI unit tests', function() {
       expect(ctrl.keys).to.exist;
       expect(ctrl.recipients).to.exist;
       expect(ctrl.verify.callCount).to.equal(2);
+    });
+  });
+
+  describe('getRecipientKeys', function() {
+    it('should still return email address if recipient has no key', function() {
+      ctrl.recipients = [{
+        email: 'j@s.com',
+        key: {email: 'j@s.com', keyid: '123'}
+      }, {
+        email: 'a@b.com'
+      }];
+
+      var keys = ctrl.getRecipientKeys();
+      expect(keys.length).to.equal(2);
+      expect(keys[0]).to.deep.equal({email: 'j@s.com', keyid: '123'});
+      expect(keys[1]).to.deep.equal({email: 'a@b.com'});
+    });
+  });
+
+  describe('initComplete', function() {
+    it('should emit', function() {
+      EditorCtrl.prototype.initComplete.restore();
+
+      ctrl._name = 'foo';
+      ctrl.initComplete();
+      expect(ctrl.emit.withArgs('editor-init', {sender:'foo'}).calledOnce).to.be.true;
+
+      sinon.stub(EditorCtrl.prototype, 'initComplete');
+    });
+  });
+
+  describe('openSecuritySettings', function() {
+    it('should emit for embedded mode', function() {
+      ctrl._name = 'foo';
+      ctrl.embedded = true;
+      ctrl.openSecuritySettings();
+      expect(ctrl.emit.withArgs('open-security-settings', {sender:'foo'}).calledOnce).to.be.true;
+    });
+
+    it('should not emit for non-embedded mode', function() {
+      ctrl.embedded = false;
+      ctrl.openSecuritySettings();
+      expect(ctrl.emit.called).to.be.false;
+    });
+  });
+
+  describe('sendPlainText', function() {
+    it('should emit', function() {
+      sinon.stub(ctrl, 'getEditorText').returns('bar');
+      sinon.stub(ctrl, 'getRecipientKeys').returns([{keyid:'123'}]);
+      sinon.stub(ctrl, 'getAttachments').returns([{filename:'file'}]);
+      ctrl._name = 'foo';
+
+      ctrl.sendPlainText('encrypt');
+
+      expect(ctrl.emit.withArgs('editor-plaintext', {
+        sender:'foo',
+        message: 'bar',
+        keys: [{keyid:'123'}],
+        attachments: [{filename:'file'}],
+        action: 'encrypt'
+      }).calledOnce).to.be.true;
+    });
+  });
+
+  describe('logUserInput', function() {
+    it('should emit', function() {
+      ctrl._name = 'foo';
+
+      ctrl.logUserInput('blub');
+
+      expect(ctrl.emit.withArgs('editor-user-input', {
+        sender: 'foo',
+        source: 'security_log_editor',
+        type: 'blub'
+      }).calledOnce).to.be.true;
+    });
+  });
+
+  describe('encrypt', function() {
+    it('should call sendPlaintext', function() {
+      sinon.stub(ctrl, 'logUserInput');
+      sinon.stub(ctrl, 'sendPlainText');
+
+      ctrl.encrypt();
+
+      expect(ctrl.logUserInput.withArgs('security_log_dialog_encrypt').calledOnce).to.be.true;
+      expect(ctrl.sendPlainText.withArgs('encrypt').calledOnce).to.be.true;
+    });
+  });
+
+  describe('sign', function() {
+    it('should open signDialog', function() {
+      sinon.stub(ctrl, 'logUserInput');
+      sinon.stub(ctrl, 'showDialog');
+
+      ctrl.sign();
+
+      expect(ctrl.logUserInput.withArgs('security_log_dialog_sign').calledOnce).to.be.true;
+      expect(ctrl.showDialog.withArgs('signDialog').calledOnce).to.be.true;
+    });
+  });
+
+  describe('cancel', function() {
+    it('should emit', function() {
+      sinon.stub(ctrl, 'logUserInput');
+      sinon.stub(ctrl, 'showDialog');
+      ctrl._name = 'foo';
+
+      ctrl.cancel();
+
+      expect(ctrl.logUserInput.withArgs('security_log_dialog_cancel').calledOnce).to.be.true;
+      expect(ctrl.emit.withArgs('editor-cancel', {
+        sender: 'foo'
+      }).calledOnce).to.be.true;
     });
   });
 
