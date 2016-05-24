@@ -236,6 +236,32 @@ EditorCtrl.prototype.logUserInput = function(type) {
   });
 };
 
+/**
+ * Is called when the user clicks the encrypt button.
+ */
+EditorCtrl.prototype.encrypt = function() {
+  this.logUserInput('security_log_dialog_encrypt');
+  this.sendPlainText('encrypt');
+};
+
+/**
+ * Is called when the user clicks the sign button.
+ */
+EditorCtrl.prototype.sign = function() {
+  this.logUserInput('security_log_dialog_sign');
+  this.showDialog('signDialog');
+};
+
+/**
+ * Is called when the user clicks the cancel button.
+ */
+EditorCtrl.prototype.cancel = function() {
+  this.logUserInput('security_log_dialog_cancel');
+  this.emit('editor-cancel', {
+    sender: this._name
+  });
+};
+
 
 //
 // Legacy code is contained in a closure and needs to be refactored to use angular
@@ -421,9 +447,6 @@ EditorCtrl.prototype.logUserInput = function(type) {
     } else {
       mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/editor-popup.html')).then(function() {
         $('.modal-body').addClass('secureBackground');
-        $('#cancelBtn').click(onCancel);
-        $('#signBtn').click(onSign);
-        $('#encryptBtn').click(onEncrypt);
 
         Promise.all([
           mvelo.appendTpl($('#editorDialog .modal-body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')),
@@ -541,25 +564,6 @@ EditorCtrl.prototype.logUserInput = function(type) {
 
   function onRemoveAttachment() {
     _self.logUserInput('security_log_remove_attachment');
-  }
-
-  function onCancel() {
-    _self.logUserInput('security_log_dialog_cancel');
-    port.postMessage({
-      event: 'editor-cancel',
-      sender: name
-    });
-    return false;
-  }
-
-  function onSign() {
-    _self.logUserInput('security_log_dialog_sign');
-    showDialog('signDialog');
-  }
-
-  function onEncrypt() {
-    _self.logUserInput('security_log_dialog_encrypt');
-    _self.sendPlainText('encrypt');
   }
 
   function createPlainText() {
@@ -743,7 +747,7 @@ EditorCtrl.prototype.logUserInput = function(type) {
     });
   };
 
-  function showDialog(type) {
+  EditorCtrl.prototype.showDialog = function(type) {
     var dialog = $('<iframe/>', {
       'class': 'm-dialog',
       frameBorder: 0,
@@ -759,7 +763,7 @@ EditorCtrl.prototype.logUserInput = function(type) {
 
     $('.modal-body', $('#encryptModal')).empty().append(dialog);
     $('#encryptModal').modal('show');
-  }
+  };
 
   EditorCtrl.prototype._removeDialog = function() {
     $('#encryptModal').modal('hide');
