@@ -445,8 +445,9 @@ var options = options || null;
       mvelo.extension.sendMessage({
         event: 'delete-keyring',
         keyringId: keyRingId
+      }, function() {
+        options.reloadOptions();
       });
-      options.reloadOptions();
     }
   };
 
@@ -454,8 +455,6 @@ var options = options || null;
     mvelo.extension.sendMessage({
       event: 'create-keyring',
       keyringId: keyRingId
-    }, function() {
-      console.log('Create keyring');
     });
   };
 
@@ -464,8 +463,6 @@ var options = options || null;
       event: 'set-keyring-attr',
       keyringId: keyRingId,
       keyringAttr: keyRingAttr
-    }, function() {
-      console.log('Set keyring attr');
     });
   };
 

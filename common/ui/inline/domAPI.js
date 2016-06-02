@@ -185,8 +185,9 @@ mvelo.domAPI.eventListener = function(event) {
     mvelo.domAPI.checkTypes(event.data);
     var data = event.data.data;
     var keyringId = null;
-    if (data && data.identifier) {
-      if (data.identifier.indexOf(mvelo.KEYRING_DELIMITER) !== -1) {
+    if (data) {
+      // if identifier is undefined or contains the keyring delimiter string
+      if (!data.identifier || data.identifier.indexOf(mvelo.KEYRING_DELIMITER) !== -1) {
         throw {message: 'Identifier invalid.', code: 'INVALID_IDENTIFIER'};
       }
       keyringId = mvelo.domAPI.host + mvelo.KEYRING_DELIMITER + data.identifier;

@@ -361,6 +361,12 @@ mvelo.util.mapError = function(error) {
   return { message: error.message, code: error.code  || 'INTERNAL_ERROR' };
 };
 
+mvelo.util.throwError = function(message, code) {
+  var error = new Error(message);
+  error.code = code;
+  throw error;
+};
+
 mvelo.util.PromiseQueue = function() {
   this.queue = [];
 };
