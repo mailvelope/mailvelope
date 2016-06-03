@@ -99,6 +99,17 @@
     },
     {
       "active": true,
+      "site": "mailbox.org",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.office.mailbox.org",
+          "api": true
+        }
+      ]
+    },
+    {
+      "active": true,
       "site": "mail.ru",
       "frames": [
         {
