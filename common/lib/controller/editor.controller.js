@@ -348,6 +348,7 @@ define(function(require, exports, module) {
         that.ports.editor.postMessage({event: 'decrypt-end'});
       })
       .catch(function(error) {
+        error = that.mvelo.util.mapError(error);
         that.ports.editor.postMessage({event: 'decrypt-failed', error: error});
       });
   };
