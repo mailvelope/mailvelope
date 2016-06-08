@@ -286,6 +286,12 @@ describe('Editor UI unit tests', function() {
       expect(keys[0]).to.deep.equal({email: 'j@s.com', keyid: '123'});
       expect(keys[1]).to.deep.equal({email: 'a@b.com'});
     });
+    it('return empty array if recipients undefined', function() {
+      ctrl.recipients = null;
+      var keys = ctrl.getRecipientKeys();
+      expect(keys).to.be.a('array');
+      expect(keys).to.be.empty;
+    });
   });
 
   describe('initComplete', function() {

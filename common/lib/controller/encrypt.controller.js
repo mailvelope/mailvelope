@@ -56,8 +56,7 @@ define(function(require, exports, module) {
       getRecipientProposal: this.getRecipientProposal.bind(this)
     }, function(err, armored, recipients) {
       if (err) {
-        // TODO: display error message
-        console.error(err);
+        // error message handled in editor controller
         return;
       }
       // sanitize if content from plain text, rich text already sanitized by editor

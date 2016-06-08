@@ -187,7 +187,7 @@ EditorCtrl.prototype._setRecipients = function(options) {
  * @return {Array}   the array of public key objects
  */
 EditorCtrl.prototype.getRecipientKeys = function() {
-  return this.recipients.map(function(r) {
+  return (this.recipients || []).map(function(r) {
     return r.key || r; // some recipients don't have a key, still return address
   });
 };

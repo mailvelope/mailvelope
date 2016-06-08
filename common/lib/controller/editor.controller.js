@@ -37,6 +37,7 @@ define(function(require, exports, module) {
     }
     this.initText = '';
     this.encryptCallback = null;
+    this.encryptTimer = null;
     this.keyringId = null;
     this.editorPopup = null;
     this.getRecipientProposal = null;
@@ -51,15 +52,17 @@ define(function(require, exports, module) {
 
     // register event handlers
     this.on('editor-init', this._onEditorInit);
+    this.on('editor-plaintext', this._onSignAndEncrypt);
+    this.on('editor-user-input', this._onEditorUserInput);
+    // standalone editor only
     this.on('editor-cancel', this._onEditorCancel);
     this.on('sign-dialog-init', this._onSignDialogInit);
     this.on('sign-dialog-ok', this._onSignDialogOk);
     this.on('sign-dialog-cancel', this._onSignDialogCancel);
+    // API only
     this.on('editor-container-encrypt', this._onEditorContainerEncrypt);
     this.on('editor-container-create-draft', this._onEditorContainerCreateDraft);
     this.on('editor-options', this._onEditorOptions);
-    this.on('editor-plaintext', this.signAndEncrypt);
-    this.on('editor-user-input', this._onEditorUserInput);
     this.on('open-security-settings', this.openSecuritySettings);
   }
 
@@ -73,7 +76,9 @@ define(function(require, exports, module) {
       this.emit('editor-ready', undefined, this.ports.editorCont);
     }
     // display recipient proposal in the editor
-    this.getRecipientProposal(this.displayRecipientProposal.bind(this));
+    if (this.getRecipientProposal) {
+      this.getRecipientProposal(this.displayRecipientProposal.bind(this));
+    }
   };
 
   EditorController.prototype._onEditorCancel = function() {
@@ -92,7 +97,7 @@ define(function(require, exports, module) {
   };
 
   EditorController.prototype._onSignDialogCancel = function(msg) {
-    // forward event to encrypt frame
+    // forward event to editor
     this.emit(msg.event, msg);
   };
 
@@ -120,7 +125,7 @@ define(function(require, exports, module) {
       keyIds.push(primary.toLowerCase());
     }
     this.keyidBuffer = this.mvelo.util.sortAndDeDup(keyIds);
-    this.emit('get-plaintext', {action: 'encrypt'});
+    this.emit('get-plaintext', {action: 'encrypt'}, this.ports.editor);
   };
 
   EditorController.prototype._onEditorContainerCreateDraft = function(msg) {
@@ -139,7 +144,7 @@ define(function(require, exports, module) {
       this.emit('error-message', {error: error}, this.ports.editorCont);
       return;
     }
-    this.emit('get-plaintext', {action: 'encrypt'});
+    this.emit('get-plaintext', {action: 'encrypt'}, this.ports.editor);
   };
 
   EditorController.prototype._onEditorOptions = function(msg) {
@@ -161,7 +166,7 @@ define(function(require, exports, module) {
       }
     }
     syncCtrl.triggerSync({keyringId: this.keyringId, force: true});
-    this.emit('set-init-data', {data: data});
+    this.emit('set-init-data', {data: data}, this.ports.editor);
   };
 
   EditorController.prototype._onSignDialogOk = function(msg) {
@@ -296,7 +301,7 @@ define(function(require, exports, module) {
     var that = this;
     if (armored.length > 400000) {
       // show spinner for large messages
-      this.emit('decrypt-in-progress');
+      this.emit('decrypt-in-progress', null, this.ports.editor);
     }
     this.mvelo.util.setTimeout(function() {
       that.decryptArmored(armored);
@@ -335,11 +340,11 @@ define(function(require, exports, module) {
             if (that.options.predefinedText) {
               msg = msg + '\n\n' + that.options.predefinedText;
             }
-            that.emit('set-text', {text: msg});
+            that.emit('set-text', {text: msg}, that.ports.editor);
           },
           onAttachment: function(part) {
             if (that.options.keepAttachments) {
-              that.emit('set-attachment', {attachment: part});
+              that.emit('set-attachment', {attachment: part}, that.ports.editor);
             }
           }
         };
@@ -351,11 +356,11 @@ define(function(require, exports, module) {
         return decryptCtrl.parseMessage(content.text, handlers, 'text');
       })
       .then(function() {
-        that.emit('decrypt-end');
+        that.emit('decrypt-end', null, that.ports.editor);
       })
       .catch(function(error) {
         error = that.mvelo.util.mapError(error);
-        that.ports.editor.postMessage({event: 'decrypt-failed', error: error});
+        that.emit('decrypt-failed', {error: error}, that.ports.editor);
       });
   };
 
@@ -366,70 +371,47 @@ define(function(require, exports, module) {
    * @return {Promise}
    */
   EditorController.prototype.signAndEncryptMessage = function(options) {
-    var that = this;
-    var port = this.ports.editorCont || this.ports.editor;
-    var primaryKey = this.keyring.getById(this.keyringId).getPrimaryKey();
-    var encryptTimer = null;
-
-    if (!primaryKey) {
-      this.emit('error-message', {
-        error: {
-          code: 'NO_PRIMARY_KEY_FOUND',
-          message: 'No primary key found'
-        }
-      });
-      return;
-    }
-
-    var signKeyPacket = primaryKey.key.getSigningKeyPacket();
-    var signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
-    if (!signKeyid) {
-      this.emit('error-message', {
-        error: {
-          code: 'NO_SIGN_KEY_FOUND',
-          message: 'No valid signing key packet found'
-        }
-      });
-      return;
-    }
-
-    primaryKey.keyid = signKeyid;
-    primaryKey.keyringId = this.keyringId;
-    primaryKey.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
-
-    that.pwdControl = sub.factory.get('pwdDialog');
-    return that.pwdControl.unlockKey(primaryKey)
+    var primaryKey;
+    return Promise.resolve()
     .then(function() {
-      encryptTimer = that.mvelo.util.setTimeout(function() {
-        that.emit('encrypt-in-progress');
+      primaryKey = this.keyring.getById(this.keyringId).getPrimaryKey();
+      this.encryptTimer = null;
+
+      if (!primaryKey) {
+        this.mvelo.util.throwError('No primary key found', 'NO_PRIMARY_KEY_FOUND');
+      }
+
+      var signKeyPacket = primaryKey.key.getSigningKeyPacket();
+      var signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
+      if (!signKeyid) {
+        this.mvelo.util.throwError('No valid signing key packet found', 'NO_SIGN_KEY_FOUND');
+      }
+
+      primaryKey.keyid = signKeyid;
+      primaryKey.keyringId = this.keyringId;
+      primaryKey.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
+    }.bind(this))
+    .then(function() {
+      this.pwdControl = sub.factory.get('pwdDialog');
+      return this.pwdControl.unlockKey(primaryKey);
+    }.bind(this))
+    .then(function() {
+      this.encryptTimer = this.mvelo.util.setTimeout(function() {
+        this.emit('encrypt-in-progress', null, this.ports.editor);
       }, 800);
 
-      if (!that.prefs.data().security.password_cache) {
+      if (!this.prefs.data().security.password_cache) {
         syncCtrl.triggerSync(primaryKey);
       }
 
-      return that.model.signAndEncryptMessage({
+      return this.model.signAndEncryptMessage({
         keyIdsHex: options.keyIdsHex,
-        keyringId: that.keyringId,
+        keyringId: this.keyringId,
         primaryKey: primaryKey,
         message: options.message,
         uiLogSource: 'security_log_editor'
       });
-    })
-    .then(function(msg) {
-      that.mvelo.util.clearTimeout(encryptTimer);
-      that.emit('encrypt-end');
-      return msg;
-    })
-    .catch(function(error) {
-      error = that.mvelo.util.mapError(error);
-      that.emit('error-message', {error: error});
-      if (that.ports.editorCont) {
-        that.emit('error-message', {error: error}, port);
-      }
-      that.mvelo.util.clearTimeout(encryptTimer);
-      that.emit('encrypt-failed');
-    });
+    }.bind(this));
   };
 
   /**
@@ -440,29 +422,13 @@ define(function(require, exports, module) {
    * @return {Promise}
    */
   EditorController.prototype.encryptMessage = function(options) {
-    var that = this;
-    var port = this.ports.editorCont || this.ports.editor;
-
-    var encryptTimer = this.mvelo.util.setTimeout(function() {
-      that.emit('encrypt-in-progress');
-    }, 800);
+    this.encryptTimer = this.mvelo.util.setTimeout(function() {
+      this.emit('encrypt-in-progress', null, this.ports.editor);
+    }.bind(this), 800);
 
     options.uiLogSource = 'security_log_editor';
-    return this.model.encryptMessage(options)
-      .then(function(msg) {
-        that.mvelo.util.clearTimeout(encryptTimer);
-        that.emit('encrypt-end');
-        return msg;
-      })
-      .catch(function(error) {
-        console.log('model.encryptMessage() error', error);
-        that.emit('error-message', {error: error});
-        if (that.ports.editorCont) {
-          that.emit('error-message', {error: error}, port);
-        }
-        that.mvelo.util.clearTimeout(encryptTimer);
-        that.emit('encrypt-failed');
-      });
+
+    return this.model.encryptMessage(options);
   };
 
   /**
@@ -470,23 +436,11 @@ define(function(require, exports, module) {
    * @return {Promise}
    */
   EditorController.prototype.signMessage = function(message) {
-    var that = this;
+    this.encryptTimer = this.mvelo.util.setTimeout(function() {
+      this.emit('encrypt-in-progress');
+    }.bind(this), 800);
 
-    var encryptTimer = this.mvelo.util.setTimeout(function() {
-      that.emit('encrypt-in-progress');
-    }, 800);
-
-    return this.model.signMessage(message, this.signBuffer.key)
-      .then(function(msg) {
-        that.mvelo.util.clearTimeout(encryptTimer);
-        that.emit('encrypt-end');
-        return msg;
-      })
-      .catch(function(error) {
-        console.log('model.signMessage() error', error);
-        that.mvelo.util.clearTimeout(encryptTimer);
-        that.emit('encrypt-failed');
-      });
+    return this.model.signMessage(message, this.signBuffer.key);
   };
 
   /**
@@ -494,19 +448,16 @@ define(function(require, exports, module) {
    * message and recipients back to the webmail interface.
    * @param  {String} options.armored   The encrypted/signed message
    * @param  {Array}  options.keys      The keys used to encrypt the message
-   * @param  {Error}  options.error     An error
    */
-  EditorController.prototype.transferAndCloseDialog = function(options) {
-    if (options.error) {
-      this.encryptCallback(options.error);
-      return;
+  EditorController.prototype.transferEncrypted = function(options) {
+    if (this.ports.editorCont) {
+      this.emit('encrypted-message', { message: options.armored }, this.ports.editorCont);
+    } else {
+      var recipients = (options.keys || []).map(function(k) {
+        return {name: k.name, email: k.email};
+      });
+      this.encryptCallback(null, options.armored, recipients);
     }
-    this.editorPopup.close();
-    this.editorPopup = null;
-    var recipients = (options.keys || []).map(function(k) {
-      return {name: k.name, email: k.email};
-    });
-    this.encryptCallback(null, options.armored, recipients);
   };
 
   /**
@@ -518,42 +469,69 @@ define(function(require, exports, module) {
    * @return {undefined}
    * @error {Error}
    */
-  EditorController.prototype.signAndEncrypt = function(options) {
-    var that = this, promise;
+  EditorController.prototype._onSignAndEncrypt = function(options) {
     options.keys = options.keys || [];
-
-    if (options.action === 'encrypt') {
-      var data = this.buildMail(options.message, options.attachments);
-
-      if (data === null) {
-        return;
+    this.signAndEncrypt(options)
+    .then(function(armored) {
+      this.emit('encrypt-end', null, this.ports.editor);
+      if (this.editorPopup) {
+        this.editorPopup.close();
+        this.editorPopup = null;
       }
-
-      var keyIdsHex = this.getPublicKeyIds(options.keys);
-      if (this.signMsg) {
-        promise = this.signAndEncryptMessage({
-          message: data,
-          keyIdsHex: keyIdsHex
-        });
+      this.transferEncrypted({armored:armored, keys:options.keys});
+    }.bind(this))
+    .catch(function(error) {
+      console.log(error);
+      error = this.mvelo.util.mapError(error);
+      this.emit('error-message', {error: error}, this.ports.editor);
+      if (this.ports.editorCont) {
+        this.emit('error-message', {error: error}, this.ports.editorCont);
       } else {
-        promise = this.encryptMessage({
-          message: data,
-          keyringId: this.keyringId,
-          keyIdsHex: keyIdsHex
-        });
+        this.encryptCallback(error);
       }
+      this.emit('encrypt-failed', null, this.ports.editor);
+    }.bind(this))
+    .then(function() {
+      this.mvelo.util.clearTimeout(this.encryptTimer);
+    }.bind(this));
+  };
 
-    } else if (options.action === 'sign') {
-      promise = this.signMessage(options.message);
-    } else {
-      that.transferAndCloseDialog({error:new Error('Unknown eframe action:', options.action)});
-    }
+  /**
+   * @param {Object} options
+   * @param {String} options.action
+   * @param {String} options.message
+   * @param {String} options.keys
+   * @param {Array} options.attachment
+   * @return {Promise}
+   */
+  EditorController.prototype.signAndEncrypt = function(options) {
+    return Promise.resolve()
+    .then(function() {
+      if (options.action === 'encrypt') {
+        var data = this.buildMail(options.message, options.attachments);
 
-    promise.then(function(armored) {
-      that.transferAndCloseDialog({armored:armored, keys:options.keys});
-    }).catch(function(err) {
-      that.transferAndCloseDialog({error:err});
-    });
+        if (data === null) {
+          this.mvelo.util.throwError('MIME building failed.');
+        }
+
+        var keyIdsHex = this.getPublicKeyIds(options.keys);
+        if (this.signMsg) {
+          return this.signAndEncryptMessage({
+            message: data,
+            keyIdsHex: keyIdsHex
+          });
+        } else {
+          return this.encryptMessage({
+            message: data,
+            keyringId: this.keyringId,
+            keyIdsHex: keyIdsHex
+          });
+        }
+
+      } else if (options.action === 'sign') {
+        return this.signMessage(options.message);
+      }
+    }.bind(this));
   };
 
   /**
@@ -562,16 +540,21 @@ define(function(require, exports, module) {
    * @return {Array}        A collection of all key ids to encrypt to
    */
   EditorController.prototype.getPublicKeyIds = function(keys) {
-    var keyIdsHex = this.keyidBuffer || keys.map(function(key) { return key.keyid; });
-    // get the sender key id
-    if (this.prefs.data().general.auto_add_primary) {
-      var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
-      var primary = localKeyring.getAttributes().primary_key;
-      primary && keyIdsHex.push(primary.toLowerCase());
+    var keyIdsHex;
+    // prefer keyidBuffer
+    if (this.keyidBuffer) {
+      keyIdsHex = this.keyidBuffer;
+    } else {
+      keyIdsHex = keys.map(function(key) { return key.keyid; });
+      // get the sender key id
+      if (this.prefs.data().general.auto_add_primary) {
+        var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
+        var primary = localKeyring.getAttributes().primary_key;
+        primary && keyIdsHex.push(primary.toLowerCase());
+      }
     }
     // deduplicate
-    keyIdsHex = this.mvelo.util.sortAndDeDup(keyIdsHex);
-    return keyIdsHex;
+    return this.mvelo.util.sortAndDeDup(keyIdsHex);
   };
 
   exports.EditorController = EditorController;

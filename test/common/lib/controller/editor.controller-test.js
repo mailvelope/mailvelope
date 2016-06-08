@@ -56,35 +56,31 @@ define(function(require) {
       });
     });
 
-    describe('transferAndCloseDialog', function() {
-      var closeStub;
+    describe('transferEncrypted', function() {
 
       beforeEach(function() {
         ctrl.encryptCallback = function() {};
         sinon.stub(ctrl, 'encryptCallback');
-        ctrl.editorPopup = {close:function() {}};
-        closeStub = sinon.stub(ctrl.editorPopup, 'close');
       });
 
       it('should not transfer private key material', function() {
-        ctrl.transferAndCloseDialog({
+        ctrl.transferEncrypted({
           armored:'a',
           keys:[{name:'n', email:'e', private:'p'}]
         });
-
-        expect(closeStub.calledOnce).to.be.true;
-        expect(ctrl.editorPopup).to.be.null;
         expect(ctrl.encryptCallback.withArgs(null, 'a', [{name:'n', email:'e'}]).calledOnce).to.be.true;
       });
 
-      it('should catch error', function() {
-        var err = new Error('foo');
-
-        ctrl.transferAndCloseDialog({error:err});
-
-        expect(closeStub.calledOnce).to.be.false;
-        expect(ctrl.encryptCallback.withArgs(err).calledOnce).to.be.true;
+      it('should emit message to encrypt container', function() {
+        ctrl.ports = { editorCont: {}};
+        ctrl.transferEncrypted({
+          armored:'a',
+          keys:[{name:'n', email:'e', private:'p'}]
+        });
+        expect(ctrl.encryptCallback.called).to.be.false;
+        expect(ctrl.emit.withArgs('encrypted-message', {message: 'a'}, {}).calledOnce).to.be.true;
       });
+
     });
 
     describe('signAndEncrypt', function() {
@@ -105,61 +101,53 @@ define(function(require) {
         ctrl.signAndEncryptMessage.restore();
         ctrl.encryptMessage.restore();
         ctrl.signMessage.restore();
-        ctrl.transferAndCloseDialog.restore();
       });
 
-      it('should encrypt', function(done) {
+      it('should encrypt', function() {
         ctrl.encryptMessage.returns(resolves('a'));
-        sinon.stub(ctrl, 'transferAndCloseDialog', function(res) {
-          expect(res).to.deep.equal({armored:'a', keys:keys});
-          done();
-        });
-
-        ctrl.signAndEncrypt({
+        return ctrl.signAndEncrypt({
           action: 'encrypt',
           message:'m',
           keys: keys
+        })
+        .then(function(res) {
+          expect(res).to.equal('a');
         });
       });
 
-      it('should sign and encrypt', function(done) {
+      it('should sign and encrypt', function() {
         ctrl.signMsg = true;
         ctrl.signAndEncryptMessage.returns(resolves('a'));
-        sinon.stub(ctrl, 'transferAndCloseDialog', function(res) {
-          expect(res).to.deep.equal({armored:'a', keys:keys});
-          done();
-        });
-
-        ctrl.signAndEncrypt({
+        return ctrl.signAndEncrypt({
           action: 'encrypt',
           message:'m',
           keys: keys
+        })
+        .then(function(res) {
+          expect(res).to.equal('a');
         });
       });
 
-      it('should sign', function(done) {
+      it('should sign', function() {
         ctrl.signMessage.returns(resolves('a'));
-        sinon.stub(ctrl, 'transferAndCloseDialog', function(res) {
-          expect(res).to.deep.equal({armored:'a', keys:[]});
-          done();
-        });
-
-        ctrl.signAndEncrypt({
+        return ctrl.signAndEncrypt({
           action: 'sign',
           message:'m'
+        })
+        .then(function(res) {
+          expect(res).to.equal('a');
         });
       });
 
-      it('should handle error', function(done) {
-        ctrl.signMessage.returns(rejects(new Error('foo')));
-        sinon.stub(ctrl, 'transferAndCloseDialog', function(res) {
-          expect(res.error.message).to.equal('foo');
-          done();
-        });
-
+      it('should handle build MIME error', function(done) {
+        ctrl.buildMail.returns(null);
         ctrl.signAndEncrypt({
-          action: 'sign',
+          action: 'encrypt',
           message:'m'
+        })
+        .catch(function(err) {
+          expect(err.message).to.be.equal('MIME building failed.');
+          done();
         });
       });
     });

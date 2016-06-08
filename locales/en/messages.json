@@ -97,7 +97,7 @@
   },
   "editor_error_header": {
     "description": "",
-    "message": "Error Header"
+    "message": "Error"
   },
   "editor_header": {
     "description": "Header of editor popup.",
