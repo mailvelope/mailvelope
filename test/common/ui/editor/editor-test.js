@@ -62,14 +62,16 @@ describe('Editor UI unit tests', function() {
       sinon.stub(ctrl, 'getKey');
       sinon.stub(ctrl, 'colorTag');
       sinon.stub(ctrl, 'checkEncryptStatus');
+      sinon.stub(ctrl, 'lookupKeyOnServer');
     });
     afterEach(function() {
       ctrl.getKey.restore();
       ctrl.colorTag.restore();
       ctrl.checkEncryptStatus.restore();
+      ctrl.lookupKeyOnServer.restore();
     });
 
-    it('should display only email address', function() {
+    it('should display only email address and lookup key on server', function() {
       var recipient = {
         email: 'jon@smith.com',
         displayId: 'Jon Smith <jon@smith.com>'
@@ -79,6 +81,31 @@ describe('Editor UI unit tests', function() {
 
       expect(recipient.displayId).to.equal('jon@smith.com');
       expect(ctrl.getKey.withArgs(recipient).calledOnce).to.be.true;
+      expect(ctrl.lookupKeyOnServer.withArgs(recipient).calledOnce).to.be.true;
+    });
+
+    it('should color tag if local key was found', function() {
+      var recipient = {
+        email: 'jon@smith.com',
+        displayId: 'Jon Smith <jon@smith.com>'
+      };
+      ctrl.getKey.returns({keyid:'0'});
+
+      ctrl.verify(recipient);
+
+      expect(ctrl.colorTag.withArgs(recipient).calledOnce).to.be.true;
+      expect(ctrl.checkEncryptStatus.calledOnce).to.be.true;
+    });
+
+    it('should color tag after server lookup', function() {
+      var recipient = {
+        email: 'jon@smith.com',
+        displayId: 'Jon Smith <jon@smith.com>',
+        checkedServer: true
+      };
+
+      ctrl.verify(recipient);
+
       expect(ctrl.colorTag.withArgs(recipient).calledOnce).to.be.true;
       expect(ctrl.checkEncryptStatus.calledOnce).to.be.true;
     });
@@ -110,8 +137,6 @@ describe('Editor UI unit tests', function() {
         email: 'jon@smith.com'
       };
       expect(ctrl.getKey(recipient)).to.be.undefined;
-
-      expect(recipient.key).to.not.exist;
     });
 
     it('should not find matching key', function() {
@@ -121,8 +146,6 @@ describe('Editor UI unit tests', function() {
         email: 'jon@smith.com'
       };
       expect(ctrl.getKey(recipient)).to.be.undefined;
-
-      expect(recipient.key).to.not.exist;
     });
 
     it('should work for uppercase input', function() {
@@ -132,8 +155,6 @@ describe('Editor UI unit tests', function() {
         email: 'JON@smith.com'
       };
       expect(ctrl.getKey(recipient).keyid).to.equal('a');
-
-      expect(recipient.key).to.exist;
     });
 
     it('should work for lowercase input', function() {
@@ -143,8 +164,42 @@ describe('Editor UI unit tests', function() {
         email: 'jon@smith.com'
       };
       expect(ctrl.getKey(recipient).keyid).to.equal('a');
+    });
+  });
 
-      expect(recipient.key).to.exist;
+  describe('lookupKeyOnServer', function() {
+    it('should emit', function() {
+      ctrl._name = 'foo';
+
+      var recipient = {};
+      ctrl.lookupKeyOnServer(recipient);
+
+      expect(recipient.checkedServer).to.be.true;
+      expect(ctrl.emit.withArgs('keyserver-lookup', {
+        sender: 'foo',
+        recipient: recipient
+      }).calledOnce).to.be.true;
+    });
+  });
+
+  describe('_onKeyServerResponse', function() {
+    beforeEach(function() {
+      sinon.stub(ctrl, 'verify');
+    });
+    afterEach(function() {
+      ctrl.verify.restore();
+    });
+
+    it('should work', function() {
+      ctrl.recipients = [{}, {}];
+      ctrl._onKeyServerResponse({
+        keys:[{}],
+      });
+      ctrl._timeout.flush();
+
+      expect(ctrl.keys.length).to.equal(1);
+      expect(ctrl.recipients.length).to.equal(2);
+      expect(ctrl.verify.callCount).to.equal(2);
     });
   });
 

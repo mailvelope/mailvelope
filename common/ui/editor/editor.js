@@ -65,14 +65,23 @@ EditorCtrl.prototype.verify = function(recipient) {
   if (!recipient) {
     return;
   }
-  if (recipient.email) { // display only address from autocomplete
+  if (recipient.email) {
+    // display only address from autocomplete
     recipient.displayId = recipient.email;
-  } else { // set address after manual input
+  } else {
+    // set address after manual input
     recipient.email = recipient.displayId;
   }
-  this.getKey(recipient);
-  this.colorTag(recipient);
-  this.checkEncryptStatus();
+  // lookup key in local cache
+  recipient.key = this.getKey(recipient);
+  if (recipient.key || recipient.checkedServer) {
+    // color tag only if a local key was found or after server lookup
+    this.colorTag(recipient);
+    this.checkEncryptStatus();
+  } else {
+    // no local key found ... lookup on the server
+    this.lookupKeyOnServer(recipient);
+  }
 };
 
 /**
@@ -82,12 +91,38 @@ EditorCtrl.prototype.verify = function(recipient) {
  * @return {Object}             The key object (undefined if none found)
  */
 EditorCtrl.prototype.getKey = function(recipient) {
-  recipient.key = (this.keys || []).find(function(key) {
+  return (this.keys || []).find(function(key) {
     if (key.email && recipient.email) {
       return key.email.toLowerCase() === recipient.email.toLowerCase();
     }
   });
-  return recipient.key;
+};
+
+/**
+ * Do TOFU (trust on first use) lookup on the Mailvelope Key Server
+ * if a key was not found in the local keyring.
+ * @param  {Object} recipient   The recipient object
+ * @return {undefined}
+ */
+EditorCtrl.prototype.lookupKeyOnServer = function(recipient) {
+  recipient.checkedServer = true;
+  this.emit('keyserver-lookup', {
+    sender: this._name,
+    recipient: recipient
+  });
+};
+
+/**
+ * Event that is triggered when the key server responded
+ * @param {Array} options.keys   A list of all available public
+ *                               keys from the local keychain
+ * @return {undefined}
+ */
+EditorCtrl.prototype._onKeyServerResponse = function(options) {
+  this._timeout(function() { // trigger $scope.$digest() after async call
+    this.keys = options.keys;
+    this.recipients.forEach(this.verify.bind(this));
+  }.bind(this));
 };
 
 /**
@@ -160,6 +195,7 @@ EditorCtrl.prototype.registerEventListeners = function() {
   this.on('sign-dialog-cancel', this._removeDialog);
   this.on('get-plaintext', this._getPlaintext);
   this.on('error-message', this._onErrorMessage);
+  this.on('keyserver-response', this._onKeyServerResponse);
 
   this._port.onMessage.addListener(this.handlePortMessage.bind(this));
 };

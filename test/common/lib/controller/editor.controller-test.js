@@ -29,6 +29,45 @@ define(function(require) {
       });
     });
 
+    describe('lookupKeyOnServer', function() {
+      var importKeysStub;
+
+      beforeEach(function() {
+        sinon.stub(ctrl.keyserver, 'lookup');
+        var keyRingMock = {
+          importKeys: function() {},
+          getKeyUserIDs: function() { return [{keyid:'0'}]; }
+        };
+        importKeysStub = sinon.stub(keyRingMock, 'importKeys');
+        sinon.stub(ctrl.keyring, 'getById').returns(keyRingMock);
+      });
+
+      afterEach(function() {
+        ctrl.keyserver.lookup.restore();
+        ctrl.keyring.getById.restore();
+      });
+
+      it('should find a key', function() {
+        ctrl.keyserver.lookup.returns(resolves({publicKeyArmored:'KEY BLOCK'}));
+
+        return ctrl.lookupKeyOnServer({recipient:{email:'a@b.co'}})
+        .then(function() {
+          expect(importKeysStub.calledOnce).to.be.true;
+          expect(ctrl.emit.calledOnce).to.be.true;
+        });
+      });
+
+      it('should not find a key', function() {
+        ctrl.keyserver.lookup.returns(resolves());
+
+        return ctrl.lookupKeyOnServer({recipient:{email:'a@b.co'}})
+        .then(function() {
+          expect(importKeysStub.calledOnce).to.be.false;
+          expect(ctrl.emit.calledOnce).to.be.true;
+        });
+      });
+    });
+
     describe('displayRecipientProposal', function() {
       beforeEach(function() {
         sinon.stub(ctrl.keyring, 'getById').returns({

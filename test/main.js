@@ -42,6 +42,7 @@ define([
   'test/common/lib/controller/sub.controller-test',
   'test/common/lib/controller/encrypt.controller-test',
   'test/common/lib/controller/editor.controller-test',
+  'test/common/lib/keyserver-test',
   'test/common/lib/keyring-test'
 ], function() {
   mocha.run();

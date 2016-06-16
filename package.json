@@ -41,7 +41,8 @@
     "grunt-mocha-phantomjs": "^3.0.0",
     "grunt-text-replace": "~0.3.11",
     "mocha": "^2.4.5",
-    "sinon": "^1.17.4"
+    "sinon": "^1.17.4",
+    "whatwg-fetch": "^1.0.0"
   },
   "private": true
 }
