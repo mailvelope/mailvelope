@@ -235,19 +235,29 @@ describe('Editor UI unit tests', function() {
       expect(ctrl.autocomplete('jon').length).to.equal(0);
     });
 
-    it('should find none for empty user id', function() {
-      ctrl.keys = [{email:'j@s.com'}];
-      expect(ctrl.autocomplete('j').length).to.equal(0);
+    it('should find one for empty email', function() {
+      ctrl.keys = [{email: '', userid: 'Jon Smith', keyid: '1ddcee8ad254cc42'}];
+      expect(ctrl.autocomplete('jon').length).to.equal(1);
     });
 
     it('should find two matches', function() {
-      ctrl.keys = [{userid: 'Jon Smith <j@s.com>'}, {userid: 'jon <j@b.com>'}];
+      ctrl.keys = [{userid: 'Jon Smith <j@s.com>', keyid: '1ddcee8ad254cc42'}, {userid: 'jon <j@b.com>', keyid: '1ddcee8ad254cc41'}];
       expect(ctrl.autocomplete('jOn').length).to.equal(2);
     });
 
     it('should find one match', function() {
-      ctrl.keys = [{userid: 'Jon Smith <j@s.com>'}, {userid: 'jon <j@b.com>'}];
+      ctrl.keys = [{userid: 'Jon Smith <j@s.com>', keyid: '1ddcee8ad254cc42'}, {userid: 'jon <j@b.com>', keyid: '1ddcee8ad254cc41'}];
       expect(ctrl.autocomplete('sMith').length).to.equal(1);
+    });
+
+    it('should find match on short keyid', function() {
+      ctrl.keys = [{userid: 'Jon Smith <j@s.com>', keyid: '1ddcee8ad254cc42'}, {userid: 'jon <j@b.com>', keyid: '1ddcee8ad254cc41'}];
+      expect(ctrl.autocomplete('cc42').length).to.equal(1);
+    });
+
+    it('should concatenate userid and keyid', function() {
+      ctrl.keys = [{userid: 'Jon Smith <j@s.com>', keyid: '1ddcee8ad254cc42'}];
+      expect(ctrl.autocomplete('cc42')[0].displayId).to.equal('Jon Smith <j@s.com> - D254CC42');
     });
   });
 

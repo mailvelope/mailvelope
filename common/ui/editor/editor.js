@@ -127,7 +127,7 @@ EditorCtrl.prototype.autocomplete = function(query) {
   var cache = (this.keys || []).map(function(key) {
     return {
       email: key.email,
-      displayId: key.userid || ''
+      displayId: key.userid + ' - ' + key.keyid.substr(-8).toUpperCase()
     };
   });
   return cache.filter(function(i) {
