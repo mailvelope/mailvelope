@@ -232,7 +232,7 @@ define(function(require, exports, module) {
     recipients = emails.map(function(e) { return {email:e}; });
     // get all public keys in the local keyring
     var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
-    var keys = localKeyring.getKeyUserIDs();
+    var keys = localKeyring.getKeyUserIDs({allUsers: true});
     this.emit('public-key-userids', {keys:keys, recipients:recipients});
   };
 

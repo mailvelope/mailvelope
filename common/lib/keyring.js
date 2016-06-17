@@ -118,12 +118,19 @@ define(function(require, exports, module) {
     return keyringAttr[keyringId][attr];
   }
 
+  /**
+   * Get primary or first available user id of key
+   * @param  {openpgp.Key} key
+   * @param  {Boolean} [validityCheck=true] - only return valid user ids, e.g. for expired keys you would want ot set to false to still get a result
+   * @return {String} user id
+   */
   function getUserId(key, validityCheck) {
     validityCheck = typeof validityCheck === 'undefined' ? true : false;
     var primaryUser = key.getPrimaryUser();
     if (primaryUser) {
       return primaryUser.user.userId.userid;
     } else {
+      // there is no valid user id on this key
       if (!validityCheck) {
         // take first available user ID
         for (var i = 0; i < key.users.length; i++) {
@@ -386,37 +393,73 @@ define(function(require, exports, module) {
     });
   }
 
-  Keyring.prototype.getKeyUserIDs = function(proposal) {
+  /**
+   * Get user id, email and name for all keys
+   * @param {Object} [options]
+   * @param {Boolean} [options.allUsers] return separate entry for all user ids of key
+   * @return {Array<Object>} list of key meta data objects
+   */
+  Keyring.prototype.getKeyUserIDs = function(options) {
     var that = this;
+    options = options || {};
     var result = [];
     this.keyring.getAllKeys().forEach(function(key) {
-      if (key.verifyPrimaryKey() === openpgp.enums.keyStatus.valid &&
-          !trustKey.isKeyPseudoRevoked(that.id, key)) {
-        var user = {};
-        mapKeyUserIds(key, user, proposal);
+      if (key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
+          trustKey.isKeyPseudoRevoked(that.id, key)) {
+        return;
+      }
+      var user;
+      var keyid = key.primaryKey.getKeyId().toHex();
+      if (options.allUsers) {
+        // consider all user ids of key
+        var users = [];
+        key.users.forEach(function(keyUser) {
+          if (keyUser.userId && keyUser.verify(key.primaryKey) === openpgp.enums.keyStatus.valid) {
+            user = {};
+            user.keyid = keyid;
+            user.userid = keyUser.userId.userid;
+            // check for duplicates
+            if (users.some(function(existingUser) {
+              return existingUser.userid === user.userid;
+            })) {
+              return;
+            }
+            that._mapKeyUserIds(user);
+            // check for valid email address
+            if (!user.email) {
+              return;
+            }
+            users.push(user);
+          }
+        });
+        result = result.concat(users);
+      } else {
+        // only consider primary user
+        user = {};
+        user.keyid = keyid;
+        user.userid = getUserId(key);
+        that._mapKeyUserIds(user);
         result.push(user);
       }
     });
+    // sort by user id
     result = result.sort(function(a, b) {
       return a.userid.localeCompare(b.userid);
     });
     return result;
   };
 
-  function mapKeyUserIds(key, user, proposal) {
-    user.keyid = key.primaryKey.getKeyId().toHex();
+  Keyring.prototype._mapKeyUserIds = function(user) {
     try {
-      user.userid = getUserId(key);
       var emailAddress = goog.format.EmailAddress.parse(user.userid);
       user.email = emailAddress.getAddress();
       user.name = emailAddress.getName();
-      user.proposal = proposal && proposal.some(function(element) {
-        return user.email === element;
-      });
     } catch (e) {
       user.userid = l10n('keygrid_invalid_userid');
+      user.email = '';
+      user.name = '';
     }
-  }
+  };
 
   Keyring.prototype.getKeyIdByAddress = function(emailAddr, options) {
     var that = this;
