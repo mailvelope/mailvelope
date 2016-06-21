@@ -74,8 +74,9 @@ EditorCtrl.prototype.verify = function(recipient) {
   }
   // lookup key in local cache
   recipient.key = this.getKey(recipient);
-  if (recipient.key || recipient.checkedServer) {
-    // color tag only if a local key was found or after server lookup
+  if (recipient.key || recipient.checkedServer || !this.tofu) {
+    // color tag only if a local key was found, or after server lookup,
+    // or if TOFU (Trust on First Use) is deactivated
     this.colorTag(recipient);
     this.checkEncryptStatus();
   } else {
@@ -207,9 +208,11 @@ EditorCtrl.prototype.registerEventListeners = function() {
  *                                     keys from the local keychain
  * @param {Array} options.recipients   recipients gather from the
  *                                     webmail ui
+ * @param {boolean} options.tofu       If the editor should to TOFU key lookup
  */
 EditorCtrl.prototype._setRecipients = function(options) {
   this._timeout(function() { // trigger $scope.$digest() after async call
+    this.tofu = options.tofu;
     this.keys = options.keys;
     this.recipients = options.recipients;
     this.recipients.forEach(this.verify.bind(this));

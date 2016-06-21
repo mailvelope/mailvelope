@@ -8,13 +8,25 @@ define(function(require) {
   describe('Key Server unit tests', function() {
 
     beforeEach(function() {
-      keyServer = new KeyServer();
+      var mvelo = {
+        storage: {
+          get: function() { return {keyserver: {mvelo_tofu_lookup:true}}; }
+        }
+      };
+      keyServer = new KeyServer(mvelo, 'http://localhost:8888');
+      expect(keyServer._baseUrl).to.equal('http://localhost:8888');
 
       sinon.stub(window, 'fetch');
     });
 
     afterEach(function() {
       fetch.restore();
+    });
+
+    describe('getTOFUPreference', function() {
+      it('should return key', function() {
+        expect(keyServer.getTOFUPreference()).to.be.true;
+      });
     });
 
     describe('lookup', function() {
@@ -94,7 +106,7 @@ define(function(require) {
         }));
 
         var url = keyServer._url({email: 'asdf@asdf.de'});
-        expect(url).to.equal('https://keys.mailvelope.com/api/v1/key?email=asdf%40asdf.de');
+        expect(url).to.equal('http://localhost:8888/api/v1/key?email=asdf%40asdf.de');
       });
 
       it('should work for key id', function() {
@@ -103,7 +115,7 @@ define(function(require) {
         }));
 
         var url = keyServer._url({keyId: '0123456789ABCDFE'});
-        expect(url).to.equal('https://keys.mailvelope.com/api/v1/key?keyId=0123456789ABCDFE');
+        expect(url).to.equal('http://localhost:8888/api/v1/key?keyId=0123456789ABCDFE');
       });
 
       it('should work for fingerprint', function() {
@@ -112,7 +124,7 @@ define(function(require) {
         }));
 
         var url = keyServer._url({fingerprint: '0123456789ABCDFE0123456789ABCDFE01234567'});
-        expect(url).to.equal('https://keys.mailvelope.com/api/v1/key?fingerprint=0123456789ABCDFE0123456789ABCDFE01234567');
+        expect(url).to.equal('http://localhost:8888/api/v1/key?fingerprint=0123456789ABCDFE0123456789ABCDFE01234567');
       });
     });
 

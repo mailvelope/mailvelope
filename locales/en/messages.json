@@ -311,6 +311,14 @@
     "description": "HKP key server option: url.",
     "message": "HKP key server"
   },
+  "keyserver_tofu_label": {
+    "description": "Mailvelope Key Server Settings Label",
+    "message": "Mailvelope key server"
+  },
+  "keyserver_tofu_lookup": {
+    "description": "Enable Mailvelope Key Server Auto Lookup",
+    "message": "Automatically lookup recipient keys"
+  },
   "keyserver_url_warning": {
     "description": "HKP key server url warning.",
     "message": "Key server URL must have the following format: http(s)://keys.example.com"

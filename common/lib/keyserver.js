@@ -23,9 +23,24 @@
 
 define(function(require, exports, module) {
 
-  function KeyServer() {
-    this._baseUrl = 'https://keys.mailvelope.com';
+  /**
+   * Creates an instance of the keyserver client.
+   * @param {Object} mvelo      An instance of the mvelo lib
+   * @param {String} baseUrl    (optional) The server's base url
+   */
+  function KeyServer(mvelo, baseUrl) {
+    this._mvelo = mvelo;
+    this._baseUrl = baseUrl || 'https://keys.mailvelope.com';
   }
+
+  /**
+   * Check the user's preferences if TOFU/auto-lookup is enabled.
+   * @return {boolean}   If TOFU is enabled or not
+   */
+  KeyServer.prototype.getTOFUPreference = function() {
+    var prefs = this._mvelo.storage.get('mailvelopePreferences');
+    return prefs && prefs.keyserver && prefs.keyserver.mvelo_tofu_lookup === true;
+  };
 
   /**
    * Get a verified public key either from the server by either email address,

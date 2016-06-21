@@ -73,25 +73,27 @@ define(function(require) {
         sinon.stub(ctrl.keyring, 'getById').returns({
           getKeyUserIDs: function() { return [{keyid:'0'}]; }
         });
+        sinon.stub(ctrl.keyserver, 'getTOFUPreference').returns(true);
       });
 
       afterEach(function() {
         ctrl.keyring.getById.restore();
+        ctrl.keyserver.getTOFUPreference.restore();
       });
 
       it('should handle empty recipients', function() {
         ctrl.displayRecipientProposal([]);
-        expect(ctrl.emit.withArgs('public-key-userids', {keys:[{keyid:'0'}], recipients:[]}).calledOnce).to.be.true;
+        expect(ctrl.emit.withArgs('public-key-userids', {keys:[{keyid:'0'}], recipients:[], tofu:true}).calledOnce).to.be.true;
       });
 
       it('should handle undefined recipients', function() {
         ctrl.displayRecipientProposal();
-        expect(ctrl.emit.withArgs('public-key-userids', {keys:[{keyid:'0'}], recipients:[]}).calledOnce).to.be.true;
+        expect(ctrl.emit.withArgs('public-key-userids', {keys:[{keyid:'0'}], recipients:[], tofu:true}).calledOnce).to.be.true;
       });
 
       it('should handle recipients', function() {
         ctrl.displayRecipientProposal(testRecipients);
-        expect(ctrl.emit.withArgs('public-key-userids', {keys:[{keyid:'0'}], recipients:testRecipients}).calledOnce).to.be.true;
+        expect(ctrl.emit.withArgs('public-key-userids', {keys:[{keyid:'0'}], recipients:testRecipients, tofu:true}).calledOnce).to.be.true;
       });
     });
 

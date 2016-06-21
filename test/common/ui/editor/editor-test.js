@@ -76,6 +76,7 @@ describe('Editor UI unit tests', function() {
         email: 'jon@smith.com',
         displayId: 'Jon Smith <jon@smith.com>'
       };
+      ctrl.tofu = true;
 
       ctrl.verify(recipient);
 
@@ -103,6 +104,20 @@ describe('Editor UI unit tests', function() {
         displayId: 'Jon Smith <jon@smith.com>',
         checkedServer: true
       };
+
+      ctrl.verify(recipient);
+
+      expect(ctrl.colorTag.withArgs(recipient).calledOnce).to.be.true;
+      expect(ctrl.checkEncryptStatus.calledOnce).to.be.true;
+    });
+
+    it('should color tag if TOFU is deactivated', function() {
+      var recipient = {
+        email: 'jon@smith.com',
+        displayId: 'Jon Smith <jon@smith.com>',
+        checkedServer: undefined
+      };
+      ctrl.tofu = false;
 
       ctrl.verify(recipient);
 
@@ -326,11 +341,13 @@ describe('Editor UI unit tests', function() {
 
     it('should work', function() {
       ctrl._setRecipients({
+        tofu: true,
         keys:[],
         recipients: [{}, {}]
       });
       ctrl._timeout.flush();
 
+      expect(ctrl.tofu).to.be.true;
       expect(ctrl.keys).to.exist;
       expect(ctrl.recipients).to.exist;
       expect(ctrl.verify.callCount).to.equal(2);
