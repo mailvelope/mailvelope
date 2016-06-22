@@ -68,9 +68,13 @@ define(function(require, exports, module) {
    * @yield {undefined}
    */
   KeyServer.prototype.upload = function(options) {
+    var payload = {publicKeyArmored: options.publicKeyArmored};
+    if (options.primaryEmail) {
+      payload.primaryEmail = options.primaryEmail;
+    }
     return fetch(this._url(), {
       method: 'POST',
-      body: JSON.stringify(options)
+      body: JSON.stringify(payload)
     })
     .then(this._checkStatus);
   };

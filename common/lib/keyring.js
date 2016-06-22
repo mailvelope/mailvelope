@@ -28,6 +28,8 @@ define(function(require, exports, module) {
   var keyringAttr = null;
   var keyringMap = new Map();
   var trustKey = require('./trustKey');
+  var KeyServer = require('./keyserver');
+  var keyServer = new KeyServer(mvelo);
 
   function init() {
     keyringAttr = getAllKeyringAttr();
@@ -765,6 +767,15 @@ define(function(require, exports, module) {
     this.sync.commit();
   };
 
+  /**
+   * Generate a new PGP keypair and optionally upload the public key to the
+   * key server.
+   * @param {number}  options.numBits           The keysize in bits
+   * @param {Array}   options.userIds           Email addresses and names
+   * @param {string}  options.passphrase        To protect the private key on disk
+   * @param {boolean} options.uploadPublicKey   If upload to key server is desired
+   * @yield {Object}                            The generated key pair
+   */
   Keyring.prototype.generateKey = function(options) {
     var that = this;
     options.userIds = options.userIds.map(function(userId) {
@@ -784,6 +795,12 @@ define(function(require, exports, module) {
           // by no primary key in the keyring set the generated key as primary
           if (!that.hasPrimaryKey()) {
             setKeyringAttr(that.id, {primary_key: data.key.primaryKey.keyid.toHex().toUpperCase()});
+          }
+          // upload public key
+          if (options.uploadPublicKey) {
+            return keyServer.upload({publicKeyArmored:data.publicKeyArmored}).then(function() {
+              return data;
+            });
           }
         }
         return data;
