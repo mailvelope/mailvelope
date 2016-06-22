@@ -71,7 +71,7 @@ var options = options || null;
     addEncryptInteractivity();
     addDecryptInteractivity();
 
-    $('.alert').hide();
+    $('#encrypting .alert').hide();
 
     options.getAllKeyUserId()
       .then(function(result) {

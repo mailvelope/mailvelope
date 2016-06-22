@@ -26,7 +26,12 @@ var options = options || null;
     'keygrid_key_not_expire',
     'keygrid_delete_confirmation',
     'keygrid_primary_label',
-    'key_set_as_primary'
+    'key_set_as_primary',
+    'keygrid_upload_alert_title',
+    'keygrid_upload_alert_msg',
+    'learn_more_link',
+    'keygrid_upload_alert_accept',
+    'keygrid_upload_alert_refuse'
   ]);
 
   var keyTmpl;
@@ -70,11 +75,29 @@ var options = options || null;
     $('#exportTabSwitch').on('click', function() {
       $('#exportPublic').get(0).click();
     });
+    $('#uploadKeyAcceptBtn').click(uploadToKeyServer);
+    $('#uploadKeyRefuseBtn').click(refuseUploadKey);
 
     if (!isKeygridLoaded) {
       reload();
       isKeygridLoaded = true;
     }
+  }
+
+  function uploadToKeyServer() {
+    // send upload event to background script
+    mvelo.extension.sendMessage({
+      event: 'upload-primary-public-key'
+    }, function(response) {
+      // TODO: handle upload success/error
+      // TODO: save uploaded state in localstorage
+    });
+    $('#uploadKeyAlert').hide();
+  }
+
+  function refuseUploadKey() {
+    // TODO: save refusal state in localstorage
+    $('#uploadKeyAlert').hide();
   }
 
   function reload() {
