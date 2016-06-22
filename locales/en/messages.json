@@ -435,6 +435,14 @@
     "description": "Key expires after time range",
     "message": "years"
   },
+  "key_gen_upload": {
+    "description": "Upload key to Mailvelope key server checkbox",
+    "message": "Upload public key to Mailvelope Key Server (can be deleted at any time)"
+  },
+  "learn_more_link": {
+    "description": "Text of a link to a learn-more resource",
+    "message": "Learn more"
+  },
   "key_import_default_description": {
     "description": "Key import dialog description.",
     "message": "Encrypted communication with this recipient is ready after confirmation."
