@@ -34,7 +34,7 @@ define(function(require, exports, module) {
     if (keyringAttr && keyringAttr[mvelo.LOCAL_KEYRING_ID]) {
       for (var keyringId in keyringAttr) {
         if (keyringAttr.hasOwnProperty(keyringId)) {
-          keyringMap.set(keyringId, new Keyring(keyringId));
+          keyringMap.set(keyringId, _getKeyring(keyringId));
         }
       }
     } else {
@@ -47,6 +47,7 @@ define(function(require, exports, module) {
   }
 
   function createKeyring(keyringId, options) {
+    // init keyring attributes
     if (!keyringAttr) {
       keyringAttr = {};
     }
@@ -56,10 +57,28 @@ define(function(require, exports, module) {
       throw error;
     }
     keyringAttr[keyringId] = {};
-    var keyRng = new Keyring(keyringId);
+    // instantiate keyring
+    var keyRng = _getKeyring(keyringId);
     keyringMap.set(keyringId, keyRng);
     setKeyringAttr(keyringId, {} || options);
     return keyRng;
+  }
+
+  /**
+   * Instantiate a new keyring object
+   * @param  {String} keyringId
+   * @return {Keyring}
+   */
+  function _getKeyring(keyringId) {
+    // resolve keyring dependencies
+    var localstore = null;
+    if (keyringId !== mvelo.LOCAL_KEYRING_ID) {
+      localstore = new openpgp.Keyring.localstore(keyringId);
+    }
+    var pgpKeyring = new openpgp.Keyring(localstore);
+    var krSync = new keyringSync.KeyringSync(keyringId);
+    // instantiate keyring
+    return new Keyring(keyringId, pgpKeyring, krSync);
   }
 
   function deleteKeyring(keyringId) {
@@ -121,7 +140,7 @@ define(function(require, exports, module) {
   /**
    * Get primary or first available user id of key
    * @param  {openpgp.Key} key
-   * @param  {Boolean} [validityCheck=true] - only return valid user ids, e.g. for expired keys you would want ot set to false to still get a result
+   * @param  {Boolean} [validityCheck=true] - only return valid user ids, e.g. for expired keys you would want to set to false to still get a result
    * @return {String} user id
    */
   function getUserId(key, validityCheck) {
@@ -192,15 +211,12 @@ define(function(require, exports, module) {
   exports.readKey = readKey;
   exports.mapKeys = mapKeys;
   exports.cloneKey = cloneKey;
+  exports.Keyring = Keyring;
 
-  function Keyring(keyringId) {
+  function Keyring(keyringId, pgpKeyring, krSync) {
     this.id = keyringId;
-    var localstore = null;
-    if (this.id !== mvelo.LOCAL_KEYRING_ID) {
-      localstore = new openpgp.Keyring.localstore(this.id);
-    }
-    this.keyring = new openpgp.Keyring(localstore);
-    this.sync = new keyringSync.KeyringSync(this.id);
+    this.keyring = pgpKeyring;
+    this.sync = krSync;
   }
 
   Keyring.prototype.getKeys = function() {
@@ -452,7 +468,11 @@ define(function(require, exports, module) {
   Keyring.prototype._mapKeyUserIds = function(user) {
     try {
       var emailAddress = goog.format.EmailAddress.parse(user.userid);
-      user.email = emailAddress.getAddress();
+      if (emailAddress.isValid()) {
+        user.email = emailAddress.getAddress();
+      } else {
+        user.email = '';
+      }
       user.name = emailAddress.getName();
     } catch (e) {
       user.userid = l10n('keygrid_invalid_userid');
