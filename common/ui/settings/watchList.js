@@ -225,7 +225,7 @@ var options = options || null;
     if (currentSiteID === 'newSite') {
       var tableRow = $.parseHTML(mailProviderTmpl);
       $(tableRow).find('td:nth-child(2)').text(site.site);
-      if (site.acitve) {
+      if (site.active) {
         $(tableRow).find('.glyphicon-check').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
       }
       $(tableRow).attr('data-website', JSON.stringify(site));
@@ -235,7 +235,7 @@ var options = options || null;
         var sData = JSON.parse($(siteRow).attr('data-website'));
         if (currentSiteID === sData.site) {
           $(siteRow).find('td:nth-child(2)').text(site.site);
-          if (site.acitve) {
+          if (site.active) {
             $(siteRow).find('.glyphicon-check').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
           }
           $(siteRow).attr('data-website', JSON.stringify(site));
