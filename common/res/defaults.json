@@ -9,26 +9,6 @@
           "scan": true,
           "frame": "*.gmx.net",
           "api": true
-        },
-        {
-          "scan": true,
-          "frame": "*.gmx.com",
-          "api": true
-        },
-        {
-          "scan": true,
-          "frame": "*.gmx.co.uk",
-          "api": true
-        },
-        {
-          "scan": true,
-          "frame": "*.gmx.fr",
-          "api": true
-        },
-        {
-          "scan": true,
-          "frame": "*.gmx.es",
-          "api": true
         }
       ]
     },
