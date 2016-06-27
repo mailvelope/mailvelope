@@ -76,12 +76,18 @@ var options = options || null;
       $('#exportPublic').get(0).click();
     });
     $('#uploadKeyAcceptBtn').click(uploadToKeyServer);
-    $('#uploadKeyRefuseBtn').click(refuseUploadKey);
+    $('#uploadKeyRefuseBtn').click(dismissKeyUpload);
 
     if (!isKeygridLoaded) {
       reload();
       isKeygridLoaded = true;
     }
+
+    options.pgpModel('getPreferences').then(function(prefs) {
+      if (!prefs.keyserver.dismiss_key_upload) {
+        $('#uploadKeyAlert').removeClass('hidden');
+      }
+    });
   }
 
   function uploadToKeyServer() {
@@ -89,15 +95,21 @@ var options = options || null;
     mvelo.extension.sendMessage({
       event: 'upload-primary-public-key'
     }, function(response) {
-      // TODO: handle upload success/error
-      // TODO: save uploaded state in localstorage
+      if (response.error) {
+        // TODO use alert and progress bar
+        $('#keyUploadError').modal('show');
+      } else {
+        dismissKeyUpload();
+      }
     });
-    $('#uploadKeyAlert').hide();
   }
 
-  function refuseUploadKey() {
-    // TODO: save refusal state in localstorage
-    $('#uploadKeyAlert').hide();
+  function dismissKeyUpload() {
+    $('#uploadKeyAlert').addClass('hidden');
+    var update = {
+      keyserver: {dismiss_key_upload: true}
+    };
+    mvelo.extension.sendMessage({event: 'set-prefs', data: update});
   }
 
   function reload() {

@@ -459,6 +459,10 @@
     "description": "Button text to reject key upload",
     "message": "No thanks"
   },
+  "keygrid_upload_error_msg": {
+    "description": "Upload error message",
+    "message": "Key upload failed."
+  },
   "key_import_default_description": {
     "description": "Key import dialog description.",
     "message": "Encrypted communication with this recipient is ready after confirmation."

@@ -459,6 +459,10 @@
     "description": "Button text to reject key upload",
     "message": "Nein danke"
   },
+  "keygrid_upload_error_msg": {
+    "description": "Upload error message",
+    "message": "Hochladen des Schlüssels fehlgeschlagen."
+  },
   "key_import_default_description": {
     "message": "Nach der Bestätigung ist die verschlüsselte Kommunikation mit diesem Kontakt eingerichtet.",
     "description": "Key import dialog description."

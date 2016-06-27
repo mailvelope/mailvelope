@@ -161,7 +161,7 @@ define(function(require, exports, module) {
         var localKeyring = keyring.getById(mvelo.LOCAL_KEYRING_ID);
         var primaryKey = localKeyring.getPrimaryKey();
         if (!primaryKey) {
-          sendResponse({error: new Error('Primary key not found')});
+          sendResponse({error: {message: 'Primary key not found'}});
           return;
         }
         keyServer.upload({
@@ -169,9 +169,9 @@ define(function(require, exports, module) {
         }).then(function() {
           sendResponse(true);
         }).catch(function(err) {
-          sendResponse({error: err});
+          sendResponse({error: mvelo.util.mapError(err)});
         });
-        break;
+        return true;
       default:
         console.log('unknown event:', request);
     }
