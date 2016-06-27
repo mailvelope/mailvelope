@@ -71,6 +71,9 @@ define(function(require, exports, module) {
         if (typeof prefs.keyserver == 'undefined') {
           prefs.keyserver = defaults.preferences.keyserver;
         }
+        if (typeof prefs.keyserver.mvelo_tofu_lookup == 'undefined') {
+          prefs.keyserver.mvelo_tofu_lookup = defaults.preferences.keyserver.mvelo_tofu_lookup;
+        }
 
         // merge watchlist on version change
         mergeWatchlist(defaults);
