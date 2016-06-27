@@ -51,7 +51,7 @@ define(function(require, exports, module) {
    * @yield {Object}                       The public key object
    */
   KeyServer.prototype.lookup = function(options) {
-    return fetch(this._url(options))
+    return this._mvelo.util.fetch(this._url(options))
     .then(function(response) {
       if (response.status === 200) {
         return response.json();
@@ -72,7 +72,7 @@ define(function(require, exports, module) {
     if (options.primaryEmail) {
       payload.primaryEmail = options.primaryEmail;
     }
-    return fetch(this._url(), {
+    return this._mvelo.util.fetch(this._url(), {
       method: 'POST',
       body: JSON.stringify(payload)
     })
@@ -88,7 +88,7 @@ define(function(require, exports, module) {
    * @yield {undefined}
    */
   KeyServer.prototype.remove = function(options) {
-    return fetch(this._url(options), {
+    return this._mvelo.util.fetch(this._url(options), {
       method: 'DELETE'
     })
     .then(this._checkStatus);

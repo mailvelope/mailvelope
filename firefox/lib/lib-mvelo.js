@@ -29,6 +29,7 @@ var l10nGet = require('sdk/l10n').get;
 
 var mvelo = require('../data/common/ui/mvelo').mvelo;
 var CWorker = require('./web-worker').Worker;
+var request = require("sdk/request").Request;
 
 mvelo.ffa = true;
 mvelo.crx = false;
@@ -257,6 +258,35 @@ mvelo.util.getDOMWindow = function() {
 
 mvelo.util.getWorker = function() {
   return CWorker;
+};
+
+mvelo.util.fetch = function(url, options) {
+  options = options || {};
+  return new Promise(function(resolve, reject) {
+    var fetchRequ = request({
+      url: url,
+      content: options.body,
+      contentType: 'application/json',
+      onComplete: function(response) {
+        resolve({
+          status: response.status,
+          json: function() {
+            return Promise.resolve(response.json);
+          }
+        });
+      }
+    });
+    switch (options.method) {
+      case 'POST':
+        fetchRequ.post();
+        break;
+      case 'DELETE':
+        fetchRequ.delete();
+        break;
+      default:
+        fetchRequ.get();
+    }
+  });
 };
 
 mvelo.l10n = mvelo.l10n || {};
