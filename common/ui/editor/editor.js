@@ -166,8 +166,11 @@ EditorCtrl.prototype.autocomplete = function(query) {
       displayId: key.userid + ' - ' + key.keyid.substr(-8).toUpperCase()
     };
   });
+  // filter by display ID and ignore duplicates
+  var that = this;
   return cache.filter(function(i) {
-    return i.displayId.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    return i.displayId.toLowerCase().indexOf(query.toLowerCase()) !== -1 &&
+      !that.recipients.some(function(recipient) { return recipient.email === i.email; });
   });
 };
 
