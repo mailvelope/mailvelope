@@ -297,36 +297,49 @@ describe('Editor UI unit tests', function() {
   describe('autocomplete', function() {
     it('should find none for keys undefined', function() {
       ctrl.keys = undefined;
+      ctrl.recipients = [];
       expect(ctrl.autocomplete('jon').length).to.equal(0);
     });
 
     it('should find none for empty keys', function() {
       ctrl.keys = [];
+      ctrl.recipients = [];
       expect(ctrl.autocomplete('jon').length).to.equal(0);
     });
 
     it('should find one for empty email', function() {
       ctrl.keys = [{email: '', userid: 'Jon Smith', keyid: '1ddcee8ad254cc42'}];
+      ctrl.recipients = [];
       expect(ctrl.autocomplete('jon').length).to.equal(1);
+    });
+
+    it('should find none if email is already in recipients', function() {
+      ctrl.keys = [{email: 'j@s.com', userid: 'Jon Smith', keyid: '1ddcee8ad254cc42'}];
+      ctrl.recipients = [{email: 'j@s.com'}];
+      expect(ctrl.autocomplete('jon').length).to.equal(0);
     });
 
     it('should find two matches', function() {
       ctrl.keys = [{userid: 'Jon Smith <j@s.com>', keyid: '1ddcee8ad254cc42'}, {userid: 'jon <j@b.com>', keyid: '1ddcee8ad254cc41'}];
+      ctrl.recipients = [];
       expect(ctrl.autocomplete('jOn').length).to.equal(2);
     });
 
     it('should find one match', function() {
       ctrl.keys = [{userid: 'Jon Smith <j@s.com>', keyid: '1ddcee8ad254cc42'}, {userid: 'jon <j@b.com>', keyid: '1ddcee8ad254cc41'}];
+      ctrl.recipients = [];
       expect(ctrl.autocomplete('sMith').length).to.equal(1);
     });
 
     it('should find match on short keyid', function() {
       ctrl.keys = [{userid: 'Jon Smith <j@s.com>', keyid: '1ddcee8ad254cc42'}, {userid: 'jon <j@b.com>', keyid: '1ddcee8ad254cc41'}];
+      ctrl.recipients = [];
       expect(ctrl.autocomplete('cc42').length).to.equal(1);
     });
 
     it('should concatenate userid and keyid', function() {
       ctrl.keys = [{userid: 'Jon Smith <j@s.com>', keyid: '1ddcee8ad254cc42'}];
+      ctrl.recipients = [];
       expect(ctrl.autocomplete('cc42')[0].displayId).to.equal('Jon Smith <j@s.com> - D254CC42');
     });
   });

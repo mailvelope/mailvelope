@@ -3,24 +3,23 @@
 define(function(require) {
 
   var KeyServer = require('common/lib/keyserver');
-  var keyServer;
+  var keyServer, mvelo;
 
   describe('Key Server unit tests', function() {
 
     beforeEach(function() {
-      var mvelo = {
+      mvelo = {
         storage: {
           get: function() { return {keyserver: {mvelo_tofu_lookup:true}}; }
+        },
+        util: {
+          fetch: function() {}
         }
       };
       keyServer = new KeyServer(mvelo, 'http://localhost:8888');
       expect(keyServer._baseUrl).to.equal('http://localhost:8888');
 
-      sinon.stub(window, 'fetch');
-    });
-
-    afterEach(function() {
-      fetch.restore();
+      sinon.stub(mvelo.util, 'fetch');
     });
 
     describe('getTOFUPreference', function() {
@@ -31,7 +30,7 @@ define(function(require) {
 
     describe('lookup', function() {
       it('should return key', function() {
-        fetch.returns(Promise.resolve({
+        mvelo.util.fetch.returns(Promise.resolve({
           status: 200,
           json: function() { return {foo:'bar'}; }
         }));
@@ -43,7 +42,7 @@ define(function(require) {
       });
 
       it('should not return key', function() {
-        fetch.returns(Promise.resolve({
+        mvelo.util.fetch.returns(Promise.resolve({
           status: 404,
           json: function() { return {foo:'bar'}; }
         }));
@@ -57,7 +56,7 @@ define(function(require) {
 
     describe('upload', function() {
       it('should upload a key', function() {
-        fetch.returns(Promise.resolve({
+        mvelo.util.fetch.returns(Promise.resolve({
           status: 201
         }));
 
@@ -65,7 +64,7 @@ define(function(require) {
       });
 
       it('should not upload a key', function() {
-        fetch.returns(Promise.resolve({
+        mvelo.util.fetch.returns(Promise.resolve({
           status: 304,
           statusText: 'Key already exists'
         }));
@@ -79,7 +78,7 @@ define(function(require) {
 
     describe('remove', function() {
       it('should remove a key', function() {
-        fetch.returns(Promise.resolve({
+        mvelo.util.fetch.returns(Promise.resolve({
           status: 200
         }));
 
@@ -87,7 +86,7 @@ define(function(require) {
       });
 
       it('should not remove a key', function() {
-        fetch.returns(Promise.resolve({
+        mvelo.util.fetch.returns(Promise.resolve({
           status: 404,
           statusText: 'Key not found'
         }));
@@ -101,7 +100,7 @@ define(function(require) {
 
     describe('_url', function() {
       it('should work for email', function() {
-        fetch.returns(Promise.resolve({
+        mvelo.util.fetch.returns(Promise.resolve({
           status: 200
         }));
 
@@ -110,7 +109,7 @@ define(function(require) {
       });
 
       it('should work for key id', function() {
-        fetch.returns(Promise.resolve({
+        mvelo.util.fetch.returns(Promise.resolve({
           status: 200
         }));
 
@@ -119,7 +118,7 @@ define(function(require) {
       });
 
       it('should work for fingerprint', function() {
-        fetch.returns(Promise.resolve({
+        mvelo.util.fetch.returns(Promise.resolve({
           status: 200
         }));
 

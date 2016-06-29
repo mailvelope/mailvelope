@@ -32,6 +32,7 @@ define(function(require) {
 
   var mvelo = require('mvelo');
   var Keyring = require('common/lib/keyring').Keyring;
+  var KeyServer = require('common/lib/keyserver');
   var keyringSync = require('common/lib/keyringSync');
   var openpgp = require('openpgp');
 
@@ -40,7 +41,7 @@ define(function(require) {
     var keys = [];
 
     beforeEach(function() {
-      sinon.stub(window, 'fetch');
+      sinon.stub(KeyServer.prototype, 'upload');
       sinon.stub(openpgp, 'generateKeyPair');
       var openpgpKeyring = sinon.createStubInstance(openpgp.Keyring);
       sinon.stub(openpgp, 'Keyring');
@@ -61,7 +62,7 @@ define(function(require) {
     });
 
     afterEach(function() {
-      window.fetch.restore();
+      KeyServer.prototype.upload.restore();
       openpgp.generateKeyPair.restore();
       openpgp.Keyring.restore();
       keyringSync.KeyringSync.restore();
@@ -89,14 +90,14 @@ define(function(require) {
           privateKeyArmored: 'PRIVATE KEY BLOCK'
         }));
         keyring.hasPrimaryKey.returns(true);
-        window.fetch.returns(resolves({status:201}));
+        KeyServer.prototype.upload.returns(resolves({status:201}));
       });
 
       it('should generate and upload key', function() {
         keygenOpt.uploadPublicKey = true;
         return keyring.generateKey(keygenOpt).then(function(key) {
           expect(key.privateKeyArmored).to.exist;
-          expect(window.fetch.calledOnce).to.be.true;
+          expect(KeyServer.prototype.upload.calledOnce).to.be.true;
         });
       });
 
@@ -104,7 +105,7 @@ define(function(require) {
         keygenOpt.uploadPublicKey = false;
         return keyring.generateKey(keygenOpt).then(function(key) {
           expect(key.privateKeyArmored).to.exist;
-          expect(window.fetch.calledOnce).to.be.false;
+          expect(KeyServer.prototype.upload.calledOnce).to.be.false;
         });
       });
     });
