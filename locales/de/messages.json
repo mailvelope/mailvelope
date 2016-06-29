@@ -463,6 +463,10 @@
     "description": "Upload error message",
     "message": "Hochladen des Schlüssels fehlgeschlagen."
   },
+  "keygrid_upload_success_msg": {
+    "description": "Upload success message",
+    "message": "Hochladen des Schlüssels war erfolgreich."
+  },
   "key_import_default_description": {
     "message": "Nach der Bestätigung ist die verschlüsselte Kommunikation mit diesem Kontakt eingerichtet.",
     "description": "Key import dialog description."

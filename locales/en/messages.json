@@ -463,6 +463,10 @@
     "description": "Upload error message",
     "message": "Key upload failed."
   },
+  "keygrid_upload_success_msg": {
+    "description": "Upload success message",
+    "message": "Key upload successful."
+  },
   "key_import_default_description": {
     "description": "Key import dialog description.",
     "message": "Encrypted communication with this recipient is ready after confirmation."

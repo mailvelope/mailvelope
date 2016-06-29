@@ -91,20 +91,29 @@ var options = options || null;
   }
 
   function uploadToKeyServer() {
+    // hide success/error alerts
+    $('#keyUploadErrorAlert').addClass('hidden');
+    $('#keyUploadSuccessAlert').addClass('hidden');
+    // show progress bar
+    $('#keyUploadProgressBar .progress-bar').css('width', '100%');
+    $('#keyUploadProgressBar').removeClass('hidden');
     // send upload event to background script
     mvelo.extension.sendMessage({
       event: 'upload-primary-public-key'
     }, function(response) {
+      // hide progress bar
+      $('#keyUploadProgressBar').addClass('hidden');
       if (response.error) {
-        // TODO use alert and progress bar
-        $('#keyUploadError').modal('show');
+        $('#keyUploadErrorAlert').removeClass('hidden');
       } else {
+        $('#keyUploadSuccessAlert').removeClass('hidden');
         dismissKeyUpload();
       }
     });
   }
 
   function dismissKeyUpload() {
+    $('#keyUploadErrorAlert').addClass('hidden');
     $('#uploadKeyAlert').addClass('hidden');
     var update = {
       keyserver: {dismiss_key_upload: true}

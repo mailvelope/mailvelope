@@ -3,6 +3,16 @@
     <span class="third-party-logo"></span>
 </h3>
 
+<div id="keyUploadSuccessAlert" class="alert alert-success hidden" role="alert">
+  <strong data-l10n-id="alert_header_success"></strong> <span data-l10n-id="keygrid_upload_success_msg"></span>
+</div>
+<div id="keyUploadErrorAlert" class="alert alert-danger hidden" role="alert">
+  <strong data-l10n-id="alert_header_error"></strong> <span data-l10n-id="keygrid_upload_error_msg"></span>
+</div>
+<div id="keyUploadProgressBar" class="progress hidden">
+  <div class="progress-bar progress-bar-striped active" role="progressbar"></div>
+</div>
+
 <div id="uploadKeyAlert" class="alert alert-success hidden" style="position:relative; padding-bottom:60px;">
   <span class="glyphicon glyphicon-lock"></span>
   <strong data-l10n-id="keygrid_upload_alert_title"></strong> <span data-l10n-id="keygrid_upload_alert_msg"></span>. <a href="https://keys.mailvelope.com" target="_blank" data-l10n-id="learn_more_link"></a>
@@ -11,23 +21,6 @@
     <button id="uploadKeyRefuseBtn" type="button" class="btn btn-default" data-l10n-id="keygrid_upload_alert_refuse"></button>
   </div>
 </div><!-- /uploadKeyAlert -->
-
-<div class="modal" id="keyUploadError" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3 data-l10n-id="alert_header_error"></h3>
-      </div>
-      <div class="modal-body">
-        <div data-l10n-id="keygrid_upload_error_msg"></div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" data-l10n-id="dialog_popup_close"></button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
 
 <div class="table-responsive-custom">
   <table class="table table-striped table-hover optionsTable sortable" id="keyRingTable">
