@@ -96,7 +96,7 @@
     "description": ""
   },
   "editor_error_header": {
-    "message": "Fehler Überschrift",
+    "message": "Fehler",
     "description": ""
   },
   "editor_header": {
@@ -142,6 +142,18 @@
   "editor_transfer_unencrypted": {
     "message": "Sie versuchen, unverschlüsselten Inhalt zurück zum E-Mail-Anbieter zu übertragen.",
     "description": "Warning for unencrypted content."
+  },
+  "editor_label_add_recipient": {
+    "description": "Label for recipient text input.",
+    "message": "Empfänger hinzufügen"
+  },
+  "editor_key_not_found": {
+    "description": "Warning for when a recipient key was not found.",
+    "message": "Schlüssel nicht gefunden!"
+  },
+  "editor_key_not_found_msg": {
+    "description": "Warning for when a recipient key was not found.",
+    "message": "Alle empfänger benötigen einen PGP Schlüssel um zu verschlüsseln. Sie können die Nachricht derzeit nur signieren."
   },
   "encrypt_dialog_add": {
     "message": "Hinzufügen",

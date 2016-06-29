@@ -7,17 +7,32 @@
 <body>
   <div id="mocha"></div>
 
-  <!-- libs -->
+  <!-- polyfills required for PhantomJS -->
   <script src="../node_modules/es6-promise/dist/es6-promise.js"></script>
-  <script src="../bower_components/jquery/dist/jquery.js"></script>
+  <script src="../node_modules/es6-map-shim/es6-map-shim.js"></script>
+
+  <!-- test libs -->
   <script src="../node_modules/chai/chai.js"></script>
   <script src="../node_modules/mocha/mocha.js"></script>
   <script src="../node_modules/sinon/pkg/sinon.js"></script>
   <script src="config.js"></script>
 
-  <!-- load non AMD unit tests -->
+  <!-- libs -->
+  <script src="../bower_components/jquery/dist/jquery.js"></script>
+  <script src="../node_modules/angular/angular.js"></script>
+  <script src="../node_modules/angular-mocks/angular-mocks.js"></script>
+
+  <!-- load non-AMD unit tests -->
+  <script src="../common/ui/mvelo.js"></script>
+  <script src="common/ui/mvelo-test.js"></script>
+  <script src="../common/ui/editor/editor.js"></script>
+  <script src="common/ui/editor/editor-test.js"></script>
   <script src="../common/ui/settings/keyserver.js"></script>
   <script src="common/ui/settings/keyserver-test.js"></script>
+  <script src="../common/ui/inline/providerSpecific.js"></script>
+  <script src="common/ui/inline/providerSpecific-test.js"></script>
+  <script src="../common/ui/inline/encryptFrame.js"></script>
+  <script src="common/ui/inline/encryptFrame-test.js"></script>
 
   <!-- load AMD unit tests -->
   <script data-main="main.js" src="../bower_components/requirejs/require.js"></script>

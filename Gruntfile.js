@@ -82,7 +82,8 @@ module.exports = function(grunt) {
             'common/ui/inline/keyBackupContainer.js',
             'common/ui/inline/restoreBackupContainer.js',
             'common/ui/inline/syncHandler.js',
-            'common/ui/inline/domAPI.js'
+            'common/ui/inline/domAPI.js',
+            'common/ui/inline/providerSpecific.js'
           ],
           dest: 'build/common/ui/inline/cs-mailvelope.js'
         }]
@@ -137,6 +138,18 @@ module.exports = function(grunt) {
             cwd: 'bower_components/qrcodejs/',
             src: 'qrcode.js',
             dest: 'build/common/dep/qrcodejs/'
+          },
+          {
+            expand: true,
+            cwd: 'node_modules/angular/',
+            src: ['angular.min.js', 'angular-csp.css'],
+            dest: 'build/common/dep/angular/'
+          },
+          {
+            expand: true,
+            cwd: 'node_modules/ng-tags-input/build/',
+            src: ['ng-tags-input.min.js', 'ng-tags-input.min.css', 'ng-tags-input.bootstrap.min.css'],
+            dest: 'build/common/dep/ng-tags-input/'
           }
         ]
       },
@@ -383,9 +396,30 @@ module.exports = function(grunt) {
       }
     },
 
-    mocha_phantomjs: {
-      all: ['test/index.html']
+    connect: {
+      dev: {
+        options: {
+          port: 8580,
+          base: '.',
+          keepalive: true
+        }
+      },
+      test: {
+        options: {
+          port: 8581,
+          base: '.'
+        }
+      }
     },
+
+    mocha_phantomjs: {
+      all: {
+        options: {
+          urls: ['http://localhost:<%= connect.test.options.port %>/test/index.html']
+        }
+      }
+    }
+
   });
 
   grunt.loadNpmTasks('grunt-contrib-clean');
@@ -399,6 +433,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-jscs");
   grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-jpm');
+  grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-mocha-phantomjs');
 
   //custom tasks
@@ -415,6 +450,6 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['clean', 'jshint', 'jscs', 'concat', 'copy_common', 'final_assembly']);
   grunt.registerTask('nightly', ['clean', 'jshint', 'jscs', 'concat', 'copy_common', 'replace:build_version', 'final_assembly']);
 
-  grunt.registerTask('test', ['mocha_phantomjs']);
+  grunt.registerTask('test', ['connect:test', 'mocha_phantomjs']);
 
 };

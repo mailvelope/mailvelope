@@ -3,7 +3,7 @@
   "version": "1.4.0",
   "description": "Mailvelope is a browser extension for Google Chrome and Firefox that allows secure email communication based on the OpenPGP standard. It can be configured to work with arbitrary Webmail provider.",
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt && grunt test"
   },
   "repository": {
     "type": "git",
@@ -15,18 +15,23 @@
   "license": "AGPL",
   "readmeFilename": "Readme.md",
   "dependencies": {
-    "mailreader": "~1.0.0",
+    "angular": "~1.5.5",
     "emailjs-mime-builder": "mailvelope/emailjs-mime-builder#v1.0.1m",
-    "emailjs-mime-codec": "mailvelope/emailjs-mime-codec#v1.0.2m"
+    "emailjs-mime-codec": "mailvelope/emailjs-mime-codec#v1.0.2m",
+    "mailreader": "~1.0.0",
+    "ng-tags-input": "~3.0.0"
   },
   "devDependencies": {
+    "angular-mocks": "~1.5.5",
     "chai": "^3.5.0",
+    "es6-map-shim": "^0.2.1",
     "es6-promise": "^3.1.2",
     "grunt": "~0.4.2",
     "grunt-bump": "0.0.16",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-compress": "~0.6.1",
     "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-connect": "^1.0.2",
     "grunt-contrib-copy": "~0.5.0",
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-watch": "~0.5.3",

@@ -52,7 +52,9 @@
         "expect": true,
         "sinon": true,
         "resolves": true,
-        "rejects": true
+        "rejects": true,
+        "angular": true,
+        "mvelo": true
     }
 
 }

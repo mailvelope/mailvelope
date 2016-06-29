@@ -173,6 +173,39 @@ body {
   margin-bottom: 3px;
 }
 
+#flex-container #recipients {
+  width: 100%;
+  position: relative;
+  order: 0;
+  margin-bottom: 5px;
+}
+
+#recipients tags-input .tags .tag-item {
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+#recipients tags-input .tags .tag-success {
+  /* bootstrap btn-success color */
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+#recipients tags-input .tags .tag-warning {
+  /* bootstrap btn-warning color */
+  background-color: #f0ad4e;
+  border-color: #eea236;
+}
+
+#recipients tags-input .tags .tag-danger {
+  /* bootstrap btn-danger color */
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+
+#recipients .alert {
+  margin: 10px 0 5px;
+}
+
 #flex-container #body {
   width: 100%;
   position: relative;

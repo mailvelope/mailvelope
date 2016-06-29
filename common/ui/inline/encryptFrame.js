@@ -24,6 +24,7 @@ mvelo.EncryptFrame = function(prefs) {
   this._editElement = null;
   this._eFrame = null;
   this._port = null;
+  this._senderId = 'eFrame-' + this.id;
   this._refreshPosIntervalID = 0;
   this._emailTextElement = null;
   this._emailUndoText = null;
@@ -32,6 +33,8 @@ mvelo.EncryptFrame = function(prefs) {
   this._options = {closeBtn: true};
   this._keyCounter = 0;
 };
+
+mvelo.EncryptFrame.prototype = Object.create(mvelo.EventHandler.prototype); // add new event api functions
 
 mvelo.EncryptFrame.prototype.attachTo = function(element, options) {
   $.extend(this._options, options);
@@ -158,10 +161,14 @@ mvelo.EncryptFrame.prototype._setFrameDim = function() {
 };
 
 mvelo.EncryptFrame.prototype._showMailEditor = function() {
-  this._port.postMessage({
-    event: 'eframe-display-editor',
-    sender: 'eFrame-' + this.id,
+  this.emit('eframe-display-editor', {
     text: this._getEmailText(this._editorType == mvelo.PLAIN_TEXT ? 'text' : 'html')
+  });
+};
+
+mvelo.EncryptFrame.prototype._getRecipients = function() {
+  this.emit('eframe-recipients', {
+    recipients: mvelo.main.currentProvider.getRecipients()
   });
 };
 
@@ -217,29 +224,19 @@ mvelo.EncryptFrame.prototype._saveEmailText = function() {
   }
 };
 
-mvelo.EncryptFrame.prototype._getEmailRecipient = function() {
-  var emails = [];
-  var emailRegex = /[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/g;
-  $('span').filter(':visible').each(function() {
-    var valid = $(this).text().match(emailRegex);
-    if (valid !== null) {
-      // second filtering: only direct text nodes of span elements
-      var spanClone = $(this).clone();
-      spanClone.children().remove();
-      valid = spanClone.text().match(emailRegex);
-      if (valid !== null) {
-        emails = emails.concat(valid);
-      }
-    }
-  });
-  $('input, textarea').filter(':visible').each(function() {
-    var valid = $(this).val().match(emailRegex);
-    if (valid !== null) {
-      emails = emails.concat(valid);
-    }
-  });
-  //console.log('found emails', emails);
-  return emails;
+/**
+ * Is called after encryption and injects ciphertext and recipient
+ * email addresses into the webmail interface.
+ * @param {String} options.text         The encrypted message body
+ * @param {Array}  options.recipients   The recipients to be added
+ */
+mvelo.EncryptFrame.prototype._setEditorOutput = function(options) {
+  // set message body
+  this._saveEmailText();
+  this._normalizeButtons();
+  this._setMessage(options.text, 'text');
+  // set recipient email addresses
+  mvelo.main.currentProvider.setRecipients(options.recipients);
 };
 
 /**
@@ -274,40 +271,13 @@ mvelo.EncryptFrame.prototype._resetEmailText = function() {
 };
 
 mvelo.EncryptFrame.prototype._registerEventListener = function() {
-  var that = this;
-  this._port.onMessage.addListener(function(msg) {
-    //console.log('eFrame-%s event %s received', that.id, msg.event);
-    switch (msg.event) {
-      case 'email-text':
-        that._port.postMessage({
-          event: 'eframe-email-text',
-          data: that._getEmailText(msg.type),
-          action: msg.action,
-          sender: 'eFrame-' + that.id
-        });
-        break;
-      case 'destroy':
-        that._closeFrame(true);
-        break;
-      case 'recipient-proposal':
-        that._port.postMessage({
-          event: 'eframe-recipient-proposal',
-          data: that._getEmailRecipient(),
-          sender: 'eFrame-' + that.id
-        });
-        break;
-      case 'set-editor-output':
-        that._saveEmailText();
-        that._normalizeButtons();
-        that._setMessage(msg.text, 'text');
-        break;
-      default:
-        console.log('unknown event', msg);
-    }
-  });
-  this._port.onDisconnect.addListener(function(msg) {
-    that._closeFrame(false);
-  });
+  // attach event handlers
+  this.on('get-recipients', this._getRecipients);
+  this.on('set-editor-output', this._setEditorOutput);
+  this.on('destroy', this._closeFrame.bind(this, true));
+  // attach port message handler
+  this._port.onMessage.addListener(this.handlePortMessage.bind(this));
+  this._port.onDisconnect.addListener(this._closeFrame.bind(this, false));
 };
 
 mvelo.EncryptFrame.isAttached = function(element) {

@@ -97,7 +97,7 @@
   },
   "editor_error_header": {
     "description": "",
-    "message": "Error Header"
+    "message": "Error"
   },
   "editor_header": {
     "description": "Header of editor popup.",
@@ -142,6 +142,18 @@
   "editor_transfer_unencrypted": {
     "description": "Warning for unencrypted content.",
     "message": "You are trying to transfer unencrypted content to the e-mail provider."
+  },
+  "editor_label_add_recipient": {
+    "description": "Label for recipient text input.",
+    "message": "Add recipient"
+  },
+  "editor_key_not_found": {
+    "description": "Warning for when a recipient key was not found.",
+    "message": "Key not found!"
+  },
+  "editor_key_not_found_msg": {
+    "description": "Warning for when a recipient key was not found.",
+    "message": "All recipients need a PGP key to encrypt. You can still sign the message though."
   },
   "encrypt_dialog_add": {
     "description": "Max 6 character.",

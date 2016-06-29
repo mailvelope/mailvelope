@@ -15,11 +15,332 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Parts of the editor are based on Hoodiecrow (MIT License)
+ * Copyright (c) 2014 Whiteout Networks GmbH.
+ * See https://github.com/tanx/hoodiecrow/blob/master/LICENSE
+ */
+
+/**
+ * @fileOverview This file implements the interface for encrypting and
+ * signing user data in an sandboxed environment that is secured from
+ * the webmail interface.
+ */
+
 'use strict';
 
-var mvelo = mvelo || null;
+angular.module('editor', ['ngTagsInput']); // load editor module dependencies
+angular.module('editor').controller('EditorCtrl', EditorCtrl); // attach ctrl to editor module
+
+/**
+ * Angular controller for the editor UI.
+ */
+function EditorCtrl($timeout) {
+  this._timeout = $timeout;
+
+  this.setGlobal(this); // share 'this' as '_self' in legacy closure code
+  this.checkEnvironment(); // get environment vars
+  this.registerEventListeners(); // listen to incoming events
+  this.initComplete(); // emit event to backend that editor has initialized
+}
+
+EditorCtrl.prototype = Object.create(mvelo.EventHandler.prototype); // add event api
+
+/**
+ * Reads the urls query string to get environment context
+ */
+EditorCtrl.prototype.checkEnvironment = function() {
+  var qs = $.parseQuerystring();
+  this.embedded = qs.embedded;
+  this._id = qs.id;
+  this._name = 'editor-' + this._id;
+};
+
+/**
+ * Verifies a recipient after input, gets their key, colors the
+ * input tag accordingly and checks if encryption is possible.
+ * @param  {Object} recipient   The recipient object
+ */
+EditorCtrl.prototype.verify = function(recipient) {
+  if (!recipient) {
+    return;
+  }
+  if (recipient.email) { // display only address from autocomplete
+    recipient.displayId = recipient.email;
+  } else { // set address after manual input
+    recipient.email = recipient.displayId;
+  }
+  this.getKey(recipient);
+  this.colorTag(recipient);
+  this.checkEncryptStatus();
+};
+
+/**
+ * Finds the recipient's corresponding public key and sets it
+ * on the 'key' attribute on the recipient object.
+ * @param  {Object} recipient   The recipient object
+ * @return {Object}             The key object (undefined if none found)
+ */
+EditorCtrl.prototype.getKey = function(recipient) {
+  recipient.key = (this.keys || []).find(function(key) {
+    if (key.email && recipient.email) {
+      return key.email.toLowerCase() === recipient.email.toLowerCase();
+    }
+  });
+  return recipient.key;
+};
+
+/**
+ * Uses jQuery to color the recipient's input tag depending on
+ * whether they have a key or not.
+ * @param  {Object} recipient   The recipient object
+ */
+EditorCtrl.prototype.colorTag = function(recipient) {
+  this._timeout(function() { // wait for html tag to appear
+    $('tags-input li.tag-item').each(function() {
+      if ($(this).text().indexOf(recipient.email) === -1) {
+        return;
+      }
+      if (recipient.key) {
+        $(this).addClass('tag-success');
+      } else {
+        $(this).addClass('tag-danger');
+      }
+    });
+  });
+};
+
+/**
+ * Checks if all recipients have a public key and prevents encryption
+ * if one of them does not have a key.
+ */
+EditorCtrl.prototype.checkEncryptStatus = function() {
+  this.noEncrypt = (this.recipients || []).some(function(r) { return !r.key; });
+};
+
+/**
+ * Queries the local cache of key objects to find a matching user ID
+ * @param  {String} query   The autocomplete query
+ * @return {Array}          A list of filtered items that match the query
+ */
+EditorCtrl.prototype.autocomplete = function(query) {
+  var cache = (this.keys || []).map(function(key) {
+    return {
+      email: key.email,
+      displayId: key.userid + ' - ' + key.keyid.substr(-8).toUpperCase()
+    };
+  });
+  return cache.filter(function(i) {
+    return i.displayId.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+  });
+};
+
+
+//
+// Evant handling from background script
+//
+
+
+/**
+ * Register the event handlers for the editor.
+ */
+EditorCtrl.prototype.registerEventListeners = function() {
+  this.on('public-key-userids', this._setRecipients);
+  this.on('set-text', this._onSetText);
+  this.on('set-init-data', this._onSetInitData);
+  this.on('set-attachment', this._onSetAttachment);
+  this.on('decrypt-in-progress', this._showWaitingModal);
+  this.on('encrypt-in-progress', this._showWaitingModal);
+  this.on('decrypt-end', this._hideWaitingModal);
+  this.on('encrypt-end', this._hideWaitingModal);
+  this.on('encrypt-failed', this._hideWaitingModal);
+  this.on('decrypt-failed', this._decryptFailed);
+  this.on('show-pwd-dialog', this._onShowPwdDialog);
+  this.on('hide-pwd-dialog', this._hidePwdDialog);
+  this.on('sign-dialog-cancel', this._removeDialog);
+  this.on('get-plaintext', this._getPlaintext);
+  this.on('error-message', this._onErrorMessage);
+
+  this._port.onMessage.addListener(this.handlePortMessage.bind(this));
+};
+
+/**
+ * Remember the available public keys for later and set the
+ * recipients proposal gotten from the webmail ui to the editor
+ * @param {Array} options.keys         A list of all available public
+ *                                     keys from the local keychain
+ * @param {Array} options.recipients   recipients gather from the
+ *                                     webmail ui
+ */
+EditorCtrl.prototype._setRecipients = function(options) {
+  this._timeout(function() { // trigger $scope.$digest() after async call
+    this.keys = options.keys;
+    this.recipients = options.recipients;
+    this.recipients.forEach(this.verify.bind(this));
+  }.bind(this));
+};
+
+/**
+ * Matches the recipients from the input to their public keys
+ * and returns an array of keys. If a recipient does not have a key
+ * still return their address.
+ * @return {Array}   the array of public key objects
+ */
+EditorCtrl.prototype.getRecipientKeys = function() {
+  return (this.recipients || []).map(function(r) {
+    return r.key || r; // some recipients don't have a key, still return address
+  });
+};
+
+/**
+ * Emit an event to the background script that the editor is finished initializing.
+ * Called when the angular controller is initialized (after templates have loaded)
+ */
+EditorCtrl.prototype.initComplete = function() {
+  this.emit('editor-init', {sender: this._name});
+};
+
+/**
+ * Opens the security settings if in embedded mode
+ */
+EditorCtrl.prototype.openSecuritySettings = function() {
+  if (this.embedded) {
+    this.emit('open-security-settings', {sender: this._name});
+  }
+};
+
+/**
+ * Send the plaintext body to the background script for either signing or
+ * encryption.
+ * @param  {String} action   Either 'sign' or 'encrypt'
+ */
+EditorCtrl.prototype.sendPlainText = function(action) {
+  this.emit('editor-plaintext', {
+    sender: this._name,
+    message: this.getEditorText(),
+    keys: this.getRecipientKeys(),
+    attachments: this.getAttachments(),
+    action: action
+  });
+};
+
+/**
+ * send log entry for the extension
+ * @param {string} type
+ */
+EditorCtrl.prototype.logUserInput = function(type) {
+  this.emit('editor-user-input', {
+    sender: this._name,
+    source: 'security_log_editor',
+    type: type
+  });
+};
+
+/**
+ * Is called when the user clicks the encrypt button.
+ */
+EditorCtrl.prototype.encrypt = function() {
+  this.logUserInput('security_log_dialog_encrypt');
+  this.sendPlainText('encrypt');
+};
+
+/**
+ * Is called when the user clicks the sign button.
+ */
+EditorCtrl.prototype.sign = function() {
+  this.logUserInput('security_log_dialog_sign');
+  this.showDialog('signDialog');
+};
+
+/**
+ * Is called when the user clicks the cancel button.
+ */
+EditorCtrl.prototype.cancel = function() {
+  this.logUserInput('security_log_dialog_cancel');
+  this.emit('editor-cancel', {
+    sender: this._name
+  });
+};
+
+
+//
+// Legacy code is contained in a closure and needs to be refactored to use angular
+//
+
 
 (function() {
+
+  if (!angular.mock) { // do not init in unit tests
+    angular.element(document).ready(init); // do manual angular bootstraping after init
+  }
+
+  EditorCtrl.prototype.getEditorText = function() {
+    return editor.val();
+  };
+
+  EditorCtrl.prototype.getAttachments = function() {
+    return mvelo.file.getFiles($('#uploadPanel'));
+  };
+
+  EditorCtrl.prototype._onSetText = function(msg) {
+    onSetText(msg);
+  };
+
+  EditorCtrl.prototype._showWaitingModal = function() {
+    $('#waitingModal').modal({keyboard: false}).modal('show');
+  };
+
+  EditorCtrl.prototype._hideWaitingModal = function() {
+    $('#waitingModal').modal('hide');
+  };
+
+  EditorCtrl.prototype._onSetInitData = function(msg) {
+    var data = msg.data;
+    onSetText(data);
+    setSignMode(data.signMsg || false, data.primary);
+  };
+
+  EditorCtrl.prototype._onSetAttachment = function(msg) {
+    setAttachment(msg.attachment);
+  };
+
+  EditorCtrl.prototype._decryptFailed = function(msg) {
+    var error = {
+      title: l10n.waiting_dialog_decryption_failed,
+      message: (msg.error) ? msg.error.message : l10n.waiting_dialog_decryption_failed,
+      class: 'alert alert-danger'
+    };
+    showErrorModal(error);
+  };
+
+  EditorCtrl.prototype._onShowPwdDialog = function(msg) {
+    this._removeDialog();
+    addPwdDialog(msg.id);
+  };
+
+  EditorCtrl.prototype._getPlaintext = function(msg) {
+    if (numUploadsInProgress !== 0) {
+      delayedAction = msg.action;
+    } else {
+      _self.sendPlainText(msg.action);
+    }
+  };
+
+  EditorCtrl.prototype._onErrorMessage = function(msg) {
+    if (msg.error.code === 'PWD_DIALOG_CANCEL') {
+      return;
+    }
+    showErrorModal(msg.error);
+  };
+
+  /**
+   * Remember global reference of $scope for use inside closure
+   */
+  EditorCtrl.prototype.setGlobal = function(global) {
+    _self = global;
+    _self._port = port;
+    _self.l10n = l10n;
+  };
 
   var id;
   var name;
@@ -36,7 +357,6 @@ var mvelo = mvelo || null;
   var blurWarnPeriod = null;
   // timeoutID for period in which blur events are non-critical
   var blurValid = null;
-  var undoText = null;
   var initText = null;
   var file;
   var commonPath;
@@ -44,6 +364,8 @@ var mvelo = mvelo || null;
   var logTextareaInput = true;
   var numUploadsInProgress = 0;
   var delayedAction = '';
+  var qs;
+  var _self;
 
   // Get language strings from JSON
   mvelo.l10n.getMessages([
@@ -57,7 +379,10 @@ var mvelo = mvelo || null;
     'editor_error_header',
     'editor_error_content',
     'waiting_dialog_prepare_email',
-    'upload_quota_warning_headline'
+    'upload_quota_warning_headline',
+    'editor_key_not_found',
+    'editor_key_not_found_msg',
+    'editor_label_add_recipient'
   ], function(result) {
     l10n = result;
   });
@@ -65,12 +390,16 @@ var mvelo = mvelo || null;
   var maxFileUploadSize = mvelo.MAXFILEUPLOADSIZE;
   var maxFileUploadSizeChrome = mvelo.MAXFILEUPLOADSIZECHROME; // temporal fix due issue in Chrome
 
+  /**
+   * Inialized the editor by parsing query string parameters
+   * and loading templates into the DOM.
+   */
   function init() {
     if (document.body.dataset.mvelo) {
       return;
     }
     document.body.dataset.mvelo = true;
-    var qs = jQuery.parseQuerystring();
+    qs = jQuery.parseQuerystring();
     id = qs.id;
     name = 'editor-' + id;
     if (qs.quota && parseInt(qs.quota) < maxFileUploadSize) {
@@ -82,37 +411,7 @@ var mvelo = mvelo || null;
     // plain text only
     editor_type = mvelo.PLAIN_TEXT; //qs.editor_type;
     port = mvelo.extension.connect({name: name});
-    port.onMessage.addListener(messageListener);
-    loadTemplates(qs.embedded, function() {
-      $(window).on('focus', startBlurValid);
-      if (editor_type == mvelo.PLAIN_TEXT) {
-        editor = createPlainText();
-      } else {
-        createRichText(function(ed) {
-          editor = ed;
-        });
-      }
-      // blur warning
-      blurWarn = $('#blurWarn');
-      // observe modals for blur warning
-      $('.modal').on('show.bs.modal', startBlurValid);
-      if (initText) {
-        setText(initText);
-        initText = null;
-      }
-      $("#addFileInput").on("change", onAddAttachment);
-      $('#uploadBtn').hide(); // Disable Uploading Attachment
-      mvelo.l10n.localizeHTML();
-      mvelo.util.showSecurityBackground(qs.embedded);
-
-      if (qs.embedded) {
-        $(".secureBgndSettingsBtn").on("click", function() {
-          port.postMessage({ event: 'open-security-settings', sender: name });
-        });
-      }
-
-      port.postMessage({event: 'editor-init', sender: name});
-    });
+    loadTemplates(qs.embedded, templatesLoaded);
     if (mvelo.crx) {
       commonPath = '../..';
     } else if (mvelo.ffa) {
@@ -120,6 +419,9 @@ var mvelo = mvelo || null;
     }
   }
 
+  /**
+   * Load templates into the DOM.
+   */
   function loadTemplates(embedded, callback) {
     var $body = $('body');
     if (embedded) {
@@ -139,7 +441,7 @@ var mvelo = mvelo || null;
 
         $('#uploadEmbeddedBtn').on("click", function() {
           $('#addFileInput').click();
-          logUserInput('security_log_add_attachment');
+          _self.logUserInput('security_log_add_attachment');
         });
       })
       .then(callback);
@@ -147,28 +449,16 @@ var mvelo = mvelo || null;
     } else {
       mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/editor-popup.html')).then(function() {
         $('.modal-body').addClass('secureBackground');
-        $('#cancelBtn').click(onCancel);
-        $('#transferBtn').hide().click(onTransfer);
-        $('#signBtn').click(onSign);
-        $('#encryptBtn').click(onEncrypt);
-        $('#undoBtn').click(onUndo)
-          .prop('disabled', true);
 
         Promise.all([
           mvelo.appendTpl($('#editorDialog .modal-body'), mvelo.extension.getURL('common/ui/editor/tpl/editor-body.html')),
           mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/encrypt-modal.html')),
-          mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/error-modal.html')),
-          mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/transfer-warn.html')).then(function() {
-            // transfer warning modal
-            $('#transferWarn .btn-primary').click(transfer);
-            $('#transferWarn').hide();
-            return Promise.resolve();
-          })
+          mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/error-modal.html'))
         ])
         .then(function() {
           $('#uploadBtn').on("click", function() {
             $('#addFileInput').click();
-            logUserInput('security_log_add_attachment');
+            _self.logUserInput('security_log_add_attachment');
           });
           $('#uploadEmbeddedBtn, #addFileInput').hide();
         })
@@ -178,16 +468,32 @@ var mvelo = mvelo || null;
   }
 
   /**
-   * send log entry for the extension
-   * @param {string} type
+   * Called after templates have loaded. Now is the time to bootstrap angular.
    */
-  function logUserInput(type) {
-    port.postMessage({
-      event: 'editor-user-input',
-      sender: name,
-      source: 'security_log_editor',
-      type: type
-    });
+  function templatesLoaded() {
+    $(window).on('focus', startBlurValid);
+    if (editor_type == mvelo.PLAIN_TEXT) {
+      editor = createPlainText();
+    } else {
+      createRichText(function(ed) {
+        editor = ed;
+      });
+    }
+    // blur warning
+    blurWarn = $('#blurWarn');
+    // observe modals for blur warning
+    $('.modal').on('show.bs.modal', startBlurValid);
+    if (initText) {
+      setText(initText);
+      initText = null;
+    }
+    $("#addFileInput").on("change", onAddAttachment);
+    $('#uploadBtn').hide(); // Disable Uploading Attachment
+    mvelo.l10n.localizeHTML();
+    mvelo.util.showSecurityBackground(qs.embedded);
+
+    // bootstrap angular
+    angular.bootstrap(document, ['editor']);
   }
 
   function addAttachment(file) {
@@ -218,7 +524,7 @@ var mvelo = mvelo || null;
   function afterLoadEnd() {
     numUploadsInProgress--;
     if (numUploadsInProgress === 0 && delayedAction) {
-      sendPlainText(delayedAction);
+      _self.sendPlainText(delayedAction);
       delayedAction = '';
     }
   }
@@ -259,55 +565,7 @@ var mvelo = mvelo || null;
   }
 
   function onRemoveAttachment() {
-    logUserInput('security_log_remove_attachment');
-  }
-
-  function onCancel() {
-    logUserInput('security_log_dialog_cancel');
-    port.postMessage({
-      event: 'editor-cancel',
-      sender: name
-    });
-    return false;
-  }
-
-  function onTransfer() {
-    if (isDirty) {
-      $('#transferWarn').modal('show');
-    } else {
-      logUserInput('security_log_dialog_transfer');
-      transfer();
-    }
-  }
-
-  function transfer() {
-    // wysihtml5 <body> is automatically copied to the hidden <textarea>
-    var armored = editor.val();
-    port.postMessage({
-      event: 'editor-transfer-output',
-      data: armored,
-      sender: name
-    });
-    return true;
-  }
-
-  function onSign() {
-    logUserInput('security_log_dialog_sign');
-    showDialog('signDialog');
-  }
-
-  function onEncrypt() {
-    logUserInput('security_log_dialog_encrypt');
-    showDialog('encryptDialog');
-  }
-
-  function onUndo() {
-    logUserInput('security_log_dialog_undo');
-    setText(undoText);
-    undoText = null;
-    $('#undoBtn').prop('disabled', true);
-    $('#signBtn, #encryptBtn').show();
-    $('#transferBtn').hide();
+    _self.logUserInput('security_log_remove_attachment');
   }
 
   function createPlainText() {
@@ -345,7 +603,7 @@ var mvelo = mvelo || null;
     text.on('input', function() {
       startBlurWarnInterval();
       if (logTextareaInput) {
-        logUserInput('security_log_textarea_input');
+        _self.logUserInput('security_log_textarea_input');
         // limit textarea log to 1 event per second
         logTextareaInput = false;
         window.setTimeout(function() {
@@ -357,9 +615,9 @@ var mvelo = mvelo || null;
     text.on('mouseup', function() {
       var textElement = text.get(0);
       if (textElement.selectionStart === textElement.selectionEnd) {
-        logUserInput('security_log_textarea_click');
+        _self.logUserInput('security_log_textarea_click');
       } else {
-        logUserInput('security_log_textarea_select');
+        _self.logUserInput('security_log_textarea_select');
       }
     });
     return text;
@@ -484,14 +742,14 @@ var mvelo = mvelo || null;
     });
   }
 
-  function hidePwdDialog() {
+  EditorCtrl.prototype._hidePwdDialog = function() {
     $('body #pwdDialog').fadeOut(function() {
       $('body #pwdDialog').remove();
       $('body').find('#editorDialog').show();
     });
-  }
+  };
 
-  function showDialog(type) {
+  EditorCtrl.prototype.showDialog = function(type) {
     var dialog = $('<iframe/>', {
       'class': 'm-dialog',
       frameBorder: 0,
@@ -507,12 +765,12 @@ var mvelo = mvelo || null;
 
     $('.modal-body', $('#encryptModal')).empty().append(dialog);
     $('#encryptModal').modal('show');
-  }
+  };
 
-  function removeDialog() {
+  EditorCtrl.prototype._removeDialog = function() {
     $('#encryptModal').modal('hide');
     $('#encryptModal iframe').remove();
-  }
+  };
 
   /**
    * @param {Object} error
@@ -536,10 +794,6 @@ var mvelo = mvelo || null;
     });
   }
 
-  function removeErrorModal() {
-    $('#errorModal').modal('hide');
-  }
-
   function setSignMode(signMsg, primaryKey) {
     var short, long;
 
@@ -561,100 +815,15 @@ var mvelo = mvelo || null;
       .tooltip();
   }
 
-  function onSetText(text) {
-    if (!text) {
+  function onSetText(options) {
+    if (!options.text) {
       return;
     }
     if (editor) {
-      setText(text);
+      setText(options.text);
     } else {
-      initText = text;
+      initText = options.text;
     }
   }
-
-  function sendPlainText(action) {
-    port.postMessage({
-      event: 'editor-plaintext',
-      sender: name,
-      message: editor.val(),
-      attachments: mvelo.file.getFiles($('#uploadPanel')),
-      action: action
-    });
-  }
-
-  function messageListener(msg) {
-    //console.log('editor messageListener: ', msg.event);
-    switch (msg.event) {
-      case 'set-text':
-        onSetText(msg.text);
-        break;
-      case 'set-init-data':
-        var data = msg.data;
-        onSetText(data.text);
-        setSignMode(data.signMsg || false, data.primary);
-        break;
-      case 'set-attachment':
-        setAttachment(msg.attachment);
-        break;
-      case 'decrypt-in-progress':
-      case 'encrypt-in-progress':
-        $('#waitingModal').modal({keyboard: false}).modal('show');
-        break;
-      case 'decrypt-end':
-      case 'encrypt-end':
-      case 'encrypt-failed':
-        $('#waitingModal').modal('hide');
-        break;
-      case 'decrypt-failed':
-        var error = {
-          title: l10n.waiting_dialog_decryption_failed,
-          message: (msg.error) ? msg.error.message : l10n.waiting_dialog_decryption_failed,
-          class: 'alert alert-danger'
-        };
-        showErrorModal(error);
-        break;
-      case 'show-pwd-dialog':
-        removeDialog();
-        addPwdDialog(msg.id);
-        break;
-      case 'hide-pwd-dialog':
-        hidePwdDialog();
-        break;
-      case 'encrypt-dialog-cancel':
-      case 'sign-dialog-cancel':
-        removeDialog();
-        break;
-      case 'get-plaintext':
-        if (numUploadsInProgress !== 0) {
-          delayedAction = msg.action;
-        } else {
-          sendPlainText(msg.action);
-        }
-
-        break;
-      case 'encrypted-message':
-      case 'signed-message':
-        undoText = editor.val();
-        $('#undoBtn').prop('disabled', false);
-        removeDialog();
-        setText(msg.message, 'text');
-        if (msg.event == 'signed-message') {
-          hidePwdDialog();
-        }
-        $('#signBtn, #encryptBtn').hide();
-        $('#transferBtn').show();
-        break;
-      case 'error-message':
-        if (msg.error.code === 'PWD_DIALOG_CANCEL') {
-          break;
-        }
-        showErrorModal(msg.error);
-        break;
-      default:
-        console.log('unknown event');
-    }
-  }
-
-  $(document).ready(init);
 
 }());
