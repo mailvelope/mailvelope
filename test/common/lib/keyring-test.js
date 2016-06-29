@@ -48,10 +48,8 @@ define(function(require) {
       var sync = sinon.createStubInstance(keyringSync.KeyringSync);
       sinon.stub(keyringSync, 'KeyringSync');
 
-      pgpKeyring = {
-        getAllKeys: function() {
-          return keys;
-        }
+      openpgpKeyring.getAllKeys = function() {
+        return keys;
       };
       krSync = {};
       keyring = new Keyring(mvelo.LOCAL_KEYRING_ID, pgpKeyring, krSync);
