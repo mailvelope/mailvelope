@@ -202,7 +202,8 @@
       "auto_add_primary": true
     },
     "keyserver": {
-      "hkp_base_url": "https://keyserver.ubuntu.com"
+      "hkp_base_url": "https://keyserver.ubuntu.com",
+      "mvelo_tofu_lookup": true
     },
     "main_active": true
   }

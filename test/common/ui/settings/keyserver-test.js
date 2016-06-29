@@ -13,6 +13,7 @@ describe('Key server settings unit tests', function() {
     keyserver = new KeyServer(mveloMock, optionsMock);
 
     keyserver._inputHkpUrl = {val: function() {}};
+    keyserver._checkBoxTOFU = {prop: function() {}};
     keyserver._saveBtn = {prop: function() {}};
     keyserver._cancelBtn = {prop: function() {}};
     keyserver._alert = {showAlert: function() {}};
@@ -55,30 +56,47 @@ describe('Key server settings unit tests', function() {
     });
   });
 
+  describe('onChangeTOFU', function() {
+    beforeEach(function() {
+      sinon.stub(keyserver, 'normalize');
+      sinon.stub(keyserver._saveBtn, 'prop');
+    });
+
+    it('should enable buttons', function() {
+      keyserver.onChangeTOFU();
+
+      expect(keyserver.normalize.calledOnce).to.be.true;
+      expect(keyserver._saveBtn.prop.calledOnce).to.be.true;
+    });
+  });
+
   describe('save', function() {
     beforeEach(function() {
       sinon.stub(keyserver, 'normalize');
       sinon.stub(mveloMock.extension, 'sendMessage').yields();
       sinon.stub(optionsMock.event, 'triggerHandler');
       sinon.stub(keyserver._alert, 'showAlert');
+      sinon.stub(keyserver._inputHkpUrl, 'val').returns('url');
+      sinon.stub(keyserver._checkBoxTOFU, 'prop').returns(true);
     });
 
-    it('should trigger update event on success', function(done) {
+    it('should trigger update event on success', function() {
       sinon.stub(keyserver, 'testUrl').returns(resolves());
 
-      keyserver.save().then(function() {
+      return keyserver.save().then(function() {
+        expect(mveloMock.extension.sendMessage.withArgs({event: 'set-prefs', data: {
+          keyserver: {hkp_base_url: 'url', mvelo_tofu_lookup: true}
+        }}).calledOnce).to.be.true;
         expect(optionsMock.event.triggerHandler.withArgs('hkp-url-update').calledOnce).to.be.true;
-        done();
       });
     });
 
-    it('should show error on failure', function(done) {
+    it('should show error on failure', function() {
       sinon.stub(keyserver, 'testUrl').returns(rejects());
 
-      keyserver.save().then(function() {
+      return keyserver.save().then(function() {
         expect(optionsMock.event.triggerHandler.called).to.be.false;
         expect(keyserver._alert.showAlert.calledOnce).to.be.true;
-        done();
       });
     });
   });
@@ -134,46 +152,42 @@ describe('Key server settings unit tests', function() {
       $.get.restore();
     });
 
-    it('should fail for invalid url', function(done) {
-      keyserver.testUrl('https//keyserver.ubuntu.com').catch(function(err) {
+    it('should fail for invalid url', function() {
+      return keyserver.testUrl('https//keyserver.ubuntu.com').catch(function(err) {
         expect(err.message).match(/Invalid url/);
-        done();
       });
     });
 
-    it('should fail for 404', function(done) {
+    it('should fail for 404', function() {
       $.get.yields('data', null, {status: 404});
 
-      keyserver.testUrl(hkpUrl).catch(function(err) {
+      return keyserver.testUrl(hkpUrl).catch(function(err) {
         expect(err.message).match(/not reachable/);
-        done();
       });
     });
 
-    it('should fail for 500', function(done) {
+    it('should fail for 500', function() {
       $.get.yields('data', null, {status: 500});
 
-      keyserver.testUrl(hkpUrl).catch(function(err) {
+      return keyserver.testUrl(hkpUrl).catch(function(err) {
         expect(err.message).match(/not reachable/);
-        done();
       });
     });
 
-    it('should work for 200', function(done) {
+    it('should work for 200', function() {
       $.get.yields('data', null, {status: 200});
 
-      keyserver.testUrl(hkpUrl).then(done);
+      return keyserver.testUrl(hkpUrl);
     });
   });
 
   describe('loadPrefs', function() {
-    it('should work', function(done) {
+    it('should work', function() {
       sinon.stub(keyserver._inputHkpUrl, 'val');
       sinon.stub(optionsMock, 'pgpModel').returns(resolves({keyserver:{hkp_base_url:hkpUrl}}));
 
-      keyserver.loadPrefs().then(function() {
+      return keyserver.loadPrefs().then(function() {
         expect(keyserver._inputHkpUrl.val.withArgs(hkpUrl).calledOnce).to.be.true;
-        done();
       });
     });
   });

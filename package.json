@@ -19,7 +19,7 @@
     "emailjs-mime-builder": "mailvelope/emailjs-mime-builder#v1.0.1m",
     "emailjs-mime-codec": "mailvelope/emailjs-mime-codec#v1.0.2m",
     "mailreader": "~1.0.0",
-    "ng-tags-input": "~3.0.0"
+    "ng-tags-input": "^3.0.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.5",
@@ -41,7 +41,8 @@
     "grunt-mocha-phantomjs": "^3.0.0",
     "grunt-text-replace": "~0.3.11",
     "mocha": "^2.4.5",
-    "sinon": "^1.17.4"
+    "sinon": "^1.17.4",
+    "whatwg-fetch": "^1.0.0"
   },
   "private": true
 }

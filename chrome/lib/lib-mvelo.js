@@ -258,6 +258,8 @@ define(function(require, exports, module) {
     return window;
   };
 
+  mvelo.util.fetch = window.fetch.bind(window);
+
   mvelo.l10n.get = chrome.i18n.getMessage;
 
   mvelo.browserAction = {};

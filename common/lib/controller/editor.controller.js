@@ -28,6 +28,7 @@ define(function(require, exports, module) {
   var DecryptController = require('./decrypt.controller').DecryptController;
   var uiLog = require('../uiLog');
   var syncCtrl = require('./sync.controller');
+  var KeyServer = require('../keyserver');
 
   function EditorController(port) {
     sub.SubController.call(this, port);
@@ -45,6 +46,7 @@ define(function(require, exports, module) {
     this.signBuffer = null;
     this.pwdControl = null;
     this.keyring = require('../keyring');
+    this.keyserver = new KeyServer(this.mvelo);
     this.mailbuild = require('emailjs-mime-builder');
     this.pgpMIME = false;
     this.signMsg = null;
@@ -54,6 +56,7 @@ define(function(require, exports, module) {
     this.on('editor-init', this._onEditorInit);
     this.on('editor-plaintext', this._onSignAndEncrypt);
     this.on('editor-user-input', this._onEditorUserInput);
+    this.on('keyserver-lookup', this.lookupKeyOnServer);
     // standalone editor only
     this.on('editor-cancel', this._onEditorCancel);
     this.on('sign-dialog-init', this._onSignDialogInit);
@@ -204,6 +207,25 @@ define(function(require, exports, module) {
   };
 
   /**
+   * Lookup a recipient's public key on the Mailvelope Key Server and
+   * store it locally using a TOFU (trust on first use) mechanic.
+   * @param  {Object} msg   The event message object
+   * @return {undefined}
+   */
+  EditorController.prototype.lookupKeyOnServer = function(msg) {
+    return this.keyserver.lookup(msg.recipient).then(function(key) {
+      // persist key in local keyring
+      var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
+      if (key && key.publicKeyArmored) {
+        localKeyring.importKeys([{type:'public', armored:key.publicKeyArmored}]);
+      }
+      // send updated key cache to editor
+      var keys = localKeyring.getKeyUserIDs({allUsers: true});
+      this.emit('keyserver-response', {keys:keys}, this.ports.editor);
+    }.bind(this));
+  };
+
+  /**
    * @param {Object} options
    * @param {String} options.initText
    * @param {String} options.keyringId
@@ -233,7 +255,8 @@ define(function(require, exports, module) {
     // get all public keys in the local keyring
     var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
     var keys = localKeyring.getKeyUserIDs({allUsers: true});
-    this.emit('public-key-userids', {keys:keys, recipients:recipients});
+    var tofu = this.keyserver.getTOFUPreference();
+    this.emit('public-key-userids', {keys:keys, recipients:recipients, tofu:tofu});
   };
 
   /**

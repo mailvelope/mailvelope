@@ -33,6 +33,7 @@ function KeyServer(mvelo, options) {
 KeyServer.prototype.init = function() {
   // init jquery elements
   this._inputHkpUrl = $('#keyserverInputHkpUrl');
+  this._checkBoxTOFU = $('#keyserverCheckBoxMveloTOFULookup');
   this._saveBtn = $('#keyserverBtnSave');
   this._cancelBtn = $('#keyserverBtnCancel');
   this._alert = $('#keyserverAlert');
@@ -41,6 +42,7 @@ KeyServer.prototype.init = function() {
   this._saveBtn.click(this.save.bind(this));
   this._cancelBtn.click(this.cancel.bind(this));
   this._inputHkpUrl.on('input', this.onChangeHkpUrl.bind(this));
+  this._checkBoxTOFU.click(this.onChangeTOFU.bind(this));
 
   // load preferences
   this.loadPrefs();
@@ -61,6 +63,17 @@ KeyServer.prototype.onChangeHkpUrl = function() {
   this._cancelBtn.prop('disabled', false);
 };
 
+
+/**
+ * Is triggered when the text input for the HKP url changes.
+ * @return {Boolean}   If the event was successful
+ */
+KeyServer.prototype.onChangeTOFU = function() {
+  this.normalize();
+  this._saveBtn.prop('disabled', false);
+  this._cancelBtn.prop('disabled', false);
+};
+
 /**
  * Save the key server settings.
  * @return {Promise}   A promise with an empty result
@@ -69,9 +82,12 @@ KeyServer.prototype.save = function() {
   var self = this;
   var opt = self._options;
   var hkpBaseUrl = self._inputHkpUrl.val();
+  var tofu = self._checkBoxTOFU.prop('checked');
 
   return self.testUrl(hkpBaseUrl).then(function() {
-    var update = {keyserver: {hkp_base_url: hkpBaseUrl}};
+    var update = {
+      keyserver: {hkp_base_url: hkpBaseUrl, mvelo_tofu_lookup: tofu}
+    };
     self._mvelo.extension.sendMessage({event: 'set-prefs', data: update}, function() {
       self.normalize();
       opt.event.triggerHandler('hkp-url-update');
@@ -142,6 +158,7 @@ KeyServer.prototype.loadPrefs = function() {
   var self = this;
   return self._options.pgpModel('getPreferences').then(function(prefs) {
     self._inputHkpUrl.val(prefs.keyserver.hkp_base_url);
+    self._checkBoxTOFU.prop('checked', prefs.keyserver.mvelo_tofu_lookup);
   });
 };
 
@@ -159,7 +176,9 @@ var options = options || null;
     'alert_header_warning',
     'alert_header_error',
     'keyserver_url_warning',
-    'keyserver_url_error'
+    'keyserver_url_error',
+    'keyserver_tofu_label',
+    'keyserver_tofu_lookup'
   ]);
 
   var keyserver = new KeyServer(mvelo, options);

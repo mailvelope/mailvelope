@@ -158,6 +158,7 @@ var options = options || null;
       email: $('#genKeyEmail').val()
     }];
     parameters.passphrase = $('#genKeyPwd').val();
+    parameters.uploadPublicKey = $('#genKeyCheckBoxUpload').prop('checked');
     options.keyring('generateKey', [parameters])
       .then(function(result) {
         $('#genAlert').showAlert(options.l10n.alert_header_success, options.l10n.key_gen_success, 'success');

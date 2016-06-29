@@ -54,7 +54,8 @@
         "resolves": true,
         "rejects": true,
         "angular": true,
-        "mvelo": true
+        "mvelo": true,
+        "fetch": true
     }
 
 }

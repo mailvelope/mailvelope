@@ -26,7 +26,12 @@ var options = options || null;
     'keygrid_key_not_expire',
     'keygrid_delete_confirmation',
     'keygrid_primary_label',
-    'key_set_as_primary'
+    'key_set_as_primary',
+    'keygrid_upload_alert_title',
+    'keygrid_upload_alert_msg',
+    'learn_more_link',
+    'keygrid_upload_alert_accept',
+    'keygrid_upload_alert_refuse'
   ]);
 
   var keyTmpl;
@@ -70,11 +75,50 @@ var options = options || null;
     $('#exportTabSwitch').on('click', function() {
       $('#exportPublic').get(0).click();
     });
+    $('#uploadKeyAcceptBtn').click(uploadToKeyServer);
+    $('#uploadKeyRefuseBtn').click(dismissKeyUpload);
 
     if (!isKeygridLoaded) {
       reload();
       isKeygridLoaded = true;
     }
+
+    options.pgpModel('getPreferences').then(function(prefs) {
+      if (!prefs.keyserver.dismiss_key_upload) {
+        $('#uploadKeyAlert').removeClass('hidden');
+      }
+    });
+  }
+
+  function uploadToKeyServer() {
+    // hide success/error alerts
+    $('#keyUploadErrorAlert').addClass('hidden');
+    $('#keyUploadSuccessAlert').addClass('hidden');
+    // show progress bar
+    $('#keyUploadProgressBar .progress-bar').css('width', '100%');
+    $('#keyUploadProgressBar').removeClass('hidden');
+    // send upload event to background script
+    mvelo.extension.sendMessage({
+      event: 'upload-primary-public-key'
+    }, function(response) {
+      // hide progress bar
+      $('#keyUploadProgressBar').addClass('hidden');
+      if (response.error) {
+        $('#keyUploadErrorAlert').removeClass('hidden');
+      } else {
+        $('#keyUploadSuccessAlert').removeClass('hidden');
+        dismissKeyUpload();
+      }
+    });
+  }
+
+  function dismissKeyUpload() {
+    $('#keyUploadErrorAlert').addClass('hidden');
+    $('#uploadKeyAlert').addClass('hidden');
+    var update = {
+      keyserver: {dismiss_key_upload: true}
+    };
+    mvelo.extension.sendMessage({event: 'set-prefs', data: update});
   }
 
   function reload() {
