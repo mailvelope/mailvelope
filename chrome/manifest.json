@@ -1,10 +1,10 @@
 {
   "name": "__MSG_ext_name__",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "__MSG_ext_description__",
   "homepage_url":"https://www.mailvelope.com",
   "manifest_version": 2,
-  "minimum_chrome_version": "38",
+  "minimum_chrome_version": "49",
   "icons": {
     "16": "common/img/encrypt-16.png",
     "48": "common/img/mail_locked_48.png",

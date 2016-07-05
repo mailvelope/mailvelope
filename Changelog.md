@@ -1,6 +1,19 @@
 Mailvelope Changelog
 ====================
 
+v1.5.0
+-------
+__July 5, 2016__
+
+  * Introduce provider specific content scripts to optimize integration of Mailvelope and webmail client (non-API case)
+  * New workflow for key selection in the Mailvelope editor: select recipients with their email address. Email autocomplete feature from all email addresses in local keyring.
+  * Transfer recipient email address to Mailvelope editor and back to webmail client (Gmail only)
+  * Refactoring of controllers, add unit test framework, unit tests for controllers and Mailvelope editor
+  * Use Angular.js for new UI components
+  * Implement TOFU key lookup using new Mailvelope key server: keys.mailvelope.com
+  * Add option to upload public key on key generation to key server
+  * Increase minimum required version: Chrome 49, Firefox 45
+
 v1.4.0
 -------
 __May 9, 2016__
