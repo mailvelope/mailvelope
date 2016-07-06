@@ -421,7 +421,7 @@ define(function(require, exports, module) {
     .then(function() {
       this.encryptTimer = this.mvelo.util.setTimeout(function() {
         this.emit('encrypt-in-progress', null, this.ports.editor);
-      }, 800);
+      }.bind(this), 800);
 
       if (!this.prefs.data().security.password_cache) {
         syncCtrl.triggerSync(primaryKey);
