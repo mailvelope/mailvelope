@@ -29,7 +29,11 @@
 
 'use strict';
 
-angular.module('editor', ['ngTagsInput']); // load editor module dependencies
+angular.module('editor', ['ngTagsInput']) // load editor module dependencies
+.config(function(tagsInputConfigProvider) {
+  // activate monitoring of placeholder option
+  tagsInputConfigProvider.setActiveInterpolation('tagsInput', { placeholder: true });
+});
 angular.module('editor').controller('EditorCtrl', EditorCtrl); // attach ctrl to editor module
 
 /**
@@ -381,6 +385,7 @@ EditorCtrl.prototype.cancel = function() {
   EditorCtrl.prototype.setGlobal = function(global) {
     _self = global;
     _self._port = port;
+    // l10n is only initialized in Chrome at this time
     _self.l10n = l10n;
   };
 
@@ -425,6 +430,10 @@ EditorCtrl.prototype.cancel = function() {
     'editor_label_add_recipient'
   ], function(result) {
     l10n = result;
+    // Firefox requires late assignment of l10n
+    _self && _self._timeout(function() {
+      _self.l10n = l10n;
+    });
   });
 
   var maxFileUploadSize = mvelo.MAXFILEUPLOADSIZE;
