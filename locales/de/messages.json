@@ -139,10 +139,6 @@
     "message": "Übertragen",
     "description": "Transfer button of editor popup."
   },
-  "editor_transfer_unencrypted": {
-    "message": "Sie versuchen, unverschlüsselten Inhalt zurück zum E-Mail-Anbieter zu übertragen.",
-    "description": "Warning for unencrypted content."
-  },
   "editor_label_add_recipient": {
     "description": "Label for recipient text input.",
     "message": "Empfänger hinzufügen"

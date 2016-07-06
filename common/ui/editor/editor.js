@@ -391,8 +391,6 @@ EditorCtrl.prototype.cancel = function() {
   var port;
   // editor element
   var editor;
-  // content of editor modified
-  var isDirty = false;
   // blur warning
   var blurWarn;
   // timeoutID for period in which blur events are monitored
@@ -540,8 +538,6 @@ EditorCtrl.prototype.cancel = function() {
   }
 
   function addAttachment(file) {
-    onChange(); // setting the message as dirty
-
     if (mvelo.file.isOversize(file)) {
       throw new Error('File is too big');
     }
@@ -642,7 +638,6 @@ EditorCtrl.prototype.cancel = function() {
         .append(text);
     });
     $('#plainText').append(sandbox);
-    text.on('change', onChange);
     text.on('input', function() {
       startBlurWarnInterval();
       if (logTextareaInput) {
@@ -675,7 +670,6 @@ EditorCtrl.prototype.cancel = function() {
      color: true,
      parserRules: wysihtml5ParserRules,
      events: {
-     change: onChange,
      blur: onBlur,
      load: function() {
      // if user clicks in non-editable area of text editor then next blur event is not considered as relevant
@@ -694,7 +688,6 @@ EditorCtrl.prototype.cancel = function() {
       text = '<pre>' + text + '</pre>';
     }
     editor.data("wysihtml5").editor.setValue(text, true);
-    isDirty = false;
   }
 
   function setPlainText(text) {
@@ -702,7 +695,6 @@ EditorCtrl.prototype.cancel = function() {
       .val(text)
       .prop('selectionStart', 0)
       .prop('selectionEnd', 0);
-    isDirty = false;
   }
 
   function setText(text, type) {
@@ -711,11 +703,6 @@ EditorCtrl.prototype.cancel = function() {
     } else {
       setRichText(text, type);
     }
-  }
-
-  function onChange() {
-    // editor content modified
-    isDirty = true;
   }
 
   function onBlur() {

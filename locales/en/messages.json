@@ -139,10 +139,6 @@
     "description": "Transfer button of editor popup.",
     "message": "Transfer"
   },
-  "editor_transfer_unencrypted": {
-    "description": "Warning for unencrypted content.",
-    "message": "You are trying to transfer unencrypted content to the e-mail provider."
-  },
   "editor_label_add_recipient": {
     "description": "Label for recipient text input.",
     "message": "Add recipient"
