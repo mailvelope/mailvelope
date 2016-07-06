@@ -466,6 +466,7 @@ EditorCtrl.prototype.cancel = function() {
    */
   function loadTemplates(embedded, callback) {
     var $body = $('body');
+    $body.attr('ng-controller', 'EditorCtrl as edit');
     if (embedded) {
       $body.addClass("secureBackground");
 

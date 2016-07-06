@@ -347,6 +347,8 @@ function injectEmbeddedEditor() {
       data.url('common/dep/jquery.min.js'),
       data.url('common/dep/jquery.ext.js'),
       data.url('common/dep/bootstrap/js/bootstrap.js'),
+      data.url('common/dep/angular/angular.min.js'),
+      data.url('common/dep/ng-tags-input/ng-tags-input.min.js'),
       data.url('ui/messageAdapter.js'),
       data.url('common/ui/mvelo.js'),
       data.url('common/ui/editor/editor.js'),
@@ -354,6 +356,9 @@ function injectEmbeddedEditor() {
     ],
     contentStyleFile: [
       data.url("common/dep/bootstrap/css/bootstrap.css"),
+      data.url("common/dep/ng-tags-input/ng-tags-input.min.css"),
+      data.url("common/dep/ng-tags-input/ng-tags-input.bootstrap.min.css"),
+      data.url("common/dep/angular/angular-csp.css"),
       data.url("common/ui/mvelo.css"),
       data.url("common/ui/editor/editor.css")
     ],
