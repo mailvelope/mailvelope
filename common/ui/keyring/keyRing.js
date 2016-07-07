@@ -82,12 +82,6 @@ var options = options || null;
       reload();
       isKeygridLoaded = true;
     }
-
-    options.pgpModel('getPreferences').then(function(prefs) {
-      if (!prefs.keyserver.dismiss_key_upload) {
-        $('#uploadKeyAlert').removeClass('hidden');
-      }
-    });
   }
 
   function uploadToKeyServer() {
@@ -140,6 +134,15 @@ var options = options || null;
 
         options.keyring('getKeys')
           .then(initKeyringTable);
+
+        options.pgpModel('getPreferences').then(function(prefs) {
+          if (!prefs.keyserver.dismiss_key_upload &&
+              options.keyringId === mvelo.LOCAL_KEYRING_ID) {
+            $('#uploadKeyAlert').removeClass('hidden');
+          } else {
+            $('#uploadKeyAlert').addClass('hidden');
+          }
+        });
       });
   }
 
