@@ -27,12 +27,16 @@
         "message": "Todas",
         "description": "Selection of key type."
     },
+    "editor_key_not_found": {
+        "message": "¡No se ha encontrado la clave!",
+        "description": "Warning for when a recipient key was not found."
+    },
     "security_log_text_input": {
         "message": "Evento-de-entrada en el campo de texto",
         "description": "A click in the text area as an event type"
     },
     "security_log_dialog_cancel": {
-        "message": "Click-event on Cancel in dialog",
+        "message": "Evento de clic sobre Cancelar en el cuadro de diálogo",
         "description": ""
     },
     "security_display_inline": {
@@ -86,6 +90,10 @@
     "key_import_hkp_search_ph": {
         "message": "Por nombre, dirección de correo electrónico, o identidad (ID) de la clave",
         "description": ""
+    },
+    "keyserver_tofu_label": {
+        "message": "Servido de claves de Mailvelope",
+        "description": "Mailvelope Key Server Settings Label"
     },
     "watchlist_delete_confirmation": {
         "message": "¿De verdad quiere eliminar este sitio de la lista de proveedores de correo?",
@@ -156,7 +164,7 @@
         "description": ""
     },
     "security_log_restore_backup_click": {
-        "message": "Click-event in restore backup dialog",
+        "message": "Evento de clic en el cuadro de diálogo de restauración de copia de seguridad",
         "description": ""
     },
     "alert_header_success": {
@@ -234,6 +242,10 @@
     "recovery_sheet_encryption_note": {
         "message": "Sugerencias para la comunicación cifrada con [BRAND]",
         "description": "Sub title"
+    },
+    "key_gen_upload": {
+        "message": "Subir clave pública al Servidor de Claves de Mailvelope (se pueden borrar en cualquier momento)",
+        "description": "Upload key to Mailvelope key server checkbox"
     },
     "security_background_preview": {
         "message": "Previsualizar",
@@ -427,6 +439,10 @@
         "message": "Firmas",
         "description": "Signatures on User ID of a PGP key."
     },
+    "keygrid_upload_alert_accept": {
+        "message": "Subir clave pública",
+        "description": "Button text to accept key upload"
+    },
     "form_cancel": {
         "message": "Cancelar",
         "description": "Cancel form button."
@@ -508,7 +524,7 @@
         "description": ""
     },
     "security_log_password_click": {
-        "message": "Click-event in password dialog",
+        "message": "Evento de clic en el cuadro de diálogo de contraseña",
         "description": ""
     },
     "clear_localstorage_confirm_message": {
@@ -554,6 +570,10 @@
     "options_title": {
         "message": "Opciones de Mailvelope",
         "description": "Title of options page."
+    },
+    "keygrid_upload_alert_msg": {
+        "message": "Ahora puede subir su clave pública al Servidor de Claves de Mailvelope para búsqueda automática en los complementos OpenPGP participantes. Esto facilita intercambiar correos electrónicos cifrados con sus contactos. Pruébelo. Puede borrar su clave en cualquier momento.",
+        "description": "Text of a link to a learn-more resource"
     },
     "recovery_sheet_check_settings": {
         "message": "por favor revise las configuraciones en su cuenta bajo:",
@@ -616,7 +636,7 @@
         "description": "Main key in the PGP key."
     },
     "security_log_dialog_ok": {
-        "message": "Click-event to confirm on dialog",
+        "message": "Evento de clic para confirmar en el cuadro de diálogo",
         "description": ""
     },
     "editor_no_sign_caption_short": {
@@ -871,6 +891,10 @@
         "message": "Para la instalación en otro ordenador, introduzca el código de restauración en las configuraciones bajo:",
         "description": "Label for navigation path"
     },
+    "keygrid_upload_success_msg": {
+        "message": "Clave subida con éxito.",
+        "description": "Upload success message"
+    },
     "verify_result_warning": {
         "message": "Firmado con clave desconocida",
         "description": "Verfiy signature warning."
@@ -899,6 +923,10 @@
         "message": "Buscar claves públicas en el servidor de claves",
         "description": ""
     },
+    "keyserver_tofu_lookup": {
+        "message": "Buscar automáticamente claves de destinatario",
+        "description": "Enable Mailvelope Key Server Auto Lookup"
+    },
     "security_log_textarea_input": {
         "message": "Evento-de-entrada en el área de texto",
         "description": "A click in the text area as an event type"
@@ -906,6 +934,10 @@
     "key_gen_demail": {
         "message": "Dirección de De-Mail",
         "description": "De-Mail address name."
+    },
+    "keygrid_upload_alert_title": {
+        "message": "¡Nueva característica!",
+        "description": "Text of a link to a learn-more resource"
     },
     "keygrid_delete_confirmation": {
         "message": "¿Está seguro de que quiere eliminar esta clave?",
@@ -1014,6 +1046,10 @@
     "keygrid_key_fingerprint": {
         "message": "Huella de verificación",
         "description": "Unique string identifier for a PGP key."
+    },
+    "keygrid_upload_alert_refuse": {
+        "message": "No gracias",
+        "description": "Button text to reject key upload"
     },
     "editor_error_content": {
         "message": "Contenido de error",
@@ -1163,6 +1199,10 @@
         "message": "Este fichero también contiene claves privadas.",
         "description": "Key export warning."
     },
+    "learn_more_link": {
+        "message": "Conocer más",
+        "description": "Text of a link to a learn-more resource"
+    },
     "key_import_invalid_text": {
         "message": "No se encontró texto válido de clave",
         "description": "Import error alert."
@@ -1170,6 +1210,14 @@
     "keyring_setup_generate_key": {
         "message": "Generar clave",
         "description": "Generate key"
+    },
+    "keygrid_upload_error_msg": {
+        "message": "La subida de clave ha fallado.",
+        "description": "Upload error message"
+    },
+    "editor_label_add_recipient": {
+        "message": "Añadir destinatario",
+        "description": "Label for recipient text input."
     },
     "word_or": {
         "message": "o",
@@ -1206,10 +1254,6 @@
     "watchlist_command_edit": {
         "message": "Editar",
         "description": "Edit entry in watchlist."
-    },
-    "editor_transfer_unencrypted": {
-        "message": "Está intentando transferir contenido no cifrado de vuelta al proveedor de correo.",
-        "description": "Warning for unencrypted content."
     },
     "decrypt_popup_title": {
         "message": "Mensaje descifrado",
@@ -1320,7 +1364,7 @@
         "description": "Title of the source column of the security log table."
     },
     "editor_error_header": {
-        "message": "Cabecera de error",
+        "message": "Error",
         "description": ""
     },
     "editor_remove_upload": {
@@ -1378,6 +1422,10 @@
     "security_log_dialog_sign": {
         "message": "Evento-de-clic para firmar en el cuadro de diálogo",
         "description": ""
+    },
+    "editor_key_not_found_msg": {
+        "message": "Todos los destinatarios necesitan una clave PGP para cifrar. No obstante todavía puede firmar el mensaje.",
+        "description": "Warning for when a recipient key was not found."
     },
     "options_docu": {
         "message": "Documentación",
