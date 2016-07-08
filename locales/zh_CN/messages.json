@@ -8,7 +8,7 @@
         "description": "Help text for cache time."
     },
     "key_gen_wait_info": {
-        "message": "请稍等，密钥生成可能需要数分钟，取决于密钥长度等因素...",
+        "message": "请稍候，密钥生成可能花费几分钟时间，这取决于密钥大小等因素。",
         "description": "Wait dialog info message"
     },
     "security_log_attachment_added": {
@@ -16,27 +16,35 @@
         "description": "Attachment added as an event type"
     },
     "message_read_error": {
-        "message": "无法读取此加密邮件：$1",
+        "message": "无法解密此邮件：$1",
         "description": "Message read error message: $1: error message."
     },
     "security_log_key_backup": {
         "message": "密钥备份",
-        "description": "Key backup container as an event source"
+        "description": "Message keybackup container as an event source"
     },
     "keygrid_all_keys": {
-        "message": "所有",
+        "message": "任何",
         "description": "Selection of key type."
+    },
+    "editor_key_not_found": {
+        "message": "未找到密钥！",
+        "description": "Warning for when a recipient key was not found."
     },
     "security_log_text_input": {
         "message": "文本区域中的输入事件",
-        "description": "A click in the text field as an event type"
+        "description": "A click in the text area as an event type"
+    },
+    "security_log_dialog_cancel": {
+        "message": "对话框中点击“取消”的事件",
+        "description": ""
     },
     "security_display_inline": {
-        "message": "在邮箱服务提供方的原页面。",
+        "message": "在邮箱服务提供方的页面上",
         "description": "Decrypted message display option"
     },
     "verify_result_error": {
-        "message": "签名错误",
+        "message": "无效签名之",
         "description": "Verfiy signature error. Wrong signature of [userid]."
     },
     "pwd_dialog_header": {
@@ -56,12 +64,8 @@
         "description": "Label for display options"
     },
     "general_primary_key_always": {
-        "message": "总是将主密钥加入收件人列表（允许解密发出的邮件）",
+        "message": "始终添加我的主密钥到收件人列表。（这将允许您解密您发送的邮件）",
         "description": "Label for primary private key option."
-    },
-    "security_compose_webmail": {
-        "message": "在邮箱服务提供方的文本编辑器中。",
-        "description": "Mail compose option"
     },
     "security_background_header": {
         "message": "安全背景",
@@ -73,14 +77,26 @@
     },
     "key_import_extend_description": {
         "message": "PGP 指纹是用来识别您的通信的关键信息。",
+        "description": "Key import dialog description."
+    },
+    "recovery_sheet_invite_contacts": {
+        "message": "In your encrypted communication settings of your [BRAND] account, you have the possibility to invite additional contacts to use encrypted communication via PGP. Contacts that have already been invited successfully can be recognized by the padlock icon next to the e-mail address. ",
         "description": ""
     },
     "form_confirm": {
         "message": "确认",
         "description": "Confirm form button."
     },
+    "key_import_hkp_search_ph": {
+        "message": "按名称、邮件地址或密钥 ID",
+        "description": ""
+    },
+    "keyserver_tofu_label": {
+        "message": "Mailvelope 密钥服务器",
+        "description": "Mailvelope Key Server Settings Label"
+    },
     "watchlist_delete_confirmation": {
-        "message": "您确定想从邮箱服务提供方列表中移除此站点吗？",
+        "message": "您确定想从邮件服务提供者列表中移除此站点吗？",
         "description": "Mesage in the watchlist delete confirmation dialog."
     },
     "popup_last_activities": {
@@ -92,19 +108,23 @@
         "description": "Export key dialog header."
     },
     "key_import_private_exists": {
-        "message": "用户 $2 的公钥已存在，$1 密钥已经加入密钥环",
+        "message": "用户 $2 的现有公钥 $1 的私钥对已导入钥匙链",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "upload_attachment": {
         "message": "添加附件",
         "description": "Text in the upload attachment button of the message editor dialog"
     },
+    "keyserver_hkp_url": {
+        "message": "HKP 密钥服务器",
+        "description": "HKP key server option: url."
+    },
     "keybackup_restore_dialog_button": {
         "message": "恢复备份",
         "description": ""
     },
     "decrypt_digital_signature_failure": {
-        "message": "数字签名错误",
+        "message": "数字签名无效",
         "description": "Caption digital signature"
     },
     "verify_error": {
@@ -120,20 +140,32 @@
         "description": ""
     },
     "security_cache_header": {
-        "message": "在本次浏览器会话中记住密码？",
+        "message": "在本次浏览器会话中记住密码",
         "description": "Password cache header"
     },
     "popup_actived_checkbox_tooltip": {
         "message": "激活/禁用外部编辑器",
         "description": "Text of the checkbox for activating/deactivating the plugin"
     },
+    "security_log_encryption_operation": {
+        "message": "邮件已被加密: $1",
+        "description": ""
+    },
     "save_attachment_as_message": {
-        "message": "选择您想要保存该附件的文件夹。",
+        "message": "选择您想保存此附件到哪个文件夹。",
         "description": "Message in the attachment save dialog"
     },
     "pwd_dialog_keyid_tooltip": {
-        "message": "您的密钥的标识",
+        "message": "您的密钥的 ID",
         "description": "Tooltip explaining the key id."
+    },
+    "recovery_sheet_explain_pgp": {
+        "message": "Encrypted communication with [BRAND] is a PGP-based procedure. It enables you to send encrypted e-mails and, at the same time, ensures that only you and the receiver are able to read them.",
+        "description": ""
+    },
+    "security_log_restore_backup_click": {
+        "message": "恢复备份对话框中的点击事件",
+        "description": ""
     },
     "alert_header_success": {
         "message": "成功！",
@@ -143,16 +175,20 @@
         "message": "公钥",
         "description": "Selection of key type."
     },
+    "recovery_sheet_trusted_contacts": {
+        "message": "With GMX contacts you can be sure that the users displayed are in fact valid users. You should, however, always verify the identity of contacts with an e-mail address from another e-mail provider.",
+        "description": ""
+    },
     "editor_sign_button": {
         "message": "签名",
         "description": "Sign button."
     },
-    "security_log_remeber_click": {
-        "message": "密码对话框中的输入事件",
+    "recovery_sheet_recovery_code": {
+        "message": "恢复代码",
         "description": ""
     },
     "key_gen_success": {
-        "message": "新密钥已经建立并导入密钥环",
+        "message": "新的密钥已生成并已导入钥匙链",
         "description": "Key generation success message"
     },
     "security_log_action": {
@@ -175,6 +211,14 @@
         "message": "选择一个密钥文本文件以导入",
         "description": "File selection button label."
     },
+    "encrypt_file_selection": {
+        "message": "选择文件",
+        "description": "File upload selection"
+    },
+    "popup_open_page_tooltip": {
+        "message": "打开 Mailvelope 以进行文件加密",
+        "description": "Open page to file encrypt."
+    },
     "security_log_dialog_encrypt": {
         "message": "对话框的点击加密事件",
         "description": ""
@@ -194,6 +238,14 @@
     "keyring_display_keys": {
         "message": "显示密钥",
         "description": "Tab of keyring to display keys."
+    },
+    "recovery_sheet_encryption_note": {
+        "message": "使用 [BRAND] 进行加密通信的提示",
+        "description": "Sub title"
+    },
+    "key_gen_upload": {
+        "message": "上传公钥到 Mailvelope 密钥服务器（可以随时删除）",
+        "description": "Upload key to Mailvelope key server checkbox"
     },
     "security_background_preview": {
         "message": "预览",
@@ -215,13 +267,25 @@
         "message": "文本区域中的点击事件",
         "description": "A click in the text area as an event type"
     },
+    "recovery_sheet_backup_data": {
+        "message": "您的数据备份",
+        "description": ""
+    },
+    "key_import_file": {
+        "message": "导入密钥文件",
+        "description": "File selection label."
+    },
     "digital_signature_status_false": {
-        "message": "无效",
+        "message": "签名无效",
         "description": ""
     },
     "security_log_empty": {
         "message": "没有条目",
         "description": "Message when the security log is empty"
+    },
+    "recovery_sheet_provider_communication": {
+        "message": "加密通信",
+        "description": ""
     },
     "security_background_text": {
         "message": "安全背景是您个性化的 Mailvelope 背景图案，它有助于防止用户接口被第三方网站和应用程序仿冒。为了提高安全性，请在这里创建和更改您的个性化背景。",
@@ -236,11 +300,11 @@
         "description": "Import error alert."
     },
     "key_import_extend_headline": {
-        "message": "加密通信的高级信息：",
-        "description": "Key import dialog header"
+        "message": "加密通信的进一步信息：",
+        "description": "Key import dialog description."
     },
     "key_import_multiple_keys": {
-        "message": "直接粘贴多个密钥即可一起导入。中间的空行会被直接忽略。",
+        "message": "请在这里插入一个或多个文本格式的密钥。",
         "description": "Info message."
     },
     "popup_help": {
@@ -263,13 +327,9 @@
         "message": "对话框的撤销事件",
         "description": ""
     },
-    "key_import_another": {
-        "message": "导入另一项...",
-        "description": "Import another key button."
-    },
     "editor_no_sign_caption_long": {
         "message": "电子邮件不能被数字签名",
-        "description": "Caption digital signature"
+        "description": ""
     },
     "pwd_dialog_reason_decrypt": {
         "message": "请输入解密此邮件的密钥密码。",
@@ -300,40 +360,44 @@
         "description": "Key generation error message"
     },
     "form_busy": {
-        "message": "忙",
+        "message": "处理中",
         "description": "Form in busy state."
     },
     "keygrid_userid": {
         "message": "标识",
         "description": "User ID of a PGP key."
     },
+    "recovery_sheet_subtitle_recover": {
+        "message": "恢复加密通信",
+        "description": "Sub title"
+    },
     "keygrid_algorithm": {
         "message": "算法",
         "description": "Public-key algorithm of a PGP key."
     },
     "keybackup_restore_dialog_list_1": {
-        "message": "在您丢失了恢复表时。",
+        "message": "如果您丢失了恢复表。",
         "description": ""
     },
     "security_log_import_dialog": {
         "message": "导入对话框",
-        "description": "Import dialog popup as an event source"
+        "description": "Key import dialog as an event source"
     },
     "decrypt_digital_signature": {
         "message": "已数字签名",
         "description": "Caption digital signature"
     },
+    "recovery_sheet_further_info": {
+        "message": "您可以在您的 [BRAND] 账号下找到更多信息和设置选项",
+        "description": ""
+    },
+    "recovery_sheet_creation_date": {
+        "message": "创建时间：",
+        "description": "Label for recovery sheet creation date"
+    },
     "watchlist_command_cancel": {
         "message": "取消更改",
         "description": "Cancel changes in watchlist."
-    },
-    "security_compose_warn": {
-        "message": "此设置会降低 Mailvelope 的安全等级。您的邮箱服务提供方存在获取您的信息的可能性。",
-        "description": "Mail compose options warning"
-    },
-    "popup_active_on": {
-        "message": "开",
-        "description": "Activity status of the extension."
     },
     "pwd_dialog_cancel": {
         "message": "密钥解锁已取消。",
@@ -344,20 +408,16 @@
         "description": "Header of encrypt dialog."
     },
     "keybackup_waiting_description": {
-        "message": "一份带有您的备份代码的文档正在准备",
+        "message": "正在准备带有您备份码的文档。",
         "description": ""
     },
     "keygrid_send_pub_key": {
-        "message": "用邮件发送公钥",
+        "message": "通过邮件发送公钥",
         "description": "Export key menu."
-    },
-    "security_log_password_show": {
-        "message": "密码对话框中的点击事件",
-        "description": ""
     },
     "security_log_password_dialog": {
         "message": "密码对话框",
-        "description": "Password dialog popup as an event source"
+        "description": "Password dialog as an event source"
     },
     "keygrid_export": {
         "message": "导出",
@@ -379,9 +439,17 @@
         "message": "签名",
         "description": "Signatures on User ID of a PGP key."
     },
+    "keygrid_upload_alert_accept": {
+        "message": "上传公钥",
+        "description": "Button text to accept key upload"
+    },
     "form_cancel": {
         "message": "取消",
         "description": "Cancel form button."
+    },
+    "recovery_sheet_not_working": {
+        "message": "如果您的加密通信不再可用，例如",
+        "description": "Label for list"
     },
     "keygrid_invalid_userid": {
         "message": "无效的用户标识",
@@ -391,12 +459,20 @@
         "message": "重新载入所有 Mailvelope 元素",
         "description": "Reload all Mailvelope UI elements on page."
     },
+    "recovery_sheet_header": {
+        "message": "重要信息！",
+        "description": "Title of recovery sheet."
+    },
+    "recovery_sheet_backup_local": {
+        "message": "如果您想仅在您的计算机本地保存您的数据，您可以在您的 [BRAND] 账号的加密通信设置中找到此选项。",
+        "description": ""
+    },
     "keyring_setup_import_key": {
         "message": "导入密钥",
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "加密和解密邮件以及邀请您的联系人进行端对端加密通信都需要一个密钥对。",
+        "message": "需要一个密钥对来加密和解密邮件和邀请您的联系人参与端到端加密通信。",
         "description": "Setup text if no keypair available"
     },
     "settings_security_log": {
@@ -408,7 +484,7 @@
         "description": "private key type"
     },
     "keybackup_setup_dialog_list_2": {
-        "message": "转移到其他设备。",
+        "message": "以备转移到其他设备。",
         "description": ""
     },
     "encrypt_dialog_no_recipient": {
@@ -425,23 +501,39 @@
     },
     "editor_sign_caption_short": {
         "message": "电子邮件已数字签名",
-        "description": "Caption digital signature"
+        "description": ""
+    },
+    "recovery_sheet_provider_security": {
+        "message": "安全",
+        "description": ""
     },
     "general_editor_plain": {
         "message": "纯文本编辑器",
         "description": "Editor option: plain text."
     },
     "key_import_invalidated_description": {
-        "message": "不再能与 [CONTACT] 进行加密通信。该联系人必须重新邀请您。",
-        "description": "Key import dialog description"
+        "message": "不再能与 [CONTACT] 进行加密通信。该联系人需要重新邀请您。",
+        "description": ""
     },
     "security_log_editor": {
         "message": "PGP 编辑器",
         "description": "Message editor container as an event source"
     },
+    "recovery_sheet_backup_server": {
+        "message": "备份加密通信的数据是重要的（例如密钥密码），数据将被我们的安全合作伙伴 Mailvelope 加密保存在我们的 [BRAND] 服务器。",
+        "description": ""
+    },
+    "security_log_password_click": {
+        "message": "密码对话框中的点击事件",
+        "description": ""
+    },
     "clear_localstorage_confirm_message": {
         "message": "您想删除您在此浏览器配置中的所有 PGP 密钥吗？",
         "description": "The message of the confirmation dialog."
+    },
+    "recovery_sheet_unlock_backup": {
+        "message": "The backup of your data can only be decrypted with the help of the recovery code on this recovery sheet.",
+        "description": ""
     },
     "security_log_backup_dialog_cancel": {
         "message": "对话框的点击关闭事件",
@@ -452,8 +544,12 @@
         "description": "Undo form button."
     },
     "keygrid_key_not_expire": {
-        "message": "这个密钥永不失效",
+        "message": "此密钥不会过期",
         "description": "Expiration date of a PGP key not set."
+    },
+    "recovery_sheet_print_notice": {
+        "message": "请打印此文件并将其放在安全的地方！",
+        "description": "Sub title of recovery sheet."
     },
     "popup_reload": {
         "message": "重新载入",
@@ -463,6 +559,10 @@
         "message": "最小4个字符",
         "description": ""
     },
+    "recovery_sheet_subtitle_receipt": {
+        "message": "加密通信的恢复表",
+        "description": "Sub title of recovery sheet."
+    },
     "form_no": {
         "message": "否",
         "description": "No form button."
@@ -471,8 +571,16 @@
         "message": "Mailvelope 选项",
         "description": "Title of options page."
     },
+    "keygrid_upload_alert_msg": {
+        "message": "You can now upload your public key to the Mailvelope Key Server for automatic lookup in participating OpenPGP plugins. This makes it easier to write encrypted email with your contacts. Give it a try. You can delete your key at any time",
+        "description": "Text of a link to a learn-more resource"
+    },
+    "recovery_sheet_check_settings": {
+        "message": "请检查您的账号中下列设置：",
+        "description": ""
+    },
     "keybackup_waiting_headline": {
-        "message": "创建备份！",
+        "message": "正在创建备份！",
         "description": ""
     },
     "form_continue": {
@@ -499,33 +607,49 @@
         "message": "显示",
         "description": ""
     },
+    "recovery_sheet_data_lost": {
+        "message": "Without a backup, your encrypted messages cannot be decrypted again in case you lose your key password or in case of a defective device or problems with the browser extension!",
+        "description": ""
+    },
     "security_log_email_viewer": {
-        "message": "解密的 PGP 邮件",
+        "message": "解密的 PGP 电子邮件",
         "description": "Email decryption container as an event source"
     },
     "security_log_text": {
-        "message": "安全日志显示用户对 Mailvelope 集成组件的操作。",
+        "message": "安全日志显示了用户在 Mailvelope 的组件中进行的所有操作。",
         "description": "Text explaining the purpose of the security log"
+    },
+    "keyserver_url_error": {
+        "message": "密钥服务器无法访问",
+        "description": "HKP key server URL error."
     },
     "keyring_public_private": {
         "message": "密钥对",
         "description": "public and private key types"
     },
     "keygen_dialog_confirm_error_unequal": {
-        "message": "请检查输入。",
+        "message": "请双重确认您的输入。",
         "description": ""
-    },
-    "security_compose_external": {
-        "message": "在 Mailvelope 创建的单独的文本编辑器窗口。",
-        "description": "Mail compose option"
     },
     "keygrid_primary_key": {
         "message": "主密钥",
         "description": "Main key in the PGP key."
     },
+    "security_log_dialog_ok": {
+        "message": "对话框中点击“确认”的事件",
+        "description": ""
+    },
     "editor_no_sign_caption_short": {
         "message": "电子邮件未被数字签名",
-        "description": "Caption digital signature"
+        "description": ""
+    },
+    "recovery_sheet_qr_code": {
+        "message": "用您的移动设备扫描此 QR 码。",
+        "description": ""
+    },
+    "popup_file_encrypting": {
+        "message": "文件加密",
+        "description": "Title text for file encryption"
     },
     "verify_result_success": {
         "message": "已签名由",
@@ -540,16 +664,28 @@
         "description": "The tooltip text for the keylock button"
     },
     "keyring_setup_no_keypair_heading": {
-        "message": "此钥匙链还未包含一个密钥对呢。",
+        "message": "此钥匙链没有包含密钥对。",
         "description": "Setup heading if no keypair available"
     },
     "watchlist_title_scan": {
         "message": "状态",
         "description": "Scan status of site in watchlist."
     },
+    "key_recovery_failed": {
+        "message": "从备份恢复密钥失败。",
+        "description": ""
+    },
     "upload_aborting_warning": {
         "message": "文件上传将被中止。",
         "description": "A warning for the aborting of the file upload."
+    },
+    "recovery_sheet_in_general": {
+        "message": "在一般情况下，它是重要的",
+        "description": "Label"
+    },
+    "file_decrypting": {
+        "message": "解密",
+        "description": ""
     },
     "waiting_dialog_decryption_failed": {
         "message": "解密失败！",
@@ -559,24 +695,32 @@
         "message": "重做",
         "description": ""
     },
+    "recovery_sheet_extension_problems": {
+        "message": "因为浏览器扩展的问题",
+        "description": "List item"
+    },
     "keybackup_setup_dialog_headline": {
         "message": "推荐：设置备份",
         "description": ""
     },
     "key_import_textarea": {
-        "message": "粘贴密钥内容到这里：",
-        "description": "Key import box."
+        "message": "导入密钥文本",
+        "description": "Label"
     },
     "watchlist_command_create": {
-        "message": "添加新记录",
+        "message": "添加新项",
         "description": "Create entry in watchlist."
     },
     "security_log_password_input": {
         "message": "密码输入框的输入事件",
-        "description": "A click in the text area as an event type"
+        "description": ""
+    },
+    "key_import_hkp_search_btn": {
+        "message": "搜索",
+        "description": ""
     },
     "key_gen_name_help": {
-        "message": "密钥持有人全名",
+        "message": "密钥所有者的全名",
         "description": "Help text for name field."
     },
     "encrypt_error": {
@@ -599,6 +743,10 @@
         "message": "域匹配应该以 *. 开头",
         "description": "Alert header of category warning."
     },
+    "encrypt_upload_file_help": {
+        "message": "每个文件的大小不能超过 ## MB。",
+        "description": "Help text"
+    },
     "keygrid_status_valid": {
         "message": "有效",
         "description": "Validity status of a PGP key."
@@ -612,11 +760,11 @@
         "description": "Don't store password."
     },
     "keyring_export_keys": {
-        "message": "导出密钥",
+        "message": "导出钥匙链",
         "description": "Tab of keyring to export keys."
     },
     "keygrid_signer_name": {
-        "message": "签署人",
+        "message": "签署者",
         "description": "User ID of signer."
     },
     "security_log_verify_dialog": {
@@ -651,13 +799,21 @@
         "message": "再次输入密码",
         "description": "Label for passphrase input field"
     },
+    "encrypt_download_file_button": {
+        "message": "点击保存文件",
+        "description": "Download icon"
+    },
     "digital_signature_status_null_description": {
-        "message": "内容的数字签名尚未被确认可用于加密通信。请询问邀请的联系人。",
+        "message": "数字签名的内容尚未被确认可用于加密通信。请询问邀请的联系人。",
         "description": ""
     },
     "pwd_dialog_reason_create_backup": {
         "message": "请输入密钥密码以创建恢复表。",
         "description": ""
+    },
+    "recovery_sheet_print_block": {
+        "message": "请将此文件存放在安全的地方！",
+        "description": "Sub title of recovery sheet."
     },
     "keygrid_user_name": {
         "message": "名称",
@@ -668,7 +824,7 @@
         "description": "Placeholder for password."
     },
     "keybackup_restore_dialog_headline": {
-        "message": "推荐：设置备份",
+        "message": "推荐：创建备份",
         "description": ""
     },
     "security_log_timestamp": {
@@ -679,16 +835,24 @@
         "message": "您已经在另一台设备上有了密钥对了？您可以导入您现有的密钥。只需导出您在其他设备上的密钥对然后在这里导入。",
         "description": "Import key"
     },
+    "popup_open_page": {
+        "message": "打开",
+        "description": "Open page to file encrypt."
+    },
     "key_import_extend_hint": {
         "message": "提示：",
         "description": ""
     },
     "security_display_popup": {
-        "message": "在 Mailvelope 的单独窗口。",
+        "message": "在一个单独的 Mailvelope 弹出窗口",
         "description": "Decrypted message display option"
     },
+    "recovery_sheet_be_aware": {
+        "message": "请注意",
+        "description": "Label"
+    },
     "key_import_public_update": {
-        "message": "用户 $2 的 $1 公钥已经更新",
+        "message": "用户 $2 的公钥 $1 已更新",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "form_submit": {
@@ -696,16 +860,24 @@
         "description": "Submit form button."
     },
     "restore_backup_dialog_headline": {
-        "message": "请输入恢复代码：",
+        "message": "请输入您的恢复代码：",
         "description": ""
     },
     "editor_no_primary_key_caption_short": {
         "message": "电子邮件无法被数字签名",
-        "description": "Caption digital signature"
+        "description": ""
+    },
+    "recovery_sheet_provider_inbox": {
+        "message": "收件箱",
+        "description": ""
     },
     "watchlist_record_title": {
-        "message": "邮件服务提供方",
+        "message": "邮件服务提供商",
         "description": "Title of the watchlist editor dialog."
+    },
+    "recovery_sheet_other_computer": {
+        "message": "在另一台计算机",
+        "description": ""
     },
     "key_export_clipboard": {
         "message": "复制到剪贴板",
@@ -715,8 +887,16 @@
         "message": "关闭",
         "description": "Close decrypt popup."
     },
+    "recovery_sheet_enter_code": {
+        "message": "如果要在其他计算机上安装，请在设置中输入此恢复代码：",
+        "description": "Label for navigation path"
+    },
+    "keygrid_upload_success_msg": {
+        "message": "密钥上传成功。",
+        "description": "Upload success message"
+    },
     "verify_result_warning": {
-        "message": "使用未知密钥签名",
+        "message": "已被未知密钥签名",
         "description": "Verfiy signature warning."
     },
     "alert_header_warning": {
@@ -724,8 +904,12 @@
         "description": "Alert header of category warning."
     },
     "digital_signature_status_true": {
-        "message": "有效",
+        "message": "签名有效",
         "description": ""
+    },
+    "recovery_sheet_recover_data": {
+        "message": "恢复数据",
+        "description": "Sub title"
     },
     "key_gen_key_size": {
         "message": "密钥长度",
@@ -735,6 +919,14 @@
         "message": "设置加密的通信",
         "description": ""
     },
+    "key_import_hkp_search_public": {
+        "message": "搜索密钥服务器上的公钥。",
+        "description": ""
+    },
+    "keyserver_tofu_lookup": {
+        "message": "自动查询收件人密钥",
+        "description": "Enable Mailvelope Key Server Auto Lookup"
+    },
     "security_log_textarea_input": {
         "message": "文本区域中的输入事件",
         "description": "A click in the text area as an event type"
@@ -743,13 +935,21 @@
         "message": "De-Mail 地址",
         "description": "De-Mail address name."
     },
+    "keygrid_upload_alert_title": {
+        "message": "新功能！",
+        "description": "Text of a link to a learn-more resource"
+    },
     "keygrid_delete_confirmation": {
         "message": "您确定要删除此密钥吗？",
         "description": "Delete confirmation dialog."
     },
     "pwd_dialog_title": {
-        "message": "输入密码 | Mailvelope",
+        "message": "请输入密码 | Mailvelope",
         "description": "Title of the password dialog."
+    },
+    "encrypt_download_all_button": {
+        "message": "全部保存",
+        "description": "Button to download all files"
     },
     "security_log_backup_create": {
         "message": "创建备份的点击事件",
@@ -771,9 +971,21 @@
         "message": "生成另一个...",
         "description": "Key import button"
     },
+    "recovery_sheet_recommendation": {
+        "message": "推荐",
+        "description": ""
+    },
     "popup_remove_page": {
         "message": "移除",
         "description": "Remove page from watchlist."
+    },
+    "keyserver_url_warning": {
+        "message": "密钥服务器 URL 必须是下列格式: http(s)://keys.example.com",
+        "description": "HKP key server url warning."
+    },
+    "recovery_sheet_provider_settings": {
+        "message": "设置",
+        "description": ""
     },
     "security_log_dialog_transfer": {
         "message": "对话框的点击传输事件",
@@ -787,6 +999,14 @@
         "message": "签名对话框",
         "description": "Sign dialog as an event source"
     },
+    "key_import_hkp_search": {
+        "message": "搜索密钥",
+        "description": ""
+    },
+    "recovery_sheet_other_problems": {
+        "message": "因其他原因",
+        "description": "List item"
+    },
     "keygrid_validity_status": {
         "message": "状态",
         "description": "Validity status of a PGP key."
@@ -796,7 +1016,7 @@
         "description": "Tab of keyring to import keys."
     },
     "keygen_dialog_prolog": {
-        "message": "指定密码以保护您的加密通信：",
+        "message": "请分配一个密码以保护您的加密通信：",
         "description": ""
     },
     "security_log_key_generator": {
@@ -804,7 +1024,7 @@
         "description": "Key generator container as an event source"
     },
     "key_export_create_file": {
-        "message": "下载",
+        "message": "保存",
         "description": "Download file button."
     },
     "alert_no_domainmatchpattern_warning": {
@@ -812,7 +1032,7 @@
         "description": "Alert header of category warning."
     },
     "key_import_public_success": {
-        "message": "用户 $2 的公钥 $1 已经加入密钥环",
+        "message": "用户 $2 的公钥 $1 已导入钥匙链",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "pwd_dialog_reason_editor": {
@@ -827,12 +1047,20 @@
         "message": "指纹",
         "description": "Unique string identifier for a PGP key."
     },
+    "keygrid_upload_alert_refuse": {
+        "message": "不用了，谢谢",
+        "description": "Button text to reject key upload"
+    },
     "editor_error_content": {
         "message": "内容错误",
         "description": ""
     },
     "keybackup_setup_dialog_button": {
         "message": "设置备份",
+        "description": ""
+    },
+    "pwd_dialog_reason_create_draft": {
+        "message": "请输入密钥密码以保存草稿。",
         "description": ""
     },
     "popup_add_page_tooltip": {
@@ -859,12 +1087,16 @@
         "message": "类型",
         "description": "The type of the key."
     },
+    "keybackup_failed": {
+        "message": "创建密钥备份失败。",
+        "description": ""
+    },
     "editor_no_primary_key_caption_long": {
         "message": "电子邮件无法被数字签名，因为主密钥缺失",
-        "description": "Caption digital signature"
+        "description": ""
     },
     "keygen_dialog_confirm_success": {
-        "message": "输入不正确。",
+        "message": "输入有效。",
         "description": ""
     },
     "keyring_migration_error": {
@@ -872,7 +1104,7 @@
         "description": "Tab of keyring to display migration errors."
     },
     "keybackup_restore_dialog_list_2": {
-        "message": "您需要一个新的，基于安全理由。",
+        "message": "为了安全，请创建一个新的恢复表。",
         "description": ""
     },
     "security_log_attachment_download": {
@@ -892,16 +1124,28 @@
         "description": "Store password in memory for $1 minutes."
     },
     "wrong_restore_code": {
-        "message": "恢复代码不正确",
+        "message": "无效的恢复代码",
         "description": ""
     },
     "settings_watchlist": {
-        "message": "邮箱服务提供方列表",
+        "message": "邮件服务提供商列表",
         "description": "Tab of options to display list of supported mail providers."
+    },
+    "recovery_sheet_key_server": {
+        "message": "Other [BRAND] users who are using the PGP procedure of GMX can be directly found in a central directory in your [BRAND] account. If you do not want to have any entries in this directory, please deactivate this function in your [BRAND] account settings.",
+        "description": ""
     },
     "general_editor_rich": {
         "message": "富文本编辑器",
         "description": "Editor option: rich text."
+    },
+    "recovery_sheet_pgp_compat": {
+        "message": "如果其他联系人也使用加密通信（PGP），您可以与他们安全通信。",
+        "description": ""
+    },
+    "recovery_sheet_forgot_password": {
+        "message": "因为您忘记了您的密钥密码",
+        "description": "List item"
     },
     "security_cache_on": {
         "message": "是，记住",
@@ -931,6 +1175,10 @@
         "message": "网站",
         "description": "Site in watchlist."
     },
+    "recovery_sheet_other_devices_setup": {
+        "message": "在其他设备上设置加密通信",
+        "description": ""
+    },
     "editor_transfer": {
         "message": "提交",
         "description": "Transfer button of editor popup."
@@ -951,6 +1199,10 @@
         "message": "此文件也包含私钥。",
         "description": "Key export warning."
     },
+    "learn_more_link": {
+        "message": "了解更多",
+        "description": "Text of a link to a learn-more resource"
+    },
     "key_import_invalid_text": {
         "message": "未找到有效密钥",
         "description": "Import error alert."
@@ -959,25 +1211,33 @@
         "message": "生成密钥",
         "description": "Generate key"
     },
+    "keygrid_upload_error_msg": {
+        "message": "密钥上传失败。",
+        "description": "Upload error message"
+    },
+    "editor_label_add_recipient": {
+        "message": "添加收件人",
+        "description": "Label for recipient text input."
+    },
     "word_or": {
         "message": "或者",
         "description": "Separate list of elements."
     },
     "key_import_exception": {
-        "message": "处理密钥出现错误",
+        "message": "处理该密钥时发生异常",
         "description": "Import error alert."
     },
-    "keygrid_display_key_pair": {
-        "message": "显示密钥对",
-        "description": "Export key menu."
-    },
     "key_import_invalidated_headline": {
-        "message": "警告！加密通信的现有数据已过期。",
-        "description": "Key import dialog header"
+        "message": "就高考：加密通信的必要数据已过期。",
+        "description": "Key import dialog header."
     },
-    "security_compose_mail": {
-        "message": "您想在哪里撰写邮件？",
-        "description": "Label for compose options"
+    "encrypt_upload_file_warning_too_big": {
+        "message": "一个文件的大小超出限制。",
+        "description": "."
+    },
+    "recovery_sheet_print_button": {
+        "message": "打印",
+        "description": ""
     },
     "general_editor_type": {
         "message": "选择邮件编辑器",
@@ -991,17 +1251,9 @@
         "message": "体积",
         "description": "Scaling"
     },
-    "popup_active_off": {
-        "message": "关",
-        "description": "Activity status of the extension."
-    },
     "watchlist_command_edit": {
         "message": "编辑",
         "description": "Edit entry in watchlist."
-    },
-    "editor_transfer_unencrypted": {
-        "message": "您正在尝试将未加密的内容传回邮箱服务提供方！",
-        "description": "Warning for unencrypted content."
     },
     "decrypt_popup_title": {
         "message": "已解密邮件",
@@ -1010,6 +1262,14 @@
     "form_close": {
         "message": "关闭",
         "description": "Close form button."
+    },
+    "encrypt_dialog_subheader": {
+        "message": "人员：",
+        "description": "Subheader of encrypt dialog."
+    },
+    "encrypt_download_file_title": {
+        "message": "保存文件",
+        "description": "Title of download area"
     },
     "security_log_signature_modal_open": {
         "message": "打开签名对话框的点击事件",
@@ -1020,12 +1280,16 @@
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "创建一个新备份：",
+        "message": "创建一个新的恢复表，如果：",
         "description": ""
     },
     "key_import_default_headline": {
-        "message": "确认发送者是加密通信的联系人？",
-        "description": "Key import dialog header"
+        "message": "添加联系人到加密通信？",
+        "description": "Key import dialog header."
+    },
+    "recovery_sheet_mobile_devices": {
+        "message": "在移动设备上",
+        "description": ""
     },
     "watchlist_command_save": {
         "message": "保存更改",
@@ -1048,7 +1312,7 @@
         "description": "Encrypt dialog as an event source"
     },
     "key_import_private_update": {
-        "message": "用户 $2 的 $1 密钥已经更新",
+        "message": "用户 $2 的私钥 $1 已更新",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_gen_pwd_empty": {
@@ -1058,6 +1322,10 @@
     "form_save": {
         "message": "保存",
         "description": "Save form button."
+    },
+    "key_import_too_big": {
+        "message": "您尝试导入的密钥文本太长而无法处理。请将其拆分成更短的部分。",
+        "description": "Import error alert."
     },
     "ext_name": {
         "message": "Mailvelope",
@@ -1079,8 +1347,12 @@
         "message": "您的密钥密码：",
         "description": ""
     },
+    "recovery_sheet_other_devices": {
+        "message": "在其他设备上加密通信",
+        "description": "Sub title"
+    },
     "keygen_waiting_description": {
-        "message": "请耐心等待",
+        "message": "加密通信的设置可能需要几分钟。您的浏览器可能会暂时停止响应。请耐心等待。",
         "description": ""
     },
     "alert_header_error": {
@@ -1092,7 +1364,7 @@
         "description": "Title of the source column of the security log table."
     },
     "editor_error_header": {
-        "message": "头错误",
+        "message": "错误",
         "description": ""
     },
     "editor_remove_upload": {
@@ -1100,12 +1372,16 @@
         "description": "Remove uploaded attachment"
     },
     "decrypt_digital_signature_null": {
-        "message": "数字签名无法识别",
+        "message": "数字签名无法确认",
         "description": "Caption digital signature"
     },
     "key_export_too_large": {
-        "message": "密钥过长，不能放入一个 URL，请手动复制粘贴。",
+        "message": "密钥对于一个 URL 来说太长，请改用复制和粘贴。",
         "description": "Key export warning message."
+    },
+    "file_encrypting": {
+        "message": "加密",
+        "description": ""
     },
     "keygrid_no_subkeys": {
         "message": "没有子密钥可用",
@@ -1114,6 +1390,10 @@
     "keygrid_keyid": {
         "message": "密钥标识",
         "description": "Key ID of a PGP key."
+    },
+    "form_back": {
+        "message": "后退",
+        "description": "Back form button."
     },
     "sign_dialog_header": {
         "message": "签名邮件，用密钥：",
@@ -1132,7 +1412,7 @@
         "description": "Selection of the text area as an event type"
     },
     "keygrid_signer_unknown": {
-        "message": "签署人未知",
+        "message": "未知签署者",
         "description": "Key of signer not available."
     },
     "popup_add_page": {
@@ -1142,6 +1422,10 @@
     "security_log_dialog_sign": {
         "message": "对话框的点击签名事件",
         "description": ""
+    },
+    "editor_key_not_found_msg": {
+        "message": "所有收件人需要一个 PGP 密钥来加密。您仍可签名此消息。",
+        "description": "Warning for when a recipient key was not found."
     },
     "options_docu": {
         "message": "文档",
@@ -1155,32 +1439,48 @@
         "message": "关于",
         "description": "Options navigation: About."
     },
+    "settings_keyserver": {
+        "message": "密钥服务器",
+        "description": "Tab of options to display key server settings."
+    },
     "keygrid_primary_label": {
         "message": "主要",
         "description": "Label for the primary key"
+    },
+    "recovery_sheet_unknown_third": {
+        "message": "Only set up encrypted communication on secure devices that cannot be accessed by strangers.",
+        "description": ""
     },
     "upload_quota_warning_headline": {
         "message": "附件大小太大",
         "description": ""
     },
     "key_gen_invalid_email": {
-        "message": "电子邮件地址无效",
+        "message": "无效的电子邮件地址",
         "description": "Error message."
     },
     "pwd_dialog_userid": {
         "message": "用户标识:",
         "description": "Label for user ID."
     },
+    "encrypting_home": {
+        "message": "文件加密",
+        "description": "File encryption top navigation."
+    },
     "decrypt_popup_copy": {
         "message": "复制到剪贴板",
         "description": "Copy decrypted message to clipboard."
+    },
+    "form_next": {
+        "message": "下一步",
+        "description": "Next form button."
     },
     "settings_backup": {
         "message": "备份",
         "description": "Tab allowing to backup and restore the settings."
     },
     "reload_webmail_tab": {
-        "message": "请刷新您的邮件页面（F5）使配置生效。",
+        "message": "请重新载入您的邮箱服务标签页（按 F5）以使设置生效。",
         "description": "Info message."
     },
     "form_yes": {
@@ -1188,7 +1488,7 @@
         "description": "Yes form button."
     },
     "keyring_setup_generate_key_explanation": {
-        "message": "如果您第一次使用本扩展并且您还没有一个自己的密钥对，您需要生成一个密钥。",
+        "message": "如果您是初次使用本扩展，并且您还没有一个密钥对，请生成一个。",
         "description": "Generate key"
     },
     "keygrid_display_priv_key": {
@@ -1196,23 +1496,27 @@
         "description": "Export key menu."
     },
     "ext_description": {
-        "message": "使用端到端加密增强您的网络邮件安全性。基于 OpenPGP 标准的安全邮件通信。",
+        "message": "使用端到端加密增强您的邮箱安全性。基于 OpenPGP 标准的安全邮件通信。",
         "description": "Description of the extension."
     },
+    "recovery_sheet_type_in": {
+        "message": "in.",
+        "description": "The 'in' as in 'type something in' refers to verb in RECOVERY_SHEET_ENTER_CODE, optional."
+    },
     "keybackup_setup_dialog_list_1": {
-        "message": "数据丢失时恢复。",
+        "message": "以备数据丢失时恢复。",
         "description": ""
     },
     "key_import_default_description": {
-        "message": "在确认之后，设置与此联系人的加密通信。",
-        "description": "Key import dialog description"
+        "message": "在确认之后，与此联系人的加密通信就已设置完成。",
+        "description": "Key import dialog description."
     },
     "key_gen_advanced_btn": {
         "message": "高级",
         "description": "Advanced key generation settings."
     },
     "key_import_private_success": {
-        "message": "用户 $2 的密钥 $1 已经加入密钥环",
+        "message": "用户 $2 的私钥 $1 已导入钥匙链",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "settings_security": {
@@ -1223,21 +1527,29 @@
         "message": "通用",
         "description": "Tab of options to display general settings."
     },
+    "form_forward": {
+        "message": "前进",
+        "description": "Forward form button."
+    },
     "key_import_unable": {
         "message": "无法导入密钥，发生异常：$1",
         "description": "Import error message: $1: error message."
     },
     "editor_sign_caption_long": {
         "message": "电子邮件将被数字签名",
-        "description": "Caption digital signature"
+        "description": ""
     },
     "keygrid_display_pub_key": {
         "message": "显示公钥",
         "description": "Export key menu."
     },
     "upload_quota_exceeded_warning": {
-        "message": "附件大小超过允许的限制:",
+        "message": "附件大小超出大小限制：",
         "description": "A warning shown when the attachments upload quota is exceeded."
+    },
+    "recovery_sheet_keep_safe": {
+        "message": "Store a print-out of this document in a safe place and make sure no one else has access to the recovery code.",
+        "description": ""
     },
     "keyring_setup": {
         "message": "安装",
@@ -1246,6 +1558,10 @@
     "keygrid_creation_date": {
         "message": "创建日期",
         "description": "Creation date of a PGP key."
+    },
+    "recovery_sheet_other_contacts": {
+        "message": "与其他联系人加密通信",
+        "description": ""
     },
     "key_export_download": {
         "message": "下载密钥",
