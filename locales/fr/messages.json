@@ -27,6 +27,10 @@
         "message": "Tout",
         "description": "Selection of key type."
     },
+    "editor_key_not_found": {
+        "message": "Key not found!",
+        "description": "Warning for when a recipient key was not found."
+    },
     "security_log_text_input": {
         "message": "Evénement de saise dans le champ texte",
         "description": "A click in the text area as an event type"
@@ -86,6 +90,10 @@
     "key_import_hkp_search_ph": {
         "message": "By name, Email address, or key ID",
         "description": ""
+    },
+    "keyserver_tofu_label": {
+        "message": "Mailvelope key server",
+        "description": "Mailvelope Key Server Settings Label"
     },
     "watchlist_delete_confirmation": {
         "message": "Voulez-vous vraiment supprimer ce site de la liste des fournisseurs ?",
@@ -234,6 +242,10 @@
     "recovery_sheet_encryption_note": {
         "message": "Conseils pour la communication chiffrée chez [BRAND]",
         "description": "Sub title"
+    },
+    "key_gen_upload": {
+        "message": "Upload public key to Mailvelope Key Server (can be deleted at any time)",
+        "description": "Upload key to Mailvelope key server checkbox"
     },
     "security_background_preview": {
         "message": "Prévisualisation",
@@ -427,6 +439,10 @@
         "message": "Signatures",
         "description": "Signatures on User ID of a PGP key."
     },
+    "keygrid_upload_alert_accept": {
+        "message": "Upload public key",
+        "description": "Button text to accept key upload"
+    },
     "form_cancel": {
         "message": "Annuler",
         "description": "Cancel form button."
@@ -554,6 +570,10 @@
     "options_title": {
         "message": "Options de Mailvelope",
         "description": "Title of options page."
+    },
+    "keygrid_upload_alert_msg": {
+        "message": "You can now upload your public key to the Mailvelope Key Server for automatic lookup in participating OpenPGP plugins. This makes it easier to write encrypted email with your contacts. Give it a try. You can delete your key at any time",
+        "description": "Text of a link to a learn-more resource"
     },
     "recovery_sheet_check_settings": {
         "message": "veuillez vérifier vos paramètres dans votre compte sous:",
@@ -871,6 +891,10 @@
         "message": "Pour l'installation sur un autre ordinateur, saisissez votre code de récupération dans vos paramètres sous:",
         "description": "Label for navigation path"
     },
+    "keygrid_upload_success_msg": {
+        "message": "Key upload successful.",
+        "description": "Upload success message"
+    },
     "verify_result_warning": {
         "message": "Signé avec une clé inconnue",
         "description": "Verfiy signature warning."
@@ -899,6 +923,10 @@
         "message": "Search for public keys on key server.",
         "description": ""
     },
+    "keyserver_tofu_lookup": {
+        "message": "Automatically lookup recipient keys",
+        "description": "Enable Mailvelope Key Server Auto Lookup"
+    },
     "security_log_textarea_input": {
         "message": "Evénement de saisie dans le champ texte",
         "description": "A click in the text area as an event type"
@@ -906,6 +934,10 @@
     "key_gen_demail": {
         "message": "Adresse De-Mail",
         "description": "De-Mail address name."
+    },
+    "keygrid_upload_alert_title": {
+        "message": "New feature!",
+        "description": "Text of a link to a learn-more resource"
     },
     "keygrid_delete_confirmation": {
         "message": "Etes-vous sûr de vouloir supprimer cette clé ?",
@@ -1014,6 +1046,10 @@
     "keygrid_key_fingerprint": {
         "message": "Empreinte",
         "description": "Unique string identifier for a PGP key."
+    },
+    "keygrid_upload_alert_refuse": {
+        "message": "No thanks",
+        "description": "Button text to reject key upload"
     },
     "editor_error_content": {
         "message": "Erreur de contenu",
@@ -1163,6 +1199,10 @@
         "message": "Ce fichier contient aussi des clé privées.",
         "description": "Key export warning."
     },
+    "learn_more_link": {
+        "message": "Learn more",
+        "description": "Text of a link to a learn-more resource"
+    },
     "key_import_invalid_text": {
         "message": "Aucun texte contenant une clé valide n'a été trouvé",
         "description": "Import error alert."
@@ -1170,6 +1210,14 @@
     "keyring_setup_generate_key": {
         "message": "Générer la clé",
         "description": "Generate key"
+    },
+    "keygrid_upload_error_msg": {
+        "message": "Key upload failed.",
+        "description": "Upload error message"
+    },
+    "editor_label_add_recipient": {
+        "message": "Add recipient",
+        "description": "Label for recipient text input."
     },
     "word_or": {
         "message": "ou",
@@ -1206,10 +1254,6 @@
     "watchlist_command_edit": {
         "message": "Editer",
         "description": "Edit entry in watchlist."
-    },
-    "editor_transfer_unencrypted": {
-        "message": "Vous essayez de transférer du contenu en clair vers le fournisseur de messagerie.",
-        "description": "Warning for unencrypted content."
     },
     "decrypt_popup_title": {
         "message": "Message déchiffré",
@@ -1320,7 +1364,7 @@
         "description": "Title of the source column of the security log table."
     },
     "editor_error_header": {
-        "message": "Erreur intitulé",
+        "message": "Error",
         "description": ""
     },
     "editor_remove_upload": {
@@ -1378,6 +1422,10 @@
     "security_log_dialog_sign": {
         "message": "Evénement clic sur Signer dans la boite de dialogue",
         "description": ""
+    },
+    "editor_key_not_found_msg": {
+        "message": "All recipients need a PGP key to encrypt. You can still sign the message though.",
+        "description": "Warning for when a recipient key was not found."
     },
     "options_docu": {
         "message": "Documentation",
