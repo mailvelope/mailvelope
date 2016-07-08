@@ -8,7 +8,7 @@
         "description": "Help text for cache time."
     },
     "key_gen_wait_info": {
-        "message": "Vänta medan en nyckel skapas. Det kan ta flera minuter och styrs av faktorer som nyckelstorlek.",
+        "message": "Please wait, key generation can take up to several minutes depending on various factors, such as the key size.",
         "description": "Wait dialog info message"
     },
     "security_log_attachment_added": {
@@ -16,27 +16,35 @@
         "description": "Attachment added as an event type"
     },
     "message_read_error": {
-        "message": "Kunde inte läsa detta krypterade meddelande: $1",
+        "message": "Could not decrypt this message: $1",
         "description": "Message read error message: $1: error message."
     },
     "security_log_key_backup": {
-        "message": "Key Backup",
-        "description": "Key backup container as an event source"
+        "message": "Säkerhetskopia för nyckel",
+        "description": "Message keybackup container as an event source"
     },
     "keygrid_all_keys": {
-        "message": "Alla",
+        "message": "Any",
         "description": "Selection of key type."
     },
+    "editor_key_not_found": {
+        "message": "Key not found!",
+        "description": "Warning for when a recipient key was not found."
+    },
     "security_log_text_input": {
-        "message": "Input-event in text field",
-        "description": "A click in the text field as an event type"
+        "message": "Inmatningshändelse i testfält",
+        "description": "A click in the text area as an event type"
+    },
+    "security_log_dialog_cancel": {
+        "message": "Click-event on Cancel in dialog",
+        "description": ""
     },
     "security_display_inline": {
-        "message": "På e-postleverantörens sida",
+        "message": "On the page of the e-mail provider.",
         "description": "Decrypted message display option"
     },
     "verify_result_error": {
-        "message": "Fel signatur för",
+        "message": "Invalid signature of",
         "description": "Verfiy signature error. Wrong signature of [userid]."
     },
     "pwd_dialog_header": {
@@ -56,31 +64,39 @@
         "description": "Label for display options"
     },
     "general_primary_key_always": {
-        "message": "Lägg alltid till primär nyckel i mottagarlistan. (Möjliggör dekryptering av skickad e-post)",
+        "message": "Always add my primary key to the list of recipients. (This allows you to decrypt sent mails)",
         "description": "Label for primary private key option."
-    },
-    "security_compose_webmail": {
-        "message": "I textredigeraren från mailleverantören.",
-        "description": "Mail compose option"
     },
     "security_background_header": {
         "message": "Säkerhetsbakgrund",
         "description": "Security background header"
     },
     "keygrid_user_email": {
-        "message": "E-post",
+        "message": "E-mail",
         "description": "Email address in User ID of a PGP key."
     },
     "key_import_extend_description": {
-        "message": "The PGP fingerprint is used to identify the key information of your communication.",
+        "message": "The PGP fingerprint is used to identify the key information of your correspondence.",
+        "description": "Key import dialog description."
+    },
+    "recovery_sheet_invite_contacts": {
+        "message": "In your encrypted communication settings of your [BRAND] account, you have the possibility to invite additional contacts to use encrypted communication via PGP. Contacts that have already been invited successfully can be recognized by the padlock icon next to the e-mail address. ",
         "description": ""
     },
     "form_confirm": {
-        "message": "Confirm",
+        "message": "Bekräfta",
         "description": "Confirm form button."
     },
+    "key_import_hkp_search_ph": {
+        "message": "By name, Email address, or key ID",
+        "description": ""
+    },
+    "keyserver_tofu_label": {
+        "message": "Mailvelope key server",
+        "description": "Mailvelope Key Server Settings Label"
+    },
     "watchlist_delete_confirmation": {
-        "message": "Vill du verkligen ta bort den här webbsidan från listan över e-postleverantörer?",
+        "message": "Do you really want to remove this site from the list of e-mail providers?",
         "description": "Mesage in the watchlist delete confirmation dialog."
     },
     "popup_last_activities": {
@@ -92,19 +108,23 @@
         "description": "Export key dialog header."
     },
     "key_import_private_exists": {
-        "message": "Privat nyckel-del för befintlig publik nyckel $1  för användare $2 importerad till nyckelring",
+        "message": "Private key-part of existing public key $1 of user $2 imported into keyring",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "upload_attachment": {
         "message": "Bifoga fil",
         "description": "Text in the upload attachment button of the message editor dialog"
     },
+    "keyserver_hkp_url": {
+        "message": "HKP key server",
+        "description": "HKP key server option: url."
+    },
     "keybackup_restore_dialog_button": {
-        "message": "Restore backup",
+        "message": "Återställ säkerhetskopia",
         "description": ""
     },
     "decrypt_digital_signature_failure": {
-        "message": "Digital signature error",
+        "message": "Invalid digital signature",
         "description": "Caption digital signature"
     },
     "verify_error": {
@@ -116,24 +136,36 @@
         "description": "Password error message."
     },
     "key_import_extend_date": {
-        "message": "Created:",
+        "message": "Skapad:",
         "description": ""
     },
     "security_cache_header": {
-        "message": "Kom ihåg lösenord för webbläsarsession?",
+        "message": "Remember passwords for this browser session.",
         "description": "Password cache header"
     },
     "popup_actived_checkbox_tooltip": {
         "message": "Aktivera / inaktivera extern redigerare",
         "description": "Text of the checkbox for activating/deactivating the plugin"
     },
+    "security_log_encryption_operation": {
+        "message": "Message has been encrypted for: $1",
+        "description": ""
+    },
     "save_attachment_as_message": {
-        "message": "Markera mappen där du vill spara den bifogade filen",
+        "message": "Select the folder in which you would like to save the attachment.",
         "description": "Message in the attachment save dialog"
     },
     "pwd_dialog_keyid_tooltip": {
-        "message": "Din nyckels id",
+        "message": "The ID of your key",
         "description": "Tooltip explaining the key id."
+    },
+    "recovery_sheet_explain_pgp": {
+        "message": "Encrypted communication with [BRAND] is a PGP-based procedure. It enables you to send encrypted e-mails and, at the same time, ensures that only you and the receiver are able to read them.",
+        "description": ""
+    },
+    "security_log_restore_backup_click": {
+        "message": "Klickhändelse i dialogrutan återställ säkerhetskopi",
+        "description": ""
     },
     "alert_header_success": {
         "message": "Det fungerade!",
@@ -143,16 +175,20 @@
         "message": "Publika nycklar",
         "description": "Selection of key type."
     },
+    "recovery_sheet_trusted_contacts": {
+        "message": "With GMX contacts you can be sure that the users displayed are in fact valid users. You should, however, always verify the identity of contacts with an e-mail address from another e-mail provider.",
+        "description": ""
+    },
     "editor_sign_button": {
         "message": "Signera",
         "description": "Sign button."
     },
-    "security_log_remeber_click": {
-        "message": "Click-event in password dialog",
+    "recovery_sheet_recovery_code": {
+        "message": "Recovery code",
         "description": ""
     },
     "key_gen_success": {
-        "message": "Ny nyckel skapad och importerad till nyckelring",
+        "message": "New key generated and imported into keyring",
         "description": "Key generation success message"
     },
     "security_log_action": {
@@ -175,8 +211,16 @@
         "message": "Markera en nyckeltextfil att importera",
         "description": "File selection button label."
     },
+    "encrypt_file_selection": {
+        "message": "File Selection",
+        "description": "File upload selection"
+    },
+    "popup_open_page_tooltip": {
+        "message": "Open Mailvelope for file encrypt",
+        "description": "Open page to file encrypt."
+    },
     "security_log_dialog_encrypt": {
-        "message": "Click-event to encrypt on dialog",
+        "message": "Klickhändelse för kryptering i dialog",
         "description": ""
     },
     "watchlist_title_frame": {
@@ -195,12 +239,20 @@
         "message": "Visa nycklar",
         "description": "Tab of keyring to display keys."
     },
+    "recovery_sheet_encryption_note": {
+        "message": "Hints for encrypted communication with [BRAND]",
+        "description": "Sub title"
+    },
+    "key_gen_upload": {
+        "message": "Upload public key to Mailvelope Key Server (can be deleted at any time)",
+        "description": "Upload key to Mailvelope key server checkbox"
+    },
     "security_background_preview": {
         "message": "Förhandstitta",
         "description": "Preview"
     },
     "security_log_content_copy": {
-        "message": "Copy-event in verify dialog",
+        "message": "Kopieringshändelse i verifieringsdialog",
         "description": ""
     },
     "security_background_coloring": {
@@ -215,13 +267,25 @@
         "message": "Klickhändelse i textområde",
         "description": "A click in the text area as an event type"
     },
+    "recovery_sheet_backup_data": {
+        "message": "Backup of your data",
+        "description": ""
+    },
+    "key_import_file": {
+        "message": "Import key from file",
+        "description": "File selection label."
+    },
     "digital_signature_status_false": {
-        "message": "invalid",
+        "message": "Invalid signature",
         "description": ""
     },
     "security_log_empty": {
         "message": "Inga inlägg",
         "description": "Message when the security log is empty"
+    },
+    "recovery_sheet_provider_communication": {
+        "message": "Encrypted communication",
+        "description": ""
     },
     "security_background_text": {
         "message": "Säkerhetsbakgrunden är din personliga Mailvelopebakgrund och den hjälper till att förhindra manipulation av användargränssnitt av tredjeparts webbsidor och applikationer. För att öka säkerheten, skapa och förändra din personliga bakgrund här.",
@@ -236,11 +300,11 @@
         "description": "Import error alert."
     },
     "key_import_extend_headline": {
-        "message": "Advanced information for encrypted communication:",
-        "description": "Key import dialog header"
+        "message": "Further information on encrypted communication:",
+        "description": "Key import dialog description."
     },
     "key_import_multiple_keys": {
-        "message": "För att klistra in flera nycklar klistrar du helt enkelt in dem här. Annan text runtom nycklarna ignoreras.",
+        "message": "Please insert here one or multiple keys in text format.",
         "description": "Info message."
     },
     "popup_help": {
@@ -260,19 +324,15 @@
         "description": "Passphrase input field status"
     },
     "security_log_dialog_undo": {
-        "message": "Click-event to undo on dialog",
+        "message": "Klickhändelse för ångra i dialog",
         "description": ""
     },
-    "key_import_another": {
-        "message": "Importera annan..",
-        "description": "Import another key button."
-    },
     "editor_no_sign_caption_long": {
-        "message": "Email won't be digitally signed",
-        "description": "Caption digital signature"
+        "message": "E-mail will not be signed digitally",
+        "description": ""
     },
     "pwd_dialog_reason_decrypt": {
-        "message": "Enter key password to decrypt this message.",
+        "message": "Please enter your key password to decrypt this message.",
         "description": ""
     },
     "keygrid_delete": {
@@ -284,7 +344,7 @@
         "description": "A click on the attachment upload button as an event type"
     },
     "key_import_public_read": {
-        "message": "Kunde inte läsa en publik nyckel: $1",
+        "message": "Unable to read a public key: $1",
         "description": "Import error message. $1: error message"
     },
     "watchlist_title_active": {
@@ -300,43 +360,47 @@
         "description": "Key generation error message"
     },
     "form_busy": {
-        "message": "Upptagen",
+        "message": "Processing",
         "description": "Form in busy state."
     },
     "keygrid_userid": {
         "message": "ID",
         "description": "User ID of a PGP key."
     },
+    "recovery_sheet_subtitle_recover": {
+        "message": "Recover encrypted communication",
+        "description": "Sub title"
+    },
     "keygrid_algorithm": {
         "message": "Algoritm",
         "description": "Public-key algorithm of a PGP key."
     },
     "keybackup_restore_dialog_list_1": {
-        "message": "When you lost the recovery sheet.",
+        "message": "If you lost the recovery sheet.",
         "description": ""
     },
     "security_log_import_dialog": {
-        "message": "Import Dialog",
-        "description": "Import dialog popup as an event source"
+        "message": "Importdialog",
+        "description": "Key import dialog as an event source"
     },
     "decrypt_digital_signature": {
-        "message": "Digitally signed",
+        "message": "Signed digitally",
         "description": "Caption digital signature"
+    },
+    "recovery_sheet_further_info": {
+        "message": "You can find more information and setting options in your [BRAND] account under",
+        "description": ""
+    },
+    "recovery_sheet_creation_date": {
+        "message": "Creation date:",
+        "description": "Label for recovery sheet creation date"
     },
     "watchlist_command_cancel": {
         "message": "Avbryt ändringar",
         "description": "Cancel changes in watchlist."
     },
-    "security_compose_warn": {
-        "message": "Den här inställningen försämrar säkerheten hos Mailvelope. Din e-postleverantör kan eventuellt få tillgång till ditt meddelande.",
-        "description": "Mail compose options warning"
-    },
-    "popup_active_on": {
-        "message": "På",
-        "description": "Activity status of the extension."
-    },
     "pwd_dialog_cancel": {
-        "message": "Nyckelupplåsning avbruten.",
+        "message": "Unlocking of keys was cancelled.",
         "description": "User canceled key unlock dialog."
     },
     "encrypt_dialog_header": {
@@ -344,27 +408,23 @@
         "description": "Header of encrypt dialog."
     },
     "keybackup_waiting_description": {
-        "message": "Ett dokument med din backupkod förbereds",
+        "message": "Ett dokument med kod för säkerhetskopian förbereds.",
         "description": ""
     },
     "keygrid_send_pub_key": {
-        "message": "E-posta publik nyckel",
+        "message": "Send public key via e-mail",
         "description": "Export key menu."
     },
-    "security_log_password_show": {
-        "message": "Click-event in password dialog",
-        "description": ""
-    },
     "security_log_password_dialog": {
-        "message": "Password Dialog",
-        "description": "Password dialog popup as an event source"
+        "message": "Lösenordsdialog",
+        "description": "Password dialog as an event source"
     },
     "keygrid_export": {
         "message": "Exportera",
         "description": "Export key."
     },
     "security_log_backup_code_input": {
-        "message": "Input-event in backup code",
+        "message": "Inmatningshändelse i kod för säkerhetskopia",
         "description": ""
     },
     "keyring_public": {
@@ -372,16 +432,24 @@
         "description": "public key type"
     },
     "keyring_header": {
-        "message": "Nyckelhantering",
+        "message": "Key Management",
         "description": "Header of the key ring."
     },
     "keygrid_userid_signatures": {
         "message": "Signaturer",
         "description": "Signatures on User ID of a PGP key."
     },
+    "keygrid_upload_alert_accept": {
+        "message": "Upload public key",
+        "description": "Button text to accept key upload"
+    },
     "form_cancel": {
         "message": "Avbryt",
         "description": "Cancel form button."
+    },
+    "recovery_sheet_not_working": {
+        "message": "If your encrypted communication is no longer working, e.g.",
+        "description": "Label for list"
     },
     "keygrid_invalid_userid": {
         "message": "Felaktigt användar-ID",
@@ -391,12 +459,20 @@
         "message": "Ladda om alla Mailvelope-element",
         "description": "Reload all Mailvelope UI elements on page."
     },
+    "recovery_sheet_header": {
+        "message": "Important information!",
+        "description": "Title of recovery sheet."
+    },
+    "recovery_sheet_backup_local": {
+        "message": "If you would like to exclusively save your data locally on your computer, you will find this option in the encrypted communication settings of your [BRAND] account. ",
+        "description": ""
+    },
     "keyring_setup_import_key": {
-        "message": "Importera nyckel",
+        "message": "Import Key",
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "Ett nyckelpar behöver för att kryptera och dekryptera meddelanden och om du vill bjuda in dina kontakter till end-to-end krypterad kommunikation.",
+        "message": "A key pair is needed to encrypt and decrypt messages, as well as to invite your contacts to end-to-end encrypted communication.",
         "description": "Setup text if no keypair available"
     },
     "settings_security_log": {
@@ -408,7 +484,7 @@
         "description": "private key type"
     },
     "keybackup_setup_dialog_list_2": {
-        "message": "Transferred to other devices.",
+        "message": "In order to transfer it to other devices.",
         "description": ""
     },
     "encrypt_dialog_no_recipient": {
@@ -416,7 +492,7 @@
         "description": "Error message if no recipient selected."
     },
     "digital_signature_status_null": {
-        "message": "Signature can not be verified",
+        "message": "Signature cannot be verified",
         "description": ""
     },
     "popup_actived_checkbox": {
@@ -424,27 +500,43 @@
         "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "editor_sign_caption_short": {
-        "message": "Email is digitally signed",
-        "description": "Caption digital signature"
+        "message": "E-mail is signed digitally",
+        "description": ""
+    },
+    "recovery_sheet_provider_security": {
+        "message": "Security",
+        "description": ""
     },
     "general_editor_plain": {
         "message": "Ren text",
         "description": "Editor option: plain text."
     },
     "key_import_invalidated_description": {
-        "message": "An encrypted communication with [CONTACT] is no longer possible. The contact must re-invite you.",
-        "description": "Key import dialog description"
+        "message": "Encrypted communication with [CONTACT] is no longer possible. The contact needs to re-invite you.",
+        "description": ""
     },
     "security_log_editor": {
         "message": "PGP-redigerare",
         "description": "Message editor container as an event source"
     },
+    "recovery_sheet_backup_server": {
+        "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our [BRAND] servers by our security partner Mailvelope.",
+        "description": ""
+    },
+    "security_log_password_click": {
+        "message": "Klickhändelse i dialogrutan lösenord",
+        "description": ""
+    },
     "clear_localstorage_confirm_message": {
-        "message": "Vill du radera alla dina PGP-nycklar från den här webbläsarprofilen?",
+        "message": "Would you like to delete all your PGP keys from this browser profile?",
         "description": "The message of the confirmation dialog."
     },
+    "recovery_sheet_unlock_backup": {
+        "message": "The backup of your data can only be decrypted with the help of the recovery code on this recovery sheet.",
+        "description": ""
+    },
     "security_log_backup_dialog_cancel": {
-        "message": "Click-event to close on dialog",
+        "message": "Klickhändelse för att stänga dialog",
         "description": ""
     },
     "form_undo": {
@@ -452,8 +544,12 @@
         "description": "Undo form button."
     },
     "keygrid_key_not_expire": {
-        "message": "Nyckeln går inte ut",
+        "message": "This key does not expire",
         "description": "Expiration date of a PGP key not set."
+    },
+    "recovery_sheet_print_notice": {
+        "message": "Please print this document and store it in a safe place!",
+        "description": "Sub title of recovery sheet."
     },
     "popup_reload": {
         "message": "Ladda om",
@@ -463,6 +559,10 @@
         "message": "minst 4 tecken",
         "description": ""
     },
+    "recovery_sheet_subtitle_receipt": {
+        "message": "Recovery sheet for encrypted communication",
+        "description": "Sub title of recovery sheet."
+    },
     "form_no": {
         "message": "Nej",
         "description": "No form button."
@@ -471,8 +571,16 @@
         "message": "Mailvelope-alternativ",
         "description": "Title of options page."
     },
+    "keygrid_upload_alert_msg": {
+        "message": "You can now upload your public key to the Mailvelope Key Server for automatic lookup in participating OpenPGP plugins. This makes it easier to write encrypted email with your contacts. Give it a try. You can delete your key at any time",
+        "description": "Text of a link to a learn-more resource"
+    },
+    "recovery_sheet_check_settings": {
+        "message": "please check the settings in your account under:",
+        "description": ""
+    },
     "keybackup_waiting_headline": {
-        "message": "Skapa backup!",
+        "message": "Creating backup!",
         "description": ""
     },
     "form_continue": {
@@ -480,7 +588,7 @@
         "description": "Continue form button."
     },
     "security_log_signature_modal_close": {
-        "message": "Click-event to close the signature dialog",
+        "message": "Klickhändelse för att stänga signaturdialogen",
         "description": ""
     },
     "decrypt_popup_header": {
@@ -488,7 +596,7 @@
         "description": "Header of decrypt popup."
     },
     "security_log_backup_dialog_ok": {
-        "message": "Click-event to ok on dialog",
+        "message": "Klickhändelse för ok i dialog",
         "description": ""
     },
     "keygrid_status_invalid": {
@@ -496,36 +604,52 @@
         "description": "Validity status of a PGP key."
     },
     "restore_password_dialog_button": {
-        "message": "Show",
+        "message": "Visa",
+        "description": ""
+    },
+    "recovery_sheet_data_lost": {
+        "message": "Without a backup, your encrypted messages cannot be decrypted again in case you lose your key password or in case of a defective device or problems with the browser extension!",
         "description": ""
     },
     "security_log_email_viewer": {
-        "message": "Dekrypterade PGP-mail",
+        "message": "Decrypted PGP E-mail",
         "description": "Email decryption container as an event source"
     },
     "security_log_text": {
-        "message": "Säkerhetsloggen visar användaraktiviteter i Mailvelopes integrerade komponenter.",
+        "message": "The security log shows user actions in all components of Mailvelope.",
         "description": "Text explaining the purpose of the security log"
+    },
+    "keyserver_url_error": {
+        "message": "Key server not reachable",
+        "description": "HKP key server URL error."
     },
     "keyring_public_private": {
         "message": "Nyckelpar",
         "description": "public and private key types"
     },
     "keygen_dialog_confirm_error_unequal": {
-        "message": "Please check the inputs.",
+        "message": "Please double-check your input.",
         "description": ""
-    },
-    "security_compose_external": {
-        "message": "I ett separat textredigeringsfönster tillhörande Mailvelope.",
-        "description": "Mail compose option"
     },
     "keygrid_primary_key": {
         "message": "Huvudnyckel",
         "description": "Main key in the PGP key."
     },
+    "security_log_dialog_ok": {
+        "message": "Click-event to confirm on dialog",
+        "description": ""
+    },
     "editor_no_sign_caption_short": {
-        "message": "Email is not digitally signed",
-        "description": "Caption digital signature"
+        "message": "E-mail is not signed digitally",
+        "description": ""
+    },
+    "recovery_sheet_qr_code": {
+        "message": "Scan the QR code with your mobile device.",
+        "description": ""
+    },
+    "popup_file_encrypting": {
+        "message": "File Encryption",
+        "description": "Title text for file encryption"
     },
     "verify_result_success": {
         "message": "Signerat av",
@@ -536,20 +660,32 @@
         "description": "User IDs of a PGP key."
     },
     "security_background_button_title": {
-        "message": "Säkerhetsbakgrunden kan justeras i Mailvelope-inställningarna",
+        "message": "The security background can be adjusted in the Mailvelope Options",
         "description": "The tooltip text for the keylock button"
     },
     "keyring_setup_no_keypair_heading": {
-        "message": "Denna nyckelring innehåller inte något nyckelpar ännu.",
+        "message": "This keyring does not yet contain a key pair.",
         "description": "Setup heading if no keypair available"
     },
     "watchlist_title_scan": {
         "message": "Status",
         "description": "Scan status of site in watchlist."
     },
+    "key_recovery_failed": {
+        "message": "Återställning av säkerhetskopierad nyckel misslyckades.",
+        "description": ""
+    },
     "upload_aborting_warning": {
         "message": "Uppladdning av fil kommer att avbrytas.",
         "description": "A warning for the aborting of the file upload."
+    },
+    "recovery_sheet_in_general": {
+        "message": "In general, it is important",
+        "description": "Label"
+    },
+    "file_decrypting": {
+        "message": "Decryption",
+        "description": ""
     },
     "waiting_dialog_decryption_failed": {
         "message": "Dekryptering misslyckades!",
@@ -559,24 +695,32 @@
         "message": "Upprepa",
         "description": ""
     },
+    "recovery_sheet_extension_problems": {
+        "message": "because of problems with the browser extension",
+        "description": "List item"
+    },
     "keybackup_setup_dialog_headline": {
-        "message": "Recommendation: Setup backup",
+        "message": "Recommendation: Set up a backup",
         "description": ""
     },
     "key_import_textarea": {
-        "message": "Klistra in nyckeltext här:",
-        "description": "Key import box."
+        "message": "Import key as text",
+        "description": "Label"
     },
     "watchlist_command_create": {
-        "message": "Lägg till ny post",
+        "message": "Add new entry",
         "description": "Create entry in watchlist."
     },
     "security_log_password_input": {
         "message": "Inmatningshändelse i lösenordsruta",
-        "description": "A click in the text area as an event type"
+        "description": ""
+    },
+    "key_import_hkp_search_btn": {
+        "message": "Search",
+        "description": ""
     },
     "key_gen_name_help": {
-        "message": "Nyckelinnehavarens fullständiga namn",
+        "message": "Full name of the key owner",
         "description": "Help text for name field."
     },
     "encrypt_error": {
@@ -599,6 +743,10 @@
         "message": "Domänmatchnings-mönster ska börja med *.",
         "description": "Alert header of category warning."
     },
+    "encrypt_upload_file_help": {
+        "message": "The size of the individual files must not exceed ## MB.",
+        "description": "Help text"
+    },
     "keygrid_status_valid": {
         "message": "giltig",
         "description": "Validity status of a PGP key."
@@ -612,15 +760,15 @@
         "description": "Don't store password."
     },
     "keyring_export_keys": {
-        "message": "Exportera nycklar",
+        "message": "Export Keyring",
         "description": "Tab of keyring to export keys."
     },
     "keygrid_signer_name": {
-        "message": "ID för signatur",
+        "message": "Signee",
         "description": "User ID of signer."
     },
     "security_log_verify_dialog": {
-        "message": "Verify Dialog",
+        "message": "Verifieringsdialog",
         "description": "Verify dialog as an event source"
     },
     "dialog_keyid_label": {
@@ -632,7 +780,7 @@
         "description": "Checkbox label for remembering of the password."
     },
     "popup_remove_page_tooltip": {
-        "message": "Ta bort nuvarande sida från listan över e-postleverantörer",
+        "message": "Remove current page from the list of e-mail providers",
         "description": "Remove page from watchlist."
     },
     "form_import": {
@@ -644,20 +792,28 @@
         "description": "Encrypt button."
     },
     "digital_signature_dialog_header": {
-        "message": "Digital signature",
+        "message": "Elektronisk signatur",
         "description": "Header of digital signature dialog."
     },
     "key_gen_pwd_reenter": {
         "message": "Ange lösenord igen",
         "description": "Label for passphrase input field"
     },
+    "encrypt_download_file_button": {
+        "message": "Click to save file",
+        "description": "Download icon"
+    },
     "digital_signature_status_null_description": {
-        "message": "The contact of the digital signature has not yet been confirmed for encrypted communication. Ask the contact for an invite.",
+        "message": "The contact of the digital signature has not yet been confirmed for encrypted communication. Please ask the contact for an invitation.",
         "description": ""
     },
     "pwd_dialog_reason_create_backup": {
-        "message": "Enter key password to create the recovery sheet.",
+        "message": "Please enter the key password to create a recovery sheet.",
         "description": ""
+    },
+    "recovery_sheet_print_block": {
+        "message": "Please store this document in a safe place!",
+        "description": "Sub title of recovery sheet."
     },
     "keygrid_user_name": {
         "message": "Namn",
@@ -668,7 +824,7 @@
         "description": "Placeholder for password."
     },
     "keybackup_restore_dialog_headline": {
-        "message": "Recommendation: Restore backup",
+        "message": "Recommendation: Create a backup",
         "description": ""
     },
     "security_log_timestamp": {
@@ -676,19 +832,27 @@
         "description": "Title of the timestamp column of the security log table."
     },
     "keyring_setup_import_key_explanation": {
-        "message": "Har du redan ett nyckelpar på en annan enhet? Du kan importera dina existerande nycklar. Exportera bara nyckelparet på din andra enhet och importera det här.",
+        "message": "Do you already have a key pair on another device? You can import your existing keys. Just export the key pair from the other device and then import them here.",
         "description": "Import key"
     },
+    "popup_open_page": {
+        "message": "Open",
+        "description": "Open page to file encrypt."
+    },
     "key_import_extend_hint": {
-        "message": "Hint:",
+        "message": "Ledtråd:",
         "description": ""
     },
     "security_display_popup": {
-        "message": "I en separat popup från Mailvelope.",
+        "message": "In a separate Mailvelope-popup.",
         "description": "Decrypted message display option"
     },
+    "recovery_sheet_be_aware": {
+        "message": "Please be aware",
+        "description": "Label"
+    },
     "key_import_public_update": {
-        "message": "Publik nyckel $1 för användare $2 uppdaterad",
+        "message": "Updated public key $1 of user $2",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "form_submit": {
@@ -696,16 +860,24 @@
         "description": "Submit form button."
     },
     "restore_backup_dialog_headline": {
-        "message": "Enter restore code:",
+        "message": "Please enter your restore code:",
         "description": ""
     },
     "editor_no_primary_key_caption_short": {
-        "message": "Email cannot be digitally signed",
-        "description": "Caption digital signature"
+        "message": "E-mail cannot be signed digitally",
+        "description": ""
+    },
+    "recovery_sheet_provider_inbox": {
+        "message": "Inbox",
+        "description": ""
     },
     "watchlist_record_title": {
-        "message": "E-postleverantör",
+        "message": "E-mail Provider",
         "description": "Title of the watchlist editor dialog."
+    },
+    "recovery_sheet_other_computer": {
+        "message": "On a different computer",
+        "description": ""
     },
     "key_export_clipboard": {
         "message": "Kopiera till urklipp",
@@ -715,8 +887,16 @@
         "message": "Stäng",
         "description": "Close decrypt popup."
     },
+    "recovery_sheet_enter_code": {
+        "message": "For the installation on other computers, enter the recovery code in the settings under:",
+        "description": "Label for navigation path"
+    },
+    "keygrid_upload_success_msg": {
+        "message": "Key upload successful.",
+        "description": "Upload success message"
+    },
     "verify_result_warning": {
-        "message": "Signerat med okänd nyckel",
+        "message": "Signed with an unknown key",
         "description": "Verfiy signature warning."
     },
     "alert_header_warning": {
@@ -724,16 +904,28 @@
         "description": "Alert header of category warning."
     },
     "digital_signature_status_true": {
-        "message": "valid",
+        "message": "Signature is valid",
         "description": ""
+    },
+    "recovery_sheet_recover_data": {
+        "message": "Recovering data",
+        "description": "Sub title"
     },
     "key_gen_key_size": {
         "message": "Nyckelstorlek",
         "description": "Advanced key generation settings: Key size"
     },
     "keygen_waiting_headline": {
-        "message": "Setting up encrypted communication",
+        "message": "Förbereder krypterad kommunikation",
         "description": ""
+    },
+    "key_import_hkp_search_public": {
+        "message": "Search for public keys on key server.",
+        "description": ""
+    },
+    "keyserver_tofu_lookup": {
+        "message": "Automatically lookup recipient keys",
+        "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "security_log_textarea_input": {
         "message": "Inmatningshändelse i textområde",
@@ -743,16 +935,24 @@
         "message": "De-Mailadress",
         "description": "De-Mail address name."
     },
+    "keygrid_upload_alert_title": {
+        "message": "New feature!",
+        "description": "Text of a link to a learn-more resource"
+    },
     "keygrid_delete_confirmation": {
         "message": "Vill du verkligen ta bort den här nyckeln?",
         "description": "Delete confirmation dialog."
     },
     "pwd_dialog_title": {
-        "message": "Ange lösenord i Mailvelope",
+        "message": "Enter a Password | Mailvelope",
         "description": "Title of the password dialog."
     },
+    "encrypt_download_all_button": {
+        "message": "Save all",
+        "description": "Button to download all files"
+    },
     "security_log_backup_create": {
-        "message": "Click-event for create backup",
+        "message": "Klickhändelse för att skapa säkerhetskopia",
         "description": ""
     },
     "keygrid_subkeys": {
@@ -764,19 +964,31 @@
         "description": "Clear form button."
     },
     "pwd_dialog_reason_sign": {
-        "message": "Enter key password to sign this message.",
+        "message": "Please enter your key password to sign this message.",
         "description": ""
     },
     "key_gen_another": {
         "message": "Skapa annan...",
         "description": "Key import button"
     },
+    "recovery_sheet_recommendation": {
+        "message": "Recommendation",
+        "description": ""
+    },
     "popup_remove_page": {
         "message": "Ta bort",
         "description": "Remove page from watchlist."
     },
+    "keyserver_url_warning": {
+        "message": "Key server URL must have the following format: http(s)://keys.example.com",
+        "description": "HKP key server url warning."
+    },
+    "recovery_sheet_provider_settings": {
+        "message": "Settings",
+        "description": ""
+    },
     "security_log_dialog_transfer": {
-        "message": "Click-event to transfer on dialog",
+        "message": "Klickhändelse för överföring i dialog",
         "description": ""
     },
     "key_gen_expiration": {
@@ -784,8 +996,16 @@
         "description": "Key expires after time range"
     },
     "security_log_sign_dialog": {
-        "message": "Sign Dialog",
+        "message": "Signeringsdialog",
         "description": "Sign dialog as an event source"
+    },
+    "key_import_hkp_search": {
+        "message": "Key search",
+        "description": ""
+    },
+    "recovery_sheet_other_problems": {
+        "message": "for other reasons",
+        "description": "List item"
     },
     "keygrid_validity_status": {
         "message": "Status",
@@ -796,7 +1016,7 @@
         "description": "Tab of keyring to import keys."
     },
     "keygen_dialog_prolog": {
-        "message": "Välj lösenord för att skydda din krypterade kommunikation:",
+        "message": "Please assign a password to protect your encrypted communication:",
         "description": ""
     },
     "security_log_key_generator": {
@@ -804,7 +1024,7 @@
         "description": "Key generator container as an event source"
     },
     "key_export_create_file": {
-        "message": "Ladda ner",
+        "message": "Spara",
         "description": "Download file button."
     },
     "alert_no_domainmatchpattern_warning": {
@@ -812,11 +1032,11 @@
         "description": "Alert header of category warning."
     },
     "key_import_public_success": {
-        "message": "Publik nyckel $1 för användare $2 importerad till nyckelring",
+        "message": "Public key $1 of user $2 imported into keyring",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "pwd_dialog_reason_editor": {
-        "message": "Enter key password to update the settings for encrypted communication.",
+        "message": "Please enter your key password to update the encrypted communication settings.",
         "description": ""
     },
     "key_set_as_primary": {
@@ -827,12 +1047,20 @@
         "message": "Fingeravtryck",
         "description": "Unique string identifier for a PGP key."
     },
+    "keygrid_upload_alert_refuse": {
+        "message": "No thanks",
+        "description": "Button text to reject key upload"
+    },
     "editor_error_content": {
-        "message": "Error Content",
+        "message": "Fel Innehåll",
         "description": ""
     },
     "keybackup_setup_dialog_button": {
-        "message": "Setting up backup",
+        "message": "Set up a backup",
+        "description": ""
+    },
+    "pwd_dialog_reason_create_draft": {
+        "message": "Ange nyckelns lösenord för att spara utkast.",
         "description": ""
     },
     "popup_add_page_tooltip": {
@@ -859,12 +1087,16 @@
         "message": "Typ",
         "description": "The type of the key."
     },
+    "keybackup_failed": {
+        "message": "Creating key backup failed.",
+        "description": ""
+    },
     "editor_no_primary_key_caption_long": {
-        "message": "Email cannot be digitally signed because the primary key is missing",
-        "description": "Caption digital signature"
+        "message": "E-mail cannot be signed digitally because the primary key is missing",
+        "description": ""
     },
     "keygen_dialog_confirm_success": {
-        "message": "Inputs are correct.",
+        "message": "Input is valid.",
         "description": ""
     },
     "keyring_migration_error": {
@@ -872,7 +1104,7 @@
         "description": "Tab of keyring to display migration errors."
     },
     "keybackup_restore_dialog_list_2": {
-        "message": "You need a new one for safety reason.",
+        "message": "Please create a new recovery sheet for security reasons.",
         "description": ""
     },
     "security_log_attachment_download": {
@@ -892,16 +1124,28 @@
         "description": "Store password in memory for $1 minutes."
     },
     "wrong_restore_code": {
-        "message": "Restore code is wrong",
+        "message": "Invalid Restore Code",
         "description": ""
     },
     "settings_watchlist": {
-        "message": "Lista med e-postleverantörer",
+        "message": "List of E-mail Providers",
         "description": "Tab of options to display list of supported mail providers."
+    },
+    "recovery_sheet_key_server": {
+        "message": "Other [BRAND] users who are using the PGP procedure of GMX can be directly found in a central directory in your [BRAND] account. If you do not want to have any entries in this directory, please deactivate this function in your [BRAND] account settings.",
+        "description": ""
     },
     "general_editor_rich": {
         "message": "Redigerare för formaterad text",
         "description": "Editor option: rich text."
+    },
+    "recovery_sheet_pgp_compat": {
+        "message": "You can communicate securely with other contacts if they are also using encrypted communication (PGP).",
+        "description": ""
+    },
+    "recovery_sheet_forgot_password": {
+        "message": "because you forgot your key password",
+        "description": "List item"
     },
     "security_cache_on": {
         "message": "Ja, behåll i minnet i ",
@@ -920,7 +1164,7 @@
         "description": ""
     },
     "keybackup_setup_dialog_description": {
-        "message": "The backup is required to ensure your encrypted communication is:",
+        "message": "Säkerhetskopian krävs för att säkerställa att den krypterade kommunikationen är:",
         "description": ""
     },
     "key_gen_wait_header": {
@@ -930,6 +1174,10 @@
     "watchlist_title_site": {
         "message": "Sida",
         "description": "Site in watchlist."
+    },
+    "recovery_sheet_other_devices_setup": {
+        "message": "Setting up encrypted communication on other devices",
+        "description": ""
     },
     "editor_transfer": {
         "message": "Överför",
@@ -944,12 +1192,16 @@
         "description": "Expose API to Webmailer."
     },
     "key_import_extend_fingerprint": {
-        "message": "PGP-Fingerprint:",
+        "message": "PGP-fingeravtryck:",
         "description": ""
     },
     "key_export_warning_private": {
-        "message": "Den här filen innehåller även privata nycklar.",
+        "message": "This file also contains private keys.",
         "description": "Key export warning."
+    },
+    "learn_more_link": {
+        "message": "Learn more",
+        "description": "Text of a link to a learn-more resource"
     },
     "key_import_invalid_text": {
         "message": "Ingen giltig nyckeltext hittades",
@@ -959,73 +1211,85 @@
         "message": "Generera nyckel",
         "description": "Generate key"
     },
+    "keygrid_upload_error_msg": {
+        "message": "Key upload failed.",
+        "description": "Upload error message"
+    },
+    "editor_label_add_recipient": {
+        "message": "Add recipient",
+        "description": "Label for recipient text input."
+    },
     "word_or": {
         "message": "eller",
         "description": "Separate list of elements."
     },
     "key_import_exception": {
-        "message": "Ett fel uppstod vid bearbetning av nycklarna",
+        "message": "An exception occurred while processing the keys",
         "description": "Import error alert."
     },
-    "keygrid_display_key_pair": {
-        "message": "Visa nyckelpar",
-        "description": "Export key menu."
-    },
     "key_import_invalidated_headline": {
-        "message": "Warning! The existing data for encrypted communication is expired.",
-        "description": "Key import dialog header"
+        "message": "Warning: Necessary data for encrypted communication has expired.",
+        "description": "Key import dialog header."
     },
-    "security_compose_mail": {
-        "message": "Var vill du skriva ditt e-postmeddelande?",
-        "description": "Label for compose options"
+    "encrypt_upload_file_warning_too_big": {
+        "message": "Size of one file exceeds limit.",
+        "description": "."
+    },
+    "recovery_sheet_print_button": {
+        "message": "Print",
+        "description": ""
     },
     "general_editor_type": {
-        "message": "Val av e-postredigerare",
+        "message": "E-mail editor selection",
         "description": "Label for editor options."
     },
     "key_gen_pwd_unequal": {
-        "message": "Lösenorden stämmer inte överens",
+        "message": "Passwords do not match",
         "description": "Passphrase input field status"
     },
     "security_background_scaling": {
         "message": "Skalning",
         "description": "Scaling"
     },
-    "popup_active_off": {
-        "message": "Av",
-        "description": "Activity status of the extension."
-    },
     "watchlist_command_edit": {
         "message": "Ändra",
         "description": "Edit entry in watchlist."
-    },
-    "editor_transfer_unencrypted": {
-        "message": "Du försöker överföra okrypterat innehåll tillbaka till e-postleverantören.",
-        "description": "Warning for unencrypted content."
     },
     "decrypt_popup_title": {
         "message": "Dekrypterat meddelande",
         "description": "Title of decrypt popup."
     },
     "form_close": {
-        "message": "Close",
+        "message": "Stäng",
         "description": "Close form button."
     },
+    "encrypt_dialog_subheader": {
+        "message": "Persons:",
+        "description": "Subheader of encrypt dialog."
+    },
+    "encrypt_download_file_title": {
+        "message": "Save file",
+        "description": "Title of download area"
+    },
     "security_log_signature_modal_open": {
-        "message": "Click-event to open the signature dialog",
+        "message": "Klickhändelse för att öppna signaturdialogen",
         "description": ""
     },
     "security_log_backup_restore": {
-        "message": "Click-event for restore backup",
+        "message": "Klickhändelse för att återställa säkerhetskopia",
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "Create a new backup:",
+        "message": "Create a new recovery sheet, if:",
         "description": ""
     },
     "key_import_default_headline": {
-        "message": "Confirm the sender as a contact for encrypted communication?",
-        "description": "Key import dialog header"
+        "message": "Add contact to encrypted communication?",
+        "description": "Key import dialog header."
+    },
+    "recovery_sheet_mobile_devices": {
+        "message": "On mobile devices",
+        "description": ""
     },
     "watchlist_command_save": {
         "message": "Spara ändringar",
@@ -1036,19 +1300,19 @@
         "description": "Cleartext message read error message: $1: error message."
     },
     "editor_header": {
-        "message": "Skriv meddelande",
+        "message": "Compose E-mail",
         "description": "Header of editor popup."
     },
     "form_ok": {
-        "message": "Ok",
+        "message": "OK",
         "description": "Ok form button."
     },
     "security_log_encrypt_dialog": {
-        "message": "Encrypt Dialog",
+        "message": "Krypteringsdialog",
         "description": "Encrypt dialog as an event source"
     },
     "key_import_private_update": {
-        "message": "Privat nyckel $1 för användare $2 uppdaterad",
+        "message": "Updated private key $1 of user $2",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_gen_pwd_empty": {
@@ -1059,12 +1323,16 @@
         "message": "Spara",
         "description": "Save form button."
     },
+    "key_import_too_big": {
+        "message": "The key text you tried to import is too long to handle. Try doing it in smaller parts.",
+        "description": "Import error alert."
+    },
     "ext_name": {
         "message": "Mailvelope",
         "description": "Name of the extension."
     },
     "restore_backup_dialog_button": {
-        "message": "Confirm",
+        "message": "Bekräfta",
         "description": ""
     },
     "key_gen_days": {
@@ -1076,11 +1344,15 @@
         "description": "Expiration date of a PGP key."
     },
     "restore_password_dialog_headline": {
-        "message": "Your key password:",
+        "message": "Nyckelns lösenord:",
         "description": ""
     },
+    "recovery_sheet_other_devices": {
+        "message": "Encrypted communication on other devices",
+        "description": "Sub title"
+    },
     "keygen_waiting_description": {
-        "message": "Please be patient",
+        "message": "Setting up encrypted communication can take several minutes. Your browser may become unresponsive. Please be patient.",
         "description": ""
     },
     "alert_header_error": {
@@ -1092,7 +1364,7 @@
         "description": "Title of the source column of the security log table."
     },
     "editor_error_header": {
-        "message": "Error Header",
+        "message": "Error",
         "description": ""
     },
     "editor_remove_upload": {
@@ -1100,12 +1372,16 @@
         "description": "Remove uploaded attachment"
     },
     "decrypt_digital_signature_null": {
-        "message": "Digital signature not identified",
+        "message": "Digital signature could not be identified",
         "description": "Caption digital signature"
     },
     "key_export_too_large": {
-        "message": "Nyckeln får inte plats i en URL, använd kopiera & klistra in istället.",
+        "message": "Key is too large for a URL, please use copy & paste instead.",
         "description": "Key export warning message."
+    },
+    "file_encrypting": {
+        "message": "Encryption",
+        "description": ""
     },
     "keygrid_no_subkeys": {
         "message": "Inga undernycklar tillgängliga",
@@ -1115,12 +1391,16 @@
         "message": "Nyckel-ID",
         "description": "Key ID of a PGP key."
     },
+    "form_back": {
+        "message": "Back",
+        "description": "Back form button."
+    },
     "sign_dialog_header": {
         "message": "Signera meddelande med nyckel:",
         "description": "Header of sign dialog."
     },
     "key_import_private_read": {
-        "message": "Kunde inte läsa en privat nyckel: $1",
+        "message": "Unable to read a private key: $1",
         "description": "Import error message. $1: error message"
     },
     "popup_help_tooltip": {
@@ -1132,7 +1412,7 @@
         "description": "Selection of the text area as an event type"
     },
     "keygrid_signer_unknown": {
-        "message": "ID för signatur okänt",
+        "message": "Unknown signee",
         "description": "Key of signer not available."
     },
     "popup_add_page": {
@@ -1140,8 +1420,12 @@
         "description": "Add page to watchlist."
     },
     "security_log_dialog_sign": {
-        "message": "Click-event to sign on dialog",
+        "message": "Klickhändelse för signatur i dialog",
         "description": ""
+    },
+    "editor_key_not_found_msg": {
+        "message": "All recipients need a PGP key to encrypt. You can still sign the message though.",
+        "description": "Warning for when a recipient key was not found."
     },
     "options_docu": {
         "message": "Dokumentation",
@@ -1155,32 +1439,48 @@
         "message": "Om",
         "description": "Options navigation: About."
     },
+    "settings_keyserver": {
+        "message": "Key Server",
+        "description": "Tab of options to display key server settings."
+    },
     "keygrid_primary_label": {
         "message": "Primär",
         "description": "Label for the primary key"
     },
+    "recovery_sheet_unknown_third": {
+        "message": "Only set up encrypted communication on secure devices that cannot be accessed by strangers.",
+        "description": ""
+    },
     "upload_quota_warning_headline": {
-        "message": "Attachment size too big",
+        "message": "Bilagan är för stor",
         "description": ""
     },
     "key_gen_invalid_email": {
-        "message": "Ogiltig e-postadress",
+        "message": "Invalid e-mail address",
         "description": "Error message."
     },
     "pwd_dialog_userid": {
         "message": "Anv.-ID",
         "description": "Label for user ID."
     },
+    "encrypting_home": {
+        "message": "File Encryption",
+        "description": "File encryption top navigation."
+    },
     "decrypt_popup_copy": {
         "message": "Kopiera till urklipp",
         "description": "Copy decrypted message to clipboard."
+    },
+    "form_next": {
+        "message": "Next",
+        "description": "Next form button."
     },
     "settings_backup": {
         "message": "Säkerhetskopiera",
         "description": "Tab allowing to backup and restore the settings."
     },
     "reload_webmail_tab": {
-        "message": "Ladda om fliken med din e-postleverantör (F5) för att dessa inställningar ska börja gälla.",
+        "message": "Please reload your e-mail provider tab (F5) for the settings to take effect.",
         "description": "Info message."
     },
     "form_yes": {
@@ -1188,31 +1488,35 @@
         "description": "Yes form button."
     },
     "keyring_setup_generate_key_explanation": {
-        "message": "Om du använder detta tillägg för första gången och inte har ett nyckelpar ännu, så behöver du generera en nyckel.",
+        "message": "If you're using this extension for the first time and if you do not have a key pair yet, please generate one now.",
         "description": "Generate key"
     },
     "keygrid_display_priv_key": {
-        "message": "Visa privat nyckel",
+        "message": "Display Private Key",
         "description": "Export key menu."
     },
     "ext_description": {
-        "message": "Förbättra din webbaserade e-posttjänst med end-to-end-kryptering. Säker e-postkommunikation baserad på OpenPGP-standarden.",
+        "message": "Enhance your e-mail provider with end-to-end encryption. Secure e-mail communication based on the OpenPGP standard.",
         "description": "Description of the extension."
     },
+    "recovery_sheet_type_in": {
+        "message": "in.",
+        "description": "The 'in' as in 'type something in' refers to verb in RECOVERY_SHEET_ENTER_CODE, optional."
+    },
     "keybackup_setup_dialog_list_1": {
-        "message": "Restored on data loss.",
+        "message": "In order to restore it in case of data loss.",
         "description": ""
     },
     "key_import_default_description": {
-        "message": "The setup for encrypted communication with this contact is ready after confirmation.",
-        "description": "Key import dialog description"
+        "message": "Encrypted communication with this recipient is ready after confirmation.",
+        "description": "Key import dialog description."
     },
     "key_gen_advanced_btn": {
         "message": "Avancerat",
         "description": "Advanced key generation settings."
     },
     "key_import_private_success": {
-        "message": "Privat nyckel $1 för användare $2 importerad till nyckelring",
+        "message": "Private key $1 of user $2 imported into keyring",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "settings_security": {
@@ -1223,21 +1527,29 @@
         "message": "Allmänt",
         "description": "Tab of options to display general settings."
     },
+    "form_forward": {
+        "message": "Forward",
+        "description": "Forward form button."
+    },
     "key_import_unable": {
-        "message": "Kunde inte importera nyckel pga: $1",
+        "message": "Unable to import a key due to exception: $1",
         "description": "Import error message: $1: error message."
     },
     "editor_sign_caption_long": {
-        "message": "Email will be digitally signed",
-        "description": "Caption digital signature"
+        "message": "E-mail will be signed digitally",
+        "description": ""
     },
     "keygrid_display_pub_key": {
         "message": "Visa publik nyckel",
         "description": "Export key menu."
     },
     "upload_quota_exceeded_warning": {
-        "message": "Bifogad fil överskrider den tillåtna storleksgränsen:",
+        "message": "Attachment size exceeds the size limit:",
         "description": "A warning shown when the attachments upload quota is exceeded."
+    },
+    "recovery_sheet_keep_safe": {
+        "message": "Store a print-out of this document in a safe place and make sure no one else has access to the recovery code.",
+        "description": ""
     },
     "keyring_setup": {
         "message": "Konfigurera",
@@ -1247,8 +1559,12 @@
         "message": "Skapelsedatum",
         "description": "Creation date of a PGP key."
     },
+    "recovery_sheet_other_contacts": {
+        "message": "Encrypted communication with other contacts",
+        "description": ""
+    },
     "key_export_download": {
-        "message": "Ladda ner nyckel",
+        "message": "Download Key",
         "description": "Download key link."
     }
 }
