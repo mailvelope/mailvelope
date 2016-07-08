@@ -1,6 +1,13 @@
 Mailvelope Changelog
 ====================
 
+v1.5.1
+-------
+__July 8, 2016__
+
+  * Bugfixes
+  * Localization updates
+
 v1.5.0
 -------
 __July 5, 2016__

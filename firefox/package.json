@@ -6,7 +6,7 @@
   "author": "Mailvelope GmbH",
   "license": "AGPL 3",
   "main": "lib/main.js",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "homepage": "https://www.mailvelope.com",
   "icon": "resource://jid1-aqqsmbyb0a8adg-at-jetpack/data/common/img/mail_locked_48.png",
   "updateURL": "https://download.mailvelope.com/update/mailvelope.firefox.xml",
