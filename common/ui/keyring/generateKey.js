@@ -167,6 +167,15 @@ var options = options || null;
         $('#genKeyAnother').removeClass('hide');
         // refresh grid
         options.event.triggerHandler('keygrid-reload');
+        // dismiss key upload alert
+        if (parameters.uploadPublicKey) {
+          var update = {
+            keyserver: {dismiss_key_upload: true}
+          };
+          mvelo.extension.sendMessage({event: 'set-prefs', data: update}, function() {
+            options.event.triggerHandler('keygrid-reload');
+          });
+        }
       })
       .catch(function(error) {
         //console.log('generateKey() options.keyring(generateKey)', error);

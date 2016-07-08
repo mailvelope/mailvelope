@@ -321,6 +321,8 @@ var options = {};
       $('#genKeyEmail').attr('disabled', 'disabled');
       $('#genKeyEmailLabel').text(l10n.key_gen_demail);
       $('#keySearchForm').hide();
+      $('#genKeyCheckBoxUpload').prop('checked', false);
+      $('#genKeyUpload').hide();
     }
   }
 
