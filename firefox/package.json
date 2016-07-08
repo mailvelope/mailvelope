@@ -57,6 +57,9 @@
     },
     "zh_CN": {
       "description": "使用端到端加密增强您的在线邮件安全性。基于OpenPGP标准的安全邮件通信。"
+    },
+    "pt_BR": {
+      "description": "Melhore seu webmail com criptografia de ponta-a-ponta. Utilizando comunicação segura baseada no padrão OpenPGP."
     }
   }
 }
