@@ -70,17 +70,9 @@ mvelo.providers.get = function(hostname) {
   function Default() {}
 
   /**
-   * Parse recipients from the DOM for a generic webmail UI.
-   * @return {Array}   The recipient objects in fhe form { email: 'jon@example.com' }
+   * Parse recipients from the DOM has not been reliable for generic webmail
    */
-  Default.prototype.getRecipients = function() {
-    var recipients = [];
-
-    recipients = recipients.concat(dom.getText($('span').filter(':visible')));
-    recipients = recipients.concat(dom.getVal($('input, textarea').filter(':visible')));
-
-    return recipients;
-  };
+  Default.prototype.getRecipients = function() { /* do nothing */ };
 
   /**
    * Since there is not way to enter recipients in a generic fashion
