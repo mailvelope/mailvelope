@@ -32,6 +32,7 @@ mvelo.providers = {};
 mvelo.providers.init = function() {
   mvelo.providers.map = new Map();
   mvelo.providers.map.set('mail.google.com', new mvelo.providers.Gmail());
+  mvelo.providers.map.set('mail.yahoo.com', new mvelo.providers.Yahoo());
   mvelo.providers.map.set('default', new mvelo.providers.Default());
 };
 
@@ -59,6 +60,7 @@ mvelo.providers.get = function(hostname) {
 (function(mvelo) {
 
   mvelo.providers.Gmail = Gmail;
+  mvelo.providers.Yahoo = Yahoo;
   mvelo.providers.Default = Default;
 
 
@@ -97,7 +99,7 @@ mvelo.providers.get = function(hostname) {
   };
 
   /**
-   * Set tne recipients in the Gmail Webmail editor.
+   * Set the recipients in the Gmail Webmail editor.
    */
   Gmail.prototype.setRecipients = function(recipients) {
     recipients = recipients || [];
@@ -120,6 +122,36 @@ mvelo.providers.get = function(hostname) {
     });
   };
 
+  //
+  // Yahoo module
+  //
+
+  function Yahoo() {}
+
+  /**
+   * Parse recipients from the Yahoo Webmail interface
+   * @return {Array}   The recipient objects in fhe form { email: 'jon@example.com' }
+   */
+  Yahoo.prototype.getRecipients = function() {
+    return dom.getAttr($('.compose-header span[data-address]'), 'data-address');
+  };
+
+  /**
+   * Set the recipients in the Yahoo Webmail editor.
+   */
+  Yahoo.prototype.setRecipients = function(recipients) {
+    recipients = recipients || [];
+    // remove existing recipients
+    $('.compose-header li.hLozenge').remove();
+    // enter address text into input
+    var text = recipients.map(function(r) { return r.email; }).join(', ');
+    $('.compose-header #to .recipient-input input').val(text);
+    // trigger change event by switching focus
+    setTimeout(function() {
+      $('.compose-header #to .recipient-input input').focus();
+      $('#subject-field').focus();
+    }, 0);
+  };
 
   //
   // DOM api util
