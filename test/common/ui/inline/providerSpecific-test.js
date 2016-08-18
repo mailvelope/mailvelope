@@ -47,20 +47,13 @@ describe('Provider specific content-script unit tests', function() {
 
     describe('getRecipients', function() {
       it('should work', function() {
-        testElem.append('<span>test1@example.com</span><input value="test2@example.com"></input><textarea>test3@example.com</textarea>');
-
-        var recipients = defMod.getRecipients();
-
-        expect(recipients.length).to.equal(3);
-        expect(recipients[0].email).to.equal('test1@example.com');
-        expect(recipients[1].email).to.equal('test2@example.com');
-        expect(recipients[2].email).to.equal('test3@example.com');
+        defMod.getRecipients();
       });
     });
 
     describe('setRecipients', function() {
       it('should work', function() {
-        defMod.getRecipients();
+        defMod.setRecipients();
       });
     });
   });
