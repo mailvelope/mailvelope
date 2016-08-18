@@ -375,6 +375,10 @@
     "description": "Key expires after time range",
     "message": "Expiration"
   },
+  "key_gen_generate": {
+    "message": "Generate",
+    "description": "Key generate button label"
+  },
   "key_gen_invalid_email": {
     "description": "Error message.",
     "message": "Invalid e-mail address"
