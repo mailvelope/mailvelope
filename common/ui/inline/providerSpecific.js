@@ -92,7 +92,7 @@ mvelo.providers.get = function(hostname) {
 
   /**
    * Parse recipients from the Gmail Webmail interface
-   * @return {Array}   The recipient objects in fhe form { email: 'jon@example.com' }
+   * @return {Array}   The recipient objects in the form { email: 'jon@example.com' }
    */
   Gmail.prototype.getRecipients = function() {
     return dom.getAttr($('.oL.aDm span[email], .vR span[email]'), 'email');
@@ -104,21 +104,21 @@ mvelo.providers.get = function(hostname) {
   Gmail.prototype.setRecipients = function(recipients) {
     recipients = recipients || [];
     // find the relevant elements in the Gmail interface
-    var displayDiv = $('.oL.aDm'); // displays recipients when focus not on input
-    var tagDiv = $('.vR'); // diplays tags for each recipient when focus on input
-    var input = $('.vO').first(); // the actual email address text input (a textarea)
-    displayDiv.empty();
-    tagDiv.empty();
-    input.empty();
-    // enter address text into input
-    var text = recipients.map(function(r) { return r.email; }).join(', ');
-    input.text(text);
-    // display recipients in the displayDiv
-    recipients.forEach(function(recipient) {
-      var email = recipient.email;
-      var span = $('<span/>', {email:email});
-      span.text(recipient.name ? (recipient.name + ' (' + email + ')') : email);
-      displayDiv.append(span);
+    var displayArea = $('.aoD.hl'); // email display only area
+    var tagRemove = $('.fX .vR .vM'); // email tags remove button
+    var input = $('.fX .vO'); // the actual recipient email address text input (a textarea)
+    var subject = $('.aoT'); // subject field
+    var editor = $('.aO7 .Am'); // editor
+    input.val('');
+    dom.setFocus(displayArea)
+    .then(function() {
+      tagRemove.click();
+      // enter address text into input
+      var text = joinEmail(recipients);
+      input.first().val(text);
+    })
+    .then(function() {
+      dom.setFocus(subject.is(':visible') ? subject : editor);
     });
   };
 
@@ -130,7 +130,7 @@ mvelo.providers.get = function(hostname) {
 
   /**
    * Parse recipients from the Yahoo Webmail interface
-   * @return {Array}   The recipient objects in fhe form { email: 'jon@example.com' }
+   * @return {Array}   The recipient objects in the form { email: 'jon@example.com' }
    */
   Yahoo.prototype.getRecipients = function() {
     return dom.getAttr($('.compose-header span[data-address]'), 'data-address');
@@ -144,13 +144,15 @@ mvelo.providers.get = function(hostname) {
     // remove existing recipients
     $('.compose-header li.hLozenge').remove();
     // enter address text into input
-    var text = recipients.map(function(r) { return r.email; }).join(', ');
-    $('.compose-header #to .recipient-input input').val(text);
+    var text = joinEmail(recipients);
+    var input = $('.compose-header #to .recipient-input input');
+    input.val(text);
     // trigger change event by switching focus
-    setTimeout(function() {
-      $('.compose-header #to .recipient-input input').focus();
-      $('#subject-field').focus();
-    }, 0);
+    dom.setFocus(input)
+    .then(function() {
+      // set focus to subject field, or to compose area in the reply case
+      dom.setFocus($('#subject-field').is(':visible') ? $('#subject-field') : $('.compose-message .cm-rtetext'));
+    });
   };
 
   //
@@ -208,6 +210,19 @@ mvelo.providers.get = function(hostname) {
   };
 
   /**
+   * Set focus to element on next tick
+   * @param  {jQuery} element jQuery element to set focus
+   */
+  dom.setFocus = function(element) {
+    return new Promise(function(resolve, reject) {
+      setTimeout(function() {
+        element.focus();
+        resolve();
+      }, 0);
+    });
+  };
+
+  /**
    * Parse email addresses from string input.
    * @param  {String} text   The input to be matched
    * @return {Array}         The recipient objects in fhe form { email: 'jon@example.com' }
@@ -234,6 +249,15 @@ mvelo.providers.get = function(hostname) {
         email: address
       };
     });
+  }
+
+  /**
+   * Maps an array of recipients to a string of email addresses
+   * @param  {Array} recipients The recipient objects in the form { email: 'jon@example.com' }
+   * @return {String}           comma separated list of email addresses
+   */
+  function joinEmail(recipients) {
+    return recipients.map(function(r) { return r.email; }).join(', ');
   }
 
 }(mvelo));

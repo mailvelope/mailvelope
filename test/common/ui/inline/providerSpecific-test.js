@@ -81,22 +81,39 @@ describe('Provider specific content-script unit tests', function() {
 
     describe('setRecipients', function() {
       beforeEach(function() {
-        testElem.append('<div class="oL aDm"></div>');
-        testElem.append('<textarea class="vO"></textarea>');
+        testElem.append('<div class="aoD hl"></div>');
+        testElem.append('<div class="fX"><div class="vR"><span class="vM"></span></div><textarea class="vO"></textarea></div>');
       });
 
-      it('should work', function() {
+      it('should clear email address text input', function() {
+        var toSet = [{name: 'Test 1', email: 'test1@example.com'}, {name: 'Test 2', email: 'test2@example.com'}];
+
+        $('.fX .vO').val('test1@example.com');
+
+        gmail.setRecipients(toSet);
+
+        expect($('.fX .vO').val()).to.be.empty;
+      });
+
+      it('should trigger click event on email remove buttons', function(done) {
+        var toSet = [{name: 'Test 1', email: 'test1@example.com'}, {name: 'Test 2', email: 'test2@example.com'}];
+
+        $('.fX .vR .vM').on('click', function() {
+          done();
+        });
+
+        gmail.setRecipients(toSet);
+      });
+
+      it('should set joined email addresses to input field', function(done) {
         var toSet = [{name: 'Test 1', email: 'test1@example.com'}, {name: 'Test 2', email: 'test2@example.com'}];
 
         gmail.setRecipients(toSet);
-        var recipients = gmail.getRecipients();
 
-        expect(recipients.length).to.equal(2);
-        expect(recipients[0].email).to.equal('test1@example.com');
-        expect(recipients[1].email).to.equal('test2@example.com');
-        expect($('.oL.aDm').children().eq(0).text()).to.equal('Test 1 (test1@example.com)');
-        expect($('.oL.aDm').children().eq(1).text()).to.equal('Test 2 (test2@example.com)');
-        expect($('.vO').text()).to.equal('test1@example.com, test2@example.com');
+        setTimeout(function() {
+          expect($('.fX .vO').val()).to.equal('test1@example.com, test2@example.com');
+          done();
+        }, 10);
       });
 
       it('should work for undefined', function() {
