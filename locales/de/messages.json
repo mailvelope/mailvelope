@@ -957,10 +957,6 @@
     "message": "Öffnen",
     "description": "Add page to watchlist."
   },
-  "popup_open_page_tooltip": {
-    "message": "Mailvelope für Dateiverschlüsselung öffnen",
-    "description": "Open page to file encrypt."
-  },
   "popup_options": {
     "message": "Optionen",
     "description": "Open options dialog."
@@ -1224,10 +1220,6 @@
   "restore_password_dialog_headline": {
     "message": "Ihr Schlüssel-Passwort:",
     "description": ""
-  },
-  "save_attachment_as_message": {
-    "message": "Wählen Sie den Ordner, in dem Sie den Anhang speichern möchten.",
-    "description": "Message in the attachment save dialog"
   },
   "security_background_angle": {
     "message": "Winkel",

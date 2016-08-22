@@ -188,11 +188,11 @@
     "description": "File upload selection"
   },
   "encrypt_upload_file_help": {
-    "message": "The size of the individual files must not exceed ## MB.",
+    "message": "None of the files can be bigger than ## MB.",
     "description": "Help text"
   },
   "encrypt_upload_file_warning_too_big": {
-    "message": "Size of one file exceeds limit.",
+    "message": "One of the files is too big.",
     "description": "."
   },
   "encrypting_home": {
@@ -321,7 +321,7 @@
   },
   "keyserver_url_error": {
     "description": "HKP key server URL error.",
-    "message": "Key server not reachable"
+    "message": "Key server out of reach"
   },
   "key_details_title": {
     "description": "The title of the key details dialog.",
@@ -469,7 +469,7 @@
   },
   "key_import_default_description": {
     "description": "Key import dialog description.",
-    "message": "Encrypted communication with this recipient is ready after confirmation."
+    "message": "Confirm to enable encrypted communication with this recipient."
   },
   "key_import_default_headline": {
     "description": "Key import dialog header.",
@@ -485,7 +485,7 @@
   },
   "key_import_exception": {
     "description": "Import error alert.",
-    "message": "An exception occurred while processing the keys"
+    "message": "An error occurred while processing the keys"
   },
   "key_import_extend_date": {
     "description": "",
@@ -528,7 +528,7 @@
       "decryption": "Key search input button."
   },
   "key_import_hkp_search_ph": {
-      "message": "By name, Email address, or key ID",
+      "message": "By name, E-mail address, or key ID",
       "decryption": "Key search input place holder."
   },
   "key_import_invalid_text": {
@@ -545,7 +545,7 @@
   },
   "key_import_multiple_keys": {
     "description": "Info message.",
-    "message": "Please insert here one or multiple keys in text format."
+    "message": "Please insert one or multiple keys in text format here."
   },
   "key_import_private_exists": {
     "description": "Import success message: $1: keyid, $2: userid.",
@@ -632,11 +632,11 @@
     "message": "Recommendation: Set up a backup"
   },
   "keybackup_setup_dialog_list_1": {
-    "description": "",
+    "description": "In order to restore your encrypted communication in case of data loss.",
     "message": "In order to restore it in case of data loss."
   },
   "keybackup_setup_dialog_list_2": {
-    "description": "",
+    "description": "In order to transfer your encrypted communication to other devices.",
     "message": "In order to transfer it to other devices."
   },
   "keybackup_waiting_description": {
@@ -959,10 +959,6 @@
     "message": "Open",
     "description": "Open page to file encrypt."
   },
-  "popup_open_page_tooltip": {
-    "message": "Open Mailvelope for file encrypt",
-    "description": "Open page to file encrypt."
-  },
   "popup_options": {
     "description": "Open options dialog.",
     "message": "Options"
@@ -1005,7 +1001,7 @@
   },
   "pwd_dialog_reason_create_backup": {
     "description": "",
-    "message": "Please enter the key password to create a recovery sheet."
+    "message": "Please enter your key password to create a recovery sheet."
   },
   "pwd_dialog_reason_create_draft": {
     "description": "",
@@ -1017,7 +1013,7 @@
   },
   "pwd_dialog_reason_editor": {
     "description": "",
-    "message": "Please enter your key password to update the encrypted communication settings."
+    "message": "Please enter your key password to update settings for encrypted communication."
   },
   "pwd_dialog_reason_sign": {
     "description": "",
@@ -1081,7 +1077,7 @@
   },
   "recovery_sheet_forgot_password" : {
     "description" : "List item",
-    "message" : "because you forgot your key password"
+    "message" : "because you forgot the password to your key"
   },
   "recovery_sheet_further_info" : {
     "description" : "",
@@ -1209,7 +1205,7 @@
   },
   "reload_webmail_tab": {
     "description": "Info message.",
-    "message": "Please reload your e-mail provider tab (F5) for the settings to take effect."
+    "message": "Please reload your e-mail provider page for the settings to take effect."
   },
   "restore_backup_dialog_button": {
     "description": "",
@@ -1226,10 +1222,6 @@
   "restore_password_dialog_headline": {
     "description": "",
     "message": "Your key password:"
-  },
-  "save_attachment_as_message": {
-    "description": "Message in the attachment save dialog",
-    "message": "Select the folder in which you would like to save the attachment."
   },
   "security_background_angle": {
     "description": "Angle",
