@@ -88,7 +88,7 @@
         "description": "Confirm form button."
     },
     "key_import_hkp_search_ph": {
-        "message": "By name, Email address, or key ID",
+        "message": "By name, E-mail address, or key ID",
         "description": ""
     },
     "keyserver_tofu_label": {
@@ -151,9 +151,9 @@
         "message": "Wiadomość została zaszyfrowana dla: $1",
         "description": ""
     },
-    "save_attachment_as_message": {
-        "message": "Select the folder in which you would like to save the attachment.",
-        "description": "Message in the attachment save dialog"
+    "key_gen_generate": {
+        "message": "Generate",
+        "description": "Key generate button label"
     },
     "pwd_dialog_keyid_tooltip": {
         "message": "The ID of your key",
@@ -214,10 +214,6 @@
     "encrypt_file_selection": {
         "message": "File Selection",
         "description": "File upload selection"
-    },
-    "popup_open_page_tooltip": {
-        "message": "Open Mailvelope for file encrypt",
-        "description": "Open page to file encrypt."
     },
     "security_log_dialog_encrypt": {
         "message": "Kliknięcie na szyfrowanie w oknie",
@@ -304,7 +300,7 @@
         "description": "Key import dialog description."
     },
     "key_import_multiple_keys": {
-        "message": "Please insert here one or multiple keys in text format.",
+        "message": "Please insert one or multiple keys in text format here.",
         "description": "Info message."
     },
     "popup_help": {
@@ -485,7 +481,7 @@
     },
     "keybackup_setup_dialog_list_2": {
         "message": "In order to transfer it to other devices.",
-        "description": ""
+        "description": "In order to transfer your encrypted communication to other devices."
     },
     "encrypt_dialog_no_recipient": {
         "message": "Proszę dodać odbiorcę.",
@@ -620,7 +616,7 @@
         "description": "Text explaining the purpose of the security log"
     },
     "keyserver_url_error": {
-        "message": "Key server not reachable",
+        "message": "Key server out of reach",
         "description": "HKP key server URL error."
     },
     "keyring_public_private": {
@@ -744,7 +740,7 @@
         "description": "Alert header of category warning."
     },
     "encrypt_upload_file_help": {
-        "message": "The size of the individual files must not exceed ## MB.",
+        "message": "None of the files can be bigger than ## MB.",
         "description": "Help text"
     },
     "keygrid_status_valid": {
@@ -808,7 +804,7 @@
         "description": ""
     },
     "pwd_dialog_reason_create_backup": {
-        "message": "Please enter the key password to create a recovery sheet.",
+        "message": "Please enter your key password to create a recovery sheet.",
         "description": ""
     },
     "recovery_sheet_print_block": {
@@ -1036,7 +1032,7 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "pwd_dialog_reason_editor": {
-        "message": "Please enter your key password to update the encrypted communication settings.",
+        "message": "Please enter your key password to update settings for encrypted communication.",
         "description": ""
     },
     "key_set_as_primary": {
@@ -1144,7 +1140,7 @@
         "description": ""
     },
     "recovery_sheet_forgot_password": {
-        "message": "because you forgot your key password",
+        "message": "because you forgot the password to your key",
         "description": "List item"
     },
     "security_cache_on": {
@@ -1224,7 +1220,7 @@
         "description": "Separate list of elements."
     },
     "key_import_exception": {
-        "message": "An exception occurred while processing the keys",
+        "message": "An error occurred while processing the keys",
         "description": "Import error alert."
     },
     "key_import_invalidated_headline": {
@@ -1232,7 +1228,7 @@
         "description": "Key import dialog header."
     },
     "encrypt_upload_file_warning_too_big": {
-        "message": "Size of one file exceeds limit.",
+        "message": "One of the files is too big.",
         "description": "."
     },
     "recovery_sheet_print_button": {
@@ -1480,7 +1476,7 @@
         "description": "Tab allowing to backup and restore the settings."
     },
     "reload_webmail_tab": {
-        "message": "Please reload your e-mail provider tab (F5) for the settings to take effect.",
+        "message": "Please reload your e-mail provider page for the settings to take effect.",
         "description": "Info message."
     },
     "form_yes": {
@@ -1505,10 +1501,10 @@
     },
     "keybackup_setup_dialog_list_1": {
         "message": "In order to restore it in case of data loss.",
-        "description": ""
+        "description": "In order to restore your encrypted communication in case of data loss."
     },
     "key_import_default_description": {
-        "message": "Encrypted communication with this recipient is ready after confirmation.",
+        "message": "Confirm to enable encrypted communication with this recipient.",
         "description": "Key import dialog description."
     },
     "key_gen_advanced_btn": {
