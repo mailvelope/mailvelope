@@ -28,7 +28,7 @@
         "description": "Selection of key type."
     },
     "editor_key_not_found": {
-        "message": "Key not found!",
+        "message": "Nøkkel ikke funnet!",
         "description": "Warning for when a recipient key was not found."
     },
     "security_log_text_input": {
@@ -88,11 +88,11 @@
         "description": "Confirm form button."
     },
     "key_import_hkp_search_ph": {
-        "message": "Etter navn, e-postadresse, eller nøkkel-ID",
+        "message": "By name, E-mail address, or key ID",
         "description": ""
     },
     "keyserver_tofu_label": {
-        "message": "Mailvelope key server",
+        "message": "Mailvelope nøkkeltjener",
         "description": "Mailvelope Key Server Settings Label"
     },
     "watchlist_delete_confirmation": {
@@ -151,9 +151,9 @@
         "message": "Meldingen har blitt kryptert for: $1",
         "description": ""
     },
-    "save_attachment_as_message": {
-        "message": "Velg mappen du vil lagre vedlegget i.",
-        "description": "Message in the attachment save dialog"
+    "key_gen_generate": {
+        "message": "Generer",
+        "description": "Key generate button label"
     },
     "pwd_dialog_keyid_tooltip": {
         "message": "ID-en til din nøkkel",
@@ -215,10 +215,6 @@
         "message": "Valg av fil",
         "description": "File upload selection"
     },
-    "popup_open_page_tooltip": {
-        "message": "Open Mailvelope for file encrypt",
-        "description": "Open page to file encrypt."
-    },
     "security_log_dialog_encrypt": {
         "message": "Click-event to encrypt on dialog",
         "description": ""
@@ -244,7 +240,7 @@
         "description": "Sub title"
     },
     "key_gen_upload": {
-        "message": "Upload public key to Mailvelope Key Server (can be deleted at any time)",
+        "message": "Last opp offentlig nøkkel til Mailvelopes nøkkeltjener (kan slettes når som helst)",
         "description": "Upload key to Mailvelope key server checkbox"
     },
     "security_background_preview": {
@@ -300,11 +296,11 @@
         "description": "Import error alert."
     },
     "key_import_extend_headline": {
-        "message": "Further information on encrypted communication:",
+        "message": "Ytterligere informasjon om kryptert kommunikasjon:",
         "description": "Key import dialog description."
     },
     "key_import_multiple_keys": {
-        "message": "Lim inn én eller flere nøkler i tekstformat her.",
+        "message": "Please insert one or multiple keys in text format here.",
         "description": "Info message."
     },
     "popup_help": {
@@ -440,7 +436,7 @@
         "description": "Signatures on User ID of a PGP key."
     },
     "keygrid_upload_alert_accept": {
-        "message": "Upload public key",
+        "message": "Last opp offentlig nøkkel",
         "description": "Button text to accept key upload"
     },
     "form_cancel": {
@@ -485,7 +481,7 @@
     },
     "keybackup_setup_dialog_list_2": {
         "message": "For å kunne overføre det til andre enheter.",
-        "description": ""
+        "description": "In order to transfer your encrypted communication to other devices."
     },
     "encrypt_dialog_no_recipient": {
         "message": "Legg til en mottaker.",
@@ -576,7 +572,7 @@
         "description": "Text of a link to a learn-more resource"
     },
     "recovery_sheet_check_settings": {
-        "message": "please check the settings in your account under:",
+        "message": "sjekk innstillingene i kontoen din under:",
         "description": ""
     },
     "keybackup_waiting_headline": {
@@ -616,11 +612,11 @@
         "description": "Email decryption container as an event source"
     },
     "security_log_text": {
-        "message": "The security log shows user actions in all components of Mailvelope.",
+        "message": "Sikkerhetsloggen viser brukerhandlinger i alle deler av Mailvelope.",
         "description": "Text explaining the purpose of the security log"
     },
     "keyserver_url_error": {
-        "message": "Key server not reachable",
+        "message": "Key server out of reach",
         "description": "HKP key server URL error."
     },
     "keyring_public_private": {
@@ -664,7 +660,7 @@
         "description": "The tooltip text for the keylock button"
     },
     "keyring_setup_no_keypair_heading": {
-        "message": "This keyring does not yet contain a key pair.",
+        "message": "Denne nøkkelringen inneholder ikke et nøkkelpar enda.",
         "description": "Setup heading if no keypair available"
     },
     "watchlist_title_scan": {
@@ -696,7 +692,7 @@
         "description": ""
     },
     "recovery_sheet_extension_problems": {
-        "message": "because of problems with the browser extension",
+        "message": "på grunn av problemer med nettleser-tillegget",
         "description": "List item"
     },
     "keybackup_setup_dialog_headline": {
@@ -744,7 +740,7 @@
         "description": "Alert header of category warning."
     },
     "encrypt_upload_file_help": {
-        "message": "Ingen av filene kan være større enn ## MB.",
+        "message": "None of the files can be bigger than ## MB.",
         "description": "Help text"
     },
     "keygrid_status_valid": {
@@ -808,7 +804,7 @@
         "description": ""
     },
     "pwd_dialog_reason_create_backup": {
-        "message": "Please enter the key password to create a recovery sheet.",
+        "message": "Please enter your key password to create a recovery sheet.",
         "description": ""
     },
     "recovery_sheet_print_block": {
@@ -892,7 +888,7 @@
         "description": "Label for navigation path"
     },
     "keygrid_upload_success_msg": {
-        "message": "Key upload successful.",
+        "message": "Vellykket nøkkelopplasting",
         "description": "Upload success message"
     },
     "verify_result_warning": {
@@ -924,7 +920,7 @@
         "description": ""
     },
     "keyserver_tofu_lookup": {
-        "message": "Automatically lookup recipient keys",
+        "message": "Automatisk oppslag av mottaker-nøkler",
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "security_log_textarea_input": {
@@ -936,7 +932,7 @@
         "description": "De-Mail address name."
     },
     "keygrid_upload_alert_title": {
-        "message": "New feature!",
+        "message": "Ny funksjon!",
         "description": "Text of a link to a learn-more resource"
     },
     "keygrid_delete_confirmation": {
@@ -1016,7 +1012,7 @@
         "description": "Tab of keyring to import keys."
     },
     "keygen_dialog_prolog": {
-        "message": "Please assign a password to protect your encrypted communication:",
+        "message": "Tildel et passord for å beskytte din krypterte kommunikasjon:",
         "description": ""
     },
     "security_log_key_generator": {
@@ -1036,7 +1032,7 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "pwd_dialog_reason_editor": {
-        "message": "Skriv inn ditt nøkkelpassord for å oppdatere innstillinger for kryptert kommunikasjon.",
+        "message": "Please enter your key password to update settings for encrypted communication.",
         "description": ""
     },
     "key_set_as_primary": {
@@ -1048,7 +1044,7 @@
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_upload_alert_refuse": {
-        "message": "No thanks",
+        "message": "Nei takk",
         "description": "Button text to reject key upload"
     },
     "editor_error_content": {
@@ -1140,11 +1136,11 @@
         "description": "Editor option: rich text."
     },
     "recovery_sheet_pgp_compat": {
-        "message": "You can communicate securely with other contacts if they are also using encrypted communication (PGP).",
+        "message": "Du kan kommunisere sikret med andre kontakter hvis de også bruker kryptert kommunikasjon (PGP).",
         "description": ""
     },
     "recovery_sheet_forgot_password": {
-        "message": "because you forgot your key password",
+        "message": "because you forgot the password to your key",
         "description": "List item"
     },
     "security_cache_on": {
@@ -1200,7 +1196,7 @@
         "description": "Key export warning."
     },
     "learn_more_link": {
-        "message": "Learn more",
+        "message": "Lær mer",
         "description": "Text of a link to a learn-more resource"
     },
     "key_import_invalid_text": {
@@ -1212,11 +1208,11 @@
         "description": "Generate key"
     },
     "keygrid_upload_error_msg": {
-        "message": "Key upload failed.",
+        "message": "Nøkkelopplasting feilet",
         "description": "Upload error message"
     },
     "editor_label_add_recipient": {
-        "message": "Add recipient",
+        "message": "Legg til mottaker",
         "description": "Label for recipient text input."
     },
     "word_or": {
@@ -1224,7 +1220,7 @@
         "description": "Separate list of elements."
     },
     "key_import_exception": {
-        "message": "An exception occurred while processing the keys",
+        "message": "An error occurred while processing the keys",
         "description": "Import error alert."
     },
     "key_import_invalidated_headline": {
@@ -1232,7 +1228,7 @@
         "description": "Key import dialog header."
     },
     "encrypt_upload_file_warning_too_big": {
-        "message": "En av filene er for stor",
+        "message": "One of the files is too big.",
         "description": "."
     },
     "recovery_sheet_print_button": {
@@ -1240,7 +1236,7 @@
         "description": ""
     },
     "general_editor_type": {
-        "message": "E-mail editor selection",
+        "message": "Epostbehandlings-utvalg",
         "description": "Label for editor options."
     },
     "key_gen_pwd_unequal": {
@@ -1364,7 +1360,7 @@
         "description": "Title of the source column of the security log table."
     },
     "editor_error_header": {
-        "message": "Error",
+        "message": "Feil",
         "description": ""
     },
     "editor_remove_upload": {
@@ -1480,7 +1476,7 @@
         "description": "Tab allowing to backup and restore the settings."
     },
     "reload_webmail_tab": {
-        "message": "Please reload your e-mail provider tab (F5) for the settings to take effect.",
+        "message": "Please reload your e-mail provider page for the settings to take effect.",
         "description": "Info message."
     },
     "form_yes": {
@@ -1505,10 +1501,10 @@
     },
     "keybackup_setup_dialog_list_1": {
         "message": "For å kunne gjenopprette det i tilfelle datatap.",
-        "description": ""
+        "description": "In order to restore your encrypted communication in case of data loss."
     },
     "key_import_default_description": {
-        "message": "Encrypted communication with this recipient is ready after confirmation.",
+        "message": "Confirm to enable encrypted communication with this recipient.",
         "description": "Key import dialog description."
     },
     "key_gen_advanced_btn": {
