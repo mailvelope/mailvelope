@@ -1,6 +1,15 @@
 Mailvelope Changelog
 ====================
 
+v1.5.2
+-------
+__Sept. 7, 2016__
+
+  * [Firefox] Update jpm to v1.1.4
+  * Optimize recipients transfer methods in editor for Gmail and Yahoo
+  * Remove recipients transfer methods in editor for generic webmail
+  * Localization updates
+
 v1.5.1
 -------
 __July 8, 2016__
