@@ -17,7 +17,7 @@
 
 'use strict';
 
-define(function(require, exports, module) {
+define(function(require, exports) {
   exports.TextEncoder = window.TextEncoder;
   exports.TextDecoder = window.TextDecoder;
 });

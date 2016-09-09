@@ -10,47 +10,25 @@ module.exports = function(grunt) {
 
     clean_all: ['build/', 'tmp/', 'dist/**/*'],
 
-    jshint: {
+    eslint: {
       options: {
-        jshintrc: true
+        maxWarnings: 10
       },
-      all: {
-        src: [
-          'Gruntfile.js',
-          'common/ui/**/*.js',
-          'common/lib/*.js',
-          'common/lib/controller/*.js',
-          'common/client-API/*.js',
-          'chrome/background.js',
-          'chrome/lib/*.js',
-          'firefox/**/*.js',
-          'test/**/*.js'
-        ]
-      }
+      target: [
+        'Gruntfile.js',
+        'common/ui/**/*.js',
+        'common/lib/*.js',
+        'common/lib/controller/*.js',
+        'common/client-API/*.js',
+        'chrome/background.js',
+        'chrome/lib/*.js',
+        'firefox/**/*.js',
+        'test/**/*.js'
+      ]
     },
 
-    jscs: {
-      options: {
-        config: ".jscs.json",
-        maxErrors: 5
-      },
-      files: {
-        src: [
-          'Gruntfile.js',
-          'common/ui/**/*.js',
-          'common/lib/*.js',
-          'common/lib/controller/*.js',
-          'common/client-API/*.js',
-          'chrome/background.js',
-          'chrome/lib/*.js',
-          'firefox/**/*.js',
-          'test/**/*.js'
-        ]
-      }
-    },
-
-    jsdoc : {
-      dist : {
+    jsdoc: {
+      dist: {
         src: ['common/client-API/*.js', "doc/client-api/Readme.md"],
         options: {
           destination: 'build/doc',
@@ -211,7 +189,7 @@ module.exports = function(grunt) {
           return dest + src.match(/^[\w-]{2,5}/)[0].replace('_', '-') + '.properties';
         },
         options: {
-          process: function(content, srcpath) {
+          process: function(content) {
             var locale = JSON.parse(content);
             var result = '';
             for (var key in locale) {
@@ -422,19 +400,18 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-text-replace');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-bump');
-  grunt.loadNpmTasks("grunt-jscs");
-  grunt.loadNpmTasks('grunt-jsdoc');
-  grunt.loadNpmTasks('grunt-jpm');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-compress');
+  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-eslint');
+  grunt.loadNpmTasks('grunt-jpm');
+  grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-mocha-phantomjs');
+  grunt.loadNpmTasks('grunt-text-replace');
 
   //custom tasks
   grunt.registerTask('dist-cr', ['compress:chrome']);
@@ -447,8 +424,8 @@ module.exports = function(grunt) {
   grunt.registerTask('copy_common', ['copy:vendor', 'copy:common', 'replace:bootstrap', 'replace:openpgp_ff']);
   grunt.registerTask('final_assembly', ['copy:plugins', 'copy:common_browser', 'copy:locale_firefox', 'copy:dep']);
 
-  grunt.registerTask('default', ['clean', 'jshint', 'jscs', 'concat', 'copy_common', 'final_assembly']);
-  grunt.registerTask('nightly', ['clean', 'jshint', 'jscs', 'concat', 'copy_common', 'replace:build_version', 'final_assembly']);
+  grunt.registerTask('default', ['clean', 'eslint', 'concat', 'copy_common', 'final_assembly']);
+  grunt.registerTask('nightly', ['clean', 'eslint', 'concat', 'copy_common', 'replace:build_version', 'final_assembly']);
 
   grunt.registerTask('test', ['connect:test', 'mocha_phantomjs']);
 

@@ -1,8 +1,8 @@
 
 'use strict';
 
-const Cc = require('chrome').Cc;
-const Ci = require('chrome').Ci;
+var Cc = require('chrome').Cc;
+var Ci = require('chrome').Ci;
 var utils = require('sdk/window/utils');
 
 var promptSvc = Cc["@mozilla.org/embedcomp/prompt-service;1"].getService(Ci.nsIPromptService);

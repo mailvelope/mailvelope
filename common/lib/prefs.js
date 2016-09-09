@@ -17,10 +17,9 @@
 
 'use strict';
 
-define(function(require, exports, module) {
+define(function(require, exports) {
 
   var mvelo = require('../lib-mvelo').mvelo;
-  var defaults = require('./defaults');
   var model = require('./pgpModel');
   var prefs = null;
   var updateHandlers = [];

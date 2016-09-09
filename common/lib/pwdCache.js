@@ -17,7 +17,7 @@
 
 'use strict';
 
-define(function(require, exports, module) {
+define(function(require, exports) {
 
   var mvelo = require('../lib-mvelo').mvelo;
   var prefs = require('./prefs');
@@ -145,7 +145,7 @@ define(function(require, exports, module) {
         // set unlocked key in cache
         set(options);
       })
-      .catch(function(err) {
+      .catch(function() {
         throw {
           message: 'Password caching does not support different passphrases for primary key and subkeys'
         };

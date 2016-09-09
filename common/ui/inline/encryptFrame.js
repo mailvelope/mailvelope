@@ -19,7 +19,7 @@
 
 var mvelo = mvelo || {};
 
-mvelo.EncryptFrame = function(prefs) {
+mvelo.EncryptFrame = function() {
   this.id = mvelo.util.getHash();
   this._editElement = null;
   this._eFrame = null;
@@ -80,7 +80,6 @@ mvelo.EncryptFrame.prototype._renderFrame = function() {
   } else {
     toolbar = toolbar + '<span class="m-frame-fill-right"></span>';
   }
-  /* jshint multistr: true */
   toolbar = toolbar + '\
             <button id="undoBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-undo"></i></button> \
             <button id="editorBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-editor"></i></button> \

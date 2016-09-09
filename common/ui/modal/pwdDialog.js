@@ -91,12 +91,6 @@ var mvelo = mvelo || null;
     port.postMessage({event: 'pwd-dialog-cancel', sender: name});
   }
 
-  function showError(heading, message) {
-    $('#pwdGroup, #rememberGroup').addClass('hide');
-    $('#decryptAlert').showAlert(heading, message, 'danger');
-    $('#okBtn').prop('disabled', true);
-  }
-
   /**
    * send log entry for the extension
    * @param {string} type

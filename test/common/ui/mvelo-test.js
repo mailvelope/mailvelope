@@ -59,7 +59,7 @@ describe('mvelo unit tests', function() {
           expect(ctrl._handlers).to.exist;
           expect(msg.data).to.equal('hello');
           expect(msg.event).to.equal('blub');
-          expect(port1.postMessage.withArgs({event:'blub', sender:'sender1', data:'hello'}).calledOnce).to.be.true;
+          expect(port1.postMessage.withArgs({event: 'blub', sender: 'sender1', data: 'hello'}).calledOnce).to.be.true;
           expect(port2.postMessage.called).to.be.false;
           done();
         });
@@ -68,13 +68,13 @@ describe('mvelo unit tests', function() {
       });
 
       it('should work with second port', function(done) {
-        ctrl.on('blub', function(msg) {
+        ctrl.on('blub', function() {
           expect(port1.postMessage.called).to.be.false;
-          expect(port2.postMessage.withArgs({event:'blub', sender:'sender2', data:'hello'}).calledOnce).to.be.true;
+          expect(port2.postMessage.withArgs({event: 'blub', sender: 'sender2', data: 'hello'}).calledOnce).to.be.true;
           done();
         });
 
-        ctrl.emit('blub', {data:'hello', sender:'sender2'}, port2);
+        ctrl.emit('blub', {data: 'hello', sender: 'sender2'}, port2);
       });
 
       it('should log for unknown event', function() {

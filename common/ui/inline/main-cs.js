@@ -121,7 +121,7 @@ mvelo.main.scanLoop = function() {
  * @param {Regex} regex
  * @return $([nodes])
  */
-mvelo.main.findPGPTag = function(regex) {
+mvelo.main.findPGPTag = function() {
   var treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
     acceptNode: function(node) {
       if (node.parentNode.tagName !== 'SCRIPT' && mvelo.main.regex.test(node.textContent)) {

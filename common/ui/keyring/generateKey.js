@@ -139,11 +139,11 @@ var options = options || null;
     var email = $('#genKeyEmail');
     // validate email
     return options.pgpModel('validateEmail', [email.val()])
-      .then(function(valid) {
+      .then(function() {
         email.closest('.form-group').removeClass('has-error');
         email.next().addClass('hide');
       })
-      .catch(function(err) {
+      .catch(function() {
         email.closest('.form-group').addClass('has-error');
         email.next().removeClass('hide');
       });
@@ -160,7 +160,7 @@ var options = options || null;
     parameters.passphrase = $('#genKeyPwd').val();
     parameters.uploadPublicKey = $('#genKeyCheckBoxUpload').prop('checked');
     options.keyring('generateKey', [parameters])
-      .then(function(result) {
+      .then(function() {
         $('#genAlert').showAlert(options.l10n.alert_header_success, options.l10n.key_gen_success, 'success');
         $('#generateKey').find('input, select').prop('disabled', true);
         $('#genKeySubmit, #genKeyClear').prop('disabled', true);

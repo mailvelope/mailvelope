@@ -17,6 +17,8 @@
 
 'use strict';
 
+/* global addon */
+
 var mvelo = mvelo || null;
 
 (function() {
@@ -43,14 +45,14 @@ var mvelo = mvelo || null;
     $('#showlog').hide();
     $('.popup')
       .off()
-      .on('click', 'a', function(event) {
+      .on('click', 'a', function() {
         if (mvelo.crx) {
           hide();
         } else {
           sendMessage({event: 'close-popup'});
         }
       })
-      .on('click', 'button', function(event) {
+      .on('click', 'button', function() {
         // id of dropdown entry = action
         if (this.id === 'state' || this.id === '') {
           return;

@@ -10,7 +10,7 @@ define(function(require) {
     beforeEach(function() {
       mvelo = {
         storage: {
-          get: function() { return {keyserver: {mvelo_tofu_lookup:true}}; }
+          get: function() { return {keyserver: {mvelo_tofu_lookup: true}}; }
         },
         util: {
           fetch: function() {}
@@ -32,7 +32,7 @@ define(function(require) {
       it('should return key', function() {
         mvelo.util.fetch.returns(Promise.resolve({
           status: 200,
-          json: function() { return {foo:'bar'}; }
+          json: function() { return {foo: 'bar'}; }
         }));
 
         return keyServer.lookup({email: 'asdf@asdf.de'})
@@ -44,7 +44,7 @@ define(function(require) {
       it('should not return key', function() {
         mvelo.util.fetch.returns(Promise.resolve({
           status: 404,
-          json: function() { return {foo:'bar'}; }
+          json: function() { return {foo: 'bar'}; }
         }));
 
         return keyServer.lookup({email: 'asdf@asdf.de'})
@@ -60,7 +60,7 @@ define(function(require) {
           status: 201
         }));
 
-        return keyServer.upload({publicKeyArmored:'KEY BLOCK'});
+        return keyServer.upload({publicKeyArmored: 'KEY BLOCK'});
       });
 
       it('should not upload a key', function() {
@@ -69,7 +69,7 @@ define(function(require) {
           statusText: 'Key already exists'
         }));
 
-        return keyServer.upload({publicKeyArmored:'KEY BLOCK'})
+        return keyServer.upload({publicKeyArmored: 'KEY BLOCK'})
         .catch(function(error) {
           expect(error.message).to.match(/exists/);
         });

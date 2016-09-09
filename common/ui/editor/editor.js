@@ -29,6 +29,8 @@
 
 'use strict';
 
+/* global angular */
+
 angular.module('editor', ['ngTagsInput']) // load editor module dependencies
 .config(function(tagsInputConfigProvider) {
   // activate monitoring of placeholder option
@@ -403,7 +405,6 @@ EditorCtrl.prototype.cancel = function() {
   // timeoutID for period in which blur events are non-critical
   var blurValid = null;
   var initText = null;
-  var file;
   var commonPath;
   var l10n;
   var logTextareaInput = true;
@@ -483,7 +484,7 @@ EditorCtrl.prototype.cancel = function() {
         mvelo.appendTpl($body, mvelo.extension.getURL('common/ui/editor/tpl/error-modal.html'))
       ])
       .then(function() {
-        $('#waitingModal').on('hidden.bs.modal', function(e) {
+        $('#waitingModal').on('hidden.bs.modal', function() {
           editor.focus()
             .prop('selectionStart', 0)
             .prop('selectionEnd', 0);
@@ -670,7 +671,7 @@ EditorCtrl.prototype.cancel = function() {
     return text;
   }
 
-  function createRichText(callback) {
+  function createRichText() {
     /*
      $('#rte-box').show();
      $('#richText').wysihtml5('deepExtend', {

@@ -17,7 +17,7 @@
 
 'use strict';
 
-define(function(require, exports, module) {
+define(function(require, exports) {
 
   var sub = require('./sub.controller');
   var uiLog = require('../uiLog');
@@ -200,7 +200,7 @@ define(function(require, exports, module) {
 
   DecryptController.prototype.parseMIME = function(rawText, handlers, encoding) {
     var that = this;
-    return new Promise(function(resolve, reject) {
+    return new Promise(function(resolve) {
       // mailreader expects rawText in pseudo-binary
       rawText = unescape(encodeURIComponent(rawText));
       that.mailreader.parse([{raw: rawText}], function(parsed) {
@@ -248,7 +248,7 @@ define(function(require, exports, module) {
 
   DecryptController.prototype.parseInline = function(rawText, handlers, encoding) {
     var that = this;
-    return new Promise(function(resolve, reject) {
+    return new Promise(function(resolve) {
       if (/(<\/a>|<br>|<\/div>|<\/p>|<\/b>|<\/u>|<\/i>|<\/ul>|<\/li>)/.test(rawText)) {
         // legacy html mode
         if (encoding === 'html') {

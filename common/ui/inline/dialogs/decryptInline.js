@@ -81,10 +81,6 @@ var mvelo = mvelo || null;
     $(window).on('resize', resizeFont);
   }
 
-  function showSpinner() {
-    $(".m-spinner").show();
-  }
-
   function hideSpinner() {
     $(".m-spinner").hide();
   }
@@ -168,7 +164,7 @@ var mvelo = mvelo || null;
       .append($footer);
   }
 
-  function addSignatureButton () {
+  function addSignatureButton() {
     return $('<button/>', {
       class: 'btn btn-digital-signature',
       'data-l10n-id': 'decrypt_digital_signature'
@@ -215,7 +211,7 @@ var mvelo = mvelo || null;
     });
   }
 
-  function addAttachment(filename, content, mimeType, attachmentId) {
+  function addAttachment(filename, content, mimeType) {
     var fileNameNoExt = mvelo.util.extractFileNameWithoutExt(filename);
     var fileExt = mvelo.util.extractFileExtension(filename);
     var extClass = mvelo.util.getExtensionClass(fileExt);

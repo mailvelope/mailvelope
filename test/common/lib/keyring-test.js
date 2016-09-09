@@ -56,7 +56,7 @@ define(function(require) {
       keyring.keyring = openpgpKeyring;
       keyring.keyring.privateKeys = [];
       keyring.sync = sync;
-      sinon.stub(keyring , 'hasPrimaryKey');
+      sinon.stub(keyring, 'hasPrimaryKey');
     });
 
     afterEach(function() {
@@ -73,7 +73,7 @@ define(function(require) {
       beforeEach(function() {
         keygenOpt = {
           numBits: 2048,
-          userIds: [{email:'a@b.co', fullName:'A B'}],
+          userIds: [{email: 'a@b.co', fullName: 'A B'}],
           passphrase: 'secret'
         };
 
@@ -82,13 +82,13 @@ define(function(require) {
           getFingerprint: function() {},
           keyid: {toHex: function() { return 'ASDF'; }}
         };
-        openpgp.generateKeyPair.returns(resolves({
+        openpgp.generateKeyPair.returns(Promise.resolve({
           key: keyStub,
           publicKeyArmored: 'PUBLIC KEY BLOCK',
           privateKeyArmored: 'PRIVATE KEY BLOCK'
         }));
         keyring.hasPrimaryKey.returns(true);
-        KeyServer.prototype.upload.returns(resolves({status:201}));
+        KeyServer.prototype.upload.returns(Promise.resolve({status: 201}));
       });
 
       it('should generate and upload key', function() {

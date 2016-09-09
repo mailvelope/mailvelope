@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* global requirejs */
+
 'use strict';
 
 var mvelo = mvelo || null;
@@ -35,28 +37,14 @@ requirejs.config({
     'parser_rules': {
       exports: 'wysihtml5ParserRules'
     }
-    /*
-    'wysihtml5': {
-      deps: ['parser_rules', 'jquery'],
-      exports: 'wysihtml5',
-      init: function() {
-        var element = $('<textarea/>').appendTo($('body'));
-        return new wysihtml5.Editor(element.get(0), {
-          parserRules:  wysihtml5ParserRules
-        });
-      }
-    }
-    */
   }
 });
 
 define([
   "common/controller/main.controller",
   "common/controller/sub.controller",
-  "common/pgpModel",
-  "openpgp",
-  "jquery"
-], function(controller, subController, model, openpgp, $) {
+  "common/pgpModel"
+], function(controller, subController, model) {
 
   // inject content script only once per time slot
   var injectTimeSlot = 600;
@@ -110,7 +98,7 @@ define([
       }
     );
   }
-
+/*
   function initContextMenu() {
     chrome.contextMenus.create({
       "title": "Encrypt",
@@ -125,7 +113,7 @@ define([
       chrome.tabs.sendMessage(tab.id, {event: "context-encrypt"});
     });
   }
-
+*/
   function loadContentCode() {
     if (injectOptimized && csCode === '') {
       return mvelo.data.load('common/ui/inline/cs-mailvelope.js').then(function(csmSrc) {
@@ -175,7 +163,7 @@ define([
   }
 
   function injectOpenTabs(filterURL) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function(resolve) {
       // query open tabs
       mvelo.tabs.query(filterURL, function(tabs) {
         tabs.forEach(function(tab) {

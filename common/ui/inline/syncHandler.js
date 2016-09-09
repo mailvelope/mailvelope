@@ -43,7 +43,6 @@ mvelo.SyncHandler.prototype.syncDone = function(data) {
  * @returns {mvelo.SyncHandler}
  */
 mvelo.SyncHandler.prototype.registerEventListener = function() {
-  var that = this;
   this.port.onMessage.addListener(function(msg) {
     switch (msg.event) {
       case 'sync-event':

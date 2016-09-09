@@ -104,7 +104,7 @@ var mvelo = mvelo || null;
         var userEmail = $('<span/>').addClass('userEmail').text('(' + msg.key.email + ')');
         var date = (new Date(msg.key.crDate)).toLocaleString();
         var contact = msg.key.email ? msg.key.email : msg.key.name;
-        importDialogDescription = importDialogDescription.replace('[CONTACT]', '<em>' + contact.replace(/\((.*|\s)\)/ , '') + '</em>');
+        importDialogDescription = importDialogDescription.replace('[CONTACT]', '<em>' + contact.replace(/\((.*|\s)\)/, '') + '</em>');
 
         $('#key_import_headline').html(importDialogHeadline);
         $('#key_import_default_description').html(importDialogDescription);

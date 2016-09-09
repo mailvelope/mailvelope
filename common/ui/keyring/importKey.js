@@ -51,7 +51,7 @@ var mvelo = mvelo || null;
 
     $('#impKeySubmit, #impKeyClear').prop('disabled', true);
     $('#newKey').on('input', function() {
-      $('#impKeySubmit, #impKeyClear').prop('disabled', !Boolean($(this).val()));
+      $('#impKeySubmit, #impKeyClear').prop('disabled', !$(this).val());
     });
 
     $('#impKeyClear').click(onClear);

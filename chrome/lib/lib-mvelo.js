@@ -17,7 +17,7 @@
 
 'use strict';
 
-define(function(require, exports, module) {
+define(function(require, exports) {
 
   var mvelo = require('mvelo');
 
@@ -137,7 +137,7 @@ define(function(require, exports, module) {
         });
       } else {
         // if existent, set as active tab
-        mvelo.tabs.activate(tabs[0], {url: url + hash} , callback.bind(this, true));
+        mvelo.tabs.activate(tabs[0], {url: url + hash}, callback.bind(this, true));
       }
     });
   };

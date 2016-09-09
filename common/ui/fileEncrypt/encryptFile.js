@@ -35,8 +35,6 @@ var options = options || null;
   var $encryptAddFileBtn;
   var $encryptToDownloadBtn;
   var $encryptDownloadAllBtn;
-  var $encryptBackToUploadBtn;
-  var $encryptBackToPersonBtn;
   var $encryptFileSelection;
 
   var $encryptKeyList;
@@ -55,7 +53,6 @@ var options = options || null;
   var $decryptAddFileBtn;
   var $decryptFileDownloadError;
   var $decryptToDownloadBtn;
-  var $decryptBackToUploadBtn;
   var $decryptDownloadAllBtn;
   var $decryptFileDownload;
 
@@ -114,11 +111,11 @@ var options = options || null;
           this.click();
         });
       });
-    $encryptBackToUploadBtn = $('#encrypt_backToUploadBtn')
+    $('#encrypt_backToUploadBtn')
       .on('click', function() {
         switchPanel($encryptFileUploadPanel, $encryptPanels);
       });
-    $encryptBackToPersonBtn = $('#encrypt_backToPersonBtn')
+    $('#encrypt_backToPersonBtn')
       .on('click', function() {
         switchPanel($encryptPersonPanel, $encryptPanels);
       });
@@ -176,7 +173,7 @@ var options = options || null;
         });
       });
 
-    $decryptBackToUploadBtn = $('#decrypt_backToUploadBtn')
+    $('#decrypt_backToUploadBtn')
       .on('click', function() {
         switchPanel($decryptFileUploadPanel, $decryptPanels);
       });

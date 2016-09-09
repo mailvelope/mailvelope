@@ -173,7 +173,7 @@ mvelo.ExtractFrame.prototype._registerEventListener = function() {
         break;
     }
   });
-  this._port.onDisconnect.addListener(function(msg) {
+  this._port.onDisconnect.addListener(function() {
     that._closeFrame(false);
   });
 };

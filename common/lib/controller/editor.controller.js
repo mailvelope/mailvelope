@@ -22,7 +22,7 @@
 
 'use strict';
 
-define(function(require, exports, module) {
+define(function(require, exports) {
 
   var sub = require('./sub.controller');
   var DecryptController = require('./decrypt.controller').DecryptController;
@@ -192,7 +192,7 @@ define(function(require, exports, module) {
         that.emit('get-plaintext', {action: 'sign'});
       })
       .catch(function(err) {
-        if (err.code = 'PWD_DIALOG_CANCEL') {
+        if (err.code === 'PWD_DIALOG_CANCEL') {
           that.emit('hide-pwd-dialog');
           return;
         }
@@ -217,11 +217,11 @@ define(function(require, exports, module) {
       // persist key in local keyring
       var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
       if (key && key.publicKeyArmored) {
-        localKeyring.importKeys([{type:'public', armored:key.publicKeyArmored}]);
+        localKeyring.importKeys([{type: 'public', armored: key.publicKeyArmored}]);
       }
       // send updated key cache to editor
       var keys = localKeyring.getKeyUserIDs({allUsers: true});
-      this.emit('keyserver-response', {keys:keys}, this.ports.editor);
+      this.emit('keyserver-response', {keys: keys}, this.ports.editor);
     }.bind(this));
   };
 
@@ -251,12 +251,12 @@ define(function(require, exports, module) {
     // deduplicate email addresses
     var emails = (recipients || []).map(function(recipient) { return recipient.email; });
     emails = this.mvelo.util.deDup(emails); // just dedup, dont change order of user input
-    recipients = emails.map(function(e) { return {email:e}; });
+    recipients = emails.map(function(e) { return {email: e}; });
     // get all public keys in the local keyring
     var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
     var keys = localKeyring.getKeyUserIDs({allUsers: true});
     var tofu = this.keyserver.getTOFUPreference();
-    this.emit('public-key-userids', {keys:keys, recipients:recipients, tofu:tofu});
+    this.emit('public-key-userids', {keys: keys, recipients: recipients, tofu: tofu});
   };
 
   /**
@@ -501,7 +501,7 @@ define(function(require, exports, module) {
         this.editorPopup.close();
         this.editorPopup = null;
       }
-      this.transferEncrypted({armored:armored, keys:options.keys});
+      this.transferEncrypted({armored: armored, keys: options.keys});
     }.bind(this))
     .catch(function(error) {
       console.log(error);

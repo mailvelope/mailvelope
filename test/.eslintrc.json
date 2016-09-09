@@ -1,0 +1,13 @@
+{
+
+  "env": {
+    "mocha": true,
+    "jasmine": true
+  },
+
+  "globals": {
+    "chai": true,
+    "sinon": true
+  }
+
+}

@@ -1,0 +1,55 @@
+{
+
+  "parserOptions": {
+    "ecmaVersion": 6    
+  },
+
+  "extends": "eslint:recommended",
+
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "amd": true,
+    "jquery": true,
+    "webextensions": true
+  },
+
+  "globals": {
+    "mvelo": true
+  },
+
+  "rules": {
+    "strict": ["error", "global"],
+    /* possible errors */
+    "no-console": 0,
+    "no-empty": ["error", { "allowEmptyCatch": true }], // disallow empty block statements
+    /* best practices */
+    "block-scoped-var": 2, // enforce the use of variables within the scope they are defined
+    "curly": 2, // enforce consistent brace style for all control statements
+    "no-eval": 2, // disallow the use of eval()
+    "no-extend-native": 2, // disallow extending native types
+    "no-global-assign": 2, // disallow assignments to native objects or read-only global variables
+    "no-implicit-coercion": 2, // disallow shorthand type conversions
+    "no-implicit-globals": 2, // disallow var and named function declarations in the global scope
+    "no-implied-eval": 2, // disallow the use of eval()-like methods
+    "no-lone-blocks": 2, // disallow unnecessary nested blocks
+    /* Stylistic Issues */
+    "array-bracket-spacing": 1, // enforce consistent spacing inside array brackets
+    "block-spacing": 1, // enforce consistent spacing inside single-line blocks
+    "comma-spacing": 1, // enforce consistent spacing before and after commas
+    "computed-property-spacing": 1, // enforce consistent spacing inside computed property brackets
+    "eol-last": 1, // enforce at least one newline at the end of files
+    "func-call-spacing": 1, // require or disallow spacing between function identifiers and their invocations
+    "key-spacing": ["warn", { "mode": "minimum" }], // enforce consistent spacing before and after keywords
+    "keyword-spacing": 1, // enforce consistent spacing between keys and values in object literal properties
+    "linebreak-style": 1, // enforce consistent linebreak style
+    "no-trailing-spaces": 1, // disallow trailing whitespace at the end of lines
+    "semi-spacing": 1, // enforce consistent spacing before and after semicolons
+    "space-before-blocks": 1, // enforce consistent spacing before blocks
+    "space-before-function-paren": ["warn", "never"], // enforce consistent spacing before function definition opening parenthesis
+    "space-in-parens": ["warn", "never"], // enforce consistent spacing inside parentheses
+    "space-infix-ops": 1 // require spacing around operators
+  }
+
+}

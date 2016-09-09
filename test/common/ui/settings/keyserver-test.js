@@ -8,7 +8,7 @@ describe('Key server settings unit tests', function() {
   var hkpUrl = 'https://keyserver.ubuntu.com';
 
   beforeEach(function() {
-    optionsMock = {l10n:{}, event:{triggerHandler: function() {}}, pgpModel: function() {}};
+    optionsMock = {l10n: {}, event: {triggerHandler: function() {}}, pgpModel: function() {}};
     mveloMock = {extension: {sendMessage: function() {}}};
     keyserver = new KeyServer(mveloMock, optionsMock);
 
@@ -81,7 +81,7 @@ describe('Key server settings unit tests', function() {
     });
 
     it('should trigger update event on success', function() {
-      sinon.stub(keyserver, 'testUrl').returns(resolves());
+      sinon.stub(keyserver, 'testUrl').returns(Promise.resolve());
 
       return keyserver.save().then(function() {
         expect(mveloMock.extension.sendMessage.withArgs({event: 'set-prefs', data: {
@@ -92,7 +92,7 @@ describe('Key server settings unit tests', function() {
     });
 
     it('should show error on failure', function() {
-      sinon.stub(keyserver, 'testUrl').returns(rejects());
+      sinon.stub(keyserver, 'testUrl').returns(Promise.reject());
 
       return keyserver.save().then(function() {
         expect(optionsMock.event.triggerHandler.called).to.be.false;
@@ -184,7 +184,7 @@ describe('Key server settings unit tests', function() {
   describe('loadPrefs', function() {
     it('should work', function() {
       sinon.stub(keyserver._inputHkpUrl, 'val');
-      sinon.stub(optionsMock, 'pgpModel').returns(resolves({keyserver:{hkp_base_url:hkpUrl}}));
+      sinon.stub(optionsMock, 'pgpModel').returns(Promise.resolve({keyserver: {hkp_base_url: hkpUrl}}));
 
       return keyserver.loadPrefs().then(function() {
         expect(keyserver._inputHkpUrl.val.withArgs(hkpUrl).calledOnce).to.be.true;

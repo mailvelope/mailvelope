@@ -214,7 +214,7 @@ mvelo.providers.get = function(hostname) {
    * @param  {jQuery} element jQuery element to set focus
    */
   dom.setFocus = function(element) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function(resolve) {
       setTimeout(function() {
         element.focus();
         resolve();

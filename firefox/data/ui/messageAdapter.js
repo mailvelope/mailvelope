@@ -15,7 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* jshint strict: false */
+/* eslint strict: 0 */
+/* global createObjectIn, unsafeWindow, cloneInto, exportFunction */
 
 var mvelo = mvelo || {};
 
@@ -82,7 +83,7 @@ if (self.options.expose_messaging) {
     obj.events[eventName] = listener;
   }
 
-  function addPortDisconnectListener(listener) {
+  function addPortDisconnectListener() {
     // currently deactivated, detach event is fired too late: Mailvelope components are already detached from the DOM
     //self.port.on('detach', listener);
   }

@@ -583,7 +583,7 @@
           error = new Error('Unknown Error');
         }
         if (error instanceof Error || typeof error === 'string') {
-          error = { message: error.message || '' + error };
+          error = { message: error.message || String(error) };
         }
         postMessage('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: msg.data.type, error: error, id: msg.data.id}, true);
       });
@@ -617,7 +617,7 @@
     }
   }
 
-  function disconnectListener(event) {
+  function disconnectListener() {
     window.removeEventListener('message', eventListener);
     connected = false;
   }

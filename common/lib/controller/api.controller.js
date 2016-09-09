@@ -17,7 +17,7 @@
 
 'use strict';
 
-define(function(require, exports, module) {
+define(function(require, exports) {
 
   var mvelo = require('../../lib-mvelo').mvelo;
   var keyring = require('../keyring');
@@ -26,13 +26,13 @@ define(function(require, exports, module) {
   var model = require('../pgpModel');
 
   function handleApiEvent(request, sender, sendResponse) {
-    var keyRing;
+    var keyRing, attr;
     try {
       switch (request.event) {
         case 'get-keyring':
           keyRing = keyring.getById(request.keyringId);
           if (keyRing) {
-            var attr = keyRing.getAttributes();
+            attr = keyRing.getAttributes();
             sendResponse({data: {revision: attr.logo_revision}});
             sub.setActiveKeyringId(request.keyringId);
           }
@@ -80,7 +80,7 @@ define(function(require, exports, module) {
           });
           return true;
         case 'set-logo':
-          var attr = keyring.getById(request.keyringId).getAttributes();
+          attr = keyring.getById(request.keyringId).getAttributes();
           if (attr.logo_revision && attr.logo_revision > request.revision) {
             sendResponse({error: {message: 'New logo revision < existing revision.', code: 'REVISION_INVALID'}});
             return;

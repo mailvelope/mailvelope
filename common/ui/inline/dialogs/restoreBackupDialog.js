@@ -20,7 +20,7 @@
 var mvelo = mvelo || null;
 
 (function() {
-  var id, name, port, l10n, isInputChange;
+  var id, name, port, l10n;
 
   var $secureBgndButton;
   var $restoreBackupPanel;
@@ -134,8 +134,6 @@ var mvelo = mvelo || null;
       });
 
       port.postMessage({ event: 'restore-backup-dialog-init', sender: name });
-
-      isInputChange = true;
     });
   }
 

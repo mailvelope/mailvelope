@@ -2,6 +2,8 @@
 
 'use strict';
 
+/* global angular */
+
 describe('Editor UI unit tests', function() {
 
   var ctrl, scope;
@@ -90,7 +92,7 @@ describe('Editor UI unit tests', function() {
         email: 'jon@smith.com',
         displayId: 'Jon Smith <jon@smith.com>'
       };
-      ctrl.getKey.returns({keyid:'0'});
+      ctrl.getKey.returns({keyid: '0'});
 
       ctrl.verify(recipient);
 
@@ -208,7 +210,7 @@ describe('Editor UI unit tests', function() {
     it('should work', function() {
       ctrl.recipients = [{}, {}];
       ctrl._onKeyServerResponse({
-        keys:[{}],
+        keys: [{}],
       });
       ctrl._timeout.flush();
 
@@ -282,13 +284,13 @@ describe('Editor UI unit tests', function() {
     });
 
     it('should encrypt if all recipients have keys', function() {
-      ctrl.recipients = [{key:{}}];
+      ctrl.recipients = [{key: {}}];
       ctrl.checkEncryptStatus();
       expect(ctrl.noEncrypt).to.be.false;
     });
 
     it('should not encrypt if not all recipients have keys', function() {
-      ctrl.recipients = [{key:{}}, {}];
+      ctrl.recipients = [{key: {}}, {}];
       ctrl.checkEncryptStatus();
       expect(ctrl.noEncrypt).to.be.true;
     });
@@ -355,7 +357,7 @@ describe('Editor UI unit tests', function() {
     it('should work', function() {
       ctrl._setRecipients({
         tofu: true,
-        keys:[],
+        keys: [],
         recipients: [{}, {}]
       });
       ctrl._timeout.flush();
@@ -395,7 +397,7 @@ describe('Editor UI unit tests', function() {
 
       ctrl._name = 'foo';
       ctrl.initComplete();
-      expect(ctrl.emit.withArgs('editor-init', {sender:'foo'}).calledOnce).to.be.true;
+      expect(ctrl.emit.withArgs('editor-init', {sender: 'foo'}).calledOnce).to.be.true;
 
       sinon.stub(EditorCtrl.prototype, 'initComplete');
     });
@@ -406,7 +408,7 @@ describe('Editor UI unit tests', function() {
       ctrl._name = 'foo';
       ctrl.embedded = true;
       ctrl.openSecuritySettings();
-      expect(ctrl.emit.withArgs('open-security-settings', {sender:'foo'}).calledOnce).to.be.true;
+      expect(ctrl.emit.withArgs('open-security-settings', {sender: 'foo'}).calledOnce).to.be.true;
     });
 
     it('should not emit for non-embedded mode', function() {
@@ -419,17 +421,17 @@ describe('Editor UI unit tests', function() {
   describe('sendPlainText', function() {
     it('should emit', function() {
       sinon.stub(ctrl, 'getEditorText').returns('bar');
-      sinon.stub(ctrl, 'getRecipientKeys').returns([{keyid:'123'}]);
-      sinon.stub(ctrl, 'getAttachments').returns([{filename:'file'}]);
+      sinon.stub(ctrl, 'getRecipientKeys').returns([{keyid: '123'}]);
+      sinon.stub(ctrl, 'getAttachments').returns([{filename: 'file'}]);
       ctrl._name = 'foo';
 
       ctrl.sendPlainText('encrypt');
 
       expect(ctrl.emit.withArgs('editor-plaintext', {
-        sender:'foo',
+        sender: 'foo',
         message: 'bar',
-        keys: [{keyid:'123'}],
-        attachments: [{filename:'file'}],
+        keys: [{keyid: '123'}],
+        attachments: [{filename: 'file'}],
         action: 'encrypt'
       }).calledOnce).to.be.true;
     });

@@ -39,7 +39,6 @@ var options = options || null;
   var signaturesTmpl;
   var $tableBody;
   var tableRow;
-  var keyRing;
   var filterType;
   var $setAsPrimaryBtn;
   var isKeyPair;
@@ -498,14 +497,14 @@ var options = options || null;
     }
   };
 
-  options.createKeyring = function(keyRingId, callback) {
+  options.createKeyring = function(keyRingId) {
     mvelo.extension.sendMessage({
       event: 'create-keyring',
       keyringId: keyRingId
     });
   };
 
-  options.setKeyringAttr = function(keyRingId, keyRingAttr, callback) {
+  options.setKeyringAttr = function(keyRingId, keyRingAttr) {
     mvelo.extension.sendMessage({
       event: 'set-keyring-attr',
       keyringId: keyRingId,

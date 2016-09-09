@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* jshint strict: false */
+/* eslint strict: 0 */
 
 var data = require('sdk/self').data;
 var tabs = require('sdk/tabs');
@@ -41,7 +41,7 @@ mvelo.data.url = function(path) {
 };
 
 mvelo.data.load = function(path) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function(resolve) {
     resolve(data.load(path));
   });
 };
@@ -77,7 +77,7 @@ mvelo.tabs.attach = function(tab, options, callback) {
   this.worker[tab.index] = worker;
   worker.port.on('message-event', options.onMessage);
   //console.log('attach registers for message-event', Date.now());
-  worker.port.once('message-event', function(msg) {
+  worker.port.once('message-event', function() {
     if (callback) {
       // first event on port will fire callback after 200ms delay
       //console.log('starting attach callback timer', msg.event, Date.now());
@@ -212,7 +212,7 @@ var delegate = {
 };
 
 var winUtils = require('sdk/deprecated/window-utils');
-var tracker = new winUtils.WindowTracker(delegate);
+new winUtils.WindowTracker(delegate);
 
 mvelo.windows.BrowserWindow = function(id) {
   this._id = id;
@@ -262,7 +262,7 @@ mvelo.util.getWorker = function() {
 
 mvelo.util.fetch = function(url, options) {
   options = options || {};
-  return new Promise(function(resolve, reject) {
+  return new Promise(function(resolve) {
     var fetchRequ = request({
       url: url,
       content: options.body,

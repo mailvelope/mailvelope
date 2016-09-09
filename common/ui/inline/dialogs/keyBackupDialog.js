@@ -26,7 +26,6 @@ var mvelo = mvelo || null;
   var $keyBackupWaiting;
   var $secureBgndButton;
   var $createBackupCodeBtn;
-  var $body;
 
   function init() {
     if (document.body.dataset.mvelo) {

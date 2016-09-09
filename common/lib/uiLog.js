@@ -17,7 +17,7 @@
 
 'use strict';
 
-define(function(require, exports, module) {
+define(function(require, exports) {
 
   var mvelo = require('../lib-mvelo').mvelo;
   var l10n = mvelo.l10n.get;

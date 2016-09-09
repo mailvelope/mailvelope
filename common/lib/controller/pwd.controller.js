@@ -17,11 +17,10 @@
 
 'use strict';
 
-define(function(require, exports, module) {
+define(function(require, exports) {
 
   var sub = require('./sub.controller');
   var uiLog = require('../uiLog');
-  var syncCtrl = require('./sync.controller');
   var openpgp = require('openpgp');
 
   function PwdController(port) {
@@ -128,7 +127,7 @@ define(function(require, exports, module) {
     }
     var cacheEntry = this.pwdCache.get(this.options.key.primaryKey.getKeyId().toHex(), this.options.keyid);
     if (cacheEntry) {
-      return new Promise(function(resolve, reject) {
+      return new Promise(function(resolve) {
         that.options.password = cacheEntry.password;
         if (!cacheEntry.key) {
           that.pwdCache.unlock(that.options)

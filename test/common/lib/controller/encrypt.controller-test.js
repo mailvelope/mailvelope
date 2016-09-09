@@ -6,7 +6,7 @@ define(function(require) {
   var EncryptController = require('common/lib/controller/encrypt.controller').EncryptController;
   var ctrl, editorCtrlMock;
 
-  var testRecipients = [{email:'test@example.com'}];
+  var testRecipients = [{email: 'test@example.com'}];
 
   describe('Encrypt controller unit tests', function() {
 
@@ -50,7 +50,7 @@ define(function(require) {
       it('should not open editor a second time', function() {
         ctrl.mvelo.windows.modalActive = true;
 
-        ctrl.openEditor({text:'foo'});
+        ctrl.openEditor({text: 'foo'});
 
         expect(ctrl.editorControl).to.be.null;
       });
@@ -63,9 +63,9 @@ define(function(require) {
           }
         });
 
-        ctrl.openEditor({text:'foo'});
+        ctrl.openEditor({text: 'foo'});
 
-        expect(ctrl.emit.withArgs('set-editor-output', {text: 'parsed', recipients:testRecipients}).calledOnce).to.be.true;
+        expect(ctrl.emit.withArgs('set-editor-output', {text: 'parsed', recipients: testRecipients}).calledOnce).to.be.true;
       });
 
       it('should work for other editor type', function() {
@@ -76,14 +76,14 @@ define(function(require) {
           }
         });
 
-        ctrl.openEditor({text:'foo'});
+        ctrl.openEditor({text: 'foo'});
 
-        expect(ctrl.emit.withArgs('set-editor-output', {text: 'armored', recipients:testRecipients}).calledOnce).to.be.true;
+        expect(ctrl.emit.withArgs('set-editor-output', {text: 'armored', recipients: testRecipients}).calledOnce).to.be.true;
       });
 
       it('should stop on error', function() {
         editorCtrlMock.encrypt.yields(new Error('foo'));
-        ctrl.openEditor({text:'foo'});
+        ctrl.openEditor({text: 'foo'});
         expect(ctrl.emit.called).to.be.false;
       });
     });
@@ -113,7 +113,7 @@ define(function(require) {
       });
 
       it('should callback', function() {
-        ctrl.displayRecipientProposal({recipients:testRecipients});
+        ctrl.displayRecipientProposal({recipients: testRecipients});
 
         expect(ctrl.recipientsCallback).to.be.null;
         expect(recipientsCallbackStub.withArgs(testRecipients).calledOnce).to.be.true;
@@ -122,7 +122,7 @@ define(function(require) {
       it('should not callback', function() {
         ctrl.recipientsCallback = null;
 
-        ctrl.displayRecipientProposal({recipients:testRecipients});
+        ctrl.displayRecipientProposal({recipients: testRecipients});
 
         expect(ctrl.recipientsCallback).to.be.null;
         expect(recipientsCallbackStub.called).to.be.false;

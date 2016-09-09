@@ -17,7 +17,7 @@
 
 'use strict';
 
-define(function(require, exports, module) {
+define(function(require, exports) {
 
   var sub = require('./sub.controller');
   var keyringMod = require('../keyring');
@@ -103,7 +103,6 @@ define(function(require, exports, module) {
   };
 
   ImportController.prototype.importKey = function(keyringId, armored, callback) {
-    var that = this;
     try {
       this.keyringId = keyringId;
       // check keyringId
@@ -143,7 +142,6 @@ define(function(require, exports, module) {
   };
 
   ImportController.prototype.updateKey = function(fingerprint, stockKey, newKey, callback) {
-    var that = this;
     var statusBefore = stockKey.verifyPrimaryKey();
     var beforeLastModified = this.model.getLastModifiedDate(stockKey);
     var stockKeyClone = keyringMod.cloneKey(stockKey);

@@ -17,7 +17,7 @@
 
 'use strict';
 
-define(function(require, exports, module) {
+define(function(require, exports) {
 
   var mvelo = require('../lib-mvelo').mvelo;
   var l10n = mvelo.l10n.get;
@@ -162,7 +162,7 @@ define(function(require, exports, module) {
     return result;
   }
 
-  function unlockKey(privKey, keyid, passwd, callback) {
+  function unlockKey(privKey, keyid, passwd) {
     return openpgp.getWorker().decryptKeyPacket(privKey, [openpgp.Keyid.fromId(keyid)], passwd);
   }
 
@@ -380,7 +380,8 @@ define(function(require, exports, module) {
         var syncData = JSON.parse(msg.text);
         var publicKeys = [];
         var changeLog = {};
-        for (var fingerprint in syncData.insertedKeys) {
+        var fingerprint;
+        for (fingerprint in syncData.insertedKeys) {
           publicKeys.push({
             type: 'public',
             armored: syncData.insertedKeys[fingerprint].armored
@@ -390,7 +391,7 @@ define(function(require, exports, module) {
             time: syncData.insertedKeys[fingerprint].time
           };
         }
-        for (var fingerprint in syncData.deletedKeys) {
+        for (fingerprint in syncData.deletedKeys) {
           changeLog[fingerprint] = {
             type: keyringSync.DELETE,
             time: syncData.deletedKeys[fingerprint].time

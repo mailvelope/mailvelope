@@ -17,11 +17,9 @@
 
 'use strict';
 
-var system = require('sdk/system');
 var ss = require('sdk/simple-storage');
 var data = require('sdk/self').data;
 var pageMod = require('sdk/page-mod');
-var tabs = require('sdk/tabs');
 var unload = require('sdk/system/unload');
 var l10nGet = require("sdk/l10n").get;
 
@@ -35,9 +33,6 @@ var subController = require('./common/controller/sub.controller');
 var prompts = require('./prompt');
 
 var pageMods = {};
-// recipients of encrypted mail
-var eRecipientBuffer = {};
-var scannedHosts = [];
 
 var mailvelopePanel = null;
 
@@ -127,12 +122,6 @@ function activatePageMods() {
   injectEmbeddedRestoreBackup();
 }
 
-function deactivate() {
-  for (var mod in pageMods) {
-    pageMods[mod].destroy();
-  }
-}
-
 function clearStorage() {
   for (var obj in ss.storage) {
     delete ss.storage[obj];
@@ -204,10 +193,11 @@ function onCsAttach(worker) {
   });
   worker.port.on('message-event', function(msg) {
     var that = this;
+    var result;
     switch (msg.event) {
       case 'get-l10n-messages':
         if (!pageHidden) { // otherwise exception
-          var result = {};
+          result = {};
           msg.ids.forEach(function(id) {
             result[id] = l10nGet(id);
           });
@@ -216,7 +206,7 @@ function onCsAttach(worker) {
         break;
       case 'data-load':
         if (!pageHidden) { // otherwise exception
-          var result = data.load(msg.path);
+          result = data.load(msg.path);
           that.emit(msg.response, result);
         }
         break;

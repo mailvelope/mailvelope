@@ -17,7 +17,7 @@
 
 'use strict';
 
-define(function(require, exports, module) {
+define(function(require, exports) {
 
   var sub = require('./sub.controller');
   var keyringMod = require('../keyring');
@@ -213,11 +213,12 @@ define(function(require, exports, module) {
     if (isCached) {
       return true;
     }
+    var keyPacket;
     if (operation === 'sign') {
-      var keyPacket = options.key.getSigningKeyPacket();
+      keyPacket = options.key.getSigningKeyPacket();
       return keyPacket && keyPacket.isDecrypted;
     } else if (operation === 'decrypt') {
-      var keyPacket = options.key.getEncryptionKeyPacket();
+      keyPacket = options.key.getEncryptionKeyPacket();
       return keyPacket && keyPacket.isDecrypted;
     }
   };

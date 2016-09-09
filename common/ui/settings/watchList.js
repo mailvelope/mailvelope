@@ -22,31 +22,10 @@ var options = options || null;
 
 (function(options) {
 
-  /**
-   * remove duplicates from array, last duplicate entry wins
-   * @param  {array of objects} unordered
-   * @param  {string} key
-   * @return {array}
-   */
-  var objectDeDup = function(unordered, key) {
-    var result = [];
-    var object = {};
-    unordered.forEach(function(item) {
-      object[item[key]] = item;
-    });
-    for (var prop in object) {
-      if (object.hasOwnProperty(prop)) {
-        result.push(object[prop]);
-      }
-    }
-    return result;
-  };
-
   var $watchListEditor;
   var mailProviderTmpl;
   var matchPatternTmpl;
   var $matchPatternContainer;
-  var siteData;
   var $tableBody;
   var currentSiteID;
   var newWebSite;
@@ -90,12 +69,10 @@ var options = options || null;
   }
 
   function reloadWatchList() {
-    siteData = undefined;
     var tableRow;
     $tableBody.children().remove();
     options.pgpModel('getWatchList')
       .then(function(data) {
-        siteData = data;
         data.forEach(function(site) {
           tableRow = $.parseHTML(mailProviderTmpl);
           $(tableRow).find('td:nth-child(2)').text(site.site);
@@ -196,7 +173,6 @@ var options = options || null;
   }
 
   function saveWatchList() {
-    var $form = $('#watchListEditor form');
     var site = {};
     site.site = $('#webSiteName').val();
     site.active = $('#switchWebSite').is(':checked');
@@ -268,10 +244,10 @@ var options = options || null;
     site.site = website;
     site.active = true;
     site.frames = [];
-    site.frames.push({ frame: '*.' + website, scan:true });
+    site.frames.push({ frame: '*.' + website, scan: true });
     options.pgpModel('getWatchList')
       .then(function(data) {
-        data.forEach(function(siteEntry, index) {
+        data.forEach(function(siteEntry) {
           if (siteEntry.site === website) {
             siteExist = true;
           }

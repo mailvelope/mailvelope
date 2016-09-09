@@ -17,7 +17,7 @@
 
 'use strict';
 
-define(function(require, exports, module) {
+define(function(require, exports) {
 
   var sub = require('./sub.controller');
   var uiLog = require('../uiLog');
@@ -71,7 +71,7 @@ define(function(require, exports, module) {
     });
   };
 
-  PrivateKeyController.prototype.rejectKey = function(keyId) {
+  PrivateKeyController.prototype.rejectKey = function() {
     this.keyring.getById(this.keyringId).removeKey(this.newKeyId, 'private');
     if (this.prefs.data().security.password_cache) {
       pwdCache.delete(this.newKeyId);

@@ -1,7 +1,7 @@
 
 'use strict';
 
-define(function(require, exports, module) {
+define(function(require, exports) {
 
   var c1und1 =
     ['-----BEGIN PGP PUBLIC KEY BLOCK-----',

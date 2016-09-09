@@ -29,7 +29,7 @@ describe('Encrypt Frame unit tests', function() {
     it('should work', function() {
       ef._getRecipients();
 
-      expect(ef.emit.withArgs('eframe-recipients', {recipients:recip}).calledOnce).to.be.true;
+      expect(ef.emit.withArgs('eframe-recipients', {recipients: recip}).calledOnce).to.be.true;
     });
   });
 
@@ -41,7 +41,7 @@ describe('Encrypt Frame unit tests', function() {
     });
 
     it('should work', function() {
-      ef._setEditorOutput({recipients:recip});
+      ef._setEditorOutput({recipients: recip});
 
       expect(mvelo.main.currentProvider.setRecipients.withArgs(recip).calledOnce).to.be.true;
     });

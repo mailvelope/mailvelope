@@ -2,7 +2,6 @@
 
 define(function(require) {
 
-  var sub = require('common/lib/controller/sub.controller');
   var EditorController = require('common/lib/controller/editor.controller').EditorController;
 
   describe('Editor controller unit tests', function() {
@@ -10,7 +9,7 @@ define(function(require) {
     var testRecipients;
 
     beforeEach(function() {
-      testRecipients = [{email:'test@example.com'}];
+      testRecipients = [{email: 'test@example.com'}];
       port = {name: 'foo', postMessage: function(opt) { ctrl.handlePortMessage(opt); }};
       ctrl = new EditorController(port);
 
@@ -36,7 +35,7 @@ define(function(require) {
         sinon.stub(ctrl.keyserver, 'lookup');
         var keyRingMock = {
           importKeys: function() {},
-          getKeyUserIDs: function() { return [{keyid:'0'}]; }
+          getKeyUserIDs: function() { return [{keyid: '0'}]; }
         };
         importKeysStub = sinon.stub(keyRingMock, 'importKeys');
         sinon.stub(ctrl.keyring, 'getById').returns(keyRingMock);
@@ -48,9 +47,9 @@ define(function(require) {
       });
 
       it('should find a key', function() {
-        ctrl.keyserver.lookup.returns(resolves({publicKeyArmored:'KEY BLOCK'}));
+        ctrl.keyserver.lookup.returns(Promise.resolve({publicKeyArmored: 'KEY BLOCK'}));
 
-        return ctrl.lookupKeyOnServer({recipient:{email:'a@b.co'}})
+        return ctrl.lookupKeyOnServer({recipient: {email: 'a@b.co'}})
         .then(function() {
           expect(importKeysStub.calledOnce).to.be.true;
           expect(ctrl.emit.calledOnce).to.be.true;
@@ -58,9 +57,9 @@ define(function(require) {
       });
 
       it('should not find a key', function() {
-        ctrl.keyserver.lookup.returns(resolves());
+        ctrl.keyserver.lookup.returns(Promise.resolve());
 
-        return ctrl.lookupKeyOnServer({recipient:{email:'a@b.co'}})
+        return ctrl.lookupKeyOnServer({recipient: {email: 'a@b.co'}})
         .then(function() {
           expect(importKeysStub.calledOnce).to.be.false;
           expect(ctrl.emit.calledOnce).to.be.true;
@@ -71,7 +70,7 @@ define(function(require) {
     describe('displayRecipientProposal', function() {
       beforeEach(function() {
         sinon.stub(ctrl.keyring, 'getById').returns({
-          getKeyUserIDs: function() { return [{keyid:'0'}]; }
+          getKeyUserIDs: function() { return [{keyid: '0'}]; }
         });
         sinon.stub(ctrl.keyserver, 'getTOFUPreference').returns(true);
       });
@@ -83,17 +82,17 @@ define(function(require) {
 
       it('should handle empty recipients', function() {
         ctrl.displayRecipientProposal([]);
-        expect(ctrl.emit.withArgs('public-key-userids', {keys:[{keyid:'0'}], recipients:[], tofu:true}).calledOnce).to.be.true;
+        expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: [], tofu: true}).calledOnce).to.be.true;
       });
 
       it('should handle undefined recipients', function() {
         ctrl.displayRecipientProposal();
-        expect(ctrl.emit.withArgs('public-key-userids', {keys:[{keyid:'0'}], recipients:[], tofu:true}).calledOnce).to.be.true;
+        expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: [], tofu: true}).calledOnce).to.be.true;
       });
 
       it('should handle recipients', function() {
         ctrl.displayRecipientProposal(testRecipients);
-        expect(ctrl.emit.withArgs('public-key-userids', {keys:[{keyid:'0'}], recipients:testRecipients, tofu:true}).calledOnce).to.be.true;
+        expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: testRecipients, tofu: true}).calledOnce).to.be.true;
       });
     });
 
@@ -106,17 +105,17 @@ define(function(require) {
 
       it('should not transfer private key material', function() {
         ctrl.transferEncrypted({
-          armored:'a',
-          keys:[{name:'n', email:'e', private:'p'}]
+          armored: 'a',
+          keys: [{name: 'n', email: 'e', private: 'p'}]
         });
-        expect(ctrl.encryptCallback.withArgs(null, 'a', [{name:'n', email:'e'}]).calledOnce).to.be.true;
+        expect(ctrl.encryptCallback.withArgs(null, 'a', [{name: 'n', email: 'e'}]).calledOnce).to.be.true;
       });
 
       it('should emit message to encrypt container', function() {
         ctrl.ports = { editorCont: {}};
         ctrl.transferEncrypted({
-          armored:'a',
-          keys:[{name:'n', email:'e', private:'p'}]
+          armored: 'a',
+          keys: [{name: 'n', email: 'e', private: 'p'}]
         });
         expect(ctrl.encryptCallback.called).to.be.false;
         expect(ctrl.emit.withArgs('encrypted-message', {message: 'a'}, {}).calledOnce).to.be.true;
@@ -128,7 +127,7 @@ define(function(require) {
       var keys;
 
       beforeEach(function() {
-        keys = [{name:'n', email:'e', private:'p'}];
+        keys = [{name: 'n', email: 'e', private: 'p'}];
         sinon.stub(ctrl, 'buildMail');
         sinon.stub(ctrl, 'getPublicKeyIds');
         sinon.stub(ctrl, 'signAndEncryptMessage');
@@ -145,10 +144,10 @@ define(function(require) {
       });
 
       it('should encrypt', function() {
-        ctrl.encryptMessage.returns(resolves('a'));
+        ctrl.encryptMessage.returns(Promise.resolve('a'));
         return ctrl.signAndEncrypt({
           action: 'encrypt',
-          message:'m',
+          message: 'm',
           keys: keys
         })
         .then(function(res) {
@@ -158,10 +157,10 @@ define(function(require) {
 
       it('should sign and encrypt', function() {
         ctrl.signMsg = true;
-        ctrl.signAndEncryptMessage.returns(resolves('a'));
+        ctrl.signAndEncryptMessage.returns(Promise.resolve('a'));
         return ctrl.signAndEncrypt({
           action: 'encrypt',
-          message:'m',
+          message: 'm',
           keys: keys
         })
         .then(function(res) {
@@ -170,10 +169,10 @@ define(function(require) {
       });
 
       it('should sign', function() {
-        ctrl.signMessage.returns(resolves('a'));
+        ctrl.signMessage.returns(Promise.resolve('a'));
         return ctrl.signAndEncrypt({
           action: 'sign',
-          message:'m'
+          message: 'm'
         })
         .then(function(res) {
           expect(res).to.equal('a');
@@ -184,7 +183,7 @@ define(function(require) {
         ctrl.buildMail.returns(null);
         ctrl.signAndEncrypt({
           action: 'encrypt',
-          message:'m'
+          message: 'm'
         })
         .catch(function(err) {
           expect(err.message).to.be.equal('MIME building failed.');
@@ -194,11 +193,11 @@ define(function(require) {
     });
 
     describe('getPublicKeyIds', function() {
-      var keys = [{keyid:'b'}, {keyid:'b'}];
+      var keys = [{keyid: 'b'}, {keyid: 'b'}];
 
       beforeEach(function() {
         sinon.stub(ctrl.keyring, 'getById').returns({
-          getAttributes: function() { return {primary_key:'p'}; }
+          getAttributes: function() { return {primary_key: 'p'}; }
         });
         ctrl.prefs.data.returns({
           general: {

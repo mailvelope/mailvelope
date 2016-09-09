@@ -17,7 +17,7 @@
 
 'use strict';
 
-define(function(require, exports, module) {
+define(function(require, exports) {
 
   var keyringMod = require('./keyring');
   var syncCtrl = require('./controller/sync.controller');

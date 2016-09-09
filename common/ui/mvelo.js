@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* jshint strict: false */
+/* eslint strict: 0 */
 
 var mvelo = mvelo || {};
 // chrome extension
@@ -61,7 +61,7 @@ mvelo.MAXFILEUPLOADSIZECHROME = 20 * 1024 * 1024; // temporal fix due issue in C
 
 mvelo.appendTpl = function($element, path) {
   if (mvelo.ffa && !/^resource/.test(document.location.protocol)) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function(resolve) {
       mvelo.data.load(path, function(result) {
         $element.append($.parseHTML(result));
         resolve($element);
@@ -124,13 +124,13 @@ mvelo.l10n = mvelo.l10n || mvelo.crx && {
     $(selector).each(function() {
       var jqElement = $(this);
       var id = jqElement.data('l10n-id');
-      var text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id ;
+      var text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id;
       jqElement.text(text);
     });
     $('[data-l10n-title-id]').each(function() {
       var jqElement = $(this);
       var id = jqElement.data('l10n-title-id');
-      var text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id ;
+      var text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id;
       jqElement.attr('title', text);
     });
   }
@@ -347,8 +347,7 @@ mvelo.util.showSecurityBackground = function(isEmbedded) {
         'background-image: url(data:image/svg+xml;base64,' + btoa(secBgndIcon) + ');' +
         '}';
 
-    var color = mvelo.util.secBgnd.color,
-      lockIcon = mvelo.util.generateSecurityBackground(0, null, 2),
+    var lockIcon = mvelo.util.generateSecurityBackground(0, null, 2),
       lockButton = '.lockBtnIcon, .lockBtnIcon:active {' +
         'margin: 0px;' +
         'width: 28px; height: 28px;' +

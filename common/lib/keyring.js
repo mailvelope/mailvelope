@@ -17,7 +17,7 @@
 
 'use strict';
 
-define(function(require, exports, module) {
+define(function(require, exports) {
 
   var mvelo = require('../lib-mvelo').mvelo;
   var openpgp = require('openpgp');
@@ -484,7 +484,6 @@ define(function(require, exports, module) {
   };
 
   Keyring.prototype.getKeyIdByAddress = function(emailAddr, options) {
-    var that = this;
     var addressMap = this.getKeyByAddress(emailAddr, options);
     for (var address in addressMap) {
       addressMap[address] = addressMap[address] && addressMap[address].map(function(key) {
@@ -619,7 +618,7 @@ define(function(require, exports, module) {
       }
     });
     // store if import succeeded
-    if (result.some(function(message) { return message.type === 'success';})) {
+    if (result.some(function(message) { return message.type === 'success'; })) {
       this.keyring.store();
       this.sync.commit();
       // by no primary key in the keyring set the first found private keys as primary for the keyring
@@ -798,7 +797,7 @@ define(function(require, exports, module) {
           }
           // upload public key
           if (options.uploadPublicKey) {
-            return keyServer.upload({publicKeyArmored:data.publicKeyArmored}).then(function() {
+            return keyServer.upload({publicKeyArmored: data.publicKeyArmored}).then(function() {
               return data;
             });
           }
@@ -812,7 +811,7 @@ define(function(require, exports, module) {
     var userId = getUserId(key);
     return {
       signKey: key,
-      userId : userId
+      userId: userId
     };
   };
 
