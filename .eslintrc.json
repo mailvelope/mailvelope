@@ -1,7 +1,10 @@
 {
 
   "parserOptions": {
-    "ecmaVersion": 6    
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "jsx": true
+    }
   },
 
   "extends": "eslint:recommended",

@@ -128,6 +128,18 @@ module.exports = function(grunt) {
             cwd: 'node_modules/ng-tags-input/build/',
             src: ['ng-tags-input.min.js', 'ng-tags-input.min.css', 'ng-tags-input.bootstrap.min.css'],
             dest: 'build/common/dep/ng-tags-input/'
+          },
+          {
+            expand: true,
+            cwd: 'node_modules/react/dist/',
+            src: 'react.min.js',
+            dest: 'build/common/dep/react/'
+          },
+          {
+            expand: true,
+            cwd: 'node_modules/react-dom/dist/',
+            src: 'react-dom.min.js',
+            dest: 'build/common/dep/react/'
           }
         ]
       },
@@ -137,7 +149,8 @@ module.exports = function(grunt) {
             'common/**/*',
             '!common/ui/inline/*.js',
             'common/ui/mvelo.js',
-            '!common/dep/wysihtml5/**/*'
+            '!common/dep/wysihtml5/**/*',
+            '!common/**/components/*'
           ],
           dest: 'build/'
         }]
@@ -289,6 +302,20 @@ module.exports = function(grunt) {
       }
     },
 
+    babel: {
+      options: {
+        sourceMap: false,
+        presets: ['react']
+      },
+      dist: {
+        files: [{
+          expand: true,
+          src: 'common/**/components/*.js',
+          dest: 'build/'
+        }]
+      }
+    },
+
     watch: {
       scripts: {
         files: ['Gruntfile.js', '{common,dep,chrome,firefox}/**/*.js'],
@@ -400,6 +427,7 @@ module.exports = function(grunt) {
 
   });
 
+  grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-bump');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-compress');
@@ -421,7 +449,7 @@ module.exports = function(grunt) {
   grunt.registerTask('dist-ff', ['jpm:xpi', 'copy:xpi']);
   grunt.registerTask('dist-doc', ['jsdoc', 'compress:doc']);
 
-  grunt.registerTask('copy_common', ['copy:vendor', 'copy:common', 'replace:bootstrap', 'replace:openpgp_ff']);
+  grunt.registerTask('copy_common', ['copy:vendor', 'copy:common', 'babel', 'replace:bootstrap', 'replace:openpgp_ff']);
   grunt.registerTask('final_assembly', ['copy:plugins', 'copy:common_browser', 'copy:locale_firefox', 'copy:dep']);
 
   grunt.registerTask('default', ['clean', 'eslint', 'concat', 'copy_common', 'final_assembly']);

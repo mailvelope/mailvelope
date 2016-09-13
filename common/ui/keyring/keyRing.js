@@ -17,6 +17,8 @@
 
 'use strict';
 
+/* global ReactDOM, PrimaryKeyButton */
+
 var mvelo = mvelo || null;
 var options = options || null;
 
@@ -269,20 +271,10 @@ var options = options || null;
       $('#keyType .publicKey').hide();
       isKeyPair = true;
       $setAsPrimaryBtn.show();
-      if ($keyData.attr('data-keyisprimary') === 'true') {
-        $setAsPrimaryBtn.prop('disabled', true);
-        $setAsPrimaryBtn.addClass('btn-warning');
-        $setAsPrimaryBtn.text(options.l10n.keygrid_primary_label);
-        $setAsPrimaryBtn.removeAttr('data-primarykeyid');
-      } else {
-        $setAsPrimaryBtn.removeClass('btn-warning');
-        $setAsPrimaryBtn.prop('disabled', false);
-        $setAsPrimaryBtn.attr('data-primarykeyid', $keyData.attr('data-keyid'));
-        $setAsPrimaryBtn.append($('<span>')).text(options.l10n.key_set_as_primary);
-        $setAsPrimaryBtn.prepend('<span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>&nbsp;');
-      }
-      $setAsPrimaryBtn.off();
-      $setAsPrimaryBtn.on('click', setPrimaryKey);
+      ReactDOM.render(PrimaryKeyButton({
+        isPrimary: $keyData.attr('data-keyisprimary') === 'true',
+        onClick: setPrimaryKey.bind(null, $keyData.attr('data-keyid'))
+      }), $setAsPrimaryBtn.get(0));
     } else {
       $('#keyType .keyPair').hide();
       $setAsPrimaryBtn.hide();
@@ -360,21 +352,15 @@ var options = options || null;
     });
   }
 
-  function setPrimaryKey() {
-    var primaryKeyId = $(this).attr('data-primarykeyid');
-    if (primaryKeyId) {
-      options.setKeyringAttr(options.keyringId, {
-        primary_key: primaryKeyId
-      });
-      $(this).addClass('btn-warning');
-      $(this).text(options.l10n.keygrid_primary_label);
-      $(this).prop('disabled', true);
-      $(this).removeAttr('data-primarykeyid');
-      options.primaryKeyId = primaryKeyId;
-      options.event.triggerHandler('keygrid-reload');
-    } else {
-      return false;
-    }
+  function setPrimaryKey(primaryKeyId) {
+    options.setKeyringAttr(options.keyringId, {
+      primary_key: primaryKeyId
+    });
+    options.primaryKeyId = primaryKeyId;
+    ReactDOM.render(PrimaryKeyButton({
+      isPrimary: true
+    }), $setAsPrimaryBtn.get(0));
+    options.event.triggerHandler('keygrid-reload');
   }
 
   function openExportAllDialog() {
