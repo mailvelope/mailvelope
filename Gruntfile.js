@@ -149,7 +149,6 @@ module.exports = function(grunt) {
             'common/**/*',
             '!common/ui/inline/*.js',
             'common/ui/mvelo.js',
-            '!common/dep/wysihtml5/**/*',
             '!common/**/components/*'
           ],
           dest: 'build/'

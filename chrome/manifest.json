@@ -51,7 +51,6 @@
     "common/ui/options.html",
     "common/dep/bootstrap/css/bootstrap.css",
     "common/ui/mvelo.css",
-    "common/dep/wysihtml5/css/wysihtml5.css",
     "common/ui/inline/dialogs/verifyInlineSig.css",
     "common/res/fonts/Courgette-Regular.ttf",
     "common/dep/bootstrap/fonts/glyphicons-halflings-regular.eot",

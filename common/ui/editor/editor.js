@@ -526,9 +526,7 @@ EditorCtrl.prototype.cancel = function() {
     if (editor_type == mvelo.PLAIN_TEXT) {
       editor = createPlainText();
     } else {
-      createRichText(function(ed) {
-        editor = ed;
-      });
+      // no rich text option
     }
     // blur warning
     blurWarn = $('#blurWarn');
@@ -671,35 +669,6 @@ EditorCtrl.prototype.cancel = function() {
     return text;
   }
 
-  function createRichText() {
-    /*
-     $('#rte-box').show();
-     $('#richText').wysihtml5('deepExtend', {
-     toolbar_element: 'rte-toolbar',
-     stylesheets: ['../../dep/wysihtml5/css/wysiwyg-color.css'],
-     color: true,
-     parserRules: wysihtml5ParserRules,
-     events: {
-     blur: onBlur,
-     load: function() {
-     // if user clicks in non-editable area of text editor then next blur event is not considered as relevant
-     $('iframe.wysihtml5-sandbox').contents().find('html').on('mousedown', startBlurValid);
-     // each input event restarts the blur warning interval
-     $('iframe.wysihtml5-sandbox').contents().find('body').on('input', startBlurWarnInterval);
-     callback($('#richText'));
-     }
-     }
-     });
-     */
-  }
-
-  function setRichText(text, type) {
-    if (type === 'text') {
-      text = '<pre>' + text + '</pre>';
-    }
-    editor.data("wysihtml5").editor.setValue(text, true);
-  }
-
   function setPlainText(text) {
     editor.focus()
       .val(text)
@@ -707,11 +676,11 @@ EditorCtrl.prototype.cancel = function() {
       .prop('selectionEnd', 0);
   }
 
-  function setText(text, type) {
+  function setText(text) {
     if (editor_type == mvelo.PLAIN_TEXT) {
       setPlainText(text);
     } else {
-      setRichText(text, type);
+      // no rich text option
     }
   }
 

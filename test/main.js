@@ -8,7 +8,6 @@ require.config({
   baseUrl: '..',
   paths: {
     mvelo: 'common/ui/mvelo',
-    parser_rules: 'common/dep/wysihtml5/js/advanced_parser_rules',
     dompurify: 'bower_components/dompurify/src/purify',
     jquery: 'bower_components/jquery/dist/jquery',
     openpgp: 'dep/chrome/openpgpjs/dist/openpgp',
@@ -26,9 +25,6 @@ require.config({
   shim: {
     'mvelo': {
       exports: 'mvelo'
-    },
-    'parser_rules': {
-      exports: 'wysihtml5ParserRules'
     }
   }
 });
