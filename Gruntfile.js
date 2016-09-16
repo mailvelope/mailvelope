@@ -8,7 +8,7 @@ module.exports = function(grunt) {
 
     clean: ['build/**/*', 'dist/**/*'],
 
-    clean_all: ['build/', 'tmp/', 'dist/**/*'],
+    clean_all: ['build/', 'dist/**/*'],
 
     eslint: {
       options: {
@@ -16,20 +16,20 @@ module.exports = function(grunt) {
       },
       target: [
         'Gruntfile.js',
-        'common/ui/**/*.js',
-        'common/lib/*.js',
-        'common/lib/controller/*.js',
-        'common/client-API/*.js',
-        'chrome/background.js',
-        'chrome/lib/*.js',
-        'firefox/**/*.js',
+        'src/common/ui/**/*.js',
+        'src/common/lib/*.js',
+        'src/common/lib/controller/*.js',
+        'src/common/client-API/*.js',
+        'src/chrome/background.js',
+        'src/chrome/lib/*.js',
+        'src/firefox/**/*.js',
         'test/**/*.js'
       ]
     },
 
     jsdoc: {
       dist: {
-        src: ['common/client-API/*.js', "doc/client-api/Readme.md"],
+        src: ['src/common/client-API/*.js', "doc/client-api/Readme.md"],
         options: {
           destination: 'build/doc',
           template: "node_modules/grunt-jsdoc/node_modules/ink-docstrap/template",
@@ -46,22 +46,22 @@ module.exports = function(grunt) {
         },
         files: [{
           src: [
-            'common/ui/mvelo.js',
-            'common/ui/inline/main-cs.js',
-            'common/ui/inline/extractFrame.js',
-            'common/ui/inline/decryptFrame.js',
-            'common/ui/inline/verifyFrame.js',
-            'common/ui/inline/importFrame.js',
-            'common/ui/inline/encryptFrame.js',
-            'common/ui/inline/decryptContainer.js',
-            'common/ui/inline/editorContainer.js',
-            'common/ui/inline/optionsContainer.js',
-            'common/ui/inline/keyGenContainer.js',
-            'common/ui/inline/keyBackupContainer.js',
-            'common/ui/inline/restoreBackupContainer.js',
-            'common/ui/inline/syncHandler.js',
-            'common/ui/inline/domAPI.js',
-            'common/ui/inline/providerSpecific.js'
+            'src/common/ui/mvelo.js',
+            'src/common/ui/inline/main-cs.js',
+            'src/common/ui/inline/extractFrame.js',
+            'src/common/ui/inline/decryptFrame.js',
+            'src/common/ui/inline/verifyFrame.js',
+            'src/common/ui/inline/importFrame.js',
+            'src/common/ui/inline/encryptFrame.js',
+            'src/common/ui/inline/decryptContainer.js',
+            'src/common/ui/inline/editorContainer.js',
+            'src/common/ui/inline/optionsContainer.js',
+            'src/common/ui/inline/keyGenContainer.js',
+            'src/common/ui/inline/keyBackupContainer.js',
+            'src/common/ui/inline/restoreBackupContainer.js',
+            'src/common/ui/inline/syncHandler.js',
+            'src/common/ui/inline/domAPI.js',
+            'src/common/ui/inline/providerSpecific.js'
           ],
           dest: 'build/common/ui/inline/cs-mailvelope.js'
         }]
@@ -145,10 +145,11 @@ module.exports = function(grunt) {
       },
       common: {
         files: [{
+          expand: true,
+          cwd: 'src/',
           src: [
             'common/**/*',
             '!common/ui/inline/*.js',
-            'common/ui/mvelo.js',
             '!common/**/components/*'
           ],
           dest: 'build/'
@@ -156,6 +157,8 @@ module.exports = function(grunt) {
       },
       plugins: {
         files: [{
+          expand: true,
+          cwd: 'src/',
           src: ['chrome/**/*', 'firefox/**/*'],
           dest: 'build/'
         }]
@@ -163,39 +166,39 @@ module.exports = function(grunt) {
       common_browser: {
         files: [{
           expand: true,
-          src: ['common/**/*', '!common/lib/**/*'],
           cwd: 'build/',
+          src: ['common/**/*', '!common/lib/**/*'],
           dest: 'build/chrome/'
         },
         {
           expand: true,
-          src: '**/*',
           cwd: 'build/common/lib/',
+          src: '**/*',
           dest: 'build/chrome/lib/common/'
         },
         {
           expand: true,
-          src: ['common/**/*', '!common/lib/**/*'],
           cwd: 'build/',
+          src: ['common/**/*', '!common/lib/**/*'],
           dest: 'build/firefox/data/'
         },
         {
           expand: true,
-          src: '**/*',
           cwd: 'build/common/lib/',
+          src: '**/*',
           dest: 'build/firefox/lib/common/'
         },
         {
           expand: true,
-          src: '**/*',
           cwd: 'locales',
+          src: '**/*',
           dest: 'build/chrome/_locales'
         }]
       },
       locale_firefox: {
         expand: true,
-        src: '**/*.json',
         cwd: 'locales',
+        src: '**/*.json',
         dest: 'build/firefox/locale/',
         rename: function(dest, src) {
           return dest + src.match(/^[\w-]{2,5}/)[0].replace('_', '-') + '.properties';
@@ -309,6 +312,7 @@ module.exports = function(grunt) {
       dist: {
         files: [{
           expand: true,
+          cwd: 'src/',
           src: 'common/**/components/*.js',
           dest: 'build/'
         }]
@@ -317,7 +321,7 @@ module.exports = function(grunt) {
 
     watch: {
       scripts: {
-        files: ['Gruntfile.js', '{common,dep,chrome,firefox}/**/*.js'],
+        files: ['Gruntfile.js', 'src/{common,chrome,firefox}/**/*.js'],
         tasks: ['default'],
         options: {
           spawn: false
@@ -334,8 +338,8 @@ module.exports = function(grunt) {
         },
         files: [{
           expand: true,
-          src: ['chrome/**/*', 'chrome/!**/.*'],
-          cwd: 'build/'
+          cwd: 'build/',
+          src: ['chrome/**/*', 'chrome/!**/.*']
         }]
       },
       doc: {
@@ -346,8 +350,8 @@ module.exports = function(grunt) {
         },
         files: [{
           expand: true,
-          src: ['**/*'],
-          cwd: 'build/doc/'
+          cwd: 'build/doc/',
+          src: ['**/*']
         }]
       }
     },
@@ -396,7 +400,7 @@ module.exports = function(grunt) {
         commitFiles: ['-a'],
         createTag: false,
         push: false,
-        files: ['package.json', 'bower.json', 'chrome/manifest.json', 'firefox/package.json', 'common/res/defaults.json']
+        files: ['package.json', 'bower.json', 'src/chrome/manifest.json', 'src/firefox/package.json', 'src/common/res/defaults.json']
       }
     },
 
