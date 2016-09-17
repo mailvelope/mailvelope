@@ -103,6 +103,7 @@
    * @param {Keyring} keyring - the keyring to use for this operation
    * @param {DisplayContainerOptions} options
    * @returns {Promise.<undefined, Error>}
+   * @throws {Error} error.code = 'DECRYPT_ERROR' - generic decrypt error
    */
   Mailvelope.prototype.createDisplayContainer = function(selector, armored, keyring, options) {
     try {

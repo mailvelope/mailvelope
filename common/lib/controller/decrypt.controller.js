@@ -129,6 +129,11 @@ define(function(require, exports, module) {
         }
         return that.parseMessage(content.text, handlers, 'html');
       })
+      .then(function() {
+        if (that.ports.decryptCont) {
+          that.ports.decryptCont.postMessage({event: 'decrypt-done'});
+        }
+      })
       .catch(function(error) {
         if (error.code === 'PWD_DIALOG_CANCEL') {
           if (that.ports.dFrame) {
@@ -138,10 +143,12 @@ define(function(require, exports, module) {
         if (that.ports.dDialog) {
           that.ports.dDialog.postMessage({event: 'error-message', error: error.message});
         }
-      })
-      .then(function() {
         if (that.ports.decryptCont) {
-          that.ports.decryptCont.postMessage({event: 'decrypt-done'});
+          return that.ports.decryptCont.postMessage({event: 'error-message', error: {
+            //don't expose internal errors to API
+            code: 'DECRYPT_ERROR',
+            message: 'generic decrypt error'
+          }});
         }
       });
   };
