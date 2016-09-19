@@ -27,9 +27,9 @@ var ToggleButton = require("sdk/ui/button/toggle").ToggleButton;
 var Panel = require('sdk/panel').Panel;
 
 var mvelo = require('./lib-mvelo.js').mvelo;
-var model = require('./common/pgpModel');
-var controller = require('./common/controller/main.controller');
-var subController = require('./common/controller/sub.controller');
+var model = require('./modules/pgpModel');
+var controller = require('./controller/main.controller');
+var subController = require('./controller/sub.controller');
 var prompts = require('./prompt');
 
 var pageMods = {};
@@ -81,7 +81,7 @@ function initAddonButton() {
   mailvelopePanel = new Panel({
     width: 202,
     height: 310,
-    contentURL: data.url('common/ui/popup.html'),
+    contentURL: data.url('components/browser-action/popup.html'),
     onMessage: onPanelMessage,
     onHide: function() {
       if (mvelo.browserAction.toggleButton) {
@@ -96,8 +96,8 @@ function initAddonButton() {
     id: 'mailvelope-options',
     label: 'Mailvelope',
     icon: {
-      '16': data.url('common/img/cryptography-icon16.png'),
-      '48': data.url('common/img/cryptography-icon48.png')
+      '16': data.url('img/cryptography-icon16.png'),
+      '48': data.url('img/cryptography-icon48.png')
     },
     onChange: function(state) {
       if (state.checked) {
@@ -136,11 +136,11 @@ function injectMainCS() {
     include: filterURL,
     onAttach: onCsAttach,
     contentScriptFile: [
-      data.url('common/dep/jquery.min.js'),
-      data.url('ui/messageAdapter.js'),
-      data.url('common/ui/inline/cs-mailvelope.js')
+      data.url('dep/jquery.min.js'),
+      data.url('lib/messageAdapter.js'),
+      data.url('content-scripts/cs-mailvelope.js')
     ],
-    contentStyle: getDynamicStyle('common/ui/inline/framestyles.css'),
+    contentStyle: getDynamicStyle('content-scripts/framestyles.css'),
     contentScriptOptions: {
       expose_messaging: false,
       data_path: data.url()
@@ -218,32 +218,32 @@ function onCsAttach(worker) {
         });
     }
   });
-  if (/^resource.*options\.html/.test(worker.url)) {
+  if (/^resource.*app\.html/.test(worker.url)) {
     mvelo.tabs.worker[worker.tab.index] = worker;
   }
 }
 
 function getDynamicStyle(path) {
   var css = data.load(path);
-  var token = /\.\.\/\.\./g;
-  css = css.replace(token, data.url('common'));
+  var token = /\.\.\//g;
+  css = css.replace(token, data.url(''));
   return css;
 }
 
 function injectMessageAdapter() {
   pageMods.messageAdapterPageMod = pageMod.PageMod({
     include: [
-      data.url('common/ui/modal/decryptPopup.html*'),
-      data.url('common/ui/modal/verifyPopup.html*'),
-      data.url('common/ui/editor/editor.html*'),
-      data.url('common/ui/modal/pwdDialog.html*'),
-      data.url('common/ui/modal/importKeyDialog.html*'),
-      data.url('common/ui/options.html*'),
-      data.url('common/ui/modal/recoverySheet/recoverySheet.1und1.html*'),
-      data.url('common/ui/modal/recoverySheet/recoverySheet.html*')
+      data.url('components/decrypt-popup/decryptPopup.html*'),
+      data.url('components/verify-popup/verifyPopup.html*'),
+      data.url('components/editor/editor.html*'),
+      data.url('components/enter-password/pwdDialog.html*'),
+      data.url('components/import-key/importKeyDialog.html*'),
+      data.url('app/app.html*'),
+      data.url('components/recovery-sheet/recoverySheet.1und1.html*'),
+      data.url('components/recovery-sheet/recoverySheet.html*')
     ],
     onAttach: onCsAttach,
-    contentScriptFile: data.url('ui/messageAdapter.js'),
+    contentScriptFile: data.url('lib/messageAdapter.js'),
     contentScriptWhen: 'start',
     contentScriptOptions: {
       expose_messaging: true,
@@ -257,17 +257,17 @@ function injectDecryptInline() {
     include: 'about:blank?mvelo=decryptInline*',
     onAttach: onCsAttach,
     contentScriptFile: [
-      data.url('common/dep/jquery.min.js'),
-      data.url('common/dep/jquery.ext.js'),
-      data.url('common/dep/bootstrap/js/bootstrap.js'),
-      data.url('ui/messageAdapter.js'),
-      data.url('common/ui/mvelo.js'),
-      data.url('common/ui/inline/dialogs/decryptInline.js')
+      data.url('dep/jquery.min.js'),
+      data.url('lib/jquery.ext.js'),
+      data.url('dep/bootstrap/js/bootstrap.js'),
+      data.url('lib/messageAdapter.js'),
+      data.url('mvelo.js'),
+      data.url('components/decrypt-inline/decryptInline.js')
     ],
     contentStyleFile: [
-      data.url("common/dep/bootstrap/css/bootstrap.css"),
-      data.url("common/ui/mvelo.css"),
-      data.url("common/ui/inline/dialogs/decryptInline.css")
+      data.url("dep/bootstrap/css/bootstrap.css"),
+      data.url("mvelo.css"),
+      data.url("components/decrypt-inline/decryptInline.css")
     ],
     contentScriptWhen: 'ready',
     attachTo: ['existing', 'frame'],
@@ -283,16 +283,16 @@ function injectVerifyInline() {
     include: 'about:blank?mvelo=verifyInline*',
     onAttach: onCsAttach,
     contentScriptFile: [
-      data.url('common/dep/jquery.min.js'),
-      data.url('common/dep/jquery.ext.js'),
-      data.url('ui/messageAdapter.js'),
-      data.url('common/ui/mvelo.js'),
-      data.url('common/ui/inline/dialogs/verifyInline.js')
+      data.url('dep/jquery.min.js'),
+      data.url('lib/jquery.ext.js'),
+      data.url('lib/messageAdapter.js'),
+      data.url('mvelo.js'),
+      data.url('components/verify-inline/verifyInline.js')
     ],
     contentStyleFile: [
-      data.url("common/dep/bootstrap/css/bootstrap.css"),
-      data.url("common/ui/mvelo.css"),
-      data.url("common/ui/inline/dialogs/verifyInline.css")
+      data.url("dep/bootstrap/css/bootstrap.css"),
+      data.url("mvelo.css"),
+      data.url("components/verify-inline/verifyInline.css")
     ],
     contentScriptWhen: 'ready',
     attachTo: ['existing', 'frame'],
@@ -308,17 +308,17 @@ function injectSignDialog() {
     include: 'about:blank?mvelo=signDialog*',
     onAttach: onCsAttach,
     contentScriptFile: [
-      data.url('common/dep/jquery.min.js'),
-      data.url('common/dep/jquery.ext.js'),
-      data.url('common/dep/bootstrap/js/bootstrap.js'),
-      data.url('ui/messageAdapter.js'),
-      data.url('common/ui/mvelo.js'),
-      data.url('common/ui/inline/dialogs/signDialog.js')
+      data.url('dep/jquery.min.js'),
+      data.url('lib/jquery.ext.js'),
+      data.url('dep/bootstrap/js/bootstrap.js'),
+      data.url('lib/messageAdapter.js'),
+      data.url('mvelo.js'),
+      data.url('components/sign-message/signDialog.js')
     ],
     contentStyleFile: [
-      data.url("common/dep/bootstrap/css/bootstrap.css"),
-      data.url("common/ui/mvelo.css"),
-      data.url("common/ui/inline/dialogs/signDialog.css")
+      data.url("dep/bootstrap/css/bootstrap.css"),
+      data.url("mvelo.css"),
+      data.url("components/sign-message/signDialog.css")
     ],
     contentScriptWhen: 'ready',
     attachTo: ['existing', 'frame'],
@@ -334,23 +334,23 @@ function injectEmbeddedEditor() {
     include: 'about:blank?mvelo=editor*',
     onAttach: onCsAttach,
     contentScriptFile: [
-      data.url('common/dep/jquery.min.js'),
-      data.url('common/dep/jquery.ext.js'),
-      data.url('common/dep/bootstrap/js/bootstrap.js'),
-      data.url('common/dep/angular/angular.min.js'),
-      data.url('common/dep/ng-tags-input/ng-tags-input.min.js'),
-      data.url('ui/messageAdapter.js'),
-      data.url('common/ui/mvelo.js'),
-      data.url('common/ui/editor/editor.js'),
-      data.url('common/ui/file.js')
+      data.url('dep/jquery.min.js'),
+      data.url('lib/jquery.ext.js'),
+      data.url('dep/bootstrap/js/bootstrap.js'),
+      data.url('dep/angular/angular.min.js'),
+      data.url('dep/ng-tags-input/ng-tags-input.min.js'),
+      data.url('lib/messageAdapter.js'),
+      data.url('mvelo.js'),
+      data.url('components/editor/editor.js'),
+      data.url('lib/file.js')
     ],
     contentStyleFile: [
-      data.url("common/dep/bootstrap/css/bootstrap.css"),
-      data.url("common/dep/ng-tags-input/ng-tags-input.min.css"),
-      data.url("common/dep/ng-tags-input/ng-tags-input.bootstrap.min.css"),
-      data.url("common/dep/angular/angular-csp.css"),
-      data.url("common/ui/mvelo.css"),
-      data.url("common/ui/editor/editor.css")
+      data.url("dep/bootstrap/css/bootstrap.css"),
+      data.url("dep/ng-tags-input/ng-tags-input.min.css"),
+      data.url("dep/ng-tags-input/ng-tags-input.bootstrap.min.css"),
+      data.url("dep/angular/angular-csp.css"),
+      data.url("mvelo.css"),
+      data.url("components/editor/editor.css")
     ],
     contentScriptWhen: 'ready',
     attachTo: ['existing', 'frame'],
@@ -366,27 +366,27 @@ function injectEmbeddedOptions() {
     include: 'about:blank?mvelo=options*',
     onAttach: onCsAttach,
     contentScriptFile: [
-      data.url('common/dep/jquery.min.js'),
-      data.url('common/dep/jquery.ext.js'),
-      data.url('ui/messageAdapter.js'),
-      data.url('common/dep/bootstrap/js/bootstrap.js'),
-      data.url('common/dep/bootstrap-sortable/bootstrap-sortable.js'),
-      data.url('common/ui/mvelo.js'),
-      data.url('common/ui/options.js'),
-      data.url('common/ui/settings/watchList.js'),
-      data.url('common/ui/settings/security.js'),
-      data.url('common/ui/settings/general.js'),
-      data.url('common/ui/keyring/keyRing.js'),
-      data.url('common/ui/keyring/importKey.js'),
-      data.url('common/ui/keyring/generateKey.js'),
-      data.url('common/ui/fileEncrypt/encryptFile.js')
+      data.url('dep/jquery.min.js'),
+      data.url('lib/jquery.ext.js'),
+      data.url('lib/messageAdapter.js'),
+      data.url('dep/bootstrap/js/bootstrap.js'),
+      data.url('dep/bootstrap-sortable/bootstrap-sortable.js'),
+      data.url('mvelo.js'),
+      data.url('app/app.js'),
+      data.url('app/settings/watchList.js'),
+      data.url('app/settings/security.js'),
+      data.url('app/settings/general.js'),
+      data.url('app/keyring/keyRing.js'),
+      data.url('app/keyring/importKey.js'),
+      data.url('app/keyring/generateKey.js'),
+      data.url('app/fileEncrypt/encryptFile.js')
     ],
     contentStyleFile: [
-      data.url("common/dep/bootstrap/css/bootstrap.css"),
-      data.url("common/dep//bootstrap-sortable/bootstrap-sortable.css"),
-      data.url("common/ui/mvelo.css"),
-      data.url("common/ui/options.css"),
-      data.url("common/ui/fileEncrypt/encrypt.css")
+      data.url("dep/bootstrap/css/bootstrap.css"),
+      data.url("dep//bootstrap-sortable/bootstrap-sortable.css"),
+      data.url("mvelo.css"),
+      data.url("app/app.css"),
+      data.url("app/fileEncrypt/encrypt.css")
     ],
     contentScriptWhen: 'ready',
     attachTo: ['existing', 'frame'],
@@ -402,17 +402,17 @@ function injectEmbeddedKeyGen() {
     include: 'about:blank?mvelo=keyGenDialog*',
     onAttach: onCsAttach,
     contentScriptFile: [
-      data.url('common/dep/jquery.min.js'),
-      data.url('common/dep/jquery.ext.js'),
-      data.url('ui/messageAdapter.js'),
-      data.url('common/dep/bootstrap/js/bootstrap.js'),
-      data.url('common/ui/mvelo.js'),
-      data.url('common/ui/inline/dialogs/keyGenDialog.js')
+      data.url('dep/jquery.min.js'),
+      data.url('lib/jquery.ext.js'),
+      data.url('lib/messageAdapter.js'),
+      data.url('dep/bootstrap/js/bootstrap.js'),
+      data.url('mvelo.js'),
+      data.url('components/generate-key/keyGenDialog.js')
     ],
     contentStyleFile: [
-      data.url("common/dep/bootstrap/css/bootstrap.css"),
-      data.url("common/ui/mvelo.css"),
-      data.url("common/ui/inline/dialogs/keyGenDialog.css")
+      data.url("dep/bootstrap/css/bootstrap.css"),
+      data.url("mvelo.css"),
+      data.url("components/generate-key/keyGenDialog.css")
     ],
     contentScriptWhen: 'ready',
     attachTo: ['existing', 'frame'],
@@ -428,17 +428,17 @@ function injectEmbeddedKeyBackup() {
     include: 'about:blank?mvelo=keybackup*',
     onAttach: onCsAttach,
     contentScriptFile: [
-      data.url('common/dep/jquery.min.js'),
-      data.url('common/dep/jquery.ext.js'),
-      data.url('ui/messageAdapter.js'),
-      data.url('common/dep/bootstrap/js/bootstrap.js'),
-      data.url('common/ui/mvelo.js'),
-      data.url('common/ui/inline/dialogs/keyBackupDialog.js')
+      data.url('dep/jquery.min.js'),
+      data.url('lib/jquery.ext.js'),
+      data.url('lib/messageAdapter.js'),
+      data.url('dep/bootstrap/js/bootstrap.js'),
+      data.url('mvelo.js'),
+      data.url('components/key-backup/keyBackupDialog.js')
     ],
     contentStyleFile: [
-      data.url("common/dep/bootstrap/css/bootstrap.css"),
-      data.url("common/ui/mvelo.css"),
-      data.url("common/ui/inline/dialogs/keyBackupDialog.css")
+      data.url("dep/bootstrap/css/bootstrap.css"),
+      data.url("mvelo.css"),
+      data.url("components/key-backup/keyBackupDialog.css")
     ],
     contentScriptWhen: 'ready',
     attachTo: ['existing', 'frame'],
@@ -454,17 +454,17 @@ function injectEmbeddedRestoreBackup() {
     include: 'about:blank?mvelo=restoreBackup*',
     onAttach: onCsAttach,
     contentScriptFile: [
-      data.url('common/dep/jquery.min.js'),
-      data.url('common/dep/jquery.ext.js'),
-      data.url('ui/messageAdapter.js'),
-      data.url('common/dep/bootstrap/js/bootstrap.js'),
-      data.url('common/ui/mvelo.js'),
-      data.url('common/ui/inline/dialogs/restoreBackupDialog.js')
+      data.url('dep/jquery.min.js'),
+      data.url('lib/jquery.ext.js'),
+      data.url('lib/messageAdapter.js'),
+      data.url('dep/bootstrap/js/bootstrap.js'),
+      data.url('mvelo.js'),
+      data.url('components/restore-backup/restoreBackupDialog.js')
     ],
     contentStyleFile: [
-      data.url("common/dep/bootstrap/css/bootstrap.css"),
-      data.url("common/ui/mvelo.css"),
-      data.url("common/ui/inline/dialogs/restoreBackupDialog.css")
+      data.url("dep/bootstrap/css/bootstrap.css"),
+      data.url("mvelo.css"),
+      data.url("components/restore-backup/restoreBackupDialog.css")
     ],
     contentScriptWhen: 'ready',
     attachTo: ['existing', 'frame'],

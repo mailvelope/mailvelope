@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+   - Mailvelope - secure email with OpenPGP encryption for Webmail
+   - Copyright (C) 2015 Mailvelope GmbH
+   -
+   - This program is free software: you can redistribute it and/or modify
+   - it under the terms of the GNU Affero General Public License version 3
+   - as published by the Free Software Foundation.
+   -
+   - This program is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU Affero General Public License for more details.
+   -
+   - You should have received a copy of the GNU Affero General Public License
+   - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../../dep/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup">
+    <div class="popupHeader btn-toolbar" role="toolbar">
+        <a href="https://mailvelope.com" rel="noreferrer" target="_blank" class="btn popupLogo btn-link btn-xs"></a><br>
+        <a data-placement="bottom" data-toggle="tooltip" href="https://mailvelope.com/help" target="_blank" rel="noreferrer" class="btn btn-link btn-sm pull-right" data-l10n-title-id="popup_help_tooltip">
+          <span class="glyphicon glyphicon-question-sign"></span><span data-l10n-id="popup_help"></span>
+        </a>
+        <button data-placement="bottom" data-toggle="tooltip" id="state" type="button" class="btn btn-link btn-sm" style="padding-left: 0px;" data-l10n-title-id="popup_actived_checkbox_tooltip">
+          <span class="glyphicon glyphicon-check"></span><span data-l10n-id="popup_actived_checkbox"></span>
+        </button>
+    </div>
+    <div class="popupBody" style="padding: 0px;">
+      <h6 class="separationLine" data-l10n-id="popup_actions_current_page"></h6>
+      <div class="btn-toolbar" style="padding: 5px; white-space: nowrap">
+        <button data-placement="bottom" data-toggle="tooltip" id="add" type="button" class="btn btn-default btn-sm" data-l10n-title-id="popup_add_page_tooltip">
+          <span class="glyphicon glyphicon-plus"></span><span data-l10n-id="popup_add_page"></span>
+        </button>
+        <button data-placement="bottom" data-toggle="tooltip" id="reload" type="button" class="btn btn-default btn-sm" data-l10n-title-id="popup_reload_tooltip">
+          <span class="glyphicon glyphicon-refresh"></span><span data-l10n-id="popup_reload"></span>
+        </button>
+      </div>
+      <h6 class="separationLine" data-l10n-id="popup_last_activities"></h6>
+      <div style="padding: 5px;" id="activityLog">
+        <div><small id="emptySecurityLog" data-l10n-id="security_log_empty"></small></div>
+        <div><div class="logEntry"><span class="glyphicon glyphicon-time"></span>&nbsp;<span class="timestamp"></span> <span class="logDescription"></span></div></div>
+      </div>
+      <button id="showlog" type="button" class="btn btn-link btn-sm" style="padding-left: 5px;">
+        <span class="glyphicon glyphicon-list"></span><span>More</span>
+      </button>
+    </div>
+    <div class="popupFooter btn-toolbar text-center">
+      <button id="options" type="button" class="btn btn-primary btn-sm" style="width: 96%">
+        <span class="glyphicon glyphicon-wrench"></span><span data-l10n-id="popup_options"></span>
+      </button>
+    </div>
+  </div>
+  <script src="../../dep/jquery.min.js"></script>
+  <script src="../../dep/bootstrap/js/bootstrap.js"></script>
+  <script src="../../mvelo.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

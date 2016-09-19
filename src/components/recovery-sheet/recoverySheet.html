@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link rel="stylesheet" href="../../dep/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="../../mvelo.css">
+  <link rel="stylesheet" href="recoverySheet.css">
+
+  <script src="../../dep/jquery.min.js"></script>
+  <script src="../../lib/jquery.ext.js"></script>
+  <script src="../../dep/qrcodejs/qrcode.js"></script>
+  <script src="../../mvelo.js"></script>
+  <script src="recoverySheet.js"></script>
+</head>
+<body>
+<div class="recovery-sheet">
+  <header class="recovery-sheet_teaser">
+    <img src="assets/lock.png"/>
+
+    <h1 class="recovery-sheet_panel-headline">Important Information!</h1>
+    <img src="assets/lock.png"/>
+  </header>
+
+  <section class="recovery-sheet_content container">
+    <div class="row">
+      <div class="col-xs-2">
+        <img src="../../img/mail_locked_96.png" class="logo"/>
+      </div>
+      <div class="col-xs-10">
+        <h2>Recovery voucher for encrypted communication</h2>
+        <h3 class="hidden-print">Please print this document and keep it safe!</h3>
+        <h3 class="visible-print-block">Please keep this receipt in a safe!</h3>
+      </div>
+    </div>
+
+    <section class="recovery-sheet_print hidden-print">
+      <img src="assets/printer.png"/>
+      <button class="recovery-sheet_print-button">Print</button>
+      <img src="assets/printer.png"/>
+    </section>
+
+    <section class="recovery-sheet_panel">
+      <div class="recovery-sheet_panel-content">
+        <div class="recovery-sheet_code">
+          <div class="recovery-sheet_code-header">
+            <h3>Recovery code</h3>
+
+            <h3>Date: <span id="currentDate"></span></h3>
+          </div>
+          <div class="recovery-sheet_code-container">
+            <span class="recovery-sheet_code-digit"></span>
+            <span class="recovery-sheet_code-separator">-</span>
+            <span class="recovery-sheet_code-digit"></span>
+            <span class="recovery-sheet_code-separator">-</span>
+            <span class="recovery-sheet_code-digit"></span>
+            <span class="recovery-sheet_code-separator">-</span>
+            <span class="recovery-sheet_code-digit"></span>
+            <span class="recovery-sheet_code-separator">-</span>
+            <span class="recovery-sheet_code-digit"></span>
+            <span class="recovery-sheet_code-separator">-</span>
+            <span class="recovery-sheet_code-digit"></span>
+          </div>
+        </div>
+
+        <div class="recovery-sheet_plain-content">
+          <h3>Restore Encrypted communication</h3>
+
+          <p>If your encrypted communication does not work anymore, eg.</p>
+
+          <ul>
+            <li>because you have forgotten your key-password</li>
+            <li>because there are problems with the browser extension</li>
+            <li>for other reasons</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="recovery-sheet_panel">
+      <div class="recovery-sheet_panel-content">
+        <h3>Encrypted communication to other devices</h3>
+
+        <div class="recovery-sheet_devices">
+          <div class="recovery-sheet_devices-item recovery-sheet_devices-desktop">
+            <div class="recovery-sheet_devices-split-content">
+              <h4>On another computer</h4>
+              <img src="assets/web.de/desktop.png"/>
+            </div>
+          </div>
+          <div class="recovery-sheet_devices-item recovery-sheet_devices-mobile">
+            <div class="recovery-sheet_devices-split-content">
+              <h4>On mobile devices</h4>
+              <img src="assets/web.de/smartphone.png"/>
+              <img src="assets/web.de/tablet.png"/>
+            </div>
+            <div class="recovery-sheet_devices-split-content">
+              <p>Scan the QR code with your mobile device.</p>
+              <div id="qrcode"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="recovery-sheet_print hidden-print">
+      <img src="assets/printer.png"/>
+      <button class="recovery-sheet_print-button">Print</button>
+      <img src="assets/printer.png"/>
+    </section>
+  </section>
+
+  <footer class="recovery-sheet_teaser visible-print-block">
+    <img src="assets/lock.png"/>
+    <h1 class="recovery-sheet_panel-headline">Important Information!</h1>
+    <img src="assets/lock.png"/>
+  </footer>
+</div>
+</body>
+</html>

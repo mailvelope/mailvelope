@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+   - Mailvelope - secure email with OpenPGP encryption for Webmail
+   - Copyright (C) 2015 Mailvelope GmbH
+  -->
+  <title data-l10n-id="keyring_import_keys"></title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../../dep/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="../../mvelo.css">
+  <link rel="stylesheet" href="importKeyDialog.css">
+  <script src="../../dep/jquery.min.js"></script>
+  <script src="../../lib/jquery.ext.js"></script>
+  <script src="../../dep/bootstrap/js/bootstrap.js"></script>
+  <script src="../../mvelo.js"></script>
+  <script src="importKeyDialog.js"></script>
+</head>
+<body>
+<div class="modal m-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="key_import_headline"></h4>
+      </div>
+      <div class="modal-body secureBackground">
+        <div data-l10n-title-id="security_background_button_title" id="lockIcon" class="glyphicon lockBtnIcon"></div>
+
+        <div class="panel panel-default tab-content">
+            <section role="tabpanel" class="tab-pane active" id="defaultContent">
+              <header>
+                <h5>
+                  <i class="glyphicon lockBtnIcon glyphicon-small"></i>
+                  <span class="userId"></span>
+                  <a href="#extendContent" aria-controls="extendContent" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-info-sign"></i></a>
+                </h5>
+              </header>
+              <hr>
+              <p id="key_import_default_description" data-l10n-id="key_import_default_description"></p>
+              <div id="importAlert"></div>
+            </section>
+            <section role="tabpanel" class="tab-pane" id="extendContent">
+              <header>
+                <div class="tab-change">
+                  <a href="#defaultContent" aria-controls="defaultContent" role="tab" data-toggle="tab">zurück</a>
+                </div>
+                <h5>
+                  <i class="glyphicon lockBtnIcon glyphicon-small"></i>
+                  <span class="userId"></span>
+                </h5>
+              </header>
+              <hr>
+              <p data-l10n-id="key_import_extend_headline"></p>
+              <p><strong data-l10n-id="key_import_extend_fingerprint"></strong><br><span class="fingerprint"></span>
+              </p>
+              <p><strong data-l10n-id="key_import_extend_date"></strong> <span class="createDate"></span></p>
+              <hr>
+              <p><strong data-l10n-id="key_import_extend_hint"></strong> <span data-l10n-id="key_import_extend_description"></span></p>
+            </section>
+          </div>
+      </div>
+      <div class="modal-footer" id="defaultFooter">
+        <button id="cancelBtn" class="btn btn-default" data-l10n-id="form_cancel"></button>
+        <button id="okBtn" class="btn btn-primary" data-l10n-id="form_confirm"></button>
+      </div>
+      <div class="modal-footer" id="closeFooter">
+        <button id="closeBtn" class="btn btn-default" data-l10n-id="form_close"></button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="spinner"></div>
+</body>
+</html>

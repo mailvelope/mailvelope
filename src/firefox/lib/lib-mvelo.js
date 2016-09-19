@@ -27,9 +27,9 @@ var ss = require('sdk/simple-storage');
 var url = require('sdk/url');
 var l10nGet = require('sdk/l10n').get;
 
-var mvelo = require('../data/common/ui/mvelo').mvelo;
+var mvelo = require('../data/mvelo').mvelo;
 var CWorker = require('./web-worker').Worker;
-var request = require("sdk/request").Request;
+var request = require('sdk/request').Request;
 
 mvelo.ffa = true;
 mvelo.crx = false;
@@ -47,7 +47,7 @@ mvelo.data.load = function(path) {
 };
 
 mvelo.data.loadDefaults = function() {
-  var defaults = data.load('common/res/defaults.json');
+  var defaults = data.load('res/defaults.json');
   return JSON.parse(defaults);
 };
 
@@ -69,7 +69,7 @@ mvelo.tabs.attach = function(tab, options, callback) {
     lopt.contentScriptOptions = options.contentScriptOptions;
   }
   lopt.contentScriptFile = lopt.contentScriptFile || [];
-  lopt.contentScriptFile.push(data.url('ui/messageAdapter.js'));
+  lopt.contentScriptFile.push(data.url('lib/messageAdapter.js'));
   lopt.contentScriptOptions = lopt.contentScriptOptions || {};
   lopt.contentScriptOptions.expose_messaging = lopt.contentScriptOptions.expose_messaging || true;
   lopt.contentScriptOptions.data_path = data.url();
@@ -128,7 +128,7 @@ mvelo.tabs.sendMessage = function(tab, msg, callback) {
 
 mvelo.tabs.loadOptionsTab = function(hash, callback) {
   // check if options tab already exists
-  var url = data.url('common/ui/options.html');
+  var url = data.url('app/app.html');
   this.query(url, function(tabs) {
     if (tabs.length === 0) {
       // if not existent, create tab
@@ -226,7 +226,7 @@ mvelo.util = mvelo.util || {};
 
 var dompurifyWorker = require('sdk/page-worker').Page({
   contentScriptFile: [
-    data.url('common/dep/purify.js'),
+    data.url('dep/purify.js'),
     data.url('dep/purifyAdapter.js')
   ]
 });

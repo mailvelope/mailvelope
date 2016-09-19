@@ -52,7 +52,7 @@ define(function(require, exports) {
   };
 
   mvelo.data.loadDefaults = function() {
-    return require('../lib/json-loader!common/res/defaults.json');
+    return require('../lib/json-loader!res/defaults.json');
   };
 
   mvelo.tabs = {};
@@ -125,7 +125,7 @@ define(function(require, exports) {
 
   mvelo.tabs.loadOptionsTab = function(hash, callback) {
     // check if options tab already exists
-    var url = chrome.runtime.getURL('common/ui/options.html');
+    var url = chrome.runtime.getURL('app/app.html');
     this.query(url, function(tabs) {
       if (tabs.length === 0) {
         // if not existent, create tab

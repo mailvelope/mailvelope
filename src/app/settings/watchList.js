@@ -1,0 +1,273 @@
+/**
+ * Mailvelope - secure email with OpenPGP encryption for Webmail
+ * Copyright (C) 2012-2015 Mailvelope GmbH
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License version 3
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+'use strict';
+
+var mvelo = mvelo || null;
+var app = app || null;
+
+(function(app) {
+
+  var $watchListEditor;
+  var mailProviderTmpl;
+  var matchPatternTmpl;
+  var $matchPatternContainer;
+  var $tableBody;
+  var currentSiteID;
+  var newWebSite;
+
+  app.registerL10nMessages([
+    'watchlist_title_active',
+    'watchlist_title_site',
+    'watchlist_title_scan',
+    'watchlist_title_frame',
+    'watchlist_expose_api',
+    'watchlist_command_edit',
+    'watchlist_command_create',
+    'watchlist_command_save',
+    'watchlist_command_cancel',
+    'watchlist_delete_confirmation',
+    'alert_invalid_domainmatchpattern_warning',
+    'alert_no_domainmatchpattern_warning',
+    'keygrid_delete'
+  ]);
+
+  function init() {
+    $tableBody = $('#watchListTable tbody');
+    $watchListEditor = $('#watchListEditor');
+    if (mailProviderTmpl === undefined) {
+      mailProviderTmpl = $tableBody.html();
+    }
+
+    $matchPatternContainer = $('#watchListEditor tbody');
+    if (matchPatternTmpl === undefined) {
+      matchPatternTmpl = $matchPatternContainer.html();
+    }
+    $matchPatternContainer.children().remove();
+
+    reloadWatchList();
+
+    $('#okWatchListEditorBtn').on('click', saveWatchList);
+    $('#addMatchPatternBtn').on('click', addMatchPattern);
+    $('#addMailProviderBtn').on('click', showWatchListEditor);
+
+    $('#watchListEditor form').on('submit', function() { return false; });
+  }
+
+  function reloadWatchList() {
+    var tableRow;
+    $tableBody.children().remove();
+    app.pgpModel('getWatchList')
+      .then(function(data) {
+        data.forEach(function(site) {
+          tableRow = $.parseHTML(mailProviderTmpl);
+          $(tableRow).find('td:nth-child(2)').text(site.site);
+          if (!site.active) {
+            $(tableRow).find('.glyphicon-check').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+          }
+          $(tableRow).attr('data-website', JSON.stringify(site));
+          $tableBody.append(tableRow);
+        });
+        mvelo.l10n.localizeHTML(null, '#watchListTable tbody');
+        $tableBody.find('.deleteWatchListBtn').on('click', deleteWatchListEntry);
+        $tableBody.find('tr').on('click', function() {
+          var data = $(this).attr('data-website');
+          showWatchListEditor(data);
+          return false;
+        });
+        $tableBody.find('tr').hover(function() {
+          $(this).find('.actions').css('visibility', 'visible');
+        }, function() {
+          $(this).find('.actions').css('visibility', 'hidden');
+        });
+
+        if (newWebSite !== undefined) {
+          var $selectedRow = $('td:contains("' + newWebSite + '")').parent();
+          $selectedRow.addClass('addedSiteFade');
+          $selectedRow.trigger('hover');
+          window.scrollTo(0, document.body.scrollHeight);
+          newWebSite = undefined;
+        }
+
+      });
+  }
+
+  function addMatchPattern() {
+    var tableRow = $.parseHTML(matchPatternTmpl);
+    $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').attr('checked', true);
+    $(tableRow).find('.apiSwitch .onoffswitch-checkbox').attr('checked', false);
+    var id = (new Date()).getTime();
+    $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').attr('id', 'matchPattern' + id);
+    $(tableRow).find('.matchPatternSwitch .onoffswitch-label').attr('for', 'matchPattern' + id);
+    id = (new Date()).getTime();
+    $(tableRow).find('.apiSwitch .onoffswitch-checkbox').attr('id', 'api' + id);
+    $(tableRow).find('.apiSwitch .onoffswitch-label').attr('for', 'api' + id);
+    $(tableRow).find('.matchPatternName').val('');
+    $(tableRow).find('.deleteMatchPatternBtn').on('click', deleteMatchPattern);
+    $matchPatternContainer.append(tableRow);
+  }
+
+  function deleteMatchPattern() {
+    $(this).parent().parent().remove();
+  }
+
+  function showWatchListEditor(data) {
+    currentSiteID = 'newSite';
+    $matchPatternContainer.children().remove();
+    var tableRow;
+    if (data !== undefined && data.type === 'click') {
+      $('#webSiteName').val('');
+      $('#switchWebSite').prop('checked', true);
+      tableRow = $.parseHTML(matchPatternTmpl);
+      addMatchPattern();
+    } else if (data !== undefined) {
+      data = JSON.parse(data);
+      currentSiteID = data.site;
+      $('#webSiteName').val(data.site);
+      $('#switchWebSite').prop('checked', data.active);
+      data.frames.forEach(function(frame, index) {
+        tableRow = $.parseHTML(matchPatternTmpl);
+        $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').prop('checked', frame.scan);
+        $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').prop('id', 'matchPattern' + index);
+        $(tableRow).find('.matchPatternSwitch .onoffswitch-label').prop('for', 'matchPattern' + index);
+        $(tableRow).find('.apiSwitch .onoffswitch-checkbox').prop('checked', frame.api);
+        $(tableRow).find('.apiSwitch .onoffswitch-checkbox').prop('id', 'api' + index);
+        $(tableRow).find('.apiSwitch .onoffswitch-label').prop('for', 'api' + index);
+        $(tableRow).find('.matchPatternName').val(frame.frame);
+        $(tableRow).find('.deleteMatchPatternBtn').on('click', deleteMatchPattern);
+        $matchPatternContainer.append(tableRow);
+      });
+    }
+    $watchListEditor.modal({backdrop: 'static'});
+    $watchListEditor.modal('show');
+  }
+
+  function deleteWatchListEntry() {
+    var entryForRemove;
+    var confirmResult = confirm(app.l10n.watchlist_delete_confirmation);
+    if (confirmResult) {
+      entryForRemove = $(this).parent().parent().parent();
+      entryForRemove.remove();
+      var data = [];
+      $tableBody.children().get().forEach(function(siteRow) {
+        var siteData = JSON.parse($(siteRow).attr('data-website'));
+        data.push(siteData);
+      });
+      saveWatchListData(data);
+    }
+    return false;
+  }
+
+  function saveWatchList() {
+    var site = {};
+    site.site = $('#webSiteName').val();
+    site.active = $('#switchWebSite').is(':checked');
+    site.frames = [];
+    var formNotValid;
+    $matchPatternContainer.children().get().forEach(function(child) {
+      var patternValue = $(child).find('.matchPatternName').val();
+      if (!/^\*(\.\w+(-\w+)*)+(\.\w{2,})?$/.test(patternValue)) {
+        formNotValid = true;
+      }
+      site.frames.push({
+        'frame': $(child).find('.matchPatternName').val(),
+        'scan': $(child).find('.matchPatternSwitch .onoffswitch-checkbox').is(':checked'),
+        'api': $(child).find('.apiSwitch .onoffswitch-checkbox').is(':checked')
+      });
+    });
+    if (formNotValid) {
+      alert(app.l10n.alert_invalid_domainmatchpattern_warning);
+      return false;
+    }
+    if (site.frames.length < 1) {
+      alert(app.l10n.alert_no_domainmatchpattern_warning);
+      return false;
+    }
+
+    if (currentSiteID === 'newSite') {
+      var tableRow = $.parseHTML(mailProviderTmpl);
+      $(tableRow).find('td:nth-child(2)').text(site.site);
+      if (site.active) {
+        $(tableRow).find('.glyphicon-check').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+      }
+      $(tableRow).attr('data-website', JSON.stringify(site));
+      $tableBody.append(tableRow);
+    } else {
+      $tableBody.children().get().forEach(function(siteRow) {
+        var sData = JSON.parse($(siteRow).attr('data-website'));
+        if (currentSiteID === sData.site) {
+          $(siteRow).find('td:nth-child(2)').text(site.site);
+          if (site.active) {
+            $(siteRow).find('.glyphicon-check').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+          }
+          $(siteRow).attr('data-website', JSON.stringify(site));
+        }
+      });
+    }
+
+    var data = [];
+    $tableBody.children().get().forEach(function(siteRow) {
+      var siteData = JSON.parse($(siteRow).attr('data-website'));
+      data.push(siteData);
+    });
+    saveWatchListData(data);
+    $watchListEditor.modal('hide');
+
+  }
+
+  function cleanWebSiteName(website) {
+    if (website.indexOf('www.') === 0) {
+      website = website.substr(4, website.length);
+    }
+    return website;
+  }
+
+  function addToWatchList(website) {
+    var siteExist = false;
+    var site = {};
+    website = cleanWebSiteName(website);
+    newWebSite = website;
+    site.site = website;
+    site.active = true;
+    site.frames = [];
+    site.frames.push({ frame: '*.' + website, scan: true });
+    app.pgpModel('getWatchList')
+      .then(function(data) {
+        data.forEach(function(siteEntry) {
+          if (siteEntry.site === website) {
+            siteExist = true;
+          }
+        });
+        if (!siteExist) {
+          data.push(site);
+        }
+        saveWatchListData(data);
+      });
+  }
+  app.addToWatchList = addToWatchList;
+
+  function saveWatchListData(data) {
+    mvelo.extension.sendMessage({
+      event: 'set-watch-list',
+      data: data
+    });
+    reloadWatchList();
+  }
+
+  app.event.on('ready', init);
+
+}(app));

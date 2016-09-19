@@ -8,28 +8,21 @@ module.exports = function(grunt) {
 
     clean: ['build/**/*', 'dist/**/*'],
 
-    clean_all: ['build/', 'dist/**/*'],
-
     eslint: {
       options: {
         maxWarnings: 10
       },
       target: [
         'Gruntfile.js',
-        'src/common/ui/**/*.js',
-        'src/common/lib/*.js',
-        'src/common/lib/controller/*.js',
-        'src/common/client-API/*.js',
-        'src/chrome/background.js',
-        'src/chrome/lib/*.js',
-        'src/firefox/**/*.js',
+        'src/**/*.js',
+        '!src/modules/closure-library/**/*.js',
         'test/**/*.js'
       ]
     },
 
     jsdoc: {
       dist: {
-        src: ['src/common/client-API/*.js', "doc/client-api/Readme.md"],
+        src: ['src/client-API/*.js', "doc/client-api/Readme.md"],
         options: {
           destination: 'build/doc',
           template: "node_modules/grunt-jsdoc/node_modules/ink-docstrap/template",
@@ -46,36 +39,37 @@ module.exports = function(grunt) {
         },
         files: [{
           src: [
-            'src/common/ui/mvelo.js',
-            'src/common/ui/inline/main-cs.js',
-            'src/common/ui/inline/extractFrame.js',
-            'src/common/ui/inline/decryptFrame.js',
-            'src/common/ui/inline/verifyFrame.js',
-            'src/common/ui/inline/importFrame.js',
-            'src/common/ui/inline/encryptFrame.js',
-            'src/common/ui/inline/decryptContainer.js',
-            'src/common/ui/inline/editorContainer.js',
-            'src/common/ui/inline/optionsContainer.js',
-            'src/common/ui/inline/keyGenContainer.js',
-            'src/common/ui/inline/keyBackupContainer.js',
-            'src/common/ui/inline/restoreBackupContainer.js',
-            'src/common/ui/inline/syncHandler.js',
-            'src/common/ui/inline/domAPI.js',
-            'src/common/ui/inline/providerSpecific.js'
+            'src/mvelo.js',
+            'src/content-scripts/main-cs.js',
+            'src/content-scripts/extractFrame.js',
+            'src/content-scripts/decryptFrame.js',
+            'src/content-scripts/verifyFrame.js',
+            'src/content-scripts/importFrame.js',
+            'src/content-scripts/encryptFrame.js',
+            'src/content-scripts/decryptContainer.js',
+            'src/content-scripts/editorContainer.js',
+            'src/content-scripts/optionsContainer.js',
+            'src/content-scripts/keyGenContainer.js',
+            'src/content-scripts/keyBackupContainer.js',
+            'src/content-scripts/restoreBackupContainer.js',
+            'src/content-scripts/syncHandler.js',
+            'src/content-scripts/domAPI.js',
+            'src/content-scripts/providerSpecific.js'
           ],
-          dest: 'build/common/ui/inline/cs-mailvelope.js'
+          dest: 'build/tmp/content-scripts/cs-mailvelope.js'
         }]
       }
     },
 
     copy: {
-      vendor: {
+
+      dep: {
         files: [
           {
             expand: true,
             flatten: true,
             src: 'bower_components/jquery/dist/jquery.min.js',
-            dest: 'build/common/dep/'
+            dest: 'build/tmp/dep/'
           },
           {
             expand: true,
@@ -85,77 +79,60 @@ module.exports = function(grunt) {
               'js/bootstrap.js',
               'fonts/*'
             ],
-            dest: 'build/common/dep/bootstrap/'
+            dest: 'build/tmp/dep/bootstrap/'
           },
           {
             expand: true,
             cwd: 'bower_components/bootstrap-sortable/Scripts/',
             src: 'bootstrap-sortable.js',
-            dest: 'build/common/dep/bootstrap-sortable/'
+            dest: 'build/tmp/dep/bootstrap-sortable/'
           },
           {
             expand: true,
             cwd: 'bower_components/bootstrap-sortable/Contents/',
             src: 'bootstrap-sortable.css',
-            dest: 'build/common/dep/bootstrap-sortable/'
+            dest: 'build/tmp/dep/bootstrap-sortable/'
           },
           {
             expand: true,
             cwd: 'bower_components/dompurify/src',
             src: 'purify.js',
-            dest: 'build/common/dep/'
-          },
-          {
-            expand: true,
-            cwd: 'bower_components/requirejs/',
-            src: 'require.js',
-            dest: 'build/chrome/'
+            dest: 'build/tmp/dep/'
           },
           {
             expand: true,
             cwd: 'bower_components/qrcodejs/',
             src: 'qrcode.js',
-            dest: 'build/common/dep/qrcodejs/'
+            dest: 'build/tmp/dep/qrcodejs/'
           },
           {
             expand: true,
             cwd: 'node_modules/angular/',
             src: ['angular.min.js', 'angular-csp.css'],
-            dest: 'build/common/dep/angular/'
+            dest: 'build/tmp/dep/angular/'
           },
           {
             expand: true,
             cwd: 'node_modules/ng-tags-input/build/',
             src: ['ng-tags-input.min.js', 'ng-tags-input.min.css', 'ng-tags-input.bootstrap.min.css'],
-            dest: 'build/common/dep/ng-tags-input/'
+            dest: 'build/tmp/dep/ng-tags-input/'
           },
           {
             expand: true,
             cwd: 'node_modules/react/dist/',
             src: 'react.min.js',
-            dest: 'build/common/dep/react/'
+            dest: 'build/tmp/dep/react/'
           },
           {
             expand: true,
             cwd: 'node_modules/react-dom/dist/',
             src: 'react-dom.min.js',
-            dest: 'build/common/dep/react/'
+            dest: 'build/tmp/dep/react/'
           }
         ]
       },
-      common: {
-        files: [{
-          expand: true,
-          cwd: 'src/',
-          src: [
-            'common/**/*',
-            '!common/ui/inline/*.js',
-            '!common/**/components/*'
-          ],
-          dest: 'build/'
-        }]
-      },
-      plugins: {
+
+      browser: {
         files: [{
           expand: true,
           cwd: 'src/',
@@ -163,59 +140,15 @@ module.exports = function(grunt) {
           dest: 'build/'
         }]
       },
-      common_browser: {
+
+      dep_chrome: {
         files: [{
           expand: true,
-          cwd: 'build/',
-          src: ['common/**/*', '!common/lib/**/*'],
+          cwd: 'bower_components/requirejs/',
+          src: 'require.js',
           dest: 'build/chrome/'
         },
         {
-          expand: true,
-          cwd: 'build/common/lib/',
-          src: '**/*',
-          dest: 'build/chrome/lib/common/'
-        },
-        {
-          expand: true,
-          cwd: 'build/',
-          src: ['common/**/*', '!common/lib/**/*'],
-          dest: 'build/firefox/data/'
-        },
-        {
-          expand: true,
-          cwd: 'build/common/lib/',
-          src: '**/*',
-          dest: 'build/firefox/lib/common/'
-        },
-        {
-          expand: true,
-          cwd: 'locales',
-          src: '**/*',
-          dest: 'build/chrome/_locales'
-        }]
-      },
-      locale_firefox: {
-        expand: true,
-        cwd: 'locales',
-        src: '**/*.json',
-        dest: 'build/firefox/locale/',
-        rename: function(dest, src) {
-          return dest + src.match(/^[\w-]{2,5}/)[0].replace('_', '-') + '.properties';
-        },
-        options: {
-          process: function(content) {
-            var locale = JSON.parse(content);
-            var result = '';
-            for (var key in locale) {
-              result += key + '= ' + locale[key].message.replace(/\$(\d)/g, '%$1s') + '\n';
-            }
-            return result;
-          }
-        }
-      },
-      dep: {
-        files: [{
           expand: true,
           flatten: true,
           src: ['dep/chrome/openpgpjs/dist/openpgp.js', 'dep/chrome/openpgpjs/dist/openpgp.worker.js'],
@@ -243,8 +176,11 @@ module.exports = function(grunt) {
           rename: function(dest) {
             return dest + 'emailjs-punycode.js';
           }
-        },
-        {
+        }]
+      },
+
+      dep_firefox: {
+        files: [{
           expand: true,
           flatten: true,
           src: ['dep/firefox/openpgpjs/dist/openpgp.min.js', 'dep/firefox/openpgpjs/dist/openpgp.worker.min.js'],
@@ -293,6 +229,103 @@ module.exports = function(grunt) {
           dest: 'build/firefox/node_modules/emailjs-punycode'
         }]
       },
+
+      src2tmp: {
+        files: [{
+          expand: true,
+          cwd: 'src/',
+          src: [
+            '**/*',
+            '!app/**/components/*',
+            '!content-scripts/*.js'
+          ],
+          dest: 'build/tmp'
+        }]
+      },
+
+      tmp2chrome: {
+        files: [{
+          expand: true,
+          cwd: 'build/tmp/',
+          src: [
+            'app/**/*',
+            'client-API/*',
+            'components/**/*',
+            'content-scripts/*',
+            'dep/**/*',
+            'img/*',
+            'lib/**/*',
+            'res/**/*',
+            'mvelo.*'
+          ],
+          dest: 'build/chrome'
+        },
+        {
+          expand: true,
+          cwd: 'build/tmp/',
+          src: [
+            'controller/*',
+            'modules/**/*'
+          ],
+          dest: 'build/chrome/lib'
+        }]
+      },
+
+      tmp2firefox: {
+        files: [{
+          expand: true,
+          cwd: 'build/tmp/',
+          src: [
+            'app/**/*',
+            'client-API/*',
+            'components/**/*',
+            'content-scripts/*',
+            'dep/**/*',
+            'img/*',
+            'lib/**/*',
+            'res/**/*',
+            'mvelo.*'
+          ],
+          dest: 'build/firefox/data'
+        },
+        {
+          expand: true,
+          cwd: 'build/tmp/',
+          src: [
+            'controller/*',
+            'modules/**/*'
+          ],
+          dest: 'build/firefox/lib'
+        }]
+      },
+
+      locale_chrome: {
+        expand: true,
+        cwd: 'locales',
+        src: '**/*',
+        dest: 'build/chrome/_locales'
+      },
+
+      locale_firefox: {
+        expand: true,
+        cwd: 'locales',
+        src: '**/*.json',
+        dest: 'build/firefox/locale/',
+        rename: function(dest, src) {
+          return dest + src.match(/^[\w-]{2,5}/)[0].replace('_', '-') + '.properties';
+        },
+        options: {
+          process: function(content) {
+            var locale = JSON.parse(content);
+            var result = '';
+            for (var key in locale) {
+              result += key + '= ' + locale[key].message.replace(/\$(\d)/g, '%$1s') + '\n';
+            }
+            return result;
+          }
+        }
+      },
+
       xpi: {
         expand: true,
         flatten: true,
@@ -313,15 +346,15 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'src/',
-          src: 'common/**/components/*.js',
-          dest: 'build/'
+          src: 'app/**/components/*.js',
+          dest: 'build/tmp'
         }]
       }
     },
 
     watch: {
       scripts: {
-        files: ['Gruntfile.js', 'src/{common,chrome,firefox}/**/*.js'],
+        files: ['Gruntfile.js', 'src/**/*.js'],
         tasks: ['default'],
         options: {
           spawn: false
@@ -358,8 +391,8 @@ module.exports = function(grunt) {
 
     replace: {
       bootstrap: {
-        src: ['bower_components/bootstrap/dist/css/bootstrap.css'],
-        dest: ['build/common/dep/bootstrap/css/bootstrap.css'],
+        src: ['build/tmp/dep/bootstrap/css/bootstrap.css'],
+        dest: ['build/tmp/dep/bootstrap/css/bootstrap.css'],
         replacements: [{
           from: /@font-face[\.\S\s]+\.glyphicon\ {/g,
           to: "@font-face {\n  font-family:'Glyphicons Halflings';src:url('<%= glyphIconDataURL %>') format('woff')\n}\n.glyphicon {"
@@ -370,8 +403,8 @@ module.exports = function(grunt) {
         }]
       },
       build_version: {
-        src: ['build/common/res/defaults.json'],
-        dest: ['build/common/res/defaults.json'],
+        src: ['build/tmp/res/defaults.json'],
+        dest: ['build/tmp/res/defaults.json'],
         replacements: [{
           from: /("version"\s:\s"[\d\.]+)/,
           to: '$1' + ' build: ' + (new Date()).toISOString().slice(0, 19)
@@ -400,7 +433,7 @@ module.exports = function(grunt) {
         commitFiles: ['-a'],
         createTag: false,
         push: false,
-        files: ['package.json', 'bower.json', 'src/chrome/manifest.json', 'src/firefox/package.json', 'src/common/res/defaults.json']
+        files: ['package.json', 'bower.json', 'src/chrome/manifest.json', 'src/firefox/package.json', 'src/res/defaults.json']
       }
     },
 
@@ -452,11 +485,11 @@ module.exports = function(grunt) {
   grunt.registerTask('dist-ff', ['jpm:xpi', 'copy:xpi']);
   grunt.registerTask('dist-doc', ['jsdoc', 'compress:doc']);
 
-  grunt.registerTask('copy_common', ['copy:vendor', 'copy:common', 'babel', 'replace:bootstrap', 'replace:openpgp_ff']);
-  grunt.registerTask('final_assembly', ['copy:plugins', 'copy:common_browser', 'copy:locale_firefox', 'copy:dep']);
+  grunt.registerTask('copy2tmp', ['copy:browser', 'copy:src2tmp', 'copy:dep', 'copy:dep_chrome', 'copy:dep_firefox', 'replace:bootstrap', 'replace:openpgp_ff', 'concat', 'babel']);
+  grunt.registerTask('final_assembly', ['copy:tmp2chrome', 'copy:tmp2firefox', 'copy:locale_firefox', 'copy:locale_chrome']);
 
-  grunt.registerTask('default', ['clean', 'eslint', 'concat', 'copy_common', 'final_assembly']);
-  grunt.registerTask('nightly', ['clean', 'eslint', 'concat', 'copy_common', 'replace:build_version', 'final_assembly']);
+  grunt.registerTask('default', ['clean', 'eslint', 'copy2tmp', 'final_assembly']);
+  grunt.registerTask('nightly', ['clean', 'eslint', 'copy2tmp', 'replace:build_version', 'final_assembly']);
 
   grunt.registerTask('test', ['connect:test', 'mocha_phantomjs']);
 

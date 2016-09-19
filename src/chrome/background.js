@@ -24,10 +24,10 @@ var mvelo = mvelo || null;
 requirejs.config({
   baseUrl: 'lib',
   paths: {
-    jquery: '../common/dep/jquery.min',
+    jquery: '../dep/jquery.min',
     openpgp: '../dep/openpgp',
-    mvelo: '../common/ui/mvelo',
-    dompurify: '../common/dep/purify'
+    mvelo: '../mvelo',
+    dompurify: '../dep/purify'
   },
   shim: {
     'mvelo': {
@@ -37,9 +37,9 @@ requirejs.config({
 });
 
 define([
-  "common/controller/main.controller",
-  "common/controller/sub.controller",
-  "common/pgpModel"
+  "controller/main.controller",
+  "controller/sub.controller",
+  "modules/pgpModel"
 ], function(controller, subController, model) {
 
   // inject content script only once per time slot
@@ -112,8 +112,8 @@ define([
 */
   function loadContentCode() {
     if (injectOptimized && csCode === '') {
-      return mvelo.data.load('common/ui/inline/cs-mailvelope.js').then(function(csmSrc) {
-        return mvelo.data.load('common/dep/jquery.min.js').then(function(jquerySrc) {
+      return mvelo.data.load('content-scripts/cs-mailvelope.js').then(function(csmSrc) {
+        return mvelo.data.load('dep/jquery.min.js').then(function(jquerySrc) {
           csCode = jquerySrc + csmSrc;
         });
       });
@@ -124,10 +124,10 @@ define([
   function loadFramestyles() {
     // load framestyles and replace path
     if (framestyles === '') {
-      return mvelo.data.load('common/ui/inline/framestyles.css').then(function(data) {
+      return mvelo.data.load('content-scripts/framestyles.css').then(function(data) {
         framestyles = data;
-        var token = /\.\.\/\.\./g;
-        framestyles = framestyles.replace(token, chrome.runtime.getURL('common'));
+        var token = /\.\.\//g;
+        framestyles = framestyles.replace(token, chrome.runtime.getURL(''));
       });
     }
     return Promise.resolve();
@@ -190,8 +190,8 @@ define([
             chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
           });
         } else {
-          chrome.tabs.executeScript(details.tabId, {file: "common/dep/jquery.min.js", allFrames: true}, function() {
-            chrome.tabs.executeScript(details.tabId, {file: "common/ui/inline/cs-mailvelope.js", allFrames: true}, function() {
+          chrome.tabs.executeScript(details.tabId, {file: "dep/jquery.min.js", allFrames: true}, function() {
+            chrome.tabs.executeScript(details.tabId, {file: "content-scripts/cs-mailvelope.js", allFrames: true}, function() {
               chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
             });
           });
