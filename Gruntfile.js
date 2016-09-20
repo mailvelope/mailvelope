@@ -25,7 +25,7 @@ module.exports = function(grunt) {
         src: ['src/client-API/*.js', "doc/client-api/Readme.md"],
         options: {
           destination: 'build/doc',
-          template: "node_modules/grunt-jsdoc/node_modules/ink-docstrap/template",
+          template: "node_modules/ink-docstrap/template",
           tutorials: "doc/client-api",
           configure: "jsdoc.conf.json"
         }
@@ -160,18 +160,18 @@ module.exports = function(grunt) {
           cwd: 'node_modules/',
           src: [
             'mailreader/src/mailreader-parser.js',
-            'mailreader/node_modules/emailjs-mime-parser/src/*.js',
-            'mailreader/node_modules/emailjs-mime-parser/node_modules/emailjs-addressparser/src/*.js',
+            'emailjs-mime-parser/src/*.js',
+            'emailjs-addressparser/src/*.js',
             'emailjs-mime-codec/src/*.js',
             'emailjs-mime-builder/src/*.js',
-            'emailjs-mime-builder/node_modules/emailjs-mime-types/src/*.js'
+            'emailjs-mime-types/src/*.js'
           ],
           dest: 'build/chrome/lib/'
         },
         {
           expand: true,
           flatten: true,
-          src: 'node_modules/emailjs-mime-builder/node_modules/punycode/*.js',
+          src: 'node_modules/punycode/*.js',
           dest: 'build/chrome/lib/',
           rename: function(dest) {
             return dest + 'emailjs-punycode.js';
@@ -195,7 +195,7 @@ module.exports = function(grunt) {
         {
           expand: true,
           flatten: true,
-          src: 'node_modules/mailreader/node_modules/emailjs-mime-parser/src/*.js',
+          src: 'node_modules/emailjs-mime-parser/src/*.js',
           dest: 'build/firefox/node_modules/emailjs-mime-parser'
         },
         {
@@ -207,7 +207,7 @@ module.exports = function(grunt) {
         {
           expand: true,
           flatten: true,
-          src: 'node_modules/mailreader/node_modules/emailjs-mime-parser/node_modules/emailjs-addressparser/src/*.js',
+          src: 'node_modules/emailjs-addressparser/src/*.js',
           dest: 'build/firefox/node_modules/emailjs-addressparser'
         },
         {
@@ -219,13 +219,13 @@ module.exports = function(grunt) {
         {
           expand: true,
           flatten: true,
-          src: 'node_modules/emailjs-mime-builder/node_modules/emailjs-mime-types/src/*.js',
+          src: 'node_modules/emailjs-mime-types/src/*.js',
           dest: 'build/firefox/node_modules/emailjs-mime-types'
         },
         {
           expand: true,
           flatten: true,
-          src: 'node_modules/emailjs-mime-builder/node_modules/punycode/*.js',
+          src: 'node_modules/punycode/*.js',
           dest: 'build/firefox/node_modules/emailjs-punycode'
         }]
       },
@@ -391,32 +391,40 @@ module.exports = function(grunt) {
 
     replace: {
       bootstrap: {
-        src: ['build/tmp/dep/bootstrap/css/bootstrap.css'],
-        dest: ['build/tmp/dep/bootstrap/css/bootstrap.css'],
-        replacements: [{
-          from: /@font-face[\.\S\s]+\.glyphicon\ {/g,
-          to: "@font-face {\n  font-family:'Glyphicons Halflings';src:url('<%= glyphIconDataURL %>') format('woff')\n}\n.glyphicon {"
-        },
-        {
-          from: '# sourceMappingURL=bootstrap.css.map',
-          to: ''
-        }]
+        src: 'build/tmp/dep/bootstrap/css/bootstrap.css',
+        dest: 'build/tmp/dep/bootstrap/css/bootstrap.css',
+        options: {
+          usePrefix: false,
+          patterns: [{
+            match: /@font-face[\.\S\s]+\.glyphicon\ {/g,
+            replacement: "@font-face {\n  font-family:'Glyphicons Halflings';src:url('<%= glyphIconDataURL %>') format('woff')\n}\n.glyphicon {"
+          },
+          {
+            match: '# sourceMappingURL=bootstrap.css.map',
+            replacement: ''
+          }]
+        }
       },
       build_version: {
-        src: ['build/tmp/res/defaults.json'],
-        dest: ['build/tmp/res/defaults.json'],
-        replacements: [{
-          from: /("version"\s:\s"[\d\.]+)/,
-          to: '$1' + ' build: ' + (new Date()).toISOString().slice(0, 19)
-        }]
+        src: 'build/tmp/res/defaults.json',
+        dest: 'build/tmp/res/defaults.json',
+        options: {
+          patterns: [{
+            match: /("version"\s:\s"[\d\.]+)/,
+            replacement: '$1' + ' build: ' + (new Date()).toISOString().slice(0, 19)
+          }]
+        }
       },
       openpgp_ff: {
-        src: ['dep/firefox/openpgpjs/dist/openpgp.min.js'],
-        dest: ['build/firefox/node_modules/openpgp/openpgp.js'],
-        replacements: [{
-          from: "*/",
-          to: "*/\nvar window = require('./window');\n"
-        }]
+        src: 'dep/firefox/openpgpjs/dist/openpgp.min.js',
+        dest: 'build/firefox/node_modules/openpgp/openpgp.js',
+        options: {
+          usePrefix: false,
+          patterns: [{
+            match: "*/",
+            replacement: "*/\nvar window = require('./window');\n"
+          }]
+        }
       }
     },
 
@@ -475,7 +483,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jpm');
   grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-mocha-phantomjs');
-  grunt.loadNpmTasks('grunt-text-replace');
+  grunt.loadNpmTasks('grunt-replace');
 
   //custom tasks
   grunt.registerTask('dist-cr', ['compress:chrome']);

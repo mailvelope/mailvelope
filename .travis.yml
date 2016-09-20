@@ -1,7 +1,7 @@
 sudo: false
 language: node_js
 node_js:
-- '4'
+- '6'
 before_install:
 - openssl aes-256-cbc -K $encrypted_5d28b41102c4_key -iv $encrypted_5d28b41102c4_iv -in .travis/crx_signing.pem.enc -out .travis/crx_signing.pem -d
 - npm install -g grunt-cli
