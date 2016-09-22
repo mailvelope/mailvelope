@@ -19,7 +19,7 @@
 
 define(function(require, exports) {
 
-  var mvelo = require('../lib-mvelo').mvelo;
+  var mvelo = require('lib-mvelo').mvelo;
   var model = require('../modules/pgpModel');
   var keyring = require('../modules/keyring');
   var KeyServer = require('../modules/keyserver');
@@ -56,6 +56,10 @@ define(function(require, exports) {
     specific.initScriptInjection = obj.initScriptInjection;
     specific.activate = obj.activate;
     specific.deactivate = obj.deactivate;
+  }
+
+  function init() {
+    model.init();
   }
 
   function handleMessageEvent(request, sender, sendResponse) {
@@ -335,6 +339,8 @@ define(function(require, exports) {
   exports.handleMessageEvent = handleMessageEvent;
   exports.onBrowserAction = onBrowserAction;
   exports.extend = extend;
+  exports.init = init;
+  exports.portManager = sub;
   exports.getWatchListFilterURLs = getWatchListFilterURLs;
 
 });

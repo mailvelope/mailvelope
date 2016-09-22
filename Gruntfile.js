@@ -10,10 +10,11 @@ module.exports = function(grunt) {
 
     eslint: {
       options: {
-        maxWarnings: 10
+        maxWarnings: 10,
+        configFile: 'config/eslint.json'
       },
       target: [
-        'Gruntfile.js',
+        '*.js',
         'src/**/*.js',
         '!src/modules/closure-library/**/*.js',
         'test/**/*.js'
@@ -27,7 +28,7 @@ module.exports = function(grunt) {
           destination: 'build/doc',
           template: "node_modules/ink-docstrap/template",
           tutorials: "doc/client-api",
-          configure: "jsdoc.conf.json"
+          configure: "config/jsdoc.json"
         }
       }
     },
@@ -95,12 +96,6 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
-            cwd: 'bower_components/dompurify/src',
-            src: 'purify.js',
-            dest: 'build/tmp/dep/'
-          },
-          {
-            expand: true,
             cwd: 'bower_components/qrcodejs/',
             src: 'qrcode.js',
             dest: 'build/tmp/dep/qrcodejs/'
@@ -136,7 +131,12 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'src/',
-          src: ['chrome/**/*', 'firefox/**/*'],
+          src: [
+            'chrome/**/*',
+            '!chrome/background.js',
+            '!chrome/lib/lib-mvelo.js',
+            'firefox/**/*'
+          ],
           dest: 'build/'
         }]
       },
@@ -144,38 +144,9 @@ module.exports = function(grunt) {
       dep_chrome: {
         files: [{
           expand: true,
-          cwd: 'bower_components/requirejs/',
-          src: 'require.js',
-          dest: 'build/chrome/'
-        },
-        {
-          expand: true,
           flatten: true,
           src: ['dep/chrome/openpgpjs/dist/openpgp.js', 'dep/chrome/openpgpjs/dist/openpgp.worker.js'],
           dest: 'build/chrome/dep/'
-        },
-        {
-          expand: true,
-          flatten: true,
-          cwd: 'node_modules/',
-          src: [
-            'mailreader/src/mailreader-parser.js',
-            'emailjs-mime-parser/src/*.js',
-            'emailjs-addressparser/src/*.js',
-            'emailjs-mime-codec/src/*.js',
-            'emailjs-mime-builder/src/*.js',
-            'emailjs-mime-types/src/*.js'
-          ],
-          dest: 'build/chrome/lib/'
-        },
-        {
-          expand: true,
-          flatten: true,
-          src: 'node_modules/punycode/*.js',
-          dest: 'build/chrome/lib/',
-          rename: function(dest) {
-            return dest + 'emailjs-punycode.js';
-          }
         }]
       },
 
@@ -227,6 +198,12 @@ module.exports = function(grunt) {
           flatten: true,
           src: 'node_modules/punycode/*.js',
           dest: 'build/firefox/node_modules/emailjs-punycode'
+        },
+        {
+          expand: true,
+          cwd: 'bower_components/dompurify/src',
+          src: 'purify.js',
+          dest: 'build/firefox/data/dep/'
         }]
       },
 
@@ -259,15 +236,6 @@ module.exports = function(grunt) {
             'mvelo.*'
           ],
           dest: 'build/chrome'
-        },
-        {
-          expand: true,
-          cwd: 'build/tmp/',
-          src: [
-            'controller/*',
-            'modules/**/*'
-          ],
-          dest: 'build/chrome/lib'
         }]
       },
 
@@ -493,12 +461,20 @@ module.exports = function(grunt) {
   grunt.registerTask('dist-ff', ['jpm:xpi', 'copy:xpi']);
   grunt.registerTask('dist-doc', ['jsdoc', 'compress:doc']);
 
-  grunt.registerTask('copy2tmp', ['copy:browser', 'copy:src2tmp', 'copy:dep', 'copy:dep_chrome', 'copy:dep_firefox', 'replace:bootstrap', 'replace:openpgp_ff', 'concat', 'babel']);
+  grunt.registerTask('copy2tmp', ['copy:browser', 'copy:src2tmp', 'webpack:chrome.dev', 'copy:dep', 'copy:dep_chrome', 'copy:dep_firefox', 'replace:bootstrap', 'replace:openpgp_ff', 'concat', 'babel']);
   grunt.registerTask('final_assembly', ['copy:tmp2chrome', 'copy:tmp2firefox', 'copy:locale_firefox', 'copy:locale_chrome']);
 
   grunt.registerTask('default', ['clean', 'eslint', 'copy2tmp', 'final_assembly']);
   grunt.registerTask('nightly', ['clean', 'eslint', 'copy2tmp', 'replace:build_version', 'final_assembly']);
 
   grunt.registerTask('test', ['connect:test', 'mocha_phantomjs']);
+
+  grunt.registerTask('webpack', function() {
+    console.log('this', this.args[0]);
+    var done = this.async();
+    grunt.util.spawn({cmd: process.argv[0], args: ['./node_modules/webpack/bin/webpack.js', '--display-modules', '--config=config/webpack.' + this.args[0] + '.js'], opts: {stdio: 'inherit'}}, function(error, result) {
+      done(result.code !== 1);
+    });
+  });
 
 };

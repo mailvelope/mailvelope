@@ -19,7 +19,7 @@
 
 define(function(require, exports) {
 
-  var mvelo = require('../lib-mvelo').mvelo;
+  var mvelo = require('lib-mvelo').mvelo;
   var l10n = mvelo.l10n.get;
   var openpgp = require('openpgp');
   var defaults = require('./defaults');
@@ -560,10 +560,10 @@ define(function(require, exports) {
   exports.getWatchList = getWatchList;
   exports.setWatchList = setWatchList;
   exports.getHostname = getHostname;
-  exports.getHost = mvelo.util.getHost;
   exports.getPreferences = getPreferences;
   exports.setPreferences = setPreferences;
 
+/*
   function migrate08() {
     var prefs = getPreferences();
     if (mvelo.crx && prefs.migrate08 && prefs.migrate08.done) {
@@ -576,5 +576,6 @@ define(function(require, exports) {
   }
 
   exports.migrate08 = migrate08;
+*/
 
 });

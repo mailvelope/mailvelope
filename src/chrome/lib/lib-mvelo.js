@@ -19,7 +19,7 @@
 
 define(function(require, exports) {
 
-  var mvelo = require('mvelo');
+  var mvelo = require('../../mvelo').mvelo;
 
   mvelo.crx = true;
   mvelo.ffa = false;
@@ -52,7 +52,7 @@ define(function(require, exports) {
   };
 
   mvelo.data.loadDefaults = function() {
-    return require('../lib/json-loader!res/defaults.json');
+    return require('../../res/defaults.json');
   };
 
   mvelo.tabs = {};

@@ -19,7 +19,7 @@
 
 define(function(require, exports) {
 
-  var mvelo = require('../lib-mvelo').mvelo;
+  var mvelo = require('lib-mvelo').mvelo;
   var keyring = require('../modules/keyring');
   var sub = require('./sub.controller');
   var openpgp = require('openpgp');

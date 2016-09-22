@@ -19,7 +19,7 @@
 
 define(function(require, exports) {
 
-  var mvelo = require('../lib-mvelo').mvelo;
+  var mvelo = require('lib-mvelo').mvelo;
   var openpgp = require('openpgp');
   var goog = require('./closure-library/closure/goog/emailaddress').goog;
   var prefs = require('./prefs');

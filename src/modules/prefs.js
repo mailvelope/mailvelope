@@ -19,7 +19,7 @@
 
 define(function(require, exports) {
 
-  var mvelo = require('../lib-mvelo').mvelo;
+  var mvelo = require('lib-mvelo').mvelo;
   var model = require('./pgpModel');
   var prefs = null;
   var updateHandlers = [];

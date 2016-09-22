@@ -16,7 +16,7 @@
   "readmeFilename": "Readme.md",
   "dependencies": {
     "angular": "~1.5.5",
-    "emailjs-mime-builder": "mailvelope/emailjs-mime-builder#v1.0.1m",
+    "emailjs-mime-builder": "^1.0.1",
     "emailjs-mime-codec": "mailvelope/emailjs-mime-codec#v1.0.2m",
     "mailreader": "~1.0.0",
     "ng-tags-input": "^3.0.0",
@@ -44,8 +44,10 @@
     "grunt-mocha-phantomjs": "^4.0.0",
     "grunt-replace": "^1.0.1",
     "ink-docstrap": "^1.3.0",
+    "json-loader": "^0.5.4",
     "mocha": "^2.5.3",
     "sinon": "^1.17.6",
+    "webpack": "^1.13.2",
     "whatwg-fetch": "^1.0.0"
   },
   "engines": {

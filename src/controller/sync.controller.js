@@ -22,7 +22,7 @@ define(function(require, exports) {
   var sub = require('./sub.controller');
   var keyringMod = require('../modules/keyring');
   var pwdCache = require('../modules/pwdCache');
-  var mvelo = require('../lib-mvelo').mvelo;
+  var mvelo = require('lib-mvelo').mvelo;
 
   function SyncController(port) {
     sub.SubController.call(this, port);
