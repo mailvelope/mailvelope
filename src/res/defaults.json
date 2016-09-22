@@ -1,5 +1,5 @@
 {
-  "version" : "@@mvelo_version",
+  "version": "@@mvelo_version",
   "watch_list": [
     {
       "active": true,

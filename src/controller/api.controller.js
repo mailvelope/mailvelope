@@ -17,105 +17,102 @@
 
 'use strict';
 
-define(function(require, exports) {
 
-  var mvelo = require('lib-mvelo').mvelo;
-  var keyring = require('../modules/keyring');
-  var sub = require('./sub.controller');
-  var openpgp = require('openpgp');
-  var model = require('../modules/pgpModel');
+var mvelo = require('lib-mvelo').mvelo;
+var keyring = require('../modules/keyring');
+var sub = require('./sub.controller');
+var openpgp = require('openpgp');
+var model = require('../modules/pgpModel');
 
-  function handleApiEvent(request, sender, sendResponse) {
-    var keyRing, attr;
-    try {
-      switch (request.event) {
-        case 'get-keyring':
-          keyRing = keyring.getById(request.keyringId);
-          if (keyRing) {
-            attr = keyRing.getAttributes();
-            sendResponse({data: {revision: attr.logo_revision}});
-            sub.setActiveKeyringId(request.keyringId);
+function handleApiEvent(request, sender, sendResponse) {
+  var keyRing, attr;
+  try {
+    switch (request.event) {
+      case 'get-keyring':
+        keyRing = keyring.getById(request.keyringId);
+        if (keyRing) {
+          attr = keyRing.getAttributes();
+          sendResponse({data: {revision: attr.logo_revision}});
+          sub.setActiveKeyringId(request.keyringId);
+        }
+        break;
+      case 'create-keyring':
+        keyRing = keyring.createKeyring(request.keyringId);
+        if (keyRing) {
+          keyRing.sync.activate();
+          sendResponse({data: {}});
+          sub.setActiveKeyringId(request.keyringId);
+        }
+        break;
+      case 'query-valid-key':
+        var keyMap = keyring.getById(request.keyringId).getKeyByAddress(request.recipients, {validity: true, fingerprint: true, sort: true});
+        Object.keys(keyMap).forEach(function(email) {
+          if (keyMap[email]) {
+            keyMap[email] = {
+              keys: keyMap[email].map(function(key) {
+                return {
+                  fingerprint: key.primaryKey.getFingerprint(),
+                  lastModified: model.getLastModifiedDate(key).toISOString()
+                };
+              })
+            };
           }
-          break;
-        case 'create-keyring':
-          keyRing = keyring.createKeyring(request.keyringId);
-          if (keyRing) {
-            keyRing.sync.activate();
-            sendResponse({data: {}});
-            sub.setActiveKeyringId(request.keyringId);
+        });
+        sendResponse({error: null, data: keyMap});
+        break;
+      case 'export-own-pub-key':
+        var keyIdMap = keyring.getById(request.keyringId).getKeyIdByAddress([request.emailAddr], {validity: true, pub: false, priv: true, sort: true});
+        if (!keyIdMap[request.emailAddr]) {
+          sendResponse({error: {message: 'No key pair found for this email address.', code: 'NO_KEY_FOR_ADDRESS'}});
+          return;
+        }
+        // only take first valid key
+        if (keyIdMap[request.emailAddr].length > 1) {
+          keyIdMap[request.emailAddr].length = 1;
+        }
+        var armored = keyring.getById(request.keyringId).getArmoredKeys(keyIdMap[request.emailAddr], {pub: true});
+        sendResponse({error: null, data: armored[0].armoredPublic});
+        break;
+      case 'import-pub-key':
+        sub.factory.get('importKeyDialog').importKey(request.keyringId, request.armored, function(err, status) {
+          sendResponse({error: err, data: status});
+        });
+        return true;
+      case 'set-logo':
+        attr = keyring.getById(request.keyringId).getAttributes();
+        if (attr.logo_revision && attr.logo_revision > request.revision) {
+          sendResponse({error: {message: 'New logo revision < existing revision.', code: 'REVISION_INVALID'}});
+          return;
+        }
+        keyring.setKeyringAttr(request.keyringId, {logo_revision: request.revision, logo_data_url: request.dataURL});
+        sendResponse({error: null, data: null});
+        break;
+      case 'has-private-key':
+        var fingerprint = request.fingerprint.toLowerCase().replace(/\s/g, '');
+        var key = keyring.getById(request.keyringId).keyring.privateKeys.getForId(fingerprint);
+        var valid = key && key.verifyPrimaryKey() === openpgp.enums.keyStatus.valid;
+        sendResponse({error: null, data: (key && valid ? true : false)});
+        break;
+      case 'open-settings':
+        request.keyringId = request.keyringId || mvelo.LOCAL_KEYRING_ID;
+        var hash = '?krid=' + encodeURIComponent(request.keyringId) + '#settings';
+        mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
+          if (old) {
+            mvelo.tabs.sendMessage(tab, {
+              event: 'reload-options',
+              hash: hash
+            });
           }
-          break;
-        case 'query-valid-key':
-          var keyMap = keyring.getById(request.keyringId).getKeyByAddress(request.recipients, {validity: true, fingerprint: true, sort: true});
-          Object.keys(keyMap).forEach(function(email) {
-            if (keyMap[email]) {
-              keyMap[email] = {
-                keys: keyMap[email].map(function(key) {
-                  return {
-                    fingerprint: key.primaryKey.getFingerprint(),
-                    lastModified: model.getLastModifiedDate(key).toISOString()
-                  };
-                })
-              };
-            }
-          });
-          sendResponse({error: null, data: keyMap});
-          break;
-        case 'export-own-pub-key':
-          var keyIdMap = keyring.getById(request.keyringId).getKeyIdByAddress([request.emailAddr], {validity: true, pub: false, priv: true, sort: true});
-          if (!keyIdMap[request.emailAddr]) {
-            sendResponse({error: {message: 'No key pair found for this email address.', code: 'NO_KEY_FOR_ADDRESS'}});
-            return;
-          }
-          // only take first valid key
-          if (keyIdMap[request.emailAddr].length > 1) {
-            keyIdMap[request.emailAddr].length = 1;
-          }
-          var armored = keyring.getById(request.keyringId).getArmoredKeys(keyIdMap[request.emailAddr], {pub: true});
-          sendResponse({error: null, data: armored[0].armoredPublic});
-          break;
-        case 'import-pub-key':
-          sub.factory.get('importKeyDialog').importKey(request.keyringId, request.armored, function(err, status) {
-            sendResponse({error: err, data: status});
-          });
-          return true;
-        case 'set-logo':
-          attr = keyring.getById(request.keyringId).getAttributes();
-          if (attr.logo_revision && attr.logo_revision > request.revision) {
-            sendResponse({error: {message: 'New logo revision < existing revision.', code: 'REVISION_INVALID'}});
-            return;
-          }
-          keyring.setKeyringAttr(request.keyringId, {logo_revision: request.revision, logo_data_url: request.dataURL});
-          sendResponse({error: null, data: null});
-          break;
-        case 'has-private-key':
-          var fingerprint = request.fingerprint.toLowerCase().replace(/\s/g, '');
-          var key = keyring.getById(request.keyringId).keyring.privateKeys.getForId(fingerprint);
-          var valid = key && key.verifyPrimaryKey() === openpgp.enums.keyStatus.valid;
-          sendResponse({error: null, data: (key && valid ? true : false)});
-          break;
-        case 'open-settings':
-          request.keyringId = request.keyringId || mvelo.LOCAL_KEYRING_ID;
-          var hash = '?krid=' + encodeURIComponent(request.keyringId) + '#settings';
-          mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
-            if (old) {
-              mvelo.tabs.sendMessage(tab, {
-                event: 'reload-options',
-                hash: hash
-              });
-            }
-          });
+        });
 
-          sendResponse({error: null, data: null});
-          break;
-        default:
-          console.log('unknown event:', request);
-      }
-    } catch (err) {
-      sendResponse({error: {message: err.message, code: err.code  || 'INTERNAL_ERROR'}});
+        sendResponse({error: null, data: null});
+        break;
+      default:
+        console.log('unknown event:', request);
     }
+  } catch (err) {
+    sendResponse({error: {message: err.message, code: err.code  || 'INTERNAL_ERROR'}});
   }
+}
 
-  exports.handleApiEvent = handleApiEvent;
-
-});
+exports.handleApiEvent = handleApiEvent;

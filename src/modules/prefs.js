@@ -17,58 +17,55 @@
 
 'use strict';
 
-define(function(require, exports) {
 
-  var mvelo = require('lib-mvelo').mvelo;
-  var model = require('./pgpModel');
-  var prefs = null;
-  var updateHandlers = [];
+var mvelo = require('lib-mvelo').mvelo;
+var model = require('./pgpModel');
+var prefs = null;
+var updateHandlers = [];
 
-  function init() {
-    prefs = model.getPreferences();
+function init() {
+  prefs = model.getPreferences();
+}
+
+/**
+ * Update preferences
+ * @param  {Object} obj preferences object or properties of it
+ */
+function update(obj) {
+  prefs = model.getPreferences();
+
+  if (obj.security) {
+    prefs.security = mvelo.util.extend(prefs.security, obj.security);
   }
-
-  /**
-   * Update preferences
-   * @param  {Object} obj preferences object or properties of it
-   */
-  function update(obj) {
-    prefs = model.getPreferences();
-
-    if (obj.security) {
-      prefs.security = mvelo.util.extend(prefs.security, obj.security);
-    }
-    if (obj.general) {
-      prefs.general = mvelo.util.extend(prefs.general, obj.general);
-    }
-    if (obj.keyserver) {
-      prefs.keyserver = mvelo.util.extend(prefs.keyserver, obj.keyserver);
-    }
-    if (typeof obj.main_active !== 'undefined') {
-      prefs.main_active = obj.main_active;
-    }
-    model.setPreferences(prefs);
-    // notifiy update handlers
-    updateHandlers.forEach(function(fn) {
-      fn();
-    });
+  if (obj.general) {
+    prefs.general = mvelo.util.extend(prefs.general, obj.general);
   }
-
-  /**
-   * Register for preferences updates
-   * @param {Function} fn handler
-   */
-  function addUpdateHandler(fn) {
-    updateHandlers.push(fn);
+  if (obj.keyserver) {
+    prefs.keyserver = mvelo.util.extend(prefs.keyserver, obj.keyserver);
   }
-
-  function data() {
-    return prefs;
+  if (typeof obj.main_active !== 'undefined') {
+    prefs.main_active = obj.main_active;
   }
+  model.setPreferences(prefs);
+  // notifiy update handlers
+  updateHandlers.forEach(function(fn) {
+    fn();
+  });
+}
 
-  exports.init = init;
-  exports.update = update;
-  exports.addUpdateHandler = addUpdateHandler;
-  exports.data = data;
+/**
+ * Register for preferences updates
+ * @param {Function} fn handler
+ */
+function addUpdateHandler(fn) {
+  updateHandlers.push(fn);
+}
 
-});
+function data() {
+  return prefs;
+}
+
+exports.init = init;
+exports.update = update;
+exports.addUpdateHandler = addUpdateHandler;
+exports.data = data;

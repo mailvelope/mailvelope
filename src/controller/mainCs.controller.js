@@ -17,30 +17,27 @@
 
 'use strict';
 
-define(function(require, exports) {
 
-  var sub = require('./sub.controller');
+var sub = require('./sub.controller');
 
-  function MainCsController(port) {
-    sub.SubController.call(this, port);
+function MainCsController(port) {
+  sub.SubController.call(this, port);
+}
+
+MainCsController.prototype = Object.create(sub.SubController.prototype);
+
+MainCsController.prototype.handlePortMessage = function(msg) {
+  switch (msg.event) {
+    case 'get-prefs':
+      this.ports.mainCS.postMessage({
+        event: 'set-prefs',
+        prefs: this.prefs.data(),
+        watchList: this.model.getWatchList()
+      });
+      break;
+    default:
+      console.log('unknown event', msg);
   }
+};
 
-  MainCsController.prototype = Object.create(sub.SubController.prototype);
-
-  MainCsController.prototype.handlePortMessage = function(msg) {
-    switch (msg.event) {
-      case 'get-prefs':
-        this.ports.mainCS.postMessage({
-          event: 'set-prefs',
-          prefs: this.prefs.data(),
-          watchList: this.model.getWatchList()
-        });
-        break;
-      default:
-        console.log('unknown event', msg);
-    }
-  };
-
-  exports.MainCsController = MainCsController;
-
-});
+exports.MainCsController = MainCsController;
