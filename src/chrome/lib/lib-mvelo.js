@@ -51,10 +51,6 @@ define(function(require, exports) {
     });
   };
 
-  mvelo.data.loadDefaults = function() {
-    return require('../../res/defaults.json');
-  };
-
   mvelo.tabs = {};
 
   mvelo.tabs.getActive = function(callback) {

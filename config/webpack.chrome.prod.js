@@ -7,8 +7,6 @@ var pjson = require('../package.json');
 
 module.exports = {
 
-  devtool: 'cheap-module-source-map',
-
   entry: './src/chrome/background.js',
 
   output: {
@@ -37,7 +35,7 @@ module.exports = {
       loader: 'string-replace',
       query: {
         search: '@@mvelo_version',
-        replace: pjson.version + ' build: ' + (new Date()).toISOString().slice(0, 19)
+        replace: pjson.version
       }
     }]
   },
@@ -52,7 +50,7 @@ module.exports = {
     },
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify('development')
+        'NODE_ENV': JSON.stringify('production')
       }
     })
   ]

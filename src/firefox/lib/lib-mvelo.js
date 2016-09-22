@@ -27,7 +27,7 @@ var ss = require('sdk/simple-storage');
 var url = require('sdk/url');
 var l10nGet = require('sdk/l10n').get;
 
-var mvelo = require('../data/mvelo').mvelo;
+var mvelo = require('../../mvelo').mvelo;
 var CWorker = require('./web-worker').Worker;
 var request = require('sdk/request').Request;
 
@@ -44,11 +44,6 @@ mvelo.data.load = function(path) {
   return new Promise(function(resolve) {
     resolve(data.load(path));
   });
-};
-
-mvelo.data.loadDefaults = function() {
-  var defaults = data.load('res/defaults.json');
-  return JSON.parse(defaults);
 };
 
 mvelo.tabs = {};

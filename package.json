@@ -47,6 +47,7 @@
     "json-loader": "^0.5.4",
     "mocha": "^2.5.3",
     "sinon": "^1.17.6",
+    "string-replace-loader": "^1.0.5",
     "webpack": "^1.13.2",
     "whatwg-fetch": "^1.0.0"
   },
@@ -54,5 +55,6 @@
     "node": ">=4",
     "npm": ">=3"
   },
+  "eslintConfig": "config/eslint.json",
   "private": true
 }

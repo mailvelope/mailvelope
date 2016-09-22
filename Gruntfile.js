@@ -2,6 +2,8 @@
 
 module.exports = function(grunt) {
 
+  var pkg = grunt.file.readJSON('package.json');
+
   grunt.initConfig({
 
     glyphIconDataURL: grunt.file.read('dep/glyphicon.data'),
@@ -15,6 +17,7 @@ module.exports = function(grunt) {
       },
       target: [
         '*.js',
+        'config/*.js',
         'src/**/*.js',
         '!src/modules/closure-library/**/*.js',
         'test/**/*.js'
@@ -127,20 +130,6 @@ module.exports = function(grunt) {
         ]
       },
 
-      browser: {
-        files: [{
-          expand: true,
-          cwd: 'src/',
-          src: [
-            'chrome/**/*',
-            '!chrome/background.js',
-            '!chrome/lib/lib-mvelo.js',
-            'firefox/**/*'
-          ],
-          dest: 'build/'
-        }]
-      },
-
       dep_chrome: {
         files: [{
           expand: true,
@@ -159,62 +148,50 @@ module.exports = function(grunt) {
         },
         {
           expand: true,
-          flatten: true,
-          src: 'node_modules/mailreader/src/mailreader-parser.js',
-          dest: 'build/firefox/node_modules/mailreader-parser'
-        },
-        {
-          expand: true,
-          flatten: true,
-          src: 'node_modules/emailjs-mime-parser/src/*.js',
-          dest: 'build/firefox/node_modules/emailjs-mime-parser'
-        },
-        {
-          expand: true,
-          flatten: true,
-          src: 'node_modules/emailjs-mime-codec/src/*.js',
-          dest: 'build/firefox/node_modules/emailjs-mime-codec'
-        },
-        {
-          expand: true,
-          flatten: true,
-          src: 'node_modules/emailjs-addressparser/src/*.js',
-          dest: 'build/firefox/node_modules/emailjs-addressparser'
-        },
-        {
-          expand: true,
-          flatten: true,
-          src: 'node_modules/emailjs-mime-builder/src/*.js',
-          dest: 'build/firefox/node_modules/emailjs-mime-builder'
-        },
-        {
-          expand: true,
-          flatten: true,
-          src: 'node_modules/emailjs-mime-types/src/*.js',
-          dest: 'build/firefox/node_modules/emailjs-mime-types'
-        },
-        {
-          expand: true,
-          flatten: true,
-          src: 'node_modules/punycode/*.js',
-          dest: 'build/firefox/node_modules/emailjs-punycode'
-        },
-        {
-          expand: true,
           cwd: 'bower_components/dompurify/src',
           src: 'purify.js',
           dest: 'build/firefox/data/dep/'
         }]
       },
 
-      src2tmp: {
+      chrome: {
         files: [{
           expand: true,
           cwd: 'src/',
           src: [
-            '**/*',
+            'chrome/manifest.json',
+            'chrome/background.html'
+          ],
+          dest: 'build/'
+        }]
+      },
+
+      firefox: {
+        files: [{
+          expand: true,
+          cwd: 'src/',
+          src: [
+            'firefox/**/*',
+            '!firefox/lib/*'
+          ],
+          dest: 'build/'
+        }]
+      },
+
+      app2tmp: {
+        files: [{
+          expand: true,
+          cwd: 'src/',
+          src: [
+            'app/**/*',
             '!app/**/components/*',
-            '!content-scripts/*.js'
+            'client-API/*',
+            'components/**/*',
+            'content-scripts/*.css',
+            'img/*',
+            'lib/*',
+            'res/**/*',
+            'mvelo.*'
           ],
           dest: 'build/tmp'
         }]
@@ -224,17 +201,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'build/tmp/',
-          src: [
-            'app/**/*',
-            'client-API/*',
-            'components/**/*',
-            'content-scripts/*',
-            'dep/**/*',
-            'img/*',
-            'lib/**/*',
-            'res/**/*',
-            'mvelo.*'
-          ],
+          src: '**/*',
           dest: 'build/chrome'
         }]
       },
@@ -243,27 +210,8 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'build/tmp/',
-          src: [
-            'app/**/*',
-            'client-API/*',
-            'components/**/*',
-            'content-scripts/*',
-            'dep/**/*',
-            'img/*',
-            'lib/**/*',
-            'res/**/*',
-            'mvelo.*'
-          ],
+          src: '**/*',
           dest: 'build/firefox/data'
-        },
-        {
-          expand: true,
-          cwd: 'build/tmp/',
-          src: [
-            'controller/*',
-            'modules/**/*'
-          ],
-          dest: 'build/firefox/lib'
         }]
       },
 
@@ -373,24 +321,34 @@ module.exports = function(grunt) {
           }]
         }
       },
-      build_version: {
-        src: 'build/tmp/res/defaults.json',
-        dest: 'build/tmp/res/defaults.json',
+      version_chrome: {
+        src: 'build/chrome/manifest.json',
+        dest: 'build/chrome/manifest.json',
         options: {
           patterns: [{
-            match: /("version"\s:\s"[\d\.]+)/,
-            replacement: '$1' + ' build: ' + (new Date()).toISOString().slice(0, 19)
+            match: 'mvelo_version',
+            replacement: pkg.version
           }]
         }
       },
-      openpgp_ff: {
+      version_firefox: {
+        src: 'build/firefox/package.json',
+        dest: 'build/firefox/package.json',
+        options: {
+          patterns: [{
+            match: 'mvelo_version',
+            replacement: pkg.version
+          }]
+        }
+      },
+      openpgp_firefox: {
         src: 'dep/firefox/openpgpjs/dist/openpgp.min.js',
-        dest: 'build/firefox/node_modules/openpgp/openpgp.js',
+        dest: 'dep/firefox/openpgpjs/dist/openpgp.js',
         options: {
           usePrefix: false,
           patterns: [{
             match: "*/",
-            replacement: "*/\nvar window = require('./window');\n"
+            replacement: "*/\nvar window = require('window');\n"
           }]
         }
       }
@@ -409,7 +367,7 @@ module.exports = function(grunt) {
         commitFiles: ['-a'],
         createTag: false,
         push: false,
-        files: ['package.json', 'bower.json', 'src/chrome/manifest.json', 'src/firefox/package.json', 'src/res/defaults.json']
+        files: ['package.json', 'bower.json']
       }
     },
 
@@ -453,7 +411,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-phantomjs');
   grunt.loadNpmTasks('grunt-replace');
 
-  //custom tasks
+  // distribution
   grunt.registerTask('dist-cr', ['compress:chrome']);
   grunt.registerTask('dist-crx', function() {
     grunt.util.spawn({cmd: '.travis/crxmake.sh', args: ['build/chrome', '.travis/crx_signing.pem'], opts: {stdio: 'ignore'}});
@@ -461,16 +419,23 @@ module.exports = function(grunt) {
   grunt.registerTask('dist-ff', ['jpm:xpi', 'copy:xpi']);
   grunt.registerTask('dist-doc', ['jsdoc', 'compress:doc']);
 
-  grunt.registerTask('copy2tmp', ['copy:browser', 'copy:src2tmp', 'webpack:chrome.dev', 'copy:dep', 'copy:dep_chrome', 'copy:dep_firefox', 'replace:bootstrap', 'replace:openpgp_ff', 'concat', 'babel']);
-  grunt.registerTask('final_assembly', ['copy:tmp2chrome', 'copy:tmp2firefox', 'copy:locale_firefox', 'copy:locale_chrome']);
+  // build steps
+  grunt.registerTask('chrome_modules', ['copy:chrome', 'replace:version_chrome', 'copy:dep_chrome']);
+  grunt.registerTask('firefox_modules', ['copy:firefox', 'replace:version_firefox', 'replace:openpgp_firefox', 'copy:dep_firefox']);
+  grunt.registerTask('copy2tmp', ['copy:app2tmp', 'copy:dep', 'replace:bootstrap', 'concat', 'babel']);
+  grunt.registerTask('final_steps', ['copy:tmp2chrome', 'copy:tmp2firefox', 'copy:locale_firefox', 'copy:locale_chrome']);
 
-  grunt.registerTask('default', ['clean', 'eslint', 'copy2tmp', 'final_assembly']);
-  grunt.registerTask('nightly', ['clean', 'eslint', 'copy2tmp', 'replace:build_version', 'final_assembly']);
+  // development builds
+  grunt.registerTask('default', ['clean', 'eslint', 'chrome_modules', 'firefox_modules', 'webpack:chrome.dev', 'webpack:firefox.dev', 'copy2tmp', 'final_steps']);
+  grunt.registerTask('chrome', ['clean', 'eslint', 'chrome_modules', 'webpack:chrome.dev', 'copy2tmp', 'copy:tmp2chrome', 'copy:locale_chrome']);
+  grunt.registerTask('firefox', ['clean', 'eslint', 'firefox_modules', 'webpack:firefox.dev', 'copy2tmp', 'copy:tmp2firefox', 'copy:locale_firefox']);
+
+  // production build
+  grunt.registerTask('prod', ['clean', 'eslint', 'chrome_modules', 'firefox_modules', 'webpack:chrome.prod', 'webpack:firefox.prod', 'copy2tmp', 'final_steps']);
 
   grunt.registerTask('test', ['connect:test', 'mocha_phantomjs']);
 
   grunt.registerTask('webpack', function() {
-    console.log('this', this.args[0]);
     var done = this.async();
     grunt.util.spawn({cmd: process.argv[0], args: ['./node_modules/webpack/bin/webpack.js', '--display-modules', '--config=config/webpack.' + this.args[0] + '.js'], opts: {stdio: 'inherit'}}, function(error, result) {
       done(result.code !== 1);

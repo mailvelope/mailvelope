@@ -27,9 +27,7 @@ var ToggleButton = require("sdk/ui/button/toggle").ToggleButton;
 var Panel = require('sdk/panel').Panel;
 
 var mvelo = require('./lib-mvelo.js').mvelo;
-var model = require('./modules/pgpModel');
-var controller = require('./controller/main.controller');
-var subController = require('./controller/sub.controller');
+var controller = require('../../controller/main.controller');
 var prompts = require('./prompt');
 
 var pageMods = {};
@@ -54,7 +52,7 @@ function init() {
     activate: function() {},
     deactivate: function() {}
   });
-  model.init();
+  controller.init();
   initAddonButton();
   activatePageMods();
 }
@@ -165,7 +163,7 @@ function injectMainCS() {
 function onCsAttach(worker) {
   //console.log("Attaching content scripts", worker.url);
   var pageHidden = false;
-  worker.port.on('port-message', subController.handlePortMessage);
+  worker.port.on('port-message', controller.portManager.handlePortMessage);
   worker.port.on('connect', function(portName) {
     var eventName = 'port-message' + '.' + portName;
     var port = {
@@ -176,20 +174,20 @@ function onCsAttach(worker) {
         }
       },
       disconnect: function() {
-        subController.removePort({name: portName});
+        controller.portManager.removePort({name: portName});
       },
       ref: worker.port
     };
-    subController.addPort(port);
+    controller.portManager.addPort(port);
   });
   worker.port.on('disconnect', function(portName) {
-    subController.removePort({name: portName});
+    controller.portManager.removePort({name: portName});
   });
   worker.on('pagehide', function() {
     pageHidden = true;
   });
   worker.on('detach', function() {
-    subController.removePort(worker.port);
+    controller.portManager.removePort(worker.port);
   });
   worker.port.on('message-event', function(msg) {
     var that = this;

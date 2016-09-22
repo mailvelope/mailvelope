@@ -1,9 +1,9 @@
 #!/bin/bash
 
 if [ $TRAVIS_PULL_REQUEST == "false" ] && [ $TRAVIS_BRANCH == "dev" ]; then
- grunt nightly
-else
  grunt
+else
+ grunt prod
 fi
 
 grunt dist-cr
