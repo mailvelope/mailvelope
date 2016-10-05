@@ -22,9 +22,33 @@
 
 'use strict';
 
-function KeyServer(mvelo, app) {
+import mvelo from '../../mvelo';
+import $ from 'jquery';
+import * as app from '../app';
+import event from '../util/event';
+import * as l10n from '../util/l10n';
+
+
+l10n.register([
+  'alert_header_warning',
+  'alert_header_error',
+  'keyserver_url_warning',
+  'keyserver_url_error',
+  'keyserver_tofu_label',
+  'keyserver_tofu_lookup'
+]);
+
+event.on('ready', () => {
+  let keyserver = new KeyServer(mvelo, app, event, l10n);
+  keyserver.init();
+});
+
+
+function KeyServer(mvelo, app, event, l10n) {
   this._mvelo = mvelo;
   this._app = app;
+  this._event = event;
+  this._l10n = l10n;
 }
 
 /**
@@ -55,7 +79,7 @@ KeyServer.prototype.init = function() {
 KeyServer.prototype.onChangeHkpUrl = function() {
   this.normalize();
   if (!this.validateUrl(this._inputHkpUrl.val())) {
-    this._alert.showAlert(this._app.l10n.alert_header_warning, this._app.l10n.keyserver_url_warning, 'warning', true);
+    this._alert.showAlert(this._l10n.map.alert_header_warning, this._l10n.map.keyserver_url_warning, 'warning', true);
     return false;
   }
 
@@ -80,7 +104,6 @@ KeyServer.prototype.onChangeTOFU = function() {
  */
 KeyServer.prototype.save = function() {
   var self = this;
-  var opt = self._app;
   var hkpBaseUrl = self._inputHkpUrl.val();
   var tofu = self._checkBoxTOFU.prop('checked');
 
@@ -90,11 +113,11 @@ KeyServer.prototype.save = function() {
     };
     self._mvelo.extension.sendMessage({event: 'set-prefs', data: update}, function() {
       self.normalize();
-      opt.event.triggerHandler('hkp-url-update');
+      self._event.triggerHandler('hkp-url-update');
     });
 
   }).catch(function() {
-    self._alert.showAlert(opt.l10n.alert_header_error, opt.l10n.keyserver_url_error, 'danger', true);
+    self._alert.showAlert(self._l10n.map.alert_header_error, self._l10n.map.keyserver_url_error, 'danger', true);
   });
 };
 
@@ -161,27 +184,3 @@ KeyServer.prototype.loadPrefs = function() {
     self._checkBoxTOFU.prop('checked', prefs.keyserver.mvelo_tofu_lookup);
   });
 };
-
-//
-// bootstraping
-//
-
-var mvelo = mvelo || null;
-var app = app || null;
-
-(function(mvelo, app) {
-  if (!app) { return; }
-
-  app.registerL10nMessages([
-    'alert_header_warning',
-    'alert_header_error',
-    'keyserver_url_warning',
-    'keyserver_url_error',
-    'keyserver_tofu_label',
-    'keyserver_tofu_lookup'
-  ]);
-
-  var keyserver = new KeyServer(mvelo, app);
-  app.event.on('ready', keyserver.init.bind(keyserver));
-
-}(mvelo, app));

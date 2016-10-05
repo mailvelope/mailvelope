@@ -17,176 +17,176 @@
 
 'use strict';
 
-var mvelo = mvelo || null;
-var app = app || null;
+import mvelo from '../../mvelo';
+import $ from 'jquery';
+import {pgpModel, keyring} from '../app';
+import event from '../util/event';
+import * as l10n from '../util/l10n';
 
-(function(app) {
 
-  var advShown = false;
+var advShown = false;
 
-  var pwd, repwd, empty, nequ, match, submit;
+var pwd, repwd, empty, nequ, match, submit;
 
-  app.registerL10nMessages([
-    "key_gen_never",
-    "alert_header_success",
-    "key_gen_success",
-    "key_gen_error"
-  ]);
+l10n.register([
+  "key_gen_never",
+  "alert_header_success",
+  "key_gen_success",
+  "key_gen_error"
+]);
 
-  function init() {
-    pwd = $('#genKeyPwd');
-    repwd = $('#genKeyRePwd');
-    empty = pwd.next();
-    nequ = repwd.next();
-    match = nequ.next();
-    submit = $('#genKeySubmit');
-    $('#genKeyAdv').click(onKeyAdvanced);
-    $('#genKeyAdvSection').hide();
-    pwd.on('keyup', onKeyPwdChange);
-    repwd.on('keyup', onKeyPwdChange);
-    submit.click(onGenerateKey);
-    $('#genKeyClear').click(onClear);
-    $('#genKeyAnother').click(onAnother);
+function init() {
+  pwd = $('#genKeyPwd');
+  repwd = $('#genKeyRePwd');
+  empty = pwd.next();
+  nequ = repwd.next();
+  match = nequ.next();
+  submit = $('#genKeySubmit');
+  $('#genKeyAdv').click(onKeyAdvanced);
+  $('#genKeyAdvSection').hide();
+  pwd.on('keyup', onKeyPwdChange);
+  repwd.on('keyup', onKeyPwdChange);
+  submit.click(onGenerateKey);
+  $('#genKeyClear').click(onClear);
+  $('#genKeyAnother').click(onAnother);
+}
+
+function onKeyAdvanced() {
+  if (advShown) {
+    $('#genKeyAdvSection').slideUp();
+    $('#genKeyAdv').removeClass('key-advanced-open');
+    $('#genKeyAdv').addClass('key-advanced-closed');
+    advShown = false;
+  } else {
+    $('#genKeyAdvSection').slideDown();
+    $('#genKeyAdv').removeClass('key-advanced-closed');
+    $('#genKeyAdv').addClass('key-advanced-open');
+    advShown = true;
   }
+  return false;
+}
 
-  function onKeyAdvanced() {
-    if (advShown) {
-      $('#genKeyAdvSection').slideUp();
-      $('#genKeyAdv').removeClass('key-advanced-open');
-      $('#genKeyAdv').addClass('key-advanced-closed');
-      advShown = false;
-    } else {
-      $('#genKeyAdvSection').slideDown();
-      $('#genKeyAdv').removeClass('key-advanced-closed');
-      $('#genKeyAdv').addClass('key-advanced-open');
-      advShown = true;
-    }
-    return false;
-  }
-
-  function onKeyPwdChange() {
-    var mask = (repwd.val().length > 0) << 1 | (pwd.val().length > 0);
-    switch (mask) {
-      case 0:
-        // both empty
-        empty.removeClass('hide');
+function onKeyPwdChange() {
+  var mask = (repwd.val().length > 0) << 1 | (pwd.val().length > 0);
+  switch (mask) {
+    case 0:
+      // both empty
+      empty.removeClass('hide');
+      nequ.addClass('hide');
+      match.addClass('hide');
+      submit.prop('disabled', true);
+      break;
+    case 1:
+    case 2:
+      // re-enter or enter empty
+      empty.addClass('hide');
+      nequ.removeClass('hide');
+      match.addClass('hide');
+      submit.prop('disabled', true);
+      break;
+    case 3:
+      // both filled
+      empty.addClass('hide');
+      if (repwd.val() === pwd.val()) {
         nequ.addClass('hide');
-        match.addClass('hide');
-        submit.prop('disabled', true);
-        break;
-      case 1:
-      case 2:
-        // re-enter or enter empty
-        empty.addClass('hide');
+        match.removeClass('hide');
+        submit.prop('disabled', false);
+      } else {
         nequ.removeClass('hide');
         match.addClass('hide');
         submit.prop('disabled', true);
-        break;
-      case 3:
-        // both filled
-        empty.addClass('hide');
-        if (repwd.val() === pwd.val()) {
-          nequ.addClass('hide');
-          match.removeClass('hide');
-          submit.prop('disabled', false);
-        } else {
-          nequ.removeClass('hide');
-          match.addClass('hide');
-          submit.prop('disabled', true);
-        }
-        break;
-    }
+      }
+      break;
   }
+}
 
-  function onClear() {
-    $('#generateKey').find('input').val('');
-    $('#genKeyAlgo').val('RSA/RSA');
-    $('#genKeySize').val('4096');
-    $('#genKeyExp').val('0')
-                   .prop('disabled', true);
-    $('#genKeyExpUnit').val(app.l10n.key_gen_never)
-                   .prop('disabled', true);
-    $('#genKeyEmail').closest('.control-group').removeClass('error')
-                     .end().next().addClass('hide');
-    $('#genAlert').hide();
-    onKeyPwdChange();
-    return false;
-  }
+function onClear() {
+  $('#generateKey').find('input').val('');
+  $('#genKeyAlgo').val('RSA/RSA');
+  $('#genKeySize').val('4096');
+  $('#genKeyExp').val('0')
+                 .prop('disabled', true);
+  $('#genKeyExpUnit').val(l10n.map.key_gen_never)
+                 .prop('disabled', true);
+  $('#genKeyEmail').closest('.control-group').removeClass('error')
+                   .end().next().addClass('hide');
+  $('#genAlert').hide();
+  onKeyPwdChange();
+  return false;
+}
 
-  function onAnother() {
-    $('#generateKey').find('input').val('');
-    $('#genKeyExp').val('0');
-    $('#genAlert').hide();
-    $('#generateKey').find('input, select').prop('disabled', false);
-    $('#genKeySubmit, #genKeyClear').prop('disabled', false);
-    $('#genKeyAnother').addClass('hide');
-    // disable currently unavailable options
-    $('#genKeyExp, #genKeyExpUnit, #genKeyAlgo').prop('disabled', true);
-    return false;
-  }
+function onAnother() {
+  $('#generateKey').find('input').val('');
+  $('#genKeyExp').val('0');
+  $('#genAlert').hide();
+  $('#generateKey').find('input, select').prop('disabled', false);
+  $('#genKeySubmit, #genKeyClear').prop('disabled', false);
+  $('#genKeyAnother').addClass('hide');
+  // disable currently unavailable options
+  $('#genKeyExp, #genKeyExpUnit, #genKeyAlgo').prop('disabled', true);
+  return false;
+}
 
-  function onGenerateKey() {
-    validateEmail().then(function() {
-      $('body').addClass('busy');
-      $('#genKeyWait').one('show.bs.modal', generateKey);
-      $('#genKeyWait').modal({backdrop: 'static', keyboard: false});
-      $('#genKeyWait').modal('show');
+function onGenerateKey() {
+  validateEmail().then(function() {
+    $('body').addClass('busy');
+    $('#genKeyWait').one('show.bs.modal', generateKey);
+    $('#genKeyWait').modal({backdrop: 'static', keyboard: false});
+    $('#genKeyWait').modal('show');
+  });
+  return false;
+}
+
+function validateEmail() {
+  var email = $('#genKeyEmail');
+  // validate email
+  return pgpModel('validateEmail', [email.val()])
+    .then(function() {
+      email.closest('.form-group').removeClass('has-error');
+      email.next().addClass('hide');
+    })
+    .catch(function() {
+      email.closest('.form-group').addClass('has-error');
+      email.next().removeClass('hide');
     });
-    return false;
-  }
+}
 
-  function validateEmail() {
-    var email = $('#genKeyEmail');
-    // validate email
-    return app.pgpModel('validateEmail', [email.val()])
-      .then(function() {
-        email.closest('.form-group').removeClass('has-error');
-        email.next().addClass('hide');
-      })
-      .catch(function() {
-        email.closest('.form-group').addClass('has-error');
-        email.next().removeClass('hide');
-      });
-  }
+function generateKey() {
+  var parameters = {};
+  parameters.algorithm = $('#genKeyAlgo').val();
+  parameters.numBits = $('#genKeySize').val();
+  parameters.userIds = [{
+    fullName: $('#genKeyName').val(),
+    email: $('#genKeyEmail').val()
+  }];
+  parameters.passphrase = $('#genKeyPwd').val();
+  parameters.uploadPublicKey = $('#genKeyCheckBoxUpload').prop('checked');
+  keyring('generateKey', [parameters])
+    .then(function() {
+      $('#genAlert').showAlert(l10n.map.alert_header_success, l10n.map.key_gen_success, 'success');
+      $('#generateKey').find('input, select').prop('disabled', true);
+      $('#genKeySubmit, #genKeyClear').prop('disabled', true);
+      $('#genKeyAnother').removeClass('hide');
+      // refresh grid
+      event.triggerHandler('keygrid-reload');
+      // dismiss key upload alert
+      if (parameters.uploadPublicKey) {
+        var update = {
+          keyserver: {dismiss_key_upload: true}
+        };
+        mvelo.extension.sendMessage({event: 'set-prefs', data: update}, function() {
+          event.triggerHandler('keygrid-reload');
+        });
+      }
+    })
+    .catch(function(error) {
+      //console.log('generateKey() app.keyring(generateKey)', error);
+      $('#genAlert').showAlert(l10n.map.key_gen_error, error.message || '', 'danger');
+    })
+    .then(function() {
+      $('body').removeClass('busy');
+      $('#genKeyWait').modal('hide');
+    });
+}
 
-  function generateKey() {
-    var parameters = {};
-    parameters.algorithm = $('#genKeyAlgo').val();
-    parameters.numBits = $('#genKeySize').val();
-    parameters.userIds = [{
-      fullName: $('#genKeyName').val(),
-      email: $('#genKeyEmail').val()
-    }];
-    parameters.passphrase = $('#genKeyPwd').val();
-    parameters.uploadPublicKey = $('#genKeyCheckBoxUpload').prop('checked');
-    app.keyring('generateKey', [parameters])
-      .then(function() {
-        $('#genAlert').showAlert(app.l10n.alert_header_success, app.l10n.key_gen_success, 'success');
-        $('#generateKey').find('input, select').prop('disabled', true);
-        $('#genKeySubmit, #genKeyClear').prop('disabled', true);
-        $('#genKeyAnother').removeClass('hide');
-        // refresh grid
-        app.event.triggerHandler('keygrid-reload');
-        // dismiss key upload alert
-        if (parameters.uploadPublicKey) {
-          var update = {
-            keyserver: {dismiss_key_upload: true}
-          };
-          mvelo.extension.sendMessage({event: 'set-prefs', data: update}, function() {
-            app.event.triggerHandler('keygrid-reload');
-          });
-        }
-      })
-      .catch(function(error) {
-        //console.log('generateKey() app.keyring(generateKey)', error);
-        $('#genAlert').showAlert(app.l10n.key_gen_error, error.message || '', 'danger');
-      })
-      .then(function() {
-        $('body').removeClass('busy');
-        $('#genKeyWait').modal('hide');
-      });
-  }
-
-  app.event.on('ready', init);
-
-}(app));
+event.on('ready', init);

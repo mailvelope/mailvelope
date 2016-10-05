@@ -27,7 +27,7 @@ var ss = require('sdk/simple-storage');
 var url = require('sdk/url');
 var l10nGet = require('sdk/l10n').get;
 
-var mvelo = require('../../mvelo').mvelo;
+var mvelo = require('../../mvelo');
 var CWorker = require('./web-worker').Worker;
 var request = require('sdk/request').Request;
 
@@ -302,4 +302,4 @@ mvelo.browserAction.state = function(options) {
   this.toggleButton.state('window', options);
 };
 
-exports.mvelo = mvelo;
+module.exports = mvelo;

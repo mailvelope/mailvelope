@@ -17,68 +17,67 @@
 
 'use strict';
 
-var mvelo = mvelo || null;
-var app = app || null;
+import mvelo from '../../mvelo';
+import $ from 'jquery';
+import {pgpModel} from '../app';
+import event from '../util/event';
 
-(function(app) {
 
-  function init() {
-    loadPrefs();
-    $('#genReloadInfo').hide();
-    $('#autoAddPrimary').on('change', function() {
-      $('#genBtnSave').prop("disabled", false);
-      $('#genBtnCancel').prop("disabled", false);
-    });
-    $('#genBtnSave').click(onSave);
-    $('#genBtnCancel').click(onCancel);
-    // disable editor selection
-    $('input:radio[name="editorRadios"]').prop('disabled', true);
+function init() {
+  loadPrefs();
+  $('#genReloadInfo').hide();
+  $('#autoAddPrimary').on('change', function() {
+    $('#genBtnSave').prop("disabled", false);
+    $('#genBtnCancel').prop("disabled", false);
+  });
+  $('#genBtnSave').click(onSave);
+  $('#genBtnCancel').click(onCancel);
+  // disable editor selection
+  $('input:radio[name="editorRadios"]').prop('disabled', true);
+}
+
+function onSave() {
+  if (!validate()) {
+    return false;
   }
-
-  function onSave() {
-    if (!validate()) {
-      return false;
+  var update = {
+    general: {
+      editor_type: $('input:radio[name="editorRadios"]:checked').val(),
+      auto_add_primary: $('#autoAddPrimary:checked').length !== 0
     }
-    var update = {
-      general: {
-        editor_type: $('input:radio[name="editorRadios"]:checked').val(),
-        auto_add_primary: $('#autoAddPrimary:checked').length !== 0
-      }
-    };
-    mvelo.extension.sendMessage({ event: 'set-prefs', data: update }, function() {
-      normalize();
-      $('#genReloadInfo').show();
-    });
-    return false;
-  }
-
-  function onCancel() {
+  };
+  mvelo.extension.sendMessage({ event: 'set-prefs', data: update }, function() {
     normalize();
-    loadPrefs();
-    return false;
-  }
+    $('#genReloadInfo').show();
+  });
+  return false;
+}
 
-  function validate() {
-    return true;
-  }
+function onCancel() {
+  normalize();
+  loadPrefs();
+  return false;
+}
 
-  function normalize() {
-    $('#general .form-group button').prop('disabled', true);
-    $('#general .control-group').removeClass('error');
-    $('#general .help-inline').addClass('hide');
-    $('#genReloadInfo').hide();
-  }
+function validate() {
+  return true;
+}
 
-  function loadPrefs() {
-    app.pgpModel('getPreferences')
-      .then(function(prefs) {
-        $('#autoAddPrimary').prop('checked', prefs.general.auto_add_primary);
-        $('input:radio[name="editorRadios"]').filter(function() {
-          return $(this).val() === prefs.general.editor_type;
-        }).prop('checked', true);
-      });
-  }
+function normalize() {
+  $('#general .form-group button').prop('disabled', true);
+  $('#general .control-group').removeClass('error');
+  $('#general .help-inline').addClass('hide');
+  $('#genReloadInfo').hide();
+}
 
-  app.event.on('ready', init);
+function loadPrefs() {
+  pgpModel('getPreferences')
+    .then(function(prefs) {
+      $('#autoAddPrimary').prop('checked', prefs.general.auto_add_primary);
+      $('input:radio[name="editorRadios"]').filter(function() {
+        return $(this).val() === prefs.general.editor_type;
+      }).prop('checked', true);
+    });
+}
 
-}(app));
+event.on('ready', init);

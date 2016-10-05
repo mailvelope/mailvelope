@@ -17,59 +17,56 @@
 
 'use strict';
 
-var mvelo = mvelo || null;
-var app = app || null;
+import mvelo from '../../mvelo';
+import $ from 'jquery';
+import event from '../util/event';
 
-(function(app) {
 
-  var $tableBody;
-  var tableRow;
-  var logEntryTmpl;
-  var autoRefresh;
-  var initialTab = false;
-  var securityLogLength = 0;
+var $tableBody;
+var tableRow;
+var logEntryTmpl;
+var autoRefresh;
+var initialTab = false;
+var securityLogLength = 0;
 
-  function init() {
-    $('#securityLogButton').on('show.bs.tab', function() {
-      //console.log('securityLog show.bs.tab');
-      if (!initialTab) {
-        startSecurityLogMonitoring();
-        initialTab = true;
-      }
-    });
-  }
-
-  function startSecurityLogMonitoring() {
-    $tableBody = $("#secrityLogTable tbody");
-    if (logEntryTmpl === undefined) {
-      logEntryTmpl = $tableBody.html();
+function init() {
+  $('#securityLogButton').on('show.bs.tab', function() {
+    //console.log('securityLog show.bs.tab');
+    if (!initialTab) {
+      startSecurityLogMonitoring();
+      initialTab = true;
     }
-    $tableBody.children().remove();
+  });
+}
+
+export function startSecurityLogMonitoring() {
+  $tableBody = $("#secrityLogTable tbody");
+  if (logEntryTmpl === undefined) {
+    logEntryTmpl = $tableBody.html();
+  }
+  $tableBody.children().remove();
+  updateSecurityLog();
+  clearInterval(autoRefresh);
+  autoRefresh = window.setInterval(function() {
     updateSecurityLog();
-    clearInterval(autoRefresh);
-    autoRefresh = window.setInterval(function() {
-      updateSecurityLog();
-    }, 1000);
-  }
+  }, 1000);
+}
 
-  function updateSecurityLog() {
-    mvelo.extension.sendMessage({event: 'get-ui-log', securityLogLength: securityLogLength}, refreshSecurityLog);
-  }
+function updateSecurityLog() {
+  mvelo.extension.sendMessage({event: 'get-ui-log', securityLogLength: securityLogLength}, refreshSecurityLog);
+}
 
-  function refreshSecurityLog(request) {
-    securityLogLength += request.secLog.length;
+function refreshSecurityLog(request) {
+  securityLogLength += request.secLog.length;
 
-    request.secLog.forEach(function(entry) {
-      tableRow = $.parseHTML(logEntryTmpl);
-      $(tableRow).find('.timestamp').text((new Date(entry.timestamp)).toLocaleTimeString());
-      $(tableRow).find('td:nth-child(1)').attr('title', entry.timestamp);
-      $(tableRow).find('td:nth-child(2)').text(entry.sourcei18n);
-      $(tableRow).find('td:nth-child(3)').text(entry.typei18n);
-      $tableBody.prepend(tableRow);
-    });
-  }
+  request.secLog.forEach(function(entry) {
+    tableRow = $.parseHTML(logEntryTmpl);
+    $(tableRow).find('.timestamp').text((new Date(entry.timestamp)).toLocaleTimeString());
+    $(tableRow).find('td:nth-child(1)').attr('title', entry.timestamp);
+    $(tableRow).find('td:nth-child(2)').text(entry.sourcei18n);
+    $(tableRow).find('td:nth-child(3)').text(entry.typei18n);
+    $tableBody.prepend(tableRow);
+  });
+}
 
-  app.startSecurityLogMonitoring = startSecurityLogMonitoring;
-  app.event.on('ready', init);
-
-}(app));
+event.on('ready', init);

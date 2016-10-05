@@ -18,7 +18,7 @@
 'use strict';
 
 
-var mvelo = require('../../mvelo').mvelo;
+var mvelo = require('../../mvelo');
 
 mvelo.crx = true;
 mvelo.ffa = false;
@@ -268,4 +268,4 @@ mvelo.browserAction.state = function(options) {
   }
 };
 
-exports.mvelo = mvelo;
+module.exports = mvelo;

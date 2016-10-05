@@ -2,6 +2,7 @@
 
   "parserOptions": {
     "ecmaVersion": 6,
+    "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
     }
@@ -23,7 +24,7 @@
   },
 
   "rules": {
-    "strict": ["error", "global"],
+    //"strict": ["error", "global"],
     /* possible errors */
     "no-console": 0,
     "no-empty": ["error", { "allowEmptyCatch": true }], // disallow empty block statements

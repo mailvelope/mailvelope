@@ -18,7 +18,7 @@
 'use strict';
 
 
-var mvelo = require('lib-mvelo').mvelo;
+var mvelo = require('lib-mvelo');
 
 function SubController(port) {
   this.mvelo = mvelo;

@@ -17,25 +17,8 @@
 
 'use strict';
 
-var mvelo = require('./lib/lib-mvelo').mvelo;
+var mvelo = require('./lib/lib-mvelo');
 var controller = require('../controller/main.controller');
-
-/*
-requirejs.config({
-  baseUrl: 'lib',
-  paths: {
-    jquery: '../dep/jquery.min',
-    openpgp: '../dep/openpgp',
-    mvelo: '../mvelo',
-    dompurify: '../dep/purify'
-  },
-  shim: {
-    'mvelo': {
-      exports: 'mvelo'
-    }
-  }
-});
-*/
 
 // inject content script only once per time slot
 var injectTimeSlot = 600;

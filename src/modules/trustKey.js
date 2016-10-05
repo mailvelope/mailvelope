@@ -18,7 +18,7 @@
 'use strict';
 
 
-var mvelo = require('lib-mvelo').mvelo;
+var mvelo = require('lib-mvelo');
 var openpgp = require('openpgp');
 var certs = require('./certs');
 

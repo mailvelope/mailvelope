@@ -26,7 +26,7 @@ var l10nGet = require("sdk/l10n").get;
 var ToggleButton = require("sdk/ui/button/toggle").ToggleButton;
 var Panel = require('sdk/panel').Panel;
 
-var mvelo = require('./lib-mvelo.js').mvelo;
+var mvelo = require('./lib-mvelo.js');
 var controller = require('../../controller/main.controller');
 var prompts = require('./prompt');
 
@@ -369,15 +369,8 @@ function injectEmbeddedOptions() {
       data.url('lib/messageAdapter.js'),
       data.url('dep/bootstrap/js/bootstrap.js'),
       data.url('dep/bootstrap-sortable/bootstrap-sortable.js'),
-      data.url('mvelo.js'),
-      data.url('app/app.js'),
-      data.url('app/settings/watchList.js'),
-      data.url('app/settings/security.js'),
-      data.url('app/settings/general.js'),
-      data.url('app/keyring/keyRing.js'),
-      data.url('app/keyring/importKey.js'),
-      data.url('app/keyring/generateKey.js'),
-      data.url('app/fileEncrypt/encryptFile.js')
+      data.url('app/app.bundle.js'),
+      data.url('lib/file.js')
     ],
     contentStyleFile: [
       data.url("dep/bootstrap/css/bootstrap.css"),

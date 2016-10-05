@@ -18,12 +18,11 @@
 
 /* eslint strict: 0 */
 
-var mvelo = mvelo || {};
+var mvelo = typeof window !== 'undefined' && window.mvelo || {};
 // chrome extension
 mvelo.crx = typeof chrome !== 'undefined';
 // firefox addon
 mvelo.ffa = mvelo.ffa || typeof self !== 'undefined' && self.port || !mvelo.crx;
-// for fixfox, mvelo.extension is exposed from a content script
 
 /* constants */
 
@@ -88,6 +87,7 @@ mvelo.appendTpl = function($element, path) {
   }
 };
 
+// for fixfox, mvelo.extension is exposed from a content script
 mvelo.extension = mvelo.extension || mvelo.crx && chrome.runtime;
 // extension.connect shim for Firefox
 if (mvelo.ffa && mvelo.extension) {
@@ -479,6 +479,6 @@ mvelo.EventHandler.prototype.emit = function(event, options, port) {
   (port || this._port || this.ports[this.mainType]).postMessage(options);
 };
 
-if (typeof exports !== 'undefined') {
-  exports.mvelo = mvelo;
+if (typeof module !== 'undefined' && typeof exports === 'object') {
+  module.exports = mvelo;
 }

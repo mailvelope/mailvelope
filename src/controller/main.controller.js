@@ -18,7 +18,7 @@
 'use strict';
 
 
-var mvelo = require('lib-mvelo').mvelo;
+var mvelo = require('lib-mvelo');
 var model = require('../modules/pgpModel');
 var keyring = require('../modules/keyring');
 var KeyServer = require('../modules/keyserver');
