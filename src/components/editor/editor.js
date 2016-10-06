@@ -836,3 +836,7 @@ EditorCtrl.prototype.cancel = function() {
   }
 
 }());
+
+if (typeof module !== 'undefined' && typeof exports === 'object') {
+  module.exports = EditorCtrl;
+}

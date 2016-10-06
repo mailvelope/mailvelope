@@ -1,6 +1,5 @@
-/* global EditorCtrl */
 
-'use strict';
+import EditorCtrl from '../../../src/components/editor/editor.js';
 
 /* global angular */
 
@@ -466,19 +465,19 @@ describe('Editor UI unit tests', function() {
   describe('sign', function() {
     it('should open signDialog', function() {
       sinon.stub(ctrl, 'logUserInput');
-      sinon.stub(ctrl, 'showDialog');
+      sinon.stub(ctrl, 'showSignDialog');
 
       ctrl.sign();
 
       expect(ctrl.logUserInput.withArgs('security_log_dialog_sign').calledOnce).to.be.true;
-      expect(ctrl.showDialog.withArgs('signDialog').calledOnce).to.be.true;
+      expect(ctrl.showSignDialog.calledOnce).to.be.true;
     });
   });
 
   describe('cancel', function() {
     it('should emit', function() {
       sinon.stub(ctrl, 'logUserInput');
-      sinon.stub(ctrl, 'showDialog');
+      sinon.stub(ctrl, 'showSignDialog');
       ctrl._name = 'foo';
 
       ctrl.cancel();

@@ -418,11 +418,11 @@ module.exports = function(grunt) {
   // production build
   grunt.registerTask('prod', ['clean', 'eslint', 'chrome_modules', 'firefox_modules', 'webpack:chrome.prod', 'webpack:firefox.prod', 'copy2tmp', 'webpack:app.prod', 'final_steps']);
 
-  grunt.registerTask('test', ['connect:test', 'mocha_phantomjs']);
+  grunt.registerTask('test', ['webpack:test', 'connect:test', 'mocha_phantomjs']);
 
   grunt.registerTask('webpack', function() {
     var done = this.async();
-    grunt.util.spawn({cmd: process.argv[0], args: ['./node_modules/webpack/bin/webpack.js', '--display-modules', '--config=config/webpack.' + this.args[0] + '.js'], opts: {stdio: 'inherit'}}, function(error, result) {
+    grunt.util.spawn({cmd: process.argv[0], args: ['./node_modules/webpack/bin/webpack.js', '--config=config/webpack.' + this.args[0] + '.js'], opts: {stdio: 'inherit'}}, function(error, result) {
       done(result.code !== 1);
     });
   });

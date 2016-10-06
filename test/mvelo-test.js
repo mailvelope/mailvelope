@@ -1,6 +1,5 @@
-/* global mvelo */
 
-'use strict';
+import mvelo from '../src/mvelo';
 
 describe('mvelo unit tests', function() {
 

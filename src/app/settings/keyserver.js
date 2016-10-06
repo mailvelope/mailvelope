@@ -44,7 +44,7 @@ event.on('ready', () => {
 });
 
 
-function KeyServer(mvelo, app, event, l10n) {
+export default function KeyServer(mvelo, app, event, l10n) {
   this._mvelo = mvelo;
   this._app = app;
   this._event = event;

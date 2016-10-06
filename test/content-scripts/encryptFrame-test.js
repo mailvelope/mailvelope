@@ -1,6 +1,6 @@
-/* global mvelo */
 
-'use strict';
+import mvelo from '../../build/tmp/content-scripts/cs-mailvelope.js';
+
 
 describe('Encrypt Frame unit tests', function() {
 

@@ -1,16 +1,18 @@
-/* global KeyServer */
 
-'use strict';
+import KeyServer from '../../../src/app/settings/keyserver';
+
 
 describe('Key server settings unit tests', function() {
 
-  var keyserver, optionsMock, mveloMock;
+  var keyserver, appMock, mveloMock, l10nMock, eventMock;
   var hkpUrl = 'https://keyserver.ubuntu.com';
 
   beforeEach(function() {
-    optionsMock = {l10n: {}, event: {triggerHandler: function() {}}, pgpModel: function() {}};
     mveloMock = {extension: {sendMessage: function() {}}};
-    keyserver = new KeyServer(mveloMock, optionsMock);
+    appMock = {pgpModel: function() {}};
+    eventMock = {triggerHandler: function() {}};
+    l10nMock = {map: {}};
+    keyserver = new KeyServer(mveloMock, appMock, eventMock, l10nMock);
 
     keyserver._inputHkpUrl = {val: function() {}};
     keyserver._checkBoxTOFU = {prop: function() {}};
@@ -74,7 +76,7 @@ describe('Key server settings unit tests', function() {
     beforeEach(function() {
       sinon.stub(keyserver, 'normalize');
       sinon.stub(mveloMock.extension, 'sendMessage').yields();
-      sinon.stub(optionsMock.event, 'triggerHandler');
+      sinon.stub(eventMock, 'triggerHandler');
       sinon.stub(keyserver._alert, 'showAlert');
       sinon.stub(keyserver._inputHkpUrl, 'val').returns('url');
       sinon.stub(keyserver._checkBoxTOFU, 'prop').returns(true);
@@ -87,7 +89,7 @@ describe('Key server settings unit tests', function() {
         expect(mveloMock.extension.sendMessage.withArgs({event: 'set-prefs', data: {
           keyserver: {hkp_base_url: 'url', mvelo_tofu_lookup: true}
         }}).calledOnce).to.be.true;
-        expect(optionsMock.event.triggerHandler.withArgs('hkp-url-update').calledOnce).to.be.true;
+        expect(eventMock.triggerHandler.withArgs('hkp-url-update').calledOnce).to.be.true;
       });
     });
 
@@ -95,7 +97,7 @@ describe('Key server settings unit tests', function() {
       sinon.stub(keyserver, 'testUrl').returns(Promise.reject());
 
       return keyserver.save().then(function() {
-        expect(optionsMock.event.triggerHandler.called).to.be.false;
+        expect(eventMock.triggerHandler.called).to.be.false;
         expect(keyserver._alert.showAlert.calledOnce).to.be.true;
       });
     });
@@ -184,7 +186,7 @@ describe('Key server settings unit tests', function() {
   describe('loadPrefs', function() {
     it('should work', function() {
       sinon.stub(keyserver._inputHkpUrl, 'val');
-      sinon.stub(optionsMock, 'pgpModel').returns(Promise.resolve({keyserver: {hkp_base_url: hkpUrl}}));
+      sinon.stub(appMock, 'pgpModel').returns(Promise.resolve({keyserver: {hkp_base_url: hkpUrl}}));
 
       return keyserver.loadPrefs().then(function() {
         expect(keyserver._inputHkpUrl.val.withArgs(hkpUrl).calledOnce).to.be.true;
