@@ -67,6 +67,7 @@ describe('Provider specific content-script unit tests', function() {
     });
 
     describe('getRecipients', function() {
+
       it('should work', function() {
         testElem.append('<div class="vR"><span email="test1@example.com"><div class="vT">Test User</div></span></div>');
         testElem.append('<div class="oL aDm"><span email="test2@example.com"><div class="vT">Test User</div></span></div>');
@@ -76,6 +77,15 @@ describe('Provider specific content-script unit tests', function() {
         expect(recipients.length).to.equal(2);
         expect(recipients[0].email).to.equal('test1@example.com');
         expect(recipients[1].email).to.equal('test2@example.com');
+      });
+
+      it('should work for long TLD', function() {
+        testElem.append('<div class="vR"><span email="test1@example.software"><div class="vT">Test User</div></span></div>');
+
+        var recipients = gmail.getRecipients();
+
+        expect(recipients.length).to.equal(1);
+        expect(recipients[0].email).to.equal('test1@example.software');
       });
     });
 

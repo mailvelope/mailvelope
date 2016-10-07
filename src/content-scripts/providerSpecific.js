@@ -159,7 +159,7 @@ mvelo.providers.get = function(hostname) {
   // DOM api util
   //
 
-  var EMAILS_REGEX = /[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}/g;
+  var EMAILS_REGEX = /^[+a-zA-Z0-9_.!#$%&'*\/=?^`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,63}$/g;
 
   var dom = {};
 
