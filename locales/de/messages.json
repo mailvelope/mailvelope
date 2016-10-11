@@ -1106,12 +1106,8 @@
     "description": ""
   },
   "recovery_sheet_enter_code": {
-    "message": "Geben Sie den Wiederherstellungscode zur Einrichtung auf anderen Computern in den Einstellungen unter:",
+    "message": "Geben Sie den Wiederherstellungscode zur Einrichtung auf anderen Computern ein unter:",
     "description": "Label for navigation path"
-  },
-  "recovery_sheet_type_in": {
-    "message": "ein.",
-    "description": "The 'in' as in 'type something in' refers to verb in RECOVERY_SHEET_ENTER_CODE, optional."
   },
   "recovery_sheet_mobile_devices": {
     "message": "Auf mobilen Geräten",

@@ -1191,10 +1191,6 @@
     "description" : "",
     "message" : "With GMX contacts you can be sure that the users displayed are in fact valid users. You should, however, always verify the identity of contacts with an e-mail address from another e-mail provider."
   },
-  "recovery_sheet_type_in" : {
-    "description" : "The 'in' as in 'type something in' refers to verb in RECOVERY_SHEET_ENTER_CODE, optional.",
-    "message" : "in."
-  },
   "recovery_sheet_unknown_third" : {
     "description" : "",
     "message" : "Only set up encrypted communication on secure devices that cannot be accessed by strangers."

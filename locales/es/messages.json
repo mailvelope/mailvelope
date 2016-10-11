@@ -1495,10 +1495,6 @@
         "message": "Mejore su proveedor de correo web con encriptación extremo-a-extremo. Asegure su comunicación de correo electrónico en base al estándar OpenPGP.",
         "description": "Description of the extension."
     },
-    "recovery_sheet_type_in": {
-        "message": "??",
-        "description": "The 'in' as in 'type something in' refers to verb in RECOVERY_SHEET_ENTER_CODE, optional."
-    },
     "keybackup_setup_dialog_list_1": {
         "message": "Restaurada ante una pérdida de datos.",
         "description": "In order to restore your encrypted communication in case of data loss."

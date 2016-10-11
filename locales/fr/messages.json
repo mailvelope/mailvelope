@@ -1495,10 +1495,6 @@
         "message": "Améliorez votre messagerie web avec un chiffrement de bout-en-bout. Communication électronique sécurisée basée sur la norme OpenPGP.",
         "description": "Description of the extension."
     },
-    "recovery_sheet_type_in": {
-        "message": "dans",
-        "description": "The 'in' as in 'type something in' refers to verb in RECOVERY_SHEET_ENTER_CODE, optional."
-    },
     "keybackup_setup_dialog_list_1": {
         "message": "A restaurer si perte de données.",
         "description": "In order to restore your encrypted communication in case of data loss."
