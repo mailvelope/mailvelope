@@ -61,7 +61,12 @@ mvelo.DecryptContainer.prototype.registerEventListener = function() {
         that.port.disconnect();
         break;
       case 'error-message':
-        that.done(msg.error);
+        if (msg.error.code === 'DECRYPT_ERROR') {
+          // decrypt error is not handled as exception
+          that.done(null, {error: msg.error});
+        } else {
+          that.done(msg.error);
+        }
         break;
       case 'get-armored':
         that.port.postMessage({
@@ -73,7 +78,7 @@ mvelo.DecryptContainer.prototype.registerEventListener = function() {
         });
         break;
       case 'decrypt-done':
-        that.done();
+        that.done(null, {});
         break;
       default:
         console.log('unknown event', msg);

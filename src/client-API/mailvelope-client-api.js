@@ -96,13 +96,18 @@
    */
 
   /**
+   * @typedef {Object} DisplayContainer
+   * @property {Error} error - Error object with error.code = 'DECRYPT_ERROR' for generic decrypt errors
+   */
+
+  /**
    * Creates an iframe to display the decrypted content of the encrypted mail.
    * The iframe will be injected into the container identified by selector.
    * @param {CssSelector} selector - target container
    * @param {AsciiArmored} armored - the encrypted mail to display
    * @param {Keyring} keyring - the keyring to use for this operation
    * @param {DisplayContainerOptions} options
-   * @returns {Promise.<undefined, Error>}
+   * @returns {Promise.<DisplayContainer, Error>}
    */
   Mailvelope.prototype.createDisplayContainer = function(selector, armored, keyring, options) {
     try {
@@ -110,7 +115,12 @@
     } catch (e) {
       return Promise.reject(e);
     }
-    return postMessage('display-container', {selector: selector, armored: armored, identifier: keyring.identifier, options: options});
+    return postMessage('display-container', {selector: selector, armored: armored, identifier: keyring.identifier, options: options}).then(function(display) {
+      if (display && display.error) {
+        display.error = mapError(display.error);
+      }
+      return display;
+    });
   };
 
   /**
@@ -630,6 +640,12 @@
       result += buf[i].toString(16);
     }
     return result;
+  }
+
+  function mapError(obj) {
+    var error = new Error(obj.message);
+    error.code = obj.code;
+    return error;
   }
 
   function postMessage(eventName, data, noResp) {
