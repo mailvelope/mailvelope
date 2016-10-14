@@ -141,19 +141,22 @@ mvelo.ExtractFrame.prototype._establishConnection = function() {
 
 mvelo.ExtractFrame.prototype._getArmoredMessage = function() {
   var msg;
-  if (this._pgpElement.is('pre')) {
-    msg = this._pgpElement.clone();
-    msg.find('br').replaceWith('\n');
-    msg = msg.text();
+  // selection method does not work in Firefox if pre element without linebreaks with <br>
+  if (this._pgpElement.is('pre') && !this._pgpElement.find('br').length) {
+    msg = this._pgpElement.text();
   } else {
-    msg = this._pgpElement.html();
-    msg = msg.replace(/\n/g, ' '); // replace new line with space
-    msg = msg.replace(/(<br>)/g, '\n'); // replace <br> with new line
-    msg = msg.replace(/<\/(blockquote|div|dl|dt|dd|form|h1|h2|h3|h4|h5|h6|hr|ol|p|pre|table|tr|td|ul|li|section|header|footer)>/g, '\n'); // replace block closing tags </..> with new line
-    msg = msg.replace(/<(.+?)>/g, ''); // remove tags
-    msg = msg.replace(/&nbsp;/g, ' '); // replace non-breaking space with whitespace
-    msg = mvelo.util.decodeHTML(msg);
+    var element = this._pgpElement.get(0);
+    var sel = element.ownerDocument.defaultView.getSelection();
+    sel.selectAllChildren(element);
+    msg = sel.toString();
+    sel.removeAllRanges();
   }
+  return msg;
+};
+
+mvelo.ExtractFrame.prototype._getPGPMessage = function() {
+  var msg = this._getArmoredMessage();
+  // additional filtering to get well defined PGP message format
   msg = msg.replace(/\n\s+/g, '\n'); // compress sequence of whitespace and new line characters to one new line
   msg = msg.match(this._typeRegex)[0];
   msg = msg.replace(/^(\s?>)+/gm, ''); // remove quotation

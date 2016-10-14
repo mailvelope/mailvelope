@@ -38,7 +38,7 @@ mvelo.ImportFrame.prototype._clickHandler = function() {
   this.parent._clickHandler.call(this, function() {
     that._port.postMessage({
       event: 'imframe-armored-key',
-      data: that._getArmoredMessage(),
+      data: that._getPGPMessage(),
       sender: that._ctrlName
     });
   });

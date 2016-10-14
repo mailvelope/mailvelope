@@ -105,7 +105,7 @@ mvelo.DecryptFrame.prototype._registerEventListener = function() {
       case 'get-armored':
         that._port.postMessage({
           event: 'set-armored',
-          data: that._getArmoredMessage(),
+          data: that._getPGPMessage(),
           sender: that._ctrlName
         });
         break;
