@@ -51,6 +51,11 @@
           "scan": true,
           "frame": "*.mail.google.com",
           "api": false
+        },
+        {
+          "scan": true,
+          "frame": "*.inbox.google.com",
+          "api": false
         }
       ]
     },
