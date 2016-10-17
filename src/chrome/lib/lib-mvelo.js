@@ -110,7 +110,8 @@ mvelo.tabs.create = function(url, complete, callback) {
 };
 
 mvelo.tabs.activate = function(tab, options, callback) {
-  options = $.extend(options, { active: true });
+  options = options || {};
+  options.active = true;
   chrome.tabs.update(tab.id, options, callback);
 };
 
