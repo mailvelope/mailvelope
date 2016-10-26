@@ -31,7 +31,10 @@ module.exports = {
       query: {
         cacheDirectory: true,
         presets: ['react'],
-        plugins: ['babel-plugin-transform-es2015-modules-commonjs']
+        plugins: ['babel-plugin-transform-es2015-modules-commonjs',
+                  'transform-es2015-parameters',
+                  'transform-es2015-destructuring'
+        ]
       }
     }]
   },

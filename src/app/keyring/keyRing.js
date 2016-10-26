@@ -22,9 +22,11 @@ import $ from 'jquery';
 import * as app from '../app';
 import event from '../util/event';
 import * as l10n from '../util/l10n';
+import React from 'react';
 import ReactDOM from 'react-dom';
 
 import PrimaryKeyButton from './components/PrimaryKeyButton';
+import GenerateKey from './GenerateKey';
 
 
 l10n.register([
@@ -123,31 +125,33 @@ function reload() {
   $tableBody = $('#keyRingTable tbody');
 
   app.getAllKeyringAttr()
-    .then(function(result) {
-      if (result) {
-        app.primaryKeyId = null;
-        for (var keyRingId in result) {
-          var obj = result[keyRingId];
-          if (obj.hasOwnProperty('primary_key')) {
-            if (app.keyringId === keyRingId) {
-              app.primaryKeyId = obj.primary_key;
-            }
+  .then(function(result) {
+    if (result) {
+      app.primaryKeyId = null;
+      for (var keyRingId in result) {
+        var obj = result[keyRingId];
+        if (obj.hasOwnProperty('primary_key')) {
+          if (app.keyringId === keyRingId) {
+            app.primaryKeyId = obj.primary_key;
           }
         }
       }
+    }
 
-      app.keyring('getKeys')
-        .then(initKeyringTable);
+    app.keyring('getKeys')
+      .then(initKeyringTable);
 
-      app.pgpModel('getPreferences').then(function(prefs) {
-        if (!prefs.keyserver.dismiss_key_upload &&
-            app.keyringId === mvelo.LOCAL_KEYRING_ID) {
-          $('#uploadKeyAlert').removeClass('hidden');
-        } else {
-          $('#uploadKeyAlert').addClass('hidden');
-        }
-      });
+    app.pgpModel('getPreferences').then(function(prefs) {
+      if (!prefs.keyserver.dismiss_key_upload &&
+          app.keyringId === mvelo.LOCAL_KEYRING_ID) {
+        $('#uploadKeyAlert').removeClass('hidden');
+      } else {
+        $('#uploadKeyAlert').addClass('hidden');
+      }
     });
+
+    ReactDOM.render(React.createElement(GenerateKey, {demail: app.isDemail, name: app.queryString.fname, email: app.queryString.email}), $('#generateKey').get(0));
+  });
 }
 
 function initKeyringTable(result) {

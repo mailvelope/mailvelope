@@ -1,3 +1,7 @@
+/**
+ * Copyright (C) 2016 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
+ */
 
 import * as l10n from '../../util/l10n';
 import React from 'react';

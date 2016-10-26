@@ -422,7 +422,7 @@ mvelo.util.PromiseQueue.prototype._next = function() {
  * @return {Boolean}          True if valid, false if not
  */
 mvelo.util.checkEmail = function(address) {
-  var pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  var pattern = /^[+a-zA-Z0-9_.!#$%&'*\/=?^`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,63}$/;
   return pattern.test(address);
 };
 

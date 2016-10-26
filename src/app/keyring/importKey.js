@@ -185,3 +185,10 @@ function clearAlert() {
 
 event.on('ready', init);
 event.on('hkp-url-update', hkpUrlLoad);
+event.on('keygrid-reload', () => {
+  if (app.isDemail) {
+    $('#keySearchForm').hide();
+  } else {
+    $('#keySearchForm').show();
+  }
+});

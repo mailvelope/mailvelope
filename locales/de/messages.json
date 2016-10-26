@@ -359,10 +359,6 @@
     "message": "Einen anderen erstellen …",
     "description": "Key import button"
   },
-  "key_gen_days": {
-    "message": "Tage",
-    "description": "Key expires after time range"
-  },
   "key_gen_demail": {
     "message": "De-Mail-Adresse",
     "description": "De-Mail address name."
@@ -372,8 +368,12 @@
     "description": "Key generation error message"
   },
   "key_gen_expiration": {
-    "message": "Verfall",
-    "description": "Key expires after time range"
+    "message": "Schlüssel Ablaufdatum",
+    "description": "Key expiration date"
+  },
+  "key_gen_expires_after": {
+    "message": "Schlüssel verfällt",
+    "description": "Text between key expires checkbox and date picker"
   },
   "key_gen_generate": {
     "message": "Erstellen",
@@ -387,17 +387,9 @@
     "message": "Schlüsselgröße",
     "description": "Advanced key generation settings: Key size"
   },
-  "key_gen_months": {
-    "message": "Monate",
-    "description": "Key expires after time range"
-  },
   "key_gen_name_help": {
     "message": "Voller Name des Schlüsseleigentümers",
     "description": "Help text for name field."
-  },
-  "key_gen_never": {
-    "message": "nie",
-    "description": "Key expires after time range"
   },
   "key_gen_pwd": {
     "message": "Passwort eingeben",
@@ -430,10 +422,6 @@
   "key_gen_wait_info": {
     "message": "Bitte warten, die Schlüsselerstellung kann mehrere Minuten dauern, abhängig von Faktoren wie der Schlüsselgröße.",
     "description": "Wait dialog info message"
-  },
-  "key_gen_years": {
-    "message": "Jahre",
-    "description": "Key expires after time range"
   },
   "key_gen_upload": {
     "description": "Upload key to Mailvelope key server checkbox",

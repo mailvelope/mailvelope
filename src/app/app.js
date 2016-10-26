@@ -27,7 +27,6 @@ import './settings/keyserver';
 import './settings/security';
 import {startSecurityLogMonitoring} from './settings/securityLog';
 import {addToWatchList} from './settings/watchList';
-import './keyring/generateKey';
 import {importKey} from './keyring/importKey';
 import {deleteKeyring} from './keyring/keyRing';
 import './fileEncrypt/encryptFile';
@@ -37,16 +36,18 @@ export {currentKeyringId as keyringId};
 var currentPrimaryKeyId = null;
 export {currentPrimaryKeyId as primaryKeyId};
 
+const DEMAIL_SUFFIX = 'de-mail.de';
+export let isDemail = false; // is current keyring created by de-mail
+export let queryString = {};
+
 var keyringTmpl;
 var $keyringList;
 
-const demailSuffix = 'de-mail.de';
 // set mvelo to global namespace for compatibility with ../lib/file.js
 window.mvelo = window.mvelo || mvelo;
 
 l10n.register([
-  'keygrid_user_email',
-  'key_gen_demail'
+  'keygrid_user_email'
 ]);
 
 function init() {
@@ -71,7 +72,6 @@ function init() {
       mvelo.appendTpl($('#importKey'), mvelo.extension.getURL('app/keyring/tpl/importKey.html')),
       mvelo.appendTpl($('#exportsKey'), mvelo.extension.getURL('app/keyring/tpl/exportKeys.html')),
       mvelo.appendTpl($('#setupProvider'), mvelo.extension.getURL('app/keyring/tpl/setupProvider.html')),
-      mvelo.appendTpl($('#generateKey'), mvelo.extension.getURL('app/keyring/tpl/generateKey.html')),
       mvelo.appendTpl($('#encrypting'), mvelo.extension.getURL('app/fileEncrypt/encrypt.html'))
     ]);
   })
@@ -121,14 +121,13 @@ function initUI() {
 }
 
 function initKeyRing(data) {
-  var qs = jQuery.parseQuerystring();
+  queryString = jQuery.parseQuerystring();
   currentKeyringId = data || mvelo.LOCAL_KEYRING_ID;
-  if (qs.hasOwnProperty('krid')) {
-    currentKeyringId = decodeURIComponent(qs.krid);
+  if (queryString.krid) {
+    currentKeyringId = queryString.krid;
   }
 
   setKeyRing(currentKeyringId);
-  setKeyGenDefaults(qs);
 }
 
 function showSetupView(privateKeys) {
@@ -229,17 +228,6 @@ function switchOptionsUI(keyRingAttr) {
   activateTabButton(window.location.hash);
 }
 
-function setKeyGenDefaults(qs) {
-  if (qs.hasOwnProperty('email')) {
-    var decodedEmail = decodeURIComponent(qs.email);
-    $('#genKeyEmail').val(decodedEmail);
-  }
-
-  if (qs.hasOwnProperty('fname')) {
-    $('#genKeyName').val(decodeURIComponent(qs.fname));
-  }
-}
-
 function initKeyringSelection(data) {
   if (data === undefined) {
     return false;
@@ -325,14 +313,7 @@ function setKeyRing(keyringId) {
     $logoArea.css('background-image', 'none');
   }
 
-  // Configure DE-Mail specific UI
-  if (keyringId.indexOf(demailSuffix) !== -1) {
-    $('#genKeyEmail').attr('disabled', 'disabled');
-    $('#genKeyEmailLabel').text(l10n.map.key_gen_demail);
-    $('#keySearchForm').hide();
-    $('#genKeyCheckBoxUpload').prop('checked', false);
-    $('#genKeyUpload').hide();
-  }
+  isDemail = keyringId.includes(DEMAIL_SUFFIX);
 }
 
 function switchKeyring() {
