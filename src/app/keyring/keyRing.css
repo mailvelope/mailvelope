@@ -1,0 +1,90 @@
+/**
+ * Copyright (C) 2016 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
+ */
+
+#keyType {
+  vertical-align: middle;
+    width: 200px;
+}
+
+.keyType-selector {
+  float: right;
+  margin-right: .8em;
+  font-size: 13px;
+}
+
+#exportDownload a {
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+#exportDownload > input {
+  display: inline-block;
+  width: 250px;
+}
+
+#keyringFilterBtn {
+  width: auto;
+  display: inline-block;
+}
+
+#keyRingTable tr {
+    cursor: pointer;
+}
+
+#keyRingTable td {
+    vertical-align: middle;
+    word-wrap: break-word;
+}
+
+@media (max-width: 1200px) {
+    #keyRingTable td {
+        max-width: 90px;
+        word-wrap: break-word;
+    }
+}
+
+@media (max-width: 1300px) {
+    #keyRingTable td {
+        max-width: 130px;
+        word-wrap: break-word;
+    }
+}
+
+.monospaced {
+    font-family: monospace;
+    white-space: nowrap;
+}
+
+@media (max-width: 1000px) {
+    .monospaced {
+        white-space: normal;
+        word-wrap: break-word;
+    }
+}
+
+#keyEditor .tab-pane {
+    padding: 10px;
+}
+
+#keyEditor .modal-body {
+    min-height: 550px;
+}
+
+button.keyDetailsBtn, button.keyDeleteBtn {
+    min-width: 30px;
+}
+
+.publicKey {
+    background: no-repeat url(../img/public-key.png);
+}
+
+.keyPair {
+    background: no-repeat url(../img/private-key.png);
+}
+
+.keyTypeDetails {
+    padding-left: 25px;
+}
+

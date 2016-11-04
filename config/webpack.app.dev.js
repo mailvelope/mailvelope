@@ -36,6 +36,10 @@ module.exports = {
                   'transform-es2015-destructuring'
         ]
       }
+    },
+    {
+      test: /\.css$/,
+      loader: 'style!css?-url'
     }]
   },
 

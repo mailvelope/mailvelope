@@ -28,6 +28,8 @@ import ReactDOM from 'react-dom';
 import PrimaryKeyButton from './components/PrimaryKeyButton';
 import GenerateKey from './GenerateKey';
 
+import './keyRing.css';
+
 
 l10n.register([
   'keygrid_key_not_expire',

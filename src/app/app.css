@@ -27,108 +27,16 @@ input[readonly] {
   line-height: inherit;
 }
 
-.primaryKey ul
-{
-  list-style:none;
-  font-style:italic;
-  margin: 20px 40px;
-}
-
-.subkeys ul
-{
-  list-style:none;
-  font-style:italic;
-  margin: 20px;
-}
-
-.primaryKey label, .subkeys label, .userids label {
-  display:inline-block;
-  width:140px;
-  font-style:normal;
-  font-weight:bold;
-}
-
-.subkeys > div, .userids > div  {
-  margin: 20px 40px;
-}
-
-#mainKeyGrid .k-toolbar {
-  min-height: 27px;
-}
-
-#gridMainToolbar {
-  margin-top: 2px;
-  margin-bottom: 2px;
-}
-
-.keyType-label {
-  vertical-align: middle;
-  padding-right: .5em;
-  display: inline;
-}
-
-#keyType {
-  vertical-align: middle;
-    width: 200px;
-}
-
-.keyType-selector {
-  float: right;
-  margin-right: .8em;
-  font-size: 13px;
-}
-
-.k-button:hover {
-  text-decoration: none;
-}
-
 .busy {
   cursor: wait !important;
-}
-
-.checkb-active, td[data-container-for='active'] {
-  text-align: center;
-  vertical-align: middle;
 }
 
 .navbar-brand {
   font-family: 'Courgette', serif;
 }
 
-#newKey {
-  width: 100%;
-  font-family: monospace;
-}
-
 #displayKeys {
   min-height: 300px;
-}
-
-#exportKey {
-  width: auto;
-}
-
-#exportDownload a {
-  font-size: 14px;
-  margin-left: 5px;
-}
-#exportDownload > input {
-  display: inline-block;
-  width: 250px;
-}
-
-#exportBtn {
-  margin-left: 5px;
-}
-
-#genKeyWait .modal-footer {
-  text-align: left;
-}
-
-#genKeyWait .wait-indicator {
-  background: no-repeat url(../img/progress-bar.gif);
-  width: 220px;
-  height: 19px;
 }
 
 #security .form-horizontal .control-label,
@@ -145,21 +53,9 @@ input[readonly] {
   margin-bottom: 30px;
 }
 
-#secCode {
-  font-family: monospace;
-  width: 55px;
-}
-
 #pwdCacheTime {
   font-family: monospace;
   width: 50px;
-}
-
-@media (max-width:767px) {
-  #secColor,
-  #secCode {
-    display: inline-block;
-  }
 }
 
 #securityTokenPanel {
@@ -227,7 +123,6 @@ input[readonly] {
   }
 }
 
-
 @media (max-width:767px) {
   #pwdCacheLabel {
     padding-left: 20px;
@@ -239,17 +134,6 @@ input[readonly] {
     display: inline-block;
   }
 }
-.spinner {
-  background: url('../img/loading.gif') no-repeat center;
-}
-
-.key-advanced-open::before {
-  content: '<< ';
-}
-
-.key-advanced-closed::after {
-  content: ' >>';
-}
 
 .list-group .active a {
     color: white;
@@ -258,24 +142,6 @@ input[readonly] {
 .list-group a:hover {
     text-decoration: none;
 }
-
-#errorKeysArea {
-    margin-top: 10px;
-}
-
-#keyMigrationBox {
-    width: 650px;
-    font-family: monospace;
-}
-
-#migNavEntry {
-    display:none;
-}
-
-#migNavEntry .a {
-    font-weight:bold;
-}
-
 
 @media (min-width: 1300px) {
     .container {
@@ -305,41 +171,13 @@ input[readonly] {
     padding-bottom: 4px;
 }
 
-#keyringFilterBtn {
-  width: auto;
-  display: inline-block;
-}
-#keyRingTable tr {
-    cursor: pointer;
-}
-
 #watchListTable tr {
     cursor: pointer;
-}
-
-#keyRingTable td {
-    vertical-align: middle;
-}
-
-.monospaced {
-    font-family: monospace;
-    white-space: nowrap;
 }
 
 .optionsTable {
     background-color: white;
     border: 1px solid #ccc;
-}
-
-#keyEditor .tab-pane {
-    padding: 10px;
-}
-
-#keyEditor .modal-body {
-    min-height: 550px;
-}
-#keyRingTable td {
-    word-wrap: break-word;
 }
 
 .addedSiteFade {
@@ -384,27 +222,6 @@ input[readonly] {
     }
 }
 
-@media (max-width: 1200px) {
-    #keyRingTable td {
-        max-width: 90px;
-        word-wrap: break-word;
-    }
-}
-
-@media (max-width: 1300px) {
-    #keyRingTable td {
-        max-width: 130px;
-        word-wrap: break-word;
-    }
-}
-
-@media (max-width: 1000px) {
-    .monospaced {
-        white-space: normal;
-        word-wrap: break-word;
-    }
-}
-
 #settingsPanel {
     position: absolute;
     top: 60px;
@@ -412,10 +229,6 @@ input[readonly] {
     right: 20px;
     bottom: 20px;
     /*background-color: white;*/
-}
-
-button.keyDetailsBtn, button.keyDeleteBtn {
-    min-width: 30px;
 }
 
 #keyringList {
@@ -468,7 +281,7 @@ button.keyDetailsBtn, button.keyDeleteBtn {
     color: #808080 !important;
 }
 
-/* on/off switch begin */
+/* watchlist on/off switch */
 .onoffswitch {
     position: relative; width: 70px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
@@ -514,33 +327,6 @@ button.keyDetailsBtn, button.keyDeleteBtn {
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
     right: 0;
-}
-
-/* on/off switch end */
-/* .navbar-nav {
-    float: left;
-    margin: 0;
-}
-*/
-/* .navbar-nav > li {
-    float: left;
-}
-.navbar-nav > li > a {
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
-*/
-
-.publicKey {
-    background: no-repeat url(../img/public-key.png);
-}
-
-.keyPair {
-    background: no-repeat url(../img/private-key.png);
-}
-
-.keyTypeDetails {
-    padding-left: 25px;
 }
 
 .settings-logo {

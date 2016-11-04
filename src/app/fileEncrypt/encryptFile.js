@@ -17,12 +17,13 @@
 
 'use strict';
 
-import mvelo from '../../mvelo';
 import $ from 'jquery';
+import mvelo from '../../mvelo';
 import * as app from '../app';
 import event from '../util/event';
 import * as l10n from '../util/l10n';
 
+import './encrypt.css';
 
 var numUploadsInProgress = 0;
 var recipients = [];

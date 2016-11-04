@@ -23,6 +23,8 @@ import * as app from '../app';
 import event from '../util/event';
 import * as l10n from '../util/l10n';
 
+import './importKey.css';
+
 
 var publicKeyRegex = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
 var privateKeyRegex = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END PGP PRIVATE KEY BLOCK-----/g;

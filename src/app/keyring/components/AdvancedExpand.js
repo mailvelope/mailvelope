@@ -7,6 +7,8 @@ import * as l10n from '../../util/l10n';
 import $ from 'jquery';
 import React from 'react';
 
+import './AdvancedExpand.css';
+
 'use strict';
 
 l10n.register([

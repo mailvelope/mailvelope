@@ -7,6 +7,8 @@ import * as l10n from '../../util/l10n';
 import React from 'react';
 import $ from 'jquery';
 
+import './GenerateWait.css';
+
 'use strict';
 
 l10n.register([
