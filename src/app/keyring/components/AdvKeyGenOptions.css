@@ -1,0 +1,12 @@
+/**
+ * Copyright (C) 2016 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
+ */
+
+.adv-key-gen-options .form-group {
+  width: 62%;
+}
+
+.key-expiration-group > div {
+  display: block;
+}

@@ -783,7 +783,7 @@ Keyring.prototype.generateKey = function(options) {
       return '<' + userId.email + '>';
     }
   });
-  return openpgp.generateKeyPair({numBits: parseInt(options.numBits), userId: options.userIds, passphrase: options.passphrase})
+  return openpgp.generateKeyPair({numBits: parseInt(options.numBits), userId: options.userIds, passphrase: options.passphrase, keyExpirationTime: options.keyExpirationTime})
     .then(function(data) {
       if (data) {
         that.keyring.privateKeys.push(data.key);

@@ -371,10 +371,6 @@
     "message": "Schlüssel Ablaufdatum",
     "description": "Key expiration date"
   },
-  "key_gen_expires_after": {
-    "message": "Schlüssel verfällt",
-    "description": "Text between key expires checkbox and date picker"
-  },
   "key_gen_generate": {
     "message": "Erstellen",
     "description": "Key generate button label"

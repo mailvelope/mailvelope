@@ -8,6 +8,7 @@ import mvelo from '../../mvelo';
 import * as l10n from '../util/l10n';
 import event from '../util/event';
 import {keyring} from '../app';
+import moment from 'moment';
 
 import NameAddrInput from './components/NameAddrInput';
 import AdvancedExpand from './components/AdvancedExpand';
@@ -29,15 +30,17 @@ l10n.register([
   'key_gen_success'
 ]);
 
+// set locale
+moment.locale(navigator.language);
+
 class GenerateKey extends React.Component {
   constructor(props) {
     super(props);
     this.initialState = {
       name: props.name,
       email: props.email,
-      keySize: '2048',
-      keyExpires: false,
-      keyExpirationTime: '',
+      keySize: '4096',
+      keyExpirationTime: null,
       password: '',
       passwordCheck: '',
       keyServerUpload: props.demail ? false : true,
@@ -62,15 +65,17 @@ class GenerateKey extends React.Component {
 
   handleChange(event) {
     let value;
-    switch (event.target.type) {
+    const target = event.target;
+    switch (target.type) {
       case 'checkbox':
-        value = event.target.checked;
+        value = target.checked;
         break;
       default:
-        value = event.target.value;
+        value = target.value;
     }
-    this.setState({[event.target.id]: value});
+    this.setState({[target.id]: value});
   }
+
 
   handleGenerate() {
     const validEmail = mvelo.util.checkEmail(this.state.email);
@@ -88,6 +93,9 @@ class GenerateKey extends React.Component {
       fullName: this.state.name,
       email: this.state.email
     }];
+    if (this.state.keyExpirationTime) {
+      parameters.keyExpirationTime = Math.abs(this.state.keyExpirationTime.unix() - moment().startOf('day').unix());
+    }
     keyring('generateKey', [parameters])
     .then(() => {
       this.setState({

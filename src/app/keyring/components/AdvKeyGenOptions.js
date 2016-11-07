@@ -3,8 +3,13 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import * as l10n from '../../util/l10n';
 import React from 'react';
+import * as l10n from '../../util/l10n';
+import moment from 'moment';
+
+import DatePicker from './DatePicker';
+
+import './AdvKeyGenOptions.css';
 
 'use strict';
 
@@ -12,12 +17,13 @@ l10n.register([
   'keygrid_algorithm',
   'key_gen_key_size',
   'key_gen_expiration',
-  'key_gen_expires_after'
+  'keygrid_key_not_expire'
 ]);
 
-const AdvKeyGenOptions = ({value: {keySize, keyExpires, keyExpirationTime}, onChange, disabled}) => {
+const AdvKeyGenOptions = ({value: {keySize, keyExpirationTime}, onChange, disabled}) => {
+  const handleDateChange = (moment) => onChange({target: {id: 'keyExpirationTime', value: moment}});
   return (
-    <div>
+    <div className="adv-key-gen-options">
       <div className="form-group">
         <label className="control-label" htmlFor="genKeyAlgo">{l10n.map.keygrid_algorithm}</label>
         <select id="keyAlgo" className="form-control" disabled>
@@ -32,24 +38,9 @@ const AdvKeyGenOptions = ({value: {keySize, keyExpires, keyExpirationTime}, onCh
           <option>4096</option>
         </select>
       </div>
-      <div className="form-group">
-        <label className="control-label" htmlFor="keyExpires">{l10n.map.key_gen_expiration}</label>
-        <div className="form-inline">
-          <div className="checkbox">
-            <label>
-              <input id="keyExpires" type="checkbox" checked={keyExpires} onChange={onChange} disabled={disabled} />
-              <span>&nbsp;{l10n.map.key_gen_expires_after}</span>
-            </label>
-          </div>
-          <div className="input-group">
-            <input id="keyExpirationTime" type="text" className="form-control" value={keyExpirationTime} onChange={onChange} disabled={disabled} />
-            <span className="input-group-btn">
-              <button type="button" className="btn btn-default" disabled={disabled}>
-                <i className="glyphicon glyphicon-calendar"></i>
-              </button>
-            </span>
-          </div>
-        </div>
+      <div className="form-group key-expiration-group">
+        <label className="control-label" htmlFor="keyExpirationTime">{l10n.map.key_gen_expiration}</label>
+        <DatePicker id="keyExpirationTime" value={keyExpirationTime} onChange={handleDateChange} placeholder={l10n.map.keygrid_key_not_expire} minDate={moment().add({days: 1})} disabled={disabled} />
       </div>
       <div className="form-group">&nbsp;</div>
     </div>

@@ -19,8 +19,10 @@
     "emailjs-mime-builder": "^1.0.1",
     "emailjs-mime-codec": "mailvelope/emailjs-mime-codec#v1.0.2m",
     "mailreader": "~1.0.0",
+    "moment": "^2.15.2",
     "ng-tags-input": "^3.0.0",
     "react": "~15.3.1",
+    "react-datepicker": "^0.33.0",
     "react-dom": "~15.3.1"
   },
   "devDependencies": {
@@ -42,7 +44,7 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^19.0.0",
-    "grunt-jpm": "mailvelope/grunt-jpm#jpm-v1.1",
+    "grunt-jpm": "mailvelope/grunt-jpm#jpm-v1.x",
     "grunt-jsdoc": "^2.1.0",
     "grunt-mocha-phantomjs": "^4.0.0",
     "grunt-replace": "^1.0.1",
