@@ -97,7 +97,11 @@
 
   /**
    * @typedef {Object} DisplayContainer
-   * @property {Error} error - Error object with error.code = 'DECRYPT_ERROR' for generic decrypt errors
+   * @property {Error} error - Error object with code and message attribute
+   *                   error.code = 'DECRYPT_ERROR' - generic decrypt error
+   *                   error.code = 'ARMOR_PARSE_ERROR' - error while parsing the armored message
+   *                   error.code = 'PWD_DIALOG_CANCEL' - user canceled password dialog
+   *                   error.code = 'NO_KEY_FOUND' - no private key found to decrypt this message
    */
 
   /**

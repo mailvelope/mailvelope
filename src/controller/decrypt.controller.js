@@ -143,11 +143,21 @@ DecryptController.prototype.decrypt = function(armored, keyringId) {
         that.ports.dDialog.postMessage({event: 'error-message', error: error.message});
       }
       if (that.ports.decryptCont) {
-        that.ports.decryptCont.postMessage({event: 'error-message', error: {
-          // don't expose internal errors to API
-          code: 'DECRYPT_ERROR',
-          message: 'Generic decrypt error'
-        }});
+        error = error || {};
+        switch (error.code) {
+          case 'ARMOR_PARSE_ERROR':
+          case 'PWD_DIALOG_CANCEL':
+          case 'NO_KEY_FOUND':
+            error = that.mvelo.util.mapError(error);
+            break;
+          default:
+            error = {
+              // don't expose internal errors to API
+              code: 'DECRYPT_ERROR',
+              message: 'Generic decrypt error'
+            };
+        }
+        that.ports.decryptCont.postMessage({event: 'error-message', error: error});
       }
     });
 };

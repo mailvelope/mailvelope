@@ -83,6 +83,7 @@ function readMessage(armoredText, keyringId) {
     } catch (e) {
       console.log('openpgp.message.readArmored', e);
       return reject({
+        code: 'ARMOR_PARSE_ERROR',
         message: l10n('message_read_error', [e])
       });
     }
@@ -102,7 +103,8 @@ function readMessage(armoredText, keyringId) {
         message = message + ' ' + l10n("word_or") + ' ' + encryptionKeyIds[i].toHex().toUpperCase();
       }
       return reject({
-        message: message,
+        code: 'NO_KEY_FOUND',
+        message: message
       });
     }
 

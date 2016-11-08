@@ -61,8 +61,8 @@ mvelo.DecryptContainer.prototype.registerEventListener = function() {
         that.port.disconnect();
         break;
       case 'error-message':
-        if (msg.error.code === 'DECRYPT_ERROR') {
-          // decrypt error is not handled as exception
+        if (msg.error.code) {
+          // error with error code is not handled as an exception
           that.done(null, {error: msg.error});
         } else {
           that.done(msg.error);
