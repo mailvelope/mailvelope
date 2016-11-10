@@ -417,6 +417,23 @@ mvelo.util.PromiseQueue.prototype._next = function() {
 };
 
 /**
+ * Waterfall of async processes
+ * @param  {Function} process - has to return Promise, result as array
+ * @param  {Array} list - each item is processed
+ * @return {Promise} - resolved when all processes finished with end result as array
+ */
+mvelo.util.sequential = (process, list) => {
+  return list.reduce((acc, item) => {
+    return acc.then((result) => {
+      return process(item).then((processResult) => {
+        result.push(...processResult);
+        return result;
+      })
+    });
+  }, Promise.resolve([]));
+}
+
+/**
  * Validate an email address.
  * @param  {String} address   The email address to validate
  * @return {Boolean}          True if valid, false if not

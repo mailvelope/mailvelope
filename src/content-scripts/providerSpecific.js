@@ -33,6 +33,7 @@ mvelo.providers.init = function() {
   mvelo.providers.map = new Map();
   mvelo.providers.map.set('mail.google.com', new mvelo.providers.Gmail());
   mvelo.providers.map.set('mail.yahoo.com', new mvelo.providers.Yahoo());
+  mvelo.providers.map.set('outlook.live.com', new mvelo.providers.Outlook());
   mvelo.providers.map.set('default', new mvelo.providers.Default());
 };
 
@@ -58,11 +59,6 @@ mvelo.providers.get = function(hostname) {
 
 
 (function(mvelo) {
-
-  mvelo.providers.Gmail = Gmail;
-  mvelo.providers.Yahoo = Yahoo;
-  mvelo.providers.Default = Default;
-
 
   //
   // Default module ... generic handling for unsupported providers
@@ -95,7 +91,7 @@ mvelo.providers.get = function(hostname) {
    * @return {Array}   The recipient objects in the form { email: 'jon@example.com' }
    */
   Gmail.prototype.getRecipients = function() {
-    return dom.getAttr($('.oL.aDm span[email], .vR span[email]'), 'email');
+    return Promise.resolve(dom.getAttr($('.oL.aDm span[email], .vR span[email]'), 'email'));
   };
 
   /**
@@ -133,7 +129,7 @@ mvelo.providers.get = function(hostname) {
    * @return {Array}   The recipient objects in the form { email: 'jon@example.com' }
    */
   Yahoo.prototype.getRecipients = function() {
-    return dom.getAttr($('.compose-header span[data-address]'), 'data-address');
+    return Promise.resolve(dom.getAttr($('.compose-header span[data-address]'), 'data-address'));
   };
 
   /**
@@ -154,6 +150,54 @@ mvelo.providers.get = function(hostname) {
       dom.setFocus($('#subject-field').is(':visible') ? $('#subject-field') : $('.compose-message .cm-rtetext'));
     });
   };
+
+  //
+  // Outlook module
+  //
+
+  class Outlook {
+    getRecipients() {
+      return mvelo.util.sequential(this.extractPersona.bind(this), $('.PersonaPaneLauncher').get());
+    }
+
+    setRecipients(recipients) {
+      return recipients;
+    }
+
+    waitForPersonaCard() {
+      return new Promise((resolve, reject) => {
+        const observer = new MutationObserver(mutations => {
+          mutations.forEach(mutation => {
+            if (!mutation.addedNodes.length) {
+              return;
+            }
+            const addedNode = mutation.addedNodes.item(0);
+            const personaCard = addedNode.getElementsByClassName('groupPivotPersonaCard');
+            //console.log('personeCard', $(personaCard).html());
+            if (personaCard) {
+              observer.disconnect();
+              // wait until content of card is rendered
+              setTimeout(() => resolve(personaCard), 250);
+            }
+          });
+        });
+        observer.observe(document.body, {childList: true});
+        setTimeout(() => reject(observer.disconnect()), 1000);
+      });
+    }
+
+    extractPersona(pane) {
+      $(pane).click();
+      return this.waitForPersonaCard()
+      .then(personaCard => dom.getText($(personaCard).find('span')))
+      .catch(() => []);
+    }
+  }
+
+  mvelo.providers.Gmail = Gmail;
+  mvelo.providers.Yahoo = Yahoo;
+  mvelo.providers.Outlook = Outlook;
+  mvelo.providers.Default = Default;
 
   //
   // DOM api util
@@ -221,6 +265,8 @@ mvelo.providers.get = function(hostname) {
       }, 0);
     });
   };
+
+  dom.waitTick = () => new Promise(resolve => setTimeout(resolve, 0));
 
   /**
    * Parse email addresses from string input.

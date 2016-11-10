@@ -166,9 +166,8 @@ mvelo.EncryptFrame.prototype._showMailEditor = function() {
 };
 
 mvelo.EncryptFrame.prototype._getRecipients = function() {
-  this.emit('eframe-recipients', {
-    recipients: mvelo.main.currentProvider.getRecipients()
-  });
+  mvelo.main.currentProvider.getRecipients()
+  .then(recipients => this.emit('eframe-recipients', {recipients}));
 };
 
 mvelo.EncryptFrame.prototype._establishConnection = function() {
