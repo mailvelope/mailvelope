@@ -160,10 +160,6 @@ mvelo.providers.get = function(hostname) {
       return mvelo.util.sequential(this.extractPersona.bind(this), $('.PersonaPaneLauncher').get());
     }
 
-    setRecipients(recipients) {
-      return recipients;
-    }
-
     waitForPersonaCard() {
       return new Promise((resolve, reject) => {
         const observer = new MutationObserver(mutations => {
@@ -191,6 +187,16 @@ mvelo.providers.get = function(hostname) {
       return this.waitForPersonaCard()
       .then(personaCard => dom.getText($(personaCard).find('span')))
       .catch(() => []);
+    }
+
+    setRecipients(recipients = []) {
+      // remove existing recipients
+      $('.PersonaPaneLauncher button').click();
+      // enter address text into input
+      const text = joinEmail(recipients);
+      const input = $('[role="heading"] form input').first();
+      dom.setFocus(input)
+      .then(() => input.val(text));
     }
   }
 
