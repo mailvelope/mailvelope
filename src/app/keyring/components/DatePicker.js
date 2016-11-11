@@ -42,7 +42,7 @@ CustomInput.propTypes = {
   disabled: React.PropTypes.bool
 }
 
-const DatePicker = ({value, onChange, placeholder, minDate, disabled}) => {
+const DatePicker = ({value, onChange, placeholder, minDate, maxDate, disabled}) => {
   // ReactDatePicker maps placeholderText to placeholder prop of customInput
   return (
     <ReactDatePicker
@@ -51,6 +51,7 @@ const DatePicker = ({value, onChange, placeholder, minDate, disabled}) => {
       showMonthDropdown
       showYearDropdown
       minDate={minDate}
+      maxDate={maxDate}
       dropdownMode="select"
       onChange={onChange}
       placeholderText={placeholder}
@@ -63,6 +64,7 @@ DatePicker.propTypes = {
   onChange: React.PropTypes.func.isRequired,
   placeholder: React.PropTypes.string,
   minDate: React.PropTypes.object,
+  maxDate: React.PropTypes.object,
   disabled: React.PropTypes.bool
 }
 

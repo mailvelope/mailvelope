@@ -40,7 +40,7 @@ const AdvKeyGenOptions = ({value: {keySize, keyExpirationTime}, onChange, disabl
       </div>
       <div className="form-group key-expiration-group">
         <label className="control-label" htmlFor="keyExpirationTime">{l10n.map.key_gen_expiration}</label>
-        <DatePicker id="keyExpirationTime" value={keyExpirationTime} onChange={handleDateChange} placeholder={l10n.map.keygrid_key_not_expire} minDate={moment().add({days: 1})} disabled={disabled} />
+        <DatePicker id="keyExpirationTime" value={keyExpirationTime} onChange={handleDateChange} placeholder={l10n.map.keygrid_key_not_expire} minDate={moment().add({days: 1})} maxDate={moment('2080-12-31')} disabled={disabled} />
       </div>
       <div className="form-group">&nbsp;</div>
     </div>
