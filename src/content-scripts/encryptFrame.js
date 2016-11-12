@@ -166,7 +166,7 @@ mvelo.EncryptFrame.prototype._showMailEditor = function() {
 };
 
 mvelo.EncryptFrame.prototype._getRecipients = function() {
-  mvelo.main.currentProvider.getRecipients()
+  return mvelo.main.currentProvider.getRecipients(this._editElement)
   .then(recipients => this.emit('eframe-recipients', {recipients}));
 };
 
@@ -234,7 +234,7 @@ mvelo.EncryptFrame.prototype._setEditorOutput = function(options) {
   this._normalizeButtons();
   this._setMessage(options.text, 'text');
   // set recipient email addresses
-  mvelo.main.currentProvider.setRecipients(options.recipients);
+  mvelo.main.currentProvider.setRecipients({recipients: options.recipients, editElement: this._editElement});
 };
 
 /**

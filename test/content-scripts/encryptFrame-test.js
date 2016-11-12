@@ -10,7 +10,7 @@ describe('Encrypt Frame unit tests', function() {
     ef = new mvelo.EncryptFrame();
     mvelo.main = mvelo.main || {};
     mvelo.main.currentProvider = {
-      getRecipients: function() { return [{email: 'jon@smith.com'}]; },
+      getRecipients: () => Promise.resolve([{email: 'jon@smith.com'}]),
       setRecipients: sinon.stub()
     };
   });
@@ -27,9 +27,10 @@ describe('Encrypt Frame unit tests', function() {
     });
 
     it('should work', function() {
-      ef._getRecipients();
-
-      expect(ef.emit.withArgs('eframe-recipients', {recipients: recip}).calledOnce).to.be.true;
+      return ef._getRecipients()
+      .then(() => {
+        expect(ef.emit.withArgs('eframe-recipients', {recipients: recip}).calledOnce).to.be.true;
+      });
     });
   });
 
@@ -43,7 +44,7 @@ describe('Encrypt Frame unit tests', function() {
     it('should work', function() {
       ef._setEditorOutput({recipients: recip});
 
-      expect(mvelo.main.currentProvider.setRecipients.withArgs(recip).calledOnce).to.be.true;
+      expect(mvelo.main.currentProvider.setRecipients.withArgs({recipients: recip, editElement: null}).calledOnce).to.be.true;
     });
   });
 

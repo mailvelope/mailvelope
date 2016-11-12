@@ -97,7 +97,7 @@ mvelo.providers.get = function(hostname) {
   /**
    * Set the recipients in the Gmail Webmail editor.
    */
-  Gmail.prototype.setRecipients = function(recipients) {
+  Gmail.prototype.setRecipients = function({recipients}) {
     recipients = recipients || [];
     // find the relevant elements in the Gmail interface
     var displayArea = $('.aoD.hl'); // email display only area
@@ -135,7 +135,7 @@ mvelo.providers.get = function(hostname) {
   /**
    * Set the recipients in the Yahoo Webmail editor.
    */
-  Yahoo.prototype.setRecipients = function(recipients) {
+  Yahoo.prototype.setRecipients = function({recipients}) {
     recipients = recipients || [];
     // remove existing recipients
     $('.compose-header li.hLozenge').remove();
@@ -156,25 +156,33 @@ mvelo.providers.get = function(hostname) {
   //
 
   class Outlook {
-    getRecipients() {
-      return mvelo.util.sequential(this.extractPersona.bind(this), $('.PersonaPaneLauncher').get());
+    getRecipients(editElement) {
+      // get compose area
+      const composeArea = editElement.parents('.conductorContent').first();
+      // find personas in compose are
+      const personas = composeArea.find('.PersonaPaneLauncher').get();
+      return mvelo.util.sequential(this.extractPersona.bind(this), personas);
     }
 
     waitForPersonaCard() {
       return new Promise((resolve, reject) => {
+        // create observer to wait for persona popup
         const observer = new MutationObserver(mutations => {
           mutations.forEach(mutation => {
             if (!mutation.addedNodes.length) {
               return;
             }
             const addedNode = mutation.addedNodes.item(0);
-            const personaCard = addedNode.getElementsByClassName('groupPivotPersonaCard');
-            //console.log('personeCard', $(personaCard).html());
-            if (personaCard) {
-              observer.disconnect();
-              // wait until content of card is rendered
-              setTimeout(() => resolve(personaCard), 250);
-            }
+            observer.disconnect();
+            // wait in interval for popup content to render
+            const searchInterval = setInterval(() => {
+              const personaCard = addedNode.getElementsByClassName('groupPivotPersonaCard');
+              if (personaCard.length && $(personaCard).text().match(HAS_EMAIL)) {
+                clearInterval(searchInterval);
+                resolve(personaCard);
+              }
+            }, 100);
+            setTimeout(() => clearInterval(searchInterval), 1500);
           });
         });
         observer.observe(document.body, {childList: true});
@@ -183,15 +191,19 @@ mvelo.providers.get = function(hostname) {
     }
 
     extractPersona(pane) {
+      // click persona pane to open popup
       $(pane).click();
       return this.waitForPersonaCard()
       .then(personaCard => dom.getText($(personaCard).find('span')))
       .catch(() => []);
     }
 
-    setRecipients(recipients = []) {
+    setRecipients({recipients, editElement}) {
+      recipients = recipients || [];
+      // get compose area
+      const composeArea = editElement.parents('.conductorContent').first();
       // remove existing recipients
-      $('.PersonaPaneLauncher button').click();
+      composeArea.find('.PersonaPaneLauncher button').click();
       // enter address text into input
       const text = joinEmail(recipients);
       const input = $('[role="heading"] form input').first();
@@ -209,54 +221,28 @@ mvelo.providers.get = function(hostname) {
   // DOM api util
   //
 
-  var EMAILS_REGEX = /^[+a-zA-Z0-9_.!#$%&'*\/=?^`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,63}$/g;
+  const IS_EMAIL = /^[+a-zA-Z0-9_.!#$%&'*\/=?^`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,63}$/;
+  const HAS_EMAIL = /[+a-zA-Z0-9_.!#$%&'*\/=?^`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,63}/;
 
   var dom = {};
 
   /**
-   * Filter the value of a list of elements for email addresses.
-   * @param  {[type]} elements   A list of jQuery elements to iteralte over
-   * @return {Array}             The recipient objects in fhe form { email: 'jon@example.com' }
-   */
-  dom.getVal = function(elements) {
-    var recipients = [];
-    elements.each(function() {
-      recipients = recipients.concat(parse($(this).val()));
-    });
-    return recipients;
-  };
-
-  /**
    * Filter the text content of a list of elements for email addresses.
-   * @param  {[type]} elements   A list of jQuery elements to iteralte over
+   * @param  {jQuery} elements   A list of jQuery elements to iteralte over
    * @return {Array}             The recipient objects in fhe form { email: 'jon@example.com' }
    */
   dom.getText = function(elements) {
-    var recipients = [];
-    elements.each(function() {
-      if (!$(this).text().match(EMAILS_REGEX)) {
-        return;
-      }
-      // second filtering: only direct text nodes of span elements
-      var spanClone = $(this).clone();
-      spanClone.children().remove();
-      recipients = recipients.concat(parse(spanClone.text()));
-    });
-    return recipients;
+    return parseEmail(elements, (element) => element.text());
   };
 
   /**
    * Filter a certain attribute of a list of elements for email addresses.
-   * @param  {[type]} elements   A list of jQuery elements to iteralte over
-   * @param  {[type]} attrName   The element's attribute name to query by
+   * @param  {jQuery} elements   A list of jQuery elements to iteralte over
+   * @param  {String} attrName   The element's attribute name to query by
    * @return {Array}             The recipient objects in fhe form { email: 'jon@example.com' }
    */
   dom.getAttr = function(elements, attrName) {
-    var recipients = [];
-    elements.each(function() {
-      recipients = recipients.concat(parse($(this).attr(attrName)));
-    });
-    return recipients;
+    return parseEmail(elements, (element) => element.attr(attrName));
   };
 
   /**
@@ -275,19 +261,20 @@ mvelo.providers.get = function(hostname) {
   dom.waitTick = () => new Promise(resolve => setTimeout(resolve, 0));
 
   /**
-   * Parse email addresses from string input.
-   * @param  {String} text   The input to be matched
-   * @return {Array}         The recipient objects in fhe form { email: 'jon@example.com' }
+   * Extract emails from list of elements
+   * @param  {jQuery} elements    A list of jQuery elements to iteralte over
+   * @param  {Function} extract   extract function
+   * @return {Array}              The recipient objects in fhe form { email: 'jon@example.com' }
    */
-  function parse(text) {
-    if (!text) {
-      return [];
-    }
-    var valid = text.match(EMAILS_REGEX);
-    if (valid === null) {
-      return [];
-    }
-    return toRecipients(valid);
+  function parseEmail(elements, extract) {
+    var emails = [];
+    elements.each(function() {
+      const value = extract($(this));
+      if (IS_EMAIL.test(value)) {
+        emails.push(value);
+      }
+    });
+    return toRecipients(emails);
   }
 
   /**
