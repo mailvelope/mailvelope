@@ -1,130 +1,127 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2012-2016 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
 'use strict';
 
-var mvelo = mvelo || {};
+import mvelo from '../mvelo';
+import $ from 'jquery';
 
-mvelo.main = {};
+import * as clientAPI from './clientAPI';
+import * as providers from './providerSpecific';
+import DecryptFrame from './decryptFrame';
+import VerifyFrame from './verifyFrame';
+import ImportFrame from './importFrame';
+import EncryptFrame from './encryptFrame';
 
-mvelo.main.interval = 2500; // ms
-mvelo.main.intervalID = 0;
-mvelo.main.regex = /END\sPGP/;
-mvelo.main.minEditHeight = 84;
-mvelo.main.contextTarget = null;
-mvelo.main.prefs = null;
-mvelo.main.name = 'mainCS-' + mvelo.util.getHash();
-mvelo.main.port = null;
-mvelo.main.host = null;
+const SCAN_LOOP_INTERVAL = 2500; // ms
+const PGP_FOOTER = /END\sPGP/;
+const MIN_EDIT_HEIGHT = 84;
+const NAME = 'mainCS-' + mvelo.util.getHash();
 
-mvelo.main.connect = function() {
+let intervalID = 0;
+//let contextTarget = null;
+let port = null;
+let watchList = null;
+
+export let host = null;
+export let currentProvider = null;
+export let prefs = null;
+
+function connect() {
   if (document.mveloControl) {
     return;
   }
-  mvelo.main.port = mvelo.extension.connect({name: mvelo.main.name});
-  mvelo.main.addMessageListener();
-  mvelo.main.port.postMessage({event: 'get-prefs', sender: mvelo.main.name});
-  //mvelo.main.initContextMenu();
+  port = mvelo.extension.connect({name: NAME});
+  addMessageListener();
+  port.postMessage({event: 'get-prefs', sender: NAME});
+  //initContextMenu();
   document.mveloControl = true;
-};
+}
 
-$(document).ready(mvelo.main.connect);
+$(document).ready(connect);
 
-mvelo.main.init = function(prefs, watchList) {
-  mvelo.main.prefs = prefs;
-  mvelo.main.watchList = watchList;
-  mvelo.main.detectHost();
+function init(preferences, watchlist) {
+  prefs = preferences;
+  watchList = watchlist;
+  detectHost();
 
-  if (mvelo.domAPI.active) {
+  if (clientAPI.active) {
     // api case
-    mvelo.domAPI.init();
+    clientAPI.init();
     return;
   }
 
   // non-api case ... use provider specific content scripts
-  mvelo.providers.init();
-  mvelo.main.currentProvider = mvelo.providers.get(mvelo.main.host);
-  if (mvelo.main.prefs.main_active) {
-    mvelo.main.on();
+  providers.init();
+  currentProvider = providers.get(host);
+  if (prefs.main_active) {
+    on();
   } else {
-    mvelo.main.off();
+    off();
   }
-};
+}
 
-mvelo.main.detectHost = function() {
-  mvelo.domAPI.active = mvelo.main.watchList.some(function(site) {
+function detectHost() {
+  clientAPI.active = watchList.some(function(site) {
     return site.active && site.frames && site.frames.some(function(frame) {
       var hostRegex = mvelo.util.matchPattern2RegEx(frame.frame);
       var validHost = hostRegex.test(window.location.hostname);
       if (frame.scan && validHost) {
         // host = match pattern without *. prefix
-        mvelo.main.host = frame.frame.replace(/^\*\./, '');
+        host = frame.frame.replace(/^\*\./, '');
         if (frame.api) {
           return true;
         }
       }
     });
   });
-};
+}
 
-mvelo.main.on = function() {
-  if (mvelo.domAPI.active) {
-    return; // do not use scnal loop in case of domApi support
+function on() {
+  if (clientAPI.active) {
+    return; // do not use scan loop in case of clientAPI support
   }
 
   //console.log('inside cs: ', document.location.host);
-  if (mvelo.main.intervalID === 0) {
+  if (intervalID === 0) {
     // start scan loop
-    mvelo.main.scanLoop();
-    mvelo.main.intervalID = window.setInterval(function() {
-      mvelo.main.scanLoop();
-    }, mvelo.main.interval);
+    scanLoop();
+    intervalID = window.setInterval(function() {
+      scanLoop();
+    }, SCAN_LOOP_INTERVAL);
   }
-};
+}
 
-mvelo.main.off = function() {
-  if (mvelo.main.intervalID !== 0) {
-    window.clearInterval(mvelo.main.intervalID);
-    mvelo.main.intervalID = 0;
+function off() {
+  if (intervalID !== 0) {
+    window.clearInterval(intervalID);
+    intervalID = 0;
   }
-};
+}
 
-mvelo.main.scanLoop = function() {
+function scanLoop() {
   // find armored PGP text
-  var pgpTag = mvelo.main.findPGPTag(mvelo.main.regex);
+  var pgpTag = findPGPTag(PGP_FOOTER);
   if (pgpTag.length !== 0) {
-    mvelo.main.attachExtractFrame(pgpTag);
+    attachExtractFrame(pgpTag);
   }
   // find editable content
-  var editable = mvelo.main.findEditable();
+  var editable = findEditable();
   if (editable.length !== 0) {
-    mvelo.main.attachEncryptFrame(editable);
+    attachEncryptFrame(editable);
   }
-};
+}
 
 /**
  * find text nodes in DOM that match certain pattern
- * @param {Regex} regex
  * @return $([nodes])
  */
-mvelo.main.findPGPTag = function() {
+function findPGPTag() {
   var treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
     acceptNode: function(node) {
-      if (node.parentNode.tagName !== 'SCRIPT' && mvelo.main.regex.test(node.textContent)) {
+      if (node.parentNode.tagName !== 'SCRIPT' && PGP_FOOTER.test(node.textContent)) {
         return NodeFilter.FILTER_ACCEPT;
       } else {
         return NodeFilter.FILTER_REJECT;
@@ -149,9 +146,9 @@ mvelo.main.findPGPTag = function() {
   });
 
   return nodeList;
-};
+}
 
-mvelo.main.findEditable = function() {
+function findEditable() {
   // find textareas and elements with contenteditable attribute, filter out <body>
   var editable = $('[contenteditable], textarea').filter(':visible').not('body');
   var iframes = $('iframe').filter(':visible');
@@ -167,7 +164,7 @@ mvelo.main.findEditable = function() {
   dynFrames.each(function() {
     var content = $(this).contents();
     // set event handler for contextmenu
-    content.find('body')//.off("contextmenu").on("contextmenu", mvelo.main.onContextMenu)
+    content.find('body')//.off("contextmenu").on("contextmenu", onContextMenu)
     // mark body as 'inside iframe'
                         .data(mvelo.DYN_IFRAME, true)
     // add iframe element
@@ -192,7 +189,7 @@ mvelo.main.findEditable = function() {
         var content = frame.contents();
         if (content.attr('designMode') === 'on' || content.find('body[contenteditable]').length !== 0) {
           // set event handler for contextmenu
-          //content.find('body').off("contextmenu").on("contextmenu", mvelo.main.onContextMenu);
+          //content.find('body').off("contextmenu").on("contextmenu", onContextMenu);
           // mark body as 'inside iframe'
           content.find('body').data(mvelo.IFRAME_OBJ, frame);
           return true;
@@ -207,12 +204,12 @@ mvelo.main.findEditable = function() {
   editable = editable.add(editableBody);
   // filter out elements below a certain height limit
   editable = editable.filter(function() {
-    return $(this).height() > mvelo.main.minEditHeight;
+    return $(this).height() > MIN_EDIT_HEIGHT;
   });
   return editable;
-};
+}
 
-mvelo.main.getMessageType = function(armored) {
+export function getMessageType(armored) {
   if (/END\sPGP\sMESSAGE/.test(armored)) {
     return mvelo.PGP_MESSAGE;
   } else if (/END\sPGP\sSIGNATURE/.test(armored)) {
@@ -222,42 +219,42 @@ mvelo.main.getMessageType = function(armored) {
   } else if (/END\sPGP\sPRIVATE\sKEY\sBLOCK/.test(armored)) {
     return mvelo.PGP_PRIVATE_KEY;
   }
-};
+}
 
-mvelo.main.attachExtractFrame = function(element) {
+function attachExtractFrame(element) {
   // check status of PGP tags
   var newObj = element.filter(function() {
-    return !mvelo.ExtractFrame.isAttached($(this).parent());
+    return !isAttached($(this).parent());
   });
   // create new decrypt frames for new discovered PGP tags
   newObj.each(function(index, element) {
     try {
       // parent element of text node
       var pgpEnd = $(element).parent();
-      switch (mvelo.main.getMessageType(pgpEnd.text())) {
+      switch (getMessageType(pgpEnd.text())) {
         case mvelo.PGP_MESSAGE:
-          var dFrame = new mvelo.DecryptFrame(mvelo.main.prefs);
+          var dFrame = new DecryptFrame(prefs);
           dFrame.attachTo(pgpEnd);
           break;
         case mvelo.PGP_SIGNATURE:
-          var vFrame = new mvelo.VerifyFrame(mvelo.main.prefs);
+          var vFrame = new VerifyFrame(prefs);
           vFrame.attachTo(pgpEnd);
           break;
         case mvelo.PGP_PUBLIC_KEY:
-          var imFrame = new mvelo.ImportFrame(mvelo.main.prefs);
+          var imFrame = new ImportFrame(prefs);
           imFrame.attachTo(pgpEnd);
           break;
       }
     } catch (e) {}
   });
-};
+}
 
 /**
  * attach encrypt frame to element
  * @param  {$} element
  * @param  {boolean} expanded state of frame
  */
-mvelo.main.attachEncryptFrame = function(element, expanded) {
+function attachEncryptFrame(element, expanded) {
   // check status of elements
   var newObj = element.filter(function() {
     if (expanded) {
@@ -271,18 +268,18 @@ mvelo.main.attachEncryptFrame = function(element, expanded) {
       }
     } else {
       // filter out attached and detached frames
-      return !mvelo.EncryptFrame.isAttached($(this));
+      return !isAttached($(this));
     }
   });
   // create new encrypt frames for new discovered editable fields
   newObj.each(function(index, element) {
-    var eFrame = new mvelo.EncryptFrame(mvelo.main.prefs);
+    var eFrame = new EncryptFrame(prefs);
     eFrame.attachTo($(element), {expanded: expanded});
   });
-};
+}
 
-mvelo.main.addMessageListener = function() {
-  mvelo.main.port.onMessage.addListener(
+function addMessageListener() {
+  port.onMessage.addListener(
     function(request) {
       //console.log('contentscript: %s onRequest: %o', document.location.toString(), request);
       if (request.event === undefined) {
@@ -290,40 +287,54 @@ mvelo.main.addMessageListener = function() {
       }
       switch (request.event) {
         case 'on':
-          mvelo.main.on();
+          on();
           break;
         case 'off':
-          mvelo.main.off();
+          off();
           break;
         case 'destroy':
-          mvelo.main.off();
-          mvelo.main.port.disconnect();
+          off();
+          port.disconnect();
           break;
+        /*
         case 'context-encrypt':
-          if (mvelo.main.contextTarget !== null) {
-            mvelo.main.attachEncryptFrame(mvelo.main.contextTarget, true);
-            mvelo.main.contextTarget = null;
+          if (contextTarget !== null) {
+            attachEncryptFrame(contextTarget, true);
+            contextTarget = null;
           }
           break;
+        */
         case 'set-prefs':
-          mvelo.main.init(request.prefs, request.watchList);
+          init(request.prefs, request.watchList);
           break;
         default:
           console.log('unknown event');
       }
     }
   );
-  mvelo.main.port.onDisconnect.addListener(function() {
-    mvelo.main.off();
+  port.onDisconnect.addListener(function() {
+    off();
   });
-};
+}
 
-mvelo.main.initContextMenu = function() {
+function isAttached(element) {
+  var status = element.data(mvelo.FRAME_STATUS);
+  switch (status) {
+    case mvelo.FRAME_ATTACHED:
+    case mvelo.FRAME_DETACHED:
+      return true;
+    default:
+      return false;
+  }
+}
+
+/*
+function initContextMenu() {
   // set handler
-  $("body").on("contextmenu", mvelo.main.onContextMenu);
-};
+  $("body").on("contextmenu", onContextMenu);
+}
 
-mvelo.main.onContextMenu = function(e) {
+function onContextMenu(e) {
   //console.log(e.target);
   var target = $(e.target);
   // find editable descendants or ascendants
@@ -332,10 +343,10 @@ mvelo.main.onContextMenu = function(e) {
     element = target.closest('[contenteditable], textarea');
   }
   if (element.length !== 0 && !element.is('body')) {
-    if (element.height() > mvelo.main.minEditHeight) {
-      mvelo.main.contextTarget = element;
+    if (element.height() > MIN_EDIT_HEIGHT) {
+      contextTarget = element;
     } else {
-      mvelo.main.contextTarget = null;
+      contextTarget = null;
     }
     return;
   }
@@ -345,9 +356,12 @@ mvelo.main.onContextMenu = function(e) {
   var iframeObj = element.data(mvelo.IFRAME_OBJ);
   if (iframeObj !== undefined) {
     // target set to outer iframe
-    mvelo.main.contextTarget = iframeObj;
+    contextTarget = iframeObj;
     return;
   }
   // no suitable element found
-  mvelo.main.contextTarget = null;
-};
+  contextTarget = null;
+}
+*/
+
+//# sourceURL=cs-mailvelope.js

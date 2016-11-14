@@ -1,5 +1,5 @@
 
-import mvelo from '../../build/tmp/content-scripts/cs-mailvelope.js';
+import EncryptFrame from '../../src/content-scripts/encryptFrame';
 
 
 describe('Encrypt Frame unit tests', function() {
@@ -7,9 +7,8 @@ describe('Encrypt Frame unit tests', function() {
   var ef, recip = [{email: 'jon@smith.com'}];
 
   beforeEach(function() {
-    ef = new mvelo.EncryptFrame();
-    mvelo.main = mvelo.main || {};
-    mvelo.main.currentProvider = {
+    ef = new EncryptFrame();
+    ef._currentProvider = {
       getRecipients: () => Promise.resolve([{email: 'jon@smith.com'}]),
       setRecipients: sinon.stub()
     };
@@ -44,7 +43,7 @@ describe('Encrypt Frame unit tests', function() {
     it('should work', function() {
       ef._setEditorOutput({recipients: recip});
 
-      expect(mvelo.main.currentProvider.setRecipients.withArgs({recipients: recip, editElement: null}).calledOnce).to.be.true;
+      expect(ef._currentProvider.setRecipients.withArgs({recipients: recip, editElement: null}).calledOnce).to.be.true;
     });
   });
 

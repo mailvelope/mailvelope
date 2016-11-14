@@ -134,7 +134,6 @@ function injectMainCS() {
     include: filterURL,
     onAttach: onCsAttach,
     contentScriptFile: [
-      data.url('dep/jquery.min.js'),
       data.url('lib/messageAdapter.js'),
       data.url('content-scripts/cs-mailvelope.js')
     ],

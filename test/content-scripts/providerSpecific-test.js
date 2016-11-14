@@ -1,5 +1,5 @@
 
-import mvelo from '../../build/tmp/content-scripts/cs-mailvelope.js';
+import * as providers from '../../src/content-scripts/providerSpecific';
 
 
 describe('Provider specific content-script unit tests', function() {
@@ -16,24 +16,23 @@ describe('Provider specific content-script unit tests', function() {
 
   describe('providers.init', function() {
     it('should work', function() {
-      mvelo.providers.init();
-      expect(mvelo.providers.map).to.exist;
+      providers.init();
     });
   });
 
   describe('providers.get', function() {
     beforeEach(function() {
-      mvelo.providers.init();
+      providers.init();
     });
 
     it('should return default module for generic case', function() {
-      var api = mvelo.providers.get('mail.some-generic-provider.com');
-      expect(api instanceof mvelo.providers.Default).to.be.true;
+      var api = providers.get('mail.some-generic-provider.com');
+      expect(api.constructor.name === 'Default').to.be.true;
     });
 
     it('should return Gmail module', function() {
-      var api = mvelo.providers.get('mail.google.com');
-      expect(api instanceof mvelo.providers.Gmail).to.be.true;
+      var api = providers.get('mail.google.com');
+      expect(api.constructor.name === 'Gmail').to.be.true;
     });
   });
 
@@ -41,8 +40,8 @@ describe('Provider specific content-script unit tests', function() {
     var defMod;
 
     beforeEach(function() {
-      mvelo.providers.init();
-      defMod = mvelo.providers.get('mail.some-generic-provider.com');
+      providers.init();
+      defMod = providers.get('mail.some-generic-provider.com');
     });
 
     describe('getRecipients', function() {
@@ -62,8 +61,8 @@ describe('Provider specific content-script unit tests', function() {
     var gmail;
 
     beforeEach(function() {
-      mvelo.providers.init();
-      gmail = mvelo.providers.get('mail.google.com');
+      providers.init();
+      gmail = providers.get('mail.google.com');
     });
 
     describe('getRecipients', function() {

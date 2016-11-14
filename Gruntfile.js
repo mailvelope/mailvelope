@@ -36,35 +36,6 @@ module.exports = function(grunt) {
       }
     },
 
-    concat: {
-      content_script: {
-        options: {
-          footer: '//# sourceURL=cs-mailvelope.js'
-        },
-        files: [{
-          src: [
-            'src/mvelo.js',
-            'src/content-scripts/main-cs.js',
-            'src/content-scripts/extractFrame.js',
-            'src/content-scripts/decryptFrame.js',
-            'src/content-scripts/verifyFrame.js',
-            'src/content-scripts/importFrame.js',
-            'src/content-scripts/encryptFrame.js',
-            'src/content-scripts/decryptContainer.js',
-            'src/content-scripts/editorContainer.js',
-            'src/content-scripts/optionsContainer.js',
-            'src/content-scripts/keyGenContainer.js',
-            'src/content-scripts/keyBackupContainer.js',
-            'src/content-scripts/restoreBackupContainer.js',
-            'src/content-scripts/syncHandler.js',
-            'src/content-scripts/domAPI.js',
-            'src/content-scripts/providerSpecific.js'
-          ],
-          dest: 'build/tmp/content-scripts/cs-mailvelope.js'
-        }]
-      }
-    },
-
     copy: {
 
       dep: {
@@ -386,7 +357,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bump');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-compress');
-  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -407,16 +377,16 @@ module.exports = function(grunt) {
   // build steps
   grunt.registerTask('chrome_modules', ['copy:chrome', 'replace:version_chrome', 'copy:dep_chrome']);
   grunt.registerTask('firefox_modules', ['copy:firefox', 'replace:version_firefox', 'replace:openpgp_firefox', 'copy:dep_firefox']);
-  grunt.registerTask('copy2tmp', ['copy:app2tmp', 'copy:dep', 'replace:bootstrap', 'concat']);
+  grunt.registerTask('copy2tmp', ['copy:app2tmp', 'copy:dep', 'replace:bootstrap']);
   grunt.registerTask('final_steps', ['copy:tmp2chrome', 'copy:tmp2firefox', 'copy:locale_firefox', 'copy:locale_chrome']);
 
   // development builds
-  grunt.registerTask('default', ['clean', 'eslint', 'chrome_modules', 'firefox_modules', 'webpack:chrome.dev', 'webpack:firefox.dev', 'copy2tmp', 'webpack:app.dev', 'final_steps']);
-  grunt.registerTask('chrome', ['clean', 'eslint', 'chrome_modules', 'webpack:chrome.dev', 'copy2tmp', 'webpack:app.dev', 'copy:tmp2chrome', 'copy:locale_chrome']);
-  grunt.registerTask('firefox', ['clean', 'eslint', 'firefox_modules', 'webpack:firefox.dev', 'copy2tmp', 'webpack:app.dev', 'copy:tmp2firefox', 'copy:locale_firefox']);
+  grunt.registerTask('default', ['clean', 'eslint', 'chrome_modules', 'firefox_modules', 'webpack:chrome.dev', 'webpack:firefox.dev', 'webpack:cs.dev', 'copy2tmp', 'webpack:app.dev', 'final_steps']);
+  grunt.registerTask('chrome', ['clean', 'eslint', 'chrome_modules', 'webpack:chrome.dev', 'webpack:cs.dev', 'copy2tmp', 'webpack:app.dev', 'copy:tmp2chrome', 'copy:locale_chrome']);
+  grunt.registerTask('firefox', ['clean', 'eslint', 'firefox_modules', 'webpack:firefox.dev', 'webpack:cs.dev', 'copy2tmp', 'webpack:app.dev', 'copy:tmp2firefox', 'copy:locale_firefox']);
 
   // production build
-  grunt.registerTask('prod', ['clean', 'eslint', 'chrome_modules', 'firefox_modules', 'webpack:chrome.prod', 'webpack:firefox.prod', 'copy2tmp', 'webpack:app.prod', 'final_steps']);
+  grunt.registerTask('prod', ['clean', 'eslint', 'chrome_modules', 'firefox_modules', 'webpack:chrome.prod', 'webpack:firefox.prod', 'webpack:cs.prod', 'copy2tmp', 'webpack:app.prod', 'final_steps']);
 
   grunt.registerTask('test', ['webpack:test', 'connect:test', 'mocha_phantomjs']);
 

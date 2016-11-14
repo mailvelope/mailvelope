@@ -92,9 +92,7 @@ function onContextMenuEncrypt(info) {
 function loadContentCode() {
   if (injectOptimized && csCode === '') {
     return mvelo.data.load('content-scripts/cs-mailvelope.js').then(function(csmSrc) {
-      return mvelo.data.load('dep/jquery.min.js').then(function(jquerySrc) {
-        csCode = jquerySrc + csmSrc;
-      });
+      csCode = csmSrc;
     });
   }
   return Promise.resolve();
@@ -169,10 +167,8 @@ function watchListRequestHandler(details) {
           chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
         });
       } else {
-        chrome.tabs.executeScript(details.tabId, {file: "dep/jquery.min.js", allFrames: true}, function() {
-          chrome.tabs.executeScript(details.tabId, {file: "content-scripts/cs-mailvelope.js", allFrames: true}, function() {
-            chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
-          });
+        chrome.tabs.executeScript(details.tabId, {file: "content-scripts/cs-mailvelope.js", allFrames: true}, function() {
+          chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
         });
       }
       // open injection time slot
