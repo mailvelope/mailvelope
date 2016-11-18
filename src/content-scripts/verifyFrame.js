@@ -106,6 +106,8 @@ export default class VerifyFrame extends ExtractFrame {
     this._eFrame.width(this._pgpElement.width() - 2);
     var height = this._pgpEnd.position().top + this._pgpEnd.height() - pgpElementPos.top - 2;
     var top = pgpElementPos.top + this._pgpElementAttr.marginTop + this._pgpElementAttr.paddingTop;
+    var left = pgpElementPos.left + this._pgpElementAttr.marginLeft + this._pgpElementAttr.paddingLeft;
+    this._eFrame.css('left', left);
     if (this._vDialog) {
       this._eFrame.height(height);
       this._eFrame.css('top', top);

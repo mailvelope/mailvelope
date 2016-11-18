@@ -7,6 +7,7 @@
 
 import mvelo from '../mvelo';
 import $ from 'jquery';
+import {currentProvider} from './main';
 
 export default class ExtractFrame {
   constructor(prefs) {
@@ -25,6 +26,7 @@ export default class ExtractFrame {
     this._port = null;
     this._refreshPosIntervalID = null;
     this._pgpStartRegex = /BEGIN\sPGP/;
+    this._currentProvider = currentProvider;
   }
 
   attachTo(pgpEnd) {
@@ -62,6 +64,8 @@ export default class ExtractFrame {
 
     this._pgpElementAttr.marginTop = parseInt(this._pgpElement.css('margin-top'), 10);
     this._pgpElementAttr.paddingTop = parseInt(this._pgpElement.css('padding-top'), 10);
+    this._pgpElementAttr.marginLeft = parseInt(this._pgpElement.css('margin-left'), 10);
+    this._pgpElementAttr.paddingLeft = parseInt(this._pgpElement.css('padding-left'), 10);
   }
 
   _renderFrame() {
@@ -119,6 +123,7 @@ export default class ExtractFrame {
     this._eFrame.width(this._pgpElement.width() - 2);
     this._eFrame.height(this._pgpEnd.position().top + this._pgpEnd.height() - pgpElementPos.top - 2);
     this._eFrame.css('top', pgpElementPos.top + this._pgpElementAttr.marginTop + this._pgpElementAttr.paddingTop);
+    this._eFrame.css('left', pgpElementPos.left + this._pgpElementAttr.marginLeft + this._pgpElementAttr.paddingLeft);
   }
 
   _establishConnection() {
@@ -152,6 +157,10 @@ export default class ExtractFrame {
     msg = msg.replace(/-----\n(?!.*:)/, '$&\n'); // insert new line if no header
     msg = mvelo.util.decodeQuotedPrint(msg);
     return msg;
+  }
+
+  _getEmailSender() {
+    return this._currentProvider.getSender(this._pgpElement);
   }
 
   _registerEventListener() {

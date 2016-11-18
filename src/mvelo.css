@@ -228,8 +228,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   background: rgba(255,255,255,.5);
   font: 11px Verdana, sans-serif;
 }
+
 .btn-digital-signature:hover {
   text-decoration: underline;
+}
+
+.btn-digital-signature.top-position {
+  position: absolute;
+  top: 5px;
+  right: 50px;
 }
 
 /* Clearfix */

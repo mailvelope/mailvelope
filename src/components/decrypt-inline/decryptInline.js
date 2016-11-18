@@ -286,7 +286,7 @@ var mvelo = mvelo || null;
       ;
     } else {
       dialog
-        .append($('<p/>').html('<b>Key-ID:</b> ' + signer.keyid))
+        .append($('<p/>').html('<b>Key-ID:</b> ' + signer.keyid.toUpperCase()))
       ;
     }
     $body.empty().append(dialog);
@@ -307,7 +307,7 @@ var mvelo = mvelo || null;
     }
   }
 
-  function setSignatureButton() {
+  function setSignatureButton(isContainer) {
     var $btn = $('.btn-digital-signature');
 
     if (signers.length === 0) {
@@ -334,6 +334,10 @@ var mvelo = mvelo || null;
       setSignatureDialog(signersTrue[0]);
     }
 
+    if (!isContainer) {
+      $btn.addClass('top-position');
+    }
+
     $btn.show();
   }
 
@@ -356,7 +360,7 @@ var mvelo = mvelo || null;
         break;
       case 'signature-verification':
         signers = msg.signers;
-        setSignatureButton();
+        setSignatureButton(msg.isContainer);
         break;
       case 'error-message':
         showErrorMsg(msg.error);

@@ -91,10 +91,16 @@ export default class DecryptFrame extends ExtractFrame {
           this._removeDialog();
           break;
         case 'get-armored':
-          this._port.postMessage({
-            event: 'set-armored',
-            data: this._getPGPMessage(),
-            sender: this._ctrlName
+          this._getEmailSender()
+          .then(sender => {
+            sender = sender.map(person => person.email);
+            sender = mvelo.util.deDup(sender);
+            this._port.postMessage({
+              event: 'set-armored',
+              data: this._getPGPMessage(),
+              sender: this._ctrlName,
+              options: {senderAddress: sender}
+            });
           });
           break;
       }

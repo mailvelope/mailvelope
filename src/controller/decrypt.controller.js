@@ -29,6 +29,7 @@ function DecryptController(port) {
   this.mailreader = require('mailreader-parser');
   this.options = {};
   this.keyringId = this.mvelo.LOCAL_KEYRING_ID;
+  this.isContainer = this.mainType === 'decryptCont'; // main view is a container component
 }
 
 DecryptController.prototype = Object.create(sub.SubController.prototype);
@@ -124,7 +125,7 @@ DecryptController.prototype.decrypt = function(armored, keyringId) {
         }
       };
       if (that.ports.dDialog && content.signatures) {
-        that.ports.dDialog.postMessage({event: 'signature-verification', signers: content.signatures});
+        that.ports.dDialog.postMessage({event: 'signature-verification', signers: content.signatures, isContainer: that.isContainer});
       }
       return that.parseMessage(content.text, handlers, 'html');
     })

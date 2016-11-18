@@ -48,11 +48,28 @@ describe('Provider specific content-script unit tests', function() {
       it('should work', function() {
         defMod.getRecipients();
       });
+
+      it('should work for undefined', function() {
+        defMod.setRecipients({});
+        return defMod.getRecipients()
+        .then(recipients => {
+          expect(recipients.length).to.equal(0);
+        });
+      });
     });
 
     describe('setRecipients', function() {
       it('should work', function() {
         defMod.setRecipients();
+      });
+    });
+
+    describe('getSender', function() {
+      it('should work', function() {
+        return defMod.getSender()
+        .then(sender => {
+          expect(sender).to.deep.equal([]);
+        });
       });
     });
   });

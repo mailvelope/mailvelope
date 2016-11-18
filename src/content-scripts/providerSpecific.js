@@ -52,13 +52,23 @@ export function get(hostname) {
 class Default {
   /**
    * Parse recipients from the DOM has not been reliable for generic webmail
+   * @return {Promise.<Array>}   The recipient objects in the form { email: 'jon@example.com' }
    */
-  getRecipients() { /* do nothing */ }
+  getRecipients() {
+    return Promise.resolve([]);
+  }
   /**
    * Since there is not way to enter recipients in a generic fashion
    * this function does nothing.
    */
   setRecipients() { /* do nothing */ }
+  /**
+   * Extract sender
+   * @return {Promise.<Array>}   sender object in the form { email: 'jon@example.com' }
+   */
+  getSender() {
+    return Promise.resolve([]);
+  }
 }
 
 //
@@ -68,11 +78,12 @@ class Default {
 class Gmail {
   /**
    * Parse recipients from the Gmail Webmail interface
-   * @return {Array}   The recipient objects in the form { email: 'jon@example.com' }
+   * @return {Promise.<Array>}   The recipient objects in the form { email: 'jon@example.com' }
    */
   getRecipients() {
     return Promise.resolve(dom.getAttr($('.oL.aDm span[email], .vR span[email]'), 'email'));
   }
+
   /**
    * Set the recipients in the Gmail Webmail editor.
    */
@@ -95,6 +106,16 @@ class Gmail {
       dom.setFocus(subject.is(':visible') ? subject : editor);
     });
   }
+
+  /**
+   * Extract sender
+   * @param {jQuery} emailElement DOM element of displayed email content
+   * @return {Promise.<Array>}   sender object in the form { email: 'jon@example.com' }
+   */
+  getSender(emailElement) {
+    const emailArea = emailElement.parents('.gs').first();
+    return Promise.resolve(dom.getAttr(emailArea.find('.cf.ix span[email]'), 'email'));
+  }
 }
 
 //
@@ -104,11 +125,12 @@ class Gmail {
 class Yahoo {
   /**
    * Parse recipients from the Yahoo Webmail interface
-   * @return {Array}   The recipient objects in the form { email: 'jon@example.com' }
+   * @return {Promise.<Array>}   The recipient objects in the form { email: 'jon@example.com' }
    */
   getRecipients() {
     return Promise.resolve(dom.getAttr($('.compose-header span[data-address]'), 'data-address'));
   }
+
   /**
    * Set the recipients in the Yahoo Webmail editor.
    */
@@ -126,6 +148,16 @@ class Yahoo {
       dom.setFocus($('#subject-field').is(':visible') ? $('#subject-field') : $('.compose-message .cm-rtetext'));
     });
   }
+
+  /**
+   * Extract sender
+   * @param {jQuery} emailElement DOM element of displayed email content
+   * @return {Promise.<Array>}   sender object in the form { email: 'jon@example.com' }
+   */
+  getSender(emailElement) {
+    const emailArea = emailElement.parents('.thread-item').first();
+    return Promise.resolve(dom.getAttr(emailArea.find('.thread-item-header .contents > .hcard-mailto span[data-address]'), 'data-address'));
+  }
 }
 
 //
@@ -141,7 +173,7 @@ class Outlook {
     return mvelo.util.sequential(this.extractPersona.bind(this), personas);
   }
 
-  waitForPersonaCard() {
+  waitForPersonaCard(action) {
     return new Promise((resolve, reject) => {
       // create observer to wait for persona popup
       const observer = new MutationObserver(mutations => {
@@ -156,7 +188,8 @@ class Outlook {
             const personaCard = addedNode.getElementsByClassName('groupPivotPersonaCard');
             if (personaCard.length && $(personaCard).text().match(HAS_EMAIL)) {
               clearInterval(searchInterval);
-              resolve(personaCard);
+              // still more time required to complete render
+              setTimeout(() => resolve({personaCard, addedNode}), 200);
             }
           }, 100);
           setTimeout(() => clearInterval(searchInterval), 1500);
@@ -164,14 +197,18 @@ class Outlook {
       });
       observer.observe(document.body, {childList: true});
       setTimeout(() => reject(observer.disconnect()), 1000);
+      action && action();
     });
   }
 
   extractPersona(pane) {
     // click persona pane to open popup
-    $(pane).click();
-    return this.waitForPersonaCard()
-    .then(personaCard => dom.getText($(personaCard).find('span')))
+    return this.waitForPersonaCard(() => $(pane).click())
+    .then(({personaCard, addedNode}) => {
+      // hide persona popup
+      $(addedNode).hide();
+      return dom.getText($(personaCard).find('span'))
+    })
     .catch(() => []);
   }
 
@@ -182,9 +219,15 @@ class Outlook {
     composeArea.find('.PersonaPaneLauncher button').click();
     // enter address text into input
     const text = joinEmail(recipients);
-    const input = $('[role="heading"] form input').first();
+    const input = composeArea.find('[role="heading"] form input').first();
     dom.setFocus(input)
     .then(() => input.val(text));
+  }
+
+  getSender(emailElement) {
+    const emailArea = emailElement.parents('.ShowReferenceAttachmentsLinks').first();
+    const persona = emailArea.find('.PersonaPaneLauncher').first().get();
+    return this.extractPersona(persona);
   }
 }
 
@@ -203,7 +246,12 @@ var dom = {};
  * @return {Array}             The recipient objects in fhe form { email: 'jon@example.com' }
  */
 dom.getText = function(elements) {
-  return parseEmail(elements, (element) => element.text());
+  return parseEmail(elements, (element) => {
+    // consider only direct text nodes of elements
+    var clone = element.clone();
+    clone.children().remove();
+    return clone.text();
+  });
 };
 
 /**
@@ -230,6 +278,8 @@ dom.setFocus = function(element) {
 };
 
 dom.waitTick = () => new Promise(resolve => setTimeout(resolve, 0));
+
+dom.focusClick = (element) => dom.setFocus(element).then(() => element.click());
 
 /**
  * Extract emails from list of elements

@@ -168,14 +168,22 @@ function unlockKey(privKey, keyid, passwd) {
 }
 
 function decryptMessage(message, keyringId, callback) {
-  if (message.options && (message.options.senderAddress || message.options.selfSigned)) {
+  const options = message.options || {};
+  let senderAddress = options.senderAddress;
+  // normalize sender address to array
+  senderAddress = [].concat(senderAddress || []);
+  // verify signatures if sender address provided or self signed message (draft)
+  if (senderAddress.length || options.selfSigned) {
     var keyRing = keyring.getById(keyringId);
-    var signingKeys;
-    if (message.options.senderAddress) {
-      signingKeys = keyRing.getKeyByAddress([message.options.senderAddress], {validity: true});
-      signingKeys = signingKeys[message.options.senderAddress];
+    var signingKeys = [];
+    if (senderAddress.length) {
+      signingKeys = keyRing.getKeyByAddress(senderAddress, {validity: true});
+      signingKeys = senderAddress.reduce((result, email) => result.concat(signingKeys[email] || []), []);
     }
-    if (!signingKeys) {
+    // if no signing keys found we use decryption key for verification
+    // this covers the self signed message (draft) use case
+    // also signingKeys parameter in decryptAndVerifyMessage has to contain at least one key
+    if (!signingKeys.length) {
       signingKeys = [message.key];
     }
     openpgp.getWorker().decryptAndVerifyMessage(message.key, signingKeys, message.message).then(function(result) {
