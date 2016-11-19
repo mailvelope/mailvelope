@@ -43,8 +43,8 @@ DecryptController.prototype.handlePortMessage = function(msg) {
       break;
     // done
     case 'decrypt-inline-init':
-      if (this.mvelo.windows.modalActive) {
-        // password dialog or modal dialog already open
+      if (this.mvelo.windows.modalActive && !this.decryptPopup) {
+        // password dialog or modal dialog already open from other component
         if (this.ports.dFrame) {
           this.ports.dFrame.postMessage({event: 'remove-dialog'});
         } else if (this.ports.decryptCont) {
@@ -56,12 +56,6 @@ DecryptController.prototype.handlePortMessage = function(msg) {
         port.postMessage({event: 'get-armored'});
       }
       break;
-    // done
-    case 'decrypt-popup-init':
-      // get armored message from dFrame
-      this.ports.dFrame.postMessage({event: 'get-armored'});
-      break;
-    // done
     case 'dframe-display-popup':
       // decrypt popup potentially needs pwd dialog
       if (this.mvelo.windows.modalActive) {
@@ -160,18 +154,18 @@ DecryptController.prototype.decrypt = function(armored, keyringId) {
         }
         that.ports.decryptCont.postMessage({event: 'error-message', error: error});
       }
+    })
+    .then(() => {
+      this.ports.dPopup && this.ports.dPopup.postMessage({event: 'show-message'});
     });
 };
 
 DecryptController.prototype.prepareKey = function(message, openPopup) {
-  var that = this;
   this.pwdControl = sub.factory.get('pwdDialog');
   message.reason = 'PWD_DIALOG_REASON_DECRYPT';
   message.openPopup = openPopup !== undefined ? openPopup : this.ports.decryptCont || this.prefs.data().security.display_decrypted == this.mvelo.DISPLAY_INLINE;
-  message.beforePasswordRequest = function() {
-    if (that.ports.dFrame && that.prefs.data().security.display_decrypted == that.mvelo.DISPLAY_POPUP) {
-      that.ports.dDialog.postMessage({event: 'show-pwd-dialog', id: that.pwdControl.id});
-    }
+  message.beforePasswordRequest = () => {
+    this.ports.dPopup && this.ports.dPopup.postMessage({event: 'show-pwd-dialog', id: this.pwdControl.id});
   };
   message.keyringId = this.keyringId;
   return this.pwdControl.unlockKey(message);

@@ -113,7 +113,8 @@ var mvelo = mvelo || null;
   }
 
   function addAttachmentPanel() {
-    return $('<div/>', {id: 'uploadPanel'});
+    return $('<div/>', {id: 'uploadPanel'})
+    .append(addSignatureButton().addClass('pull-right'));
   }
 
   function addButtonBar() {
@@ -308,7 +309,13 @@ var mvelo = mvelo || null;
   }
 
   function setSignatureButton(isContainer) {
-    var $btn = $('.btn-digital-signature');
+    let $btn;
+
+    if (isContainer) {
+      $btn = $('#footer .btn-digital-signature');
+    } else {
+      $btn = $('#header .btn-digital-signature');
+    }
 
     if (signers.length === 0) {
       setSignatureDialog(null);
@@ -332,10 +339,6 @@ var mvelo = mvelo || null;
     } else if (signersTrue.length) {
       $btn.html(l10n.decrypt_digital_signature);
       setSignatureDialog(signersTrue[0]);
-    }
-
-    if (!isContainer) {
-      $btn.addClass('top-position');
     }
 
     $btn.show();

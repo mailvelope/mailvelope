@@ -231,6 +231,7 @@ function injectMessageAdapter() {
   pageMods.messageAdapterPageMod = pageMod.PageMod({
     include: [
       data.url('components/decrypt-popup/decryptPopup.html*'),
+      data.url('components/decrypt-inline/decryptInline.html*'),
       data.url('components/verify-popup/verifyPopup.html*'),
       data.url('components/editor/editor.html*'),
       data.url('components/enter-password/pwdDialog.html*'),

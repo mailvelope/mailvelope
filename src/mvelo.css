@@ -233,12 +233,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   text-decoration: underline;
 }
 
-.btn-digital-signature.top-position {
-  position: absolute;
-  top: 5px;
-  right: 50px;
-}
-
 /* Clearfix */
 .jumbotron.secureBackground:after {
   content: '';
