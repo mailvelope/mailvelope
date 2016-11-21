@@ -338,6 +338,8 @@ Keyring.prototype.getKeyDetails = function(guid) {
     mapSubKeys(key.subKeys, details);
     // users
     mapUsers(key.users, details, this.keyring, key.primaryKey);
+    // key is valid primary key
+    details.validPrimaryKey = this.validatePrimaryKey(key);
     return details;
   } else {
     throw new Error('Key with this fingerprint not found: ', guid);
@@ -572,17 +574,24 @@ Keyring.prototype.hasPrimaryKey = function() {
 };
 
 Keyring.prototype.getPrimaryKey = function() {
-  var primaryKey;
-  var primaryKeyid = this.getAttributes().primary_key;
-  if (!primaryKeyid) {
-    // get newest private key
-    this.keyring.privateKeys.keys.forEach(function(key) {
-      if (!primaryKey || primaryKey.primaryKey.created < key.primaryKey.created) {
+  let primaryKey;
+  const primaryKeyid = this.getAttributes().primary_key;
+  if (primaryKeyid) {
+    primaryKey = this.keyring.privateKeys.getForId(primaryKeyid.toLowerCase());
+    if (!(primaryKey && this.validatePrimaryKey(primaryKey))) {
+      // primary key with this id does not exist or is invalid
+      setKeyringAttr(this.id, {primary_key: ''}); // clear primary key
+      primaryKey = null;
+    }
+  }
+  if (!primaryKey) {
+    // get newest private key that is valid
+    this.keyring.privateKeys.keys.forEach(key => {
+      if ((!primaryKey || primaryKey.primaryKey.created < key.primaryKey.created) &&
+          this.validatePrimaryKey(key)) {
         primaryKey = key;
       }
     });
-  } else {
-    primaryKey = this.keyring.privateKeys.getForId(primaryKeyid.toLowerCase());
   }
   if (!primaryKey) {
     return null;
@@ -593,6 +602,13 @@ Keyring.prototype.getPrimaryKey = function() {
     userid: getUserId(primaryKey)
   };
 };
+
+Keyring.prototype.validatePrimaryKey = function(primaryKey) {
+  return primaryKey.verifyPrimaryKey() === openpgp.enums.keyStatus.valid &&
+         primaryKey.getEncryptionKeyPacket() &&
+         primaryKey.getSigningKeyPacket() &&
+         !trustKey.isKeyPseudoRevoked(this.id, primaryKey);
+}
 
 Keyring.prototype.importKeys = function(armoredKeys) {
   var that = this;

@@ -579,6 +579,10 @@
     "description": "Set as primary key for the keyring button",
     "message": "Set as Primary"
   },
+  "invalid_primary_key": {
+    "message": "Key is not valid for encryption and signing operations",
+    "description": "Tootip for set as primary key button"
+  },
   "keybackup_failed": {
     "description": "",
     "message": "Creating key backup failed."

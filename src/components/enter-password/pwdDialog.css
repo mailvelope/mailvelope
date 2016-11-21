@@ -31,6 +31,12 @@ body {
   margin-bottom: 0;
 }
 
+#userId {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .modal-body {
   height: 240px;
 }

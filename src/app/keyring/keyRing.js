@@ -35,7 +35,6 @@ l10n.register([
   'keygrid_key_not_expire',
   'keygrid_delete_confirmation',
   'keygrid_primary_label',
-  'key_set_as_primary',
   'keygrid_upload_alert_title',
   'keygrid_upload_alert_msg',
   'learn_more_link',
@@ -235,11 +234,10 @@ function openKeyDetails() {
   var $keyData = $(this);
   isKeyPair = false;
 
-  initPrimaryKeyTab($keyData);
-
   app.keyring('getKeyDetails', [$keyData.attr('data-keyguid')])
-    .then(function(result) {
-      var details = result;
+    .then(function(details) {
+      initPrimaryKeyTab($keyData, details);
+
       initSubKeysTab(details);
 
       initUserIdsTab(details);
@@ -260,7 +258,7 @@ function openKeyDetails() {
     });
 }
 
-function initPrimaryKeyTab($keyData) {
+function initPrimaryKeyTab($keyData, details) {
   $('#keyEditor').attr('data-keyguid', $keyData.attr('data-keyguid'));
   $('#keyId').val($keyData.attr('data-keyid'));
   $('#keyName').val($keyData.attr('data-keyname'));
@@ -280,9 +278,10 @@ function initPrimaryKeyTab($keyData) {
     $('#keyType .publicKey').hide();
     isKeyPair = true;
     $setAsPrimaryBtn.show();
-    ReactDOM.render(PrimaryKeyButton({
+    ReactDOM.render(React.createElement(PrimaryKeyButton, {
       isPrimary: $keyData.attr('data-keyisprimary') === 'true',
-      onClick: setPrimaryKey.bind(null, $keyData.attr('data-keyid'))
+      onClick: setPrimaryKey.bind(null, $keyData.attr('data-keyid')),
+      disabled: !details.validPrimaryKey
     }), $setAsPrimaryBtn.get(0));
   } else {
     $('#keyType .keyPair').hide();
@@ -366,7 +365,7 @@ function setPrimaryKey(primaryKeyId) {
     primary_key: primaryKeyId
   });
   app.primaryKeyId = primaryKeyId;
-  ReactDOM.render(PrimaryKeyButton({
+  ReactDOM.render(React.createElement(PrimaryKeyButton, {
     isPrimary: true
   }), $setAsPrimaryBtn.get(0));
   event.triggerHandler('keygrid-reload');

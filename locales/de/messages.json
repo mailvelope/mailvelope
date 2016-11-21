@@ -578,6 +578,10 @@
     "message": "Als Hauptschlüssel einstellen",
     "description": "Set as primary key for the keyring button"
   },
+  "invalid_primary_key": {
+    "message": "Schlüssel ist nicht valide für Verschlüsselungs- und Signieren-Operationen",
+    "description": "Tootip for set as primary key button"
+  },
   "keybackup_failed": {
     "message": "Fehler beim Erstellen der Sicherungskopie."
   },

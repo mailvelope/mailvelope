@@ -156,7 +156,7 @@ PwdController.prototype.unlockKey = function(options) {
         that.options.beforePasswordRequest();
       }
       if (that.options.openPopup) {
-        that.mvelo.windows.openPopup('components/enter-password/pwdDialog.html?id=' + that.id, {width: 470, height: 431, modal: false}, function(window) {
+        that.mvelo.windows.openPopup('components/enter-password/pwdDialog.html?id=' + that.id, {width: 470, height: 445, modal: false}, function(window) {
           that.pwdPopup = window;
         });
       }
