@@ -1,7 +1,7 @@
 
 'use strict';
 
-var webpack = require('webpack');
+var common = require('./webpack.common');
 var path = require('path');
 
 module.exports = {
@@ -49,19 +49,6 @@ module.exports = {
     }]
   },
 
-  plugins: [
-    function() {
-      this.plugin('done', function(stats) {
-        if (stats.compilation.errors && stats.compilation.errors.length && process.argv.indexOf('--watch') == -1) {
-          process.exitCode = 1;
-        }
-      });
-    },
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('development')
-      }
-    })
-  ]
+  plugins: common.plugins('development')
 
 };
