@@ -26,7 +26,7 @@ import event from '../util/event';
 function init() {
   loadPrefs();
   $('#genReloadInfo').hide();
-  $('#autoAddPrimary').on('change', function() {
+  $('#autoAddPrimary, #autoSignMsg').on('change', function() {
     $('#genBtnSave').prop("disabled", false);
     $('#genBtnCancel').prop("disabled", false);
   });
@@ -43,7 +43,8 @@ function onSave() {
   var update = {
     general: {
       editor_type: $('input:radio[name="editorRadios"]:checked').val(),
-      auto_add_primary: $('#autoAddPrimary:checked').length !== 0
+      auto_add_primary: $('#autoAddPrimary:checked').length !== 0,
+      auto_sign_msg: $('#autoSignMsg:checked').length !== 0
     }
   };
   mvelo.extension.sendMessage({ event: 'set-prefs', data: update }, function() {
@@ -74,6 +75,7 @@ function loadPrefs() {
   pgpModel('getPreferences')
     .then(function(prefs) {
       $('#autoAddPrimary').prop('checked', prefs.general.auto_add_primary);
+      $('#autoSignMsg').prop('checked', prefs.general.auto_sign_msg);
       $('input:radio[name="editorRadios"]').filter(function() {
         return $(this).val() === prefs.general.editor_type;
       }).prop('checked', true);

@@ -224,7 +224,8 @@
     },
     "general": {
       "editor_type": "plain",
-      "auto_add_primary": true
+      "auto_add_primary": true,
+      "auto_sign_msg": false
     },
     "keyserver": {
       "hkp_base_url": "https://keyserver.ubuntu.com",

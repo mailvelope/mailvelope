@@ -299,6 +299,10 @@
     "message": "Privater Hauptschlüssel",
     "description": "Label for primary private key option."
   },
+  "general_primary_key_auto_sign": {
+    "message": "Alle Nachrichten mit Hauptschlüssel signieren",
+    "description": "Label for primary private key option."
+  },
   "header_warning": {
     "message": "Achtung!",
     "description": "Header warning."

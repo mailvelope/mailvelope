@@ -299,6 +299,10 @@
     "description": "Label for primary private key option.",
     "message": "Primary Private Key"
   },
+  "general_primary_key_auto_sign": {
+    "message": "Sign all messages with primary key",
+    "description": "Label for primary private key option."
+  },
   "header_warning": {
     "description": "Header warning.",
     "message": "Warning!"
