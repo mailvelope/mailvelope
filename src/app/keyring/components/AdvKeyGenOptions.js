@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import * as l10n from '../../util/l10n';
+import * as l10n from '../../../lib/l10n';
 import moment from 'moment';
 
 import DatePicker from './DatePicker';

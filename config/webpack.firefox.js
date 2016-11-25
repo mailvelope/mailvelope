@@ -81,6 +81,7 @@ const dev = {
 module.exports = [
   require('./webpack.app').dev,
   require('./webpack.cs').dev,
+  ...require('./webpack.comp').dev,
   dev,
 ];
 

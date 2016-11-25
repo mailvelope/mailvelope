@@ -111,14 +111,6 @@
     "description": "",
     "message": "E-mail cannot be signed digitally"
   },
-  "editor_no_sign_caption_long": {
-    "description": "",
-    "message": "E-mail will not be signed digitally"
-  },
-  "editor_no_sign_caption_short": {
-    "description": "",
-    "message": "E-mail is not signed digitally"
-  },
   "editor_remove_upload": {
     "description": "Remove uploaded attachment",
     "message": "Remove"

@@ -5,7 +5,7 @@
 
 import React from 'react';
 import mvelo from '../../mvelo';
-import * as l10n from '../util/l10n';
+import * as l10n from '../../lib/l10n';
 import event from '../util/event';
 import {keyring} from '../app';
 import moment from 'moment';

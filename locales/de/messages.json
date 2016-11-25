@@ -111,14 +111,6 @@
     "message": "E-Mail kann nicht digital unterschrieben werden",
     "description": ""
   },
-  "editor_no_sign_caption_long": {
-    "message": "Die E-Mail wird nicht vor dem Abschicken digital unterschrieben.",
-    "description": ""
-  },
-  "editor_no_sign_caption_short": {
-    "message": "E-Mail wird nicht digital unterschrieben",
-    "description": ""
-  },
   "editor_remove_upload": {
     "message": "Entfernen",
     "description": "Remove uploaded attachment"
@@ -149,7 +141,7 @@
   },
   "editor_key_not_found_msg": {
     "description": "Warning for when a recipient key was not found.",
-    "message": "Alle empfänger benötigen einen PGP Schlüssel um zu verschlüsseln. Sie können die Nachricht derzeit nur signieren."
+    "message": "Alle Empfänger benötigen einen PGP Schlüssel um zu verschlüsseln. Sie können die Nachricht derzeit nur signieren."
   },
   "encrypt_dialog_add": {
     "message": "Hinzufügen",

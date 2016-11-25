@@ -39,7 +39,8 @@ const prod = {
         search: '@@mvelo_version',
         replace: pjson.version
       }
-    }]
+    }],
+    noParse: /openpgp\.js$/
   },
 
   plugins: common.plugins('production')
@@ -65,7 +66,8 @@ const dev = {
         search: '@@mvelo_version',
         replace: pjson.version + ' build: ' + (new Date()).toISOString().slice(0, 19)
       }
-    }]
+    }],
+    noParse: /openpgp\.js$/
   },
 
   plugins: common.plugins('development')
@@ -75,6 +77,7 @@ const dev = {
 module.exports = [
   require('./webpack.app').dev,
   require('./webpack.cs').dev,
+  ...require('./webpack.comp').dev,
   dev,
 ];
 

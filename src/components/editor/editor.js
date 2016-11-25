@@ -27,6 +27,12 @@
  * the webmail interface.
  */
 
+import React from 'react';
+import ReactDOM from 'react-dom';
+import EditorFooter from './components/EditorFooter';
+import EditorModalFooter from './components/EditorModalFooter';
+import * as l10n from '../../lib/l10n';
+
 'use strict';
 
 /* global angular */
@@ -41,7 +47,7 @@ angular.module('editor').controller('EditorCtrl', EditorCtrl); // attach ctrl to
 /**
  * Angular controller for the editor UI.
  */
-function EditorCtrl($timeout) {
+export default function EditorCtrl($timeout) {
   this._timeout = $timeout;
 
   this.setGlobal(this); // share 'this' as '_self' in legacy closure code
@@ -158,6 +164,8 @@ EditorCtrl.prototype.colorTag = function(recipient) {
  */
 EditorCtrl.prototype.checkEncryptStatus = function() {
   this.noEncrypt = (this.recipients || []).some(function(r) { return !r.key; });
+  // update editor modal footer
+  renderModalFooter(this.noEncrypt || !this.recipients || !this.recipients.length);
 };
 
 /**
@@ -225,6 +233,7 @@ EditorCtrl.prototype._setRecipients = function(options) {
     this.keys = options.keys;
     this.recipients = options.recipients;
     this.recipients.forEach(this.verify.bind(this));
+    this.checkEncryptStatus();
   }.bind(this));
 };
 
@@ -310,533 +319,513 @@ EditorCtrl.prototype.cancel = function() {
   });
 };
 
-
 //
-// Legacy code is contained in a closure and needs to be refactored to use angular
+// Legacy code
 //
 
+EditorCtrl.prototype.getEditorText = function() {
+  return editor.val();
+};
 
-(function() {
+EditorCtrl.prototype.getAttachments = function() {
+  return mvelo.file.getFiles($('#uploadPanel'));
+};
 
-  if (!angular.mock) { // do not init in unit tests
-    angular.element(document).ready(init); // do manual angular bootstraping after init
+EditorCtrl.prototype._onSetText = function(msg) {
+  onSetText(msg);
+};
+
+EditorCtrl.prototype._showWaitingModal = function() {
+  $('#waitingModal').modal({keyboard: false}).modal('show');
+};
+
+EditorCtrl.prototype._hideWaitingModal = function() {
+  $('#waitingModal').modal('hide');
+};
+
+EditorCtrl.prototype._onSetInitData = function(msg) {
+  var data = msg.data;
+  onSetText(data);
+  setSignMode(data.signMsg || false, data.primary);
+};
+
+EditorCtrl.prototype._onSetAttachment = function(msg) {
+  setAttachment(msg.attachment);
+};
+
+EditorCtrl.prototype._decryptFailed = function(msg) {
+  var error = {
+    title: l10n.map.waiting_dialog_decryption_failed,
+    message: (msg.error) ? msg.error.message : l10n.map.waiting_dialog_decryption_failed,
+    class: 'alert alert-danger'
+  };
+  showErrorModal(error);
+};
+
+EditorCtrl.prototype._onShowPwdDialog = function(msg) {
+  this._removeDialog();
+  addPwdDialog(msg.id);
+};
+
+EditorCtrl.prototype._getPlaintext = function(msg) {
+  if (numUploadsInProgress !== 0) {
+    delayedAction = msg.action;
+  } else {
+    _self.sendPlainText(msg.action);
   }
+};
 
-  EditorCtrl.prototype.getEditorText = function() {
-    return editor.val();
-  };
+EditorCtrl.prototype._onErrorMessage = function(msg) {
+  if (msg.error.code === 'PWD_DIALOG_CANCEL') {
+    return;
+  }
+  showErrorModal(msg.error);
+};
 
-  EditorCtrl.prototype.getAttachments = function() {
-    return mvelo.file.getFiles($('#uploadPanel'));
-  };
+/**
+ * Remember global reference of $scope for use inside closure
+ */
+EditorCtrl.prototype.setGlobal = function(global) {
+  _self = global;
+  _self._port = port;
+  // l10n is only initialized in Chrome at this time
+  _self.l10n = l10n;
+};
 
-  EditorCtrl.prototype._onSetText = function(msg) {
-    onSetText(msg);
-  };
+var id;
+var name;
+// plain or rich text
+var editor_type;
+var port;
+// editor element
+var editor;
+// blur warning
+var blurWarn;
+// timeoutID for period in which blur events are monitored
+var blurWarnPeriod = null;
+// timeoutID for period in which blur events are non-critical
+var blurValid = null;
+var initText = null;
+var basePath;
+var logTextareaInput = true;
+var numUploadsInProgress = 0;
+var delayedAction = '';
+var qs;
+var _self;
 
-  EditorCtrl.prototype._showWaitingModal = function() {
-    $('#waitingModal').modal({keyboard: false}).modal('show');
-  };
-
-  EditorCtrl.prototype._hideWaitingModal = function() {
-    $('#waitingModal').modal('hide');
-  };
-
-  EditorCtrl.prototype._onSetInitData = function(msg) {
-    var data = msg.data;
-    onSetText(data);
-    setSignMode(data.signMsg || false, data.primary);
-  };
-
-  EditorCtrl.prototype._onSetAttachment = function(msg) {
-    setAttachment(msg.attachment);
-  };
-
-  EditorCtrl.prototype._decryptFailed = function(msg) {
-    var error = {
-      title: l10n.waiting_dialog_decryption_failed,
-      message: (msg.error) ? msg.error.message : l10n.waiting_dialog_decryption_failed,
-      class: 'alert alert-danger'
-    };
-    showErrorModal(error);
-  };
-
-  EditorCtrl.prototype._onShowPwdDialog = function(msg) {
-    this._removeDialog();
-    addPwdDialog(msg.id);
-  };
-
-  EditorCtrl.prototype._getPlaintext = function(msg) {
-    if (numUploadsInProgress !== 0) {
-      delayedAction = msg.action;
-    } else {
-      _self.sendPlainText(msg.action);
-    }
-  };
-
-  EditorCtrl.prototype._onErrorMessage = function(msg) {
-    if (msg.error.code === 'PWD_DIALOG_CANCEL') {
-      return;
-    }
-    showErrorModal(msg.error);
-  };
-
-  /**
-   * Remember global reference of $scope for use inside closure
-   */
-  EditorCtrl.prototype.setGlobal = function(global) {
-    _self = global;
-    _self._port = port;
-    // l10n is only initialized in Chrome at this time
+// register language strings
+l10n.register([
+  'editor_remove_upload',
+  'waiting_dialog_decryption_failed',
+  'upload_quota_exceeded_warning',
+  'editor_error_header',
+  'editor_error_content',
+  'waiting_dialog_prepare_email',
+  'upload_quota_warning_headline',
+  'editor_key_not_found',
+  'editor_key_not_found_msg',
+  'editor_label_add_recipient'
+]);
+l10n.mapToLocal()
+.then(() => {
+  // Firefox requires late assignment of l10n
+  _self && _self._timeout(function() {
     _self.l10n = l10n;
-  };
-
-  var id;
-  var name;
-  // plain or rich text
-  var editor_type;
-  var port;
-  // editor element
-  var editor;
-  // blur warning
-  var blurWarn;
-  // timeoutID for period in which blur events are monitored
-  var blurWarnPeriod = null;
-  // timeoutID for period in which blur events are non-critical
-  var blurValid = null;
-  var initText = null;
-  var basePath;
-  var l10n;
-  var logTextareaInput = true;
-  var numUploadsInProgress = 0;
-  var delayedAction = '';
-  var qs;
-  var _self;
-
-  // Get language strings from JSON
-  mvelo.l10n.getMessages([
-    'editor_remove_upload',
-    'waiting_dialog_decryption_failed',
-    'upload_quota_exceeded_warning',
-    'editor_sign_caption_short',
-    'editor_sign_caption_long',
-    'editor_no_sign_caption_short',
-    'editor_no_sign_caption_long',
-    'editor_error_header',
-    'editor_error_content',
-    'waiting_dialog_prepare_email',
-    'upload_quota_warning_headline',
-    'editor_key_not_found',
-    'editor_key_not_found_msg',
-    'editor_label_add_recipient'
-  ], function(result) {
-    l10n = result;
-    // Firefox requires late assignment of l10n
-    _self && _self._timeout(function() {
-      _self.l10n = l10n;
-    });
   });
+});
 
-  var maxFileUploadSize = mvelo.MAXFILEUPLOADSIZE;
-  var maxFileUploadSizeChrome = mvelo.MAXFILEUPLOADSIZECHROME; // temporal fix due issue in Chrome
+var maxFileUploadSize = mvelo.MAXFILEUPLOADSIZE;
+var maxFileUploadSizeChrome = mvelo.MAXFILEUPLOADSIZECHROME; // temporal fix due issue in Chrome
 
-  /**
-   * Inialized the editor by parsing query string parameters
-   * and loading templates into the DOM.
-   */
-  function init() {
-    if (document.body.dataset.mvelo) {
-      return;
-    }
-    document.body.dataset.mvelo = true;
-    qs = jQuery.parseQuerystring();
-    id = qs.id;
-    name = 'editor-' + id;
-    if (qs.quota && parseInt(qs.quota) < maxFileUploadSize) {
-      maxFileUploadSize = parseInt(qs.quota);
-    }
-    if (mvelo.crx && maxFileUploadSize > maxFileUploadSizeChrome) {
-      maxFileUploadSize = maxFileUploadSizeChrome;
-    }
-    // plain text only
-    editor_type = mvelo.PLAIN_TEXT; //qs.editor_type;
-    port = mvelo.extension.connect({name: name});
-    loadTemplates(qs.embedded, templatesLoaded);
-    if (mvelo.crx) {
-      basePath = '../../';
-    } else if (mvelo.ffa) {
-      basePath = mvelo.extension._dataPath;
-    }
+if (!angular.mock) { // do not init in unit tests
+  angular.element(document).ready(init); // do manual angular bootstraping after init
+}
+
+/**
+ * Inialized the editor by parsing query string parameters
+ * and loading templates into the DOM.
+ */
+function init() {
+  if (document.body.dataset.mvelo) {
+    return;
   }
+  document.body.dataset.mvelo = true;
+  qs = jQuery.parseQuerystring();
+  id = qs.id;
+  name = 'editor-' + id;
+  if (qs.quota && parseInt(qs.quota) < maxFileUploadSize) {
+    maxFileUploadSize = parseInt(qs.quota);
+  }
+  if (mvelo.crx && maxFileUploadSize > maxFileUploadSizeChrome) {
+    maxFileUploadSize = maxFileUploadSizeChrome;
+  }
+  // plain text only
+  editor_type = mvelo.PLAIN_TEXT; //qs.editor_type;
+  port = mvelo.extension.connect({name: name});
+  loadTemplates(qs.embedded, templatesLoaded);
+  if (mvelo.crx) {
+    basePath = '../../';
+  } else if (mvelo.ffa) {
+    basePath = mvelo.extension._dataPath;
+  }
+}
 
-  /**
-   * Load templates into the DOM.
-   */
-  function loadTemplates(embedded, callback) {
-    var $body = $('body');
-    $body.attr('ng-controller', 'EditorCtrl as edit');
-    if (embedded) {
-      $body.addClass("secureBackground");
+/**
+ * Load templates into the DOM.
+ */
+function loadTemplates(embedded, callback) {
+  var $body = $('body');
+  $body.attr('ng-controller', 'EditorCtrl as edit');
+  if (embedded) {
+    $body.addClass("secureBackground");
+
+    Promise.all([
+      mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/editor-body.html')),
+      mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/waiting-modal.html')),
+      mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/error-modal.html'))
+    ])
+    .then(function() {
+      $('#waitingModal').on('hidden.bs.modal', function() {
+        editor.focus()
+          .prop('selectionStart', 0)
+          .prop('selectionEnd', 0);
+      });
+      renderFooter({embedded});
+    })
+    .then(callback);
+
+  } else {
+    mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/editor-popup.html')).then(function() {
+      $('.modal-body').addClass('secureBackground');
 
       Promise.all([
-        mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/editor-body.html')),
-        mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/waiting-modal.html')),
+        mvelo.appendTpl($('#editorDialog .modal-body'), mvelo.extension.getURL('components/editor/tpl/editor-body.html')),
+        mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/encrypt-modal.html')),
         mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/error-modal.html'))
       ])
       .then(function() {
-        $('#waitingModal').on('hidden.bs.modal', function() {
-          editor.focus()
-            .prop('selectionStart', 0)
-            .prop('selectionEnd', 0);
-        });
-
-        $('#uploadEmbeddedBtn').on("click", function() {
-          $('#addFileInput').click();
-          _self.logUserInput('security_log_add_attachment');
-        });
+        renderFooter({embedded});
+        renderModalFooter();
       })
       .then(callback);
+    });
+  }
+}
 
-    } else {
-      mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/editor-popup.html')).then(function() {
-        $('.modal-body').addClass('secureBackground');
+function renderFooter({embedded, signMsg, primaryKey}) {
+  embedded = Boolean(embedded);
+  ReactDOM.render(React.createElement(EditorFooter, {
+    embedded,
+    signMsg,
+    primaryKey,
+    onClickUpload: () => _self.logUserInput('security_log_add_attachment'),
+    onChangeFileInput: onAddAttachment
+  }), $('#footer').get(0));
+}
 
-        Promise.all([
-          mvelo.appendTpl($('#editorDialog .modal-body'), mvelo.extension.getURL('components/editor/tpl/editor-body.html')),
-          mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/encrypt-modal.html')),
-          mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/error-modal.html'))
-        ])
-        .then(function() {
-          $('#uploadBtn').on("click", function() {
-            $('#addFileInput').click();
-            _self.logUserInput('security_log_add_attachment');
-          });
-          $('#uploadEmbeddedBtn, #addFileInput').hide();
-        })
-        .then(callback);
+function renderModalFooter(encryptDisabled) {
+  ReactDOM.render(React.createElement(EditorModalFooter, {
+    onCancel: () => _self.cancel(),
+    onSignOnly: () => _self.sign(),
+    onEncrypt: () => _self.encrypt(),
+    encryptDisabled
+  }), $('.modal-footer').get(0));
+}
+
+/**
+ * Called after templates have loaded. Now is the time to bootstrap angular.
+ */
+function templatesLoaded() {
+  $(window).on('focus', startBlurValid);
+  if (editor_type == mvelo.PLAIN_TEXT) {
+    editor = createPlainText();
+  } else {
+    // no rich text option
+  }
+  // blur warning
+  blurWarn = $('#blurWarn');
+  // observe modals for blur warning
+  $('.modal').on('show.bs.modal', startBlurValid);
+  if (initText) {
+    setText(initText);
+    initText = null;
+  }
+  mvelo.l10n.localizeHTML();
+  mvelo.util.showSecurityBackground(qs.embedded);
+  // bootstrap angular
+  angular.bootstrap(document, ['editor']);
+}
+
+function addAttachment(file) {
+  if (mvelo.file.isOversize(file)) {
+    throw new Error('File is too big');
+  }
+
+  mvelo.file.readUploadFile(file, afterLoadEnd)
+    .then(function(response) {
+      var $fileElement = mvelo.file.createFileElement(response, {
+        removeButton: true,
+        onRemove: onRemoveAttachment
       });
-    }
+      var $uploadPanel = $('#uploadPanel');
+      var uploadPanelHeight = $uploadPanel[0].scrollHeight;
+      $uploadPanel
+        .append($fileElement)
+        .scrollTop(uploadPanelHeight); //Append attachment element and scroll to bottom of #uploadPanel to show current uploads
+
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+}
+
+function afterLoadEnd() {
+  numUploadsInProgress--;
+  if (numUploadsInProgress === 0 && delayedAction) {
+    _self.sendPlainText(delayedAction);
+    delayedAction = '';
+  }
+}
+
+function setAttachment(attachment) {
+  var buffer = mvelo.util.str2ab(attachment.content);
+  var blob = new Blob([buffer], {type: attachment.mimeType});
+  var file = new File([blob], attachment.filename, {type: attachment.mimeType});
+  numUploadsInProgress++;
+  addAttachment(file);
+}
+
+function onAddAttachment(evt) {
+  var files = evt.target.files;
+  var numFiles = files.length;
+
+  var i;
+  var fileSizeAll = 0;
+  for (i = 0; i < numFiles; i++) {
+    fileSizeAll += parseInt(files[i].size);
   }
 
-  /**
-   * Called after templates have loaded. Now is the time to bootstrap angular.
-   */
-  function templatesLoaded() {
-    $(window).on('focus', startBlurValid);
-    if (editor_type == mvelo.PLAIN_TEXT) {
-      editor = createPlainText();
-    } else {
-      // no rich text option
-    }
-    // blur warning
-    blurWarn = $('#blurWarn');
-    // observe modals for blur warning
-    $('.modal').on('show.bs.modal', startBlurValid);
-    if (initText) {
-      setText(initText);
-      initText = null;
-    }
-    $("#addFileInput").on("change", onAddAttachment);
-    $('#uploadBtn').hide(); // Disable Uploading Attachment
-    mvelo.l10n.localizeHTML();
-    mvelo.util.showSecurityBackground(qs.embedded);
+  var currentAttachmentsSize = mvelo.file.getFileSize($('#uploadPanel')) + fileSizeAll;
+  if (currentAttachmentsSize > maxFileUploadSize) {
+    var error = {
+      title: l10n.map.upload_quota_warning_headline,
+      message: l10n.map.upload_quota_exceeded_warning + " " + Math.floor(maxFileUploadSize / (1024 * 1024)) + "MB."
+    };
 
-    // bootstrap angular
-    angular.bootstrap(document, ['editor']);
+    showErrorModal(error);
+    return;
   }
 
-  function addAttachment(file) {
-    if (mvelo.file.isOversize(file)) {
-      throw new Error('File is too big');
-    }
-
-    mvelo.file.readUploadFile(file, afterLoadEnd)
-      .then(function(response) {
-        var $fileElement = mvelo.file.createFileElement(response, {
-          removeButton: true,
-          onRemove: onRemoveAttachment
-        });
-        var $uploadPanel = $('#uploadPanel');
-        var uploadPanelHeight = $uploadPanel[0].scrollHeight;
-        $uploadPanel
-          .append($fileElement)
-          .scrollTop(uploadPanelHeight); //Append attachment element and scroll to bottom of #uploadPanel to show current uploads
-
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  }
-
-  function afterLoadEnd() {
-    numUploadsInProgress--;
-    if (numUploadsInProgress === 0 && delayedAction) {
-      _self.sendPlainText(delayedAction);
-      delayedAction = '';
-    }
-  }
-
-  function setAttachment(attachment) {
-    var buffer = mvelo.util.str2ab(attachment.content);
-    var blob = new Blob([buffer], {type: attachment.mimeType});
-    var file = new File([blob], attachment.filename, {type: attachment.mimeType});
+  for (i = 0; i < files.length; i++) {
     numUploadsInProgress++;
-    addAttachment(file);
+    addAttachment(files[i]);
   }
+}
 
-  function onAddAttachment(evt) {
-    var files = evt.target.files;
-    var numFiles = files.length;
+function onRemoveAttachment() {
+  _self.logUserInput('security_log_remove_attachment');
+}
 
-    var i;
-    var fileSizeAll = 0;
-    for (i = 0; i < numFiles; i++) {
-      fileSizeAll += parseInt(files[i].size);
+function createPlainText() {
+  var sandbox = $('<iframe/>', {
+    sandbox: 'allow-same-origin allow-scripts',
+    frameBorder: 0,
+    css: {
+      'overflow-y': 'hidden'
     }
-
-    var currentAttachmentsSize = mvelo.file.getFileSize($('#uploadPanel')) + fileSizeAll;
-    if (currentAttachmentsSize > maxFileUploadSize) {
-      var error = {
-        title: l10n.upload_quota_warning_headline,
-        message: l10n.upload_quota_exceeded_warning + " " + Math.floor(maxFileUploadSize / (1024 * 1024)) + "MB."
-      };
-
-      showErrorModal(error);
-      return;
+  });
+  var text = $('<textarea/>', {
+    id: 'content',
+    class: 'form-control',
+    rows: 12,
+    css: {
+      'width':         '100%',
+      'height':        '100%',
+      'margin-bottom': '0',
+      'color':         'black',
+      'resize':        'none'
     }
-
-    for (i = 0; i < files.length; i++) {
-      numUploadsInProgress++;
-      addAttachment(files[i]);
-    }
-  }
-
-  function onRemoveAttachment() {
-    _self.logUserInput('security_log_remove_attachment');
-  }
-
-  function createPlainText() {
-    var sandbox = $('<iframe/>', {
-      sandbox: 'allow-same-origin allow-scripts',
-      frameBorder: 0,
-      css: {
-        'overflow-y': 'hidden'
-      }
-    });
-    var text = $('<textarea/>', {
-      id: 'content',
-      class: 'form-control',
-      rows: 12,
-      css: {
-        'width':         '100%',
-        'height':        '100%',
-        'margin-bottom': '0',
-        'color':         'black',
-        'resize':        'none'
-      }
-    });
-    var style = $('<link/>', { rel: 'stylesheet', href: basePath + 'dep/bootstrap/css/bootstrap.css' });
-    var style2 = $('<link/>', { rel: 'stylesheet', href: basePath + 'mvelo.css' });
-    var meta = $('<meta/>', { charset: 'UTF-8' });
-    sandbox.one('load', function() {
-      sandbox.contents().find('head').append(meta)
-        .append(style)
-        .append(style2);
-      sandbox.contents().find('body').attr("style", "overflow: hidden; margin: 0")
-        .append(text);
-    });
-    $('#plainText').append(sandbox);
-    text.on('input', function() {
-      startBlurWarnInterval();
-      if (logTextareaInput) {
-        _self.logUserInput('security_log_textarea_input');
-        // limit textarea log to 1 event per second
-        logTextareaInput = false;
-        window.setTimeout(function() {
-          logTextareaInput = true;
-        }, 1000);
-      }
-    });
-    text.on('blur', onBlur);
-    text.on('mouseup', function() {
-      var textElement = text.get(0);
-      if (textElement.selectionStart === textElement.selectionEnd) {
-        _self.logUserInput('security_log_textarea_click');
-      } else {
-        _self.logUserInput('security_log_textarea_select');
-      }
-    });
-    return text;
-  }
-
-  function setPlainText(text) {
-    editor.focus()
-      .val(text)
-      .prop('selectionStart', 0)
-      .prop('selectionEnd', 0);
-  }
-
-  function setText(text) {
-    if (editor_type == mvelo.PLAIN_TEXT) {
-      setPlainText(text);
-    } else {
-      // no rich text option
-    }
-  }
-
-  function onBlur() {
-    /*
-     blur warning displayed if blur occurs:
-     - inside blur warning period (2s after input)
-     - not within 40ms after mousedown event (RTE)
-     - not within 40ms before focus event (window, modal)
-     */
-    if (blurWarnPeriod && !blurValid) {
+  });
+  var style = $('<link/>', { rel: 'stylesheet', href: basePath + 'dep/bootstrap/css/bootstrap.css' });
+  var style2 = $('<link/>', { rel: 'stylesheet', href: basePath + 'mvelo.css' });
+  var meta = $('<meta/>', { charset: 'UTF-8' });
+  sandbox.one('load', function() {
+    sandbox.contents().find('head').append(meta)
+      .append(style)
+      .append(style2);
+    sandbox.contents().find('body').attr("style", "overflow: hidden; margin: 0")
+      .append(text);
+  });
+  $('#plainText').append(sandbox);
+  text.on('input', function() {
+    startBlurWarnInterval();
+    if (logTextareaInput) {
+      _self.logUserInput('security_log_textarea_input');
+      // limit textarea log to 1 event per second
+      logTextareaInput = false;
       window.setTimeout(function() {
-        showBlurWarning();
-      }, 40);
+        logTextareaInput = true;
+      }, 1000);
     }
-    return true;
-  }
-
-  function showBlurWarning() {
-    if (!blurValid) {
-      // fade in 600ms, wait 200ms, fade out 600ms
-      blurWarn.removeClass('hide')
-        .stop(true)
-        .animate({opacity: 1}, 'slow', 'swing', function() {
-          setTimeout(function() {
-            blurWarn.animate({opacity: 0}, 'slow', 'swing', function() {
-              blurWarn.addClass('hide');
-            });
-          }, 200);
-        });
+  });
+  text.on('blur', onBlur);
+  text.on('mouseup', function() {
+    var textElement = text.get(0);
+    if (textElement.selectionStart === textElement.selectionEnd) {
+      _self.logUserInput('security_log_textarea_click');
+    } else {
+      _self.logUserInput('security_log_textarea_select');
     }
+  });
+  return text;
+}
+
+function setPlainText(text) {
+  editor.focus()
+    .val(text)
+    .prop('selectionStart', 0)
+    .prop('selectionEnd', 0);
+}
+
+function setText(text) {
+  if (editor_type == mvelo.PLAIN_TEXT) {
+    setPlainText(text);
+  } else {
+    // no rich text option
   }
+}
 
-  function startBlurWarnInterval() {
-    if (blurWarnPeriod) {
-      // clear timeout
-      window.clearTimeout(blurWarnPeriod);
-    }
-    // restart
-    blurWarnPeriod = window.setTimeout(function() {
-      // end
-      blurWarnPeriod = null;
-    }, 2000);
-    return true;
-  }
-
-  function startBlurValid() {
-    if (blurValid) {
-      // clear timeout
-      window.clearTimeout(blurValid);
-    }
-    // restart
-    blurValid = window.setTimeout(function() {
-      // end
-      blurValid = null;
-    }, 40);
-    return true;
-  }
-
-  function addPwdDialog(id) {
-    var pwd = $('<iframe/>', {
-      id: 'pwdDialog',
-      src: '../enter-password/pwdDialog.html?id=' + id,
-      frameBorder: 0
-    });
-    $('body').find('#editorDialog').fadeOut(function() {
-      $('body').append(pwd);
-    });
-  }
-
-  EditorCtrl.prototype._hidePwdDialog = function() {
-    $('body #pwdDialog').fadeOut(function() {
-      $('body #pwdDialog').remove();
-      $('body').find('#editorDialog').show();
-    });
-  };
-
-  EditorCtrl.prototype.showSignDialog = function() {
-    var dialog = $('<iframe/>', {
-      'class': 'm-dialog',
-      frameBorder: 0,
-      scrolling: 'no'
-    });
-    var url;
-    if (mvelo.crx) {
-      url = mvelo.extension.getURL('components/sign-message/signDialog.html?id=' + id);
-    } else if (mvelo.ffa) {
-      url = 'about:blank?mvelo=signDialog&id=' + id;
-    }
-    dialog.attr('src', url);
-
-    $('.modal-body', $('#encryptModal')).empty().append(dialog);
-    $('#encryptModal').modal('show');
-  };
-
-  EditorCtrl.prototype._removeDialog = function() {
-    $('#encryptModal').modal('hide');
-    $('#encryptModal iframe').remove();
-  };
-
-  /**
-   * @param {Object} error
-   * @param {String} [error.title]
-   * @param {String} error.message
-   * @param {String} [error.class]
+function onBlur() {
+  /*
+   blur warning displayed if blur occurs:
+   - inside blur warning period (2s after input)
+   - not within 40ms after mousedown event (RTE)
+   - not within 40ms before focus event (window, modal)
    */
-  function showErrorModal(error) {
-    var title = error.title || l10n.editor_error_header;
-    var content = error.message;
-    var $errorModal = $('#errorModal');
+  if (blurWarnPeriod && !blurValid) {
+    window.setTimeout(function() {
+      showBlurWarning();
+    }, 40);
+  }
+  return true;
+}
 
-    if (error.class && typeof error.class == 'string') {
-      content = $('<div/>').addClass(error.class).html(content);
-    }
+function showBlurWarning() {
+  if (!blurValid) {
+    // fade in 600ms, wait 200ms, fade out 600ms
+    blurWarn.removeClass('hide')
+      .stop(true)
+      .animate({opacity: 1}, 'slow', 'swing', function() {
+        setTimeout(function() {
+          blurWarn.animate({opacity: 0}, 'slow', 'swing', function() {
+            blurWarn.addClass('hide');
+          });
+        }, 200);
+      });
+  }
+}
 
-    $('.modal-body', $errorModal).empty().append(content);
-    $('.modal-title', $errorModal).empty().append(title);
-    $errorModal.modal('show').on('hidden.bs.modal', function() {
-      $('#waitingModal').modal('hide');
-    });
+function startBlurWarnInterval() {
+  if (blurWarnPeriod) {
+    // clear timeout
+    window.clearTimeout(blurWarnPeriod);
+  }
+  // restart
+  blurWarnPeriod = window.setTimeout(function() {
+    // end
+    blurWarnPeriod = null;
+  }, 2000);
+  return true;
+}
+
+function startBlurValid() {
+  if (blurValid) {
+    // clear timeout
+    window.clearTimeout(blurValid);
+  }
+  // restart
+  blurValid = window.setTimeout(function() {
+    // end
+    blurValid = null;
+  }, 40);
+  return true;
+}
+
+function addPwdDialog(id) {
+  var pwd = $('<iframe/>', {
+    id: 'pwdDialog',
+    src: '../enter-password/pwdDialog.html?id=' + id,
+    frameBorder: 0
+  });
+  $('body').find('#editorDialog').fadeOut(function() {
+    $('body').append(pwd);
+  });
+}
+
+EditorCtrl.prototype._hidePwdDialog = function() {
+  $('body #pwdDialog').fadeOut(function() {
+    $('body #pwdDialog').remove();
+    $('body').find('#editorDialog').show();
+  });
+};
+
+EditorCtrl.prototype.showSignDialog = function() {
+  var dialog = $('<iframe/>', {
+    'class': 'm-dialog',
+    frameBorder: 0,
+    scrolling: 'no'
+  });
+  var url;
+  if (mvelo.crx) {
+    url = mvelo.extension.getURL('components/sign-message/signDialog.html?id=' + id);
+  } else if (mvelo.ffa) {
+    url = 'about:blank?mvelo=signDialog&id=' + id;
+  }
+  dialog.attr('src', url);
+
+  $('.modal-body', $('#encryptModal')).empty().append(dialog);
+  $('#encryptModal').modal('show');
+};
+
+EditorCtrl.prototype._removeDialog = function() {
+  $('#encryptModal').modal('hide');
+  $('#encryptModal iframe').remove();
+};
+
+/**
+ * @param {Object} error
+ * @param {String} [error.title]
+ * @param {String} error.message
+ * @param {String} [error.class]
+ */
+function showErrorModal(error) {
+  var title = error.title || l10n.map.editor_error_header;
+  var content = error.message;
+  var $errorModal = $('#errorModal');
+
+  if (error.class && typeof error.class == 'string') {
+    content = $('<div/>').addClass(error.class).html(content);
   }
 
-  function setSignMode(signMsg, primaryKey) {
-    var short, long;
+  $('.modal-body', $errorModal).empty().append(content);
+  $('.modal-title', $errorModal).empty().append(title);
+  $errorModal.modal('show').on('hidden.bs.modal', function() {
+    $('#waitingModal').modal('hide');
+  });
+}
 
-    if (!signMsg) {
-      $('#editor_digital_signature').hide();
-      return;
-    }
+function setSignMode(signMsg, primaryKey) {
+  // update footer
+  renderFooter({embedded: true, signMsg, primaryKey: Boolean(primaryKey)});
+}
 
-    if (primaryKey) {
-      short = l10n.editor_sign_caption_short;
-      long = l10n.editor_sign_caption_long;
-    } else {
-      short = l10n.editor_no_primary_key_caption_short;
-      long = l10n.editor_no_primary_key_caption_long;
-    }
-    $('#editor_digital_signature')
-      .html(short)
-      .attr('title', long)
-      .tooltip();
+function onSetText(options) {
+  if (!options.text) {
+    return;
   }
-
-  function onSetText(options) {
-    if (!options.text) {
-      return;
-    }
-    if (editor) {
-      setText(options.text);
-    } else {
-      initText = options.text;
-    }
+  if (editor) {
+    setText(options.text);
+  } else {
+    initText = options.text;
   }
-
-}());
-
-if (typeof module !== 'undefined' && typeof exports === 'object') {
-  module.exports = EditorCtrl;
 }

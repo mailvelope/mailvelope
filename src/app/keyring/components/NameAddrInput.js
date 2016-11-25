@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import * as l10n from '../../util/l10n';
+import * as l10n from '../../../lib/l10n';
 import React from 'react';
 
 'use strict';

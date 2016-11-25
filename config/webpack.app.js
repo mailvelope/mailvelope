@@ -14,7 +14,7 @@ const externals = {
   jquery: 'jQuery'
 };
 
-exports.prod = {
+const prod = {
 
   entry,
   output,
@@ -33,7 +33,7 @@ exports.prod = {
 
 };
 
-exports.dev = {
+const dev = {
 
   devtool: 'source-map',
   entry,
@@ -48,3 +48,8 @@ exports.dev = {
   plugins: common.plugins('development')
 
 };
+
+module.exports = [dev];
+
+module.exports.prod = prod;
+module.exports.dev = dev;

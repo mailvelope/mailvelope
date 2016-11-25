@@ -26,7 +26,7 @@
         display-property="displayId"
         on-tag-added="edit.verify($tag)"
         on-tag-removed="edit.checkEncryptStatus()"
-        placeholder="{{edit.l10n.editor_label_add_recipient}}">
+        placeholder="{{edit.l10n.map.editor_label_add_recipient}}">
         <auto-complete
           source="edit.autocomplete($query)"
           min-length="1">
@@ -44,13 +44,6 @@
     </div>
 
     <div id="footer">
-      <div class="form-group pull-left">
-        <button id="uploadEmbeddedBtn" class="btn btn-default btn-upload-embedded"><span class="glyphicon glyphicon-paperclip" style="transform: rotate(180deg);"></span>&nbsp;<span data-l10n-id="upload_attachment"></span></button>
-        <input type="file" id="addFileInput" multiple="multiple" />
-      </div>
-      <div class="pull-right">
-        <span class="txt-digital-signature" id="editor_digital_signature" data-toggle="tooltip" data-placement="left" data-l10n-id-title="editor_sign_caption_long"></span>
-      </div>
     </div>
   </div>
 </div>

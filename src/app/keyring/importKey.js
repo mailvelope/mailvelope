@@ -21,7 +21,7 @@ import mvelo from '../../mvelo';
 import $ from 'jquery';
 import * as app from '../app';
 import event from '../util/event';
-import * as l10n from '../util/l10n';
+import * as l10n from '../../lib/l10n';
 
 import './importKey.css';
 

@@ -1,5 +1,5 @@
 
-import mvelo from '../../mvelo';
+import mvelo from '../mvelo';
 
 var map = {};
 

@@ -13,7 +13,8 @@ module.exports = function(grunt) {
     eslint: {
       options: {
         maxWarnings: 10,
-        configFile: 'config/eslint.json'
+        configFile: 'config/eslint.json',
+        cache: true
       },
       target: [
         '*.js',
@@ -158,6 +159,7 @@ module.exports = function(grunt) {
             '!app/**/*.js',
             'client-API/*',
             'components/**/*',
+            '!components/editor/**/*.js',
             'content-scripts/*.css',
             'img/*',
             'lib/*',
@@ -392,6 +394,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('webpack', function() {
     var done = this.async();
+    // , '--display-modules'
     grunt.util.spawn({cmd: process.argv[0], args: ['./node_modules/webpack/bin/webpack.js', '--config=config/webpack.' + this.args[0] + '.js'], opts: {stdio: 'inherit'}}, function(error, result) {
       done(result.code !== 1);
     });

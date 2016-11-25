@@ -236,6 +236,10 @@ body {
   color: #333;
 }
 
+.btn-upload-embedded .glyphicon.glyphicon-paperclip {
+  transform: rotate(180deg);
+}
+
 #waitingModal .modal-dialog {
   width: 500px;
   margin: 50px auto;

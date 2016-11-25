@@ -339,7 +339,7 @@ function injectEmbeddedEditor() {
       data.url('dep/ng-tags-input/ng-tags-input.min.js'),
       data.url('lib/messageAdapter.js'),
       data.url('mvelo.js'),
-      data.url('components/editor/editor.js'),
+      data.url('components/editor/editor.bundle.js'),
       data.url('lib/file.js')
     ],
     contentStyleFile: [
