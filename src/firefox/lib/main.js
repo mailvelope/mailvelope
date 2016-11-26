@@ -341,8 +341,7 @@ function injectEmbeddedEditor() {
       data.url('dep/react/react-dom.js'),
       data.url('lib/messageAdapter.js'),
       data.url('mvelo.js'),
-      data.url('components/editor/editor.bundle.js'),
-      data.url('lib/file.js')
+      data.url('components/editor/editor.bundle.js')
     ],
     contentStyleFile: [
       data.url("dep/bootstrap/css/bootstrap.css"),
@@ -373,8 +372,7 @@ function injectEmbeddedOptions() {
       data.url('dep/bootstrap-sortable/bootstrap-sortable.js'),
       data.url('dep/react/react.js'),
       data.url('dep/react/react-dom.js'),
-      data.url('app/app.bundle.js'),
-      data.url('lib/file.js')
+      data.url('app/app.bundle.js')
     ],
     contentStyleFile: [
       data.url("dep/bootstrap/css/bootstrap.css"),

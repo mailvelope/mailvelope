@@ -22,6 +22,7 @@ import mvelo from '../../mvelo';
 import * as app from '../app';
 import event from '../util/event';
 import * as l10n from '../../lib/l10n';
+import * as fileLib from '../../lib/file';
 
 import './encrypt.css';
 
@@ -192,7 +193,7 @@ function onDecryptFiles(e) {
     $decryptFileDownload.children().remove();
     hideError($decryptFileDownloadError);
     $('.waiting', $decryptFileDownloadPanel).show();
-    var encryptedFiles = mvelo.file.getFiles($decryptFileUploadPanel);
+    var encryptedFiles = fileLib.getFiles($decryptFileUploadPanel);
     decryptFiles(encryptedFiles)
       .catch(function(error) {
         showError(error.message, $decryptFileDownloadError);
@@ -238,7 +239,7 @@ function onEncryptFiles(e) {
     $encryptFileDownload.children().remove();
     hideError($encryptFileDownloadError);
     $('.waiting', $encryptFileDownloadPanel).show();
-    var plainFiles = mvelo.file.getFiles($encryptFileUploadPanel);
+    var plainFiles = fileLib.getFiles($encryptFileUploadPanel);
     var receipients = getSelectedRecipients();
     encryptFiles(plainFiles, receipients)
       .then(function() {
@@ -333,15 +334,15 @@ function onAddFile($filePanel, evt) {
   for (var i = 0; i < files.length; i++) {
     var file = files[i];
 
-    if (mvelo.file.isOversize(file)) {
+    if (fileLib.isOversize(file)) {
       showError(l10n.map.encrypt_upload_file_warning_too_big, $fileUploadError, true);
       continue;
     }
 
     numUploadsInProgress++;
-    mvelo.file.readUploadFile(file, afterLoadEnd.bind(null, $filePanel))
+    fileLib.readUploadFile(file, afterLoadEnd.bind(null, $filePanel))
       .then(function(response) {
-        var $fileElement = mvelo.file.createFileElement(response, {
+        var $fileElement = fileLib.createFileElement(response, {
           removeButton: true,
           onRemove: onRemoveFile,
           secureIcon: $filePanel.attr('id') === 'decrypt_fileUploadPanel' ? true : false
@@ -401,7 +402,7 @@ function addRecipientsToSelect(recipients) {
  * @param {File} file
  */
 function addFileToDownload(file, $panel, options) {
-  var $fileDownloadElement = mvelo.file.createFileDownloadElement(file, options);
+  var $fileDownloadElement = fileLib.createFileDownloadElement(file, options);
   $panel.append($fileDownloadElement);
 }
 

@@ -32,6 +32,7 @@ import ReactDOM from 'react-dom';
 import EditorFooter from './components/EditorFooter';
 import EditorModalFooter from './components/EditorModalFooter';
 import * as l10n from '../../lib/l10n';
+import * as fileLib from '../../lib/file';
 
 'use strict';
 
@@ -328,7 +329,7 @@ EditorCtrl.prototype.getEditorText = function() {
 };
 
 EditorCtrl.prototype.getAttachments = function() {
-  return mvelo.file.getFiles($('#uploadPanel'));
+  return fileLib.getFiles($('#uploadPanel'));
 };
 
 EditorCtrl.prototype._onSetText = function(msg) {
@@ -557,13 +558,13 @@ function templatesLoaded() {
 }
 
 function addAttachment(file) {
-  if (mvelo.file.isOversize(file)) {
+  if (fileLib.isOversize(file)) {
     throw new Error('File is too big');
   }
 
-  mvelo.file.readUploadFile(file, afterLoadEnd)
+  fileLib.readUploadFile(file, afterLoadEnd)
     .then(function(response) {
-      var $fileElement = mvelo.file.createFileElement(response, {
+      var $fileElement = fileLib.createFileElement(response, {
         removeButton: true,
         onRemove: onRemoveAttachment
       });
@@ -605,7 +606,7 @@ function onAddAttachment(evt) {
     fileSizeAll += parseInt(files[i].size);
   }
 
-  var currentAttachmentsSize = mvelo.file.getFileSize($('#uploadPanel')) + fileSizeAll;
+  var currentAttachmentsSize = fileLib.getFileSize($('#uploadPanel')) + fileSizeAll;
   if (currentAttachmentsSize > maxFileUploadSize) {
     var error = {
       title: l10n.map.upload_quota_warning_headline,

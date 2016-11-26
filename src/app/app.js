@@ -43,9 +43,6 @@ export let queryString = {};
 var keyringTmpl;
 var $keyringList;
 
-// set mvelo to global namespace for compatibility with ../lib/file.js
-window.mvelo = window.mvelo || mvelo;
-
 l10n.register([
   'keygrid_user_email'
 ]);
