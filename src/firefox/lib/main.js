@@ -337,6 +337,8 @@ function injectEmbeddedEditor() {
       data.url('dep/bootstrap/js/bootstrap.js'),
       data.url('dep/angular/angular.min.js'),
       data.url('dep/ng-tags-input/ng-tags-input.min.js'),
+      data.url('dep/react/react.js'),
+      data.url('dep/react/react-dom.js'),
       data.url('lib/messageAdapter.js'),
       data.url('mvelo.js'),
       data.url('components/editor/editor.bundle.js'),
@@ -369,15 +371,16 @@ function injectEmbeddedOptions() {
       data.url('lib/messageAdapter.js'),
       data.url('dep/bootstrap/js/bootstrap.js'),
       data.url('dep/bootstrap-sortable/bootstrap-sortable.js'),
+      data.url('dep/react/react.js'),
+      data.url('dep/react/react-dom.js'),
       data.url('app/app.bundle.js'),
       data.url('lib/file.js')
     ],
     contentStyleFile: [
       data.url("dep/bootstrap/css/bootstrap.css"),
-      data.url("dep//bootstrap-sortable/bootstrap-sortable.css"),
+      data.url("dep/bootstrap-sortable/bootstrap-sortable.css"),
       data.url("mvelo.css"),
-      data.url("app/app.css"),
-      data.url("app/fileEncrypt/encrypt.css")
+      data.url("app/app.css")
     ],
     contentScriptWhen: 'ready',
     attachTo: ['existing', 'frame'],

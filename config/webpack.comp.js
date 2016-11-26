@@ -2,10 +2,11 @@
 'use strict';
 
 var common = require('./webpack.common');
-var path = require('path');
 
 const externals = {
-  jquery: 'jQuery'
+  jquery: 'jQuery',
+  react: 'React',
+  'react-dom': 'ReactDOM'
 };
 
 function prod(pathname, filename) {
@@ -19,13 +20,7 @@ function prod(pathname, filename) {
       filename: filename + '.bundle.js'
     },
 
-    resolve: {
-      modulesDirectories: ["bower_components", "node_modules"],
-      alias: {
-        'react': path.resolve('./node_modules/react/dist/react.min'),
-        'react-dom': path.resolve('./node_modules/react-dom/dist/react-dom.min')
-      }
-    },
+    resolve: common.resolve(),
 
     externals,
     module: common.module.react(),
@@ -47,9 +42,7 @@ function dev(pathname, filename) {
       filename: filename + '.bundle.js'
     },
 
-    resolve: {
-      modulesDirectories: ["bower_components", "node_modules"]
-    },
+    resolve: common.resolve(),
 
     externals,
     module: common.module.react(),

@@ -40,5 +40,12 @@ function react() {
   };
 }
 
+function resolve() {
+  return {
+    modulesDirectories: ["bower_components", "node_modules"],
+  };
+}
+
 exports.plugins = plugins;
 exports.module = {react};
+exports.resolve = resolve;

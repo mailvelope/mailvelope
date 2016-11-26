@@ -86,20 +86,30 @@ module.exports = function(grunt) {
             cwd: 'node_modules/ng-tags-input/build/',
             src: ['ng-tags-input.min.js', 'ng-tags-input.min.css', 'ng-tags-input.bootstrap.min.css'],
             dest: 'build/tmp/dep/ng-tags-input/'
-          },
-          {
-            expand: true,
-            cwd: 'node_modules/react/dist/',
-            src: 'react.min.js',
-            dest: 'build/tmp/dep/react/'
-          },
-          {
-            expand: true,
-            cwd: 'node_modules/react-dom/dist/',
-            src: 'react-dom.min.js',
-            dest: 'build/tmp/dep/react/'
           }
         ]
+      },
+
+      dep_dev: {
+        files: [{
+            src: 'node_modules/react/dist/react.js',
+            dest: 'build/tmp/dep/react/react.js'
+          },
+          {
+            src: 'node_modules/react-dom/dist/react-dom.js',
+            dest: 'build/tmp/dep/react/react-dom.js'
+          }]
+      },
+
+      dep_prod: {
+        files: [{
+            src: 'node_modules/react/dist/react.min.js',
+            dest: 'build/tmp/dep/react/react.js'
+          },
+          {
+            src: 'node_modules/react-dom/dist/react-dom.min.js',
+            dest: 'build/tmp/dep/react/react-dom.js'
+          }]
       },
 
       dep_chrome: {
@@ -383,12 +393,12 @@ module.exports = function(grunt) {
   grunt.registerTask('final_steps', ['copy:tmp2chrome', 'copy:tmp2firefox', 'copy:locale_firefox', 'copy:locale_chrome']);
 
   // development builds
-  grunt.registerTask('default', ['clean', 'eslint', 'chrome_modules', 'firefox_modules', 'webpack:dev', 'copy2tmp', 'final_steps']);
+  grunt.registerTask('default', ['clean', 'eslint', 'chrome_modules', 'firefox_modules', 'webpack:dev', 'copy2tmp', 'copy:dep_dev', 'final_steps']);
   grunt.registerTask('chrome', ['clean', 'eslint', 'chrome_modules', 'webpack:chrome', 'copy2tmp', 'copy:tmp2chrome', 'copy:locale_chrome']);
   grunt.registerTask('firefox', ['clean', 'eslint', 'firefox_modules', 'webpack:firefox', 'copy2tmp', 'copy:tmp2firefox', 'copy:locale_firefox']);
 
   // production build
-  grunt.registerTask('prod', ['clean', 'eslint', 'chrome_modules', 'firefox_modules', 'webpack:prod', 'copy2tmp', 'final_steps']);
+  grunt.registerTask('prod', ['clean', 'eslint', 'chrome_modules', 'firefox_modules', 'webpack:prod', 'copy2tmp', 'copy:dep_prod', 'final_steps']);
 
   grunt.registerTask('test', ['webpack:test', 'connect:test', 'mocha_phantomjs']);
 
