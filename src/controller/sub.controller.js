@@ -78,6 +78,20 @@ SubController.prototype.openSecuritySettings = function() {
   });
 };
 
+SubController.prototype.openApp = function({fragment}) {
+  let hash = `#${fragment}`;
+
+  this.mvelo.tabs.loadOptionsTab(hash, (old, tab) => {
+    if (old) {
+      this.mvelo.tabs.sendMessage(tab, {
+        event: 'reload-options',
+        hash: hash
+      });
+    }
+  });
+};
+
+
 var factory = {};
 factory.repo = {};
 

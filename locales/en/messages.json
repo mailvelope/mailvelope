@@ -103,6 +103,10 @@
     "description": "Header of editor popup.",
     "message": "Compose E-mail"
   },
+  "editor_link_file_encryption": {
+    "message": "Encrypt attachments",
+    "description": "Navigation link to file encryption"
+  },
   "editor_no_primary_key_caption_long": {
     "description": "",
     "message": "E-mail cannot be signed digitally because the primary key is missing"
@@ -117,7 +121,7 @@
   },
   "editor_sign_button": {
     "description": "Sign button.",
-    "message": "Sign"
+    "message": "Sign Only"
   },
   "editor_sign_caption_long": {
     "description": "",

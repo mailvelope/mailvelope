@@ -166,7 +166,7 @@ EditorCtrl.prototype.colorTag = function(recipient) {
 EditorCtrl.prototype.checkEncryptStatus = function() {
   this.noEncrypt = (this.recipients || []).some(function(r) { return !r.key; });
   // update editor modal footer
-  renderModalFooter(this.noEncrypt || !this.recipients || !this.recipients.length);
+  renderModalFooter({encryptDisabled: this.noEncrypt || !this.recipients || !this.recipients.length});
 };
 
 /**
@@ -178,7 +178,7 @@ EditorCtrl.prototype.autocomplete = function(query) {
   var cache = (this.keys || []).map(function(key) {
     return {
       email: key.email,
-      displayId: key.userid + ' - ' + key.keyid.substr(-8).toUpperCase()
+      displayId: key.userid + ' - ' + key.keyid.toUpperCase()
     };
   });
   // filter by display ID and ignore duplicates
@@ -344,10 +344,9 @@ EditorCtrl.prototype._hideWaitingModal = function() {
   $('#waitingModal').modal('hide');
 };
 
-EditorCtrl.prototype._onSetInitData = function(msg) {
-  var data = msg.data;
+EditorCtrl.prototype._onSetInitData = function({data}) {
   onSetText(data);
-  setSignMode(data.signMsg || false, data.primary);
+  setSignMode(data);
 };
 
 EditorCtrl.prototype._onSetAttachment = function(msg) {
@@ -414,6 +413,34 @@ var delayedAction = '';
 var qs;
 var _self;
 
+let modalBodyBottomPosition = 0;
+let footerProps = {
+  onClickUpload: () => _self.logUserInput('security_log_add_attachment'),
+  onChangeFileInput: onAddAttachment,
+  onClickFileEncryption: () => _self.emit('open-app', {sender: _self._name, fragment: 'file_encrypting'})
+};
+let modalFooterProps = {
+  onCancel: () => _self.cancel(),
+  onSignOnly: () => _self.sign(),
+  onEncrypt: () => _self.encrypt(),
+  expanded: false,
+  onExpand: () => {
+    $('.modal-body').animate({bottom: '172px'}, () => {
+      renderModalFooter({expanded: true});
+    });
+  },
+  onCollapse: () => {
+    $('.modal-body').animate({bottom: modalBodyBottomPosition});
+    renderModalFooter({expanded: false});
+  },
+  onChangeSignMsg: value => {
+    renderFooter({signMsg: value});
+    renderModalFooter({signMsg: value});
+  },
+  onChangeSignKey: value => renderModalFooter({signKey: value}),
+  onClickSignSetting: () => _self.emit('open-app', {sender: _self._name, fragment: 'general'})
+};
+
 // register language strings
 l10n.register([
   'editor_remove_upload',
@@ -463,7 +490,7 @@ function init() {
   // plain text only
   editor_type = mvelo.PLAIN_TEXT; //qs.editor_type;
   port = mvelo.extension.connect({name: name});
-  loadTemplates(qs.embedded, templatesLoaded);
+  loadTemplates(Boolean(qs.embedded), templatesLoaded);
   if (mvelo.crx) {
     basePath = '../../';
   } else if (mvelo.ffa) {
@@ -513,24 +540,14 @@ function loadTemplates(embedded, callback) {
   }
 }
 
-function renderFooter({embedded, signMsg, primaryKey}) {
-  embedded = Boolean(embedded);
-  ReactDOM.render(React.createElement(EditorFooter, {
-    embedded,
-    signMsg,
-    primaryKey,
-    onClickUpload: () => _self.logUserInput('security_log_add_attachment'),
-    onChangeFileInput: onAddAttachment
-  }), $('#footer').get(0));
+function renderFooter(props = {}) {
+  Object.assign(footerProps, props);
+  ReactDOM.render(React.createElement(EditorFooter, footerProps), $('#footer').get(0));
 }
 
-function renderModalFooter(encryptDisabled) {
-  ReactDOM.render(React.createElement(EditorModalFooter, {
-    onCancel: () => _self.cancel(),
-    onSignOnly: () => _self.sign(),
-    onEncrypt: () => _self.encrypt(),
-    encryptDisabled
-  }), $('.modal-footer').get(0));
+function renderModalFooter(props = {}) {
+  Object.assign(modalFooterProps, props);
+  ReactDOM.render(React.createElement(EditorModalFooter, modalFooterProps), $('#editorDialog .modal-footer').get(0));
 }
 
 /**
@@ -555,6 +572,8 @@ function templatesLoaded() {
   mvelo.util.showSecurityBackground(qs.embedded);
   // bootstrap angular
   angular.bootstrap(document, ['editor']);
+  // keep initial bottom position of body
+  modalBodyBottomPosition = $('.modal-body').css('bottom');
 }
 
 function addAttachment(file) {
@@ -815,9 +834,15 @@ function showErrorModal(error) {
   });
 }
 
-function setSignMode(signMsg, primaryKey) {
+function setSignMode({signMsg, primary, privKeys}) {
+  signMsg = Boolean(signMsg);
   // update footer
-  renderFooter({embedded: true, signMsg, primaryKey: Boolean(primaryKey)});
+  renderFooter({signMsg, primaryKey: Boolean(primary)});
+  // only render in non-embedded mode
+  if (!footerProps.embedded) {
+    // update modal footer
+    renderModalFooter({signMsg, signKey: primary, privKeys});
+  }
 }
 
 function onSetText(options) {

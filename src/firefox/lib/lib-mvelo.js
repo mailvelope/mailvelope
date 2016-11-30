@@ -31,6 +31,9 @@ var mvelo = require('../../mvelo');
 var CWorker = require('./web-worker').Worker;
 var request = require('sdk/request').Request;
 
+var mainWindow = windows.activeWindow; // current active main window
+windows.on('close', () => mainWindow = windows.activeWindow);
+
 mvelo.ffa = true;
 mvelo.crx = false;
 
@@ -122,6 +125,7 @@ mvelo.tabs.sendMessage = function(tab, msg, callback) {
 };
 
 mvelo.tabs.loadOptionsTab = function(hash, callback) {
+  mainWindow.activate();
   // check if options tab already exists
   var url = data.url('app/app.html');
   this.query(url, function(tabs) {
@@ -180,6 +184,7 @@ mvelo.windows.openPopup = function(url, options, callback) {
   if (callback) {
     winOpts.onOpen = callback;
   }
+  mainWindow = windows.activeWindow;
   windows.open(winOpts);
 };
 

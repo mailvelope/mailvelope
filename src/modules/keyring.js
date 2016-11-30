@@ -243,6 +243,11 @@ Keyring.prototype.getPrivateKeys = function() {
   return mapKeys(this.keyring.privateKeys.keys);
 };
 
+Keyring.prototype.getValidSigningKeys = function() {
+  return mapKeys(this.keyring.privateKeys.keys.filter(key => this.validatePrimaryKey(key)))
+  .sort((a, b) => a.name.localeCompare(b.name));
+};
+
 function mapKeys(keys) {
   var result = [];
   keys.forEach(function(key) {

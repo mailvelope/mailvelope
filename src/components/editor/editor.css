@@ -244,3 +244,40 @@ body {
   width: 500px;
   margin: 50px auto;
 }
+
+.modal-footer .btn-sign-only {
+  margin-right: 10px
+}
+
+.modal-footer .sign-msg-option {
+  text-align: left;
+}
+
+#signMsgOption, .sign-msg-option .form-group {
+  margin-right: 7px;
+}
+
+.sign-msg-option .form-group select {
+  width: 400px;
+}
+
+.sign-msg-option .form-group {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.sign-msg-option .checkbox {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.form-nav-link {
+  font-size: 13px;
+}
+
+.nav-link-file-encryption {
+  padding: .1em .3em;
+  border: none;
+  background: rgba(255,255,255,.5);
+  font: 11px Verdana, sans-serif;
+}

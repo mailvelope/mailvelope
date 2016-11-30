@@ -13,7 +13,8 @@ l10n.register([
   'editor_sign_caption_short',
   'editor_sign_caption_long',
   'editor_no_primary_key_caption_short',
-  'editor_no_primary_key_caption_long'
+  'editor_no_primary_key_caption_long',
+  'editor_link_file_encryption'
 ]);
 
 class EditorFooter extends React.Component {
@@ -52,6 +53,9 @@ class EditorFooter extends React.Component {
             <span>{l10n.map.upload_attachment}</span>
           </button>
           <input type="file" id="addFileInput" multiple="multiple" onChange={this.props.onChangeFileInput}/>
+          <div className="nav-link-file-encryption">
+            <a href="#" className={!this.props.embedded ? 'show' : 'hide'} onClick={e => { e.preventDefault(); this.props.onClickFileEncryption(); }}>{l10n.map.editor_link_file_encryption}</a>
+          </div>
         </div>
         <div className="pull-right">
           <span ref={node => this.signCaption = node} className={`txt-digital-signature ${this.props.signMsg ? 'show' : 'hide'}`}
@@ -69,7 +73,8 @@ EditorFooter.propTypes = {
   signMsg: React.PropTypes.bool, // message will be signed
   primaryKey: React.PropTypes.bool, // primary key to sign message exists
   onClickUpload: React.PropTypes.func, // click on upload button
-  onChangeFileInput: React.PropTypes.func // file input change event triggered
+  onChangeFileInput: React.PropTypes.func, // file input change event triggered
+  onClickFileEncryption: React.PropTypes.func // click on navigation link
 }
 
 export default EditorFooter;

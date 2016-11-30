@@ -35,12 +35,10 @@ function EditorController(port) {
     this.mainType = 'editor';
     this.id = this.mvelo.util.getHash();
   }
-  this.initText = '';
   this.encryptCallback = null;
   this.encryptTimer = null;
   this.keyringId = null;
   this.editorPopup = null;
-  this.getRecipientProposal = null;
   this.keyidBuffer = null;
   this.signBuffer = null;
   this.pwdControl = null;
@@ -66,20 +64,30 @@ function EditorController(port) {
   this.on('editor-container-create-draft', this._onEditorContainerCreateDraft);
   this.on('editor-options', this._onEditorOptions);
   this.on('open-security-settings', this.openSecuritySettings);
+  this.on('open-app', this.openApp);
 }
 
 EditorController.prototype = Object.create(sub.SubController.prototype);
 
 EditorController.prototype._onEditorInit = function() {
-  if (this.initText) {
-    this.emit('set-text', {text: this.initText});
-  }
   if (this.ports.editorCont) {
     this.emit('editor-ready', undefined, this.ports.editorCont);
+  } else {
+    // non-container case, send options to editor
+    let keyring = this.keyring.getById(this.keyringId);
+    let primaryKey =  keyring.getPrimaryKey();
+    let primaryKeyId = primaryKey && primaryKey.keyid.toUpperCase() || '';
+    let data = {
+      text: this.options.initText,
+      signMsg: this.prefs.data().general.auto_sign_msg,
+      primary: primaryKeyId,
+      privKeys: keyring.getValidSigningKeys()
+    };
+    this.emit('set-init-data', {data: data}, this.ports.editor);
   }
   // display recipient proposal in the editor
-  if (this.getRecipientProposal) {
-    this.getRecipientProposal(this.displayRecipientProposal.bind(this));
+  if (this.options.getRecipientProposal) {
+    this.options.getRecipientProposal(this.displayRecipientProposal.bind(this));
   }
 };
 
@@ -153,9 +161,11 @@ EditorController.prototype._onEditorOptions = function(msg) {
   this.keyringId = msg.keyringId;
   this.options = msg.options;
   this.signMsg = msg.options.signMsg;
+  let primaryKey = this.keyring.getById(this.keyringId).getPrimaryKey();
+  let primaryKeyId = primaryKey && primaryKey.keyid.toUpperCase() || '';
   var data = {
     signMsg: this.signMsg,
-    primary: this.keyring.getById(this.keyringId).getPrimaryKey() || false
+    primary: primaryKeyId
   };
   if (this.options.armoredDraft) {
     this.options.keepAttachments = true;
@@ -232,13 +242,11 @@ EditorController.prototype.lookupKeyOnServer = function(msg) {
  * @param {Function} callback
  */
 EditorController.prototype.encrypt = function(options, callback) {
-  var that = this;
-  this.initText = options.initText;
-  this.getRecipientProposal = options.getRecipientProposal;
+  this.options = options;
   this.keyringId = options.keyringId || this.mvelo.LOCAL_KEYRING_ID;
   this.encryptCallback = callback;
-  this.mvelo.windows.openPopup('components/editor/editor.html?id=' + this.id + '&editor_type=' + this.prefs.data().general.editor_type, {width: 820, height: 550, modal: false}, function(window) {
-    that.editorPopup = window;
+  this.mvelo.windows.openPopup('components/editor/editor.html?id=' + this.id + '&editor_type=' + this.prefs.data().general.editor_type, {width: 820, height: 550, modal: false}, (window) => {
+    this.editorPopup = window;
   });
 };
 

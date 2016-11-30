@@ -103,6 +103,10 @@
     "message": "E-Mail verfassen",
     "description": "Header of editor popup."
   },
+  "editor_link_file_encryption": {
+    "message": "Anhänge verschlüsseln",
+    "description": "Navigation link to file encryption"
+  },
   "editor_no_primary_key_caption_long": {
     "message": "Die E-Mail kann nicht digital unterschrieben werden, da der Primärschlüssel fehlt.",
     "description": ""
@@ -116,7 +120,7 @@
     "description": "Remove uploaded attachment"
   },
   "editor_sign_button": {
-    "message": "Signieren",
+    "message": "Nur Signieren",
     "description": "Sign button."
   },
   "editor_sign_caption_long": {

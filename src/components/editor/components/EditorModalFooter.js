@@ -11,7 +11,10 @@ import * as l10n from '../../../lib/l10n';
 l10n.register([
   'form_cancel',
   'editor_sign_button',
-  'editor_encrypt_button'
+  'editor_encrypt_button',
+  'options_home',
+  'sign_dialog_header',
+  'general_primary_key_auto_sign'
 ]);
 
 class EditorModalFooter extends React.Component {
@@ -19,16 +22,44 @@ class EditorModalFooter extends React.Component {
     super(props);
   }
 
+  signSelection() {
+    return (
+      <form className="sign-msg-option well">
+        <div className="form-group">
+          <div className="checkbox">
+            <label className="checkbox" htmlFor="signMsg">
+              <input checked={this.props.signMsg} onChange={event => this.props.onChangeSignMsg(event.target.checked)} type="checkbox" id="signMsgOption" />
+              <span>{l10n.map.sign_dialog_header}</span>
+            </label>
+          </div>
+        </div>
+        <div className="form-group">
+          <select className="form-control" value={this.props.signKey} onChange={event => this.props.onChangeSignKey(event.target.value)}>
+            {this.props.privKeys.map(key => <option value={key.id} key={key.id}>{key.userId + ' - ' + key.id}</option>)}
+          </select>
+        </div>
+        <div className="form-nav-link pull-right">
+          <a href="#" onClick={e => { e.preventDefault(); this.props.onClickSignSetting(); }}>{l10n.map.general_primary_key_auto_sign}</a>
+        </div>
+      </form>
+    );
+  }
+
   render() {
     return (
       <div>
+        {this.props.expanded && this.signSelection()}
+        <button onClick={this.props.expanded ? this.props.onCollapse : this.props.onExpand} className="btn btn-default btn-sm pull-left">
+          <span>{l10n.map.options_home}</span>&nbsp;&nbsp;
+          <span className={`glyphicon glyphicon-collapse-${this.props.expanded ? 'down' : 'up'}`} aria-hidden="true"></span>
+        </button>
+        <button onClick={this.props.onSignOnly} className="btn btn-default btn-sm btn-sign-only">
+          <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;
+          <span>{l10n.map.editor_sign_button}</span>
+        </button>
         <button onClick={this.props.onCancel} className="btn btn-default">
           <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;
           <span>{l10n.map.form_cancel}</span>
-        </button>
-        <button onClick={this.props.onSignOnly} className="btn btn-default">
-          <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;
-          <span>{l10n.map.editor_sign_button}</span>
         </button>
         <button onClick={this.props.onEncrypt} className="btn btn-primary" disabled={this.props.encryptDisabled}>
           <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>&nbsp;
@@ -43,7 +74,16 @@ EditorModalFooter.propTypes = {
   onCancel: React.PropTypes.func, // click on cancel button
   onSignOnly: React.PropTypes.func, // click on sign only button
   onEncrypt: React.PropTypes.func, // click on encrypt button
-  encryptDisabled: React.PropTypes.bool // encrypt action disabled
+  encryptDisabled: React.PropTypes.bool, // encrypt action disabled
+  onExpand: React.PropTypes.func, // click on options button in collapsed state
+  onCollapse: React.PropTypes.func, // click on options button in expanded state
+  expanded: React.PropTypes.bool, // expanded state
+  signMsg: React.PropTypes.bool, // sign message indicator
+  onChangeSignMsg: React.PropTypes.func, // receives bool value for current signMsg state
+  signKey: React.PropTypes.string, // sign key id
+  privKeys: React.PropTypes.array, // list of private keys for signing
+  onChangeSignKey: React.PropTypes.func, // user selects new key
+  onClickSignSetting: React.PropTypes.func // click on navigation link
 }
 
 export default EditorModalFooter;
