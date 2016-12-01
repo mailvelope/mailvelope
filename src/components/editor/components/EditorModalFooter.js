@@ -53,7 +53,7 @@ class EditorModalFooter extends React.Component {
           <span>{l10n.map.options_home}</span>&nbsp;&nbsp;
           <span className={`glyphicon glyphicon-collapse-${this.props.expanded ? 'down' : 'up'}`} aria-hidden="true"></span>
         </button>
-        <button onClick={this.props.onSignOnly} className="btn btn-default btn-sm btn-sign-only">
+        <button onClick={this.props.onSignOnly} className="btn btn-default btn-sm btn-sign-only" disabled={!(this.props.signMsg && this.props.privKeys.length)}>
           <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;
           <span>{l10n.map.editor_sign_button}</span>
         </button>

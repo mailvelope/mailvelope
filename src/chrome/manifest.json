@@ -43,7 +43,6 @@
     "content-scripts/framestyles.css",
     "components/decrypt-inline/decryptInline.html",
     "components/verify-inline/verifyInline.html",
-    "components/sign-message/signDialog.html",
     "components/generate-key/keyGenDialog.html",
     "components/key-backup/keyBackupDialog.html",
     "components/restore-backup/restoreBackupDialog.html",

@@ -56,9 +56,7 @@ function EditorController(port) {
   this.on('keyserver-lookup', this.lookupKeyOnServer);
   // standalone editor only
   this.on('editor-cancel', this._onEditorCancel);
-  this.on('sign-dialog-init', this._onSignDialogInit);
-  this.on('sign-dialog-ok', this._onSignDialogOk);
-  this.on('sign-dialog-cancel', this._onSignDialogCancel);
+  this.on('sign-only', this._onSignOnly);
   // API only
   this.on('editor-container-encrypt', this._onEditorContainerEncrypt);
   this.on('editor-container-create-draft', this._onEditorContainerCreateDraft);
@@ -94,21 +92,6 @@ EditorController.prototype._onEditorInit = function() {
 EditorController.prototype._onEditorCancel = function() {
   this.editorPopup.close();
   this.editorPopup = null;
-};
-
-EditorController.prototype._onSignDialogInit = function() {
-  var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
-  var keys = localKeyring.getPrivateKeys();
-  var primary = localKeyring.getAttributes().primary_key;
-  this.mvelo.data.load('components/sign-message/sign.html').then(function(content) {
-    this.emit('sign-dialog-content', {data: content}, this.ports.sDialog);
-    this.emit('signing-key-userids', {keys: keys, primary: primary}, this.ports.sDialog);
-  }.bind(this));
-};
-
-EditorController.prototype._onSignDialogCancel = function(msg) {
-  // forward event to editor
-  this.emit(msg.event, msg);
 };
 
 EditorController.prototype._onEditorContainerEncrypt = function(msg) {
@@ -181,8 +164,7 @@ EditorController.prototype._onEditorOptions = function(msg) {
   this.emit('set-init-data', {data: data}, this.ports.editor);
 };
 
-EditorController.prototype._onSignDialogOk = function(msg) {
-  var that = this;
+EditorController.prototype._onSignOnly = function(msg) {
   this.signBuffer = {};
   var key = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
   // add key in buffer
@@ -191,24 +173,19 @@ EditorController.prototype._onSignDialogOk = function(msg) {
   this.signBuffer.userid = key.userId;
   this.signBuffer.openPopup = false;
   this.signBuffer.reason = 'PWD_DIALOG_REASON_SIGN';
-  this.signBuffer.beforePasswordRequest = function() {
-    that.emit('show-pwd-dialog', {id: that.pwdControl.id});
-  };
+  this.signBuffer.beforePasswordRequest = () => this.emit('show-pwd-dialog', {id: this.pwdControl.id});
   this.signBuffer.keyringId = this.keyringId;
   this.pwdControl = sub.factory.get('pwdDialog');
   this.pwdControl.unlockKey(this.signBuffer)
-    .then(function() {
-      that.emit('get-plaintext', {action: 'sign'});
-    })
-    .catch(function(err) {
-      if (err.code === 'PWD_DIALOG_CANCEL') {
-        that.emit('hide-pwd-dialog');
-        return;
-      }
-      if (err) {
-        // TODO: propagate error to sign dialog
-      }
-    });
+  .then(() => this.emit('get-plaintext', {action: 'sign'}))
+  .catch(err => {
+    if (err.code === 'PWD_DIALOG_CANCEL') {
+      this.emit('hide-pwd-dialog');
+      return;
+    }
+    err = this.mvelo.util.mapError(err);
+    this.emit('error-message', {error: err});
+  });
 };
 
 EditorController.prototype._onEditorUserInput = function(msg) {

@@ -112,7 +112,6 @@ function activatePageMods() {
   injectMessageAdapter();
   injectDecryptInline();
   injectVerifyInline();
-  injectSignDialog();
   injectEmbeddedEditor();
   injectEmbeddedOptions();
   injectEmbeddedKeyGen();
@@ -301,32 +300,6 @@ function injectVerifyInline() {
   });
 }
 
-function injectSignDialog() {
-  pageMods.signDialogPageMod = pageMod.PageMod({
-    include: 'about:blank?mvelo=signDialog*',
-    onAttach: onCsAttach,
-    contentScriptFile: [
-      data.url('dep/jquery.min.js'),
-      data.url('lib/jquery.ext.js'),
-      data.url('dep/bootstrap/js/bootstrap.js'),
-      data.url('lib/messageAdapter.js'),
-      data.url('mvelo.js'),
-      data.url('components/sign-message/signDialog.js')
-    ],
-    contentStyleFile: [
-      data.url("dep/bootstrap/css/bootstrap.css"),
-      data.url("mvelo.css"),
-      data.url("components/sign-message/signDialog.css")
-    ],
-    contentScriptWhen: 'ready',
-    attachTo: ['existing', 'frame'],
-    contentScriptOptions: {
-      expose_messaging: false,
-      data_path: data.url()
-    }
-  });
-}
-
 function injectEmbeddedEditor() {
   pageMods.embeddedEditorPageMod = pageMod.PageMod({
     include: 'about:blank?mvelo=editor*',
@@ -340,7 +313,6 @@ function injectEmbeddedEditor() {
       data.url('dep/react/react.js'),
       data.url('dep/react/react-dom.js'),
       data.url('lib/messageAdapter.js'),
-      data.url('mvelo.js'),
       data.url('components/editor/editor.bundle.js')
     ],
     contentStyleFile: [

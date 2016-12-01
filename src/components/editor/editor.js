@@ -29,6 +29,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import mvelo from '../../mvelo';
 import EditorFooter from './components/EditorFooter';
 import EditorModalFooter from './components/EditorModalFooter';
 import * as l10n from '../../lib/l10n';
@@ -211,7 +212,6 @@ EditorCtrl.prototype.registerEventListeners = function() {
   this.on('decrypt-failed', this._decryptFailed);
   this.on('show-pwd-dialog', this._onShowPwdDialog);
   this.on('hide-pwd-dialog', this._hidePwdDialog);
-  this.on('sign-dialog-cancel', this._removeDialog);
   this.on('get-plaintext', this._getPlaintext);
   this.on('error-message', this._onErrorMessage);
   this.on('keyserver-response', this._onKeyServerResponse);
@@ -307,7 +307,10 @@ EditorCtrl.prototype.encrypt = function() {
  */
 EditorCtrl.prototype.sign = function() {
   this.logUserInput('security_log_dialog_sign');
-  this.showSignDialog();
+  this.emit('sign-only', {
+    sender: this._name,
+    signKeyId: modalFooterProps.signKey.toLowerCase()
+  });
 };
 
 /**
@@ -787,24 +790,6 @@ EditorCtrl.prototype._hidePwdDialog = function() {
     $('body #pwdDialog').remove();
     $('body').find('#editorDialog').show();
   });
-};
-
-EditorCtrl.prototype.showSignDialog = function() {
-  var dialog = $('<iframe/>', {
-    'class': 'm-dialog',
-    frameBorder: 0,
-    scrolling: 'no'
-  });
-  var url;
-  if (mvelo.crx) {
-    url = mvelo.extension.getURL('components/sign-message/signDialog.html?id=' + id);
-  } else if (mvelo.ffa) {
-    url = 'about:blank?mvelo=signDialog&id=' + id;
-  }
-  dialog.attr('src', url);
-
-  $('.modal-body', $('#encryptModal')).empty().append(dialog);
-  $('#encryptModal').modal('show');
 };
 
 EditorCtrl.prototype._removeDialog = function() {

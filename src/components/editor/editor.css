@@ -86,12 +86,12 @@ body {
 
 #pwdDialog {
   width: 462px;
-  height: 417px;
+  height: 430px;
   position: absolute;
   left: 50%;
   top: 50%;
   margin-left: -231px;
-  margin-top: -208px;
+  margin-top: -215px;
 }
 
 .m-dialog {
@@ -258,7 +258,7 @@ body {
 }
 
 .sign-msg-option .form-group select {
-  width: 400px;
+  width: 440px;
 }
 
 .sign-msg-option .form-group {
