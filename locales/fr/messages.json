@@ -180,7 +180,7 @@
         "description": ""
     },
     "editor_sign_button": {
-        "message": "Signer",
+        "message": "Sign Only",
         "description": "Sign button."
     },
     "recovery_sheet_recovery_code": {
@@ -194,10 +194,6 @@
     "security_log_action": {
         "message": "Action",
         "description": "Title of the action column of the security log table."
-    },
-    "key_gen_never": {
-        "message": "jamais",
-        "description": "Key expires after time range"
     },
     "general_primary_key_label": {
         "message": "Clé privée principale",
@@ -323,10 +319,6 @@
         "message": "Evénement clic sur retour dans la boîte de dialogue",
         "description": ""
     },
-    "editor_no_sign_caption_long": {
-        "message": "Le courriel ne sera pas signé digitalement",
-        "description": ""
-    },
     "pwd_dialog_reason_decrypt": {
         "message": "Veuillez renseigner le mot de passe de votre clé pour déchiffer ce message.",
         "description": ""
@@ -334,6 +326,10 @@
     "keygrid_delete": {
         "message": "Supprimer",
         "description": "Max. 6 characters."
+    },
+    "editor_link_file_encryption": {
+        "message": "Encrypt attachments",
+        "description": "Navigation link to file encryption"
     },
     "security_log_add_attachment": {
         "message": "L'ajout de le pièce jointe a été séléctionné",
@@ -496,7 +492,7 @@
         "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "editor_sign_caption_short": {
-        "message": "Le mail est sgné digitalement",
+        "message": "E-mail will be signed digitally",
         "description": ""
     },
     "recovery_sheet_provider_security": {
@@ -635,10 +631,6 @@
         "message": "Evénement clic sur Confirmer dans la boîte de dialogue",
         "description": ""
     },
-    "editor_no_sign_caption_short": {
-        "message": "Le courriel n'est pas signé digitalement",
-        "description": ""
-    },
     "recovery_sheet_qr_code": {
         "message": "Scannez le code QR avec votre appareil mobile.",
         "description": ""
@@ -695,6 +687,10 @@
         "message": "à cause de problèmes avec l'extension de votre navigateur",
         "description": "List item"
     },
+    "general_primary_key_auto_sign": {
+        "message": "Sign all messages with primary key",
+        "description": "Label for primary private key option."
+    },
     "keybackup_setup_dialog_headline": {
         "message": "Recommendation: paramètrer une sauvegarde",
         "description": ""
@@ -726,10 +722,6 @@
     "popup_actions_current_page": {
         "message": "Onglet actif:",
         "description": "Title text for the reload and add buttons"
-    },
-    "key_gen_months": {
-        "message": "mois",
-        "description": "Key expires after time range"
     },
     "encrypt_dialog_add": {
         "message": "Ajouter",
@@ -804,7 +796,7 @@
         "description": ""
     },
     "pwd_dialog_reason_create_backup": {
-        "message": "Veuillez renseigner le mot de passe de votre clé pour créer le document de récupération.",
+        "message": "Please enter your key password to create a recovery sheet.",
         "description": ""
     },
     "recovery_sheet_print_block": {
@@ -894,6 +886,10 @@
     "verify_result_warning": {
         "message": "Signé avec une clé inconnue",
         "description": "Verfiy signature warning."
+    },
+    "invalid_primary_key": {
+        "message": "Key is not valid for encryption and signing operations",
+        "description": "Tootip for set as primary key button"
     },
     "alert_header_warning": {
         "message": "Attention !",
@@ -988,8 +984,8 @@
         "description": ""
     },
     "key_gen_expiration": {
-        "message": "Expiration",
-        "description": "Key expires after time range"
+        "message": "Key expiration date",
+        "description": "Key expiration date"
     },
     "security_log_sign_dialog": {
         "message": "Boîte de dialogue signer",
@@ -1032,7 +1028,7 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "pwd_dialog_reason_editor": {
-        "message": "Veuillez renseigner le mot de passe de votre clé pour actualiser vos paramètres pour la communication chiffrée.",
+        "message": "Please enter your key password to update settings for encrypted communication.",
         "description": ""
     },
     "key_set_as_primary": {
@@ -1066,10 +1062,6 @@
     "keygrid_sort_type": {
         "message": "Genre de clé",
         "description": "Key grid sort selector."
-    },
-    "key_gen_years": {
-        "message": "années",
-        "description": "Key expires after time range"
     },
     "editor_blur_warn": {
         "message": "Attention. L'éditeur de texte a perdu le focus.",
@@ -1140,7 +1132,7 @@
         "description": ""
     },
     "recovery_sheet_forgot_password": {
-        "message": "car vous avez oublié votre mot de passe principal",
+        "message": "because you forgot the password to your key",
         "description": "List item"
     },
     "security_cache_on": {
@@ -1331,10 +1323,6 @@
         "message": "Confirmer",
         "description": ""
     },
-    "key_gen_days": {
-        "message": "jours",
-        "description": "Key expires after time range"
-    },
     "keygrid_expiration_date": {
         "message": "Date d'expiration",
         "description": "Expiration date of a PGP key."
@@ -1500,7 +1488,7 @@
         "description": "In order to restore your encrypted communication in case of data loss."
     },
     "key_import_default_description": {
-        "message": "La communication chiffrée avec ce contact est prête après la confirmation.",
+        "message": "Confirm to enable encrypted communication with this recipient.",
         "description": "Key import dialog description."
     },
     "key_gen_advanced_btn": {
@@ -1528,7 +1516,7 @@
         "description": "Import error message: $1: error message."
     },
     "editor_sign_caption_long": {
-        "message": "Le mail va être signé digitalement",
+        "message": "When the E-mail is sent out, it will also be signed digitally",
         "description": ""
     },
     "keygrid_display_pub_key": {
