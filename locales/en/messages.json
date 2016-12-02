@@ -125,11 +125,11 @@
   },
   "editor_sign_caption_long": {
     "description": "",
-    "message": "E-mail will be signed digitally"
+    "message": "When the E-mail is sent out, it will also be signed digitally"
   },
   "editor_sign_caption_short": {
     "description": "",
-    "message": "E-mail is signed digitally"
+    "message": "E-mail will be signed digitally"
   },
   "editor_transfer": {
     "description": "Transfer button of editor popup.",
