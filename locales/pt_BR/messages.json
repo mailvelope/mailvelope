@@ -88,7 +88,7 @@
         "description": "Confirm form button."
     },
     "key_import_hkp_search_ph": {
-        "message": "By name, E-mail address, or key ID",
+        "message": "Por nome, Endereço de E-mail, ou Identificador de Chave",
         "description": ""
     },
     "keyserver_tofu_label": {
@@ -152,7 +152,7 @@
         "description": ""
     },
     "key_gen_generate": {
-        "message": "Generate",
+        "message": "Gerar",
         "description": "Key generate button label"
     },
     "pwd_dialog_keyid_tooltip": {
@@ -180,7 +180,7 @@
         "description": ""
     },
     "editor_sign_button": {
-        "message": "Assinar",
+        "message": "Sign Only",
         "description": "Sign button."
     },
     "recovery_sheet_recovery_code": {
@@ -194,10 +194,6 @@
     "security_log_action": {
         "message": "Ação",
         "description": "Title of the action column of the security log table."
-    },
-    "key_gen_never": {
-        "message": "nunca",
-        "description": "Key expires after time range"
     },
     "general_primary_key_label": {
         "message": "Chave Privada Primária",
@@ -300,7 +296,7 @@
         "description": "Key import dialog description."
     },
     "key_import_multiple_keys": {
-        "message": "Please insert one or multiple keys in text format here.",
+        "message": "Por favor, insira uma ou várias chaves em formato de texto aqui.",
         "description": "Info message."
     },
     "popup_help": {
@@ -323,10 +319,6 @@
         "message": "Evento de clique para desfazer no diálogo",
         "description": ""
     },
-    "editor_no_sign_caption_long": {
-        "message": "O E-mail não será assinado digitalmente",
-        "description": ""
-    },
     "pwd_dialog_reason_decrypt": {
         "message": "Digite a senha da chave para descriptografar esta mensagem.",
         "description": ""
@@ -334,6 +326,10 @@
     "keygrid_delete": {
         "message": "Deletar",
         "description": "Max. 6 characters."
+    },
+    "editor_link_file_encryption": {
+        "message": "Encrypt attachments",
+        "description": "Navigation link to file encryption"
     },
     "security_log_add_attachment": {
         "message": "Botão de adicionar anexo clicado",
@@ -496,7 +492,7 @@
         "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "editor_sign_caption_short": {
-        "message": "O E-mail está assinado digitalmente",
+        "message": "E-mail will be signed digitally",
         "description": ""
     },
     "recovery_sheet_provider_security": {
@@ -616,7 +612,7 @@
         "description": "Text explaining the purpose of the security log"
     },
     "keyserver_url_error": {
-        "message": "Key server out of reach",
+        "message": "Servidor de chaves fora de alcance",
         "description": "HKP key server URL error."
     },
     "keyring_public_private": {
@@ -633,10 +629,6 @@
     },
     "security_log_dialog_ok": {
         "message": "Evento de clique para confirmar na caixa de diálogo",
-        "description": ""
-    },
-    "editor_no_sign_caption_short": {
-        "message": "O E-mail não está assinado digitalmente",
         "description": ""
     },
     "recovery_sheet_qr_code": {
@@ -695,6 +687,10 @@
         "message": "devido a problemas com a extensão do navegador",
         "description": "List item"
     },
+    "general_primary_key_auto_sign": {
+        "message": "Sign all messages with primary key",
+        "description": "Label for primary private key option."
+    },
     "keybackup_setup_dialog_headline": {
         "message": "Recomendação: Backup de configuração",
         "description": ""
@@ -727,10 +723,6 @@
         "message": "Guia atual:",
         "description": "Title text for the reload and add buttons"
     },
-    "key_gen_months": {
-        "message": "meses",
-        "description": "Key expires after time range"
-    },
     "encrypt_dialog_add": {
         "message": "Adicionar",
         "description": "Max 6 character."
@@ -740,7 +732,7 @@
         "description": "Alert header of category warning."
     },
     "encrypt_upload_file_help": {
-        "message": "None of the files can be bigger than ## MB.",
+        "message": "Nenhum dos arquivos podem ser maiores que ## MB.",
         "description": "Help text"
     },
     "keygrid_status_valid": {
@@ -804,7 +796,7 @@
         "description": ""
     },
     "pwd_dialog_reason_create_backup": {
-        "message": "Please enter your key password to create a recovery sheet.",
+        "message": "Por favor, entre com a senha da sua chave para criar um backup. ",
         "description": ""
     },
     "recovery_sheet_print_block": {
@@ -894,6 +886,10 @@
     "verify_result_warning": {
         "message": "Assinado com uma chave desconhecida",
         "description": "Verfiy signature warning."
+    },
+    "invalid_primary_key": {
+        "message": "Key is not valid for encryption and signing operations",
+        "description": "Tootip for set as primary key button"
     },
     "alert_header_warning": {
         "message": "Aviso!",
@@ -988,8 +984,8 @@
         "description": ""
     },
     "key_gen_expiration": {
-        "message": "Expiração",
-        "description": "Key expires after time range"
+        "message": "Data de validade da chave",
+        "description": "Key expiration date"
     },
     "security_log_sign_dialog": {
         "message": "Assinar Diálogo",
@@ -1032,7 +1028,7 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "pwd_dialog_reason_editor": {
-        "message": "Please enter your key password to update settings for encrypted communication.",
+        "message": "Por favor, entre com a senha da sua chave para atualizar as configurações para uma comunicação criptografada.",
         "description": ""
     },
     "key_set_as_primary": {
@@ -1066,10 +1062,6 @@
     "keygrid_sort_type": {
         "message": "Tipo de chave",
         "description": "Key grid sort selector."
-    },
-    "key_gen_years": {
-        "message": "anos",
-        "description": "Key expires after time range"
     },
     "editor_blur_warn": {
         "message": "Aviso! O editor de texto perdeu o foco.",
@@ -1140,7 +1132,7 @@
         "description": ""
     },
     "recovery_sheet_forgot_password": {
-        "message": "because you forgot the password to your key",
+        "message": "Porque você esqueceu a senha para a sua chave",
         "description": "List item"
     },
     "security_cache_on": {
@@ -1220,7 +1212,7 @@
         "description": "Separate list of elements."
     },
     "key_import_exception": {
-        "message": "An error occurred while processing the keys",
+        "message": "Um erro ocorreu durante o processamento de chaves",
         "description": "Import error alert."
     },
     "key_import_invalidated_headline": {
@@ -1228,7 +1220,7 @@
         "description": "Key import dialog header."
     },
     "encrypt_upload_file_warning_too_big": {
-        "message": "One of the files is too big.",
+        "message": "Um dos arquivos é grande demais.",
         "description": "."
     },
     "recovery_sheet_print_button": {
@@ -1330,10 +1322,6 @@
     "restore_backup_dialog_button": {
         "message": "Confirmar",
         "description": ""
-    },
-    "key_gen_days": {
-        "message": "dias",
-        "description": "Key expires after time range"
     },
     "keygrid_expiration_date": {
         "message": "Data de validade",
@@ -1476,7 +1464,7 @@
         "description": "Tab allowing to backup and restore the settings."
     },
     "reload_webmail_tab": {
-        "message": "Please reload your e-mail provider page for the settings to take effect.",
+        "message": "Por favor, recarregue a página do seu provedor de e-mail para as configurações terem efeito.",
         "description": "Info message."
     },
     "form_yes": {
@@ -1495,16 +1483,12 @@
         "message": "Melhore o seu provedor de webmail com criptografia de ponta-a-ponta. Comunicação segura de e-mail baseado no padrão OpenPGP.",
         "description": "Description of the extension."
     },
-    "recovery_sheet_type_in": {
-        "message": "em.",
-        "description": "The 'in' as in 'type something in' refers to verb in RECOVERY_SHEET_ENTER_CODE, optional."
-    },
     "keybackup_setup_dialog_list_1": {
         "message": "Restaurada na perda de dados.",
         "description": "In order to restore your encrypted communication in case of data loss."
     },
     "key_import_default_description": {
-        "message": "Confirm to enable encrypted communication with this recipient.",
+        "message": "Confirme para ativar a comunicação criptografada com este destinatário.",
         "description": "Key import dialog description."
     },
     "key_gen_advanced_btn": {
@@ -1532,7 +1516,7 @@
         "description": "Import error message: $1: error message."
     },
     "editor_sign_caption_long": {
-        "message": "O E-mail será assinado digitalmente",
+        "message": "When the E-mail is sent out, it will also be signed digitally",
         "description": ""
     },
     "keygrid_display_pub_key": {
