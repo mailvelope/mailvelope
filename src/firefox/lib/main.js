@@ -349,8 +349,7 @@ function injectEmbeddedOptions() {
     contentStyleFile: [
       data.url("dep/bootstrap/css/bootstrap.css"),
       data.url("dep/bootstrap-sortable/bootstrap-sortable.css"),
-      data.url("mvelo.css"),
-      data.url("app/app.css")
+      data.url("mvelo.css")
     ],
     contentScriptWhen: 'ready',
     attachTo: ['existing', 'frame'],

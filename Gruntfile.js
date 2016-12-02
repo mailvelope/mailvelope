@@ -167,6 +167,7 @@ module.exports = function(grunt) {
           src: [
             'app/**/*',
             '!app/**/*.js',
+            '!app/**/*.css',
             'client-API/*',
             'components/**/*',
             '!components/editor/**/*.js',

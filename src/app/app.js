@@ -31,6 +31,8 @@ import {importKey} from './keyring/importKey';
 import {deleteKeyring} from './keyring/keyRing';
 import './fileEncrypt/encryptFile';
 
+import './app.css';
+
 var currentKeyringId = null;
 export {currentKeyringId as keyringId};
 var currentPrimaryKeyId = null;
