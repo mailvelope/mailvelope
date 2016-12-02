@@ -88,7 +88,7 @@
         "description": "Confirm form button."
     },
     "key_import_hkp_search_ph": {
-        "message": "By name, E-mail address, or key ID",
+        "message": "利用姓名，電子郵件或是密鑰識別碼",
         "description": ""
     },
     "keyserver_tofu_label": {
@@ -152,7 +152,7 @@
         "description": ""
     },
     "key_gen_generate": {
-        "message": "Generate",
+        "message": "產生",
         "description": "Key generate button label"
     },
     "pwd_dialog_keyid_tooltip": {
@@ -180,7 +180,7 @@
         "description": ""
     },
     "editor_sign_button": {
-        "message": "簽章",
+        "message": "Sign Only",
         "description": "Sign button."
     },
     "recovery_sheet_recovery_code": {
@@ -194,10 +194,6 @@
     "security_log_action": {
         "message": "動作",
         "description": "Title of the action column of the security log table."
-    },
-    "key_gen_never": {
-        "message": "永不",
-        "description": "Key expires after time range"
     },
     "general_primary_key_label": {
         "message": "主用私鑰",
@@ -300,7 +296,7 @@
         "description": "Key import dialog description."
     },
     "key_import_multiple_keys": {
-        "message": "Please insert one or multiple keys in text format here.",
+        "message": "請在此處插入一個或多個純文字格式的密鑰",
         "description": "Info message."
     },
     "popup_help": {
@@ -323,10 +319,6 @@
         "message": "點擊取消對話框",
         "description": ""
     },
-    "editor_no_sign_caption_long": {
-        "message": "電子郵件不會數位簽署",
-        "description": ""
-    },
     "pwd_dialog_reason_decrypt": {
         "message": "請輸入主密碼以解密本訊息",
         "description": ""
@@ -334,6 +326,10 @@
     "keygrid_delete": {
         "message": "刪除",
         "description": "Max. 6 characters."
+    },
+    "editor_link_file_encryption": {
+        "message": "Encrypt attachments",
+        "description": "Navigation link to file encryption"
     },
     "security_log_add_attachment": {
         "message": "點擊附件鈕以新增附件",
@@ -496,7 +492,7 @@
         "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "editor_sign_caption_short": {
-        "message": "電子郵件已數位簽署",
+        "message": "E-mail will be signed digitally",
         "description": ""
     },
     "recovery_sheet_provider_security": {
@@ -616,7 +612,7 @@
         "description": "Text explaining the purpose of the security log"
     },
     "keyserver_url_error": {
-        "message": "Key server out of reach",
+        "message": "無法連上密鑰伺服器",
         "description": "HKP key server URL error."
     },
     "keyring_public_private": {
@@ -633,10 +629,6 @@
     },
     "security_log_dialog_ok": {
         "message": "對話框中點擊確認",
-        "description": ""
-    },
-    "editor_no_sign_caption_short": {
-        "message": "電子郵件尚未數位簽署",
         "description": ""
     },
     "recovery_sheet_qr_code": {
@@ -695,6 +687,10 @@
         "message": "由於瀏覧器外掛的問題",
         "description": "List item"
     },
+    "general_primary_key_auto_sign": {
+        "message": "Sign all messages with primary key",
+        "description": "Label for primary private key option."
+    },
     "keybackup_setup_dialog_headline": {
         "message": "推薦: 設定備份",
         "description": ""
@@ -727,10 +723,6 @@
         "message": "當前分頁",
         "description": "Title text for the reload and add buttons"
     },
-    "key_gen_months": {
-        "message": "月",
-        "description": "Key expires after time range"
-    },
     "encrypt_dialog_add": {
         "message": "新增",
         "description": "Max 6 character."
@@ -740,7 +732,7 @@
         "description": "Alert header of category warning."
     },
     "encrypt_upload_file_help": {
-        "message": "None of the files can be bigger than ## MB.",
+        "message": "檔案最大不可超過## MB",
         "description": "Help text"
     },
     "keygrid_status_valid": {
@@ -804,7 +796,7 @@
         "description": ""
     },
     "pwd_dialog_reason_create_backup": {
-        "message": "Please enter your key password to create a recovery sheet.",
+        "message": "請輸入密鑰之密碼以建立恢復表",
         "description": ""
     },
     "recovery_sheet_print_block": {
@@ -894,6 +886,10 @@
     "verify_result_warning": {
         "message": "由不知名的密碼簽署",
         "description": "Verfiy signature warning."
+    },
+    "invalid_primary_key": {
+        "message": "Key is not valid for encryption and signing operations",
+        "description": "Tootip for set as primary key button"
     },
     "alert_header_warning": {
         "message": "警告！",
@@ -988,8 +984,8 @@
         "description": ""
     },
     "key_gen_expiration": {
-        "message": "到期",
-        "description": "Key expires after time range"
+        "message": "密鑰到期日",
+        "description": "Key expiration date"
     },
     "security_log_sign_dialog": {
         "message": "簽署對話框",
@@ -1032,7 +1028,7 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "pwd_dialog_reason_editor": {
-        "message": "Please enter your key password to update settings for encrypted communication.",
+        "message": "請輸入你的密鑰密碼以更新加密通訊之設定",
         "description": ""
     },
     "key_set_as_primary": {
@@ -1066,10 +1062,6 @@
     "keygrid_sort_type": {
         "message": "密鑰類型",
         "description": "Key grid sort selector."
-    },
-    "key_gen_years": {
-        "message": "年",
-        "description": "Key expires after time range"
     },
     "editor_blur_warn": {
         "message": "警告：文字編輯器無法對焦",
@@ -1140,7 +1132,7 @@
         "description": ""
     },
     "recovery_sheet_forgot_password": {
-        "message": "because you forgot the password to your key",
+        "message": "因為忘記了密鑰的密碼 ",
         "description": "List item"
     },
     "security_cache_on": {
@@ -1220,7 +1212,7 @@
         "description": "Separate list of elements."
     },
     "key_import_exception": {
-        "message": "An error occurred while processing the keys",
+        "message": "在處理密鑰時發生錯誤　",
         "description": "Import error alert."
     },
     "key_import_invalidated_headline": {
@@ -1228,7 +1220,7 @@
         "description": "Key import dialog header."
     },
     "encrypt_upload_file_warning_too_big": {
-        "message": "One of the files is too big.",
+        "message": "某一個檔案過肥",
         "description": "."
     },
     "recovery_sheet_print_button": {
@@ -1330,10 +1322,6 @@
     "restore_backup_dialog_button": {
         "message": "確認",
         "description": ""
-    },
-    "key_gen_days": {
-        "message": "日",
-        "description": "Key expires after time range"
     },
     "keygrid_expiration_date": {
         "message": "到期日",
@@ -1476,7 +1464,7 @@
         "description": "Tab allowing to backup and restore the settings."
     },
     "reload_webmail_tab": {
-        "message": "Please reload your e-mail provider page for the settings to take effect.",
+        "message": "請重新載入你的電郵服務供應者頁面好讓設定生效",
         "description": "Info message."
     },
     "form_yes": {
@@ -1495,16 +1483,12 @@
         "message": "使用點對點加密強化你的電子郵件，利用OpenPGP 標準的安全電子郵件通訊工具。",
         "description": "Description of the extension."
     },
-    "recovery_sheet_type_in": {
-        "message": "in.",
-        "description": "The 'in' as in 'type something in' refers to verb in RECOVERY_SHEET_ENTER_CODE, optional."
-    },
     "keybackup_setup_dialog_list_1": {
         "message": "萬一資料遺失時可以重建回復",
         "description": "In order to restore your encrypted communication in case of data loss."
     },
     "key_import_default_description": {
-        "message": "Confirm to enable encrypted communication with this recipient.",
+        "message": "確認與此收件人啟動加密通訊",
         "description": "Key import dialog description."
     },
     "key_gen_advanced_btn": {
@@ -1532,7 +1516,7 @@
         "description": "Import error message: $1: error message."
     },
     "editor_sign_caption_long": {
-        "message": "電子郵件將數位簽署",
+        "message": "When the E-mail is sent out, it will also be signed digitally",
         "description": ""
     },
     "keygrid_display_pub_key": {
