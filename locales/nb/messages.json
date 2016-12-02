@@ -36,7 +36,7 @@
         "description": "A click in the text area as an event type"
     },
     "security_log_dialog_cancel": {
-        "message": "Click-event on Cancel in dialog",
+        "message": "Klikkhendelse ved avbrytelse av dialog",
         "description": ""
     },
     "security_display_inline": {
@@ -64,7 +64,7 @@
         "description": "Label for display options"
     },
     "general_primary_key_always": {
-        "message": "Always add my primary key to the list of recipients. (This allows you to decrypt sent mails)",
+        "message": "Alltid legg til min hovednøkkel til i mottakerlisten. (Dette lar deg dekryptere sendte e-poster)",
         "description": "Label for primary private key option."
     },
     "security_background_header": {
@@ -76,11 +76,11 @@
         "description": "Email address in User ID of a PGP key."
     },
     "key_import_extend_description": {
-        "message": "The PGP fingerprint is used to identify the key information of your correspondence.",
+        "message": "PGP-fingeravtrykket blir brukt til å identifisere nøkkel-informasjonen i din korrespondanse.",
         "description": "Key import dialog description."
     },
     "recovery_sheet_invite_contacts": {
-        "message": "In your encrypted communication settings of your [BRAND] account, you have the possibility to invite additional contacts to use encrypted communication via PGP. Contacts that have already been invited successfully can be recognized by the padlock icon next to the e-mail address. ",
+        "message": "I innstillingene for kryptert kommunikasjon i din [BRAND]-konto vil du ha muligheten til å invitere ytterligere kontakter til å bruke kryptert kommunikasjon via PGP. Kontakter som allerede har blitt invitert kan gjenkjennes ved kodelås-ikonet ved siden av deres e-postadresse.",
         "description": ""
     },
     "form_confirm": {
@@ -88,7 +88,7 @@
         "description": "Confirm form button."
     },
     "key_import_hkp_search_ph": {
-        "message": "By name, E-mail address, or key ID",
+        "message": "Etter navn, e-postadresse, eller nøkkel-ID",
         "description": ""
     },
     "keyserver_tofu_label": {
@@ -116,7 +116,7 @@
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "keyserver_hkp_url": {
-        "message": "HKP key server",
+        "message": "HKP-nøkkeltjener",
         "description": "HKP key server option: url."
     },
     "keybackup_restore_dialog_button": {
@@ -160,11 +160,11 @@
         "description": "Tooltip explaining the key id."
     },
     "recovery_sheet_explain_pgp": {
-        "message": "Encrypted communication with [BRAND] is a PGP-based procedure. It enables you to send encrypted e-mails and, at the same time, ensures that only you and the receiver are able to read them.",
+        "message": "Kryptert kommunikasjon med [BRAND] er en PGP-basert prosedyre. Den tillater deg å sende krypterte e-poster og samtidig forsikrer deg om at bare du og mottakeren kan lese dem.",
         "description": ""
     },
     "security_log_restore_backup_click": {
-        "message": "Click-event in restore backup dialog",
+        "message": "Klikkhendelse for å gjenopprette sikkerhetskopidialogen",
         "description": ""
     },
     "alert_header_success": {
@@ -176,11 +176,11 @@
         "description": "Selection of key type."
     },
     "recovery_sheet_trusted_contacts": {
-        "message": "With GMX contacts you can be sure that the users displayed are in fact valid users. You should, however, always verify the identity of contacts with an e-mail address from another e-mail provider.",
+        "message": "Med GMX-kontakter kan du være sikker på at brukerne som vises faktisk er gyldige brukere. Du burde dog alltid bekrefte identiteten til kontaktene med en e-postadresse fra en annen e-posttilbyder.",
         "description": ""
     },
     "editor_sign_button": {
-        "message": "Signer",
+        "message": "Sign Only",
         "description": "Sign button."
     },
     "recovery_sheet_recovery_code": {
@@ -195,12 +195,8 @@
         "message": "Handling",
         "description": "Title of the action column of the security log table."
     },
-    "key_gen_never": {
-        "message": "aldri",
-        "description": "Key expires after time range"
-    },
     "general_primary_key_label": {
-        "message": "Primær privatnøkkel",
+        "message": "Hoved-privatnøkkel",
         "description": "Label for primary private key option."
     },
     "clear_localstorage_confirm_title": {
@@ -216,7 +212,7 @@
         "description": "File upload selection"
     },
     "security_log_dialog_encrypt": {
-        "message": "Click-event to encrypt on dialog",
+        "message": "Klikkhendelse for å kryptere ved dialog",
         "description": ""
     },
     "watchlist_title_frame": {
@@ -236,7 +232,7 @@
         "description": "Tab of keyring to display keys."
     },
     "recovery_sheet_encryption_note": {
-        "message": "Hints for encrypted communication with [BRAND]",
+        "message": "Hint for kryptert kommunikasjon med [BRAND]",
         "description": "Sub title"
     },
     "key_gen_upload": {
@@ -248,7 +244,7 @@
         "description": "Preview"
     },
     "security_log_content_copy": {
-        "message": "Copy-event in verify dialog",
+        "message": "Kopihendelse i bekreftelsesdialog",
         "description": ""
     },
     "security_background_coloring": {
@@ -300,7 +296,7 @@
         "description": "Key import dialog description."
     },
     "key_import_multiple_keys": {
-        "message": "Please insert one or multiple keys in text format here.",
+        "message": "Skriv inn én eller flere nøkler i tekstformat her.",
         "description": "Info message."
     },
     "popup_help": {
@@ -320,11 +316,7 @@
         "description": "Passphrase input field status"
     },
     "security_log_dialog_undo": {
-        "message": "Click-event to undo on dialog",
-        "description": ""
-    },
-    "editor_no_sign_caption_long": {
-        "message": "E-post vil ikke bli signert digitalt",
+        "message": "Klikkhendelse for å angre dialog",
         "description": ""
     },
     "pwd_dialog_reason_decrypt": {
@@ -334,6 +326,10 @@
     "keygrid_delete": {
         "message": "Slett",
         "description": "Max. 6 characters."
+    },
+    "editor_link_file_encryption": {
+        "message": "Encrypt attachments",
+        "description": "Navigation link to file encryption"
     },
     "security_log_add_attachment": {
         "message": "Knappen for å legge til vedlegg har blitt trykket på",
@@ -364,7 +360,7 @@
         "description": "User ID of a PGP key."
     },
     "recovery_sheet_subtitle_recover": {
-        "message": "Recover encrypted communication",
+        "message": "Gjenopprett kryptert kommunikasjon",
         "description": "Sub title"
     },
     "keygrid_algorithm": {
@@ -384,7 +380,7 @@
         "description": "Caption digital signature"
     },
     "recovery_sheet_further_info": {
-        "message": "You can find more information and setting options in your [BRAND] account under",
+        "message": "Du kan finne mer informasjon og innstillingsvalg i din [BRAND]-konto under",
         "description": ""
     },
     "recovery_sheet_creation_date": {
@@ -444,7 +440,7 @@
         "description": "Cancel form button."
     },
     "recovery_sheet_not_working": {
-        "message": "If your encrypted communication is no longer working, e.g.",
+        "message": "Hvis din krypterte kommunikasjon ikke lenger virker, f.eks.",
         "description": "Label for list"
     },
     "keygrid_invalid_userid": {
@@ -460,7 +456,7 @@
         "description": "Title of recovery sheet."
     },
     "recovery_sheet_backup_local": {
-        "message": "If you would like to exclusively save your data locally on your computer, you will find this option in the encrypted communication settings of your [BRAND] account. ",
+        "message": "Hvis du ønsker å bare lagre data lokalt på din datamaskin, vil du finne dette valget under krypterte kommunikasjons-innstillinger i din [BRAND]-konto.",
         "description": ""
     },
     "keyring_setup_import_key": {
@@ -468,7 +464,7 @@
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "A key pair is needed to encrypt and decrypt messages, as well as to invite your contacts to end-to-end encrypted communication.",
+        "message": "Et nøkkelpar trengs for å kryptere og dekryptere meldinger, sågar også for å invitere dine kontakter til ende-til-ende-kryptert kommunikasjon.",
         "description": "Setup text if no keypair available"
     },
     "settings_security_log": {
@@ -496,7 +492,7 @@
         "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "editor_sign_caption_short": {
-        "message": "E-post signert digitalt",
+        "message": "E-mail will be signed digitally",
         "description": ""
     },
     "recovery_sheet_provider_security": {
@@ -508,7 +504,7 @@
         "description": "Editor option: plain text."
     },
     "key_import_invalidated_description": {
-        "message": "Encrypted communication with [CONTACT] is no longer possible. The contact needs to re-invite you.",
+        "message": "Kryptert kommunikasjon med [CONTACT] er ikke lenger mulig. Kontakten må invitere deg på nytt.",
         "description": ""
     },
     "security_log_editor": {
@@ -516,11 +512,11 @@
         "description": "Message editor container as an event source"
     },
     "recovery_sheet_backup_server": {
-        "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our [BRAND] servers by our security partner Mailvelope.",
+        "message": "For å sikkerhetskopiere data som er viktig for kryptert kommunikasjon (f.eks. nøkkelpassord), vil dataen bli lagret kryptert på våre [BRAND]-tjenere av vår sikkerhetspartner Mailvelope.",
         "description": ""
     },
     "security_log_password_click": {
-        "message": "Click-event in password dialog",
+        "message": "Klikkhendelse i passordsdialog",
         "description": ""
     },
     "clear_localstorage_confirm_message": {
@@ -528,11 +524,11 @@
         "description": "The message of the confirmation dialog."
     },
     "recovery_sheet_unlock_backup": {
-        "message": "The backup of your data can only be decrypted with the help of the recovery code on this recovery sheet.",
+        "message": "Sikkerhetskopien av din data kan bare dekrypteres ved bruk av gjenopprettelseskoden på denne gjenopprettelseslappen.",
         "description": ""
     },
     "security_log_backup_dialog_cancel": {
-        "message": "Click-event to close on dialog",
+        "message": "Klikkhendelse for å lukke dialog",
         "description": ""
     },
     "form_undo": {
@@ -556,7 +552,7 @@
         "description": ""
     },
     "recovery_sheet_subtitle_receipt": {
-        "message": "Recovery sheet for encrypted communication",
+        "message": "Gjenopprettelseslapp for kryptert kommunikasjon",
         "description": "Sub title of recovery sheet."
     },
     "form_no": {
@@ -568,7 +564,7 @@
         "description": "Title of options page."
     },
     "keygrid_upload_alert_msg": {
-        "message": "You can now upload your public key to the Mailvelope Key Server for automatic lookup in participating OpenPGP plugins. This makes it easier to write encrypted email with your contacts. Give it a try. You can delete your key at any time",
+        "message": "Du kan nå laste opp din offentlige nøkkel til Mailvelope nøøkeltjener for automatisk oppslag i de OpenPGP-programtilleggene som er deler denne funksjonaliteten. Dette gjør det enklere å skrive kryptert e-post til dine kontakter. Prøv det. Du kan slette din nøkkel når som helst",
         "description": "Text of a link to a learn-more resource"
     },
     "recovery_sheet_check_settings": {
@@ -584,7 +580,7 @@
         "description": "Continue form button."
     },
     "security_log_signature_modal_close": {
-        "message": "Click-event to close the signature dialog",
+        "message": "Klikkhendelse for å lukke signaturdialogen",
         "description": ""
     },
     "decrypt_popup_header": {
@@ -592,7 +588,7 @@
         "description": "Header of decrypt popup."
     },
     "security_log_backup_dialog_ok": {
-        "message": "Click-event to ok on dialog",
+        "message": "Klikkhendelse for å bekrefte dialog",
         "description": ""
     },
     "keygrid_status_invalid": {
@@ -604,7 +600,7 @@
         "description": ""
     },
     "recovery_sheet_data_lost": {
-        "message": "Without a backup, your encrypted messages cannot be decrypted again in case you lose your key password or in case of a defective device or problems with the browser extension!",
+        "message": "Uten en sikkerhetskopi kan ikke dine krypterte meldinger dekrypteres igjen hvis du mister ditt nøkkelpassord, hvis enheten din streiker eller hvis du støter på problemer med programtillegget!",
         "description": ""
     },
     "security_log_email_viewer": {
@@ -616,7 +612,7 @@
         "description": "Text explaining the purpose of the security log"
     },
     "keyserver_url_error": {
-        "message": "Key server out of reach",
+        "message": "Det oppnås ikke kontakt med nøkkeltjener",
         "description": "HKP key server URL error."
     },
     "keyring_public_private": {
@@ -624,7 +620,7 @@
         "description": "public and private key types"
     },
     "keygen_dialog_confirm_error_unequal": {
-        "message": "Please double-check your input.",
+        "message": "Dobbeltsjekk det du skrev inn.",
         "description": ""
     },
     "keygrid_primary_key": {
@@ -632,11 +628,7 @@
         "description": "Main key in the PGP key."
     },
     "security_log_dialog_ok": {
-        "message": "Click-event to confirm on dialog",
-        "description": ""
-    },
-    "editor_no_sign_caption_short": {
-        "message": "E-post er ikke signert digitalt",
+        "message": "Klikkhendelse for å bekrefte dialog",
         "description": ""
     },
     "recovery_sheet_qr_code": {
@@ -656,7 +648,7 @@
         "description": "User IDs of a PGP key."
     },
     "security_background_button_title": {
-        "message": "The security background can be adjusted in the Mailvelope Options",
+        "message": "Sikkerhetsbakgrunnen kan justeres i Mailvelope-innstillingene",
         "description": "The tooltip text for the keylock button"
     },
     "keyring_setup_no_keypair_heading": {
@@ -695,6 +687,10 @@
         "message": "på grunn av problemer med nettleser-tillegget",
         "description": "List item"
     },
+    "general_primary_key_auto_sign": {
+        "message": "Sign all messages with primary key",
+        "description": "Label for primary private key option."
+    },
     "keybackup_setup_dialog_headline": {
         "message": "Anbefaling: Lag en sikkerhetskopi",
         "description": ""
@@ -727,10 +723,6 @@
         "message": "Gjeldende fane:",
         "description": "Title text for the reload and add buttons"
     },
-    "key_gen_months": {
-        "message": "måneder",
-        "description": "Key expires after time range"
-    },
     "encrypt_dialog_add": {
         "message": "Legg til",
         "description": "Max 6 character."
@@ -740,7 +732,7 @@
         "description": "Alert header of category warning."
     },
     "encrypt_upload_file_help": {
-        "message": "None of the files can be bigger than ## MB.",
+        "message": "Ingen av filene kan være større enn ## MB.",
         "description": "Help text"
     },
     "keygrid_status_valid": {
@@ -800,11 +792,11 @@
         "description": "Download icon"
     },
     "digital_signature_status_null_description": {
-        "message": "The contact of the digital signature has not yet been confirmed for encrypted communication. Please ask the contact for an invitation.",
+        "message": "Forespør invitasjon for å sette opp kryptert kommunikasjon med kontakten bak den digitale signaturen.",
         "description": ""
     },
     "pwd_dialog_reason_create_backup": {
-        "message": "Please enter your key password to create a recovery sheet.",
+        "message": "Skriv inn ditt nøkkelpassord for å lage en gjenopprettelslapp.",
         "description": ""
     },
     "recovery_sheet_print_block": {
@@ -828,7 +820,7 @@
         "description": "Title of the timestamp column of the security log table."
     },
     "keyring_setup_import_key_explanation": {
-        "message": "Do you already have a key pair on another device? You can import your existing keys. Just export the key pair from the other device and then import them here.",
+        "message": "Har du allerede et nøkkelpar på en annen enhet? Du kan importere dine eksisterende nøkler. Eksporter nøkkelparet fra den andre enheten og importer dem så her.",
         "description": "Import key"
     },
     "popup_open_page": {
@@ -884,7 +876,7 @@
         "description": "Close decrypt popup."
     },
     "recovery_sheet_enter_code": {
-        "message": "For the installation on other computers, enter the recovery code in the settings under:",
+        "message": "For installasjon på andre datamaskiner, skriv inn gjenopprettelseskoden i innstillingene under:",
         "description": "Label for navigation path"
     },
     "keygrid_upload_success_msg": {
@@ -894,6 +886,10 @@
     "verify_result_warning": {
         "message": "Signert med en ukjent nøkkel",
         "description": "Verfiy signature warning."
+    },
+    "invalid_primary_key": {
+        "message": "Key is not valid for encryption and signing operations",
+        "description": "Tootip for set as primary key button"
     },
     "alert_header_warning": {
         "message": "Advarsel!",
@@ -976,7 +972,7 @@
         "description": "Remove page from watchlist."
     },
     "keyserver_url_warning": {
-        "message": "Key server URL must have the following format: http(s)://keys.example.com",
+        "message": "Nettadresser til nøkkeltjenere må være i følgende format: http(s)://nøkler.eksempel.no",
         "description": "HKP key server url warning."
     },
     "recovery_sheet_provider_settings": {
@@ -984,12 +980,12 @@
         "description": ""
     },
     "security_log_dialog_transfer": {
-        "message": "Click-event to transfer on dialog",
+        "message": "Klikkhendelse for å overføre ved dialog",
         "description": ""
     },
     "key_gen_expiration": {
-        "message": "Utløp",
-        "description": "Key expires after time range"
+        "message": "Utløpsdato for nøkkel",
+        "description": "Key expiration date"
     },
     "security_log_sign_dialog": {
         "message": "Signerings-dialog",
@@ -1032,7 +1028,7 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "pwd_dialog_reason_editor": {
-        "message": "Please enter your key password to update settings for encrypted communication.",
+        "message": "Skriv inn ditt nøkkelpassord for å oppdatere innstillingene for kryptert kommunikasjon.",
         "description": ""
     },
     "key_set_as_primary": {
@@ -1066,10 +1062,6 @@
     "keygrid_sort_type": {
         "message": "Nøkkeltype",
         "description": "Key grid sort selector."
-    },
-    "key_gen_years": {
-        "message": "år",
-        "description": "Key expires after time range"
     },
     "editor_blur_warn": {
         "message": "Advarsel. Tekstbehandler mistet fokus.",
@@ -1128,7 +1120,7 @@
         "description": "Tab of options to display list of supported mail providers."
     },
     "recovery_sheet_key_server": {
-        "message": "Other [BRAND] users who are using the PGP procedure of GMX can be directly found in a central directory in your [BRAND] account. If you do not want to have any entries in this directory, please deactivate this function in your [BRAND] account settings.",
+        "message": "Andre [BRAND]-brukere som bruker PGP-prosedyren til GMX kan oppdages direkte i den sentrale mappa i din [BRAND]-konto. Hvis du ikke ønsker å ha noen nøkkeloppføringer i denne mappa, skru av denne funksjonen i innstillingene for din [BRAND]-konto.",
         "description": ""
     },
     "general_editor_rich": {
@@ -1140,7 +1132,7 @@
         "description": ""
     },
     "recovery_sheet_forgot_password": {
-        "message": "because you forgot the password to your key",
+        "message": "fordi du glemte passordet til nøkkelen din",
         "description": "List item"
     },
     "security_cache_on": {
@@ -1172,7 +1164,7 @@
         "description": "Site in watchlist."
     },
     "recovery_sheet_other_devices_setup": {
-        "message": "Setting up encrypted communication on other devices",
+        "message": "Oppsett av kryptert kommunikasjon på andre enheter",
         "description": ""
     },
     "editor_transfer": {
@@ -1220,7 +1212,7 @@
         "description": "Separate list of elements."
     },
     "key_import_exception": {
-        "message": "An error occurred while processing the keys",
+        "message": "En feil inntraff under behandling av nøklene.",
         "description": "Import error alert."
     },
     "key_import_invalidated_headline": {
@@ -1228,7 +1220,7 @@
         "description": "Key import dialog header."
     },
     "encrypt_upload_file_warning_too_big": {
-        "message": "One of the files is too big.",
+        "message": "Én av filene er for stor.",
         "description": "."
     },
     "recovery_sheet_print_button": {
@@ -1268,7 +1260,7 @@
         "description": "Title of download area"
     },
     "security_log_signature_modal_open": {
-        "message": "Click-event to open the signature dialog",
+        "message": "Klikkhendelse for å åpne signaturdialogen",
         "description": ""
     },
     "security_log_backup_restore": {
@@ -1280,7 +1272,7 @@
         "description": ""
     },
     "key_import_default_headline": {
-        "message": "Add contact to encrypted communication?",
+        "message": "Legg til mottaker i kontaktliste for kryptert kommunikasjon?",
         "description": "Key import dialog header."
     },
     "recovery_sheet_mobile_devices": {
@@ -1330,10 +1322,6 @@
     "restore_backup_dialog_button": {
         "message": "Bekreft",
         "description": ""
-    },
-    "key_gen_days": {
-        "message": "dager",
-        "description": "Key expires after time range"
     },
     "keygrid_expiration_date": {
         "message": "Utløpsdato",
@@ -1416,11 +1404,11 @@
         "description": "Add page to watchlist."
     },
     "security_log_dialog_sign": {
-        "message": "Click-event to sign on dialog",
+        "message": "Klikkhendelse for å signere ved dialog",
         "description": ""
     },
     "editor_key_not_found_msg": {
-        "message": "All recipients need a PGP key to encrypt. You can still sign the message though.",
+        "message": "Alle mottakere trenger en PGP-nøkkel for å kryptere. Du kan dog fremdeles signere meldingen.",
         "description": "Warning for when a recipient key was not found."
     },
     "options_docu": {
@@ -1444,7 +1432,7 @@
         "description": "Label for the primary key"
     },
     "recovery_sheet_unknown_third": {
-        "message": "Only set up encrypted communication on secure devices that cannot be accessed by strangers.",
+        "message": "Bare sett opp kryptert kommunikasjon på enheter som ikke kan brukes av fremmede.",
         "description": ""
     },
     "upload_quota_warning_headline": {
@@ -1476,7 +1464,7 @@
         "description": "Tab allowing to backup and restore the settings."
     },
     "reload_webmail_tab": {
-        "message": "Please reload your e-mail provider page for the settings to take effect.",
+        "message": "Last inn siden fra din e-posttilbyder på nytt før innstillingene trår i effekt.",
         "description": "Info message."
     },
     "form_yes": {
@@ -1484,7 +1472,7 @@
         "description": "Yes form button."
     },
     "keyring_setup_generate_key_explanation": {
-        "message": "If you're using this extension for the first time and if you do not have a key pair yet, please generate one now.",
+        "message": "Hvis du bruker dette programtillegget for første gang og du ikke har et nøkkelpar enda, opprett ett nå.",
         "description": "Generate key"
     },
     "keygrid_display_priv_key": {
@@ -1495,16 +1483,12 @@
         "message": "Forbedre opplevelsen av din e-posttilbyder med ende-til-ende kryptering. Sikker e-postkommunikasjon basert på OpenPGP-standarden.",
         "description": "Description of the extension."
     },
-    "recovery_sheet_type_in": {
-        "message": "in.",
-        "description": "The 'in' as in 'type something in' refers to verb in RECOVERY_SHEET_ENTER_CODE, optional."
-    },
     "keybackup_setup_dialog_list_1": {
         "message": "For å kunne gjenopprette det i tilfelle datatap.",
         "description": "In order to restore your encrypted communication in case of data loss."
     },
     "key_import_default_description": {
-        "message": "Confirm to enable encrypted communication with this recipient.",
+        "message": "Bekreft for å skru på kryptert kommunikasjon med denne mottakeren.",
         "description": "Key import dialog description."
     },
     "key_gen_advanced_btn": {
@@ -1532,7 +1516,7 @@
         "description": "Import error message: $1: error message."
     },
     "editor_sign_caption_long": {
-        "message": "E-post vil bli signert digitalt",
+        "message": "When the E-mail is sent out, it will also be signed digitally",
         "description": ""
     },
     "keygrid_display_pub_key": {
@@ -1544,7 +1528,7 @@
         "description": "A warning shown when the attachments upload quota is exceeded."
     },
     "recovery_sheet_keep_safe": {
-        "message": "Store a print-out of this document in a safe place and make sure no one else has access to the recovery code.",
+        "message": "Lagre en utskrift av dette dokumentet på et sikkert sted og forsikre deg om at ingen andre har tilgang til gjenopprettelseskoden.",
         "description": ""
     },
     "keyring_setup": {
