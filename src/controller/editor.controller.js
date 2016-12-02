@@ -112,10 +112,11 @@ EditorController.prototype._onEditorContainerEncrypt = function(msg) {
   msg.recipients.forEach(function(recipient) {
     keyIds = keyIds.concat(keyIdMap[recipient]);
   });
-  var primary = this.prefs.data().general.auto_add_primary &&
-                this.keyring.getById(this.keyringId).getAttributes().primary_key;
-  if (primary) {
-    keyIds.push(primary.toLowerCase());
+  if (this.prefs.data().general.auto_add_primary) {
+    let primary = this.keyring.getById(this.keyringId).getPrimaryKey();
+    if (primary) {
+      keyIds.push(primary.keyid.toLowerCase());
+    }
   }
   this.keyidBuffer = this.mvelo.util.sortAndDeDup(keyIds);
   this.emit('get-plaintext', {action: 'encrypt'}, this.ports.editor);
@@ -168,9 +169,9 @@ EditorController.prototype._onSignOnly = function(msg) {
   this.signBuffer = {};
   var key = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
   // add key in buffer
-  this.signBuffer.key = key.signKey;
+  this.signBuffer.key = key.key;
   this.signBuffer.keyid = msg.signKeyId;
-  this.signBuffer.userid = key.userId;
+  this.signBuffer.userid = key.userid;
   this.signBuffer.openPopup = false;
   this.signBuffer.reason = 'PWD_DIALOG_REASON_SIGN';
   this.signBuffer.beforePasswordRequest = () => this.emit('show-pwd-dialog', {id: this.pwdControl.id});
@@ -375,50 +376,60 @@ EditorController.prototype.decryptArmored = function(armored) {
  * @param {Object} options
  * @param {String} options.message
  * @param {Array} options.keyIdsHex
+ * @param {String} options.signKeyIdHex
  * @return {Promise}
  */
 EditorController.prototype.signAndEncryptMessage = function(options) {
-  var primaryKey;
+  let signKey;
   return Promise.resolve()
-  .then(function() {
-    primaryKey = this.keyring.getById(this.keyringId).getPrimaryKey();
+  .then(() => {
     this.encryptTimer = null;
+    if (options.signKeyIdHex) {
+      signKey = this.keyring.getById(this.keyringId).getKeyForSigning(options.signKeyIdHex);
+    } else {
+      signKey = this.keyring.getById(this.keyringId).getPrimaryKey();
+    }
 
-    if (!primaryKey) {
+    if (!signKey) {
       this.mvelo.util.throwError('No primary key found', 'NO_PRIMARY_KEY_FOUND');
     }
 
-    var signKeyPacket = primaryKey.key.getSigningKeyPacket();
-    var signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
+    let signKeyPacket = signKey.key.getSigningKeyPacket();
+    let signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
     if (!signKeyid) {
       this.mvelo.util.throwError('No valid signing key packet found', 'NO_SIGN_KEY_FOUND');
     }
 
-    primaryKey.keyid = signKeyid;
-    primaryKey.keyringId = this.keyringId;
-    primaryKey.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
-  }.bind(this))
-  .then(function() {
+    signKey.keyid = signKeyid;
+    signKey.keyringId = this.keyringId;
+    signKey.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
+
+    if (this.editorPopup) {
+      signKey.openPopup = false;
+      signKey.beforePasswordRequest = () => this.emit('show-pwd-dialog', {id: this.pwdControl.id});
+    }
+  })
+  .then(() => {
     this.pwdControl = sub.factory.get('pwdDialog');
-    return this.pwdControl.unlockKey(primaryKey);
-  }.bind(this))
-  .then(function() {
-    this.encryptTimer = this.mvelo.util.setTimeout(function() {
+    return this.pwdControl.unlockKey(signKey);
+  })
+  .then(() => {
+    this.encryptTimer = this.mvelo.util.setTimeout(() => {
       this.emit('encrypt-in-progress', null, this.ports.editor);
-    }.bind(this), 800);
+    }, 800);
 
     if (!this.prefs.data().security.password_cache) {
-      syncCtrl.triggerSync(primaryKey);
+      syncCtrl.triggerSync(signKey);
     }
 
     return this.model.signAndEncryptMessage({
       keyIdsHex: options.keyIdsHex,
       keyringId: this.keyringId,
-      primaryKey: primaryKey,
+      primaryKey: signKey,
       message: options.message,
       uiLogSource: 'security_log_editor'
     });
-  }.bind(this));
+  });
 };
 
 /**
@@ -488,6 +499,11 @@ EditorController.prototype._onSignAndEncrypt = function(options) {
     this.transferEncrypted({armored: armored, keys: options.keys});
   }.bind(this))
   .catch(function(error) {
+    if (this.editorPopup && error.code === 'PWD_DIALOG_CANCEL') {
+      // popup case
+      this.emit('hide-pwd-dialog');
+      return;
+    }
     console.log(error);
     error = this.mvelo.util.mapError(error);
     this.emit('error-message', {error: error}, this.ports.editor);
@@ -522,10 +538,11 @@ EditorController.prototype.signAndEncrypt = function(options) {
       }
 
       var keyIdsHex = this.getPublicKeyIds(options.keys);
-      if (this.signMsg) {
+      if (this.signMsg || options.signMsg) {
         return this.signAndEncryptMessage({
           message: data,
-          keyIdsHex: keyIdsHex
+          keyIdsHex: keyIdsHex,
+          signKeyIdHex: options.signKey
         });
       } else {
         return this.encryptMessage({
@@ -556,8 +573,10 @@ EditorController.prototype.getPublicKeyIds = function(keys) {
     // get the sender key id
     if (this.prefs.data().general.auto_add_primary) {
       var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
-      var primary = localKeyring.getAttributes().primary_key;
-      primary && keyIdsHex.push(primary.toLowerCase());
+      var primary = localKeyring.getPrimaryKey();
+      if (primary) {
+        keyIdsHex.push(primary.keyid.toLowerCase());
+      }
     }
   }
   // deduplicate

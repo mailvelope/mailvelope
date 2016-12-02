@@ -828,10 +828,13 @@ Keyring.prototype.generateKey = function(options) {
 
 Keyring.prototype.getKeyForSigning = function(keyIdHex) {
   var key = this.keyring.privateKeys.getForId(keyIdHex);
-  var userId = getUserId(key);
+  if (!key) {
+    return null;
+  }
   return {
-    signKey: key,
-    userId: userId
+    key: key,
+    keyid: key.primaryKey.getKeyId().toHex(),
+    userid: getUserId(key)
   };
 };
 

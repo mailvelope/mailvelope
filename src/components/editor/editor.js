@@ -278,7 +278,9 @@ EditorCtrl.prototype.sendPlainText = function(action) {
     message: this.getEditorText(),
     keys: this.getRecipientKeys(),
     attachments: this.getAttachments(),
-    action: action
+    action: action,
+    signMsg: modalFooterProps.signMsg,
+    signKey: modalFooterProps.signKey.toLowerCase()
   });
 };
 
@@ -423,17 +425,19 @@ let footerProps = {
   onClickFileEncryption: () => _self.emit('open-app', {sender: _self._name, fragment: 'file_encrypting'})
 };
 let modalFooterProps = {
+  expanded: false,
+  signMsg: false,
+  signKey: '',
   onCancel: () => _self.cancel(),
   onSignOnly: () => _self.sign(),
   onEncrypt: () => _self.encrypt(),
-  expanded: false,
   onExpand: () => {
-    $('.modal-body').animate({bottom: '172px'}, () => {
+    $('.m-modal .modal-body').animate({bottom: '172px'}, () => {
       renderModalFooter({expanded: true});
     });
   },
   onCollapse: () => {
-    $('.modal-body').animate({bottom: modalBodyBottomPosition});
+    $('.m-modal .modal-body').animate({bottom: modalBodyBottomPosition});
     renderModalFooter({expanded: false});
   },
   onChangeSignMsg: value => {
@@ -516,11 +520,6 @@ function loadTemplates(embedded, callback) {
       mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/error-modal.html'))
     ])
     .then(function() {
-      $('#waitingModal').on('hidden.bs.modal', function() {
-        editor.focus()
-          .prop('selectionStart', 0)
-          .prop('selectionEnd', 0);
-      });
       renderFooter({embedded});
     })
     .then(callback);
@@ -532,6 +531,7 @@ function loadTemplates(embedded, callback) {
       Promise.all([
         mvelo.appendTpl($('#editorDialog .modal-body'), mvelo.extension.getURL('components/editor/tpl/editor-body.html')),
         mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/encrypt-modal.html')),
+        mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/waiting-modal.html')),
         mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/error-modal.html'))
       ])
       .then(function() {
@@ -557,6 +557,11 @@ function renderModalFooter(props = {}) {
  * Called after templates have loaded. Now is the time to bootstrap angular.
  */
 function templatesLoaded() {
+  $('#waitingModal').on('hidden.bs.modal', function() {
+    editor.focus()
+      .prop('selectionStart', 0)
+      .prop('selectionEnd', 0);
+  });
   $(window).on('focus', startBlurValid);
   if (editor_type == mvelo.PLAIN_TEXT) {
     editor = createPlainText();
@@ -576,7 +581,7 @@ function templatesLoaded() {
   // bootstrap angular
   angular.bootstrap(document, ['editor']);
   // keep initial bottom position of body
-  modalBodyBottomPosition = $('.modal-body').css('bottom');
+  modalBodyBottomPosition = $('.m-modal .modal-body').css('bottom');
 }
 
 function addAttachment(file) {
@@ -808,8 +813,8 @@ function showErrorModal(error) {
   var content = error.message;
   var $errorModal = $('#errorModal');
 
-  if (error.class && typeof error.class == 'string') {
-    content = $('<div/>').addClass(error.class).html(content);
+  if (content) {
+    content = $('<div/>').addClass(error.class || 'alert alert-danger').text(content);
   }
 
   $('.modal-body', $errorModal).empty().append(content);
@@ -817,6 +822,7 @@ function showErrorModal(error) {
   $errorModal.modal('show').on('hidden.bs.modal', function() {
     $('#waitingModal').modal('hide');
   });
+  _self._hidePwdDialog();
 }
 
 function setSignMode({signMsg, primary, privKeys}) {
