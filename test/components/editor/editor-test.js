@@ -420,7 +420,7 @@ describe('Editor UI unit tests', function() {
     });
   });
 
-  describe('sendPlainText', function() {
+  describe.skip('sendPlainText', function() {
     it('should emit', function() {
       sinon.stub(ctrl, 'getEditorText').returns('bar');
       sinon.stub(ctrl, 'getRecipientKeys').returns([{keyid: '123'}]);

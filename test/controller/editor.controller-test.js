@@ -196,7 +196,8 @@ describe('Editor controller unit tests', function() {
 
     beforeEach(function() {
       sinon.stub(ctrl.keyring, 'getById').returns({
-        getAttributes: function() { return {primary_key: 'p'}; }
+        getAttributes: function() { return {primary_key: 'p'}; },
+        getPrimaryKey: () => ({keyid: 'P'})
       });
       ctrl.prefs.data.returns({
         general: {
