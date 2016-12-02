@@ -180,7 +180,7 @@
         "description": ""
     },
     "editor_sign_button": {
-        "message": "Firmar",
+        "message": "Sign Only",
         "description": "Sign button."
     },
     "recovery_sheet_recovery_code": {
@@ -194,10 +194,6 @@
     "security_log_action": {
         "message": "Acción",
         "description": "Title of the action column of the security log table."
-    },
-    "key_gen_never": {
-        "message": "nunca",
-        "description": "Key expires after time range"
     },
     "general_primary_key_label": {
         "message": "Clave privada primaria",
@@ -323,10 +319,6 @@
         "message": "Evento-de-clic para deshacer en el cuadro de diálogo",
         "description": ""
     },
-    "editor_no_sign_caption_long": {
-        "message": "El correo electrónico no será firmado digitalmente",
-        "description": ""
-    },
     "pwd_dialog_reason_decrypt": {
         "message": "Introduzca la contraseña de la clave para descifrar este mensaje.",
         "description": ""
@@ -334,6 +326,10 @@
     "keygrid_delete": {
         "message": "Eliminar",
         "description": "Max. 6 characters."
+    },
+    "editor_link_file_encryption": {
+        "message": "Encrypt attachments",
+        "description": "Navigation link to file encryption"
     },
     "security_log_add_attachment": {
         "message": "Se ha hecho clic sobre el botón de adición de adjunto",
@@ -468,7 +464,7 @@
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "Un par de claves es necesario para cifrar y descifrar mensajes y si quiere invitar a sus contactos a una comunicación cifrada extremo-a-extremo.",
+        "message": "Se necesita un par de claves para cifrar y descifrar mensajes, también si quiere invitar a sus contactos a una comunicación cifrada extremo-a-extremo.",
         "description": "Setup text if no keypair available"
     },
     "settings_security_log": {
@@ -496,7 +492,7 @@
         "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "editor_sign_caption_short": {
-        "message": "El correo electrónico está firmado digitalmente",
+        "message": "E-mail will be signed digitally",
         "description": ""
     },
     "recovery_sheet_provider_security": {
@@ -635,10 +631,6 @@
         "message": "Evento de clic para confirmar en el cuadro de diálogo",
         "description": ""
     },
-    "editor_no_sign_caption_short": {
-        "message": "El correo electrónico no está firmado digitalmente",
-        "description": ""
-    },
     "recovery_sheet_qr_code": {
         "message": "Escanee el código QR con su dispositivo móvil.",
         "description": ""
@@ -695,6 +687,10 @@
         "message": "porque hay problemas con la extensión del navegador",
         "description": "List item"
     },
+    "general_primary_key_auto_sign": {
+        "message": "Sign all messages with primary key",
+        "description": "Label for primary private key option."
+    },
     "keybackup_setup_dialog_headline": {
         "message": "Recomendación: Realizar copia de seguridad",
         "description": ""
@@ -726,10 +722,6 @@
     "popup_actions_current_page": {
         "message": "Pestaña actual:",
         "description": "Title text for the reload and add buttons"
-    },
-    "key_gen_months": {
-        "message": "meses",
-        "description": "Key expires after time range"
     },
     "encrypt_dialog_add": {
         "message": "Añadir",
@@ -895,6 +887,10 @@
         "message": "Firmado con clave desconocida",
         "description": "Verfiy signature warning."
     },
+    "invalid_primary_key": {
+        "message": "Key is not valid for encryption and signing operations",
+        "description": "Tootip for set as primary key button"
+    },
     "alert_header_warning": {
         "message": "¡Advertencia!",
         "description": "Alert header of category warning."
@@ -988,8 +984,8 @@
         "description": ""
     },
     "key_gen_expiration": {
-        "message": "Expiración",
-        "description": "Key expires after time range"
+        "message": "Fecha de caducida de la clave",
+        "description": "Key expiration date"
     },
     "security_log_sign_dialog": {
         "message": "Cuadro de diálogo de firma",
@@ -1066,10 +1062,6 @@
     "keygrid_sort_type": {
         "message": "Tipo de clave",
         "description": "Key grid sort selector."
-    },
-    "key_gen_years": {
-        "message": "años",
-        "description": "Key expires after time range"
     },
     "editor_blur_warn": {
         "message": "Advertencia. El editor de texto perdió el foco.",
@@ -1331,10 +1323,6 @@
         "message": "Confirmar",
         "description": ""
     },
-    "key_gen_days": {
-        "message": "días",
-        "description": "Key expires after time range"
-    },
     "keygrid_expiration_date": {
         "message": "Fecha de expiración",
         "description": "Expiration date of a PGP key."
@@ -1528,7 +1516,7 @@
         "description": "Import error message: $1: error message."
     },
     "editor_sign_caption_long": {
-        "message": "El correo electrónico será firmado digitalmente",
+        "message": "When the E-mail is sent out, it will also be signed digitally",
         "description": ""
     },
     "keygrid_display_pub_key": {
