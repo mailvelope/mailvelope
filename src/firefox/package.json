@@ -16,7 +16,7 @@
     "multiprocess": true
   },
   "engines": {
-    "firefox": ">=45.0 || <=49.*"
+    "firefox": ">=45.0 || <=52.*"
   },
   "locales": {
     "ar": {

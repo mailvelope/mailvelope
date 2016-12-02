@@ -1,6 +1,25 @@
 Mailvelope Changelog
 ====================
 
+v1.6.0
+-------
+__Dec. 2, 2016__
+
+  * Add message signing options to Mailvelope editor for sign & encrypt and sign-only use cases.
+  * Extract sender address from mail client and show signature verification result in decrypt view
+  * Add key expiration time option to key generate UI
+  * Prevent setting invalid keys as primary key
+  * Add inbox.google.com to watchlist. Fix decryption errors.
+  * Migrate from jshint and jscs to eslint
+  * [API]: createDisplayContainer method returns error code
+  * Major refactoring
+    - new folder structure
+    - React is used for new UI components
+    - Webpack and Babel included in the build step
+    - migrating to ES6 module syntax
+  * Update dependencies
+  * Bugfixes
+
 v1.5.2
 -------
 __Sept. 7, 2016__

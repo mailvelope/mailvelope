@@ -243,19 +243,21 @@ function addToWatchList() {
       options.contentScriptFile.push('dep/jquery.min.js');
       options.contentScriptFile.push('mvelo.js');
       options.contentScript = scanScript;
-      options.onMessage = handleMessageEvent;
       // inject scan script
       mvelo.tabs.attach(tab, options, function() {
-        if (scannedHosts.length === 0) {
-          return;
-        }
-        // remove duplicates and add wildcards
-        var hosts = reduceHosts(scannedHosts);
-        var site = model.getHostname(tab.url);
-        scannedHosts.length = 0;
-        mvelo.tabs.loadOptionsTab('#watchList', function(old, tab) {
-          sendToWatchList(tab, site, hosts, old);
-        });
+        // wait for message from scan script
+        setTimeout(() => {
+          if (scannedHosts.length === 0) {
+            return;
+          }
+          // remove duplicates and add wildcards
+          var hosts = reduceHosts(scannedHosts);
+          var site = model.getHostname(tab.url);
+          scannedHosts.length = 0;
+          mvelo.tabs.loadOptionsTab('#watchList', function(old, tab) {
+            sendToWatchList(tab, site, hosts, old);
+          });
+        }, 250);
       });
     }
   });

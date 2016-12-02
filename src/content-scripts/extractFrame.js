@@ -149,7 +149,9 @@ export default class ExtractFrame {
   _getPGPMessage() {
     var msg = this._getArmoredMessage();
     // additional filtering to get well defined PGP message format
+    msg = msg.replace(/\r\n/g, '\n'); // unify new line characters
     msg = msg.replace(/\n\s+/g, '\n'); // compress sequence of whitespace and new line characters to one new line
+    msg = msg.replace(/[^\S\r\n]/g, ' '); // unify white space characters (all \s without \r and \n)
     msg = msg.match(this._typeRegex)[0];
     msg = msg.replace(/^(\s?>)+/gm, ''); // remove quotation
     msg = msg.replace(/^\s+/gm, ''); // remove leading whitespace
