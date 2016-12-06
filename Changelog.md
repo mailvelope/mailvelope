@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v1.6.1
+-------
+__Dec. 6, 2016__
+
+  * Fix path to addon.detection.png on Chrome to be compatibe with the client-API v1.0
+
 v1.6.0
 -------
 __Dec. 2, 2016__
