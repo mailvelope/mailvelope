@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v1.6.2
+-------
+__Dec. 6, 2016__
+
+  * Add default addon.detection.png path to web accessible resources in Chrome
+
 v1.6.1
 -------
 __Dec. 6, 2016__
