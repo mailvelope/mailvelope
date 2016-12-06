@@ -26,6 +26,7 @@
     "clipboardWrite"
   ],
   "web_accessible_resources": [
+    "common/img/addon.detection.png",
     "img/addon.detection.png",
     "img/key-24.png",
     "img/mail_locked_96.png",
