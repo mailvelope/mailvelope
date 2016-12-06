@@ -141,8 +141,8 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'src/',
           src: [
-            'chrome/manifest.json',
-            'chrome/background.html'
+            'chrome/**/*',
+            '!chrome/**/*.js'
           ],
           dest: 'build/'
         }]
