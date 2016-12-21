@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v1.6.3
+-------
+__Dec. 21, 2016__
+
+  * Use frameId based content script injection logic in Chrome
+
 v1.6.2
 -------
 __Dec. 6, 2016__
