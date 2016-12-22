@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v1.6.4
+-------
+__Dec. 22, 2016__
+
+  * Revert content script injection logic for Chrome to old logic without frameIds
+
 v1.6.3
 -------
 __Dec. 21, 2016__
