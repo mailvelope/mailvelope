@@ -33,6 +33,7 @@ function SyncController(port) {
   this.repeatSync = null;
   this.TIMEOUT = 8; // sync timeout in seconds
   this.modified = false;
+  this.singleton = true;
 }
 
 SyncController.prototype = Object.create(sub.SubController.prototype);

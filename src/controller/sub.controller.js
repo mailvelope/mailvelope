@@ -93,17 +93,25 @@ SubController.prototype.openApp = function({fragment}) {
 
 
 var factory = {};
-factory.repo = {};
+
+factory.repo = new Map();
 
 factory.get = function(type, port) {
-  if (factory.repo[type]) {
-    var ClassName = factory.repo[type];
-    var subContr = new ClassName(port);
+  if (factory.repo.has(type)) {
+    let contrConstructor = factory.repo.get(type);
+    let subContr = new contrConstructor(port);
+    if (subContr.singleton) {
+      // there should be only one instance for this type, new instance overwrites old
+      let existingController = getByMainType(type)[0];
+      if (existingController) {
+        controllers.delete(existingController.id);
+      }
+    }
     if (!port) {
       if (!subContr.id) {
         throw new Error('Subcontroller instantiated without port requires id.');
       }
-      controllers[subContr.id] = subContr;
+      controllers.set(subContr.id, subContr);
     }
     return subContr;
   } else {
@@ -111,41 +119,44 @@ factory.get = function(type, port) {
   }
 };
 
-factory.register = function(type, controllerClass) {
-  if (factory.repo[type]) {
+factory.register = function(type, contrConstructor) {
+  if (factory.repo.has(type)) {
     throw new Error('Subcontroller class already registered.');
   } else {
-    factory.repo[type] = controllerClass;
+    factory.repo.set(type, contrConstructor);
   }
 };
 
-var controllers = {};
+let controllers = new Map();
 
 function addPort(port) {
   var sender = parseViewName(port.name);
-  var subContr = controllers[sender.id];
+  var subContr = controllers.get(sender.id);
   if (subContr) {
     subContr.addPort(port);
   } else {
     var newContr = factory.get(sender.type, port);
-    controllers[sender.id] = newContr;
+    controllers.set(sender.id, newContr);
   }
 }
 
 function removePort(port) {
-  var subContrIDs;
   if (port.name) {
-    var id = parseViewName(port.name).id;
-    subContrIDs = [id];
+    let id = parseViewName(port.name).id;
+    removeId(id, port);
   } else {
-    subContrIDs = Object.keys(controllers);
-  }
-  subContrIDs.forEach(function(id) {
-    var del = controllers[id] && controllers[id].removePort(port);
-    if (del) {
-      delete controllers[id];
+    for (let id of controllers.keys()) {
+      removeId(id, port);
     }
-  });
+  }
+}
+
+function removeId(id, port) {
+  let del = controllers.has(id) && controllers.get(id).removePort(port);
+  if (del) {
+    // last port removed from controller, delete controller
+    controllers.delete(id);
+  }
 }
 
 function handlePortMessage(msg) {
@@ -154,22 +165,16 @@ function handlePortMessage(msg) {
 }
 
 function getByID(id) {
-  for (var contrID in controllers) {
-    if (controllers.hasOwnProperty(contrID) &&
-        contrID === id) {
-      return controllers[contrID];
-    }
-  }
+  return controllers.get(id);
 }
 
 function getByMainType(type) {
-  var result = [];
-  for (var contrID in controllers) {
-    if (controllers.hasOwnProperty(contrID) &&
-        controllers[contrID].mainType === type) {
-      result.push(controllers[contrID]);
+  let result = [];
+  controllers.forEach(contr => {
+    if (contr.mainType === type) {
+      result.push(contr);
     }
-  }
+  });
   return result;
 }
 
