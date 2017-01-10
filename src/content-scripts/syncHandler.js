@@ -42,6 +42,9 @@ export default class SyncHandler {
           console.log('unknown event', msg);
       }
     });
-    return this;
+    // workaround for https://bugs.chromium.org/p/chromium/issues/detail?id=655932
+    window.addEventListener('beforeunload', () => {
+      this.port.disconnect();
+    });
   }
 }
