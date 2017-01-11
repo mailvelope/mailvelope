@@ -10,12 +10,7 @@ import $ from 'jquery';
 import {currentProvider} from './main';
 
 export default class ExtractFrame {
-  constructor(prefs) {
-    if (!prefs) {
-      throw {
-        message: 'ExtractFrame constructor: prefs not provided.'
-      };
-    }
+  constructor() {
     this.id = mvelo.util.getHash();
     // element with Armor Tail Line '-----END PGP...'
     this._pgpEnd = null;

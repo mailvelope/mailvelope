@@ -9,8 +9,8 @@ import ExtractFrame from './extractFrame';
 
 
 export default class ImportFrame extends ExtractFrame {
-  constructor(prefs) {
-    super(prefs);
+  constructor() {
+    super();
     this._ctrlName = 'imFrame-' + this.id;
     this._typeRegex = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/;
   }

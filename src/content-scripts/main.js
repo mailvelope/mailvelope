@@ -35,7 +35,7 @@ function connect() {
   }
   port = mvelo.extension.connect({name: NAME});
   addMessageListener();
-  port.postMessage({event: 'get-prefs', sender: NAME});
+  port.postMessage({event: 'ready', sender: NAME});
   //initContextMenu();
   document.mveloControl = true;
 }
@@ -233,15 +233,15 @@ function attachExtractFrame(element) {
       var pgpEnd = $(element).parent();
       switch (getMessageType(pgpEnd.text())) {
         case mvelo.PGP_MESSAGE:
-          var dFrame = new DecryptFrame(prefs);
+          var dFrame = new DecryptFrame();
           dFrame.attachTo(pgpEnd);
           break;
         case mvelo.PGP_SIGNATURE:
-          var vFrame = new VerifyFrame(prefs);
+          var vFrame = new VerifyFrame();
           vFrame.attachTo(pgpEnd);
           break;
         case mvelo.PGP_PUBLIC_KEY:
-          var imFrame = new ImportFrame(prefs);
+          var imFrame = new ImportFrame();
           imFrame.attachTo(pgpEnd);
           break;
       }
@@ -273,7 +273,7 @@ function attachEncryptFrame(element, expanded) {
   });
   // create new encrypt frames for new discovered editable fields
   newObj.each(function(index, element) {
-    var eFrame = new EncryptFrame(prefs);
+    var eFrame = new EncryptFrame();
     eFrame.attachTo($(element), {expanded: expanded});
   });
 }
@@ -304,8 +304,11 @@ function addMessageListener() {
           }
           break;
         */
-        case 'set-prefs':
+        case 'init':
           init(request.prefs, request.watchList);
+          break;
+        case 'set-prefs':
+          prefs = request.prefs;
           break;
         default:
           console.log('unknown event');

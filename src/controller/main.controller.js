@@ -120,6 +120,8 @@ function handleMessageEvent(request, sender, sendResponse) {
     case 'set-prefs':
       prefs.update(request.data);
       sendResponse(true);
+      // update content scripts
+      sub.getByMainType('mainCS').forEach(mainCScontrl => mainCScontrl.updatePrefs());
       break;
     case 'get-ui-log':
       request.secLog = uiLog.getAll();

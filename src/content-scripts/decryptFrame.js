@@ -7,13 +7,13 @@
 
 import mvelo from '../mvelo';
 import $ from 'jquery';
+import {prefs} from './main';
 
 import ExtractFrame from './extractFrame';
 
 export default class DecryptFrame extends ExtractFrame {
-  constructor(prefs) {
-    super(prefs);
-    this._displayMode = prefs.security.display_decrypted;
+  constructor() {
+    super();
     this._dDialog = null;
     // decrypt popup active
     this._dPopup = false;
@@ -28,9 +28,9 @@ export default class DecryptFrame extends ExtractFrame {
 
   _clickHandler() {
     super._clickHandler();
-    if (this._displayMode == mvelo.DISPLAY_INLINE) {
+    if (prefs.security.display_decrypted == mvelo.DISPLAY_INLINE) {
       this._inlineDialog();
-    } else if (this._displayMode == mvelo.DISPLAY_POPUP) {
+    } else if (prefs.security.display_decrypted == mvelo.DISPLAY_POPUP) {
       this._popupDialog();
     }
     return false;
@@ -68,7 +68,7 @@ export default class DecryptFrame extends ExtractFrame {
     if (!this._dDialog && !this._dPopup) {
       return;
     }
-    if (this._displayMode === mvelo.DISPLAY_INLINE) {
+    if (prefs.security.display_decrypted === mvelo.DISPLAY_INLINE) {
       this._dDialog.fadeOut();
       // removal triggers disconnect event
       this._dDialog.remove();

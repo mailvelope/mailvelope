@@ -8,12 +8,12 @@
 import mvelo from '../mvelo';
 import $ from 'jquery';
 import ExtractFrame from './extractFrame';
+import {prefs} from './main';
 
 
 export default class VerifyFrame extends ExtractFrame {
-  constructor(prefs) {
-    super(prefs);
-    this._displayMode = prefs.security.display_decrypted;
+  constructor() {
+    super();
     this._vDialog = null;
     // verify popup active
     this._vPopup = false;
@@ -48,9 +48,9 @@ export default class VerifyFrame extends ExtractFrame {
 
   _clickHandler() {
     super._clickHandler();
-    if (this._displayMode == mvelo.DISPLAY_INLINE) {
+    if (prefs.security.display_decrypted == mvelo.DISPLAY_INLINE) {
       this._inlineDialog();
-    } else if (this._displayMode == mvelo.DISPLAY_POPUP) {
+    } else if (prefs.security.display_decrypted == mvelo.DISPLAY_POPUP) {
       this._popupDialog();
     }
     return false;
@@ -88,7 +88,7 @@ export default class VerifyFrame extends ExtractFrame {
     if (!this._vDialog && !this._vPopup) {
       return;
     }
-    if (this._displayMode === mvelo.DISPLAY_INLINE) {
+    if (prefs.security.display_decrypted === mvelo.DISPLAY_INLINE) {
       this._vDialog.fadeOut();
       // removal triggers disconnect event
       this._vDialog.remove();
