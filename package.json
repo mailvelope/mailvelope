@@ -15,18 +15,18 @@
   "license": "AGPL",
   "readmeFilename": "Readme.md",
   "dependencies": {
-    "angular": "~1.5.9",
+    "angular": "~1.6.1",
     "emailjs-mime-builder": "^1.0.1",
     "emailjs-mime-codec": "mailvelope/emailjs-mime-codec#v1.0.2m",
     "mailreader": "~1.0.0",
     "moment": "^2.17.0",
-    "ng-tags-input": "^3.0.0",
+    "ng-tags-input": "~3.1.1",
     "react": "~15.3.2",
     "react-datepicker": "^0.37.0",
     "react-dom": "~15.3.2"
   },
   "devDependencies": {
-    "angular-mocks": "~1.5.9",
+    "angular-mocks": "~1.6.1",
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",
     "babel-polyfill": "^6.16.0",

@@ -1,6 +1,6 @@
 /**
  * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
+ * Copyright (C) 2012-2016 Mailvelope GmbH
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License version 3
@@ -16,12 +16,6 @@
  */
 
 /**
- * Parts of the editor are based on Hoodiecrow (MIT License)
- * Copyright (c) 2014 Whiteout Networks GmbH.
- * See https://github.com/tanx/hoodiecrow/blob/master/LICENSE
- */
-
-/**
  * @fileOverview This file implements the interface for encrypting and
  * signing user data in an sandboxed environment that is secured from
  * the webmail interface.
@@ -32,376 +26,23 @@ import ReactDOM from 'react-dom';
 import mvelo from '../../mvelo';
 import EditorFooter from './components/EditorFooter';
 import EditorModalFooter from './components/EditorModalFooter';
+import {RecipientInput} from './components/RecipientInput';
 import * as l10n from '../../lib/l10n';
 import * as fileLib from '../../lib/file';
 
 'use strict';
 
-/* global angular */
 
-angular.module('editor', ['ngTagsInput']) // load editor module dependencies
-.config(function(tagsInputConfigProvider) {
-  // activate monitoring of placeholder option
-  tagsInputConfigProvider.setActiveInterpolation('tagsInput', { placeholder: true });
-});
-angular.module('editor').controller('EditorCtrl', EditorCtrl); // attach ctrl to editor module
-
-/**
- * Angular controller for the editor UI.
- */
-export default function EditorCtrl($timeout) {
-  this._timeout = $timeout;
-
-  this.setGlobal(this); // share 'this' as '_self' in legacy closure code
-  this.checkEnvironment(); // get environment vars
-  this.registerEventListeners(); // listen to incoming events
-  this.initComplete(); // emit event to backend that editor has initialized
-}
-
-EditorCtrl.prototype = Object.create(mvelo.EventHandler.prototype); // add event api
-
-/**
- * Reads the urls query string to get environment context
- */
-EditorCtrl.prototype.checkEnvironment = function() {
-  var qs = $.parseQuerystring();
-  this.embedded = qs.embedded;
-  this._id = qs.id;
-  this._name = 'editor-' + this._id;
-};
-
-/**
- * Verifies a recipient after input, gets their key, colors the
- * input tag accordingly and checks if encryption is possible.
- * @param  {Object} recipient   The recipient object
- */
-EditorCtrl.prototype.verify = function(recipient) {
-  if (!recipient) {
-    return;
-  }
-  if (recipient.email) {
-    // display only address from autocomplete
-    recipient.displayId = recipient.email;
-  } else {
-    // set address after manual input
-    recipient.email = recipient.displayId;
-  }
-  // lookup key in local cache
-  recipient.key = this.getKey(recipient);
-  if (recipient.key || recipient.checkedServer || !this.tofu) {
-    // color tag only if a local key was found, or after server lookup,
-    // or if TOFU (Trust on First Use) is deactivated
-    this.colorTag(recipient);
-    this.checkEncryptStatus();
-  } else {
-    // no local key found ... lookup on the server
-    this.lookupKeyOnServer(recipient);
-  }
-};
-
-/**
- * Finds the recipient's corresponding public key and sets it
- * on the 'key' attribute on the recipient object.
- * @param  {Object} recipient   The recipient object
- * @return {Object}             The key object (undefined if none found)
- */
-EditorCtrl.prototype.getKey = function(recipient) {
-  return (this.keys || []).find(function(key) {
-    if (key.email && recipient.email) {
-      return key.email.toLowerCase() === recipient.email.toLowerCase();
-    }
-  });
-};
-
-/**
- * Do TOFU (trust on first use) lookup on the Mailvelope Key Server
- * if a key was not found in the local keyring.
- * @param  {Object} recipient   The recipient object
- * @return {undefined}
- */
-EditorCtrl.prototype.lookupKeyOnServer = function(recipient) {
-  recipient.checkedServer = true;
-  this.emit('keyserver-lookup', {
-    sender: this._name,
-    recipient: recipient
-  });
-};
-
-/**
- * Event that is triggered when the key server responded
- * @param {Array} options.keys   A list of all available public
- *                               keys from the local keychain
- * @return {undefined}
- */
-EditorCtrl.prototype._onKeyServerResponse = function(options) {
-  this._timeout(function() { // trigger $scope.$digest() after async call
-    this.keys = options.keys;
-    this.recipients.forEach(this.verify.bind(this));
-  }.bind(this));
-};
-
-/**
- * Uses jQuery to color the recipient's input tag depending on
- * whether they have a key or not.
- * @param  {Object} recipient   The recipient object
- */
-EditorCtrl.prototype.colorTag = function(recipient) {
-  this._timeout(function() { // wait for html tag to appear
-    $('tags-input li.tag-item').each(function() {
-      if ($(this).text().indexOf(recipient.email) === -1) {
-        return;
-      }
-      if (recipient.key) {
-        $(this).addClass('tag-success');
-      } else {
-        $(this).addClass('tag-danger');
-      }
-    });
-  });
-};
-
-/**
- * Checks if all recipients have a public key and prevents encryption
- * if one of them does not have a key.
- */
-EditorCtrl.prototype.checkEncryptStatus = function() {
-  this.noEncrypt = (this.recipients || []).some(function(r) { return !r.key; });
-  // update editor modal footer
-  renderModalFooter({encryptDisabled: this.noEncrypt || !this.recipients || !this.recipients.length});
-};
-
-/**
- * Queries the local cache of key objects to find a matching user ID
- * @param  {String} query   The autocomplete query
- * @return {Array}          A list of filtered items that match the query
- */
-EditorCtrl.prototype.autocomplete = function(query) {
-  var cache = (this.keys || []).map(function(key) {
-    return {
-      email: key.email,
-      displayId: key.userid + ' - ' + key.keyid.toUpperCase()
-    };
-  });
-  // filter by display ID and ignore duplicates
-  var that = this;
-  return cache.filter(function(i) {
-    return i.displayId.toLowerCase().indexOf(query.toLowerCase()) !== -1 &&
-      !that.recipients.some(function(recipient) { return recipient.email === i.email; });
-  });
-};
-
-
-//
-// Evant handling from background script
-//
-
-
-/**
- * Register the event handlers for the editor.
- */
-EditorCtrl.prototype.registerEventListeners = function() {
-  this.on('public-key-userids', this._setRecipients);
-  this.on('set-text', this._onSetText);
-  this.on('set-init-data', this._onSetInitData);
-  this.on('set-attachment', this._onSetAttachment);
-  this.on('decrypt-in-progress', this._showWaitingModal);
-  this.on('encrypt-in-progress', this._showWaitingModal);
-  this.on('decrypt-end', this._hideWaitingModal);
-  this.on('encrypt-end', this._hideWaitingModal);
-  this.on('encrypt-failed', this._hideWaitingModal);
-  this.on('decrypt-failed', this._decryptFailed);
-  this.on('show-pwd-dialog', this._onShowPwdDialog);
-  this.on('hide-pwd-dialog', this._hidePwdDialog);
-  this.on('get-plaintext', this._getPlaintext);
-  this.on('error-message', this._onErrorMessage);
-  this.on('keyserver-response', this._onKeyServerResponse);
-
-  this._port.onMessage.addListener(this.handlePortMessage.bind(this));
-};
-
-/**
- * Remember the available public keys for later and set the
- * recipients proposal gotten from the webmail ui to the editor
- * @param {Array} options.keys         A list of all available public
- *                                     keys from the local keychain
- * @param {Array} options.recipients   recipients gather from the
- *                                     webmail ui
- * @param {boolean} options.tofu       If the editor should to TOFU key lookup
- */
-EditorCtrl.prototype._setRecipients = function(options) {
-  this._timeout(function() { // trigger $scope.$digest() after async call
-    this.tofu = options.tofu;
-    this.keys = options.keys;
-    this.recipients = options.recipients;
-    this.recipients.forEach(this.verify.bind(this));
-    this.checkEncryptStatus();
-  }.bind(this));
-};
-
-/**
- * Matches the recipients from the input to their public keys
- * and returns an array of keys. If a recipient does not have a key
- * still return their address.
- * @return {Array}   the array of public key objects
- */
-EditorCtrl.prototype.getRecipientKeys = function() {
-  return (this.recipients || []).map(function(r) {
-    return r.key || r; // some recipients don't have a key, still return address
-  });
-};
-
-/**
- * Emit an event to the background script that the editor is finished initializing.
- * Called when the angular controller is initialized (after templates have loaded)
- */
-EditorCtrl.prototype.initComplete = function() {
-  this.emit('editor-init', {sender: this._name});
-};
-
-/**
- * Opens the security settings if in embedded mode
- */
-EditorCtrl.prototype.openSecuritySettings = function() {
-  if (this.embedded) {
-    this.emit('open-security-settings', {sender: this._name});
-  }
-};
-
-/**
- * Send the plaintext body to the background script for either signing or
- * encryption.
- * @param  {String} action   Either 'sign' or 'encrypt'
- */
-EditorCtrl.prototype.sendPlainText = function(action) {
-  this.emit('editor-plaintext', {
-    sender: this._name,
-    message: this.getEditorText(),
-    keys: this.getRecipientKeys(),
-    attachments: this.getAttachments(),
-    action: action,
-    signMsg: modalFooterProps.signMsg,
-    signKey: modalFooterProps.signKey.toLowerCase()
-  });
-};
-
-/**
- * send log entry for the extension
- * @param {string} type
- */
-EditorCtrl.prototype.logUserInput = function(type) {
-  this.emit('editor-user-input', {
-    sender: this._name,
-    source: 'security_log_editor',
-    type: type
-  });
-};
-
-/**
- * Is called when the user clicks the encrypt button.
- */
-EditorCtrl.prototype.encrypt = function() {
-  this.logUserInput('security_log_dialog_encrypt');
-  this.sendPlainText('encrypt');
-};
-
-/**
- * Is called when the user clicks the sign button.
- */
-EditorCtrl.prototype.sign = function() {
-  this.logUserInput('security_log_dialog_sign');
-  this.emit('sign-only', {
-    sender: this._name,
-    signKeyId: modalFooterProps.signKey.toLowerCase()
-  });
-};
-
-/**
- * Is called when the user clicks the cancel button.
- */
-EditorCtrl.prototype.cancel = function() {
-  this.logUserInput('security_log_dialog_cancel');
-  this.emit('editor-cancel', {
-    sender: this._name
-  });
-};
-
-//
-// Legacy code
-//
-
-EditorCtrl.prototype.getEditorText = function() {
-  return editor.val();
-};
-
-EditorCtrl.prototype.getAttachments = function() {
-  return fileLib.getFiles($('#uploadPanel'));
-};
-
-EditorCtrl.prototype._onSetText = function(msg) {
-  onSetText(msg);
-};
-
-EditorCtrl.prototype._showWaitingModal = function() {
-  $('#waitingModal').modal({keyboard: false}).modal('show');
-};
-
-EditorCtrl.prototype._hideWaitingModal = function() {
-  $('#waitingModal').modal('hide');
-};
-
-EditorCtrl.prototype._onSetInitData = function({data}) {
-  onSetText(data);
-  setSignMode(data);
-};
-
-EditorCtrl.prototype._onSetAttachment = function(msg) {
-  setAttachment(msg.attachment);
-};
-
-EditorCtrl.prototype._decryptFailed = function(msg) {
-  var error = {
-    title: l10n.map.waiting_dialog_decryption_failed,
-    message: (msg.error) ? msg.error.message : l10n.map.waiting_dialog_decryption_failed,
-    class: 'alert alert-danger'
-  };
-  showErrorModal(error);
-};
-
-EditorCtrl.prototype._onShowPwdDialog = function(msg) {
-  this._removeDialog();
-  addPwdDialog(msg.id);
-};
-
-EditorCtrl.prototype._getPlaintext = function(msg) {
-  if (numUploadsInProgress !== 0) {
-    delayedAction = msg.action;
-  } else {
-    _self.sendPlainText(msg.action);
-  }
-};
-
-EditorCtrl.prototype._onErrorMessage = function(msg) {
-  if (msg.error.code === 'PWD_DIALOG_CANCEL') {
-    return;
-  }
-  showErrorModal(msg.error);
-};
-
-/**
- * Remember global reference of $scope for use inside closure
- */
-EditorCtrl.prototype.setGlobal = function(global) {
-  _self = global;
-  _self._port = port;
-  // l10n is only initialized in Chrome at this time
-  _self.l10n = l10n;
-};
-
+// component id
 var id;
+// component name
 var name;
 // plain or rich text
-var editor_type;
+var editor_type = mvelo.PLAIN_TEXT; // only plain
+// port to background script
 var port;
+// indicator if editor runs in container or popup
+var embedded;
 // editor element
 var editor;
 // blur warning
@@ -410,27 +51,37 @@ var blurWarn;
 var blurWarnPeriod = null;
 // timeoutID for period in which blur events are non-critical
 var blurValid = null;
+// buffer for initial text
 var initText = null;
+// platform specific path to extension
 var basePath;
+// flag to control time slice for input logging
 var logTextareaInput = true;
+// flag to monitor upload-in-progress status
 var numUploadsInProgress = 0;
+// buffer for UI action
 var delayedAction = '';
-var qs;
-var _self;
-
+// initial bottom position of body
 let modalBodyBottomPosition = 0;
+// attachment max file size
+var maxFileUploadSize = mvelo.MAXFILEUPLOADSIZE;
+var maxFileUploadSizeChrome = mvelo.MAXFILEUPLOADSIZECHROME; // temporal fix due issue in Chrome
+
+// properties used to render the footer component
 let footerProps = {
-  onClickUpload: () => _self.logUserInput('security_log_add_attachment'),
+  onClickUpload: () => logUserInput('security_log_add_attachment'),
   onChangeFileInput: onAddAttachment,
-  onClickFileEncryption: () => _self.emit('open-app', {sender: _self._name, fragment: 'file_encrypting'})
+  onClickFileEncryption: () => port.emit('open-app', {fragment: 'file_encrypting'})
 };
+
+// properties used to render the modal footer component
 let modalFooterProps = {
   expanded: false,
   signMsg: false,
   signKey: '',
-  onCancel: () => _self.cancel(),
-  onSignOnly: () => _self.sign(),
-  onEncrypt: () => _self.encrypt(),
+  onCancel: cancel,
+  onSignOnly: sign,
+  onEncrypt: encrypt,
   onExpand: () => {
     $('.m-modal .modal-body').animate({bottom: '172px'}, () => {
       renderModalFooter({expanded: true});
@@ -445,8 +96,16 @@ let modalFooterProps = {
     renderModalFooter({signMsg: value});
   },
   onChangeSignKey: value => renderModalFooter({signKey: value}),
-  onClickSignSetting: () => _self.emit('open-app', {sender: _self._name, fragment: 'general'})
+  onClickSignSetting: () => port.emit('open-app', {fragment: 'general'})
 };
+
+// properties used to render the recipient input component
+let recipientInputProps = {
+  keys: [],
+  recipients: [],
+  onChangeEncryptStatus: status => renderModalFooter(status),
+  onLookupKeyOnServer: recipient => port.emit('keyserver-lookup', {recipient})
+}
 
 // register language strings
 l10n.register([
@@ -458,23 +117,10 @@ l10n.register([
   'waiting_dialog_prepare_email',
   'upload_quota_warning_headline',
   'editor_key_not_found',
-  'editor_key_not_found_msg',
-  'editor_label_add_recipient'
+  'editor_key_not_found_msg'
 ]);
-l10n.mapToLocal()
-.then(() => {
-  // Firefox requires late assignment of l10n
-  _self && _self._timeout(function() {
-    _self.l10n = l10n;
-  });
-});
 
-var maxFileUploadSize = mvelo.MAXFILEUPLOADSIZE;
-var maxFileUploadSizeChrome = mvelo.MAXFILEUPLOADSIZECHROME; // temporal fix due issue in Chrome
-
-if (!angular.mock) { // do not init in unit tests
-  angular.element(document).ready(init); // do manual angular bootstraping after init
-}
+$(document).ready(init);
 
 /**
  * Inialized the editor by parsing query string parameters
@@ -485,19 +131,15 @@ function init() {
     return;
   }
   document.body.dataset.mvelo = true;
-  qs = jQuery.parseQuerystring();
-  id = qs.id;
-  name = 'editor-' + id;
-  if (qs.quota && parseInt(qs.quota) < maxFileUploadSize) {
-    maxFileUploadSize = parseInt(qs.quota);
-  }
-  if (mvelo.crx && maxFileUploadSize > maxFileUploadSizeChrome) {
-    maxFileUploadSize = maxFileUploadSizeChrome;
-  }
-  // plain text only
-  editor_type = mvelo.PLAIN_TEXT; //qs.editor_type;
-  port = mvelo.extension.connect({name: name});
-  loadTemplates(Boolean(qs.embedded), templatesLoaded);
+  checkEnvironment();
+  port = new mvelo.EventHandler(mvelo.extension.connect({name: name}), name);
+  registerEventListeners();
+  Promise.all([
+    loadTemplates(),
+    l10n.mapToLocal()
+  ])
+  .then(renderReactComponents)
+  .then(templatesLoaded);
   if (mvelo.crx) {
     basePath = '../../';
   } else if (mvelo.ffa) {
@@ -506,41 +148,84 @@ function init() {
 }
 
 /**
+ * Reads the URL query string to get environment context
+ */
+function checkEnvironment() {
+  let qs = $.parseQuerystring();
+  embedded = Boolean(qs.embedded);
+  id = qs.id;
+  name = 'editor-' + id;
+  if (qs.quota && parseInt(qs.quota) < maxFileUploadSize) {
+    maxFileUploadSize = parseInt(qs.quota);
+  }
+  if (mvelo.crx && maxFileUploadSize > maxFileUploadSizeChrome) {
+    maxFileUploadSize = maxFileUploadSizeChrome;
+  }
+}
+
+/**
+ * Register the event handlers
+ */
+function registerEventListeners() {
+  port.on('set-text', onSetText);
+  port.on('set-init-data', onSetInitData);
+  port.on('set-attachment', onSetAttachment);
+  port.on('decrypt-in-progress', showWaitingModal);
+  port.on('encrypt-in-progress', showWaitingModal);
+  port.on('decrypt-end', hideWaitingModal);
+  port.on('encrypt-end', hideWaitingModal);
+  port.on('encrypt-failed', hideWaitingModal);
+  port.on('decrypt-failed', decryptFailed);
+  port.on('show-pwd-dialog', onShowPwdDialog);
+  port.on('hide-pwd-dialog', hidePwdDialog);
+  port.on('get-plaintext', getPlaintext);
+  port.on('error-message', onErrorMessage);
+  /**
+   * Remember the available public keys for later and set the recipients proposal gotten from the webmail ui to the editor
+   * @param {Array} options.keys         A list of all available public keys from the local keychain
+   * @param {Array} options.recipients   recipients gather from the webmail ui
+   * @param {boolean} options.tofu       If the editor should to TOFU key lookup
+   */
+  port.on('public-key-userids', ({tofu, keys, recipients}) => renderRecipientInput({tofu, keys, recipients}));
+  /**
+   * Event that is triggered when the key server responded
+   * @param {Array} options.keys   A list of all available public keys from the local keychain
+   */
+  port.on('keyserver-response', ({keys}) => renderRecipientInput({keys}));
+}
+
+/**
  * Load templates into the DOM.
  */
-function loadTemplates(embedded, callback) {
+function loadTemplates() {
   var $body = $('body');
-  $body.attr('ng-controller', 'EditorCtrl as edit');
   if (embedded) {
     $body.addClass("secureBackground");
-
-    Promise.all([
+    return Promise.all([
       mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/editor-body.html')),
       mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/waiting-modal.html')),
       mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/error-modal.html'))
-    ])
-    .then(function() {
-      renderFooter({embedded});
-    })
-    .then(callback);
-
+    ]);
   } else {
-    mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/editor-popup.html')).then(function() {
+    return mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/editor-popup.html')).then(function() {
       $('.modal-body').addClass('secureBackground');
-
-      Promise.all([
+      return Promise.all([
         mvelo.appendTpl($('#editorDialog .modal-body'), mvelo.extension.getURL('components/editor/tpl/editor-body.html')),
         mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/encrypt-modal.html')),
         mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/waiting-modal.html')),
         mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/error-modal.html'))
-      ])
-      .then(function() {
-        renderFooter({embedded});
-        renderModalFooter();
-      })
-      .then(callback);
+      ]);
     });
   }
+}
+
+function renderReactComponents() {
+  renderFooter({embedded});
+  if (!embedded) {
+    renderRecipientInput();
+    renderModalFooter();
+  }
+  return Promise.resolve();
 }
 
 function renderFooter(props = {}) {
@@ -551,6 +236,11 @@ function renderFooter(props = {}) {
 function renderModalFooter(props = {}) {
   Object.assign(modalFooterProps, props);
   ReactDOM.render(React.createElement(EditorModalFooter, modalFooterProps), $('#editorDialog .modal-footer').get(0));
+}
+
+function renderRecipientInput(props = {}) {
+  Object.assign(recipientInputProps, props);
+  ReactDOM.render(React.createElement(RecipientInput, recipientInputProps), $('#editorBody #recipients').get(0));
 }
 
 /**
@@ -577,12 +267,130 @@ function templatesLoaded() {
     initText = null;
   }
   mvelo.l10n.localizeHTML();
-  mvelo.util.showSecurityBackground(qs.embedded);
-  // bootstrap angular
-  angular.bootstrap(document, ['editor']);
+  mvelo.util.showSecurityBackground(embedded);
   // keep initial bottom position of body
   modalBodyBottomPosition = $('.m-modal .modal-body').css('bottom');
+  // opens the security settings if in embedded mode
+  if (embedded) {
+    $('.secureBgndSettingsBtn').on('click', () => port.emit('open-security-settings'));
+  }
+  // emit event to backend that editor has initialized
+  port.emit('editor-init');
 }
+
+/**
+ * Send the plaintext body to the background script for either signing or encryption.
+ * @param  {String} action   Either 'sign' or 'encrypt'
+ */
+function sendPlainText(action) {
+  port.emit('editor-plaintext', {
+    message: editor.val(),
+    keys: recipientInputProps.recipients.map(r => r.key || r), // some recipients don't have a key, still return address
+    attachments: fileLib.getFiles($('#uploadPanel')),
+    action: action,
+    signMsg: modalFooterProps.signMsg,
+    signKey: modalFooterProps.signKey.toLowerCase()
+  });
+}
+
+/**
+ * send log entry for user input
+ * @param {string} type
+ */
+function logUserInput(type) {
+  port.emit('editor-user-input', {
+    source: 'security_log_editor',
+    type: type
+  });
+}
+
+/**
+ * Is called when the user clicks the encrypt button.
+ */
+function encrypt() {
+  logUserInput('security_log_dialog_encrypt');
+  sendPlainText('encrypt');
+}
+
+/**
+ * Is called when the user clicks the sign button.
+ */
+function sign() {
+  logUserInput('security_log_dialog_sign');
+  port.emit('sign-only', {
+    signKeyId: modalFooterProps.signKey.toLowerCase()
+  });
+}
+
+/**
+ * Is called when the user clicks the cancel button.
+ */
+function cancel() {
+  logUserInput('security_log_dialog_cancel');
+  port.emit('editor-cancel');
+}
+
+function showWaitingModal() {
+  $('#waitingModal').modal({keyboard: false}).modal('show');
+}
+
+function hideWaitingModal() {
+  $('#waitingModal').modal('hide');
+}
+
+function onSetInitData({data}) {
+  onSetText(data);
+  setSignMode(data);
+}
+
+function onSetAttachment(msg) {
+  setAttachment(msg.attachment);
+}
+
+function decryptFailed(msg) {
+  var error = {
+    title: l10n.map.waiting_dialog_decryption_failed,
+    message: (msg.error) ? msg.error.message : l10n.map.waiting_dialog_decryption_failed,
+    class: 'alert alert-danger'
+  };
+  showErrorModal(error);
+}
+
+function onShowPwdDialog(msg) {
+  removeDialog();
+  addPwdDialog(msg.id);
+}
+
+function hidePwdDialog() {
+  $('body #pwdDialog').fadeOut(function() {
+    $('body #pwdDialog').remove();
+    $('body').find('#editorDialog').show();
+  });
+}
+
+function removeDialog() {
+  $('#encryptModal').modal('hide');
+  $('#encryptModal iframe').remove();
+}
+
+function getPlaintext(msg) {
+  if (numUploadsInProgress !== 0) {
+    delayedAction = msg.action;
+  } else {
+    sendPlainText(msg.action);
+  }
+}
+
+function onErrorMessage(msg) {
+  if (msg.error.code === 'PWD_DIALOG_CANCEL') {
+    return;
+  }
+  showErrorModal(msg.error);
+}
+
+/**
+ * Attachments
+ */
 
 function addAttachment(file) {
   if (fileLib.isOversize(file)) {
@@ -610,7 +418,7 @@ function addAttachment(file) {
 function afterLoadEnd() {
   numUploadsInProgress--;
   if (numUploadsInProgress === 0 && delayedAction) {
-    _self.sendPlainText(delayedAction);
+    sendPlainText(delayedAction);
     delayedAction = '';
   }
 }
@@ -651,7 +459,7 @@ function onAddAttachment(evt) {
 }
 
 function onRemoveAttachment() {
-  _self.logUserInput('security_log_remove_attachment');
+  logUserInput('security_log_remove_attachment');
 }
 
 function createPlainText() {
@@ -688,7 +496,7 @@ function createPlainText() {
   text.on('input', function() {
     startBlurWarnInterval();
     if (logTextareaInput) {
-      _self.logUserInput('security_log_textarea_input');
+      logUserInput('security_log_textarea_input');
       // limit textarea log to 1 event per second
       logTextareaInput = false;
       window.setTimeout(function() {
@@ -700,9 +508,9 @@ function createPlainText() {
   text.on('mouseup', function() {
     var textElement = text.get(0);
     if (textElement.selectionStart === textElement.selectionEnd) {
-      _self.logUserInput('security_log_textarea_click');
+      logUserInput('security_log_textarea_click');
     } else {
-      _self.logUserInput('security_log_textarea_select');
+      logUserInput('security_log_textarea_select');
     }
   });
   return text;
@@ -790,18 +598,6 @@ function addPwdDialog(id) {
   });
 }
 
-EditorCtrl.prototype._hidePwdDialog = function() {
-  $('body #pwdDialog').fadeOut(function() {
-    $('body #pwdDialog').remove();
-    $('body').find('#editorDialog').show();
-  });
-};
-
-EditorCtrl.prototype._removeDialog = function() {
-  $('#encryptModal').modal('hide');
-  $('#encryptModal iframe').remove();
-};
-
 /**
  * @param {Object} error
  * @param {String} [error.title]
@@ -822,7 +618,7 @@ function showErrorModal(error) {
   $errorModal.modal('show').on('hidden.bs.modal', function() {
     $('#waitingModal').modal('hide');
   });
-  _self._hidePwdDialog();
+  hidePwdDialog();
 }
 
 function setSignMode({signMsg, primary, privKeys}) {

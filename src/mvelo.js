@@ -446,8 +446,16 @@ mvelo.util.checkEmail = function(address) {
 /**
  * Inherit from mvelo.EventHandler.prototype to use the new event handling
  * apis 'on' and 'emit'.
+ * @param {Port} port   port object received from runtime.connect()
+ * @param {String} sender identifier of sender (type + id)
  */
-mvelo.EventHandler = function() {};
+mvelo.EventHandler = function(port, sender) {
+  if (port) {
+    this._port = port;
+    this._port.onMessage.addListener(this.handlePortMessage.bind(this));
+    this._senderId = sender;
+  }
+};
 
 /**
  * Generic port message handler that can be attached via port.onMessage.addListener().

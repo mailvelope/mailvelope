@@ -3,7 +3,6 @@
     <div style="" id="header">
       <div class="" id="buttonBar">
         <button class="btn btn-link secureBgndSettingsBtn"
-          ng-click="edit.openSecuritySettings()"
           data-l10n-title-id="security_background_button_title">
           <span class="glyphicon lockBtnIcon"></span>
         </button>
@@ -11,32 +10,7 @@
       <div class="" id="uploadPanel"></div>
     </div>
 
-    <div id="recipients"
-      ng-hide="edit.embedded"
-      ng-class="{'has-error': edit.noEncrypt}">
-      <tags-input
-        ng-model="edit.recipients"
-        type="email"
-        allowed-tags-pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
-        spellcheck="false"
-        tabindex="1"
-        add-on-space="true"
-        add-on-enter="true"
-        enable-editing-last-tag="true"
-        display-property="displayId"
-        on-tag-added="edit.verify($tag)"
-        on-tag-removed="edit.checkEncryptStatus()"
-        placeholder="{{edit.l10n.map.editor_label_add_recipient}}">
-        <auto-complete
-          source="edit.autocomplete($query)"
-          min-length="1">
-        </auto-complete>
-      </tags-input>
-      <div class="alert alert-danger alert-dismissible ng-hide" role="alert" ng-show="edit.noEncrypt">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <span class="glyphicon glyphicon-lock"></span>
-        <strong data-l10n-id="editor_key_not_found"></strong> <span data-l10n-id="editor_key_not_found_msg"></span>
-      </div>
+    <div id="recipients">
     </div>
 
     <div id="body">
