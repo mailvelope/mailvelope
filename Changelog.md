@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v1.6.5
+-------
+__Jan. 16, 2017__
+
+  * Workaround for port.disconnect() bug (#655932) in Chrome
+
 v1.6.4
 -------
 __Dec. 22, 2016__
