@@ -21,9 +21,9 @@ l10n.register([
 ]);
 
 // reference to props of RecipientInput
-export let _props = null;
+let _props = null;
 // reference to angular controller
-export let rInputCtrl = null;
+let rInputCtrl = null;
 
 export class RecipientInput extends React.Component {
   constructor(props) {
@@ -181,8 +181,8 @@ export class RecipientInputCtrl {
    * if one of them does not have a key.
    */
   checkEncryptStatus() {
-    this.noEncrypt = (this.recipients || []).some(r => !r.key);
-    _props.onChangeEncryptStatus({encryptDisabled: this.noEncrypt || !this.recipients || !this.recipients.length});
+    this.noEncrypt = this.recipients.some(r => !r.key);
+    _props.onChangeEncryptStatus({encryptDisabled: this.noEncrypt || !this.recipients.length});
   }
 
   /**

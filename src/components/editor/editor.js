@@ -34,15 +34,15 @@ import * as fileLib from '../../lib/file';
 
 
 // component id
-var id;
+export var id;
 // component name
-var name;
+export var name;
 // plain or rich text
 var editor_type = mvelo.PLAIN_TEXT; // only plain
 // port to background script
 var port;
 // indicator if editor runs in container or popup
-var embedded;
+export var embedded;
 // editor element
 var editor;
 // blur warning
@@ -150,7 +150,7 @@ function init() {
 /**
  * Reads the URL query string to get environment context
  */
-function checkEnvironment() {
+export function checkEnvironment() {
   let qs = $.parseQuerystring();
   embedded = Boolean(qs.embedded);
   id = qs.id;
