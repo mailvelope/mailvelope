@@ -200,16 +200,21 @@ EditorController.prototype._onEditorUserInput = function(msg) {
  * @return {undefined}
  */
 EditorController.prototype.lookupKeyOnServer = function(msg) {
-  return this.keyserver.lookup(msg.recipient).then(function(key) {
+  return this.keyserver.lookup(msg.recipient).then(key => {
     // persist key in local keyring
-    var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
+    let localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
     if (key && key.publicKeyArmored) {
       localKeyring.importKeys([{type: 'public', armored: key.publicKeyArmored}]);
     }
-    // send updated key cache to editor
-    var keys = localKeyring.getKeyUserIDs({allUsers: true});
-    this.emit('keyserver-response', {keys: keys}, this.ports.editor);
-  }.bind(this));
+    this.sendKeyUpdate();
+  });
+};
+
+EditorController.prototype.sendKeyUpdate = function() {
+  // send updated key cache to editor
+  let localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
+  let keys = localKeyring.getKeyUserIDs({allUsers: true});
+  this.emit('key-update', {keys: keys}, this.ports.editor);
 };
 
 /**

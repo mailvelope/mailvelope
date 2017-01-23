@@ -68,9 +68,17 @@ function handleMessageEvent(request, sender, sendResponse) {
   }
   switch (request.event) {
     case 'pgpmodel':
-      return methodEvent(model, request, sendResponse);
+      methodEvent(model, request, sendResponse);
+      // return true for async calls, otherwise Chrome does not handle sendResponse
+      return true;
     case 'keyring':
-      return methodEvent(keyring.getById(request.keyringId), request, sendResponse);
+      methodEvent(keyring.getById(request.keyringId), request, sendResponse)
+      .then(() => {
+        // update editor controllers
+        sub.getByMainType('editor').forEach(editorCntrl => editorCntrl.sendKeyUpdate());
+      });
+      // return true for async calls, otherwise Chrome does not handle sendResponse
+      return true;
     case 'browser-action':
       onBrowserAction(request.action);
       break;
@@ -188,7 +196,7 @@ function methodEvent(thisArg, request, sendResponse) {
   if (!Array.isArray(request.args)) {
     request.args = [request.args];
   }
-  Promise.resolve()
+  return Promise.resolve()
   .then(function() {
     return thisArg[request.method].apply(thisArg, request.args);
   })
@@ -199,8 +207,6 @@ function methodEvent(thisArg, request, sendResponse) {
     console.log('error in method ' + request.method + ': ', error);
     sendResponse({error: mvelo.util.mapError(error)});
   });
-  // important to return true for async calls, otherwise Chrome does not handle sendResponse
-  return true;
 }
 
 function destroyNodes(subControllers) {

@@ -188,10 +188,10 @@ function registerEventListeners() {
    */
   port.on('public-key-userids', ({tofu, keys, recipients}) => renderRecipientInput({tofu, keys, recipients}));
   /**
-   * Event that is triggered when the key server responded
+   * Event that is triggered after update of the public keyring (e.g. when the key server responded)
    * @param {Array} options.keys   A list of all available public keys from the local keychain
    */
-  port.on('keyserver-response', ({keys}) => renderRecipientInput({keys}));
+  port.on('key-update', ({keys}) => renderRecipientInput({keys}));
 }
 
 /**
