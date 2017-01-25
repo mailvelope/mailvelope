@@ -72,11 +72,17 @@ function init() {
 
   $('#encrypting .alert').hide();
 
+  initRecipientsSelection();
+  // update recipient selection if keyring changes
+  event.on('keygrid-reload', initRecipientsSelection);
+}
+
+function initRecipientsSelection() {
   app.getAllKeyUserId()
-    .then(function(result) {
-      recipients = result;
-      addRecipientsToSelect(recipients);
-    });
+  .then(result => {
+    recipients = result;
+    addRecipientsToSelect(recipients);
+  });
 }
 
 /**
@@ -390,10 +396,11 @@ function onRemoveFile() {
  * @param {Array<Object>} recipients
  */
 function addRecipientsToSelect(recipients) {
+  $encryptKeySelect.empty();
   for (var i = 0; i < recipients.length; i++) {
     var $option = $('<option/>')
       .val(i)
-      .text(recipients[i].userid);
+      .text(recipients[i].userid + ' - ' + recipients[i].keyid.toUpperCase());
     $encryptKeySelect.append($option);
   }
 }
