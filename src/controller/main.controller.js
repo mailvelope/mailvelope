@@ -251,10 +251,11 @@ function addToWatchList() {
       options.contentScriptFile.push('dep/jquery.min.js');
       options.contentScriptFile.push('mvelo.js');
       options.contentScript = scanScript;
+      options.onMessage = handleMessageEvent;
       // inject scan script
       mvelo.tabs.attach(tab, options, function() {
         // wait for message from scan script
-        setTimeout(() => {
+        mvelo.util.setTimeout(() => {
           if (scannedHosts.length === 0) {
             return;
           }
