@@ -343,10 +343,6 @@
     "message": "Schlüssel exportieren",
     "description": "Export key dialog header."
   },
-  "key_export_too_large": {
-    "message": "Der Schlüssel ist zu groß, um in eine Adresse zu passen, bitte stattdessen Kopieren & Einfügen verwenden.",
-    "description": "Key export warning message."
-  },
   "key_export_warning_private": {
     "message": "Diese Datei enthält auch private Schlüssel.",
     "description": "Key export warning."

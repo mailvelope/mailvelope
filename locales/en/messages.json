@@ -343,10 +343,6 @@
     "description": "Export key dialog header.",
     "message": "Export Key"
   },
-  "key_export_too_large": {
-    "description": "Key export warning message.",
-    "message": "Key is too large for a URL, please use copy & paste instead."
-  },
   "key_export_warning_private": {
     "description": "Key export warning.",
     "message": "This file also contains private keys."

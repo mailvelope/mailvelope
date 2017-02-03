@@ -25,7 +25,6 @@ import event from '../util/event';
 
 function init() {
   loadPrefs();
-  $('#genReloadInfo').hide();
   $('#autoAddPrimary, #autoSignMsg').on('change', function() {
     $('#genBtnSave').prop("disabled", false);
     $('#genBtnCancel').prop("disabled", false);
@@ -49,7 +48,6 @@ function onSave() {
   };
   mvelo.extension.sendMessage({ event: 'set-prefs', data: update }, function() {
     normalize();
-    $('#genReloadInfo').show();
   });
   return false;
 }
@@ -68,7 +66,6 @@ function normalize() {
   $('#general .form-group button').prop('disabled', true);
   $('#general .control-group').removeClass('error');
   $('#general .help-inline').addClass('hide');
-  $('#genReloadInfo').hide();
 }
 
 function loadPrefs() {
