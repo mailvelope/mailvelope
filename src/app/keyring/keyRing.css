@@ -64,14 +64,6 @@
     }
 }
 
-#keyEditor .tab-pane {
-    padding: 10px;
-}
-
-#keyEditor .modal-body {
-    min-height: 550px;
-}
-
 button.keyDetailsBtn, button.keyDeleteBtn {
     min-width: 30px;
 }
@@ -83,8 +75,3 @@ button.keyDetailsBtn, button.keyDeleteBtn {
 .keyPair {
     background: no-repeat url(../img/private-key.png);
 }
-
-.keyTypeDetails {
-    padding-left: 25px;
-}
-

@@ -263,10 +263,8 @@ function mapKeys(keys) {
       uiKey.validity = false;
       console.log('Exception in verifyPrimaryKey', e);
     }
-    // fingerprint used as UID
-    uiKey.guid = key.primaryKey.getFingerprint();
     uiKey.id = key.primaryKey.getKeyId().toHex().toUpperCase();
-    uiKey.fingerprint = uiKey.guid.toUpperCase();
+    uiKey.fingerprint = key.primaryKey.getFingerprint().toUpperCase();
     // primary user
     try {
       uiKey.userId = getUserId(key, false);
@@ -334,9 +332,10 @@ function getKeyType(algorithm) {
 }
 */
 
-Keyring.prototype.getKeyDetails = function(guid) {
+Keyring.prototype.getKeyDetails = function(fingerprint) {
   var details = {};
-  var keys = this.keyring.getKeysForId(guid);
+  fingerprint = fingerprint.toLowerCase();
+  var keys = this.keyring.getKeysForId(fingerprint);
   if (keys) {
     var key = keys[0];
     // subkeys
@@ -347,7 +346,7 @@ Keyring.prototype.getKeyDetails = function(guid) {
     details.validPrimaryKey = this.validatePrimaryKey(key);
     return details;
   } else {
-    throw new Error('Key with this fingerprint not found: ', guid);
+    throw new Error('Key with this fingerprint not found: ', fingerprint);
   }
 };
 
@@ -558,6 +557,7 @@ Keyring.prototype.getArmoredKeys = function(keyids, options) {
     keys = this.keyring.getAllKeys();
   } else {
     keys = keyids.map(function(keyid) {
+      keyid = keyid.toLowerCase();
       return that.keyring.getKeysForId(keyid)[0];
     });
   }
@@ -764,12 +764,13 @@ function checkKeyId(sourceKey, keyring) {
   });
 }
 
-Keyring.prototype.removeKey = function(guid, type) {
+Keyring.prototype.removeKey = function(fingerprint, type) {
   var removedKey;
+  fingerprint = fingerprint.toLowerCase();
   if (type === 'public') {
-    removedKey = this.keyring.publicKeys.removeForId(guid);
+    removedKey = this.keyring.publicKeys.removeForId(fingerprint);
   } else if (type === 'private') {
-    removedKey = this.keyring.privateKeys.removeForId(guid);
+    removedKey = this.keyring.privateKeys.removeForId(fingerprint);
   }
   if (!removedKey) {
     return;

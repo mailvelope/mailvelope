@@ -67,9 +67,7 @@ function init() {
       mvelo.appendTpl($('#securityLog'), mvelo.extension.getURL('app/settings/tpl/securityLog.html')),
       mvelo.appendTpl($('#keyserver'), mvelo.extension.getURL('app/settings/tpl/keyserver.html')),
       mvelo.appendTpl($('#displayKeys'), mvelo.extension.getURL('app/keyring/tpl/displayKeys.html')),
-      mvelo.appendTpl($('#displayKeys'), mvelo.extension.getURL('app/keyring/tpl/keyEditor.html')),
       mvelo.appendTpl($('#importKey'), mvelo.extension.getURL('app/keyring/tpl/importKey.html')),
-      mvelo.appendTpl($('#exportsKey'), mvelo.extension.getURL('app/keyring/tpl/exportKeys.html')),
       mvelo.appendTpl($('#setupProvider'), mvelo.extension.getURL('app/keyring/tpl/setupProvider.html')),
       mvelo.appendTpl($('#encrypting'), mvelo.extension.getURL('app/fileEncrypt/encrypt.html'))
     ]);

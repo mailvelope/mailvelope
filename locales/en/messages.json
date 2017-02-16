@@ -335,10 +335,6 @@
     "description": "Download file button.",
     "message": "Save"
   },
-  "key_export_download": {
-    "description": "Download key link.",
-    "message": "Download Key"
-  },
   "key_export_header": {
     "description": "Export key dialog header.",
     "message": "Export Key"
@@ -669,7 +665,7 @@
   },
   "keygrid_all_keys": {
     "description": "Selection of key type.",
-    "message": "Any"
+    "message": "All"
   },
   "keygrid_creation_date": {
     "description": "Creation date of a PGP key.",
@@ -706,6 +702,10 @@
   "keygrid_export": {
     "description": "Export key.",
     "message": "Export"
+  },
+  "keygrid_export_title": {
+    "message": "Export all keys in this list to file",
+    "description": "Title for Export key button."
   },
   "keygrid_invalid_userid": {
     "description": "User ID invalid.",
@@ -806,6 +806,10 @@
   "keygrid_validity_status": {
     "description": "Validity status of a PGP key.",
     "message": "Status"
+  },
+  "keyring_backup": {
+    "message": "Keyring backup",
+    "description": "Title of keyring backup view"
   },
   "keyring_display_keys": {
     "description": "Tab of keyring to display keys.",

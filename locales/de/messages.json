@@ -335,10 +335,6 @@
     "message": "Speichern",
     "description": "Download file button."
   },
-  "key_export_download": {
-    "message": "Schlüssel herunterladen",
-    "description": "Download key link."
-  },
   "key_export_header": {
     "message": "Schlüssel exportieren",
     "description": "Export key dialog header."
@@ -705,6 +701,10 @@
     "message": "Exportieren",
     "description": "Export key."
   },
+  "keygrid_export_title": {
+    "message": "Alle Schlüssel in dieser Liste in eine Datei exportieren",
+    "description": "Title for Export key button."
+  },
   "keygrid_invalid_userid": {
     "message": "Ungültige Benutzerkennung",
     "description": "User ID invalid."
@@ -804,6 +804,10 @@
   "keygrid_validity_status": {
     "message": "Status",
     "description": "Validity status of a PGP key."
+  },
+  "keyring_backup": {
+    "message": "Schlüsselbund sichern",
+    "description": "Title of keyring backup view"
   },
   "keyring_display_keys": {
     "message": "Schlüssel anzeigen",
