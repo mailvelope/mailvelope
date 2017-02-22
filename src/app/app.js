@@ -27,8 +27,7 @@ import './settings/keyserver';
 import './settings/security';
 import {startSecurityLogMonitoring} from './settings/securityLog';
 import {addToWatchList} from './settings/watchList';
-import {importKey} from './keyring/importKey';
-import {deleteKeyring} from './keyring/keyRing';
+import {deleteKeyring, importKeyComp} from './keyring/keyRing';
 import './fileEncrypt/encryptFile';
 
 import './app.css';
@@ -67,7 +66,6 @@ function init() {
       mvelo.appendTpl($('#securityLog'), mvelo.extension.getURL('app/settings/tpl/securityLog.html')),
       mvelo.appendTpl($('#keyserver'), mvelo.extension.getURL('app/settings/tpl/keyserver.html')),
       mvelo.appendTpl($('#displayKeys'), mvelo.extension.getURL('app/keyring/tpl/displayKeys.html')),
-      mvelo.appendTpl($('#importKey'), mvelo.extension.getURL('app/keyring/tpl/importKey.html')),
       mvelo.appendTpl($('#setupProvider'), mvelo.extension.getURL('app/keyring/tpl/setupProvider.html')),
       mvelo.appendTpl($('#encrypting'), mvelo.extension.getURL('app/fileEncrypt/encrypt.html'))
     ]);
@@ -351,12 +349,8 @@ function handleRequests(request, sender, sendResponse) {
     case 'import-key':
       $('#keyringButton').trigger('click');
       $('#importKeyButton').trigger('click');
-      importKey(request.armored, function(result) {
-        sendResponse({
-          result: result,
-          id: request.id
-        });
-      });
+      importKeyComp.importKey(request.armored)
+      .then(result => sendResponse({result, id: request.id}))
       return true;
     default:
     // TODO analyse message events

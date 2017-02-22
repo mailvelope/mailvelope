@@ -1,196 +1,171 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2016 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
 'use strict';
 
 import mvelo from '../../mvelo';
-import $ from 'jquery';
 import * as app from '../app';
 import event from '../util/event';
 import * as l10n from '../../lib/l10n';
+import React from 'react';
 
-import './importKey.css';
+import KeySearch from './components/KeySearch';
+import Alert from '../util/components/Alert';
 
-
-var publicKeyRegex = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
-var privateKeyRegex = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END PGP PRIVATE KEY BLOCK-----/g;
-
-var KEY_ID_REGEX = /^([0-9a-f]{8}|[0-9a-f]{16}|[0-9a-f]{40})$/i;
-var HKP_SERVER_BASE_URL;
-var MAX_KEY_IMPORT_SIZE = 10000000;
+const PUBLIC_KEY_REGEX = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
+const PRIVATE_KEY_REGEX = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END PGP PRIVATE KEY BLOCK-----/g;
+const MAX_KEY_IMPORT_SIZE = 10000000;
 
 l10n.register([
-  "key_import_error",
-  "key_import_too_big",
-  "key_import_invalid_text",
-  "key_import_exception",
-  "alert_header_warning",
-  "alert_header_success",
-  "key_import_hkp_search_ph"
+  'key_import_error',
+  'key_import_too_big',
+  'key_import_invalid_text',
+  'key_import_exception',
+  'alert_header_warning',
+  'alert_header_success',
+  'keyring_import_keys',
+  'key_import_file',
+  'key_import_file_select',
+  'key_import_textarea',
+  'key_import_multiple_keys',
+  'form_import',
+  'form_clear'
 ]);
 
-function init() {
-  $('#selectFileButton').on('click', function() {
-    $('#impKeyFilepath').click();
-  });
-
-  $('#impKeySubmit').click(function() {
-    var keyText = $('#newKey').val();
-    onImportKey(keyText);
-  });
-
-  $('#impKeySubmit, #impKeyClear').prop('disabled', true);
-  $('#newKey').on('input', function() {
-    $('#impKeySubmit, #impKeyClear').prop('disabled', !$(this).val());
-  });
-
-  $('#impKeyClear').click(onClear);
-  $('#impKeyFilepath').change(onChangeFile);
-
-  hkpUrlLoad();
-  $('#keySearchInput').attr('placeholder', l10n.map.key_import_hkp_search_ph);
-  $('#keySearchForm').submit(onSearchKey);
-}
-
-function hkpUrlLoad() {
-  app.pgpModel('getPreferences').then(function(prefs) {
-    HKP_SERVER_BASE_URL = prefs.keyserver.hkp_base_url;
-  });
-}
-
-function onSearchKey() {
-  var q = $('#keySearchInput').val();
-  q = KEY_ID_REGEX.test(q) ? ('0x' + q) : q; // prepend '0x' to query for key IDs
-  var url = HKP_SERVER_BASE_URL + '/pks/lookup?op=index&search=' + window.encodeURIComponent(q);
-  app.openTab(url);
-}
-
-function onImportKey(keyText, callback) {
-  clearAlert();
-
-  if (keyText.length > MAX_KEY_IMPORT_SIZE) {
-    $('#importAlert').showAlert(l10n.map.key_import_error, l10n.map.key_import_too_big, 'danger', true);
-    return;
+class ImportKey extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {alert: [], armored: ''};
+    this.handleChangeFile = this.handleChangeFile.bind(this);
+    this.handleClear = this.handleClear.bind(this);
   }
 
-  // find all public and private keys in the textbox
-  var publicKeys = keyText.match(publicKeyRegex);
-  var privateKeys = keyText.match(privateKeyRegex);
-
-  var keys = [];
-
-  if (publicKeys) {
-    publicKeys.forEach(function(pub) {
-      pub = mvelo.util.decodeQuotedPrint(pub);
-      keys.push({type: 'public', armored: pub});
-    });
+  handleClear() {
+    this.setState({alert: [], armored: ''});
   }
 
-  if (privateKeys) {
-    privateKeys.forEach(function(priv) {
-      priv = mvelo.util.decodeQuotedPrint(priv);
-      keys.push({type: 'private', armored: priv});
-    });
+  handleChangeFile(event) {
+    let alert = [];
+    const reader = new FileReader();
+    const file = event.target.files[0];
+    if (!file) {
+      return;
+    }
+    reader.onloadend = ev => this.handleImportKey(ev.target.result);
+    if (file.size > MAX_KEY_IMPORT_SIZE) {
+      alert.push({header: l10n.map.key_import_error, message: l10n.map.key_import_too_big, type: 'danger'});
+    } else {
+      reader.readAsText(file);
+    }
+    this.setState({alert});
+    // reset input field
+    event.target.value = null;
   }
 
-  if (keys.length === 0) {
-    $('#importAlert').showAlert(l10n.map.key_import_error, l10n.map.key_import_invalid_text, 'danger', true);
-    return;
+  importKey(armored) {
+    this.setState({armored});
+    return this.handleImportKey(armored);
   }
 
-  app.keyring('importKeys', [keys])
-  .then(function(result) {
-    var success = false;
-    result.forEach(function(imported) {
-      var heading;
-      var type = imported.type;
-      switch (imported.type) {
-        case 'success':
-          heading = l10n.map.alert_header_success;
-          success = true;
-          break;
-        case 'warning':
-          heading = l10n.map.alert_header_warning;
-          break;
-        case 'error':
-          heading = l10n.map.key_import_error;
-          type = 'danger';
-          break;
+  handleImportKey(armored) {
+    let alert = [];
+    return Promise.resolve()
+    .then(() => {
+      if (armored.length > MAX_KEY_IMPORT_SIZE) {
+        throw {message: l10n.map.key_import_too_big, type: 'error'};
       }
-      $('#importAlert').showAlert(heading, imported.message, type, true);
+      // find all public and private keys in the textbox
+      let publicKeys = armored.match(PUBLIC_KEY_REGEX);
+      let privateKeys = armored.match(PRIVATE_KEY_REGEX);
+      let keys = [];
+      if (publicKeys) {
+        publicKeys.forEach(pub => {
+          pub = mvelo.util.decodeQuotedPrint(pub);
+          keys.push({type: 'public', armored: pub});
+        });
+      }
+      if (privateKeys) {
+        privateKeys.forEach(priv => {
+          priv = mvelo.util.decodeQuotedPrint(priv);
+          keys.push({type: 'private', armored: priv});
+        });
+      }
+      if (!keys.length) {
+        throw {message: l10n.map.key_import_invalid_text, type: 'error'};
+      }
+      return app.keyring('importKeys', [keys])
+      .then(result => {
+        let success = false;
+        result.forEach(imported => {
+          let header;
+          let {type, message} = imported;
+          switch (imported.type) {
+            case 'success':
+              header = l10n.map.alert_header_success;
+              success = true;
+              break;
+            case 'warning':
+              header = l10n.map.alert_header_warning;
+              break;
+            case 'error':
+              header = l10n.map.key_import_error;
+              type = 'danger';
+              break;
+          }
+          alert.push({header, message, type});
+        });
+        if (success) {
+          event.triggerHandler('keygrid-reload');
+        }
+        this.setState({alert});
+        return result;
+      })
+    })
+    .catch(error => {
+      alert.push({header: l10n.map.key_import_error, message: error.type === 'error' ? error.message : l10n.map.key_import_exception, type: 'danger'});
+      this.setState({alert});
+      return [{type: 'error'}];
     });
-    if (callback) {
-      callback(result);
-    }
-    importDone(success);
-  })
-  .catch(function(error) {
-    $('#importAlert').showAlert(l10n.map.key_import_error, error.type === 'error' ? error.message : l10n.map.key_import_exception, 'danger', true);
-    if (callback) {
-      callback([{type: 'error'}]);
-    }
-  });
-}
-
-export function importKey(armored, callback) {
-  onClear();
-  $('#newKey').val(armored);
-  $('#newKey').triggerHandler('input');
-  onImportKey(armored, callback);
-}
-
-function onChangeFile(event) {
-  clearAlert();
-  var reader = new FileReader();
-  var file = event.target.files[0];
-  reader.onloadend = function(ev) {
-    onImportKey(ev.target.result);
-  };
-
-  if (file.size > MAX_KEY_IMPORT_SIZE) {
-    $('#importAlert').showAlert(l10n.map.key_import_error, l10n.map.key_import_too_big, 'danger', true);
-    return;
   }
-  reader.readAsText(file);
-}
 
-function importDone(success) {
-  if (success) {
-    // refresh grid
-    event.triggerHandler('keygrid-reload');
+  render() {
+    return (
+      <div>
+        <h3>
+          <span>{l10n.map.keyring_import_keys}</span>
+          <span className="third-party-logo"></span>
+        </h3>
+        {
+          !app.isDemail && <KeySearch />
+        }
+        <form className="form" autoComplete="off">
+          <div className="form-group">
+            <label className="control-label" htmlFor="selectFileButton"><h4>{l10n.map.key_import_file}</h4></label>
+            <div>
+              <button id="selectFileButton" type="button" onClick={() => this.fileInput.click()} className="btn btn-info">{l10n.map.key_import_file_select}</button>
+              <input type="file" onChange={this.handleChangeFile} style={{display: 'none'}} ref={node => this.fileInput = node} />
+            </div>
+          </div>
+          <div className="form-group">
+            <label className="control-label" htmlFor="newKey"><h4>{l10n.map.key_import_textarea}</h4></label>
+            <div>{l10n.map.key_import_multiple_keys}</div>
+            <div className="help-block">
+              <textarea id="newKey" value={this.state.armored} onChange={event => this.setState({armored: event.target.value})} style={{width: '100%', fontFamily: 'monospace'}} className="form-control" rows="12" spellCheck="false" autoComplete="false"></textarea>
+            </div>
+          </div>
+          <div className="form-group">
+            <button type="button" onClick={() => this.handleImportKey(this.state.armored)} className="btn btn-primary" disabled={!this.state.armored}>{l10n.map.form_import}</button>
+            <button type="button" onClick={this.handleClear} className="btn btn-default" disabled={!this.state.armored}>{l10n.map.form_clear}</button>
+          </div>
+          <div className="form-group">
+            {this.state.alert.map((alert, index) => <Alert header={alert.header} message={alert.message} type={alert.type} key={index}/>)}
+          </div>
+        </form>
+      </div>
+    );
   }
 }
 
-function onClear() {
-  $('#impKeySubmit, #impKeyClear').prop('disabled', true);
-  $('#importKey form').trigger('reset');
-  clearAlert();
-}
-
-function clearAlert() {
-  $('#importAlert').empty();
-}
-
-event.on('ready', init);
-event.on('hkp-url-update', hkpUrlLoad);
-event.on('keygrid-reload', () => {
-  if (app.isDemail) {
-    $('#keySearchForm').hide();
-  } else {
-    $('#keySearchForm').show();
-  }
-});
+export default ImportKey;

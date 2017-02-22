@@ -28,6 +28,7 @@ import ReactDOM from 'react-dom';
 import KeyDetails from './components/KeyDetails';
 import KeyringBackup from './components/KeyringBackup';
 import GenerateKey from './GenerateKey';
+import ImportKey from './importKey';
 
 import './keyRing.css';
 
@@ -44,6 +45,8 @@ var filterType = 'allkeys';
 var isKeygridLoaded = false;
 
 const state = {keys: null};
+
+export var importKeyComp = null;
 
 function init() {
   //Init templates
@@ -125,6 +128,7 @@ function reload() {
     });
 
     ReactDOM.render(React.createElement(GenerateKey, {demail: app.isDemail, name: app.queryString.fname, email: app.queryString.email}), $('#generateKey').get(0));
+    ReactDOM.render(React.createElement(ImportKey, {ref: comp => importKeyComp = comp}), $('#importKey').get(0));
   });
 }
 
