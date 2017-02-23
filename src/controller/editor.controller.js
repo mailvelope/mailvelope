@@ -63,6 +63,7 @@ function EditorController(port) {
   this.on('editor-options', this._onEditorOptions);
   this.on('open-security-settings', this.openSecuritySettings);
   this.on('open-app', this.openApp);
+  this.on('editor-error', this.onEditorError);
 }
 
 EditorController.prototype = Object.create(sub.SubController.prototype);
@@ -92,6 +93,10 @@ EditorController.prototype._onEditorInit = function() {
 EditorController.prototype._onEditorCancel = function() {
   this.editorPopup.close();
   this.editorPopup = null;
+};
+
+EditorController.prototype.onEditorError = function(msg) {
+  this.emit('error-message', {error: msg.error}, this.ports.editorCont);
 };
 
 EditorController.prototype._onEditorContainerEncrypt = function(msg) {
@@ -138,7 +143,7 @@ EditorController.prototype._onEditorContainerCreateDraft = function(msg) {
     this.emit('error-message', {error: error}, this.ports.editorCont);
     return;
   }
-  this.emit('get-plaintext', {action: 'encrypt'}, this.ports.editor);
+  this.emit('get-plaintext', {action: 'encrypt', draft: true}, this.ports.editor);
 };
 
 EditorController.prototype._onEditorOptions = function(msg) {

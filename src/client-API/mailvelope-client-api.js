@@ -531,7 +531,8 @@
    * @returns {Promise.<AsciiArmored, Error>}
    * @throws {Error} error.code = 'ENCRYPT_IN_PROGRESS' <br>
    *                 error.code = 'NO_KEY_FOR_RECIPIENT' <br>
-   *                 error.code = 'ENCRYPT_QUOTA_SIZE'
+   *                 error.code = 'ENCRYPT_QUOTA_SIZE' <br>
+   *                 error.code = 'ENCRYPT_CANCELED'
    * @example
    * editor.encrypt(['abc@web.de', 'info@com']).then(function (armoredMessage) {
    *     console.log('encrypt', armoredMessage); // prints: "-----BEGIN PGP MESSAGE..."

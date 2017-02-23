@@ -26,7 +26,7 @@ class ModalDialog extends React.Component {
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <button type="button" onClick={this.props.onCancel} className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h4 className="modal-title">{this.props.title}</h4>
             </div>
             <div className="modal-body">
@@ -35,8 +35,8 @@ class ModalDialog extends React.Component {
             <div className="modal-footer">
               {this.props.footer ||
                 <div>
-                  <button type="button" onClick={this.props.onOk} className="btn btn-default" data-dismiss="modal">{l10n.map.form_ok}</button>
-                  <button type="button" onClick={this.props.onCancel} className="btn btn-primary" data-dismiss="modal">{l10n.map.form_cancel}</button>
+                  <button type="button" onClick={this.props.onCancel} className="btn btn-default" data-dismiss="modal">{l10n.map.form_cancel}</button>
+                  <button type="button" onClick={this.props.onOk} className="btn btn-primary" data-dismiss="modal">{l10n.map.form_ok}</button>
                 </div>
               }
             </div>

@@ -27,6 +27,7 @@ import mvelo from '../../mvelo';
 import EditorFooter from './components/EditorFooter';
 import EditorModalFooter from './components/EditorModalFooter';
 import {RecipientInput} from './components/RecipientInput';
+import ModalDialog from '../util/ModalDialog';
 import * as l10n from '../../lib/l10n';
 import * as fileLib from '../../lib/file';
 
@@ -66,6 +67,8 @@ let modalBodyBottomPosition = 0;
 // attachment max file size
 var maxFileUploadSize = mvelo.MAXFILEUPLOADSIZE;
 var maxFileUploadSizeChrome = mvelo.MAXFILEUPLOADSIZECHROME; // temporal fix due issue in Chrome
+// user interaction on editor
+var hasUserInput = false;
 
 // properties used to render the footer component
 let footerProps = {
@@ -117,7 +120,9 @@ l10n.register([
   'waiting_dialog_prepare_email',
   'upload_quota_warning_headline',
   'editor_key_not_found',
-  'editor_key_not_found_msg'
+  'editor_key_not_found_msg',
+  'editor_no_modification',
+  'editor_no_modification_title'
 ]);
 
 $(document).ready(init);
@@ -298,6 +303,7 @@ function sendPlainText(action) {
  * @param {string} type
  */
 function logUserInput(type) {
+  hasUserInput = true;
   port.emit('editor-user-input', {
     source: 'security_log_editor',
     type: type
@@ -376,9 +382,26 @@ function removeDialog() {
 function getPlaintext(msg) {
   if (numUploadsInProgress !== 0) {
     delayedAction = msg.action;
-  } else {
-    sendPlainText(msg.action);
+    return;
   }
+  if (embedded && !msg.draft && !hasUserInput) {
+    // prevent sign & encrypt of message if user has not touched the editor
+    // otherwise any predefinedText could be signed with the client-API
+    unmodifiedContentPrompt(msg.action);
+    return;
+  }
+  sendPlainText(msg.action);
+}
+
+function unmodifiedContentPrompt(action) {
+  const dialogNode = $('#modalDialog').get(0);
+  ReactDOM.render(React.createElement(ModalDialog, {
+    title: l10n.map.editor_no_modification_title,
+    children: l10n.map.editor_no_modification,
+    onHide: () => ReactDOM.unmountComponentAtNode(dialogNode),
+    onOk: () => sendPlainText(action),
+    onCancel: () => port.emit('editor-error', {error: {code: 'ENCRYPT_CANCELED', message: 'User canceled after unmodified message notification'}})
+  }), dialogNode);
 }
 
 function onErrorMessage(msg) {
