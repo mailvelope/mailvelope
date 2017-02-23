@@ -1,6 +1,21 @@
 Mailvelope Changelog
 ====================
 
+v1.7.0
+-------
+__Feb. 23, 2017__
+
+  * Propagate preference changes in App UI to content scripts and all integrated components
+  * Extract recipient tag input Angular component to separate file and wrap in React component
+  * Update recipient input autocomplete after change of keyring data, newly imported keys can now directly be used in the editor
+  * Update key selection for file encryption after key import
+  * Fix add to whitelist function for Firefox
+  * Remove unnecessary reload notice in settings
+  * Refactoring key details view and keyring export
+  * Add API version to body tag
+  * [Security] Add notification to prevent signing of messages without user interaction
+  * localization updates: Spanish, Portuguese (Brazil), Japanese, Chinese (Taiwan), Norwegian, Ukrainian, Dutch, Chinese, Arabic, French, Lithuanian
+
 v1.6.5
 -------
 __Jan. 16, 2017__
