@@ -1,0 +1,1558 @@
+{
+    "options_settings": {
+        "message": "Налаштування",
+        "description": "Options header: Settings."
+    },
+    "security_cache_help": {
+        "message": "Має бути число в межах 1-999",
+        "description": "Help text for cache time."
+    },
+    "key_gen_wait_info": {
+        "message": "Зачекайте, генерування ключа може тривати кілька хвилин залежно від різних факторів, зокрема, довжини ключа.",
+        "description": "Wait dialog info message"
+    },
+    "security_log_attachment_added": {
+        "message": "Прикріплення завантажено",
+        "description": "Attachment added as an event type"
+    },
+    "message_read_error": {
+        "message": "Не вдалося розшифрувати це повідомлення: $1",
+        "description": "Message read error message: $1: error message."
+    },
+    "security_log_key_backup": {
+        "message": "Резервна копія ключа",
+        "description": "Message keybackup container as an event source"
+    },
+    "keygrid_all_keys": {
+        "message": "All",
+        "description": "Selection of key type."
+    },
+    "editor_key_not_found": {
+        "message": "Ключ не знайдений!",
+        "description": "Warning for when a recipient key was not found."
+    },
+    "security_log_text_input": {
+        "message": "Введення у текстовому полі",
+        "description": "A click in the text area as an event type"
+    },
+    "security_log_dialog_cancel": {
+        "message": "Клік на «Відміна» в діалозі",
+        "description": ""
+    },
+    "security_display_inline": {
+        "message": "На сторінці поштовика.",
+        "description": "Decrypted message display option"
+    },
+    "verify_result_error": {
+        "message": "Недійсний підпис",
+        "description": "Verfiy signature error. Wrong signature of [userid]."
+    },
+    "pwd_dialog_header": {
+        "message": "Введіть пароль ключа",
+        "description": "Header of the password dialog."
+    },
+    "waiting_dialog_prepare_email": {
+        "message": "Підготовка Вашого повідомлення…",
+        "description": "Message in the waiting dialog for quoting email"
+    },
+    "keygrid_creation_date_short": {
+        "message": "Створено",
+        "description": "Short creation date of a PGP key. Max. width: 90px"
+    },
+    "security_display_decrypted": {
+        "message": "Де відображати розшифровані повідомлення?",
+        "description": "Label for display options"
+    },
+    "general_primary_key_always": {
+        "message": "Завжди додавати мій основний ключ до списку отримувачів. (Це дозволить вам розшифровувати надіслані листи)",
+        "description": "Label for primary private key option."
+    },
+    "security_background_header": {
+        "message": "Фон безпеки",
+        "description": "Security background header"
+    },
+    "keygrid_user_email": {
+        "message": "Мейл",
+        "description": "Email address in User ID of a PGP key."
+    },
+    "key_import_extend_description": {
+        "message": "PGP-відбиток використовується для ідентифікації інформації про ключ вашого співрозмовника.",
+        "description": "Key import dialog description."
+    },
+    "recovery_sheet_invite_contacts": {
+        "message": "У налаштуваннях шифрування переписки вашого облікового запису [BRAND] ви можете запросити свої контакти до зашифрованого PGP листування. Контакти, які ви вже успішно запросили, можна відрізнити за іконкою у вигляді замочка поряд із адресою.",
+        "description": ""
+    },
+    "form_confirm": {
+        "message": "Підтвердити",
+        "description": "Confirm form button."
+    },
+    "key_import_hkp_search_ph": {
+        "message": "За іменем, поштовою адресою, або ID ключа",
+        "description": ""
+    },
+    "keyserver_tofu_label": {
+        "message": "Сервер ключів Mailvelope",
+        "description": "Mailvelope Key Server Settings Label"
+    },
+    "watchlist_delete_confirmation": {
+        "message": "Ви дійсно хочете вилучити цей сайт зі списку поштовиків?",
+        "description": "Mesage in the watchlist delete confirmation dialog."
+    },
+    "popup_last_activities": {
+        "message": "Останні дії:",
+        "description": "Title text for the last activities area"
+    },
+    "key_export_header": {
+        "message": "Експортувати ключ",
+        "description": "Export key dialog header."
+    },
+    "key_import_private_exists": {
+        "message": "Приватну частину існуючого публічного ключа $1 користувача $2 імпортовано до зв'язки ключів",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "upload_attachment": {
+        "message": "Додати прикріплення",
+        "description": "Text in the upload attachment button of the message editor dialog"
+    },
+    "keyserver_hkp_url": {
+        "message": "HKP сервер ключів",
+        "description": "HKP key server option: url."
+    },
+    "keybackup_restore_dialog_button": {
+        "message": "Відновити резервну копію",
+        "description": ""
+    },
+    "decrypt_digital_signature_failure": {
+        "message": "Невірний цифровий підпис",
+        "description": "Caption digital signature"
+    },
+    "verify_error": {
+        "message": "Не вдалося верифікувати це повідомлення: $1",
+        "description": "Error during verification process."
+    },
+    "pwd_dialog_wrong_pwd": {
+        "message": "Неправильний пароль",
+        "description": "Password error message."
+    },
+    "key_import_extend_date": {
+        "message": "Створено:",
+        "description": ""
+    },
+    "security_cache_header": {
+        "message": "Пам'ятати паролі для поточної сесії.",
+        "description": "Password cache header"
+    },
+    "popup_actived_checkbox_tooltip": {
+        "message": "Активувати / деактивувати зовнішній редактор",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
+    },
+    "security_log_encryption_operation": {
+        "message": "Повідомлення зашифроване для: $1",
+        "description": ""
+    },
+    "key_gen_generate": {
+        "message": "Генерувати",
+        "description": "Key generate button label"
+    },
+    "pwd_dialog_keyid_tooltip": {
+        "message": "ID Вашого ключа",
+        "description": "Tooltip explaining the key id."
+    },
+    "recovery_sheet_explain_pgp": {
+        "message": "Шифрування переписки у [BRAND] зреалізоване на PGP. Це дозволяє вам надсилати зашифровані листи і гарантує, що лише ви і ваш співрозмовник зможете їх прочитати.",
+        "description": ""
+    },
+    "security_log_restore_backup_click": {
+        "message": "Клік у діалозі відновлення резервної копії",
+        "description": ""
+    },
+    "alert_header_success": {
+        "message": "Успішно!",
+        "description": "Alert header of category success."
+    },
+    "keygrid_public_keys": {
+        "message": "Публічні ключі",
+        "description": "Selection of key type."
+    },
+    "recovery_sheet_trusted_contacts": {
+        "message": "Із GMX контактами ви можете бути певні, що відображені користувачі є дійсними користувачами. Варто, однак, завжди верифікувати ідентичність контактів з адресами інших поштовиків.",
+        "description": ""
+    },
+    "editor_sign_button": {
+        "message": "Тільки підписати",
+        "description": "Sign button."
+    },
+    "recovery_sheet_recovery_code": {
+        "message": "Код відновлення",
+        "description": ""
+    },
+    "key_gen_success": {
+        "message": "Новий ключ згенеровано та імпортовано до зв'язки ключів",
+        "description": "Key generation success message"
+    },
+    "security_log_action": {
+        "message": "Дія",
+        "description": "Title of the action column of the security log table."
+    },
+    "general_primary_key_label": {
+        "message": "Основний приватний ключ",
+        "description": "Label for primary private key option."
+    },
+    "clear_localstorage_confirm_title": {
+        "message": "Підтвердити",
+        "description": "The title of the confirmation dialog."
+    },
+    "key_import_file_select": {
+        "message": "Оберіть текстовий файл ключа для імпорту",
+        "description": "File selection button label."
+    },
+    "encrypt_file_selection": {
+        "message": "Вибір файлів",
+        "description": "File upload selection"
+    },
+    "security_log_dialog_encrypt": {
+        "message": "Клік на «зашифрувати» у діалозі",
+        "description": ""
+    },
+    "watchlist_title_frame": {
+        "message": "Маска домену",
+        "description": "Web domain URL match pattern of site in watchlist."
+    },
+    "keygrid_key_length": {
+        "message": "Довжина",
+        "description": "Key length of a PGP key."
+    },
+    "keygrid_private_keys": {
+        "message": "Приватні ключі",
+        "description": "Selection of key type."
+    },
+    "keyring_display_keys": {
+        "message": "Показати ключі",
+        "description": "Tab of keyring to display keys."
+    },
+    "recovery_sheet_encryption_note": {
+        "message": "Поради щодо зашифрованої переписки у [BRAND]",
+        "description": "Sub title"
+    },
+    "key_gen_upload": {
+        "message": "Завантажити публічний ключ на сервер ключів Mailvelope (можна видалити в будь-який момент)",
+        "description": "Upload key to Mailvelope key server checkbox"
+    },
+    "security_background_preview": {
+        "message": "Попередній перегляд",
+        "description": "Preview"
+    },
+    "security_log_content_copy": {
+        "message": "Копіювання у діалозі верифікації",
+        "description": ""
+    },
+    "security_background_coloring": {
+        "message": "Колір",
+        "description": "Coloring"
+    },
+    "popup_options": {
+        "message": "Опції",
+        "description": "Open options dialog."
+    },
+    "keygrid_export_title": {
+        "message": "Export all keys in this list to file",
+        "description": "Title for Export key button."
+    },
+    "security_log_textarea_click": {
+        "message": "Клік у текстовому полі",
+        "description": "A click in the text area as an event type"
+    },
+    "recovery_sheet_backup_data": {
+        "message": "Збережіть резервну копію ваших даних",
+        "description": ""
+    },
+    "key_import_file": {
+        "message": "Імпортувати ключ із файлу",
+        "description": "File selection label."
+    },
+    "digital_signature_status_false": {
+        "message": "Підпис невірний",
+        "description": ""
+    },
+    "security_log_empty": {
+        "message": "Немає записів",
+        "description": "Message when the security log is empty"
+    },
+    "recovery_sheet_provider_communication": {
+        "message": "Зашифрована переписка",
+        "description": ""
+    },
+    "security_background_text": {
+        "message": "Фон безпеки — це ваш персональний фон Mailvelope, він допомагає уникнути маніпуляцій з користувацьким інтерфейсом сторонніми веб-сайтами і програмами. Щоб підвищити безпеку, створіть і змініть свій персональний фон тут.",
+        "description": "Security background text"
+    },
+    "keyring_generate_key": {
+        "message": "Генерувати ключ",
+        "description": "Tab of keyring to generate key."
+    },
+    "key_import_error": {
+        "message": "Помилка імпорту.",
+        "description": "Import error alert."
+    },
+    "key_import_extend_headline": {
+        "message": "Подальша інформація про зашифровану переписку:",
+        "description": "Key import dialog description."
+    },
+    "key_import_multiple_keys": {
+        "message": "Вставте один або більше ключів у текстовому форматі.",
+        "description": "Info message."
+    },
+    "popup_help": {
+        "message": "Довідка",
+        "description": "Open help dialog."
+    },
+    "keygrid_subkeyid": {
+        "message": "ID",
+        "description": "Subkey ID of a PGP key."
+    },
+    "key_import_dialog_header": {
+        "message": "Додати ключ до зв'язки ключів",
+        "description": "Key import dialog header."
+    },
+    "key_gen_pwd_match": {
+        "message": "Паролі співпадають",
+        "description": "Passphrase input field status"
+    },
+    "security_log_dialog_undo": {
+        "message": "Клік на «скасувати» у діалозі",
+        "description": ""
+    },
+    "pwd_dialog_reason_decrypt": {
+        "message": "Введіть пароль ключа, щоб розшифрувати це повідомлення.",
+        "description": ""
+    },
+    "keygrid_delete": {
+        "message": "Вилучити",
+        "description": "Max. 6 characters."
+    },
+    "editor_link_file_encryption": {
+        "message": "Зашифрувати прикріплення",
+        "description": "Navigation link to file encryption"
+    },
+    "security_log_add_attachment": {
+        "message": "Натиснуто кнопку додавання прикріплення",
+        "description": "A click on the attachment upload button as an event type"
+    },
+    "key_import_public_read": {
+        "message": "Не вдалося прочитати публічний ключ: $1",
+        "description": "Import error message. $1: error message"
+    },
+    "watchlist_title_active": {
+        "message": "Актив.",
+        "description": "Entry in watchlist is active."
+    },
+    "key_gen_pwd": {
+        "message": "Введіть пароль",
+        "description": "Label for passphrase input field"
+    },
+    "key_gen_error": {
+        "message": "Помилка при генеруванні ключа.",
+        "description": "Key generation error message"
+    },
+    "form_busy": {
+        "message": "Обробка",
+        "description": "Form in busy state."
+    },
+    "keygrid_userid": {
+        "message": "ID",
+        "description": "User ID of a PGP key."
+    },
+    "recovery_sheet_subtitle_recover": {
+        "message": "Відновити зашифровану переписку",
+        "description": "Sub title"
+    },
+    "keygrid_algorithm": {
+        "message": "Алгоритм",
+        "description": "Public-key algorithm of a PGP key."
+    },
+    "keybackup_restore_dialog_list_1": {
+        "message": "Якщо ви загубили папірець із кодом відновлення.",
+        "description": ""
+    },
+    "security_log_import_dialog": {
+        "message": "Діалог імпорту",
+        "description": "Key import dialog as an event source"
+    },
+    "decrypt_digital_signature": {
+        "message": "Підписано цифровим підписом",
+        "description": "Caption digital signature"
+    },
+    "recovery_sheet_further_info": {
+        "message": "Більше інформації та опцій ви знайдете у налаштуваннях облікового запису [BRAND]",
+        "description": ""
+    },
+    "recovery_sheet_creation_date": {
+        "message": "Дата створення:",
+        "description": "Label for recovery sheet creation date"
+    },
+    "watchlist_command_cancel": {
+        "message": "Скасувати зміни",
+        "description": "Cancel changes in watchlist."
+    },
+    "pwd_dialog_cancel": {
+        "message": "Відмикання ключа було скасовано.",
+        "description": "User canceled key unlock dialog."
+    },
+    "encrypt_dialog_header": {
+        "message": "Зашифрувати для:",
+        "description": "Header of encrypt dialog."
+    },
+    "keybackup_waiting_description": {
+        "message": "Документ із кодом вашої резервної копії у процесі підготовки.",
+        "description": ""
+    },
+    "keygrid_send_pub_key": {
+        "message": "Надіслати публічний ключ електронною поштою",
+        "description": "Export key menu."
+    },
+    "security_log_password_dialog": {
+        "message": "Діалог пароля",
+        "description": "Password dialog as an event source"
+    },
+    "keygrid_export": {
+        "message": "Експортувати",
+        "description": "Export key."
+    },
+    "security_log_backup_code_input": {
+        "message": "Введення у коді резервної копії",
+        "description": ""
+    },
+    "keyring_public": {
+        "message": "Публічний",
+        "description": "public key type"
+    },
+    "keyring_header": {
+        "message": "Управління ключами",
+        "description": "Header of the key ring."
+    },
+    "keygrid_userid_signatures": {
+        "message": "Підписи",
+        "description": "Signatures on User ID of a PGP key."
+    },
+    "keygrid_upload_alert_accept": {
+        "message": "Завантажити публічний ключ",
+        "description": "Button text to accept key upload"
+    },
+    "form_cancel": {
+        "message": "Скасувати",
+        "description": "Cancel form button."
+    },
+    "recovery_sheet_not_working": {
+        "message": "Якщо шифрування вашої переписки більше не працює, наприклад",
+        "description": "Label for list"
+    },
+    "keygrid_invalid_userid": {
+        "message": "Недійсний ID користувача",
+        "description": "User ID invalid."
+    },
+    "popup_reload_tooltip": {
+        "message": "Перезавантажити усі елементи Mailvelope",
+        "description": "Reload all Mailvelope UI elements on page."
+    },
+    "recovery_sheet_header": {
+        "message": "Важлива інформація!",
+        "description": "Title of recovery sheet."
+    },
+    "recovery_sheet_backup_local": {
+        "message": "Якщо ви хочете ексклюзивно зберігати свої дані локально на вашому комп'ютері, ви знайдете таку опцію у налаштуваннях шифрування переписки вашого [BRAND] облікового запису.",
+        "description": ""
+    },
+    "keyring_setup_import_key": {
+        "message": "Імпортувати ключ",
+        "description": "Import key"
+    },
+    "keyring_setup_no_keypair": {
+        "message": "Ключова пара необхідна щоб зашифровувати та розшифровувати повідомлення, а також щоб запрошувати співрозмовників до зашифрованої \"з кінця у кінець\" переписки.",
+        "description": "Setup text if no keypair available"
+    },
+    "editor_no_modification_title": {
+        "message": "Unmodified Message",
+        "description": "Title of notification pupup if content not modified."
+    },
+    "settings_security_log": {
+        "message": "Журнал безпеки",
+        "description": "Tab of options to display security log."
+    },
+    "keyring_private": {
+        "message": "Приватний",
+        "description": "private key type"
+    },
+    "keybackup_setup_dialog_list_2": {
+        "message": "Може бути перенесене на інші пристрої.",
+        "description": "In order to transfer your encrypted communication to other devices."
+    },
+    "encrypt_dialog_no_recipient": {
+        "message": "Будь ласка, додайте отримувача.",
+        "description": "Error message if no recipient selected."
+    },
+    "digital_signature_status_null": {
+        "message": "Підпис не може бути перевірений",
+        "description": ""
+    },
+    "popup_actived_checkbox": {
+        "message": "Активовано",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
+    },
+    "editor_sign_caption_short": {
+        "message": "Лист буде підписаний цифровим підписом",
+        "description": ""
+    },
+    "recovery_sheet_provider_security": {
+        "message": "Безпека",
+        "description": ""
+    },
+    "general_editor_plain": {
+        "message": "Простий текст",
+        "description": "Editor option: plain text."
+    },
+    "key_import_invalidated_description": {
+        "message": "Зашифрована переписка з [CONTACT] більше неможлива. Контактові необхідно запросити вас повторно.",
+        "description": ""
+    },
+    "security_log_editor": {
+        "message": "Редактор PGP",
+        "description": "Message editor container as an event source"
+    },
+    "recovery_sheet_backup_server": {
+        "message": "Щоб зберегти резервні копії важливих для шифрування переписки даних (напр, пароль ключа), вони будуть збережені у зашифрованому вигляді на наших [BRAND] серверах нашими безпековими партнерами Mailvelope.",
+        "description": ""
+    },
+    "security_log_password_click": {
+        "message": "Клік у діалозі пароля",
+        "description": ""
+    },
+    "clear_localstorage_confirm_message": {
+        "message": "Бажаєте видалити усі ваші PGP ключі з цього браузера?",
+        "description": "The message of the confirmation dialog."
+    },
+    "recovery_sheet_unlock_backup": {
+        "message": "Резервну копію ваших даних можна буде розшифрувати лише за допомогою коду відновлення із цього папірця.",
+        "description": ""
+    },
+    "security_log_backup_dialog_cancel": {
+        "message": "Клік на закриття діалогу",
+        "description": ""
+    },
+    "form_undo": {
+        "message": "Скасувати",
+        "description": "Undo form button."
+    },
+    "keygrid_key_not_expire": {
+        "message": "Цей ключ не має терміну дії",
+        "description": "Expiration date of a PGP key not set."
+    },
+    "recovery_sheet_print_notice": {
+        "message": "Роздрукуйте цей документ і зберігайте його у безпечному місці!",
+        "description": "Sub title of recovery sheet."
+    },
+    "popup_reload": {
+        "message": "Перезавантажити",
+        "description": "Reload all Mailvelope elements on page."
+    },
+    "keygen_dialog_password_placeholder": {
+        "message": "мін. 4 символи",
+        "description": ""
+    },
+    "recovery_sheet_subtitle_receipt": {
+        "message": "Папірець із кодом відновлення доступу до зашифрованої переписки",
+        "description": "Sub title of recovery sheet."
+    },
+    "form_no": {
+        "message": "Ні",
+        "description": "No form button."
+    },
+    "options_title": {
+        "message": "Опції Mailvelope ",
+        "description": "Title of options page."
+    },
+    "keygrid_upload_alert_msg": {
+        "message": "Тепер ви можете завантажити свій публічний ключ на сервер ключів Mailvelope щоб різні OpenPGP-плагіни могли його автоматично знаходити. Це дозволить спростити шифрування переписки із вашими контактами. Спробуйте. Ви можете видалити свій ключ звідти у будь-який час.",
+        "description": "Text of a link to a learn-more resource"
+    },
+    "recovery_sheet_check_settings": {
+        "message": "Перевірте налаштування облікового запису:",
+        "description": ""
+    },
+    "keybackup_waiting_headline": {
+        "message": "Створення резервної копії!",
+        "description": ""
+    },
+    "form_continue": {
+        "message": "Продовжити",
+        "description": "Continue form button."
+    },
+    "security_log_signature_modal_close": {
+        "message": "Натискання на закриття діалогу підписування",
+        "description": ""
+    },
+    "decrypt_popup_header": {
+        "message": "Повідомлення",
+        "description": "Header of decrypt popup."
+    },
+    "security_log_backup_dialog_ok": {
+        "message": "Клік на «OK» у діалозі",
+        "description": ""
+    },
+    "keygrid_status_invalid": {
+        "message": "недійсний",
+        "description": "Validity status of a PGP key."
+    },
+    "restore_password_dialog_button": {
+        "message": "Показати",
+        "description": ""
+    },
+    "recovery_sheet_data_lost": {
+        "message": "Без резервної копії ви не зможете розшифрувати зашифровані повідомлення якщо ви загубите пароль ключа, вийде з ладу пристрій або виникнуть проблеми з розширенням браузера!",
+        "description": ""
+    },
+    "security_log_email_viewer": {
+        "message": "Розшифрований PGP лист",
+        "description": "Email decryption container as an event source"
+    },
+    "editor_no_modification": {
+        "message": "Do you want to send the email without modifications?",
+        "description": "Message of notification pupup if content not modified."
+    },
+    "security_log_text": {
+        "message": "Журнал безпеки показує дії користувача в усіх компонентах Mailvelope.",
+        "description": "Text explaining the purpose of the security log"
+    },
+    "keyserver_url_error": {
+        "message": "Сервер ключів недоступний",
+        "description": "HKP key server URL error."
+    },
+    "keyring_public_private": {
+        "message": "Ключові пари",
+        "description": "public and private key types"
+    },
+    "keygen_dialog_confirm_error_unequal": {
+        "message": "Перевірте ще раз своє введення.",
+        "description": ""
+    },
+    "keygrid_primary_key": {
+        "message": "Головний ключ",
+        "description": "Main key in the PGP key."
+    },
+    "security_log_dialog_ok": {
+        "message": "Клік на «підтвердити» в діалозі",
+        "description": ""
+    },
+    "recovery_sheet_qr_code": {
+        "message": "Відскануйте QR-код своїм мобільним пристроєм.",
+        "description": ""
+    },
+    "popup_file_encrypting": {
+        "message": "Шифрування файлів",
+        "description": "Title text for file encryption"
+    },
+    "verify_result_success": {
+        "message": "Підписано ",
+        "description": "Verfiy signature succeeded."
+    },
+    "keygrid_user_ids": {
+        "message": "ID користувача",
+        "description": "User IDs of a PGP key."
+    },
+    "security_background_button_title": {
+        "message": "Фон безпеки можна налаштувати в опціях Mailvelope",
+        "description": "The tooltip text for the keylock button"
+    },
+    "keyring_setup_no_keypair_heading": {
+        "message": "Ця зв'язка ключів ще не містить ключової пари.",
+        "description": "Setup heading if no keypair available"
+    },
+    "watchlist_title_scan": {
+        "message": "Статус",
+        "description": "Scan status of site in watchlist."
+    },
+    "key_recovery_failed": {
+        "message": "Відновлення ключа з резервної копії не вдалося.",
+        "description": ""
+    },
+    "upload_aborting_warning": {
+        "message": "Завантаження файлу буде перервано.",
+        "description": "A warning for the aborting of the file upload."
+    },
+    "recovery_sheet_in_general": {
+        "message": "Загалом, важливо",
+        "description": "Label"
+    },
+    "file_decrypting": {
+        "message": "Розшифрування",
+        "description": ""
+    },
+    "waiting_dialog_decryption_failed": {
+        "message": "Розшифрування не вдалося!",
+        "description": "Error message in the waiting dialog after failing to decrypt a message"
+    },
+    "keygen_dialog_confirm": {
+        "message": "Ще раз",
+        "description": ""
+    },
+    "recovery_sheet_extension_problems": {
+        "message": "через проблеми з розширенням браузера",
+        "description": "List item"
+    },
+    "general_primary_key_auto_sign": {
+        "message": "Підписувати усі повідомлення основним ключем",
+        "description": "Label for primary private key option."
+    },
+    "keybackup_setup_dialog_headline": {
+        "message": "Рекомендація: створіть резервну копію",
+        "description": ""
+    },
+    "key_import_textarea": {
+        "message": "Імпортувати ключ як текст",
+        "description": "Label"
+    },
+    "watchlist_command_create": {
+        "message": "Додати новий",
+        "description": "Create entry in watchlist."
+    },
+    "security_log_password_input": {
+        "message": "Введення у полі введення пароля",
+        "description": ""
+    },
+    "key_import_hkp_search_btn": {
+        "message": "Пошук",
+        "description": ""
+    },
+    "key_gen_name_help": {
+        "message": "Повне ім'я власника ключа",
+        "description": "Help text for name field."
+    },
+    "encrypt_error": {
+        "message": "Не вдалося зашифрувати це повідомлення: $1",
+        "description": "Error during encryption process."
+    },
+    "popup_actions_current_page": {
+        "message": "Поточна вкладка:",
+        "description": "Title text for the reload and add buttons"
+    },
+    "encrypt_dialog_add": {
+        "message": "Додати",
+        "description": "Max 6 character."
+    },
+    "alert_invalid_domainmatchpattern_warning": {
+        "message": "Маска домену має починатися з *.",
+        "description": "Alert header of category warning."
+    },
+    "encrypt_upload_file_help": {
+        "message": "Жоден з файлів не може бути більшим за ## MB.",
+        "description": "Help text"
+    },
+    "keygrid_status_valid": {
+        "message": "дійсний",
+        "description": "Validity status of a PGP key."
+    },
+    "message_no_keys": {
+        "message": "Не знайдено приватного ключа для цього повідомлення. ID необхідного ключа: $1",
+        "description": "Decrypt error message."
+    },
+    "security_cache_off": {
+        "message": "Ні.",
+        "description": "Don't store password."
+    },
+    "keyring_export_keys": {
+        "message": "Експортувати зв'язку ключів",
+        "description": "Tab of keyring to export keys."
+    },
+    "keygrid_signer_name": {
+        "message": "Підписувач",
+        "description": "User ID of signer."
+    },
+    "security_log_verify_dialog": {
+        "message": "Діалог верифікації",
+        "description": "Verify dialog as an event source"
+    },
+    "dialog_keyid_label": {
+        "message": "ID ключа:",
+        "description": "Label for key ID."
+    },
+    "pwd_dialog_cache_pwd": {
+        "message": "Тимчасово запам'ятати пароль",
+        "description": "Checkbox label for remembering of the password."
+    },
+    "popup_remove_page_tooltip": {
+        "message": "Видалити поточну сторінку зі списку поштовиків",
+        "description": "Remove page from watchlist."
+    },
+    "form_import": {
+        "message": "Імпорт",
+        "description": "Import form button."
+    },
+    "editor_encrypt_button": {
+        "message": "Зашифрувати",
+        "description": "Encrypt button."
+    },
+    "digital_signature_dialog_header": {
+        "message": "Цифровий підпис",
+        "description": "Header of digital signature dialog."
+    },
+    "key_gen_pwd_reenter": {
+        "message": "Введіть пароль ще раз",
+        "description": "Label for passphrase input field"
+    },
+    "encrypt_download_file_button": {
+        "message": "Клік щоб зберегти вайл",
+        "description": "Download icon"
+    },
+    "digital_signature_status_null_description": {
+        "message": "Контакт цього цифрового підпису ще не був підтверджений для зашифрованої переписки. Попросіть його запросити вас.",
+        "description": ""
+    },
+    "pwd_dialog_reason_create_backup": {
+        "message": "Введіть пароль ключа щоб створити папірець із кодом відновлення.",
+        "description": ""
+    },
+    "recovery_sheet_print_block": {
+        "message": "Зберігайте цей документ у безпечному місці!",
+        "description": "Sub title of recovery sheet."
+    },
+    "keygrid_user_name": {
+        "message": "Ім'я",
+        "description": "Name in User ID of a PGP key."
+    },
+    "pwd_dialog_pwd_please": {
+        "message": "Будь ласка, введіть свій пароль",
+        "description": "Placeholder for password."
+    },
+    "keybackup_restore_dialog_headline": {
+        "message": "Рекомендація: створіть резервну копію",
+        "description": ""
+    },
+    "security_log_timestamp": {
+        "message": "Часова мітка",
+        "description": "Title of the timestamp column of the security log table."
+    },
+    "keyring_setup_import_key_explanation": {
+        "message": "Вже маєте ключову пару на іншому пристрої? Ви можете імпортувати існуючу ключову пару. Просто експортуйте ключову пару з іншого пристрою, а потім імпортуйте її сюди.",
+        "description": "Import key"
+    },
+    "popup_open_page": {
+        "message": "Відкрити",
+        "description": "Open page to file encrypt."
+    },
+    "key_import_extend_hint": {
+        "message": "Підказка:",
+        "description": ""
+    },
+    "security_display_popup": {
+        "message": "У спливаючому вікні Mailvelope.",
+        "description": "Decrypted message display option"
+    },
+    "recovery_sheet_be_aware": {
+        "message": "Зверніть увагу",
+        "description": "Label"
+    },
+    "key_import_public_update": {
+        "message": "Оновлено публічний ключ $1 користувача $2",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "form_submit": {
+        "message": "Надіслати",
+        "description": "Submit form button."
+    },
+    "restore_backup_dialog_headline": {
+        "message": "Введіть код відновлення:",
+        "description": ""
+    },
+    "editor_no_primary_key_caption_short": {
+        "message": "Лист не може бути підписаний цифровим підписом",
+        "description": ""
+    },
+    "recovery_sheet_provider_inbox": {
+        "message": "Вхідні",
+        "description": ""
+    },
+    "watchlist_record_title": {
+        "message": "Поштовик",
+        "description": "Title of the watchlist editor dialog."
+    },
+    "recovery_sheet_other_computer": {
+        "message": "На іншому комп'ютері",
+        "description": ""
+    },
+    "key_export_clipboard": {
+        "message": "Копіювати в буфер",
+        "description": "Copy to clipboard button."
+    },
+    "dialog_popup_close": {
+        "message": "Закрити",
+        "description": "Close decrypt popup."
+    },
+    "recovery_sheet_enter_code": {
+        "message": "Щоб встановити на інших комп'ютерах, введіть код відновлення у відповідних налаштуваннях:",
+        "description": "Label for navigation path"
+    },
+    "keygrid_upload_success_msg": {
+        "message": "Ключ успішно завантажений.",
+        "description": "Upload success message"
+    },
+    "verify_result_warning": {
+        "message": "Підписано невідомим ключем",
+        "description": "Verfiy signature warning."
+    },
+    "invalid_primary_key": {
+        "message": "Ключ недійсний для операцій шифрування та підписування",
+        "description": "Tootip for set as primary key button"
+    },
+    "alert_header_warning": {
+        "message": "Увага!",
+        "description": "Alert header of category warning."
+    },
+    "digital_signature_status_true": {
+        "message": "Підпис вірний",
+        "description": ""
+    },
+    "recovery_sheet_recover_data": {
+        "message": "Дані для відновлення доступу",
+        "description": "Sub title"
+    },
+    "key_gen_key_size": {
+        "message": "Довжина ключа",
+        "description": "Advanced key generation settings: Key size"
+    },
+    "keygen_waiting_headline": {
+        "message": "Встановлення зашифрованої переписки",
+        "description": ""
+    },
+    "key_import_hkp_search_public": {
+        "message": "Шукати публічні ключі на сервері ключів.",
+        "description": ""
+    },
+    "keyserver_tofu_lookup": {
+        "message": "Автоматично шукати ключі отримувачів",
+        "description": "Enable Mailvelope Key Server Auto Lookup"
+    },
+    "security_log_textarea_input": {
+        "message": "Введення у текстовому полі",
+        "description": "A click in the text area as an event type"
+    },
+    "key_gen_demail": {
+        "message": "De-Mail адреса",
+        "description": "De-Mail address name."
+    },
+    "keygrid_upload_alert_title": {
+        "message": "Новий функціонал!",
+        "description": "Text of a link to a learn-more resource"
+    },
+    "keygrid_delete_confirmation": {
+        "message": "Ви впевнені, що хочете вилучити цей ключ?",
+        "description": "Delete confirmation dialog."
+    },
+    "pwd_dialog_title": {
+        "message": "Введіть пароль | Mailvelope",
+        "description": "Title of the password dialog."
+    },
+    "encrypt_download_all_button": {
+        "message": "Зберегти все",
+        "description": "Button to download all files"
+    },
+    "security_log_backup_create": {
+        "message": "Клік на створення резервної копії",
+        "description": ""
+    },
+    "keygrid_subkeys": {
+        "message": "Субключі",
+        "description": "Subkeys of a PGP key."
+    },
+    "form_clear": {
+        "message": "Очистити",
+        "description": "Clear form button."
+    },
+    "pwd_dialog_reason_sign": {
+        "message": "Введіть пароль ключа, щоб підписати це повідомлення.",
+        "description": ""
+    },
+    "key_gen_another": {
+        "message": "Генерувати інший…",
+        "description": "Key import button"
+    },
+    "recovery_sheet_recommendation": {
+        "message": "Рекомендації",
+        "description": ""
+    },
+    "popup_remove_page": {
+        "message": "Вилучити",
+        "description": "Remove page from watchlist."
+    },
+    "keyserver_url_warning": {
+        "message": "URL-адреса сервера ключів повинна мати такий формат: http(s)://keys.example.com",
+        "description": "HKP key server url warning."
+    },
+    "recovery_sheet_provider_settings": {
+        "message": "Налаштування",
+        "description": ""
+    },
+    "security_log_dialog_transfer": {
+        "message": "Клік на перенесення у діалозі",
+        "description": ""
+    },
+    "key_gen_expiration": {
+        "message": "Термін дії ключа",
+        "description": "Key expiration date"
+    },
+    "security_log_sign_dialog": {
+        "message": "Діалог підпису",
+        "description": "Sign dialog as an event source"
+    },
+    "key_import_hkp_search": {
+        "message": "Пошук ключів",
+        "description": ""
+    },
+    "recovery_sheet_other_problems": {
+        "message": "з інших причин",
+        "description": "List item"
+    },
+    "keygrid_validity_status": {
+        "message": "Статус",
+        "description": "Validity status of a PGP key."
+    },
+    "keyring_import_keys": {
+        "message": "Імпортувати ключі",
+        "description": "Tab of keyring to import keys."
+    },
+    "keygen_dialog_prolog": {
+        "message": "Призначте пароль, щоб захистити свою зашифровану переписку:",
+        "description": ""
+    },
+    "security_log_key_generator": {
+        "message": "Генератор ключів",
+        "description": "Key generator container as an event source"
+    },
+    "key_export_create_file": {
+        "message": "Зберегти",
+        "description": "Download file button."
+    },
+    "alert_no_domainmatchpattern_warning": {
+        "message": "Потрібна щонайменше одна маска домену.",
+        "description": "Alert header of category warning."
+    },
+    "key_import_public_success": {
+        "message": "Публічний ключ $1 користувача $2 імпортовано до зв'язки ключів",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "pwd_dialog_reason_editor": {
+        "message": "Введіть пароль ключа, щоб оновити налаштування шифрування переписки:",
+        "description": ""
+    },
+    "key_set_as_primary": {
+        "message": "Встановити як основний",
+        "description": "Set as primary key for the keyring button"
+    },
+    "keygrid_key_fingerprint": {
+        "message": "Відбиток",
+        "description": "Unique string identifier for a PGP key."
+    },
+    "keygrid_upload_alert_refuse": {
+        "message": "Ні дякую",
+        "description": "Button text to reject key upload"
+    },
+    "editor_error_content": {
+        "message": "Вміст помилки",
+        "description": ""
+    },
+    "keybackup_setup_dialog_button": {
+        "message": "Створити резервну копію",
+        "description": ""
+    },
+    "pwd_dialog_reason_create_draft": {
+        "message": "Введіть пароль ключа, щоб зберегти чернетку.",
+        "description": ""
+    },
+    "popup_add_page_tooltip": {
+        "message": "Увімкнути Mailvelope для цієї сторінки",
+        "description": "Add page to watchlist."
+    },
+    "keygrid_sort_type": {
+        "message": "Тип ключа",
+        "description": "Key grid sort selector."
+    },
+    "editor_blur_warn": {
+        "message": "Увага. Текстовий редактор неактивний.",
+        "description": "Warning for lost focus."
+    },
+    "header_warning": {
+        "message": "Увага!",
+        "description": "Header warning."
+    },
+    "keygrid_key_type": {
+        "message": "Тип",
+        "description": "The type of the key."
+    },
+    "keybackup_failed": {
+        "message": "Створення резервної копії ключа не вдалося.",
+        "description": ""
+    },
+    "editor_no_primary_key_caption_long": {
+        "message": "Лист не може бути підписаний цифровим підписом, тому що основний ключ відсутній",
+        "description": ""
+    },
+    "keygen_dialog_confirm_success": {
+        "message": "Введення вірне.",
+        "description": ""
+    },
+    "keyring_migration_error": {
+        "message": "Помилка міграції ключа",
+        "description": "Tab of keyring to display migration errors."
+    },
+    "keybackup_restore_dialog_list_2": {
+        "message": "Створіть новий папірець із кодом відновлення з міркувань безпеки.",
+        "description": ""
+    },
+    "security_log_attachment_download": {
+        "message": "Прикріплення завантажено на комп'ютер",
+        "description": "Attachment downloaded as an event source"
+    },
+    "security_background_angle": {
+        "message": "Кут",
+        "description": "Angle"
+    },
+    "key_details_title": {
+        "message": "Деталі ключа",
+        "description": "The title of the key details dialog."
+    },
+    "security_cache_time": {
+        "message": "хвилин.",
+        "description": "Store password in memory for $1 minutes."
+    },
+    "wrong_restore_code": {
+        "message": "Недійсний код відновлення",
+        "description": ""
+    },
+    "settings_watchlist": {
+        "message": "Список поштових провайдерів",
+        "description": "Tab of options to display list of supported mail providers."
+    },
+    "recovery_sheet_key_server": {
+        "message": "Інших користувачів [BRAND], які користуються PGP на GMX, ви можете знайти у центральному каталозі у вашому обліковому записі [BRAND]. Якщо ви не хочете бачити жодних записів у цьому каталозі, деактивуйте цю опцію у налаштуваннях вашого облікового запису [BRAND].",
+        "description": ""
+    },
+    "general_editor_rich": {
+        "message": "Візуальний редактор",
+        "description": "Editor option: rich text."
+    },
+    "recovery_sheet_pgp_compat": {
+        "message": "Ви можете безпечно переписуватися з іншими контактами якщо вони теж користуються шифруванням переписки (PGP).",
+        "description": ""
+    },
+    "recovery_sheet_forgot_password": {
+        "message": "через те, що ви забули пароль від вашого ключа",
+        "description": "List item"
+    },
+    "security_cache_on": {
+        "message": "Так, запам'ятати на ",
+        "description": "Store password in memory for $1 minutes."
+    },
+    "security_log_remove_attachment": {
+        "message": "Прикріплення вилучено",
+        "description": "A click on the attachment remove button as event type"
+    },
+    "options_home": {
+        "message": "Опції",
+        "description": "Options navigation: Home."
+    },
+    "keygen_dialog_password": {
+        "message": "Пароль ключа",
+        "description": ""
+    },
+    "keybackup_setup_dialog_description": {
+        "message": "Резервна копія обов'язкова, щоб переконатися, що ваша зашифрована переписка:",
+        "description": ""
+    },
+    "key_gen_wait_header": {
+        "message": "Відбувається генерування ключа…",
+        "description": "Wait dialog header"
+    },
+    "watchlist_title_site": {
+        "message": "Сайт",
+        "description": "Site in watchlist."
+    },
+    "recovery_sheet_other_devices_setup": {
+        "message": "Налаштування зашифрованої переписки на інших пристроях",
+        "description": ""
+    },
+    "editor_transfer": {
+        "message": "Перенести",
+        "description": "Transfer button of editor popup."
+    },
+    "keygrid_display_all_keys": {
+        "message": "Показати усі ключі",
+        "description": "Export key menu."
+    },
+    "watchlist_expose_api": {
+        "message": "API",
+        "description": "Expose API to Webmailer."
+    },
+    "key_import_extend_fingerprint": {
+        "message": "PGP-відбиток:",
+        "description": ""
+    },
+    "key_export_warning_private": {
+        "message": "Цей файл також містить приватні ключі.",
+        "description": "Key export warning."
+    },
+    "learn_more_link": {
+        "message": "Дізнатися більше",
+        "description": "Text of a link to a learn-more resource"
+    },
+    "key_import_invalid_text": {
+        "message": "Не знайдено дійсного тексту ключа",
+        "description": "Import error alert."
+    },
+    "keyring_setup_generate_key": {
+        "message": "Генерувати ключ",
+        "description": "Generate key"
+    },
+    "keygrid_upload_error_msg": {
+        "message": "Не вдалося завантажити ключ.",
+        "description": "Upload error message"
+    },
+    "editor_label_add_recipient": {
+        "message": "Додати отримувача",
+        "description": "Label for recipient text input."
+    },
+    "word_or": {
+        "message": "або",
+        "description": "Separate list of elements."
+    },
+    "key_import_exception": {
+        "message": "При обробці ключів виникла помилка",
+        "description": "Import error alert."
+    },
+    "key_import_invalidated_headline": {
+        "message": "Увага: необхідні для зашифрованої переписки дані застаріли.",
+        "description": "Key import dialog header."
+    },
+    "encrypt_upload_file_warning_too_big": {
+        "message": "Одне з імен файлів надто довге.",
+        "description": "."
+    },
+    "recovery_sheet_print_button": {
+        "message": "Друкувати",
+        "description": ""
+    },
+    "general_editor_type": {
+        "message": "Обрати редактор електронної пошти",
+        "description": "Label for editor options."
+    },
+    "key_gen_pwd_unequal": {
+        "message": "Паролі не співпадають",
+        "description": "Passphrase input field status"
+    },
+    "security_background_scaling": {
+        "message": "Масштаб",
+        "description": "Scaling"
+    },
+    "watchlist_command_edit": {
+        "message": "Ред.",
+        "description": "Edit entry in watchlist."
+    },
+    "decrypt_popup_title": {
+        "message": "Розшифроване повідомлення",
+        "description": "Title of decrypt popup."
+    },
+    "form_close": {
+        "message": "Закрити",
+        "description": "Close form button."
+    },
+    "encrypt_dialog_subheader": {
+        "message": "Персони:",
+        "description": "Subheader of encrypt dialog."
+    },
+    "encrypt_download_file_title": {
+        "message": "Зберегти файл",
+        "description": "Title of download area"
+    },
+    "security_log_signature_modal_open": {
+        "message": "Натискання на відкриття діалогу підписування",
+        "description": ""
+    },
+    "security_log_backup_restore": {
+        "message": "Клік на відновлення резервної копії",
+        "description": ""
+    },
+    "keybackup_restore_dialog_description": {
+        "message": "Створіть новий папірець із кодом відновлення, якщо:",
+        "description": ""
+    },
+    "key_import_default_headline": {
+        "message": "Додати контакт до зашифрованої переписки?",
+        "description": "Key import dialog header."
+    },
+    "recovery_sheet_mobile_devices": {
+        "message": "На мобільних пристроях",
+        "description": ""
+    },
+    "watchlist_command_save": {
+        "message": "Зберегти зміни",
+        "description": "Save changes in watchlist."
+    },
+    "cleartext_read_error": {
+        "message": "Не вдалося прочитати це незашифроване повідомлення: $1",
+        "description": "Cleartext message read error message: $1: error message."
+    },
+    "editor_header": {
+        "message": "Написати листа",
+        "description": "Header of editor popup."
+    },
+    "form_ok": {
+        "message": "ОК",
+        "description": "Ok form button."
+    },
+    "security_log_encrypt_dialog": {
+        "message": "Діалог шифрування",
+        "description": "Encrypt dialog as an event source"
+    },
+    "key_import_private_update": {
+        "message": "Оновлено приватний ключ $1 користувача $2",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "key_gen_pwd_empty": {
+        "message": "Пароль порожній",
+        "description": "Passphrase input field status"
+    },
+    "form_save": {
+        "message": "Зберегти",
+        "description": "Save form button."
+    },
+    "key_import_too_big": {
+        "message": "Текст ключа, який ви намагалися імпортувати, надто довгий. Спробуйте зробити це меншими частинами.",
+        "description": "Import error alert."
+    },
+    "ext_name": {
+        "message": "Mailvelope",
+        "description": "Name of the extension."
+    },
+    "restore_backup_dialog_button": {
+        "message": "Підтвердити",
+        "description": ""
+    },
+    "keygrid_expiration_date": {
+        "message": "Закінчення терміну дії",
+        "description": "Expiration date of a PGP key."
+    },
+    "restore_password_dialog_headline": {
+        "message": "Ваш пароль ключа:",
+        "description": ""
+    },
+    "recovery_sheet_other_devices": {
+        "message": "Зашифрована переписка на інших пристроях",
+        "description": "Sub title"
+    },
+    "keygen_waiting_description": {
+        "message": "Встановлення зашифрованої переписки може тривати декілька хвилин. Ваш браузер може перестати відповідати. Будь ласка, будьте терплячими.",
+        "description": ""
+    },
+    "alert_header_error": {
+        "message": "Помилка!",
+        "description": "Alert header of category error."
+    },
+    "security_log_source": {
+        "message": "Джерело",
+        "description": "Title of the source column of the security log table."
+    },
+    "editor_error_header": {
+        "message": "Помилка",
+        "description": ""
+    },
+    "editor_remove_upload": {
+        "message": "Вилучити",
+        "description": "Remove uploaded attachment"
+    },
+    "decrypt_digital_signature_null": {
+        "message": "Цифровий підпис не може бути ідентифікований",
+        "description": "Caption digital signature"
+    },
+    "file_encrypting": {
+        "message": "Зашифрування",
+        "description": ""
+    },
+    "keygrid_no_subkeys": {
+        "message": "Немає доступних субключів",
+        "description": "No subkeys of a PGP key found."
+    },
+    "keygrid_keyid": {
+        "message": "ID ключа",
+        "description": "Key ID of a PGP key."
+    },
+    "form_back": {
+        "message": "Назад",
+        "description": "Back form button."
+    },
+    "sign_dialog_header": {
+        "message": "Підписати повідомлення ключем:",
+        "description": "Header of sign dialog."
+    },
+    "key_import_private_read": {
+        "message": "Не вдалося прочитати приватний ключ: $1",
+        "description": "Import error message. $1: error message"
+    },
+    "popup_help_tooltip": {
+        "message": "Відкриває сторінку документації",
+        "description": "Opens the help page on mailvelope.com."
+    },
+    "security_log_textarea_select": {
+        "message": "Виділення у текстовому полі",
+        "description": "Selection of the text area as an event type"
+    },
+    "keygrid_signer_unknown": {
+        "message": "Підписувач невідомий",
+        "description": "Key of signer not available."
+    },
+    "popup_add_page": {
+        "message": "Додати",
+        "description": "Add page to watchlist."
+    },
+    "security_log_dialog_sign": {
+        "message": "Клік на підписання у діалозі",
+        "description": ""
+    },
+    "editor_key_not_found_msg": {
+        "message": "Щоб зашифрувати повідомлення, потрібні PGP ключі усіх отримувачів. Натомість ви все ще можете підписати повідомлення.",
+        "description": "Warning for when a recipient key was not found."
+    },
+    "options_docu": {
+        "message": "Документація",
+        "description": "Options navigation: Documentation."
+    },
+    "keyring_backup": {
+        "message": "Keyring backup",
+        "description": "Title of keyring backup view"
+    },
+    "keyring_keypair": {
+        "message": "Ключова пара",
+        "description": "key pair"
+    },
+    "options_about": {
+        "message": "Про",
+        "description": "Options navigation: About."
+    },
+    "settings_keyserver": {
+        "message": "Сервер ключів",
+        "description": "Tab of options to display key server settings."
+    },
+    "keygrid_primary_label": {
+        "message": "Основний",
+        "description": "Label for the primary key"
+    },
+    "recovery_sheet_unknown_third": {
+        "message": "Треті особи не зможуть отримати доступ тільки до такої зашифрованої переписки, яка налаштована на захищених пристроях.",
+        "description": ""
+    },
+    "upload_quota_warning_headline": {
+        "message": "Прикріплення надто велике",
+        "description": ""
+    },
+    "key_gen_invalid_email": {
+        "message": "Недійсна мейл-адреса",
+        "description": "Error message."
+    },
+    "pwd_dialog_userid": {
+        "message": "Юзер-ID:",
+        "description": "Label for user ID."
+    },
+    "encrypting_home": {
+        "message": "Шифрування файлів",
+        "description": "File encryption top navigation."
+    },
+    "decrypt_popup_copy": {
+        "message": "Копіювати в буфер",
+        "description": "Copy decrypted message to clipboard."
+    },
+    "form_next": {
+        "message": "Далі",
+        "description": "Next form button."
+    },
+    "settings_backup": {
+        "message": "Резервна копія",
+        "description": "Tab allowing to backup and restore the settings."
+    },
+    "reload_webmail_tab": {
+        "message": "Перезавантажте сторінку поштовика щоб налаштування вступили в дію.",
+        "description": "Info message."
+    },
+    "form_yes": {
+        "message": "Так",
+        "description": "Yes form button."
+    },
+    "keyring_setup_generate_key_explanation": {
+        "message": "Якщо ви користуєтесь цим розширенням уперше і у вас ще немає ключової пари, будь ласка, згенеруйте її зараз.",
+        "description": "Generate key"
+    },
+    "keygrid_display_priv_key": {
+        "message": "Показати приватний ключ",
+        "description": "Export key menu."
+    },
+    "ext_description": {
+        "message": "Підсильте свого поштовика наскрізним шифруванням \"з кінця у кінець\". Захистіть свою поштову переписку за допомогою OpenPGP стандарту",
+        "description": "Description of the extension."
+    },
+    "keybackup_setup_dialog_list_1": {
+        "message": "Може бути відновлене у разі втрати даних.",
+        "description": "In order to restore your encrypted communication in case of data loss."
+    },
+    "key_import_default_description": {
+        "message": "Підтвердіть, щоб увімкнути шифрування переписки з цим одержувачем.",
+        "description": "Key import dialog description."
+    },
+    "key_gen_advanced_btn": {
+        "message": "Розширені",
+        "description": "Advanced key generation settings."
+    },
+    "key_import_private_success": {
+        "message": "Приватний ключ $1 користувача $2 імпортовано до зв'язки ключів",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "settings_security": {
+        "message": "Безпека",
+        "description": "Tab of options to display security settings."
+    },
+    "settings_general": {
+        "message": "Загальні",
+        "description": "Tab of options to display general settings."
+    },
+    "form_forward": {
+        "message": "Уперед",
+        "description": "Forward form button."
+    },
+    "key_import_unable": {
+        "message": "Не вдалося імпортувати ключ через виняток: $1",
+        "description": "Import error message: $1: error message."
+    },
+    "editor_sign_caption_long": {
+        "message": "Коли лист буде надіслано, він також буде підписаний цифровим підписом",
+        "description": ""
+    },
+    "keygrid_display_pub_key": {
+        "message": "Показати публічний ключ",
+        "description": "Export key menu."
+    },
+    "upload_quota_exceeded_warning": {
+        "message": "Розмір прикріплення перевищує дозволений ліміт:",
+        "description": "A warning shown when the attachments upload quota is exceeded."
+    },
+    "recovery_sheet_keep_safe": {
+        "message": "Зберігайте роздруковану версію цього документа у безпечному місці та переконайтеся, що ніхто більше не має доступу до коду відновлення.",
+        "description": ""
+    },
+    "keyring_setup": {
+        "message": "Встановити",
+        "description": "Setup keyring for mail provider."
+    },
+    "keygrid_creation_date": {
+        "message": "Дата створення",
+        "description": "Creation date of a PGP key."
+    },
+    "recovery_sheet_other_contacts": {
+        "message": "Зашифрована переписка з іншими контактами",
+        "description": ""
+    }
+}
