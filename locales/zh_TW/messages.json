@@ -24,7 +24,7 @@
         "description": "Message keybackup container as an event source"
     },
     "keygrid_all_keys": {
-        "message": "任何",
+        "message": "All",
         "description": "Selection of key type."
     },
     "editor_key_not_found": {
@@ -180,7 +180,7 @@
         "description": ""
     },
     "editor_sign_button": {
-        "message": "Sign Only",
+        "message": "只進行簽章",
         "description": "Sign button."
     },
     "recovery_sheet_recovery_code": {
@@ -255,6 +255,10 @@
         "message": "選項",
         "description": "Open options dialog."
     },
+    "keygrid_export_title": {
+        "message": "Export all keys in this list to file",
+        "description": "Title for Export key button."
+    },
     "security_log_textarea_click": {
         "message": "在文字區塊裏點擊",
         "description": "A click in the text area as an event type"
@@ -328,7 +332,7 @@
         "description": "Max. 6 characters."
     },
     "editor_link_file_encryption": {
-        "message": "Encrypt attachments",
+        "message": "加密附件",
         "description": "Navigation link to file encryption"
     },
     "security_log_add_attachment": {
@@ -467,6 +471,10 @@
         "message": "需要一對相符密鑰來加密與解密訊息，以及邀請你的聯絡人共同進行點對點間的加密通訊。",
         "description": "Setup text if no keypair available"
     },
+    "editor_no_modification_title": {
+        "message": "Unmodified Message",
+        "description": "Title of notification pupup if content not modified."
+    },
     "settings_security_log": {
         "message": "安全活動記錄",
         "description": "Tab of options to display security log."
@@ -492,7 +500,7 @@
         "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "editor_sign_caption_short": {
-        "message": "E-mail will be signed digitally",
+        "message": "電郵將會被電子簽章",
         "description": ""
     },
     "recovery_sheet_provider_security": {
@@ -607,6 +615,10 @@
         "message": "解密PGP電子郵件",
         "description": "Email decryption container as an event source"
     },
+    "editor_no_modification": {
+        "message": "Do you want to send the email without modifications?",
+        "description": "Message of notification pupup if content not modified."
+    },
     "security_log_text": {
         "message": "安全活動記錄顯示用戶在 Mailvelope元件下的所有動作",
         "description": "Text explaining the purpose of the security log"
@@ -688,7 +700,7 @@
         "description": "List item"
     },
     "general_primary_key_auto_sign": {
-        "message": "Sign all messages with primary key",
+        "message": "所有訊息使用主要密鑰簽章",
         "description": "Label for primary private key option."
     },
     "keybackup_setup_dialog_headline": {
@@ -888,7 +900,7 @@
         "description": "Verfiy signature warning."
     },
     "invalid_primary_key": {
-        "message": "Key is not valid for encryption and signing operations",
+        "message": "密鑰無法進行加密與簽章操作",
         "description": "Tootip for set as primary key button"
     },
     "alert_header_warning": {
@@ -1359,10 +1371,6 @@
         "message": "無法識別數位簽署",
         "description": "Caption digital signature"
     },
-    "key_export_too_large": {
-        "message": "密鑰檔案對網址而言過太，請另使用複制與貼上的方傾取代",
-        "description": "Key export warning message."
-    },
     "file_encrypting": {
         "message": "加密",
         "description": ""
@@ -1414,6 +1422,10 @@
     "options_docu": {
         "message": "文件",
         "description": "Options navigation: Documentation."
+    },
+    "keyring_backup": {
+        "message": "Keyring backup",
+        "description": "Title of keyring backup view"
     },
     "keyring_keypair": {
         "message": "密鑰組配",
@@ -1516,7 +1528,7 @@
         "description": "Import error message: $1: error message."
     },
     "editor_sign_caption_long": {
-        "message": "When the E-mail is sent out, it will also be signed digitally",
+        "message": "當電郵送出時，它會自動加上電子簽章",
         "description": ""
     },
     "keygrid_display_pub_key": {
@@ -1542,9 +1554,5 @@
     "recovery_sheet_other_contacts": {
         "message": "與其它聯絡人進行加密通訊",
         "description": ""
-    },
-    "key_export_download": {
-        "message": "下載密鑰",
-        "description": "Download key link."
     }
 }
