@@ -1,0 +1,1558 @@
+{
+    "options_settings": {
+        "message": "Nustatymai",
+        "description": "Options header: Settings."
+    },
+    "security_cache_help": {
+        "message": "Privalo būti skaičius tarp 1-999",
+        "description": "Help text for cache time."
+    },
+    "key_gen_wait_info": {
+        "message": "Prašome palaukti, rakto generavimas gali užimti iki kelių minučių, priklausomai nuo įvairių faktorių, tokių kaip rakto dydis.",
+        "description": "Wait dialog info message"
+    },
+    "security_log_attachment_added": {
+        "message": "Priedas įkeltas",
+        "description": "Attachment added as an event type"
+    },
+    "message_read_error": {
+        "message": "Nepavyko iššifruoti šio laiško: $1",
+        "description": "Message read error message: $1: error message."
+    },
+    "security_log_key_backup": {
+        "message": "Key Backup",
+        "description": "Message keybackup container as an event source"
+    },
+    "keygrid_all_keys": {
+        "message": "All",
+        "description": "Selection of key type."
+    },
+    "editor_key_not_found": {
+        "message": "Raktas nerastas!",
+        "description": "Warning for when a recipient key was not found."
+    },
+    "security_log_text_input": {
+        "message": "Įvesties įvykis tekstiniame lauke",
+        "description": "A click in the text area as an event type"
+    },
+    "security_log_dialog_cancel": {
+        "message": "Click-event on Cancel in dialog",
+        "description": ""
+    },
+    "security_display_inline": {
+        "message": "El. pašto teikėjo puslapyje.",
+        "description": "Decrypted message display option"
+    },
+    "verify_result_error": {
+        "message": "Invalid signature of",
+        "description": "Verfiy signature error. Wrong signature of [userid]."
+    },
+    "pwd_dialog_header": {
+        "message": "Įveskite rakto slaptažodį",
+        "description": "Header of the password dialog."
+    },
+    "waiting_dialog_prepare_email": {
+        "message": "Ruošiamas jūsų laiškas...",
+        "description": "Message in the waiting dialog for quoting email"
+    },
+    "keygrid_creation_date_short": {
+        "message": "Sukurtas",
+        "description": "Short creation date of a PGP key. Max. width: 90px"
+    },
+    "security_display_decrypted": {
+        "message": "Kur bus rodomi iššifruoti laiškai?",
+        "description": "Label for display options"
+    },
+    "general_primary_key_always": {
+        "message": "Visada pridėti mano pirminį raktą į gavėjų sąrašą. (Tai leidžia jums iššifruoti išsiųstą paštą)",
+        "description": "Label for primary private key option."
+    },
+    "security_background_header": {
+        "message": "Saugumo fonas",
+        "description": "Security background header"
+    },
+    "keygrid_user_email": {
+        "message": "El. paštas",
+        "description": "Email address in User ID of a PGP key."
+    },
+    "key_import_extend_description": {
+        "message": "PGP kontrolinis kodas yra naudojamas jūsų laiškų rakto informacijos atpažinimui.",
+        "description": "Key import dialog description."
+    },
+    "recovery_sheet_invite_contacts": {
+        "message": "In your encrypted communication settings of your [BRAND] account, you have the possibility to invite additional contacts to use encrypted communication via PGP. Contacts that have already been invited successfully can be recognized by the padlock icon next to the e-mail address. ",
+        "description": ""
+    },
+    "form_confirm": {
+        "message": "Patvirtinti",
+        "description": "Confirm form button."
+    },
+    "key_import_hkp_search_ph": {
+        "message": "Pagal vardą, el. pašto adresą ar rakto ID",
+        "description": ""
+    },
+    "keyserver_tofu_label": {
+        "message": "Mailvelope raktų serveris",
+        "description": "Mailvelope Key Server Settings Label"
+    },
+    "watchlist_delete_confirmation": {
+        "message": "Ar tikrai norite pašalinti šią svetainę iš el. pašto teikėjų sąrašo?",
+        "description": "Mesage in the watchlist delete confirmation dialog."
+    },
+    "popup_last_activities": {
+        "message": "Paskutinės veiklos:",
+        "description": "Title text for the last activities area"
+    },
+    "key_export_header": {
+        "message": "Eksportuoti raktą",
+        "description": "Export key dialog header."
+    },
+    "key_import_private_exists": {
+        "message": "Private key-part of existing public key $1 of user $2 imported into keyring",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "upload_attachment": {
+        "message": "Pridėti priedą",
+        "description": "Text in the upload attachment button of the message editor dialog"
+    },
+    "keyserver_hkp_url": {
+        "message": "HKP raktų serveris",
+        "description": "HKP key server option: url."
+    },
+    "keybackup_restore_dialog_button": {
+        "message": "Atkurti atsarginę kopiją",
+        "description": ""
+    },
+    "decrypt_digital_signature_failure": {
+        "message": "Invalid digital signature",
+        "description": "Caption digital signature"
+    },
+    "verify_error": {
+        "message": "Could not verify this message: $1",
+        "description": "Error during verification process."
+    },
+    "pwd_dialog_wrong_pwd": {
+        "message": "Neteisingas slaptažodis",
+        "description": "Password error message."
+    },
+    "key_import_extend_date": {
+        "message": "Sukurtas:",
+        "description": ""
+    },
+    "security_cache_header": {
+        "message": "Prisiminti slaptažodžius šiam naršyklės seansui.",
+        "description": "Password cache header"
+    },
+    "popup_actived_checkbox_tooltip": {
+        "message": "Activate / deactivate external editor",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
+    },
+    "security_log_encryption_operation": {
+        "message": "Message has been encrypted for: $1",
+        "description": ""
+    },
+    "key_gen_generate": {
+        "message": "Generuoti",
+        "description": "Key generate button label"
+    },
+    "pwd_dialog_keyid_tooltip": {
+        "message": "Jūsų rakto ID",
+        "description": "Tooltip explaining the key id."
+    },
+    "recovery_sheet_explain_pgp": {
+        "message": "Encrypted communication with [BRAND] is a PGP-based procedure. It enables you to send encrypted e-mails and, at the same time, ensures that only you and the receiver are able to read them.",
+        "description": ""
+    },
+    "security_log_restore_backup_click": {
+        "message": "Click-event in restore backup dialog",
+        "description": ""
+    },
+    "alert_header_success": {
+        "message": "Pavyko!",
+        "description": "Alert header of category success."
+    },
+    "keygrid_public_keys": {
+        "message": "Viešieji raktai",
+        "description": "Selection of key type."
+    },
+    "recovery_sheet_trusted_contacts": {
+        "message": "With GMX contacts you can be sure that the users displayed are in fact valid users. You should, however, always verify the identity of contacts with an e-mail address from another e-mail provider.",
+        "description": ""
+    },
+    "editor_sign_button": {
+        "message": "Tik pasirašyti",
+        "description": "Sign button."
+    },
+    "recovery_sheet_recovery_code": {
+        "message": "Atkūrimo kodas",
+        "description": ""
+    },
+    "key_gen_success": {
+        "message": "Naujas raktas sugeneruotas ir importuotas į raktinę",
+        "description": "Key generation success message"
+    },
+    "security_log_action": {
+        "message": "Veiksmas",
+        "description": "Title of the action column of the security log table."
+    },
+    "general_primary_key_label": {
+        "message": "Pirminis privatusis raktas",
+        "description": "Label for primary private key option."
+    },
+    "clear_localstorage_confirm_title": {
+        "message": "Patvirtinti",
+        "description": "The title of the confirmation dialog."
+    },
+    "key_import_file_select": {
+        "message": "Pasirinkti rakto tekstinį failą, kurį importuoti",
+        "description": "File selection button label."
+    },
+    "encrypt_file_selection": {
+        "message": "Failų pasirinkimas",
+        "description": "File upload selection"
+    },
+    "security_log_dialog_encrypt": {
+        "message": "Click-event to encrypt on dialog",
+        "description": ""
+    },
+    "watchlist_title_frame": {
+        "message": "Srities šablonas",
+        "description": "Web domain URL match pattern of site in watchlist."
+    },
+    "keygrid_key_length": {
+        "message": "Ilgis",
+        "description": "Key length of a PGP key."
+    },
+    "keygrid_private_keys": {
+        "message": "Privatieji raktai",
+        "description": "Selection of key type."
+    },
+    "keyring_display_keys": {
+        "message": "Rodyti raktus",
+        "description": "Tab of keyring to display keys."
+    },
+    "recovery_sheet_encryption_note": {
+        "message": "Šifruoto bendravimo patarimai, naudojant [BRAND]",
+        "description": "Sub title"
+    },
+    "key_gen_upload": {
+        "message": "Išsiųsti viešąjį raktą į Mailvelope raktų serverį (raktas bet kuriuo metu gali būti ištrintas)",
+        "description": "Upload key to Mailvelope key server checkbox"
+    },
+    "security_background_preview": {
+        "message": "Peržiūra",
+        "description": "Preview"
+    },
+    "security_log_content_copy": {
+        "message": "Copy-event in verify dialog",
+        "description": ""
+    },
+    "security_background_coloring": {
+        "message": "Spalva",
+        "description": "Coloring"
+    },
+    "popup_options": {
+        "message": "Parinktys",
+        "description": "Open options dialog."
+    },
+    "keygrid_export_title": {
+        "message": "Eksportuoti visus raktus šiame sąraše į failą",
+        "description": "Title for Export key button."
+    },
+    "security_log_textarea_click": {
+        "message": "Click-event in text area",
+        "description": "A click in the text area as an event type"
+    },
+    "recovery_sheet_backup_data": {
+        "message": "Backup of your data",
+        "description": ""
+    },
+    "key_import_file": {
+        "message": "Importuoti raktą iš failo",
+        "description": "File selection label."
+    },
+    "digital_signature_status_false": {
+        "message": "Invalid signature",
+        "description": ""
+    },
+    "security_log_empty": {
+        "message": "Nėra įrašų",
+        "description": "Message when the security log is empty"
+    },
+    "recovery_sheet_provider_communication": {
+        "message": "Šifruotas bendravimas",
+        "description": ""
+    },
+    "security_background_text": {
+        "message": "Saugumo fonas yra jūsų asmeninis Mailvelope fonas ir jis padeda neleisti trečiųjų šalių svetainėms ir programoms atlikti naudotojo sąsajos manipuliacijas. Norėdami padidinti saugumą, čia sukurkite ir keiskite savo asmeninį foną.",
+        "description": "Security background text"
+    },
+    "keyring_generate_key": {
+        "message": "Generuoti raktą",
+        "description": "Tab of keyring to generate key."
+    },
+    "key_import_error": {
+        "message": "Importavimo klaida.",
+        "description": "Import error alert."
+    },
+    "key_import_extend_headline": {
+        "message": "Further information on encrypted communication:",
+        "description": "Key import dialog description."
+    },
+    "key_import_multiple_keys": {
+        "message": "Čia įterpkite vieną ar kelis raktus tekstiniu formatu.",
+        "description": "Info message."
+    },
+    "popup_help": {
+        "message": "Pagalba",
+        "description": "Open help dialog."
+    },
+    "keygrid_subkeyid": {
+        "message": "ID",
+        "description": "Subkey ID of a PGP key."
+    },
+    "key_import_dialog_header": {
+        "message": "Pridėti raktą į raktinę",
+        "description": "Key import dialog header."
+    },
+    "key_gen_pwd_match": {
+        "message": "Slaptažodžiai sutampa",
+        "description": "Passphrase input field status"
+    },
+    "security_log_dialog_undo": {
+        "message": "Click-event to undo on dialog",
+        "description": ""
+    },
+    "pwd_dialog_reason_decrypt": {
+        "message": "Norėdami iššifruoti šį laišką, įveskite savo rakto slaptažodį.",
+        "description": ""
+    },
+    "keygrid_delete": {
+        "message": "Ištrinti",
+        "description": "Max. 6 characters."
+    },
+    "editor_link_file_encryption": {
+        "message": "Šifruoti priedus",
+        "description": "Navigation link to file encryption"
+    },
+    "security_log_add_attachment": {
+        "message": "Paspaustas priedo pridėjimo mygtukas",
+        "description": "A click on the attachment upload button as an event type"
+    },
+    "key_import_public_read": {
+        "message": "Nepavyko perskaityti viešojo rakto: $1",
+        "description": "Import error message. $1: error message"
+    },
+    "watchlist_title_active": {
+        "message": "Aktyvi",
+        "description": "Entry in watchlist is active."
+    },
+    "key_gen_pwd": {
+        "message": "Įveskite slaptažodį",
+        "description": "Label for passphrase input field"
+    },
+    "key_gen_error": {
+        "message": "Klaida, generuojant raktą.",
+        "description": "Key generation error message"
+    },
+    "form_busy": {
+        "message": "Apdorojama",
+        "description": "Form in busy state."
+    },
+    "keygrid_userid": {
+        "message": "ID",
+        "description": "User ID of a PGP key."
+    },
+    "recovery_sheet_subtitle_recover": {
+        "message": "Recover encrypted communication",
+        "description": "Sub title"
+    },
+    "keygrid_algorithm": {
+        "message": "Algoritmas",
+        "description": "Public-key algorithm of a PGP key."
+    },
+    "keybackup_restore_dialog_list_1": {
+        "message": "If you lost the recovery sheet.",
+        "description": ""
+    },
+    "security_log_import_dialog": {
+        "message": "Importavimo dialogas",
+        "description": "Key import dialog as an event source"
+    },
+    "decrypt_digital_signature": {
+        "message": "Skaitmeniškai pasirašytas",
+        "description": "Caption digital signature"
+    },
+    "recovery_sheet_further_info": {
+        "message": "You can find more information and setting options in your [BRAND] account under",
+        "description": ""
+    },
+    "recovery_sheet_creation_date": {
+        "message": "Sukūrimo data:",
+        "description": "Label for recovery sheet creation date"
+    },
+    "watchlist_command_cancel": {
+        "message": "Atsisakyti pakeitimų",
+        "description": "Cancel changes in watchlist."
+    },
+    "pwd_dialog_cancel": {
+        "message": "Raktų atrakinimo buvo atsisakyta.",
+        "description": "User canceled key unlock dialog."
+    },
+    "encrypt_dialog_header": {
+        "message": "Kam šifruoti:",
+        "description": "Header of encrypt dialog."
+    },
+    "keybackup_waiting_description": {
+        "message": "A document with your backup code is being prepared.",
+        "description": ""
+    },
+    "keygrid_send_pub_key": {
+        "message": "Siųsti viešąjį raktą el. paštu",
+        "description": "Export key menu."
+    },
+    "security_log_password_dialog": {
+        "message": "Slaptažodžio dialogas",
+        "description": "Password dialog as an event source"
+    },
+    "keygrid_export": {
+        "message": "Eksportuoti",
+        "description": "Export key."
+    },
+    "security_log_backup_code_input": {
+        "message": "Input-event in backup code",
+        "description": ""
+    },
+    "keyring_public": {
+        "message": "Viešasis",
+        "description": "public key type"
+    },
+    "keyring_header": {
+        "message": "Raktų tvarkymas",
+        "description": "Header of the key ring."
+    },
+    "keygrid_userid_signatures": {
+        "message": "Parašai",
+        "description": "Signatures on User ID of a PGP key."
+    },
+    "keygrid_upload_alert_accept": {
+        "message": "Išsiųsti viešąjį raktą",
+        "description": "Button text to accept key upload"
+    },
+    "form_cancel": {
+        "message": "Cancel",
+        "description": "Cancel form button."
+    },
+    "recovery_sheet_not_working": {
+        "message": "If your encrypted communication is no longer working, e.g.",
+        "description": "Label for list"
+    },
+    "keygrid_invalid_userid": {
+        "message": "Neteisingas naudotojo ID",
+        "description": "User ID invalid."
+    },
+    "popup_reload_tooltip": {
+        "message": "Iš naujo įkelti visus Mailvelope elementus",
+        "description": "Reload all Mailvelope UI elements on page."
+    },
+    "recovery_sheet_header": {
+        "message": "Svarbi informacija!",
+        "description": "Title of recovery sheet."
+    },
+    "recovery_sheet_backup_local": {
+        "message": "If you would like to exclusively save your data locally on your computer, you will find this option in the encrypted communication settings of your [BRAND] account. ",
+        "description": ""
+    },
+    "keyring_setup_import_key": {
+        "message": "Importuoti raktą",
+        "description": "Import key"
+    },
+    "keyring_setup_no_keypair": {
+        "message": "Raktų pora yra reikalinga, norint šifruoti ir iššifruoti laiškus, o taip pat norint pakviesti savo draugus ištisinio perdavimo šifruotam bendravimui.",
+        "description": "Setup text if no keypair available"
+    },
+    "editor_no_modification_title": {
+        "message": "Unmodified Message",
+        "description": "Title of notification pupup if content not modified."
+    },
+    "settings_security_log": {
+        "message": "Saugumo žurnalas",
+        "description": "Tab of options to display security log."
+    },
+    "keyring_private": {
+        "message": "Privatusis",
+        "description": "private key type"
+    },
+    "keybackup_setup_dialog_list_2": {
+        "message": "In order to transfer it to other devices.",
+        "description": "In order to transfer your encrypted communication to other devices."
+    },
+    "encrypt_dialog_no_recipient": {
+        "message": "Prašome pridėti gavėją.",
+        "description": "Error message if no recipient selected."
+    },
+    "digital_signature_status_null": {
+        "message": "Parašas negali būti patvirtintas",
+        "description": ""
+    },
+    "popup_actived_checkbox": {
+        "message": "Aktyvuotas",
+        "description": "Text of the checkbox for activating/deactivating the plugin"
+    },
+    "editor_sign_caption_short": {
+        "message": "El. laiškas bus skaitmeniškai pasirašytas",
+        "description": ""
+    },
+    "recovery_sheet_provider_security": {
+        "message": "Saugumas",
+        "description": ""
+    },
+    "general_editor_plain": {
+        "message": "Grynasis tekstas",
+        "description": "Editor option: plain text."
+    },
+    "key_import_invalidated_description": {
+        "message": "Encrypted communication with [CONTACT] is no longer possible. The contact needs to re-invite you.",
+        "description": ""
+    },
+    "security_log_editor": {
+        "message": "PGP redaktorius",
+        "description": "Message editor container as an event source"
+    },
+    "recovery_sheet_backup_server": {
+        "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our [BRAND] servers by our security partner Mailvelope.",
+        "description": ""
+    },
+    "security_log_password_click": {
+        "message": "Click-event in password dialog",
+        "description": ""
+    },
+    "clear_localstorage_confirm_message": {
+        "message": "Ar norėtumėte iš šio naršyklės profilio ištrinti visus savo PGP raktus?",
+        "description": "The message of the confirmation dialog."
+    },
+    "recovery_sheet_unlock_backup": {
+        "message": "The backup of your data can only be decrypted with the help of the recovery code on this recovery sheet.",
+        "description": ""
+    },
+    "security_log_backup_dialog_cancel": {
+        "message": "Click-event to close on dialog",
+        "description": ""
+    },
+    "form_undo": {
+        "message": "Atšaukti",
+        "description": "Undo form button."
+    },
+    "keygrid_key_not_expire": {
+        "message": "Šio rakto galiojimas nesibaigia",
+        "description": "Expiration date of a PGP key not set."
+    },
+    "recovery_sheet_print_notice": {
+        "message": "Prašome atsispausdinti šį dokumentą ir laikyti jį saugioje vietoje!",
+        "description": "Sub title of recovery sheet."
+    },
+    "popup_reload": {
+        "message": "Įkelti iš naujo",
+        "description": "Reload all Mailvelope elements on page."
+    },
+    "keygen_dialog_password_placeholder": {
+        "message": "min 4 characters",
+        "description": ""
+    },
+    "recovery_sheet_subtitle_receipt": {
+        "message": "Recovery sheet for encrypted communication",
+        "description": "Sub title of recovery sheet."
+    },
+    "form_no": {
+        "message": "Ne",
+        "description": "No form button."
+    },
+    "options_title": {
+        "message": "Mailvelope parinktys",
+        "description": "Title of options page."
+    },
+    "keygrid_upload_alert_msg": {
+        "message": "You can now upload your public key to the Mailvelope Key Server for automatic lookup in participating OpenPGP plugins. This makes it easier to write encrypted email with your contacts. Give it a try. You can delete your key at any time",
+        "description": "Text of a link to a learn-more resource"
+    },
+    "recovery_sheet_check_settings": {
+        "message": "please check the settings in your account under:",
+        "description": ""
+    },
+    "keybackup_waiting_headline": {
+        "message": "Kuriama atsarginė kopija!",
+        "description": ""
+    },
+    "form_continue": {
+        "message": "Tęsti",
+        "description": "Continue form button."
+    },
+    "security_log_signature_modal_close": {
+        "message": "Click-event to close the signature dialog",
+        "description": ""
+    },
+    "decrypt_popup_header": {
+        "message": "Laiškas",
+        "description": "Header of decrypt popup."
+    },
+    "security_log_backup_dialog_ok": {
+        "message": "Click-event to ok on dialog",
+        "description": ""
+    },
+    "keygrid_status_invalid": {
+        "message": "invalid",
+        "description": "Validity status of a PGP key."
+    },
+    "restore_password_dialog_button": {
+        "message": "Rodyti",
+        "description": ""
+    },
+    "recovery_sheet_data_lost": {
+        "message": "Without a backup, your encrypted messages cannot be decrypted again in case you lose your key password or in case of a defective device or problems with the browser extension!",
+        "description": ""
+    },
+    "security_log_email_viewer": {
+        "message": "Decrypted PGP E-mail",
+        "description": "Email decryption container as an event source"
+    },
+    "editor_no_modification": {
+        "message": "Do you want to send the email without modifications?",
+        "description": "Message of notification pupup if content not modified."
+    },
+    "security_log_text": {
+        "message": "Saugumo žurnalas rodo naudotojo veiksmus visuose Mailvelope komponentuose.",
+        "description": "Text explaining the purpose of the security log"
+    },
+    "keyserver_url_error": {
+        "message": "Raktų serveris nepasiekiamas",
+        "description": "HKP key server URL error."
+    },
+    "keyring_public_private": {
+        "message": "Raktų poros",
+        "description": "public and private key types"
+    },
+    "keygen_dialog_confirm_error_unequal": {
+        "message": "Prašome dar kartą patikrinti savo įvestį.",
+        "description": ""
+    },
+    "keygrid_primary_key": {
+        "message": "Pagrindinis raktas",
+        "description": "Main key in the PGP key."
+    },
+    "security_log_dialog_ok": {
+        "message": "Click-event to confirm on dialog",
+        "description": ""
+    },
+    "recovery_sheet_qr_code": {
+        "message": "Scan the QR code with your mobile device.",
+        "description": ""
+    },
+    "popup_file_encrypting": {
+        "message": "Failų šifravimas",
+        "description": "Title text for file encryption"
+    },
+    "verify_result_success": {
+        "message": "Pasirašė",
+        "description": "Verfiy signature succeeded."
+    },
+    "keygrid_user_ids": {
+        "message": "User IDs",
+        "description": "User IDs of a PGP key."
+    },
+    "security_background_button_title": {
+        "message": "Saugumo fonas gali būti reguliuojamas Mailvelope parinktyse",
+        "description": "The tooltip text for the keylock button"
+    },
+    "keyring_setup_no_keypair_heading": {
+        "message": "Šioje raktinėje kol kas nėra raktų poros.",
+        "description": "Setup heading if no keypair available"
+    },
+    "watchlist_title_scan": {
+        "message": "Būsena",
+        "description": "Scan status of site in watchlist."
+    },
+    "key_recovery_failed": {
+        "message": "Rakto atkūrimas iš atsarginės kopijos nepavyko.",
+        "description": ""
+    },
+    "upload_aborting_warning": {
+        "message": "Failo įkėlimas bus nutrauktas.",
+        "description": "A warning for the aborting of the file upload."
+    },
+    "recovery_sheet_in_general": {
+        "message": "In general, it is important",
+        "description": "Label"
+    },
+    "file_decrypting": {
+        "message": "Iššifravimas",
+        "description": ""
+    },
+    "waiting_dialog_decryption_failed": {
+        "message": "Iššifravimas nepavyko!",
+        "description": "Error message in the waiting dialog after failing to decrypt a message"
+    },
+    "keygen_dialog_confirm": {
+        "message": "Repeat",
+        "description": ""
+    },
+    "recovery_sheet_extension_problems": {
+        "message": "because of problems with the browser extension",
+        "description": "List item"
+    },
+    "general_primary_key_auto_sign": {
+        "message": "Pasirašyti visus laiškus pirminiu raktu",
+        "description": "Label for primary private key option."
+    },
+    "keybackup_setup_dialog_headline": {
+        "message": "Recommendation: Set up a backup",
+        "description": ""
+    },
+    "key_import_textarea": {
+        "message": "Importuoti raktą kaip tekstą",
+        "description": "Label"
+    },
+    "watchlist_command_create": {
+        "message": "Pridėti naują įrašą",
+        "description": "Create entry in watchlist."
+    },
+    "security_log_password_input": {
+        "message": "Input-event in password input",
+        "description": ""
+    },
+    "key_import_hkp_search_btn": {
+        "message": "Ieškoti",
+        "description": ""
+    },
+    "key_gen_name_help": {
+        "message": "Visas rakto savininko vardas",
+        "description": "Help text for name field."
+    },
+    "encrypt_error": {
+        "message": "Nepavyko šifruoti šio laiško: $1",
+        "description": "Error during encryption process."
+    },
+    "popup_actions_current_page": {
+        "message": "Esama kortelė:",
+        "description": "Title text for the reload and add buttons"
+    },
+    "encrypt_dialog_add": {
+        "message": "Pridėti",
+        "description": "Max 6 character."
+    },
+    "alert_invalid_domainmatchpattern_warning": {
+        "message": "Srities šablonas turėtų prasidėti nuo *.",
+        "description": "Alert header of category warning."
+    },
+    "encrypt_upload_file_help": {
+        "message": "Nei vienas iš failų negali būti didesnis nei ## MB.",
+        "description": "Help text"
+    },
+    "keygrid_status_valid": {
+        "message": "valid",
+        "description": "Validity status of a PGP key."
+    },
+    "message_no_keys": {
+        "message": "Šiam laiškui nerastas joks privatusis raktas. Reikalingi privačiojo rakto ID: $1",
+        "description": "Decrypt error message."
+    },
+    "security_cache_off": {
+        "message": "Ne.",
+        "description": "Don't store password."
+    },
+    "keyring_export_keys": {
+        "message": "Eksportuoti raktinę",
+        "description": "Tab of keyring to export keys."
+    },
+    "keygrid_signer_name": {
+        "message": "Signee",
+        "description": "User ID of signer."
+    },
+    "security_log_verify_dialog": {
+        "message": "Verify Dialog",
+        "description": "Verify dialog as an event source"
+    },
+    "dialog_keyid_label": {
+        "message": "Rakto ID:",
+        "description": "Label for key ID."
+    },
+    "pwd_dialog_cache_pwd": {
+        "message": "Laikinai prisiminti slaptažodį",
+        "description": "Checkbox label for remembering of the password."
+    },
+    "popup_remove_page_tooltip": {
+        "message": "Šalinti esamą puslapį iš el. pašto teikėjų sąrašo",
+        "description": "Remove page from watchlist."
+    },
+    "form_import": {
+        "message": "Importuoti",
+        "description": "Import form button."
+    },
+    "editor_encrypt_button": {
+        "message": "Šifruoti",
+        "description": "Encrypt button."
+    },
+    "digital_signature_dialog_header": {
+        "message": "Skaitmeninis parašas",
+        "description": "Header of digital signature dialog."
+    },
+    "key_gen_pwd_reenter": {
+        "message": "Iš naujo įveskite slaptažodį",
+        "description": "Label for passphrase input field"
+    },
+    "encrypt_download_file_button": {
+        "message": "Spustelėkite, norėdami įrašyti failą",
+        "description": "Download icon"
+    },
+    "digital_signature_status_null_description": {
+        "message": "The contact of the digital signature has not yet been confirmed for encrypted communication. Please ask the contact for an invitation.",
+        "description": ""
+    },
+    "pwd_dialog_reason_create_backup": {
+        "message": "Please enter your key password to create a recovery sheet.",
+        "description": ""
+    },
+    "recovery_sheet_print_block": {
+        "message": "Prašome laikyti šį dokumentą saugioje vietoje!",
+        "description": "Sub title of recovery sheet."
+    },
+    "keygrid_user_name": {
+        "message": "Vardas",
+        "description": "Name in User ID of a PGP key."
+    },
+    "pwd_dialog_pwd_please": {
+        "message": "Prašome įvesti savo slaptažodį",
+        "description": "Placeholder for password."
+    },
+    "keybackup_restore_dialog_headline": {
+        "message": "Rekomendacija: Sukurkite atsarginę kopiją",
+        "description": ""
+    },
+    "security_log_timestamp": {
+        "message": "Laiko žyma",
+        "description": "Title of the timestamp column of the security log table."
+    },
+    "keyring_setup_import_key_explanation": {
+        "message": "Ar jau turite raktų porą kitame įrenginyje? Jūs galite importuoti savo esamus raktus. Tiesiog, eksportuokite raktų porą iš kito įrenginio ir tuomet, importuokite ją čia.",
+        "description": "Import key"
+    },
+    "popup_open_page": {
+        "message": "Atverti",
+        "description": "Open page to file encrypt."
+    },
+    "key_import_extend_hint": {
+        "message": "Hint:",
+        "description": ""
+    },
+    "security_display_popup": {
+        "message": "Atskirame Mailvelope iškylančiajame lange.",
+        "description": "Decrypted message display option"
+    },
+    "recovery_sheet_be_aware": {
+        "message": "Turėkite omenyje",
+        "description": "Label"
+    },
+    "key_import_public_update": {
+        "message": "Atnaujintas naudotojo $2 viešasis raktas $1",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "form_submit": {
+        "message": "Pateikti",
+        "description": "Submit form button."
+    },
+    "restore_backup_dialog_headline": {
+        "message": "Prašome įvesti savo atkūrimo kodą:",
+        "description": ""
+    },
+    "editor_no_primary_key_caption_short": {
+        "message": "E-mail cannot be signed digitally",
+        "description": ""
+    },
+    "recovery_sheet_provider_inbox": {
+        "message": "Inbox",
+        "description": ""
+    },
+    "watchlist_record_title": {
+        "message": "El. pašto teikėjas",
+        "description": "Title of the watchlist editor dialog."
+    },
+    "recovery_sheet_other_computer": {
+        "message": "On a different computer",
+        "description": ""
+    },
+    "key_export_clipboard": {
+        "message": "Kopijuoti į iškarpinę",
+        "description": "Copy to clipboard button."
+    },
+    "dialog_popup_close": {
+        "message": "Užverti",
+        "description": "Close decrypt popup."
+    },
+    "recovery_sheet_enter_code": {
+        "message": "For the installation on other computers, enter the recovery code in the settings under:",
+        "description": "Label for navigation path"
+    },
+    "keygrid_upload_success_msg": {
+        "message": "Rakto išsiuntimas sėkmingas.",
+        "description": "Upload success message"
+    },
+    "verify_result_warning": {
+        "message": "Pasirašyta nežinomu raktu",
+        "description": "Verfiy signature warning."
+    },
+    "invalid_primary_key": {
+        "message": "Key is not valid for encryption and signing operations",
+        "description": "Tootip for set as primary key button"
+    },
+    "alert_header_warning": {
+        "message": "Įspėjimas!",
+        "description": "Alert header of category warning."
+    },
+    "digital_signature_status_true": {
+        "message": "Signature is valid",
+        "description": ""
+    },
+    "recovery_sheet_recover_data": {
+        "message": "Recovering data",
+        "description": "Sub title"
+    },
+    "key_gen_key_size": {
+        "message": "Rakto dydis",
+        "description": "Advanced key generation settings: Key size"
+    },
+    "keygen_waiting_headline": {
+        "message": "Setting up encrypted communication",
+        "description": ""
+    },
+    "key_import_hkp_search_public": {
+        "message": "Atlikite viešųjų raktų paiešką raktų serveryje.",
+        "description": ""
+    },
+    "keyserver_tofu_lookup": {
+        "message": "Automatiškai ieškoti gavėjo raktų.",
+        "description": "Enable Mailvelope Key Server Auto Lookup"
+    },
+    "security_log_textarea_input": {
+        "message": "Input-event in text area",
+        "description": "A click in the text area as an event type"
+    },
+    "key_gen_demail": {
+        "message": "De-Mail adresas",
+        "description": "De-Mail address name."
+    },
+    "keygrid_upload_alert_title": {
+        "message": "Nauja ypatybė!",
+        "description": "Text of a link to a learn-more resource"
+    },
+    "keygrid_delete_confirmation": {
+        "message": "Ar tikrai norite pašalinti šį raktą?",
+        "description": "Delete confirmation dialog."
+    },
+    "pwd_dialog_title": {
+        "message": "Įveskite slaptažodį | Mailvelope",
+        "description": "Title of the password dialog."
+    },
+    "encrypt_download_all_button": {
+        "message": "Save all",
+        "description": "Button to download all files"
+    },
+    "security_log_backup_create": {
+        "message": "Click-event for create backup",
+        "description": ""
+    },
+    "keygrid_subkeys": {
+        "message": "Porakčiai",
+        "description": "Subkeys of a PGP key."
+    },
+    "form_clear": {
+        "message": "Išvalyti",
+        "description": "Clear form button."
+    },
+    "pwd_dialog_reason_sign": {
+        "message": "Norėdami pasirašyti šį laišką, įveskite savo rakto slaptažodį.",
+        "description": ""
+    },
+    "key_gen_another": {
+        "message": "Generuoti kitą...",
+        "description": "Key import button"
+    },
+    "recovery_sheet_recommendation": {
+        "message": "Recommendation",
+        "description": ""
+    },
+    "popup_remove_page": {
+        "message": "Šalinti",
+        "description": "Remove page from watchlist."
+    },
+    "keyserver_url_warning": {
+        "message": "Raktų serverio URL privalo būti šio formato: http(s)://keys.example.com",
+        "description": "HKP key server url warning."
+    },
+    "recovery_sheet_provider_settings": {
+        "message": "Nustatymai",
+        "description": ""
+    },
+    "security_log_dialog_transfer": {
+        "message": "Click-event to transfer on dialog",
+        "description": ""
+    },
+    "key_gen_expiration": {
+        "message": "Key expiration date",
+        "description": "Key expiration date"
+    },
+    "security_log_sign_dialog": {
+        "message": "Sign Dialog",
+        "description": "Sign dialog as an event source"
+    },
+    "key_import_hkp_search": {
+        "message": "Raktų paieška",
+        "description": ""
+    },
+    "recovery_sheet_other_problems": {
+        "message": "for other reasons",
+        "description": "List item"
+    },
+    "keygrid_validity_status": {
+        "message": "Būsena",
+        "description": "Validity status of a PGP key."
+    },
+    "keyring_import_keys": {
+        "message": "Importuoti raktus",
+        "description": "Tab of keyring to import keys."
+    },
+    "keygen_dialog_prolog": {
+        "message": "Please assign a password to protect your encrypted communication:",
+        "description": ""
+    },
+    "security_log_key_generator": {
+        "message": "Key Generator",
+        "description": "Key generator container as an event source"
+    },
+    "key_export_create_file": {
+        "message": "Įrašyti",
+        "description": "Download file button."
+    },
+    "alert_no_domainmatchpattern_warning": {
+        "message": "Reikalingas bent vienas srities šablonas.",
+        "description": "Alert header of category warning."
+    },
+    "key_import_public_success": {
+        "message": "Naudotojo $2 viešasis raktas $1 importuotas į raktinę",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "pwd_dialog_reason_editor": {
+        "message": "Norėdami atnaujinti šifruoto bendravimo nustatymus, įveskite savo rakto slaptažodį.",
+        "description": ""
+    },
+    "key_set_as_primary": {
+        "message": "Nustatyti pirminiu",
+        "description": "Set as primary key for the keyring button"
+    },
+    "keygrid_key_fingerprint": {
+        "message": "Kontrolinis kodas",
+        "description": "Unique string identifier for a PGP key."
+    },
+    "keygrid_upload_alert_refuse": {
+        "message": "Ne, ačiū",
+        "description": "Button text to reject key upload"
+    },
+    "editor_error_content": {
+        "message": "Error Content",
+        "description": ""
+    },
+    "keybackup_setup_dialog_button": {
+        "message": "Set up a backup",
+        "description": ""
+    },
+    "pwd_dialog_reason_create_draft": {
+        "message": "Enter key password to save the draft.",
+        "description": ""
+    },
+    "popup_add_page_tooltip": {
+        "message": "Įjungti Mailvelope šiam puslapiui",
+        "description": "Add page to watchlist."
+    },
+    "keygrid_sort_type": {
+        "message": "Rakto tipas",
+        "description": "Key grid sort selector."
+    },
+    "editor_blur_warn": {
+        "message": "Įspėjimas. Tekstų redaktorius prarado fokusą.",
+        "description": "Warning for lost focus."
+    },
+    "header_warning": {
+        "message": "Įspėjimas!",
+        "description": "Header warning."
+    },
+    "keygrid_key_type": {
+        "message": "Tipas",
+        "description": "The type of the key."
+    },
+    "keybackup_failed": {
+        "message": "Rakto atsarginės kopijos kūrimas nepavyko.",
+        "description": ""
+    },
+    "editor_no_primary_key_caption_long": {
+        "message": "El. laiškas negali būti skaitmeniškai pasirašytas, nes trūksta pirminio rakto",
+        "description": ""
+    },
+    "keygen_dialog_confirm_success": {
+        "message": "Input is valid.",
+        "description": ""
+    },
+    "keyring_migration_error": {
+        "message": "Rakto perkėlimo klaida",
+        "description": "Tab of keyring to display migration errors."
+    },
+    "keybackup_restore_dialog_list_2": {
+        "message": "Please create a new recovery sheet for security reasons.",
+        "description": ""
+    },
+    "security_log_attachment_download": {
+        "message": "Priedas atsisiųstas",
+        "description": "Attachment downloaded as an event source"
+    },
+    "security_background_angle": {
+        "message": "Kampas",
+        "description": "Angle"
+    },
+    "key_details_title": {
+        "message": "Išsamesnė rakto informacija",
+        "description": "The title of the key details dialog."
+    },
+    "security_cache_time": {
+        "message": "minučių.",
+        "description": "Store password in memory for $1 minutes."
+    },
+    "wrong_restore_code": {
+        "message": "Neteisingas atkūrimo kodas",
+        "description": ""
+    },
+    "settings_watchlist": {
+        "message": "El. pašto teikėjų sąrašas",
+        "description": "Tab of options to display list of supported mail providers."
+    },
+    "recovery_sheet_key_server": {
+        "message": "Other [BRAND] users who are using the PGP procedure of GMX can be directly found in a central directory in your [BRAND] account. If you do not want to have any entries in this directory, please deactivate this function in your [BRAND] account settings.",
+        "description": ""
+    },
+    "general_editor_rich": {
+        "message": "Raiškiųjų tekstų redaktorius",
+        "description": "Editor option: rich text."
+    },
+    "recovery_sheet_pgp_compat": {
+        "message": "Jūs galite saugiai bendrauti su kitais kontaktais tuo atveju, jeigu jie taip pat naudoja šifruotą bendravimą (PGP).",
+        "description": ""
+    },
+    "recovery_sheet_forgot_password": {
+        "message": "because you forgot the password to your key",
+        "description": "List item"
+    },
+    "security_cache_on": {
+        "message": "Taip, laikyti atmintyje",
+        "description": "Store password in memory for $1 minutes."
+    },
+    "security_log_remove_attachment": {
+        "message": "Priedas pašalintas",
+        "description": "A click on the attachment remove button as event type"
+    },
+    "options_home": {
+        "message": "Parinktys",
+        "description": "Options navigation: Home."
+    },
+    "keygen_dialog_password": {
+        "message": "Rakto slaptažodis",
+        "description": ""
+    },
+    "keybackup_setup_dialog_description": {
+        "message": "The backup is required to ensure your encrypted communication is:",
+        "description": ""
+    },
+    "key_gen_wait_header": {
+        "message": "Rakto generavimas eigoje...",
+        "description": "Wait dialog header"
+    },
+    "watchlist_title_site": {
+        "message": "Svetainė",
+        "description": "Site in watchlist."
+    },
+    "recovery_sheet_other_devices_setup": {
+        "message": "Setting up encrypted communication on other devices",
+        "description": ""
+    },
+    "editor_transfer": {
+        "message": "Transfer",
+        "description": "Transfer button of editor popup."
+    },
+    "keygrid_display_all_keys": {
+        "message": "Rodyti visus raktus",
+        "description": "Export key menu."
+    },
+    "watchlist_expose_api": {
+        "message": "API",
+        "description": "Expose API to Webmailer."
+    },
+    "key_import_extend_fingerprint": {
+        "message": "PGP kontrolinis kodas:",
+        "description": ""
+    },
+    "key_export_warning_private": {
+        "message": "Šiame faile taip pat yra privatieji raktai.",
+        "description": "Key export warning."
+    },
+    "learn_more_link": {
+        "message": "Sužinoti daugiau",
+        "description": "Text of a link to a learn-more resource"
+    },
+    "key_import_invalid_text": {
+        "message": "No valid key text found",
+        "description": "Import error alert."
+    },
+    "keyring_setup_generate_key": {
+        "message": "Generuoti raktą",
+        "description": "Generate key"
+    },
+    "keygrid_upload_error_msg": {
+        "message": "Rakto išsiuntimas nepavyko.",
+        "description": "Upload error message"
+    },
+    "editor_label_add_recipient": {
+        "message": "Pridėkite gavėją",
+        "description": "Label for recipient text input."
+    },
+    "word_or": {
+        "message": "arba",
+        "description": "Separate list of elements."
+    },
+    "key_import_exception": {
+        "message": "Apdorojant raktus, atsirado klaidų",
+        "description": "Import error alert."
+    },
+    "key_import_invalidated_headline": {
+        "message": "Warning: Necessary data for encrypted communication has expired.",
+        "description": "Key import dialog header."
+    },
+    "encrypt_upload_file_warning_too_big": {
+        "message": "Vienas iš failų yra pernelyg didelis.",
+        "description": "."
+    },
+    "recovery_sheet_print_button": {
+        "message": "Spausdinti",
+        "description": ""
+    },
+    "general_editor_type": {
+        "message": "E-mail editor selection",
+        "description": "Label for editor options."
+    },
+    "key_gen_pwd_unequal": {
+        "message": "Slaptažodžiai nesutampa",
+        "description": "Passphrase input field status"
+    },
+    "security_background_scaling": {
+        "message": "Mastelis",
+        "description": "Scaling"
+    },
+    "watchlist_command_edit": {
+        "message": "Keisti",
+        "description": "Edit entry in watchlist."
+    },
+    "decrypt_popup_title": {
+        "message": "Iššifruotas laiškas",
+        "description": "Title of decrypt popup."
+    },
+    "form_close": {
+        "message": "Užverti",
+        "description": "Close form button."
+    },
+    "encrypt_dialog_subheader": {
+        "message": "Asmenys:",
+        "description": "Subheader of encrypt dialog."
+    },
+    "encrypt_download_file_title": {
+        "message": "Įrašyti failą",
+        "description": "Title of download area"
+    },
+    "security_log_signature_modal_open": {
+        "message": "Click-event to open the signature dialog",
+        "description": ""
+    },
+    "security_log_backup_restore": {
+        "message": "Click-event for restore backup",
+        "description": ""
+    },
+    "keybackup_restore_dialog_description": {
+        "message": "Create a new recovery sheet, if:",
+        "description": ""
+    },
+    "key_import_default_headline": {
+        "message": "Pridėti kontaktą prie šifruoto bendravimo?",
+        "description": "Key import dialog header."
+    },
+    "recovery_sheet_mobile_devices": {
+        "message": "On mobile devices",
+        "description": ""
+    },
+    "watchlist_command_save": {
+        "message": "Įrašyti pakeitimus",
+        "description": "Save changes in watchlist."
+    },
+    "cleartext_read_error": {
+        "message": "Nepavyko perskaityti šio grynojo teksto laiško: $1",
+        "description": "Cleartext message read error message: $1: error message."
+    },
+    "editor_header": {
+        "message": "Rašyti el. laišką",
+        "description": "Header of editor popup."
+    },
+    "form_ok": {
+        "message": "Gerai",
+        "description": "Ok form button."
+    },
+    "security_log_encrypt_dialog": {
+        "message": "Encrypt Dialog",
+        "description": "Encrypt dialog as an event source"
+    },
+    "key_import_private_update": {
+        "message": "Updated private key $1 of user $2",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "key_gen_pwd_empty": {
+        "message": "Slaptažodis tuščias",
+        "description": "Passphrase input field status"
+    },
+    "form_save": {
+        "message": "Įrašyti",
+        "description": "Save form button."
+    },
+    "key_import_too_big": {
+        "message": "Rakto tekstas, kurį bandėte importuoti, yra per ilgas, kad jį galima būtų apdoroti. Pabandykite tai padaryti mažesnėmis dalimis.",
+        "description": "Import error alert."
+    },
+    "ext_name": {
+        "message": "Mailvelope",
+        "description": "Name of the extension."
+    },
+    "restore_backup_dialog_button": {
+        "message": "Patvirtinti",
+        "description": ""
+    },
+    "keygrid_expiration_date": {
+        "message": "Galioja iki",
+        "description": "Expiration date of a PGP key."
+    },
+    "restore_password_dialog_headline": {
+        "message": "Jūsų rakto slaptažodis:",
+        "description": ""
+    },
+    "recovery_sheet_other_devices": {
+        "message": "Šifruotas bendravimas kituose įrenginiuose",
+        "description": "Sub title"
+    },
+    "keygen_waiting_description": {
+        "message": "Šifruoto bendravimo nustatymas gali užimti kelias minutes. Jūsų naršyklė gali tapti nereaguojanti. Prašome būti kantriais.",
+        "description": ""
+    },
+    "alert_header_error": {
+        "message": "Klaida!",
+        "description": "Alert header of category error."
+    },
+    "security_log_source": {
+        "message": "Šaltinis",
+        "description": "Title of the source column of the security log table."
+    },
+    "editor_error_header": {
+        "message": "Klaida",
+        "description": ""
+    },
+    "editor_remove_upload": {
+        "message": "Šalinti",
+        "description": "Remove uploaded attachment"
+    },
+    "decrypt_digital_signature_null": {
+        "message": "Nepavyko atpažinti skaitmeninio parašo",
+        "description": "Caption digital signature"
+    },
+    "file_encrypting": {
+        "message": "Šifravimas",
+        "description": ""
+    },
+    "keygrid_no_subkeys": {
+        "message": "Nėra prieinamų porakčių",
+        "description": "No subkeys of a PGP key found."
+    },
+    "keygrid_keyid": {
+        "message": "Rakto ID",
+        "description": "Key ID of a PGP key."
+    },
+    "form_back": {
+        "message": "Atgal",
+        "description": "Back form button."
+    },
+    "sign_dialog_header": {
+        "message": "Pasirašyti laišką, naudojant raktą:",
+        "description": "Header of sign dialog."
+    },
+    "key_import_private_read": {
+        "message": "Nepavyko perskaityti privačiojo rakto: $1",
+        "description": "Import error message. $1: error message"
+    },
+    "popup_help_tooltip": {
+        "message": "Atveria dokumentacijos puslapį",
+        "description": "Opens the help page on mailvelope.com."
+    },
+    "security_log_textarea_select": {
+        "message": "Select-event in text area",
+        "description": "Selection of the text area as an event type"
+    },
+    "keygrid_signer_unknown": {
+        "message": "Unknown signee",
+        "description": "Key of signer not available."
+    },
+    "popup_add_page": {
+        "message": "Pridėti",
+        "description": "Add page to watchlist."
+    },
+    "security_log_dialog_sign": {
+        "message": "Click-event to sign on dialog",
+        "description": ""
+    },
+    "editor_key_not_found_msg": {
+        "message": "All recipients need a PGP key to encrypt. You can still sign the message though.",
+        "description": "Warning for when a recipient key was not found."
+    },
+    "options_docu": {
+        "message": "Dokumentacija",
+        "description": "Options navigation: Documentation."
+    },
+    "keyring_backup": {
+        "message": "Keyring backup",
+        "description": "Title of keyring backup view"
+    },
+    "keyring_keypair": {
+        "message": "Raktų pora",
+        "description": "key pair"
+    },
+    "options_about": {
+        "message": "Apie",
+        "description": "Options navigation: About."
+    },
+    "settings_keyserver": {
+        "message": "Raktų serveris",
+        "description": "Tab of options to display key server settings."
+    },
+    "keygrid_primary_label": {
+        "message": "Pirminis",
+        "description": "Label for the primary key"
+    },
+    "recovery_sheet_unknown_third": {
+        "message": "Only set up encrypted communication on secure devices that cannot be accessed by strangers.",
+        "description": ""
+    },
+    "upload_quota_warning_headline": {
+        "message": "Priedo dydis pernelyg didelis",
+        "description": ""
+    },
+    "key_gen_invalid_email": {
+        "message": "Neteisingas el. pašto adresas",
+        "description": "Error message."
+    },
+    "pwd_dialog_userid": {
+        "message": "User ID:",
+        "description": "Label for user ID."
+    },
+    "encrypting_home": {
+        "message": "Failų šifravimas",
+        "description": "File encryption top navigation."
+    },
+    "decrypt_popup_copy": {
+        "message": "Kopijuoti į iškarpinę",
+        "description": "Copy decrypted message to clipboard."
+    },
+    "form_next": {
+        "message": "Kitas",
+        "description": "Next form button."
+    },
+    "settings_backup": {
+        "message": "Backup",
+        "description": "Tab allowing to backup and restore the settings."
+    },
+    "reload_webmail_tab": {
+        "message": "Norint, kad nustatymai įsigaliotų, prašome iš naujo įkelti savo el. pašto teikėjų puslapį.",
+        "description": "Info message."
+    },
+    "form_yes": {
+        "message": "Taip",
+        "description": "Yes form button."
+    },
+    "keyring_setup_generate_key_explanation": {
+        "message": "Jeigu jūs naudojate šį plėtinį pirmą kartą ir dar neturite raktų poros, tuomet sugeneruokite ją dabar.",
+        "description": "Generate key"
+    },
+    "keygrid_display_priv_key": {
+        "message": "Rodyti privatųjį raktą",
+        "description": "Export key menu."
+    },
+    "ext_description": {
+        "message": "Patobulinkite savo el. pašto teikėją ištisinio perdavimo šifravimu. Saugus bendravimas el. paštu, pagrįstas OpenPGP standartu.",
+        "description": "Description of the extension."
+    },
+    "keybackup_setup_dialog_list_1": {
+        "message": "In order to restore it in case of data loss.",
+        "description": "In order to restore your encrypted communication in case of data loss."
+    },
+    "key_import_default_description": {
+        "message": "Confirm to enable encrypted communication with this recipient.",
+        "description": "Key import dialog description."
+    },
+    "key_gen_advanced_btn": {
+        "message": "Išplėstiniai",
+        "description": "Advanced key generation settings."
+    },
+    "key_import_private_success": {
+        "message": "Private key $1 of user $2 imported into keyring",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "settings_security": {
+        "message": "Saugumas",
+        "description": "Tab of options to display security settings."
+    },
+    "settings_general": {
+        "message": "Bendra",
+        "description": "Tab of options to display general settings."
+    },
+    "form_forward": {
+        "message": "Forward",
+        "description": "Forward form button."
+    },
+    "key_import_unable": {
+        "message": "Nepavyko importuoti rakto dėl išimties: $1",
+        "description": "Import error message: $1: error message."
+    },
+    "editor_sign_caption_long": {
+        "message": "When the E-mail is sent out, it will also be signed digitally",
+        "description": ""
+    },
+    "keygrid_display_pub_key": {
+        "message": "Rodyti viešąjį raktą",
+        "description": "Export key menu."
+    },
+    "upload_quota_exceeded_warning": {
+        "message": "Priedo dydis viršija dydžio apribojimus:",
+        "description": "A warning shown when the attachments upload quota is exceeded."
+    },
+    "recovery_sheet_keep_safe": {
+        "message": "Store a print-out of this document in a safe place and make sure no one else has access to the recovery code.",
+        "description": ""
+    },
+    "keyring_setup": {
+        "message": "Sąranka",
+        "description": "Setup keyring for mail provider."
+    },
+    "keygrid_creation_date": {
+        "message": "Sukūrimo data",
+        "description": "Creation date of a PGP key."
+    },
+    "recovery_sheet_other_contacts": {
+        "message": "Šifruotas bendravimas su kitais kontaktais",
+        "description": ""
+    }
+}
