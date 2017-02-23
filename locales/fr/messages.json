@@ -24,7 +24,7 @@
         "description": "Message keybackup container as an event source"
     },
     "keygrid_all_keys": {
-        "message": "Tout",
+        "message": "All",
         "description": "Selection of key type."
     },
     "editor_key_not_found": {
@@ -255,6 +255,10 @@
         "message": "Options",
         "description": "Open options dialog."
     },
+    "keygrid_export_title": {
+        "message": "Export all keys in this list to file",
+        "description": "Title for Export key button."
+    },
     "security_log_textarea_click": {
         "message": "Evénement clic dans le champ texte",
         "description": "A click in the text area as an event type"
@@ -467,6 +471,10 @@
         "message": "Une paire de clés est nécessaire pour chiffrer et déchiffrer les messages, et si vous souhaitez inviter vos contacts à la communication chiffrée de bout-en-bout.",
         "description": "Setup text if no keypair available"
     },
+    "editor_no_modification_title": {
+        "message": "Unmodified Message",
+        "description": "Title of notification pupup if content not modified."
+    },
     "settings_security_log": {
         "message": "Protocole de sécurité",
         "description": "Tab of options to display security log."
@@ -606,6 +614,10 @@
     "security_log_email_viewer": {
         "message": "Mail PGP déchiffré",
         "description": "Email decryption container as an event source"
+    },
+    "editor_no_modification": {
+        "message": "Do you want to send the email without modifications?",
+        "description": "Message of notification pupup if content not modified."
     },
     "security_log_text": {
         "message": "Le journal de sécurité affiche des actions d'utilisateur en éléments intégrés de Mailvelope.",
@@ -1359,10 +1371,6 @@
         "message": "Signature digitale non identifiée",
         "description": "Caption digital signature"
     },
-    "key_export_too_large": {
-        "message": "La clé est trop grande pour rentrer dans une adresse, utilisez le Copier & Coller à la place.",
-        "description": "Key export warning message."
-    },
     "file_encrypting": {
         "message": "Encryption",
         "description": ""
@@ -1414,6 +1422,10 @@
     "options_docu": {
         "message": "Documentation",
         "description": "Options navigation: Documentation."
+    },
+    "keyring_backup": {
+        "message": "Keyring backup",
+        "description": "Title of keyring backup view"
     },
     "keyring_keypair": {
         "message": "Paire de clés",
@@ -1542,9 +1554,5 @@
     "recovery_sheet_other_contacts": {
         "message": "Communication chiffrée avec d'autres contacts.",
         "description": ""
-    },
-    "key_export_download": {
-        "message": "Télécharger la clé",
-        "description": "Download key link."
     }
 }
