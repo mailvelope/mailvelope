@@ -180,7 +180,7 @@
         "description": ""
     },
     "editor_sign_button": {
-        "message": "Sign Only",
+        "message": "Sólo firmar",
         "description": "Sign button."
     },
     "recovery_sheet_recovery_code": {
@@ -255,6 +255,10 @@
         "message": "Opciones",
         "description": "Open options dialog."
     },
+    "keygrid_export_title": {
+        "message": "Exportar a fichero todas las claves de esta lista",
+        "description": "Title for Export key button."
+    },
     "security_log_textarea_click": {
         "message": "Evento-de-clic en el área de texto",
         "description": "A click in the text area as an event type"
@@ -328,7 +332,7 @@
         "description": "Max. 6 characters."
     },
     "editor_link_file_encryption": {
-        "message": "Encrypt attachments",
+        "message": "Cifrar adjuntos",
         "description": "Navigation link to file encryption"
     },
     "security_log_add_attachment": {
@@ -467,6 +471,10 @@
         "message": "Se necesita un par de claves para cifrar y descifrar mensajes, también si quiere invitar a sus contactos a una comunicación cifrada extremo-a-extremo.",
         "description": "Setup text if no keypair available"
     },
+    "editor_no_modification_title": {
+        "message": "Unmodified Message",
+        "description": "Title of notification pupup if content not modified."
+    },
     "settings_security_log": {
         "message": "Registro (log) de seguridad",
         "description": "Tab of options to display security log."
@@ -492,7 +500,7 @@
         "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "editor_sign_caption_short": {
-        "message": "E-mail will be signed digitally",
+        "message": "El correo electrónico se firmará digitalmente",
         "description": ""
     },
     "recovery_sheet_provider_security": {
@@ -607,6 +615,10 @@
         "message": "Correo PGP descifrado",
         "description": "Email decryption container as an event source"
     },
+    "editor_no_modification": {
+        "message": "Do you want to send the email without modifications?",
+        "description": "Message of notification pupup if content not modified."
+    },
     "security_log_text": {
         "message": "El registro (log) de seguridad muestra acciones del usuario sobre los componentes integrados de Mailvelope.",
         "description": "Text explaining the purpose of the security log"
@@ -688,7 +700,7 @@
         "description": "List item"
     },
     "general_primary_key_auto_sign": {
-        "message": "Sign all messages with primary key",
+        "message": "Firmar todos los mensajes con la clave principal",
         "description": "Label for primary private key option."
     },
     "keybackup_setup_dialog_headline": {
@@ -888,7 +900,7 @@
         "description": "Verfiy signature warning."
     },
     "invalid_primary_key": {
-        "message": "Key is not valid for encryption and signing operations",
+        "message": "La clave no es válida para operaciones de cifrado y firmado",
         "description": "Tootip for set as primary key button"
     },
     "alert_header_warning": {
@@ -1359,10 +1371,6 @@
         "message": "Firma digital no identificada",
         "description": "Caption digital signature"
     },
-    "key_export_too_large": {
-        "message": "La clave es demasiado larga para ajustarse a una URL, en su lugar use Copiar y Pegar.",
-        "description": "Key export warning message."
-    },
     "file_encrypting": {
         "message": "Cifrado",
         "description": ""
@@ -1414,6 +1422,10 @@
     "options_docu": {
         "message": "Documentación",
         "description": "Options navigation: Documentation."
+    },
+    "keyring_backup": {
+        "message": "Copia de respaldo del juego de claves",
+        "description": "Title of keyring backup view"
     },
     "keyring_keypair": {
         "message": "Par de claves",
@@ -1516,7 +1528,7 @@
         "description": "Import error message: $1: error message."
     },
     "editor_sign_caption_long": {
-        "message": "When the E-mail is sent out, it will also be signed digitally",
+        "message": "Cuando se envíe el correo, también se firmará digitalmente",
         "description": ""
     },
     "keygrid_display_pub_key": {
@@ -1542,9 +1554,5 @@
     "recovery_sheet_other_contacts": {
         "message": "Comunicación cifrada con otros contactos",
         "description": ""
-    },
-    "key_export_download": {
-        "message": "Descargar clave",
-        "description": "Download key link."
     }
 }
