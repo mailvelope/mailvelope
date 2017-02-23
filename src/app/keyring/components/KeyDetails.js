@@ -6,7 +6,7 @@
 import * as l10n from '../../../lib/l10n';
 import React from 'react';
 
-import ModalDialog from './ModalDialog';
+import ModalDialog from '../../../components/util/ModalDialog';
 import PrimaryKeyButton from './PrimaryKeyButton';
 
 import KeyDetailsPrimary from './KeyDetailsPrimary';
@@ -23,7 +23,8 @@ l10n.register([
   'keygrid_primary_key',
   'keygrid_subkeys',
   'keygrid_user_ids',
-  'keygrid_export'
+  'keygrid_export',
+  'dialog_popup_close'
 ]);
 
 class KeyDetails extends React.Component {
@@ -40,10 +41,8 @@ class KeyDetails extends React.Component {
 
   render() {
     return (
-      <ModalDialog title={l10n.map.key_details_title} onHide={this.props.onHide} footer={ this.props.keyDetails.type !== 'private' ? null :
-        <span className="pull-left">
-          <PrimaryKeyButton onClick={this.handlePrimaryClick} isPrimary={this.state.isPrimary} disabled={!this.props.keyDetails.validPrimaryKey} />
-        </span>
+      <ModalDialog title={l10n.map.key_details_title} onHide={this.props.onHide} footer={
+        <KeyDetailsFooter keyDetails={this.props.keyDetails} onPrimaryClick={this.handlePrimaryClick} isPrimary={this.state.isPrimary} />
       }>
         <div className="keyDetails">
           <ul className="nav nav-tabs" role="tablist">
@@ -77,6 +76,27 @@ KeyDetails.propTypes = {
   onSetPrimaryKey: React.PropTypes.func,
   onHide: React.PropTypes.func,
   isPrimary: React.PropTypes.bool.isRequired
+};
+
+function KeyDetailsFooter(props) {
+  return (
+    <div>
+      { props.keyDetails.type !== 'private' ? null :
+        <span className="pull-left">
+          <PrimaryKeyButton onClick={props.onPrimaryClick} isPrimary={props.isPrimary} disabled={!props.keyDetails.validPrimaryKey} />
+        </span>
+      }
+      <button type="button" className="btn btn-primary" data-dismiss="modal">
+        <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;{l10n.map.dialog_popup_close}
+      </button>
+    </div>
+  );
 }
+
+KeyDetailsFooter.propTypes = {
+  keyDetails: React.PropTypes.object.isRequired,
+  onPrimaryClick: React.PropTypes.func,
+  isPrimary: React.PropTypes.bool.isRequired
+};
 
 export default KeyDetails;

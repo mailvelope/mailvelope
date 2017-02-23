@@ -3,13 +3,14 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import * as l10n from '../../../lib/l10n';
+import * as l10n from '../../lib/l10n';
 import React from 'react';
 
 'use strict';
 
 l10n.register([
-  'dialog_popup_close'
+  'form_ok',
+  'form_cancel'
 ]);
 
 class ModalDialog extends React.Component {
@@ -32,10 +33,12 @@ class ModalDialog extends React.Component {
               {this.props.children}
             </div>
             <div className="modal-footer">
-              {this.props.footer}
-              <button type="button" className="btn btn-primary" data-dismiss="modal">
-                <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;{l10n.map.dialog_popup_close}
-              </button>
+              {this.props.footer ||
+                <div>
+                  <button type="button" onClick={this.props.onOk} className="btn btn-default" data-dismiss="modal">{l10n.map.form_ok}</button>
+                  <button type="button" onClick={this.props.onCancel} className="btn btn-primary" data-dismiss="modal">{l10n.map.form_cancel}</button>
+                </div>
+              }
             </div>
           </div>
         </div>
@@ -48,7 +51,9 @@ ModalDialog.propTypes = {
   title: React.PropTypes.string,
   footer: React.PropTypes.element,
   children: React.PropTypes.element,
-  onHide: React.PropTypes.func
+  onHide: React.PropTypes.func,
+  onOk: React.PropTypes.func,
+  onCancel: React.PropTypes.func
 }
 
 export default ModalDialog;
