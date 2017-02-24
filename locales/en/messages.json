@@ -107,14 +107,6 @@
     "message": "Encrypt attachments",
     "description": "Navigation link to file encryption"
   },
-  "editor_no_modification": {
-    "message": "Do you want to send the email without modifications?",
-    "description": "Message of notification pupup if content not modified."
-  },
-  "editor_no_modification_title": {
-    "message": "Unmodified Message",
-    "description": "Title of notification pupup if content not modified."
-  },
   "editor_no_primary_key_caption_long": {
     "description": "",
     "message": "E-mail cannot be signed digitally because the primary key is missing"

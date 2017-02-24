@@ -27,7 +27,6 @@ import mvelo from '../../mvelo';
 import EditorFooter from './components/EditorFooter';
 import EditorModalFooter from './components/EditorModalFooter';
 import {RecipientInput} from './components/RecipientInput';
-import ModalDialog from '../util/ModalDialog';
 import * as l10n from '../../lib/l10n';
 import * as fileLib from '../../lib/file';
 
@@ -120,9 +119,7 @@ l10n.register([
   'waiting_dialog_prepare_email',
   'upload_quota_warning_headline',
   'editor_key_not_found',
-  'editor_key_not_found_msg',
-  'editor_no_modification',
-  'editor_no_modification_title'
+  'editor_key_not_found_msg'
 ]);
 
 $(document).ready(init);
@@ -287,14 +284,15 @@ function templatesLoaded() {
  * Send the plaintext body to the background script for either signing or encryption.
  * @param  {String} action   Either 'sign' or 'encrypt'
  */
-function sendPlainText(action) {
+function sendPlainText(action, noCache) {
   port.emit('editor-plaintext', {
     message: editor.val(),
     keys: recipientInputProps.recipients.map(r => r.key || r), // some recipients don't have a key, still return address
     attachments: fileLib.getFiles($('#uploadPanel')),
-    action: action,
+    action,
     signMsg: modalFooterProps.signMsg,
-    signKey: modalFooterProps.signKey.toLowerCase()
+    signKey: modalFooterProps.signKey.toLowerCase(),
+    noCache
   });
 }
 
@@ -384,24 +382,10 @@ function getPlaintext(msg) {
     delayedAction = msg.action;
     return;
   }
-  if (embedded && !msg.draft && !hasUserInput) {
-    // prevent sign & encrypt of message if user has not touched the editor
-    // otherwise any predefinedText could be signed with the client-API
-    unmodifiedContentPrompt(msg.action);
-    return;
-  }
-  sendPlainText(msg.action);
-}
-
-function unmodifiedContentPrompt(action) {
-  const dialogNode = $('#modalDialog').get(0);
-  ReactDOM.render(React.createElement(ModalDialog, {
-    title: l10n.map.editor_no_modification_title,
-    children: l10n.map.editor_no_modification,
-    onHide: () => ReactDOM.unmountComponentAtNode(dialogNode),
-    onOk: () => sendPlainText(action),
-    onCancel: () => port.emit('editor-error', {error: {code: 'ENCRYPT_CANCELED', message: 'User canceled after unmodified message notification'}})
-  }), dialogNode);
+  // don't use key cache when sign & encrypt of message and user has not touched the editor
+  // otherwise any predefinedText could be signed with the client-API
+  const noCache = embedded && !msg.draft && !hasUserInput;
+  sendPlainText(msg.action, noCache);
 }
 
 function onErrorMessage(msg) {

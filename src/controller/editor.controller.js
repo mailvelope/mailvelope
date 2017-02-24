@@ -63,7 +63,6 @@ function EditorController(port) {
   this.on('editor-options', this._onEditorOptions);
   this.on('open-security-settings', this.openSecuritySettings);
   this.on('open-app', this.openApp);
-  this.on('editor-error', this.onEditorError);
 }
 
 EditorController.prototype = Object.create(sub.SubController.prototype);
@@ -93,10 +92,6 @@ EditorController.prototype._onEditorInit = function() {
 EditorController.prototype._onEditorCancel = function() {
   this.editorPopup.close();
   this.editorPopup = null;
-};
-
-EditorController.prototype.onEditorError = function(msg) {
-  this.emit('error-message', {error: msg.error}, this.ports.editorCont);
 };
 
 EditorController.prototype._onEditorContainerEncrypt = function(msg) {
@@ -387,6 +382,7 @@ EditorController.prototype.decryptArmored = function(armored) {
  * @param {String} options.message
  * @param {Array} options.keyIdsHex
  * @param {String} options.signKeyIdHex
+ * @param {Boolean} options.noCache
  * @return {Promise}
  */
 EditorController.prototype.signAndEncryptMessage = function(options) {
@@ -413,6 +409,7 @@ EditorController.prototype.signAndEncryptMessage = function(options) {
     signKey.keyid = signKeyid;
     signKey.keyringId = this.keyringId;
     signKey.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
+    signKey.noCache = options.noCache;
 
     if (this.editorPopup) {
       signKey.openPopup = false;
@@ -494,6 +491,7 @@ EditorController.prototype.transferEncrypted = function(options) {
  * @param {String} options.message
  * @param {String} options.keys
  * @param {Array} options.attachment
+ * @param {Boolean} options.noCache
  * @return {undefined}
  * @error {Error}
  */
@@ -535,6 +533,7 @@ EditorController.prototype._onSignAndEncrypt = function(options) {
  * @param {String} options.message
  * @param {String} options.keys
  * @param {Array} options.attachment
+ * @param {Boolean} options.noCache
  * @return {Promise}
  */
 EditorController.prototype.signAndEncrypt = function(options) {
@@ -552,7 +551,8 @@ EditorController.prototype.signAndEncrypt = function(options) {
         return this.signAndEncryptMessage({
           message: data,
           keyIdsHex: keyIdsHex,
-          signKeyIdHex: options.signKey
+          signKeyIdHex: options.signKey,
+          noCache: options.noCache
         });
       } else {
         return this.encryptMessage({

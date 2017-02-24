@@ -107,14 +107,6 @@
     "message": "Anhänge verschlüsseln",
     "description": "Navigation link to file encryption"
   },
-  "editor_no_modification": {
-    "message": "Wollen Sie die Email ohne Veränderung abschicken?",
-    "description": "Message of notification pupup if content not modified."
-  },
-  "editor_no_modification_title": {
-    "message": "Unmodifizierte Nachricht",
-    "description": "Title of notification pupup if content not modified."
-  },
   "editor_no_primary_key_caption_long": {
     "message": "Die E-Mail kann nicht digital unterschrieben werden, da der Primärschlüssel fehlt.",
     "description": ""

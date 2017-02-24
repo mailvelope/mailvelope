@@ -113,6 +113,7 @@ PwdController.prototype.closePopup = function() {
  * @param {Boolean} [options.openPopup=true] - password popup required (false if dialog appears integrated)
  * @param {Function} [options.beforePasswordRequest] - called before password entry required
  * @param {String} [options.password] - password to unlock key
+ * @param {Boolean} [options.noCache] - bypass cache
  * @return {Promise<Object, Error>} - resolves with unlocked key and password
  */
 PwdController.prototype.unlockKey = function(options) {
@@ -125,7 +126,7 @@ PwdController.prototype.unlockKey = function(options) {
     this.options.openPopup = true;
   }
   var cacheEntry = this.pwdCache.get(this.options.key.primaryKey.getKeyId().toHex(), this.options.keyid);
-  if (cacheEntry) {
+  if (cacheEntry && !options.noCache) {
     return new Promise(function(resolve) {
       that.options.password = cacheEntry.password;
       if (!cacheEntry.key) {
@@ -140,7 +141,7 @@ PwdController.prototype.unlockKey = function(options) {
     });
   } else {
     return new Promise(function(resolve, reject) {
-      if (that.keyIsDecrypted(that.options)) {
+      if (that.keyIsDecrypted(that.options) && !options.noCache) {
         // secret-key data is not encrypted, nothing to do
         return resolve(that.options);
       }
