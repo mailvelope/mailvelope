@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v1.7.1
+-------
+__Feb. 24, 2017__
+
+  * Replace unmodified notification in editor with enforced password prompt on signing of message
+
 v1.7.0
 -------
 __Feb. 23, 2017__
