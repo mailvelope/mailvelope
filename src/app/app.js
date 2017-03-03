@@ -191,7 +191,7 @@ function switchOptionsUI(keyRingAttr) {
     case '#general':
     case '#security':
     case '#watchList':
-    case '#backup':
+    case '#keyserver':
       $('#settingsButton').tab('show');
       activateTabButton(window.location.hash);
       break;

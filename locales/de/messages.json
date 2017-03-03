@@ -19,6 +19,10 @@
     "message": "Mindestens ein Domänen-Übereinstimmungsmuster wird benötigt.",
     "description": "Alert header of category warning."
   },
+  "change_link": {
+    "message": "Ändern?",
+    "description": "Navigation link to change this setting."
+  },
   "clear_localstorage_confirm_message": {
     "message": "Wollen Sie wirklich alle Ihre PGP-Schlüssel aus diesem Browserprofil löschen?",
     "description": "The message of the confirmation dialog."
@@ -506,6 +510,10 @@
   "key_import_hkp_search_ph": {
     "message": "Nach Name, Email Adresse, oder Schlüssel ID",
     "decryption": "Key search input button."
+  },
+  "key_import_hkp_server": {
+      "message": "Schlüssel Server",
+      "decryption": "Key search server label."
   },
   "key_import_invalid_text": {
     "message": "Kein gültiger Schlüsseltext gefunden",

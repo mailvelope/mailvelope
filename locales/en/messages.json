@@ -19,6 +19,10 @@
     "description": "Alert header of category warning.",
     "message": "At least one domain match pattern is needed."
   },
+  "change_link": {
+    "message": "Change?",
+    "description": "Navigation link to change this setting."
+  },
   "clear_localstorage_confirm_message": {
     "description": "The message of the confirmation dialog.",
     "message": "Would you like to delete all your PGP keys from this browser profile?"
@@ -506,6 +510,10 @@
   "key_import_hkp_search_ph": {
       "message": "By name, E-mail address, or key ID",
       "decryption": "Key search input place holder."
+  },
+  "key_import_hkp_server": {
+      "message": "Key server",
+      "decryption": "Key search server label."
   },
   "key_import_invalid_text": {
     "description": "Import error alert.",
