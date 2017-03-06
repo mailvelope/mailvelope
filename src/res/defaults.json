@@ -222,6 +222,17 @@
           "api": false
         }
       ]
+    },
+    {
+      "active": true,
+      "site": "Volný.cz mail",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.mail.volny.cz",
+          "api": false
+        }
+      ]
     }
   ],
   "preferences": {
