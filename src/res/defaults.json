@@ -137,6 +137,28 @@
     },
     {
       "active": true,
+      "site": "volny.cz",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.mail.volny.cz",
+          "api": false
+        }
+      ]
+    },
+    {
+      "active": true,
+      "site": "Zoho",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.mail.zoho.com",
+          "api": false
+        }
+      ]
+    },
+    {
+      "active": true,
       "site": "1und1 De-Mail",
       "frames": [
         {
@@ -209,17 +231,6 @@
           "scan": true,
           "frame": "*.demo.mailvelope.com",
           "api": true
-        }
-      ]
-    },
-    {
-      "active": true,
-      "site": "Zoho",
-      "frames": [
-        {
-          "scan": true,
-          "frame": "*.mail.zoho.com",
-          "api": false
         }
       ]
     }
