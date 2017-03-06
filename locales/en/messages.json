@@ -1495,10 +1495,6 @@
     "description": "Message in the waiting dialog for quoting email",
     "message": "Preparing your message..."
   },
-  "watchlist_command_cancel": {
-    "description": "Cancel changes in watchlist.",
-    "message": "Cancel changes"
-  },
   "watchlist_command_create": {
     "description": "Create entry in watchlist.",
     "message": "Add new entry"
@@ -1506,10 +1502,6 @@
   "watchlist_command_edit": {
     "description": "Edit entry in watchlist.",
     "message": "Edit"
-  },
-  "watchlist_command_save": {
-    "description": "Save changes in watchlist.",
-    "message": "Save changes"
   },
   "watchlist_delete_confirmation": {
     "description": "Mesage in the watchlist delete confirmation dialog.",

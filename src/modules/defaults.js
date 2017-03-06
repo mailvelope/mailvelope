@@ -21,7 +21,7 @@
 var mvelo = require('lib-mvelo');
 var model = require('./pgpModel');
 var openpgp = require('openpgp');
-var defaults = require('../res/defaults.json')
+var defaults = require('../res/defaults.json');
 
 function getRandomAngle() {
   var angle = openpgp.crypto.random.getSecureRandom(0, 120) - 60;

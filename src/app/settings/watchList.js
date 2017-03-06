@@ -40,8 +40,6 @@ l10n.register([
   'watchlist_expose_api',
   'watchlist_command_edit',
   'watchlist_command_create',
-  'watchlist_command_save',
-  'watchlist_command_cancel',
   'watchlist_delete_confirmation',
   'alert_invalid_domainmatchpattern_warning',
   'alert_no_domainmatchpattern_warning',

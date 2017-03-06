@@ -83,7 +83,7 @@
           "scan": true,
           "frame": "*.riseup.net",
           "api": true
-        },
+        }
       ]
     },
     {
