@@ -33,6 +33,7 @@ if (self.options.expose_messaging) {
 
   var extension = {
     _dataPath: self.options.data_path,
+    _dataPathWebex: self.options.data_path_webex,
     onMessage: {},
     port: {}
   };
@@ -58,7 +59,10 @@ if (self.options.expose_messaging) {
     self.port.emit('connect', obj.name);
   }
 
-  function getURL(path) {
+  function getURL(path, webex) {
+    if (webex) {
+      return extension._dataPathWebex + path;
+    }
     return extension._dataPath + path;
   }
 

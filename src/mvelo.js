@@ -136,6 +136,39 @@ mvelo.l10n = mvelo.l10n || mvelo.crx && {
   }
 };
 
+// work around for WebExtensions
+if (typeof window !== 'undefined' && window.browser) {
+  mvelo.l10n = {
+    getMessages: function(ids, callback) {
+      mvelo.extension.sendMessage({
+        event: 'get-l10n-messages',
+        ids: ids
+      }, callback);
+    },
+    localizeHTML: function(l10n, idSelector) {
+      var selector = idSelector ? idSelector + ' [data-l10n-id]' : '[data-l10n-id]';
+      if (l10n) {
+        [].forEach.call(document.querySelectorAll(selector), function(element) {
+          element.textContent = l10n[element.dataset.l10nId] || element.dataset.l10nId;
+        });
+        [].forEach.call(document.querySelectorAll('[data-l10n-title-id]'), function(element) {
+          element.setAttribute("title", l10n[element.dataset.l10nTitleId] || element.dataset.l10nTitleId);
+        });
+      } else {
+        l10n = [].map.call(document.querySelectorAll(selector), function(element) {
+          return element.dataset.l10nId;
+        });
+        [].map.call(document.querySelectorAll('[data-l10n-title-id]'), function(element) {
+          l10n.push(element.dataset.l10nTitleId);
+        });
+        mvelo.l10n.getMessages(l10n, function(result) {
+          mvelo.l10n.localizeHTML(result, idSelector);
+        });
+      }
+    }
+  };
+}
+
 mvelo.util = {};
 
 mvelo.util.sortAndDeDup = function(unordered, compFn) {

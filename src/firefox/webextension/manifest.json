@@ -1,0 +1,18 @@
+{
+
+  "manifest_version": 2,
+  "name": "Mailvelope",
+  "version": "1.7.2",
+
+  "description": "Enhance your webmail provider with end-to-end encryption. Secure email communication based on the OpenPGP standard.",
+  "homepage_url": "https://www.mailvelope.com",
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "web_accessible_resources": [
+    "components/generate-key/keyGenDialog.html"
+  ]
+
+}

@@ -23,8 +23,10 @@ var pageMod = require('sdk/page-mod');
 var unload = require('sdk/system/unload');
 var l10nGet = require("sdk/l10n").get;
 
-var ToggleButton = require("sdk/ui/button/toggle").ToggleButton;
+var ToggleButton = require('sdk/ui/button/toggle').ToggleButton;
 var Panel = require('sdk/panel').Panel;
+
+const webExtension = require('sdk/webextension');
 
 var mvelo = require('./lib-mvelo.js');
 var controller = require('../../controller/main.controller');
@@ -34,6 +36,8 @@ var pageMods = {};
 
 var mailvelopePanel = null;
 
+let webExURL = '';
+
 unload.when(function(reason) {
   // reason is never 'uninstall' https://bugzilla.mozilla.org/show_bug.cgi?id=571049
   if (reason === 'uninstall' || reason === 'disable') {
@@ -42,6 +46,33 @@ unload.when(function(reason) {
       clearStorage();
     }
   }
+});
+
+webExtension.startup().then(api => {
+  const {browser} = api;
+  browser.runtime.onMessage.addListener((msg, sender, sendReply) => {
+    switch (msg.event) {
+      case 'web-extension-path':
+        webExURL = msg.url;
+        init();
+        break;
+      case 'get-l10n-messages':
+        var result = {};
+        msg.ids.forEach(function(id) {
+          result[id] = l10nGet(id);
+        });
+        sendReply(result);
+        break;
+      default:
+        controller.handleMessageEvent(msg, null, resp => sendReply(resp));
+    }
+  });
+  browser.runtime.onConnect.addListener(port => {
+    controller.portManager.addPort(port);
+    port.onMessage.addListener(controller.portManager.handlePortMessage);
+    // update active ports on disconnect
+    port.onDisconnect.addListener(controller.portManager.removePort);
+  });
 });
 
 function init() {
@@ -56,8 +87,6 @@ function init() {
   initAddonButton();
   activatePageMods();
 }
-
-init();
 
 function onPanelMessage(msg) {
   switch (msg.event) {
@@ -114,7 +143,6 @@ function activatePageMods() {
   injectVerifyInline();
   injectEmbeddedEditor();
   injectEmbeddedOptions();
-  injectEmbeddedKeyGen();
   injectEmbeddedKeyBackup();
   injectEmbeddedRestoreBackup();
 }
@@ -139,7 +167,8 @@ function injectMainCS() {
     contentStyle: getDynamicStyle('content-scripts/framestyles.css'),
     contentScriptOptions: {
       expose_messaging: false,
-      data_path: data.url()
+      data_path: data.url(),
+      data_path_webex: webExURL
     },
     contentScriptWhen: 'ready',
     attachTo: ['existing', 'top', 'frame']
@@ -350,32 +379,6 @@ function injectEmbeddedOptions() {
       data.url("dep/bootstrap/css/bootstrap.css"),
       data.url("dep/bootstrap-sortable/bootstrap-sortable.css"),
       data.url("mvelo.css")
-    ],
-    contentScriptWhen: 'ready',
-    attachTo: ['existing', 'frame'],
-    contentScriptOptions: {
-      expose_messaging: false,
-      data_path: data.url()
-    }
-  });
-}
-
-function injectEmbeddedKeyGen() {
-  pageMods.embeddedOptionsPageMod = pageMod.PageMod({
-    include: 'about:blank?mvelo=keyGenDialog*',
-    onAttach: onCsAttach,
-    contentScriptFile: [
-      data.url('dep/jquery.min.js'),
-      data.url('lib/jquery.ext.js'),
-      data.url('lib/messageAdapter.js'),
-      data.url('dep/bootstrap/js/bootstrap.js'),
-      data.url('mvelo.js'),
-      data.url('components/generate-key/keyGenDialog.js')
-    ],
-    contentStyleFile: [
-      data.url("dep/bootstrap/css/bootstrap.css"),
-      data.url("mvelo.css"),
-      data.url("components/generate-key/keyGenDialog.css")
     ],
     contentScriptWhen: 'ready',
     attachTo: ['existing', 'frame'],

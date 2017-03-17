@@ -35,17 +35,12 @@ export default class KeyGenContainer {
    * @returns {mvelo.KeyGenContainer}
    */
   create(done) {
-    var url;
 
     this.done = done;
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');
 
-    if (mvelo.crx) {
-      url = mvelo.extension.getURL('components/generate-key/keyGenDialog.html?id=' + this.id);
-    } else if (mvelo.ffa) {
-      url = 'about:blank?mvelo=keyGenDialog&id=' + this.id;
-    }
+    const url = mvelo.extension.getURL('components/generate-key/keyGenDialog.html?id=' + this.id, mvelo.ffa);
 
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);

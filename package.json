@@ -57,7 +57,7 @@
     "whatwg-fetch": "^1.0.0"
   },
   "engines": {
-    "node": ">=4",
+    "node": ">=6",
     "npm": ">=3"
   },
   "eslintConfig": "config/eslint.json",
