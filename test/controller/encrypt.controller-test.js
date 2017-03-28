@@ -67,19 +67,6 @@ describe('Encrypt controller unit tests', function() {
       expect(ctrl.emit.withArgs('set-editor-output', {text: 'parsed', recipients: testRecipients}).calledOnce).to.be.true;
     });
 
-    it('should work for other editor type', function() {
-      editorCtrlMock.encrypt.yields(null, 'armored', testRecipients);
-      ctrl.prefs.data.returns({
-        general: {
-          editor_type: 'other'
-        }
-      });
-
-      ctrl.openEditor({text: 'foo'});
-
-      expect(ctrl.emit.withArgs('set-editor-output', {text: 'armored', recipients: testRecipients}).calledOnce).to.be.true;
-    });
-
     it('should stop on error', function() {
       editorCtrlMock.encrypt.yields(new Error('foo'));
       ctrl.openEditor({text: 'foo'});

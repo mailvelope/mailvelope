@@ -31,8 +31,6 @@ function init() {
   });
   $('#genBtnSave').click(onSave);
   $('#genBtnCancel').click(onCancel);
-  // disable editor selection
-  $('input:radio[name="editorRadios"]').prop('disabled', true);
 }
 
 function onSave() {
@@ -41,7 +39,6 @@ function onSave() {
   }
   var update = {
     general: {
-      editor_type: $('input:radio[name="editorRadios"]:checked').val(),
       auto_add_primary: $('#autoAddPrimary:checked').length !== 0,
       auto_sign_msg: $('#autoSignMsg:checked').length !== 0
     }
@@ -73,9 +70,6 @@ function loadPrefs() {
     .then(function(prefs) {
       $('#autoAddPrimary').prop('checked', prefs.general.auto_add_primary);
       $('#autoSignMsg').prop('checked', prefs.general.auto_sign_msg);
-      $('input:radio[name="editorRadios"]').filter(function() {
-        return $(this).val() === prefs.general.editor_type;
-      }).prop('checked', true);
     });
 }
 

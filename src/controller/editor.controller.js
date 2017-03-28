@@ -228,7 +228,7 @@ EditorController.prototype.encrypt = function(options, callback) {
   this.options = options;
   this.keyringId = options.keyringId || this.mvelo.LOCAL_KEYRING_ID;
   this.encryptCallback = callback;
-  this.mvelo.windows.openPopup('components/editor/editor.html?id=' + this.id + '&editor_type=' + this.prefs.data().general.editor_type, {width: 820, height: 550, modal: false}, (window) => {
+  this.mvelo.windows.openPopup('components/editor/editor.html?id=' + this.id, {width: 820, height: 550, modal: false}, (window) => {
     this.editorPopup = window;
   });
 };

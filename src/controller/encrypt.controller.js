@@ -58,14 +58,10 @@ EncryptController.prototype.openEditor = function(options) {
       // error message handled in editor controller
       return;
     }
-    // sanitize if content from plain text, rich text already sanitized by editor
-    if (that.prefs.data().general.editor_type == that.mvelo.PLAIN_TEXT) {
-      that.mvelo.util.parseHTML(armored, function(parsed) {
-        that.emit('set-editor-output', {text: parsed, recipients: recipients});
-      });
-    } else {
-      that.emit('set-editor-output', {text: armored, recipients: recipients});
-    }
+    // sanitize if content from plain text
+    that.mvelo.util.parseHTML(armored, function(parsed) {
+      that.emit('set-editor-output', {text: parsed, recipients: recipients});
+    });
   });
 };
 
