@@ -44,6 +44,9 @@ class KeySearch extends React.Component {
     let query = this.query.value;
     query = KEY_ID_REGEX.test(query) ? ('0x' + query) : query; // prepend '0x' to query for key IDs
     let url = this.state.HKP_SERVER_BASE_URL + '/pks/lookup?op=index&search=' + window.encodeURIComponent(query);
+    if (url.includes('keys.mailvelope.com')) {
+      url = url.replace('op=index', 'op=get');
+    }
     openTab(url);
   }
 

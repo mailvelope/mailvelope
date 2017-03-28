@@ -71,6 +71,9 @@ function init() {
       if (typeof prefs.keyserver.mvelo_tofu_lookup == 'undefined') {
         prefs.keyserver.mvelo_tofu_lookup = defaults.preferences.keyserver.mvelo_tofu_lookup;
       }
+      if (typeof prefs.keyserver.hkp_server_list == 'undefined') {
+        prefs.keyserver.hkp_server_list = defaults.preferences.keyserver.hkp_server_list;
+      }
 
       // merge watchlist on version change
       mergeWatchlist(defaults);

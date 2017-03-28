@@ -20,7 +20,7 @@
     "message": "At least one domain match pattern is needed."
   },
   "change_link": {
-    "message": "Change?",
+    "message": "Change",
     "description": "Navigation link to change this setting."
   },
   "clear_localstorage_confirm_message": {

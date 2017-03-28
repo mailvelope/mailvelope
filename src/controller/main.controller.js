@@ -92,6 +92,12 @@ function handleMessageEvent(request, sender, sendResponse) {
       }
       specific.initScriptInjection();
       break;
+    case 'init-script-injection':
+      if (mvelo.ffa) {
+        reloadFrames(true);
+      }
+      specific.initScriptInjection();
+      break;
     case 'get-all-keyring-attr':
       try {
         sendResponse({result: keyring.getAllKeyringAttr()});
@@ -334,12 +340,16 @@ function reduceHosts(hosts) {
 }
 
 function getWatchListFilterURLs() {
-  var result = [];
+  let result = [];
   model.getWatchList().forEach(function(site) {
     site.active && site.frames && site.frames.forEach(function(frame) {
       frame.scan && result.push(frame.frame);
     });
   });
+  // add hkp key server to enable key import
+  let hkpHost = model.getHostname(prefs.data().keyserver.hkp_base_url);
+  hkpHost = reduceHosts([hkpHost]);
+  result.push(...hkpHost);
   if (result.length !== 0) {
     result = mvelo.util.sortAndDeDup(result);
   }

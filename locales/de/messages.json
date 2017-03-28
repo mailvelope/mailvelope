@@ -20,7 +20,7 @@
     "description": "Alert header of category warning."
   },
   "change_link": {
-    "message": "Ändern?",
+    "message": "Ändern",
     "description": "Navigation link to change this setting."
   },
   "clear_localstorage_confirm_message": {

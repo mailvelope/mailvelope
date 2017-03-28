@@ -20,10 +20,12 @@
 import mvelo from '../mvelo';
 import $ from 'jquery';
 
+import React from 'react';
+import ReactDOM from 'react-dom';
 import event from './util/event';
 import * as l10n from '../lib/l10n';
 import './settings/general';
-import './settings/keyserver';
+import KeyServer from './settings/keyserver';
 import './settings/security';
 import {startSecurityLogMonitoring} from './settings/securityLog';
 import {addToWatchList} from './settings/watchList';
@@ -64,7 +66,6 @@ function init() {
       mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('app/settings/tpl/watchList.html')),
       mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('app/settings/tpl/watchListEditor.html')),
       mvelo.appendTpl($('#securityLog'), mvelo.extension.getURL('app/settings/tpl/securityLog.html')),
-      mvelo.appendTpl($('#keyserver'), mvelo.extension.getURL('app/settings/tpl/keyserver.html')),
       mvelo.appendTpl($('#displayKeys'), mvelo.extension.getURL('app/keyring/tpl/displayKeys.html')),
       mvelo.appendTpl($('#setupProvider'), mvelo.extension.getURL('app/keyring/tpl/setupProvider.html')),
       mvelo.appendTpl($('#encrypting'), mvelo.extension.getURL('app/fileEncrypt/encrypt.html'))
@@ -73,6 +74,10 @@ function init() {
   .then(function() {
     // load language strings from json files
     return l10n.mapToLocal();
+  })
+  .then(() => {
+    // render React components
+    ReactDOM.render(React.createElement(KeyServer), $('#keyserver').get(0));
   })
   .then(function() {
     // set localized strings
