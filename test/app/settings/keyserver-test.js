@@ -8,17 +8,16 @@ describe('Key server settings unit tests', function() {
   var keyserver;
 
   beforeEach(() => {
-    sinon.stub(app, 'pgpModel', () => {
-      return Promise.resolve({
-        keyserver: {
-          hkp_base_url: 'https://keyserver.ubuntu.com',
-          hkp_server_list: [
-            'https://keyserver.ubuntu.com',
-            'https://keys.mailvelope.com'
-          ],
-          mvelo_tofu_lookup: true
-        }
-      });
+    sinon.stub(app, 'pgpModel')
+    .resolves({
+      keyserver: {
+        hkp_base_url: 'https://keyserver.ubuntu.com',
+        hkp_server_list: [
+          'https://keyserver.ubuntu.com',
+          'https://keys.mailvelope.com'
+        ],
+        mvelo_tofu_lookup: true
+      }
     });
     keyserver = new KeyServer();
     keyserver.state.hkp_base_url = 'https://keyserver.ubuntu.com';
@@ -30,7 +29,7 @@ describe('Key server settings unit tests', function() {
 
   describe('init', () => {
     it('should call pgpModel', () => {
-      app.pgpModel.reset();
+      app.pgpModel.resetHistory();
       keyserver.init();
 
       expect(app.pgpModel.calledOnce).to.be.true;
