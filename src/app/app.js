@@ -38,6 +38,9 @@ var currentKeyringId = null;
 export {currentKeyringId as keyringId};
 var currentPrimaryKeyId = null;
 export {currentPrimaryKeyId as primaryKeyId};
+export function setPrimaryKeyId(keyId) {
+  currentPrimaryKeyId = keyId;
+}
 
 const DEMAIL_SUFFIX = 'de-mail.de';
 export let isDemail = false; // is current keyring created by de-mail

@@ -7,14 +7,14 @@ var pjson = require('../package.json');
 
 const entry = './src/firefox/lib/main.js';
 const output = {
-  path: './build/firefox/lib',
+  path: path.resolve('./build/firefox/lib'),
   pathinfo: true,
   filename: 'main.bundle.js',
   libraryTarget: 'commonjs2'
 };
 const externals = [/sdk\//, 'chrome'];
 const resolve = {
-  modulesDirectories: ["bower_components", "node_modules"],
+  modules: ["bower_components", "node_modules"],
   alias: {
     'lib-mvelo': path.resolve('./src/firefox/lib/lib-mvelo'),
     openpgp: path.resolve('./dep/firefox/openpgpjs/dist/openpgp'),
@@ -32,18 +32,7 @@ const prod = {
   externals,
 
   module: {
-    loaders: [{
-      test: /\.json$/,
-      loader: 'json'
-    },
-    {
-      test: /defaults\.json$/,
-      loader: 'string-replace',
-      query: {
-        search: '@@mvelo_version',
-        replace: pjson.version
-      }
-    }]
+    rules: [common.replaceVersion(pjson.version)]
   },
 
   plugins: common.plugins('production')
@@ -52,7 +41,8 @@ const prod = {
 
 const dev = {
 
-  devtool: 'cheap-module-source-map',
+  // only source-map type 'eval' working in Firefox
+  //devtool: 'cheap-source-map',
 
   entry,
   output,
@@ -60,18 +50,7 @@ const dev = {
   externals,
 
   module: {
-    loaders: [{
-      test: /\.json$/,
-      loader: 'json'
-    },
-    {
-      test: /defaults\.json$/,
-      loader: 'string-replace',
-      query: {
-        search: '@@mvelo_version',
-        replace: pjson.version + ' build: ' + (new Date()).toISOString().slice(0, 19)
-      }
-    }]
+    rules: [common.replaceVersion(pjson.version + ' build: ' + (new Date()).toISOString().slice(0, 19))]
   },
 
   plugins: common.plugins('development')

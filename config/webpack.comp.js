@@ -1,6 +1,7 @@
 
 'use strict';
 
+var path = require('path');
 var common = require('./webpack.common');
 
 const externals = {
@@ -15,7 +16,7 @@ function prod(pathname, filename) {
     entry: './src/components/' + pathname + '/' + filename,
 
     output: {
-      path: './build/tmp/components/' + pathname,
+      path: path.resolve('./build/tmp/components/' + pathname),
       pathinfo: true,
       filename: filename + '.bundle.js'
     },
@@ -37,7 +38,7 @@ function dev(pathname, filename) {
     entry: './src/components/' + pathname + '/' + filename,
 
     output: {
-      path: './build/tmp/components/' + pathname,
+      path: path.resolve('./build/tmp/components/' + pathname),
       pathinfo: true,
       filename: filename + '.bundle.js'
     },

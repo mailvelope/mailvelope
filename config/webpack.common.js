@@ -20,32 +20,55 @@ function plugins(env) {
 
 function react() {
   return {
-    loaders: [{
+    rules: [{
       test: /\.js$/,
       exclude: /(node_modules|bower_components)/,
-      loader: 'babel',
-      query: {
+      loader: 'babel-loader',
+      options: {
         cacheDirectory: true,
-        presets: ['react'],
-        plugins: ['babel-plugin-transform-es2015-modules-commonjs',
-                  'transform-es2015-parameters',
-                  'transform-es2015-destructuring'
-        ]
+        presets: ['react']
       }
     },
     {
       test: /\.css$/,
-      loader: 'style!css?-url'
+      use: [{
+        loader: 'style-loader'
+      },
+      {
+        loader: 'css-loader',
+        options: {
+          url: false
+        }
+      }]
     }]
   };
 }
 
 function resolve() {
   return {
-    modulesDirectories: ["bower_components", "node_modules"],
+    modules: ["bower_components", "node_modules"],
+  };
+}
+
+function replaceVersion(version) {
+  return {
+    test: /defaults\.json$/,
+    use: [
+      {
+        loader: 'string-replace-loader',
+        options: {
+          search: '@@mvelo_version',
+          replace: version
+        }
+      },
+      {
+        loader: 'json-loader'
+      }
+    ]
   };
 }
 
 exports.plugins = plugins;
 exports.module = {react};
 exports.resolve = resolve;
+exports.replaceVersion = replaceVersion;

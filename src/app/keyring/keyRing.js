@@ -104,12 +104,12 @@ function reload() {
   app.getAllKeyringAttr()
   .then(function(result) {
     if (result) {
-      app.primaryKeyId = null;
+      app.setPrimaryKeyId(null);
       for (var keyRingId in result) {
         var obj = result[keyRingId];
         if (obj.hasOwnProperty('primary_key')) {
           if (app.keyringId === keyRingId) {
-            app.primaryKeyId = obj.primary_key;
+            app.setPrimaryKeyId(obj.primary_key);
           }
         }
       }
@@ -213,7 +213,7 @@ function setPrimaryKey(primaryKeyId) {
   setKeyringAttr(app.keyringId, {
     primary_key: primaryKeyId
   });
-  app.primaryKeyId = primaryKeyId;
+  app.setPrimaryKeyId(primaryKeyId);
   event.triggerHandler('keygrid-reload');
 }
 

@@ -7,12 +7,12 @@ var pjson = require('../package.json');
 
 const entry = './src/chrome/background.js';
 const output = {
-  path: './build/chrome',
+  path: path.resolve('./build/chrome'),
   pathinfo: true,
   filename: 'background.bundle.js'
 };
 const resolve = {
-  modulesDirectories: ["bower_components", "node_modules"],
+  modules: ["bower_components", "node_modules"],
   alias: {
     'lib-mvelo': path.resolve('./src/chrome/lib/lib-mvelo'),
     openpgp: path.resolve('./dep/chrome/openpgpjs/dist/openpgp'),
@@ -28,18 +28,7 @@ const prod = {
   resolve,
 
   module: {
-    loaders: [{
-      test: /\.json$/,
-      loader: 'json'
-    },
-    {
-      test: /defaults\.json$/,
-      loader: 'string-replace',
-      query: {
-        search: '@@mvelo_version',
-        replace: pjson.version
-      }
-    }],
+    rules: [common.replaceVersion(pjson.version)],
     noParse: /openpgp\.js$/
   },
 
@@ -49,24 +38,13 @@ const prod = {
 
 const dev = {
 
-  devtool: 'cheap-module-source-map',
+  devtool: 'cheap-source-map',
   entry,
   output,
   resolve,
 
   module: {
-    loaders: [{
-      test: /\.json$/,
-      loader: 'json'
-    },
-    {
-      test: /defaults\.json$/,
-      loader: 'string-replace',
-      query: {
-        search: '@@mvelo_version',
-        replace: pjson.version + ' build: ' + (new Date()).toISOString().slice(0, 19)
-      }
-    }],
+    rules: [common.replaceVersion(pjson.version + ' build: ' + (new Date()).toISOString().slice(0, 19))],
     noParse: /openpgp\.js$/
   },
 
