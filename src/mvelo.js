@@ -63,7 +63,7 @@ mvelo.appendTpl = function($element, path) {
     return new Promise(function(resolve) {
       mvelo.data.load(path, function(result) {
         $element.append($.parseHTML(result));
-        resolve($element);
+        setTimeout(() => resolve($element), 1);
       });
     });
   } else {
@@ -74,7 +74,7 @@ mvelo.appendTpl = function($element, path) {
       req.onload = function() {
         if (req.status == 200) {
           $element.append($.parseHTML(req.response));
-          resolve($element);
+          setTimeout(() => resolve($element), 1);
         } else {
           reject(new Error(req.statusText));
         }
