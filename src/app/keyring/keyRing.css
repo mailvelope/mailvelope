@@ -14,16 +14,6 @@
   font-size: 13px;
 }
 
-#exportDownload a {
-  font-size: 14px;
-  margin-left: 5px;
-}
-
-#exportDownload > input {
-  display: inline-block;
-  width: 250px;
-}
-
 #keyringFilterBtn {
   width: auto;
   display: inline-block;

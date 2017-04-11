@@ -130,7 +130,7 @@ module.exports = function(grunt) {
         },
         {
           expand: true,
-          cwd: 'bower_components/dompurify/src',
+          cwd: 'node_modules/dompurify/src',
           src: 'purify.js',
           dest: 'build/firefox/data/dep/'
         }]
@@ -157,6 +157,14 @@ module.exports = function(grunt) {
             '!firefox/lib/*'
           ],
           dest: 'build/'
+        },
+        {
+          expand: true,
+          cwd: 'src/',
+          src: [
+            'components/generate-key/**/*'
+          ],
+          dest: 'build/firefox/webextension'
         }]
       },
 
@@ -197,6 +205,30 @@ module.exports = function(grunt) {
           cwd: 'build/tmp/',
           src: '**/*',
           dest: 'build/firefox/data'
+        },
+        {
+          expand: true,
+          cwd: 'build/tmp/',
+          src: 'dep/bootstrap/**/*',
+          dest: 'build/firefox/webextension'
+        },
+        {
+          expand: true,
+          cwd: 'build/tmp/',
+          src: 'mvelo.*',
+          dest: 'build/firefox/webextension'
+        },
+        {
+          expand: true,
+          cwd: 'build/tmp/',
+          src: 'dep/jquery.*',
+          dest: 'build/firefox/webextension'
+        },
+        {
+          expand: true,
+          cwd: 'build/tmp/',
+          src: 'lib/jquery.*',
+          dest: 'build/firefox/webextension'
         }]
       },
 

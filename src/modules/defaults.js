@@ -21,7 +21,7 @@
 var mvelo = require('lib-mvelo');
 var model = require('./pgpModel');
 var openpgp = require('openpgp');
-var defaults = require('../res/defaults.json')
+var defaults = require('../res/defaults.json');
 
 function getRandomAngle() {
   var angle = openpgp.crypto.random.getSecureRandom(0, 120) - 60;
@@ -70,6 +70,9 @@ function init() {
       }
       if (typeof prefs.keyserver.mvelo_tofu_lookup == 'undefined') {
         prefs.keyserver.mvelo_tofu_lookup = defaults.preferences.keyserver.mvelo_tofu_lookup;
+      }
+      if (typeof prefs.keyserver.hkp_server_list == 'undefined') {
+        prefs.keyserver.hkp_server_list = defaults.preferences.keyserver.hkp_server_list;
       }
 
       // merge watchlist on version change

@@ -63,7 +63,7 @@ mvelo.appendTpl = function($element, path) {
     return new Promise(function(resolve) {
       mvelo.data.load(path, function(result) {
         $element.append($.parseHTML(result));
-        resolve($element);
+        setTimeout(() => resolve($element), 1);
       });
     });
   } else {
@@ -74,7 +74,7 @@ mvelo.appendTpl = function($element, path) {
       req.onload = function() {
         if (req.status == 200) {
           $element.append($.parseHTML(req.response));
-          resolve($element);
+          setTimeout(() => resolve($element), 1);
         } else {
           reject(new Error(req.statusText));
         }
@@ -135,6 +135,39 @@ mvelo.l10n = mvelo.l10n || mvelo.crx && {
     });
   }
 };
+
+// work around for WebExtensions
+if (typeof window !== 'undefined' && window.browser) {
+  mvelo.l10n = {
+    getMessages: function(ids, callback) {
+      mvelo.extension.sendMessage({
+        event: 'get-l10n-messages',
+        ids: ids
+      }, callback);
+    },
+    localizeHTML: function(l10n, idSelector) {
+      var selector = idSelector ? idSelector + ' [data-l10n-id]' : '[data-l10n-id]';
+      if (l10n) {
+        [].forEach.call(document.querySelectorAll(selector), function(element) {
+          element.textContent = l10n[element.dataset.l10nId] || element.dataset.l10nId;
+        });
+        [].forEach.call(document.querySelectorAll('[data-l10n-title-id]'), function(element) {
+          element.setAttribute("title", l10n[element.dataset.l10nTitleId] || element.dataset.l10nTitleId);
+        });
+      } else {
+        l10n = [].map.call(document.querySelectorAll(selector), function(element) {
+          return element.dataset.l10nId;
+        });
+        [].map.call(document.querySelectorAll('[data-l10n-title-id]'), function(element) {
+          l10n.push(element.dataset.l10nTitleId);
+        });
+        mvelo.l10n.getMessages(l10n, function(result) {
+          mvelo.l10n.localizeHTML(result, idSelector);
+        });
+      }
+    }
+  };
+}
 
 mvelo.util = {};
 
@@ -205,6 +238,28 @@ mvelo.util.decodeQuotedPrint = function(armored) {
     .replace(/=3D=3D\s*$/m, "==")
     .replace(/=3D\s*$/m, "=")
     .replace(/=3D(\S{4})\s*$/m, "=$1");
+};
+
+/**
+ * Normalize PGP armored message
+ * @param  {String} msg
+ * @param  {Regex} typeRegex - filter message with this Regex
+ * @return {String}
+ */
+mvelo.util.normalizeArmored = function(msg, typeRegex) {
+  // filtering to get well defined PGP message format
+  msg = msg.replace(/\r\n/g, '\n'); // unify new line characters
+  msg = msg.replace(/\n\s+/g, '\n'); // compress sequence of whitespace and new line characters to one new line
+  msg = msg.replace(/[^\S\r\n]/g, ' '); // unify white space characters (all \s without \r and \n)
+  if (typeRegex) {
+    msg = msg.match(typeRegex)[0];
+  }
+  msg = msg.replace(/^(\s?>)+/gm, ''); // remove quotation
+  msg = msg.replace(/^\s+/gm, ''); // remove leading whitespace
+  msg = msg.replace(/:.*\n(?!.*:)/, '$&\n');  // insert new line after last armor header
+  msg = msg.replace(/-----\n(?!.*:)/, '$&\n'); // insert new line if no header
+  msg = mvelo.util.decodeQuotedPrint(msg);
+  return msg;
 };
 
 mvelo.util.text2html = function(text) {

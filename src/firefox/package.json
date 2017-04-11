@@ -16,8 +16,9 @@
     "multiprocess": true
   },
   "engines": {
-    "firefox": ">=45.0 || <=53.*"
+    "firefox": ">=52.0 || <=54.*"
   },
+  "hasEmbeddedWebExtension": true,
   "locales": {
     "ar": {
       "description": "عَزِّز مزود بريدك الإلكتروني عبر الشبكة العنكبوتية بالتعمية من طرف لطرف. أَمِّن اتصالاتك بالبريد الإلكتروني وفق معيار OpenPGP."

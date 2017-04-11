@@ -6,18 +6,18 @@ var path = require('path');
 
 module.exports = {
 
-  devtool: 'source-map',
+  devtool: 'cheap-source-map',
 
   entry: './test/test.js',
 
   output: {
-    path: './build/test',
+    path: path.resolve('./build/test'),
     pathinfo: true,
     filename: 'test.bundle.js'
   },
 
   resolve: {
-    modulesDirectories: ["bower_components", "node_modules"],
+    modules: ["bower_components", "node_modules"],
     alias: {
       'lib-mvelo': path.resolve('./src/chrome/lib/lib-mvelo'),
       openpgp: path.resolve('./dep/chrome/openpgpjs/dist/openpgp'),
@@ -31,21 +31,25 @@ module.exports = {
   },
 
   module: {
-    loaders: [{
-      test: /\.json$/,
-      loader: 'json'
-    },
-    {
+    rules: [{
       test: /\.js$/,
       exclude: /(node_modules|bower_components)/,
-      loader: 'babel',
-      query: {
+      loader: 'babel-loader',
+      options: {
         presets: ['babel-preset-es2015', 'react']
       }
     },
     {
       test: /\.css$/,
-      loader: 'style!css?-url'
+      use: [{
+        loader: 'style-loader'
+      },
+      {
+        loader: 'css-loader',
+        options: {
+          url: false
+        }
+      }]
     }]
   },
 

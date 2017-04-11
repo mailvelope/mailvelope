@@ -18,7 +18,6 @@ import SyncHandler from './syncHandler';
 
 const containers = new Map();
 
-export let active = false;
 // must be a singelton
 let syncHandler = null;
 

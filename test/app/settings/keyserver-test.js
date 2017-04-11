@@ -1,117 +1,77 @@
 
 import KeyServer from '../../../src/app/settings/keyserver';
+import * as app from '../../../src/app/app';
 
 
 describe('Key server settings unit tests', function() {
 
-  var keyserver, appMock, mveloMock, l10nMock, eventMock;
-  var hkpUrl = 'https://keyserver.ubuntu.com';
+  var keyserver;
 
-  beforeEach(function() {
-    mveloMock = {extension: {sendMessage: function() {}}};
-    appMock = {pgpModel: function() {}};
-    eventMock = {triggerHandler: function() {}};
-    l10nMock = {map: {}};
-    keyserver = new KeyServer(mveloMock, appMock, eventMock, l10nMock);
-
-    keyserver._inputHkpUrl = {val: function() {}};
-    keyserver._checkBoxTOFU = {prop: function() {}};
-    keyserver._saveBtn = {prop: function() {}};
-    keyserver._cancelBtn = {prop: function() {}};
-    keyserver._alert = {showAlert: function() {}};
+  beforeEach(() => {
+    sinon.stub(app, 'pgpModel')
+    .resolves({
+      keyserver: {
+        hkp_base_url: 'https://keyserver.ubuntu.com',
+        hkp_server_list: [
+          'https://keyserver.ubuntu.com',
+          'https://keys.mailvelope.com'
+        ],
+        mvelo_tofu_lookup: true
+      }
+    });
+    keyserver = new KeyServer();
+    keyserver.state.hkp_base_url = 'https://keyserver.ubuntu.com';
   });
 
-  afterEach(function() {});
+  afterEach(() => {
+    app.pgpModel.restore();
+  });
 
-  describe('init', function() {
-    it('should work', function() {
-      sinon.stub(keyserver, 'loadPrefs');
-
+  describe('init', () => {
+    it('should call pgpModel', () => {
+      app.pgpModel.resetHistory();
       keyserver.init();
 
-      expect(keyserver.loadPrefs.calledOnce).to.be.true;
-    });
-  });
-
-  describe('onChangeHkpUrl', function() {
-    beforeEach(function() {
-      sinon.stub(keyserver, 'normalize');
-      sinon.stub(keyserver._inputHkpUrl, 'val');
-      sinon.stub(keyserver._saveBtn, 'prop');
+      expect(app.pgpModel.calledOnce).to.be.true;
     });
 
-    it('should warn for invalid url', function() {
-      keyserver._inputHkpUrl.val.returns('https//keyserver.ubuntu.com');
-
-      expect(keyserver.onChangeHkpUrl()).to.be.false;
-
-      expect(keyserver.normalize.calledOnce).to.be.true;
-    });
-
-    it('should enable buttons for valid url', function() {
-      keyserver._inputHkpUrl.val.returns(hkpUrl);
-
-      keyserver.onChangeHkpUrl();
-
-      expect(keyserver.normalize.calledOnce).to.be.true;
-      expect(keyserver._saveBtn.prop.calledOnce).to.be.true;
-    });
-  });
-
-  describe('onChangeTOFU', function() {
-    beforeEach(function() {
-      sinon.stub(keyserver, 'normalize');
-      sinon.stub(keyserver._saveBtn, 'prop');
-    });
-
-    it('should enable buttons', function() {
-      keyserver.onChangeTOFU();
-
-      expect(keyserver.normalize.calledOnce).to.be.true;
-      expect(keyserver._saveBtn.prop.calledOnce).to.be.true;
-    });
-  });
-
-  describe('save', function() {
-    beforeEach(function() {
-      sinon.stub(keyserver, 'normalize');
-      sinon.stub(mveloMock.extension, 'sendMessage').yields();
-      sinon.stub(eventMock, 'triggerHandler');
-      sinon.stub(keyserver._alert, 'showAlert');
-      sinon.stub(keyserver._inputHkpUrl, 'val').returns('url');
-      sinon.stub(keyserver._checkBoxTOFU, 'prop').returns(true);
-    });
-
-    it('should trigger update event on success', function() {
-      sinon.stub(keyserver, 'testUrl').returns(Promise.resolve());
-
-      return keyserver.save().then(function() {
-        expect(mveloMock.extension.sendMessage.withArgs({event: 'set-prefs', data: {
-          keyserver: {hkp_base_url: 'url', mvelo_tofu_lookup: true}
-        }}).calledOnce).to.be.true;
-        expect(eventMock.triggerHandler.withArgs('hkp-url-update').calledOnce).to.be.true;
-      });
-    });
-
-    it('should show error on failure', function() {
-      sinon.stub(keyserver, 'testUrl').returns(Promise.reject());
-
-      return keyserver.save().then(function() {
-        expect(eventMock.triggerHandler.called).to.be.false;
-        expect(keyserver._alert.showAlert.calledOnce).to.be.true;
+    it('should set state', () => {
+      sinon.stub(keyserver, 'setState')
+      keyserver.init()
+      .then(() => {
+        expect(keyserver.setState.withArgs({
+          hkp_base_url: 'https://keyserver.ubuntu.com',
+          valid_base_url: true,
+          hkp_server_list: [
+            {value: 'https://keyserver.ubuntu.com', label: 'https://keyserver.ubuntu.com'},
+            {value: 'https://keys.mailvelope.com', label: 'https://keys.mailvelope.com'}
+          ],
+          mvelo_tofu_lookup: true,
+          alert: null,
+          modified: false
+        }).calledOnce).to.be.true
       });
     });
   });
 
-  describe('cancel', function() {
-    it('should work', function() {
-      sinon.stub(keyserver, 'normalize');
-      sinon.stub(keyserver, 'loadPrefs');
+  describe('handleCheck', () => {
+    it('should set state', () => {
+      sinon.stub(keyserver, 'setState')
+      keyserver.handleCheck({target: {name: 'test', checked: true}});
+      expect(keyserver.setState.withArgs({test: true, modified: true}).calledOnce).to.be.true
+    });
+  });
 
-      expect(keyserver.cancel()).to.be.false;
-
-      expect(keyserver.normalize.calledOnce).to.be.true;
-      expect(keyserver.loadPrefs.calledOnce).to.be.true;
+  describe('handleServerChange', () => {
+    it('should set state', () => {
+      sinon.stub(keyserver, 'setState')
+      keyserver.handleServerChange({value: 'https://keyserver.ubuntu.com'});
+      expect(keyserver.setState.withArgs({
+        hkp_base_url: 'https://keyserver.ubuntu.com',
+        modified: true,
+        valid_base_url: true,
+        alert: null
+      }).calledOnce).to.be.true
     });
   });
 
@@ -143,33 +103,26 @@ describe('Key server settings unit tests', function() {
     it('should work for https://', function() {
       expect(keyserver.validateUrl('https://keyserver.ubuntu.com')).to.be.true;
     });
+
+    it('should work for ports', function() {
+      expect(keyserver.validateUrl('https://keyserver.ubuntu.com:1711')).to.be.true;
+    });
   });
 
   describe('testUrl', function() {
+
+    const hkpUrl = 'https://keyserver.ubuntu.com';
+
     beforeEach(function() {
-      sinon.stub($, 'get');
+      sinon.stub(window, 'fetch');
     });
 
     afterEach(function() {
-      $.get.restore();
-    });
-
-    it('should fail for invalid url', function() {
-      return keyserver.testUrl('https//keyserver.ubuntu.com').catch(function(err) {
-        expect(err.message).match(/Invalid url/);
-      });
+      window.fetch.restore();
     });
 
     it('should fail for 404', function() {
-      $.get.yields('data', null, {status: 404});
-
-      return keyserver.testUrl(hkpUrl).catch(function(err) {
-        expect(err.message).match(/not reachable/);
-      });
-    });
-
-    it('should fail for 500', function() {
-      $.get.yields('data', null, {status: 500});
+      window.fetch.returns(Promise.resolve({ok: false}));
 
       return keyserver.testUrl(hkpUrl).catch(function(err) {
         expect(err.message).match(/not reachable/);
@@ -177,20 +130,9 @@ describe('Key server settings unit tests', function() {
     });
 
     it('should work for 200', function() {
-      $.get.yields('data', null, {status: 200});
+      window.fetch.returns(Promise.resolve({ok: true}));
 
       return keyserver.testUrl(hkpUrl);
-    });
-  });
-
-  describe('loadPrefs', function() {
-    it('should work', function() {
-      sinon.stub(keyserver._inputHkpUrl, 'val');
-      sinon.stub(appMock, 'pgpModel').returns(Promise.resolve({keyserver: {hkp_base_url: hkpUrl}}));
-
-      return keyserver.loadPrefs().then(function() {
-        expect(keyserver._inputHkpUrl.val.withArgs(hkpUrl).calledOnce).to.be.true;
-      });
     });
   });
 

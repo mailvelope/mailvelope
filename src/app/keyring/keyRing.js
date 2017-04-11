@@ -28,6 +28,7 @@ import ReactDOM from 'react-dom';
 import KeyDetails from './components/KeyDetails';
 import KeyringBackup from './components/KeyringBackup';
 import GenerateKey from './GenerateKey';
+import ImportKey from './importKey';
 
 import './keyRing.css';
 
@@ -44,6 +45,8 @@ var filterType = 'allkeys';
 var isKeygridLoaded = false;
 
 const state = {keys: null};
+
+export var importKeyComp = null;
 
 function init() {
   //Init templates
@@ -101,12 +104,12 @@ function reload() {
   app.getAllKeyringAttr()
   .then(function(result) {
     if (result) {
-      app.primaryKeyId = null;
+      app.setPrimaryKeyId(null);
       for (var keyRingId in result) {
         var obj = result[keyRingId];
         if (obj.hasOwnProperty('primary_key')) {
           if (app.keyringId === keyRingId) {
-            app.primaryKeyId = obj.primary_key;
+            app.setPrimaryKeyId(obj.primary_key);
           }
         }
       }
@@ -125,6 +128,7 @@ function reload() {
     });
 
     ReactDOM.render(React.createElement(GenerateKey, {demail: app.isDemail, name: app.queryString.fname, email: app.queryString.email}), $('#generateKey').get(0));
+    ReactDOM.render(React.createElement(ImportKey, {ref: comp => importKeyComp = comp}), $('#importKey').get(0));
   });
 }
 
@@ -209,7 +213,7 @@ function setPrimaryKey(primaryKeyId) {
   setKeyringAttr(app.keyringId, {
     primary_key: primaryKeyId
   });
-  app.primaryKeyId = primaryKeyId;
+  app.setPrimaryKeyId(primaryKeyId);
   event.triggerHandler('keygrid-reload');
 }
 

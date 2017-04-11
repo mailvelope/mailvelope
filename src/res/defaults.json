@@ -77,6 +77,17 @@
     },
     {
       "active": true,
+      "site": "mail.riseup.net",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.riseup.net",
+          "api": true
+        }
+      ]
+    },
+    {
+      "active": true,
       "site": "mail.yahoo.com",
       "frames": [
         {
@@ -200,17 +211,6 @@
           "api": true
         }
       ]
-    },
-    {
-      "active": true,
-      "site": "HKP Key Server",
-      "frames": [
-        {
-          "scan": true,
-          "frame": "*.keyserver.ubuntu.com",
-          "api": false
-        }
-      ]
     }
   ],
   "preferences": {
@@ -229,6 +229,12 @@
     },
     "keyserver": {
       "hkp_base_url": "https://keyserver.ubuntu.com",
+      "hkp_server_list": [
+        "https://keyserver.ubuntu.com",
+        "http://pool.sks-keyservers.net:11371",
+        "http://pgp.mit.edu",
+        "https://keys.mailvelope.com"
+      ],
       "mvelo_tofu_lookup": true
     },
     "main_active": true

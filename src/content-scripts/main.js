@@ -24,6 +24,7 @@ let intervalID = 0;
 //let contextTarget = null;
 let port = null;
 let watchList = null;
+let clientApiActive = false;
 
 export let host = null;
 export let currentProvider = null;
@@ -47,7 +48,7 @@ function init(preferences, watchlist) {
   watchList = watchlist;
   detectHost();
 
-  if (clientAPI.active) {
+  if (clientApiActive) {
     // api case
     clientAPI.init();
     return;
@@ -64,7 +65,7 @@ function init(preferences, watchlist) {
 }
 
 function detectHost() {
-  clientAPI.active = watchList.some(function(site) {
+  clientApiActive = watchList.some(function(site) {
     return site.active && site.frames && site.frames.some(function(frame) {
       var hostRegex = mvelo.util.matchPattern2RegEx(frame.frame);
       var validHost = hostRegex.test(window.location.hostname);
@@ -80,7 +81,7 @@ function detectHost() {
 }
 
 function on() {
-  if (clientAPI.active) {
+  if (clientApiActive) {
     return; // do not use scan loop in case of clientAPI support
   }
 

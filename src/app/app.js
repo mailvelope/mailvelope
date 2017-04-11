@@ -20,15 +20,16 @@
 import mvelo from '../mvelo';
 import $ from 'jquery';
 
+import React from 'react';
+import ReactDOM from 'react-dom';
 import event from './util/event';
 import * as l10n from '../lib/l10n';
 import './settings/general';
-import './settings/keyserver';
+import KeyServer from './settings/keyserver';
 import './settings/security';
 import {startSecurityLogMonitoring} from './settings/securityLog';
 import {addToWatchList} from './settings/watchList';
-import {importKey} from './keyring/importKey';
-import {deleteKeyring} from './keyring/keyRing';
+import {deleteKeyring, importKeyComp} from './keyring/keyRing';
 import './fileEncrypt/encryptFile';
 
 import './app.css';
@@ -37,6 +38,9 @@ var currentKeyringId = null;
 export {currentKeyringId as keyringId};
 var currentPrimaryKeyId = null;
 export {currentPrimaryKeyId as primaryKeyId};
+export function setPrimaryKeyId(keyId) {
+  currentPrimaryKeyId = keyId;
+}
 
 const DEMAIL_SUFFIX = 'de-mail.de';
 export let isDemail = false; // is current keyring created by de-mail
@@ -65,9 +69,7 @@ function init() {
       mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('app/settings/tpl/watchList.html')),
       mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('app/settings/tpl/watchListEditor.html')),
       mvelo.appendTpl($('#securityLog'), mvelo.extension.getURL('app/settings/tpl/securityLog.html')),
-      mvelo.appendTpl($('#keyserver'), mvelo.extension.getURL('app/settings/tpl/keyserver.html')),
       mvelo.appendTpl($('#displayKeys'), mvelo.extension.getURL('app/keyring/tpl/displayKeys.html')),
-      mvelo.appendTpl($('#importKey'), mvelo.extension.getURL('app/keyring/tpl/importKey.html')),
       mvelo.appendTpl($('#setupProvider'), mvelo.extension.getURL('app/keyring/tpl/setupProvider.html')),
       mvelo.appendTpl($('#encrypting'), mvelo.extension.getURL('app/fileEncrypt/encrypt.html'))
     ]);
@@ -75,6 +77,10 @@ function init() {
   .then(function() {
     // load language strings from json files
     return l10n.mapToLocal();
+  })
+  .then(() => {
+    // render React components
+    ReactDOM.render(React.createElement(KeyServer), $('#keyserver').get(0));
   })
   .then(function() {
     // set localized strings
@@ -193,7 +199,7 @@ function switchOptionsUI(keyRingAttr) {
     case '#general':
     case '#security':
     case '#watchList':
-    case '#backup':
+    case '#keyserver':
       $('#settingsButton').tab('show');
       activateTabButton(window.location.hash);
       break;
@@ -351,12 +357,8 @@ function handleRequests(request, sender, sendResponse) {
     case 'import-key':
       $('#keyringButton').trigger('click');
       $('#importKeyButton').trigger('click');
-      importKey(request.armored, function(result) {
-        sendResponse({
-          result: result,
-          id: request.id
-        });
-      });
+      importKeyComp.importKey(request.armored)
+      .then(result => sendResponse({result, id: request.id}))
       return true;
     default:
     // TODO analyse message events
