@@ -144,15 +144,7 @@ export default class ExtractFrame {
   _getPGPMessage() {
     var msg = this._getArmoredMessage();
     // additional filtering to get well defined PGP message format
-    msg = msg.replace(/\r\n/g, '\n'); // unify new line characters
-    msg = msg.replace(/\n\s+/g, '\n'); // compress sequence of whitespace and new line characters to one new line
-    msg = msg.replace(/[^\S\r\n]/g, ' '); // unify white space characters (all \s without \r and \n)
-    msg = msg.match(this._typeRegex)[0];
-    msg = msg.replace(/^(\s?>)+/gm, ''); // remove quotation
-    msg = msg.replace(/^\s+/gm, ''); // remove leading whitespace
-    msg = msg.replace(/:.*\n(?!.*:)/, '$&\n');  // insert new line after last armor header
-    msg = msg.replace(/-----\n(?!.*:)/, '$&\n'); // insert new line if no header
-    msg = mvelo.util.decodeQuotedPrint(msg);
+    msg = mvelo.util.normalizeArmored(msg, this._typeRegex);
     return msg;
   }
 

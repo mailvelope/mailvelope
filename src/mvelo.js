@@ -240,6 +240,28 @@ mvelo.util.decodeQuotedPrint = function(armored) {
     .replace(/=3D(\S{4})\s*$/m, "=$1");
 };
 
+/**
+ * Normalize PGP armored message
+ * @param  {String} msg
+ * @param  {Regex} typeRegex - filter message with this Regex
+ * @return {String}
+ */
+mvelo.util.normalizeArmored = function(msg, typeRegex) {
+  // filtering to get well defined PGP message format
+  msg = msg.replace(/\r\n/g, '\n'); // unify new line characters
+  msg = msg.replace(/\n\s+/g, '\n'); // compress sequence of whitespace and new line characters to one new line
+  msg = msg.replace(/[^\S\r\n]/g, ' '); // unify white space characters (all \s without \r and \n)
+  if (typeRegex) {
+    msg = msg.match(typeRegex)[0];
+  }
+  msg = msg.replace(/^(\s?>)+/gm, ''); // remove quotation
+  msg = msg.replace(/^\s+/gm, ''); // remove leading whitespace
+  msg = msg.replace(/:.*\n(?!.*:)/, '$&\n');  // insert new line after last armor header
+  msg = msg.replace(/-----\n(?!.*:)/, '$&\n'); // insert new line if no header
+  msg = mvelo.util.decodeQuotedPrint(msg);
+  return msg;
+};
+
 mvelo.util.text2html = function(text) {
   return this.encodeHTML(text).replace(/\n/g, '<br>');
 };

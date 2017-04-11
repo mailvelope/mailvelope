@@ -82,13 +82,13 @@ class ImportKey extends React.Component {
       let keys = [];
       if (publicKeys) {
         publicKeys.forEach(pub => {
-          pub = mvelo.util.decodeQuotedPrint(pub);
+          pub = mvelo.util.normalizeArmored(pub);
           keys.push({type: 'public', armored: pub});
         });
       }
       if (privateKeys) {
         privateKeys.forEach(priv => {
-          priv = mvelo.util.decodeQuotedPrint(priv);
+          priv = mvelo.util.normalizeArmored(priv);
           keys.push({type: 'private', armored: priv});
         });
       }
