@@ -16,6 +16,7 @@
   "readmeFilename": "Readme.md",
   "dependencies": {
     "angular": "~1.6.3",
+    "dompurify": "~0.8.5",
     "emailjs-mime-builder": "~1.0.1",
     "emailjs-mime-codec": "mailvelope/emailjs-mime-codec#v1.0.2m",
     "mailreader": "~1.0.0",

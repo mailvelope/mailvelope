@@ -130,7 +130,7 @@ module.exports = function(grunt) {
         },
         {
           expand: true,
-          cwd: 'bower_components/dompurify/src',
+          cwd: 'node_modules/dompurify/src',
           src: 'purify.js',
           dest: 'build/firefox/data/dep/'
         }]
