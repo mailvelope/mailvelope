@@ -251,6 +251,10 @@
         "message": "التلوين",
         "description": "Coloring"
     },
+    "key_import_hkp_server": {
+        "message": "خادم المفاتيح",
+        "description": ""
+    },
     "popup_options": {
         "message": "خيارات",
         "description": "Open options dialog."
@@ -391,10 +395,6 @@
         "message": "تاريخ الإنشاء:",
         "description": "Label for recovery sheet creation date"
     },
-    "watchlist_command_cancel": {
-        "message": "إلغاء التغييرات",
-        "description": "Cancel changes in watchlist."
-    },
     "pwd_dialog_cancel": {
         "message": "تم إلغاء فتح قفل المفاتيح.",
         "description": "User canceled key unlock dialog."
@@ -470,10 +470,6 @@
     "keyring_setup_no_keypair": {
         "message": "هناك حاجة إلى زوج مفاتيح لتشفير وفك تشفير الرسائل، وكذلك دعوة جهات الاتصال الخاصة بك لإستخدام التواصل المشفر من الطرف للطرف.",
         "description": "Setup text if no keypair available"
-    },
-    "editor_no_modification_title": {
-        "message": "Unmodified Message",
-        "description": "Title of notification pupup if content not modified."
     },
     "settings_security_log": {
         "message": "سجل الأمان",
@@ -614,10 +610,6 @@
     "security_log_email_viewer": {
         "message": "فك تشفير بريد الإلكتروني PGP",
         "description": "Email decryption container as an event source"
-    },
-    "editor_no_modification": {
-        "message": "Do you want to send the email without modifications?",
-        "description": "Message of notification pupup if content not modified."
     },
     "security_log_text": {
         "message": "يظهر سجل الأمان نشاط المستخدم في جميع مكونات Mailvelope.",
@@ -936,7 +928,7 @@
         "description": "A click in the text area as an event type"
     },
     "key_gen_demail": {
-        "message": "De-Mail Address",
+        "message": "عنوان De-Mail",
         "description": "De-Mail address name."
     },
     "keygrid_upload_alert_title": {
@@ -1291,10 +1283,6 @@
         "message": "على الهواتف المحمولة",
         "description": ""
     },
-    "watchlist_command_save": {
-        "message": "حفظ التغييرات",
-        "description": "Save changes in watchlist."
-    },
     "cleartext_read_error": {
         "message": "لم يتمكن من قراءة هذا النص الصِّرف للرسالة : $1",
         "description": "Cleartext message read error message: $1: error message."
@@ -1446,6 +1434,10 @@
     "recovery_sheet_unknown_third": {
         "message": "قم فقط بتنصيب التواصل المشفر على الأجهزة الآمنة التي لا يمكن الوصول إليها من قبل الغرباء.",
         "description": ""
+    },
+    "change_link": {
+        "message": "تغيير",
+        "description": "Navigation link to change this setting."
     },
     "upload_quota_warning_headline": {
         "message": "حجم المرفقات كبير جدا",

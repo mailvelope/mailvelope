@@ -251,6 +251,10 @@
         "message": "顏色",
         "description": "Coloring"
     },
+    "key_import_hkp_server": {
+        "message": "Key server",
+        "description": ""
+    },
     "popup_options": {
         "message": "選項",
         "description": "Open options dialog."
@@ -391,10 +395,6 @@
         "message": "創建日期:",
         "description": "Label for recovery sheet creation date"
     },
-    "watchlist_command_cancel": {
-        "message": "取消變更",
-        "description": "Cancel changes in watchlist."
-    },
     "pwd_dialog_cancel": {
         "message": "未上鎖的密鑰被取消了",
         "description": "User canceled key unlock dialog."
@@ -470,10 +470,6 @@
     "keyring_setup_no_keypair": {
         "message": "需要一對相符密鑰來加密與解密訊息，以及邀請你的聯絡人共同進行點對點間的加密通訊。",
         "description": "Setup text if no keypair available"
-    },
-    "editor_no_modification_title": {
-        "message": "Unmodified Message",
-        "description": "Title of notification pupup if content not modified."
     },
     "settings_security_log": {
         "message": "安全活動記錄",
@@ -614,10 +610,6 @@
     "security_log_email_viewer": {
         "message": "解密PGP電子郵件",
         "description": "Email decryption container as an event source"
-    },
-    "editor_no_modification": {
-        "message": "Do you want to send the email without modifications?",
-        "description": "Message of notification pupup if content not modified."
     },
     "security_log_text": {
         "message": "安全活動記錄顯示用戶在 Mailvelope元件下的所有動作",
@@ -1291,10 +1283,6 @@
         "message": "行動設備上",
         "description": ""
     },
-    "watchlist_command_save": {
-        "message": "儲存變更",
-        "description": "Save changes in watchlist."
-    },
     "cleartext_read_error": {
         "message": "無法讀取純明文的訊息: $1",
         "description": "Cleartext message read error message: $1: error message."
@@ -1446,6 +1434,10 @@
     "recovery_sheet_unknown_third": {
         "message": "只在不會被他人取用的安全設備上設定加密通訊",
         "description": ""
+    },
+    "change_link": {
+        "message": "Change",
+        "description": "Navigation link to change this setting."
     },
     "upload_quota_warning_headline": {
         "message": "附件檔案過大",

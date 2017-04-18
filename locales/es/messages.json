@@ -251,6 +251,10 @@
         "message": "Color",
         "description": "Coloring"
     },
+    "key_import_hkp_server": {
+        "message": "Servidor de claves",
+        "description": ""
+    },
     "popup_options": {
         "message": "Opciones",
         "description": "Open options dialog."
@@ -391,10 +395,6 @@
         "message": "Fecha de creación:",
         "description": "Label for recovery sheet creation date"
     },
-    "watchlist_command_cancel": {
-        "message": "Cancelar cambios",
-        "description": "Cancel changes in watchlist."
-    },
     "pwd_dialog_cancel": {
         "message": "Desbloqueo de clave cancelado.",
         "description": "User canceled key unlock dialog."
@@ -470,10 +470,6 @@
     "keyring_setup_no_keypair": {
         "message": "Se necesita un par de claves para cifrar y descifrar mensajes, también si quiere invitar a sus contactos a una comunicación cifrada extremo-a-extremo.",
         "description": "Setup text if no keypair available"
-    },
-    "editor_no_modification_title": {
-        "message": "Unmodified Message",
-        "description": "Title of notification pupup if content not modified."
     },
     "settings_security_log": {
         "message": "Registro (log) de seguridad",
@@ -614,10 +610,6 @@
     "security_log_email_viewer": {
         "message": "Correo PGP descifrado",
         "description": "Email decryption container as an event source"
-    },
-    "editor_no_modification": {
-        "message": "Do you want to send the email without modifications?",
-        "description": "Message of notification pupup if content not modified."
     },
     "security_log_text": {
         "message": "El registro (log) de seguridad muestra acciones del usuario sobre los componentes integrados de Mailvelope.",
@@ -1291,10 +1283,6 @@
         "message": "En dispositivos móviles",
         "description": ""
     },
-    "watchlist_command_save": {
-        "message": "Guardar cambios",
-        "description": "Save changes in watchlist."
-    },
     "cleartext_read_error": {
         "message": "No se pudo leer este mensaje de texto no cifrado: $1",
         "description": "Cleartext message read error message: $1: error message."
@@ -1446,6 +1434,10 @@
     "recovery_sheet_unknown_third": {
         "message": "Solamente instale comunicación cifrada en aparatos seguros que no pueden ser accedidos por desconocidos.",
         "description": ""
+    },
+    "change_link": {
+        "message": "Cambiar",
+        "description": "Navigation link to change this setting."
     },
     "upload_quota_warning_headline": {
         "message": "Tamaño del adjunto demasiado grande",

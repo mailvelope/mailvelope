@@ -251,6 +251,10 @@
         "message": "色",
         "description": "Coloring"
     },
+    "key_import_hkp_server": {
+        "message": "鍵サーバー",
+        "description": ""
+    },
     "popup_options": {
         "message": "オプション",
         "description": "Open options dialog."
@@ -391,10 +395,6 @@
         "message": "生成日:",
         "description": "Label for recovery sheet creation date"
     },
-    "watchlist_command_cancel": {
-        "message": "変更取り消し",
-        "description": "Cancel changes in watchlist."
-    },
     "pwd_dialog_cancel": {
         "message": "鍵のロック解除を中止",
         "description": "User canceled key unlock dialog."
@@ -470,10 +470,6 @@
     "keyring_setup_no_keypair": {
         "message": "暗号化したり、復号したり、相手に暗号化通信を招待するためには、鍵のペアが必要です",
         "description": "Setup text if no keypair available"
-    },
-    "editor_no_modification_title": {
-        "message": "Unmodified Message",
-        "description": "Title of notification pupup if content not modified."
     },
     "settings_security_log": {
         "message": "セキュリティログ",
@@ -615,10 +611,6 @@
         "message": "復号されたPGPメール",
         "description": "Email decryption container as an event source"
     },
-    "editor_no_modification": {
-        "message": "Do you want to send the email without modifications?",
-        "description": "Message of notification pupup if content not modified."
-    },
     "security_log_text": {
         "message": "セキュリティログは、Mailvelope内のユーザーのActionを表示します",
         "description": "Text explaining the purpose of the security log"
@@ -752,7 +744,7 @@
         "description": "Validity status of a PGP key."
     },
     "message_no_keys": {
-        "message": "秘密鍵が見つかりません。key IDの秘密鍵が必要です: $1",
+        "message": "秘密鍵が見つかりません。次のkey IDに対応する秘密鍵が必要です: $1",
         "description": "Decrypt error message."
     },
     "security_cache_off": {
@@ -1291,10 +1283,6 @@
         "message": "モバイルデバイス",
         "description": ""
     },
-    "watchlist_command_save": {
-        "message": "変更を保存",
-        "description": "Save changes in watchlist."
-    },
     "cleartext_read_error": {
         "message": "平文を読めませんでした: $1",
         "description": "Cleartext message read error message: $1: error message."
@@ -1446,6 +1434,10 @@
     "recovery_sheet_unknown_third": {
         "message": "他人からアクセスできないデバイス上だけで、暗号通信が成立します",
         "description": ""
+    },
+    "change_link": {
+        "message": "変更",
+        "description": "Navigation link to change this setting."
     },
     "upload_quota_warning_headline": {
         "message": "添付ファイルが大きすぎます",

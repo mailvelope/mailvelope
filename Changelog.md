@@ -1,6 +1,18 @@
 Mailvelope Changelog
 ====================
 
+v1.7.2
+-------
+__Apr. 18, 2017__
+
+  * Add mail.riseup.net to list of email providers
+  * Load keyGenDialog from embedded WebExtension to prevent password input warning in Firefox
+  * Display selected key server in the key search UI
+  * Migrate key server settings to React, allow ports, provide list of servers. Automatically add key server to watchlist.
+  * Migrate to Webpack 2
+  * Update dependencies
+  * Normalize armored keys before import
+
 v1.7.1
 -------
 __Feb. 24, 2017__

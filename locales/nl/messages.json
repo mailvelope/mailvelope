@@ -251,6 +251,10 @@
         "message": "Kleur",
         "description": "Coloring"
     },
+    "key_import_hkp_server": {
+        "message": "Key server",
+        "description": ""
+    },
     "popup_options": {
         "message": "Opties",
         "description": "Open options dialog."
@@ -391,10 +395,6 @@
         "message": "Datum van aanmaak:",
         "description": "Label for recovery sheet creation date"
     },
-    "watchlist_command_cancel": {
-        "message": "Wijzigingen annuleren",
-        "description": "Cancel changes in watchlist."
-    },
     "pwd_dialog_cancel": {
         "message": "Sleutelontgrendeling geannuleerd.",
         "description": "User canceled key unlock dialog."
@@ -470,10 +470,6 @@
     "keyring_setup_no_keypair": {
         "message": "Een sleutelpaar is vereist voor het versleutelen en ontsleutelen van berichten, en voor je contacten uit te nodigen om end-to-end-versleutelde communicatie te gebruiken.",
         "description": "Setup text if no keypair available"
-    },
-    "editor_no_modification_title": {
-        "message": "Unmodified Message",
-        "description": "Title of notification pupup if content not modified."
     },
     "settings_security_log": {
         "message": "Beveiligingslog",
@@ -614,10 +610,6 @@
     "security_log_email_viewer": {
         "message": "Ontsleutelde PGP-mail",
         "description": "Email decryption container as an event source"
-    },
-    "editor_no_modification": {
-        "message": "Do you want to send the email without modifications?",
-        "description": "Message of notification pupup if content not modified."
     },
     "security_log_text": {
         "message": "Het beveiligingslog toont gebruikersacties in alle onderdelen van Mailvelope.",
@@ -1291,10 +1283,6 @@
         "message": "Op mobiele apparaten",
         "description": ""
     },
-    "watchlist_command_save": {
-        "message": "Wijzigingen opslaan",
-        "description": "Save changes in watchlist."
-    },
     "cleartext_read_error": {
         "message": "Kon dit niet-versleutelde tekstbericht niet lezen: $1",
         "description": "Cleartext message read error message: $1: error message."
@@ -1446,6 +1434,10 @@
     "recovery_sheet_unknown_third": {
         "message": "Stel versleutelde communicatie enkel in op veilige apparaten die niet toegankelijk zijn voor onbekenden.",
         "description": ""
+    },
+    "change_link": {
+        "message": "Change",
+        "description": "Navigation link to change this setting."
     },
     "upload_quota_warning_headline": {
         "message": "Bijlagegrootte te groot",

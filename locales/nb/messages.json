@@ -24,7 +24,7 @@
         "description": "Message keybackup container as an event source"
     },
     "keygrid_all_keys": {
-        "message": "All",
+        "message": "Alle",
         "description": "Selection of key type."
     },
     "editor_key_not_found": {
@@ -108,7 +108,7 @@
         "description": "Export key dialog header."
     },
     "key_import_private_exists": {
-        "message": "Privat nøkkel-del av eksisterende offentlig nøkkel $1 tilhørende bruker $2 importer til nøkkelring",
+        "message": "Privat nøkkel-del av eksisterende offentlig nøkkel $1 tilhørende bruker $2 importer til nøkkelknippe",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "upload_attachment": {
@@ -188,7 +188,7 @@
         "description": ""
     },
     "key_gen_success": {
-        "message": "Ny nøkkel generert og importert til nøkkelring",
+        "message": "Ny nøkkel generert og importert til nøkkelknippe",
         "description": "Key generation success message"
     },
     "security_log_action": {
@@ -251,12 +251,16 @@
         "message": "Farge",
         "description": "Coloring"
     },
+    "key_import_hkp_server": {
+        "message": "Nøkkeltjener",
+        "description": ""
+    },
     "popup_options": {
         "message": "Valg",
         "description": "Open options dialog."
     },
     "keygrid_export_title": {
-        "message": "Export all keys in this list to file",
+        "message": "Eksporter alle nøkler i denne listen til ei fil",
         "description": "Title for Export key button."
     },
     "security_log_textarea_click": {
@@ -391,10 +395,6 @@
         "message": "Opprettelsesdato:",
         "description": "Label for recovery sheet creation date"
     },
-    "watchlist_command_cancel": {
-        "message": "Forkast endringer",
-        "description": "Cancel changes in watchlist."
-    },
     "pwd_dialog_cancel": {
         "message": "Opplsing av nøkler ble avbrutt.",
         "description": "User canceled key unlock dialog."
@@ -470,10 +470,6 @@
     "keyring_setup_no_keypair": {
         "message": "Et nøkkelpar trengs for å kryptere og dekryptere meldinger, sågar også for å invitere dine kontakter til ende-til-ende-kryptert kommunikasjon.",
         "description": "Setup text if no keypair available"
-    },
-    "editor_no_modification_title": {
-        "message": "Unmodified Message",
-        "description": "Title of notification pupup if content not modified."
     },
     "settings_security_log": {
         "message": "Sikkerhetslogg",
@@ -572,7 +568,7 @@
         "description": "Title of options page."
     },
     "keygrid_upload_alert_msg": {
-        "message": "Du kan nå laste opp din offentlige nøkkel til Mailvelope nøøkeltjener for automatisk oppslag i de OpenPGP-programtilleggene som er deler denne funksjonaliteten. Dette gjør det enklere å skrive kryptert e-post til dine kontakter. Prøv det. Du kan slette din nøkkel når som helst",
+        "message": "Du kan nå laste opp din offentlige nøkkel til Mailvelopes nøkkeltjener for automatisk oppslag i de OpenPGP-programtilleggene som er deler denne funksjonaliteten. Dette gjør det enklere å skrive kryptert e-post til dine kontakter. Prøv det. Du kan slette din nøkkel når som helst",
         "description": "Text of a link to a learn-more resource"
     },
     "recovery_sheet_check_settings": {
@@ -615,10 +611,6 @@
         "message": "Dekryptert PGP- e-post",
         "description": "Email decryption container as an event source"
     },
-    "editor_no_modification": {
-        "message": "Do you want to send the email without modifications?",
-        "description": "Message of notification pupup if content not modified."
-    },
     "security_log_text": {
         "message": "Sikkerhetsloggen viser brukerhandlinger i alle deler av Mailvelope.",
         "description": "Text explaining the purpose of the security log"
@@ -644,7 +636,7 @@
         "description": ""
     },
     "recovery_sheet_qr_code": {
-        "message": "Skann QR-koden med din håndholdte.",
+        "message": "Skann QR-koden med din håndholdte enhet.",
         "description": ""
     },
     "popup_file_encrypting": {
@@ -664,7 +656,7 @@
         "description": "The tooltip text for the keylock button"
     },
     "keyring_setup_no_keypair_heading": {
-        "message": "Denne nøkkelringen inneholder ikke et nøkkelpar enda.",
+        "message": "Dette nøkkelknippet inneholder ikke et nøkkelpar enda.",
         "description": "Setup heading if no keypair available"
     },
     "watchlist_title_scan": {
@@ -752,7 +744,7 @@
         "description": "Validity status of a PGP key."
     },
     "message_no_keys": {
-        "message": "Ingen private nøkler funnet for denne meldingen. Påkrevd privat nøkkel-ID-er: $1",
+        "message": "Ingen privat nøkkel funnet for denne meldingen. Påkrevde privat nøkkel-ID-er: $1",
         "description": "Decrypt error message."
     },
     "security_cache_off": {
@@ -760,7 +752,7 @@
         "description": "Don't store password."
     },
     "keyring_export_keys": {
-        "message": "Eksport nøkkelring",
+        "message": "Eksporter nøkkelknippe",
         "description": "Tab of keyring to export keys."
     },
     "keygrid_signer_name": {
@@ -832,7 +824,7 @@
         "description": "Title of the timestamp column of the security log table."
     },
     "keyring_setup_import_key_explanation": {
-        "message": "Har du allerede et nøkkelpar på en annen enhet? Du kan importere dine eksisterende nøkler. Eksporter nøkkelparet fra den andre enheten og importer dem så her.",
+        "message": "Har du allerede et nøkkelpar på en annen enhet? Du kan importere dine eksisterende nøkler. Eksporter nøkkelparet fra den andre enheten og importer dem deretter her.",
         "description": "Import key"
     },
     "popup_open_page": {
@@ -1036,7 +1028,7 @@
         "description": "Alert header of category warning."
     },
     "key_import_public_success": {
-        "message": "Offentlig nøkkel $1 tilhørende bruker $2 importert til nøkkelringen",
+        "message": "Offentlig nøkkel $1 tilhørende bruker $2 importert til nøkkelknippet",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "pwd_dialog_reason_editor": {
@@ -1196,7 +1188,7 @@
         "description": ""
     },
     "key_export_warning_private": {
-        "message": "Denne filen inneholder også private nøkler.",
+        "message": "Denne fila inneholder også private nøkler.",
         "description": "Key export warning."
     },
     "learn_more_link": {
@@ -1290,10 +1282,6 @@
     "recovery_sheet_mobile_devices": {
         "message": "På mobile enheter",
         "description": ""
-    },
-    "watchlist_command_save": {
-        "message": "Lagre endringer",
-        "description": "Save changes in watchlist."
     },
     "cleartext_read_error": {
         "message": "Kunne ikke lese denne klartekst-meldingen: $1",
@@ -1424,7 +1412,7 @@
         "description": "Options navigation: Documentation."
     },
     "keyring_backup": {
-        "message": "Keyring backup",
+        "message": "Sikkerhetskopi av nøkkel",
         "description": "Title of keyring backup view"
     },
     "keyring_keypair": {
@@ -1446,6 +1434,10 @@
     "recovery_sheet_unknown_third": {
         "message": "Bare sett opp kryptert kommunikasjon på enheter som ikke kan brukes av fremmede.",
         "description": ""
+    },
+    "change_link": {
+        "message": "Endre",
+        "description": "Navigation link to change this setting."
     },
     "upload_quota_warning_headline": {
         "message": "Vedleggsstørrelse overksred avgrensningen",
@@ -1508,7 +1500,7 @@
         "description": "Advanced key generation settings."
     },
     "key_import_private_success": {
-        "message": "Private nøkkel $1 tilhørende bruker $2 importert til nøkkelringen",
+        "message": "Private nøkkel $1 tilhørende bruker $2 importert til nøkkelknippet",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "settings_security": {

@@ -251,6 +251,10 @@
         "message": "Колір",
         "description": "Coloring"
     },
+    "key_import_hkp_server": {
+        "message": "Key server",
+        "description": ""
+    },
     "popup_options": {
         "message": "Опції",
         "description": "Open options dialog."
@@ -391,10 +395,6 @@
         "message": "Дата створення:",
         "description": "Label for recovery sheet creation date"
     },
-    "watchlist_command_cancel": {
-        "message": "Скасувати зміни",
-        "description": "Cancel changes in watchlist."
-    },
     "pwd_dialog_cancel": {
         "message": "Відмикання ключа було скасовано.",
         "description": "User canceled key unlock dialog."
@@ -470,10 +470,6 @@
     "keyring_setup_no_keypair": {
         "message": "Ключова пара необхідна щоб зашифровувати та розшифровувати повідомлення, а також щоб запрошувати співрозмовників до зашифрованої \"з кінця у кінець\" переписки.",
         "description": "Setup text if no keypair available"
-    },
-    "editor_no_modification_title": {
-        "message": "Unmodified Message",
-        "description": "Title of notification pupup if content not modified."
     },
     "settings_security_log": {
         "message": "Журнал безпеки",
@@ -614,10 +610,6 @@
     "security_log_email_viewer": {
         "message": "Розшифрований PGP лист",
         "description": "Email decryption container as an event source"
-    },
-    "editor_no_modification": {
-        "message": "Do you want to send the email without modifications?",
-        "description": "Message of notification pupup if content not modified."
     },
     "security_log_text": {
         "message": "Журнал безпеки показує дії користувача в усіх компонентах Mailvelope.",
@@ -1291,10 +1283,6 @@
         "message": "На мобільних пристроях",
         "description": ""
     },
-    "watchlist_command_save": {
-        "message": "Зберегти зміни",
-        "description": "Save changes in watchlist."
-    },
     "cleartext_read_error": {
         "message": "Не вдалося прочитати це незашифроване повідомлення: $1",
         "description": "Cleartext message read error message: $1: error message."
@@ -1446,6 +1434,10 @@
     "recovery_sheet_unknown_third": {
         "message": "Треті особи не зможуть отримати доступ тільки до такої зашифрованої переписки, яка налаштована на захищених пристроях.",
         "description": ""
+    },
+    "change_link": {
+        "message": "Change",
+        "description": "Navigation link to change this setting."
     },
     "upload_quota_warning_headline": {
         "message": "Прикріплення надто велике",
