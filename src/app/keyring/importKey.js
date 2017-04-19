@@ -152,7 +152,7 @@ class ImportKey extends React.Component {
             <label className="control-label" htmlFor="newKey"><h4>{l10n.map.key_import_textarea}</h4></label>
             <div>{l10n.map.key_import_multiple_keys}</div>
             <div className="help-block">
-              <textarea id="newKey" value={this.state.armored} onChange={event => this.setState({armored: event.target.value})} style={{width: '100%', fontFamily: 'monospace'}} className="form-control" rows="12" spellCheck="false" autoComplete="false"></textarea>
+              <textarea id="newKey" value={this.state.armored} onChange={event => this.setState({armored: event.target.value})} style={{width: '100%', fontFamily: 'monospace'}} className="form-control" rows="12" spellCheck="false" autoComplete="off"></textarea>
             </div>
           </div>
           <div className="form-group">
