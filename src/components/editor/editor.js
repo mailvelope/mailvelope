@@ -115,7 +115,6 @@ l10n.register([
   'waiting_dialog_decryption_failed',
   'upload_quota_exceeded_warning',
   'editor_error_header',
-  'editor_error_content',
   'waiting_dialog_prepare_email',
   'upload_quota_warning_headline',
   'editor_key_not_found',

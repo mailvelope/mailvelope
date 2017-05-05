@@ -95,10 +95,6 @@
     "message": "Verschlüsseln",
     "description": "Encrypt button."
   },
-  "editor_error_content": {
-    "message": "Fehler Inhalt",
-    "description": ""
-  },
   "editor_error_header": {
     "message": "Fehler",
     "description": ""
@@ -840,10 +836,6 @@
   "keyring_keypair": {
     "message": "Schlüsselpaar",
     "description": "key pair"
-  },
-  "keyring_migration_error": {
-    "message": "Fehler bei der Schlüsselmigration",
-    "description": "Tab of keyring to display migration errors."
   },
   "keyring_private": {
     "message": "Privat",

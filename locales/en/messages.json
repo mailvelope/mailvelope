@@ -89,15 +89,11 @@
   },
   "editor_blur_warn": {
     "description": "Warning for lost focus.",
-    "message": "Warning. Text editor lost focus."
+    "message": "Warning: Text editor lost focus."
   },
   "editor_encrypt_button": {
     "description": "Encrypt button.",
     "message": "Encrypt"
-  },
-  "editor_error_content": {
-    "description": "",
-    "message": "Error Content"
   },
   "editor_error_header": {
     "description": "",
@@ -105,7 +101,7 @@
   },
   "editor_header": {
     "description": "Header of editor popup.",
-    "message": "Compose E-mail"
+    "message": "Compose Email"
   },
   "editor_link_file_encryption": {
     "message": "Encrypt attachments",
@@ -113,11 +109,11 @@
   },
   "editor_no_primary_key_caption_long": {
     "description": "",
-    "message": "E-mail cannot be signed digitally because the primary key is missing"
+    "message": "Email cannot be signed digitally because the primary key is missing"
   },
   "editor_no_primary_key_caption_short": {
     "description": "",
-    "message": "E-mail cannot be signed digitally"
+    "message": "Email cannot be signed digitally"
   },
   "editor_remove_upload": {
     "description": "Remove uploaded attachment",
@@ -129,11 +125,11 @@
   },
   "editor_sign_caption_long": {
     "description": "",
-    "message": "When the E-mail is sent out, it will also be signed digitally"
+    "message": "When the Email is sent out, it will also be signed digitally"
   },
   "editor_sign_caption_short": {
     "description": "",
-    "message": "E-mail will be signed digitally"
+    "message": "Email will be signed digitally"
   },
   "editor_transfer": {
     "description": "Transfer button of editor popup.",
@@ -176,7 +172,7 @@
     "description": "Download icon"
   },
   "encrypt_download_file_title": {
-    "message": "Save file",
+    "message": "Save files",
     "description": "Title of download area"
   },
   "encrypt_error": {
@@ -201,7 +197,7 @@
   },
   "ext_description": {
     "description": "Description of the extension.",
-    "message": "Enhance your e-mail provider with end-to-end encryption. Secure e-mail communication based on the OpenPGP standard."
+    "message": "Enhance your email provider with end-to-end encryption. Secure email communication based on the OpenPGP standard."
   },
   "ext_name": {
     "description": "Name of the extension.",
@@ -289,7 +285,7 @@
   },
   "general_editor_type": {
     "description": "Label for editor options.",
-    "message": "E-mail editor selection"
+    "message": "Email editor selection"
   },
   "general_primary_key_always": {
     "description": "Label for primary private key option.",
@@ -325,7 +321,7 @@
   },
   "keyserver_url_error": {
     "description": "HKP key server URL error.",
-    "message": "Key server out of reach"
+    "message": "Key server cannot be reached"
   },
   "key_details_title": {
     "description": "The title of the key details dialog.",
@@ -373,7 +369,7 @@
   },
   "key_gen_invalid_email": {
     "description": "Error message.",
-    "message": "Invalid e-mail address"
+    "message": "Invalid email address"
   },
   "key_gen_key_size": {
     "description": "Advanced key generation settings: Key size",
@@ -389,7 +385,7 @@
   },
   "key_gen_pwd_empty": {
     "description": "Passphrase input field status",
-    "message": "Password is empty"
+    "message": "Password field is empty"
   },
   "key_gen_pwd_match": {
     "description": "Passphrase input field status",
@@ -429,7 +425,7 @@
   },
   "keygrid_upload_alert_msg": {
     "description": "Text of a link to a learn-more resource",
-    "message": "You can now upload your public key to the Mailvelope Key Server for automatic lookup in participating OpenPGP plugins. This makes it easier to write encrypted email with your contacts. Give it a try. You can delete your key at any time"
+    "message": "You can now upload your public key to the Mailvelope Key Server for automatic lookup in participating OpenPGP addons. This makes it easier to write encrypted email with your contacts. Give it a try! You can delete your key at any time."
   },
   "keygrid_upload_alert_accept": {
     "description": "Button text to accept key upload",
@@ -473,11 +469,11 @@
   },
   "key_import_extend_description": {
     "description": "Key import dialog description.",
-    "message": "The PGP fingerprint is used to identify the key information of your correspondence."
+    "message": "The PGP fingerprint is used to uniquely identify the PGP key of your contact."
   },
   "key_import_extend_fingerprint": {
     "description": "",
-    "message": "PGP-Fingerprint:"
+    "message": "PGP Fingerprint:"
   },
   "key_import_extend_headline": {
     "description": "Key import dialog description.",
@@ -508,7 +504,7 @@
       "decryption": "Key search input button."
   },
   "key_import_hkp_search_ph": {
-      "message": "By name, E-mail address, or key ID",
+      "message": "By name, email address, or key ID",
       "decryption": "Key search input place holder."
   },
   "key_import_hkp_server": {
@@ -533,7 +529,7 @@
   },
   "key_import_private_exists": {
     "description": "Import success message: $1: keyid, $2: userid.",
-    "message": "Private key-part of existing public key $1 of user $2 imported into keyring"
+    "message": "Private key part matching existing public key $1 of user $2 imported into keyring"
   },
   "key_import_private_read": {
     "description": "Import error message. $1: error message",
@@ -593,7 +589,7 @@
   },
   "keybackup_restore_dialog_description": {
     "description": "",
-    "message": "Create a new recovery sheet, if:"
+    "message": "Create here a new recovery sheet, if:"
   },
   "keybackup_restore_dialog_headline": {
     "description": "",
@@ -601,15 +597,15 @@
   },
   "keybackup_restore_dialog_list_1": {
     "description": "",
-    "message": "If you lost the recovery sheet."
+    "message": "You lost the recovery sheet."
   },
   "keybackup_restore_dialog_list_2": {
     "description": "",
-    "message": "Please create a new recovery sheet for security reasons."
+    "message": "A new recovery sheet has to be created for security reasons."
   },
   "keybackup_setup_dialog_button": {
     "description": "",
-    "message": "Set up a backup"
+    "message": "Create a backup"
   },
   "keybackup_setup_dialog_description": {
     "description": "",
@@ -629,7 +625,7 @@
   },
   "keybackup_waiting_description": {
     "description": "",
-    "message": "A document with your backup code is being prepared."
+    "message": "A document with your recovery code is being prepared."
   },
   "keybackup_waiting_headline": {
     "description": "",
@@ -721,7 +717,7 @@
   },
   "keygrid_key_fingerprint": {
     "description": "Unique string identifier for a PGP key.",
-    "message": "Fingerprint"
+    "message": "PGP Fingerprint"
   },
   "keygrid_key_length": {
     "description": "Key length of a PGP key.",
@@ -761,7 +757,7 @@
   },
   "keygrid_send_pub_key": {
     "description": "Export key menu.",
-    "message": "Send public key via e-mail"
+    "message": "Send public key via email"
   },
   "keygrid_signer_name": {
     "description": "User ID of signer.",
@@ -793,7 +789,7 @@
   },
   "keygrid_user_email": {
     "description": "Email address in User ID of a PGP key.",
-    "message": "E-mail"
+    "message": "Email"
   },
   "keygrid_user_ids": {
     "description": "User IDs of a PGP key.",
@@ -843,10 +839,6 @@
     "description": "key pair",
     "message": "Key Pair"
   },
-  "keyring_migration_error": {
-    "description": "Tab of keyring to display migration errors.",
-    "message": "Key Migration Error"
-  },
   "keyring_private": {
     "description": "private key type",
     "message": "Private"
@@ -881,7 +873,7 @@
   },
   "keyring_setup_no_keypair": {
     "description": "Setup text if no keypair available",
-    "message": "A key pair is needed to encrypt and decrypt messages, as well as to invite your contacts to end-to-end encrypted communication."
+    "message": "A key pair is required to encrypt and decrypt messages, as well as to invite your contacts to end-to-end encrypted communication."
   },
   "keyring_setup_no_keypair_heading": {
     "description": "Setup heading if no keypair available",
@@ -921,7 +913,7 @@
   },
   "popup_actived_checkbox": {
     "description": "Text of the checkbox for activating/deactivating the plugin",
-    "message": "Activated"
+    "message": "Enabled"
   },
   "popup_actived_checkbox_tooltip": {
     "description": "Text of the checkbox for activating/deactivating the plugin",
@@ -973,7 +965,7 @@
   },
   "popup_remove_page_tooltip": {
     "description": "Remove page from watchlist.",
-    "message": "Remove current page from the list of e-mail providers"
+    "message": "Remove current page from the list of email providers"
   },
   "pwd_dialog_cache_pwd": {
     "description": "Checkbox label for remembering of the password.",
@@ -1045,7 +1037,7 @@
   },
   "recovery_sheet_check_settings" : {
     "description" : "",
-    "message" : "please check the settings in your account under:"
+    "message" : "Please check the settings in your account under:"
   },
   "recovery_sheet_creation_date" : {
     "description" : "Label for recovery sheet creation date",
@@ -1065,7 +1057,7 @@
   },
   "recovery_sheet_explain_pgp" : {
     "description" : "",
-    "message" : "Encrypted communication with [BRAND] is a PGP-based procedure. It enables you to send encrypted e-mails and, at the same time, ensures that only you and the receiver are able to read them."
+    "message" : "Encrypted communication with [BRAND] is a PGP-based procedure. It enables you to send encrypted emails and, at the same time, ensures that only you and the receiver are able to read them."
   },
   "recovery_sheet_extension_problems" : {
     "description" : "List item",
@@ -1089,7 +1081,7 @@
   },
   "recovery_sheet_invite_contacts" : {
     "description" : "",
-    "message" : "In your encrypted communication settings of your [BRAND] account, you have the possibility to invite additional contacts to use encrypted communication via PGP. Contacts that have already been invited successfully can be recognized by the padlock icon next to the e-mail address. "
+    "message" : "In your encrypted communication settings of your [BRAND] account, you have the possibility to invite additional contacts to use encrypted communication via PGP. Contacts that have already been invited successfully can be recognized by the padlock icon next to the email address. "
   },
   "recovery_sheet_keep_safe" : {
     "description" : "",
@@ -1105,7 +1097,7 @@
   },
   "recovery_sheet_not_working" : {
     "description" : "Label for list",
-    "message" : "If your encrypted communication is no longer working, e.g."
+    "message" : "If your encrypted communication is no longer working, e.g.:"
   },
   "recovery_sheet_other_computer" : {
     "description" : "",
@@ -1185,7 +1177,7 @@
   },
   "recovery_sheet_trusted_contacts" : {
     "description" : "",
-    "message" : "With GMX contacts you can be sure that the users displayed are in fact valid users. You should, however, always verify the identity of contacts with an e-mail address from another e-mail provider."
+    "message" : "With GMX contacts you can be sure that the users displayed are in fact valid users. You should, however, always verify the identity of contacts with an email address from another email provider."
   },
   "recovery_sheet_unknown_third" : {
     "description" : "",
@@ -1197,7 +1189,7 @@
   },
   "reload_webmail_tab": {
     "description": "Info message.",
-    "message": "Please reload your e-mail provider page for the settings to take effect."
+    "message": "Please reload your email provider page for the settings to take effect."
   },
   "restore_backup_dialog_button": {
     "description": "",
@@ -1205,7 +1197,7 @@
   },
   "restore_backup_dialog_headline": {
     "description": "",
-    "message": "Please enter your restore code:"
+    "message": "Please enter your recovery code:"
   },
   "restore_password_dialog_button": {
     "description": "",
@@ -1241,7 +1233,7 @@
   },
   "security_background_text": {
     "description": "Security background text",
-    "message": "The security background is your personal Mailvelope background and it helps to prevent user interface manipulation by third-party websites and applications. To increase security, create and change your personal background here."
+    "message": "The security background helps prevent user interface manipulations by third-party websites and applications. To increase security, create and change your customized Mailvelope background here."
   },
   "security_cache_header": {
     "description": "Password cache header",
@@ -1269,11 +1261,11 @@
   },
   "security_display_inline": {
     "description": "Decrypted message display option",
-    "message": "On the page of the e-mail provider."
+    "message": "On the email provider's page."
   },
   "security_display_popup": {
     "description": "Decrypted message display option",
-    "message": "In a separate Mailvelope-popup."
+    "message": "In a separate Mailvelope popup."
   },
   "security_log_action": {
     "description": "Title of the action column of the security log table.",
@@ -1293,51 +1285,51 @@
   },
   "security_log_backup_code_input": {
     "description": "",
-    "message": "Input-event in backup code"
+    "message": "Recovery code input"
   },
   "security_log_backup_create": {
     "description": "",
-    "message": "Click-event for create backup"
+    "message": "Click to create backup"
   },
   "security_log_backup_dialog_cancel": {
     "description": "",
-    "message": "Click-event to close on dialog"
+    "message": "Click to close in dialog"
   },
   "security_log_backup_dialog_ok": {
     "description": "",
-    "message": "Click-event to ok on dialog"
+    "message": "Click to accept in dialog"
   },
   "security_log_backup_restore": {
     "description": "",
-    "message": "Click-event for restore backup"
+    "message": "Click to restore backup"
   },
   "security_log_content_copy": {
     "description": "",
-    "message": "Copy-event in verify dialog"
+    "message": "Copy in verify dialog"
   },
   "security_log_dialog_cancel": {
     "description": "",
-    "message": "Click-event on Cancel in dialog"
+    "message": "Click to cancel in dialog"
   },
   "security_log_dialog_encrypt": {
     "description": "",
-    "message": "Click-event to encrypt on dialog"
+    "message": "Click to encrypt in dialog"
   },
   "security_log_dialog_ok": {
     "description": "",
-    "message": "Click-event to confirm on dialog"
+    "message": "Click to confirm in dialog"
   },
   "security_log_dialog_sign": {
     "description": "",
-    "message": "Click-event to sign on dialog"
+    "message": "Click to sign in dialog"
   },
   "security_log_dialog_transfer": {
     "description": "",
-    "message": "Click-event to transfer on dialog"
+    "message": "Click to transfer in dialog"
   },
   "security_log_dialog_undo": {
     "description": "",
-    "message": "Click-event to undo on dialog"
+    "message": "Click to undo in dialog"
   },
   "security_log_editor": {
     "description": "Message editor container as an event source",
@@ -1345,7 +1337,7 @@
   },
   "security_log_email_viewer": {
     "description": "Email decryption container as an event source",
-    "message": "Decrypted PGP E-mail"
+    "message": "Decrypted PGP Email"
   },
   "security_log_empty": {
     "description": "Message when the security log is empty",
@@ -1373,7 +1365,7 @@
   },
   "security_log_password_click": {
     "description": "",
-    "message": "Click-event in password dialog"
+    "message": "Click in password dialog"
   },
   "security_log_password_dialog": {
     "description": "Password dialog as an event source",
@@ -1381,7 +1373,7 @@
   },
   "security_log_password_input": {
     "description": "",
-    "message": "Input-event in password input"
+    "message": "Input in password dialog"
   },
   "security_log_remove_attachment": {
     "description": "A click on the attachment remove button as event type",
@@ -1389,7 +1381,7 @@
   },
   "security_log_restore_backup_click": {
     "description": "",
-    "message": "Click-event in restore backup dialog"
+    "message": "Click in restore backup dialog"
   },
   "security_log_sign_dialog": {
     "description": "Sign dialog as an event source",
@@ -1397,11 +1389,11 @@
   },
   "security_log_signature_modal_close": {
     "description": "",
-    "message": "Click-event to close the signature dialog"
+    "message": "Click to close the signature dialog"
   },
   "security_log_signature_modal_open": {
     "description": "",
-    "message": "Click-event to open the signature dialog"
+    "message": "Click to open the signature dialog"
   },
   "security_log_source": {
     "description": "Title of the source column of the security log table.",
@@ -1413,19 +1405,19 @@
   },
   "security_log_text_input": {
     "description": "A click in the text area as an event type",
-    "message": "Input-event in text field"
+    "message": "Input in text field"
   },
   "security_log_textarea_click": {
     "description": "A click in the text area as an event type",
-    "message": "Click-event in text area"
+    "message": "Click in text area"
   },
   "security_log_textarea_input": {
     "description": "A click in the text area as an event type",
-    "message": "Input-event in text area"
+    "message": "Input in text area"
   },
   "security_log_textarea_select": {
     "description": "Selection of the text area as an event type",
-    "message": "Select-event in text area"
+    "message": "Selection in text area"
   },
   "security_log_timestamp": {
     "description": "Title of the timestamp column of the security log table.",
@@ -1457,7 +1449,7 @@
   },
   "settings_watchlist": {
     "description": "Tab of options to display list of supported mail providers.",
-    "message": "List of E-mail Providers"
+    "message": "List of Email Providers"
   },
   "sign_dialog_header": {
     "description": "Header of sign dialog.",
@@ -1473,11 +1465,11 @@
   },
   "upload_quota_exceeded_warning": {
     "description": "A warning shown when the attachments upload quota is exceeded.",
-    "message": "Attachment size exceeds the size limit:"
+    "message": "Allowed attachment size:"
   },
   "upload_quota_warning_headline": {
     "description": "",
-    "message": "Attachment size too big"
+    "message": "Attachment is too big"
   },
   "verify_error": {
     "description": "Error during verification process.",
@@ -1513,7 +1505,7 @@
   },
   "watchlist_delete_confirmation": {
     "description": "Mesage in the watchlist delete confirmation dialog.",
-    "message": "Do you really want to remove this site from the list of e-mail providers?"
+    "message": "Do you really want to remove this site from the list of email providers?"
   },
   "watchlist_expose_api": {
     "description": "Expose API to Webmailer.",
@@ -1521,11 +1513,11 @@
   },
   "watchlist_record_title": {
     "description": "Title of the watchlist editor dialog.",
-    "message": "E-mail Provider"
+    "message": "Email Provider"
   },
   "watchlist_title_active": {
     "description": "Entry in watchlist is active.",
-    "message": "Active"
+    "message": "Enabled"
   },
   "watchlist_title_frame": {
     "description": "Web domain URL match pattern of site in watchlist.",
@@ -1533,7 +1525,7 @@
   },
   "watchlist_title_scan": {
     "description": "Scan status of site in watchlist.",
-    "message": "Status"
+    "message": "Enabled"
   },
   "watchlist_title_site": {
     "description": "Site in watchlist.",
@@ -1545,6 +1537,6 @@
   },
   "wrong_restore_code": {
     "description": "",
-    "message": "Invalid Restore Code"
+    "message": "Invalid recovery code"
   }
 }
