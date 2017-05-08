@@ -53,6 +53,22 @@ l10n.register([
   'keygrid_user_email'
 ]);
 
+/**
+ * On hash change.
+ *
+ * This code takes care of fixing the bootstrap limitation which sets the active class only on the "a" element
+ * rather than the parent "li", when the link that is clicked is outside of the list-group element. (such
+ * as the buttons "Generate key" and "Import key" for instance).
+ */
+$(window).on('hashchange', function() {
+  var hash = location.hash.replace(/^#/, '');
+  var name = hash + 'Button';
+  var $li = $('#' + name).parent();
+  if (!$li.hasClass('active') && $('a', $li).hasClass('active')) {
+    activateTabButton('#' + hash);
+  }
+});
+
 function init() {
   if (document.body.dataset.mvelo) {
     return;
@@ -95,7 +111,7 @@ function init() {
 }
 
 /**
- * Is executed once after all templates hasve been loaded
+ * Is executed once after all templates have been loaded.
  */
 function initUI() {
   return new Promise(function(resolve) {
@@ -140,8 +156,8 @@ function showSetupView(privateKeys) {
 
     $('#setupProviderButton')
       .tab('show') // Activate setup tab
-      .addClass('active')
-      .siblings('a.list-group-item').removeClass('active') // Activate setup navigation
+        .addClass('active')
+        .parent().siblings('.list-group-item').removeClass('active') // Activate setup navigation
     ;
   } else {
     $('#displayKeysButton')
@@ -164,14 +180,12 @@ function showSetupView(privateKeys) {
   $('form').submit(function(e) { e.preventDefault(); });
 
   // Enabling selection of the elements in settings navigation
-  $('.list-group-item').on('click', function() {
-    window.location.hash = $(this).attr('href');
+  $('li.list-group-item a').on('click', function() {
+    var id = $(this).attr('href');
     var self = $(this);
     if (!self.hasClass('disabled')) {
-      self.parent().find('.list-group-item').each(function() {
-        $(this).removeClass('active');
-      });
-      self.addClass('active');
+      $('section' + id).attr('aria-hidden', false);
+      $('section' + id).siblings('section').attr('aria-hidden', true);
     }
   });
 
@@ -271,18 +285,27 @@ function initKeyringSelection(data) {
   setKeyRing(currentKeyringId);
 }
 
+/**
+ * Activate a tab button in the secondary menu.
+ *
+ * Is mainly used during initialization of the page.
+ *
+ * @param string hash, hash tag related to the button to activate.
+ */
 function activateTabButton(hash) {
-  if (!hash) {
+  if (hash == undefined) {
     return;
   }
 
   var name = hash + 'Button';
-  $(name)
-    .tab('show')
-    .addClass('active')
-    .siblings('a.list-group-item').removeClass('active')
-  ;
+  var $li = $(name).parent();
+  $li.addClass('active')
+    .siblings('li.list-group-item')
+    .each(function() {
+      $(this).removeClass('active');
+    });
 }
+
 
 function setKeyRing(keyringId) {
   var primaryKeyId = $('a[data-keyringid="' + keyringId + '"]').attr('data-primarykeyid');

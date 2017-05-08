@@ -226,6 +226,10 @@ input[readonly] {
     }
 }
 
+ul.list-group li.list-group-item a {
+    display: block;
+}
+
 #settingsPanel {
     position: absolute;
     top: 60px;
