@@ -156,8 +156,8 @@ function showSetupView(privateKeys) {
 
     $('#setupProviderButton')
       .tab('show') // Activate setup tab
-        .addClass('active')
-        .parent().siblings('.list-group-item').removeClass('active') // Activate setup navigation
+      .addClass('active')
+      .parent().siblings('.list-group-item').removeClass('active') // Activate setup navigation
     ;
   } else {
     $('#displayKeysButton')
@@ -177,7 +177,9 @@ function showSetupView(privateKeys) {
   }
 
   // Disable submitting of forms by for example pressing enter
-  $('form').submit(function(e) { e.preventDefault(); });
+  $('form').submit(function(e) {
+    e.preventDefault();
+  });
 
   // Enabling selection of the elements in settings navigation
   $('li.list-group-item a').on('click', function() {
