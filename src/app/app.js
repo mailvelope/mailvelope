@@ -157,15 +157,20 @@ function showSetupView(privateKeys) {
     $('#setupProviderButton')
       .tab('show') // Activate setup tab
       .addClass('active')
-      .parent().siblings('.list-group-item').removeClass('active') // Activate setup navigation
+      .parent()
+      .siblings('.list-group-item')
+      .removeClass('active') // Activate setup navigation
     ;
+    updateAriaTags('#setupProvider');
   } else {
     $('#displayKeysButton')
       .tab('show') // Activate display keys tab
       .addClass('active')
-      .siblings('a.list-group-item').removeClass('active') // Activate display keys navigation
+      .siblings('a.list-group-item')
+      .removeClass('active') // Activate display keys navigation
     ;
     $('.keyring_setup_message').removeClass('active');
+    updateAriaTags('#displayKeys');
   }
 
   mvelo.util.showSecurityBackground();
@@ -186,8 +191,7 @@ function showSetupView(privateKeys) {
     var id = $(this).attr('href');
     var self = $(this);
     if (!self.hasClass('disabled')) {
-      $('section' + id).attr('aria-hidden', false);
-      $('section' + id).siblings('section').attr('aria-hidden', true);
+      updateAriaTags(id);
     }
   });
 
@@ -202,6 +206,20 @@ function showSetupView(privateKeys) {
       tabTrigger.addClass('active');
     }
   });
+}
+
+/**
+ * Update Aria tags for hidden and shown sections.
+ * @param hash
+ */
+function updateAriaTags(hash) {
+  var $section = $('section' + hash);
+  if ($section.length) {
+    $section.attr('aria-hidden', false);
+    $section
+      .siblings('section[role=tabpanel]')
+      .attr('aria-hidden', true);
+  }
 }
 
 function switchOptionsUI(keyRingAttr) {
@@ -306,6 +324,8 @@ function activateTabButton(hash) {
     .each(function() {
       $(this).removeClass('active');
     });
+
+  updateAriaTags(hash);
 }
 
 
