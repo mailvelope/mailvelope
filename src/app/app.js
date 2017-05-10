@@ -67,6 +67,8 @@ $(window).on('hashchange', function() {
   if (!$li.hasClass('active') && $('a', $li).hasClass('active')) {
     activateTabButton('#' + hash);
   }
+  // Set focus on the corresponding button.
+  $('a#' + name).focus();
 });
 
 function init() {
