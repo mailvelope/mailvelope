@@ -22,6 +22,7 @@ var mvelo = require('lib-mvelo');
 var openpgp = require('openpgp');
 var goog = require('./closure-library/closure/goog/emailaddress').goog;
 var prefs = require('./prefs');
+var keyringStore = require('./keyringStore');
 var l10n = mvelo.l10n.get;
 var keyringSync = require('./keyringSync');
 var keyringAttr = null;
@@ -31,71 +32,86 @@ var KeyServer = require('./keyserver');
 var keyServer = new KeyServer(mvelo);
 
 function init() {
-  keyringAttr = getAllKeyringAttr();
-  if (keyringAttr && keyringAttr[mvelo.LOCAL_KEYRING_ID]) {
-    for (var keyringId in keyringAttr) {
-      if (keyringAttr.hasOwnProperty(keyringId)) {
-        keyringMap.set(keyringId, _getKeyring(keyringId));
+  return getAllKeyringAttr()
+  .then(attributes => {
+    keyringAttr = attributes;
+    if (keyringAttr && keyringAttr[mvelo.LOCAL_KEYRING_ID]) {
+      let createKeyringAsync = [];
+      for (let keyringId in keyringAttr) {
+        if (keyringAttr.hasOwnProperty(keyringId)) {
+          createKeyringAsync.push(
+            _getKeyring(keyringId).then(keyRng => keyringMap.set(keyringId, keyRng))
+          );
+        }
       }
+      return Promise.all(createKeyringAsync);
+    } else {
+      return createKeyring(mvelo.LOCAL_KEYRING_ID)
+      .then(() => {
+        // migrate primary_key attribute
+        if (prefs.data().general.primary_key) {
+          return setKeyringAttr(mvelo.LOCAL_KEYRING_ID, {primary_key: prefs.data().general.primary_key});
+        }
+      });
     }
-  } else {
-    createKeyring(mvelo.LOCAL_KEYRING_ID);
-    // migrate primary_key attribute
-    if (prefs.data().general.primary_key) {
-      setKeyringAttr(mvelo.LOCAL_KEYRING_ID, {primary_key: prefs.data().general.primary_key});
-    }
-  }
+  });
 }
 
 function createKeyring(keyringId, options) {
-  // init keyring attributes
-  if (!keyringAttr) {
-    keyringAttr = {};
-  }
-  if (keyringAttr[keyringId]) {
-    var error = new Error('Keyring for id ' + keyringId + ' already exists.');
-    error.code = 'KEYRING_ALREADY_EXISTS';
-    throw error;
-  }
-  keyringAttr[keyringId] = {};
+  return Promise.resolve()
+  .then(() => {
+    // init keyring attributes
+    if (!keyringAttr) {
+      keyringAttr = {};
+    }
+    if (keyringAttr[keyringId]) {
+      var error = new Error('Keyring for id ' + keyringId + ' already exists.');
+      error.code = 'KEYRING_ALREADY_EXISTS';
+      throw error;
+    }
+    keyringAttr[keyringId] = {};
+  })
   // instantiate keyring
-  var keyRng = _getKeyring(keyringId);
-  keyringMap.set(keyringId, keyRng);
-  setKeyringAttr(keyringId, {} || options);
-  return keyRng;
+  .then(() => _getKeyring(keyringId))
+  .then(keyRng => {
+    keyringMap.set(keyringId, keyRng);
+    return setKeyringAttr(keyringId, {} || options)
+    .then(() => keyRng);
+  });
 }
 
 /**
  * Instantiate a new keyring object
  * @param  {String} keyringId
- * @return {Keyring}
+ * @return {Promise<Keyring>}
  */
 function _getKeyring(keyringId) {
   // resolve keyring dependencies
-  var localstore = null;
-  if (keyringId !== mvelo.LOCAL_KEYRING_ID) {
-    localstore = new openpgp.Keyring.localstore(keyringId);
-  }
-  var pgpKeyring = new openpgp.Keyring(localstore);
-  var krSync = new keyringSync.KeyringSync(keyringId);
-  // instantiate keyring
-  return new Keyring(keyringId, pgpKeyring, krSync);
+  return keyringStore.createKeyringStore(keyringId)
+  .then(krStore => {
+    const krSync = new keyringSync.KeyringSync(keyringId);
+    // instantiate keyring
+    return new Keyring(keyringId, krStore, krSync);
+  });
 }
 
 function deleteKeyring(keyringId) {
-  if (!keyringAttr[keyringId]) {
-    var error = new Error('Keyring for id ' + keyringId + ' does not exist.');
-    error.code = 'NO_KEYRING_FOR_ID';
-    throw error;
-  }
-  var keyRng = keyringMap.get(keyringId);
-  keyRng.keyring.clear();
-  keyRng.keyring.store();
-  keyRng.keyring.storeHandler.storage.removeItem(keyRng.keyring.storeHandler.publicKeysItem);
-  keyRng.keyring.storeHandler.storage.removeItem(keyRng.keyring.storeHandler.privateKeysItem);
-  keyringMap.delete(keyringId);
-  delete keyringAttr[keyringId];
-  mvelo.storage.set('mailvelopeKeyringAttr', keyringAttr);
+  return Promise.resolve()
+  .then(() => {
+    if (!keyringAttr[keyringId]) {
+      var error = new Error('Keyring for id ' + keyringId + ' does not exist.');
+      error.code = 'NO_KEYRING_FOR_ID';
+      throw error;
+    }
+    var keyRng = keyringMap.get(keyringId);
+    keyRng.keyring.clear();
+    return keyRng.keyring.storeHandler.remove();
+  })
+  .then(() => {
+    keyringMap.delete(keyringId);
+    delete keyringAttr[keyringId];
+    return mvelo.storage.set('mvelo.keyring.attributes', keyringAttr);
+  })
 }
 
 function getById(keyringId) {
@@ -120,15 +136,18 @@ function getAll() {
 }
 
 function getAllKeyringAttr() {
-  return mvelo.storage.get('mailvelopeKeyringAttr');
+  return mvelo.storage.get('mvelo.keyring.attributes');
 }
 
 function setKeyringAttr(keyringId, attr) {
-  if (!keyringAttr[keyringId]) {
-    throw new Error('Keyring does not exist for id: ' + keyringId);
-  }
-  mvelo.util.extend(keyringAttr[keyringId], attr);
-  mvelo.storage.set('mailvelopeKeyringAttr', keyringAttr);
+  return Promise.resolve()
+  .then(() => {
+    if (!keyringAttr[keyringId]) {
+      throw new Error('Keyring does not exist for id: ' + keyringId);
+    }
+    mvelo.util.extend(keyringAttr[keyringId], attr);
+    return mvelo.storage.set('mvelo.keyring.attributes', keyringAttr);
+  });
 }
 
 function getKeyringAttr(keyringId, attr) {
@@ -616,37 +635,40 @@ Keyring.prototype.validatePrimaryKey = function(primaryKey) {
 }
 
 Keyring.prototype.importKeys = function(armoredKeys) {
-  var that = this;
   var result = [];
-  // sort, public keys first
-  armoredKeys = armoredKeys.sort(function(a, b) {
-    return b.type.localeCompare(a.type);
-  });
-  // import
-  armoredKeys.forEach(function(key) {
-    try {
-      if (key.type === 'public') {
-        result = result.concat(that.importPublicKey(key.armored, that.keyring));
-      } else if (key.type === 'private') {
-        result = result.concat(that.importPrivateKey(key.armored, that.keyring));
+  return Promise.resolve()
+  .then(() => {
+    // sort, public keys first
+    armoredKeys = armoredKeys.sort((a, b) => b.type.localeCompare(a.type));
+    // import
+    armoredKeys.forEach(key => {
+      try {
+        if (key.type === 'public') {
+          result = result.concat(this.importPublicKey(key.armored, this.keyring));
+        } else if (key.type === 'private') {
+          result = result.concat(this.importPrivateKey(key.armored, this.keyring));
+        }
+      } catch (e) {
+        result.push({
+          type: 'error',
+          message: l10n('key_import_unable', [e])
+        });
       }
-    } catch (e) {
-      result.push({
-        type: 'error',
-        message: l10n('key_import_unable', [e])
-      });
+    });
+    // exit if no import succeeded
+    if (!result.some(message => message.type === 'success')) {
+      return;
     }
-  });
-  // store if import succeeded
-  if (result.some(function(message) { return message.type === 'success'; })) {
-    this.keyring.store();
-    this.sync.commit();
-    // by no primary key in the keyring set the first found private keys as primary for the keyring
-    if (!that.hasPrimaryKey() && that.keyring.privateKeys.keys.length > 0) {
-      setKeyringAttr(that.id, {primary_key: that.keyring.privateKeys.keys[0].primaryKey.keyid.toHex().toUpperCase()});
-    }
-  }
-  return result;
+    return this.keyring.store()
+    .then(() => this.sync.commit())
+    .then(() => {
+      // by no primary key in the keyring set the first found private keys as primary for the keyring
+      if (!this.hasPrimaryKey() && this.keyring.privateKeys.keys.length > 0) {
+        return setKeyringAttr(this.id, {primary_key: this.keyring.privateKeys.keys[0].primaryKey.keyid.toHex().toUpperCase()});
+      }
+    });
+  })
+  .then(() => result);
 };
 
 Keyring.prototype.importPublicKey = function(armored) {
@@ -765,26 +787,35 @@ function checkKeyId(sourceKey, keyring) {
 }
 
 Keyring.prototype.removeKey = function(fingerprint, type) {
-  var removedKey;
-  fingerprint = fingerprint.toLowerCase();
-  if (type === 'public') {
-    removedKey = this.keyring.publicKeys.removeForId(fingerprint);
-  } else if (type === 'private') {
-    removedKey = this.keyring.privateKeys.removeForId(fingerprint);
-  }
-  if (!removedKey) {
-    return;
-  }
-  if (type === 'private') {
-    var primaryKey = this.getAttributes().primary_key;
-    // Remove the key from the keyring attributes if primary
-    if (primaryKey && primaryKey.toLowerCase() === removedKey.primaryKey.keyid.toHex()) {
-      setKeyringAttr(this.id, {primary_key: ''});
+  let removedKey;
+  return Promise.resolve()
+  .then(() => {
+    fingerprint = fingerprint.toLowerCase();
+    if (type === 'public') {
+      removedKey = this.keyring.publicKeys.removeForId(fingerprint);
+    } else if (type === 'private') {
+      removedKey = this.keyring.privateKeys.removeForId(fingerprint);
     }
-  }
-  this.sync.add(removedKey.primaryKey.getFingerprint(), keyringSync.DELETE);
-  this.keyring.store();
-  this.sync.commit();
+    if (!removedKey) {
+      // key not found
+      return;
+    }
+    return Promise.resolve()
+    .then(() => {
+      if (type === 'private') {
+        const primaryKey = this.getAttributes().primary_key;
+        // Remove the key from the keyring attributes if primary
+        if (primaryKey && primaryKey.toLowerCase() === removedKey.primaryKey.keyid.toHex()) {
+          return setKeyringAttr(this.id, {primary_key: ''});
+        }
+      }
+    })
+    .then(() => {
+      this.sync.add(removedKey.primaryKey.getFingerprint(), keyringSync.DELETE);
+      return this.keyring.store();
+    })
+    .then(() => this.sync.commit());
+  });
 };
 
 /**
@@ -797,34 +828,38 @@ Keyring.prototype.removeKey = function(fingerprint, type) {
  * @yield {Object}                            The generated key pair
  */
 Keyring.prototype.generateKey = function(options) {
-  var that = this;
-  options.userIds = options.userIds.map(function(userId) {
-    if (userId.fullName) {
-      return (new goog.format.EmailAddress(userId.email, userId.fullName)).toString();
-    } else {
-      return '<' + userId.email + '>';
-    }
-  });
-  return openpgp.generateKeyPair({numBits: parseInt(options.numBits), userId: options.userIds, passphrase: options.passphrase, keyExpirationTime: options.keyExpirationTime})
-    .then(function(data) {
-      if (data) {
-        that.keyring.privateKeys.push(data.key);
-        that.sync.add(data.key.primaryKey.getFingerprint(), keyringSync.INSERT);
-        that.keyring.store();
-        that.sync.commit();
-        // by no primary key in the keyring set the generated key as primary
-        if (!that.hasPrimaryKey()) {
-          setKeyringAttr(that.id, {primary_key: data.key.primaryKey.keyid.toHex().toUpperCase()});
-        }
-        // upload public key
-        if (options.uploadPublicKey) {
-          return keyServer.upload({publicKeyArmored: data.publicKeyArmored}).then(function() {
-            return data;
-          });
-        }
+  let newKey = null;
+  return Promise.resolve()
+  .then(() => {
+    options.userIds = options.userIds.map(function(userId) {
+      if (userId.fullName) {
+        return (new goog.format.EmailAddress(userId.email, userId.fullName)).toString();
+      } else {
+        return '<' + userId.email + '>';
       }
-      return data;
     });
+    return openpgp.generateKeyPair({numBits: parseInt(options.numBits), userId: options.userIds, passphrase: options.passphrase, keyExpirationTime: options.keyExpirationTime})
+  })
+  .then(data => {
+    newKey = data;
+    this.keyring.privateKeys.push(newKey.key);
+    this.sync.add(newKey.key.primaryKey.getFingerprint(), keyringSync.INSERT);
+  })
+  .then(() => this.keyring.store())
+  .then(() => this.sync.commit())
+  .then(() => {
+    // by no primary key in the keyring set the generated key as primary
+    if (!this.hasPrimaryKey()) {
+      return setKeyringAttr(this.id, {primary_key: newKey.key.primaryKey.keyid.toHex().toUpperCase()});
+    }
+  })
+  .then(() => {
+    // upload public key
+    if (options.uploadPublicKey) {
+      return keyServer.upload({publicKeyArmored: newKey.publicKeyArmored})
+    }
+  })
+  .then(() => newKey);
 };
 
 Keyring.prototype.getKeyForSigning = function(keyIdHex) {

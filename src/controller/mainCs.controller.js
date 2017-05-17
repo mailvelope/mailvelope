@@ -27,10 +27,8 @@ class MainCsController extends sub.SubController {
   }
 
   handleContentReady() {
-    this.emit('init', {
-      prefs: this.prefs.data(),
-      watchList: this.model.getWatchList()
-    });
+    this.model.getWatchList()
+    .then(watchList => this.emit('init', {prefs: this.prefs.data(), watchList}));
   }
 
   updatePrefs() {

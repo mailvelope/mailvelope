@@ -37,13 +37,13 @@ function handleApiEvent(request, sender, sendResponse) {
         }
         break;
       case 'create-keyring':
-        keyRing = keyring.createKeyring(request.keyringId);
-        if (keyRing) {
-          keyRing.sync.activate();
+        keyring.createKeyring(request.keyringId)
+        .then(keyRing => keyRing.sync.activate())
+        .then(() => {
           sendResponse({data: {}});
           sub.setActiveKeyringId(request.keyringId);
-        }
-        break;
+        });
+        return true;
       case 'query-valid-key':
         var keyMap = keyring.getById(request.keyringId).getKeyByAddress(request.recipients, {validity: true, fingerprint: true, sort: true});
         Object.keys(keyMap).forEach(function(email) {
@@ -74,9 +74,9 @@ function handleApiEvent(request, sender, sendResponse) {
         sendResponse({error: null, data: armored[0].armoredPublic});
         break;
       case 'import-pub-key':
-        sub.factory.get('importKeyDialog').importKey(request.keyringId, request.armored, function(err, status) {
-          sendResponse({error: err, data: status});
-        });
+        sub.factory.get('importKeyDialog').importKey(request.keyringId, request.armored)
+        .then(status => sendResponse({data: status}))
+        .catch(err => sendResponse({error: err}));
         return true;
       case 'set-logo':
         attr = keyring.getById(request.keyringId).getAttributes();
@@ -84,9 +84,12 @@ function handleApiEvent(request, sender, sendResponse) {
           sendResponse({error: {message: 'New logo revision < existing revision.', code: 'REVISION_INVALID'}});
           return;
         }
-        keyring.setKeyringAttr(request.keyringId, {logo_revision: request.revision, logo_data_url: request.dataURL});
-        sendResponse({error: null, data: null});
-        break;
+        keyring.setKeyringAttr(request.keyringId, {logo_revision: request.revision, logo_data_url: request.dataURL})
+        .then(() => {
+          sendResponse({error: null, data: null});
+        })
+        .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
+        return true;
       case 'has-private-key':
         var fingerprint = request.fingerprint.toLowerCase().replace(/\s/g, '');
         var key = keyring.getById(request.keyringId).keyring.privateKeys.getForId(fingerprint);

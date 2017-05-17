@@ -21,7 +21,6 @@ var data = require('sdk/self').data;
 var tabs = require('sdk/tabs');
 var windows = require('sdk/windows').browserWindows;
 var addonWindow = require('sdk/addon/window');
-//var {open} = require('sdk/window/utils');
 var timer = require('sdk/timers');
 var ss = require('sdk/simple-storage');
 var url = require('sdk/url');
@@ -153,12 +152,66 @@ mvelo.tabs.onOptionsTabReady = function() {
 
 mvelo.storage = {};
 
+mvelo.storage._setPort = function(port) {
+  this.port = port;
+  this.getQueue = [];
+  this.setQueue = [];
+  this.removeQueue = [];
+  port.onMessage.addListener(msg => {
+    let reply;
+    switch (msg.event) {
+      case 'storage-get-response':
+        reply = this.getQueue.shift();
+        break;
+      case 'storage-set-response':
+        reply = this.setQueue.shift();
+        break;
+      case 'storage-remove-response':
+        reply = this.removeQueue.shift();
+        break;
+      default:
+        console.log('unknown storage event:', msg.event);
+    }
+    if (msg.error) {
+      reply.reject(msg.error);
+    } else {
+      reply.resolve(msg.data);
+    }
+  });
+};
+
 mvelo.storage.get = function(id) {
-  return ss.storage[id];
+  return new Promise((resolve, reject) => {
+    this.port.postMessage({event: 'storage-get', id});
+    this.getQueue.push({resolve, reject});
+  });
 };
 
 mvelo.storage.set = function(id, obj) {
-  ss.storage[id] = obj;
+  return new Promise((resolve, reject) => {
+    this.port.postMessage({event: 'storage-set', id, value: obj});
+    this.setQueue.push({resolve, reject});
+  });
+};
+
+mvelo.storage.remove = function(id) {
+  return new Promise((resolve, reject) => {
+    this.port.postMessage({event: 'storage-remove', id});
+    this.removeQueue.push({resolve, reject});
+  });
+};
+
+mvelo.storage.old = {};
+
+mvelo.storage.old.get = function(id) {
+  if (typeof ss.storage[id] === 'string') {
+    return JSON.parse(ss.storage[id]);
+  }
+  return ss.storage[id];
+};
+
+mvelo.storage.old.remove = function(id) {
+  delete ss.storage[id];
 };
 
 mvelo.windows = {};

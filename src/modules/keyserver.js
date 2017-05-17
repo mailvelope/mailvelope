@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+var prefs = require('./prefs');
+
 /**
  * @fileOverview A simple HTTP client for Mailvelope Key Server's REST api.
  */
@@ -37,8 +39,7 @@ function KeyServer(mvelo, baseUrl) {
  * @return {boolean}   If TOFU is enabled or not
  */
 KeyServer.prototype.getTOFUPreference = function() {
-  var prefs = this._mvelo.storage.get('mailvelopePreferences');
-  return prefs && prefs.keyserver && prefs.keyserver.mvelo_tofu_lookup === true;
+  return prefs.data().keyserver.mvelo_tofu_lookup === true;
 };
 
 /**

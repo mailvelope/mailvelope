@@ -48,14 +48,17 @@ function initSecurityBgnd(pref) {
 }
 
 function init() {
-  var prefs = model.getPreferences();
-  if (!prefs) {
-    prefs = defaults.preferences;
-    prefs.version = defaults.version;
-    initSecurityBgnd(prefs);
-    model.setWatchList(defaults.watch_list);
-  } else {
-    if (prefs.version !== defaults.version) {
+  return model.getPreferences()
+  .then(prefs => {
+    if (!prefs) {
+      // new install
+      prefs = defaults.preferences;
+      prefs.version = defaults.version;
+      initSecurityBgnd(prefs);
+      return model.setWatchList(defaults.watch_list)
+      .then(() => model.setPreferences(prefs));
+    } else if (prefs.version !== defaults.version) {
+      // version changed
       prefs.version = defaults.version;
       prefs.general.editor_type = mvelo.PLAIN_TEXT;
 
@@ -76,43 +79,48 @@ function init() {
       }
 
       // merge watchlist on version change
-      mergeWatchlist(defaults);
+      return mergeWatchlist(defaults)
+      .then(() => model.setPreferences(prefs));
     }
-  }
-  model.setPreferences(prefs);
+  });
 }
 
 function mergeWatchlist(defaults) {
   var mod = false;
-  var localList = model.getWatchList() || [];
-  defaults.watch_list.forEach(function(defaultSite) {
-    var localSite = localList.find(function(localSite) {
-      return localSite.site === defaultSite.site;
-    });
-    if (localSite) {
-      defaultSite.frames.forEach(function(defaultFrame) {
-        localSite.frames = localSite.frames || [];
-        var localFrame = localSite.frames.find(function(localFrame) {
-          return localFrame.frame === defaultFrame.frame;
-        });
-        if (!localFrame) {
-          localSite.frames.push(defaultFrame);
-          mod = true;
-        } else {
-          if (typeof localFrame.api === 'undefined') {
-            localFrame.api = false;
-            mod = true;
-          }
-        }
+  return model.getWatchList()
+  .then((localList = []) => {
+    defaults.watch_list.forEach(function(defaultSite) {
+      var localSite = localList.find(function(localSite) {
+        return localSite.site === defaultSite.site;
       });
-    } else {
-      localList.push(defaultSite);
-      mod = true;
+      if (localSite) {
+        defaultSite.frames.forEach(function(defaultFrame) {
+          localSite.frames = localSite.frames || [];
+          var localFrame = localSite.frames.find(function(localFrame) {
+            return localFrame.frame === defaultFrame.frame;
+          });
+          if (!localFrame) {
+            localSite.frames.push(defaultFrame);
+            mod = true;
+          } else {
+            if (typeof localFrame.api === 'undefined') {
+              localFrame.api = false;
+              mod = true;
+            }
+          }
+        });
+      } else {
+        localList.push(defaultSite);
+        mod = true;
+      }
+    });
+    return localList;
+  })
+  .then(localList => {
+    if (mod) {
+      return model.setWatchList(localList);
     }
   });
-  if (mod) {
-    model.setWatchList(localList);
-  }
 }
 
 function getVersion() {

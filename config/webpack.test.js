@@ -6,7 +6,7 @@ var path = require('path');
 
 module.exports = {
 
-  devtool: 'cheap-source-map',
+  devtool: 'cheap-module-source-map',
 
   entry: './test/test.js',
 

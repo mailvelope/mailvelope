@@ -17,10 +17,8 @@
 
 'use strict';
 
-var ss = require('sdk/simple-storage');
 var data = require('sdk/self').data;
 var pageMod = require('sdk/page-mod');
-var unload = require('sdk/system/unload');
 var l10nGet = require("sdk/l10n").get;
 
 var ToggleButton = require('sdk/ui/button/toggle').ToggleButton;
@@ -30,31 +28,24 @@ const webExtension = require('sdk/webextension');
 
 var mvelo = require('./lib-mvelo.js');
 var controller = require('../../controller/main.controller');
-var prompts = require('./prompt');
 
 var pageMods = {};
 
 var mailvelopePanel = null;
 
 let webExURL = '';
-
-unload.when(function(reason) {
-  // reason is never 'uninstall' https://bugzilla.mozilla.org/show_bug.cgi?id=571049
-  if (reason === 'uninstall' || reason === 'disable') {
-    //console.log("Extension disabled or unistalled");
-    if (prompts.confirm(l10nGet("clear_localstorage_confirm_title"), l10nGet("clear_localstorage_confirm_message"))) {
-      clearStorage();
-    }
-  }
-});
+let webexInitialized = 0;
 
 webExtension.startup().then(api => {
-  const {browser} = api;
+  let browser = api.browser;
   browser.runtime.onMessage.addListener((msg, sender, sendReply) => {
     switch (msg.event) {
       case 'web-extension-path':
         webExURL = msg.url;
-        init();
+        webexInitialized++;
+        if (webexInitialized === 2) {
+          init();
+        }
         break;
       case 'get-l10n-messages':
         var result = {};
@@ -68,6 +59,14 @@ webExtension.startup().then(api => {
     }
   });
   browser.runtime.onConnect.addListener(port => {
+    if (port.name === 'storage-port') {
+      mvelo.storage._setPort(port);
+      webexInitialized++;
+      if (webexInitialized === 2) {
+        init();
+      }
+      return;
+    }
     controller.portManager.addPort(port);
     port.onMessage.addListener(controller.portManager.handlePortMessage);
     // update active ports on disconnect
@@ -83,9 +82,11 @@ function init() {
     activate: function() {},
     deactivate: function() {}
   });
-  controller.init();
-  initAddonButton();
-  activatePageMods();
+  controller.init()
+  .then(() => {
+    initAddonButton();
+    activatePageMods();
+  });
 }
 
 function onPanelMessage(msg) {
@@ -147,43 +148,38 @@ function activatePageMods() {
   injectEmbeddedRestoreBackup();
 }
 
-function clearStorage() {
-  for (var obj in ss.storage) {
-    delete ss.storage[obj];
-  }
-}
-
 function injectMainCS() {
 
-  var filterURL = controller.getWatchListFilterURLs();
+  controller.getWatchListFilterURLs()
+  .then(filterURL => {
+    var modOptions = {
+      include: filterURL,
+      onAttach: onCsAttach,
+      contentScriptFile: [
+        data.url('lib/messageAdapter.js'),
+        data.url('content-scripts/cs-mailvelope.js')
+      ],
+      contentStyle: getDynamicStyle('content-scripts/framestyles.css'),
+      contentScriptOptions: {
+        expose_messaging: false,
+        data_path: data.url(),
+        data_path_webex: webExURL
+      },
+      contentScriptWhen: 'ready',
+      attachTo: ['existing', 'top', 'frame']
+    };
 
-  var modOptions = {
-    include: filterURL,
-    onAttach: onCsAttach,
-    contentScriptFile: [
-      data.url('lib/messageAdapter.js'),
-      data.url('content-scripts/cs-mailvelope.js')
-    ],
-    contentStyle: getDynamicStyle('content-scripts/framestyles.css'),
-    contentScriptOptions: {
-      expose_messaging: false,
-      data_path: data.url(),
-      data_path_webex: webExURL
-    },
-    contentScriptWhen: 'ready',
-    attachTo: ['existing', 'top', 'frame']
-  };
-
-  if (pageMods.mainPageMod !== undefined) {
-    try {
-      pageMods.mainPageMod.destroy();
-    } catch (e) {
-      console.log('Destroying active page-mod failed', e);
+    if (pageMods.mainPageMod !== undefined) {
+      try {
+        pageMods.mainPageMod.destroy();
+      } catch (e) {
+        console.log('Destroying active page-mod failed', e);
+      }
     }
-  }
 
-  //console.log('modOptions.include', modOptions.include);
-  pageMods.mainPageMod = pageMod.PageMod(modOptions);
+    //console.log('modOptions.include', modOptions.include);
+    pageMods.mainPageMod = pageMod.PageMod(modOptions);
+  });
 
 }
 

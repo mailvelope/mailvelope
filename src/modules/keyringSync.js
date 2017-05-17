@@ -40,7 +40,7 @@ KeyringSync.prototype.activate = function() {
       modified: false
     };
   }
-  this.save();
+  return this.save();
 };
 
 KeyringSync.prototype.add = function(keyid, type) {
@@ -62,20 +62,24 @@ KeyringSync.prototype.add = function(keyid, type) {
 };
 
 KeyringSync.prototype.save = function() {
-  if (!this.data) {
-    return;
-  }
-  var data = {};
-  data[this.SYNC_DATA] = this.data;
-  keyringMod.setKeyringAttr(this.keyringId, data);
+  return Promise.resolve()
+  .then(() => {
+    if (!this.data) {
+      return;
+    }
+    return keyringMod.setKeyringAttr(this.keyringId, {[this.SYNC_DATA]: this.data});
+  })
 };
 
 KeyringSync.prototype.commit = function() {
-  if (!this.data || this.muted) {
-    return;
-  }
-  this.save();
-  syncCtrl.triggerSync({keyringId: this.keyringId});
+  return Promise.resolve()
+  .then(() => {
+    if (!this.data || this.muted) {
+      return;
+    }
+    return this.save()
+    .then(() => syncCtrl.triggerSync({keyringId: this.keyringId}));
+  });
 };
 
 KeyringSync.prototype.merge = function(update) {

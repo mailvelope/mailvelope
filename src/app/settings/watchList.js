@@ -263,8 +263,7 @@ function saveWatchListData(data) {
   mvelo.extension.sendMessage({
     event: 'set-watch-list',
     data: data
-  });
-  reloadWatchList();
+  }, () => reloadWatchList());
 }
 
 event.on('ready', init);

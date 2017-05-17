@@ -23,7 +23,8 @@
     "tabs",
     "webRequest",
     "*://*/*",
-    "clipboardWrite"
+    "clipboardWrite",
+    "storage"
   ],
   "web_accessible_resources": [
     "common/img/addon.detection.png",

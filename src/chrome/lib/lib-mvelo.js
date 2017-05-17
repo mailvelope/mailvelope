@@ -148,11 +148,49 @@ mvelo.tabs.onOptionsTabReady = function() {
 mvelo.storage = {};
 
 mvelo.storage.get = function(id) {
-  return JSON.parse(window.localStorage.getItem(id));
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get(id, items => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+      } else {
+        resolve(items[id]);
+      }
+    });
+  });
 };
 
 mvelo.storage.set = function(id, obj) {
-  window.localStorage.setItem(id, JSON.stringify(obj));
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.set({[id]: obj}, () => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+      } else {
+        resolve();
+      }
+    });
+  });
+};
+
+mvelo.storage.remove = function(id) {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.remove(id, () => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+      } else {
+        resolve();
+      }
+    });
+  });
+};
+
+mvelo.storage.old = {};
+
+mvelo.storage.old.get = function(id) {
+  return JSON.parse(window.localStorage.getItem(id));
+};
+
+mvelo.storage.old.remove = function(id) {
+  window.localStorage.removeItem(id);
 };
 
 mvelo.windows = {};

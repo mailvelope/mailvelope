@@ -8,9 +8,6 @@ describe('Key Server unit tests', function() {
 
   beforeEach(function() {
     mvelo = {
-      storage: {
-        get: function() { return {keyserver: {mvelo_tofu_lookup: true}}; }
-      },
       util: {
         fetch: function() {}
       }
@@ -19,12 +16,6 @@ describe('Key Server unit tests', function() {
     expect(keyServer._baseUrl).to.equal('http://localhost:8888');
 
     sinon.stub(mvelo.util, 'fetch');
-  });
-
-  describe('getTOFUPreference', function() {
-    it('should return key', function() {
-      expect(keyServer.getTOFUPreference()).to.be.true;
-    });
   });
 
   describe('lookup', function() {

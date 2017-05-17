@@ -39,11 +39,13 @@ function init() {
     activate: function() {},
     deactivate: function() {}
   });
-  controller.init();
-  initConnectionManager();
-  //initContextMenu();
-  initScriptInjection();
-  initMessageListener();
+  controller.init()
+  .then(() => {
+    initConnectionManager();
+    //initContextMenu();
+    initScriptInjection();
+    initMessageListener();
+  });
 }
 
 init();
@@ -113,25 +115,21 @@ function loadFramestyles() {
 function initScriptInjection() {
   loadContentCode()
   .then(loadFramestyles)
-  .then(function() {
-    var filterURL = controller.getWatchListFilterURLs();
-
-    filterURL = filterURL.map(function(host) {
-      return '*://' + host + '/*';
-    });
-
-    injectOpenTabs(filterURL)
-    .then(function() {
-      var filterType = ["main_frame", "sub_frame"];
-      var requestFilter = {
-        urls: filterURL,
-        types: filterType
-      };
-      chrome.webRequest.onCompleted.removeListener(watchListRequestHandler);
-      if (filterURL.length !== 0) {
-        chrome.webRequest.onCompleted.addListener(watchListRequestHandler, requestFilter);
-      }
-    });
+  .then(() => {
+    return controller.getWatchListFilterURLs();
+  })
+  .then(filterURL => filterURL.map(host => '*://' + host + '/*'))
+  .then(filterURL => injectOpenTabs(filterURL))
+  .then(filterURL => {
+    var filterType = ["main_frame", "sub_frame"];
+    var requestFilter = {
+      urls: filterURL,
+      types: filterType
+    };
+    chrome.webRequest.onCompleted.removeListener(watchListRequestHandler);
+    if (filterURL.length !== 0) {
+      chrome.webRequest.onCompleted.addListener(watchListRequestHandler, requestFilter);
+    }
   });
 }
 
@@ -145,7 +143,7 @@ function injectOpenTabs(filterURL) {
           chrome.tabs.insertCSS(tab.id, {code: framestyles, allFrames: true});
         });
       });
-      resolve();
+      resolve(filterURL);
     });
   });
 }

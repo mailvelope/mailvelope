@@ -24,7 +24,8 @@ var prefs = null;
 var updateHandlers = [];
 
 function init() {
-  prefs = model.getPreferences();
+  return model.getPreferences()
+  .then(preferences => prefs = preferences);
 }
 
 /**
@@ -32,25 +33,27 @@ function init() {
  * @param  {Object} obj preferences object or properties of it
  */
 function update(obj) {
-  prefs = model.getPreferences();
-
-  if (obj.security) {
-    prefs.security = mvelo.util.extend(prefs.security, obj.security);
-  }
-  if (obj.general) {
-    prefs.general = mvelo.util.extend(prefs.general, obj.general);
-  }
-  if (obj.keyserver) {
-    prefs.keyserver = mvelo.util.extend(prefs.keyserver, obj.keyserver);
-  }
-  if (typeof obj.main_active !== 'undefined') {
-    prefs.main_active = obj.main_active;
-  }
-  model.setPreferences(prefs);
-  // notifiy update handlers
-  updateHandlers.forEach(function(fn) {
-    fn();
-  });
+  return model.getPreferences()
+  .then(preferences => {
+    prefs = preferences;
+    if (obj.security) {
+      prefs.security = mvelo.util.extend(prefs.security, obj.security);
+    }
+    if (obj.general) {
+      prefs.general = mvelo.util.extend(prefs.general, obj.general);
+    }
+    if (obj.keyserver) {
+      prefs.keyserver = mvelo.util.extend(prefs.keyserver, obj.keyserver);
+    }
+    if (typeof obj.main_active !== 'undefined') {
+      prefs.main_active = obj.main_active;
+    }
+    // notifiy update handlers
+    updateHandlers.forEach(function(fn) {
+      fn();
+    });
+    return model.setPreferences(prefs);
+  })
 }
 
 /**

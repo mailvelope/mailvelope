@@ -65,8 +65,10 @@ PwdController.prototype.handlePortMessage = function(msg) {
           that.options.password = msg.password;
           if (msg.cache != that.prefs.data().security.password_cache) {
             // update pwd cache status
-            that.prefs.update({security: {password_cache: msg.cache}});
+            return that.prefs.update({security: {password_cache: msg.cache}});
           }
+        })
+        .then(() => {
           if (msg.cache) {
             // set unlocked key and password in cache
             that.pwdCache.set(that.options, msg.password);

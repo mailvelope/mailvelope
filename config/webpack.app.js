@@ -29,7 +29,7 @@ const prod = {
 
 const dev = {
 
-  devtool: 'cheap-source-map',
+  devtool: 'cheap-module-source-map',
   entry,
   output,
   resolve: common.resolve(),

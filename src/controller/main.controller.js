@@ -58,7 +58,7 @@ function extend(obj) {
 }
 
 function init() {
-  model.init();
+  return model.init();
 }
 
 function handleMessageEvent(request, sender, sendResponse) {
@@ -86,11 +86,14 @@ function handleMessageEvent(request, sender, sendResponse) {
       scannedHosts = scannedHosts.concat(request.result);
       break;
     case 'set-watch-list':
-      model.setWatchList(request.data);
-      if (mvelo.ffa) {
-        reloadFrames(true);
-      }
-      specific.initScriptInjection();
+      model.setWatchList(request.data)
+      .then(() => {
+        if (mvelo.ffa) {
+          reloadFrames(true);
+        }
+        specific.initScriptInjection();
+        sendResponse(true);
+      });
       break;
     case 'init-script-injection':
       if (mvelo.ffa) {
@@ -100,11 +103,13 @@ function handleMessageEvent(request, sender, sendResponse) {
       break;
     case 'get-all-keyring-attr':
       try {
-        sendResponse({result: keyring.getAllKeyringAttr()});
+        keyring.getAllKeyringAttr()
+        .then(result => sendResponse({result}));
       } catch (e) {
         sendResponse({error: e});
       }
-      break;
+      // return true for async calls, otherwise Chrome does not handle sendResponse
+      return true;
     case 'set-keyring-attr':
       keyring.setKeyringAttr(request.keyringId, request.keyringAttr);
       break;
@@ -112,14 +117,20 @@ function handleMessageEvent(request, sender, sendResponse) {
       sendResponse(sub.getActiveKeyringId());
       break;
     case 'delete-keyring':
-      if (request.keyringId !== mvelo.LOCAL_KEYRING_ID) {
-        keyring.deleteKeyring(request.keyringId);
+      Promise.resolve()
+      .then(() => {
+        if (request.keyringId === mvelo.LOCAL_KEYRING_ID) {
+          throw new Error('Cannot delete main keyring')
+        }
+        return keyring.deleteKeyring(request.keyringId)
+      })
+      .then(() => {
         sub.setActiveKeyringId(mvelo.LOCAL_KEYRING_ID);
         sendResponse(true);
-      } else {
-        console.log('Keyring could not be deleted');
-      }
-      break;
+      })
+      .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
+      // return true for async calls, otherwise Chrome does not handle sendResponse
+      return true;
     case 'send-by-mail':
       var link = encodeURI('mailto:?subject=Public OpenPGP key of ');
       link += encodeURIComponent(request.message.data.name);
@@ -132,11 +143,14 @@ function handleMessageEvent(request, sender, sendResponse) {
       sendResponse(request);
       break;
     case 'set-prefs':
-      prefs.update(request.data);
-      sendResponse(true);
-      // update content scripts
-      sub.getByMainType('mainCS').forEach(mainCScontrl => mainCScontrl.updatePrefs());
-      break;
+      prefs.update(request.data)
+      .then(() => {
+        sendResponse(true);
+        // update content scripts
+        sub.getByMainType('mainCS').forEach(mainCScontrl => mainCScontrl.updatePrefs());
+      });
+      // return true for async calls, otherwise Chrome does not handle sendResponse
+      return true;
     case 'get-ui-log':
       request.secLog = uiLog.getAll();
       request.secLog = request.secLog.slice(request.securityLogLength);
@@ -157,15 +171,19 @@ function handleMessageEvent(request, sender, sendResponse) {
       sendResponse(defaults.getVersion());
       break;
     case 'activate':
-      postToNodes(sub.getByMainType('mainCS'), {event: 'on'});
-      specific.activate();
-      prefs.update({main_active: true});
+      prefs.update({main_active: true})
+      .then(() => {
+        postToNodes(sub.getByMainType('mainCS'), {event: 'on'});
+        specific.activate();
+      });
       break;
     case 'deactivate':
-      postToNodes(sub.getByMainType('mainCS'), {event: 'off'});
-      specific.deactivate();
-      reloadFrames();
-      prefs.update({main_active: false});
+      prefs.update({main_active: false})
+      .then(() => {
+        postToNodes(sub.getByMainType('mainCS'), {event: 'off'});
+        specific.deactivate();
+        reloadFrames();
+      });
       break;
     case 'get-all-key-userid':
       sendResponse({result: keyring.getAllKeyUserId()});
@@ -340,20 +358,23 @@ function reduceHosts(hosts) {
 }
 
 function getWatchListFilterURLs() {
-  let result = [];
-  model.getWatchList().forEach(function(site) {
-    site.active && site.frames && site.frames.forEach(function(frame) {
-      frame.scan && result.push(frame.frame);
+  return model.getWatchList()
+  .then(watchList => {
+    let result = [];
+    watchList.forEach(function(site) {
+      site.active && site.frames && site.frames.forEach(function(frame) {
+        frame.scan && result.push(frame.frame);
+      });
     });
+    // add hkp key server to enable key import
+    let hkpHost = model.getHostname(prefs.data().keyserver.hkp_base_url);
+    hkpHost = reduceHosts([hkpHost]);
+    result.push(...hkpHost);
+    if (result.length !== 0) {
+      result = mvelo.util.sortAndDeDup(result);
+    }
+    return result;
   });
-  // add hkp key server to enable key import
-  let hkpHost = model.getHostname(prefs.data().keyserver.hkp_base_url);
-  hkpHost = reduceHosts([hkpHost]);
-  result.push(...hkpHost);
-  if (result.length !== 0) {
-    result = mvelo.util.sortAndDeDup(result);
-  }
-  return result;
 }
 
 exports.handleMessageEvent = handleMessageEvent;

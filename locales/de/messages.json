@@ -23,14 +23,6 @@
     "message": "Ändern",
     "description": "Navigation link to change this setting."
   },
-  "clear_localstorage_confirm_message": {
-    "message": "Wollen Sie wirklich alle Ihre PGP-Schlüssel aus diesem Browserprofil löschen?",
-    "description": "The message of the confirmation dialog."
-  },
-  "clear_localstorage_confirm_title": {
-    "message": "Bestätigen",
-    "description": "The title of the confirmation dialog."
-  },
   "cleartext_read_error": {
     "message": "Diese Klartextnachricht konnte nicht gelesen werden: $1",
     "description": "Cleartext message read error message: $1: error message."

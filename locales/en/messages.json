@@ -23,14 +23,6 @@
     "message": "Change",
     "description": "Navigation link to change this setting."
   },
-  "clear_localstorage_confirm_message": {
-    "description": "The message of the confirmation dialog.",
-    "message": "Would you like to delete all your PGP keys from this browser profile?"
-  },
-  "clear_localstorage_confirm_title": {
-    "description": "The title of the confirmation dialog.",
-    "message": "Confirm"
-  },
   "cleartext_read_error": {
     "description": "Cleartext message read error message: $1: error message.",
     "message": "Could not read this cleartext message: $1"
@@ -1404,15 +1396,15 @@
     "message": "The security log shows user actions in all components of Mailvelope."
   },
   "security_log_text_input": {
-    "description": "A click in the text area as an event type",
+    "description": "User clicked in text area",
     "message": "Input in text field"
   },
   "security_log_textarea_click": {
-    "description": "A click in the text area as an event type",
+    "description": "User clicked in text area",
     "message": "Click in text area"
   },
   "security_log_textarea_input": {
-    "description": "A click in the text area as an event type",
+    "description": "User clicked in text area",
     "message": "Input in text area"
   },
   "security_log_textarea_select": {

@@ -88,8 +88,8 @@ SyncController.prototype.triggerSync = function(options) {
       // upload didn't happen, reset modified flag
       that.keyring.sync.data.modified = true;
     })
+    .then(() => that.keyring.sync.save())
     .then(function() {
-      that.keyring.sync.save();
       that.checkRepeat();
     })
     .catch(function(err) {
@@ -118,56 +118,56 @@ SyncController.prototype.checkRepeat = function() {
  * @return {Promise<undefined, Error}
  */
 SyncController.prototype.downloadSyncMessage = function(options) {
-  var that = this;
   return this.download({eTag: this.keyring.sync.data.eTag})
-    .then(function(download) {
-      if (!download.eTag) {
-        if (that.keyring.sync.data.eTag) {
-          // initialize eTag
-          that.keyring.sync.data.eTag = '';
-          // set modified flag to trigger upload
-          that.modified = true;
+  .then(download => {
+    if (!download.eTag) {
+      if (this.keyring.sync.data.eTag) {
+        // initialize eTag
+        this.keyring.sync.data.eTag = '';
+        // set modified flag to trigger upload
+        this.modified = true;
+      }
+      return;
+    }
+    if (!download.keyringMsg) {
+      return;
+    }
+    // new version available on server
+    return this.model.readMessage(download.keyringMsg, this.keyringId)
+    .then(message => {
+      message.keyringId = this.keyringId;
+      message.reason = 'PWD_DIALOG_REASON_EDITOR';
+      if (!message.key.primaryKey.getKeyId().equals(options.key.primaryKey.getKeyId())) {
+        console.log('Key used for sync packet from server is not primary key on client');
+        if (!options.force && !this.canUnlockKey('decrypt', {key: message.key})) {
+          throw new Error('Key used for sync packet is locked');
         }
-        return;
+      } else {
+        message.key = options.key;
+        message.password = options.password;
       }
-      if (!download.keyringMsg) {
-        return;
-      }
-      // new version available on server
-      return that.model.readMessage(download.keyringMsg, that.keyringId)
-        .then(function(message) {
-          message.keyringId = that.keyringId;
-          message.reason = 'PWD_DIALOG_REASON_EDITOR';
-          if (!message.key.primaryKey.getKeyId().equals(options.key.primaryKey.getKeyId())) {
-            console.log('Key used for sync packet from server is not primary key on client');
-            if (!options.force && !this.canUnlockKey('decrypt', {key: message.key})) {
-              throw new Error('Key used for sync packet is locked');
-            }
-          } else {
-            message.key = options.key;
-            message.password = options.password;
-          }
-          // unlock key if still locked
-          that.pwdControl = sub.factory.get('pwdDialog');
-          return that.pwdControl.unlockKey(message);
-        })
-        .then(function(message) {
-          return that.model.decryptSyncMessage(message.key, message.message);
-        })
-        .then(function(syncPacket) {
-          // merge keys
-          that.keyring.sync.mute(true);
-          that.keyring.importKeys(syncPacket.keys);
-          that.keyring.sync.merge(syncPacket.changeLog);
-          // remove keys with change log delete entry
-          that.keyring.sync.getDeleteEntries().forEach(function(fingerprint) {
-            that.keyring.removeKey(fingerprint, 'public');
-          });
-          that.keyring.sync.mute(false);
-          // set eTag
-          that.keyring.sync.data.eTag = download.eTag;
-        });
+      // unlock key if still locked
+      this.pwdControl = sub.factory.get('pwdDialog');
+      return this.pwdControl.unlockKey(message);
+    })
+    .then(message => {
+      return this.model.decryptSyncMessage(message.key, message.message);
+    })
+    .then(syncPacket => {
+      // merge keys
+      this.keyring.sync.mute(true);
+      this.keyring.importKeys(syncPacket.keys);
+      this.keyring.sync.merge(syncPacket.changeLog);
+      // remove keys with change log delete entry
+      let removeKeyAsync = this.keyring.sync.getDeleteEntries().map(fingerprint => this.keyring.removeKey(fingerprint, 'public'));
+      return Promise.all(removeKeyAsync);
+    })
+    .then(() => {
+      this.keyring.sync.mute(false);
+      // set eTag
+      this.keyring.sync.data.eTag = download.eTag;
     });
+  });
 };
 
 SyncController.prototype.uploadSyncMessage = function(options) {
