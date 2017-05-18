@@ -37,7 +37,7 @@ class KeyDetailsExport extends React.Component {
     this.setState({type, fileName: this.props.keyName.replace(/\s/g, '_') + '_' + type + '.asc'});
   }
 
-  handleFileNameChange() {
+  handleFileNameChange(event) {
     this.setState({fileName: event.target.value});
   }
 
