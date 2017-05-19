@@ -221,23 +221,23 @@ DecryptController.prototype.parseMIME = function(rawText, handlers, encoding) {
         if (encoding === 'html') {
           that.filterBodyParts(parsed, 'html', htmlParts);
           if (htmlParts.length) {
-            that.mvelo.util.parseHTML(htmlParts[0].content, function(sanitized) {
+            that.mvelo.util.parseHTML(htmlParts.map(part => part.content).join('\n<hr>\n'), function(sanitized) {
               handlers.onMessage(sanitized);
             });
           } else {
             that.filterBodyParts(parsed, 'text', textParts);
             if (textParts.length) {
-              handlers.onMessage(that.mvelo.util.text2html(textParts[0].content));
+              handlers.onMessage(textParts.map(part => that.mvelo.util.text2html(part.content)).join('<hr>'));
             }
           }
         } else if (encoding === 'text') {
           that.filterBodyParts(parsed, 'text', textParts);
           if (textParts.length) {
-            handlers.onMessage(textParts[0].content);
+            handlers.onMessage(textParts.map(part => part.content).join('\n\n'));
           } else {
             that.filterBodyParts(parsed, 'html', htmlParts);
             if (htmlParts.length) {
-              handlers.onMessage(that.mvelo.util.html2text(textParts[0].content));
+              handlers.onMessage(htmlParts.map(part => that.mvelo.util.html2text(part.content)).join('\n\n'));
             }
           }
         }
