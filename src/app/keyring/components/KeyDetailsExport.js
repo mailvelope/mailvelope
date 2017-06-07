@@ -6,6 +6,7 @@
 import * as l10n from '../../../lib/l10n';
 import {keyring} from '../../app';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 'use strict';
 
@@ -104,10 +105,10 @@ class KeyDetailsExport extends React.Component {
 }
 
 KeyDetailsExport.propTypes = {
-  keyids: React.PropTypes.array,
-  all: React.PropTypes.bool,
-  keyName: React.PropTypes.string.isRequired,
-  type: React.PropTypes.string
+  keyids: PropTypes.array,
+  all: PropTypes.bool,
+  keyName: PropTypes.string.isRequired,
+  type: PropTypes.string
 };
 
 KeyDetailsExport.defaultProps = {

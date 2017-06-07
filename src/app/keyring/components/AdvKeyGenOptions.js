@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 import moment from 'moment';
 
@@ -48,9 +49,9 @@ const AdvKeyGenOptions = ({value: {keySize, keyExpirationTime}, onChange, disabl
 };
 
 AdvKeyGenOptions.propTypes = {
-  value: React.PropTypes.object.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  disabled: React.PropTypes.bool
+  value: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool
 }
 
 export default AdvKeyGenOptions;

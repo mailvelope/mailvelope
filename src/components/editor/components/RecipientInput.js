@@ -10,6 +10,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 
 'use strict';
@@ -90,10 +91,10 @@ export class RecipientInput extends React.Component {
 }
 
 RecipientInput.propTypes = {
-  keys: React.PropTypes.array,
-  recipients: React.PropTypes.array,
-  onChangeEncryptStatus: React.PropTypes.func,
-  onLookupKeyOnServer: React.PropTypes.func
+  keys: PropTypes.array,
+  recipients: PropTypes.array,
+  onChangeEncryptStatus: PropTypes.func,
+  onLookupKeyOnServer: PropTypes.func
 };
 
 /**

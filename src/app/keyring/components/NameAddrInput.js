@@ -5,6 +5,7 @@
 
 import * as l10n from '../../../lib/l10n';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 'use strict';
 
@@ -34,10 +35,10 @@ const NameAddrInput = ({value: {name, email, errors = {}}, onChange, disabled, d
 };
 
 NameAddrInput.propTypes = {
-  value: React.PropTypes.object.isRequired,
-  onChange: React.PropTypes.func.isRequired,
-  disabled: React.PropTypes.bool,
-  demail: React.PropTypes.bool
+  value: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  demail: PropTypes.bool
 }
 
 export default NameAddrInput;

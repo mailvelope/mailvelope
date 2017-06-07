@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 'use strict';
 
@@ -17,9 +18,9 @@ const Alert = ({header, message, type}) => {
 };
 
 Alert.propTypes = {
-  header: React.PropTypes.string,
-  message: React.PropTypes.string.isRequired,
-  type: React.PropTypes.oneOf(['success', 'info', 'warning', 'danger'])
+  header: PropTypes.string,
+  message: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(['success', 'info', 'warning', 'danger'])
 }
 
 export default Alert;

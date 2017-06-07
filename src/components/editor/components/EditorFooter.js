@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 
 'use strict';
@@ -69,12 +70,12 @@ class EditorFooter extends React.Component {
 }
 
 EditorFooter.propTypes = {
-  embedded: React.PropTypes.bool, // component is used inside API container view
-  signMsg: React.PropTypes.bool, // message will be signed
-  primaryKey: React.PropTypes.bool, // primary key to sign message exists
-  onClickUpload: React.PropTypes.func, // click on upload button
-  onChangeFileInput: React.PropTypes.func, // file input change event triggered
-  onClickFileEncryption: React.PropTypes.func // click on navigation link
+  embedded: PropTypes.bool, // component is used inside API container view
+  signMsg: PropTypes.bool, // message will be signed
+  primaryKey: PropTypes.bool, // primary key to sign message exists
+  onClickUpload: PropTypes.func, // click on upload button
+  onChangeFileInput: PropTypes.func, // file input change event triggered
+  onClickFileEncryption: PropTypes.func // click on navigation link
 }
 
 export default EditorFooter;

@@ -5,6 +5,7 @@
 
 import * as l10n from '../../../lib/l10n';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import ModalDialog from '../../../components/util/ModalDialog';
 import PrimaryKeyButton from './PrimaryKeyButton';
@@ -72,10 +73,10 @@ class KeyDetails extends React.Component {
 }
 
 KeyDetails.propTypes = {
-  keyDetails: React.PropTypes.object.isRequired,
-  onSetPrimaryKey: React.PropTypes.func,
-  onHide: React.PropTypes.func,
-  isPrimary: React.PropTypes.bool.isRequired
+  keyDetails: PropTypes.object.isRequired,
+  onSetPrimaryKey: PropTypes.func,
+  onHide: PropTypes.func,
+  isPrimary: PropTypes.bool.isRequired
 };
 
 function KeyDetailsFooter(props) {
@@ -94,9 +95,9 @@ function KeyDetailsFooter(props) {
 }
 
 KeyDetailsFooter.propTypes = {
-  keyDetails: React.PropTypes.object.isRequired,
-  onPrimaryClick: React.PropTypes.func,
-  isPrimary: React.PropTypes.bool.isRequired
+  keyDetails: PropTypes.object.isRequired,
+  onPrimaryClick: PropTypes.func,
+  isPrimary: PropTypes.bool.isRequired
 };
 
 export default KeyDetails;

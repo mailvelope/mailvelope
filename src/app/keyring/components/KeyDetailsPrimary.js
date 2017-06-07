@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 
 'use strict';
@@ -93,7 +94,7 @@ const KeyDetailsPrimary = ({keyDetails}) => {
 };
 
 KeyDetailsPrimary.propTypes = {
-  keyDetails: React.PropTypes.object
+  keyDetails: PropTypes.object
 }
 
 export default KeyDetailsPrimary;

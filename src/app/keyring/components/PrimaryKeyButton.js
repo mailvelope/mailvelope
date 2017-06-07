@@ -5,6 +5,7 @@
 
 import * as l10n from '../../../lib/l10n';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 'use strict';
 
@@ -61,9 +62,9 @@ class PrimaryKeyButton extends React.Component {
 }
 
 PrimaryKeyButton.propTypes = {
-  isPrimary: React.PropTypes.bool.isRequired,
-  onClick: React.PropTypes.func,
-  disabled: React.PropTypes.bool
+  isPrimary: PropTypes.bool.isRequired,
+  onClick: PropTypes.func,
+  disabled: PropTypes.bool
 }
 
 export default PrimaryKeyButton;

@@ -5,6 +5,7 @@
 
 import * as l10n from '../../../lib/l10n';
 import React from 'react';
+import PropTypes from 'prop-types';
 import $ from 'jquery';
 
 import './GenerateWait.css';
@@ -53,7 +54,7 @@ l10n.register([
 }
 
 GenerateWait.propTypes = {
-  onShow: React.PropTypes.func
+  onShow: PropTypes.func
 }
 
 export default GenerateWait;

@@ -6,6 +6,7 @@
 import * as l10n from '../../../lib/l10n';
 import $ from 'jquery';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './AdvancedExpand.css';
 
@@ -50,7 +51,7 @@ class AdvancedExpand extends React.Component {
 }
 
 AdvancedExpand.propTypes = {
-  children: React.PropTypes.node.isRequired
+  children: PropTypes.node.isRequired
 }
 
 export default AdvancedExpand;

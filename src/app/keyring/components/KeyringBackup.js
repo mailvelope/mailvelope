@@ -5,6 +5,7 @@
 
 import * as l10n from '../../../lib/l10n';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import ModalDialog from '../../../components/util/ModalDialog';
 import KeyDetailsExport from './KeyDetailsExport';
@@ -31,10 +32,10 @@ const KeyringBackup = props => {
 }
 
 KeyringBackup.propTypes = {
-  keyids: React.PropTypes.array.isRequired,
-  all: React.PropTypes.bool,
-  onHide: React.PropTypes.func,
-  type: React.PropTypes.string
+  keyids: PropTypes.array.isRequired,
+  all: PropTypes.bool,
+  onHide: PropTypes.func,
+  type: PropTypes.string
 }
 
 export default KeyringBackup;

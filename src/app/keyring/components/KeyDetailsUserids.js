@@ -5,6 +5,7 @@
 
 import * as l10n from '../../../lib/l10n';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 'use strict';
 
@@ -71,7 +72,7 @@ class KeyDetailsUserids extends React.Component {
 }
 
 KeyDetailsUserids.propTypes = {
-  users: React.PropTypes.array
+  users: PropTypes.array
 }
 
 export default KeyDetailsUserids;

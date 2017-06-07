@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 
 'use strict';
@@ -71,19 +72,19 @@ class EditorModalFooter extends React.Component {
 }
 
 EditorModalFooter.propTypes = {
-  onCancel: React.PropTypes.func, // click on cancel button
-  onSignOnly: React.PropTypes.func, // click on sign only button
-  onEncrypt: React.PropTypes.func, // click on encrypt button
-  encryptDisabled: React.PropTypes.bool, // encrypt action disabled
-  onExpand: React.PropTypes.func, // click on options button in collapsed state
-  onCollapse: React.PropTypes.func, // click on options button in expanded state
-  expanded: React.PropTypes.bool, // expanded state
-  signMsg: React.PropTypes.bool, // sign message indicator
-  onChangeSignMsg: React.PropTypes.func, // receives bool value for current signMsg state
-  signKey: React.PropTypes.string, // sign key id
-  privKeys: React.PropTypes.array, // list of private keys for signing
-  onChangeSignKey: React.PropTypes.func, // user selects new key
-  onClickSignSetting: React.PropTypes.func // click on navigation link
+  onCancel: PropTypes.func, // click on cancel button
+  onSignOnly: PropTypes.func, // click on sign only button
+  onEncrypt: PropTypes.func, // click on encrypt button
+  encryptDisabled: PropTypes.bool, // encrypt action disabled
+  onExpand: PropTypes.func, // click on options button in collapsed state
+  onCollapse: PropTypes.func, // click on options button in expanded state
+  expanded: PropTypes.bool, // expanded state
+  signMsg: PropTypes.bool, // sign message indicator
+  onChangeSignMsg: PropTypes.func, // receives bool value for current signMsg state
+  signKey: PropTypes.string, // sign key id
+  privKeys: PropTypes.array, // list of private keys for signing
+  onChangeSignKey: PropTypes.func, // user selects new key
+  onClickSignSetting: PropTypes.func // click on navigation link
 }
 
 export default EditorModalFooter;

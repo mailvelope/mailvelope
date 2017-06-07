@@ -5,6 +5,7 @@
 
 import * as l10n from '../../lib/l10n';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 'use strict';
 
@@ -48,12 +49,12 @@ class ModalDialog extends React.Component {
 }
 
 ModalDialog.propTypes = {
-  title: React.PropTypes.string,
-  footer: React.PropTypes.element,
-  children: React.PropTypes.element,
-  onHide: React.PropTypes.func,
-  onOk: React.PropTypes.func,
-  onCancel: React.PropTypes.func
+  title: PropTypes.string,
+  footer: PropTypes.element,
+  children: PropTypes.element,
+  onHide: PropTypes.func,
+  onOk: PropTypes.func,
+  onCancel: PropTypes.func
 }
 
 export default ModalDialog;

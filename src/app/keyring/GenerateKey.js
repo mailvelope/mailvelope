@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import mvelo from '../../mvelo';
 import * as l10n from '../../lib/l10n';
 import event from '../util/event';
@@ -166,9 +167,9 @@ class GenerateKey extends React.Component {
 }
 
 GenerateKey.propTypes = {
-  demail: React.PropTypes.bool,
-  name: React.PropTypes.string,
-  email: React.PropTypes.string
+  demail: PropTypes.bool,
+  name: PropTypes.string,
+  email: PropTypes.string
 }
 
 GenerateKey.defaultProps = {

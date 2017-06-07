@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css'
@@ -35,11 +36,11 @@ class CustomInput extends React.Component {
 }
 
 CustomInput.propTypes = {
-  value: React.PropTypes.string,
-  onClick: React.PropTypes.func,
-  onClearDate: React.PropTypes.func,
-  placeholder: React.PropTypes.string,
-  disabled: React.PropTypes.bool
+  value: PropTypes.string,
+  onClick: PropTypes.func,
+  onClearDate: PropTypes.func,
+  placeholder: PropTypes.string,
+  disabled: PropTypes.bool
 }
 
 const DatePicker = ({value, onChange, placeholder, minDate, maxDate, disabled}) => {
@@ -60,12 +61,12 @@ const DatePicker = ({value, onChange, placeholder, minDate, maxDate, disabled}) 
 };
 
 DatePicker.propTypes = {
-  value: React.PropTypes.object,
-  onChange: React.PropTypes.func.isRequired,
-  placeholder: React.PropTypes.string,
-  minDate: React.PropTypes.object,
-  maxDate: React.PropTypes.object,
-  disabled: React.PropTypes.bool
+  value: PropTypes.object,
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  minDate: PropTypes.object,
+  maxDate: PropTypes.object,
+  disabled: PropTypes.bool
 }
 
 export default DatePicker;

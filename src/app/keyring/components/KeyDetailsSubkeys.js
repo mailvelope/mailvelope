@@ -5,6 +5,7 @@
 
 import * as l10n from '../../../lib/l10n';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 'use strict';
 
@@ -90,7 +91,7 @@ class KeyDetailsSubkeys extends React.Component {
 }
 
 KeyDetailsSubkeys.propTypes = {
-  subkeys: React.PropTypes.array
+  subkeys: PropTypes.array
 }
 
 export default KeyDetailsSubkeys;
