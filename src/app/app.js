@@ -315,7 +315,7 @@ function initKeyringSelection(data) {
  * @param string hash, hash tag related to the button to activate.
  */
 function activateTabButton(hash) {
-  if (hash == undefined) {
+  if (!hash) {
     return;
   }
 
