@@ -46,7 +46,8 @@ var isKeygridLoaded = false;
 
 const state = {keys: null};
 
-export var importKeyComp = null;
+var importKeyComp = null;
+var waitForImport = null;
 
 function init() {
   //Init templates
@@ -64,6 +65,16 @@ function init() {
   if (!isKeygridLoaded) {
     reload();
     isKeygridLoaded = true;
+  }
+}
+
+export function importKey(armored) {
+  if (importKeyComp) {
+    return importKeyComp.importKey(armored);
+  } else {
+    return new Promise(resolve => {
+      waitForImport = () => resolve(importKey(armored));
+    });
   }
 }
 
@@ -128,8 +139,16 @@ function reload() {
     });
 
     ReactDOM.render(React.createElement(GenerateKey, {demail: app.isDemail, name: app.queryString.fname, email: app.queryString.email}), $('#generateKey').get(0));
-    ReactDOM.render(React.createElement(ImportKey, {ref: comp => importKeyComp = comp}), $('#importKey').get(0));
+    ReactDOM.render(React.createElement(ImportKey, {ref: importKeyCompReady}), $('#importKey').get(0));
   });
+}
+
+function importKeyCompReady(comp) {
+  importKeyComp = comp;
+  if (waitForImport) {
+    waitForImport();
+    waitForImport = null;
+  }
 }
 
 function initKeyringTable(keys) {

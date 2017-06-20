@@ -29,7 +29,7 @@ import KeyServer from './settings/keyserver';
 import './settings/security';
 import {startSecurityLogMonitoring} from './settings/securityLog';
 import {addToWatchList} from './settings/watchList';
-import {deleteKeyring, importKeyComp} from './keyring/keyRing';
+import {deleteKeyring, importKey} from './keyring/keyRing';
 import './fileEncrypt/encryptFile';
 
 import './app.css';
@@ -357,7 +357,7 @@ function handleRequests(request, sender, sendResponse) {
     case 'import-key':
       $('#keyringButton').trigger('click');
       $('#importKeyButton').trigger('click');
-      importKeyComp.importKey(request.armored)
+      importKey(request.armored)
       .then(result => sendResponse({result, id: request.id}))
       return true;
     default:
