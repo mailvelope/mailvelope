@@ -343,6 +343,16 @@ module.exports = function(grunt) {
           }]
         }
       },
+      version_content_script: {
+        src: 'build/tmp/content-scripts/cs-mailvelope.js',
+        dest: 'build/tmp/content-scripts/cs-mailvelope.js',
+        options: {
+          patterns: [{
+            match: 'mvelo_version',
+            replacement: pkg.version
+          }]
+        }
+      },
       openpgp_firefox: {
         src: 'dep/firefox/openpgpjs/dist/openpgp.min.js',
         dest: 'dep/firefox/openpgpjs/dist/openpgp.js',
@@ -423,7 +433,7 @@ module.exports = function(grunt) {
   grunt.registerTask('chrome_modules', ['copy:chrome', 'replace:version_chrome', 'copy:dep_chrome']);
   grunt.registerTask('firefox_modules', ['copy:firefox', 'replace:version_firefox', 'replace:openpgp_firefox', 'copy:dep_firefox']);
   grunt.registerTask('copy2tmp', ['copy:app2tmp', 'copy:dep', 'replace:bootstrap']);
-  grunt.registerTask('final_steps', ['copy:tmp2chrome', 'copy:tmp2firefox', 'copy:locale_firefox', 'copy:locale_chrome']);
+  grunt.registerTask('final_steps', ['replace:version_content_script', 'copy:tmp2chrome', 'copy:tmp2firefox', 'copy:locale_firefox', 'copy:locale_chrome']);
 
   // development builds
   grunt.registerTask('default', ['clean', 'eslint', 'chrome_modules', 'firefox_modules', 'webpack:dev', 'copy2tmp', 'copy:dep_dev', 'final_steps']);

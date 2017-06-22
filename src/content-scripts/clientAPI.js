@@ -39,7 +39,6 @@ export function init() {
       'data-version': prefs.version
     }).appendTo($('head'));
   }
-  document.body.dataset.mailvelopeVersion = prefs.version;
 }
 
 export function postMessage(eventName, id, data, error) {

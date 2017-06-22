@@ -30,6 +30,8 @@ export let host = null;
 export let currentProvider = null;
 export let prefs = null;
 
+document.body.dataset.mailvelopeVersion = '@@mvelo_version';
+
 function connect() {
   if (document.mveloControl) {
     return;
