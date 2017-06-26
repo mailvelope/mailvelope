@@ -133,7 +133,7 @@ SyncController.prototype.downloadSyncMessage = function(options) {
       return;
     }
     // new version available on server
-    return this.model.readMessage(download.keyringMsg, this.keyringId)
+    return this.model.readMessage({armoredText: download.keyringMsg, keyringId: this.keyringId})
     .then(message => {
       message.keyringId = this.keyringId;
       message.reason = 'PWD_DIALOG_REASON_EDITOR';

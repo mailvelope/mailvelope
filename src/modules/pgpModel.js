@@ -147,17 +147,31 @@ function validateEmail(email) {
   return goog.format.EmailAddress.isValidAddrSpec(email);
 }
 
-function readMessage(armoredText, keyringId) {
+function readMessage({armoredText, binaryString, keyringId}) {
   return new Promise(function(resolve, reject) {
     var result = {};
-    try {
-      result.message = openpgp.message.readArmored(armoredText);
-    } catch (e) {
-      console.log('openpgp.message.readArmored', e);
-      return reject({
-        code: 'ARMOR_PARSE_ERROR',
-        message: l10n('message_read_error', [e])
-      });
+    if (armoredText) {
+      try {
+        result.message = openpgp.message.readArmored(armoredText);
+      } catch (e) {
+        console.log('openpgp.message.readArmored', e);
+        return reject({
+          code: 'ARMOR_PARSE_ERROR',
+          message: l10n('message_read_error', [e])
+        });
+      }
+    } else if (binaryString) {
+      try {
+        let packetList = new openpgp.packet.List();
+        packetList.read(binaryString);
+        result.message = new openpgp.message.Message(packetList)
+      } catch (e) {
+        console.log('Error parsing binary file', e);
+        return reject({
+          code: 'BINARY_PARSE_ERROR',
+          message: l10n('file_read_error', [e])
+        });
+      }
     }
 
     var encryptionKeyIds = result.message.getEncryptionKeyIds();
@@ -571,8 +585,14 @@ function encryptFile(plainFile, receipients) {
 function decryptFile(encryptedFile) {
   return Promise.resolve()
   .then(function() {
-    var armored = dataURL2str(encryptedFile.content);
-    return readMessage(armored);
+    let msg = {};
+    let content = dataURL2str(encryptedFile.content);
+    if (/^-----BEGIN PGP MESSAGE-----/.test(content)) {
+      msg.armoredText = content;
+    } else {
+      msg.binaryString = content;
+    }
+    return readMessage(msg);
   })
   .then(function(message) {
     return unlockQueue.push(sub.factory.get('pwdDialog'), 'unlockKey', [message]);

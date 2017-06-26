@@ -331,7 +331,7 @@ EditorController.prototype.decryptArmored = function(armored) {
   var that = this;
   var decryptCtrl = new DecryptController();
   decryptCtrl.keyringId = this.keyringId;
-  this.model.readMessage(armored, this.keyringId)
+  this.model.readMessage({armoredText: armored, keyringId: this.keyringId})
     .then(function(message) {
       return decryptCtrl.prepareKey(message, !that.editorPopup);
     })

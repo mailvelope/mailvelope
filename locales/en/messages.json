@@ -203,6 +203,10 @@
     "message": "Encryption",
     "description": ""
   },
+  "file_read_error": {
+    "description": "",
+    "message": "Could not decrypt this file: $1"
+  },
   "form_back": {
     "message": "Back",
     "description": "Back form button."

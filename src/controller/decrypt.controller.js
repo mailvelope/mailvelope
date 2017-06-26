@@ -98,7 +98,7 @@ DecryptController.prototype.dialogCancel = function() {
 
 DecryptController.prototype.decrypt = function(armored, keyringId) {
   var that = this;
-  this.model.readMessage(armored, keyringId)
+  this.model.readMessage({armoredText: armored, keyringId})
     .then(function(message) {
       return that.prepareKey(message);
     })
