@@ -125,37 +125,33 @@ PrivateKeyController.prototype.createPrivateKeyBackup = function() {
 };
 
 PrivateKeyController.prototype.restorePrivateKeyBackup = function(code) {
-  //console.log('PrivateKeyController.prototype.restorePrivateKeyBackup()', code);
-  var that = this;
-
-  sync.getByKeyring(that.keyringId).restore()
-    .then(function(data) {
-      var backup = that.model.restorePrivateKeyBackup(data.backup, code);
-      if (backup.error) {
-        if (backup.error.code === 'WRONG_RESTORE_CODE') {
-          that.ports.restoreBackupDialog.postMessage({event: 'error-message', error: backup.error});
-        } else {
-          that.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', error: backup.error});
-        }
-        return;
+  let backup;
+  sync.getByKeyring(this.keyringId).restore()
+  .then(data => {
+    backup = this.model.restorePrivateKeyBackup(data.backup, code);
+    if (backup.error) {
+      throw backup.error;
+    }
+    return this.keyring.getById(this.keyringId).importKeys([{armored: backup.key.armor(), type: 'private'}]);
+  })
+  .then(result => {
+    for (var i = 0; i < result.length; i++) {
+      if (result[i].type === 'error') {
+        throw result[i].message;
       }
-      var result = that.keyring.getById(that.keyringId).importKeys([{armored: backup.key.armor(), type: 'private'}]);
-      for (var i = 0; i < result.length; i++) {
-        if (result[i].type === 'error') {
-          that.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', error: result[i].message});
-          return;
-        }
-      }
-      if (that.restorePassword) {
-        that.ports.restoreBackupDialog.postMessage({event: 'set-password', password: backup.password});
-      }
-      that.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', data: backup.key.toPublic().armor()});
-      sync.triggerSync({keyringId: that.keyringId, key: backup.key, password: backup.password});
-    })
-    .catch(function(err) {
-      that.ports.restoreBackupDialog.postMessage({event: 'error-message', error: err});
-      that.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', error: err});
-    });
+    }
+    if (this.restorePassword) {
+      this.ports.restoreBackupDialog.postMessage({event: 'set-password', password: backup.password});
+    }
+    this.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', data: backup.key.toPublic().armor()});
+    sync.triggerSync({keyringId: this.keyringId, key: backup.key, password: backup.password});
+  })
+  .catch(err => {
+    this.ports.restoreBackupDialog.postMessage({event: 'error-message', error: err});
+    if (backup.error.code !== 'WRONG_RESTORE_CODE') {
+      this.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', error: err});
+    }
+  });
 };
 
 PrivateKeyController.prototype.getLogoImage = function() {

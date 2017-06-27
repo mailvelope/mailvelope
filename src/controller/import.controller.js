@@ -65,14 +65,16 @@ ImportController.prototype.handlePortMessage = function(msg) {
       this.ports.importKeyDialog.postMessage({event: 'key-details', key: this.keyDetails, invalidated: this.invalidated});
       break;
     case 'key-import-dialog-ok':
-      var importResult = this.keyring.importKeys([{type: 'public', armored: this.armored}])[0];
-      if (importResult.type === 'error') {
-        this.ports.importKeyDialog.postMessage({event: 'import-error', message: importResult.message});
-        this.importError = true;
-      } else {
-        this.closePopup();
-        this.popupDone.resolve('IMPORTED');
-      }
+      this.keyring.importKeys([{type: 'public', armored: this.armored}])
+      .then(([importResult]) => {
+        if (importResult.type === 'error') {
+          this.ports.importKeyDialog.postMessage({event: 'import-error', message: importResult.message});
+          this.importError = true;
+        } else {
+          this.closePopup();
+          this.popupDone.resolve('IMPORTED');
+        }
+      });
       break;
     case 'key-import-dialog-cancel':
       this.closePopup();

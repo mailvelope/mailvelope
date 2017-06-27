@@ -204,8 +204,10 @@ EditorController.prototype.lookupKeyOnServer = function(msg) {
     // persist key in local keyring
     let localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
     if (key && key.publicKeyArmored) {
-      localKeyring.importKeys([{type: 'public', armored: key.publicKeyArmored}]);
+      return localKeyring.importKeys([{type: 'public', armored: key.publicKeyArmored}]);
     }
+  })
+  .then(() => {
     this.sendKeyUpdate();
   });
 };

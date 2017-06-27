@@ -156,7 +156,10 @@ SyncController.prototype.downloadSyncMessage = function(options) {
     .then(syncPacket => {
       // merge keys
       this.keyring.sync.mute(true);
-      this.keyring.importKeys(syncPacket.keys);
+      return this.keyring.importKeys(syncPacket.keys)
+      .then(() => syncPacket);
+    })
+    .then(syncPacket => {
       this.keyring.sync.merge(syncPacket.changeLog);
       // remove keys with change log delete entry
       let removeKeyAsync = this.keyring.sync.getDeleteEntries().map(fingerprint => this.keyring.removeKey(fingerprint, 'public'));
