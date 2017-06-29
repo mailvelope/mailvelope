@@ -67,8 +67,6 @@ $(window).on('hashchange', function() {
   if (!$li.hasClass('active') && $('a', $li).hasClass('active')) {
     activateTabButton('#' + hash);
   }
-  // Set focus on the corresponding button.
-  $('a#' + name).focus();
 });
 
 function init() {
@@ -197,6 +195,18 @@ function showSetupView(privateKeys) {
     }
   });
 
+  // On press enter, keep the focus on the element the event was triggered from.
+  // This is to improve keyboard navigation.
+  $('li.list-group-item a, ul.navbar-nav li a').on('keydown', function(e) {
+    var self =  $(this);
+    if(e.keyCode == 13) {
+      // We use setTimeout 0 to execute the function at the end of call stack.
+      setTimeout(function() {
+        self.focus();
+      }, 0);
+    }
+  });
+
   // Activate tab after switch from links to tabs outside
   $('[data-toggle="tab"]:not(.list-group-item)').on('click', function() {
     window.location.hash = $(this).attr('href');
@@ -321,6 +331,7 @@ function activateTabButton(hash) {
 
   var name = hash + 'Button';
   var $li = $(name).parent();
+  $(name).tab('show');
   $li.addClass('active')
     .siblings('li.list-group-item')
     .each(function() {
