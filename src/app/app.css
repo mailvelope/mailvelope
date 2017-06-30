@@ -39,6 +39,13 @@ input[readonly] {
   font-family: 'Courgette', serif;
 }
 
+.form-group .btn {
+    margin-right: 5px;
+}
+.form-group .btn:last-child {
+    margin-right: 0;
+}
+
 #displayKeys {
   min-height: 300px;
 }

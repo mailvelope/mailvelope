@@ -76,3 +76,10 @@
 #decrypt_fileDownloadPanel .m-spinner {
   margin: inherit;
 }
+
+.panel-footer .btn {
+    margin-right: 5px;
+}
+.panel-footer .btn:last-child {
+    margin-right: 0;
+}

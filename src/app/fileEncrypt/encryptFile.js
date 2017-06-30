@@ -141,6 +141,7 @@ class EncryptFile extends React.Component {
 
                 <div className="panel-footer text-right">
                   <button id="encrypt_backToUploadBtn" className="btn btn-sm btn-default">{l10n.map.form_back}</button>
+
                   <button id="encrypt_goToDownloadBtn" className="btn btn-sm btn-primary">{l10n.map.editor_encrypt_button}</button>
                 </div>
               </div>

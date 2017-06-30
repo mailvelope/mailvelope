@@ -31,6 +31,7 @@ import {startSecurityLogMonitoring} from './settings/securityLog';
 import {addToWatchList} from './settings/watchList';
 import {deleteKeyring, importKey} from './keyring/keyRing';
 import EncryptFile from './fileEncrypt/encryptFile';
+import General from './settings/general';
 
 import './app.css';
 
@@ -64,7 +65,6 @@ function init() {
   .then(function() {
     // load all html templates into the DOM
     return window.Promise.all([
-      mvelo.appendTpl($('#general'), mvelo.extension.getURL('app/settings/tpl/general.html')),
       mvelo.appendTpl($('#security'), mvelo.extension.getURL('app/settings/tpl/security.html')),
       mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('app/settings/tpl/watchList.html')),
       mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('app/settings/tpl/watchListEditor.html')),
@@ -81,6 +81,7 @@ function init() {
     // render React components
     ReactDOM.render(React.createElement(KeyServer), $('#keyserver').get(0));
     ReactDOM.render(React.createElement(EncryptFile), $('#encrypting').get(0));
+    ReactDOM.render(React.createElement(General), $('#general').get(0));
   })
   .then(function() {
     // set localized strings
