@@ -360,25 +360,12 @@ mvelo.util.hideLoadingAnimation = function($parent) {
   $('.m-spinner', $parent).hide();
 };
 
-mvelo.util.generateSecurityBackground = function(angle, scaling, coloring) {
-  var security = mvelo.util.secBgnd,
-    iconWidth = security.width * security.scaling,
-    iconHeight = security.height * security.scaling,
-    iconAngle = security.angle,
-    iconColor = mvelo.SECURE_COLORS[security.colorId];
+mvelo.util.generateSecurityBackground = function({width, height, scaling = 1, angle = 0, colorId = 0}) {
+  let iconWidth = width * scaling,
+    iconHeight = height * scaling,
+    iconColor = mvelo.SECURE_COLORS[colorId];
 
-  if (angle || angle === 0) {
-    iconAngle = angle;
-  }
-  if (scaling) {
-    iconWidth = security.width * scaling;
-    iconHeight = security.height * scaling;
-  }
-  if (coloring) {
-    iconColor = mvelo.SECURE_COLORS[coloring];
-  }
-
-  return '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" id="secBgnd" version="1.1" width="' + iconWidth + 'px" height="' + iconHeight + 'px" viewBox="0 0 27 27"><path transform="rotate(' + iconAngle + ' 14 14)" style="fill: ' + iconColor + ';" d="m 13.963649,25.901754 c -4.6900005,0 -8.5000005,-3.78 -8.5000005,-8.44 0,-1.64 0.47,-3.17 1.29,-4.47 V 9.0417546 c 0,-3.9399992 3.23,-7.1499992 7.2000005,-7.1499992 3.97,0 7.2,3.21 7.2,7.1499992 v 3.9499994 c 0.82,1.3 1.3,2.83 1.3,4.48 0,4.65 -3.8,8.43 -8.49,8.43 z m -1.35,-7.99 v 3.33 h 0 c 0,0.02 0,0.03 0,0.05 0,0.74 0.61,1.34 1.35,1.34 0.75,0 1.35,-0.6 1.35,-1.34 0,-0.02 0,-0.03 0,-0.05 h 0 v -3.33 c 0.63,-0.43 1.04,-1.15 1.04,-1.97 0,-1.32 -1.07,-2.38 -2.4,-2.38 -1.32,0 -2.4,1.07 -2.4,2.38 0.01,0.82 0.43,1.54 1.06,1.97 z m 6.29,-8.8699994 c 0,-2.7099992 -2.22,-4.9099992 -4.95,-4.9099992 -2.73,0 -4.9500005,2.2 -4.9500005,4.9099992 V 10.611754 C 10.393649,9.6217544 12.103649,9.0317546 13.953649,9.0317546 c 1.85,0 3.55,0.5899998 4.94,1.5799994 l 0.01,-1.5699994 z" /></svg>';
+  return '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" id="secBgnd" version="1.1" width="' + iconWidth + 'px" height="' + iconHeight + 'px" viewBox="0 0 27 27"><path transform="rotate(' + angle + ' 14 14)" style="fill: ' + iconColor + ';" d="m 13.963649,25.901754 c -4.6900005,0 -8.5000005,-3.78 -8.5000005,-8.44 0,-1.64 0.47,-3.17 1.29,-4.47 V 9.0417546 c 0,-3.9399992 3.23,-7.1499992 7.2000005,-7.1499992 3.97,0 7.2,3.21 7.2,7.1499992 v 3.9499994 c 0.82,1.3 1.3,2.83 1.3,4.48 0,4.65 -3.8,8.43 -8.49,8.43 z m -1.35,-7.99 v 3.33 h 0 c 0,0.02 0,0.03 0,0.05 0,0.74 0.61,1.34 1.35,1.34 0.75,0 1.35,-0.6 1.35,-1.34 0,-0.02 0,-0.03 0,-0.05 h 0 v -3.33 c 0.63,-0.43 1.04,-1.15 1.04,-1.97 0,-1.32 -1.07,-2.38 -2.4,-2.38 -1.32,0 -2.4,1.07 -2.4,2.38 0.01,0.82 0.43,1.54 1.06,1.97 z m 6.29,-8.8699994 c 0,-2.7099992 -2.22,-4.9099992 -4.95,-4.9099992 -2.73,0 -4.9500005,2.2 -4.9500005,4.9099992 V 10.611754 C 10.393649,9.6217544 12.103649,9.0317546 13.953649,9.0317546 c 1.85,0 3.55,0.5899998 4.94,1.5799994 l 0.01,-1.5699994 z" /></svg>';
 };
 
 mvelo.util.showSecurityBackground = function(isEmbedded) {
@@ -392,17 +379,15 @@ mvelo.util.showSecurityBackground = function(isEmbedded) {
     });
   }
 
-  mvelo.extension.sendMessage({event: "get-security-background"}, function(background) {
-    mvelo.util.secBgnd = background;
-
-    var secBgndIcon = mvelo.util.generateSecurityBackground(),
+  mvelo.extension.sendMessage({event: "get-security-background"}, background => {
+    var secBgndIcon = mvelo.util.generateSecurityBackground(background),
       secureStyle = '.secureBackground {' +
-        'background-color: ' + mvelo.util.secBgnd.color + ';' +
+        'background-color: ' + background.color + ';' +
         'background-position: -20px -20px;' +
         'background-image: url(data:image/svg+xml;base64,' + btoa(secBgndIcon) + ');' +
         '}';
 
-    var lockIcon = mvelo.util.generateSecurityBackground(0, null, 2),
+    var lockIcon = mvelo.util.generateSecurityBackground({width: 28, height: 28, colorId: 2}),
       lockButton = '.lockBtnIcon, .lockBtnIcon:active {' +
         'margin: 0px;' +
         'width: 28px; height: 28px;' +

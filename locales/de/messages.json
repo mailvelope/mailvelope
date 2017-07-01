@@ -1182,7 +1182,7 @@
     "description": ""
   },
   "reload_webmail_tab": {
-    "message": "Bitte laden Sie den Reiter Ihres E-Mail-Anbieters erneut (F5), damit diese Einstellungen wirksam werden.",
+    "message": "Bitte laden Sie die Seite Ihres E-Mail-Anbieters neu, damit diese Einstellungen wirksam werden.",
     "description": "Info message."
   },
   "restore_backup_dialog_button": {

@@ -64,6 +64,10 @@ input[readonly] {
   margin-bottom: 30px;
 }
 
+#pwdCacheLabel > * {
+  margin-right: 10px;
+}
+
 #pwdCacheTime {
   font-family: monospace;
   width: 50px;
@@ -101,6 +105,10 @@ input[readonly] {
 #securityBgndSliders label {
   width: 85px;
   text-align: right;
+}
+
+#securityBgndSliders .form-inline {
+  white-space: nowrap;
 }
 
 .previewContainer {
