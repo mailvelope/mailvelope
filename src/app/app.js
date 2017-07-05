@@ -28,7 +28,7 @@ import './settings/general';
 import KeyServer from './settings/keyserver';
 import './settings/security';
 import {startSecurityLogMonitoring} from './settings/securityLog';
-import {addToWatchList} from './settings/watchList';
+import {WatchList} from './settings/watchList';
 import {deleteKeyring, importKey} from './keyring/keyRing';
 import EncryptFile from './fileEncrypt/encryptFile';
 import General from './settings/general';
@@ -51,6 +51,7 @@ export let queryString = {};
 
 var keyringTmpl;
 var $keyringList;
+var watchListComp;
 
 l10n.register([
   'keygrid_user_email'
@@ -67,8 +68,6 @@ function init() {
   .then(function() {
     // load all html templates into the DOM
     return window.Promise.all([
-      mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('app/settings/tpl/watchList.html')),
-      mvelo.appendTpl($('#watchList'), mvelo.extension.getURL('app/settings/tpl/watchListEditor.html')),
       mvelo.appendTpl($('#displayKeys'), mvelo.extension.getURL('app/keyring/tpl/displayKeys.html')),
       mvelo.appendTpl($('#setupProvider'), mvelo.extension.getURL('app/keyring/tpl/setupProvider.html'))
     ]);
@@ -84,6 +83,7 @@ function init() {
     ReactDOM.render(React.createElement(General), $('#general').get(0));
     ReactDOM.render(React.createElement(Security), $('#security').get(0));
     ReactDOM.render(React.createElement(SecurityLog), $('#securityLog').get(0));
+    ReactDOM.render(React.createElement(WatchList, {ref: node => watchListComp = node}), $('#watchList').get(0));
   })
   .then(function() {
     // set localized strings
@@ -347,7 +347,8 @@ function handleRequests(request, sender, sendResponse) {
     case 'add-watchlist-item':
       $('#settingsButton').trigger('click');
       $('#watchListButton').trigger('click');
-      addToWatchList(request.site);
+      // TODO: wait for component to be loaded
+      watchListComp.addToWatchList(request.site);
       break;
     case 'reload-options':
       if (request.hash === '#showlog') {

@@ -21,6 +21,12 @@ class ModalDialog extends React.Component {
     $(this.modalNode).on('hidden.bs.modal', this.props.onHide);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.hide !== nextProps.hide && nextProps.hide) {
+      $(this.modalNode).modal('hide');
+    }
+  }
+
   render() {
     return (
       <div className="modal fade" tabIndex="-1" role="dialog" ref={node => this.modalNode = node}>
@@ -54,7 +60,8 @@ ModalDialog.propTypes = {
   children: PropTypes.element,
   onHide: PropTypes.func,
   onOk: PropTypes.func,
-  onCancel: PropTypes.func
+  onCancel: PropTypes.func,
+  hide: PropTypes.bool
 }
 
 export default ModalDialog;
