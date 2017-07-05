@@ -102,12 +102,9 @@ function handleMessageEvent(request, sender, sendResponse) {
       specific.initScriptInjection();
       break;
     case 'get-all-keyring-attr':
-      try {
-        keyring.getAllKeyringAttr()
-        .then(result => sendResponse({result}));
-      } catch (e) {
-        sendResponse({error: e});
-      }
+      keyring.getAllKeyringAttr()
+      .then(result => sendResponse({result}))
+      .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
       // return true for async calls, otherwise Chrome does not handle sendResponse
       return true;
     case 'set-keyring-attr':

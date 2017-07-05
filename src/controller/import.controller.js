@@ -83,7 +83,7 @@ ImportController.prototype.handlePortMessage = function(msg) {
       } else if (this.importError) {
         this.popupDone.reject({message: 'An error occured during key import', code: 'IMPORT_ERROR'});
       } else {
-        this.popupDone('REJECTED');
+        this.popupDone.resolve('REJECTED');
       }
       break;
     case 'key-import-user-input':
@@ -138,7 +138,9 @@ ImportController.prototype.importKey = function(keyringId, armored) {
       return this.openPopup();
     }
   })
-  .catch(err => ({message: err.message, code: 'IMPORT_ERROR'}));
+  .catch(err => {
+    throw { message: err.message, code: 'IMPORT_ERROR' };
+  });
 };
 
 ImportController.prototype.updateKey = function(fingerprint, stockKey, newKey) {

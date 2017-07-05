@@ -42,7 +42,8 @@ function handleApiEvent(request, sender, sendResponse) {
         .then(() => {
           sendResponse({data: {}});
           sub.setActiveKeyringId(request.keyringId);
-        });
+        })
+        .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
         return true;
       case 'query-valid-key':
         var keyMap = keyring.getById(request.keyringId).getKeyByAddress(request.recipients, {validity: true, fingerprint: true, sort: true});
@@ -76,7 +77,7 @@ function handleApiEvent(request, sender, sendResponse) {
       case 'import-pub-key':
         sub.factory.get('importKeyDialog').importKey(request.keyringId, request.armored)
         .then(status => sendResponse({data: status}))
-        .catch(err => sendResponse({error: err}));
+        .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
         return true;
       case 'set-logo':
         attr = keyring.getById(request.keyringId).getAttributes();
@@ -107,14 +108,13 @@ function handleApiEvent(request, sender, sendResponse) {
             });
           }
         });
-
         sendResponse({error: null, data: null});
         break;
       default:
         console.log('unknown event:', request);
     }
   } catch (err) {
-    sendResponse({error: {message: err.message, code: err.code  || 'INTERNAL_ERROR'}});
+    sendResponse({error: mvelo.util.mapError(err)});
   }
 }
 
