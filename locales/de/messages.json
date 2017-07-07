@@ -415,30 +415,6 @@
     "description": "Text of a link to a learn-more resource",
     "message": "Mehr erfahren"
   },
-  "keygrid_upload_alert_title": {
-    "description": "Text of a link to a learn-more resource",
-    "message": "Neues Feature!"
-  },
-  "keygrid_upload_alert_msg": {
-    "description": "Text of a link to a learn-more resource",
-    "message": "Sie können Ihren öffentlichen Schlüssel jetzt auf den Mailvelope Schlüssel Server hochladen um automatischen Schlüsselaustausch in beteiligten OpenPGP Plugins zu ermöglichen. Dies vereinfacht das Schreiben und Lesen von verschlüsselten Emails mit Ihren Kontakten. Probieren Sie es aus. Sie können Ihren Schlüssel jederzeit löschen"
-  },
-  "keygrid_upload_alert_accept": {
-    "description": "Button text to accept key upload",
-    "message": "Öffentlichen Schlüssel hochladen"
-  },
-  "keygrid_upload_alert_refuse": {
-    "description": "Button text to reject key upload",
-    "message": "Nein danke"
-  },
-  "keygrid_upload_error_msg": {
-    "description": "Upload error message",
-    "message": "Hochladen des Schlüssels fehlgeschlagen."
-  },
-  "keygrid_upload_success_msg": {
-    "description": "Upload success message",
-    "message": "Hochladen des Schlüssels war erfolgreich."
-  },
   "key_import_default_description": {
     "message": "Nach der Bestätigung ist die verschlüsselte Kommunikation mit diesem Kontakt eingerichtet.",
     "description": "Key import dialog description."

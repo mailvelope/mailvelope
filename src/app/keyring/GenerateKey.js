@@ -105,15 +105,6 @@ class GenerateKey extends React.Component {
       });
       // refresh keygrid
       event.triggerHandler('keygrid-reload');
-      // dismiss key upload alert
-      if (parameters.uploadPublicKey) {
-        var update = {
-          keyserver: {dismiss_key_upload: true}
-        };
-        mvelo.extension.sendMessage({event: 'set-prefs', data: update}, () => {
-          event.triggerHandler('keygrid-reload');
-        });
-      }
     })
     .catch((error) => {
       this.setState({

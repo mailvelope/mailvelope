@@ -59,8 +59,6 @@ function init() {
     filterType = $(this).val();
     filterKeys();
   });
-  $('#uploadKeyAcceptBtn').click(uploadToKeyServer);
-  $('#uploadKeyRefuseBtn').click(dismissKeyUpload);
 
   if (!isKeygridLoaded) {
     reload();
@@ -76,37 +74,6 @@ export function importKey(armored) {
       waitForImport = () => resolve(importKey(armored));
     });
   }
-}
-
-function uploadToKeyServer() {
-  // hide success/error alerts
-  $('#keyUploadErrorAlert').addClass('hidden');
-  $('#keyUploadSuccessAlert').addClass('hidden');
-  // show progress bar
-  $('#keyUploadProgressBar .progress-bar').css('width', '100%');
-  $('#keyUploadProgressBar').removeClass('hidden');
-  // send upload event to background script
-  mvelo.extension.sendMessage({
-    event: 'upload-primary-public-key'
-  }, function(response) {
-    // hide progress bar
-    $('#keyUploadProgressBar').addClass('hidden');
-    if (response.error) {
-      $('#keyUploadErrorAlert').removeClass('hidden');
-    } else {
-      $('#keyUploadSuccessAlert').removeClass('hidden');
-      dismissKeyUpload();
-    }
-  });
-}
-
-function dismissKeyUpload() {
-  $('#keyUploadErrorAlert').addClass('hidden');
-  $('#uploadKeyAlert').addClass('hidden');
-  var update = {
-    keyserver: {dismiss_key_upload: true}
-  };
-  mvelo.extension.sendMessage({event: 'set-prefs', data: update});
 }
 
 function reload() {
@@ -128,15 +95,6 @@ function reload() {
 
     app.keyring('getKeys')
       .then(initKeyringTable);
-
-    app.pgpModel('getPreferences').then(function(prefs) {
-      if (!prefs.keyserver.dismiss_key_upload &&
-          app.keyringId === mvelo.LOCAL_KEYRING_ID) {
-        $('#uploadKeyAlert').removeClass('hidden');
-      } else {
-        $('#uploadKeyAlert').addClass('hidden');
-      }
-    });
 
     ReactDOM.render(React.createElement(GenerateKey, {demail: app.isDemail, name: app.queryString.fname, email: app.queryString.email}), $('#generateKey').get(0));
     ReactDOM.render(React.createElement(ImportKey, {ref: importKeyCompReady}), $('#importKey').get(0));

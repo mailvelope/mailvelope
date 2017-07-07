@@ -21,8 +21,6 @@
 var mvelo = require('lib-mvelo');
 var model = require('../modules/pgpModel');
 var keyring = require('../modules/keyring');
-var KeyServer = require('../modules/keyserver');
-var keyServer = new KeyServer(mvelo);
 var defaults = require('../modules/defaults');
 var prefs = require('../modules/prefs');
 var sub = require('./sub.controller');
@@ -191,21 +189,6 @@ function handleMessageEvent(request, sender, sendResponse) {
     case 'options-ready':
       mvelo.tabs.onOptionsTabReady();
       break;
-    case 'upload-primary-public-key':
-      var localKeyring = keyring.getById(mvelo.LOCAL_KEYRING_ID);
-      var primaryKey = localKeyring.getPrimaryKey();
-      if (!primaryKey) {
-        sendResponse({error: {message: 'Primary key not found'}});
-        return;
-      }
-      keyServer.upload({
-        publicKeyArmored: primaryKey.key.toPublic().armor()
-      }).then(function() {
-        sendResponse(true);
-      }).catch(function(err) {
-        sendResponse({error: mvelo.util.mapError(err)});
-      });
-      return true;
     default:
       console.log('unknown event:', request);
   }
