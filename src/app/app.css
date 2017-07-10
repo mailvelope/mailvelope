@@ -226,6 +226,37 @@ input[readonly] {
     }
 }
 
+/*
+ * The lines below replicate bootstrap style for nav menu, in the context of a list-group component
+ * We did this for the secondary menu, to avoid a degraded experience for the user
+ */
+ul.list-group li.list-group-item{
+    padding:0;
+}
+ul.list-group li.list-group-item a {
+    display: block;
+    color: #555;
+    padding: 10px 15px;
+}
+ul.list-group li.list-group-item a:hover,
+ul.list-group li.list-group-item a:focus{
+    text-decoration: none;
+}
+ul.list-group li.list-group-item:hover,
+ul.list-group li.list-group-item:focus {
+    text-decoration: none;
+    background-color: #f5f5f5;
+}
+ul.list-group li.list-group-item.active a {
+    color: white;
+    text-decoration: none;
+}
+ul.list-group li.list-group-item.active:hover,
+ul.list-group li.list-group-item.active:focus {
+    background-color: #337ab7;
+}
+/* End Bootstrap style replication */
+
 #settingsPanel {
     position: absolute;
     top: 60px;

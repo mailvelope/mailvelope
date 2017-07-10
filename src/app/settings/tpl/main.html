@@ -1,29 +1,39 @@
 <div id="settingsPanel">
-  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
         </button>
         <div class="navbar-brand settings-logo"></div>
       </div>
       <div class="collapse navbar-collapse bs-navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li role="presentation" id="showKeyRing" class="active"><a href="#keyring" id="keyringButton" aria-controls="keyring" role="tab" data-toggle="tab" data-l10n-id="keyring_header"></a></li>
-            <li role="presentation" id="showEncrypting"><a href="#encrypting" id="encryptingButton" aria-controls="encrypting" role="tab" data-toggle="tab" data-l10n-id="encrypting_home"></a></li>
-            <li role="presentation" id="showKeySettings"><a href="#settings" id="settingsButton" aria-controls="settings" role="tab" data-toggle="tab" data-l10n-id="options_home"></a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="https://www.mailvelope.com/help" target="_blank" rel="noreferrer" data-l10n-id="options_docu"></a></li>
-            <li><a href="https://www.mailvelope.com/about" target="_blank" rel="noreferrer" data-l10n-id="options_about"></a></li>
-            <!--li><div class="" id='secureCode'></div></li-->
-          </ul>
+        <ul class="nav navbar-nav" role="menu" aria-label="primary menu">
+          <li role="menuitem" id="showKeyRing" class="active">
+            <a href="#keyring" id="keyringButton" aria-controls="keyring" data-toggle="tab" data-l10n-id="keyring_header" tabindex="0"></a>
+          </li>
+          <li role="menuitem" id="showEncrypting">
+            <a href="#encrypting" id="encryptingButton" aria-controls="encrypting" data-toggle="tab" data-l10n-id="encrypting_home" tabindex="0"></a>
+          </li>
+          <li role="menuitem" id="showKeySettings">
+            <a href="#settings" id="settingsButton" aria-controls="settings" data-toggle="tab" data-l10n-id="options_home" tabindex="0"></a>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right" role="menu" aria-label="primary menu">
+          <li role="menuitem">
+            <a href="https://www.mailvelope.com/help" target="_blank" rel="noreferrer" data-l10n-id="options_docu" tabindex="0"></a>
+          </li>
+          <li role="menuitem">
+            <a href="https://www.mailvelope.com/about" target="_blank" rel="noreferrer" data-l10n-id="options_about" tabindex="0"></a>
+          </li>
+          <!--li><div class="" id='secureCode'></div></li-->
+        </ul>
       </div>
     </div>
-  </div>
+  </nav>
 </div>
 <div class="container">
   <div class="tab-content">
@@ -41,40 +51,58 @@
             </li>
           </ul>
         </div>
-        <div class="list-group">
-          <a class="list-group-item" href="#displayKeys" data-toggle="tab" data-l10n-id="keyring_display_keys" id="displayKeysButton"></a>
-          <a class="list-group-item" href="#importKey" data-toggle="tab" data-l10n-id="keyring_import_keys" id="importKeyButton"></a>
-          <a class="list-group-item" href="#generateKey" data-toggle="tab" data-l10n-id="keyring_generate_key" id="generateKeyButton"></a>
-          <a class="list-group-item" href="#setupProvider" data-toggle="tab" data-l10n-id="keyring_setup" id="setupProviderButton"></a>
-        </div>
+        <ul class="list-group" role="tablist" aria-label="secondary menu">
+          <li class="list-group-item">
+            <a href="#displayKeys" data-toggle="tab" data-l10n-id="keyring_display_keys" id="displayKeysButton" aria-controls="displayKeys"></a>
+          </li>
+          <li class="list-group-item">
+            <a href="#importKey" data-toggle="tab" data-l10n-id="keyring_import_keys" id="importKeyButton" aria-controls="importKey"></a>
+          </li>
+          <li class="list-group-item">
+            <a href="#generateKey" data-toggle="tab" data-l10n-id="keyring_generate_key" id="generateKeyButton" aria-controls="generateKey"></a>
+          </li>
+          <li class="list-group-item">
+            <a href="#setupProvider" data-toggle="tab" data-l10n-id="keyring_setup" id="setupProviderButton" aria-controls="setupProvider"></a>
+          </li>
+        </ul>
       </div>
       <div class="col-md-9">
-        <div class="tab-content jumbotron secureBackground" id="settingsArea">
-          <div id="displayKeys" role="tabpanel" class="tab-pane fade well"></div>
-          <div id="importKey" role="tabpanel" class="tab-pane fade well"></div>
-          <div id="generateKey" role="tabpanel" class="tab-pane fade well"></div>
-          <div id="setupProvider" role="tabpanel" class="tab-pane fade well"></div>
+        <div class="tab-content jumbotron secureBackground" id="settingsArea" role="tabpanel">
+          <section id="displayKeys" role="tabpanel" class="tab-pane fade well" aria-hidden="true"></section>
+          <section id="importKey" role="tabpanel" class="tab-pane fade well" aria-hidden="true"></section>
+          <section id="generateKey" role="tabpanel" class="tab-pane fade well" aria-hidden="true"></section>
+          <section id="setupProvider" role="tabpanel" class="tab-pane fade well" aria-hidden="true"></section>
           <button class="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" data-l10n-title-id="security_background_button_title" disabled="disabled"></button>
         </div>
       </div>
     </div><!--/keyring-->
     <div class="tab-pane fade" role="tabpanel" id="settings">
       <div class="col-md-3">
-        <div class="list-group" id="settingsList">
-          <a class="list-group-item active" href="#general" data-toggle="tab" data-l10n-id="settings_general" id="generalButton"></a>
-          <a class="list-group-item" href="#security" data-toggle="tab" data-l10n-id="settings_security" id="securityButton"></a>
-          <a class="list-group-item" href="#watchList" data-toggle="tab" data-l10n-id="settings_watchlist" id="watchListButton"></a>
-          <a class="list-group-item" href="#securityLog" data-toggle="tab" data-l10n-id="settings_security_log" id="securityLogButton"></a>
-          <a class="list-group-item" href="#keyserver" data-toggle="tab" data-l10n-id="settings_keyserver" id="keyserverButton"></a>
-        </div>
+        <ul class="list-group" id="settingsList">
+          <li class="list-group-item active">
+            <a href="#general" data-toggle="tab" data-l10n-id="settings_general" id="generalButton"></a>
+          </li>
+          <li class="list-group-item">
+            <a href="#security" data-toggle="tab" data-l10n-id="settings_security" id="securityButton"></a>
+          </li>
+          <li class="list-group-item">
+            <a href="#watchList" data-toggle="tab" data-l10n-id="settings_watchlist" id="watchListButton"></a>
+          </li>
+          <li class="list-group-item">
+            <a href="#securityLog" data-toggle="tab" data-l10n-id="settings_security_log" id="securityLogButton"></a>
+          </li>
+          <li class="list-group-item">
+            <a href="#keyserver" data-toggle="tab" data-l10n-id="settings_keyserver" id="keyserverButton"></a>
+          </li>
+        </ul>
       </div>
       <div class="col-md-9">
         <div class="tab-content jumbotron secureBackground">
-          <div id="general" role="tabpanel"class="tab-pane fade well active in"></div>
-          <div id="security" role="tabpanel" class="tab-pane fade well"></div>
-          <div id="watchList" role="tabpanel" class="tab-pane fade well"></div>
-          <div id="securityLog" role="tabpanel" class="tab-pane fade well"></div>
-          <div id="keyserver" role="tabpanel"class="tab-pane fade well"></div>
+          <section id="general" role="tabpanel"class="tab-pane fade well active in"></section>
+          <section id="security" role="tabpanel" class="tab-pane fade well"></section>
+          <section id="watchList" role="tabpanel" class="tab-pane fade well"></section>
+          <section id="securityLog" role="tabpanel" class="tab-pane fade well"></section>
+          <section id="keyserver" role="tabpanel"class="tab-pane fade well"></section>
           <button class="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" data-l10n-title-id="security_background_button_title" disabled="disabled"></button>
         </div>
       </div>

@@ -178,10 +178,18 @@ function initKeyringTable(keys) {
     filterKeys();
   });
   mvelo.l10n.localizeHTML(null, '#keyRingTable tbody');
-  $tableBody.find('tr').on('click', openKeyDetails);
-  $tableBody.find('tr').hover(function() {
+  $tableBody.find('tr').on('click', function() {
+    openKeyDetails($(this));
+  });
+  $tableBody.find('tr').on('keypress', function(e) {
+    if (e.which == 13) {
+      openKeyDetails($(this));
+    }
+  });
+  $tableBody.find('tr').on('mouseenter focus', function() {
     $(this).find('.actions').css('visibility', 'visible');
-  }, function() {
+  });
+  $tableBody.find('tr').on('mouseleave focusout', function() {
     $(this).find('.actions').css('visibility', 'hidden');
   });
   $tableBody.find('.keyDeleteBtn').on('click', deleteKeyEntry);
@@ -212,8 +220,8 @@ function filterKeys() {
   }
 }
 
-function openKeyDetails() {
-  const fingerprint = $(this).attr('data-keyfingerprint');
+function openKeyDetails(el) {
+  const fingerprint = el.attr('data-keyfingerprint');
   const key = state.keys.find(key => key.fingerprint === fingerprint);
   const keyDetailsNode = $('#keyDetails').get(0);
 
