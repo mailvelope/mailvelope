@@ -9,14 +9,14 @@
   "version": "@@mvelo_version",
   "homepage": "https://www.mailvelope.com",
   "icon": "resource://jid1-aqqsmbyb0a8adg-at-jetpack/data/img/mail_locked_48.png",
-  "updateURL": "https://download.mailvelope.com/update/mailvelope.firefox.xml",
+  "updateURL": "https://download.mailvelope.com/update/mailvelope.firefox.webex.xml",
   "permissions": {
     "private-browsing": true,
     "unsafe-content-script": true,
     "multiprocess": true
   },
   "engines": {
-    "firefox": ">=52.0 || <=54.*"
+    "firefox": ">=52.0 || <=55.*"
   },
   "hasEmbeddedWebExtension": true,
   "locales": {

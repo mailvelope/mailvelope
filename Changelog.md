@@ -1,6 +1,15 @@
 Mailvelope Changelog
 ====================
 
+v1.8.0
+-------
+__July 10, 2017__
+
+  * Migrate storage layer from localstorage to chrome.storage on Chrome and WebExtension API on Firefox
+  * Support multiple MIME text parts of decrypted message
+  * Mailvelope version is set to body tag for all websites in watchlist
+  * Bug fixes and update of dependencies
+
 v1.7.2
 -------
 __Apr. 18, 2017__
