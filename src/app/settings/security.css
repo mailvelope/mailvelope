@@ -1,0 +1,108 @@
+/**
+ * Copyright (C) 2012-2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
+ */
+
+#security .form-horizontal .control-label,
+#general .form-horizontal .control-label {
+  width: 280px;
+}
+
+#security .form-horizontal .controls,
+#general .form-horizontal .controls {
+  margin-left: 300px;
+}
+
+#security .form-group {
+  margin-bottom: 30px;
+}
+
+#pwdCacheLabel > * {
+  margin-right: 10px;
+}
+
+#pwdCacheTime {
+  font-family: monospace;
+  width: 50px;
+}
+
+#securityTokenPanel {
+    margin-right: -3px;
+    margin-left: -3px;
+    padding-bottom: 10px;
+    padding-left: 3px;
+}
+
+#securityTokenPanel:after {
+  content: ' ';
+  clear: both;
+  display: block;
+  visibility: hidden;
+  height: 0;
+}
+
+#securityTokenPanel input[type="range"] {
+  display: inline;
+  width: 200px;
+  margin: 20px 20px 20px 10px;
+  vertical-align: middle;
+}
+
+#securityBgndSliders {
+  width: 320px;
+  float: left;
+  margin-top: 45px;
+  margin-bottom: 30px;
+}
+
+#securityBgndSliders label {
+  width: 85px;
+  text-align: right;
+}
+
+#securityBgndSliders .form-inline {
+  white-space: nowrap;
+}
+
+.previewContainer {
+  margin: 0 20px 0 20px;
+  float: left;
+  padding: 10px 20px 20px;
+  background-color: #FFF;
+}
+
+#previewArea {
+  height: 150px;
+  width: 300px;
+  border: 1px solid gray;
+  background-color: #f5f5f5;
+}
+
+#pwdCacheLabel {
+    padding-left: 0;
+}
+
+@media (max-width: 1200px) {
+  #securityBgndSliders {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  #securityBgndSliders label {
+    text-align: left;
+  }
+  .previewContainer {
+    margin-left: 0;
+  }
+}
+
+@media (max-width:767px) {
+  #pwdCacheLabel {
+    padding-left: 20px;
+  }
+  #pwdCacheRadios1 {
+    margin-top: 9px;
+  }
+  #pwdCacheTime {
+    display: inline-block;
+  }
+}

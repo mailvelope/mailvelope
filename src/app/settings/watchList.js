@@ -11,7 +11,8 @@ import mvelo from '../../mvelo';
 import {pgpModel} from '../app';
 import * as l10n from '../../lib/l10n';
 
-import WatchListEditor from './watchListEditor';
+import './watchList.css';
+import WatchListEditor from './components/watchListEditor';
 
 
 l10n.register([
@@ -26,7 +27,7 @@ l10n.register([
   'alert_no_domainmatchpattern_warning'
 ]);
 
-export class WatchList extends React.Component {
+export default class WatchList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

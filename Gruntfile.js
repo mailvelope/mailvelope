@@ -59,18 +59,6 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
-            cwd: 'bower_components/bootstrap-sortable/Scripts/',
-            src: 'bootstrap-sortable.js',
-            dest: 'build/tmp/dep/bootstrap-sortable/'
-          },
-          {
-            expand: true,
-            cwd: 'bower_components/bootstrap-sortable/Contents/',
-            src: 'bootstrap-sortable.css',
-            dest: 'build/tmp/dep/bootstrap-sortable/'
-          },
-          {
-            expand: true,
             cwd: 'bower_components/qrcodejs/',
             src: 'qrcode.js',
             dest: 'build/tmp/dep/qrcodejs/'

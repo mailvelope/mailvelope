@@ -366,14 +366,12 @@ function injectEmbeddedOptions() {
       data.url('lib/jquery.ext.js'),
       data.url('lib/messageAdapter.js'),
       data.url('dep/bootstrap/js/bootstrap.js'),
-      data.url('dep/bootstrap-sortable/bootstrap-sortable.js'),
       data.url('dep/react/react.js'),
       data.url('dep/react/react-dom.js'),
       data.url('app/app.bundle.js')
     ],
     contentStyleFile: [
       data.url("dep/bootstrap/css/bootstrap.css"),
-      data.url("dep/bootstrap-sortable/bootstrap-sortable.css"),
       data.url("mvelo.css")
     ],
     contentScriptWhen: 'ready',

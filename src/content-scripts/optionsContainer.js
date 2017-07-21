@@ -8,19 +8,21 @@
 import mvelo from '../mvelo';
 
 export default class OptionsContainer {
-  constructor(selector, keyringId, options) {
+  constructor(selector, keyringId, options = {}) {
     this.selector = selector;
     this.keyringId = keyringId;
 
     this.email = '';
-    if (options && options.email) {
+    if (options.email) {
       this.email = '&email=' + encodeURIComponent(options.email);
     }
 
     this.fullName = '';
-    if (options && options.fullName) {
+    if (options.fullName) {
       this.fullName = '&fname=' + encodeURIComponent(options.fullName);
     }
+
+    this.hasPrivateKey = options.hasPrivateKey;
 
     this.id = mvelo.util.getHash();
     this.parent = null;
@@ -33,11 +35,11 @@ export default class OptionsContainer {
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');
     var url;
-    var options = 'krid=' + encodeURIComponent(this.keyringId) + this.email + this.fullName;
+    var options = `krid=${encodeURIComponent(this.keyringId)}${this.email}${this.fullName}#/keyring/${this.hasPrivateKey ? 'display' : 'setup'}`;
     if (mvelo.crx) {
-      url = mvelo.extension.getURL('app/app.html?' + options + '#keyring');
+      url = mvelo.extension.getURL('app/app.html?' + options);
     } else if (mvelo.ffa) {
-      url = 'about:blank?mvelo=options&' + options + '#keyring';
+      url = 'about:blank?mvelo=options&' + options;
     }
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);

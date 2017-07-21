@@ -308,10 +308,17 @@ function editorContainer(selector, keyringId, options = {}, callback) {
   container.create(callback);
 }
 
-function settingsContainer(selector, keyringId, options, callback) {
-  var container = new OptionsContainer(selector, keyringId, options);
-  containers.set(container.id, container);
-  container.create(callback);
+function settingsContainer(selector, keyringId, options = {}, callback) {
+  mvelo.extension.sendMessage({
+    event: 'has-private-key',
+    api_event: true,
+    keyringId: keyringId
+  }, function(result) {
+    options.hasPrivateKey = result.data;
+    var container = new OptionsContainer(selector, keyringId, options);
+    containers.set(container.id, container);
+    container.create(callback);
+  });
 }
 
 function openSettings(keyringId, callback) {

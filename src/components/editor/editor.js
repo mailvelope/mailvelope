@@ -73,7 +73,7 @@ var hasUserInput = false;
 let footerProps = {
   onClickUpload: () => logUserInput('security_log_add_attachment'),
   onChangeFileInput: onAddAttachment,
-  onClickFileEncryption: () => port.emit('open-app', {fragment: 'file_encrypting'})
+  onClickFileEncryption: () => port.emit('open-app', {fragment: '/encryption/file-encrypt'})
 };
 
 // properties used to render the modal footer component
@@ -98,7 +98,7 @@ let modalFooterProps = {
     renderModalFooter({signMsg: value});
   },
   onChangeSignKey: value => renderModalFooter({signKey: value}),
-  onClickSignSetting: () => port.emit('open-app', {fragment: 'general'})
+  onClickSignSetting: () => port.emit('open-app', {fragment: '/settings/general'})
 };
 
 // properties used to render the recipient input component

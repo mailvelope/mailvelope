@@ -7,7 +7,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import mvelo from '../../mvelo';
 import * as l10n from '../../lib/l10n';
-import event from '../util/event';
 import {keyring} from '../app';
 import moment from 'moment';
 
@@ -16,7 +15,7 @@ import AdvancedExpand from './components/AdvancedExpand';
 import AdvKeyGenOptions from './components/AdvKeyGenOptions';
 import DefinePassword from './components/DefinePassword';
 import GenerateWait from './components/GenerateWait';
-import Alert from '../util/components/Alert';
+import {Alert} from '../util/util';
 
 'use strict';
 
@@ -104,7 +103,7 @@ class GenerateKey extends React.Component {
         success: true
       });
       // refresh keygrid
-      event.triggerHandler('keygrid-reload');
+      this.props.onKeyringChange();
     })
     .catch((error) => {
       this.setState({
@@ -124,9 +123,8 @@ class GenerateKey extends React.Component {
     const validPassword = this.state.password.length && this.state.password === this.state.passwordCheck;
     return (
       <div className={this.state.generating && 'busy'}>
-        <h3>
+        <h3 className="logo-header">
           <span>{l10n.map.keyring_generate_key}</span>
-          <span className="third-party-logo"></span>
         </h3>
         <form className="form" autoComplete="off">
           <NameAddrInput value={this.state} onChange={this.handleChange} disabled={this.state.success} demail={this.props.demail} />
@@ -138,7 +136,7 @@ class GenerateKey extends React.Component {
             <div className="checkbox">
               <label className="checkbox" htmlFor="keyServerUpload">
                 <input checked={this.state.keyServerUpload} onChange={this.handleChange} type="checkbox" id="keyServerUpload" disabled={this.state.success} />
-                <span>{l10n.map.key_gen_upload}</span>. <a href="https://keys.mailvelope.com" target="_blank">{l10n.map.learn_more_link}</a>
+                <span>{l10n.map.key_gen_upload}</span>. <a href="https://keys.mailvelope.com" target="_blank" rel="noreferrer">{l10n.map.learn_more_link}</a>
               </label>
             </div>
           </div>
@@ -160,7 +158,8 @@ class GenerateKey extends React.Component {
 GenerateKey.propTypes = {
   demail: PropTypes.bool,
   name: PropTypes.string,
-  email: PropTypes.string
+  email: PropTypes.string,
+  onKeyringChange: PropTypes.func
 }
 
 GenerateKey.defaultProps = {

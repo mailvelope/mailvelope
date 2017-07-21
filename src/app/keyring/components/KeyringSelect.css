@@ -1,0 +1,54 @@
+/**
+ * Copyright (C) 2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
+ */
+
+#keyringSwitcherLabel {
+    width: 94%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+#keyringSwitcherCaret {
+    margin-top: 8px;
+}
+
+.keyRingName {
+    word-wrap: break-word;
+}
+
+#keyringList {
+    margin-top: -8px;
+    width: 100%;
+}
+
+#keyringList li.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: flex-start;
+}
+
+#keyringList a.flex-item {
+    order: 0;
+    flex: 1 1 auto;
+    align-self: auto;
+    min-width: 30px;
+    white-space: normal;
+    cursor: pointer;
+}
+
+.deleteKeyRing {
+    max-width: 40px;
+    background-color: white;
+    padding-right: 25px !important;
+    padding-left: 15px !important;
+}
+
+.deleteKeyRing:hover {
+    background-color: white !important;
+    color: #808080 !important;
+}

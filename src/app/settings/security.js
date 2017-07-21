@@ -11,6 +11,8 @@ import $ from 'jquery';
 import {pgpModel} from '../app';
 import * as l10n from '../../lib/l10n';
 
+import './security.css';
+
 l10n.register([
   'settings_security',
   'security_cache_header',
@@ -43,7 +45,7 @@ class Security extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="security">
         <h3>{l10n.map.settings_security}</h3>
         <form className="form">
           <div className="form-group">

@@ -65,6 +65,6 @@ PrimaryKeyButton.propTypes = {
   isPrimary: PropTypes.bool.isRequired,
   onClick: PropTypes.func,
   disabled: PropTypes.bool
-}
+};
 
 export default PrimaryKeyButton;

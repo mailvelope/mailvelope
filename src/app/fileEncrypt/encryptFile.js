@@ -6,10 +6,10 @@
 'use strict';
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import $ from 'jquery';
 import mvelo from '../../mvelo';
 import * as app from '../app';
-import event from '../util/event';
 import * as l10n from '../../lib/l10n';
 import * as fileLib from '../../lib/file';
 
@@ -60,8 +60,6 @@ l10n.register([
   'encrypt_file_selection',
   'encrypt_upload_file_warning_too_big',
   'encrypt_upload_file_help',
-  'file_encrypting',
-  'file_decrypting',
   'form_next',
   'form_back'
 ]);
@@ -77,162 +75,155 @@ class EncryptFile extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="col-md-3">
-          <div className="list-group" id="encryptList">
-            <a className="list-group-item active" href="#file_encrypting" data-toggle="tab" id="file_encryptingButton">{l10n.map.file_encrypting}</a>
-            <a className="list-group-item" href="#file_decrypting" data-toggle="tab" id="file_decryptingButton">{l10n.map.file_decrypting}</a>
+      <section id="encrypting">
+        <div id="file_encrypting" className={this.props.match.path !== '/encryption/file-encrypt' ? 'hide' : ''}>
+
+          <div id="encrypt_fileUploadPanel" className="encrypt-panel panel panel-default">
+            <div className="panel-heading">
+              <h3 className="panel-title"><span>{l10n.map.encrypt_file_selection}</span></h3>
+            </div>
+            <div className="panel-body">
+              <div className="row">
+                <div className="col-xs-9">
+                  <output id="encrypt_fileSelection" className="itemSelection"></output>
+                </div>
+                <div className="col-xs-3">
+                  <p>
+                    <input id="encrypt_fileUpload" type="file" className="hidden" multiple />
+                    <button id="encrypt_addFileBtn" className="btn btn-sm btn-block btn-success">
+                      <i className="glyphicon glyphicon-plus"></i>
+                      <span>{l10n.map.encrypt_dialog_add}</span>
+                    </button>
+                    <span className="help-block"></span>
+                  </p>
+                </div>
+              </div>
+              <div className="fileUploadError alert alert-danger" role="alert"></div>
+            </div>
+            <div className="panel-footer text-right">
+              <button id="encrypt_goToPersonBtn" className="btn btn-primary btn-sm">{l10n.map.form_next}</button>
+            </div>
           </div>
-        </div>
-        <div className="col-md-9">
 
-          <section className="tab-content jumbotron secureBackground">
-            <div id="file_encrypting" role="tabpanel" className="tab-pane fade active in">
-
-              <div id="encrypt_fileUploadPanel" className="encrypt-panel panel panel-default">
-                <div className="panel-heading">
-                  <h3 className="panel-title"><span>{l10n.map.encrypt_file_selection}</span></h3>
-                </div>
-                <div className="panel-body">
-                  <div className="row">
-                    <div className="col-xs-9">
-                      <output id="encrypt_fileSelection" className="itemSelection"></output>
-                    </div>
-                    <div className="col-xs-3">
-                      <p>
-                        <input id="encrypt_fileUpload" type="file" className="hidden" multiple />
-                        <button id="encrypt_addFileBtn" className="btn btn-sm btn-block btn-success">
-                          <i className="glyphicon glyphicon-plus"></i>
-                          <span>{l10n.map.encrypt_dialog_add}</span>
-                        </button>
-                        <span className="help-block"></span>
-                      </p>
-                    </div>
-                  </div>
-                  <div className="fileUploadError alert alert-danger" role="alert"></div>
-                </div>
-                <div className="panel-footer text-right">
-                  <button id="encrypt_goToPersonBtn" className="btn btn-primary btn-sm">{l10n.map.form_next}</button>
-                </div>
-              </div>
-
-              <div id="encrypt_personPanel" className="encrypt-panel panel panel-default">
-                <div className="panel-heading">
-                  <h3 className="panel-title">{l10n.map.encrypt_dialog_header}</h3>
-                </div>
-
-                <div className="panel-body">
-                  <div className="row">
-                    <div className="col-xs-9">
-                      <select id="encrypt_keySelect" className="form-control"></select>
-                    </div>
-                    <div className="col-xs-3">
-                      <button id="encrypt_addPersonBtn" className="btn btn-sm btn-success btn-block">{l10n.map.encrypt_dialog_add}</button>
-                    </div>
-                  </div>
-
-                  <h4>{l10n.map.encrypt_dialog_subheader}</h4>
-                  <div className="row">
-                    <div className="col-xs-12">
-                      <output id="encrypt_keyList" className="itemSelection"></output>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="panel-footer text-right">
-                  <button id="encrypt_backToUploadBtn" className="btn btn-sm btn-default">{l10n.map.form_back}</button>
-
-                  <button id="encrypt_goToDownloadBtn" className="btn btn-sm btn-primary">{l10n.map.editor_encrypt_button}</button>
-                </div>
-              </div>
-
-              <div id="encrypt_fileDownloadPanel" className="encrypt-panel panel panel-default">
-
-                <div className="panel-heading">
-                  <h3 className="panel-title">{l10n.map.encrypt_download_file_title}</h3>
-                </div>
-
-                <div className="panel-body">
-                  <div className="row">
-                    <div className="col-xs-12">
-                      <output id="encrypt_fileDownload" className="itemSelection"></output>
-                    </div>
-                  </div>
-                  <div id="encrypt_fileDownloadError" className="alert alert-danger" role="alert"></div>
-                </div>
-
-                <div className="panel-footer text-right">
-                  <button id="encrypt_backToPersonBtn" className="btn btn-sm btn-default">{l10n.map.form_back}</button>
-                  <button id="encrypt_downloadAllBtn" className="btn btn-sm btn-primary"><i className="glyphicon glyphicon-save"></i> <span>{l10n.map.encrypt_download_all_button}</span></button>
-                </div>
-
-                <div className="panel-overlay">
-                  <div className="waiting"></div>
-                </div>
-
-              </div>
-
+          <div id="encrypt_personPanel" className="encrypt-panel panel panel-default">
+            <div className="panel-heading">
+              <h3 className="panel-title">{l10n.map.encrypt_dialog_header}</h3>
             </div>
-            <div id="file_decrypting" role="tabpanel" className="tab-pane fade">
 
-              <div id="decrypt_fileUploadPanel" className="decrypt-panel panel panel-default">
-                <div className="panel-heading">
-                  <h3 className="panel-title"><span>{l10n.map.encrypt_file_selection}</span></h3>
+            <div className="panel-body">
+              <div className="row">
+                <div className="col-xs-9">
+                  <select id="encrypt_keySelect" className="form-control"></select>
                 </div>
-                <div className="panel-body">
-                  <div className="row">
-                    <div className="col-xs-9">
-                      <output id="decrypt_fileSelection" className="itemSelection"></output>
-                    </div>
-                    <div className="col-xs-3">
-                      <p>
-                        <input id="decrypt_fileUpload" type="file" className="hidden" multiple accept=".asc,.gpg,.pgp" />
-                        <button id="decrypt_addFileBtn" className="btn btn-sm btn-block btn-success">
-                          <i className="glyphicon glyphicon-plus"></i>
-                          <span>{l10n.map.encrypt_dialog_add}</span>
-                        </button>
-                        <span className="help-block"></span>
-                      </p>
-                    </div>
-                  </div>
-                  <div className="fileUploadError alert alert-danger" role="alert"></div>
-                </div>
-                <div className="panel-footer text-right">
-                  <button id="decrypt_goToDownloadBtn" className="btn btn-primary btn-sm">{l10n.map.form_next}</button>
+                <div className="col-xs-3">
+                  <button id="encrypt_addPersonBtn" className="btn btn-sm btn-success btn-block">{l10n.map.encrypt_dialog_add}</button>
                 </div>
               </div>
 
-              <div id="decrypt_fileDownloadPanel" className="decrypt-panel panel panel-default">
-
-                <div className="panel-heading">
-                  <h3 className="panel-title">{l10n.map.encrypt_download_file_title}</h3>
-                </div>
-
-                <div className="panel-body">
-                  <div className="row">
-                    <div className="col-xs-12">
-                      <output id="decrypt_fileDownload" className="itemSelection"></output>
-                    </div>
-                  </div>
-                  <div id="decrypt_fileDownloadError" className="alert alert-danger" role="alert"></div>
-                </div>
-
-                <div className="panel-footer text-right">
-                  <button id="decrypt_backToUploadBtn" className="btn btn-sm btn-default">{l10n.map.form_back}</button>
-                  <button id="decrypt_downloadAllBtn" className="btn btn-sm btn-primary"><i className="glyphicon glyphicon-save"></i> <span>{l10n.map.encrypt_download_all_button}</span></button>
-                </div>
-
-                <div className="panel-overlay">
-                  <div className="waiting"></div>
+              <h4>{l10n.map.encrypt_dialog_subheader}</h4>
+              <div className="row">
+                <div className="col-xs-12">
+                  <output id="encrypt_keyList" className="itemSelection"></output>
                 </div>
               </div>
-
             </div>
-          </section>
+
+            <div className="panel-footer text-right">
+              <button id="encrypt_backToUploadBtn" className="btn btn-sm btn-default">{l10n.map.form_back}</button>
+
+              <button id="encrypt_goToDownloadBtn" className="btn btn-sm btn-primary">{l10n.map.editor_encrypt_button}</button>
+            </div>
+          </div>
+
+          <div id="encrypt_fileDownloadPanel" className="encrypt-panel panel panel-default">
+
+            <div className="panel-heading">
+              <h3 className="panel-title">{l10n.map.encrypt_download_file_title}</h3>
+            </div>
+
+            <div className="panel-body">
+              <div className="row">
+                <div className="col-xs-12">
+                  <output id="encrypt_fileDownload" className="itemSelection"></output>
+                </div>
+              </div>
+              <div id="encrypt_fileDownloadError" className="alert alert-danger" role="alert"></div>
+            </div>
+
+            <div className="panel-footer text-right">
+              <button id="encrypt_backToPersonBtn" className="btn btn-sm btn-default">{l10n.map.form_back}</button>
+              <button id="encrypt_downloadAllBtn" className="btn btn-sm btn-primary"><i className="glyphicon glyphicon-save"></i> <span>{l10n.map.encrypt_download_all_button}</span></button>
+            </div>
+
+            <div className="panel-overlay">
+              <div className="waiting"></div>
+            </div>
+
+          </div>
+
         </div>
-      </div>
+        <div id="file_decrypting" className={this.props.match.path !== '/encryption/file-decrypt' ? 'hide' : ''}>
+
+          <div id="decrypt_fileUploadPanel" className="decrypt-panel panel panel-default">
+            <div className="panel-heading">
+              <h3 className="panel-title"><span>{l10n.map.encrypt_file_selection}</span></h3>
+            </div>
+            <div className="panel-body">
+              <div className="row">
+                <div className="col-xs-9">
+                  <output id="decrypt_fileSelection" className="itemSelection"></output>
+                </div>
+                <div className="col-xs-3">
+                  <p>
+                    <input id="decrypt_fileUpload" type="file" className="hidden" multiple accept=".asc,.gpg,.pgp" />
+                    <button id="decrypt_addFileBtn" className="btn btn-sm btn-block btn-success">
+                      <i className="glyphicon glyphicon-plus"></i>
+                      <span>{l10n.map.encrypt_dialog_add}</span>
+                    </button>
+                    <span className="help-block"></span>
+                  </p>
+                </div>
+              </div>
+              <div className="fileUploadError alert alert-danger" role="alert"></div>
+            </div>
+            <div className="panel-footer text-right">
+              <button id="decrypt_goToDownloadBtn" className="btn btn-primary btn-sm">{l10n.map.form_next}</button>
+            </div>
+          </div>
+
+          <div id="decrypt_fileDownloadPanel" className="decrypt-panel panel panel-default">
+
+            <div className="panel-heading">
+              <h3 className="panel-title">{l10n.map.encrypt_download_file_title}</h3>
+            </div>
+
+            <div className="panel-body">
+              <div className="row">
+                <div className="col-xs-12">
+                  <output id="decrypt_fileDownload" className="itemSelection"></output>
+                </div>
+              </div>
+              <div id="decrypt_fileDownloadError" className="alert alert-danger" role="alert"></div>
+            </div>
+
+            <div className="panel-footer text-right">
+              <button id="decrypt_backToUploadBtn" className="btn btn-sm btn-default">{l10n.map.form_back}</button>
+              <button id="decrypt_downloadAllBtn" className="btn btn-sm btn-primary"><i className="glyphicon glyphicon-save"></i> <span>{l10n.map.encrypt_download_all_button}</span></button>
+            </div>
+
+            <div className="panel-overlay">
+              <div className="waiting"></div>
+            </div>
+          </div>
+
+        </div>
+      </section>
     );
   }
+}
+
+EncryptFile.propTypes = {
+  match: PropTypes.object
 }
 
 export default EncryptFile;
@@ -244,8 +235,6 @@ function init() {
   $('#encrypting .alert').hide();
 
   initRecipientsSelection();
-  // update recipient selection if keyring changes
-  event.on('keygrid-reload', initRecipientsSelection);
 }
 
 function initRecipientsSelection() {

@@ -295,10 +295,10 @@ function onBrowserAction(action) {
       addToWatchList();
       break;
     case 'options':
-      loadOptions('#keyring');
+      loadOptions('#/keyring');
       break;
     case 'showlog':
-      loadOptions('#securityLog');
+      loadOptions('#/settings/security-log');
       break;
     default:
       console.log('unknown browser action');

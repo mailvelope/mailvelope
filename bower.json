@@ -19,7 +19,6 @@
   "dependencies": {
     "jquery": "2.2.1",
     "bootstrap": "~3.3.6",
-    "bootstrap-sortable": "~1.10.0",
     "qrcodejs": "0.1.0"
   }
 }

@@ -7,12 +7,12 @@
 
 import mvelo from '../../mvelo';
 import * as app from '../app';
-import event from '../util/event';
 import * as l10n from '../../lib/l10n';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import KeySearch from './components/KeySearch';
-import Alert from '../util/components/Alert';
+import {Alert} from '../util/util';
 
 const PUBLIC_KEY_REGEX = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
 const PRIVATE_KEY_REGEX = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END PGP PRIVATE KEY BLOCK-----/g;
@@ -117,7 +117,7 @@ class ImportKey extends React.Component {
           alert.push({header, message, type});
         });
         if (success) {
-          event.triggerHandler('keygrid-reload');
+          this.props.onKeyringChange();
         }
         this.setState({alert});
         return result;
@@ -133,12 +133,11 @@ class ImportKey extends React.Component {
   render() {
     return (
       <div>
-        <h3>
+        <h3 className="logo-header">
           <span>{l10n.map.keyring_import_keys}</span>
-          <span className="third-party-logo"></span>
         </h3>
         {
-          !app.isDemail && <KeySearch />
+          !this.props.demail && <KeySearch prefs={this.props.prefs} />
         }
         <form className="form" autoComplete="off">
           <div className="form-group">
@@ -166,6 +165,12 @@ class ImportKey extends React.Component {
       </div>
     );
   }
+}
+
+ImportKey.propTypes = {
+  demail: PropTypes.bool,
+  onKeyringChange: PropTypes.func,
+  prefs: PropTypes.object
 }
 
 export default ImportKey;

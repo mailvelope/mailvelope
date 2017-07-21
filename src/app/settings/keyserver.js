@@ -11,12 +11,11 @@
 'use strict';
 
 import mvelo from '../../mvelo';
-import {pgpModel} from '../app';
-import event from '../util/event';
 import * as l10n from '../../lib/l10n';
-import Alert from '../util/components/Alert';
+import {Alert} from '../util/util';
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 
@@ -37,37 +36,27 @@ l10n.register([
 class KeyServer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      mvelo_tofu_lookup: false
-    };
+    this.state = this.initialState();
     this.handleCheck = this.handleCheck.bind(this);
     this.handleServerChange = this.handleServerChange.bind(this);
     this.handleSave = this.handleSave.bind(this);
-    this.init = this.init.bind(this);
     this.validateUrl = this.validateUrl.bind(this);
-    // load preferences
-    this.init();
   }
 
-  /**
-   * Load the user's preferences from local storage.
-   */
-  init() {
-    return pgpModel('getPreferences').then(prefs => {
-      const hkp_base_url = prefs.keyserver.hkp_base_url;
-      const hkp_server_list = prefs.keyserver.hkp_server_list.map(server => ({value: server, label: server}));
-      if (!prefs.keyserver.hkp_server_list.includes(hkp_base_url)) {
-        hkp_server_list.push({value: hkp_base_url, label: hkp_base_url});
-      }
-      this.setState({
-        hkp_base_url,
-        valid_base_url: true,
-        hkp_server_list,
-        mvelo_tofu_lookup: prefs.keyserver.mvelo_tofu_lookup,
-        alert: null,
-        modified: false
-      });
-    });
+  initialState() {
+    const hkp_base_url = this.props.prefs.keyserver.hkp_base_url;
+    const hkp_server_list = this.props.prefs.keyserver.hkp_server_list.map(server => ({value: server, label: server}));
+    if (!this.props.prefs.keyserver.hkp_server_list.includes(hkp_base_url)) {
+      hkp_server_list.push({value: hkp_base_url, label: hkp_base_url});
+    }
+    return {
+      hkp_base_url,
+      valid_base_url: true,
+      hkp_server_list,
+      mvelo_tofu_lookup: this.props.prefs.keyserver.mvelo_tofu_lookup,
+      alert: null,
+      modified: false
+    };
   }
 
   handleCheck(event) {
@@ -123,9 +112,9 @@ class KeyServer extends React.Component {
           mvelo_tofu_lookup: this.state.mvelo_tofu_lookup
         }
       };
-      mvelo.extension.sendMessage({event: 'set-prefs', data: update}, () => {
-        this.init();
-        event.triggerHandler('hkp-url-update');
+      this.props.onChangePrefs(update)
+      .then(() => {
+        this.setState(this.initialState());
         mvelo.extension.sendMessage({event: 'init-script-injection'});
       });
     })
@@ -135,7 +124,7 @@ class KeyServer extends React.Component {
   render() {
     return (
       <form className="form">
-        <h3 data-l10n-id="">{l10n.map.settings_keyserver}</h3>
+        <h3>{l10n.map.settings_keyserver}</h3>
         <label htmlFor="keyserverInputHkpUrl">{l10n.map.keyserver_hkp_url}</label>
         <div className="form-group">
           <Select.Creatable id="keyserverInputHkpUrl" value={this.state.hkp_base_url} options={this.state.hkp_server_list} onChange={this.handleServerChange} isValidNewOption={option => this.validateUrl(option && option.label)} />
@@ -145,7 +134,7 @@ class KeyServer extends React.Component {
           <div className="checkbox">
             <label className="checkbox" htmlFor="keyserverTOFULookup">
               <input type="checkbox" name="mvelo_tofu_lookup" checked={this.state.mvelo_tofu_lookup} onChange={this.handleCheck} id="keyserverTOFULookup" />
-              <span>{l10n.map.keyserver_tofu_lookup}</span>. <a href="https://keys.mailvelope.com" target="_blank">{l10n.map.learn_more_link}</a>
+              <span>{l10n.map.keyserver_tofu_lookup}</span>. <a href="https://keys.mailvelope.com" target="_blank" rel="noreferrer">{l10n.map.learn_more_link}</a>
             </label>
           </div>
         </div>
@@ -154,11 +143,16 @@ class KeyServer extends React.Component {
         </div>
         <div className="form-group">
           <button type="button" onClick={this.handleSave} className="btn btn-primary" disabled={!(this.state.modified && this.state.valid_base_url)}>{l10n.map.form_save}</button>
-          <button type="button" onClick={this.init} className="btn btn-default" disabled={!this.state.modified}>{l10n.map.form_cancel}</button>
+          <button type="button" onClick={() => this.setState(this.initialState())} className="btn btn-default" disabled={!this.state.modified}>{l10n.map.form_cancel}</button>
         </div>
       </form>
     );
   }
+}
+
+KeyServer.propTypes = {
+  prefs: PropTypes.object,
+  onChangePrefs: PropTypes.func
 }
 
 export default KeyServer;

@@ -17,7 +17,7 @@ l10n.register([
   'key_gen_demail'
 ]);
 
-const NameAddrInput = ({value: {name, email, errors = {}}, onChange, disabled, demail}) => {
+function NameAddrInput({value: {name, email, errors = {}}, onChange, disabled, demail}) {
   return (
     <div>
       <div className="form-group">
@@ -32,13 +32,13 @@ const NameAddrInput = ({value: {name, email, errors = {}}, onChange, disabled, d
       </div>
     </div>
   );
-};
+}
 
 NameAddrInput.propTypes = {
   value: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   demail: PropTypes.bool
-}
+};
 
 export default NameAddrInput;

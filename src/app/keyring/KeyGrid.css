@@ -3,17 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-#keyType {
-  vertical-align: middle;
-    width: 200px;
-}
-
-.keyType-selector {
-  float: right;
-  margin-right: .8em;
-  font-size: 13px;
-}
-
 #keyringFilterBtn {
   width: auto;
   display: inline-block;
@@ -56,6 +45,22 @@
 
 button.keyDetailsBtn, button.keyDeleteBtn {
     min-width: 30px;
+}
+
+#keyRingTable tr .actions {
+    white-space: nowrap;
+    visibility: hidden;
+}
+
+#keyRingTable tr:hover .actions {
+    visibility: visible;
+}
+
+.actions .btn {
+    margin-right: 5px;
+}
+.actions .btn:last-child {
+    margin-right: 0;
 }
 
 .publicKey {

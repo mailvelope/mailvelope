@@ -1,6 +1,6 @@
 /**
  * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
+ * Copyright (C) 2012-2017 Mailvelope GmbH
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License version 3
@@ -18,364 +18,321 @@
 'use strict';
 
 import mvelo from '../mvelo';
-import $ from 'jquery';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
-import event from './util/event';
+import {HashRouter, Route, Redirect} from 'react-router-dom';
 import * as l10n from '../lib/l10n';
-import './settings/general';
-import KeyServer from './settings/keyserver';
-import './settings/security';
-import {startSecurityLogMonitoring} from './settings/securityLog';
-import {WatchList} from './settings/watchList';
-import {deleteKeyring, importKey} from './keyring/keyRing';
+import {NavLink, ProviderLogo} from './util/util';
+
+import KeyringSelect from './keyring/components/KeyringSelect';
+import KeyGrid from './keyring/KeyGrid';
+import ImportKey from './keyring/importKey';
+import GenerateKey from './keyring/GenerateKey';
+import KeyringSetup from './keyring/KeyringSetup';
+
 import EncryptFile from './fileEncrypt/encryptFile';
+
 import General from './settings/general';
 import Security from './settings/security';
+import WatchList from './settings/watchList';
 import SecurityLog from './settings/securityLog';
+import KeyServer from './settings/keyserver';
 
 import './app.css';
 
-var currentKeyringId = null;
-export {currentKeyringId as keyringId};
-var currentPrimaryKeyId = null;
-export {currentPrimaryKeyId as primaryKeyId};
-export function setPrimaryKeyId(keyId) {
-  currentPrimaryKeyId = keyId;
-}
+l10n.register([
+  'options_title',
+  'security_background_button_title',
+  'keyring_header',
+  'encrypting_home',
+  'options_home',
+  'options_docu',
+  'options_about',
+  'keyring_display_keys',
+  'keyring_import_keys',
+  'keyring_generate_key',
+  'keyring_setup',
+  'settings_general',
+  'settings_security',
+  'settings_watchlist',
+  'settings_security_log',
+  'settings_keyserver',
+  'file_encrypting',
+  'file_decrypting'
+]);
 
 const DEMAIL_SUFFIX = 'de-mail.de';
-export let isDemail = false; // is current keyring created by de-mail
-export let queryString = {};
 
-var keyringTmpl;
-var $keyringList;
-var watchListComp;
-
-l10n.register([
-  'keygrid_user_email'
-]);
+document.addEventListener('DOMContentLoaded', init);
 
 function init() {
   if (document.body.dataset.mvelo) {
     return;
   }
   document.body.dataset.mvelo = true;
-  initMessageListener();
-
-  mvelo.appendTpl($('body'), mvelo.extension.getURL('app/settings/tpl/main.html'))
-  .then(function() {
-    // load all html templates into the DOM
-    return window.Promise.all([
-      mvelo.appendTpl($('#displayKeys'), mvelo.extension.getURL('app/keyring/tpl/displayKeys.html')),
-      mvelo.appendTpl($('#setupProvider'), mvelo.extension.getURL('app/keyring/tpl/setupProvider.html'))
-    ]);
-  })
-  .then(function() {
-    // load language strings from json files
-    return l10n.mapToLocal();
-  })
+  let root = document.createElement('div');
+  l10n.mapToLocal()
   .then(() => {
-    // render React components
-    ReactDOM.render(React.createElement(KeyServer), $('#keyserver').get(0));
-    ReactDOM.render(React.createElement(EncryptFile), $('#encrypting').get(0));
-    ReactDOM.render(React.createElement(General), $('#general').get(0));
-    ReactDOM.render(React.createElement(Security), $('#security').get(0));
-    ReactDOM.render(React.createElement(SecurityLog), $('#securityLog').get(0));
-    ReactDOM.render(React.createElement(WatchList, {ref: node => watchListComp = node}), $('#watchList').get(0));
-  })
-  .then(function() {
-    // set localized strings
-    mvelo.l10n.localizeHTML();
-  })
-  .then(initUI)
-  .then(function() {
-    // fire ready event for sub views to listen to
-    event.triggerHandler('ready');
-    sendMessage({ event: 'options-ready'});
+    ReactDOM.render((
+      <HashRouter>
+        <App />
+      </HashRouter>
+    ), document.body.appendChild(root));
+    sendMessage({ event: 'options-ready' });
+    document.title = l10n.map.options_title;
   });
 }
 
-/**
- * Is executed once after all templates hasve been loaded
- */
-function initUI() {
-  return new Promise(function(resolve) {
-    mvelo.extension.sendMessage({
-      event: 'get-version'
-    }, function(version) {
-      $('#version').text('v' + version);
-    });
-    mvelo.extension.sendMessage({event: 'get-active-keyring'}, resolve);
-  })
-  .then(function(data) {
-    return initKeyRing(data);
-  })
-  .then(function() {
-    return keyring('getPrivateKeys');
-  })
-  .then(function(privateKeys) {
-    return showSetupView(privateKeys);
-  })
-  .then(function() {
-    return getAllKeyringAttr();
-  })
-  .then(function(keyRingAttr) {
-    return switchOptionsUI(keyRingAttr);
-  });
-}
+// reference to app component to get state
+let app;
 
-function initKeyRing(data) {
-  queryString = jQuery.parseQuerystring();
-  currentKeyringId = data || mvelo.LOCAL_KEYRING_ID;
-  if (queryString.krid) {
-    currentKeyringId = queryString.krid;
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      prefs: null, // global preferences
+      keyringAttr: null, // keyring meta data
+      keyringId: mvelo.LOCAL_KEYRING_ID, // active keyring: id
+      primaryKeyId: '', // active keyring: id of primary key
+      hasPrivateKey: false, // active keyring: has private key
+      providerLogo: '', // provider specific logo
+      isDemail: false, // active keyring: is keyring from de-mail provider
+      name: '', // query parameter to set user name for key generation
+      email: '', // query parameter to set email for key generation
+      keys: [], // active keyring: keys
+      keyGridSpinner: true, // active keyring: loading spinner
+      version: '' // Mailvelope version
+    };
+    this.handleChangeKeyring = this.handleChangeKeyring.bind(this);
+    this.handleDeleteKeyring = this.handleDeleteKeyring.bind(this);
+    this.handleDeleteKey = this.handleDeleteKey.bind(this);
+    this.handleChangePrimaryKey = this.handleChangePrimaryKey.bind(this);
+    this.handleChangePrefs = this.handleChangePrefs.bind(this);
+    this.loadKeyring = this.loadKeyring.bind(this);
+    app = this;
   }
 
-  setKeyRing(currentKeyringId);
-}
-
-function showSetupView(privateKeys) {
-  // No private key yet? Navigate to setup tab
-  if (!privateKeys.length) {
-    $('.keyring_setup_message').addClass('active');
-
-    $('#setupProviderButton')
-      .tab('show') // Activate setup tab
-      .addClass('active')
-      .siblings('a.list-group-item').removeClass('active') // Activate setup navigation
-    ;
-  } else {
-    $('#displayKeysButton')
-      .tab('show') // Activate display keys tab
-      .addClass('active')
-      .siblings('a.list-group-item').removeClass('active') // Activate display keys navigation
-    ;
-    $('.keyring_setup_message').removeClass('active');
+  componentDidMount() {
+    sendMessage({ event: 'get-version' })
+    .then(version => this.setState({version}));
+    const query = new URLSearchParams(location.search);
+    const krid = query.get('krid');
+    const name = query.get('fname') || '';
+    const email = query.get('email') || '';
+    if (krid) {
+      this.setState({keyringId: krid, name, email});
+    } else {
+      sendMessage({ event: 'get-active-keyring' })
+      .then(keyringId => this.setState({ keyringId: keyringId || mvelo.LOCAL_KEYRING_ID }));
+    }
+    this.loadKeyring();
+    pgpModel('getPreferences').then(prefs => this.setState({prefs}));
+    mvelo.util.showSecurityBackground();
   }
 
-  mvelo.util.showSecurityBackground();
-
-  $keyringList = $('#keyringList');
-  if (keyringTmpl === undefined) {
-    keyringTmpl = $keyringList.html();
-    $keyringList.empty();
-  }
-
-  // Disable submitting of forms by for example pressing enter
-  $('form').submit(function(e) { e.preventDefault(); });
-
-  // Enabling selection of the elements in settings navigation
-  $('.list-group-item').on('click', function() {
-    window.location.hash = $(this).attr('href');
-    var self = $(this);
-    if (!self.hasClass('disabled')) {
-      self.parent().find('.list-group-item').each(function() {
-        $(this).removeClass('active');
+  loadKeyring() {
+    this.getAllKeyringAttr()
+    .then(keyringAttr => {
+      this.setState(prevState => {
+        const keyringId = keyringAttr[prevState.keyringId] ? prevState.keyringId : mvelo.LOCAL_KEYRING_ID;
+        const primaryKeyId = keyringAttr[keyringId].primary_key || '';
+        const providerLogo = keyringAttr[keyringId].logo_data_url || '';
+        const isDemail = keyringId.includes(DEMAIL_SUFFIX);
+        return { keyringId, primaryKeyId, isDemail, keyringAttr, providerLogo };
+      }, () => {
+        keyring('getKeys')
+        .then(keys => {
+          keys = keys.sort((a, b) => a.name.localeCompare(b.name));
+          const hasPrivateKey = keys.some(key => key.type === 'private');
+          this.setState({ hasPrivateKey, keys, keyGridSpinner: false });
+        });
       });
-      self.addClass('active');
-    }
-  });
-
-  // Activate tab after switch from links to tabs outside
-  $('[data-toggle="tab"]:not(.list-group-item)').on('click', function() {
-    window.location.hash = $(this).attr('href');
-    var id = $(this).attr('href'),
-      tabTrigger = $('.list-group a[href="' + id + '"]');
-
-    if (id && tabTrigger) {
-      tabTrigger.siblings('a.list-group-item').removeClass('active');
-      tabTrigger.addClass('active');
-    }
-  });
-}
-
-function switchOptionsUI(keyRingAttr) {
-  initKeyringSelection(keyRingAttr);
-
-  switch (window.location.hash) {
-    case '#securityLog':
-      $('#settingsButton').tab('show');
-      startSecurityLogMonitoring();
-      break;
-    case '#general':
-    case '#security':
-    case '#watchList':
-    case '#keyserver':
-      $('#settingsButton').tab('show');
-      activateTabButton(window.location.hash);
-      break;
-    case '#displayKeys':
-    case '#importKey':
-    case '#exportKeys':
-    case '#generateKey':
-    case '#setupProvider':
-      $('#keyringButton').tab('show');
-      activateTabButton(window.location.hash);
-      break;
-    case '#encrypting':
-    case '#file_encrypting':
-    case '#file_decrypting':
-      $('#encryptingButton').tab('show');
-      activateTabButton(window.location.hash);
-      break;
-    default:
-      if (window.location.hash == '#settings') {
-        $('#settingsButton').tab('show');
-      } else if (window.location.hash == '#keyring') {
-        $('#keyringButton').tab('show');
-      } else {
-        //console.log((window.location.hash) ? window.location.hash : 'no hash found');
-        window.location.hash = 'displayKeys';
-        $('#keyringButton').tab('show');
-      }
-  }
-  activateTabButton(window.location.hash);
-}
-
-function initKeyringSelection(data) {
-  if (data === undefined) {
-    return false;
-  }
-
-  var keyringHTML;
-  var keyringName;
-
-  for (let keyringId in data) {
-    keyringName = splitKeyringId(keyringId);
-    keyringHTML = $.parseHTML(keyringTmpl);
-
-    var obj = data[keyringId];
-    if (obj.hasOwnProperty('primary_key')) {
-      if (currentKeyringId === keyringId) {
-        currentPrimaryKeyId = obj.primary_key;
-      }
-      $(keyringHTML).find('.keyRingName').attr('data-primarykeyid', obj.primary_key);
-    }
-    if (obj.hasOwnProperty('logo_data_url')) {
-      $(keyringHTML).find('.keyRingName').attr('data-providerlogo', obj.logo_data_url);
-    }
-
-    if (keyringId === mvelo.LOCAL_KEYRING_ID) {
-      keyringName = 'Mailvelope';
-      $(keyringHTML).find('.deleteKeyRing').hide();
-    }
-
-    $(keyringHTML).find('.keyRingName').text(keyringName);
-    $(keyringHTML).find('.keyRingName').attr('data-keyringid', keyringId);
-    $(keyringHTML).find('.deleteKeyRing').attr('data-keyringid', keyringId);
-    $keyringList.append(keyringHTML);
-  }
-
-  $keyringList.find('.keyRingName').on('click', switchKeyring);
-  $keyringList.find('.deleteKeyRing').on('click', deleteKeyring);
-
-  setKeyRing(currentKeyringId);
-}
-
-function activateTabButton(hash) {
-  if (!hash) {
-    return;
-  }
-
-  var name = hash + 'Button';
-  $(name)
-    .tab('show')
-    .addClass('active')
-    .siblings('a.list-group-item').removeClass('active')
-  ;
-}
-
-function setKeyRing(keyringId) {
-  var primaryKeyId = $('a[data-keyringid="' + keyringId + '"]').attr('data-primarykeyid');
-  var providerLogo = $('a[data-keyringid="' + keyringId + '"]').attr('data-providerlogo');
-
-  var keyringName;
-  if (keyringId === mvelo.LOCAL_KEYRING_ID) {
-    keyringName = 'Mailvelope';
-  } else if (keyringId) {
-    keyringName = splitKeyringId(keyringId);
-  }
-
-  $('#keyringSwitcherLabel').text(keyringName);
-  currentKeyringId = keyringId;
-
-  if (primaryKeyId) {
-    currentPrimaryKeyId = primaryKeyId;
-    $('.keyring_setup_message').removeClass('active');
-  } else {
-    $('.keyring_setup_message').addClass('active');
-  }
-
-  var $logoArea = $('.third-party-logo');
-  if (providerLogo) {
-    $logoArea.css({
-      'background-image': 'url(' + providerLogo + ')',
-      'background-repeat': 'no-repeat',
-      'background-position': 'right top'
     });
-  } else {
-    $logoArea.css('background-image', 'none');
   }
 
-  isDemail = keyringId.includes(DEMAIL_SUFFIX);
-}
+  handleChangePrefs(update) {
+    return new Promise(resolve => {
+      sendMessage({event: 'set-prefs', data: update})
+      .then(() => pgpModel('getPreferences')
+        .then(prefs => this.setState({prefs}, () => resolve())));
+    });
+  }
 
-function switchKeyring() {
-  var keyringId = $(this).attr('data-keyringid');
-  setKeyRing(keyringId);
+  handleChangeKeyring(keyringId) {
+    this.setState({keyringId}, () => this.loadKeyring());
+  }
 
-  mvelo.util.showLoadingAnimation();
-  event.triggerHandler('keygrid-reload');
-}
-
-function initMessageListener() {
-  mvelo.extension.onMessage.addListener(
-    function(request, sender, sendResponse) {
-      return handleRequests(request, sender, sendResponse);
+  handleDeleteKeyring(keyringId, keyringName) {
+    if (confirm('Do you want to remove the keyring with id: ' + keyringName + ' ?')) {
+      sendMessage({
+        event: 'delete-keyring',
+        keyringId
+      })
+      .then(() => this.loadKeyring());
     }
-  );
-}
+  }
 
-function splitKeyringId(keyringId) {
-  return keyringId.split(mvelo.KEYRING_DELIMITER)[0] + ' (' + keyringId.split(mvelo.KEYRING_DELIMITER)[1] + ')';
-}
+  handleChangePrimaryKey(keyId) {
+    this.setKeyringAttr(this.state.keyringId, { primary_key: keyId })
+    .then(() => this.setState({ primaryKeyId: keyId }));
+  }
 
-function handleRequests(request, sender, sendResponse) {
-  switch (request.event) {
-    case 'add-watchlist-item':
-      $('#settingsButton').trigger('click');
-      $('#watchListButton').trigger('click');
-      // TODO: wait for component to be loaded
-      watchListComp.addToWatchList(request.site);
-      break;
-    case 'reload-options':
-      if (request.hash === '#showlog') {
-        $('#settingsButton').trigger('click');
-        $('#securityLogButton').trigger('click');
-      } else {
-        reloadOptions();
+  handleDeleteKey(fingerprint, type) {
+    keyring('removeKey', [fingerprint, type])
+    .then(() => this.loadKeyring());
+  }
+
+  initMessageListener() {
+    mvelo.extension.onMessage.addListener((request) => {
+      switch (request.event) {
+        case 'reload-options':
+          document.location.reload();
+          break;
+        default:
+          console.log('unknown event:', request);
       }
-      break;
-    case 'import-key':
-      $('#keyringButton').trigger('click');
-      $('#importKeyButton').trigger('click');
-      importKey(request.armored)
-      .then(result => sendResponse({result, id: request.id}))
-      return true;
-    default:
-    // TODO analyse message events
-    //console.log('unknown event:', request);
+    });
+  }
+
+  getAllKeyringAttr() {
+    return sendMessage({ event: 'get-all-keyring-attr'});
+  }
+
+  setKeyringAttr(keyringId, keyringAttr) {
+    return sendMessage({
+      event: 'set-keyring-attr',
+      keyringId,
+      keyringAttr
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <Route exact path="/" render={() => <Redirect to="/keyring/display" />} />
+        <Route exact path="/keyring" render={() => <Redirect to="/keyring/display" />} />
+        <Route exact path="/encryption" render={() => <Redirect to="/encryption/file-encrypt" />} />
+        <Route exact path="/settings" render={() => <Redirect to="/settings/general" />} />
+        <nav className="navbar navbar-default navbar-fixed-top">
+          <div className="container">
+            <div className="navbar-header">
+              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-navbar-collapse" aria-expanded="false">
+                  <span className="sr-only">Toggle navigation</span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+              </button>
+              <div className="navbar-brand settings-logo"></div>
+            </div>
+            <div className="collapse navbar-collapse bs-navbar-collapse">
+                <ul className="nav navbar-nav">
+                  <NavLink to="/keyring">{l10n.map.keyring_header}</NavLink>
+                  <NavLink to="/encryption">{l10n.map.encrypting_home}</NavLink>
+                  <NavLink to="/settings">{l10n.map.options_home}</NavLink>
+                </ul>
+                <ul className="nav navbar-nav navbar-right">
+                  <li><a href="https://www.mailvelope.com/help" target="_blank" rel="noreferrer">{l10n.map.options_docu}</a></li>
+                  <li><a href="https://www.mailvelope.com/about" target="_blank" rel="noreferrer">{l10n.map.options_about}</a></li>
+                </ul>
+            </div>
+          </div>
+        </nav>
+        <div className="container" role="main">
+          <div className="row">
+            <Route path='/keyring' render={() => (
+              <div>
+                <div className="col-md-3">
+                  <KeyringSelect keyringId={this.state.keyringId} keyringAttr={this.state.keyringAttr} onChange={this.handleChangeKeyring} onDelete={this.handleDeleteKeyring}/>
+                  <div role="navigation">
+                    <ul className="nav nav-pills nav-stacked">
+                      <NavLink to="/keyring/display">{l10n.map.keyring_display_keys}</NavLink>
+                      <NavLink to="/keyring/import">{l10n.map.keyring_import_keys}</NavLink>
+                      <NavLink to="/keyring/generate">{l10n.map.keyring_generate_key}</NavLink>
+                      <NavLink to="/keyring/setup">{l10n.map.keyring_setup}</NavLink>
+                    </ul>
+                  </div>
+                </div>
+                <div className="col-md-9">
+                  <div className="jumbotron secureBackground">
+                    <div className="well">
+                      <ProviderLogo logo={this.state.providerLogo} />
+                      <Route path='/keyring/display' render={() =>
+                        <KeyGrid keys={this.state.keys}
+                                 primaryKeyId={this.state.primaryKeyId}
+                                 onChangePrimaryKey={this.handleChangePrimaryKey}
+                                 onDeleteKey={this.handleDeleteKey}
+                                 spinner={this.state.keyGridSpinner} />
+                      } />
+                      <Route path='/keyring/import' render={() => <ImportKey onKeyringChange={this.loadKeyring} demail={this.state.isDemail} prefs={this.state.prefs} />} />
+                      <Route path='/keyring/generate' render={() => <GenerateKey onKeyringChange={this.loadKeyring} demail={this.state.isDemail} name={this.state.name} email={this.state.email} />} />
+                      <Route path='/keyring/setup' render={() => <KeyringSetup hasPrivateKey={this.state.hasPrivateKey} />} />
+                    </div>
+                    <button className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
+                  </div>
+                </div>
+              </div>
+            )}/>
+            <Route path='/encryption' render={() => (
+              <div>
+                <div className="col-md-3">
+                  <div role="navigation">
+                    <ul className="nav nav-pills nav-stacked">
+                      <NavLink to="/encryption/file-encrypt">{l10n.map.file_encrypting}</NavLink>
+                      <NavLink to="/encryption/file-decrypt">{l10n.map.file_decrypting}</NavLink>
+                    </ul>
+                  </div>
+                </div>
+                <div className="col-md-9">
+                  <div className="jumbotron secureBackground">
+                    <div className="well">
+                      <Route path='/encryption/file-encrypt' component={EncryptFile} />
+                      <Route path='/encryption/file-decrypt' component={EncryptFile} />
+                    </div>
+                    <button className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
+                  </div>
+                </div>
+              </div>
+            )}/>
+            <Route path='/settings' render={() => (
+              <div>
+                <div className="col-md-3">
+                  <div role="navigation">
+                    <ul className="nav nav-pills nav-stacked">
+                      <NavLink to="/settings/general">{l10n.map.settings_general}</NavLink>
+                      <NavLink to="/settings/security">{l10n.map.settings_security}</NavLink>
+                      <NavLink to="/settings/watchlist">{l10n.map.settings_watchlist}</NavLink>
+                      <NavLink to="/settings/security-log">{l10n.map.settings_security_log}</NavLink>
+                      <NavLink to="/settings/key-server">{l10n.map.settings_keyserver}</NavLink>
+                    </ul>
+                  </div>
+                </div>
+                <div className="col-md-9">
+                  <div className="jumbotron secureBackground">
+                    <div className="well">
+                      <Route path='/settings/general' component={General} />
+                      <Route path='/settings/security' component={Security} />
+                      <Route path='/settings/watchlist' component={WatchList} />
+                      <Route path='/settings/security-log' component={SecurityLog} />
+                      <Route path='/settings/key-server' render={() => <KeyServer prefs={this.state.prefs} onChangePrefs={this.handleChangePrefs} />} />
+                    </div>
+                    <button className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
+                  </div>
+                </div>
+              </div>
+            )}/>
+          </div>
+          <footer className="row">
+            <p className="pull-left col-md-6">&copy; 2012-2017 Mailvelope GmbH</p>
+            <div id="version" className="pull-right col-md-6">{this.state.version}</div>
+          </footer>
+        </div>
+      </div>
+    );
   }
 }
 
-export function reloadOptions() {
-  document.location.reload();
-}
-
-export function getAllKeyringAttr() {
-  return sendMessage({ event: 'get-all-keyring-attr'});
+export function openTab(url) {
+  return sendMessage({event: 'open-tab', url: url});
 }
 
 export function getAllKeyUserId() {
@@ -385,32 +342,18 @@ export function getAllKeyUserId() {
 export function pgpModel(method, args) {
   return sendMessage({
     event: 'pgpmodel',
-    method: method,
-    args: args
+    method,
+    args
   });
 }
 
 export function keyring(method, args) {
   return sendMessage({
     event: 'keyring',
-    method: method,
-    args: args,
-    keyringId: currentKeyringId
+    method,
+    args,
+    keyringId: app.state.keyringId
   });
-}
-
-export function copyToClipboard(text) {
-  var copyFrom = $('<textarea />');
-  $('body').append(copyFrom);
-  copyFrom.hide();
-  copyFrom.text(text);
-  copyFrom.select();
-  document.execCommand('copy');
-  copyFrom.remove();
-}
-
-export function openTab(url) {
-  return sendMessage({event: 'open-tab', url: url});
 }
 
 function sendMessage(options) {
@@ -420,23 +363,8 @@ function sendMessage(options) {
       if (data.error) {
         reject(data.error);
       } else {
-        resolve(data.result);
+        resolve(typeof data.result !== 'undefined' ? data.result : data);
       }
     });
   });
 }
-
-// Update visibility of setup alert box
-event.on('keygrid-reload', function() {
-  keyring('getPrivateKeys')
-    .then(function(result) {
-      if (!result.length) {
-        $('.keyring_setup_message').addClass('active');
-      } else {
-        $('.keyring_setup_message').removeClass('active');
-      }
-    });
-});
-
-$(document).ready(init);
-

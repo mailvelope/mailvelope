@@ -31,7 +31,7 @@ class General extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="general">
         <h3>{l10n.map.settings_general}</h3>
         <form className="form">
           <div className="form-group">

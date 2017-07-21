@@ -7,10 +7,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as l10n from '../../lib/l10n';
+import * as l10n from '../../../lib/l10n';
 
-import ModalDialog from '../../components/util/ModalDialog';
-import OnOffSwitch from './components/OnOffSwitch';
+import ModalDialog from '../../../components/util/ModalDialog';
+import OnOffSwitch from './OnOffSwitch';
 
 l10n.register([
   'watchlist_record_title',

@@ -92,6 +92,6 @@ class KeyDetailsSubkeys extends React.Component {
 
 KeyDetailsSubkeys.propTypes = {
   subkeys: PropTypes.array
-}
+};
 
 export default KeyDetailsSubkeys;

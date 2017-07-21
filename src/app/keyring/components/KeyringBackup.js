@@ -17,7 +17,7 @@ l10n.register([
   'dialog_popup_close'
 ]);
 
-const KeyringBackup = props => {
+function KeyringBackup(props) {
   return (
     <ModalDialog title={l10n.map.keyring_backup} onHide={props.onHide} footer={
       <button type="button" className="btn btn-primary" data-dismiss="modal">
@@ -36,6 +36,6 @@ KeyringBackup.propTypes = {
   all: PropTypes.bool,
   onHide: PropTypes.func,
   type: PropTypes.string
-}
+};
 
 export default KeyringBackup;

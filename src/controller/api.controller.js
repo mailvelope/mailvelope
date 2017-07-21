@@ -92,14 +92,19 @@ function handleApiEvent(request, sender, sendResponse) {
         .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
         return true;
       case 'has-private-key':
-        var fingerprint = request.fingerprint.toLowerCase().replace(/\s/g, '');
-        var key = keyring.getById(request.keyringId).keyring.privateKeys.getForId(fingerprint);
-        var valid = key && key.verifyPrimaryKey() === openpgp.enums.keyStatus.valid;
-        sendResponse({error: null, data: (key && valid ? true : false)});
+        if (request.fingerprint) {
+          const fingerprint = request.fingerprint.toLowerCase().replace(/\s/g, '');
+          const key = keyring.getById(request.keyringId).keyring.privateKeys.getForId(fingerprint);
+          const valid = key && key.verifyPrimaryKey() === openpgp.enums.keyStatus.valid;
+          sendResponse({error: null, data: (key && valid ? true : false)});
+        } else {
+          const hasPrivateKey = keyring.getById(request.keyringId).hasPrivateKey();
+          sendResponse({error: null, data: hasPrivateKey});
+        }
         break;
       case 'open-settings':
         request.keyringId = request.keyringId || mvelo.LOCAL_KEYRING_ID;
-        var hash = '?krid=' + encodeURIComponent(request.keyringId) + '#settings';
+        var hash = '?krid=' + encodeURIComponent(request.keyringId) + '#/settings';
         mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
           if (old) {
             mvelo.tabs.sendMessage(tab, {

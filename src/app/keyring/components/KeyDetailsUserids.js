@@ -73,6 +73,6 @@ class KeyDetailsUserids extends React.Component {
 
 KeyDetailsUserids.propTypes = {
   users: PropTypes.array
-}
+};
 
 export default KeyDetailsUserids;

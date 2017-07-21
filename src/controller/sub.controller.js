@@ -65,7 +65,7 @@ SubController.prototype.removePort = function(port) {
 SubController.prototype.parseViewName = parseViewName;
 
 SubController.prototype.openSecuritySettings = function() {
-  var hash = '#security';
+  var hash = '#/settings/security';
   var that = this;
 
   this.mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
