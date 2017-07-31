@@ -14,7 +14,7 @@ l10n.register([
   'invalid_primary_key'
 ]);
 
-class PrimaryKeyButton extends React.Component {
+export default class PrimaryKeyButton extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -66,5 +66,3 @@ PrimaryKeyButton.propTypes = {
   onClick: PropTypes.func,
   disabled: PropTypes.bool
 };
-
-export default PrimaryKeyButton;

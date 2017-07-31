@@ -12,7 +12,7 @@ import mvelo from '../../../mvelo';
 import './KeyringSelect.css';
 
 
-class KeyringSelect extends React.Component {
+export default class KeyringSelect extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -57,5 +57,3 @@ KeyringSelect.propTypes = {
   onChange: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired
 };
-
-export default KeyringSelect;

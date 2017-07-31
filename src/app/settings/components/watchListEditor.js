@@ -24,7 +24,7 @@ l10n.register([
   'form_cancel'
 ]);
 
-class WatchListEditor extends React.Component {
+export default class WatchListEditor extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -117,5 +117,3 @@ EditorFooter.propTypes = {
   onAddMatchPattern: PropTypes.func,
   onSave: PropTypes.func
 };
-
-export default WatchListEditor;

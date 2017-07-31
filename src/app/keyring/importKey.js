@@ -34,7 +34,7 @@ l10n.register([
   'form_clear'
 ]);
 
-class ImportKey extends React.Component {
+export default class ImportKey extends React.Component {
   constructor(props) {
     super(props);
     this.state = {alert: [], armored: ''};
@@ -181,5 +181,3 @@ ImportKey.propTypes = {
   prefs: PropTypes.object,
   location: PropTypes.object
 }
-
-export default ImportKey;

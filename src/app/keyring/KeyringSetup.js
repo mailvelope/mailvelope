@@ -22,7 +22,7 @@ l10n.register([
   'keyring_setup_import_key'
 ]);
 
-class KeyringSetup extends React.Component {
+export default class KeyringSetup extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -55,5 +55,3 @@ class KeyringSetup extends React.Component {
 KeyringSetup.propTypes = {
   hasPrivateKey: PropTypes.bool
 };
-
-export default KeyringSetup;

@@ -23,7 +23,7 @@ l10n.register([
 
 const KEY_ID_REGEX = /^([0-9a-f]{8}|[0-9a-f]{16}|[0-9a-f]{40})$/i;
 
-class KeySearch extends React.Component {
+export default class KeySearch extends React.Component {
   constructor(props) {
     super(props);
     this.query = null;
@@ -67,5 +67,3 @@ class KeySearch extends React.Component {
 KeySearch.propTypes = {
   prefs: PropTypes.object
 }
-
-export default KeySearch;

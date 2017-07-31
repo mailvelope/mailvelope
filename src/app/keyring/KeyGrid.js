@@ -32,7 +32,7 @@ l10n.register([
   'keygrid_delete_confirmation'
 ]);
 
-class KeyGrid extends React.Component {
+export default class KeyGrid extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -176,5 +176,3 @@ KeyGrid.propTypes = {
   onDeleteKey: PropTypes.func,
   spinner: PropTypes.bool
 };
-
-export default KeyGrid;

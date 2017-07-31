@@ -21,7 +21,7 @@ l10n.register([
   'keygrid_key_not_expire'
 ]);
 
-function AdvKeyGenOptions({value: {keySize, keyExpirationTime}, onChange, disabled}) {
+export default function AdvKeyGenOptions({value: {keySize, keyExpirationTime}, onChange, disabled}) {
   const handleDateChange = moment => onChange({target: {id: 'keyExpirationTime', value: moment}});
   return (
     <div className="adv-key-gen-options">
@@ -53,5 +53,3 @@ AdvKeyGenOptions.propTypes = {
   onChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool
 };
-
-export default AdvKeyGenOptions;

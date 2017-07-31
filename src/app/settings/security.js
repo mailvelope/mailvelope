@@ -34,7 +34,7 @@ l10n.register([
   'form_cancel'
 ]);
 
-class Security extends React.Component {
+export default class Security extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -113,8 +113,6 @@ class Security extends React.Component {
     );
   }
 }
-
-export default Security;
 
 var secBackground;
 

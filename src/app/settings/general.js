@@ -20,7 +20,7 @@ l10n.register([
   'form_cancel'
 ]);
 
-class General extends React.Component {
+export default class General extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -58,8 +58,6 @@ class General extends React.Component {
     );
   }
 }
-
-export default General;
 
 function init() {
   loadPrefs();

@@ -19,7 +19,7 @@ l10n.register([
   'key_export_warning_private'
 ]);
 
-class KeyDetailsExport extends React.Component {
+export default class KeyDetailsExport extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -114,5 +114,3 @@ KeyDetailsExport.propTypes = {
 KeyDetailsExport.defaultProps = {
   type: 'pub'
 };
-
-export default KeyDetailsExport;

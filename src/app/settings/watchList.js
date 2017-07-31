@@ -6,9 +6,10 @@
 'use strict';
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import mvelo from '../../mvelo';
 //import $ from 'jquery';
-import {pgpModel} from '../app';
+import {pgpModel, getAppDataSlot} from '../app';
 import * as l10n from '../../lib/l10n';
 
 import './watchList.css';
@@ -42,11 +43,18 @@ export default class WatchList extends React.Component {
   }
 
   componentDidMount() {
-    this.loadWatchList();
+    this.loadWatchList()
+    .then(() => {
+      // watchlist push scenario
+      if (/\/push$/.test(this.props.location.pathname)) {
+        getAppDataSlot()
+        .then(site => this.addToWatchList(site));
+      }
+    });
   }
 
   loadWatchList() {
-    pgpModel('getWatchList')
+    return pgpModel('getWatchList')
     .then(watchList => this.setState({watchList}));
   }
 
@@ -218,4 +226,8 @@ export default class WatchList extends React.Component {
       </div>
     );
   }
+}
+
+WatchList.propTypes = {
+  location: PropTypes.object
 }

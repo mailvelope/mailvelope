@@ -17,7 +17,7 @@ l10n.register([
   'keygrid_creation_date_short'
 ]);
 
-class KeyDetailsUserids extends React.Component {
+export default class KeyDetailsUserids extends React.Component {
   constructor(props) {
     super(props);
     const userID = props.users[0] && props.users[0].userID || '';
@@ -74,5 +74,3 @@ class KeyDetailsUserids extends React.Component {
 KeyDetailsUserids.propTypes = {
   users: PropTypes.array
 };
-
-export default KeyDetailsUserids;

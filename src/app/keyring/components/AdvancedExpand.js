@@ -16,7 +16,7 @@ l10n.register([
   'key_gen_advanced_btn'
 ]);
 
-class AdvancedExpand extends React.Component {
+export default class AdvancedExpand extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,5 +53,3 @@ class AdvancedExpand extends React.Component {
 AdvancedExpand.propTypes = {
   children: PropTypes.node.isRequired
 }
-
-export default AdvancedExpand;

@@ -27,7 +27,7 @@ l10n.register([
   'keygrid_key_not_expire'
 ]);
 
-function KeyDetailsPrimary({keyDetails}) {
+export default function KeyDetailsPrimary({keyDetails}) {
   const isPrivate = keyDetails.type === 'private';
   return (
     <form className="form-horizontal" role="form">
@@ -96,5 +96,3 @@ function KeyDetailsPrimary({keyDetails}) {
 KeyDetailsPrimary.propTypes = {
   keyDetails: PropTypes.object
 };
-
-export default KeyDetailsPrimary;

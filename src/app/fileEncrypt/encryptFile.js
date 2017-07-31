@@ -64,7 +64,7 @@ l10n.register([
   'form_back'
 ]);
 
-class EncryptFile extends React.Component {
+export default class EncryptFile extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -225,8 +225,6 @@ class EncryptFile extends React.Component {
 EncryptFile.propTypes = {
   match: PropTypes.object
 }
-
-export default EncryptFile;
 
 function init() {
   addEncryptInteractivity();

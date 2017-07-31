@@ -33,7 +33,7 @@ l10n.register([
   'settings_keyserver'
 ]);
 
-class KeyServer extends React.Component {
+export default class KeyServer extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.initialState(props);
@@ -164,5 +164,3 @@ KeyServer.propTypes = {
   prefs: PropTypes.object,
   onChangePrefs: PropTypes.func.isRequired
 }
-
-export default KeyServer;

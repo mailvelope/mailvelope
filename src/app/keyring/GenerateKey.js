@@ -33,7 +33,7 @@ l10n.register([
 // set locale
 moment.locale(navigator.language);
 
-class GenerateKey extends React.Component {
+export default class GenerateKey extends React.Component {
   constructor(props) {
     super(props);
     this.initialState = {
@@ -166,5 +166,3 @@ GenerateKey.defaultProps = {
   name: '',
   email: ''
 };
-
-export default GenerateKey;

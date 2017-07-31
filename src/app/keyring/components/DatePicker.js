@@ -12,7 +12,7 @@ import './DatePicker.css';
 
 'use strict';
 
-class CustomInput extends React.Component {
+export default class CustomInput extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -68,5 +68,3 @@ DatePicker.propTypes = {
   maxDate: PropTypes.object,
   disabled: PropTypes.bool
 };
-
-export default DatePicker;

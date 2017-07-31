@@ -269,27 +269,16 @@ function addToWatchList() {
           if (scannedHosts.length === 0) {
             return;
           }
-          // remove duplicates and add wildcards
-          var hosts = reduceHosts(scannedHosts);
           var site = model.getHostname(tab.url);
           scannedHosts.length = 0;
-          mvelo.tabs.loadOptionsTab('#watchList', function(old, tab) {
-            sendToWatchList(tab, site, hosts, old);
-          });
+          var slotId = mvelo.util.getHash();
+          sub.setAppDataSlot(slotId, site);
+          mvelo.tabs.loadOptionsTab(`?slotId=${slotId}#/settings/watchlist/push`, () => {});
         }, 250);
       });
     }
   });
 
-}
-
-function sendToWatchList(tab, site, hosts, old) {
-  mvelo.tabs.sendMessage(tab, {
-    event: 'add-watchlist-item',
-    site: site,
-    hosts: hosts,
-    old: old
-  });
 }
 
 function onBrowserAction(action) {

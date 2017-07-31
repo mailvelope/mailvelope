@@ -45,7 +45,7 @@ function labelVisibility(password, passwordCheck) {
   return label;
 }
 
-function DefinePassword({value: {password, passwordCheck}, onChange, disabled}) {
+export default function DefinePassword({value: {password, passwordCheck}, onChange, disabled}) {
   const visibility = labelVisibility(password, passwordCheck);
   return (
     <div>
@@ -69,5 +69,3 @@ DefinePassword.propTypes = {
   onChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool
 };
-
-export default DefinePassword;

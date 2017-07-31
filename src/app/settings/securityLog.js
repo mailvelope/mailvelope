@@ -17,7 +17,7 @@ l10n.register([
   'security_log_action'
 ]);
 
-class SecurityLog extends React.Component {
+export default class SecurityLog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {secLog: []};
@@ -68,5 +68,3 @@ class SecurityLog extends React.Component {
     );
   }
 }
-
-export default SecurityLog;
