@@ -62,7 +62,6 @@ l10n.register([
 ]);
 
 const DEMAIL_SUFFIX = 'de-mail.de';
-
 document.addEventListener('DOMContentLoaded', init);
 
 function init() {
@@ -89,16 +88,22 @@ let app;
 class App extends React.Component {
   constructor(props) {
     super(props);
+    // get URL parameter
+    const query = new URLSearchParams(document.location.search);
+    const keyringId = query.get('krid') || '';
+    const name = query.get('fname') || '';
+    const email = query.get('email') || '';
+    // set initial state
     this.state = {
       prefs: null, // global preferences
       keyringAttr: null, // keyring meta data
-      keyringId: mvelo.LOCAL_KEYRING_ID, // active keyring: id
+      keyringId, // active keyring: id
       primaryKeyId: '', // active keyring: id of primary key
       hasPrivateKey: false, // active keyring: has private key
       providerLogo: '', // provider specific logo
       isDemail: false, // active keyring: is keyring from de-mail provider
-      name: '', // query parameter to set user name for key generation
-      email: '', // query parameter to set email for key generation
+      name, // query parameter to set user name for key generation
+      email, // query parameter to set email for key generation
       keys: [], // active keyring: keys
       keyGridSpinner: true, // active keyring: loading spinner
       version: '' // Mailvelope version
@@ -112,22 +117,26 @@ class App extends React.Component {
     app = this;
   }
 
+  componentWillMount() {
+    this.initActiveKeyring()
+    .then(() => this.loadKeyring());
+  }
+
   componentDidMount() {
     sendMessage({ event: 'get-version' })
     .then(version => this.setState({version}));
-    const query = new URLSearchParams(location.search);
-    const krid = query.get('krid');
-    const name = query.get('fname') || '';
-    const email = query.get('email') || '';
-    if (krid) {
-      this.setState({keyringId: krid, name, email});
-    } else {
-      sendMessage({ event: 'get-active-keyring' })
-      .then(keyringId => this.setState({ keyringId: keyringId || mvelo.LOCAL_KEYRING_ID }));
-    }
-    this.loadKeyring();
     pgpModel('getPreferences').then(prefs => this.setState({prefs}));
     mvelo.util.showSecurityBackground();
+  }
+
+  initActiveKeyring() {
+    return new Promise(resolve => {
+      if (this.state.keyringId) {
+        return resolve();
+      }
+      sendMessage({ event: 'get-active-keyring' })
+      .then(keyringId => this.setState({ keyringId: keyringId || mvelo.LOCAL_KEYRING_ID }, resolve));
+    });
   }
 
   loadKeyring() {
@@ -138,6 +147,8 @@ class App extends React.Component {
         const primaryKeyId = keyringAttr[keyringId].primary_key || '';
         const providerLogo = keyringAttr[keyringId].logo_data_url || '';
         const isDemail = keyringId.includes(DEMAIL_SUFFIX);
+        // propagate state change to backend
+        this.setActiveKeyring(keyringId);
         return { keyringId, primaryKeyId, isDemail, keyringAttr, providerLogo };
       }, () => {
         keyring('getKeys')
@@ -206,6 +217,10 @@ class App extends React.Component {
     });
   }
 
+  setActiveKeyring(keyringId) {
+    sendMessage({ event: 'set-active-keyring',  keyringId });
+  }
+
   render() {
     return (
       <div>
@@ -263,7 +278,7 @@ class App extends React.Component {
                                  onDeleteKey={this.handleDeleteKey}
                                  spinner={this.state.keyGridSpinner} />
                       } />
-                      <Route path='/keyring/import' render={() => <ImportKey onKeyringChange={this.loadKeyring} demail={this.state.isDemail} prefs={this.state.prefs} />} />
+                      <Route path='/keyring/import' render={({location}) => <ImportKey onKeyringChange={this.loadKeyring} demail={this.state.isDemail} prefs={this.state.prefs} location={location} />} />
                       <Route path='/keyring/generate' render={() => <GenerateKey onKeyringChange={this.loadKeyring} demail={this.state.isDemail} name={this.state.name} email={this.state.email} />} />
                       <Route path='/keyring/setup' render={() => <KeyringSetup hasPrivateKey={this.state.hasPrivateKey} />} />
                     </div>
@@ -354,6 +369,16 @@ export function keyring(method, args) {
     args,
     keyringId: app.state.keyringId
   });
+}
+
+/**
+ * Retrieve slot ID from query parameter and get slot data from background
+ * @return {Promise.<String>}
+ */
+export function getAppDataSlot() {
+  const query = new URLSearchParams(document.location.search);
+  const slotId = query.get('slotId');
+  return sendMessage({ event: 'get-app-data-slot', slotId });
 }
 
 function sendMessage(options) {

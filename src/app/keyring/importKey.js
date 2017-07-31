@@ -6,7 +6,7 @@
 'use strict';
 
 import mvelo from '../../mvelo';
-import * as app from '../app';
+import {keyring, getAppDataSlot} from '../app';
 import * as l10n from '../../lib/l10n';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -40,6 +40,14 @@ class ImportKey extends React.Component {
     this.state = {alert: [], armored: ''};
     this.handleChangeFile = this.handleChangeFile.bind(this);
     this.handleClear = this.handleClear.bind(this);
+  }
+
+  componentDidMount() {
+    // key import push scenario
+    if (/\/push$/.test(this.props.location.pathname)) {
+      getAppDataSlot()
+      .then(armored => this.importKey(armored));
+    }
   }
 
   handleClear() {
@@ -95,7 +103,7 @@ class ImportKey extends React.Component {
       if (!keys.length) {
         throw {message: l10n.map.key_import_invalid_text, type: 'error'};
       }
-      return app.keyring('importKeys', [keys])
+      return keyring('importKeys', [keys])
       .then(result => {
         let success = false;
         result.forEach(imported => {
@@ -170,7 +178,8 @@ class ImportKey extends React.Component {
 ImportKey.propTypes = {
   demail: PropTypes.bool,
   onKeyringChange: PropTypes.func,
-  prefs: PropTypes.object
+  prefs: PropTypes.object,
+  location: PropTypes.object
 }
 
 export default ImportKey;

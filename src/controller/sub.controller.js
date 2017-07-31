@@ -187,6 +187,7 @@ function parseViewName(viewName) {
   return { type: pair[0], id: pair[1] };
 }
 
+// keep state of active keyring for App UI
 var activeKeyringId = mvelo.LOCAL_KEYRING_ID;
 
 function setActiveKeyringId(keyringId) {
@@ -195,6 +196,19 @@ function setActiveKeyringId(keyringId) {
 
 function getActiveKeyringId() {
   return activeKeyringId;
+}
+
+// transfer data to app UI via slots
+var appDataSlot = new Map();
+
+function setAppDataSlot(key, value) {
+  appDataSlot.set(key, value);
+}
+
+function getAppDataSlot(key) {
+  let value = appDataSlot.get(key);
+  appDataSlot.delete(key);
+  return value;
 }
 
 exports.SubController = SubController;
@@ -207,3 +221,5 @@ exports.getByMainType = getByMainType;
 exports.isActive = isActive;
 exports.setActiveKeyringId = setActiveKeyringId;
 exports.getActiveKeyringId = getActiveKeyringId;
+exports.setAppDataSlot = setAppDataSlot;
+exports.getAppDataSlot = getAppDataSlot;

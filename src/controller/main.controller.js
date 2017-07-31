@@ -45,18 +45,18 @@ sub.factory.register('keyBackupDialog',     require('./privateKey.controller').P
 sub.factory.register('restoreBackupCont',   require('./privateKey.controller').PrivateKeyController);
 sub.factory.register('restoreBackupDialog', require('./privateKey.controller').PrivateKeyController);
 
-// recipients of encrypted mail
+
 var scannedHosts = [];
 var specific = {};
+
+function init() {
+  return model.init();
+}
 
 function extend(obj) {
   specific.initScriptInjection = obj.initScriptInjection;
   specific.activate = obj.activate;
   specific.deactivate = obj.deactivate;
-}
-
-function init() {
-  return model.init();
 }
 
 function handleMessageEvent(request, sender, sendResponse) {
@@ -110,6 +110,9 @@ function handleMessageEvent(request, sender, sendResponse) {
       break;
     case 'get-active-keyring':
       sendResponse(sub.getActiveKeyringId());
+      break;
+    case 'set-active-keyring':
+      sub.setActiveKeyringId(request.keyringId);
       break;
     case 'delete-keyring':
       Promise.resolve()
@@ -188,6 +191,9 @@ function handleMessageEvent(request, sender, sendResponse) {
       break;
     case 'options-ready':
       mvelo.tabs.onOptionsTabReady();
+      break;
+    case 'get-app-data-slot':
+      sendResponse({result: sub.getAppDataSlot(request.slotId)});
       break;
     default:
       console.log('unknown event:', request);

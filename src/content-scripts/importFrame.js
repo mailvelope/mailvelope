@@ -27,24 +27,9 @@ export default class ImportFrame extends ExtractFrame {
         data: this._getPGPMessage(),
         sender: this._ctrlName
       });
+      this._eFrame.addClass('m-ok');
     });
     return false;
   }
 
-  _registerEventListener() {
-    super._registerEventListener();
-    this._port.onMessage.addListener(msg => {
-      switch (msg.event) {
-        case 'import-result':
-          if (msg.resultType.error) {
-            this._eFrame.addClass('m-error');
-          } else if (msg.resultType.warning) {
-            this._eFrame.addClass('m-warning');
-          } else if (msg.resultType.success) {
-            this._eFrame.addClass('m-ok');
-          }
-          break;
-      }
-    });
-  }
 }

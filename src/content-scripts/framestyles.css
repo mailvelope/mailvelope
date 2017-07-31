@@ -53,14 +53,6 @@
   background-image: url('../img/key-icon-blue96.png'), url('../img/ok48.png');
 }
 
-:root .m-extract-frame.m-open.m-import.m-warning {
-  background-image: url('../img/key-icon-blue96.png'), url('../img/warning48.png');
-}
-
-:root .m-extract-frame.m-open.m-import.m-error {
-  background-image: url('../img/key-icon-blue96.png'), url('../img/no48.png');
-}
-
 :root .m-extract-frame.m-large {
   background-position: center 140px, center 156px;
 }

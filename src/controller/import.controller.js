@@ -47,19 +47,10 @@ ImportController.prototype.handlePortMessage = function(msg) {
   var that = this;
   switch (msg.event) {
     case 'imframe-armored-key':
-      this.mvelo.tabs.loadOptionsTab('#importKey', function(old, tab) {
-        that.mvelo.tabs.sendMessage(tab, {
-          event: 'import-key',
-          armored: msg.data,
-          id: that.id
-        }, function(msg) {
-          var resultType = {};
-          for (var i = 0; i < msg.result.length; i++) {
-            resultType[msg.result[i].type] = true;
-          }
-          that.ports.imFrame.postMessage({event: 'import-result', resultType: resultType});
-        });
-      });
+      var slotId = that.mvelo.util.getHash();
+      this.keyringId = sub.getActiveKeyringId();
+      sub.setAppDataSlot(slotId, msg.data);
+      this.mvelo.tabs.loadOptionsTab(`?krid=${encodeURIComponent(this.keyringId)}&slotId=${slotId}#/keyring/import/push`, () => {});
       break;
     case 'key-import-dialog-init':
       this.ports.importKeyDialog.postMessage({event: 'key-details', key: this.keyDetails, invalidated: this.invalidated});

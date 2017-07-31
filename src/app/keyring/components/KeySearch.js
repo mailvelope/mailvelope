@@ -42,6 +42,8 @@ class KeySearch extends React.Component {
   }
 
   render() {
+    const hkp_base_url = this.props.prefs && this.props.prefs.keyserver.hkp_base_url;
+    const hkp_domain = hkp_base_url && hkp_base_url.replace(/https?:\/\//, '');
     return (
       <form className="form" onSubmit={this.handleKeySearch}>
         <div className="form-group">
@@ -54,7 +56,7 @@ class KeySearch extends React.Component {
             </span>
           </div>
           <div className="label-subtitle" style={{marginTop: '5px', marginBottom: '5px'}}>
-            {l10n.map.key_import_hkp_server} <a target="_blank" rel="noreferrer" href={this.props.prefs.keyserver.hkp_base_url}>{this.props.prefs.keyserver.hkp_base_url.replace(/https?:\/\//, '')}</a> (<Link to="/settings/key-server"><em>{l10n.map.change_link}</em></Link>)
+            {l10n.map.key_import_hkp_server} <a target="_blank" rel="noreferrer" href={hkp_base_url}>{hkp_domain}</a> (<Link to="/settings/key-server"><em>{l10n.map.change_link}</em></Link>)
           </div>
         </div>
       </form>

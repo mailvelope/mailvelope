@@ -36,27 +36,40 @@ l10n.register([
 class KeyServer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.initialState();
+    this.state = this.initialState(props);
     this.handleCheck = this.handleCheck.bind(this);
     this.handleServerChange = this.handleServerChange.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.validateUrl = this.validateUrl.bind(this);
   }
 
-  initialState() {
-    const hkp_base_url = this.props.prefs.keyserver.hkp_base_url;
-    const hkp_server_list = this.props.prefs.keyserver.hkp_server_list.map(server => ({value: server, label: server}));
-    if (!this.props.prefs.keyserver.hkp_server_list.includes(hkp_base_url)) {
-      hkp_server_list.push({value: hkp_base_url, label: hkp_base_url});
+  initialState(props) {
+    let hkp_base_url = '';
+    let hkp_server_list = [];
+    let mvelo_tofu_lookup = false;
+    const prefs = props.prefs;
+    if (prefs) {
+      hkp_base_url = prefs.keyserver.hkp_base_url;
+      hkp_server_list = prefs.keyserver.hkp_server_list.map(server => ({value: server, label: server}));
+      if (!prefs.keyserver.hkp_server_list.includes(hkp_base_url)) {
+        hkp_server_list.push({value: hkp_base_url, label: hkp_base_url});
+      }
+      mvelo_tofu_lookup = prefs.keyserver.mvelo_tofu_lookup;
     }
     return {
       hkp_base_url,
       valid_base_url: true,
       hkp_server_list,
-      mvelo_tofu_lookup: this.props.prefs.keyserver.mvelo_tofu_lookup,
+      mvelo_tofu_lookup,
       alert: null,
       modified: false
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.prefs !== this.props.prefs) {
+      this.setState(this.initialState(nextProps));
+    }
   }
 
   handleCheck(event) {
@@ -113,10 +126,7 @@ class KeyServer extends React.Component {
         }
       };
       this.props.onChangePrefs(update)
-      .then(() => {
-        this.setState(this.initialState());
-        mvelo.extension.sendMessage({event: 'init-script-injection'});
-      });
+      .then(() => mvelo.extension.sendMessage({event: 'init-script-injection'}));
     })
     .catch(() => this.setState({alert: {header: l10n.map.alert_header_error, message: l10n.map.keyserver_url_error, type: 'danger'}}));
   }
@@ -152,7 +162,7 @@ class KeyServer extends React.Component {
 
 KeyServer.propTypes = {
   prefs: PropTypes.object,
-  onChangePrefs: PropTypes.func
+  onChangePrefs: PropTypes.func.isRequired
 }
 
 export default KeyServer;
