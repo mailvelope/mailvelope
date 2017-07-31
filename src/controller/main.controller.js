@@ -1,68 +1,67 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2015-2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
 'use strict';
 
 
-var mvelo = require('lib-mvelo');
-var model = require('../modules/pgpModel');
-var keyring = require('../modules/keyring');
-var defaults = require('../modules/defaults');
-var prefs = require('../modules/prefs');
-var sub = require('./sub.controller');
-var api = require('./api.controller');
-var uiLog = require('../modules/uiLog');
+import mvelo from 'lib-mvelo';
+import * as  model from '../modules/pgpModel';
+import * as keyring from '../modules/keyring';
+import {getVersion} from '../modules/defaults';
+import * as prefs from '../modules/prefs';
+import * as sub from './sub.controller';
+export {sub as portManager};
+import {handleApiEvent} from './api.controller';
+import * as uiLog from '../modules/uiLog';
 
-sub.factory.register('dFrame',              require('./decrypt.controller').DecryptController);
-sub.factory.register('decryptCont',         require('./decrypt.controller').DecryptController);
-sub.factory.register('eFrame',              require('./encrypt.controller').EncryptController);
-sub.factory.register('imFrame',             require('./import.controller').ImportController);
-sub.factory.register('importKeyDialog',     require('./import.controller').ImportController);
-sub.factory.register('mainCS',              require('./mainCs.controller').MainCsController);
-sub.factory.register('vFrame',              require('./verify.controller').VerifyController);
-sub.factory.register('pwdDialog',           require('./pwd.controller').PwdController);
-sub.factory.register('editor',              require('./editor.controller').EditorController);
-sub.factory.register('editorCont',          require('./editor.controller').EditorController);
-sub.factory.register('syncHandler',         require('./sync.controller').SyncController);
-sub.factory.register('keyGenCont',          require('./privateKey.controller').PrivateKeyController);
-sub.factory.register('keyGenDialog',        require('./privateKey.controller').PrivateKeyController);
-sub.factory.register('keyBackupCont',       require('./privateKey.controller').PrivateKeyController);
-sub.factory.register('keyBackupDialog',     require('./privateKey.controller').PrivateKeyController);
-sub.factory.register('restoreBackupCont',   require('./privateKey.controller').PrivateKeyController);
-sub.factory.register('restoreBackupDialog', require('./privateKey.controller').PrivateKeyController);
+import DecryptController from './decrypt.controller';
+import EncryptController from './encrypt.controller';
+import ImportController from './import.controller';
+import MainCsController from './mainCs.controller';
+import VerifyController from './verify.controller';
+import PwdController from './pwd.controller';
+import EditorController from './editor.controller';
+import {SyncController} from './sync.controller';
+import PrivateKeyController from './privateKey.controller';
+
+sub.factory.register('dFrame',              DecryptController);
+sub.factory.register('decryptCont',         DecryptController);
+sub.factory.register('eFrame',              EncryptController);
+sub.factory.register('imFrame',             ImportController);
+sub.factory.register('importKeyDialog',     ImportController);
+sub.factory.register('mainCS',              MainCsController);
+sub.factory.register('vFrame',              VerifyController);
+sub.factory.register('pwdDialog',           PwdController);
+sub.factory.register('editor',              EditorController);
+sub.factory.register('editorCont',          EditorController);
+sub.factory.register('syncHandler',         SyncController);
+sub.factory.register('keyGenCont',          PrivateKeyController);
+sub.factory.register('keyGenDialog',        PrivateKeyController);
+sub.factory.register('keyBackupCont',       PrivateKeyController);
+sub.factory.register('keyBackupDialog',     PrivateKeyController);
+sub.factory.register('restoreBackupCont',   PrivateKeyController);
+sub.factory.register('restoreBackupDialog', PrivateKeyController);
 
 
-var scannedHosts = [];
-var specific = {};
+let scannedHosts = [];
+const specific = {};
 
-function init() {
+export function init() {
   return model.init();
 }
 
-function extend(obj) {
+export function extend(obj) {
   specific.initScriptInjection = obj.initScriptInjection;
   specific.activate = obj.activate;
   specific.deactivate = obj.deactivate;
 }
 
-function handleMessageEvent(request, sender, sendResponse) {
+export function handleMessageEvent(request, sender, sendResponse) {
   //console.log('controller: handleMessageEvent', request);
   if (request.api_event) {
-    return api.handleApiEvent(request, sender, sendResponse);
+    return handleApiEvent(request, sender, sendResponse);
   }
   switch (request.event) {
     case 'pgpmodel':
@@ -166,7 +165,7 @@ function handleMessageEvent(request, sender, sendResponse) {
       });
       break;
     case 'get-version':
-      sendResponse(defaults.getVersion());
+      sendResponse(getVersion());
       break;
     case 'activate':
       prefs.update({main_active: true})
@@ -281,7 +280,7 @@ function addToWatchList() {
 
 }
 
-function onBrowserAction(action) {
+export function onBrowserAction(action) {
   switch (action) {
     case 'reload':
       reloadFrames();
@@ -332,7 +331,7 @@ function reduceHosts(hosts) {
   return mvelo.util.sortAndDeDup(reduced);
 }
 
-function getWatchListFilterURLs() {
+export function getWatchListFilterURLs() {
   return model.getWatchList()
   .then(watchList => {
     let result = [];
@@ -351,10 +350,3 @@ function getWatchListFilterURLs() {
     return result;
   });
 }
-
-exports.handleMessageEvent = handleMessageEvent;
-exports.onBrowserAction = onBrowserAction;
-exports.extend = extend;
-exports.init = init;
-exports.portManager = sub;
-exports.getWatchListFilterURLs = getWatchListFilterURLs;

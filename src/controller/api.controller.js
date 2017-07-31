@@ -1,30 +1,18 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2015-2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
 'use strict';
 
 
-var mvelo = require('lib-mvelo');
-var keyring = require('../modules/keyring');
-var sub = require('./sub.controller');
-var openpgp = require('openpgp');
-var model = require('../modules/pgpModel');
+import mvelo from 'lib-mvelo';
+import * as keyring from '../modules/keyring';
+import * as sub from './sub.controller';
+import openpgp from 'openpgp';
+import {getLastModifiedDate} from '../modules/pgpModel';
 
-function handleApiEvent(request, sender, sendResponse) {
+export function handleApiEvent(request, sender, sendResponse) {
   var keyRing, attr;
   try {
     switch (request.event) {
@@ -53,7 +41,7 @@ function handleApiEvent(request, sender, sendResponse) {
               keys: keyMap[email].map(function(key) {
                 return {
                   fingerprint: key.primaryKey.getFingerprint(),
-                  lastModified: model.getLastModifiedDate(key).toISOString()
+                  lastModified: getLastModifiedDate(key).toISOString()
                 };
               })
             };
@@ -122,5 +110,3 @@ function handleApiEvent(request, sender, sendResponse) {
     sendResponse({error: mvelo.util.mapError(err)});
   }
 }
-
-exports.handleApiEvent = handleApiEvent;

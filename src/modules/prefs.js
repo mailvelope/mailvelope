@@ -1,30 +1,19 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2012-2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
 'use strict';
 
 
-var mvelo = require('lib-mvelo');
-var model = require('./pgpModel');
+import mvelo from 'lib-mvelo';
+import {setPreferences, getPreferences} from './pgpModel';
+
 var prefs = null;
 var updateHandlers = [];
 
-function init() {
-  return model.getPreferences()
+export function init() {
+  return getPreferences()
   .then(preferences => prefs = preferences);
 }
 
@@ -32,8 +21,8 @@ function init() {
  * Update preferences
  * @param  {Object} obj preferences object or properties of it
  */
-function update(obj) {
-  return model.getPreferences()
+export function update(obj) {
+  return getPreferences()
   .then(preferences => {
     prefs = preferences;
     if (obj.security) {
@@ -52,7 +41,7 @@ function update(obj) {
     updateHandlers.forEach(function(fn) {
       fn();
     });
-    return model.setPreferences(prefs);
+    return setPreferences(prefs);
   })
 }
 
@@ -60,15 +49,10 @@ function update(obj) {
  * Register for preferences updates
  * @param {Function} fn handler
  */
-function addUpdateHandler(fn) {
+export function addUpdateHandler(fn) {
   updateHandlers.push(fn);
 }
 
-function data() {
+export function data() {
   return prefs;
 }
-
-exports.init = init;
-exports.update = update;
-exports.addUpdateHandler = addUpdateHandler;
-exports.data = data;

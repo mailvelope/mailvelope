@@ -3,18 +3,16 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-const mvelo = require('lib-mvelo');
-const openpgp = require('openpgp');
+import mvelo from 'lib-mvelo';
+import openpgp from 'openpgp';
 
 'use strict';
 
-function createKeyringStore(keyringId) {
+export function createKeyringStore(keyringId) {
   const keyringStore = new KeyringStore(keyringId);
   return keyringStore.load()
   .then(() => new Keyring(keyringStore));
 }
-
-exports.createKeyringStore = createKeyringStore;
 
 class Keyring extends openpgp.Keyring {
   constructor(storeHandler) {

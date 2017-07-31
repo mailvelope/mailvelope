@@ -1,26 +1,14 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2012-2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
 'use strict';
 
 
-var mvelo = require('lib-mvelo');
-var prefs = require('./prefs');
-var model = require('./pgpModel');
+import mvelo from 'lib-mvelo';
+import * as prefs from './prefs';
+import {unlockKey} from './pgpModel';
 
 // password and key cache
 var cache;
@@ -29,9 +17,9 @@ var active;
 // timeout in minutes
 var timeout;
 // max. number of operations per key
-var RATE_LIMIT = 1000;
+const RATE_LIMIT = 1000;
 
-function init() {
+export function init() {
   active = prefs.data().security.password_cache;
   timeout = prefs.data().security.password_timeout;
   cache = {};
@@ -65,7 +53,7 @@ function update() {
  * @param  {String} keyid     requested unlocked key
  * @return {Object}           password of key, if available unlocked key for keyid
  */
-function get(primkeyid, keyid) {
+export function get(primkeyid, keyid) {
   if (cache[primkeyid]) {
     cache[primkeyid].operations--;
     if (cache[primkeyid].operations) {
@@ -85,7 +73,7 @@ function get(primkeyid, keyid) {
  * @param  {String}  primkeyid primary key id
  * @return {Boolean}           true if cached
  */
-function isCached(primkeyid) {
+export function isCached(primkeyid) {
   return Boolean(cache[primkeyid]);
 }
 
@@ -97,6 +85,8 @@ function deleteEntry(primkeyid) {
   delete cache[primkeyid];
 }
 
+export {deleteEntry as delete};
+
 /**
  * Set key and password in cache, start timeout
  * @param {Object} message
@@ -105,7 +95,7 @@ function deleteEntry(primkeyid) {
  * @param {String} message.pwd - password
  * @param {Number} [message.cacheTime] - timeout in minutes
  */
-function set(message, pwd, cacheTime) {
+export function set(message, pwd, cacheTime) {
   // primary key id is main key of cache
   var primKeyIdHex = message.key.primaryKey.getKeyId().toHex();
   var entry = cache[primKeyIdHex];
@@ -137,8 +127,8 @@ function set(message, pwd, cacheTime) {
  * @param {String} options.password - password to unlock key
  * @return {Promise<undefined, Error>}
  */
-function unlock(options) {
-  return model.unlockKey(options.key, options.keyid, options.password)
+export function unlock(options) {
+  return unlockKey(options.key, options.keyid, options.password)
     .then(function(key) {
       options.key = key;
       // set unlocked key in cache
@@ -150,10 +140,3 @@ function unlock(options) {
       };
     });
 }
-
-exports.init = init;
-exports.get = get;
-exports.isCached = isCached;
-exports.delete = deleteEntry;
-exports.set = set;
-exports.unlock = unlock;

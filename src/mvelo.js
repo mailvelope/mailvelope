@@ -1,7 +1,7 @@
 
 /**
  * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
+ * Copyright (C) 2012-2017 Mailvelope GmbH
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License version 3
@@ -421,39 +421,41 @@ mvelo.util.throwError = function(message, code) {
   throw error;
 };
 
-mvelo.util.PromiseQueue = function() {
-  this.queue = [];
-};
-
-mvelo.util.PromiseQueue.prototype.push = function(thisArg, method, args) {
-  var that = this;
-  return new Promise(function(resolve, reject) {
-    that.queue.push({resolve: resolve, reject: reject, thisArg: thisArg, method: method, args: args});
-    if (that.queue.length === 1) {
-      that._next();
-    }
-  });
-};
-
-mvelo.util.PromiseQueue.prototype._next = function() {
-  if (this.queue.length === 0) {
-    return;
+mvelo.util.PromiseQueue = class {
+  constructor() {
+    this.queue = [];
   }
-  var that = this;
-  var nextEntry = this.queue[0];
-  mvelo.util.setTimeout(function() {
-    nextEntry.thisArg[nextEntry.method].apply(nextEntry.thisArg, nextEntry.args)
-    .then(function(result) {
-      nextEntry.resolve(result);
-    })
-    .catch(function(error) {
-      nextEntry.reject(error);
-    })
-    .then(function() {
-      that.queue.shift();
-      that._next();
+
+  push(thisArg, method, args) {
+    var that = this;
+    return new Promise(function(resolve, reject) {
+      that.queue.push({resolve: resolve, reject: reject, thisArg: thisArg, method: method, args: args});
+      if (that.queue.length === 1) {
+        that._next();
+      }
     });
-  }, 0);
+  }
+
+  _next() {
+    if (this.queue.length === 0) {
+      return;
+    }
+    var that = this;
+    var nextEntry = this.queue[0];
+    mvelo.util.setTimeout(function() {
+      nextEntry.thisArg[nextEntry.method].apply(nextEntry.thisArg, nextEntry.args)
+      .then(function(result) {
+        nextEntry.resolve(result);
+      })
+      .catch(function(error) {
+        nextEntry.reject(error);
+      })
+      .then(function() {
+        that.queue.shift();
+        that._next();
+      });
+    }, 0);
+  }
 };
 
 /**
@@ -489,59 +491,61 @@ mvelo.util.checkEmail = function(address) {
  * @param {Port} port   port object received from runtime.connect()
  * @param {String} sender identifier of sender (type + id)
  */
-mvelo.EventHandler = function(port, sender) {
-  if (port) {
-    this._port = port;
-    this._port.onMessage.addListener(this.handlePortMessage.bind(this));
-    this._senderId = sender;
+mvelo.EventHandler = class {
+  constructor(port, sender) {
+    if (port) {
+      this._port = port;
+      this._port.onMessage.addListener(this.handlePortMessage.bind(this));
+      this._senderId = sender;
+    }
   }
-};
 
-/**
- * Generic port message handler that can be attached via port.onMessage.addListener().
- * Once set up, events can be handled with on('event', function(options) {})
- * @param  {String} options.event   The event descriptor
- * @param  {Object} options         Contains message attributes and data
- */
-mvelo.EventHandler.prototype.handlePortMessage = function(options) {
-  options = options || {};
-  if (this._handlers && this._handlers.has(options.event)) {
-    this._handlers.get(options.event).call(this, options);
-  } else {
-    console.log('Unknown event', options);
+  /**
+   * Generic port message handler that can be attached via port.onMessage.addListener().
+   * Once set up, events can be handled with on('event', function(options) {})
+   * @param  {String} options.event   The event descriptor
+   * @param  {Object} options         Contains message attributes and data
+   */
+  handlePortMessage(options) {
+    options = options || {};
+    if (this._handlers && this._handlers.has(options.event)) {
+      this._handlers.get(options.event).call(this, options);
+    } else {
+      console.log('Unknown event', options);
+    }
   }
-};
 
-/**
- * The new event handling style to asign a function to an event.
- * @param  {String} event       The event descriptor
- * @param  {Function} handler   The event handler
- */
-mvelo.EventHandler.prototype.on = function(event, handler) {
-  if (!event || typeof event !== 'string' || typeof handler !== 'function') {
-    throw new Error('Invalid event handler!');
+  /**
+   * The new event handling style to asign a function to an event.
+   * @param  {String} event       The event descriptor
+   * @param  {Function} handler   The event handler
+   */
+  on(event, handler) {
+    if (!event || typeof event !== 'string' || typeof handler !== 'function') {
+      throw new Error('Invalid event handler!');
+    }
+    if (!this._handlers) {
+      this._handlers = new Map();
+    }
+    this._handlers.set(event, handler);
   }
-  if (!this._handlers) {
-    this._handlers = new Map();
-  }
-  this._handlers.set(event, handler);
-};
 
-/**
- * Helper to emit events via postMessage using a port.
- * @param  {String} event     The event descriptor
- * @param  {Object} options   (optional) Data to be sent in the event
- * @param  {Object} port      (optional) The port to be used. If
- *                            not specified, the main port is used.
- */
-mvelo.EventHandler.prototype.emit = function(event, options, port) {
-  if (!event || typeof event !== 'string') {
-    throw new Error('Invalid event!');
+  /**
+   * Helper to emit events via postMessage using a port.
+   * @param  {String} event     The event descriptor
+   * @param  {Object} options   (optional) Data to be sent in the event
+   * @param  {Object} port      (optional) The port to be used. If
+   *                            not specified, the main port is used.
+   */
+  emit(event, options, port) {
+    if (!event || typeof event !== 'string') {
+      throw new Error('Invalid event!');
+    }
+    options = options || {};
+    options.event = event;
+    options.sender = options.sender || this._senderId;
+    (port || this._port || this.ports[this.mainType]).postMessage(options);
   }
-  options = options || {};
-  options.event = event;
-  options.sender = options.sender || this._senderId;
-  (port || this._port || this.ports[this.mainType]).postMessage(options);
 };
 
 if (typeof module !== 'undefined' && typeof exports === 'object') {

@@ -1,42 +1,28 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2012-2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
 'use strict';
 
 
-var mvelo = require('lib-mvelo');
-var l10n = mvelo.l10n.get;
-var openpgp = require('openpgp');
-var defaults = require('./defaults');
-var prefs = require('./prefs');
-var pwdCache = require('./pwdCache');
-var crypto = require('./crypto');
-var uiLog = require('./uiLog');
+import mvelo from 'lib-mvelo';
+const l10n = mvelo.l10n.get;
+import openpgp from 'openpgp';
+import * as defaults from './defaults';
+import * as prefs from './prefs';
+import * as pwdCache from './pwdCache';
+import {randomString} from './crypto';
+import * as uiLog from './uiLog';
+import * as keyring from './keyring';
+import * as keyringSync from './keyringSync';
+import * as trustKey from './trustKey';
+import * as sub from '../controller/sub.controller';
 
-var goog = require('./closure-library/closure/goog/emailaddress').goog;
-var keyring = require('./keyring');
-var keyringSync = require('./keyringSync');
-var trustKey = require('./trustKey');
-var sub = require('../controller/sub.controller');
-var unlockQueue = new mvelo.util.PromiseQueue();
+const unlockQueue = new mvelo.util.PromiseQueue();
+let watchListBuffer = null;
 
-var watchListBuffer = null;
-
-function init() {
+export function init() {
   return mvelo.storage.get('mvelo.preferences')
   .then(preferences => {
     if (!preferences && mvelo.storage.old.get('mailvelopePreferences')) {
@@ -130,8 +116,6 @@ function initOpenPGP() {
   }
 }
 
-exports.init = init;
-
 /*
 function decode_utf8(str) {
   // if str contains umlauts (öäü) this throws an exeception -> no decoding required
@@ -143,11 +127,7 @@ function decode_utf8(str) {
 }
 */
 
-function validateEmail(email) {
-  return goog.format.EmailAddress.isValidAddrSpec(email);
-}
-
-function readMessage({armoredText, binaryString, keyringId}) {
+export function readMessage({armoredText, binaryString, keyringId}) {
   return new Promise(function(resolve, reject) {
     var result = {};
     if (armoredText) {
@@ -217,7 +197,7 @@ function findPrivateKey(encryptionKeyIds, keyringId) {
   }
 }
 
-function readCleartextMessage(armoredText, keyringId) {
+export function readCleartextMessage(armoredText, keyringId) {
   var result = {};
   try {
     result.message = openpgp.cleartext.readArmored(armoredText);
@@ -249,11 +229,11 @@ function readCleartextMessage(armoredText, keyringId) {
   return result;
 }
 
-function unlockKey(privKey, keyid, passwd) {
+export function unlockKey(privKey, keyid, passwd) {
   return openpgp.getWorker().decryptKeyPacket(privKey, [openpgp.Keyid.fromId(keyid)], passwd);
 }
 
-function decryptMessage(message, keyringId, callback) {
+export function decryptMessage(message, keyringId, callback) {
   const options = message.options || {};
   let senderAddress = options.senderAddress;
   // normalize sender address to array
@@ -314,7 +294,7 @@ function getKeysForEncryption(options) {
  * @param {String} options.uiLogSource
  * @returns {Promise<String.{type: String, code: String, message: String}>}
  */
-function encryptMessage(options) {
+export function encryptMessage(options) {
   return new Promise(function(resolve, reject) {
     var keys = getKeysForEncryption(options);
     openpgp.getWorker().encryptMessage(keys, options.message)
@@ -340,7 +320,7 @@ function encryptMessage(options) {
  * @param {String} options.uiLogSource
  * @return {Promise.<String>}
  */
-function signAndEncryptMessage(options) {
+export function signAndEncryptMessage(options) {
   return new Promise(function(resolve, reject) {
     var keys = getKeysForEncryption(options);
     openpgp.getWorker().signAndEncryptMessage(keys, options.primaryKey.key, options.message)
@@ -367,7 +347,7 @@ function logEncryption(source, keys) {
   }
 }
 
-function verifyMessage(message, signers, callback) {
+export function verifyMessage(message, signers, callback) {
   var keys = signers.map(function(signer) {
     return signer.key;
   }).filter(function(key) {
@@ -396,13 +376,13 @@ function verifyMessage(message, signers, callback) {
  * @param {String} signKey
  * @return {Promise<String>}
  */
-function signMessage(message, signKey) {
+export function signMessage(message, signKey) {
   return openpgp.getWorker().signClearMessage([signKey], message);
 }
 
-function createPrivateKeyBackup(primaryKey, keyPwd) {
+export function createPrivateKeyBackup(primaryKey, keyPwd) {
   // create backup code
-  var backupCode = crypto.randomString(26);
+  var backupCode = randomString(26);
   // create packet structure
   var packetList = new openpgp.packet.List();
   var literal = new openpgp.packet.Literal();
@@ -431,7 +411,7 @@ function parseMetaInfo(txt) {
   return result;
 }
 
-function restorePrivateKeyBackup(armoredBlock, code) {
+export function restorePrivateKeyBackup(armoredBlock, code) {
   //console.log('restorePrivateKeyBackup', armoredBlock);
   try {
     var message = openpgp.message.readArmored(armoredBlock);
@@ -464,7 +444,7 @@ function restorePrivateKeyBackup(armoredBlock, code) {
  * @param  {openpgp.message.Message} message - sync packet
  * @return {Promise<Object,Error>}
  */
-function decryptSyncMessage(key, message) {
+export function decryptSyncMessage(key, message) {
   return openpgp.getWorker().decryptAndVerifyMessage(key, [key], message)
     .then(function(msg) {
       // check signature
@@ -505,7 +485,7 @@ function decryptSyncMessage(key, message) {
  * @param  {String} keyringId - selects keyring for the sync
  * @return {Promise<Object, Error>} - the encrypted message and the own public key
  */
-function encryptSyncMessage(key, changeLog, keyringId) {
+export function encryptSyncMessage(key, changeLog, keyringId) {
   var syncData = {};
   syncData.insertedKeys = {};
   syncData.deletedKeys = {};
@@ -546,7 +526,7 @@ function convertChangeLog(key, changeLog, syncData) {
   }
 }
 
-function getLastModifiedDate(key) {
+export function getLastModifiedDate(key) {
   var lastModified = new Date(0);
   key.toPacketlist().forEach(function(packet) {
     if (packet.created && packet.created > lastModified) {
@@ -556,7 +536,7 @@ function getLastModifiedDate(key) {
   return lastModified;
 }
 
-function encryptFile(plainFile, receipients) {
+export function encryptFile(plainFile, receipients) {
   var keys;
   return Promise.resolve()
   .then(function() {
@@ -582,7 +562,7 @@ function encryptFile(plainFile, receipients) {
   });
 }
 
-function decryptFile(encryptedFile) {
+export function decryptFile(encryptedFile) {
   return Promise.resolve()
   .then(function() {
     let msg = {};
@@ -617,24 +597,7 @@ function dataURL2str(dataURL) {
   return mvelo.util.getDOMWindow().atob(base64);
 }
 
-exports.validateEmail = validateEmail;
-exports.readMessage = readMessage;
-exports.readCleartextMessage = readCleartextMessage;
-exports.decryptMessage = decryptMessage;
-exports.unlockKey = unlockKey;
-exports.encryptMessage = encryptMessage;
-exports.signAndEncryptMessage = signAndEncryptMessage;
-exports.signMessage = signMessage;
-exports.verifyMessage = verifyMessage;
-exports.createPrivateKeyBackup = createPrivateKeyBackup;
-exports.restorePrivateKeyBackup = restorePrivateKeyBackup;
-exports.decryptSyncMessage = decryptSyncMessage;
-exports.encryptSyncMessage = encryptSyncMessage;
-exports.getLastModifiedDate = getLastModifiedDate;
-exports.encryptFile = encryptFile;
-exports.decryptFile = decryptFile;
-
-function getWatchList() {
+export function getWatchList() {
   if (watchListBuffer) {
     return Promise.resolve(watchListBuffer);
   } else {
@@ -643,27 +606,21 @@ function getWatchList() {
   }
 }
 
-function setWatchList(watchList) {
+export function setWatchList(watchList) {
   return mvelo.storage.set('mvelo.watchlist', watchList)
   .then(() => watchListBuffer = watchList);
 }
 
-function getHostname(url) {
+export function getHostname(url) {
   var hostname = mvelo.util.getHostname(url);
   // limit to 3 labels per domain
   return hostname.split('.').slice(-3).join('.');
 }
 
-function getPreferences() {
+export function getPreferences() {
   return mvelo.storage.get('mvelo.preferences');
 }
 
-function setPreferences(preferences) {
+export function setPreferences(preferences) {
   return mvelo.storage.set('mvelo.preferences', preferences);
 }
-
-exports.getWatchList = getWatchList;
-exports.setWatchList = setWatchList;
-exports.getHostname = getHostname;
-exports.getPreferences = getPreferences;
-exports.setPreferences = setPreferences;

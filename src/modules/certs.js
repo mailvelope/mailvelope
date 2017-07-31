@@ -2,7 +2,7 @@
 'use strict';
 
 
-var c1und1 =
+export var c1und1 =
   ['-----BEGIN PGP PUBLIC KEY BLOCK-----',
   'Version: GnuPG v2',
   '',
@@ -33,5 +33,3 @@ var c1und1 =
   'mYSVoP6g/EB13wa7F20IbYBLHKZMMuCK/8ZHvnXzzHkBe9I2JCNji4Q=',
   '=nF4m',
   '-----END PGP PUBLIC KEY BLOCK-----'].join('\n');
-
-exports.c1und1 = c1und1;

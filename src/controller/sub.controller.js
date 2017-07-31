@@ -1,98 +1,86 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2014-2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2015-2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
 'use strict';
 
 
-var mvelo = require('lib-mvelo');
+import mvelo from 'lib-mvelo';
+import * as prefs from '../modules/prefs';
+import * as  model from '../modules/pgpModel';
 
-function SubController(port) {
-  this.mvelo = mvelo;
-  this.prefs = require('../modules/prefs');
-  this.model = require('../modules/pgpModel');
-  this.ports = {};
-  if (port) {
-    var sender = this.parseViewName(port.name);
-    this.mainType = sender.type;
-    this.id = sender.id;
-    this.ports[this.mainType] = port;
-  }
-}
-
-SubController.prototype = Object.create(mvelo.EventHandler.prototype); // add new event api functions
-
-SubController.prototype.addPort = function(port) {
-  var type = this.parseViewName(port.name).type;
-  this.ports[type] = port;
-};
-
-SubController.prototype.removePort = function(port) {
-  if (Object.keys(this.ports).length === 0) {
-    // controllers instantiated without port should not be deleted
-    return false;
-  }
-  if (port.name) {
-    var view = this.parseViewName(port.name);
-    if (view.id !== this.id) {
-      throw new Error('View ID mismatch.');
+export class SubController extends mvelo.EventHandler {
+  constructor(port) {
+    super();
+    this.mvelo = mvelo;
+    this.prefs = prefs;
+    this.model = model;
+    this.ports = {};
+    if (port) {
+      var sender = parseViewName(port.name);
+      this.mainType = sender.type;
+      this.id = sender.id;
+      this.ports[this.mainType] = port;
     }
-    delete this.ports[view.type];
-  } else {
+  }
+
+  addPort(port) {
+    var type = parseViewName(port.name).type;
+    this.ports[type] = port;
+  }
+
+  removePort(port) {
+    if (Object.keys(this.ports).length === 0) {
+      // controllers instantiated without port should not be deleted
+      return false;
+    }
+    if (port.name) {
+      var view = parseViewName(port.name);
+      if (view.id !== this.id) {
+        throw new Error('View ID mismatch.');
+      }
+      delete this.ports[view.type];
+    } else {
+      var that = this;
+      Object.keys(this.ports).forEach(function(type) {
+        if (that.ports[type].ref === port) {
+          delete that.ports[type];
+        }
+      });
+    }
+    return Object.keys(this.ports).length === 0;
+  }
+
+  openSecuritySettings() {
+    var hash = '#/settings/security';
     var that = this;
-    Object.keys(this.ports).forEach(function(type) {
-      if (that.ports[type].ref === port) {
-        delete that.ports[type];
+
+    this.mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
+      if (old) {
+        that.mvelo.tabs.sendMessage(tab, {
+          event: 'reload-options',
+          hash: hash
+        });
       }
     });
   }
-  return Object.keys(this.ports).length === 0;
-};
 
-SubController.prototype.parseViewName = parseViewName;
+  openApp({fragment}) {
+    let hash = `#${fragment}`;
 
-SubController.prototype.openSecuritySettings = function() {
-  var hash = '#/settings/security';
-  var that = this;
+    this.mvelo.tabs.loadOptionsTab(hash, (old, tab) => {
+      if (old) {
+        this.mvelo.tabs.sendMessage(tab, {
+          event: 'reload-options',
+          hash: hash
+        });
+      }
+    });
+  }
+}
 
-  this.mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
-    if (old) {
-      that.mvelo.tabs.sendMessage(tab, {
-        event: 'reload-options',
-        hash: hash
-      });
-    }
-  });
-};
-
-SubController.prototype.openApp = function({fragment}) {
-  let hash = `#${fragment}`;
-
-  this.mvelo.tabs.loadOptionsTab(hash, (old, tab) => {
-    if (old) {
-      this.mvelo.tabs.sendMessage(tab, {
-        event: 'reload-options',
-        hash: hash
-      });
-    }
-  });
-};
-
-
-var factory = {};
+export const factory = {};
 
 factory.repo = new Map();
 
@@ -127,9 +115,14 @@ factory.register = function(type, contrConstructor) {
   }
 };
 
-let controllers = new Map();
+const controllers = new Map();
 
-function addPort(port) {
+function parseViewName(viewName) {
+  var pair = viewName.split('-');
+  return { type: pair[0], id: pair[1] };
+}
+
+export function addPort(port) {
   var sender = parseViewName(port.name);
   var subContr = controllers.get(sender.id);
   if (subContr) {
@@ -140,7 +133,7 @@ function addPort(port) {
   }
 }
 
-function removePort(port) {
+export function removePort(port) {
   if (port.name) {
     let id = parseViewName(port.name).id;
     removeId(id, port);
@@ -159,16 +152,16 @@ function removeId(id, port) {
   }
 }
 
-function handlePortMessage(msg) {
+export function handlePortMessage(msg) {
   var id = parseViewName(msg.sender).id;
   getByID(id).handlePortMessage(msg);
 }
 
-function getByID(id) {
+export function getByID(id) {
   return controllers.get(id);
 }
 
-function getByMainType(type) {
+export function getByMainType(type) {
   let result = [];
   controllers.forEach(contr => {
     if (contr.mainType === type) {
@@ -178,48 +171,30 @@ function getByMainType(type) {
   return result;
 }
 
-function isActive(type) {
+export function isActive(type) {
   return getByMainType(type).length !== 0;
-}
-
-function parseViewName(viewName) {
-  var pair = viewName.split('-');
-  return { type: pair[0], id: pair[1] };
 }
 
 // keep state of active keyring for App UI
 var activeKeyringId = mvelo.LOCAL_KEYRING_ID;
 
-function setActiveKeyringId(keyringId) {
+export function setActiveKeyringId(keyringId) {
   activeKeyringId = keyringId;
 }
 
-function getActiveKeyringId() {
+export function getActiveKeyringId() {
   return activeKeyringId;
 }
 
 // transfer data to app UI via slots
 var appDataSlot = new Map();
 
-function setAppDataSlot(key, value) {
+export function setAppDataSlot(key, value) {
   appDataSlot.set(key, value);
 }
 
-function getAppDataSlot(key) {
+export function getAppDataSlot(key) {
   let value = appDataSlot.get(key);
   appDataSlot.delete(key);
   return value;
 }
-
-exports.SubController = SubController;
-exports.addPort = addPort;
-exports.removePort = removePort;
-exports.handlePortMessage = handlePortMessage;
-exports.factory = factory;
-exports.getByID = getByID;
-exports.getByMainType = getByMainType;
-exports.isActive = isActive;
-exports.setActiveKeyringId = setActiveKeyringId;
-exports.getActiveKeyringId = getActiveKeyringId;
-exports.setAppDataSlot = setAppDataSlot;
-exports.getAppDataSlot = getAppDataSlot;

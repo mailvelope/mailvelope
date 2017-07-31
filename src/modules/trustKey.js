@@ -1,41 +1,29 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2015-2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
 'use strict';
 
 
-var mvelo = require('lib-mvelo');
-var openpgp = require('openpgp');
-var certs = require('./certs');
+import mvelo from 'lib-mvelo';
+import openpgp from 'openpgp';
+import * as certs from './certs';
 
-var keyMap = new Map();
+const keyMap = new Map();
 
-function init() {
+export function init() {
   var key = openpgp.key.readArmored(certs.c1und1).keys[0];
   keyMap.set('gmx.net', key);
   keyMap.set('web.de', key);
 }
 
-function getTrustKey(keyringId) {
+export function getTrustKey(keyringId) {
   var domain = keyringId.split(mvelo.KEYRING_DELIMITER)[0];
   return keyMap.get(domain);
 }
 
-function isKeyPseudoRevoked(keyringId, key) {
+export function isKeyPseudoRevoked(keyringId, key) {
   var trustKey = getTrustKey(keyringId);
   if (!trustKey) {
     return false;
@@ -72,7 +60,3 @@ function verifyCert(cert, userId, trustKey, primaryKey) {
          (cert.verified ||
           cert.verify(trustKey.primaryKey, {userid: userId, key: primaryKey}));
 }
-
-exports.init = init;
-exports.getTrustKey = getTrustKey;
-exports.isKeyPseudoRevoked = isKeyPseudoRevoked;
