@@ -6,6 +6,9 @@
 'use strict';
 
 
+import mvelo from 'lib-mvelo';
+import * as prefs from '../modules/prefs';
+import * as model from '../modules/pgpModel';
 import * as sub from './sub.controller';
 import * as uiLog from '../modules/uiLog';
 import {triggerSync} from './sync.controller';
@@ -17,7 +20,7 @@ export default class DecryptController extends sub.SubController {
     this.pwdControl = null;
     this.decryptPopup = null;
     this.options = {};
-    this.keyringId = this.mvelo.LOCAL_KEYRING_ID;
+    this.keyringId = mvelo.LOCAL_KEYRING_ID;
     this.isContainer = this.mainType === 'decryptCont'; // main view is a container component
   }
 
@@ -30,7 +33,7 @@ export default class DecryptController extends sub.SubController {
         break;
       // done
       case 'decrypt-inline-init':
-        if (this.mvelo.windows.modalActive && !this.decryptPopup) {
+        if (mvelo.windows.modalActive && !this.decryptPopup) {
           // password dialog or modal dialog already open from other component
           if (this.ports.dFrame) {
             this.ports.dFrame.postMessage({event: 'remove-dialog'});
@@ -45,11 +48,11 @@ export default class DecryptController extends sub.SubController {
         break;
       case 'dframe-display-popup':
         // decrypt popup potentially needs pwd dialog
-        if (this.mvelo.windows.modalActive) {
+        if (mvelo.windows.modalActive) {
           // password dialog or modal dialog already open
           this.ports.dFrame.postMessage({event: 'remove-dialog'});
         } else {
-          this.mvelo.windows.openPopup('components/decrypt-popup/decryptPopup.html?id=' + this.id, {width: 742, height: 550, modal: true}, function(window) {
+          mvelo.windows.openPopup('components/decrypt-popup/decryptPopup.html?id=' + this.id, {width: 742, height: 550, modal: true}, function(window) {
             that.decryptPopup = window;
           });
         }
@@ -85,7 +88,7 @@ export default class DecryptController extends sub.SubController {
 
   decrypt(armored, keyringId) {
     var that = this;
-    this.model.readMessage({armoredText: armored, keyringId})
+    model.readMessage({armoredText: armored, keyringId})
     .then(function(message) {
       return that.prepareKey(message);
     })
@@ -130,7 +133,7 @@ export default class DecryptController extends sub.SubController {
           case 'ARMOR_PARSE_ERROR':
           case 'PWD_DIALOG_CANCEL':
           case 'NO_KEY_FOUND':
-            error = that.mvelo.util.mapError(error);
+            error = mvelo.util.mapError(error);
             break;
           default:
             error = {
@@ -150,7 +153,7 @@ export default class DecryptController extends sub.SubController {
   prepareKey(message, openPopup) {
     this.pwdControl = sub.factory.get('pwdDialog');
     message.reason = 'PWD_DIALOG_REASON_DECRYPT';
-    message.openPopup = openPopup !== undefined ? openPopup : this.ports.decryptCont || this.prefs.data().security.display_decrypted == this.mvelo.DISPLAY_INLINE;
+    message.openPopup = openPopup !== undefined ? openPopup : this.ports.decryptCont || prefs.data().security.display_decrypted == mvelo.DISPLAY_INLINE;
     message.beforePasswordRequest = () => {
       this.ports.dPopup && this.ports.dPopup.postMessage({event: 'show-pwd-dialog', id: this.pwdControl.id});
     };
@@ -162,7 +165,7 @@ export default class DecryptController extends sub.SubController {
     var that = this;
     return new Promise(function(resolve, reject) {
       message.options = message.options || that.options;
-      that.model.decryptMessage(message, that.keyringId, function(err, content) {
+      model.decryptMessage(message, that.keyringId, function(err, content) {
         if (err) {
           return reject(err);
         }
@@ -208,13 +211,13 @@ export default class DecryptController extends sub.SubController {
           if (encoding === 'html') {
             that.filterBodyParts(parsed, 'html', htmlParts);
             if (htmlParts.length) {
-              that.mvelo.util.parseHTML(htmlParts.map(part => part.content).join('\n<hr>\n'), function(sanitized) {
+              mvelo.util.parseHTML(htmlParts.map(part => part.content).join('\n<hr>\n'), function(sanitized) {
                 handlers.onMessage(sanitized);
               });
             } else {
               that.filterBodyParts(parsed, 'text', textParts);
               if (textParts.length) {
-                handlers.onMessage(textParts.map(part => that.mvelo.util.text2html(part.content)).join('<hr>'));
+                handlers.onMessage(textParts.map(part => mvelo.util.text2html(part.content)).join('<hr>'));
               }
             }
           } else if (encoding === 'text') {
@@ -224,15 +227,15 @@ export default class DecryptController extends sub.SubController {
             } else {
               that.filterBodyParts(parsed, 'html', htmlParts);
               if (htmlParts.length) {
-                handlers.onMessage(htmlParts.map(part => that.mvelo.util.html2text(part.content)).join('\n\n'));
+                handlers.onMessage(htmlParts.map(part => mvelo.util.html2text(part.content)).join('\n\n'));
               }
             }
           }
           var attachmentParts = [];
           that.filterBodyParts(parsed, 'attachment', attachmentParts);
           attachmentParts.forEach(function(part) {
-            part.filename = that.mvelo.util.encodeHTML(part.filename);
-            part.content = that.mvelo.util.ab2str(part.content.buffer);
+            part.filename = mvelo.util.encodeHTML(part.filename);
+            part.content = mvelo.util.ab2str(part.content.buffer);
             handlers.onAttachment(part);
           });
         }
@@ -245,23 +248,22 @@ export default class DecryptController extends sub.SubController {
   }
 
   parseInline(rawText, handlers, encoding) {
-    var that = this;
     return new Promise(function(resolve) {
       if (/(<\/a>|<br>|<\/div>|<\/p>|<\/b>|<\/u>|<\/i>|<\/ul>|<\/li>)/.test(rawText)) {
         // legacy html mode
         if (encoding === 'html') {
-          that.mvelo.util.parseHTML(rawText, function(sanitized) {
+          mvelo.util.parseHTML(rawText, function(sanitized) {
             handlers.onMessage(sanitized);
             resolve();
           });
         } else if (encoding === 'text') {
-          handlers.onMessage(that.mvelo.util.html2text(rawText));
+          handlers.onMessage(mvelo.util.html2text(rawText));
           resolve();
         }
       } else {
         // plain text
         if (encoding === 'html') {
-          handlers.onMessage(that.mvelo.util.text2html(rawText));
+          handlers.onMessage(mvelo.util.text2html(rawText));
         } else if (encoding === 'text') {
           handlers.onMessage(rawText);
         }

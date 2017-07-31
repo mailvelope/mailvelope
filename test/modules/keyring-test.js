@@ -29,11 +29,11 @@ function userMock(userid) {
   };
 }
 
-var mvelo = require('../../src/mvelo');
-var Keyring = require('../../src/modules/keyring').Keyring;
-var KeyServer = require('../../src/modules/keyserver');
-var keyringSync = require('../../src/modules/keyringSync');
-var openpgp = require('openpgp');
+import mvelo from '../../src/mvelo';
+import {Keyring} from '../../src/modules/keyring';
+import KeyServer from '../../src/modules/keyserver';
+import * as keyringSync from '../../src/modules/keyringSync';
+import openpgp from 'openpgp';
 
 describe('Keyring unit tests', function() {
   var keyring, pgpKeyring, krSync;

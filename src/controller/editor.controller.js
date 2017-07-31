@@ -10,7 +10,9 @@
 
 'use strict';
 
-
+import mvelo from 'lib-mvelo';
+import * as prefs from '../modules/prefs';
+import * as model from '../modules/pgpModel';
 import * as sub from './sub.controller';
 import DecryptController from './decrypt.controller';
 import * as uiLog from '../modules/uiLog';
@@ -24,7 +26,7 @@ export default class EditorController extends sub.SubController {
     super(port);
     if (!port) {
       this.mainType = 'editor';
-      this.id = this.mvelo.util.getHash();
+      this.id = mvelo.util.getHash();
     }
     this.encryptCallback = null;
     this.encryptTimer = null;
@@ -33,7 +35,7 @@ export default class EditorController extends sub.SubController {
     this.keyidBuffer = null;
     this.signBuffer = null;
     this.pwdControl = null;
-    this.keyserver = new KeyServer(this.mvelo);
+    this.keyserver = new KeyServer(mvelo);
     this.pgpMIME = false;
     this.signMsg = null;
     this.options = {};
@@ -64,7 +66,7 @@ export default class EditorController extends sub.SubController {
       let primaryKeyId = primaryKey && primaryKey.keyid.toUpperCase() || '';
       let data = {
         text: this.options.initText,
-        signMsg: this.prefs.data().general.auto_sign_msg,
+        signMsg: prefs.data().general.auto_sign_msg,
         primary: primaryKeyId,
         privKeys: keyring.getValidSigningKeys()
       };
@@ -99,13 +101,13 @@ export default class EditorController extends sub.SubController {
     msg.recipients.forEach(function(recipient) {
       keyIds = keyIds.concat(keyIdMap[recipient]);
     });
-    if (this.prefs.data().general.auto_add_primary) {
+    if (prefs.data().general.auto_add_primary) {
       let primary = getKeyringById(this.keyringId).getPrimaryKey();
       if (primary) {
         keyIds.push(primary.keyid.toLowerCase());
       }
     }
-    this.keyidBuffer = this.mvelo.util.sortAndDeDup(keyIds);
+    this.keyidBuffer = mvelo.util.sortAndDeDup(keyIds);
     this.emit('get-plaintext', {action: 'encrypt'}, this.ports.editor);
   }
 
@@ -154,7 +156,7 @@ export default class EditorController extends sub.SubController {
 
   _onSignOnly(msg) {
     this.signBuffer = {};
-    var key = getKeyringById(this.mvelo.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
+    var key = getKeyringById(mvelo.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
     // add key in buffer
     this.signBuffer.key = key.key;
     this.signBuffer.keyid = msg.signKeyId;
@@ -171,7 +173,7 @@ export default class EditorController extends sub.SubController {
         this.emit('hide-pwd-dialog');
         return;
       }
-      err = this.mvelo.util.mapError(err);
+      err = mvelo.util.mapError(err);
       this.emit('error-message', {error: err});
     });
   }
@@ -189,7 +191,7 @@ export default class EditorController extends sub.SubController {
   lookupKeyOnServer(msg) {
     return this.keyserver.lookup(msg.recipient).then(key => {
       // persist key in local keyring
-      let localKeyring = getKeyringById(this.mvelo.LOCAL_KEYRING_ID);
+      let localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
       if (key && key.publicKeyArmored) {
         return localKeyring.importKeys([{type: 'public', armored: key.publicKeyArmored}]);
       }
@@ -201,7 +203,7 @@ export default class EditorController extends sub.SubController {
 
   sendKeyUpdate() {
     // send updated key cache to editor
-    let localKeyring = getKeyringById(this.mvelo.LOCAL_KEYRING_ID);
+    let localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
     let keys = localKeyring.getKeyUserIDs({allUsers: true});
     this.emit('key-update', {keys: keys}, this.ports.editor);
   }
@@ -215,9 +217,9 @@ export default class EditorController extends sub.SubController {
    */
   encrypt(options, callback) {
     this.options = options;
-    this.keyringId = options.keyringId || this.mvelo.LOCAL_KEYRING_ID;
+    this.keyringId = options.keyringId || mvelo.LOCAL_KEYRING_ID;
     this.encryptCallback = callback;
-    this.mvelo.windows.openPopup('components/editor/editor.html?id=' + this.id, {width: 820, height: 550, modal: false}, (window) => {
+    mvelo.windows.openPopup('components/editor/editor.html?id=' + this.id, {width: 820, height: 550, modal: false}, (window) => {
       this.editorPopup = window;
     });
   }
@@ -229,10 +231,10 @@ export default class EditorController extends sub.SubController {
   displayRecipientProposal(recipients) {
     // deduplicate email addresses
     var emails = (recipients || []).map(function(recipient) { return recipient.email; });
-    emails = this.mvelo.util.deDup(emails); // just dedup, dont change order of user input
+    emails = mvelo.util.deDup(emails); // just dedup, dont change order of user input
     recipients = emails.map(function(e) { return {email: e}; });
     // get all public keys in the local keyring
-    var localKeyring = getKeyringById(this.mvelo.LOCAL_KEYRING_ID);
+    var localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
     var keys = localKeyring.getKeyUserIDs({allUsers: true});
     var tofu = this.keyserver.getTOFUPreference();
     this.emit('public-key-userids', {keys: keys, recipients: recipients, tofu: tofu});
@@ -255,7 +257,7 @@ export default class EditorController extends sub.SubController {
     var quotaSize = 0;
 
     if (message) {
-      quotaSize += this.mvelo.util.byteCount(message);
+      quotaSize += mvelo.util.byteCount(message);
       var textMime = new mailbuild("text/plain")
         .setHeader("Content-Type", "text/plain; charset=utf-8")
         .addHeader("Content-Transfer-Encoding", "quoted-printable")
@@ -304,7 +306,7 @@ export default class EditorController extends sub.SubController {
       // show spinner for large messages
       this.emit('decrypt-in-progress', null, this.ports.editor);
     }
-    this.mvelo.util.setTimeout(function() {
+    mvelo.util.setTimeout(function() {
       that.decryptArmored(armored);
     }, 50);
   }
@@ -317,7 +319,7 @@ export default class EditorController extends sub.SubController {
     var that = this;
     var decryptCtrl = new DecryptController();
     decryptCtrl.keyringId = this.keyringId;
-    this.model.readMessage({armoredText: armored, keyringId: this.keyringId})
+    model.readMessage({armoredText: armored, keyringId: this.keyringId})
     .then(function(message) {
       return decryptCtrl.prepareKey(message, !that.editorPopup);
     })
@@ -360,7 +362,7 @@ export default class EditorController extends sub.SubController {
       that.emit('decrypt-end', null, that.ports.editor);
     })
     .catch(function(error) {
-      error = that.mvelo.util.mapError(error);
+      error = mvelo.util.mapError(error);
       that.emit('decrypt-failed', {error: error}, that.ports.editor);
     });
   }
@@ -385,13 +387,13 @@ export default class EditorController extends sub.SubController {
       }
 
       if (!signKey) {
-        this.mvelo.util.throwError('No primary key found', 'NO_PRIMARY_KEY_FOUND');
+        mvelo.util.throwError('No primary key found', 'NO_PRIMARY_KEY_FOUND');
       }
 
       let signKeyPacket = signKey.key.getSigningKeyPacket();
       let signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
       if (!signKeyid) {
-        this.mvelo.util.throwError('No valid signing key packet found', 'NO_SIGN_KEY_FOUND');
+        mvelo.util.throwError('No valid signing key packet found', 'NO_SIGN_KEY_FOUND');
       }
 
       signKey.keyid = signKeyid;
@@ -409,15 +411,15 @@ export default class EditorController extends sub.SubController {
       return this.pwdControl.unlockKey(signKey);
     })
     .then(() => {
-      this.encryptTimer = this.mvelo.util.setTimeout(() => {
+      this.encryptTimer = mvelo.util.setTimeout(() => {
         this.emit('encrypt-in-progress', null, this.ports.editor);
       }, 800);
 
-      if (!this.prefs.data().security.password_cache) {
+      if (!prefs.data().security.password_cache) {
         triggerSync(signKey);
       }
 
-      return this.model.signAndEncryptMessage({
+      return model.signAndEncryptMessage({
         keyIdsHex: options.keyIdsHex,
         keyringId: this.keyringId,
         primaryKey: signKey,
@@ -435,13 +437,13 @@ export default class EditorController extends sub.SubController {
    * @return {Promise}
    */
   encryptMessage(options) {
-    this.encryptTimer = this.mvelo.util.setTimeout(function() {
+    this.encryptTimer = mvelo.util.setTimeout(function() {
       this.emit('encrypt-in-progress', null, this.ports.editor);
     }.bind(this), 800);
 
     options.uiLogSource = 'security_log_editor';
 
-    return this.model.encryptMessage(options);
+    return model.encryptMessage(options);
   }
 
   /**
@@ -449,11 +451,11 @@ export default class EditorController extends sub.SubController {
    * @return {Promise}
    */
   signMessage(message) {
-    this.encryptTimer = this.mvelo.util.setTimeout(function() {
+    this.encryptTimer = mvelo.util.setTimeout(function() {
       this.emit('encrypt-in-progress');
     }.bind(this), 800);
 
-    return this.model.signMessage(message, this.signBuffer.key);
+    return model.signMessage(message, this.signBuffer.key);
   }
 
   /**
@@ -501,7 +503,7 @@ export default class EditorController extends sub.SubController {
         return;
       }
       console.log(error);
-      error = this.mvelo.util.mapError(error);
+      error = mvelo.util.mapError(error);
       this.emit('error-message', {error: error}, this.ports.editor);
       if (this.ports.editorCont) {
         this.emit('error-message', {error: error}, this.ports.editorCont);
@@ -511,7 +513,7 @@ export default class EditorController extends sub.SubController {
       this.emit('encrypt-failed', null, this.ports.editor);
     }.bind(this))
     .then(function() {
-      this.mvelo.util.clearTimeout(this.encryptTimer);
+      mvelo.util.clearTimeout(this.encryptTimer);
     }.bind(this));
   }
 
@@ -531,7 +533,7 @@ export default class EditorController extends sub.SubController {
         var data = this.buildMail(options.message, options.attachments);
 
         if (data === null) {
-          this.mvelo.util.throwError('MIME building failed.');
+          mvelo.util.throwError('MIME building failed.');
         }
 
         var keyIdsHex = this.getPublicKeyIds(options.keys);
@@ -569,8 +571,8 @@ export default class EditorController extends sub.SubController {
     } else {
       keyIdsHex = keys.map(function(key) { return key.keyid; });
       // get the sender key id
-      if (this.prefs.data().general.auto_add_primary) {
-        var localKeyring = getKeyringById(this.mvelo.LOCAL_KEYRING_ID);
+      if (prefs.data().general.auto_add_primary) {
+        var localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
         var primary = localKeyring.getPrimaryKey();
         if (primary) {
           keyIdsHex.push(primary.keyid.toLowerCase());
@@ -578,6 +580,6 @@ export default class EditorController extends sub.SubController {
       }
     }
     // deduplicate
-    return this.mvelo.util.sortAndDeDup(keyIdsHex);
+    return mvelo.util.sortAndDeDup(keyIdsHex);
   }
 }

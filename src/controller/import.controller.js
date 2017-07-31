@@ -6,18 +6,20 @@
 'use strict';
 
 
+import mvelo from 'lib-mvelo';
 import * as sub from './sub.controller';
 import {getById as getKeyringById, mapKeys, cloneKey} from '../modules/keyring';
 import * as keyringSync from '../modules/keyringSync';
 import openpgp from 'openpgp';
 import * as uiLog from '../modules/uiLog';
+import {getLastModifiedDate} from '../modules/pgpModel';
 
 export default class ImportController extends sub.SubController {
   constructor(port) {
     super(port);
     if (!port) {
       this.mainType = 'importKeyDialog';
-      this.id = this.mvelo.util.getHash();
+      this.id = mvelo.util.getHash();
     }
     this.armored = '';
     this.popupDone = null;
@@ -31,13 +33,12 @@ export default class ImportController extends sub.SubController {
   }
 
   handlePortMessage(msg) {
-    var that = this;
     switch (msg.event) {
       case 'imframe-armored-key':
-        var slotId = that.mvelo.util.getHash();
+        var slotId = mvelo.util.getHash();
         this.keyringId = sub.getActiveKeyringId();
         sub.setAppDataSlot(slotId, msg.data);
-        this.mvelo.tabs.loadOptionsTab(`?krid=${encodeURIComponent(this.keyringId)}&slotId=${slotId}#/keyring/import/push`, () => {});
+        mvelo.tabs.loadOptionsTab(`?krid=${encodeURIComponent(this.keyringId)}&slotId=${slotId}#/keyring/import/push`, () => {});
         break;
       case 'key-import-dialog-init':
         this.ports.importKeyDialog.postMessage({event: 'key-details', key: this.keyDetails, invalidated: this.invalidated});
@@ -126,11 +127,11 @@ export default class ImportController extends sub.SubController {
     return Promise.resolve()
     .then(() => {
       statusBefore = stockKey.verifyPrimaryKey();
-      const beforeLastModified = this.model.getLastModifiedDate(stockKey);
+      const beforeLastModified = getLastModifiedDate(stockKey);
       const stockKeyClone = cloneKey(stockKey);
       stockKeyClone.update(newKey);
       statusAfter = stockKeyClone.verifyPrimaryKey();
-      const afterLastModified = this.model.getLastModifiedDate(stockKeyClone);
+      const afterLastModified = getLastModifiedDate(stockKeyClone);
       if (beforeLastModified.valueOf() === afterLastModified.valueOf()) {
         // key does not change, we still reply with status UPDATED
         // -> User will no be notified
@@ -164,7 +165,7 @@ export default class ImportController extends sub.SubController {
   openPopup() {
     return new Promise((resolve, reject) => {
       this.popupDone = {resolve, reject};
-      this.mvelo.windows.openPopup('components/import-key/importKeyDialog.html?id=' + this.id, {width: 535, height: 458, modal: false}, window => this.importPopup = window);
+      mvelo.windows.openPopup('components/import-key/importKeyDialog.html?id=' + this.id, {width: 535, height: 458, modal: false}, window => this.importPopup = window);
     });
   }
 }

@@ -1,8 +1,11 @@
 'use strict';
 
 
-var sub = require('../../src/controller/sub.controller');
-var EncryptController = require('../../src/controller/encrypt.controller').EncryptController;
+import mvelo from '../../src/chrome/lib/lib-mvelo';
+import * as sub from '../../src/controller/sub.controller';
+import * as prefs from '../../src/modules/prefs';
+import EncryptController from '../../src/controller/encrypt.controller';
+
 var ctrl, editorCtrlMock;
 
 var testRecipients = [{email: 'test@example.com'}];
@@ -16,15 +19,15 @@ describe('Encrypt controller unit tests', function() {
       encrypt: sinon.stub()
     };
     sinon.stub(sub.factory, 'get').returns(editorCtrlMock);
-    sinon.stub(ctrl.prefs, 'data');
-    sinon.stub(ctrl.mvelo.util, 'parseHTML').yields('parsed');
+    sinon.stub(prefs, 'data');
+    sinon.stub(mvelo.util, 'parseHTML').yields('parsed');
     sinon.stub(ctrl, 'emit');
   });
 
   afterEach(function() {
     sub.factory.get.restore();
-    ctrl.prefs.data.restore();
-    ctrl.mvelo.util.parseHTML.restore();
+    prefs.data.restore();
+    mvelo.util.parseHTML.restore();
     ctrl.emit.restore();
   });
 
@@ -39,15 +42,15 @@ describe('Encrypt controller unit tests', function() {
     var modalActiveVal;
 
     beforeEach(function() {
-      modalActiveVal = ctrl.mvelo.windows.modalActive;
+      modalActiveVal = mvelo.windows.modalActive;
     });
 
     afterEach(function() {
-      ctrl.mvelo.windows.modalActive = modalActiveVal;
+      mvelo.windows.modalActive = modalActiveVal;
     });
 
     it('should not open editor a second time', function() {
-      ctrl.mvelo.windows.modalActive = true;
+      mvelo.windows.modalActive = true;
 
       ctrl.openEditor({text: 'foo'});
 
@@ -56,7 +59,7 @@ describe('Encrypt controller unit tests', function() {
 
     it('should work for editor type plain', function() {
       editorCtrlMock.encrypt.yields(null, 'armored', testRecipients);
-      ctrl.prefs.data.returns({
+      prefs.data.returns({
         general: {
           editor_type: 'plain'
         }

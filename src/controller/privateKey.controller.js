@@ -6,11 +6,14 @@
 'use strict';
 
 
+import mvelo from 'lib-mvelo';
+import * as prefs from '../modules/prefs';
 import * as  sub from './sub.controller';
 import * as uiLog from '../modules/uiLog';
 import * as pwdCache from '../modules/pwdCache';
 import * as sync from './sync.controller';
 import {getById as getKeyringById} from '../modules/keyring';
+import {createPrivateKeyBackup, restorePrivateKeyBackup} from '../modules/pgpModel';
 
 export default class PrivateKeyController extends sub.SubController {
   constructor(port) {
@@ -42,12 +45,12 @@ export default class PrivateKeyController extends sub.SubController {
       passphrase: password
     }).then(function(data) {
       that.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: data.publicKeyArmored});
-      if (that.prefs.data().security.password_cache) {
+      if (prefs.data().security.password_cache) {
         pwdCache.set({key: data.key}, password);
       }
       if (options.confirmRequired) {
         that.newKeyId = data.key.primaryKey.keyid.toHex();
-        that.rejectTimer = that.mvelo.util.setTimeout(function() {
+        that.rejectTimer = mvelo.util.setTimeout(function() {
           that.rejectKey(that.newKeyId);
           that.rejectTimer = 0;
         }, 10000); // trigger timeout after 10s
@@ -59,7 +62,7 @@ export default class PrivateKeyController extends sub.SubController {
 
   rejectKey() {
     getKeyringById(this.keyringId).removeKey(this.newKeyId, 'private');
-    if (this.prefs.data().security.password_cache) {
+    if (prefs.data().security.password_cache) {
       pwdCache.delete(this.newKeyId);
     }
   }
@@ -77,7 +80,7 @@ export default class PrivateKeyController extends sub.SubController {
     this.pwdControl.unlockKey(primaryKey)
     .then(function(primaryKey) {
       sync.triggerSync(primaryKey);
-      that.keyBackup = that.model.createPrivateKeyBackup(primaryKey.key, primaryKey.password);
+      that.keyBackup = createPrivateKeyBackup(primaryKey.key, primaryKey.password);
     })
     .then(function() {
       return sync.getByKeyring(that.keyringId).backup({backup: that.keyBackup.message});
@@ -102,7 +105,7 @@ export default class PrivateKeyController extends sub.SubController {
       }
 
       var path = 'components/recovery-sheet/' + page;
-      that.mvelo.windows.openPopup(path, {width: 1024, height: 550, modal: false}, function(window) {
+      mvelo.windows.openPopup(path, {width: 1024, height: 550, modal: false}, function(window) {
         that.backupCodePopup = window;
       });
     })
@@ -115,7 +118,7 @@ export default class PrivateKeyController extends sub.SubController {
     let backup;
     sync.getByKeyring(this.keyringId).restore()
     .then(data => {
-      backup = this.model.restorePrivateKeyBackup(data.backup, code);
+      backup = restorePrivateKeyBackup(data.backup, code);
       if (backup.error) {
         throw backup.error;
       }
@@ -171,13 +174,13 @@ export default class PrivateKeyController extends sub.SubController {
         break;
       case 'generate-confirm':
         if (this.rejectTimer) {
-          this.mvelo.util.clearTimeout(this.rejectTimer);
+          mvelo.util.clearTimeout(this.rejectTimer);
           this.rejectTimer = 0;
         }
         break;
       case 'generate-reject':
         if (this.rejectTimer) {
-          this.mvelo.util.clearTimeout(this.rejectTimer);
+          mvelo.util.clearTimeout(this.rejectTimer);
           this.rejectTimer = 0;
           this.rejectKey(this.newKeyId);
         }

@@ -1,7 +1,7 @@
 'use strict';
 
 
-var sub = require('../../src/controller/sub.controller');
+import * as sub from '../../src/controller/sub.controller';
 
 describe('Sub controller unit tests', function() {
   var ctrl, port;

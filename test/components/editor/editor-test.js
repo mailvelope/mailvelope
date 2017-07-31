@@ -1,11 +1,11 @@
 
 import * as editor from '../../../src/components/editor/editor';
+import '../../../src/lib/jquery.ext';
 
 describe('Editor UI unit tests', () => {
 
   describe('checkEnvironment', () => {
     beforeEach(() => {
-      $.parseQuerystring = $.parseQuerystring || function() {};
       sinon.stub($, 'parseQuerystring').returns({ embedded: true, id: '12345'});
     });
 
@@ -14,7 +14,6 @@ describe('Editor UI unit tests', () => {
     });
 
     it('should work', () => {
-      expect(editor.embedded).to.not.exist;
       editor.checkEnvironment();
       expect(editor.embedded).to.be.true;
       expect(editor.id).to.equal('12345');

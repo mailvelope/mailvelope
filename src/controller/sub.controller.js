@@ -7,15 +7,10 @@
 
 
 import mvelo from 'lib-mvelo';
-import * as prefs from '../modules/prefs';
-import * as  model from '../modules/pgpModel';
 
 export class SubController extends mvelo.EventHandler {
   constructor(port) {
     super();
-    this.mvelo = mvelo;
-    this.prefs = prefs;
-    this.model = model;
     this.ports = {};
     if (port) {
       var sender = parseViewName(port.name);
@@ -54,11 +49,9 @@ export class SubController extends mvelo.EventHandler {
 
   openSecuritySettings() {
     var hash = '#/settings/security';
-    var that = this;
-
-    this.mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
+    mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
       if (old) {
-        that.mvelo.tabs.sendMessage(tab, {
+        mvelo.tabs.sendMessage(tab, {
           event: 'reload-options',
           hash: hash
         });
@@ -69,9 +62,9 @@ export class SubController extends mvelo.EventHandler {
   openApp({fragment}) {
     let hash = `#${fragment}`;
 
-    this.mvelo.tabs.loadOptionsTab(hash, (old, tab) => {
+    mvelo.tabs.loadOptionsTab(hash, (old, tab) => {
       if (old) {
-        this.mvelo.tabs.sendMessage(tab, {
+        mvelo.tabs.sendMessage(tab, {
           event: 'reload-options',
           hash: hash
         });

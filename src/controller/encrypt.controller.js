@@ -10,7 +10,7 @@
 
 'use strict';
 
-
+import mvelo from 'lib-mvelo';
 import * as sub from './sub.controller';
 
 export default class EncryptController extends sub.SubController {
@@ -29,7 +29,7 @@ export default class EncryptController extends sub.SubController {
    * @param  {String} options.text   The plaintext input to encrypt
    */
   openEditor(options) {
-    if (this.mvelo.windows.modalActive) {
+    if (mvelo.windows.modalActive) {
       // modal dialog already open
       // TODO show error, fix modalActive on FF
       return;
@@ -46,7 +46,7 @@ export default class EncryptController extends sub.SubController {
         return;
       }
       // sanitize if content from plain text
-      that.mvelo.util.parseHTML(armored, function(parsed) {
+      mvelo.util.parseHTML(armored, function(parsed) {
         that.emit('set-editor-output', {text: parsed, recipients: recipients});
       });
     });

@@ -1,7 +1,7 @@
 'use strict';
 
 
-var KeyServer = require('../../src/modules/keyserver');
+import KeyServer from '../../src/modules/keyserver';
 var keyServer, mvelo;
 
 describe('Key Server unit tests', function() {

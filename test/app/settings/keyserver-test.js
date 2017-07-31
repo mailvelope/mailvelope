@@ -1,6 +1,5 @@
 
 import KeyServer from '../../../src/app/settings/keyserver';
-import * as app from '../../../src/app/app';
 
 
 describe('Key server settings unit tests', function() {
@@ -8,48 +7,34 @@ describe('Key server settings unit tests', function() {
   var keyserver;
 
   beforeEach(() => {
-    sinon.stub(app, 'pgpModel')
-    .resolves({
-      keyserver: {
-        hkp_base_url: 'https://keyserver.ubuntu.com',
-        hkp_server_list: [
-          'https://keyserver.ubuntu.com',
-          'https://keys.mailvelope.com'
-        ],
-        mvelo_tofu_lookup: true
+    const props = {
+      prefs: {
+        keyserver: {
+          hkp_base_url: 'https://keyserver.ubuntu.com',
+          hkp_server_list: [
+            'https://keyserver.ubuntu.com',
+            'https://keys.mailvelope.com'
+          ],
+          mvelo_tofu_lookup: true
+        }
       }
-    });
-    keyserver = new KeyServer();
-    keyserver.state.hkp_base_url = 'https://keyserver.ubuntu.com';
+    };
+    keyserver = new KeyServer(props);
   });
 
-  afterEach(() => {
-    app.pgpModel.restore();
-  });
-
-  describe('init', () => {
-    it('should call pgpModel', () => {
-      app.pgpModel.resetHistory();
-      keyserver.init();
-
-      expect(app.pgpModel.calledOnce).to.be.true;
-    });
+  describe('constructor', () => {
 
     it('should set state', () => {
-      sinon.stub(keyserver, 'setState')
-      keyserver.init()
-      .then(() => {
-        expect(keyserver.setState.withArgs({
-          hkp_base_url: 'https://keyserver.ubuntu.com',
-          valid_base_url: true,
-          hkp_server_list: [
-            {value: 'https://keyserver.ubuntu.com', label: 'https://keyserver.ubuntu.com'},
-            {value: 'https://keys.mailvelope.com', label: 'https://keys.mailvelope.com'}
-          ],
-          mvelo_tofu_lookup: true,
-          alert: null,
-          modified: false
-        }).calledOnce).to.be.true
+      expect(keyserver.state).to.eql({
+        hkp_base_url: 'https://keyserver.ubuntu.com',
+        valid_base_url: true,
+        hkp_server_list: [
+          {value: 'https://keyserver.ubuntu.com', label: 'https://keyserver.ubuntu.com'},
+          {value: 'https://keys.mailvelope.com', label: 'https://keys.mailvelope.com'}
+        ],
+        mvelo_tofu_lookup: true,
+        alert: null,
+        modified: false
       });
     });
   });

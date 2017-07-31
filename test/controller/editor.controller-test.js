@@ -1,7 +1,9 @@
 'use strict';
 
 
-var EditorController = require('../../src/controller/editor.controller').EditorController;
+import EditorController from '../../src/controller/editor.controller';
+import * as keyring from '../../src/modules/keyring';
+import * as prefs from '../../src/modules/prefs';
 
 describe('Editor controller unit tests', function() {
   var ctrl, port;
@@ -13,12 +15,12 @@ describe('Editor controller unit tests', function() {
     ctrl = new EditorController(port);
 
     sinon.stub(ctrl, 'emit');
-    sinon.stub(ctrl.prefs, 'data');
+    sinon.stub(prefs, 'data');
   });
 
   afterEach(function() {
     ctrl.emit.restore();
-    ctrl.prefs.data.restore();
+    prefs.data.restore();
   });
 
   describe('Check event handlers', function() {
@@ -37,12 +39,12 @@ describe('Editor controller unit tests', function() {
         getKeyUserIDs: function() { return [{keyid: '0'}]; }
       };
       importKeysStub = sinon.stub(keyRingMock, 'importKeys');
-      sinon.stub(ctrl.keyring, 'getById').returns(keyRingMock);
+      sinon.stub(keyring, 'getById').returns(keyRingMock);
     });
 
     afterEach(function() {
       ctrl.keyserver.lookup.restore();
-      ctrl.keyring.getById.restore();
+      keyring.getById.restore();
     });
 
     it('should find a key', function() {
@@ -68,14 +70,14 @@ describe('Editor controller unit tests', function() {
 
   describe('displayRecipientProposal', function() {
     beforeEach(function() {
-      sinon.stub(ctrl.keyring, 'getById').returns({
+      sinon.stub(keyring, 'getById').returns({
         getKeyUserIDs: function() { return [{keyid: '0'}]; }
       });
       sinon.stub(ctrl.keyserver, 'getTOFUPreference').returns(true);
     });
 
     afterEach(function() {
-      ctrl.keyring.getById.restore();
+      keyring.getById.restore();
       ctrl.keyserver.getTOFUPreference.restore();
     });
 
@@ -195,11 +197,11 @@ describe('Editor controller unit tests', function() {
     var keys = [{keyid: 'b'}, {keyid: 'b'}];
 
     beforeEach(function() {
-      sinon.stub(ctrl.keyring, 'getById').returns({
+      sinon.stub(keyring, 'getById').returns({
         getAttributes: function() { return {primary_key: 'p'}; },
         getPrimaryKey: () => ({keyid: 'P'})
       });
-      ctrl.prefs.data.returns({
+      prefs.data.returns({
         general: {
           auto_add_primary: false
         }
@@ -207,7 +209,7 @@ describe('Editor controller unit tests', function() {
     });
 
     afterEach(function() {
-      ctrl.keyring.getById.restore();
+      keyring.getById.restore();
     });
 
     it('should return keybuffer', function() {
@@ -223,7 +225,7 @@ describe('Editor controller unit tests', function() {
     });
 
     it('should return key ids with primary', function() {
-      ctrl.prefs.data.returns({
+      prefs.data.returns({
         general: {
           auto_add_primary: true
         }

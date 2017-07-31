@@ -6,8 +6,10 @@
 'use strict';
 
 
+import mvelo from 'lib-mvelo';
 import {SubController} from './sub.controller';
 import * as uiLog from '../modules/uiLog';
+import {readCleartextMessage, verifyMessage} from '../modules/pgpModel';
 
 export default class VerifyController extends SubController {
   constructor(port) {
@@ -25,11 +27,11 @@ export default class VerifyController extends SubController {
         break;
       case 'vframe-display-popup':
         // prevent two open modal dialogs
-        if (this.mvelo.windows.modalActive) {
+        if (mvelo.windows.modalActive) {
           // password dialog or modal dialog already open
           this.ports.vFrame.postMessage({event: 'remove-dialog'});
         } else {
-          this.mvelo.windows.openPopup('components/verify-popup/verifyPopup.html?id=' + this.id, {width: 742, height: 550, modal: true}, function(window) {
+          mvelo.windows.openPopup('components/verify-popup/verifyPopup.html?id=' + this.id, {width: 742, height: 550, modal: true}, function(window) {
             that.verifyPopup = window;
           });
         }
@@ -37,7 +39,7 @@ export default class VerifyController extends SubController {
       case 'vframe-armored-message':
         var result;
         try {
-          result = this.model.readCleartextMessage(msg.data, this.mvelo.LOCAL_KEYRING_ID);
+          result = readCleartextMessage(msg.data, mvelo.LOCAL_KEYRING_ID);
         } catch (e) {
           this.ports.vDialog.postMessage({
             event: 'error-message',
@@ -45,7 +47,7 @@ export default class VerifyController extends SubController {
           });
           return;
         }
-        this.model.verifyMessage(result.message, result.signers, function(err, verified) {
+        verifyMessage(result.message, result.signers, function(err, verified) {
           if (err) {
             that.ports.vDialog.postMessage({
               event: 'error-message',

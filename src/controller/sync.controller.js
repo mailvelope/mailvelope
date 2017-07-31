@@ -10,6 +10,7 @@ import mvelo from 'lib-mvelo';
 import * as sub from './sub.controller';
 import {getById as getKeyringById, getUserId} from '../modules/keyring';
 import {isCached} from '../modules/pwdCache';
+import {readMessage, decryptSyncMessage, encryptSyncMessage} from '../modules/pgpModel';
 
 export class SyncController extends sub.SubController {
   constructor(port) {
@@ -120,7 +121,7 @@ export class SyncController extends sub.SubController {
         return;
       }
       // new version available on server
-      return this.model.readMessage({armoredText: download.keyringMsg, keyringId: this.keyringId})
+      return readMessage({armoredText: download.keyringMsg, keyringId: this.keyringId})
       .then(message => {
         message.keyringId = this.keyringId;
         message.reason = 'PWD_DIALOG_REASON_EDITOR';
@@ -138,7 +139,7 @@ export class SyncController extends sub.SubController {
         return this.pwdControl.unlockKey(message);
       })
       .then(message => {
-        return this.model.decryptSyncMessage(message.key, message.message);
+        return decryptSyncMessage(message.key, message.message);
       })
       .then(syncPacket => {
         // merge keys
@@ -175,7 +176,7 @@ export class SyncController extends sub.SubController {
     return this.pwdControl.unlockKey(keyOptions)
       .then(function(message) {
         // encrypt keyring sync message
-        return that.model.encryptSyncMessage(message.key, that.keyring.sync.data.changeLog, that.keyringId);
+        return encryptSyncMessage(message.key, that.keyring.sync.data.changeLog, that.keyringId);
       })
       // upload
       .then(function(armored) {
@@ -216,7 +217,7 @@ export class SyncController extends sub.SubController {
   sync(type, data) {
     var that = this;
     return new Promise(function(resolve, reject) {
-      var id = that.mvelo.util.getHash();
+      var id = mvelo.util.getHash();
       that.ports.syncHandler.postMessage({
         event: 'sync-event',
         type: type,
@@ -225,7 +226,7 @@ export class SyncController extends sub.SubController {
       });
       that.syncDoneHandler[id] = function(err, data) {
         if (timeout) {
-          that.mvelo.util.clearTimeout(timeout);
+          mvelo.util.clearTimeout(timeout);
         }
         if (err) {
           reject(err);
@@ -233,7 +234,7 @@ export class SyncController extends sub.SubController {
           resolve(data);
         }
       };
-      var timeout = that.mvelo.util.setTimeout(function() {
+      var timeout = mvelo.util.setTimeout(function() {
         delete that.syncDoneHandler[id];
         reject(new Error('Sync timeout'));
       }, that.TIMEOUT * 1000);
