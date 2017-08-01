@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import * as prefs from './prefs';
+import {prefs} from './prefs';
 
 /**
  * @fileOverview A simple HTTP client for Mailvelope Key Server's REST api.
@@ -28,7 +28,7 @@ export default class KeyServer {
    * @return {boolean}   If TOFU is enabled or not
    */
   getTOFUPreference() {
-    return prefs.data().keyserver.mvelo_tofu_lookup === true;
+    return prefs.keyserver.mvelo_tofu_lookup === true;
   }
 
   /**

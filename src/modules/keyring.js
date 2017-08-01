@@ -9,7 +9,7 @@
 import mvelo from 'lib-mvelo';
 import openpgp from 'openpgp';
 import {goog} from './closure-library/closure/goog/emailaddress';
-import * as prefs from './prefs';
+import {prefs} from './prefs';
 import * as keyringStore from './keyringStore';
 const l10n = mvelo.l10n.get;
 import * as keyringSync from './keyringSync';
@@ -38,8 +38,8 @@ export function init() {
       return createKeyring(mvelo.LOCAL_KEYRING_ID)
       .then(() => {
         // migrate primary_key attribute
-        if (prefs.data().general.primary_key) {
-          return setKeyringAttr(mvelo.LOCAL_KEYRING_ID, {primary_key: prefs.data().general.primary_key});
+        if (prefs.general.primary_key) {
+          return setKeyringAttr(mvelo.LOCAL_KEYRING_ID, {primary_key: prefs.general.primary_key});
         }
       });
     }

@@ -11,7 +11,7 @@
 'use strict';
 
 import mvelo from 'lib-mvelo';
-import * as prefs from '../modules/prefs';
+import {prefs} from '../modules/prefs';
 import * as model from '../modules/pgpModel';
 import * as sub from './sub.controller';
 import DecryptController from './decrypt.controller';
@@ -66,7 +66,7 @@ export default class EditorController extends sub.SubController {
       let primaryKeyId = primaryKey && primaryKey.keyid.toUpperCase() || '';
       let data = {
         text: this.options.initText,
-        signMsg: prefs.data().general.auto_sign_msg,
+        signMsg: prefs.general.auto_sign_msg,
         primary: primaryKeyId,
         privKeys: keyring.getValidSigningKeys()
       };
@@ -101,7 +101,7 @@ export default class EditorController extends sub.SubController {
     msg.recipients.forEach(function(recipient) {
       keyIds = keyIds.concat(keyIdMap[recipient]);
     });
-    if (prefs.data().general.auto_add_primary) {
+    if (prefs.general.auto_add_primary) {
       let primary = getKeyringById(this.keyringId).getPrimaryKey();
       if (primary) {
         keyIds.push(primary.keyid.toLowerCase());
@@ -415,7 +415,7 @@ export default class EditorController extends sub.SubController {
         this.emit('encrypt-in-progress', null, this.ports.editor);
       }, 800);
 
-      if (!prefs.data().security.password_cache) {
+      if (!prefs.security.password_cache) {
         triggerSync(signKey);
       }
 
@@ -571,7 +571,7 @@ export default class EditorController extends sub.SubController {
     } else {
       keyIdsHex = keys.map(function(key) { return key.keyid; });
       // get the sender key id
-      if (prefs.data().general.auto_add_primary) {
+      if (prefs.general.auto_add_primary) {
         var localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
         var primary = localKeyring.getPrimaryKey();
         if (primary) {

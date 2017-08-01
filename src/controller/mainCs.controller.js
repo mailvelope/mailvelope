@@ -7,7 +7,7 @@
 
 
 import {SubController} from './sub.controller';
-import * as prefs from '../modules/prefs';
+import {prefs} from '../modules/prefs';
 import {getWatchList} from '../modules/pgpModel';
 
 export default class MainCsController extends SubController {
@@ -18,12 +18,10 @@ export default class MainCsController extends SubController {
 
   handleContentReady() {
     getWatchList()
-    .then(watchList => this.emit('init', {prefs: prefs.data(), watchList}));
+    .then(watchList => this.emit('init', {prefs, watchList}));
   }
 
   updatePrefs() {
-    this.emit('set-prefs', {
-      prefs: prefs.data()
-    });
+    this.emit('set-prefs', { prefs });
   }
 }

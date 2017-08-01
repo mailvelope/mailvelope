@@ -7,7 +7,7 @@
 
 
 import mvelo from 'lib-mvelo';
-import * as prefs from '../modules/prefs';
+import {prefs} from '../modules/prefs';
 import * as model from '../modules/pgpModel';
 import * as sub from './sub.controller';
 import * as uiLog from '../modules/uiLog';
@@ -153,7 +153,7 @@ export default class DecryptController extends sub.SubController {
   prepareKey(message, openPopup) {
     this.pwdControl = sub.factory.get('pwdDialog');
     message.reason = 'PWD_DIALOG_REASON_DECRYPT';
-    message.openPopup = openPopup !== undefined ? openPopup : this.ports.decryptCont || prefs.data().security.display_decrypted == mvelo.DISPLAY_INLINE;
+    message.openPopup = openPopup !== undefined ? openPopup : this.ports.decryptCont || prefs.security.display_decrypted == mvelo.DISPLAY_INLINE;
     message.beforePasswordRequest = () => {
       this.ports.dPopup && this.ports.dPopup.postMessage({event: 'show-pwd-dialog', id: this.pwdControl.id});
     };

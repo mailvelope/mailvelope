@@ -20,8 +20,8 @@ var timeout;
 const RATE_LIMIT = 1000;
 
 export function init() {
-  active = prefs.data().security.password_cache;
-  timeout = prefs.data().security.password_timeout;
+  active = prefs.prefs.security.password_cache;
+  timeout = prefs.prefs.security.password_timeout;
   cache = {};
   // register for updates
   prefs.addUpdateHandler(update);
@@ -37,13 +37,13 @@ function clearTimeouts() {
 }
 
 function update() {
-  if (active != prefs.data().security.password_cache ||
-      timeout != prefs.data().security.password_timeout) {
+  if (active != prefs.prefs.security.password_cache ||
+      timeout != prefs.prefs.security.password_timeout) {
     // init cache
     clearTimeouts();
     cache = {};
-    active = prefs.data().security.password_cache;
-    timeout = prefs.data().security.password_timeout;
+    active = prefs.prefs.security.password_cache;
+    timeout = prefs.prefs.security.password_timeout;
   }
 }
 

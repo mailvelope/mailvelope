@@ -37,7 +37,7 @@ export default class PwdController extends SubController {
         this.ports.pwdDialog.postMessage({event: 'set-init-data', data: {
           userid: this.options.userid,
           keyid: this.options.key.primaryKey.getKeyId().toHex(),
-          cache: prefs.data().security.password_cache,
+          cache: prefs.prefs.security.password_cache,
           reason: this.options.reason
         }});
         break;
@@ -53,7 +53,7 @@ export default class PwdController extends SubController {
           // password correct
           that.options.key = key;
           that.options.password = msg.password;
-          if (msg.cache != prefs.data().security.password_cache) {
+          if (msg.cache != prefs.prefs.security.password_cache) {
             // update pwd cache status
             return prefs.update({security: {password_cache: msg.cache}});
           }

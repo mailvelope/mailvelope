@@ -7,7 +7,7 @@
 
 
 import mvelo from 'lib-mvelo';
-import * as prefs from '../modules/prefs';
+import {prefs} from '../modules/prefs';
 import * as  sub from './sub.controller';
 import * as uiLog from '../modules/uiLog';
 import * as pwdCache from '../modules/pwdCache';
@@ -45,7 +45,7 @@ export default class PrivateKeyController extends sub.SubController {
       passphrase: password
     }).then(function(data) {
       that.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: data.publicKeyArmored});
-      if (prefs.data().security.password_cache) {
+      if (prefs.security.password_cache) {
         pwdCache.set({key: data.key}, password);
       }
       if (options.confirmRequired) {
@@ -62,7 +62,7 @@ export default class PrivateKeyController extends sub.SubController {
 
   rejectKey() {
     getKeyringById(this.keyringId).removeKey(this.newKeyId, 'private');
-    if (prefs.data().security.password_cache) {
+    if (prefs.security.password_cache) {
       pwdCache.delete(this.newKeyId);
     }
   }

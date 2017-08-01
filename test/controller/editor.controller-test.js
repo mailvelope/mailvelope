@@ -6,7 +6,7 @@ import * as keyring from '../../src/modules/keyring';
 import * as prefs from '../../src/modules/prefs';
 
 describe('Editor controller unit tests', function() {
-  var ctrl, port;
+  var ctrl, port, preferences = prefs.prefs;
   var testRecipients;
 
   beforeEach(function() {
@@ -15,12 +15,12 @@ describe('Editor controller unit tests', function() {
     ctrl = new EditorController(port);
 
     sinon.stub(ctrl, 'emit');
-    sinon.stub(prefs, 'data');
+    prefs.prefs = Object.assign({}, preferences);
   });
 
   afterEach(function() {
     ctrl.emit.restore();
-    prefs.data.restore();
+    prefs.prefs = preferences;
   });
 
   describe('Check event handlers', function() {
@@ -201,11 +201,11 @@ describe('Editor controller unit tests', function() {
         getAttributes: function() { return {primary_key: 'p'}; },
         getPrimaryKey: () => ({keyid: 'P'})
       });
-      prefs.data.returns({
+      prefs.prefs = {
         general: {
           auto_add_primary: false
         }
-      });
+      };
     });
 
     afterEach(function() {
@@ -225,11 +225,11 @@ describe('Editor controller unit tests', function() {
     });
 
     it('should return key ids with primary', function() {
-      prefs.data.returns({
+      prefs.prefs = {
         general: {
           auto_add_primary: true
         }
-      });
+      };
       ctrl.keyidBuffer = undefined;
 
       expect(ctrl.getPublicKeyIds(keys)).to.deep.equal(['b', 'p']);

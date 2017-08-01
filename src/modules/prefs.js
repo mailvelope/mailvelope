@@ -9,7 +9,7 @@
 import mvelo from 'lib-mvelo';
 import {setPreferences, getPreferences} from './pgpModel';
 
-var prefs = null;
+export var prefs = {};
 var updateHandlers = [];
 
 export function init() {
@@ -51,8 +51,4 @@ export function update(obj) {
  */
 export function addUpdateHandler(fn) {
   updateHandlers.push(fn);
-}
-
-export function data() {
-  return prefs;
 }

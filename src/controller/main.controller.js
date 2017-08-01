@@ -136,7 +136,7 @@ export function handleMessageEvent(request, sender, sendResponse) {
       mvelo.tabs.create(link);
       break;
     case 'get-prefs':
-      request.prefs = prefs.data();
+      request.prefs = prefs.prefs;
       sendResponse(request);
       break;
     case 'set-prefs':
@@ -155,13 +155,13 @@ export function handleMessageEvent(request, sender, sendResponse) {
       break;
     case 'get-security-background':
       sendResponse({
-        color: prefs.data().security.secureBgndColor,
-        iconColor: prefs.data().security.secureBgndIconColor,
-        angle: prefs.data().security.secureBgndAngle,
-        scaling: prefs.data().security.secureBgndScaling,
-        width: prefs.data().security.secureBgndWidth,
-        height: prefs.data().security.secureBgndHeight,
-        colorId: prefs.data().security.secureBgndColorId
+        color: prefs.prefs.security.secureBgndColor,
+        iconColor: prefs.prefs.security.secureBgndIconColor,
+        angle: prefs.prefs.security.secureBgndAngle,
+        scaling: prefs.prefs.security.secureBgndScaling,
+        width: prefs.prefs.security.secureBgndWidth,
+        height: prefs.prefs.security.secureBgndHeight,
+        colorId: prefs.prefs.security.secureBgndColorId
       });
       break;
     case 'get-version':
@@ -341,7 +341,7 @@ export function getWatchListFilterURLs() {
       });
     });
     // add hkp key server to enable key import
-    let hkpHost = model.getHostname(prefs.data().keyserver.hkp_base_url);
+    let hkpHost = model.getHostname(prefs.prefs.keyserver.hkp_base_url);
     hkpHost = reduceHosts([hkpHost]);
     result.push(...hkpHost);
     if (result.length !== 0) {

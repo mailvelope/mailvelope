@@ -6,7 +6,7 @@ import * as sub from '../../src/controller/sub.controller';
 import * as prefs from '../../src/modules/prefs';
 import EncryptController from '../../src/controller/encrypt.controller';
 
-var ctrl, editorCtrlMock;
+var ctrl, editorCtrlMock, preferences = prefs.prefs;
 
 var testRecipients = [{email: 'test@example.com'}];
 
@@ -19,14 +19,14 @@ describe('Encrypt controller unit tests', function() {
       encrypt: sinon.stub()
     };
     sinon.stub(sub.factory, 'get').returns(editorCtrlMock);
-    sinon.stub(prefs, 'data');
+    prefs.prefs = Object.assign({}, preferences);
     sinon.stub(mvelo.util, 'parseHTML').yields('parsed');
     sinon.stub(ctrl, 'emit');
   });
 
   afterEach(function() {
     sub.factory.get.restore();
-    prefs.data.restore();
+    prefs.prefs = preferences;
     mvelo.util.parseHTML.restore();
     ctrl.emit.restore();
   });
@@ -59,11 +59,11 @@ describe('Encrypt controller unit tests', function() {
 
     it('should work for editor type plain', function() {
       editorCtrlMock.encrypt.yields(null, 'armored', testRecipients);
-      prefs.data.returns({
+      prefs.prefs = {
         general: {
           editor_type: 'plain'
         }
-      });
+      };
 
       ctrl.openEditor({text: 'foo'});
 
