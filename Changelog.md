@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v1.8.1
+-------
+__Aug. 2, 2017__
+
+  * Fix localization issues on Firefox 55
+
 v1.8.0
 -------
 __July 10, 2017__
