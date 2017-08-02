@@ -3,6 +3,12 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
+.dropdown button {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
 #keyringSwitcherLabel {
     width: 94%;
     overflow: hidden;

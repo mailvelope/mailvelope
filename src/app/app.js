@@ -232,23 +232,23 @@ class App extends React.Component {
           <div className="container">
             <div className="navbar-header">
               <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-navbar-collapse" aria-expanded="false">
-                  <span className="sr-only">Toggle navigation</span>
-                  <span className="icon-bar"></span>
-                  <span className="icon-bar"></span>
-                  <span className="icon-bar"></span>
+                <span className="sr-only">Toggle navigation</span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
               </button>
               <div className="navbar-brand settings-logo"></div>
             </div>
             <div className="collapse navbar-collapse bs-navbar-collapse">
-                <ul className="nav navbar-nav">
-                  <NavLink to="/keyring">{l10n.map.keyring_header}</NavLink>
-                  <NavLink to="/encryption">{l10n.map.encrypting_home}</NavLink>
-                  <NavLink to="/settings">{l10n.map.options_home}</NavLink>
-                </ul>
-                <ul className="nav navbar-nav navbar-right">
-                  <li><a href="https://www.mailvelope.com/help" target="_blank" rel="noreferrer">{l10n.map.options_docu}</a></li>
-                  <li><a href="https://www.mailvelope.com/about" target="_blank" rel="noreferrer">{l10n.map.options_about}</a></li>
-                </ul>
+              <ul className="nav navbar-nav" role="menu" aria-label="primary menu">
+                <NavLink to="/keyring">{l10n.map.keyring_header}</NavLink>
+                <NavLink to="/encryption">{l10n.map.encrypting_home}</NavLink>
+                <NavLink to="/settings">{l10n.map.options_home}</NavLink>
+              </ul>
+              <ul className="nav navbar-nav navbar-right" role="menu" aria-label="primary menu">
+                <li role="menuitem"><a href="https://www.mailvelope.com/help" target="_blank" rel="noreferrer" tabIndex="0">{l10n.map.options_docu}</a></li>
+                <li role="menuitem"><a href="https://www.mailvelope.com/about" target="_blank" rel="noreferrer" tabIndex="0">{l10n.map.options_about}</a></li>
+              </ul>
             </div>
           </div>
         </nav>
@@ -259,7 +259,7 @@ class App extends React.Component {
                 <div className="col-md-3">
                   <KeyringSelect keyringId={this.state.keyringId} keyringAttr={this.state.keyringAttr} onChange={this.handleChangeKeyring} onDelete={this.handleDeleteKeyring}/>
                   <div role="navigation">
-                    <ul className="nav nav-pills nav-stacked">
+                    <ul className="nav nav-pills nav-stacked" role="tablist" aria-label="secondary menu">
                       <NavLink to="/keyring/display">{l10n.map.keyring_display_keys}</NavLink>
                       <NavLink to="/keyring/import">{l10n.map.keyring_import_keys}</NavLink>
                       <NavLink to="/keyring/generate">{l10n.map.keyring_generate_key}</NavLink>
@@ -269,7 +269,7 @@ class App extends React.Component {
                 </div>
                 <div className="col-md-9">
                   <div className="jumbotron secureBackground">
-                    <div className="well">
+                    <section className="well">
                       <ProviderLogo logo={this.state.providerLogo} />
                       <Route path='/keyring/display' render={() =>
                         <KeyGrid keys={this.state.keys}
@@ -281,7 +281,7 @@ class App extends React.Component {
                       <Route path='/keyring/import' render={({location}) => <ImportKey onKeyringChange={this.loadKeyring} demail={this.state.isDemail} prefs={this.state.prefs} location={location} />} />
                       <Route path='/keyring/generate' render={() => <GenerateKey onKeyringChange={this.loadKeyring} demail={this.state.isDemail} name={this.state.name} email={this.state.email} />} />
                       <Route path='/keyring/setup' render={() => <KeyringSetup hasPrivateKey={this.state.hasPrivateKey} />} />
-                    </div>
+                    </section>
                     <button className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
                   </div>
                 </div>
@@ -299,10 +299,10 @@ class App extends React.Component {
                 </div>
                 <div className="col-md-9">
                   <div className="jumbotron secureBackground">
-                    <div className="well">
+                    <section className="well">
                       <Route path='/encryption/file-encrypt' component={EncryptFile} />
                       <Route path='/encryption/file-decrypt' component={EncryptFile} />
-                    </div>
+                    </section>
                     <button className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
                   </div>
                 </div>
@@ -323,13 +323,13 @@ class App extends React.Component {
                 </div>
                 <div className="col-md-9">
                   <div className="jumbotron secureBackground">
-                    <div className="well">
+                    <section className="well">
                       <Route path='/settings/general' component={General} />
                       <Route path='/settings/security' component={Security} />
                       <Route path='/settings/watchlist' component={WatchList} />
                       <Route path='/settings/security-log' component={SecurityLog} />
                       <Route path='/settings/key-server' render={() => <KeyServer prefs={this.state.prefs} onChangePrefs={this.handleChangePrefs} />} />
-                    </div>
+                    </section>
                     <button className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
                   </div>
                 </div>

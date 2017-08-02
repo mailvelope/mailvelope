@@ -46,6 +46,12 @@ export default class KeyGrid extends React.Component {
     this.setState({keyTypeFilter: e.target.value});
   }
 
+  handleKeyPress(e, index) {
+    if (e.key === 'Enter') {
+      this.showKeyDetails(index);
+    }
+  }
+
   /**
    * @param  {string} type key type 'public' or 'private'
    * @return {bool}      true if key should be filtered out
@@ -133,7 +139,7 @@ export default class KeyGrid extends React.Component {
             <tbody>
               { this.props.keys.map((key, index) =>
                 !this.filterKey(key.type) &&
-                <tr key={index} onClick={() => this.showKeyDetails(index)}>
+                <tr key={index} onClick={() => this.showKeyDetails(index)} onKeyPress={e => this.handleKeyPress(e, index)} tabIndex="0" aria-haspopup="true">
                   <td className="text-center">
                     <span className={key.type === 'public' ? 'publicKey' : 'keyPair'}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                   </td>
@@ -143,7 +149,7 @@ export default class KeyGrid extends React.Component {
                   <td className="monospaced">{key.crDate.substr(0, 10)}</td>
                   <td className="text-center text-nowrap">
                     <div className="actions">
-                      <button className="btn btn-default keyDetailsBtn"><span className="glyphicon glyphicon-info-sign"></span></button>
+                      <button className="btn btn-default keyDetailsBtn" aria-haspopup="true"><span className="glyphicon glyphicon-info-sign"></span></button>
                       <button type="button" onClick={e => this.deleteKeyEntry(e, index)} className="btn btn-default keyDeleteBtn"><span className="glyphicon glyphicon-trash"></span></button>
                     </div>
                   </td>

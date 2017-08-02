@@ -35,8 +35,8 @@ import {Route, Link} from 'react-router-dom';
 export function NavLink({to, children}) {
   return (
     <Route path={to} children={({match}) => (
-      <li className={match ? 'active' : ''}>
-        <Link to={to} replace>{children}</Link>
+      <li className={match ? 'active' : ''} role="menuitem">
+        <Link to={to} replace tabIndex="0">{children}</Link>
       </li>
     )} />
   );
