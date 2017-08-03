@@ -40,7 +40,7 @@ export default class AdvancedExpand extends React.Component {
     return (
       <div>
         <div className="form-group">
-          <button type="button" className={'btn btn-default ' + (this.state.expand ? 'key-advanced-open' : 'key-advanced-closed')} onClick={this.handleClick}>{l10n.map.key_gen_advanced_btn}</button>
+          <button type="button" className={`btn btn-default ${this.state.expand ? 'key-advanced-open' : 'key-advanced-closed'}`} onClick={this.handleClick}>{l10n.map.key_gen_advanced_btn}</button>
         </div>
         <div className="alert alert-info" style={{display: 'none'}} ref={node => this.expandAreaNode = node}>
           {this.props.children}

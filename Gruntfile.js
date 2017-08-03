@@ -233,14 +233,14 @@ module.exports = function(grunt) {
         src: '**/*.json',
         dest: 'build/firefox/locale/',
         rename(dest, src) {
-          return dest + src.match(/^[\w-]{2,5}/)[0].replace('_', '-') + '.properties';
+          return `${dest + src.match(/^[\w-]{2,5}/)[0].replace('_', '-')}.properties`;
         },
         options: {
           process(content) {
             var locale = JSON.parse(content);
             var result = '';
             for (var key in locale) {
-              result += key + '= ' + locale[key].message.replace(/\$(\d)/g, '%$1s') + '\n';
+              result += `${key}= ${locale[key].message.replace(/\$(\d)/g, '%$1s')}\n`;
             }
             return result;
           }
@@ -253,7 +253,7 @@ module.exports = function(grunt) {
         src: 'dist/*.xpi',
         dest: 'dist/',
         rename(dest) {
-          return dest + 'mailvelope.firefox.xpi';
+          return `${dest}mailvelope.firefox.xpi`;
         }
       }
     },
@@ -436,7 +436,7 @@ module.exports = function(grunt) {
   grunt.registerTask('webpack', function() {
     var done = this.async();
     // , '--display-modules'
-    grunt.util.spawn({cmd: process.argv[0], args: ['./node_modules/webpack/bin/webpack.js', '--config=config/webpack.' + this.args[0] + '.js'], opts: {stdio: 'inherit'}}, (error, result) => {
+    grunt.util.spawn({cmd: process.argv[0], args: ['./node_modules/webpack/bin/webpack.js', `--config=config/webpack.${this.args[0]}.js`], opts: {stdio: 'inherit'}}, (error, result) => {
       done(result.code !== 1);
     });
   });

@@ -50,7 +50,7 @@ const dev = {
   externals,
 
   module: {
-    rules: [common.replaceVersion(pjson.version + ' build: ' + (new Date()).toISOString().slice(0, 19))]
+    rules: [common.replaceVersion(`${pjson.version} build: ${(new Date()).toISOString().slice(0, 19)}`)]
   },
 
   plugins: common.plugins('development')

@@ -90,7 +90,7 @@ export function handleApiEvent(request, sender, sendResponse) {
         break;
       case 'open-settings':
         request.keyringId = request.keyringId || mvelo.LOCAL_KEYRING_ID;
-        var hash = '?krid=' + encodeURIComponent(request.keyringId) + '#/settings';
+        var hash = `?krid=${encodeURIComponent(request.keyringId)}#/settings`;
         mvelo.tabs.loadOptionsTab(hash, (old, tab) => {
           if (old) {
             mvelo.tabs.sendMessage(tab, {

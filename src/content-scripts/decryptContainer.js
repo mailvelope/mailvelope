@@ -13,7 +13,7 @@ export default class DecryptContainer {
     this.keyringId = keyringId;
     this.options = options;
     this.id = mvelo.util.getHash();
-    this.name = 'decryptCont-' + this.id;
+    this.name = `decryptCont-${this.id}`;
     this.port = mvelo.extension.connect({name: this.name});
     this.registerEventListener();
     this.parent = null;
@@ -29,9 +29,9 @@ export default class DecryptContainer {
     this.container = document.createElement('iframe');
     var url;
     if (mvelo.crx) {
-      url = mvelo.extension.getURL('components/decrypt-inline/decryptInline.html?id=' + this.id);
+      url = mvelo.extension.getURL(`components/decrypt-inline/decryptInline.html?id=${this.id}`);
     } else if (mvelo.ffa) {
-      url = 'about:blank?mvelo=decryptInline&id=' + this.id;
+      url = `about:blank?mvelo=decryptInline&id=${this.id}`;
     }
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);

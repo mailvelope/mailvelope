@@ -165,7 +165,7 @@ export default class ImportController extends sub.SubController {
   openPopup() {
     return new Promise((resolve, reject) => {
       this.popupDone = {resolve, reject};
-      mvelo.windows.openPopup('components/import-key/importKeyDialog.html?id=' + this.id, {width: 535, height: 458, modal: false}, window => this.importPopup = window);
+      mvelo.windows.openPopup(`components/import-key/importKeyDialog.html?id=${this.id}`, {width: 535, height: 458, modal: false}, window => this.importPopup = window);
     });
   }
 }

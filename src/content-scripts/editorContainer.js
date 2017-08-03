@@ -14,7 +14,7 @@ export default class EditorContainer {
     this.keyringId = keyringId;
     this.options = options;
     this.id = mvelo.util.getHash();
-    this.name = 'editorCont-' + this.id;
+    this.name = `editorCont-${this.id}`;
     this.port = mvelo.extension.connect({name: this.name});
     this.registerEventListener();
     this.parent = null;
@@ -31,13 +31,13 @@ export default class EditorContainer {
     var url;
     var quota = '';
     if (this.options.quota) {
-      quota = '&quota=' + this.options.quota;
+      quota = `&quota=${this.options.quota}`;
     }
 
     if (mvelo.crx) {
-      url = mvelo.extension.getURL('components/editor/editor.html?id=' + this.id + quota + '&embedded=true');
+      url = mvelo.extension.getURL(`components/editor/editor.html?id=${this.id}${quota}&embedded=true`);
     } else if (mvelo.ffa) {
-      url = 'about:blank?mvelo=editor&id=' + this.id + quota + '&embedded=true';
+      url = `about:blank?mvelo=editor&id=${this.id}${quota}&embedded=true`;
     }
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);

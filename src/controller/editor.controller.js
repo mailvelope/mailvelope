@@ -217,7 +217,7 @@ export default class EditorController extends sub.SubController {
     this.options = options;
     this.keyringId = options.keyringId || mvelo.LOCAL_KEYRING_ID;
     this.encryptCallback = callback;
-    mvelo.windows.openPopup('components/editor/editor.html?id=' + this.id, {width: 820, height: 550, modal: false}, window => {
+    mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}`, {width: 820, height: 550, modal: false}, window => {
       this.editorPopup = window;
     });
   }
@@ -331,13 +331,13 @@ export default class EditorController extends sub.SubController {
             msg = msg.replace(/^(.|\n)/gm, '> $&');
           }
           if (that.options.quotedMailHeader) {
-            msg = '> ' + that.options.quotedMailHeader + '\n' + msg;
+            msg = `> ${that.options.quotedMailHeader}\n${msg}`;
           }
           if (that.options.quotedMailIndent || that.options.quotedMailHeader) {
-            msg = '\n\n' + msg;
+            msg = `\n\n${msg}`;
           }
           if (that.options.predefinedText) {
-            msg = msg + '\n\n' + that.options.predefinedText;
+            msg = `${msg}\n\n${that.options.predefinedText}`;
           }
           that.emit('set-text', {text: msg}, that.ports.editor);
         },

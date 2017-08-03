@@ -132,7 +132,7 @@ export function handleMessageEvent(request, sender, sendResponse) {
     case 'send-by-mail':
       var link = encodeURI('mailto:?subject=Public OpenPGP key of ');
       link += encodeURIComponent(request.message.data.name);
-      link += '&body=' + encodeURIComponent(request.message.data.armoredPublic);
+      link += `&body=${encodeURIComponent(request.message.data.armoredPublic)}`;
       link += encodeURIComponent('\n*** exported with www.mailvelope.com ***');
       mvelo.tabs.create(link);
       break;
@@ -212,7 +212,7 @@ function methodEvent(thisArg, request, sendResponse) {
     sendResponse({result});
   })
   .catch(error => {
-    console.log('error in method ' + request.method + ': ', error);
+    console.log(`error in method ${request.method}: `, error);
     sendResponse({error: mvelo.util.mapError(error)});
   });
 }
@@ -324,7 +324,7 @@ function reduceHosts(hosts) {
       }
       reduced.push(labels.join('.'));
     } else {
-      reduced.push('*.' + labels.slice(-3).join('.'));
+      reduced.push(`*.${labels.slice(-3).join('.')}`);
     }
   });
   return mvelo.util.sortAndDeDup(reduced);

@@ -33,7 +33,7 @@ var mvelo = mvelo || null;
   function init() {
     var qs = jQuery.parseQuerystring();
     id = qs.id;
-    name = 'vDialog-' + id;
+    name = `vDialog-${id}`;
     // open port to background page
     port = mvelo.extension.connect({name});
     port.onMessage.addListener(messageListener);
@@ -150,7 +150,7 @@ var mvelo = mvelo || null;
           var type, userid;
           var message = $('<span/>');
           var keyid = $('<span/>');
-          keyid.text('(' + l10n.dialog_keyid_label + ' ' + signer.keyid.toUpperCase() + ')');
+          keyid.text(`(${l10n.dialog_keyid_label} ${signer.keyid.toUpperCase()})`);
           if (signer.userid) {
             userid = $('<strong/>');
             userid.text(signer.userid);

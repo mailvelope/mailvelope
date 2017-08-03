@@ -424,7 +424,7 @@ function encryptFiles(plainFiles, receipients) {
     encryptProcesses.push(app.pgpModel('encryptFile', [plainFile, receipients])
     .then(armored => {
       addFileToDownload({
-        name: plainFile.name + '.asc',
+        name: `${plainFile.name}.asc`,
         content: armored,
         type: 'application/octet-stream'
       }, $encryptFileDownload, {secureIcon: true});
@@ -554,7 +554,7 @@ function addRecipientsToSelect(recipients) {
   for (var i = 0; i < recipients.length; i++) {
     var $option = $('<option/>')
     .val(i)
-    .text(recipients[i].userid + ' - ' + recipients[i].keyid.toUpperCase());
+    .text(`${recipients[i].userid} - ${recipients[i].keyid.toUpperCase()}`);
     $encryptKeySelect.append($option);
   }
 }

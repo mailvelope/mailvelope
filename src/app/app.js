@@ -174,7 +174,7 @@ class App extends React.Component {
   }
 
   handleDeleteKeyring(keyringId, keyringName) {
-    if (confirm('Do you want to remove the keyring with id: ' + keyringName + ' ?')) {
+    if (confirm(`Do you want to remove the keyring with id: ${keyringName} ?`)) {
       sendMessage({
         event: 'delete-keyring',
         keyringId

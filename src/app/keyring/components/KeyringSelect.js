@@ -17,7 +17,7 @@ export default class KeyringSelect extends React.Component {
     if (keyringId === mvelo.LOCAL_KEYRING_ID) {
       return 'Mailvelope';
     }
-    return keyringId.split(mvelo.KEYRING_DELIMITER)[0] + ' (' + keyringId.split(mvelo.KEYRING_DELIMITER)[1] + ')';
+    return `${keyringId.split(mvelo.KEYRING_DELIMITER)[0]} (${keyringId.split(mvelo.KEYRING_DELIMITER)[1]})`;
   }
 
   render() {

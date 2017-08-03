@@ -125,7 +125,7 @@ function enforceTypeWhitelist(data, whitelist) {
     var dataType = whitelist[parameter];
     var value = data[parameter];
     if (dataType === undefined) {
-      console.log('Mailvelope client-API type checker: parameter ' + parameter + ' not accepted.');
+      console.log(`Mailvelope client-API type checker: parameter ${parameter} not accepted.`);
       delete data[parameter];
       continue;
     }
@@ -145,7 +145,7 @@ function enforceTypeWhitelist(data, whitelist) {
         }
     }
     if (wrong) {
-      error = new Error('Type mismatch: ' + parameter + ' should be of type ' + dataType + '.');
+      error = new Error(`Type mismatch: ${parameter} should be of type ${dataType}.`);
       error.code = 'TYPE_MISMATCH';
       throw error;
     }

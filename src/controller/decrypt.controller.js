@@ -52,7 +52,7 @@ export default class DecryptController extends sub.SubController {
           // password dialog or modal dialog already open
           this.ports.dFrame.postMessage({event: 'remove-dialog'});
         } else {
-          mvelo.windows.openPopup('components/decrypt-popup/decryptPopup.html?id=' + this.id, {width: 742, height: 550, modal: true}, window => {
+          mvelo.windows.openPopup(`components/decrypt-popup/decryptPopup.html?id=${this.id}`, {width: 742, height: 550, modal: true}, window => {
             that.decryptPopup = window;
           });
         }

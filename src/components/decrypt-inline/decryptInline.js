@@ -39,7 +39,7 @@ var mvelo = mvelo || null;
     document.body.dataset.mvelo = true;
     var qs = jQuery.parseQuerystring();
     id = qs.id;
-    name = 'dDialog-' + id;
+    name = `dDialog-${id}`;
     // open port to background page
     port = mvelo.extension.connect({name});
     port.onMessage.addListener(messageListener);
@@ -142,7 +142,7 @@ var mvelo = mvelo || null;
       }
     });
 
-    var $style = $('<link/>', {rel: 'stylesheet', href: basePath + 'dep/bootstrap/css/bootstrap.css'});
+    var $style = $('<link/>', {rel: 'stylesheet', href: `${basePath}dep/bootstrap/css/bootstrap.css`});
     var $meta = $('<meta/>', {charset: 'UTF-8'});
 
     return $('<iframe/>', {
@@ -218,7 +218,7 @@ var mvelo = mvelo || null;
     var extClass = mvelo.util.getExtensionClass(fileExt);
 
     var $extensionButton = $('<span/>', {
-      "class": 'label attachmentExtension ' + extClass
+      "class": `label attachmentExtension ${extClass}`
     }).append(fileExt);
 
     var objectURL = "#";
@@ -281,13 +281,13 @@ var mvelo = mvelo || null;
       var fingerprint = (details.fingerprint.match(/.{1,4}/g)).join(' ');
 
       dialog
-      .append($('<p/>').html('<b>Name:</b> ' + details.name))
-      .append($('<p/>').html('<b>E-Mail:</b> ' + details.email))
-      .append($('<p/>').html('<b>Fingerprint:</b> ' + fingerprint))
+      .append($('<p/>').html(`<b>Name:</b> ${details.name}`))
+      .append($('<p/>').html(`<b>E-Mail:</b> ${details.email}`))
+      .append($('<p/>').html(`<b>Fingerprint:</b> ${fingerprint}`))
       ;
     } else {
       dialog
-      .append($('<p/>').html('<b>Key-ID:</b> ' + signer.keyid.toUpperCase()))
+      .append($('<p/>').html(`<b>Key-ID:</b> ${signer.keyid.toUpperCase()}`))
       ;
     }
     $body.empty().append(dialog);
@@ -297,13 +297,13 @@ var mvelo = mvelo || null;
 
     if (signer.valid === true) {
       $heading.addClass('bg-success');
-      $title.html('<b>Status:</b> ' + l10n.digital_signature_status_true);
+      $title.html(`<b>Status:</b> ${l10n.digital_signature_status_true}`);
     } else if (signer.valid === false) {
       $heading.addClass('bg-danger');
-      $title.html('<b>Status:</b> ' + l10n.digital_signature_status_false);
+      $title.html(`<b>Status:</b> ${l10n.digital_signature_status_false}`);
     } else if (signer.valid === null) {
       $heading.addClass('bg-warning');
-      $title.html('<b>Status:</b> ' + l10n.digital_signature_status_null);
+      $title.html(`<b>Status:</b> ${l10n.digital_signature_status_null}`);
       $body.prepend($('<p/>').html(l10n.digital_signature_status_null_description));
     }
   }

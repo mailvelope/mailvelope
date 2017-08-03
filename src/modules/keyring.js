@@ -54,7 +54,7 @@ export function createKeyring(keyringId, options) {
       keyringAttr = {};
     }
     if (keyringAttr[keyringId]) {
-      var error = new Error('Keyring for id ' + keyringId + ' already exists.');
+      var error = new Error(`Keyring for id ${keyringId} already exists.`);
       error.code = 'KEYRING_ALREADY_EXISTS';
       throw error;
     }
@@ -88,7 +88,7 @@ export function deleteKeyring(keyringId) {
   return Promise.resolve()
   .then(() => {
     if (!keyringAttr[keyringId]) {
-      var error = new Error('Keyring for id ' + keyringId + ' does not exist.');
+      var error = new Error(`Keyring for id ${keyringId} does not exist.`);
       error.code = 'NO_KEYRING_FOR_ID';
       throw error;
     }
@@ -132,7 +132,7 @@ export function setKeyringAttr(keyringId, attr) {
   return Promise.resolve()
   .then(() => {
     if (!keyringAttr[keyringId]) {
-      throw new Error('Keyring does not exist for id: ' + keyringId);
+      throw new Error(`Keyring does not exist for id: ${keyringId}`);
     }
     mvelo.util.extend(keyringAttr[keyringId], attr);
     return mvelo.storage.set('mvelo.keyring.attributes', keyringAttr);
@@ -141,7 +141,7 @@ export function setKeyringAttr(keyringId, attr) {
 
 export function getKeyringAttr(keyringId, attr) {
   if (!keyringAttr[keyringId]) {
-    throw new Error('Keyring does not exist for id: ' + keyringId);
+    throw new Error(`Keyring does not exist for id: ${keyringId}`);
   }
   return keyringAttr[keyringId][attr];
 }
@@ -630,7 +630,7 @@ export class Keyring {
         if (userId.fullName) {
           return (new goog.format.EmailAddress(userId.email, userId.fullName)).toString();
         } else {
-          return '<' + userId.email + '>';
+          return `<${userId.email}>`;
         }
       });
       return openpgp.generateKeyPair({numBits: parseInt(options.numBits), userId: options.userIds, passphrase: options.passphrase, keyExpirationTime: options.keyExpirationTime});

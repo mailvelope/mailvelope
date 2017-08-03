@@ -25,7 +25,7 @@ var mvelo = mvelo || null;
   function init() {
     var qs = jQuery.parseQuerystring();
     id = qs.id;
-    name = 'importKeyDialog-' + id;
+    name = `importKeyDialog-${id}`;
     // open port to background page
     port = mvelo.extension.connect({name});
     port.onMessage.addListener(messageListener);
@@ -101,10 +101,10 @@ var mvelo = mvelo || null;
         var importDialogDescription = (msg.invalidated) ? l10n.key_import_invalidated_description : l10n.key_import_default_description;
 
         var userName = $('<span/>').addClass('userName').text(msg.key.name);
-        var userEmail = $('<span/>').addClass('userEmail').text('(' + msg.key.email + ')');
+        var userEmail = $('<span/>').addClass('userEmail').text(`(${msg.key.email})`);
         var date = (new Date(msg.key.crDate)).toLocaleString();
         var contact = msg.key.email ? msg.key.email : msg.key.name;
-        importDialogDescription = importDialogDescription.replace('[CONTACT]', '<em>' + contact.replace(/\((.*|\s)\)/, '') + '</em>');
+        importDialogDescription = importDialogDescription.replace('[CONTACT]', `<em>${contact.replace(/\((.*|\s)\)/, '')}</em>`);
 
         $('#key_import_headline').html(importDialogHeadline);
         $('#key_import_default_description').html(importDialogDescription);

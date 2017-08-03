@@ -65,7 +65,7 @@ export default class ExtractFrame {
 
   _renderFrame() {
     this._eFrame = $('<div/>', {
-      id: 'eFrame-' + this.id,
+      id: `eFrame-${this.id}`,
       'class': 'm-extract-frame m-cursor',
       html: '<a class="m-frame-close">×</a>'
     });

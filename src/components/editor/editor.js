@@ -155,7 +155,7 @@ export function checkEnvironment() {
   let qs = $.parseQuerystring();
   embedded = Boolean(qs.embedded);
   id = qs.id;
-  name = 'editor-' + id;
+  name = `editor-${id}`;
   if (qs.quota && parseInt(qs.quota) < maxFileUploadSize) {
     maxFileUploadSize = parseInt(qs.quota);
   }
@@ -451,7 +451,7 @@ function onAddAttachment(evt) {
   if (currentAttachmentsSize > maxFileUploadSize) {
     var error = {
       title: l10n.map.upload_quota_warning_headline,
-      message: l10n.map.upload_quota_exceeded_warning + " " + Math.floor(maxFileUploadSize / (1024 * 1024)) + "MB."
+      message: `${l10n.map.upload_quota_exceeded_warning} ${Math.floor(maxFileUploadSize / (1024 * 1024))}MB.`
     };
 
     showErrorModal(error);
@@ -488,8 +488,8 @@ function createPlainText() {
       'resize':        'none'
     }
   });
-  var style = $('<link/>', {rel: 'stylesheet', href: basePath + 'dep/bootstrap/css/bootstrap.css'});
-  var style2 = $('<link/>', {rel: 'stylesheet', href: basePath + 'mvelo.css'});
+  var style = $('<link/>', {rel: 'stylesheet', href: `${basePath}dep/bootstrap/css/bootstrap.css`});
+  var style2 = $('<link/>', {rel: 'stylesheet', href: `${basePath}mvelo.css`});
   var meta = $('<meta/>', {charset: 'UTF-8'});
   sandbox.one('load', () => {
     sandbox.contents().find('head').append(meta)
@@ -596,7 +596,7 @@ function startBlurValid() {
 function addPwdDialog(id) {
   var pwd = $('<iframe/>', {
     id: 'pwdDialog',
-    src: '../enter-password/pwdDialog.html?id=' + id,
+    src: `../enter-password/pwdDialog.html?id=${id}`,
     frameBorder: 0
   });
   $('body').find('#editorDialog').fadeOut(() => {

@@ -33,8 +33,8 @@ export default class KeySearch extends React.Component {
   handleKeySearch(event) {
     event.preventDefault();
     let query = this.query.value;
-    query = KEY_ID_REGEX.test(query) ? ('0x' + query) : query; // prepend '0x' to query for key IDs
-    let url = this.props.prefs.keyserver.hkp_base_url + '/pks/lookup?op=index&search=' + window.encodeURIComponent(query);
+    query = KEY_ID_REGEX.test(query) ? (`0x${query}`) : query; // prepend '0x' to query for key IDs
+    let url = `${this.props.prefs.keyserver.hkp_base_url}/pks/lookup?op=index&search=${window.encodeURIComponent(query)}`;
     if (url.includes('keys.mailvelope.com')) {
       url = url.replace('op=index', 'op=get');
     }

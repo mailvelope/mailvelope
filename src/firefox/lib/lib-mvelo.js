@@ -84,7 +84,7 @@ mvelo.tabs.attach = function(tab, options, callback) {
 mvelo.tabs.query = function(url, callback) {
   var result = [];
   var tabs = windows.activeWindow.tabs;
-  var reUrl = new RegExp(url + '.*');
+  var reUrl = new RegExp(`${url}.*`);
   for (var i = 0; i < tabs.length; i++) {
     if (reUrl.test(tabs[i].url)) {
       result.push(tabs[i]);
@@ -115,7 +115,7 @@ mvelo.tabs.eventIndex = 0;
 
 mvelo.tabs.sendMessage = function(tab, msg, callback) {
   if (callback) {
-    msg.response = 'resp' + this.eventIndex++;
+    msg.response = `resp${this.eventIndex++}`;
     this.worker[tab.index].port.once(msg.response, callback);
   }
   this.worker[tab.index].port.emit('message-event', msg);
@@ -216,7 +216,7 @@ mvelo.windows = {};
 
 mvelo.windows.modalActive = false;
 
-mvelo.windows.internalURL = new RegExp('^' + data.url(''));
+mvelo.windows.internalURL = new RegExp(`^${data.url('')}`);
 
 // FIFO list for window options
 mvelo.windows.options = [];

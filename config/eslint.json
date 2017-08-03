@@ -59,12 +59,14 @@
     "indent": ["warn", 2, {"MemberExpression": 0, "SwitchCase": 1}], // enforce consistent indentation
     "semi": ["warn", "always"], // require or disallow semicolons instead of ASI
     /* ES6 */
-    "arrow-body-style": 1,
-    "arrow-parens": ["warn", "as-needed"],
-    "arrow-spacing": 1,
-    "no-useless-constructor": 1,
-    "object-shorthand": ["warn", "always", {"avoidQuotes": true}],
-    "prefer-arrow-callback": ["warn", {"allowNamedFunctions": true}]
+    "arrow-body-style": ["warn", "as-needed"], // require braces around arrow function bodies
+    "arrow-parens": ["warn", "as-needed"], // require parentheses around arrow function arguments
+    "arrow-spacing": 1, // enforce consistent spacing before and after the arrow in arrow functions
+    "no-useless-constructor": 1, // disallow unnecessary constructors
+    "object-shorthand": ["warn", "always", {"avoidQuotes": true}], // require or disallow method and property shorthand syntax for object literals
+    "prefer-arrow-callback": ["warn", {"allowNamedFunctions": true}], // require arrow functions as callbacks
+    "prefer-template": 1, // require template literals instead of string concatenation
+    "template-curly-spacing": ["warn", "never"] // require or disallow spacing around embedded expressions of template strings
   }
 
 }

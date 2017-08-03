@@ -13,12 +13,12 @@ const externals = {
 function prod(pathname, filename) {
   return {
 
-    entry: './src/components/' + pathname + '/' + filename,
+    entry: `./src/components/${pathname}/${filename}`,
 
     output: {
-      path: path.resolve('./build/tmp/components/' + pathname),
+      path: path.resolve(`./build/tmp/components/${pathname}`),
       pathinfo: true,
-      filename: filename + '.bundle.js'
+      filename: `${filename}.bundle.js`
     },
 
     resolve: common.resolve(),
@@ -35,12 +35,12 @@ function dev(pathname, filename) {
 
     devtool: 'inline-source-map',
 
-    entry: './src/components/' + pathname + '/' + filename,
+    entry: `./src/components/${pathname}/${filename}`,
 
     output: {
-      path: path.resolve('./build/tmp/components/' + pathname),
+      path: path.resolve(`./build/tmp/components/${pathname}`),
       pathinfo: true,
-      filename: filename + '.bundle.js'
+      filename: `${filename}.bundle.js`
     },
 
     resolve: common.resolve(),

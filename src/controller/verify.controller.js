@@ -31,7 +31,7 @@ export default class VerifyController extends SubController {
           // password dialog or modal dialog already open
           this.ports.vFrame.postMessage({event: 'remove-dialog'});
         } else {
-          mvelo.windows.openPopup('components/verify-popup/verifyPopup.html?id=' + this.id, {width: 742, height: 550, modal: true}, window => {
+          mvelo.windows.openPopup(`components/verify-popup/verifyPopup.html?id=${this.id}`, {width: 742, height: 550, modal: true}, window => {
             that.verifyPopup = window;
           });
         }

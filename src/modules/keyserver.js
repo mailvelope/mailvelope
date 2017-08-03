@@ -92,13 +92,13 @@ export default class KeyServer {
    * @return {string}                       The complete request url
    */
   _url(options) {
-    var url = this._baseUrl + '/api/v1/key';
+    var url = `${this._baseUrl}/api/v1/key`;
     if (options && options.email) {
-      url += '?email=' + encodeURIComponent(options.email);
+      url += `?email=${encodeURIComponent(options.email)}`;
     } else if (options && options.fingerprint) {
-      url += '?fingerprint=' + encodeURIComponent(options.fingerprint);
+      url += `?fingerprint=${encodeURIComponent(options.fingerprint)}`;
     } else if (options && options.keyId) {
-      url += '?keyId=' + encodeURIComponent(options.keyId);
+      url += `?keyId=${encodeURIComponent(options.keyId)}`;
     }
     return url;
   }

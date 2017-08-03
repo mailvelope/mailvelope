@@ -18,7 +18,7 @@ import EncryptFrame from './encryptFrame';
 const SCAN_LOOP_INTERVAL = 2500; // ms
 const PGP_FOOTER = /END\sPGP/;
 const MIN_EDIT_HEIGHT = 84;
-const NAME = 'mainCS-' + mvelo.util.getHash();
+const NAME = `mainCS-${mvelo.util.getHash()}`;
 
 let intervalID = 0;
 //let contextTarget = null;

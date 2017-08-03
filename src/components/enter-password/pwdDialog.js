@@ -25,7 +25,7 @@ var mvelo = mvelo || null;
   function init() {
     var qs = jQuery.parseQuerystring();
     id = qs.id;
-    name = 'pwdDialog-' + id;
+    name = `pwdDialog-${id}`;
     // open port to background page
     port = mvelo.extension.connect({name});
     port.onMessage.addListener(messageListener);

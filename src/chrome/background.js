@@ -116,7 +116,7 @@ function initScriptInjection() {
   loadContentCode()
   .then(loadFramestyles)
   .then(() => controller.getWatchListFilterURLs())
-  .then(filterURL => filterURL.map(host => '*://' + host + '/*'))
+  .then(filterURL => filterURL.map(host => `*://${host}/*`))
   .then(filterURL => injectOpenTabs(filterURL))
   .then(filterURL => {
     var filterType = ["main_frame", "sub_frame"];
@@ -179,9 +179,9 @@ function watchListRequestHandler(details) {
 
 function csBootstrap() {
   var bootstrapSrc =
-  " \
+  ` \
     if (!window.mveloBootstrap) { \
-      var hosts = " + JSON.stringify(frameHosts) + "; \
+      var hosts = ${JSON.stringify(frameHosts)}; \
       var match = !hosts.length || hosts.some(function(host) { \
         return host === document.location.host; \
       }); \
@@ -192,6 +192,6 @@ function csBootstrap() {
         window.mveloBootstrap = true; \
       } \
     } \
-  ";
+  `;
   return bootstrapSrc;
 }

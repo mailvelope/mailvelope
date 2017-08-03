@@ -33,7 +33,7 @@ var mvelo = mvelo || null;
   function init() {
     var qs = jQuery.parseQuerystring();
     id = qs.id;
-    name = 'dPopup-' + id;
+    name = `dPopup-${id}`;
     // open port to background page
     port = mvelo.extension.connect({name});
     port.onMessage.addListener(messageListener);
@@ -70,7 +70,7 @@ var mvelo = mvelo || null;
 
   function addDecryptComponent() {
     decryptComponent = $('<iframe/>', {
-      src: '../decrypt-inline/decryptInline.html?id=' + id,
+      src: `../decrypt-inline/decryptInline.html?id=${id}`,
       css: {
         position: 'absolute',
         top: "0px",
@@ -86,7 +86,7 @@ var mvelo = mvelo || null;
   function addPwdDialog(id) {
     pwd = $('<iframe/>', {
       id: 'pwdDialog',
-      src: '../enter-password/pwdDialog.html?id=' + id,
+      src: `../enter-password/pwdDialog.html?id=${id}`,
       frameBorder: 0
     });
     $('body').append(pwd);

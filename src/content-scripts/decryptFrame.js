@@ -17,7 +17,7 @@ export default class DecryptFrame extends ExtractFrame {
     this._dDialog = null;
     // decrypt popup active
     this._dPopup = false;
-    this._ctrlName = 'dFrame-' + this.id;
+    this._ctrlName = `dFrame-${this.id}`;
     this._typeRegex = /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/;
   }
 
@@ -38,16 +38,16 @@ export default class DecryptFrame extends ExtractFrame {
 
   _inlineDialog() {
     this._dDialog = $('<iframe/>', {
-      id: 'dDialog-' + this.id,
+      id: `dDialog-${this.id}`,
       'class': 'm-frame-dialog',
       frameBorder: 0,
       scrolling: 'no'
     });
     var url;
     if (mvelo.crx) {
-      url = mvelo.extension.getURL('components/decrypt-inline/decryptInline.html?id=' + this.id);
+      url = mvelo.extension.getURL(`components/decrypt-inline/decryptInline.html?id=${this.id}`);
     } else if (mvelo.ffa) {
-      url = 'about:blank?mvelo=decryptInline&id=' + this.id;
+      url = `about:blank?mvelo=decryptInline&id=${this.id}`;
     }
     this._dDialog.attr('src', url);
     this._eFrame.append(this._dDialog);

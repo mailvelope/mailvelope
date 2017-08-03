@@ -157,7 +157,7 @@ function previewSecurityBgnd() {
   $('#previewArea').css({
     'backgroundColor': secBackground.color,
     'backgroundPosition': '-20px -20px',
-    'backgroundImage': 'url(data:image/svg+xml;base64,' + btoa(secBgndIcon) + ')'
+    'backgroundImage': `url(data:image/svg+xml;base64,${btoa(secBgndIcon)})`
   });
 }
 

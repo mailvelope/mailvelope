@@ -105,7 +105,7 @@ function migrateStorage() {
 
 function initOpenPGP() {
   openpgp.config.commentstring = 'https://www.mailvelope.com';
-  openpgp.config.versionstring = 'Mailvelope v' + defaults.getVersion();
+  openpgp.config.versionstring = `Mailvelope v${defaults.getVersion()}`;
   if (mvelo.crx) {
     openpgp.initWorker('dep/openpgp.worker.js');
   } else if (mvelo.ffa) {
@@ -166,7 +166,7 @@ export function readMessage({armoredText, binaryString, keyringId}) {
       result.keyid = encryptionKeyIds[0].toHex();
       var message = l10n("message_no_keys", [result.keyid.toUpperCase()]);
       for (var i = 1; i < encryptionKeyIds.length; i++) {
-        message = message + ' ' + l10n("word_or") + ' ' + encryptionKeyIds[i].toHex().toUpperCase();
+        message = `${message} ${l10n("word_or")} ${encryptionKeyIds[i].toHex().toUpperCase()}`;
       }
       return reject({
         code: 'NO_KEY_FOUND',
@@ -377,7 +377,7 @@ export function createPrivateKeyBackup(primaryKey, keyPwd) {
   var packetList = new openpgp.packet.List();
   var literal = new openpgp.packet.Literal();
   var text = 'Version: 1\n';
-  text += 'Pwd: ' + keyPwd + '\n';
+  text += `Pwd: ${keyPwd}\n`;
   literal.setText(text);
   packetList.push(literal);
   packetList.concat(primaryKey.toPacketlist());
@@ -501,7 +501,7 @@ function convertChangeLog(key, changeLog, syncData) {
   var fingerprint = key.primaryKey.getFingerprint();
   var logEntry = changeLog[fingerprint];
   if (!logEntry) {
-    console.log('Key ' + fingerprint + ' in keyring but not in changeLog.');
+    console.log(`Key ${fingerprint} in keyring but not in changeLog.`);
     return;
   }
   if (logEntry.type === keyringSync.INSERT) {
@@ -510,7 +510,7 @@ function convertChangeLog(key, changeLog, syncData) {
       time: logEntry.time
     };
   } else if (logEntry.type === keyringSync.DELETE) {
-    console.log('Key ' + fingerprint + ' in keyring but has DELETE in changeLog.');
+    console.log(`Key ${fingerprint} in keyring but has DELETE in changeLog.`);
   } else {
     console.log('Invalid changeLog type:', logEntry.type);
   }

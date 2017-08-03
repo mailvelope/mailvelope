@@ -41,7 +41,7 @@ if (self.options.expose_messaging) {
   function sendMessage(message, response) {
     //console.log('message adapter: sendMessage', message.event);
     if (response !== undefined) {
-      message.response = 'resp' + eventIndex++;
+      message.response = `resp${eventIndex++}`;
       self.port.once(message.response, response);
     }
     self.port.emit('message-event', message);
@@ -82,7 +82,7 @@ if (self.options.expose_messaging) {
   }
 
   function addPortListener(obj, listener) {
-    var eventName = 'port-message' + '.' + obj.name;
+    var eventName = `${'port-message' + '.'}${obj.name}`;
     self.port.on(eventName, listener);
     obj.events[eventName] = listener;
   }
@@ -102,7 +102,7 @@ if (self.options.expose_messaging) {
   }
 
   function localizeHTML(l10n, idSelector) {
-    var selector = idSelector ? idSelector + ' [data-l10n-id]' : '[data-l10n-id]';
+    var selector = idSelector ? `${idSelector} [data-l10n-id]` : '[data-l10n-id]';
     if (l10n) {
       [].forEach.call(document.querySelectorAll(selector), element => {
         element.textContent = l10n[element.dataset.l10nId] || element.dataset.l10nId;

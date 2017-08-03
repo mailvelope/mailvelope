@@ -188,7 +188,7 @@ function onCsAttach(worker) {
   var pageHidden = false;
   worker.port.on('port-message', controller.portManager.handlePortMessage);
   worker.port.on('connect', portName => {
-    var eventName = 'port-message' + '.' + portName;
+    var eventName = `${'port-message' + '.'}${portName}`;
     var port = {
       name: portName,
       postMessage(message) {

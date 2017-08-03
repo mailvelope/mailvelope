@@ -17,7 +17,7 @@ export default class VerifyFrame extends ExtractFrame {
     this._vDialog = null;
     // verify popup active
     this._vPopup = false;
-    this._ctrlName = 'vFrame-' + this.id;
+    this._ctrlName = `vFrame-${this.id}`;
     this._typeRegex = /-----BEGIN PGP SIGNED MESSAGE-----[\s\S]+?-----END PGP SIGNATURE-----/;
     this._pgpStartRegex = /BEGIN\sPGP\sSIGNED/;
     this._sigHeight = 128;
@@ -58,16 +58,16 @@ export default class VerifyFrame extends ExtractFrame {
 
   _inlineDialog() {
     this._vDialog = $('<iframe/>', {
-      id: 'vDialog-' + this.id,
+      id: `vDialog-${this.id}`,
       'class': 'm-frame-dialog',
       frameBorder: 0,
       scrolling: 'no'
     });
     var url;
     if (mvelo.crx) {
-      url = mvelo.extension.getURL('components/verify-inline/verifyInline.html?id=' + this.id);
+      url = mvelo.extension.getURL(`components/verify-inline/verifyInline.html?id=${this.id}`);
     } else if (mvelo.ffa) {
-      url = 'about:blank?mvelo=verifyInline&id=' + this.id;
+      url = `about:blank?mvelo=verifyInline&id=${this.id}`;
     }
     this._vDialog.attr('src', url);
     this._eFrame.append(this._vDialog);

@@ -88,21 +88,21 @@ export default class PrivateKeyController extends sub.SubController {
 
       switch (that.host) {
         case 'web.de':
-          page += '.1und1.html?brand=webde' + '&id=' + that.id;
+          page += `${'.1und1.html?brand=webde' + '&id='}${that.id}`;
           break;
         case 'gmx.net':
         case 'gmx.com':
         case 'gmx.co.uk':
         case 'gmx.fr':
         case 'gmx.es':
-          page += '.1und1.html?brand=gmx' + '&id=' + that.id;
+          page += `${'.1und1.html?brand=gmx' + '&id='}${that.id}`;
           break;
         default:
-          page += '.html' + '?id=' + that.id;
+          page += `${'.html' + '?id='}${that.id}`;
           break;
       }
 
-      var path = 'components/recovery-sheet/' + page;
+      var path = `components/recovery-sheet/${page}`;
       mvelo.windows.openPopup(path, {width: 1024, height: 550, modal: false}, window => {
         that.backupCodePopup = window;
       });

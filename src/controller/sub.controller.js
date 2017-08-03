@@ -96,7 +96,7 @@ factory.get = function(type, port) {
     }
     return subContr;
   } else {
-    throw new Error('No controller found for view type: ' + type);
+    throw new Error(`No controller found for view type: ${type}`);
   }
 };
 

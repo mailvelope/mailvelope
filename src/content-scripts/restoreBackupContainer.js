@@ -20,7 +20,7 @@ export default class RestoreBackupContainer {
     this.keyringId = keyringId;
     this.options = options;
     this.id = mvelo.util.getHash();
-    this.name = 'restoreBackupCont-' + this.id;
+    this.name = `restoreBackupCont-${this.id}`;
     this.port = mvelo.extension.connect({name: this.name});
     this.registerEventListener();
     this.parent = null;
@@ -50,9 +50,9 @@ export default class RestoreBackupContainer {
     });
 
     if (mvelo.crx) {
-      url = mvelo.extension.getURL('components/restore-backup/restoreBackupDialog.html?id=' + this.id);
+      url = mvelo.extension.getURL(`components/restore-backup/restoreBackupDialog.html?id=${this.id}`);
     } else if (mvelo.ffa) {
-      url = 'about:blank?mvelo=restoreBackup&id=' + this.id;
+      url = `about:blank?mvelo=restoreBackup&id=${this.id}`;
     }
 
     this.container.setAttribute('src', url);

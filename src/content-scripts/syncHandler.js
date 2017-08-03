@@ -17,7 +17,7 @@ export default class SyncHandler {
   constructor(keyringId) {
     this.keyringId = keyringId;
     this.id = mvelo.util.getHash();
-    this.name = 'syncHandler-' + this.id;
+    this.name = `syncHandler-${this.id}`;
     this.port = mvelo.extension.connect({name: this.name});
     this.registerEventListener();
 

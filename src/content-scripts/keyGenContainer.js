@@ -20,7 +20,7 @@ export default class KeyGenContainer {
     this.keyringId = keyringId;
     this.options = options;
     this.id = mvelo.util.getHash();
-    this.name = 'keyGenCont-' + this.id;
+    this.name = `keyGenCont-${this.id}`;
     this.port = mvelo.extension.connect({name: this.name});
     this.registerEventListener();
     this.parent = null;
@@ -42,9 +42,9 @@ export default class KeyGenContainer {
 
     let url;
     if (mvelo.crx) {
-      url = mvelo.extension.getURL('components/generate-key/keyGenDialog.html?id=' + this.id);
+      url = mvelo.extension.getURL(`components/generate-key/keyGenDialog.html?id=${this.id}`);
     } else if (mvelo.ffa) {
-      url = mvelo.extension.getURL('components/generate-key/keyGenDialog.html?id=' + this.id, mvelo.ffa);
+      url = mvelo.extension.getURL(`components/generate-key/keyGenDialog.html?id=${this.id}`, mvelo.ffa);
     }
 
     this.container.setAttribute('src', url);

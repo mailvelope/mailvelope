@@ -45,7 +45,7 @@ $.fn.showAlert = function(heading, message, type, keep) {
   }
   var row = $('<div/>').appendTo(this);
   if (heading) {
-    heading = heading + ' ';
+    heading = `${heading} `;
     $('<strong/>').appendTo(row).text(heading);
   }
   if (typeof message === 'string') {
@@ -54,7 +54,7 @@ $.fn.showAlert = function(heading, message, type, keep) {
     row.append(message);
   }
   row.attr('class', 'alert fade in');
-  row.addClass('alert-' + type);
+  row.addClass(`alert-${type}`);
   this.show();
   return this;
 };

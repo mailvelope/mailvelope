@@ -13,8 +13,8 @@ import PropTypes from 'prop-types';
  */
 export function Alert({header, message, type}) {
   return (
-    <div className={'alert fade in alert-' + type}>
-      {header && <strong>{header + ' '}</strong>}
+    <div className={`alert fade in alert-${type}`}>
+      {header && <strong>{`${header} `}</strong>}
       <span>{message}</span>
     </div>
   );

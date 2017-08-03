@@ -57,13 +57,13 @@ export default class WatchListEditor extends React.Component {
                 { this.props.site.frames.map((frame, index) =>
                   <tr key={index}>
                     <td>
-                      <OnOffSwitch checked={frame.scan} onChange={e => this.props.onChangeFrame({scan: e.target.checked}, index)} id={'frame_scan' + index} />
+                      <OnOffSwitch checked={frame.scan} onChange={e => this.props.onChangeFrame({scan: e.target.checked}, index)} id={`frame_scan${index}`} />
                     </td>
                     <td className="form-group">
                       <input type="text" value={frame.frame} onChange={e => this.props.onChangeFrame({frame: e.target.value}, index)} className="form-control matchPatternName" placeholder="e.g.: *.gmx.de" />
                     </td>
                     <td>
-                      <OnOffSwitch checked={frame.api} onChange={e => this.props.onChangeFrame({api: e.target.checked}, index)} id={'frame_api' + index} />
+                      <OnOffSwitch checked={frame.api} onChange={e => this.props.onChangeFrame({api: e.target.checked}, index)} id={`frame_api${index}`} />
                     </td>
                     <td className="text-center">
                       <button type="button" onClick={() => this.props.onDeleteMatchPattern(index)} className="btn btn-default deleteMatchPatternBtn">

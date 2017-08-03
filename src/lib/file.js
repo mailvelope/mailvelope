@@ -156,7 +156,7 @@ function getExtensionIcon(file) {
   var extClass = mvelo.util.getExtensionClass(fileExt);
 
   return $('<span/>', {
-    "class": 'attachmentExtension ' + extClass
+    "class": `attachmentExtension ${extClass}`
   }).text(fileExt);
 }
 

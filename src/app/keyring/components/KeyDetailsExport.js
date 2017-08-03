@@ -25,7 +25,7 @@ export default class KeyDetailsExport extends React.Component {
     this.state = {
       type: props.type,
       keys: [],
-      fileName: props.keyName.replace(/\s/g, '_') + '_' + props.type + '.asc'
+      fileName: `${props.keyName.replace(/\s/g, '_')}_${props.type}.asc`
     };
     keyring('getArmoredKeys', [props.keyids, {pub: true, priv: true, all: props.all}])
     .then(result => this.setState({keys: result}));
@@ -35,7 +35,7 @@ export default class KeyDetailsExport extends React.Component {
   }
 
   handleTypeChange(type) {
-    this.setState({type, fileName: this.props.keyName.replace(/\s/g, '_') + '_' + type + '.asc'});
+    this.setState({type, fileName: `${this.props.keyName.replace(/\s/g, '_')}_${type}.asc`});
   }
 
   handleFileNameChange(event) {

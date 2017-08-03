@@ -16,7 +16,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
     this._editElement = null;
     this._eFrame = null;
     this._port = null;
-    this._senderId = 'eFrame-' + this.id;
+    this._senderId = `eFrame-${this.id}`;
     this._refreshPosIntervalID = 0;
     this._emailTextElement = null;
     this._emailUndoText = null;
@@ -67,16 +67,16 @@ export default class EncryptFrame extends mvelo.EventHandler {
     // create frame
     var toolbar = '';
     if (this._options.closeBtn) {
-      toolbar = toolbar + '<a class="m-frame-close">×</a>';
+      toolbar = `${toolbar}<a class="m-frame-close">×</a>`;
     } else {
-      toolbar = toolbar + '<span class="m-frame-fill-right"></span>';
+      toolbar = `${toolbar}<span class="m-frame-fill-right"></span>`;
     }
-    toolbar = toolbar + '\
+    toolbar = `${toolbar}\
               <button id="undoBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-undo"></i></button> \
               <button id="editorBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-editor"></i></button> \
-              ';
+              `;
     this._eFrame = $('<div/>', {
-      id: 'eFrame-' + that.id,
+      id: `eFrame-${that.id}`,
       'class': 'm-encrypt-frame',
       html: toolbar
     });
@@ -161,14 +161,14 @@ export default class EncryptFrame extends mvelo.EventHandler {
   }
 
   _establishConnection() {
-    this._port = mvelo.extension.connect({name: 'eFrame-' + this.id});
+    this._port = mvelo.extension.connect({name: `eFrame-${this.id}`});
   }
 
   _html2text(html) {
     html = $('<div/>').html(html);
     // replace anchors
     html = html.find('a').replaceWith(function() {
-      return $(this).text() + ' (' + $(this).attr('href') + ')';
+      return `${$(this).text()} (${$(this).attr('href')})`;
     })
     .end()
     .html();
@@ -239,7 +239,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
     } else {
       // element is contenteditable or RTE
       if (type == 'text') {
-        msg = '<pre>' + msg + '<pre/>';
+        msg = `<pre>${msg}<pre/>`;
       }
       this._emailTextElement.html(msg);
     }

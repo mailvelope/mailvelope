@@ -34,7 +34,7 @@ var mvelo = mvelo || null;
     document.body.dataset.mvelo = true;
     var qs = jQuery.parseQuerystring();
     id = qs.id;
-    name = 'keyBackupDialog-' + id;
+    name = `keyBackupDialog-${id}`;
 
     port = mvelo.extension.connect({name});
     port.onMessage.addListener(messageListener);

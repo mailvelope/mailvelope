@@ -14,12 +14,12 @@ export default class OptionsContainer {
 
     this.email = '';
     if (options.email) {
-      this.email = '&email=' + encodeURIComponent(options.email);
+      this.email = `&email=${encodeURIComponent(options.email)}`;
     }
 
     this.fullName = '';
     if (options.fullName) {
-      this.fullName = '&fname=' + encodeURIComponent(options.fullName);
+      this.fullName = `&fname=${encodeURIComponent(options.fullName)}`;
     }
 
     this.hasPrivateKey = options.hasPrivateKey;
@@ -37,9 +37,9 @@ export default class OptionsContainer {
     var url;
     var options = `krid=${encodeURIComponent(this.keyringId)}${this.email}${this.fullName}#/keyring/${this.hasPrivateKey ? 'display' : 'setup'}`;
     if (mvelo.crx) {
-      url = mvelo.extension.getURL('app/app.html?' + options);
+      url = mvelo.extension.getURL(`app/app.html?${options}`);
     } else if (mvelo.ffa) {
-      url = 'about:blank?mvelo=options&' + options;
+      url = `about:blank?mvelo=options&${options}`;
     }
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);

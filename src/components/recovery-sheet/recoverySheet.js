@@ -31,7 +31,7 @@ var QRCode = QRCode || null;
   function init() {
     var qs = jQuery.parseQuerystring();
     id = qs.id;
-    name = 'backupCodeWindow-' + id;
+    name = `backupCodeWindow-${id}`;
     // open port to background page
     port = mvelo.extension.connect({name});
     port.onMessage.addListener(messageListener);

@@ -36,7 +36,7 @@ var mvelo = mvelo || null;
     }
     document.body.dataset.mvelo = true;
     var qs = jQuery.parseQuerystring();
-    id = 'vDialog-' + qs.id;
+    id = `vDialog-${qs.id}`;
     // open port to background page
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
@@ -94,9 +94,9 @@ var mvelo = mvelo || null;
     }).append(header);
     var style = $('<link/>', {
       rel: 'stylesheet',
-      href: basePath + 'dep/bootstrap/css/bootstrap.css'
+      href: `${basePath}dep/bootstrap/css/bootstrap.css`
     });
-    var style2 = style.clone().attr('href', basePath + 'components/verify-inline/verifyInlineSig.css');
+    var style2 = style.clone().attr('href', `${basePath}components/verify-inline/verifyInlineSig.css`);
     var meta = $('<meta/>', {charset: 'UTF-8'});
     sandbox.on('load', function() {
       $(this).contents().find('head').append(meta)
@@ -157,7 +157,7 @@ var mvelo = mvelo || null;
           var type, userid;
           var message = $('<span/>');
           var keyid = $('<span/>');
-          keyid.text('(' + l10n.dialog_keyid_label + ' ' + signer.keyid.toUpperCase() + ')');
+          keyid.text(`(${l10n.dialog_keyid_label} ${signer.keyid.toUpperCase()})`);
           if (signer.userid) {
             userid = $('<strong/>');
             userid.text(signer.userid);

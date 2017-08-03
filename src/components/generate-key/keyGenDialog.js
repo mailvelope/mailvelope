@@ -39,7 +39,7 @@ var mvelo = mvelo || null;
     document.body.dataset.mvelo = true;
     var qs = jQuery.parseQuerystring();
     id = qs.id;
-    name = 'keyGenDialog-' + id;
+    name = `keyGenDialog-${id}`;
 
     port = mvelo.extension.connect({name});
     port.onMessage.addListener(messageListener);
