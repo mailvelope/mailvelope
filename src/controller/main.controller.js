@@ -89,7 +89,6 @@ export function handleMessageEvent(request, sender, sendResponse) {
           reloadFrames(true);
         }
         specific.initScriptInjection();
-        sendResponse(true);
       });
       break;
     case 'init-script-injection':
@@ -105,8 +104,10 @@ export function handleMessageEvent(request, sender, sendResponse) {
       // return true for async calls, otherwise Chrome does not handle sendResponse
       return true;
     case 'set-keyring-attr':
-      keyring.setKeyringAttr(request.keyringId, request.keyringAttr);
-      break;
+      keyring.setKeyringAttr(request.keyringId, request.keyringAttr)
+      .then(() => sendResponse(true))
+      .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
+      return true;
     case 'get-active-keyring':
       sendResponse(sub.getActiveKeyringId());
       break;

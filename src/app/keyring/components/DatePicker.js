@@ -12,7 +12,7 @@ import './DatePicker.css';
 
 'use strict';
 
-export default class CustomInput extends React.Component {
+class CustomInput extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -43,7 +43,7 @@ CustomInput.propTypes = {
   disabled: PropTypes.bool
 };
 
-function DatePicker({value, onChange, placeholder, minDate, maxDate, disabled}) {
+export default function DatePicker({value, onChange, placeholder, minDate, maxDate, disabled}) {
   // ReactDatePicker maps placeholderText to placeholder prop of customInput
   return (
     <ReactDatePicker
