@@ -246,8 +246,8 @@ class App extends React.Component {
                 <NavLink to="/settings">{l10n.map.options_home}</NavLink>
               </ul>
               <ul className="nav navbar-nav navbar-right" role="menu" aria-label="primary menu">
-                <li role="menuitem"><a href="https://www.mailvelope.com/help" target="_blank" rel="noreferrer" tabIndex="0">{l10n.map.options_docu}</a></li>
-                <li role="menuitem"><a href="https://www.mailvelope.com/about" target="_blank" rel="noreferrer" tabIndex="0">{l10n.map.options_about}</a></li>
+                <li role="menuitem"><a href="https://www.mailvelope.com/help" target="_blank" rel="noreferrer noopener" tabIndex="0">{l10n.map.options_docu}</a></li>
+                <li role="menuitem"><a href="https://www.mailvelope.com/about" target="_blank" rel="noreferrer noopener" tabIndex="0">{l10n.map.options_about}</a></li>
               </ul>
             </div>
           </div>

@@ -38,6 +38,7 @@
     "no-implicit-globals": 2, // disallow var and named function declarations in the global scope
     "no-implied-eval": 2, // disallow the use of eval()-like methods
     "no-lone-blocks": 2, // disallow unnecessary nested blocks
+    "no-useless-escape": 0, // disallow unnecessary escape characters
     /* Stylistic Issues */
     "array-bracket-spacing": 1, // enforce consistent spacing inside array brackets
     "block-spacing": 1, // enforce consistent spacing inside single-line blocks

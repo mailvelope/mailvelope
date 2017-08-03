@@ -33,6 +33,7 @@ Alert.propTypes = {
 import {Route, Link} from 'react-router-dom';
 
 export function NavLink({to, children}) {
+  /* eslint-disable react/no-children-prop */
   return (
     <Route path={to} children={({match}) => (
       <li className={match ? 'active' : ''} role="menuitem">
@@ -40,6 +41,7 @@ export function NavLink({to, children}) {
       </li>
     )} />
   );
+  /* eslint-enable react/no-children-prop */
 }
 
 NavLink.propTypes = {

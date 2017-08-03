@@ -136,7 +136,7 @@ export default class GenerateKey extends React.Component {
             <div className="checkbox">
               <label className="checkbox" htmlFor="keyServerUpload">
                 <input checked={this.state.keyServerUpload} onChange={this.handleChange} type="checkbox" id="keyServerUpload" disabled={this.state.success} />
-                <span>{l10n.map.key_gen_upload}</span>. <a href="https://keys.mailvelope.com" target="_blank" rel="noreferrer">{l10n.map.learn_more_link}</a>
+                <span>{l10n.map.key_gen_upload}</span>. <a href="https://keys.mailvelope.com" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a>
               </label>
             </div>
           </div>

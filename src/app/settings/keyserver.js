@@ -144,7 +144,7 @@ export default class KeyServer extends React.Component {
           <div className="checkbox">
             <label className="checkbox" htmlFor="keyserverTOFULookup">
               <input type="checkbox" name="mvelo_tofu_lookup" checked={this.state.mvelo_tofu_lookup} onChange={this.handleCheck} id="keyserverTOFULookup" />
-              <span>{l10n.map.keyserver_tofu_lookup}</span>. <a href="https://keys.mailvelope.com" target="_blank" rel="noreferrer">{l10n.map.learn_more_link}</a>
+              <span>{l10n.map.keyserver_tofu_lookup}</span>. <a href="https://keys.mailvelope.com" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a>
             </label>
           </div>
         </div>
