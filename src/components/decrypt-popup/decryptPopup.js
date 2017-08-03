@@ -45,7 +45,7 @@ var mvelo = mvelo || null;
     mvelo.l10n.localizeHTML();
     if (mvelo.ffa) {
       // doc.execCommand('copy') not working on Firefox
-      $('#copyBtn').hide()
+      $('#copyBtn').hide();
     }
   }
 

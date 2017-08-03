@@ -67,7 +67,7 @@ export function ProviderLogo({logo}) {
       backgroundImage: 'none'
     };
   }
-  return <div className="third-party-logo" style={style}></div>
+  return <div className="third-party-logo" style={style}></div>;
 }
 
 ProviderLogo.propTypes = {

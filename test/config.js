@@ -34,7 +34,7 @@ window.chrome.runtime.connect = function() {
     },
     postMessage: function() {}
   };
-}
+};
 
 window.chrome.i18n = {
   getMessage: function() {

@@ -11,7 +11,7 @@ $.extend({
     } else {
       qs = window.location.href.split('?')[1];
       if (window.location.hash) {
-        qs = window.location.href.split(window.location.hash)[0]
+        qs = window.location.href.split(window.location.hash)[0];
       }
     }
     if (qs !== undefined) {

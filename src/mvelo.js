@@ -470,10 +470,10 @@ mvelo.util.sequential = (process, list) => {
       return process(item).then((processResult) => {
         result.push(...processResult);
         return result;
-      })
+      });
     });
   }, Promise.resolve([]));
-}
+};
 
 /**
  * Validate an email address.

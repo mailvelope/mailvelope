@@ -160,7 +160,7 @@ GenerateKey.propTypes = {
   name: PropTypes.string,
   email: PropTypes.string,
   onKeyringChange: PropTypes.func
-}
+};
 
 GenerateKey.defaultProps = {
   name: '',

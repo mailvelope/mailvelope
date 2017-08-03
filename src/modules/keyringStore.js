@@ -36,7 +36,7 @@ class KeyringStore {
     return mvelo.storage.get(`mvelo.keyring.${this.id}.publicKeys`)
     .then(pubArmored => this.loadKeys(pubArmored, this.publicKeys))
     .then(() => mvelo.storage.get(`mvelo.keyring.${this.id}.privateKeys`))
-    .then(privArmored => this.loadKeys(privArmored, this.privateKeys))
+    .then(privArmored => this.loadKeys(privArmored, this.privateKeys));
   }
 
   loadKeys(keysArmored, keyArray) {

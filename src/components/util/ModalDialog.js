@@ -62,6 +62,6 @@ ModalDialog.propTypes = {
   onOk: PropTypes.func,
   onCancel: PropTypes.func,
   hide: PropTypes.bool
-}
+};
 
 export default ModalDialog;

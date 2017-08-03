@@ -107,7 +107,7 @@ let recipientInputProps = {
   recipients: [],
   onChangeEncryptStatus: status => renderModalFooter(status),
   onLookupKeyOnServer: recipient => port.emit('keyserver-lookup', {recipient})
-}
+};
 
 // register language strings
 l10n.register([

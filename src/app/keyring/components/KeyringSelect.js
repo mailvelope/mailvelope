@@ -42,7 +42,7 @@ export default class KeyringSelect extends React.Component {
                     <a onClick={() => this.props.onDelete(keyringId, keyringName)} className="btn btn-link pull-right flex-item deleteKeyRing"><span className="glyphicon glyphicon-trash"></span></a>
                   }
                 </li>
-              )
+              );
             })
           }
         </ul>

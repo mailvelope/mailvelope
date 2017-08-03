@@ -66,4 +66,4 @@ export default class KeySearch extends React.Component {
 
 KeySearch.propTypes = {
   prefs: PropTypes.object
-}
+};

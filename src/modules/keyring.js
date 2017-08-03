@@ -100,7 +100,7 @@ export function deleteKeyring(keyringId) {
     keyringMap.delete(keyringId);
     delete keyringAttr[keyringId];
     return mvelo.storage.set('mvelo.keyring.attributes', keyringAttr);
-  })
+  });
 }
 
 export function getById(keyringId) {
@@ -641,7 +641,7 @@ export class Keyring {
           return '<' + userId.email + '>';
         }
       });
-      return openpgp.generateKeyPair({numBits: parseInt(options.numBits), userId: options.userIds, passphrase: options.passphrase, keyExpirationTime: options.keyExpirationTime})
+      return openpgp.generateKeyPair({numBits: parseInt(options.numBits), userId: options.userIds, passphrase: options.passphrase, keyExpirationTime: options.keyExpirationTime});
     })
     .then(data => {
       newKey = data;
@@ -659,7 +659,7 @@ export class Keyring {
     .then(() => {
       // upload public key
       if (options.uploadPublicKey) {
-        return keyServer.upload({publicKeyArmored: newKey.publicKeyArmored})
+        return keyServer.upload({publicKeyArmored: newKey.publicKeyArmored});
       }
     })
     .then(() => newKey);

@@ -163,4 +163,4 @@ export default class KeyServer extends React.Component {
 KeyServer.propTypes = {
   prefs: PropTypes.object,
   onChangePrefs: PropTypes.func.isRequired
-}
+};

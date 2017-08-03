@@ -56,7 +56,8 @@
     "space-in-parens": ["warn", "never"], // enforce consistent spacing inside parentheses
     "space-infix-ops": 1, // require spacing around operators
     "object-curly-spacing": ["warn", "never"],
-    "indent": ["warn", 2, {"MemberExpression": 0, "SwitchCase": 1}]
+    "indent": ["warn", 2, {"MemberExpression": 0, "SwitchCase": 1}],
+    "semi": ["warn", "always"]
   }
 
 }

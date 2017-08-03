@@ -52,4 +52,4 @@ export default class AdvancedExpand extends React.Component {
 
 AdvancedExpand.propTypes = {
   children: PropTypes.node.isRequired
-}
+};

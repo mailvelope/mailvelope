@@ -118,9 +118,9 @@ export function handleMessageEvent(request, sender, sendResponse) {
       Promise.resolve()
       .then(() => {
         if (request.keyringId === mvelo.LOCAL_KEYRING_ID) {
-          throw new Error('Cannot delete main keyring')
+          throw new Error('Cannot delete main keyring');
         }
-        return keyring.deleteKeyring(request.keyringId)
+        return keyring.deleteKeyring(request.keyringId);
       })
       .then(() => {
         sub.setActiveKeyringId(mvelo.LOCAL_KEYRING_ID);

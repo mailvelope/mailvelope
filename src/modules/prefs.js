@@ -42,7 +42,7 @@ export function update(obj) {
       fn();
     });
     return setPreferences(prefs);
-  })
+  });
 }
 
 /**

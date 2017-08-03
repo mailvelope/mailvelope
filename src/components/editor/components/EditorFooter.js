@@ -76,6 +76,6 @@ EditorFooter.propTypes = {
   onClickUpload: PropTypes.func, // click on upload button
   onChangeFileInput: PropTypes.func, // file input change event triggered
   onClickFileEncryption: PropTypes.func // click on navigation link
-}
+};
 
 export default EditorFooter;

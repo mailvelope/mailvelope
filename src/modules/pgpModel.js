@@ -144,7 +144,7 @@ export function readMessage({armoredText, binaryString, keyringId}) {
       try {
         let packetList = new openpgp.packet.List();
         packetList.read(binaryString);
-        result.message = new openpgp.message.Message(packetList)
+        result.message = new openpgp.message.Message(packetList);
       } catch (e) {
         console.log('Error parsing binary file', e);
         return reject({

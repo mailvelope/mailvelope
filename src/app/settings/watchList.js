@@ -230,4 +230,4 @@ export default class WatchList extends React.Component {
 
 WatchList.propTypes = {
   location: PropTypes.object
-}
+};

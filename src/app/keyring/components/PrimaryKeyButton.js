@@ -35,7 +35,7 @@ export default class PrimaryKeyButton extends React.Component {
 
   render() {
     if (this.props.isPrimary) {
-      return <button type="button" className="btn btn-warning" disabled="true">{l10n.map.keygrid_primary_label}</button>
+      return <button type="button" className="btn btn-warning" disabled="true">{l10n.map.keygrid_primary_label}</button>;
     } else {
       const buttonText = (
         <div>

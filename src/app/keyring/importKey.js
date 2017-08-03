@@ -129,7 +129,7 @@ export default class ImportKey extends React.Component {
         }
         this.setState({alert});
         return result;
-      })
+      });
     })
     .catch(error => {
       alert.push({header: l10n.map.key_import_error, message: error.type === 'error' ? error.message : l10n.map.key_import_exception, type: 'danger'});
@@ -180,4 +180,4 @@ ImportKey.propTypes = {
   onKeyringChange: PropTypes.func,
   prefs: PropTypes.object,
   location: PropTypes.object
-}
+};

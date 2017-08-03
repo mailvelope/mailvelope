@@ -224,7 +224,7 @@ export default class EncryptFile extends React.Component {
 
 EncryptFile.propTypes = {
   match: PropTypes.object
-}
+};
 
 function init() {
   addEncryptInteractivity();

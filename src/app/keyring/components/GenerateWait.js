@@ -55,4 +55,4 @@ export default class GenerateWait extends React.Component {
 
 GenerateWait.propTypes = {
   onShow: PropTypes.func
-}
+};

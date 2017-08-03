@@ -41,22 +41,22 @@ describe('Key server settings unit tests', function() {
 
   describe('handleCheck', () => {
     it('should set state', () => {
-      sinon.stub(keyserver, 'setState')
+      sinon.stub(keyserver, 'setState');
       keyserver.handleCheck({target: {name: 'test', checked: true}});
-      expect(keyserver.setState.withArgs({test: true, modified: true}).calledOnce).to.be.true
+      expect(keyserver.setState.withArgs({test: true, modified: true}).calledOnce).to.be.true;
     });
   });
 
   describe('handleServerChange', () => {
     it('should set state', () => {
-      sinon.stub(keyserver, 'setState')
+      sinon.stub(keyserver, 'setState');
       keyserver.handleServerChange({value: 'https://keyserver.ubuntu.com'});
       expect(keyserver.setState.withArgs({
         hkp_base_url: 'https://keyserver.ubuntu.com',
         modified: true,
         valid_base_url: true,
         alert: null
-      }).calledOnce).to.be.true
+      }).calledOnce).to.be.true;
     });
   });
 

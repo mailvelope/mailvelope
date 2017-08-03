@@ -207,7 +207,7 @@ class Outlook {
     .then(({personaCard, addedNode}) => {
       // hide persona popup
       $(addedNode).hide();
-      return dom.getText($(personaCard).find('span'))
+      return dom.getText($(personaCard).find('span'));
     })
     .catch(() => []);
   }

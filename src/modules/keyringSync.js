@@ -57,7 +57,7 @@ export class KeyringSync {
         return;
       }
       return setKeyringAttr(this.keyringId, {[this.SYNC_DATA]: this.data});
-    })
+    });
   }
 
   commit() {
