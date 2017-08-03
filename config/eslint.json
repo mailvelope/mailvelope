@@ -60,7 +60,9 @@
     "semi": ["warn", "always"], // require or disallow semicolons instead of ASI
     /* ES6 */
     "arrow-body-style": 1,
-    "arrow-parens": ["warn", "as-needed"]
+    "arrow-parens": ["warn", "as-needed"],
+    "arrow-spacing": 1,
+    "no-useless-constructor": 1
   }
 
 }

@@ -65,10 +65,6 @@ l10n.register([
 ]);
 
 export default class EncryptFile extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     init();
   }

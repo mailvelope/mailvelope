@@ -21,10 +21,6 @@ l10n.register([
 ]);
 
 export default class General extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     init();
   }

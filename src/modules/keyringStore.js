@@ -15,10 +15,6 @@ export function createKeyringStore(keyringId) {
 }
 
 class Keyring extends openpgp.Keyring {
-  constructor(storeHandler) {
-    super(storeHandler);
-  }
-
   store() {
     return this.storeHandler.storePublic()
     .then(() => this.storeHandler.storePrivate());

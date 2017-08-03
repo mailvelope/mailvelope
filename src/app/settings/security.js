@@ -35,10 +35,6 @@ l10n.register([
 ]);
 
 export default class Security extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     init();
   }

@@ -19,10 +19,6 @@ l10n.register([
 ]);
 
 class EditorModalFooter extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   signSelection() {
     return (
       <form className="sign-msg-option well">

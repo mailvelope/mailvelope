@@ -15,10 +15,6 @@ l10n.register([
 ]);
 
 export default class PrimaryKeyButton extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     this.initTooltip();
   }

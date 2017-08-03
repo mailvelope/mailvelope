@@ -23,10 +23,6 @@ l10n.register([
 ]);
 
 export default class KeyringSetup extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div>

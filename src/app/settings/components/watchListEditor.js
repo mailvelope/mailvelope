@@ -25,10 +25,6 @@ l10n.register([
 ]);
 
 export default class WatchListEditor extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <ModalDialog title={l10n.map.watchlist_record_title} onHide={this.props.onHide} hide={this.props.hide} footer={

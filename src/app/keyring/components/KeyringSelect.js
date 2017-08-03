@@ -13,10 +13,6 @@ import './KeyringSelect.css';
 
 
 export default class KeyringSelect extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   getKeyringName(keyringId) {
     if (keyringId === mvelo.LOCAL_KEYRING_ID) {
       return 'Mailvelope';

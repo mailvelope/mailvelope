@@ -18,10 +18,6 @@ l10n.register([
 ]);
 
 export default class GenerateWait extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     $('#genKeyWait').one('show.bs.modal', this.props.onShow);
     $('#genKeyWait').modal({backdrop: 'static', keyboard: false});
