@@ -59,7 +59,8 @@
     "indent": ["warn", 2, {"MemberExpression": 0, "SwitchCase": 1}], // enforce consistent indentation
     "semi": ["warn", "always"], // require or disallow semicolons instead of ASI
     /* ES6 */
-    "arrow-body-style": 1
+    "arrow-body-style": 1,
+    "arrow-parens": ["warn", "as-needed"]
   }
 
 }

@@ -105,7 +105,7 @@ export default class GenerateKey extends React.Component {
       // refresh keygrid
       this.props.onKeyringChange();
     })
-    .catch((error) => {
+    .catch(error => {
       this.setState({
         alert: {header: l10n.map.key_gen_error, message: error.message || '', type: 'danger'}
       });

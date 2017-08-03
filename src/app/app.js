@@ -194,7 +194,7 @@ class App extends React.Component {
   }
 
   initMessageListener() {
-    mvelo.extension.onMessage.addListener((request) => {
+    mvelo.extension.onMessage.addListener(request => {
       switch (request.event) {
         case 'reload-options':
           document.location.reload();

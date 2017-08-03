@@ -246,7 +246,7 @@ var dom = {};
  * @return {Array}             The recipient objects in fhe form { email: 'jon@example.com' }
  */
 dom.getText = function(elements) {
-  return parseEmail(elements, (element) => {
+  return parseEmail(elements, element => {
     // consider only direct text nodes of elements
     var clone = element.clone();
     clone.children().remove();
@@ -261,7 +261,7 @@ dom.getText = function(elements) {
  * @return {Array}             The recipient objects in fhe form { email: 'jon@example.com' }
  */
 dom.getAttr = function(elements, attrName) {
-  return parseEmail(elements, (element) => element.attr(attrName));
+  return parseEmail(elements, element => element.attr(attrName));
 };
 
 /**
@@ -279,7 +279,7 @@ dom.setFocus = function(element) {
 
 dom.waitTick = () => new Promise(resolve => setTimeout(resolve, 0));
 
-dom.focusClick = (element) => dom.setFocus(element).then(() => element.click());
+dom.focusClick = element => dom.setFocus(element).then(() => element.click());
 
 /**
  * Extract emails from list of elements

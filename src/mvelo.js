@@ -467,8 +467,8 @@ mvelo.util.PromiseQueue = class {
 /* eslint-disable arrow-body-style */
 mvelo.util.sequential = (process, list) => {
   return list.reduce((acc, item) => {
-    return acc.then((result) => {
-      return process(item).then((processResult) => {
+    return acc.then(result => {
+      return process(item).then(processResult => {
         result.push(...processResult);
         return result;
       });

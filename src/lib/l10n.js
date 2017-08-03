@@ -11,7 +11,7 @@ function register(ids) {
 
 function mapToLocal() {
   return new Promise(function(resolve) {
-    mvelo.l10n.getMessages(Object.keys(map), (localized) => {
+    mvelo.l10n.getMessages(Object.keys(map), localized => {
       map = localized;
       resolve();
     });
