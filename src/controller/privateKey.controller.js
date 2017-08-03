@@ -43,19 +43,19 @@ export default class PrivateKeyController extends sub.SubController {
       userIds: options.userIds,
       numBits: options.keySize,
       passphrase: password
-    }).then(function(data) {
+    }).then(data => {
       that.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: data.publicKeyArmored});
       if (prefs.security.password_cache) {
         pwdCache.set({key: data.key}, password);
       }
       if (options.confirmRequired) {
         that.newKeyId = data.key.primaryKey.keyid.toHex();
-        that.rejectTimer = mvelo.util.setTimeout(function() {
+        that.rejectTimer = mvelo.util.setTimeout(() => {
           that.rejectKey(that.newKeyId);
           that.rejectTimer = 0;
         }, 10000); // trigger timeout after 10s
       }
-    }).catch(function(err) {
+    }).catch(err => {
       that.ports.keyGenCont.postMessage({event: 'generate-done', error: err});
     });
   }
@@ -78,14 +78,12 @@ export default class PrivateKeyController extends sub.SubController {
     primaryKey.keyringId = this.keyringId;
     // get password from cache or ask user
     this.pwdControl.unlockKey(primaryKey)
-    .then(function(primaryKey) {
+    .then(primaryKey => {
       sync.triggerSync(primaryKey);
       that.keyBackup = createPrivateKeyBackup(primaryKey.key, primaryKey.password);
     })
-    .then(function() {
-      return sync.getByKeyring(that.keyringId).backup({backup: that.keyBackup.message});
-    })
-    .then(function() {
+    .then(() => sync.getByKeyring(that.keyringId).backup({backup: that.keyBackup.message}))
+    .then(() => {
       var page = 'recoverySheet';
 
       switch (that.host) {
@@ -105,11 +103,11 @@ export default class PrivateKeyController extends sub.SubController {
       }
 
       var path = 'components/recovery-sheet/' + page;
-      mvelo.windows.openPopup(path, {width: 1024, height: 550, modal: false}, function(window) {
+      mvelo.windows.openPopup(path, {width: 1024, height: 550, modal: false}, window => {
         that.backupCodePopup = window;
       });
     })
-    .catch(function(err) {
+    .catch(err => {
       that.ports.keyBackupDialog.postMessage({event: 'error-message', error: err});
     });
   }

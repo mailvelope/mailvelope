@@ -43,7 +43,7 @@ var mvelo = mvelo || null;
 
     $('body').addClass("secureBackground");
 
-    mvelo.appendTpl($('body'), mvelo.extension.getURL('components/restore-backup/restoreBackup.html')).then(function() {
+    mvelo.appendTpl($('body'), mvelo.extension.getURL('components/restore-backup/restoreBackup.html')).then(() => {
       $secureBgndButton = $('.secureBgndSettingsBtn');
       $restoreBackupPanel = $('#restoreBackupPanel');
       $restoreBackupButton = $('#restoreBackupBtn');
@@ -54,14 +54,14 @@ var mvelo = mvelo || null;
       mvelo.l10n.getMessages([
         'wrong_restore_code',
         'key_recovery_failed'
-      ], function(result) {
+      ], result => {
         l10n = result;
       });
 
       mvelo.l10n.localizeHTML();
       mvelo.util.showSecurityBackground(true);
 
-      $secureBgndButton.on('click', function() {
+      $secureBgndButton.on('click', () => {
         port.postMessage({event: 'open-security-settings', sender: name});
       });
 
@@ -95,7 +95,7 @@ var mvelo = mvelo || null;
 
         $('#errorMsg').empty().hide();
       })
-      .on('blur', function() {
+      .on('blur', () => {
         if (isCodeValid()) {
           $restoreBackupButton.removeAttr('disabled');
         } else {
@@ -104,11 +104,11 @@ var mvelo = mvelo || null;
         $('#errorMsg').empty().hide();
       });
 
-      $restoreBackupButton.on('click', function() {
+      $restoreBackupButton.on('click', () => {
         logUserInput('security_log_backup_restore');
         var code = '';
 
-        $('.flex-digit').each(function(idx, ele) {
+        $('.flex-digit').each((idx, ele) => {
           code += $(ele).val();
         });
 
@@ -127,7 +127,7 @@ var mvelo = mvelo || null;
 
         $(this).attr('disabled', true);
 
-        setTimeout(function() {
+        setTimeout(() => {
           $restorePasswordInput.attr('type', 'password');
           $restorePasswordButton.removeAttr('disabled');
         }, 5000);
@@ -154,7 +154,7 @@ var mvelo = mvelo || null;
   function showPassword(pwd) {
     $restorePasswordInput.val(pwd);
 
-    $restoreBackupPanel.fadeOut('fast', function() {
+    $restoreBackupPanel.fadeOut('fast', () => {
       $restorePasswordPanel.fadeIn('fast');
     });
   }

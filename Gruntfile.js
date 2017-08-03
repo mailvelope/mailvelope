@@ -411,7 +411,7 @@ module.exports = function(grunt) {
 
   // distribution
   grunt.registerTask('dist-cr', ['compress:chrome']);
-  grunt.registerTask('dist-crx', function() {
+  grunt.registerTask('dist-crx', () => {
     grunt.util.spawn({cmd: '.travis/crxmake.sh', args: ['build/chrome', '.travis/crx_signing.pem'], opts: {stdio: 'ignore'}});
   });
   grunt.registerTask('dist-ff', ['jpm:xpi', 'copy:xpi']);
@@ -436,7 +436,7 @@ module.exports = function(grunt) {
   grunt.registerTask('webpack', function() {
     var done = this.async();
     // , '--display-modules'
-    grunt.util.spawn({cmd: process.argv[0], args: ['./node_modules/webpack/bin/webpack.js', '--config=config/webpack.' + this.args[0] + '.js'], opts: {stdio: 'inherit'}}, function(error, result) {
+    grunt.util.spawn({cmd: process.argv[0], args: ['./node_modules/webpack/bin/webpack.js', '--config=config/webpack.' + this.args[0] + '.js'], opts: {stdio: 'inherit'}}, (error, result) => {
       done(result.code !== 1);
     });
   });

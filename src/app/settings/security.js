@@ -115,7 +115,7 @@ var secBackground;
 function init() {
   loadPrefs();
   $('#secReloadInfo').hide();
-  $('#security input').on('input change', function() {
+  $('#security input').on('input change', () => {
     $('#security .form-group button').prop('disabled', false);
     $('#secReloadInfo').hide();
   });
@@ -123,9 +123,7 @@ function init() {
   $('#secBtnSave').click(onSave);
   $('#secBtnCancel').click(onCancel);
   // https://bugzilla.mozilla.org/show_bug.cgi?id=213519
-  $('#pwdCacheTime').click(function() {
-    return false;
-  });
+  $('#pwdCacheTime').click(() => false);
   $('#scaling').on("input", previewSecurityBgnd);
   $('#angle').on("input", previewSecurityBgnd);
   $('#whitespace').on("input", previewSecurityBgnd);
@@ -134,7 +132,7 @@ function init() {
 }
 
 function getSecurityBgndConfig() {
-  mvelo.extension.sendMessage({event: "get-security-background"}, function(background) {
+  mvelo.extension.sendMessage({event: "get-security-background"}, background => {
     secBackground = background;
     $("#angle").val(background.angle);
     $("#scaling").val(background.scaling * 10);
@@ -191,7 +189,7 @@ function onSave() {
         password_timeout: $('#pwdCacheTime').val()
       }
     };
-  mvelo.extension.sendMessage({event: 'set-prefs', data: update}, function() {
+  mvelo.extension.sendMessage({event: 'set-prefs', data: update}, () => {
     normalize();
     $('#secReloadInfo').show();
     mvelo.util.showSecurityBackground();
@@ -232,7 +230,7 @@ function onCancel() {
 
 function loadPrefs() {
   pgpModel('getPreferences')
-  .then(function(prefs) {
+  .then(prefs => {
     $('input:radio[name="decryptRadios"]').filter(function() {
       return $(this).val() === prefs.security.display_decrypted;
     }).prop('checked', true);

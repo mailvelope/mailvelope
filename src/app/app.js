@@ -382,8 +382,8 @@ export function getAppDataSlot() {
 }
 
 function sendMessage(options) {
-  return new Promise(function(resolve, reject) {
-    mvelo.extension.sendMessage(options, function(data) {
+  return new Promise((resolve, reject) => {
+    mvelo.extension.sendMessage(options, data => {
       data = data || {};
       if (data.error) {
         reject(data.error);

@@ -46,7 +46,7 @@ var mvelo = mvelo || null;
 
     $('body').addClass("secureBackground");
 
-    mvelo.appendTpl($('body'), mvelo.extension.getURL('components/generate-key/keyGen.html')).then(function() {
+    mvelo.appendTpl($('body'), mvelo.extension.getURL('components/generate-key/keyGen.html')).then(() => {
       $secureBgndButton = $('.secureBgndSettingsBtn');
       $pwdInput = $('#keygen-password');
       $pwdParent = $('#pwd-form-group');
@@ -60,7 +60,7 @@ var mvelo = mvelo || null;
       // Get language strings from JSON
       mvelo.l10n.getMessages([
         'keygen_dialog_password_placeholder'
-      ], function(result) {
+      ], result => {
         l10n = result;
         $pwdInput.attr('placeholder', l10n.keygen_dialog_password_placeholder);
       });
@@ -69,19 +69,19 @@ var mvelo = mvelo || null;
       mvelo.util.showSecurityBackground(true);
 
       $secureBgndButton
-      .on('click', function() {
+      .on('click', () => {
         port.postMessage({event: 'open-security-settings', sender: name});
       });
 
       $pwdInput
-      .on('input paste', function() {
+      .on('input paste', () => {
         logUserInput('security_log_password_input');
         checkPwdInput();
       })
       .focus();
 
       $confirmInput
-      .on('input paste', function() {
+      .on('input paste', () => {
         logUserInput('security_log_password_input');
         checkConfirmInput();
         checkInputsEqual();
@@ -110,7 +110,7 @@ var mvelo = mvelo || null;
       logUserInput('security_log_password_input');
       // limit textarea log to 1 event per second
       isInputChange = false;
-      window.setTimeout(function() {
+      window.setTimeout(() => {
         isInputChange = true;
       }, 1000);
     }
@@ -139,28 +139,28 @@ var mvelo = mvelo || null;
     var maxLength = parseInt($pwdInput.data('lengthMin'));
 
     if (!$pwdInput.val().length || !$confirmInput.val().length) {
-      $confirmSuccess.fadeOut(100, function() {
+      $confirmSuccess.fadeOut(100, () => {
         $confirmErrorNoEqual.fadeOut(100);
       });
       return false;
     }
 
     if (!result) {
-      $confirmSuccess.fadeOut(100, function() {
+      $confirmSuccess.fadeOut(100, () => {
         $confirmErrorNoEqual.fadeIn(100);
       });
       return false;
     }
 
     if ($pwdInput.val().length < maxLength) {
-      $confirmSuccess.fadeOut(100, function() {
+      $confirmSuccess.fadeOut(100, () => {
         $confirmErrorNoEqual.fadeIn(100);
       });
       return false;
     }
 
     $confirmParent.removeClass('has-error');
-    $confirmErrorNoEqual.fadeOut(100, function() {
+    $confirmErrorNoEqual.fadeOut(100, () => {
       $confirmSuccess.fadeIn(100);
     });
     return true;
@@ -177,7 +177,7 @@ var mvelo = mvelo || null;
     if (isInputChange) {
       // limit textarea log to 1 event per second
       isInputChange = false;
-      window.setTimeout(function() {
+      window.setTimeout(() => {
         isInputChange = true;
       }, 1000);
     }
@@ -212,13 +212,13 @@ var mvelo = mvelo || null;
   }
 
   function showPasswordPanel() {
-    $keyGenWaitingPanel.fadeOut('fast', function() {
+    $keyGenWaitingPanel.fadeOut('fast', () => {
       $keyGenPasswordPanel.fadeIn('fast');
     });
   }
 
   function showWaitingPanel() {
-    $keyGenPasswordPanel.fadeOut('fast', function() {
+    $keyGenPasswordPanel.fadeOut('fast', () => {
       $keyGenWaitingPanel.fadeIn('fast');
     });
   }

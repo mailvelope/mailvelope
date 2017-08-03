@@ -93,7 +93,7 @@ export default class ExtractFrame {
   }
 
   _closeFrame(finalClose) {
-    this._eFrame.fadeOut(function() {
+    this._eFrame.fadeOut(() => {
       window.clearInterval(this._refreshPosIntervalID);
       $(window).off('resize');
       this._eFrame.remove();
@@ -104,7 +104,7 @@ export default class ExtractFrame {
         this._pgpEnd.data(mvelo.FRAME_STATUS, mvelo.FRAME_DETACHED);
       }
       this._pgpEnd.data(mvelo.FRAME_OBJ, null);
-    }.bind(this));
+    });
     return false;
   }
 
@@ -154,14 +154,14 @@ export default class ExtractFrame {
 
   _registerEventListener() {
     var that = this;
-    this._port.onMessage.addListener(function(msg) {
+    this._port.onMessage.addListener(msg => {
       switch (msg.event) {
         case 'destroy':
           that._closeFrame(true);
           break;
       }
     });
-    this._port.onDisconnect.addListener(function() {
+    this._port.onDisconnect.addListener(() => {
       that._closeFrame(false);
     });
   }

@@ -63,7 +63,8 @@
     "arrow-parens": ["warn", "as-needed"],
     "arrow-spacing": 1,
     "no-useless-constructor": 1,
-    "object-shorthand": ["warn", "always", {"avoidQuotes": true}]
+    "object-shorthand": ["warn", "always", {"avoidQuotes": true}],
+    "prefer-arrow-callback": ["warn", {"allowNamedFunctions": true}]
   }
 
 }

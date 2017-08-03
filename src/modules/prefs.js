@@ -38,7 +38,7 @@ export function update(obj) {
       prefs.main_active = obj.main_active;
     }
     // notifiy update handlers
-    updateHandlers.forEach(function(fn) {
+    updateHandlers.forEach(fn => {
       fn();
     });
     return setPreferences(prefs);

@@ -52,7 +52,7 @@ var mvelo = mvelo || null;
     $(window).on('resize', resizeFont);
     addErrorView();
     // show spinner
-    spinnerTimer = window.setTimeout(function() {
+    spinnerTimer = window.setTimeout(() => {
       showSpinner();
     }, 600);
     mvelo.l10n.getMessages([
@@ -61,7 +61,7 @@ var mvelo = mvelo || null;
       'verify_result_error',
       'alert_header_error',
       'dialog_keyid_label'
-    ], function(result) {
+    ], result => {
       l10n = result;
     });
     mvelo.l10n.localizeHTML();
@@ -135,7 +135,7 @@ var mvelo = mvelo || null;
     $('#errorbox').show();
     $('#errorwell').showAlert(l10n.alert_header_error, msg, 'danger')
     .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
-    .find('button').click(function() {
+    .find('button').click(() => {
       port.postMessage({event: 'verify-dialog-cancel', sender: id});
     });
   }
@@ -153,7 +153,7 @@ var mvelo = mvelo || null;
         var message = msg.message.replace(/\n/g, '<br>');
         var node = $('#verifymail').contents();
         var header = node.find('header');
-        msg.signers.forEach(function(signer) {
+        msg.signers.forEach(signer => {
           var type, userid;
           var message = $('<span/>');
           var keyid = $('<span/>');

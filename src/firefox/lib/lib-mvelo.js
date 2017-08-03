@@ -43,7 +43,7 @@ mvelo.data.url = function(path) {
 };
 
 mvelo.data.load = function(path) {
-  return new Promise(function(resolve) {
+  return new Promise(resolve => {
     resolve(data.load(path));
   });
 };
@@ -59,9 +59,7 @@ mvelo.tabs.getActive = function(callback) {
 mvelo.tabs.attach = function(tab, options, callback) {
   var lopt = {};
   if (options) {
-    lopt.contentScriptFile = options.contentScriptFile && options.contentScriptFile.map(function(file) {
-      return data.url(file);
-    });
+    lopt.contentScriptFile = options.contentScriptFile && options.contentScriptFile.map(file => data.url(file));
     lopt.contentScript = options.contentScript;
     lopt.contentScriptOptions = options.contentScriptOptions;
   }
@@ -315,7 +313,7 @@ mvelo.util.getWorker = function() {
 
 mvelo.util.fetch = function(url, options) {
   options = options || {};
-  return new Promise(function(resolve) {
+  return new Promise(resolve => {
     var fetchRequ = request({
       url,
       content: options.body,

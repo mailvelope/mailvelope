@@ -49,7 +49,7 @@ export default class PwdController extends SubController {
         break;
       case 'pwd-dialog-ok':
         unlockKey(this.options.key, this.options.keyid, msg.password)
-        .then(function(key) {
+        .then(key => {
           // password correct
           that.options.key = key;
           that.options.password = msg.password;
@@ -66,7 +66,7 @@ export default class PwdController extends SubController {
           that.closePopup();
           that.resolve(that.options);
         })
-        .catch(function(err) {
+        .catch(err => {
           if (err.message == 'Wrong password') {
             that.ports.pwdDialog.postMessage({event: 'wrong-password'});
           } else {
@@ -119,11 +119,11 @@ export default class PwdController extends SubController {
     }
     var cacheEntry = pwdCache.get(this.options.key.primaryKey.getKeyId().toHex(), this.options.keyid);
     if (cacheEntry && !options.noCache) {
-      return new Promise(function(resolve) {
+      return new Promise(resolve => {
         that.options.password = cacheEntry.password;
         if (!cacheEntry.key) {
           pwdCache.unlock(that.options)
-          .then(function() {
+          .then(() => {
             resolve(that.options);
           });
         } else {
@@ -132,7 +132,7 @@ export default class PwdController extends SubController {
         }
       });
     } else {
-      return new Promise(function(resolve, reject) {
+      return new Promise((resolve, reject) => {
         if (that.keyIsDecrypted(that.options) && !options.noCache) {
           // secret-key data is not encrypted, nothing to do
           return resolve(that.options);
@@ -140,7 +140,7 @@ export default class PwdController extends SubController {
         if (that.options.password) {
           // secret-key data is encrypted, but we have password
           return unlockKey(that.options.key, that.options.keyid, that.options.password)
-          .then(function(key) {
+          .then(key => {
             that.options.key = key;
             resolve(that.options);
           });
@@ -149,7 +149,7 @@ export default class PwdController extends SubController {
           that.options.beforePasswordRequest();
         }
         if (that.options.openPopup) {
-          mvelo.windows.openPopup('components/enter-password/pwdDialog.html?id=' + that.id, {width: 470, height: 445, modal: false}, function(window) {
+          mvelo.windows.openPopup('components/enter-password/pwdDialog.html?id=' + that.id, {width: 470, height: 445, modal: false}, window => {
             that.pwdPopup = window;
           });
         }

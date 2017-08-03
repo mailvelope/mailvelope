@@ -49,9 +49,7 @@
    * @throws {Error} error.code = 'NO_KEYRING_FOR_ID'
    */
   Mailvelope.prototype.getKeyring = function(identifier) {
-    return postMessage('get-keyring', {identifier}).then(function(options) {
-      return new Keyring(identifier, options);
-    });
+    return postMessage('get-keyring', {identifier}).then(options => new Keyring(identifier, options));
   };
 
   /**
@@ -66,9 +64,7 @@
    * });
    */
   Mailvelope.prototype.createKeyring = function(identifier) {
-    return postMessage('create-keyring', {identifier}).then(function(options) {
-      return new Keyring(identifier, options);
-    });
+    return postMessage('create-keyring', {identifier}).then(options => new Keyring(identifier, options));
   };
 
   var checkTypeKeyring = function(keyring) {
@@ -119,7 +115,7 @@
     } catch (e) {
       return Promise.reject(e);
     }
-    return postMessage('display-container', {selector, armored, identifier: keyring.identifier, options}).then(function(display) {
+    return postMessage('display-container', {selector, armored, identifier: keyring.identifier, options}).then(display => {
       if (display && display.error) {
         display.error = mapError(display.error);
       }
@@ -166,9 +162,7 @@
     } catch (e) {
       return Promise.reject(e);
     }
-    return postMessage('editor-container', {selector, identifier: keyring.identifier, options}).then(function(editorId) {
-      return new Editor(editorId);
-    });
+    return postMessage('editor-container', {selector, identifier: keyring.identifier, options}).then(editorId => new Editor(editorId));
   };
 
   /**
@@ -231,10 +225,10 @@
    * });
    */
   Keyring.prototype.validKeyForAddress = function(recipients) {
-    return postMessage('query-valid-key', {identifier: this.identifier, recipients}).then(function(keyMap) {
+    return postMessage('query-valid-key', {identifier: this.identifier, recipients}).then(keyMap => {
       for (var address in keyMap) {
         if (keyMap[address]) {
-          keyMap[address].keys.forEach(function(key) {
+          keyMap[address].keys.forEach(key => {
             key.lastModified = new Date(key.lastModified);
           });
         }
@@ -290,7 +284,7 @@
    */
   Keyring.prototype.setLogo = function(dataURL, revision) {
     var that = this;
-    return postMessage('set-logo', {identifier: this.identifier, dataURL, revision}).then(function() {
+    return postMessage('set-logo', {identifier: this.identifier, dataURL, revision}).then(() => {
       that.logoRev = revision;
     });
   };
@@ -316,9 +310,7 @@
    * @throws {Error} error.code = 'INPUT_NOT_VALID'
    */
   Keyring.prototype.createKeyGenContainer = function(selector, options) {
-    return postMessage('key-gen-container', {selector, identifier: this.identifier, options}).then(function(generatorId) {
-      return new Generator(generatorId);
-    });
+    return postMessage('key-gen-container', {selector, identifier: this.identifier, options}).then(generatorId => new Generator(generatorId));
   };
 
   /**
@@ -333,9 +325,7 @@
    * @returns {Promise.<KeyBackupPopup, Error>}
    */
   Keyring.prototype.createKeyBackupContainer = function(selector, options) {
-    return postMessage('key-backup-container', {selector, identifier: this.identifier, options}).then(function(popupId) {
-      return new KeyBackupPopup(popupId);
-    });
+    return postMessage('key-backup-container', {selector, identifier: this.identifier, options}).then(popupId => new KeyBackupPopup(popupId));
   };
 
   /**
@@ -350,9 +340,7 @@
    * @returns {Promise.<undefined, Error>}
    */
   Keyring.prototype.restoreBackupContainer = function(selector, options) {
-    return postMessage('restore-backup-container', {selector, identifier: this.identifier, options}).then(function(restoreId) {
-      return new RestoreBackup(restoreId);
-    });
+    return postMessage('restore-backup-container', {selector, identifier: this.identifier, options}).then(restoreId => new RestoreBackup(restoreId));
   };
 
   /**
@@ -361,9 +349,7 @@
    * @returns {Promise.<boolean, Error>}
    */
   Keyring.prototype.hasPrivateKey = function(fingerprint) {
-    return postMessage('has-private-key', {identifier: this.identifier, fingerprint}).then(function(result) {
-      return result;
-    });
+    return postMessage('has-private-key', {identifier: this.identifier, fingerprint}).then(result => result);
   };
 
   /**
@@ -427,7 +413,7 @@
     if (typeof syncHandlerObj.uploadSync !== typeof syncHandlerObj.downloadSync) {
       return Promise.reject(new Error('uploadSync and downloadSync Handler cannot be set exclusively.'));
     }
-    return postMessage('add-sync-handler', {identifier: this.identifier}).then(function(syncHandlerId) {
+    return postMessage('add-sync-handler', {identifier: this.identifier}).then(syncHandlerId => {
       if (syncHandler) {
         syncHandler.update(syncHandlerObj);
       } else {
@@ -483,11 +469,11 @@
    */
   Generator.prototype.generate = function(confirm) {
     var that = this;
-    return postMessage('generator-generate', {generatorId: this.generatorId, confirmRequired: Boolean(confirm)}).then(function(armored) {
+    return postMessage('generator-generate', {generatorId: this.generatorId, confirmRequired: Boolean(confirm)}).then(armored => {
       if (confirm) {
-        confirm.then(function() {
+        confirm.then(() => {
           postMessage('generator-generate-confirm', {generatorId: that.generatorId});
-        }).catch(function(e) {
+        }).catch(e => {
           postMessage('generator-generate-reject', {generatorId: that.generatorId, error: e});
         });
       }
@@ -589,10 +575,10 @@
       return;
     }
     handler(msg.data.data)
-    .then(function(result) {
+    .then(result => {
       postMessage('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: msg.data.type, syncData: result, id: msg.data.id}, true);
     })
-    .catch(function(error) {
+    .catch(error => {
       if (!error) {
         error = new Error('Unknown Error');
       }
@@ -658,7 +644,7 @@
       error.code = 'NO_CONNECTION';
       throw error;
     }
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       var message = {
         event: eventName,
         mvelo_client: true,
@@ -688,7 +674,7 @@
   window.addEventListener('message', eventListener);
   window.addEventListener('mailvelope-disconnect', disconnectListener);
 
-  window.setTimeout(function() {
+  window.setTimeout(() => {
     window.dispatchEvent(new CustomEvent('mailvelope', {detail: window.mailvelope}));
   }, 1);
 

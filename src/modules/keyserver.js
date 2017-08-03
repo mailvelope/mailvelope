@@ -41,7 +41,7 @@ export default class KeyServer {
    */
   lookup(options) {
     return this._mvelo.util.fetch(this._url(options))
-    .then(function(response) {
+    .then(response => {
       if (response.status === 200) {
         return response.json();
       }

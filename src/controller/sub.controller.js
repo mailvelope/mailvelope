@@ -38,7 +38,7 @@ export class SubController extends mvelo.EventHandler {
       delete this.ports[view.type];
     } else {
       var that = this;
-      Object.keys(this.ports).forEach(function(type) {
+      Object.keys(this.ports).forEach(type => {
         if (that.ports[type].ref === port) {
           delete that.ports[type];
         }
@@ -49,7 +49,7 @@ export class SubController extends mvelo.EventHandler {
 
   openSecuritySettings() {
     var hash = '#/settings/security';
-    mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
+    mvelo.tabs.loadOptionsTab(hash, (old, tab) => {
       if (old) {
         mvelo.tabs.sendMessage(tab, {
           event: 'reload-options',

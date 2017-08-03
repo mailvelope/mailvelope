@@ -45,7 +45,7 @@ var mvelo = mvelo || null;
     $('#showlog').hide();
     $('.popup')
     .off()
-    .on('click', 'a', function() {
+    .on('click', 'a', () => {
       if (mvelo.crx) {
         hide();
       } else {
@@ -82,7 +82,7 @@ var mvelo = mvelo || null;
 
     $('#state')
     .off()
-    .on('click', function() {
+    .on('click', () => {
       var msg;
       if (activeState) {
         msg = {event: 'deactivate'};
@@ -100,7 +100,7 @@ var mvelo = mvelo || null;
 
   function hide() {
     if (crx) {
-      $(document.body).fadeOut(function() {
+      $(document.body).fadeOut(() => {
         window.close();
       });
     }
@@ -134,7 +134,7 @@ var mvelo = mvelo || null;
         if (!msg.secLog || msg.secLog.length === 0) {
           $('#activityLog').append(logEmptyTmpl);
         }
-        msg.secLog.reverse().forEach(function(entry) {
+        msg.secLog.reverse().forEach(entry => {
           $('#showlog').show();
           if (cnt < 3) {
             logEntry = $.parseHTML(logEntryTmpl);

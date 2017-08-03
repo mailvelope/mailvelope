@@ -41,7 +41,7 @@ var mvelo = mvelo || null;
 
     var $body = $('body').empty().addClass("secureBackground");
 
-    mvelo.appendTpl($body, mvelo.extension.getURL('components/key-backup/keybackup.html')).then(function() {
+    mvelo.appendTpl($body, mvelo.extension.getURL('components/key-backup/keybackup.html')).then(() => {
       $keyBackupGenerator = $('#key_backup_generator');
       $keyBackupWaiting = $('#key_backup_waiting').hide();
       $secureBgndButton = $('.secureBgndSettingsBtn');
@@ -60,18 +60,18 @@ var mvelo = mvelo || null;
         'keybackup_restore_dialog_list_2',
         'keybackup_restore_dialog_button',
         'keybackup_failed'
-      ], function(result) {
+      ], result => {
         l10n = result;
       });
 
       mvelo.l10n.localizeHTML();
       mvelo.util.showSecurityBackground(true);
 
-      $secureBgndButton.on('click', function() {
+      $secureBgndButton.on('click', () => {
         port.postMessage({event: 'open-security-settings', sender: name});
       });
 
-      $createBackupCodeBtn.on('click', function() {
+      $createBackupCodeBtn.on('click', () => {
         logUserInput('security_log_backup_create');
         showWaitingDialog();
       });
@@ -81,9 +81,9 @@ var mvelo = mvelo || null;
   }
 
   function showWaitingDialog() {
-    $keyBackupGenerator.fadeOut('fast', function() {
-      $keyBackupWaiting.fadeIn('fast', function() {
-        window.setTimeout(function() {
+    $keyBackupGenerator.fadeOut('fast', () => {
+      $keyBackupWaiting.fadeIn('fast', () => {
+        window.setTimeout(() => {
           port.postMessage({event: 'create-backup-code-window', sender: name});
         }, 3000); // 3sec
       });
@@ -91,7 +91,7 @@ var mvelo = mvelo || null;
   }
 
   function showKeyBackupGenerator() {
-    $keyBackupWaiting.fadeOut('fast', function() {
+    $keyBackupWaiting.fadeOut('fast', () => {
       $keyBackupGenerator.fadeIn('fast');
     });
   }

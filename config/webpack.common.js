@@ -4,7 +4,7 @@ var webpack = require('webpack');
 function plugins(env) {
   return [
     function() {
-      this.plugin('done', function(stats) {
+      this.plugin('done', stats => {
         if (stats.compilation.errors && stats.compilation.errors.length && process.argv.indexOf('--watch') == -1) {
           process.exitCode = 1;
         }

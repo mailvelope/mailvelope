@@ -52,7 +52,7 @@ init();
 
 function initConnectionManager() {
   // store incoming connections by name and id
-  chrome.runtime.onConnect.addListener(function(port) {
+  chrome.runtime.onConnect.addListener(port => {
     //console.log('ConnectionManager: onConnect:', port);
     controller.portManager.addPort(port);
     port.onMessage.addListener(controller.portManager.handlePortMessage);
@@ -63,7 +63,7 @@ function initConnectionManager() {
 
 function initMessageListener() {
   chrome.runtime.onMessage.addListener(
-    function(request, sender, sendResponse) {
+    (request, sender, sendResponse) => {
       switch (request.event) {
         // for content scripts requesting code
         case 'get-cs':
@@ -93,7 +93,7 @@ function onContextMenuEncrypt(info) {
 */
 function loadContentCode() {
   if (injectOptimized && csCode === '') {
-    return mvelo.data.load('content-scripts/cs-mailvelope.js').then(function(csmSrc) {
+    return mvelo.data.load('content-scripts/cs-mailvelope.js').then(csmSrc => {
       csCode = csmSrc;
     });
   }
@@ -103,7 +103,7 @@ function loadContentCode() {
 function loadFramestyles() {
   // load framestyles and replace path
   if (framestyles === '') {
-    return mvelo.data.load('content-scripts/framestyles.css').then(function(data) {
+    return mvelo.data.load('content-scripts/framestyles.css').then(data => {
       framestyles = data;
       var token = /\.\.\//g;
       framestyles = framestyles.replace(token, chrome.runtime.getURL(''));
@@ -132,18 +132,18 @@ function initScriptInjection() {
 }
 
 function injectOpenTabs(filterURL) {
-  return new Promise(function(resolve) {
+  return new Promise((resolve => {
     // query open tabs
-    mvelo.tabs.query(filterURL, function(tabs) {
-      tabs.forEach(function(tab) {
+    mvelo.tabs.query(filterURL, tabs => {
+      tabs.forEach(tab => {
         //console.log('tab', tab);
-        chrome.tabs.executeScript(tab.id, {code: csBootstrap(), allFrames: true}, function() {
+        chrome.tabs.executeScript(tab.id, {code: csBootstrap(), allFrames: true}, () => {
           chrome.tabs.insertCSS(tab.id, {code: framestyles, allFrames: true});
         });
       });
       resolve(filterURL);
     });
-  });
+  }));
 }
 
 function watchListRequestHandler(details) {
@@ -153,17 +153,17 @@ function watchListRequestHandler(details) {
   // store frame URL
   frameHosts.push(mvelo.util.getHost(details.url));
   if (injectOpen || details.type === "main_frame") {
-    setTimeout(function() {
+    setTimeout(() => {
       if (frameHosts.length === 0) {
         // no requests since last inject
         return;
       }
       if (injectOptimized) {
-        chrome.tabs.executeScript(details.tabId, {code: csBootstrap(), allFrames: true}, function() {
+        chrome.tabs.executeScript(details.tabId, {code: csBootstrap(), allFrames: true}, () => {
           chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
         });
       } else {
-        chrome.tabs.executeScript(details.tabId, {file: "content-scripts/cs-mailvelope.js", allFrames: true}, function() {
+        chrome.tabs.executeScript(details.tabId, {file: "content-scripts/cs-mailvelope.js", allFrames: true}, () => {
           chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
         });
       }

@@ -207,13 +207,11 @@ function methodEvent(thisArg, request, sendResponse) {
     request.args = [request.args];
   }
   return Promise.resolve()
-  .then(function() {
-    return thisArg[request.method].apply(thisArg, request.args);
-  })
-  .then(function(result) {
+  .then(() => thisArg[request.method].apply(thisArg, request.args))
+  .then(result => {
     sendResponse({result});
   })
-  .catch(function(error) {
+  .catch(error => {
     console.log('error in method ' + request.method + ': ', error);
     sendResponse({error: mvelo.util.mapError(error)});
   });
@@ -224,7 +222,7 @@ function destroyNodes(subControllers) {
 }
 
 function postToNodes(subControllers, msg) {
-  subControllers.forEach(function(subContr) {
+  subControllers.forEach(subContr => {
     subContr.ports[subContr.mainType].postMessage(msg);
   });
 }
@@ -252,7 +250,7 @@ function addToWatchList() {
       }); \
     ";
 
-  mvelo.tabs.getActive(function(tab) {
+  mvelo.tabs.getActive(tab => {
     if (tab) {
       // reset scanned hosts buffer
       scannedHosts.length = 0;
@@ -263,7 +261,7 @@ function addToWatchList() {
       options.contentScript = scanScript;
       options.onMessage = handleMessageEvent;
       // inject scan script
-      mvelo.tabs.attach(tab, options, function() {
+      mvelo.tabs.attach(tab, options, () => {
         // wait for message from scan script
         mvelo.util.setTimeout(() => {
           if (scannedHosts.length === 0) {
@@ -301,7 +299,7 @@ export function onBrowserAction(action) {
 }
 
 function loadOptions(hash) {
-  mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
+  mvelo.tabs.loadOptionsTab(hash, (old, tab) => {
     if (old) {
       mvelo.tabs.sendMessage(tab, {
         event: 'reload-options',
@@ -313,7 +311,7 @@ function loadOptions(hash) {
 
 function reduceHosts(hosts) {
   var reduced = [];
-  hosts.forEach(function(element) {
+  hosts.forEach(element => {
     var labels = element.split('.');
     if (labels.length < 2) {
       return;
@@ -336,8 +334,8 @@ export function getWatchListFilterURLs() {
   return model.getWatchList()
   .then(watchList => {
     let result = [];
-    watchList.forEach(function(site) {
-      site.active && site.frames && site.frames.forEach(function(frame) {
+    watchList.forEach(site => {
+      site.active && site.frames && site.frames.forEach(frame => {
         frame.scan && result.push(frame.frame);
       });
     });

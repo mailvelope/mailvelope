@@ -49,7 +49,7 @@ webExtension.startup().then(api => {
         break;
       case 'get-l10n-messages':
         var result = {};
-        msg.ids.forEach(function(id) {
+        msg.ids.forEach(id => {
           result[id] = l10nGet(id);
         });
         sendReply(result);
@@ -187,7 +187,7 @@ function onCsAttach(worker) {
   //console.log("Attaching content scripts", worker.url);
   var pageHidden = false;
   worker.port.on('port-message', controller.portManager.handlePortMessage);
-  worker.port.on('connect', function(portName) {
+  worker.port.on('connect', portName => {
     var eventName = 'port-message' + '.' + portName;
     var port = {
       name: portName,
@@ -203,13 +203,13 @@ function onCsAttach(worker) {
     };
     controller.portManager.addPort(port);
   });
-  worker.port.on('disconnect', function(portName) {
+  worker.port.on('disconnect', portName => {
     controller.portManager.removePort({name: portName});
   });
-  worker.on('pagehide', function() {
+  worker.on('pagehide', () => {
     pageHidden = true;
   });
-  worker.on('detach', function() {
+  worker.on('detach', () => {
     controller.portManager.removePort(worker.port);
   });
   worker.port.on('message-event', function(msg) {
@@ -219,7 +219,7 @@ function onCsAttach(worker) {
       case 'get-l10n-messages':
         if (!pageHidden) { // otherwise exception
           result = {};
-          msg.ids.forEach(function(id) {
+          msg.ids.forEach(id => {
             result[id] = l10nGet(id);
           });
           that.emit(msg.response, result);
@@ -232,7 +232,7 @@ function onCsAttach(worker) {
         }
         break;
       default:
-        controller.handleMessageEvent(msg, null, function(respData) {
+        controller.handleMessageEvent(msg, null, respData => {
           if (!pageHidden) { // otherwise exception
             that.emit(msg.response, respData);
           }

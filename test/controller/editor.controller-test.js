@@ -5,11 +5,11 @@ import EditorController from '../../src/controller/editor.controller';
 import * as keyring from '../../src/modules/keyring';
 import * as prefs from '../../src/modules/prefs';
 
-describe('Editor controller unit tests', function() {
+describe('Editor controller unit tests', () => {
   var ctrl, port, preferences = prefs.prefs;
   var testRecipients;
 
-  beforeEach(function() {
+  beforeEach(() => {
     testRecipients = [{email: 'test@example.com'}];
     port = {name: 'foo', postMessage(opt) { ctrl.handlePortMessage(opt); }};
     ctrl = new EditorController(port);
@@ -18,21 +18,21 @@ describe('Editor controller unit tests', function() {
     prefs.prefs = Object.assign({}, preferences);
   });
 
-  afterEach(function() {
+  afterEach(() => {
     ctrl.emit.restore();
     prefs.prefs = preferences;
   });
 
-  describe('Check event handlers', function() {
-    it('should handle recipients', function() {
+  describe('Check event handlers', () => {
+    it('should handle recipients', () => {
       expect(ctrl._handlers.get('editor-init')).to.equal(ctrl._onEditorInit);
     });
   });
 
-  describe('lookupKeyOnServer', function() {
+  describe('lookupKeyOnServer', () => {
     var importKeysStub;
 
-    beforeEach(function() {
+    beforeEach(() => {
       sinon.stub(ctrl.keyserver, 'lookup');
       var keyRingMock = {
         importKeys() {},
@@ -42,69 +42,69 @@ describe('Editor controller unit tests', function() {
       sinon.stub(keyring, 'getById').returns(keyRingMock);
     });
 
-    afterEach(function() {
+    afterEach(() => {
       ctrl.keyserver.lookup.restore();
       keyring.getById.restore();
     });
 
-    it('should find a key', function() {
+    it('should find a key', () => {
       ctrl.keyserver.lookup.returns(Promise.resolve({publicKeyArmored: 'KEY BLOCK'}));
 
       return ctrl.lookupKeyOnServer({recipient: {email: 'a@b.co'}})
-      .then(function() {
+      .then(() => {
         expect(importKeysStub.calledOnce).to.be.true;
         expect(ctrl.emit.calledOnce).to.be.true;
       });
     });
 
-    it('should not find a key', function() {
+    it('should not find a key', () => {
       ctrl.keyserver.lookup.returns(Promise.resolve());
 
       return ctrl.lookupKeyOnServer({recipient: {email: 'a@b.co'}})
-      .then(function() {
+      .then(() => {
         expect(importKeysStub.calledOnce).to.be.false;
         expect(ctrl.emit.calledOnce).to.be.true;
       });
     });
   });
 
-  describe('displayRecipientProposal', function() {
-    beforeEach(function() {
+  describe('displayRecipientProposal', () => {
+    beforeEach(() => {
       sinon.stub(keyring, 'getById').returns({
         getKeyUserIDs() { return [{keyid: '0'}]; }
       });
       sinon.stub(ctrl.keyserver, 'getTOFUPreference').returns(true);
     });
 
-    afterEach(function() {
+    afterEach(() => {
       keyring.getById.restore();
       ctrl.keyserver.getTOFUPreference.restore();
     });
 
-    it('should handle empty recipients', function() {
+    it('should handle empty recipients', () => {
       ctrl.displayRecipientProposal([]);
       expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: [], tofu: true}).calledOnce).to.be.true;
     });
 
-    it('should handle undefined recipients', function() {
+    it('should handle undefined recipients', () => {
       ctrl.displayRecipientProposal();
       expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: [], tofu: true}).calledOnce).to.be.true;
     });
 
-    it('should handle recipients', function() {
+    it('should handle recipients', () => {
       ctrl.displayRecipientProposal(testRecipients);
       expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: testRecipients, tofu: true}).calledOnce).to.be.true;
     });
   });
 
-  describe('transferEncrypted', function() {
+  describe('transferEncrypted', () => {
 
-    beforeEach(function() {
+    beforeEach(() => {
       ctrl.encryptCallback = function() {};
       sinon.stub(ctrl, 'encryptCallback');
     });
 
-    it('should not transfer private key material', function() {
+    it('should not transfer private key material', () => {
       ctrl.transferEncrypted({
         armored: 'a',
         keys: [{name: 'n', email: 'e', private: 'p'}]
@@ -112,7 +112,7 @@ describe('Editor controller unit tests', function() {
       expect(ctrl.encryptCallback.withArgs(null, 'a', [{name: 'n', email: 'e'}]).calledOnce).to.be.true;
     });
 
-    it('should emit message to encrypt container', function() {
+    it('should emit message to encrypt container', () => {
       ctrl.ports = {editorCont: {}};
       ctrl.transferEncrypted({
         armored: 'a',
@@ -124,10 +124,10 @@ describe('Editor controller unit tests', function() {
 
   });
 
-  describe('signAndEncrypt', function() {
+  describe('signAndEncrypt', () => {
     var keys;
 
-    beforeEach(function() {
+    beforeEach(() => {
       keys = [{name: 'n', email: 'e', private: 'p'}];
       sinon.stub(ctrl, 'buildMail');
       sinon.stub(ctrl, 'getPublicKeyIds');
@@ -136,7 +136,7 @@ describe('Editor controller unit tests', function() {
       sinon.stub(ctrl, 'signMessage');
     });
 
-    afterEach(function() {
+    afterEach(() => {
       ctrl.buildMail.restore();
       ctrl.getPublicKeyIds.restore();
       ctrl.signAndEncryptMessage.restore();
@@ -144,19 +144,19 @@ describe('Editor controller unit tests', function() {
       ctrl.signMessage.restore();
     });
 
-    it('should encrypt', function() {
+    it('should encrypt', () => {
       ctrl.encryptMessage.returns(Promise.resolve('a'));
       return ctrl.signAndEncrypt({
         action: 'encrypt',
         message: 'm',
         keys
       })
-      .then(function(res) {
+      .then(res => {
         expect(res).to.equal('a');
       });
     });
 
-    it('should sign and encrypt', function() {
+    it('should sign and encrypt', () => {
       ctrl.signMsg = true;
       ctrl.signAndEncryptMessage.returns(Promise.resolve('a'));
       return ctrl.signAndEncrypt({
@@ -164,39 +164,39 @@ describe('Editor controller unit tests', function() {
         message: 'm',
         keys
       })
-      .then(function(res) {
+      .then(res => {
         expect(res).to.equal('a');
       });
     });
 
-    it('should sign', function() {
+    it('should sign', () => {
       ctrl.signMessage.returns(Promise.resolve('a'));
       return ctrl.signAndEncrypt({
         action: 'sign',
         message: 'm'
       })
-      .then(function(res) {
+      .then(res => {
         expect(res).to.equal('a');
       });
     });
 
-    it('should handle build MIME error', function(done) {
+    it('should handle build MIME error', done => {
       ctrl.buildMail.returns(null);
       ctrl.signAndEncrypt({
         action: 'encrypt',
         message: 'm'
       })
-      .catch(function(err) {
+      .catch(err => {
         expect(err.message).to.be.equal('MIME building failed.');
         done();
       });
     });
   });
 
-  describe('getPublicKeyIds', function() {
+  describe('getPublicKeyIds', () => {
     var keys = [{keyid: 'b'}, {keyid: 'b'}];
 
-    beforeEach(function() {
+    beforeEach(() => {
       sinon.stub(keyring, 'getById').returns({
         getAttributes() { return {primary_key: 'p'}; },
         getPrimaryKey: () => ({keyid: 'P'})
@@ -208,23 +208,23 @@ describe('Editor controller unit tests', function() {
       };
     });
 
-    afterEach(function() {
+    afterEach(() => {
       keyring.getById.restore();
     });
 
-    it('should return keybuffer', function() {
+    it('should return keybuffer', () => {
       ctrl.keyidBuffer = ['a', 'a'];
 
       expect(ctrl.getPublicKeyIds(keys)).to.deep.equal(['a']);
     });
 
-    it('should return key ids', function() {
+    it('should return key ids', () => {
       ctrl.keyidBuffer = undefined;
 
       expect(ctrl.getPublicKeyIds(keys)).to.deep.equal(['b']);
     });
 
-    it('should return key ids with primary', function() {
+    it('should return key ids with primary', () => {
       prefs.prefs = {
         general: {
           auto_add_primary: true

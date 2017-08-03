@@ -96,13 +96,13 @@ class Gmail {
     var editor = $('.aO7 .Am'); // editor
     input.val('');
     dom.setFocus(displayArea)
-    .then(function() {
+    .then(() => {
       tagRemove.click();
       // enter address text into input
       var text = joinEmail(recipients);
       input.first().val(text);
     })
-    .then(function() {
+    .then(() => {
       dom.setFocus(subject.is(':visible') ? subject : editor);
     });
   }
@@ -143,7 +143,7 @@ class Yahoo {
     input.val(text);
     // trigger change event by switching focus
     dom.setFocus(input)
-    .then(function() {
+    .then(() => {
       // set focus to subject field, or to compose area in the reply case
       dom.setFocus($('#subject-field').is(':visible') ? $('#subject-field') : $('.compose-message .cm-rtetext'));
     });
@@ -269,8 +269,8 @@ dom.getAttr = function(elements, attrName) {
  * @param  {jQuery} element jQuery element to set focus
  */
 dom.setFocus = function(element) {
-  return new Promise(function(resolve) {
-    setTimeout(function() {
+  return new Promise(resolve => {
+    setTimeout(() => {
       element.focus();
       resolve();
     }, 0);
@@ -304,11 +304,9 @@ function parseEmail(elements, extract) {
  * @return {Array}             The recipient objects in fhe form { email: 'jon@example.com' }
  */
 function toRecipients(addresses) {
-  return addresses.map(function(address) {
-    return {
-      email: address
-    };
-  });
+  return addresses.map(address => ({
+    email: address
+  }));
 }
 
 /**
@@ -317,5 +315,5 @@ function toRecipients(addresses) {
  * @return {String}           comma separated list of email addresses
  */
 function joinEmail(recipients) {
-  return recipients.map(function(r) { return r.email; }).join(', ');
+  return recipients.map(r => r.email).join(', ');
 }

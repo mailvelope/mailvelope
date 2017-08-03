@@ -58,7 +58,7 @@ var mvelo = mvelo || null;
       'decrypt_digital_signature_failure',
       'decrypt_digital_signature_null',
       'digital_signature_status_null_description'
-    ], function(result) {
+    ], result => {
       l10n = result;
     });
 
@@ -70,9 +70,9 @@ var mvelo = mvelo || null;
     mvelo.l10n.localizeHTML();
 
     mvelo.appendTpl($('body'), mvelo.extension.getURL('components/decrypt-inline/signature-modal.html'))
-    .then(function() {
+    .then(() => {
       mvelo.l10n.localizeHTML();
-      $('#signatureModal .close, #signatureModal .modal-footer button').on('click', function() {
+      $('#signatureModal .close, #signatureModal .modal-footer button').on('click', () => {
         logUserInput('security_log_signature_modal_close');
       });
     });
@@ -128,7 +128,7 @@ var mvelo = mvelo || null;
       'l10n-title-id': 'security_background_button_title'
     })
     .append($('<span/>', {class: 'glyphicon lockBtnIcon'}))
-    .on("click", function() {
+    .on("click", () => {
       port.postMessage({event: 'open-security-settings', sender: name});
     });
   }
@@ -201,7 +201,7 @@ var mvelo = mvelo || null;
     $('#errorbox').show();
     $('#errorwell').showAlert(l10n.alert_header_error || 'alert_error', msg, 'danger')
     .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
-    .find('button').click(function() {
+    .find('button').click(() => {
       port.postMessage({event: 'decrypt-dialog-cancel', sender: name});
     });
   }
@@ -242,7 +242,7 @@ var mvelo = mvelo || null;
     .append($extensionButton)
     .append($fileName);
 
-    $fileUI.on("click", function() {
+    $fileUI.on("click", () => {
       logUserInput('security_log_attachment_download');
     });
 
@@ -323,12 +323,8 @@ var mvelo = mvelo || null;
       return;
     }
 
-    var signersTrue = signers.filter(function(signer) {
-      return signer.valid === true;
-    });
-    var signersFalse = signers.filter(function(signer) {
-      return signer.valid === false;
-    });
+    var signersTrue = signers.filter(signer => signer.valid === true);
+    var signersFalse = signers.filter(signer => signer.valid === false);
 
     if (!signersTrue.length && !signersFalse.length) {
       $btn.html(l10n.decrypt_digital_signature_null);

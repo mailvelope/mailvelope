@@ -77,16 +77,12 @@ function mergeWatchlist(defaults) {
   var mod = false;
   return getWatchList()
   .then((localList = []) => {
-    defaults.watch_list.forEach(function(defaultSite) {
-      var localSite = localList.find(function(localSite) {
-        return localSite.site === defaultSite.site;
-      });
+    defaults.watch_list.forEach(defaultSite => {
+      var localSite = localList.find(localSite => localSite.site === defaultSite.site);
       if (localSite) {
-        defaultSite.frames.forEach(function(defaultFrame) {
+        defaultSite.frames.forEach(defaultFrame => {
           localSite.frames = localSite.frames || [];
-          var localFrame = localSite.frames.find(function(localFrame) {
-            return localFrame.frame === defaultFrame.frame;
-          });
+          var localFrame = localSite.frames.find(localFrame => localFrame.frame === defaultFrame.frame);
           if (!localFrame) {
             localSite.frames.push(defaultFrame);
             mod = true;

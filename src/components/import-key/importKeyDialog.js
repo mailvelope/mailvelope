@@ -43,7 +43,7 @@ var mvelo = mvelo || null;
       'key_import_default_description',
       'key_import_invalidated_headline',
       'key_import_invalidated_description'
-    ], function(result) {
+    ], result => {
       l10n = result;
     });
 

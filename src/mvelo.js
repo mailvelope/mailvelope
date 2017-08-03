@@ -60,14 +60,14 @@ mvelo.MAXFILEUPLOADSIZECHROME = 20 * 1024 * 1024; // temporal fix due issue in C
 
 mvelo.appendTpl = function($element, path) {
   if (mvelo.ffa && !/^resource/.test(document.location.protocol)) {
-    return new Promise(function(resolve) {
-      mvelo.data.load(path, function(result) {
+    return new Promise(resolve => {
+      mvelo.data.load(path, result => {
         $element.append($.parseHTML(result));
         setTimeout(() => resolve($element), 1);
       });
     });
   } else {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       var req = new XMLHttpRequest();
       req.open('GET', path);
       req.responseType = 'text';
@@ -114,7 +114,7 @@ if (mvelo.ffa && mvelo.extension) {
 mvelo.l10n = mvelo.l10n || mvelo.crx && {
   getMessages(ids, callback) {
     var result = {};
-    ids.forEach(function(id) {
+    ids.forEach(id => {
       result[id] = chrome.i18n.getMessage(id);
     });
     callback(result);
@@ -148,20 +148,18 @@ if (typeof window !== 'undefined' && window.browser) {
     localizeHTML(l10n, idSelector) {
       var selector = idSelector ? idSelector + ' [data-l10n-id]' : '[data-l10n-id]';
       if (l10n) {
-        [].forEach.call(document.querySelectorAll(selector), function(element) {
+        [].forEach.call(document.querySelectorAll(selector), element => {
           element.textContent = l10n[element.dataset.l10nId] || element.dataset.l10nId;
         });
-        [].forEach.call(document.querySelectorAll('[data-l10n-title-id]'), function(element) {
+        [].forEach.call(document.querySelectorAll('[data-l10n-title-id]'), element => {
           element.setAttribute("title", l10n[element.dataset.l10nTitleId] || element.dataset.l10nTitleId);
         });
       } else {
-        l10n = [].map.call(document.querySelectorAll(selector), function(element) {
-          return element.dataset.l10nId;
-        });
-        [].map.call(document.querySelectorAll('[data-l10n-title-id]'), function(element) {
+        l10n = [].map.call(document.querySelectorAll(selector), element => element.dataset.l10nId);
+        [].map.call(document.querySelectorAll('[data-l10n-title-id]'), element => {
           l10n.push(element.dataset.l10nTitleId);
         });
-        mvelo.l10n.getMessages(l10n, function(result) {
+        mvelo.l10n.getMessages(l10n, result => {
           mvelo.l10n.localizeHTML(result, idSelector);
         });
       }
@@ -190,7 +188,7 @@ mvelo.util.sortAndDeDup = function(unordered, compFn) {
  */
 mvelo.util.deDup = function(list) {
   var result = [];
-  (list || []).forEach(function(i) {
+  (list || []).forEach(i => {
     if (result.indexOf(i) === -1) {
       result.push(i);
     }
@@ -335,8 +333,8 @@ mvelo.util.extractFileExtension = function(fileName) {
 // Attribution: http://www.2ality.com/2012/08/underscore-extend.html
 mvelo.util.extend = function(target) {
   var sources = [].slice.call(arguments, 1);
-  sources.forEach(function(source) {
-    Object.getOwnPropertyNames(source).forEach(function(propName) {
+  sources.forEach(source => {
+    Object.getOwnPropertyNames(source).forEach(propName => {
       Object.defineProperty(target, propName,
         Object.getOwnPropertyDescriptor(source, propName));
     });
@@ -370,11 +368,11 @@ mvelo.util.generateSecurityBackground = function({width, height, scaling = 1, an
 
 mvelo.util.showSecurityBackground = function(isEmbedded) {
   if (isEmbedded) {
-    $('.secureBgndSettingsBtn').on('mouseenter', function() {
+    $('.secureBgndSettingsBtn').on('mouseenter', () => {
       $('.secureBgndSettingsBtn').removeClass('btn-link').addClass('btn-default');
     });
 
-    $('.secureBgndSettingsBtn').on('mouseleave', function() {
+    $('.secureBgndSettingsBtn').on('mouseleave', () => {
       $('.secureBgndSettingsBtn').removeClass('btn-default').addClass('btn-link');
     });
   }
@@ -428,7 +426,7 @@ mvelo.util.PromiseQueue = class {
 
   push(thisArg, method, args) {
     var that = this;
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       that.queue.push({resolve, reject, thisArg, method, args});
       if (that.queue.length === 1) {
         that._next();
@@ -442,15 +440,15 @@ mvelo.util.PromiseQueue = class {
     }
     var that = this;
     var nextEntry = this.queue[0];
-    mvelo.util.setTimeout(function() {
+    mvelo.util.setTimeout(() => {
       nextEntry.thisArg[nextEntry.method].apply(nextEntry.thisArg, nextEntry.args)
-      .then(function(result) {
+      .then(result => {
         nextEntry.resolve(result);
       })
-      .catch(function(error) {
+      .catch(error => {
         nextEntry.reject(error);
       })
-      .then(function() {
+      .then(() => {
         that.queue.shift();
         that._next();
       });

@@ -35,17 +35,17 @@ var mvelo = mvelo || null;
     $(window).on('beforeunload', onClose);
 
     // Closing the dialog with the escape key
-    $(document).on('keyup', function(e) {
+    $(document).on('keyup', e => {
       if (e.keyCode === 27) {
         onCancel();
       }
     });
 
-    $('#password').on('input paste', function() {
+    $('#password').on('input paste', () => {
       logUserInput('security_log_password_input');
     }).focus();
 
-    $('#remember').on('click', function() {
+    $('#remember').on('click', () => {
       logUserInput('security_log_password_click');
     });
 
@@ -58,7 +58,7 @@ var mvelo = mvelo || null;
       'pwd_dialog_reason_editor',
       'pwd_dialog_reason_create_backup',
       'pwd_dialog_reason_create_draft'
-    ], function(result) {
+    ], result => {
       l10n = result;
       $('#password').attr('placeholder', l10n.pwd_dialog_pwd_please);
       $('#keyId').attr('title', l10n.pwd_dialog_keyid_tooltip);

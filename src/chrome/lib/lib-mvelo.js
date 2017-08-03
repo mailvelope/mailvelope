@@ -32,7 +32,7 @@ mvelo.data.url = function(path) {
 };
 
 mvelo.data.load = function(path) {
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     var req = new XMLHttpRequest();
     req.open('GET', chrome.runtime.getURL(path));
     req.responseType = 'text';
@@ -54,7 +54,7 @@ mvelo.tabs = {};
 
 mvelo.tabs.getActive = function(callback) {
   // get selected tab, "*://*/*" filters out non-http(s)
-  chrome.tabs.query({active: true, currentWindow: true, url: "*://*/*"}, function(tabs) {
+  chrome.tabs.query({active: true, currentWindow: true, url: "*://*/*"}, tabs => {
     callback(tabs[0]);
   });
 };
@@ -62,7 +62,7 @@ mvelo.tabs.getActive = function(callback) {
 mvelo.tabs.attach = function(tab, options, callback) {
   function executeScript(file, callback) {
     if (file) {
-      chrome.tabs.executeScript(tab.id, {file, allFrames: true}, function() {
+      chrome.tabs.executeScript(tab.id, {file, allFrames: true}, () => {
         executeScript(options.contentScriptFile.shift(), callback);
       });
     } else {
@@ -98,7 +98,7 @@ mvelo.tabs.create = function(url, complete, callback) {
       }
     });
   }
-  chrome.tabs.create({url}, function(tab) {
+  chrome.tabs.create({url}, tab => {
     if (complete) {
       newTab = tab;
     } else {
@@ -198,7 +198,7 @@ mvelo.windows = {};
 mvelo.windows.modalActive = false;
 
 mvelo.windows.openPopup = function(url, options, callback) {
-  chrome.windows.getCurrent(null, function(current) {
+  chrome.windows.getCurrent(null, current => {
     if (window.navigator.platform.indexOf('Win') >= 0 && options.height) {
       options.height += 36;
     }
@@ -210,7 +210,7 @@ mvelo.windows.openPopup = function(url, options, callback) {
       left: options && parseInt(current.left + (current.width - options.width) / 2),
       focused: true,
       type: 'popup'
-    }, function(popup) {
+    }, popup => {
       //console.log('popup created', popup);
       if (options && options.modal) {
         mvelo.windows.modalActive = true;
@@ -255,7 +255,7 @@ mvelo.util = mvelo.util || {};
 
 // Add a hook to make all links open a new window
 // attribution: https://github.com/cure53/DOMPurify/blob/master/demos/hooks-target-blank-demo.html
-dompurify.addHook('afterSanitizeAttributes', function(node) {
+dompurify.addHook('afterSanitizeAttributes', node => {
   // set all elements owning target to target=_blank
   if ('target' in node) {
     node.setAttribute('target', '_blank');

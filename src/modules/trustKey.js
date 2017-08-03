@@ -28,30 +28,24 @@ export function isKeyPseudoRevoked(keyringId, key) {
   if (!trustKey) {
     return false;
   }
-  return key.users.some(function(user) {
-    return isUserPseudoRevoked(user, trustKey, key.primaryKey);
-  });
+  return key.users.some(user => isUserPseudoRevoked(user, trustKey, key.primaryKey));
 }
 
 function isUserPseudoRevoked(user, trustKey, primaryKey) {
   if (!user.revocationCertifications || !user.userId) {
     return false;
   }
-  return user.revocationCertifications.some(function(revCert) {
-    return revCert.reasonForRevocationFlag === 101 &&
+  return user.revocationCertifications.some(revCert => revCert.reasonForRevocationFlag === 101 &&
            verifyCert(revCert, user.userId, trustKey, primaryKey) &&
-           !hasNewerCert(user, trustKey, primaryKey, revCert.created);
-  });
+           !hasNewerCert(user, trustKey, primaryKey, revCert.created));
 }
 
 function hasNewerCert(user, trustKey, primaryKey, sigDate) {
   if (!user.otherCertifications) {
     return false;
   }
-  return user.otherCertifications.some(function(otherCert) {
-    return verifyCert(otherCert, user.userId, trustKey, primaryKey) &&
-           otherCert.created > sigDate;
-  });
+  return user.otherCertifications.some(otherCert => verifyCert(otherCert, user.userId, trustKey, primaryKey) &&
+           otherCert.created > sigDate);
 }
 
 function verifyCert(cert, userId, trustKey, primaryKey) {

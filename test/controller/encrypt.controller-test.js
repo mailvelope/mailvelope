@@ -10,9 +10,9 @@ var ctrl, editorCtrlMock, preferences = prefs.prefs;
 
 var testRecipients = [{email: 'test@example.com'}];
 
-describe('Encrypt controller unit tests', function() {
+describe('Encrypt controller unit tests', () => {
 
-  beforeEach(function() {
+  beforeEach(() => {
     ctrl = new EncryptController();
 
     editorCtrlMock = {
@@ -24,32 +24,32 @@ describe('Encrypt controller unit tests', function() {
     sinon.stub(ctrl, 'emit');
   });
 
-  afterEach(function() {
+  afterEach(() => {
     sub.factory.get.restore();
     prefs.prefs = preferences;
     mvelo.util.parseHTML.restore();
     ctrl.emit.restore();
   });
 
-  describe('Check event handlers', function() {
-    it('should handle recipients', function() {
+  describe('Check event handlers', () => {
+    it('should handle recipients', () => {
       expect(ctrl._handlers.get('eframe-recipients')).to.equal(ctrl.displayRecipientProposal);
       expect(ctrl._handlers.get('eframe-display-editor')).to.equal(ctrl.openEditor);
     });
   });
 
-  describe('openEditor', function() {
+  describe('openEditor', () => {
     var modalActiveVal;
 
-    beforeEach(function() {
+    beforeEach(() => {
       modalActiveVal = mvelo.windows.modalActive;
     });
 
-    afterEach(function() {
+    afterEach(() => {
       mvelo.windows.modalActive = modalActiveVal;
     });
 
-    it('should not open editor a second time', function() {
+    it('should not open editor a second time', () => {
       mvelo.windows.modalActive = true;
 
       ctrl.openEditor({text: 'foo'});
@@ -57,7 +57,7 @@ describe('Encrypt controller unit tests', function() {
       expect(ctrl.editorControl).to.be.null;
     });
 
-    it('should work for editor type plain', function() {
+    it('should work for editor type plain', () => {
       editorCtrlMock.encrypt.yields(null, 'armored', testRecipients);
       prefs.prefs = {
         general: {
@@ -70,23 +70,23 @@ describe('Encrypt controller unit tests', function() {
       expect(ctrl.emit.withArgs('set-editor-output', {text: 'parsed', recipients: testRecipients}).calledOnce).to.be.true;
     });
 
-    it('should stop on error', function() {
+    it('should stop on error', () => {
       editorCtrlMock.encrypt.yields(new Error('foo'));
       ctrl.openEditor({text: 'foo'});
       expect(ctrl.emit.called).to.be.false;
     });
   });
 
-  describe('getRecipientProposal', function() {
+  describe('getRecipientProposal', () => {
     var callback = function() {};
 
-    it('should work', function() {
+    it('should work', () => {
       ctrl.getRecipientProposal(callback);
       expect(ctrl.emit.withArgs('get-recipients').calledOnce).to.be.true;
       expect(ctrl.recipientsCallback).to.equal(callback);
     });
 
-    it('should fail', function() {
+    it('should fail', () => {
       ctrl.recipientsCallback = function() {};
       expect(ctrl.getRecipientProposal.bind(ctrl, callback)).to.throw(/Waiting/);
       expect(ctrl.emit.called).to.be.false;
@@ -94,21 +94,21 @@ describe('Encrypt controller unit tests', function() {
     });
   });
 
-  describe('displayRecipientProposal', function() {
+  describe('displayRecipientProposal', () => {
     var recipientsCallbackStub;
 
-    beforeEach(function() {
+    beforeEach(() => {
       recipientsCallbackStub = ctrl.recipientsCallback = sinon.stub();
     });
 
-    it('should callback', function() {
+    it('should callback', () => {
       ctrl.displayRecipientProposal({recipients: testRecipients});
 
       expect(ctrl.recipientsCallback).to.be.null;
       expect(recipientsCallbackStub.withArgs(testRecipients).calledOnce).to.be.true;
     });
 
-    it('should not callback', function() {
+    it('should not callback', () => {
       ctrl.recipientsCallback = null;
 
       ctrl.displayRecipientProposal({recipients: testRecipients});

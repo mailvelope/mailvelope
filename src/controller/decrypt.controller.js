@@ -52,7 +52,7 @@ export default class DecryptController extends sub.SubController {
           // password dialog or modal dialog already open
           this.ports.dFrame.postMessage({event: 'remove-dialog'});
         } else {
-          mvelo.windows.openPopup('components/decrypt-popup/decryptPopup.html?id=' + this.id, {width: 742, height: 550, modal: true}, function(window) {
+          mvelo.windows.openPopup('components/decrypt-popup/decryptPopup.html?id=' + this.id, {width: 742, height: 550, modal: true}, window => {
             that.decryptPopup = window;
           });
         }
@@ -89,14 +89,12 @@ export default class DecryptController extends sub.SubController {
   decrypt(armored, keyringId) {
     var that = this;
     model.readMessage({armoredText: armored, keyringId})
-    .then(function(message) {
-      return that.prepareKey(message);
-    })
-    .then(function(message) {
+    .then(message => that.prepareKey(message))
+    .then(message => {
       triggerSync(message);
       return that.decryptMessage(message);
     })
-    .then(function(content) {
+    .then(content => {
       var handlers = {
         noEvent: true,
         onMessage(msg) {
@@ -113,12 +111,12 @@ export default class DecryptController extends sub.SubController {
       }
       return that.parseMessage(content.text, handlers, 'html');
     })
-    .then(function() {
+    .then(() => {
       if (that.ports.decryptCont) {
         that.ports.decryptCont.postMessage({event: 'decrypt-done'});
       }
     })
-    .catch(function(error) {
+    .catch(error => {
       if (error.code === 'PWD_DIALOG_CANCEL') {
         if (that.ports.dFrame) {
           return that.dialogCancel();
@@ -163,9 +161,9 @@ export default class DecryptController extends sub.SubController {
 
   decryptMessage(message) {
     var that = this;
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       message.options = message.options || that.options;
-      model.decryptMessage(message, that.keyringId, function(err, content) {
+      model.decryptMessage(message, that.keyringId, (err, content) => {
         if (err) {
           return reject(err);
         }
@@ -178,7 +176,7 @@ export default class DecryptController extends sub.SubController {
   filterBodyParts(bodyParts, type, result) {
     var that = this;
     result = result || [];
-    bodyParts.forEach(function(part) {
+    bodyParts.forEach(part => {
       if (part.type === type) {
         result.push(part);
       } else if (Array.isArray(part.content)) {
@@ -201,17 +199,17 @@ export default class DecryptController extends sub.SubController {
 
   parseMIME(rawText, handlers, encoding) {
     var that = this;
-    return new Promise(function(resolve) {
+    return new Promise(resolve => {
       // mailreader expects rawText in pseudo-binary
       rawText = unescape(encodeURIComponent(rawText));
-      mailreader.parse([{raw: rawText}], function(parsed) {
+      mailreader.parse([{raw: rawText}], parsed => {
         if (parsed && parsed.length > 0) {
           var htmlParts = [];
           var textParts = [];
           if (encoding === 'html') {
             that.filterBodyParts(parsed, 'html', htmlParts);
             if (htmlParts.length) {
-              mvelo.util.parseHTML(htmlParts.map(part => part.content).join('\n<hr>\n'), function(sanitized) {
+              mvelo.util.parseHTML(htmlParts.map(part => part.content).join('\n<hr>\n'), sanitized => {
                 handlers.onMessage(sanitized);
               });
             } else {
@@ -233,7 +231,7 @@ export default class DecryptController extends sub.SubController {
           }
           var attachmentParts = [];
           that.filterBodyParts(parsed, 'attachment', attachmentParts);
-          attachmentParts.forEach(function(part) {
+          attachmentParts.forEach(part => {
             part.filename = mvelo.util.encodeHTML(part.filename);
             part.content = mvelo.util.ab2str(part.content.buffer);
             handlers.onAttachment(part);
@@ -248,11 +246,11 @@ export default class DecryptController extends sub.SubController {
   }
 
   parseInline(rawText, handlers, encoding) {
-    return new Promise(function(resolve) {
+    return new Promise(resolve => {
       if (/(<\/a>|<br>|<\/div>|<\/p>|<\/b>|<\/u>|<\/i>|<\/ul>|<\/li>)/.test(rawText)) {
         // legacy html mode
         if (encoding === 'html') {
-          mvelo.util.parseHTML(rawText, function(sanitized) {
+          mvelo.util.parseHTML(rawText, sanitized => {
             handlers.onMessage(sanitized);
             resolve();
           });

@@ -3,18 +3,18 @@
 
 import * as sub from '../../src/controller/sub.controller';
 
-describe('Sub controller unit tests', function() {
+describe('Sub controller unit tests', () => {
   var ctrl, port;
 
-  beforeEach(function() {
+  beforeEach(() => {
     port = {name: 'foo', postMessage(opt) { ctrl.handlePortMessage(opt); }};
     sinon.spy(port, 'postMessage');
     ctrl = new sub.SubController(port);
   });
 
-  describe('Event handling via "on" and "emit"', function() {
-    it('should be wired up correctly', function(done) {
-      ctrl.on('ping', function(msg) {
+  describe('Event handling via "on" and "emit"', () => {
+    it('should be wired up correctly', done => {
+      ctrl.on('ping', msg => {
         expect(msg.data).to.equal('pong');
         done();
       });

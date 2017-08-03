@@ -255,12 +255,12 @@ function addEncryptInteractivity() {
 
   $encryptFileUpload = $('#encrypt_fileUpload').change(onAddFile.bind(null, $encryptFileUploadPanel));
   $encryptAddFileBtn = $('#encrypt_addFileBtn')
-  .on('click', function() {
+  .on('click', () => {
     $encryptFileUpload.click();
   });
   $encryptToPersonBtn = $('#encrypt_goToPersonBtn')
   .prop('disabled', true)
-  .on('click', function() {
+  .on('click', () => {
     switchPanel($encryptPersonPanel, $encryptPanels);
   });
   $encryptToDownloadBtn = $('#encrypt_goToDownloadBtn')
@@ -268,17 +268,17 @@ function addEncryptInteractivity() {
   .on('click', onEncryptFiles);
   $encryptDownloadAllBtn = $('#encrypt_downloadAllBtn')
   .prop('disabled', true)
-  .on('click', function() {
+  .on('click', () => {
     $encryptFileDownload.children().each(function() {
       this.click();
     });
   });
   $('#encrypt_backToUploadBtn')
-  .on('click', function() {
+  .on('click', () => {
     switchPanel($encryptFileUploadPanel, $encryptPanels);
   });
   $('#encrypt_backToPersonBtn')
-  .on('click', function() {
+  .on('click', () => {
     switchPanel($encryptPersonPanel, $encryptPanels);
   });
   $encryptFileDownload = $('#encrypt_fileDownload');
@@ -313,7 +313,7 @@ function addDecryptInteractivity() {
 
   $decryptFileUpload = $('#decrypt_fileUpload').on('change', onAddFile.bind(null, $decryptFileUploadPanel));
   $decryptAddFileBtn = $('#decrypt_addFileBtn')
-  .on('click', function() {
+  .on('click', () => {
     $decryptFileUpload.click();
   });
 
@@ -329,14 +329,14 @@ function addDecryptInteractivity() {
 
   $decryptDownloadAllBtn = $('#decrypt_downloadAllBtn')
   .prop('disabled', true)
-  .on('click', function() {
+  .on('click', () => {
     $decryptFileDownload.children().each(function() {
       this.click();
     });
   });
 
   $('#decrypt_backToUploadBtn')
-  .on('click', function() {
+  .on('click', () => {
     switchPanel($decryptFileUploadPanel, $decryptPanels);
   });
 
@@ -355,10 +355,10 @@ function onDecryptFiles(e) {
     $('.waiting', $decryptFileDownloadPanel).show();
     var encryptedFiles = fileLib.getFiles($decryptFileUploadPanel);
     decryptFiles(encryptedFiles)
-    .catch(function(error) {
+    .catch(error => {
       showError(error.message, $decryptFileDownloadError);
     })
-    .then(function() {
+    .then(() => {
       $('.waiting', $decryptFileDownloadPanel).hide();
       isDecryptCached = hasError($decryptFileDownloadError) ? false : true;
       if ($decryptFileDownload.children().length) {
@@ -372,16 +372,16 @@ function onDecryptFiles(e) {
 
 function decryptFiles(encryptedFiles) {
   var decryptProcesses = [];
-  encryptedFiles.forEach(function(encryptedFile) {
+  encryptedFiles.forEach(encryptedFile => {
     decryptProcesses.push(app.pgpModel('decryptFile', [encryptedFile])
-    .then(function(file) {
+    .then(file => {
       addFileToDownload({
         name: file.name,
         content: file.content,
         type: 'application/octet-stream'
       }, $decryptFileDownload);
     })
-    .catch(function(error) {
+    .catch(error => {
       showError(error.message, $decryptFileDownloadError);
     })
     );
@@ -402,16 +402,16 @@ function onEncryptFiles(e) {
     var plainFiles = fileLib.getFiles($encryptFileUploadPanel);
     var receipients = getSelectedRecipients();
     encryptFiles(plainFiles, receipients)
-    .then(function() {
+    .then(() => {
       isEncryptCached = true;
       $encryptDownloadAllBtn.prop('disabled', false);
     })
-    .catch(function(error) {
+    .catch(error => {
       isEncryptCached = false;
       $encryptDownloadAllBtn.prop('disabled', true);
       showError(error.message, $encryptFileDownloadError);
     })
-    .then(function() {
+    .then(() => {
       $('.waiting', $encryptFileDownloadPanel).hide();
     });
   }
@@ -420,9 +420,9 @@ function onEncryptFiles(e) {
 
 function encryptFiles(plainFiles, receipients) {
   var encryptProcesses = [];
-  plainFiles.forEach(function(plainFile) {
+  plainFiles.forEach(plainFile => {
     encryptProcesses.push(app.pgpModel('encryptFile', [plainFile, receipients])
-    .then(function(armored) {
+    .then(armored => {
       addFileToDownload({
         name: plainFile.name + '.asc',
         content: armored,
@@ -501,7 +501,7 @@ function onAddFile($filePanel, evt) {
 
     numUploadsInProgress++;
     fileLib.readUploadFile(file, afterLoadEnd.bind(null, $filePanel))
-    .then(function(response) {
+    .then(response => {
       var $fileElement = fileLib.createFileElement(response, {
         removeButton: true,
         onRemove: onRemoveFile,
@@ -515,7 +515,7 @@ function onAddFile($filePanel, evt) {
         isDecryptCached = false;
       }
     })
-    .catch(function(error) {
+    .catch(error => {
       console.log(error);
       showError('Unknown Error', $fileUploadError);
     });
@@ -666,7 +666,7 @@ function toggleSelectionInKeyList(index, status) {
 function showError(msg, $uiComponent, fadeOut) {
   $uiComponent.text(msg).show();
   if (fadeOut) {
-    window.setTimeout(function() {
+    window.setTimeout(() => {
       $uiComponent.fadeOut('slow');
     }, 2000);
   }

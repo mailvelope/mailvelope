@@ -2,7 +2,7 @@
 import KeyServer from '../../../src/app/settings/keyserver';
 
 
-describe('Key server settings unit tests', function() {
+describe('Key server settings unit tests', () => {
 
   var keyserver;
 
@@ -60,61 +60,61 @@ describe('Key server settings unit tests', function() {
     });
   });
 
-  describe('validateUrl', function() {
-    it('should fail for empty string', function() {
+  describe('validateUrl', () => {
+    it('should fail for empty string', () => {
       expect(keyserver.validateUrl('')).to.be.false;
     });
 
-    it('should fail for undefined', function() {
+    it('should fail for undefined', () => {
       expect(keyserver.validateUrl()).to.be.false;
     });
 
-    it('should fail for hkp://', function() {
+    it('should fail for hkp://', () => {
       expect(keyserver.validateUrl('hkp://keyserver.ubuntu.com')).to.be.false;
     });
 
-    it('should fail for url with trailing slash', function() {
+    it('should fail for url with trailing slash', () => {
       expect(keyserver.validateUrl('http://keyserver.ubuntu.com/')).to.be.false;
     });
 
-    it('should fail for url with not just hostname', function() {
+    it('should fail for url with not just hostname', () => {
       expect(keyserver.validateUrl('http://keyserver.ubuntu.com/asdf/')).to.be.false;
     });
 
-    it('should work for http://', function() {
+    it('should work for http://', () => {
       expect(keyserver.validateUrl('http://keyserver.ubuntu.com')).to.be.true;
     });
 
-    it('should work for https://', function() {
+    it('should work for https://', () => {
       expect(keyserver.validateUrl('https://keyserver.ubuntu.com')).to.be.true;
     });
 
-    it('should work for ports', function() {
+    it('should work for ports', () => {
       expect(keyserver.validateUrl('https://keyserver.ubuntu.com:1711')).to.be.true;
     });
   });
 
-  describe('testUrl', function() {
+  describe('testUrl', () => {
 
     const hkpUrl = 'https://keyserver.ubuntu.com';
 
-    beforeEach(function() {
+    beforeEach(() => {
       sinon.stub(window, 'fetch');
     });
 
-    afterEach(function() {
+    afterEach(() => {
       window.fetch.restore();
     });
 
-    it('should fail for 404', function() {
+    it('should fail for 404', () => {
       window.fetch.returns(Promise.resolve({ok: false}));
 
-      return keyserver.testUrl(hkpUrl).catch(function(err) {
+      return keyserver.testUrl(hkpUrl).catch(err => {
         expect(err.message).match(/not reachable/);
       });
     });
 
-    it('should work for 200', function() {
+    it('should work for 200', () => {
       window.fetch.returns(Promise.resolve({ok: true}));
 
       return keyserver.testUrl(hkpUrl);

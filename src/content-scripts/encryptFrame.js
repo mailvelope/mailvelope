@@ -84,7 +84,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
     this._eFrame.insertAfter(this._editElement);
     $(window).on('resize', this._setFrameDim.bind(this));
     // to react on position changes of edit element, e.g. click on CC or BCC in GMail
-    this._refreshPosIntervalID = window.setInterval(function() {
+    this._refreshPosIntervalID = window.setInterval(() => {
       that._setFrameDim();
     }, 1000);
     this._eFrame.find('.m-frame-close').on('click', this._closeFrame.bind(this));
@@ -93,10 +93,10 @@ export default class EncryptFrame extends mvelo.EventHandler {
     this._normalizeButtons();
     this._eFrame.fadeIn('slow');
 
-    this._emailTextElement.on('keypress', function() {
+    this._emailTextElement.on('keypress', () => {
       if (++that._keyCounter >= 13) {
         that._emailTextElement.off('keypress');
-        that._eFrame.fadeOut('slow', function() {
+        that._eFrame.fadeOut('slow', () => {
           that._closeFrame();
         });
       }
@@ -126,7 +126,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
   }
 
   _closeFrame(finalClose) {
-    this._eFrame.fadeOut(function() {
+    this._eFrame.fadeOut(() => {
       window.clearInterval(this._refreshPosIntervalID);
       $(window).off('resize');
       this._eFrame.remove();
@@ -137,7 +137,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
         this._editElement.data(mvelo.FRAME_STATUS, mvelo.FRAME_DETACHED);
       }
       this._editElement.data(mvelo.FRAME_OBJ, null);
-    }.bind(this));
+    });
     return false;
   }
 

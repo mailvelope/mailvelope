@@ -54,7 +54,7 @@ var mvelo = mvelo || null;
       'verify_result_error',
       'alert_header_error',
       'dialog_keyid_label'
-    ], function(result) {
+    ], result => {
       l10n = result;
     });
     mvelo.util.showSecurityBackground();
@@ -101,7 +101,7 @@ var mvelo = mvelo || null;
     });
     var style3 = style.clone().attr('href', '../../components/verify-popup/verifyPopupSig.css');
     var meta = $('<meta/>', {charset: 'UTF-8'});
-    sandbox.one('load', function() {
+    sandbox.one('load', () => {
       sandbox.contents().find('head').append(meta)
       .append(style)
       .append(style3);
@@ -146,7 +146,7 @@ var mvelo = mvelo || null;
         var message = msg.message.replace(/\n/g, '<br>');
         var node = sandbox.contents();
         var header = node.find('header');
-        msg.signers.forEach(function(signer) {
+        msg.signers.forEach(signer => {
           var type, userid;
           var message = $('<span/>');
           var keyid = $('<span/>');

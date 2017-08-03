@@ -46,7 +46,7 @@ export function getFileSize($fileList) {
  * @returns {Promise<Object, Error>}
  */
 export function readUploadFile(file, onLoadEnd) {
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     var fileReader = new FileReader();
     fileReader.onload = function() {
       resolve({

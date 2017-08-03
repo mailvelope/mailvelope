@@ -25,7 +25,7 @@ export function init() {
   var apiTag = document.getElementById('mailvelope-api');
   if (apiTag) {
     if (apiTag.dataset.version !== prefs.version) {
-      window.setTimeout(function() {
+      window.setTimeout(() => {
         window.dispatchEvent(new CustomEvent('mailvelope-disconnect', {detail: {version: prefs.version}}));
       }, 1);
     }
@@ -258,7 +258,7 @@ function getKeyring(keyringId, callback) {
     event: 'get-keyring',
     api_event: true,
     keyringId
-  }, function(result) {
+  }, result => {
     callback(result.error, result.data);
   });
 }
@@ -268,7 +268,7 @@ function createKeyring(keyringId, callback) {
     event: 'create-keyring',
     api_event: true,
     keyringId
-  }, function(result) {
+  }, result => {
     callback(result.error, result.data);
   });
 }
@@ -313,7 +313,7 @@ function settingsContainer(selector, keyringId, options = {}, callback) {
     event: 'has-private-key',
     api_event: true,
     keyringId
-  }, function(result) {
+  }, result => {
     options.hasPrivateKey = result.data;
     var container = new OptionsContainer(selector, keyringId, options);
     containers.set(container.id, container);
@@ -326,7 +326,7 @@ function openSettings(keyringId, callback) {
     event: 'open-settings',
     api_event: true,
     keyringId
-  }, function(result) {
+  }, result => {
     callback(result.error, result.data);
   });
 }
@@ -376,7 +376,7 @@ function hasPrivateKey(keyringId, fingerprint, callback) {
     api_event: true,
     keyringId,
     fingerprint
-  }, function(result) {
+  }, result => {
     callback(result.error, result.data);
   });
 }
@@ -395,7 +395,7 @@ function validKeyForAddress(keyringId, recipients, callback) {
     api_event: true,
     keyringId,
     recipients
-  }, function(result) {
+  }, result => {
     callback(result.error, result.data);
   });
 }
@@ -406,7 +406,7 @@ function exportOwnPublicKey(keyringId, emailAddr, callback) {
     api_event: true,
     keyringId,
     emailAddr
-  }, function(result) {
+  }, result => {
     callback(result.error, result.data);
   });
 }
@@ -431,7 +431,7 @@ function importPublicKey(keyringId, armored, callback) {
     api_event: true,
     keyringId,
     armored
-  }, function(result) {
+  }, result => {
     callback(result.error, result.data);
   });
 }
@@ -454,7 +454,7 @@ function setLogo(keyringId, dataURL, revision, callback) {
     keyringId,
     dataURL,
     revision
-  }, function(result) {
+  }, result => {
     callback(result.error, result.data);
   });
 }

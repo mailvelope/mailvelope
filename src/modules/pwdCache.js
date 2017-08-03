@@ -111,7 +111,7 @@ export function set(message, pwd, cacheTime) {
       newEntry[message.keyid] = message.key;
     }
     // clear after timeout
-    newEntry.timer = mvelo.util.setTimeout(function() {
+    newEntry.timer = mvelo.util.setTimeout(() => {
       delete cache[primKeyIdHex];
     }, (cacheTime || timeout) * 60 * 1000);
     // set max. number of operations
@@ -129,12 +129,12 @@ export function set(message, pwd, cacheTime) {
  */
 export function unlock(options) {
   return unlockKey(options.key, options.keyid, options.password)
-  .then(function(key) {
+  .then(key => {
     options.key = key;
     // set unlocked key in cache
     set(options);
   })
-  .catch(function() {
+  .catch(() => {
     throw {
       message: 'Password caching does not support different passphrases for primary key and subkeys'
     };

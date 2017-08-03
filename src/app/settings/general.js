@@ -57,7 +57,7 @@ export default class General extends React.Component {
 
 function init() {
   loadPrefs();
-  $('#autoAddPrimary, #autoSignMsg').on('change', function() {
+  $('#autoAddPrimary, #autoSignMsg').on('change', () => {
     $('#genBtnSave').prop("disabled", false);
     $('#genBtnCancel').prop("disabled", false);
   });
@@ -75,7 +75,7 @@ function onSave() {
       auto_sign_msg: $('#autoSignMsg:checked').length !== 0
     }
   };
-  mvelo.extension.sendMessage({event: 'set-prefs', data: update}, function() {
+  mvelo.extension.sendMessage({event: 'set-prefs', data: update}, () => {
     normalize();
   });
   return false;
@@ -99,7 +99,7 @@ function normalize() {
 
 function loadPrefs() {
   pgpModel('getPreferences')
-  .then(function(prefs) {
+  .then(prefs => {
     $('#autoAddPrimary').prop('checked', prefs.general.auto_add_primary);
     $('#autoSignMsg').prop('checked', prefs.general.auto_sign_msg);
   });

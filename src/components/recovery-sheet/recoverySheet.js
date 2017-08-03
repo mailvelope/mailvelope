@@ -95,7 +95,7 @@ var QRCode = QRCode || null;
       correctLevel: QRCode.CorrectLevel.H
     });
 
-    $('.recovery-sheet_print-button').on('click', function() {
+    $('.recovery-sheet_print-button').on('click', () => {
       window.print();
     });
 

@@ -48,10 +48,10 @@ if (self.options.expose_messaging) {
   }
 
   function addListener(listener) {
-    self.port.on('message-event', function(msg) {
-      listener(msg, null, msg.response && function(respMsg) {
+    self.port.on('message-event', msg => {
+      listener(msg, null, msg.response && (respMsg => {
         self.port.emit(msg.response, respMsg);
-      });
+      }));
     });
   }
 
@@ -104,20 +104,18 @@ if (self.options.expose_messaging) {
   function localizeHTML(l10n, idSelector) {
     var selector = idSelector ? idSelector + ' [data-l10n-id]' : '[data-l10n-id]';
     if (l10n) {
-      [].forEach.call(document.querySelectorAll(selector), function(element) {
+      [].forEach.call(document.querySelectorAll(selector), element => {
         element.textContent = l10n[element.dataset.l10nId] || element.dataset.l10nId;
       });
-      [].forEach.call(document.querySelectorAll('[data-l10n-title-id]'), function(element) {
+      [].forEach.call(document.querySelectorAll('[data-l10n-title-id]'), element => {
         element.setAttribute("title", l10n[element.dataset.l10nTitleId] || element.dataset.l10nTitleId);
       });
     } else {
-      l10n = [].map.call(document.querySelectorAll(selector), function(element) {
-        return element.dataset.l10nId;
-      });
-      [].map.call(document.querySelectorAll('[data-l10n-title-id]'), function(element) {
+      l10n = [].map.call(document.querySelectorAll(selector), element => element.dataset.l10nId);
+      [].map.call(document.querySelectorAll('[data-l10n-title-id]'), element => {
         l10n.push(element.dataset.l10nTitleId);
       });
-      getMessages(l10n, function(result) {
+      getMessages(l10n, result => {
         localizeHTML(result, idSelector);
       });
     }

@@ -94,7 +94,7 @@ var mvelo = mvelo || null;
 
   function showMessageArea() {
     if (pwd) {
-      pwd.fadeOut(function() {
+      pwd.fadeOut(() => {
         $('#decryptmail').fadeIn();
       });
     } else {

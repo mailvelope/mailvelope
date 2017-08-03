@@ -208,7 +208,7 @@ function loadTemplates() {
       mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/error-modal.html'))
     ]);
   } else {
-    return mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/editor-popup.html')).then(function() {
+    return mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/editor-popup.html')).then(() => {
       $('.modal-body').addClass('secureBackground');
       return Promise.all([
         mvelo.appendTpl($('#editorDialog .modal-body'), mvelo.extension.getURL('components/editor/tpl/editor-body.html')),
@@ -248,7 +248,7 @@ function renderRecipientInput(props = {}) {
  * Called after templates have loaded. Now is the time to bootstrap angular.
  */
 function templatesLoaded() {
-  $('#waitingModal').on('hidden.bs.modal', function() {
+  $('#waitingModal').on('hidden.bs.modal', () => {
     editor.focus()
     .prop('selectionStart', 0)
     .prop('selectionEnd', 0);
@@ -365,7 +365,7 @@ function onShowPwdDialog(msg) {
 }
 
 function hidePwdDialog() {
-  $('body #pwdDialog').fadeOut(function() {
+  $('body #pwdDialog').fadeOut(() => {
     $('body #pwdDialog').remove();
     $('body').find('#editorDialog').show();
   });
@@ -404,7 +404,7 @@ function addAttachment(file) {
   }
 
   fileLib.readUploadFile(file, afterLoadEnd)
-  .then(function(response) {
+  .then(response => {
     var $fileElement = fileLib.createFileElement(response, {
       removeButton: true,
       onRemove: onRemoveAttachment
@@ -416,7 +416,7 @@ function addAttachment(file) {
     .scrollTop(uploadPanelHeight); //Append attachment element and scroll to bottom of #uploadPanel to show current uploads
 
   })
-  .catch(function(error) {
+  .catch(error => {
     console.log(error);
   });
 }
@@ -491,7 +491,7 @@ function createPlainText() {
   var style = $('<link/>', {rel: 'stylesheet', href: basePath + 'dep/bootstrap/css/bootstrap.css'});
   var style2 = $('<link/>', {rel: 'stylesheet', href: basePath + 'mvelo.css'});
   var meta = $('<meta/>', {charset: 'UTF-8'});
-  sandbox.one('load', function() {
+  sandbox.one('load', () => {
     sandbox.contents().find('head').append(meta)
     .append(style)
     .append(style2);
@@ -499,19 +499,19 @@ function createPlainText() {
     .append(text);
   });
   $('#plainText').append(sandbox);
-  text.on('input', function() {
+  text.on('input', () => {
     startBlurWarnInterval();
     if (logTextareaInput) {
       logUserInput('security_log_textarea_input');
       // limit textarea log to 1 event per second
       logTextareaInput = false;
-      window.setTimeout(function() {
+      window.setTimeout(() => {
         logTextareaInput = true;
       }, 1000);
     }
   });
   text.on('blur', onBlur);
-  text.on('mouseup', function() {
+  text.on('mouseup', () => {
     var textElement = text.get(0);
     if (textElement.selectionStart === textElement.selectionEnd) {
       logUserInput('security_log_textarea_click');
@@ -545,7 +545,7 @@ function onBlur() {
    - not within 40ms before focus event (window, modal)
    */
   if (blurWarnPeriod && !blurValid) {
-    window.setTimeout(function() {
+    window.setTimeout(() => {
       showBlurWarning();
     }, 40);
   }
@@ -557,9 +557,9 @@ function showBlurWarning() {
     // fade in 600ms, wait 200ms, fade out 600ms
     blurWarn.removeClass('hide')
     .stop(true)
-    .animate({opacity: 1}, 'slow', 'swing', function() {
-      setTimeout(function() {
-        blurWarn.animate({opacity: 0}, 'slow', 'swing', function() {
+    .animate({opacity: 1}, 'slow', 'swing', () => {
+      setTimeout(() => {
+        blurWarn.animate({opacity: 0}, 'slow', 'swing', () => {
           blurWarn.addClass('hide');
         });
       }, 200);
@@ -573,7 +573,7 @@ function startBlurWarnInterval() {
     window.clearTimeout(blurWarnPeriod);
   }
   // restart
-  blurWarnPeriod = window.setTimeout(function() {
+  blurWarnPeriod = window.setTimeout(() => {
     // end
     blurWarnPeriod = null;
   }, 2000);
@@ -586,7 +586,7 @@ function startBlurValid() {
     window.clearTimeout(blurValid);
   }
   // restart
-  blurValid = window.setTimeout(function() {
+  blurValid = window.setTimeout(() => {
     // end
     blurValid = null;
   }, 40);
@@ -599,7 +599,7 @@ function addPwdDialog(id) {
     src: '../enter-password/pwdDialog.html?id=' + id,
     frameBorder: 0
   });
-  $('body').find('#editorDialog').fadeOut(function() {
+  $('body').find('#editorDialog').fadeOut(() => {
     $('body').append(pwd);
   });
 }
@@ -621,7 +621,7 @@ function showErrorModal(error) {
 
   $('.modal-body', $errorModal).empty().append(content);
   $('.modal-title', $errorModal).empty().append(title);
-  $errorModal.modal('show').on('hidden.bs.modal', function() {
+  $errorModal.modal('show').on('hidden.bs.modal', () => {
     $('#waitingModal').modal('hide');
   });
   hidePwdDialog();

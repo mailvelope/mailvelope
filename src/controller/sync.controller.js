@@ -66,7 +66,7 @@ export class SyncController extends sub.SubController {
     // reset modified to detect further modification
     this.keyring.sync.data.modified = false;
     this.downloadSyncMessage(options)
-    .then(function() {
+    .then(() => {
       if (!that.modified) {
         return;
       }
@@ -77,10 +77,10 @@ export class SyncController extends sub.SubController {
       that.keyring.sync.data.modified = true;
     })
     .then(() => that.keyring.sync.save())
-    .then(function() {
+    .then(() => {
       that.checkRepeat();
     })
-    .catch(function(err) {
+    .catch(err => {
       console.log('Sync error', err);
       if (that.modified || that.keyring.sync.data.modified) {
         that.keyring.sync.data.modified = true;
@@ -172,15 +172,13 @@ export class SyncController extends sub.SubController {
     };
     this.pwdControl = this.pwdControl || sub.factory.get('pwdDialog');
     return this.pwdControl.unlockKey(keyOptions)
-    .then(function(message) {
+    .then(message =>
       // encrypt keyring sync message
-      return encryptSyncMessage(message.key, that.keyring.sync.data.changeLog, that.keyringId);
-    })
+      encryptSyncMessage(message.key, that.keyring.sync.data.changeLog, that.keyringId)
+    )
     // upload
-    .then(function(armored) {
-      return that.upload({eTag: that.keyring.sync.data.eTag, keyringMsg: armored});
-    })
-    .then(function(result) {
+    .then(armored => that.upload({eTag: that.keyring.sync.data.eTag, keyringMsg: armored}))
+    .then(result => {
       that.keyring.sync.data.eTag = result.eTag;
     });
   }
@@ -214,7 +212,7 @@ export class SyncController extends sub.SubController {
 
   sync(type, data) {
     var that = this;
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       var id = mvelo.util.getHash();
       that.ports.syncHandler.postMessage({
         event: 'sync-event',
@@ -232,7 +230,7 @@ export class SyncController extends sub.SubController {
           resolve(data);
         }
       };
-      var timeout = mvelo.util.setTimeout(function() {
+      var timeout = mvelo.util.setTimeout(() => {
         delete that.syncDoneHandler[id];
         reject(new Error('Sync timeout'));
       }, that.TIMEOUT * 1000);
@@ -278,9 +276,7 @@ export class SyncController extends sub.SubController {
 }
 
 export function getByKeyring(keyringId) {
-  return sub.getByMainType('syncHandler').filter(function(obj) {
-    return obj.keyringId === keyringId;
-  })[0];
+  return sub.getByMainType('syncHandler').filter(obj => obj.keyringId === keyringId)[0];
 }
 
 /**
@@ -293,7 +289,7 @@ export function getByKeyring(keyringId) {
 export function triggerSync(options) {
   var syncCtrl = getByKeyring(options.keyringId);
   if (syncCtrl) {
-    mvelo.util.setTimeout(function() {
+    mvelo.util.setTimeout(() => {
       syncCtrl.triggerSync(options);
     }, 20);
   }

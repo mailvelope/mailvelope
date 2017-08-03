@@ -67,19 +67,17 @@ function init(preferences, watchlist) {
 }
 
 function detectHost() {
-  clientApiActive = watchList.some(function(site) {
-    return site.active && site.frames && site.frames.some(function(frame) {
-      var hostRegex = mvelo.util.matchPattern2RegEx(frame.frame);
-      var validHost = hostRegex.test(window.location.hostname);
-      if (frame.scan && validHost) {
-        // host = match pattern without *. prefix
-        host = frame.frame.replace(/^\*\./, '');
-        if (frame.api) {
-          return true;
-        }
+  clientApiActive = watchList.some(site => site.active && site.frames && site.frames.some(frame => {
+    var hostRegex = mvelo.util.matchPattern2RegEx(frame.frame);
+    var validHost = hostRegex.test(window.location.hostname);
+    if (frame.scan && validHost) {
+      // host = match pattern without *. prefix
+      host = frame.frame.replace(/^\*\./, '');
+      if (frame.api) {
+        return true;
       }
-    });
-  });
+    }
+  }));
 }
 
 function on() {
@@ -91,7 +89,7 @@ function on() {
   if (intervalID === 0) {
     // start scan loop
     scanLoop();
-    intervalID = window.setInterval(function() {
+    intervalID = window.setInterval(() => {
       scanLoop();
     }, SCAN_LOOP_INTERVAL);
   }
@@ -230,7 +228,7 @@ function attachExtractFrame(element) {
     return !isAttached($(this).parent());
   });
   // create new decrypt frames for new discovered PGP tags
-  newObj.each(function(index, element) {
+  newObj.each((index, element) => {
     try {
       // parent element of text node
       var pgpEnd = $(element).parent();
@@ -275,7 +273,7 @@ function attachEncryptFrame(element, expanded) {
     }
   });
   // create new encrypt frames for new discovered editable fields
-  newObj.each(function(index, element) {
+  newObj.each((index, element) => {
     var eFrame = new EncryptFrame();
     eFrame.attachTo($(element), {expanded});
   });
@@ -283,7 +281,7 @@ function attachEncryptFrame(element, expanded) {
 
 function addMessageListener() {
   port.onMessage.addListener(
-    function(request) {
+    request => {
       //console.log('contentscript: %s onRequest: %o', document.location.toString(), request);
       if (request.event === undefined) {
         return;
@@ -318,7 +316,7 @@ function addMessageListener() {
       }
     }
   );
-  port.onDisconnect.addListener(function() {
+  port.onDisconnect.addListener(() => {
     off();
   });
 }

@@ -128,7 +128,7 @@ function decode_utf8(str) {
 */
 
 export function readMessage({armoredText, binaryString, keyringId}) {
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     var result = {};
     if (armoredText) {
       try {
@@ -252,8 +252,8 @@ export function decryptMessage(message, keyringId, callback) {
     if (!signingKeys.length) {
       signingKeys = [message.key];
     }
-    openpgp.getWorker().decryptAndVerifyMessage(message.key, signingKeys, message.message).then(function(result) {
-      result.signatures = result.signatures.map(function(signature) {
+    openpgp.getWorker().decryptAndVerifyMessage(message.key, signingKeys, message.message).then(result => {
+      result.signatures = result.signatures.map(signature => {
         signature.keyid = signature.keyid.toHex();
         if (signature.valid !== null) {
           var signingKey = keyRing.keyring.getKeysForId(signature.keyid, true);
@@ -264,19 +264,17 @@ export function decryptMessage(message, keyringId, callback) {
       callback(null, result);
     }, callback);
   } else {
-    openpgp.getWorker().decryptMessage(message.key, message.message).then(function(result) {
+    openpgp.getWorker().decryptMessage(message.key, message.message).then(result => {
       callback(null, {text: result});
     }, callback);
   }
 }
 
 function getKeysForEncryption(options) {
-  var keys = options.keyIdsHex.map(function(keyIdHex) {
+  var keys = options.keyIdsHex.map(keyIdHex => {
     var keyArray = keyring.getById(options.keyringId).keyring.getKeysForId(keyIdHex);
     return keyArray ? keyArray[0] : null;
-  }).filter(function(key) {
-    return key !== null;
-  });
+  }).filter(key => key !== null);
   if (keys.length === 0) {
     throw {
       code: 'NO_KEY_FOUND_FOR_ENCRYPTION',
@@ -295,14 +293,14 @@ function getKeysForEncryption(options) {
  * @returns {Promise<String.{type: String, code: String, message: String}>}
  */
 export function encryptMessage(options) {
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     var keys = getKeysForEncryption(options);
     openpgp.getWorker().encryptMessage(keys, options.message)
-    .then(function(msg) {
+    .then(msg => {
       logEncryption(options.uiLogSource, keys);
       resolve(msg);
     })
-    .catch(function(e) {
+    .catch(e => {
       console.log('openpgp.getWorker().encryptMessage() error', e);
       reject({
         message: l10n('encrypt_error', [e])
@@ -321,14 +319,14 @@ export function encryptMessage(options) {
  * @return {Promise.<String>}
  */
 export function signAndEncryptMessage(options) {
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     var keys = getKeysForEncryption(options);
     openpgp.getWorker().signAndEncryptMessage(keys, options.primaryKey.key, options.message)
-    .then(function(msg) {
+    .then(msg => {
       logEncryption(options.uiLogSource, keys);
       resolve(msg);
     })
-    .catch(function(e) {
+    .catch(e => {
       console.log('openpgp.getWorker().signAndEncryptMessage() error', e);
       reject({
         code: 'ENCRYPT_ERROR',
@@ -340,25 +338,17 @@ export function signAndEncryptMessage(options) {
 
 function logEncryption(source, keys) {
   if (source) {
-    var recipients = keys.map(function(key) {
-      return keyring.getUserId(key, false);
-    });
+    var recipients = keys.map(key => keyring.getUserId(key, false));
     uiLog.push(source, l10n('security_log_encryption_operation', [recipients.join(', ')]));
   }
 }
 
 export function verifyMessage(message, signers, callback) {
-  var keys = signers.map(function(signer) {
-    return signer.key;
-  }).filter(function(key) {
-    return key !== null;
-  });
+  var keys = signers.map(signer => signer.key).filter(key => key !== null);
   try {
     var verified = message.verify(keys);
-    signers = signers.map(function(signer) {
-      signer.valid = signer.key && verified.some(function(verifiedSig) {
-        return signer.keyid === verifiedSig.keyid.toHex() && verifiedSig.valid;
-      });
+    signers = signers.map(signer => {
+      signer.valid = signer.key && verified.some(verifiedSig => signer.keyid === verifiedSig.keyid.toHex() && verifiedSig.valid);
       // remove key object
       delete signer.key;
       return signer;
@@ -402,7 +392,7 @@ export function createPrivateKeyBackup(primaryKey, keyPwd) {
 
 function parseMetaInfo(txt) {
   var result = {};
-  txt.replace(/\r/g, '').split('\n').forEach(function(row) {
+  txt.replace(/\r/g, '').split('\n').forEach(row => {
     if (row.length) {
       var keyValue = row.split(/:\s/);
       result[keyValue[0]] = keyValue[1];
@@ -446,7 +436,7 @@ export function restorePrivateKeyBackup(armoredBlock, code) {
  */
 export function decryptSyncMessage(key, message) {
   return openpgp.getWorker().decryptAndVerifyMessage(key, [key], message)
-  .then(function(msg) {
+  .then(msg => {
     // check signature
     var sig = msg.signatures[0];
     if (!(sig && sig.valid && sig.keyid.equals(key.getSigningKeyPacket().getKeyId()))) {
@@ -490,10 +480,10 @@ export function encryptSyncMessage(key, changeLog, keyringId) {
   syncData.insertedKeys = {};
   syncData.deletedKeys = {};
   var keyRing = keyring.getById(keyringId).keyring;
-  keyRing.publicKeys.keys.forEach(function(pubKey) {
+  keyRing.publicKeys.keys.forEach(pubKey => {
     convertChangeLog(pubKey, changeLog, syncData);
   });
-  keyRing.privateKeys.keys.forEach(function(privKey) {
+  keyRing.privateKeys.keys.forEach(privKey => {
     convertChangeLog(privKey.toPublic(), changeLog, syncData);
   });
   for (var fingerprint in changeLog) {
@@ -528,7 +518,7 @@ function convertChangeLog(key, changeLog, syncData) {
 
 export function getLastModifiedDate(key) {
   var lastModified = new Date(0);
-  key.toPacketlist().forEach(function(packet) {
+  key.toPacketlist().forEach(packet => {
     if (packet.created && packet.created > lastModified) {
       lastModified = packet.created;
     }
@@ -539,24 +529,22 @@ export function getLastModifiedDate(key) {
 export function encryptFile(plainFile, receipients) {
   var keys;
   return Promise.resolve()
-  .then(function() {
-    keys = receipients.map(function(receipient) {
+  .then(() => {
+    keys = receipients.map(receipient => {
       var keyArray = keyring.getById(receipient.keyringId).keyring.getKeysForId(receipient.keyid);
       return keyArray ? keyArray[0] : null;
-    }).filter(function(key) {
-      return key !== null;
-    });
+    }).filter(key => key !== null);
     if (keys.length === 0) {
       throw {message: 'No key found for encryption'};
     }
     var content = dataURL2str(plainFile.content);
     return openpgp.getWorker().encryptMessage(keys, content, 'binary', plainFile.name);
   })
-  .then(function(msg) {
+  .then(msg => {
     logEncryption('security_log_encrypt_dialog', keys);
     return msg;
   })
-  .catch(function(e) {
+  .catch(e => {
     console.log('openpgp.getWorker().encryptFile() error', e);
     throw {message: l10n('encrypt_error', [e.message])};
   });
@@ -564,7 +552,7 @@ export function encryptFile(plainFile, receipients) {
 
 export function decryptFile(encryptedFile) {
   return Promise.resolve()
-  .then(function() {
+  .then(() => {
     let msg = {};
     let content = dataURL2str(encryptedFile.content);
     if (/^-----BEGIN PGP MESSAGE-----/.test(content)) {
@@ -574,19 +562,13 @@ export function decryptFile(encryptedFile) {
     }
     return readMessage(msg);
   })
-  .then(function(message) {
-    return unlockQueue.push(sub.factory.get('pwdDialog'), 'unlockKey', [message]);
-  })
-  .then(function(message) {
-    return openpgp.getWorker().decryptMessage(message.key, message.message, 'binary');
-  })
-  .then(function(result) {
-    return {
-      name: result.filename || encryptedFile.name.slice(0, -4),
-      content: result.text
-    };
-  })
-  .catch(function(e) {
+  .then(message => unlockQueue.push(sub.factory.get('pwdDialog'), 'unlockKey', [message]))
+  .then(message => openpgp.getWorker().decryptMessage(message.key, message.message, 'binary'))
+  .then(result => ({
+    name: result.filename || encryptedFile.name.slice(0, -4),
+    content: result.text
+  }))
+  .catch(e => {
     console.log('openpgp.getWorker().decryptFile() error', e);
     throw mvelo.util.mapError(e);
   });

@@ -16,7 +16,7 @@ $.extend({
     }
     if (qs !== undefined) {
       var pairs = qs.split('&');
-      $.each(pairs, function(i, v) {
+      $.each(pairs, (i, v) => {
         var pair = v.split('=');
         nvpair[pair[0]] = decodeURIComponent(pair[1]);
       });

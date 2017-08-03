@@ -40,13 +40,13 @@ export default class EncryptController extends sub.SubController {
     this.editorControl.encrypt({
       initText: options.text,
       getRecipientProposal: this.getRecipientProposal.bind(this)
-    }, function(err, armored, recipients) {
+    }, (err, armored, recipients) => {
       if (err) {
         // error message handled in editor controller
         return;
       }
       // sanitize if content from plain text
-      mvelo.util.parseHTML(armored, function(parsed) {
+      mvelo.util.parseHTML(armored, parsed => {
         that.emit('set-editor-output', {text: parsed, recipients});
       });
     });

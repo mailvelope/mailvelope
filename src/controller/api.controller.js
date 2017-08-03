@@ -35,15 +35,13 @@ export function handleApiEvent(request, sender, sendResponse) {
         return true;
       case 'query-valid-key':
         var keyMap = keyring.getById(request.keyringId).getKeyByAddress(request.recipients, {validity: true, fingerprint: true, sort: true});
-        Object.keys(keyMap).forEach(function(email) {
+        Object.keys(keyMap).forEach(email => {
           if (keyMap[email]) {
             keyMap[email] = {
-              keys: keyMap[email].map(function(key) {
-                return {
-                  fingerprint: key.primaryKey.getFingerprint(),
-                  lastModified: getLastModifiedDate(key).toISOString()
-                };
-              })
+              keys: keyMap[email].map(key => ({
+                fingerprint: key.primaryKey.getFingerprint(),
+                lastModified: getLastModifiedDate(key).toISOString()
+              }))
             };
           }
         });
@@ -93,7 +91,7 @@ export function handleApiEvent(request, sender, sendResponse) {
       case 'open-settings':
         request.keyringId = request.keyringId || mvelo.LOCAL_KEYRING_ID;
         var hash = '?krid=' + encodeURIComponent(request.keyringId) + '#/settings';
-        mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
+        mvelo.tabs.loadOptionsTab(hash, (old, tab) => {
           if (old) {
             mvelo.tabs.sendMessage(tab, {
               event: 'reload-options',

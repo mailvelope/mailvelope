@@ -33,7 +33,7 @@ export default class SyncHandler {
    * @returns {mvelo.SyncHandler}
    */
   registerEventListener() {
-    this.port.onMessage.addListener(function(msg) {
+    this.port.onMessage.addListener(msg => {
       switch (msg.event) {
         case 'sync-event':
           postMessage('sync-event', null, msg, null);
