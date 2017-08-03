@@ -53,7 +53,7 @@ export class SubController extends mvelo.EventHandler {
       if (old) {
         mvelo.tabs.sendMessage(tab, {
           event: 'reload-options',
-          hash: hash
+          hash
         });
       }
     });
@@ -66,7 +66,7 @@ export class SubController extends mvelo.EventHandler {
       if (old) {
         mvelo.tabs.sendMessage(tab, {
           event: 'reload-options',
-          hash: hash
+          hash
         });
       }
     });

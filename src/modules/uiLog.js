@@ -49,9 +49,9 @@ let logTimer = 0;
  */
 export function push(source, type) {
   var entry = {
-    source: source,
+    source,
     sourcei18n: l10n(source),
-    type: type,
+    type,
     typei18n: l10n(type) || type,
     timestamp: (new Date()).toISOString()
   };

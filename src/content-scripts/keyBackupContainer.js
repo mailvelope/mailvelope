@@ -46,7 +46,7 @@ export default class KeyBackupContainer {
     this.port.postMessage({
       event: 'set-keybackup-window-props',
       sender: this.name,
-      host: host,
+      host,
       keyringId: this.keyringId,
       initialSetup: (this.options.initialSetup === undefined) ? true : this.options.initialSetup
     });

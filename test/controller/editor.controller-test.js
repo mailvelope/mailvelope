@@ -11,7 +11,7 @@ describe('Editor controller unit tests', function() {
 
   beforeEach(function() {
     testRecipients = [{email: 'test@example.com'}];
-    port = {name: 'foo', postMessage: function(opt) { ctrl.handlePortMessage(opt); }};
+    port = {name: 'foo', postMessage(opt) { ctrl.handlePortMessage(opt); }};
     ctrl = new EditorController(port);
 
     sinon.stub(ctrl, 'emit');
@@ -35,8 +35,8 @@ describe('Editor controller unit tests', function() {
     beforeEach(function() {
       sinon.stub(ctrl.keyserver, 'lookup');
       var keyRingMock = {
-        importKeys: function() {},
-        getKeyUserIDs: function() { return [{keyid: '0'}]; }
+        importKeys() {},
+        getKeyUserIDs() { return [{keyid: '0'}]; }
       };
       importKeysStub = sinon.stub(keyRingMock, 'importKeys');
       sinon.stub(keyring, 'getById').returns(keyRingMock);
@@ -71,7 +71,7 @@ describe('Editor controller unit tests', function() {
   describe('displayRecipientProposal', function() {
     beforeEach(function() {
       sinon.stub(keyring, 'getById').returns({
-        getKeyUserIDs: function() { return [{keyid: '0'}]; }
+        getKeyUserIDs() { return [{keyid: '0'}]; }
       });
       sinon.stub(ctrl.keyserver, 'getTOFUPreference').returns(true);
     });
@@ -149,7 +149,7 @@ describe('Editor controller unit tests', function() {
       return ctrl.signAndEncrypt({
         action: 'encrypt',
         message: 'm',
-        keys: keys
+        keys
       })
       .then(function(res) {
         expect(res).to.equal('a');
@@ -162,7 +162,7 @@ describe('Editor controller unit tests', function() {
       return ctrl.signAndEncrypt({
         action: 'encrypt',
         message: 'm',
-        keys: keys
+        keys
       })
       .then(function(res) {
         expect(res).to.equal('a');
@@ -198,7 +198,7 @@ describe('Editor controller unit tests', function() {
 
     beforeEach(function() {
       sinon.stub(keyring, 'getById').returns({
-        getAttributes: function() { return {primary_key: 'p'}; },
+        getAttributes() { return {primary_key: 'p'}; },
         getPrimaryKey: () => ({keyid: 'P'})
       });
       prefs.prefs = {

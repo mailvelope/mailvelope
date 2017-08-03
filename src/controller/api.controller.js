@@ -97,7 +97,7 @@ export function handleApiEvent(request, sender, sendResponse) {
           if (old) {
             mvelo.tabs.sendMessage(tab, {
               event: 'reload-options',
-              hash: hash
+              hash
             });
           }
         });

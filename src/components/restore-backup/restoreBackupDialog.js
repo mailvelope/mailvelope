@@ -38,7 +38,7 @@ var mvelo = mvelo || null;
     id = qs.id;
     name = 'restoreBackupDialog-' + id;
 
-    port = mvelo.extension.connect({name: name});
+    port = mvelo.extension.connect({name});
     port.onMessage.addListener(messageListener);
 
     $('body').addClass("secureBackground");
@@ -117,7 +117,7 @@ var mvelo = mvelo || null;
         port.postMessage({
           event: 'restore-backup-code',
           sender: name,
-          code: code
+          code
         });
       });
 
@@ -168,7 +168,7 @@ var mvelo = mvelo || null;
       event: 'key-backup-user-input',
       sender: name,
       source: 'security_log_key_backup',
-      type: type
+      type
     });
   }
 

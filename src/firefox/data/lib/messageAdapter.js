@@ -97,7 +97,7 @@ if (self.options.expose_messaging) {
   function getMessages(ids, callback) {
     mvelo.extension.sendMessage({
       event: 'get-l10n-messages',
-      ids: ids
+      ids
     }, callback);
   }
 
@@ -128,7 +128,7 @@ if (self.options.expose_messaging) {
   function load(path, callback) {
     mvelo.extension.sendMessage({
       event: 'data-load',
-      path: path
+      path
     }, callback);
   }
 

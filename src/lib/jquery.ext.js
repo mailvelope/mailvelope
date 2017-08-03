@@ -3,7 +3,7 @@
 
 // https://gist.github.com/1101534
 $.extend({
-  parseQuerystring: function() {
+  parseQuerystring() {
     var nvpair = {};
     var qs;
     if (window.location.search) {
@@ -26,7 +26,7 @@ $.extend({
 });
 
 $.extend({
-  setEqualWidth: function(first, other) {
+  setEqualWidth(first, other) {
     var width = first.width();
     var otherWidth = other.width();
     if (width > otherWidth) {

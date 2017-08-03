@@ -112,14 +112,14 @@ if (mvelo.ffa && mvelo.extension) {
 
 // for fixfox, mvelo.l10n is exposed from a content script
 mvelo.l10n = mvelo.l10n || mvelo.crx && {
-  getMessages: function(ids, callback) {
+  getMessages(ids, callback) {
     var result = {};
     ids.forEach(function(id) {
       result[id] = chrome.i18n.getMessage(id);
     });
     callback(result);
   },
-  localizeHTML: function(l10n, idSelector) {
+  localizeHTML(l10n, idSelector) {
     var selector = idSelector ? idSelector + ' [data-l10n-id]' : '[data-l10n-id]';
     $(selector).each(function() {
       var jqElement = $(this);
@@ -139,13 +139,13 @@ mvelo.l10n = mvelo.l10n || mvelo.crx && {
 // work around for WebExtensions
 if (typeof window !== 'undefined' && window.browser) {
   mvelo.l10n = {
-    getMessages: function(ids, callback) {
+    getMessages(ids, callback) {
       mvelo.extension.sendMessage({
         event: 'get-l10n-messages',
-        ids: ids
+        ids
       }, callback);
     },
-    localizeHTML: function(l10n, idSelector) {
+    localizeHTML(l10n, idSelector) {
       var selector = idSelector ? idSelector + ' [data-l10n-id]' : '[data-l10n-id]';
       if (l10n) {
         [].forEach.call(document.querySelectorAll(selector), function(element) {
@@ -429,7 +429,7 @@ mvelo.util.PromiseQueue = class {
   push(thisArg, method, args) {
     var that = this;
     return new Promise(function(resolve, reject) {
-      that.queue.push({resolve: resolve, reject: reject, thisArg: thisArg, method: method, args: args});
+      that.queue.push({resolve, reject, thisArg, method, args});
       if (that.queue.length === 1) {
         that._next();
       }

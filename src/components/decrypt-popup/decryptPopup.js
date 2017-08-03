@@ -35,7 +35,7 @@ var mvelo = mvelo || null;
     id = qs.id;
     name = 'dPopup-' + id;
     // open port to background page
-    port = mvelo.extension.connect({name: name});
+    port = mvelo.extension.connect({name});
     port.onMessage.addListener(messageListener);
     $('#closeBtn').click(onCancel);
     $('#copyBtn').click(onCopy);

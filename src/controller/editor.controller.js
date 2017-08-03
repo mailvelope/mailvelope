@@ -70,7 +70,7 @@ export default class EditorController extends sub.SubController {
         primary: primaryKeyId,
         privKeys: keyring.getValidSigningKeys()
       };
-      this.emit('set-init-data', {data: data}, this.ports.editor);
+      this.emit('set-init-data', {data}, this.ports.editor);
     }
     // display recipient proposal in the editor
     if (this.options.getRecipientProposal) {
@@ -94,7 +94,7 @@ export default class EditorController extends sub.SubController {
         message: 'No valid encryption key for recipient address',
         code: 'NO_KEY_FOR_RECIPIENT'
       };
-      this.emit('error-message', {error: error}, this.ports.editorCont);
+      this.emit('error-message', {error}, this.ports.editorCont);
       return;
     }
     var keyIds = [];
@@ -124,7 +124,7 @@ export default class EditorController extends sub.SubController {
         message: 'No private key found for creating draft.',
         code: 'NO_KEY_FOR_ENCRYPTION'
       };
-      this.emit('error-message', {error: error}, this.ports.editorCont);
+      this.emit('error-message', {error}, this.ports.editorCont);
       return;
     }
     this.emit('get-plaintext', {action: 'encrypt', draft: true}, this.ports.editor);
@@ -151,7 +151,7 @@ export default class EditorController extends sub.SubController {
       }
     }
     triggerSync({keyringId: this.keyringId, force: true});
-    this.emit('set-init-data', {data: data}, this.ports.editor);
+    this.emit('set-init-data', {data}, this.ports.editor);
   }
 
   _onSignOnly(msg) {
@@ -205,7 +205,7 @@ export default class EditorController extends sub.SubController {
     // send updated key cache to editor
     let localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
     let keys = localKeyring.getKeyUserIDs({allUsers: true});
-    this.emit('key-update', {keys: keys}, this.ports.editor);
+    this.emit('key-update', {keys}, this.ports.editor);
   }
 
   /**
@@ -237,7 +237,7 @@ export default class EditorController extends sub.SubController {
     var localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
     var keys = localKeyring.getKeyUserIDs({allUsers: true});
     var tofu = this.keyserver.getTOFUPreference();
-    this.emit('public-key-userids', {keys: keys, recipients: recipients, tofu: tofu});
+    this.emit('public-key-userids', {keys, recipients, tofu});
   }
 
   /**
@@ -285,7 +285,7 @@ export default class EditorController extends sub.SubController {
       };
 
       if (this.ports.editorCont) {
-        this.emit('error-message', {error: error}, this.ports.editorCont);
+        this.emit('error-message', {error}, this.ports.editorCont);
       }
       return composedMessage;
     }
@@ -330,7 +330,7 @@ export default class EditorController extends sub.SubController {
     })
     .then(function(content) {
       var handlers = {
-        onMessage: function(msg) {
+        onMessage(msg) {
           if (that.options.quotedMailIndent) {
             msg = msg.replace(/^(.|\n)/gm, '> $&');
           }
@@ -345,7 +345,7 @@ export default class EditorController extends sub.SubController {
           }
           that.emit('set-text', {text: msg}, that.ports.editor);
         },
-        onAttachment: function(part) {
+        onAttachment(part) {
           if (that.options.keepAttachments) {
             that.emit('set-attachment', {attachment: part}, that.ports.editor);
           }
@@ -363,7 +363,7 @@ export default class EditorController extends sub.SubController {
     })
     .catch(function(error) {
       error = mvelo.util.mapError(error);
-      that.emit('decrypt-failed', {error: error}, that.ports.editor);
+      that.emit('decrypt-failed', {error}, that.ports.editor);
     });
   }
 
@@ -494,7 +494,7 @@ export default class EditorController extends sub.SubController {
         this.editorPopup.close();
         this.editorPopup = null;
       }
-      this.transferEncrypted({armored: armored, keys: options.keys});
+      this.transferEncrypted({armored, keys: options.keys});
     }.bind(this))
     .catch(function(error) {
       if (this.editorPopup && error.code === 'PWD_DIALOG_CANCEL') {
@@ -504,9 +504,9 @@ export default class EditorController extends sub.SubController {
       }
       console.log(error);
       error = mvelo.util.mapError(error);
-      this.emit('error-message', {error: error}, this.ports.editor);
+      this.emit('error-message', {error}, this.ports.editor);
       if (this.ports.editorCont) {
-        this.emit('error-message', {error: error}, this.ports.editorCont);
+        this.emit('error-message', {error}, this.ports.editorCont);
       } else {
         this.encryptCallback(error);
       }
@@ -540,7 +540,7 @@ export default class EditorController extends sub.SubController {
         if (this.signMsg || options.signMsg) {
           return this.signAndEncryptMessage({
             message: data,
-            keyIdsHex: keyIdsHex,
+            keyIdsHex,
             signKeyIdHex: options.signKey,
             noCache: options.noCache
           });
@@ -548,7 +548,7 @@ export default class EditorController extends sub.SubController {
           return this.encryptMessage({
             message: data,
             keyringId: this.keyringId,
-            keyIdsHex: keyIdsHex
+            keyIdsHex
           });
         }
 

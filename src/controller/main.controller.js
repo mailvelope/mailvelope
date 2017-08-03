@@ -211,7 +211,7 @@ function methodEvent(thisArg, request, sendResponse) {
     return thisArg[request.method].apply(thisArg, request.args);
   })
   .then(function(result) {
-    sendResponse({result: result});
+    sendResponse({result});
   })
   .catch(function(error) {
     console.log('error in method ' + request.method + ': ', error);
@@ -305,7 +305,7 @@ function loadOptions(hash) {
     if (old) {
       mvelo.tabs.sendMessage(tab, {
         event: 'reload-options',
-        hash: hash
+        hash
       });
     }
   });

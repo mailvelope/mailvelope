@@ -232,11 +232,11 @@ module.exports = function(grunt) {
         cwd: 'locales',
         src: '**/*.json',
         dest: 'build/firefox/locale/',
-        rename: function(dest, src) {
+        rename(dest, src) {
           return dest + src.match(/^[\w-]{2,5}/)[0].replace('_', '-') + '.properties';
         },
         options: {
-          process: function(content) {
+          process(content) {
             var locale = JSON.parse(content);
             var result = '';
             for (var key in locale) {
@@ -252,7 +252,7 @@ module.exports = function(grunt) {
         flatten: true,
         src: 'dist/*.xpi',
         dest: 'dist/',
-        rename: function(dest) {
+        rename(dest) {
           return dest + 'mailvelope.firefox.xpi';
         }
       }

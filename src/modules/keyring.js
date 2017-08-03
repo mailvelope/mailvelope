@@ -671,7 +671,7 @@ export class Keyring {
       return null;
     }
     return {
-      key: key,
+      key,
       keyid: key.primaryKey.getKeyId().toHex(),
       userid: getUserId(key)
     };

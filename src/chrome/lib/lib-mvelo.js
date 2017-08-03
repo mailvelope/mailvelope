@@ -62,7 +62,7 @@ mvelo.tabs.getActive = function(callback) {
 mvelo.tabs.attach = function(tab, options, callback) {
   function executeScript(file, callback) {
     if (file) {
-      chrome.tabs.executeScript(tab.id, {file: file, allFrames: true}, function() {
+      chrome.tabs.executeScript(tab.id, {file, allFrames: true}, function() {
         executeScript(options.contentScriptFile.shift(), callback);
       });
     } else {
@@ -82,7 +82,7 @@ mvelo.tabs.query = function(url, callback) {
   if (!/\*$/.test(url)) {
     url += '*';
   }
-  chrome.tabs.query({url: url, currentWindow: true}, callback);
+  chrome.tabs.query({url, currentWindow: true}, callback);
 };
 
 mvelo.tabs.create = function(url, complete, callback) {
@@ -98,7 +98,7 @@ mvelo.tabs.create = function(url, complete, callback) {
       }
     });
   }
-  chrome.tabs.create({url: url}, function(tab) {
+  chrome.tabs.create({url}, function(tab) {
     if (complete) {
       newTab = tab;
     } else {
@@ -203,7 +203,7 @@ mvelo.windows.openPopup = function(url, options, callback) {
       options.height += 36;
     }
     chrome.windows.create({
-      url: url,
+      url,
       width: options && options.width,
       height: options && options.height,
       top: options && parseInt(current.top + (current.height - options.height) / 2),

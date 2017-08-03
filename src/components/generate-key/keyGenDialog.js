@@ -41,7 +41,7 @@ var mvelo = mvelo || null;
     id = qs.id;
     name = 'keyGenDialog-' + id;
 
-    port = mvelo.extension.connect({name: name});
+    port = mvelo.extension.connect({name});
     port.onMessage.addListener(messageListener);
 
     $('body').addClass("secureBackground");
@@ -207,7 +207,7 @@ var mvelo = mvelo || null;
       event: 'keygen-user-input',
       sender: name,
       source: 'security_log_key_generator',
-      type: type
+      type
     });
   }
 

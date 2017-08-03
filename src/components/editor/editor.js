@@ -133,7 +133,7 @@ function init() {
   }
   document.body.dataset.mvelo = true;
   checkEnvironment();
-  port = new mvelo.EventHandler(mvelo.extension.connect({name: name}), name);
+  port = new mvelo.EventHandler(mvelo.extension.connect({name}), name);
   registerEventListeners();
   Promise.all([
     loadTemplates(),
@@ -303,7 +303,7 @@ function logUserInput(type) {
   hasUserInput = true;
   port.emit('editor-user-input', {
     source: 'security_log_editor',
-    type: type
+    type
   });
 }
 

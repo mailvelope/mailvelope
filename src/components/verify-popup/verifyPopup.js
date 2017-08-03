@@ -35,7 +35,7 @@ var mvelo = mvelo || null;
     id = qs.id;
     name = 'vDialog-' + id;
     // open port to background page
-    port = mvelo.extension.connect({name: name});
+    port = mvelo.extension.connect({name});
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'verify-popup-init', sender: name});
     addSandbox();
@@ -133,7 +133,7 @@ var mvelo = mvelo || null;
       event: 'verify-user-input',
       sender: name,
       source: 'security_log_verify_dialog',
-      type: type
+      type
     });
   }
 

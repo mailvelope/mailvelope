@@ -49,7 +49,7 @@
    * @throws {Error} error.code = 'NO_KEYRING_FOR_ID'
    */
   Mailvelope.prototype.getKeyring = function(identifier) {
-    return postMessage('get-keyring', {identifier: identifier}).then(function(options) {
+    return postMessage('get-keyring', {identifier}).then(function(options) {
       return new Keyring(identifier, options);
     });
   };
@@ -66,7 +66,7 @@
    * });
    */
   Mailvelope.prototype.createKeyring = function(identifier) {
-    return postMessage('create-keyring', {identifier: identifier}).then(function(options) {
+    return postMessage('create-keyring', {identifier}).then(function(options) {
       return new Keyring(identifier, options);
     });
   };
@@ -119,7 +119,7 @@
     } catch (e) {
       return Promise.reject(e);
     }
-    return postMessage('display-container', {selector: selector, armored: armored, identifier: keyring.identifier, options: options}).then(function(display) {
+    return postMessage('display-container', {selector, armored, identifier: keyring.identifier, options}).then(function(display) {
       if (display && display.error) {
         display.error = mapError(display.error);
       }
@@ -166,7 +166,7 @@
     } catch (e) {
       return Promise.reject(e);
     }
-    return postMessage('editor-container', {selector: selector, identifier: keyring.identifier, options: options}).then(function(editorId) {
+    return postMessage('editor-container', {selector, identifier: keyring.identifier, options}).then(function(editorId) {
       return new Editor(editorId);
     });
   };
@@ -191,7 +191,7 @@
     } catch (e) {
       return Promise.reject(e);
     }
-    return postMessage('settings-container', {selector: selector, identifier: keyring.identifier, options: options});
+    return postMessage('settings-container', {selector, identifier: keyring.identifier, options});
   };
 
   // connection to content script is alive
@@ -231,7 +231,7 @@
    * });
    */
   Keyring.prototype.validKeyForAddress = function(recipients) {
-    return postMessage('query-valid-key', {identifier: this.identifier, recipients: recipients}).then(function(keyMap) {
+    return postMessage('query-valid-key', {identifier: this.identifier, recipients}).then(function(keyMap) {
       for (var address in keyMap) {
         if (keyMap[address]) {
           keyMap[address].keys.forEach(function(key) {
@@ -255,7 +255,7 @@
    * });
    */
   Keyring.prototype.exportOwnPublicKey = function(emailAddr) {
-    return postMessage('export-own-pub-key', {identifier: this.identifier, emailAddr: emailAddr});
+    return postMessage('export-own-pub-key', {identifier: this.identifier, emailAddr});
   };
 
   /**
@@ -269,7 +269,7 @@
                      error.code = 'WRONG_ARMORED_TYPE'
    */
   Keyring.prototype.importPublicKey = function(armored) {
-    return postMessage('import-pub-key', {identifier: this.identifier, armored: armored});
+    return postMessage('import-pub-key', {identifier: this.identifier, armored});
   };
 
   /**
@@ -290,7 +290,7 @@
    */
   Keyring.prototype.setLogo = function(dataURL, revision) {
     var that = this;
-    return postMessage('set-logo', {identifier: this.identifier, dataURL: dataURL, revision: revision}).then(function() {
+    return postMessage('set-logo', {identifier: this.identifier, dataURL, revision}).then(function() {
       that.logoRev = revision;
     });
   };
@@ -316,7 +316,7 @@
    * @throws {Error} error.code = 'INPUT_NOT_VALID'
    */
   Keyring.prototype.createKeyGenContainer = function(selector, options) {
-    return postMessage('key-gen-container', {selector: selector, identifier: this.identifier, options: options}).then(function(generatorId) {
+    return postMessage('key-gen-container', {selector, identifier: this.identifier, options}).then(function(generatorId) {
       return new Generator(generatorId);
     });
   };
@@ -333,7 +333,7 @@
    * @returns {Promise.<KeyBackupPopup, Error>}
    */
   Keyring.prototype.createKeyBackupContainer = function(selector, options) {
-    return postMessage('key-backup-container', {selector: selector, identifier: this.identifier, options: options}).then(function(popupId) {
+    return postMessage('key-backup-container', {selector, identifier: this.identifier, options}).then(function(popupId) {
       return new KeyBackupPopup(popupId);
     });
   };
@@ -350,7 +350,7 @@
    * @returns {Promise.<undefined, Error>}
    */
   Keyring.prototype.restoreBackupContainer = function(selector, options) {
-    return postMessage('restore-backup-container', {selector: selector, identifier: this.identifier, options: options}).then(function(restoreId) {
+    return postMessage('restore-backup-container', {selector, identifier: this.identifier, options}).then(function(restoreId) {
       return new RestoreBackup(restoreId);
     });
   };
@@ -361,7 +361,7 @@
    * @returns {Promise.<boolean, Error>}
    */
   Keyring.prototype.hasPrivateKey = function(fingerprint) {
-    return postMessage('has-private-key', {identifier: this.identifier, fingerprint: fingerprint}).then(function(result) {
+    return postMessage('has-private-key', {identifier: this.identifier, fingerprint}).then(function(result) {
       return result;
     });
   };
@@ -538,7 +538,7 @@
    * }
    */
   Editor.prototype.encrypt = function(recipients) {
-    return postMessage('editor-encrypt', {recipients: recipients, editorId: this.editorId});
+    return postMessage('editor-encrypt', {recipients, editorId: this.editorId});
   };
 
   /**
@@ -599,7 +599,7 @@
       if (error instanceof Error || typeof error === 'string') {
         error = {message: error.message || String(error)};
       }
-      postMessage('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: msg.data.type, error: error, id: msg.data.id}, true);
+      postMessage('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: msg.data.type, error, id: msg.data.id}, true);
     });
   }
 
@@ -662,7 +662,7 @@
       var message = {
         event: eventName,
         mvelo_client: true,
-        data: data,
+        data,
         id: getHash()
       };
       if (!noResp) {

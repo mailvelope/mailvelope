@@ -7,7 +7,7 @@ describe('Sub controller unit tests', function() {
   var ctrl, port;
 
   beforeEach(function() {
-    port = {name: 'foo', postMessage: function(opt) { ctrl.handlePortMessage(opt); }};
+    port = {name: 'foo', postMessage(opt) { ctrl.handlePortMessage(opt); }};
     sinon.spy(port, 'postMessage');
     ctrl = new sub.SubController(port);
   });

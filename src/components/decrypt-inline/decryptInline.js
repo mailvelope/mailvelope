@@ -41,7 +41,7 @@ var mvelo = mvelo || null;
     id = qs.id;
     name = 'dDialog-' + id;
     // open port to background page
-    port = mvelo.extension.connect({name: name});
+    port = mvelo.extension.connect({name});
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'decrypt-inline-init', sender: name});
     if (mvelo.crx) {
@@ -258,7 +258,7 @@ var mvelo = mvelo || null;
       event: 'decrypt-inline-user-input',
       sender: name,
       source: 'security_log_email_viewer',
-      type: type
+      type
     });
   }
 

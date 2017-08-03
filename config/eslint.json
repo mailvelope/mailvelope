@@ -62,7 +62,8 @@
     "arrow-body-style": 1,
     "arrow-parens": ["warn", "as-needed"],
     "arrow-spacing": 1,
-    "no-useless-constructor": 1
+    "no-useless-constructor": 1,
+    "object-shorthand": ["warn", "always", {"avoidQuotes": true}]
   }
 
 }

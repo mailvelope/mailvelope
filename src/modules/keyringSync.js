@@ -45,7 +45,7 @@ export class KeyringSync {
     }
     keyid = keyid.toLowerCase();
     this.data.changeLog[keyid] = {
-      type: type,
+      type,
       time: Math.floor(Date.now() / 1000)
     };
   }

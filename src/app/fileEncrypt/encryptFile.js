@@ -451,7 +451,7 @@ function onAddRecipient(e) {
   var $selected = $('option:selected', $encryptKeySelect);
   var index = parseInt($selected.val());
   var recipient = $.extend(recipients[index], {
-    index: index
+    index
   });
 
   $encryptKeyList.append(getRecipientButton(recipient));

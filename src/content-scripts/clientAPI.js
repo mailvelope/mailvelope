@@ -45,9 +45,9 @@ export function postMessage(eventName, id, data, error) {
   window.postMessage({
     event: eventName,
     mvelo_extension: true,
-    id: id,
-    data: data,
-    error: error
+    id,
+    data,
+    error
   }, window.location.origin);
 }
 
@@ -257,7 +257,7 @@ function getKeyring(keyringId, callback) {
   mvelo.extension.sendMessage({
     event: 'get-keyring',
     api_event: true,
-    keyringId: keyringId
+    keyringId
   }, function(result) {
     callback(result.error, result.data);
   });
@@ -267,7 +267,7 @@ function createKeyring(keyringId, callback) {
   mvelo.extension.sendMessage({
     event: 'create-keyring',
     api_event: true,
-    keyringId: keyringId
+    keyringId
   }, function(result) {
     callback(result.error, result.data);
   });
@@ -312,7 +312,7 @@ function settingsContainer(selector, keyringId, options = {}, callback) {
   mvelo.extension.sendMessage({
     event: 'has-private-key',
     api_event: true,
-    keyringId: keyringId
+    keyringId
   }, function(result) {
     options.hasPrivateKey = result.data;
     var container = new OptionsContainer(selector, keyringId, options);
@@ -325,7 +325,7 @@ function openSettings(keyringId, callback) {
   mvelo.extension.sendMessage({
     event: 'open-settings',
     api_event: true,
-    keyringId: keyringId
+    keyringId
   }, function(result) {
     callback(result.error, result.data);
   });
@@ -374,8 +374,8 @@ function hasPrivateKey(keyringId, fingerprint, callback) {
   mvelo.extension.sendMessage({
     event: 'has-private-key',
     api_event: true,
-    keyringId: keyringId,
-    fingerprint: fingerprint
+    keyringId,
+    fingerprint
   }, function(result) {
     callback(result.error, result.data);
   });
@@ -393,8 +393,8 @@ function validKeyForAddress(keyringId, recipients, callback) {
   mvelo.extension.sendMessage({
     event: 'query-valid-key',
     api_event: true,
-    keyringId: keyringId,
-    recipients: recipients
+    keyringId,
+    recipients
   }, function(result) {
     callback(result.error, result.data);
   });
@@ -404,8 +404,8 @@ function exportOwnPublicKey(keyringId, emailAddr, callback) {
   mvelo.extension.sendMessage({
     event: 'export-own-pub-key',
     api_event: true,
-    keyringId: keyringId,
-    emailAddr: emailAddr
+    keyringId,
+    emailAddr
   }, function(result) {
     callback(result.error, result.data);
   });
@@ -429,8 +429,8 @@ function importPublicKey(keyringId, armored, callback) {
   mvelo.extension.sendMessage({
     event: 'import-pub-key',
     api_event: true,
-    keyringId: keyringId,
-    armored: armored
+    keyringId,
+    armored
   }, function(result) {
     callback(result.error, result.data);
   });
@@ -451,9 +451,9 @@ function setLogo(keyringId, dataURL, revision, callback) {
   mvelo.extension.sendMessage({
     event: 'set-logo',
     api_event: true,
-    keyringId: keyringId,
-    dataURL: dataURL,
-    revision: revision
+    keyringId,
+    dataURL,
+    revision
   }, function(result) {
     callback(result.error, result.data);
   });

@@ -4,6 +4,8 @@
 // Polyfills and globals required for tests
 //
 
+/* eslint object-shorthand: 0 */
+
 if (window.initMochaPhantomJS) {
   window.initMochaPhantomJS();
 }

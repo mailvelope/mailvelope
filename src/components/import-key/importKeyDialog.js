@@ -27,7 +27,7 @@ var mvelo = mvelo || null;
     id = qs.id;
     name = 'importKeyDialog-' + id;
     // open port to background page
-    port = mvelo.extension.connect({name: name});
+    port = mvelo.extension.connect({name});
     port.onMessage.addListener(messageListener);
 
     $('#okBtn').click(onOk);
@@ -83,7 +83,7 @@ var mvelo = mvelo || null;
       event: 'key-import-user-input',
       sender: name,
       source: 'security_log_import_dialog',
-      type: type
+      type
     });
   }
 

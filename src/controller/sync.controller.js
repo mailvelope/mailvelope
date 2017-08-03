@@ -218,9 +218,9 @@ export class SyncController extends sub.SubController {
       var id = mvelo.util.getHash();
       that.ports.syncHandler.postMessage({
         event: 'sync-event',
-        type: type,
-        data: data,
-        id: id
+        type,
+        data,
+        id
       });
       that.syncDoneHandler[id] = function(err, data) {
         if (timeout) {

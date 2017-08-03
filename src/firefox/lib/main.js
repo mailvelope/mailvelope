@@ -76,11 +76,11 @@ webExtension.startup().then(api => {
 
 function init() {
   controller.extend({
-    initScriptInjection: function() {
+    initScriptInjection() {
       injectMainCS();
     },
-    activate: function() {},
-    deactivate: function() {}
+    activate() {},
+    deactivate() {}
   });
   controller.init()
   .then(() => {
@@ -111,12 +111,12 @@ function initAddonButton() {
     height: 310,
     contentURL: data.url('components/browser-action/popup.html'),
     onMessage: onPanelMessage,
-    onHide: function() {
+    onHide() {
       if (mvelo.browserAction.toggleButton) {
         mvelo.browserAction.toggleButton.state('window', {checked: false});
       }
     },
-    onShow: function() {
+    onShow() {
       this.postMessage({"event": "init"});
     }
   });
@@ -127,7 +127,7 @@ function initAddonButton() {
       '16': data.url('img/cryptography-icon16.png'),
       '48': data.url('img/cryptography-icon48.png')
     },
-    onChange: function(state) {
+    onChange(state) {
       if (state.checked) {
         mailvelopePanel.show({
           position: mvelo.browserAction.toggleButton
@@ -191,12 +191,12 @@ function onCsAttach(worker) {
     var eventName = 'port-message' + '.' + portName;
     var port = {
       name: portName,
-      postMessage: function(message) {
+      postMessage(message) {
         if (!pageHidden) {
           worker.port.emit(eventName, message);
         }
       },
-      disconnect: function() {
+      disconnect() {
         controller.portManager.removePort({name: portName});
       },
       ref: worker.port

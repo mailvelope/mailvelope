@@ -47,7 +47,7 @@ export default class EncryptController extends sub.SubController {
       }
       // sanitize if content from plain text
       mvelo.util.parseHTML(armored, function(parsed) {
-        that.emit('set-editor-output', {text: parsed, recipients: recipients});
+        that.emit('set-editor-output', {text: parsed, recipients});
       });
     });
   }

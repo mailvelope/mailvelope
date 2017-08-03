@@ -99,11 +99,11 @@ export default class DecryptController extends sub.SubController {
     .then(function(content) {
       var handlers = {
         noEvent: true,
-        onMessage: function(msg) {
+        onMessage(msg) {
           this.noEvent = false;
           that.ports.dDialog.postMessage({event: 'decrypted-message', message: msg});
         },
-        onAttachment: function(part) {
+        onAttachment(part) {
           this.noEvent = false;
           that.ports.dDialog.postMessage({event: 'add-decrypted-attachment', message: part});
         }
@@ -142,7 +142,7 @@ export default class DecryptController extends sub.SubController {
               message: 'Generic decrypt error'
             };
         }
-        that.ports.decryptCont.postMessage({event: 'error-message', error: error});
+        that.ports.decryptCont.postMessage({event: 'error-message', error});
       }
     })
     .then(() => {

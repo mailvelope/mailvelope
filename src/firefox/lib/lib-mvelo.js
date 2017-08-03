@@ -97,7 +97,7 @@ mvelo.tabs.query = function(url, callback) {
 
 mvelo.tabs.create = function(url, complete, callback) {
   tabs.open({
-    url: url,
+    url,
     onReady: complete ? callback : undefined,
     onOpen: complete ? undefined : callback
   });
@@ -242,7 +242,7 @@ mvelo.windows.openPopup = function(url, options, callback) {
 };
 
 var delegate = {
-  onTrack: function(window) {
+  onTrack(window) {
     // check for mailvelope popup
     if (window.arguments && mvelo.windows.internalURL.test(window.arguments[0])) {
       window.locationbar.visible = false;
@@ -317,13 +317,13 @@ mvelo.util.fetch = function(url, options) {
   options = options || {};
   return new Promise(function(resolve) {
     var fetchRequ = request({
-      url: url,
+      url,
       content: options.body,
       contentType: 'application/json',
-      onComplete: function(response) {
+      onComplete(response) {
         resolve({
           status: response.status,
-          json: function() {
+          json() {
             return Promise.resolve(response.json);
           }
         });

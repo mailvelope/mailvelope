@@ -5,14 +5,14 @@ function keyMock(keyid) {
   return {
     verifyPrimaryKey: sinon.stub().returns(openpgp.enums.keyStatus.valid),
     primaryKey: {
-      getKeyId: function() {
+      getKeyId() {
         return {
           toHex: sinon.stub().returns(keyid)
         };
       },
     },
     users: [],
-    getPrimaryUser: function() {
+    getPrimaryUser() {
       return {
         user: this.users[0]
       };
@@ -23,7 +23,7 @@ function keyMock(keyid) {
 function userMock(userid) {
   return {
     userId: {
-      userid: userid
+      userid
     },
     verify: sinon.stub().returns(openpgp.enums.keyStatus.valid)
   };
@@ -78,8 +78,8 @@ describe('Keyring unit tests', function() {
 
       var keyStub = sinon.createStubInstance(openpgp.key.Key);
       keyStub.primaryKey = {
-        getFingerprint: function() {},
-        keyid: {toHex: function() { return 'ASDF'; }}
+        getFingerprint() {},
+        keyid: {toHex() { return 'ASDF'; }}
       };
       openpgp.generateKeyPair.returns(Promise.resolve({
         key: keyStub,

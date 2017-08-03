@@ -170,7 +170,7 @@ export function readMessage({armoredText, binaryString, keyringId}) {
       }
       return reject({
         code: 'NO_KEY_FOUND',
-        message: message
+        message
       });
     }
 
@@ -395,7 +395,7 @@ export function createPrivateKeyBackup(primaryKey, keyPwd) {
   var msg = new openpgp.message.Message(packetList);
   msg = msg.symEncrypt(backupCode);
   return {
-    backupCode: backupCode,
+    backupCode,
     message: msg.armor()
   };
 }
@@ -473,7 +473,7 @@ export function decryptSyncMessage(key, message) {
       };
     }
     return {
-      changeLog: changeLog,
+      changeLog,
       keys: publicKeys
     };
   });

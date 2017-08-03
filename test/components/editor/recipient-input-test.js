@@ -17,7 +17,7 @@ describe('RecipientInput component unit tests', () => {
       scope = $rootScope.$new();
       ctrl = $controller(RecipientInputCtrl, {
         $scope: scope,
-        $timeout: $timeout
+        $timeout
       });
     });
   });

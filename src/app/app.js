@@ -347,7 +347,7 @@ class App extends React.Component {
 }
 
 export function openTab(url) {
-  return sendMessage({event: 'open-tab', url: url});
+  return sendMessage({event: 'open-tab', url});
 }
 
 export function getAllKeyUserId() {

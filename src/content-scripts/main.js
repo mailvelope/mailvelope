@@ -123,7 +123,7 @@ function scanLoop() {
  */
 function findPGPTag() {
   var treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-    acceptNode: function(node) {
+    acceptNode(node) {
       if (node.parentNode.tagName !== 'SCRIPT' && PGP_FOOTER.test(node.textContent)) {
         return NodeFilter.FILTER_ACCEPT;
       } else {
@@ -277,7 +277,7 @@ function attachEncryptFrame(element, expanded) {
   // create new encrypt frames for new discovered editable fields
   newObj.each(function(index, element) {
     var eFrame = new EncryptFrame();
-    eFrame.attachTo($(element), {expanded: expanded});
+    eFrame.attachTo($(element), {expanded});
   });
 }
 

@@ -27,7 +27,7 @@ var mvelo = mvelo || null;
     id = qs.id;
     name = 'pwdDialog-' + id;
     // open port to background page
-    port = mvelo.extension.connect({name: name});
+    port = mvelo.extension.connect({name});
     port.onMessage.addListener(messageListener);
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);
@@ -75,7 +75,7 @@ var mvelo = mvelo || null;
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
     $('#spinner').show();
     $('.modal-body').css('opacity', '0.4');
-    port.postMessage({event: 'pwd-dialog-ok', sender: name, password: pwd, cache: cache});
+    port.postMessage({event: 'pwd-dialog-ok', sender: name, password: pwd, cache});
     $('#okBtn').prop('disabled', true);
     return false;
   }
@@ -100,7 +100,7 @@ var mvelo = mvelo || null;
       event: 'pwd-user-input',
       sender: name,
       source: 'security_log_password_dialog',
-      type: type
+      type
     });
   }
 

@@ -53,7 +53,7 @@ export default class EditorContainer {
       event: 'editor-container-encrypt',
       sender: this.name,
       keyringId: this.keyringId,
-      recipients: recipients
+      recipients
     });
     this.encryptCallback = callback;
   }

@@ -9,7 +9,7 @@ describe('Key Server unit tests', function() {
   beforeEach(function() {
     mvelo = {
       util: {
-        fetch: function() {}
+        fetch() {}
       }
     };
     keyServer = new KeyServer(mvelo, 'http://localhost:8888');
@@ -22,7 +22,7 @@ describe('Key Server unit tests', function() {
     it('should return key', function() {
       mvelo.util.fetch.returns(Promise.resolve({
         status: 200,
-        json: function() { return {foo: 'bar'}; }
+        json() { return {foo: 'bar'}; }
       }));
 
       return keyServer.lookup({email: 'asdf@asdf.de'})
@@ -34,7 +34,7 @@ describe('Key Server unit tests', function() {
     it('should not return key', function() {
       mvelo.util.fetch.returns(Promise.resolve({
         status: 404,
-        json: function() { return {foo: 'bar'}; }
+        json() { return {foo: 'bar'}; }
       }));
 
       return keyServer.lookup({email: 'asdf@asdf.de'})

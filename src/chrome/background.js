@@ -35,9 +35,9 @@ var framestyles = '';
 
 function init() {
   controller.extend({
-    initScriptInjection: initScriptInjection,
-    activate: function() {},
-    deactivate: function() {}
+    initScriptInjection,
+    activate() {},
+    deactivate() {}
   });
   controller.init()
   .then(() => {
