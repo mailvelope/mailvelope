@@ -168,10 +168,10 @@ export default class EncryptFrame extends mvelo.EventHandler {
     html = $('<div/>').html(html);
     // replace anchors
     html = html.find('a').replaceWith(function() {
-                                        return $(this).text() + ' (' + $(this).attr('href') + ')';
-                                      })
-                         .end()
-                         .html();
+      return $(this).text() + ' (' + $(this).attr('href') + ')';
+    })
+    .end()
+    .html();
     html = html.replace(/(<(br|ul|ol)>)/g, '\n'); // replace <br>,<ol>,<ul> with new line
     html = html.replace(/<\/(div|p|li)>/g, '\n'); // replace </div>, </p> or </li> tags with new line
     html = html.replace(/<li>/g, '- ');
@@ -218,7 +218,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
    * @param {String} options.text         The encrypted message body
    * @param {Array}  options.recipients   The recipients to be added
    */
-   _setEditorOutput(options) {
+  _setEditorOutput(options) {
     // set message body
     this._saveEmailText();
     this._normalizeButtons();

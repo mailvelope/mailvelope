@@ -41,7 +41,7 @@ export default class KeyringSetup extends React.Component {
           <h4>{l10n.map.keyring_setup_generate_key}</h4>
           <p>{l10n.map.keyring_setup_generate_key_explanation}</p>
           <p>
-          <Link to="/keyring/generate" className="btn btn-primary">{l10n.map.keyring_setup_generate_key}</Link></p>
+            <Link to="/keyring/generate" className="btn btn-primary">{l10n.map.keyring_setup_generate_key}</Link></p>
           <hr/>
           <h4>{l10n.map.keyring_setup_import_key}</h4>
           <p>{l10n.map.keyring_setup_import_key_explanation}</p>

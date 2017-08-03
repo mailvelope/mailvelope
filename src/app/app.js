@@ -165,7 +165,7 @@ class App extends React.Component {
     return new Promise(resolve => {
       sendMessage({event: 'set-prefs', data: update})
       .then(() => pgpModel('getPreferences')
-        .then(prefs => this.setState({prefs}, () => resolve())));
+      .then(prefs => this.setState({prefs}, () => resolve())));
     });
   }
 
@@ -273,10 +273,10 @@ class App extends React.Component {
                       <ProviderLogo logo={this.state.providerLogo} />
                       <Route path='/keyring/display' render={() =>
                         <KeyGrid keys={this.state.keys}
-                                 primaryKeyId={this.state.primaryKeyId}
-                                 onChangePrimaryKey={this.handleChangePrimaryKey}
-                                 onDeleteKey={this.handleDeleteKey}
-                                 spinner={this.state.keyGridSpinner} />
+                          primaryKeyId={this.state.primaryKeyId}
+                          onChangePrimaryKey={this.handleChangePrimaryKey}
+                          onDeleteKey={this.handleDeleteKey}
+                          spinner={this.state.keyGridSpinner} />
                       } />
                       <Route path='/keyring/import' render={({location}) => <ImportKey onKeyringChange={this.loadKeyring} demail={this.state.isDemail} prefs={this.state.prefs} location={location} />} />
                       <Route path='/keyring/generate' render={() => <GenerateKey onKeyringChange={this.loadKeyring} demail={this.state.isDemail} name={this.state.name} email={this.state.email} />} />

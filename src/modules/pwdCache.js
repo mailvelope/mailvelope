@@ -129,14 +129,14 @@ export function set(message, pwd, cacheTime) {
  */
 export function unlock(options) {
   return unlockKey(options.key, options.keyid, options.password)
-    .then(function(key) {
-      options.key = key;
-      // set unlocked key in cache
-      set(options);
-    })
-    .catch(function() {
-      throw {
-        message: 'Password caching does not support different passphrases for primary key and subkeys'
-      };
-    });
+  .then(function(key) {
+    options.key = key;
+    // set unlocked key in cache
+    set(options);
+  })
+  .catch(function() {
+    throw {
+      message: 'Password caching does not support different passphrases for primary key and subkeys'
+    };
+  });
 }

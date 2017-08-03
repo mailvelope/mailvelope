@@ -44,26 +44,26 @@ var mvelo = mvelo || null;
   function init() {
     $('#showlog').hide();
     $('.popup')
-      .off()
-      .on('click', 'a', function() {
-        if (mvelo.crx) {
-          hide();
-        } else {
-          sendMessage({event: 'close-popup'});
-        }
-      })
-      .on('click', 'button', function() {
-        // id of dropdown entry = action
-        if (this.id === 'state' || this.id === '') {
-          return;
-        }
-        var message = {
-          event: 'browser-action',
-          action: this.id
-        };
-        sendMessage(message);
+    .off()
+    .on('click', 'a', function() {
+      if (mvelo.crx) {
         hide();
-      });
+      } else {
+        sendMessage({event: 'close-popup'});
+      }
+    })
+    .on('click', 'button', function() {
+      // id of dropdown entry = action
+      if (this.id === 'state' || this.id === '') {
+        return;
+      }
+      var message = {
+        event: 'browser-action',
+        action: this.id
+      };
+      sendMessage(message);
+      hide();
+    });
 
     if (mvelo.crx) {
       mvelo.l10n.localizeHTML();
@@ -81,19 +81,19 @@ var mvelo = mvelo || null;
     sendMessage({event: 'get-ui-log'});
 
     $('#state')
-      .off()
-      .on('click', function() {
-        var msg;
-        if (activeState) {
-          msg = {event: 'deactivate'};
-        } else {
-          msg = {event: 'activate'};
-        }
-        activeState = !activeState;
-        handleAppActivation();
-        sendMessage(msg);
-        hide();
-      });
+    .off()
+    .on('click', function() {
+      var msg;
+      if (activeState) {
+        msg = {event: 'deactivate'};
+      } else {
+        msg = {event: 'activate'};
+      }
+      activeState = !activeState;
+      handleAppActivation();
+      sendMessage(msg);
+      hide();
+    });
 
     $('[data-toggle="tooltip"]').tooltip();
   }

@@ -150,15 +150,15 @@ function getSecurityBgndConfig() {
 
 function previewSecurityBgnd() {
   var scaling = parseInt($('#scaling').val()) / 10,
-      angle = parseInt($('#angle').val()),
-      colorId = parseInt($('#coloring').val()),
-      secBgndIcon = mvelo.util.generateSecurityBackground({
-        width: secBackground.width,
-        height: secBackground.height,
-        scaling,
-        angle,
-        colorId
-      });
+    angle = parseInt($('#angle').val()),
+    colorId = parseInt($('#coloring').val()),
+    secBgndIcon = mvelo.util.generateSecurityBackground({
+      width: secBackground.width,
+      height: secBackground.height,
+      scaling,
+      angle,
+      colorId
+    });
 
   $('#previewArea').css({
     'backgroundColor': secBackground.color,
@@ -181,20 +181,20 @@ function onSave() {
   }
 
   var angel = $("#angle").val(),
-      scaling = ($("#scaling").val() / 10),
-      coloring = $("#coloring").val(),
-      iconColor = mvelo.SECURE_COLORS[coloring],
-      update = {
-        security: {
-          display_decrypted: $('input:radio[name="decryptRadios"]:checked').val(),
-          secureBgndAngle: angel,
-          secureBgndScaling: scaling,
-          secureBgndColorId: coloring,
-          secureBgndIconColor: iconColor,
-          password_cache: $('input:radio[name="pwdCacheRadios"]:checked').val() === 'true',
-          password_timeout: $('#pwdCacheTime').val()
-        }
-      };
+    scaling = ($("#scaling").val() / 10),
+    coloring = $("#coloring").val(),
+    iconColor = mvelo.SECURE_COLORS[coloring],
+    update = {
+      security: {
+        display_decrypted: $('input:radio[name="decryptRadios"]:checked').val(),
+        secureBgndAngle: angel,
+        secureBgndScaling: scaling,
+        secureBgndColorId: coloring,
+        secureBgndIconColor: iconColor,
+        password_cache: $('input:radio[name="pwdCacheRadios"]:checked').val() === 'true',
+        password_timeout: $('#pwdCacheTime').val()
+      }
+    };
   mvelo.extension.sendMessage({event: 'set-prefs', data: update}, function() {
     normalize();
     $('#secReloadInfo').show();
@@ -212,10 +212,10 @@ function validate() {
     return true;
   } else {
     pwdCacheTime
-      .closest('.radio')
-      .addClass('has-error')
-      .find('span.help-block')
-      .removeClass('hide');
+    .closest('.radio')
+    .addClass('has-error')
+    .find('span.help-block')
+    .removeClass('hide');
     return false;
   }
 }
@@ -236,14 +236,14 @@ function onCancel() {
 
 function loadPrefs() {
   pgpModel('getPreferences')
-    .then(function(prefs) {
-      $('input:radio[name="decryptRadios"]').filter(function() {
-        return $(this).val() === prefs.security.display_decrypted;
-      }).prop('checked', true);
-      $('input:radio[name="pwdCacheRadios"]').filter(function() {
-        return $(this).val() === (prefs.security.password_cache ? 'true' : 'false');
-      }).prop('checked', true);
-      $('#pwdCacheTime').val(prefs.security.password_timeout);
-      toggleCacheTime();
-    });
+  .then(function(prefs) {
+    $('input:radio[name="decryptRadios"]').filter(function() {
+      return $(this).val() === prefs.security.display_decrypted;
+    }).prop('checked', true);
+    $('input:radio[name="pwdCacheRadios"]').filter(function() {
+      return $(this).val() === (prefs.security.password_cache ? 'true' : 'false');
+    }).prop('checked', true);
+    $('#pwdCacheTime').val(prefs.security.password_timeout);
+    toggleCacheTime();
+  });
 }

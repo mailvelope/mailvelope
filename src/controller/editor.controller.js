@@ -259,9 +259,9 @@ export default class EditorController extends sub.SubController {
     if (message) {
       quotaSize += mvelo.util.byteCount(message);
       var textMime = new mailbuild("text/plain")
-        .setHeader("Content-Type", "text/plain; charset=utf-8")
-        .addHeader("Content-Transfer-Encoding", "quoted-printable")
-        .setContent(message);
+      .setHeader("Content-Type", "text/plain; charset=utf-8")
+      .addHeader("Content-Transfer-Encoding", "quoted-printable")
+      .setContent(message);
       mainMessage.appendChild(textMime);
     }
     if (attachments && attachments.length > 0) {
@@ -269,11 +269,11 @@ export default class EditorController extends sub.SubController {
       attachments.forEach(function(attachment) {
         quotaSize += attachment.size;
         var attachmentMime = new mailbuild("text/plain")
-          .createChild(false, {filename: attachment.name})
+        .createChild(false, {filename: attachment.name})
           //.setHeader("Content-Type", attachment.type + "; charset=utf-8")
-          .addHeader("Content-Transfer-Encoding", "base64")
-          .addHeader("Content-Disposition", "attachment") // ; filename="attachment.filename
-          .setContent(attachment.content);
+        .addHeader("Content-Transfer-Encoding", "base64")
+        .addHeader("Content-Disposition", "attachment") // ; filename="attachment.filename
+        .setContent(attachment.content);
         mainMessage.appendChild(attachmentMime);
       });
     }

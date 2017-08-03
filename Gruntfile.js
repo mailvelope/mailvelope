@@ -80,24 +80,24 @@ module.exports = function(grunt) {
 
       dep_dev: {
         files: [{
-            src: 'node_modules/react/dist/react.js',
-            dest: 'build/tmp/dep/react/react.js'
-          },
-          {
-            src: 'node_modules/react-dom/dist/react-dom.js',
-            dest: 'build/tmp/dep/react/react-dom.js'
-          }]
+          src: 'node_modules/react/dist/react.js',
+          dest: 'build/tmp/dep/react/react.js'
+        },
+        {
+          src: 'node_modules/react-dom/dist/react-dom.js',
+          dest: 'build/tmp/dep/react/react-dom.js'
+        }]
       },
 
       dep_prod: {
         files: [{
-            src: 'node_modules/react/dist/react.min.js',
-            dest: 'build/tmp/dep/react/react.js'
-          },
-          {
-            src: 'node_modules/react-dom/dist/react-dom.min.js',
-            dest: 'build/tmp/dep/react/react-dom.js'
-          }]
+          src: 'node_modules/react/dist/react.min.js',
+          dest: 'build/tmp/dep/react/react.js'
+        },
+        {
+          src: 'node_modules/react-dom/dist/react-dom.min.js',
+          dest: 'build/tmp/dep/react/react-dom.js'
+        }]
       },
 
       dep_chrome: {

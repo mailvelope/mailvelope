@@ -127,14 +127,14 @@ export default class KeyGrid extends React.Component {
           </div>
           <table className="table table-striped table-hover optionsTable" id="keyRingTable">
             <thead>
-            <tr>
-              <th></th>
-              <th>{l10n.map.keygrid_user_name}</th>
-              <th>{l10n.map.keygrid_user_email}</th>
-              <th style={{minWidth: '140px'}}>{l10n.map.keygrid_keyid}</th>
-              <th>{l10n.map.keygrid_creation_date_short}</th>
-              <th></th>
-            </tr>
+              <tr>
+                <th></th>
+                <th>{l10n.map.keygrid_user_name}</th>
+                <th>{l10n.map.keygrid_user_email}</th>
+                <th style={{minWidth: '140px'}}>{l10n.map.keygrid_keyid}</th>
+                <th>{l10n.map.keygrid_creation_date_short}</th>
+                <th></th>
+              </tr>
             </thead>
             <tbody>
               { this.props.keys.map((key, index) =>
@@ -154,21 +154,21 @@ export default class KeyGrid extends React.Component {
                     </div>
                   </td>
                 </tr>
-                )
+              )
               }
             </tbody>
           </table>
         </div>
         {this.props.spinner && <Spinner style={{margin: '60px auto 60px'}} />}
         {this.state.keyDetails && <KeyDetails keyDetails={this.state.keyDetails}
-                                              onSetPrimaryKey={() => this.props.onChangePrimaryKey(this.state.keyDetails.id)}
-                                              isPrimary={this.props.primaryKeyId === this.state.keyDetails.id}
-                                              onHide={() => this.setState({keyDetails: null})} />
+          onSetPrimaryKey={() => this.props.onChangePrimaryKey(this.state.keyDetails.id)}
+          isPrimary={this.props.primaryKeyId === this.state.keyDetails.id}
+          onHide={() => this.setState({keyDetails: null})} />
         }
         {this.state.keyringBackup && <KeyringBackup keyids={this.state.keyringBackup.keyids}
-                                            all={this.state.keyringBackup.all}
-                                            type={this.state.keyringBackup.type}
-                                            onHide={() => this.setState({keyringBackup: null})} />
+          all={this.state.keyringBackup.all}
+          type={this.state.keyringBackup.type}
+          onHide={() => this.setState({keyringBackup: null})} />
         }
       </div>
     );

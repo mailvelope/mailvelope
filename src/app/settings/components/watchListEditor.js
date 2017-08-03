@@ -50,12 +50,12 @@ export default class WatchListEditor extends React.Component {
             </div>
             <table className="table table-hover table-condensed table-striped optionsTable" id="watchList">
               <thead>
-              <tr>
-                <th>{l10n.map.watchlist_title_scan}</th>
-                <th>{l10n.map.watchlist_title_frame}</th>
-                <th>{l10n.map.watchlist_expose_api}</th>
-                <th></th>
-              </tr>
+                <tr>
+                  <th>{l10n.map.watchlist_title_scan}</th>
+                  <th>{l10n.map.watchlist_title_frame}</th>
+                  <th>{l10n.map.watchlist_expose_api}</th>
+                  <th></th>
+                </tr>
               </thead>
               <tbody>
                 { this.props.site.frames.map((frame, index) =>
@@ -75,7 +75,7 @@ export default class WatchListEditor extends React.Component {
                       </button>
                     </td>
                   </tr>
-                  )
+                )
                 }
               </tbody>
             </table>

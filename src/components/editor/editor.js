@@ -250,8 +250,8 @@ function renderRecipientInput(props = {}) {
 function templatesLoaded() {
   $('#waitingModal').on('hidden.bs.modal', function() {
     editor.focus()
-      .prop('selectionStart', 0)
-      .prop('selectionEnd', 0);
+    .prop('selectionStart', 0)
+    .prop('selectionEnd', 0);
   });
   $(window).on('focus', startBlurValid);
   if (editor_type == mvelo.PLAIN_TEXT) {
@@ -404,21 +404,21 @@ function addAttachment(file) {
   }
 
   fileLib.readUploadFile(file, afterLoadEnd)
-    .then(function(response) {
-      var $fileElement = fileLib.createFileElement(response, {
-        removeButton: true,
-        onRemove: onRemoveAttachment
-      });
-      var $uploadPanel = $('#uploadPanel');
-      var uploadPanelHeight = $uploadPanel[0].scrollHeight;
-      $uploadPanel
-        .append($fileElement)
-        .scrollTop(uploadPanelHeight); //Append attachment element and scroll to bottom of #uploadPanel to show current uploads
-
-    })
-    .catch(function(error) {
-      console.log(error);
+  .then(function(response) {
+    var $fileElement = fileLib.createFileElement(response, {
+      removeButton: true,
+      onRemove: onRemoveAttachment
     });
+    var $uploadPanel = $('#uploadPanel');
+    var uploadPanelHeight = $uploadPanel[0].scrollHeight;
+    $uploadPanel
+    .append($fileElement)
+    .scrollTop(uploadPanelHeight); //Append attachment element and scroll to bottom of #uploadPanel to show current uploads
+
+  })
+  .catch(function(error) {
+    console.log(error);
+  });
 }
 
 function afterLoadEnd() {
@@ -493,10 +493,10 @@ function createPlainText() {
   var meta = $('<meta/>', {charset: 'UTF-8'});
   sandbox.one('load', function() {
     sandbox.contents().find('head').append(meta)
-      .append(style)
-      .append(style2);
+    .append(style)
+    .append(style2);
     sandbox.contents().find('body').attr("style", "overflow: hidden; margin: 0")
-      .append(text);
+    .append(text);
   });
   $('#plainText').append(sandbox);
   text.on('input', function() {
@@ -524,9 +524,9 @@ function createPlainText() {
 
 function setPlainText(text) {
   editor.focus()
-    .val(text)
-    .prop('selectionStart', 0)
-    .prop('selectionEnd', 0);
+  .val(text)
+  .prop('selectionStart', 0)
+  .prop('selectionEnd', 0);
 }
 
 function setText(text) {
@@ -556,14 +556,14 @@ function showBlurWarning() {
   if (!blurValid) {
     // fade in 600ms, wait 200ms, fade out 600ms
     blurWarn.removeClass('hide')
-      .stop(true)
-      .animate({opacity: 1}, 'slow', 'swing', function() {
-        setTimeout(function() {
-          blurWarn.animate({opacity: 0}, 'slow', 'swing', function() {
-            blurWarn.addClass('hide');
-          });
-        }, 200);
-      });
+    .stop(true)
+    .animate({opacity: 1}, 'slow', 'swing', function() {
+      setTimeout(function() {
+        blurWarn.animate({opacity: 0}, 'slow', 'swing', function() {
+          blurWarn.addClass('hide');
+        });
+      }, 200);
+    });
   }
 }
 

@@ -169,9 +169,9 @@ function findEditable() {
     // set event handler for contextmenu
     content.find('body')//.off("contextmenu").on("contextmenu", onContextMenu)
     // mark body as 'inside iframe'
-                        .data(mvelo.DYN_IFRAME, true)
+    .data(mvelo.DYN_IFRAME, true)
     // add iframe element
-                        .data(mvelo.IFRAME_OBJ, $(this));
+    .data(mvelo.IFRAME_OBJ, $(this));
     // document of iframe in design mode or contenteditable set on the body
     if (content.attr('designMode') === 'on' || content.find('body[contenteditable]').length !== 0) {
       // add iframe to editable elements

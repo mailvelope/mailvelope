@@ -124,7 +124,7 @@ var mvelo = mvelo || null;
         $('#spinner').hide();
         $('.modal-body').css('opacity', '1');
         $('#password').val('').focus().closest('.control-group').addClass('error')
-                      .end().next().removeClass('hide');
+        .end().next().removeClass('hide');
         break;
       default:
         console.log('unknown event');

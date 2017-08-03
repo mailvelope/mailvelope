@@ -298,16 +298,16 @@ export function encryptMessage(options) {
   return new Promise(function(resolve, reject) {
     var keys = getKeysForEncryption(options);
     openpgp.getWorker().encryptMessage(keys, options.message)
-      .then(function(msg) {
-        logEncryption(options.uiLogSource, keys);
-        resolve(msg);
-      })
-      .catch(function(e) {
-        console.log('openpgp.getWorker().encryptMessage() error', e);
-        reject({
-          message: l10n('encrypt_error', [e])
-        });
+    .then(function(msg) {
+      logEncryption(options.uiLogSource, keys);
+      resolve(msg);
+    })
+    .catch(function(e) {
+      console.log('openpgp.getWorker().encryptMessage() error', e);
+      reject({
+        message: l10n('encrypt_error', [e])
       });
+    });
   });
 }
 
@@ -324,17 +324,17 @@ export function signAndEncryptMessage(options) {
   return new Promise(function(resolve, reject) {
     var keys = getKeysForEncryption(options);
     openpgp.getWorker().signAndEncryptMessage(keys, options.primaryKey.key, options.message)
-      .then(function(msg) {
-        logEncryption(options.uiLogSource, keys);
-        resolve(msg);
-      })
-      .catch(function(e) {
-        console.log('openpgp.getWorker().signAndEncryptMessage() error', e);
-        reject({
-          code: 'ENCRYPT_ERROR',
-          message: l10n('encrypt_error', [e])
-        });
+    .then(function(msg) {
+      logEncryption(options.uiLogSource, keys);
+      resolve(msg);
+    })
+    .catch(function(e) {
+      console.log('openpgp.getWorker().signAndEncryptMessage() error', e);
+      reject({
+        code: 'ENCRYPT_ERROR',
+        message: l10n('encrypt_error', [e])
       });
+    });
   });
 }
 
@@ -420,7 +420,7 @@ export function restorePrivateKeyBackup(armoredBlock, code) {
           message.packets[0].sessionKeyAlgorithm === 'aes256' &&
           (message.packets[0].sessionKeyEncryptionAlgorithm === null || message.packets[0].sessionKeyEncryptionAlgorithm === 'aes256') &&
           message.packets[1].tag === 18 // Sym. Encrypted Integrity Protected Data Packet
-       )) {
+    )) {
       return {error: {message: 'Illegal private key backup structure.'}};
     }
     try {
@@ -446,37 +446,37 @@ export function restorePrivateKeyBackup(armoredBlock, code) {
  */
 export function decryptSyncMessage(key, message) {
   return openpgp.getWorker().decryptAndVerifyMessage(key, [key], message)
-    .then(function(msg) {
-      // check signature
-      var sig = msg.signatures[0];
-      if (!(sig && sig.valid && sig.keyid.equals(key.getSigningKeyPacket().getKeyId()))) {
-        throw new Error('Signature of synced keyring is invalid');
-      }
-      var syncData = JSON.parse(msg.text);
-      var publicKeys = [];
-      var changeLog = {};
-      var fingerprint;
-      for (fingerprint in syncData.insertedKeys) {
-        publicKeys.push({
-          type: 'public',
-          armored: syncData.insertedKeys[fingerprint].armored
-        });
-        changeLog[fingerprint] = {
-          type: keyringSync.INSERT,
-          time: syncData.insertedKeys[fingerprint].time
-        };
-      }
-      for (fingerprint in syncData.deletedKeys) {
-        changeLog[fingerprint] = {
-          type: keyringSync.DELETE,
-          time: syncData.deletedKeys[fingerprint].time
-        };
-      }
-      return {
-        changeLog: changeLog,
-        keys: publicKeys
+  .then(function(msg) {
+    // check signature
+    var sig = msg.signatures[0];
+    if (!(sig && sig.valid && sig.keyid.equals(key.getSigningKeyPacket().getKeyId()))) {
+      throw new Error('Signature of synced keyring is invalid');
+    }
+    var syncData = JSON.parse(msg.text);
+    var publicKeys = [];
+    var changeLog = {};
+    var fingerprint;
+    for (fingerprint in syncData.insertedKeys) {
+      publicKeys.push({
+        type: 'public',
+        armored: syncData.insertedKeys[fingerprint].armored
+      });
+      changeLog[fingerprint] = {
+        type: keyringSync.INSERT,
+        time: syncData.insertedKeys[fingerprint].time
       };
-    });
+    }
+    for (fingerprint in syncData.deletedKeys) {
+      changeLog[fingerprint] = {
+        type: keyringSync.DELETE,
+        time: syncData.deletedKeys[fingerprint].time
+      };
+    }
+    return {
+      changeLog: changeLog,
+      keys: publicKeys
+    };
+  });
 }
 
 /**

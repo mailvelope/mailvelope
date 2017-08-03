@@ -215,29 +215,29 @@ mvelo.util.getHash = function() {
 
 mvelo.util.encodeHTML = function(text) {
   return String(text)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;")
-    .replace(/\//g, "&#x2F;");
+  .replace(/&/g, "&amp;")
+  .replace(/</g, "&lt;")
+  .replace(/>/g, "&gt;")
+  .replace(/"/g, "&quot;")
+  .replace(/'/g, "&#039;")
+  .replace(/\//g, "&#x2F;");
 };
 
 mvelo.util.decodeHTML = function(html) {
   return String(html)
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, "\"")
-    .replace(/&#039;/g, "\'")
-    .replace(/&#x2F;/g, "\/");
+  .replace(/&amp;/g, "&")
+  .replace(/&lt;/g, "<")
+  .replace(/&gt;/g, ">")
+  .replace(/&quot;/g, "\"")
+  .replace(/&#039;/g, "\'")
+  .replace(/&#x2F;/g, "\/");
 };
 
 mvelo.util.decodeQuotedPrint = function(armored) {
   return armored
-    .replace(/=3D=3D\s*$/m, "==")
-    .replace(/=3D\s*$/m, "=")
-    .replace(/=3D(\S{4})\s*$/m, "=$1");
+  .replace(/=3D=3D\s*$/m, "==")
+  .replace(/=3D\s*$/m, "=")
+  .replace(/=3D(\S{4})\s*$/m, "=$1");
 };
 
 /**
@@ -338,7 +338,7 @@ mvelo.util.extend = function(target) {
   sources.forEach(function(source) {
     Object.getOwnPropertyNames(source).forEach(function(propName) {
       Object.defineProperty(target, propName,
-          Object.getOwnPropertyDescriptor(source, propName));
+        Object.getOwnPropertyDescriptor(source, propName));
     });
   });
   return target;
@@ -407,7 +407,7 @@ mvelo.util.showSecurityBackground = function(isEmbedded) {
 mvelo.util.matchPattern2RegEx = function(matchPattern) {
   return new RegExp(
     '^' + matchPattern.replace(/\./g, '\\.')
-                      .replace(/\*\\\./, '(\\w+(-\\w+)*\\.)*') + '$'
+    .replace(/\*\\\./, '(\\w+(-\\w+)*\\.)*') + '$'
   );
 };
 

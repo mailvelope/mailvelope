@@ -368,7 +368,7 @@ export class Keyring {
       }
       result[emailAddr] = result[emailAddr].filter(function(key) {
         if (options.validity && (
-            key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
+          key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
             key.getEncryptionKeyPacket() === null) ||
             trustKey.isKeyPseudoRevoked(that.id, key)) {
           return;
@@ -728,23 +728,23 @@ export function mapKeys(keys) {
 function getAlgorithmString(keyType) {
   var result = '';
   switch (keyType) {
-  case 'rsa_encrypt_sign':
-    result = "RSA (Encrypt or Sign)";
-    break;
-  case 'rsa_encrypt':
-    result = "RSA Encrypt-Only";
-    break;
-  case 'rsa_sign':
-    result = "RSA Sign-Only";
-    break;
-  case 'elgamal':
-    result = "Elgamal (Encrypt-Only)";
-    break;
-  case 'dsa':
-    result = "DSA (Digital Signature Algorithm)";
-    break;
-  default:
-    result = "UNKNOWN";
+    case 'rsa_encrypt_sign':
+      result = "RSA (Encrypt or Sign)";
+      break;
+    case 'rsa_encrypt':
+      result = "RSA Encrypt-Only";
+      break;
+    case 'rsa_sign':
+      result = "RSA Sign-Only";
+      break;
+    case 'elgamal':
+      result = "Elgamal (Encrypt-Only)";
+      break;
+    case 'dsa':
+      result = "DSA (Digital Signature Algorithm)";
+      break;
+    default:
+      result = "UNKNOWN";
   }
   return result;
 }

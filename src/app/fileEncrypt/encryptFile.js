@@ -259,44 +259,44 @@ function addEncryptInteractivity() {
 
   $encryptFileUpload = $('#encrypt_fileUpload').change(onAddFile.bind(null, $encryptFileUploadPanel));
   $encryptAddFileBtn = $('#encrypt_addFileBtn')
-    .on('click', function() {
-      $encryptFileUpload.click();
-    });
+  .on('click', function() {
+    $encryptFileUpload.click();
+  });
   $encryptToPersonBtn = $('#encrypt_goToPersonBtn')
-    .prop('disabled', true)
-    .on('click', function() {
-      switchPanel($encryptPersonPanel, $encryptPanels);
-    });
+  .prop('disabled', true)
+  .on('click', function() {
+    switchPanel($encryptPersonPanel, $encryptPanels);
+  });
   $encryptToDownloadBtn = $('#encrypt_goToDownloadBtn')
-    .prop('disabled', true)
-    .on('click', onEncryptFiles);
+  .prop('disabled', true)
+  .on('click', onEncryptFiles);
   $encryptDownloadAllBtn = $('#encrypt_downloadAllBtn')
-    .prop('disabled', true)
-    .on('click', function() {
-      $encryptFileDownload.children().each(function() {
-        this.click();
-      });
+  .prop('disabled', true)
+  .on('click', function() {
+    $encryptFileDownload.children().each(function() {
+      this.click();
     });
+  });
   $('#encrypt_backToUploadBtn')
-    .on('click', function() {
-      switchPanel($encryptFileUploadPanel, $encryptPanels);
-    });
+  .on('click', function() {
+    switchPanel($encryptFileUploadPanel, $encryptPanels);
+  });
   $('#encrypt_backToPersonBtn')
-    .on('click', function() {
-      switchPanel($encryptPersonPanel, $encryptPanels);
-    });
+  .on('click', function() {
+    switchPanel($encryptPersonPanel, $encryptPanels);
+  });
   $encryptFileDownload = $('#encrypt_fileDownload');
 
   var MAXFILEUPLOADSIZE = mvelo.crx ? mvelo.MAXFILEUPLOADSIZECHROME : mvelo.MAXFILEUPLOADSIZE;
   MAXFILEUPLOADSIZE = Math.ceil(MAXFILEUPLOADSIZE / 1024 / 1024);
 
   $encryptAddFileBtn.next()
-    .text(l10n.map.encrypt_upload_file_help.replace('##', MAXFILEUPLOADSIZE));
+  .text(l10n.map.encrypt_upload_file_help.replace('##', MAXFILEUPLOADSIZE));
 
   $encryptKeyList = $('#encrypt_keyList');
   $encryptKeySelect = $('#encrypt_keySelect');
   $encryptAddPersonBtn = $('#encrypt_addPersonBtn')
-    .on('click', onAddRecipient);
+  .on('click', onAddRecipient);
 
   switchPanel($encryptFileUploadPanel, $encryptPanels);
 }
@@ -317,32 +317,32 @@ function addDecryptInteractivity() {
 
   $decryptFileUpload = $('#decrypt_fileUpload').on('change', onAddFile.bind(null, $decryptFileUploadPanel));
   $decryptAddFileBtn = $('#decrypt_addFileBtn')
-    .on('click', function() {
-      $decryptFileUpload.click();
-    });
+  .on('click', function() {
+    $decryptFileUpload.click();
+  });
 
   var MAXFILEUPLOADSIZE = mvelo.crx ? mvelo.MAXFILEUPLOADSIZECHROME : mvelo.MAXFILEUPLOADSIZE;
   MAXFILEUPLOADSIZE = Math.ceil(MAXFILEUPLOADSIZE / 1024 / 1024);
 
   $decryptAddFileBtn.next()
-    .text(l10n.map.encrypt_upload_file_help.replace('##', MAXFILEUPLOADSIZE));
+  .text(l10n.map.encrypt_upload_file_help.replace('##', MAXFILEUPLOADSIZE));
 
   $decryptToDownloadBtn = $('#decrypt_goToDownloadBtn')
-    .prop('disabled', true)
-    .on('click', onDecryptFiles);
+  .prop('disabled', true)
+  .on('click', onDecryptFiles);
 
   $decryptDownloadAllBtn = $('#decrypt_downloadAllBtn')
-    .prop('disabled', true)
-    .on('click', function() {
-      $decryptFileDownload.children().each(function() {
-        this.click();
-      });
+  .prop('disabled', true)
+  .on('click', function() {
+    $decryptFileDownload.children().each(function() {
+      this.click();
     });
+  });
 
   $('#decrypt_backToUploadBtn')
-    .on('click', function() {
-      switchPanel($decryptFileUploadPanel, $decryptPanels);
-    });
+  .on('click', function() {
+    switchPanel($decryptFileUploadPanel, $decryptPanels);
+  });
 
   switchPanel($decryptFileUploadPanel, $decryptPanels);
 }
@@ -359,16 +359,16 @@ function onDecryptFiles(e) {
     $('.waiting', $decryptFileDownloadPanel).show();
     var encryptedFiles = fileLib.getFiles($decryptFileUploadPanel);
     decryptFiles(encryptedFiles)
-      .catch(function(error) {
-        showError(error.message, $decryptFileDownloadError);
-      })
-      .then(function() {
-        $('.waiting', $decryptFileDownloadPanel).hide();
-        isDecryptCached = hasError($decryptFileDownloadError) ? false : true;
-        if ($decryptFileDownload.children().length) {
-          $decryptDownloadAllBtn.prop('disabled', false);
-        }
-      });
+    .catch(function(error) {
+      showError(error.message, $decryptFileDownloadError);
+    })
+    .then(function() {
+      $('.waiting', $decryptFileDownloadPanel).hide();
+      isDecryptCached = hasError($decryptFileDownloadError) ? false : true;
+      if ($decryptFileDownload.children().length) {
+        $decryptDownloadAllBtn.prop('disabled', false);
+      }
+    });
   }
 
   switchPanel($decryptFileDownloadPanel, $decryptPanels);
@@ -378,16 +378,16 @@ function decryptFiles(encryptedFiles) {
   var decryptProcesses = [];
   encryptedFiles.forEach(function(encryptedFile) {
     decryptProcesses.push(app.pgpModel('decryptFile', [encryptedFile])
-      .then(function(file) {
-        addFileToDownload({
-          name: file.name,
-          content: file.content,
-          type: 'application/octet-stream'
-        }, $decryptFileDownload);
-      })
-      .catch(function(error) {
-        showError(error.message, $decryptFileDownloadError);
-      })
+    .then(function(file) {
+      addFileToDownload({
+        name: file.name,
+        content: file.content,
+        type: 'application/octet-stream'
+      }, $decryptFileDownload);
+    })
+    .catch(function(error) {
+      showError(error.message, $decryptFileDownloadError);
+    })
     );
   });
   return Promise.all(decryptProcesses);
@@ -406,18 +406,18 @@ function onEncryptFiles(e) {
     var plainFiles = fileLib.getFiles($encryptFileUploadPanel);
     var receipients = getSelectedRecipients();
     encryptFiles(plainFiles, receipients)
-      .then(function() {
-        isEncryptCached = true;
-        $encryptDownloadAllBtn.prop('disabled', false);
-      })
-      .catch(function(error) {
-        isEncryptCached = false;
-        $encryptDownloadAllBtn.prop('disabled', true);
-        showError(error.message, $encryptFileDownloadError);
-      })
-      .then(function() {
-        $('.waiting', $encryptFileDownloadPanel).hide();
-      });
+    .then(function() {
+      isEncryptCached = true;
+      $encryptDownloadAllBtn.prop('disabled', false);
+    })
+    .catch(function(error) {
+      isEncryptCached = false;
+      $encryptDownloadAllBtn.prop('disabled', true);
+      showError(error.message, $encryptFileDownloadError);
+    })
+    .then(function() {
+      $('.waiting', $encryptFileDownloadPanel).hide();
+    });
   }
   switchPanel($encryptFileDownloadPanel, $encryptPanels);
 }
@@ -426,13 +426,13 @@ function encryptFiles(plainFiles, receipients) {
   var encryptProcesses = [];
   plainFiles.forEach(function(plainFile) {
     encryptProcesses.push(app.pgpModel('encryptFile', [plainFile, receipients])
-      .then(function(armored) {
-        addFileToDownload({
-          name: plainFile.name + '.asc',
-          content: armored,
-          type: 'application/octet-stream'
-        }, $encryptFileDownload, {secureIcon: true});
-      })
+    .then(function(armored) {
+      addFileToDownload({
+        name: plainFile.name + '.asc',
+        content: armored,
+        type: 'application/octet-stream'
+      }, $encryptFileDownload, {secureIcon: true});
+    })
     );
   });
   return Promise.all(encryptProcesses);
@@ -505,24 +505,24 @@ function onAddFile($filePanel, evt) {
 
     numUploadsInProgress++;
     fileLib.readUploadFile(file, afterLoadEnd.bind(null, $filePanel))
-      .then(function(response) {
-        var $fileElement = fileLib.createFileElement(response, {
-          removeButton: true,
-          onRemove: onRemoveFile,
-          secureIcon: $filePanel.attr('id') === 'decrypt_fileUploadPanel' ? true : false
-        });
-        if ($filePanel.attr('id') === 'encrypt_fileUploadPanel') {
-          $encryptFileSelection.append($fileElement);
-          isEncryptCached = false;
-        } else if ($filePanel.attr('id') === 'decrypt_fileUploadPanel') {
-          $decryptFileSelection.append($fileElement);
-          isDecryptCached = false;
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-        showError('Unknown Error', $fileUploadError);
+    .then(function(response) {
+      var $fileElement = fileLib.createFileElement(response, {
+        removeButton: true,
+        onRemove: onRemoveFile,
+        secureIcon: $filePanel.attr('id') === 'decrypt_fileUploadPanel' ? true : false
       });
+      if ($filePanel.attr('id') === 'encrypt_fileUploadPanel') {
+        $encryptFileSelection.append($fileElement);
+        isEncryptCached = false;
+      } else if ($filePanel.attr('id') === 'decrypt_fileUploadPanel') {
+        $decryptFileSelection.append($fileElement);
+        isDecryptCached = false;
+      }
+    })
+    .catch(function(error) {
+      console.log(error);
+      showError('Unknown Error', $fileUploadError);
+    });
   }
   evt.target.value = '';
 }
@@ -557,8 +557,8 @@ function addRecipientsToSelect(recipients) {
   $encryptKeySelect.empty();
   for (var i = 0; i < recipients.length; i++) {
     var $option = $('<option/>')
-      .val(i)
-      .text(recipients[i].userid + ' - ' + recipients[i].keyid.toUpperCase());
+    .val(i)
+    .text(recipients[i].userid + ' - ' + recipients[i].keyid.toUpperCase());
     $encryptKeySelect.append($option);
   }
 }
@@ -596,9 +596,9 @@ function getRecipientButton(recipient) {
     "data-index": recipient.index,
     "class": 'recipientButton'
   })
-    .append($icon)
-    .append($content)
-    .append($button);
+  .append($icon)
+  .append($content)
+  .append($button);
 }
 
 /**
@@ -609,8 +609,8 @@ function getRecipientButton(recipient) {
  */
 function getContentForRecipientButton(content) {
   return $('<div/>')
-    .append($('<b/>').text(content.name))
-    .append($('<small/>').text(content.email));
+  .append($('<b/>').text(content.name))
+  .append($('<small/>').text(content.email));
 }
 
 /**

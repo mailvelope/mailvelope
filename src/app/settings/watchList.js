@@ -191,11 +191,11 @@ export default class WatchList extends React.Component {
         </div>
         <table className="table table-hover table-striped optionsTable" id="watchListTable">
           <thead>
-          <tr>
-            <th>{l10n.map.watchlist_title_active}</th>
-            <th style={{width: '60%'}}>{l10n.map.watchlist_title_site}</th>
-            <th></th>
-          </tr>
+            <tr>
+              <th>{l10n.map.watchlist_title_active}</th>
+              <th style={{width: '60%'}}>{l10n.map.watchlist_title_site}</th>
+              <th></th>
+            </tr>
           </thead>
           <tbody>
             { this.state.watchList.map((site, index) =>
@@ -209,7 +209,7 @@ export default class WatchList extends React.Component {
                   </div>
                 </td>
               </tr>
-              )
+            )
             }
           </tbody>
         </table>
@@ -221,7 +221,7 @@ export default class WatchList extends React.Component {
           onChangeFrame={this.handleChangeFrame}
           onAddMatchPattern={() => this.handleAddMatchPattern()}
           onDeleteMatchPattern={index => this.handleDeleteMatchPattern(index)}
-          />
+        />
         }
       </div>
     );

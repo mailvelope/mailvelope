@@ -100,8 +100,8 @@ var mvelo = mvelo || null;
     var meta = $('<meta/>', {charset: 'UTF-8'});
     sandbox.on('load', function() {
       $(this).contents().find('head').append(meta)
-                                     .append(style)
-                                     .append(style2);
+      .append(style)
+      .append(style2);
       $(this).contents().find('body').css('background-color', 'rgba(0,0,0,0)');
       $(this).contents().find('body').append(content);
     });
@@ -134,10 +134,10 @@ var mvelo = mvelo || null;
     clearTimeout(spinnerTimer);
     $('#errorbox').show();
     $('#errorwell').showAlert(l10n.alert_header_error, msg, 'danger')
-                   .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
-                   .find('button').click(function() {
-                      port.postMessage({event: 'verify-dialog-cancel', sender: id});
-                    });
+    .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
+    .find('button').click(function() {
+      port.postMessage({event: 'verify-dialog-cancel', sender: id});
+    });
   }
 
   function resizeFont() {

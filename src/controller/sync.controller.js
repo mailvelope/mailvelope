@@ -66,27 +66,27 @@ export class SyncController extends sub.SubController {
     // reset modified to detect further modification
     this.keyring.sync.data.modified = false;
     this.downloadSyncMessage(options)
-      .then(function() {
-        if (!that.modified) {
-          return;
-        }
-        if (that.canUnlockKey('sign', options)) {
-          return that.uploadSyncMessage(options);
-        }
-        // upload didn't happen, reset modified flag
+    .then(function() {
+      if (!that.modified) {
+        return;
+      }
+      if (that.canUnlockKey('sign', options)) {
+        return that.uploadSyncMessage(options);
+      }
+      // upload didn't happen, reset modified flag
+      that.keyring.sync.data.modified = true;
+    })
+    .then(() => that.keyring.sync.save())
+    .then(function() {
+      that.checkRepeat();
+    })
+    .catch(function(err) {
+      console.log('Sync error', err);
+      if (that.modified || that.keyring.sync.data.modified) {
         that.keyring.sync.data.modified = true;
-      })
-      .then(() => that.keyring.sync.save())
-      .then(function() {
-        that.checkRepeat();
-      })
-      .catch(function(err) {
-        console.log('Sync error', err);
-        if (that.modified || that.keyring.sync.data.modified) {
-          that.keyring.sync.data.modified = true;
-        }
-        that.checkRepeat();
-      });
+      }
+      that.checkRepeat();
+    });
   }
 
   checkRepeat() {
@@ -174,17 +174,17 @@ export class SyncController extends sub.SubController {
     };
     this.pwdControl = this.pwdControl || sub.factory.get('pwdDialog');
     return this.pwdControl.unlockKey(keyOptions)
-      .then(function(message) {
-        // encrypt keyring sync message
-        return encryptSyncMessage(message.key, that.keyring.sync.data.changeLog, that.keyringId);
-      })
-      // upload
-      .then(function(armored) {
-        return that.upload({eTag: that.keyring.sync.data.eTag, keyringMsg: armored});
-      })
-      .then(function(result) {
-        that.keyring.sync.data.eTag = result.eTag;
-      });
+    .then(function(message) {
+      // encrypt keyring sync message
+      return encryptSyncMessage(message.key, that.keyring.sync.data.changeLog, that.keyringId);
+    })
+    // upload
+    .then(function(armored) {
+      return that.upload({eTag: that.keyring.sync.data.eTag, keyringMsg: armored});
+    })
+    .then(function(result) {
+      that.keyring.sync.data.eTag = result.eTag;
+    });
   }
 
   /**

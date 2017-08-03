@@ -103,8 +103,8 @@ function normalize() {
 
 function loadPrefs() {
   pgpModel('getPreferences')
-    .then(function(prefs) {
-      $('#autoAddPrimary').prop('checked', prefs.general.auto_add_primary);
-      $('#autoSignMsg').prop('checked', prefs.general.auto_sign_msg);
-    });
+  .then(function(prefs) {
+    $('#autoAddPrimary').prop('checked', prefs.general.auto_add_primary);
+    $('#autoSignMsg').prop('checked', prefs.general.auto_sign_msg);
+  });
 }

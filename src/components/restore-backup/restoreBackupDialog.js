@@ -66,43 +66,43 @@ var mvelo = mvelo || null;
       });
 
       $('.flex-digit')
-        .on('input paste', function() {
-          logUserInput('security_log_text_input');
-          var $this = $(this),
-            val = $this.val(),
-            maxlength = parseInt($this.attr('maxlength'));
+      .on('input paste', function() {
+        logUserInput('security_log_text_input');
+        var $this = $(this),
+          val = $this.val(),
+          maxlength = parseInt($this.attr('maxlength'));
 
-          if (val.length === maxlength) {
-            $this
-              .removeClass('invalid')
-              .addClass('valid');
+        if (val.length === maxlength) {
+          $this
+          .removeClass('invalid')
+          .addClass('valid');
 
-            var $next = $this.next().next();
-            if ($next) {
-              $next.focus();
-            }
-          } else {
-            $this
-              .removeClass('valid')
-              .addClass('invalid');
+          var $next = $this.next().next();
+          if ($next) {
+            $next.focus();
           }
+        } else {
+          $this
+          .removeClass('valid')
+          .addClass('invalid');
+        }
 
-          if (isCodeValid()) {
-            $restoreBackupButton.removeAttr('disabled');
-          } else {
-            $restoreBackupButton.attr('disabled', true);
-          }
+        if (isCodeValid()) {
+          $restoreBackupButton.removeAttr('disabled');
+        } else {
+          $restoreBackupButton.attr('disabled', true);
+        }
 
-          $('#errorMsg').empty().hide();
-        })
-        .on('blur', function() {
-          if (isCodeValid()) {
-            $restoreBackupButton.removeAttr('disabled');
-          } else {
-            $restoreBackupButton.attr('disabled', true);
-          }
-          $('#errorMsg').empty().hide();
-        });
+        $('#errorMsg').empty().hide();
+      })
+      .on('blur', function() {
+        if (isCodeValid()) {
+          $restoreBackupButton.removeAttr('disabled');
+        } else {
+          $restoreBackupButton.attr('disabled', true);
+        }
+        $('#errorMsg').empty().hide();
+      });
 
       $restoreBackupButton.on('click', function() {
         logUserInput('security_log_backup_restore');

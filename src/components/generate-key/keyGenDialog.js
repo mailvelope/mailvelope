@@ -69,23 +69,23 @@ var mvelo = mvelo || null;
       mvelo.util.showSecurityBackground(true);
 
       $secureBgndButton
-        .on('click', function() {
-          port.postMessage({event: 'open-security-settings', sender: name});
-        });
+      .on('click', function() {
+        port.postMessage({event: 'open-security-settings', sender: name});
+      });
 
       $pwdInput
-        .on('input paste', function() {
-          logUserInput('security_log_password_input');
-          checkPwdInput();
-        })
-        .focus();
+      .on('input paste', function() {
+        logUserInput('security_log_password_input');
+        checkPwdInput();
+      })
+      .focus();
 
       $confirmInput
-        .on('input paste', function() {
-          logUserInput('security_log_password_input');
-          checkConfirmInput();
-          checkInputsEqual();
-        });
+      .on('input paste', function() {
+        logUserInput('security_log_password_input');
+        checkConfirmInput();
+        checkInputsEqual();
+      });
 
       $confirmSuccess.hide();
       $confirmErrorNoEqual.hide();

@@ -17,7 +17,7 @@ l10n.register([
   'key_gen_wait_info'
 ]);
 
- export default class GenerateWait extends React.Component {
+export default class GenerateWait extends React.Component {
   constructor(props) {
     super(props);
   }

@@ -55,7 +55,8 @@
     "space-before-function-paren": ["warn", "never"], // enforce consistent spacing before function definition opening parenthesis
     "space-in-parens": ["warn", "never"], // enforce consistent spacing inside parentheses
     "space-infix-ops": 1, // require spacing around operators
-    "object-curly-spacing": ["warn", "never"]
+    "object-curly-spacing": ["warn", "never"],
+    "indent": ["warn", 2, {"MemberExpression": 0, "SwitchCase": 1}]
   }
 
 }

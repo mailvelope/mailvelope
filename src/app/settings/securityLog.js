@@ -47,11 +47,11 @@ export default class SecurityLog extends React.Component {
         <p>{l10n.map.security_log_text}</p>
         <table className="table table-hover table-striped optionsTable">
           <thead>
-          <tr>
-            <th>{l10n.map.security_log_timestamp}</th>
-            <th style={{width: '30%'}}>{l10n.map.security_log_source}</th>
-            <th style={{width: '50%'}}>{l10n.map.security_log_action}</th>
-          </tr>
+            <tr>
+              <th>{l10n.map.security_log_timestamp}</th>
+              <th style={{width: '30%'}}>{l10n.map.security_log_source}</th>
+              <th style={{width: '50%'}}>{l10n.map.security_log_action}</th>
+            </tr>
           </thead>
           <tbody>
             { this.state.secLog.map(log =>
@@ -60,7 +60,7 @@ export default class SecurityLog extends React.Component {
                 <td>{log.sourcei18n}</td>
                 <td>{log.typei18n}</td>
               </tr>
-              )
+            )
             }
           </tbody>
         </table>

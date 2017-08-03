@@ -103,8 +103,8 @@ var mvelo = mvelo || null;
     var meta = $('<meta/>', {charset: 'UTF-8'});
     sandbox.one('load', function() {
       sandbox.contents().find('head').append(meta)
-                                     .append(style)
-                                     .append(style3);
+      .append(style)
+      .append(style3);
       sandbox.contents().find('body').append(content);
     });
     $('.modal-body .content').append(sandbox);

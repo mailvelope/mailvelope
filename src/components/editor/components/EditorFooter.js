@@ -60,7 +60,7 @@ class EditorFooter extends React.Component {
         </div>
         <div className="pull-right">
           <span ref={node => this.signCaption = node} className={`txt-digital-signature ${this.props.signMsg ? 'show' : 'hide'}`}
-                data-toggle="tooltip" data-placement="left" title={sign_caption_long}>
+            data-toggle="tooltip" data-placement="left" title={sign_caption_long}>
             {sign_caption_short}
           </span>
         </div>
