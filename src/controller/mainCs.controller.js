@@ -22,6 +22,6 @@ export default class MainCsController extends SubController {
   }
 
   updatePrefs() {
-    this.emit('set-prefs', { prefs });
+    this.emit('set-prefs', {prefs});
   }
 }

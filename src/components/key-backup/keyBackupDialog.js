@@ -68,7 +68,7 @@ var mvelo = mvelo || null;
       mvelo.util.showSecurityBackground(true);
 
       $secureBgndButton.on('click', function() {
-        port.postMessage({ event: 'open-security-settings', sender: name });
+        port.postMessage({event: 'open-security-settings', sender: name});
       });
 
       $createBackupCodeBtn.on('click', function() {
@@ -76,7 +76,7 @@ var mvelo = mvelo || null;
         showWaitingDialog();
       });
 
-      port.postMessage({ event: 'keybackup-dialog-init', sender: name });
+      port.postMessage({event: 'keybackup-dialog-init', sender: name});
     });
   }
 
@@ -84,7 +84,7 @@ var mvelo = mvelo || null;
     $keyBackupGenerator.fadeOut('fast', function() {
       $keyBackupWaiting.fadeIn('fast', function() {
         window.setTimeout(function() {
-          port.postMessage({ event: 'create-backup-code-window', sender: name });
+          port.postMessage({event: 'create-backup-code-window', sender: name});
         }, 3000); // 3sec
       });
     });

@@ -195,7 +195,7 @@ function onSave() {
           password_timeout: $('#pwdCacheTime').val()
         }
       };
-  mvelo.extension.sendMessage({ event: 'set-prefs', data: update }, function() {
+  mvelo.extension.sendMessage({event: 'set-prefs', data: update}, function() {
     normalize();
     $('#secReloadInfo').show();
     mvelo.util.showSecurityBackground();

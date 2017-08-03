@@ -133,7 +133,7 @@ var mvelo = mvelo || null;
         }, 5000);
       });
 
-      port.postMessage({ event: 'restore-backup-dialog-init', sender: name });
+      port.postMessage({event: 'restore-backup-dialog-init', sender: name});
     });
   }
 

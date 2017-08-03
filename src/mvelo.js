@@ -412,7 +412,7 @@ mvelo.util.matchPattern2RegEx = function(matchPattern) {
 };
 
 mvelo.util.mapError = function(error) {
-  return { message: error.message, code: error.code  || 'INTERNAL_ERROR' };
+  return {message: error.message, code: error.code  || 'INTERNAL_ERROR'};
 };
 
 mvelo.util.throwError = function(message, code) {

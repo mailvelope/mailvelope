@@ -129,7 +129,7 @@ var mvelo = mvelo || null;
     })
       .append($('<span/>', {class: 'glyphicon lockBtnIcon'}))
       .on("click", function() {
-        port.postMessage({ event: 'open-security-settings', sender: name });
+        port.postMessage({event: 'open-security-settings', sender: name});
       });
   }
 
@@ -143,7 +143,7 @@ var mvelo = mvelo || null;
     });
 
     var $style = $('<link/>', {rel: 'stylesheet', href: basePath + 'dep/bootstrap/css/bootstrap.css'});
-    var $meta = $('<meta/>', { charset: 'UTF-8' });
+    var $meta = $('<meta/>', {charset: 'UTF-8'});
 
     return $('<iframe/>', {
       id: 'decryptmail',
@@ -226,7 +226,7 @@ var mvelo = mvelo || null;
     content = mvelo.util.str2ab(content);
     // set MIME type fix to application/octet-stream as other types can be exploited in Chrome
     mimeType = 'application/octet-stream';
-    var blob = new Blob([content], { type: mimeType });
+    var blob = new Blob([content], {type: mimeType});
     objectURL = window.URL.createObjectURL(blob);
 
     var $fileName = $('<span/>', {

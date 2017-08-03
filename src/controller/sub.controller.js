@@ -112,7 +112,7 @@ const controllers = new Map();
 
 function parseViewName(viewName) {
   var pair = viewName.split('-');
-  return { type: pair[0], id: pair[1] };
+  return {type: pair[0], id: pair[1]};
 }
 
 export function addPort(port) {

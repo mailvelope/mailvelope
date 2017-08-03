@@ -353,7 +353,7 @@ export default class EditorController extends sub.SubController {
       };
       if (that.options.armoredDraft) {
         if (!(content.signatures && content.signatures[0].valid)) {
-          throw { message: 'Restoring of the draft failed due to invalid signature.' };
+          throw {message: 'Restoring of the draft failed due to invalid signature.'};
         }
       }
       return decryptCtrl.parseMessage(content.text, handlers, 'text');
@@ -466,7 +466,7 @@ export default class EditorController extends sub.SubController {
    */
   transferEncrypted(options) {
     if (this.ports.editorCont) {
-      this.emit('encrypted-message', { message: options.armored }, this.ports.editorCont);
+      this.emit('encrypted-message', {message: options.armored}, this.ports.editorCont);
     } else {
       var recipients = (options.keys || []).map(function(k) {
         return {name: k.name, email: k.email};

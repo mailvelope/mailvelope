@@ -71,7 +71,7 @@ export default class PrivateKeyController extends sub.SubController {
     var that = this;
     var primaryKey = getKeyringById(this.keyringId).getPrimaryKey();
     if (!primaryKey) {
-      throw { message: 'No private key for backup', code: 'NO_PRIVATE_KEY' };
+      throw {message: 'No private key for backup', code: 'NO_PRIVATE_KEY'};
     }
     this.pwdControl = sub.factory.get('pwdDialog');
     primaryKey.reason = 'PWD_DIALOG_REASON_CREATE_BACKUP';

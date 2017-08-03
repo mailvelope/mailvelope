@@ -597,7 +597,7 @@
           error = new Error('Unknown Error');
         }
         if (error instanceof Error || typeof error === 'string') {
-          error = { message: error.message || String(error) };
+          error = {message: error.message || String(error)};
         }
         postMessage('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: msg.data.type, error: error, id: msg.data.id}, true);
       });
@@ -689,7 +689,7 @@
   window.addEventListener('mailvelope-disconnect', disconnectListener);
 
   window.setTimeout(function() {
-    window.dispatchEvent(new CustomEvent('mailvelope', { detail: window.mailvelope }));
+    window.dispatchEvent(new CustomEvent('mailvelope', {detail: window.mailvelope}));
   }, 1);
 
 }());

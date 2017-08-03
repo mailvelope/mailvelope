@@ -118,7 +118,7 @@ export default class ImportController extends sub.SubController {
       }
     })
     .catch(err => {
-      throw { message: err.message, code: 'IMPORT_ERROR' };
+      throw {message: err.message, code: 'IMPORT_ERROR'};
     });
   }
 

@@ -91,7 +91,7 @@ var mvelo = mvelo || null;
       $confirmErrorNoEqual.hide();
       $confirmInput.prop('disabled', true);
 
-      port.postMessage({ event: 'keygen-dialog-init', sender: name });
+      port.postMessage({event: 'keygen-dialog-init', sender: name});
 
       isInputChange = true;
     });

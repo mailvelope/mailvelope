@@ -113,7 +113,7 @@ describe('Editor controller unit tests', function() {
     });
 
     it('should emit message to encrypt container', function() {
-      ctrl.ports = { editorCont: {}};
+      ctrl.ports = {editorCont: {}};
       ctrl.transferEncrypted({
         armored: 'a',
         keys: [{name: 'n', email: 'e', private: 'p'}]

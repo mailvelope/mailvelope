@@ -85,7 +85,7 @@ export default class WatchList extends React.Component {
       this.setState(prevState => {
         let newList = [...prevState.watchList];
         newList.splice(index, 1);
-        return { watchList: newList };
+        return {watchList: newList};
       }, () => this.saveWatchListData());
     }
   }
@@ -118,7 +118,7 @@ export default class WatchList extends React.Component {
     this.setState(prevState => {
       let newList = [...prevState.watchList];
       newList[prevState.editorIndex] = prevState.editorSite;
-      return { watchList: newList, editorHide: true };
+      return {watchList: newList, editorHide: true};
     }, () => this.saveWatchListData());
   }
 

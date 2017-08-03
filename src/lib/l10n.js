@@ -18,4 +18,4 @@ function mapToLocal() {
   });
 }
 
-export { map, register, mapToLocal };
+export {map, register, mapToLocal};

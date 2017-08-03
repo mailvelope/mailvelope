@@ -79,7 +79,7 @@ function onSave() {
       auto_sign_msg: $('#autoSignMsg:checked').length !== 0
     }
   };
-  mvelo.extension.sendMessage({ event: 'set-prefs', data: update }, function() {
+  mvelo.extension.sendMessage({event: 'set-prefs', data: update}, function() {
     normalize();
   });
   return false;

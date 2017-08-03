@@ -77,7 +77,7 @@ function init() {
         <App />
       </HashRouter>
     ), document.body.appendChild(root));
-    sendMessage({ event: 'options-ready' });
+    sendMessage({event: 'options-ready'});
     document.title = l10n.map.options_title;
   });
 }
@@ -123,7 +123,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    sendMessage({ event: 'get-version' })
+    sendMessage({event: 'get-version'})
     .then(version => this.setState({version}));
     pgpModel('getPreferences').then(prefs => this.setState({prefs}));
     mvelo.util.showSecurityBackground();
@@ -134,8 +134,8 @@ class App extends React.Component {
       if (this.state.keyringId) {
         return resolve();
       }
-      sendMessage({ event: 'get-active-keyring' })
-      .then(keyringId => this.setState({ keyringId: keyringId || mvelo.LOCAL_KEYRING_ID }, resolve));
+      sendMessage({event: 'get-active-keyring'})
+      .then(keyringId => this.setState({keyringId: keyringId || mvelo.LOCAL_KEYRING_ID}, resolve));
     });
   }
 
@@ -149,13 +149,13 @@ class App extends React.Component {
         const isDemail = keyringId.includes(DEMAIL_SUFFIX);
         // propagate state change to backend
         this.setActiveKeyring(keyringId);
-        return { keyringId, primaryKeyId, isDemail, keyringAttr, providerLogo };
+        return {keyringId, primaryKeyId, isDemail, keyringAttr, providerLogo};
       }, () => {
         keyring('getKeys')
         .then(keys => {
           keys = keys.sort((a, b) => a.name.localeCompare(b.name));
           const hasPrivateKey = keys.some(key => key.type === 'private');
-          this.setState({ hasPrivateKey, keys, keyGridSpinner: false });
+          this.setState({hasPrivateKey, keys, keyGridSpinner: false});
         });
       });
     });
@@ -184,8 +184,8 @@ class App extends React.Component {
   }
 
   handleChangePrimaryKey(keyId) {
-    this.setKeyringAttr(this.state.keyringId, { primary_key: keyId })
-    .then(() => this.setState({ primaryKeyId: keyId }));
+    this.setKeyringAttr(this.state.keyringId, {primary_key: keyId})
+    .then(() => this.setState({primaryKeyId: keyId}));
   }
 
   handleDeleteKey(fingerprint, type) {
@@ -206,7 +206,7 @@ class App extends React.Component {
   }
 
   getAllKeyringAttr() {
-    return sendMessage({ event: 'get-all-keyring-attr'});
+    return sendMessage({event: 'get-all-keyring-attr'});
   }
 
   setKeyringAttr(keyringId, keyringAttr) {
@@ -218,7 +218,7 @@ class App extends React.Component {
   }
 
   setActiveKeyring(keyringId) {
-    sendMessage({ event: 'set-active-keyring',  keyringId });
+    sendMessage({event: 'set-active-keyring',  keyringId});
   }
 
   render() {
@@ -351,7 +351,7 @@ export function openTab(url) {
 }
 
 export function getAllKeyUserId() {
-  return sendMessage({ event: 'get-all-key-userid'});
+  return sendMessage({event: 'get-all-key-userid'});
 }
 
 export function pgpModel(method, args) {
@@ -378,7 +378,7 @@ export function keyring(method, args) {
 export function getAppDataSlot() {
   const query = new URLSearchParams(document.location.search);
   const slotId = query.get('slotId');
-  return sendMessage({ event: 'get-app-data-slot', slotId });
+  return sendMessage({event: 'get-app-data-slot', slotId});
 }
 
 function sendMessage(options) {

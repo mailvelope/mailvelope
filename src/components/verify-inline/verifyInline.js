@@ -97,7 +97,7 @@ var mvelo = mvelo || null;
       href: basePath + 'dep/bootstrap/css/bootstrap.css'
     });
     var style2 = style.clone().attr('href', basePath + 'components/verify-inline/verifyInlineSig.css');
-    var meta = $('<meta/>', { charset: 'UTF-8' });
+    var meta = $('<meta/>', {charset: 'UTF-8'});
     sandbox.on('load', function() {
       $(this).contents().find('head').append(meta)
                                      .append(style)

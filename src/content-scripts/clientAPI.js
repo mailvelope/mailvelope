@@ -26,7 +26,7 @@ export function init() {
   if (apiTag) {
     if (apiTag.dataset.version !== prefs.version) {
       window.setTimeout(function() {
-        window.dispatchEvent(new CustomEvent('mailvelope-disconnect', { detail: {version: prefs.version} }));
+        window.dispatchEvent(new CustomEvent('mailvelope-disconnect', {detail: {version: prefs.version}}));
       }, 1);
     }
     return;
@@ -53,7 +53,7 @@ export function postMessage(eventName, id, data, error) {
 
 function reply(id, error, data) {
   if (error) {
-    error = { message: error.message || error, code: error.code  || 'INTERNAL_ERROR' };
+    error = {message: error.message || error, code: error.code  || 'INTERNAL_ERROR'};
   }
   postMessage('callback-reply', id, data, error);
 }

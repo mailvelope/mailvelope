@@ -488,9 +488,9 @@ function createPlainText() {
       'resize':        'none'
     }
   });
-  var style = $('<link/>', { rel: 'stylesheet', href: basePath + 'dep/bootstrap/css/bootstrap.css' });
-  var style2 = $('<link/>', { rel: 'stylesheet', href: basePath + 'mvelo.css' });
-  var meta = $('<meta/>', { charset: 'UTF-8' });
+  var style = $('<link/>', {rel: 'stylesheet', href: basePath + 'dep/bootstrap/css/bootstrap.css'});
+  var style2 = $('<link/>', {rel: 'stylesheet', href: basePath + 'mvelo.css'});
+  var meta = $('<meta/>', {charset: 'UTF-8'});
   sandbox.one('load', function() {
     sandbox.contents().find('head').append(meta)
       .append(style)

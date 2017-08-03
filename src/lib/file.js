@@ -177,7 +177,7 @@ function getSecureIcon() {
  */
 function downloadAttachment(file) {
   var content = mvelo.util.str2ab(file.content);
-  var blob = new Blob([content], { type: file.type });
+  var blob = new Blob([content], {type: file.type});
 
   return window.URL.createObjectURL(blob);
 }

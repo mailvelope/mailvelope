@@ -6,7 +6,7 @@ describe('Editor UI unit tests', () => {
 
   describe('checkEnvironment', () => {
     beforeEach(() => {
-      sinon.stub($, 'parseQuerystring').returns({ embedded: true, id: '12345'});
+      sinon.stub($, 'parseQuerystring').returns({embedded: true, id: '12345'});
     });
 
     afterEach(() => {

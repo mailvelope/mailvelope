@@ -421,21 +421,21 @@ export function restorePrivateKeyBackup(armoredBlock, code) {
           (message.packets[0].sessionKeyEncryptionAlgorithm === null || message.packets[0].sessionKeyEncryptionAlgorithm === 'aes256') &&
           message.packets[1].tag === 18 // Sym. Encrypted Integrity Protected Data Packet
        )) {
-      return { error: {message: 'Illegal private key backup structure.'}};
+      return {error: {message: 'Illegal private key backup structure.'}};
     }
     try {
       message = message.symDecrypt(code);
     } catch (e) {
-      return { error: {message: 'Could not decrypt message with this restore code', code: 'WRONG_RESTORE_CODE'}};
+      return {error: {message: 'Could not decrypt message with this restore code', code: 'WRONG_RESTORE_CODE'}};
     }
     // extract password
     var pwd = parseMetaInfo(message.getText()).Pwd;
     // remove literal data packet
     var keyPackets = message.packets.slice(1);
     var privKey =  new openpgp.key.Key(keyPackets);
-    return { key: privKey, password: pwd };
+    return {key: privKey, password: pwd};
   } catch (e) {
-    return { error: e.message };
+    return {error: e.message};
   }
 }
 
@@ -547,7 +547,7 @@ export function encryptFile(plainFile, receipients) {
       return key !== null;
     });
     if (keys.length === 0) {
-      throw { message: 'No key found for encryption' };
+      throw {message: 'No key found for encryption'};
     }
     var content = dataURL2str(plainFile.content);
     return openpgp.getWorker().encryptMessage(keys, content, 'binary', plainFile.name);
@@ -558,7 +558,7 @@ export function encryptFile(plainFile, receipients) {
   })
   .catch(function(e) {
     console.log('openpgp.getWorker().encryptFile() error', e);
-    throw { message: l10n('encrypt_error', [e.message]) };
+    throw {message: l10n('encrypt_error', [e.message])};
   });
 }
 
