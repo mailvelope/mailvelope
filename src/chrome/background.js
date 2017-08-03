@@ -115,9 +115,7 @@ function loadFramestyles() {
 function initScriptInjection() {
   loadContentCode()
   .then(loadFramestyles)
-  .then(() => {
-    return controller.getWatchListFilterURLs();
-  })
+  .then(() => controller.getWatchListFilterURLs())
   .then(filterURL => filterURL.map(host => '*://' + host + '/*'))
   .then(filterURL => injectOpenTabs(filterURL))
   .then(filterURL => {

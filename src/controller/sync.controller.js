@@ -138,9 +138,7 @@ export class SyncController extends sub.SubController {
         this.pwdControl = sub.factory.get('pwdDialog');
         return this.pwdControl.unlockKey(message);
       })
-      .then(message => {
-        return decryptSyncMessage(message.key, message.message);
-      })
+      .then(message => decryptSyncMessage(message.key, message.message))
       .then(syncPacket => {
         // merge keys
         this.keyring.sync.mute(true);

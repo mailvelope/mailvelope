@@ -203,17 +203,13 @@ export class RecipientInputCtrl {
    * @return {Array}          A list of filtered items that match the query
    */
   autocomplete(query) {
-    var cache = _props.keys.map(key => {
-      return {
-        email: key.email,
-        displayId: key.userid + ' - ' + key.keyid.toUpperCase()
-      };
-    });
+    var cache = _props.keys.map(key => ({
+      email: key.email,
+      displayId: key.userid + ' - ' + key.keyid.toUpperCase()
+    }));
     // filter by display ID and ignore duplicates
-    return cache.filter(i => {
-      return i.displayId.toLowerCase().includes(query.toLowerCase()) &&
-        !this.recipients.some(recipient => recipient.email === i.email);
-    });
+    return cache.filter(i => i.displayId.toLowerCase().includes(query.toLowerCase()) &&
+        !this.recipients.some(recipient => recipient.email === i.email));
   }
 
 }

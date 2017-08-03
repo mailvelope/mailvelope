@@ -464,6 +464,7 @@ mvelo.util.PromiseQueue = class {
  * @param  {Array} list - each item is processed
  * @return {Promise} - resolved when all processes finished with end result as array
  */
+/* eslint-disable arrow-body-style */
 mvelo.util.sequential = (process, list) => {
   return list.reduce((acc, item) => {
     return acc.then((result) => {
@@ -474,6 +475,7 @@ mvelo.util.sequential = (process, list) => {
     });
   }, Promise.resolve([]));
 };
+/* eslint-enable arrow-body-style */
 
 /**
  * Validate an email address.
