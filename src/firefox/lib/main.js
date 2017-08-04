@@ -149,7 +149,6 @@ function activatePageMods() {
 }
 
 function injectMainCS() {
-
   controller.getWatchListFilterURLs()
   .then(filterURL => {
     var modOptions = {
@@ -180,7 +179,6 @@ function injectMainCS() {
     //console.log('modOptions.include', modOptions.include);
     pageMods.mainPageMod = pageMod.PageMod(modOptions);
   });
-
 }
 
 function onCsAttach(worker) {

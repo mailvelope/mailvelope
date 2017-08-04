@@ -211,7 +211,6 @@ export class RecipientInputCtrl {
     return cache.filter(i => i.displayId.toLowerCase().includes(query.toLowerCase()) &&
         !this.recipients.some(recipient => recipient.email === i.email));
   }
-
 }
 
 // workaround to prevent "Error: class constructors must be invoked with |new|" in Firefox

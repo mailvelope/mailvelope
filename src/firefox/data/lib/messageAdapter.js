@@ -26,7 +26,6 @@ if (self.options.expose_messaging) {
 }
 
 (function() {
-
   var eventIndex = 1;
 
   mvelo.ffa = true;
@@ -161,5 +160,4 @@ if (self.options.expose_messaging) {
     mvelo.data = data;
     mvelo.data.load = load;
   }
-
 }());

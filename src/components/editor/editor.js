@@ -414,7 +414,6 @@ function addAttachment(file) {
     $uploadPanel
     .append($fileElement)
     .scrollTop(uploadPanelHeight); //Append attachment element and scroll to bottom of #uploadPanel to show current uploads
-
   })
   .catch(error => {
     console.log(error);

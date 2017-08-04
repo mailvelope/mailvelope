@@ -35,7 +35,6 @@ export default class KeyGenContainer {
    * @returns {mvelo.KeyGenContainer}
    */
   create(done) {
-
     this.done = done;
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');

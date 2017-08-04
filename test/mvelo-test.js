@@ -2,7 +2,6 @@
 import mvelo from '../src/mvelo';
 
 describe('mvelo unit tests', () => {
-
   describe('deDup', () => {
     it('should work for undefined', () => {
       expect(mvelo.util.deDup()).to.deep.equal([]);
@@ -95,7 +94,5 @@ describe('mvelo unit tests', () => {
         expect(ctrl.emit.bind(ctrl)).to.throw(/Invalid/);
       });
     });
-
   });
-
 });

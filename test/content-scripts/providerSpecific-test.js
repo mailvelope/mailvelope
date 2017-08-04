@@ -81,7 +81,6 @@ describe('Provider specific content-script unit tests', () => {
     });
 
     describe('getRecipients', () => {
-
       it('should work', () => {
         testElem.append('<div class="vR"><span email="test1@example.com"><div class="vT">Test User</div></span></div>');
         testElem.append('<div class="oL aDm"><span email="test2@example.com"><div class="vT">Test User</div></span></div>');
@@ -161,5 +160,4 @@ describe('Provider specific content-script unit tests', () => {
       });
     });
   });
-
 });

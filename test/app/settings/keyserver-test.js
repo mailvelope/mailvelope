@@ -3,7 +3,6 @@ import KeyServer from '../../../src/app/settings/keyserver';
 
 
 describe('Key server settings unit tests', () => {
-
   var keyserver;
 
   beforeEach(() => {
@@ -23,7 +22,6 @@ describe('Key server settings unit tests', () => {
   });
 
   describe('constructor', () => {
-
     it('should set state', () => {
       expect(keyserver.state).to.eql({
         hkp_base_url: 'https://keyserver.ubuntu.com',
@@ -95,7 +93,6 @@ describe('Key server settings unit tests', () => {
   });
 
   describe('testUrl', () => {
-
     const hkpUrl = 'https://keyserver.ubuntu.com';
 
     beforeEach(() => {
@@ -120,5 +117,4 @@ describe('Key server settings unit tests', () => {
       return keyserver.testUrl(hkpUrl);
     });
   });
-
 });

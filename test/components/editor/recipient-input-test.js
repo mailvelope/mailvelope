@@ -4,7 +4,6 @@ import {RecipientInputCtrl, RecipientInput} from '../../../src/components/editor
 /* global angular */
 
 describe('RecipientInput component unit tests', () => {
-
   let ctrl;
   let scope;
   let props;
@@ -25,7 +24,6 @@ describe('RecipientInput component unit tests', () => {
   });
 
   describe('update', () => {
-
     it('should work', () => {
       sinon.stub(ctrl, 'checkEncryptStatus');
       sinon.stub(ctrl, 'verify');
@@ -36,7 +34,6 @@ describe('RecipientInput component unit tests', () => {
       expect(ctrl.checkEncryptStatus.calledOnce).to.be.true;
       expect(ctrl.verify.callCount).to.equal(2);
     });
-
   });
 
   describe('verify', () => {
@@ -127,7 +124,6 @@ describe('RecipientInput component unit tests', () => {
   });
 
   describe('getKey', () => {
-
     it('should not find matching key', () => {
       props.keys = [{email: 'JO@smith.com', keyid: 'a'}];
 
@@ -207,7 +203,6 @@ describe('RecipientInput component unit tests', () => {
   });
 
   describe('checkEncryptStatus', () => {
-
     beforeEach(() => {
       props.onChangeEncryptStatus = sinon.stub();
     });
@@ -238,7 +233,6 @@ describe('RecipientInput component unit tests', () => {
   });
 
   describe('lookupKeyOnServer', () => {
-
     beforeEach(() => {
       props.onLookupKeyOnServer = sinon.stub();
     });
@@ -297,5 +291,4 @@ describe('RecipientInput component unit tests', () => {
       expect(ctrl.autocomplete('cc42')[0].displayId).to.equal('Jon Smith <j@s.com> - 1DDCEE8AD254CC42');
     });
   });
-
 });

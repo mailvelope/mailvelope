@@ -31,5 +31,4 @@ export default class ImportFrame extends ExtractFrame {
     });
     return false;
   }
-
 }

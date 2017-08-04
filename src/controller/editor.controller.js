@@ -545,7 +545,6 @@ export default class EditorController extends sub.SubController {
             keyIdsHex
           });
         }
-
       } else if (options.action === 'sign') {
         return this.signMessage(options.message);
       }

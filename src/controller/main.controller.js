@@ -276,7 +276,6 @@ function addToWatchList() {
       });
     }
   });
-
 }
 
 export function onBrowserAction(action) {

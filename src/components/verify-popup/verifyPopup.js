@@ -180,5 +180,4 @@ var mvelo = mvelo || null;
   }
 
   $(document).ready(init);
-
 }());

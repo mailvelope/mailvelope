@@ -1,7 +1,6 @@
 'use strict';
 
 module.exports = function(grunt) {
-
   var pkg = grunt.file.readJSON('package.json');
 
   grunt.initConfig({
@@ -440,5 +439,4 @@ module.exports = function(grunt) {
       done(result.code !== 1);
     });
   });
-
 };

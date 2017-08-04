@@ -3,7 +3,6 @@ import EncryptFrame from '../../src/content-scripts/encryptFrame';
 
 
 describe('Encrypt Frame unit tests', () => {
-
   var ef;
   var recip = [{email: 'jon@smith.com'}];
 
@@ -45,5 +44,4 @@ describe('Encrypt Frame unit tests', () => {
       expect(ef._currentProvider.setRecipients.withArgs({recipients: recip, editElement: null}).calledOnce).to.be.true;
     });
   });
-
 });

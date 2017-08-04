@@ -6,7 +6,6 @@ var keyServer;
 var mvelo;
 
 describe('Key Server unit tests', () => {
-
   beforeEach(() => {
     mvelo = {
       util: {
@@ -117,5 +116,4 @@ describe('Key Server unit tests', () => {
       expect(url).to.equal('http://localhost:8888/api/v1/key?fingerprint=0123456789ABCDFE0123456789ABCDFE01234567');
     });
   });
-
 });

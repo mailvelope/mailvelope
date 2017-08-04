@@ -100,7 +100,6 @@ describe('Editor controller unit tests', () => {
   });
 
   describe('transferEncrypted', () => {
-
     beforeEach(() => {
       ctrl.encryptCallback = function() {};
       sinon.stub(ctrl, 'encryptCallback');
@@ -123,7 +122,6 @@ describe('Editor controller unit tests', () => {
       expect(ctrl.encryptCallback.called).to.be.false;
       expect(ctrl.emit.withArgs('encrypted-message', {message: 'a'}, {}).calledOnce).to.be.true;
     });
-
   });
 
   describe('signAndEncrypt', () => {
@@ -237,5 +235,4 @@ describe('Editor controller unit tests', () => {
       expect(ctrl.getPublicKeyIds(keys)).to.deep.equal(['b', 'p']);
     });
   });
-
 });

@@ -53,6 +53,7 @@
     "no-trailing-spaces": 1, // disallow trailing whitespace at the end of lines
     "object-curly-spacing": ["warn", "never"], // enforce consistent spacing inside braces
     "one-var": ["warn", "never"], // enforce variables to be declared either together or separately in functions
+    "padded-blocks": ["warn", "never"], // require or disallow padding within blocks
     "semi": ["warn", "always"], // require or disallow semicolons instead of ASI
     "semi-spacing": 1, // enforce consistent spacing before and after semicolons
     "space-before-blocks": 1, // enforce consistent spacing before blocks

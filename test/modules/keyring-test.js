@@ -110,7 +110,6 @@ describe('Keyring unit tests', () => {
   });
 
   describe('getKeyUserIDs', () => {
-
     beforeEach(() => {
       var key = keyMock('db9ccdf0d5f3a387');
       key.users.push(userMock('Alice <alice@world.org>'));
@@ -166,11 +165,9 @@ describe('Keyring unit tests', () => {
         {keyid: '712ec1bd873b7e58', userid: 'Bob M. <bob@moon.org>', name: 'Bob M.', email: 'bob@moon.org'}
       ]);
     });
-
   });
 
   describe('_mapKeyUserIds', () => {
-
     it('should map user id', () => {
       var user = {userid: 'Bob M. <bob@moon.institute>'};
       keyring._mapKeyUserIds(user);
@@ -197,7 +194,5 @@ describe('Keyring unit tests', () => {
       keyring._mapKeyUserIds(user);
       expect(user).to.deep.equal({userid: 'Bob M. <img src=x onerror=alert(location)>', name: 'Bob M.', email: ''});
     });
-
   });
-
 });

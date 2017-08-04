@@ -25,7 +25,6 @@
 'use strict';
 
 (function() {
-
   /**
    * Not accessible, see {@tutorial Readme} instead on how to obtain access to an instance.
    * @constructor
@@ -677,5 +676,4 @@
   window.setTimeout(() => {
     window.dispatchEvent(new CustomEvent('mailvelope', {detail: window.mailvelope}));
   }, 1);
-
 }());

@@ -13,7 +13,6 @@ var preferences = prefs.prefs;
 var testRecipients = [{email: 'test@example.com'}];
 
 describe('Encrypt controller unit tests', () => {
-
   beforeEach(() => {
     ctrl = new EncryptController();
 
@@ -119,5 +118,4 @@ describe('Encrypt controller unit tests', () => {
       expect(recipientsCallbackStub.called).to.be.false;
     });
   });
-
 });

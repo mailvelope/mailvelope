@@ -117,5 +117,4 @@ var QRCode = QRCode || null;
   }
 
   $(document).ready(init);
-
 }());

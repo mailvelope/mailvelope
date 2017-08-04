@@ -23,5 +23,4 @@ describe('Sub controller unit tests', () => {
       ctrl.emit('ping', {data: 'pong'});
     });
   });
-
 });
