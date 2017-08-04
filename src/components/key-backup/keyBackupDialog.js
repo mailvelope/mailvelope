@@ -35,14 +35,14 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       return;
     }
     document.body.dataset.mvelo = true;
-    let qs = jQuery.parseQuerystring();
+    const qs = jQuery.parseQuerystring();
     id = qs.id;
     name = `keyBackupDialog-${id}`;
 
     port = mvelo.extension.connect({name});
     port.onMessage.addListener(messageListener);
 
-    let $body = $('body').empty().addClass("secureBackground");
+    const $body = $('body').empty().addClass("secureBackground");
 
     mvelo.appendTpl($body, mvelo.extension.getURL('components/key-backup/keybackup.html')).then(() => {
       $keyBackupGenerator = $('#key_backup_generator');

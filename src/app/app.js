@@ -69,7 +69,7 @@ function init() {
     return;
   }
   document.body.dataset.mvelo = true;
-  let root = document.createElement('div');
+  const root = document.createElement('div');
   l10n.mapToLocal()
   .then(() => {
     ReactDOM.render((

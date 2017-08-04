@@ -31,7 +31,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   let decryptComponent;
 
   function init() {
-    let qs = jQuery.parseQuerystring();
+    const qs = jQuery.parseQuerystring();
     id = qs.id;
     name = `dPopup-${id}`;
     // open port to background page
@@ -61,8 +61,8 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
 
   function onCopy() {
     // copy to clipboard
-    let doc = decryptComponent.contents().find('#decryptmail').contents().get(0);
-    let sel = doc.defaultView.getSelection();
+    const doc = decryptComponent.contents().find('#decryptmail').contents().get(0);
+    const sel = doc.defaultView.getSelection();
     sel.selectAllChildren($(doc).find('#content').get(0));
     doc.execCommand('copy');
     sel.removeAllRanges();

@@ -67,6 +67,7 @@
     "no-useless-constructor": 1, // disallow unnecessary constructors
     "object-shorthand": ["warn", "always", {"avoidQuotes": true}], // require or disallow method and property shorthand syntax for object literals
     "prefer-arrow-callback": ["warn", {"allowNamedFunctions": true}], // require arrow functions as callbacks
+    "prefer-const": 1, // require const declarations for variables that are never reassigned after declared
     "prefer-template": 1, // require template literals instead of string concatenation
     "template-curly-spacing": ["warn", "never"] // require or disallow spacing around embedded expressions of template strings
   }

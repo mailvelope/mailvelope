@@ -35,7 +35,7 @@ export default class ExtractFrame {
     this._pgpEnd = pgpEnd;
     // find element with complete armored text and width > 0
     this._pgpElement = pgpEnd;
-    let maxNesting = 8;
+    const maxNesting = 8;
     let beginFound = false;
     for (let i = 0; i < maxNesting; i++) {
       if (this._pgpStartRegex.test(this._pgpElement.text()) &&
@@ -114,7 +114,7 @@ export default class ExtractFrame {
   }
 
   _setFrameDim() {
-    let pgpElementPos = this._pgpElement.position();
+    const pgpElementPos = this._pgpElement.position();
     this._eFrame.width(this._pgpElement.width() - 2);
     this._eFrame.height(this._pgpEnd.position().top + this._pgpEnd.height() - pgpElementPos.top - 2);
     this._eFrame.css('top', pgpElementPos.top + this._pgpElementAttr.marginTop + this._pgpElementAttr.paddingTop);
@@ -132,8 +132,8 @@ export default class ExtractFrame {
     if (this._pgpElement.is('pre') && !this._pgpElement.find('br').length) {
       msg = this._pgpElement.text();
     } else {
-      let element = this._pgpElement.get(0);
-      let sel = element.ownerDocument.defaultView.getSelection();
+      const element = this._pgpElement.get(0);
+      const sel = element.ownerDocument.defaultView.getSelection();
       sel.selectAllChildren(element);
       msg = sel.toString();
       sel.removeAllRanges();

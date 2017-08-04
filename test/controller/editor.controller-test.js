@@ -8,7 +8,7 @@ import * as prefs from '../../src/modules/prefs';
 describe('Editor controller unit tests', () => {
   let ctrl;
   let port;
-  let preferences = prefs.prefs;
+  const preferences = prefs.prefs;
   let testRecipients;
 
   beforeEach(() => {
@@ -36,7 +36,7 @@ describe('Editor controller unit tests', () => {
 
     beforeEach(() => {
       sinon.stub(ctrl.keyserver, 'lookup');
-      let keyRingMock = {
+      const keyRingMock = {
         importKeys() {},
         getKeyUserIDs() { return [{keyid: '0'}]; }
       };
@@ -194,7 +194,7 @@ describe('Editor controller unit tests', () => {
   });
 
   describe('getPublicKeyIds', () => {
-    let keys = [{keyid: 'b'}, {keyid: 'b'}];
+    const keys = [{keyid: 'b'}, {keyid: 'b'}];
 
     beforeEach(() => {
       sinon.stub(keyring, 'getById').returns({

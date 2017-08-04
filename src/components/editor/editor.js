@@ -38,7 +38,7 @@ export let id;
 // component name
 export let name;
 // plain or rich text
-let editor_type = mvelo.PLAIN_TEXT; // only plain
+const editor_type = mvelo.PLAIN_TEXT; // only plain
 // port to background script
 let port;
 // indicator if editor runs in container or popup
@@ -65,19 +65,19 @@ let delayedAction = '';
 let modalBodyBottomPosition = 0;
 // attachment max file size
 let maxFileUploadSize = mvelo.MAXFILEUPLOADSIZE;
-let maxFileUploadSizeChrome = mvelo.MAXFILEUPLOADSIZECHROME; // temporal fix due issue in Chrome
+const maxFileUploadSizeChrome = mvelo.MAXFILEUPLOADSIZECHROME; // temporal fix due issue in Chrome
 // user interaction on editor
 let hasUserInput = false;
 
 // properties used to render the footer component
-let footerProps = {
+const footerProps = {
   onClickUpload: () => logUserInput('security_log_add_attachment'),
   onChangeFileInput: onAddAttachment,
   onClickFileEncryption: () => port.emit('open-app', {fragment: '/encryption/file-encrypt'})
 };
 
 // properties used to render the modal footer component
-let modalFooterProps = {
+const modalFooterProps = {
   expanded: false,
   signMsg: false,
   signKey: '',
@@ -102,7 +102,7 @@ let modalFooterProps = {
 };
 
 // properties used to render the recipient input component
-let recipientInputProps = {
+const recipientInputProps = {
   keys: [],
   recipients: [],
   onChangeEncryptStatus: status => renderModalFooter(status),
@@ -152,7 +152,7 @@ function init() {
  * Reads the URL query string to get environment context
  */
 export function checkEnvironment() {
-  let qs = $.parseQuerystring();
+  const qs = $.parseQuerystring();
   embedded = Boolean(qs.embedded);
   id = qs.id;
   name = `editor-${id}`;
@@ -199,7 +199,7 @@ function registerEventListeners() {
  * Load templates into the DOM.
  */
 function loadTemplates() {
-  let $body = $('body');
+  const $body = $('body');
   if (embedded) {
     $body.addClass("secureBackground");
     return Promise.all([
@@ -351,7 +351,7 @@ function onSetAttachment(msg) {
 }
 
 function decryptFailed(msg) {
-  let error = {
+  const error = {
     title: l10n.map.waiting_dialog_decryption_failed,
     message: (msg.error) ? msg.error.message : l10n.map.waiting_dialog_decryption_failed,
     class: 'alert alert-danger'
@@ -405,12 +405,12 @@ function addAttachment(file) {
 
   fileLib.readUploadFile(file, afterLoadEnd)
   .then(response => {
-    let $fileElement = fileLib.createFileElement(response, {
+    const $fileElement = fileLib.createFileElement(response, {
       removeButton: true,
       onRemove: onRemoveAttachment
     });
-    let $uploadPanel = $('#uploadPanel');
-    let uploadPanelHeight = $uploadPanel[0].scrollHeight;
+    const $uploadPanel = $('#uploadPanel');
+    const uploadPanelHeight = $uploadPanel[0].scrollHeight;
     $uploadPanel
     .append($fileElement)
     .scrollTop(uploadPanelHeight); //Append attachment element and scroll to bottom of #uploadPanel to show current uploads
@@ -429,16 +429,16 @@ function afterLoadEnd() {
 }
 
 function setAttachment(attachment) {
-  let buffer = mvelo.util.str2ab(attachment.content);
-  let blob = new Blob([buffer], {type: attachment.mimeType});
-  let file = new File([blob], attachment.filename, {type: attachment.mimeType});
+  const buffer = mvelo.util.str2ab(attachment.content);
+  const blob = new Blob([buffer], {type: attachment.mimeType});
+  const file = new File([blob], attachment.filename, {type: attachment.mimeType});
   numUploadsInProgress++;
   addAttachment(file);
 }
 
 function onAddAttachment(evt) {
-  let files = evt.target.files;
-  let numFiles = files.length;
+  const files = evt.target.files;
+  const numFiles = files.length;
 
   let i;
   let fileSizeAll = 0;
@@ -446,9 +446,9 @@ function onAddAttachment(evt) {
     fileSizeAll += parseInt(files[i].size);
   }
 
-  let currentAttachmentsSize = fileLib.getFileSize($('#uploadPanel')) + fileSizeAll;
+  const currentAttachmentsSize = fileLib.getFileSize($('#uploadPanel')) + fileSizeAll;
   if (currentAttachmentsSize > maxFileUploadSize) {
-    let error = {
+    const error = {
       title: l10n.map.upload_quota_warning_headline,
       message: `${l10n.map.upload_quota_exceeded_warning} ${Math.floor(maxFileUploadSize / (1024 * 1024))}MB.`
     };
@@ -468,14 +468,14 @@ function onRemoveAttachment() {
 }
 
 function createPlainText() {
-  let sandbox = $('<iframe/>', {
+  const sandbox = $('<iframe/>', {
     sandbox: 'allow-same-origin allow-scripts',
     frameBorder: 0,
     css: {
       'overflow-y': 'hidden'
     }
   });
-  let text = $('<textarea/>', {
+  const text = $('<textarea/>', {
     id: 'content',
     class: 'form-control',
     rows: 12,
@@ -487,9 +487,9 @@ function createPlainText() {
       'resize':        'none'
     }
   });
-  let style = $('<link/>', {rel: 'stylesheet', href: `${basePath}dep/bootstrap/css/bootstrap.css`});
-  let style2 = $('<link/>', {rel: 'stylesheet', href: `${basePath}mvelo.css`});
-  let meta = $('<meta/>', {charset: 'UTF-8'});
+  const style = $('<link/>', {rel: 'stylesheet', href: `${basePath}dep/bootstrap/css/bootstrap.css`});
+  const style2 = $('<link/>', {rel: 'stylesheet', href: `${basePath}mvelo.css`});
+  const meta = $('<meta/>', {charset: 'UTF-8'});
   sandbox.one('load', () => {
     sandbox.contents().find('head').append(meta)
     .append(style)
@@ -511,7 +511,7 @@ function createPlainText() {
   });
   text.on('blur', onBlur);
   text.on('mouseup', () => {
-    let textElement = text.get(0);
+    const textElement = text.get(0);
     if (textElement.selectionStart === textElement.selectionEnd) {
       logUserInput('security_log_textarea_click');
     } else {
@@ -593,7 +593,7 @@ function startBlurValid() {
 }
 
 function addPwdDialog(id) {
-  let pwd = $('<iframe/>', {
+  const pwd = $('<iframe/>', {
     id: 'pwdDialog',
     src: `../enter-password/pwdDialog.html?id=${id}`,
     frameBorder: 0
@@ -610,9 +610,9 @@ function addPwdDialog(id) {
  * @param {String} [error.class]
  */
 function showErrorModal(error) {
-  let title = error.title || l10n.map.editor_error_header;
+  const title = error.title || l10n.map.editor_error_header;
   let content = error.message;
-  let $errorModal = $('#errorModal');
+  const $errorModal = $('#errorModal');
 
   if (content) {
     content = $('<div/>').addClass(error.class || 'alert alert-danger').text(content);

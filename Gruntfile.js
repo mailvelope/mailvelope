@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(grunt) {
-  let pkg = grunt.file.readJSON('package.json');
+  const pkg = grunt.file.readJSON('package.json');
 
   grunt.initConfig({
 
@@ -236,9 +236,9 @@ module.exports = function(grunt) {
         },
         options: {
           process(content) {
-            let locale = JSON.parse(content);
+            const locale = JSON.parse(content);
             let result = '';
-            for (let key in locale) {
+            for (const key in locale) {
               result += `${key}= ${locale[key].message.replace(/\$(\d)/g, '%$1s')}\n`;
             }
             return result;
@@ -433,7 +433,7 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['webpack:test', 'connect:test', 'mocha_phantomjs']);
 
   grunt.registerTask('webpack', function() {
-    let done = this.async();
+    const done = this.async();
     // , '--display-modules'
     grunt.util.spawn({cmd: process.argv[0], args: ['./node_modules/webpack/bin/webpack.js', `--config=config/webpack.${this.args[0]}.js`], opts: {stdio: 'inherit'}}, (error, result) => {
       done(result.code !== 1);

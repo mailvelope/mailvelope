@@ -78,11 +78,11 @@ function mergeWatchlist(defaults) {
   return getWatchList()
   .then((localList = []) => {
     defaults.watch_list.forEach(defaultSite => {
-      let localSite = localList.find(localSite => localSite.site === defaultSite.site);
+      const localSite = localList.find(localSite => localSite.site === defaultSite.site);
       if (localSite) {
         defaultSite.frames.forEach(defaultFrame => {
           localSite.frames = localSite.frames || [];
-          let localFrame = localSite.frames.find(localFrame => localFrame.frame === defaultFrame.frame);
+          const localFrame = localSite.frames.find(localFrame => localFrame.frame === defaultFrame.frame);
           if (!localFrame) {
             localSite.frames.push(defaultFrame);
             mod = true;

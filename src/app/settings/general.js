@@ -69,7 +69,7 @@ function onSave() {
   if (!validate()) {
     return false;
   }
-  let update = {
+  const update = {
     general: {
       auto_add_primary: $('#autoAddPrimary:checked').length !== 0,
       auto_sign_msg: $('#autoSignMsg:checked').length !== 0

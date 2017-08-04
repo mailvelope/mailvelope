@@ -41,7 +41,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       return;
     }
     document.body.dataset.mvelo = true;
-    let qs = jQuery.parseQuerystring();
+    const qs = jQuery.parseQuerystring();
     id = qs.id;
     name = `keyGenDialog-${id}`;
 
@@ -106,8 +106,8 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
    * @returns {boolean}
    */
   function checkPwdInput() {
-    let pwdVal = $pwdInput.val();
-    let maxLength = parseInt($pwdInput.data('lengthMin'));
+    const pwdVal = $pwdInput.val();
+    const maxLength = parseInt($pwdInput.data('lengthMin'));
     let result = false;
 
     if (isInputChange) {
@@ -139,8 +139,8 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
    * @returns {boolean}
    */
   function checkInputsEqual() {
-    let result = $pwdInput.val() === $confirmInput.val();
-    let maxLength = parseInt($pwdInput.data('lengthMin'));
+    const result = $pwdInput.val() === $confirmInput.val();
+    const maxLength = parseInt($pwdInput.data('lengthMin'));
 
     if (!$pwdInput.val().length || !$confirmInput.val().length) {
       $confirmSuccess.fadeOut(100, () => {
@@ -175,8 +175,8 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
    * @returns {boolean}
    */
   function checkConfirmInput() {
-    let confirmVal = $confirmInput.val();
-    let maxLength = parseInt($pwdInput.data('lengthMin'));
+    const confirmVal = $confirmInput.val();
+    const maxLength = parseInt($pwdInput.data('lengthMin'));
 
     if (isInputChange) {
       // limit textarea log to 1 event per second

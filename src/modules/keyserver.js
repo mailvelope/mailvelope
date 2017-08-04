@@ -57,7 +57,7 @@ export default class KeyServer {
    * @yield {undefined}
    */
   upload(options) {
-    let payload = {publicKeyArmored: options.publicKeyArmored};
+    const payload = {publicKeyArmored: options.publicKeyArmored};
     if (options.primaryEmail) {
       payload.primaryEmail = options.primaryEmail;
     }
@@ -113,7 +113,7 @@ export default class KeyServer {
     if (response.status >= 200 && response.status < 300) {
       return response;
     } else {
-      let error = new Error(response.statusText);
+      const error = new Error(response.statusText);
       error.response = response;
       throw error;
     }

@@ -48,14 +48,14 @@ let logTimer = 0;
  *                 type = 'security_log_signature_modal_close' <br>
  */
 export function push(source, type) {
-  let entry = {
+  const entry = {
     source,
     sourcei18n: l10n(source),
     type,
     typei18n: l10n(type) || type,
     timestamp: (new Date()).toISOString()
   };
-  let lastEntry = log[log.length - 1];
+  const lastEntry = log[log.length - 1];
   if (lastEntry &&
       source === lastEntry.source &&
       type === lastEntry.type &&

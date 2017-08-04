@@ -47,7 +47,7 @@ export function getFileSize($fileList) {
  */
 export function readUploadFile(file, onLoadEnd) {
   return new Promise((resolve, reject) => {
-    let fileReader = new FileReader();
+    const fileReader = new FileReader();
     fileReader.onload = function() {
       resolve({
         content: this.result,
@@ -67,7 +67,7 @@ export function readUploadFile(file, onLoadEnd) {
 
 export function createFileElement(file, options) {
   options = options || {};
-  let $button = $('<div/>', {
+  const $button = $('<div/>', {
     "title": file.name,
     "class": 'attachmentButton'
   });
@@ -85,7 +85,7 @@ export function createFileElement(file, options) {
 
 export function createFileDownloadElement(file, options) {
   options = options || {};
-  let $button = $('<a/>', {
+  const $button = $('<a/>', {
     "title": file.name,
     "download": file.name,
     "class": 'attachmentButton',
@@ -106,7 +106,7 @@ export function createFileDownloadElement(file, options) {
  * @returns {*|jQuery}
  */
 function getFileName(file) {
-  let fileNameNoExt = mvelo.util.extractFileNameWithoutExt(file.name);
+  const fileNameNoExt = mvelo.util.extractFileNameWithoutExt(file.name);
 
   return $('<span/>', {
     "class": 'attachmentFilename'
@@ -149,11 +149,11 @@ function getRemoveButton(onRemove) {
  * @returns {*|jQuery}
  */
 function getExtensionIcon(file) {
-  let fileExt = mvelo.util.extractFileExtension(file.name);
+  const fileExt = mvelo.util.extractFileExtension(file.name);
   if (!fileExt) {
     return '';
   }
-  let extClass = mvelo.util.getExtensionClass(fileExt);
+  const extClass = mvelo.util.getExtensionClass(fileExt);
 
   return $('<span/>', {
     "class": `attachmentExtension ${extClass}`
@@ -176,8 +176,8 @@ function getSecureIcon() {
  * @returns {string}
  */
 function downloadAttachment(file) {
-  let content = mvelo.util.str2ab(file.content);
-  let blob = new Blob([content], {type: file.type});
+  const content = mvelo.util.str2ab(file.content);
+  const blob = new Blob([content], {type: file.type});
 
   return window.URL.createObjectURL(blob);
 }
@@ -186,7 +186,7 @@ function downloadAttachment(file) {
  * @returns {Object}
  */
 export function getFiles($fileList) {
-  let files = [];
+  const files = [];
   $fileList.find('.attachmentButton').each(function() {
     files.push($(this).data('file'));
   });

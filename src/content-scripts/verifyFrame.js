@@ -39,7 +39,7 @@ export default class VerifyFrame extends ExtractFrame {
     msg = msg.split('\n');
     for (let i = 0; i < msg.length; i++) {
       if (/-----BEGIN\sPGP\sSIGNATURE-----/.test(msg[i])) {
-        let height = this._pgpEnd.position().top + this._pgpEnd.height() - this._pgpElement.position().top - 2;
+        const height = this._pgpEnd.position().top + this._pgpEnd.height() - this._pgpElement.position().top - 2;
         this._sigHeight = parseInt(height / msg.length * (msg.length - i), 10);
         break;
       }
@@ -102,11 +102,11 @@ export default class VerifyFrame extends ExtractFrame {
   }
 
   _setFrameDim() {
-    let pgpElementPos = this._pgpElement.position();
+    const pgpElementPos = this._pgpElement.position();
     this._eFrame.width(this._pgpElement.width() - 2);
-    let height = this._pgpEnd.position().top + this._pgpEnd.height() - pgpElementPos.top - 2;
-    let top = pgpElementPos.top + this._pgpElementAttr.marginTop + this._pgpElementAttr.paddingTop;
-    let left = pgpElementPos.left + this._pgpElementAttr.marginLeft + this._pgpElementAttr.paddingLeft;
+    const height = this._pgpEnd.position().top + this._pgpEnd.height() - pgpElementPos.top - 2;
+    const top = pgpElementPos.top + this._pgpElementAttr.marginTop + this._pgpElementAttr.paddingTop;
+    const left = pgpElementPos.left + this._pgpElementAttr.marginLeft + this._pgpElementAttr.paddingLeft;
     this._eFrame.css('left', left);
     if (this._vDialog) {
       this._eFrame.height(height);

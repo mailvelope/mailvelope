@@ -18,12 +18,12 @@
 'use strict';
 
 
-let mvelo = require('../../mvelo');
+const mvelo = require('../../mvelo');
 
 mvelo.crx = true;
 mvelo.ffa = false;
 
-let dompurify = require('dompurify');
+const dompurify = require('dompurify');
 
 mvelo.data = {};
 
@@ -33,7 +33,7 @@ mvelo.data.url = function(path) {
 
 mvelo.data.load = function(path) {
   return new Promise((resolve, reject) => {
-    let req = new XMLHttpRequest();
+    const req = new XMLHttpRequest();
     req.open('GET', chrome.runtime.getURL(path));
     req.responseType = 'text';
     req.onload = function() {
@@ -121,7 +121,7 @@ mvelo.tabs.sendMessage = function(tab, msg, callback) {
 
 mvelo.tabs.loadOptionsTab = function(hash, callback) {
   // check if options tab already exists
-  let url = chrome.runtime.getURL('app/app.html');
+  const url = chrome.runtime.getURL('app/app.html');
   this.query(url, function(tabs) {
     if (tabs.length === 0) {
       // if not existent, create tab
@@ -277,13 +277,13 @@ mvelo.util.setTimeout = window.setTimeout.bind(window);
 mvelo.util.clearTimeout = window.clearTimeout.bind(window);
 
 mvelo.util.getHostname = function(url) {
-  let a = document.createElement('a');
+  const a = document.createElement('a');
   a.href = url;
   return a.hostname;
 };
 
 mvelo.util.getHost = function(url) {
-  let a = document.createElement('a');
+  const a = document.createElement('a');
   a.href = url;
   return a.host;
 };

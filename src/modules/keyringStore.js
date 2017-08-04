@@ -40,7 +40,7 @@ class KeyringStore {
       return;
     }
     keysArmored.forEach(keyArmored => {
-      let key = openpgp.key.readArmored(keyArmored);
+      const key = openpgp.key.readArmored(keyArmored);
       if (!key.err) {
         keyArray.push(key.keys[0]);
       } else {

@@ -22,7 +22,7 @@
 var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
-  let crx = typeof chrome !== 'undefined';
+  const crx = typeof chrome !== 'undefined';
   let activeState;
   let sendMessage;
   let logEntryTmpl;
@@ -57,7 +57,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       if (this.id === 'state' || this.id === '') {
         return;
       }
-      let message = {
+      const message = {
         event: 'browser-action',
         action: this.id
       };

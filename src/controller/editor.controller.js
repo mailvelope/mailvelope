@@ -61,10 +61,10 @@ export default class EditorController extends sub.SubController {
       this.emit('editor-ready', undefined, this.ports.editorCont);
     } else {
       // non-container case, send options to editor
-      let keyring = getKeyringById(this.keyringId);
-      let primaryKey =  keyring.getPrimaryKey();
-      let primaryKeyId = primaryKey && primaryKey.keyid.toUpperCase() || '';
-      let data = {
+      const keyring = getKeyringById(this.keyringId);
+      const primaryKey =  keyring.getPrimaryKey();
+      const primaryKeyId = primaryKey && primaryKey.keyid.toUpperCase() || '';
+      const data = {
         text: this.options.initText,
         signMsg: prefs.general.auto_sign_msg,
         primary: primaryKeyId,
@@ -86,9 +86,9 @@ export default class EditorController extends sub.SubController {
   _onEditorContainerEncrypt(msg) {
     this.pgpMIME = true;
     this.keyringId = msg.keyringId;
-    let keyIdMap = getKeyringById(this.keyringId).getKeyIdByAddress(msg.recipients, {validity: true});
+    const keyIdMap = getKeyringById(this.keyringId).getKeyIdByAddress(msg.recipients, {validity: true});
     if (Object.keys(keyIdMap).some(keyId => keyIdMap[keyId] === false)) {
-      let error = {
+      const error = {
         message: 'No valid encryption key for recipient address',
         code: 'NO_KEY_FOR_RECIPIENT'
       };
@@ -100,7 +100,7 @@ export default class EditorController extends sub.SubController {
       keyIds = keyIds.concat(keyIdMap[recipient]);
     });
     if (prefs.general.auto_add_primary) {
-      let primary = getKeyringById(this.keyringId).getPrimaryKey();
+      const primary = getKeyringById(this.keyringId).getPrimaryKey();
       if (primary) {
         keyIds.push(primary.keyid.toLowerCase());
       }
@@ -114,11 +114,11 @@ export default class EditorController extends sub.SubController {
     this.signMsg = true;
     this.keyringId = msg.keyringId;
     this.options.reason = 'PWD_DIALOG_REASON_CREATE_DRAFT';
-    let primary = getKeyringById(this.keyringId).getPrimaryKey();
+    const primary = getKeyringById(this.keyringId).getPrimaryKey();
     if (primary) {
       this.keyidBuffer = [primary.keyid.toLowerCase()];
     } else {
-      let error = {
+      const error = {
         message: 'No private key found for creating draft.',
         code: 'NO_KEY_FOR_ENCRYPTION'
       };
@@ -132,9 +132,9 @@ export default class EditorController extends sub.SubController {
     this.keyringId = msg.keyringId;
     this.options = msg.options;
     this.signMsg = msg.options.signMsg;
-    let primaryKey = getKeyringById(this.keyringId).getPrimaryKey();
-    let primaryKeyId = primaryKey && primaryKey.keyid.toUpperCase() || '';
-    let data = {
+    const primaryKey = getKeyringById(this.keyringId).getPrimaryKey();
+    const primaryKeyId = primaryKey && primaryKey.keyid.toUpperCase() || '';
+    const data = {
       signMsg: this.signMsg,
       primary: primaryKeyId
     };
@@ -154,7 +154,7 @@ export default class EditorController extends sub.SubController {
 
   _onSignOnly(msg) {
     this.signBuffer = {};
-    let key = getKeyringById(mvelo.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
+    const key = getKeyringById(mvelo.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
     // add key in buffer
     this.signBuffer.key = key.key;
     this.signBuffer.keyid = msg.signKeyId;
@@ -189,7 +189,7 @@ export default class EditorController extends sub.SubController {
   lookupKeyOnServer(msg) {
     return this.keyserver.lookup(msg.recipient).then(key => {
       // persist key in local keyring
-      let localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
+      const localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
       if (key && key.publicKeyArmored) {
         return localKeyring.importKeys([{type: 'public', armored: key.publicKeyArmored}]);
       }
@@ -201,8 +201,8 @@ export default class EditorController extends sub.SubController {
 
   sendKeyUpdate() {
     // send updated key cache to editor
-    let localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
-    let keys = localKeyring.getKeyUserIDs({allUsers: true});
+    const localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
+    const keys = localKeyring.getKeyUserIDs({allUsers: true});
     this.emit('key-update', {keys}, this.ports.editor);
   }
 
@@ -232,9 +232,9 @@ export default class EditorController extends sub.SubController {
     emails = mvelo.util.deDup(emails); // just dedup, dont change order of user input
     recipients = emails.map(e => ({email: e}));
     // get all public keys in the local keyring
-    let localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
-    let keys = localKeyring.getKeyUserIDs({allUsers: true});
-    let tofu = this.keyserver.getTOFUPreference();
+    const localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
+    const keys = localKeyring.getKeyUserIDs({allUsers: true});
+    const tofu = this.keyserver.getTOFUPreference();
     this.emit('public-key-userids', {keys, recipients, tofu});
   }
 
@@ -249,14 +249,14 @@ export default class EditorController extends sub.SubController {
    */
   buildMail(message, attachments) {
     //var t0 = Date.now();
-    let mainMessage = new mailbuild("multipart/mixed");
+    const mainMessage = new mailbuild("multipart/mixed");
     let composedMessage = null;
     let hasAttachment;
     let quotaSize = 0;
 
     if (message) {
       quotaSize += mvelo.util.byteCount(message);
-      let textMime = new mailbuild("text/plain")
+      const textMime = new mailbuild("text/plain")
       .setHeader("Content-Type", "text/plain; charset=utf-8")
       .addHeader("Content-Transfer-Encoding", "quoted-printable")
       .setContent(message);
@@ -266,7 +266,7 @@ export default class EditorController extends sub.SubController {
       hasAttachment = true;
       attachments.forEach(attachment => {
         quotaSize += attachment.size;
-        let attachmentMime = new mailbuild("text/plain")
+        const attachmentMime = new mailbuild("text/plain")
         .createChild(false, {filename: attachment.name})
           //.setHeader("Content-Type", attachment.type + "; charset=utf-8")
         .addHeader("Content-Transfer-Encoding", "base64")
@@ -277,7 +277,7 @@ export default class EditorController extends sub.SubController {
     }
 
     if (this.options.quota && (quotaSize > this.options.quota)) {
-      let error = {
+      const error = {
         code: 'ENCRYPT_QUOTA_SIZE',
         message: 'Mail content exceeds quota limit.'
       };
@@ -313,7 +313,7 @@ export default class EditorController extends sub.SubController {
    * @returns {undefined}
    */
   decryptArmored(armored) {
-    let decryptCtrl = new DecryptController();
+    const decryptCtrl = new DecryptController();
     decryptCtrl.keyringId = this.keyringId;
     model.readMessage({armoredText: armored, keyringId: this.keyringId})
     .then(message => decryptCtrl.prepareKey(message, !this.editorPopup))
@@ -326,7 +326,7 @@ export default class EditorController extends sub.SubController {
       const options = this.options;
       const emit = this.emit.bind(this);
       const ports = this.ports;
-      let handlers = {
+      const handlers = {
         onMessage(msg) {
           if (options.quotedMailIndent) {
             msg = msg.replace(/^(.|\n)/gm, '> $&');
@@ -387,8 +387,8 @@ export default class EditorController extends sub.SubController {
         mvelo.util.throwError('No primary key found', 'NO_PRIMARY_KEY_FOUND');
       }
 
-      let signKeyPacket = signKey.key.getSigningKeyPacket();
-      let signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
+      const signKeyPacket = signKey.key.getSigningKeyPacket();
+      const signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
       if (!signKeyid) {
         mvelo.util.throwError('No valid signing key packet found', 'NO_SIGN_KEY_FOUND');
       }
@@ -465,7 +465,7 @@ export default class EditorController extends sub.SubController {
     if (this.ports.editorCont) {
       this.emit('encrypted-message', {message: options.armored}, this.ports.editorCont);
     } else {
-      let recipients = (options.keys || []).map(k => ({name: k.name, email: k.email}));
+      const recipients = (options.keys || []).map(k => ({name: k.name, email: k.email}));
       this.encryptCallback(null, options.armored, recipients);
     }
   }
@@ -525,13 +525,13 @@ export default class EditorController extends sub.SubController {
     return Promise.resolve()
     .then(() => {
       if (options.action === 'encrypt') {
-        let data = this.buildMail(options.message, options.attachments);
+        const data = this.buildMail(options.message, options.attachments);
 
         if (data === null) {
           mvelo.util.throwError('MIME building failed.');
         }
 
-        let keyIdsHex = this.getPublicKeyIds(options.keys);
+        const keyIdsHex = this.getPublicKeyIds(options.keys);
         if (this.signMsg || options.signMsg) {
           return this.signAndEncryptMessage({
             message: data,
@@ -566,8 +566,8 @@ export default class EditorController extends sub.SubController {
       keyIdsHex = keys.map(key => key.keyid);
       // get the sender key id
       if (prefs.general.auto_add_primary) {
-        let localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
-        let primary = localKeyring.getPrimaryKey();
+        const localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
+        const primary = localKeyring.getPrimaryKey();
         if (primary) {
           keyIdsHex.push(primary.keyid.toLowerCase());
         }

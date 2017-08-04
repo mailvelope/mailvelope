@@ -31,7 +31,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   let l10n;
 
   function init() {
-    let qs = jQuery.parseQuerystring();
+    const qs = jQuery.parseQuerystring();
     id = qs.id;
     name = `vDialog-${id}`;
     // open port to background page
@@ -61,7 +61,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function addSecuritySettingsButton() {
-    let securitySettingsBtn = $('<div data-l10n-title-id="security_background_button_title" class="pull-right"><span class="glyphicon lockBtnIcon"></span></div>');
+    const securitySettingsBtn = $('<div data-l10n-title-id="security_background_button_title" class="pull-right"><span class="glyphicon lockBtnIcon"></span></div>');
     $('.modal-body .header').append(securitySettingsBtn);
   }
 
@@ -79,8 +79,8 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   function onCopy() {
     logUserInput('security_log_content_copy');
     // copy to clipboard
-    let doc = sandbox.contents().get(0);
-    let sel = doc.defaultView.getSelection();
+    const doc = sandbox.contents().get(0);
+    const sel = doc.defaultView.getSelection();
     sel.selectAllChildren(sandbox.contents().find('#content').get(0));
     doc.execCommand('copy');
     sel.removeAllRanges();
@@ -91,16 +91,16 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       sandbox: 'allow-same-origin allow-popups',
       frameBorder: 0
     });
-    let header = $('<header/>');
-    let content = $('<div/>', {
+    const header = $('<header/>');
+    const content = $('<div/>', {
       id: 'content'
     }).append(header);
-    let style = $('<link/>', {
+    const style = $('<link/>', {
       rel: 'stylesheet',
       href: '../../dep/bootstrap/css/bootstrap.css'
     });
-    let style3 = style.clone().attr('href', '../../components/verify-popup/verifyPopupSig.css');
-    let meta = $('<meta/>', {charset: 'UTF-8'});
+    const style3 = style.clone().attr('href', '../../components/verify-popup/verifyPopupSig.css');
+    const meta = $('<meta/>', {charset: 'UTF-8'});
     sandbox.one('load', () => {
       sandbox.contents().find('head').append(meta)
       .append(style)
@@ -111,7 +111,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function addErrorView() {
-    let errorbox = $('<div/>', {id: 'errorbox'});
+    const errorbox = $('<div/>', {id: 'errorbox'});
     $('<div/>', {id: 'errorwell', class: 'well'}).appendTo(errorbox);
     $('.modal-body .content').append(errorbox);
   }

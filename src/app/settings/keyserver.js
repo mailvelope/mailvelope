@@ -90,7 +90,7 @@ export default class KeyServer extends React.Component {
    * @return {Boolean}      If the url is valid
    */
   validateUrl(url) {
-    let urlPattern = /^(http|https):\/\/(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])(:\d{2,5})?$/;
+    const urlPattern = /^(http|https):\/\/(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])(:\d{2,5})?$/;
     return urlPattern.test(url);
   }
 
@@ -118,7 +118,7 @@ export default class KeyServer extends React.Component {
   handleSave() {
     this.testUrl(this.state.hkp_base_url)
     .then(() => {
-      let update = {
+      const update = {
         keyserver: {
           hkp_base_url: this.state.hkp_base_url,
           hkp_server_list: this.state.hkp_server_list.map(server => server.value),

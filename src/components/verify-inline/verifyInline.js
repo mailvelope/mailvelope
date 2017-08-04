@@ -35,7 +35,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       return;
     }
     document.body.dataset.mvelo = true;
-    let qs = jQuery.parseQuerystring();
+    const qs = jQuery.parseQuerystring();
     id = `vDialog-${qs.id}`;
     // open port to background page
     port = mvelo.extension.connect({name: id});
@@ -76,28 +76,28 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function addWrapper() {
-    let wrapper = $('<div/>', {id: 'wrapper'});
+    const wrapper = $('<div/>', {id: 'wrapper'});
     watermark = $('<div/>', {id: 'watermark'});
     watermark.appendTo(wrapper);
     wrapper.appendTo('body');
   }
 
   function addSandbox() {
-    let sandbox = $('<iframe/>', {
+    const sandbox = $('<iframe/>', {
       id: 'verifymail',
       sandbox: 'allow-same-origin allow-popups',
       frameBorder: 0
     });
-    let header = $('<header/>');
-    let content = $('<div/>', {
+    const header = $('<header/>');
+    const content = $('<div/>', {
       id: 'content'
     }).append(header);
-    let style = $('<link/>', {
+    const style = $('<link/>', {
       rel: 'stylesheet',
       href: `${basePath}dep/bootstrap/css/bootstrap.css`
     });
-    let style2 = style.clone().attr('href', `${basePath}components/verify-inline/verifyInlineSig.css`);
-    let meta = $('<meta/>', {charset: 'UTF-8'});
+    const style2 = style.clone().attr('href', `${basePath}components/verify-inline/verifyInlineSig.css`);
+    const meta = $('<meta/>', {charset: 'UTF-8'});
     sandbox.on('load', function() {
       $(this).contents().find('head').append(meta)
       .append(style)
@@ -109,7 +109,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function addErrorView() {
-    let errorbox = $('<div/>', {id: 'errorbox'});
+    const errorbox = $('<div/>', {id: 'errorbox'});
     $('<div/>', {id: 'errorwell', class: 'well span5'}).appendTo(errorbox);
     errorbox.appendTo('body');
     if ($('body').height() + 2 > mvelo.LARGE_FRAME) {
@@ -125,7 +125,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function addSecuritySettingsButton() {
-    let securitySettingsBtn = $('<div data-l10n-title-id="security_background_button_title" style="margin-top: 12px; margin-right: 6px;" class="pull-right"><span class="glyphicon lockBtnIcon"></span></div>');
+    const securitySettingsBtn = $('<div data-l10n-title-id="security_background_button_title" style="margin-top: 12px; margin-right: 6px;" class="pull-right"><span class="glyphicon lockBtnIcon"></span></div>');
     $('body').append(securitySettingsBtn);
   }
 

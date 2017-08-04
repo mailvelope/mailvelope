@@ -186,7 +186,7 @@
 
   function checkTypeKeyring(keyring) {
     if (!(keyring instanceof Keyring)) {
-      let error = new Error('Type mismatch: keyring should be instance of Keyring.');
+      const error = new Error('Type mismatch: keyring should be instance of Keyring.');
       error.code = 'TYPE_MISMATCH';
       throw error;
     }
@@ -226,7 +226,7 @@
      */
     validKeyForAddress(recipients) {
       return postMessage('query-valid-key', {identifier: this.identifier, recipients}).then(keyMap => {
-        for (let address in keyMap) {
+        for (const address in keyMap) {
           if (keyMap[address]) {
             keyMap[address].keys.forEach(key => {
               key.lastModified = new Date(key.lastModified);
@@ -546,7 +546,7 @@
     }
   }
 
-  let callbacks = Object.create(null);
+  const callbacks = Object.create(null);
 
   class SyncHandler {
     constructor(syncHandlerId, handlers) {
@@ -555,7 +555,7 @@
     }
 
     update(handlers) {
-      for (let handle in handlers) {
+      for (const handle in handlers) {
         this.handlers[handle] = handlers[handle];
       }
     }
@@ -634,7 +634,7 @@
 
   function getHash() {
     let result = '';
-    let buf = new Uint16Array(6);
+    const buf = new Uint16Array(6);
     window.crypto.getRandomValues(buf);
     for (let i = 0; i < buf.length; i++) {
       result += buf[i].toString(16);
@@ -643,19 +643,19 @@
   }
 
   function mapError(obj) {
-    let error = new Error(obj.message);
+    const error = new Error(obj.message);
     error.code = obj.code;
     return error;
   }
 
   function postMessage(eventName, data, noResp) {
     if (!connected) {
-      let error = new Error('Connection to Mailvelope extension is no longer alive.');
+      const error = new Error('Connection to Mailvelope extension is no longer alive.');
       error.code = 'NO_CONNECTION';
       throw error;
     }
     return new Promise((resolve, reject) => {
-      let message = {
+      const message = {
         event: eventName,
         mvelo_client: true,
         data,

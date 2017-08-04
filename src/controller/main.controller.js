@@ -240,7 +240,7 @@ function reloadFrames(main) {
 }
 
 function addToWatchList() {
-  let scanScript = " \
+  const scanScript = " \
       var hosts = $('iframe').get().map(function(element) { \
         return $('<a/>').attr('href', element.src).prop('hostname'); \
       }); \
@@ -255,7 +255,7 @@ function addToWatchList() {
     if (tab) {
       // reset scanned hosts buffer
       scannedHosts.length = 0;
-      let options = {};
+      const options = {};
       options.contentScriptFile = [];
       options.contentScriptFile.push('dep/jquery.min.js');
       options.contentScriptFile.push('mvelo.js');
@@ -268,9 +268,9 @@ function addToWatchList() {
           if (scannedHosts.length === 0) {
             return;
           }
-          let site = model.getHostname(tab.url);
+          const site = model.getHostname(tab.url);
           scannedHosts.length = 0;
-          let slotId = mvelo.util.getHash();
+          const slotId = mvelo.util.getHash();
           sub.setAppDataSlot(slotId, site);
           mvelo.tabs.loadOptionsTab(`?slotId=${slotId}#/settings/watchlist/push`, () => {});
         }, 250);
@@ -310,9 +310,9 @@ function loadOptions(hash) {
 }
 
 function reduceHosts(hosts) {
-  let reduced = [];
+  const reduced = [];
   hosts.forEach(element => {
-    let labels = element.split('.');
+    const labels = element.split('.');
     if (labels.length < 2) {
       return;
     }

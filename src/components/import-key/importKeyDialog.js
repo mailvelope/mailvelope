@@ -26,7 +26,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   let l10n;
 
   function init() {
-    let qs = jQuery.parseQuerystring();
+    const qs = jQuery.parseQuerystring();
     id = qs.id;
     name = `importKeyDialog-${id}`;
     // open port to background page
@@ -92,11 +92,11 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
 
   function messageListener(msg) {
     //console.log('key import dialog messageListener: ', JSON.stringify(msg));
-    let $okBtn = $('okBtn');
-    let $body = $('body');
-    let $spinner = $('#spinner');
-    let $modalBody = $('.modal-body');
-    let $importAlert = $('#importAlert');
+    const $okBtn = $('okBtn');
+    const $body = $('body');
+    const $spinner = $('#spinner');
+    const $modalBody = $('.modal-body');
+    const $importAlert = $('#importAlert');
 
     switch (msg.event) {
       case 'key-details': {

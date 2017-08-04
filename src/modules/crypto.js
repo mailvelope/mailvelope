@@ -10,8 +10,8 @@ import mvelo from 'lib-mvelo';
 
 export function randomString(length) {
   let result = '';
-  let base = 32;
-  let buf = new Uint8Array(length);
+  const base = 32;
+  const buf = new Uint8Array(length);
   mvelo.util.getDOMWindow().crypto.getRandomValues(buf);
   for (let i = 0; i < buf.length; i++) {
     result += (buf[i] % base).toString(base);

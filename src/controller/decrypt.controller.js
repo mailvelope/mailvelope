@@ -40,7 +40,7 @@ export default class DecryptController extends sub.SubController {
             this.ports.decryptCont.postMessage({event: 'error-message', error: 'modal-active'});
           }
         } else {
-          let port = this.ports.dFrame || this.ports.decryptCont;
+          const port = this.ports.dFrame || this.ports.decryptCont;
           // get armored message
           port.postMessage({event: 'get-armored'});
         }
@@ -93,8 +93,8 @@ export default class DecryptController extends sub.SubController {
       return this.decryptMessage(message);
     })
     .then(content => {
-      let ports = this.ports;
-      let handlers = {
+      const ports = this.ports;
+      const handlers = {
         noEvent: true,
         onMessage(msg) {
           this.noEvent = false;
@@ -200,8 +200,8 @@ export default class DecryptController extends sub.SubController {
       rawText = unescape(encodeURIComponent(rawText));
       mailreader.parse([{raw: rawText}], parsed => {
         if (parsed && parsed.length > 0) {
-          let htmlParts = [];
-          let textParts = [];
+          const htmlParts = [];
+          const textParts = [];
           if (encoding === 'html') {
             this.filterBodyParts(parsed, 'html', htmlParts);
             if (htmlParts.length) {
@@ -225,7 +225,7 @@ export default class DecryptController extends sub.SubController {
               }
             }
           }
-          let attachmentParts = [];
+          const attachmentParts = [];
           this.filterBodyParts(parsed, 'attachment', attachmentParts);
           attachmentParts.forEach(part => {
             part.filename = mvelo.util.encodeHTML(part.filename);

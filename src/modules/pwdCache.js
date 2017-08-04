@@ -29,7 +29,7 @@ export function init() {
 
 function clearTimeouts() {
   // clear timeout functions
-  for (let entry in cache) {
+  for (const entry in cache) {
     if (cache.hasOwnProperty(entry)) {
       mvelo.util.clearTimeout(entry.timer);
     }
@@ -97,15 +97,15 @@ export {deleteEntry as delete};
  */
 export function set(message, pwd, cacheTime) {
   // primary key id is main key of cache
-  let primKeyIdHex = message.key.primaryKey.getKeyId().toHex();
-  let entry = cache[primKeyIdHex];
+  const primKeyIdHex = message.key.primaryKey.getKeyId().toHex();
+  const entry = cache[primKeyIdHex];
   if (entry) {
     // set unlocked private key for this keyid
     if (message.keyid && !entry[message.keyid]) {
       entry[message.keyid] = message.key;
     }
   } else {
-    let newEntry = cache[primKeyIdHex] = {};
+    const newEntry = cache[primKeyIdHex] = {};
     newEntry.password = pwd;
     if (message.keyid) {
       newEntry[message.keyid] = message.key;

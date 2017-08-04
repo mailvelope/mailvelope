@@ -1,7 +1,7 @@
 
 browser.runtime.sendMessage({event: 'web-extension-path', url: browser.runtime.getURL('')});
 
-let storagePort = browser.runtime.connect({name: 'storage-port'});
+const storagePort = browser.runtime.connect({name: 'storage-port'});
 
 storagePort.onMessage.addListener(handleMessage);
 

@@ -8,9 +8,9 @@ import EncryptController from '../../src/controller/encrypt.controller';
 
 let ctrl;
 let editorCtrlMock;
-let preferences = prefs.prefs;
+const preferences = prefs.prefs;
 
-let testRecipients = [{email: 'test@example.com'}];
+const testRecipients = [{email: 'test@example.com'}];
 
 describe('Encrypt controller unit tests', () => {
   beforeEach(() => {
@@ -79,7 +79,7 @@ describe('Encrypt controller unit tests', () => {
   });
 
   describe('getRecipientProposal', () => {
-    let callback = function() {};
+    const callback = function() {};
 
     it('should work', () => {
       ctrl.getRecipientProposal(callback);

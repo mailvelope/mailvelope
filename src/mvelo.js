@@ -68,7 +68,7 @@ mvelo.appendTpl = function($element, path) {
     });
   } else {
     return new Promise((resolve, reject) => {
-      let req = new XMLHttpRequest();
+      const req = new XMLHttpRequest();
       req.open('GET', path);
       req.responseType = 'text';
       req.onload = function() {
@@ -94,7 +94,7 @@ if (mvelo.ffa && mvelo.extension) {
   mvelo.extension.connect = function(obj) {
     mvelo.extension._connect(obj);
     obj.events = {};
-    let port = {
+    const port = {
       postMessage: mvelo.extension.port.postMessage,
       disconnect: mvelo.extension.port.disconnect.bind(null, obj),
       onMessage: {
@@ -113,24 +113,24 @@ if (mvelo.ffa && mvelo.extension) {
 // for fixfox, mvelo.l10n is exposed from a content script
 mvelo.l10n = mvelo.l10n || mvelo.crx && {
   getMessages(ids, callback) {
-    let result = {};
+    const result = {};
     ids.forEach(id => {
       result[id] = chrome.i18n.getMessage(id);
     });
     callback(result);
   },
   localizeHTML(l10n, idSelector) {
-    let selector = idSelector ? `${idSelector} [data-l10n-id]` : '[data-l10n-id]';
+    const selector = idSelector ? `${idSelector} [data-l10n-id]` : '[data-l10n-id]';
     $(selector).each(function() {
-      let jqElement = $(this);
-      let id = jqElement.data('l10n-id');
-      let text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id;
+      const jqElement = $(this);
+      const id = jqElement.data('l10n-id');
+      const text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id;
       jqElement.text(text);
     });
     $('[data-l10n-title-id]').each(function() {
-      let jqElement = $(this);
-      let id = jqElement.data('l10n-title-id');
-      let text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id;
+      const jqElement = $(this);
+      const id = jqElement.data('l10n-title-id');
+      const text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id;
       jqElement.attr('title', text);
     });
   }
@@ -146,7 +146,7 @@ if (typeof window !== 'undefined' && window.browser) {
       }, callback);
     },
     localizeHTML(l10n, idSelector) {
-      let selector = idSelector ? `${idSelector} [data-l10n-id]` : '[data-l10n-id]';
+      const selector = idSelector ? `${idSelector} [data-l10n-id]` : '[data-l10n-id]';
       if (l10n) {
         [].forEach.call(document.querySelectorAll(selector), element => {
           element.textContent = l10n[element.dataset.l10nId] || element.dataset.l10nId;
@@ -170,8 +170,8 @@ if (typeof window !== 'undefined' && window.browser) {
 mvelo.util = {};
 
 mvelo.util.sortAndDeDup = function(unordered, compFn) {
-  let result = [];
-  let sorted = unordered.sort(compFn);
+  const result = [];
+  const sorted = unordered.sort(compFn);
   // remove duplicates
   for (let i = 0; i < sorted.length; i++) {
     if (i === 0 || compFn && compFn(sorted[i - 1], sorted[i]) !== 0 || !compFn && sorted[i - 1] !== sorted[i]) {
@@ -187,7 +187,7 @@ mvelo.util.sortAndDeDup = function(unordered, compFn) {
  * @return {Array}        The list of items without duplicates
  */
 mvelo.util.deDup = function(list) {
-  let result = [];
+  const result = [];
   (list || []).forEach(i => {
     if (result.indexOf(i) === -1) {
       result.push(i);
@@ -199,7 +199,7 @@ mvelo.util.deDup = function(list) {
 // random hash generator
 mvelo.util.getHash = function() {
   let result = '';
-  let buf = new Uint16Array(6);
+  const buf = new Uint16Array(6);
   if (typeof window !== 'undefined') {
     window.crypto.getRandomValues(buf);
   } else {
@@ -285,8 +285,8 @@ mvelo.util.byteCount = function(str) {
 
 mvelo.util.ab2str = function(buf) {
   let str = '';
-  let ab = new Uint8Array(buf);
-  let CHUNK_SIZE = Math.pow(2, 16);
+  const ab = new Uint8Array(buf);
+  const CHUNK_SIZE = Math.pow(2, 16);
   let offset;
   let len;
   let subab;
@@ -299,7 +299,7 @@ mvelo.util.ab2str = function(buf) {
 };
 
 mvelo.util.str2ab = function(str) {
-  let bufView = new Uint8Array(str.length);
+  const bufView = new Uint8Array(str.length);
   for (let i = 0; i < str.length; i++) {
     bufView[i] = str.charCodeAt(i);
   }
@@ -315,7 +315,7 @@ mvelo.util.getExtensionClass = function(fileExt) {
 };
 
 mvelo.util.extractFileNameWithoutExt = function(fileName) {
-  let indexOfDot = fileName.lastIndexOf('.');
+  const indexOfDot = fileName.lastIndexOf('.');
   if (indexOfDot > 0) { // case: regular
     return fileName.substring(0, indexOfDot);
   } else {
@@ -324,7 +324,7 @@ mvelo.util.extractFileNameWithoutExt = function(fileName) {
 };
 
 mvelo.util.extractFileExtension = function(fileName) {
-  let lastindexDot = fileName.lastIndexOf('.');
+  const lastindexDot = fileName.lastIndexOf('.');
   if (lastindexDot <= 0) { // no extension
     return '';
   } else {
@@ -334,7 +334,7 @@ mvelo.util.extractFileExtension = function(fileName) {
 
 // Attribution: http://www.2ality.com/2012/08/underscore-extend.html
 mvelo.util.extend = function(target) {
-  let sources = [].slice.call(arguments, 1);
+  const sources = [].slice.call(arguments, 1);
   sources.forEach(source => {
     Object.getOwnPropertyNames(source).forEach(propName => {
       Object.defineProperty(target, propName,
@@ -346,7 +346,7 @@ mvelo.util.extend = function(target) {
 
 mvelo.util.addLoadingAnimation = function($parent) {
   $parent = $parent || $('body')[0];
-  let spinner = $('<div class="m-spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>');
+  const spinner = $('<div class="m-spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>');
   spinner.appendTo($parent);
 };
 
@@ -361,9 +361,9 @@ mvelo.util.hideLoadingAnimation = function($parent) {
 };
 
 mvelo.util.generateSecurityBackground = function({width, height, scaling = 1, angle = 0, colorId = 0}) {
-  let iconWidth = width * scaling;
-  let iconHeight = height * scaling;
-  let iconColor = mvelo.SECURE_COLORS[colorId];
+  const iconWidth = width * scaling;
+  const iconHeight = height * scaling;
+  const iconColor = mvelo.SECURE_COLORS[colorId];
 
   return `<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" id="secBgnd" version="1.1" width="${iconWidth}px" height="${iconHeight}px" viewBox="0 0 27 27"><path transform="rotate(${angle} 14 14)" style="fill: ${iconColor};" d="m 13.963649,25.901754 c -4.6900005,0 -8.5000005,-3.78 -8.5000005,-8.44 0,-1.64 0.47,-3.17 1.29,-4.47 V 9.0417546 c 0,-3.9399992 3.23,-7.1499992 7.2000005,-7.1499992 3.97,0 7.2,3.21 7.2,7.1499992 v 3.9499994 c 0.82,1.3 1.3,2.83 1.3,4.48 0,4.65 -3.8,8.43 -8.49,8.43 z m -1.35,-7.99 v 3.33 h 0 c 0,0.02 0,0.03 0,0.05 0,0.74 0.61,1.34 1.35,1.34 0.75,0 1.35,-0.6 1.35,-1.34 0,-0.02 0,-0.03 0,-0.05 h 0 v -3.33 c 0.63,-0.43 1.04,-1.15 1.04,-1.97 0,-1.32 -1.07,-2.38 -2.4,-2.38 -1.32,0 -2.4,1.07 -2.4,2.38 0.01,0.82 0.43,1.54 1.06,1.97 z m 6.29,-8.8699994 c 0,-2.7099992 -2.22,-4.9099992 -4.95,-4.9099992 -2.73,0 -4.9500005,2.2 -4.9500005,4.9099992 V 10.611754 C 10.393649,9.6217544 12.103649,9.0317546 13.953649,9.0317546 c 1.85,0 3.55,0.5899998 4.94,1.5799994 l 0.01,-1.5699994 z" /></svg>`;
 };
@@ -380,15 +380,15 @@ mvelo.util.showSecurityBackground = function(isEmbedded) {
   }
 
   mvelo.extension.sendMessage({event: "get-security-background"}, background => {
-    let secBgndIcon = mvelo.util.generateSecurityBackground(background);
-    let secureStyle = `\n.secureBackground {
+    const secBgndIcon = mvelo.util.generateSecurityBackground(background);
+    const secureStyle = `\n.secureBackground {
       background-color: ${background.color};
       background-position: -20px -20px;
       background-image: url(data:image/svg+xml;base64,${btoa(secBgndIcon)});
     }`;
 
-    let lockIcon = mvelo.util.generateSecurityBackground({width: 28, height: 28, colorId: 2});
-    let lockButton = `\n.lockBtnIcon, .lockBtnIcon:active {
+    const lockIcon = mvelo.util.generateSecurityBackground({width: 28, height: 28, colorId: 2});
+    const lockButton = `\n.lockBtnIcon, .lockBtnIcon:active {
       margin: 0;
       width: 28px; height: 28px;
       background-size: 100% 100%;
@@ -396,7 +396,7 @@ mvelo.util.showSecurityBackground = function(isEmbedded) {
       background-image: url(data:image/svg+xml;base64,'}${btoa(lockIcon)});
     }`;
 
-    let secBgndStyle = document.getElementById('secBgndCss');
+    const secBgndStyle = document.getElementById('secBgndCss');
     if (secBgndStyle) {
       secBgndStyle.parentNode.removeChild(secBgndStyle);
     }
@@ -416,7 +416,7 @@ mvelo.util.mapError = function(error) {
 };
 
 mvelo.util.throwError = function(message, code) {
-  let error = new Error(message);
+  const error = new Error(message);
   error.code = code;
   throw error;
 };
@@ -439,7 +439,7 @@ mvelo.util.PromiseQueue = class {
     if (this.queue.length === 0) {
       return;
     }
-    let nextEntry = this.queue[0];
+    const nextEntry = this.queue[0];
     mvelo.util.setTimeout(() => {
       nextEntry.thisArg[nextEntry.method].apply(nextEntry.thisArg, nextEntry.args)
       .then(result => {
@@ -481,7 +481,7 @@ mvelo.util.sequential = (process, list) => {
  * @return {Boolean}          True if valid, false if not
  */
 mvelo.util.checkEmail = function(address) {
-  let pattern = /^[+a-zA-Z0-9_.!#$%&'*\/=?^`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,63}$/;
+  const pattern = /^[+a-zA-Z0-9_.!#$%&'*\/=?^`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,63}$/;
   return pattern.test(address);
 };
 

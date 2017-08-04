@@ -17,19 +17,19 @@
 
 'use strict';
 
-let data = require('sdk/self').data;
-let pageMod = require('sdk/page-mod');
-let l10nGet = require("sdk/l10n").get;
+const data = require('sdk/self').data;
+const pageMod = require('sdk/page-mod');
+const l10nGet = require("sdk/l10n").get;
 
-let ToggleButton = require('sdk/ui/button/toggle').ToggleButton;
-let Panel = require('sdk/panel').Panel;
+const ToggleButton = require('sdk/ui/button/toggle').ToggleButton;
+const Panel = require('sdk/panel').Panel;
 
 const webExtension = require('sdk/webextension');
 
-let mvelo = require('./lib-mvelo.js');
-let controller = require('../../controller/main.controller');
+const mvelo = require('./lib-mvelo.js');
+const controller = require('../../controller/main.controller');
 
-let pageMods = {};
+const pageMods = {};
 
 let mailvelopePanel = null;
 
@@ -37,7 +37,7 @@ let webExURL = '';
 let webexInitialized = 0;
 
 webExtension.startup().then(api => {
-  let browser = api.browser;
+  const browser = api.browser;
   browser.runtime.onMessage.addListener((msg, sender, sendReply) => {
     switch (msg.event) {
       case 'web-extension-path':
@@ -152,7 +152,7 @@ function activatePageMods() {
 function injectMainCS() {
   controller.getWatchListFilterURLs()
   .then(filterURL => {
-    let modOptions = {
+    const modOptions = {
       include: filterURL,
       onAttach: onCsAttach,
       contentScriptFile: [
@@ -187,8 +187,8 @@ function onCsAttach(worker) {
   let pageHidden = false;
   worker.port.on('port-message', controller.portManager.handlePortMessage);
   worker.port.on('connect', portName => {
-    let eventName = `${'port-message' + '.'}${portName}`;
-    let port = {
+    const eventName = `${'port-message' + '.'}${portName}`;
+    const port = {
       name: portName,
       postMessage(message) {
         if (!pageHidden) {
@@ -212,7 +212,7 @@ function onCsAttach(worker) {
     controller.portManager.removePort(worker.port);
   });
   worker.port.on('message-event', function(msg) {
-    let that = this;
+    const that = this;
     let result;
     switch (msg.event) {
       case 'get-l10n-messages':
@@ -245,7 +245,7 @@ function onCsAttach(worker) {
 
 function getDynamicStyle(path) {
   let css = data.load(path);
-  let token = /\.\.\//g;
+  const token = /\.\.\//g;
   css = css.replace(token, data.url(''));
   return css;
 }

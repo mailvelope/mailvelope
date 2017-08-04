@@ -48,9 +48,9 @@ export default class EncryptFrame extends mvelo.EventHandler {
     this._emailTextElement = this._editElement.is('iframe') ? this._editElement.contents().find('body') : this._editElement;
     // inject style if we have a non-body editable element inside a dynamic iframe
     if (!this._editElement.is('body') && this._editElement.closest('body').data(mvelo.DYN_IFRAME)) {
-      let html = this._editElement.closest('html');
+      const html = this._editElement.closest('html');
       if (!html.data('M-STYLE')) {
-        let style = $('<link/>', {
+        const style = $('<link/>', {
           rel: 'stylesheet',
           href: mvelo.extension.getURL('content-scripts/framestyles.css')
         });
@@ -141,9 +141,9 @@ export default class EncryptFrame extends mvelo.EventHandler {
   }
 
   _setFrameDim() {
-    let editElementPos = this._editElement.position();
-    let editElementWidth = this._editElement.width();
-    let toolbarWidth = this._eFrame.width();
+    const editElementPos = this._editElement.position();
+    const editElementWidth = this._editElement.width();
+    const toolbarWidth = this._eFrame.width();
     this._eFrame.css('top', editElementPos.top + 3);
     this._eFrame.css('left', editElementPos.left + editElementWidth - toolbarWidth - 20);
   }
@@ -187,8 +187,8 @@ export default class EncryptFrame extends mvelo.EventHandler {
     } else { // html element
       if (type === 'text') {
         this._emailTextElement.focus();
-        let element = this._emailTextElement.get(0);
-        let sel = element.ownerDocument.defaultView.getSelection();
+        const element = this._emailTextElement.get(0);
+        const sel = element.ownerDocument.defaultView.getSelection();
         sel.selectAllChildren(element);
         text = sel.toString();
         sel.removeAllRanges();
@@ -244,7 +244,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
       this._emailTextElement.html(msg);
     }
     // trigger input event
-    let inputEvent = document.createEvent('HTMLEvents');
+    const inputEvent = document.createEvent('HTMLEvents');
     inputEvent.initEvent('input', true, true);
     this._emailTextElement.get(0).dispatchEvent(inputEvent);
   }

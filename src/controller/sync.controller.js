@@ -44,7 +44,7 @@ export class SyncController extends sub.SubController {
       return;
     }
     this.modified = this.keyring.sync.data.modified;
-    let primKey = this.keyring.getPrimaryKey();
+    const primKey = this.keyring.getPrimaryKey();
     if (!options.key) {
       // if no key provided we take the primary key
       if (primKey) {
@@ -91,7 +91,7 @@ export class SyncController extends sub.SubController {
   checkRepeat() {
     this.syncRunning = false;
     if (this.repeatSync) {
-      let repeat = this.repeatSync;
+      const repeat = this.repeatSync;
       this.repeatSync = null;
       this.triggerSync(repeat);
     }
@@ -147,7 +147,7 @@ export class SyncController extends sub.SubController {
       .then(syncPacket => {
         this.keyring.sync.merge(syncPacket.changeLog);
         // remove keys with change log delete entry
-        let removeKeyAsync = this.keyring.sync.getDeleteEntries().map(fingerprint => this.keyring.removeKey(fingerprint, 'public'));
+        const removeKeyAsync = this.keyring.sync.getDeleteEntries().map(fingerprint => this.keyring.removeKey(fingerprint, 'public'));
         return Promise.all(removeKeyAsync);
       })
       .then(() => {
@@ -160,7 +160,7 @@ export class SyncController extends sub.SubController {
 
   uploadSyncMessage(options) {
     // if key is in cache, specific unlock of sign key packet might be required
-    let keyOptions = {
+    const keyOptions = {
       key: options.key,
       password: options.password,
       keyid: options.key.getSigningKeyPacket().getKeyId().toHex(),
@@ -194,7 +194,7 @@ export class SyncController extends sub.SubController {
       // key can always be unlocked with password
       return true;
     }
-    let isKeyCached = isCached(options.key.primaryKey.getKeyId().toHex());
+    const isKeyCached = isCached(options.key.primaryKey.getKeyId().toHex());
     if (isKeyCached) {
       return true;
     }
@@ -284,7 +284,7 @@ export function getByKeyring(keyringId) {
  * @param {String} [options.password] - password for options.key
  */
 export function triggerSync(options) {
-  let syncCtrl = getByKeyring(options.keyringId);
+  const syncCtrl = getByKeyring(options.keyringId);
   if (syncCtrl) {
     mvelo.util.setTimeout(() => {
       syncCtrl.triggerSync(options);

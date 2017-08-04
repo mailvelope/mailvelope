@@ -22,7 +22,7 @@ const containers = new Map();
 let syncHandler = null;
 
 export function init() {
-  let apiTag = document.getElementById('mailvelope-api');
+  const apiTag = document.getElementById('mailvelope-api');
   if (apiTag) {
     if (apiTag.dataset.version !== prefs.version) {
       window.setTimeout(() => {
@@ -119,11 +119,11 @@ function checkTypes(data) {
 
 function enforceTypeWhitelist(data, whitelist) {
   let error;
-  let parameters = Object.keys(data) || [];
+  const parameters = Object.keys(data) || [];
   for (let i = 0; i < parameters.length; i++) {
-    let parameter = parameters[i];
-    let dataType = whitelist[parameter];
-    let value = data[parameter];
+    const parameter = parameters[i];
+    const dataType = whitelist[parameter];
+    const value = data[parameter];
     if (dataType === undefined) {
       console.log(`Mailvelope client-API type checker: parameter ${parameter} not accepted.`);
       delete data[parameter];
@@ -161,7 +161,7 @@ function eventListener(event) {
   //console.log('clientAPI eventListener', event.data.event);
   try {
     checkTypes(event.data);
-    let data = event.data.data;
+    const data = event.data.data;
     let keyringId = null;
     if (data && data.identifier) {
       if (data.identifier.indexOf(mvelo.KEYRING_DELIMITER) !== -1) {
@@ -304,7 +304,7 @@ function editorContainer(selector, keyringId, options = {}, callback) {
     // kilobyte -> byte
     options.quota = parseInt(options.quota) * 1024;
   }
-  let container = new EditorContainer(selector, keyringId, options);
+  const container = new EditorContainer(selector, keyringId, options);
   containers.set(container.id, container);
   container.create(callback);
 }
@@ -316,7 +316,7 @@ function settingsContainer(selector, keyringId, options = {}, callback) {
     keyringId
   }, result => {
     options.hasPrivateKey = result.data;
-    let container = new OptionsContainer(selector, keyringId, options);
+    const container = new OptionsContainer(selector, keyringId, options);
     containers.set(container.id, container);
     container.create(callback);
   });
@@ -334,19 +334,19 @@ function openSettings(keyringId, callback) {
 
 function keyGenContainer(selector, keyringId, options = {}, callback) {
   options.keySize = options.keySize || 2048;
-  let container = new KeyGenContainer(selector, keyringId, options);
+  const container = new KeyGenContainer(selector, keyringId, options);
   containers.set(container.id, container);
   container.create(callback);
 }
 
 function keyBackupContainer(selector, keyringId, options = {}, callback) {
-  let container = new KeyBackupContainer(selector, keyringId, options);
+  const container = new KeyBackupContainer(selector, keyringId, options);
   containers.set(container.id, container);
   container.create(callback);
 }
 
 function restoreBackupContainer(selector, keyringId, options = {}, callback) {
-  let container = new RestoreBackupContainer(selector, keyringId, options);
+  const container = new RestoreBackupContainer(selector, keyringId, options);
   containers.set(container.id, container);
   container.create(callback);
 }
@@ -468,7 +468,7 @@ function addSyncHandler(keyringId, callback) {
 }
 
 function syncHandlerDone(data) {
-  let container = containers.get(data.syncHandlerId);
+  const container = containers.get(data.syncHandlerId);
 
   container.syncDone(data);
 }

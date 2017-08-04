@@ -67,7 +67,7 @@ export default class PrivateKeyController extends sub.SubController {
   }
 
   createPrivateKeyBackup() {
-    let primaryKey = getKeyringById(this.keyringId).getPrimaryKey();
+    const primaryKey = getKeyringById(this.keyringId).getPrimaryKey();
     if (!primaryKey) {
       throw {message: 'No private key for backup', code: 'NO_PRIVATE_KEY'};
     }
@@ -100,7 +100,7 @@ export default class PrivateKeyController extends sub.SubController {
           break;
       }
 
-      let path = `components/recovery-sheet/${page}`;
+      const path = `components/recovery-sheet/${page}`;
       mvelo.windows.openPopup(path, {width: 1024, height: 550, modal: false}, window => {
         this.backupCodePopup = window;
       });
@@ -141,7 +141,7 @@ export default class PrivateKeyController extends sub.SubController {
   }
 
   getLogoImage() {
-    let attr = getKeyringById(this.keyringId).getAttributes();
+    const attr = getKeyringById(this.keyringId).getAttributes();
     return (attr && attr.logo_data_url) ? attr.logo_data_url : null;
   }
 

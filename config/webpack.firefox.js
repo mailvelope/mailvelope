@@ -1,9 +1,9 @@
 
 'use strict';
 
-let path = require('path');
-let common = require('./webpack.common');
-let pjson = require('../package.json');
+const path = require('path');
+const common = require('./webpack.common');
+const pjson = require('../package.json');
 
 const entry = './src/firefox/lib/main.js';
 const output = {

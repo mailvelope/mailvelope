@@ -26,12 +26,12 @@ describe('Provider specific content-script unit tests', () => {
     });
 
     it('should return default module for generic case', () => {
-      let api = providers.get('mail.some-generic-provider.com');
+      const api = providers.get('mail.some-generic-provider.com');
       expect(api.constructor.name === 'Default').to.be.true;
     });
 
     it('should return Gmail module', () => {
-      let api = providers.get('mail.google.com');
+      const api = providers.get('mail.google.com');
       expect(api.constructor.name === 'Gmail').to.be.true;
     });
   });
@@ -111,7 +111,7 @@ describe('Provider specific content-script unit tests', () => {
       });
 
       it('should clear email address text input', () => {
-        let toSet = [{name: 'Test 1', email: 'test1@example.com'}, {name: 'Test 2', email: 'test2@example.com'}];
+        const toSet = [{name: 'Test 1', email: 'test1@example.com'}, {name: 'Test 2', email: 'test2@example.com'}];
 
         $('.fX .vO').val('test1@example.com');
 
@@ -121,7 +121,7 @@ describe('Provider specific content-script unit tests', () => {
       });
 
       it('should trigger click event on email remove buttons', done => {
-        let toSet = [{name: 'Test 1', email: 'test1@example.com'}, {name: 'Test 2', email: 'test2@example.com'}];
+        const toSet = [{name: 'Test 1', email: 'test1@example.com'}, {name: 'Test 2', email: 'test2@example.com'}];
 
         $('.fX .vR .vM').on('click', () => {
           done();
@@ -131,7 +131,7 @@ describe('Provider specific content-script unit tests', () => {
       });
 
       it('should set joined email addresses to input field', done => {
-        let toSet = [{name: 'Test 1', email: 'test1@example.com'}, {name: 'Test 2', email: 'test2@example.com'}];
+        const toSet = [{name: 'Test 1', email: 'test1@example.com'}, {name: 'Test 2', email: 'test2@example.com'}];
 
         gmail.setRecipients({recipients: toSet});
 
@@ -150,7 +150,7 @@ describe('Provider specific content-script unit tests', () => {
       });
 
       it('should not inject script', () => {
-        let toSet = [{email: '<script>alert("xss")</script>'}];
+        const toSet = [{email: '<script>alert("xss")</script>'}];
 
         gmail.setRecipients({recipients: toSet});
         return gmail.getRecipients()

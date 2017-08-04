@@ -29,14 +29,14 @@ var QRCode = QRCode || null; // eslint-disable-line no-var
   let name;
 
   function init() {
-    let qs = jQuery.parseQuerystring();
+    const qs = jQuery.parseQuerystring();
     id = qs.id;
     name = `backupCodeWindow-${id}`;
     // open port to background page
     port = mvelo.extension.connect({name});
     port.onMessage.addListener(messageListener);
 
-    let formattedDate = new Date();
+    const formattedDate = new Date();
 
     $('#currentDate').html(formattedDate.toLocaleDateString());
     if (mvelo.crx) {
@@ -65,7 +65,7 @@ var QRCode = QRCode || null; // eslint-disable-line no-var
     }
     $('html').addClass(brandId);
     $('[data-l10n-id]:contains("[BRAND]")').each(function() {
-      let $element = $(this);
+      const $element = $(this);
       let text = $element.text();
       text = text.replace(/\[BRAND\]/g, brand);
       $element.text(text);
@@ -79,7 +79,7 @@ var QRCode = QRCode || null; // eslint-disable-line no-var
   }
 
   function setBackupCode(backupCode) {
-    let length = 5;
+    const length = 5;
     let splitCode = '';
     $('.recovery-sheet_code-digit').each(function(index) {
       splitCode = backupCode.slice(length * index, (length * index) + length);

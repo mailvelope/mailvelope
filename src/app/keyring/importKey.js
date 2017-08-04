@@ -55,7 +55,7 @@ export default class ImportKey extends React.Component {
   }
 
   handleChangeFile(event) {
-    let alert = [];
+    const alert = [];
     const reader = new FileReader();
     const file = event.target.files[0];
     if (!file) {
@@ -78,16 +78,16 @@ export default class ImportKey extends React.Component {
   }
 
   handleImportKey(armored) {
-    let alert = [];
+    const alert = [];
     return Promise.resolve()
     .then(() => {
       if (armored.length > MAX_KEY_IMPORT_SIZE) {
         throw {message: l10n.map.key_import_too_big, type: 'error'};
       }
       // find all public and private keys in the textbox
-      let publicKeys = armored.match(PUBLIC_KEY_REGEX);
-      let privateKeys = armored.match(PRIVATE_KEY_REGEX);
-      let keys = [];
+      const publicKeys = armored.match(PUBLIC_KEY_REGEX);
+      const privateKeys = armored.match(PRIVATE_KEY_REGEX);
+      const keys = [];
       if (publicKeys) {
         publicKeys.forEach(pub => {
           pub = mvelo.util.normalizeArmored(pub);
@@ -108,7 +108,8 @@ export default class ImportKey extends React.Component {
         let success = false;
         result.forEach(imported => {
           let header;
-          let {type, message} = imported;
+          const {message} = imported;
+          let {type} = imported;
           switch (imported.type) {
             case 'success':
               header = l10n.map.alert_header_success;

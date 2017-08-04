@@ -89,17 +89,17 @@ class Gmail {
    */
   setRecipients({recipients = []}) {
     // find the relevant elements in the Gmail interface
-    let displayArea = $('.aoD.hl'); // email display only area
-    let tagRemove = $('.fX .vR .vM'); // email tags remove button
-    let input = $('.fX .vO'); // the actual recipient email address text input (a textarea)
-    let subject = $('.aoT'); // subject field
-    let editor = $('.aO7 .Am'); // editor
+    const displayArea = $('.aoD.hl'); // email display only area
+    const tagRemove = $('.fX .vR .vM'); // email tags remove button
+    const input = $('.fX .vO'); // the actual recipient email address text input (a textarea)
+    const subject = $('.aoT'); // subject field
+    const editor = $('.aO7 .Am'); // editor
     input.val('');
     dom.setFocus(displayArea)
     .then(() => {
       tagRemove.click();
       // enter address text into input
-      let text = joinEmail(recipients);
+      const text = joinEmail(recipients);
       input.first().val(text);
     })
     .then(() => {
@@ -138,8 +138,8 @@ class Yahoo {
     // remove existing recipients
     $('.compose-header li.hLozenge').remove();
     // enter address text into input
-    let text = joinEmail(recipients);
-    let input = $('.compose-header #to .recipient-input input');
+    const text = joinEmail(recipients);
+    const input = $('.compose-header #to .recipient-input input');
     input.val(text);
     // trigger change event by switching focus
     dom.setFocus(input)
@@ -248,7 +248,7 @@ const dom = {};
 dom.getText = function(elements) {
   return parseEmail(elements, element => {
     // consider only direct text nodes of elements
-    let clone = element.clone();
+    const clone = element.clone();
     clone.children().remove();
     return clone.text();
   });
@@ -288,7 +288,7 @@ dom.focusClick = element => dom.setFocus(element).then(() => element.click());
  * @return {Array}              The recipient objects in fhe form { email: 'jon@example.com' }
  */
 function parseEmail(elements, extract) {
-  let emails = [];
+  const emails = [];
   elements.each(function() {
     const value = extract($(this));
     if (IS_EMAIL.test(value)) {

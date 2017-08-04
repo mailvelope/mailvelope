@@ -57,7 +57,7 @@ export default class KeyGrid extends React.Component {
    * @return {bool}      true if key should be filtered out
    */
   filterKey(type) {
-    let filter = this.state.keyTypeFilter;
+    const filter = this.state.keyTypeFilter;
     return filter === 'publickeys' && type !== 'public' ||
            filter === 'keypairs' && type !== 'private';
   }

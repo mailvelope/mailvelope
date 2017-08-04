@@ -68,8 +68,8 @@ function init(preferences, watchlist) {
 
 function detectHost() {
   clientApiActive = watchList.some(site => site.active && site.frames && site.frames.some(frame => {
-    let hostRegex = mvelo.util.matchPattern2RegEx(frame.frame);
-    let validHost = hostRegex.test(window.location.hostname);
+    const hostRegex = mvelo.util.matchPattern2RegEx(frame.frame);
+    const validHost = hostRegex.test(window.location.hostname);
     if (frame.scan && validHost) {
       // host = match pattern without *. prefix
       host = frame.frame.replace(/^\*\./, '');
@@ -104,12 +104,12 @@ function off() {
 
 function scanLoop() {
   // find armored PGP text
-  let pgpTag = findPGPTag(PGP_FOOTER);
+  const pgpTag = findPGPTag(PGP_FOOTER);
   if (pgpTag.length !== 0) {
     attachExtractFrame(pgpTag);
   }
   // find editable content
-  let editable = findEditable();
+  const editable = findEditable();
   if (editable.length !== 0) {
     attachEncryptFrame(editable);
   }
@@ -120,7 +120,7 @@ function scanLoop() {
  * @return $([nodes])
  */
 function findPGPTag() {
-  let treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+  const treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
     acceptNode(node) {
       if (node.parentNode.tagName !== 'SCRIPT' && PGP_FOOTER.test(node.textContent)) {
         return NodeFilter.FILTER_ACCEPT;
@@ -138,7 +138,7 @@ function findPGPTag() {
 
   // filter out hidden elements
   nodeList = $(nodeList).filter(function() {
-    let element = $(this);
+    const element = $(this);
     // visibility check does not work on text nodes
     return element.parent().is(':visible') &&
       // no elements within editable elements
@@ -152,10 +152,10 @@ function findPGPTag() {
 function findEditable() {
   // find textareas and elements with contenteditable attribute, filter out <body>
   let editable = $('[contenteditable], textarea').filter(':visible').not('body');
-  let iframes = $('iframe').filter(':visible');
+  const iframes = $('iframe').filter(':visible');
   // find dynamically created iframes where src is not set
-  let dynFrames = iframes.filter(function() {
-    let src = $(this).attr('src');
+  const dynFrames = iframes.filter(function() {
+    const src = $(this).attr('src');
     return src === undefined ||
            src === '' ||
            /^javascript.*/.test(src) ||
@@ -163,7 +163,7 @@ function findEditable() {
   });
   // find editable elements inside dynamic iframe (content script is not injected here)
   dynFrames.each(function() {
-    let content = $(this).contents();
+    const content = $(this).contents();
     // set event handler for contextmenu
     content.find('body')//.off("contextmenu").on("contextmenu", onContextMenu)
     // mark body as 'inside iframe'
@@ -176,18 +176,18 @@ function findEditable() {
       editable = editable.add($(this));
     } else {
       // editable elements inside iframe
-      let editblElem = content.find('[contenteditable], textarea').filter(':visible');
+      const editblElem = content.find('[contenteditable], textarea').filter(':visible');
       editable = editable.add(editblElem);
     }
   });
   // find iframes from same origin with a contenteditable body (content script is injected, but encrypt frame needs to be attached to outer iframe)
-  let anchor = $('<a/>');
-  let editableBody = iframes.not(dynFrames).filter(function() {
-    let frame = $(this);
+  const anchor = $('<a/>');
+  const editableBody = iframes.not(dynFrames).filter(function() {
+    const frame = $(this);
     // only for iframes from same host
     if (anchor.attr('href', frame.attr('src')).prop('hostname') === document.location.hostname) {
       try {
-        let content = frame.contents();
+        const content = frame.contents();
         if (content.attr('designMode') === 'on' || content.find('body[contenteditable]').length !== 0) {
           // set event handler for contextmenu
           //content.find('body').off("contextmenu").on("contextmenu", onContextMenu);
@@ -224,14 +224,14 @@ export function getMessageType(armored) {
 
 function attachExtractFrame(element) {
   // check status of PGP tags
-  let newObj = element.filter(function() {
+  const newObj = element.filter(function() {
     return !isAttached($(this).parent());
   });
   // create new decrypt frames for new discovered PGP tags
   newObj.each((index, element) => {
     try {
       // parent element of text node
-      let pgpEnd = $(element).parent();
+      const pgpEnd = $(element).parent();
       switch (getMessageType(pgpEnd.text())) {
         case mvelo.PGP_MESSAGE: {
           const dFrame = new DecryptFrame();
@@ -260,7 +260,7 @@ function attachExtractFrame(element) {
  */
 function attachEncryptFrame(element, expanded) {
   // check status of elements
-  let newObj = element.filter(function() {
+  const newObj = element.filter(function() {
     if (expanded) {
       // filter out only attached frames
       if (element.data(mvelo.FRAME_STATUS) === mvelo.FRAME_ATTACHED) {
@@ -277,7 +277,7 @@ function attachEncryptFrame(element, expanded) {
   });
   // create new encrypt frames for new discovered editable fields
   newObj.each((index, element) => {
-    let eFrame = new EncryptFrame();
+    const eFrame = new EncryptFrame();
     eFrame.attachTo($(element), {expanded});
   });
 }
@@ -325,7 +325,7 @@ function addMessageListener() {
 }
 
 function isAttached(element) {
-  let status = element.data(mvelo.FRAME_STATUS);
+  const status = element.data(mvelo.FRAME_STATUS);
   switch (status) {
     case mvelo.FRAME_ATTACHED:
     case mvelo.FRAME_DETACHED:

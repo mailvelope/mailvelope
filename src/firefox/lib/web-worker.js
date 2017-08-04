@@ -1,6 +1,6 @@
 
 'use strict';
 
-let ChromeWorker = require("chrome").ChromeWorker;
+const ChromeWorker = require("chrome").ChromeWorker;
 
 exports.Worker = ChromeWorker;

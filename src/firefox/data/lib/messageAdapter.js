@@ -30,7 +30,7 @@ if (self.options.expose_messaging) {
 
   mvelo.ffa = true;
 
-  let extension = {
+  const extension = {
     _dataPath: self.options.data_path,
     _dataPathWebex: self.options.data_path_webex,
     onMessage: {},
@@ -72,7 +72,7 @@ if (self.options.expose_messaging) {
 
   function disconnect(obj) {
     // remove events
-    for (let ev in obj.events) {
+    for (const ev in obj.events) {
       if (obj.events.hasOwnProperty(ev)) {
         self.port.removeListener(ev, obj.events[ev]);
       }
@@ -81,7 +81,7 @@ if (self.options.expose_messaging) {
   }
 
   function addPortListener(obj, listener) {
-    let eventName = `${'port-message' + '.'}${obj.name}`;
+    const eventName = `${'port-message' + '.'}${obj.name}`;
     self.port.on(eventName, listener);
     obj.events[eventName] = listener;
   }
@@ -91,7 +91,7 @@ if (self.options.expose_messaging) {
     //self.port.on('detach', listener);
   }
 
-  let l10n = {};
+  const l10n = {};
 
   function getMessages(ids, callback) {
     mvelo.extension.sendMessage({
@@ -101,7 +101,7 @@ if (self.options.expose_messaging) {
   }
 
   function localizeHTML(l10n, idSelector) {
-    let selector = idSelector ? `${idSelector} [data-l10n-id]` : '[data-l10n-id]';
+    const selector = idSelector ? `${idSelector} [data-l10n-id]` : '[data-l10n-id]';
     if (l10n) {
       [].forEach.call(document.querySelectorAll(selector), element => {
         element.textContent = l10n[element.dataset.l10nId] || element.dataset.l10nId;
@@ -120,7 +120,7 @@ if (self.options.expose_messaging) {
     }
   }
 
-  let data = {};
+  const data = {};
 
   function load(path, callback) {
     mvelo.extension.sendMessage({

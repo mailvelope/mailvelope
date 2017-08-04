@@ -26,7 +26,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   let l10n;
 
   function init() {
-    let qs = jQuery.parseQuerystring();
+    const qs = jQuery.parseQuerystring();
     id = qs.id;
     name = `pwdDialog-${id}`;
     // open port to background page
@@ -73,8 +73,8 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   function onOk() {
     $(window).off('beforeunload');
     logUserInput('security_log_dialog_ok');
-    let pwd = $('#password').val();
-    let cache = $('#remember').prop('checked');
+    const pwd = $('#password').val();
+    const cache = $('#remember').prop('checked');
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
     $('#spinner').show();
     $('.modal-body').css('opacity', '0.4');

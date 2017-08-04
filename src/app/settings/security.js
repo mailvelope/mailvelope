@@ -143,10 +143,10 @@ function getSecurityBgndConfig() {
 }
 
 function previewSecurityBgnd() {
-  let scaling = parseInt($('#scaling').val()) / 10;
-  let angle = parseInt($('#angle').val());
-  let colorId = parseInt($('#coloring').val());
-  let secBgndIcon = mvelo.util.generateSecurityBackground({
+  const scaling = parseInt($('#scaling').val()) / 10;
+  const angle = parseInt($('#angle').val());
+  const colorId = parseInt($('#coloring').val());
+  const secBgndIcon = mvelo.util.generateSecurityBackground({
     width: secBackground.width,
     height: secBackground.height,
     scaling,
@@ -173,11 +173,11 @@ function onSave() {
   if (!validate()) {
     return false;
   }
-  let angel = $("#angle").val();
-  let scaling = ($("#scaling").val() / 10);
-  let coloring = $("#coloring").val();
-  let iconColor = mvelo.SECURE_COLORS[coloring];
-  let update = {
+  const angel = $("#angle").val();
+  const scaling = ($("#scaling").val() / 10);
+  const coloring = $("#coloring").val();
+  const iconColor = mvelo.SECURE_COLORS[coloring];
+  const update = {
     security: {
       display_decrypted: $('input:radio[name="decryptRadios"]:checked').val(),
       secureBgndAngle: angel,
@@ -198,8 +198,8 @@ function onSave() {
 
 function validate() {
   // password timeout betweet 1-999
-  let pwdCacheTime = $('#pwdCacheTime');
-  let timeout = parseInt(pwdCacheTime.val());
+  const pwdCacheTime = $('#pwdCacheTime');
+  const timeout = parseInt(pwdCacheTime.val());
   if (timeout >= 1 && timeout <= 999) {
     pwdCacheTime.val(timeout);
     return true;

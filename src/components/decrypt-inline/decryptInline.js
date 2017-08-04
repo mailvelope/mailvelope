@@ -37,7 +37,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       return;
     }
     document.body.dataset.mvelo = true;
-    let qs = jQuery.parseQuerystring();
+    const qs = jQuery.parseQuerystring();
     id = qs.id;
     name = `dDialog-${id}`;
     // open port to background page
@@ -86,7 +86,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function addDecryptBody() {
-    let $flex = $('<div />', {id: 'flex-container'})
+    const $flex = $('<div />', {id: 'flex-container'})
     .append(addFlexHeader())
     .append(addWrapper())
     .append(addFlexFooter());
@@ -97,7 +97,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function addWrapper() {
-    let $plainText = $('<div/>', {id: 'plainText'});
+    const $plainText = $('<div/>', {id: 'plainText'});
 
     watermark = $('<div/>', {id: 'watermark'});
 
@@ -134,7 +134,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function addSandbox() {
-    let $content = $('<div/>', {
+    const $content = $('<div/>', {
       id: 'content',
       css: {
         padding: '6px 12px',
@@ -142,8 +142,8 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       }
     });
 
-    let $style = $('<link/>', {rel: 'stylesheet', href: `${basePath}dep/bootstrap/css/bootstrap.css`});
-    let $meta = $('<meta/>', {charset: 'UTF-8'});
+    const $style = $('<link/>', {rel: 'stylesheet', href: `${basePath}dep/bootstrap/css/bootstrap.css`});
+    const $meta = $('<meta/>', {charset: 'UTF-8'});
 
     return $('<iframe/>', {
       id: 'decryptmail',
@@ -158,7 +158,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function addFlexFooter() {
-    let $footer = $('<div/>', {class: 'pull-right'})
+    const $footer = $('<div/>', {class: 'pull-right'})
     .append(addSignatureButton());
 
     return $('<div/>', {id: 'footer'})
@@ -180,7 +180,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function addErrorView() {
-    let errorbox = $('<div/>', {id: 'errorbox'});
+    const errorbox = $('<div/>', {id: 'errorbox'});
     $('<div/>', {id: 'errorwell', class: 'well span5'}).appendTo(errorbox);
     errorbox.appendTo('body');
     if ($('body').height() + 2 > mvelo.LARGE_FRAME) {
@@ -213,11 +213,11 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function addAttachment(filename, content, mimeType) {
-    let fileNameNoExt = mvelo.util.extractFileNameWithoutExt(filename);
-    let fileExt = mvelo.util.extractFileExtension(filename);
-    let extClass = mvelo.util.getExtensionClass(fileExt);
+    const fileNameNoExt = mvelo.util.extractFileNameWithoutExt(filename);
+    const fileExt = mvelo.util.extractFileExtension(filename);
+    const extClass = mvelo.util.getExtensionClass(fileExt);
 
-    let $extensionButton = $('<span/>', {
+    const $extensionButton = $('<span/>', {
       "class": `label attachmentExtension ${extClass}`
     }).append(fileExt);
 
@@ -226,14 +226,14 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     content = mvelo.util.str2ab(content);
     // set MIME type fix to application/octet-stream as other types can be exploited in Chrome
     mimeType = 'application/octet-stream';
-    let blob = new Blob([content], {type: mimeType});
+    const blob = new Blob([content], {type: mimeType});
     objectURL = window.URL.createObjectURL(blob);
 
-    let $fileName = $('<span/>', {
+    const $fileName = $('<span/>', {
       "class": 'attachmentFilename'
     }).append(fileNameNoExt);
 
-    let $fileUI = $('<a/>', {
+    const $fileUI = $('<a/>', {
       "download": filename,
       "href": objectURL,
       "title": filename,
@@ -272,13 +272,13 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       return;
     }
 
-    let $body = $('.modal-body', '#signatureModal');
+    const $body = $('.modal-body', '#signatureModal');
 
-    let dialog = $('<div/>');
+    const dialog = $('<div/>');
 
     if (signer.valid !== null) {
-      let details = signer.keyDetails;
-      let fingerprint = (details.fingerprint.match(/.{1,4}/g)).join(' ');
+      const details = signer.keyDetails;
+      const fingerprint = (details.fingerprint.match(/.{1,4}/g)).join(' ');
 
       dialog
       .append($('<p/>').html(`<b>Name:</b> ${details.name}`))
@@ -292,8 +292,8 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     }
     $body.empty().append(dialog);
 
-    let $heading = $('.modal-header', '#signatureModal').removeClass('bg-success bg-danger bg-warning');
-    let $title = $('.modal-title', '#signatureModal').empty();
+    const $heading = $('.modal-header', '#signatureModal').removeClass('bg-success bg-danger bg-warning');
+    const $title = $('.modal-title', '#signatureModal').empty();
 
     if (signer.valid === true) {
       $heading.addClass('bg-success');
@@ -323,8 +323,8 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       return;
     }
 
-    let signersTrue = signers.filter(signer => signer.valid === true);
-    let signersFalse = signers.filter(signer => signer.valid === false);
+    const signersTrue = signers.filter(signer => signer.valid === true);
+    const signersFalse = signers.filter(signer => signer.valid === false);
 
     if (!signersTrue.length && !signersFalse.length) {
       $btn.html(l10n.decrypt_digital_signature_null);

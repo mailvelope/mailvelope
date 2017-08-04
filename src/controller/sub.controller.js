@@ -13,7 +13,7 @@ export class SubController extends mvelo.EventHandler {
     super();
     this.ports = {};
     if (port) {
-      let sender = parseViewName(port.name);
+      const sender = parseViewName(port.name);
       this.mainType = sender.type;
       this.id = sender.id;
       this.ports[this.mainType] = port;
@@ -21,7 +21,7 @@ export class SubController extends mvelo.EventHandler {
   }
 
   addPort(port) {
-    let type = parseViewName(port.name).type;
+    const type = parseViewName(port.name).type;
     this.ports[type] = port;
   }
 
@@ -31,7 +31,7 @@ export class SubController extends mvelo.EventHandler {
       return false;
     }
     if (port.name) {
-      let view = parseViewName(port.name);
+      const view = parseViewName(port.name);
       if (view.id !== this.id) {
         throw new Error('View ID mismatch.');
       }
@@ -47,7 +47,7 @@ export class SubController extends mvelo.EventHandler {
   }
 
   openSecuritySettings() {
-    let hash = '#/settings/security';
+    const hash = '#/settings/security';
     mvelo.tabs.loadOptionsTab(hash, (old, tab) => {
       if (old) {
         mvelo.tabs.sendMessage(tab, {
@@ -59,7 +59,7 @@ export class SubController extends mvelo.EventHandler {
   }
 
   openApp({fragment}) {
-    let hash = `#${fragment}`;
+    const hash = `#${fragment}`;
 
     mvelo.tabs.loadOptionsTab(hash, (old, tab) => {
       if (old) {
@@ -78,11 +78,11 @@ factory.repo = new Map();
 
 factory.get = function(type, port) {
   if (factory.repo.has(type)) {
-    let contrConstructor = factory.repo.get(type);
-    let subContr = new contrConstructor(port);
+    const contrConstructor = factory.repo.get(type);
+    const subContr = new contrConstructor(port);
     if (subContr.singleton) {
       // there should be only one instance for this type, new instance overwrites old
-      let existingController = getByMainType(type)[0];
+      const existingController = getByMainType(type)[0];
       if (existingController) {
         controllers.delete(existingController.id);
       }
@@ -110,34 +110,34 @@ factory.register = function(type, contrConstructor) {
 const controllers = new Map();
 
 function parseViewName(viewName) {
-  let pair = viewName.split('-');
+  const pair = viewName.split('-');
   return {type: pair[0], id: pair[1]};
 }
 
 export function addPort(port) {
-  let sender = parseViewName(port.name);
-  let subContr = controllers.get(sender.id);
+  const sender = parseViewName(port.name);
+  const subContr = controllers.get(sender.id);
   if (subContr) {
     subContr.addPort(port);
   } else {
-    let newContr = factory.get(sender.type, port);
+    const newContr = factory.get(sender.type, port);
     controllers.set(sender.id, newContr);
   }
 }
 
 export function removePort(port) {
   if (port.name) {
-    let id = parseViewName(port.name).id;
+    const id = parseViewName(port.name).id;
     removeId(id, port);
   } else {
-    for (let id of controllers.keys()) {
+    for (const id of controllers.keys()) {
       removeId(id, port);
     }
   }
 }
 
 function removeId(id, port) {
-  let del = controllers.has(id) && controllers.get(id).removePort(port);
+  const del = controllers.has(id) && controllers.get(id).removePort(port);
   if (del) {
     // last port removed from controller, delete controller
     controllers.delete(id);
@@ -145,7 +145,7 @@ function removeId(id, port) {
 }
 
 export function handlePortMessage(msg) {
-  let id = parseViewName(msg.sender).id;
+  const id = parseViewName(msg.sender).id;
   getByID(id).handlePortMessage(msg);
 }
 
@@ -154,7 +154,7 @@ export function getByID(id) {
 }
 
 export function getByMainType(type) {
-  let result = [];
+  const result = [];
   controllers.forEach(contr => {
     if (contr.mainType === type) {
       result.push(contr);
@@ -179,14 +179,14 @@ export function getActiveKeyringId() {
 }
 
 // transfer data to app UI via slots
-let appDataSlot = new Map();
+const appDataSlot = new Map();
 
 export function setAppDataSlot(key, value) {
   appDataSlot.set(key, value);
 }
 
 export function getAppDataSlot(key) {
-  let value = appDataSlot.get(key);
+  const value = appDataSlot.get(key);
   appDataSlot.delete(key);
   return value;
 }

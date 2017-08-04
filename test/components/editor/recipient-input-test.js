@@ -51,7 +51,7 @@ describe('RecipientInput component unit tests', () => {
     });
 
     it('should display only email address and lookup key on server', () => {
-      let recipient = {
+      const recipient = {
         email: 'jon@smith.com',
         displayId: 'Jon Smith <jon@smith.com>'
       };
@@ -65,7 +65,7 @@ describe('RecipientInput component unit tests', () => {
     });
 
     it('should color tag if local key was found', () => {
-      let recipient = {
+      const recipient = {
         email: 'jon@smith.com',
         displayId: 'Jon Smith <jon@smith.com>'
       };
@@ -78,7 +78,7 @@ describe('RecipientInput component unit tests', () => {
     });
 
     it('should color tag after server lookup', () => {
-      let recipient = {
+      const recipient = {
         email: 'jon@smith.com',
         displayId: 'Jon Smith <jon@smith.com>',
         checkedServer: true
@@ -91,7 +91,7 @@ describe('RecipientInput component unit tests', () => {
     });
 
     it('should color tag if TOFU is deactivated', () => {
-      let recipient = {
+      const recipient = {
         email: 'jon@smith.com',
         displayId: 'Jon Smith <jon@smith.com>',
         checkedServer: undefined
@@ -105,7 +105,7 @@ describe('RecipientInput component unit tests', () => {
     });
 
     it('should set email', () => {
-      let recipient = {
+      const recipient = {
         displayId: 'jon@smith.com'
       };
 
@@ -127,7 +127,7 @@ describe('RecipientInput component unit tests', () => {
     it('should not find matching key', () => {
       props.keys = [{email: 'JO@smith.com', keyid: 'a'}];
 
-      let recipient = {
+      const recipient = {
         email: 'jon@smith.com'
       };
       expect(ctrl.getKey(recipient)).to.be.undefined;
@@ -136,7 +136,7 @@ describe('RecipientInput component unit tests', () => {
     it('should work for uppercase input', () => {
       props.keys = [{email: 'jon@smith.com', keyid: 'a'}];
 
-      let recipient = {
+      const recipient = {
         email: 'JON@smith.com'
       };
       expect(ctrl.getKey(recipient).keyid).to.equal('a');
@@ -145,7 +145,7 @@ describe('RecipientInput component unit tests', () => {
     it('should work for lowercase input', () => {
       props.keys = [{email: 'JON@smith.com', keyid: 'a'}];
 
-      let recipient = {
+      const recipient = {
         email: 'jon@smith.com'
       };
       expect(ctrl.getKey(recipient).keyid).to.equal('a');
@@ -165,31 +165,31 @@ describe('RecipientInput component unit tests', () => {
     });
 
     it('should work when recipient not found', () => {
-      let recipient = {
+      const recipient = {
         email: 'jonny@smith.com'
       };
 
       ctrl.colorTag(recipient);
       ctrl._timeout.flush();
 
-      let classList = $('tags-input li.tag-item').attr('class').split(/\s+/);
+      const classList = $('tags-input li.tag-item').attr('class').split(/\s+/);
       expect(classList.length).to.equal(1);
     });
 
     it('should color with no key', () => {
-      let recipient = {
+      const recipient = {
         email: 'jon@smith.com'
       };
 
       ctrl.colorTag(recipient);
       ctrl._timeout.flush();
 
-      let classList = $('tags-input li.tag-item').attr('class').split(/\s+/);
+      const classList = $('tags-input li.tag-item').attr('class').split(/\s+/);
       expect(classList.indexOf('tag-danger') !== -1).to.be.true;
     });
 
     it('should color with key', () => {
-      let recipient = {
+      const recipient = {
         email: 'jon@smith.com',
         key: {}
       };
@@ -197,7 +197,7 @@ describe('RecipientInput component unit tests', () => {
       ctrl.colorTag(recipient);
       ctrl._timeout.flush();
 
-      let classList = $('tags-input li.tag-item').attr('class').split(/\s+/);
+      const classList = $('tags-input li.tag-item').attr('class').split(/\s+/);
       expect(classList.indexOf('tag-success') !== -1).to.be.true;
     });
   });
@@ -241,7 +241,7 @@ describe('RecipientInput component unit tests', () => {
     });
 
     it('should work', () => {
-      let recipient = {};
+      const recipient = {};
       ctrl.lookupKeyOnServer(recipient);
       expect(recipient.checkedServer).to.be.true;
       expect(props.onLookupKeyOnServer.withArgs(recipient).calledOnce).to.be.true;

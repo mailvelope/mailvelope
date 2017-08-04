@@ -250,7 +250,7 @@ function addEncryptInteractivity() {
   $encryptFileSelection = $('#encrypt_fileSelection');
   $encryptFileDownloadError = $('#encrypt_fileDownloadError');
 
-  let $waiting = $('.waiting', $encryptFileDownloadPanel).hide();
+  const $waiting = $('.waiting', $encryptFileDownloadPanel).hide();
   mvelo.util.addLoadingAnimation($waiting);
 
   $encryptFileUpload = $('#encrypt_fileUpload').change(onAddFile.bind(null, $encryptFileUploadPanel));
@@ -308,7 +308,7 @@ function addDecryptInteractivity() {
   $decryptFileSelection = $('#decrypt_fileSelection');
   $decryptFileDownload = $('#decrypt_fileDownload');
 
-  let $waiting = $('.waiting', $decryptFileDownloadPanel).hide();
+  const $waiting = $('.waiting', $decryptFileDownloadPanel).hide();
   mvelo.util.addLoadingAnimation($waiting);
 
   $decryptFileUpload = $('#decrypt_fileUpload').on('change', onAddFile.bind(null, $decryptFileUploadPanel));
@@ -353,7 +353,7 @@ function onDecryptFiles(e) {
     $decryptFileDownload.children().remove();
     hideError($decryptFileDownloadError);
     $('.waiting', $decryptFileDownloadPanel).show();
-    let encryptedFiles = fileLib.getFiles($decryptFileUploadPanel);
+    const encryptedFiles = fileLib.getFiles($decryptFileUploadPanel);
     decryptFiles(encryptedFiles)
     .catch(error => {
       showError(error.message, $decryptFileDownloadError);
@@ -371,7 +371,7 @@ function onDecryptFiles(e) {
 }
 
 function decryptFiles(encryptedFiles) {
-  let decryptProcesses = [];
+  const decryptProcesses = [];
   encryptedFiles.forEach(encryptedFile => {
     decryptProcesses.push(app.pgpModel('decryptFile', [encryptedFile])
     .then(file => {
@@ -399,8 +399,8 @@ function onEncryptFiles(e) {
     $encryptFileDownload.children().remove();
     hideError($encryptFileDownloadError);
     $('.waiting', $encryptFileDownloadPanel).show();
-    let plainFiles = fileLib.getFiles($encryptFileUploadPanel);
-    let receipients = getSelectedRecipients();
+    const plainFiles = fileLib.getFiles($encryptFileUploadPanel);
+    const receipients = getSelectedRecipients();
     encryptFiles(plainFiles, receipients)
     .then(() => {
       isEncryptCached = true;
@@ -419,7 +419,7 @@ function onEncryptFiles(e) {
 }
 
 function encryptFiles(plainFiles, receipients) {
-  let encryptProcesses = [];
+  const encryptProcesses = [];
   plainFiles.forEach(plainFile => {
     encryptProcesses.push(app.pgpModel('encryptFile', [plainFile, receipients])
     .then(armored => {
@@ -435,7 +435,7 @@ function encryptFiles(plainFiles, receipients) {
 }
 
 function getSelectedRecipients() {
-  let result = [];
+  const result = [];
   $encryptKeyList.find('.recipientButton').each(function() {
     result.push(recipients[parseInt($(this).data('index'))]);
   });
@@ -448,9 +448,9 @@ function getSelectedRecipients() {
  */
 function onAddRecipient(e) {
   e.preventDefault();
-  let $selected = $('option:selected', $encryptKeySelect);
-  let index = parseInt($selected.val());
-  let recipient = $.extend(recipients[index], {
+  const $selected = $('option:selected', $encryptKeySelect);
+  const index = parseInt($selected.val());
+  const recipient = $.extend(recipients[index], {
     index
   });
 
@@ -470,7 +470,7 @@ function onAddRecipient(e) {
 function onRemoveRecipient(e) {
   e.preventDefault();
 
-  let $this = $(this);
+  const $this = $(this);
   toggleSelectionInKeyList($this.data('index'), 'REMOVE');
 
   $this.parent().remove();
@@ -485,14 +485,14 @@ function onRemoveRecipient(e) {
  * @param {Event} evt
  */
 function onAddFile($filePanel, evt) {
-  let files = evt.target.files;
+  const files = evt.target.files;
 
-  let $fileUploadError = $filePanel.find('.fileUploadError');
+  const $fileUploadError = $filePanel.find('.fileUploadError');
 
   hideError($fileUploadError);
 
   for (let i = 0; i < files.length; i++) {
-    let file = files[i];
+    const file = files[i];
 
     if (fileLib.isOversize(file)) {
       showError(l10n.map.encrypt_upload_file_warning_too_big, $fileUploadError, true);
@@ -502,7 +502,7 @@ function onAddFile($filePanel, evt) {
     numUploadsInProgress++;
     fileLib.readUploadFile(file, afterLoadEnd.bind(null, $filePanel))
     .then(response => {
-      let $fileElement = fileLib.createFileElement(response, {
+      const $fileElement = fileLib.createFileElement(response, {
         removeButton: true,
         onRemove: onRemoveFile,
         secureIcon: $filePanel.attr('id') === 'decrypt_fileUploadPanel' ? true : false
@@ -552,7 +552,7 @@ function onRemoveFile() {
 function addRecipientsToSelect(recipients) {
   $encryptKeySelect.empty();
   for (let i = 0; i < recipients.length; i++) {
-    let $option = $('<option/>')
+    const $option = $('<option/>')
     .val(i)
     .text(`${recipients[i].userid} - ${recipients[i].keyid.toUpperCase()}`);
     $encryptKeySelect.append($option);
@@ -563,7 +563,7 @@ function addRecipientsToSelect(recipients) {
  * @param {File} file
  */
 function addFileToDownload(file, $panel, options) {
-  let $fileDownloadElement = fileLib.createFileDownloadElement(file, options);
+  const $fileDownloadElement = fileLib.createFileDownloadElement(file, options);
   $panel.append($fileDownloadElement);
 }
 
@@ -575,14 +575,14 @@ function addFileToDownload(file, $panel, options) {
  * @returns {*|jQuery|HTMLElement}
  */
 function getRecipientButton(recipient) {
-  let $button = getRemoveForRecipientButton({
+  const $button = getRemoveForRecipientButton({
     "title": l10n.map.editor_remove_upload,
     "data-index": recipient.index,
     "class": 'glyphicon glyphicon-remove btn-remove'
   });
 
-  let $icon = getIconForRecipientButton();
-  let $content = getContentForRecipientButton({
+  const $icon = getIconForRecipientButton();
+  const $content = getContentForRecipientButton({
     name: recipient.name,
     email: recipient.email
   });
@@ -632,14 +632,14 @@ function getRemoveForRecipientButton(options) {
  * @param {String} status
  */
 function toggleSelectionInKeyList(index, status) {
-  let $options = $encryptKeySelect.children();
+  const $options = $encryptKeySelect.children();
 
   if (status === 'ADD') {
     $($options[index]).prop('disabled', true);
 
     for (let i = 0; i < recipients.length; i++) {
-      let pos = (i + index) % recipients.length;
-      let $option = (index + 1 === recipients.length) ? $($options[0]) : $($options[pos + 1]);
+      const pos = (i + index) % recipients.length;
+      const $option = (index + 1 === recipients.length) ? $($options[0]) : $($options[pos + 1]);
 
       if ($option.prop('disabled') === false) {
         $option.prop('selected', true);

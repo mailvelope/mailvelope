@@ -70,7 +70,7 @@ export default class EditorContainer {
 
   checkInProgress() {
     if (this.encryptCallback || this.createDraftCallback) {
-      let error = new Error('Encyption already in progress.');
+      const error = new Error('Encyption already in progress.');
       error.code = 'ENCRYPT_IN_PROGRESS';
       throw error;
     }

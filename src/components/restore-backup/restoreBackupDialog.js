@@ -37,7 +37,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       return;
     }
     document.body.dataset.mvelo = true;
-    let qs = jQuery.parseQuerystring();
+    const qs = jQuery.parseQuerystring();
     id = qs.id;
     name = `restoreBackupDialog-${id}`;
 
@@ -71,16 +71,16 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       $('.flex-digit')
       .on('input paste', function() {
         logUserInput('security_log_text_input');
-        let $this = $(this);
-        let val = $this.val();
-        let maxlength = parseInt($this.attr('maxlength'));
+        const $this = $(this);
+        const val = $this.val();
+        const maxlength = parseInt($this.attr('maxlength'));
 
         if (val.length === maxlength) {
           $this
           .removeClass('invalid')
           .addClass('valid');
 
-          let $next = $this.next().next();
+          const $next = $this.next().next();
           if ($next) {
             $next.focus();
           }

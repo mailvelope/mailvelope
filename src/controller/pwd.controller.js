@@ -116,7 +116,7 @@ export default class PwdController extends SubController {
     if (typeof this.options.openPopup == 'undefined') {
       this.options.openPopup = true;
     }
-    let cacheEntry = pwdCache.get(this.options.key.primaryKey.getKeyId().toHex(), this.options.keyid);
+    const cacheEntry = pwdCache.get(this.options.key.primaryKey.getKeyId().toHex(), this.options.keyid);
     if (cacheEntry && !options.noCache) {
       return new Promise(resolve => {
         this.options.password = cacheEntry.password;
@@ -159,7 +159,7 @@ export default class PwdController extends SubController {
   }
 
   keyIsDecrypted(options) {
-    let keyPacket = options.key.getKeyPacket([openpgp.Keyid.fromId(options.keyid)]);
+    const keyPacket = options.key.getKeyPacket([openpgp.Keyid.fromId(options.keyid)]);
     if (keyPacket) {
       return keyPacket.isDecrypted;
     }

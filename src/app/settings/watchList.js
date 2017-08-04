@@ -73,17 +73,17 @@ export default class WatchList extends React.Component {
   }
 
   copySite(site) {
-    let copy = Object.assign({}, site);
+    const copy = Object.assign({}, site);
     copy.frames = [...site.frames || []];
     return copy;
   }
 
   deleteWatchListEntry(event, index) {
     event.stopPropagation();
-    let confirmResult = confirm(l10n.map.watchlist_delete_confirmation);
+    const confirmResult = confirm(l10n.map.watchlist_delete_confirmation);
     if (confirmResult) {
       this.setState(prevState => {
-        let newList = [...prevState.watchList];
+        const newList = [...prevState.watchList];
         newList.splice(index, 1);
         return {watchList: newList};
       }, () => this.saveWatchListData());
@@ -116,7 +116,7 @@ export default class WatchList extends React.Component {
       return;
     }
     this.setState(prevState => {
-      let newList = [...prevState.watchList];
+      const newList = [...prevState.watchList];
       newList[prevState.editorIndex] = prevState.editorSite;
       return {watchList: newList, editorHide: true};
     }, () => this.saveWatchListData());
@@ -137,7 +137,7 @@ export default class WatchList extends React.Component {
 
   modifyEditorSite(modify) {
     this.setState(prevState => {
-      let site = this.copySite(prevState.editorSite);
+      const site = this.copySite(prevState.editorSite);
       modify(site);
       return {
         editorSite: site,
@@ -160,7 +160,7 @@ export default class WatchList extends React.Component {
     }
     this.setState(prevState => {
       let watchListIndex;
-      let site = prevState.watchList.find((site, index) => {
+      const site = prevState.watchList.find((site, index) => {
         watchListIndex = index;
         return site.site === website;
       });
