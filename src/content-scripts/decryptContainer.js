@@ -27,7 +27,7 @@ export default class DecryptContainer {
     this.done = done;
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');
-    var url;
+    let url;
     if (mvelo.crx) {
       url = mvelo.extension.getURL(`components/decrypt-inline/decryptInline.html?id=${this.id}`);
     } else if (mvelo.ffa) {

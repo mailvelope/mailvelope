@@ -22,7 +22,7 @@ const containers = new Map();
 let syncHandler = null;
 
 export function init() {
-  var apiTag = document.getElementById('mailvelope-api');
+  let apiTag = document.getElementById('mailvelope-api');
   if (apiTag) {
     if (apiTag.dataset.version !== prefs.version) {
       window.setTimeout(() => {
@@ -102,7 +102,7 @@ const optionsTypes = {
 };
 
 function checkTypes(data) {
-  var error;
+  let error;
   if (data.id && typeof data.id !== 'string') {
     error = new Error('Type mismatch: data.id should be of type string.');
     error.code = 'TYPE_MISMATCH';
@@ -118,12 +118,12 @@ function checkTypes(data) {
 }
 
 function enforceTypeWhitelist(data, whitelist) {
-  var error;
-  var parameters = Object.keys(data) || [];
-  for (var i = 0; i < parameters.length; i++) {
-    var parameter = parameters[i];
-    var dataType = whitelist[parameter];
-    var value = data[parameter];
+  let error;
+  let parameters = Object.keys(data) || [];
+  for (let i = 0; i < parameters.length; i++) {
+    let parameter = parameters[i];
+    let dataType = whitelist[parameter];
+    let value = data[parameter];
     if (dataType === undefined) {
       console.log(`Mailvelope client-API type checker: parameter ${parameter} not accepted.`);
       delete data[parameter];
@@ -132,7 +132,7 @@ function enforceTypeWhitelist(data, whitelist) {
     if (value === undefined || value === null) {
       continue;
     }
-    var wrong = false;
+    let wrong = false;
     switch (dataType) {
       case 'array':
         if (!Array.isArray(value)) {
@@ -161,8 +161,8 @@ function eventListener(event) {
   //console.log('clientAPI eventListener', event.data.event);
   try {
     checkTypes(event.data);
-    var data = event.data.data;
-    var keyringId = null;
+    let data = event.data.data;
+    let keyringId = null;
     if (data && data.identifier) {
       if (data.identifier.indexOf(mvelo.KEYRING_DELIMITER) !== -1) {
         throw {message: 'Identifier invalid.', code: 'INVALID_IDENTIFIER'};
@@ -274,8 +274,8 @@ function createKeyring(keyringId, callback) {
 }
 
 function displayContainer(selector, armored, keyringId, options, callback) {
-  var container;
-  var error;
+  let container;
+  let error;
   switch (getMessageType(armored)) {
     case mvelo.PGP_MESSAGE:
       container = new DecryptContainer(selector, keyringId, options);
@@ -304,7 +304,7 @@ function editorContainer(selector, keyringId, options = {}, callback) {
     // kilobyte -> byte
     options.quota = parseInt(options.quota) * 1024;
   }
-  var container = new EditorContainer(selector, keyringId, options);
+  let container = new EditorContainer(selector, keyringId, options);
   containers.set(container.id, container);
   container.create(callback);
 }
@@ -316,7 +316,7 @@ function settingsContainer(selector, keyringId, options = {}, callback) {
     keyringId
   }, result => {
     options.hasPrivateKey = result.data;
-    var container = new OptionsContainer(selector, keyringId, options);
+    let container = new OptionsContainer(selector, keyringId, options);
     containers.set(container.id, container);
     container.create(callback);
   });
@@ -334,19 +334,19 @@ function openSettings(keyringId, callback) {
 
 function keyGenContainer(selector, keyringId, options = {}, callback) {
   options.keySize = options.keySize || 2048;
-  var container = new KeyGenContainer(selector, keyringId, options);
+  let container = new KeyGenContainer(selector, keyringId, options);
   containers.set(container.id, container);
   container.create(callback);
 }
 
 function keyBackupContainer(selector, keyringId, options = {}, callback) {
-  var container = new KeyBackupContainer(selector, keyringId, options);
+  let container = new KeyBackupContainer(selector, keyringId, options);
   containers.set(container.id, container);
   container.create(callback);
 }
 
 function restoreBackupContainer(selector, keyringId, options = {}, callback) {
-  var container = new RestoreBackupContainer(selector, keyringId, options);
+  let container = new RestoreBackupContainer(selector, keyringId, options);
   containers.set(container.id, container);
   container.create(callback);
 }
@@ -413,7 +413,7 @@ function exportOwnPublicKey(keyringId, emailAddr, callback) {
 }
 
 function importPublicKey(keyringId, armored, callback) {
-  var error;
+  let error;
   switch (getMessageType(armored)) {
     case mvelo.PGP_PUBLIC_KEY:
       // ok
@@ -438,7 +438,7 @@ function importPublicKey(keyringId, armored, callback) {
 }
 
 function setLogo(keyringId, dataURL, revision, callback) {
-  var error;
+  let error;
   if (!/^data:image\/png;base64,/.test(dataURL)) {
     error = new Error('Data URL must start with "data:image/png;base64,".');
     error.code = 'LOGO_INVALID';
@@ -468,7 +468,7 @@ function addSyncHandler(keyringId, callback) {
 }
 
 function syncHandlerDone(data) {
-  var container = containers.get(data.syncHandlerId);
+  let container = containers.get(data.syncHandlerId);
 
   container.syncDone(data);
 }

@@ -1,8 +1,8 @@
 
 'use strict';
 
-var path = require('path');
-var common = require('./webpack.common');
+let path = require('path');
+let common = require('./webpack.common');
 
 const entry = './src/content-scripts/main.js';
 const output = {

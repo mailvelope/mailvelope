@@ -17,21 +17,21 @@
 
 'use strict';
 
-var data = require('sdk/self').data;
-var pageMod = require('sdk/page-mod');
-var l10nGet = require("sdk/l10n").get;
+let data = require('sdk/self').data;
+let pageMod = require('sdk/page-mod');
+let l10nGet = require("sdk/l10n").get;
 
-var ToggleButton = require('sdk/ui/button/toggle').ToggleButton;
-var Panel = require('sdk/panel').Panel;
+let ToggleButton = require('sdk/ui/button/toggle').ToggleButton;
+let Panel = require('sdk/panel').Panel;
 
 const webExtension = require('sdk/webextension');
 
-var mvelo = require('./lib-mvelo.js');
-var controller = require('../../controller/main.controller');
+let mvelo = require('./lib-mvelo.js');
+let controller = require('../../controller/main.controller');
 
-var pageMods = {};
+let pageMods = {};
 
-var mailvelopePanel = null;
+let mailvelopePanel = null;
 
 let webExURL = '';
 let webexInitialized = 0;
@@ -47,13 +47,14 @@ webExtension.startup().then(api => {
           init();
         }
         break;
-      case 'get-l10n-messages':
-        var result = {};
+      case 'get-l10n-messages': {
+        const result = {};
         msg.ids.forEach(id => {
           result[id] = l10nGet(id);
         });
         sendReply(result);
         break;
+      }
       default:
         controller.handleMessageEvent(msg, null, resp => sendReply(resp));
     }
@@ -151,7 +152,7 @@ function activatePageMods() {
 function injectMainCS() {
   controller.getWatchListFilterURLs()
   .then(filterURL => {
-    var modOptions = {
+    let modOptions = {
       include: filterURL,
       onAttach: onCsAttach,
       contentScriptFile: [
@@ -183,11 +184,11 @@ function injectMainCS() {
 
 function onCsAttach(worker) {
   //console.log("Attaching content scripts", worker.url);
-  var pageHidden = false;
+  let pageHidden = false;
   worker.port.on('port-message', controller.portManager.handlePortMessage);
   worker.port.on('connect', portName => {
-    var eventName = `${'port-message' + '.'}${portName}`;
-    var port = {
+    let eventName = `${'port-message' + '.'}${portName}`;
+    let port = {
       name: portName,
       postMessage(message) {
         if (!pageHidden) {
@@ -211,8 +212,8 @@ function onCsAttach(worker) {
     controller.portManager.removePort(worker.port);
   });
   worker.port.on('message-event', function(msg) {
-    var that = this;
-    var result;
+    let that = this;
+    let result;
     switch (msg.event) {
       case 'get-l10n-messages':
         if (!pageHidden) { // otherwise exception
@@ -243,8 +244,8 @@ function onCsAttach(worker) {
 }
 
 function getDynamicStyle(path) {
-  var css = data.load(path);
-  var token = /\.\.\//g;
+  let css = data.load(path);
+  let token = /\.\.\//g;
   css = css.replace(token, data.url(''));
   return css;
 }

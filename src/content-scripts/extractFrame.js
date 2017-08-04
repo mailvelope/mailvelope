@@ -35,9 +35,9 @@ export default class ExtractFrame {
     this._pgpEnd = pgpEnd;
     // find element with complete armored text and width > 0
     this._pgpElement = pgpEnd;
-    var maxNesting = 8;
-    var beginFound = false;
-    for (var i = 0; i < maxNesting; i++) {
+    let maxNesting = 8;
+    let beginFound = false;
+    for (let i = 0; i < maxNesting; i++) {
       if (this._pgpStartRegex.test(this._pgpElement.text()) &&
           this._pgpElement.width() > 0) {
         beginFound = true;
@@ -114,7 +114,7 @@ export default class ExtractFrame {
   }
 
   _setFrameDim() {
-    var pgpElementPos = this._pgpElement.position();
+    let pgpElementPos = this._pgpElement.position();
     this._eFrame.width(this._pgpElement.width() - 2);
     this._eFrame.height(this._pgpEnd.position().top + this._pgpEnd.height() - pgpElementPos.top - 2);
     this._eFrame.css('top', pgpElementPos.top + this._pgpElementAttr.marginTop + this._pgpElementAttr.paddingTop);
@@ -127,13 +127,13 @@ export default class ExtractFrame {
   }
 
   _getArmoredMessage() {
-    var msg;
+    let msg;
     // selection method does not work in Firefox if pre element without linebreaks with <br>
     if (this._pgpElement.is('pre') && !this._pgpElement.find('br').length) {
       msg = this._pgpElement.text();
     } else {
-      var element = this._pgpElement.get(0);
-      var sel = element.ownerDocument.defaultView.getSelection();
+      let element = this._pgpElement.get(0);
+      let sel = element.ownerDocument.defaultView.getSelection();
       sel.selectAllChildren(element);
       msg = sel.toString();
       sel.removeAllRanges();
@@ -142,7 +142,7 @@ export default class ExtractFrame {
   }
 
   _getPGPMessage() {
-    var msg = this._getArmoredMessage();
+    let msg = this._getArmoredMessage();
     // additional filtering to get well defined PGP message format
     msg = mvelo.util.normalizeArmored(msg, this._typeRegex);
     return msg;
@@ -153,16 +153,15 @@ export default class ExtractFrame {
   }
 
   _registerEventListener() {
-    var that = this;
     this._port.onMessage.addListener(msg => {
       switch (msg.event) {
         case 'destroy':
-          that._closeFrame(true);
+          this._closeFrame(true);
           break;
       }
     });
     this._port.onDisconnect.addListener(() => {
-      that._closeFrame(false);
+      this._closeFrame(false);
     });
   }
 }

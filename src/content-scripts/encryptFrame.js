@@ -48,9 +48,9 @@ export default class EncryptFrame extends mvelo.EventHandler {
     this._emailTextElement = this._editElement.is('iframe') ? this._editElement.contents().find('body') : this._editElement;
     // inject style if we have a non-body editable element inside a dynamic iframe
     if (!this._editElement.is('body') && this._editElement.closest('body').data(mvelo.DYN_IFRAME)) {
-      var html = this._editElement.closest('html');
+      let html = this._editElement.closest('html');
       if (!html.data('M-STYLE')) {
-        var style = $('<link/>', {
+        let style = $('<link/>', {
           rel: 'stylesheet',
           href: mvelo.extension.getURL('content-scripts/framestyles.css')
         });
@@ -63,9 +63,8 @@ export default class EncryptFrame extends mvelo.EventHandler {
   }
 
   _renderFrame() {
-    var that = this;
     // create frame
-    var toolbar = '';
+    let toolbar = '';
     if (this._options.closeBtn) {
       toolbar = `${toolbar}<a class="m-frame-close">×</a>`;
     } else {
@@ -76,7 +75,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
               <button id="editorBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-editor"></i></button> \
               `;
     this._eFrame = $('<div/>', {
-      id: `eFrame-${that.id}`,
+      id: `eFrame-${this.id}`,
       'class': 'm-encrypt-frame',
       html: toolbar
     });
@@ -85,7 +84,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
     $(window).on('resize', this._setFrameDim.bind(this));
     // to react on position changes of edit element, e.g. click on CC or BCC in GMail
     this._refreshPosIntervalID = window.setInterval(() => {
-      that._setFrameDim();
+      this._setFrameDim();
     }, 1000);
     this._eFrame.find('.m-frame-close').on('click', this._closeFrame.bind(this));
     this._eFrame.find('#undoBtn').on('click', this._onUndoButton.bind(this));
@@ -94,10 +93,10 @@ export default class EncryptFrame extends mvelo.EventHandler {
     this._eFrame.fadeIn('slow');
 
     this._emailTextElement.on('keypress', () => {
-      if (++that._keyCounter >= 13) {
-        that._emailTextElement.off('keypress');
-        that._eFrame.fadeOut('slow', () => {
-          that._closeFrame();
+      if (++this._keyCounter >= 13) {
+        this._emailTextElement.off('keypress');
+        this._eFrame.fadeOut('slow', () => {
+          this._closeFrame();
         });
       }
     });
@@ -142,9 +141,9 @@ export default class EncryptFrame extends mvelo.EventHandler {
   }
 
   _setFrameDim() {
-    var editElementPos = this._editElement.position();
-    var editElementWidth = this._editElement.width();
-    var toolbarWidth = this._eFrame.width();
+    let editElementPos = this._editElement.position();
+    let editElementWidth = this._editElement.width();
+    let toolbarWidth = this._eFrame.width();
     this._eFrame.css('top', editElementPos.top + 3);
     this._eFrame.css('left', editElementPos.left + editElementWidth - toolbarWidth - 20);
   }
@@ -181,15 +180,15 @@ export default class EncryptFrame extends mvelo.EventHandler {
   }
 
   _getEmailText(type) {
-    var text;
-    var html;
+    let text;
+    let html;
     if (this._emailTextElement.is('textarea')) {
       text = this._emailTextElement.val();
     } else { // html element
       if (type === 'text') {
         this._emailTextElement.focus();
-        var element = this._emailTextElement.get(0);
-        var sel = element.ownerDocument.defaultView.getSelection();
+        let element = this._emailTextElement.get(0);
+        let sel = element.ownerDocument.defaultView.getSelection();
         sel.selectAllChildren(element);
         text = sel.toString();
         sel.removeAllRanges();
@@ -245,7 +244,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
       this._emailTextElement.html(msg);
     }
     // trigger input event
-    var inputEvent = document.createEvent('HTMLEvents');
+    let inputEvent = document.createEvent('HTMLEvents');
     inputEvent.initEvent('input', true, true);
     this._emailTextElement.get(0).dispatchEvent(inputEvent);
   }

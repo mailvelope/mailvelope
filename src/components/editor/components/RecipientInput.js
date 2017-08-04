@@ -203,7 +203,7 @@ export class RecipientInputCtrl {
    * @return {Array}          A list of filtered items that match the query
    */
   autocomplete(query) {
-    var cache = _props.keys.map(key => ({
+    let cache = _props.keys.map(key => ({
       email: key.email,
       displayId: `${key.userid} - ${key.keyid.toUpperCase()}`
     }));

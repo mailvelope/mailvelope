@@ -27,7 +27,7 @@ export function isOversize(file) {
  * @returns {number}
  */
 export function getFileSize($fileList) {
-  var currentAttachmentsSize = 0;
+  let currentAttachmentsSize = 0;
   $fileList.find('.attachmentButton').each(function() {
     currentAttachmentsSize += $(this).data('file').size;
   });
@@ -47,7 +47,7 @@ export function getFileSize($fileList) {
  */
 export function readUploadFile(file, onLoadEnd) {
   return new Promise((resolve, reject) => {
-    var fileReader = new FileReader();
+    let fileReader = new FileReader();
     fileReader.onload = function() {
       resolve({
         content: this.result,
@@ -67,7 +67,7 @@ export function readUploadFile(file, onLoadEnd) {
 
 export function createFileElement(file, options) {
   options = options || {};
-  var $button = $('<div/>', {
+  let $button = $('<div/>', {
     "title": file.name,
     "class": 'attachmentButton'
   });
@@ -85,7 +85,7 @@ export function createFileElement(file, options) {
 
 export function createFileDownloadElement(file, options) {
   options = options || {};
-  var $button = $('<a/>', {
+  let $button = $('<a/>', {
     "title": file.name,
     "download": file.name,
     "class": 'attachmentButton',
@@ -106,7 +106,7 @@ export function createFileDownloadElement(file, options) {
  * @returns {*|jQuery}
  */
 function getFileName(file) {
-  var fileNameNoExt = mvelo.util.extractFileNameWithoutExt(file.name);
+  let fileNameNoExt = mvelo.util.extractFileNameWithoutExt(file.name);
 
   return $('<span/>', {
     "class": 'attachmentFilename'
@@ -149,11 +149,11 @@ function getRemoveButton(onRemove) {
  * @returns {*|jQuery}
  */
 function getExtensionIcon(file) {
-  var fileExt = mvelo.util.extractFileExtension(file.name);
+  let fileExt = mvelo.util.extractFileExtension(file.name);
   if (!fileExt) {
     return '';
   }
-  var extClass = mvelo.util.getExtensionClass(fileExt);
+  let extClass = mvelo.util.getExtensionClass(fileExt);
 
   return $('<span/>', {
     "class": `attachmentExtension ${extClass}`
@@ -176,8 +176,8 @@ function getSecureIcon() {
  * @returns {string}
  */
 function downloadAttachment(file) {
-  var content = mvelo.util.str2ab(file.content);
-  var blob = new Blob([content], {type: file.type});
+  let content = mvelo.util.str2ab(file.content);
+  let blob = new Blob([content], {type: file.type});
 
   return window.URL.createObjectURL(blob);
 }
@@ -186,7 +186,7 @@ function downloadAttachment(file) {
  * @returns {Object}
  */
 export function getFiles($fileList) {
-  var files = [];
+  let files = [];
   $fileList.find('.attachmentButton').each(function() {
     files.push($(this).data('file'));
   });

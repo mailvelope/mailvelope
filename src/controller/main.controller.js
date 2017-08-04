@@ -129,13 +129,14 @@ export function handleMessageEvent(request, sender, sendResponse) {
       .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
       // return true for async calls, otherwise Chrome does not handle sendResponse
       return true;
-    case 'send-by-mail':
-      var link = encodeURI('mailto:?subject=Public OpenPGP key of ');
+    case 'send-by-mail': {
+      let link = encodeURI('mailto:?subject=Public OpenPGP key of ');
       link += encodeURIComponent(request.message.data.name);
       link += `&body=${encodeURIComponent(request.message.data.armoredPublic)}`;
       link += encodeURIComponent('\n*** exported with www.mailvelope.com ***');
       mvelo.tabs.create(link);
       break;
+    }
     case 'get-prefs':
       request.prefs = prefs.prefs;
       sendResponse(request);
@@ -239,7 +240,7 @@ function reloadFrames(main) {
 }
 
 function addToWatchList() {
-  var scanScript = " \
+  let scanScript = " \
       var hosts = $('iframe').get().map(function(element) { \
         return $('<a/>').attr('href', element.src).prop('hostname'); \
       }); \
@@ -254,7 +255,7 @@ function addToWatchList() {
     if (tab) {
       // reset scanned hosts buffer
       scannedHosts.length = 0;
-      var options = {};
+      let options = {};
       options.contentScriptFile = [];
       options.contentScriptFile.push('dep/jquery.min.js');
       options.contentScriptFile.push('mvelo.js');
@@ -267,9 +268,9 @@ function addToWatchList() {
           if (scannedHosts.length === 0) {
             return;
           }
-          var site = model.getHostname(tab.url);
+          let site = model.getHostname(tab.url);
           scannedHosts.length = 0;
-          var slotId = mvelo.util.getHash();
+          let slotId = mvelo.util.getHash();
           sub.setAppDataSlot(slotId, site);
           mvelo.tabs.loadOptionsTab(`?slotId=${slotId}#/settings/watchlist/push`, () => {});
         }, 250);
@@ -309,9 +310,9 @@ function loadOptions(hash) {
 }
 
 function reduceHosts(hosts) {
-  var reduced = [];
+  let reduced = [];
   hosts.forEach(element => {
-    var labels = element.split('.');
+    let labels = element.split('.');
     if (labels.length < 2) {
       return;
     }

@@ -18,7 +18,6 @@ export default class VerifyController extends SubController {
   }
 
   handlePortMessage(msg) {
-    var that = this;
     switch (msg.event) {
       case 'verify-inline-init':
       case 'verify-popup-init':
@@ -32,12 +31,12 @@ export default class VerifyController extends SubController {
           this.ports.vFrame.postMessage({event: 'remove-dialog'});
         } else {
           mvelo.windows.openPopup(`components/verify-popup/verifyPopup.html?id=${this.id}`, {width: 742, height: 550, modal: true}, window => {
-            that.verifyPopup = window;
+            this.verifyPopup = window;
           });
         }
         break;
-      case 'vframe-armored-message':
-        var result;
+      case 'vframe-armored-message': {
+        let result;
         try {
           result = readCleartextMessage(msg.data, mvelo.LOCAL_KEYRING_ID);
         } catch (e) {
@@ -49,12 +48,12 @@ export default class VerifyController extends SubController {
         }
         verifyMessage(result.message, result.signers, (err, verified) => {
           if (err) {
-            that.ports.vDialog.postMessage({
+            this.ports.vDialog.postMessage({
               event: 'error-message',
               error: err.message
             });
           } else {
-            that.ports.vDialog.postMessage({
+            this.ports.vDialog.postMessage({
               event: 'verified-message',
               message: result.message.getText(),
               signers: verified
@@ -62,6 +61,7 @@ export default class VerifyController extends SubController {
           }
         });
         break;
+      }
       case 'verify-dialog-cancel':
         if (this.ports.vFrame) {
           this.ports.vFrame.postMessage({

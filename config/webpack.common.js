@@ -1,5 +1,5 @@
 
-var webpack = require('webpack');
+let webpack = require('webpack');
 
 function plugins(env) {
   return [

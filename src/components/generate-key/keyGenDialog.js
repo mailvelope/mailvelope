@@ -17,31 +17,31 @@
 
 'use strict';
 
-var mvelo = mvelo || null;
+var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
-  var id;
-  var name;
-  var port;
-  var l10n;
-  var isInputChange;
+  let id;
+  let name;
+  let port;
+  let l10n;
+  let isInputChange;
 
-  var $secureBgndButton;
-  var $pwdInput;
-  var $pwdParent;
-  var $confirmInput;
-  var $confirmParent;
-  var $confirmErrorNoEqual;
-  var $confirmSuccess;
-  var $keyGenPasswordPanel;
-  var $keyGenWaitingPanel;
+  let $secureBgndButton;
+  let $pwdInput;
+  let $pwdParent;
+  let $confirmInput;
+  let $confirmParent;
+  let $confirmErrorNoEqual;
+  let $confirmSuccess;
+  let $keyGenPasswordPanel;
+  let $keyGenWaitingPanel;
 
   function init() {
     if (document.body.dataset.mvelo) {
       return;
     }
     document.body.dataset.mvelo = true;
-    var qs = jQuery.parseQuerystring();
+    let qs = jQuery.parseQuerystring();
     id = qs.id;
     name = `keyGenDialog-${id}`;
 
@@ -106,9 +106,9 @@ var mvelo = mvelo || null;
    * @returns {boolean}
    */
   function checkPwdInput() {
-    var pwdVal = $pwdInput.val();
-    var maxLength = parseInt($pwdInput.data('lengthMin'));
-    var result = false;
+    let pwdVal = $pwdInput.val();
+    let maxLength = parseInt($pwdInput.data('lengthMin'));
+    let result = false;
 
     if (isInputChange) {
       logUserInput('security_log_password_input');
@@ -139,8 +139,8 @@ var mvelo = mvelo || null;
    * @returns {boolean}
    */
   function checkInputsEqual() {
-    var result = $pwdInput.val() === $confirmInput.val();
-    var maxLength = parseInt($pwdInput.data('lengthMin'));
+    let result = $pwdInput.val() === $confirmInput.val();
+    let maxLength = parseInt($pwdInput.data('lengthMin'));
 
     if (!$pwdInput.val().length || !$confirmInput.val().length) {
       $confirmSuccess.fadeOut(100, () => {
@@ -175,8 +175,8 @@ var mvelo = mvelo || null;
    * @returns {boolean}
    */
   function checkConfirmInput() {
-    var confirmVal = $confirmInput.val();
-    var maxLength = parseInt($pwdInput.data('lengthMin'));
+    let confirmVal = $confirmInput.val();
+    let maxLength = parseInt($pwdInput.data('lengthMin'));
 
     if (isInputChange) {
       // limit textarea log to 1 event per second

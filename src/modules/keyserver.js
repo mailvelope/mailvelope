@@ -57,7 +57,7 @@ export default class KeyServer {
    * @yield {undefined}
    */
   upload(options) {
-    var payload = {publicKeyArmored: options.publicKeyArmored};
+    let payload = {publicKeyArmored: options.publicKeyArmored};
     if (options.primaryEmail) {
       payload.primaryEmail = options.primaryEmail;
     }
@@ -92,7 +92,7 @@ export default class KeyServer {
    * @return {string}                       The complete request url
    */
   _url(options) {
-    var url = `${this._baseUrl}/api/v1/key`;
+    let url = `${this._baseUrl}/api/v1/key`;
     if (options && options.email) {
       url += `?email=${encodeURIComponent(options.email)}`;
     } else if (options && options.fingerprint) {
@@ -113,7 +113,7 @@ export default class KeyServer {
     if (response.status >= 200 && response.status < 300) {
       return response;
     } else {
-      var error = new Error(response.statusText);
+      let error = new Error(response.statusText);
       error.response = response;
       throw error;
     }

@@ -6,11 +6,11 @@ import * as sub from '../../src/controller/sub.controller';
 import * as prefs from '../../src/modules/prefs';
 import EncryptController from '../../src/controller/encrypt.controller';
 
-var ctrl;
-var editorCtrlMock;
-var preferences = prefs.prefs;
+let ctrl;
+let editorCtrlMock;
+let preferences = prefs.prefs;
 
-var testRecipients = [{email: 'test@example.com'}];
+let testRecipients = [{email: 'test@example.com'}];
 
 describe('Encrypt controller unit tests', () => {
   beforeEach(() => {
@@ -40,7 +40,7 @@ describe('Encrypt controller unit tests', () => {
   });
 
   describe('openEditor', () => {
-    var modalActiveVal;
+    let modalActiveVal;
 
     beforeEach(() => {
       modalActiveVal = mvelo.windows.modalActive;
@@ -79,7 +79,7 @@ describe('Encrypt controller unit tests', () => {
   });
 
   describe('getRecipientProposal', () => {
-    var callback = function() {};
+    let callback = function() {};
 
     it('should work', () => {
       ctrl.getRecipientProposal(callback);
@@ -96,7 +96,7 @@ describe('Encrypt controller unit tests', () => {
   });
 
   describe('displayRecipientProposal', () => {
-    var recipientsCallbackStub;
+    let recipientsCallbackStub;
 
     beforeEach(() => {
       recipientsCallbackStub = ctrl.recipientsCallback = sinon.stub();

@@ -37,7 +37,7 @@ export default class KeyBackupContainer {
    * @returns {mvelo.KeyBackupContainer}
    */
   create(done) {
-    var url;
+    let url;
 
     this.done = done;
     this.parent = document.querySelector(this.selector);

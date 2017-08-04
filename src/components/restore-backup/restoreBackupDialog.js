@@ -17,27 +17,27 @@
 
 'use strict';
 
-var mvelo = mvelo || null;
+var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
-  var id;
-  var name;
-  var port;
-  var l10n;
+  let id;
+  let name;
+  let port;
+  let l10n;
 
-  var $secureBgndButton;
-  var $restoreBackupPanel;
-  var $restoreBackupButton;
-  var $restorePasswordButton;
-  var $restorePasswordPanel;
-  var $restorePasswordInput;
+  let $secureBgndButton;
+  let $restoreBackupPanel;
+  let $restoreBackupButton;
+  let $restorePasswordButton;
+  let $restorePasswordPanel;
+  let $restorePasswordInput;
 
   function init() {
     if (document.body.dataset.mvelo) {
       return;
     }
     document.body.dataset.mvelo = true;
-    var qs = jQuery.parseQuerystring();
+    let qs = jQuery.parseQuerystring();
     id = qs.id;
     name = `restoreBackupDialog-${id}`;
 
@@ -71,16 +71,16 @@ var mvelo = mvelo || null;
       $('.flex-digit')
       .on('input paste', function() {
         logUserInput('security_log_text_input');
-        var $this = $(this);
-        var val = $this.val();
-        var maxlength = parseInt($this.attr('maxlength'));
+        let $this = $(this);
+        let val = $this.val();
+        let maxlength = parseInt($this.attr('maxlength'));
 
         if (val.length === maxlength) {
           $this
           .removeClass('invalid')
           .addClass('valid');
 
-          var $next = $this.next().next();
+          let $next = $this.next().next();
           if ($next) {
             $next.focus();
           }
@@ -109,7 +109,7 @@ var mvelo = mvelo || null;
 
       $restoreBackupButton.on('click', () => {
         logUserInput('security_log_backup_restore');
-        var code = '';
+        let code = '';
 
         $('.flex-digit').each((idx, ele) => {
           code += $(ele).val();
@@ -141,7 +141,7 @@ var mvelo = mvelo || null;
   }
 
   function isCodeValid() {
-    var valid = true;
+    let valid = true;
     $('.flex-digit').each(function() {
       if ($(this).val().length !== parseInt($(this).attr('maxlength'))) {
         valid = false;

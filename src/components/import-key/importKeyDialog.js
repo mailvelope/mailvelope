@@ -17,16 +17,16 @@
 
 'use strict';
 
-var mvelo = mvelo || null;
+var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
-  var id;
-  var name;
-  var port;
-  var l10n;
+  let id;
+  let name;
+  let port;
+  let l10n;
 
   function init() {
-    var qs = jQuery.parseQuerystring();
+    let qs = jQuery.parseQuerystring();
     id = qs.id;
     name = `importKeyDialog-${id}`;
     // open port to background page
@@ -92,21 +92,21 @@ var mvelo = mvelo || null;
 
   function messageListener(msg) {
     //console.log('key import dialog messageListener: ', JSON.stringify(msg));
-    var $okBtn = $('okBtn');
-    var $body = $('body');
-    var $spinner = $('#spinner');
-    var $modalBody = $('.modal-body');
-    var $importAlert = $('#importAlert');
+    let $okBtn = $('okBtn');
+    let $body = $('body');
+    let $spinner = $('#spinner');
+    let $modalBody = $('.modal-body');
+    let $importAlert = $('#importAlert');
 
     switch (msg.event) {
-      case 'key-details':
-        var importDialogHeadline = (msg.invalidated) ? l10n.key_import_invalidated_headline : l10n.key_import_default_headline;
-        var importDialogDescription = (msg.invalidated) ? l10n.key_import_invalidated_description : l10n.key_import_default_description;
+      case 'key-details': {
+        const importDialogHeadline = (msg.invalidated) ? l10n.key_import_invalidated_headline : l10n.key_import_default_headline;
+        let importDialogDescription = (msg.invalidated) ? l10n.key_import_invalidated_description : l10n.key_import_default_description;
 
-        var userName = $('<span/>').addClass('userName').text(msg.key.name);
-        var userEmail = $('<span/>').addClass('userEmail').text(`(${msg.key.email})`);
-        var date = (new Date(msg.key.crDate)).toLocaleString();
-        var contact = msg.key.email ? msg.key.email : msg.key.name;
+        const userName = $('<span/>').addClass('userName').text(msg.key.name);
+        const userEmail = $('<span/>').addClass('userEmail').text(`(${msg.key.email})`);
+        const date = (new Date(msg.key.crDate)).toLocaleString();
+        const contact = msg.key.email ? msg.key.email : msg.key.name;
         importDialogDescription = importDialogDescription.replace('[CONTACT]', `<em>${contact.replace(/\((.*|\s)\)/, '')}</em>`);
 
         $('#key_import_headline').html(importDialogHeadline);
@@ -128,6 +128,7 @@ var mvelo = mvelo || null;
           $('#defaultFooter').show();
         }
         break;
+      }
       case 'import-error':
         $(window).on('beforeunload', onClose);
         $okBtn.prop('disabled', false);

@@ -1,7 +1,7 @@
 
 import mvelo from '../mvelo';
 
-var map = {};
+let map = {};
 
 function register(ids) {
   ids.forEach(id => {

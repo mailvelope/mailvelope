@@ -3,8 +3,8 @@ import EncryptFrame from '../../src/content-scripts/encryptFrame';
 
 
 describe('Encrypt Frame unit tests', () => {
-  var ef;
-  var recip = [{email: 'jon@smith.com'}];
+  let ef;
+  let recip = [{email: 'jon@smith.com'}];
 
   beforeEach(() => {
     ef = new EncryptFrame();

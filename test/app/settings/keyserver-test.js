@@ -3,7 +3,7 @@ import KeyServer from '../../../src/app/settings/keyserver';
 
 
 describe('Key server settings unit tests', () => {
-  var keyserver;
+  let keyserver;
 
   beforeEach(() => {
     const props = {

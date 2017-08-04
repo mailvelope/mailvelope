@@ -17,17 +17,17 @@
 
 'use strict';
 
-var mvelo = mvelo || null;
+var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
   // communication to background page
-  var port;
+  let port;
   // shares ID with VerifyFrame
-  var id;
-  var watermark;
-  var spinnerTimer;
-  var basePath;
-  var l10n;
+  let id;
+  let watermark;
+  let spinnerTimer;
+  let basePath;
+  let l10n;
 
   function init() {
     //console.log('init decryptInline.js');
@@ -35,7 +35,7 @@ var mvelo = mvelo || null;
       return;
     }
     document.body.dataset.mvelo = true;
-    var qs = jQuery.parseQuerystring();
+    let qs = jQuery.parseQuerystring();
     id = `vDialog-${qs.id}`;
     // open port to background page
     port = mvelo.extension.connect({name: id});
@@ -76,28 +76,28 @@ var mvelo = mvelo || null;
   }
 
   function addWrapper() {
-    var wrapper = $('<div/>', {id: 'wrapper'});
+    let wrapper = $('<div/>', {id: 'wrapper'});
     watermark = $('<div/>', {id: 'watermark'});
     watermark.appendTo(wrapper);
     wrapper.appendTo('body');
   }
 
   function addSandbox() {
-    var sandbox = $('<iframe/>', {
+    let sandbox = $('<iframe/>', {
       id: 'verifymail',
       sandbox: 'allow-same-origin allow-popups',
       frameBorder: 0
     });
-    var header = $('<header/>');
-    var content = $('<div/>', {
+    let header = $('<header/>');
+    let content = $('<div/>', {
       id: 'content'
     }).append(header);
-    var style = $('<link/>', {
+    let style = $('<link/>', {
       rel: 'stylesheet',
       href: `${basePath}dep/bootstrap/css/bootstrap.css`
     });
-    var style2 = style.clone().attr('href', `${basePath}components/verify-inline/verifyInlineSig.css`);
-    var meta = $('<meta/>', {charset: 'UTF-8'});
+    let style2 = style.clone().attr('href', `${basePath}components/verify-inline/verifyInlineSig.css`);
+    let meta = $('<meta/>', {charset: 'UTF-8'});
     sandbox.on('load', function() {
       $(this).contents().find('head').append(meta)
       .append(style)
@@ -109,7 +109,7 @@ var mvelo = mvelo || null;
   }
 
   function addErrorView() {
-    var errorbox = $('<div/>', {id: 'errorbox'});
+    let errorbox = $('<div/>', {id: 'errorbox'});
     $('<div/>', {id: 'errorwell', class: 'well span5'}).appendTo(errorbox);
     errorbox.appendTo('body');
     if ($('body').height() + 2 > mvelo.LARGE_FRAME) {
@@ -125,7 +125,7 @@ var mvelo = mvelo || null;
   }
 
   function addSecuritySettingsButton() {
-    var securitySettingsBtn = $('<div data-l10n-title-id="security_background_button_title" style="margin-top: 12px; margin-right: 6px;" class="pull-right"><span class="glyphicon lockBtnIcon"></span></div>');
+    let securitySettingsBtn = $('<div data-l10n-title-id="security_background_button_title" style="margin-top: 12px; margin-right: 6px;" class="pull-right"><span class="glyphicon lockBtnIcon"></span></div>');
     $('body').append(securitySettingsBtn);
   }
 
@@ -147,17 +147,17 @@ var mvelo = mvelo || null;
   function messageListener(msg) {
     //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
-      case 'verified-message':
+      case 'verified-message': {
         showMessageArea();
         // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
-        var message = msg.message.replace(/\n/g, '<br>');
-        var node = $('#verifymail').contents();
-        var header = node.find('header');
+        let message = msg.message.replace(/\n/g, '<br>');
+        const node = $('#verifymail').contents();
+        const header = node.find('header');
         msg.signers.forEach(signer => {
-          var type;
-          var userid;
-          var message = $('<span/>');
-          var keyid = $('<span/>');
+          let type;
+          let userid;
+          const message = $('<span/>');
+          const keyid = $('<span/>');
           keyid.text(`(${l10n.dialog_keyid_label} ${signer.keyid.toUpperCase()})`);
           if (signer.userid) {
             userid = $('<strong/>');
@@ -178,6 +178,7 @@ var mvelo = mvelo || null;
         message = $.parseHTML(message);
         node.find('#content').append(message);
         break;
+      }
       case 'error-message':
         showErrorMsg(msg.error);
         break;

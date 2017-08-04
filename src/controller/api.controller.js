@@ -13,8 +13,8 @@ import openpgp from 'openpgp';
 import {getLastModifiedDate} from '../modules/pgpModel';
 
 export function handleApiEvent(request, sender, sendResponse) {
-  var keyRing;
-  var attr;
+  let keyRing;
+  let attr;
   try {
     switch (request.event) {
       case 'get-keyring':
@@ -34,8 +34,8 @@ export function handleApiEvent(request, sender, sendResponse) {
         })
         .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
         return true;
-      case 'query-valid-key':
-        var keyMap = keyring.getById(request.keyringId).getKeyByAddress(request.recipients, {validity: true, fingerprint: true, sort: true});
+      case 'query-valid-key': {
+        const keyMap = keyring.getById(request.keyringId).getKeyByAddress(request.recipients, {validity: true, fingerprint: true, sort: true});
         Object.keys(keyMap).forEach(email => {
           if (keyMap[email]) {
             keyMap[email] = {
@@ -48,8 +48,9 @@ export function handleApiEvent(request, sender, sendResponse) {
         });
         sendResponse({error: null, data: keyMap});
         break;
-      case 'export-own-pub-key':
-        var keyIdMap = keyring.getById(request.keyringId).getKeyIdByAddress([request.emailAddr], {validity: true, pub: false, priv: true, sort: true});
+      }
+      case 'export-own-pub-key': {
+        const keyIdMap = keyring.getById(request.keyringId).getKeyIdByAddress([request.emailAddr], {validity: true, pub: false, priv: true, sort: true});
         if (!keyIdMap[request.emailAddr]) {
           sendResponse({error: {message: 'No key pair found for this email address.', code: 'NO_KEY_FOR_ADDRESS'}});
           return;
@@ -58,9 +59,10 @@ export function handleApiEvent(request, sender, sendResponse) {
         if (keyIdMap[request.emailAddr].length > 1) {
           keyIdMap[request.emailAddr].length = 1;
         }
-        var armored = keyring.getById(request.keyringId).getArmoredKeys(keyIdMap[request.emailAddr], {pub: true});
+        const armored = keyring.getById(request.keyringId).getArmoredKeys(keyIdMap[request.emailAddr], {pub: true});
         sendResponse({error: null, data: armored[0].armoredPublic});
         break;
+      }
       case 'import-pub-key':
         sub.factory.get('importKeyDialog').importKey(request.keyringId, request.armored)
         .then(status => sendResponse({data: status}))
@@ -89,9 +91,9 @@ export function handleApiEvent(request, sender, sendResponse) {
           sendResponse({error: null, data: hasPrivateKey});
         }
         break;
-      case 'open-settings':
+      case 'open-settings': {
         request.keyringId = request.keyringId || mvelo.LOCAL_KEYRING_ID;
-        var hash = `?krid=${encodeURIComponent(request.keyringId)}#/settings`;
+        const hash = `?krid=${encodeURIComponent(request.keyringId)}#/settings`;
         mvelo.tabs.loadOptionsTab(hash, (old, tab) => {
           if (old) {
             mvelo.tabs.sendMessage(tab, {
@@ -102,6 +104,7 @@ export function handleApiEvent(request, sender, sendResponse) {
         });
         sendResponse({error: null, data: null});
         break;
+      }
       default:
         console.log('unknown event:', request);
     }

@@ -9,8 +9,8 @@
 import mvelo from 'lib-mvelo';
 import {setPreferences, getPreferences} from './pgpModel';
 
-export var prefs = {};
-var updateHandlers = [];
+export let prefs = {};
+let updateHandlers = [];
 
 export function init() {
   return getPreferences()

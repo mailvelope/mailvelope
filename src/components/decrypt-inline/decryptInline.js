@@ -17,19 +17,19 @@
 
 'use strict';
 
-var mvelo = mvelo || null;
+var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
   // communication to background page
-  var port;
+  let port;
   // shares ID with DecryptFrame
-  var id;
-  var name;
-  var watermark;
+  let id;
+  let name;
+  let watermark;
   //var spinnerTimer;
-  var basePath;
-  var l10n;
-  var signers = [];
+  let basePath;
+  let l10n;
+  let signers = [];
 
   function init() {
     //console.log('init decryptInline.js');
@@ -37,7 +37,7 @@ var mvelo = mvelo || null;
       return;
     }
     document.body.dataset.mvelo = true;
-    var qs = jQuery.parseQuerystring();
+    let qs = jQuery.parseQuerystring();
     id = qs.id;
     name = `dDialog-${id}`;
     // open port to background page
@@ -86,7 +86,7 @@ var mvelo = mvelo || null;
   }
 
   function addDecryptBody() {
-    var $flex = $('<div />', {id: 'flex-container'})
+    let $flex = $('<div />', {id: 'flex-container'})
     .append(addFlexHeader())
     .append(addWrapper())
     .append(addFlexFooter());
@@ -97,7 +97,7 @@ var mvelo = mvelo || null;
   }
 
   function addWrapper() {
-    var $plainText = $('<div/>', {id: 'plainText'});
+    let $plainText = $('<div/>', {id: 'plainText'});
 
     watermark = $('<div/>', {id: 'watermark'});
 
@@ -134,7 +134,7 @@ var mvelo = mvelo || null;
   }
 
   function addSandbox() {
-    var $content = $('<div/>', {
+    let $content = $('<div/>', {
       id: 'content',
       css: {
         padding: '6px 12px',
@@ -142,8 +142,8 @@ var mvelo = mvelo || null;
       }
     });
 
-    var $style = $('<link/>', {rel: 'stylesheet', href: `${basePath}dep/bootstrap/css/bootstrap.css`});
-    var $meta = $('<meta/>', {charset: 'UTF-8'});
+    let $style = $('<link/>', {rel: 'stylesheet', href: `${basePath}dep/bootstrap/css/bootstrap.css`});
+    let $meta = $('<meta/>', {charset: 'UTF-8'});
 
     return $('<iframe/>', {
       id: 'decryptmail',
@@ -158,7 +158,7 @@ var mvelo = mvelo || null;
   }
 
   function addFlexFooter() {
-    var $footer = $('<div/>', {class: 'pull-right'})
+    let $footer = $('<div/>', {class: 'pull-right'})
     .append(addSignatureButton());
 
     return $('<div/>', {id: 'footer'})
@@ -180,7 +180,7 @@ var mvelo = mvelo || null;
   }
 
   function addErrorView() {
-    var errorbox = $('<div/>', {id: 'errorbox'});
+    let errorbox = $('<div/>', {id: 'errorbox'});
     $('<div/>', {id: 'errorwell', class: 'well span5'}).appendTo(errorbox);
     errorbox.appendTo('body');
     if ($('body').height() + 2 > mvelo.LARGE_FRAME) {
@@ -213,27 +213,27 @@ var mvelo = mvelo || null;
   }
 
   function addAttachment(filename, content, mimeType) {
-    var fileNameNoExt = mvelo.util.extractFileNameWithoutExt(filename);
-    var fileExt = mvelo.util.extractFileExtension(filename);
-    var extClass = mvelo.util.getExtensionClass(fileExt);
+    let fileNameNoExt = mvelo.util.extractFileNameWithoutExt(filename);
+    let fileExt = mvelo.util.extractFileExtension(filename);
+    let extClass = mvelo.util.getExtensionClass(fileExt);
 
-    var $extensionButton = $('<span/>', {
+    let $extensionButton = $('<span/>', {
       "class": `label attachmentExtension ${extClass}`
     }).append(fileExt);
 
-    var objectURL = "#";
+    let objectURL = "#";
 
     content = mvelo.util.str2ab(content);
     // set MIME type fix to application/octet-stream as other types can be exploited in Chrome
     mimeType = 'application/octet-stream';
-    var blob = new Blob([content], {type: mimeType});
+    let blob = new Blob([content], {type: mimeType});
     objectURL = window.URL.createObjectURL(blob);
 
-    var $fileName = $('<span/>', {
+    let $fileName = $('<span/>', {
       "class": 'attachmentFilename'
     }).append(fileNameNoExt);
 
-    var $fileUI = $('<a/>', {
+    let $fileUI = $('<a/>', {
       "download": filename,
       "href": objectURL,
       "title": filename,
@@ -272,13 +272,13 @@ var mvelo = mvelo || null;
       return;
     }
 
-    var $body = $('.modal-body', '#signatureModal');
+    let $body = $('.modal-body', '#signatureModal');
 
-    var dialog = $('<div/>');
+    let dialog = $('<div/>');
 
     if (signer.valid !== null) {
-      var details = signer.keyDetails;
-      var fingerprint = (details.fingerprint.match(/.{1,4}/g)).join(' ');
+      let details = signer.keyDetails;
+      let fingerprint = (details.fingerprint.match(/.{1,4}/g)).join(' ');
 
       dialog
       .append($('<p/>').html(`<b>Name:</b> ${details.name}`))
@@ -292,8 +292,8 @@ var mvelo = mvelo || null;
     }
     $body.empty().append(dialog);
 
-    var $heading = $('.modal-header', '#signatureModal').removeClass('bg-success bg-danger bg-warning');
-    var $title = $('.modal-title', '#signatureModal').empty();
+    let $heading = $('.modal-header', '#signatureModal').removeClass('bg-success bg-danger bg-warning');
+    let $title = $('.modal-title', '#signatureModal').empty();
 
     if (signer.valid === true) {
       $heading.addClass('bg-success');
@@ -323,8 +323,8 @@ var mvelo = mvelo || null;
       return;
     }
 
-    var signersTrue = signers.filter(signer => signer.valid === true);
-    var signersFalse = signers.filter(signer => signer.valid === false);
+    let signersTrue = signers.filter(signer => signer.valid === true);
+    let signersFalse = signers.filter(signer => signer.valid === false);
 
     if (!signersTrue.length && !signersFalse.length) {
       $btn.html(l10n.decrypt_digital_signature_null);

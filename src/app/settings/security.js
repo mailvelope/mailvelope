@@ -110,7 +110,7 @@ export default class Security extends React.Component {
   }
 }
 
-var secBackground;
+let secBackground;
 
 function init() {
   loadPrefs();
@@ -143,10 +143,10 @@ function getSecurityBgndConfig() {
 }
 
 function previewSecurityBgnd() {
-  var scaling = parseInt($('#scaling').val()) / 10;
-  var angle = parseInt($('#angle').val());
-  var colorId = parseInt($('#coloring').val());
-  var secBgndIcon = mvelo.util.generateSecurityBackground({
+  let scaling = parseInt($('#scaling').val()) / 10;
+  let angle = parseInt($('#angle').val());
+  let colorId = parseInt($('#coloring').val());
+  let secBgndIcon = mvelo.util.generateSecurityBackground({
     width: secBackground.width,
     height: secBackground.height,
     scaling,
@@ -173,11 +173,11 @@ function onSave() {
   if (!validate()) {
     return false;
   }
-  var angel = $("#angle").val();
-  var scaling = ($("#scaling").val() / 10);
-  var coloring = $("#coloring").val();
-  var iconColor = mvelo.SECURE_COLORS[coloring];
-  var update = {
+  let angel = $("#angle").val();
+  let scaling = ($("#scaling").val() / 10);
+  let coloring = $("#coloring").val();
+  let iconColor = mvelo.SECURE_COLORS[coloring];
+  let update = {
     security: {
       display_decrypted: $('input:radio[name="decryptRadios"]:checked').val(),
       secureBgndAngle: angel,
@@ -198,8 +198,8 @@ function onSave() {
 
 function validate() {
   // password timeout betweet 1-999
-  var pwdCacheTime = $('#pwdCacheTime');
-  var timeout = parseInt(pwdCacheTime.val());
+  let pwdCacheTime = $('#pwdCacheTime');
+  let timeout = parseInt(pwdCacheTime.val());
   if (timeout >= 1 && timeout <= 999) {
     pwdCacheTime.val(timeout);
     return true;

@@ -17,20 +17,20 @@
 
 /* eslint strict: 0 */
 
-var data = require('sdk/self').data;
-var tabs = require('sdk/tabs');
-var windows = require('sdk/windows').browserWindows;
-var addonWindow = require('sdk/addon/window');
-var timer = require('sdk/timers');
-var ss = require('sdk/simple-storage');
-var url = require('sdk/url');
-var l10nGet = require('sdk/l10n').get;
+let data = require('sdk/self').data;
+let tabs = require('sdk/tabs');
+let windows = require('sdk/windows').browserWindows;
+let addonWindow = require('sdk/addon/window');
+let timer = require('sdk/timers');
+let ss = require('sdk/simple-storage');
+let url = require('sdk/url');
+let l10nGet = require('sdk/l10n').get;
 
-var mvelo = require('../../mvelo');
-var CWorker = require('./web-worker').Worker;
-var request = require('sdk/request').Request;
+let mvelo = require('../../mvelo');
+let CWorker = require('./web-worker').Worker;
+let request = require('sdk/request').Request;
 
-var mainWindow = windows.activeWindow; // current active main window
+let mainWindow = windows.activeWindow; // current active main window
 windows.on('close', () => mainWindow = windows.activeWindow);
 
 mvelo.ffa = true;
@@ -57,7 +57,7 @@ mvelo.tabs.getActive = function(callback) {
 };
 
 mvelo.tabs.attach = function(tab, options, callback) {
-  var lopt = {};
+  let lopt = {};
   if (options) {
     lopt.contentScriptFile = options.contentScriptFile && options.contentScriptFile.map(file => data.url(file));
     lopt.contentScript = options.contentScript;
@@ -68,7 +68,7 @@ mvelo.tabs.attach = function(tab, options, callback) {
   lopt.contentScriptOptions = lopt.contentScriptOptions || {};
   lopt.contentScriptOptions.expose_messaging = lopt.contentScriptOptions.expose_messaging || true;
   lopt.contentScriptOptions.data_path = data.url();
-  var worker = tab.attach(lopt);
+  let worker = tab.attach(lopt);
   this.worker[tab.index] = worker;
   worker.port.on('message-event', options.onMessage);
   //console.log('attach registers for message-event', Date.now());
@@ -82,10 +82,10 @@ mvelo.tabs.attach = function(tab, options, callback) {
 };
 
 mvelo.tabs.query = function(url, callback) {
-  var result = [];
-  var tabs = windows.activeWindow.tabs;
-  var reUrl = new RegExp(`${url}.*`);
-  for (var i = 0; i < tabs.length; i++) {
+  let result = [];
+  let tabs = windows.activeWindow.tabs;
+  let reUrl = new RegExp(`${url}.*`);
+  for (let i = 0; i < tabs.length; i++) {
     if (reUrl.test(tabs[i].url)) {
       result.push(tabs[i]);
     }
@@ -124,7 +124,7 @@ mvelo.tabs.sendMessage = function(tab, msg, callback) {
 mvelo.tabs.loadOptionsTab = function(hash, callback) {
   mainWindow.activate();
   // check if options tab already exists
-  var url = data.url('app/app.html');
+  let url = data.url('app/app.html');
   this.query(url, function(tabs) {
     if (tabs.length === 0) {
       // if not existent, create tab
@@ -222,7 +222,7 @@ mvelo.windows.internalURL = new RegExp(`^${data.url('')}`);
 mvelo.windows.options = [];
 
 mvelo.windows.openPopup = function(url, options, callback) {
-  var winOpts = {};
+  let winOpts = {};
   winOpts.url = data.url(url);
   if (mvelo.windows.internalURL.test(winOpts.url)) {
     this.options.push(options);
@@ -239,7 +239,7 @@ mvelo.windows.openPopup = function(url, options, callback) {
   windows.open(winOpts);
 };
 
-var delegate = {
+let delegate = {
   onTrack(window) {
     // check for mailvelope popup
     if (window.arguments && mvelo.windows.internalURL.test(window.arguments[0])) {
@@ -247,13 +247,13 @@ var delegate = {
       window.menubar.visible = false;
       window.personalbar.visible = false;
       window.toolbar.visible = false;
-      var options = mvelo.windows.options.shift();
+      let options = mvelo.windows.options.shift();
       if (options) {
         window.innerWidth = options.width;
         window.innerHeight = options.height;
-        for (var main in winUtils.windowIterator()) {
-          var y = parseInt(main.screenY + (main.outerHeight - options.height) / 2);
-          var x = parseInt(main.screenX + (main.outerWidth - options.width) / 2);
+        for (let main in winUtils.windowIterator()) {
+          let y = parseInt(main.screenY + (main.outerHeight - options.height) / 2);
+          let x = parseInt(main.screenX + (main.outerWidth - options.width) / 2);
           window.moveTo(x, y);
           break;
         }
@@ -262,7 +262,7 @@ var delegate = {
   }
 };
 
-var winUtils = require('sdk/deprecated/window-utils');
+const winUtils = require('sdk/deprecated/window-utils');
 new winUtils.WindowTracker(delegate);
 
 mvelo.windows.BrowserWindow = function(id) {
@@ -275,7 +275,7 @@ mvelo.windows.BrowserWindow.prototype.activate = function() {
 
 mvelo.util = mvelo.util || {};
 
-var dompurifyWorker = require('sdk/page-worker').Page({
+let dompurifyWorker = require('sdk/page-worker').Page({
   contentScriptFile: [
     data.url('dep/purify.js'),
     data.url('dep/purifyAdapter.js')
@@ -283,7 +283,7 @@ var dompurifyWorker = require('sdk/page-worker').Page({
 });
 
 mvelo.util.parseHTML = function(html, callback) {
-  var message = {
+  let message = {
     data: html,
     response: mvelo.util.getHash()
   };
@@ -314,7 +314,7 @@ mvelo.util.getWorker = function() {
 mvelo.util.fetch = function(url, options) {
   options = options || {};
   return new Promise(resolve => {
-    var fetchRequ = request({
+    let fetchRequ = request({
       url,
       content: options.body,
       contentType: 'application/json',

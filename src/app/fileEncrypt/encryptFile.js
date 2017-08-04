@@ -15,39 +15,39 @@ import * as fileLib from '../../lib/file';
 
 import './encrypt.css';
 
-var numUploadsInProgress = 0;
-var recipients = [];
+let numUploadsInProgress = 0;
+let recipients = [];
 
-var $encryptPanels;
-var $encryptFileUploadPanel;
-var $encryptFileDownloadPanel;
-var $encryptPersonPanel;
-var $encryptFileUpload;
-var $encryptFileDownload;
-var $encryptToPersonBtn;
-var $encryptAddFileBtn;
-var $encryptToDownloadBtn;
-var $encryptDownloadAllBtn;
-var $encryptFileSelection;
+let $encryptPanels;
+let $encryptFileUploadPanel;
+let $encryptFileDownloadPanel;
+let $encryptPersonPanel;
+let $encryptFileUpload;
+let $encryptFileDownload;
+let $encryptToPersonBtn;
+let $encryptAddFileBtn;
+let $encryptToDownloadBtn;
+let $encryptDownloadAllBtn;
+let $encryptFileSelection;
 
-var $encryptKeyList;
-var $encryptKeySelect;
-var $encryptAddPersonBtn;
-var $encryptFileDownloadError;
+let $encryptKeyList;
+let $encryptKeySelect;
+let $encryptAddPersonBtn;
+let $encryptFileDownloadError;
 
-var isEncryptCached = false;
-var isDecryptCached = false;
+let isEncryptCached = false;
+let isDecryptCached = false;
 
-var $decryptPanels;
-var $decryptFileUploadPanel;
-var $decryptFileDownloadPanel;
-var $decryptFileSelection;
-var $decryptFileUpload;
-var $decryptAddFileBtn;
-var $decryptFileDownloadError;
-var $decryptToDownloadBtn;
-var $decryptDownloadAllBtn;
-var $decryptFileDownload;
+let $decryptPanels;
+let $decryptFileUploadPanel;
+let $decryptFileDownloadPanel;
+let $decryptFileSelection;
+let $decryptFileUpload;
+let $decryptAddFileBtn;
+let $decryptFileDownloadError;
+let $decryptToDownloadBtn;
+let $decryptDownloadAllBtn;
+let $decryptFileDownload;
 
 // Get language strings from JSON
 l10n.register([
@@ -250,7 +250,7 @@ function addEncryptInteractivity() {
   $encryptFileSelection = $('#encrypt_fileSelection');
   $encryptFileDownloadError = $('#encrypt_fileDownloadError');
 
-  var $waiting = $('.waiting', $encryptFileDownloadPanel).hide();
+  let $waiting = $('.waiting', $encryptFileDownloadPanel).hide();
   mvelo.util.addLoadingAnimation($waiting);
 
   $encryptFileUpload = $('#encrypt_fileUpload').change(onAddFile.bind(null, $encryptFileUploadPanel));
@@ -283,7 +283,7 @@ function addEncryptInteractivity() {
   });
   $encryptFileDownload = $('#encrypt_fileDownload');
 
-  var MAXFILEUPLOADSIZE = mvelo.crx ? mvelo.MAXFILEUPLOADSIZECHROME : mvelo.MAXFILEUPLOADSIZE;
+  let MAXFILEUPLOADSIZE = mvelo.crx ? mvelo.MAXFILEUPLOADSIZECHROME : mvelo.MAXFILEUPLOADSIZE;
   MAXFILEUPLOADSIZE = Math.ceil(MAXFILEUPLOADSIZE / 1024 / 1024);
 
   $encryptAddFileBtn.next()
@@ -308,7 +308,7 @@ function addDecryptInteractivity() {
   $decryptFileSelection = $('#decrypt_fileSelection');
   $decryptFileDownload = $('#decrypt_fileDownload');
 
-  var $waiting = $('.waiting', $decryptFileDownloadPanel).hide();
+  let $waiting = $('.waiting', $decryptFileDownloadPanel).hide();
   mvelo.util.addLoadingAnimation($waiting);
 
   $decryptFileUpload = $('#decrypt_fileUpload').on('change', onAddFile.bind(null, $decryptFileUploadPanel));
@@ -317,7 +317,7 @@ function addDecryptInteractivity() {
     $decryptFileUpload.click();
   });
 
-  var MAXFILEUPLOADSIZE = mvelo.crx ? mvelo.MAXFILEUPLOADSIZECHROME : mvelo.MAXFILEUPLOADSIZE;
+  let MAXFILEUPLOADSIZE = mvelo.crx ? mvelo.MAXFILEUPLOADSIZECHROME : mvelo.MAXFILEUPLOADSIZE;
   MAXFILEUPLOADSIZE = Math.ceil(MAXFILEUPLOADSIZE / 1024 / 1024);
 
   $decryptAddFileBtn.next()
@@ -353,7 +353,7 @@ function onDecryptFiles(e) {
     $decryptFileDownload.children().remove();
     hideError($decryptFileDownloadError);
     $('.waiting', $decryptFileDownloadPanel).show();
-    var encryptedFiles = fileLib.getFiles($decryptFileUploadPanel);
+    let encryptedFiles = fileLib.getFiles($decryptFileUploadPanel);
     decryptFiles(encryptedFiles)
     .catch(error => {
       showError(error.message, $decryptFileDownloadError);
@@ -371,7 +371,7 @@ function onDecryptFiles(e) {
 }
 
 function decryptFiles(encryptedFiles) {
-  var decryptProcesses = [];
+  let decryptProcesses = [];
   encryptedFiles.forEach(encryptedFile => {
     decryptProcesses.push(app.pgpModel('decryptFile', [encryptedFile])
     .then(file => {
@@ -399,8 +399,8 @@ function onEncryptFiles(e) {
     $encryptFileDownload.children().remove();
     hideError($encryptFileDownloadError);
     $('.waiting', $encryptFileDownloadPanel).show();
-    var plainFiles = fileLib.getFiles($encryptFileUploadPanel);
-    var receipients = getSelectedRecipients();
+    let plainFiles = fileLib.getFiles($encryptFileUploadPanel);
+    let receipients = getSelectedRecipients();
     encryptFiles(plainFiles, receipients)
     .then(() => {
       isEncryptCached = true;
@@ -419,7 +419,7 @@ function onEncryptFiles(e) {
 }
 
 function encryptFiles(plainFiles, receipients) {
-  var encryptProcesses = [];
+  let encryptProcesses = [];
   plainFiles.forEach(plainFile => {
     encryptProcesses.push(app.pgpModel('encryptFile', [plainFile, receipients])
     .then(armored => {
@@ -435,7 +435,7 @@ function encryptFiles(plainFiles, receipients) {
 }
 
 function getSelectedRecipients() {
-  var result = [];
+  let result = [];
   $encryptKeyList.find('.recipientButton').each(function() {
     result.push(recipients[parseInt($(this).data('index'))]);
   });
@@ -448,9 +448,9 @@ function getSelectedRecipients() {
  */
 function onAddRecipient(e) {
   e.preventDefault();
-  var $selected = $('option:selected', $encryptKeySelect);
-  var index = parseInt($selected.val());
-  var recipient = $.extend(recipients[index], {
+  let $selected = $('option:selected', $encryptKeySelect);
+  let index = parseInt($selected.val());
+  let recipient = $.extend(recipients[index], {
     index
   });
 
@@ -470,7 +470,7 @@ function onAddRecipient(e) {
 function onRemoveRecipient(e) {
   e.preventDefault();
 
-  var $this = $(this);
+  let $this = $(this);
   toggleSelectionInKeyList($this.data('index'), 'REMOVE');
 
   $this.parent().remove();
@@ -485,14 +485,14 @@ function onRemoveRecipient(e) {
  * @param {Event} evt
  */
 function onAddFile($filePanel, evt) {
-  var files = evt.target.files;
+  let files = evt.target.files;
 
-  var $fileUploadError = $filePanel.find('.fileUploadError');
+  let $fileUploadError = $filePanel.find('.fileUploadError');
 
   hideError($fileUploadError);
 
-  for (var i = 0; i < files.length; i++) {
-    var file = files[i];
+  for (let i = 0; i < files.length; i++) {
+    let file = files[i];
 
     if (fileLib.isOversize(file)) {
       showError(l10n.map.encrypt_upload_file_warning_too_big, $fileUploadError, true);
@@ -502,7 +502,7 @@ function onAddFile($filePanel, evt) {
     numUploadsInProgress++;
     fileLib.readUploadFile(file, afterLoadEnd.bind(null, $filePanel))
     .then(response => {
-      var $fileElement = fileLib.createFileElement(response, {
+      let $fileElement = fileLib.createFileElement(response, {
         removeButton: true,
         onRemove: onRemoveFile,
         secureIcon: $filePanel.attr('id') === 'decrypt_fileUploadPanel' ? true : false
@@ -551,8 +551,8 @@ function onRemoveFile() {
  */
 function addRecipientsToSelect(recipients) {
   $encryptKeySelect.empty();
-  for (var i = 0; i < recipients.length; i++) {
-    var $option = $('<option/>')
+  for (let i = 0; i < recipients.length; i++) {
+    let $option = $('<option/>')
     .val(i)
     .text(`${recipients[i].userid} - ${recipients[i].keyid.toUpperCase()}`);
     $encryptKeySelect.append($option);
@@ -563,7 +563,7 @@ function addRecipientsToSelect(recipients) {
  * @param {File} file
  */
 function addFileToDownload(file, $panel, options) {
-  var $fileDownloadElement = fileLib.createFileDownloadElement(file, options);
+  let $fileDownloadElement = fileLib.createFileDownloadElement(file, options);
   $panel.append($fileDownloadElement);
 }
 
@@ -575,14 +575,14 @@ function addFileToDownload(file, $panel, options) {
  * @returns {*|jQuery|HTMLElement}
  */
 function getRecipientButton(recipient) {
-  var $button = getRemoveForRecipientButton({
+  let $button = getRemoveForRecipientButton({
     "title": l10n.map.editor_remove_upload,
     "data-index": recipient.index,
     "class": 'glyphicon glyphicon-remove btn-remove'
   });
 
-  var $icon = getIconForRecipientButton();
-  var $content = getContentForRecipientButton({
+  let $icon = getIconForRecipientButton();
+  let $content = getContentForRecipientButton({
     name: recipient.name,
     email: recipient.email
   });
@@ -632,14 +632,14 @@ function getRemoveForRecipientButton(options) {
  * @param {String} status
  */
 function toggleSelectionInKeyList(index, status) {
-  var $options = $encryptKeySelect.children();
+  let $options = $encryptKeySelect.children();
 
   if (status === 'ADD') {
     $($options[index]).prop('disabled', true);
 
-    for (var i = 0; i < recipients.length; i++) {
-      var pos = (i + index) % recipients.length;
-      var $option = (index + 1 === recipients.length) ? $($options[0]) : $($options[pos + 1]);
+    for (let i = 0; i < recipients.length; i++) {
+      let pos = (i + index) % recipients.length;
+      let $option = (index + 1 === recipients.length) ? $($options[0]) : $($options[pos + 1]);
 
       if ($option.prop('disabled') === false) {
         $option.prop('selected', true);

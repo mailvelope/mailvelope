@@ -43,7 +43,7 @@ export default class DecryptFrame extends ExtractFrame {
       frameBorder: 0,
       scrolling: 'no'
     });
-    var url;
+    let url;
     if (mvelo.crx) {
       url = mvelo.extension.getURL(`components/decrypt-inline/decryptInline.html?id=${this.id}`);
     } else if (mvelo.ffa) {

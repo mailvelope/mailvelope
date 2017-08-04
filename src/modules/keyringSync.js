@@ -75,7 +75,7 @@ export class KeyringSync {
     if (!this.data) {
       return;
     }
-    for (var fingerprint in update) {
+    for (let fingerprint in update) {
       if (!this.data.changeLog[fingerprint] || (this.data.changeLog[fingerprint].time < update[fingerprint].time)) {
         this.data.changeLog[fingerprint] = update[fingerprint];
       }
@@ -83,8 +83,8 @@ export class KeyringSync {
   }
 
   getDeleteEntries() {
-    var result = [];
-    for (var fingerprint in this.data.changeLog) {
+    let result = [];
+    for (let fingerprint in this.data.changeLog) {
       if (this.data.changeLog[fingerprint].type === DELETE) {
         result.push(fingerprint);
       }

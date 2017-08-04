@@ -38,14 +38,13 @@ export class SyncController extends sub.SubController {
    * @param {String} [options.password] - password for options.key
    */
   triggerSync(options) {
-    var that = this;
     options = options || {};
     if (this.syncRunning) {
       this.repeatSync = options;
       return;
     }
     this.modified = this.keyring.sync.data.modified;
-    var primKey = this.keyring.getPrimaryKey();
+    let primKey = this.keyring.getPrimaryKey();
     if (!options.key) {
       // if no key provided we take the primary key
       if (primKey) {
@@ -67,32 +66,32 @@ export class SyncController extends sub.SubController {
     this.keyring.sync.data.modified = false;
     this.downloadSyncMessage(options)
     .then(() => {
-      if (!that.modified) {
+      if (!this.modified) {
         return;
       }
-      if (that.canUnlockKey('sign', options)) {
-        return that.uploadSyncMessage(options);
+      if (this.canUnlockKey('sign', options)) {
+        return this.uploadSyncMessage(options);
       }
       // upload didn't happen, reset modified flag
-      that.keyring.sync.data.modified = true;
+      this.keyring.sync.data.modified = true;
     })
-    .then(() => that.keyring.sync.save())
+    .then(() => this.keyring.sync.save())
     .then(() => {
-      that.checkRepeat();
+      this.checkRepeat();
     })
     .catch(err => {
       console.log('Sync error', err);
-      if (that.modified || that.keyring.sync.data.modified) {
-        that.keyring.sync.data.modified = true;
+      if (this.modified || this.keyring.sync.data.modified) {
+        this.keyring.sync.data.modified = true;
       }
-      that.checkRepeat();
+      this.checkRepeat();
     });
   }
 
   checkRepeat() {
     this.syncRunning = false;
     if (this.repeatSync) {
-      var repeat = this.repeatSync;
+      let repeat = this.repeatSync;
       this.repeatSync = null;
       this.triggerSync(repeat);
     }
@@ -160,9 +159,8 @@ export class SyncController extends sub.SubController {
   }
 
   uploadSyncMessage(options) {
-    var that = this;
     // if key is in cache, specific unlock of sign key packet might be required
-    var keyOptions = {
+    let keyOptions = {
       key: options.key,
       password: options.password,
       keyid: options.key.getSigningKeyPacket().getKeyId().toHex(),
@@ -174,12 +172,12 @@ export class SyncController extends sub.SubController {
     return this.pwdControl.unlockKey(keyOptions)
     .then(message =>
       // encrypt keyring sync message
-      encryptSyncMessage(message.key, that.keyring.sync.data.changeLog, that.keyringId)
+      encryptSyncMessage(message.key, this.keyring.sync.data.changeLog, this.keyringId)
     )
     // upload
-    .then(armored => that.upload({eTag: that.keyring.sync.data.eTag, keyringMsg: armored}))
+    .then(armored => this.upload({eTag: this.keyring.sync.data.eTag, keyringMsg: armored}))
     .then(result => {
-      that.keyring.sync.data.eTag = result.eTag;
+      this.keyring.sync.data.eTag = result.eTag;
     });
   }
 
@@ -196,11 +194,11 @@ export class SyncController extends sub.SubController {
       // key can always be unlocked with password
       return true;
     }
-    var isKeyCached = isCached(options.key.primaryKey.getKeyId().toHex());
+    let isKeyCached = isCached(options.key.primaryKey.getKeyId().toHex());
     if (isKeyCached) {
       return true;
     }
-    var keyPacket;
+    let keyPacket;
     if (operation === 'sign') {
       keyPacket = options.key.getSigningKeyPacket();
       return keyPacket && keyPacket.isDecrypted;
@@ -211,16 +209,19 @@ export class SyncController extends sub.SubController {
   }
 
   sync(type, data) {
-    var that = this;
     return new Promise((resolve, reject) => {
-      var id = mvelo.util.getHash();
-      that.ports.syncHandler.postMessage({
+      const id = mvelo.util.getHash();
+      const timeout = mvelo.util.setTimeout(() => {
+        delete this.syncDoneHandler[id];
+        reject(new Error('Sync timeout'));
+      }, this.TIMEOUT * 1000);
+      this.ports.syncHandler.postMessage({
         event: 'sync-event',
         type,
         data,
         id
       });
-      that.syncDoneHandler[id] = function(err, data) {
+      this.syncDoneHandler[id] = (err, data) => {
         if (timeout) {
           mvelo.util.clearTimeout(timeout);
         }
@@ -230,10 +231,6 @@ export class SyncController extends sub.SubController {
           resolve(data);
         }
       };
-      var timeout = mvelo.util.setTimeout(() => {
-        delete that.syncDoneHandler[id];
-        reject(new Error('Sync timeout'));
-      }, that.TIMEOUT * 1000);
     });
   }
 
@@ -287,7 +284,7 @@ export function getByKeyring(keyringId) {
  * @param {String} [options.password] - password for options.key
  */
 export function triggerSync(options) {
-  var syncCtrl = getByKeyring(options.keyringId);
+  let syncCtrl = getByKeyring(options.keyringId);
   if (syncCtrl) {
     mvelo.util.setTimeout(() => {
       syncCtrl.triggerSync(options);

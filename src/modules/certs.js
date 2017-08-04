@@ -2,7 +2,7 @@
 'use strict';
 
 
-export var c1und1 =
+export const c1und1 =
   ['-----BEGIN PGP PUBLIC KEY BLOCK-----',
     'Version: GnuPG v2',
     '',

@@ -13,18 +13,18 @@ import * as certs from './certs';
 const keyMap = new Map();
 
 export function init() {
-  var key = openpgp.key.readArmored(certs.c1und1).keys[0];
+  let key = openpgp.key.readArmored(certs.c1und1).keys[0];
   keyMap.set('gmx.net', key);
   keyMap.set('web.de', key);
 }
 
 export function getTrustKey(keyringId) {
-  var domain = keyringId.split(mvelo.KEYRING_DELIMITER)[0];
+  let domain = keyringId.split(mvelo.KEYRING_DELIMITER)[0];
   return keyMap.get(domain);
 }
 
 export function isKeyPseudoRevoked(keyringId, key) {
-  var trustKey = getTrustKey(keyringId);
+  let trustKey = getTrustKey(keyringId);
   if (!trustKey) {
     return false;
   }

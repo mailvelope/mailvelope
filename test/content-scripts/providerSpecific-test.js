@@ -3,7 +3,7 @@ import * as providers from '../../src/content-scripts/providerSpecific';
 
 
 describe('Provider specific content-script unit tests', () => {
-  var testElem;
+  let testElem;
 
   beforeEach(() => {
     testElem = $('<div id="testElem"></div>');
@@ -26,18 +26,18 @@ describe('Provider specific content-script unit tests', () => {
     });
 
     it('should return default module for generic case', () => {
-      var api = providers.get('mail.some-generic-provider.com');
+      let api = providers.get('mail.some-generic-provider.com');
       expect(api.constructor.name === 'Default').to.be.true;
     });
 
     it('should return Gmail module', () => {
-      var api = providers.get('mail.google.com');
+      let api = providers.get('mail.google.com');
       expect(api.constructor.name === 'Gmail').to.be.true;
     });
   });
 
   describe('Default module', () => {
-    var defMod;
+    let defMod;
 
     beforeEach(() => {
       providers.init();
@@ -73,7 +73,7 @@ describe('Provider specific content-script unit tests', () => {
   });
 
   describe('Gmail module', () => {
-    var gmail;
+    let gmail;
 
     beforeEach(() => {
       providers.init();
@@ -111,7 +111,7 @@ describe('Provider specific content-script unit tests', () => {
       });
 
       it('should clear email address text input', () => {
-        var toSet = [{name: 'Test 1', email: 'test1@example.com'}, {name: 'Test 2', email: 'test2@example.com'}];
+        let toSet = [{name: 'Test 1', email: 'test1@example.com'}, {name: 'Test 2', email: 'test2@example.com'}];
 
         $('.fX .vO').val('test1@example.com');
 
@@ -121,7 +121,7 @@ describe('Provider specific content-script unit tests', () => {
       });
 
       it('should trigger click event on email remove buttons', done => {
-        var toSet = [{name: 'Test 1', email: 'test1@example.com'}, {name: 'Test 2', email: 'test2@example.com'}];
+        let toSet = [{name: 'Test 1', email: 'test1@example.com'}, {name: 'Test 2', email: 'test2@example.com'}];
 
         $('.fX .vR .vM').on('click', () => {
           done();
@@ -131,7 +131,7 @@ describe('Provider specific content-script unit tests', () => {
       });
 
       it('should set joined email addresses to input field', done => {
-        var toSet = [{name: 'Test 1', email: 'test1@example.com'}, {name: 'Test 2', email: 'test2@example.com'}];
+        let toSet = [{name: 'Test 1', email: 'test1@example.com'}, {name: 'Test 2', email: 'test2@example.com'}];
 
         gmail.setRecipients({recipients: toSet});
 
@@ -150,7 +150,7 @@ describe('Provider specific content-script unit tests', () => {
       });
 
       it('should not inject script', () => {
-        var toSet = [{email: '<script>alert("xss")</script>'}];
+        let toSet = [{email: '<script>alert("xss")</script>'}];
 
         gmail.setRecipients({recipients: toSet});
         return gmail.getRecipients()

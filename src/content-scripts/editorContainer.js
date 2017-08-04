@@ -28,8 +28,8 @@ export default class EditorContainer {
     this.done = done;
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');
-    var url;
-    var quota = '';
+    let url;
+    let quota = '';
     if (this.options.quota) {
       quota = `&quota=${this.options.quota}`;
     }
@@ -70,14 +70,14 @@ export default class EditorContainer {
 
   checkInProgress() {
     if (this.encryptCallback || this.createDraftCallback) {
-      var error = new Error('Encyption already in progress.');
+      let error = new Error('Encyption already in progress.');
       error.code = 'ENCRYPT_IN_PROGRESS';
       throw error;
     }
   }
 
   processOptions() {
-    var error;
+    let error;
     if (this.options.quotedMail && getMessageType(this.options.quotedMail) !== mvelo.PGP_MESSAGE ||
         this.options.armoredDraft && getMessageType(this.options.armoredDraft) !== mvelo.PGP_MESSAGE) {
       error = new Error('quotedMail or armoredDraft parameter need to be a PGP message.');

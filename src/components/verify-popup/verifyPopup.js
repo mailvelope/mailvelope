@@ -17,21 +17,21 @@
 
 'use strict';
 
-var mvelo = mvelo || null;
+var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
   // communication to background page
-  var port;
+  let port;
   // shares ID with VerifyFrame
-  var id;
+  let id;
   // type + id
-  var name;
+  let name;
   // dialogs
-  var sandbox;
-  var l10n;
+  let sandbox;
+  let l10n;
 
   function init() {
-    var qs = jQuery.parseQuerystring();
+    let qs = jQuery.parseQuerystring();
     id = qs.id;
     name = `vDialog-${id}`;
     // open port to background page
@@ -61,7 +61,7 @@ var mvelo = mvelo || null;
   }
 
   function addSecuritySettingsButton() {
-    var securitySettingsBtn = $('<div data-l10n-title-id="security_background_button_title" class="pull-right"><span class="glyphicon lockBtnIcon"></span></div>');
+    let securitySettingsBtn = $('<div data-l10n-title-id="security_background_button_title" class="pull-right"><span class="glyphicon lockBtnIcon"></span></div>');
     $('.modal-body .header').append(securitySettingsBtn);
   }
 
@@ -79,8 +79,8 @@ var mvelo = mvelo || null;
   function onCopy() {
     logUserInput('security_log_content_copy');
     // copy to clipboard
-    var doc = sandbox.contents().get(0);
-    var sel = doc.defaultView.getSelection();
+    let doc = sandbox.contents().get(0);
+    let sel = doc.defaultView.getSelection();
     sel.selectAllChildren(sandbox.contents().find('#content').get(0));
     doc.execCommand('copy');
     sel.removeAllRanges();
@@ -91,16 +91,16 @@ var mvelo = mvelo || null;
       sandbox: 'allow-same-origin allow-popups',
       frameBorder: 0
     });
-    var header = $('<header/>');
-    var content = $('<div/>', {
+    let header = $('<header/>');
+    let content = $('<div/>', {
       id: 'content'
     }).append(header);
-    var style = $('<link/>', {
+    let style = $('<link/>', {
       rel: 'stylesheet',
       href: '../../dep/bootstrap/css/bootstrap.css'
     });
-    var style3 = style.clone().attr('href', '../../components/verify-popup/verifyPopupSig.css');
-    var meta = $('<meta/>', {charset: 'UTF-8'});
+    let style3 = style.clone().attr('href', '../../components/verify-popup/verifyPopupSig.css');
+    let meta = $('<meta/>', {charset: 'UTF-8'});
     sandbox.one('load', () => {
       sandbox.contents().find('head').append(meta)
       .append(style)
@@ -111,7 +111,7 @@ var mvelo = mvelo || null;
   }
 
   function addErrorView() {
-    var errorbox = $('<div/>', {id: 'errorbox'});
+    let errorbox = $('<div/>', {id: 'errorbox'});
     $('<div/>', {id: 'errorwell', class: 'well'}).appendTo(errorbox);
     $('.modal-body .content').append(errorbox);
   }
@@ -141,16 +141,16 @@ var mvelo = mvelo || null;
     // remove spinner for all events
     $('body').removeClass('spinner');
     switch (msg.event) {
-      case 'verified-message':
+      case 'verified-message': {
         // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
-        var message = msg.message.replace(/\n/g, '<br>');
-        var node = sandbox.contents();
-        var header = node.find('header');
+        let message = msg.message.replace(/\n/g, '<br>');
+        const node = sandbox.contents();
+        const header = node.find('header');
         msg.signers.forEach(signer => {
-          var type;
-          var userid;
-          var message = $('<span/>');
-          var keyid = $('<span/>');
+          let type;
+          let userid;
+          const message = $('<span/>');
+          const keyid = $('<span/>');
           keyid.text(`(${l10n.dialog_keyid_label} ${signer.keyid.toUpperCase()})`);
           if (signer.userid) {
             userid = $('<strong/>');
@@ -171,6 +171,7 @@ var mvelo = mvelo || null;
         message = $.parseHTML(message);
         node.find('#content').append(message);
         break;
+      }
       case 'error-message':
         showError(msg.error);
         break;

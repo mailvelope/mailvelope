@@ -86,16 +86,16 @@ export default class EditorController extends sub.SubController {
   _onEditorContainerEncrypt(msg) {
     this.pgpMIME = true;
     this.keyringId = msg.keyringId;
-    var keyIdMap = getKeyringById(this.keyringId).getKeyIdByAddress(msg.recipients, {validity: true});
+    let keyIdMap = getKeyringById(this.keyringId).getKeyIdByAddress(msg.recipients, {validity: true});
     if (Object.keys(keyIdMap).some(keyId => keyIdMap[keyId] === false)) {
-      var error = {
+      let error = {
         message: 'No valid encryption key for recipient address',
         code: 'NO_KEY_FOR_RECIPIENT'
       };
       this.emit('error-message', {error}, this.ports.editorCont);
       return;
     }
-    var keyIds = [];
+    let keyIds = [];
     msg.recipients.forEach(recipient => {
       keyIds = keyIds.concat(keyIdMap[recipient]);
     });
@@ -114,11 +114,11 @@ export default class EditorController extends sub.SubController {
     this.signMsg = true;
     this.keyringId = msg.keyringId;
     this.options.reason = 'PWD_DIALOG_REASON_CREATE_DRAFT';
-    var primary = getKeyringById(this.keyringId).getPrimaryKey();
+    let primary = getKeyringById(this.keyringId).getPrimaryKey();
     if (primary) {
       this.keyidBuffer = [primary.keyid.toLowerCase()];
     } else {
-      var error = {
+      let error = {
         message: 'No private key found for creating draft.',
         code: 'NO_KEY_FOR_ENCRYPTION'
       };
@@ -134,7 +134,7 @@ export default class EditorController extends sub.SubController {
     this.signMsg = msg.options.signMsg;
     let primaryKey = getKeyringById(this.keyringId).getPrimaryKey();
     let primaryKeyId = primaryKey && primaryKey.keyid.toUpperCase() || '';
-    var data = {
+    let data = {
       signMsg: this.signMsg,
       primary: primaryKeyId
     };
@@ -154,7 +154,7 @@ export default class EditorController extends sub.SubController {
 
   _onSignOnly(msg) {
     this.signBuffer = {};
-    var key = getKeyringById(mvelo.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
+    let key = getKeyringById(mvelo.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
     // add key in buffer
     this.signBuffer.key = key.key;
     this.signBuffer.keyid = msg.signKeyId;
@@ -228,13 +228,13 @@ export default class EditorController extends sub.SubController {
    */
   displayRecipientProposal(recipients) {
     // deduplicate email addresses
-    var emails = (recipients || []).map(recipient => recipient.email);
+    let emails = (recipients || []).map(recipient => recipient.email);
     emails = mvelo.util.deDup(emails); // just dedup, dont change order of user input
     recipients = emails.map(e => ({email: e}));
     // get all public keys in the local keyring
-    var localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
-    var keys = localKeyring.getKeyUserIDs({allUsers: true});
-    var tofu = this.keyserver.getTOFUPreference();
+    let localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
+    let keys = localKeyring.getKeyUserIDs({allUsers: true});
+    let tofu = this.keyserver.getTOFUPreference();
     this.emit('public-key-userids', {keys, recipients, tofu});
   }
 
@@ -249,14 +249,14 @@ export default class EditorController extends sub.SubController {
    */
   buildMail(message, attachments) {
     //var t0 = Date.now();
-    var mainMessage = new mailbuild("multipart/mixed");
-    var composedMessage = null;
-    var hasAttachment;
-    var quotaSize = 0;
+    let mainMessage = new mailbuild("multipart/mixed");
+    let composedMessage = null;
+    let hasAttachment;
+    let quotaSize = 0;
 
     if (message) {
       quotaSize += mvelo.util.byteCount(message);
-      var textMime = new mailbuild("text/plain")
+      let textMime = new mailbuild("text/plain")
       .setHeader("Content-Type", "text/plain; charset=utf-8")
       .addHeader("Content-Transfer-Encoding", "quoted-printable")
       .setContent(message);
@@ -266,7 +266,7 @@ export default class EditorController extends sub.SubController {
       hasAttachment = true;
       attachments.forEach(attachment => {
         quotaSize += attachment.size;
-        var attachmentMime = new mailbuild("text/plain")
+        let attachmentMime = new mailbuild("text/plain")
         .createChild(false, {filename: attachment.name})
           //.setHeader("Content-Type", attachment.type + "; charset=utf-8")
         .addHeader("Content-Transfer-Encoding", "base64")
@@ -277,7 +277,7 @@ export default class EditorController extends sub.SubController {
     }
 
     if (this.options.quota && (quotaSize > this.options.quota)) {
-      var error = {
+      let error = {
         code: 'ENCRYPT_QUOTA_SIZE',
         message: 'Mail content exceeds quota limit.'
       };
@@ -299,13 +299,12 @@ export default class EditorController extends sub.SubController {
   }
 
   scheduleDecrypt(armored) {
-    var that = this;
     if (armored.length > 400000) {
       // show spinner for large messages
       this.emit('decrypt-in-progress', null, this.ports.editor);
     }
     mvelo.util.setTimeout(() => {
-      that.decryptArmored(armored);
+      this.decryptArmored(armored);
     }, 50);
   }
 
@@ -314,40 +313,42 @@ export default class EditorController extends sub.SubController {
    * @returns {undefined}
    */
   decryptArmored(armored) {
-    var that = this;
-    var decryptCtrl = new DecryptController();
+    let decryptCtrl = new DecryptController();
     decryptCtrl.keyringId = this.keyringId;
     model.readMessage({armoredText: armored, keyringId: this.keyringId})
-    .then(message => decryptCtrl.prepareKey(message, !that.editorPopup))
+    .then(message => decryptCtrl.prepareKey(message, !this.editorPopup))
     .then(message => {
       message.options = message.options || {};
-      message.options.selfSigned = Boolean(that.options.armoredDraft);
+      message.options.selfSigned = Boolean(this.options.armoredDraft);
       return decryptCtrl.decryptMessage(message);
     })
     .then(content => {
-      var handlers = {
+      const options = this.options;
+      const emit = this.emit.bind(this);
+      const ports = this.ports;
+      let handlers = {
         onMessage(msg) {
-          if (that.options.quotedMailIndent) {
+          if (options.quotedMailIndent) {
             msg = msg.replace(/^(.|\n)/gm, '> $&');
           }
-          if (that.options.quotedMailHeader) {
-            msg = `> ${that.options.quotedMailHeader}\n${msg}`;
+          if (options.quotedMailHeader) {
+            msg = `> ${options.quotedMailHeader}\n${msg}`;
           }
-          if (that.options.quotedMailIndent || that.options.quotedMailHeader) {
+          if (options.quotedMailIndent || options.quotedMailHeader) {
             msg = `\n\n${msg}`;
           }
-          if (that.options.predefinedText) {
-            msg = `${msg}\n\n${that.options.predefinedText}`;
+          if (options.predefinedText) {
+            msg = `${msg}\n\n${options.predefinedText}`;
           }
-          that.emit('set-text', {text: msg}, that.ports.editor);
+          emit('set-text', {text: msg}, ports.editor);
         },
         onAttachment(part) {
-          if (that.options.keepAttachments) {
-            that.emit('set-attachment', {attachment: part}, that.ports.editor);
+          if (options.keepAttachments) {
+            emit('set-attachment', {attachment: part}, ports.editor);
           }
         }
       };
-      if (that.options.armoredDraft) {
+      if (this.options.armoredDraft) {
         if (!(content.signatures && content.signatures[0].valid)) {
           throw {message: 'Restoring of the draft failed due to invalid signature.'};
         }
@@ -355,11 +356,11 @@ export default class EditorController extends sub.SubController {
       return decryptCtrl.parseMessage(content.text, handlers, 'text');
     })
     .then(() => {
-      that.emit('decrypt-end', null, that.ports.editor);
+      this.emit('decrypt-end', null, this.ports.editor);
     })
     .catch(error => {
       error = mvelo.util.mapError(error);
-      that.emit('decrypt-failed', {error}, that.ports.editor);
+      this.emit('decrypt-failed', {error}, this.ports.editor);
     });
   }
 
@@ -464,7 +465,7 @@ export default class EditorController extends sub.SubController {
     if (this.ports.editorCont) {
       this.emit('encrypted-message', {message: options.armored}, this.ports.editorCont);
     } else {
-      var recipients = (options.keys || []).map(k => ({name: k.name, email: k.email}));
+      let recipients = (options.keys || []).map(k => ({name: k.name, email: k.email}));
       this.encryptCallback(null, options.armored, recipients);
     }
   }
@@ -524,13 +525,13 @@ export default class EditorController extends sub.SubController {
     return Promise.resolve()
     .then(() => {
       if (options.action === 'encrypt') {
-        var data = this.buildMail(options.message, options.attachments);
+        let data = this.buildMail(options.message, options.attachments);
 
         if (data === null) {
           mvelo.util.throwError('MIME building failed.');
         }
 
-        var keyIdsHex = this.getPublicKeyIds(options.keys);
+        let keyIdsHex = this.getPublicKeyIds(options.keys);
         if (this.signMsg || options.signMsg) {
           return this.signAndEncryptMessage({
             message: data,
@@ -557,7 +558,7 @@ export default class EditorController extends sub.SubController {
    * @return {Array}        A collection of all key ids to encrypt to
    */
   getPublicKeyIds(keys) {
-    var keyIdsHex;
+    let keyIdsHex;
     // prefer keyidBuffer
     if (this.keyidBuffer) {
       keyIdsHex = this.keyidBuffer;
@@ -565,8 +566,8 @@ export default class EditorController extends sub.SubController {
       keyIdsHex = keys.map(key => key.keyid);
       // get the sender key id
       if (prefs.general.auto_add_primary) {
-        var localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
-        var primary = localKeyring.getPrimaryKey();
+        let localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
+        let primary = localKeyring.getPrimaryKey();
         if (primary) {
           keyIdsHex.push(primary.keyid.toLowerCase());
         }

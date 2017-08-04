@@ -25,7 +25,6 @@ export default class DecryptController extends sub.SubController {
   }
 
   handlePortMessage(msg) {
-    var that = this;
     switch (msg.event) {
       // done
       case 'decrypt-dialog-cancel':
@@ -41,7 +40,7 @@ export default class DecryptController extends sub.SubController {
             this.ports.decryptCont.postMessage({event: 'error-message', error: 'modal-active'});
           }
         } else {
-          var port = this.ports.dFrame || this.ports.decryptCont;
+          let port = this.ports.dFrame || this.ports.decryptCont;
           // get armored message
           port.postMessage({event: 'get-armored'});
         }
@@ -53,7 +52,7 @@ export default class DecryptController extends sub.SubController {
           this.ports.dFrame.postMessage({event: 'remove-dialog'});
         } else {
           mvelo.windows.openPopup(`components/decrypt-popup/decryptPopup.html?id=${this.id}`, {width: 742, height: 550, modal: true}, window => {
-            that.decryptPopup = window;
+            this.decryptPopup = window;
           });
         }
         break;
@@ -87,45 +86,45 @@ export default class DecryptController extends sub.SubController {
   }
 
   decrypt(armored, keyringId) {
-    var that = this;
     model.readMessage({armoredText: armored, keyringId})
-    .then(message => that.prepareKey(message))
+    .then(message => this.prepareKey(message))
     .then(message => {
       triggerSync(message);
-      return that.decryptMessage(message);
+      return this.decryptMessage(message);
     })
     .then(content => {
-      var handlers = {
+      let ports = this.ports;
+      let handlers = {
         noEvent: true,
         onMessage(msg) {
           this.noEvent = false;
-          that.ports.dDialog.postMessage({event: 'decrypted-message', message: msg});
+          ports.dDialog.postMessage({event: 'decrypted-message', message: msg});
         },
         onAttachment(part) {
           this.noEvent = false;
-          that.ports.dDialog.postMessage({event: 'add-decrypted-attachment', message: part});
+          ports.dDialog.postMessage({event: 'add-decrypted-attachment', message: part});
         }
       };
-      if (that.ports.dDialog && content.signatures) {
-        that.ports.dDialog.postMessage({event: 'signature-verification', signers: content.signatures, isContainer: that.isContainer});
+      if (this.ports.dDialog && content.signatures) {
+        this.ports.dDialog.postMessage({event: 'signature-verification', signers: content.signatures, isContainer: this.isContainer});
       }
-      return that.parseMessage(content.text, handlers, 'html');
+      return this.parseMessage(content.text, handlers, 'html');
     })
     .then(() => {
-      if (that.ports.decryptCont) {
-        that.ports.decryptCont.postMessage({event: 'decrypt-done'});
+      if (this.ports.decryptCont) {
+        this.ports.decryptCont.postMessage({event: 'decrypt-done'});
       }
     })
     .catch(error => {
       if (error.code === 'PWD_DIALOG_CANCEL') {
-        if (that.ports.dFrame) {
-          return that.dialogCancel();
+        if (this.ports.dFrame) {
+          return this.dialogCancel();
         }
       }
-      if (that.ports.dDialog) {
-        that.ports.dDialog.postMessage({event: 'error-message', error: error.message});
+      if (this.ports.dDialog) {
+        this.ports.dDialog.postMessage({event: 'error-message', error: error.message});
       }
-      if (that.ports.decryptCont) {
+      if (this.ports.decryptCont) {
         error = error || {};
         switch (error.code) {
           case 'ARMOR_PARSE_ERROR':
@@ -140,7 +139,7 @@ export default class DecryptController extends sub.SubController {
               message: 'Generic decrypt error'
             };
         }
-        that.ports.decryptCont.postMessage({event: 'error-message', error});
+        this.ports.decryptCont.postMessage({event: 'error-message', error});
       }
     })
     .then(() => {
@@ -160,10 +159,9 @@ export default class DecryptController extends sub.SubController {
   }
 
   decryptMessage(message) {
-    var that = this;
     return new Promise((resolve, reject) => {
-      message.options = message.options || that.options;
-      model.decryptMessage(message, that.keyringId, (err, content) => {
+      message.options = message.options || this.options;
+      model.decryptMessage(message, this.keyringId, (err, content) => {
         if (err) {
           return reject(err);
         }
@@ -174,13 +172,12 @@ export default class DecryptController extends sub.SubController {
 
   // attribution: https://github.com/whiteout-io/mail-html5
   filterBodyParts(bodyParts, type, result) {
-    var that = this;
     result = result || [];
     bodyParts.forEach(part => {
       if (part.type === type) {
         result.push(part);
       } else if (Array.isArray(part.content)) {
-        that.filterBodyParts(part.content, type, result);
+        this.filterBodyParts(part.content, type, result);
       }
     });
     return result;
@@ -198,39 +195,38 @@ export default class DecryptController extends sub.SubController {
   }
 
   parseMIME(rawText, handlers, encoding) {
-    var that = this;
     return new Promise(resolve => {
       // mailreader expects rawText in pseudo-binary
       rawText = unescape(encodeURIComponent(rawText));
       mailreader.parse([{raw: rawText}], parsed => {
         if (parsed && parsed.length > 0) {
-          var htmlParts = [];
-          var textParts = [];
+          let htmlParts = [];
+          let textParts = [];
           if (encoding === 'html') {
-            that.filterBodyParts(parsed, 'html', htmlParts);
+            this.filterBodyParts(parsed, 'html', htmlParts);
             if (htmlParts.length) {
               mvelo.util.parseHTML(htmlParts.map(part => part.content).join('\n<hr>\n'), sanitized => {
                 handlers.onMessage(sanitized);
               });
             } else {
-              that.filterBodyParts(parsed, 'text', textParts);
+              this.filterBodyParts(parsed, 'text', textParts);
               if (textParts.length) {
                 handlers.onMessage(textParts.map(part => mvelo.util.text2html(part.content)).join('<hr>'));
               }
             }
           } else if (encoding === 'text') {
-            that.filterBodyParts(parsed, 'text', textParts);
+            this.filterBodyParts(parsed, 'text', textParts);
             if (textParts.length) {
               handlers.onMessage(textParts.map(part => part.content).join('\n\n'));
             } else {
-              that.filterBodyParts(parsed, 'html', htmlParts);
+              this.filterBodyParts(parsed, 'html', htmlParts);
               if (htmlParts.length) {
                 handlers.onMessage(htmlParts.map(part => mvelo.util.html2text(part.content)).join('\n\n'));
               }
             }
           }
-          var attachmentParts = [];
-          that.filterBodyParts(parsed, 'attachment', attachmentParts);
+          let attachmentParts = [];
+          this.filterBodyParts(parsed, 'attachment', attachmentParts);
           attachmentParts.forEach(part => {
             part.filename = mvelo.util.encodeHTML(part.filename);
             part.content = mvelo.util.ab2str(part.content.buffer);

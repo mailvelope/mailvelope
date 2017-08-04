@@ -89,17 +89,17 @@ class Gmail {
    */
   setRecipients({recipients = []}) {
     // find the relevant elements in the Gmail interface
-    var displayArea = $('.aoD.hl'); // email display only area
-    var tagRemove = $('.fX .vR .vM'); // email tags remove button
-    var input = $('.fX .vO'); // the actual recipient email address text input (a textarea)
-    var subject = $('.aoT'); // subject field
-    var editor = $('.aO7 .Am'); // editor
+    let displayArea = $('.aoD.hl'); // email display only area
+    let tagRemove = $('.fX .vR .vM'); // email tags remove button
+    let input = $('.fX .vO'); // the actual recipient email address text input (a textarea)
+    let subject = $('.aoT'); // subject field
+    let editor = $('.aO7 .Am'); // editor
     input.val('');
     dom.setFocus(displayArea)
     .then(() => {
       tagRemove.click();
       // enter address text into input
-      var text = joinEmail(recipients);
+      let text = joinEmail(recipients);
       input.first().val(text);
     })
     .then(() => {
@@ -138,8 +138,8 @@ class Yahoo {
     // remove existing recipients
     $('.compose-header li.hLozenge').remove();
     // enter address text into input
-    var text = joinEmail(recipients);
-    var input = $('.compose-header #to .recipient-input input');
+    let text = joinEmail(recipients);
+    let input = $('.compose-header #to .recipient-input input');
     input.val(text);
     // trigger change event by switching focus
     dom.setFocus(input)
@@ -238,7 +238,7 @@ class Outlook {
 const IS_EMAIL = /^[+a-zA-Z0-9_.!#$%&'*\/=?^`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,63}$/;
 const HAS_EMAIL = /[+a-zA-Z0-9_.!#$%&'*\/=?^`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,63}/;
 
-var dom = {};
+const dom = {};
 
 /**
  * Filter the text content of a list of elements for email addresses.
@@ -248,7 +248,7 @@ var dom = {};
 dom.getText = function(elements) {
   return parseEmail(elements, element => {
     // consider only direct text nodes of elements
-    var clone = element.clone();
+    let clone = element.clone();
     clone.children().remove();
     return clone.text();
   });
@@ -288,7 +288,7 @@ dom.focusClick = element => dom.setFocus(element).then(() => element.click());
  * @return {Array}              The recipient objects in fhe form { email: 'jon@example.com' }
  */
 function parseEmail(elements, extract) {
-  var emails = [];
+  let emails = [];
   elements.each(function() {
     const value = extract($(this));
     if (IS_EMAIL.test(value)) {

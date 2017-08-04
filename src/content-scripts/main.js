@@ -68,8 +68,8 @@ function init(preferences, watchlist) {
 
 function detectHost() {
   clientApiActive = watchList.some(site => site.active && site.frames && site.frames.some(frame => {
-    var hostRegex = mvelo.util.matchPattern2RegEx(frame.frame);
-    var validHost = hostRegex.test(window.location.hostname);
+    let hostRegex = mvelo.util.matchPattern2RegEx(frame.frame);
+    let validHost = hostRegex.test(window.location.hostname);
     if (frame.scan && validHost) {
       // host = match pattern without *. prefix
       host = frame.frame.replace(/^\*\./, '');
@@ -104,12 +104,12 @@ function off() {
 
 function scanLoop() {
   // find armored PGP text
-  var pgpTag = findPGPTag(PGP_FOOTER);
+  let pgpTag = findPGPTag(PGP_FOOTER);
   if (pgpTag.length !== 0) {
     attachExtractFrame(pgpTag);
   }
   // find editable content
-  var editable = findEditable();
+  let editable = findEditable();
   if (editable.length !== 0) {
     attachEncryptFrame(editable);
   }
@@ -120,7 +120,7 @@ function scanLoop() {
  * @return $([nodes])
  */
 function findPGPTag() {
-  var treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+  let treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
     acceptNode(node) {
       if (node.parentNode.tagName !== 'SCRIPT' && PGP_FOOTER.test(node.textContent)) {
         return NodeFilter.FILTER_ACCEPT;
@@ -130,7 +130,7 @@ function findPGPTag() {
     }
   }, false);
 
-  var nodeList = [];
+  let nodeList = [];
 
   while (treeWalker.nextNode()) {
     nodeList.push(treeWalker.currentNode);
@@ -138,7 +138,7 @@ function findPGPTag() {
 
   // filter out hidden elements
   nodeList = $(nodeList).filter(function() {
-    var element = $(this);
+    let element = $(this);
     // visibility check does not work on text nodes
     return element.parent().is(':visible') &&
       // no elements within editable elements
@@ -151,11 +151,11 @@ function findPGPTag() {
 
 function findEditable() {
   // find textareas and elements with contenteditable attribute, filter out <body>
-  var editable = $('[contenteditable], textarea').filter(':visible').not('body');
-  var iframes = $('iframe').filter(':visible');
+  let editable = $('[contenteditable], textarea').filter(':visible').not('body');
+  let iframes = $('iframe').filter(':visible');
   // find dynamically created iframes where src is not set
-  var dynFrames = iframes.filter(function() {
-    var src = $(this).attr('src');
+  let dynFrames = iframes.filter(function() {
+    let src = $(this).attr('src');
     return src === undefined ||
            src === '' ||
            /^javascript.*/.test(src) ||
@@ -163,7 +163,7 @@ function findEditable() {
   });
   // find editable elements inside dynamic iframe (content script is not injected here)
   dynFrames.each(function() {
-    var content = $(this).contents();
+    let content = $(this).contents();
     // set event handler for contextmenu
     content.find('body')//.off("contextmenu").on("contextmenu", onContextMenu)
     // mark body as 'inside iframe'
@@ -176,18 +176,18 @@ function findEditable() {
       editable = editable.add($(this));
     } else {
       // editable elements inside iframe
-      var editblElem = content.find('[contenteditable], textarea').filter(':visible');
+      let editblElem = content.find('[contenteditable], textarea').filter(':visible');
       editable = editable.add(editblElem);
     }
   });
   // find iframes from same origin with a contenteditable body (content script is injected, but encrypt frame needs to be attached to outer iframe)
-  var anchor = $('<a/>');
-  var editableBody = iframes.not(dynFrames).filter(function() {
-    var frame = $(this);
+  let anchor = $('<a/>');
+  let editableBody = iframes.not(dynFrames).filter(function() {
+    let frame = $(this);
     // only for iframes from same host
     if (anchor.attr('href', frame.attr('src')).prop('hostname') === document.location.hostname) {
       try {
-        var content = frame.contents();
+        let content = frame.contents();
         if (content.attr('designMode') === 'on' || content.find('body[contenteditable]').length !== 0) {
           // set event handler for contextmenu
           //content.find('body').off("contextmenu").on("contextmenu", onContextMenu);
@@ -224,27 +224,30 @@ export function getMessageType(armored) {
 
 function attachExtractFrame(element) {
   // check status of PGP tags
-  var newObj = element.filter(function() {
+  let newObj = element.filter(function() {
     return !isAttached($(this).parent());
   });
   // create new decrypt frames for new discovered PGP tags
   newObj.each((index, element) => {
     try {
       // parent element of text node
-      var pgpEnd = $(element).parent();
+      let pgpEnd = $(element).parent();
       switch (getMessageType(pgpEnd.text())) {
-        case mvelo.PGP_MESSAGE:
-          var dFrame = new DecryptFrame();
+        case mvelo.PGP_MESSAGE: {
+          const dFrame = new DecryptFrame();
           dFrame.attachTo(pgpEnd);
           break;
-        case mvelo.PGP_SIGNATURE:
-          var vFrame = new VerifyFrame();
+        }
+        case mvelo.PGP_SIGNATURE: {
+          const vFrame = new VerifyFrame();
           vFrame.attachTo(pgpEnd);
           break;
-        case mvelo.PGP_PUBLIC_KEY:
-          var imFrame = new ImportFrame();
+        }
+        case mvelo.PGP_PUBLIC_KEY: {
+          const imFrame = new ImportFrame();
           imFrame.attachTo(pgpEnd);
           break;
+        }
       }
     } catch (e) {}
   });
@@ -257,7 +260,7 @@ function attachExtractFrame(element) {
  */
 function attachEncryptFrame(element, expanded) {
   // check status of elements
-  var newObj = element.filter(function() {
+  let newObj = element.filter(function() {
     if (expanded) {
       // filter out only attached frames
       if (element.data(mvelo.FRAME_STATUS) === mvelo.FRAME_ATTACHED) {
@@ -274,7 +277,7 @@ function attachEncryptFrame(element, expanded) {
   });
   // create new encrypt frames for new discovered editable fields
   newObj.each((index, element) => {
-    var eFrame = new EncryptFrame();
+    let eFrame = new EncryptFrame();
     eFrame.attachTo($(element), {expanded});
   });
 }
@@ -322,7 +325,7 @@ function addMessageListener() {
 }
 
 function isAttached(element) {
-  var status = element.data(mvelo.FRAME_STATUS);
+  let status = element.data(mvelo.FRAME_STATUS);
   switch (status) {
     case mvelo.FRAME_ATTACHED:
     case mvelo.FRAME_DETACHED:

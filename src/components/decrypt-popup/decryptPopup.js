@@ -17,21 +17,21 @@
 
 'use strict';
 
-var mvelo = mvelo || null;
+var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
   // communication to background page
-  var port;
+  let port;
   // shares ID with DecryptFrame
-  var id;
+  let id;
   // type + id
-  var name;
+  let name;
   // dialogs
-  var pwd;
+  let pwd;
   let decryptComponent;
 
   function init() {
-    var qs = jQuery.parseQuerystring();
+    let qs = jQuery.parseQuerystring();
     id = qs.id;
     name = `dPopup-${id}`;
     // open port to background page
@@ -61,8 +61,8 @@ var mvelo = mvelo || null;
 
   function onCopy() {
     // copy to clipboard
-    var doc = decryptComponent.contents().find('#decryptmail').contents().get(0);
-    var sel = doc.defaultView.getSelection();
+    let doc = decryptComponent.contents().find('#decryptmail').contents().get(0);
+    let sel = doc.defaultView.getSelection();
     sel.selectAllChildren($(doc).find('#content').get(0));
     doc.execCommand('copy');
     sel.removeAllRanges();

@@ -34,40 +34,40 @@ import * as fileLib from '../../lib/file';
 
 
 // component id
-export var id;
+export let id;
 // component name
-export var name;
+export let name;
 // plain or rich text
-var editor_type = mvelo.PLAIN_TEXT; // only plain
+let editor_type = mvelo.PLAIN_TEXT; // only plain
 // port to background script
-var port;
+let port;
 // indicator if editor runs in container or popup
-export var embedded;
+export let embedded;
 // editor element
-var editor;
+let editor;
 // blur warning
-var blurWarn;
+let blurWarn;
 // timeoutID for period in which blur events are monitored
-var blurWarnPeriod = null;
+let blurWarnPeriod = null;
 // timeoutID for period in which blur events are non-critical
-var blurValid = null;
+let blurValid = null;
 // buffer for initial text
-var initText = null;
+let initText = null;
 // platform specific path to extension
-var basePath;
+let basePath;
 // flag to control time slice for input logging
-var logTextareaInput = true;
+let logTextareaInput = true;
 // flag to monitor upload-in-progress status
-var numUploadsInProgress = 0;
+let numUploadsInProgress = 0;
 // buffer for UI action
-var delayedAction = '';
+let delayedAction = '';
 // initial bottom position of body
 let modalBodyBottomPosition = 0;
 // attachment max file size
-var maxFileUploadSize = mvelo.MAXFILEUPLOADSIZE;
-var maxFileUploadSizeChrome = mvelo.MAXFILEUPLOADSIZECHROME; // temporal fix due issue in Chrome
+let maxFileUploadSize = mvelo.MAXFILEUPLOADSIZE;
+let maxFileUploadSizeChrome = mvelo.MAXFILEUPLOADSIZECHROME; // temporal fix due issue in Chrome
 // user interaction on editor
-var hasUserInput = false;
+let hasUserInput = false;
 
 // properties used to render the footer component
 let footerProps = {
@@ -199,7 +199,7 @@ function registerEventListeners() {
  * Load templates into the DOM.
  */
 function loadTemplates() {
-  var $body = $('body');
+  let $body = $('body');
   if (embedded) {
     $body.addClass("secureBackground");
     return Promise.all([
@@ -351,7 +351,7 @@ function onSetAttachment(msg) {
 }
 
 function decryptFailed(msg) {
-  var error = {
+  let error = {
     title: l10n.map.waiting_dialog_decryption_failed,
     message: (msg.error) ? msg.error.message : l10n.map.waiting_dialog_decryption_failed,
     class: 'alert alert-danger'
@@ -405,12 +405,12 @@ function addAttachment(file) {
 
   fileLib.readUploadFile(file, afterLoadEnd)
   .then(response => {
-    var $fileElement = fileLib.createFileElement(response, {
+    let $fileElement = fileLib.createFileElement(response, {
       removeButton: true,
       onRemove: onRemoveAttachment
     });
-    var $uploadPanel = $('#uploadPanel');
-    var uploadPanelHeight = $uploadPanel[0].scrollHeight;
+    let $uploadPanel = $('#uploadPanel');
+    let uploadPanelHeight = $uploadPanel[0].scrollHeight;
     $uploadPanel
     .append($fileElement)
     .scrollTop(uploadPanelHeight); //Append attachment element and scroll to bottom of #uploadPanel to show current uploads
@@ -429,26 +429,26 @@ function afterLoadEnd() {
 }
 
 function setAttachment(attachment) {
-  var buffer = mvelo.util.str2ab(attachment.content);
-  var blob = new Blob([buffer], {type: attachment.mimeType});
-  var file = new File([blob], attachment.filename, {type: attachment.mimeType});
+  let buffer = mvelo.util.str2ab(attachment.content);
+  let blob = new Blob([buffer], {type: attachment.mimeType});
+  let file = new File([blob], attachment.filename, {type: attachment.mimeType});
   numUploadsInProgress++;
   addAttachment(file);
 }
 
 function onAddAttachment(evt) {
-  var files = evt.target.files;
-  var numFiles = files.length;
+  let files = evt.target.files;
+  let numFiles = files.length;
 
-  var i;
-  var fileSizeAll = 0;
+  let i;
+  let fileSizeAll = 0;
   for (i = 0; i < numFiles; i++) {
     fileSizeAll += parseInt(files[i].size);
   }
 
-  var currentAttachmentsSize = fileLib.getFileSize($('#uploadPanel')) + fileSizeAll;
+  let currentAttachmentsSize = fileLib.getFileSize($('#uploadPanel')) + fileSizeAll;
   if (currentAttachmentsSize > maxFileUploadSize) {
-    var error = {
+    let error = {
       title: l10n.map.upload_quota_warning_headline,
       message: `${l10n.map.upload_quota_exceeded_warning} ${Math.floor(maxFileUploadSize / (1024 * 1024))}MB.`
     };
@@ -468,14 +468,14 @@ function onRemoveAttachment() {
 }
 
 function createPlainText() {
-  var sandbox = $('<iframe/>', {
+  let sandbox = $('<iframe/>', {
     sandbox: 'allow-same-origin allow-scripts',
     frameBorder: 0,
     css: {
       'overflow-y': 'hidden'
     }
   });
-  var text = $('<textarea/>', {
+  let text = $('<textarea/>', {
     id: 'content',
     class: 'form-control',
     rows: 12,
@@ -487,9 +487,9 @@ function createPlainText() {
       'resize':        'none'
     }
   });
-  var style = $('<link/>', {rel: 'stylesheet', href: `${basePath}dep/bootstrap/css/bootstrap.css`});
-  var style2 = $('<link/>', {rel: 'stylesheet', href: `${basePath}mvelo.css`});
-  var meta = $('<meta/>', {charset: 'UTF-8'});
+  let style = $('<link/>', {rel: 'stylesheet', href: `${basePath}dep/bootstrap/css/bootstrap.css`});
+  let style2 = $('<link/>', {rel: 'stylesheet', href: `${basePath}mvelo.css`});
+  let meta = $('<meta/>', {charset: 'UTF-8'});
   sandbox.one('load', () => {
     sandbox.contents().find('head').append(meta)
     .append(style)
@@ -511,7 +511,7 @@ function createPlainText() {
   });
   text.on('blur', onBlur);
   text.on('mouseup', () => {
-    var textElement = text.get(0);
+    let textElement = text.get(0);
     if (textElement.selectionStart === textElement.selectionEnd) {
       logUserInput('security_log_textarea_click');
     } else {
@@ -593,7 +593,7 @@ function startBlurValid() {
 }
 
 function addPwdDialog(id) {
-  var pwd = $('<iframe/>', {
+  let pwd = $('<iframe/>', {
     id: 'pwdDialog',
     src: `../enter-password/pwdDialog.html?id=${id}`,
     frameBorder: 0
@@ -610,9 +610,9 @@ function addPwdDialog(id) {
  * @param {String} [error.class]
  */
 function showErrorModal(error) {
-  var title = error.title || l10n.map.editor_error_header;
-  var content = error.message;
-  var $errorModal = $('#errorModal');
+  let title = error.title || l10n.map.editor_error_header;
+  let content = error.message;
+  let $errorModal = $('#errorModal');
 
   if (content) {
     content = $('<div/>').addClass(error.class || 'alert alert-danger').text(content);

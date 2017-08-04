@@ -34,8 +34,8 @@ export default class OptionsContainer {
     this.done = done;
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');
-    var url;
-    var options = `krid=${encodeURIComponent(this.keyringId)}${this.email}${this.fullName}#/keyring/${this.hasPrivateKey ? 'display' : 'setup'}`;
+    let url;
+    let options = `krid=${encodeURIComponent(this.keyringId)}${this.email}${this.fullName}#/keyring/${this.hasPrivateKey ? 'display' : 'setup'}`;
     if (mvelo.crx) {
       url = mvelo.extension.getURL(`app/app.html?${options}`);
     } else if (mvelo.ffa) {

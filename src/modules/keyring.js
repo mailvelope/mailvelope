@@ -54,7 +54,7 @@ export function createKeyring(keyringId, options) {
       keyringAttr = {};
     }
     if (keyringAttr[keyringId]) {
-      var error = new Error(`Keyring for id ${keyringId} already exists.`);
+      let error = new Error(`Keyring for id ${keyringId} already exists.`);
       error.code = 'KEYRING_ALREADY_EXISTS';
       throw error;
     }
@@ -88,11 +88,11 @@ export function deleteKeyring(keyringId) {
   return Promise.resolve()
   .then(() => {
     if (!keyringAttr[keyringId]) {
-      var error = new Error(`Keyring for id ${keyringId} does not exist.`);
+      let error = new Error(`Keyring for id ${keyringId} does not exist.`);
       error.code = 'NO_KEYRING_FOR_ID';
       throw error;
     }
-    var keyRng = keyringMap.get(keyringId);
+    let keyRng = keyringMap.get(keyringId);
     keyRng.keyring.clear();
     return keyRng.keyring.storeHandler.remove();
   })
@@ -104,19 +104,19 @@ export function deleteKeyring(keyringId) {
 }
 
 export function getById(keyringId) {
-  var keyring = keyringMap.get(keyringId);
+  let keyring = keyringMap.get(keyringId);
   if (keyring) {
     return keyring;
   } else {
-    var error = new Error('No keyring found for this identifier.');
+    let error = new Error('No keyring found for this identifier.');
     error.code = 'NO_KEYRING_FOR_ID';
     throw error;
   }
 }
 
 export function getAll() {
-  var result = [];
-  for (var keyringId in keyringAttr) {
+  let result = [];
+  for (let keyringId in keyringAttr) {
     if (keyringAttr.hasOwnProperty(keyringId)) {
       result.push(keyringMap.get(keyringId));
     }
@@ -154,14 +154,14 @@ export function getKeyringAttr(keyringId, attr) {
  */
 export function getUserId(key, validityCheck) {
   validityCheck = typeof validityCheck === 'undefined' ? true : false;
-  var primaryUser = key.getPrimaryUser();
+  let primaryUser = key.getPrimaryUser();
   if (primaryUser) {
     return primaryUser.user.userId.userid;
   } else {
     // there is no valid user id on this key
     if (!validityCheck) {
       // take first available user ID
-      for (var i = 0; i < key.users.length; i++) {
+      for (let i = 0; i < key.users.length; i++) {
         if (key.users[i].userId) {
           return key.users[i].userId.userid;
         }
@@ -172,8 +172,8 @@ export function getUserId(key, validityCheck) {
 }
 
 export function getAllKeyUserId() {
-  var allKeyrings = getAll();
-  var result = [];
+  let allKeyrings = getAll();
+  let result = [];
   allKeyrings.forEach(keyring => {
     result = result.concat(keyring.getKeyUserIDs().map(key => {
       key.keyringId = keyring.id;
@@ -188,7 +188,7 @@ export function getAllKeyUserId() {
 }
 
 export function readKey(armored) {
-  var parsedKey = openpgp.key.readArmored(armored);
+  let parsedKey = openpgp.key.readArmored(armored);
   if (parsedKey.err) {
     return parsedKey;
   }
@@ -197,8 +197,8 @@ export function readKey(armored) {
 }
 
 export function cloneKey(key) {
-  var binary = key.toPacketlist().write();
-  var packetList = new openpgp.packet.List();
+  let binary = key.toPacketlist().write();
+  let packetList = new openpgp.packet.List();
   packetList.read(binary);
   return new openpgp.key.Key(packetList);
 }
@@ -212,10 +212,10 @@ export class Keyring {
 
   getKeys() {
     // map keys to UI format
-    var keys = this.getPublicKeys().concat(this.getPrivateKeys());
+    let keys = this.getPublicKeys().concat(this.getPrivateKeys());
     // sort by key type and name
     keys = keys.sort((a, b) => {
-      var compType = a.type.localeCompare(b.type);
+      let compType = a.type.localeCompare(b.type);
       if (compType === 0) {
         return a.name.localeCompare(b.name);
       } else {
@@ -243,11 +243,11 @@ export class Keyring {
   }
 
   getKeyDetails(fingerprint) {
-    var details = {};
+    let details = {};
     fingerprint = fingerprint.toLowerCase();
-    var keys = this.keyring.getKeysForId(fingerprint);
+    let keys = this.keyring.getKeysForId(fingerprint);
     if (keys) {
-      var key = keys[0];
+      let key = keys[0];
       // subkeys
       mapSubKeys(key.subKeys, details);
       // users
@@ -267,19 +267,18 @@ export class Keyring {
    * @return {Array<Object>} list of key meta data objects
    */
   getKeyUserIDs(options) {
-    var that = this;
     options = options || {};
-    var result = [];
+    let result = [];
     this.keyring.getAllKeys().forEach(key => {
       if (key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
-          trustKey.isKeyPseudoRevoked(that.id, key)) {
+          trustKey.isKeyPseudoRevoked(this.id, key)) {
         return;
       }
-      var user;
-      var keyid = key.primaryKey.getKeyId().toHex();
+      let user;
+      let keyid = key.primaryKey.getKeyId().toHex();
       if (options.allUsers) {
         // consider all user ids of key
-        var users = [];
+        let users = [];
         key.users.forEach(keyUser => {
           if (keyUser.userId && keyUser.verify(key.primaryKey) === openpgp.enums.keyStatus.valid) {
             user = {};
@@ -289,7 +288,7 @@ export class Keyring {
             if (users.some(existingUser => existingUser.userid === user.userid)) {
               return;
             }
-            that._mapKeyUserIds(user);
+            this._mapKeyUserIds(user);
             // check for valid email address
             if (!user.email) {
               return;
@@ -303,7 +302,7 @@ export class Keyring {
         user = {};
         user.keyid = keyid;
         user.userid = getUserId(key);
-        that._mapKeyUserIds(user);
+        this._mapKeyUserIds(user);
         result.push(user);
       }
     });
@@ -314,7 +313,7 @@ export class Keyring {
 
   _mapKeyUserIds(user) {
     try {
-      var emailAddress = goog.format.EmailAddress.parse(user.userid);
+      let emailAddress = goog.format.EmailAddress.parse(user.userid);
       if (emailAddress.isValid()) {
         user.email = emailAddress.getAddress();
       } else {
@@ -329,8 +328,8 @@ export class Keyring {
   }
 
   getKeyIdByAddress(emailAddr, options) {
-    var addressMap = this.getKeyByAddress(emailAddr, options);
-    for (var address in addressMap) {
+    let addressMap = this.getKeyByAddress(emailAddr, options);
+    for (let address in addressMap) {
       addressMap[address] = addressMap[address] && addressMap[address].map(key => {
         if (options.fingerprint) {
           return key.primaryKey.getFingerprint();
@@ -342,27 +341,26 @@ export class Keyring {
   }
 
   getKeyByAddress(emailAddr, options) {
-    var that = this;
     if (typeof options.pub === 'undefined') {
       options.pub = true;
     }
     if (typeof options.priv === 'undefined') {
       options.priv = true;
     }
-    var result = Object.create(null);
+    let result = Object.create(null);
     emailAddr.forEach(emailAddr => {
       result[emailAddr] = [];
       if (options.pub) {
-        result[emailAddr] = result[emailAddr].concat(that.keyring.publicKeys.getForAddress(emailAddr));
+        result[emailAddr] = result[emailAddr].concat(this.keyring.publicKeys.getForAddress(emailAddr));
       }
       if (options.priv) {
-        result[emailAddr] = result[emailAddr].concat(that.keyring.privateKeys.getForAddress(emailAddr));
+        result[emailAddr] = result[emailAddr].concat(this.keyring.privateKeys.getForAddress(emailAddr));
       }
       result[emailAddr] = result[emailAddr].filter(key => {
         if (options.validity && (
           key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
             key.getEncryptionKeyPacket() === null) ||
-            trustKey.isKeyPseudoRevoked(that.id, key)) {
+            trustKey.isKeyPseudoRevoked(this.id, key)) {
           return;
         }
         return true;
@@ -371,7 +369,7 @@ export class Keyring {
         result[emailAddr] = false;
       } else if (options.sort) {
         // sort by key creation date and primary key status
-        var primaryKeyId = that.getAttributes().primary_key;
+        let primaryKeyId = this.getAttributes().primary_key;
         result[emailAddr].sort((a, b) => {
           if (primaryKeyId) {
             primaryKeyId = primaryKeyId.toLowerCase();
@@ -390,19 +388,18 @@ export class Keyring {
   }
 
   getArmoredKeys(keyids, options) {
-    var that = this;
-    var result = [];
-    var keys = null;
+    let result = [];
+    let keys = null;
     if (options.all) {
       keys = this.keyring.getAllKeys();
     } else {
       keys = keyids.map(keyid => {
         keyid = keyid.toLowerCase();
-        return that.keyring.getKeysForId(keyid)[0];
+        return this.keyring.getKeysForId(keyid)[0];
       });
     }
     keys.forEach(key => {
-      var armored = {};
+      let armored = {};
       if (options.pub) {
         armored.armoredPublic = key.toPublic().armor();
       }
@@ -456,7 +453,7 @@ export class Keyring {
   }
 
   importKeys(armoredKeys) {
-    var result = [];
+    let result = [];
     return Promise.resolve()
     .then(() => {
       // sort, public keys first
@@ -493,9 +490,8 @@ export class Keyring {
   }
 
   importPublicKey(armored) {
-    var that = this;
-    var result = [];
-    var imported = openpgp.key.readArmored(armored);
+    let result = [];
+    let imported = openpgp.key.readArmored(armored);
     if (imported.err) {
       imported.err.forEach(error => {
         console.log('Error on key.readArmored', error);
@@ -507,10 +503,10 @@ export class Keyring {
     }
     imported.keys.forEach(pubKey => {
       // check for existing keys
-      checkKeyId(pubKey, that.keyring);
-      var fingerprint = pubKey.primaryKey.getFingerprint();
-      var key = that.keyring.getKeysForId(fingerprint);
-      var keyid = pubKey.primaryKey.getKeyId().toHex().toUpperCase();
+      checkKeyId(pubKey, this.keyring);
+      let fingerprint = pubKey.primaryKey.getFingerprint();
+      let key = this.keyring.getKeysForId(fingerprint);
+      let keyid = pubKey.primaryKey.getKeyId().toHex().toUpperCase();
       if (key) {
         key = key[0];
         key.update(pubKey);
@@ -518,23 +514,22 @@ export class Keyring {
           type: 'success',
           message: l10n('key_import_public_update', [keyid, getUserId(pubKey)])
         });
-        that.sync.add(fingerprint, keyringSync.UPDATE);
+        this.sync.add(fingerprint, keyringSync.UPDATE);
       } else {
-        that.keyring.publicKeys.push(pubKey);
+        this.keyring.publicKeys.push(pubKey);
         result.push({
           type: 'success',
           message: l10n('key_import_public_success', [keyid, getUserId(pubKey)])
         });
-        that.sync.add(fingerprint, keyringSync.INSERT);
+        this.sync.add(fingerprint, keyringSync.INSERT);
       }
     });
     return result;
   }
 
   importPrivateKey(armored) {
-    var that = this;
-    var result = [];
-    var imported = openpgp.key.readArmored(armored);
+    let result = [];
+    let imported = openpgp.key.readArmored(armored);
     if (imported.err) {
       imported.err.forEach(error => {
         console.log('Error on key.readArmored', error);
@@ -546,36 +541,36 @@ export class Keyring {
     }
     imported.keys.forEach(privKey => {
       // check for existing keys
-      checkKeyId(privKey, that.keyring);
-      var fingerprint = privKey.primaryKey.getFingerprint();
-      var key = that.keyring.getKeysForId(fingerprint);
-      var keyid = privKey.primaryKey.getKeyId().toHex().toUpperCase();
+      checkKeyId(privKey, this.keyring);
+      let fingerprint = privKey.primaryKey.getFingerprint();
+      let key = this.keyring.getKeysForId(fingerprint);
+      let keyid = privKey.primaryKey.getKeyId().toHex().toUpperCase();
       if (key) {
         key = key[0];
         if (key.isPublic()) {
           privKey.update(key);
-          that.keyring.publicKeys.removeForId(fingerprint);
-          that.keyring.privateKeys.push(privKey);
+          this.keyring.publicKeys.removeForId(fingerprint);
+          this.keyring.privateKeys.push(privKey);
           result.push({
             type: 'success',
             message: l10n('key_import_private_exists', [keyid, getUserId(privKey)])
           });
-          that.sync.add(fingerprint, keyringSync.UPDATE);
+          this.sync.add(fingerprint, keyringSync.UPDATE);
         } else {
           key.update(privKey);
           result.push({
             type: 'success',
             message: l10n('key_import_private_update', [keyid, getUserId(privKey)])
           });
-          that.sync.add(fingerprint, keyringSync.UPDATE);
+          this.sync.add(fingerprint, keyringSync.UPDATE);
         }
       } else {
-        that.keyring.privateKeys.push(privKey);
+        this.keyring.privateKeys.push(privKey);
         result.push({
           type: 'success',
           message: l10n('key_import_private_success', [keyid, getUserId(privKey)])
         });
-        that.sync.add(fingerprint, keyringSync.INSERT);
+        this.sync.add(fingerprint, keyringSync.INSERT);
       }
     });
     return result;
@@ -658,7 +653,7 @@ export class Keyring {
   }
 
   getKeyForSigning(keyIdHex) {
-    var key = this.keyring.privateKeys.getForId(keyIdHex);
+    let key = this.keyring.privateKeys.getForId(keyIdHex);
     if (!key) {
       return null;
     }
@@ -675,9 +670,9 @@ export class Keyring {
 }
 
 export function mapKeys(keys) {
-  var result = [];
+  let result = [];
   keys.forEach(key => {
-    var uiKey = {};
+    let uiKey = {};
     if (key.isPublic()) {
       uiKey.type = 'public';
     } else {
@@ -694,7 +689,7 @@ export function mapKeys(keys) {
     // primary user
     try {
       uiKey.userId = getUserId(key, false);
-      var address = goog.format.EmailAddress.parse(uiKey.userId);
+      let address = goog.format.EmailAddress.parse(uiKey.userId);
       uiKey.name = address.getName();
       uiKey.email = address.getAddress();
       uiKey.exDate = key.getExpirationTime();
@@ -718,7 +713,7 @@ export function mapKeys(keys) {
 }
 
 function getAlgorithmString(keyType) {
-  var result = '';
+  let result = '';
   switch (keyType) {
     case 'rsa_encrypt_sign':
       result = "RSA (Encrypt or Sign)";
@@ -762,7 +757,7 @@ function mapSubKeys(subkeys, toKey) {
   toKey.subkeys = [];
   subkeys && subkeys.forEach(subkey => {
     try {
-      var skey = {};
+      let skey = {};
       skey.crDate = subkey.subKey.created.toISOString();
       skey.exDate = subkey.getExpirationTime();
       if (skey.exDate) {
@@ -785,25 +780,25 @@ function mapUsers(users, toKey, keyring, primaryKey) {
   toKey.users = [];
   users && users.forEach(user => {
     try {
-      var uiUser = {};
+      let uiUser = {};
       uiUser.userID = user.userId.userid;
       uiUser.signatures = [];
       user.selfCertifications && user.selfCertifications.forEach(selfCert => {
         if (!user.isValidSelfCertificate(primaryKey, selfCert)) {
           return;
         }
-        var sig = {};
+        let sig = {};
         sig.signer = user.userId.userid;
         sig.id = selfCert.issuerKeyId.toHex().toUpperCase();
         sig.crDate = selfCert.created.toISOString();
         uiUser.signatures.push(sig);
       });
       user.otherCertifications && user.otherCertifications.forEach(otherCert => {
-        var sig = {};
-        var keyidHex = otherCert.issuerKeyId.toHex();
-        var issuerKeys = keyring.getKeysForId(keyidHex);
+        let sig = {};
+        let keyidHex = otherCert.issuerKeyId.toHex();
+        let issuerKeys = keyring.getKeysForId(keyidHex);
         if (issuerKeys) {
-          var signingKeyPacket = issuerKeys[0].getKeyPacket([otherCert.issuerKeyId]);
+          let signingKeyPacket = issuerKeys[0].getKeyPacket([otherCert.issuerKeyId]);
           if (signingKeyPacket && (otherCert.verified || otherCert.verify(signingKeyPacket, {userid: user.userId, key: primaryKey}))) {
             sig.signer = getUserId(issuerKeys[0]);
           } else {
@@ -825,8 +820,8 @@ function mapUsers(users, toKey, keyring, primaryKey) {
 }
 
 function checkKeyId(sourceKey, keyring) {
-  var primKeyId = sourceKey.primaryKey.getKeyId();
-  var keys = keyring.getKeysForId(primKeyId.toHex(), true);
+  let primKeyId = sourceKey.primaryKey.getKeyId();
+  let keys = keyring.getKeysForId(primKeyId.toHex(), true);
   if (keys) {
     keys.forEach(key => {
       if (!key.primaryKey.getKeyId().equals(primKeyId)) {
@@ -835,8 +830,8 @@ function checkKeyId(sourceKey, keyring) {
     });
   }
   sourceKey.getSubkeyPackets().forEach(subKey => {
-    var subKeyId = subKey.getKeyId();
-    var keys = keyring.getKeysForId(subKeyId.toHex(), true);
+    let subKeyId = subKey.getKeyId();
+    let keys = keyring.getKeysForId(subKeyId.toHex(), true);
     if (keys) {
       keys.forEach(key => {
         if (key.primaryKey.getKeyId().equals(subKeyId)) {

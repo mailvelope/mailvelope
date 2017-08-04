@@ -17,21 +17,21 @@
 
 'use strict';
 
-var mvelo = require('./lib/lib-mvelo');
-var controller = require('../controller/main.controller');
+let mvelo = require('./lib/lib-mvelo');
+let controller = require('../controller/main.controller');
 
 // inject content script only once per time slot
-var injectTimeSlot = 600;
+let injectTimeSlot = 600;
 // injection time slot currently open
-var injectOpen = true;
+let injectOpen = true;
 // optimized cs injection variant, bootstrap code injected that loads cs
-var injectOptimized = true;
+let injectOptimized = true;
 // keep reloaded iframes
-var frameHosts = [];
+let frameHosts = [];
 // content script coding as string
-var csCode = '';
+let csCode = '';
 // framestyles as string
-var framestyles = '';
+let framestyles = '';
 
 function init() {
   controller.extend({
@@ -105,7 +105,7 @@ function loadFramestyles() {
   if (framestyles === '') {
     return mvelo.data.load('content-scripts/framestyles.css').then(data => {
       framestyles = data;
-      var token = /\.\.\//g;
+      let token = /\.\.\//g;
       framestyles = framestyles.replace(token, chrome.runtime.getURL(''));
     });
   }
@@ -119,8 +119,8 @@ function initScriptInjection() {
   .then(filterURL => filterURL.map(host => `*://${host}/*`))
   .then(filterURL => injectOpenTabs(filterURL))
   .then(filterURL => {
-    var filterType = ["main_frame", "sub_frame"];
-    var requestFilter = {
+    let filterType = ["main_frame", "sub_frame"];
+    let requestFilter = {
       urls: filterURL,
       types: filterType
     };
@@ -178,7 +178,7 @@ function watchListRequestHandler(details) {
 }
 
 function csBootstrap() {
-  var bootstrapSrc =
+  let bootstrapSrc =
   ` \
     if (!window.mveloBootstrap) { \
       var hosts = ${JSON.stringify(frameHosts)}; \

@@ -9,11 +9,11 @@
 import mvelo from 'lib-mvelo';
 
 export function randomString(length) {
-  var result = '';
-  var base = 32;
-  var buf = new Uint8Array(length);
+  let result = '';
+  let base = 32;
+  let buf = new Uint8Array(length);
   mvelo.util.getDOMWindow().crypto.getRandomValues(buf);
-  for (var i = 0; i < buf.length; i++) {
+  for (let i = 0; i < buf.length; i++) {
     result += (buf[i] % base).toString(base);
   }
   return result;

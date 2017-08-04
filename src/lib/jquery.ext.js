@@ -4,8 +4,8 @@
 // https://gist.github.com/1101534
 $.extend({
   parseQuerystring() {
-    var nvpair = {};
-    var qs;
+    let nvpair = {};
+    let qs;
     if (window.location.search) {
       qs = window.location.search.replace('?', '');
     } else {
@@ -15,9 +15,9 @@ $.extend({
       }
     }
     if (qs !== undefined) {
-      var pairs = qs.split('&');
+      let pairs = qs.split('&');
       $.each(pairs, (i, v) => {
-        var pair = v.split('=');
+        let pair = v.split('=');
         nvpair[pair[0]] = decodeURIComponent(pair[1]);
       });
     }
@@ -27,8 +27,8 @@ $.extend({
 
 $.extend({
   setEqualWidth(first, other) {
-    var width = first.width();
-    var otherWidth = other.width();
+    let width = first.width();
+    let otherWidth = other.width();
     if (width > otherWidth) {
       other.width(width);
     } else if (width < otherWidth) {
@@ -43,7 +43,7 @@ $.fn.showAlert = function(heading, message, type, keep) {
   if (keep === undefined || keep === false) {
     this.empty();
   }
-  var row = $('<div/>').appendTo(this);
+  let row = $('<div/>').appendTo(this);
   if (heading) {
     heading = `${heading} `;
     $('<strong/>').appendTo(row).text(heading);

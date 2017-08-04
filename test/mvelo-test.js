@@ -39,9 +39,9 @@ describe('mvelo unit tests', () => {
   });
 
   describe('Port message event handling', () => {
-    var ctrl;
-    var port1;
-    var port2;
+    let ctrl;
+    let port1;
+    let port2;
 
     beforeEach(() => {
       ctrl = new mvelo.EventHandler();

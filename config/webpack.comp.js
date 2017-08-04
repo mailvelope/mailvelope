@@ -1,8 +1,8 @@
 
 'use strict';
 
-var path = require('path');
-var common = require('./webpack.common');
+let path = require('path');
+let common = require('./webpack.common');
 
 const externals = {
   jquery: 'jQuery',

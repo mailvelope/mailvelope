@@ -18,12 +18,12 @@
 'use strict';
 
 
-var mvelo = require('../../mvelo');
+let mvelo = require('../../mvelo');
 
 mvelo.crx = true;
 mvelo.ffa = false;
 
-var dompurify = require('dompurify');
+let dompurify = require('dompurify');
 
 mvelo.data = {};
 
@@ -33,7 +33,7 @@ mvelo.data.url = function(path) {
 
 mvelo.data.load = function(path) {
   return new Promise((resolve, reject) => {
-    var req = new XMLHttpRequest();
+    let req = new XMLHttpRequest();
     req.open('GET', chrome.runtime.getURL(path));
     req.responseType = 'text';
     req.onload = function() {
@@ -86,7 +86,7 @@ mvelo.tabs.query = function(url, callback) {
 };
 
 mvelo.tabs.create = function(url, complete, callback) {
-  var newTab;
+  let newTab;
   if (complete) {
     // wait for tab to be loaded
     chrome.tabs.onUpdated.addListener(function updateListener(tabid, info) {
@@ -121,7 +121,7 @@ mvelo.tabs.sendMessage = function(tab, msg, callback) {
 
 mvelo.tabs.loadOptionsTab = function(hash, callback) {
   // check if options tab already exists
-  var url = chrome.runtime.getURL('app/app.html');
+  let url = chrome.runtime.getURL('app/app.html');
   this.query(url, function(tabs) {
     if (tabs.length === 0) {
       // if not existent, create tab
@@ -214,14 +214,14 @@ mvelo.windows.openPopup = function(url, options, callback) {
       //console.log('popup created', popup);
       if (options && options.modal) {
         mvelo.windows.modalActive = true;
-        var focusChangeHandler = function(newFocus) {
+        const focusChangeHandler = function(newFocus) {
           //console.log('focus changed', newFocus);
           if (newFocus !== popup.id && newFocus !== chrome.windows.WINDOW_ID_NONE) {
             chrome.windows.update(popup.id, {focused: true});
           }
         };
         chrome.windows.onFocusChanged.addListener(focusChangeHandler);
-        var removedHandler = function(removed) {
+        const removedHandler = function(removed) {
           //console.log('removed', removed);
           if (removed === popup.id) {
             //console.log('remove handler');
@@ -277,13 +277,13 @@ mvelo.util.setTimeout = window.setTimeout.bind(window);
 mvelo.util.clearTimeout = window.clearTimeout.bind(window);
 
 mvelo.util.getHostname = function(url) {
-  var a = document.createElement('a');
+  let a = document.createElement('a');
   a.href = url;
   return a.hostname;
 };
 
 mvelo.util.getHost = function(url) {
-  var a = document.createElement('a');
+  let a = document.createElement('a');
   a.href = url;
   return a.host;
 };

@@ -12,7 +12,7 @@ import openpgp from 'openpgp';
 import defaults from '../res/defaults.json';
 
 function getRandomAngle() {
-  var angle = openpgp.crypto.random.getSecureRandom(0, 120) - 60;
+  let angle = openpgp.crypto.random.getSecureRandom(0, 120) - 60;
   if (angle < 0) {
     angle += 360;
   }
@@ -74,15 +74,15 @@ export function init() {
 }
 
 function mergeWatchlist(defaults) {
-  var mod = false;
+  let mod = false;
   return getWatchList()
   .then((localList = []) => {
     defaults.watch_list.forEach(defaultSite => {
-      var localSite = localList.find(localSite => localSite.site === defaultSite.site);
+      let localSite = localList.find(localSite => localSite.site === defaultSite.site);
       if (localSite) {
         defaultSite.frames.forEach(defaultFrame => {
           localSite.frames = localSite.frames || [];
-          var localFrame = localSite.frames.find(localFrame => localFrame.frame === defaultFrame.frame);
+          let localFrame = localSite.frames.find(localFrame => localFrame.frame === defaultFrame.frame);
           if (!localFrame) {
             localSite.frames.push(defaultFrame);
             mod = true;

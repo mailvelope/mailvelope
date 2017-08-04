@@ -6,10 +6,10 @@ import * as keyring from '../../src/modules/keyring';
 import * as prefs from '../../src/modules/prefs';
 
 describe('Editor controller unit tests', () => {
-  var ctrl;
-  var port;
-  var preferences = prefs.prefs;
-  var testRecipients;
+  let ctrl;
+  let port;
+  let preferences = prefs.prefs;
+  let testRecipients;
 
   beforeEach(() => {
     testRecipients = [{email: 'test@example.com'}];
@@ -32,11 +32,11 @@ describe('Editor controller unit tests', () => {
   });
 
   describe('lookupKeyOnServer', () => {
-    var importKeysStub;
+    let importKeysStub;
 
     beforeEach(() => {
       sinon.stub(ctrl.keyserver, 'lookup');
-      var keyRingMock = {
+      let keyRingMock = {
         importKeys() {},
         getKeyUserIDs() { return [{keyid: '0'}]; }
       };
@@ -125,7 +125,7 @@ describe('Editor controller unit tests', () => {
   });
 
   describe('signAndEncrypt', () => {
-    var keys;
+    let keys;
 
     beforeEach(() => {
       keys = [{name: 'n', email: 'e', private: 'p'}];
@@ -194,7 +194,7 @@ describe('Editor controller unit tests', () => {
   });
 
   describe('getPublicKeyIds', () => {
-    var keys = [{keyid: 'b'}, {keyid: 'b'}];
+    let keys = [{keyid: 'b'}, {keyid: 'b'}];
 
     beforeEach(() => {
       sinon.stub(keyring, 'getById').returns({

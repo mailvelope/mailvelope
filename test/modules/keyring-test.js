@@ -36,17 +36,17 @@ import * as keyringSync from '../../src/modules/keyringSync';
 import openpgp from 'openpgp';
 
 describe('Keyring unit tests', () => {
-  var keyring;
-  var pgpKeyring;
-  var krSync;
-  var keys = [];
+  let keyring;
+  let pgpKeyring;
+  let krSync;
+  let keys = [];
 
   beforeEach(() => {
     sinon.stub(KeyServer.prototype, 'upload');
     sinon.stub(openpgp, 'generateKeyPair');
-    var openpgpKeyring = sinon.createStubInstance(openpgp.Keyring);
+    let openpgpKeyring = sinon.createStubInstance(openpgp.Keyring);
     sinon.stub(openpgp, 'Keyring');
-    var sync = sinon.createStubInstance(keyringSync.KeyringSync);
+    let sync = sinon.createStubInstance(keyringSync.KeyringSync);
     sinon.stub(keyringSync, 'KeyringSync');
 
     openpgpKeyring.getAllKeys = function() {
@@ -69,7 +69,7 @@ describe('Keyring unit tests', () => {
   });
 
   describe('generateKey', () => {
-    var keygenOpt;
+    let keygenOpt;
 
     beforeEach(() => {
       keygenOpt = {
@@ -78,7 +78,7 @@ describe('Keyring unit tests', () => {
         passphrase: 'secret'
       };
 
-      var keyStub = sinon.createStubInstance(openpgp.key.Key);
+      let keyStub = sinon.createStubInstance(openpgp.key.Key);
       keyStub.primaryKey = {
         getFingerprint() {},
         keyid: {toHex() { return 'ASDF'; }}
@@ -111,7 +111,7 @@ describe('Keyring unit tests', () => {
 
   describe('getKeyUserIDs', () => {
     beforeEach(() => {
-      var key = keyMock('db9ccdf0d5f3a387');
+      let key = keyMock('db9ccdf0d5f3a387');
       key.users.push(userMock('Alice <alice@world.org>'));
       key.users.push(userMock('Alice Liddell <alice@mars.org>'));
       keys.push(key);
@@ -169,19 +169,19 @@ describe('Keyring unit tests', () => {
 
   describe('_mapKeyUserIds', () => {
     it('should map user id', () => {
-      var user = {userid: 'Bob M. <bob@moon.institute>'};
+      let user = {userid: 'Bob M. <bob@moon.institute>'};
       keyring._mapKeyUserIds(user);
       expect(user).to.deep.equal({userid: 'Bob M. <bob@moon.institute>', name: 'Bob M.', email: 'bob@moon.institute'});
     });
 
     it('should map user id without email', () => {
-      var user = {userid: 'Bob M.'};
+      let user = {userid: 'Bob M.'};
       keyring._mapKeyUserIds(user);
       expect(user).to.deep.equal({userid: 'Bob M.', name: 'Bob M.', email: ''});
     });
 
     it('should map user id without name', () => {
-      var user = {userid: '<bob@moon.org>'};
+      let user = {userid: '<bob@moon.org>'};
       keyring._mapKeyUserIds(user);
       expect(user).to.deep.equal({userid: '<bob@moon.org>', name: '', email: 'bob@moon.org'});
       user = {userid: 'bob@moon.org'};
@@ -190,7 +190,7 @@ describe('Keyring unit tests', () => {
     });
 
     it('should not map invalid email', () => {
-      var user = {userid: 'Bob M. <img src=x onerror=alert(location)>'};
+      let user = {userid: 'Bob M. <img src=x onerror=alert(location)>'};
       keyring._mapKeyUserIds(user);
       expect(user).to.deep.equal({userid: 'Bob M. <img src=x onerror=alert(location)>', name: 'Bob M.', email: ''});
     });

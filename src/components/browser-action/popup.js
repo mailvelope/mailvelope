@@ -19,14 +19,14 @@
 
 /* global addon */
 
-var mvelo = mvelo || null;
+var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
-  var crx = typeof chrome !== 'undefined';
-  var activeState;
-  var sendMessage;
-  var logEntryTmpl;
-  var logEmptyTmpl;
+  let crx = typeof chrome !== 'undefined';
+  let activeState;
+  let sendMessage;
+  let logEntryTmpl;
+  let logEmptyTmpl;
 
   if (!crx) {
     // Firefox
@@ -57,7 +57,7 @@ var mvelo = mvelo || null;
       if (this.id === 'state' || this.id === '') {
         return;
       }
-      var message = {
+      let message = {
         event: 'browser-action',
         action: this.id
       };
@@ -83,7 +83,7 @@ var mvelo = mvelo || null;
     $('#state')
     .off()
     .on('click', () => {
-      var msg;
+      let msg;
       if (activeState) {
         msg = {event: 'deactivate'};
       } else {
@@ -127,9 +127,9 @@ var mvelo = mvelo || null;
         activeState = msg.prefs.main_active;
         handleAppActivation();
         break;
-      case 'get-ui-log':
-        var logEntry;
-        var cnt = 0;
+      case 'get-ui-log': {
+        let logEntry;
+        let cnt = 0;
         $('#activityLog').empty();
         if (!msg.secLog || msg.secLog.length === 0) {
           $('#activityLog').append(logEmptyTmpl);
@@ -145,6 +145,7 @@ var mvelo = mvelo || null;
           cnt++;
         });
         break;
+      }
     }
   }
 

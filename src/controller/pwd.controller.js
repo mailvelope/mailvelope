@@ -29,7 +29,6 @@ export default class PwdController extends SubController {
   }
 
   handlePortMessage(msg) {
-    var that = this;
     //console.log('pwd.controller handlePortMessage msg', msg);
     switch (msg.event) {
       case 'pwd-dialog-init':
@@ -41,18 +40,19 @@ export default class PwdController extends SubController {
           reason: this.options.reason
         }});
         break;
-      case 'pwd-dialog-cancel':
+      case 'pwd-dialog-cancel': {
         this.closePopup();
-        var error = new Error(mvelo.l10n.get('pwd_dialog_cancel'));
+        const error = new Error(mvelo.l10n.get('pwd_dialog_cancel'));
         error.code = 'PWD_DIALOG_CANCEL';
         this.reject(error);
         break;
+      }
       case 'pwd-dialog-ok':
         unlockKey(this.options.key, this.options.keyid, msg.password)
         .then(key => {
           // password correct
-          that.options.key = key;
-          that.options.password = msg.password;
+          this.options.key = key;
+          this.options.password = msg.password;
           if (msg.cache != prefs.prefs.security.password_cache) {
             // update pwd cache status
             return prefs.update({security: {password_cache: msg.cache}});
@@ -61,20 +61,20 @@ export default class PwdController extends SubController {
         .then(() => {
           if (msg.cache) {
             // set unlocked key and password in cache
-            pwdCache.set(that.options, msg.password);
+            pwdCache.set(this.options, msg.password);
           }
-          that.closePopup();
-          that.resolve(that.options);
+          this.closePopup();
+          this.resolve(this.options);
         })
         .catch(err => {
           if (err.message == 'Wrong password') {
-            that.ports.pwdDialog.postMessage({event: 'wrong-password'});
+            this.ports.pwdDialog.postMessage({event: 'wrong-password'});
           } else {
-            if (that.ports.dDialog) {
-              that.ports.dDialog.postMessage({event: 'error-message', error: err.message});
+            if (this.ports.dDialog) {
+              this.ports.dDialog.postMessage({event: 'error-message', error: err.message});
             }
-            that.closePopup();
-            that.reject(err);
+            this.closePopup();
+            this.reject(err);
           }
         });
         break;
@@ -109,7 +109,6 @@ export default class PwdController extends SubController {
    * @return {Promise<Object, Error>} - resolves with unlocked key and password
    */
   unlockKey(options) {
-    var that = this;
     this.options = options;
     if (typeof options.reason == 'undefined') {
       this.options.reason = '';
@@ -117,50 +116,50 @@ export default class PwdController extends SubController {
     if (typeof this.options.openPopup == 'undefined') {
       this.options.openPopup = true;
     }
-    var cacheEntry = pwdCache.get(this.options.key.primaryKey.getKeyId().toHex(), this.options.keyid);
+    let cacheEntry = pwdCache.get(this.options.key.primaryKey.getKeyId().toHex(), this.options.keyid);
     if (cacheEntry && !options.noCache) {
       return new Promise(resolve => {
-        that.options.password = cacheEntry.password;
+        this.options.password = cacheEntry.password;
         if (!cacheEntry.key) {
-          pwdCache.unlock(that.options)
+          pwdCache.unlock(this.options)
           .then(() => {
-            resolve(that.options);
+            resolve(this.options);
           });
         } else {
-          that.options.key = cacheEntry.key;
-          resolve(that.options);
+          this.options.key = cacheEntry.key;
+          resolve(this.options);
         }
       });
     } else {
       return new Promise((resolve, reject) => {
-        if (that.keyIsDecrypted(that.options) && !options.noCache) {
+        if (this.keyIsDecrypted(this.options) && !options.noCache) {
           // secret-key data is not encrypted, nothing to do
-          return resolve(that.options);
+          return resolve(this.options);
         }
-        if (that.options.password) {
+        if (this.options.password) {
           // secret-key data is encrypted, but we have password
-          return unlockKey(that.options.key, that.options.keyid, that.options.password)
+          return unlockKey(this.options.key, this.options.keyid, this.options.password)
           .then(key => {
-            that.options.key = key;
-            resolve(that.options);
+            this.options.key = key;
+            resolve(this.options);
           });
         }
-        if (that.options.beforePasswordRequest) {
-          that.options.beforePasswordRequest();
+        if (this.options.beforePasswordRequest) {
+          this.options.beforePasswordRequest();
         }
-        if (that.options.openPopup) {
-          mvelo.windows.openPopup(`components/enter-password/pwdDialog.html?id=${that.id}`, {width: 470, height: 445, modal: false}, window => {
-            that.pwdPopup = window;
+        if (this.options.openPopup) {
+          mvelo.windows.openPopup(`components/enter-password/pwdDialog.html?id=${this.id}`, {width: 470, height: 445, modal: false}, window => {
+            this.pwdPopup = window;
           });
         }
-        that.resolve = resolve;
-        that.reject = reject;
+        this.resolve = resolve;
+        this.reject = reject;
       });
     }
   }
 
   keyIsDecrypted(options) {
-    var keyPacket = options.key.getKeyPacket([openpgp.Keyid.fromId(options.keyid)]);
+    let keyPacket = options.key.getKeyPacket([openpgp.Keyid.fromId(options.keyid)]);
     if (keyPacket) {
       return keyPacket.isDecrypted;
     }

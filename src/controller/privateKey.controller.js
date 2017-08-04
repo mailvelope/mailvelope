@@ -32,7 +32,6 @@ export default class PrivateKeyController extends sub.SubController {
   }
 
   generateKey(password, options) {
-    var that = this;
     if (options.keySize !== 2048 && options.keySize !== 4096) {
       this.ports.keyGenDialog.postMessage({event: 'show-password'});
       this.ports.keyGenCont.postMessage({event: 'generate-done', error: {message: 'Invalid key length', code: 'KEY_LENGTH_INVALID'}});
@@ -44,19 +43,19 @@ export default class PrivateKeyController extends sub.SubController {
       numBits: options.keySize,
       passphrase: password
     }).then(data => {
-      that.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: data.publicKeyArmored});
+      this.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: data.publicKeyArmored});
       if (prefs.security.password_cache) {
         pwdCache.set({key: data.key}, password);
       }
       if (options.confirmRequired) {
-        that.newKeyId = data.key.primaryKey.keyid.toHex();
-        that.rejectTimer = mvelo.util.setTimeout(() => {
-          that.rejectKey(that.newKeyId);
-          that.rejectTimer = 0;
+        this.newKeyId = data.key.primaryKey.keyid.toHex();
+        this.rejectTimer = mvelo.util.setTimeout(() => {
+          this.rejectKey(this.newKeyId);
+          this.rejectTimer = 0;
         }, 10000); // trigger timeout after 10s
       }
     }).catch(err => {
-      that.ports.keyGenCont.postMessage({event: 'generate-done', error: err});
+      this.ports.keyGenCont.postMessage({event: 'generate-done', error: err});
     });
   }
 
@@ -68,8 +67,7 @@ export default class PrivateKeyController extends sub.SubController {
   }
 
   createPrivateKeyBackup() {
-    var that = this;
-    var primaryKey = getKeyringById(this.keyringId).getPrimaryKey();
+    let primaryKey = getKeyringById(this.keyringId).getPrimaryKey();
     if (!primaryKey) {
       throw {message: 'No private key for backup', code: 'NO_PRIVATE_KEY'};
     }
@@ -80,35 +78,35 @@ export default class PrivateKeyController extends sub.SubController {
     this.pwdControl.unlockKey(primaryKey)
     .then(primaryKey => {
       sync.triggerSync(primaryKey);
-      that.keyBackup = createPrivateKeyBackup(primaryKey.key, primaryKey.password);
+      this.keyBackup = createPrivateKeyBackup(primaryKey.key, primaryKey.password);
     })
-    .then(() => sync.getByKeyring(that.keyringId).backup({backup: that.keyBackup.message}))
+    .then(() => sync.getByKeyring(this.keyringId).backup({backup: this.keyBackup.message}))
     .then(() => {
-      var page = 'recoverySheet';
+      let page = 'recoverySheet';
 
-      switch (that.host) {
+      switch (this.host) {
         case 'web.de':
-          page += `${'.1und1.html?brand=webde' + '&id='}${that.id}`;
+          page += `${'.1und1.html?brand=webde' + '&id='}${this.id}`;
           break;
         case 'gmx.net':
         case 'gmx.com':
         case 'gmx.co.uk':
         case 'gmx.fr':
         case 'gmx.es':
-          page += `${'.1und1.html?brand=gmx' + '&id='}${that.id}`;
+          page += `${'.1und1.html?brand=gmx' + '&id='}${this.id}`;
           break;
         default:
-          page += `${'.html' + '?id='}${that.id}`;
+          page += `${'.html' + '?id='}${this.id}`;
           break;
       }
 
-      var path = `components/recovery-sheet/${page}`;
+      let path = `components/recovery-sheet/${page}`;
       mvelo.windows.openPopup(path, {width: 1024, height: 550, modal: false}, window => {
-        that.backupCodePopup = window;
+        this.backupCodePopup = window;
       });
     })
     .catch(err => {
-      that.ports.keyBackupDialog.postMessage({event: 'error-message', error: err});
+      this.ports.keyBackupDialog.postMessage({event: 'error-message', error: err});
     });
   }
 
@@ -123,7 +121,7 @@ export default class PrivateKeyController extends sub.SubController {
       return getKeyringById(this.keyringId).importKeys([{armored: backup.key.armor(), type: 'private'}]);
     })
     .then(result => {
-      for (var i = 0; i < result.length; i++) {
+      for (let i = 0; i < result.length; i++) {
         if (result[i].type === 'error') {
           throw result[i].message;
         }
@@ -143,7 +141,7 @@ export default class PrivateKeyController extends sub.SubController {
   }
 
   getLogoImage() {
-    var attr = getKeyringById(this.keyringId).getAttributes();
+    let attr = getKeyringById(this.keyringId).getAttributes();
     return (attr && attr.logo_data_url) ? attr.logo_data_url : null;
   }
 
@@ -153,11 +151,12 @@ export default class PrivateKeyController extends sub.SubController {
 
   handlePortMessage(msg) {
     switch (msg.event) {
-      case 'set-init-data':
-        var data = msg.data;
+      case 'set-init-data': {
+        const data = msg.data;
         this.keyringId = data.keyringId || this.keyringId;
         this.restorePassword = data.restorePassword || this.restorePassword;
         break;
+      }
       case 'keygen-user-input':
       case 'key-backup-user-input':
         uiLog.push(msg.source, msg.type);

@@ -34,12 +34,13 @@ export default class ImportController extends sub.SubController {
 
   handlePortMessage(msg) {
     switch (msg.event) {
-      case 'imframe-armored-key':
-        var slotId = mvelo.util.getHash();
+      case 'imframe-armored-key': {
+        const slotId = mvelo.util.getHash();
         this.keyringId = sub.getActiveKeyringId();
         sub.setAppDataSlot(slotId, msg.data);
         mvelo.tabs.loadOptionsTab(`?krid=${encodeURIComponent(this.keyringId)}&slotId=${slotId}#/keyring/import/push`, () => {});
         break;
+      }
       case 'key-import-dialog-init':
         this.ports.importKeyDialog.postMessage({event: 'key-details', key: this.keyDetails, invalidated: this.invalidated});
         break;

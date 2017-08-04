@@ -35,7 +35,6 @@ export default class EncryptController extends sub.SubController {
       return;
     }
 
-    var that = this;
     this.editorControl = sub.factory.get('editor');
     this.editorControl.encrypt({
       initText: options.text,
@@ -47,7 +46,7 @@ export default class EncryptController extends sub.SubController {
       }
       // sanitize if content from plain text
       mvelo.util.parseHTML(armored, parsed => {
-        that.emit('set-editor-output', {text: parsed, recipients});
+        this.emit('set-editor-output', {text: parsed, recipients});
       });
     });
   }

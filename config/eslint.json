@@ -29,7 +29,6 @@
     "no-console": 0,
     "no-empty": ["error", { "allowEmptyCatch": true }], // disallow empty block statements
     /* best practices */
-    "block-scoped-var": 2, // enforce the use of variables within the scope they are defined
     "curly": 2, // enforce consistent brace style for all control statements
     "no-eval": 2, // disallow the use of eval()
     "no-extend-native": 2, // disallow extending native types
@@ -51,6 +50,7 @@
     "keyword-spacing": 1, // enforce consistent spacing between keys and values in object literal properties
     "linebreak-style": 1, // enforce consistent linebreak style
     "no-trailing-spaces": 1, // disallow trailing whitespace at the end of lines
+    "no-var": 1, // require let or const instead of var
     "object-curly-spacing": ["warn", "never"], // enforce consistent spacing inside braces
     "one-var": ["warn", "never"], // enforce variables to be declared either together or separately in functions
     "padded-blocks": ["warn", "never"], // require or disallow padding within blocks

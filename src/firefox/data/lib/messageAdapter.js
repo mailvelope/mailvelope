@@ -18,7 +18,7 @@
 /* eslint strict: 0 */
 /* global createObjectIn, unsafeWindow, cloneInto, exportFunction */
 
-var mvelo = mvelo || {};
+var mvelo = mvelo || {}; // eslint-disable-line no-var
 
 // expose mvelo.extension to page script
 if (self.options.expose_messaging) {
@@ -26,11 +26,11 @@ if (self.options.expose_messaging) {
 }
 
 (function() {
-  var eventIndex = 1;
+  let eventIndex = 1;
 
   mvelo.ffa = true;
 
-  var extension = {
+  let extension = {
     _dataPath: self.options.data_path,
     _dataPathWebex: self.options.data_path_webex,
     onMessage: {},
@@ -72,7 +72,7 @@ if (self.options.expose_messaging) {
 
   function disconnect(obj) {
     // remove events
-    for (var ev in obj.events) {
+    for (let ev in obj.events) {
       if (obj.events.hasOwnProperty(ev)) {
         self.port.removeListener(ev, obj.events[ev]);
       }
@@ -81,7 +81,7 @@ if (self.options.expose_messaging) {
   }
 
   function addPortListener(obj, listener) {
-    var eventName = `${'port-message' + '.'}${obj.name}`;
+    let eventName = `${'port-message' + '.'}${obj.name}`;
     self.port.on(eventName, listener);
     obj.events[eventName] = listener;
   }
@@ -91,7 +91,7 @@ if (self.options.expose_messaging) {
     //self.port.on('detach', listener);
   }
 
-  var l10n = {};
+  let l10n = {};
 
   function getMessages(ids, callback) {
     mvelo.extension.sendMessage({
@@ -101,7 +101,7 @@ if (self.options.expose_messaging) {
   }
 
   function localizeHTML(l10n, idSelector) {
-    var selector = idSelector ? `${idSelector} [data-l10n-id]` : '[data-l10n-id]';
+    let selector = idSelector ? `${idSelector} [data-l10n-id]` : '[data-l10n-id]';
     if (l10n) {
       [].forEach.call(document.querySelectorAll(selector), element => {
         element.textContent = l10n[element.dataset.l10nId] || element.dataset.l10nId;
@@ -120,7 +120,7 @@ if (self.options.expose_messaging) {
     }
   }
 
-  var data = {};
+  let data = {};
 
   function load(path, callback) {
     mvelo.extension.sendMessage({

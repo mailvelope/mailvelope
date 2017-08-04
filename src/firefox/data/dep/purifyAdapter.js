@@ -1,7 +1,7 @@
 
 'use strict';
 
-var DOMPurify = DOMPurify || null;
+var DOMPurify = DOMPurify || null; // eslint-disable-line no-var
 
 // Add a hook to make all links open a new window
 // attribution: https://github.com/cure53/DOMPurify/blob/master/demos/hooks-target-blank-demo.html

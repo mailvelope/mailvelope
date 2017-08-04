@@ -35,7 +35,7 @@ export default class RestoreBackupContainer {
    * @returns {mvelo.RestoreBackupContainer}
    */
   create(done) {
-    var url;
+    let url;
 
     this.done = done;
     this.parent = document.querySelector(this.selector);

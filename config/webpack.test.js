@@ -1,8 +1,8 @@
 
 'use strict';
 
-var common = require('./webpack.common');
-var path = require('path');
+let common = require('./webpack.common');
+let path = require('path');
 
 module.exports = {
 

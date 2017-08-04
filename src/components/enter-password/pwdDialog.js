@@ -17,16 +17,16 @@
 
 'use strict';
 
-var mvelo = mvelo || null;
+var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
-  var id;
-  var name;
-  var port;
-  var l10n;
+  let id;
+  let name;
+  let port;
+  let l10n;
 
   function init() {
-    var qs = jQuery.parseQuerystring();
+    let qs = jQuery.parseQuerystring();
     id = qs.id;
     name = `pwdDialog-${id}`;
     // open port to background page
@@ -73,8 +73,8 @@ var mvelo = mvelo || null;
   function onOk() {
     $(window).off('beforeunload');
     logUserInput('security_log_dialog_ok');
-    var pwd = $('#password').val();
-    var cache = $('#remember').prop('checked');
+    let pwd = $('#password').val();
+    let cache = $('#remember').prop('checked');
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
     $('#spinner').show();
     $('.modal-body').css('opacity', '0.4');
@@ -110,9 +110,8 @@ var mvelo = mvelo || null;
   function messageListener(msg) {
     //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
-      case 'set-init-data':
-        var data = msg.data;
-
+      case 'set-init-data': {
+        const data = msg.data;
         $('#keyId').text(data.keyid.toUpperCase());
         $('#userId').text(data.userid);
         $('#pwdDialogReason').text(data.reason !== '' ? l10n[data.reason.toLowerCase()] : '');
@@ -120,6 +119,7 @@ var mvelo = mvelo || null;
           $('#remember').prop('checked', true);
         }
         break;
+      }
       case 'wrong-password':
         $(window).on('beforeunload', onClose);
         $('#okBtn').prop('disabled', false);

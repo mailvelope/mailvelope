@@ -2,8 +2,8 @@
 
 
 import KeyServer from '../../src/modules/keyserver';
-var keyServer;
-var mvelo;
+let keyServer;
+let mvelo;
 
 describe('Key Server unit tests', () => {
   beforeEach(() => {
@@ -94,7 +94,7 @@ describe('Key Server unit tests', () => {
         status: 200
       }));
 
-      var url = keyServer._url({email: 'asdf@asdf.de'});
+      let url = keyServer._url({email: 'asdf@asdf.de'});
       expect(url).to.equal('http://localhost:8888/api/v1/key?email=asdf%40asdf.de');
     });
 
@@ -103,7 +103,7 @@ describe('Key Server unit tests', () => {
         status: 200
       }));
 
-      var url = keyServer._url({keyId: '0123456789ABCDFE'});
+      let url = keyServer._url({keyId: '0123456789ABCDFE'});
       expect(url).to.equal('http://localhost:8888/api/v1/key?keyId=0123456789ABCDFE');
     });
 
@@ -112,7 +112,7 @@ describe('Key Server unit tests', () => {
         status: 200
       }));
 
-      var url = keyServer._url({fingerprint: '0123456789ABCDFE0123456789ABCDFE01234567'});
+      let url = keyServer._url({fingerprint: '0123456789ABCDFE0123456789ABCDFE01234567'});
       expect(url).to.equal('http://localhost:8888/api/v1/key?fingerprint=0123456789ABCDFE0123456789ABCDFE01234567');
     });
   });

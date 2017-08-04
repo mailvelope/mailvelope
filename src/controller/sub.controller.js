@@ -13,7 +13,7 @@ export class SubController extends mvelo.EventHandler {
     super();
     this.ports = {};
     if (port) {
-      var sender = parseViewName(port.name);
+      let sender = parseViewName(port.name);
       this.mainType = sender.type;
       this.id = sender.id;
       this.ports[this.mainType] = port;
@@ -21,7 +21,7 @@ export class SubController extends mvelo.EventHandler {
   }
 
   addPort(port) {
-    var type = parseViewName(port.name).type;
+    let type = parseViewName(port.name).type;
     this.ports[type] = port;
   }
 
@@ -31,16 +31,15 @@ export class SubController extends mvelo.EventHandler {
       return false;
     }
     if (port.name) {
-      var view = parseViewName(port.name);
+      let view = parseViewName(port.name);
       if (view.id !== this.id) {
         throw new Error('View ID mismatch.');
       }
       delete this.ports[view.type];
     } else {
-      var that = this;
       Object.keys(this.ports).forEach(type => {
-        if (that.ports[type].ref === port) {
-          delete that.ports[type];
+        if (this.ports[type].ref === port) {
+          delete this.ports[type];
         }
       });
     }
@@ -48,7 +47,7 @@ export class SubController extends mvelo.EventHandler {
   }
 
   openSecuritySettings() {
-    var hash = '#/settings/security';
+    let hash = '#/settings/security';
     mvelo.tabs.loadOptionsTab(hash, (old, tab) => {
       if (old) {
         mvelo.tabs.sendMessage(tab, {
@@ -111,17 +110,17 @@ factory.register = function(type, contrConstructor) {
 const controllers = new Map();
 
 function parseViewName(viewName) {
-  var pair = viewName.split('-');
+  let pair = viewName.split('-');
   return {type: pair[0], id: pair[1]};
 }
 
 export function addPort(port) {
-  var sender = parseViewName(port.name);
-  var subContr = controllers.get(sender.id);
+  let sender = parseViewName(port.name);
+  let subContr = controllers.get(sender.id);
   if (subContr) {
     subContr.addPort(port);
   } else {
-    var newContr = factory.get(sender.type, port);
+    let newContr = factory.get(sender.type, port);
     controllers.set(sender.id, newContr);
   }
 }
@@ -146,7 +145,7 @@ function removeId(id, port) {
 }
 
 export function handlePortMessage(msg) {
-  var id = parseViewName(msg.sender).id;
+  let id = parseViewName(msg.sender).id;
   getByID(id).handlePortMessage(msg);
 }
 
@@ -169,7 +168,7 @@ export function isActive(type) {
 }
 
 // keep state of active keyring for App UI
-var activeKeyringId = mvelo.LOCAL_KEYRING_ID;
+let activeKeyringId = mvelo.LOCAL_KEYRING_ID;
 
 export function setActiveKeyringId(keyringId) {
   activeKeyringId = keyringId;
@@ -180,7 +179,7 @@ export function getActiveKeyringId() {
 }
 
 // transfer data to app UI via slots
-var appDataSlot = new Map();
+let appDataSlot = new Map();
 
 export function setAppDataSlot(key, value) {
   appDataSlot.set(key, value);

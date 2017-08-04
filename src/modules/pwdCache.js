@@ -11,11 +11,11 @@ import * as prefs from './prefs';
 import {unlockKey} from './pgpModel';
 
 // password and key cache
-var cache;
+let cache;
 // caching active
-var active;
+let active;
 // timeout in minutes
-var timeout;
+let timeout;
 // max. number of operations per key
 const RATE_LIMIT = 1000;
 
@@ -29,7 +29,7 @@ export function init() {
 
 function clearTimeouts() {
   // clear timeout functions
-  for (var entry in cache) {
+  for (let entry in cache) {
     if (cache.hasOwnProperty(entry)) {
       mvelo.util.clearTimeout(entry.timer);
     }
@@ -97,15 +97,15 @@ export {deleteEntry as delete};
  */
 export function set(message, pwd, cacheTime) {
   // primary key id is main key of cache
-  var primKeyIdHex = message.key.primaryKey.getKeyId().toHex();
-  var entry = cache[primKeyIdHex];
+  let primKeyIdHex = message.key.primaryKey.getKeyId().toHex();
+  let entry = cache[primKeyIdHex];
   if (entry) {
     // set unlocked private key for this keyid
     if (message.keyid && !entry[message.keyid]) {
       entry[message.keyid] = message.key;
     }
   } else {
-    var newEntry = cache[primKeyIdHex] = {};
+    let newEntry = cache[primKeyIdHex] = {};
     newEntry.password = pwd;
     if (message.keyid) {
       newEntry[message.keyid] = message.key;

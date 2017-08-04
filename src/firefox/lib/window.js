@@ -1,7 +1,7 @@
 'use strict';
 
-var addonWindow = require('sdk/addon/window');
-var ss = require('sdk/simple-storage');
+let addonWindow = require('sdk/addon/window');
+let ss = require('sdk/simple-storage');
 
 function LocalStorage() {
   this.storage = ss.storage;

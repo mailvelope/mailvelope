@@ -18,7 +18,7 @@
 
 /* eslint strict: 0 */
 
-var mvelo = typeof window !== 'undefined' && window.mvelo || {};
+var mvelo = typeof window !== 'undefined' && window.mvelo || {}; // eslint-disable-line no-var
 // chrome extension
 mvelo.crx = typeof chrome !== 'undefined';
 // firefox addon
@@ -68,7 +68,7 @@ mvelo.appendTpl = function($element, path) {
     });
   } else {
     return new Promise((resolve, reject) => {
-      var req = new XMLHttpRequest();
+      let req = new XMLHttpRequest();
       req.open('GET', path);
       req.responseType = 'text';
       req.onload = function() {
@@ -94,7 +94,7 @@ if (mvelo.ffa && mvelo.extension) {
   mvelo.extension.connect = function(obj) {
     mvelo.extension._connect(obj);
     obj.events = {};
-    var port = {
+    let port = {
       postMessage: mvelo.extension.port.postMessage,
       disconnect: mvelo.extension.port.disconnect.bind(null, obj),
       onMessage: {
@@ -113,24 +113,24 @@ if (mvelo.ffa && mvelo.extension) {
 // for fixfox, mvelo.l10n is exposed from a content script
 mvelo.l10n = mvelo.l10n || mvelo.crx && {
   getMessages(ids, callback) {
-    var result = {};
+    let result = {};
     ids.forEach(id => {
       result[id] = chrome.i18n.getMessage(id);
     });
     callback(result);
   },
   localizeHTML(l10n, idSelector) {
-    var selector = idSelector ? `${idSelector} [data-l10n-id]` : '[data-l10n-id]';
+    let selector = idSelector ? `${idSelector} [data-l10n-id]` : '[data-l10n-id]';
     $(selector).each(function() {
-      var jqElement = $(this);
-      var id = jqElement.data('l10n-id');
-      var text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id;
+      let jqElement = $(this);
+      let id = jqElement.data('l10n-id');
+      let text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id;
       jqElement.text(text);
     });
     $('[data-l10n-title-id]').each(function() {
-      var jqElement = $(this);
-      var id = jqElement.data('l10n-title-id');
-      var text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id;
+      let jqElement = $(this);
+      let id = jqElement.data('l10n-title-id');
+      let text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id;
       jqElement.attr('title', text);
     });
   }
@@ -146,7 +146,7 @@ if (typeof window !== 'undefined' && window.browser) {
       }, callback);
     },
     localizeHTML(l10n, idSelector) {
-      var selector = idSelector ? `${idSelector} [data-l10n-id]` : '[data-l10n-id]';
+      let selector = idSelector ? `${idSelector} [data-l10n-id]` : '[data-l10n-id]';
       if (l10n) {
         [].forEach.call(document.querySelectorAll(selector), element => {
           element.textContent = l10n[element.dataset.l10nId] || element.dataset.l10nId;
@@ -170,10 +170,10 @@ if (typeof window !== 'undefined' && window.browser) {
 mvelo.util = {};
 
 mvelo.util.sortAndDeDup = function(unordered, compFn) {
-  var result = [];
-  var sorted = unordered.sort(compFn);
+  let result = [];
+  let sorted = unordered.sort(compFn);
   // remove duplicates
-  for (var i = 0; i < sorted.length; i++) {
+  for (let i = 0; i < sorted.length; i++) {
     if (i === 0 || compFn && compFn(sorted[i - 1], sorted[i]) !== 0 || !compFn && sorted[i - 1] !== sorted[i]) {
       result.push(sorted[i]);
     }
@@ -187,7 +187,7 @@ mvelo.util.sortAndDeDup = function(unordered, compFn) {
  * @return {Array}        The list of items without duplicates
  */
 mvelo.util.deDup = function(list) {
-  var result = [];
+  let result = [];
   (list || []).forEach(i => {
     if (result.indexOf(i) === -1) {
       result.push(i);
@@ -198,14 +198,14 @@ mvelo.util.deDup = function(list) {
 
 // random hash generator
 mvelo.util.getHash = function() {
-  var result = '';
-  var buf = new Uint16Array(6);
+  let result = '';
+  let buf = new Uint16Array(6);
   if (typeof window !== 'undefined') {
     window.crypto.getRandomValues(buf);
   } else {
     mvelo.util.getDOMWindow().crypto.getRandomValues(buf);
   }
-  for (var i = 0; i < buf.length; i++) {
+  for (let i = 0; i < buf.length; i++) {
     result += buf[i].toString(16);
   }
   return result;
@@ -284,12 +284,12 @@ mvelo.util.byteCount = function(str) {
 };
 
 mvelo.util.ab2str = function(buf) {
-  var str = '';
-  var ab = new Uint8Array(buf);
-  var CHUNK_SIZE = Math.pow(2, 16);
-  var offset;
-  var len;
-  var subab;
+  let str = '';
+  let ab = new Uint8Array(buf);
+  let CHUNK_SIZE = Math.pow(2, 16);
+  let offset;
+  let len;
+  let subab;
   for (offset = 0; offset < ab.length; offset += CHUNK_SIZE) {
     len = Math.min(CHUNK_SIZE, ab.length - offset);
     subab = ab.subarray(offset, offset + len);
@@ -299,15 +299,15 @@ mvelo.util.ab2str = function(buf) {
 };
 
 mvelo.util.str2ab = function(str) {
-  var bufView = new Uint8Array(str.length);
-  for (var i = 0; i < str.length; i++) {
+  let bufView = new Uint8Array(str.length);
+  for (let i = 0; i < str.length; i++) {
     bufView[i] = str.charCodeAt(i);
   }
   return bufView.buffer;
 };
 
 mvelo.util.getExtensionClass = function(fileExt) {
-  var extClass = '';
+  let extClass = '';
   if (fileExt) {
     extClass = `ext-color-${fileExt}`;
   }
@@ -315,7 +315,7 @@ mvelo.util.getExtensionClass = function(fileExt) {
 };
 
 mvelo.util.extractFileNameWithoutExt = function(fileName) {
-  var indexOfDot = fileName.lastIndexOf('.');
+  let indexOfDot = fileName.lastIndexOf('.');
   if (indexOfDot > 0) { // case: regular
     return fileName.substring(0, indexOfDot);
   } else {
@@ -324,7 +324,7 @@ mvelo.util.extractFileNameWithoutExt = function(fileName) {
 };
 
 mvelo.util.extractFileExtension = function(fileName) {
-  var lastindexDot = fileName.lastIndexOf('.');
+  let lastindexDot = fileName.lastIndexOf('.');
   if (lastindexDot <= 0) { // no extension
     return '';
   } else {
@@ -334,7 +334,7 @@ mvelo.util.extractFileExtension = function(fileName) {
 
 // Attribution: http://www.2ality.com/2012/08/underscore-extend.html
 mvelo.util.extend = function(target) {
-  var sources = [].slice.call(arguments, 1);
+  let sources = [].slice.call(arguments, 1);
   sources.forEach(source => {
     Object.getOwnPropertyNames(source).forEach(propName => {
       Object.defineProperty(target, propName,
@@ -346,7 +346,7 @@ mvelo.util.extend = function(target) {
 
 mvelo.util.addLoadingAnimation = function($parent) {
   $parent = $parent || $('body')[0];
-  var spinner = $('<div class="m-spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>');
+  let spinner = $('<div class="m-spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>');
   spinner.appendTo($parent);
 };
 
@@ -380,15 +380,15 @@ mvelo.util.showSecurityBackground = function(isEmbedded) {
   }
 
   mvelo.extension.sendMessage({event: "get-security-background"}, background => {
-    var secBgndIcon = mvelo.util.generateSecurityBackground(background);
-    var secureStyle = `\n.secureBackground {
+    let secBgndIcon = mvelo.util.generateSecurityBackground(background);
+    let secureStyle = `\n.secureBackground {
       background-color: ${background.color};
       background-position: -20px -20px;
       background-image: url(data:image/svg+xml;base64,${btoa(secBgndIcon)});
     }`;
 
-    var lockIcon = mvelo.util.generateSecurityBackground({width: 28, height: 28, colorId: 2});
-    var lockButton = `\n.lockBtnIcon, .lockBtnIcon:active {
+    let lockIcon = mvelo.util.generateSecurityBackground({width: 28, height: 28, colorId: 2});
+    let lockButton = `\n.lockBtnIcon, .lockBtnIcon:active {
       margin: 0;
       width: 28px; height: 28px;
       background-size: 100% 100%;
@@ -396,7 +396,7 @@ mvelo.util.showSecurityBackground = function(isEmbedded) {
       background-image: url(data:image/svg+xml;base64,'}${btoa(lockIcon)});
     }`;
 
-    var secBgndStyle = document.getElementById('secBgndCss');
+    let secBgndStyle = document.getElementById('secBgndCss');
     if (secBgndStyle) {
       secBgndStyle.parentNode.removeChild(secBgndStyle);
     }
@@ -416,7 +416,7 @@ mvelo.util.mapError = function(error) {
 };
 
 mvelo.util.throwError = function(message, code) {
-  var error = new Error(message);
+  let error = new Error(message);
   error.code = code;
   throw error;
 };
@@ -427,11 +427,10 @@ mvelo.util.PromiseQueue = class {
   }
 
   push(thisArg, method, args) {
-    var that = this;
     return new Promise((resolve, reject) => {
-      that.queue.push({resolve, reject, thisArg, method, args});
-      if (that.queue.length === 1) {
-        that._next();
+      this.queue.push({resolve, reject, thisArg, method, args});
+      if (this.queue.length === 1) {
+        this._next();
       }
     });
   }
@@ -440,8 +439,7 @@ mvelo.util.PromiseQueue = class {
     if (this.queue.length === 0) {
       return;
     }
-    var that = this;
-    var nextEntry = this.queue[0];
+    let nextEntry = this.queue[0];
     mvelo.util.setTimeout(() => {
       nextEntry.thisArg[nextEntry.method].apply(nextEntry.thisArg, nextEntry.args)
       .then(result => {
@@ -451,8 +449,8 @@ mvelo.util.PromiseQueue = class {
         nextEntry.reject(error);
       })
       .then(() => {
-        that.queue.shift();
-        that._next();
+        this.queue.shift();
+        this._next();
       });
     }, 0);
   }
@@ -483,7 +481,7 @@ mvelo.util.sequential = (process, list) => {
  * @return {Boolean}          True if valid, false if not
  */
 mvelo.util.checkEmail = function(address) {
-  var pattern = /^[+a-zA-Z0-9_.!#$%&'*\/=?^`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,63}$/;
+  let pattern = /^[+a-zA-Z0-9_.!#$%&'*\/=?^`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,63}$/;
   return pattern.test(address);
 };
 
