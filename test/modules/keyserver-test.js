@@ -2,7 +2,8 @@
 
 
 import KeyServer from '../../src/modules/keyserver';
-var keyServer, mvelo;
+var keyServer;
+var mvelo;
 
 describe('Key Server unit tests', () => {
 

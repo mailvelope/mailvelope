@@ -20,7 +20,11 @@
 var mvelo = mvelo || null;
 
 (function() {
-  var id, name, port, l10n, isInputChange;
+  var id;
+  var name;
+  var port;
+  var l10n;
+  var isInputChange;
 
   var $secureBgndButton;
   var $pwdInput;

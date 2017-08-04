@@ -143,16 +143,16 @@ function getSecurityBgndConfig() {
 }
 
 function previewSecurityBgnd() {
-  var scaling = parseInt($('#scaling').val()) / 10,
-    angle = parseInt($('#angle').val()),
-    colorId = parseInt($('#coloring').val()),
-    secBgndIcon = mvelo.util.generateSecurityBackground({
-      width: secBackground.width,
-      height: secBackground.height,
-      scaling,
-      angle,
-      colorId
-    });
+  var scaling = parseInt($('#scaling').val()) / 10;
+  var angle = parseInt($('#angle').val());
+  var colorId = parseInt($('#coloring').val());
+  var secBgndIcon = mvelo.util.generateSecurityBackground({
+    width: secBackground.width,
+    height: secBackground.height,
+    scaling,
+    angle,
+    colorId
+  });
 
   $('#previewArea').css({
     'backgroundColor': secBackground.color,
@@ -173,22 +173,21 @@ function onSave() {
   if (!validate()) {
     return false;
   }
-
-  var angel = $("#angle").val(),
-    scaling = ($("#scaling").val() / 10),
-    coloring = $("#coloring").val(),
-    iconColor = mvelo.SECURE_COLORS[coloring],
-    update = {
-      security: {
-        display_decrypted: $('input:radio[name="decryptRadios"]:checked').val(),
-        secureBgndAngle: angel,
-        secureBgndScaling: scaling,
-        secureBgndColorId: coloring,
-        secureBgndIconColor: iconColor,
-        password_cache: $('input:radio[name="pwdCacheRadios"]:checked').val() === 'true',
-        password_timeout: $('#pwdCacheTime').val()
-      }
-    };
+  var angel = $("#angle").val();
+  var scaling = ($("#scaling").val() / 10);
+  var coloring = $("#coloring").val();
+  var iconColor = mvelo.SECURE_COLORS[coloring];
+  var update = {
+    security: {
+      display_decrypted: $('input:radio[name="decryptRadios"]:checked').val(),
+      secureBgndAngle: angel,
+      secureBgndScaling: scaling,
+      secureBgndColorId: coloring,
+      secureBgndIconColor: iconColor,
+      password_cache: $('input:radio[name="pwdCacheRadios"]:checked').val() === 'true',
+      password_timeout: $('#pwdCacheTime').val()
+    }
+  };
   mvelo.extension.sendMessage({event: 'set-prefs', data: update}, () => {
     normalize();
     $('#secReloadInfo').show();

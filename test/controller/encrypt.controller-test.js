@@ -6,7 +6,9 @@ import * as sub from '../../src/controller/sub.controller';
 import * as prefs from '../../src/modules/prefs';
 import EncryptController from '../../src/controller/encrypt.controller';
 
-var ctrl, editorCtrlMock, preferences = prefs.prefs;
+var ctrl;
+var editorCtrlMock;
+var preferences = prefs.prefs;
 
 var testRecipients = [{email: 'test@example.com'}];
 

@@ -4,7 +4,8 @@
 import * as sub from '../../src/controller/sub.controller';
 
 describe('Sub controller unit tests', () => {
-  var ctrl, port;
+  var ctrl;
+  var port;
 
   beforeEach(() => {
     port = {name: 'foo', postMessage(opt) { ctrl.handlePortMessage(opt); }};

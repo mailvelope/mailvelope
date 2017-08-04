@@ -13,7 +13,8 @@ import openpgp from 'openpgp';
 import {getLastModifiedDate} from '../modules/pgpModel';
 
 export function handleApiEvent(request, sender, sendResponse) {
-  var keyRing, attr;
+  var keyRing;
+  var attr;
   try {
     switch (request.event) {
       case 'get-keyring':

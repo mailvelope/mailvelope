@@ -46,18 +46,19 @@
     "computed-property-spacing": 1, // enforce consistent spacing inside computed property brackets
     "eol-last": 1, // enforce at least one newline at the end of files
     "func-call-spacing": 1, // require or disallow spacing between function identifiers and their invocations
+    "indent": ["warn", 2, {"MemberExpression": 0, "SwitchCase": 1}], // enforce consistent indentation
     "key-spacing": ["warn", { "mode": "minimum" }], // enforce consistent spacing before and after keywords
     "keyword-spacing": 1, // enforce consistent spacing between keys and values in object literal properties
     "linebreak-style": 1, // enforce consistent linebreak style
     "no-trailing-spaces": 1, // disallow trailing whitespace at the end of lines
+    "object-curly-spacing": ["warn", "never"], // enforce consistent spacing inside braces
+    "one-var": ["warn", "never"], // enforce variables to be declared either together or separately in functions
+    "semi": ["warn", "always"], // require or disallow semicolons instead of ASI
     "semi-spacing": 1, // enforce consistent spacing before and after semicolons
     "space-before-blocks": 1, // enforce consistent spacing before blocks
     "space-before-function-paren": ["warn", "never"], // enforce consistent spacing before function definition opening parenthesis
     "space-in-parens": ["warn", "never"], // enforce consistent spacing inside parentheses
     "space-infix-ops": 1, // require spacing around operators
-    "object-curly-spacing": ["warn", "never"], // enforce consistent spacing inside braces
-    "indent": ["warn", 2, {"MemberExpression": 0, "SwitchCase": 1}], // enforce consistent indentation
-    "semi": ["warn", "always"], // require or disallow semicolons instead of ASI
     /* ES6 */
     "arrow-body-style": ["warn", "as-needed"], // require braces around arrow function bodies
     "arrow-parens": ["warn", "as-needed"], // require parentheses around arrow function arguments

@@ -54,7 +54,8 @@ function migrateStorage() {
     let setKeyringAsync = [];
     for (let keyringId in keyringAttr) {
       if (keyringAttr.hasOwnProperty(keyringId)) {
-        let publicKeys, privateKeys;
+        let publicKeys;
+        let privateKeys;
         if (keyringId === mvelo.LOCAL_KEYRING_ID) {
           publicKeys = mvelo.storage.old.get('openpgp-public-keys') || [];
           privateKeys = mvelo.storage.old.get('openpgp-private-keys') || [];

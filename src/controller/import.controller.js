@@ -123,7 +123,8 @@ export default class ImportController extends sub.SubController {
   }
 
   updateKey(fingerprint, stockKey, newKey) {
-    let statusBefore, statusAfter;
+    let statusBefore;
+    let statusAfter;
     return Promise.resolve()
     .then(() => {
       statusBefore = stockKey.verifyPrimaryKey();

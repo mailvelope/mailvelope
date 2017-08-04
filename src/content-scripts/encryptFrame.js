@@ -181,7 +181,8 @@ export default class EncryptFrame extends mvelo.EventHandler {
   }
 
   _getEmailText(type) {
-    var text, html;
+    var text;
+    var html;
     if (this._emailTextElement.is('textarea')) {
       text = this._emailTextElement.val();
     } else { // html element

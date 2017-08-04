@@ -274,7 +274,8 @@ function createKeyring(keyringId, callback) {
 }
 
 function displayContainer(selector, armored, keyringId, options, callback) {
-  var container, error;
+  var container;
+  var error;
   switch (getMessageType(armored)) {
     case mvelo.PGP_MESSAGE:
       container = new DecryptContainer(selector, keyringId, options);

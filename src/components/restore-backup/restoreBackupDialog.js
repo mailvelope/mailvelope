@@ -20,7 +20,10 @@
 var mvelo = mvelo || null;
 
 (function() {
-  var id, name, port, l10n;
+  var id;
+  var name;
+  var port;
+  var l10n;
 
   var $secureBgndButton;
   var $restoreBackupPanel;
@@ -68,9 +71,9 @@ var mvelo = mvelo || null;
       $('.flex-digit')
       .on('input paste', function() {
         logUserInput('security_log_text_input');
-        var $this = $(this),
-          val = $this.val(),
-          maxlength = parseInt($this.attr('maxlength'));
+        var $this = $(this);
+        var val = $this.val();
+        var maxlength = parseInt($this.attr('maxlength'));
 
         if (val.length === maxlength) {
           $this

@@ -20,7 +20,10 @@
 var mvelo = mvelo || null;
 
 (function() {
-  var id, name, port, l10n;
+  var id;
+  var name;
+  var port;
+  var l10n;
 
   var $keyBackupGenerator;
   var $keyBackupWaiting;

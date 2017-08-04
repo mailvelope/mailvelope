@@ -36,7 +36,9 @@ import * as keyringSync from '../../src/modules/keyringSync';
 import openpgp from 'openpgp';
 
 describe('Keyring unit tests', () => {
-  var keyring, pgpKeyring, krSync;
+  var keyring;
+  var pgpKeyring;
+  var krSync;
   var keys = [];
 
   beforeEach(() => {

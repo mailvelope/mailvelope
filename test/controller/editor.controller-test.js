@@ -6,7 +6,9 @@ import * as keyring from '../../src/modules/keyring';
 import * as prefs from '../../src/modules/prefs';
 
 describe('Editor controller unit tests', () => {
-  var ctrl, port, preferences = prefs.prefs;
+  var ctrl;
+  var port;
+  var preferences = prefs.prefs;
   var testRecipients;
 
   beforeEach(() => {

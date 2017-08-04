@@ -5,7 +5,9 @@ import {RecipientInputCtrl, RecipientInput} from '../../../src/components/editor
 
 describe('RecipientInput component unit tests', () => {
 
-  let ctrl, scope, props;
+  let ctrl;
+  let scope;
+  let props;
 
   beforeEach(() => {
     props = {recipients: []};

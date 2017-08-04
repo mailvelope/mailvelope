@@ -154,7 +154,8 @@ var mvelo = mvelo || null;
         var node = $('#verifymail').contents();
         var header = node.find('header');
         msg.signers.forEach(signer => {
-          var type, userid;
+          var type;
+          var userid;
           var message = $('<span/>');
           var keyid = $('<span/>');
           keyid.text(`(${l10n.dialog_keyid_label} ${signer.keyid.toUpperCase()})`);
