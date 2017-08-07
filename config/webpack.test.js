@@ -17,7 +17,7 @@ module.exports = {
   },
 
   resolve: {
-    modules: ["bower_components", "node_modules"],
+    modules: ["node_modules"],
     alias: {
       'lib-mvelo': path.resolve('./src/chrome/lib/lib-mvelo'),
       openpgp: path.resolve('./dep/chrome/openpgpjs/dist/openpgp'),
@@ -33,7 +33,7 @@ module.exports = {
   module: {
     rules: [{
       test: /\.js$/,
-      exclude: /(node_modules|bower_components)/,
+      exclude: /node_modules/,
       loader: 'babel-loader',
       options: {
         presets: ['babel-preset-es2015', 'react']

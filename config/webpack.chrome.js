@@ -12,7 +12,7 @@ const output = {
   filename: 'background.bundle.js'
 };
 const resolve = {
-  modules: ["bower_components", "node_modules"],
+  modules: ["node_modules"],
   alias: {
     'lib-mvelo': path.resolve('./src/chrome/lib/lib-mvelo'),
     openpgp: path.resolve('./dep/chrome/openpgpjs/dist/openpgp'),

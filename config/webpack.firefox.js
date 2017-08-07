@@ -14,7 +14,7 @@ const output = {
 };
 const externals = [/sdk\//, 'chrome'];
 const resolve = {
-  modules: ["bower_components", "node_modules"],
+  modules: ["node_modules"],
   alias: {
     'lib-mvelo': path.resolve('./src/firefox/lib/lib-mvelo'),
     openpgp: path.resolve('./dep/firefox/openpgpjs/dist/openpgp'),

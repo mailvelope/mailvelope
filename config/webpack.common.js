@@ -22,7 +22,7 @@ function react() {
   return {
     rules: [{
       test: /\.js$/,
-      exclude: /(node_modules|bower_components)/,
+      exclude: /node_modules/,
       loader: 'babel-loader',
       options: {
         cacheDirectory: true,
@@ -46,7 +46,7 @@ function react() {
 
 function resolve() {
   return {
-    modules: ["bower_components", "node_modules"],
+    modules: ["node_modules"],
   };
 }
 

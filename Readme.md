@@ -23,9 +23,9 @@ You can find the current [API Documentation](https://mailvelope.github.io/mailve
 
 ## Build instructions
 
-If you don’t have grunt and bower installed, yet:
+If you don’t have grunt installed, yet:
 
-    npm install -g grunt-cli bower
+    npm install -g grunt-cli
 
 and then get and build the sources:
 
@@ -37,7 +37,7 @@ and then get and build the sources:
     cd ../../firefox/openpgpjs
     npm install && grunt
     cd ../../..
-    npm install && bower install && grunt
+    npm install && grunt
 
 #### Chrome
 
@@ -86,6 +86,6 @@ Use of this source code is governed by the GNU AFFERO GENERAL PUBLIC LICENSE tha
 
 ## About
 
-Contact: Thomas Oberndörfer <thomas@mailvelope.com>  
-Twitter: [@mailvelope](https://twitter.com/mailvelope)  
-Contributors: see [list on GitHub](https://github.com/mailvelope/mailvelope/graphs/contributors)  
+Contact: Thomas Oberndörfer <thomas@mailvelope.com>
+Twitter: [@mailvelope](https://twitter.com/mailvelope)
+Contributors: see [list on GitHub](https://github.com/mailvelope/mailvelope/graphs/contributors)

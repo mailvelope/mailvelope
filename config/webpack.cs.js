@@ -12,7 +12,7 @@ const output = {
 };
 const resolve = {
   alias: {
-    'jquery': path.resolve('./bower_components/jquery/dist/jquery.min.js')
+    'jquery': path.resolve('./node_modules/jquery/dist/jquery.min.js')
   }
 };
 

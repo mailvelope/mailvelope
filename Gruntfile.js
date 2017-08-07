@@ -44,12 +44,12 @@ module.exports = function(grunt) {
           {
             expand: true,
             flatten: true,
-            src: 'bower_components/jquery/dist/jquery.min.js',
+            src: 'node_modules/jquery/dist/jquery.min.js',
             dest: 'build/tmp/dep/'
           },
           {
             expand: true,
-            cwd: 'bower_components/bootstrap/dist/',
+            cwd: 'node_modules/bootstrap/dist/',
             src: [
               'css/bootstrap.css',
               'js/bootstrap.js',
@@ -59,7 +59,7 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
-            cwd: 'bower_components/qrcodejs/',
+            cwd: 'node_modules/qrcodejs/',
             src: 'qrcode.js',
             dest: 'build/tmp/dep/qrcodejs/'
           },
@@ -367,7 +367,7 @@ module.exports = function(grunt) {
         commitFiles: ['-a'],
         createTag: false,
         push: false,
-        files: ['package.json', 'bower.json']
+        files: ['package.json']
       }
     },
 
