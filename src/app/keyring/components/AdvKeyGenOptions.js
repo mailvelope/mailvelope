@@ -12,8 +12,6 @@ import DatePicker from './DatePicker';
 
 import './AdvKeyGenOptions.css';
 
-'use strict';
-
 l10n.register([
   'keygrid_algorithm',
   'key_gen_key_size',

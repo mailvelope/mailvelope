@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* eslint strict: 0 */
 'use strict';
 
 /* global addon */

@@ -7,8 +7,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 
-'use strict';
-
 l10n.register([
   'form_cancel',
   'editor_sign_button',

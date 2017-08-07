@@ -10,8 +10,6 @@ import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './DatePicker.css';
 
-'use strict';
-
 class CustomInput extends React.Component {
   render() {
     const clearClasses = `form-control-clear glyphicon glyphicon-remove form-control-feedback ${this.props.value ? '' : 'hidden'}`;

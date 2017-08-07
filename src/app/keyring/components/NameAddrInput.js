@@ -7,8 +7,6 @@ import * as l10n from '../../../lib/l10n';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-'use strict';
-
 l10n.register([
   'keygrid_user_name',
   'key_gen_name_help',

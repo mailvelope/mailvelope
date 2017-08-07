@@ -1,7 +1,4 @@
 
-'use strict';
-
-
 export const c1und1 =
   ['-----BEGIN PGP PUBLIC KEY BLOCK-----',
     'Version: GnuPG v2',

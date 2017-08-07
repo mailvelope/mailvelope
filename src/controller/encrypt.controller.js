@@ -8,8 +8,6 @@
  * create an editor controller to encrypt plaintext to a list of recipients.
  */
 
-'use strict';
-
 import mvelo from 'lib-mvelo';
 import * as sub from './sub.controller';
 

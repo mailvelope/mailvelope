@@ -3,13 +3,10 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
 import mvelo from '../mvelo';
 import $ from 'jquery';
 import ExtractFrame from './extractFrame';
 import {prefs} from './main';
-
 
 export default class VerifyFrame extends ExtractFrame {
   constructor() {

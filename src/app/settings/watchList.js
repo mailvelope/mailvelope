@@ -3,18 +3,14 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import mvelo from '../../mvelo';
-//import $ from 'jquery';
 import {pgpModel, getAppDataSlot} from '../app';
 import * as l10n from '../../lib/l10n';
 
 import './watchList.css';
 import WatchListEditor from './components/watchListEditor';
-
 
 l10n.register([
   'settings_watchlist',

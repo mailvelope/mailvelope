@@ -1,4 +1,4 @@
-
+/* eslint strict: 0 */
 'use strict';
 
 // https://gist.github.com/1101534

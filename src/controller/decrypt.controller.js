@@ -3,9 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
-
 import mvelo from 'lib-mvelo';
 import {prefs} from '../modules/prefs';
 import * as model from '../modules/pgpModel';

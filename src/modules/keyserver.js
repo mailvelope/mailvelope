@@ -9,9 +9,6 @@ import {prefs} from './prefs';
  * @fileOverview A simple HTTP client for Mailvelope Key Server's REST api.
  */
 
-'use strict';
-
-
 /**
  * Creates an instance of the keyserver client.
  * @param {Object} mvelo      An instance of the mvelo lib

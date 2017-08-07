@@ -10,8 +10,6 @@ import PropTypes from 'prop-types';
 
 import './AdvancedExpand.css';
 
-'use strict';
-
 l10n.register([
   'key_gen_advanced_btn'
 ]);

@@ -22,6 +22,7 @@
  * THE SOFTWARE.
  */
 
+/* eslint strict: 0 */
 'use strict';
 
 (function() {

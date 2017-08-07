@@ -1,4 +1,4 @@
-
+/* eslint strict: 0 */
 'use strict';
 
 const common = require('./webpack.common');

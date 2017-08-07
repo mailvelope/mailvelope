@@ -1,4 +1,4 @@
-
+/* eslint strict: 0 */
 const webpack = require('webpack');
 
 function plugins(env) {

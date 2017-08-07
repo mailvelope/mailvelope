@@ -1,4 +1,4 @@
-
+/* eslint strict: 0 */
 'use strict';
 
 var DOMPurify = DOMPurify || null; // eslint-disable-line no-var

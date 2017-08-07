@@ -13,8 +13,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 
-'use strict';
-
 /* global angular */
 
 l10n.register([

@@ -3,9 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
-
 import {SubController} from './sub.controller';
 import {prefs} from '../modules/prefs';
 import {getWatchList} from '../modules/pgpModel';

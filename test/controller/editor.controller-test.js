@@ -1,5 +1,3 @@
-'use strict';
-
 
 import EditorController from '../../src/controller/editor.controller';
 import * as keyring from '../../src/modules/keyring';

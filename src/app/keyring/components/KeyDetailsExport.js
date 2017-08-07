@@ -8,8 +8,6 @@ import {keyring} from '../../app';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-'use strict';
-
 l10n.register([
   'keyring_public',
   'keyring_private',

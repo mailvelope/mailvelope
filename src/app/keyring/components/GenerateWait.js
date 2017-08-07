@@ -10,8 +10,6 @@ import $ from 'jquery';
 
 import './GenerateWait.css';
 
-'use strict';
-
 l10n.register([
   'key_gen_wait_header',
   'key_gen_wait_info'

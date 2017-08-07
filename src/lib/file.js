@@ -6,9 +6,6 @@
 import mvelo from '../mvelo';
 import * as l10n from './l10n';
 
-'use strict';
-
-
 l10n.register([
   'editor_remove_upload',
   'encrypt_download_file_button'

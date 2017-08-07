@@ -17,8 +17,6 @@ import KeyDetailsExport from './KeyDetailsExport';
 
 import './KeyDetails.css';
 
-'use strict';
-
 l10n.register([
   'key_details_title',
   'keygrid_primary_key',

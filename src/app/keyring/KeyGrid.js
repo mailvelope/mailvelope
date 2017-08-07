@@ -3,8 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';

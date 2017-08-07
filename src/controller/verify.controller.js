@@ -3,9 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
-
 import mvelo from 'lib-mvelo';
 import {SubController} from './sub.controller';
 import * as uiLog from '../modules/uiLog';

@@ -8,8 +8,6 @@
  * recipients and set sender email addresses in the webmail ui.
  */
 
-'use strict';
-
 import mvelo from '../mvelo';
 import $ from 'jquery';
 

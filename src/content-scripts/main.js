@@ -3,8 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
 import mvelo from '../mvelo';
 import $ from 'jquery';
 

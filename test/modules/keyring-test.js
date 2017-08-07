@@ -1,5 +1,3 @@
-'use strict';
-
 
 function keyMock(keyid) {
   return {

@@ -7,8 +7,6 @@ import * as l10n from '../../../lib/l10n';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-'use strict';
-
 l10n.register([
   'key_set_as_primary',
   'invalid_primary_key'

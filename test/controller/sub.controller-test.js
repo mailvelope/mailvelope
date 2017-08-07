@@ -1,5 +1,3 @@
-'use strict';
-
 
 import * as sub from '../../src/controller/sub.controller';
 

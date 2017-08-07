@@ -10,8 +10,6 @@ import PropTypes from 'prop-types';
 import ModalDialog from '../../../components/util/ModalDialog';
 import KeyDetailsExport from './KeyDetailsExport';
 
-'use strict';
-
 l10n.register([
   'keyring_backup',
   'dialog_popup_close'

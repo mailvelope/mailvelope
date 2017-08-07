@@ -3,9 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
-
 import {getKeyringAttr, setKeyringAttr} from './keyring';
 import {triggerSync} from '../controller/sync.controller';
 

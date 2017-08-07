@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 import mvelo from '../mvelo';
 import React from 'react';
 import ReactDOM from 'react-dom';

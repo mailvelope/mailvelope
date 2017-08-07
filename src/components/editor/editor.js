@@ -30,9 +30,6 @@ import {RecipientInput} from './components/RecipientInput';
 import * as l10n from '../../lib/l10n';
 import * as fileLib from '../../lib/file';
 
-'use strict';
-
-
 // component id
 export let id;
 // component name

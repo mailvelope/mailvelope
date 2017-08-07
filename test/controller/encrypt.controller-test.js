@@ -1,5 +1,3 @@
-'use strict';
-
 
 import mvelo from '../../src/chrome/lib/lib-mvelo';
 import * as sub from '../../src/controller/sub.controller';

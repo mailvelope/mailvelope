@@ -3,8 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
 import mvelo from '../../mvelo';
 import {keyring, getAppDataSlot} from '../app';
 import * as l10n from '../../lib/l10n';

@@ -10,8 +10,6 @@ import {Link} from 'react-router-dom';
 
 import {openTab} from '../../app';
 
-'use strict';
-
 l10n.register([
   'key_import_hkp_search',
   'key_import_hkp_search_public',

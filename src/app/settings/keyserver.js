@@ -8,8 +8,6 @@
  * settings dialog
  */
 
-'use strict';
-
 import mvelo from '../../mvelo';
 import * as l10n from '../../lib/l10n';
 import {Alert} from '../util/util';

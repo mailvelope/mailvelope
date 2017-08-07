@@ -1,7 +1,6 @@
-'use strict';
-
 
 import KeyServer from '../../src/modules/keyserver';
+
 let keyServer;
 let mvelo;
 
