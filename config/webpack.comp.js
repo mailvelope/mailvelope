@@ -54,5 +54,5 @@ function dev(pathname, filename) {
 
 module.exports = [dev('editor', 'editor')];
 
-module.exports.prod = [prod('editor/components', 'EditorFooter')];
+module.exports.prod = [prod('editor', 'editor')];
 module.exports.dev = module.exports;
