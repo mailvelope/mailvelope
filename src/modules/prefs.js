@@ -3,7 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from 'lib-mvelo';
 import {setPreferences, getPreferences} from './pgpModel';
 
 export let prefs = {};
@@ -23,13 +22,13 @@ export function update(obj) {
   .then(preferences => {
     prefs = preferences;
     if (obj.security) {
-      prefs.security = mvelo.util.extend(prefs.security, obj.security);
+      Object.assign(prefs.security, obj.security);
     }
     if (obj.general) {
-      prefs.general = mvelo.util.extend(prefs.general, obj.general);
+      Object.assign(prefs.general, obj.general);
     }
     if (obj.keyserver) {
-      prefs.keyserver = mvelo.util.extend(prefs.keyserver, obj.keyserver);
+      Object.assign(prefs.keyserver, obj.keyserver);
     }
     if (typeof obj.main_active !== 'undefined') {
       prefs.main_active = obj.main_active;

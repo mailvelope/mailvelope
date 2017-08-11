@@ -131,7 +131,7 @@ export function setKeyringAttr(keyringId, attr) {
     if (!keyringAttr[keyringId]) {
       throw new Error(`Keyring does not exist for id: ${keyringId}`);
     }
-    mvelo.util.extend(keyringAttr[keyringId], attr);
+    Object.assign(keyringAttr[keyringId], attr);
     return mvelo.storage.set('mvelo.keyring.attributes', keyringAttr);
   });
 }

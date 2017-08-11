@@ -104,14 +104,7 @@ function migrateStorage() {
 function initOpenPGP() {
   openpgp.config.commentstring = 'https://www.mailvelope.com';
   openpgp.config.versionstring = `Mailvelope v${defaults.getVersion()}`;
-  if (mvelo.crx) {
-    openpgp.initWorker('dep/openpgp.worker.js');
-  } else if (mvelo.ffa) {
-    const CWorker = mvelo.util.getWorker();
-    openpgp.initWorker('', {
-      worker: new CWorker(mvelo.data.url('openpgp.worker.min.js'))
-    });
-  }
+  openpgp.initWorker('dep/openpgp.worker.js');
 }
 
 /*

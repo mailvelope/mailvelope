@@ -50,7 +50,6 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^20.0.0",
-    "grunt-jpm": "github:mailvelope/grunt-jpm#jpm-v1.x",
     "grunt-jsdoc": "^2.1.0",
     "grunt-mocha-phantomjs": "^4.0.0",
     "grunt-replace": "^1.0.1",
@@ -59,6 +58,7 @@
     "sinon": "^2.3.2",
     "string-replace-loader": "^1.2.0",
     "style-loader": "^0.18.2",
+    "web-ext": "^2.0.0",
     "webpack": "^2.6.1",
     "whatwg-fetch": "^1.0.0"
   },

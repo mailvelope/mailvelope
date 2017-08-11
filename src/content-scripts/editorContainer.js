@@ -26,16 +26,10 @@ export default class EditorContainer {
     this.done = done;
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');
-    let url;
+    const url = mvelo.extension.getURL(`components/editor/editor.html?id=${this.id}${quota}&embedded=true`);
     let quota = '';
     if (this.options.quota) {
       quota = `&quota=${this.options.quota}`;
-    }
-
-    if (mvelo.crx) {
-      url = mvelo.extension.getURL(`components/editor/editor.html?id=${this.id}${quota}&embedded=true`);
-    } else if (mvelo.ffa) {
-      url = `about:blank?mvelo=editor&id=${this.id}${quota}&embedded=true`;
     }
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);

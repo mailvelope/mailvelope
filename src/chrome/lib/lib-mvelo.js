@@ -1,30 +1,12 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2012-2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
-/* eslint strict: 0 */
-'use strict';
+import mvelo from '../../mvelo';
+import dompurify from 'dompurify';
 
-
-const mvelo = require('../../mvelo');
-
-mvelo.crx = true;
-mvelo.ffa = false;
-
-const dompurify = require('dompurify');
+export default mvelo;
 
 mvelo.data = {};
 
@@ -209,7 +191,6 @@ mvelo.windows.openPopup = function(url, options, callback) {
       height: options && options.height,
       top: options && parseInt(current.top + (current.height - options.height) / 2),
       left: options && parseInt(current.left + (current.width - options.width) / 2),
-      focused: true,
       type: 'popup'
     }, popup => {
       //console.log('popup created', popup);
@@ -307,5 +288,3 @@ mvelo.browserAction.state = function(options) {
     chrome.browserAction.setBadgeBackgroundColor({color: options.badgeColor});
   }
 };
-
-module.exports = mvelo;

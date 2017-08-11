@@ -28,7 +28,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   let name;
   let watermark;
   //var spinnerTimer;
-  let basePath;
+  const basePath = '../../';
   let l10n;
   let signers = [];
 
@@ -45,11 +45,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     port = mvelo.extension.connect({name});
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'decrypt-inline-init', sender: name});
-    if (mvelo.crx) {
-      basePath = '../../';
-    } else if (mvelo.ffa) {
-      basePath = mvelo.extension._dataPath;
-    }
     mvelo.l10n.getMessages([
       'alert_header_error',
       'digital_signature_status_true',

@@ -36,13 +36,9 @@ var QRCode = QRCode || null; // eslint-disable-line no-var
     // open port to background page
     port = mvelo.extension.connect({name});
     port.onMessage.addListener(messageListener);
-
     const formattedDate = new Date();
-
     $('#currentDate').html(formattedDate.toLocaleDateString());
-    if (mvelo.crx) {
-      mvelo.l10n.localizeHTML();
-    }
+    mvelo.l10n.localizeHTML();
     setBrand(qs.brand);
     mvelo.util.showSecurityBackground(qs.embedded);
     port.postMessage({event: 'get-logo-image', sender: name});

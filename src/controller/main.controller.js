@@ -82,14 +82,14 @@ export function handleMessageEvent(request, sender, sendResponse) {
     case 'set-watch-list':
       model.setWatchList(request.data)
       .then(() => {
-        if (mvelo.ffa) {
+        if (mvelo.webex) {
           reloadFrames(true);
         }
         specific.initScriptInjection();
       });
       break;
     case 'init-script-injection':
-      if (mvelo.ffa) {
+      if (mvelo.webex) {
         reloadFrames(true);
       }
       specific.initScriptInjection();

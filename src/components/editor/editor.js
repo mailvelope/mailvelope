@@ -51,7 +51,7 @@ let blurValid = null;
 // buffer for initial text
 let initText = null;
 // platform specific path to extension
-let basePath;
+const basePath = '../../';
 // flag to control time slice for input logging
 let logTextareaInput = true;
 // flag to monitor upload-in-progress status
@@ -138,11 +138,6 @@ function init() {
   ])
   .then(renderReactComponents)
   .then(templatesLoaded);
-  if (mvelo.crx) {
-    basePath = '../../';
-  } else if (mvelo.ffa) {
-    basePath = mvelo.extension._dataPath;
-  }
 }
 
 /**

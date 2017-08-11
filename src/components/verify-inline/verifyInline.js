@@ -27,7 +27,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   let id;
   let watermark;
   let spinnerTimer;
-  let basePath;
+  const basePath = '../../';
   let l10n;
 
   function init() {
@@ -42,11 +42,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     port = mvelo.extension.connect({name: id});
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'verify-inline-init', sender: id});
-    if (mvelo.crx) {
-      basePath = '../../';
-    } else if (mvelo.ffa) {
-      basePath = mvelo.extension._dataPath;
-    }
     addWrapper();
     addSandbox();
     addSecuritySettingsButton();

@@ -18,41 +18,18 @@
 /* eslint strict: 0 */
 'use strict';
 
-/* global addon */
-
 var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
-  const crx = typeof chrome !== 'undefined';
   let activeState;
-  let sendMessage;
   let logEntryTmpl;
   let logEmptyTmpl;
-
-  if (!crx) {
-    // Firefox
-    sendMessage = function(msg) {
-      addon.postMessage(msg);
-    };
-    addon.on('message', messageListener);
-  } else {
-    // Chrome
-    sendMessage = function(msg) {
-      chrome.runtime.sendMessage(msg, messageListener);
-    };
-  }
 
   function init() {
     $('#showlog').hide();
     $('.popup')
     .off()
-    .on('click', 'a', () => {
-      if (mvelo.crx) {
-        hide();
-      } else {
-        sendMessage({event: 'close-popup'});
-      }
-    })
+    .on('click', 'a', hide)
     .on('click', 'button', function() {
       // id of dropdown entry = action
       if (this.id === 'state' || this.id === '') {
@@ -66,9 +43,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       hide();
     });
 
-    if (mvelo.crx) {
-      mvelo.l10n.localizeHTML();
-    }
+    mvelo.l10n.localizeHTML();
 
     if (logEntryTmpl === undefined) {
       logEntryTmpl = $('#activityLog .logEntry').parent().html();
@@ -100,11 +75,9 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function hide() {
-    if (crx) {
-      $(document.body).fadeOut(() => {
-        window.close();
-      });
-    }
+    $(document.body).fadeOut(() => {
+      window.close();
+    });
   }
 
   function handleAppActivation() {
@@ -119,7 +92,11 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     }
   }
 
-  function messageListener(msg) {
+  function sendMessage(msg) {
+    chrome.runtime.sendMessage(msg, messageListener);
+  }
+
+  function messageListener(msg = {}) {
     switch (msg.event) {
       case 'init':
         init();

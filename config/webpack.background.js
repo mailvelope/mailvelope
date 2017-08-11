@@ -5,19 +5,19 @@ const path = require('path');
 const common = require('./webpack.common');
 const pjson = require('../package.json');
 
-const entry = './src/chrome/background.js';
+const entry = './src/background.js';
 const output = {
-  path: path.resolve('./build/chrome'),
+  path: path.resolve('./build/tmp'),
   pathinfo: true,
   filename: 'background.bundle.js'
 };
 const resolve = {
   modules: ["node_modules"],
   alias: {
-    'lib-mvelo': path.resolve('./src/chrome/lib/lib-mvelo'),
+    'lib-mvelo': path.resolve('./src/lib/lib-mvelo'),
     openpgp: path.resolve('./dep/chrome/openpgpjs/dist/openpgp'),
     'mailreader-parser': path.resolve('./node_modules/mailreader/src/mailreader-parser'),
-    'emailjs-stringencoding': path.resolve('./src/chrome/lib/emailjs-stringencoding')
+    'emailjs-stringencoding': path.resolve('./src/lib/emailjs-stringencoding')
   }
 };
 
@@ -28,7 +28,7 @@ const prod = {
   resolve,
 
   module: {
-    rules: [common.replaceVersion(pjson.version)],
+    rules: [common.replaceVersion(/defaults\.json$/, pjson.version, true)],
     noParse: /openpgp\.js$/
   },
 
@@ -44,7 +44,7 @@ const dev = {
   resolve,
 
   module: {
-    rules: [common.replaceVersion(`${pjson.version} build: ${(new Date()).toISOString().slice(0, 19)}`)],
+    rules: [common.replaceVersion(/defaults\.json$/, `${pjson.version} build: ${(new Date()).toISOString().slice(0, 19)}`, true)],
     noParse: /openpgp\.js$/
   },
 
@@ -52,12 +52,7 @@ const dev = {
 
 };
 
-module.exports = [
-  require('./webpack.app').dev,
-  require('./webpack.cs').dev,
-  ...require('./webpack.comp').dev,
-  dev,
-];
+module.exports = [dev];
 
 module.exports.prod = prod;
 module.exports.dev = dev;

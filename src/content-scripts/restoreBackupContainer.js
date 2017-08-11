@@ -33,7 +33,7 @@ export default class RestoreBackupContainer {
    * @returns {mvelo.RestoreBackupContainer}
    */
   create(done) {
-    let url;
+    const url = mvelo.extension.getURL(`components/restore-backup/restoreBackupDialog.html?id=${this.id}`);
 
     this.done = done;
     this.parent = document.querySelector(this.selector);
@@ -46,12 +46,6 @@ export default class RestoreBackupContainer {
         keyringId: this.keyringId
       }
     });
-
-    if (mvelo.crx) {
-      url = mvelo.extension.getURL(`components/restore-backup/restoreBackupDialog.html?id=${this.id}`);
-    } else if (mvelo.ffa) {
-      url = `about:blank?mvelo=restoreBackup&id=${this.id}`;
-    }
 
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);

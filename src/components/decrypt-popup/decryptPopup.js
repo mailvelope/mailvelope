@@ -44,7 +44,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     $(window).on('beforeunload', onClose);
     addDecryptComponent();
     mvelo.l10n.localizeHTML();
-    if (mvelo.ffa) {
+    if (mvelo.webex) {
       // doc.execCommand('copy') not working on Firefox
       $('#copyBtn').hide();
     }

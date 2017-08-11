@@ -1,130 +1,110 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2012-2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
-/* eslint strict: 0 */
+import mvelo from '../../mvelo';
+import dompurify from 'dompurify';
 
-const data = require('sdk/self').data;
-const tabs = require('sdk/tabs');
-const windows = require('sdk/windows').browserWindows;
-const addonWindow = require('sdk/addon/window');
-const timer = require('sdk/timers');
-const ss = require('sdk/simple-storage');
-const url = require('sdk/url');
-const l10nGet = require('sdk/l10n').get;
-
-const mvelo = require('../../mvelo');
-const CWorker = require('./web-worker').Worker;
-const request = require('sdk/request').Request;
-
-let mainWindow = windows.activeWindow; // current active main window
-windows.on('close', () => mainWindow = windows.activeWindow);
-
-mvelo.ffa = true;
-mvelo.crx = false;
+export default mvelo;
 
 mvelo.data = {};
 
 mvelo.data.url = function(path) {
-  return data.url(path);
+  return chrome.runtime.getURL(path);
 };
 
 mvelo.data.load = function(path) {
-  return new Promise(resolve => {
-    resolve(data.load(path));
+  return new Promise((resolve, reject) => {
+    const req = new XMLHttpRequest();
+    req.open('GET', chrome.runtime.getURL(path));
+    req.responseType = 'text';
+    req.onload = function() {
+      if (req.status == 200) {
+        resolve(req.response);
+      } else {
+        reject(new Error(req.statusText));
+      }
+    };
+    req.onerror = function() {
+      reject(new Error('Network Error'));
+    };
+    req.send();
   });
 };
 
 mvelo.tabs = {};
 
-mvelo.tabs.worker = {};
-
 mvelo.tabs.getActive = function(callback) {
-  callback(tabs.activeTab);
+  // get selected tab, "*://*/*" filters out non-http(s)
+  chrome.tabs.query({active: true, currentWindow: true, url: "*://*/*"}, tabs => {
+    callback(tabs[0]);
+  });
 };
 
 mvelo.tabs.attach = function(tab, options, callback) {
-  const lopt = {};
-  if (options) {
-    lopt.contentScriptFile = options.contentScriptFile && options.contentScriptFile.map(file => data.url(file));
-    lopt.contentScript = options.contentScript;
-    lopt.contentScriptOptions = options.contentScriptOptions;
+  function executeScript(file, callback) {
+    if (file) {
+      chrome.tabs.executeScript(tab.id, {file, allFrames: true}, () => {
+        executeScript(options.contentScriptFile.shift(), callback);
+      });
+    } else {
+      callback(tab);
+    }
   }
-  lopt.contentScriptFile = lopt.contentScriptFile || [];
-  lopt.contentScriptFile.push(data.url('lib/messageAdapter.js'));
-  lopt.contentScriptOptions = lopt.contentScriptOptions || {};
-  lopt.contentScriptOptions.expose_messaging = lopt.contentScriptOptions.expose_messaging || true;
-  lopt.contentScriptOptions.data_path = data.url();
-  const worker = tab.attach(lopt);
-  this.worker[tab.index] = worker;
-  worker.port.on('message-event', options.onMessage);
-  //console.log('attach registers for message-event', Date.now());
-  worker.port.once('message-event', function() {
-    if (callback) {
-      // first event on port will fire callback after 200ms delay
-      //console.log('starting attach callback timer', msg.event, Date.now());
-      timer.setTimeout(callback.bind(this, tab), 200);
+  executeScript(options.contentScriptFile.shift(), function() {
+    if (options.contentScript) {
+      chrome.tabs.executeScript(tab.id, {code: options.contentScript, allFrames: true}, callback.bind(this, tab));
+    } else {
+      callback(tab);
     }
   });
 };
 
 mvelo.tabs.query = function(url, callback) {
-  const result = [];
-  const tabs = windows.activeWindow.tabs;
-  const reUrl = new RegExp(`${url}.*`);
-  for (let i = 0; i < tabs.length; i++) {
-    if (reUrl.test(tabs[i].url)) {
-      result.push(tabs[i]);
-    }
+  if (!/\*$/.test(url)) {
+    url += '*';
   }
-  callback(result);
+  chrome.tabs.query({url, currentWindow: true}, callback);
 };
 
 mvelo.tabs.create = function(url, complete, callback) {
-  tabs.open({
-    url,
-    onReady: complete ? callback : undefined,
-    onOpen: complete ? undefined : callback
+  let newTab;
+  if (complete) {
+    // wait for tab to be loaded
+    chrome.tabs.onUpdated.addListener(function updateListener(tabid, info) {
+      if (tabid === newTab.id && info.status === 'complete') {
+        chrome.tabs.onUpdated.removeListener(updateListener);
+        if (callback) {
+          callback(newTab);
+        }
+      }
+    });
+  }
+  chrome.tabs.create({url}, tab => {
+    if (complete) {
+      newTab = tab;
+    } else {
+      if (callback) {
+        callback(tab);
+      }
+    }
   });
 };
 
 mvelo.tabs.activate = function(tab, options, callback) {
-  if (options.url) {
-    tab.url = options.url;
-  }
-  tab.activate();
-  if (callback) {
-    callback(tab);
-  }
+  options = options || {};
+  options.active = true;
+  chrome.tabs.update(tab.id, options, callback);
 };
 
-mvelo.tabs.eventIndex = 0;
-
 mvelo.tabs.sendMessage = function(tab, msg, callback) {
-  if (callback) {
-    msg.response = `resp${this.eventIndex++}`;
-    this.worker[tab.index].port.once(msg.response, callback);
-  }
-  this.worker[tab.index].port.emit('message-event', msg);
+  chrome.tabs.sendMessage(tab.id, msg, null, callback);
 };
 
 mvelo.tabs.loadOptionsTab = function(hash, callback) {
-  mainWindow.activate();
   // check if options tab already exists
-  const url = data.url('app/app.html');
+  const url = chrome.runtime.getURL('app/app.html');
   this.query(url, function(tabs) {
     if (tabs.length === 0) {
       // if not existent, create tab
@@ -150,120 +130,96 @@ mvelo.tabs.onOptionsTabReady = function() {
 
 mvelo.storage = {};
 
-mvelo.storage._setPort = function(port) {
-  this.port = port;
-  this.getQueue = [];
-  this.setQueue = [];
-  this.removeQueue = [];
-  port.onMessage.addListener(msg => {
-    let reply;
-    switch (msg.event) {
-      case 'storage-get-response':
-        reply = this.getQueue.shift();
-        break;
-      case 'storage-set-response':
-        reply = this.setQueue.shift();
-        break;
-      case 'storage-remove-response':
-        reply = this.removeQueue.shift();
-        break;
-      default:
-        console.log('unknown storage event:', msg.event);
-    }
-    if (msg.error) {
-      reply.reject(msg.error);
-    } else {
-      reply.resolve(msg.data);
-    }
-  });
-};
-
 mvelo.storage.get = function(id) {
   return new Promise((resolve, reject) => {
-    this.port.postMessage({event: 'storage-get', id});
-    this.getQueue.push({resolve, reject});
+    chrome.storage.local.get(id, items => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+      } else {
+        resolve(items[id]);
+      }
+    });
   });
 };
 
 mvelo.storage.set = function(id, obj) {
   return new Promise((resolve, reject) => {
-    this.port.postMessage({event: 'storage-set', id, value: obj});
-    this.setQueue.push({resolve, reject});
+    chrome.storage.local.set({[id]: obj}, () => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+      } else {
+        resolve();
+      }
+    });
   });
 };
 
 mvelo.storage.remove = function(id) {
   return new Promise((resolve, reject) => {
-    this.port.postMessage({event: 'storage-remove', id});
-    this.removeQueue.push({resolve, reject});
+    chrome.storage.local.remove(id, () => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+      } else {
+        resolve();
+      }
+    });
   });
 };
 
 mvelo.storage.old = {};
 
 mvelo.storage.old.get = function(id) {
-  if (typeof ss.storage[id] === 'string') {
-    return JSON.parse(ss.storage[id]);
-  }
-  return ss.storage[id];
+  return JSON.parse(window.localStorage.getItem(id));
 };
 
 mvelo.storage.old.remove = function(id) {
-  delete ss.storage[id];
+  window.localStorage.removeItem(id);
 };
 
 mvelo.windows = {};
 
 mvelo.windows.modalActive = false;
 
-mvelo.windows.internalURL = new RegExp(`^${data.url('')}`);
-
-// FIFO list for window options
-mvelo.windows.options = [];
-
 mvelo.windows.openPopup = function(url, options, callback) {
-  const winOpts = {};
-  winOpts.url = data.url(url);
-  if (mvelo.windows.internalURL.test(winOpts.url)) {
-    this.options.push(options);
-  }
-  winOpts.onDeactivate = function() {
-    if (options && options.modal) {
-      this.activate();
+  chrome.windows.getCurrent(null, current => {
+    if (window.navigator.platform.indexOf('Win') >= 0 && options.height) {
+      options.height += 36;
     }
-  };
-  if (callback) {
-    winOpts.onOpen = callback;
-  }
-  mainWindow = windows.activeWindow;
-  windows.open(winOpts);
-};
-
-const delegate = {
-  onTrack(window) {
-    // check for mailvelope popup
-    if (window.arguments && mvelo.windows.internalURL.test(window.arguments[0])) {
-      window.locationbar.visible = false;
-      window.menubar.visible = false;
-      window.personalbar.visible = false;
-      window.toolbar.visible = false;
-      const options = mvelo.windows.options.shift();
-      if (options) {
-        window.innerWidth = options.width;
-        window.innerHeight = options.height;
-        for (const main in winUtils.windowIterator()) {
-          const y = parseInt(main.screenY + (main.outerHeight - options.height) / 2);
-          const x = parseInt(main.screenX + (main.outerWidth - options.width) / 2);
-          window.moveTo(x, y);
-          break;
-        }
+    chrome.windows.create({
+      url,
+      width: options && options.width,
+      height: options && options.height,
+      top: options && parseInt(current.top + (current.height - options.height) / 2),
+      left: options && parseInt(current.left + (current.width - options.width) / 2),
+      type: 'popup'
+    }, popup => {
+      //console.log('popup created', popup);
+      if (options && options.modal) {
+        mvelo.windows.modalActive = true;
+        const focusChangeHandler = function(newFocus) {
+          //console.log('focus changed', newFocus);
+          if (newFocus !== popup.id && newFocus !== chrome.windows.WINDOW_ID_NONE) {
+            chrome.windows.update(popup.id, {focused: true});
+          }
+        };
+        chrome.windows.onFocusChanged.addListener(focusChangeHandler);
+        const removedHandler = function(removed) {
+          //console.log('removed', removed);
+          if (removed === popup.id) {
+            //console.log('remove handler');
+            mvelo.windows.modalActive = false;
+            chrome.windows.onFocusChanged.removeListener(focusChangeHandler);
+            chrome.windows.onRemoved.removeListener(removedHandler);
+          }
+        };
+        chrome.windows.onRemoved.addListener(removedHandler);
       }
-    }
-  }
+      if (callback) {
+        callback(new mvelo.windows.BrowserWindow(popup.id));
+      }
+    });
+  });
 };
-
-const winUtils = require('sdk/deprecated/window-utils');
-new winUtils.WindowTracker(delegate);
 
 mvelo.windows.BrowserWindow = function(id) {
   this._id = id;
@@ -273,89 +229,62 @@ mvelo.windows.BrowserWindow.prototype.activate = function() {
   chrome.windows.update(this._id, {focused: true});
 };
 
+mvelo.windows.BrowserWindow.prototype.close = function() {
+  chrome.windows.remove(this._id);
+};
+
 mvelo.util = mvelo.util || {};
 
-const dompurifyWorker = require('sdk/page-worker').Page({
-  contentScriptFile: [
-    data.url('dep/purify.js'),
-    data.url('dep/purifyAdapter.js')
-  ]
+// Add a hook to make all links open a new window
+// attribution: https://github.com/cure53/DOMPurify/blob/master/demos/hooks-target-blank-demo.html
+dompurify.addHook('afterSanitizeAttributes', node => {
+  // set all elements owning target to target=_blank
+  if ('target' in node) {
+    node.setAttribute('target', '_blank');
+  }
+  // set MathML links to xlink:show=new
+  if (!node.hasAttribute('target') &&
+      (node.hasAttribute('xlink:href') ||
+       node.hasAttribute('href'))) {
+    node.setAttribute('xlink:show', 'new');
+  }
 });
 
 mvelo.util.parseHTML = function(html, callback) {
-  const message = {
-    data: html,
-    response: mvelo.util.getHash()
-  };
-  dompurifyWorker.port.once(message.response, callback);
-  dompurifyWorker.port.emit('parse', message);
+  callback(dompurify.sanitize(html, {SAFE_FOR_JQUERY: true}));
 };
 
 // must be bound to window, otherwise illegal invocation
-mvelo.util.setTimeout = timer.setTimeout;
-mvelo.util.clearTimeout = timer.clearTimeout;
+mvelo.util.setTimeout = window.setTimeout.bind(window);
+mvelo.util.clearTimeout = window.clearTimeout.bind(window);
 
-mvelo.util.getHostname = function(source) {
-  return url.URL(source).host.split(':')[0];
+mvelo.util.getHostname = function(url) {
+  const a = document.createElement('a');
+  a.href = url;
+  return a.hostname;
 };
 
-mvelo.util.getHost = function(source) {
-  return url.URL(source).host;
+mvelo.util.getHost = function(url) {
+  const a = document.createElement('a');
+  a.href = url;
+  return a.host;
 };
 
 mvelo.util.getDOMWindow = function() {
-  return addonWindow.window;
+  return window;
 };
 
-mvelo.util.getWorker = function() {
-  return CWorker;
-};
+mvelo.util.fetch = window.fetch.bind(window);
 
-mvelo.util.fetch = function(url, options) {
-  options = options || {};
-  return new Promise(resolve => {
-    const fetchRequ = request({
-      url,
-      content: options.body,
-      contentType: 'application/json',
-      onComplete(response) {
-        resolve({
-          status: response.status,
-          json() {
-            return Promise.resolve(response.json);
-          }
-        });
-      }
-    });
-    switch (options.method) {
-      case 'POST':
-        fetchRequ.post();
-        break;
-      case 'DELETE':
-        fetchRequ.delete();
-        break;
-      default:
-        fetchRequ.get();
-    }
-  });
-};
-
-mvelo.l10n = mvelo.l10n || {};
-
-mvelo.l10n.get = function(id, substitutions) {
-  if (substitutions) {
-    return l10nGet.apply(null, [id].concat(substitutions));
-  } else {
-    return l10nGet(id);
-  }
-};
+mvelo.l10n.get = chrome.i18n.getMessage;
 
 mvelo.browserAction = {};
 
-mvelo.browserAction.toggleButton = null;
-
 mvelo.browserAction.state = function(options) {
-  this.toggleButton.state('window', options);
+  if (typeof options.badge !== 'undefined') {
+    chrome.browserAction.setBadgeText({text: options.badge});
+  }
+  if (typeof options.badgeColor !== 'undefined') {
+    chrome.browserAction.setBadgeBackgroundColor({color: options.badgeColor});
+  }
 };
-
-module.exports = mvelo;

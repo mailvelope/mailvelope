@@ -3,6 +3,7 @@
 
 const path = require('path');
 const common = require('./webpack.common');
+const pjson = require('../package.json');
 
 const entry = './src/content-scripts/main.js';
 const output = {
@@ -17,22 +18,23 @@ const resolve = {
 };
 
 exports.prod = {
-
   entry,
   output,
   resolve,
-  plugins: common.plugins('production')
-
+  plugins: common.plugins('production'),
+  module: {
+    rules: [common.replaceVersion(/main\.js$/, pjson.version)]
+  }
 };
 
 exports.dev = {
-
   devtool: 'inline-source-map',
-
   entry,
   output,
   resolve,
-  plugins: common.plugins('development')
-
+  plugins: common.plugins('development'),
+  module: {
+    rules: [common.replaceVersion(/main\.js$/, pjson.version)]
+  }
 };
 

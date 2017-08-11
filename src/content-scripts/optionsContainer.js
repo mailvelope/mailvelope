@@ -32,13 +32,8 @@ export default class OptionsContainer {
     this.done = done;
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');
-    let url;
+    const url = mvelo.extension.getURL(`app/app.html?${options}`);
     const options = `krid=${encodeURIComponent(this.keyringId)}${this.email}${this.fullName}#/keyring/${this.hasPrivateKey ? 'display' : 'setup'}`;
-    if (mvelo.crx) {
-      url = mvelo.extension.getURL(`app/app.html?${options}`);
-    } else if (mvelo.ffa) {
-      url = `about:blank?mvelo=options&${options}`;
-    }
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);
     this.container.setAttribute('style', 'width: 100%; height: 100%; overflow-x: none; overflow-y: auto');

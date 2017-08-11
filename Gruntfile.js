@@ -74,6 +74,12 @@ module.exports = function(grunt) {
             cwd: 'node_modules/ng-tags-input/build/',
             src: ['ng-tags-input.min.js', 'ng-tags-input.min.css', 'ng-tags-input.bootstrap.min.css'],
             dest: 'build/tmp/dep/ng-tags-input/'
+          },
+          {
+            expand: true,
+            flatten: true,
+            src: ['dep/chrome/openpgpjs/dist/openpgp.js', 'dep/chrome/openpgpjs/dist/openpgp.worker.js'],
+            dest: 'build/tmp/dep/'
           }
         ]
       },
@@ -100,37 +106,12 @@ module.exports = function(grunt) {
         }]
       },
 
-      dep_chrome: {
-        files: [{
-          expand: true,
-          flatten: true,
-          src: ['dep/chrome/openpgpjs/dist/openpgp.js', 'dep/chrome/openpgpjs/dist/openpgp.worker.js'],
-          dest: 'build/chrome/dep/'
-        }]
-      },
-
-      dep_firefox: {
-        files: [{
-          expand: true,
-          flatten: true,
-          src: ['dep/firefox/openpgpjs/dist/openpgp.min.js', 'dep/firefox/openpgpjs/dist/openpgp.worker.min.js'],
-          dest: 'build/firefox/data/'
-        },
-        {
-          expand: true,
-          cwd: 'node_modules/dompurify/src',
-          src: 'purify.js',
-          dest: 'build/firefox/data/dep/'
-        }]
-      },
-
       chrome: {
         files: [{
           expand: true,
           cwd: 'src/',
           src: [
-            'chrome/**/*',
-            '!chrome/**/*.js'
+            'chrome/manifest.json'
           ],
           dest: 'build/'
         }]
@@ -141,35 +122,25 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'src/',
           src: [
-            'firefox/**/*',
-            '!firefox/lib/*'
+            'firefox/manifest.json'
           ],
           dest: 'build/'
-        },
-        {
-          expand: true,
-          cwd: 'src/',
-          src: [
-            'components/generate-key/**/*'
-          ],
-          dest: 'build/firefox/webextension'
         }]
       },
 
-      app2tmp: {
+      common: {
         files: [{
           expand: true,
           cwd: 'src/',
           src: [
-            'app/**/*',
-            '!app/**/*.js',
-            '!app/**/*.css',
+            'app/app.html',
             'client-API/*',
             'components/**/*',
             '!components/editor/**/*.js',
+            '!components/util/**/*',
             'content-scripts/*.css',
             'img/*',
-            'lib/*',
+            'lib/jquery.ext.js',
             'res/**/*',
             '!res/*.json',
             'mvelo.*'
@@ -192,69 +163,15 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'build/tmp/',
           src: '**/*',
-          dest: 'build/firefox/data'
-        },
-        {
-          expand: true,
-          cwd: 'build/tmp/',
-          src: 'dep/bootstrap/**/*',
-          dest: 'build/firefox/webextension'
-        },
-        {
-          expand: true,
-          cwd: 'build/tmp/',
-          src: 'mvelo.*',
-          dest: 'build/firefox/webextension'
-        },
-        {
-          expand: true,
-          cwd: 'build/tmp/',
-          src: 'dep/jquery.*',
-          dest: 'build/firefox/webextension'
-        },
-        {
-          expand: true,
-          cwd: 'build/tmp/',
-          src: 'lib/jquery.*',
-          dest: 'build/firefox/webextension'
+          dest: 'build/firefox'
         }]
       },
 
-      locale_chrome: {
+      locale: {
         expand: true,
         cwd: 'locales',
         src: '**/*',
-        dest: 'build/chrome/_locales'
-      },
-
-      locale_firefox: {
-        expand: true,
-        cwd: 'locales',
-        src: '**/*.json',
-        dest: 'build/firefox/locale/',
-        rename(dest, src) {
-          return `${dest + src.match(/^[\w-]{2,5}/)[0].replace('_', '-')}.properties`;
-        },
-        options: {
-          process(content) {
-            const locale = JSON.parse(content);
-            let result = '';
-            for (const key in locale) {
-              result += `${key}= ${locale[key].message.replace(/\$(\d)/g, '%$1s')}\n`;
-            }
-            return result;
-          }
-        }
-      },
-
-      xpi: {
-        expand: true,
-        flatten: true,
-        src: 'dist/*.xpi',
-        dest: 'dist/',
-        rename(dest) {
-          return `${dest}mailvelope.firefox.xpi`;
-        }
+        dest: 'build/tmp/_locales'
       }
     },
 
@@ -322,42 +239,14 @@ module.exports = function(grunt) {
         }
       },
       version_firefox: {
-        src: 'build/firefox/package.json',
-        dest: 'build/firefox/package.json',
+        src: 'build/firefox/manifest.json',
+        dest: 'build/firefox/manifest.json',
         options: {
           patterns: [{
             match: 'mvelo_version',
             replacement: pkg.version
           }]
         }
-      },
-      version_content_script: {
-        src: 'build/tmp/content-scripts/cs-mailvelope.js',
-        dest: 'build/tmp/content-scripts/cs-mailvelope.js',
-        options: {
-          patterns: [{
-            match: 'mvelo_version',
-            replacement: pkg.version
-          }]
-        }
-      },
-      openpgp_firefox: {
-        src: 'dep/firefox/openpgpjs/dist/openpgp.min.js',
-        dest: 'dep/firefox/openpgpjs/dist/openpgp.js',
-        options: {
-          usePrefix: false,
-          patterns: [{
-            match: "*/",
-            replacement: "*/\nvar window = require('window');\n"
-          }]
-        }
-      }
-    },
-
-    jpm: {
-      options: {
-        src: "./build/firefox",
-        xpi: "./dist/"
       }
     },
 
@@ -404,7 +293,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-eslint');
-  grunt.loadNpmTasks('grunt-jpm');
   grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-mocha-phantomjs');
   grunt.loadNpmTasks('grunt-replace');
@@ -418,18 +306,15 @@ module.exports = function(grunt) {
   grunt.registerTask('dist-doc', ['jsdoc', 'compress:doc']);
 
   // build steps
-  grunt.registerTask('chrome_modules', ['copy:chrome', 'replace:version_chrome', 'copy:dep_chrome']);
-  grunt.registerTask('firefox_modules', ['copy:firefox', 'replace:version_firefox', 'replace:openpgp_firefox', 'copy:dep_firefox']);
-  grunt.registerTask('copy2tmp', ['copy:app2tmp', 'copy:dep', 'replace:bootstrap']);
-  grunt.registerTask('final_steps', ['replace:version_content_script', 'copy:tmp2chrome', 'copy:tmp2firefox', 'copy:locale_firefox', 'copy:locale_chrome']);
+  grunt.registerTask('browser', ['copy:chrome', 'replace:version_chrome', 'copy:firefox', 'replace:version_firefox']);
+  grunt.registerTask('copy2tmp', ['copy:common', 'copy:locale', 'copy:dep', 'replace:bootstrap']);
+  grunt.registerTask('tmp2browser', ['copy:tmp2chrome', 'copy:tmp2firefox']);
 
-  // development builds
-  grunt.registerTask('default', ['clean', 'eslint', 'chrome_modules', 'firefox_modules', 'webpack:dev', 'copy2tmp', 'copy:dep_dev', 'final_steps']);
-  grunt.registerTask('chrome', ['clean', 'eslint', 'chrome_modules', 'webpack:chrome', 'copy2tmp', 'copy:tmp2chrome', 'copy:locale_chrome']);
-  grunt.registerTask('firefox', ['clean', 'eslint', 'firefox_modules', 'webpack:firefox', 'copy2tmp', 'copy:tmp2firefox', 'copy:locale_firefox']);
+  // development build
+  grunt.registerTask('default', ['clean', 'eslint', 'browser', 'copy2tmp', 'copy:dep_dev', 'webpack:dev', 'tmp2browser']);
 
   // production build
-  grunt.registerTask('prod', ['clean', 'eslint', 'chrome_modules', 'firefox_modules', 'webpack:prod', 'copy2tmp', 'copy:dep_prod', 'final_steps']);
+  grunt.registerTask('prod', ['clean', 'eslint', 'browser', 'copy2tmp', 'copy:dep_prod', 'webpack:prod', 'tmp2browser']);
 
   grunt.registerTask('test', ['webpack:test', 'connect:test', 'mocha_phantomjs']);
 

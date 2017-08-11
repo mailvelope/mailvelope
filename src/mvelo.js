@@ -18,11 +18,11 @@
 
 /* eslint strict: 0 */
 
-var mvelo = typeof window !== 'undefined' && window.mvelo || {}; // eslint-disable-line no-var
+var mvelo = mvelo || {}; // eslint-disable-line no-var
+// web extension
+mvelo.webex = typeof browser !== 'undefined';
 // chrome extension
-mvelo.crx = typeof chrome !== 'undefined';
-// firefox addon
-mvelo.ffa = mvelo.ffa || typeof self !== 'undefined' && self.port || !mvelo.crx;
+mvelo.crx = !mvelo.webex && typeof chrome !== 'undefined';
 
 /* constants */
 
@@ -59,59 +59,28 @@ mvelo.MAXFILEUPLOADSIZE = 25 * 1024 * 1024;
 mvelo.MAXFILEUPLOADSIZECHROME = 20 * 1024 * 1024; // temporal fix due issue in Chrome
 
 mvelo.appendTpl = function($element, path) {
-  if (mvelo.ffa && !/^resource/.test(document.location.protocol)) {
-    return new Promise(resolve => {
-      mvelo.data.load(path, result => {
-        $element.append($.parseHTML(result));
+  return new Promise((resolve, reject) => {
+    const req = new XMLHttpRequest();
+    req.open('GET', path);
+    req.responseType = 'text';
+    req.onload = function() {
+      if (req.status == 200) {
+        $element.append($.parseHTML(req.response));
         setTimeout(() => resolve($element), 1);
-      });
-    });
-  } else {
-    return new Promise((resolve, reject) => {
-      const req = new XMLHttpRequest();
-      req.open('GET', path);
-      req.responseType = 'text';
-      req.onload = function() {
-        if (req.status == 200) {
-          $element.append($.parseHTML(req.response));
-          setTimeout(() => resolve($element), 1);
-        } else {
-          reject(new Error(req.statusText));
-        }
-      };
-      req.onerror = function() {
-        reject(new Error('Network Error'));
-      };
-      req.send();
-    });
-  }
-};
-
-// for fixfox, mvelo.extension is exposed from a content script
-mvelo.extension = mvelo.extension || mvelo.crx && chrome.runtime;
-// extension.connect shim for Firefox
-if (mvelo.ffa && mvelo.extension) {
-  mvelo.extension.connect = function(obj) {
-    mvelo.extension._connect(obj);
-    obj.events = {};
-    const port = {
-      postMessage: mvelo.extension.port.postMessage,
-      disconnect: mvelo.extension.port.disconnect.bind(null, obj),
-      onMessage: {
-        addListener: mvelo.extension.port.addListener.bind(null, obj)
-      },
-      onDisconnect: {
-        addListener: mvelo.extension.port.addDisconnectListener.bind(null)
+      } else {
+        reject(new Error(req.statusText));
       }
     };
-    // page unload triggers port disconnect
-    window.addEventListener('unload', port.disconnect);
-    return port;
-  };
-}
+    req.onerror = function() {
+      reject(new Error('Network Error'));
+    };
+    req.send();
+  });
+};
 
-// for fixfox, mvelo.l10n is exposed from a content script
-mvelo.l10n = mvelo.l10n || mvelo.crx && {
+mvelo.extension = mvelo.extension || chrome.runtime;
+
+mvelo.l10n = mvelo.l10n || {
   getMessages(ids, callback) {
     const result = {};
     ids.forEach(id => {
@@ -135,37 +104,6 @@ mvelo.l10n = mvelo.l10n || mvelo.crx && {
     });
   }
 };
-
-// work around for WebExtensions
-if (typeof window !== 'undefined' && window.browser) {
-  mvelo.l10n = {
-    getMessages(ids, callback) {
-      mvelo.extension.sendMessage({
-        event: 'get-l10n-messages',
-        ids
-      }, callback);
-    },
-    localizeHTML(l10n, idSelector) {
-      const selector = idSelector ? `${idSelector} [data-l10n-id]` : '[data-l10n-id]';
-      if (l10n) {
-        [].forEach.call(document.querySelectorAll(selector), element => {
-          element.textContent = l10n[element.dataset.l10nId] || element.dataset.l10nId;
-        });
-        [].forEach.call(document.querySelectorAll('[data-l10n-title-id]'), element => {
-          element.setAttribute("title", l10n[element.dataset.l10nTitleId] || element.dataset.l10nTitleId);
-        });
-      } else {
-        l10n = [].map.call(document.querySelectorAll(selector), element => element.dataset.l10nId);
-        [].map.call(document.querySelectorAll('[data-l10n-title-id]'), element => {
-          l10n.push(element.dataset.l10nTitleId);
-        });
-        mvelo.l10n.getMessages(l10n, result => {
-          mvelo.l10n.localizeHTML(result, idSelector);
-        });
-      }
-    }
-  };
-}
 
 mvelo.util = {};
 
@@ -330,18 +268,6 @@ mvelo.util.extractFileExtension = function(fileName) {
   } else {
     return fileName.substring(lastindexDot + 1, fileName.length).toLowerCase().trim();
   }
-};
-
-// Attribution: http://www.2ality.com/2012/08/underscore-extend.html
-mvelo.util.extend = function(target) {
-  const sources = [].slice.call(arguments, 1);
-  sources.forEach(source => {
-    Object.getOwnPropertyNames(source).forEach(propName => {
-      Object.defineProperty(target, propName,
-        Object.getOwnPropertyDescriptor(source, propName));
-    });
-  });
-  return target;
 };
 
 mvelo.util.addLoadingAnimation = function($parent) {

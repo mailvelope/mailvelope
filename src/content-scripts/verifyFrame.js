@@ -60,12 +60,7 @@ export default class VerifyFrame extends ExtractFrame {
       frameBorder: 0,
       scrolling: 'no'
     });
-    let url;
-    if (mvelo.crx) {
-      url = mvelo.extension.getURL(`components/verify-inline/verifyInline.html?id=${this.id}`);
-    } else if (mvelo.ffa) {
-      url = `about:blank?mvelo=verifyInline&id=${this.id}`;
-    }
+    const url = mvelo.extension.getURL(`components/verify-inline/verifyInline.html?id=${this.id}`);
     this._vDialog.attr('src', url);
     this._eFrame.append(this._vDialog);
     this._setFrameDim();

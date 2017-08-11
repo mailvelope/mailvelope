@@ -1,6 +1,6 @@
 /**
  * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
+ * Copyright (C) 2012-2017 Mailvelope GmbH
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License version 3
@@ -15,11 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* eslint strict: 0 */
-'use strict';
-
-const mvelo = require('./lib/lib-mvelo');
-const controller = require('../controller/main.controller');
+import mvelo from './lib/lib-mvelo';
+import * as controller from './controller/main.controller';
 
 // inject content script only once per time slot
 const injectTimeSlot = 600;

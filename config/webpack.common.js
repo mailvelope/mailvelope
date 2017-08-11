@@ -50,9 +50,9 @@ function resolve() {
   };
 }
 
-function replaceVersion(version) {
-  return {
-    test: /defaults\.json$/,
+function replaceVersion(test, version, json) {
+  const rule = {
+    test,
     use: [
       {
         loader: 'string-replace-loader',
@@ -60,12 +60,13 @@ function replaceVersion(version) {
           search: '@@mvelo_version',
           replace: version
         }
-      },
-      {
-        loader: 'json-loader'
       }
     ]
   };
+  if (json) {
+    rule.use.push({loader: 'json-loader'});
+  }
+  return rule;
 }
 
 exports.plugins = plugins;
