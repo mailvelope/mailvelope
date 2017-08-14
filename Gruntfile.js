@@ -139,6 +139,7 @@ module.exports = function(grunt) {
             '!components/editor/**/*.js',
             '!components/util/**/*',
             'content-scripts/*.css',
+            'content-scripts/addToWatchlist.js',
             'img/*',
             'lib/jquery.ext.js',
             'res/**/*',

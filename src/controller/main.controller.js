@@ -42,7 +42,6 @@ sub.factory.register('restoreBackupCont',   PrivateKeyController);
 sub.factory.register('restoreBackupDialog', PrivateKeyController);
 
 
-let scannedHosts = [];
 const specific = {};
 
 export function init() {
@@ -76,22 +75,11 @@ export function handleMessageEvent(request, sender, sendResponse) {
     case 'browser-action':
       onBrowserAction(request.action);
       break;
-    case 'iframe-scan-result':
-      scannedHosts = scannedHosts.concat(request.result);
-      break;
     case 'set-watch-list':
       model.setWatchList(request.data)
-      .then(() => {
-        if (mvelo.webex) {
-          reloadFrames(true);
-        }
-        specific.initScriptInjection();
-      });
+      .then(() => specific.initScriptInjection());
       break;
     case 'init-script-injection':
-      if (mvelo.webex) {
-        reloadFrames(true);
-      }
       specific.initScriptInjection();
       break;
     case 'get-all-keyring-attr':
@@ -237,42 +225,27 @@ function reloadFrames(main) {
 }
 
 function addToWatchList() {
-  const scanScript = " \
-      var hosts = $('iframe').get().map(function(element) { \
-        return $('<a/>').attr('href', element.src).prop('hostname'); \
-      }); \
-      hosts.push(document.location.hostname); \
-      mvelo.extension.sendMessage({ \
-        event: 'iframe-scan-result', \
-        result: hosts \
-      }); \
-    ";
-
-  mvelo.tabs.getActive(tab => {
-    if (tab) {
-      // reset scanned hosts buffer
-      scannedHosts.length = 0;
-      const options = {};
-      options.contentScriptFile = [];
-      options.contentScriptFile.push('dep/jquery.min.js');
-      options.contentScriptFile.push('mvelo.js');
-      options.contentScript = scanScript;
-      options.onMessage = handleMessageEvent;
-      // inject scan script
-      mvelo.tabs.attach(tab, options, () => {
-        // wait for message from scan script
-        mvelo.util.setTimeout(() => {
-          if (scannedHosts.length === 0) {
-            return;
-          }
-          const site = model.getHostname(tab.url);
-          scannedHosts.length = 0;
-          const slotId = mvelo.util.getHash();
-          sub.setAppDataSlot(slotId, site);
-          mvelo.tabs.loadOptionsTab(`?slotId=${slotId}#/settings/watchlist/push`, () => {});
-        }, 250);
-      });
+  let tab;
+  mvelo.tabs.getActive()
+  .then(active => {
+    tab = active;
+    if (!tab) {
+      throw new Error('No tab found');
     }
+    const options = {};
+    options.contentScriptFile = ['content-scripts/addToWatchList.js'];
+    // inject scan script
+    return mvelo.tabs.attach(tab, options);
+  })
+  .then(scannedHosts => {
+    // scanned hosts from iframes currently not used
+    if (scannedHosts.length === 0) {
+      return;
+    }
+    const site = model.getHostname(tab.url);
+    const slotId = mvelo.util.getHash();
+    sub.setAppDataSlot(slotId, site);
+    mvelo.tabs.loadOptionsTab(`?slotId=${slotId}#/settings/watchlist/push`, () => {});
   });
 }
 
