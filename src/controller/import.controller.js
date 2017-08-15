@@ -35,7 +35,7 @@ export default class ImportController extends sub.SubController {
         const slotId = mvelo.util.getHash();
         this.keyringId = sub.getActiveKeyringId();
         sub.setAppDataSlot(slotId, msg.data);
-        mvelo.tabs.loadOptionsTab(`?krid=${encodeURIComponent(this.keyringId)}&slotId=${slotId}#/keyring/import/push`, () => {});
+        mvelo.tabs.loadOptionsTab(`?krid=${encodeURIComponent(this.keyringId)}&slotId=${slotId}#/keyring/import/push`);
         break;
       }
       case 'key-import-dialog-init':
@@ -54,14 +54,7 @@ export default class ImportController extends sub.SubController {
         });
         break;
       case 'key-import-dialog-cancel':
-        this.closePopup();
-        if (this.invalidated) {
-          this.popupDone.resolve('INVALIDATED');
-        } else if (this.importError) {
-          this.popupDone.reject({message: 'An error occured during key import', code: 'IMPORT_ERROR'});
-        } else {
-          this.popupDone.resolve('REJECTED');
-        }
+        this.handleCancel();
         break;
       case 'key-import-user-input':
         uiLog.push(msg.source, msg.type);
@@ -71,11 +64,20 @@ export default class ImportController extends sub.SubController {
     }
   }
 
+  handleCancel() {
+    this.closePopup();
+    if (this.invalidated) {
+      this.popupDone.resolve('INVALIDATED');
+    } else if (this.importError) {
+      this.popupDone.reject({message: 'An error occured during key import', code: 'IMPORT_ERROR'});
+    } else {
+      this.popupDone.resolve('REJECTED');
+    }
+  }
+
   closePopup() {
     if (this.importPopup) {
-      try {
-        this.importPopup.close();
-      } catch (e) {}
+      this.importPopup.close();
       this.importPopup = null;
     }
   }
@@ -164,7 +166,14 @@ export default class ImportController extends sub.SubController {
   openPopup() {
     return new Promise((resolve, reject) => {
       this.popupDone = {resolve, reject};
-      mvelo.windows.openPopup(`components/import-key/importKeyDialog.html?id=${this.id}`, {width: 535, height: 458, modal: false}, window => this.importPopup = window);
+      mvelo.windows.openPopup(`components/import-key/importKeyDialog.html?id=${this.id}`, {width: 535, height: 458, modal: false})
+      .then(popup => {
+        this.importPopup = popup;
+        popup.addRemoveListener(() => {
+          this.importPopup = null;
+          this.handleCancel();
+        });
+      });
     });
   }
 }

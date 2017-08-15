@@ -245,7 +245,7 @@ function addToWatchList() {
     const site = model.getHostname(tab.url);
     const slotId = mvelo.util.getHash();
     sub.setAppDataSlot(slotId, site);
-    mvelo.tabs.loadOptionsTab(`?slotId=${slotId}#/settings/watchlist/push`, () => {});
+    mvelo.tabs.loadOptionsTab(`?slotId=${slotId}#/settings/watchlist/push`);
   });
 }
 
@@ -269,14 +269,7 @@ export function onBrowserAction(action) {
 }
 
 function loadOptions(hash) {
-  mvelo.tabs.loadOptionsTab(hash, (old, tab) => {
-    if (old) {
-      mvelo.tabs.sendMessage(tab, {
-        event: 'reload-options',
-        hash
-      });
-    }
-  });
+  mvelo.tabs.loadOptionsTab(hash);
 }
 
 function reduceHosts(hosts) {

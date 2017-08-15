@@ -82,69 +82,66 @@ mvelo.tabs.attach = function(tab, options) {
   return mvelo.util.sequential(file => browser.tabs.executeScript(tab.id, {file, allFrames: true}), options.contentScriptFile);
 };
 
-mvelo.tabs.query = function(url, callback) {
+mvelo.tabs.query = function(url) {
   if (!/\*$/.test(url)) {
     url += '*';
   }
-  chrome.tabs.query({url, currentWindow: true}, callback);
+  return browser.tabs.query({url, currentWindow: true});
 };
 
-mvelo.tabs.create = function(url, complete, callback) {
-  let newTab;
-  if (complete) {
-    // wait for tab to be loaded
-    chrome.tabs.onUpdated.addListener(function updateListener(tabid, info) {
-      if (tabid === newTab.id && info.status === 'complete') {
-        chrome.tabs.onUpdated.removeListener(updateListener);
-        if (callback) {
-          callback(newTab);
-        }
-      }
-    });
-  }
-  chrome.tabs.create({url}, tab => {
+mvelo.tabs.create = function(url, complete) {
+  return new Promise((resolve, reject) => {
+    let newTab;
     if (complete) {
-      newTab = tab;
-    } else {
-      if (callback) {
-        callback(tab);
-      }
+      // wait for tab to be loaded
+      browser.tabs.onUpdated.addListener(function updateListener(tabid, info) {
+        if (tabid === newTab.id && info.status === 'complete') {
+          browser.tabs.onUpdated.removeListener(updateListener);
+          resolve(newTab);
+        }
+      });
     }
+    browser.tabs.create({url})
+    .then(tab => {
+      if (complete) {
+        newTab = tab;
+      } else {
+        resolve(tab);
+      }
+    })
+    .catch(e => reject(e));
   });
 };
 
-mvelo.tabs.activate = function(tab, options, callback) {
-  options = options || {};
+mvelo.tabs.activate = function(tab, options = {}) {
   options.active = true;
-  chrome.tabs.update(tab.id, options, callback);
+  return browser.tabs.update(tab.id, options);
 };
 
-mvelo.tabs.sendMessage = function(tab, msg, callback) {
-  chrome.tabs.sendMessage(tab.id, msg, null, callback);
+mvelo.tabs.sendMessage = function(tab, msg) {
+  return browser.tabs.sendMessage(tab.id, msg);
 };
 
-mvelo.tabs.loadOptionsTab = function(hash, callback) {
+mvelo.tabs.loadOptionsTab = function(hash = '') {
   // check if options tab already exists
-  const url = chrome.runtime.getURL('app/app.html');
-  this.query(url, function(tabs) {
+  const url = browser.runtime.getURL('app/app.html');
+  return mvelo.tabs.query(url)
+  .then(tabs => {
     if (tabs.length === 0) {
       // if not existent, create tab
-      if (hash === undefined) {
-        hash = '';
-      }
-      mvelo.tabs.create(url + hash, false, function(tab) {
-        mvelo.tabs._loadOptionsTabReady = callback.bind(this, false, tab);
-      });
+      return mvelo.tabs.create(url + hash, false)
+      .then(() => new Promise(resolve => mvelo.tabs._loadOptionsTabReady = {resolve}));
     } else {
       // if existent, set as active tab
-      mvelo.tabs.activate(tabs[0], {url: url + hash}, callback.bind(this, true));
+      return mvelo.tabs.activate(tabs[0], {url: url + hash})
+      .then(tab => mvelo.tabs.sendMessage(tab, {event: 'reload-options', hash}));
     }
   });
 };
 
 mvelo.tabs.onOptionsTabReady = function() {
   if (mvelo.tabs._loadOptionsTabReady) {
-    mvelo.tabs._loadOptionsTabReady();
+    mvelo.tabs._loadOptionsTabReady.resolve();
     mvelo.tabs._loadOptionsTabReady = null;
   }
 };
@@ -166,13 +163,9 @@ dompurify.addHook('afterSanitizeAttributes', node => {
   }
 });
 
-mvelo.util.parseHTML = function(html, callback) {
-  callback(dompurify.sanitize(html, {SAFE_FOR_JQUERY: true}));
+mvelo.util.parseHTML = function(html) {
+  return dompurify.sanitize(html, {SAFE_FOR_JQUERY: true});
 };
-
-// must be bound to window, otherwise illegal invocation
-mvelo.util.setTimeout = window.setTimeout.bind(window);
-mvelo.util.clearTimeout = window.clearTimeout.bind(window);
 
 mvelo.util.getHostname = function(url) {
   const a = document.createElement('a');
@@ -186,65 +179,72 @@ mvelo.util.getHost = function(url) {
   return a.host;
 };
 
-mvelo.util.getDOMWindow = function() {
-  return window;
-};
-
-mvelo.util.fetch = window.fetch.bind(window);
-
 mvelo.windows = {};
 
 mvelo.windows.modalActive = false;
 
-mvelo.windows.openPopup = function(url, options, callback) {
-  chrome.windows.getCurrent(null, current => {
-    if (window.navigator.platform.indexOf('Win') >= 0 && options.height) {
-      options.height += 36;
+mvelo.windows.openPopup = function(url, {width, height, modal} = {}) {
+  return browser.windows.getCurrent()
+  .then(current => {
+    if (window.navigator.platform.indexOf('Win') >= 0 && height) {
+      height += 36;
     }
-    chrome.windows.create({
-      url,
-      width: options && options.width,
-      height: options && options.height,
-      top: options && parseInt(current.top + (current.height - options.height) / 2),
-      left: options && parseInt(current.left + (current.width - options.width) / 2),
-      type: 'popup'
-    }, popup => {
-      //console.log('popup created', popup);
-      if (options && options.modal) {
-        mvelo.windows.modalActive = true;
-        const focusChangeHandler = function(newFocus) {
-          //console.log('focus changed', newFocus);
-          if (newFocus !== popup.id && newFocus !== chrome.windows.WINDOW_ID_NONE) {
-            chrome.windows.update(popup.id, {focused: true});
-          }
-        };
-        chrome.windows.onFocusChanged.addListener(focusChangeHandler);
-        const removedHandler = function(removed) {
-          //console.log('removed', removed);
-          if (removed === popup.id) {
-            //console.log('remove handler');
-            mvelo.windows.modalActive = false;
-            chrome.windows.onFocusChanged.removeListener(focusChangeHandler);
-            chrome.windows.onRemoved.removeListener(removedHandler);
-          }
-        };
-        chrome.windows.onRemoved.addListener(removedHandler);
+    const top = height && parseInt(current.top + (current.height - height) / 2);
+    const left = width && parseInt(current.left + (current.width - width) / 2);
+    return browser.windows.create({url, width, height, top, left, type: 'popup'});
+  })
+  .then(popup => {
+    const browserWindow = new mvelo.windows.BrowserWindow(popup.id);
+    let focusChangeHandler;
+    if (modal) {
+      mvelo.windows.modalActive = true;
+      focusChangeHandler = newFocus => {
+        if (newFocus !== popup.id && newFocus !== browser.windows.WINDOW_ID_NONE) {
+          browser.windows.update(popup.id, {focused: true})
+          // error occurs when browser window closed directly
+          .catch(() => {});
+        }
+      };
+      browser.windows.onFocusChanged.addListener(focusChangeHandler);
+    }
+    const removedHandler = removed => {
+      if (removed === popup.id) {
+        mvelo.windows.modalActive = false;
+        if (focusChangeHandler) {
+          browser.windows.onFocusChanged.removeListener(focusChangeHandler);
+        }
+        browser.windows.onRemoved.removeListener(removedHandler);
+        browserWindow.onRemove();
       }
-      if (callback) {
-        callback(new mvelo.windows.BrowserWindow(popup.id));
-      }
-    });
+    };
+    browser.windows.onRemoved.addListener(removedHandler);
+    return browserWindow;
   });
 };
 
-mvelo.windows.BrowserWindow = function(id) {
-  this._id = id;
-};
+mvelo.windows.BrowserWindow = class {
+  constructor(id) {
+    this._id = id;
+    this.removeHandler = null;
+  }
 
-mvelo.windows.BrowserWindow.prototype.activate = function() {
-  chrome.windows.update(this._id, {focused: true});
-};
+  activate() {
+    browser.windows.update(this._id, {focused: true})
+    .catch(() => {});
+  }
 
-mvelo.windows.BrowserWindow.prototype.close = function() {
-  chrome.windows.remove(this._id);
+  close() {
+    browser.windows.remove(this._id)
+    .catch(() => {});
+  }
+
+  addRemoveListener(removeHandler) {
+    this.removeHandler = removeHandler;
+  }
+
+  onRemove() {
+    if (this.removeHandler) {
+      this.removeHandler();
+    }
+  }
 };

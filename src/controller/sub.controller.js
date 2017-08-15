@@ -45,27 +45,12 @@ export class SubController extends mvelo.EventHandler {
 
   openSecuritySettings() {
     const hash = '#/settings/security';
-    mvelo.tabs.loadOptionsTab(hash, (old, tab) => {
-      if (old) {
-        mvelo.tabs.sendMessage(tab, {
-          event: 'reload-options',
-          hash
-        });
-      }
-    });
+    mvelo.tabs.loadOptionsTab(hash);
   }
 
   openApp({fragment}) {
     const hash = `#${fragment}`;
-
-    mvelo.tabs.loadOptionsTab(hash, (old, tab) => {
-      if (old) {
-        mvelo.tabs.sendMessage(tab, {
-          event: 'reload-options',
-          hash
-        });
-      }
-    });
+    mvelo.tabs.loadOptionsTab(hash);
   }
 }
 

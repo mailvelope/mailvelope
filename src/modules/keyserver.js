@@ -15,8 +15,7 @@ import {prefs} from './prefs';
  * @param {String} baseUrl    (optional) The server's base url
  */
 export default class KeyServer {
-  constructor(mvelo, baseUrl) {
-    this._mvelo = mvelo;
+  constructor(baseUrl) {
     this._baseUrl = baseUrl || 'https://keys.mailvelope.com';
   }
 
@@ -37,7 +36,7 @@ export default class KeyServer {
    * @yield {Object}                       The public key object
    */
   lookup(options) {
-    return this._mvelo.util.fetch(this._url(options))
+    return window.fetch(this._url(options))
     .then(response => {
       if (response.status === 200) {
         return response.json();
@@ -58,7 +57,7 @@ export default class KeyServer {
     if (options.primaryEmail) {
       payload.primaryEmail = options.primaryEmail;
     }
-    return this._mvelo.util.fetch(this._url(), {
+    return window.fetch(this._url(), {
       method: 'POST',
       body: JSON.stringify(payload)
     })
@@ -74,7 +73,7 @@ export default class KeyServer {
    * @yield {undefined}
    */
   remove(options) {
-    return this._mvelo.util.fetch(this._url(options), {
+    return window.fetch(this._url(options), {
       method: 'DELETE'
     })
     .then(this._checkStatus);

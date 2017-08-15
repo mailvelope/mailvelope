@@ -45,9 +45,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     $('#closeBtn').click(onCancel);
     $('#copyBtn').click(onCopy);
     $('body').addClass('spinner');
-
-    $(window).on('beforeunload', onClose);
-
     mvelo.l10n.localizeHTML();
     mvelo.l10n.getMessages([
       'verify_result_success',
@@ -67,14 +64,9 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function onCancel() {
-    $(window).off('beforeunload');
     logUserInput('security_log_dialog_ok');
     port.postMessage({event: 'verify-dialog-cancel', sender: name});
     return false;
-  }
-
-  function onClose() {
-    port.postMessage({event: 'verify-dialog-cancel', sender: name});
   }
 
   function onCopy() {

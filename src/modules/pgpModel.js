@@ -567,7 +567,7 @@ export function decryptFile(encryptedFile) {
 
 function dataURL2str(dataURL) {
   const base64 = dataURL.split(';base64,')[1];
-  return mvelo.util.getDOMWindow().atob(base64);
+  return window.atob(base64);
 }
 
 export function getWatchList() {

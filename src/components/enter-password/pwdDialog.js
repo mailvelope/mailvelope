@@ -36,7 +36,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);
     $('form').on('submit', onOk);
-    $(window).on('beforeunload', onClose);
 
     // Closing the dialog with the escape key
     $(document).on('keyup', e => {
@@ -72,7 +71,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function onOk() {
-    $(window).off('beforeunload');
     logUserInput('security_log_dialog_ok');
     const pwd = $('#password').val();
     const cache = $('#remember').prop('checked');
@@ -85,14 +83,9 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function onCancel() {
-    $(window).off('beforeunload');
     logUserInput('security_log_dialog_cancel');
     port.postMessage({event: 'pwd-dialog-cancel', sender: name});
     return false;
-  }
-
-  function onClose() {
-    port.postMessage({event: 'pwd-dialog-cancel', sender: name});
   }
 
   /**
@@ -122,7 +115,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
         break;
       }
       case 'wrong-password':
-        $(window).on('beforeunload', onClose);
         $('#okBtn').prop('disabled', false);
         $('body').removeClass('busy');
         $('#spinner').hide();

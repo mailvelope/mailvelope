@@ -91,14 +91,7 @@ export function handleApiEvent(request, sender, sendResponse) {
       case 'open-settings': {
         request.keyringId = request.keyringId || mvelo.LOCAL_KEYRING_ID;
         const hash = `?krid=${encodeURIComponent(request.keyringId)}#/settings`;
-        mvelo.tabs.loadOptionsTab(hash, (old, tab) => {
-          if (old) {
-            mvelo.tabs.sendMessage(tab, {
-              event: 'reload-options',
-              hash
-            });
-          }
-        });
+        mvelo.tabs.loadOptionsTab(hash);
         sendResponse({error: null, data: null});
         break;
       }

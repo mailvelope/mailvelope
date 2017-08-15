@@ -208,7 +208,7 @@ export class SyncController extends sub.SubController {
   sync(type, data) {
     return new Promise((resolve, reject) => {
       const id = mvelo.util.getHash();
-      const timeout = mvelo.util.setTimeout(() => {
+      const timeout = setTimeout(() => {
         delete this.syncDoneHandler[id];
         reject(new Error('Sync timeout'));
       }, this.TIMEOUT * 1000);
@@ -220,7 +220,7 @@ export class SyncController extends sub.SubController {
       });
       this.syncDoneHandler[id] = (err, data) => {
         if (timeout) {
-          mvelo.util.clearTimeout(timeout);
+          clearTimeout(timeout);
         }
         if (err) {
           reject(err);
@@ -283,7 +283,7 @@ export function getByKeyring(keyringId) {
 export function triggerSync(options) {
   const syncCtrl = getByKeyring(options.keyringId);
   if (syncCtrl) {
-    mvelo.util.setTimeout(() => {
+    setTimeout(() => {
       syncCtrl.triggerSync(options);
     }, 20);
   }

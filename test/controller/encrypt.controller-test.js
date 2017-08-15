@@ -1,5 +1,5 @@
 
-import mvelo from '../../src/chrome/lib/lib-mvelo';
+import mvelo from '../../src/lib/lib-mvelo';
 import * as sub from '../../src/controller/sub.controller';
 import * as prefs from '../../src/modules/prefs';
 import EncryptController from '../../src/controller/encrypt.controller';
@@ -19,7 +19,7 @@ describe('Encrypt controller unit tests', () => {
     };
     sinon.stub(sub.factory, 'get').returns(editorCtrlMock);
     prefs.prefs = Object.assign({}, preferences);
-    sinon.stub(mvelo.util, 'parseHTML').yields('parsed');
+    sinon.stub(mvelo.util, 'parseHTML').returns('parsed');
     sinon.stub(ctrl, 'emit');
   });
 

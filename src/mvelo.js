@@ -138,11 +138,7 @@ mvelo.util.deDup = function(list) {
 mvelo.util.getHash = function() {
   let result = '';
   const buf = new Uint16Array(6);
-  if (typeof window !== 'undefined') {
-    window.crypto.getRandomValues(buf);
-  } else {
-    mvelo.util.getDOMWindow().crypto.getRandomValues(buf);
-  }
+  window.crypto.getRandomValues(buf);
   for (let i = 0; i < buf.length; i++) {
     result += buf[i].toString(16);
   }
@@ -366,7 +362,7 @@ mvelo.util.PromiseQueue = class {
       return;
     }
     const nextEntry = this.queue[0];
-    mvelo.util.setTimeout(() => {
+    setTimeout(() => {
       nextEntry.thisArg[nextEntry.method].apply(nextEntry.thisArg, nextEntry.args)
       .then(result => {
         nextEntry.resolve(result);

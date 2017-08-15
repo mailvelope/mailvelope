@@ -63,11 +63,11 @@ export function push(source, type) {
     log.push(entry);
   }
   if (logTimer) {
-    mvelo.util.clearTimeout(logTimer);
+    clearTimeout(logTimer);
   } else {
     setBadge();
   }
-  logTimer = mvelo.util.setTimeout(clearBadge, 2000);
+  logTimer = setTimeout(clearBadge, 2000);
 }
 
 function setBadge() {

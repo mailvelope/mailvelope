@@ -33,7 +33,7 @@ export default class EditorController extends sub.SubController {
     this.keyidBuffer = null;
     this.signBuffer = null;
     this.pwdControl = null;
-    this.keyserver = new KeyServer(mvelo);
+    this.keyserver = new KeyServer();
     this.pgpMIME = false;
     this.signMsg = null;
     this.options = {};
@@ -215,8 +215,12 @@ export default class EditorController extends sub.SubController {
     this.options = options;
     this.keyringId = options.keyringId || mvelo.LOCAL_KEYRING_ID;
     this.encryptCallback = callback;
-    mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}`, {width: 820, height: 550, modal: false}, window => {
-      this.editorPopup = window;
+    mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}`, {width: 820, height: 550, modal: false})
+    .then(popup => {
+      this.editorPopup = popup;
+      popup.addRemoveListener(() => {
+        this.editorPopup = null;
+      });
     });
   }
 
@@ -301,7 +305,7 @@ export default class EditorController extends sub.SubController {
       // show spinner for large messages
       this.emit('decrypt-in-progress', null, this.ports.editor);
     }
-    mvelo.util.setTimeout(() => {
+    setTimeout(() => {
       this.decryptArmored(armored);
     }, 50);
   }
@@ -406,7 +410,7 @@ export default class EditorController extends sub.SubController {
       return this.pwdControl.unlockKey(signKey);
     })
     .then(() => {
-      this.encryptTimer = mvelo.util.setTimeout(() => {
+      this.encryptTimer = setTimeout(() => {
         this.emit('encrypt-in-progress', null, this.ports.editor);
       }, 800);
 
@@ -432,7 +436,7 @@ export default class EditorController extends sub.SubController {
    * @return {Promise}
    */
   encryptMessage(options) {
-    this.encryptTimer = mvelo.util.setTimeout(() => {
+    this.encryptTimer = setTimeout(() => {
       this.emit('encrypt-in-progress', null, this.ports.editor);
     }, 800);
 
@@ -446,7 +450,7 @@ export default class EditorController extends sub.SubController {
    * @return {Promise}
    */
   signMessage(message) {
-    this.encryptTimer = mvelo.util.setTimeout(() => {
+    this.encryptTimer = setTimeout(() => {
       this.emit('encrypt-in-progress');
     }, 800);
 
@@ -506,7 +510,7 @@ export default class EditorController extends sub.SubController {
       this.emit('encrypt-failed', null, this.ports.editor);
     })
     .then(() => {
-      mvelo.util.clearTimeout(this.encryptTimer);
+      clearTimeout(this.encryptTimer);
     });
   }
 

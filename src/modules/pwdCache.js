@@ -3,7 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from 'lib-mvelo';
 import * as prefs from './prefs';
 import {unlockKey} from './pgpModel';
 
@@ -28,7 +27,7 @@ function clearTimeouts() {
   // clear timeout functions
   for (const entry in cache) {
     if (cache.hasOwnProperty(entry)) {
-      mvelo.util.clearTimeout(entry.timer);
+      clearTimeout(entry.timer);
     }
   }
 }
@@ -108,7 +107,7 @@ export function set(message, pwd, cacheTime) {
       newEntry[message.keyid] = message.key;
     }
     // clear after timeout
-    newEntry.timer = mvelo.util.setTimeout(() => {
+    newEntry.timer = setTimeout(() => {
       delete cache[primKeyIdHex];
     }, (cacheTime || timeout) * 60 * 1000);
     // set max. number of operations

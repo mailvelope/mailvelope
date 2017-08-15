@@ -48,8 +48,13 @@ export default class DecryptController extends sub.SubController {
           // password dialog or modal dialog already open
           this.ports.dFrame.postMessage({event: 'remove-dialog'});
         } else {
-          mvelo.windows.openPopup(`components/decrypt-popup/decryptPopup.html?id=${this.id}`, {width: 742, height: 550, modal: true}, window => {
-            this.decryptPopup = window;
+          mvelo.windows.openPopup(`components/decrypt-popup/decryptPopup.html?id=${this.id}`, {width: 742, height: 550, modal: true})
+          .then(popup => {
+            this.decryptPopup = popup;
+            popup.addRemoveListener(() => {
+              this.ports.dFrame.postMessage({event: 'dialog-cancel'});
+              this.decryptPopup = null;
+            });
           });
         }
         break;
@@ -75,9 +80,7 @@ export default class DecryptController extends sub.SubController {
     // forward event to decrypt frame
     this.ports.dFrame.postMessage({event: 'dialog-cancel'});
     if (this.decryptPopup) {
-      try {
-        this.decryptPopup.close();
-      } catch (e) {}
+      this.decryptPopup.close();
       this.decryptPopup = null;
     }
   }
@@ -202,9 +205,8 @@ export default class DecryptController extends sub.SubController {
           if (encoding === 'html') {
             this.filterBodyParts(parsed, 'html', htmlParts);
             if (htmlParts.length) {
-              mvelo.util.parseHTML(htmlParts.map(part => part.content).join('\n<hr>\n'), sanitized => {
-                handlers.onMessage(sanitized);
-              });
+              const sanitized = mvelo.util.parseHTML(htmlParts.map(part => part.content).join('\n<hr>\n'));
+              handlers.onMessage(sanitized);
             } else {
               this.filterBodyParts(parsed, 'text', textParts);
               if (textParts.length) {
@@ -243,10 +245,9 @@ export default class DecryptController extends sub.SubController {
       if (/(<\/a>|<br>|<\/div>|<\/p>|<\/b>|<\/u>|<\/i>|<\/ul>|<\/li>)/.test(rawText)) {
         // legacy html mode
         if (encoding === 'html') {
-          mvelo.util.parseHTML(rawText, sanitized => {
-            handlers.onMessage(sanitized);
-            resolve();
-          });
+          const sanitized = mvelo.util.parseHTML(rawText);
+          handlers.onMessage(sanitized);
+          resolve();
         } else if (encoding === 'text') {
           handlers.onMessage(mvelo.util.html2text(rawText));
           resolve();

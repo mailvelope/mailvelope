@@ -40,8 +40,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     $('form').on('submit', onOk);
     $('closeFooter').hide();
 
-    $(window).on('beforeunload', onClose);
-
     mvelo.l10n.getMessages([
       'key_import_default_headline',
       'key_import_default_description',
@@ -57,7 +55,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function onOk() {
-    $(window).off('beforeunload');
     logUserInput('security_log_dialog_ok');
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
     $('#spinner').show();
@@ -68,14 +65,9 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function onCancel() {
-    $(window).off('beforeunload');
     logUserInput('security_log_dialog_cancel');
     port.postMessage({event: 'key-import-dialog-cancel', sender: name});
     return false;
-  }
-
-  function onClose() {
-    port.postMessage({event: 'key-import-dialog-cancel', sender: name});
   }
 
   /**
@@ -131,7 +123,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
         break;
       }
       case 'import-error':
-        $(window).on('beforeunload', onClose);
         $okBtn.prop('disabled', false);
         $body.removeClass('busy');
         $spinner.hide();

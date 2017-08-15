@@ -13,7 +13,7 @@ import * as keyringSync from './keyringSync';
 import * as trustKey from './trustKey';
 import KeyServer from './keyserver';
 
-const keyServer = new KeyServer(mvelo);
+const keyServer = new KeyServer();
 const keyringMap = new Map();
 let keyringAttr = null;
 

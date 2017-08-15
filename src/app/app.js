@@ -112,6 +112,7 @@ class App extends React.Component {
     this.handleChangePrimaryKey = this.handleChangePrimaryKey.bind(this);
     this.handleChangePrefs = this.handleChangePrefs.bind(this);
     this.loadKeyring = this.loadKeyring.bind(this);
+    this.initMessageListener();
     app = this;
   }
 
@@ -192,13 +193,12 @@ class App extends React.Component {
   }
 
   initMessageListener() {
-    mvelo.extension.onMessage.addListener(request => {
+    mvelo.extension.onMessage.addListener((request, sender, sendResponse) => {
       switch (request.event) {
         case 'reload-options':
           document.location.reload();
+          sendResponse();
           break;
-        default:
-          console.log('unknown event:', request);
       }
     });
   }

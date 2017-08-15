@@ -41,7 +41,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     $('#closeBtn').click(onCancel);
     $('#copyBtn').click(onCopy);
     $('body').addClass('spinner');
-    $(window).on('beforeunload', onClose);
     addDecryptComponent();
     mvelo.l10n.localizeHTML();
     if (mvelo.webex) {
@@ -51,13 +50,8 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function onCancel() {
-    $(window).off('beforeunload');
     port.postMessage({event: 'decrypt-dialog-cancel', sender: name});
     return false;
-  }
-
-  function onClose() {
-    port.postMessage({event: 'decrypt-dialog-cancel', sender: name});
   }
 
   function onCopy() {

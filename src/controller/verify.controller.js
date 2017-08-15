@@ -27,8 +27,13 @@ export default class VerifyController extends SubController {
           // password dialog or modal dialog already open
           this.ports.vFrame.postMessage({event: 'remove-dialog'});
         } else {
-          mvelo.windows.openPopup(`components/verify-popup/verifyPopup.html?id=${this.id}`, {width: 742, height: 550, modal: true}, window => {
-            this.verifyPopup = window;
+          mvelo.windows.openPopup(`components/verify-popup/verifyPopup.html?id=${this.id}`, {width: 742, height: 550, modal: true})
+          .then(popup => {
+            this.verifyPopup = popup;
+            popup.addRemoveListener(() => {
+              this.ports.vFrame.postMessage({event: 'remove-dialog'});
+              this.verifyPopup = null;
+            });
           });
         }
         break;
@@ -77,9 +82,7 @@ export default class VerifyController extends SubController {
 
   closePopup() {
     if (this.verifyPopup) {
-      try {
-        this.verifyPopup.close();
-      } catch (e) {}
+      this.verifyPopup.close();
       this.verifyPopup = null;
     }
   }

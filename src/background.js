@@ -130,18 +130,17 @@ function initScriptInjection() {
 }
 
 function injectOpenTabs(filterURL) {
-  return new Promise((resolve => {
-    // query open tabs
-    mvelo.tabs.query(filterURL, tabs => {
-      tabs.forEach(tab => {
-        //console.log('tab', tab);
-        chrome.tabs.executeScript(tab.id, {code: csBootstrap(), allFrames: true}, () => {
-          chrome.tabs.insertCSS(tab.id, {code: framestyles, allFrames: true});
-        });
+  // query open tabs
+  return mvelo.tabs.query(filterURL)
+  .then(tabs => {
+    tabs.forEach(tab => {
+      //console.log('tab', tab);
+      chrome.tabs.executeScript(tab.id, {code: csBootstrap(), allFrames: true}, () => {
+        chrome.tabs.insertCSS(tab.id, {code: framestyles, allFrames: true});
       });
-      resolve(filterURL);
     });
-  }));
+    return filterURL;
+  });
 }
 
 function watchListRequestHandler(details) {

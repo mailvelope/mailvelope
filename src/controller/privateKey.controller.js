@@ -46,7 +46,7 @@ export default class PrivateKeyController extends sub.SubController {
       }
       if (options.confirmRequired) {
         this.newKeyId = data.key.primaryKey.keyid.toHex();
-        this.rejectTimer = mvelo.util.setTimeout(() => {
+        this.rejectTimer = setTimeout(() => {
           this.rejectKey(this.newKeyId);
           this.rejectTimer = 0;
         }, 10000); // trigger timeout after 10s
@@ -98,8 +98,10 @@ export default class PrivateKeyController extends sub.SubController {
       }
 
       const path = `components/recovery-sheet/${page}`;
-      mvelo.windows.openPopup(path, {width: 1024, height: 550, modal: false}, window => {
-        this.backupCodePopup = window;
+      mvelo.windows.openPopup(path, {width: 1024, height: 550, modal: false})
+      .then(popup => {
+        this.backupCodePopup = popup;
+        popup.addRemoveListener(() => this.backupCodePopup = null);
       });
     })
     .catch(err => {
@@ -168,13 +170,13 @@ export default class PrivateKeyController extends sub.SubController {
         break;
       case 'generate-confirm':
         if (this.rejectTimer) {
-          mvelo.util.clearTimeout(this.rejectTimer);
+          clearTimeout(this.rejectTimer);
           this.rejectTimer = 0;
         }
         break;
       case 'generate-reject':
         if (this.rejectTimer) {
-          mvelo.util.clearTimeout(this.rejectTimer);
+          clearTimeout(this.rejectTimer);
           this.rejectTimer = 0;
           this.rejectKey(this.newKeyId);
         }

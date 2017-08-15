@@ -2,24 +2,21 @@
 import KeyServer from '../../src/modules/keyserver';
 
 let keyServer;
-let mvelo;
 
 describe('Key Server unit tests', () => {
   beforeEach(() => {
-    mvelo = {
-      util: {
-        fetch() {}
-      }
-    };
-    keyServer = new KeyServer(mvelo, 'http://localhost:8888');
+    keyServer = new KeyServer('http://localhost:8888');
     expect(keyServer._baseUrl).to.equal('http://localhost:8888');
+    sinon.stub(window, 'fetch');
+  });
 
-    sinon.stub(mvelo.util, 'fetch');
+  afterEach(() => {
+    window.fetch.restore();
   });
 
   describe('lookup', () => {
     it('should return key', () => {
-      mvelo.util.fetch.returns(Promise.resolve({
+      window.fetch.returns(Promise.resolve({
         status: 200,
         json() { return {foo: 'bar'}; }
       }));
@@ -31,7 +28,7 @@ describe('Key Server unit tests', () => {
     });
 
     it('should not return key', () => {
-      mvelo.util.fetch.returns(Promise.resolve({
+      window.fetch.returns(Promise.resolve({
         status: 404,
         json() { return {foo: 'bar'}; }
       }));
@@ -45,7 +42,7 @@ describe('Key Server unit tests', () => {
 
   describe('upload', () => {
     it('should upload a key', () => {
-      mvelo.util.fetch.returns(Promise.resolve({
+      window.fetch.returns(Promise.resolve({
         status: 201
       }));
 
@@ -53,7 +50,7 @@ describe('Key Server unit tests', () => {
     });
 
     it('should not upload a key', () => {
-      mvelo.util.fetch.returns(Promise.resolve({
+      window.fetch.returns(Promise.resolve({
         status: 304,
         statusText: 'Key already exists'
       }));
@@ -67,7 +64,7 @@ describe('Key Server unit tests', () => {
 
   describe('remove', () => {
     it('should remove a key', () => {
-      mvelo.util.fetch.returns(Promise.resolve({
+      window.fetch.returns(Promise.resolve({
         status: 200
       }));
 
@@ -75,7 +72,7 @@ describe('Key Server unit tests', () => {
     });
 
     it('should not remove a key', () => {
-      mvelo.util.fetch.returns(Promise.resolve({
+      window.fetch.returns(Promise.resolve({
         status: 404,
         statusText: 'Key not found'
       }));
@@ -89,7 +86,7 @@ describe('Key Server unit tests', () => {
 
   describe('_url', () => {
     it('should work for email', () => {
-      mvelo.util.fetch.returns(Promise.resolve({
+      window.fetch.returns(Promise.resolve({
         status: 200
       }));
 
@@ -98,7 +95,7 @@ describe('Key Server unit tests', () => {
     });
 
     it('should work for key id', () => {
-      mvelo.util.fetch.returns(Promise.resolve({
+      window.fetch.returns(Promise.resolve({
         status: 200
       }));
 
@@ -107,7 +104,7 @@ describe('Key Server unit tests', () => {
     });
 
     it('should work for fingerprint', () => {
-      mvelo.util.fetch.returns(Promise.resolve({
+      window.fetch.returns(Promise.resolve({
         status: 200
       }));
 

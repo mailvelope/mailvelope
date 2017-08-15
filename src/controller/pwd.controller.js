@@ -38,10 +38,7 @@ export default class PwdController extends SubController {
         }});
         break;
       case 'pwd-dialog-cancel': {
-        this.closePopup();
-        const error = new Error(mvelo.l10n.get('pwd_dialog_cancel'));
-        error.code = 'PWD_DIALOG_CANCEL';
-        this.reject(error);
+        this.handleCancel();
         break;
       }
       case 'pwd-dialog-ok':
@@ -83,11 +80,16 @@ export default class PwdController extends SubController {
     }
   }
 
+  handleCancel() {
+    this.closePopup();
+    const error = new Error(mvelo.l10n.get('pwd_dialog_cancel'));
+    error.code = 'PWD_DIALOG_CANCEL';
+    this.reject(error);
+  }
+
   closePopup() {
     if (this.pwdPopup) {
-      try {
-        this.pwdPopup.close();
-      } catch (e) {}
+      this.pwdPopup.close();
       this.pwdPopup = null;
     }
   }
@@ -145,8 +147,13 @@ export default class PwdController extends SubController {
           this.options.beforePasswordRequest();
         }
         if (this.options.openPopup) {
-          mvelo.windows.openPopup(`components/enter-password/pwdDialog.html?id=${this.id}`, {width: 470, height: 445, modal: false}, window => {
-            this.pwdPopup = window;
+          mvelo.windows.openPopup(`components/enter-password/pwdDialog.html?id=${this.id}`, {width: 470, height: 445, modal: false})
+          .then(popup => {
+            this.pwdPopup = popup;
+            popup.addRemoveListener(() => {
+              this.pwdPopup = null;
+              this.handleCancel();
+            });
           });
         }
         this.resolve = resolve;
