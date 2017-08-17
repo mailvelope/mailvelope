@@ -418,8 +418,20 @@ mvelo.EventHandler = class {
     if (port) {
       this._port = port;
       this._port.onMessage.addListener(this.handlePortMessage.bind(this));
-      this._senderId = sender;
+      this._sender = sender;
+      this._handlers = null;
+      this._reply = null;
+      this._replyCount = 0;
     }
+  }
+
+  /**
+   * Open port to background script
+   * @param  {String} sender identifier of sender (type + id)
+   * @return {EventHandler}        initialized EventHandler
+   */
+  static connect(sender) {
+    return new mvelo.EventHandler(mvelo.extension.connect({name: sender}), sender);
   }
 
   /**
@@ -427,11 +439,30 @@ mvelo.EventHandler = class {
    * Once set up, events can be handled with on('event', function(options) {})
    * @param  {String} options.event   The event descriptor
    * @param  {Object} options         Contains message attributes and data
+   * @param  {String} senderType      type of sender
    */
-  handlePortMessage(options) {
-    options = options || {};
+  handlePortMessage(options = {}, senderType) {
     if (this._handlers && this._handlers.has(options.event)) {
-      this._handlers.get(options.event).call(this, options);
+      const handler = this._handlers.get(options.event);
+      if (options._reply) {
+        // sender expects reply
+        Promise.resolve()
+        .then(() => handler.call(this, options))
+        .then(result => this.emit('_reply', {result, _reply: options._reply}, this._port || this.ports[senderType]))
+        .catch(error => this.emit('_reply', {error: mvelo.util.mapError(error), _reply: options._reply}, this._port || this.ports[senderType]));
+      } else {
+        // normal one way communication
+        handler.call(this, options);
+      }
+    } else if (options.event === '_reply') {
+      // we have received a reply
+      const replyHandler = this._reply.get(options._reply);
+      this._reply.delete(options._reply);
+      if (options.error) {
+        replyHandler.reject(options.error);
+      } else {
+        replyHandler.resolve(options.result);
+      }
     } else {
       console.log('Unknown event', options);
     }
@@ -443,7 +474,7 @@ mvelo.EventHandler = class {
    * @param  {Function} handler   The event handler
    */
   on(event, handler) {
-    if (!event || typeof event !== 'string' || typeof handler !== 'function') {
+    if (!event || typeof event !== 'string' || event === '_reply' || typeof handler !== 'function') {
       throw new Error('Invalid event handler!');
     }
     if (!this._handlers) {
@@ -465,8 +496,33 @@ mvelo.EventHandler = class {
     }
     options = options || {};
     options.event = event;
-    options.sender = options.sender || this._senderId;
+    options.sender = options.sender || this._sender;
     (port || this._port || this.ports[this.mainType]).postMessage(options);
+  }
+
+  /**
+   * Like emit but receiver can send response
+   * @param  {String} event     The event descriptor
+   * @param  {Object} options   (optional) Data to be sent in the event
+   * @param  {Object} port      (optional) The port to be used. If
+   *                            not specified, the main port is used.
+   * @return {Promise}
+   */
+  send(event, options, port) {
+    return new Promise((resolve, reject) => {
+      if (!event || typeof event !== 'string') {
+        return reject(new Error('Invalid event!'));
+      }
+      if (!this._reply) {
+        this._reply = new Map();
+      }
+      options = options || {};
+      options.event = event;
+      options.sender = options.sender || this._sender;
+      options._reply = ++this._replyCount;
+      this._reply.set(options._reply, {resolve, reject});
+      (port || this._port || this.ports[this.mainType]).postMessage(options);
+    });
   }
 };
 

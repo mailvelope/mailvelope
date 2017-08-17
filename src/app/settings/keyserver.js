@@ -98,10 +98,6 @@ export default class KeyServer extends React.Component {
    * @return {Promise}      If the test was valid. Rejects in case of an error.
    */
   testUrl(url) {
-    if (mvelo.webex) {
-      // Firefox requires CORS header, don't check URL for now (TODO WebExtensions)
-      return Promise.resolve();
-    }
     return window.fetch(url)
     .then(response => {
       if (!response.ok) {

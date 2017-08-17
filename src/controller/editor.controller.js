@@ -56,7 +56,7 @@ export default class EditorController extends sub.SubController {
 
   _onEditorInit() {
     if (this.ports.editorCont) {
-      this.emit('editor-ready', undefined, this.ports.editorCont);
+      this.emit('editor-ready', null, this.ports.editorCont);
     } else {
       // non-container case, send options to editor
       const keyring = getKeyringById(this.keyringId);

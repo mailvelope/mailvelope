@@ -14,7 +14,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
     this._editElement = null;
     this._eFrame = null;
     this._port = null;
-    this._senderId = `eFrame-${this.id}`;
+    this._sender = `eFrame-${this.id}`;
     this._refreshPosIntervalID = 0;
     this._emailTextElement = null;
     this._emailUndoText = null;

@@ -78,9 +78,11 @@ export function handleMessageEvent(request, sender, sendResponse) {
     case 'set-watch-list':
       model.setWatchList(request.data)
       .then(() => specific.initScriptInjection());
+      sendResponse();
       break;
     case 'init-script-injection':
       specific.initScriptInjection();
+      sendResponse();
       break;
     case 'get-all-keyring-attr':
       keyring.getAllKeyringAttr()
@@ -98,6 +100,7 @@ export function handleMessageEvent(request, sender, sendResponse) {
       break;
     case 'set-active-keyring':
       sub.setActiveKeyringId(request.keyringId);
+      sendResponse();
       break;
     case 'delete-keyring':
       Promise.resolve()
@@ -160,6 +163,7 @@ export function handleMessageEvent(request, sender, sendResponse) {
         postToNodes(sub.getByMainType('mainCS'), {event: 'on'});
         specific.activate();
       });
+      sendResponse();
       break;
     case 'deactivate':
       prefs.update({main_active: false})
@@ -168,15 +172,18 @@ export function handleMessageEvent(request, sender, sendResponse) {
         specific.deactivate();
         reloadFrames();
       });
+      sendResponse();
       break;
     case 'get-all-key-userid':
       sendResponse({result: keyring.getAllKeyUserId()});
       break;
     case 'open-tab':
       mvelo.tabs.create(request.url);
+      sendResponse();
       break;
     case 'options-ready':
       mvelo.tabs.onOptionsTabReady();
+      sendResponse();
       break;
     case 'get-app-data-slot':
       sendResponse({result: sub.getAppDataSlot(request.slotId)});

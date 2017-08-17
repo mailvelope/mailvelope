@@ -130,7 +130,7 @@ function init() {
   }
   document.body.dataset.mvelo = true;
   checkEnvironment();
-  port = new mvelo.EventHandler(mvelo.extension.connect({name}), name);
+  port = mvelo.EventHandler.connect(name);
   registerEventListeners();
   Promise.all([
     loadTemplates(),
