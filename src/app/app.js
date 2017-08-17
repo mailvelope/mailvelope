@@ -60,6 +60,7 @@ l10n.register([
 ]);
 
 const DEMAIL_SUFFIX = 'de-mail.de';
+export let port; // EventHandler
 document.addEventListener('DOMContentLoaded', init);
 
 function init() {
@@ -68,6 +69,7 @@ function init() {
   }
   document.body.dataset.mvelo = true;
   const root = document.createElement('div');
+  port = mvelo.EventHandler.connect('app-1');
   l10n.mapToLocal()
   .then(() => {
     ReactDOM.render((
@@ -75,7 +77,6 @@ function init() {
         <App />
       </HashRouter>
     ), document.body.appendChild(root));
-    sendMessage({event: 'options-ready'});
     document.title = l10n.map.options_title;
   });
 }
@@ -122,9 +123,9 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    sendMessage({event: 'get-version'})
+    port.send('get-version')
     .then(version => this.setState({version}));
-    pgpModel('getPreferences').then(prefs => this.setState({prefs}));
+    port.send('get-prefs').then(prefs => this.setState({prefs}));
     mvelo.util.showSecurityBackground();
   }
 
@@ -133,13 +134,13 @@ class App extends React.Component {
       if (this.state.keyringId) {
         return resolve();
       }
-      sendMessage({event: 'get-active-keyring'})
+      port.send('get-active-keyring')
       .then(keyringId => this.setState({keyringId: keyringId || mvelo.LOCAL_KEYRING_ID}, resolve));
     });
   }
 
   loadKeyring() {
-    this.getAllKeyringAttr()
+    port.send('get-all-keyring-attr')
     .then(keyringAttr => {
       this.setState(prevState => {
         const keyringId = keyringAttr[prevState.keyringId] ? prevState.keyringId : mvelo.LOCAL_KEYRING_ID;
@@ -147,10 +148,10 @@ class App extends React.Component {
         const providerLogo = keyringAttr[keyringId].logo_data_url || '';
         const isDemail = keyringId.includes(DEMAIL_SUFFIX);
         // propagate state change to backend
-        this.setActiveKeyring(keyringId);
+        port.emit('set-active-keyring', {keyringId});
         return {keyringId, primaryKeyId, isDemail, keyringAttr, providerLogo};
       }, () => {
-        keyring('getKeys')
+        port.send('getKeys', {keyringId: this.state.keyringId})
         .then(keys => {
           keys = keys.sort((a, b) => a.name.localeCompare(b.name));
           const hasPrivateKey = keys.some(key => key.type === 'private');
@@ -162,8 +163,8 @@ class App extends React.Component {
 
   handleChangePrefs(update) {
     return new Promise(resolve => {
-      sendMessage({event: 'set-prefs', data: update})
-      .then(() => pgpModel('getPreferences')
+      port.send('set-prefs', {prefs: update})
+      .then(() => port.send('get-prefs')
       .then(prefs => this.setState({prefs}, () => resolve())));
     });
   }
@@ -174,21 +175,18 @@ class App extends React.Component {
 
   handleDeleteKeyring(keyringId, keyringName) {
     if (confirm(`Do you want to remove the keyring with id: ${keyringName} ?`)) {
-      sendMessage({
-        event: 'delete-keyring',
-        keyringId
-      })
+      port.send('delete-keyring', {keyringId})
       .then(() => this.loadKeyring());
     }
   }
 
   handleChangePrimaryKey(keyId) {
-    this.setKeyringAttr(this.state.keyringId, {primary_key: keyId})
+    port.send('set-keyring-attr', {keyringId: this.state.keyringId, keyringAttr: {primary_key: keyId}})
     .then(() => this.setState({primaryKeyId: keyId}));
   }
 
   handleDeleteKey(fingerprint, type) {
-    keyring('removeKey', [fingerprint, type])
+    port.send('removeKey', {fingerprint, type, keyringId: this.state.keyringId})
     .then(() => this.loadKeyring());
   }
 
@@ -201,22 +199,6 @@ class App extends React.Component {
           break;
       }
     });
-  }
-
-  getAllKeyringAttr() {
-    return sendMessage({event: 'get-all-keyring-attr'});
-  }
-
-  setKeyringAttr(keyringId, keyringAttr) {
-    return sendMessage({
-      event: 'set-keyring-attr',
-      keyringId,
-      keyringAttr
-    });
-  }
-
-  setActiveKeyring(keyringId) {
-    sendMessage({event: 'set-active-keyring',  keyringId});
   }
 
   render() {
@@ -345,29 +327,14 @@ class App extends React.Component {
 }
 
 export function openTab(url) {
-  return sendMessage({event: 'open-tab', url});
+  port.emit('open-tab', {url});
 }
 
-export function getAllKeyUserId() {
-  return sendMessage({event: 'get-all-key-userid'});
+export function keyring(event, options = {}) {
+  options.keyringId = app.state.keyringId;
+  return port.send(event, options);
 }
 
-export function pgpModel(method, args) {
-  return sendMessage({
-    event: 'pgpmodel',
-    method,
-    args
-  });
-}
-
-export function keyring(method, args) {
-  return sendMessage({
-    event: 'keyring',
-    method,
-    args,
-    keyringId: app.state.keyringId
-  });
-}
 
 /**
  * Retrieve slot ID from query parameter and get slot data from background
@@ -376,18 +343,5 @@ export function keyring(method, args) {
 export function getAppDataSlot() {
   const query = new URLSearchParams(document.location.search);
   const slotId = query.get('slotId');
-  return sendMessage({event: 'get-app-data-slot', slotId});
-}
-
-function sendMessage(options) {
-  return new Promise((resolve, reject) => {
-    mvelo.extension.sendMessage(options, data => {
-      data = data || {};
-      if (data.error) {
-        reject(data.error);
-      } else {
-        resolve(typeof data.result !== 'undefined' ? data.result : data);
-      }
-    });
-  });
+  return port.send('get-app-data-slot', {slotId});
 }

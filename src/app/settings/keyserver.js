@@ -8,9 +8,9 @@
  * settings dialog
  */
 
-import mvelo from '../../mvelo';
 import * as l10n from '../../lib/l10n';
 import {Alert} from '../util/util';
+import {port} from '../app';
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -120,7 +120,7 @@ export default class KeyServer extends React.Component {
         }
       };
       this.props.onChangePrefs(update)
-      .then(() => mvelo.extension.sendMessage({event: 'init-script-injection'}));
+      .then(port.emit('init-script-injection'));
     })
     .catch(() => this.setState({alert: {header: l10n.map.alert_header_error, message: l10n.map.keyserver_url_error, type: 'danger'}}));
   }

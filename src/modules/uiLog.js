@@ -88,6 +88,6 @@ export function getAll() {
   return log;
 }
 
-export function getLatest(size) {
-  log.slice(-size);
+export function getLatest(offset) {
+  return log.slice(offset);
 }

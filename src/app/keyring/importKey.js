@@ -101,7 +101,7 @@ export default class ImportKey extends React.Component {
       if (!keys.length) {
         throw {message: l10n.map.key_import_invalid_text, type: 'error'};
       }
-      return keyring('importKeys', [keys])
+      return keyring('importKeys', {keys})
       .then(result => {
         let success = false;
         result.forEach(imported => {

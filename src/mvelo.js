@@ -448,7 +448,7 @@ mvelo.EventHandler = class {
         // sender expects reply
         Promise.resolve()
         .then(() => handler.call(this, options))
-        .then(result => this.emit('_reply', {result, _reply: options._reply}, this._port || this.ports[senderType]))
+        .then(result => this.emit('_reply', {result: result || null, _reply: options._reply}, this._port || this.ports[senderType]))
         .catch(error => this.emit('_reply', {error: mvelo.util.mapError(error), _reply: options._reply}, this._port || this.ports[senderType]));
       } else {
         // normal one way communication

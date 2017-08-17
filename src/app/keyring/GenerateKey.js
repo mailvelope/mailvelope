@@ -96,7 +96,7 @@ export default class GenerateKey extends React.Component {
     if (this.state.keyExpirationTime) {
       parameters.keyExpirationTime = Math.abs(this.state.keyExpirationTime.unix() - moment().startOf('day').unix());
     }
-    keyring('generateKey', [parameters])
+    keyring('generateKey', {parameters})
     .then(() => {
       this.setState({
         alert: {header: l10n.map.alert_header_success, message: l10n.map.key_gen_success, type: 'success'},

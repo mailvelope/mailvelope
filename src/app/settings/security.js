@@ -6,7 +6,7 @@
 import React from 'react';
 import mvelo from '../../mvelo';
 import $ from 'jquery';
-import {pgpModel} from '../app';
+import {port} from '../app';
 import * as l10n from '../../lib/l10n';
 
 import './security.css';
@@ -130,12 +130,12 @@ function init() {
 }
 
 function getSecurityBgndConfig() {
-  mvelo.extension.sendMessage({event: "get-security-background"}, background => {
+  port.send('get-security-background')
+  .then(background => {
     secBackground = background;
     $("#angle").val(background.angle);
     $("#scaling").val(background.scaling * 10);
     $("#coloring").val(background.colorId);
-
     previewSecurityBgnd();
   });
 }
@@ -186,7 +186,8 @@ function onSave() {
       password_timeout: $('#pwdCacheTime').val()
     }
   };
-  mvelo.extension.sendMessage({event: 'set-prefs', data: update}, () => {
+  port.send('set-prefs', {prefs: update})
+  .then(() => {
     normalize();
     $('#secReloadInfo').show();
     mvelo.util.showSecurityBackground();
@@ -226,7 +227,7 @@ function onCancel() {
 }
 
 function loadPrefs() {
-  pgpModel('getPreferences')
+  port.send('get-prefs')
   .then(prefs => {
     $('input:radio[name="decryptRadios"]').filter(function() {
       return $(this).val() === prefs.security.display_decrypted;

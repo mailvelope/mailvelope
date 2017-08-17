@@ -129,21 +129,13 @@ mvelo.tabs.loadOptionsTab = function(hash = '') {
   .then(tabs => {
     if (tabs.length === 0) {
       // if not existent, create tab
-      return mvelo.tabs.create(url + hash, false)
-      .then(() => new Promise(resolve => mvelo.tabs._loadOptionsTabReady = {resolve}));
+      return mvelo.tabs.create(url + hash, false);
     } else {
       // if existent, set as active tab
       return mvelo.tabs.activate(tabs[0], {url: url + hash})
       .then(tab => mvelo.tabs.sendMessage(tab, {event: 'reload-options', hash}));
     }
   });
-};
-
-mvelo.tabs.onOptionsTabReady = function() {
-  if (mvelo.tabs._loadOptionsTabReady) {
-    mvelo.tabs._loadOptionsTabReady.resolve();
-    mvelo.tabs._loadOptionsTabReady = null;
-  }
 };
 
 mvelo.util = mvelo.util || {};

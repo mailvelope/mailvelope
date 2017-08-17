@@ -4,9 +4,8 @@
  */
 
 import React from 'react';
-import mvelo from '../../mvelo';
 import $ from 'jquery';
-import {pgpModel} from '../app';
+import {port} from '../app';
 import * as l10n from '../../lib/l10n';
 
 l10n.register([
@@ -73,9 +72,8 @@ function onSave() {
       auto_sign_msg: $('#autoSignMsg:checked').length !== 0
     }
   };
-  mvelo.extension.sendMessage({event: 'set-prefs', data: update}, () => {
-    normalize();
-  });
+  port.send('set-prefs', {prefs: update})
+  .then(normalize);
   return false;
 }
 
@@ -96,7 +94,7 @@ function normalize() {
 }
 
 function loadPrefs() {
-  pgpModel('getPreferences')
+  port.send('get-prefs')
   .then(prefs => {
     $('#autoAddPrimary').prop('checked', prefs.general.auto_add_primary);
     $('#autoSignMsg').prop('checked', prefs.general.auto_sign_msg);

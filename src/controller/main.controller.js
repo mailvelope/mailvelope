@@ -5,8 +5,6 @@
 
 import mvelo from 'lib-mvelo';
 import * as  model from '../modules/pgpModel';
-import * as keyring from '../modules/keyring';
-import {getVersion} from '../modules/defaults';
 import * as prefs from '../modules/prefs';
 import * as sub from './sub.controller';
 export {sub as portManager};
@@ -22,6 +20,7 @@ import PwdController from './pwd.controller';
 import EditorController from './editor.controller';
 import {SyncController} from './sync.controller';
 import PrivateKeyController from './privateKey.controller';
+import AppController from './app.controller';
 
 sub.factory.register('dFrame',              DecryptController);
 sub.factory.register('decryptCont',         DecryptController);
@@ -40,107 +39,32 @@ sub.factory.register('keyBackupCont',       PrivateKeyController);
 sub.factory.register('keyBackupDialog',     PrivateKeyController);
 sub.factory.register('restoreBackupCont',   PrivateKeyController);
 sub.factory.register('restoreBackupDialog', PrivateKeyController);
-
-
-const specific = {};
+sub.factory.register('app',                 AppController);
 
 export function init() {
-  return model.init();
+  return model.init()
+  .then(initMessageListener);
 }
 
-export function extend(obj) {
-  specific.initScriptInjection = obj.initScriptInjection;
-  specific.activate = obj.activate;
-  specific.deactivate = obj.deactivate;
+function initMessageListener() {
+  chrome.runtime.onMessage.addListener(handleMessageEvent);
 }
 
-export function handleMessageEvent(request, sender, sendResponse) {
+function handleMessageEvent(request, sender, sendResponse) {
   //console.log('controller: handleMessageEvent', request);
   if (request.api_event) {
     return handleApiEvent(request, sender, sendResponse);
   }
   switch (request.event) {
-    case 'pgpmodel':
-      methodEvent(model, request, sendResponse);
-      // return true for async calls, otherwise Chrome does not handle sendResponse
-      return true;
-    case 'keyring':
-      methodEvent(keyring.getById(request.keyringId), request, sendResponse)
-      .then(() => {
-        // update editor controllers
-        sub.getByMainType('editor').forEach(editorCntrl => editorCntrl.sendKeyUpdate());
-      });
-      // return true for async calls, otherwise Chrome does not handle sendResponse
-      return true;
     case 'browser-action':
       onBrowserAction(request.action);
       break;
-    case 'set-watch-list':
-      model.setWatchList(request.data)
-      .then(() => specific.initScriptInjection());
-      sendResponse();
-      break;
-    case 'init-script-injection':
-      specific.initScriptInjection();
-      sendResponse();
-      break;
-    case 'get-all-keyring-attr':
-      keyring.getAllKeyringAttr()
-      .then(result => sendResponse({result}))
-      .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
-      // return true for async calls, otherwise Chrome does not handle sendResponse
-      return true;
-    case 'set-keyring-attr':
-      keyring.setKeyringAttr(request.keyringId, request.keyringAttr)
-      .then(() => sendResponse(true))
-      .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
-      return true;
-    case 'get-active-keyring':
-      sendResponse(sub.getActiveKeyringId());
-      break;
-    case 'set-active-keyring':
-      sub.setActiveKeyringId(request.keyringId);
-      sendResponse();
-      break;
-    case 'delete-keyring':
-      Promise.resolve()
-      .then(() => {
-        if (request.keyringId === mvelo.LOCAL_KEYRING_ID) {
-          throw new Error('Cannot delete main keyring');
-        }
-        return keyring.deleteKeyring(request.keyringId);
-      })
-      .then(() => {
-        sub.setActiveKeyringId(mvelo.LOCAL_KEYRING_ID);
-        sendResponse(true);
-      })
-      .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
-      // return true for async calls, otherwise Chrome does not handle sendResponse
-      return true;
-    case 'send-by-mail': {
-      let link = encodeURI('mailto:?subject=Public OpenPGP key of ');
-      link += encodeURIComponent(request.message.data.name);
-      link += `&body=${encodeURIComponent(request.message.data.armoredPublic)}`;
-      link += encodeURIComponent('\n*** exported with www.mailvelope.com ***');
-      mvelo.tabs.create(link);
-      break;
-    }
     case 'get-prefs':
       request.prefs = prefs.prefs;
       sendResponse(request);
       break;
-    case 'set-prefs':
-      prefs.update(request.data)
-      .then(() => {
-        sendResponse(true);
-        // update content scripts
-        sub.getByMainType('mainCS').forEach(mainCScontrl => mainCScontrl.updatePrefs());
-      });
-      // return true for async calls, otherwise Chrome does not handle sendResponse
-      return true;
     case 'get-ui-log':
-      request.secLog = uiLog.getAll();
-      request.secLog = request.secLog.slice(request.securityLogLength);
+      request.secLog = uiLog.getLatest(request.securityLogLength);
       sendResponse(request);
       break;
     case 'get-security-background':
@@ -154,14 +78,10 @@ export function handleMessageEvent(request, sender, sendResponse) {
         colorId: prefs.prefs.security.secureBgndColorId
       });
       break;
-    case 'get-version':
-      sendResponse(getVersion());
-      break;
     case 'activate':
       prefs.update({main_active: true})
       .then(() => {
         postToNodes(sub.getByMainType('mainCS'), {event: 'on'});
-        specific.activate();
       });
       sendResponse();
       break;
@@ -169,45 +89,11 @@ export function handleMessageEvent(request, sender, sendResponse) {
       prefs.update({main_active: false})
       .then(() => {
         postToNodes(sub.getByMainType('mainCS'), {event: 'off'});
-        specific.deactivate();
         reloadFrames();
       });
       sendResponse();
       break;
-    case 'get-all-key-userid':
-      sendResponse({result: keyring.getAllKeyUserId()});
-      break;
-    case 'open-tab':
-      mvelo.tabs.create(request.url);
-      sendResponse();
-      break;
-    case 'options-ready':
-      mvelo.tabs.onOptionsTabReady();
-      sendResponse();
-      break;
-    case 'get-app-data-slot':
-      sendResponse({result: sub.getAppDataSlot(request.slotId)});
-      break;
-    default:
-      console.log('unknown event:', request);
   }
-}
-
-function methodEvent(thisArg, request, sendResponse) {
-  //console.log('controller: methodEvent', request);
-  request.args = request.args || [];
-  if (!Array.isArray(request.args)) {
-    request.args = [request.args];
-  }
-  return Promise.resolve()
-  .then(() => thisArg[request.method].apply(thisArg, request.args))
-  .then(result => {
-    sendResponse({result});
-  })
-  .catch(error => {
-    console.log(`error in method ${request.method}: `, error);
-    sendResponse({error: mvelo.util.mapError(error)});
-  });
 }
 
 function destroyNodes(subControllers) {
@@ -277,45 +163,4 @@ export function onBrowserAction(action) {
 
 function loadOptions(hash) {
   mvelo.tabs.loadOptionsTab(hash);
-}
-
-function reduceHosts(hosts) {
-  const reduced = [];
-  hosts.forEach(element => {
-    const labels = element.split('.');
-    if (labels.length < 2) {
-      return;
-    }
-    if (labels.length <= 3) {
-      if (/www.*/.test(labels[0])) {
-        labels[0] = '*';
-      } else {
-        labels.unshift('*');
-      }
-      reduced.push(labels.join('.'));
-    } else {
-      reduced.push(`*.${labels.slice(-3).join('.')}`);
-    }
-  });
-  return mvelo.util.sortAndDeDup(reduced);
-}
-
-export function getWatchListFilterURLs() {
-  return model.getWatchList()
-  .then(watchList => {
-    let result = [];
-    watchList.forEach(site => {
-      site.active && site.frames && site.frames.forEach(frame => {
-        frame.scan && result.push(frame.frame);
-      });
-    });
-    // add hkp key server to enable key import
-    let hkpHost = model.getHostname(prefs.prefs.keyserver.hkp_base_url);
-    hkpHost = reduceHosts([hkpHost]);
-    result.push(...hkpHost);
-    if (result.length !== 0) {
-      result = mvelo.util.sortAndDeDup(result);
-    }
-    return result;
-  });
 }

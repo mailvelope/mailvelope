@@ -5,8 +5,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import mvelo from '../../mvelo';
-import {pgpModel, getAppDataSlot} from '../app';
+import {port, getAppDataSlot} from '../app';
 import * as l10n from '../../lib/l10n';
 
 import './watchList.css';
@@ -50,15 +49,12 @@ export default class WatchList extends React.Component {
   }
 
   loadWatchList() {
-    return pgpModel('getWatchList')
+    return port.send('getWatchList')
     .then(watchList => this.setState({watchList}));
   }
 
   saveWatchListData() {
-    mvelo.extension.sendMessage({
-      event: 'set-watch-list',
-      data: this.state.watchList
-    });
+    port.emit('set-watch-list', {data: this.state.watchList});
   }
 
   showWatchListEditor(index) {

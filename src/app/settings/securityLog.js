@@ -4,8 +4,8 @@
  */
 
 import React from 'react';
-import mvelo from '../../mvelo';
 import * as l10n from '../../lib/l10n';
+import {port} from '../app';
 
 l10n.register([
   'settings_security_log',
@@ -32,10 +32,8 @@ export default class SecurityLog extends React.Component {
   }
 
   updateSecurityLog() {
-    mvelo.extension.sendMessage({
-      event: 'get-ui-log',
-      securityLogLength: this.state.secLog.length
-    }, request => this.setState(prevState => ({secLog: request.secLog.reverse().concat(prevState.secLog)})));
+    port.send('get-ui-log', {securityLogLength: this.state.secLog.length})
+    .then(secLog => this.setState(prevState => ({secLog: secLog.reverse().concat(prevState.secLog)})));
   }
 
   render() {

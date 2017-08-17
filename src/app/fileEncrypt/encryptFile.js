@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 import mvelo from '../../mvelo';
-import * as app from '../app';
+import {port} from '../app';
 import * as l10n from '../../lib/l10n';
 import * as fileLib from '../../lib/file';
 
@@ -230,7 +230,7 @@ function init() {
 }
 
 function initRecipientsSelection() {
-  app.getAllKeyUserId()
+  port.send('get-all-key-userid')
   .then(result => {
     recipients = result;
     addRecipientsToSelect(recipients);
@@ -371,7 +371,7 @@ function onDecryptFiles(e) {
 function decryptFiles(encryptedFiles) {
   const decryptProcesses = [];
   encryptedFiles.forEach(encryptedFile => {
-    decryptProcesses.push(app.pgpModel('decryptFile', [encryptedFile])
+    decryptProcesses.push(port.send('decryptFile', {encryptedFile})
     .then(file => {
       addFileToDownload({
         name: file.name,
@@ -419,7 +419,7 @@ function onEncryptFiles(e) {
 function encryptFiles(plainFiles, receipients) {
   const encryptProcesses = [];
   plainFiles.forEach(plainFile => {
-    encryptProcesses.push(app.pgpModel('encryptFile', [plainFile, receipients])
+    encryptProcesses.push(port.send('encryptFile', {plainFile, receipients})
     .then(armored => {
       addFileToDownload({
         name: `${plainFile.name}.asc`,
