@@ -251,6 +251,15 @@ module.exports = function(grunt) {
       }
     },
 
+    shell: {
+      move_firefox_dist: {
+        command: 'mv dist/mailvelope-*.zip dist/mailvelope.firefox.zip'
+      },
+      webex_build: {
+        command: 'web-ext build --source-dir=build/firefox --artifacts-dir=dist'
+      }
+    },
+
     bump: {
       options: {
         commit: true,
@@ -297,13 +306,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-mocha-phantomjs');
   grunt.loadNpmTasks('grunt-replace');
+  grunt.loadNpmTasks('grunt-shell');
 
   // distribution
   grunt.registerTask('dist-cr', ['compress:chrome']);
   grunt.registerTask('dist-crx', () => {
     grunt.util.spawn({cmd: '.travis/crxmake.sh', args: ['build/chrome', '.travis/crx_signing.pem'], opts: {stdio: 'ignore'}});
   });
-  grunt.registerTask('dist-ff', ['jpm:xpi', 'copy:xpi']);
+  grunt.registerTask('dist-ff', ['shell:webex_build', 'shell:move_firefox_dist']);
   grunt.registerTask('dist-doc', ['jsdoc', 'compress:doc']);
 
   // build steps

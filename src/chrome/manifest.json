@@ -8,13 +8,21 @@
   "icons": {
     "16": "img/encrypt-16.png",
     "48": "img/mail_locked_48.png",
+    "64": "img/mail_locked_64.png",
+    "96": "img/mail_locked_96.png",
     "128": "img/mail_locked_128.png"
   },
   "browser_action": {
-    "default_icon": "img/cryptography-icon24.png",
+    "default_icon": {
+      "16": "img/cryptography-icon16.png",
+      "24": "img/cryptography-icon24.png",
+      "32": "img/cryptography-icon32.png",
+      "48": "img/cryptography-icon48.png"
+    },
     "default_title": "__MSG_ext_name__",
     "default_popup": "components/browser-action/popup.html"
   },
+  "options_page": "app/app.html",
   "background": {
     "scripts": ["background.bundle.js"]
   },
