@@ -120,7 +120,7 @@ export default class ExtractFrame {
   }
 
   _establishConnection() {
-    this._port = mvelo.extension.connect({name: this._ctrlName});
+    this._port = mvelo.runtime.connect({name: this._ctrlName});
     //console.log('Port connected: %o', this._port);
   }
 

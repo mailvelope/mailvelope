@@ -40,12 +40,12 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     id = qs.id;
     name = `keyBackupDialog-${id}`;
 
-    port = mvelo.extension.connect({name});
+    port = mvelo.runtime.connect({name});
     port.onMessage.addListener(messageListener);
 
     const $body = $('body').empty().addClass("secureBackground");
 
-    mvelo.appendTpl($body, mvelo.extension.getURL('components/key-backup/keybackup.html')).then(() => {
+    mvelo.appendTpl($body, mvelo.runtime.getURL('components/key-backup/keybackup.html')).then(() => {
       $keyBackupGenerator = $('#key_backup_generator');
       $keyBackupWaiting = $('#key_backup_waiting').hide();
       $secureBgndButton = $('.secureBgndSettingsBtn');

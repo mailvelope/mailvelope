@@ -18,7 +18,7 @@
 
 /* eslint strict: 0 */
 
-var mvelo = mvelo || {}; // eslint-disable-line no-var
+var mvelo = {}; // eslint-disable-line no-var
 // web extension
 mvelo.webex = typeof browser !== 'undefined';
 // chrome extension
@@ -78,32 +78,34 @@ mvelo.appendTpl = function($element, path) {
   });
 };
 
-mvelo.extension = mvelo.extension || chrome.runtime;
+mvelo.runtime = chrome.runtime;
 
-mvelo.l10n = mvelo.l10n || {
-  getMessages(ids, callback) {
-    const result = {};
-    ids.forEach(id => {
-      result[id] = chrome.i18n.getMessage(id);
-    });
-    callback(result);
-  },
-  localizeHTML(l10n, idSelector) {
-    const selector = idSelector ? `${idSelector} [data-l10n-id]` : '[data-l10n-id]';
-    $(selector).each(function() {
-      const jqElement = $(this);
-      const id = jqElement.data('l10n-id');
-      const text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id;
-      jqElement.text(text);
-    });
-    $('[data-l10n-title-id]').each(function() {
-      const jqElement = $(this);
-      const id = jqElement.data('l10n-title-id');
-      const text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id;
-      jqElement.attr('title', text);
-    });
-  }
+mvelo.l10n = {};
+
+mvelo.l10n.getMessages = function(ids, callback) {
+  const result = {};
+  ids.forEach(id => {
+    result[id] = chrome.i18n.getMessage(id);
+  });
+  callback(result);
 };
+
+mvelo.l10n.localizeHTML = function(l10n, idSelector) {
+  const selector = idSelector ? `${idSelector} [data-l10n-id]` : '[data-l10n-id]';
+  $(selector).each(function() {
+    const jqElement = $(this);
+    const id = jqElement.data('l10n-id');
+    const text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id;
+    jqElement.text(text);
+  });
+  $('[data-l10n-title-id]').each(function() {
+    const jqElement = $(this);
+    const id = jqElement.data('l10n-title-id');
+    const text = l10n ? l10n[id] : chrome.i18n.getMessage(id) || id;
+    jqElement.attr('title', text);
+  });
+};
+
 
 mvelo.util = {};
 
@@ -301,7 +303,7 @@ mvelo.util.showSecurityBackground = function(isEmbedded) {
     });
   }
 
-  mvelo.extension.sendMessage({event: "get-security-background"}, background => {
+  mvelo.runtime.sendMessage({event: "get-security-background"}, background => {
     const secBgndIcon = mvelo.util.generateSecurityBackground(background);
     const secureStyle = `\n.secureBackground {
       background-color: ${background.color};
@@ -431,7 +433,7 @@ mvelo.EventHandler = class {
    * @return {EventHandler}        initialized EventHandler
    */
   static connect(sender) {
-    return new mvelo.EventHandler(mvelo.extension.connect({name: sender}), sender);
+    return new mvelo.EventHandler(mvelo.runtime.connect({name: sender}), sender);
   }
 
   /**

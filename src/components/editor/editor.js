@@ -195,18 +195,18 @@ function loadTemplates() {
   if (embedded) {
     $body.addClass("secureBackground");
     return Promise.all([
-      mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/editor-body.html')),
-      mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/waiting-modal.html')),
-      mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/error-modal.html'))
+      mvelo.appendTpl($body, mvelo.runtime.getURL('components/editor/tpl/editor-body.html')),
+      mvelo.appendTpl($body, mvelo.runtime.getURL('components/editor/tpl/waiting-modal.html')),
+      mvelo.appendTpl($body, mvelo.runtime.getURL('components/editor/tpl/error-modal.html'))
     ]);
   } else {
-    return mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/editor-popup.html')).then(() => {
+    return mvelo.appendTpl($body, mvelo.runtime.getURL('components/editor/tpl/editor-popup.html')).then(() => {
       $('.modal-body').addClass('secureBackground');
       return Promise.all([
-        mvelo.appendTpl($('#editorDialog .modal-body'), mvelo.extension.getURL('components/editor/tpl/editor-body.html')),
-        mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/encrypt-modal.html')),
-        mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/waiting-modal.html')),
-        mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/error-modal.html'))
+        mvelo.appendTpl($('#editorDialog .modal-body'), mvelo.runtime.getURL('components/editor/tpl/editor-body.html')),
+        mvelo.appendTpl($body, mvelo.runtime.getURL('components/editor/tpl/encrypt-modal.html')),
+        mvelo.appendTpl($body, mvelo.runtime.getURL('components/editor/tpl/waiting-modal.html')),
+        mvelo.appendTpl($body, mvelo.runtime.getURL('components/editor/tpl/error-modal.html'))
       ]);
     });
   }

@@ -19,7 +19,7 @@ export default class KeyBackupContainer {
     this.options = options;
     this.id = mvelo.util.getHash();
     this.name = `keyBackupCont-${this.id}`;
-    this.port = mvelo.extension.connect({name: this.name});
+    this.port = mvelo.runtime.connect({name: this.name});
     this.registerEventListener();
     this.parent = null;
     this.container = null;
@@ -34,7 +34,7 @@ export default class KeyBackupContainer {
    * @returns {mvelo.KeyBackupContainer}
    */
   create(done) {
-    const url = mvelo.extension.getURL(`components/key-backup/keyBackupDialog.html?id=${this.id}`);
+    const url = mvelo.runtime.getURL(`components/key-backup/keyBackupDialog.html?id=${this.id}`);
 
     this.done = done;
     this.parent = document.querySelector(this.selector);

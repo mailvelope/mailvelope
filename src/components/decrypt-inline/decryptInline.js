@@ -42,7 +42,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     id = qs.id;
     name = `dDialog-${id}`;
     // open port to background page
-    port = mvelo.extension.connect({name});
+    port = mvelo.runtime.connect({name});
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'decrypt-inline-init', sender: name});
     mvelo.l10n.getMessages([
@@ -65,7 +65,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
 
     mvelo.l10n.localizeHTML();
 
-    mvelo.appendTpl($('body'), mvelo.extension.getURL('components/decrypt-inline/signature-modal.html'))
+    mvelo.appendTpl($('body'), mvelo.runtime.getURL('components/decrypt-inline/signature-modal.html'))
     .then(() => {
       mvelo.l10n.localizeHTML();
       $('#signatureModal .close, #signatureModal .modal-footer button').on('click', () => {

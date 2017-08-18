@@ -33,7 +33,7 @@ export default class OptionsContainer {
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');
     const options = `krid=${encodeURIComponent(this.keyringId)}${this.email}${this.fullName}#/keyring/${this.hasPrivateKey ? 'display' : 'setup'}`;
-    const url = mvelo.extension.getURL(`app/app.html?${options}`);
+    const url = mvelo.runtime.getURL(`app/app.html?${options}`);
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);
     this.container.setAttribute('style', 'width: 100%; height: 100%; overflow-x: none; overflow-y: auto');

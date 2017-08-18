@@ -34,7 +34,7 @@ function connect() {
   if (document.mveloControl) {
     return;
   }
-  port = mvelo.extension.connect({name: NAME});
+  port = mvelo.runtime.connect({name: NAME});
   addMessageListener();
   port.postMessage({event: 'ready', sender: NAME});
   //initContextMenu();

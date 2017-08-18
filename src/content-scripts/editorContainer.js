@@ -13,7 +13,7 @@ export default class EditorContainer {
     this.options = options;
     this.id = mvelo.util.getHash();
     this.name = `editorCont-${this.id}`;
-    this.port = mvelo.extension.connect({name: this.name});
+    this.port = mvelo.runtime.connect({name: this.name});
     this.registerEventListener();
     this.parent = null;
     this.container = null;
@@ -30,7 +30,7 @@ export default class EditorContainer {
     if (this.options.quota) {
       quota = `&quota=${this.options.quota}`;
     }
-    const url = mvelo.extension.getURL(`components/editor/editor.html?id=${this.id}${quota}&embedded=true`);
+    const url = mvelo.runtime.getURL(`components/editor/editor.html?id=${this.id}${quota}&embedded=true`);
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);
     this.container.setAttribute('scrolling', 'no');

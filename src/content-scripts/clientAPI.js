@@ -33,7 +33,7 @@ export function init() {
   if (!window.mailvelope) {
     $('<script/>', {
       id: 'mailvelope-api',
-      src: mvelo.extension.getURL('client-API/mailvelope-client-api.js'),
+      src: mvelo.runtime.getURL('client-API/mailvelope-client-api.js'),
       'data-version': prefs.version
     }).appendTo($('head'));
   }
@@ -252,7 +252,7 @@ function eventListener(event) {
 }
 
 function getKeyring(keyringId, callback) {
-  mvelo.extension.sendMessage({
+  mvelo.runtime.sendMessage({
     event: 'get-keyring',
     api_event: true,
     keyringId
@@ -262,7 +262,7 @@ function getKeyring(keyringId, callback) {
 }
 
 function createKeyring(keyringId, callback) {
-  mvelo.extension.sendMessage({
+  mvelo.runtime.sendMessage({
     event: 'create-keyring',
     api_event: true,
     keyringId
@@ -308,7 +308,7 @@ function editorContainer(selector, keyringId, options = {}, callback) {
 }
 
 function settingsContainer(selector, keyringId, options = {}, callback) {
-  mvelo.extension.sendMessage({
+  mvelo.runtime.sendMessage({
     event: 'has-private-key',
     api_event: true,
     keyringId
@@ -321,7 +321,7 @@ function settingsContainer(selector, keyringId, options = {}, callback) {
 }
 
 function openSettings(keyringId, callback) {
-  mvelo.extension.sendMessage({
+  mvelo.runtime.sendMessage({
     event: 'open-settings',
     api_event: true,
     keyringId
@@ -370,7 +370,7 @@ function generatorReject(generatorId) {
 }
 
 function hasPrivateKey(keyringId, fingerprint, callback) {
-  mvelo.extension.sendMessage({
+  mvelo.runtime.sendMessage({
     event: 'has-private-key',
     api_event: true,
     keyringId,
@@ -389,7 +389,7 @@ function editorCreateDraft(editorId, callback) {
 }
 
 function validKeyForAddress(keyringId, recipients, callback) {
-  mvelo.extension.sendMessage({
+  mvelo.runtime.sendMessage({
     event: 'query-valid-key',
     api_event: true,
     keyringId,
@@ -400,7 +400,7 @@ function validKeyForAddress(keyringId, recipients, callback) {
 }
 
 function exportOwnPublicKey(keyringId, emailAddr, callback) {
-  mvelo.extension.sendMessage({
+  mvelo.runtime.sendMessage({
     event: 'export-own-pub-key',
     api_event: true,
     keyringId,
@@ -425,7 +425,7 @@ function importPublicKey(keyringId, armored, callback) {
       error.code = 'WRONG_ARMORED_TYPE';
       throw error;
   }
-  mvelo.extension.sendMessage({
+  mvelo.runtime.sendMessage({
     event: 'import-pub-key',
     api_event: true,
     keyringId,
@@ -447,7 +447,7 @@ function setLogo(keyringId, dataURL, revision, callback) {
     error.code = 'LOGO_INVALID';
     throw error;
   }
-  mvelo.extension.sendMessage({
+  mvelo.runtime.sendMessage({
     event: 'set-logo',
     api_event: true,
     keyringId,

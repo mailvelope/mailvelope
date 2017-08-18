@@ -34,7 +34,7 @@ var QRCode = QRCode || null; // eslint-disable-line no-var
     id = qs.id;
     name = `backupCodeWindow-${id}`;
     // open port to background page
-    port = mvelo.extension.connect({name});
+    port = mvelo.runtime.connect({name});
     port.onMessage.addListener(messageListener);
     const formattedDate = new Date();
     $('#currentDate').html(formattedDate.toLocaleDateString());

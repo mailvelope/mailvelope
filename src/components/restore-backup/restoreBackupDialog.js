@@ -42,12 +42,12 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     id = qs.id;
     name = `restoreBackupDialog-${id}`;
 
-    port = mvelo.extension.connect({name});
+    port = mvelo.runtime.connect({name});
     port.onMessage.addListener(messageListener);
 
     $('body').addClass("secureBackground");
 
-    mvelo.appendTpl($('body'), mvelo.extension.getURL('components/restore-backup/restoreBackup.html')).then(() => {
+    mvelo.appendTpl($('body'), mvelo.runtime.getURL('components/restore-backup/restoreBackup.html')).then(() => {
       $secureBgndButton = $('.secureBgndSettingsBtn');
       $restoreBackupPanel = $('#restoreBackupPanel');
       $restoreBackupButton = $('#restoreBackupBtn');

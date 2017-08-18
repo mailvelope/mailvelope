@@ -31,7 +31,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     id = qs.id;
     name = `pwdDialog-${id}`;
     // open port to background page
-    port = mvelo.extension.connect({name});
+    port = mvelo.runtime.connect({name});
     port.onMessage.addListener(messageListener);
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);

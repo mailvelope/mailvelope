@@ -50,7 +50,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
       if (!html.data('M-STYLE')) {
         const style = $('<link/>', {
           rel: 'stylesheet',
-          href: mvelo.extension.getURL('content-scripts/framestyles.css')
+          href: mvelo.runtime.getURL('content-scripts/framestyles.css')
         });
         // add style
         html.find('head').append(style);
@@ -158,7 +158,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
   }
 
   _establishConnection() {
-    this._port = mvelo.extension.connect({name: `eFrame-${this.id}`});
+    this._port = mvelo.runtime.connect({name: `eFrame-${this.id}`});
   }
 
   _html2text(html) {

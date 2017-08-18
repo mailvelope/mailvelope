@@ -19,7 +19,7 @@ export default class RestoreBackupContainer {
     this.options = options;
     this.id = mvelo.util.getHash();
     this.name = `restoreBackupCont-${this.id}`;
-    this.port = mvelo.extension.connect({name: this.name});
+    this.port = mvelo.runtime.connect({name: this.name});
     this.registerEventListener();
     this.parent = null;
     this.container = null;
@@ -33,7 +33,7 @@ export default class RestoreBackupContainer {
    * @returns {mvelo.RestoreBackupContainer}
    */
   create(done) {
-    const url = mvelo.extension.getURL(`components/restore-backup/restoreBackupDialog.html?id=${this.id}`);
+    const url = mvelo.runtime.getURL(`components/restore-backup/restoreBackupDialog.html?id=${this.id}`);
 
     this.done = done;
     this.parent = document.querySelector(this.selector);

@@ -46,12 +46,12 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     id = qs.id;
     name = `keyGenDialog-${id}`;
 
-    port = mvelo.extension.connect({name});
+    port = mvelo.runtime.connect({name});
     port.onMessage.addListener(messageListener);
 
     $('body').addClass("secureBackground");
 
-    mvelo.appendTpl($('body'), mvelo.extension.getURL('components/generate-key/keyGen.html')).then(() => {
+    mvelo.appendTpl($('body'), mvelo.runtime.getURL('components/generate-key/keyGen.html')).then(() => {
       $secureBgndButton = $('.secureBgndSettingsBtn');
       $pwdInput = $('#keygen-password');
       $pwdParent = $('#pwd-form-group');

@@ -39,7 +39,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     const qs = jQuery.parseQuerystring();
     id = `vDialog-${qs.id}`;
     // open port to background page
-    port = mvelo.extension.connect({name: id});
+    port = mvelo.runtime.connect({name: id});
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'verify-inline-init', sender: id});
     addWrapper();
