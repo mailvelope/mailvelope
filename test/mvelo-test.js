@@ -45,7 +45,7 @@ describe('mvelo unit tests', () => {
 
     beforeEach(() => {
       ctrl = new mvelo.EventHandler();
-      ctrl._senderId = 'sender1';
+      ctrl._sender = 'sender1';
       ctrl._port = port1 = {name: 'foo', postMessage: ctrl.handlePortMessage.bind(ctrl)};
       sinon.spy(port1, 'postMessage');
       port2 = {name: 'bar', postMessage: ctrl.handlePortMessage.bind(ctrl)};

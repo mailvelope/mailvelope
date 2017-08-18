@@ -15,26 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import * as controller from './controller/main.controller';
+import {initController} from './controller/main.controller';
 import {initScriptInjection} from './lib/inject';
 
-function init() {
-  controller.init()
-  .then(() => {
-    initConnectionManager();
-    initScriptInjection();
-  });
-}
-
-init();
-
-function initConnectionManager() {
-  // store incoming connections by name and id
-  chrome.runtime.onConnect.addListener(port => {
-    //console.log('ConnectionManager: onConnect:', port);
-    controller.portManager.addPort(port);
-    port.onMessage.addListener(controller.portManager.handlePortMessage);
-    // update active ports on disconnect
-    port.onDisconnect.addListener(controller.portManager.removePort);
-  });
-}
+initController()
+.then(initScriptInjection);

@@ -69,7 +69,7 @@ function init() {
   }
   document.body.dataset.mvelo = true;
   const root = document.createElement('div');
-  port = mvelo.EventHandler.connect('app-1');
+  port = mvelo.EventHandler.connect('app-bca899655117bff5e264fad');
   l10n.mapToLocal()
   .then(() => {
     ReactDOM.render((

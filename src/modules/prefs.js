@@ -48,3 +48,15 @@ export function update(obj) {
 export function addUpdateHandler(fn) {
   updateHandlers.push(fn);
 }
+
+export function getSecurityBackground() {
+  return {
+    color: prefs.security.secureBgndColor,
+    iconColor: prefs.security.secureBgndIconColor,
+    angle: prefs.security.secureBgndAngle,
+    scaling: prefs.security.secureBgndScaling,
+    width: prefs.security.secureBgndWidth,
+    height: prefs.security.secureBgndHeight,
+    colorId: prefs.security.secureBgndColorId
+  };
+}

@@ -36,7 +36,7 @@ export default class AppController extends sub.SubController {
     this.on('set-active-keyring', ({keyringId}) => sub.setActiveKeyringId(keyringId));
     this.on('delete-keyring', this.deleteKeyring);
     this.on('get-ui-log', ({securityLogLength}) => uiLog.getLatest(securityLogLength));
-    this.on('get-security-background', this.getSecurityBackground);
+    this.on('get-security-background', prefs.getSecurityBackground);
     this.on('get-version', getVersion);
     this.on('get-all-key-userid', getAllKeyUserId);
     this.on('open-tab', ({url}) => mvelo.tabs.create(url));
@@ -99,17 +99,5 @@ export default class AppController extends sub.SubController {
       return deleteKeyring(keyringId);
     })
     .then(() => sub.setActiveKeyringId(mvelo.LOCAL_KEYRING_ID));
-  }
-
-  getSecurityBackground() {
-    return {
-      color: prefs.prefs.security.secureBgndColor,
-      iconColor: prefs.prefs.security.secureBgndIconColor,
-      angle: prefs.prefs.security.secureBgndAngle,
-      scaling: prefs.prefs.security.secureBgndScaling,
-      width: prefs.prefs.security.secureBgndWidth,
-      height: prefs.prefs.security.secureBgndHeight,
-      colorId: prefs.prefs.security.secureBgndColorId
-    };
   }
 }

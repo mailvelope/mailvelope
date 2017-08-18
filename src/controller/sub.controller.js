@@ -127,8 +127,8 @@ function removeId(id, port) {
 }
 
 export function handlePortMessage(msg) {
-  const id = parseViewName(msg.sender).id;
-  getByID(id).handlePortMessage(msg);
+  const {id, type} = parseViewName(msg.sender);
+  getByID(id).handlePortMessage(msg, type);
 }
 
 export function getByID(id) {
