@@ -29,7 +29,13 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   let name;
   // dialogs
   let sandbox;
-  let l10n;
+  const l10n = mvelo.l10n.getMessages([
+    'verify_result_success',
+    'verify_result_warning',
+    'verify_result_error',
+    'alert_header_error',
+    'dialog_keyid_label'
+  ]);
 
   function init() {
     const qs = jQuery.parseQuerystring();
@@ -46,15 +52,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     $('#copyBtn').click(onCopy);
     $('body').addClass('spinner');
     mvelo.l10n.localizeHTML();
-    mvelo.l10n.getMessages([
-      'verify_result_success',
-      'verify_result_warning',
-      'verify_result_error',
-      'alert_header_error',
-      'dialog_keyid_label'
-    ], result => {
-      l10n = result;
-    });
     mvelo.util.showSecurityBackground();
   }
 

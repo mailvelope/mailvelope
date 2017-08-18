@@ -24,7 +24,15 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   let id;
   let name;
   let port;
-  let l10n;
+  const l10n = mvelo.l10n.getMessages([
+    'pwd_dialog_pwd_please',
+    'pwd_dialog_keyid_tooltip',
+    'pwd_dialog_reason_decrypt',
+    'pwd_dialog_reason_sign',
+    'pwd_dialog_reason_editor',
+    'pwd_dialog_reason_create_backup',
+    'pwd_dialog_reason_create_draft'
+  ]);
 
   function init() {
     const qs = jQuery.parseQuerystring();
@@ -53,19 +61,9 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     });
 
     mvelo.l10n.localizeHTML();
-    mvelo.l10n.getMessages([
-      'pwd_dialog_pwd_please',
-      'pwd_dialog_keyid_tooltip',
-      'pwd_dialog_reason_decrypt',
-      'pwd_dialog_reason_sign',
-      'pwd_dialog_reason_editor',
-      'pwd_dialog_reason_create_backup',
-      'pwd_dialog_reason_create_draft'
-    ], result => {
-      l10n = result;
-      $('#password').attr('placeholder', l10n.pwd_dialog_pwd_please);
-      $('#keyId').attr('title', l10n.pwd_dialog_keyid_tooltip);
-    });
+    $('#password').attr('placeholder', l10n.pwd_dialog_pwd_please);
+    $('#keyId').attr('title', l10n.pwd_dialog_keyid_tooltip);
+
     mvelo.util.showSecurityBackground();
     port.postMessage({event: 'pwd-dialog-init', sender: name});
   }

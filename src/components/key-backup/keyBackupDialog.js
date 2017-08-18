@@ -24,12 +24,25 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   let id;
   let name;
   let port;
-  let l10n;
 
   let $keyBackupGenerator;
   let $keyBackupWaiting;
   let $secureBgndButton;
   let $createBackupCodeBtn;
+
+  const l10n = mvelo.l10n.getMessages([
+    'keybackup_setup_dialog_headline',
+    'keybackup_setup_dialog_description',
+    'keybackup_setup_dialog_list_1',
+    'keybackup_setup_dialog_list_2',
+    'keybackup_setup_dialog_button',
+    'keybackup_restore_dialog_headline',
+    'keybackup_restore_dialog_description',
+    'keybackup_restore_dialog_list_1',
+    'keybackup_restore_dialog_list_2',
+    'keybackup_restore_dialog_button',
+    'keybackup_failed'
+  ]);
 
   function init() {
     if (document.body.dataset.mvelo) {
@@ -50,23 +63,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       $keyBackupWaiting = $('#key_backup_waiting').hide();
       $secureBgndButton = $('.secureBgndSettingsBtn');
       $createBackupCodeBtn = $('#createBackupCodeBtn');
-
-      // Get language strings from JSON
-      mvelo.l10n.getMessages([
-        'keybackup_setup_dialog_headline',
-        'keybackup_setup_dialog_description',
-        'keybackup_setup_dialog_list_1',
-        'keybackup_setup_dialog_list_2',
-        'keybackup_setup_dialog_button',
-        'keybackup_restore_dialog_headline',
-        'keybackup_restore_dialog_description',
-        'keybackup_restore_dialog_list_1',
-        'keybackup_restore_dialog_list_2',
-        'keybackup_restore_dialog_button',
-        'keybackup_failed'
-      ], result => {
-        l10n = result;
-      });
 
       mvelo.l10n.localizeHTML();
       mvelo.util.showSecurityBackground(true);

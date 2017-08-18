@@ -24,7 +24,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   let id;
   let name;
   let port;
-  let l10n;
   let isInputChange;
 
   let $secureBgndButton;
@@ -36,6 +35,10 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   let $confirmSuccess;
   let $keyGenPasswordPanel;
   let $keyGenWaitingPanel;
+
+  const l10n = mvelo.l10n.getMessages([
+    'keygen_dialog_password_placeholder'
+  ]);
 
   function init() {
     if (document.body.dataset.mvelo) {
@@ -62,13 +65,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       $keyGenPasswordPanel = $('#key_gen_generator');
       $keyGenWaitingPanel = $('#key_gen_waiting').hide();
 
-      // Get language strings from JSON
-      mvelo.l10n.getMessages([
-        'keygen_dialog_password_placeholder'
-      ], result => {
-        l10n = result;
-        $pwdInput.attr('placeholder', l10n.keygen_dialog_password_placeholder);
-      });
+      $pwdInput.attr('placeholder', l10n.keygen_dialog_password_placeholder);
 
       mvelo.l10n.localizeHTML();
       mvelo.util.showSecurityBackground(true);

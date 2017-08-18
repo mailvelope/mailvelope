@@ -28,7 +28,13 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   let watermark;
   let spinnerTimer;
   const basePath = '../../';
-  let l10n;
+  const l10n = mvelo.l10n.getMessages([
+    'verify_result_success',
+    'verify_result_warning',
+    'verify_result_error',
+    'alert_header_error',
+    'dialog_keyid_label'
+  ]);
 
   function init() {
     //console.log('init decryptInline.js');
@@ -51,15 +57,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     spinnerTimer = window.setTimeout(() => {
       showSpinner();
     }, 600);
-    mvelo.l10n.getMessages([
-      'verify_result_success',
-      'verify_result_warning',
-      'verify_result_error',
-      'alert_header_error',
-      'dialog_keyid_label'
-    ], result => {
-      l10n = result;
-    });
     mvelo.l10n.localizeHTML();
     mvelo.util.showSecurityBackground();
   }

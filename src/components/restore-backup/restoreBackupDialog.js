@@ -24,7 +24,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   let id;
   let name;
   let port;
-  let l10n;
 
   let $secureBgndButton;
   let $restoreBackupPanel;
@@ -32,6 +31,11 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   let $restorePasswordButton;
   let $restorePasswordPanel;
   let $restorePasswordInput;
+
+  const l10n = mvelo.l10n.getMessages([
+    'wrong_restore_code',
+    'key_recovery_failed'
+  ]);
 
   function init() {
     if (document.body.dataset.mvelo) {
@@ -54,13 +58,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       $restorePasswordButton = $('#restorePasswordBtn');
       $restorePasswordInput = $('#restorePasswordInput');
       $restorePasswordPanel = $('#restorePasswordPanel').hide();
-
-      mvelo.l10n.getMessages([
-        'wrong_restore_code',
-        'key_recovery_failed'
-      ], result => {
-        l10n = result;
-      });
 
       mvelo.l10n.localizeHTML();
       mvelo.util.showSecurityBackground(true);

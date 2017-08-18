@@ -8,7 +8,7 @@ import openpgp from 'openpgp';
 import {goog} from './closure-library/closure/goog/emailaddress';
 import {prefs} from './prefs';
 import * as keyringStore from './keyringStore';
-const l10n = mvelo.l10n.get;
+const l10n = mvelo.l10n.getMessage;
 import * as keyringSync from './keyringSync';
 import * as trustKey from './trustKey';
 import KeyServer from './keyserver';

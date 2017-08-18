@@ -29,8 +29,17 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   let watermark;
   //var spinnerTimer;
   const basePath = '../../';
-  let l10n;
   let signers = [];
+  const l10n = mvelo.l10n.getMessages([
+    'alert_header_error',
+    'digital_signature_status_true',
+    'digital_signature_status_false',
+    'digital_signature_status_null',
+    'decrypt_digital_signature',
+    'decrypt_digital_signature_failure',
+    'decrypt_digital_signature_null',
+    'digital_signature_status_null_description'
+  ]);
 
   function init() {
     //console.log('init decryptInline.js');
@@ -45,18 +54,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     port = mvelo.runtime.connect({name});
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'decrypt-inline-init', sender: name});
-    mvelo.l10n.getMessages([
-      'alert_header_error',
-      'digital_signature_status_true',
-      'digital_signature_status_false',
-      'digital_signature_status_null',
-      'decrypt_digital_signature',
-      'decrypt_digital_signature_failure',
-      'decrypt_digital_signature_null',
-      'digital_signature_status_null_description'
-    ], result => {
-      l10n = result;
-    });
+
 
     // show spinner
     mvelo.util.addLoadingAnimation();

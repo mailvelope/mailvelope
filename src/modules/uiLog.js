@@ -5,7 +5,7 @@
 
 import mvelo from 'lib-mvelo';
 
-const l10n = mvelo.l10n.get;
+const l10n = mvelo.l10n.getMessage;
 
 const log = [];
 let logTimer = 0;

@@ -24,7 +24,12 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   let id;
   let name;
   let port;
-  let l10n;
+  const l10n = mvelo.l10n.getMessages([
+    'key_import_default_headline',
+    'key_import_default_description',
+    'key_import_invalidated_headline',
+    'key_import_invalidated_description'
+  ]);
 
   function init() {
     const qs = jQuery.parseQuerystring();
@@ -39,15 +44,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     $('#closeBtn').click(onCancel);
     $('form').on('submit', onOk);
     $('closeFooter').hide();
-
-    mvelo.l10n.getMessages([
-      'key_import_default_headline',
-      'key_import_default_description',
-      'key_import_invalidated_headline',
-      'key_import_invalidated_description'
-    ], result => {
-      l10n = result;
-    });
 
     mvelo.l10n.localizeHTML();
     mvelo.util.showSecurityBackground();

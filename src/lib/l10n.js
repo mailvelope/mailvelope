@@ -10,12 +10,7 @@ function register(ids) {
 }
 
 function mapToLocal() {
-  return new Promise(resolve => {
-    mvelo.l10n.getMessages(Object.keys(map), localized => {
-      map = localized;
-      resolve();
-    });
-  });
+  map = mvelo.l10n.getMessages(Object.keys(map));
 }
 
 export {map, register, mapToLocal};

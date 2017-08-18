@@ -132,10 +132,8 @@ function init() {
   checkEnvironment();
   port = mvelo.EventHandler.connect(name);
   registerEventListeners();
-  Promise.all([
-    loadTemplates(),
-    l10n.mapToLocal()
-  ])
+  l10n.mapToLocal();
+  loadTemplates()
   .then(renderReactComponents)
   .then(templatesLoaded);
 }

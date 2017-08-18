@@ -43,8 +43,6 @@ mvelo.data.load = function(path) {
   });
 };
 
-mvelo.l10n.get = browser.i18n.getMessage;
-
 mvelo.storage = {};
 
 mvelo.storage.get = function(id) {

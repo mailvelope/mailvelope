@@ -4,7 +4,7 @@
  */
 
 import mvelo from 'lib-mvelo';
-const l10n = mvelo.l10n.get;
+const l10n = mvelo.l10n.getMessage;
 import openpgp from 'openpgp';
 import * as defaults from './defaults';
 import * as prefs from './prefs';

@@ -82,12 +82,12 @@ mvelo.runtime = chrome.runtime;
 
 mvelo.l10n = {};
 
-mvelo.l10n.getMessages = function(ids, callback) {
+mvelo.l10n.getMessage = chrome.i18n.getMessage;
+
+mvelo.l10n.getMessages = function(ids) {
   const result = {};
-  ids.forEach(id => {
-    result[id] = chrome.i18n.getMessage(id);
-  });
-  callback(result);
+  ids.forEach(id => result[id] = chrome.i18n.getMessage(id));
+  return result;
 };
 
 mvelo.l10n.localizeHTML = function(l10n, idSelector) {

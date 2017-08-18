@@ -70,15 +70,13 @@ function init() {
   document.body.dataset.mvelo = true;
   const root = document.createElement('div');
   port = mvelo.EventHandler.connect('app-bca899655117bff5e264fad');
-  l10n.mapToLocal()
-  .then(() => {
-    ReactDOM.render((
-      <HashRouter>
-        <App />
-      </HashRouter>
-    ), document.body.appendChild(root));
-    document.title = l10n.map.options_title;
-  });
+  l10n.mapToLocal();
+  ReactDOM.render((
+    <HashRouter>
+      <App />
+    </HashRouter>
+  ), document.body.appendChild(root));
+  document.title = l10n.map.options_title;
 }
 
 // reference to app component to get state
