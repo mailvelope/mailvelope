@@ -4,47 +4,41 @@
  */
 
 import mvelo from './lib-mvelo';
+import browser from 'webextension-polyfill';
 import {getWatchList, getHostname} from '../modules/pgpModel';
 import {prefs} from '../modules/prefs';
 
-// inject content script only once per time slot
-const injectTimeSlot = 600;
-// injection time slot currently open
-let injectOpen = true;
-// optimized cs injection variant, bootstrap code injected that loads cs
-const injectOptimized = true;
-// keep reloaded iframes
-const frameHosts = [];
 // content script coding as string
 let csCode = '';
 // framestyles as string
 let framestyles = '';
+// watchlist match patterns as regex
+let watchlistRegex = [];
 
 export function initScriptInjection() {
+  let matchPatterns;
   loadContentCode()
   .then(loadFramestyles)
   .then(initMessageListener)
   .then(getWatchListFilterURLs)
-  .then(filterURL => filterURL.map(host => `*://${host}/*`))
-  .then(injectOpenTabs)
   .then(filterURL => {
-    const filterType = ['main_frame', 'sub_frame'];
-    const requestFilter = {
-      urls: filterURL,
-      types: filterType
-    };
-    chrome.webRequest.onCompleted.removeListener(watchListRequestHandler);
-    if (filterURL.length !== 0) {
-      chrome.webRequest.onCompleted.addListener(watchListRequestHandler, requestFilter);
+    watchlistRegex = filterURL.map(host => mvelo.util.matchPattern2RegEx(host));
+    matchPatterns = filterURL.map(host => `*://${host}/*`);
+  })
+  .then(() => injectOpenTabs(matchPatterns))
+  .then(() => {
+    const types = ['main_frame', 'sub_frame'];
+    const requestFilter = {urls: matchPatterns, types};
+    browser.webRequest.onCompleted.removeListener(watchListRequestHandler);
+    if (matchPatterns.length !== 0) {
+      browser.webRequest.onCompleted.addListener(watchListRequestHandler, requestFilter);
     }
   });
 }
 
 function loadContentCode() {
-  if (injectOptimized && csCode === '') {
-    return mvelo.data.load('content-scripts/cs-mailvelope.js').then(csmSrc => {
-      csCode = csmSrc;
-    });
+  if (csCode === '') {
+    return mvelo.data.load('content-scripts/cs-mailvelope.js').then(csmSrc => csCode = csmSrc);
   }
   return Promise.resolve();
 }
@@ -54,14 +48,15 @@ function loadFramestyles() {
   if (framestyles === '') {
     return mvelo.data.load('content-scripts/framestyles.css').then(framestylesCSS => {
       // replace relative paths in url('/') with absolute extension paths
-      framestyles = framestylesCSS.replace(/url\('\//g, `url('${chrome.runtime.getURL('')}`);
+      framestyles = framestylesCSS.replace(/url\('\//g, `url('${browser.runtime.getURL('')}`);
     });
   }
   return Promise.resolve();
 }
 
 function initMessageListener() {
-  if (injectOptimized && !chrome.runtime.onMessage.hasListener(sendCode)) {
+  if (!chrome.runtime.onMessage.hasListener(sendCode)) {
+    // keep chrome namespace as sendResponse not supported in browser.runtime.onMessage
     chrome.runtime.onMessage.addListener(sendCode);
   }
 }
@@ -114,58 +109,45 @@ function reduceHosts(hosts) {
 }
 
 function injectOpenTabs(filterURL) {
-  // query open tabs
   return mvelo.tabs.query(filterURL)
   .then(tabs => {
-    tabs.forEach(tab => {
-      //console.log('tab', tab);
-      chrome.tabs.executeScript(tab.id, {code: csBootstrap(), allFrames: true}, () => {
-        chrome.tabs.insertCSS(tab.id, {code: framestyles, allFrames: true});
-      });
-    });
-    return filterURL;
+    const injections = [];
+    tabs.forEach(tab => injections.push(injectContent(tab)));
+    return Promise.all(injections);
   });
 }
 
+function injectContent(tab) {
+  return Promise.all([
+    browser.tabs.executeScript(tab.id, {code: csBootstrap(), allFrames: true}),
+    browser.tabs.insertCSS(tab.id, {code: framestyles, allFrames: true})
+  ]);
+}
+
 function watchListRequestHandler(details) {
-  if (details.tabId === -1) {
+  if (details.tabId === browser.tabs.TAB_ID_NONE) {
+    // request is not related to a tab
     return;
   }
-  // store frame URL
-  frameHosts.push(mvelo.util.getHost(details.url));
-  if (injectOpen || details.type === 'main_frame') {
-    setTimeout(() => {
-      if (frameHosts.length === 0) {
-        // no requests since last inject
-        return;
-      }
-      if (injectOptimized) {
-        chrome.tabs.executeScript(details.tabId, {code: csBootstrap(), allFrames: true}, () => {
-          chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
-        });
-      } else {
-        chrome.tabs.executeScript(details.tabId, {file: 'content-scripts/cs-mailvelope.js', allFrames: true}, () => {
-          chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
-        });
-      }
-      // open injection time slot
-      injectOpen = true;
-      // reset buffer after injection
-      frameHosts.length = 0;
-    }, injectTimeSlot);
-    // close injection time slot
-    injectOpen = false;
+  // check if host is active in watchlist
+  const host = mvelo.util.getHost(details.url);
+  const valid = watchlistRegex.some(hostRegex => hostRegex.test(host));
+  if (!valid) {
+    return;
   }
+  browser.tabs.executeScript(details.tabId, {file: "content-scripts/cs-mailvelope.js", frameId: details.frameId})
+  .catch(() => {});
+  browser.tabs.insertCSS(details.tabId, {code: framestyles, frameId: details.frameId})
+  .catch(() => {});
 }
 
 function csBootstrap() {
   const bootstrapSrc =
   ` \
     if (!window.mveloBootstrap) { \
-      var hosts = ${JSON.stringify(frameHosts)}; \
-      var match = !hosts.length || hosts.some(function(host) { \
-        return host === document.location.host; \
-      }); \
+      var hosts = ${JSON.stringify(watchlistRegex.map(hostRegex => hostRegex.source))};
+      var hostsRegex = hosts.map(host => new RegExp(host));
+      var match = hostsRegex.some(hostRegex => hostRegex.test(document.location.host));
       if (match) { \
         chrome.runtime.sendMessage({event: 'get-cs'}, function(response) { \
           eval(response.code); \
