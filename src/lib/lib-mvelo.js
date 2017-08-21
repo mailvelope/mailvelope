@@ -81,10 +81,8 @@ mvelo.tabs.attach = function(tab, options) {
 };
 
 mvelo.tabs.query = function(url) {
-  if (!/\*$/.test(url)) {
-    url += '*';
-  }
-  return browser.tabs.query({url, currentWindow: true});
+  return browser.tabs.query({url, currentWindow: true})
+  .catch(() => []);
 };
 
 mvelo.tabs.create = function(url, complete) {
@@ -123,7 +121,7 @@ mvelo.tabs.sendMessage = function(tab, msg) {
 mvelo.tabs.loadOptionsTab = function(hash = '') {
   // check if options tab already exists
   const url = browser.runtime.getURL('app/app.html');
-  return mvelo.tabs.query(url)
+  return mvelo.tabs.query(`${url}*`)
   .then(tabs => {
     if (tabs.length === 0) {
       // if not existent, create tab

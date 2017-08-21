@@ -28,7 +28,7 @@ export function initScriptInjection() {
   .then(filterURL => filterURL.map(host => `*://${host}/*`))
   .then(injectOpenTabs)
   .then(filterURL => {
-    const filterType = ["main_frame", "sub_frame"];
+    const filterType = ['main_frame', 'sub_frame'];
     const requestFilter = {
       urls: filterURL,
       types: filterType
@@ -52,10 +52,9 @@ function loadContentCode() {
 function loadFramestyles() {
   // load framestyles and replace path
   if (framestyles === '') {
-    return mvelo.data.load('content-scripts/framestyles.css').then(data => {
-      framestyles = data;
-      const token = /\.\.\//g;
-      framestyles = framestyles.replace(token, chrome.runtime.getURL(''));
+    return mvelo.data.load('content-scripts/framestyles.css').then(framestylesCSS => {
+      // replace relative paths in url('/') with absolute extension paths
+      framestyles = framestylesCSS.replace(/url\('\//g, `url('${chrome.runtime.getURL('')}`);
     });
   }
   return Promise.resolve();
@@ -134,7 +133,7 @@ function watchListRequestHandler(details) {
   }
   // store frame URL
   frameHosts.push(mvelo.util.getHost(details.url));
-  if (injectOpen || details.type === "main_frame") {
+  if (injectOpen || details.type === 'main_frame') {
     setTimeout(() => {
       if (frameHosts.length === 0) {
         // no requests since last inject
@@ -145,7 +144,7 @@ function watchListRequestHandler(details) {
           chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
         });
       } else {
-        chrome.tabs.executeScript(details.tabId, {file: "content-scripts/cs-mailvelope.js", allFrames: true}, () => {
+        chrome.tabs.executeScript(details.tabId, {file: 'content-scripts/cs-mailvelope.js', allFrames: true}, () => {
           chrome.tabs.insertCSS(details.tabId, {code: framestyles, allFrames: true});
         });
       }
