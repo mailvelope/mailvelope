@@ -14,8 +14,6 @@ const output = {
 const resolve = {
   modules: ["node_modules"],
   alias: {
-    'lib-mvelo': path.resolve('./src/lib/lib-mvelo'),
-    openpgp: path.resolve('./dep/chrome/openpgpjs/dist/openpgp'),
     'mailreader-parser': path.resolve('./node_modules/mailreader/src/mailreader-parser'),
     'emailjs-stringencoding': path.resolve('./src/lib/emailjs-stringencoding')
   }

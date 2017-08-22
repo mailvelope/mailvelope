@@ -8,7 +8,7 @@
  * create an editor controller to encrypt plaintext to a list of recipients.
  */
 
-import mvelo from 'lib-mvelo';
+import mvelo from '../lib/lib-mvelo';
 import * as sub from './sub.controller';
 
 export default class EncryptController extends sub.SubController {

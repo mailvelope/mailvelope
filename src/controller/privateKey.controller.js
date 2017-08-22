@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from 'lib-mvelo';
+import mvelo from '../lib/lib-mvelo';
 import {prefs} from '../modules/prefs';
 import * as  sub from './sub.controller';
 import * as uiLog from '../modules/uiLog';

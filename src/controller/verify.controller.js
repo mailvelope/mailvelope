@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from 'lib-mvelo';
+import mvelo from '../lib/lib-mvelo';
 import {SubController} from './sub.controller';
 import * as uiLog from '../modules/uiLog';
 import {readCleartextMessage, verifyMessage} from '../modules/pgpModel';

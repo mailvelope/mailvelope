@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from 'lib-mvelo';
+import mvelo from '../lib/lib-mvelo';
 import * as sub from './sub.controller';
 import {getById as getKeyringById, mapKeys, cloneKey} from '../modules/keyring';
 import * as keyringSync from '../modules/keyringSync';

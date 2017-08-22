@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from 'lib-mvelo';
+import mvelo from '../lib/lib-mvelo';
 import openpgp from 'openpgp';
 import * as certs from './certs';
 

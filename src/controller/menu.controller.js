@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from 'lib-mvelo';
+import mvelo from '../lib/lib-mvelo';
 import * as sub from './sub.controller';
 import {getHostname} from '../modules/pgpModel';
 import * as prefs from '../modules/prefs';

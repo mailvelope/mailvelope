@@ -8,7 +8,7 @@
  * for the encryption editor like handling message data and recipients.
  */
 
-import mvelo from 'lib-mvelo';
+import mvelo from '../lib/lib-mvelo';
 import {prefs} from '../modules/prefs';
 import * as model from '../modules/pgpModel';
 import * as sub from './sub.controller';
