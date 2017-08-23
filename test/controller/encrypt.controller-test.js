@@ -6,7 +6,7 @@ import EncryptController from '../../src/controller/encrypt.controller';
 
 let ctrl;
 let editorCtrlMock;
-const preferences = prefs.prefs;
+const preferences = Object.assign({}, prefs.prefs);
 
 const testRecipients = [{email: 'test@example.com'}];
 
@@ -18,14 +18,13 @@ describe('Encrypt controller unit tests', () => {
       encrypt: sinon.stub()
     };
     sinon.stub(sub.factory, 'get').returns(editorCtrlMock);
-    prefs.prefs = Object.assign({}, preferences);
+    Object.assign(prefs.prefs, preferences);
     sinon.stub(mvelo.util, 'parseHTML').returns('parsed');
     sinon.stub(ctrl, 'emit');
   });
 
   afterEach(() => {
     sub.factory.get.restore();
-    prefs.prefs = preferences;
     mvelo.util.parseHTML.restore();
     ctrl.emit.restore();
   });
@@ -58,10 +57,8 @@ describe('Encrypt controller unit tests', () => {
 
     it('should work for editor type plain', () => {
       editorCtrlMock.encrypt.yields(null, 'armored', testRecipients);
-      prefs.prefs = {
-        general: {
-          editor_type: 'plain'
-        }
+      prefs.prefs.general = {
+        editor_type: 'plain'
       };
 
       ctrl.openEditor({text: 'foo'});

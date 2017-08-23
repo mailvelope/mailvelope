@@ -7,22 +7,21 @@
 <body>
   <div id="mocha"></div>
 
-  <!-- polyfills required for PhantomJS -->
-  <script src="../node_modules/babel-polyfill/dist/polyfill.js"></script>
-  <script src="../node_modules/whatwg-fetch/fetch.js"></script>
-
   <!-- test libs -->
   <script src="../node_modules/chai/chai.js"></script>
   <script src="../node_modules/mocha/mocha.js"></script>
   <script src="../node_modules/sinon/pkg/sinon.js"></script>
-  <script src="config.js"></script>
+  <script src="polyfills.js"></script>
+  <script src="browser.conf.js"></script>
 
   <!-- libs -->
   <script src="../node_modules/jquery/dist/jquery.js"></script>
+  <script src="../src/lib/jquery.ext.js"></script>
   <script src="../node_modules/angular/angular.js"></script>
   <script src="../node_modules/angular-mocks/angular-mocks.js"></script>
 
   <!-- load unit tests -->
   <script src="../build/test/test.bundle.js"></script>
+  <script>mocha.run()</script>
 </body>
 </html>

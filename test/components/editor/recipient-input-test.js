@@ -1,4 +1,5 @@
 
+import $ from 'jquery';
 import {RecipientInputCtrl, RecipientInput} from '../../../src/components/editor/components/RecipientInput';
 
 /* global angular */

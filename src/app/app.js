@@ -17,8 +17,7 @@
 
 import mvelo from '../mvelo';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {HashRouter, Route, Redirect} from 'react-router-dom';
+import {Route, Redirect} from 'react-router-dom';
 import * as l10n from '../lib/l10n';
 import {NavLink, ProviderLogo} from './util/util';
 
@@ -61,28 +60,10 @@ l10n.register([
 
 const DEMAIL_SUFFIX = 'de-mail.de';
 export let port; // EventHandler
-document.addEventListener('DOMContentLoaded', init);
-
-function init() {
-  if (document.body.dataset.mvelo) {
-    return;
-  }
-  document.body.dataset.mvelo = true;
-  const root = document.createElement('div');
-  port = mvelo.EventHandler.connect('app-bca899655117bff5e264fad');
-  l10n.mapToLocal();
-  ReactDOM.render((
-    <HashRouter>
-      <App />
-    </HashRouter>
-  ), document.body.appendChild(root));
-  document.title = l10n.map.options_title;
-}
-
 // reference to app component to get state
 let app;
 
-class App extends React.Component {
+export class App extends React.Component {
   constructor(props) {
     super(props);
     // get URL parameter
@@ -90,6 +71,10 @@ class App extends React.Component {
     const keyringId = query.get('krid') || '';
     const name = query.get('fname') || '';
     const email = query.get('email') || '';
+    // init messaging
+    port = mvelo.EventHandler.connect('app-bca899655117bff5e264fad');
+    l10n.mapToLocal();
+    document.title = l10n.map.options_title;
     // set initial state
     this.state = {
       prefs: null, // global preferences

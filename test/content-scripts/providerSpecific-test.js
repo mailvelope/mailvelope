@@ -1,6 +1,6 @@
 
+import $ from 'jquery';
 import * as providers from '../../src/content-scripts/providerSpecific';
-
 
 describe('Provider specific content-script unit tests', () => {
   let testElem;

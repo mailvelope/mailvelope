@@ -6,7 +6,7 @@ import * as prefs from '../../src/modules/prefs';
 describe('Editor controller unit tests', () => {
   let ctrl;
   let port;
-  const preferences = prefs.prefs;
+  const preferences = Object.assign({}, prefs.prefs);
   let testRecipients;
 
   beforeEach(() => {
@@ -15,12 +15,11 @@ describe('Editor controller unit tests', () => {
     ctrl = new EditorController(port);
 
     sinon.stub(ctrl, 'emit');
-    prefs.prefs = Object.assign({}, preferences);
+    Object.assign(prefs.prefs, preferences);
   });
 
   afterEach(() => {
     ctrl.emit.restore();
-    prefs.prefs = preferences;
   });
 
   describe('Check event handlers', () => {
@@ -199,10 +198,8 @@ describe('Editor controller unit tests', () => {
         getAttributes() { return {primary_key: 'p'}; },
         getPrimaryKey: () => ({keyid: 'P'})
       });
-      prefs.prefs = {
-        general: {
-          auto_add_primary: false
-        }
+      prefs.prefs.general = {
+        auto_add_primary: false
       };
     });
 
@@ -223,10 +220,8 @@ describe('Editor controller unit tests', () => {
     });
 
     it('should return key ids with primary', () => {
-      prefs.prefs = {
-        general: {
-          auto_add_primary: true
-        }
+      prefs.prefs.general = {
+        auto_add_primary: true
       };
       ctrl.keyidBuffer = undefined;
 

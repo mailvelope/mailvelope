@@ -1,7 +1,6 @@
 
 import KeyServer from '../../../src/app/settings/keyserver';
 
-
 describe('Key server settings unit tests', () => {
   let keyserver;
 

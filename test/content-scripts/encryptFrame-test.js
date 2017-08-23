@@ -1,7 +1,6 @@
 
 import EncryptFrame from '../../src/content-scripts/encryptFrame';
 
-
 describe('Encrypt Frame unit tests', () => {
   let ef;
   const recip = [{email: 'jon@smith.com'}];

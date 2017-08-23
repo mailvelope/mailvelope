@@ -1,19 +1,9 @@
-/* eslint strict: 0 */
+/* eslint-disable */
 'use strict';
 
 //
 // Polyfills and globals required for tests
 //
-
-/* eslint-disable */
-
-if (window.initMochaPhantomJS) {
-  window.initMochaPhantomJS();
-}
-mocha.setup('bdd');
-
-var expect = chai.expect;
-chai.config.includeStack = true;
 
 window.chrome = window.chrome || {};
 

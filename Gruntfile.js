@@ -257,6 +257,9 @@ module.exports = function(grunt) {
       },
       webex_build: {
         command: 'web-ext build --source-dir=build/firefox --artifacts-dir=dist'
+      },
+      karma_test: {
+        command: 'karma start --single-run --browsers ChromeHeadless test/karma.conf.js'
       }
     },
 
@@ -268,30 +271,6 @@ module.exports = function(grunt) {
         push: false,
         files: ['package.json']
       }
-    },
-
-    connect: {
-      dev: {
-        options: {
-          port: 8580,
-          base: '.',
-          keepalive: true
-        }
-      },
-      test: {
-        options: {
-          port: 8581,
-          base: '.'
-        }
-      }
-    },
-
-    mocha_phantomjs: {
-      all: {
-        options: {
-          urls: ['http://localhost:<%= connect.test.options.port %>/test/index.html']
-        }
-      }
     }
 
   });
@@ -299,12 +278,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bump');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-compress');
-  grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-jsdoc');
-  grunt.loadNpmTasks('grunt-mocha-phantomjs');
   grunt.loadNpmTasks('grunt-replace');
   grunt.loadNpmTasks('grunt-shell');
 
@@ -327,7 +304,7 @@ module.exports = function(grunt) {
   // production build
   grunt.registerTask('prod', ['clean', 'eslint', 'browser', 'copy2tmp', 'copy:dep_prod', 'webpack:prod', 'tmp2browser']);
 
-  grunt.registerTask('test', ['webpack:test', 'connect:test', 'mocha_phantomjs']);
+  grunt.registerTask('test', ['webpack:test', 'shell:karma_test']);
 
   grunt.registerTask('webpack', function() {
     const done = this.async();

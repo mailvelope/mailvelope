@@ -23,6 +23,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import $ from 'jquery';
 import mvelo from '../../mvelo';
 import EditorFooter from './components/EditorFooter';
 import EditorModalFooter from './components/EditorModalFooter';

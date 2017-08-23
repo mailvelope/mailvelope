@@ -1,6 +1,6 @@
 
+import $ from 'jquery';
 import * as editor from '../../../src/components/editor/editor';
-import '../../../src/lib/jquery.ext';
 
 describe('Editor UI unit tests', () => {
   describe('checkEnvironment', () => {
