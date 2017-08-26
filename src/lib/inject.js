@@ -29,9 +29,11 @@ export function initScriptInjection() {
   .then(() => {
     const types = ['main_frame', 'sub_frame'];
     const requestFilter = {urls: matchPatterns, types};
-    browser.webRequest.onCompleted.removeListener(watchListRequestHandler);
-    if (matchPatterns.length !== 0) {
+    if (matchPatterns.length !== 0 && !browser.webRequest.onCompleted.hasListener(watchListRequestHandler)) {
       browser.webRequest.onCompleted.addListener(watchListRequestHandler, requestFilter);
+    }
+    if (matchPatterns.length === 0 && browser.webRequest.onCompleted.hasListener(watchListRequestHandler)) {
+      browser.webRequest.onCompleted.removeListener(watchListRequestHandler);
     }
   });
 }
@@ -119,8 +121,10 @@ function injectOpenTabs(filterURL) {
 
 function injectContent(tab) {
   return Promise.all([
-    browser.tabs.executeScript(tab.id, {code: csBootstrap(), allFrames: true}),
+    browser.tabs.executeScript(tab.id, {code: csBootstrap(), allFrames: true})
+    .catch(() => {}),
     browser.tabs.insertCSS(tab.id, {code: framestyles, allFrames: true})
+    .catch(() => {})
   ]);
 }
 
@@ -135,10 +139,12 @@ function watchListRequestHandler(details) {
   if (!valid) {
     return;
   }
-  browser.tabs.executeScript(details.tabId, {file: "content-scripts/cs-mailvelope.js", frameId: details.frameId})
-  .catch(() => {});
-  browser.tabs.insertCSS(details.tabId, {code: framestyles, frameId: details.frameId})
-  .catch(() => {});
+  setTimeout(() => {
+    browser.tabs.executeScript(details.tabId, {file: "content-scripts/cs-mailvelope.js", frameId: details.frameId})
+    .catch(() => {});
+    browser.tabs.insertCSS(details.tabId, {code: framestyles, frameId: details.frameId})
+    .catch(() => {});
+  }, 20);
 }
 
 function csBootstrap() {
