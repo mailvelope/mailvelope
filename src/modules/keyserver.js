@@ -64,17 +64,12 @@ KeyServer.prototype.lookup = function(options) {
  * a verification mail is sent out to all of the key's user ids, unless a primary
  * email attribute is supplied. In which case only one email is sent.
  * @param {string} options.publicKeyArmored   The ascii armored key block
- * @param {string} options.primaryEmail       (optional) user's primary email address
  * @yield {undefined}
  */
-KeyServer.prototype.upload = function(options) {
-  var payload = {publicKeyArmored: options.publicKeyArmored};
-  if (options.primaryEmail) {
-    payload.primaryEmail = options.primaryEmail;
-  }
+KeyServer.prototype.upload = function({publicKeyArmored}) {
   return this._mvelo.util.fetch(this._url(), {
     method: 'POST',
-    body: JSON.stringify(payload)
+    body: JSON.stringify({publicKeyArmored})
   })
   .then(this._checkStatus);
 };
