@@ -49,18 +49,13 @@ export default class KeyServer {
    * a verification mail is sent out to all of the key's user ids, unless a primary
    * email attribute is supplied. In which case only one email is sent.
    * @param {string} options.publicKeyArmored   The ascii armored key block
-   * @param {string} options.primaryEmail       (optional) user's primary email address
    * @yield {undefined}
    */
-  upload(options) {
-    const payload = {publicKeyArmored: options.publicKeyArmored};
-    if (options.primaryEmail) {
-      payload.primaryEmail = options.primaryEmail;
-    }
+  upload({publicKeyArmored}) {
     return window.fetch(this._url(), {
       method: 'POST',
       headers: new Headers({'Content-Type': 'application/json'}),
-      body: JSON.stringify(payload)
+      body: JSON.stringify({publicKeyArmored})
     })
     .then(this._checkStatus);
   }
