@@ -74,6 +74,7 @@ KeyServer.prototype.upload = function(options) {
   }
   return this._mvelo.util.fetch(this._url(), {
     method: 'POST',
+    headers: new Headers({'Content-Type': 'application/json'}),
     body: JSON.stringify(payload)
   })
   .then(this._checkStatus);
