@@ -4,7 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import openpgp from 'openpgp';
+import * as openpgp from 'openpgp';
 import {goog} from './closure-library/closure/goog/emailaddress';
 import {prefs} from './prefs';
 import * as keyringStore from './keyringStore';
@@ -612,20 +612,21 @@ export class Keyring {
    * @param {Array}   options.userIds           Email addresses and names
    * @param {string}  options.passphrase        To protect the private key on disk
    * @param {boolean} options.uploadPublicKey   If upload to key server is desired
+   * @param {Number}  options.keyExpirationTime The number of seconds after the key creation time that the key expires
    * @yield {Object}                            The generated key pair
    */
-  generateKey(options) {
+  generateKey({numBits, userIds, passphrase, uploadPublicKey, keyExpirationTime}) {
     let newKey = null;
     return Promise.resolve()
     .then(() => {
-      options.userIds = options.userIds.map(userId => {
+      userIds = userIds.map(userId => {
         if (userId.fullName) {
           return (new goog.format.EmailAddress(userId.email, userId.fullName)).toString();
         } else {
           return `<${userId.email}>`;
         }
       });
-      return openpgp.generateKeyPair({numBits: parseInt(options.numBits), userId: options.userIds, passphrase: options.passphrase, keyExpirationTime: options.keyExpirationTime});
+      return openpgp.generateKey({userIds, passphrase, numBits: parseInt(numBits), keyExpirationTime});
     })
     .then(data => {
       newKey = data;
@@ -642,7 +643,7 @@ export class Keyring {
     })
     .then(() => {
       // upload public key
-      if (options.uploadPublicKey) {
+      if (uploadPublicKey) {
         return keyServer.upload({publicKeyArmored: newKey.publicKeyArmored});
       }
     })

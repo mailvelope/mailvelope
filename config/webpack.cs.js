@@ -27,14 +27,8 @@ exports.prod = {
   }
 };
 
-exports.dev = {
+exports.dev = Object.assign(exports.prod, {
   devtool: 'inline-source-map',
-  entry,
-  output,
-  resolve,
-  plugins: common.plugins('development'),
-  module: {
-    rules: [common.replaceVersion(/main\.js$/, pjson.version)]
-  }
-};
+  plugins: common.plugins('development')
+});
 

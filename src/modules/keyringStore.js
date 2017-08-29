@@ -4,7 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import openpgp from 'openpgp';
+import * as openpgp from 'openpgp';
 
 export function createKeyringStore(keyringId) {
   const keyringStore = new KeyringStore(keyringId);

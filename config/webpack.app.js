@@ -17,27 +17,18 @@ const externals = {
 };
 
 const prod = {
-
   entry,
   output,
   resolve: common.resolve(),
   externals,
   module: common.module.react(),
   plugins: common.plugins('production')
-
 };
 
-const dev = {
-
+const dev = Object.assign(prod, {
   devtool: 'source-map',
-  entry,
-  output,
-  resolve: common.resolve(),
-  externals,
-  module: common.module.react(),
   plugins: common.plugins('development')
-
-};
+});
 
 module.exports = [dev];
 

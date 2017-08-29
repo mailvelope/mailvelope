@@ -7,7 +7,7 @@ import mvelo from '../lib/lib-mvelo';
 import * as sub from './sub.controller';
 import {getById as getKeyringById, mapKeys, cloneKey} from '../modules/keyring';
 import * as keyringSync from '../modules/keyringSync';
-import openpgp from 'openpgp';
+import * as openpgp from 'openpgp';
 import * as uiLog from '../modules/uiLog';
 import {getLastModifiedDate} from '../modules/pgpModel';
 

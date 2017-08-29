@@ -6,7 +6,7 @@
 import mvelo from '../lib/lib-mvelo';
 import * as keyring from '../modules/keyring';
 import * as sub from './sub.controller';
-import openpgp from 'openpgp';
+import * as openpgp from 'openpgp';
 import {getLastModifiedDate} from '../modules/pgpModel';
 
 export function handleApiEvent(request, sender, sendResponse) {

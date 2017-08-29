@@ -4,7 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import openpgp from 'openpgp';
+import * as openpgp from 'openpgp';
 import * as certs from './certs';
 
 const keyMap = new Map();

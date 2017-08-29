@@ -24,7 +24,7 @@
     "mailreader": "^1.0.0",
     "moment": "^2.18.1",
     "ng-tags-input": "^3.2.0",
-    "openpgp": "github:mailvelope/openpgpjs#v1.x_key_exp",
+    "openpgp": "^2.5.9",
     "prop-types": "^15.5.10",
     "qrcodejs": "github:llyys/qrcodejs#98657dab44d520876cfb646c39ebbc43c1594826",
     "react": "^15.6.1",

@@ -48,20 +48,16 @@ export default class VerifyController extends SubController {
           });
           return;
         }
-        verifyMessage(result.message, result.signers, (err, verified) => {
-          if (err) {
-            this.ports.vDialog.postMessage({
-              event: 'error-message',
-              error: err.message
-            });
-          } else {
-            this.ports.vDialog.postMessage({
-              event: 'verified-message',
-              message: result.message.getText(),
-              signers: verified
-            });
-          }
-        });
+        verifyMessage(result.message, result.signers)
+        .then(verified => this.ports.vDialog.postMessage({
+          event: 'verified-message',
+          message: result.message.getText(),
+          signers: verified
+        }))
+        .catch(err => this.ports.vDialog.postMessage({
+          event: 'error-message',
+          error: err.message
+        }));
         break;
       }
       case 'verify-dialog-cancel':

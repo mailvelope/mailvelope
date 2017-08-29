@@ -108,7 +108,7 @@ export default class DecryptController extends sub.SubController {
       if (this.ports.dDialog && content.signatures) {
         this.ports.dDialog.postMessage({event: 'signature-verification', signers: content.signatures, isContainer: this.isContainer});
       }
-      return this.parseMessage(content.text, handlers, 'html');
+      return this.parseMessage(content.data, handlers, 'html');
     })
     .then(() => {
       if (this.ports.decryptCont) {
@@ -159,15 +159,8 @@ export default class DecryptController extends sub.SubController {
   }
 
   decryptMessage(message) {
-    return new Promise((resolve, reject) => {
-      message.options = message.options || this.options;
-      model.decryptMessage(message, this.keyringId, (err, content) => {
-        if (err) {
-          return reject(err);
-        }
-        resolve(content);
-      });
-    });
+    message.options = message.options || this.options;
+    return model.decryptMessage(message, this.keyringId);
   }
 
   // attribution: https://github.com/whiteout-io/mail-html5

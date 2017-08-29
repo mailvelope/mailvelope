@@ -7,7 +7,7 @@ import mvelo from '../lib/lib-mvelo';
 import * as prefs from '../modules/prefs';
 import {SubController} from './sub.controller';
 import * as uiLog from '../modules/uiLog';
-import openpgp from 'openpgp';
+import * as openpgp from 'openpgp';
 import * as pwdCache from '../modules/pwdCache';
 import {unlockKey} from '../modules/pgpModel';
 

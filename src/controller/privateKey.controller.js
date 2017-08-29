@@ -75,8 +75,9 @@ export default class PrivateKeyController extends sub.SubController {
     this.pwdControl.unlockKey(primaryKey)
     .then(primaryKey => {
       sync.triggerSync(primaryKey);
-      this.keyBackup = createPrivateKeyBackup(primaryKey.key, primaryKey.password);
+      return createPrivateKeyBackup(primaryKey.key, primaryKey.password);
     })
+    .then(keyBackup => this.keyBackup = keyBackup)
     .then(() => sync.getByKeyring(this.keyringId).backup({backup: this.keyBackup.message}))
     .then(() => {
       let page = 'recoverySheet';
@@ -112,13 +113,9 @@ export default class PrivateKeyController extends sub.SubController {
   restorePrivateKeyBackup(code) {
     let backup;
     sync.getByKeyring(this.keyringId).restore()
-    .then(data => {
-      backup = restorePrivateKeyBackup(data.backup, code);
-      if (backup.error) {
-        throw backup.error;
-      }
-      return getKeyringById(this.keyringId).importKeys([{armored: backup.key.armor(), type: 'private'}]);
-    })
+    .then(data => restorePrivateKeyBackup(data.backup, code))
+    .then(keyBackup => backup = keyBackup)
+    .then(() => getKeyringById(this.keyringId).importKeys([{armored: backup.key.armor(), type: 'private'}]))
     .then(result => {
       for (let i = 0; i < result.length; i++) {
         if (result[i].type === 'error') {

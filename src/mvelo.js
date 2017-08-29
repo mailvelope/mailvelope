@@ -220,8 +220,12 @@ mvelo.util.byteCount = function(str) {
 };
 
 mvelo.util.ab2str = function(buf) {
-  let str = '';
   const ab = new Uint8Array(buf);
+  return mvelo.util.Uint8Array2str(ab);
+};
+
+mvelo.util.Uint8Array2str = function(ab) {
+  let str = '';
   const CHUNK_SIZE = Math.pow(2, 16);
   let offset;
   let len;
@@ -235,11 +239,16 @@ mvelo.util.ab2str = function(buf) {
 };
 
 mvelo.util.str2ab = function(str) {
+  const bufView = mvelo.util.str2Uint8Array(str);
+  return bufView.buffer;
+};
+
+mvelo.util.str2Uint8Array = function(str) {
   const bufView = new Uint8Array(str.length);
   for (let i = 0; i < str.length; i++) {
     bufView[i] = str.charCodeAt(i);
   }
-  return bufView.buffer;
+  return bufView;
 };
 
 mvelo.util.getExtensionClass = function(fileExt) {

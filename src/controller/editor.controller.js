@@ -355,7 +355,7 @@ export default class EditorController extends sub.SubController {
           throw {message: 'Restoring of the draft failed due to invalid signature.'};
         }
       }
-      return decryptCtrl.parseMessage(content.text, handlers, 'text');
+      return decryptCtrl.parseMessage(content.data, handlers, 'text');
     })
     .then(() => {
       this.emit('decrypt-end', null, this.ports.editor);
@@ -418,7 +418,7 @@ export default class EditorController extends sub.SubController {
         triggerSync(signKey);
       }
 
-      return model.signAndEncryptMessage({
+      return model.encryptMessage({
         keyIdsHex: options.keyIdsHex,
         keyringId: this.keyringId,
         primaryKey: signKey,
