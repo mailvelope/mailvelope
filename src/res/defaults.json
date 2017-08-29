@@ -218,7 +218,8 @@
       "frames": [
         {
           "scan": true,
-          "frame": "*.mail.zoho.com"
+          "frame": "*.mail.zoho.com",
+          "api": false
         }
       ]
     }
