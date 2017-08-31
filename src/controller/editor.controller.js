@@ -320,8 +320,7 @@ export default class EditorController extends sub.SubController {
     model.readMessage({armoredText: armored, keyringId: this.keyringId})
     .then(message => decryptCtrl.prepareKey(message, !this.editorPopup))
     .then(message => {
-      message.options = message.options || {};
-      message.options.selfSigned = Boolean(this.options.armoredDraft);
+      message.options = {selfSigned: Boolean(this.options.armoredDraft)};
       return decryptCtrl.decryptMessage(message);
     })
     .then(content => {

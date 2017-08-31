@@ -42,7 +42,7 @@ export default class PrivateKeyController extends sub.SubController {
     }).then(data => {
       this.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: data.publicKeyArmored});
       if (prefs.security.password_cache) {
-        pwdCache.set({key: data.key}, password);
+        pwdCache.set({key: data.key, password});
       }
       if (options.confirmRequired) {
         this.newKeyId = data.key.primaryKey.keyid.toHex();

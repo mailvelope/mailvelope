@@ -9,7 +9,6 @@ import {SubController} from './sub.controller';
 import * as uiLog from '../modules/uiLog';
 import * as openpgp from 'openpgp';
 import * as pwdCache from '../modules/pwdCache';
-import {unlockKey} from '../modules/pgpModel';
 
 export default class PwdController extends SubController {
   constructor(port) {
@@ -42,26 +41,22 @@ export default class PwdController extends SubController {
         break;
       }
       case 'pwd-dialog-ok':
-        unlockKey(this.options.key, this.options.keyid, msg.password)
-        .then(key => {
-          // password correct
-          this.options.key = key;
+        Promise.resolve()
+        .then(() => {
           this.options.password = msg.password;
           if (msg.cache != prefs.prefs.security.password_cache) {
             // update pwd cache status
             return prefs.update({security: {password_cache: msg.cache}});
           }
         })
-        .then(() => {
-          if (msg.cache) {
-            // set unlocked key and password in cache
-            pwdCache.set(this.options, msg.password);
-          }
+        .then(() => pwdCache.unlock(this.options))
+        .then(key => {
+          this.options.key = key;
           this.closePopup();
           this.resolve(this.options);
         })
         .catch(err => {
-          if (err.message == 'Wrong password') {
+          if (err.code == 'WRONG_PASSWORD') {
             this.ports.pwdDialog.postMessage({event: 'wrong-password'});
           } else {
             if (this.ports.dDialog) {
@@ -115,20 +110,11 @@ export default class PwdController extends SubController {
     if (typeof this.options.openPopup == 'undefined') {
       this.options.openPopup = true;
     }
-    const cacheEntry = pwdCache.get(this.options.key.primaryKey.getKeyId().toHex(), this.options.keyid);
+    const cacheEntry = pwdCache.get(this.options.key.primaryKey.getKeyId().toHex());
     if (cacheEntry && !options.noCache) {
-      return new Promise(resolve => {
-        this.options.password = cacheEntry.password;
-        if (!cacheEntry.key) {
-          pwdCache.unlock(this.options)
-          .then(() => {
-            resolve(this.options);
-          });
-        } else {
-          this.options.key = cacheEntry.key;
-          resolve(this.options);
-        }
-      });
+      this.options.password = cacheEntry.password;
+      this.options.key = cacheEntry.key;
+      return Promise.resolve(this.options);
     } else {
       return new Promise((resolve, reject) => {
         if (this.keyIsDecrypted(this.options) && !options.noCache) {
@@ -137,7 +123,7 @@ export default class PwdController extends SubController {
         }
         if (this.options.password) {
           // secret-key data is encrypted, but we have password
-          return unlockKey(this.options.key, this.options.keyid, this.options.password)
+          return pwdCache.unlock(this.options)
           .then(key => {
             this.options.key = key;
             resolve(this.options);

@@ -348,7 +348,7 @@ mvelo.util.mapError = function(error) {
   return {message: error.message, code: error.code  || 'INTERNAL_ERROR'};
 };
 
-mvelo.util.throwError = function(message, code) {
+mvelo.util.throwError = function(message, code = 'INTERNAL_ERROR') {
   const error = new Error(message);
   error.code = code;
   throw error;

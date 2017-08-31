@@ -218,9 +218,16 @@ export function readCleartextMessage(armoredText, keyringId) {
   return result;
 }
 
-export function unlockKey(privKey, keyid, passwd) {
+export function unlockKey(privKey, passwd) {
   return openpgp.decryptKey({privateKey: privKey, passphrase: passwd})
-  .then(result => result.key);
+  .then(result => result.key)
+  .catch(e => {
+    if (/Invalid passphrase/.test(e.message)) {
+      mvelo.util.throwError('Could not unlock key: wrong password', 'WRONG_PASSWORD');
+    } else {
+      mvelo.util.throwError('Error in openpgp.decryptKey');
+    }
+  });
 }
 
 export function decryptMessage({message, key, options = {}}, keyringId) {
