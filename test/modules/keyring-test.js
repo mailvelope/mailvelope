@@ -1,4 +1,13 @@
 
+import mvelo from '../../src/mvelo';
+import {Keyring} from '../../src/modules/keyring';
+import KeyServer from '../../src/modules/keyserver';
+import * as keyringSync from '../../src/modules/keyringSync';
+import * as openpgp from 'openpgp';
+import openpgpDefault from 'openpgp';
+
+const sandbox = sinon.createSandbox();
+
 function keyMock(keyid) {
   return {
     verifyPrimaryKey: sinon.stub().returns(openpgp.enums.keyStatus.valid),
@@ -27,12 +36,6 @@ function userMock(userid) {
   };
 }
 
-import mvelo from '../../src/mvelo';
-import {Keyring} from '../../src/modules/keyring';
-import KeyServer from '../../src/modules/keyserver';
-import * as keyringSync from '../../src/modules/keyringSync';
-import openpgp from 'openpgp';
-
 describe('Keyring unit tests', () => {
   let keyring;
   let pgpKeyring;
@@ -41,9 +44,8 @@ describe('Keyring unit tests', () => {
 
   beforeEach(() => {
     sinon.stub(KeyServer.prototype, 'upload');
-    sinon.stub(openpgp, 'generateKeyPair');
     const openpgpKeyring = sinon.createStubInstance(openpgp.Keyring);
-    sinon.stub(openpgp, 'Keyring');
+    sandbox.stub(openpgp, 'Keyring');
     const sync = sinon.createStubInstance(keyringSync.KeyringSync);
     sinon.stub(keyringSync, 'KeyringSync');
 
@@ -60,8 +62,7 @@ describe('Keyring unit tests', () => {
 
   afterEach(() => {
     KeyServer.prototype.upload.restore();
-    openpgp.generateKeyPair.restore();
-    openpgp.Keyring.restore();
+    sandbox.restore();
     keyringSync.KeyringSync.restore();
     keys = [];
   });
@@ -81,7 +82,7 @@ describe('Keyring unit tests', () => {
         getFingerprint() {},
         keyid: {toHex() { return 'ASDF'; }}
       };
-      openpgp.generateKeyPair.returns(Promise.resolve({
+      sandbox.stub(openpgpDefault, 'generateKey').returns(Promise.resolve({
         key: keyStub,
         publicKeyArmored: 'PUBLIC KEY BLOCK',
         privateKeyArmored: 'PRIVATE KEY BLOCK'
