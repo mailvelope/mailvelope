@@ -339,9 +339,12 @@ mvelo.util.showSecurityBackground = function(isEmbedded) {
 
 mvelo.util.matchPattern2RegEx = function(matchPattern) {
   return new RegExp(
-    `^${matchPattern.replace(/\./g, '\\.')
-    .replace(/\*\\\./, '(\\w+(-\\w+)*\\.)*')}$`
+    `^${mvelo.util.matchPattern2RegExString(matchPattern)}$`
   );
+};
+
+mvelo.util.matchPattern2RegExString = function(matchPattern) {
+  return matchPattern.replace(/\./g, '\\.').replace(/\*\\\./, '(\\w+(-\\w+)*\\.)*');
 };
 
 mvelo.util.mapError = function(error) {

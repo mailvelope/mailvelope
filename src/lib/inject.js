@@ -17,6 +17,7 @@ let watchlistRegex = [];
 
 export function initScriptInjection() {
   let matchPatterns;
+  let originAndPathFilter;
   loadContentCode()
   .then(loadFramestyles)
   .then(initMessageListener)
@@ -24,16 +25,18 @@ export function initScriptInjection() {
   .then(filterURL => {
     watchlistRegex = filterURL.map(host => mvelo.util.matchPattern2RegEx(host));
     matchPatterns = filterURL.map(host => `*://${host}/*`);
+    const schemes = ['http', 'https'];
+    originAndPathFilter = {url: filterURL.map(host => ({schemes,
+      originAndPathMatches: `^https?:\/\/${mvelo.util.matchPattern2RegExString(host)}/.*`
+    }))}
   })
   .then(() => injectOpenTabs(matchPatterns))
   .then(() => {
-    const types = ['main_frame', 'sub_frame'];
-    const requestFilter = {urls: matchPatterns, types};
-    if (matchPatterns.length !== 0 && !browser.webRequest.onCompleted.hasListener(watchListRequestHandler)) {
-      browser.webRequest.onCompleted.addListener(watchListRequestHandler, requestFilter);
+    if (matchPatterns.length !== 0 && !browser.webNavigation.onDOMContentLoaded.hasListener(watchListNavigationHandler)) {
+      browser.webNavigation.onDOMContentLoaded.addListener(watchListNavigationHandler, originAndPathFilter);
     }
-    if (matchPatterns.length === 0 && browser.webRequest.onCompleted.hasListener(watchListRequestHandler)) {
-      browser.webRequest.onCompleted.removeListener(watchListRequestHandler);
+    if (matchPatterns.length === 0 && browser.webNavigation.onDOMContentLoaded.hasListener(watchListNavigationHandler)) {
+      browser.webNavigation.onDOMContentLoaded.removeListener(watchListNavigationHandler);
     }
   });
 }
@@ -128,23 +131,15 @@ function injectContent(tab) {
   ]);
 }
 
-function watchListRequestHandler(details) {
+function watchListNavigationHandler(details) {
   if (details.tabId === browser.tabs.TAB_ID_NONE) {
     // request is not related to a tab
     return;
   }
-  // check if host is active in watchlist
-  const host = mvelo.util.getHost(details.url);
-  const valid = watchlistRegex.some(hostRegex => hostRegex.test(host));
-  if (!valid) {
-    return;
-  }
-  setTimeout(() => {
-    browser.tabs.executeScript(details.tabId, {file: "content-scripts/cs-mailvelope.js", frameId: details.frameId})
-    .catch(() => {});
-    browser.tabs.insertCSS(details.tabId, {code: framestyles, frameId: details.frameId})
-    .catch(() => {});
-  }, 20);
+  browser.tabs.executeScript(details.tabId, {file: "content-scripts/cs-mailvelope.js", frameId: details.frameId})
+  .catch(() => {});
+  browser.tabs.insertCSS(details.tabId, {code: framestyles, frameId: details.frameId})
+  .catch(() => {});
 }
 
 function csBootstrap() {

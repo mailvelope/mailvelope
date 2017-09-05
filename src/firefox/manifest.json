@@ -33,11 +33,11 @@
     "scripts": ["background.bundle.js"]
   },
   "permissions": [
-    "tabs",
-    "webRequest",
     "*://*/*",
     "clipboardWrite",
-    "storage"
+    "storage",
+    "tabs",
+    "webNavigation"
   ],
   "web_accessible_resources": [
     "app/app.html",
