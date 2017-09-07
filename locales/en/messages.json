@@ -96,7 +96,7 @@
     "message": "Compose Email"
   },
   "editor_link_file_encryption": {
-    "message": "Encrypt attachments",
+    "message": "Encrypt files",
     "description": "Navigation link to file encryption"
   },
   "editor_no_primary_key_caption_long": {

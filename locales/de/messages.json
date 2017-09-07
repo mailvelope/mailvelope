@@ -96,7 +96,7 @@
     "description": "Header of editor popup."
   },
   "editor_link_file_encryption": {
-    "message": "Anhänge verschlüsseln",
+    "message": "Dateien verschlüsseln",
     "description": "Navigation link to file encryption"
   },
   "editor_no_primary_key_caption_long": {
