@@ -16,29 +16,26 @@ let framestyles = '';
 let watchlistRegex = [];
 
 export function initScriptInjection() {
-  let matchPatterns;
-  let originAndPathFilter;
   loadContentCode()
   .then(loadFramestyles)
   .then(initMessageListener)
   .then(getWatchListFilterURLs)
   .then(filterURL => {
     watchlistRegex = filterURL.map(host => mvelo.util.matchPattern2RegEx(host));
-    matchPatterns = filterURL.map(host => `*://${host}/*`);
+    const matchPatterns = filterURL.map(host => `*://${host}/*`);
     const schemes = ['http', 'https'];
-    originAndPathFilter = {url: filterURL.map(host => ({schemes,
+    const originAndPathFilter = {url: filterURL.map(host => ({schemes,
       originAndPathMatches: `^https?:\/\/${mvelo.util.matchPattern2RegExString(host)}/.*`
-    }))}
-  })
-  .then(() => injectOpenTabs(matchPatterns))
-  .then(() => {
+    }))};
     if (matchPatterns.length !== 0 && !browser.webNavigation.onDOMContentLoaded.hasListener(watchListNavigationHandler)) {
       browser.webNavigation.onDOMContentLoaded.addListener(watchListNavigationHandler, originAndPathFilter);
     }
     if (matchPatterns.length === 0 && browser.webNavigation.onDOMContentLoaded.hasListener(watchListNavigationHandler)) {
       browser.webNavigation.onDOMContentLoaded.removeListener(watchListNavigationHandler);
     }
-  });
+    return injectOpenTabs(matchPatterns);
+  })
+  .catch(e => console.log('mailvelope initScriptInjection', e));
 }
 
 function loadContentCode() {
@@ -115,20 +112,12 @@ function reduceHosts(hosts) {
 
 function injectOpenTabs(filterURL) {
   return mvelo.tabs.query(filterURL)
-  .then(tabs => {
-    const injections = [];
-    tabs.forEach(tab => injections.push(injectContent(tab)));
-    return Promise.all(injections);
-  });
-}
-
-function injectContent(tab) {
-  return Promise.all([
+  .then(tabs => tabs.forEach(tab => {
     browser.tabs.executeScript(tab.id, {code: csBootstrap(), allFrames: true})
-    .catch(() => {}),
+    .catch(() => {});
     browser.tabs.insertCSS(tab.id, {code: framestyles, allFrames: true})
-    .catch(() => {})
-  ]);
+    .catch(() => {});
+  }));
 }
 
 function watchListNavigationHandler(details) {
@@ -143,19 +132,18 @@ function watchListNavigationHandler(details) {
 }
 
 function csBootstrap() {
-  const bootstrapSrc =
-  ` \
-    if (!window.mveloBootstrap) { \
+  const bootstrapSrc = `
+    if (!window.mveloBootstrap && !document.mveloControl) {
       var hosts = ${JSON.stringify(watchlistRegex.map(hostRegex => hostRegex.source))};
       var hostsRegex = hosts.map(host => new RegExp(host));
       var match = hostsRegex.some(hostRegex => hostRegex.test(document.location.host));
-      if (match) { \
-        chrome.runtime.sendMessage({event: 'get-cs'}, function(response) { \
-          eval(response.code); \
-        }); \
-        window.mveloBootstrap = true; \
-      } \
-    } \
+      if (match) {
+        chrome.runtime.sendMessage({event: 'get-cs'}, function(response) {
+          eval(response.code);
+        });
+        window.mveloBootstrap = true;
+      }
+    }
   `;
   return bootstrapSrc;
 }
