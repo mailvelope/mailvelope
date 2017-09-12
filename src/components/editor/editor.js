@@ -62,8 +62,7 @@ let delayedAction = '';
 // initial bottom position of body
 let modalBodyBottomPosition = 0;
 // attachment max file size
-let maxFileUploadSize = mvelo.MAXFILEUPLOADSIZE;
-const maxFileUploadSizeChrome = mvelo.MAXFILEUPLOADSIZECHROME; // temporal fix due issue in Chrome
+let maxFileUploadSize = mvelo.MAX_FILE_UPLOAD_SIZE;
 // user interaction on editor
 let hasUserInput = false;
 
@@ -149,9 +148,6 @@ export function checkEnvironment() {
   name = `editor-${id}`;
   if (qs.quota && parseInt(qs.quota) < maxFileUploadSize) {
     maxFileUploadSize = parseInt(qs.quota);
-  }
-  if (mvelo.crx && maxFileUploadSize > maxFileUploadSizeChrome) {
-    maxFileUploadSize = maxFileUploadSizeChrome;
   }
 }
 

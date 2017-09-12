@@ -17,7 +17,7 @@ l10n.register([
  * @returns {boolean}
  */
 export function isOversize(file) {
-  return file.size >= mvelo.MAXFILEUPLOADSIZE;
+  return file.size >= mvelo.MAX_FILE_UPLOAD_SIZE;
 }
 
 /**

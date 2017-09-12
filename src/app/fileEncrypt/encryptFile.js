@@ -15,6 +15,7 @@ import './encrypt.css';
 
 let numUploadsInProgress = 0;
 let recipients = [];
+const MAX_FILE_UPLOAD_SIZE = Math.ceil(mvelo.MAX_FILE_UPLOAD_SIZE / 1024 / 1024);
 
 let $encryptPanels;
 let $encryptFileUploadPanel;
@@ -281,11 +282,8 @@ function addEncryptInteractivity() {
   });
   $encryptFileDownload = $('#encrypt_fileDownload');
 
-  let MAXFILEUPLOADSIZE = mvelo.crx ? mvelo.MAXFILEUPLOADSIZECHROME : mvelo.MAXFILEUPLOADSIZE;
-  MAXFILEUPLOADSIZE = Math.ceil(MAXFILEUPLOADSIZE / 1024 / 1024);
-
   $encryptAddFileBtn.next()
-  .text(l10n.map.encrypt_upload_file_help.replace('##', MAXFILEUPLOADSIZE));
+  .text(l10n.map.encrypt_upload_file_help.replace('##', MAX_FILE_UPLOAD_SIZE));
 
   $encryptKeyList = $('#encrypt_keyList');
   $encryptKeySelect = $('#encrypt_keySelect');
@@ -315,11 +313,8 @@ function addDecryptInteractivity() {
     $decryptFileUpload.click();
   });
 
-  let MAXFILEUPLOADSIZE = mvelo.crx ? mvelo.MAXFILEUPLOADSIZECHROME : mvelo.MAXFILEUPLOADSIZE;
-  MAXFILEUPLOADSIZE = Math.ceil(MAXFILEUPLOADSIZE / 1024 / 1024);
-
   $decryptAddFileBtn.next()
-  .text(l10n.map.encrypt_upload_file_help.replace('##', MAXFILEUPLOADSIZE));
+  .text(l10n.map.encrypt_upload_file_help.replace('##', MAX_FILE_UPLOAD_SIZE));
 
   $decryptToDownloadBtn = $('#decrypt_goToDownloadBtn')
   .prop('disabled', true)
