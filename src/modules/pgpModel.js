@@ -512,7 +512,7 @@ export function getLastModifiedDate(key) {
   return lastModified;
 }
 
-export function encryptFile(plainFile, receipients) {
+export function encryptFile({plainFile, receipients, armor}) {
   let keys;
   return Promise.resolve()
   .then(() => {
@@ -525,11 +525,15 @@ export function encryptFile(plainFile, receipients) {
     }
     const content = dataURL2str(plainFile.content);
     const data = mvelo.util.str2Uint8Array(content);
-    return openpgp.encrypt({data, publicKeys: keys, filename: plainFile.name});
+    return openpgp.encrypt({data, publicKeys: keys, filename: plainFile.name, armor});
   })
   .then(msg => {
     logEncryption('security_log_encrypt_dialog', keys);
-    return msg.data;
+    if (armor) {
+      return msg.data;
+    } else {
+      return mvelo.util.Uint8Array2str(msg.message.packets.write());
+    }
   })
   .catch(e => {
     console.log('openpgp.encrypt() error', e);

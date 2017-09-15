@@ -199,6 +199,10 @@
     "message": "Entschlüsselung",
     "description": ""
   },
+  "file_encrypt_armored_output": {
+    "message": "Verschlüsseln in eine Datei im Text Format (ASCII-armored)",
+    "description": ""
+  },
   "file_encrypting": {
     "message": "Verschlüsselung",
     "description": ""

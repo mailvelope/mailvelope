@@ -199,6 +199,10 @@
     "message": "Decryption",
     "description": ""
   },
+  "file_encrypt_armored_output": {
+    "message": "Encrypt to file in text format (ASCII-armored)",
+    "description": ""
+  },
   "file_encrypting": {
     "message": "Encryption",
     "description": ""

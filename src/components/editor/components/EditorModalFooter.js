@@ -22,7 +22,7 @@ class EditorModalFooter extends React.Component {
       <form className="sign-msg-option well">
         <div className="form-group">
           <div className="checkbox">
-            <label className="checkbox" htmlFor="signMsg">
+            <label className="checkbox" htmlFor="signMsgOption">
               <input checked={this.props.signMsg} onChange={event => this.props.onChangeSignMsg(event.target.checked)} type="checkbox" id="signMsgOption" />
               <span>{l10n.map.sign_dialog_header}</span>
             </label>

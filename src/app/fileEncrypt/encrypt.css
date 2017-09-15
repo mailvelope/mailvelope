@@ -83,8 +83,12 @@
 }
 
 .panel-footer .btn {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 .panel-footer .btn:last-child {
-    margin-right: 0;
+  margin-right: 0;
+}
+
+.encrypt-footer-expanded {
+  height: 140px;
 }

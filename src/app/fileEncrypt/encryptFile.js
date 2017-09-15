@@ -10,6 +10,7 @@ import mvelo from '../../mvelo';
 import {port} from '../app';
 import * as l10n from '../../lib/l10n';
 import * as fileLib from '../../lib/file';
+import EncryptFooter from './components/EncryptFooter';
 
 import './encrypt.css';
 
@@ -25,7 +26,6 @@ let $encryptFileUpload;
 let $encryptFileDownload;
 let $encryptToPersonBtn;
 let $encryptAddFileBtn;
-let $encryptToDownloadBtn;
 let $encryptDownloadAllBtn;
 let $encryptFileSelection;
 
@@ -63,7 +63,19 @@ l10n.register([
   'form_back'
 ]);
 
+// reference to EncryptFile component
+let encryptFile;
+
 export default class EncryptFile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      encryptDisabled: true,
+      armored: false
+    };
+    encryptFile = this;
+  }
+
   componentDidMount() {
     init();
   }
@@ -123,10 +135,16 @@ export default class EncryptFile extends React.Component {
               </div>
             </div>
 
-            <div className="panel-footer text-right">
-              <button id="encrypt_backToUploadBtn" className="btn btn-sm btn-default">{l10n.map.form_back}</button>
+            <div className="panel-footer">
+              <EncryptFooter encryptDisabled={this.state.encryptDisabled} armored={this.state.armored}
+                onBack={() => switchPanel($encryptFileUploadPanel, $encryptPanels)}
+                onEncrypt={onEncryptFiles}
+                onChangeArmored={armored => {
+                  isEncryptCached = false;
+                  this.setState({armored});
+                }}
 
-              <button id="encrypt_goToDownloadBtn" className="btn btn-sm btn-primary">{l10n.map.editor_encrypt_button}</button>
+              />
             </div>
           </div>
 
@@ -262,19 +280,12 @@ function addEncryptInteractivity() {
   .on('click', () => {
     switchPanel($encryptPersonPanel, $encryptPanels);
   });
-  $encryptToDownloadBtn = $('#encrypt_goToDownloadBtn')
-  .prop('disabled', true)
-  .on('click', onEncryptFiles);
   $encryptDownloadAllBtn = $('#encrypt_downloadAllBtn')
   .prop('disabled', true)
   .on('click', () => {
     $encryptFileDownload.children().each(function() {
       this.click();
     });
-  });
-  $('#encrypt_backToUploadBtn')
-  .on('click', () => {
-    switchPanel($encryptFileUploadPanel, $encryptPanels);
   });
   $('#encrypt_backToPersonBtn')
   .on('click', () => {
@@ -413,15 +424,15 @@ function onEncryptFiles(e) {
 
 function encryptFiles(plainFiles, receipients) {
   const encryptProcesses = [];
+  const {armored} = encryptFile.state;
   plainFiles.forEach(plainFile => {
-    encryptProcesses.push(port.send('encryptFile', {plainFile, receipients})
-    .then(armored => {
-      addFileToDownload({
-        name: `${plainFile.name}.asc`,
-        content: armored,
+    encryptProcesses.push(
+      port.send('encryptFile', {plainFile, receipients, armor: armored})
+      .then(content => addFileToDownload({
+        name: `${plainFile.name}${armored ? '.asc' : '.gpg'}`,
+        content,
         type: 'application/octet-stream'
-      }, $encryptFileDownload, {secureIcon: true});
-    })
+      }, $encryptFileDownload, {secureIcon: true}))
     );
   });
   return Promise.all(encryptProcesses);
@@ -451,7 +462,7 @@ function onAddRecipient(e) {
 
   toggleSelectionInKeyList(index, 'ADD');
   if ($encryptKeyList.has('.recipientButton').length) {
-    $encryptToDownloadBtn.prop('disabled', false);
+    encryptFile.setState({encryptDisabled: false});
   }
   isEncryptCached = false;
 }
@@ -468,7 +479,7 @@ function onRemoveRecipient(e) {
 
   $this.parent().remove();
   if (!$encryptKeyList.has('.recipientButton').length) {
-    $encryptToDownloadBtn.prop('disabled', true);
+    encryptFile.setState({encryptDisabled: true});
   }
   isEncryptCached = false;
 }

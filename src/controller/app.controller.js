@@ -20,7 +20,7 @@ export default class AppController extends sub.SubController {
     this.on('get-prefs', () => prefs.prefs);
     this.on('set-prefs', this.updatePreferences);
     this.on('decryptFile', ({encryptedFile}) => decryptFile(encryptedFile));
-    this.on('encryptFile', ({plainFile, receipients}) => encryptFile(plainFile, receipients));
+    this.on('encryptFile', encryptFile);
     this.on('getWatchList', getWatchList);
     this.on('getKeys', ({keyringId}) => keyringById(keyringId).getKeys());
     this.on('removeKey', this.removeKey);
