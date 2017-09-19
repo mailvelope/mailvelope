@@ -50,7 +50,7 @@ export default class Dashboard extends React.Component {
             </Link>
           </div>
           <div className="col-md-3">
-            <a href={mailvelopeHelpUrl} className="dashboard-item" target="_blank">
+            <a href={mailvelopeHelpUrl} className="dashboard-item" target="_blank" rel="noreferrer noopener">
               <i className="fa fa-question-circle"></i>
               <span>{l10n.map.dashboard_link_help}</span>
             </a>
