@@ -31,7 +31,7 @@ export default class MenuController extends sub.SubController {
         this.addToWatchList();
         break;
       case 'options':
-        this.loadOptions('#/keyring');
+        this.loadOptions('#/dashboard');
         break;
       case 'showlog':
         this.loadOptions('#/settings/security-log');

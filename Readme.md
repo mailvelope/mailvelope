@@ -57,15 +57,23 @@ Update your local repository:
     git pull origin dev && grunt
     # continue with 'grunt dist-cr' or 'grunt dist-ff'
 
-There are a few more tasks available through grunt:
+There are a few more tasks/tools available:
 
-* watch source code for changes and recompile if needed:
+* watch source code for changes and recompile if needed
 
-    grunt watch
+    `grunt watch`
+
+* test the firefox plugin
+
+  ```
+  node_modules/web-ext/bin/web-ext run --source-dir=./build/firefox
+  ```
+
+  It is possible to reload the plugin on changes, run the `grunt watch` task on another console terminal
 
 * reset repository
 
-    grunt clean
+    `grunt clean`
 
 ## Website
 

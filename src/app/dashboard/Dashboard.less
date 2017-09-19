@@ -1,0 +1,46 @@
+@import "../../res/less/colors";
+
+@dashboard-item-title-bg-color: @grey-light;
+@dashboard-item-title-bg-color-hover: darken(rgb(red(@grey-light), green(@grey-light), blue(@grey-light)), 2%);
+@dashboard-item-bg-color: rgb(255, 255, 255);
+@dashboard-item-bg-color-hover: darken(rgb(255, 255, 255), 2%);
+
+.dashboard {
+  a.dashboard-item {
+    display: block;
+    text-align: center;
+    margin-bottom: 2em;
+    background-color: @dashboard-item-bg-color;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    padding:1em 0 0 0;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: @dashboard-item-bg-color-hover;
+      text-decoration: none;
+      span {
+        background-color: @dashboard-item-title-bg-color-hover;
+      }
+      i.fa {
+        color: @grey-dark;
+      }
+    }
+
+    i.fa {
+      font-size: 5em;
+      margin:.25em;
+      color: @grey;
+    }
+    span {
+      display: block;
+      margin-top:1em;
+      color: @grey-dark;
+      padding: 0.5em;
+      background-color: @dashboard-item-title-bg-color;
+      transition: background-color 0.3s ease;
+    }
+  }
+}

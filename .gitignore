@@ -1,16 +1,26 @@
+# dependencies
+/node_modules
+bower_components
+
+# testing
+/coverage
+/tmp
+.travis/crx_signing.pem
+
+# build
+/build
+apidoc/
+cert/
+.eslintcache
+
+# editors
+*.sublime*
+atlassian-ide-plugin.xml
+.idea/
+
+# misc
+.DS_Store
+.svn
 *~
 .directory
-*.sublime*
-.svn
-bower_components
-/node_modules/
-tmp/
-build/
-apidoc/
-.idea/
-atlassian-ide-plugin.xml
 mailvelope.iml
-cert/
-.DS_Store
-.travis/crx_signing.pem
-.eslintcache

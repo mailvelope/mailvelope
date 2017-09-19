@@ -17,10 +17,11 @@
 
 import mvelo from '../mvelo';
 import React from 'react';
-import {Route, Redirect} from 'react-router-dom';
+import {Route, Redirect, Link} from 'react-router-dom';
 import * as l10n from '../lib/l10n';
 import {NavLink, ProviderLogo} from './util/util';
 
+import Dashboard from './dashboard/Dashboard';
 import KeyringSelect from './keyring/components/KeyringSelect';
 import KeyGrid from './keyring/KeyGrid';
 import ImportKey from './keyring/importKey';
@@ -35,6 +36,7 @@ import WatchList from './settings/watchList';
 import SecurityLog from './settings/securityLog';
 import KeyServer from './settings/keyserver';
 
+import 'font-awesome/less/font-awesome.less';
 import './app.css';
 
 l10n.register([
@@ -200,7 +202,7 @@ export class App extends React.Component {
                 <span className="icon-bar"></span>
                 <span className="icon-bar"></span>
               </button>
-              <div className="navbar-brand settings-logo"></div>
+              <Link to="/dashboard" className="navbar-brand settings-logo"></Link>
             </div>
             <div className="collapse navbar-collapse bs-navbar-collapse">
               <ul className="nav navbar-nav" role="menu" aria-label="primary menu">
@@ -217,6 +219,7 @@ export class App extends React.Component {
         </nav>
         <div className="container" role="main">
           <div className="row">
+            <Route path='/dashboard' component={Dashboard}/>
             <Route path='/keyring' render={() => (
               <div>
                 <div className="col-md-3">
