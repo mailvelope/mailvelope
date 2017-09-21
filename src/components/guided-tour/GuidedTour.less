@@ -1,0 +1,42 @@
+@import "../../res/less/colors";
+
+@backdrop-opacity: 60;
+@base-zindex: 1040;
+
+.shepherd-active {
+  // Shepherd step bubble
+  .shepherd-step {
+    z-index: @base-zindex + 2;
+    width:27em;
+    font-size:0.9em;
+  }
+
+  header {
+    background: @grey-light !important;
+    h3.shepherd-title {
+      font-weight: bold !important;
+    }
+  }
+
+  // Target element
+  .shepherd-target {
+    &.shepherd-enabled {
+      position: relative;
+      background-color: white; // In case target element doesn't have a background
+      z-index: @base-zindex + 1;
+    }
+  }
+
+  // Custom backdrop element
+  .shepherd-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    opacity: @backdrop-opacity / 100;
+    filter: alpha(opacity=@backdrop-opacity);
+    z-index: @base-zindex;
+  }
+}

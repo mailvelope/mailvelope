@@ -4,21 +4,45 @@
  */
 
 import React from 'react';
-import * as l10n from '../../lib/l10n';
 import {Link} from 'react-router-dom';
+import {port} from '../app';
+import * as l10n from '../../lib/l10n';
+import DashboardGuidedTour from './components/DashboardGuidedTour';
 import './Dashboard.less';
 
 l10n.register([
-  'dashboard_link_manage_keys',
+  'dashboard_link_configure',
   'dashboard_link_encrypt_decrypt_files',
-  'dashboard_link_view_security_log',
+  'dashboard_link_help',
   'dashboard_link_manage_email_providers',
-  'dashboard_link_help'
+  'dashboard_link_manage_keys',
+  'dashboard_link_view_security_log'
 ]);
 
 export default class Dashboard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {isSetupDone: true};
+
+    // Check if the setup has already been completed.
+    port.send('get-is-setup-done')
+    .then(({isSetupDone}) => this.setState({isSetupDone}));
+  }
+
   render() {
     const mailvelopeHelpUrl = "https://www.mailvelope.com/en/help";
+    let configureItem = null;
+
+    // If the setup has not been completed yet. Add the configure item to the dashboard.
+    if (!this.state.isSetupDone) {
+      configureItem = (<div className="col-md-3">
+        <Link to="/keyring/setup" className="dashboard-item dashboard-item-configure">
+          <i className="fa fa-gear"></i>
+          <span>{l10n.map.dashboard_link_configure}</span>
+        </Link>
+      </div>);
+    }
+
     return (
       <div className="dashboard">
         <div className="row">
@@ -27,6 +51,7 @@ export default class Dashboard extends React.Component {
           </div>
         </div>
         <div className="row">
+          {configureItem}
           <div className="col-md-3">
             <Link to="/keyring/display" className="dashboard-item" role="button">
               <i className="fa fa-key" role="presentation"></i>
@@ -60,6 +85,7 @@ export default class Dashboard extends React.Component {
             </a>
           </div>
         </div>
+        <DashboardGuidedTour enabled={!this.state.isSetupDone}/>
       </div>
     );
   }

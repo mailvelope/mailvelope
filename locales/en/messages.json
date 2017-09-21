@@ -111,6 +111,10 @@
     "message": "Mailvelope setup menu",
     "description": "Accessibility, aria label of the setup menu"
   },
+  "dashboard_link_configure": {
+    "description": "Dashboard configure link",
+    "message": "Configure Mailvelope"
+  },
   "dashboard_link_encrypt_decrypt_files": {
     "description": "Dashboard encrypt decrypt files link",
     "message": "Encrypt and decrypt files"
@@ -130,6 +134,18 @@
   "dashboard_link_view_security_log": {
     "description": "Dashboard view security logs link",
     "message": "View security logs"
+  },
+  "dashboard_tour_got_it_button": {
+    "description": "Dashboard guided tour got it button",
+    "message": "Got it!"
+  },
+  "dashboard_tour_step_1_text": {
+    "description": "Dashboard guided tour step 1 text",
+    "message": "Before you can start using Mailvelope, you need to configure it. <br><br>Click on the \"Configure Mailvelope\" button on the left to get started!"
+  },
+  "dashboard_tour_step_1_title": {
+    "description": "Dashboard guided tour step 1 title",
+    "message": "Configure Mailvelope"
   },
   "decrypt_digital_signature": {
     "description": "Caption digital signature",

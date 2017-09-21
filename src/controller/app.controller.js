@@ -41,6 +41,7 @@ export default class AppController extends sub.SubController {
     this.on('get-all-key-userid', getAllKeyUserId);
     this.on('open-tab', ({url}) => mvelo.tabs.create(url));
     this.on('get-app-data-slot', ({slotId}) => sub.getAppDataSlot(slotId));
+    this.on('get-is-setup-done', this.getIsSetupDone);
   }
 
   updatePreferences(options) {
@@ -99,5 +100,11 @@ export default class AppController extends sub.SubController {
       return deleteKeyring(keyringId);
     })
     .then(() => sub.setActiveKeyringId(mvelo.LOCAL_KEYRING_ID));
+  }
+
+  getIsSetupDone() {
+    const keyringId = sub.getActiveKeyringId();
+    const isSetupDone = keyringById(keyringId).hasPrivateKey();
+    return {isSetupDone};
   }
 }
