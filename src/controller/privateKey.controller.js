@@ -38,7 +38,8 @@ export default class PrivateKeyController extends sub.SubController {
     getKeyringById(this.keyringId).generateKey({
       userIds: options.userIds,
       numBits: options.keySize,
-      passphrase: password
+      passphrase: password,
+      unlocked: true
     }).then(data => {
       this.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: data.publicKeyArmored});
       if (prefs.security.password_cache) {

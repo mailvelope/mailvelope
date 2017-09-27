@@ -613,9 +613,10 @@ export class Keyring {
    * @param {string}  options.passphrase        To protect the private key on disk
    * @param {boolean} options.uploadPublicKey   If upload to key server is desired
    * @param {Number}  options.keyExpirationTime The number of seconds after the key creation time that the key expires
+   * @param {Boolean} options.unlocked          Returned secret part of the generated key is unlocked
    * @yield {Object}                            The generated key pair
    */
-  generateKey({numBits, userIds, passphrase, uploadPublicKey, keyExpirationTime}) {
+  generateKey({numBits, userIds, passphrase, uploadPublicKey, keyExpirationTime, unlocked = false}) {
     let newKey = null;
     return Promise.resolve()
     .then(() => {
@@ -626,7 +627,7 @@ export class Keyring {
           return `<${userId.email}>`;
         }
       });
-      return openpgp.generateKey({userIds, passphrase, numBits: parseInt(numBits), keyExpirationTime});
+      return openpgp.generateKey({userIds, passphrase, numBits: parseInt(numBits), keyExpirationTime, unlocked});
     })
     .then(data => {
       newKey = data;

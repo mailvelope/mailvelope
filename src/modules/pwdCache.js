@@ -81,7 +81,7 @@ export {deleteEntry as delete};
 
 /**
  * Set key and password in cache, start timeout
- * @param {openpgp.key.Key} key - private key, packet of keyid expected unlocked
+ * @param {openpgp.key.Key} key - private key, expected unlocked
  * @param {String}          [password] - password
  * @param {Number}          [cacheTime] - timeout in minutes
  */
