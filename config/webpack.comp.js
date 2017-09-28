@@ -34,12 +34,14 @@ function dev(pathname, filename) {
 
 module.exports = [
   dev('editor', 'editor'),
-  dev('action-menu', 'actionMenu')
+  dev('action-menu', 'actionMenu'),
+  dev('install-landing-page', 'installLandingPage')
 ];
 
 module.exports.prod = [
   prod('editor', 'editor'),
-  prod('action-menu', 'actionMenu')
+  prod('action-menu', 'actionMenu'),
+  prod('install-landing-page', 'installLandingPage')
 ];
 
 module.exports.dev = module.exports;

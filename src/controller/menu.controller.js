@@ -103,7 +103,7 @@ export default class MenuController extends sub.SubController {
       const site = getHostname(tab.url);
       const slotId = mvelo.util.getHash();
       sub.setAppDataSlot(slotId, site);
-      mvelo.tabs.loadOptionsTab(`?slotId=${slotId}#/settings/watchlist/push`);
+      mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/watchlist/push`);
     });
   }
 

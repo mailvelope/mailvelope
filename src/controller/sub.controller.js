@@ -45,12 +45,12 @@ export class SubController extends mvelo.EventHandler {
 
   openSecuritySettings() {
     const hash = '#/settings/security';
-    mvelo.tabs.loadOptionsTab(hash);
+    mvelo.tabs.loadAppTab(hash);
   }
 
   openApp(fragment) {
     const hash = `#${fragment}`;
-    mvelo.tabs.loadOptionsTab(hash);
+    mvelo.tabs.loadAppTab(hash);
   }
 }
 

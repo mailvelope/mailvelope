@@ -35,7 +35,7 @@ export default class ImportController extends sub.SubController {
         const slotId = mvelo.util.getHash();
         this.keyringId = sub.getActiveKeyringId();
         sub.setAppDataSlot(slotId, msg.data);
-        mvelo.tabs.loadOptionsTab(`?krid=${encodeURIComponent(this.keyringId)}&slotId=${slotId}#/keyring/import/push`);
+        mvelo.tabs.loadAppTab(`?krid=${encodeURIComponent(this.keyringId)}&slotId=${slotId}#/keyring/import/push`);
         break;
       }
       case 'key-import-dialog-init':

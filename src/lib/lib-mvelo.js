@@ -118,9 +118,13 @@ mvelo.tabs.sendMessage = function(tab, msg) {
   return browser.tabs.sendMessage(tab.id, msg);
 };
 
-mvelo.tabs.loadOptionsTab = function(hash = '') {
-  // check if options tab already exists
-  const url = browser.runtime.getURL('app/app.html');
+mvelo.tabs.loadAppTab = function(hash = '') {
+  return mvelo.tabs.loadTab({path: 'app/app.html', hash});
+};
+
+mvelo.tabs.loadTab = function({path = '', hash = ''}) {
+  // Check if tab already exists.
+  const url = browser.runtime.getURL(path);
   return mvelo.tabs.query(`${url}*`)
   .then(tabs => {
     if (tabs.length === 0) {

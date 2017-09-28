@@ -138,6 +138,7 @@ module.exports = function(grunt) {
             'components/**/*',
             '!components/action-menu/**/*.js',
             '!components/editor/**/*.js',
+            '!components/install-landing-page/**/*.js',
             '!components/util/**/*',
             'content-scripts/*.css',
             'content-scripts/addToWatchlist.js',

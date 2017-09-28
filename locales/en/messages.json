@@ -407,6 +407,22 @@
     "description": "Header warning.",
     "message": "Warning!"
   },
+  "install_landing_page_getting_started": {
+    "description": "Install landing page getting started message",
+    "message": "Click on the Mailvelope icon ##1## in your browser toolbar ##2## to begin with the configuration."
+  },
+  "install_landing_page_help": {
+    "description": "Install landing page help link",
+    "message": "online help"
+  },
+  "install_landing_page_help_wrapper": {
+    "description": "Install landing page help link wrapper",
+    "message": "Check out the ##1## for more information."
+  },
+  "install_landing_page_welcome": {
+    "description": "Install landing page welcome message",
+    "message": "Welcome to Mailvelope!"
+  },
   "keyserver_hkp_url": {
     "description": "HKP key server option: url.",
     "message": "HKP key server"
