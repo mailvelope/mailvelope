@@ -15,6 +15,7 @@ l10n.register([
   'action_menu_edit_security_settings',
   'action_menu_reload_extension_scripts',
   'action_menu_activate_current_tab',
+  'action_menu_advanced_menu_aria_label'
 ]);
 
 class ActionMenuAdvanced extends Component {
@@ -23,44 +24,44 @@ class ActionMenuAdvanced extends Component {
       <div className="advanced">
         <div className="header">
           <a href="#" onClick={this.props.onShowBaseOptionsHandler} aria-role="button">
-            <i className="glyphicon glyphicon-chevron-left"></i>
+            <i className="glyphicon glyphicon-chevron-left" role="presentation"></i>
             {l10n.map.action_menu_back}
           </a>
         </div>
-        <ul className="action-menu">
-          <li role="presentation" className="with-icon">
-            <a href="#" className="clearfix" id="security-logs" onClick={this.props.onMenuItemClickHandler}>
+        <ul className="action-menu" role="menu" aria-label={l10n.map.action_menu_advanced_menu_aria_label}>
+          <li className="with-icon" role="none">
+            <a href="#" className="clearfix" id="security-logs" onClick={this.props.onMenuItemClickHandler} role="menuitem">
               <p>{l10n.map.action_menu_review_security_logs}</p>
-              <i className="fa fa-eye"></i>
+              <i className="fa fa-eye" role="presentation"></i>
             </a>
           </li>
-          <li role="presentation" className="with-icon">
-            <a href="#" className="clearfix" id="email-providers" onClick={this.props.onMenuItemClickHandler}>
+          <li className="with-icon" role="none">
+            <a href="#" className="clearfix" id="email-providers" onClick={this.props.onMenuItemClickHandler} role="menuitem">
               <p>{l10n.map.action_menu_manage_email_providers}</p>
-              <i className="fa fa-server"></i>
+              <i className="fa fa-server" role="presentation"></i>
             </a>
           </li>
-          <li role="presentation" className="with-icon">
-            <a href="#" className="clearfix" id="security-settings" onClick={this.props.onMenuItemClickHandler}>
+          <li className="with-icon" role="none">
+            <a href="#" className="clearfix" id="security-settings" onClick={this.props.onMenuItemClickHandler} role="menuitem">
               <p>{l10n.map.action_menu_edit_security_settings}</p>
-              <i className="fa fa-lock"></i>
+              <i className="fa fa-lock" role="presentation"></i>
             </a>
           </li>
-          <li role="presentation" className="with-icon">
-            <a href="#" className="clearfix" id="reload-extension" onClick={this.props.onMenuItemClickHandler}>
+          <li className="with-icon" role="none">
+            <a href="#" className="clearfix" id="reload-extension" onClick={this.props.onMenuItemClickHandler} role="menuitem">
               <p>{l10n.map.action_menu_reload_extension_scripts}</p>
-              <i className="fa fa-refresh"></i>
+              <i className="fa fa-refresh" role="presentation"></i>
             </a>
           </li>
-          <li role="presentation" className="with-icon">
-            <a href="#" className="clearfix" id="activate-tab" onClick={this.props.onMenuItemClickHandler}>
+          <li className="with-icon" role="none">
+            <a href="#" className="clearfix" id="activate-tab" onClick={this.props.onMenuItemClickHandler} role="menuitem">
               <p>{l10n.map.action_menu_activate_current_tab}</p>
-              <i className="fa fa-plus"></i>
+              <i className="fa fa-plus" role="presentation"></i>
             </a>
           </li>
         </ul>
         <div className="footer">
-          <a href="#" id="options" onClick={this.props.onMenuItemClickHandler}>
+          <a href="#" id="options" onClick={this.props.onMenuItemClickHandler} role="button">
             {l10n.map.action_menu_all_options}
           </a>
         </div>

@@ -28,34 +28,34 @@ export default class Dashboard extends React.Component {
         </div>
         <div className="row">
           <div className="col-md-3">
-            <Link to="/keyring/display" className="dashboard-item">
-              <i className="fa fa-key"></i>
+            <Link to="/keyring/display" className="dashboard-item" role="button">
+              <i className="fa fa-key" role="presentation"></i>
               <span>{l10n.map.dashboard_link_manage_keys}</span>
             </Link>
           </div>
           <div className="col-md-3">
-            <Link to="/encryption/file-encrypt" className="dashboard-item">
-              <i className="fa fa-files-o"></i>
+            <Link to="/encryption/file-encrypt" className="dashboard-item" role="button">
+              <i className="fa fa-files-o" role="presentation"></i>
               <span>{l10n.map.dashboard_link_encrypt_decrypt_files}</span>
             </Link>
           </div>
           <div className="col-md-3">
-            <Link to="/settings/security-log" className="dashboard-item">
-              <i className="fa fa-eye"></i>
+            <Link to="/settings/security-log" className="dashboard-item" role="button">
+              <i className="fa fa-eye" role="presentation"></i>
               <span>{l10n.map.dashboard_link_view_security_log}</span>
             </Link>
           </div>
           <div className="col-md-3">
-            <Link to="/settings/watchlist" className="dashboard-item">
-              <i className="fa fa-server"></i>
+            <Link to="/settings/watchlist" className="dashboard-item" role="button">
+              <i className="fa fa-server" role="presentation"></i>
               <span>{l10n.map.dashboard_link_manage_email_providers}</span>
             </Link>
           </div>
         </div>
         <div className="row">
           <div className="col-md-3">
-            <a href={mailvelopeHelpUrl} className="dashboard-item" target="_blank" rel="noreferrer noopener">
-              <i className="fa fa-question-circle"></i>
+            <a href={mailvelopeHelpUrl} className="dashboard-item" target="_blank" rel="noreferrer noopener" role="button">
+              <i className="fa fa-question-circle" role="presentation"></i>
               <span>{l10n.map.dashboard_link_help}</span>
             </a>
           </div>

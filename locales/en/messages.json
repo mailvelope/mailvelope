@@ -31,6 +31,10 @@
     "message": "Activate on current tab",
     "description": "Activate on current tab shortcut in the action menu"
   },
+  "action_menu_advanced_menu_aria_label":  {
+    "message": "Mailvelope advanced menu",
+    "description": "Accessibility, aria label of the advanced menu"
+  },
   "action_menu_advanced_options": {
     "message": "Advanced options",
     "description": "Advanced options link in the action menu"
@@ -91,6 +95,10 @@
     "message": "online help",
     "description": "Online help shortcut."
   },
+  "action_menu_primary_menu_aria_label":  {
+    "message": "Mailvelope primary menu",
+    "description": "Accessibility, aria label of the primary menu"
+  },
   "action_menu_reload_extension_scripts": {
     "message": "Reload extension scripts",
     "description": "Reload extension scripts shortcut in the action menu"
@@ -98,6 +106,10 @@
   "action_menu_review_security_logs": {
     "message": "Review security logs",
     "description": "Review security logs shortcut in the action menu"
+  },
+  "action_menu_setup_menu_aria_label":  {
+    "message": "Mailvelope setup menu",
+    "description": "Accessibility, aria label of the setup menu"
   },
   "dashboard_link_encrypt_decrypt_files": {
     "description": "Dashboard encrypt decrypt files link",
