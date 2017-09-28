@@ -136,6 +136,7 @@ module.exports = function(grunt) {
             'app/app.html',
             'client-API/*',
             'components/**/*',
+            '!components/action-menu/**/*.js',
             '!components/editor/**/*.js',
             '!components/util/**/*',
             'content-scripts/*.css',

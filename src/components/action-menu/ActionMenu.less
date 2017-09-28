@@ -1,0 +1,165 @@
+@import "../../res/less/colors";
+
+
+@side-padding: 0.6em;
+@select-transition: background-color 0.2s ease;
+@action-menu-width: 230px;
+
+body {
+  padding:0px !important;
+  margin:0px !important;
+  border-radius: 5px
+}
+
+div.action-menu {
+  width: @action-menu-width;
+  padding: 0;
+  margin:0;
+
+  .action-menu-header {
+    padding: 3px 0;
+    height: 37px;
+
+    .mailvelope-logo {
+      float: left;
+      width: 100px;
+      height: 27px;
+      background: 2px 5px no-repeat url(../../img/maivelope-logo.svg);
+      background-color: rgba(0, 0, 0, 0);
+    }
+
+    .nav-right {
+      float: right;
+      padding: 7px @side-padding 6px 0;
+      font-size: 12.6px;
+
+      a {
+        color: @grey-dark;
+        outline: none;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  .action-menu-container-slide-container {
+    position: relative;
+    overflow: hidden;
+    width: @action-menu-width;
+
+    .action-menu-container-slide {
+      width: @action-menu-width*2;
+
+      .primary {
+        display: inline-block;
+        width: @action-menu-width;
+      }
+      .advanced {
+        display: inline-block;
+        width: @action-menu-width;
+      }
+    }
+  }
+
+  ul.action-menu {
+    padding: 0;
+    margin: 0;
+
+    li {
+      list-style-type: none;
+      margin: 0;
+      font-size: 1em;
+
+      &.item-big {
+        height: 77px;
+
+        a {
+          padding: 19.5px @side-padding;
+
+          p {
+            float: left;
+            padding-left: 1%;
+            width: 78%;
+          }
+          i.fa {
+            text-align: center;
+            float: right;
+            width: 20%;
+            font-size: 2em;
+            color: @grey;
+            margin-top: .125em;
+          }
+        }
+      }
+
+      /** Version of the advanced menu with icon **/
+      &.with-icon {
+        height: 39.5px;
+        a {
+          padding: 7px 0.6em;
+          height: 39.5px;
+
+          p {
+            float: left;
+            padding: 0.23em 0 0.23em 1%;
+            width: 78%;
+          }
+          i.fa {
+            text-align: center;
+            float: right;
+            width: 12%;
+            font-size: 1.3em;
+            color: @grey;
+            margin-top: .125em;
+          }
+        }
+      }
+
+      a {
+        padding: 0.72em @side-padding;
+        border-top: 1px solid @grey-selected;
+        display: block;
+        color: @grey-dark;
+        transition: @select-transition;
+
+        p {
+          padding: 0 1em 0 0;
+          margin: 0;
+          font-size: 13px;
+        }
+
+        &:hover {
+          color: @grey-darker;
+          background-color: @grey-light;
+          text-decoration: none;
+
+          i.fa {
+            color: @grey-darker;
+          }
+        }
+      }
+    }
+  }
+
+  .footer,
+  .header {
+    a {
+      height: 33px;
+      border-top: 1px solid @grey-selected;
+      background-color: @grey-light;
+      display: block;
+      padding: 7px @side-padding;
+      text-align: center;
+      font-size: 12.6px;
+      color: black;
+      transition: @select-transition;
+
+      &:hover {
+        background-color: @grey-selected;
+        text-decoration: none;
+      }
+    }
+  }
+}

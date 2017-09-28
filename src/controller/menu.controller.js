@@ -8,6 +8,7 @@ import * as sub from './sub.controller';
 import {getHostname} from '../modules/pgpModel';
 import * as prefs from '../modules/prefs';
 import * as uiLog from '../modules/uiLog';
+import * as keyring from '../modules/keyring';
 
 export default class MenuController extends sub.SubController {
   constructor(port) {
@@ -18,23 +19,39 @@ export default class MenuController extends sub.SubController {
     this.on('get-prefs', () => prefs.prefs);
     this.on('get-ui-log', ({securityLogLength}) => uiLog.getLatest(securityLogLength));
     this.on('get-security-background', prefs.getSecurityBackground);
+    this.on('get-is-setup-done', this.getIsSetupDone);
     this.on('activate', this.onActivate);
     this.on('deactivate', this.onDeactivate);
   }
 
   onBrowserAction({action}) {
     switch (action) {
-      case 'reload':
+      case 'reload-extension':
         this.reloadFrames();
         break;
-      case 'add':
+      case 'activate-tab':
         this.addToWatchList();
         break;
       case 'options':
-        this.loadOptions('#/dashboard');
+        this.loadApp('#/dashboard');
         break;
-      case 'showlog':
-        this.loadOptions('#/settings/security-log');
+      case 'manage-keys':
+        this.loadApp('#/keyring/display');
+        break;
+      case 'setup-keys':
+        this.loadApp('#/keyring/setup');
+        break;
+      case 'encrypt-file':
+        this.loadApp('#/encryption/file-encrypt');
+        break;
+      case 'security-settings':
+        this.loadApp('#/settings/security');
+        break;
+      case 'security-logs':
+        this.loadApp('#/settings/security-log');
+        break;
+      case 'email-providers':
+        this.loadApp('#/settings/watchlist');
         break;
       default:
         console.log('unknown browser action');
@@ -57,6 +74,12 @@ export default class MenuController extends sub.SubController {
     this.destroyNodes(sub.getByMainType('vFrame'));
     this.destroyNodes(sub.getByMainType('eFrame'));
     this.destroyNodes(sub.getByMainType('imFrame'));
+  }
+
+  getIsSetupDone() {
+    const keyringId = sub.getActiveKeyringId();
+    const hasPrivateKey = keyring.getById(keyringId).hasPrivateKey();
+    return {'isSetupDone': hasPrivateKey};
   }
 
   addToWatchList() {
@@ -84,7 +107,7 @@ export default class MenuController extends sub.SubController {
     });
   }
 
-  loadOptions(hash) {
+  loadApp(hash) {
     mvelo.tabs.loadOptionsTab(hash);
   }
 

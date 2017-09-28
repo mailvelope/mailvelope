@@ -20,7 +20,7 @@
       "48": "img/cryptography-icon48.png"
     },
     "default_title": "__MSG_ext_name__",
-    "default_popup": "components/browser-action/popup.html"
+    "default_popup": "components/action-menu/actionMenu.html"
   },
   "options_page": "app/app.html",
   "background": {

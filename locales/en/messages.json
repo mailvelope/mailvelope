@@ -27,6 +27,78 @@
     "description": "Cleartext message read error message: $1: error message.",
     "message": "Could not read this cleartext message: $1"
   },
+  "action_menu_activate_current_tab": {
+    "message": "Activate on current tab",
+    "description": "Activate on current tab shortcut in the action menu"
+  },
+  "action_menu_advanced_options": {
+    "message": "Advanced options",
+    "description": "Advanced options link in the action menu"
+  },
+  "action_menu_all_options": {
+    "message": "All options",
+    "description": "All options link in the action menu"
+  },
+  "action_menu_back": {
+    "message": "Back",
+    "description": "Back link in the action menu"
+  },
+  "action_menu_configure_mailvelope": {
+    "message": "Configure Mailvelope",
+    "description": "Configure Mailvelope label in the action menu"
+  },
+  "action_menu_configure_mailvelope_get_started": {
+    "message": "to get started!",
+    "description": "To get started link in the action menu"
+  },
+  "action_menu_dashboard": {
+    "message": "Dashboard",
+    "description": "Dashboard label in the action menu"
+  },
+  "action_menu_dashboard_browse_all": {
+    "message": "browse all configuration options.",
+    "description": "Browse all shortcut in the action menu"
+  },
+  "action_menu_edit_security_settings": {
+    "message": "Edit security settings",
+    "description": "Edit security settings shortcut in the action menu"
+  },
+  "action_menu_file_encryption": {
+    "message": "File encryption",
+    "description": "File encryption label in the action menu"
+  },
+  "action_menu_file_encryption_encrypt_file": {
+    "message": "encrypt a file or more.",
+    "description": "File encryption shortcut in the action menu"
+  },
+  "action_menu_keyring": {
+    "message": "Keyring",
+    "description": "Keyring label in the action menu"
+  },
+  "action_menu_keyring_manage_keys": {
+    "message": "manage public and private keys.",
+    "description": "Manage public and private keys shortcut in the action menu"
+  },
+  "action_menu_manage_email_providers": {
+    "message": "Manage email providers",
+    "description": "Manage email providers shortcut in the action menu"
+  },
+  "action_menu_more_options": {
+    "message": "More options",
+    "description": "More options link in the action menu (setup state)"
+  },
+  "action_menu_online_help": {
+    "message": "online help",
+    "description": "Online help shortcut."
+  },
+  "action_menu_reload_extension_scripts": {
+    "message": "Reload extension scripts",
+    "description": "Reload extension scripts shortcut in the action menu"
+  },
+  "action_menu_review_security_logs": {
+    "message": "Review security logs",
+    "description": "Review security logs shortcut in the action menu"
+  },
   "dashboard_link_encrypt_decrypt_files": {
     "description": "Dashboard encrypt decrypt files link",
     "message": "Encrypt and decrypt files"

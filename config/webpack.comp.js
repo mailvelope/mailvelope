@@ -32,7 +32,14 @@ function dev(pathname, filename) {
   });
 }
 
-module.exports = [dev('editor', 'editor')];
+module.exports = [
+  dev('editor', 'editor'),
+  dev('action-menu', 'actionMenu')
+];
 
-module.exports.prod = [prod('editor', 'editor')];
+module.exports.prod = [
+  prod('editor', 'editor'),
+  prod('action-menu', 'actionMenu')
+];
+
 module.exports.dev = module.exports;
