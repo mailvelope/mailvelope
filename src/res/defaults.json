@@ -222,6 +222,17 @@
           "api": false
         }
       ]
+    },
+    {
+      "active": true,
+      "site": "Tutanota",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.tutanota.com",
+          "api": false
+        }
+      ]
     }
   ],
   "preferences": {
