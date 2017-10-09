@@ -27,7 +27,7 @@ exports.prod = {
   }
 };
 
-exports.dev = Object.assign(exports.prod, {
+exports.dev = Object.assign({}, exports.prod, {
   devtool: 'inline-source-map',
   plugins: common.plugins('development')
 });

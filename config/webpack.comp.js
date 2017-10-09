@@ -26,7 +26,7 @@ function prod(pathname, filename) {
 }
 
 function dev(pathname, filename) {
-  return Object.assign(prod(pathname, filename), {
+  return Object.assign({}, prod(pathname, filename), {
     devtool: 'inline-source-map',
     plugins: common.plugins('development')
   });

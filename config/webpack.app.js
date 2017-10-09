@@ -25,7 +25,7 @@ const prod = {
   plugins: common.plugins('production')
 };
 
-const dev = Object.assign(prod, {
+const dev = Object.assign({}, prod, {
   devtool: 'source-map',
   plugins: common.plugins('development')
 });

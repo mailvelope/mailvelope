@@ -30,7 +30,7 @@ const prod = {
   plugins: common.plugins('production')
 };
 
-const dev = Object.assign(prod, {
+const dev = Object.assign({}, prod, {
   devtool: 'cheap-module-source-map',
   module: {
     rules: [common.replaceVersion(/defaults\.json$/, `${pjson.version} build: ${(new Date()).toISOString().slice(0, 19)}`, true)],
