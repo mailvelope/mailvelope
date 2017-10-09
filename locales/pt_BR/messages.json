@@ -32,15 +32,15 @@
         "description": "Warning for when a recipient key was not found."
     },
     "security_log_text_input": {
-        "message": "Evento de entrada no campo de texto",
-        "description": "A click in the text area as an event type"
+        "message": "Inserir no campo de texto",
+        "description": "User clicked in text area"
     },
     "security_log_dialog_cancel": {
-        "message": "Evento de clique em Cancelar na caixa de diálogo",
+        "message": "Clique para cancelar na janela",
         "description": ""
     },
     "security_display_inline": {
-        "message": "Na página do provedor de email.",
+        "message": "Na página do provedor de email",
         "description": "Decrypted message display option"
     },
     "verify_result_error": {
@@ -76,11 +76,11 @@
         "description": "Email address in User ID of a PGP key."
     },
     "key_import_extend_description": {
-        "message": "A impressão digital do PGP é usada para identificar as principais informações de sua comunicação.",
+        "message": "A impressão digital PGP é usada unicamente para identificar a chave PGP de seu contato.",
         "description": "Key import dialog description."
     },
     "recovery_sheet_invite_contacts": {
-        "message": "Nas configurações de comunicação criptografada de sua conta, você tem a possibilidade de convidar contatos adicionais para utilizar comunicação criptografada via PGP. Contatos que já foram convidados com êxito podem ser reconhecidos através do ícone de cadeado ao lado do endereço de e-mail.",
+        "message": "Nas configurações de comunicação criptografada da sua conta [MARCA], você tem a possibilidade de convidar contatos adicionais para usar a comunicação criptografada via PGP. Contatos que já foram convidados com êxito podem ser reconhecidos pelo ícone de cadeado ao lado do endereço de e-mail.",
         "description": ""
     },
     "form_confirm": {
@@ -88,7 +88,7 @@
         "description": "Confirm form button."
     },
     "key_import_hkp_search_ph": {
-        "message": "Por nome, Endereço de E-mail, ou Identificador de Chave",
+        "message": "Por nome, endereço de email, ou identificador de chave",
         "description": ""
     },
     "keyserver_tofu_label": {
@@ -96,7 +96,7 @@
         "description": "Mailvelope Key Server Settings Label"
     },
     "watchlist_delete_confirmation": {
-        "message": "Você realmente deseja remover este site da lista de provedores de e-mail?",
+        "message": "Você realmente deseja remover este site da lista de provedores de email?",
         "description": "Mesage in the watchlist delete confirmation dialog."
     },
     "popup_last_activities": {
@@ -108,7 +108,7 @@
         "description": "Export key dialog header."
     },
     "key_import_private_exists": {
-        "message": "Parte da chave privada da chave pública existente $1 do usuário $2 importada ao chaveiro",
+        "message": "A parte da chave privada combina com a chave pública existente $1 do usuário $2 importado no chaveiro",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "upload_attachment": {
@@ -160,11 +160,11 @@
         "description": "Tooltip explaining the key id."
     },
     "recovery_sheet_explain_pgp": {
-        "message": "Comunicação criptografada com um procedimento baseado em PGP.  Permite que você envie e-mails criptografados e, ao mesmo tempo, garante que apenas você e o receptor são capazes de lê-los.",
+        "message": "A comunicação criptografada com [MARCA] é um procedimento baseado em PGP. Ele permite que você envie e-mails criptografados e, ao mesmo tempo, garante que somente você e o destinatário são capazes de lê-los.",
         "description": ""
     },
     "security_log_restore_backup_click": {
-        "message": "Evento de clique na restauração do backup de diálogo",
+        "message": "Clique na janela de restauração de backup",
         "description": ""
     },
     "alert_header_success": {
@@ -176,7 +176,7 @@
         "description": "Selection of key type."
     },
     "recovery_sheet_trusted_contacts": {
-        "message": "Com contatos GMX você pode ter certeza que os usuários exibidos são usuários válidos de fato. Você deve, no entanto, sempre verificar a identidade dos contatos com um endereço de e-mail de outro provedor de e-mail.",
+        "message": "Com contatos GMX você pode ter certeza que os usuários exibidos são de fato usuários válidos. Você deveria, no entanto, sempre verificar a identidade do contatos com um endereço de email de outro provedor de email.",
         "description": ""
     },
     "editor_sign_button": {
@@ -199,10 +199,6 @@
         "message": "Chave Privada Primária",
         "description": "Label for primary private key option."
     },
-    "clear_localstorage_confirm_title": {
-        "message": "Confirmar",
-        "description": "The title of the confirmation dialog."
-    },
     "key_import_file_select": {
         "message": "Selecione um arquivo de texto chave para importar",
         "description": "File selection button label."
@@ -212,7 +208,7 @@
         "description": "File upload selection"
     },
     "security_log_dialog_encrypt": {
-        "message": "Evento de clique para criptografar no diálogo",
+        "message": "Clique para criptografar na janela",
         "description": ""
     },
     "watchlist_title_frame": {
@@ -239,12 +235,16 @@
         "message": "Subir chave pública para o servidor de chaves do Mailvelope (pode ser deletada a qualquer momento)",
         "description": "Upload key to Mailvelope key server checkbox"
     },
+    "dashboard_link_help": {
+        "message": "Ajuda",
+        "description": "Dashboard help link"
+    },
     "security_background_preview": {
         "message": "Pré-visualização",
         "description": "Preview"
     },
     "security_log_content_copy": {
-        "message": "Evento de cópia na verifação de diálogo",
+        "message": "Copiar na janela de verificação",
         "description": ""
     },
     "security_background_coloring": {
@@ -264,12 +264,16 @@
         "description": "Title for Export key button."
     },
     "security_log_textarea_click": {
-        "message": "Evento de clique na área de texto",
-        "description": "A click in the text area as an event type"
+        "message": "Clique na área de texto",
+        "description": "User clicked in text area"
     },
     "recovery_sheet_backup_data": {
         "message": "Backup dos seus dados",
         "description": ""
+    },
+    "dashboard_link_encrypt_decrypt_files": {
+        "message": "Criptografar e descriptografar arquivos",
+        "description": "Dashboard encrypt decrypt files link"
     },
     "key_import_file": {
         "message": "Importar chave do arquivo",
@@ -288,7 +292,7 @@
         "description": ""
     },
     "security_background_text": {
-        "message": "A segurança de fundo é o seu fundo pessoal no Mailvelope e ajuda a prevenir a interface de manipulação do usuário por sites de terceiros e aplicações. Para aumentar a segurança, crie e altere sua experiência pessoal aqui.",
+        "message": "O plano de fundo de segurança ajuda a evitar manipulações de interface de usuário por sites e aplicativos de terceiros. Para aumentar a segurança, crie e altere seu plano de fundo personalizado no Mailvelope aqui.",
         "description": "Security background text"
     },
     "keyring_generate_key": {
@@ -324,7 +328,7 @@
         "description": "Passphrase input field status"
     },
     "security_log_dialog_undo": {
-        "message": "Evento de clique para desfazer no diálogo",
+        "message": "Clique para desfazer na janela",
         "description": ""
     },
     "pwd_dialog_reason_decrypt": {
@@ -336,7 +340,7 @@
         "description": "Max. 6 characters."
     },
     "editor_link_file_encryption": {
-        "message": "Criptografar anexos",
+        "message": "Criptografar arquivos",
         "description": "Navigation link to file encryption"
     },
     "security_log_add_attachment": {
@@ -348,7 +352,7 @@
         "description": "Import error message. $1: error message"
     },
     "watchlist_title_active": {
-        "message": "Ativado",
+        "message": "Ativo",
         "description": "Entry in watchlist is active."
     },
     "key_gen_pwd": {
@@ -376,7 +380,7 @@
         "description": "Public-key algorithm of a PGP key."
     },
     "keybackup_restore_dialog_list_1": {
-        "message": "Quando você perdeu a ficha de recuperação.",
+        "message": "Você perdeu a ficha de recuperação.",
         "description": ""
     },
     "security_log_import_dialog": {
@@ -404,11 +408,11 @@
         "description": "Header of encrypt dialog."
     },
     "keybackup_waiting_description": {
-        "message": "Um documento com o seu código de segurança está sendo preparado.",
+        "message": "Um documento com seu código de recuperação está sendo preparado.",
         "description": ""
     },
     "keygrid_send_pub_key": {
-        "message": "Enviar chave pública por Email",
+        "message": "Enviar chave pública via email",
         "description": "Export key menu."
     },
     "security_log_password_dialog": {
@@ -420,7 +424,7 @@
         "description": "Export key."
     },
     "security_log_backup_code_input": {
-        "message": "Evento de entrada no código de backup",
+        "message": "Recuperar código de inserção",
         "description": ""
     },
     "keyring_public": {
@@ -435,16 +439,12 @@
         "message": "Assinaturas",
         "description": "Signatures on User ID of a PGP key."
     },
-    "keygrid_upload_alert_accept": {
-        "message": "Subir chave pública",
-        "description": "Button text to accept key upload"
-    },
     "form_cancel": {
         "message": "Cancelar",
         "description": "Cancel form button."
     },
     "recovery_sheet_not_working": {
-        "message": "Se a sua comunicação criptografada não está mais funcionando, por exemplo,",
+        "message": "Se sua comunicação criptografada não está mais funcionando, ex.:",
         "description": "Label for list"
     },
     "keygrid_invalid_userid": {
@@ -468,7 +468,7 @@
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "Um par de chaves é necessário para criptografar e descriptografar mensagens e se você desejar pode convidar seus contatos para comunicação criptografada de ponta-a-ponta.",
+        "message": "Um par de chaves é necessário para criptografar e descriptografar mensagens, assim como para convidar seus contatos para uma comunicação de criptografia fim-a-fim.",
         "description": "Setup text if no keypair available"
     },
     "settings_security_log": {
@@ -496,7 +496,7 @@
         "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "editor_sign_caption_short": {
-        "message": "O E-mail será assinado digitalmente ",
+        "message": "O Email será assinado digitalmente",
         "description": ""
     },
     "recovery_sheet_provider_security": {
@@ -520,19 +520,15 @@
         "description": ""
     },
     "security_log_password_click": {
-        "message": "Evento de clique no diálogo de senha",
+        "message": "Clique na janela de senha",
         "description": ""
-    },
-    "clear_localstorage_confirm_message": {
-        "message": "Você quer apagar todas as suas chaves PGP deste perfil do navegador?",
-        "description": "The message of the confirmation dialog."
     },
     "recovery_sheet_unlock_backup": {
         "message": "O backup de seus dados só pode ser descriptografado com a ajuda do código de recuperação nesta ficha de recuperação.",
         "description": ""
     },
     "security_log_backup_dialog_cancel": {
-        "message": "Evento de clique para fechar no diálogo",
+        "message": "Clique para fechar na janela",
         "description": ""
     },
     "form_undo": {
@@ -567,12 +563,8 @@
         "message": "Opções do Mailvelope",
         "description": "Title of options page."
     },
-    "keygrid_upload_alert_msg": {
-        "message": "Você agora pode subir sua chave pública para o servidor de chaves do Mailvelope para uma busca automática em participação de plugins do OpenPGP. Isso torna o processo de escrever e-mail criptografado com seus contatos mais fácil. Faça uma tentativa. Você pode deletar sua chave a qualquer momento",
-        "description": "Text of a link to a learn-more resource"
-    },
     "recovery_sheet_check_settings": {
-        "message": "por favor, verifique as configurações na sua conta abaixo:",
+        "message": "Por favor, verifique as configurações em sua conta abaixo:",
         "description": ""
     },
     "keybackup_waiting_headline": {
@@ -583,8 +575,12 @@
         "message": "Continuar",
         "description": "Continue form button."
     },
+    "dashboard_link_manage_keys": {
+        "message": "Gerenciar chaves",
+        "description": "Dashboard manage keys link"
+    },
     "security_log_signature_modal_close": {
-        "message": "Evento de clique para fechar o diálogo de assinatura",
+        "message": "Clique para fechar a janela de assinatura",
         "description": ""
     },
     "decrypt_popup_header": {
@@ -592,7 +588,7 @@
         "description": "Header of decrypt popup."
     },
     "security_log_backup_dialog_ok": {
-        "message": "Evento de clique para afirmar na caixa de diálogo",
+        "message": "Clique para aceitar na janela",
         "description": ""
     },
     "keygrid_status_invalid": {
@@ -607,8 +603,12 @@
         "message": "Sem um backup, suas mensagens criptografadas não podem ser descriptografadas novamente no caso de você perder sua senha de chave ou no caso de um dispositivo defeituoso ou problemas com a extensão do navegador!",
         "description": ""
     },
+    "file_read_error": {
+        "message": "Não foi possível descriptografar este arquivo: $1",
+        "description": ""
+    },
     "security_log_email_viewer": {
-        "message": "Mensangem PGP descriptografada",
+        "message": "Email PGP descriptografado",
         "description": "Email decryption container as an event source"
     },
     "security_log_text": {
@@ -616,7 +616,7 @@
         "description": "Text explaining the purpose of the security log"
     },
     "keyserver_url_error": {
-        "message": "Servidor de chaves fora de alcance",
+        "message": "O servidor de chaves não pode ser encontrado",
         "description": "HKP key server URL error."
     },
     "keyring_public_private": {
@@ -632,7 +632,7 @@
         "description": "Main key in the PGP key."
     },
     "security_log_dialog_ok": {
-        "message": "Evento de clique para confirmar na caixa de diálogo",
+        "message": "Clique para confirmar na janela",
         "description": ""
     },
     "recovery_sheet_qr_code": {
@@ -660,7 +660,7 @@
         "description": "Setup heading if no keypair available"
     },
     "watchlist_title_scan": {
-        "message": "Estado",
+        "message": "Ativo",
         "description": "Scan status of site in watchlist."
     },
     "key_recovery_failed": {
@@ -708,7 +708,7 @@
         "description": "Create entry in watchlist."
     },
     "security_log_password_input": {
-        "message": "Evento de entrada na inserção de senha",
+        "message": "Inserção na janela de senha",
         "description": ""
     },
     "key_import_hkp_search_btn": {
@@ -772,7 +772,7 @@
         "description": "Checkbox label for remembering of the password."
     },
     "popup_remove_page_tooltip": {
-        "message": "Remover página atual da lista de provedores de email",
+        "message": "Remover a página atual da lista de provedores de email",
         "description": "Remove page from watchlist."
     },
     "form_import": {
@@ -836,7 +836,7 @@
         "description": ""
     },
     "security_display_popup": {
-        "message": "Num contexto separado a partir do Mailvelope.",
+        "message": "Em uma janela separada do Mailvelope",
         "description": "Decrypted message display option"
     },
     "recovery_sheet_be_aware": {
@@ -852,7 +852,7 @@
         "description": "Submit form button."
     },
     "restore_backup_dialog_headline": {
-        "message": "Inserir código de restauração:",
+        "message": "Por favor, insira seu código de recuperação:",
         "description": ""
     },
     "editor_no_primary_key_caption_short": {
@@ -864,7 +864,7 @@
         "description": ""
     },
     "watchlist_record_title": {
-        "message": "Provedor de email",
+        "message": "Provedor de Email",
         "description": "Title of the watchlist editor dialog."
     },
     "recovery_sheet_other_computer": {
@@ -882,10 +882,6 @@
     "recovery_sheet_enter_code": {
         "message": "Para a instalação em outros computadores, digite o código de recuperação nas configurações abaixo:",
         "description": "Label for navigation path"
-    },
-    "keygrid_upload_success_msg": {
-        "message": "Chave subiu com sucesso.",
-        "description": "Upload success message"
     },
     "verify_result_warning": {
         "message": "Assinado com uma chave desconhecida",
@@ -924,16 +920,12 @@
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "security_log_textarea_input": {
-        "message": "Evento de entrada na área de texto",
-        "description": "A click in the text area as an event type"
+        "message": "Inserção na área de texto",
+        "description": "User clicked in text area"
     },
     "key_gen_demail": {
         "message": "Endereço De-Mail",
         "description": "De-Mail address name."
-    },
-    "keygrid_upload_alert_title": {
-        "message": "Nova funcionalidade!",
-        "description": "Text of a link to a learn-more resource"
     },
     "keygrid_delete_confirmation": {
         "message": "Tem certeza de que deseja remover esta chave?",
@@ -948,8 +940,12 @@
         "description": "Button to download all files"
     },
     "security_log_backup_create": {
-        "message": "Evento de clique para criar um backup",
+        "message": "Clique para criar o backup",
         "description": ""
+    },
+    "dashboard_link_manage_email_providers": {
+        "message": "Gerenciar provedores de email",
+        "description": "Dashboard manage email providers link"
     },
     "keygrid_subkeys": {
         "message": "Subchaves",
@@ -984,7 +980,7 @@
         "description": ""
     },
     "security_log_dialog_transfer": {
-        "message": "Evento de clique para transferir no diálogo",
+        "message": "Clique para transferir na janela",
         "description": ""
     },
     "key_gen_expiration": {
@@ -1040,19 +1036,11 @@
         "description": "Set as primary key for the keyring button"
     },
     "keygrid_key_fingerprint": {
-        "message": "Impressão digital",
+        "message": "Impressão Digital PGP",
         "description": "Unique string identifier for a PGP key."
     },
-    "keygrid_upload_alert_refuse": {
-        "message": "Não, obrigado!",
-        "description": "Button text to reject key upload"
-    },
-    "editor_error_content": {
-        "message": "Erro no conteúdo",
-        "description": ""
-    },
     "keybackup_setup_dialog_button": {
-        "message": "Configurando o backup",
+        "message": "Criar um backup",
         "description": ""
     },
     "pwd_dialog_reason_create_draft": {
@@ -1067,8 +1055,12 @@
         "message": "Tipo de chave",
         "description": "Key grid sort selector."
     },
+    "dashboard_link_view_security_log": {
+        "message": "Ver registros de segurança",
+        "description": "Dashboard view security logs link"
+    },
     "editor_blur_warn": {
-        "message": "Aviso! O editor de texto perdeu o foco.",
+        "message": "Atençao: O editor de texto perdeu o foco",
         "description": "Warning for lost focus."
     },
     "header_warning": {
@@ -1084,19 +1076,15 @@
         "description": ""
     },
     "editor_no_primary_key_caption_long": {
-        "message": "O Email não pode ser assinado digitalmente, porque a chave primária está em falta",
+        "message": "O Email não pode ser assinado digitalmente, pois a chave primária não foi encontrada",
         "description": ""
     },
     "keygen_dialog_confirm_success": {
         "message": "As entradas estão corretas.",
         "description": ""
     },
-    "keyring_migration_error": {
-        "message": "Erro de migração de chave",
-        "description": "Tab of keyring to display migration errors."
-    },
     "keybackup_restore_dialog_list_2": {
-        "message": "Você precisa de um novo por razões de segurança.",
+        "message": "Uma nova ficha de recuperação tem que ser criada por razões de segurança.",
         "description": ""
     },
     "security_log_attachment_download": {
@@ -1116,11 +1104,11 @@
         "description": "Store password in memory for $1 minutes."
     },
     "wrong_restore_code": {
-        "message": "Código de restauração está errado",
+        "message": "Código de recuperação inválido",
         "description": ""
     },
     "settings_watchlist": {
-        "message": "Lista de provedores de Email",
+        "message": "Lista de Provedores de Email",
         "description": "Tab of options to display list of supported mail providers."
     },
     "recovery_sheet_key_server": {
@@ -1184,7 +1172,7 @@
         "description": "Expose API to Webmailer."
     },
     "key_import_extend_fingerprint": {
-        "message": "Impressão digital do PGP:",
+        "message": "Impressão Digital PGP:",
         "description": ""
     },
     "key_export_warning_private": {
@@ -1202,10 +1190,6 @@
     "keyring_setup_generate_key": {
         "message": "Gerar chave",
         "description": "Generate key"
-    },
-    "keygrid_upload_error_msg": {
-        "message": "Processo de subir chave falhou.",
-        "description": "Upload error message"
     },
     "editor_label_add_recipient": {
         "message": "Adicionar destinatário",
@@ -1232,7 +1216,7 @@
         "description": ""
     },
     "general_editor_type": {
-        "message": "Seleção de editor de e-mail",
+        "message": "Seleção do editor de Email",
         "description": "Label for editor options."
     },
     "key_gen_pwd_unequal": {
@@ -1260,19 +1244,19 @@
         "description": "Subheader of encrypt dialog."
     },
     "encrypt_download_file_title": {
-        "message": "Salvar arquivo",
+        "message": "Salvar arquivos",
         "description": "Title of download area"
     },
     "security_log_signature_modal_open": {
-        "message": "Evento de clique para abrir o diálogo de assinatura",
+        "message": "Clique para abrir a janela de assinatura",
         "description": ""
     },
     "security_log_backup_restore": {
-        "message": "Evento de clique para restaurar o backup",
+        "message": "Clique para restaurar o backup",
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "Criar um novo backup:",
+        "message": "Criar aqui uma nova ficha de recuperação, se:",
         "description": ""
     },
     "key_import_default_headline": {
@@ -1287,8 +1271,12 @@
         "message": "Não foi possível ler esta mensagem em texto puro: $1",
         "description": "Cleartext message read error message: $1: error message."
     },
+    "file_encrypt_armored_output": {
+        "message": "Criptografar para arquivo em formato de texto (ASCII-blindado)",
+        "description": ""
+    },
     "editor_header": {
-        "message": "Escrever um email",
+        "message": "Escrever Email",
         "description": "Header of editor popup."
     },
     "form_ok": {
@@ -1304,7 +1292,7 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_gen_pwd_empty": {
-        "message": "A senha está vazia",
+        "message": "O campo de senha está vazio",
         "description": "Passphrase input field status"
     },
     "form_save": {
@@ -1388,7 +1376,7 @@
         "description": "Opens the help page on mailvelope.com."
     },
     "security_log_textarea_select": {
-        "message": "Evento de seleção na área de texto",
+        "message": "Seleção na área de texto",
         "description": "Selection of the text area as an event type"
     },
     "keygrid_signer_unknown": {
@@ -1400,7 +1388,7 @@
         "description": "Add page to watchlist."
     },
     "security_log_dialog_sign": {
-        "message": "Evento de clique para assinar no diálogo",
+        "message": "Clique para assinar na janela",
         "description": ""
     },
     "editor_key_not_found_msg": {
@@ -1440,7 +1428,7 @@
         "description": "Navigation link to change this setting."
     },
     "upload_quota_warning_headline": {
-        "message": "O tamanho do anexo é grande demais",
+        "message": "O anexo é grande demais",
         "description": ""
     },
     "key_gen_invalid_email": {
@@ -1468,7 +1456,7 @@
         "description": "Tab allowing to backup and restore the settings."
     },
     "reload_webmail_tab": {
-        "message": "Por favor, recarregue a página do seu provedor de e-mail para as configurações terem efeito.",
+        "message": "Por favor, recarregue a página do seu provedor de email para as configurações fazerem efeito.",
         "description": "Info message."
     },
     "form_yes": {
@@ -1484,7 +1472,7 @@
         "description": "Export key menu."
     },
     "ext_description": {
-        "message": "Melhore o seu provedor de webmail com criptografia de ponta-a-ponta. Comunicação segura de e-mail baseado no padrão OpenPGP.",
+        "message": "Melhore o seu provedor de e-mail com criptografia de ponta a ponta. Comunicação de e-mail segura baseada no padrão OpenPGP.",
         "description": "Description of the extension."
     },
     "keybackup_setup_dialog_list_1": {
@@ -1520,7 +1508,7 @@
         "description": "Import error message: $1: error message."
     },
     "editor_sign_caption_long": {
-        "message": "Quando o E-mail for enviado, ele será digitalmente assinado também",
+        "message": "Quando o Email é enviado, ele será também assinado digitalmente",
         "description": ""
     },
     "keygrid_display_pub_key": {
@@ -1528,7 +1516,7 @@
         "description": "Export key menu."
     },
     "upload_quota_exceeded_warning": {
-        "message": "O tamanho do anexo excede o limite permitido:",
+        "message": "Tamanho de anexo permitido:",
         "description": "A warning shown when the attachments upload quota is exceeded."
     },
     "recovery_sheet_keep_safe": {
