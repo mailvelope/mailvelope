@@ -243,7 +243,7 @@
       "hkp_server_list": [
         "https://keyserver.ubuntu.com",
         "http://pool.sks-keyservers.net:11371",
-        "http://pgp.mit.edu",
+        "https://pgp.mit.edu",
         "https://keys.mailvelope.com"
       ],
       "mvelo_tofu_lookup": true
