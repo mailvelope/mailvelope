@@ -15,80 +15,75 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* eslint strict: 0 */
 'use strict';
 
-var mvelo = mvelo || null;
+var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
-  var id, name, port, l10n;
+  let id;
+  let name;
+  let port;
+  const l10n = mvelo.l10n.getMessages([
+    'pwd_dialog_pwd_please',
+    'pwd_dialog_keyid_tooltip',
+    'pwd_dialog_reason_decrypt',
+    'pwd_dialog_reason_sign',
+    'pwd_dialog_reason_editor',
+    'pwd_dialog_reason_create_backup',
+    'pwd_dialog_reason_create_draft'
+  ]);
 
   function init() {
-    var qs = jQuery.parseQuerystring();
+    const qs = jQuery.parseQuerystring();
     id = qs.id;
-    name = 'pwdDialog-' + id;
+    name = `pwdDialog-${id}`;
     // open port to background page
-    port = mvelo.extension.connect({name: name});
+    port = mvelo.runtime.connect({name});
     port.onMessage.addListener(messageListener);
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);
     $('form').on('submit', onOk);
-    $(window).on('beforeunload', onClose);
 
     // Closing the dialog with the escape key
-    $(document).on('keyup', function(e) {
+    $(document).on('keyup', e => {
       if (e.keyCode === 27) {
         onCancel();
       }
     });
 
-    $('#password').on('input paste', function() {
+    $('#password').on('input paste', () => {
       logUserInput('security_log_password_input');
     }).focus();
 
-    $('#remember').on('click', function() {
+    $('#remember').on('click', () => {
       logUserInput('security_log_password_click');
     });
 
     mvelo.l10n.localizeHTML();
-    mvelo.l10n.getMessages([
-      'pwd_dialog_pwd_please',
-      'pwd_dialog_keyid_tooltip',
-      'pwd_dialog_reason_decrypt',
-      'pwd_dialog_reason_sign',
-      'pwd_dialog_reason_editor',
-      'pwd_dialog_reason_create_backup',
-      'pwd_dialog_reason_create_draft'
-    ], function(result) {
-      l10n = result;
-      $('#password').attr('placeholder', l10n.pwd_dialog_pwd_please);
-      $('#keyId').attr('title', l10n.pwd_dialog_keyid_tooltip);
-    });
+    $('#password').attr('placeholder', l10n.pwd_dialog_pwd_please);
+    $('#keyId').attr('title', l10n.pwd_dialog_keyid_tooltip);
+
     mvelo.util.showSecurityBackground();
     port.postMessage({event: 'pwd-dialog-init', sender: name});
   }
 
   function onOk() {
-    $(window).off('beforeunload');
     logUserInput('security_log_dialog_ok');
-    var pwd = $('#password').val();
-    var cache = $('#remember').prop('checked');
+    const pwd = $('#password').val();
+    const cache = $('#remember').prop('checked');
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
     $('#spinner').show();
     $('.modal-body').css('opacity', '0.4');
-    port.postMessage({event: 'pwd-dialog-ok', sender: name, password: pwd, cache: cache});
+    port.postMessage({event: 'pwd-dialog-ok', sender: name, password: pwd, cache});
     $('#okBtn').prop('disabled', true);
     return false;
   }
 
   function onCancel() {
-    $(window).off('beforeunload');
     logUserInput('security_log_dialog_cancel');
     port.postMessage({event: 'pwd-dialog-cancel', sender: name});
     return false;
-  }
-
-  function onClose() {
-    port.postMessage({event: 'pwd-dialog-cancel', sender: name});
   }
 
   /**
@@ -100,16 +95,15 @@ var mvelo = mvelo || null;
       event: 'pwd-user-input',
       sender: name,
       source: 'security_log_password_dialog',
-      type: type
+      type
     });
   }
 
   function messageListener(msg) {
     //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
-      case 'set-init-data':
-        var data = msg.data;
-
+      case 'set-init-data': {
+        const data = msg.data;
         $('#keyId').text(data.keyid.toUpperCase());
         $('#userId').text(data.userid);
         $('#pwdDialogReason').text(data.reason !== '' ? l10n[data.reason.toLowerCase()] : '');
@@ -117,14 +111,14 @@ var mvelo = mvelo || null;
           $('#remember').prop('checked', true);
         }
         break;
+      }
       case 'wrong-password':
-        $(window).on('beforeunload', onClose);
         $('#okBtn').prop('disabled', false);
         $('body').removeClass('busy');
         $('#spinner').hide();
         $('.modal-body').css('opacity', '1');
         $('#password').val('').focus().closest('.control-group').addClass('error')
-                      .end().next().removeClass('hide');
+        .end().next().removeClass('hide');
         break;
       default:
         console.log('unknown event');
@@ -132,5 +126,4 @@ var mvelo = mvelo || null;
   }
 
   $(document).ready(init);
-
 }());

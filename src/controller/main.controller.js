@@ -1,382 +1,74 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2015-2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
+import * as  model from '../modules/pgpModel';
+import * as prefs from '../modules/prefs';
+import * as sub from './sub.controller';
+import {handleApiEvent} from './api.controller';
 
+import DecryptController from './decrypt.controller';
+import EncryptController from './encrypt.controller';
+import ImportController from './import.controller';
+import MainCsController from './mainCs.controller';
+import VerifyController from './verify.controller';
+import PwdController from './pwd.controller';
+import EditorController from './editor.controller';
+import {SyncController} from './sync.controller';
+import PrivateKeyController from './privateKey.controller';
+import AppController from './app.controller';
+import MenuController from './menu.controller';
 
-var mvelo = require('lib-mvelo');
-var model = require('../modules/pgpModel');
-var keyring = require('../modules/keyring');
-var KeyServer = require('../modules/keyserver');
-var keyServer = new KeyServer(mvelo);
-var defaults = require('../modules/defaults');
-var prefs = require('../modules/prefs');
-var sub = require('./sub.controller');
-var api = require('./api.controller');
-var uiLog = require('../modules/uiLog');
+sub.factory.register('dFrame',              DecryptController);
+sub.factory.register('decryptCont',         DecryptController);
+sub.factory.register('eFrame',              EncryptController);
+sub.factory.register('imFrame',             ImportController);
+sub.factory.register('importKeyDialog',     ImportController);
+sub.factory.register('mainCS',              MainCsController);
+sub.factory.register('vFrame',              VerifyController);
+sub.factory.register('pwdDialog',           PwdController);
+sub.factory.register('editor',              EditorController);
+sub.factory.register('editorCont',          EditorController);
+sub.factory.register('syncHandler',         SyncController);
+sub.factory.register('keyGenCont',          PrivateKeyController);
+sub.factory.register('keyGenDialog',        PrivateKeyController);
+sub.factory.register('keyBackupCont',       PrivateKeyController);
+sub.factory.register('keyBackupDialog',     PrivateKeyController);
+sub.factory.register('restoreBackupCont',   PrivateKeyController);
+sub.factory.register('restoreBackupDialog', PrivateKeyController);
+sub.factory.register('app',                 AppController);
+sub.factory.register('menu',                MenuController);
 
-sub.factory.register('dFrame',              require('./decrypt.controller').DecryptController);
-sub.factory.register('decryptCont',         require('./decrypt.controller').DecryptController);
-sub.factory.register('eFrame',              require('./encrypt.controller').EncryptController);
-sub.factory.register('imFrame',             require('./import.controller').ImportController);
-sub.factory.register('importKeyDialog',     require('./import.controller').ImportController);
-sub.factory.register('mainCS',              require('./mainCs.controller').MainCsController);
-sub.factory.register('vFrame',              require('./verify.controller').VerifyController);
-sub.factory.register('pwdDialog',           require('./pwd.controller').PwdController);
-sub.factory.register('editor',              require('./editor.controller').EditorController);
-sub.factory.register('editorCont',          require('./editor.controller').EditorController);
-sub.factory.register('syncHandler',         require('./sync.controller').SyncController);
-sub.factory.register('keyGenCont',          require('./privateKey.controller').PrivateKeyController);
-sub.factory.register('keyGenDialog',        require('./privateKey.controller').PrivateKeyController);
-sub.factory.register('keyBackupCont',       require('./privateKey.controller').PrivateKeyController);
-sub.factory.register('keyBackupDialog',     require('./privateKey.controller').PrivateKeyController);
-sub.factory.register('restoreBackupCont',   require('./privateKey.controller').PrivateKeyController);
-sub.factory.register('restoreBackupDialog', require('./privateKey.controller').PrivateKeyController);
-
-// recipients of encrypted mail
-var scannedHosts = [];
-var specific = {};
-
-function extend(obj) {
-  specific.initScriptInjection = obj.initScriptInjection;
-  specific.activate = obj.activate;
-  specific.deactivate = obj.deactivate;
+export function initController() {
+  return model.init()
+  .then(initMessageListener)
+  .then(initSubController);
 }
 
-function init() {
-  return model.init();
+function initSubController() {
+  // store incoming connections by name and id
+  chrome.runtime.onConnect.addListener(port => {
+    //console.log('ConnectionManager: onConnect:', port);
+    sub.addPort(port);
+    port.onMessage.addListener(sub.handlePortMessage);
+    // update active ports on disconnect
+    port.onDisconnect.addListener(sub.removePort);
+  });
+}
+
+function initMessageListener() {
+  chrome.runtime.onMessage.addListener(handleMessageEvent);
 }
 
 function handleMessageEvent(request, sender, sendResponse) {
   //console.log('controller: handleMessageEvent', request);
   if (request.api_event) {
-    return api.handleApiEvent(request, sender, sendResponse);
+    return handleApiEvent(request, sender, sendResponse);
   }
   switch (request.event) {
-    case 'pgpmodel':
-      methodEvent(model, request, sendResponse);
-      // return true for async calls, otherwise Chrome does not handle sendResponse
-      return true;
-    case 'keyring':
-      methodEvent(keyring.getById(request.keyringId), request, sendResponse)
-      .then(() => {
-        // update editor controllers
-        sub.getByMainType('editor').forEach(editorCntrl => editorCntrl.sendKeyUpdate());
-      });
-      // return true for async calls, otherwise Chrome does not handle sendResponse
-      return true;
-    case 'browser-action':
-      onBrowserAction(request.action);
-      break;
-    case 'iframe-scan-result':
-      scannedHosts = scannedHosts.concat(request.result);
-      break;
-    case 'set-watch-list':
-      model.setWatchList(request.data)
-      .then(() => {
-        if (mvelo.ffa) {
-          reloadFrames(true);
-        }
-        specific.initScriptInjection();
-        sendResponse(true);
-      });
-      break;
-    case 'init-script-injection':
-      if (mvelo.ffa) {
-        reloadFrames(true);
-      }
-      specific.initScriptInjection();
-      break;
-    case 'get-all-keyring-attr':
-      keyring.getAllKeyringAttr()
-      .then(result => sendResponse({result}))
-      .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
-      // return true for async calls, otherwise Chrome does not handle sendResponse
-      return true;
-    case 'set-keyring-attr':
-      keyring.setKeyringAttr(request.keyringId, request.keyringAttr);
-      break;
-    case 'get-active-keyring':
-      sendResponse(sub.getActiveKeyringId());
-      break;
-    case 'delete-keyring':
-      Promise.resolve()
-      .then(() => {
-        if (request.keyringId === mvelo.LOCAL_KEYRING_ID) {
-          throw new Error('Cannot delete main keyring')
-        }
-        return keyring.deleteKeyring(request.keyringId)
-      })
-      .then(() => {
-        sub.setActiveKeyringId(mvelo.LOCAL_KEYRING_ID);
-        sendResponse(true);
-      })
-      .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
-      // return true for async calls, otherwise Chrome does not handle sendResponse
-      return true;
-    case 'send-by-mail':
-      var link = encodeURI('mailto:?subject=Public OpenPGP key of ');
-      link += encodeURIComponent(request.message.data.name);
-      link += '&body=' + encodeURIComponent(request.message.data.armoredPublic);
-      link += encodeURIComponent('\n*** exported with www.mailvelope.com ***');
-      mvelo.tabs.create(link);
-      break;
-    case 'get-prefs':
-      request.prefs = prefs.data();
-      sendResponse(request);
-      break;
-    case 'set-prefs':
-      prefs.update(request.data)
-      .then(() => {
-        sendResponse(true);
-        // update content scripts
-        sub.getByMainType('mainCS').forEach(mainCScontrl => mainCScontrl.updatePrefs());
-      });
-      // return true for async calls, otherwise Chrome does not handle sendResponse
-      return true;
-    case 'get-ui-log':
-      request.secLog = uiLog.getAll();
-      request.secLog = request.secLog.slice(request.securityLogLength);
-      sendResponse(request);
-      break;
     case 'get-security-background':
-      sendResponse({
-        color: prefs.data().security.secureBgndColor,
-        iconColor: prefs.data().security.secureBgndIconColor,
-        angle: prefs.data().security.secureBgndAngle,
-        scaling: prefs.data().security.secureBgndScaling,
-        width: prefs.data().security.secureBgndWidth,
-        height: prefs.data().security.secureBgndHeight,
-        colorId: prefs.data().security.secureBgndColorId
-      });
+      sendResponse(prefs.getSecurityBackground());
       break;
-    case 'get-version':
-      sendResponse(defaults.getVersion());
-      break;
-    case 'activate':
-      prefs.update({main_active: true})
-      .then(() => {
-        postToNodes(sub.getByMainType('mainCS'), {event: 'on'});
-        specific.activate();
-      });
-      break;
-    case 'deactivate':
-      prefs.update({main_active: false})
-      .then(() => {
-        postToNodes(sub.getByMainType('mainCS'), {event: 'off'});
-        specific.deactivate();
-        reloadFrames();
-      });
-      break;
-    case 'get-all-key-userid':
-      sendResponse({result: keyring.getAllKeyUserId()});
-      break;
-    case 'open-tab':
-      mvelo.tabs.create(request.url);
-      break;
-    case 'options-ready':
-      mvelo.tabs.onOptionsTabReady();
-      break;
-    case 'upload-primary-public-key':
-      var localKeyring = keyring.getById(mvelo.LOCAL_KEYRING_ID);
-      var primaryKey = localKeyring.getPrimaryKey();
-      if (!primaryKey) {
-        sendResponse({error: {message: 'Primary key not found'}});
-        return;
-      }
-      keyServer.upload({
-        publicKeyArmored: primaryKey.key.toPublic().armor()
-      }).then(function() {
-        sendResponse(true);
-      }).catch(function(err) {
-        sendResponse({error: mvelo.util.mapError(err)});
-      });
-      return true;
-    default:
-      console.log('unknown event:', request);
   }
 }
-
-function methodEvent(thisArg, request, sendResponse) {
-  //console.log('controller: methodEvent', request);
-  request.args = request.args || [];
-  if (!Array.isArray(request.args)) {
-    request.args = [request.args];
-  }
-  return Promise.resolve()
-  .then(function() {
-    return thisArg[request.method].apply(thisArg, request.args);
-  })
-  .then(function(result) {
-    sendResponse({result: result});
-  })
-  .catch(function(error) {
-    console.log('error in method ' + request.method + ': ', error);
-    sendResponse({error: mvelo.util.mapError(error)});
-  });
-}
-
-function destroyNodes(subControllers) {
-  postToNodes(subControllers, {event: 'destroy'});
-}
-
-function postToNodes(subControllers, msg) {
-  subControllers.forEach(function(subContr) {
-    subContr.ports[subContr.mainType].postMessage(msg);
-  });
-}
-
-function reloadFrames(main) {
-  if (main) {
-    destroyNodes(sub.getByMainType('mainCS'));
-  }
-  // close frames
-  destroyNodes(sub.getByMainType('dFrame'));
-  destroyNodes(sub.getByMainType('vFrame'));
-  destroyNodes(sub.getByMainType('eFrame'));
-  destroyNodes(sub.getByMainType('imFrame'));
-}
-
-function addToWatchList() {
-  var scanScript = " \
-      var hosts = $('iframe').get().map(function(element) { \
-        return $('<a/>').attr('href', element.src).prop('hostname'); \
-      }); \
-      hosts.push(document.location.hostname); \
-      mvelo.extension.sendMessage({ \
-        event: 'iframe-scan-result', \
-        result: hosts \
-      }); \
-    ";
-
-  mvelo.tabs.getActive(function(tab) {
-    if (tab) {
-      // reset scanned hosts buffer
-      scannedHosts.length = 0;
-      var options = {};
-      options.contentScriptFile = [];
-      options.contentScriptFile.push('dep/jquery.min.js');
-      options.contentScriptFile.push('mvelo.js');
-      options.contentScript = scanScript;
-      options.onMessage = handleMessageEvent;
-      // inject scan script
-      mvelo.tabs.attach(tab, options, function() {
-        // wait for message from scan script
-        mvelo.util.setTimeout(() => {
-          if (scannedHosts.length === 0) {
-            return;
-          }
-          // remove duplicates and add wildcards
-          var hosts = reduceHosts(scannedHosts);
-          var site = model.getHostname(tab.url);
-          scannedHosts.length = 0;
-          mvelo.tabs.loadOptionsTab('#watchList', function(old, tab) {
-            sendToWatchList(tab, site, hosts, old);
-          });
-        }, 250);
-      });
-    }
-  });
-
-}
-
-function sendToWatchList(tab, site, hosts, old) {
-  mvelo.tabs.sendMessage(tab, {
-    event: 'add-watchlist-item',
-    site: site,
-    hosts: hosts,
-    old: old
-  });
-}
-
-function onBrowserAction(action) {
-  switch (action) {
-    case 'reload':
-      reloadFrames();
-      break;
-    case 'add':
-      addToWatchList();
-      break;
-    case 'options':
-      loadOptions('#keyring');
-      break;
-    case 'showlog':
-      loadOptions('#securityLog');
-      break;
-    default:
-      console.log('unknown browser action');
-  }
-}
-
-function loadOptions(hash) {
-  mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
-    if (old) {
-      mvelo.tabs.sendMessage(tab, {
-        event: 'reload-options',
-        hash: hash
-      });
-    }
-  });
-}
-
-function reduceHosts(hosts) {
-  var reduced = [];
-  hosts.forEach(function(element) {
-    var labels = element.split('.');
-    if (labels.length < 2) {
-      return;
-    }
-    if (labels.length <= 3) {
-      if (/www.*/.test(labels[0])) {
-        labels[0] = '*';
-      } else {
-        labels.unshift('*');
-      }
-      reduced.push(labels.join('.'));
-    } else {
-      reduced.push('*.' + labels.slice(-3).join('.'));
-    }
-  });
-  return mvelo.util.sortAndDeDup(reduced);
-}
-
-function getWatchListFilterURLs() {
-  return model.getWatchList()
-  .then(watchList => {
-    let result = [];
-    watchList.forEach(function(site) {
-      site.active && site.frames && site.frames.forEach(function(frame) {
-        frame.scan && result.push(frame.frame);
-      });
-    });
-    // add hkp key server to enable key import
-    let hkpHost = model.getHostname(prefs.data().keyserver.hkp_base_url);
-    hkpHost = reduceHosts([hkpHost]);
-    result.push(...hkpHost);
-    if (result.length !== 0) {
-      result = mvelo.util.sortAndDeDup(result);
-    }
-    return result;
-  });
-}
-
-exports.handleMessageEvent = handleMessageEvent;
-exports.onBrowserAction = onBrowserAction;
-exports.extend = extend;
-exports.init = init;
-exports.portManager = sub;
-exports.getWatchListFilterURLs = getWatchListFilterURLs;

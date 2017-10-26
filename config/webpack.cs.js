@@ -1,8 +1,9 @@
-
+/* eslint strict: 0 */
 'use strict';
 
-var path = require('path');
-var common = require('./webpack.common');
+const path = require('path');
+const common = require('./webpack.common');
+const pjson = require('../package.json');
 
 const entry = './src/content-scripts/main.js';
 const output = {
@@ -12,27 +13,22 @@ const output = {
 };
 const resolve = {
   alias: {
-    'jquery': path.resolve('./bower_components/jquery/dist/jquery.min.js')
+    'jquery': path.resolve('./node_modules/jquery/dist/jquery.min.js')
   }
 };
 
 exports.prod = {
-
   entry,
   output,
   resolve,
-  plugins: common.plugins('production')
-
+  plugins: common.plugins('production'),
+  module: {
+    rules: [common.replaceVersion(/main\.js$/, pjson.version)]
+  }
 };
 
-exports.dev = {
-
+exports.dev = Object.assign({}, exports.prod, {
   devtool: 'inline-source-map',
-
-  entry,
-  output,
-  resolve,
   plugins: common.plugins('development')
-
-};
+});
 

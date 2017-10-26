@@ -10,14 +10,12 @@ import PropTypes from 'prop-types';
 import ModalDialog from '../../../components/util/ModalDialog';
 import KeyDetailsExport from './KeyDetailsExport';
 
-'use strict';
-
 l10n.register([
   'keyring_backup',
   'dialog_popup_close'
 ]);
 
-const KeyringBackup = props => {
+export default function KeyringBackup(props) {
   return (
     <ModalDialog title={l10n.map.keyring_backup} onHide={props.onHide} footer={
       <button type="button" className="btn btn-primary" data-dismiss="modal">
@@ -36,6 +34,4 @@ KeyringBackup.propTypes = {
   all: PropTypes.bool,
   onHide: PropTypes.func,
   type: PropTypes.string
-}
-
-export default KeyringBackup;
+};

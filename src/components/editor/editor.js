@@ -23,6 +23,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import $ from 'jquery';
 import mvelo from '../../mvelo';
 import EditorFooter from './components/EditorFooter';
 import EditorModalFooter from './components/EditorModalFooter';
@@ -30,54 +31,50 @@ import {RecipientInput} from './components/RecipientInput';
 import * as l10n from '../../lib/l10n';
 import * as fileLib from '../../lib/file';
 
-'use strict';
-
-
 // component id
-export var id;
+export let id;
 // component name
-export var name;
+export let name;
 // plain or rich text
-var editor_type = mvelo.PLAIN_TEXT; // only plain
+const editor_type = mvelo.PLAIN_TEXT; // only plain
 // port to background script
-var port;
+let port;
 // indicator if editor runs in container or popup
-export var embedded;
+export let embedded;
 // editor element
-var editor;
+let editor;
 // blur warning
-var blurWarn;
+let blurWarn;
 // timeoutID for period in which blur events are monitored
-var blurWarnPeriod = null;
+let blurWarnPeriod = null;
 // timeoutID for period in which blur events are non-critical
-var blurValid = null;
+let blurValid = null;
 // buffer for initial text
-var initText = null;
+let initText = null;
 // platform specific path to extension
-var basePath;
+const basePath = '../../';
 // flag to control time slice for input logging
-var logTextareaInput = true;
+let logTextareaInput = true;
 // flag to monitor upload-in-progress status
-var numUploadsInProgress = 0;
+let numUploadsInProgress = 0;
 // buffer for UI action
-var delayedAction = '';
+let delayedAction = '';
 // initial bottom position of body
 let modalBodyBottomPosition = 0;
 // attachment max file size
-var maxFileUploadSize = mvelo.MAXFILEUPLOADSIZE;
-var maxFileUploadSizeChrome = mvelo.MAXFILEUPLOADSIZECHROME; // temporal fix due issue in Chrome
+let maxFileUploadSize = mvelo.MAX_FILE_UPLOAD_SIZE;
 // user interaction on editor
-var hasUserInput = false;
+let hasUserInput = false;
 
 // properties used to render the footer component
-let footerProps = {
+const footerProps = {
   onClickUpload: () => logUserInput('security_log_add_attachment'),
   onChangeFileInput: onAddAttachment,
-  onClickFileEncryption: () => port.emit('open-app', {fragment: 'file_encrypting'})
+  onClickFileEncryption: () => port.emit('open-app', {fragment: '/encryption/file-encrypt'})
 };
 
 // properties used to render the modal footer component
-let modalFooterProps = {
+const modalFooterProps = {
   expanded: false,
   signMsg: false,
   signKey: '',
@@ -98,16 +95,16 @@ let modalFooterProps = {
     renderModalFooter({signMsg: value});
   },
   onChangeSignKey: value => renderModalFooter({signKey: value}),
-  onClickSignSetting: () => port.emit('open-app', {fragment: 'general'})
+  onClickSignSetting: () => port.emit('open-app', {fragment: '/settings/general'})
 };
 
 // properties used to render the recipient input component
-let recipientInputProps = {
+const recipientInputProps = {
   keys: [],
   recipients: [],
   onChangeEncryptStatus: status => renderModalFooter(status),
   onLookupKeyOnServer: recipient => port.emit('keyserver-lookup', {recipient})
-}
+};
 
 // register language strings
 l10n.register([
@@ -133,34 +130,24 @@ function init() {
   }
   document.body.dataset.mvelo = true;
   checkEnvironment();
-  port = new mvelo.EventHandler(mvelo.extension.connect({name: name}), name);
+  port = mvelo.EventHandler.connect(name);
   registerEventListeners();
-  Promise.all([
-    loadTemplates(),
-    l10n.mapToLocal()
-  ])
+  l10n.mapToLocal();
+  loadTemplates()
   .then(renderReactComponents)
   .then(templatesLoaded);
-  if (mvelo.crx) {
-    basePath = '../../';
-  } else if (mvelo.ffa) {
-    basePath = mvelo.extension._dataPath;
-  }
 }
 
 /**
  * Reads the URL query string to get environment context
  */
 export function checkEnvironment() {
-  let qs = $.parseQuerystring();
+  const qs = $.parseQuerystring();
   embedded = Boolean(qs.embedded);
   id = qs.id;
-  name = 'editor-' + id;
+  name = `editor-${id}`;
   if (qs.quota && parseInt(qs.quota) < maxFileUploadSize) {
     maxFileUploadSize = parseInt(qs.quota);
-  }
-  if (mvelo.crx && maxFileUploadSize > maxFileUploadSizeChrome) {
-    maxFileUploadSize = maxFileUploadSizeChrome;
   }
 }
 
@@ -199,22 +186,22 @@ function registerEventListeners() {
  * Load templates into the DOM.
  */
 function loadTemplates() {
-  var $body = $('body');
+  const $body = $('body');
   if (embedded) {
     $body.addClass("secureBackground");
     return Promise.all([
-      mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/editor-body.html')),
-      mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/waiting-modal.html')),
-      mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/error-modal.html'))
+      mvelo.appendTpl($body, mvelo.runtime.getURL('components/editor/tpl/editor-body.html')),
+      mvelo.appendTpl($body, mvelo.runtime.getURL('components/editor/tpl/waiting-modal.html')),
+      mvelo.appendTpl($body, mvelo.runtime.getURL('components/editor/tpl/error-modal.html'))
     ]);
   } else {
-    return mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/editor-popup.html')).then(function() {
+    return mvelo.appendTpl($body, mvelo.runtime.getURL('components/editor/tpl/editor-popup.html')).then(() => {
       $('.modal-body').addClass('secureBackground');
       return Promise.all([
-        mvelo.appendTpl($('#editorDialog .modal-body'), mvelo.extension.getURL('components/editor/tpl/editor-body.html')),
-        mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/encrypt-modal.html')),
-        mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/waiting-modal.html')),
-        mvelo.appendTpl($body, mvelo.extension.getURL('components/editor/tpl/error-modal.html'))
+        mvelo.appendTpl($('#editorDialog .modal-body'), mvelo.runtime.getURL('components/editor/tpl/editor-body.html')),
+        mvelo.appendTpl($body, mvelo.runtime.getURL('components/editor/tpl/encrypt-modal.html')),
+        mvelo.appendTpl($body, mvelo.runtime.getURL('components/editor/tpl/waiting-modal.html')),
+        mvelo.appendTpl($body, mvelo.runtime.getURL('components/editor/tpl/error-modal.html'))
       ]);
     });
   }
@@ -248,10 +235,10 @@ function renderRecipientInput(props = {}) {
  * Called after templates have loaded. Now is the time to bootstrap angular.
  */
 function templatesLoaded() {
-  $('#waitingModal').on('hidden.bs.modal', function() {
+  $('#waitingModal').on('hidden.bs.modal', () => {
     editor.focus()
-      .prop('selectionStart', 0)
-      .prop('selectionEnd', 0);
+    .prop('selectionStart', 0)
+    .prop('selectionEnd', 0);
   });
   $(window).on('focus', startBlurValid);
   if (editor_type == mvelo.PLAIN_TEXT) {
@@ -303,7 +290,7 @@ function logUserInput(type) {
   hasUserInput = true;
   port.emit('editor-user-input', {
     source: 'security_log_editor',
-    type: type
+    type
   });
 }
 
@@ -351,7 +338,7 @@ function onSetAttachment(msg) {
 }
 
 function decryptFailed(msg) {
-  var error = {
+  const error = {
     title: l10n.map.waiting_dialog_decryption_failed,
     message: (msg.error) ? msg.error.message : l10n.map.waiting_dialog_decryption_failed,
     class: 'alert alert-danger'
@@ -365,7 +352,7 @@ function onShowPwdDialog(msg) {
 }
 
 function hidePwdDialog() {
-  $('body #pwdDialog').fadeOut(function() {
+  $('body #pwdDialog').fadeOut(() => {
     $('body #pwdDialog').remove();
     $('body').find('#editorDialog').show();
   });
@@ -404,21 +391,20 @@ function addAttachment(file) {
   }
 
   fileLib.readUploadFile(file, afterLoadEnd)
-    .then(function(response) {
-      var $fileElement = fileLib.createFileElement(response, {
-        removeButton: true,
-        onRemove: onRemoveAttachment
-      });
-      var $uploadPanel = $('#uploadPanel');
-      var uploadPanelHeight = $uploadPanel[0].scrollHeight;
-      $uploadPanel
-        .append($fileElement)
-        .scrollTop(uploadPanelHeight); //Append attachment element and scroll to bottom of #uploadPanel to show current uploads
-
-    })
-    .catch(function(error) {
-      console.log(error);
+  .then(response => {
+    const $fileElement = fileLib.createFileElement(response, {
+      removeButton: true,
+      onRemove: onRemoveAttachment
     });
+    const $uploadPanel = $('#uploadPanel');
+    const uploadPanelHeight = $uploadPanel[0].scrollHeight;
+    $uploadPanel
+    .append($fileElement)
+    .scrollTop(uploadPanelHeight); //Append attachment element and scroll to bottom of #uploadPanel to show current uploads
+  })
+  .catch(error => {
+    console.log(error);
+  });
 }
 
 function afterLoadEnd() {
@@ -430,28 +416,28 @@ function afterLoadEnd() {
 }
 
 function setAttachment(attachment) {
-  var buffer = mvelo.util.str2ab(attachment.content);
-  var blob = new Blob([buffer], {type: attachment.mimeType});
-  var file = new File([blob], attachment.filename, {type: attachment.mimeType});
+  const buffer = mvelo.util.str2ab(attachment.content);
+  const blob = new Blob([buffer], {type: attachment.mimeType});
+  const file = new File([blob], attachment.filename, {type: attachment.mimeType});
   numUploadsInProgress++;
   addAttachment(file);
 }
 
 function onAddAttachment(evt) {
-  var files = evt.target.files;
-  var numFiles = files.length;
+  const files = evt.target.files;
+  const numFiles = files.length;
 
-  var i;
-  var fileSizeAll = 0;
+  let i;
+  let fileSizeAll = 0;
   for (i = 0; i < numFiles; i++) {
     fileSizeAll += parseInt(files[i].size);
   }
 
-  var currentAttachmentsSize = fileLib.getFileSize($('#uploadPanel')) + fileSizeAll;
+  const currentAttachmentsSize = fileLib.getFileSize($('#uploadPanel')) + fileSizeAll;
   if (currentAttachmentsSize > maxFileUploadSize) {
-    var error = {
+    const error = {
       title: l10n.map.upload_quota_warning_headline,
-      message: l10n.map.upload_quota_exceeded_warning + " " + Math.floor(maxFileUploadSize / (1024 * 1024)) + "MB."
+      message: `${l10n.map.upload_quota_exceeded_warning} ${Math.floor(maxFileUploadSize / (1024 * 1024))}MB.`
     };
 
     showErrorModal(error);
@@ -469,14 +455,14 @@ function onRemoveAttachment() {
 }
 
 function createPlainText() {
-  var sandbox = $('<iframe/>', {
+  const sandbox = $('<iframe/>', {
     sandbox: 'allow-same-origin allow-scripts',
     frameBorder: 0,
     css: {
       'overflow-y': 'hidden'
     }
   });
-  var text = $('<textarea/>', {
+  const text = $('<textarea/>', {
     id: 'content',
     class: 'form-control',
     rows: 12,
@@ -488,31 +474,31 @@ function createPlainText() {
       'resize':        'none'
     }
   });
-  var style = $('<link/>', { rel: 'stylesheet', href: basePath + 'dep/bootstrap/css/bootstrap.css' });
-  var style2 = $('<link/>', { rel: 'stylesheet', href: basePath + 'mvelo.css' });
-  var meta = $('<meta/>', { charset: 'UTF-8' });
-  sandbox.one('load', function() {
+  const style = $('<link/>', {rel: 'stylesheet', href: `${basePath}dep/bootstrap/css/bootstrap.css`});
+  const style2 = $('<link/>', {rel: 'stylesheet', href: `${basePath}mvelo.css`});
+  const meta = $('<meta/>', {charset: 'UTF-8'});
+  sandbox.one('load', () => {
     sandbox.contents().find('head').append(meta)
-      .append(style)
-      .append(style2);
+    .append(style)
+    .append(style2);
     sandbox.contents().find('body').attr("style", "overflow: hidden; margin: 0")
-      .append(text);
+    .append(text);
   });
   $('#plainText').append(sandbox);
-  text.on('input', function() {
+  text.on('input', () => {
     startBlurWarnInterval();
     if (logTextareaInput) {
       logUserInput('security_log_textarea_input');
       // limit textarea log to 1 event per second
       logTextareaInput = false;
-      window.setTimeout(function() {
+      window.setTimeout(() => {
         logTextareaInput = true;
       }, 1000);
     }
   });
   text.on('blur', onBlur);
-  text.on('mouseup', function() {
-    var textElement = text.get(0);
+  text.on('mouseup', () => {
+    const textElement = text.get(0);
     if (textElement.selectionStart === textElement.selectionEnd) {
       logUserInput('security_log_textarea_click');
     } else {
@@ -524,9 +510,9 @@ function createPlainText() {
 
 function setPlainText(text) {
   editor.focus()
-    .val(text)
-    .prop('selectionStart', 0)
-    .prop('selectionEnd', 0);
+  .val(text)
+  .prop('selectionStart', 0)
+  .prop('selectionEnd', 0);
 }
 
 function setText(text) {
@@ -545,7 +531,7 @@ function onBlur() {
    - not within 40ms before focus event (window, modal)
    */
   if (blurWarnPeriod && !blurValid) {
-    window.setTimeout(function() {
+    window.setTimeout(() => {
       showBlurWarning();
     }, 40);
   }
@@ -556,14 +542,14 @@ function showBlurWarning() {
   if (!blurValid) {
     // fade in 600ms, wait 200ms, fade out 600ms
     blurWarn.removeClass('hide')
-      .stop(true)
-      .animate({opacity: 1}, 'slow', 'swing', function() {
-        setTimeout(function() {
-          blurWarn.animate({opacity: 0}, 'slow', 'swing', function() {
-            blurWarn.addClass('hide');
-          });
-        }, 200);
-      });
+    .stop(true)
+    .animate({opacity: 1}, 'slow', 'swing', () => {
+      setTimeout(() => {
+        blurWarn.animate({opacity: 0}, 'slow', 'swing', () => {
+          blurWarn.addClass('hide');
+        });
+      }, 200);
+    });
   }
 }
 
@@ -573,7 +559,7 @@ function startBlurWarnInterval() {
     window.clearTimeout(blurWarnPeriod);
   }
   // restart
-  blurWarnPeriod = window.setTimeout(function() {
+  blurWarnPeriod = window.setTimeout(() => {
     // end
     blurWarnPeriod = null;
   }, 2000);
@@ -586,7 +572,7 @@ function startBlurValid() {
     window.clearTimeout(blurValid);
   }
   // restart
-  blurValid = window.setTimeout(function() {
+  blurValid = window.setTimeout(() => {
     // end
     blurValid = null;
   }, 40);
@@ -594,12 +580,12 @@ function startBlurValid() {
 }
 
 function addPwdDialog(id) {
-  var pwd = $('<iframe/>', {
+  const pwd = $('<iframe/>', {
     id: 'pwdDialog',
-    src: '../enter-password/pwdDialog.html?id=' + id,
+    src: `../enter-password/pwdDialog.html?id=${id}`,
     frameBorder: 0
   });
-  $('body').find('#editorDialog').fadeOut(function() {
+  $('body').find('#editorDialog').fadeOut(() => {
     $('body').append(pwd);
   });
 }
@@ -611,9 +597,9 @@ function addPwdDialog(id) {
  * @param {String} [error.class]
  */
 function showErrorModal(error) {
-  var title = error.title || l10n.map.editor_error_header;
-  var content = error.message;
-  var $errorModal = $('#errorModal');
+  const title = error.title || l10n.map.editor_error_header;
+  let content = error.message;
+  const $errorModal = $('#errorModal');
 
   if (content) {
     content = $('<div/>').addClass(error.class || 'alert alert-danger').text(content);
@@ -621,7 +607,7 @@ function showErrorModal(error) {
 
   $('.modal-body', $errorModal).empty().append(content);
   $('.modal-title', $errorModal).empty().append(title);
-  $errorModal.modal('show').on('hidden.bs.modal', function() {
+  $errorModal.modal('show').on('hidden.bs.modal', () => {
     $('#waitingModal').modal('hide');
   });
   hidePwdDialog();

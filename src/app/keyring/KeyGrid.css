@@ -1,0 +1,72 @@
+/**
+ * Copyright (C) 2016 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
+ */
+
+#keyringFilterBtn {
+  width: auto;
+  display: inline-block;
+}
+
+#keyRingTable tr {
+    cursor: pointer;
+}
+
+#keyRingTable td {
+    vertical-align: middle;
+    word-wrap: break-word;
+}
+
+@media (max-width: 1200px) {
+    #keyRingTable td {
+        max-width: 90px;
+        word-wrap: break-word;
+    }
+}
+
+@media (max-width: 1300px) {
+    #keyRingTable td {
+        max-width: 130px;
+        word-wrap: break-word;
+    }
+}
+
+.monospaced {
+    font-family: monospace;
+    white-space: nowrap;
+}
+
+@media (max-width: 1000px) {
+    .monospaced {
+        white-space: normal;
+        word-wrap: break-word;
+    }
+}
+
+button.keyDetailsBtn, button.keyDeleteBtn {
+    min-width: 30px;
+}
+
+#keyRingTable tr .actions {
+    white-space: nowrap;
+    visibility: hidden;
+}
+
+#keyRingTable tr:hover .actions {
+    visibility: visible;
+}
+
+.actions .btn {
+    margin-right: 5px;
+}
+.actions .btn:last-child {
+    margin-right: 0;
+}
+
+.publicKey {
+    background: no-repeat url(../img/public-key.png);
+}
+
+.keyPair {
+    background: no-repeat url(../img/private-key.png);
+}

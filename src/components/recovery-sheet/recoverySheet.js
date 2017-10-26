@@ -15,33 +15,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* eslint strict: 0 */
 'use strict';
 
-var mvelo = mvelo || null;
-var QRCode = QRCode || null;
+var mvelo = mvelo || null; // eslint-disable-line no-var
+var QRCode = QRCode || null; // eslint-disable-line no-var
 
 (function() {
   // communication to background page
-  var port;
+  let port;
   // shares ID with KeyBackup Frame
-  var id;
+  let id;
   // type + id
-  var name;
+  let name;
 
   function init() {
-    var qs = jQuery.parseQuerystring();
+    const qs = jQuery.parseQuerystring();
     id = qs.id;
-    name = 'backupCodeWindow-' + id;
+    name = `backupCodeWindow-${id}`;
     // open port to background page
-    port = mvelo.extension.connect({name: name});
+    port = mvelo.runtime.connect({name});
     port.onMessage.addListener(messageListener);
-
-    var formattedDate = new Date();
-
+    const formattedDate = new Date();
     $('#currentDate').html(formattedDate.toLocaleDateString());
-    if (mvelo.crx) {
-      mvelo.l10n.localizeHTML();
-    }
+    mvelo.l10n.localizeHTML();
     setBrand(qs.brand);
     mvelo.util.showSecurityBackground(qs.embedded);
     port.postMessage({event: 'get-logo-image', sender: name});
@@ -52,7 +49,7 @@ var QRCode = QRCode || null;
     if (!brandId) {
       return;
     }
-    var brand;
+    let brand;
     switch (brandId) {
       case 'webde':
         brand = 'WEB.DE';
@@ -65,8 +62,8 @@ var QRCode = QRCode || null;
     }
     $('html').addClass(brandId);
     $('[data-l10n-id]:contains("[BRAND]")').each(function() {
-      var $element = $(this);
-      var text = $element.text();
+      const $element = $(this);
+      let text = $element.text();
       text = text.replace(/\[BRAND\]/g, brand);
       $element.text(text);
     });
@@ -79,7 +76,8 @@ var QRCode = QRCode || null;
   }
 
   function setBackupCode(backupCode) {
-    var length = 5, splitCode = '';
+    const length = 5;
+    let splitCode = '';
     $('.recovery-sheet_code-digit').each(function(index) {
       splitCode = backupCode.slice(length * index, (length * index) + length);
       $(this).text(splitCode);
@@ -95,7 +93,7 @@ var QRCode = QRCode || null;
       correctLevel: QRCode.CorrectLevel.H
     });
 
-    $('.recovery-sheet_print-button').on('click', function() {
+    $('.recovery-sheet_print-button').on('click', () => {
       window.print();
     });
 
@@ -116,5 +114,4 @@ var QRCode = QRCode || null;
   }
 
   $(document).ready(init);
-
 }());

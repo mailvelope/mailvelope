@@ -15,54 +15,49 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* eslint strict: 0 */
 'use strict';
 
-var mvelo = mvelo || null;
+var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
   // communication to background page
-  var port;
+  let port;
   // shares ID with DecryptFrame
-  var id;
+  let id;
   // type + id
-  var name;
+  let name;
   // dialogs
-  var pwd;
+  let pwd;
   let decryptComponent;
 
   function init() {
-    var qs = jQuery.parseQuerystring();
+    const qs = jQuery.parseQuerystring();
     id = qs.id;
-    name = 'dPopup-' + id;
+    name = `dPopup-${id}`;
     // open port to background page
-    port = mvelo.extension.connect({name: name});
+    port = mvelo.runtime.connect({name});
     port.onMessage.addListener(messageListener);
     $('#closeBtn').click(onCancel);
     $('#copyBtn').click(onCopy);
     $('body').addClass('spinner');
-    $(window).on('beforeunload', onClose);
     addDecryptComponent();
     mvelo.l10n.localizeHTML();
-    if (mvelo.ffa) {
+    if (mvelo.webex) {
       // doc.execCommand('copy') not working on Firefox
-      $('#copyBtn').hide()
+      $('#copyBtn').hide();
     }
   }
 
   function onCancel() {
-    $(window).off('beforeunload');
     port.postMessage({event: 'decrypt-dialog-cancel', sender: name});
     return false;
   }
 
-  function onClose() {
-    port.postMessage({event: 'decrypt-dialog-cancel', sender: name});
-  }
-
   function onCopy() {
     // copy to clipboard
-    var doc = decryptComponent.contents().find('#decryptmail').contents().get(0);
-    var sel = doc.defaultView.getSelection();
+    const doc = decryptComponent.contents().find('#decryptmail').contents().get(0);
+    const sel = doc.defaultView.getSelection();
     sel.selectAllChildren($(doc).find('#content').get(0));
     doc.execCommand('copy');
     sel.removeAllRanges();
@@ -70,7 +65,7 @@ var mvelo = mvelo || null;
 
   function addDecryptComponent() {
     decryptComponent = $('<iframe/>', {
-      src: '../decrypt-inline/decryptInline.html?id=' + id,
+      src: `../decrypt-inline/decryptInline.html?id=${id}`,
       css: {
         position: 'absolute',
         top: "0px",
@@ -86,7 +81,7 @@ var mvelo = mvelo || null;
   function addPwdDialog(id) {
     pwd = $('<iframe/>', {
       id: 'pwdDialog',
-      src: '../enter-password/pwdDialog.html?id=' + id,
+      src: `../enter-password/pwdDialog.html?id=${id}`,
       frameBorder: 0
     });
     $('body').append(pwd);
@@ -94,7 +89,7 @@ var mvelo = mvelo || null;
 
   function showMessageArea() {
     if (pwd) {
-      pwd.fadeOut(function() {
+      pwd.fadeOut(() => {
         $('#decryptmail').fadeIn();
       });
     } else {
@@ -118,5 +113,4 @@ var mvelo = mvelo || null;
   }
 
   $(document).ready(init);
-
 }());

@@ -15,19 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* eslint strict: 0 */
 'use strict';
 
-var mvelo = mvelo || null;
+var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
-  var id, name, port, l10n;
+  let id;
+  let name;
+  let port;
+  const l10n = mvelo.l10n.getMessages([
+    'key_import_default_headline',
+    'key_import_default_description',
+    'key_import_invalidated_headline',
+    'key_import_invalidated_description'
+  ]);
 
   function init() {
-    var qs = jQuery.parseQuerystring();
+    const qs = jQuery.parseQuerystring();
     id = qs.id;
-    name = 'importKeyDialog-' + id;
+    name = `importKeyDialog-${id}`;
     // open port to background page
-    port = mvelo.extension.connect({name: name});
+    port = mvelo.runtime.connect({name});
     port.onMessage.addListener(messageListener);
 
     $('#okBtn').click(onOk);
@@ -36,24 +45,12 @@ var mvelo = mvelo || null;
     $('form').on('submit', onOk);
     $('closeFooter').hide();
 
-    $(window).on('beforeunload', onClose);
-
-    mvelo.l10n.getMessages([
-      'key_import_default_headline',
-      'key_import_default_description',
-      'key_import_invalidated_headline',
-      'key_import_invalidated_description'
-    ], function(result) {
-      l10n = result;
-    });
-
     mvelo.l10n.localizeHTML();
     mvelo.util.showSecurityBackground();
     port.postMessage({event: 'key-import-dialog-init', sender: name});
   }
 
   function onOk() {
-    $(window).off('beforeunload');
     logUserInput('security_log_dialog_ok');
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
     $('#spinner').show();
@@ -64,14 +61,9 @@ var mvelo = mvelo || null;
   }
 
   function onCancel() {
-    $(window).off('beforeunload');
     logUserInput('security_log_dialog_cancel');
     port.postMessage({event: 'key-import-dialog-cancel', sender: name});
     return false;
-  }
-
-  function onClose() {
-    port.postMessage({event: 'key-import-dialog-cancel', sender: name});
   }
 
   /**
@@ -83,28 +75,28 @@ var mvelo = mvelo || null;
       event: 'key-import-user-input',
       sender: name,
       source: 'security_log_import_dialog',
-      type: type
+      type
     });
   }
 
   function messageListener(msg) {
     //console.log('key import dialog messageListener: ', JSON.stringify(msg));
-    var $okBtn = $('okBtn');
-    var $body = $('body');
-    var $spinner = $('#spinner');
-    var $modalBody = $('.modal-body');
-    var $importAlert = $('#importAlert');
+    const $okBtn = $('okBtn');
+    const $body = $('body');
+    const $spinner = $('#spinner');
+    const $modalBody = $('.modal-body');
+    const $importAlert = $('#importAlert');
 
     switch (msg.event) {
-      case 'key-details':
-        var importDialogHeadline = (msg.invalidated) ? l10n.key_import_invalidated_headline : l10n.key_import_default_headline;
-        var importDialogDescription = (msg.invalidated) ? l10n.key_import_invalidated_description : l10n.key_import_default_description;
+      case 'key-details': {
+        const importDialogHeadline = (msg.invalidated) ? l10n.key_import_invalidated_headline : l10n.key_import_default_headline;
+        let importDialogDescription = (msg.invalidated) ? l10n.key_import_invalidated_description : l10n.key_import_default_description;
 
-        var userName = $('<span/>').addClass('userName').text(msg.key.name);
-        var userEmail = $('<span/>').addClass('userEmail').text('(' + msg.key.email + ')');
-        var date = (new Date(msg.key.crDate)).toLocaleString();
-        var contact = msg.key.email ? msg.key.email : msg.key.name;
-        importDialogDescription = importDialogDescription.replace('[CONTACT]', '<em>' + contact.replace(/\((.*|\s)\)/, '') + '</em>');
+        const userName = $('<span/>').addClass('userName').text(msg.key.name);
+        const userEmail = $('<span/>').addClass('userEmail').text(`(${msg.key.email})`);
+        const date = (new Date(msg.key.crDate)).toLocaleString();
+        const contact = msg.key.email ? msg.key.email : msg.key.name;
+        importDialogDescription = importDialogDescription.replace('[CONTACT]', `<em>${contact.replace(/\((.*|\s)\)/, '')}</em>`);
 
         $('#key_import_headline').html(importDialogHeadline);
         $('#key_import_default_description').html(importDialogDescription);
@@ -125,8 +117,8 @@ var mvelo = mvelo || null;
           $('#defaultFooter').show();
         }
         break;
+      }
       case 'import-error':
-        $(window).on('beforeunload', onClose);
         $okBtn.prop('disabled', false);
         $body.removeClass('busy');
         $spinner.hide();
@@ -140,5 +132,4 @@ var mvelo = mvelo || null;
   }
 
   $(document).ready(init);
-
 }());

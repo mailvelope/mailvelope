@@ -7,8 +7,6 @@ import * as l10n from '../../../lib/l10n';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-'use strict';
-
 l10n.register([
   'key_gen_pwd',
   'key_gen_pwd_empty',
@@ -17,7 +15,7 @@ l10n.register([
   'key_gen_pwd_match'
 ]);
 
-const labelVisibility = (password, passwordCheck) => {
+function labelVisibility(password, passwordCheck) {
   const mask = (passwordCheck.length > 0) << 1 | (password.length > 0);
   const label = {empty: '', nequ: '', match: ''};
   switch (mask) {
@@ -45,7 +43,7 @@ const labelVisibility = (password, passwordCheck) => {
   return label;
 }
 
-const DefinePassword = ({value: {password, passwordCheck}, onChange, disabled}) => {
+export default function DefinePassword({value: {password, passwordCheck}, onChange, disabled}) {
   const visibility = labelVisibility(password, passwordCheck);
   return (
     <div>
@@ -62,12 +60,10 @@ const DefinePassword = ({value: {password, passwordCheck}, onChange, disabled}) 
       </div>
     </div>
   );
-};
+}
 
 DefinePassword.propTypes = {
   value: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool
-}
-
-export default DefinePassword;
+};

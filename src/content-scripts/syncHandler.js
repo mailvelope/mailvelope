@@ -3,8 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
 import mvelo from '../mvelo';
 import {postMessage} from './clientAPI';
 
@@ -17,8 +15,8 @@ export default class SyncHandler {
   constructor(keyringId) {
     this.keyringId = keyringId;
     this.id = mvelo.util.getHash();
-    this.name = 'syncHandler-' + this.id;
-    this.port = mvelo.extension.connect({name: this.name});
+    this.name = `syncHandler-${this.id}`;
+    this.port = mvelo.runtime.connect({name: this.name});
     this.registerEventListener();
 
     this.port.postMessage({event: 'init', sender: this.name, keyringId: this.keyringId});
@@ -26,14 +24,14 @@ export default class SyncHandler {
 
   syncDone(data) {
     //console.log('mvelo.SyncHandler.prototype.restoreDone()', restoreBackup);
-    this.port.postMessage({event: 'sync-done', sender: this.name, data: data});
+    this.port.postMessage({event: 'sync-done', sender: this.name, data});
   }
 
   /**
    * @returns {mvelo.SyncHandler}
    */
   registerEventListener() {
-    this.port.onMessage.addListener(function(msg) {
+    this.port.onMessage.addListener(msg => {
       switch (msg.event) {
         case 'sync-event':
           postMessage('sync-event', null, msg, null);

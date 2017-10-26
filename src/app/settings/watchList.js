@@ -1,269 +1,225 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2012-2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
-import mvelo from '../../mvelo';
-import $ from 'jquery';
-import {pgpModel} from '../app';
-import event from '../util/event';
+import React from 'react';
+import PropTypes from 'prop-types';
+import {port, getAppDataSlot} from '../app';
 import * as l10n from '../../lib/l10n';
 
-
-var $watchListEditor;
-var mailProviderTmpl;
-var matchPatternTmpl;
-var $matchPatternContainer;
-var $tableBody;
-var currentSiteID;
-var newWebSite;
+import './watchList.css';
+import WatchListEditor from './components/watchListEditor';
 
 l10n.register([
+  'settings_watchlist',
+  'watchlist_command_create',
   'watchlist_title_active',
   'watchlist_title_site',
-  'watchlist_title_scan',
-  'watchlist_title_frame',
-  'watchlist_expose_api',
   'watchlist_command_edit',
-  'watchlist_command_create',
+  'keygrid_delete',
   'watchlist_delete_confirmation',
   'alert_invalid_domainmatchpattern_warning',
-  'alert_no_domainmatchpattern_warning',
-  'keygrid_delete'
+  'alert_no_domainmatchpattern_warning'
 ]);
 
-function init() {
-  $tableBody = $('#watchListTable tbody');
-  $watchListEditor = $('#watchListEditor');
-  if (mailProviderTmpl === undefined) {
-    mailProviderTmpl = $tableBody.html();
+export default class WatchList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      watchList: [],
+      editorSite: null,
+      editorIndex: null,
+      editorHide: false,
+      modified: false
+    };
+    this.handleChangeSite = this.handleChangeSite.bind(this);
+    this.handleChangeFrame = this.handleChangeFrame.bind(this);
   }
 
-  $matchPatternContainer = $('#watchListEditor tbody');
-  if (matchPatternTmpl === undefined) {
-    matchPatternTmpl = $matchPatternContainer.html();
-  }
-  $matchPatternContainer.children().remove();
-
-  reloadWatchList();
-
-  $('#okWatchListEditorBtn').on('click', saveWatchList);
-  $('#addMatchPatternBtn').on('click', addMatchPattern);
-  $('#addMailProviderBtn').on('click', showWatchListEditor);
-
-  $('#watchListEditor form').on('submit', function() { return false; });
-}
-
-function reloadWatchList() {
-  var tableRow;
-  $tableBody.children().remove();
-  pgpModel('getWatchList')
-    .then(function(data) {
-      data.forEach(function(site) {
-        tableRow = $.parseHTML(mailProviderTmpl);
-        $(tableRow).find('td:nth-child(2)').text(site.site);
-        if (!site.active) {
-          $(tableRow).find('.glyphicon-check').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
-        }
-        $(tableRow).attr('data-website', JSON.stringify(site));
-        $tableBody.append(tableRow);
-      });
-      mvelo.l10n.localizeHTML(null, '#watchListTable tbody');
-      $tableBody.find('.deleteWatchListBtn').on('click', deleteWatchListEntry);
-      $tableBody.find('tr').on('click', function() {
-        var data = $(this).attr('data-website');
-        showWatchListEditor(data);
-        return false;
-      });
-      $tableBody.find('tr').hover(function() {
-        $(this).find('.actions').css('visibility', 'visible');
-      }, function() {
-        $(this).find('.actions').css('visibility', 'hidden');
-      });
-
-      if (newWebSite !== undefined) {
-        var $selectedRow = $('td:contains("' + newWebSite + '")').parent();
-        $selectedRow.addClass('addedSiteFade');
-        $selectedRow.trigger('hover');
-        window.scrollTo(0, document.body.scrollHeight);
-        newWebSite = undefined;
+  componentDidMount() {
+    this.loadWatchList()
+    .then(() => {
+      // watchlist push scenario
+      if (/\/push$/.test(this.props.location.pathname)) {
+        getAppDataSlot()
+        .then(site => this.addToWatchList(site));
       }
-
-    });
-}
-
-function addMatchPattern() {
-  var tableRow = $.parseHTML(matchPatternTmpl);
-  $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').attr('checked', true);
-  $(tableRow).find('.apiSwitch .onoffswitch-checkbox').attr('checked', false);
-  var id = (new Date()).getTime();
-  $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').attr('id', 'matchPattern' + id);
-  $(tableRow).find('.matchPatternSwitch .onoffswitch-label').attr('for', 'matchPattern' + id);
-  id = (new Date()).getTime();
-  $(tableRow).find('.apiSwitch .onoffswitch-checkbox').attr('id', 'api' + id);
-  $(tableRow).find('.apiSwitch .onoffswitch-label').attr('for', 'api' + id);
-  $(tableRow).find('.matchPatternName').val('');
-  $(tableRow).find('.deleteMatchPatternBtn').on('click', deleteMatchPattern);
-  $matchPatternContainer.append(tableRow);
-}
-
-function deleteMatchPattern() {
-  $(this).parent().parent().remove();
-}
-
-function showWatchListEditor(data) {
-  currentSiteID = 'newSite';
-  $matchPatternContainer.children().remove();
-  var tableRow;
-  if (data !== undefined && data.type === 'click') {
-    $('#webSiteName').val('');
-    $('#switchWebSite').prop('checked', true);
-    tableRow = $.parseHTML(matchPatternTmpl);
-    addMatchPattern();
-  } else if (data !== undefined) {
-    data = JSON.parse(data);
-    currentSiteID = data.site;
-    $('#webSiteName').val(data.site);
-    $('#switchWebSite').prop('checked', data.active);
-    data.frames.forEach(function(frame, index) {
-      tableRow = $.parseHTML(matchPatternTmpl);
-      $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').prop('checked', frame.scan);
-      $(tableRow).find('.matchPatternSwitch .onoffswitch-checkbox').prop('id', 'matchPattern' + index);
-      $(tableRow).find('.matchPatternSwitch .onoffswitch-label').prop('for', 'matchPattern' + index);
-      $(tableRow).find('.apiSwitch .onoffswitch-checkbox').prop('checked', frame.api);
-      $(tableRow).find('.apiSwitch .onoffswitch-checkbox').prop('id', 'api' + index);
-      $(tableRow).find('.apiSwitch .onoffswitch-label').prop('for', 'api' + index);
-      $(tableRow).find('.matchPatternName').val(frame.frame);
-      $(tableRow).find('.deleteMatchPatternBtn').on('click', deleteMatchPattern);
-      $matchPatternContainer.append(tableRow);
     });
   }
-  $watchListEditor.modal({backdrop: 'static'});
-  $watchListEditor.modal('show');
-}
 
-function deleteWatchListEntry() {
-  var entryForRemove;
-  var confirmResult = confirm(l10n.map.watchlist_delete_confirmation);
-  if (confirmResult) {
-    entryForRemove = $(this).parent().parent().parent();
-    entryForRemove.remove();
-    var data = [];
-    $tableBody.children().get().forEach(function(siteRow) {
-      var siteData = JSON.parse($(siteRow).attr('data-website'));
-      data.push(siteData);
-    });
-    saveWatchListData(data);
+  loadWatchList() {
+    return port.send('getWatchList')
+    .then(watchList => this.setState({watchList}));
   }
-  return false;
-}
 
-function saveWatchList() {
-  var site = {};
-  site.site = $('#webSiteName').val();
-  site.active = $('#switchWebSite').is(':checked');
-  site.frames = [];
-  var formNotValid;
-  $matchPatternContainer.children().get().forEach(function(child) {
-    var patternValue = $(child).find('.matchPatternName').val();
-    if (!/^\*(\.\w+(-\w+)*)+(\.\w{2,})?$/.test(patternValue)) {
-      formNotValid = true;
+  saveWatchListData() {
+    port.emit('set-watch-list', {data: this.state.watchList});
+  }
+
+  showWatchListEditor(index) {
+    this.setState({
+      editorSite: this.copySite(this.state.watchList[index]),
+      editorIndex: index
+    });
+  }
+
+  copySite(site) {
+    const copy = Object.assign({}, site);
+    copy.frames = [...site.frames || []];
+    return copy;
+  }
+
+  deleteWatchListEntry(event, index) {
+    event.stopPropagation();
+    const confirmResult = confirm(l10n.map.watchlist_delete_confirmation);
+    if (confirmResult) {
+      this.setState(prevState => {
+        const newList = [...prevState.watchList];
+        newList.splice(index, 1);
+        return {watchList: newList};
+      }, () => this.saveWatchListData());
     }
-    site.frames.push({
-      'frame': $(child).find('.matchPatternName').val(),
-      'scan': $(child).find('.matchPatternSwitch .onoffswitch-checkbox').is(':checked'),
-      'api': $(child).find('.apiSwitch .onoffswitch-checkbox').is(':checked')
-    });
-  });
-  if (formNotValid) {
-    alert(l10n.map.alert_invalid_domainmatchpattern_warning);
-    return false;
-  }
-  if (site.frames.length < 1) {
-    alert(l10n.map.alert_no_domainmatchpattern_warning);
-    return false;
   }
 
-  if (currentSiteID === 'newSite') {
-    var tableRow = $.parseHTML(mailProviderTmpl);
-    $(tableRow).find('td:nth-child(2)').text(site.site);
-    if (site.active) {
-      $(tableRow).find('.glyphicon-check').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+  addWatchListEntry() {
+    this.setState(prevState => ({
+      editorSite: {site: '', active: true, frames: [{scan: true, frame: '', api: false}]},
+      editorIndex: prevState.watchList.length
+    }));
+  }
+
+  /* Watchlist Editor Handlers */
+
+  handleHideWatchListEditor() {
+    this.setState({editorSite: null, editorIndex: null, editorHide: false, modified: false});
+  }
+
+  handleSaveWatchListEditor() {
+    if (!this.state.modified) {
+      return this.setState({editorHide: true});
     }
-    $(tableRow).attr('data-website', JSON.stringify(site));
-    $tableBody.append(tableRow);
-  } else {
-    $tableBody.children().get().forEach(function(siteRow) {
-      var sData = JSON.parse($(siteRow).attr('data-website'));
-      if (currentSiteID === sData.site) {
-        $(siteRow).find('td:nth-child(2)').text(site.site);
-        if (site.active) {
-          $(siteRow).find('.glyphicon-check').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
-        }
-        $(siteRow).attr('data-website', JSON.stringify(site));
+    if (this.state.editorSite.frames.some(frame => !/^\*(\.\w+(-\w+)*)+(\.\w{2,})?$/.test(frame.frame))) {
+      alert(l10n.map.alert_invalid_domainmatchpattern_warning);
+      return;
+    }
+    if (this.state.editorSite.frames.length < 1) {
+      alert(l10n.map.alert_no_domainmatchpattern_warning);
+      return;
+    }
+    this.setState(prevState => {
+      const newList = [...prevState.watchList];
+      newList[prevState.editorIndex] = prevState.editorSite;
+      return {watchList: newList, editorHide: true};
+    }, () => this.saveWatchListData());
+  }
+
+  handleChangeSite(key, value) {
+    this.modifyEditorSite(site => site[key] = value);
+  }
+
+  handleChangeFrame(change, index) {
+    this.modifyEditorSite(site => {
+      if (!site.frames[index]) {
+        site.frames[index] = {};
       }
+      Object.assign(site.frames[index], change);
     });
   }
 
-  var data = [];
-  $tableBody.children().get().forEach(function(siteRow) {
-    var siteData = JSON.parse($(siteRow).attr('data-website'));
-    data.push(siteData);
-  });
-  saveWatchListData(data);
-  $watchListEditor.modal('hide');
-
-}
-
-function cleanWebSiteName(website) {
-  if (website.indexOf('www.') === 0) {
-    website = website.substr(4, website.length);
+  modifyEditorSite(modify) {
+    this.setState(prevState => {
+      const site = this.copySite(prevState.editorSite);
+      modify(site);
+      return {
+        editorSite: site,
+        modified: true
+      };
+    });
   }
-  return website;
-}
 
-export function addToWatchList(website) {
-  var siteExist = false;
-  var site = {};
-  website = cleanWebSiteName(website);
-  newWebSite = website;
-  site.site = website;
-  site.active = true;
-  site.frames = [];
-  site.frames.push({ frame: '*.' + website, scan: true });
-  pgpModel('getWatchList')
-    .then(function(data) {
-      data.forEach(function(siteEntry) {
-        if (siteEntry.site === website) {
-          siteExist = true;
-        }
+  handleAddMatchPattern() {
+    this.modifyEditorSite(site => site.frames.push({scan: true, frame: '', api: false}));
+  }
+
+  handleDeleteMatchPattern(index) {
+    this.modifyEditorSite(site => site.frames.splice(index, 1));
+  }
+
+  addToWatchList(website) {
+    if (website.indexOf('www.') === 0) {
+      website = website.substr(4);
+    }
+    this.setState(prevState => {
+      let watchListIndex;
+      const site = prevState.watchList.find((site, index) => {
+        watchListIndex = index;
+        return site.site === website;
       });
-      if (!siteExist) {
-        data.push(site);
+      if (site) {
+        return {
+          editorSite: this.copySite(site),
+          editorIndex: watchListIndex,
+          modified: false
+        };
+      } else {
+        return {
+          editorSite: {site: website, active: true, frames: [{scan: true, frame: `*.${website}`, api: false}]},
+          editorIndex: prevState.watchList.length,
+          modified: true
+        };
       }
-      saveWatchListData(data);
     });
+  }
+
+  render() {
+    return (
+      <div>
+        <h3>{l10n.map.settings_watchlist}</h3>
+        <div className="tableToolbar">
+          <button type="button" onClick={() => this.addWatchListEntry()} className="btn btn-default">
+            <span className="glyphicon glyphicon-plus"></span>&nbsp;<span>{l10n.map.watchlist_command_create}</span>
+          </button>
+        </div>
+        <table className="table table-hover table-striped optionsTable" id="watchListTable">
+          <thead>
+            <tr>
+              <th>{l10n.map.watchlist_title_active}</th>
+              <th style={{width: '60%'}}>{l10n.map.watchlist_title_site}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            { this.state.watchList.map((site, index) =>
+              <tr key={index} onClick={() => this.showWatchListEditor(index)}>
+                <td className="text-center"><span className={`glyphicon glyphicon-${site.active ? 'check' : 'unchecked'}`}></span></td>
+                <td>{site.site}</td>
+                <td className="text-center">
+                  <div className="actions">
+                    <button className="btn btn-default editWatchListBtn" style={{marginRight: '5px'}}><span className="glyphicon glyphicon-pencil"></span>&nbsp;<span>{l10n.map.watchlist_command_edit}</span></button>
+                    <button onClick={e => this.deleteWatchListEntry(e, index)} className="btn btn-default deleteWatchListBtn"><span className="glyphicon glyphicon-trash"></span>&nbsp;<span>{l10n.map.keygrid_delete}</span></button>
+                  </div>
+                </td>
+              </tr>
+            )
+            }
+          </tbody>
+        </table>
+        { this.state.editorSite && <WatchListEditor site={this.state.editorSite}
+          onHide={() => this.handleHideWatchListEditor()}
+          hide={this.state.editorHide}
+          onSave={() => this.handleSaveWatchListEditor()}
+          onChangeSite={this.handleChangeSite}
+          onChangeFrame={this.handleChangeFrame}
+          onAddMatchPattern={() => this.handleAddMatchPattern()}
+          onDeleteMatchPattern={index => this.handleDeleteMatchPattern(index)}
+        />
+        }
+      </div>
+    );
+  }
 }
 
-function saveWatchListData(data) {
-  mvelo.extension.sendMessage({
-    event: 'set-watch-list',
-    data: data
-  }, () => reloadWatchList());
-}
-
-event.on('ready', init);
+WatchList.propTypes = {
+  location: PropTypes.object
+};

@@ -10,18 +10,12 @@ import $ from 'jquery';
 
 import './GenerateWait.css';
 
-'use strict';
-
 l10n.register([
   'key_gen_wait_header',
   'key_gen_wait_info'
 ]);
 
- class GenerateWait extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
+export default class GenerateWait extends React.Component {
   componentDidMount() {
     $('#genKeyWait').one('show.bs.modal', this.props.onShow);
     $('#genKeyWait').modal({backdrop: 'static', keyboard: false});
@@ -55,6 +49,4 @@ l10n.register([
 
 GenerateWait.propTypes = {
   onShow: PropTypes.func
-}
-
-export default GenerateWait;
+};

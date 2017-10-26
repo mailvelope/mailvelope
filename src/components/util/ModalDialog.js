@@ -7,8 +7,6 @@ import * as l10n from '../../lib/l10n';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-'use strict';
-
 l10n.register([
   'form_ok',
   'form_cancel'
@@ -19,6 +17,12 @@ class ModalDialog extends React.Component {
     $(this.modalNode).modal({backdrop: 'static'});
     $(this.modalNode).modal('show');
     $(this.modalNode).on('hidden.bs.modal', this.props.onHide);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.hide !== nextProps.hide && nextProps.hide) {
+      $(this.modalNode).modal('hide');
+    }
   }
 
   render() {
@@ -54,7 +58,8 @@ ModalDialog.propTypes = {
   children: PropTypes.element,
   onHide: PropTypes.func,
   onOk: PropTypes.func,
-  onCancel: PropTypes.func
-}
+  onCancel: PropTypes.func,
+  hide: PropTypes.bool
+};
 
 export default ModalDialog;

@@ -15,19 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* eslint strict: 0 */
 'use strict';
 
-var mvelo = mvelo || null;
+var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
   // communication to background page
-  var port;
+  let port;
   // shares ID with VerifyFrame
-  var id;
-  var watermark;
-  var spinnerTimer;
-  var basePath;
-  var l10n;
+  let id;
+  let watermark;
+  let spinnerTimer;
+  const basePath = '../../';
+  const l10n = mvelo.l10n.getMessages([
+    'verify_result_success',
+    'verify_result_warning',
+    'verify_result_error',
+    'alert_header_error',
+    'dialog_keyid_label'
+  ]);
 
   function init() {
     //console.log('init decryptInline.js');
@@ -35,35 +42,21 @@ var mvelo = mvelo || null;
       return;
     }
     document.body.dataset.mvelo = true;
-    var qs = jQuery.parseQuerystring();
-    id = 'vDialog-' + qs.id;
+    const qs = jQuery.parseQuerystring();
+    id = `vDialog-${qs.id}`;
     // open port to background page
-    port = mvelo.extension.connect({name: id});
+    port = mvelo.runtime.connect({name: id});
     port.onMessage.addListener(messageListener);
     port.postMessage({event: 'verify-inline-init', sender: id});
-    if (mvelo.crx) {
-      basePath = '../../';
-    } else if (mvelo.ffa) {
-      basePath = mvelo.extension._dataPath;
-    }
     addWrapper();
     addSandbox();
     addSecuritySettingsButton();
     $(window).on('resize', resizeFont);
     addErrorView();
     // show spinner
-    spinnerTimer = window.setTimeout(function() {
+    spinnerTimer = window.setTimeout(() => {
       showSpinner();
     }, 600);
-    mvelo.l10n.getMessages([
-      'verify_result_success',
-      'verify_result_warning',
-      'verify_result_error',
-      'alert_header_error',
-      'dialog_keyid_label'
-    ], function(result) {
-      l10n = result;
-    });
     mvelo.l10n.localizeHTML();
     mvelo.util.showSecurityBackground();
   }
@@ -76,32 +69,32 @@ var mvelo = mvelo || null;
   }
 
   function addWrapper() {
-    var wrapper = $('<div/>', {id: 'wrapper'});
+    const wrapper = $('<div/>', {id: 'wrapper'});
     watermark = $('<div/>', {id: 'watermark'});
     watermark.appendTo(wrapper);
     wrapper.appendTo('body');
   }
 
   function addSandbox() {
-    var sandbox = $('<iframe/>', {
+    const sandbox = $('<iframe/>', {
       id: 'verifymail',
       sandbox: 'allow-same-origin allow-popups',
       frameBorder: 0
     });
-    var header = $('<header/>');
-    var content = $('<div/>', {
+    const header = $('<header/>');
+    const content = $('<div/>', {
       id: 'content'
     }).append(header);
-    var style = $('<link/>', {
+    const style = $('<link/>', {
       rel: 'stylesheet',
-      href: basePath + 'dep/bootstrap/css/bootstrap.css'
+      href: `${basePath}dep/bootstrap/css/bootstrap.css`
     });
-    var style2 = style.clone().attr('href', basePath + 'components/verify-inline/verifyInlineSig.css');
-    var meta = $('<meta/>', { charset: 'UTF-8' });
+    const style2 = style.clone().attr('href', `${basePath}components/verify-inline/verifyInlineSig.css`);
+    const meta = $('<meta/>', {charset: 'UTF-8'});
     sandbox.on('load', function() {
       $(this).contents().find('head').append(meta)
-                                     .append(style)
-                                     .append(style2);
+      .append(style)
+      .append(style2);
       $(this).contents().find('body').css('background-color', 'rgba(0,0,0,0)');
       $(this).contents().find('body').append(content);
     });
@@ -109,7 +102,7 @@ var mvelo = mvelo || null;
   }
 
   function addErrorView() {
-    var errorbox = $('<div/>', {id: 'errorbox'});
+    const errorbox = $('<div/>', {id: 'errorbox'});
     $('<div/>', {id: 'errorwell', class: 'well span5'}).appendTo(errorbox);
     errorbox.appendTo('body');
     if ($('body').height() + 2 > mvelo.LARGE_FRAME) {
@@ -125,7 +118,7 @@ var mvelo = mvelo || null;
   }
 
   function addSecuritySettingsButton() {
-    var securitySettingsBtn = $('<div data-l10n-title-id="security_background_button_title" style="margin-top: 12px; margin-right: 6px;" class="pull-right"><span class="glyphicon lockBtnIcon"></span></div>');
+    const securitySettingsBtn = $('<div data-l10n-title-id="security_background_button_title" style="margin-top: 12px; margin-right: 6px;" class="pull-right"><span class="glyphicon lockBtnIcon"></span></div>');
     $('body').append(securitySettingsBtn);
   }
 
@@ -134,10 +127,10 @@ var mvelo = mvelo || null;
     clearTimeout(spinnerTimer);
     $('#errorbox').show();
     $('#errorwell').showAlert(l10n.alert_header_error, msg, 'danger')
-                   .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
-                   .find('button').click(function() {
-                      port.postMessage({event: 'verify-dialog-cancel', sender: id});
-                    });
+    .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
+    .find('button').click(() => {
+      port.postMessage({event: 'verify-dialog-cancel', sender: id});
+    });
   }
 
   function resizeFont() {
@@ -147,17 +140,18 @@ var mvelo = mvelo || null;
   function messageListener(msg) {
     //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
-      case 'verified-message':
+      case 'verified-message': {
         showMessageArea();
         // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
-        var message = msg.message.replace(/\n/g, '<br>');
-        var node = $('#verifymail').contents();
-        var header = node.find('header');
-        msg.signers.forEach(function(signer) {
-          var type, userid;
-          var message = $('<span/>');
-          var keyid = $('<span/>');
-          keyid.text('(' + l10n.dialog_keyid_label + ' ' + signer.keyid.toUpperCase() + ')');
+        let message = msg.message.replace(/\n/g, '<br>');
+        const node = $('#verifymail').contents();
+        const header = node.find('header');
+        msg.signers.forEach(signer => {
+          let type;
+          let userid;
+          const message = $('<span/>');
+          const keyid = $('<span/>');
+          keyid.text(`(${l10n.dialog_keyid_label} ${signer.keyid.toUpperCase()})`);
           if (signer.userid) {
             userid = $('<strong/>');
             userid.text(signer.userid);
@@ -177,6 +171,7 @@ var mvelo = mvelo || null;
         message = $.parseHTML(message);
         node.find('#content').append(message);
         break;
+      }
       case 'error-message':
         showErrorMsg(msg.error);
         break;
@@ -188,5 +183,4 @@ var mvelo = mvelo || null;
   }
 
   $(document).ready(init);
-
 }());

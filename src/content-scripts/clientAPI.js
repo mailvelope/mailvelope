@@ -3,8 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
 import mvelo from '../mvelo';
 import $ from 'jquery';
 import {prefs, host, getMessageType} from './main';
@@ -22,11 +20,11 @@ const containers = new Map();
 let syncHandler = null;
 
 export function init() {
-  var apiTag = document.getElementById('mailvelope-api');
+  const apiTag = document.getElementById('mailvelope-api');
   if (apiTag) {
     if (apiTag.dataset.version !== prefs.version) {
-      window.setTimeout(function() {
-        window.dispatchEvent(new CustomEvent('mailvelope-disconnect', { detail: {version: prefs.version} }));
+      window.setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('mailvelope-disconnect', {detail: {version: prefs.version}}));
       }, 1);
     }
     return;
@@ -35,7 +33,7 @@ export function init() {
   if (!window.mailvelope) {
     $('<script/>', {
       id: 'mailvelope-api',
-      src: mvelo.extension.getURL('client-API/mailvelope-client-api.js'),
+      src: mvelo.runtime.getURL('client-API/mailvelope-client-api.js'),
       'data-version': prefs.version
     }).appendTo($('head'));
   }
@@ -45,15 +43,15 @@ export function postMessage(eventName, id, data, error) {
   window.postMessage({
     event: eventName,
     mvelo_extension: true,
-    id: id,
-    data: data,
-    error: error
+    id,
+    data,
+    error
   }, window.location.origin);
 }
 
 function reply(id, error, data) {
   if (error) {
-    error = { message: error.message || error, code: error.code  || 'INTERNAL_ERROR' };
+    error = {message: error.message || error, code: error.code  || 'INTERNAL_ERROR'};
   }
   postMessage('callback-reply', id, data, error);
 }
@@ -102,7 +100,7 @@ const optionsTypes = {
 };
 
 function checkTypes(data) {
-  var error;
+  let error;
   if (data.id && typeof data.id !== 'string') {
     error = new Error('Type mismatch: data.id should be of type string.');
     error.code = 'TYPE_MISMATCH';
@@ -118,21 +116,21 @@ function checkTypes(data) {
 }
 
 function enforceTypeWhitelist(data, whitelist) {
-  var error;
-  var parameters = Object.keys(data) || [];
-  for (var i = 0; i < parameters.length; i++) {
-    var parameter = parameters[i];
-    var dataType = whitelist[parameter];
-    var value = data[parameter];
+  let error;
+  const parameters = Object.keys(data) || [];
+  for (let i = 0; i < parameters.length; i++) {
+    const parameter = parameters[i];
+    const dataType = whitelist[parameter];
+    const value = data[parameter];
     if (dataType === undefined) {
-      console.log('Mailvelope client-API type checker: parameter ' + parameter + ' not accepted.');
+      console.log(`Mailvelope client-API type checker: parameter ${parameter} not accepted.`);
       delete data[parameter];
       continue;
     }
     if (value === undefined || value === null) {
       continue;
     }
-    var wrong = false;
+    let wrong = false;
     switch (dataType) {
       case 'array':
         if (!Array.isArray(value)) {
@@ -145,7 +143,7 @@ function enforceTypeWhitelist(data, whitelist) {
         }
     }
     if (wrong) {
-      error = new Error('Type mismatch: ' + parameter + ' should be of type ' + dataType + '.');
+      error = new Error(`Type mismatch: ${parameter} should be of type ${dataType}.`);
       error.code = 'TYPE_MISMATCH';
       throw error;
     }
@@ -161,8 +159,8 @@ function eventListener(event) {
   //console.log('clientAPI eventListener', event.data.event);
   try {
     checkTypes(event.data);
-    var data = event.data.data;
-    var keyringId = null;
+    const data = event.data.data;
+    let keyringId = null;
     if (data && data.identifier) {
       if (data.identifier.indexOf(mvelo.KEYRING_DELIMITER) !== -1) {
         throw {message: 'Identifier invalid.', code: 'INVALID_IDENTIFIER'};
@@ -254,27 +252,28 @@ function eventListener(event) {
 }
 
 function getKeyring(keyringId, callback) {
-  mvelo.extension.sendMessage({
+  mvelo.runtime.sendMessage({
     event: 'get-keyring',
     api_event: true,
-    keyringId: keyringId
-  }, function(result) {
+    keyringId
+  }, result => {
     callback(result.error, result.data);
   });
 }
 
 function createKeyring(keyringId, callback) {
-  mvelo.extension.sendMessage({
+  mvelo.runtime.sendMessage({
     event: 'create-keyring',
     api_event: true,
-    keyringId: keyringId
-  }, function(result) {
+    keyringId
+  }, result => {
     callback(result.error, result.data);
   });
 }
 
 function displayContainer(selector, armored, keyringId, options, callback) {
-  var container, error;
+  let container;
+  let error;
   switch (getMessageType(armored)) {
     case mvelo.PGP_MESSAGE:
       container = new DecryptContainer(selector, keyringId, options);
@@ -303,42 +302,49 @@ function editorContainer(selector, keyringId, options = {}, callback) {
     // kilobyte -> byte
     options.quota = parseInt(options.quota) * 1024;
   }
-  var container = new EditorContainer(selector, keyringId, options);
+  const container = new EditorContainer(selector, keyringId, options);
   containers.set(container.id, container);
   container.create(callback);
 }
 
-function settingsContainer(selector, keyringId, options, callback) {
-  var container = new OptionsContainer(selector, keyringId, options);
-  containers.set(container.id, container);
-  container.create(callback);
+function settingsContainer(selector, keyringId, options = {}, callback) {
+  mvelo.runtime.sendMessage({
+    event: 'has-private-key',
+    api_event: true,
+    keyringId
+  }, result => {
+    options.hasPrivateKey = result.data;
+    const container = new OptionsContainer(selector, keyringId, options);
+    containers.set(container.id, container);
+    container.create(callback);
+  });
 }
 
 function openSettings(keyringId, callback) {
-  mvelo.extension.sendMessage({
+  mvelo.runtime.sendMessage({
     event: 'open-settings',
     api_event: true,
-    keyringId: keyringId
-  }, function(result) {
+    keyringId
+  }, result => {
     callback(result.error, result.data);
   });
 }
 
 function keyGenContainer(selector, keyringId, options = {}, callback) {
   options.keySize = options.keySize || 2048;
-  var container = new KeyGenContainer(selector, keyringId, options);
+  const container = new KeyGenContainer(selector, keyringId, options);
   containers.set(container.id, container);
   container.create(callback);
 }
 
 function keyBackupContainer(selector, keyringId, options = {}, callback) {
-  var container = new KeyBackupContainer(selector, keyringId, options);
+  const container = new KeyBackupContainer(selector, keyringId, options);
   containers.set(container.id, container);
   container.create(callback);
 }
 
 function restoreBackupContainer(selector, keyringId, options = {}, callback) {
-  var container = new RestoreBackupContainer(selector, keyringId, options);
+  const container = new RestoreBackupContainer(selector, keyringId, options);
   containers.set(container.id, container);
   container.create(callback);
 }
@@ -364,12 +370,12 @@ function generatorReject(generatorId) {
 }
 
 function hasPrivateKey(keyringId, fingerprint, callback) {
-  mvelo.extension.sendMessage({
+  mvelo.runtime.sendMessage({
     event: 'has-private-key',
     api_event: true,
-    keyringId: keyringId,
-    fingerprint: fingerprint
-  }, function(result) {
+    keyringId,
+    fingerprint
+  }, result => {
     callback(result.error, result.data);
   });
 }
@@ -383,29 +389,29 @@ function editorCreateDraft(editorId, callback) {
 }
 
 function validKeyForAddress(keyringId, recipients, callback) {
-  mvelo.extension.sendMessage({
+  mvelo.runtime.sendMessage({
     event: 'query-valid-key',
     api_event: true,
-    keyringId: keyringId,
-    recipients: recipients
-  }, function(result) {
+    keyringId,
+    recipients
+  }, result => {
     callback(result.error, result.data);
   });
 }
 
 function exportOwnPublicKey(keyringId, emailAddr, callback) {
-  mvelo.extension.sendMessage({
+  mvelo.runtime.sendMessage({
     event: 'export-own-pub-key',
     api_event: true,
-    keyringId: keyringId,
-    emailAddr: emailAddr
-  }, function(result) {
+    keyringId,
+    emailAddr
+  }, result => {
     callback(result.error, result.data);
   });
 }
 
 function importPublicKey(keyringId, armored, callback) {
-  var error;
+  let error;
   switch (getMessageType(armored)) {
     case mvelo.PGP_PUBLIC_KEY:
       // ok
@@ -419,18 +425,18 @@ function importPublicKey(keyringId, armored, callback) {
       error.code = 'WRONG_ARMORED_TYPE';
       throw error;
   }
-  mvelo.extension.sendMessage({
+  mvelo.runtime.sendMessage({
     event: 'import-pub-key',
     api_event: true,
-    keyringId: keyringId,
-    armored: armored
-  }, function(result) {
+    keyringId,
+    armored
+  }, result => {
     callback(result.error, result.data);
   });
 }
 
 function setLogo(keyringId, dataURL, revision, callback) {
-  var error;
+  let error;
   if (!/^data:image\/png;base64,/.test(dataURL)) {
     error = new Error('Data URL must start with "data:image/png;base64,".');
     error.code = 'LOGO_INVALID';
@@ -441,13 +447,13 @@ function setLogo(keyringId, dataURL, revision, callback) {
     error.code = 'LOGO_INVALID';
     throw error;
   }
-  mvelo.extension.sendMessage({
+  mvelo.runtime.sendMessage({
     event: 'set-logo',
     api_event: true,
-    keyringId: keyringId,
-    dataURL: dataURL,
-    revision: revision
-  }, function(result) {
+    keyringId,
+    dataURL,
+    revision
+  }, result => {
     callback(result.error, result.data);
   });
 }
@@ -460,7 +466,7 @@ function addSyncHandler(keyringId, callback) {
 }
 
 function syncHandlerDone(data) {
-  var container = containers.get(data.syncHandlerId);
+  const container = containers.get(data.syncHandlerId);
 
   container.syncDone(data);
 }

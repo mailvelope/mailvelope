@@ -24,7 +24,7 @@
         "description": "Message keybackup container as an event source"
     },
     "keygrid_all_keys": {
-        "message": "All",
+        "message": "所有",
         "description": "Selection of key type."
     },
     "editor_key_not_found": {
@@ -32,15 +32,15 @@
         "description": "Warning for when a recipient key was not found."
     },
     "security_log_text_input": {
-        "message": "在文字區塊裏輸入",
-        "description": "A click in the text area as an event type"
+        "message": "輸入在文字欄位",
+        "description": "User clicked in text area"
     },
     "security_log_dialog_cancel": {
-        "message": "對話框中點擊取消",
+        "message": "在對話框點擊進行取消",
         "description": ""
     },
     "security_display_inline": {
-        "message": "電子郵件服務供應商的頁面上",
+        "message": "電郵服務供應商的頁面",
         "description": "Decrypted message display option"
     },
     "verify_result_error": {
@@ -76,11 +76,11 @@
         "description": "Email address in User ID of a PGP key."
     },
     "key_import_extend_description": {
-        "message": "PGP 指紋碼是用來識別通訊對象的密鑰資訊.",
+        "message": "PGP 指紋用於獨特地來識別聯絡人的 PGP 金鑰。",
         "description": "Key import dialog description."
     },
     "recovery_sheet_invite_contacts": {
-        "message": "設定 [BRAND] 帳號的加密通訊, 可以邀請更多聯絡人利用PGP進行祕密安全通訊. 成功邀請的聯絡人可以在其電郵地址旁邊顯示的掛鎖圖示作為識別. ",
+        "message": "在用戶 [BRAND] 帳戶的加密訊通訊設定，你可以邀請其它的聯絡人利用 PGP 使用加密通訊。已成功接受邀請的聯絡人可以在電郵地址旁邊的小掛鎖圖示識別出來。",
         "description": ""
     },
     "form_confirm": {
@@ -88,7 +88,7 @@
         "description": "Confirm form button."
     },
     "key_import_hkp_search_ph": {
-        "message": "利用姓名，電子郵件或是密鑰識別碼",
+        "message": "利用名字、電郵或是密鑰 ID",
         "description": ""
     },
     "keyserver_tofu_label": {
@@ -96,7 +96,7 @@
         "description": "Mailvelope Key Server Settings Label"
     },
     "watchlist_delete_confirmation": {
-        "message": "確定要在電子郵件服務供應商列表中移除此網址?",
+        "message": "真的要把這個網站自電郵服務供應商清單上移除嗎？",
         "description": "Mesage in the watchlist delete confirmation dialog."
     },
     "popup_last_activities": {
@@ -108,7 +108,7 @@
         "description": "Export key dialog header."
     },
     "key_import_private_exists": {
-        "message": "私鑰配對使用者 $2已存在的公鑰$1到鑰匙圈",
+        "message": "用戶 $2配對現有公鑰$1的私鑰滙入到金鑰錬下",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "upload_attachment": {
@@ -160,11 +160,11 @@
         "description": "Tooltip explaining the key id."
     },
     "recovery_sheet_explain_pgp": {
-        "message": "[BRAND]的加密通訊是 以PGP為基礎的程序.它可以傳送加密電子郵件同時也確保可以讀取其加密內容.",
+        "message": "利用 [BRAND] 加密通訊是以 PGP-為基底的程序。它可以傳送加密電郵同時確保只有寄件者和收件人可以讀取訊息。",
         "description": ""
     },
     "security_log_restore_backup_click": {
-        "message": "點擊回復備份對話框",
+        "message": "點擊以重置備份的對話窗",
         "description": ""
     },
     "alert_header_success": {
@@ -176,7 +176,7 @@
         "description": "Selection of key type."
     },
     "recovery_sheet_trusted_contacts": {
-        "message": "有顯示GMX的聯絡人你可以確知其為有效的用戶. 但總之最好還是從不同的郵件提供者來認證聯絡人的身份.",
+        "message": "和  GMX 聯絡人，可以確認他們顯示為有效的用戶，但對於不同電郵服務供應商，就要記得要利用電郵地址認證聯絡人的身份。",
         "description": ""
     },
     "editor_sign_button": {
@@ -199,10 +199,6 @@
         "message": "主用私鑰",
         "description": "Label for primary private key option."
     },
-    "clear_localstorage_confirm_title": {
-        "message": "確認",
-        "description": "The title of the confirmation dialog."
-    },
     "key_import_file_select": {
         "message": "選擇滙入密鑰純文字格式檔案",
         "description": "File selection button label."
@@ -212,7 +208,7 @@
         "description": "File upload selection"
     },
     "security_log_dialog_encrypt": {
-        "message": "點擊以加密對話框",
+        "message": "點擊以在對話框進行加密",
         "description": ""
     },
     "watchlist_title_frame": {
@@ -239,12 +235,16 @@
         "message": "上傳公鑰到Mailvelope 的密鑰伺服器（隨時可刪除）",
         "description": "Upload key to Mailvelope key server checkbox"
     },
+    "dashboard_link_help": {
+        "message": "Help",
+        "description": "Dashboard help link"
+    },
     "security_background_preview": {
         "message": "預覧",
         "description": "Preview"
     },
     "security_log_content_copy": {
-        "message": "複制認證對話框",
+        "message": "複製認證對話框",
         "description": ""
     },
     "security_background_coloring": {
@@ -252,7 +252,7 @@
         "description": "Coloring"
     },
     "key_import_hkp_server": {
-        "message": "Key server",
+        "message": "金鑰伺服器 ",
         "description": ""
     },
     "popup_options": {
@@ -260,16 +260,20 @@
         "description": "Open options dialog."
     },
     "keygrid_export_title": {
-        "message": "Export all keys in this list to file",
+        "message": "將這清單上的金鑰滙出到檔案上",
         "description": "Title for Export key button."
     },
     "security_log_textarea_click": {
-        "message": "在文字區塊裏點擊",
-        "description": "A click in the text area as an event type"
+        "message": "點擊文件區塊",
+        "description": "User clicked in text area"
     },
     "recovery_sheet_backup_data": {
         "message": "備份資料",
         "description": ""
+    },
+    "dashboard_link_encrypt_decrypt_files": {
+        "message": "Encrypt and decrypt files",
+        "description": "Dashboard encrypt decrypt files link"
     },
     "key_import_file": {
         "message": "從檔案中滙入密鑰",
@@ -288,7 +292,7 @@
         "description": ""
     },
     "security_background_text": {
-        "message": "安全背景是你個人的Mailvelope背景其協助阻止第三方網站與應用程式對用戶介面的操控.為提高安全,請在此建立與變更你的個人背景.",
+        "message": "安全背景協助防止第三方網站或應用程式操弄用戶介面。要提高安全，在此建立與改變自己。Mailvelope 自定背景設定。",
         "description": "Security background text"
     },
     "keyring_generate_key": {
@@ -324,7 +328,7 @@
         "description": "Passphrase input field status"
     },
     "security_log_dialog_undo": {
-        "message": "點擊取消對話框",
+        "message": "在對話框點擊取消",
         "description": ""
     },
     "pwd_dialog_reason_decrypt": {
@@ -336,7 +340,7 @@
         "description": "Max. 6 characters."
     },
     "editor_link_file_encryption": {
-        "message": "加密附件",
+        "message": "Encrypt files",
         "description": "Navigation link to file encryption"
     },
     "security_log_add_attachment": {
@@ -348,7 +352,7 @@
         "description": "Import error message. $1: error message"
     },
     "watchlist_title_active": {
-        "message": "有效的",
+        "message": "啟用",
         "description": "Entry in watchlist is active."
     },
     "key_gen_pwd": {
@@ -376,7 +380,7 @@
         "description": "Public-key algorithm of a PGP key."
     },
     "keybackup_restore_dialog_list_1": {
-        "message": " 如果遺失了回復表單",
+        "message": "遺失了復原表",
         "description": ""
     },
     "security_log_import_dialog": {
@@ -404,11 +408,11 @@
         "description": "Header of encrypt dialog."
     },
     "keybackup_waiting_description": {
-        "message": "備份碼的文件檔案正在準備中",
+        "message": "一份帶有回復碼的文件正在準備中。",
         "description": ""
     },
     "keygrid_send_pub_key": {
-        "message": "用電郵傳送公鑰",
+        "message": "透過電郵傳送公鑰",
         "description": "Export key menu."
     },
     "security_log_password_dialog": {
@@ -420,7 +424,7 @@
         "description": "Export key."
     },
     "security_log_backup_code_input": {
-        "message": "輸入備份碼",
+        "message": "回復代碼輸入",
         "description": ""
     },
     "keyring_public": {
@@ -435,16 +439,12 @@
         "message": "簽章",
         "description": "Signatures on User ID of a PGP key."
     },
-    "keygrid_upload_alert_accept": {
-        "message": "上傳公鑰",
-        "description": "Button text to accept key upload"
-    },
     "form_cancel": {
         "message": "取消",
         "description": "Cancel form button."
     },
     "recovery_sheet_not_working": {
-        "message": "如果加密通訊無法進行，例如　",
+        "message": "如果加密通訊不再有效工作，例如：",
         "description": "Label for list"
     },
     "keygrid_invalid_userid": {
@@ -468,7 +468,7 @@
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "需要一對相符密鑰來加密與解密訊息，以及邀請你的聯絡人共同進行點對點間的加密通訊。",
+        "message": "需要一對公私鑰來進行加密和解密訊息，才能邀請聯絡通訊對像進行端對端的加密通訊。",
         "description": "Setup text if no keypair available"
     },
     "settings_security_log": {
@@ -492,11 +492,11 @@
         "description": ""
     },
     "popup_actived_checkbox": {
-        "message": "已激活",
+        "message": "啟用",
         "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "editor_sign_caption_short": {
-        "message": "電郵將會被電子簽章",
+        "message": "電郵將會進行數位簽名",
         "description": ""
     },
     "recovery_sheet_provider_security": {
@@ -520,19 +520,15 @@
         "description": ""
     },
     "security_log_password_click": {
-        "message": "密碼對話框下進行點擊",
+        "message": "點擊密碼對話框",
         "description": ""
-    },
-    "clear_localstorage_confirm_message": {
-        "message": "是否要在此瀏覧文件概要中刪除所有的PGP 密鑰?",
-        "description": "The message of the confirmation dialog."
     },
     "recovery_sheet_unlock_backup": {
         "message": "資料的備份只能在回復表單上的回復碼協助下才能進行解密。",
         "description": ""
     },
     "security_log_backup_dialog_cancel": {
-        "message": "點擊以關閉對話框",
+        "message": "點擊關閉對話框",
         "description": ""
     },
     "form_undo": {
@@ -567,12 +563,8 @@
         "message": "Mailvelope 選項",
         "description": "Title of options page."
     },
-    "keygrid_upload_alert_msg": {
-        "message": "你現在可以把公鑰上傳到Mailvelope 密鑰伺服器上，以自動查找有參與OpenPGP的外掛。這讓寄送加密電郵給聯絡人更為方便。不妨試試看。你也可以隨時移除伺服器上的公鑰。",
-        "description": "Text of a link to a learn-more resource"
-    },
     "recovery_sheet_check_settings": {
-        "message": "請檢查帳號下的設定:",
+        "message": "請檢查帳戶底下的設定：",
         "description": ""
     },
     "keybackup_waiting_headline": {
@@ -583,8 +575,12 @@
         "message": "繼續",
         "description": "Continue form button."
     },
+    "dashboard_link_manage_keys": {
+        "message": "Manage keys",
+        "description": "Dashboard manage keys link"
+    },
     "security_log_signature_modal_close": {
-        "message": "點擊以關閉簽署對話框",
+        "message": "點擊關閉簽名對話框",
         "description": ""
     },
     "decrypt_popup_header": {
@@ -592,7 +588,7 @@
         "description": "Header of decrypt popup."
     },
     "security_log_backup_dialog_ok": {
-        "message": "在對話框中點擊確認",
+        "message": "在對話框點選接受",
         "description": ""
     },
     "keygrid_status_invalid": {
@@ -607,8 +603,12 @@
         "message": "若無備份，如果遺失密鑰密碼、設備被破壞或是瀏覧器外掛出了問題，則加密的訊息將無法再被解密",
         "description": ""
     },
+    "file_read_error": {
+        "message": "無法解密檔案： $1",
+        "description": ""
+    },
     "security_log_email_viewer": {
-        "message": "解密PGP電子郵件",
+        "message": "解密 PGP 電郵",
         "description": "Email decryption container as an event source"
     },
     "security_log_text": {
@@ -616,7 +616,7 @@
         "description": "Text explaining the purpose of the security log"
     },
     "keyserver_url_error": {
-        "message": "無法連上密鑰伺服器",
+        "message": "密鑰伺服器無法連上",
         "description": "HKP key server URL error."
     },
     "keyring_public_private": {
@@ -632,7 +632,7 @@
         "description": "Main key in the PGP key."
     },
     "security_log_dialog_ok": {
-        "message": "對話框中點擊確認",
+        "message": "在對話框點擊進行確認",
         "description": ""
     },
     "recovery_sheet_qr_code": {
@@ -660,7 +660,7 @@
         "description": "Setup heading if no keypair available"
     },
     "watchlist_title_scan": {
-        "message": "狀態",
+        "message": "啟用",
         "description": "Scan status of site in watchlist."
     },
     "key_recovery_failed": {
@@ -708,7 +708,7 @@
         "description": "Create entry in watchlist."
     },
     "security_log_password_input": {
-        "message": "在密碼欄輸入",
+        "message": "在密碼對話中輸入",
         "description": ""
     },
     "key_import_hkp_search_btn": {
@@ -772,7 +772,7 @@
         "description": "Checkbox label for remembering of the password."
     },
     "popup_remove_page_tooltip": {
-        "message": "將目前頁面自電子郵件服務供應商列表中移除",
+        "message": "將當前頁面自電郵供應商清單移除",
         "description": "Remove page from watchlist."
     },
     "form_import": {
@@ -836,7 +836,7 @@
         "description": ""
     },
     "security_display_popup": {
-        "message": "在分開的Mailvelope-彈出頁面",
+        "message": "在另一個彈出的 Mailvelope 視窗",
         "description": "Decrypted message display option"
     },
     "recovery_sheet_be_aware": {
@@ -852,11 +852,11 @@
         "description": "Submit form button."
     },
     "restore_backup_dialog_headline": {
-        "message": "請輸入回復碼:",
+        "message": "請輸入恢復碼：",
         "description": ""
     },
     "editor_no_primary_key_caption_short": {
-        "message": "電子郵件不能數位簽署",
+        "message": "電郵無法進行數位簽名",
         "description": ""
     },
     "recovery_sheet_provider_inbox": {
@@ -864,7 +864,7 @@
         "description": ""
     },
     "watchlist_record_title": {
-        "message": "電子郵件服務供應商",
+        "message": "電郵服務供應商",
         "description": "Title of the watchlist editor dialog."
     },
     "recovery_sheet_other_computer": {
@@ -882,10 +882,6 @@
     "recovery_sheet_enter_code": {
         "message": "若安裝在另一台電腦，請在設定底下輸入回復碼:",
         "description": "Label for navigation path"
-    },
-    "keygrid_upload_success_msg": {
-        "message": "密鑰成功上傳。",
-        "description": "Upload success message"
     },
     "verify_result_warning": {
         "message": "由不知名的密碼簽署",
@@ -924,16 +920,12 @@
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "security_log_textarea_input": {
-        "message": "在文字區塊裏輸入",
-        "description": "A click in the text area as an event type"
+        "message": "文件區塊的輸入",
+        "description": "User clicked in text area"
     },
     "key_gen_demail": {
         "message": "De-Mail 電郵地址",
         "description": "De-Mail address name."
-    },
-    "keygrid_upload_alert_title": {
-        "message": "新功能！",
-        "description": "Text of a link to a learn-more resource"
     },
     "keygrid_delete_confirmation": {
         "message": "確認要移除這個密鑰?",
@@ -950,6 +942,10 @@
     "security_log_backup_create": {
         "message": "點擊以建立備份",
         "description": ""
+    },
+    "dashboard_link_manage_email_providers": {
+        "message": "Manage email providers",
+        "description": "Dashboard manage email providers link"
     },
     "keygrid_subkeys": {
         "message": "子密鑰",
@@ -984,7 +980,7 @@
         "description": ""
     },
     "security_log_dialog_transfer": {
-        "message": "點擊以傳送對話框",
+        "message": "在對話框點擊傳送",
         "description": ""
     },
     "key_gen_expiration": {
@@ -1040,19 +1036,11 @@
         "description": "Set as primary key for the keyring button"
     },
     "keygrid_key_fingerprint": {
-        "message": "指紋碼",
+        "message": "PGP 指紋",
         "description": "Unique string identifier for a PGP key."
     },
-    "keygrid_upload_alert_refuse": {
-        "message": "不，謝了。",
-        "description": "Button text to reject key upload"
-    },
-    "editor_error_content": {
-        "message": "內容出錯",
-        "description": ""
-    },
     "keybackup_setup_dialog_button": {
-        "message": "設定備份",
+        "message": "建立備份",
         "description": ""
     },
     "pwd_dialog_reason_create_draft": {
@@ -1067,8 +1055,12 @@
         "message": "密鑰類型",
         "description": "Key grid sort selector."
     },
+    "dashboard_link_view_security_log": {
+        "message": "View security logs",
+        "description": "Dashboard view security logs link"
+    },
     "editor_blur_warn": {
-        "message": "警告：文字編輯器無法對焦",
+        "message": "警告：文件編輯器失去焦點",
         "description": "Warning for lost focus."
     },
     "header_warning": {
@@ -1084,19 +1076,15 @@
         "description": ""
     },
     "editor_no_primary_key_caption_long": {
-        "message": "因遺失主密鑰電子郵件不能數位簽署",
+        "message": "無法進行電郵簽名因為主金鑰遺失",
         "description": ""
     },
     "keygen_dialog_confirm_success": {
         "message": "輸入有效",
         "description": ""
     },
-    "keyring_migration_error": {
-        "message": "密鑰滙入出錯",
-        "description": "Tab of keyring to display migration errors."
-    },
     "keybackup_restore_dialog_list_2": {
-        "message": "因安全考量，請建立一個新的回復表單",
+        "message": "因安全理由，入須建立新的回復表。",
         "description": ""
     },
     "security_log_attachment_download": {
@@ -1116,11 +1104,11 @@
         "description": "Store password in memory for $1 minutes."
     },
     "wrong_restore_code": {
-        "message": "無效的回復碼",
+        "message": "無效的恢復碼",
         "description": ""
     },
     "settings_watchlist": {
-        "message": "電子郵件服務供應商列表",
+        "message": "電郵服務供應商清單",
         "description": "Tab of options to display list of supported mail providers."
     },
     "recovery_sheet_key_server": {
@@ -1184,7 +1172,7 @@
         "description": "Expose API to Webmailer."
     },
     "key_import_extend_fingerprint": {
-        "message": "PGP-指紋碼:",
+        "message": "PGP 指紋：",
         "description": ""
     },
     "key_export_warning_private": {
@@ -1202,10 +1190,6 @@
     "keyring_setup_generate_key": {
         "message": "産生密鑰",
         "description": "Generate key"
-    },
-    "keygrid_upload_error_msg": {
-        "message": "密鑰上傳失敗。",
-        "description": "Upload error message"
     },
     "editor_label_add_recipient": {
         "message": "新增收件者",
@@ -1232,7 +1216,7 @@
         "description": ""
     },
     "general_editor_type": {
-        "message": "電子郵件編輯器選項",
+        "message": "電郵編輯器選擇",
         "description": "Label for editor options."
     },
     "key_gen_pwd_unequal": {
@@ -1264,15 +1248,15 @@
         "description": "Title of download area"
     },
     "security_log_signature_modal_open": {
-        "message": "點擊以開啟簽署對話框",
+        "message": "點擊開啟簽名的對話框",
         "description": ""
     },
     "security_log_backup_restore": {
-        "message": "點擊以回復重建備份",
+        "message": "點擊以重置備份",
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "創建一個新的回復表單，如果：",
+        "message": "如果有以下情況，請在此創立新復原表單",
         "description": ""
     },
     "key_import_default_headline": {
@@ -1286,6 +1270,10 @@
     "cleartext_read_error": {
         "message": "無法讀取純明文的訊息: $1",
         "description": "Cleartext message read error message: $1: error message."
+    },
+    "file_encrypt_armored_output": {
+        "message": "Encrypt to file in text format (ASCII-armored)",
+        "description": ""
     },
     "editor_header": {
         "message": "撰寫電子郵件",
@@ -1304,7 +1292,7 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_gen_pwd_empty": {
-        "message": "密碼空白",
+        "message": "密碼欄空白",
         "description": "Passphrase input field status"
     },
     "form_save": {
@@ -1388,7 +1376,7 @@
         "description": "Opens the help page on mailvelope.com."
     },
     "security_log_textarea_select": {
-        "message": "在文字區塊裏選取",
+        "message": "在文件區塊中進行選取",
         "description": "Selection of the text area as an event type"
     },
     "keygrid_signer_unknown": {
@@ -1400,7 +1388,7 @@
         "description": "Add page to watchlist."
     },
     "security_log_dialog_sign": {
-        "message": "點擊以簽署對話框",
+        "message": "點擊對話框進行簽名",
         "description": ""
     },
     "editor_key_not_found_msg": {
@@ -1412,7 +1400,7 @@
         "description": "Options navigation: Documentation."
     },
     "keyring_backup": {
-        "message": "Keyring backup",
+        "message": "金鑰圈備份",
         "description": "Title of keyring backup view"
     },
     "keyring_keypair": {
@@ -1436,7 +1424,7 @@
         "description": ""
     },
     "change_link": {
-        "message": "Change",
+        "message": "變動",
         "description": "Navigation link to change this setting."
     },
     "upload_quota_warning_headline": {
@@ -1444,7 +1432,7 @@
         "description": ""
     },
     "key_gen_invalid_email": {
-        "message": "無效的電子郵件地址",
+        "message": "無效的電郵地址",
         "description": "Error message."
     },
     "pwd_dialog_userid": {
@@ -1468,7 +1456,7 @@
         "description": "Tab allowing to backup and restore the settings."
     },
     "reload_webmail_tab": {
-        "message": "請重新載入你的電郵服務供應者頁面好讓設定生效",
+        "message": "請重新載入電郵服務供應商頁面好讓設定生效。",
         "description": "Info message."
     },
     "form_yes": {
@@ -1484,7 +1472,7 @@
         "description": "Export key menu."
     },
     "ext_description": {
-        "message": "使用點對點加密強化你的電子郵件，利用OpenPGP 標準的安全電子郵件通訊工具。",
+        "message": "強化電郵供應商端對端的加密功能，基於 OpenPGP 標準的安全電郵通訊。",
         "description": "Description of the extension."
     },
     "keybackup_setup_dialog_list_1": {
@@ -1520,7 +1508,7 @@
         "description": "Import error message: $1: error message."
     },
     "editor_sign_caption_long": {
-        "message": "當電郵送出時，它會自動加上電子簽章",
+        "message": "當郵件寄出時，它也會進行數位簽名",
         "description": ""
     },
     "keygrid_display_pub_key": {
@@ -1528,7 +1516,7 @@
         "description": "Export key menu."
     },
     "upload_quota_exceeded_warning": {
-        "message": "附件大小超過上限",
+        "message": "可容許的附件大小：",
         "description": "A warning shown when the attachments upload quota is exceeded."
     },
     "recovery_sheet_keep_safe": {

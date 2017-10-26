@@ -1,3 +1,8 @@
+/**
+ * Copyright (C) 2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
+ */
+
 #encrypting .help-block {
   font-size: 14px;
 }
@@ -75,4 +80,11 @@
 #encrypt_fileDownloadPanel .m-spinner,
 #decrypt_fileDownloadPanel .m-spinner {
   margin: inherit;
+}
+
+.panel-footer .btn {
+    margin-right: 5px;
+}
+.panel-footer .btn:last-child {
+    margin-right: 0;
 }

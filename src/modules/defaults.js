@@ -1,30 +1,15 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2012-2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
-
-var mvelo = require('lib-mvelo');
-var model = require('./pgpModel');
-var openpgp = require('openpgp');
-var defaults = require('../res/defaults.json');
+import mvelo from '../lib/lib-mvelo';
+import {getPreferences, setPreferences, getWatchList, setWatchList} from './pgpModel';
+import * as openpgp from 'openpgp';
+import defaults from '../res/defaults.json';
 
 function getRandomAngle() {
-  var angle = openpgp.crypto.random.getSecureRandom(0, 120) - 60;
+  let angle = openpgp.crypto.random.getSecureRandom(0, 120) - 60;
   if (angle < 0) {
     angle += 360;
   }
@@ -47,16 +32,16 @@ function initSecurityBgnd(pref) {
   }
 }
 
-function init() {
-  return model.getPreferences()
+export function init() {
+  return getPreferences()
   .then(prefs => {
     if (!prefs) {
       // new install
       prefs = defaults.preferences;
       prefs.version = defaults.version;
       initSecurityBgnd(prefs);
-      return model.setWatchList(defaults.watch_list)
-      .then(() => model.setPreferences(prefs));
+      return setWatchList(defaults.watch_list)
+      .then(() => setPreferences(prefs));
     } else if (prefs.version !== defaults.version) {
       // version changed
       prefs.version = defaults.version;
@@ -80,25 +65,21 @@ function init() {
 
       // merge watchlist on version change
       return mergeWatchlist(defaults)
-      .then(() => model.setPreferences(prefs));
+      .then(() => setPreferences(prefs));
     }
   });
 }
 
 function mergeWatchlist(defaults) {
-  var mod = false;
-  return model.getWatchList()
+  let mod = false;
+  return getWatchList()
   .then((localList = []) => {
-    defaults.watch_list.forEach(function(defaultSite) {
-      var localSite = localList.find(function(localSite) {
-        return localSite.site === defaultSite.site;
-      });
+    defaults.watch_list.forEach(defaultSite => {
+      const localSite = localList.find(localSite => localSite.site === defaultSite.site);
       if (localSite) {
-        defaultSite.frames.forEach(function(defaultFrame) {
+        defaultSite.frames.forEach(defaultFrame => {
           localSite.frames = localSite.frames || [];
-          var localFrame = localSite.frames.find(function(localFrame) {
-            return localFrame.frame === defaultFrame.frame;
-          });
+          const localFrame = localSite.frames.find(localFrame => localFrame.frame === defaultFrame.frame);
           if (!localFrame) {
             localSite.frames.push(defaultFrame);
             mod = true;
@@ -118,14 +99,11 @@ function mergeWatchlist(defaults) {
   })
   .then(localList => {
     if (mod) {
-      return model.setWatchList(localList);
+      return setWatchList(localList);
     }
   });
 }
 
-function getVersion() {
+export function getVersion() {
   return defaults.version;
 }
-
-exports.init = init;
-exports.getVersion = getVersion;

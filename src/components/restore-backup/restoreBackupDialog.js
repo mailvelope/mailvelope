@@ -15,35 +15,43 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* eslint strict: 0 */
 'use strict';
 
-var mvelo = mvelo || null;
+var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
-  var id, name, port, l10n;
+  let id;
+  let name;
+  let port;
 
-  var $secureBgndButton;
-  var $restoreBackupPanel;
-  var $restoreBackupButton;
-  var $restorePasswordButton;
-  var $restorePasswordPanel;
-  var $restorePasswordInput;
+  let $secureBgndButton;
+  let $restoreBackupPanel;
+  let $restoreBackupButton;
+  let $restorePasswordButton;
+  let $restorePasswordPanel;
+  let $restorePasswordInput;
+
+  const l10n = mvelo.l10n.getMessages([
+    'wrong_restore_code',
+    'key_recovery_failed'
+  ]);
 
   function init() {
     if (document.body.dataset.mvelo) {
       return;
     }
     document.body.dataset.mvelo = true;
-    var qs = jQuery.parseQuerystring();
+    const qs = jQuery.parseQuerystring();
     id = qs.id;
-    name = 'restoreBackupDialog-' + id;
+    name = `restoreBackupDialog-${id}`;
 
-    port = mvelo.extension.connect({name: name});
+    port = mvelo.runtime.connect({name});
     port.onMessage.addListener(messageListener);
 
     $('body').addClass("secureBackground");
 
-    mvelo.appendTpl($('body'), mvelo.extension.getURL('components/restore-backup/restoreBackup.html')).then(function() {
+    mvelo.appendTpl($('body'), mvelo.runtime.getURL('components/restore-backup/restoreBackup.html')).then(() => {
       $secureBgndButton = $('.secureBgndSettingsBtn');
       $restoreBackupPanel = $('#restoreBackupPanel');
       $restoreBackupButton = $('#restoreBackupBtn');
@@ -51,64 +59,57 @@ var mvelo = mvelo || null;
       $restorePasswordInput = $('#restorePasswordInput');
       $restorePasswordPanel = $('#restorePasswordPanel').hide();
 
-      mvelo.l10n.getMessages([
-        'wrong_restore_code',
-        'key_recovery_failed'
-      ], function(result) {
-        l10n = result;
-      });
-
       mvelo.l10n.localizeHTML();
       mvelo.util.showSecurityBackground(true);
 
-      $secureBgndButton.on('click', function() {
+      $secureBgndButton.on('click', () => {
         port.postMessage({event: 'open-security-settings', sender: name});
       });
 
       $('.flex-digit')
-        .on('input paste', function() {
-          logUserInput('security_log_text_input');
-          var $this = $(this),
-            val = $this.val(),
-            maxlength = parseInt($this.attr('maxlength'));
+      .on('input paste', function() {
+        logUserInput('security_log_text_input');
+        const $this = $(this);
+        const val = $this.val();
+        const maxlength = parseInt($this.attr('maxlength'));
 
-          if (val.length === maxlength) {
-            $this
-              .removeClass('invalid')
-              .addClass('valid');
+        if (val.length === maxlength) {
+          $this
+          .removeClass('invalid')
+          .addClass('valid');
 
-            var $next = $this.next().next();
-            if ($next) {
-              $next.focus();
-            }
-          } else {
-            $this
-              .removeClass('valid')
-              .addClass('invalid');
+          const $next = $this.next().next();
+          if ($next) {
+            $next.focus();
           }
+        } else {
+          $this
+          .removeClass('valid')
+          .addClass('invalid');
+        }
 
-          if (isCodeValid()) {
-            $restoreBackupButton.removeAttr('disabled');
-          } else {
-            $restoreBackupButton.attr('disabled', true);
-          }
+        if (isCodeValid()) {
+          $restoreBackupButton.removeAttr('disabled');
+        } else {
+          $restoreBackupButton.attr('disabled', true);
+        }
 
-          $('#errorMsg').empty().hide();
-        })
-        .on('blur', function() {
-          if (isCodeValid()) {
-            $restoreBackupButton.removeAttr('disabled');
-          } else {
-            $restoreBackupButton.attr('disabled', true);
-          }
-          $('#errorMsg').empty().hide();
-        });
+        $('#errorMsg').empty().hide();
+      })
+      .on('blur', () => {
+        if (isCodeValid()) {
+          $restoreBackupButton.removeAttr('disabled');
+        } else {
+          $restoreBackupButton.attr('disabled', true);
+        }
+        $('#errorMsg').empty().hide();
+      });
 
-      $restoreBackupButton.on('click', function() {
+      $restoreBackupButton.on('click', () => {
         logUserInput('security_log_backup_restore');
-        var code = '';
+        let code = '';
 
-        $('.flex-digit').each(function(idx, ele) {
+        $('.flex-digit').each((idx, ele) => {
           code += $(ele).val();
         });
 
@@ -117,7 +118,7 @@ var mvelo = mvelo || null;
         port.postMessage({
           event: 'restore-backup-code',
           sender: name,
-          code: code
+          code
         });
       });
 
@@ -127,18 +128,18 @@ var mvelo = mvelo || null;
 
         $(this).attr('disabled', true);
 
-        setTimeout(function() {
+        setTimeout(() => {
           $restorePasswordInput.attr('type', 'password');
           $restorePasswordButton.removeAttr('disabled');
         }, 5000);
       });
 
-      port.postMessage({ event: 'restore-backup-dialog-init', sender: name });
+      port.postMessage({event: 'restore-backup-dialog-init', sender: name});
     });
   }
 
   function isCodeValid() {
-    var valid = true;
+    let valid = true;
     $('.flex-digit').each(function() {
       if ($(this).val().length !== parseInt($(this).attr('maxlength'))) {
         valid = false;
@@ -154,7 +155,7 @@ var mvelo = mvelo || null;
   function showPassword(pwd) {
     $restorePasswordInput.val(pwd);
 
-    $restoreBackupPanel.fadeOut('fast', function() {
+    $restoreBackupPanel.fadeOut('fast', () => {
       $restorePasswordPanel.fadeIn('fast');
     });
   }
@@ -168,7 +169,7 @@ var mvelo = mvelo || null;
       event: 'key-backup-user-input',
       sender: name,
       source: 'security_log_key_backup',
-      type: type
+      type
     });
   }
 
@@ -199,5 +200,4 @@ var mvelo = mvelo || null;
   }
 
   $(document).ready(init);
-
 }());

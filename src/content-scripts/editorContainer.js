@@ -3,8 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
 import mvelo from '../mvelo';
 import {getMessageType} from './main';
 
@@ -14,8 +12,8 @@ export default class EditorContainer {
     this.keyringId = keyringId;
     this.options = options;
     this.id = mvelo.util.getHash();
-    this.name = 'editorCont-' + this.id;
-    this.port = mvelo.extension.connect({name: this.name});
+    this.name = `editorCont-${this.id}`;
+    this.port = mvelo.runtime.connect({name: this.name});
     this.registerEventListener();
     this.parent = null;
     this.container = null;
@@ -28,17 +26,11 @@ export default class EditorContainer {
     this.done = done;
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');
-    var url;
-    var quota = '';
+    let quota = '';
     if (this.options.quota) {
-      quota = '&quota=' + this.options.quota;
+      quota = `&quota=${this.options.quota}`;
     }
-
-    if (mvelo.crx) {
-      url = mvelo.extension.getURL('components/editor/editor.html?id=' + this.id + quota + '&embedded=true');
-    } else if (mvelo.ffa) {
-      url = 'about:blank?mvelo=editor&id=' + this.id + quota + '&embedded=true';
-    }
+    const url = mvelo.runtime.getURL(`components/editor/editor.html?id=${this.id}${quota}&embedded=true`);
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);
     this.container.setAttribute('scrolling', 'no');
@@ -53,7 +45,7 @@ export default class EditorContainer {
       event: 'editor-container-encrypt',
       sender: this.name,
       keyringId: this.keyringId,
-      recipients: recipients
+      recipients
     });
     this.encryptCallback = callback;
   }
@@ -70,14 +62,14 @@ export default class EditorContainer {
 
   checkInProgress() {
     if (this.encryptCallback || this.createDraftCallback) {
-      var error = new Error('Encyption already in progress.');
+      const error = new Error('Encyption already in progress.');
       error.code = 'ENCRYPT_IN_PROGRESS';
       throw error;
     }
   }
 
   processOptions() {
-    var error;
+    let error;
     if (this.options.quotedMail && getMessageType(this.options.quotedMail) !== mvelo.PGP_MESSAGE ||
         this.options.armoredDraft && getMessageType(this.options.armoredDraft) !== mvelo.PGP_MESSAGE) {
       error = new Error('quotedMail or armoredDraft parameter need to be a PGP message.');

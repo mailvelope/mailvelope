@@ -7,8 +7,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 
-'use strict';
-
 l10n.register([
   'form_cancel',
   'editor_sign_button',
@@ -19,10 +17,6 @@ l10n.register([
 ]);
 
 class EditorModalFooter extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   signSelection() {
     return (
       <form className="sign-msg-option well">
@@ -36,7 +30,7 @@ class EditorModalFooter extends React.Component {
         </div>
         <div className="form-group">
           <select className="form-control" value={this.props.signKey} onChange={event => this.props.onChangeSignKey(event.target.value)}>
-            {this.props.privKeys.map(key => <option value={key.id} key={key.id}>{key.userId + ' - ' + key.id}</option>)}
+            {this.props.privKeys.map(key => <option value={key.id} key={key.id}>{`${key.userId} - ${key.id}`}</option>)}
           </select>
         </div>
         <div className="form-nav-link pull-right">
@@ -85,6 +79,6 @@ EditorModalFooter.propTypes = {
   privKeys: PropTypes.array, // list of private keys for signing
   onChangeSignKey: PropTypes.func, // user selects new key
   onClickSignSetting: PropTypes.func // click on navigation link
-}
+};
 
 export default EditorModalFooter;

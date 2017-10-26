@@ -1,10 +1,10 @@
-
+/* eslint strict: 0 */
 'use strict';
 
-var path = require('path');
-var common = require('./webpack.common');
+const path = require('path');
+const common = require('./webpack.common');
 
-const entry = './src/app/app.js';
+const entry = './src/app/router.js';
 const output = {
   path: path.resolve('./build/tmp/app'),
   pathinfo: true,
@@ -17,27 +17,18 @@ const externals = {
 };
 
 const prod = {
-
   entry,
   output,
   resolve: common.resolve(),
   externals,
   module: common.module.react(),
   plugins: common.plugins('production')
-
 };
 
-const dev = {
-
-  devtool: 'cheap-module-source-map',
-  entry,
-  output,
-  resolve: common.resolve(),
-  externals,
-  module: common.module.react(),
+const dev = Object.assign({}, prod, {
+  devtool: 'source-map',
   plugins: common.plugins('development')
-
-};
+});
 
 module.exports = [dev];
 

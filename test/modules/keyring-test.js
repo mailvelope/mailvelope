@@ -1,18 +1,25 @@
-'use strict';
 
+import mvelo from '../../src/mvelo';
+import {Keyring} from '../../src/modules/keyring';
+import KeyServer from '../../src/modules/keyserver';
+import * as keyringSync from '../../src/modules/keyringSync';
+import * as openpgp from 'openpgp';
+import openpgpDefault from 'openpgp';
+
+const sandbox = sinon.createSandbox();
 
 function keyMock(keyid) {
   return {
     verifyPrimaryKey: sinon.stub().returns(openpgp.enums.keyStatus.valid),
     primaryKey: {
-      getKeyId: function() {
+      getKeyId() {
         return {
           toHex: sinon.stub().returns(keyid)
         };
       },
     },
     users: [],
-    getPrimaryUser: function() {
+    getPrimaryUser() {
       return {
         user: this.users[0]
       };
@@ -23,28 +30,23 @@ function keyMock(keyid) {
 function userMock(userid) {
   return {
     userId: {
-      userid: userid
+      userid
     },
     verify: sinon.stub().returns(openpgp.enums.keyStatus.valid)
   };
 }
 
-var mvelo = require('../../src/mvelo');
-var Keyring = require('../../src/modules/keyring').Keyring;
-var KeyServer = require('../../src/modules/keyserver');
-var keyringSync = require('../../src/modules/keyringSync');
-var openpgp = require('openpgp');
+describe('Keyring unit tests', () => {
+  let keyring;
+  let pgpKeyring;
+  let krSync;
+  let keys = [];
 
-describe('Keyring unit tests', function() {
-  var keyring, pgpKeyring, krSync;
-  var keys = [];
-
-  beforeEach(function() {
+  beforeEach(() => {
     sinon.stub(KeyServer.prototype, 'upload');
-    sinon.stub(openpgp, 'generateKeyPair');
-    var openpgpKeyring = sinon.createStubInstance(openpgp.Keyring);
-    sinon.stub(openpgp, 'Keyring');
-    var sync = sinon.createStubInstance(keyringSync.KeyringSync);
+    const openpgpKeyring = sinon.createStubInstance(openpgp.Keyring);
+    sandbox.stub(openpgp, 'Keyring');
+    const sync = sinon.createStubInstance(keyringSync.KeyringSync);
     sinon.stub(keyringSync, 'KeyringSync');
 
     openpgpKeyring.getAllKeys = function() {
@@ -58,30 +60,29 @@ describe('Keyring unit tests', function() {
     sinon.stub(keyring, 'hasPrimaryKey');
   });
 
-  afterEach(function() {
+  afterEach(() => {
     KeyServer.prototype.upload.restore();
-    openpgp.generateKeyPair.restore();
-    openpgp.Keyring.restore();
+    sandbox.restore();
     keyringSync.KeyringSync.restore();
     keys = [];
   });
 
-  describe('generateKey', function() {
-    var keygenOpt;
+  describe('generateKey', () => {
+    let keygenOpt;
 
-    beforeEach(function() {
+    beforeEach(() => {
       keygenOpt = {
         numBits: 2048,
         userIds: [{email: 'a@b.co', fullName: 'A B'}],
         passphrase: 'secret'
       };
 
-      var keyStub = sinon.createStubInstance(openpgp.key.Key);
+      const keyStub = sinon.createStubInstance(openpgp.key.Key);
       keyStub.primaryKey = {
-        getFingerprint: function() {},
-        keyid: {toHex: function() { return 'ASDF'; }}
+        getFingerprint() {},
+        keyid: {toHex() { return 'ASDF'; }}
       };
-      openpgp.generateKeyPair.returns(Promise.resolve({
+      sandbox.stub(openpgpDefault, 'generateKey').returns(Promise.resolve({
         key: keyStub,
         publicKeyArmored: 'PUBLIC KEY BLOCK',
         privateKeyArmored: 'PRIVATE KEY BLOCK'
@@ -90,27 +91,26 @@ describe('Keyring unit tests', function() {
       KeyServer.prototype.upload.returns(Promise.resolve({status: 201}));
     });
 
-    it('should generate and upload key', function() {
+    it('should generate and upload key', () => {
       keygenOpt.uploadPublicKey = true;
-      return keyring.generateKey(keygenOpt).then(function(key) {
+      return keyring.generateKey(keygenOpt).then(key => {
         expect(key.privateKeyArmored).to.exist;
         expect(KeyServer.prototype.upload.calledOnce).to.be.true;
       });
     });
 
-    it('should generate and not upload key', function() {
+    it('should generate and not upload key', () => {
       keygenOpt.uploadPublicKey = false;
-      return keyring.generateKey(keygenOpt).then(function(key) {
+      return keyring.generateKey(keygenOpt).then(key => {
         expect(key.privateKeyArmored).to.exist;
         expect(KeyServer.prototype.upload.calledOnce).to.be.false;
       });
     });
   });
 
-  describe('getKeyUserIDs', function() {
-
-    beforeEach(function() {
-      var key = keyMock('db9ccdf0d5f3a387');
+  describe('getKeyUserIDs', () => {
+    beforeEach(() => {
+      let key = keyMock('db9ccdf0d5f3a387');
       key.users.push(userMock('Alice <alice@world.org>'));
       key.users.push(userMock('Alice Liddell <alice@mars.org>'));
       keys.push(key);
@@ -119,83 +119,79 @@ describe('Keyring unit tests', function() {
       keys.push(key);
     });
 
-    it('should return all keys', function() {
+    it('should return all keys', () => {
       expect(keyring.getKeyUserIDs()).to.deep.equal([
-        { keyid: 'db9ccdf0d5f3a387', userid: 'Alice <alice@world.org>', name: 'Alice', email: 'alice@world.org' },
-        { keyid: '712ec1bd873b7e58', userid: 'Bob M. <bob@moon.org>', name: 'Bob M.', email: 'bob@moon.org' }
+        {keyid: 'db9ccdf0d5f3a387', userid: 'Alice <alice@world.org>', name: 'Alice', email: 'alice@world.org'},
+        {keyid: '712ec1bd873b7e58', userid: 'Bob M. <bob@moon.org>', name: 'Bob M.', email: 'bob@moon.org'}
       ]);
     });
 
-    it('should return only valid keys', function() {
+    it('should return only valid keys', () => {
       keys[0].verifyPrimaryKey = sinon.stub().returns(openpgp.enums.keyStatus.invalid);
       expect(keyring.getKeyUserIDs()).to.deep.equal([
-        { keyid: '712ec1bd873b7e58', userid: 'Bob M. <bob@moon.org>', name: 'Bob M.', email: 'bob@moon.org' }
+        {keyid: '712ec1bd873b7e58', userid: 'Bob M. <bob@moon.org>', name: 'Bob M.', email: 'bob@moon.org'}
       ]);
     });
 
-    it('should return all users - option allUsers', function() {
-      expect(keyring.getKeyUserIDs({ allUsers: true })).to.deep.equal([
-        { keyid: 'db9ccdf0d5f3a387', userid: 'Alice <alice@world.org>', name: 'Alice', email: 'alice@world.org' },
-        { keyid: 'db9ccdf0d5f3a387', userid: 'Alice Liddell <alice@mars.org>', name: 'Alice Liddell', email: 'alice@mars.org' },
-        { keyid: '712ec1bd873b7e58', userid: 'Bob M. <bob@moon.org>', name: 'Bob M.', email: 'bob@moon.org' }
+    it('should return all users - option allUsers', () => {
+      expect(keyring.getKeyUserIDs({allUsers: true})).to.deep.equal([
+        {keyid: 'db9ccdf0d5f3a387', userid: 'Alice <alice@world.org>', name: 'Alice', email: 'alice@world.org'},
+        {keyid: 'db9ccdf0d5f3a387', userid: 'Alice Liddell <alice@mars.org>', name: 'Alice Liddell', email: 'alice@mars.org'},
+        {keyid: '712ec1bd873b7e58', userid: 'Bob M. <bob@moon.org>', name: 'Bob M.', email: 'bob@moon.org'}
       ]);
     });
 
-    it('should return only valid users - option allUsers', function() {
+    it('should return only valid users - option allUsers', () => {
       keys[0].users[0].verify = sinon.stub().returns(openpgp.enums.keyStatus.invalid);
-      expect(keyring.getKeyUserIDs({ allUsers: true })).to.deep.equal([
-        { keyid: 'db9ccdf0d5f3a387', userid: 'Alice Liddell <alice@mars.org>', name: 'Alice Liddell', email: 'alice@mars.org' },
-        { keyid: '712ec1bd873b7e58', userid: 'Bob M. <bob@moon.org>', name: 'Bob M.', email: 'bob@moon.org' }
+      expect(keyring.getKeyUserIDs({allUsers: true})).to.deep.equal([
+        {keyid: 'db9ccdf0d5f3a387', userid: 'Alice Liddell <alice@mars.org>', name: 'Alice Liddell', email: 'alice@mars.org'},
+        {keyid: '712ec1bd873b7e58', userid: 'Bob M. <bob@moon.org>', name: 'Bob M.', email: 'bob@moon.org'}
       ]);
     });
 
-    it('should check for duplicate users - option allUsers', function() {
+    it('should check for duplicate users - option allUsers', () => {
       keys[0].users[0] = userMock('Alice Liddell <alice@mars.org>');
-      expect(keyring.getKeyUserIDs({ allUsers: true })).to.deep.equal([
-        { keyid: 'db9ccdf0d5f3a387', userid: 'Alice Liddell <alice@mars.org>', name: 'Alice Liddell', email: 'alice@mars.org' },
-        { keyid: '712ec1bd873b7e58', userid: 'Bob M. <bob@moon.org>', name: 'Bob M.', email: 'bob@moon.org' }
+      expect(keyring.getKeyUserIDs({allUsers: true})).to.deep.equal([
+        {keyid: 'db9ccdf0d5f3a387', userid: 'Alice Liddell <alice@mars.org>', name: 'Alice Liddell', email: 'alice@mars.org'},
+        {keyid: '712ec1bd873b7e58', userid: 'Bob M. <bob@moon.org>', name: 'Bob M.', email: 'bob@moon.org'}
       ]);
     });
 
-    it('should filter out invalid email - option allUsers', function() {
+    it('should filter out invalid email - option allUsers', () => {
       keys[0].users[0] = userMock('Alice Liddell <alice!>');
-      expect(keyring.getKeyUserIDs({ allUsers: true })).to.deep.equal([
-        { keyid: 'db9ccdf0d5f3a387', userid: 'Alice Liddell <alice@mars.org>', name: 'Alice Liddell', email: 'alice@mars.org' },
-        { keyid: '712ec1bd873b7e58', userid: 'Bob M. <bob@moon.org>', name: 'Bob M.', email: 'bob@moon.org' }
+      expect(keyring.getKeyUserIDs({allUsers: true})).to.deep.equal([
+        {keyid: 'db9ccdf0d5f3a387', userid: 'Alice Liddell <alice@mars.org>', name: 'Alice Liddell', email: 'alice@mars.org'},
+        {keyid: '712ec1bd873b7e58', userid: 'Bob M. <bob@moon.org>', name: 'Bob M.', email: 'bob@moon.org'}
       ]);
     });
-
   });
 
-  describe('_mapKeyUserIds', function() {
-
-    it('should map user id', function() {
-      var user = { userid: 'Bob M. <bob@moon.institute>' };
+  describe('_mapKeyUserIds', () => {
+    it('should map user id', () => {
+      const user = {userid: 'Bob M. <bob@moon.institute>'};
       keyring._mapKeyUserIds(user);
-      expect(user).to.deep.equal({ userid: 'Bob M. <bob@moon.institute>', name: 'Bob M.', email: 'bob@moon.institute' });
+      expect(user).to.deep.equal({userid: 'Bob M. <bob@moon.institute>', name: 'Bob M.', email: 'bob@moon.institute'});
     });
 
-    it('should map user id without email', function() {
-      var user = { userid: 'Bob M.' };
+    it('should map user id without email', () => {
+      const user = {userid: 'Bob M.'};
       keyring._mapKeyUserIds(user);
-      expect(user).to.deep.equal({ userid: 'Bob M.', name: 'Bob M.', email: '' });
+      expect(user).to.deep.equal({userid: 'Bob M.', name: 'Bob M.', email: ''});
     });
 
-    it('should map user id without name', function() {
-      var user = { userid: '<bob@moon.org>' };
+    it('should map user id without name', () => {
+      let user = {userid: '<bob@moon.org>'};
       keyring._mapKeyUserIds(user);
-      expect(user).to.deep.equal({ userid: '<bob@moon.org>', name: '', email: 'bob@moon.org' });
-      user = { userid: 'bob@moon.org' };
+      expect(user).to.deep.equal({userid: '<bob@moon.org>', name: '', email: 'bob@moon.org'});
+      user = {userid: 'bob@moon.org'};
       keyring._mapKeyUserIds(user);
-      expect(user).to.deep.equal({ userid: 'bob@moon.org', name: '', email: 'bob@moon.org' });
+      expect(user).to.deep.equal({userid: 'bob@moon.org', name: '', email: 'bob@moon.org'});
     });
 
-    it('should not map invalid email', function() {
-      var user = { userid: 'Bob M. <img src=x onerror=alert(location)>' };
+    it('should not map invalid email', () => {
+      const user = {userid: 'Bob M. <img src=x onerror=alert(location)>'};
       keyring._mapKeyUserIds(user);
-      expect(user).to.deep.equal({ userid: 'Bob M. <img src=x onerror=alert(location)>', name: 'Bob M.', email: '' });
+      expect(user).to.deep.equal({userid: 'Bob M. <img src=x onerror=alert(location)>', name: 'Bob M.', email: ''});
     });
-
   });
-
 });

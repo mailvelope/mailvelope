@@ -13,8 +13,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 
-'use strict';
-
 /* global angular */
 
 l10n.register([
@@ -36,9 +34,9 @@ export class RecipientInput extends React.Component {
   componentDidMount() {
     // load editor module dependencies
     angular.module('recipientInput', ['ngTagsInput'])
-    .config(function(tagsInputConfigProvider) {
+    .config(tagsInputConfigProvider => {
       // activate monitoring of placeholder option
-      tagsInputConfigProvider.setActiveInterpolation('tagsInput', { placeholder: true });
+      tagsInputConfigProvider.setActiveInterpolation('tagsInput', {placeholder: true});
     });
     // attach ctrl to editor module
     angular.module('recipientInput').controller('RecipientInputCtrl', RecipientInputCtrl);
@@ -203,19 +201,14 @@ export class RecipientInputCtrl {
    * @return {Array}          A list of filtered items that match the query
    */
   autocomplete(query) {
-    var cache = _props.keys.map(key => {
-      return {
-        email: key.email,
-        displayId: key.userid + ' - ' + key.keyid.toUpperCase()
-      };
-    });
+    const cache = _props.keys.map(key => ({
+      email: key.email,
+      displayId: `${key.userid} - ${key.keyid.toUpperCase()}`
+    }));
     // filter by display ID and ignore duplicates
-    return cache.filter(i => {
-      return i.displayId.toLowerCase().includes(query.toLowerCase()) &&
-        !this.recipients.some(recipient => recipient.email === i.email);
-    });
+    return cache.filter(i => i.displayId.toLowerCase().includes(query.toLowerCase()) &&
+        !this.recipients.some(recipient => recipient.email === i.email));
   }
-
 }
 
 // workaround to prevent "Error: class constructors must be invoked with |new|" in Firefox

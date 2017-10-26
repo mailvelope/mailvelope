@@ -3,10 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
 import mvelo from '../mvelo';
-
 
 export default class KeyGenContainer {
   /**
@@ -20,8 +17,8 @@ export default class KeyGenContainer {
     this.keyringId = keyringId;
     this.options = options;
     this.id = mvelo.util.getHash();
-    this.name = 'keyGenCont-' + this.id;
-    this.port = mvelo.extension.connect({name: this.name});
+    this.name = `keyGenCont-${this.id}`;
+    this.port = mvelo.runtime.connect({name: this.name});
     this.registerEventListener();
     this.parent = null;
     this.container = null;
@@ -35,24 +32,15 @@ export default class KeyGenContainer {
    * @returns {mvelo.KeyGenContainer}
    */
   create(done) {
-
     this.done = done;
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');
-
-    let url;
-    if (mvelo.crx) {
-      url = mvelo.extension.getURL('components/generate-key/keyGenDialog.html?id=' + this.id);
-    } else if (mvelo.ffa) {
-      url = mvelo.extension.getURL('components/generate-key/keyGenDialog.html?id=' + this.id, mvelo.ffa);
-    }
-
+    const url = mvelo.runtime.getURL(`components/generate-key/keyGenDialog.html?id=${this.id}`);
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);
     this.container.setAttribute('scrolling', 'no');
     this.container.style.width = '100%';
     this.container.style.height = '100%';
-
     while (this.parent.firstChild) {
       this.parent.removeChild(this.parent.firstChild);
     }

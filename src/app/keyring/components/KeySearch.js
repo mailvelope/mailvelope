@@ -4,12 +4,11 @@
  */
 
 import * as l10n from '../../../lib/l10n';
-import event from '../../util/event';
 import React from 'react';
+import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 
-import {pgpModel, openTab} from '../../app';
-
-'use strict';
+import {openTab} from '../../app';
 
 l10n.register([
   'key_import_hkp_search',
@@ -22,41 +21,27 @@ l10n.register([
 
 const KEY_ID_REGEX = /^([0-9a-f]{8}|[0-9a-f]{16}|[0-9a-f]{40})$/i;
 
-class KeySearch extends React.Component {
+export default class KeySearch extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {HKP_SERVER_BASE_URL: ''};
     this.query = null;
     this.handleKeySearch = this.handleKeySearch.bind(this);
-    this.navigateSettings = this.navigateSettings.bind(this);
-    this.hkpUrlLoad();
-    event.on('hkp-url-update', () => this.hkpUrlLoad());
-  }
-
-  hkpUrlLoad() {
-    pgpModel('getPreferences').then(prefs => {
-      this.setState({HKP_SERVER_BASE_URL: prefs.keyserver.hkp_base_url});
-    });
   }
 
   handleKeySearch(event) {
     event.preventDefault();
     let query = this.query.value;
-    query = KEY_ID_REGEX.test(query) ? ('0x' + query) : query; // prepend '0x' to query for key IDs
-    let url = this.state.HKP_SERVER_BASE_URL + '/pks/lookup?op=index&search=' + window.encodeURIComponent(query);
+    query = KEY_ID_REGEX.test(query) ? (`0x${query}`) : query; // prepend '0x' to query for key IDs
+    let url = `${this.props.prefs.keyserver.hkp_base_url}/pks/lookup?op=index&search=${window.encodeURIComponent(query)}`;
     if (url.includes('keys.mailvelope.com')) {
       url = url.replace('op=index', 'op=get');
     }
     openTab(url);
   }
 
-  navigateSettings() {
-    // TODO: replace once routing is available
-    $('#settingsButton').click();
-    $('#keyserverButton').click();
-  }
-
   render() {
+    const hkp_base_url = this.props.prefs && this.props.prefs.keyserver.hkp_base_url;
+    const hkp_domain = hkp_base_url && hkp_base_url.replace(/https?:\/\//, '');
     return (
       <form className="form" onSubmit={this.handleKeySearch}>
         <div className="form-group">
@@ -68,11 +53,15 @@ class KeySearch extends React.Component {
               <button className="btn btn-default" type="submit">{l10n.map.key_import_hkp_search_btn}</button>
             </span>
           </div>
-          <div className="label-subtitle" style={{marginTop: '5px'}}>{l10n.map.key_import_hkp_server} <a target="_blank" rel="noreferrer" href={this.state.HKP_SERVER_BASE_URL}>{this.state.HKP_SERVER_BASE_URL.replace(/https?:\/\//, '')}</a> (<a href="#keyserver" onClick={this.navigateSettings}><em>{l10n.map.change_link}</em></a>)</div>
+          <div className="label-subtitle" style={{marginTop: '5px', marginBottom: '5px'}}>
+            {l10n.map.key_import_hkp_server} <a target="_blank" rel="noreferrer" href={hkp_base_url}>{hkp_domain}</a> (<Link to="/settings/key-server"><em>{l10n.map.change_link}</em></Link>)
+          </div>
         </div>
       </form>
     );
   }
 }
 
-export default KeySearch;
+KeySearch.propTypes = {
+  prefs: PropTypes.object
+};

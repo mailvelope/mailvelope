@@ -3,11 +3,8 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
 import mvelo from '../mvelo';
 import {host} from './main';
-
 
 export default class KeyBackupContainer {
   /**
@@ -21,8 +18,8 @@ export default class KeyBackupContainer {
     this.keyringId = keyringId;
     this.options = options;
     this.id = mvelo.util.getHash();
-    this.name = 'keyBackupCont-' + this.id;
-    this.port = mvelo.extension.connect({name: this.name});
+    this.name = `keyBackupCont-${this.id}`;
+    this.port = mvelo.runtime.connect({name: this.name});
     this.registerEventListener();
     this.parent = null;
     this.container = null;
@@ -37,7 +34,7 @@ export default class KeyBackupContainer {
    * @returns {mvelo.KeyBackupContainer}
    */
   create(done) {
-    var url;
+    const url = mvelo.runtime.getURL(`components/key-backup/keyBackupDialog.html?id=${this.id}`);
 
     this.done = done;
     this.parent = document.querySelector(this.selector);
@@ -46,16 +43,10 @@ export default class KeyBackupContainer {
     this.port.postMessage({
       event: 'set-keybackup-window-props',
       sender: this.name,
-      host: host,
+      host,
       keyringId: this.keyringId,
       initialSetup: (this.options.initialSetup === undefined) ? true : this.options.initialSetup
     });
-
-    if (mvelo.crx) {
-      url = mvelo.extension.getURL('components/key-backup/keyBackupDialog.html?id=' + this.id);
-    } else if (mvelo.ffa) {
-      url = 'about:blank?mvelo=keybackup&id=' + this.id;
-    }
 
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);

@@ -1,10 +1,10 @@
-
-var webpack = require('webpack');
+/* eslint strict: 0 */
+const webpack = require('webpack');
 
 function plugins(env) {
   return [
     function() {
-      this.plugin('done', function(stats) {
+      this.plugin('done', stats => {
         if (stats.compilation.errors && stats.compilation.errors.length && process.argv.indexOf('--watch') == -1) {
           process.exitCode = 1;
         }
@@ -22,7 +22,7 @@ function react() {
   return {
     rules: [{
       test: /\.js$/,
-      exclude: /(node_modules|bower_components)/,
+      exclude: /node_modules/,
       loader: 'babel-loader',
       options: {
         cacheDirectory: true,
@@ -46,13 +46,13 @@ function react() {
 
 function resolve() {
   return {
-    modules: ["bower_components", "node_modules"],
+    modules: ["node_modules"],
   };
 }
 
-function replaceVersion(version) {
-  return {
-    test: /defaults\.json$/,
+function replaceVersion(test, version, json) {
+  const rule = {
+    test,
     use: [
       {
         loader: 'string-replace-loader',
@@ -60,12 +60,13 @@ function replaceVersion(version) {
           search: '@@mvelo_version',
           replace: version
         }
-      },
-      {
-        loader: 'json-loader'
       }
     ]
   };
+  if (json) {
+    rule.use.push({loader: 'json-loader'});
+  }
+  return rule;
 }
 
 exports.plugins = plugins;

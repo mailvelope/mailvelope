@@ -17,8 +17,6 @@ import KeyDetailsExport from './KeyDetailsExport';
 
 import './KeyDetails.css';
 
-'use strict';
-
 l10n.register([
   'key_details_title',
   'keygrid_primary_key',
@@ -28,7 +26,7 @@ l10n.register([
   'dialog_popup_close'
 ]);
 
-class KeyDetails extends React.Component {
+export default class KeyDetails extends React.Component {
   constructor(props) {
     super(props);
     this.handlePrimaryClick = this.handlePrimaryClick.bind(this);
@@ -99,5 +97,3 @@ KeyDetailsFooter.propTypes = {
   onPrimaryClick: PropTypes.func,
   isPrimary: PropTypes.bool.isRequired
 };
-
-export default KeyDetails;

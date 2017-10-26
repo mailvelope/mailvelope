@@ -1,179 +1,157 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2014-2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2015-2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
+import mvelo from '../lib/lib-mvelo';
+import * as prefs from '../modules/prefs';
+import {SubController} from './sub.controller';
+import * as uiLog from '../modules/uiLog';
+import * as openpgp from 'openpgp';
+import * as pwdCache from '../modules/pwdCache';
 
-
-var sub = require('./sub.controller');
-var uiLog = require('../modules/uiLog');
-var openpgp = require('openpgp');
-
-function PwdController(port) {
-  if (port) {
-    throw new Error('Do not instantiate PwdController with a port');
-  }
-  sub.SubController.call(this, null);
-  this.mainType = 'pwdDialog';
-  this.id = this.mvelo.util.getHash();
-  this.pwdPopup = null;
-  this.options = null;
-  this.resolve = null;
-  this.reject = null;
-  this.pwdCache = require('../modules/pwdCache');
-}
-
-PwdController.prototype = Object.create(sub.SubController.prototype);
-
-PwdController.prototype.handlePortMessage = function(msg) {
-  var that = this;
-  //console.log('pwd.controller handlePortMessage msg', msg);
-  switch (msg.event) {
-    case 'pwd-dialog-init':
-      // pass over keyid and userid to dialog
-      this.ports.pwdDialog.postMessage({event: 'set-init-data', data: {
-        userid: this.options.userid,
-        keyid: this.options.key.primaryKey.getKeyId().toHex(),
-        cache: this.prefs.data().security.password_cache,
-        reason: this.options.reason
-      }});
-      break;
-    case 'pwd-dialog-cancel':
-      this.closePopup();
-      var error = new Error(this.mvelo.l10n.get('pwd_dialog_cancel'));
-      error.code = 'PWD_DIALOG_CANCEL';
-      this.reject(error);
-      break;
-    case 'pwd-dialog-ok':
-      this.model.unlockKey(this.options.key, this.options.keyid, msg.password)
-        .then(function(key) {
-          // password correct
-          that.options.key = key;
-          that.options.password = msg.password;
-          if (msg.cache != that.prefs.data().security.password_cache) {
-            // update pwd cache status
-            return that.prefs.update({security: {password_cache: msg.cache}});
-          }
-        })
-        .then(() => {
-          if (msg.cache) {
-            // set unlocked key and password in cache
-            that.pwdCache.set(that.options, msg.password);
-          }
-          that.closePopup();
-          that.resolve(that.options);
-        })
-        .catch(function(err) {
-          if (err.message == 'Wrong password') {
-            that.ports.pwdDialog.postMessage({event: 'wrong-password'});
-          } else {
-            if (that.ports.dDialog) {
-              that.ports.dDialog.postMessage({event: 'error-message', error: err.message});
-            }
-            that.closePopup();
-            that.reject(err);
-          }
-        });
-      break;
-    case 'pwd-user-input':
-      uiLog.push(msg.source, msg.type);
-      break;
-    default:
-      console.log('unknown event', msg);
-  }
-};
-
-PwdController.prototype.closePopup = function() {
-  if (this.pwdPopup) {
-    try {
-      this.pwdPopup.close();
-    } catch (e) {}
+export default class PwdController extends SubController {
+  constructor(port) {
+    if (port) {
+      throw new Error('Do not instantiate PwdController with a port');
+    }
+    super(null);
+    this.mainType = 'pwdDialog';
+    this.id = mvelo.util.getHash();
     this.pwdPopup = null;
+    this.options = null;
+    this.resolve = null;
+    this.reject = null;
   }
-};
 
-/**
- * @param {Object} options
- * @param {openpgp.key.Key} options.key - key to unlock
- * @param {String} options.keyid - keyid of key packet that needs to be unlocked
- * @param {String} options.userid - userid of key that needs to be unlocked
- * @param {String} options.keyringId - keyring assignment of provided key
- * @param {String} [options.reason] - optional explanation for password dialog
- * @param {Boolean} [options.openPopup=true] - password popup required (false if dialog appears integrated)
- * @param {Function} [options.beforePasswordRequest] - called before password entry required
- * @param {String} [options.password] - password to unlock key
- * @param {Boolean} [options.noCache] - bypass cache
- * @return {Promise<Object, Error>} - resolves with unlocked key and password
- */
-PwdController.prototype.unlockKey = function(options) {
-  var that = this;
-  this.options = options;
-  if (typeof options.reason == 'undefined') {
-    this.options.reason = '';
-  }
-  if (typeof this.options.openPopup == 'undefined') {
-    this.options.openPopup = true;
-  }
-  var cacheEntry = this.pwdCache.get(this.options.key.primaryKey.getKeyId().toHex(), this.options.keyid);
-  if (cacheEntry && !options.noCache) {
-    return new Promise(function(resolve) {
-      that.options.password = cacheEntry.password;
-      if (!cacheEntry.key) {
-        that.pwdCache.unlock(that.options)
-          .then(function() {
-            resolve(that.options);
-          });
-      } else {
-        that.options.key = cacheEntry.key;
-        resolve(that.options);
+  handlePortMessage(msg) {
+    //console.log('pwd.controller handlePortMessage msg', msg);
+    switch (msg.event) {
+      case 'pwd-dialog-init':
+        // pass over keyid and userid to dialog
+        this.ports.pwdDialog.postMessage({event: 'set-init-data', data: {
+          userid: this.options.userid,
+          keyid: this.options.key.primaryKey.getKeyId().toHex(),
+          cache: prefs.prefs.security.password_cache,
+          reason: this.options.reason
+        }});
+        break;
+      case 'pwd-dialog-cancel': {
+        this.handleCancel();
+        break;
       }
-    });
-  } else {
-    return new Promise(function(resolve, reject) {
-      if (that.keyIsDecrypted(that.options) && !options.noCache) {
-        // secret-key data is not encrypted, nothing to do
-        return resolve(that.options);
-      }
-      if (that.options.password) {
-        // secret-key data is encrypted, but we have password
-        return that.model.unlockKey(that.options.key, that.options.keyid, that.options.password)
-          .then(function(key) {
-            that.options.key = key;
-            resolve(that.options);
-          });
-      }
-      if (that.options.beforePasswordRequest) {
-        that.options.beforePasswordRequest();
-      }
-      if (that.options.openPopup) {
-        that.mvelo.windows.openPopup('components/enter-password/pwdDialog.html?id=' + that.id, {width: 470, height: 445, modal: false}, function(window) {
-          that.pwdPopup = window;
+      case 'pwd-dialog-ok':
+        Promise.resolve()
+        .then(() => {
+          this.options.password = msg.password;
+          if (msg.cache != prefs.prefs.security.password_cache) {
+            // update pwd cache status
+            return prefs.update({security: {password_cache: msg.cache}});
+          }
+        })
+        .then(() => pwdCache.unlock(this.options))
+        .then(key => {
+          this.options.key = key;
+          this.closePopup();
+          this.resolve(this.options);
+        })
+        .catch(err => {
+          if (err.code == 'WRONG_PASSWORD') {
+            this.ports.pwdDialog.postMessage({event: 'wrong-password'});
+          } else {
+            if (this.ports.dDialog) {
+              this.ports.dDialog.postMessage({event: 'error-message', error: err.message});
+            }
+            this.closePopup();
+            this.reject(err);
+          }
         });
-      }
-      that.resolve = resolve;
-      that.reject = reject;
-    });
+        break;
+      case 'pwd-user-input':
+        uiLog.push(msg.source, msg.type);
+        break;
+      default:
+        console.log('unknown event', msg);
+    }
   }
-};
 
-PwdController.prototype.keyIsDecrypted = function(options) {
-  var keyPacket = options.key.getKeyPacket([openpgp.Keyid.fromId(options.keyid)]);
-  if (keyPacket) {
-    return keyPacket.isDecrypted;
+  handleCancel() {
+    this.closePopup();
+    const error = new Error(mvelo.l10n.getMessage('pwd_dialog_cancel'));
+    error.code = 'PWD_DIALOG_CANCEL';
+    this.reject(error);
   }
-};
 
-exports.PwdController = PwdController;
+  closePopup() {
+    if (this.pwdPopup) {
+      this.pwdPopup.close();
+      this.pwdPopup = null;
+    }
+  }
+
+  /**
+   * @param {Object} options
+   * @param {openpgp.key.Key} options.key - key to unlock
+   * @param {String} options.keyid - keyid of key packet that needs to be unlocked
+   * @param {String} options.userid - userid of key that needs to be unlocked
+   * @param {String} options.keyringId - keyring assignment of provided key
+   * @param {String} [options.reason] - optional explanation for password dialog
+   * @param {Boolean} [options.openPopup=true] - password popup required (false if dialog appears integrated)
+   * @param {Function} [options.beforePasswordRequest] - called before password entry required
+   * @param {String} [options.password] - password to unlock key
+   * @param {Boolean} [options.noCache] - bypass cache
+   * @return {Promise<Object, Error>} - resolves with unlocked key and password
+   */
+  unlockKey(options) {
+    this.options = options;
+    if (typeof options.reason == 'undefined') {
+      this.options.reason = '';
+    }
+    if (typeof this.options.openPopup == 'undefined') {
+      this.options.openPopup = true;
+    }
+    const cacheEntry = pwdCache.get(this.options.key.primaryKey.getKeyId().toHex());
+    if (cacheEntry && !options.noCache) {
+      this.options.password = cacheEntry.password;
+      this.options.key = cacheEntry.key;
+      return Promise.resolve(this.options);
+    } else {
+      return new Promise((resolve, reject) => {
+        if (this.keyIsDecrypted(this.options) && !options.noCache) {
+          // secret-key data is not encrypted, nothing to do
+          return resolve(this.options);
+        }
+        if (this.options.password) {
+          // secret-key data is encrypted, but we have password
+          return pwdCache.unlock(this.options)
+          .then(key => {
+            this.options.key = key;
+            resolve(this.options);
+          });
+        }
+        if (this.options.beforePasswordRequest) {
+          this.options.beforePasswordRequest();
+        }
+        if (this.options.openPopup) {
+          mvelo.windows.openPopup(`components/enter-password/pwdDialog.html?id=${this.id}`, {width: 470, height: 445, modal: false})
+          .then(popup => {
+            this.pwdPopup = popup;
+            popup.addRemoveListener(() => {
+              this.pwdPopup = null;
+              this.handleCancel();
+            });
+          });
+        }
+        this.resolve = resolve;
+        this.reject = reject;
+      });
+    }
+  }
+
+  keyIsDecrypted(options) {
+    const keyPacket = options.key.getKeyPacket([openpgp.Keyid.fromId(options.keyid)]);
+    if (keyPacket) {
+      return keyPacket.isDecrypted;
+    }
+  }
+}

@@ -8,8 +8,6 @@
  * recipients and set sender email addresses in the webmail ui.
  */
 
-'use strict';
-
 import mvelo from '../mvelo';
 import $ from 'jquery';
 
@@ -89,20 +87,20 @@ class Gmail {
    */
   setRecipients({recipients = []}) {
     // find the relevant elements in the Gmail interface
-    var displayArea = $('.aoD.hl'); // email display only area
-    var tagRemove = $('.fX .vR .vM'); // email tags remove button
-    var input = $('.fX .vO'); // the actual recipient email address text input (a textarea)
-    var subject = $('.aoT'); // subject field
-    var editor = $('.aO7 .Am'); // editor
+    const displayArea = $('.aoD.hl'); // email display only area
+    const tagRemove = $('.fX .vR .vM'); // email tags remove button
+    const input = $('.fX .vO'); // the actual recipient email address text input (a textarea)
+    const subject = $('.aoT'); // subject field
+    const editor = $('.aO7 .Am'); // editor
     input.val('');
     dom.setFocus(displayArea)
-    .then(function() {
+    .then(() => {
       tagRemove.click();
       // enter address text into input
-      var text = joinEmail(recipients);
+      const text = joinEmail(recipients);
       input.first().val(text);
     })
-    .then(function() {
+    .then(() => {
       dom.setFocus(subject.is(':visible') ? subject : editor);
     });
   }
@@ -138,12 +136,12 @@ class Yahoo {
     // remove existing recipients
     $('.compose-header li.hLozenge').remove();
     // enter address text into input
-    var text = joinEmail(recipients);
-    var input = $('.compose-header #to .recipient-input input');
+    const text = joinEmail(recipients);
+    const input = $('.compose-header #to .recipient-input input');
     input.val(text);
     // trigger change event by switching focus
     dom.setFocus(input)
-    .then(function() {
+    .then(() => {
       // set focus to subject field, or to compose area in the reply case
       dom.setFocus($('#subject-field').is(':visible') ? $('#subject-field') : $('.compose-message .cm-rtetext'));
     });
@@ -207,7 +205,7 @@ class Outlook {
     .then(({personaCard, addedNode}) => {
       // hide persona popup
       $(addedNode).hide();
-      return dom.getText($(personaCard).find('span'))
+      return dom.getText($(personaCard).find('span'));
     })
     .catch(() => []);
   }
@@ -238,7 +236,7 @@ class Outlook {
 const IS_EMAIL = /^[+a-zA-Z0-9_.!#$%&'*\/=?^`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,63}$/;
 const HAS_EMAIL = /[+a-zA-Z0-9_.!#$%&'*\/=?^`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,63}/;
 
-var dom = {};
+const dom = {};
 
 /**
  * Filter the text content of a list of elements for email addresses.
@@ -246,9 +244,9 @@ var dom = {};
  * @return {Array}             The recipient objects in fhe form { email: 'jon@example.com' }
  */
 dom.getText = function(elements) {
-  return parseEmail(elements, (element) => {
+  return parseEmail(elements, element => {
     // consider only direct text nodes of elements
-    var clone = element.clone();
+    const clone = element.clone();
     clone.children().remove();
     return clone.text();
   });
@@ -261,7 +259,7 @@ dom.getText = function(elements) {
  * @return {Array}             The recipient objects in fhe form { email: 'jon@example.com' }
  */
 dom.getAttr = function(elements, attrName) {
-  return parseEmail(elements, (element) => element.attr(attrName));
+  return parseEmail(elements, element => element.attr(attrName));
 };
 
 /**
@@ -269,8 +267,8 @@ dom.getAttr = function(elements, attrName) {
  * @param  {jQuery} element jQuery element to set focus
  */
 dom.setFocus = function(element) {
-  return new Promise(function(resolve) {
-    setTimeout(function() {
+  return new Promise(resolve => {
+    setTimeout(() => {
       element.focus();
       resolve();
     }, 0);
@@ -279,7 +277,7 @@ dom.setFocus = function(element) {
 
 dom.waitTick = () => new Promise(resolve => setTimeout(resolve, 0));
 
-dom.focusClick = (element) => dom.setFocus(element).then(() => element.click());
+dom.focusClick = element => dom.setFocus(element).then(() => element.click());
 
 /**
  * Extract emails from list of elements
@@ -288,7 +286,7 @@ dom.focusClick = (element) => dom.setFocus(element).then(() => element.click());
  * @return {Array}              The recipient objects in fhe form { email: 'jon@example.com' }
  */
 function parseEmail(elements, extract) {
-  var emails = [];
+  const emails = [];
   elements.each(function() {
     const value = extract($(this));
     if (IS_EMAIL.test(value)) {
@@ -304,11 +302,9 @@ function parseEmail(elements, extract) {
  * @return {Array}             The recipient objects in fhe form { email: 'jon@example.com' }
  */
 function toRecipients(addresses) {
-  return addresses.map(function(address) {
-    return {
-      email: address
-    };
-  });
+  return addresses.map(address => ({
+    email: address
+  }));
 }
 
 /**
@@ -317,5 +313,5 @@ function toRecipients(addresses) {
  * @return {String}           comma separated list of email addresses
  */
 function joinEmail(recipients) {
-  return recipients.map(function(r) { return r.email; }).join(', ');
+  return recipients.map(r => r.email).join(', ');
 }

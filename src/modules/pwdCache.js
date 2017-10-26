@@ -1,81 +1,61 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2012-2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
-
-var mvelo = require('lib-mvelo');
-var prefs = require('./prefs');
-var model = require('./pgpModel');
+import * as prefs from './prefs';
+import {unlockKey} from './pgpModel';
 
 // password and key cache
-var cache;
+let cache;
 // caching active
-var active;
+let active;
 // timeout in minutes
-var timeout;
+let timeout;
 // max. number of operations per key
-var RATE_LIMIT = 1000;
+const RATE_LIMIT = 1000;
 
-function init() {
-  active = prefs.data().security.password_cache;
-  timeout = prefs.data().security.password_timeout;
-  cache = {};
+export function init() {
+  active = prefs.prefs.security.password_cache;
+  timeout = prefs.prefs.security.password_timeout;
+  cache = new Map();
   // register for updates
   prefs.addUpdateHandler(update);
 }
 
 function clearTimeouts() {
   // clear timeout functions
-  for (var entry in cache) {
-    if (cache.hasOwnProperty(entry)) {
-      mvelo.util.clearTimeout(entry.timer);
-    }
-  }
+  cache.forEach(entry => clearTimeout(entry.timer));
 }
 
 function update() {
-  if (active != prefs.data().security.password_cache ||
-      timeout != prefs.data().security.password_timeout) {
+  if (active != prefs.prefs.security.password_cache ||
+      timeout != prefs.prefs.security.password_timeout) {
     // init cache
     clearTimeouts();
-    cache = {};
-    active = prefs.data().security.password_cache;
-    timeout = prefs.data().security.password_timeout;
+    cache.clear();
+    active = prefs.prefs.security.password_cache;
+    timeout = prefs.prefs.security.password_timeout;
   }
 }
 
 /**
  * Get password and unlocked key from cache
  * @param  {String} primkeyid primary key id
- * @param  {String} keyid     requested unlocked key
  * @return {Object}           password of key, if available unlocked key for keyid
  */
-function get(primkeyid, keyid) {
-  if (cache[primkeyid]) {
-    cache[primkeyid].operations--;
-    if (cache[primkeyid].operations) {
+export function get(primkeyid) {
+  if (cache.has(primkeyid)) {
+    const entry = cache.get(primkeyid);
+    entry.operations--;
+    if (entry.operations) {
       return {
-        password: cache[primkeyid].password,
-        key: cache[primkeyid][keyid]
+        password: entry.password,
+        key: entry.key
       };
     } else {
       // number of allowed operations exhausted
-      delete cache[primkeyid];
+      cache.delete(primkeyid);
     }
   }
 }
@@ -85,8 +65,8 @@ function get(primkeyid, keyid) {
  * @param  {String}  primkeyid primary key id
  * @return {Boolean}           true if cached
  */
-function isCached(primkeyid) {
-  return Boolean(cache[primkeyid]);
+export function isCached(primkeyid) {
+  return cache.has(primkeyid);
 }
 
 /**
@@ -94,66 +74,46 @@ function isCached(primkeyid) {
  * @param  {String} primkeyid primary key id
  */
 function deleteEntry(primkeyid) {
-  delete cache[primkeyid];
+  cache.delete(primkeyid);
 }
+
+export {deleteEntry as delete};
 
 /**
  * Set key and password in cache, start timeout
- * @param {Object} message
- * @param {String} [message.keyid] - key ID of key that should be cached
- * @param {openpgp.key.Key} message.key - private key, packet of keyid expected unlocked
- * @param {String} message.pwd - password
- * @param {Number} [message.cacheTime] - timeout in minutes
+ * @param {openpgp.key.Key} key - private key, expected unlocked
+ * @param {String}          [password] - password
+ * @param {Number}          [cacheTime] - timeout in minutes
  */
-function set(message, pwd, cacheTime) {
+export function set({key, password, cacheTime}) {
   // primary key id is main key of cache
-  var primKeyIdHex = message.key.primaryKey.getKeyId().toHex();
-  var entry = cache[primKeyIdHex];
-  if (entry) {
-    // set unlocked private key for this keyid
-    if (message.keyid && !entry[message.keyid]) {
-      entry[message.keyid] = message.key;
-    }
-  } else {
-    var newEntry = cache[primKeyIdHex] = {};
-    newEntry.password = pwd;
-    if (message.keyid) {
-      newEntry[message.keyid] = message.key;
-    }
+  const primKeyIdHex = key.primaryKey.getKeyId().toHex();
+  if (!cache.has(primKeyIdHex)) {
+    const newEntry = {key, password};
     // clear after timeout
-    newEntry.timer = mvelo.util.setTimeout(function() {
-      delete cache[primKeyIdHex];
+    newEntry.timer = setTimeout(() => {
+      cache.delete(primKeyIdHex);
     }, (cacheTime || timeout) * 60 * 1000);
     // set max. number of operations
     newEntry.operations = RATE_LIMIT;
+    cache.set(primKeyIdHex, newEntry);
   }
 }
 
 /**
  * Unlocked key if required and update cache
- * @param {Object} options
- * @param {openpgp.key.Key} options.key - key to unlock
- * @param {String} options.keyid - keyid of required key packet
- * @param {String} options.password - password to unlock key
- * @return {Promise<undefined, Error>}
+ * Password caching does not support different passphrases for primary key and subkeys
+ * @param {openpgp.key.Key} key - key to unlock
+ * @param {String}          password - password to unlock key
+ * @return {Promise<openpgp.key.Key, Error>} return the unlocked key
  */
-function unlock(options) {
-  return model.unlockKey(options.key, options.keyid, options.password)
-    .then(function(key) {
-      options.key = key;
+export function unlock({key, password}) {
+  return unlockKey(key, password)
+  .then(key => {
+    if (active) {
       // set unlocked key in cache
-      set(options);
-    })
-    .catch(function() {
-      throw {
-        message: 'Password caching does not support different passphrases for primary key and subkeys'
-      };
-    });
+      set({key});
+    }
+    return key;
+  });
 }
-
-exports.init = init;
-exports.get = get;
-exports.isCached = isCached;
-exports.delete = deleteEntry;
-exports.set = set;
-exports.unlock = unlock;

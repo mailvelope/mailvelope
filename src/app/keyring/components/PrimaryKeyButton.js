@@ -7,18 +7,12 @@ import * as l10n from '../../../lib/l10n';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-'use strict';
-
 l10n.register([
   'key_set_as_primary',
   'invalid_primary_key'
 ]);
 
-class PrimaryKeyButton extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
+export default class PrimaryKeyButton extends React.Component {
   componentDidMount() {
     this.initTooltip();
   }
@@ -35,7 +29,7 @@ class PrimaryKeyButton extends React.Component {
 
   render() {
     if (this.props.isPrimary) {
-      return <button type="button" className="btn btn-warning" disabled="true">{l10n.map.keygrid_primary_label}</button>
+      return <button type="button" className="btn btn-warning" disabled="true">{l10n.map.keygrid_primary_label}</button>;
     } else {
       const buttonText = (
         <div>
@@ -65,6 +59,4 @@ PrimaryKeyButton.propTypes = {
   isPrimary: PropTypes.bool.isRequired,
   onClick: PropTypes.func,
   disabled: PropTypes.bool
-}
-
-export default PrimaryKeyButton;
+};

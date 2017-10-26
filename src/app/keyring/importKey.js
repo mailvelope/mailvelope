@@ -3,16 +3,14 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
 import mvelo from '../../mvelo';
-import * as app from '../app';
-import event from '../util/event';
+import {keyring, getAppDataSlot} from '../app';
 import * as l10n from '../../lib/l10n';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import KeySearch from './components/KeySearch';
-import Alert from '../util/components/Alert';
+import {Alert} from '../util/util';
 
 const PUBLIC_KEY_REGEX = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
 const PRIVATE_KEY_REGEX = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END PGP PRIVATE KEY BLOCK-----/g;
@@ -34,7 +32,7 @@ l10n.register([
   'form_clear'
 ]);
 
-class ImportKey extends React.Component {
+export default class ImportKey extends React.Component {
   constructor(props) {
     super(props);
     this.state = {alert: [], armored: ''};
@@ -42,12 +40,20 @@ class ImportKey extends React.Component {
     this.handleClear = this.handleClear.bind(this);
   }
 
+  componentDidMount() {
+    // key import push scenario
+    if (/\/push$/.test(this.props.location.pathname)) {
+      getAppDataSlot()
+      .then(armored => this.importKey(armored));
+    }
+  }
+
   handleClear() {
     this.setState({alert: [], armored: ''});
   }
 
   handleChangeFile(event) {
-    let alert = [];
+    const alert = [];
     const reader = new FileReader();
     const file = event.target.files[0];
     if (!file) {
@@ -70,16 +76,16 @@ class ImportKey extends React.Component {
   }
 
   handleImportKey(armored) {
-    let alert = [];
+    const alert = [];
     return Promise.resolve()
     .then(() => {
       if (armored.length > MAX_KEY_IMPORT_SIZE) {
         throw {message: l10n.map.key_import_too_big, type: 'error'};
       }
       // find all public and private keys in the textbox
-      let publicKeys = armored.match(PUBLIC_KEY_REGEX);
-      let privateKeys = armored.match(PRIVATE_KEY_REGEX);
-      let keys = [];
+      const publicKeys = armored.match(PUBLIC_KEY_REGEX);
+      const privateKeys = armored.match(PRIVATE_KEY_REGEX);
+      const keys = [];
       if (publicKeys) {
         publicKeys.forEach(pub => {
           pub = mvelo.util.normalizeArmored(pub);
@@ -95,12 +101,13 @@ class ImportKey extends React.Component {
       if (!keys.length) {
         throw {message: l10n.map.key_import_invalid_text, type: 'error'};
       }
-      return app.keyring('importKeys', [keys])
+      return keyring('importKeys', {keys})
       .then(result => {
         let success = false;
         result.forEach(imported => {
           let header;
-          let {type, message} = imported;
+          const {message} = imported;
+          let {type} = imported;
           switch (imported.type) {
             case 'success':
               header = l10n.map.alert_header_success;
@@ -117,11 +124,11 @@ class ImportKey extends React.Component {
           alert.push({header, message, type});
         });
         if (success) {
-          event.triggerHandler('keygrid-reload');
+          this.props.onKeyringChange();
         }
         this.setState({alert});
         return result;
-      })
+      });
     })
     .catch(error => {
       alert.push({header: l10n.map.key_import_error, message: error.type === 'error' ? error.message : l10n.map.key_import_exception, type: 'danger'});
@@ -133,12 +140,11 @@ class ImportKey extends React.Component {
   render() {
     return (
       <div>
-        <h3>
+        <h3 className="logo-header">
           <span>{l10n.map.keyring_import_keys}</span>
-          <span className="third-party-logo"></span>
         </h3>
         {
-          !app.isDemail && <KeySearch />
+          !this.props.demail && <KeySearch prefs={this.props.prefs} />
         }
         <form className="form" autoComplete="off">
           <div className="form-group">
@@ -168,4 +174,9 @@ class ImportKey extends React.Component {
   }
 }
 
-export default ImportKey;
+ImportKey.propTypes = {
+  demail: PropTypes.bool,
+  onKeyringChange: PropTypes.func,
+  prefs: PropTypes.object,
+  location: PropTypes.object
+};

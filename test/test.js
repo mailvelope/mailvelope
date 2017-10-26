@@ -10,5 +10,3 @@ import './controller/encrypt.controller-test';
 import './controller/sub.controller-test';
 import './modules/keyring-test';
 import './modules/keyserver-test';
-
-mocha.run();

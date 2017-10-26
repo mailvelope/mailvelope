@@ -1,299 +1,276 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2015-2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
+import mvelo from '../lib/lib-mvelo';
+import * as sub from './sub.controller';
+import {getById as getKeyringById, getUserId} from '../modules/keyring';
+import {isCached} from '../modules/pwdCache';
+import {readMessage, decryptSyncMessage, encryptSyncMessage} from '../modules/pgpModel';
 
-
-var sub = require('./sub.controller');
-var keyringMod = require('../modules/keyring');
-var pwdCache = require('../modules/pwdCache');
-var mvelo = require('lib-mvelo');
-
-function SyncController(port) {
-  sub.SubController.call(this, port);
-  this.keyringId = null;
-  this.keyring = null;
-  this.syncDoneHandler = {};
-  this.pwdControl = null;
-  this.syncRunning = false;
-  this.repeatSync = null;
-  this.TIMEOUT = 8; // sync timeout in seconds
-  this.modified = false;
-  this.singleton = true;
-}
-
-SyncController.prototype = Object.create(sub.SubController.prototype);
-
-SyncController.prototype.init = function(keyringId) {
-  this.keyringId = keyringId;
-  this.keyring = keyringMod.getById(this.keyringId);
-};
-
-/**
- * @param {Object} options - either undefined, force set or key and password provided
- * @param {Boolean} [options.force] - if newer version on server available force sync
- * @param {openpgp.key.Key} [options.key] - key to decrypt and sign sync message
- * @param {String} [options.password] - password for options.key
- */
-SyncController.prototype.triggerSync = function(options) {
-  var that = this;
-  options = options || {};
-  if (this.syncRunning) {
-    this.repeatSync = options;
-    return;
+export class SyncController extends sub.SubController {
+  constructor(port) {
+    super(port);
+    this.keyringId = null;
+    this.keyring = null;
+    this.syncDoneHandler = {};
+    this.pwdControl = null;
+    this.syncRunning = false;
+    this.repeatSync = null;
+    this.TIMEOUT = 8; // sync timeout in seconds
+    this.modified = false;
+    this.singleton = true;
   }
-  this.modified = this.keyring.sync.data.modified;
-  var primKey = this.keyring.getPrimaryKey();
-  if (!options.key) {
-    // if no key provided we take the primary key
-    if (primKey) {
-      options.key = primKey.key;
-    } else {
-      return; // no private key for sync
-    }
-  } else {
-    // check if provided key is primary key, otherwise no sync
-    if (!options.key.primaryKey.getKeyId().equals(primKey.key.primaryKey.getKeyId())) {
+
+  init(keyringId) {
+    this.keyringId = keyringId;
+    this.keyring = getKeyringById(this.keyringId);
+  }
+
+  /**
+   * @param {Object} options - either undefined, force set or key and password provided
+   * @param {Boolean} [options.force] - if newer version on server available force sync
+   * @param {openpgp.key.Key} [options.key] - key to decrypt and sign sync message
+   * @param {String} [options.password] - password for options.key
+   */
+  triggerSync(options) {
+    options = options || {};
+    if (this.syncRunning) {
+      this.repeatSync = options;
       return;
     }
-  }
-  if (!(options.force || this.canUnlockKey('decrypt', options))) {
-    return;
-  }
-  this.syncRunning = true;
-  // reset modified to detect further modification
-  this.keyring.sync.data.modified = false;
-  this.downloadSyncMessage(options)
-    .then(function() {
-      if (!that.modified) {
+    this.modified = this.keyring.sync.data.modified;
+    const primKey = this.keyring.getPrimaryKey();
+    if (!options.key) {
+      // if no key provided we take the primary key
+      if (primKey) {
+        options.key = primKey.key;
+      } else {
+        return; // no private key for sync
+      }
+    } else {
+      // check if provided key is primary key, otherwise no sync
+      if (!options.key.primaryKey.getKeyId().equals(primKey.key.primaryKey.getKeyId())) {
         return;
       }
-      if (that.canUnlockKey('sign', options)) {
-        return that.uploadSyncMessage(options);
+    }
+    if (!(options.force || this.canUnlockKey('decrypt', options))) {
+      return;
+    }
+    this.syncRunning = true;
+    // reset modified to detect further modification
+    this.keyring.sync.data.modified = false;
+    this.downloadSyncMessage(options)
+    .then(() => {
+      if (!this.modified) {
+        return;
+      }
+      if (this.canUnlockKey('sign', options)) {
+        return this.uploadSyncMessage(options);
       }
       // upload didn't happen, reset modified flag
-      that.keyring.sync.data.modified = true;
+      this.keyring.sync.data.modified = true;
     })
-    .then(() => that.keyring.sync.save())
-    .then(function() {
-      that.checkRepeat();
-    })
-    .catch(function(err) {
-      console.log('Sync error', err);
-      if (that.modified || that.keyring.sync.data.modified) {
-        that.keyring.sync.data.modified = true;
-      }
-      that.checkRepeat();
-    });
-};
-
-SyncController.prototype.checkRepeat = function() {
-  this.syncRunning = false;
-  if (this.repeatSync) {
-    var repeat = this.repeatSync;
-    this.repeatSync = null;
-    this.triggerSync(repeat);
-  }
-};
-
-/**
- * @param {Object} options
- * @param  {Boolean} [options.force] - if newer version on server available force download
- * @param  {openpgp.key.Key} options.key - key to decrypt sync message
- * @param {String} [options.password] - password for options.key
- * @return {Promise<undefined, Error}
- */
-SyncController.prototype.downloadSyncMessage = function(options) {
-  return this.download({eTag: this.keyring.sync.data.eTag})
-  .then(download => {
-    if (!download.eTag) {
-      if (this.keyring.sync.data.eTag) {
-        // initialize eTag
-        this.keyring.sync.data.eTag = '';
-        // set modified flag to trigger upload
-        this.modified = true;
-      }
-      return;
-    }
-    if (!download.keyringMsg) {
-      return;
-    }
-    // new version available on server
-    return this.model.readMessage(download.keyringMsg, this.keyringId)
-    .then(message => {
-      message.keyringId = this.keyringId;
-      message.reason = 'PWD_DIALOG_REASON_EDITOR';
-      if (!message.key.primaryKey.getKeyId().equals(options.key.primaryKey.getKeyId())) {
-        console.log('Key used for sync packet from server is not primary key on client');
-        if (!options.force && !this.canUnlockKey('decrypt', {key: message.key})) {
-          throw new Error('Key used for sync packet is locked');
-        }
-      } else {
-        message.key = options.key;
-        message.password = options.password;
-      }
-      // unlock key if still locked
-      this.pwdControl = sub.factory.get('pwdDialog');
-      return this.pwdControl.unlockKey(message);
-    })
-    .then(message => {
-      return this.model.decryptSyncMessage(message.key, message.message);
-    })
-    .then(syncPacket => {
-      // merge keys
-      this.keyring.sync.mute(true);
-      return this.keyring.importKeys(syncPacket.keys)
-      .then(() => syncPacket);
-    })
-    .then(syncPacket => {
-      this.keyring.sync.merge(syncPacket.changeLog);
-      // remove keys with change log delete entry
-      let removeKeyAsync = this.keyring.sync.getDeleteEntries().map(fingerprint => this.keyring.removeKey(fingerprint, 'public'));
-      return Promise.all(removeKeyAsync);
-    })
+    .then(() => this.keyring.sync.save())
     .then(() => {
-      this.keyring.sync.mute(false);
-      // set eTag
-      this.keyring.sync.data.eTag = download.eTag;
-    });
-  });
-};
-
-SyncController.prototype.uploadSyncMessage = function(options) {
-  var that = this;
-  // if key is in cache, specific unlock of sign key packet might be required
-  var keyOptions = {
-    key: options.key,
-    password: options.password,
-    keyid: options.key.getSigningKeyPacket().getKeyId().toHex(),
-    userid: keyringMod.getUserId(options.key),
-    reason: 'PWD_DIALOG_REASON_EDITOR',
-    keyringId: this.keyringId
-  };
-  this.pwdControl = this.pwdControl || sub.factory.get('pwdDialog');
-  return this.pwdControl.unlockKey(keyOptions)
-    .then(function(message) {
-      // encrypt keyring sync message
-      return that.model.encryptSyncMessage(message.key, that.keyring.sync.data.changeLog, that.keyringId);
+      this.checkRepeat();
     })
-    // upload
-    .then(function(armored) {
-      return that.upload({eTag: that.keyring.sync.data.eTag, keyringMsg: armored});
-    })
-    .then(function(result) {
-      that.keyring.sync.data.eTag = result.eTag;
-    });
-};
-
-/**
- * Check if key can be unlocked without requesting the password from the user
- * @param  {String} operation - 'decrypt' or 'sign', the operation for which the key is required
- * @param  {Object} options - mandatory
- * @param {openpgp.key.Key} options.key
- * @param {String} [options.password]
- * @return {Boolean} - true if key can be unlocked
- */
-SyncController.prototype.canUnlockKey = function(operation, options) {
-  if (options.password) {
-    // key can always be unlocked with password
-    return true;
-  }
-  var isCached = pwdCache.isCached(options.key.primaryKey.getKeyId().toHex());
-  if (isCached) {
-    return true;
-  }
-  var keyPacket;
-  if (operation === 'sign') {
-    keyPacket = options.key.getSigningKeyPacket();
-    return keyPacket && keyPacket.isDecrypted;
-  } else if (operation === 'decrypt') {
-    keyPacket = options.key.getEncryptionKeyPacket();
-    return keyPacket && keyPacket.isDecrypted;
-  }
-};
-
-SyncController.prototype.sync = function(type, data) {
-  var that = this;
-  return new Promise(function(resolve, reject) {
-    var id = that.mvelo.util.getHash();
-    that.ports.syncHandler.postMessage({
-      event: 'sync-event',
-      type: type,
-      data: data,
-      id: id
-    });
-    that.syncDoneHandler[id] = function(err, data) {
-      if (timeout) {
-        that.mvelo.util.clearTimeout(timeout);
+    .catch(err => {
+      console.log('Sync error', err);
+      if (this.modified || this.keyring.sync.data.modified) {
+        this.keyring.sync.data.modified = true;
       }
-      if (err) {
-        reject(err);
-      } else {
-        resolve(data);
+      this.checkRepeat();
+    });
+  }
+
+  checkRepeat() {
+    this.syncRunning = false;
+    if (this.repeatSync) {
+      const repeat = this.repeatSync;
+      this.repeatSync = null;
+      this.triggerSync(repeat);
+    }
+  }
+
+  /**
+   * @param {Object} options
+   * @param  {Boolean} [options.force] - if newer version on server available force download
+   * @param  {openpgp.key.Key} options.key - key to decrypt sync message
+   * @param {String} [options.password] - password for options.key
+   * @return {Promise<undefined, Error}
+   */
+  downloadSyncMessage(options) {
+    return this.download({eTag: this.keyring.sync.data.eTag})
+    .then(download => {
+      if (!download.eTag) {
+        if (this.keyring.sync.data.eTag) {
+          // initialize eTag
+          this.keyring.sync.data.eTag = '';
+          // set modified flag to trigger upload
+          this.modified = true;
+        }
+        return;
       }
+      if (!download.keyringMsg) {
+        return;
+      }
+      // new version available on server
+      return readMessage({armoredText: download.keyringMsg, keyringId: this.keyringId})
+      .then(message => {
+        message.keyringId = this.keyringId;
+        message.reason = 'PWD_DIALOG_REASON_EDITOR';
+        if (!message.key.primaryKey.getKeyId().equals(options.key.primaryKey.getKeyId())) {
+          console.log('Key used for sync packet from server is not primary key on client');
+          if (!options.force && !this.canUnlockKey('decrypt', {key: message.key})) {
+            throw new Error('Key used for sync packet is locked');
+          }
+        } else {
+          message.key = options.key;
+          message.password = options.password;
+        }
+        // unlock key if still locked
+        this.pwdControl = sub.factory.get('pwdDialog');
+        return this.pwdControl.unlockKey(message);
+      })
+      .then(message => decryptSyncMessage(message.key, message.message))
+      .then(syncPacket => {
+        // merge keys
+        this.keyring.sync.mute(true);
+        return this.keyring.importKeys(syncPacket.keys)
+        .then(() => syncPacket);
+      })
+      .then(syncPacket => {
+        this.keyring.sync.merge(syncPacket.changeLog);
+        // remove keys with change log delete entry
+        const removeKeyAsync = this.keyring.sync.getDeleteEntries().map(fingerprint => this.keyring.removeKey(fingerprint, 'public'));
+        return Promise.all(removeKeyAsync);
+      })
+      .then(() => {
+        this.keyring.sync.mute(false);
+        // set eTag
+        this.keyring.sync.data.eTag = download.eTag;
+      });
+    });
+  }
+
+  uploadSyncMessage(options) {
+    // if key is in cache, specific unlock of sign key packet might be required
+    const keyOptions = {
+      key: options.key,
+      password: options.password,
+      keyid: options.key.getSigningKeyPacket().getKeyId().toHex(),
+      userid: getUserId(options.key),
+      reason: 'PWD_DIALOG_REASON_EDITOR',
+      keyringId: this.keyringId
     };
-    var timeout = that.mvelo.util.setTimeout(function() {
-      delete that.syncDoneHandler[id];
-      reject(new Error('Sync timeout'));
-    }, that.TIMEOUT * 1000);
-  });
-};
-
-SyncController.prototype.syncDone = function(data) {
-  if (this.syncDoneHandler[data.id]) {
-    this.syncDoneHandler[data.id](data.error, data.syncData);
-    delete this.syncDoneHandler[data.id];
+    this.pwdControl = this.pwdControl || sub.factory.get('pwdDialog');
+    return this.pwdControl.unlockKey(keyOptions)
+    .then(message =>
+      // encrypt keyring sync message
+      encryptSyncMessage(message.key, this.keyring.sync.data.changeLog, this.keyringId)
+    )
+    // upload
+    .then(armored => this.upload({eTag: this.keyring.sync.data.eTag, keyringMsg: armored}))
+    .then(result => {
+      this.keyring.sync.data.eTag = result.eTag;
+    });
   }
-};
 
-SyncController.prototype.upload = function(uploadObj) {
-  return this.sync('upload', uploadObj);
-};
-
-SyncController.prototype.download = function(downloadObj) {
-  return this.sync('download', downloadObj);
-};
-
-SyncController.prototype.backup = function(backupObj) {
-  return this.sync('backup', backupObj);
-};
-
-SyncController.prototype.restore = function() {
-  return this.sync('restore');
-};
-
-SyncController.prototype.handlePortMessage = function(msg) {
-  //console.log('sync.controller handlePortMessage msg', msg);
-  switch (msg.event) {
-    case 'init':
-      this.init(msg.keyringId);
-      break;
-    case 'sync-done':
-      this.syncDone(msg.data);
-      break;
-    default:
-      console.log('unknown event', msg);
+  /**
+   * Check if key can be unlocked without requesting the password from the user
+   * @param  {String} operation - 'decrypt' or 'sign', the operation for which the key is required
+   * @param  {Object} options - mandatory
+   * @param {openpgp.key.Key} options.key
+   * @param {String} [options.password]
+   * @return {Boolean} - true if key can be unlocked
+   */
+  canUnlockKey(operation, options) {
+    if (options.password) {
+      // key can always be unlocked with password
+      return true;
+    }
+    const isKeyCached = isCached(options.key.primaryKey.getKeyId().toHex());
+    if (isKeyCached) {
+      return true;
+    }
+    let keyPacket;
+    if (operation === 'sign') {
+      keyPacket = options.key.getSigningKeyPacket();
+      return keyPacket && keyPacket.isDecrypted;
+    } else if (operation === 'decrypt') {
+      keyPacket = options.key.getEncryptionKeyPacket();
+      return keyPacket && keyPacket.isDecrypted;
+    }
   }
-};
 
-function getByKeyring(keyringId) {
-  return sub.getByMainType('syncHandler').filter(function(obj) {
-    return obj.keyringId === keyringId;
-  })[0];
+  sync(type, data) {
+    return new Promise((resolve, reject) => {
+      const id = mvelo.util.getHash();
+      const timeout = setTimeout(() => {
+        delete this.syncDoneHandler[id];
+        reject(new Error('Sync timeout'));
+      }, this.TIMEOUT * 1000);
+      this.ports.syncHandler.postMessage({
+        event: 'sync-event',
+        type,
+        data,
+        id
+      });
+      this.syncDoneHandler[id] = (err, data) => {
+        if (timeout) {
+          clearTimeout(timeout);
+        }
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      };
+    });
+  }
+
+  syncDone(data) {
+    if (this.syncDoneHandler[data.id]) {
+      this.syncDoneHandler[data.id](data.error, data.syncData);
+      delete this.syncDoneHandler[data.id];
+    }
+  }
+
+  upload(uploadObj) {
+    return this.sync('upload', uploadObj);
+  }
+
+  download(downloadObj) {
+    return this.sync('download', downloadObj);
+  }
+
+  backup(backupObj) {
+    return this.sync('backup', backupObj);
+  }
+
+  restore() {
+    return this.sync('restore');
+  }
+
+  handlePortMessage(msg) {
+    //console.log('sync.controller handlePortMessage msg', msg);
+    switch (msg.event) {
+      case 'init':
+        this.init(msg.keyringId);
+        break;
+      case 'sync-done':
+        this.syncDone(msg.data);
+        break;
+      default:
+        console.log('unknown event', msg);
+    }
+  }
+}
+
+export function getByKeyring(keyringId) {
+  return sub.getByMainType('syncHandler').filter(obj => obj.keyringId === keyringId)[0];
 }
 
 /**
@@ -303,15 +280,11 @@ function getByKeyring(keyringId) {
  * @param {Key} [options.key] - unlocked private key used for sync
  * @param {String} [options.password] - password for options.key
  */
-function triggerSync(options) {
-  var syncCtrl = getByKeyring(options.keyringId);
+export function triggerSync(options) {
+  const syncCtrl = getByKeyring(options.keyringId);
   if (syncCtrl) {
-    mvelo.util.setTimeout(function() {
+    setTimeout(() => {
       syncCtrl.triggerSync(options);
     }, 20);
   }
 }
-
-exports.SyncController = SyncController;
-exports.getByKeyring = getByKeyring;
-exports.triggerSync = triggerSync;

@@ -4,61 +4,64 @@
   "description": "__MSG_ext_description__",
   "homepage_url":"https://www.mailvelope.com",
   "manifest_version": 2,
-  "minimum_chrome_version": "49",
+  "minimum_chrome_version": "52",
   "icons": {
     "16": "img/encrypt-16.png",
     "48": "img/mail_locked_48.png",
+    "64": "img/mail_locked_64.png",
+    "96": "img/mail_locked_96.png",
     "128": "img/mail_locked_128.png"
   },
   "browser_action": {
-    "default_icon": "img/cryptography-icon24.png",
+    "default_icon": {
+      "16": "img/cryptography-icon16.png",
+      "24": "img/cryptography-icon24.png",
+      "32": "img/cryptography-icon32.png",
+      "48": "img/cryptography-icon48.png"
+    },
     "default_title": "__MSG_ext_name__",
     "default_popup": "components/browser-action/popup.html"
   },
-  "background": {
-    "page": "background.html"
-  },
   "options_page": "app/app.html",
+  "background": {
+    "scripts": ["background.bundle.js"]
+  },
   "permissions": [
-    "tabs",
-    "webRequest",
     "*://*/*",
     "clipboardWrite",
-    "storage"
+    "storage",
+    "tabs",
+    "webNavigation"
   ],
   "web_accessible_resources": [
-    "common/img/addon.detection.png",
-    "img/addon.detection.png",
-    "img/key-24.png",
-    "img/mail_locked_96.png",
-    "img/mail_signed_96.png",
-    "img/mail_open_96.png",
-    "img/undo-22.png",
-    "img/mail_new.png",
-    "img/key-icon-blue96.png",
-    "img/edit_add-22.png",
-    "img/ok48.png",
-    "img/warning48.png",
-    "img/no48.png",
-    "img/verify-24.png",
-    "img/loading.gif",
-    "content-scripts/framestyles.css",
+    "app/app.html",
+    "client-API/mailvelope-client-api.js",
     "components/decrypt-inline/decryptInline.html",
     "components/verify-inline/verifyInline.html",
     "components/generate-key/keyGenDialog.html",
     "components/key-backup/keyBackupDialog.html",
     "components/restore-backup/restoreBackupDialog.html",
     "components/editor/editor.html",
-    "app/app.html",
-    "dep/bootstrap/css/bootstrap.css",
-    "mvelo.css",
     "components/verify-inline/verifyInlineSig.css",
-    "res/fonts/Courgette-Regular.ttf",
+    "content-scripts/framestyles.css",
+    "dep/bootstrap/css/bootstrap.css",
     "dep/bootstrap/fonts/glyphicons-halflings-regular.eot",
     "dep/bootstrap/fonts/glyphicons-halflings-regular.svg",
     "dep/bootstrap/fonts/glyphicons-halflings-regular.ttf",
     "dep/bootstrap/fonts/glyphicons-halflings-regular.woff",
-    "client-API/mailvelope-client-api.js"
+    "img/edit_add-22.png",
+    "img/key-24.png",
+    "img/key-icon-blue96.png",
+    "img/loading.gif",
+    "img/mail_locked_96.png",
+    "img/mail_signed_96.png",
+    "img/mail_open_96.png",
+    "img/mail_new.png",
+    "img/ok48.png",
+    "img/undo-22.png",
+    "img/verify-24.png",
+    "mvelo.css",
+    "res/fonts/Courgette-Regular.ttf"
   ],
   "default_locale": "en"
 }

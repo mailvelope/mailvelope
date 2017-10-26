@@ -7,8 +7,6 @@ import * as l10n from '../../../lib/l10n';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-'use strict';
-
 l10n.register([
   'keygrid_subkeyid',
   'keygrid_algorithm',
@@ -20,7 +18,7 @@ l10n.register([
   'keygrid_no_subkeys'
 ]);
 
-class KeyDetailsSubkeys extends React.Component {
+export default class KeyDetailsSubkeys extends React.Component {
   constructor(props) {
     super(props);
     const id = props.subkeys[0] && props.subkeys[0].id || '';
@@ -92,6 +90,4 @@ class KeyDetailsSubkeys extends React.Component {
 
 KeyDetailsSubkeys.propTypes = {
   subkeys: PropTypes.array
-}
-
-export default KeyDetailsSubkeys;
+};

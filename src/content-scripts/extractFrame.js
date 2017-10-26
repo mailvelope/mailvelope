@@ -3,8 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
 import mvelo from '../mvelo';
 import $ from 'jquery';
 import {currentProvider} from './main';
@@ -35,9 +33,9 @@ export default class ExtractFrame {
     this._pgpEnd = pgpEnd;
     // find element with complete armored text and width > 0
     this._pgpElement = pgpEnd;
-    var maxNesting = 8;
-    var beginFound = false;
-    for (var i = 0; i < maxNesting; i++) {
+    const maxNesting = 8;
+    let beginFound = false;
+    for (let i = 0; i < maxNesting; i++) {
       if (this._pgpStartRegex.test(this._pgpElement.text()) &&
           this._pgpElement.width() > 0) {
         beginFound = true;
@@ -65,7 +63,7 @@ export default class ExtractFrame {
 
   _renderFrame() {
     this._eFrame = $('<div/>', {
-      id: 'eFrame-' + this.id,
+      id: `eFrame-${this.id}`,
       'class': 'm-extract-frame m-cursor',
       html: '<a class="m-frame-close">×</a>'
     });
@@ -93,7 +91,7 @@ export default class ExtractFrame {
   }
 
   _closeFrame(finalClose) {
-    this._eFrame.fadeOut(function() {
+    this._eFrame.fadeOut(() => {
       window.clearInterval(this._refreshPosIntervalID);
       $(window).off('resize');
       this._eFrame.remove();
@@ -104,7 +102,7 @@ export default class ExtractFrame {
         this._pgpEnd.data(mvelo.FRAME_STATUS, mvelo.FRAME_DETACHED);
       }
       this._pgpEnd.data(mvelo.FRAME_OBJ, null);
-    }.bind(this));
+    });
     return false;
   }
 
@@ -114,7 +112,7 @@ export default class ExtractFrame {
   }
 
   _setFrameDim() {
-    var pgpElementPos = this._pgpElement.position();
+    const pgpElementPos = this._pgpElement.position();
     this._eFrame.width(this._pgpElement.width() - 2);
     this._eFrame.height(this._pgpEnd.position().top + this._pgpEnd.height() - pgpElementPos.top - 2);
     this._eFrame.css('top', pgpElementPos.top + this._pgpElementAttr.marginTop + this._pgpElementAttr.paddingTop);
@@ -122,18 +120,18 @@ export default class ExtractFrame {
   }
 
   _establishConnection() {
-    this._port = mvelo.extension.connect({name: this._ctrlName});
+    this._port = mvelo.runtime.connect({name: this._ctrlName});
     //console.log('Port connected: %o', this._port);
   }
 
   _getArmoredMessage() {
-    var msg;
+    let msg;
     // selection method does not work in Firefox if pre element without linebreaks with <br>
     if (this._pgpElement.is('pre') && !this._pgpElement.find('br').length) {
       msg = this._pgpElement.text();
     } else {
-      var element = this._pgpElement.get(0);
-      var sel = element.ownerDocument.defaultView.getSelection();
+      const element = this._pgpElement.get(0);
+      const sel = element.ownerDocument.defaultView.getSelection();
       sel.selectAllChildren(element);
       msg = sel.toString();
       sel.removeAllRanges();
@@ -142,7 +140,7 @@ export default class ExtractFrame {
   }
 
   _getPGPMessage() {
-    var msg = this._getArmoredMessage();
+    let msg = this._getArmoredMessage();
     // additional filtering to get well defined PGP message format
     msg = mvelo.util.normalizeArmored(msg, this._typeRegex);
     return msg;
@@ -153,16 +151,15 @@ export default class ExtractFrame {
   }
 
   _registerEventListener() {
-    var that = this;
-    this._port.onMessage.addListener(function(msg) {
+    this._port.onMessage.addListener(msg => {
       switch (msg.event) {
         case 'destroy':
-          that._closeFrame(true);
+          this._closeFrame(true);
           break;
       }
     });
-    this._port.onDisconnect.addListener(function() {
-      that._closeFrame(false);
+    this._port.onDisconnect.addListener(() => {
+      this._closeFrame(false);
     });
   }
 }

@@ -3,13 +3,10 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
 import mvelo from '../mvelo';
 import $ from 'jquery';
 import ExtractFrame from './extractFrame';
 import {prefs} from './main';
-
 
 export default class VerifyFrame extends ExtractFrame {
   constructor() {
@@ -17,7 +14,7 @@ export default class VerifyFrame extends ExtractFrame {
     this._vDialog = null;
     // verify popup active
     this._vPopup = false;
-    this._ctrlName = 'vFrame-' + this.id;
+    this._ctrlName = `vFrame-${this.id}`;
     this._typeRegex = /-----BEGIN PGP SIGNED MESSAGE-----[\s\S]+?-----END PGP SIGNATURE-----/;
     this._pgpStartRegex = /BEGIN\sPGP\sSIGNED/;
     this._sigHeight = 128;
@@ -35,11 +32,11 @@ export default class VerifyFrame extends ExtractFrame {
   }
 
   _calcSignatureHeight() {
-    var msg = this._getArmoredMessage();
+    let msg = this._getArmoredMessage();
     msg = msg.split('\n');
-    for (var i = 0; i < msg.length; i++) {
+    for (let i = 0; i < msg.length; i++) {
       if (/-----BEGIN\sPGP\sSIGNATURE-----/.test(msg[i])) {
-        var height = this._pgpEnd.position().top + this._pgpEnd.height() - this._pgpElement.position().top - 2;
+        const height = this._pgpEnd.position().top + this._pgpEnd.height() - this._pgpElement.position().top - 2;
         this._sigHeight = parseInt(height / msg.length * (msg.length - i), 10);
         break;
       }
@@ -58,17 +55,12 @@ export default class VerifyFrame extends ExtractFrame {
 
   _inlineDialog() {
     this._vDialog = $('<iframe/>', {
-      id: 'vDialog-' + this.id,
+      id: `vDialog-${this.id}`,
       'class': 'm-frame-dialog',
       frameBorder: 0,
       scrolling: 'no'
     });
-    var url;
-    if (mvelo.crx) {
-      url = mvelo.extension.getURL('components/verify-inline/verifyInline.html?id=' + this.id);
-    } else if (mvelo.ffa) {
-      url = 'about:blank?mvelo=verifyInline&id=' + this.id;
-    }
+    const url = mvelo.runtime.getURL(`components/verify-inline/verifyInline.html?id=${this.id}`);
     this._vDialog.attr('src', url);
     this._eFrame.append(this._vDialog);
     this._setFrameDim();
@@ -102,11 +94,11 @@ export default class VerifyFrame extends ExtractFrame {
   }
 
   _setFrameDim() {
-    var pgpElementPos = this._pgpElement.position();
+    const pgpElementPos = this._pgpElement.position();
     this._eFrame.width(this._pgpElement.width() - 2);
-    var height = this._pgpEnd.position().top + this._pgpEnd.height() - pgpElementPos.top - 2;
-    var top = pgpElementPos.top + this._pgpElementAttr.marginTop + this._pgpElementAttr.paddingTop;
-    var left = pgpElementPos.left + this._pgpElementAttr.marginLeft + this._pgpElementAttr.paddingLeft;
+    const height = this._pgpEnd.position().top + this._pgpEnd.height() - pgpElementPos.top - 2;
+    const top = pgpElementPos.top + this._pgpElementAttr.marginTop + this._pgpElementAttr.paddingTop;
+    const left = pgpElementPos.left + this._pgpElementAttr.marginLeft + this._pgpElementAttr.paddingLeft;
     this._eFrame.css('left', left);
     if (this._vDialog) {
       this._eFrame.height(height);

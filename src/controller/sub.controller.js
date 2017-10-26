@@ -1,108 +1,70 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2014-2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2015-2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
+import mvelo from '../lib/lib-mvelo';
 
+export class SubController extends mvelo.EventHandler {
+  constructor(port) {
+    super();
+    this.ports = {};
+    if (port) {
+      const sender = parseViewName(port.name);
+      this.mainType = sender.type;
+      this.id = sender.id;
+      this.ports[this.mainType] = port;
+    }
+  }
 
-var mvelo = require('lib-mvelo');
+  addPort(port) {
+    const type = parseViewName(port.name).type;
+    this.ports[type] = port;
+  }
 
-function SubController(port) {
-  this.mvelo = mvelo;
-  this.prefs = require('../modules/prefs');
-  this.model = require('../modules/pgpModel');
-  this.ports = {};
-  if (port) {
-    var sender = this.parseViewName(port.name);
-    this.mainType = sender.type;
-    this.id = sender.id;
-    this.ports[this.mainType] = port;
+  removePort(port) {
+    if (Object.keys(this.ports).length === 0) {
+      // controllers instantiated without port should not be deleted
+      return false;
+    }
+    if (port.name) {
+      const view = parseViewName(port.name);
+      if (view.id !== this.id) {
+        throw new Error('View ID mismatch.');
+      }
+      delete this.ports[view.type];
+    } else {
+      Object.keys(this.ports).forEach(type => {
+        if (this.ports[type].ref === port) {
+          delete this.ports[type];
+        }
+      });
+    }
+    return Object.keys(this.ports).length === 0;
+  }
+
+  openSecuritySettings() {
+    const hash = '#/settings/security';
+    mvelo.tabs.loadOptionsTab(hash);
+  }
+
+  openApp({fragment}) {
+    const hash = `#${fragment}`;
+    mvelo.tabs.loadOptionsTab(hash);
   }
 }
 
-SubController.prototype = Object.create(mvelo.EventHandler.prototype); // add new event api functions
-
-SubController.prototype.addPort = function(port) {
-  var type = this.parseViewName(port.name).type;
-  this.ports[type] = port;
-};
-
-SubController.prototype.removePort = function(port) {
-  if (Object.keys(this.ports).length === 0) {
-    // controllers instantiated without port should not be deleted
-    return false;
-  }
-  if (port.name) {
-    var view = this.parseViewName(port.name);
-    if (view.id !== this.id) {
-      throw new Error('View ID mismatch.');
-    }
-    delete this.ports[view.type];
-  } else {
-    var that = this;
-    Object.keys(this.ports).forEach(function(type) {
-      if (that.ports[type].ref === port) {
-        delete that.ports[type];
-      }
-    });
-  }
-  return Object.keys(this.ports).length === 0;
-};
-
-SubController.prototype.parseViewName = parseViewName;
-
-SubController.prototype.openSecuritySettings = function() {
-  var hash = '#security';
-  var that = this;
-
-  this.mvelo.tabs.loadOptionsTab(hash, function(old, tab) {
-    if (old) {
-      that.mvelo.tabs.sendMessage(tab, {
-        event: 'reload-options',
-        hash: hash
-      });
-    }
-  });
-};
-
-SubController.prototype.openApp = function({fragment}) {
-  let hash = `#${fragment}`;
-
-  this.mvelo.tabs.loadOptionsTab(hash, (old, tab) => {
-    if (old) {
-      this.mvelo.tabs.sendMessage(tab, {
-        event: 'reload-options',
-        hash: hash
-      });
-    }
-  });
-};
-
-
-var factory = {};
+export const factory = {};
 
 factory.repo = new Map();
 
 factory.get = function(type, port) {
   if (factory.repo.has(type)) {
-    let contrConstructor = factory.repo.get(type);
-    let subContr = new contrConstructor(port);
+    const contrConstructor = factory.repo.get(type);
+    const subContr = new contrConstructor(port);
     if (subContr.singleton) {
       // there should be only one instance for this type, new instance overwrites old
-      let existingController = getByMainType(type)[0];
+      const existingController = getByMainType(type)[0];
       if (existingController) {
         controllers.delete(existingController.id);
       }
@@ -115,7 +77,7 @@ factory.get = function(type, port) {
     }
     return subContr;
   } else {
-    throw new Error('No controller found for view type: ' + type);
+    throw new Error(`No controller found for view type: ${type}`);
   }
 };
 
@@ -127,49 +89,54 @@ factory.register = function(type, contrConstructor) {
   }
 };
 
-let controllers = new Map();
+const controllers = new Map();
 
-function addPort(port) {
-  var sender = parseViewName(port.name);
-  var subContr = controllers.get(sender.id);
+function parseViewName(viewName) {
+  const pair = viewName.split('-');
+  return {type: pair[0], id: pair[1]};
+}
+
+export function addPort(port) {
+  const sender = parseViewName(port.name);
+  const subContr = controllers.get(sender.id);
   if (subContr) {
     subContr.addPort(port);
   } else {
-    var newContr = factory.get(sender.type, port);
+    const newContr = factory.get(sender.type, port);
     controllers.set(sender.id, newContr);
   }
 }
 
-function removePort(port) {
+export function removePort(port) {
   if (port.name) {
-    let id = parseViewName(port.name).id;
+    const id = parseViewName(port.name).id;
     removeId(id, port);
   } else {
-    for (let id of controllers.keys()) {
+    for (const id of controllers.keys()) {
       removeId(id, port);
     }
   }
 }
 
 function removeId(id, port) {
-  let del = controllers.has(id) && controllers.get(id).removePort(port);
+  const del = controllers.has(id) && controllers.get(id).removePort(port);
   if (del) {
     // last port removed from controller, delete controller
     controllers.delete(id);
   }
 }
 
-function handlePortMessage(msg) {
-  var id = parseViewName(msg.sender).id;
-  getByID(id).handlePortMessage(msg);
+export function handlePortMessage(msg) {
+  const {id, type} = parseViewName(msg.sender);
+  getByID(id).handlePortMessage(msg, type);
 }
 
-function getByID(id) {
+export function getByID(id) {
   return controllers.get(id);
 }
 
-function getByMainType(type) {
-  let result = [];
+export function getByMainType(type) {
+  const result = [];
   controllers.forEach(contr => {
     if (contr.mainType === type) {
       result.push(contr);
@@ -178,32 +145,30 @@ function getByMainType(type) {
   return result;
 }
 
-function isActive(type) {
+export function isActive(type) {
   return getByMainType(type).length !== 0;
 }
 
-function parseViewName(viewName) {
-  var pair = viewName.split('-');
-  return { type: pair[0], id: pair[1] };
-}
+// keep state of active keyring for App UI
+let activeKeyringId = mvelo.LOCAL_KEYRING_ID;
 
-var activeKeyringId = mvelo.LOCAL_KEYRING_ID;
-
-function setActiveKeyringId(keyringId) {
+export function setActiveKeyringId(keyringId) {
   activeKeyringId = keyringId;
 }
 
-function getActiveKeyringId() {
+export function getActiveKeyringId() {
   return activeKeyringId;
 }
 
-exports.SubController = SubController;
-exports.addPort = addPort;
-exports.removePort = removePort;
-exports.handlePortMessage = handlePortMessage;
-exports.factory = factory;
-exports.getByID = getByID;
-exports.getByMainType = getByMainType;
-exports.isActive = isActive;
-exports.setActiveKeyringId = setActiveKeyringId;
-exports.getActiveKeyringId = getActiveKeyringId;
+// transfer data to app UI via slots
+const appDataSlot = new Map();
+
+export function setAppDataSlot(key, value) {
+  appDataSlot.set(key, value);
+}
+
+export function getAppDataSlot(key) {
+  const value = appDataSlot.get(key);
+  appDataSlot.delete(key);
+  return value;
+}

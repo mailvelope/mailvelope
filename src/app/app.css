@@ -16,21 +16,6 @@ input[readonly] {
     cursor: text !important;
 }
 
-.sidebar-nav {
-  padding: 9px 0;
-}
-
-.hero-unit.tab-content {
-  padding: 30px;
-  font-size: inherit;
-  line-height: inherit;
-  font-weight: inherit;
-}
-
-.hero-unit li {
-  line-height: inherit;
-}
-
 .busy {
   cursor: wait !important;
 }
@@ -39,112 +24,21 @@ input[readonly] {
   font-family: 'Courgette', serif;
 }
 
-#displayKeys {
-  min-height: 300px;
+.navbar-fixed-top > .container {
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
-#security .form-horizontal .control-label,
-#general .form-horizontal .control-label {
-  width: 280px;
+.settings-logo {
+    width: 130px;
+    background: 27px 14px no-repeat url(../img/maivelope-logo.svg);
 }
 
-#security .form-horizontal .controls,
-#general .form-horizontal .controls {
-  margin-left: 300px;
+.form-group .btn {
+    margin-right: 5px;
 }
-
-#security .form-group {
-  margin-bottom: 30px;
-}
-
-#pwdCacheTime {
-  font-family: monospace;
-  width: 50px;
-}
-
-#securityTokenPanel {
-    margin-right: -3px;
-    margin-left: -3px;
-    padding-bottom: 10px;
-    padding-left: 3px;
-}
-
-#securityTokenPanel:after {
-  content: ' ';
-  clear: both;
-  display: block;
-  visibility: hidden;
-  height: 0;
-}
-
-#securityTokenPanel input[type="range"] {
-  display: inline;
-  width: 200px;
-  margin: 20px 20px 20px 10px;
-  vertical-align: middle;
-}
-
-#securityBgndSliders {
-  width: 320px;
-  float: left;
-  margin-top: 45px;
-  margin-bottom: 30px;
-}
-
-#securityBgndSliders label {
-  width: 85px;
-  text-align: right;
-}
-
-.previewContainer {
-  margin: 0 20px 0 20px;
-  float: left;
-  padding: 10px 20px 20px;
-  background-color: #FFF;
-}
-
-#previewArea {
-  height: 150px;
-  width: 300px;
-  border: 1px solid gray;
-  background-color: #f5f5f5;
-}
-
-#pwdCacheLabel {
-    padding-left: 0;
-}
-
-@media (max-width: 1200px) {
-  #securityBgndSliders {
-    margin-top: 0;
-    margin-bottom: 10px;
-  }
-  #securityBgndSliders label {
-    text-align: left;
-  }
-  .previewContainer {
-    margin-left: 0;
-  }
-}
-
-@media (max-width:767px) {
-  #pwdCacheLabel {
-    padding-left: 20px;
-  }
-  #pwdCacheRadios1 {
-    margin-top: 9px;
-  }
-  #pwdCacheTime {
-    display: inline-block;
-  }
-}
-
-.list-group .active a {
-    color: white;
-}
-
-.list-group a:hover {
-    text-decoration: none;
+.form-group .btn:last-child {
+    margin-right: 0;
 }
 
 @media (min-width: 1300px) {
@@ -165,18 +59,10 @@ input[readonly] {
     }
 }
 
-#watchList td {
-    vertical-align: middle;
-}
-
 .tableToolbar {
     text-align: left;
     padding-top: 4px;
     padding-bottom: 4px;
-}
-
-#watchListTable tr {
-    cursor: pointer;
 }
 
 .optionsTable {
@@ -184,187 +70,13 @@ input[readonly] {
     border: 1px solid #ccc;
 }
 
-.addedSiteFade {
-    -webkit-animation: pulse1 4s linear 1;
-    -moz-animation: pulse1 4s linear 1;
-    animation: pulse1 4s linear 1;
-}
-
-@-webkit-keyframes pulse1 {
-    0% {
-        background-color: rgba(0,0,0,0);
-    }
-    30% {
-        background-color: rgba(255,0,0,0.5);
-    }
-    100% {
-        background-color: rgba(0,0,0,0);
-    }
-}
-
-@-moz-keyframes pulse1 {
-    0% {
-        background-color: rgba(0,0,0,0);
-    }
-    30% {
-        background-color: rgba(255,0,0,0.5);
-    }
-    100% {
-        background-color: rgba(0,0,0,0);
-    }
-}
-
-@keyframes pulse1 {
-    0% {
-        background-color: rgba(0,0,0,0);
-    }
-    30% {
-        background-color: rgba(255,0,0,0.5);
-    }
-    100% {
-        background-color: rgba(0,0,0,0);
-    }
-}
-
-#settingsPanel {
-    position: absolute;
-    top: 60px;
-    left: 20px;
-    right: 20px;
-    bottom: 20px;
-    /*background-color: white;*/
-}
-
-#keyringList {
-    margin-top: -8px;
-    width: 100%;
-}
-
-#keyringSwitcherLabel {
-    width: 94%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
-}
-
-#keyringSwitcherCaret {
-    margin-top: 8px;
-}
-
-#keyring li.flex-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-content: stretch;
-    align-items: flex-start;
-}
-
-#keyring a.flex-item {
-    order: 0;
-    flex: 1 1 auto;
-    align-self: auto;
-    min-width: 30px;
-    white-space: normal;
-    cursor: pointer;
-}
-
-.keyRingName {
-    word-wrap: break-word;
-}
-
-.deleteKeyRing {
-    max-width: 40px;
-    background-color: white;
-    padding-right: 25px !important;
-    padding-left: 15px !important;
-}
-
-.deleteKeyRing:hover {
-    background-color: white !important;
-    color: #808080 !important;
-}
-
-/* watchlist on/off switch */
-.onoffswitch {
-    position: relative; width: 70px;
-    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
-}
-.onoffswitch-checkbox {
-    display: none;
-}
-.onoffswitch-label {
-    display: block; overflow: hidden; cursor: pointer;
-    border: 1px solid #666666; border-radius: 5px;
-}
-.onoffswitch-inner {
-    display: block; width: 200%; margin-left: -100%;
-    -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
-    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
-}
-.onoffswitch-inner:before, .onoffswitch-inner:after {
-    display: block; float: left; width: 50%; height: 24px; padding: 0; line-height: 24px;
-    font-size: 16px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
-    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
-}
-.onoffswitch-inner:before {
-    content: "I";
-    padding-left: 10px;
-    background-color: #337ab7; color: #FFFFFF;
-}
-.onoffswitch-inner:after {
-    content: "O";
-    padding-right: 10px;
-    background-color: #F8F8F8; color: #666666;
-    text-align: right;
-}
-.onoffswitch-switch {
-    display: block; width: 35px; margin: 0;
-    background: #FFFFFF;
-    border: 1px solid #666666; border-radius: 5px;
-    position: absolute; top: 0; bottom: 0; right: 35px;
-    -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
-    -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s;
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
-    margin-left: 0;
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-    right: 0;
-}
-
-.settings-logo {
-    width: 130px;
-    background: 27px 14px no-repeat url(../img/maivelope-logo.svg);
-}
-
-/* Key Import */
-
-#importKey .label-subtitle {
-  margin-bottom: 5px;
-}
-
-/* Key Generate */
-
-#generateKey .form-inline > * {
-  margin: 5px 3px;
-}
-
-/* Navbar */
-
-.navbar-fixed-top > .container {
-  padding-left: 30px;
-  padding-right: 30px;
-}
-
-
 /* Third party logo */
 
-.tab-pane > h3 {
+.logo-header {
   vertical-align: middle;
 }
 
-.tab-pane > h3:after {
+.logo-header:after {
   content: ' ';
   clear: both;
   display: block;
@@ -378,9 +90,7 @@ input[readonly] {
   float: right;
   display: block;
   vertical-align: middle;
-  margin-top: -20px;
 }
-
 
 /* Footer */
 

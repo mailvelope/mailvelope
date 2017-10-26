@@ -15,83 +15,83 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* eslint strict: 0 */
 'use strict';
 
-var mvelo = mvelo || null;
+var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
-  var id, name, port, l10n;
+  let id;
+  let name;
+  let port;
 
-  var $keyBackupGenerator;
-  var $keyBackupWaiting;
-  var $secureBgndButton;
-  var $createBackupCodeBtn;
+  let $keyBackupGenerator;
+  let $keyBackupWaiting;
+  let $secureBgndButton;
+  let $createBackupCodeBtn;
+
+  const l10n = mvelo.l10n.getMessages([
+    'keybackup_setup_dialog_headline',
+    'keybackup_setup_dialog_description',
+    'keybackup_setup_dialog_list_1',
+    'keybackup_setup_dialog_list_2',
+    'keybackup_setup_dialog_button',
+    'keybackup_restore_dialog_headline',
+    'keybackup_restore_dialog_description',
+    'keybackup_restore_dialog_list_1',
+    'keybackup_restore_dialog_list_2',
+    'keybackup_restore_dialog_button',
+    'keybackup_failed'
+  ]);
 
   function init() {
     if (document.body.dataset.mvelo) {
       return;
     }
     document.body.dataset.mvelo = true;
-    var qs = jQuery.parseQuerystring();
+    const qs = jQuery.parseQuerystring();
     id = qs.id;
-    name = 'keyBackupDialog-' + id;
+    name = `keyBackupDialog-${id}`;
 
-    port = mvelo.extension.connect({name: name});
+    port = mvelo.runtime.connect({name});
     port.onMessage.addListener(messageListener);
 
-    var $body = $('body').empty().addClass("secureBackground");
+    const $body = $('body').empty().addClass("secureBackground");
 
-    mvelo.appendTpl($body, mvelo.extension.getURL('components/key-backup/keybackup.html')).then(function() {
+    mvelo.appendTpl($body, mvelo.runtime.getURL('components/key-backup/keybackup.html')).then(() => {
       $keyBackupGenerator = $('#key_backup_generator');
       $keyBackupWaiting = $('#key_backup_waiting').hide();
       $secureBgndButton = $('.secureBgndSettingsBtn');
       $createBackupCodeBtn = $('#createBackupCodeBtn');
 
-      // Get language strings from JSON
-      mvelo.l10n.getMessages([
-        'keybackup_setup_dialog_headline',
-        'keybackup_setup_dialog_description',
-        'keybackup_setup_dialog_list_1',
-        'keybackup_setup_dialog_list_2',
-        'keybackup_setup_dialog_button',
-        'keybackup_restore_dialog_headline',
-        'keybackup_restore_dialog_description',
-        'keybackup_restore_dialog_list_1',
-        'keybackup_restore_dialog_list_2',
-        'keybackup_restore_dialog_button',
-        'keybackup_failed'
-      ], function(result) {
-        l10n = result;
-      });
-
       mvelo.l10n.localizeHTML();
       mvelo.util.showSecurityBackground(true);
 
-      $secureBgndButton.on('click', function() {
-        port.postMessage({ event: 'open-security-settings', sender: name });
+      $secureBgndButton.on('click', () => {
+        port.postMessage({event: 'open-security-settings', sender: name});
       });
 
-      $createBackupCodeBtn.on('click', function() {
+      $createBackupCodeBtn.on('click', () => {
         logUserInput('security_log_backup_create');
         showWaitingDialog();
       });
 
-      port.postMessage({ event: 'keybackup-dialog-init', sender: name });
+      port.postMessage({event: 'keybackup-dialog-init', sender: name});
     });
   }
 
   function showWaitingDialog() {
-    $keyBackupGenerator.fadeOut('fast', function() {
-      $keyBackupWaiting.fadeIn('fast', function() {
-        window.setTimeout(function() {
-          port.postMessage({ event: 'create-backup-code-window', sender: name });
+    $keyBackupGenerator.fadeOut('fast', () => {
+      $keyBackupWaiting.fadeIn('fast', () => {
+        window.setTimeout(() => {
+          port.postMessage({event: 'create-backup-code-window', sender: name});
         }, 3000); // 3sec
       });
     });
   }
 
   function showKeyBackupGenerator() {
-    $keyBackupWaiting.fadeOut('fast', function() {
+    $keyBackupWaiting.fadeOut('fast', () => {
       $keyBackupGenerator.fadeIn('fast');
     });
   }
@@ -121,7 +121,7 @@ var mvelo = mvelo || null;
       event: 'key-backup-user-input',
       sender: name,
       source: 'security_log_key_backup',
-      type: type
+      type
     });
   }
 
@@ -136,10 +136,11 @@ var mvelo = mvelo || null;
   function messageListener(msg) {
     //console.log('generator messageListener: ', JSON.stringify(msg));
     switch (msg.event) {
-      case 'set-init-data':
-        var data = msg.data;
+      case 'set-init-data': {
+        const data = msg.data;
         translateTexts(data.initialSetup);
         break;
+      }
       case 'error-message':
         showKeyBackupGenerator();
         if (msg.error.code !== 'PWD_DIALOG_CANCEL') {

@@ -3,8 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
 import mvelo from '../mvelo';
 
 export default class DecryptContainer {
@@ -13,8 +11,8 @@ export default class DecryptContainer {
     this.keyringId = keyringId;
     this.options = options;
     this.id = mvelo.util.getHash();
-    this.name = 'decryptCont-' + this.id;
-    this.port = mvelo.extension.connect({name: this.name});
+    this.name = `decryptCont-${this.id}`;
+    this.port = mvelo.runtime.connect({name: this.name});
     this.registerEventListener();
     this.parent = null;
     this.container = null;
@@ -27,12 +25,7 @@ export default class DecryptContainer {
     this.done = done;
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');
-    var url;
-    if (mvelo.crx) {
-      url = mvelo.extension.getURL('components/decrypt-inline/decryptInline.html?id=' + this.id);
-    } else if (mvelo.ffa) {
-      url = 'about:blank?mvelo=decryptInline&id=' + this.id;
-    }
+    const url = mvelo.runtime.getURL(`components/decrypt-inline/decryptInline.html?id=${this.id}`);
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);
     this.container.setAttribute('scrolling', 'no');

@@ -1,6 +1,24 @@
 Mailvelope Changelog
 ====================
 
+v2.0.0
+-------
+__Okt. 9, 2017__
+
+  * Complete migration of Firefox Add-on to Web Extension. Merge codebase for Chrome and Firefox.
+  * Upgrade to OpenPGP.js v2
+  * Support binary format for file decrypt
+  * Raise file size limit for file encryption to 50 MB
+  * Improve accessibility of main App UI
+  * Add mail.zoho.com to list of email providers
+  * Migrate main App UI to React and React Router
+  * Use frameId based content script injection logic
+  * Further migrate codebase to ES6
+  * Move bower dependencies to npm
+  * Replace PhantomJS with Karma and Chrome headless for unit testing
+  * Load OpenPGP.js as npm dependency instead of using git submodules
+  * Update dependencies
+
 v1.8.1
 -------
 __Aug. 2, 2017__

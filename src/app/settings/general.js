@@ -1,31 +1,60 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2012-2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
-import mvelo from '../../mvelo';
+import React from 'react';
 import $ from 'jquery';
-import {pgpModel} from '../app';
-import event from '../util/event';
+import {port} from '../app';
+import * as l10n from '../../lib/l10n';
 
+l10n.register([
+  'settings_general',
+  'keygrid_primary_key',
+  'general_primary_key_always',
+  'general_primary_key_auto_sign',
+  'form_save',
+  'form_cancel'
+]);
+
+export default class General extends React.Component {
+  componentDidMount() {
+    init();
+  }
+
+  render() {
+    return (
+      <div id="general">
+        <h3>{l10n.map.settings_general}</h3>
+        <form className="form">
+          <div className="form-group">
+            <h4 className="control-label">{l10n.map.keygrid_primary_key}</h4>
+            <div className="checkbox">
+              <label>
+                <input type="checkbox" id="autoAddPrimary" />
+                <span>{l10n.map.general_primary_key_always}</span>
+              </label>
+            </div>
+            <div className="checkbox">
+              <label>
+                <input type="checkbox" id="autoSignMsg" />
+                <span>{l10n.map.general_primary_key_auto_sign}</span>
+              </label>
+            </div>
+          </div>
+          <div className="form-group">
+            <button id="genBtnSave" className="btn btn-primary" disabled>{l10n.map.form_save}</button>
+            <button id="genBtnCancel" className="btn btn-default" disabled>{l10n.map.form_cancel}</button>
+          </div>
+        </form>
+      </div>
+    );
+  }
+}
 
 function init() {
   loadPrefs();
-  $('#autoAddPrimary, #autoSignMsg').on('change', function() {
+  $('#autoAddPrimary, #autoSignMsg').on('change', () => {
     $('#genBtnSave').prop("disabled", false);
     $('#genBtnCancel').prop("disabled", false);
   });
@@ -37,15 +66,14 @@ function onSave() {
   if (!validate()) {
     return false;
   }
-  var update = {
+  const update = {
     general: {
       auto_add_primary: $('#autoAddPrimary:checked').length !== 0,
       auto_sign_msg: $('#autoSignMsg:checked').length !== 0
     }
   };
-  mvelo.extension.sendMessage({ event: 'set-prefs', data: update }, function() {
-    normalize();
-  });
+  port.send('set-prefs', {prefs: update})
+  .then(normalize);
   return false;
 }
 
@@ -66,11 +94,9 @@ function normalize() {
 }
 
 function loadPrefs() {
-  pgpModel('getPreferences')
-    .then(function(prefs) {
-      $('#autoAddPrimary').prop('checked', prefs.general.auto_add_primary);
-      $('#autoSignMsg').prop('checked', prefs.general.auto_sign_msg);
-    });
+  port.send('get-prefs')
+  .then(prefs => {
+    $('#autoAddPrimary').prop('checked', prefs.general.auto_add_primary);
+    $('#autoSignMsg').prop('checked', prefs.general.auto_sign_msg);
+  });
 }
-
-event.on('ready', init);

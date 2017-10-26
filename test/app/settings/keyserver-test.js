@@ -1,139 +1,119 @@
 
 import KeyServer from '../../../src/app/settings/keyserver';
-import * as app from '../../../src/app/app';
 
-
-describe('Key server settings unit tests', function() {
-
-  var keyserver;
+describe('Key server settings unit tests', () => {
+  let keyserver;
 
   beforeEach(() => {
-    sinon.stub(app, 'pgpModel')
-    .resolves({
-      keyserver: {
-        hkp_base_url: 'https://keyserver.ubuntu.com',
-        hkp_server_list: [
-          'https://keyserver.ubuntu.com',
-          'https://keys.mailvelope.com'
-        ],
-        mvelo_tofu_lookup: true
-      }
-    });
-    keyserver = new KeyServer();
-    keyserver.state.hkp_base_url = 'https://keyserver.ubuntu.com';
-  });
-
-  afterEach(() => {
-    app.pgpModel.restore();
-  });
-
-  describe('init', () => {
-    it('should call pgpModel', () => {
-      app.pgpModel.resetHistory();
-      keyserver.init();
-
-      expect(app.pgpModel.calledOnce).to.be.true;
-    });
-
-    it('should set state', () => {
-      sinon.stub(keyserver, 'setState')
-      keyserver.init()
-      .then(() => {
-        expect(keyserver.setState.withArgs({
+    const props = {
+      prefs: {
+        keyserver: {
           hkp_base_url: 'https://keyserver.ubuntu.com',
-          valid_base_url: true,
           hkp_server_list: [
-            {value: 'https://keyserver.ubuntu.com', label: 'https://keyserver.ubuntu.com'},
-            {value: 'https://keys.mailvelope.com', label: 'https://keys.mailvelope.com'}
+            'https://keyserver.ubuntu.com',
+            'https://keys.mailvelope.com'
           ],
-          mvelo_tofu_lookup: true,
-          alert: null,
-          modified: false
-        }).calledOnce).to.be.true
+          mvelo_tofu_lookup: true
+        }
+      }
+    };
+    keyserver = new KeyServer(props);
+  });
+
+  describe('constructor', () => {
+    it('should set state', () => {
+      expect(keyserver.state).to.eql({
+        hkp_base_url: 'https://keyserver.ubuntu.com',
+        valid_base_url: true,
+        hkp_server_list: [
+          {value: 'https://keyserver.ubuntu.com', label: 'https://keyserver.ubuntu.com'},
+          {value: 'https://keys.mailvelope.com', label: 'https://keys.mailvelope.com'}
+        ],
+        mvelo_tofu_lookup: true,
+        alert: null,
+        modified: false
       });
     });
   });
 
   describe('handleCheck', () => {
     it('should set state', () => {
-      sinon.stub(keyserver, 'setState')
+      sinon.stub(keyserver, 'setState');
       keyserver.handleCheck({target: {name: 'test', checked: true}});
-      expect(keyserver.setState.withArgs({test: true, modified: true}).calledOnce).to.be.true
+      expect(keyserver.setState.withArgs({test: true, modified: true}).calledOnce).to.be.true;
     });
   });
 
   describe('handleServerChange', () => {
     it('should set state', () => {
-      sinon.stub(keyserver, 'setState')
+      sinon.stub(keyserver, 'setState');
       keyserver.handleServerChange({value: 'https://keyserver.ubuntu.com'});
       expect(keyserver.setState.withArgs({
         hkp_base_url: 'https://keyserver.ubuntu.com',
         modified: true,
         valid_base_url: true,
         alert: null
-      }).calledOnce).to.be.true
+      }).calledOnce).to.be.true;
     });
   });
 
-  describe('validateUrl', function() {
-    it('should fail for empty string', function() {
+  describe('validateUrl', () => {
+    it('should fail for empty string', () => {
       expect(keyserver.validateUrl('')).to.be.false;
     });
 
-    it('should fail for undefined', function() {
+    it('should fail for undefined', () => {
       expect(keyserver.validateUrl()).to.be.false;
     });
 
-    it('should fail for hkp://', function() {
+    it('should fail for hkp://', () => {
       expect(keyserver.validateUrl('hkp://keyserver.ubuntu.com')).to.be.false;
     });
 
-    it('should fail for url with trailing slash', function() {
+    it('should fail for url with trailing slash', () => {
       expect(keyserver.validateUrl('http://keyserver.ubuntu.com/')).to.be.false;
     });
 
-    it('should fail for url with not just hostname', function() {
+    it('should fail for url with not just hostname', () => {
       expect(keyserver.validateUrl('http://keyserver.ubuntu.com/asdf/')).to.be.false;
     });
 
-    it('should work for http://', function() {
+    it('should work for http://', () => {
       expect(keyserver.validateUrl('http://keyserver.ubuntu.com')).to.be.true;
     });
 
-    it('should work for https://', function() {
+    it('should work for https://', () => {
       expect(keyserver.validateUrl('https://keyserver.ubuntu.com')).to.be.true;
     });
 
-    it('should work for ports', function() {
+    it('should work for ports', () => {
       expect(keyserver.validateUrl('https://keyserver.ubuntu.com:1711')).to.be.true;
     });
   });
 
-  describe('testUrl', function() {
-
+  describe('testUrl', () => {
     const hkpUrl = 'https://keyserver.ubuntu.com';
 
-    beforeEach(function() {
+    beforeEach(() => {
       sinon.stub(window, 'fetch');
     });
 
-    afterEach(function() {
+    afterEach(() => {
       window.fetch.restore();
     });
 
-    it('should fail for 404', function() {
+    it('should fail for 404', () => {
       window.fetch.returns(Promise.resolve({ok: false}));
 
-      return keyserver.testUrl(hkpUrl).catch(function(err) {
+      return keyserver.testUrl(hkpUrl).catch(err => {
         expect(err.message).match(/not reachable/);
       });
     });
 
-    it('should work for 200', function() {
+    it('should work for 200', () => {
       window.fetch.returns(Promise.resolve({ok: true}));
 
       return keyserver.testUrl(hkpUrl);
     });
   });
-
 });

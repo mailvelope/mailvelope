@@ -211,6 +211,17 @@
           "api": true
         }
       ]
+    },
+    {
+      "active": true,
+      "site": "Zoho",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.mail.zoho.com",
+          "api": false
+        }
+      ]
     }
   ],
   "preferences": {

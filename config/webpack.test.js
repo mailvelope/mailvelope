@@ -1,8 +1,8 @@
-
+/* eslint strict: 0 */
 'use strict';
 
-var common = require('./webpack.common');
-var path = require('path');
+const common = require('./webpack.common');
+const path = require('path');
 
 module.exports = {
 
@@ -17,12 +17,10 @@ module.exports = {
   },
 
   resolve: {
-    modules: ["bower_components", "node_modules"],
+    modules: ["node_modules"],
     alias: {
-      'lib-mvelo': path.resolve('./src/chrome/lib/lib-mvelo'),
-      openpgp: path.resolve('./dep/chrome/openpgpjs/dist/openpgp'),
       'mailreader-parser': path.resolve('./node_modules/mailreader/src/mailreader-parser'),
-      'emailjs-stringencoding': path.resolve('./src/chrome/lib/emailjs-stringencoding')
+      'emailjs-stringencoding': path.resolve('./src/lib/emailjs-stringencoding')
     }
   },
 
@@ -33,10 +31,10 @@ module.exports = {
   module: {
     rules: [{
       test: /\.js$/,
-      exclude: /(node_modules|bower_components)/,
+      exclude: /node_modules/,
       loader: 'babel-loader',
       options: {
-        presets: ['babel-preset-es2015', 'react']
+        presets: ['react']
       }
     },
     {

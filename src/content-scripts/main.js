@@ -3,8 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
 import mvelo from '../mvelo';
 import $ from 'jquery';
 
@@ -18,7 +16,7 @@ import EncryptFrame from './encryptFrame';
 const SCAN_LOOP_INTERVAL = 2500; // ms
 const PGP_FOOTER = /END\sPGP/;
 const MIN_EDIT_HEIGHT = 84;
-const NAME = 'mainCS-' + mvelo.util.getHash();
+const NAME = `mainCS-${mvelo.util.getHash()}`;
 
 let intervalID = 0;
 //let contextTarget = null;
@@ -36,7 +34,7 @@ function connect() {
   if (document.mveloControl) {
     return;
   }
-  port = mvelo.extension.connect({name: NAME});
+  port = mvelo.runtime.connect({name: NAME});
   addMessageListener();
   port.postMessage({event: 'ready', sender: NAME});
   //initContextMenu();
@@ -67,19 +65,17 @@ function init(preferences, watchlist) {
 }
 
 function detectHost() {
-  clientApiActive = watchList.some(function(site) {
-    return site.active && site.frames && site.frames.some(function(frame) {
-      var hostRegex = mvelo.util.matchPattern2RegEx(frame.frame);
-      var validHost = hostRegex.test(window.location.hostname);
-      if (frame.scan && validHost) {
-        // host = match pattern without *. prefix
-        host = frame.frame.replace(/^\*\./, '');
-        if (frame.api) {
-          return true;
-        }
+  clientApiActive = watchList.some(site => site.active && site.frames && site.frames.some(frame => {
+    const hostRegex = mvelo.util.matchPattern2RegEx(frame.frame);
+    const validHost = hostRegex.test(window.location.hostname);
+    if (frame.scan && validHost) {
+      // host = match pattern without *. prefix
+      host = frame.frame.replace(/^\*\./, '');
+      if (frame.api) {
+        return true;
       }
-    });
-  });
+    }
+  }));
 }
 
 function on() {
@@ -91,7 +87,7 @@ function on() {
   if (intervalID === 0) {
     // start scan loop
     scanLoop();
-    intervalID = window.setInterval(function() {
+    intervalID = window.setInterval(() => {
       scanLoop();
     }, SCAN_LOOP_INTERVAL);
   }
@@ -106,12 +102,12 @@ function off() {
 
 function scanLoop() {
   // find armored PGP text
-  var pgpTag = findPGPTag(PGP_FOOTER);
+  const pgpTag = findPGPTag(PGP_FOOTER);
   if (pgpTag.length !== 0) {
     attachExtractFrame(pgpTag);
   }
   // find editable content
-  var editable = findEditable();
+  const editable = findEditable();
   if (editable.length !== 0) {
     attachEncryptFrame(editable);
   }
@@ -122,8 +118,8 @@ function scanLoop() {
  * @return $([nodes])
  */
 function findPGPTag() {
-  var treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-    acceptNode: function(node) {
+  const treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
       if (node.parentNode.tagName !== 'SCRIPT' && PGP_FOOTER.test(node.textContent)) {
         return NodeFilter.FILTER_ACCEPT;
       } else {
@@ -132,7 +128,7 @@ function findPGPTag() {
     }
   }, false);
 
-  var nodeList = [];
+  let nodeList = [];
 
   while (treeWalker.nextNode()) {
     nodeList.push(treeWalker.currentNode);
@@ -140,7 +136,7 @@ function findPGPTag() {
 
   // filter out hidden elements
   nodeList = $(nodeList).filter(function() {
-    var element = $(this);
+    const element = $(this);
     // visibility check does not work on text nodes
     return element.parent().is(':visible') &&
       // no elements within editable elements
@@ -153,11 +149,11 @@ function findPGPTag() {
 
 function findEditable() {
   // find textareas and elements with contenteditable attribute, filter out <body>
-  var editable = $('[contenteditable], textarea').filter(':visible').not('body');
-  var iframes = $('iframe').filter(':visible');
+  let editable = $('[contenteditable], textarea').filter(':visible').not('body');
+  const iframes = $('iframe').filter(':visible');
   // find dynamically created iframes where src is not set
-  var dynFrames = iframes.filter(function() {
-    var src = $(this).attr('src');
+  const dynFrames = iframes.filter(function() {
+    const src = $(this).attr('src');
     return src === undefined ||
            src === '' ||
            /^javascript.*/.test(src) ||
@@ -165,31 +161,31 @@ function findEditable() {
   });
   // find editable elements inside dynamic iframe (content script is not injected here)
   dynFrames.each(function() {
-    var content = $(this).contents();
+    const content = $(this).contents();
     // set event handler for contextmenu
     content.find('body')//.off("contextmenu").on("contextmenu", onContextMenu)
     // mark body as 'inside iframe'
-                        .data(mvelo.DYN_IFRAME, true)
+    .data(mvelo.DYN_IFRAME, true)
     // add iframe element
-                        .data(mvelo.IFRAME_OBJ, $(this));
+    .data(mvelo.IFRAME_OBJ, $(this));
     // document of iframe in design mode or contenteditable set on the body
     if (content.attr('designMode') === 'on' || content.find('body[contenteditable]').length !== 0) {
       // add iframe to editable elements
       editable = editable.add($(this));
     } else {
       // editable elements inside iframe
-      var editblElem = content.find('[contenteditable], textarea').filter(':visible');
+      const editblElem = content.find('[contenteditable], textarea').filter(':visible');
       editable = editable.add(editblElem);
     }
   });
   // find iframes from same origin with a contenteditable body (content script is injected, but encrypt frame needs to be attached to outer iframe)
-  var anchor = $('<a/>');
-  var editableBody = iframes.not(dynFrames).filter(function() {
-    var frame = $(this);
+  const anchor = $('<a/>');
+  const editableBody = iframes.not(dynFrames).filter(function() {
+    const frame = $(this);
     // only for iframes from same host
     if (anchor.attr('href', frame.attr('src')).prop('hostname') === document.location.hostname) {
       try {
-        var content = frame.contents();
+        const content = frame.contents();
         if (content.attr('designMode') === 'on' || content.find('body[contenteditable]').length !== 0) {
           // set event handler for contextmenu
           //content.find('body').off("contextmenu").on("contextmenu", onContextMenu);
@@ -226,27 +222,30 @@ export function getMessageType(armored) {
 
 function attachExtractFrame(element) {
   // check status of PGP tags
-  var newObj = element.filter(function() {
+  const newObj = element.filter(function() {
     return !isAttached($(this).parent());
   });
   // create new decrypt frames for new discovered PGP tags
-  newObj.each(function(index, element) {
+  newObj.each((index, element) => {
     try {
       // parent element of text node
-      var pgpEnd = $(element).parent();
+      const pgpEnd = $(element).parent();
       switch (getMessageType(pgpEnd.text())) {
-        case mvelo.PGP_MESSAGE:
-          var dFrame = new DecryptFrame();
+        case mvelo.PGP_MESSAGE: {
+          const dFrame = new DecryptFrame();
           dFrame.attachTo(pgpEnd);
           break;
-        case mvelo.PGP_SIGNATURE:
-          var vFrame = new VerifyFrame();
+        }
+        case mvelo.PGP_SIGNATURE: {
+          const vFrame = new VerifyFrame();
           vFrame.attachTo(pgpEnd);
           break;
-        case mvelo.PGP_PUBLIC_KEY:
-          var imFrame = new ImportFrame();
+        }
+        case mvelo.PGP_PUBLIC_KEY: {
+          const imFrame = new ImportFrame();
           imFrame.attachTo(pgpEnd);
           break;
+        }
       }
     } catch (e) {}
   });
@@ -259,7 +258,7 @@ function attachExtractFrame(element) {
  */
 function attachEncryptFrame(element, expanded) {
   // check status of elements
-  var newObj = element.filter(function() {
+  const newObj = element.filter(function() {
     if (expanded) {
       // filter out only attached frames
       if (element.data(mvelo.FRAME_STATUS) === mvelo.FRAME_ATTACHED) {
@@ -275,15 +274,15 @@ function attachEncryptFrame(element, expanded) {
     }
   });
   // create new encrypt frames for new discovered editable fields
-  newObj.each(function(index, element) {
-    var eFrame = new EncryptFrame();
-    eFrame.attachTo($(element), {expanded: expanded});
+  newObj.each((index, element) => {
+    const eFrame = new EncryptFrame();
+    eFrame.attachTo($(element), {expanded});
   });
 }
 
 function addMessageListener() {
   port.onMessage.addListener(
-    function(request) {
+    request => {
       //console.log('contentscript: %s onRequest: %o', document.location.toString(), request);
       if (request.event === undefined) {
         return;
@@ -318,13 +317,13 @@ function addMessageListener() {
       }
     }
   );
-  port.onDisconnect.addListener(function() {
+  port.onDisconnect.addListener(() => {
     off();
   });
 }
 
 function isAttached(element) {
-  var status = element.data(mvelo.FRAME_STATUS);
+  const status = element.data(mvelo.FRAME_STATUS);
   switch (status) {
     case mvelo.FRAME_ATTACHED:
     case mvelo.FRAME_DETACHED:

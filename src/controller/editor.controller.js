@@ -1,18 +1,6 @@
 /**
- * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2014-2015 Mailvelope GmbH
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (C) 2015-2017 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
  */
 
 /**
@@ -20,579 +8,573 @@
  * for the encryption editor like handling message data and recipients.
  */
 
-'use strict';
+import mvelo from '../lib/lib-mvelo';
+import {prefs} from '../modules/prefs';
+import * as model from '../modules/pgpModel';
+import * as sub from './sub.controller';
+import DecryptController from './decrypt.controller';
+import * as uiLog from '../modules/uiLog';
+import {triggerSync} from './sync.controller';
+import KeyServer from '../modules/keyserver';
+import {getById as getKeyringById} from '../modules/keyring';
+import mailbuild from 'emailjs-mime-builder';
 
+export default class EditorController extends sub.SubController {
+  constructor(port) {
+    super(port);
+    if (!port) {
+      this.mainType = 'editor';
+      this.id = mvelo.util.getHash();
+    }
+    this.encryptCallback = null;
+    this.encryptTimer = null;
+    this.keyringId = null;
+    this.editorPopup = null;
+    this.keyidBuffer = null;
+    this.signBuffer = null;
+    this.pwdControl = null;
+    this.keyserver = new KeyServer();
+    this.pgpMIME = false;
+    this.signMsg = null;
+    this.options = {};
 
-var sub = require('./sub.controller');
-var DecryptController = require('./decrypt.controller').DecryptController;
-var uiLog = require('../modules/uiLog');
-var syncCtrl = require('./sync.controller');
-var KeyServer = require('../modules/keyserver');
-
-function EditorController(port) {
-  sub.SubController.call(this, port);
-  if (!port) {
-    this.mainType = 'editor';
-    this.id = this.mvelo.util.getHash();
+    // register event handlers
+    this.on('editor-init', this._onEditorInit);
+    this.on('editor-plaintext', this._onSignAndEncrypt);
+    this.on('editor-user-input', this._onEditorUserInput);
+    this.on('keyserver-lookup', this.lookupKeyOnServer);
+    // standalone editor only
+    this.on('editor-cancel', this._onEditorCancel);
+    this.on('sign-only', this._onSignOnly);
+    // API only
+    this.on('editor-container-encrypt', this._onEditorContainerEncrypt);
+    this.on('editor-container-create-draft', this._onEditorContainerCreateDraft);
+    this.on('editor-options', this._onEditorOptions);
+    this.on('open-security-settings', this.openSecuritySettings);
+    this.on('open-app', this.openApp);
   }
-  this.encryptCallback = null;
-  this.encryptTimer = null;
-  this.keyringId = null;
-  this.editorPopup = null;
-  this.keyidBuffer = null;
-  this.signBuffer = null;
-  this.pwdControl = null;
-  this.keyring = require('../modules/keyring');
-  this.keyserver = new KeyServer(this.mvelo);
-  this.mailbuild = require('emailjs-mime-builder');
-  this.pgpMIME = false;
-  this.signMsg = null;
-  this.options = {};
 
-  // register event handlers
-  this.on('editor-init', this._onEditorInit);
-  this.on('editor-plaintext', this._onSignAndEncrypt);
-  this.on('editor-user-input', this._onEditorUserInput);
-  this.on('keyserver-lookup', this.lookupKeyOnServer);
-  // standalone editor only
-  this.on('editor-cancel', this._onEditorCancel);
-  this.on('sign-only', this._onSignOnly);
-  // API only
-  this.on('editor-container-encrypt', this._onEditorContainerEncrypt);
-  this.on('editor-container-create-draft', this._onEditorContainerCreateDraft);
-  this.on('editor-options', this._onEditorOptions);
-  this.on('open-security-settings', this.openSecuritySettings);
-  this.on('open-app', this.openApp);
-}
-
-EditorController.prototype = Object.create(sub.SubController.prototype);
-
-EditorController.prototype._onEditorInit = function() {
-  if (this.ports.editorCont) {
-    this.emit('editor-ready', undefined, this.ports.editorCont);
-  } else {
-    // non-container case, send options to editor
-    let keyring = this.keyring.getById(this.keyringId);
-    let primaryKey =  keyring.getPrimaryKey();
-    let primaryKeyId = primaryKey && primaryKey.keyid.toUpperCase() || '';
-    let data = {
-      text: this.options.initText,
-      signMsg: this.prefs.data().general.auto_sign_msg,
-      primary: primaryKeyId,
-      privKeys: keyring.getValidSigningKeys()
-    };
-    this.emit('set-init-data', {data: data}, this.ports.editor);
-  }
-  // display recipient proposal in the editor
-  if (this.options.getRecipientProposal) {
-    this.options.getRecipientProposal(this.displayRecipientProposal.bind(this));
-  }
-};
-
-EditorController.prototype._onEditorCancel = function() {
-  this.editorPopup.close();
-  this.editorPopup = null;
-};
-
-EditorController.prototype._onEditorContainerEncrypt = function(msg) {
-  this.pgpMIME = true;
-  this.keyringId = msg.keyringId;
-  var keyIdMap = this.keyring.getById(this.keyringId).getKeyIdByAddress(msg.recipients, {validity: true});
-  if (Object.keys(keyIdMap).some(function(keyId) {
-    return keyIdMap[keyId] === false;
-  })) {
-    var error = {
-      message: 'No valid encryption key for recipient address',
-      code: 'NO_KEY_FOR_RECIPIENT'
-    };
-    this.emit('error-message', {error: error}, this.ports.editorCont);
-    return;
-  }
-  var keyIds = [];
-  msg.recipients.forEach(function(recipient) {
-    keyIds = keyIds.concat(keyIdMap[recipient]);
-  });
-  if (this.prefs.data().general.auto_add_primary) {
-    let primary = this.keyring.getById(this.keyringId).getPrimaryKey();
-    if (primary) {
-      keyIds.push(primary.keyid.toLowerCase());
+  _onEditorInit() {
+    if (this.ports.editorCont) {
+      this.emit('editor-ready', null, this.ports.editorCont);
+    } else {
+      // non-container case, send options to editor
+      const keyring = getKeyringById(this.keyringId);
+      const primaryKey =  keyring.getPrimaryKey();
+      const primaryKeyId = primaryKey && primaryKey.keyid.toUpperCase() || '';
+      const data = {
+        text: this.options.initText,
+        signMsg: prefs.general.auto_sign_msg,
+        primary: primaryKeyId,
+        privKeys: keyring.getValidSigningKeys()
+      };
+      this.emit('set-init-data', {data}, this.ports.editor);
+    }
+    // display recipient proposal in the editor
+    if (this.options.getRecipientProposal) {
+      this.options.getRecipientProposal(this.displayRecipientProposal.bind(this));
     }
   }
-  this.keyidBuffer = this.mvelo.util.sortAndDeDup(keyIds);
-  this.emit('get-plaintext', {action: 'encrypt'}, this.ports.editor);
-};
 
-EditorController.prototype._onEditorContainerCreateDraft = function(msg) {
-  this.pgpMIME = true;
-  this.signMsg = true;
-  this.keyringId = msg.keyringId;
-  this.options.reason = 'PWD_DIALOG_REASON_CREATE_DRAFT';
-  var primary = this.keyring.getById(this.keyringId).getPrimaryKey();
-  if (primary) {
-    this.keyidBuffer = [primary.keyid.toLowerCase()];
-  } else {
-    var error = {
-      message: 'No private key found for creating draft.',
-      code: 'NO_KEY_FOR_ENCRYPTION'
-    };
-    this.emit('error-message', {error: error}, this.ports.editorCont);
-    return;
+  _onEditorCancel() {
+    this.editorPopup.close();
+    this.editorPopup = null;
   }
-  this.emit('get-plaintext', {action: 'encrypt', draft: true}, this.ports.editor);
-};
 
-EditorController.prototype._onEditorOptions = function(msg) {
-  this.keyringId = msg.keyringId;
-  this.options = msg.options;
-  this.signMsg = msg.options.signMsg;
-  let primaryKey = this.keyring.getById(this.keyringId).getPrimaryKey();
-  let primaryKeyId = primaryKey && primaryKey.keyid.toUpperCase() || '';
-  var data = {
-    signMsg: this.signMsg,
-    primary: primaryKeyId
-  };
-  if (this.options.armoredDraft) {
-    this.options.keepAttachments = true;
-    this.scheduleDecrypt(this.options.armoredDraft);
-  } else {
-    if (this.options.quotedMail) {
-      this.scheduleDecrypt(this.options.quotedMail);
-    } else if (this.options.predefinedText) {
-      data.text = this.options.predefinedText;
-    }
-  }
-  syncCtrl.triggerSync({keyringId: this.keyringId, force: true});
-  this.emit('set-init-data', {data: data}, this.ports.editor);
-};
-
-EditorController.prototype._onSignOnly = function(msg) {
-  this.signBuffer = {};
-  var key = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
-  // add key in buffer
-  this.signBuffer.key = key.key;
-  this.signBuffer.keyid = msg.signKeyId;
-  this.signBuffer.userid = key.userid;
-  this.signBuffer.openPopup = false;
-  this.signBuffer.reason = 'PWD_DIALOG_REASON_SIGN';
-  this.signBuffer.beforePasswordRequest = () => this.emit('show-pwd-dialog', {id: this.pwdControl.id});
-  this.signBuffer.keyringId = this.keyringId;
-  this.pwdControl = sub.factory.get('pwdDialog');
-  this.pwdControl.unlockKey(this.signBuffer)
-  .then(() => this.emit('get-plaintext', {action: 'sign'}))
-  .catch(err => {
-    if (err.code === 'PWD_DIALOG_CANCEL') {
-      this.emit('hide-pwd-dialog');
+  _onEditorContainerEncrypt(msg) {
+    this.pgpMIME = true;
+    this.keyringId = msg.keyringId;
+    const keyIdMap = getKeyringById(this.keyringId).getKeyIdByAddress(msg.recipients, {validity: true});
+    if (Object.keys(keyIdMap).some(keyId => keyIdMap[keyId] === false)) {
+      const error = {
+        message: 'No valid encryption key for recipient address',
+        code: 'NO_KEY_FOR_RECIPIENT'
+      };
+      this.emit('error-message', {error}, this.ports.editorCont);
       return;
     }
-    err = this.mvelo.util.mapError(err);
-    this.emit('error-message', {error: err});
-  });
-};
-
-EditorController.prototype._onEditorUserInput = function(msg) {
-  uiLog.push(msg.source, msg.type);
-};
-
-/**
- * Lookup a recipient's public key on the Mailvelope Key Server and
- * store it locally using a TOFU (trust on first use) mechanic.
- * @param  {Object} msg   The event message object
- * @return {undefined}
- */
-EditorController.prototype.lookupKeyOnServer = function(msg) {
-  return this.keyserver.lookup(msg.recipient).then(key => {
-    // persist key in local keyring
-    let localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
-    if (key && key.publicKeyArmored) {
-      return localKeyring.importKeys([{type: 'public', armored: key.publicKeyArmored}]);
+    let keyIds = [];
+    msg.recipients.forEach(recipient => {
+      keyIds = keyIds.concat(keyIdMap[recipient]);
+    });
+    if (prefs.general.auto_add_primary) {
+      const primary = getKeyringById(this.keyringId).getPrimaryKey();
+      if (primary) {
+        keyIds.push(primary.keyid.toLowerCase());
+      }
     }
-  })
-  .then(() => {
-    this.sendKeyUpdate();
-  });
-};
+    this.keyidBuffer = mvelo.util.sortAndDeDup(keyIds);
+    this.emit('get-plaintext', {action: 'encrypt'}, this.ports.editor);
+  }
 
-EditorController.prototype.sendKeyUpdate = function() {
-  // send updated key cache to editor
-  let localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
-  let keys = localKeyring.getKeyUserIDs({allUsers: true});
-  this.emit('key-update', {keys: keys}, this.ports.editor);
-};
+  _onEditorContainerCreateDraft(msg) {
+    this.pgpMIME = true;
+    this.signMsg = true;
+    this.keyringId = msg.keyringId;
+    this.options.reason = 'PWD_DIALOG_REASON_CREATE_DRAFT';
+    const primary = getKeyringById(this.keyringId).getPrimaryKey();
+    if (primary) {
+      this.keyidBuffer = [primary.keyid.toLowerCase()];
+    } else {
+      const error = {
+        message: 'No private key found for creating draft.',
+        code: 'NO_KEY_FOR_ENCRYPTION'
+      };
+      this.emit('error-message', {error}, this.ports.editorCont);
+      return;
+    }
+    this.emit('get-plaintext', {action: 'encrypt', draft: true}, this.ports.editor);
+  }
 
-/**
- * @param {Object} options
- * @param {String} options.initText
- * @param {String} options.keyringId
- * @param {Function} options.getRecipientProposal
- * @param {Function} callback
- */
-EditorController.prototype.encrypt = function(options, callback) {
-  this.options = options;
-  this.keyringId = options.keyringId || this.mvelo.LOCAL_KEYRING_ID;
-  this.encryptCallback = callback;
-  this.mvelo.windows.openPopup('components/editor/editor.html?id=' + this.id, {width: 820, height: 550, modal: false}, (window) => {
-    this.editorPopup = window;
-  });
-};
+  _onEditorOptions(msg) {
+    this.keyringId = msg.keyringId;
+    this.options = msg.options;
+    this.signMsg = msg.options.signMsg;
+    const primaryKey = getKeyringById(this.keyringId).getPrimaryKey();
+    const primaryKeyId = primaryKey && primaryKey.keyid.toUpperCase() || '';
+    const data = {
+      signMsg: this.signMsg,
+      primary: primaryKeyId
+    };
+    if (this.options.armoredDraft) {
+      this.options.keepAttachments = true;
+      this.scheduleDecrypt(this.options.armoredDraft);
+    } else {
+      if (this.options.quotedMail) {
+        this.scheduleDecrypt(this.options.quotedMail);
+      } else if (this.options.predefinedText) {
+        data.text = this.options.predefinedText;
+      }
+    }
+    triggerSync({keyringId: this.keyringId, force: true});
+    this.emit('set-init-data', {data}, this.ports.editor);
+  }
 
-/**
- * Displays the recipient proposal in the editor.
- * @param  {Array} recipients   A list of potential recipient from the webmail ui
- */
-EditorController.prototype.displayRecipientProposal = function(recipients) {
-  // deduplicate email addresses
-  var emails = (recipients || []).map(function(recipient) { return recipient.email; });
-  emails = this.mvelo.util.deDup(emails); // just dedup, dont change order of user input
-  recipients = emails.map(function(e) { return {email: e}; });
-  // get all public keys in the local keyring
-  var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
-  var keys = localKeyring.getKeyUserIDs({allUsers: true});
-  var tofu = this.keyserver.getTOFUPreference();
-  this.emit('public-key-userids', {keys: keys, recipients: recipients, tofu: tofu});
-};
+  _onSignOnly(msg) {
+    this.signBuffer = {};
+    const key = getKeyringById(mvelo.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
+    // add key in buffer
+    this.signBuffer.key = key.key;
+    this.signBuffer.keyid = msg.signKeyId;
+    this.signBuffer.userid = key.userid;
+    this.signBuffer.openPopup = false;
+    this.signBuffer.reason = 'PWD_DIALOG_REASON_SIGN';
+    this.signBuffer.beforePasswordRequest = () => this.emit('show-pwd-dialog', {id: this.pwdControl.id});
+    this.signBuffer.keyringId = this.keyringId;
+    this.pwdControl = sub.factory.get('pwdDialog');
+    this.pwdControl.unlockKey(this.signBuffer)
+    .then(() => this.emit('get-plaintext', {action: 'sign'}))
+    .catch(err => {
+      if (err.code === 'PWD_DIALOG_CANCEL') {
+        this.emit('hide-pwd-dialog');
+        return;
+      }
+      err = mvelo.util.mapError(err);
+      this.emit('error-message', {error: err});
+    });
+  }
 
-/**
- * @param {String} message
- * @param {Map} attachments
- * @param {String} attachments.filename
- * @param {String} attachments.content
- * @param {Integer} attachments.size
- * @param {String} attachments.type
- * @returns {String | null}
- */
-EditorController.prototype.buildMail = function(message, attachments) {
-  //var t0 = Date.now();
-  var that = this;
-  var mainMessage = new this.mailbuild("multipart/mixed");
-  var composedMessage = null;
-  var hasAttachment;
-  var quotaSize = 0;
+  _onEditorUserInput(msg) {
+    uiLog.push(msg.source, msg.type);
+  }
 
-  if (message) {
-    quotaSize += this.mvelo.util.byteCount(message);
-    var textMime = new this.mailbuild("text/plain")
+  /**
+   * Lookup a recipient's public key on the Mailvelope Key Server and
+   * store it locally using a TOFU (trust on first use) mechanic.
+   * @param  {Object} msg   The event message object
+   * @return {undefined}
+   */
+  lookupKeyOnServer(msg) {
+    return this.keyserver.lookup(msg.recipient).then(key => {
+      // persist key in local keyring
+      const localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
+      if (key && key.publicKeyArmored) {
+        return localKeyring.importKeys([{type: 'public', armored: key.publicKeyArmored}]);
+      }
+    })
+    .then(() => {
+      this.sendKeyUpdate();
+    });
+  }
+
+  sendKeyUpdate() {
+    // send updated key cache to editor
+    const localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
+    const keys = localKeyring.getKeyUserIDs({allUsers: true});
+    this.emit('key-update', {keys}, this.ports.editor);
+  }
+
+  /**
+   * @param {Object} options
+   * @param {String} options.initText
+   * @param {String} options.keyringId
+   * @param {Function} options.getRecipientProposal
+   * @param {Function} callback
+   */
+  encrypt(options, callback) {
+    this.options = options;
+    this.keyringId = options.keyringId || mvelo.LOCAL_KEYRING_ID;
+    this.encryptCallback = callback;
+    mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}`, {width: 820, height: 550, modal: false})
+    .then(popup => {
+      this.editorPopup = popup;
+      popup.addRemoveListener(() => {
+        this.editorPopup = null;
+      });
+    });
+  }
+
+  /**
+   * Displays the recipient proposal in the editor.
+   * @param  {Array} recipients   A list of potential recipient from the webmail ui
+   */
+  displayRecipientProposal(recipients) {
+    // deduplicate email addresses
+    let emails = (recipients || []).map(recipient => recipient.email);
+    emails = mvelo.util.deDup(emails); // just dedup, dont change order of user input
+    recipients = emails.map(e => ({email: e}));
+    // get all public keys in the local keyring
+    const localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
+    const keys = localKeyring.getKeyUserIDs({allUsers: true});
+    const tofu = this.keyserver.getTOFUPreference();
+    this.emit('public-key-userids', {keys, recipients, tofu});
+  }
+
+  /**
+   * @param {String} message
+   * @param {Map} attachments
+   * @param {String} attachments.filename
+   * @param {String} attachments.content
+   * @param {Integer} attachments.size
+   * @param {String} attachments.type
+   * @returns {String | null}
+   */
+  buildMail(message, attachments) {
+    //var t0 = Date.now();
+    const mainMessage = new mailbuild("multipart/mixed");
+    let composedMessage = null;
+    let hasAttachment;
+    let quotaSize = 0;
+
+    if (message) {
+      quotaSize += mvelo.util.byteCount(message);
+      const textMime = new mailbuild("text/plain")
       .setHeader("Content-Type", "text/plain; charset=utf-8")
       .addHeader("Content-Transfer-Encoding", "quoted-printable")
       .setContent(message);
-    mainMessage.appendChild(textMime);
-  }
-  if (attachments && attachments.length > 0) {
-    hasAttachment = true;
-    attachments.forEach(function(attachment) {
-      quotaSize += attachment.size;
-      var attachmentMime = new that.mailbuild("text/plain")
+      mainMessage.appendChild(textMime);
+    }
+    if (attachments && attachments.length > 0) {
+      hasAttachment = true;
+      attachments.forEach(attachment => {
+        quotaSize += attachment.size;
+        const attachmentMime = new mailbuild("text/plain")
         .createChild(false, {filename: attachment.name})
-        //.setHeader("Content-Type", attachment.type + "; charset=utf-8")
+          //.setHeader("Content-Type", attachment.type + "; charset=utf-8")
         .addHeader("Content-Transfer-Encoding", "base64")
         .addHeader("Content-Disposition", "attachment") // ; filename="attachment.filename
         .setContent(attachment.content);
-      mainMessage.appendChild(attachmentMime);
-    });
-  }
-
-  if (this.options.quota && (quotaSize > this.options.quota)) {
-    var error = {
-      code: 'ENCRYPT_QUOTA_SIZE',
-      message: 'Mail content exceeds quota limit.'
-    };
-
-    if (this.ports.editorCont) {
-      this.emit('error-message', {error: error}, this.ports.editorCont);
+        mainMessage.appendChild(attachmentMime);
+      });
     }
+
+    if (this.options.quota && (quotaSize > this.options.quota)) {
+      const error = {
+        code: 'ENCRYPT_QUOTA_SIZE',
+        message: 'Mail content exceeds quota limit.'
+      };
+
+      if (this.ports.editorCont) {
+        this.emit('error-message', {error}, this.ports.editorCont);
+      }
+      return composedMessage;
+    }
+
+    if (hasAttachment || this.pgpMIME) {
+      composedMessage = mainMessage.build();
+    } else {
+      composedMessage = message;
+    }
+    //var t1 = Date.now();
+    //console.log("Building mime message took " + (t1 - t0) + " milliseconds. Current time: " + t1);
     return composedMessage;
   }
 
-  if (hasAttachment || this.pgpMIME) {
-    composedMessage = mainMessage.build();
-  } else {
-    composedMessage = message;
+  scheduleDecrypt(armored) {
+    if (armored.length > 400000) {
+      // show spinner for large messages
+      this.emit('decrypt-in-progress', null, this.ports.editor);
+    }
+    setTimeout(() => {
+      this.decryptArmored(armored);
+    }, 50);
   }
-  //var t1 = Date.now();
-  //console.log("Building mime message took " + (t1 - t0) + " milliseconds. Current time: " + t1);
-  return composedMessage;
-};
 
-EditorController.prototype.scheduleDecrypt = function(armored) {
-  var that = this;
-  if (armored.length > 400000) {
-    // show spinner for large messages
-    this.emit('decrypt-in-progress', null, this.ports.editor);
-  }
-  this.mvelo.util.setTimeout(function() {
-    that.decryptArmored(armored);
-  }, 50);
-};
-
-/**
- * @param {String} armored
- * @returns {undefined}
- */
-EditorController.prototype.decryptArmored = function(armored) {
-  var that = this;
-  var decryptCtrl = new DecryptController();
-  decryptCtrl.keyringId = this.keyringId;
-  this.model.readMessage(armored, this.keyringId)
-    .then(function(message) {
-      return decryptCtrl.prepareKey(message, !that.editorPopup);
-    })
-    .then(function(message) {
-      message.options = message.options || {};
-      message.options.selfSigned = Boolean(that.options.armoredDraft);
+  /**
+   * @param {String} armored
+   * @returns {undefined}
+   */
+  decryptArmored(armored) {
+    const decryptCtrl = new DecryptController();
+    decryptCtrl.keyringId = this.keyringId;
+    model.readMessage({armoredText: armored, keyringId: this.keyringId})
+    .then(message => decryptCtrl.prepareKey(message, !this.editorPopup))
+    .then(message => {
+      message.options = {selfSigned: Boolean(this.options.armoredDraft)};
       return decryptCtrl.decryptMessage(message);
     })
-    .then(function(content) {
-      var handlers = {
-        onMessage: function(msg) {
-          if (that.options.quotedMailIndent) {
+    .then(content => {
+      const options = this.options;
+      const emit = this.emit.bind(this);
+      const ports = this.ports;
+      const handlers = {
+        onMessage(msg) {
+          if (options.quotedMailIndent) {
             msg = msg.replace(/^(.|\n)/gm, '> $&');
           }
-          if (that.options.quotedMailHeader) {
-            msg = '> ' + that.options.quotedMailHeader + '\n' + msg;
+          if (options.quotedMailHeader) {
+            msg = `> ${options.quotedMailHeader}\n${msg}`;
           }
-          if (that.options.quotedMailIndent || that.options.quotedMailHeader) {
-            msg = '\n\n' + msg;
+          if (options.quotedMailIndent || options.quotedMailHeader) {
+            msg = `\n\n${msg}`;
           }
-          if (that.options.predefinedText) {
-            msg = msg + '\n\n' + that.options.predefinedText;
+          if (options.predefinedText) {
+            msg = `${msg}\n\n${options.predefinedText}`;
           }
-          that.emit('set-text', {text: msg}, that.ports.editor);
+          emit('set-text', {text: msg}, ports.editor);
         },
-        onAttachment: function(part) {
-          if (that.options.keepAttachments) {
-            that.emit('set-attachment', {attachment: part}, that.ports.editor);
+        onAttachment(part) {
+          if (options.keepAttachments) {
+            emit('set-attachment', {attachment: part}, ports.editor);
           }
         }
       };
-      if (that.options.armoredDraft) {
+      if (this.options.armoredDraft) {
         if (!(content.signatures && content.signatures[0].valid)) {
-          throw { message: 'Restoring of the draft failed due to invalid signature.' };
+          throw {message: 'Restoring of the draft failed due to invalid signature.'};
         }
       }
-      return decryptCtrl.parseMessage(content.text, handlers, 'text');
+      return decryptCtrl.parseMessage(content.data, handlers, 'text');
     })
-    .then(function() {
-      that.emit('decrypt-end', null, that.ports.editor);
+    .then(() => {
+      this.emit('decrypt-end', null, this.ports.editor);
     })
-    .catch(function(error) {
-      error = that.mvelo.util.mapError(error);
-      that.emit('decrypt-failed', {error: error}, that.ports.editor);
+    .catch(error => {
+      error = mvelo.util.mapError(error);
+      this.emit('decrypt-failed', {error}, this.ports.editor);
     });
-};
+  }
 
-/**
- * @param {Object} options
- * @param {String} options.message
- * @param {Array} options.keyIdsHex
- * @param {String} options.signKeyIdHex
- * @param {Boolean} options.noCache
- * @return {Promise}
- */
-EditorController.prototype.signAndEncryptMessage = function(options) {
-  let signKey;
-  return Promise.resolve()
-  .then(() => {
-    this.encryptTimer = null;
-    if (options.signKeyIdHex) {
-      signKey = this.keyring.getById(this.keyringId).getKeyForSigning(options.signKeyIdHex);
-    } else {
-      signKey = this.keyring.getById(this.keyringId).getPrimaryKey();
-    }
+  /**
+   * @param {Object} options
+   * @param {String} options.message
+   * @param {Array} options.keyIdsHex
+   * @param {String} options.signKeyIdHex
+   * @param {Boolean} options.noCache
+   * @return {Promise}
+   */
+  signAndEncryptMessage(options) {
+    let signKey;
+    return Promise.resolve()
+    .then(() => {
+      this.encryptTimer = null;
+      if (options.signKeyIdHex) {
+        signKey = getKeyringById(this.keyringId).getKeyForSigning(options.signKeyIdHex);
+      } else {
+        signKey = getKeyringById(this.keyringId).getPrimaryKey();
+      }
 
-    if (!signKey) {
-      this.mvelo.util.throwError('No primary key found', 'NO_PRIMARY_KEY_FOUND');
-    }
+      if (!signKey) {
+        mvelo.util.throwError('No primary key found', 'NO_PRIMARY_KEY_FOUND');
+      }
 
-    let signKeyPacket = signKey.key.getSigningKeyPacket();
-    let signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
-    if (!signKeyid) {
-      this.mvelo.util.throwError('No valid signing key packet found', 'NO_SIGN_KEY_FOUND');
-    }
+      const signKeyPacket = signKey.key.getSigningKeyPacket();
+      const signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
+      if (!signKeyid) {
+        mvelo.util.throwError('No valid signing key packet found', 'NO_SIGN_KEY_FOUND');
+      }
 
-    signKey.keyid = signKeyid;
-    signKey.keyringId = this.keyringId;
-    signKey.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
-    signKey.noCache = options.noCache;
+      signKey.keyid = signKeyid;
+      signKey.keyringId = this.keyringId;
+      signKey.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
+      signKey.noCache = options.noCache;
 
-    if (this.editorPopup) {
-      signKey.openPopup = false;
-      signKey.beforePasswordRequest = () => this.emit('show-pwd-dialog', {id: this.pwdControl.id});
-    }
-  })
-  .then(() => {
-    this.pwdControl = sub.factory.get('pwdDialog');
-    return this.pwdControl.unlockKey(signKey);
-  })
-  .then(() => {
-    this.encryptTimer = this.mvelo.util.setTimeout(() => {
+      if (this.editorPopup) {
+        signKey.openPopup = false;
+        signKey.beforePasswordRequest = () => this.emit('show-pwd-dialog', {id: this.pwdControl.id});
+      }
+    })
+    .then(() => {
+      this.pwdControl = sub.factory.get('pwdDialog');
+      return this.pwdControl.unlockKey(signKey);
+    })
+    .then(() => {
+      this.encryptTimer = setTimeout(() => {
+        this.emit('encrypt-in-progress', null, this.ports.editor);
+      }, 800);
+
+      if (!prefs.security.password_cache) {
+        triggerSync(signKey);
+      }
+
+      return model.encryptMessage({
+        keyIdsHex: options.keyIdsHex,
+        keyringId: this.keyringId,
+        primaryKey: signKey,
+        message: options.message,
+        uiLogSource: 'security_log_editor'
+      });
+    });
+  }
+
+  /**
+   * @param {Object} options
+   * @param {String} options.message
+   * @param {String} options.keyringId
+   * @param {Array} options.keyIdsHex
+   * @return {Promise}
+   */
+  encryptMessage(options) {
+    this.encryptTimer = setTimeout(() => {
       this.emit('encrypt-in-progress', null, this.ports.editor);
     }, 800);
 
-    if (!this.prefs.data().security.password_cache) {
-      syncCtrl.triggerSync(signKey);
-    }
+    options.uiLogSource = 'security_log_editor';
 
-    return this.model.signAndEncryptMessage({
-      keyIdsHex: options.keyIdsHex,
-      keyringId: this.keyringId,
-      primaryKey: signKey,
-      message: options.message,
-      uiLogSource: 'security_log_editor'
-    });
-  });
-};
-
-/**
- * @param {Object} options
- * @param {String} options.message
- * @param {String} options.keyringId
- * @param {Array} options.keyIdsHex
- * @return {Promise}
- */
-EditorController.prototype.encryptMessage = function(options) {
-  this.encryptTimer = this.mvelo.util.setTimeout(function() {
-    this.emit('encrypt-in-progress', null, this.ports.editor);
-  }.bind(this), 800);
-
-  options.uiLogSource = 'security_log_editor';
-
-  return this.model.encryptMessage(options);
-};
-
-/**
- * @param {String} message
- * @return {Promise}
- */
-EditorController.prototype.signMessage = function(message) {
-  this.encryptTimer = this.mvelo.util.setTimeout(function() {
-    this.emit('encrypt-in-progress');
-  }.bind(this), 800);
-
-  return this.model.signMessage(message, this.signBuffer.key);
-};
-
-/**
- * Closes the editor popup and transfer the encrypted/signed armored
- * message and recipients back to the webmail interface.
- * @param  {String} options.armored   The encrypted/signed message
- * @param  {Array}  options.keys      The keys used to encrypt the message
- */
-EditorController.prototype.transferEncrypted = function(options) {
-  if (this.ports.editorCont) {
-    this.emit('encrypted-message', { message: options.armored }, this.ports.editorCont);
-  } else {
-    var recipients = (options.keys || []).map(function(k) {
-      return {name: k.name, email: k.email};
-    });
-    this.encryptCallback(null, options.armored, recipients);
+    return model.encryptMessage(options);
   }
-};
 
-/**
- * @param {Object} options
- * @param {String} options.action
- * @param {String} options.message
- * @param {String} options.keys
- * @param {Array} options.attachment
- * @param {Boolean} options.noCache
- * @return {undefined}
- * @error {Error}
- */
-EditorController.prototype._onSignAndEncrypt = function(options) {
-  options.keys = options.keys || [];
-  this.signAndEncrypt(options)
-  .then(function(armored) {
-    this.emit('encrypt-end', null, this.ports.editor);
-    if (this.editorPopup) {
-      this.editorPopup.close();
-      this.editorPopup = null;
-    }
-    this.transferEncrypted({armored: armored, keys: options.keys});
-  }.bind(this))
-  .catch(function(error) {
-    if (this.editorPopup && error.code === 'PWD_DIALOG_CANCEL') {
-      // popup case
-      this.emit('hide-pwd-dialog');
-      return;
-    }
-    console.log(error);
-    error = this.mvelo.util.mapError(error);
-    this.emit('error-message', {error: error}, this.ports.editor);
+  /**
+   * @param {String} message
+   * @return {Promise}
+   */
+  signMessage(message) {
+    this.encryptTimer = setTimeout(() => {
+      this.emit('encrypt-in-progress');
+    }, 800);
+
+    return model.signMessage(message, this.signBuffer.key);
+  }
+
+  /**
+   * Closes the editor popup and transfer the encrypted/signed armored
+   * message and recipients back to the webmail interface.
+   * @param  {String} options.armored   The encrypted/signed message
+   * @param  {Array}  options.keys      The keys used to encrypt the message
+   */
+  transferEncrypted(options) {
     if (this.ports.editorCont) {
-      this.emit('error-message', {error: error}, this.ports.editorCont);
+      this.emit('encrypted-message', {message: options.armored}, this.ports.editorCont);
     } else {
-      this.encryptCallback(error);
-    }
-    this.emit('encrypt-failed', null, this.ports.editor);
-  }.bind(this))
-  .then(function() {
-    this.mvelo.util.clearTimeout(this.encryptTimer);
-  }.bind(this));
-};
-
-/**
- * @param {Object} options
- * @param {String} options.action
- * @param {String} options.message
- * @param {String} options.keys
- * @param {Array} options.attachment
- * @param {Boolean} options.noCache
- * @return {Promise}
- */
-EditorController.prototype.signAndEncrypt = function(options) {
-  return Promise.resolve()
-  .then(function() {
-    if (options.action === 'encrypt') {
-      var data = this.buildMail(options.message, options.attachments);
-
-      if (data === null) {
-        this.mvelo.util.throwError('MIME building failed.');
-      }
-
-      var keyIdsHex = this.getPublicKeyIds(options.keys);
-      if (this.signMsg || options.signMsg) {
-        return this.signAndEncryptMessage({
-          message: data,
-          keyIdsHex: keyIdsHex,
-          signKeyIdHex: options.signKey,
-          noCache: options.noCache
-        });
-      } else {
-        return this.encryptMessage({
-          message: data,
-          keyringId: this.keyringId,
-          keyIdsHex: keyIdsHex
-        });
-      }
-
-    } else if (options.action === 'sign') {
-      return this.signMessage(options.message);
-    }
-  }.bind(this));
-};
-
-/**
- * Collect all the key ids to encrypto to, including the sender's key id.
- * @param  {Array} keys   The public key objects containing the key id
- * @return {Array}        A collection of all key ids to encrypt to
- */
-EditorController.prototype.getPublicKeyIds = function(keys) {
-  var keyIdsHex;
-  // prefer keyidBuffer
-  if (this.keyidBuffer) {
-    keyIdsHex = this.keyidBuffer;
-  } else {
-    keyIdsHex = keys.map(function(key) { return key.keyid; });
-    // get the sender key id
-    if (this.prefs.data().general.auto_add_primary) {
-      var localKeyring = this.keyring.getById(this.mvelo.LOCAL_KEYRING_ID);
-      var primary = localKeyring.getPrimaryKey();
-      if (primary) {
-        keyIdsHex.push(primary.keyid.toLowerCase());
-      }
+      const recipients = (options.keys || []).map(k => ({name: k.name, email: k.email}));
+      this.encryptCallback(null, options.armored, recipients);
     }
   }
-  // deduplicate
-  return this.mvelo.util.sortAndDeDup(keyIdsHex);
-};
 
-exports.EditorController = EditorController;
+  /**
+   * @param {Object} options
+   * @param {String} options.action
+   * @param {String} options.message
+   * @param {String} options.keys
+   * @param {Array} options.attachment
+   * @param {Boolean} options.noCache
+   * @return {undefined}
+   * @error {Error}
+   */
+  _onSignAndEncrypt(options) {
+    options.keys = options.keys || [];
+    this.signAndEncrypt(options)
+    .then(armored => {
+      this.emit('encrypt-end', null, this.ports.editor);
+      if (this.editorPopup) {
+        this.editorPopup.close();
+        this.editorPopup = null;
+      }
+      this.transferEncrypted({armored, keys: options.keys});
+    })
+    .catch(error => {
+      if (this.editorPopup && error.code === 'PWD_DIALOG_CANCEL') {
+        // popup case
+        this.emit('hide-pwd-dialog');
+        return;
+      }
+      console.log(error);
+      error = mvelo.util.mapError(error);
+      this.emit('error-message', {error}, this.ports.editor);
+      if (this.ports.editorCont) {
+        this.emit('error-message', {error}, this.ports.editorCont);
+      } else {
+        this.encryptCallback(error);
+      }
+      this.emit('encrypt-failed', null, this.ports.editor);
+    })
+    .then(() => {
+      clearTimeout(this.encryptTimer);
+    });
+  }
+
+  /**
+   * @param {Object} options
+   * @param {String} options.action
+   * @param {String} options.message
+   * @param {String} options.keys
+   * @param {Array} options.attachment
+   * @param {Boolean} options.noCache
+   * @return {Promise}
+   */
+  signAndEncrypt(options) {
+    return Promise.resolve()
+    .then(() => {
+      if (options.action === 'encrypt') {
+        const data = this.buildMail(options.message, options.attachments);
+
+        if (data === null) {
+          mvelo.util.throwError('MIME building failed.');
+        }
+
+        const keyIdsHex = this.getPublicKeyIds(options.keys);
+        if (this.signMsg || options.signMsg) {
+          return this.signAndEncryptMessage({
+            message: data,
+            keyIdsHex,
+            signKeyIdHex: options.signKey,
+            noCache: options.noCache
+          });
+        } else {
+          return this.encryptMessage({
+            message: data,
+            keyringId: this.keyringId,
+            keyIdsHex
+          });
+        }
+      } else if (options.action === 'sign') {
+        return this.signMessage(options.message);
+      }
+    });
+  }
+
+  /**
+   * Collect all the key ids to encrypto to, including the sender's key id.
+   * @param  {Array} keys   The public key objects containing the key id
+   * @return {Array}        A collection of all key ids to encrypt to
+   */
+  getPublicKeyIds(keys) {
+    let keyIdsHex;
+    // prefer keyidBuffer
+    if (this.keyidBuffer) {
+      keyIdsHex = this.keyidBuffer;
+    } else {
+      keyIdsHex = keys.map(key => key.keyid);
+      // get the sender key id
+      if (prefs.general.auto_add_primary) {
+        const localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
+        const primary = localKeyring.getPrimaryKey();
+        if (primary) {
+          keyIdsHex.push(primary.keyid.toLowerCase());
+        }
+      }
+    }
+    // deduplicate
+    return mvelo.util.sortAndDeDup(keyIdsHex);
+  }
+}

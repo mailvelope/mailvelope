@@ -19,11 +19,11 @@
 }
 
 :root .m-extract-frame.m-decrypt {
-  background-image: url('../img/mail_locked_96.png'), none;
+  background-image: url('/img/mail_locked_96.png'), none;
 }
 
 :root .m-extract-frame.m-verify {
-  background-image: url('../img/mail_signed_96.png'), none;
+  background-image: url('/img/mail_signed_96.png'), none;
   background-size: 80px, 80px;
 }
 
@@ -33,7 +33,7 @@
 }
 
 :root .m-extract-frame.m-import {
-  background-image: url('../img/key-icon-blue96.png'), none;
+  background-image: url('/img/key-icon-blue96.png'), none;
 }
 
 :root .m-extract-frame.m-open {
@@ -42,23 +42,15 @@
 }
 
 :root .m-extract-frame.m-open.m-decrypt {
-  background-image: url('../img/mail_open_96.png'), none;
+  background-image: url('/img/mail_open_96.png'), none;
 }
 
 :root .m-extract-frame.m-open.m-import {
-  background-image: url('../img/key-icon-blue96.png'), url('../img/loading.gif');
+  background-image: url('/img/key-icon-blue96.png'), url('/img/loading.gif');
 }
 
 :root .m-extract-frame.m-open.m-import.m-ok {
-  background-image: url('../img/key-icon-blue96.png'), url('../img/ok48.png');
-}
-
-:root .m-extract-frame.m-open.m-import.m-warning {
-  background-image: url('../img/key-icon-blue96.png'), url('../img/warning48.png');
-}
-
-:root .m-extract-frame.m-open.m-import.m-error {
-  background-image: url('../img/key-icon-blue96.png'), url('../img/no48.png');
+  background-image: url('/img/key-icon-blue96.png'), url('/img/ok48.png');
 }
 
 :root .m-extract-frame.m-large {
@@ -102,23 +94,23 @@
 }
 
 :root .m-encrypt-frame .m-icon-undo {
-  background-image: url('../img/undo-22.png');
+  background-image: url('/img/undo-22.png');
 }
 
 :root .m-encrypt-frame .m-icon-editor {
-  background-image: url('../img/mail_new.png');
+  background-image: url('/img/mail_new.png');
 }
 
 :root .m-decrypt.m-cursor {
-  cursor: url('../img/key-24.png'), auto;
+  cursor: url('/img/key-24.png'), auto;
 }
 
 :root .m-verify.m-cursor {
-  cursor: url('../img/verify-24.png'), auto;
+  cursor: url('/img/verify-24.png'), auto;
 }
 
 :root .m-import.m-cursor {
-  cursor: url('../img/edit_add-22.png'), auto;
+  cursor: url('/img/edit_add-22.png'), auto;
 }
 
 :root .m-extract-frame .m-frame-dialog {

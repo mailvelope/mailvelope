@@ -7,8 +7,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 
-'use strict';
-
 l10n.register([
   'keygrid_user_name',
   'keygrid_user_email',
@@ -27,7 +25,7 @@ l10n.register([
   'keygrid_key_not_expire'
 ]);
 
-const KeyDetailsPrimary = ({keyDetails}) => {
+export default function KeyDetailsPrimary({keyDetails}) {
   const isPrivate = keyDetails.type === 'private';
   return (
     <form className="form-horizontal" role="form">
@@ -84,17 +82,15 @@ const KeyDetailsPrimary = ({keyDetails}) => {
         <div className="col-sm-3" id="keyStatus" style={{paddingTop: '5px'}}>
           <span className={`label label-${keyDetails.validity ? 'success' : 'danger'}`}>{keyDetails.validity ? l10n.map.keygrid_status_valid : l10n.map.keygrid_status_invalid}</span>
         </div>
-        <label htmlFor="keyType" className="col-sm-1 control-label" data-l10n-id="keygrid_key_type">{l10n.map.keygrid_key_type}</label>
+        <label htmlFor="keyType" className="col-sm-1 control-label">{l10n.map.keygrid_key_type}</label>
         <div className="col-sm-5" id="keyType" style={{paddingTop: '5px', whiteSpace: 'nowrap'}}>
           <span className={isPrivate ? 'keyPair' : 'publicKey'} style={{paddingLeft: '25px'}}><span>{isPrivate ? l10n.map.keyring_keypair : l10n.map.keyring_public}</span></span>
         </div>
       </div>
     </form>
   );
-};
+}
 
 KeyDetailsPrimary.propTypes = {
   keyDetails: PropTypes.object
-}
-
-export default KeyDetailsPrimary;
+};

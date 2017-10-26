@@ -1,23 +1,23 @@
-
+/* eslint strict: 0 */
 'use strict';
 
 // https://gist.github.com/1101534
 $.extend({
-  parseQuerystring: function() {
-    var nvpair = {};
-    var qs;
+  parseQuerystring() {
+    const nvpair = {};
+    let qs;
     if (window.location.search) {
       qs = window.location.search.replace('?', '');
     } else {
       qs = window.location.href.split('?')[1];
       if (window.location.hash) {
-        qs = window.location.href.split(window.location.hash)[0]
+        qs = window.location.href.split(window.location.hash)[0];
       }
     }
     if (qs !== undefined) {
-      var pairs = qs.split('&');
-      $.each(pairs, function(i, v) {
-        var pair = v.split('=');
+      const pairs = qs.split('&');
+      $.each(pairs, (i, v) => {
+        const pair = v.split('=');
         nvpair[pair[0]] = decodeURIComponent(pair[1]);
       });
     }
@@ -26,9 +26,9 @@ $.extend({
 });
 
 $.extend({
-  setEqualWidth: function(first, other) {
-    var width = first.width();
-    var otherWidth = other.width();
+  setEqualWidth(first, other) {
+    const width = first.width();
+    const otherWidth = other.width();
     if (width > otherWidth) {
       other.width(width);
     } else if (width < otherWidth) {
@@ -43,9 +43,9 @@ $.fn.showAlert = function(heading, message, type, keep) {
   if (keep === undefined || keep === false) {
     this.empty();
   }
-  var row = $('<div/>').appendTo(this);
+  const row = $('<div/>').appendTo(this);
   if (heading) {
-    heading = heading + ' ';
+    heading = `${heading} `;
     $('<strong/>').appendTo(row).text(heading);
   }
   if (typeof message === 'string') {
@@ -54,7 +54,7 @@ $.fn.showAlert = function(heading, message, type, keep) {
     row.append(message);
   }
   row.attr('class', 'alert fade in');
-  row.addClass('alert-' + type);
+  row.addClass(`alert-${type}`);
   this.show();
   return this;
 };

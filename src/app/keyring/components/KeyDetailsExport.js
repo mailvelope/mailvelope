@@ -8,8 +8,6 @@ import {keyring} from '../../app';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-'use strict';
-
 l10n.register([
   'keyring_public',
   'keyring_private',
@@ -19,15 +17,15 @@ l10n.register([
   'key_export_warning_private'
 ]);
 
-class KeyDetailsExport extends React.Component {
+export default class KeyDetailsExport extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       type: props.type,
       keys: [],
-      fileName: props.keyName.replace(/\s/g, '_') + '_' + props.type + '.asc'
+      fileName: `${props.keyName.replace(/\s/g, '_')}_${props.type}.asc`
     };
-    keyring('getArmoredKeys', [props.keyids, {pub: true, priv: true, all: props.all}])
+    keyring('getArmoredKeys', {keyids: props.keyids, options: {pub: true, priv: true, all: props.all}})
     .then(result => this.setState({keys: result}));
     this.fileURL = '';
     this.handleClickExport = this.handleClickExport.bind(this);
@@ -35,7 +33,7 @@ class KeyDetailsExport extends React.Component {
   }
 
   handleTypeChange(type) {
-    this.setState({type, fileName: this.props.keyName.replace(/\s/g, '_') + '_' + type + '.asc'});
+    this.setState({type, fileName: `${this.props.keyName.replace(/\s/g, '_')}_${type}.asc`});
   }
 
   handleFileNameChange(event) {
@@ -114,5 +112,3 @@ KeyDetailsExport.propTypes = {
 KeyDetailsExport.defaultProps = {
   type: 'pub'
 };
-
-export default KeyDetailsExport;

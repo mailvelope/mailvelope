@@ -7,16 +7,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDatePicker from 'react-datepicker';
 
-import 'react-datepicker/dist/react-datepicker.css'
+import 'react-datepicker/dist/react-datepicker.css';
 import './DatePicker.css';
 
-'use strict';
-
 class CustomInput extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const clearClasses = `form-control-clear glyphicon glyphicon-remove form-control-feedback ${this.props.value ? '' : 'hidden'}`;
     return (
@@ -41,9 +35,9 @@ CustomInput.propTypes = {
   onClearDate: PropTypes.func,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool
-}
+};
 
-const DatePicker = ({value, onChange, placeholder, minDate, maxDate, disabled}) => {
+export default function DatePicker({value, onChange, placeholder, minDate, maxDate, disabled}) {
   // ReactDatePicker maps placeholderText to placeholder prop of customInput
   return (
     <ReactDatePicker
@@ -58,7 +52,7 @@ const DatePicker = ({value, onChange, placeholder, minDate, maxDate, disabled}) 
       placeholderText={placeholder}
       disabled={disabled} />
   );
-};
+}
 
 DatePicker.propTypes = {
   value: PropTypes.object,
@@ -67,6 +61,4 @@ DatePicker.propTypes = {
   minDate: PropTypes.object,
   maxDate: PropTypes.object,
   disabled: PropTypes.bool
-}
-
-export default DatePicker;
+};

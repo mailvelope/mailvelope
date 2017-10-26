@@ -15,7 +15,10 @@ Mailvelope uses the following OpenPGP implementation
 Mailvelope is available in the Chrome Web Store:
 https://chrome.google.com/webstore/detail/kajibbejlbohfaggdiogboambcijhkke
 
-Check the [releases](https://github.com/mailvelope/mailvelope/releases) section for latest builds of Firefox and Chrome installation packages.
+For Firefox use the following download:
+https://download.mailvelope.com/releases/latest/mailvelope.firefox.xpi
+
+Or check the [releases](https://github.com/mailvelope/mailvelope/releases) section for latest builds of Firefox and Chrome installation packages.
 
 ## Client API
 
@@ -23,47 +26,35 @@ You can find the current [API Documentation](https://mailvelope.github.io/mailve
 
 ## Build instructions
 
-If you don’t have grunt and bower installed, yet:
+If you don’t have grunt installed, yet:
 
-    npm install -g grunt-cli bower
+    npm install -g grunt-cli
 
 and then get and build the sources:
 
-    git clone git://github.com/mailvelope/mailvelope.git
+    git clone https://github.com/mailvelope/mailvelope.git
     cd mailvelope
-    git submodule update --init
-    cd dep/chrome/openpgpjs
     npm install && grunt
-    cd ../../firefox/openpgpjs
-    npm install && grunt
-    cd ../../..
-    npm install && bower install && grunt
 
 #### Chrome
 
     grunt dist-cr
 
-The extension will be in `dist/mailvelope.chrome.zip`.
+The Chrome extension will be in `dist/mailvelope.chrome.zip`.
 
 #### Firefox
 
     grunt dist-ff
 
-This will get you the latest firefox addons-sdk to build the addon.
-
-The addon will be in `dist/mailvelope.firefox.xpi`.
+The Firefox web extension will be in `dist/mailvelope.firefox.zip`.
 
 #### Development
 
 Update your local repository:
 
     # inside mailvelope folder
-    cd dep/chrome/openpgpjs
-    git pull origin master && grunt
-    cd ../../firefox/openpgpjs
-    git pull origin master && grunt
-    cd ../../..
-    grunt
+    git checkout dev
+    git pull origin dev && grunt
     # continue with 'grunt dist-cr' or 'grunt dist-ff'
 
 There are a few more tasks available through grunt:
@@ -86,6 +77,6 @@ Use of this source code is governed by the GNU AFFERO GENERAL PUBLIC LICENSE tha
 
 ## About
 
-Contact: Thomas Oberndörfer <thomas@mailvelope.com>  
-Twitter: [@mailvelope](https://twitter.com/mailvelope)  
-Contributors: see [list on GitHub](https://github.com/mailvelope/mailvelope/graphs/contributors)  
+Contact: Thomas Oberndörfer <thomas@mailvelope.com>
+Twitter: [@mailvelope](https://twitter.com/mailvelope)
+Contributors: see [list on GitHub](https://github.com/mailvelope/mailvelope/graphs/contributors)

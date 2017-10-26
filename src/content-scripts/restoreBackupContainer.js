@@ -3,8 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-'use strict';
-
 import mvelo from '../mvelo';
 
 /**
@@ -20,8 +18,8 @@ export default class RestoreBackupContainer {
     this.keyringId = keyringId;
     this.options = options;
     this.id = mvelo.util.getHash();
-    this.name = 'restoreBackupCont-' + this.id;
-    this.port = mvelo.extension.connect({name: this.name});
+    this.name = `restoreBackupCont-${this.id}`;
+    this.port = mvelo.runtime.connect({name: this.name});
     this.registerEventListener();
     this.parent = null;
     this.container = null;
@@ -35,7 +33,7 @@ export default class RestoreBackupContainer {
    * @returns {mvelo.RestoreBackupContainer}
    */
   create(done) {
-    var url;
+    const url = mvelo.runtime.getURL(`components/restore-backup/restoreBackupDialog.html?id=${this.id}`);
 
     this.done = done;
     this.parent = document.querySelector(this.selector);
@@ -48,12 +46,6 @@ export default class RestoreBackupContainer {
         keyringId: this.keyringId
       }
     });
-
-    if (mvelo.crx) {
-      url = mvelo.extension.getURL('components/restore-backup/restoreBackupDialog.html?id=' + this.id);
-    } else if (mvelo.ffa) {
-      url = 'about:blank?mvelo=restoreBackup&id=' + this.id;
-    }
 
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);

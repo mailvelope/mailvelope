@@ -6,9 +6,6 @@
 import mvelo from '../mvelo';
 import * as l10n from './l10n';
 
-'use strict';
-
-
 l10n.register([
   'editor_remove_upload',
   'encrypt_download_file_button'
@@ -20,14 +17,14 @@ l10n.register([
  * @returns {boolean}
  */
 export function isOversize(file) {
-  return file.size >= mvelo.MAXFILEUPLOADSIZE;
+  return file.size >= mvelo.MAX_FILE_UPLOAD_SIZE;
 }
 
 /**
  * @returns {number}
  */
 export function getFileSize($fileList) {
-  var currentAttachmentsSize = 0;
+  let currentAttachmentsSize = 0;
   $fileList.find('.attachmentButton').each(function() {
     currentAttachmentsSize += $(this).data('file').size;
   });
@@ -46,8 +43,8 @@ export function getFileSize($fileList) {
  * @returns {Promise<Object, Error>}
  */
 export function readUploadFile(file, onLoadEnd) {
-  return new Promise(function(resolve, reject) {
-    var fileReader = new FileReader();
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
     fileReader.onload = function() {
       resolve({
         content: this.result,
@@ -67,7 +64,7 @@ export function readUploadFile(file, onLoadEnd) {
 
 export function createFileElement(file, options) {
   options = options || {};
-  var $button = $('<div/>', {
+  const $button = $('<div/>', {
     "title": file.name,
     "class": 'attachmentButton'
   });
@@ -85,7 +82,7 @@ export function createFileElement(file, options) {
 
 export function createFileDownloadElement(file, options) {
   options = options || {};
-  var $button = $('<a/>', {
+  const $button = $('<a/>', {
     "title": file.name,
     "download": file.name,
     "class": 'attachmentButton',
@@ -106,7 +103,7 @@ export function createFileDownloadElement(file, options) {
  * @returns {*|jQuery}
  */
 function getFileName(file) {
-  var fileNameNoExt = mvelo.util.extractFileNameWithoutExt(file.name);
+  const fileNameNoExt = mvelo.util.extractFileNameWithoutExt(file.name);
 
   return $('<span/>', {
     "class": 'attachmentFilename'
@@ -149,14 +146,14 @@ function getRemoveButton(onRemove) {
  * @returns {*|jQuery}
  */
 function getExtensionIcon(file) {
-  var fileExt = mvelo.util.extractFileExtension(file.name);
+  const fileExt = mvelo.util.extractFileExtension(file.name);
   if (!fileExt) {
     return '';
   }
-  var extClass = mvelo.util.getExtensionClass(fileExt);
+  const extClass = mvelo.util.getExtensionClass(fileExt);
 
   return $('<span/>', {
-    "class": 'attachmentExtension ' + extClass
+    "class": `attachmentExtension ${extClass}`
   }).text(fileExt);
 }
 
@@ -176,8 +173,8 @@ function getSecureIcon() {
  * @returns {string}
  */
 function downloadAttachment(file) {
-  var content = mvelo.util.str2ab(file.content);
-  var blob = new Blob([content], { type: file.type });
+  const content = mvelo.util.str2ab(file.content);
+  const blob = new Blob([content], {type: file.type});
 
   return window.URL.createObjectURL(blob);
 }
@@ -186,7 +183,7 @@ function downloadAttachment(file) {
  * @returns {Object}
  */
 export function getFiles($fileList) {
-  var files = [];
+  const files = [];
   $fileList.find('.attachmentButton').each(function() {
     files.push($(this).data('file'));
   });

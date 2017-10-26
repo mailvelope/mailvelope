@@ -7,8 +7,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 
-'use strict';
-
 l10n.register([
   'upload_attachment',
   'editor_sign_caption_short',
@@ -60,7 +58,7 @@ class EditorFooter extends React.Component {
         </div>
         <div className="pull-right">
           <span ref={node => this.signCaption = node} className={`txt-digital-signature ${this.props.signMsg ? 'show' : 'hide'}`}
-                data-toggle="tooltip" data-placement="left" title={sign_caption_long}>
+            data-toggle="tooltip" data-placement="left" title={sign_caption_long}>
             {sign_caption_short}
           </span>
         </div>
@@ -76,6 +74,6 @@ EditorFooter.propTypes = {
   onClickUpload: PropTypes.func, // click on upload button
   onChangeFileInput: PropTypes.func, // file input change event triggered
   onClickFileEncryption: PropTypes.func // click on navigation link
-}
+};
 
 export default EditorFooter;

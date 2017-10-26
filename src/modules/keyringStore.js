@@ -3,24 +3,16 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-const mvelo = require('lib-mvelo');
-const openpgp = require('openpgp');
+import mvelo from '../lib/lib-mvelo';
+import * as openpgp from 'openpgp';
 
-'use strict';
-
-function createKeyringStore(keyringId) {
+export function createKeyringStore(keyringId) {
   const keyringStore = new KeyringStore(keyringId);
   return keyringStore.load()
   .then(() => new Keyring(keyringStore));
 }
 
-exports.createKeyringStore = createKeyringStore;
-
 class Keyring extends openpgp.Keyring {
-  constructor(storeHandler) {
-    super(storeHandler);
-  }
-
   store() {
     return this.storeHandler.storePublic()
     .then(() => this.storeHandler.storePrivate());
@@ -38,7 +30,7 @@ class KeyringStore {
     return mvelo.storage.get(`mvelo.keyring.${this.id}.publicKeys`)
     .then(pubArmored => this.loadKeys(pubArmored, this.publicKeys))
     .then(() => mvelo.storage.get(`mvelo.keyring.${this.id}.privateKeys`))
-    .then(privArmored => this.loadKeys(privArmored, this.privateKeys))
+    .then(privArmored => this.loadKeys(privArmored, this.privateKeys));
   }
 
   loadKeys(keysArmored, keyArray) {
@@ -46,7 +38,7 @@ class KeyringStore {
       return;
     }
     keysArmored.forEach(keyArmored => {
-      let key = openpgp.key.readArmored(keyArmored);
+      const key = openpgp.key.readArmored(keyArmored);
       if (!key.err) {
         keyArray.push(key.keys[0]);
       } else {

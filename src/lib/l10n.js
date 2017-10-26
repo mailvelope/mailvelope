@@ -1,21 +1,16 @@
 
 import mvelo from '../mvelo';
 
-var map = {};
+let map = {};
 
 function register(ids) {
-  ids.forEach(function(id) {
+  ids.forEach(id => {
     map[id] = true;
   });
 }
 
 function mapToLocal() {
-  return new Promise(function(resolve) {
-    mvelo.l10n.getMessages(Object.keys(map), (localized) => {
-      map = localized;
-      resolve();
-    });
-  });
+  map = mvelo.l10n.getMessages(Object.keys(map));
 }
 
-export { map, register, mapToLocal };
+export {map, register, mapToLocal};
