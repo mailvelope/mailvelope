@@ -27,6 +27,26 @@
     "message": "Diese Klartextnachricht konnte nicht gelesen werden: $1",
     "description": "Cleartext message read error message: $1: error message."
   },
+  "dashboard_link_encrypt_decrypt_files": {
+    "description": "Dashboard encrypt decrypt files link",
+    "message": "Dateien verschlüsseln und entschlüsseln"
+  },
+  "dashboard_link_help": {
+    "description": "Dashboard help link",
+    "message": "Hilfe"
+  },
+  "dashboard_link_manage_email_providers": {
+    "description": "Dashboard manage email providers link",
+    "message": "E-Mail-Anbieter verwalten"
+  },
+  "dashboard_link_manage_keys": {
+    "description": "Dashboard manage keys link",
+    "message": "Schlüssel verwalten"
+  },
+  "dashboard_link_view_security_log": {
+    "description": "Dashboard view security logs link",
+    "message": "Sicherheitsprotokolle ansehen"
+  },
   "decrypt_digital_signature": {
     "message": "Digital unterschrieben",
     "description": "Caption digital signature"

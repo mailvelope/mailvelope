@@ -20,11 +20,13 @@ export default class Dashboard extends React.Component {
   render() {
     const mailvelopeHelpUrl = "https://www.mailvelope.com/en/help";
     return (
-      <div className="container">
-        <div className="dashboard">
+      <div className="dashboard">
+        <div className="row">
           <div className="col-md-12">
             <h3>Dashboard</h3>
           </div>
+        </div>
+        <div className="row">
           <div className="col-md-3">
             <Link to="/keyring/display" className="dashboard-item">
               <i className="fa fa-key"></i>
@@ -49,6 +51,8 @@ export default class Dashboard extends React.Component {
               <span>{l10n.map.dashboard_link_manage_email_providers}</span>
             </Link>
           </div>
+        </div>
+        <div className="row">
           <div className="col-md-3">
             <a href={mailvelopeHelpUrl} className="dashboard-item" target="_blank" rel="noreferrer noopener">
               <i className="fa fa-question-circle"></i>
