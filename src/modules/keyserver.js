@@ -43,7 +43,7 @@ export default class KeyServer {
       }
     });
   }
-
+  
   /**
    * Upload a public key to the server for verification by the user. Normally
    * a verification mail is sent out to all of the key's user ids, unless a primary
@@ -59,6 +59,7 @@ export default class KeyServer {
     }
     return window.fetch(this._url(), {
       method: 'POST',
+      headers: new Headers({'Content-Type': 'application/json'}),
       body: JSON.stringify(payload)
     })
     .then(this._checkStatus);
