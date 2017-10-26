@@ -48,7 +48,7 @@ export class SubController extends mvelo.EventHandler {
     mvelo.tabs.loadOptionsTab(hash);
   }
 
-  openApp({fragment}) {
+  openApp(fragment) {
     const hash = `#${fragment}`;
     mvelo.tabs.loadOptionsTab(hash);
   }

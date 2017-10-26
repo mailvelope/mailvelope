@@ -19,15 +19,15 @@ class ActionMenuSetup extends Component {
     return (
       <div className="primary">
         <ul className="action-menu" role="menu" aria-label={l10n.map.action_menu_setup_menu_aria_label}>
-          <li className="item-big" role="none">
-            <a href="#" className="clearfix" id="setup-keys" onClick={this.props.onMenuItemClickHandler} role="menuitem">
+          <li className="item-big" role="menuitem">
+            <a className="clearfix" id="setup-keys" onClick={this.props.onMenuItemClickHandler} role="button">
               <p><strong>{l10n.map.action_menu_configure_mailvelope}</strong> {l10n.map.action_menu_configure_mailvelope_get_started}</p>
               <i className="fa fa-gear" role="presentation"></i>
             </a>
           </li>
         </ul>
         <div className="footer">
-          <a href="#" target="_parent" id="options" onClick={this.props.onMenuItemClickHandler} role="button">
+          <a id="options" onClick={this.props.onMenuItemClickHandler} role="button">
             {l10n.map.action_menu_more_options}
           </a>
         </div>

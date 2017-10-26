@@ -23,27 +23,27 @@ class ActionMenuBase extends Component {
     return (
       <div className="primary">
         <ul className="action-menu" role="menu" aria-label={l10n.map.action_menu_primary_menu_aria_label}>
-          <li className="item-big" role="none">
-            <a href="#" className="clearfix" id="options" onClick={this.props.onMenuItemClickHandler} role="menuitem">
+          <li className="item-big" role="menuitem">
+            <a className="clearfix" id="options" onClick={this.props.onMenuItemClickHandler} role="button">
               <p><strong>{l10n.map.action_menu_dashboard}:</strong> {l10n.map.action_menu_dashboard_browse_all}</p>
               <i className="fa fa-tachometer" role="presentation"></i>
             </a>
           </li>
-          <li className="item-big" role="none">
-            <a href="#" className="clearfix" id="manage-keys" onClick={this.props.onMenuItemClickHandler} role="menuitem">
+          <li className="item-big" role="menuitem">
+            <a className="clearfix" id="manage-keys" onClick={this.props.onMenuItemClickHandler} role="button">
               <p><strong>{l10n.map.action_menu_keyring}:</strong> {l10n.map.action_menu_keyring_manage_keys}</p>
               <i className="fa fa-key" role="presentation"></i>
             </a>
           </li>
-          <li className="item-big" role="none">
-            <a href="#" className="clearfix" id="encrypt-file" onClick={this.props.onMenuItemClickHandler} role="menuitem">
+          <li className="item-big" role="menuitem">
+            <a className="clearfix" id="encrypt-file" onClick={this.props.onMenuItemClickHandler} role="button">
               <p><strong>{l10n.map.action_menu_file_encryption}:</strong> {l10n.map.action_menu_file_encryption_encrypt_file}</p>
               <i className="fa fa-files-o" role="presentation"></i>
             </a>
           </li>
         </ul>
         <div className="footer">
-          <a href="#" onClick={this.props.onShowAdvancedOptionsHandler} role="button">
+          <a onClick={this.props.onShowAdvancedOptionsHandler} role="button">
             {l10n.map.action_menu_advanced_options}
             <i className="glyphicon glyphicon-chevron-right" role="presentation"></i>
           </a>

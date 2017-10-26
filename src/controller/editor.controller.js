@@ -51,7 +51,7 @@ export default class EditorController extends sub.SubController {
     this.on('editor-container-create-draft', this._onEditorContainerCreateDraft);
     this.on('editor-options', this._onEditorOptions);
     this.on('open-security-settings', this.openSecuritySettings);
-    this.on('open-app', this.openApp);
+    this.on('open-app', ({fragment}) => this.openApp(fragment));
   }
 
   _onEditorInit() {

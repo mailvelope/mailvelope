@@ -53,7 +53,7 @@
   },
   "action_menu_configure_mailvelope_get_started": {
     "message": "to get started!",
-    "description": "To get started link in the action menu"
+    "description": "To get started link in the action menu, sentence starts with: Configure Mailvelope..."
   },
   "action_menu_dashboard": {
     "message": "Dashboard",
@@ -91,8 +91,8 @@
     "message": "More options",
     "description": "More options link in the action menu (setup state)"
   },
-  "action_menu_online_help": {
-    "message": "online help",
+  "action_menu_help": {
+    "message": "Help",
     "description": "Online help shortcut."
   },
   "action_menu_primary_menu_aria_label":  {
@@ -986,66 +986,6 @@
   "options_title": {
     "description": "Title of options page.",
     "message": "Mailvelope Options"
-  },
-  "popup_actions_current_page": {
-    "description": "Title text for the reload and add buttons",
-    "message": "Current tab:"
-  },
-  "popup_actived_checkbox": {
-    "description": "Text of the checkbox for activating/deactivating the plugin",
-    "message": "Enabled"
-  },
-  "popup_actived_checkbox_tooltip": {
-    "description": "Text of the checkbox for activating/deactivating the plugin",
-    "message": "Activate / deactivate external editor"
-  },
-  "popup_add_page": {
-    "description": "Add page to watchlist.",
-    "message": "Add"
-  },
-  "popup_add_page_tooltip": {
-    "description": "Add page to watchlist.",
-    "message": "Enable Mailvelope for this page"
-  },
-  "popup_file_encrypting": {
-    "message": "File Encryption",
-    "description": "Title text for file encryption"
-  },
-  "popup_help": {
-    "description": "Open help dialog.",
-    "message": "Help"
-  },
-  "popup_help_tooltip": {
-    "description": "Opens the help page on mailvelope.com.",
-    "message": "Opens the documentation page"
-  },
-  "popup_last_activities": {
-    "description": "Title text for the last activities area",
-    "message": "Last activities:"
-  },
-  "popup_open_page": {
-    "message": "Open",
-    "description": "Open page to file encrypt."
-  },
-  "popup_options": {
-    "description": "Open options dialog.",
-    "message": "Options"
-  },
-  "popup_reload": {
-    "description": "Reload all Mailvelope elements on page.",
-    "message": "Reload"
-  },
-  "popup_reload_tooltip": {
-    "description": "Reload all Mailvelope UI elements on page.",
-    "message": "Reload all Mailvelope elements"
-  },
-  "popup_remove_page": {
-    "description": "Remove page from watchlist.",
-    "message": "Remove"
-  },
-  "popup_remove_page_tooltip": {
-    "description": "Remove page from watchlist.",
-    "message": "Remove current page from the list of email providers"
   },
   "pwd_dialog_cache_pwd": {
     "description": "Checkbox label for remembering of the password.",

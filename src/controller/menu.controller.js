@@ -33,25 +33,25 @@ export default class MenuController extends sub.SubController {
         this.addToWatchList();
         break;
       case 'options':
-        this.loadApp('#/dashboard');
+        this.openApp('/dashboard');
         break;
       case 'manage-keys':
-        this.loadApp('#/keyring/display');
+        this.openApp('/keyring/display');
         break;
       case 'setup-keys':
-        this.loadApp('#/keyring/setup');
+        this.openApp('/keyring/setup');
         break;
       case 'encrypt-file':
-        this.loadApp('#/encryption/file-encrypt');
+        this.openApp('/encryption/file-encrypt');
         break;
       case 'security-settings':
-        this.loadApp('#/settings/security');
+        this.openApp('/settings/security');
         break;
       case 'security-logs':
-        this.loadApp('#/settings/security-log');
+        this.openApp('/settings/security-log');
         break;
       case 'email-providers':
-        this.loadApp('#/settings/watchlist');
+        this.openApp('/settings/watchlist');
         break;
       default:
         console.log('unknown browser action');
@@ -105,10 +105,6 @@ export default class MenuController extends sub.SubController {
       sub.setAppDataSlot(slotId, site);
       mvelo.tabs.loadOptionsTab(`?slotId=${slotId}#/settings/watchlist/push`);
     });
-  }
-
-  loadApp(hash) {
-    mvelo.tabs.loadOptionsTab(hash);
   }
 
   onActivate() {

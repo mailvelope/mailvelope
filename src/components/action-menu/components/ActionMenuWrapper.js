@@ -12,7 +12,7 @@ import 'font-awesome/less/font-awesome.less';
 import '../ActionMenu.less';
 
 l10n.register([
-  'action_menu_online_help'
+  'action_menu_help'
 ]);
 l10n.mapToLocal();
 
@@ -55,7 +55,7 @@ class ActionMenuWrapper extends Component {
           <div className="action-menu-header clearfix">
             <div className="mailvelope-logo"></div>
             <div className="nav-right">
-              <a href="https://www.mailvelope.com/en/help" rel="noopener noreferrer">{l10n.map.action_menu_online_help}</a>
+              <a href="https://www.mailvelope.com/help" target="_blank" rel="noopener noreferrer">{l10n.map.action_menu_help}</a>
             </div>
           </div>
           {actionMenuContent}
