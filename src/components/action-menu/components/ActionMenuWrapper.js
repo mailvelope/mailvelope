@@ -8,7 +8,6 @@ import React, {Component} from 'react';
 import * as l10n from '../../../lib/l10n';
 import ActionMenuAnimated from './ActionMenuAnimated';
 import ActionMenuSetup from './ActionMenuSetup';
-import 'font-awesome/less/font-awesome.less';
 import '../ActionMenu.less';
 
 l10n.register([

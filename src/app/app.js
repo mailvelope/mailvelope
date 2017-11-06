@@ -36,7 +36,6 @@ import WatchList from './settings/watchList';
 import SecurityLog from './settings/securityLog';
 import KeyServer from './settings/keyserver';
 
-import '../res/less/font-awesome.less';
 import './app.css';
 
 l10n.register([
