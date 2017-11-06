@@ -38,13 +38,13 @@ function InstallLandingPage() {
       <nav className="navbar navbar-default navbar-fixed-top">
         <div className="container">
           <div className="navbar-header">
-            <div className="navbar-brand settings-logo"></div>
+            <div className="navbar-brand settings-logo">Mailvelope</div>
           </div>
         </div>
       </nav>
       <div className="landing-page">
         <div className="col-md-10">
-          <h1>{l10n.map.install_landing_page_welcome}</h1>
+          <h1 className="settings-logo">{l10n.map.install_landing_page_welcome}</h1>
           <p>{gettingStartedText}</p>
           <p>{helpText}</p>
         </div>

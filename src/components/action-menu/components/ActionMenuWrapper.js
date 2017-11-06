@@ -53,7 +53,7 @@ class ActionMenuWrapper extends Component {
       <div className="action-menu">
         <div className="action-menu-wrapper">
           <div className="action-menu-header clearfix">
-            <div className="mailvelope-logo"></div>
+            <div className="mailvelope-logo settings-logo">Mailvelope</div>
             <div className="nav-right">
               <a href="https://www.mailvelope.com/help" target="_blank" rel="noopener noreferrer">{l10n.map.action_menu_help}</a>
             </div>

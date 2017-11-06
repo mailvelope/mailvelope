@@ -1,4 +1,5 @@
 @import "../../res/less/colors";
+@import "../../res/less/logo";
 
 
 @side-padding: 0.6em;
@@ -21,11 +22,12 @@ div.action-menu {
     height: 37px;
 
     .mailvelope-logo {
+      color: #777;
+      background-color: transparent;
+      font-size: 18px;
+      line-height: 20px;
       float: left;
-      width: 100px;
-      height: 27px;
-      background: 2px 5px no-repeat url(../../img/mailvelope-logo.svg);
-      background-color: rgba(0, 0, 0, 0);
+      padding: 7px 0 6px @side-padding;
     }
 
     .nav-right {

@@ -202,7 +202,7 @@ export class App extends React.Component {
                 <span className="icon-bar"></span>
                 <span className="icon-bar"></span>
               </button>
-              <Link to="/dashboard" className="navbar-brand settings-logo"></Link>
+              <Link to="/dashboard" className="navbar-brand">Mailvelope</Link>
             </div>
             <div className="collapse navbar-collapse bs-navbar-collapse">
               <ul className="nav navbar-nav" role="menu" aria-label="primary menu">
