@@ -151,8 +151,8 @@ module.exports = function(grunt) {
             'content-scripts/addToWatchlist.js',
             'img/*',
             'lib/jquery.ext.js',
-            'res/**/*',
-            '!res/*.json',
+            '!res/',
+            'res/fonts/*.woff2',
             'mvelo.*'
           ],
           dest: 'build/tmp'

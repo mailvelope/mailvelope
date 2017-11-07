@@ -8,3 +8,8 @@
   pointer-events: auto;
   cursor: pointer;
 }
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+  width: 100%;
+}
