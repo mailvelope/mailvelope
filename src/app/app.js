@@ -97,7 +97,6 @@ export class App extends React.Component {
     this.handleChangePrimaryKey = this.handleChangePrimaryKey.bind(this);
     this.handleChangePrefs = this.handleChangePrefs.bind(this);
     this.loadKeyring = this.loadKeyring.bind(this);
-    this.initMessageListener();
     app = this;
   }
 
@@ -172,17 +171,6 @@ export class App extends React.Component {
   handleDeleteKey(fingerprint, type) {
     port.send('removeKey', {fingerprint, type, keyringId: this.state.keyringId})
     .then(() => this.loadKeyring());
-  }
-
-  initMessageListener() {
-    mvelo.runtime.onMessage.addListener((request, sender, sendResponse) => {
-      switch (request.event) {
-        case 'reload-options':
-          document.location.reload();
-          sendResponse();
-          break;
-      }
-    });
   }
 
   render() {

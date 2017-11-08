@@ -132,8 +132,7 @@ mvelo.tabs.loadTab = function({path = '', hash = ''}) {
       return mvelo.tabs.create(url + hash, false);
     } else {
       // if existent, set as active tab
-      return mvelo.tabs.activate(tabs[0], {url: url + hash})
-      .then(tab => mvelo.tabs.sendMessage(tab, {event: 'reload-options', hash}));
+      return mvelo.tabs.activate(tabs[0], {url: url + hash});
     }
   });
 };
