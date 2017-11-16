@@ -91,7 +91,8 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     });
     const style2 = style.clone().attr('href', `${basePath}components/verify-inline/verifyInlineSig.css`);
     const meta = $('<meta/>', {charset: 'UTF-8'});
-    sandbox.on('load', function() {
+    sandbox.one('load', function() {
+      $(this).one('load', () => mvelo.ui.terminate(port));
       $(this).contents().find('head').append(meta)
       .append(style)
       .append(style2);

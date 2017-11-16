@@ -478,6 +478,7 @@ function createPlainText() {
   const style2 = $('<link/>', {rel: 'stylesheet', href: `${basePath}mvelo.css`});
   const meta = $('<meta/>', {charset: 'UTF-8'});
   sandbox.one('load', () => {
+    sandbox.one('load', () => mvelo.ui.terminate(port));
     sandbox.contents().find('head').append(meta)
     .append(style)
     .append(style2);

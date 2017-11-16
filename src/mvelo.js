@@ -105,6 +105,19 @@ mvelo.l10n.localizeHTML = function(l10n, idSelector) {
   });
 };
 
+mvelo.ui = {};
+
+mvelo.ui.terminate = function(port) {
+  mvelo.util.removeSecurityBackground()
+  .then(() => {
+    $('body').empty();
+    setTimeout(() => {
+      $('body').removeClass()
+      .addClass('glyphicon glyphicon-flash termination');
+    }, 0);
+  });
+  port.disconnect();
+};
 
 mvelo.util = {};
 
@@ -328,11 +341,18 @@ mvelo.util.showSecurityBackground = function(isEmbedded) {
       background-image: url(data:image/svg+xml;base64,'}${btoa(lockIcon)});
     }`;
 
+    mvelo.util.removeSecurityBackground();
+    $('head').append($('<style>').attr('id', 'secBgndCss').text(secureStyle + lockButton));
+  });
+};
+
+mvelo.util.removeSecurityBackground = function() {
+  return new Promise(resolve => {
     const secBgndStyle = document.getElementById('secBgndCss');
     if (secBgndStyle) {
       secBgndStyle.parentNode.removeChild(secBgndStyle);
     }
-    $('head').append($('<style>').attr('id', 'secBgndCss').text(secureStyle + lockButton));
+    setTimeout(resolve, 0);
   });
 };
 
@@ -445,6 +465,15 @@ mvelo.EventHandler = class {
    */
   static connect(sender) {
     return new mvelo.EventHandler(mvelo.runtime.connect({name: sender}), sender);
+  }
+
+  /**
+   * Disconnect port
+   */
+  disconnect() {
+    if (this._port) {
+      this._port.disconnect();
+    }
   }
 
   /**

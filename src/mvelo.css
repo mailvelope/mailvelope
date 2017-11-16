@@ -101,6 +101,16 @@ textarea.form-control:active, textarea.form-control:focus {
   outline: none !important;
 }
 
+.termination {
+  background-color: grey !important;
+  background-image: none !important;
+  color: lightgray;
+  font-size: 196px;
+  text-align: center;
+  display: block;
+  padding: 50px;
+}
+
 
 /* Spinner
 The MIT License (MIT)

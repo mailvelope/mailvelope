@@ -144,7 +144,8 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       sandbox: 'allow-same-origin allow-popups',
       frameBorder: 0
     })
-    .on('load', function() {
+    .one('load', function() {
+      $(this).one('load', () => mvelo.ui.terminate(port));
       $(this).contents().find('head').append($meta)
       .append($style);
       $(this).contents().find('body').append($content);
