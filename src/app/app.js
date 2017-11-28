@@ -42,6 +42,7 @@ l10n.register([
   'options_title',
   'security_background_button_title',
   'keyring_header',
+  'keyring_confirm_deletion',
   'encrypting_home',
   'options_home',
   'options_docu',
@@ -157,7 +158,7 @@ export class App extends React.Component {
   }
 
   handleDeleteKeyring(keyringId, keyringName) {
-    if (confirm(`Do you want to remove the keyring with id: ${keyringName} ?`)) {
+    if (confirm({l10n.map.keyring_confirm_deletion})) {
       port.send('delete-keyring', {keyringId})
       .then(() => this.loadKeyring());
     }
