@@ -157,7 +157,7 @@ export class App extends React.Component {
   }
 
   handleDeleteKeyring(keyringId, keyringName) {
-    if (confirm(`Do you want to remove the keyring with id: ${keyringName} ?`)) {
+    if (confirm(mvelo.l10n.getMessage('keyring_confirm_deletion', keyringName))) {
       port.send('delete-keyring', {keyringId})
       .then(() => this.loadKeyring());
     }
