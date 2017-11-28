@@ -4,40 +4,38 @@
  */
 
 import React, {Component} from 'react';
-import * as l10n from '../../../lib/l10n';
+import Trans, * as l10n from '../../../lib/l10n';
 import PropTypes from 'prop-types';
 
 l10n.register([
   'action_menu_dashboard',
-  'action_menu_dashboard_browse_all',
   'action_menu_keyring',
-  'action_menu_keyring_manage_keys',
   'action_menu_file_encryption',
-  'action_menu_file_encryption_encrypt_file',
   'action_menu_advanced_options',
   'action_menu_primary_menu_aria_label'
 ]);
 
 class ActionMenuBase extends Component {
   render() {
+    const strong = [<strong key="0"></strong>];
     return (
       <div className="primary">
         <ul className="action-menu" role="menu" aria-label={l10n.map.action_menu_primary_menu_aria_label}>
           <li className="item-big" role="menuitem">
             <a className="clearfix" id="options" onClick={this.props.onMenuItemClickHandler} role="button">
-              <p><strong>{l10n.map.action_menu_dashboard}:</strong> {l10n.map.action_menu_dashboard_browse_all}</p>
+              <p><Trans id={l10n.map.action_menu_dashboard} components={strong} /></p>
               <i className="fa fa-tachometer" role="presentation"></i>
             </a>
           </li>
           <li className="item-big" role="menuitem">
             <a className="clearfix" id="manage-keys" onClick={this.props.onMenuItemClickHandler} role="button">
-              <p><strong>{l10n.map.action_menu_keyring}:</strong> {l10n.map.action_menu_keyring_manage_keys}</p>
+              <p><Trans id={l10n.map.action_menu_keyring} components={strong} /></p>
               <i className="fa fa-key" role="presentation"></i>
             </a>
           </li>
           <li className="item-big" role="menuitem">
             <a className="clearfix" id="encrypt-file" onClick={this.props.onMenuItemClickHandler} role="button">
-              <p><strong>{l10n.map.action_menu_file_encryption}:</strong> {l10n.map.action_menu_file_encryption_encrypt_file}</p>
+              <p><Trans id={l10n.map.action_menu_file_encryption} components={strong} /></p>
               <i className="fa fa-files-o" role="presentation"></i>
             </a>
           </li>

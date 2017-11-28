@@ -48,40 +48,24 @@
     "description": "Back link in the action menu"
   },
   "action_menu_configure_mailvelope": {
-    "message": "Configure Mailvelope",
+    "message": "<0>Configure Mailvelope</0> to get started!",
     "description": "Configure Mailvelope label in the action menu"
   },
-  "action_menu_configure_mailvelope_get_started": {
-    "message": "to get started!",
-    "description": "To get started link in the action menu, sentence starts with: Configure Mailvelope..."
-  },
   "action_menu_dashboard": {
-    "message": "Dashboard",
+    "message": "<0>Dashboard:</0> browse all configuration options.",
     "description": "Dashboard label in the action menu"
-  },
-  "action_menu_dashboard_browse_all": {
-    "message": "browse all configuration options.",
-    "description": "Browse all shortcut in the action menu"
   },
   "action_menu_edit_security_settings": {
     "message": "Edit security settings",
     "description": "Edit security settings shortcut in the action menu"
   },
   "action_menu_file_encryption": {
-    "message": "File encryption",
+    "message": "<0>File encryption:</0> encrypt a file or more.",
     "description": "File encryption label in the action menu"
   },
-  "action_menu_file_encryption_encrypt_file": {
-    "message": "encrypt a file or more.",
-    "description": "File encryption shortcut in the action menu"
-  },
   "action_menu_keyring": {
-    "message": "Keyring",
+    "message": "<0>Keyring:</0> manage public and private keys.",
     "description": "Keyring label in the action menu"
-  },
-  "action_menu_keyring_manage_keys": {
-    "message": "manage public and private keys.",
-    "description": "Manage public and private keys shortcut in the action menu"
   },
   "action_menu_manage_email_providers": {
     "message": "Manage email providers",
@@ -130,6 +114,10 @@
   "dashboard_link_view_security_log": {
     "description": "Dashboard view security logs link",
     "message": "View security logs"
+  },
+  "dashboard_title": {
+    "description": "Dashboard view header",
+    "message": "Dashboard"
   },
   "decrypt_digital_signature": {
     "description": "Caption digital signature",
@@ -304,7 +292,7 @@
     "description": ""
   },
   "file_encrypt_armored_output": {
-    "message": "Encrypt to file in text format (ASCII-armored)",
+    "message": "Encrypt to file in text format (ASCII-Armor)",
     "description": ""
   },
   "file_encrypting": {
@@ -409,15 +397,11 @@
   },
   "install_landing_page_getting_started": {
     "description": "Install landing page getting started message",
-    "message": "Click on the Mailvelope icon ##1## in your browser toolbar ##2## to begin with the configuration."
+    "message": "Click on the Mailvelope icon <0></0> in your browser toolbar to begin with the configuration."
   },
   "install_landing_page_help": {
-    "description": "Install landing page help link",
-    "message": "online help"
-  },
-  "install_landing_page_help_wrapper": {
-    "description": "Install landing page help link wrapper",
-    "message": "Check out the ##1## for more information."
+    "description": "Install landing page help message",
+    "message": "Check out the <0>online help</0> for more information."
   },
   "install_landing_page_welcome": {
     "description": "Install landing page welcome message",
@@ -1326,14 +1310,6 @@
   "security_log_backup_create": {
     "description": "",
     "message": "Click to create backup"
-  },
-  "security_log_backup_dialog_cancel": {
-    "description": "",
-    "message": "Click to close in dialog"
-  },
-  "security_log_backup_dialog_ok": {
-    "description": "",
-    "message": "Click to accept in dialog"
   },
   "security_log_backup_restore": {
     "description": "",

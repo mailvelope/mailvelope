@@ -13,7 +13,8 @@ l10n.register([
   'dashboard_link_encrypt_decrypt_files',
   'dashboard_link_view_security_log',
   'dashboard_link_manage_email_providers',
-  'dashboard_link_help'
+  'dashboard_link_help',
+  'dashboard_title'
 ]);
 
 export default class Dashboard extends React.Component {
@@ -23,7 +24,7 @@ export default class Dashboard extends React.Component {
       <div className="dashboard">
         <div className="row">
           <div className="col-md-12">
-            <h3>Dashboard</h3>
+            <h3>{l10n.map.dashboard_title}</h3>
           </div>
         </div>
         <div className="row">
