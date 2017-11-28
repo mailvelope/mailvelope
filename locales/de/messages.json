@@ -893,6 +893,10 @@
     "message": "Schlüsselbund sichern",
     "description": "Title of keyring backup view"
   },
+  "keyring_confirm_deletion": {
+    "message": "Wollen Sie den Schlüsselbund löschen mit der ID: $1?",
+    "description": "Confirmation message prompted when a keyring is deleted"
+  },
   "keyring_display_keys": {
     "message": "Schlüssel anzeigen",
     "description": "Tab of keyring to display keys."
