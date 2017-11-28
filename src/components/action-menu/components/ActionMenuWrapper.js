@@ -49,7 +49,7 @@ class ActionMenuWrapper extends Component {
     }
 
     return (
-      <div className="action-menu">
+      <div className={`action-menu ${this.state.isSetupDone ? '' : 'action-menu-setup'}`}>
         <div className="action-menu-wrapper">
           <div className="action-menu-header clearfix">
             <div className="mailvelope-logo settings-logo">Mailvelope</div>

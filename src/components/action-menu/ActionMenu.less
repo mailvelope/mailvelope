@@ -7,15 +7,20 @@
 @action-menu-width: 230px;
 
 body {
-  padding:0px !important;
-  margin:0px !important;
-  border-radius: 5px
+  padding: 0px !important;
+  margin: 0px !important;
+  width: 100%;
+}
+
+div.action-menu.action-menu-setup {
+  height: auto;
 }
 
 div.action-menu {
+  height: 300px;
+  overflow: hidden;
   width: @action-menu-width;
   padding: 0;
-  margin:0;
 
   .action-menu-header {
     padding: 3px 0;
@@ -55,6 +60,7 @@ div.action-menu {
       width: @action-menu-width*2;
 
       .primary {
+        float: left;
         display: inline-block;
         width: @action-menu-width;
       }
@@ -75,26 +81,23 @@ div.action-menu {
       font-size: 1em;
 
       &.item-big {
-        height: 77px;
+        height: 76px;
 
         a {
-          padding: 19.5px @side-padding;
+          height: 76px;
+          display: flex;
+          align-items: center;
+          padding: 0 @side-padding;
 
           p {
             float: left;
-            padding-left: 1%;
-            width: 78%;
-            height: 3em;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+            padding: 0.23em 1em 0.23em 1%;
+            width: 85%;
           }
           i.fa {
             text-align: center;
             float: right;
-            width: 20%;
+            width: 10%;
             font-size: 2em;
             color: @grey;
             margin-top: .125em;
@@ -104,20 +107,20 @@ div.action-menu {
 
       /** Version of the advanced menu with icon **/
       &.with-icon {
-        height: 39.5px;
         a {
           padding: 7px 0.6em;
-          height: 39.5px;
+          display: flex;
+          align-items: center;
 
           p {
             float: left;
-            padding: 0.23em 0 0.23em 1%;
-            width: 78%;
+            padding: 0.23em .5em 0.23em 1%;
+            width: 90%;
           }
           i.fa {
             text-align: center;
             float: right;
-            width: 12%;
+            width: 10%;
             font-size: 1.3em;
             color: @grey;
             margin-top: .125em;
