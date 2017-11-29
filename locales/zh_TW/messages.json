@@ -8,7 +8,7 @@
         "description": "Help text for cache time."
     },
     "key_gen_wait_info": {
-        "message": "請稍等,産生密鑰要花上好幾分鐘，得視不同因素如密鑰檔案大小而定.",
+        "message": "請稍等，産生密鑰要花上好幾分鐘，得視不同因素如密鑰檔案大小而定。",
         "description": "Wait dialog info message"
     },
     "security_log_attachment_added": {
@@ -36,11 +36,11 @@
         "description": "User clicked in text area"
     },
     "security_log_dialog_cancel": {
-        "message": "在對話框點擊進行取消",
+        "message": "在對話框中點擊即可取消",
         "description": ""
     },
     "security_display_inline": {
-        "message": "電郵服務供應商的頁面",
+        "message": "郵件服務供應商的頁面",
         "description": "Decrypted message display option"
     },
     "verify_result_error": {
@@ -56,11 +56,11 @@
         "description": "Message in the waiting dialog for quoting email"
     },
     "keygrid_creation_date_short": {
-        "message": "已創建",
+        "message": "已建立",
         "description": "Short creation date of a PGP key. Max. width: 90px"
     },
     "security_display_decrypted": {
-        "message": "被解密的訊息要放在哪裏來顯示?",
+        "message": "被解密的訊息要在哪裏顯示？",
         "description": "Label for display options"
     },
     "general_primary_key_always": {
@@ -76,11 +76,11 @@
         "description": "Email address in User ID of a PGP key."
     },
     "key_import_extend_description": {
-        "message": "PGP 指紋用於獨特地來識別聯絡人的 PGP 金鑰。",
+        "message": "PGP 指紋是用來識別唯一特定聯絡人的 PGP 金鑰。",
         "description": "Key import dialog description."
     },
     "recovery_sheet_invite_contacts": {
-        "message": "在用戶 [BRAND] 帳戶的加密訊通訊設定，你可以邀請其它的聯絡人利用 PGP 使用加密通訊。已成功接受邀請的聯絡人可以在電郵地址旁邊的小掛鎖圖示識別出來。",
+        "message": "在用戶 [BRAND] 帳戶的加密訊通訊設定，你可以邀請其它的聯絡人利用 PGP 使用加密通訊。已成功接受邀請的聯絡人可以在郵件地址旁邊的小掛鎖圖示識別出來。",
         "description": ""
     },
     "form_confirm": {
@@ -88,7 +88,7 @@
         "description": "Confirm form button."
     },
     "key_import_hkp_search_ph": {
-        "message": "利用名字、電郵或是密鑰 ID",
+        "message": "利用名字、郵件或是密鑰 ID",
         "description": ""
     },
     "keyserver_tofu_label": {
@@ -96,7 +96,7 @@
         "description": "Mailvelope Key Server Settings Label"
     },
     "watchlist_delete_confirmation": {
-        "message": "真的要把這個網站自電郵服務供應商清單上移除嗎？",
+        "message": "真的要把這個網站自郵件服務供應商清單上移除嗎？",
         "description": "Mesage in the watchlist delete confirmation dialog."
     },
     "popup_last_activities": {
@@ -104,11 +104,11 @@
         "description": "Title text for the last activities area"
     },
     "key_export_header": {
-        "message": "滙出密鑰",
+        "message": "匯出密鑰",
         "description": "Export key dialog header."
     },
     "key_import_private_exists": {
-        "message": "用戶 $2配對現有公鑰$1的私鑰滙入到金鑰錬下",
+        "message": "用戶 $2配對現有公鑰$1的私鑰匯入到金鑰錬下",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "upload_attachment": {
@@ -136,15 +136,15 @@
         "description": "Password error message."
     },
     "key_import_extend_date": {
-        "message": "創建於:",
+        "message": "建立於:",
         "description": ""
     },
     "security_cache_header": {
-        "message": "在此瀏覧器期間記住宓碼",
+        "message": "在此瀏覧器期間記住密碼",
         "description": "Password cache header"
     },
     "popup_actived_checkbox_tooltip": {
-        "message": "啟動/ 取消外部編輯器",
+        "message": "啟動／取消外部編輯器",
         "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "security_log_encryption_operation": {
@@ -160,7 +160,7 @@
         "description": "Tooltip explaining the key id."
     },
     "recovery_sheet_explain_pgp": {
-        "message": "利用 [BRAND] 加密通訊是以 PGP-為基底的程序。它可以傳送加密電郵同時確保只有寄件者和收件人可以讀取訊息。",
+        "message": "[BRAND] 加密通訊是以 PGP-為基礎的程式，它可以讓你傳送加密郵件，同時確保只有寄件者和收件人可以讀取訊息。",
         "description": ""
     },
     "security_log_restore_backup_click": {
@@ -176,7 +176,7 @@
         "description": "Selection of key type."
     },
     "recovery_sheet_trusted_contacts": {
-        "message": "和  GMX 聯絡人，可以確認他們顯示為有效的用戶，但對於不同電郵服務供應商，就要記得要利用電郵地址認證聯絡人的身份。",
+        "message": "和  GMX 聯絡人，可以確認他們顯示為有效的用戶，但對於不同郵件服務供應商，就要記得要利用郵件地址認證聯絡人的身份。",
         "description": ""
     },
     "editor_sign_button": {
@@ -188,7 +188,7 @@
         "description": ""
     },
     "key_gen_success": {
-        "message": "已産生新密鑰並滙入到鑰匙圈內",
+        "message": "已産生新密鑰並匯入到鑰匙圈內",
         "description": "Key generation success message"
     },
     "security_log_action": {
@@ -200,7 +200,7 @@
         "description": "Label for primary private key option."
     },
     "key_import_file_select": {
-        "message": "選擇滙入密鑰純文字格式檔案",
+        "message": "選擇匯入密鑰純文字格式檔案",
         "description": "File selection button label."
     },
     "encrypt_file_selection": {
@@ -232,7 +232,7 @@
         "description": "Sub title"
     },
     "key_gen_upload": {
-        "message": "上傳公鑰到Mailvelope 的密鑰伺服器（隨時可刪除）",
+        "message": "上傳公鑰到 Mailvelope 的密鑰伺服器（隨時可刪除）",
         "description": "Upload key to Mailvelope key server checkbox"
     },
     "dashboard_link_help": {
@@ -260,7 +260,7 @@
         "description": "Open options dialog."
     },
     "keygrid_export_title": {
-        "message": "將這清單上的金鑰滙出到檔案上",
+        "message": "將這清單上的金鑰匯出到檔案上",
         "description": "Title for Export key button."
     },
     "security_log_textarea_click": {
@@ -276,7 +276,7 @@
         "description": "Dashboard encrypt decrypt files link"
     },
     "key_import_file": {
-        "message": "從檔案中滙入密鑰",
+        "message": "從檔案中匯入密鑰",
         "description": "File selection label."
     },
     "digital_signature_status_false": {
@@ -300,7 +300,7 @@
         "description": "Tab of keyring to generate key."
     },
     "key_import_error": {
-        "message": "滙入出錯",
+        "message": "匯入出錯",
         "description": "Import error alert."
     },
     "key_import_extend_headline": {
@@ -384,7 +384,7 @@
         "description": ""
     },
     "security_log_import_dialog": {
-        "message": "滙入對話框",
+        "message": "匯入對話框",
         "description": "Key import dialog as an event source"
     },
     "decrypt_digital_signature": {
@@ -396,7 +396,7 @@
         "description": ""
     },
     "recovery_sheet_creation_date": {
-        "message": "創建日期:",
+        "message": "建立日期:",
         "description": "Label for recovery sheet creation date"
     },
     "pwd_dialog_cancel": {
@@ -412,7 +412,7 @@
         "description": ""
     },
     "keygrid_send_pub_key": {
-        "message": "透過電郵傳送公鑰",
+        "message": "透過郵件傳送公鑰",
         "description": "Export key menu."
     },
     "security_log_password_dialog": {
@@ -420,7 +420,7 @@
         "description": "Password dialog as an event source"
     },
     "keygrid_export": {
-        "message": "滙出",
+        "message": "匯出",
         "description": "Export key."
     },
     "security_log_backup_code_input": {
@@ -464,7 +464,7 @@
         "description": ""
     },
     "keyring_setup_import_key": {
-        "message": "滙入密鑰",
+        "message": "匯入密鑰",
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
@@ -496,7 +496,7 @@
         "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "editor_sign_caption_short": {
-        "message": "電郵將會進行數位簽名",
+        "message": "郵件將會進行數位簽名",
         "description": ""
     },
     "recovery_sheet_provider_security": {
@@ -608,7 +608,7 @@
         "description": ""
     },
     "security_log_email_viewer": {
-        "message": "解密 PGP 電郵",
+        "message": "解密 PGP 郵件",
         "description": "Email decryption container as an event source"
     },
     "security_log_text": {
@@ -700,7 +700,7 @@
         "description": ""
     },
     "key_import_textarea": {
-        "message": "從純文字檔中滙入密鑰",
+        "message": "從純文字檔中匯入密鑰",
         "description": "Label"
     },
     "watchlist_command_create": {
@@ -752,7 +752,7 @@
         "description": "Don't store password."
     },
     "keyring_export_keys": {
-        "message": "滙出鑰匙圈",
+        "message": "匯出鑰匙圈",
         "description": "Tab of keyring to export keys."
     },
     "keygrid_signer_name": {
@@ -772,11 +772,11 @@
         "description": "Checkbox label for remembering of the password."
     },
     "popup_remove_page_tooltip": {
-        "message": "將當前頁面自電郵供應商清單移除",
+        "message": "將當前頁面自郵件供應商清單移除",
         "description": "Remove page from watchlist."
     },
     "form_import": {
-        "message": "滙入",
+        "message": "匯入",
         "description": "Import form button."
     },
     "editor_encrypt_button": {
@@ -824,7 +824,7 @@
         "description": "Title of the timestamp column of the security log table."
     },
     "keyring_setup_import_key_explanation": {
-        "message": "是否在其它設備上已有一組密鑰?請滙入現有的密鑰。只要從其它設備上滙出密鑰然後在此將其滙入即可。",
+        "message": "是否在其它設備上已有一組密鑰？請匯入現有的密鑰。只要從其它設備上匯出密鑰然後在此將其匯入即可。",
         "description": "Import key"
     },
     "popup_open_page": {
@@ -856,7 +856,7 @@
         "description": ""
     },
     "editor_no_primary_key_caption_short": {
-        "message": "電郵無法進行數位簽名",
+        "message": "郵件無法進行數位簽名",
         "description": ""
     },
     "recovery_sheet_provider_inbox": {
@@ -864,7 +864,7 @@
         "description": ""
     },
     "watchlist_record_title": {
-        "message": "電郵服務供應商",
+        "message": "郵件服務供應商",
         "description": "Title of the watchlist editor dialog."
     },
     "recovery_sheet_other_computer": {
@@ -924,7 +924,7 @@
         "description": "User clicked in text area"
     },
     "key_gen_demail": {
-        "message": "De-Mail 電郵地址",
+        "message": "De-Mail 郵件地址",
         "description": "De-Mail address name."
     },
     "keygrid_delete_confirmation": {
@@ -1004,7 +1004,7 @@
         "description": "Validity status of a PGP key."
     },
     "keyring_import_keys": {
-        "message": "滙入密鑰",
+        "message": "匯入密鑰",
         "description": "Tab of keyring to import keys."
     },
     "keygen_dialog_prolog": {
@@ -1024,7 +1024,7 @@
         "description": "Alert header of category warning."
     },
     "key_import_public_success": {
-        "message": "將使用者 $2的公鑰$1滙入鑰匙圈",
+        "message": "將使用者 $2的公鑰$1匯入鑰匙圈",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "pwd_dialog_reason_editor": {
@@ -1076,7 +1076,7 @@
         "description": ""
     },
     "editor_no_primary_key_caption_long": {
-        "message": "無法進行電郵簽名因為主金鑰遺失",
+        "message": "無法進行郵件簽名因為主金鑰遺失",
         "description": ""
     },
     "keygen_dialog_confirm_success": {
@@ -1108,11 +1108,11 @@
         "description": ""
     },
     "settings_watchlist": {
-        "message": "電郵服務供應商清單",
+        "message": "郵件服務供應商清單",
         "description": "Tab of options to display list of supported mail providers."
     },
     "recovery_sheet_key_server": {
-        "message": "其它 [BRAND] 使用GMX的PGP程序的用戶可以直接在[BRAND] 帳號上找到其目錄. 如果不想要目錄底下的其它條目,請在[BRAND] 帳號設定中取消此功能.",
+        "message": "其它 [BRAND] 使用 GMX 的 PGP 程式的用戶可以直接在[BRAND] 帳號上找到其目錄. 如果不想要目錄底下的其它條目,請在[BRAND] 帳號設定中取消此功能.",
         "description": ""
     },
     "general_editor_rich": {
@@ -1128,7 +1128,7 @@
         "description": "List item"
     },
     "security_cache_on": {
-        "message": "是的，默記住",
+        "message": "是的，請記住",
         "description": "Store password in memory for $1 minutes."
     },
     "security_log_remove_attachment": {
@@ -1208,7 +1208,7 @@
         "description": "Key import dialog header."
     },
     "encrypt_upload_file_warning_too_big": {
-        "message": "某一個檔案過肥",
+        "message": "某一個檔案過大",
         "description": "."
     },
     "recovery_sheet_print_button": {
@@ -1216,7 +1216,7 @@
         "description": ""
     },
     "general_editor_type": {
-        "message": "電郵編輯器選擇",
+        "message": "郵件編輯器選擇",
         "description": "Label for editor options."
     },
     "key_gen_pwd_unequal": {
@@ -1256,7 +1256,7 @@
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "如果有以下情況，請在此創立新復原表單",
+        "message": "如果有以下情況，請在此建立新復原表單",
         "description": ""
     },
     "key_import_default_headline": {
@@ -1300,7 +1300,7 @@
         "description": "Save form button."
     },
     "key_import_too_big": {
-        "message": "欲滙入的密鑰純文字檔案過長無法處理，請試著把它分成小一點單位",
+        "message": "欲匯入的密鑰純文字檔案過長無法處理，請試著把它分成小一點單位",
         "description": "Import error alert."
     },
     "ext_name": {
@@ -1392,7 +1392,7 @@
         "description": ""
     },
     "editor_key_not_found_msg": {
-        "message": "所有收件人都要有 PGP密鑰來作加密，但你還是可以簽署這個訊息。",
+        "message": "所有收件人都要有 PGP 密鑰來作加密，但你還是可以簽署這個訊息。",
         "description": "Warning for when a recipient key was not found."
     },
     "options_docu": {
@@ -1432,7 +1432,7 @@
         "description": ""
     },
     "key_gen_invalid_email": {
-        "message": "無效的電郵地址",
+        "message": "無效的郵件地址",
         "description": "Error message."
     },
     "pwd_dialog_userid": {
@@ -1456,7 +1456,7 @@
         "description": "Tab allowing to backup and restore the settings."
     },
     "reload_webmail_tab": {
-        "message": "請重新載入電郵服務供應商頁面好讓設定生效。",
+        "message": "請重新載入郵件服務供應商頁面好讓設定生效。",
         "description": "Info message."
     },
     "form_yes": {
@@ -1472,7 +1472,7 @@
         "description": "Export key menu."
     },
     "ext_description": {
-        "message": "強化電郵供應商端對端的加密功能，基於 OpenPGP 標準的安全電郵通訊。",
+        "message": "強化郵件供應商端對端的加密功能，基於 OpenPGP 標準的安全郵件通訊。",
         "description": "Description of the extension."
     },
     "keybackup_setup_dialog_list_1": {
@@ -1488,7 +1488,7 @@
         "description": "Advanced key generation settings."
     },
     "key_import_private_success": {
-        "message": "滙入使用者 $2的私鑰$1到鑰匙圈",
+        "message": "匯入使用者 $2的私鑰$1到鑰匙圈",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "settings_security": {
@@ -1504,7 +1504,7 @@
         "description": "Forward form button."
     },
     "key_import_unable": {
-        "message": "因意外無法滙入密鑰: $1",
+        "message": "因意外無法匯入密鑰: $1",
         "description": "Import error message: $1: error message."
     },
     "editor_sign_caption_long": {
@@ -1528,7 +1528,7 @@
         "description": "Setup keyring for mail provider."
     },
     "keygrid_creation_date": {
-        "message": "創建日期",
+        "message": "建立日期",
         "description": "Creation date of a PGP key."
     },
     "recovery_sheet_other_contacts": {
