@@ -29,6 +29,7 @@
   "permissions": [
     "*://*/*",
     "clipboardWrite",
+    "downloads",
     "storage",
     "tabs",
     "webNavigation"

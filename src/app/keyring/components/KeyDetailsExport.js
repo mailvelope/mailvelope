@@ -41,7 +41,11 @@ export default class KeyDetailsExport extends React.Component {
   }
 
   handleClickExport() {
-    this.exportLink.click();
+    chrome.downloads.download({
+      url: this.fileURL,
+      filename: this.state.fileName,
+      saveAs: true
+    });
   }
 
   componentWillUnmount() {
@@ -88,7 +92,6 @@ export default class KeyDetailsExport extends React.Component {
         <div className="form-inline">
           <input type="text" value={this.state.fileName} onChange={this.handleFileNameChange} className="form-control" style={{width: '250px', marginRight: '10px'}} />
           <button type="button" className="btn btn-primary" onClick={this.handleClickExport}>{l10n.map.key_export_create_file}</button>
-          <a className="hide" download={this.state.fileName} href={this.fileURL} ref={node => this.exportLink = node}></a>
         </div>
         {
           this.state.type !== 'pub' &&
