@@ -445,7 +445,7 @@
   },
   "key_export_warning_private": {
     "description": "Key export warning.",
-    "message": "This file also contains private keys."
+    "message": "This file also contains private keys. Keep the file in a safe place and do not share with others."
   },
   "key_gen_advanced_btn": {
     "description": "Advanced key generation settings.",

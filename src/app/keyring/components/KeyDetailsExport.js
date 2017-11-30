@@ -56,11 +56,11 @@ export default class KeyDetailsExport extends React.Component {
     const type = this.state.type;
     const armoredExport = this.state.keys.reduce((acc, key) => {
       let result = acc;
-      if (type === 'pub' || type === 'all') {
-        result += key.armoredPublic || '' + '\n';
-      }
       if (key.armoredPrivate && (type === 'priv' || type === 'all')) {
-        result += key.armoredPrivate || '' + '\n';
+        result += `${key.armoredPrivate || ''}\n`;
+      }
+      if (type === 'pub' || type === 'all') {
+        result += key.armoredPublic || '';
       }
       return result;
     }, '');
@@ -71,19 +71,23 @@ export default class KeyDetailsExport extends React.Component {
       <div>
         {
           this.state.keys.some(key => key.armoredPrivate) &&
-          <div className="btn-group" data-toggle="buttons" style={{marginBottom: '10px'}}>
-            <label className={`btn btn-primary ${type === 'pub' ? 'active' : ''}`} onClick={() => this.handleTypeChange('pub')}>
-              <input type="radio" name="public" defaultChecked={type === 'pub'} />
-              <span>{l10n.map.keyring_public}</span>
-            </label>
-            <label className={`btn btn-primary ${type === 'priv' ? 'active' : ''}`} onClick={() => this.handleTypeChange('priv')}>
-              <input type="radio" name="private" defaultChecked={type === 'priv'} />
-              <span>{l10n.map.keyring_private}</span>
-            </label>
-            <label className={`btn btn-primary ${type === 'all' ? 'active' : ''}`} onClick={() => this.handleTypeChange('all')}>
-              <input type="radio" name="all" defaultChecked={type === 'all'} />
-              <span>{l10n.map.keygrid_all_keys}</span>
-            </label>
+          <div>
+            <div className="btn-group" data-toggle="buttons" style={{marginBottom: '10px', marginRight: '20px'}}>
+              <label className={`btn btn-success ${type === 'pub' ? 'active' : ''}`} onClick={() => this.handleTypeChange('pub')}>
+                <input type="radio" name="public" defaultChecked={type === 'pub'} />
+                <span>{l10n.map.keyring_public}</span>
+              </label>
+            </div>
+            <div className="btn-group" data-toggle="buttons" style={{marginBottom: '10px'}}>
+              <label className={`btn btn-warning ${type === 'priv' ? 'active' : ''}`} onClick={() => this.handleTypeChange('priv')}>
+                <input type="radio" name="private" defaultChecked={type === 'priv'} />
+                <span>{l10n.map.keyring_private}</span>
+              </label>
+              <label className={`btn btn-warning ${type === 'all' ? 'active' : ''}`} onClick={() => this.handleTypeChange('all')}>
+                <input type="radio" name="all" defaultChecked={type === 'all'} />
+                <span>{l10n.map.keygrid_all_keys}</span>
+              </label>
+            </div>
           </div>
         }
         <div className="form-group">

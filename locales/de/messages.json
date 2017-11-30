@@ -444,7 +444,7 @@
     "description": "Export key dialog header."
   },
   "key_export_warning_private": {
-    "message": "Diese Datei enthält auch private Schlüssel.",
+    "message": "Diese Datei enthält auch private Schlüssel. Bewahren Sie die Datei an einem sicheren Ort auf und teilen Sie sie nicht mit anderen.",
     "description": "Key export warning."
   },
   "key_gen_advanced_btn": {
