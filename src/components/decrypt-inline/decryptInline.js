@@ -24,8 +24,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   // communication to background page
   let port;
   // shares ID with DecryptFrame
-  let id;
-  let name;
   let watermark;
   //var spinnerTimer;
   const basePath = '../../';
@@ -48,13 +46,10 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     }
     document.body.dataset.mvelo = true;
     const qs = jQuery.parseQuerystring();
-    id = qs.id;
-    name = `dDialog-${id}`;
     // open port to background page
-    port = mvelo.runtime.connect({name});
-    port.onMessage.addListener(messageListener);
-    port.postMessage({event: 'decrypt-inline-init', sender: name});
-
+    port = mvelo.EventHandler.connect(`dDialog-${qs.id}`);
+    registerEventListeners();
+    port.emit('decrypt-inline-init');
 
     // show spinner
     mvelo.util.addLoadingAnimation();
@@ -73,6 +68,29 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
 
     mvelo.util.showSecurityBackground(true);
     $(window).on('resize', resizeFont);
+  }
+
+  function registerEventListeners() {
+    port.on('decrypted-message', onDecryptedMessage);
+    port.on('add-decrypted-attachment', msg => {
+      showMessageArea();
+      addAttachment(msg.message.filename, msg.message.content, msg.message.mimeType, msg.message.attachmentId);
+      $('body').addClass('secureBackground');
+    });
+    port.on('signature-verification', msg => {
+      signers = msg.signers;
+      setSignatureButton(msg.isContainer);
+    });
+    port.on('error-message', ({error}) => showErrorMsg(error));
+  }
+
+  function onDecryptedMessage({message}) {
+    showMessageArea();
+    // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
+    message = $.parseHTML(message);
+    $('#decryptmail').contents().find('#content').append(message);
+    hideSpinner();
+    $('body').addClass('secureBackground');
   }
 
   function hideSpinner() {
@@ -122,9 +140,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       'l10n-title-id': 'security_background_button_title'
     })
     .append($('<span/>', {class: 'glyphicon lockBtnIcon'}))
-    .on("click", () => {
-      port.postMessage({event: 'open-security-settings', sender: name});
-    });
+    .on('click', () => port.emit('open-security-settings'));
   }
 
   function addSandbox() {
@@ -197,7 +213,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     $('#errorwell').showAlert(l10n.alert_header_error || 'alert_error', msg, 'danger')
     .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
     .find('button').click(() => {
-      port.postMessage({event: 'decrypt-dialog-cancel', sender: name});
+      port.emit('decrypt-dialog-cancel');
     });
   }
 
@@ -249,9 +265,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
    * @param {string} type
    */
   function logUserInput(type) {
-    port.postMessage({
-      event: 'decrypt-inline-user-input',
-      sender: name,
+    port.emit('decrypt-inline-user-input', {
       source: 'security_log_email_viewer',
       type
     });
@@ -333,35 +347,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     }
 
     $btn.show();
-  }
-
-  function messageListener(msg) {
-    //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
-    switch (msg.event) {
-      case 'decrypted-message':
-        showMessageArea();
-        // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
-        msg.message = $.parseHTML(msg.message);
-        $('#decryptmail').contents().find('#content').append(msg.message);
-        hideSpinner();
-        $('body').addClass('secureBackground');
-        break;
-      case 'add-decrypted-attachment':
-        //console.log('popup adding decrypted attachment: ', JSON.stringify(msg.message));
-        showMessageArea();
-        addAttachment(msg.message.filename, msg.message.content, msg.message.mimeType, msg.message.attachmentId);
-        $('body').addClass('secureBackground');
-        break;
-      case 'signature-verification':
-        signers = msg.signers;
-        setSignatureButton(msg.isContainer);
-        break;
-      case 'error-message':
-        showErrorMsg(msg.error);
-        break;
-      default:
-        console.log('unknown event');
-    }
   }
 
   $(document).ready(init);

@@ -21,8 +21,6 @@
 var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
-  let id;
-  let name;
   let port;
 
   let $keyBackupGenerator;
@@ -50,11 +48,9 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     }
     document.body.dataset.mvelo = true;
     const qs = jQuery.parseQuerystring();
-    id = qs.id;
-    name = `keyBackupDialog-${id}`;
 
-    port = mvelo.runtime.connect({name});
-    port.onMessage.addListener(messageListener);
+    port = mvelo.EventHandler.connect(`keyBackupDialog-${qs.id}`);
+    registerEventListeners();
 
     const $body = $('body').empty().addClass("secureBackground");
 
@@ -67,24 +63,34 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       mvelo.l10n.localizeHTML();
       mvelo.util.showSecurityBackground(true);
 
-      $secureBgndButton.on('click', () => {
-        port.postMessage({event: 'open-security-settings', sender: name});
-      });
+      $secureBgndButton.on('click', () => port.emit('open-security-settings'));
 
       $createBackupCodeBtn.on('click', () => {
         logUserInput('security_log_backup_create');
         showWaitingDialog();
       });
 
-      port.postMessage({event: 'keybackup-dialog-init', sender: name});
+      port.emit('keybackup-dialog-init');
     });
+  }
+
+  function registerEventListeners() {
+    port.on('set-init-data', ({data}) => translateTexts(data.initialSetup));
+    port.on('error-message', onError);
+  }
+
+  function onError(msg) {
+    showKeyBackupGenerator();
+    if (msg.error.code !== 'PWD_DIALOG_CANCEL') {
+      showErrorMsg(l10n.keybackup_failed);
+    }
   }
 
   function showWaitingDialog() {
     $keyBackupGenerator.fadeOut('fast', () => {
       $keyBackupWaiting.fadeIn('fast', () => {
         window.setTimeout(() => {
-          port.postMessage({event: 'create-backup-code-window', sender: name});
+          port.emit('create-backup-code-window');
         }, 3000); // 3sec
       });
     });
@@ -117,9 +123,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
    * @param {string} type
    */
   function logUserInput(type) {
-    port.postMessage({
-      event: 'key-backup-user-input',
-      sender: name,
+    port.emit('key-backup-user-input', {
       source: 'security_log_key_backup',
       type
     });
@@ -127,29 +131,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
 
   function showErrorMsg(msg) {
     $('#errorMsg').html(msg).fadeIn();
-  }
-
-  /**
-   * Mananaged the different post messages
-   * @param {string} msg
-   */
-  function messageListener(msg) {
-    //console.log('generator messageListener: ', JSON.stringify(msg));
-    switch (msg.event) {
-      case 'set-init-data': {
-        const data = msg.data;
-        translateTexts(data.initialSetup);
-        break;
-      }
-      case 'error-message':
-        showKeyBackupGenerator();
-        if (msg.error.code !== 'PWD_DIALOG_CANCEL') {
-          showErrorMsg(l10n.keybackup_failed);
-        }
-        break;
-      default:
-        console.log('unknown event');
-    }
   }
 
   $(document).ready(init);

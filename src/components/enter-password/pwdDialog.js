@@ -21,8 +21,6 @@
 var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
-  let id;
-  let name;
   let port;
   const l10n = mvelo.l10n.getMessages([
     'pwd_dialog_pwd_please',
@@ -36,11 +34,9 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
 
   function init() {
     const qs = jQuery.parseQuerystring();
-    id = qs.id;
-    name = `pwdDialog-${id}`;
     // open port to background page
-    port = mvelo.runtime.connect({name});
-    port.onMessage.addListener(messageListener);
+    port = mvelo.EventHandler.connect(`pwdDialog-${qs.id}`);
+    registerEventListeners();
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);
     $('form').on('submit', onOk);
@@ -65,7 +61,30 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     $('#keyId').attr('title', l10n.pwd_dialog_keyid_tooltip);
 
     mvelo.util.showSecurityBackground();
-    port.postMessage({event: 'pwd-dialog-init', sender: name});
+    port.emit('pwd-dialog-init');
+  }
+
+  function registerEventListeners() {
+    port.on('set-init-data', setInitData);
+    port.on('wrong-password', onWrongPassword);
+  }
+
+  function setInitData({data}) {
+    $('#keyId').text(data.keyid.toUpperCase());
+    $('#userId').text(data.userid);
+    $('#pwdDialogReason').text(data.reason !== '' ? l10n[data.reason.toLowerCase()] : '');
+    if (data.cache) {
+      $('#remember').prop('checked', true);
+    }
+  }
+
+  function onWrongPassword() {
+    $('#okBtn').prop('disabled', false);
+    $('body').removeClass('busy');
+    $('#spinner').hide();
+    $('.modal-body').css('opacity', '1');
+    $('#password').val('').focus().closest('.control-group').addClass('error')
+    .end().next().removeClass('hide');
   }
 
   function onOk() {
@@ -75,14 +94,14 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
     $('#spinner').show();
     $('.modal-body').css('opacity', '0.4');
-    port.postMessage({event: 'pwd-dialog-ok', sender: name, password: pwd, cache});
+    port.emit('pwd-dialog-ok', {password: pwd, cache});
     $('#okBtn').prop('disabled', true);
     return false;
   }
 
   function onCancel() {
     logUserInput('security_log_dialog_cancel');
-    port.postMessage({event: 'pwd-dialog-cancel', sender: name});
+    port.emit('pwd-dialog-cancel');
     return false;
   }
 
@@ -91,38 +110,10 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
    * @param {string} type
    */
   function logUserInput(type) {
-    port.postMessage({
-      event: 'pwd-user-input',
-      sender: name,
+    port.emit('pwd-user-input', {
       source: 'security_log_password_dialog',
       type
     });
-  }
-
-  function messageListener(msg) {
-    //console.log('decrypt dialog messageListener: ', JSON.stringify(msg));
-    switch (msg.event) {
-      case 'set-init-data': {
-        const data = msg.data;
-        $('#keyId').text(data.keyid.toUpperCase());
-        $('#userId').text(data.userid);
-        $('#pwdDialogReason').text(data.reason !== '' ? l10n[data.reason.toLowerCase()] : '');
-        if (data.cache) {
-          $('#remember').prop('checked', true);
-        }
-        break;
-      }
-      case 'wrong-password':
-        $('#okBtn').prop('disabled', false);
-        $('body').removeClass('busy');
-        $('#spinner').hide();
-        $('.modal-body').css('opacity', '1');
-        $('#password').val('').focus().closest('.control-group').addClass('error')
-        .end().next().removeClass('hide');
-        break;
-      default:
-        console.log('unknown event');
-    }
   }
 
   $(document).ready(init);

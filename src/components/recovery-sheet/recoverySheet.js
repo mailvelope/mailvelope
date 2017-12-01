@@ -24,25 +24,23 @@ var QRCode = QRCode || null; // eslint-disable-line no-var
 (function() {
   // communication to background page
   let port;
-  // shares ID with KeyBackup Frame
-  let id;
-  // type + id
-  let name;
 
   function init() {
     const qs = jQuery.parseQuerystring();
-    id = qs.id;
-    name = `backupCodeWindow-${id}`;
-    // open port to background page
-    port = mvelo.runtime.connect({name});
-    port.onMessage.addListener(messageListener);
+    port = mvelo.EventHandler.connect(`backupCodeWindow-${qs.id}`);
+    registerEventListeners();
     const formattedDate = new Date();
     $('#currentDate').html(formattedDate.toLocaleDateString());
     mvelo.l10n.localizeHTML();
     setBrand(qs.brand);
     mvelo.util.showSecurityBackground(qs.embedded);
-    port.postMessage({event: 'get-logo-image', sender: name});
-    port.postMessage({event: 'get-backup-code', sender: name});
+    port.emit('get-logo-image');
+    port.emit('get-backup-code');
+  }
+
+  function registerEventListeners() {
+    port.on('set-backup-code', ({backupCode}) => setBackupCode(backupCode));
+    port.on('set-logo-image', ({image}) => setLogoImage(image));
   }
 
   function setBrand(brandId) {
@@ -97,20 +95,7 @@ var QRCode = QRCode || null; // eslint-disable-line no-var
       window.print();
     });
 
-    port.postMessage({event: 'backup-code-window-init', sender: name});
-  }
-
-  function messageListener(msg) {
-    switch (msg.event) {
-      case 'set-backup-code':
-        setBackupCode(msg.backupCode);
-        break;
-      case 'set-logo-image':
-        setLogoImage(msg.image);
-        break;
-      default:
-        console.log('unknown event');
-    }
+    port.emit('backup-code-window-init');
   }
 
   $(document).ready(init);

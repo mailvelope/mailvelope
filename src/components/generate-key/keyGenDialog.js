@@ -21,8 +21,6 @@
 var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
-  let id;
-  let name;
   let port;
   let isInputChange;
 
@@ -46,11 +44,9 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     }
     document.body.dataset.mvelo = true;
     const qs = jQuery.parseQuerystring();
-    id = qs.id;
-    name = `keyGenDialog-${id}`;
 
-    port = mvelo.runtime.connect({name});
-    port.onMessage.addListener(messageListener);
+    port = mvelo.EventHandler.connect(`keyGenDialog-${qs.id}`);
+    registerEventListeners();
 
     $('body').addClass("secureBackground");
 
@@ -71,9 +67,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       mvelo.util.showSecurityBackground(true);
 
       $secureBgndButton
-      .on('click', () => {
-        port.postMessage({event: 'open-security-settings', sender: name});
-      });
+      .on('click', () => port.emit('open-security-settings'));
 
       $pwdInput
       .on('input paste', () => {
@@ -93,10 +87,16 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       $confirmErrorNoEqual.hide();
       $confirmInput.prop('disabled', true);
 
-      port.postMessage({event: 'keygen-dialog-init', sender: name});
+      port.emit('keygen-dialog-init');
 
       isInputChange = true;
     });
+  }
+
+  function registerEventListeners() {
+    port.on('check-dialog-inputs', () => port.emit('input-check', {isValid: validate(), pwd: $pwdInput.val()}));
+    port.on('show-password', showPasswordPanel);
+    port.on('show-waiting', showWaitingPanel);
   }
 
   /**
@@ -205,9 +205,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
    * @param {string} type
    */
   function logUserInput(type) {
-    port.postMessage({
-      event: 'keygen-user-input',
-      sender: name,
+    port.emit('keygen-user-input', {
       source: 'security_log_key_generator',
       type
     });
@@ -223,27 +221,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     $keyGenPasswordPanel.fadeOut('fast', () => {
       $keyGenWaitingPanel.fadeIn('fast');
     });
-  }
-
-  /**
-   * Mananaged the different post messages
-   * @param {string} msg
-   */
-  function messageListener(msg) {
-    //console.log('keyGenDialog messageListener: ', JSON.stringify(msg));
-    switch (msg.event) {
-      case 'check-dialog-inputs':
-        port.postMessage({event: 'input-check', sender: name, isValid: validate(), pwd: $pwdInput.val()});
-        break;
-      case 'show-password':
-        showPasswordPanel();
-        break;
-      case 'show-waiting':
-        showWaitingPanel();
-        break;
-      default:
-        console.log('unknown event');
-    }
   }
 
   $(document).ready(init);

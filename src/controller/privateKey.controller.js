@@ -131,7 +131,7 @@ export default class PrivateKeyController extends sub.SubController {
     })
     .catch(err => {
       this.ports.restoreBackupDialog.postMessage({event: 'error-message', error: err});
-      if (backup.error.code !== 'WRONG_RESTORE_CODE') {
+      if (err.code !== 'WRONG_RESTORE_CODE') {
         this.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', error: err});
       }
     });

@@ -21,8 +21,6 @@
 var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
-  let id;
-  let name;
   let port;
   const l10n = mvelo.l10n.getMessages([
     'key_import_default_headline',
@@ -33,11 +31,8 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
 
   function init() {
     const qs = jQuery.parseQuerystring();
-    id = qs.id;
-    name = `importKeyDialog-${id}`;
-    // open port to background page
-    port = mvelo.runtime.connect({name});
-    port.onMessage.addListener(messageListener);
+    port = mvelo.EventHandler.connect(`importKeyDialog-${qs.id}`);
+    registerEventListeners();
 
     $('#okBtn').click(onOk);
     $('#cancelBtn').click(onCancel);
@@ -47,7 +42,51 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
 
     mvelo.l10n.localizeHTML();
     mvelo.util.showSecurityBackground();
-    port.postMessage({event: 'key-import-dialog-init', sender: name});
+    port.emit('key-import-dialog-init');
+  }
+
+  function registerEventListeners() {
+    port.on('key-details', onKeyDetails);
+    port.on('import-error', onImportError);
+  }
+
+  function onKeyDetails(msg) {
+    const importDialogHeadline = (msg.invalidated) ? l10n.key_import_invalidated_headline : l10n.key_import_default_headline;
+    let importDialogDescription = (msg.invalidated) ? l10n.key_import_invalidated_description : l10n.key_import_default_description;
+
+    const userName = $('<span/>').addClass('userName').text(msg.key.name);
+    const userEmail = $('<span/>').addClass('userEmail').text(`(${msg.key.email})`);
+    const date = (new Date(msg.key.crDate)).toLocaleString();
+    const contact = msg.key.email ? msg.key.email : msg.key.name;
+    importDialogDescription = importDialogDescription.replace('[CONTACT]', `<em>${contact.replace(/\((.*|\s)\)/, '')}</em>`);
+
+    $('#key_import_headline').html(importDialogHeadline);
+    $('#key_import_default_description').html(importDialogDescription);
+
+    if (msg.key.email) {
+      $('.userId').empty().append(userName, ' ', userEmail);
+    } else {
+      $('.userId').empty().append(userName);
+    }
+    $('.fingerprint').text(msg.key.fingerprint.match(/.{1,4}/g).join(' '));
+    $('.createDate').text(date);
+
+    if (msg.invalidated) {
+      $('#closeFooter').show();
+      $('#defaultFooter').hide();
+    } else {
+      $('#closeFooter').hide();
+      $('#defaultFooter').show();
+    }
+  }
+
+  function onImportError(msg) {
+    $('okBtn').prop('disabled', false);
+    $('body').removeClass('busy');
+    $('#spinner').hide();
+    $('.modal-body').css('opacity', '1');
+    $('#importAlert').showAlert('Error', msg.message, 'danger');
+    $('okBtn').prop('disabled', true);
   }
 
   function onOk() {
@@ -55,14 +94,14 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     $('body').addClass('busy'); // https://bugs.webkit.org/show_bug.cgi?id=101857
     $('#spinner').show();
     $('.modal-body').css('opacity', '0.4');
-    port.postMessage({event: 'key-import-dialog-ok', sender: name});
+    port.emit('key-import-dialog-ok');
     $('#okBtn').prop('disabled', true);
     return false;
   }
 
   function onCancel() {
     logUserInput('security_log_dialog_cancel');
-    port.postMessage({event: 'key-import-dialog-cancel', sender: name});
+    port.emit('key-import-dialog-cancel');
     return false;
   }
 
@@ -71,64 +110,10 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
    * @param {string} type
    */
   function logUserInput(type) {
-    port.postMessage({
-      event: 'key-import-user-input',
-      sender: name,
+    port.emit('key-import-user-input', {
       source: 'security_log_import_dialog',
       type
     });
-  }
-
-  function messageListener(msg) {
-    //console.log('key import dialog messageListener: ', JSON.stringify(msg));
-    const $okBtn = $('okBtn');
-    const $body = $('body');
-    const $spinner = $('#spinner');
-    const $modalBody = $('.modal-body');
-    const $importAlert = $('#importAlert');
-
-    switch (msg.event) {
-      case 'key-details': {
-        const importDialogHeadline = (msg.invalidated) ? l10n.key_import_invalidated_headline : l10n.key_import_default_headline;
-        let importDialogDescription = (msg.invalidated) ? l10n.key_import_invalidated_description : l10n.key_import_default_description;
-
-        const userName = $('<span/>').addClass('userName').text(msg.key.name);
-        const userEmail = $('<span/>').addClass('userEmail').text(`(${msg.key.email})`);
-        const date = (new Date(msg.key.crDate)).toLocaleString();
-        const contact = msg.key.email ? msg.key.email : msg.key.name;
-        importDialogDescription = importDialogDescription.replace('[CONTACT]', `<em>${contact.replace(/\((.*|\s)\)/, '')}</em>`);
-
-        $('#key_import_headline').html(importDialogHeadline);
-        $('#key_import_default_description').html(importDialogDescription);
-
-        if (msg.key.email) {
-          $('.userId').empty().append(userName, ' ', userEmail);
-        } else {
-          $('.userId').empty().append(userName);
-        }
-        $('.fingerprint').text(msg.key.fingerprint.match(/.{1,4}/g).join(' '));
-        $('.createDate').text(date);
-
-        if (msg.invalidated) {
-          $('#closeFooter').show();
-          $('#defaultFooter').hide();
-        } else {
-          $('#closeFooter').hide();
-          $('#defaultFooter').show();
-        }
-        break;
-      }
-      case 'import-error':
-        $okBtn.prop('disabled', false);
-        $body.removeClass('busy');
-        $spinner.hide();
-        $modalBody.css('opacity', '1');
-        $importAlert.showAlert('Error', msg.message, 'danger');
-        $okBtn.prop('disabled', true);
-        break;
-      default:
-        console.log('unknown event');
-    }
   }
 
   $(document).ready(init);
