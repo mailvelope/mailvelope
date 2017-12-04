@@ -2,16 +2,15 @@
 import EditorController from '../../src/controller/editor.controller';
 import * as keyring from '../../src/modules/keyring';
 import * as prefs from '../../src/modules/prefs';
+import {Port} from '../util';
 
 describe('Editor controller unit tests', () => {
   let ctrl;
   let port;
   const preferences = Object.assign({}, prefs.prefs);
-  let testRecipients;
 
   beforeEach(() => {
-    testRecipients = [{email: 'test@example.com'}];
-    port = {name: 'foo', postMessage(opt) { ctrl.handlePortMessage(opt); }};
+    port = new Port('editor-1');
     ctrl = new EditorController(port);
 
     sinon.stub(ctrl, 'emit');
@@ -24,7 +23,7 @@ describe('Editor controller unit tests', () => {
 
   describe('Check event handlers', () => {
     it('should handle recipients', () => {
-      expect(ctrl._handlers.get('editor-init')).to.equal(ctrl._onEditorInit);
+      expect(ctrl._handlers.get('editor-init')).to.exist;
     });
   });
 
@@ -89,11 +88,6 @@ describe('Editor controller unit tests', () => {
       ctrl.displayRecipientProposal();
       expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: [], tofu: true}).calledOnce).to.be.true;
     });
-
-    it('should handle recipients', () => {
-      ctrl.displayRecipientProposal(testRecipients);
-      expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: testRecipients, tofu: true}).calledOnce).to.be.true;
-    });
   });
 
   describe('transferEncrypted', () => {
@@ -108,16 +102,6 @@ describe('Editor controller unit tests', () => {
         keys: [{name: 'n', email: 'e', private: 'p'}]
       });
       expect(ctrl.encryptCallback.withArgs(null, 'a', [{name: 'n', email: 'e'}]).calledOnce).to.be.true;
-    });
-
-    it('should emit message to encrypt container', () => {
-      ctrl.ports = {editorCont: {}};
-      ctrl.transferEncrypted({
-        armored: 'a',
-        keys: [{name: 'n', email: 'e', private: 'p'}]
-      });
-      expect(ctrl.encryptCallback.called).to.be.false;
-      expect(ctrl.emit.withArgs('encrypted-message', {message: 'a'}, {}).calledOnce).to.be.true;
     });
   });
 

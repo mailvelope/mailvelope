@@ -60,7 +60,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     $('#password').attr('placeholder', l10n.pwd_dialog_pwd_please);
     $('#keyId').attr('title', l10n.pwd_dialog_keyid_tooltip);
 
-    mvelo.util.showSecurityBackground();
+    mvelo.util.showSecurityBackground(port);
     port.emit('pwd-dialog-init');
   }
 
@@ -69,7 +69,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     port.on('wrong-password', onWrongPassword);
   }
 
-  function setInitData({data}) {
+  function setInitData(data) {
     $('#keyId').text(data.keyid.toUpperCase());
     $('#userId').text(data.userid);
     $('#pwdDialogReason').text(data.reason !== '' ? l10n[data.reason.toLowerCase()] : '');

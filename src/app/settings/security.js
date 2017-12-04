@@ -190,7 +190,7 @@ function onSave() {
   .then(() => {
     normalize();
     $('#secReloadInfo').show();
-    mvelo.util.showSecurityBackground();
+    mvelo.util.showSecurityBackground(port);
   });
   return false;
 }

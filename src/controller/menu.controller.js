@@ -18,7 +18,6 @@ export default class MenuController extends sub.SubController {
     this.on('browser-action', this.onBrowserAction);
     this.on('get-prefs', () => prefs.prefs);
     this.on('get-ui-log', ({securityLogLength}) => uiLog.getLatest(securityLogLength));
-    this.on('get-security-background', prefs.getSecurityBackground);
     this.on('get-is-setup-done', this.getIsSetupDone);
     this.on('activate', this.onActivate);
     this.on('deactivate', this.onDeactivate);

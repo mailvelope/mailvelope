@@ -22,60 +22,52 @@ export default class PwdController extends SubController {
     this.options = null;
     this.resolve = null;
     this.reject = null;
+    // register event handlers
+    this.on('pwd-dialog-init', this.onPwdDialogInit);
+    this.on('pwd-dialog-cancel', this.onCancel);
+    this.on('pwd-dialog-ok', this.onOk);
+    this.on('pwd-user-input', msg => uiLog.push(msg.source, msg.type));
   }
 
-  handlePortMessage(msg) {
-    //console.log('pwd.controller handlePortMessage msg', msg);
-    switch (msg.event) {
-      case 'pwd-dialog-init':
-        // pass over keyid and userid to dialog
-        this.ports.pwdDialog.postMessage({event: 'set-init-data', data: {
-          userid: this.options.userid,
-          keyid: this.options.key.primaryKey.getKeyId().toHex(),
-          cache: prefs.prefs.security.password_cache,
-          reason: this.options.reason
-        }});
-        break;
-      case 'pwd-dialog-cancel': {
-        this.handleCancel();
-        break;
+  onPwdDialogInit() {
+    // pass over keyid and userid to dialog
+    this.ports.pwdDialog.emit('set-init-data', {
+      userid: this.options.userid,
+      keyid: this.options.key.primaryKey.getKeyId().toHex(),
+      cache: prefs.prefs.security.password_cache,
+      reason: this.options.reason
+    });
+  }
+
+  onOk(msg) {
+    Promise.resolve()
+    .then(() => {
+      this.options.password = msg.password;
+      if (msg.cache != prefs.prefs.security.password_cache) {
+        // update pwd cache status
+        return prefs.update({security: {password_cache: msg.cache}});
       }
-      case 'pwd-dialog-ok':
-        Promise.resolve()
-        .then(() => {
-          this.options.password = msg.password;
-          if (msg.cache != prefs.prefs.security.password_cache) {
-            // update pwd cache status
-            return prefs.update({security: {password_cache: msg.cache}});
-          }
-        })
-        .then(() => pwdCache.unlock(this.options))
-        .then(key => {
-          this.options.key = key;
-          this.closePopup();
-          this.resolve(this.options);
-        })
-        .catch(err => {
-          if (err.code == 'WRONG_PASSWORD') {
-            this.ports.pwdDialog.postMessage({event: 'wrong-password'});
-          } else {
-            if (this.ports.dDialog) {
-              this.ports.dDialog.postMessage({event: 'error-message', error: err.message});
-            }
-            this.closePopup();
-            this.reject(err);
-          }
-        });
-        break;
-      case 'pwd-user-input':
-        uiLog.push(msg.source, msg.type);
-        break;
-      default:
-        console.log('unknown event', msg);
-    }
+    })
+    .then(() => pwdCache.unlock(this.options))
+    .then(key => {
+      this.options.key = key;
+      this.closePopup();
+      this.resolve(this.options);
+    })
+    .catch(err => {
+      if (err.code == 'WRONG_PASSWORD') {
+        this.ports.pwdDialog.emit('wrong-password');
+      } else {
+        if (this.ports.dDialog) {
+          this.ports.dDialog.emit('error-message', {error: err.message});
+        }
+        this.closePopup();
+        this.reject(err);
+      }
+    });
   }
 
-  handleCancel() {
+  onCancel() {
     this.closePopup();
     const error = new Error(mvelo.l10n.getMessage('pwd_dialog_cancel'));
     error.code = 'PWD_DIALOG_CANCEL';
@@ -138,7 +130,7 @@ export default class PwdController extends SubController {
             this.pwdPopup = popup;
             popup.addRemoveListener(() => {
               this.pwdPopup = null;
-              this.handleCancel();
+              this.onCancel();
             });
           });
         }

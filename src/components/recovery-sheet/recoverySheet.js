@@ -33,7 +33,7 @@ var QRCode = QRCode || null; // eslint-disable-line no-var
     $('#currentDate').html(formattedDate.toLocaleDateString());
     mvelo.l10n.localizeHTML();
     setBrand(qs.brand);
-    mvelo.util.showSecurityBackground(qs.embedded);
+    mvelo.util.showSecurityBackground(port, qs.embedded);
     port.emit('get-logo-image');
     port.emit('get-backup-code');
   }

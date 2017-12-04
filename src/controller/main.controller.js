@@ -4,7 +4,6 @@
  */
 
 import * as  model from '../modules/pgpModel';
-import * as prefs from '../modules/prefs';
 import * as sub from './sub.controller';
 import {handleApiEvent} from './api.controller';
 
@@ -51,7 +50,6 @@ function initSubController() {
   chrome.runtime.onConnect.addListener(port => {
     //console.log('ConnectionManager: onConnect:', port);
     sub.addPort(port);
-    port.onMessage.addListener(sub.handlePortMessage);
     // update active ports on disconnect
     port.onDisconnect.addListener(sub.removePort);
   });
@@ -65,10 +63,5 @@ function handleMessageEvent(request, sender, sendResponse) {
   //console.log('controller: handleMessageEvent', request);
   if (request.api_event) {
     return handleApiEvent(request, sender, sendResponse);
-  }
-  switch (request.event) {
-    case 'get-security-background':
-      sendResponse(prefs.getSecurityBackground());
-      break;
   }
 }

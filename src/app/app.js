@@ -109,7 +109,7 @@ export class App extends React.Component {
     port.send('get-version')
     .then(version => this.setState({version}));
     port.send('get-prefs').then(prefs => this.setState({prefs}));
-    mvelo.util.showSecurityBackground();
+    mvelo.util.showSecurityBackground(port);
   }
 
   initActiveKeyring() {

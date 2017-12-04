@@ -41,7 +41,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     $('closeFooter').hide();
 
     mvelo.l10n.localizeHTML();
-    mvelo.util.showSecurityBackground();
+    mvelo.util.showSecurityBackground(port);
     port.emit('key-import-dialog-init');
   }
 

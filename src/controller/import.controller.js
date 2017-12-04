@@ -27,41 +27,32 @@ export default class ImportController extends sub.SubController {
     this.keyDetails = null;
     this.importError = false;
     this.invalidated = false;
+    // register event handlers
+    this.on('imframe-armored-key', this.onArmoredKey);
+    this.on('key-import-dialog-init', () => this.emit('key-details', {key: this.keyDetails, invalidated: this.invalidated}));
+    this.on('key-import-dialog-ok', this.onImportOk);
+    this.on('key-import-dialog-cancel', this.handleCancel);
+    this.on('key-import-user-input', msg => uiLog.push(msg.source, msg.type));
   }
 
-  handlePortMessage(msg) {
-    switch (msg.event) {
-      case 'imframe-armored-key': {
-        const slotId = mvelo.util.getHash();
-        this.keyringId = sub.getActiveKeyringId();
-        sub.setAppDataSlot(slotId, msg.data);
-        mvelo.tabs.loadAppTab(`?krid=${encodeURIComponent(this.keyringId)}&slotId=${slotId}#/keyring/import/push`);
-        break;
+  onArmoredKey({data}) {
+    const slotId = mvelo.util.getHash();
+    this.keyringId = sub.getActiveKeyringId();
+    sub.setAppDataSlot(slotId, data);
+    mvelo.tabs.loadAppTab(`?krid=${encodeURIComponent(this.keyringId)}&slotId=${slotId}#/keyring/import/push`);
+  }
+
+  onImportOk() {
+    this.keyring.importKeys([{type: 'public', armored: this.armored}])
+    .then(([importResult]) => {
+      if (importResult.type === 'error') {
+        this.emit('import-error', {message: importResult.message});
+        this.importError = true;
+      } else {
+        this.closePopup();
+        this.popupDone.resolve('IMPORTED');
       }
-      case 'key-import-dialog-init':
-        this.ports.importKeyDialog.postMessage({event: 'key-details', key: this.keyDetails, invalidated: this.invalidated});
-        break;
-      case 'key-import-dialog-ok':
-        this.keyring.importKeys([{type: 'public', armored: this.armored}])
-        .then(([importResult]) => {
-          if (importResult.type === 'error') {
-            this.ports.importKeyDialog.postMessage({event: 'import-error', message: importResult.message});
-            this.importError = true;
-          } else {
-            this.closePopup();
-            this.popupDone.resolve('IMPORTED');
-          }
-        });
-        break;
-      case 'key-import-dialog-cancel':
-        this.handleCancel();
-        break;
-      case 'key-import-user-input':
-        uiLog.push(msg.source, msg.type);
-        break;
-      default:
-        console.log('unknown event', msg);
-    }
+    });
   }
 
   handleCancel() {

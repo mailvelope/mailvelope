@@ -19,66 +19,57 @@ export default class DecryptController extends sub.SubController {
     this.options = {};
     this.keyringId = mvelo.LOCAL_KEYRING_ID;
     this.isContainer = this.mainType === 'decryptCont'; // main view is a container component
+    // register event handlers
+    this.on('decrypt-dialog-cancel', this.dialogCancel);
+    this.on('decrypt-inline-init', this.onDecryptInlineInit);
+    this.on('dframe-display-popup', this.onDframeDisplayPopup);
+    this.on('set-armored', this.onSetArmored);
+    this.on('decrypt-inline-user-input', msg => uiLog.push(msg.source, msg.type));
   }
 
-  handlePortMessage(msg) {
-    switch (msg.event) {
-      // done
-      case 'decrypt-dialog-cancel':
-        this.dialogCancel();
-        break;
-      // done
-      case 'decrypt-inline-init':
-        if (mvelo.windows.modalActive && !this.decryptPopup) {
-          // password dialog or modal dialog already open from other component
-          if (this.ports.dFrame) {
-            this.ports.dFrame.postMessage({event: 'remove-dialog'});
-          } else if (this.ports.decryptCont) {
-            this.ports.decryptCont.postMessage({event: 'error-message', error: 'modal-active'});
-          }
-        } else {
-          const port = this.ports.dFrame || this.ports.decryptCont;
-          // get armored message
-          port.postMessage({event: 'get-armored'});
-        }
-        break;
-      case 'dframe-display-popup':
-        // decrypt popup potentially needs pwd dialog
-        if (mvelo.windows.modalActive) {
-          // password dialog or modal dialog already open
-          this.ports.dFrame.postMessage({event: 'remove-dialog'});
-        } else {
-          mvelo.windows.openPopup(`components/decrypt-popup/decryptPopup.html?id=${this.id}`, {width: 742, height: 550, modal: true})
-          .then(popup => {
-            this.decryptPopup = popup;
-            popup.addRemoveListener(() => {
-              this.ports.dFrame.postMessage({event: 'dialog-cancel'});
-              this.decryptPopup = null;
-            });
-          });
-        }
-        break;
-      case 'set-armored':
-        this.options = msg.options;
-        if (msg.keyringId) {
-          this.keyringId = msg.keyringId;
-        }
-        this.decrypt(msg.data, this.keyringId);
-        break;
-      case 'decrypt-inline-user-input':
-        uiLog.push(msg.source, msg.type);
-        break;
-      case 'open-security-settings':
-        this.openSecuritySettings();
-        break;
-      default:
-        console.log('unknown event', msg);
+  onDecryptInlineInit() {
+    if (mvelo.windows.modalActive && !this.decryptPopup) {
+      // password dialog or modal dialog already open from other component
+      if (this.ports.dFrame) {
+        this.ports.dFrame.emit('remove-dialog');
+      } else if (this.ports.decryptCont) {
+        this.ports.decryptCont.emit('error-message', {error: 'modal-active'});
+      }
+    } else {
+      const port = this.ports.dFrame || this.ports.decryptCont;
+      // get armored message
+      port.emit('get-armored');
     }
+  }
+
+  onDframeDisplayPopup() {
+    // decrypt popup potentially needs pwd dialog
+    if (mvelo.windows.modalActive) {
+      // password dialog or modal dialog already open
+      this.ports.dFrame.emit('remove-dialog');
+    } else {
+      mvelo.windows.openPopup(`components/decrypt-popup/decryptPopup.html?id=${this.id}`, {width: 742, height: 550, modal: true})
+      .then(popup => {
+        this.decryptPopup = popup;
+        popup.addRemoveListener(() => {
+          this.ports.dFrame.emit('dialog-cancel');
+          this.decryptPopup = null;
+        });
+      });
+    }
+  }
+
+  onSetArmored(msg) {
+    this.options = msg.options;
+    if (msg.keyringId) {
+      this.keyringId = msg.keyringId;
+    }
+    this.decrypt(msg.data, this.keyringId);
   }
 
   dialogCancel() {
     // forward event to decrypt frame
-    this.ports.dFrame.postMessage({event: 'dialog-cancel'});
+    this.ports.dFrame.emit('dialog-cancel');
     if (this.decryptPopup) {
       this.decryptPopup.close();
       this.decryptPopup = null;
@@ -98,21 +89,21 @@ export default class DecryptController extends sub.SubController {
         noEvent: true,
         onMessage(msg) {
           this.noEvent = false;
-          ports.dDialog.postMessage({event: 'decrypted-message', message: msg});
+          ports.dDialog.emit('decrypted-message', {message: msg});
         },
         onAttachment(part) {
           this.noEvent = false;
-          ports.dDialog.postMessage({event: 'add-decrypted-attachment', message: part});
+          ports.dDialog.emit('add-decrypted-attachment', {message: part});
         }
       };
       if (this.ports.dDialog && content.signatures) {
-        this.ports.dDialog.postMessage({event: 'signature-verification', signers: content.signatures, isContainer: this.isContainer});
+        this.ports.dDialog.emit('signature-verification', {signers: content.signatures, isContainer: this.isContainer});
       }
       return this.parseMessage(content.data, handlers, 'html');
     })
     .then(() => {
       if (this.ports.decryptCont) {
-        this.ports.decryptCont.postMessage({event: 'decrypt-done'});
+        this.ports.decryptCont.emit('decrypt-done');
       }
     })
     .catch(error => {
@@ -122,7 +113,7 @@ export default class DecryptController extends sub.SubController {
         }
       }
       if (this.ports.dDialog) {
-        this.ports.dDialog.postMessage({event: 'error-message', error: error.message});
+        this.ports.dDialog.emit('error-message', {error: error.message});
       }
       if (this.ports.decryptCont) {
         error = error || {};
@@ -139,11 +130,11 @@ export default class DecryptController extends sub.SubController {
               message: 'Generic decrypt error'
             };
         }
-        this.ports.decryptCont.postMessage({event: 'error-message', error});
+        this.ports.decryptCont.emit('error-message', {error});
       }
     })
     .then(() => {
-      this.ports.dPopup && this.ports.dPopup.postMessage({event: 'show-message'});
+      this.ports.dPopup && this.ports.dPopup.emit('show-message');
     });
   }
 
@@ -152,7 +143,7 @@ export default class DecryptController extends sub.SubController {
     message.reason = 'PWD_DIALOG_REASON_DECRYPT';
     message.openPopup = openPopup !== undefined ? openPopup : this.ports.decryptCont || prefs.security.display_decrypted == mvelo.DISPLAY_INLINE;
     message.beforePasswordRequest = () => {
-      this.ports.dPopup && this.ports.dPopup.postMessage({event: 'show-pwd-dialog', id: this.pwdControl.id});
+      this.ports.dPopup && this.ports.dPopup.emit('show-pwd-dialog', {id: this.pwdControl.id});
     };
     message.keyringId = this.keyringId;
     return this.pwdControl.unlockKey(message);

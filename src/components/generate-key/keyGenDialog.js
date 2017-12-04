@@ -64,7 +64,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       $pwdInput.attr('placeholder', l10n.keygen_dialog_password_placeholder);
 
       mvelo.l10n.localizeHTML();
-      mvelo.util.showSecurityBackground(true);
+      mvelo.util.showSecurityBackground(port, true);
 
       $secureBgndButton
       .on('click', () => port.emit('open-security-settings'));

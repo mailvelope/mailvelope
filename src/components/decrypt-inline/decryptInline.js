@@ -66,7 +66,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       });
     });
 
-    mvelo.util.showSecurityBackground(true);
+    mvelo.util.showSecurityBackground(port, true);
     $(window).on('resize', resizeFont);
   }
 

@@ -255,7 +255,7 @@ function templatesLoaded() {
     initText = null;
   }
   mvelo.l10n.localizeHTML();
-  mvelo.util.showSecurityBackground(embedded);
+  mvelo.util.showSecurityBackground(port, embedded);
   // keep initial bottom position of body
   modalBodyBottomPosition = $('.m-modal .modal-body').css('bottom');
   // opens the security settings if in embedded mode

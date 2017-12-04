@@ -50,13 +50,12 @@ export default class EditorController extends sub.SubController {
     this.on('editor-container-encrypt', this._onEditorContainerEncrypt);
     this.on('editor-container-create-draft', this._onEditorContainerCreateDraft);
     this.on('editor-options', this._onEditorOptions);
-    this.on('open-security-settings', this.openSecuritySettings);
     this.on('open-app', ({fragment}) => this.openApp(fragment));
   }
 
   _onEditorInit() {
     if (this.ports.editorCont) {
-      this.emit('editor-ready', null, this.ports.editorCont);
+      this.ports.editorCont.emit('editor-ready');
     } else {
       // non-container case, send options to editor
       const keyring = getKeyringById(this.keyringId);
@@ -68,7 +67,7 @@ export default class EditorController extends sub.SubController {
         primary: primaryKeyId,
         privKeys: keyring.getValidSigningKeys()
       };
-      this.emit('set-init-data', {data}, this.ports.editor);
+      this.ports.editor.emit('set-init-data', {data});
     }
     // display recipient proposal in the editor
     if (this.options.getRecipientProposal) {
@@ -90,7 +89,7 @@ export default class EditorController extends sub.SubController {
         message: 'No valid encryption key for recipient address',
         code: 'NO_KEY_FOR_RECIPIENT'
       };
-      this.emit('error-message', {error}, this.ports.editorCont);
+      this.ports.editorCont.emit('error-message', {error});
       return;
     }
     let keyIds = [];
@@ -104,7 +103,7 @@ export default class EditorController extends sub.SubController {
       }
     }
     this.keyidBuffer = mvelo.util.sortAndDeDup(keyIds);
-    this.emit('get-plaintext', {action: 'encrypt'}, this.ports.editor);
+    this.ports.editor.emit('get-plaintext', {action: 'encrypt'});
   }
 
   _onEditorContainerCreateDraft(msg) {
@@ -120,10 +119,10 @@ export default class EditorController extends sub.SubController {
         message: 'No private key found for creating draft.',
         code: 'NO_KEY_FOR_ENCRYPTION'
       };
-      this.emit('error-message', {error}, this.ports.editorCont);
+      this.ports.editorCont.emit('error-message', {error});
       return;
     }
-    this.emit('get-plaintext', {action: 'encrypt', draft: true}, this.ports.editor);
+    this.ports.editor.emit('get-plaintext', {action: 'encrypt', draft: true});
   }
 
   _onEditorOptions(msg) {
@@ -147,7 +146,7 @@ export default class EditorController extends sub.SubController {
       }
     }
     triggerSync({keyringId: this.keyringId, force: true});
-    this.emit('set-init-data', {data}, this.ports.editor);
+    this.ports.editor.emit('set-init-data', {data});
   }
 
   _onSignOnly(msg) {
@@ -201,7 +200,7 @@ export default class EditorController extends sub.SubController {
     // send updated key cache to editor
     const localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
     const keys = localKeyring.getKeyUserIDs({allUsers: true});
-    this.emit('key-update', {keys}, this.ports.editor);
+    this.ports.editor.emit('key-update', {keys});
   }
 
   /**
@@ -285,7 +284,7 @@ export default class EditorController extends sub.SubController {
       };
 
       if (this.ports.editorCont) {
-        this.emit('error-message', {error}, this.ports.editorCont);
+        this.ports.editorCont.emit('error-message', {error});
       }
       return composedMessage;
     }
@@ -303,7 +302,7 @@ export default class EditorController extends sub.SubController {
   scheduleDecrypt(armored) {
     if (armored.length > 400000) {
       // show spinner for large messages
-      this.emit('decrypt-in-progress', null, this.ports.editor);
+      this.ports.editor.emit('decrypt-in-progress');
     }
     setTimeout(() => {
       this.decryptArmored(armored);
@@ -325,7 +324,6 @@ export default class EditorController extends sub.SubController {
     })
     .then(content => {
       const options = this.options;
-      const emit = this.emit.bind(this);
       const ports = this.ports;
       const handlers = {
         onMessage(msg) {
@@ -341,11 +339,11 @@ export default class EditorController extends sub.SubController {
           if (options.predefinedText) {
             msg = `${msg}\n\n${options.predefinedText}`;
           }
-          emit('set-text', {text: msg}, ports.editor);
+          ports.editor.emit('set-text', {text: msg});
         },
         onAttachment(part) {
           if (options.keepAttachments) {
-            emit('set-attachment', {attachment: part}, ports.editor);
+            ports.editor.emit('set-attachment', {attachment: part});
           }
         }
       };
@@ -357,11 +355,11 @@ export default class EditorController extends sub.SubController {
       return decryptCtrl.parseMessage(content.data, handlers, 'text');
     })
     .then(() => {
-      this.emit('decrypt-end', null, this.ports.editor);
+      this.ports.editor.emit('decrypt-end');
     })
     .catch(error => {
       error = mvelo.util.mapError(error);
-      this.emit('decrypt-failed', {error}, this.ports.editor);
+      this.ports.editor.emit('decrypt-failed', {error});
     });
   }
 
@@ -410,7 +408,7 @@ export default class EditorController extends sub.SubController {
     })
     .then(() => {
       this.encryptTimer = setTimeout(() => {
-        this.emit('encrypt-in-progress', null, this.ports.editor);
+        this.ports.editor.emit('encrypt-in-progress');
       }, 800);
 
       if (!prefs.security.password_cache) {
@@ -436,7 +434,7 @@ export default class EditorController extends sub.SubController {
    */
   encryptMessage(options) {
     this.encryptTimer = setTimeout(() => {
-      this.emit('encrypt-in-progress', null, this.ports.editor);
+      this.ports.editor.emit('encrypt-in-progress');
     }, 800);
 
     options.uiLogSource = 'security_log_editor';
@@ -464,7 +462,7 @@ export default class EditorController extends sub.SubController {
    */
   transferEncrypted(options) {
     if (this.ports.editorCont) {
-      this.emit('encrypted-message', {message: options.armored}, this.ports.editorCont);
+      this.ports.editorCont.emit('encrypted-message', {message: options.armored});
     } else {
       const recipients = (options.keys || []).map(k => ({name: k.name, email: k.email}));
       this.encryptCallback(null, options.armored, recipients);
@@ -485,7 +483,7 @@ export default class EditorController extends sub.SubController {
     options.keys = options.keys || [];
     this.signAndEncrypt(options)
     .then(armored => {
-      this.emit('encrypt-end', null, this.ports.editor);
+      this.ports.editor.emit('encrypt-end');
       if (this.editorPopup) {
         this.editorPopup.close();
         this.editorPopup = null;
@@ -500,13 +498,13 @@ export default class EditorController extends sub.SubController {
       }
       console.log(error);
       error = mvelo.util.mapError(error);
-      this.emit('error-message', {error}, this.ports.editor);
+      this.ports.editor.emit('error-message', {error});
       if (this.ports.editorCont) {
-        this.emit('error-message', {error}, this.ports.editorCont);
+        this.ports.editorCont.emit('error-message', {error});
       } else {
         this.encryptCallback(error);
       }
-      this.emit('encrypt-failed', null, this.ports.editor);
+      this.ports.editor.emit('encrypt-failed');
     })
     .then(() => {
       clearTimeout(this.encryptTimer);

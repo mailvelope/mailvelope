@@ -4,22 +4,35 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
+import {getSecurityBackground} from '../modules/prefs';
 
 export class SubController extends mvelo.EventHandler {
   constructor(port) {
-    super();
+    super(port);
     this.ports = {};
     if (port) {
-      const sender = parseViewName(port.name);
-      this.mainType = sender.type;
-      this.id = sender.id;
-      this.ports[this.mainType] = port;
+      this.initMainPort(port);
     }
+    this.on('open-security-settings', this.openSecuritySettings);
+    this.on('get-security-background', this.getSecurityBackground);
+  }
+
+  initMainPort(port) {
+    const sender = parseViewName(port.name);
+    this.mainType = sender.type;
+    this.id = sender.id;
+    this.ports[this.mainType] = this;
   }
 
   addPort(port) {
+    if (!this._port) {
+      // controller was instantiated without main port
+      super.initPort(port);
+      this.initMainPort(port);
+      return;
+    }
     const type = parseViewName(port.name).type;
-    this.ports[type] = port;
+    this.ports[type] = new mvelo.EventHandler(port, this._handlers);
   }
 
   removePort(port) {
@@ -27,19 +40,11 @@ export class SubController extends mvelo.EventHandler {
       // controllers instantiated without port should not be deleted
       return false;
     }
-    if (port.name) {
-      const view = parseViewName(port.name);
-      if (view.id !== this.id) {
-        throw new Error('View ID mismatch.');
-      }
-      delete this.ports[view.type];
-    } else {
-      Object.keys(this.ports).forEach(type => {
-        if (this.ports[type].ref === port) {
-          delete this.ports[type];
-        }
-      });
+    const view = parseViewName(port.name);
+    if (view.id !== this.id) {
+      throw new Error('View ID mismatch.');
     }
+    delete this.ports[view.type];
     return Object.keys(this.ports).length === 0;
   }
 
@@ -51,6 +56,10 @@ export class SubController extends mvelo.EventHandler {
   openApp(fragment) {
     const hash = `#${fragment}`;
     mvelo.tabs.loadAppTab(hash);
+  }
+
+  getSecurityBackground() {
+    return getSecurityBackground();
   }
 }
 
@@ -108,14 +117,8 @@ export function addPort(port) {
 }
 
 export function removePort(port) {
-  if (port.name) {
-    const id = parseViewName(port.name).id;
-    removeId(id, port);
-  } else {
-    for (const id of controllers.keys()) {
-      removeId(id, port);
-    }
-  }
+  const id = parseViewName(port.name).id;
+  removeId(id, port);
 }
 
 function removeId(id, port) {
@@ -124,11 +127,6 @@ function removeId(id, port) {
     // last port removed from controller, delete controller
     controllers.delete(id);
   }
-}
-
-export function handlePortMessage(msg) {
-  const {id, type} = parseViewName(msg.sender);
-  getByID(id).handlePortMessage(msg, type);
 }
 
 export function getByID(id) {

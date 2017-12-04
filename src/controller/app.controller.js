@@ -36,7 +36,6 @@ export default class AppController extends sub.SubController {
     this.on('set-active-keyring', ({keyringId}) => sub.setActiveKeyringId(keyringId));
     this.on('delete-keyring', this.deleteKeyring);
     this.on('get-ui-log', ({securityLogLength}) => uiLog.getLatest(securityLogLength));
-    this.on('get-security-background', prefs.getSecurityBackground);
     this.on('get-version', getVersion);
     this.on('get-all-key-userid', getAllKeyUserId);
     this.on('open-tab', ({url}) => mvelo.tabs.create(url));

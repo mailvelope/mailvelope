@@ -26,22 +26,96 @@ export default class PrivateKeyController extends sub.SubController {
     this.restorePassword = false;
     this.newKeyId = '';
     this.rejectTimer = 0;
+    // register event handlers
+    this.on('set-init-data', this.setInitData);
+    this.on('keygen-user-input', this.onUserInput);
+    this.on('key-backup-user-input', this.onUserInput);
+    this.on('generate-key', this.onGenerateKey);
+    this.on('generate-confirm', this.onGenerateConfirm);
+    this.on('generate-reject', this.onGenerateReject);
+    this.on('set-keybackup-window-props', this.setKeybackupProps);
+    this.on('input-check', this.onInputCheck);
+    this.on('keygen-dialog-init', () => this.ports.keyGenCont.emit('dialog-done'));
+    this.on('keybackup-dialog-init', this.onKeybackDialogInit);
+    this.on('restore-backup-dialog-init', () => this.ports.restoreBackupCont.emit('dialog-done'));
+    this.on('restore-backup-code', msg => this.restorePrivateKeyBackup(msg.code));
+    this.on('backup-code-window-init', () => this.ports.keyBackupCont.emit('popup-isready'));
+    this.on('get-logo-image', () => this.ports.backupCodeWindow.emit('set-logo-image', {image: this.getLogoImage()}));
+    this.on('get-backup-code', () => this.ports.backupCodeWindow.emit('set-backup-code', {backupCode: this.getBackupCode()}));
+    this.on('create-backup-code-window', this.createBackupCodeWindow);
+  }
+
+  setInitData({data}) {
+    this.keyringId = data.keyringId || this.keyringId;
+    this.restorePassword = data.restorePassword || this.restorePassword;
+  }
+
+  onUserInput(msg) {
+    uiLog.push(msg.source, msg.type);
+  }
+
+  onGenerateKey(msg) {
+    this.keyringId = msg.keyringId;
+    this.options = msg.options;
+    this.ports.keyGenDialog.emit('check-dialog-inputs');
+  }
+
+  onGenerateConfirm() {
+    if (this.rejectTimer) {
+      clearTimeout(this.rejectTimer);
+      this.rejectTimer = 0;
+    }
+  }
+
+  onGenerateReject() {
+    if (this.rejectTimer) {
+      clearTimeout(this.rejectTimer);
+      this.rejectTimer = 0;
+      this.rejectKey(this.newKeyId);
+    }
+  }
+
+  setKeybackupProps(msg) {
+    this.keyringId = msg.keyringId;
+    this.host = msg.host;
+    this.initialSetup = msg.initialSetup;
+  }
+
+  onInputCheck(msg) {
+    if (msg.isValid) {
+      this.generateKey(msg.pwd, this.options);
+    } else {
+      this.ports.keyGenCont.emit('generate-done', {error: {message: 'The inputs "password" and "confirm" are not valid', code: 'INPUT_NOT_VALID'}});
+    }
+  }
+
+  onKeybackDialogInit() {
+    this.ports.keyBackupDialog.emit('set-init-data', {data: {initialSetup: this.initialSetup}});
+    this.ports.keyBackupCont.emit('dialog-done');
+  }
+
+  createBackupCodeWindow() {
+    try {
+      this.createPrivateKeyBackup();
+    } catch (err) {
+      this.ports.keyBackupCont.emit('popup-isready', {error: err});
+    }
   }
 
   generateKey(password, options) {
     if (options.keySize !== 2048 && options.keySize !== 4096) {
-      this.ports.keyGenDialog.postMessage({event: 'show-password'});
-      this.ports.keyGenCont.postMessage({event: 'generate-done', error: {message: 'Invalid key length', code: 'KEY_LENGTH_INVALID'}});
+      this.ports.keyGenDialog.emit('show-password');
+      this.ports.keyGenCont.emit('generate-done', {error: {message: 'Invalid key length', code: 'KEY_LENGTH_INVALID'}});
       return;
     }
-    this.ports.keyGenDialog.postMessage({event: 'show-waiting'});
+    this.ports.keyGenDialog.emit('show-waiting');
     getKeyringById(this.keyringId).generateKey({
       userIds: options.userIds,
       numBits: options.keySize,
       passphrase: password,
       unlocked: true
     }).then(data => {
-      this.ports.keyGenCont.postMessage({event: 'generate-done', publicKey: data.publicKeyArmored});
+      this.ports.keyGenCont.emit('generate-done', {publicKey: data.publicKeyArmored});
       if (prefs.security.password_cache) {
         pwdCache.set({key: data.key, password});
       }
@@ -53,7 +127,7 @@ export default class PrivateKeyController extends sub.SubController {
         }, 10000); // trigger timeout after 10s
       }
     }).catch(err => {
-      this.ports.keyGenCont.postMessage({event: 'generate-done', error: err});
+      this.ports.keyGenCont.emit('generate-done', {error: err});
     });
   }
 
@@ -107,7 +181,7 @@ export default class PrivateKeyController extends sub.SubController {
       });
     })
     .catch(err => {
-      this.ports.keyBackupDialog.postMessage({event: 'error-message', error: err});
+      this.ports.keyBackupDialog.emit('error-message', {error: err});
     });
   }
 
@@ -124,15 +198,15 @@ export default class PrivateKeyController extends sub.SubController {
         }
       }
       if (this.restorePassword) {
-        this.ports.restoreBackupDialog.postMessage({event: 'set-password', password: backup.password});
+        this.ports.restoreBackupDialog.emit('set-password', {password: backup.password});
       }
-      this.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', data: backup.key.toPublic().armor()});
+      this.ports.restoreBackupCont.emit('restore-backup-done', {data: backup.key.toPublic().armor()});
       sync.triggerSync({keyringId: this.keyringId, key: backup.key, password: backup.password});
     })
     .catch(err => {
-      this.ports.restoreBackupDialog.postMessage({event: 'error-message', error: err});
+      this.ports.restoreBackupDialog.emit('error-message', {error: err});
       if (err.code !== 'WRONG_RESTORE_CODE') {
-        this.ports.restoreBackupCont.postMessage({event: 'restore-backup-done', error: err});
+        this.ports.restoreBackupCont.emit('restore-backup-done', {error: err});
       }
     });
   }
@@ -144,84 +218,5 @@ export default class PrivateKeyController extends sub.SubController {
 
   getBackupCode() {
     return this.keyBackup.backupCode;
-  }
-
-  handlePortMessage(msg) {
-    switch (msg.event) {
-      case 'set-init-data': {
-        const data = msg.data;
-        this.keyringId = data.keyringId || this.keyringId;
-        this.restorePassword = data.restorePassword || this.restorePassword;
-        break;
-      }
-      case 'keygen-user-input':
-      case 'key-backup-user-input':
-        uiLog.push(msg.source, msg.type);
-        break;
-      case 'open-security-settings':
-        this.openSecuritySettings();
-        break;
-      case 'generate-key':
-        this.keyringId = msg.keyringId;
-        this.options = msg.options;
-        this.ports.keyGenDialog.postMessage({event: 'check-dialog-inputs'});
-        break;
-      case 'generate-confirm':
-        if (this.rejectTimer) {
-          clearTimeout(this.rejectTimer);
-          this.rejectTimer = 0;
-        }
-        break;
-      case 'generate-reject':
-        if (this.rejectTimer) {
-          clearTimeout(this.rejectTimer);
-          this.rejectTimer = 0;
-          this.rejectKey(this.newKeyId);
-        }
-        break;
-      case 'set-keybackup-window-props':
-        this.keyringId = msg.keyringId;
-        this.host = msg.host;
-        this.initialSetup = msg.initialSetup;
-        break;
-      case 'input-check':
-        if (msg.isValid) {
-          this.generateKey(msg.pwd, this.options);
-        } else {
-          this.ports.keyGenCont.postMessage({event: 'generate-done', error: {message: 'The inputs "password" and "confirm" are not valid', code: 'INPUT_NOT_VALID'}});
-        }
-        break;
-      case 'keygen-dialog-init':
-        this.ports.keyGenCont.postMessage({event: 'dialog-done'});
-        break;
-      case 'keybackup-dialog-init':
-        this.ports.keyBackupDialog.postMessage({event: 'set-init-data', data: {initialSetup: this.initialSetup}});
-        this.ports.keyBackupCont.postMessage({event: 'dialog-done'});
-        break;
-      case 'restore-backup-dialog-init':
-        this.ports.restoreBackupCont.postMessage({event: 'dialog-done'});
-        break;
-      case 'restore-backup-code':
-        this.restorePrivateKeyBackup(msg.code);
-        break;
-      case 'backup-code-window-init':
-        this.ports.keyBackupCont.postMessage({event: 'popup-isready'});
-        break;
-      case 'get-logo-image':
-        this.ports.backupCodeWindow.postMessage({event: 'set-logo-image', image: this.getLogoImage()});
-        break;
-      case 'get-backup-code':
-        this.ports.backupCodeWindow.postMessage({event: 'set-backup-code', backupCode: this.getBackupCode()});
-        break;
-      case 'create-backup-code-window':
-        try {
-          this.createPrivateKeyBackup();
-        } catch (err) {
-          this.ports.keyBackupCont.postMessage({event: 'popup-isready', error: err});
-        }
-        break;
-      default:
-        console.log('unknown event', msg);
-    }
   }
 }

@@ -46,7 +46,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     $('#copyBtn').click(onCopy);
     $('body').addClass('spinner');
     mvelo.l10n.localizeHTML();
-    mvelo.util.showSecurityBackground();
+    mvelo.util.showSecurityBackground(port);
   }
 
   function registerEventListeners() {

@@ -31,8 +31,8 @@ describe('Encrypt controller unit tests', () => {
 
   describe('Check event handlers', () => {
     it('should handle recipients', () => {
-      expect(ctrl._handlers.get('eframe-recipients')).to.equal(ctrl.displayRecipientProposal);
-      expect(ctrl._handlers.get('eframe-display-editor')).to.equal(ctrl.openEditor);
+      expect(ctrl._handlers.get('eframe-recipients')).to.exist;
+      expect(ctrl._handlers.get('eframe-display-editor')).to.exist;
     });
   });
 
