@@ -56,6 +56,8 @@ mvelo.LOCAL_KEYRING_ID = `localhost${mvelo.KEYRING_DELIMITER}mailvelope`;
 mvelo.SECURE_COLORS = ['#e9e9e9', '#c0c0c0', '#808080', '#ffce1e', '#ff0000', '#85154a', '#6f2b8b', '#b3d1e3', '#315bab', '#1c449b', '#4c759c', '#1e8e9f', '#93b536'];
 // 50 MB file size limit
 mvelo.MAX_FILE_UPLOAD_SIZE = 50 * 1024 * 1024;
+// stable id if app runs in top frame
+mvelo.APP_TOP_FRAME_ID = 'apptopframeid';
 
 mvelo.appendTpl = function($element, path) {
   return new Promise((resolve, reject) => {

@@ -77,6 +77,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   function registerEventListeners() {
     port.on('set-init-data', ({data}) => translateTexts(data.initialSetup));
     port.on('error-message', onError);
+    port.on('terminate', () => mvelo.ui.terminate(port));
   }
 
   function onError(msg) {

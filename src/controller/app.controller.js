@@ -15,7 +15,10 @@ import {getVersion} from '../modules/defaults';
 export default class AppController extends sub.SubController {
   constructor(port) {
     super(port);
-    this.singleton = true;
+    if (!port) {
+      this.mainType = 'app';
+      this.id = mvelo.util.getHash();
+    }
     // register event handlers
     this.on('get-prefs', () => prefs.prefs);
     this.on('set-prefs', this.updatePreferences);

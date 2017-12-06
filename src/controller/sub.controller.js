@@ -68,26 +68,21 @@ export const factory = {};
 factory.repo = new Map();
 
 factory.get = function(type, port) {
-  if (factory.repo.has(type)) {
-    const contrConstructor = factory.repo.get(type);
-    const subContr = new contrConstructor(port);
-    if (subContr.singleton) {
-      // there should be only one instance for this type, new instance overwrites old
-      const existingController = getByMainType(type)[0];
-      if (existingController) {
-        controllers.delete(existingController.id);
-      }
-    }
-    if (!port) {
-      if (!subContr.id) {
-        throw new Error('Subcontroller instantiated without port requires id.');
-      }
-      controllers.set(subContr.id, subContr);
-    }
-    return subContr;
-  } else {
-    throw new Error(`No controller found for view type: ${type}`);
+  verifyCreatePermission(type, port);
+  const contrConstructor = factory.repo.get(type);
+  const subContr = new contrConstructor(port);
+  if (!port && !subContr.id) {
+    throw new Error('Subcontroller instantiated without port requires id.');
   }
+  if (subContr.singleton) {
+    // there should be only one instance for this type, new instance overwrites old
+    const existingController = getByMainType(type)[0];
+    if (existingController) {
+      controllers.delete(existingController.id);
+    }
+  }
+  controllers.set(subContr.id, subContr);
+  return subContr;
 };
 
 factory.register = function(type, contrConstructor) {
@@ -97,6 +92,31 @@ factory.register = function(type, contrConstructor) {
     factory.repo.set(type, contrConstructor);
   }
 };
+
+/**
+ * Verify if port is allowed to create controller
+ * All web accessible resources should not be allowed to create a controller,
+ * therefore only known IDs can be used to create such dialogs
+ * @param  {Object} port
+ */
+function verifyCreatePermission(type, port) {
+  if (!factory.repo.has(type)) {
+    // view types not registered in repo are not allowed to create controller
+    throw new Error(`No controller found for view type: ${type}`);
+  }
+  if (!port) {
+    return;
+  }
+  if (type === 'editor') {
+    throw new Error('Editor view not allowed to directly create controller.');
+  }
+  if (type === 'app') {
+    const sender = parseViewName(port.name);
+    if (sender.id !== mvelo.APP_TOP_FRAME_ID) {
+      throw new Error('App view in embedded frame not allowed to directly create controller.');
+    }
+  }
+}
 
 const controllers = new Map();
 
@@ -111,8 +131,12 @@ export function addPort(port) {
   if (subContr) {
     subContr.addPort(port);
   } else {
-    const newContr = factory.get(sender.type, port);
-    controllers.set(sender.id, newContr);
+    try {
+      factory.get(sender.type, port);
+    } catch (e) {
+      console.error(e);
+      port.postMessage({event: 'terminate'});
+    }
   }
 }
 

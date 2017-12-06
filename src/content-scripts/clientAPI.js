@@ -8,7 +8,7 @@ import $ from 'jquery';
 import {prefs, host, getMessageType} from './main';
 import DecryptContainer from './decryptContainer';
 import EditorContainer from './editorContainer';
-import OptionsContainer from './optionsContainer';
+import AppContainer from './appContainer';
 import KeyGenContainer from './keyGenContainer';
 import KeyBackupContainer from './keyBackupContainer';
 import RestoreBackupContainer from './restoreBackupContainer';
@@ -314,7 +314,7 @@ function settingsContainer(selector, keyringId, options = {}, callback) {
     keyringId
   }, result => {
     options.hasPrivateKey = result.data;
-    const container = new OptionsContainer(selector, keyringId, options);
+    const container = new AppContainer(selector, keyringId, options);
     containers.set(container.id, container);
     container.create(callback);
   });

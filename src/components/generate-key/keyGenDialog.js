@@ -97,6 +97,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     port.on('check-dialog-inputs', () => port.emit('input-check', {isValid: validate(), pwd: $pwdInput.val()}));
     port.on('show-password', showPasswordPanel);
     port.on('show-waiting', showWaitingPanel);
+    port.on('terminate', () => mvelo.ui.terminate(port));
   }
 
   /**

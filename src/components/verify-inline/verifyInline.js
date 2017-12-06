@@ -60,6 +60,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   function registerEventListeners() {
     port.on('verified-message', onVerifiedMessage);
     port.on('error-message', ({error}) => showErrorMsg(error));
+    port.on('terminate', () => mvelo.ui.terminate(port));
   }
 
   function onVerifiedMessage(msg) {

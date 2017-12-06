@@ -168,6 +168,7 @@ function registerEventListeners() {
   port.on('hide-pwd-dialog', hidePwdDialog);
   port.on('get-plaintext', getPlaintext);
   port.on('error-message', onErrorMessage);
+  port.on('terminate', () => mvelo.ui.terminate(port));
   /**
    * Remember the available public keys for later and set the recipients proposal gotten from the webmail ui to the editor
    * @param {Array} options.keys         A list of all available public keys from the local keychain

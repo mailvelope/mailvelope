@@ -73,7 +73,8 @@ export class App extends React.Component {
     const name = query.get('fname') || '';
     const email = query.get('email') || '';
     // init messaging
-    port = mvelo.EventHandler.connect('app-bca899655117bff5e264fad');
+    port = mvelo.EventHandler.connect(`app-${this.getId(query)}`);
+    port.on('terminate', () => mvelo.ui.terminate(port));
     l10n.mapToLocal();
     document.title = l10n.map.options_title;
     // set initial state
@@ -98,6 +99,20 @@ export class App extends React.Component {
     this.handleChangePrefs = this.handleChangePrefs.bind(this);
     this.loadKeyring = this.loadKeyring.bind(this);
     app = this;
+  }
+
+  getId(query) {
+    if (window.top === window.self) {
+      // top level frame
+      return mvelo.APP_TOP_FRAME_ID;
+    } else {
+      // embedded frame
+      let id = query.get('id');
+      if (id === mvelo.APP_TOP_FRAME_ID) {
+        id = '';
+      }
+      return id;
+    }
   }
 
   componentWillMount() {

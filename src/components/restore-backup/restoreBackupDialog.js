@@ -132,6 +132,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   function registerEventListeners() {
     port.on('error-message', onError);
     port.on('set-password', msg => showPassword(msg.password));
+    port.on('terminate', () => mvelo.ui.terminate(port));
   }
 
   function onError(msg) {

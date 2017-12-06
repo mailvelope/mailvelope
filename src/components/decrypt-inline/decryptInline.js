@@ -82,6 +82,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       setSignatureButton(msg.isContainer);
     });
     port.on('error-message', ({error}) => showErrorMsg(error));
+    port.on('terminate', () => mvelo.ui.terminate(port));
   }
 
   function onDecryptedMessage({message}) {

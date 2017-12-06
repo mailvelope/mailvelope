@@ -31,12 +31,10 @@ sub.factory.register('editor',              EditorController);
 sub.factory.register('editorCont',          EditorController);
 sub.factory.register('syncHandler',         SyncController);
 sub.factory.register('keyGenCont',          PrivateKeyController);
-sub.factory.register('keyGenDialog',        PrivateKeyController);
 sub.factory.register('keyBackupCont',       PrivateKeyController);
-sub.factory.register('keyBackupDialog',     PrivateKeyController);
 sub.factory.register('restoreBackupCont',   PrivateKeyController);
-sub.factory.register('restoreBackupDialog', PrivateKeyController);
 sub.factory.register('app',                 AppController);
+sub.factory.register('appCont',             AppController);
 sub.factory.register('menu',                MenuController);
 
 export function initController() {

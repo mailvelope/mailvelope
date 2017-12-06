@@ -58,12 +58,12 @@ export default class MenuController extends sub.SubController {
   }
 
   destroyNodes(subControllers) {
-    this.postToNodes(subControllers, {event: 'destroy'});
+    this.postToNodes(subControllers, 'destroy');
   }
 
-  postToNodes(subControllers, msg) {
+  postToNodes(subControllers, event) {
     subControllers.forEach(subContr => {
-      subContr.ports[subContr.mainType].postMessage(msg);
+      subContr.ports[subContr.mainType].emit(event);
     });
   }
 
@@ -109,14 +109,14 @@ export default class MenuController extends sub.SubController {
   onActivate() {
     prefs.update({main_active: true})
     .then(() => {
-      this.postToNodes(sub.getByMainType('mainCS'), {event: 'on'});
+      this.postToNodes(sub.getByMainType('mainCS'), 'on');
     });
   }
 
   onDeactivate() {
     prefs.update({main_active: false})
     .then(() => {
-      this.postToNodes(sub.getByMainType('mainCS'), {event: 'off'});
+      this.postToNodes(sub.getByMainType('mainCS'), 'off');
       this.reloadFrames();
     });
   }
