@@ -174,7 +174,7 @@ export default class PrivateKeyController extends sub.SubController {
       }
 
       const path = `components/recovery-sheet/${page}`;
-      mvelo.windows.openPopup(path, {width: 1024, height: 550, modal: false})
+      mvelo.windows.openPopup(path, {width: 1024, height: 550})
       .then(popup => {
         this.backupCodePopup = popup;
         popup.addRemoveListener(() => this.backupCodePopup = null);

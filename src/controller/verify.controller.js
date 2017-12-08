@@ -26,20 +26,14 @@ export default class VerifyController extends SubController {
   }
 
   onDisplayPopup() {
-    // prevent two open modal dialogs
-    if (mvelo.windows.modalActive) {
-      // password dialog or modal dialog already open
-      this.ports.vFrame.emit('remove-dialog');
-    } else {
-      mvelo.windows.openPopup(`components/verify-popup/verifyPopup.html?id=${this.id}`, {width: 742, height: 550, modal: true})
-      .then(popup => {
-        this.verifyPopup = popup;
-        popup.addRemoveListener(() => {
-          this.ports.vFrame.emit('remove-dialog');
-          this.verifyPopup = null;
-        });
+    mvelo.windows.openPopup(`components/verify-popup/verifyPopup.html?id=${this.id}`, {width: 742, height: 550})
+    .then(popup => {
+      this.verifyPopup = popup;
+      popup.addRemoveListener(() => {
+        this.ports.vFrame.emit('remove-dialog');
+        this.verifyPopup = null;
       });
-    }
+    });
   }
 
   onArmoredMessage(msg) {

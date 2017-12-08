@@ -28,35 +28,20 @@ export default class DecryptController extends sub.SubController {
   }
 
   onDecryptInlineInit() {
-    if (mvelo.windows.modalActive && !this.decryptPopup) {
-      // password dialog or modal dialog already open from other component
-      if (this.ports.dFrame) {
-        this.ports.dFrame.emit('remove-dialog');
-      } else if (this.ports.decryptCont) {
-        this.ports.decryptCont.emit('error-message', {error: 'modal-active'});
-      }
-    } else {
-      const port = this.ports.dFrame || this.ports.decryptCont;
-      // get armored message
-      port.emit('get-armored');
-    }
+    const port = this.ports.dFrame || this.ports.decryptCont;
+    // get armored message
+    port.emit('get-armored');
   }
 
   onDframeDisplayPopup() {
-    // decrypt popup potentially needs pwd dialog
-    if (mvelo.windows.modalActive) {
-      // password dialog or modal dialog already open
-      this.ports.dFrame.emit('remove-dialog');
-    } else {
-      mvelo.windows.openPopup(`components/decrypt-popup/decryptPopup.html?id=${this.id}`, {width: 742, height: 550, modal: true})
-      .then(popup => {
-        this.decryptPopup = popup;
-        popup.addRemoveListener(() => {
-          this.ports.dFrame.emit('dialog-cancel');
-          this.decryptPopup = null;
-        });
+    mvelo.windows.openPopup(`components/decrypt-popup/decryptPopup.html?id=${this.id}`, {width: 742, height: 550})
+    .then(popup => {
+      this.decryptPopup = popup;
+      popup.addRemoveListener(() => {
+        this.ports.dFrame.emit('dialog-cancel');
+        this.decryptPopup = null;
       });
-    }
+    });
   }
 
   onSetArmored(msg) {

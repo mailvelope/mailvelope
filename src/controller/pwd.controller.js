@@ -125,7 +125,7 @@ export default class PwdController extends SubController {
           this.options.beforePasswordRequest();
         }
         if (this.options.openPopup) {
-          mvelo.windows.openPopup(`components/enter-password/pwdDialog.html?id=${this.id}`, {width: 470, height: 445, modal: false})
+          mvelo.windows.openPopup(`components/enter-password/pwdDialog.html?id=${this.id}`, {width: 470, height: 445})
           .then(popup => {
             this.pwdPopup = popup;
             popup.addRemoveListener(() => {

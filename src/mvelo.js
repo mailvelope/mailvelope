@@ -59,6 +59,13 @@ mvelo.MAX_FILE_UPLOAD_SIZE = 50 * 1024 * 1024;
 // stable id if app runs in top frame
 mvelo.APP_TOP_FRAME_ID = 'apptopframeid';
 
+mvelo.Error = class extends Error {
+  constructor(msg, code) {
+    super(msg);
+    this.code = code;
+  }
+};
+
 mvelo.appendTpl = function($element, path) {
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest();

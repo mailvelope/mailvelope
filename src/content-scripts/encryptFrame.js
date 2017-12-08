@@ -72,6 +72,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
     this.on('get-recipients', this._getRecipients);
     this.on('set-editor-output', this._setEditorOutput);
     this.on('destroy', this._closeFrame.bind(this, true));
+    this.on('mail-editor-close', this._onMailEditorClose);
   }
 
   _renderFrame() {
@@ -117,7 +118,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
   _normalizeButtons() {
     //console.log('editor mode', this._editorMode);
     this._eFrame.find('.m-encrypt-button').hide();
-    this._eFrame.find('#editorBtn').show();
+    this._eFrame.find('#editorBtn').show().removeClass('m-active');
     if (this._emailUndoText) {
       this._eFrame.find('#undoBtn').show();
     }
@@ -132,8 +133,13 @@ export default class EncryptFrame extends mvelo.EventHandler {
 
   _onEditorButton() {
     this._emailTextElement.off('keypress');
+    this._eFrame.find('#editorBtn').addClass('m-active');
     this._showMailEditor();
     return false;
+  }
+
+  _onMailEditorClose() {
+    this._eFrame.find('#editorBtn').removeClass('m-active');
   }
 
   _closeFrame(finalClose) {

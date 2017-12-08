@@ -26,7 +26,7 @@ export default class EditorController extends sub.SubController {
       this.mainType = 'editor';
       this.id = mvelo.util.getHash();
     }
-    this.encryptCallback = null;
+    this.encryptDone = null;
     this.encryptTimer = null;
     this.keyringId = null;
     this.editorPopup = null;
@@ -76,8 +76,11 @@ export default class EditorController extends sub.SubController {
   }
 
   _onEditorCancel() {
-    this.editorPopup.close();
-    this.editorPopup = null;
+    if (this.editorPopup) {
+      this.editorPopup.close();
+      this.editorPopup = null;
+      this.encryptDone.reject(new mvelo.Error('Editor dialog canceled.', 'EDITOR_DIALOG_CANCEL'));
+    }
   }
 
   _onEditorContainerEncrypt(msg) {
@@ -210,17 +213,21 @@ export default class EditorController extends sub.SubController {
    * @param {Function} options.getRecipientProposal
    * @param {Function} callback
    */
-  encrypt(options, callback) {
+  encrypt(options) {
     this.options = options;
     this.keyringId = options.keyringId || mvelo.LOCAL_KEYRING_ID;
-    this.encryptCallback = callback;
-    mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}`, {width: 820, height: 550, modal: false})
-    .then(popup => {
-      this.editorPopup = popup;
-      popup.addRemoveListener(() => {
-        this.editorPopup = null;
+    return new Promise((resolve, reject) => {
+      this.encryptDone = {resolve, reject};
+      mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}`, {width: 820, height: 550})
+      .then(popup => {
+        this.editorPopup = popup;
+        popup.addRemoveListener(() => this._onEditorCancel());
       });
     });
+  }
+
+  activate() {
+    this.editorPopup.activate();
   }
 
   /**
@@ -465,7 +472,7 @@ export default class EditorController extends sub.SubController {
       this.ports.editorCont.emit('encrypted-message', {message: options.armored});
     } else {
       const recipients = (options.keys || []).map(k => ({name: k.name, email: k.email}));
-      this.encryptCallback(null, options.armored, recipients);
+      this.encryptDone.resolve({armored: options.armored, recipients});
     }
   }
 
@@ -502,7 +509,7 @@ export default class EditorController extends sub.SubController {
       if (this.ports.editorCont) {
         this.ports.editorCont.emit('error-message', {error});
       } else {
-        this.encryptCallback(error);
+        this.encryptDone.reject(error);
       }
       this.ports.editor.emit('encrypt-failed');
     })
