@@ -9,7 +9,7 @@ import * as openpgp from 'openpgp';
 import * as defaults from './defaults';
 import * as prefs from './prefs';
 import * as pwdCache from './pwdCache';
-import {randomString} from './crypto';
+import {randomString, symEncrypt} from './crypto';
 import * as uiLog from './uiLog';
 import * as keyring from './keyring';
 import * as keyringSync from './keyringSync';
@@ -364,7 +364,7 @@ export function createPrivateKeyBackup(primaryKey, keyPwd) {
     packetList.concat(primaryKey.toPacketlist());
     // symmetrically encrypt with backup code
     const msg = new openpgp.message.Message(packetList);
-    return msg.encrypt(null, [backupCode]);
+    return symEncrypt(msg, backupCode);
   })
   .then(msg => ({backupCode, message: msg.armor()}));
 }
