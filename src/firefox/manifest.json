@@ -2,8 +2,7 @@
   "applications": {
     "gecko": {
       "id": "jid1-AQqSMBYb0a8ADg@jetpack",
-      "strict_min_version": "52.0",
-      "update_url": "https://download.mailvelope.com/update/mailvelope.firefox.webex.xml"
+      "strict_min_version": "52.0"
     }
   },
   "name": "__MSG_ext_name__",
