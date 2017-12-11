@@ -92,8 +92,8 @@ describe('Editor controller unit tests', () => {
 
   describe('transferEncrypted', () => {
     beforeEach(() => {
-      ctrl.encryptCallback = function() {};
-      sinon.stub(ctrl, 'encryptCallback');
+      ctrl.encryptDone = {resolve() {}, reject() {}};
+      sinon.stub(ctrl.encryptDone, 'resolve');
     });
 
     it('should not transfer private key material', () => {
@@ -101,7 +101,7 @@ describe('Editor controller unit tests', () => {
         armored: 'a',
         keys: [{name: 'n', email: 'e', private: 'p'}]
       });
-      expect(ctrl.encryptCallback.withArgs(null, 'a', [{name: 'n', email: 'e'}]).calledOnce).to.be.true;
+      expect(ctrl.encryptDone.resolve.withArgs({armored: 'a', recipients: [{name: 'n', email: 'e'}]}).calledOnce).to.be.true;
     });
   });
 

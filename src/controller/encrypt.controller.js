@@ -32,7 +32,7 @@ export default class EncryptController extends sub.SubController {
       return;
     }
     this.editorControl = sub.factory.get('editor');
-    this.editorControl.encrypt({
+    return this.editorControl.encrypt({
       initText: options.text,
       getRecipientProposal: this.getRecipientProposal.bind(this)
     })

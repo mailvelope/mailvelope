@@ -256,15 +256,19 @@ export function decryptMessage({message, key, options = {}}, keyringId) {
     return openpgp.decrypt({message, privateKey: key, publicKeys: signingKeys});
   })
   .then(result => {
-    result.signatures = result.signatures.map(signature => {
-      signature.keyid = signature.keyid.toHex();
-      if (signature.valid !== null) {
-        const signingKey = keyRing.keyring.getKeysForId(signature.keyid, true);
-        signature.keyDetails = keyring.mapKeys(signingKey)[0];
-      }
-      return signature;
-    });
+    result.signatures = mapSignatures(result.signatures, keyRing);
     return result;
+  });
+}
+
+function mapSignatures(signatures = [], keyRing) {
+  return signatures.map(signature => {
+    signature.keyid = signature.keyid.toHex();
+    if (signature.valid !== null) {
+      const signingKey = keyRing.keyring.getKeysForId(signature.keyid, true);
+      signature.keyDetails = keyring.mapKeys(signingKey)[0];
+    }
+    return signature;
   });
 }
 
