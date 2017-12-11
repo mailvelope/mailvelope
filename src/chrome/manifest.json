@@ -28,7 +28,6 @@
   },
   "permissions": [
     "*://*/*",
-    "clipboardWrite",
     "downloads",
     "storage",
     "tabs",
