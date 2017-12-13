@@ -1339,14 +1339,6 @@
     "description": "",
     "message": "Click to sign in dialog"
   },
-  "security_log_dialog_transfer": {
-    "description": "",
-    "message": "Click to transfer in dialog"
-  },
-  "security_log_dialog_undo": {
-    "description": "",
-    "message": "Click to undo in dialog"
-  },
   "security_log_editor": {
     "description": "Message editor container as an event source",
     "message": "PGP Editor"

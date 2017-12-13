@@ -1397,14 +1397,6 @@
     "message": "Klickereignis auf Signieren im Dialog",
     "description": ""
   },
-  "security_log_dialog_transfer": {
-    "message": "Klickereignis auf Übertragen im Dialog",
-    "description": ""
-  },
-  "security_log_dialog_undo": {
-    "message": "Klickereignis auf Rückgängig im Dialog",
-    "description": ""
-  },
   "security_log_editor": {
     "message": "PGP-Editor",
     "description": "Message editor container as an event source"

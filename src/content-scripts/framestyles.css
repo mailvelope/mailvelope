@@ -93,10 +93,6 @@
   background-repeat: no-repeat;
 }
 
-:root .m-encrypt-frame .m-icon-undo {
-  background-image: url('/img/undo-22.png');
-}
-
 :root .m-encrypt-frame .m-icon-editor {
   background-image: url('/img/mail_new.png');
 }

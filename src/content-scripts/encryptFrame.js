@@ -17,7 +17,6 @@ export default class EncryptFrame extends mvelo.EventHandler {
     this._sender = `eFrame-${this.id}`;
     this._refreshPosIntervalID = 0;
     this._emailTextElement = null;
-    this._emailUndoText = null;
     // type of external editor
     this._editorType = mvelo.PLAIN_TEXT; //prefs.general.editor_type;
     this._options = {closeBtn: true};
@@ -83,10 +82,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
     } else {
       toolbar = `${toolbar}<span class="m-frame-fill-right"></span>`;
     }
-    toolbar = `${toolbar}\
-              <button id="undoBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-undo"></i></button> \
-              <button id="editorBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-editor"></i></button> \
-              `;
+    toolbar = `${toolbar}<button id="editorBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-editor"></i></button>`;
     this._eFrame = $('<div/>', {
       id: `eFrame-${this.id}`,
       'class': 'm-encrypt-frame',
@@ -100,7 +96,6 @@ export default class EncryptFrame extends mvelo.EventHandler {
       this._setFrameDim();
     }, 1000);
     this._eFrame.find('.m-frame-close').on('click', this._closeFrame.bind(this));
-    this._eFrame.find('#undoBtn').on('click', this._onUndoButton.bind(this));
     this._eFrame.find('#editorBtn').on('click', this._onEditorButton.bind(this));
     this._normalizeButtons();
     this._eFrame.fadeIn('slow');
@@ -119,16 +114,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
     //console.log('editor mode', this._editorMode);
     this._eFrame.find('.m-encrypt-button').hide();
     this._eFrame.find('#editorBtn').show().removeClass('m-active');
-    if (this._emailUndoText) {
-      this._eFrame.find('#undoBtn').show();
-    }
     this._setFrameDim();
-  }
-
-  _onUndoButton() {
-    this._resetEmailText();
-    this._normalizeButtons();
-    return false;
   }
 
   _onEditorButton() {
@@ -225,17 +211,6 @@ export default class EncryptFrame extends mvelo.EventHandler {
   }
 
   /**
-   * Save editor content for later undo
-   */
-  _saveEmailText() {
-    if (this._emailTextElement.is('textarea')) {
-      this._emailUndoText = this._emailTextElement.val();
-    } else {
-      this._emailUndoText = this._emailTextElement.html();
-    }
-  }
-
-  /**
    * Is called after encryption and injects ciphertext and recipient
    * email addresses into the webmail interface.
    * @param {String} options.text         The encrypted message body
@@ -243,7 +218,6 @@ export default class EncryptFrame extends mvelo.EventHandler {
    */
   _setEditorOutput(options) {
     // set message body
-    this._saveEmailText();
     this._normalizeButtons();
     this._setMessage(options.text, 'text');
     // set recipient email addresses
@@ -270,14 +244,5 @@ export default class EncryptFrame extends mvelo.EventHandler {
     const inputEvent = document.createEvent('HTMLEvents');
     inputEvent.initEvent('input', true, true);
     this._emailTextElement.get(0).dispatchEvent(inputEvent);
-  }
-
-  _resetEmailText() {
-    if (this._emailTextElement.is('textarea')) {
-      this._emailTextElement.val(this._emailUndoText);
-    } else {
-      this._emailTextElement.html(this._emailUndoText);
-    }
-    this._emailUndoText = null;
   }
 }
