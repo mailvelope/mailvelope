@@ -10,12 +10,14 @@
 
 import mvelo from '../lib/lib-mvelo';
 import * as sub from './sub.controller';
+import {prefs} from '../modules/prefs';
 
 export default class EncryptController extends sub.SubController {
   constructor(port) {
     super(port);
     this.editorControl = null;
     this.recipientsCallback = null;
+    this.editorContentModified = false;
     // register event handlers
     this.on('eframe-recipients', this.displayRecipientProposal);
     this.on('eframe-display-editor', this.openEditor);
@@ -33,20 +35,27 @@ export default class EncryptController extends sub.SubController {
     }
     this.editorControl = sub.factory.get('editor');
     return this.editorControl.encrypt({
-      initText: options.text,
-      getRecipientProposal: this.getRecipientProposal.bind(this)
+      signMsg: prefs.general.auto_sign_msg,
+      predefinedText: options.text,
+      quotedMail: options.quotedMail,
+      quotedMailIndent: !this.editorContentModified,
+      getRecipientProposal: this.getRecipientProposal.bind(this),
+      privKeys: true
     })
     .then(({armored, recipients}) => {
       // sanitize if content from plain text
       const parsed = mvelo.util.parseHTML(armored);
       this.emit('set-editor-output', {text: parsed, recipients});
+      this.editorContentModified = true;
       this.editorControl = null;
     })
     .catch(err => {
       if (err.code == 'EDITOR_DIALOG_CANCEL') {
         this.editorControl = null;
         this.emit('mail-editor-close');
+        return;
       }
+      console.error(err);
     });
   }
 

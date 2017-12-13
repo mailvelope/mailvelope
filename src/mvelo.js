@@ -207,7 +207,12 @@ mvelo.util.normalizeArmored = function(msg, typeRegex) {
   msg = msg.replace(/\n\s+/g, '\n'); // compress sequence of whitespace and new line characters to one new line
   msg = msg.replace(/[^\S\r\n]/g, ' '); // unify white space characters (all \s without \r and \n)
   if (typeRegex) {
-    msg = msg.match(typeRegex)[0];
+    msg = msg.match(typeRegex);
+    if (msg) {
+      msg = msg[0];
+    } else {
+      throw new mvelo.Error('Could not extract valid PGP message', 'INVALID_ARMORED_BLOCK');
+    }
   }
   msg = msg.replace(/^(\s?>)+/gm, ''); // remove quotation
   msg = msg.replace(/^\s+/gm, ''); // remove leading whitespace

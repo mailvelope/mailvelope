@@ -167,9 +167,18 @@ export default class EncryptFrame extends mvelo.EventHandler {
   }
 
   _showMailEditor() {
-    this.emit('eframe-display-editor', {
-      text: this._getEmailText(this._editorType == mvelo.PLAIN_TEXT ? 'text' : 'html')
-    });
+    const options = {};
+    const emailContent = this._getEmailText(this._editorType == mvelo.PLAIN_TEXT ? 'text' : 'html');
+    if (/BEGIN\sPGP\sMESSAGE/.test(emailContent)) {
+      try {
+        options.quotedMail = mvelo.util.normalizeArmored(emailContent, /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/);
+      } catch (e) {
+        options.text = emailContent;
+      }
+    } else {
+      options.text = emailContent;
+    }
+    this.emit('eframe-display-editor', options);
   }
 
   _getRecipients() {

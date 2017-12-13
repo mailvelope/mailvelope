@@ -57,22 +57,44 @@ export default class EditorController extends sub.SubController {
     if (this.ports.editorCont) {
       this.ports.editorCont.emit('editor-ready');
     } else {
-      // non-container case, send options to editor
-      const keyring = getKeyringById(this.keyringId);
-      const primaryKey =  keyring.getPrimaryKey();
-      const primaryKeyId = primaryKey && primaryKey.keyid.toUpperCase() || '';
-      const data = {
-        text: this.options.initText,
-        signMsg: prefs.general.auto_sign_msg,
-        primary: primaryKeyId,
-        privKeys: keyring.getValidSigningKeys()
-      };
-      this.ports.editor.emit('set-init-data', {data});
+      // non-container case, set options
+      this._onEditorOptions({
+        keyringId: mvelo.LOCAL_KEYRING_ID,
+        options: this.options,
+      });
     }
     // display recipient proposal in the editor
     if (this.options.getRecipientProposal) {
       this.options.getRecipientProposal(this.displayRecipientProposal.bind(this));
     }
+  }
+
+  _onEditorOptions(msg) {
+    this.keyringId = msg.keyringId;
+    this.options = msg.options;
+    this.signMsg = msg.options.signMsg;
+    const keyring = getKeyringById(this.keyringId);
+    const primaryKey = keyring.getPrimaryKey();
+    const primaryKeyId = primaryKey && primaryKey.keyid.toUpperCase() || '';
+    const data = {
+      signMsg: this.signMsg,
+      primary: primaryKeyId
+    };
+    if (msg.options.privKeys) {
+      data.privKeys = keyring.getValidSigningKeys();
+    }
+    if (this.options.armoredDraft) {
+      this.options.keepAttachments = true;
+      this.scheduleDecrypt(this.options.armoredDraft);
+    } else {
+      if (this.options.quotedMail) {
+        this.scheduleDecrypt(this.options.quotedMail);
+      } else if (this.options.predefinedText) {
+        data.text = this.options.predefinedText;
+      }
+    }
+    triggerSync({keyringId: this.keyringId, force: true});
+    this.ports.editor.emit('set-init-data', {data});
   }
 
   _onEditorCancel() {
@@ -126,30 +148,6 @@ export default class EditorController extends sub.SubController {
       return;
     }
     this.ports.editor.emit('get-plaintext', {action: 'encrypt', draft: true});
-  }
-
-  _onEditorOptions(msg) {
-    this.keyringId = msg.keyringId;
-    this.options = msg.options;
-    this.signMsg = msg.options.signMsg;
-    const primaryKey = getKeyringById(this.keyringId).getPrimaryKey();
-    const primaryKeyId = primaryKey && primaryKey.keyid.toUpperCase() || '';
-    const data = {
-      signMsg: this.signMsg,
-      primary: primaryKeyId
-    };
-    if (this.options.armoredDraft) {
-      this.options.keepAttachments = true;
-      this.scheduleDecrypt(this.options.armoredDraft);
-    } else {
-      if (this.options.quotedMail) {
-        this.scheduleDecrypt(this.options.quotedMail);
-      } else if (this.options.predefinedText) {
-        data.text = this.options.predefinedText;
-      }
-    }
-    triggerSync({keyringId: this.keyringId, force: true});
-    this.ports.editor.emit('set-init-data', {data});
   }
 
   _onSignOnly(msg) {
@@ -215,7 +213,6 @@ export default class EditorController extends sub.SubController {
    */
   encrypt(options) {
     this.options = options;
-    this.keyringId = options.keyringId || mvelo.LOCAL_KEYRING_ID;
     return new Promise((resolve, reject) => {
       this.encryptDone = {resolve, reject};
       mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}`, {width: 820, height: 550})
@@ -307,7 +304,7 @@ export default class EditorController extends sub.SubController {
   }
 
   scheduleDecrypt(armored) {
-    if (armored.length > 400000) {
+    if (armored.length > 400000 && !this.editorPopup) {
       // show spinner for large messages
       this.ports.editor.emit('decrypt-in-progress');
     }
@@ -324,8 +321,13 @@ export default class EditorController extends sub.SubController {
     const decryptCtrl = new DecryptController();
     decryptCtrl.keyringId = this.keyringId;
     model.readMessage({armoredText: armored, keyringId: this.keyringId})
-    .then(message => decryptCtrl.prepareKey(message, !this.editorPopup))
     .then(message => {
+      message.openPopup = !this.editorPopup;
+      message.beforePasswordRequest = id => this.editorPopup && this.ports.editor.emit('show-pwd-dialog', {id});
+      return decryptCtrl.prepareKey(message);
+    })
+    .then(message => {
+      this.editorPopup && this.ports.editor.emit('hide-pwd-dialog');
       message.options = {selfSigned: Boolean(this.options.armoredDraft)};
       return decryptCtrl.decryptMessage(message);
     })

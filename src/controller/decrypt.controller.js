@@ -123,13 +123,15 @@ export default class DecryptController extends sub.SubController {
     });
   }
 
-  prepareKey(message, openPopup) {
+  prepareKey(message) {
     this.pwdControl = sub.factory.get('pwdDialog');
     message.reason = 'PWD_DIALOG_REASON_DECRYPT';
-    message.openPopup = openPopup !== undefined ? openPopup : this.ports.decryptCont || prefs.security.display_decrypted == mvelo.DISPLAY_INLINE;
-    message.beforePasswordRequest = () => {
-      this.ports.dPopup && this.ports.dPopup.emit('show-pwd-dialog', {id: this.pwdControl.id});
-    };
+    if (message.openPopup === undefined) {
+      message.openPopup = this.ports.decryptCont || prefs.security.display_decrypted == mvelo.DISPLAY_INLINE;
+    }
+    if (!message.beforePasswordRequest) {
+      message.beforePasswordRequest = id => this.ports.dPopup && this.ports.dPopup.emit('show-pwd-dialog', {id});
+    }
     message.keyringId = this.keyringId;
     return this.pwdControl.unlockKey(message);
   }

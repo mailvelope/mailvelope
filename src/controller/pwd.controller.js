@@ -122,7 +122,7 @@ export default class PwdController extends SubController {
           });
         }
         if (this.options.beforePasswordRequest) {
-          this.options.beforePasswordRequest();
+          this.options.beforePasswordRequest(this.id);
         }
         if (this.options.openPopup) {
           mvelo.windows.openPopup(`components/enter-password/pwdDialog.html?id=${this.id}`, {width: 470, height: 445})
