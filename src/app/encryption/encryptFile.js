@@ -12,7 +12,7 @@ import * as l10n from '../../lib/l10n';
 import * as fileLib from '../../lib/file';
 import EncryptFooter from './components/EncryptFooter';
 
-import './encrypt.css';
+import './encryptFile.css';
 
 let numUploadsInProgress = 0;
 let recipients = [];

@@ -28,7 +28,7 @@ import ImportKey from './keyring/importKey';
 import GenerateKey from './keyring/GenerateKey';
 import KeyringSetup from './keyring/KeyringSetup';
 
-import EncryptFile from './fileEncrypt/encryptFile';
+import EncryptFile from './encryption/encryptFile';
 
 import General from './settings/general';
 import Security from './settings/security';
