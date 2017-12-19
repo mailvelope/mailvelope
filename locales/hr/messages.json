@@ -87,6 +87,10 @@
         "message": "Potvrdi",
         "description": "Confirm form button."
     },
+    "action_menu_setup_menu_aria_label": {
+        "message": "Mailvelope setup menu",
+        "description": "Accessibility, aria label of the setup menu"
+    },
     "key_import_hkp_search_ph": {
         "message": "Ime, adresa e-pošte ili ID ključa",
         "description": ""
@@ -99,10 +103,6 @@
         "message": "Zaista želiš ukloniti ovu stranicu s liste ponuđača e-pošte?",
         "description": "Mesage in the watchlist delete confirmation dialog."
     },
-    "popup_last_activities": {
-        "message": "Posljednje aktivnosti",
-        "description": "Title text for the last activities area"
-    },
     "key_export_header": {
         "message": "Izvoz ključeva",
         "description": "Export key dialog header."
@@ -114,6 +114,10 @@
     "upload_attachment": {
         "message": "Dodaj privitak",
         "description": "Text in the upload attachment button of the message editor dialog"
+    },
+    "keyring_confirm_deletion": {
+        "message": "Do you want to remove the keyring with ID: $1?",
+        "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyserver_hkp_url": {
         "message": "HKP poslužitelj s ključevima",
@@ -142,10 +146,6 @@
     "security_cache_header": {
         "message": "Zapamti lozinku za ovu sjednicu.",
         "description": "Password cache header"
-    },
-    "popup_actived_checkbox_tooltip": {
-        "message": "Aktiviraj / Deaktiviraj vanjski uređivač",
-        "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "security_log_encryption_operation": {
         "message": "Poruka je kriptirana za: $1",
@@ -195,6 +195,10 @@
         "message": "Akcija",
         "description": "Title of the action column of the security log table."
     },
+    "install_landing_page_help": {
+        "message": "Check out the <0>online help</0> for more information.",
+        "description": "Install landing page help message"
+    },
     "general_primary_key_label": {
         "message": "Primarni Privatni Ključ",
         "description": "Label for primary private key option."
@@ -206,6 +210,10 @@
     "encrypt_file_selection": {
         "message": "Označi datoteke",
         "description": "File upload selection"
+    },
+    "action_menu_configure_mailvelope": {
+        "message": "<0>Configure Mailvelope</0> to get started!",
+        "description": "Configure Mailvelope label in the action menu"
     },
     "security_log_dialog_encrypt": {
         "message": "Klik na formu za enkripciju",
@@ -236,7 +244,7 @@
         "description": "Upload key to Mailvelope key server checkbox"
     },
     "dashboard_link_help": {
-        "message": "Help",
+        "message": "Pomoć",
         "description": "Dashboard help link"
     },
     "security_background_preview": {
@@ -254,10 +262,6 @@
     "key_import_hkp_server": {
         "message": "Server ključeva",
         "description": ""
-    },
-    "popup_options": {
-        "message": "Opcije",
-        "description": "Open options dialog."
     },
     "keygrid_export_title": {
         "message": "Izvezi sve ključeve s ove liste u datoteku",
@@ -311,13 +315,13 @@
         "message": "Unesi jedan ili više ključeva u tekstualnom formatu",
         "description": "Info message."
     },
-    "popup_help": {
-        "message": "Pomoć",
-        "description": "Open help dialog."
-    },
     "keygrid_subkeyid": {
         "message": "ID",
         "description": "Subkey ID of a PGP key."
+    },
+    "action_menu_primary_menu_aria_label": {
+        "message": "Mailvelope primary menu",
+        "description": "Accessibility, aria label of the primary menu"
     },
     "key_import_dialog_header": {
         "message": "Dodaj ključ u set ključeva",
@@ -383,6 +387,10 @@
         "message": "Izgubio si stranicu za oporavak.",
         "description": ""
     },
+    "action_menu_all_options": {
+        "message": "All options",
+        "description": "All options link in the action menu"
+    },
     "security_log_import_dialog": {
         "message": "Forma za uvoz",
         "description": "Key import dialog as an event source"
@@ -423,6 +431,10 @@
         "message": "Izvoz",
         "description": "Export key."
     },
+    "action_menu_back": {
+        "message": "Vrati",
+        "description": "Back link in the action menu"
+    },
     "security_log_backup_code_input": {
         "message": "Lozinka za oporavak",
         "description": ""
@@ -450,10 +462,6 @@
     "keygrid_invalid_userid": {
         "message": "Nevažeći ID korisnika",
         "description": "User ID invalid."
-    },
-    "popup_reload_tooltip": {
-        "message": "Osvježi sve Mailvelope elemente",
-        "description": "Reload all Mailvelope UI elements on page."
     },
     "recovery_sheet_header": {
         "message": "Važne informacije!",
@@ -491,10 +499,6 @@
         "message": "Potpis ne može biti provjeren",
         "description": ""
     },
-    "popup_actived_checkbox": {
-        "message": "Omogućen",
-        "description": "Text of the checkbox for activating/deactivating the plugin"
-    },
     "editor_sign_caption_short": {
         "message": "E-pošta će biti digitalno potpisana",
         "description": ""
@@ -527,10 +531,6 @@
         "message": "Sigurnosna pohrana Vaših podataka može se dekriptirati samo uz pomoć koda za oporavak na ovoj stranici za oporavak.",
         "description": ""
     },
-    "security_log_backup_dialog_cancel": {
-        "message": "Klikni za zatvaranje",
-        "description": ""
-    },
     "form_undo": {
         "message": "Vrati",
         "description": "Undo form button."
@@ -542,10 +542,6 @@
     "recovery_sheet_print_notice": {
         "message": "Molimo da ispišete ovaj dokument i pohranite ga na sigurno!",
         "description": "Sub title of recovery sheet."
-    },
-    "popup_reload": {
-        "message": "Osvježi",
-        "description": "Reload all Mailvelope elements on page."
     },
     "keygen_dialog_password_placeholder": {
         "message": "Minimalno 4 znaka",
@@ -586,10 +582,6 @@
     "decrypt_popup_header": {
         "message": "Poruka",
         "description": "Header of decrypt popup."
-    },
-    "security_log_backup_dialog_ok": {
-        "message": "Klikni za prihvaćanje",
-        "description": ""
     },
     "keygrid_status_invalid": {
         "message": "nevažeći",
@@ -635,13 +627,13 @@
         "message": "Klik za prihvaćanje",
         "description": ""
     },
+    "action_menu_keyring": {
+        "message": "<0>Keyring:</0> manage public and private keys.",
+        "description": "Keyring label in the action menu"
+    },
     "recovery_sheet_qr_code": {
         "message": "Skeniraj QR kod mobilnim uređajem.",
         "description": ""
-    },
-    "popup_file_encrypting": {
-        "message": "Kriptiranje datoteke",
-        "description": "Title text for file encryption"
     },
     "verify_result_success": {
         "message": "Potpisao",
@@ -723,10 +715,6 @@
         "message": "Nemogu kriptirati ovu poruku: $1",
         "description": "Error during encryption process."
     },
-    "popup_actions_current_page": {
-        "message": "Trenutna kartica:",
-        "description": "Title text for the reload and add buttons"
-    },
     "encrypt_dialog_add": {
         "message": "Dodaj",
         "description": "Max 6 character."
@@ -771,10 +759,6 @@
         "message": "Privremeno zapamti lozinku",
         "description": "Checkbox label for remembering of the password."
     },
-    "popup_remove_page_tooltip": {
-        "message": "Ukloni trenutnu stranicu iz popisa ponuđača e-pošte",
-        "description": "Remove page from watchlist."
-    },
     "form_import": {
         "message": "Uvezi",
         "description": "Import form button."
@@ -799,6 +783,10 @@
         "message": "Vlasnik digitalnog popisa nije potvrđen za kriptiranu komunikaciju. Zatražite pozivnicu od sugovornika.",
         "description": ""
     },
+    "action_menu_help": {
+        "message": "Pomoć",
+        "description": "Online help shortcut."
+    },
     "pwd_dialog_reason_create_backup": {
         "message": "Unesi lozinku za stvaranje prozora za oporavak.",
         "description": ""
@@ -819,6 +807,10 @@
         "message": "Preporuka: Stvori sigurnosnu kopiju",
         "description": ""
     },
+    "action_menu_reload_extension_scripts": {
+        "message": "Reload extension scripts",
+        "description": "Reload extension scripts shortcut in the action menu"
+    },
     "security_log_timestamp": {
         "message": "Vremenski žig",
         "description": "Title of the timestamp column of the security log table."
@@ -826,10 +818,6 @@
     "keyring_setup_import_key_explanation": {
         "message": "Imaš li par ključeva na drugom uređaju? Možeš uvesti svoje postojeće ključeve. Izvezi ključeve iz drugog uređaja i uvezi ih ovdje.",
         "description": "Import key"
-    },
-    "popup_open_page": {
-        "message": "Otvori",
-        "description": "Open page to file encrypt."
     },
     "key_import_extend_hint": {
         "message": "Savijet:",
@@ -842,6 +830,10 @@
     "recovery_sheet_be_aware": {
         "message": "Budi oprezan",
         "description": "Label"
+    },
+    "action_menu_dashboard": {
+        "message": "<0>Dashboard:</0> browse all configuration options.",
+        "description": "Dashboard label in the action menu"
     },
     "key_import_public_update": {
         "message": "Osvježen javni kljuk $1korisnika $2",
@@ -858,6 +850,10 @@
     "editor_no_primary_key_caption_short": {
         "message": "E-pošta ne može biti digitalno potpisana.",
         "description": ""
+    },
+    "action_menu_advanced_menu_aria_label": {
+        "message": "Mailvelope advanced menu",
+        "description": "Accessibility, aria label of the advanced menu"
     },
     "recovery_sheet_provider_inbox": {
         "message": "Dolazna pošta",
@@ -890,6 +886,10 @@
     "invalid_primary_key": {
         "message": "Ključ ne vrijedi za enkripciju i potpisivanje.",
         "description": "Tootip for set as primary key button"
+    },
+    "action_menu_edit_security_settings": {
+        "message": "Edit security settings",
+        "description": "Edit security settings shortcut in the action menu"
     },
     "alert_header_warning": {
         "message": "Upozorenje!",
@@ -931,6 +931,10 @@
         "message": "Jeste li sigurni da želite ukloniti ovaj ključ?",
         "description": "Delete confirmation dialog."
     },
+    "action_menu_more_options": {
+        "message": "More options",
+        "description": "More options link in the action menu (setup state)"
+    },
     "pwd_dialog_title": {
         "message": "Unesi lozinku | Mailvelope",
         "description": "Title of the password dialog."
@@ -966,10 +970,6 @@
     "recovery_sheet_recommendation": {
         "message": "Preporuka",
         "description": ""
-    },
-    "popup_remove_page": {
-        "message": "Ukloni",
-        "description": "Remove page from watchlist."
     },
     "keyserver_url_warning": {
         "message": "Poslužitelj s ključevima mora biti u formatu: http(s)://keys.example.com",
@@ -1027,6 +1027,10 @@
         "message": "Javni ključ $1 korisnika $2 je dodan u skup ključeva",
         "description": "Import success message: $1: keyid, $2: userid."
     },
+    "action_menu_manage_email_providers": {
+        "message": "Manage email providers",
+        "description": "Manage email providers shortcut in the action menu"
+    },
     "pwd_dialog_reason_editor": {
         "message": "Unesi lozinku za osvježavanje postavki kriptirane komunikacije.",
         "description": ""
@@ -1046,10 +1050,6 @@
     "pwd_dialog_reason_create_draft": {
         "message": "Unesi lozinku za stvaranje skice.",
         "description": ""
-    },
-    "popup_add_page_tooltip": {
-        "message": "Omogući Mailvelope za trenutnu stranicu",
-        "description": "Add page to watchlist."
     },
     "keygrid_sort_type": {
         "message": "Vrsta ključa",
@@ -1086,6 +1086,10 @@
     "keybackup_restore_dialog_list_2": {
         "message": "Nova stranica za oporavak mora biti stvorena radi sigurnosnih razloga.",
         "description": ""
+    },
+    "dashboard_title": {
+        "message": "Dashboard",
+        "description": "Dashboard view header"
     },
     "security_log_attachment_download": {
         "message": "Privitak preuzet",
@@ -1139,6 +1143,10 @@
         "message": "Opcije",
         "description": "Options navigation: Home."
     },
+    "action_menu_review_security_logs": {
+        "message": "Review security logs",
+        "description": "Review security logs shortcut in the action menu"
+    },
     "keygen_dialog_password": {
         "message": "Lozinka",
         "description": ""
@@ -1176,8 +1184,12 @@
         "description": ""
     },
     "key_export_warning_private": {
-        "message": "Ova datoteka sadrži i privatne ključeve.",
+        "message": "This file also contains private keys. Keep the file in a safe place and do not share with others.",
         "description": "Key export warning."
+    },
+    "action_menu_advanced_options": {
+        "message": "Advanced options",
+        "description": "Advanced options link in the action menu"
     },
     "learn_more_link": {
         "message": "Nauči više.",
@@ -1198,6 +1210,10 @@
     "word_or": {
         "message": "ili",
         "description": "Separate list of elements."
+    },
+    "install_landing_page_getting_started": {
+        "message": "Click on the Mailvelope icon <0></0> in your browser toolbar to begin with the configuration.",
+        "description": "Install landing page getting started message"
     },
     "key_import_exception": {
         "message": "Pogreška priliko obrade ključeva",
@@ -1272,7 +1288,7 @@
         "description": "Cleartext message read error message: $1: error message."
     },
     "file_encrypt_armored_output": {
-        "message": "Encrypt to file in text format (ASCII-armored)",
+        "message": "Encrypt to file in text format (ASCII-Armor)",
         "description": ""
     },
     "editor_header": {
@@ -1314,6 +1330,10 @@
     "keygrid_expiration_date": {
         "message": "Vrijedi do",
         "description": "Expiration date of a PGP key."
+    },
+    "action_menu_file_encryption": {
+        "message": "<0>File encryption:</0> encrypt a file or more.",
+        "description": "File encryption label in the action menu"
     },
     "restore_password_dialog_headline": {
         "message": "Tvoja lozinka:",
@@ -1371,10 +1391,6 @@
         "message": "Nemogu pročitati privatni ključ: $1",
         "description": "Import error message. $1: error message"
     },
-    "popup_help_tooltip": {
-        "message": "Otvara stranicu s dokumentacijom",
-        "description": "Opens the help page on mailvelope.com."
-    },
     "security_log_textarea_select": {
         "message": "Označivanje u tekstu",
         "description": "Selection of the text area as an event type"
@@ -1382,10 +1398,6 @@
     "keygrid_signer_unknown": {
         "message": "Nepoznat potpisivač",
         "description": "Key of signer not available."
-    },
-    "popup_add_page": {
-        "message": "Dodaj",
-        "description": "Add page to watchlist."
     },
     "security_log_dialog_sign": {
         "message": "Klik na formu za prijavu",
@@ -1447,6 +1459,10 @@
         "message": "Kopiraj u međuspremnik",
         "description": "Copy decrypted message to clipboard."
     },
+    "action_menu_activate_current_tab": {
+        "message": "Activate on current tab",
+        "description": "Activate on current tab shortcut in the action menu"
+    },
     "form_next": {
         "message": "Sljedeći",
         "description": "Next form button."
@@ -1482,6 +1498,10 @@
     "key_import_default_description": {
         "message": "Potvrdi omogućavanje kriptirane komunikacije s ovim primateljem.",
         "description": "Key import dialog description."
+    },
+    "install_landing_page_welcome": {
+        "message": "Welcome to Mailvelope!",
+        "description": "Install landing page welcome message"
     },
     "key_gen_advanced_btn": {
         "message": "Napredne postavke",
