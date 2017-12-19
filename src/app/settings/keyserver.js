@@ -9,7 +9,7 @@
  */
 
 import * as l10n from '../../lib/l10n';
-import {Alert} from '../util/util';
+import Alert from '../../components/util/Alert';
 import {port} from '../app';
 
 import React from 'react';

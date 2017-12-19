@@ -189,3 +189,40 @@ export function getFiles($fileList) {
   });
   return files;
 }
+
+export class FileUpload {
+  constructor() {
+    // flag to monitor upload-in-progress status
+    this.numUploadsInProgress = 0;
+    // buffer for actions after upload finished
+    this.actions = null;
+  }
+
+  readFile(file) {
+    this.numUploadsInProgress++;
+    return readUploadFile(file, this.onLoadEnd)
+    .catch(error => {
+      this.onLoadEnd();
+      throw error;
+    });
+  }
+
+  inProgress() {
+    return this.actions !== null;
+  }
+
+  registerAction(fn) {
+    if (typeof fn !== 'function') {
+      throw new Error('Wrong parameter type, register only functions as actions');
+    }
+    this.action = fn;
+  }
+
+  onLoadEnd() {
+    this.numUploadsInProgress--;
+    if (this.numUploadsInProgress === 0 && this.actions) {
+      this.action();
+      this.action = null;
+    }
+  }
+}

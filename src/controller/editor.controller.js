@@ -94,7 +94,7 @@ export default class EditorController extends sub.SubController {
       }
     }
     triggerSync({keyringId: this.keyringId, force: true});
-    this.ports.editor.emit('set-init-data', {data});
+    this.ports.editor.emit('set-init-data', data);
   }
 
   _onEditorCancel() {

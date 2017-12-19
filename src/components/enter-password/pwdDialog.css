@@ -73,20 +73,6 @@ body {
   float: left;
 }
 
-#secureCode {
-  float: right;
-  padding: 4px 14px;
-  margin-bottom: 0;
-  border-radius: 15px;
-  border: 1px solid #cccccc;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  font-weight: bold;
-  font-family: monospace;
-  font-size: 14px;
-  line-height: 20px;
-  color: #555555;
-}
-
 .modal-body.secureBackground {
   padding-top: 40px;
   position: relative;

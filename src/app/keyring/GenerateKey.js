@@ -15,7 +15,7 @@ import AdvancedExpand from './components/AdvancedExpand';
 import AdvKeyGenOptions from './components/AdvKeyGenOptions';
 import DefinePassword from './components/DefinePassword';
 import GenerateWait from './components/GenerateWait';
-import {Alert} from '../util/util';
+import Alert from '../../components/util/Alert';
 
 'use strict';
 

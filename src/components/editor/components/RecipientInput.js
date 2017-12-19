@@ -13,10 +13,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 
+import './RecipientInput.css';
+
 /* global angular */
 
 l10n.register([
-  'editor_label_add_recipient'
+  'editor_label_add_recipient',
+  'editor_key_not_found',
+  'editor_key_not_found_msg'
 ]);
 
 // reference to props of RecipientInput
@@ -47,7 +51,11 @@ export class RecipientInput extends React.Component {
   shouldComponentUpdate(nextProps) {
     _props = nextProps;
     rInputCtrl.recipients = _props.recipients;
-    rInputCtrl.update();
+    // only update input controller if recipients or keys change
+    if (this.props.recipients !== nextProps.recipients ||
+        this.props.keys !== nextProps.keys) {
+      rInputCtrl.update();
+    }
     // no re-rendering of component due to Angular
     return false;
   }
@@ -59,7 +67,7 @@ export class RecipientInput extends React.Component {
       node.setAttribute('ng-class', "{'has-error': rInput.noEncrypt}");
     };
     return (
-      <div ref={node => node && contrAttr(node)}>
+      <div className="recipients" ref={node => node && contrAttr(node)}>
         <tags-input
           ng-model="rInput.recipients"
           type="email"
@@ -81,7 +89,7 @@ export class RecipientInput extends React.Component {
         <div className="alert alert-danger alert-dismissible ng-hide" role="alert" ref={node => node && node.setAttribute('ng-show', 'rInput.noEncrypt')}>
           <button type="button" className="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <span className="glyphicon glyphicon-lock"></span>
-          <strong data-l10n-id="editor_key_not_found"></strong> <span data-l10n-id="editor_key_not_found_msg"></span>
+          <strong>{l10n.map.editor_key_not_found}</strong> <span>{l10n.map.editor_key_not_found_msg}</span>
         </div>
       </div>
     );
@@ -91,6 +99,8 @@ export class RecipientInput extends React.Component {
 RecipientInput.propTypes = {
   keys: PropTypes.array,
   recipients: PropTypes.array,
+  tofu: PropTypes.bool,
+  encryptDisabled: PropTypes.bool,
   onChangeEncryptStatus: PropTypes.func,
   onLookupKeyOnServer: PropTypes.func
 };
@@ -181,7 +191,10 @@ export class RecipientInputCtrl {
    */
   checkEncryptStatus() {
     this.noEncrypt = this.recipients.some(r => !r.key);
-    _props.onChangeEncryptStatus({encryptDisabled: this.noEncrypt || !this.recipients.length});
+    const encryptDisabled = this.noEncrypt || !this.recipients.length;
+    if (_props.encryptDisabled !== encryptDisabled) {
+      _props.onChangeEncryptStatus({encryptDisabled});
+    }
   }
 
   /**

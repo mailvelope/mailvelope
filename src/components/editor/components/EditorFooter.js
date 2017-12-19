@@ -7,6 +7,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 
+import './EditorFooter.css';
+
 l10n.register([
   'upload_attachment',
   'editor_sign_caption_short',
@@ -45,15 +47,15 @@ class EditorFooter extends React.Component {
     const sign_caption_short = this.props.primaryKey ? l10n.map.editor_sign_caption_short : l10n.map.editor_no_primary_key_caption_short;
     const sign_caption_long = this.props.primaryKey ? l10n.map.editor_sign_caption_long : l10n.map.editor_no_primary_key_caption_long;
     return (
-      <div>
+      <div className="editor-footer">
         <div className="form-group pull-left">
           <button onClick={this.handleClickUpload} className={`btn btn-default btn-upload-embedded ${this.props.embedded ? 'show' : 'hide'}`}>
             <span className="glyphicon glyphicon-paperclip"></span>&nbsp;
             <span>{l10n.map.upload_attachment}</span>
           </button>
           <input type="file" id="addFileInput" multiple="multiple" onChange={this.props.onChangeFileInput}/>
-          <div className="nav-link-file-encryption">
-            <a href="#" className={!this.props.embedded ? 'show' : 'hide'} onClick={e => { e.preventDefault(); this.props.onClickFileEncryption(); }}>{l10n.map.editor_link_file_encryption}</a>
+          <div className={`nav-link-file-encryption ${!this.props.embedded ? 'show' : 'hide'}`}>
+            <a role="button" onClick={this.props.onClickFileEncryption}>{l10n.map.editor_link_file_encryption}</a>
           </div>
         </div>
         <div className="pull-right">

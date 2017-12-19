@@ -14,30 +14,29 @@ l10n.register([
 
 class ModalDialog extends React.Component {
   componentDidMount() {
-    $(this.modalNode).modal({backdrop: 'static'});
-    $(this.modalNode).modal('show');
-    $(this.modalNode).on('hidden.bs.modal', this.props.onHide);
+    this.modalNode.modal({backdrop: 'static', keyboard: this.props.keyboard});
+    this.modalNode.modal('show');
+    this.modalNode.on('hidden.bs.modal', this.props.onHide);
+    this.modalNode.on('show.bs.modal', this.props.onShow);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.hide !== nextProps.hide && nextProps.hide) {
-      $(this.modalNode).modal('hide');
-    }
+  componentWillUnmount() {
+    this.modalNode.modal('hide');
   }
 
   render() {
     return (
-      <div className="modal fade" tabIndex="-1" role="dialog" ref={node => this.modalNode = node}>
+      <div className={`modal fade ${this.props.className || ''}`} tabIndex="-1" role="dialog" ref={node => this.modalNode = $(node)}>
         <div className="modal-dialog" role="document">
           <div className="modal-content">
-            <div className="modal-header">
+            <div className={`modal-header ${this.props.hideHeader ? 'hide' : ''}`}>
               <button type="button" onClick={this.props.onCancel} className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h4 className="modal-title">{this.props.title}</h4>
             </div>
             <div className="modal-body">
               {this.props.children}
             </div>
-            <div className="modal-footer">
+            <div className={`modal-footer ${this.props.hideFooter ? 'hide' : ''}`}>
               {this.props.footer ||
                 <div>
                   <button type="button" onClick={this.props.onCancel} className="btn btn-default" data-dismiss="modal">{l10n.map.form_cancel}</button>
@@ -53,13 +52,21 @@ class ModalDialog extends React.Component {
 }
 
 ModalDialog.propTypes = {
+  className: PropTypes.string,
   title: PropTypes.string,
   footer: PropTypes.element,
   children: PropTypes.element,
   onHide: PropTypes.func,
+  onShow: PropTypes.func,
   onOk: PropTypes.func,
   onCancel: PropTypes.func,
-  hide: PropTypes.bool
+  hideHeader: PropTypes.bool,
+  hideFooter: PropTypes.bool,
+  keyboard: PropTypes.bool
+};
+
+ModalDialog.defaultProps = {
+  keyboard: true
 };
 
 export default ModalDialog;

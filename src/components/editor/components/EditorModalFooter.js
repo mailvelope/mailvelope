@@ -7,6 +7,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 
+import './EditorModalFooter.css';
+
 l10n.register([
   'form_cancel',
   'editor_sign_button',
@@ -34,7 +36,7 @@ class EditorModalFooter extends React.Component {
           </select>
         </div>
         <div className="form-nav-link pull-right">
-          <a href="#" onClick={e => { e.preventDefault(); this.props.onClickSignSetting(); }}>{l10n.map.general_primary_key_auto_sign}</a>
+          <a role="button" onClick={this.props.onClickSignSetting}>{l10n.map.general_primary_key_auto_sign}</a>
         </div>
       </form>
     );
@@ -42,7 +44,7 @@ class EditorModalFooter extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="editor-modal-footer">
         {this.props.expanded && this.signSelection()}
         <button onClick={this.props.expanded ? this.props.onCollapse : this.props.onExpand} className="btn btn-default btn-sm pull-left">
           <span>{l10n.map.options_home}</span>&nbsp;&nbsp;

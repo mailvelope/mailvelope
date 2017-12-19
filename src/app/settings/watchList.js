@@ -30,7 +30,6 @@ export default class WatchList extends React.Component {
       watchList: [],
       editorSite: null,
       editorIndex: null,
-      editorHide: false,
       modified: false
     };
     this.handleChangeSite = this.handleChangeSite.bind(this);
@@ -92,12 +91,12 @@ export default class WatchList extends React.Component {
   /* Watchlist Editor Handlers */
 
   handleHideWatchListEditor() {
-    this.setState({editorSite: null, editorIndex: null, editorHide: false, modified: false});
+    this.setState({editorSite: null, editorIndex: null, modified: false});
   }
 
   handleSaveWatchListEditor() {
     if (!this.state.modified) {
-      return this.setState({editorHide: true});
+      return this.setState({editorSite: null});
     }
     if (this.state.editorSite.frames.some(frame => !/^\*(\.\w+(-\w+)*)+(\.\w{2,})?$/.test(frame.frame))) {
       alert(l10n.map.alert_invalid_domainmatchpattern_warning);
@@ -110,7 +109,7 @@ export default class WatchList extends React.Component {
     this.setState(prevState => {
       const newList = [...prevState.watchList];
       newList[prevState.editorIndex] = prevState.editorSite;
-      return {watchList: newList, editorHide: true};
+      return {watchList: newList, editorSite: null};
     }, () => this.saveWatchListData());
   }
 
@@ -207,7 +206,6 @@ export default class WatchList extends React.Component {
         </table>
         { this.state.editorSite && <WatchListEditor site={this.state.editorSite}
           onHide={() => this.handleHideWatchListEditor()}
-          hide={this.state.editorHide}
           onSave={() => this.handleSaveWatchListEditor()}
           onChangeSite={this.handleChangeSite}
           onChangeFrame={this.handleChangeFrame}

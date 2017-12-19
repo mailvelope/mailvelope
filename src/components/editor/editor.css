@@ -2,14 +2,6 @@
  * Mailvelope - secure email with OpenPGP encryption for Webmail
  * Copyright (C) 2012-2015 Mailvelope GmbH
  */
-html, body {
-  height: 100%;
-  background-color: rgba(0,0,0,0);
-}
-
-body {
-  overflow: hidden;
-}
 
 .m-modal {
   position: absolute;
@@ -45,43 +37,12 @@ body {
   padding-top: 5px;
 }
 
-#rte-box {
-  display: none;
-  position: absolute;
-  top: 55px;
-  bottom: 15px;
-  right: 15px;
-  left: 15px;
-}
-
 .m-modal > .modal-footer {
   position: absolute;
   bottom: 0;
   right: 0;
   left: 0;
   border-top: 0;
-}
-
-#blurWarn {
-  opacity: 0;
-  position: absolute;
-  top: 180px;
-  left: 50%;
-  margin-left: -174px;
-}
-
-#secureCode {
-  float: right;
-  padding: 4px 14px;
-  margin-bottom: 0;
-  border-radius: 15px;
-  border: 1px solid #cccccc;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  font-weight: bold;
-  font-family: monospace;
-  font-size: 14px;
-  line-height: 20px;
-  color: #555555;
 }
 
 #pwdDialog {
@@ -92,35 +53,6 @@ body {
   top: 50%;
   margin-left: -231px;
   margin-top: -215px;
-}
-
-.m-dialog {
-  height: 225px;
-  width: 100%;
-}
-
-#signatureModal .m-dialog {
-  height: auto;
-}
-
-#encryptModal .modal-dialog {
-  margin-top: 80px;
-}
-
-#encryptModal {
-  margin-right: auto;
-  margin-left: auto;
-}
-
-#addFileInput {
-  display: none;
-}
-
-#richText {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
 }
 
 #plainText {
@@ -138,6 +70,9 @@ body {
 #plainText iframe {
   width: 100%;
   height: 100%;
+  margin-bottom: 0;
+  color: black;
+  resize: none;
 }
 
 #flex-container {
@@ -180,32 +115,6 @@ body {
   margin-bottom: 5px;
 }
 
-#recipients tags-input .tags .tag-item {
-  transition: background-color 0.3s, border-color 0.3s;
-}
-
-#recipients tags-input .tags .tag-success {
-  /* bootstrap btn-success color */
-  background-color: #5cb85c;
-  border-color: #4cae4c;
-}
-
-#recipients tags-input .tags .tag-warning {
-  /* bootstrap btn-warning color */
-  background-color: #f0ad4e;
-  border-color: #eea236;
-}
-
-#recipients tags-input .tags .tag-danger {
-  /* bootstrap btn-danger color */
-  background-color: #d9534f;
-  border-color: #d43f3a;
-}
-
-#recipients .alert {
-  margin: 10px 0 5px;
-}
-
 #flex-container #body {
   width: 100%;
   position: relative;
@@ -225,59 +134,7 @@ body {
   align-self: auto;
 }
 
-#uploadPanel {
-  display: inline-block;
-}
-
-.btn-upload-embedded {
-  font-size: 11px;
-  border: 1px solid #b9b9b9;
-  background: #e6e6e6 linear-gradient(to bottom, #fff, #e6e6e6);
-  color: #333;
-}
-
-.btn-upload-embedded .glyphicon.glyphicon-paperclip {
-  transform: rotate(180deg);
-}
-
-#waitingModal .modal-dialog {
+.waiting-modal .modal-dialog {
   width: 500px;
   margin: 50px auto;
-}
-
-.modal-footer .btn-sign-only {
-  margin-right: 10px
-}
-
-.modal-footer .sign-msg-option {
-  text-align: left;
-}
-
-#signMsgOption, .sign-msg-option .form-group {
-  margin-right: 7px;
-}
-
-.sign-msg-option .form-group select {
-  width: 440px;
-}
-
-.sign-msg-option .form-group {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.sign-msg-option .checkbox {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.form-nav-link {
-  font-size: 13px;
-}
-
-.nav-link-file-encryption {
-  padding: .1em .3em;
-  border: none;
-  background: rgba(255,255,255,.5);
-  font: 11px Verdana, sans-serif;
 }

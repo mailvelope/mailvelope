@@ -1,0 +1,9 @@
+
+html, body, body > div {
+  height: 100%;
+  background-color: rgba(0,0,0,0);
+}
+
+body {
+  overflow: hidden;
+}

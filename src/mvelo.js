@@ -469,6 +469,7 @@ mvelo.EventHandler = class {
     this._handlers = handlers || new Map();
     this._reply = null;
     this._replyCount = 0;
+    this._handlerObject = null;
   }
 
   /**
@@ -476,8 +477,10 @@ mvelo.EventHandler = class {
    * @param  {String} sender identifier of sender (type + id)
    * @return {EventHandler}        initialized EventHandler
    */
-  static connect(sender) {
-    return new mvelo.EventHandler(mvelo.runtime.connect({name: sender}));
+  static connect(sender, handlerObject) {
+    const eventHandler = new mvelo.EventHandler(mvelo.runtime.connect({name: sender}));
+    eventHandler._handlerObject = handlerObject;
+    return eventHandler;
   }
 
   initPort(port) {
@@ -536,7 +539,7 @@ mvelo.EventHandler = class {
     if (!event || typeof event !== 'string' || event === '_reply' || typeof handler !== 'function') {
       throw new Error('Invalid event handler!');
     }
-    this._handlers.set(event, handler.bind(this));
+    this._handlers.set(event, handler.bind(this._handlerObject || this));
   }
 
   /**

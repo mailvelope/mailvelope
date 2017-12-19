@@ -33,13 +33,13 @@ function dev(pathname, filename) {
 }
 
 module.exports = [
-  dev('editor', 'editor'),
+  dev('editor', 'editorRoot'),
   dev('action-menu', 'actionMenu'),
   dev('install-landing-page', 'installLandingPage')
 ];
 
 module.exports.prod = [
-  prod('editor', 'editor'),
+  prod('editor', 'editorRoot'),
   prod('action-menu', 'actionMenu'),
   prod('install-landing-page', 'installLandingPage')
 ];
