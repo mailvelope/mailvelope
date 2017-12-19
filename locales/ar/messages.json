@@ -72,7 +72,7 @@
         "description": "Security background header"
     },
     "keygrid_user_email": {
-        "message": "Email",
+        "message": "البريد الإلكتروني",
         "description": "Email address in User ID of a PGP key."
     },
     "key_import_extend_description": {
@@ -87,6 +87,10 @@
         "message": "تأكيد",
         "description": "Confirm form button."
     },
+    "action_menu_setup_menu_aria_label": {
+        "message": "Mailvelope setup menu",
+        "description": "Accessibility, aria label of the setup menu"
+    },
     "key_import_hkp_search_ph": {
         "message": "By name, email address, or key ID",
         "description": ""
@@ -99,10 +103,6 @@
         "message": "Do you really want to remove this site from the list of email providers?",
         "description": "Mesage in the watchlist delete confirmation dialog."
     },
-    "popup_last_activities": {
-        "message": "النشاطات الأخيرة :",
-        "description": "Title text for the last activities area"
-    },
     "key_export_header": {
         "message": "تصدير المفاتيح",
         "description": "Export key dialog header."
@@ -114,6 +114,10 @@
     "upload_attachment": {
         "message": "إضافة مرفقات",
         "description": "Text in the upload attachment button of the message editor dialog"
+    },
+    "keyring_confirm_deletion": {
+        "message": "Do you want to remove the keyring with ID: $1?",
+        "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyserver_hkp_url": {
         "message": "خادم المفاتيح HKP",
@@ -142,10 +146,6 @@
     "security_cache_header": {
         "message": "تذكر كلمات السر لجلسة التصفح هذه.",
         "description": "Password cache header"
-    },
-    "popup_actived_checkbox_tooltip": {
-        "message": "تفعيل أو تعطيل المحرِّر الخارجي",
-        "description": "Text of the checkbox for activating/deactivating the plugin"
     },
     "security_log_encryption_operation": {
         "message": "لقد عُمِّيت الرسالة لـ : $1",
@@ -195,6 +195,10 @@
         "message": "نشاط",
         "description": "Title of the action column of the security log table."
     },
+    "install_landing_page_help": {
+        "message": "Check out the <0>online help</0> for more information.",
+        "description": "Install landing page help message"
+    },
     "general_primary_key_label": {
         "message": "المفتاح السري الأوَّلي",
         "description": "Label for primary private key option."
@@ -206,6 +210,10 @@
     "encrypt_file_selection": {
         "message": "إختيار ملف",
         "description": "File upload selection"
+    },
+    "action_menu_configure_mailvelope": {
+        "message": "<0>Configure Mailvelope</0> to get started!",
+        "description": "Configure Mailvelope label in the action menu"
     },
     "security_log_dialog_encrypt": {
         "message": "Click to encrypt in dialog",
@@ -236,7 +244,7 @@
         "description": "Upload key to Mailvelope key server checkbox"
     },
     "dashboard_link_help": {
-        "message": "Help",
+        "message": "المساعدة",
         "description": "Dashboard help link"
     },
     "security_background_preview": {
@@ -254,10 +262,6 @@
     "key_import_hkp_server": {
         "message": "خادم المفاتيح",
         "description": ""
-    },
-    "popup_options": {
-        "message": "خيارات",
-        "description": "Open options dialog."
     },
     "keygrid_export_title": {
         "message": "تصدير كل المفاتيح من هذه القائمة إلى ملف",
@@ -311,13 +315,13 @@
         "message": "الرجاء إدخال واحد أو عدة مفاتيح في شكل نص هنا.",
         "description": "Info message."
     },
-    "popup_help": {
-        "message": "مساعدة",
-        "description": "Open help dialog."
-    },
     "keygrid_subkeyid": {
         "message": "المُعرِّف",
         "description": "Subkey ID of a PGP key."
+    },
+    "action_menu_primary_menu_aria_label": {
+        "message": "Mailvelope primary menu",
+        "description": "Accessibility, aria label of the primary menu"
     },
     "key_import_dialog_header": {
         "message": "إضافة مفتاح إلى مستودع المفاتيح",
@@ -340,7 +344,7 @@
         "description": "Max. 6 characters."
     },
     "editor_link_file_encryption": {
-        "message": "Encrypt files",
+        "message": "تعمية الملفات",
         "description": "Navigation link to file encryption"
     },
     "security_log_add_attachment": {
@@ -352,7 +356,7 @@
         "description": "Import error message. $1: error message"
     },
     "watchlist_title_active": {
-        "message": "Enabled",
+        "message": "مفعل",
         "description": "Entry in watchlist is active."
     },
     "key_gen_pwd": {
@@ -382,6 +386,10 @@
     "keybackup_restore_dialog_list_1": {
         "message": "You lost the recovery sheet.",
         "description": ""
+    },
+    "action_menu_all_options": {
+        "message": "All options",
+        "description": "All options link in the action menu"
     },
     "security_log_import_dialog": {
         "message": "مربح حوار استيراد المفاتيح",
@@ -423,6 +431,10 @@
         "message": "تصدير",
         "description": "Export key."
     },
+    "action_menu_back": {
+        "message": "السابق",
+        "description": "Back link in the action menu"
+    },
     "security_log_backup_code_input": {
         "message": "Recovery code input",
         "description": ""
@@ -450,10 +462,6 @@
     "keygrid_invalid_userid": {
         "message": "معرِّف المستخدم غير صالح",
         "description": "User ID invalid."
-    },
-    "popup_reload_tooltip": {
-        "message": "إنعاش كل عناصر Mailvelope",
-        "description": "Reload all Mailvelope UI elements on page."
     },
     "recovery_sheet_header": {
         "message": "معلومات مهمة!",
@@ -491,10 +499,6 @@
         "message": "لا يمكن التحقق من التوقيع ",
         "description": ""
     },
-    "popup_actived_checkbox": {
-        "message": "Enabled",
-        "description": "Text of the checkbox for activating/deactivating the plugin"
-    },
     "editor_sign_caption_short": {
         "message": "Email will be signed digitally",
         "description": ""
@@ -527,10 +531,6 @@
         "message": "النسخ الاحتياطي لبياناتك الخاصة يمكن فقط فك تشفيره بمساعدة رمز الاسترداد الموجود على ورقة الاسترداد هذه.",
         "description": ""
     },
-    "security_log_backup_dialog_cancel": {
-        "message": "Click to close in dialog",
-        "description": ""
-    },
     "form_undo": {
         "message": "تراجع",
         "description": "Undo form button."
@@ -542,10 +542,6 @@
     "recovery_sheet_print_notice": {
         "message": "الرجاء طباعة هذه الوثيقة وتخزينها في مكان آمن!",
         "description": "Sub title of recovery sheet."
-    },
-    "popup_reload": {
-        "message": "إعادة التحميل",
-        "description": "Reload all Mailvelope elements on page."
     },
     "keygen_dialog_password_placeholder": {
         "message": "4 أحرف على الأقل",
@@ -586,10 +582,6 @@
     "decrypt_popup_header": {
         "message": "الرسالة",
         "description": "Header of decrypt popup."
-    },
-    "security_log_backup_dialog_ok": {
-        "message": "Click to accept in dialog",
-        "description": ""
     },
     "keygrid_status_invalid": {
         "message": "غير صالح",
@@ -635,13 +627,13 @@
         "message": "Click to confirm in dialog",
         "description": ""
     },
+    "action_menu_keyring": {
+        "message": "<0>Keyring:</0> manage public and private keys.",
+        "description": "Keyring label in the action menu"
+    },
     "recovery_sheet_qr_code": {
         "message": "إمسح رمز الباركود بواسطة هاتفك المحمول.",
         "description": ""
-    },
-    "popup_file_encrypting": {
-        "message": "تعمية الملفات",
-        "description": "Title text for file encryption"
     },
     "verify_result_success": {
         "message": "مُوقَّع من طرف",
@@ -660,7 +652,7 @@
         "description": "Setup heading if no keypair available"
     },
     "watchlist_title_scan": {
-        "message": "Enabled",
+        "message": "مفعل",
         "description": "Scan status of site in watchlist."
     },
     "key_recovery_failed": {
@@ -723,10 +715,6 @@
         "message": "لم يتمكن من تعمية هذه الرسالة : $1",
         "description": "Error during encryption process."
     },
-    "popup_actions_current_page": {
-        "message": "التبويب الحالي :",
-        "description": "Title text for the reload and add buttons"
-    },
     "encrypt_dialog_add": {
         "message": "إضافة",
         "description": "Max 6 character."
@@ -771,10 +759,6 @@
         "message": "تذكر كلمة السر مؤقتا",
         "description": "Checkbox label for remembering of the password."
     },
-    "popup_remove_page_tooltip": {
-        "message": "Remove current page from the list of email providers",
-        "description": "Remove page from watchlist."
-    },
     "form_import": {
         "message": "استيراد",
         "description": "Import form button."
@@ -799,6 +783,10 @@
         "message": "لم يتم تأكيد جهة الاتصال الخاصة بهذا التوقيع الرقمي للتواصل المشفرة. من فضلك اطلب دعوة من جهة الإتصال.",
         "description": ""
     },
+    "action_menu_help": {
+        "message": "المساعدة",
+        "description": "Online help shortcut."
+    },
     "pwd_dialog_reason_create_backup": {
         "message": "الرجاء إدخال كلمة السر الخاصة بمفتاحك لإنشاء ورقة إستعادة.",
         "description": ""
@@ -819,6 +807,10 @@
         "message": "توصية: إنشاء نسخة احتياطية",
         "description": ""
     },
+    "action_menu_reload_extension_scripts": {
+        "message": "Reload extension scripts",
+        "description": "Reload extension scripts shortcut in the action menu"
+    },
     "security_log_timestamp": {
         "message": "التوقيت الزمني",
         "description": "Title of the timestamp column of the security log table."
@@ -826,10 +818,6 @@
     "keyring_setup_import_key_explanation": {
         "message": "هل لديك زوج مفاتيح على جهازٍ آخر؟ يمكنك إستيراد مفاتيحك الموجودة. فقط قم بتصدير زوج المفاتيح من الجهاز الآخر ثم قم بإستيرادهما هنا.",
         "description": "Import key"
-    },
-    "popup_open_page": {
-        "message": "إفتح",
-        "description": "Open page to file encrypt."
     },
     "key_import_extend_hint": {
         "message": "تلميح:",
@@ -842,6 +830,10 @@
     "recovery_sheet_be_aware": {
         "message": "الرجاء كن على علم",
         "description": "Label"
+    },
+    "action_menu_dashboard": {
+        "message": "<0>Dashboard:</0> browse all configuration options.",
+        "description": "Dashboard label in the action menu"
     },
     "key_import_public_update": {
         "message": "المفتاح العام المحدث $1 للمستخدم $2",
@@ -858,6 +850,10 @@
     "editor_no_primary_key_caption_short": {
         "message": "Email cannot be signed digitally",
         "description": ""
+    },
+    "action_menu_advanced_menu_aria_label": {
+        "message": "Mailvelope advanced menu",
+        "description": "Accessibility, aria label of the advanced menu"
     },
     "recovery_sheet_provider_inbox": {
         "message": "البريد الوارد",
@@ -890,6 +886,10 @@
     "invalid_primary_key": {
         "message": "المفتاح غير صالح لعمليات التشفير والتوقيع",
         "description": "Tootip for set as primary key button"
+    },
+    "action_menu_edit_security_settings": {
+        "message": "Edit security settings",
+        "description": "Edit security settings shortcut in the action menu"
     },
     "alert_header_warning": {
         "message": "تحذير !",
@@ -931,6 +931,10 @@
         "message": "هل تريد حقا حذف هذا المفتاح ؟",
         "description": "Delete confirmation dialog."
     },
+    "action_menu_more_options": {
+        "message": "More options",
+        "description": "More options link in the action menu (setup state)"
+    },
     "pwd_dialog_title": {
         "message": "أدخِل كلمة سر | Mailvelope",
         "description": "Title of the password dialog."
@@ -966,10 +970,6 @@
     "recovery_sheet_recommendation": {
         "message": "توصية",
         "description": ""
-    },
-    "popup_remove_page": {
-        "message": "إزالة",
-        "description": "Remove page from watchlist."
     },
     "keyserver_url_warning": {
         "message": "يجب على عنوان خادم المفاتيح أن يتبع النسق التالي : http(s)://keys.example.com",
@@ -1027,6 +1027,10 @@
         "message": "المفتاح العام $1 للمستخدم $2 تم استيراده إلى حافظة المفاتيح",
         "description": "Import success message: $1: keyid, $2: userid."
     },
+    "action_menu_manage_email_providers": {
+        "message": "Manage email providers",
+        "description": "Manage email providers shortcut in the action menu"
+    },
     "pwd_dialog_reason_editor": {
         "message": "الرجاء إدخال كلمة السر الخاصة بمفتاحك لتحديث إعدادات الاتصالات المشفرة.",
         "description": ""
@@ -1046,10 +1050,6 @@
     "pwd_dialog_reason_create_draft": {
         "message": "أدخل كلمة سر المفتاح لحفظ المسودة.",
         "description": ""
-    },
-    "popup_add_page_tooltip": {
-        "message": "فعِّل Maivelope لهذه الصفحة",
-        "description": "Add page to watchlist."
     },
     "keygrid_sort_type": {
         "message": "نوع المفتاح",
@@ -1086,6 +1086,10 @@
     "keybackup_restore_dialog_list_2": {
         "message": "A new recovery sheet has to be created for security reasons.",
         "description": ""
+    },
+    "dashboard_title": {
+        "message": "لوحة التحكم",
+        "description": "Dashboard view header"
     },
     "security_log_attachment_download": {
         "message": "نُزِّلت المرفق",
@@ -1139,6 +1143,10 @@
         "message": "خيارات",
         "description": "Options navigation: Home."
     },
+    "action_menu_review_security_logs": {
+        "message": "Review security logs",
+        "description": "Review security logs shortcut in the action menu"
+    },
     "keygen_dialog_password": {
         "message": "كلمة سر المفتاح",
         "description": ""
@@ -1176,8 +1184,12 @@
         "description": ""
     },
     "key_export_warning_private": {
-        "message": "هذا الملف يحتوي أيضاً على مفاتيح خاصة.",
+        "message": "This file also contains private keys. Keep the file in a safe place and do not share with others.",
         "description": "Key export warning."
+    },
+    "action_menu_advanced_options": {
+        "message": "Advanced options",
+        "description": "Advanced options link in the action menu"
     },
     "learn_more_link": {
         "message": "أعرف أكثر",
@@ -1199,6 +1211,10 @@
         "message": "أو",
         "description": "Separate list of elements."
     },
+    "install_landing_page_getting_started": {
+        "message": "Click on the Mailvelope icon <0></0> in your browser toolbar to begin with the configuration.",
+        "description": "Install landing page getting started message"
+    },
     "key_import_exception": {
         "message": "حدث خطأ أثناء معالجة مفاتيح",
         "description": "Import error alert."
@@ -1216,7 +1232,7 @@
         "description": ""
     },
     "general_editor_type": {
-        "message": "Email editor selection",
+        "message": "اختيار مُحرِّر البريد الإلكتروني",
         "description": "Label for editor options."
     },
     "key_gen_pwd_unequal": {
@@ -1272,7 +1288,7 @@
         "description": "Cleartext message read error message: $1: error message."
     },
     "file_encrypt_armored_output": {
-        "message": "Encrypt to file in text format (ASCII-armored)",
+        "message": "Encrypt to file in text format (ASCII-Armor)",
         "description": ""
     },
     "editor_header": {
@@ -1314,6 +1330,10 @@
     "keygrid_expiration_date": {
         "message": "تاريخ الانتهاء",
         "description": "Expiration date of a PGP key."
+    },
+    "action_menu_file_encryption": {
+        "message": "<0>File encryption:</0> encrypt a file or more.",
+        "description": "File encryption label in the action menu"
     },
     "restore_password_dialog_headline": {
         "message": "كلمة سر مفتاحك :",
@@ -1371,10 +1391,6 @@
         "message": "تعذر قراءة مفتاح خاص: $1",
         "description": "Import error message. $1: error message"
     },
-    "popup_help_tooltip": {
-        "message": "فتح صفحة المساعدة",
-        "description": "Opens the help page on mailvelope.com."
-    },
     "security_log_textarea_select": {
         "message": "Selection in text area",
         "description": "Selection of the text area as an event type"
@@ -1382,10 +1398,6 @@
     "keygrid_signer_unknown": {
         "message": "الموقعين الغير معروفين",
         "description": "Key of signer not available."
-    },
-    "popup_add_page": {
-        "message": "إضافة",
-        "description": "Add page to watchlist."
     },
     "security_log_dialog_sign": {
         "message": "Click to sign in dialog",
@@ -1432,7 +1444,7 @@
         "description": ""
     },
     "key_gen_invalid_email": {
-        "message": "Invalid email address",
+        "message": "عنوان بريد إلكتروني غير صحيح",
         "description": "Error message."
     },
     "pwd_dialog_userid": {
@@ -1446,6 +1458,10 @@
     "decrypt_popup_copy": {
         "message": "نسخ في الحافظة",
         "description": "Copy decrypted message to clipboard."
+    },
+    "action_menu_activate_current_tab": {
+        "message": "Activate on current tab",
+        "description": "Activate on current tab shortcut in the action menu"
     },
     "form_next": {
         "message": "التالي",
@@ -1482,6 +1498,10 @@
     "key_import_default_description": {
         "message": "أكّد لتفعيل الإتصالات المشفرة مع هذا المستلم.",
         "description": "Key import dialog description."
+    },
+    "install_landing_page_welcome": {
+        "message": "Welcome to Mailvelope!",
+        "description": "Install landing page welcome message"
     },
     "key_gen_advanced_btn": {
         "message": "متقدم",
