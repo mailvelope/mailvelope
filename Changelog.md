@@ -1,6 +1,24 @@
 Mailvelope Changelog
 ====================
 
+v2.1.0
+-------
+__Dec. 19, 2017__
+
+  * File encryption: use binary format (.gpg file extension) by default
+  * Introduce dashboard view as main entry point for the application
+  * Redesign of the Mailvelope menu (in browser add-on toolbar)
+  * Accessibility improvements (navigation in keyring management and settings)
+  * Use chrome.downloads API for key export (fix for Bugzilla #1420419)
+  * Better clarity about private key export in key details UI
+  * [Security] Fix Inline Security Background spoofable (Medium)
+  * [Security] Fix UI Redressing via web accessible resources (Medium)
+  * Unify event handling in all controllers
+  * Revise modal dialog behavior of Mailvelope browser popups
+  * Revert to Symmetric-Key Message Encryption of OpenPGP.js v1 for private key backup
+  * Move add-on distribution from self-hosted to AMO
+  * Minor bug fixes and dependency updates
+
 v2.0.0
 -------
 __Okt. 9, 2017__
