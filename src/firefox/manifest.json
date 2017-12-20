@@ -33,7 +33,6 @@
   },
   "permissions": [
     "*://*/*",
-    "downloads",
     "storage",
     "tabs",
     "webNavigation"
