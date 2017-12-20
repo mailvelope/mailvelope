@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v2.1.1
+-------
+__Dec. 20, 2017__
+
+  * Revert: Use chrome.downloads API for key export
+
 v2.1.0
 -------
 __Dec. 19, 2017__
