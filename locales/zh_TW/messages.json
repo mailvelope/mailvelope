@@ -88,7 +88,7 @@
         "description": "Confirm form button."
     },
     "action_menu_setup_menu_aria_label": {
-        "message": "Mailvelope setup menu",
+        "message": "Mailvelope 設定選單",
         "description": "Accessibility, aria label of the setup menu"
     },
     "key_import_hkp_search_ph": {
@@ -116,7 +116,7 @@
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "keyring_confirm_deletion": {
-        "message": "Do you want to remove the keyring with ID: $1?",
+        "message": "確定要從鑰匙圈中移除 ID: $1?",
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyserver_hkp_url": {
@@ -196,7 +196,7 @@
         "description": "Title of the action column of the security log table."
     },
     "install_landing_page_help": {
-        "message": "Check out the <0>online help</0> for more information.",
+        "message": "透過 <0>online help</0> 了解更多資訊.",
         "description": "Install landing page help message"
     },
     "general_primary_key_label": {
@@ -212,7 +212,7 @@
         "description": "File upload selection"
     },
     "action_menu_configure_mailvelope": {
-        "message": "<0>Configure Mailvelope</0> to get started!",
+        "message": "剩下一步開始，<0>Configure Mailvelope</0>!",
         "description": "Configure Mailvelope label in the action menu"
     },
     "security_log_dialog_encrypt": {
@@ -244,7 +244,7 @@
         "description": "Upload key to Mailvelope key server checkbox"
     },
     "dashboard_link_help": {
-        "message": "Help",
+        "message": "說明文件（英文）",
         "description": "Dashboard help link"
     },
     "security_background_preview": {
@@ -276,7 +276,7 @@
         "description": ""
     },
     "dashboard_link_encrypt_decrypt_files": {
-        "message": "Encrypt and decrypt files",
+        "message": "檔案加密",
         "description": "Dashboard encrypt decrypt files link"
     },
     "key_import_file": {
@@ -320,7 +320,7 @@
         "description": "Subkey ID of a PGP key."
     },
     "action_menu_primary_menu_aria_label": {
-        "message": "Mailvelope primary menu",
+        "message": "Mailvelope 主選單",
         "description": "Accessibility, aria label of the primary menu"
     },
     "key_import_dialog_header": {
@@ -344,7 +344,7 @@
         "description": "Max. 6 characters."
     },
     "editor_link_file_encryption": {
-        "message": "Encrypt files",
+        "message": "檔案加密",
         "description": "Navigation link to file encryption"
     },
     "security_log_add_attachment": {
@@ -388,7 +388,7 @@
         "description": ""
     },
     "action_menu_all_options": {
-        "message": "All options",
+        "message": "所有選項",
         "description": "All options link in the action menu"
     },
     "security_log_import_dialog": {
@@ -572,7 +572,7 @@
         "description": "Continue form button."
     },
     "dashboard_link_manage_keys": {
-        "message": "Manage keys",
+        "message": "密鑰管理",
         "description": "Dashboard manage keys link"
     },
     "security_log_signature_modal_close": {
@@ -628,7 +628,7 @@
         "description": ""
     },
     "action_menu_keyring": {
-        "message": "<0>Keyring:</0> manage public and private keys.",
+        "message": "<0>Keyring:</0> 管理公鑰與私鑰.",
         "description": "Keyring label in the action menu"
     },
     "recovery_sheet_qr_code": {
@@ -740,7 +740,7 @@
         "description": "Don't store password."
     },
     "keyring_export_keys": {
-        "message": "匯出鑰匙圈",
+        "message": "匯出整個鑰匙圈",
         "description": "Tab of keyring to export keys."
     },
     "keygrid_signer_name": {
@@ -808,7 +808,7 @@
         "description": ""
     },
     "action_menu_reload_extension_scripts": {
-        "message": "Reload extension scripts",
+        "message": "重新載入擴充功能",
         "description": "Reload extension scripts shortcut in the action menu"
     },
     "security_log_timestamp": {
@@ -832,7 +832,7 @@
         "description": "Label"
     },
     "action_menu_dashboard": {
-        "message": "<0>Dashboard:</0> browse all configuration options.",
+        "message": "<0>Dashboard:</0> 瀏覽所有設定選項.",
         "description": "Dashboard label in the action menu"
     },
     "key_import_public_update": {
@@ -852,7 +852,7 @@
         "description": ""
     },
     "action_menu_advanced_menu_aria_label": {
-        "message": "Mailvelope advanced menu",
+        "message": "Mailvelope 進階選單",
         "description": "Accessibility, aria label of the advanced menu"
     },
     "recovery_sheet_provider_inbox": {
@@ -888,7 +888,7 @@
         "description": "Tootip for set as primary key button"
     },
     "action_menu_edit_security_settings": {
-        "message": "Edit security settings",
+        "message": "編輯安全設定",
         "description": "Edit security settings shortcut in the action menu"
     },
     "alert_header_warning": {
@@ -932,7 +932,7 @@
         "description": "Delete confirmation dialog."
     },
     "action_menu_more_options": {
-        "message": "More options",
+        "message": "更多選項",
         "description": "More options link in the action menu (setup state)"
     },
     "pwd_dialog_title": {
@@ -948,7 +948,7 @@
         "description": ""
     },
     "dashboard_link_manage_email_providers": {
-        "message": "Manage email providers",
+        "message": "管理郵件服務供應商清單",
         "description": "Dashboard manage email providers link"
     },
     "keygrid_subkeys": {
@@ -1028,7 +1028,7 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "action_menu_manage_email_providers": {
-        "message": "Manage email providers",
+        "message": "管理郵件服務供應商清單",
         "description": "Manage email providers shortcut in the action menu"
     },
     "pwd_dialog_reason_editor": {
@@ -1056,7 +1056,7 @@
         "description": "Key grid sort selector."
     },
     "dashboard_link_view_security_log": {
-        "message": "View security logs",
+        "message": "安全活動記錄",
         "description": "Dashboard view security logs link"
     },
     "editor_blur_warn": {
@@ -1144,7 +1144,7 @@
         "description": "Options navigation: Home."
     },
     "action_menu_review_security_logs": {
-        "message": "Review security logs",
+        "message": "檢視安全活動記錄",
         "description": "Review security logs shortcut in the action menu"
     },
     "keygen_dialog_password": {
@@ -1184,11 +1184,11 @@
         "description": ""
     },
     "key_export_warning_private": {
-        "message": "This file also contains private keys. Keep the file in a safe place and do not share with others.",
+        "message": "此檔案裡面也含有私密金鑰，請妥善保存本檔案，切勿分享給他人。",
         "description": "Key export warning."
     },
     "action_menu_advanced_options": {
-        "message": "Advanced options",
+        "message": "進階選項",
         "description": "Advanced options link in the action menu"
     },
     "learn_more_link": {
@@ -1212,7 +1212,7 @@
         "description": "Separate list of elements."
     },
     "install_landing_page_getting_started": {
-        "message": "Click on the Mailvelope icon <0></0> in your browser toolbar to begin with the configuration.",
+        "message": "點選瀏覽器工具列右上角 Mailvelope 的圖示 <0></0> 開始進行初始設定",
         "description": "Install landing page getting started message"
     },
     "key_import_exception": {
@@ -1288,7 +1288,7 @@
         "description": "Cleartext message read error message: $1: error message."
     },
     "file_encrypt_armored_output": {
-        "message": "Encrypt to file in text format (ASCII-armored)",
+        "message": "以純文字加密檔案 (ASCII-armored)",
         "description": ""
     },
     "editor_header": {
@@ -1332,7 +1332,7 @@
         "description": "Expiration date of a PGP key."
     },
     "action_menu_file_encryption": {
-        "message": "<0>File encryption:</0> encrypt a file or more.",
+        "message": "<0>File encryption:</0> 加密一個或多個檔案.",
         "description": "File encryption label in the action menu"
     },
     "restore_password_dialog_headline": {
@@ -1460,7 +1460,7 @@
         "description": "Copy decrypted message to clipboard."
     },
     "action_menu_activate_current_tab": {
-        "message": "Activate on current tab",
+        "message": "在目前的分頁啟動",
         "description": "Activate on current tab shortcut in the action menu"
     },
     "form_next": {
