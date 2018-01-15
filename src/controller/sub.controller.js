@@ -153,7 +153,7 @@ function removeId(id, port) {
   }
 }
 
-export function getByID(id) {
+export function getById(id) {
   return controllers.get(id);
 }
 

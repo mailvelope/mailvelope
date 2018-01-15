@@ -43,6 +43,10 @@ export default class AppController extends sub.SubController {
     this.on('get-all-key-userid', getAllKeyUserId);
     this.on('open-tab', ({url}) => mvelo.tabs.create(url));
     this.on('get-app-data-slot', ({slotId}) => sub.getAppDataSlot(slotId));
+    this.on('encrypt-text-init', this.initEncryptText);
+    this.on('encrypt-text', this.encryptText);
+    this.on('decrypt-text-init', this.initDecryptText);
+    this.on('decrypt-text', this.decryptText);
   }
 
   updatePreferences(options) {
@@ -101,5 +105,25 @@ export default class AppController extends sub.SubController {
       return deleteKeyring(keyringId);
     })
     .then(() => sub.setActiveKeyringId(mvelo.LOCAL_KEYRING_ID));
+  }
+
+  initEncryptText() {
+    this.encryptTextCtrl = sub.factory.get('editor');
+    this.encryptTextCtrl.options.signMsg = prefs.prefs.general.auto_sign_msg;
+    this.encryptTextCtrl.options.getRecipientProposal = callback => callback();
+    return this.encryptTextCtrl.id;
+  }
+
+  encryptText() {
+    return this.encryptTextCtrl.encryptText();
+  }
+
+  initDecryptText() {
+    this.decryptTextCtrl = sub.factory.get('decryptCont');
+    return this.decryptTextCtrl.id;
+  }
+
+  decryptText({armored}) {
+    this.decryptTextCtrl.decrypt(armored, mvelo.LOCAL_KEYRING_ID);
   }
 }

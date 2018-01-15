@@ -14,6 +14,10 @@ import mailreader from 'mailreader-parser';
 export default class DecryptController extends sub.SubController {
   constructor(port) {
     super(port);
+    if (!port) {
+      this.mainType = 'decryptCont';
+      this.id = mvelo.util.getHash();
+    }
     this.pwdControl = null;
     this.decryptPopup = null;
     this.options = {};
@@ -30,7 +34,7 @@ export default class DecryptController extends sub.SubController {
   onDecryptInlineInit() {
     const port = this.ports.dFrame || this.ports.decryptCont;
     // get armored message
-    port.emit('get-armored');
+    port && port.emit('get-armored');
   }
 
   onDframeDisplayPopup() {

@@ -29,6 +29,8 @@ import GenerateKey from './keyring/GenerateKey';
 import KeyringSetup from './keyring/KeyringSetup';
 
 import EncryptFile from './encryption/encryptFile';
+import EncryptText from './encryption/encryptText';
+import DecryptText from './encryption/decryptText';
 
 import General from './settings/general';
 import Security from './settings/security';
@@ -56,7 +58,9 @@ l10n.register([
   'settings_security_log',
   'settings_keyserver',
   'file_encrypting',
-  'file_decrypting'
+  'file_decrypting',
+  'text_encrypting',
+  'text_decrypting'
 ]);
 
 const DEMAIL_SUFFIX = 'de-mail.de';
@@ -262,6 +266,9 @@ export class App extends React.Component {
                     <ul className="nav nav-pills nav-stacked">
                       <NavLink to="/encryption/file-encrypt">{l10n.map.file_encrypting}</NavLink>
                       <NavLink to="/encryption/file-decrypt">{l10n.map.file_decrypting}</NavLink>
+                      <li role="separator" className="divider"></li>
+                      <NavLink to="/encryption/text-encrypt">{l10n.map.text_encrypting}</NavLink>
+                      <NavLink to="/encryption/text-decrypt">{l10n.map.text_decrypting}</NavLink>
                     </ul>
                   </div>
                 </div>
@@ -270,6 +277,8 @@ export class App extends React.Component {
                     <section className="well">
                       <Route path='/encryption/file-encrypt' component={EncryptFile} />
                       <Route path='/encryption/file-decrypt' component={EncryptFile} />
+                      <Route path='/encryption/text-encrypt' component={EncryptText} />
+                      <Route path='/encryption/text-decrypt' component={DecryptText} />
                     </section>
                     <button className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
                   </div>

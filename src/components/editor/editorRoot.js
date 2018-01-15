@@ -33,7 +33,7 @@ function init() {
   }
   const root = document.createElement('div');
   ReactDOM.render(
-    (<Editor id={id} embedded={embedded} maxFileUploadSize={maxFileUploadSize} />),
+    (<Editor id={id} embedded={embedded} maxFileUploadSize={maxFileUploadSize} recipientInput={true} />),
     document.body.appendChild(root)
   );
 }

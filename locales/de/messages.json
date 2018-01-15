@@ -276,7 +276,7 @@
     "description": "."
   },
   "encrypting_home": {
-    "message": "Dateiverschlüsselung",
+    "message": "Verschlüsselung",
     "description": "File encrypting navigation: Home."
   },
   "ext_description": {
@@ -288,7 +288,7 @@
     "description": "Name of the extension."
   },
   "file_decrypting": {
-    "message": "Entschlüsselung",
+    "message": "Datei Entschlüsselung",
     "description": ""
   },
   "file_encrypt_armored_output": {
@@ -296,7 +296,7 @@
     "description": ""
   },
   "file_encrypting": {
-    "message": "Verschlüsselung",
+    "message": "Datei Verschlüsselung",
     "description": ""
   },
   "file_read_error": {
@@ -1520,6 +1520,30 @@
   "sign_dialog_header": {
     "message": "Nachricht mit Schlüssel signieren:",
     "description": "Header of sign dialog."
+  },
+  "text_compose_header": {
+    "message": "Nachricht verfassen",
+    "description": "Text encryption feature header"
+  },
+  "text_decrypt_button": {
+    "message": "Entschlüsseln",
+    "description": "Button label for decrypting the message"
+  },
+  "text_decrypting": {
+    "message": "Text Entschlüsselung",
+    "description": "Navigation link to text decryption feature"
+  },
+  "text_encrypting": {
+    "message": "Text Verschlüsselung",
+    "description": "Navigation link to text encryption feature"
+  },
+  "text_paste_armored_header": {
+    "message": "Verschlüsselte PGP Nachricht einfügen",
+    "description": "Text decryption armored block header"
+  },
+  "text_result_header": {
+    "message": "Verschlüsselte Nachricht",
+    "description": "Text encryption result header"
   },
   "upload_aborting_warning": {
     "message": "Dateihochladen wird abgebrochen.",

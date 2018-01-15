@@ -38,9 +38,10 @@ export class RecipientInput extends React.Component {
   componentDidMount() {
     // load editor module dependencies
     angular.module('recipientInput', ['ngTagsInput'])
-    .config(tagsInputConfigProvider => {
+    .config((tagsInputConfigProvider, $locationProvider) => {
       // activate monitoring of placeholder option
       tagsInputConfigProvider.setActiveInterpolation('tagsInput', {placeholder: true});
+      $locationProvider.hashPrefix('');
     });
     // attach ctrl to editor module
     angular.module('recipientInput').controller('RecipientInputCtrl', RecipientInputCtrl);

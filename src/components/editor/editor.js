@@ -327,7 +327,7 @@ export default class Editor extends React.Component {
               <FilePanel files={this.state.files} onRemoveFile={id => this.handleRemoveFile(id)}/>
             </div>
           </div>
-          { !this.props.embedded &&
+          { this.props.recipientInput &&
             <div id="recipients">
               <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients} tofu={this.state.tofu} encryptDisabled={this.state.encryptDisabled}
                 onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
@@ -392,8 +392,12 @@ export default class Editor extends React.Component {
     }
     return (
       <ModalDialog className="waiting-modal" hideHeader={true} hideFooter={true} keyboard={false} onShow={this.blurWarning && this.blurWarning.startBlurValid}>
-        <div className="m-spinner" style={{margin: '10px auto'}}><div className="bounce1"></div><div className="bounce2"></div><div className="bounce3"></div></div>
-        <p className="text-center">{l10n.map.waiting_dialog_prepare_email}</p>
+        <div>
+          <div className="m-spinner" style={{margin: '10px auto'}}>
+            <div className="bounce1"></div><div className="bounce2"></div><div className="bounce3"></div>
+          </div>
+          <p className="text-center">{l10n.map.waiting_dialog_prepare_email}</p>
+        </div>
       </ModalDialog>
     );
   }
@@ -415,7 +419,7 @@ export default class Editor extends React.Component {
     return (
       <div style={{height: '100%'}}>
         {this.props.embedded ? (
-          <div className="secureBackground" style={{height: '100%'}}>
+          <div className="secureBackground" style={{height: '100%', position: 'relative'}}>
             {this.editorBody()}
           </div>
         ) : (
@@ -431,7 +435,8 @@ export default class Editor extends React.Component {
 Editor.propTypes = {
   id: PropTypes.string,
   embedded: PropTypes.bool,
-  maxFileUploadSize: PropTypes.number
+  maxFileUploadSize: PropTypes.number,
+  recipientInput: PropTypes.bool
 };
 
 Editor.defaultProps = {

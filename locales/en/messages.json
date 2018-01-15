@@ -276,7 +276,7 @@
     "description": "."
   },
   "encrypting_home": {
-    "message": "File Encryption",
+    "message": "Encryption",
     "description": "File encryption top navigation."
   },
   "ext_description": {
@@ -288,7 +288,7 @@
     "message": "Mailvelope"
   },
   "file_decrypting": {
-    "message": "Decryption",
+    "message": "File Decryption",
     "description": ""
   },
   "file_encrypt_armored_output": {
@@ -296,7 +296,7 @@
     "description": ""
   },
   "file_encrypting": {
-    "message": "Encryption",
+    "message": "File Encryption",
     "description": ""
   },
   "file_read_error": {
@@ -1462,6 +1462,30 @@
   "sign_dialog_header": {
     "description": "Header of sign dialog.",
     "message": "Sign message with key:"
+  },
+  "text_compose_header": {
+    "message": "Compose message",
+    "description": "Text encryption feature header"
+  },
+  "text_decrypt_button": {
+    "message": "Decrypt",
+    "description": "Button label for decrypting the message"
+  },
+  "text_decrypting": {
+    "message": "Text Decryption",
+    "description": "Navigation link to text decryption feature"
+  },
+  "text_encrypting": {
+    "message": "Text Encryption",
+    "description": "Navigation link to text encryption feature"
+  },
+  "text_paste_armored_header": {
+    "message": "Paste encrypted PGP message",
+    "description": "Text decryption armored block header"
+  },
+  "text_result_header": {
+    "message": "Encrypted message",
+    "description": "Text encryption result header"
   },
   "upload_aborting_warning": {
     "description": "A warning for the aborting of the file upload.",

@@ -223,6 +223,13 @@ export default class EditorController extends sub.SubController {
     });
   }
 
+  encryptText() {
+    return new Promise((resolve, reject) => {
+      this.encryptDone = {resolve, reject};
+      this.ports.editor.emit('get-plaintext', {action: 'encrypt'});
+    });
+  }
+
   activate() {
     this.editorPopup.activate();
   }
