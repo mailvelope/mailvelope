@@ -122,7 +122,7 @@ export default class GenerateKey extends React.Component {
   render() {
     const validPassword = this.state.password.length && this.state.password === this.state.passwordCheck;
     return (
-      <div className={this.state.generating && 'busy'}>
+      <div className={this.state.generating ? 'busy' : ''}>
         <h3 className="logo-header">
           <span>{l10n.map.keyring_generate_key}</span>
         </h3>

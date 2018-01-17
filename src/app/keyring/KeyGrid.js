@@ -85,10 +85,10 @@ export default class KeyGrid extends React.Component {
         type = 'all';
         break;
       case 'publickeys':
-        keys = this.state.keys.filter(key => key.type === 'public');
+        keys = this.props.keys.filter(key => key.type === 'public');
         break;
       case 'keypairs':
-        keys = this.state.keys.filter(key => key.type === 'private');
+        keys = this.props.keys.filter(key => key.type === 'private');
         type = 'all';
         break;
       default:

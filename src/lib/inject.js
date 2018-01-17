@@ -27,11 +27,11 @@ export function initScriptInjection() {
     const originAndPathFilter = {url: filterURL.map(host => ({schemes,
       originAndPathMatches: `^https?:\/\/${mvelo.util.matchPattern2RegExString(host)}/.*`
     }))};
-    if (matchPatterns.length !== 0 && !browser.webNavigation.onDOMContentLoaded.hasListener(watchListNavigationHandler)) {
-      browser.webNavigation.onDOMContentLoaded.addListener(watchListNavigationHandler, originAndPathFilter);
-    }
-    if (matchPatterns.length === 0 && browser.webNavigation.onDOMContentLoaded.hasListener(watchListNavigationHandler)) {
+    if (browser.webNavigation.onDOMContentLoaded.hasListener(watchListNavigationHandler)) {
       browser.webNavigation.onDOMContentLoaded.removeListener(watchListNavigationHandler);
+    }
+    if (matchPatterns.length) {
+      browser.webNavigation.onDOMContentLoaded.addListener(watchListNavigationHandler, originAndPathFilter);
     }
     return injectOpenTabs(matchPatterns);
   })

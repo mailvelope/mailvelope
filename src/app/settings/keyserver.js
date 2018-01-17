@@ -37,15 +37,12 @@ export default class KeyServer extends React.Component {
     this.state = this.initialState(props);
     this.handleCheck = this.handleCheck.bind(this);
     this.handleServerChange = this.handleServerChange.bind(this);
-    this.handleSave = this.handleSave.bind(this);
-    this.validateUrl = this.validateUrl.bind(this);
   }
 
-  initialState(props) {
+  initialState({prefs}) {
     let hkp_base_url = '';
     let hkp_server_list = [];
     let mvelo_tofu_lookup = false;
-    const prefs = props.prefs;
     if (prefs) {
       hkp_base_url = prefs.keyserver.hkp_base_url;
       hkp_server_list = prefs.keyserver.hkp_server_list.map(server => ({value: server, label: server}));
@@ -68,11 +65,6 @@ export default class KeyServer extends React.Component {
     if (nextProps.prefs !== this.props.prefs) {
       this.setState(this.initialState(nextProps));
     }
-  }
-
-  handleCheck(event) {
-    const target = event.target;
-    this.setState({[target.name]: target.checked, modified: true});
   }
 
   handleServerChange(server) {
@@ -106,6 +98,11 @@ export default class KeyServer extends React.Component {
     });
   }
 
+  handleCheck(event) {
+    const target = event.target;
+    this.setState({[target.name]: target.checked, modified: true});
+  }
+
   /**
    * Save the key server settings.
    */
@@ -120,7 +117,7 @@ export default class KeyServer extends React.Component {
         }
       };
       this.props.onChangePrefs(update)
-      .then(port.emit('init-script-injection'));
+      .then(() => port.emit('init-script-injection'));
     })
     .catch(() => this.setState({alert: {header: l10n.map.alert_header_error, message: l10n.map.keyserver_url_error, type: 'danger'}}));
   }
@@ -131,7 +128,10 @@ export default class KeyServer extends React.Component {
         <h3>{l10n.map.settings_keyserver}</h3>
         <label htmlFor="keyserverInputHkpUrl">{l10n.map.keyserver_hkp_url}</label>
         <div className="form-group">
-          <Select.Creatable id="keyserverInputHkpUrl" value={this.state.hkp_base_url} options={this.state.hkp_server_list} onChange={this.handleServerChange} isValidNewOption={option => this.validateUrl(option && option.label)} />
+          <Select.Creatable id="keyserverInputHkpUrl" value={this.state.hkp_base_url} options={this.state.hkp_server_list}
+            onChange={this.handleServerChange}
+            isValidNewOption={option => this.validateUrl(option && option.label)}
+          />
         </div>
         <label>{l10n.map.keyserver_tofu_label}</label>
         <div className="form-group">
@@ -146,8 +146,8 @@ export default class KeyServer extends React.Component {
           {this.state.alert && <Alert header={this.state.alert.header} message={this.state.alert.message} type={this.state.alert.type} />}
         </div>
         <div className="form-group">
-          <button type="button" onClick={this.handleSave} className="btn btn-primary" disabled={!(this.state.modified && this.state.valid_base_url)}>{l10n.map.form_save}</button>
-          <button type="button" onClick={() => this.setState(this.initialState())} className="btn btn-default" disabled={!this.state.modified}>{l10n.map.form_cancel}</button>
+          <button type="button" onClick={() => this.handleSave()} className="btn btn-primary" disabled={!(this.state.modified && this.state.valid_base_url)}>{l10n.map.form_save}</button>
+          <button type="button" onClick={() => this.setState(this.initialState(this.props))} className="btn btn-default" disabled={!this.state.modified}>{l10n.map.form_cancel}</button>
         </div>
       </form>
     );
