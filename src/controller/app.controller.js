@@ -109,7 +109,6 @@ export default class AppController extends sub.SubController {
 
   initEncryptText() {
     this.encryptTextCtrl = sub.factory.get('editor');
-    this.encryptTextCtrl.options.signMsg = prefs.prefs.general.auto_sign_msg;
     this.encryptTextCtrl.options.getRecipientProposal = callback => callback();
     return this.encryptTextCtrl.id;
   }

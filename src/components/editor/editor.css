@@ -75,7 +75,7 @@
   resize: none;
 }
 
-#flex-container {
+.editor-flex-container {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -89,33 +89,33 @@
   bottom: 8px;
 }
 
-#flex-container #header {
+.editor-flex-container .editor-header {
   width: 100%;
   order: 0;
   display: flex;
   justify-content: space-between;
 }
 
-#flex-container #header #uploadPanel {
+.editor-flex-container .editor-header .upload-panel {
   flex: 100%;
   order: 1;
   max-height: 107px;
   overflow-y: auto;
 }
-#flex-container #header #buttonBar {
+.editor-flex-container .editor-header .button-bar {
   flex: 30px;
   order: 2;
   margin-bottom: 3px;
 }
 
-#flex-container #recipients {
+.editor-flex-container #recipients {
   width: 100%;
   position: relative;
   order: 0;
   margin-bottom: 5px;
 }
 
-#flex-container #body {
+.editor-flex-container .editor-body {
   width: 100%;
   position: relative;
   order: 0;
@@ -126,7 +126,7 @@
   min-height: 0;
 }
 
-#flex-container #footer {
+.editor-flex-container .editor-footer {
   width: 100%;
   padding-top: 4px;
   order: 0;

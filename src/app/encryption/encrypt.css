@@ -92,3 +92,7 @@
 .encrypt-footer-expanded {
   height: 140px;
 }
+
+.encrypt-text-editor .editor-flex-container > * {
+  margin-top: 10px;
+}

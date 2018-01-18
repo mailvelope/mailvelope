@@ -7,7 +7,8 @@ import React from 'react';
 import * as l10n from '../../lib/l10n';
 import {port} from '../app';
 import Editor from '../../components/editor/editor';
-import Alert from '../../components/util/Alert';
+
+import './encrypt.css';
 
 l10n.register([
   'text_compose_header',
@@ -21,7 +22,6 @@ export default class EncryptText extends React.Component {
     super();
     this.state = {
       editorId: '',
-      error: null,
       armored: ''
     };
     port.send('encrypt-text-init')
@@ -47,8 +47,9 @@ export default class EncryptText extends React.Component {
             <h3 className="panel-title"><span>{l10n.map.text_compose_header}</span></h3>
           </div>
           <div className="panel-body" style={{height: '400px'}}>
-            {this.state.editorId &&  <Editor id={this.state.editorId} embedded={true} recipientInput={true} />}
-            {this.state.error && <Alert />}
+            <div className="itemSelection encrypt-text-editor" style={{height: '100%'}}>
+              {this.state.editorId &&  <Editor id={this.state.editorId} embedded={true} recipientInput={true} secureBackground={false} maxFileUploadSize={5 * 1024 * 1024} />}
+            </div>
           </div>
           <div className="panel-footer text-right">
             <button type="button" onClick={() => this.handleEncrypt()} className="btn btn-primary btn-sm">{l10n.map.editor_encrypt_button}</button>

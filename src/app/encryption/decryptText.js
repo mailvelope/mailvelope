@@ -9,6 +9,8 @@ import * as l10n from '../../lib/l10n';
 import {port} from '../app';
 import Alert from '../../components/util/Alert';
 
+import './encrypt.css';
+
 l10n.register([
   'text_paste_armored_header',
   'decrypt_popup_title',

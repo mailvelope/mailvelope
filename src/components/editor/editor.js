@@ -73,7 +73,9 @@ export default class Editor extends React.Component {
   }
 
   componentDidMount() {
-    mvelo.util.showSecurityBackground(this.port, this.props.embedded);
+    if (this.props.secureBackground) {
+      mvelo.util.showSecurityBackground(this.port, this.props.embedded);
+    }
     if (this.props.embedded) {
       // opens the security settings if in embedded mode
       $('.secureBgndSettingsBtn').on('click', () => this.port.emit('open-security-settings'));
@@ -316,14 +318,16 @@ export default class Editor extends React.Component {
   editorBody() {
     return (
       <div style={{height: '100%'}}>
-        <div id="flex-container">
-          <div id="header">
-            <div id="buttonBar">
-              <button type="button" className="btn btn-link secureBgndSettingsBtn" title={l10n.map.security_background_button_title}>
-                <span className="glyphicon lockBtnIcon"></span>
-              </button>
-            </div>
-            <div id="uploadPanel">
+        <div className="editor-flex-container">
+          <div className={`editor-header ${this.props.secureBackground || this.state.files.length ? '' : 'hide'}`}>
+            { this.props.secureBackground &&
+              <div className="button-bar">
+                <button type="button" className="btn btn-link secureBgndSettingsBtn" title={l10n.map.security_background_button_title}>
+                  <span className="glyphicon lockBtnIcon"></span>
+                </button>
+              </div>
+            }
+            <div className="upload-panel">
               <FilePanel files={this.state.files} onRemoveFile={id => this.handleRemoveFile(id)} />
             </div>
           </div>
@@ -335,7 +339,7 @@ export default class Editor extends React.Component {
               />
             </div>
           }
-          <div id="body">
+          <div className="editor-body">
             <div id="plainText">
               <PlainText defaultValue={this.state.defaultPlainText} onChange={() => this.handleTextChange()}
                 onBlur={() => this.blurWarning && this.blurWarning.onBlur()} onMouseUp={element => this.handleTextMouseUp(element)}
@@ -344,7 +348,7 @@ export default class Editor extends React.Component {
               />
             </div>
           </div>
-          <div id="footer">
+          <div className="editor-footer">
             <EditorFooter embedded={this.props.embedded} signMsg={this.state.signMsg} primaryKey={this.state.primaryKey}
               onClickUpload={() => this.logUserInput('security_log_add_attachment')}
               onChangeFileInput={e => this.handleAddAttachment(e)}
@@ -363,7 +367,7 @@ export default class Editor extends React.Component {
           <div className="modal-header clearfix">
             <h4>{l10n.map.editor_header}</h4>
           </div>
-          <div className="modal-body secureBackground">
+          <div className={`modal-body ${this.props.secureBackground ? 'secureBackground' : ''}`}>
             {this.editorBody()}
           </div>
           <div className="modal-footer">
@@ -419,7 +423,7 @@ export default class Editor extends React.Component {
     return (
       <div style={{height: '100%'}}>
         {this.props.embedded ? (
-          <div className="secureBackground" style={{height: '100%', position: 'relative'}}>
+          <div className={this.props.secureBackground ? 'secureBackground' : ''} style={{height: '100%', position: 'relative'}}>
             {this.editorBody()}
           </div>
         ) : (
@@ -436,9 +440,11 @@ Editor.propTypes = {
   id: PropTypes.string,
   embedded: PropTypes.bool,
   maxFileUploadSize: PropTypes.number,
-  recipientInput: PropTypes.bool
+  recipientInput: PropTypes.bool,
+  secureBackground: PropTypes.bool
 };
 
 Editor.defaultProps = {
-  maxFileUploadSize: mvelo.MAX_FILE_UPLOAD_SIZE
+  maxFileUploadSize: mvelo.MAX_FILE_UPLOAD_SIZE,
+  secureBackground: true
 };
