@@ -223,9 +223,9 @@ export function unlockKey(privKey, passwd) {
   .then(result => result.key)
   .catch(e => {
     if (/Invalid passphrase/.test(e.message)) {
-      mvelo.util.throwError('Could not unlock key: wrong password', 'WRONG_PASSWORD');
+      throw new mvelo.Error('Could not unlock key: wrong password', 'WRONG_PASSWORD');
     } else {
-      mvelo.util.throwError('Error in openpgp.decryptKey');
+      throw new mvelo.Error('Error in openpgp.decryptKey');
     }
   });
 }

@@ -62,25 +62,18 @@ export default class EditorContainer {
 
   checkInProgress() {
     if (this.encryptCallback || this.createDraftCallback) {
-      const error = new Error('Encyption already in progress.');
-      error.code = 'ENCRYPT_IN_PROGRESS';
-      throw error;
+      throw new mvelo.Error('Encyption already in progress.', 'ENCRYPT_IN_PROGRESS');
     }
   }
 
   processOptions() {
-    let error;
     if (this.options.quotedMail && getMessageType(this.options.quotedMail) !== mvelo.PGP_MESSAGE ||
         this.options.armoredDraft && getMessageType(this.options.armoredDraft) !== mvelo.PGP_MESSAGE) {
-      error = new Error('quotedMail or armoredDraft parameter need to be a PGP message.');
-      error.code = 'WRONG_ARMOR_TYPE';
-      return error;
+      return new mvelo.Error('quotedMail or armoredDraft parameter need to be a PGP message.', 'WRONG_ARMOR_TYPE');
     }
     if (this.options.armoredDraft && (this.options.predefinedText || this.options.quotedMail ||
                                       this.options.quotedMailIndent || this.options.quotedMailHeader)) {
-      error = new Error('armoredDraft parameter cannot be combined with parameters: predefinedText, quotedMail, quotedMailIndent, quotedMailHeader.');
-      error.code = 'INVALID_OPTIONS';
-      return error;
+      return new mvelo.Error('armoredDraft parameter cannot be combined with parameters: predefinedText, quotedMail, quotedMailIndent, quotedMailHeader.', 'INVALID_OPTIONS');
     }
 
     this.port.postMessage({

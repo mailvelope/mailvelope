@@ -51,9 +51,7 @@ export function createKeyring(keyringId, options) {
       keyringAttr = {};
     }
     if (keyringAttr[keyringId]) {
-      const error = new Error(`Keyring for id ${keyringId} already exists.`);
-      error.code = 'KEYRING_ALREADY_EXISTS';
-      throw error;
+      throw new mvelo.Error(`Keyring for id ${keyringId} already exists.`, 'KEYRING_ALREADY_EXISTS');
     }
     keyringAttr[keyringId] = {};
   })
@@ -85,9 +83,7 @@ export function deleteKeyring(keyringId) {
   return Promise.resolve()
   .then(() => {
     if (!keyringAttr[keyringId]) {
-      const error = new Error(`Keyring for id ${keyringId} does not exist.`);
-      error.code = 'NO_KEYRING_FOR_ID';
-      throw error;
+      throw new mvelo.Error(`Keyring for id ${keyringId} does not exist.`, 'NO_KEYRING_FOR_ID');
     }
     const keyRng = keyringMap.get(keyringId);
     keyRng.keyring.clear();
@@ -105,9 +101,7 @@ export function getById(keyringId) {
   if (keyring) {
     return keyring;
   } else {
-    const error = new Error('No keyring found for this identifier.');
-    error.code = 'NO_KEYRING_FOR_ID';
-    throw error;
+    throw new mvelo.Error('No keyring found for this identifier.', 'NO_KEYRING_FOR_ID');
   }
 }
 

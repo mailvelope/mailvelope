@@ -60,7 +60,7 @@ mvelo.MAX_FILE_UPLOAD_SIZE = 50 * 1024 * 1024;
 mvelo.APP_TOP_FRAME_ID = 'apptopframeid';
 
 mvelo.Error = class extends Error {
-  constructor(msg, code) {
+  constructor(msg, code = 'INTERNAL_ERROR') {
     super(msg);
     this.code = code;
   }
@@ -383,12 +383,6 @@ mvelo.util.matchPattern2RegExString = function(matchPattern) {
 
 mvelo.util.mapError = function(error) {
   return {message: error.message, code: error.code  || 'INTERNAL_ERROR'};
-};
-
-mvelo.util.throwError = function(message, code = 'INTERNAL_ERROR') {
-  const error = new Error(message);
-  error.code = code;
-  throw error;
 };
 
 mvelo.util.PromiseQueue = class {

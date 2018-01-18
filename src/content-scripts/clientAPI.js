@@ -100,11 +100,8 @@ const optionsTypes = {
 };
 
 function checkTypes(data) {
-  let error;
   if (data.id && typeof data.id !== 'string') {
-    error = new Error('Type mismatch: data.id should be of type string.');
-    error.code = 'TYPE_MISMATCH';
-    throw error;
+    throw new mvelo.Error('Type mismatch: data.id should be of type string.', 'TYPE_MISMATCH');
   }
   if (!data.data) {
     return;
@@ -116,7 +113,6 @@ function checkTypes(data) {
 }
 
 function enforceTypeWhitelist(data, whitelist) {
-  let error;
   const parameters = Object.keys(data) || [];
   for (let i = 0; i < parameters.length; i++) {
     const parameter = parameters[i];
@@ -143,9 +139,7 @@ function enforceTypeWhitelist(data, whitelist) {
         }
     }
     if (wrong) {
-      error = new Error(`Type mismatch: ${parameter} should be of type ${dataType}.`);
-      error.code = 'TYPE_MISMATCH';
-      throw error;
+      throw new mvelo.Error(`Type mismatch: ${parameter} should be of type ${dataType}.`, 'TYPE_MISMATCH');
     }
   }
 }
@@ -273,23 +267,16 @@ function createKeyring(keyringId, callback) {
 
 function displayContainer(selector, armored, keyringId, options, callback) {
   let container;
-  let error;
   switch (getMessageType(armored)) {
     case mvelo.PGP_MESSAGE:
       container = new DecryptContainer(selector, keyringId, options);
       break;
     case mvelo.PGP_SIGNATURE:
-      error = new Error('PGP signatures not supported.');
-      error.code = 'WRONG_ARMORED_TYPE';
-      throw error;
+      throw new mvelo.Error('PGP signatures not supported.', 'WRONG_ARMORED_TYPE');
     case mvelo.PGP_PUBLIC_KEY:
-      error = new Error('PGP keys not supported.');
-      error.code = 'WRONG_ARMORED_TYPE';
-      throw error;
+      throw new mvelo.Error('PGP keys not supported.', 'WRONG_ARMORED_TYPE');
     default:
-      error = new Error('No valid armored block found.');
-      error.code = 'WRONG_ARMORED_TYPE';
-      throw error;
+      throw new mvelo.Error('No valid armored block found.', 'WRONG_ARMORED_TYPE');
   }
   container.create(armored, callback);
 }
@@ -411,19 +398,14 @@ function exportOwnPublicKey(keyringId, emailAddr, callback) {
 }
 
 function importPublicKey(keyringId, armored, callback) {
-  let error;
   switch (getMessageType(armored)) {
     case mvelo.PGP_PUBLIC_KEY:
       // ok
       break;
     case mvelo.PGP_PRIVATE_KEY:
-      error = new Error('No import of private PGP keys allowed.');
-      error.code = 'WRONG_ARMORED_TYPE';
-      throw error;
+      throw new mvelo.Error('No import of private PGP keys allowed.', 'WRONG_ARMORED_TYPE');
     default:
-      error = new Error('No valid armored block found.');
-      error.code = 'WRONG_ARMORED_TYPE';
-      throw error;
+      throw new mvelo.Error('No valid armored block found.', 'WRONG_ARMORED_TYPE');
   }
   mvelo.runtime.sendMessage({
     event: 'import-pub-key',
@@ -436,16 +418,11 @@ function importPublicKey(keyringId, armored, callback) {
 }
 
 function setLogo(keyringId, dataURL, revision, callback) {
-  let error;
   if (!/^data:image\/png;base64,/.test(dataURL)) {
-    error = new Error('Data URL must start with "data:image/png;base64,".');
-    error.code = 'LOGO_INVALID';
-    throw error;
+    throw new mvelo.Error('Data URL must start with "data:image/png;base64,".', 'LOGO_INVALID');
   }
   if (dataURL.length > 15 * 1024) {
-    error = new Error('Data URL string size exceeds 15KB limit.');
-    error.code = 'LOGO_INVALID';
-    throw error;
+    throw new mvelo.Error('Data URL string size exceeds 15KB limit.', 'LOGO_INVALID');
   }
   mvelo.runtime.sendMessage({
     event: 'set-logo',

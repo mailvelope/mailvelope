@@ -399,13 +399,13 @@ export default class EditorController extends sub.SubController {
       }
 
       if (!signKey) {
-        mvelo.util.throwError('No primary key found', 'NO_PRIMARY_KEY_FOUND');
+        throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
       }
 
       const signKeyPacket = signKey.key.getSigningKeyPacket();
       const signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
       if (!signKeyid) {
-        mvelo.util.throwError('No valid signing key packet found', 'NO_SIGN_KEY_FOUND');
+        throw new mvelo.Error('No valid signing key packet found', 'NO_SIGN_KEY_FOUND');
       }
 
       signKey.keyid = signKeyid;
@@ -543,7 +543,7 @@ export default class EditorController extends sub.SubController {
         const data = this.buildMail(options.message, options.attachments);
 
         if (data === null) {
-          mvelo.util.throwError('MIME building failed.');
+          throw new mvelo.Error('MIME building failed.');
         }
 
         const keyIdsHex = this.getPublicKeyIds(options.keys);

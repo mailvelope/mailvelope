@@ -69,9 +69,7 @@ export default class PwdController extends SubController {
 
   onCancel() {
     this.closePopup();
-    const error = new Error(mvelo.l10n.getMessage('pwd_dialog_cancel'));
-    error.code = 'PWD_DIALOG_CANCEL';
-    this.reject(error);
+    this.reject(new mvelo.Error(mvelo.l10n.getMessage('pwd_dialog_cancel'), 'PWD_DIALOG_CANCEL'));
   }
 
   closePopup() {
