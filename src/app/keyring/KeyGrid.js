@@ -147,7 +147,7 @@ export default class KeyGrid extends React.Component {
                   <td className="monospaced">{key.crDate.substr(0, 10)}</td>
                   <td className="text-center text-nowrap">
                     <div className="actions">
-                      <button className="btn btn-default keyDetailsBtn" aria-haspopup="true"><span className="glyphicon glyphicon-info-sign"></span></button>
+                      <button type="button" className="btn btn-default keyDetailsBtn" aria-haspopup="true"><span className="glyphicon glyphicon-info-sign"></span></button>
                       <button type="button" onClick={e => this.deleteKeyEntry(e, index)} className="btn btn-default keyDeleteBtn"><span className="glyphicon glyphicon-trash"></span></button>
                     </div>
                   </td>
@@ -158,15 +158,19 @@ export default class KeyGrid extends React.Component {
           </table>
         </div>
         {this.props.spinner && <Spinner style={{margin: '60px auto 60px'}} />}
-        {this.state.keyDetails && <KeyDetails keyDetails={this.state.keyDetails}
-          onSetPrimaryKey={() => this.props.onChangePrimaryKey(this.state.keyDetails.id)}
-          isPrimary={this.props.primaryKeyId === this.state.keyDetails.id}
-          onHide={() => this.setState({keyDetails: null})} />
+        {this.state.keyDetails &&
+          <KeyDetails keyDetails={this.state.keyDetails}
+            onSetPrimaryKey={() => this.props.onChangePrimaryKey(this.state.keyDetails.id)}
+            isPrimary={this.props.primaryKeyId === this.state.keyDetails.id}
+            onHide={() => this.setState({keyDetails: null})}
+          />
         }
-        {this.state.keyringBackup && <KeyringBackup keyids={this.state.keyringBackup.keyids}
-          all={this.state.keyringBackup.all}
-          type={this.state.keyringBackup.type}
-          onHide={() => this.setState({keyringBackup: null})} />
+        {this.state.keyringBackup &&
+          <KeyringBackup keyids={this.state.keyringBackup.keyids}
+            all={this.state.keyringBackup.all}
+            type={this.state.keyringBackup.type}
+            onHide={() => this.setState({keyringBackup: null})}
+          />
         }
       </div>
     );

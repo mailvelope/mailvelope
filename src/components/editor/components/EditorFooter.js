@@ -49,11 +49,11 @@ class EditorFooter extends React.Component {
     return (
       <div className="editor-footer">
         <div className="form-group pull-left">
-          <button onClick={this.handleClickUpload} className={`btn btn-default btn-upload-embedded ${this.props.embedded ? 'show' : 'hide'}`}>
+          <button type="button" onClick={this.handleClickUpload} className={`btn btn-default btn-upload-embedded ${this.props.embedded ? 'show' : 'hide'}`}>
             <span className="glyphicon glyphicon-paperclip"></span>&nbsp;
             <span>{l10n.map.upload_attachment}</span>
           </button>
-          <input type="file" id="addFileInput" multiple="multiple" onChange={this.props.onChangeFileInput}/>
+          <input type="file" id="addFileInput" multiple="multiple" onChange={this.props.onChangeFileInput} />
           <div className={`nav-link-file-encryption ${!this.props.embedded ? 'show' : 'hide'}`}>
             <a role="button" onClick={this.props.onClickFileEncryption}>{l10n.map.editor_link_file_encryption}</a>
           </div>

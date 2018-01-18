@@ -43,9 +43,9 @@ class ActionMenuWrapper extends Component {
   render() {
     let actionMenuContent = null;
     if (this.state.isSetupDone) {
-      actionMenuContent = <ActionMenuAnimated onMenuItemClickHandler={e => this.onMenuItemClick(e)}/>;
+      actionMenuContent = <ActionMenuAnimated onMenuItemClickHandler={e => this.onMenuItemClick(e)} />;
     } else {
-      actionMenuContent = <ActionMenuSetup onMenuItemClickHandler={e => this.onMenuItemClick(e)}/>;
+      actionMenuContent = <ActionMenuSetup onMenuItemClickHandler={e => this.onMenuItemClick(e)} />;
     }
 
     return (

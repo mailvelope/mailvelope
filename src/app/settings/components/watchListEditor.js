@@ -22,62 +22,60 @@ l10n.register([
   'form_cancel'
 ]);
 
-export default class WatchListEditor extends React.Component {
-  render() {
-    return (
-      <ModalDialog title={l10n.map.watchlist_record_title} onHide={this.props.onHide} hide={this.props.hide} footer={
-        <EditorFooter onAddMatchPattern={this.props.onAddMatchPattern} onSave={this.props.onSave} />
-      }>
-        <div>
-          <form className="form-horizontal" role="form">
-            <div className="form-group">
-              <label htmlFor="switchWebSite" className="col-sm-2 control-label">{l10n.map.watchlist_title_active}</label>
-              <div className="col-sm-10">
-                <OnOffSwitch checked={this.props.site.active} onChange={e => this.props.onChangeSite('active', e.target.checked)} id={'switchWebSite'} />
-              </div>
+export default function WatchListEditor(props) {
+  return (
+    <ModalDialog title={l10n.map.watchlist_record_title} onHide={props.onHide} hide={props.hide} footer={
+      <EditorFooter onAddMatchPattern={props.onAddMatchPattern} onSave={props.onSave} />
+    }>
+      <div>
+        <form className="form-horizontal" role="form">
+          <div className="form-group">
+            <label htmlFor="switchWebSite" className="col-sm-2 control-label">{l10n.map.watchlist_title_active}</label>
+            <div className="col-sm-10">
+              <OnOffSwitch checked={props.site.active} onChange={e => props.onChangeSite('active', e.target.checked)} id={'switchWebSite'} />
             </div>
-            <div className="form-group">
-              <label htmlFor="webSiteName" className="col-sm-2 control-label">{l10n.map.watchlist_title_site}</label>
-              <div className="col-sm-10">
-                <input type="text" value={this.props.site.site} onChange={e => this.props.onChangeSite('site', e.target.value)} className="form-control" id="webSiteName" placeholder="e.g. GMX or GMail" />
-              </div>
+          </div>
+          <div className="form-group">
+            <label htmlFor="webSiteName" className="col-sm-2 control-label">{l10n.map.watchlist_title_site}</label>
+            <div className="col-sm-10">
+              <input type="text" value={props.site.site} onChange={e => props.onChangeSite('site', e.target.value)} className="form-control" id="webSiteName" placeholder="e.g. GMX or GMail" />
             </div>
-            <table className="table table-hover table-condensed table-striped optionsTable" id="watchList">
-              <thead>
-                <tr>
-                  <th>{l10n.map.watchlist_title_scan}</th>
-                  <th>{l10n.map.watchlist_title_frame}</th>
-                  <th>{l10n.map.watchlist_expose_api}</th>
-                  <th></th>
+          </div>
+          <table className="table table-hover table-condensed table-striped optionsTable" id="watchList">
+            <thead>
+              <tr>
+                <th>{l10n.map.watchlist_title_scan}</th>
+                <th>{l10n.map.watchlist_title_frame}</th>
+                <th>{l10n.map.watchlist_expose_api}</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              { props.site.frames.map((frame, index) =>
+                <tr key={index}>
+                  <td>
+                    <OnOffSwitch checked={frame.scan} onChange={e => props.onChangeFrame({scan: e.target.checked}, index)} id={`frame_scan${index}`} />
+                  </td>
+                  <td className="form-group">
+                    <input type="text" value={frame.frame} onChange={e => props.onChangeFrame({frame: e.target.value}, index)} className="form-control matchPatternName" placeholder="e.g.: *.gmx.de" />
+                  </td>
+                  <td>
+                    <OnOffSwitch checked={frame.api} onChange={e => props.onChangeFrame({api: e.target.checked}, index)} id={`frame_api${index}`} />
+                  </td>
+                  <td className="text-center">
+                    <button type="button" onClick={() => props.onDeleteMatchPattern(index)} className="btn btn-default deleteMatchPatternBtn">
+                      <span className="glyphicon glyphicon-trash"></span>&nbsp;<span>{l10n.map.keygrid_delete}</span>
+                    </button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                { this.props.site.frames.map((frame, index) =>
-                  <tr key={index}>
-                    <td>
-                      <OnOffSwitch checked={frame.scan} onChange={e => this.props.onChangeFrame({scan: e.target.checked}, index)} id={`frame_scan${index}`} />
-                    </td>
-                    <td className="form-group">
-                      <input type="text" value={frame.frame} onChange={e => this.props.onChangeFrame({frame: e.target.value}, index)} className="form-control matchPatternName" placeholder="e.g.: *.gmx.de" />
-                    </td>
-                    <td>
-                      <OnOffSwitch checked={frame.api} onChange={e => this.props.onChangeFrame({api: e.target.checked}, index)} id={`frame_api${index}`} />
-                    </td>
-                    <td className="text-center">
-                      <button type="button" onClick={() => this.props.onDeleteMatchPattern(index)} className="btn btn-default deleteMatchPatternBtn">
-                        <span className="glyphicon glyphicon-trash"></span>&nbsp;<span>{l10n.map.keygrid_delete}</span>
-                      </button>
-                    </td>
-                  </tr>
-                )
-                }
-              </tbody>
-            </table>
-          </form>
-        </div>
-      </ModalDialog>
-    );
-  }
+              )
+              }
+            </tbody>
+          </table>
+        </form>
+      </div>
+    </ModalDialog>
+  );
 }
 
 WatchListEditor.propTypes = {

@@ -97,7 +97,7 @@ export default class EncryptFile extends React.Component {
                 <div className="col-xs-3">
                   <p>
                     <input id="encrypt_fileUpload" type="file" className="hidden" multiple />
-                    <button id="encrypt_addFileBtn" className="btn btn-sm btn-block btn-success">
+                    <button type="button" id="encrypt_addFileBtn" className="btn btn-sm btn-block btn-success">
                       <i className="glyphicon glyphicon-plus"></i>
                       <span>{l10n.map.encrypt_dialog_add}</span>
                     </button>
@@ -108,7 +108,7 @@ export default class EncryptFile extends React.Component {
               <div className="fileUploadError alert alert-danger" role="alert"></div>
             </div>
             <div className="panel-footer text-right">
-              <button id="encrypt_goToPersonBtn" className="btn btn-primary btn-sm">{l10n.map.form_next}</button>
+              <button type="button" id="encrypt_goToPersonBtn" className="btn btn-primary btn-sm">{l10n.map.form_next}</button>
             </div>
           </div>
 
@@ -123,7 +123,7 @@ export default class EncryptFile extends React.Component {
                   <select id="encrypt_keySelect" className="form-control"></select>
                 </div>
                 <div className="col-xs-3">
-                  <button id="encrypt_addPersonBtn" className="btn btn-sm btn-success btn-block">{l10n.map.encrypt_dialog_add}</button>
+                  <button type="button" id="encrypt_addPersonBtn" className="btn btn-sm btn-success btn-block">{l10n.map.encrypt_dialog_add}</button>
                 </div>
               </div>
 
@@ -164,8 +164,8 @@ export default class EncryptFile extends React.Component {
             </div>
 
             <div className="panel-footer text-right">
-              <button id="encrypt_backToPersonBtn" className="btn btn-sm btn-default">{l10n.map.form_back}</button>
-              <button id="encrypt_downloadAllBtn" className="btn btn-sm btn-primary"><i className="glyphicon glyphicon-save"></i> <span>{l10n.map.encrypt_download_all_button}</span></button>
+              <button type="button" id="encrypt_backToPersonBtn" className="btn btn-sm btn-default">{l10n.map.form_back}</button>
+              <button type="button" id="encrypt_downloadAllBtn" className="btn btn-sm btn-primary"><i className="glyphicon glyphicon-save"></i> <span>{l10n.map.encrypt_download_all_button}</span></button>
             </div>
 
             <div className="panel-overlay">
@@ -189,7 +189,7 @@ export default class EncryptFile extends React.Component {
                 <div className="col-xs-3">
                   <p>
                     <input id="decrypt_fileUpload" type="file" className="hidden" multiple accept=".asc,.gpg,.pgp" />
-                    <button id="decrypt_addFileBtn" className="btn btn-sm btn-block btn-success">
+                    <button type="button" id="decrypt_addFileBtn" className="btn btn-sm btn-block btn-success">
                       <i className="glyphicon glyphicon-plus"></i>
                       <span>{l10n.map.encrypt_dialog_add}</span>
                     </button>
@@ -200,7 +200,7 @@ export default class EncryptFile extends React.Component {
               <div className="fileUploadError alert alert-danger" role="alert"></div>
             </div>
             <div className="panel-footer text-right">
-              <button id="decrypt_goToDownloadBtn" className="btn btn-primary btn-sm">{l10n.map.form_next}</button>
+              <button type="button" id="decrypt_goToDownloadBtn" className="btn btn-primary btn-sm">{l10n.map.form_next}</button>
             </div>
           </div>
 
@@ -220,8 +220,8 @@ export default class EncryptFile extends React.Component {
             </div>
 
             <div className="panel-footer text-right">
-              <button id="decrypt_backToUploadBtn" className="btn btn-sm btn-default">{l10n.map.form_back}</button>
-              <button id="decrypt_downloadAllBtn" className="btn btn-sm btn-primary"><i className="glyphicon glyphicon-save"></i> <span>{l10n.map.encrypt_download_all_button}</span></button>
+              <button type="button" id="decrypt_backToUploadBtn" className="btn btn-sm btn-default">{l10n.map.form_back}</button>
+              <button type="button" id="decrypt_downloadAllBtn" className="btn btn-sm btn-primary"><i className="glyphicon glyphicon-save"></i> <span>{l10n.map.encrypt_download_all_button}</span></button>
             </div>
 
             <div className="panel-overlay">

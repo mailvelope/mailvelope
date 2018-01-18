@@ -153,7 +153,7 @@ export class App extends React.Component {
         port.emit('set-active-keyring', {keyringId});
         return {keyringId, primaryKeyId, isDemail, keyringAttr, providerLogo};
       }, () => {
-        port.send('getKeys', {keyringId: this.state.keyringId})
+        port.send('getKeys', {keyringId: this.state.keyringId}) // eslint-disable-line react/no-access-state-in-setstate
         .then(keys => {
           keys = keys.sort((a, b) => a.name.localeCompare(b.name));
           const hasPrivateKey = keys.some(key => key.type === 'private');
@@ -225,11 +225,11 @@ export class App extends React.Component {
         </nav>
         <div className="container" role="main">
           <div className="row">
-            <Route path='/dashboard' component={Dashboard}/>
+            <Route path='/dashboard' component={Dashboard} />
             <Route path='/keyring' render={() => (
               <div>
                 <div className="col-md-3">
-                  <KeyringSelect keyringId={this.state.keyringId} keyringAttr={this.state.keyringAttr} onChange={this.handleChangeKeyring} onDelete={this.handleDeleteKeyring}/>
+                  <KeyringSelect keyringId={this.state.keyringId} keyringAttr={this.state.keyringAttr} onChange={this.handleChangeKeyring} onDelete={this.handleDeleteKeyring} />
                   <div role="navigation">
                     <ul className="nav nav-pills nav-stacked" role="tablist" aria-label="secondary menu">
                       <NavLink to="/keyring/display">{l10n.map.keyring_display_keys}</NavLink>
@@ -254,11 +254,11 @@ export class App extends React.Component {
                       <Route path='/keyring/generate' render={() => <GenerateKey onKeyringChange={this.loadKeyring} demail={this.state.isDemail} name={this.state.name} email={this.state.email} />} />
                       <Route path='/keyring/setup' render={() => <KeyringSetup hasPrivateKey={this.state.hasPrivateKey} />} />
                     </section>
-                    <button className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
+                    <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
                   </div>
                 </div>
               </div>
-            )}/>
+            )} />
             <Route path='/encryption' render={() => (
               <div>
                 <div className="col-md-3">
@@ -280,11 +280,11 @@ export class App extends React.Component {
                       <Route path='/encryption/text-encrypt' component={EncryptText} />
                       <Route path='/encryption/text-decrypt' component={DecryptText} />
                     </section>
-                    <button className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
+                    <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
                   </div>
                 </div>
               </div>
-            )}/>
+            )} />
             <Route path='/settings' render={() => (
               <div>
                 <div className="col-md-3">
@@ -307,11 +307,11 @@ export class App extends React.Component {
                       <Route path='/settings/security-log' component={SecurityLog} />
                       <Route path='/settings/key-server' render={() => <KeyServer prefs={this.state.prefs} onChangePrefs={this.handleChangePrefs} />} />
                     </section>
-                    <button className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
+                    <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
                   </div>
                 </div>
               </div>
-            )}/>
+            )} />
           </div>
           <footer className="row">
             <p className="pull-left col-md-6">&copy; 2012-2017 Mailvelope GmbH</p>

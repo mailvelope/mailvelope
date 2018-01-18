@@ -26,7 +26,7 @@ export default class AdvancedExpand extends React.Component {
   handleClick() {
     this.setState(previousState => ({expand: !previousState.expand}), () => {
       // component re-rendered, trigger animation
-      if (this.state.expand) {
+      if (this.state.expand) { // eslint-disable-line react/no-access-state-in-setstate
         $(this.expandAreaNode).slideDown();
       } else {
         $(this.expandAreaNode).slideUp();

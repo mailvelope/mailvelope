@@ -319,12 +319,12 @@ export default class Editor extends React.Component {
         <div id="flex-container">
           <div id="header">
             <div id="buttonBar">
-              <button className="btn btn-link secureBgndSettingsBtn" title={l10n.map.security_background_button_title}>
+              <button type="button" className="btn btn-link secureBgndSettingsBtn" title={l10n.map.security_background_button_title}>
                 <span className="glyphicon lockBtnIcon"></span>
               </button>
             </div>
             <div id="uploadPanel">
-              <FilePanel files={this.state.files} onRemoveFile={id => this.handleRemoveFile(id)}/>
+              <FilePanel files={this.state.files} onRemoveFile={id => this.handleRemoveFile(id)} />
             </div>
           </div>
           { this.props.recipientInput &&

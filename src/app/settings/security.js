@@ -99,8 +99,8 @@ export default class Security extends React.Component {
           </div>
           <div id="secReloadInfo" className="alert alert-success">{l10n.map.reload_webmail_tab}</div>
           <div className="form-group">
-            <button id="secBtnSave" className="btn btn-primary" disabled>{l10n.map.form_save}</button>
-            <button id="secBtnCancel" className="btn btn-default" disabled>{l10n.map.form_cancel}</button>
+            <button type="button" id="secBtnSave" className="btn btn-primary" disabled>{l10n.map.form_save}</button>
+            <button type="button" id="secBtnCancel" className="btn btn-default" disabled>{l10n.map.form_cancel}</button>
           </div>
         </form>
       </div>

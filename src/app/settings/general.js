@@ -43,8 +43,8 @@ export default class General extends React.Component {
             </div>
           </div>
           <div className="form-group">
-            <button id="genBtnSave" className="btn btn-primary" disabled>{l10n.map.form_save}</button>
-            <button id="genBtnCancel" className="btn btn-default" disabled>{l10n.map.form_cancel}</button>
+            <button type="button" id="genBtnSave" className="btn btn-primary" disabled>{l10n.map.form_save}</button>
+            <button type="button" id="genBtnCancel" className="btn btn-default" disabled>{l10n.map.form_cancel}</button>
           </div>
         </form>
       </div>

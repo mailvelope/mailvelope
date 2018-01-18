@@ -57,10 +57,10 @@ export default class WatchList extends React.Component {
   }
 
   showWatchListEditor(index) {
-    this.setState({
-      editorSite: this.copySite(this.state.watchList[index]),
+    this.setState(prevState => ({
+      editorSite: this.copySite(prevState.watchList[index]),
       editorIndex: index
-    });
+    }));
   }
 
   copySite(site) {
@@ -195,8 +195,8 @@ export default class WatchList extends React.Component {
                 <td>{site.site}</td>
                 <td className="text-center">
                   <div className="actions">
-                    <button className="btn btn-default editWatchListBtn" style={{marginRight: '5px'}}><span className="glyphicon glyphicon-pencil"></span>&nbsp;<span>{l10n.map.watchlist_command_edit}</span></button>
-                    <button onClick={e => this.deleteWatchListEntry(e, index)} className="btn btn-default deleteWatchListBtn"><span className="glyphicon glyphicon-trash"></span>&nbsp;<span>{l10n.map.keygrid_delete}</span></button>
+                    <button type="button" className="btn btn-default editWatchListBtn" style={{marginRight: '5px'}}><span className="glyphicon glyphicon-pencil"></span>&nbsp;<span>{l10n.map.watchlist_command_edit}</span></button>
+                    <button type="button" onClick={e => this.deleteWatchListEntry(e, index)} className="btn btn-default deleteWatchListBtn"><span className="glyphicon glyphicon-trash"></span>&nbsp;<span>{l10n.map.keygrid_delete}</span></button>
                   </div>
                 </td>
               </tr>
@@ -204,14 +204,15 @@ export default class WatchList extends React.Component {
             }
           </tbody>
         </table>
-        { this.state.editorSite && <WatchListEditor site={this.state.editorSite}
-          onHide={() => this.handleHideWatchListEditor()}
-          onSave={() => this.handleSaveWatchListEditor()}
-          onChangeSite={this.handleChangeSite}
-          onChangeFrame={this.handleChangeFrame}
-          onAddMatchPattern={() => this.handleAddMatchPattern()}
-          onDeleteMatchPattern={index => this.handleDeleteMatchPattern(index)}
-        />
+        { this.state.editorSite &&
+          <WatchListEditor site={this.state.editorSite}
+            onHide={() => this.handleHideWatchListEditor()}
+            onSave={() => this.handleSaveWatchListEditor()}
+            onChangeSite={this.handleChangeSite}
+            onChangeFrame={this.handleChangeFrame}
+            onAddMatchPattern={() => this.handleAddMatchPattern()}
+            onDeleteMatchPattern={index => this.handleDeleteMatchPattern(index)}
+          />
         }
       </div>
     );

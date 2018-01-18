@@ -47,12 +47,12 @@ class EncryptFooter extends React.Component {
   render() {
     return (
       <div className={`text-right ${this.state.expanded ? 'encrypt-footer-expanded' : ''}`}>
-        <button onClick={this.handleOptionsClick} className="btn btn-default btn-sm pull-left">
+        <button type="button" onClick={this.handleOptionsClick} className="btn btn-default btn-sm pull-left">
           <span>{l10n.map.options_home}</span>&nbsp;&nbsp;
           <span className={`glyphicon glyphicon-collapse-${this.state.expanded ? 'up' : 'down'}`} aria-hidden="true"></span>
         </button>
-        <button onClick={this.props.onBack} className="btn btn-sm btn-default">{l10n.map.form_back}</button>
-        <button onClick={this.props.onEncrypt} className="btn btn-sm btn-primary" disabled={this.props.encryptDisabled}>{l10n.map.editor_encrypt_button}</button>
+        <button type="button" onClick={this.props.onBack} className="btn btn-sm btn-default">{l10n.map.form_back}</button>
+        <button type="button" onClick={this.props.onEncrypt} className="btn btn-sm btn-primary" disabled={this.props.encryptDisabled}>{l10n.map.editor_encrypt_button}</button>
         {this.state.expanded && this.renderOptions()}
       </div>
     );

@@ -10,7 +10,7 @@ import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './DatePicker.css';
 
-class CustomInput extends React.Component {
+class CustomInput extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     const clearClasses = `form-control-clear glyphicon glyphicon-remove form-control-feedback ${this.props.value ? '' : 'hidden'}`;
     return (
@@ -41,7 +41,7 @@ export default function DatePicker({value, onChange, placeholder, minDate, maxDa
   // ReactDatePicker maps placeholderText to placeholder prop of customInput
   return (
     <ReactDatePicker
-      customInput={<CustomInput onClearDate={() => onChange(null)}/>}
+      customInput={<CustomInput onClearDate={() => onChange(null)} />}
       selected={value}
       showMonthDropdown
       showYearDropdown

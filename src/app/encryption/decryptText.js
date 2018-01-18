@@ -52,7 +52,7 @@ export default class DecryptText extends React.Component {
 
           </div>
           <div className="panel-footer text-right">
-            <button onClick={() => this.handleDecrypt()} className="btn btn-primary btn-sm">{l10n.map.text_decrypt_button}</button>
+            <button type="button" onClick={() => this.handleDecrypt()} className="btn btn-primary btn-sm">{l10n.map.text_decrypt_button}</button>
           </div>
         </div>
         <div className={`panel panel-default ${this.state.decryptId ? 'show' : 'hide'}`}>
@@ -64,7 +64,7 @@ export default class DecryptText extends React.Component {
             {this.state.error && <Alert />}
           </div>
           <div className="panel-footer text-right">
-            <button onClick={() => this.handleBack()} className="btn btn-sm btn-default">{l10n.map.form_back}</button>
+            <button type="button" onClick={() => this.handleBack()} className="btn btn-sm btn-default">{l10n.map.form_back}</button>
           </div>
         </div>
       </div>

@@ -39,7 +39,7 @@ function InstallLandingPage() {
       <div className="landing-page">
         <div className="col-md-10">
           <h1 className="settings-logo">{l10n.map.install_landing_page_welcome}</h1>
-          <p><Trans id={l10n.map.install_landing_page_getting_started} components={[<span key="0"><img src="../../img/cryptography-icon48.png" height="25px"/></span>]} /></p>
+          <p><Trans id={l10n.map.install_landing_page_getting_started} components={[<span key="0"><img src="../../img/cryptography-icon48.png" height="25px" /></span>]} /></p>
           <p><Trans id={l10n.map.install_landing_page_help} components={[<a key="0" href="https://www.mailvelope.com/help" rel="noreferrer noopener"></a>]} /></p>
         </div>
         <div className="col-md-2">

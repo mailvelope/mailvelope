@@ -166,7 +166,7 @@ export default class ImportKey extends React.Component {
             <button type="button" onClick={this.handleClear} className="btn btn-default" disabled={!this.state.armored}>{l10n.map.form_clear}</button>
           </div>
           <div className="form-group">
-            {this.state.alert.map((alert, index) => <Alert header={alert.header} message={alert.message} type={alert.type} key={index}/>)}
+            {this.state.alert.map((alert, index) => <Alert header={alert.header} message={alert.message} type={alert.type} key={index} />)}
           </div>
         </form>
       </div>
