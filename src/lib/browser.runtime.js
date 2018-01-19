@@ -3,18 +3,13 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../lib/lib-mvelo';
+import mvelo from './lib-mvelo';
 import defaults from '../res/defaults.json';
 
 /**
- * Initialize the browser management controller.
- *
- * It should take care of the following events :
- * - The Mailvelope extension is installed;
- * - The Mailvelope extension is updated;
- * - The browser is updated.
+ * Initialize browser runtime features.
  */
-export function initBrowserManagement() {
+export function initBrowserRuntime() {
   initInstall();
 }
 
