@@ -17,8 +17,6 @@ import DefinePassword from './components/DefinePassword';
 import GenerateWait from './components/GenerateWait';
 import Alert from '../../components/util/Alert';
 
-'use strict';
-
 l10n.register([
   'keyring_generate_key',
   'key_gen_generate',

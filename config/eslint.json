@@ -24,7 +24,7 @@
   },
 
   "rules": {
-    "strict": ["error", "global"],
+    "strict": ["error", "never"],
     /* possible errors */
     "no-console": 0,
     "no-empty": ["error", { "allowEmptyCatch": true }], // disallow empty block statements
