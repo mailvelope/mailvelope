@@ -12,68 +12,51 @@ export default class VerifyController extends SubController {
   constructor(port) {
     super(port);
     this.verifyPopup = null;
+    // register event handlers
+    this.on('verify-inline-init', this.onVerifyInit);
+    this.on('verify-popup-init', this.onVerifyInit);
+    this.on('vframe-display-popup', this.onDisplayPopup);
+    this.on('vframe-armored-message', this.onArmoredMessage);
+    this.on('verify-dialog-cancel', this.onCancel);
+    this.on('verify-user-input', msg => uiLog.push(msg.source, msg.type));
   }
 
-  handlePortMessage(msg) {
-    switch (msg.event) {
-      case 'verify-inline-init':
-      case 'verify-popup-init':
-        // get armored message from vFrame
-        this.ports.vFrame.postMessage({event: 'armored-message'});
-        break;
-      case 'vframe-display-popup':
-        // prevent two open modal dialogs
-        if (mvelo.windows.modalActive) {
-          // password dialog or modal dialog already open
-          this.ports.vFrame.postMessage({event: 'remove-dialog'});
-        } else {
-          mvelo.windows.openPopup(`components/verify-popup/verifyPopup.html?id=${this.id}`, {width: 742, height: 550, modal: true})
-          .then(popup => {
-            this.verifyPopup = popup;
-            popup.addRemoveListener(() => {
-              this.ports.vFrame.postMessage({event: 'remove-dialog'});
-              this.verifyPopup = null;
-            });
-          });
-        }
-        break;
-      case 'vframe-armored-message': {
-        let result;
-        try {
-          result = readCleartextMessage(msg.data, mvelo.LOCAL_KEYRING_ID);
-        } catch (e) {
-          this.ports.vDialog.postMessage({
-            event: 'error-message',
-            error: e.message
-          });
-          return;
-        }
-        verifyMessage(result.message, result.signers)
-        .then(verified => this.ports.vDialog.postMessage({
-          event: 'verified-message',
-          message: result.message.getText(),
-          signers: verified
-        }))
-        .catch(err => this.ports.vDialog.postMessage({
-          event: 'error-message',
-          error: err.message
-        }));
-        break;
-      }
-      case 'verify-dialog-cancel':
-        if (this.ports.vFrame) {
-          this.ports.vFrame.postMessage({
-            event: 'remove-dialog'
-          });
-        }
-        this.closePopup();
-        break;
-      case 'verify-user-input':
-        uiLog.push(msg.source, msg.type);
-        break;
-      default:
-        console.log('unknown event', msg);
+  onVerifyInit() {
+    this.ports.vFrame.emit('armored-message');
+  }
+
+  onDisplayPopup() {
+    mvelo.windows.openPopup(`components/verify-popup/verifyPopup.html?id=${this.id}`, {width: 742, height: 550})
+    .then(popup => {
+      this.verifyPopup = popup;
+      popup.addRemoveListener(() => {
+        this.ports.vFrame.emit('remove-dialog');
+        this.verifyPopup = null;
+      });
+    });
+  }
+
+  onArmoredMessage(msg) {
+    let result;
+    try {
+      result = readCleartextMessage(msg.data, mvelo.LOCAL_KEYRING_ID);
+    } catch (e) {
+      this.ports.vDialog.emit('error-message', {error: e.message});
+      return;
     }
+    verifyMessage(result.message, result.signers)
+    .then(verified => this.ports.vDialog.emit('verified-message', {
+      message: result.message.getText(),
+      signers: verified
+    }))
+    .catch(err => this.ports.vDialog.emit('error-message', {error: err.message}));
+  }
+
+  onCancel() {
+    if (this.ports.vFrame) {
+      this.ports.vFrame.emit('remove-dialog');
+    }
+    this.closePopup();
   }
 
   closePopup() {

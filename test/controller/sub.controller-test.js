@@ -1,12 +1,13 @@
 
 import * as sub from '../../src/controller/sub.controller';
+import {Port} from '../util';
 
 describe('Sub controller unit tests', () => {
   let ctrl;
   let port;
 
   beforeEach(() => {
-    port = {name: 'foo', postMessage(opt) { ctrl.handlePortMessage(opt); }};
+    port = new Port('foo-1');
     sinon.spy(port, 'postMessage');
     ctrl = new sub.SubController(port);
   });
@@ -18,7 +19,7 @@ describe('Sub controller unit tests', () => {
         done();
       });
 
-      ctrl.emit('ping', {data: 'pong'});
+      ctrl.emit('ping', {data: 'pong', to: 'foo-1'});
     });
   });
 });

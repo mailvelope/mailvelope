@@ -118,9 +118,13 @@ mvelo.tabs.sendMessage = function(tab, msg) {
   return browser.tabs.sendMessage(tab.id, msg);
 };
 
-mvelo.tabs.loadOptionsTab = function(hash = '') {
-  // check if options tab already exists
-  const url = browser.runtime.getURL('app/app.html');
+mvelo.tabs.loadAppTab = function(hash = '') {
+  return mvelo.tabs.loadTab({path: 'app/app.html', hash});
+};
+
+mvelo.tabs.loadTab = function({path = '', hash = ''}) {
+  // Check if tab already exists.
+  const url = browser.runtime.getURL(path);
   return mvelo.tabs.query(`${url}*`)
   .then(tabs => {
     if (tabs.length === 0) {
@@ -128,8 +132,7 @@ mvelo.tabs.loadOptionsTab = function(hash = '') {
       return mvelo.tabs.create(url + hash, false);
     } else {
       // if existent, set as active tab
-      return mvelo.tabs.activate(tabs[0], {url: url + hash})
-      .then(tab => mvelo.tabs.sendMessage(tab, {event: 'reload-options', hash}));
+      return mvelo.tabs.activate(tabs[0], {url: url + hash});
     }
   });
 };
@@ -169,68 +172,109 @@ mvelo.util.getHost = function(url) {
 
 mvelo.windows = {};
 
-mvelo.windows.modalActive = false;
+mvelo.windows.PopupMap = class {
+  constructor() {
+    this.tabs = new Map();
+  }
 
-mvelo.windows.openPopup = function(url, {width, height, modal} = {}) {
-  return browser.windows.getCurrent()
-  .then(current => {
+  set(tabId, windowId, browserWindow) {
+    if (this.tabs.has(tabId)) {
+      const tab = this.tabs.get(tabId);
+      browserWindow.index = tab.size;
+      tab.set(windowId, browserWindow);
+    } else {
+      this.tabs.set(tabId, new Map([[windowId, browserWindow]]));
+    }
+  }
+
+  delete(tabId, windowId) {
+    if (this.tabs.has(tabId)) {
+      const tab = this.tabs.get(tabId);
+      tab.delete(windowId);
+      if (!tab.size) {
+        this.tabs.delete(tabId);
+      }
+    }
+  }
+};
+
+mvelo.windows.popupMap = new mvelo.windows.PopupMap();
+
+/**
+ * Open new browser window
+ * @param  {String} url             URL to be loaded in the new window
+ * @param  {[type]} options.width   width of the window
+ * @param  {[type]} options.height  height of the window
+ * @return {BrowserWindow}
+ */
+mvelo.windows.openPopup = function(url, {width, height} = {}) {
+  let activeTab;
+  return browser.windows.getCurrent({populate: true})
+  .then(currentWindow => {
+    if (currentWindow.id === browser.windows.WINDOW_ID_NONE) {
+      throw new Error('Browser window does not exist');
+    }
+    activeTab = currentWindow.tabs.find(tab => tab.active);
     if (window.navigator.platform.indexOf('Win') >= 0 && height) {
       height += 36;
     }
-    const top = height && parseInt(current.top + (current.height - height) / 2);
-    const left = width && parseInt(current.left + (current.width - width) / 2);
+    const top = height && parseInt(currentWindow.top + (currentWindow.height - height) / 2);
+    const left = width && parseInt(currentWindow.left + (currentWindow.width - width) / 2);
     return browser.windows.create({url, width, height, top, left, type: 'popup'});
   })
-  .then(popup => {
-    const browserWindow = new mvelo.windows.BrowserWindow(popup.id);
-    let focusChangeHandler;
-    if (modal) {
-      mvelo.windows.modalActive = true;
-      focusChangeHandler = newFocus => {
-        if (newFocus !== popup.id && newFocus !== browser.windows.WINDOW_ID_NONE) {
-          browser.windows.update(popup.id, {focused: true})
-          // error occurs when browser window closed directly
-          .catch(() => {});
-        }
-      };
-      browser.windows.onFocusChanged.addListener(focusChangeHandler);
-    }
-    const removedHandler = removed => {
-      if (removed === popup.id) {
-        mvelo.windows.modalActive = false;
-        if (focusChangeHandler) {
-          browser.windows.onFocusChanged.removeListener(focusChangeHandler);
-        }
-        browser.windows.onRemoved.removeListener(removedHandler);
-        browserWindow.onRemove();
-      }
-    };
-    browser.windows.onRemoved.addListener(removedHandler);
-    return browserWindow;
-  });
+  .then(popup => new this.BrowserWindow({popup, openerTabId: activeTab.id}));
 };
 
 mvelo.windows.BrowserWindow = class {
-  constructor(id) {
-    this._id = id;
+  constructor({popup, openerTabId}) {
+    // window id of this popup
+    this.id = popup.id;
+    // tab id of the opener
+    this.tabId = openerTabId;
+    this.popup = popup;
+    this.index = 0;
     this.removeHandler = null;
+    mvelo.windows.popupMap.set(this.tabId, this.id, this);
+    this._tabActivatedChangeHandler = this._tabActivatedChangeHandler.bind(this);
+    this._windowRemovedHandler = this._windowRemovedHandler.bind(this);
+    browser.tabs.onActivated.addListener(this._tabActivatedChangeHandler);
+    browser.windows.onRemoved.addListener(this._windowRemovedHandler);
   }
 
   activate() {
-    browser.windows.update(this._id, {focused: true})
+    browser.windows.update(this.id, {focused: true})
     .catch(() => {});
   }
 
   close() {
-    browser.windows.remove(this._id)
+    browser.windows.remove(this.id)
     .catch(() => {});
+  }
+
+  _tabActivatedChangeHandler({tabId}) {
+    if (tabId === this.tabId) {
+      // opener tab gets focus, set focus on us
+      const offset = this.index * 40;
+      browser.windows.update(this.id, {focused: true, top: this.popup.top + offset, left: this.popup.left + offset})
+      // error occurs when browser window closed directly
+      .catch(() => {});
+    }
+  }
+
+  _windowRemovedHandler(closedWindowId) {
+    if (closedWindowId === this.id) {
+      mvelo.windows.popupMap.delete(this.tabId, this.id);
+      browser.tabs.onActivated.removeListener(this._tabActivatedChangeHandler);
+      browser.windows.onRemoved.removeListener(this._windowRemovedHandler);
+      this._onRemove();
+    }
   }
 
   addRemoveListener(removeHandler) {
     this.removeHandler = removeHandler;
   }
 
-  onRemove() {
+  _onRemove() {
     if (this.removeHandler) {
       this.removeHandler();
     }

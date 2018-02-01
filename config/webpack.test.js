@@ -48,6 +48,20 @@ module.exports = {
           url: false
         }
       }]
+    },
+    {
+      test: /\.less$/,
+      use: [{
+        loader: "style-loader"
+      }, {
+        loader: "css-loader"
+      }, {
+        loader: "less-loader"
+      }]
+    },
+    {
+      test: /\.(woff2?|ttf|svg|eot)(\?v=\d+\.\d+\.\d+)?$/,
+      loader: 'file-loader'
     }]
   },
 

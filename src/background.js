@@ -17,6 +17,9 @@
 
 import {initController} from './controller/main.controller';
 import {initScriptInjection} from './lib/inject';
+import {initBrowserManagement} from './controller/browserManagement.controller';
+
+initBrowserManagement();
 
 initController()
 .then(initScriptInjection);

@@ -29,8 +29,8 @@ export default class EncryptFrame extends mvelo.EventHandler {
     $.extend(this._options, options);
     this._init(element);
     this._establishConnection();
-    this._renderFrame();
     this._registerEventListener();
+    this._renderFrame();
     // set status to attached
     this._editElement.data(mvelo.FRAME_STATUS, mvelo.FRAME_ATTACHED);
     // store frame obj in element tag
@@ -58,6 +58,21 @@ export default class EncryptFrame extends mvelo.EventHandler {
         html.data('M-STYLE', true);
       }
     }
+  }
+
+  _establishConnection() {
+    this._port = mvelo.runtime.connect({name: `eFrame-${this.id}`});
+    this.initPort(this._port);
+    // attach port disconnect handler
+    this._port.onDisconnect.addListener(this._closeFrame.bind(this, false));
+  }
+
+  _registerEventListener() {
+    // attach event handlers
+    this.on('get-recipients', this._getRecipients);
+    this.on('set-editor-output', this._setEditorOutput);
+    this.on('destroy', this._closeFrame.bind(this, true));
+    this.on('mail-editor-close', this._onMailEditorClose);
   }
 
   _renderFrame() {
@@ -103,7 +118,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
   _normalizeButtons() {
     //console.log('editor mode', this._editorMode);
     this._eFrame.find('.m-encrypt-button').hide();
-    this._eFrame.find('#editorBtn').show();
+    this._eFrame.find('#editorBtn').show().removeClass('m-active');
     if (this._emailUndoText) {
       this._eFrame.find('#undoBtn').show();
     }
@@ -118,8 +133,13 @@ export default class EncryptFrame extends mvelo.EventHandler {
 
   _onEditorButton() {
     this._emailTextElement.off('keypress');
+    this._eFrame.find('#editorBtn').addClass('m-active');
     this._showMailEditor();
     return false;
+  }
+
+  _onMailEditorClose() {
+    this._eFrame.find('#editorBtn').removeClass('m-active');
   }
 
   _closeFrame(finalClose) {
@@ -155,10 +175,6 @@ export default class EncryptFrame extends mvelo.EventHandler {
   _getRecipients() {
     return this._currentProvider.getRecipients(this._editElement)
     .then(recipients => this.emit('eframe-recipients', {recipients}));
-  }
-
-  _establishConnection() {
-    this._port = mvelo.runtime.connect({name: `eFrame-${this.id}`});
   }
 
   _html2text(html) {
@@ -254,15 +270,5 @@ export default class EncryptFrame extends mvelo.EventHandler {
       this._emailTextElement.html(this._emailUndoText);
     }
     this._emailUndoText = null;
-  }
-
-  _registerEventListener() {
-    // attach event handlers
-    this.on('get-recipients', this._getRecipients);
-    this.on('set-editor-output', this._setEditorOutput);
-    this.on('destroy', this._closeFrame.bind(this, true));
-    // attach port message handler
-    this._port.onMessage.addListener(this.handlePortMessage.bind(this));
-    this._port.onDisconnect.addListener(this._closeFrame.bind(this, false));
   }
 }

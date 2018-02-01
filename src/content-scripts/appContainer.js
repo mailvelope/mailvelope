@@ -5,7 +5,7 @@
 
 import mvelo from '../mvelo';
 
-export default class OptionsContainer {
+export default class AppContainer {
   constructor(selector, keyringId, options = {}) {
     this.selector = selector;
     this.keyringId = keyringId;
@@ -23,6 +23,8 @@ export default class OptionsContainer {
     this.hasPrivateKey = options.hasPrivateKey;
 
     this.id = mvelo.util.getHash();
+    this.name = `appCont-${this.id}`;
+    this.port = mvelo.runtime.connect({name: this.name});
     this.parent = null;
     this.container = null;
     this.done = null;
@@ -32,7 +34,7 @@ export default class OptionsContainer {
     this.done = done;
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');
-    const options = `krid=${encodeURIComponent(this.keyringId)}${this.email}${this.fullName}#/keyring/${this.hasPrivateKey ? 'display' : 'setup'}`;
+    const options = `id=${this.id}&krid=${encodeURIComponent(this.keyringId)}${this.email}${this.fullName}#/keyring/${this.hasPrivateKey ? 'display' : 'setup'}`;
     const url = mvelo.runtime.getURL(`app/app.html?${options}`);
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);

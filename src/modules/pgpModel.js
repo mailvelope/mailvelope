@@ -9,7 +9,7 @@ import * as openpgp from 'openpgp';
 import * as defaults from './defaults';
 import * as prefs from './prefs';
 import * as pwdCache from './pwdCache';
-import {randomString} from './crypto';
+import {randomString, symEncrypt} from './crypto';
 import * as uiLog from './uiLog';
 import * as keyring from './keyring';
 import * as keyringSync from './keyringSync';
@@ -256,15 +256,19 @@ export function decryptMessage({message, key, options = {}}, keyringId) {
     return openpgp.decrypt({message, privateKey: key, publicKeys: signingKeys});
   })
   .then(result => {
-    result.signatures = result.signatures.map(signature => {
-      signature.keyid = signature.keyid.toHex();
-      if (signature.valid !== null) {
-        const signingKey = keyRing.keyring.getKeysForId(signature.keyid, true);
-        signature.keyDetails = keyring.mapKeys(signingKey)[0];
-      }
-      return signature;
-    });
+    result.signatures = mapSignatures(result.signatures, keyRing);
     return result;
+  });
+}
+
+function mapSignatures(signatures = [], keyRing) {
+  return signatures.map(signature => {
+    signature.keyid = signature.keyid.toHex();
+    if (signature.valid !== null) {
+      const signingKey = keyRing.keyring.getKeysForId(signature.keyid, true);
+      signature.keyDetails = keyring.mapKeys(signingKey)[0];
+    }
+    return signature;
   });
 }
 
@@ -364,7 +368,7 @@ export function createPrivateKeyBackup(primaryKey, keyPwd) {
     packetList.concat(primaryKey.toPacketlist());
     // symmetrically encrypt with backup code
     const msg = new openpgp.message.Message(packetList);
-    return msg.encrypt(null, [backupCode]);
+    return symEncrypt(msg, backupCode);
   })
   .then(msg => ({backupCode, message: msg.armor()}));
 }
@@ -512,7 +516,7 @@ export function getLastModifiedDate(key) {
   return lastModified;
 }
 
-export function encryptFile(plainFile, receipients) {
+export function encryptFile({plainFile, receipients, armor}) {
   let keys;
   return Promise.resolve()
   .then(() => {
@@ -525,11 +529,15 @@ export function encryptFile(plainFile, receipients) {
     }
     const content = dataURL2str(plainFile.content);
     const data = mvelo.util.str2Uint8Array(content);
-    return openpgp.encrypt({data, publicKeys: keys, filename: plainFile.name});
+    return openpgp.encrypt({data, publicKeys: keys, filename: plainFile.name, armor});
   })
   .then(msg => {
     logEncryption('security_log_encrypt_dialog', keys);
-    return msg.data;
+    if (armor) {
+      return msg.data;
+    } else {
+      return mvelo.util.Uint8Array2str(msg.message.packets.write());
+    }
   })
   .catch(e => {
     console.log('openpgp.encrypt() error', e);

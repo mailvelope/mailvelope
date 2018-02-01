@@ -4,7 +4,6 @@
  */
 
 import * as  model from '../modules/pgpModel';
-import * as prefs from '../modules/prefs';
 import * as sub from './sub.controller';
 import {handleApiEvent} from './api.controller';
 
@@ -32,12 +31,10 @@ sub.factory.register('editor',              EditorController);
 sub.factory.register('editorCont',          EditorController);
 sub.factory.register('syncHandler',         SyncController);
 sub.factory.register('keyGenCont',          PrivateKeyController);
-sub.factory.register('keyGenDialog',        PrivateKeyController);
 sub.factory.register('keyBackupCont',       PrivateKeyController);
-sub.factory.register('keyBackupDialog',     PrivateKeyController);
 sub.factory.register('restoreBackupCont',   PrivateKeyController);
-sub.factory.register('restoreBackupDialog', PrivateKeyController);
 sub.factory.register('app',                 AppController);
+sub.factory.register('appCont',             AppController);
 sub.factory.register('menu',                MenuController);
 
 export function initController() {
@@ -51,7 +48,6 @@ function initSubController() {
   chrome.runtime.onConnect.addListener(port => {
     //console.log('ConnectionManager: onConnect:', port);
     sub.addPort(port);
-    port.onMessage.addListener(sub.handlePortMessage);
     // update active ports on disconnect
     port.onDisconnect.addListener(sub.removePort);
   });
@@ -65,10 +61,5 @@ function handleMessageEvent(request, sender, sendResponse) {
   //console.log('controller: handleMessageEvent', request);
   if (request.api_event) {
     return handleApiEvent(request, sender, sendResponse);
-  }
-  switch (request.event) {
-    case 'get-security-background':
-      sendResponse(prefs.getSecurityBackground());
-      break;
   }
 }

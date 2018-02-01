@@ -31,45 +31,30 @@ describe('Encrypt controller unit tests', () => {
 
   describe('Check event handlers', () => {
     it('should handle recipients', () => {
-      expect(ctrl._handlers.get('eframe-recipients')).to.equal(ctrl.displayRecipientProposal);
-      expect(ctrl._handlers.get('eframe-display-editor')).to.equal(ctrl.openEditor);
+      expect(ctrl._handlers.get('eframe-recipients')).to.exist;
+      expect(ctrl._handlers.get('eframe-display-editor')).to.exist;
     });
   });
 
   describe('openEditor', () => {
-    let modalActiveVal;
-
-    beforeEach(() => {
-      modalActiveVal = mvelo.windows.modalActive;
-    });
-
-    afterEach(() => {
-      mvelo.windows.modalActive = modalActiveVal;
-    });
-
-    it('should not open editor a second time', () => {
-      mvelo.windows.modalActive = true;
-
-      ctrl.openEditor({text: 'foo'});
-
-      expect(ctrl.editorControl).to.be.null;
-    });
-
     it('should work for editor type plain', () => {
-      editorCtrlMock.encrypt.yields(null, 'armored', testRecipients);
+      editorCtrlMock.encrypt.returns(Promise.resolve({armored: 'armored', recipients: testRecipients}));
       prefs.prefs.general = {
         editor_type: 'plain'
       };
 
-      ctrl.openEditor({text: 'foo'});
-
-      expect(ctrl.emit.withArgs('set-editor-output', {text: 'parsed', recipients: testRecipients}).calledOnce).to.be.true;
+      return ctrl.openEditor({text: 'foo'})
+      .then(() => {
+        expect(ctrl.emit.withArgs('set-editor-output', {text: 'parsed', recipients: testRecipients}).calledOnce).to.be.true;
+      });
     });
 
     it('should stop on error', () => {
-      editorCtrlMock.encrypt.yields(new Error('foo'));
-      ctrl.openEditor({text: 'foo'});
-      expect(ctrl.emit.called).to.be.false;
+      editorCtrlMock.encrypt.returns(Promise.reject(new Error('foo')));
+      return ctrl.openEditor({text: 'foo'})
+      .then(() => {
+        expect(ctrl.emit.called).to.be.false;
+      });
     });
   });
 

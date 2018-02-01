@@ -20,7 +20,7 @@
       "48": "img/cryptography-icon48.png"
     },
     "default_title": "__MSG_ext_name__",
-    "default_popup": "components/browser-action/popup.html"
+    "default_popup": "components/action-menu/actionMenu.html"
   },
   "options_page": "app/app.html",
   "background": {
@@ -28,7 +28,6 @@
   },
   "permissions": [
     "*://*/*",
-    "clipboardWrite",
     "storage",
     "tabs",
     "webNavigation"
@@ -45,10 +44,9 @@
     "components/verify-inline/verifyInlineSig.css",
     "content-scripts/framestyles.css",
     "dep/bootstrap/css/bootstrap.css",
-    "dep/bootstrap/fonts/glyphicons-halflings-regular.eot",
-    "dep/bootstrap/fonts/glyphicons-halflings-regular.svg",
     "dep/bootstrap/fonts/glyphicons-halflings-regular.ttf",
     "dep/bootstrap/fonts/glyphicons-halflings-regular.woff",
+    "dep/bootstrap/fonts/glyphicons-halflings-regular.woff2",
     "img/edit_add-22.png",
     "img/key-24.png",
     "img/key-icon-blue96.png",
@@ -60,8 +58,7 @@
     "img/ok48.png",
     "img/undo-22.png",
     "img/verify-24.png",
-    "mvelo.css",
-    "res/fonts/Courgette-Regular.ttf"
+    "mvelo.css"
   ],
   "default_locale": "en"
 }

@@ -6,8 +6,6 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
 
-    glyphIconDataURL: grunt.file.read('dep/glyphicon.data'),
-
     clean: ['build/**/*', 'dist/**/*'],
 
     eslint: {
@@ -53,9 +51,18 @@ module.exports = function(grunt) {
             src: [
               'css/bootstrap.css',
               'js/bootstrap.js',
-              'fonts/*'
+              'fonts/glyphicons-halflings-regular.woff2'
             ],
             dest: 'build/tmp/dep/bootstrap/'
+          },
+          {
+            expand: true,
+            cwd: 'node_modules/font-awesome/',
+            src: [
+              'css/font-awesome.css',
+              'fonts/fontawesome-webfont.woff2'
+            ],
+            dest: 'build/tmp/dep/font-awesome/'
           },
           {
             expand: true,
@@ -136,14 +143,16 @@ module.exports = function(grunt) {
             'app/app.html',
             'client-API/*',
             'components/**/*',
+            '!components/action-menu/**/*.js',
             '!components/editor/**/*.js',
+            '!components/install-landing-page/**/*.js',
             '!components/util/**/*',
             'content-scripts/*.css',
             'content-scripts/addToWatchlist.js',
             'img/*',
             'lib/jquery.ext.js',
-            'res/**/*',
-            '!res/*.json',
+            '!res/',
+            'res/fonts/*.woff2',
             'mvelo.*'
           ],
           dest: 'build/tmp'
@@ -214,21 +223,6 @@ module.exports = function(grunt) {
     },
 
     replace: {
-      bootstrap: {
-        src: 'build/tmp/dep/bootstrap/css/bootstrap.css',
-        dest: 'build/tmp/dep/bootstrap/css/bootstrap.css',
-        options: {
-          usePrefix: false,
-          patterns: [{
-            match: /@font-face[\.\S\s]+\.glyphicon\ {/g,
-            replacement: "@font-face {\n  font-family:'Glyphicons Halflings';src:url('<%= glyphIconDataURL %>') format('woff')\n}\n.glyphicon {"
-          },
-          {
-            match: '# sourceMappingURL=bootstrap.css.map',
-            replacement: ''
-          }]
-        }
-      },
       version_chrome: {
         src: 'build/chrome/manifest.json',
         dest: 'build/chrome/manifest.json',
@@ -295,7 +289,7 @@ module.exports = function(grunt) {
 
   // build steps
   grunt.registerTask('browser', ['copy:chrome', 'replace:version_chrome', 'copy:firefox', 'replace:version_firefox']);
-  grunt.registerTask('copy2tmp', ['copy:common', 'copy:locale', 'copy:dep', 'replace:bootstrap']);
+  grunt.registerTask('copy2tmp', ['copy:common', 'copy:locale', 'copy:dep']);
   grunt.registerTask('tmp2browser', ['copy:tmp2chrome', 'copy:tmp2firefox']);
 
   // development build

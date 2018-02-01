@@ -4,22 +4,35 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
+import {getSecurityBackground} from '../modules/prefs';
 
 export class SubController extends mvelo.EventHandler {
   constructor(port) {
-    super();
+    super(port);
     this.ports = {};
     if (port) {
-      const sender = parseViewName(port.name);
-      this.mainType = sender.type;
-      this.id = sender.id;
-      this.ports[this.mainType] = port;
+      this.initMainPort(port);
     }
+    this.on('open-security-settings', this.openSecuritySettings);
+    this.on('get-security-background', this.getSecurityBackground);
+  }
+
+  initMainPort(port) {
+    const sender = parseViewName(port.name);
+    this.mainType = sender.type;
+    this.id = sender.id;
+    this.ports[this.mainType] = this;
   }
 
   addPort(port) {
+    if (!this._port) {
+      // controller was instantiated without main port
+      super.initPort(port);
+      this.initMainPort(port);
+      return;
+    }
     const type = parseViewName(port.name).type;
-    this.ports[type] = port;
+    this.ports[type] = new mvelo.EventHandler(port, this._handlers);
   }
 
   removePort(port) {
@@ -27,30 +40,26 @@ export class SubController extends mvelo.EventHandler {
       // controllers instantiated without port should not be deleted
       return false;
     }
-    if (port.name) {
-      const view = parseViewName(port.name);
-      if (view.id !== this.id) {
-        throw new Error('View ID mismatch.');
-      }
-      delete this.ports[view.type];
-    } else {
-      Object.keys(this.ports).forEach(type => {
-        if (this.ports[type].ref === port) {
-          delete this.ports[type];
-        }
-      });
+    const view = parseViewName(port.name);
+    if (view.id !== this.id) {
+      throw new Error('View ID mismatch.');
     }
+    delete this.ports[view.type];
     return Object.keys(this.ports).length === 0;
   }
 
   openSecuritySettings() {
     const hash = '#/settings/security';
-    mvelo.tabs.loadOptionsTab(hash);
+    mvelo.tabs.loadAppTab(hash);
   }
 
-  openApp({fragment}) {
+  openApp(fragment) {
     const hash = `#${fragment}`;
-    mvelo.tabs.loadOptionsTab(hash);
+    mvelo.tabs.loadAppTab(hash);
+  }
+
+  getSecurityBackground() {
+    return getSecurityBackground();
   }
 }
 
@@ -59,26 +68,21 @@ export const factory = {};
 factory.repo = new Map();
 
 factory.get = function(type, port) {
-  if (factory.repo.has(type)) {
-    const contrConstructor = factory.repo.get(type);
-    const subContr = new contrConstructor(port);
-    if (subContr.singleton) {
-      // there should be only one instance for this type, new instance overwrites old
-      const existingController = getByMainType(type)[0];
-      if (existingController) {
-        controllers.delete(existingController.id);
-      }
-    }
-    if (!port) {
-      if (!subContr.id) {
-        throw new Error('Subcontroller instantiated without port requires id.');
-      }
-      controllers.set(subContr.id, subContr);
-    }
-    return subContr;
-  } else {
-    throw new Error(`No controller found for view type: ${type}`);
+  verifyCreatePermission(type, port);
+  const contrConstructor = factory.repo.get(type);
+  const subContr = new contrConstructor(port);
+  if (!port && !subContr.id) {
+    throw new Error('Subcontroller instantiated without port requires id.');
   }
+  if (subContr.singleton) {
+    // there should be only one instance for this type, new instance overwrites old
+    const existingController = getByMainType(type)[0];
+    if (existingController) {
+      controllers.delete(existingController.id);
+    }
+  }
+  controllers.set(subContr.id, subContr);
+  return subContr;
 };
 
 factory.register = function(type, contrConstructor) {
@@ -88,6 +92,31 @@ factory.register = function(type, contrConstructor) {
     factory.repo.set(type, contrConstructor);
   }
 };
+
+/**
+ * Verify if port is allowed to create controller
+ * All web accessible resources should not be allowed to create a controller,
+ * therefore only known IDs can be used to create such dialogs
+ * @param  {Object} port
+ */
+function verifyCreatePermission(type, port) {
+  if (!factory.repo.has(type)) {
+    // view types not registered in repo are not allowed to create controller
+    throw new Error(`No controller found for view type: ${type}`);
+  }
+  if (!port) {
+    return;
+  }
+  if (type === 'editor') {
+    throw new Error('Editor view not allowed to directly create controller.');
+  }
+  if (type === 'app') {
+    const sender = parseViewName(port.name);
+    if (sender.id !== mvelo.APP_TOP_FRAME_ID) {
+      throw new Error('App view in embedded frame not allowed to directly create controller.');
+    }
+  }
+}
 
 const controllers = new Map();
 
@@ -102,20 +131,18 @@ export function addPort(port) {
   if (subContr) {
     subContr.addPort(port);
   } else {
-    const newContr = factory.get(sender.type, port);
-    controllers.set(sender.id, newContr);
+    try {
+      factory.get(sender.type, port);
+    } catch (e) {
+      console.error(e);
+      port.postMessage({event: 'terminate'});
+    }
   }
 }
 
 export function removePort(port) {
-  if (port.name) {
-    const id = parseViewName(port.name).id;
-    removeId(id, port);
-  } else {
-    for (const id of controllers.keys()) {
-      removeId(id, port);
-    }
-  }
+  const id = parseViewName(port.name).id;
+  removeId(id, port);
 }
 
 function removeId(id, port) {
@@ -124,11 +151,6 @@ function removeId(id, port) {
     // last port removed from controller, delete controller
     controllers.delete(id);
   }
-}
-
-export function handlePortMessage(msg) {
-  const {id, type} = parseViewName(msg.sender);
-  getByID(id).handlePortMessage(msg, type);
 }
 
 export function getByID(id) {

@@ -137,6 +137,28 @@
     },
     {
       "active": true,
+      "site": "volny.cz",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.mail.volny.cz",
+          "api": false
+        }
+      ]
+    },
+    {
+      "active": true,
+      "site": "Zoho",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.mail.zoho.com",
+          "api": false
+        }
+      ]
+    },
+    {
+      "active": true,
       "site": "1und1 De-Mail",
       "frames": [
         {
@@ -254,7 +276,7 @@
       "hkp_server_list": [
         "https://keyserver.ubuntu.com",
         "http://pool.sks-keyservers.net:11371",
-        "http://pgp.mit.edu",
+        "https://pgp.mit.edu",
         "https://keys.mailvelope.com"
       ],
       "mvelo_tofu_lookup": true

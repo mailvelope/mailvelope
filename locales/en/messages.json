@@ -27,6 +27,98 @@
     "description": "Cleartext message read error message: $1: error message.",
     "message": "Could not read this cleartext message: $1"
   },
+  "action_menu_activate_current_tab": {
+    "message": "Activate on current tab",
+    "description": "Activate on current tab shortcut in the action menu"
+  },
+  "action_menu_advanced_menu_aria_label":  {
+    "message": "Mailvelope advanced menu",
+    "description": "Accessibility, aria label of the advanced menu"
+  },
+  "action_menu_advanced_options": {
+    "message": "Advanced options",
+    "description": "Advanced options link in the action menu"
+  },
+  "action_menu_all_options": {
+    "message": "All options",
+    "description": "All options link in the action menu"
+  },
+  "action_menu_back": {
+    "message": "Back",
+    "description": "Back link in the action menu"
+  },
+  "action_menu_configure_mailvelope": {
+    "message": "<0>Configure Mailvelope</0> to get started!",
+    "description": "Configure Mailvelope label in the action menu"
+  },
+  "action_menu_dashboard": {
+    "message": "<0>Dashboard:</0> browse all configuration options.",
+    "description": "Dashboard label in the action menu"
+  },
+  "action_menu_edit_security_settings": {
+    "message": "Edit security settings",
+    "description": "Edit security settings shortcut in the action menu"
+  },
+  "action_menu_file_encryption": {
+    "message": "<0>File encryption:</0> encrypt a file or more.",
+    "description": "File encryption label in the action menu"
+  },
+  "action_menu_keyring": {
+    "message": "<0>Keyring:</0> manage public and private keys.",
+    "description": "Keyring label in the action menu"
+  },
+  "action_menu_manage_email_providers": {
+    "message": "Manage email providers",
+    "description": "Manage email providers shortcut in the action menu"
+  },
+  "action_menu_more_options": {
+    "message": "More options",
+    "description": "More options link in the action menu (setup state)"
+  },
+  "action_menu_help": {
+    "message": "Help",
+    "description": "Online help shortcut."
+  },
+  "action_menu_primary_menu_aria_label":  {
+    "message": "Mailvelope primary menu",
+    "description": "Accessibility, aria label of the primary menu"
+  },
+  "action_menu_reload_extension_scripts": {
+    "message": "Reload extension scripts",
+    "description": "Reload extension scripts shortcut in the action menu"
+  },
+  "action_menu_review_security_logs": {
+    "message": "Review security logs",
+    "description": "Review security logs shortcut in the action menu"
+  },
+  "action_menu_setup_menu_aria_label":  {
+    "message": "Mailvelope setup menu",
+    "description": "Accessibility, aria label of the setup menu"
+  },
+  "dashboard_link_encrypt_decrypt_files": {
+    "description": "Dashboard encrypt decrypt files link",
+    "message": "Encrypt and decrypt files"
+  },
+  "dashboard_link_help": {
+    "description": "Dashboard help link",
+    "message": "Help"
+  },
+  "dashboard_link_manage_email_providers": {
+    "description": "Dashboard manage email providers link",
+    "message": "Manage email providers"
+  },
+  "dashboard_link_manage_keys": {
+    "description": "Dashboard manage keys link",
+    "message": "Manage keys"
+  },
+  "dashboard_link_view_security_log": {
+    "description": "Dashboard view security logs link",
+    "message": "View security logs"
+  },
+  "dashboard_title": {
+    "description": "Dashboard view header",
+    "message": "Dashboard"
+  },
   "decrypt_digital_signature": {
     "description": "Caption digital signature",
     "message": "Signed digitally"
@@ -199,6 +291,10 @@
     "message": "Decryption",
     "description": ""
   },
+  "file_encrypt_armored_output": {
+    "message": "Encrypt to file in text format (ASCII-Armor)",
+    "description": ""
+  },
   "file_encrypting": {
     "message": "Encryption",
     "description": ""
@@ -299,6 +395,18 @@
     "description": "Header warning.",
     "message": "Warning!"
   },
+  "install_landing_page_getting_started": {
+    "description": "Install landing page getting started message",
+    "message": "Click on the Mailvelope icon <0></0> in your browser toolbar to begin with the configuration."
+  },
+  "install_landing_page_help": {
+    "description": "Install landing page help message",
+    "message": "Check out the <0>online help</0> for more information."
+  },
+  "install_landing_page_welcome": {
+    "description": "Install landing page welcome message",
+    "message": "Welcome to Mailvelope!"
+  },
   "keyserver_hkp_url": {
     "description": "HKP key server option: url.",
     "message": "HKP key server"
@@ -337,7 +445,7 @@
   },
   "key_export_warning_private": {
     "description": "Key export warning.",
-    "message": "This file also contains private keys."
+    "message": "This file also contains private keys. Keep the file in a safe place and do not share with others."
   },
   "key_gen_advanced_btn": {
     "description": "Advanced key generation settings.",
@@ -787,6 +895,10 @@
     "message": "Keyring backup",
     "description": "Title of keyring backup view"
   },
+  "keyring_confirm_deletion": {
+    "message": "Do you want to remove the keyring with ID: $1?",
+    "description": "Confirmation message prompted when a keyring is deleted"
+  },
   "keyring_display_keys": {
     "description": "Tab of keyring to display keys.",
     "message": "Display Keys"
@@ -878,66 +990,6 @@
   "options_title": {
     "description": "Title of options page.",
     "message": "Mailvelope Options"
-  },
-  "popup_actions_current_page": {
-    "description": "Title text for the reload and add buttons",
-    "message": "Current tab:"
-  },
-  "popup_actived_checkbox": {
-    "description": "Text of the checkbox for activating/deactivating the plugin",
-    "message": "Enabled"
-  },
-  "popup_actived_checkbox_tooltip": {
-    "description": "Text of the checkbox for activating/deactivating the plugin",
-    "message": "Activate / deactivate external editor"
-  },
-  "popup_add_page": {
-    "description": "Add page to watchlist.",
-    "message": "Add"
-  },
-  "popup_add_page_tooltip": {
-    "description": "Add page to watchlist.",
-    "message": "Enable Mailvelope for this page"
-  },
-  "popup_file_encrypting": {
-    "message": "File Encryption",
-    "description": "Title text for file encryption"
-  },
-  "popup_help": {
-    "description": "Open help dialog.",
-    "message": "Help"
-  },
-  "popup_help_tooltip": {
-    "description": "Opens the help page on mailvelope.com.",
-    "message": "Opens the documentation page"
-  },
-  "popup_last_activities": {
-    "description": "Title text for the last activities area",
-    "message": "Last activities:"
-  },
-  "popup_open_page": {
-    "message": "Open",
-    "description": "Open page to file encrypt."
-  },
-  "popup_options": {
-    "description": "Open options dialog.",
-    "message": "Options"
-  },
-  "popup_reload": {
-    "description": "Reload all Mailvelope elements on page.",
-    "message": "Reload"
-  },
-  "popup_reload_tooltip": {
-    "description": "Reload all Mailvelope UI elements on page.",
-    "message": "Reload all Mailvelope elements"
-  },
-  "popup_remove_page": {
-    "description": "Remove page from watchlist.",
-    "message": "Remove"
-  },
-  "popup_remove_page_tooltip": {
-    "description": "Remove page from watchlist.",
-    "message": "Remove current page from the list of email providers"
   },
   "pwd_dialog_cache_pwd": {
     "description": "Checkbox label for remembering of the password.",
@@ -1262,14 +1314,6 @@
   "security_log_backup_create": {
     "description": "",
     "message": "Click to create backup"
-  },
-  "security_log_backup_dialog_cancel": {
-    "description": "",
-    "message": "Click to close in dialog"
-  },
-  "security_log_backup_dialog_ok": {
-    "description": "",
-    "message": "Click to accept in dialog"
   },
   "security_log_backup_restore": {
     "description": "",

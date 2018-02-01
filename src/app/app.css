@@ -13,15 +13,20 @@ body {
 }
 
 input[readonly] {
-    cursor: text !important;
+  cursor: text !important;
 }
 
 .busy {
   cursor: wait !important;
 }
 
+@font-face {
+  font-family: 'Courgette';
+  src: url('../res/fonts/Courgette-Regular.woff2') format('woff2');
+}
+
 .navbar-brand {
-  font-family: 'Courgette', serif;
+  font-family: 'Courgette', cursive;
 }
 
 .navbar-fixed-top > .container {
@@ -29,45 +34,47 @@ input[readonly] {
   padding-right: 30px;
 }
 
-.settings-logo {
-    width: 130px;
-    background: 27px 14px no-repeat url(../img/maivelope-logo.svg);
-}
-
 .form-group .btn {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 .form-group .btn:last-child {
-    margin-right: 0;
+  margin-right: 0;
+}
+
+@media (max-width: 992px) {
+  .navbar-nav > li > a {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
 
 @media (min-width: 1300px) {
-    .container {
-        width: 1270px;
-    }
+  .container {
+    width: 1270px;
+  }
 }
 
 @media (min-width: 1400px) {
-    .container {
-        width: 1370px;
-    }
+  .container {
+    width: 1370px;
+  }
 }
 
 @media (min-width: 1500px) {
-    .container {
-        width: 1470px;
-    }
+  .container {
+    width: 1470px;
+  }
 }
 
 .tableToolbar {
-    text-align: left;
-    padding-top: 4px;
-    padding-bottom: 4px;
+  text-align: left;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
 .optionsTable {
-    background-color: white;
-    border: 1px solid #ccc;
+  background-color: white;
+  border: 1px solid #ccc;
 }
 
 /* Third party logo */
@@ -111,7 +118,7 @@ footer > p.col-md-6 {
 }
 
 .lockBtnIcon {
-    width: 30px !important;
-    height: 30px;
-    margin-right: -44px;
+  width: 30px !important;
+  height: 30px;
+  margin-right: -44px;
 }

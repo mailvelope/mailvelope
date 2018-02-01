@@ -23,10 +23,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
 (function() {
   // communication to background page
   let port;
-  // shares ID with VerifyFrame
-  let id;
-  // type + id
-  let name;
   // dialogs
   let sandbox;
   const l10n = mvelo.l10n.getMessages([
@@ -39,12 +35,10 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
 
   function init() {
     const qs = jQuery.parseQuerystring();
-    id = qs.id;
-    name = `vDialog-${id}`;
     // open port to background page
-    port = mvelo.runtime.connect({name});
-    port.onMessage.addListener(messageListener);
-    port.postMessage({event: 'verify-popup-init', sender: name});
+    port = mvelo.EventHandler.connect(`vDialog-${qs.id}`);
+    registerEventListeners();
+    port.emit('verify-popup-init');
     addSandbox();
     addErrorView();
     addSecuritySettingsButton();
@@ -52,7 +46,44 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     $('#copyBtn').click(onCopy);
     $('body').addClass('spinner');
     mvelo.l10n.localizeHTML();
-    mvelo.util.showSecurityBackground();
+    mvelo.util.showSecurityBackground(port);
+  }
+
+  function registerEventListeners() {
+    port.on('verified-message', onVerifiedMessage);
+    port.on('error-message', ({error}) => showError(error));
+  }
+
+  function onVerifiedMessage(msg) {
+    $('body').removeClass('spinner');
+    // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
+    let message = msg.message.replace(/\n/g, '<br>');
+    const node = sandbox.contents();
+    const header = node.find('header');
+    msg.signers.forEach(signer => {
+      let type;
+      let userid;
+      const message = $('<span/>');
+      const keyid = $('<span/>');
+      keyid.text(`(${l10n.dialog_keyid_label} ${signer.keyid.toUpperCase()})`);
+      if (signer.userid) {
+        userid = $('<strong/>');
+        userid.text(signer.userid);
+      }
+      if (signer.userid && signer.valid) {
+        type = 'success';
+        message.append(l10n.verify_result_success, ' ', userid, ' ', keyid);
+      } else if (!signer.userid) {
+        type = 'warning';
+        message.append(l10n.verify_result_warning, ' ', keyid);
+      } else {
+        type = 'danger';
+        message.append(l10n.verify_result_error, ' ', userid, ' ', keyid);
+      }
+      header.showAlert('', message, type, true);
+    });
+    message = $.parseHTML(message);
+    node.find('#content').append(message);
   }
 
   function addSecuritySettingsButton() {
@@ -62,7 +93,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
 
   function onCancel() {
     logUserInput('security_log_dialog_ok');
-    port.postMessage({event: 'verify-dialog-cancel', sender: name});
+    port.emit('verify-dialog-cancel');
     return false;
   }
 
@@ -107,6 +138,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function showError(msg) {
+    $('body').removeClass('spinner');
     // hide sandbox
     $('.modal-body iframe').hide();
     $('#errorbox').show();
@@ -119,55 +151,10 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
    * @param {string} type
    */
   function logUserInput(type) {
-    port.postMessage({
-      event: 'verify-user-input',
-      sender: name,
+    port.emit('verify-user-input', {
       source: 'security_log_verify_dialog',
       type
     });
-  }
-
-  function messageListener(msg) {
-    // remove spinner for all events
-    $('body').removeClass('spinner');
-    switch (msg.event) {
-      case 'verified-message': {
-        // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
-        let message = msg.message.replace(/\n/g, '<br>');
-        const node = sandbox.contents();
-        const header = node.find('header');
-        msg.signers.forEach(signer => {
-          let type;
-          let userid;
-          const message = $('<span/>');
-          const keyid = $('<span/>');
-          keyid.text(`(${l10n.dialog_keyid_label} ${signer.keyid.toUpperCase()})`);
-          if (signer.userid) {
-            userid = $('<strong/>');
-            userid.text(signer.userid);
-          }
-          if (signer.userid && signer.valid) {
-            type = 'success';
-            message.append(l10n.verify_result_success, ' ', userid, ' ', keyid);
-          } else if (!signer.userid) {
-            type = 'warning';
-            message.append(l10n.verify_result_warning, ' ', keyid);
-          } else {
-            type = 'danger';
-            message.append(l10n.verify_result_error, ' ', userid, ' ', keyid);
-          }
-          header.showAlert('', message, type, true);
-        });
-        message = $.parseHTML(message);
-        node.find('#content').append(message);
-        break;
-      }
-      case 'error-message':
-        showError(msg.error);
-        break;
-      default:
-        console.log('unknown event', msg.event);
-    }
   }
 
   $(document).ready(init);

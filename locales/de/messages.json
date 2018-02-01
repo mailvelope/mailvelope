@@ -1,4 +1,72 @@
 {
+  "action_menu_activate_current_tab": {
+    "message": "Auf dem aktuellen Tab aktivieren",
+    "description": "Activate on current tab shortcut in the action menu"
+  },
+  "action_menu_advanced_menu_aria_label":  {
+    "message": "Mailvelope erweitertes Menü",
+    "description": "Accessibility, aria label of the advanced menu"
+  },
+  "action_menu_advanced_options": {
+    "message": "Erweiterte Optionen",
+    "description": "Advanced options link in the action menu"
+  },
+  "action_menu_all_options": {
+    "message": "Alle Optionen",
+    "description": "All options link in the action menu"
+  },
+  "action_menu_back": {
+    "message": "Zurück",
+    "description": "Back link in the action menu"
+  },
+  "action_menu_configure_mailvelope": {
+    "message": "Mit dem <0>Konfigurieren von Mailvelope</0> starten!",
+    "description": "Configure Mailvelope label in the action menu"
+  },
+  "action_menu_dashboard": {
+    "message": "<0>Übersicht:</0> alle Konfigurationsmöglichkeiten anschauen.",
+    "description": "Dashboard label in the action menu"
+  },
+  "action_menu_edit_security_settings": {
+    "message": "Sicherheitseinstellungen bearbeiten",
+    "description": "Edit security settings shortcut in the action menu"
+  },
+  "action_menu_file_encryption": {
+    "message": "<0>Dateiverschlüsselung:</0> eine oder mehrere Datei(en) verschlüsseln.",
+    "description": "File encryption label in the action menu"
+  },
+  "action_menu_keyring": {
+    "message": "<0>Schlüsselbund:</0> öffentliche und private Schlüssel verwalten.",
+    "description": "Keyring label in the action menu"
+  },
+  "action_menu_manage_email_providers": {
+    "message": "E-Mail-Anbieter verwalten",
+    "description": "Manage email providers shortcut in the action menu"
+  },
+  "action_menu_more_options": {
+    "message": "Weitere Optionen",
+    "description": "More options link in the action menu (setup state)"
+  },
+  "action_menu_help": {
+    "message": "Hilfe",
+    "description": "Online help shortcut."
+  },
+  "action_menu_primary_menu_aria_label":  {
+    "message": "Mailvelope primäres Menü",
+    "description": "Accessibility, aria label of the primary menu"
+  },
+  "action_menu_reload_extension_scripts": {
+    "message": "Erweiterungsskripte neu laden",
+    "description": "Reload extension scripts shortcut in the action menu"
+  },
+  "action_menu_review_security_logs": {
+    "message": "Überprüfen Sicherheitsprotokoll",
+    "description": "Review security logs shortcut in the action menu"
+  },
+  "action_menu_setup_menu_aria_label":  {
+    "message": "Mailvelope Einrichtungsmenü",
+    "description": "Accessibility, aria label of the setup menu"
+  },
   "alert_header_error": {
     "message": "Fehler!",
     "description": "Alert header of category error."
@@ -26,6 +94,30 @@
   "cleartext_read_error": {
     "message": "Diese Klartextnachricht konnte nicht gelesen werden: $1",
     "description": "Cleartext message read error message: $1: error message."
+  },
+  "dashboard_link_encrypt_decrypt_files": {
+    "description": "Dashboard encrypt decrypt files link",
+    "message": "Dateien verschlüsseln und entschlüsseln"
+  },
+  "dashboard_link_help": {
+    "description": "Dashboard help link",
+    "message": "Hilfe"
+  },
+  "dashboard_link_manage_email_providers": {
+    "description": "Dashboard manage email providers link",
+    "message": "E-Mail-Anbieter verwalten"
+  },
+  "dashboard_link_manage_keys": {
+    "description": "Dashboard manage keys link",
+    "message": "Schlüssel verwalten"
+  },
+  "dashboard_link_view_security_log": {
+    "description": "Dashboard view security logs link",
+    "message": "Sicherheitsprotokolle ansehen"
+  },
+  "dashboard_title": {
+    "description": "Dashboard view header",
+    "message": "Übersicht"
   },
   "decrypt_digital_signature": {
     "message": "Digital unterschrieben",
@@ -199,6 +291,10 @@
     "message": "Entschlüsselung",
     "description": ""
   },
+  "file_encrypt_armored_output": {
+    "message": "Verschlüsseln in eine Datei im Text Format (ASCII-Armor)",
+    "description": ""
+  },
   "file_encrypting": {
     "message": "Verschlüsselung",
     "description": ""
@@ -299,6 +395,18 @@
     "message": "Achtung!",
     "description": "Header warning."
   },
+  "install_landing_page_getting_started": {
+    "description": "Install landing page getting started message",
+    "message": "Klicken Sie auf das Mailvelope Symbol <0></0> in der Browser Symbolleiste um mit der Einrichtung zu starten."
+  },
+  "install_landing_page_help": {
+    "description": "Install landing page help message",
+    "message": "Schauen Sie in die <0>Online-Hilfe</0> für weitere Informationen."
+  },
+  "install_landing_page_welcome": {
+    "description": "Install landing page welcome message",
+    "message": "Willkommen bei Mailvelope!"
+  },
   "keyserver_hkp_url": {
     "message": "HKP Schlüssel Server",
     "description": "HKP key server option: url."
@@ -336,7 +444,7 @@
     "description": "Export key dialog header."
   },
   "key_export_warning_private": {
-    "message": "Diese Datei enthält auch private Schlüssel.",
+    "message": "Diese Datei enthält auch private Schlüssel. Bewahren Sie die Datei an einem sicheren Ort auf und teilen Sie sie nicht mit anderen.",
     "description": "Key export warning."
   },
   "key_gen_advanced_btn": {
@@ -784,6 +892,10 @@
   "keyring_backup": {
     "message": "Schlüsselbund sichern",
     "description": "Title of keyring backup view"
+  },
+  "keyring_confirm_deletion": {
+    "message": "Wollen Sie den Schlüsselbund löschen mit der ID: $1?",
+    "description": "Confirmation message prompted when a keyring is deleted"
   },
   "keyring_display_keys": {
     "message": "Schlüssel anzeigen",

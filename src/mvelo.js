@@ -56,6 +56,15 @@ mvelo.LOCAL_KEYRING_ID = `localhost${mvelo.KEYRING_DELIMITER}mailvelope`;
 mvelo.SECURE_COLORS = ['#e9e9e9', '#c0c0c0', '#808080', '#ffce1e', '#ff0000', '#85154a', '#6f2b8b', '#b3d1e3', '#315bab', '#1c449b', '#4c759c', '#1e8e9f', '#93b536'];
 // 50 MB file size limit
 mvelo.MAX_FILE_UPLOAD_SIZE = 50 * 1024 * 1024;
+// stable id if app runs in top frame
+mvelo.APP_TOP_FRAME_ID = 'apptopframeid';
+
+mvelo.Error = class extends Error {
+  constructor(msg, code) {
+    super(msg);
+    this.code = code;
+  }
+};
 
 mvelo.appendTpl = function($element, path) {
   return new Promise((resolve, reject) => {
@@ -105,6 +114,19 @@ mvelo.l10n.localizeHTML = function(l10n, idSelector) {
   });
 };
 
+mvelo.ui = {};
+
+mvelo.ui.terminate = function(port) {
+  mvelo.util.removeSecurityBackground()
+  .then(() => {
+    $('body').empty();
+    setTimeout(() => {
+      $('body').removeClass()
+      .addClass('glyphicon glyphicon-flash termination');
+    }, 0);
+  });
+  port.disconnect();
+};
 
 mvelo.util = {};
 
@@ -300,7 +322,7 @@ mvelo.util.generateSecurityBackground = function({width, height, scaling = 1, an
   return `<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" id="secBgnd" version="1.1" width="${iconWidth}px" height="${iconHeight}px" viewBox="0 0 27 27"><path transform="rotate(${angle} 14 14)" style="fill: ${iconColor};" d="m 13.963649,25.901754 c -4.6900005,0 -8.5000005,-3.78 -8.5000005,-8.44 0,-1.64 0.47,-3.17 1.29,-4.47 V 9.0417546 c 0,-3.9399992 3.23,-7.1499992 7.2000005,-7.1499992 3.97,0 7.2,3.21 7.2,7.1499992 v 3.9499994 c 0.82,1.3 1.3,2.83 1.3,4.48 0,4.65 -3.8,8.43 -8.49,8.43 z m -1.35,-7.99 v 3.33 h 0 c 0,0.02 0,0.03 0,0.05 0,0.74 0.61,1.34 1.35,1.34 0.75,0 1.35,-0.6 1.35,-1.34 0,-0.02 0,-0.03 0,-0.05 h 0 v -3.33 c 0.63,-0.43 1.04,-1.15 1.04,-1.97 0,-1.32 -1.07,-2.38 -2.4,-2.38 -1.32,0 -2.4,1.07 -2.4,2.38 0.01,0.82 0.43,1.54 1.06,1.97 z m 6.29,-8.8699994 c 0,-2.7099992 -2.22,-4.9099992 -4.95,-4.9099992 -2.73,0 -4.9500005,2.2 -4.9500005,4.9099992 V 10.611754 C 10.393649,9.6217544 12.103649,9.0317546 13.953649,9.0317546 c 1.85,0 3.55,0.5899998 4.94,1.5799994 l 0.01,-1.5699994 z" /></svg>`;
 };
 
-mvelo.util.showSecurityBackground = function(isEmbedded) {
+mvelo.util.showSecurityBackground = function(port, isEmbedded) {
   if (isEmbedded) {
     $('.secureBgndSettingsBtn').on('mouseenter', () => {
       $('.secureBgndSettingsBtn').removeClass('btn-link').addClass('btn-default');
@@ -311,7 +333,8 @@ mvelo.util.showSecurityBackground = function(isEmbedded) {
     });
   }
 
-  mvelo.runtime.sendMessage({event: "get-security-background"}, background => {
+  port.send('get-security-background')
+  .then(background => {
     const secBgndIcon = mvelo.util.generateSecurityBackground(background);
     const secureStyle = `\n.secureBackground {
       background-color: ${background.color};
@@ -328,11 +351,18 @@ mvelo.util.showSecurityBackground = function(isEmbedded) {
       background-image: url(data:image/svg+xml;base64,'}${btoa(lockIcon)});
     }`;
 
+    mvelo.util.removeSecurityBackground();
+    $('head').append($('<style>').attr('id', 'secBgndCss').text(secureStyle + lockButton));
+  });
+};
+
+mvelo.util.removeSecurityBackground = function() {
+  return new Promise(resolve => {
     const secBgndStyle = document.getElementById('secBgndCss');
     if (secBgndStyle) {
       secBgndStyle.parentNode.removeChild(secBgndStyle);
     }
-    $('head').append($('<style>').attr('id', 'secBgndCss').text(secureStyle + lockButton));
+    setTimeout(resolve, 0);
   });
 };
 
@@ -423,19 +453,17 @@ mvelo.util.checkEmail = function(address) {
 /**
  * Inherit from mvelo.EventHandler.prototype to use the new event handling
  * apis 'on' and 'emit'.
- * @param {Port} port   port object received from runtime.connect()
- * @param {String} sender identifier of sender (type + id)
+ * @param {Port} port - port object received from runtime.connect()
+ * @param {Map} handlers - handler map of parent event handler
  */
 mvelo.EventHandler = class {
-  constructor(port, sender) {
+  constructor(port, handlers) {
     if (port) {
-      this._port = port;
-      this._port.onMessage.addListener(this.handlePortMessage.bind(this));
-      this._sender = sender;
-      this._handlers = null;
-      this._reply = null;
-      this._replyCount = 0;
+      this.initPort(port);
     }
+    this._handlers = handlers || new Map();
+    this._reply = null;
+    this._replyCount = 0;
   }
 
   /**
@@ -444,7 +472,21 @@ mvelo.EventHandler = class {
    * @return {EventHandler}        initialized EventHandler
    */
   static connect(sender) {
-    return new mvelo.EventHandler(mvelo.runtime.connect({name: sender}), sender);
+    return new mvelo.EventHandler(mvelo.runtime.connect({name: sender}));
+  }
+
+  initPort(port) {
+    this._port = port;
+    this._port.onMessage.addListener(this.handlePortMessage.bind(this));
+  }
+
+  /**
+   * Disconnect port
+   */
+  disconnect() {
+    if (this._port) {
+      this._port.disconnect();
+    }
   }
 
   /**
@@ -452,17 +494,16 @@ mvelo.EventHandler = class {
    * Once set up, events can be handled with on('event', function(options) {})
    * @param  {String} options.event   The event descriptor
    * @param  {Object} options         Contains message attributes and data
-   * @param  {String} senderType      type of sender
    */
-  handlePortMessage(options = {}, senderType) {
-    if (this._handlers && this._handlers.has(options.event)) {
+  handlePortMessage(options = {}) {
+    if (this._handlers.has(options.event)) {
       const handler = this._handlers.get(options.event);
       if (options._reply) {
         // sender expects reply
         Promise.resolve()
         .then(() => handler.call(this, options))
-        .then(result => this.emit('_reply', {result: result || null, _reply: options._reply}, this._port || this.ports[senderType]))
-        .catch(error => this.emit('_reply', {error: mvelo.util.mapError(error), _reply: options._reply}, this._port || this.ports[senderType]));
+        .then(result => this.emit('_reply', {result: result || null, _reply: options._reply}))
+        .catch(error => this.emit('_reply', {error: mvelo.util.mapError(error), _reply: options._reply}));
       } else {
         // normal one way communication
         handler.call(this, options);
@@ -490,27 +531,20 @@ mvelo.EventHandler = class {
     if (!event || typeof event !== 'string' || event === '_reply' || typeof handler !== 'function') {
       throw new Error('Invalid event handler!');
     }
-    if (!this._handlers) {
-      this._handlers = new Map();
-    }
-    this._handlers.set(event, handler);
+    this._handlers.set(event, handler.bind(this));
   }
 
   /**
    * Helper to emit events via postMessage using a port.
    * @param  {String} event     The event descriptor
    * @param  {Object} options   (optional) Data to be sent in the event
-   * @param  {Object} port      (optional) The port to be used. If
-   *                            not specified, the main port is used.
    */
-  emit(event, options, port) {
+  emit(event, options = {}) {
     if (!event || typeof event !== 'string') {
       throw new Error('Invalid event!');
     }
-    options = options || {};
     options.event = event;
-    options.sender = options.sender || this._sender;
-    (port || this._port || this.ports[this.mainType]).postMessage(options);
+    this._port.postMessage(options);
   }
 
   /**
@@ -521,7 +555,7 @@ mvelo.EventHandler = class {
    *                            not specified, the main port is used.
    * @return {Promise}
    */
-  send(event, options, port) {
+  send(event, options = {}) {
     return new Promise((resolve, reject) => {
       if (!event || typeof event !== 'string') {
         return reject(new Error('Invalid event!'));
@@ -529,12 +563,10 @@ mvelo.EventHandler = class {
       if (!this._reply) {
         this._reply = new Map();
       }
-      options = options || {};
       options.event = event;
-      options.sender = options.sender || this._sender;
       options._reply = ++this._replyCount;
       this._reply.set(options._reply, {resolve, reject});
-      (port || this._port || this.ports[this.mainType]).postMessage(options);
+      this._port.postMessage(options);
     });
   }
 };

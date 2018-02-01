@@ -41,6 +41,7 @@
     /* Stylistic Issues */
     "array-bracket-spacing": 1, // enforce consistent spacing inside array brackets
     "block-spacing": 1, // enforce consistent spacing inside single-line blocks
+    "brace-style": ["warn", "1tbs", { "allowSingleLine": true }], // enforce consistent brace style for blocks
     "comma-spacing": 1, // enforce consistent spacing before and after commas
     "computed-property-spacing": 1, // enforce consistent spacing inside computed property brackets
     "eol-last": 1, // enforce at least one newline at the end of files

@@ -27,24 +27,26 @@ export default class EncryptController extends sub.SubController {
    * @param  {String} options.text   The plaintext input to encrypt
    */
   openEditor(options) {
-    if (mvelo.windows.modalActive) {
-      // modal dialog already open
-      // TODO show error, fix modalActive on FF
+    if (this.editorControl) {
+      this.editorControl.activate();
       return;
     }
-
     this.editorControl = sub.factory.get('editor');
-    this.editorControl.encrypt({
+    return this.editorControl.encrypt({
       initText: options.text,
       getRecipientProposal: this.getRecipientProposal.bind(this)
-    }, (err, armored, recipients) => {
-      if (err) {
-        // error message handled in editor controller
-        return;
-      }
+    })
+    .then(({armored, recipients}) => {
       // sanitize if content from plain text
       const parsed = mvelo.util.parseHTML(armored);
       this.emit('set-editor-output', {text: parsed, recipients});
+      this.editorControl = null;
+    })
+    .catch(err => {
+      if (err.code == 'EDITOR_DIALOG_CANCEL') {
+        this.editorControl = null;
+        this.emit('mail-editor-close');
+      }
     });
   }
 

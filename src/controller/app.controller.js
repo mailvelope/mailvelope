@@ -15,12 +15,15 @@ import {getVersion} from '../modules/defaults';
 export default class AppController extends sub.SubController {
   constructor(port) {
     super(port);
-    this.singleton = true;
+    if (!port) {
+      this.mainType = 'app';
+      this.id = mvelo.util.getHash();
+    }
     // register event handlers
     this.on('get-prefs', () => prefs.prefs);
     this.on('set-prefs', this.updatePreferences);
     this.on('decryptFile', ({encryptedFile}) => decryptFile(encryptedFile));
-    this.on('encryptFile', ({plainFile, receipients}) => encryptFile(plainFile, receipients));
+    this.on('encryptFile', encryptFile);
     this.on('getWatchList', getWatchList);
     this.on('getKeys', ({keyringId}) => keyringById(keyringId).getKeys());
     this.on('removeKey', this.removeKey);
@@ -36,7 +39,6 @@ export default class AppController extends sub.SubController {
     this.on('set-active-keyring', ({keyringId}) => sub.setActiveKeyringId(keyringId));
     this.on('delete-keyring', this.deleteKeyring);
     this.on('get-ui-log', ({securityLogLength}) => uiLog.getLatest(securityLogLength));
-    this.on('get-security-background', prefs.getSecurityBackground);
     this.on('get-version', getVersion);
     this.on('get-all-key-userid', getAllKeyUserId);
     this.on('open-tab', ({url}) => mvelo.tabs.create(url));

@@ -21,6 +21,9 @@ export class SyncController extends sub.SubController {
     this.TIMEOUT = 8; // sync timeout in seconds
     this.modified = false;
     this.singleton = true;
+    // register event handlers
+    this.on('init', ({keyringId}) => this.init(keyringId));
+    this.on('sync-done', ({data}) => this.syncDone(data));
   }
 
   init(keyringId) {
@@ -212,8 +215,7 @@ export class SyncController extends sub.SubController {
         delete this.syncDoneHandler[id];
         reject(new Error('Sync timeout'));
       }, this.TIMEOUT * 1000);
-      this.ports.syncHandler.postMessage({
-        event: 'sync-event',
+      this.ports.syncHandler.emit('sync-event', {
         type,
         data,
         id
@@ -252,20 +254,6 @@ export class SyncController extends sub.SubController {
 
   restore() {
     return this.sync('restore');
-  }
-
-  handlePortMessage(msg) {
-    //console.log('sync.controller handlePortMessage msg', msg);
-    switch (msg.event) {
-      case 'init':
-        this.init(msg.keyringId);
-        break;
-      case 'sync-done':
-        this.syncDone(msg.data);
-        break;
-      default:
-        console.log('unknown event', msg);
-    }
   }
 }
 

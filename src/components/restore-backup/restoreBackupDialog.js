@@ -21,8 +21,6 @@
 var mvelo = mvelo || null; // eslint-disable-line no-var
 
 (function() {
-  let id;
-  let name;
   let port;
 
   let $secureBgndButton;
@@ -43,15 +41,14 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     }
     document.body.dataset.mvelo = true;
     const qs = jQuery.parseQuerystring();
-    id = qs.id;
-    name = `restoreBackupDialog-${id}`;
 
-    port = mvelo.runtime.connect({name});
-    port.onMessage.addListener(messageListener);
+    port = mvelo.EventHandler.connect(`restoreBackupDialog-${qs.id}`);
+    registerEventListeners();
 
     $('body').addClass("secureBackground");
 
-    mvelo.appendTpl($('body'), mvelo.runtime.getURL('components/restore-backup/restoreBackup.html')).then(() => {
+    mvelo.appendTpl($('body'), mvelo.runtime.getURL('components/restore-backup/restoreBackup.html'))
+    .then(() => {
       $secureBgndButton = $('.secureBgndSettingsBtn');
       $restoreBackupPanel = $('#restoreBackupPanel');
       $restoreBackupButton = $('#restoreBackupBtn');
@@ -60,11 +57,9 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       $restorePasswordPanel = $('#restorePasswordPanel').hide();
 
       mvelo.l10n.localizeHTML();
-      mvelo.util.showSecurityBackground(true);
+      mvelo.util.showSecurityBackground(port, true);
 
-      $secureBgndButton.on('click', () => {
-        port.postMessage({event: 'open-security-settings', sender: name});
-      });
+      $secureBgndButton.on('click', () => port.emit('open-security-settings'));
 
       $('.flex-digit')
       .on('input paste', function() {
@@ -115,11 +110,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
 
         $('#errorMsg').empty().hide();
 
-        port.postMessage({
-          event: 'restore-backup-code',
-          sender: name,
-          code
-        });
+        port.emit('restore-backup-code', {code});
       });
 
       $restorePasswordButton.on('click', function() {
@@ -134,8 +125,25 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
         }, 5000);
       });
 
-      port.postMessage({event: 'restore-backup-dialog-init', sender: name});
+      port.emit('restore-backup-dialog-init');
     });
+  }
+
+  function registerEventListeners() {
+    port.on('error-message', onError);
+    port.on('set-password', msg => showPassword(msg.password));
+    port.on('terminate', () => mvelo.ui.terminate(port));
+  }
+
+  function onError(msg) {
+    switch (msg.error.code) {
+      case 'WRONG_RESTORE_CODE':
+        // the recovery code is not correct
+        showErrorMsg(l10n.wrong_restore_code);
+        break;
+      default:
+        showErrorMsg(l10n.key_recovery_failed);
+    }
   }
 
   function isCodeValid() {
@@ -165,38 +173,10 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
    * @param {string} type
    */
   function logUserInput(type) {
-    port.postMessage({
-      event: 'key-backup-user-input',
-      sender: name,
+    port.emit('key-backup-user-input', {
       source: 'security_log_key_backup',
       type
     });
-  }
-
-  /**
-   * Mananaged the different post messages
-   * @param {string} msg
-   */
-  function messageListener(msg) {
-    //console.log('keyGenDialog messageListener: ', JSON.stringify(msg));
-    switch (msg.event) {
-      case 'error-message':
-        switch (msg.error.code) {
-          case 'WRONG_RESTORE_CODE':
-            // the recovery code is not correct
-            showErrorMsg(l10n.wrong_restore_code);
-            break;
-          default:
-            showErrorMsg(l10n.key_recovery_failed);
-        }
-        break;
-      case 'set-password':
-        //console.log('restoreBackupDialog show-password', msg);
-        showPassword(msg.password);
-        break;
-      default:
-        console.log('unknown event');
-    }
   }
 
   $(document).ready(init);

@@ -17,10 +17,11 @@
 
 import mvelo from '../mvelo';
 import React from 'react';
-import {Route, Redirect} from 'react-router-dom';
+import {Route, Redirect, Link} from 'react-router-dom';
 import * as l10n from '../lib/l10n';
 import {NavLink, ProviderLogo} from './util/util';
 
+import Dashboard from './dashboard/Dashboard';
 import KeyringSelect from './keyring/components/KeyringSelect';
 import KeyGrid from './keyring/KeyGrid';
 import ImportKey from './keyring/importKey';
@@ -72,7 +73,8 @@ export class App extends React.Component {
     const name = query.get('fname') || '';
     const email = query.get('email') || '';
     // init messaging
-    port = mvelo.EventHandler.connect('app-bca899655117bff5e264fad');
+    port = mvelo.EventHandler.connect(`app-${this.getId(query)}`);
+    port.on('terminate', () => mvelo.ui.terminate(port));
     l10n.mapToLocal();
     document.title = l10n.map.options_title;
     // set initial state
@@ -96,8 +98,21 @@ export class App extends React.Component {
     this.handleChangePrimaryKey = this.handleChangePrimaryKey.bind(this);
     this.handleChangePrefs = this.handleChangePrefs.bind(this);
     this.loadKeyring = this.loadKeyring.bind(this);
-    this.initMessageListener();
     app = this;
+  }
+
+  getId(query) {
+    if (window.top === window.self) {
+      // top level frame
+      return mvelo.APP_TOP_FRAME_ID;
+    } else {
+      // embedded frame
+      let id = query.get('id');
+      if (id === mvelo.APP_TOP_FRAME_ID) {
+        id = '';
+      }
+      return id;
+    }
   }
 
   componentWillMount() {
@@ -109,7 +124,7 @@ export class App extends React.Component {
     port.send('get-version')
     .then(version => this.setState({version}));
     port.send('get-prefs').then(prefs => this.setState({prefs}));
-    mvelo.util.showSecurityBackground();
+    mvelo.util.showSecurityBackground(port);
   }
 
   initActiveKeyring() {
@@ -157,7 +172,7 @@ export class App extends React.Component {
   }
 
   handleDeleteKeyring(keyringId, keyringName) {
-    if (confirm(`Do you want to remove the keyring with id: ${keyringName} ?`)) {
+    if (confirm(mvelo.l10n.getMessage('keyring_confirm_deletion', keyringName))) {
       port.send('delete-keyring', {keyringId})
       .then(() => this.loadKeyring());
     }
@@ -171,17 +186,6 @@ export class App extends React.Component {
   handleDeleteKey(fingerprint, type) {
     port.send('removeKey', {fingerprint, type, keyringId: this.state.keyringId})
     .then(() => this.loadKeyring());
-  }
-
-  initMessageListener() {
-    mvelo.runtime.onMessage.addListener((request, sender, sendResponse) => {
-      switch (request.event) {
-        case 'reload-options':
-          document.location.reload();
-          sendResponse();
-          break;
-      }
-    });
   }
 
   render() {
@@ -200,7 +204,7 @@ export class App extends React.Component {
                 <span className="icon-bar"></span>
                 <span className="icon-bar"></span>
               </button>
-              <div className="navbar-brand settings-logo"></div>
+              <Link to="/dashboard" className="navbar-brand">Mailvelope</Link>
             </div>
             <div className="collapse navbar-collapse bs-navbar-collapse">
               <ul className="nav navbar-nav" role="menu" aria-label="primary menu">
@@ -217,6 +221,7 @@ export class App extends React.Component {
         </nav>
         <div className="container" role="main">
           <div className="row">
+            <Route path='/dashboard' component={Dashboard}/>
             <Route path='/keyring' render={() => (
               <div>
                 <div className="col-md-3">

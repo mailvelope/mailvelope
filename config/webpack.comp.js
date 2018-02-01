@@ -26,13 +26,22 @@ function prod(pathname, filename) {
 }
 
 function dev(pathname, filename) {
-  return Object.assign(prod(pathname, filename), {
+  return Object.assign({}, prod(pathname, filename), {
     devtool: 'inline-source-map',
     plugins: common.plugins('development')
   });
 }
 
-module.exports = [dev('editor', 'editor')];
+module.exports = [
+  dev('editor', 'editor'),
+  dev('action-menu', 'actionMenu'),
+  dev('install-landing-page', 'installLandingPage')
+];
 
-module.exports.prod = [prod('editor', 'editor')];
+module.exports.prod = [
+  prod('editor', 'editor'),
+  prod('action-menu', 'actionMenu'),
+  prod('install-landing-page', 'installLandingPage')
+];
+
 module.exports.dev = module.exports;

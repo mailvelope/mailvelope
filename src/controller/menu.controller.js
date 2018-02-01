@@ -8,6 +8,7 @@ import * as sub from './sub.controller';
 import {getHostname} from '../modules/pgpModel';
 import * as prefs from '../modules/prefs';
 import * as uiLog from '../modules/uiLog';
+import * as keyring from '../modules/keyring';
 
 export default class MenuController extends sub.SubController {
   constructor(port) {
@@ -17,24 +18,39 @@ export default class MenuController extends sub.SubController {
     this.on('browser-action', this.onBrowserAction);
     this.on('get-prefs', () => prefs.prefs);
     this.on('get-ui-log', ({securityLogLength}) => uiLog.getLatest(securityLogLength));
-    this.on('get-security-background', prefs.getSecurityBackground);
+    this.on('get-is-setup-done', this.getIsSetupDone);
     this.on('activate', this.onActivate);
     this.on('deactivate', this.onDeactivate);
   }
 
   onBrowserAction({action}) {
     switch (action) {
-      case 'reload':
+      case 'reload-extension':
         this.reloadFrames();
         break;
-      case 'add':
+      case 'activate-tab':
         this.addToWatchList();
         break;
       case 'options':
-        this.loadOptions('#/keyring');
+        this.openApp('/dashboard');
         break;
-      case 'showlog':
-        this.loadOptions('#/settings/security-log');
+      case 'manage-keys':
+        this.openApp('/keyring/display');
+        break;
+      case 'setup-keys':
+        this.openApp('/keyring/setup');
+        break;
+      case 'encrypt-file':
+        this.openApp('/encryption/file-encrypt');
+        break;
+      case 'security-settings':
+        this.openApp('/settings/security');
+        break;
+      case 'security-logs':
+        this.openApp('/settings/security-log');
+        break;
+      case 'email-providers':
+        this.openApp('/settings/watchlist');
         break;
       default:
         console.log('unknown browser action');
@@ -42,12 +58,12 @@ export default class MenuController extends sub.SubController {
   }
 
   destroyNodes(subControllers) {
-    this.postToNodes(subControllers, {event: 'destroy'});
+    this.postToNodes(subControllers, 'destroy');
   }
 
-  postToNodes(subControllers, msg) {
+  postToNodes(subControllers, event) {
     subControllers.forEach(subContr => {
-      subContr.ports[subContr.mainType].postMessage(msg);
+      subContr.ports[subContr.mainType].emit(event);
     });
   }
 
@@ -57,6 +73,12 @@ export default class MenuController extends sub.SubController {
     this.destroyNodes(sub.getByMainType('vFrame'));
     this.destroyNodes(sub.getByMainType('eFrame'));
     this.destroyNodes(sub.getByMainType('imFrame'));
+  }
+
+  getIsSetupDone() {
+    const keyringId = sub.getActiveKeyringId();
+    const hasPrivateKey = keyring.getById(keyringId).hasPrivateKey();
+    return {'isSetupDone': hasPrivateKey};
   }
 
   addToWatchList() {
@@ -80,25 +102,21 @@ export default class MenuController extends sub.SubController {
       const site = getHostname(tab.url);
       const slotId = mvelo.util.getHash();
       sub.setAppDataSlot(slotId, site);
-      mvelo.tabs.loadOptionsTab(`?slotId=${slotId}#/settings/watchlist/push`);
+      mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/watchlist/push`);
     });
-  }
-
-  loadOptions(hash) {
-    mvelo.tabs.loadOptionsTab(hash);
   }
 
   onActivate() {
     prefs.update({main_active: true})
     .then(() => {
-      this.postToNodes(sub.getByMainType('mainCS'), {event: 'on'});
+      this.postToNodes(sub.getByMainType('mainCS'), 'on');
     });
   }
 
   onDeactivate() {
     prefs.update({main_active: false})
     .then(() => {
-      this.postToNodes(sub.getByMainType('mainCS'), {event: 'off'});
+      this.postToNodes(sub.getByMainType('mainCS'), 'off');
       this.reloadFrames();
     });
   }

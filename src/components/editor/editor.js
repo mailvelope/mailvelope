@@ -168,6 +168,7 @@ function registerEventListeners() {
   port.on('hide-pwd-dialog', hidePwdDialog);
   port.on('get-plaintext', getPlaintext);
   port.on('error-message', onErrorMessage);
+  port.on('terminate', () => mvelo.ui.terminate(port));
   /**
    * Remember the available public keys for later and set the recipients proposal gotten from the webmail ui to the editor
    * @param {Array} options.keys         A list of all available public keys from the local keychain
@@ -255,7 +256,7 @@ function templatesLoaded() {
     initText = null;
   }
   mvelo.l10n.localizeHTML();
-  mvelo.util.showSecurityBackground(embedded);
+  mvelo.util.showSecurityBackground(port, embedded);
   // keep initial bottom position of body
   modalBodyBottomPosition = $('.m-modal .modal-body').css('bottom');
   // opens the security settings if in embedded mode
@@ -478,6 +479,7 @@ function createPlainText() {
   const style2 = $('<link/>', {rel: 'stylesheet', href: `${basePath}mvelo.css`});
   const meta = $('<meta/>', {charset: 'UTF-8'});
   sandbox.one('load', () => {
+    sandbox.one('load', () => mvelo.ui.terminate(port));
     sandbox.contents().find('head').append(meta)
     .append(style)
     .append(style2);
