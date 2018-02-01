@@ -236,17 +236,6 @@
     },
     {
       "active": true,
-      "site": "Zoho",
-      "frames": [
-        {
-          "scan": true,
-          "frame": "*.mail.zoho.com",
-          "api": false
-        }
-      ]
-    },
-    {
-      "active": true,
       "site": "Tutanota",
       "frames": [
         {
