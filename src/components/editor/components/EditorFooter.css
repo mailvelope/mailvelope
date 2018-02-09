@@ -10,7 +10,7 @@
   transform: rotate(180deg);
 }
 
-#addFileInput {
+.editor-footer .add-file-input {
   display: none;
 }
 

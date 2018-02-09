@@ -5,7 +5,6 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import $ from 'jquery';
 import * as l10n from '../../lib/l10n';
 import mvelo from '../../mvelo';
 import Editor from './editor';
@@ -14,6 +13,10 @@ import './editorRoot.css';
 
 document.addEventListener('DOMContentLoaded', init);
 
+l10n.register([
+  'editor_header'
+]);
+
 l10n.mapToLocal();
 
 function init() {
@@ -21,16 +24,18 @@ function init() {
     return;
   }
   document.body.dataset.mvelo = true;
-  const query = $.parseQuerystring();
+  const query = new URLSearchParams(document.location.search);
   // indicator if editor runs in container or popup
-  const embedded = Boolean(query.embedded);
+  const embedded = Boolean(query.get('embedded') || '');
   // component id
-  const id = query.id;
+  const id = query.get('id' || '');
   // attachment max file size
+  const quota = parseInt(query.get('quota'));
   let maxFileUploadSize = mvelo.MAX_FILE_UPLOAD_SIZE;
-  if (query.quota && parseInt(query.quota) < maxFileUploadSize) {
-    maxFileUploadSize = parseInt(query.quota);
+  if (query.quota && quota < maxFileUploadSize) {
+    maxFileUploadSize = quota;
   }
+  mvelo.ui.addDocumentTitle(l10n.map.editor_header);
   const root = document.createElement('div');
   ReactDOM.render(
     (<Editor id={id} embedded={embedded} maxFileUploadSize={maxFileUploadSize} recipientInput={!embedded} />),

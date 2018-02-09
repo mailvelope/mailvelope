@@ -97,13 +97,22 @@ export function createFileDownloadElement(file, options) {
   return $button;
 }
 
+export function extractFileNameWithoutExt(fileName) {
+  const indexOfDot = fileName.lastIndexOf('.');
+  if (indexOfDot > 0) { // case: regular
+    return fileName.substring(0, indexOfDot);
+  } else {
+    return fileName;
+  }
+}
+
 /**
  * @param {File} file
  * @param {String} file.name
  * @returns {*|jQuery}
  */
 function getFileName(file) {
-  const fileNameNoExt = mvelo.util.extractFileNameWithoutExt(file.name);
+  const fileNameNoExt = extractFileNameWithoutExt(file.name);
 
   return $('<span/>', {
     "class": 'attachmentFilename'
@@ -139,6 +148,23 @@ function getRemoveButton(onRemove) {
   });
 }
 
+export function extractFileExtension(fileName) {
+  const lastindexDot = fileName.lastIndexOf('.');
+  if (lastindexDot <= 0) { // no extension
+    return '';
+  } else {
+    return fileName.substring(lastindexDot + 1, fileName.length).toLowerCase().trim();
+  }
+}
+
+export function getExtensionClass(fileExt) {
+  let extClass = '';
+  if (fileExt) {
+    extClass = `ext-color-${fileExt}`;
+  }
+  return extClass;
+}
+
 /**
  * @param {File} file
  * @param {String} file.name
@@ -146,11 +172,11 @@ function getRemoveButton(onRemove) {
  * @returns {*|jQuery}
  */
 function getExtensionIcon(file) {
-  const fileExt = mvelo.util.extractFileExtension(file.name);
+  const fileExt = extractFileExtension(file.name);
   if (!fileExt) {
     return '';
   }
-  const extClass = mvelo.util.getExtensionClass(fileExt);
+  const extClass = getExtensionClass(fileExt);
 
   return $('<span/>', {
     "class": `attachmentExtension ${extClass}`

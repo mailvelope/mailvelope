@@ -29,9 +29,13 @@ class ModalDialog extends React.Component {
       <div className={`modal fade ${this.props.className || ''}`} tabIndex="-1" role="dialog" ref={node => this.modalNode = $(node)}>
         <div className="modal-dialog" role="document">
           <div className="modal-content">
-            <div className={`modal-header ${this.props.hideHeader ? 'hide' : ''}`}>
-              <button type="button" onClick={this.props.onCancel} className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 className="modal-title">{this.props.title}</h4>
+            <div className={`modal-header ${this.props.hideHeader ? 'hide' : ''} ${this.props.headerClass}`}>
+              {this.props.header ||
+                <div>
+                  <button type="button" onClick={this.props.onCancel} className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 className="modal-title">{this.props.title}</h4>
+                </div>
+              }
             </div>
             <div className="modal-body">
               {this.props.children}
@@ -54,6 +58,8 @@ class ModalDialog extends React.Component {
 ModalDialog.propTypes = {
   className: PropTypes.string,
   title: PropTypes.string,
+  header: PropTypes.element,
+  headerClass: PropTypes.string,
   footer: PropTypes.element,
   children: PropTypes.element,
   onHide: PropTypes.func,
@@ -66,7 +72,8 @@ ModalDialog.propTypes = {
 };
 
 ModalDialog.defaultProps = {
-  keyboard: true
+  keyboard: true,
+  headerClass: ''
 };
 
 export default ModalDialog;

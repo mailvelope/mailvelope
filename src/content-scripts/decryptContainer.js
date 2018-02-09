@@ -25,7 +25,7 @@ export default class DecryptContainer {
     this.done = done;
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');
-    const url = mvelo.runtime.getURL(`components/decrypt-inline/decryptInline.html?id=${this.id}`);
+    const url = mvelo.runtime.getURL(`components/decrypt-message/decryptMessage.html?id=${this.id}&isContainer=true`);
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);
     this.container.setAttribute('scrolling', 'no');

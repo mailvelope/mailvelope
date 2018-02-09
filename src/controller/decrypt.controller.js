@@ -22,16 +22,15 @@ export default class DecryptController extends sub.SubController {
     this.decryptPopup = null;
     this.options = {};
     this.keyringId = mvelo.LOCAL_KEYRING_ID;
-    this.isContainer = this.mainType === 'decryptCont'; // main view is a container component
     // register event handlers
     this.on('decrypt-dialog-cancel', this.dialogCancel);
-    this.on('decrypt-inline-init', this.onDecryptInlineInit);
+    this.on('decrypt-message-init', this.onDecryptMessageInit);
     this.on('dframe-display-popup', this.onDframeDisplayPopup);
     this.on('set-armored', this.onSetArmored);
     this.on('decrypt-inline-user-input', msg => uiLog.push(msg.source, msg.type));
   }
 
-  onDecryptInlineInit() {
+  onDecryptMessageInit() {
     const port = this.ports.dFrame || this.ports.decryptCont;
     // get armored message
     port && port.emit('get-armored');
@@ -80,13 +79,13 @@ export default class DecryptController extends sub.SubController {
           this.noEvent = false;
           ports.dDialog.emit('decrypted-message', {message: msg});
         },
-        onAttachment(part) {
+        onAttachment(attachment) {
           this.noEvent = false;
-          ports.dDialog.emit('add-decrypted-attachment', {message: part});
+          ports.dDialog.emit('add-decrypted-attachment', {attachment});
         }
       };
       if (this.ports.dDialog && content.signatures) {
-        this.ports.dDialog.emit('signature-verification', {signers: content.signatures, isContainer: this.isContainer});
+        this.ports.dDialog.emit('signature-verification', {signers: content.signatures});
       }
       return this.parseMessage(content.data, handlers, 'html');
     })

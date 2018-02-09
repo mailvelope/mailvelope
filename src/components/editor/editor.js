@@ -15,13 +15,14 @@ import $ from 'jquery';
 import mvelo from '../../mvelo';
 import * as l10n from '../../lib/l10n';
 import PlainText from './components/PlainText';
-import FilePanel from './components/FilePanel';
+import {FileUploadPanel} from '../util/FilePanel';
 import EditorFooter from './components/EditorFooter';
 import EditorModalFooter from './components/EditorModalFooter';
 import {RecipientInput} from './components/RecipientInput';
 import BlurWarning from './components/BlurWarning';
 import ModalDialog from '../util/ModalDialog';
 import Alert from '../util/Alert';
+import Spinner from '../util/Spinner';
 
 import * as fileLib from '../../lib/file';
 
@@ -62,7 +63,7 @@ export default class Editor extends React.Component {
     };
     this.port = mvelo.EventHandler.connect(`editor-${this.props.id}`, this);
     // flag to control time slice for input logging
-    this.logTextareaInput = false;
+    this.logTextareaInput = true;
     this.registerEventListeners();
     // emit event to backend that editor has initialized
     this.port.emit('editor-init');
@@ -77,8 +78,6 @@ export default class Editor extends React.Component {
       mvelo.util.showSecurityBackground(this.port, this.props.embedded);
     }
     if (this.props.embedded) {
-      // opens the security settings if in embedded mode
-      $('.secureBgndSettingsBtn').on('click', () => this.port.emit('open-security-settings'));
       this.fileUpload = new fileLib.FileUpload();
     } else {
       // keep initial bottom position of body
@@ -322,17 +321,18 @@ export default class Editor extends React.Component {
           <div className={`editor-header ${this.props.secureBackground || this.state.files.length ? '' : 'hide'}`}>
             { this.props.secureBackground &&
               <div className="button-bar">
-                <button type="button" className="btn btn-link secureBgndSettingsBtn" title={l10n.map.security_background_button_title}>
+                <button type="button" className="btn btn-link secureBgndSettingsBtn" title={l10n.map.security_background_button_title}
+                  onClick={() => this.port.emit('open-security-settings')}>
                   <span className="glyphicon lockBtnIcon"></span>
                 </button>
               </div>
             }
             <div className="upload-panel">
-              <FilePanel files={this.state.files} onRemoveFile={id => this.handleRemoveFile(id)} />
+              <FileUploadPanel files={this.state.files} onRemoveFile={id => this.handleRemoveFile(id)} />
             </div>
           </div>
           { this.props.recipientInput &&
-            <div id="recipients">
+            <div className="editor-recipients">
               <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients} tofu={this.state.tofu} encryptDisabled={this.state.encryptDisabled}
                 onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
                 onLookupKeyOnServer={recipient => this.port.emit('keyserver-lookup', {recipient})}
@@ -340,7 +340,7 @@ export default class Editor extends React.Component {
             </div>
           }
           <div className="editor-body">
-            <div id="plainText">
+            <div className="plain-text">
               <PlainText defaultValue={this.state.defaultPlainText} onChange={() => this.handleTextChange()}
                 onBlur={() => this.blurWarning && this.blurWarning.onBlur()} onMouseUp={element => this.handleTextMouseUp(element)}
                 onTerminate={() => mvelo.ui.terminate(this.port)}
@@ -385,7 +385,7 @@ export default class Editor extends React.Component {
           </div>
         </div>
         <BlurWarning ref={node => this.blurWarning = node} />
-        {this.state.pwdDialog && <iframe id="pwdDialog" src={`../enter-password/pwdDialog.html?id=${this.state.pwdDialog.id}`} frameBorder={0} />}
+        {this.state.pwdDialog && <iframe className="editor-popup-pwd-dialog" src={`../enter-password/pwdDialog.html?id=${this.state.pwdDialog.id}`} frameBorder={0} />}
       </div>
     );
   }
@@ -397,9 +397,7 @@ export default class Editor extends React.Component {
     return (
       <ModalDialog className="waiting-modal" hideHeader={true} hideFooter={true} keyboard={false} onShow={this.blurWarning && this.blurWarning.startBlurValid}>
         <div>
-          <div className="m-spinner" style={{margin: '10px auto'}}>
-            <div className="bounce1"></div><div className="bounce2"></div><div className="bounce3"></div>
-          </div>
+          <Spinner style={{margin: '10px auto'}} />
           <p className="text-center">{l10n.map.waiting_dialog_prepare_email}</p>
         </div>
       </ModalDialog>

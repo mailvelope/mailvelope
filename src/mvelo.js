@@ -128,6 +128,12 @@ mvelo.ui.terminate = function(port) {
   port.disconnect();
 };
 
+mvelo.ui.addDocumentTitle = function(text) {
+  const title = document.createElement('title');
+  title.appendChild(document.createTextNode(text));
+  document.head.appendChild(title);
+};
+
 mvelo.util = {};
 
 mvelo.util.sortAndDeDup = function(unordered, compFn) {
@@ -275,32 +281,6 @@ mvelo.util.str2Uint8Array = function(str) {
     bufView[i] = str.charCodeAt(i);
   }
   return bufView;
-};
-
-mvelo.util.getExtensionClass = function(fileExt) {
-  let extClass = '';
-  if (fileExt) {
-    extClass = `ext-color-${fileExt}`;
-  }
-  return extClass;
-};
-
-mvelo.util.extractFileNameWithoutExt = function(fileName) {
-  const indexOfDot = fileName.lastIndexOf('.');
-  if (indexOfDot > 0) { // case: regular
-    return fileName.substring(0, indexOfDot);
-  } else {
-    return fileName;
-  }
-};
-
-mvelo.util.extractFileExtension = function(fileName) {
-  const lastindexDot = fileName.lastIndexOf('.');
-  if (lastindexDot <= 0) { // no extension
-    return '';
-  } else {
-    return fileName.substring(lastindexDot + 1, fileName.length).toLowerCase().trim();
-  }
 };
 
 mvelo.util.addLoadingAnimation = function($parent) {

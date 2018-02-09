@@ -46,7 +46,7 @@ export class RecipientInput extends React.Component {
     // attach ctrl to editor module
     angular.module('recipientInput').controller('RecipientInputCtrl', RecipientInputCtrl);
     // bootstrap angular
-    angular.bootstrap($('#recipients').get(0), ['recipientInput']);
+    angular.bootstrap($('.recipients-input').get(0), ['recipientInput']);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -68,7 +68,7 @@ export class RecipientInput extends React.Component {
       node.setAttribute('ng-class', "{'has-error': rInput.noEncrypt}");
     };
     return (
-      <div className="recipients" ref={node => node && contrAttr(node)}>
+      <div className="recipients-input" ref={node => node && contrAttr(node)}>
         <tags-input
           ng-model="rInput.recipients"
           type="email"

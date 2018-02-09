@@ -143,11 +143,8 @@ module.exports = function(grunt) {
           src: [
             'app/app.html',
             'client-API/*',
-            'components/**/*',
-            '!components/action-menu/**/*.js',
-            '!components/editor/**/*.js',
-            '!components/install-landing-page/**/*.js',
-            '!components/util/**/*',
+            'components/**/*.html',
+            'components/{decrypt-popup,enter-password,generate-key,import-key,key-backup,recovery-sheet,restore-backup,verify-inline,verify-popup}/**/*',
             'content-scripts/*.css',
             'content-scripts/addToWatchlist.js',
             'img/*',

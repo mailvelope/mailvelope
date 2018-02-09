@@ -65,7 +65,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
 
   function addDecryptComponent() {
     decryptComponent = $('<iframe/>', {
-      src: `../decrypt-inline/decryptInline.html?id=${id}`,
+      src: `../decrypt-message/decryptMessage.html?id=${id}`,
       css: {
         position: 'absolute',
         top: "0px",

@@ -157,7 +157,7 @@ export default class KeyGrid extends React.Component {
             </tbody>
           </table>
         </div>
-        {this.props.spinner && <Spinner style={{margin: '60px auto 60px'}} />}
+        {this.props.spinner && <Spinner />}
         {this.state.keyDetails &&
           <KeyDetails keyDetails={this.state.keyDetails}
             onSetPrimaryKey={() => this.props.onChangePrimaryKey(this.state.keyDetails.id)}

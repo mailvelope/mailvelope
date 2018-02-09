@@ -39,7 +39,7 @@ class EditorFooter extends React.Component {
   }
 
   handleClickUpload() {
-    $('#addFileInput').click();
+    $('.editor-footer .add-file-input').click();
     this.props.onClickUpload();
   }
 
@@ -53,7 +53,7 @@ class EditorFooter extends React.Component {
             <span className="glyphicon glyphicon-paperclip"></span>&nbsp;
             <span>{l10n.map.upload_attachment}</span>
           </button>
-          <input type="file" id="addFileInput" multiple="multiple" onChange={this.props.onChangeFileInput} />
+          <input type="file" className="add-file-input" multiple="multiple" onChange={this.props.onChangeFileInput} />
           <div className={`nav-link-file-encryption ${!this.props.embedded ? 'show' : 'hide'}`}>
             <a role="button" onClick={this.props.onClickFileEncryption}>{l10n.map.editor_link_file_encryption}</a>
           </div>

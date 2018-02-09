@@ -25,19 +25,6 @@ $.extend({
   }
 });
 
-$.extend({
-  setEqualWidth(first, other) {
-    const width = first.width();
-    const otherWidth = other.width();
-    if (width > otherWidth) {
-      other.width(width);
-    } else if (width < otherWidth) {
-      first.width(otherWidth);
-    }
-    return this;
-  }
-});
-
 // append alert message to element and show it
 $.fn.showAlert = function(heading, message, type, keep) {
   if (keep === undefined || keep === false) {

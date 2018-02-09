@@ -1,14 +1,36 @@
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './Spinner.css';
 
-function Spinner() {
-  return (
-    <div className="m-spinner" style={{margin: '60px auto 60px'}}>
-      <div className="bounce1"></div><div className="bounce2"></div><div className="bounce3"></div>
-    </div>
-  );
+export default class Spinner extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hide: true
+    };
+    this.timer = 0;
+  }
+
+  componentDidMount() {
+    // show spinner after delay
+    this.timer = setTimeout(() => this.setState({hide: false}), 400);
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer);
+  }
+
+  render() {
+    return (
+      <div className={`m-spinner ${this.state.hide ? 'hide' : ''}`} style={this.props.style}>
+        <div className="bounce1"></div><div className="bounce2"></div><div className="bounce3"></div>
+      </div>
+    );
+  }
 }
 
-export default Spinner;
+Spinner.propTypes = {
+  style: PropTypes.object
+};

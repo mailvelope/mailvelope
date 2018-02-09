@@ -33,14 +33,16 @@ function dev(pathname, filename) {
 }
 
 module.exports = [
-  dev('editor', 'editorRoot'),
   dev('action-menu', 'actionMenu'),
+  dev('decrypt-message', 'decryptMessageRoot'),
+  dev('editor', 'editorRoot'),
   dev('install-landing-page', 'installLandingPage')
 ];
 
 module.exports.prod = [
-  prod('editor', 'editorRoot'),
   prod('action-menu', 'actionMenu'),
+  prod('decrypt-message', 'decryptMessageRoot'),
+  prod('editor', 'editorRoot'),
   prod('install-landing-page', 'installLandingPage')
 ];
 

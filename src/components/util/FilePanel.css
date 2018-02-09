@@ -1,67 +1,10 @@
 /**
- * Copyright (C) 2017 Mailvelope GmbH
+ * Copyright (C) 2018 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
 
-#encrypting .help-block {
-  font-size: 14px;
-}
-
-#encrypting .alert {
-  font-size: 14px;
-  margin: 15px 0 0;
-}
-
-.itemSelection {
-  display: block;
-  height: 300px;
-  border: thin dashed #ccc;
-  border-radius: 4px;
-  background-color: #fff;
-  padding: .5em;
-}
-
-.recipientButton {
-  display: inline-flex;
-  border: thin solid silver;
-  padding: 0.2em;
-  border-radius: 5px;
-  align-items: center;
-  font-size: 0.9em;
-  background: #efefef linear-gradient(to bottom,#ffffff,#ececec);
-  margin-right: .5em;
-  margin-bottom: .5em;
-}
-.recipientButton span.glyphicon {
-  color: green;
-  font-size: 1.5em;
-}
-.recipientButton > div {
-  margin: 0 0.5em;
-  line-height: 1;
-  max-width: 200px;
-}
-.recipientButton > div b,.recipientButton > div small {
-  display: block;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-.recipientButton button {
-  border: none;
-  border-radius: 2px;
-  color: white;
-  background-color: #a3a3a3;
-  cursor: pointer;
-  text-transform: uppercase;
-  padding: 2px;
-  position: inherit;
-  top: 0;
-  font-size: 12px;
-}
-
-.attachmentButton .secure-icon {
-  margin: 0 0.25em;
-  line-height: 1.5em;
+.file-panel {
+  display: inline-block;
 }
 
 .ext-color-pdf  { background-color: #ad1e24 !important; }
@@ -95,10 +38,9 @@
 .ext-color-xlsx { background-color: #6ea64e !important; }
 .ext-color-exe  { background-color: #4b4a4a !important; }
 
-.attachmentButton {
+.file-element {
   display: inline-flex;
   align-items: center;
-
   color: #5E5E5E;
   font-weight: normal;
   font-family: Verdana, Geneva, sans-serif;
@@ -112,12 +54,12 @@
   margin-right: 5px;
 }
 
-a.attachmentButton {
+a.file-element {
   text-decoration: none;
   cursor: pointer;
 }
 
-.attachmentExtension {
+.file-extension {
   display: inline-block;
   font-weight: normal !important;
   border-radius: 2px;
@@ -128,7 +70,7 @@ a.attachmentButton {
   font-size: 10px;
 }
 
-.attachmentFilename {
+.file-name {
   max-width: 160px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -138,7 +80,7 @@ a.attachmentButton {
   margin: 0 3px;
 }
 
-.removeAttachment {
+.remove-file {
   display: inline-block;
   border-radius: 2px;
   color: white;
@@ -149,37 +91,4 @@ a.attachmentButton {
   position: inherit;
   top: 0;
   font-size: 12px;
-}
-
-#encrypt_fileDownloadPanel .waiting,
-#decrypt_fileDownloadPanel .waiting {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0,0,0,0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#encrypt_fileDownloadPanel .m-spinner,
-#decrypt_fileDownloadPanel .m-spinner {
-  margin: inherit;
-}
-
-.panel-footer .btn {
-  margin-right: 5px;
-}
-.panel-footer .btn:last-child {
-  margin-right: 0;
-}
-
-.encrypt-footer-expanded {
-  height: 140px;
-}
-
-.encrypt-text-editor .editor-flex-container > * {
-  margin-top: 10px;
 }

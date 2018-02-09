@@ -151,10 +151,6 @@
     "description": "Close decrypt popup.",
     "message": "Close"
   },
-  "digital_signature_dialog_header": {
-    "description": "Header of digital signature dialog.",
-    "message": "Digital signature"
-  },
   "digital_signature_status_false": {
     "description": "",
     "message": "Invalid signature"

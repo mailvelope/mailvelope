@@ -41,7 +41,7 @@ export default class DecryptFrame extends ExtractFrame {
       frameBorder: 0,
       scrolling: 'no'
     });
-    const url = mvelo.runtime.getURL(`components/decrypt-inline/decryptInline.html?id=${this.id}`);
+    const url = mvelo.runtime.getURL(`components/decrypt-message/decryptMessage.html?id=${this.id}`);
     this._dDialog.attr('src', url);
     this._eFrame.append(this._dDialog);
     this._setFrameDim();

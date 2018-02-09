@@ -1,0 +1,69 @@
+/**
+ * Mailvelope - secure email with OpenPGP encryption for Webmail
+ * Copyright (C) 2012-2018 Mailvelope GmbH
+ */
+
+.decrypt-msg-flex-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 3px;
+  left: 10px;
+  right: 10px;
+  bottom: 8px;
+  opacity: 0;
+  transition: opacity 0.6s ease-in;
+}
+
+.decrypt-msg-flex-container.fade-in {
+  opacity: 1;
+}
+
+.decrypt-msg-flex-container .decrypt-msg-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between
+}
+
+.decrypt-msg-flex-container .decrypt-msg-header .upload-panel {
+  flex: 100%;
+  order: 1;
+  max-height: 105px;
+  overflow-y: auto;
+}
+
+.decrypt-msg-flex-container .decrypt-msg-header .button-bar {
+  order: 2;
+}
+
+.decrypt-msg-flex-container .decrypt-msg-body {
+  width: 100%;
+  position: relative;
+  flex: 1 0 auto;
+  /* https://code.google.com/p/chromium/issues/detail?id=551336 */
+  min-width: 0;
+  min-height: 0;
+}
+
+.decrypt-msg-flex-container .decrypt-msg-body .plain-text {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0);
+}
+
+.decrypt-msg-flex-container .decrypt-msg-body .plain-text iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.decrypt-msg-flex-container .decrypt-msg-footer {
+  width: 100%;
+  padding-top: 4px;
+}
