@@ -12,7 +12,8 @@ module.exports = function(grunt) {
       options: {
         maxWarnings: 10,
         configFile: 'config/eslint.json',
-        cache: true
+        cache: true,
+        reportUnusedDisableDirectives: true
       },
       target: [
         '*.js',
@@ -253,7 +254,7 @@ module.exports = function(grunt) {
         command: 'web-ext build --source-dir=build/firefox --artifacts-dir=dist'
       },
       karma_test: {
-        command: 'karma start --single-run --browsers ChromeHeadless test/karma.conf.js'
+        command: 'karma start --single-run --browsers ChromeHeadlessNoSandbox test/karma.conf.js'
       }
     },
 
