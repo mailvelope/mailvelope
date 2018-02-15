@@ -183,3 +183,7 @@ a.attachmentButton {
 .encrypt-text-editor .editor-flex-container > * {
   margin-top: 10px;
 }
+
+.decrypt-text-message .decrypt-msg-flex-container > * {
+  margin-top: 10px;
+}

@@ -159,13 +159,15 @@ export default class DecryptMessage extends React.Component {
         {this.state.waiting && <Spinner style={{margin: '160px auto 0'}} />}
         <div className={`decrypt-msg-flex-container ${this.state.waiting ? '' : 'fade-in'}`}>
           <div className="decrypt-msg-header">
-            <div className="button-bar">
-              <button type="button" className="btn btn-link secureBgndSettingsBtn" title={l10n.map.security_background_button_title}
-                onClick={() => this.port.emit('open-security-settings')}>
-                <span className="glyphicon lockBtnIcon"></span>
-              </button>
-            </div>
-            <div className="upload-panel">
+            { this.props.secureBackground &&
+              <div className="button-bar">
+                <button type="button" className="btn btn-link secureBgndSettingsBtn" title={l10n.map.security_background_button_title}
+                  onClick={() => this.port.emit('open-security-settings')}>
+                  <span className="glyphicon lockBtnIcon"></span>
+                </button>
+              </div>
+            }
+            <div className={`download-panel ${!this.props.secureBackground && !this.state.files.length ? 'hide' : ''}`}>
               {!this.props.isContainer && this.signatureButton()}
               <FileDownloadPanel files={this.state.files} onClickFile={() => this.handleClickFile()} />
             </div>

@@ -74,7 +74,7 @@ export class RecipientInput extends React.Component {
           type="email"
           allowed-tags-pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
           spellcheck="false"
-          tabindex="1"
+          tabindex="0"
           add-on-space="true"
           add-on-enter="true"
           enable-editing-last-tag="true"

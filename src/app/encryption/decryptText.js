@@ -4,10 +4,9 @@
  */
 
 import React from 'react';
-import mvelo from '../../mvelo';
 import * as l10n from '../../lib/l10n';
 import {port} from '../app';
-import Alert from '../../components/util/Alert';
+import DecryptMessage from '../../components/decrypt-message/DecryptMessage';
 
 import './encrypt.css';
 
@@ -23,7 +22,6 @@ export default class DecryptText extends React.Component {
     super();
     this.state = {
       decryptId: '',
-      error: null,
       armored: ''
     };
   }
@@ -51,7 +49,6 @@ export default class DecryptText extends React.Component {
             <textarea className="form-control" value={this.state.armored} onChange={event => this.setState({armored: event.target.value})} rows={12} autoFocus spellCheck="false" autoComplete="off"
               style={{width: '100%', height: '100%', marginBottom: 0, color: 'black', resize: 'none', fontFamily: 'monospace'}}
             />
-
           </div>
           <div className="panel-footer text-right">
             <button type="button" onClick={() => this.handleDecrypt()} className="btn btn-primary btn-sm">{l10n.map.text_decrypt_button}</button>
@@ -61,9 +58,8 @@ export default class DecryptText extends React.Component {
           <div className="panel-heading">
             <h3 className="panel-title"><span>{l10n.map.decrypt_popup_title}</span></h3>
           </div>
-          <div className="panel-body" style={{height: '400px'}}>
-            {this.state.decryptId &&  <iframe src={mvelo.runtime.getURL(`components/decrypt-inline/decryptInline.html?id=${this.state.decryptId}`)} frameBorder={0} style={{overflowY: 'hidden', scrolling: 'no', width: '100%', height: '100%'}} />}
-            {this.state.error && <Alert />}
+          <div className="panel-body decrypt-text-message" style={{height: '400px'}}>
+            {this.state.decryptId &&  <DecryptMessage id={this.state.decryptId} secureBackground={false} />}
           </div>
           <div className="panel-footer text-right">
             <button type="button" onClick={() => this.handleBack()} className="btn btn-sm btn-default">{l10n.map.form_back}</button>

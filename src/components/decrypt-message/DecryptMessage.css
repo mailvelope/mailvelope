@@ -25,7 +25,7 @@
   justify-content: space-between
 }
 
-.decrypt-msg-flex-container .decrypt-msg-header .upload-panel {
+.decrypt-msg-flex-container .decrypt-msg-header .download-panel {
   flex: 100%;
   order: 1;
   max-height: 105px;

@@ -125,7 +125,7 @@ export function readMessage({armoredText, binary, keyringId}) {
       try {
         result.message = openpgp.message.readArmored(armoredText);
       } catch (e) {
-        console.log('openpgp.message.readArmored', e);
+        console.log('Error parsing armored text', e);
         return reject({
           code: 'ARMOR_PARSE_ERROR',
           message: l10n('message_read_error', [e])
@@ -141,6 +141,10 @@ export function readMessage({armoredText, binary, keyringId}) {
           message: l10n('file_read_error', [e])
         });
       }
+    } else {
+      return reject({
+        message: 'No message to read'
+      });
     }
 
     const encryptionKeyIds = result.message.getEncryptionKeyIds();
