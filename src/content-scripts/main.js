@@ -57,11 +57,8 @@ function init(preferences, watchlist) {
   // non-api case ... use provider specific content scripts
   providers.init();
   currentProvider = providers.get(host);
-  if (prefs.main_active) {
-    on();
-  } else {
-    off();
-  }
+  // turn on scan loop
+  on();
 }
 
 function detectHost() {
@@ -288,12 +285,6 @@ function addMessageListener() {
         return;
       }
       switch (request.event) {
-        case 'on':
-          on();
-          break;
-        case 'off':
-          off();
-          break;
         case 'destroy':
           off();
           port.disconnect();

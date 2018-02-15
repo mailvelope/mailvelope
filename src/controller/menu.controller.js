@@ -19,8 +19,6 @@ export default class MenuController extends sub.SubController {
     this.on('get-prefs', () => prefs.prefs);
     this.on('get-ui-log', ({securityLogLength}) => uiLog.getLatest(securityLogLength));
     this.on('get-is-setup-done', this.getIsSetupDone);
-    this.on('activate', this.onActivate);
-    this.on('deactivate', this.onDeactivate);
   }
 
   onBrowserAction({action}) {
@@ -103,21 +101,6 @@ export default class MenuController extends sub.SubController {
       const slotId = mvelo.util.getHash();
       sub.setAppDataSlot(slotId, site);
       mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/watchlist/push`);
-    });
-  }
-
-  onActivate() {
-    prefs.update({main_active: true})
-    .then(() => {
-      this.postToNodes(sub.getByMainType('mainCS'), 'on');
-    });
-  }
-
-  onDeactivate() {
-    prefs.update({main_active: false})
-    .then(() => {
-      this.postToNodes(sub.getByMainType('mainCS'), 'off');
-      this.reloadFrames();
     });
   }
 }

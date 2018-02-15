@@ -30,9 +30,6 @@ export function update(obj) {
     if (obj.keyserver) {
       Object.assign(prefs.keyserver, obj.keyserver);
     }
-    if (typeof obj.main_active !== 'undefined') {
-      prefs.main_active = obj.main_active;
-    }
     // notifiy update handlers
     updateHandlers.forEach(fn => {
       fn();

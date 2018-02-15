@@ -50,9 +50,6 @@ export function init() {
       initSecurityBgnd(prefs);
 
       // add default values for new settings
-      if (typeof prefs.main_active == 'undefined') {
-        prefs.main_active = defaults.preferences.main_active;
-      }
       if (typeof prefs.keyserver == 'undefined') {
         prefs.keyserver = defaults.preferences.keyserver;
       }

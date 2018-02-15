@@ -258,7 +258,6 @@
         "https://keys.mailvelope.com"
       ],
       "mvelo_tofu_lookup": true
-    },
-    "main_active": true
+    }
   }
 }
