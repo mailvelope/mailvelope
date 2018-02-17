@@ -159,6 +159,10 @@
         "message": "Jūsų rakto ID",
         "description": "Tooltip explaining the key id."
     },
+    "text_encrypting": {
+        "message": "Teksto šifravimas",
+        "description": "Navigation link to text encryption feature"
+    },
     "recovery_sheet_explain_pgp": {
         "message": "Šifruotas bendravimas su [BRAND] yra PGP pagrįsta procedūra. Ji leidžia siųsti šifruotus el. laiškus ir tuo pačiu metu užtikrina, kad tik jūs ir laiško gavėjas galėtumėte perskaityti laiško turinį.",
         "description": ""
@@ -190,6 +194,10 @@
     "key_gen_success": {
         "message": "Naujas raktas sugeneruotas ir importuotas į raktinę",
         "description": "Key generation success message"
+    },
+    "text_decrypting": {
+        "message": "Teksto iššifravimas",
+        "description": "Navigation link to text decryption feature"
     },
     "security_log_action": {
         "message": "Veiksmas",
@@ -330,10 +338,6 @@
     "key_gen_pwd_match": {
         "message": "Slaptažodžiai sutampa",
         "description": "Passphrase input field status"
-    },
-    "security_log_dialog_undo": {
-        "message": "Spustelėjimas dialoge, siekiant atšaukti",
-        "description": ""
     },
     "pwd_dialog_reason_decrypt": {
         "message": "Norėdami iššifruoti šį laišką, įveskite savo rakto slaptažodį.",
@@ -668,7 +672,7 @@
         "description": "Label"
     },
     "file_decrypting": {
-        "message": "Iššifravimas",
+        "message": "Failo iššifravimas",
         "description": ""
     },
     "waiting_dialog_decryption_failed": {
@@ -767,10 +771,6 @@
         "message": "Šifruoti",
         "description": "Encrypt button."
     },
-    "digital_signature_dialog_header": {
-        "message": "Skaitmeninis parašas",
-        "description": "Header of digital signature dialog."
-    },
     "key_gen_pwd_reenter": {
         "message": "Iš naujo įveskite slaptažodį",
         "description": "Label for passphrase input field"
@@ -831,6 +831,10 @@
         "message": "Turėkite omenyje",
         "description": "Label"
     },
+    "text_decrypt_button": {
+        "message": "Iššifruoti",
+        "description": "Button label for decrypting the message"
+    },
     "action_menu_dashboard": {
         "message": "<0>Skydelis:</0> naršyti visos konfigūracijos parinktis.",
         "description": "Dashboard label in the action menu"
@@ -883,9 +887,17 @@
         "message": "Pasirašyta nežinomu raktu",
         "description": "Verfiy signature warning."
     },
+    "text_result_header": {
+        "message": "Šifruotas laiškas",
+        "description": "Text encryption result header"
+    },
     "invalid_primary_key": {
         "message": "Raktas šifravimo ir pasirašymo operacijoms nebegalioja",
         "description": "Tootip for set as primary key button"
+    },
+    "text_compose_header": {
+        "message": "Rašyti laišką",
+        "description": "Text encryption feature header"
     },
     "action_menu_edit_security_settings": {
         "message": "Taisyti saugumo nustatymus",
@@ -977,10 +989,6 @@
     },
     "recovery_sheet_provider_settings": {
         "message": "Nustatymai",
-        "description": ""
-    },
-    "security_log_dialog_transfer": {
-        "message": "Spustelėjimas dialoge, siekiant perkelti",
         "description": ""
     },
     "key_gen_expiration": {
@@ -1368,7 +1376,7 @@
         "description": "Caption digital signature"
     },
     "file_encrypting": {
-        "message": "Šifravimas",
+        "message": "Failų šifravimas",
         "description": ""
     },
     "keygrid_no_subkeys": {
@@ -1452,7 +1460,7 @@
         "description": "Label for user ID."
     },
     "encrypting_home": {
-        "message": "Failų šifravimas",
+        "message": "Šifravimas",
         "description": "File encryption top navigation."
     },
     "decrypt_popup_copy": {
@@ -1514,6 +1522,10 @@
     "settings_security": {
         "message": "Saugumas",
         "description": "Tab of options to display security settings."
+    },
+    "text_paste_armored_header": {
+        "message": "Įdėti šifruotą PGP laišką",
+        "description": "Text decryption armored block header"
     },
     "settings_general": {
         "message": "Bendra",
