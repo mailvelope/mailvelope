@@ -32,7 +32,7 @@
         "description": "Warning for when a recipient key was not found."
     },
     "security_log_text_input": {
-        "message": "Input in text field",
+        "message": "テキストの入力",
         "description": "User clicked in text area"
     },
     "security_log_dialog_cancel": {
@@ -40,7 +40,7 @@
         "description": ""
     },
     "security_display_inline": {
-        "message": "On the email provider's page.",
+        "message": "ウェブメールサービスのページ",
         "description": "Decrypted message display option"
     },
     "verify_result_error": {
@@ -76,7 +76,7 @@
         "description": "Email address in User ID of a PGP key."
     },
     "key_import_extend_description": {
-        "message": "The PGP fingerprint is used to uniquely identify the PGP key of your contact.",
+        "message": "PGPフィンガープリントは、相手のPGP鍵が確かに相手のものかを確認するために使われます",
         "description": "Key import dialog description."
     },
     "recovery_sheet_invite_contacts": {
@@ -88,7 +88,7 @@
         "description": "Confirm form button."
     },
     "action_menu_setup_menu_aria_label": {
-        "message": "Mailvelope setup menu",
+        "message": "Mailvelopeのセットアップ",
         "description": "Accessibility, aria label of the setup menu"
     },
     "key_import_hkp_search_ph": {
@@ -100,7 +100,7 @@
         "description": "Mailvelope Key Server Settings Label"
     },
     "watchlist_delete_confirmation": {
-        "message": "Do you really want to remove this site from the list of email providers?",
+        "message": "本当にメールサービスリストからこのサービスを削除しますか？",
         "description": "Mesage in the watchlist delete confirmation dialog."
     },
     "key_export_header": {
@@ -116,7 +116,7 @@
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "keyring_confirm_deletion": {
-        "message": "Do you want to remove the keyring with ID: $1?",
+        "message": "本当にこのIDの鍵を削除しますか: $1?",
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyserver_hkp_url": {
@@ -159,6 +159,10 @@
         "message": "鍵のID",
         "description": "Tooltip explaining the key id."
     },
+    "text_encrypting": {
+        "message": "テキスト暗号化",
+        "description": "Navigation link to text encryption feature"
+    },
     "recovery_sheet_explain_pgp": {
         "message": " [BRAND] の暗号通信は、PGPによる暗号通信です。すなわち、あなたは暗号メールを送ることができ、それを読めるのはあなたと通信相手だけです。",
         "description": ""
@@ -191,12 +195,16 @@
         "message": "新しい鍵が生成され、鍵リングにインポートされました",
         "description": "Key generation success message"
     },
+    "text_decrypting": {
+        "message": "テキスト復号",
+        "description": "Navigation link to text decryption feature"
+    },
     "security_log_action": {
         "message": "Action",
         "description": "Title of the action column of the security log table."
     },
     "install_landing_page_help": {
-        "message": "Check out the <0>online help</0> for more information.",
+        "message": "詳しくは <0>online help</0> ",
         "description": "Install landing page help message"
     },
     "general_primary_key_label": {
@@ -212,11 +220,11 @@
         "description": "File upload selection"
     },
     "action_menu_configure_mailvelope": {
-        "message": "<0>Configure Mailvelope</0> to get started!",
+        "message": "<0>Configure Mailvelope</0> スタート！",
         "description": "Configure Mailvelope label in the action menu"
     },
     "security_log_dialog_encrypt": {
-        "message": "Click to encrypt in dialog",
+        "message": "ダイアログで暗号化",
         "description": ""
     },
     "watchlist_title_frame": {
@@ -252,7 +260,7 @@
         "description": "Preview"
     },
     "security_log_content_copy": {
-        "message": "Copy in verify dialog",
+        "message": "認証ダイアログにコピー",
         "description": ""
     },
     "security_background_coloring": {
@@ -268,7 +276,7 @@
         "description": "Title for Export key button."
     },
     "security_log_textarea_click": {
-        "message": "Click in text area",
+        "message": "テキストエリアをクリック",
         "description": "User clicked in text area"
     },
     "recovery_sheet_backup_data": {
@@ -276,7 +284,7 @@
         "description": ""
     },
     "dashboard_link_encrypt_decrypt_files": {
-        "message": "Encrypt and decrypt files",
+        "message": "ファイルの暗号化・復号",
         "description": "Dashboard encrypt decrypt files link"
     },
     "key_import_file": {
@@ -296,7 +304,7 @@
         "description": ""
     },
     "security_background_text": {
-        "message": "The security background helps prevent user interface manipulations by third-party websites and applications. To increase security, create and change your customized Mailvelope background here.",
+        "message": "背景模様は、第三者がなりすましサイトを作ることを防ぎます。自分だけの背景模様を設定して、安全性を高めてください。",
         "description": "Security background text"
     },
     "keyring_generate_key": {
@@ -320,7 +328,7 @@
         "description": "Subkey ID of a PGP key."
     },
     "action_menu_primary_menu_aria_label": {
-        "message": "Mailvelope primary menu",
+        "message": "Mailvelopeの主メニュー",
         "description": "Accessibility, aria label of the primary menu"
     },
     "key_import_dialog_header": {
@@ -330,10 +338,6 @@
     "key_gen_pwd_match": {
         "message": "パスワードが一致しました",
         "description": "Passphrase input field status"
-    },
-    "security_log_dialog_undo": {
-        "message": "Click to undo in dialog",
-        "description": ""
     },
     "pwd_dialog_reason_decrypt": {
         "message": "復号するため、鍵のパスワードを入力してください",
@@ -384,11 +388,11 @@
         "description": "Public-key algorithm of a PGP key."
     },
     "keybackup_restore_dialog_list_1": {
-        "message": "You lost the recovery sheet.",
+        "message": "復旧シートを失くした",
         "description": ""
     },
     "action_menu_all_options": {
-        "message": "All options",
+        "message": "全オプション",
         "description": "All options link in the action menu"
     },
     "security_log_import_dialog": {
@@ -416,7 +420,7 @@
         "description": "Header of encrypt dialog."
     },
     "keybackup_waiting_description": {
-        "message": "A document with your recovery code is being prepared.",
+        "message": "リカバリーコードの文書を準備中です。",
         "description": ""
     },
     "keygrid_send_pub_key": {
@@ -436,7 +440,7 @@
         "description": "Back link in the action menu"
     },
     "security_log_backup_code_input": {
-        "message": "Recovery code input",
+        "message": "リカバリーコードの入力",
         "description": ""
     },
     "keyring_public": {
@@ -476,7 +480,7 @@
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "A key pair is required to encrypt and decrypt messages, as well as to invite your contacts to end-to-end encrypted communication.",
+        "message": "鍵のペアは、メールの暗号化と復号に必要です。",
         "description": "Setup text if no keypair available"
     },
     "settings_security_log": {
@@ -500,7 +504,7 @@
         "description": ""
     },
     "editor_sign_caption_short": {
-        "message": "Email will be signed digitally",
+        "message": "メールは署名されます",
         "description": ""
     },
     "recovery_sheet_provider_security": {
@@ -572,11 +576,11 @@
         "description": "Continue form button."
     },
     "dashboard_link_manage_keys": {
-        "message": "Manage keys",
+        "message": "鍵の管理",
         "description": "Dashboard manage keys link"
     },
     "security_log_signature_modal_close": {
-        "message": "Click to close the signature dialog",
+        "message": "署名ダイアログを閉じる",
         "description": ""
     },
     "decrypt_popup_header": {
@@ -596,11 +600,11 @@
         "description": ""
     },
     "file_read_error": {
-        "message": "Could not decrypt this file: $1",
+        "message": "このファイルを復号できませんでした: $1",
         "description": ""
     },
     "security_log_email_viewer": {
-        "message": "Decrypted PGP Email",
+        "message": "PGPメールの復号",
         "description": "Email decryption container as an event source"
     },
     "security_log_text": {
@@ -628,7 +632,7 @@
         "description": ""
     },
     "action_menu_keyring": {
-        "message": "<0>Keyring:</0> manage public and private keys.",
+        "message": "<0>Keyring:</0> 鍵の管理",
         "description": "Keyring label in the action menu"
     },
     "recovery_sheet_qr_code": {
@@ -668,7 +672,7 @@
         "description": "Label"
     },
     "file_decrypting": {
-        "message": "復号",
+        "message": "ファイル復号",
         "description": ""
     },
     "waiting_dialog_decryption_failed": {
@@ -700,7 +704,7 @@
         "description": "Create entry in watchlist."
     },
     "security_log_password_input": {
-        "message": "Input in password dialog",
+        "message": "パスワードの入力",
         "description": ""
     },
     "key_import_hkp_search_btn": {
@@ -767,10 +771,6 @@
         "message": "暗号化",
         "description": "Encrypt button."
     },
-    "digital_signature_dialog_header": {
-        "message": "デジタル署名",
-        "description": "Header of digital signature dialog."
-    },
     "key_gen_pwd_reenter": {
         "message": "パスワードを再入力してください",
         "description": "Label for passphrase input field"
@@ -808,7 +808,7 @@
         "description": ""
     },
     "action_menu_reload_extension_scripts": {
-        "message": "Reload extension scripts",
+        "message": "extension scriptをロードしなおす",
         "description": "Reload extension scripts shortcut in the action menu"
     },
     "security_log_timestamp": {
@@ -824,15 +824,19 @@
         "description": ""
     },
     "security_display_popup": {
-        "message": "In a separate Mailvelope popup.",
+        "message": "別のMailvelopeウインドウ",
         "description": "Decrypted message display option"
     },
     "recovery_sheet_be_aware": {
         "message": "ご了解ください",
         "description": "Label"
     },
+    "text_decrypt_button": {
+        "message": "復号化",
+        "description": "Button label for decrypting the message"
+    },
     "action_menu_dashboard": {
-        "message": "<0>Dashboard:</0> browse all configuration options.",
+        "message": "<0>Dashboard:</0> すべての設定オプションを見る",
         "description": "Dashboard label in the action menu"
     },
     "key_import_public_update": {
@@ -844,15 +848,15 @@
         "description": "Submit form button."
     },
     "restore_backup_dialog_headline": {
-        "message": "Please enter your recovery code:",
+        "message": "リカバリーコードを入力してください",
         "description": ""
     },
     "editor_no_primary_key_caption_short": {
-        "message": "Email cannot be signed digitally",
+        "message": "メールに署名ができません",
         "description": ""
     },
     "action_menu_advanced_menu_aria_label": {
-        "message": "Mailvelope advanced menu",
+        "message": "Mailvelope 上級メニュー",
         "description": "Accessibility, aria label of the advanced menu"
     },
     "recovery_sheet_provider_inbox": {
@@ -860,7 +864,7 @@
         "description": ""
     },
     "watchlist_record_title": {
-        "message": "Email Provider",
+        "message": "メールサービス",
         "description": "Title of the watchlist editor dialog."
     },
     "recovery_sheet_other_computer": {
@@ -883,12 +887,20 @@
         "message": "未知の鍵で署名",
         "description": "Verfiy signature warning."
     },
+    "text_result_header": {
+        "message": "暗号化されたメッセージ",
+        "description": "Text encryption result header"
+    },
     "invalid_primary_key": {
         "message": "暗号化と署名の鍵が有効ではありません。",
         "description": "Tootip for set as primary key button"
     },
+    "text_compose_header": {
+        "message": "メッセージの作成",
+        "description": "Text encryption feature header"
+    },
     "action_menu_edit_security_settings": {
-        "message": "Edit security settings",
+        "message": "設定の編集",
         "description": "Edit security settings shortcut in the action menu"
     },
     "alert_header_warning": {
@@ -920,7 +932,7 @@
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "security_log_textarea_input": {
-        "message": "Input in text area",
+        "message": "テキストエリアの入力",
         "description": "User clicked in text area"
     },
     "key_gen_demail": {
@@ -932,7 +944,7 @@
         "description": "Delete confirmation dialog."
     },
     "action_menu_more_options": {
-        "message": "More options",
+        "message": "オプション",
         "description": "More options link in the action menu (setup state)"
     },
     "pwd_dialog_title": {
@@ -944,11 +956,11 @@
         "description": "Button to download all files"
     },
     "security_log_backup_create": {
-        "message": "Click to create backup",
+        "message": "バックアップ作成",
         "description": ""
     },
     "dashboard_link_manage_email_providers": {
-        "message": "Manage email providers",
+        "message": "メールサービスの管理",
         "description": "Dashboard manage email providers link"
     },
     "keygrid_subkeys": {
@@ -977,10 +989,6 @@
     },
     "recovery_sheet_provider_settings": {
         "message": "設定",
-        "description": ""
-    },
-    "security_log_dialog_transfer": {
-        "message": "Click to transfer in dialog",
         "description": ""
     },
     "key_gen_expiration": {
@@ -1028,7 +1036,7 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "action_menu_manage_email_providers": {
-        "message": "Manage email providers",
+        "message": "メールサービスの管理",
         "description": "Manage email providers shortcut in the action menu"
     },
     "pwd_dialog_reason_editor": {
@@ -1044,7 +1052,7 @@
         "description": "Unique string identifier for a PGP key."
     },
     "keybackup_setup_dialog_button": {
-        "message": "Create a backup",
+        "message": "バックアップの作成",
         "description": ""
     },
     "pwd_dialog_reason_create_draft": {
@@ -1056,7 +1064,7 @@
         "description": "Key grid sort selector."
     },
     "dashboard_link_view_security_log": {
-        "message": "View security logs",
+        "message": "セキュリティーログを見る",
         "description": "Dashboard view security logs link"
     },
     "editor_blur_warn": {
@@ -1076,7 +1084,7 @@
         "description": ""
     },
     "editor_no_primary_key_caption_long": {
-        "message": "Email cannot be signed digitally because the primary key is missing",
+        "message": "鍵がないので、メールに署名できません",
         "description": ""
     },
     "keygen_dialog_confirm_success": {
@@ -1084,7 +1092,7 @@
         "description": ""
     },
     "keybackup_restore_dialog_list_2": {
-        "message": "A new recovery sheet has to be created for security reasons.",
+        "message": "新しい復旧シートが必要",
         "description": ""
     },
     "dashboard_title": {
@@ -1108,7 +1116,7 @@
         "description": "Store password in memory for $1 minutes."
     },
     "wrong_restore_code": {
-        "message": "Invalid recovery code",
+        "message": "無効なリカバリーコードです",
         "description": ""
     },
     "settings_watchlist": {
@@ -1144,7 +1152,7 @@
         "description": "Options navigation: Home."
     },
     "action_menu_review_security_logs": {
-        "message": "Review security logs",
+        "message": "セキュリティログを見る",
         "description": "Review security logs shortcut in the action menu"
     },
     "keygen_dialog_password": {
@@ -1180,15 +1188,15 @@
         "description": "Expose API to Webmailer."
     },
     "key_import_extend_fingerprint": {
-        "message": "PGP Fingerprint:",
+        "message": "PGPフィンガープリント",
         "description": ""
     },
     "key_export_warning_private": {
-        "message": "This file also contains private keys. Keep the file in a safe place and do not share with others.",
+        "message": "このファイルには秘密鍵が含まれています。安全な場所に保管し、他人と共有してはいけません。",
         "description": "Key export warning."
     },
     "action_menu_advanced_options": {
-        "message": "Advanced options",
+        "message": "上級オプション",
         "description": "Advanced options link in the action menu"
     },
     "learn_more_link": {
@@ -1212,7 +1220,7 @@
         "description": "Separate list of elements."
     },
     "install_landing_page_getting_started": {
-        "message": "Click on the Mailvelope icon <0></0> in your browser toolbar to begin with the configuration.",
+        "message": "ブラウザのMailvelopeのアイコン <0></0> をクリックして設定をしてください",
         "description": "Install landing page getting started message"
     },
     "key_import_exception": {
@@ -1232,7 +1240,7 @@
         "description": ""
     },
     "general_editor_type": {
-        "message": "Email editor selection",
+        "message": "エディタの選択範囲",
         "description": "Label for editor options."
     },
     "key_gen_pwd_unequal": {
@@ -1264,15 +1272,15 @@
         "description": "Title of download area"
     },
     "security_log_signature_modal_open": {
-        "message": "Click to open the signature dialog",
+        "message": "署名ダイアログを開く",
         "description": ""
     },
     "security_log_backup_restore": {
-        "message": "Click to restore backup",
+        "message": "バックアップから復元",
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "Create here a new recovery sheet, if:",
+        "message": "次の場合、新しいリカバリー（復旧）シートを作ります：",
         "description": ""
     },
     "key_import_default_headline": {
@@ -1288,7 +1296,7 @@
         "description": "Cleartext message read error message: $1: error message."
     },
     "file_encrypt_armored_output": {
-        "message": "Encrypt to file in text format (ASCII-Armor)",
+        "message": "テキスト形式の暗号化(ASCII-Armor)",
         "description": ""
     },
     "editor_header": {
@@ -1332,7 +1340,7 @@
         "description": "Expiration date of a PGP key."
     },
     "action_menu_file_encryption": {
-        "message": "<0>File encryption:</0> encrypt a file or more.",
+        "message": "<0>File encryption:</0> ファイルの暗号化",
         "description": "File encryption label in the action menu"
     },
     "restore_password_dialog_headline": {
@@ -1368,7 +1376,7 @@
         "description": "Caption digital signature"
     },
     "file_encrypting": {
-        "message": "暗号化",
+        "message": "ファイル暗号化",
         "description": ""
     },
     "keygrid_no_subkeys": {
@@ -1392,7 +1400,7 @@
         "description": "Import error message. $1: error message"
     },
     "security_log_textarea_select": {
-        "message": "Selection in text area",
+        "message": "テキストエリアの選択範囲",
         "description": "Selection of the text area as an event type"
     },
     "keygrid_signer_unknown": {
@@ -1400,7 +1408,7 @@
         "description": "Key of signer not available."
     },
     "security_log_dialog_sign": {
-        "message": "Click to sign in dialog",
+        "message": "ダイアログで署名",
         "description": ""
     },
     "editor_key_not_found_msg": {
@@ -1440,7 +1448,7 @@
         "description": "Navigation link to change this setting."
     },
     "upload_quota_warning_headline": {
-        "message": "Attachment is too big",
+        "message": "添付ファイルが大きすぎます",
         "description": ""
     },
     "key_gen_invalid_email": {
@@ -1452,7 +1460,7 @@
         "description": "Label for user ID."
     },
     "encrypting_home": {
-        "message": "ファイル暗号化",
+        "message": "暗号化",
         "description": "File encryption top navigation."
     },
     "decrypt_popup_copy": {
@@ -1460,7 +1468,7 @@
         "description": "Copy decrypted message to clipboard."
     },
     "action_menu_activate_current_tab": {
-        "message": "Activate on current tab",
+        "message": "現在のタブをアクティブにする",
         "description": "Activate on current tab shortcut in the action menu"
     },
     "form_next": {
@@ -1472,7 +1480,7 @@
         "description": "Tab allowing to backup and restore the settings."
     },
     "reload_webmail_tab": {
-        "message": "Please reload your email provider page for the settings to take effect.",
+        "message": "変更を反映するため、ページをリロードしてください。",
         "description": "Info message."
     },
     "form_yes": {
@@ -1500,7 +1508,7 @@
         "description": "Key import dialog description."
     },
     "install_landing_page_welcome": {
-        "message": "Welcome to Mailvelope!",
+        "message": "ようこそ、Mailvelopeへ",
         "description": "Install landing page welcome message"
     },
     "key_gen_advanced_btn": {
@@ -1515,6 +1523,10 @@
         "message": "セキュリティ",
         "description": "Tab of options to display security settings."
     },
+    "text_paste_armored_header": {
+        "message": "暗号化されたPGPメッセージを貼り付け",
+        "description": "Text decryption armored block header"
+    },
     "settings_general": {
         "message": "一般",
         "description": "Tab of options to display general settings."
@@ -1528,7 +1540,7 @@
         "description": "Import error message: $1: error message."
     },
     "editor_sign_caption_long": {
-        "message": "When the Email is sent out, it will also be signed digitally",
+        "message": "メールが送信される時、自動で署名されます。",
         "description": ""
     },
     "keygrid_display_pub_key": {
@@ -1536,7 +1548,7 @@
         "description": "Export key menu."
     },
     "upload_quota_exceeded_warning": {
-        "message": "Allowed attachment size:",
+        "message": "添付ファイルの上限サイズ",
         "description": "A warning shown when the attachments upload quota is exceeded."
     },
     "recovery_sheet_keep_safe": {
