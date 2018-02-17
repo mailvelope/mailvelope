@@ -159,6 +159,10 @@
         "message": "ID-en til din nøkkel",
         "description": "Tooltip explaining the key id."
     },
+    "text_encrypting": {
+        "message": "Tekstkryptering",
+        "description": "Navigation link to text encryption feature"
+    },
     "recovery_sheet_explain_pgp": {
         "message": "Kryptert kommunikasjon med [BRAND] er en PGP-basert prosedyre. Den tillater deg å sende krypterte e-poster og samtidig forsikre deg om at bare du og mottakeren kan lese dem.",
         "description": ""
@@ -190,6 +194,10 @@
     "key_gen_success": {
         "message": "Ny nøkkel generert og importert til nøkkelknippe",
         "description": "Key generation success message"
+    },
+    "text_decrypting": {
+        "message": "Tekstdekryptering",
+        "description": "Navigation link to text decryption feature"
     },
     "security_log_action": {
         "message": "Handling",
@@ -330,10 +338,6 @@
     "key_gen_pwd_match": {
         "message": "Passord samsvarer",
         "description": "Passphrase input field status"
-    },
-    "security_log_dialog_undo": {
-        "message": "Klikkhendelse for å angre dialog",
-        "description": ""
     },
     "pwd_dialog_reason_decrypt": {
         "message": "Skriv inn ditt nøkkelpassord for å dekryptere denne meldingen.",
@@ -668,7 +672,7 @@
         "description": "Label"
     },
     "file_decrypting": {
-        "message": "Dekryptering",
+        "message": "Fildekryptering",
         "description": ""
     },
     "waiting_dialog_decryption_failed": {
@@ -767,10 +771,6 @@
         "message": "Krypter",
         "description": "Encrypt button."
     },
-    "digital_signature_dialog_header": {
-        "message": "Digital signatur",
-        "description": "Header of digital signature dialog."
-    },
     "key_gen_pwd_reenter": {
         "message": "Oppgi passord på nytt",
         "description": "Label for passphrase input field"
@@ -831,6 +831,10 @@
         "message": "Ha i minnet",
         "description": "Label"
     },
+    "text_decrypt_button": {
+        "message": "Dekrypter",
+        "description": "Button label for decrypting the message"
+    },
     "action_menu_dashboard": {
         "message": "<0>Oversikt:</0> utforsk alle oppsettsvalg.",
         "description": "Dashboard label in the action menu"
@@ -883,9 +887,17 @@
         "message": "Signert med en ukjent nøkkel",
         "description": "Verfiy signature warning."
     },
+    "text_result_header": {
+        "message": "Kryptert melding",
+        "description": "Text encryption result header"
+    },
     "invalid_primary_key": {
         "message": "Nøkkel ikke gyldig for kryptering- og signerings-operasjoner",
         "description": "Tootip for set as primary key button"
+    },
+    "text_compose_header": {
+        "message": "Skriv melding",
+        "description": "Text encryption feature header"
     },
     "action_menu_edit_security_settings": {
         "message": "Rediger sikkerhetsinnstillinger",
@@ -977,10 +989,6 @@
     },
     "recovery_sheet_provider_settings": {
         "message": "Innstillinger",
-        "description": ""
-    },
-    "security_log_dialog_transfer": {
-        "message": "Klikkhendelse for å overføre ved dialog",
         "description": ""
     },
     "key_gen_expiration": {
@@ -1368,7 +1376,7 @@
         "description": "Caption digital signature"
     },
     "file_encrypting": {
-        "message": "Kryptering",
+        "message": "Filkryptering",
         "description": ""
     },
     "keygrid_no_subkeys": {
@@ -1452,7 +1460,7 @@
         "description": "Label for user ID."
     },
     "encrypting_home": {
-        "message": "Filkryptering",
+        "message": "Kryptering",
         "description": "File encryption top navigation."
     },
     "decrypt_popup_copy": {
@@ -1514,6 +1522,10 @@
     "settings_security": {
         "message": "Sikkerhet",
         "description": "Tab of options to display security settings."
+    },
+    "text_paste_armored_header": {
+        "message": "Lim inn kryptert PGP-melding",
+        "description": "Text decryption armored block header"
     },
     "settings_general": {
         "message": "Hovedinnstillinger",
