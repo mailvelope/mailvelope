@@ -159,6 +159,10 @@
         "message": "L’ID de votre clé",
         "description": "Tooltip explaining the key id."
     },
+    "text_encrypting": {
+        "message": "Le chiffrement de texte",
+        "description": "Navigation link to text encryption feature"
+    },
     "recovery_sheet_explain_pgp": {
         "message": "Les communications chiffrées avec [BRAND] sont une procédure fondée sur PGP. Elle vous permet d’envoyer des courriels chiffrés et garantit aussi que seuls vous et le destinataire puissiez les lire.",
         "description": ""
@@ -190,6 +194,10 @@
     "key_gen_success": {
         "message": "La nouvelle clé a été générée et importée dans le trousseau",
         "description": "Key generation success message"
+    },
+    "text_decrypting": {
+        "message": "Le déchiffrement de texte",
+        "description": "Navigation link to text decryption feature"
     },
     "security_log_action": {
         "message": "Action",
@@ -330,10 +338,6 @@
     "key_gen_pwd_match": {
         "message": "Les mots de passe correspondent",
         "description": "Passphrase input field status"
-    },
-    "security_log_dialog_undo": {
-        "message": "Clic pour annuler dans une boîte de dialogue",
-        "description": ""
     },
     "pwd_dialog_reason_decrypt": {
         "message": "Veuillez saisir le mot de passe de votre clé pour déchiffrer ce message.",
@@ -668,7 +672,7 @@
         "description": "Label"
     },
     "file_decrypting": {
-        "message": "Déchiffrement",
+        "message": "Le déchiffrement de fichiers",
         "description": ""
     },
     "waiting_dialog_decryption_failed": {
@@ -767,10 +771,6 @@
         "message": "Chiffrer",
         "description": "Encrypt button."
     },
-    "digital_signature_dialog_header": {
-        "message": "Signature numérique",
-        "description": "Header of digital signature dialog."
-    },
     "key_gen_pwd_reenter": {
         "message": "Confirmer le mot de passe",
         "description": "Label for passphrase input field"
@@ -831,6 +831,10 @@
         "message": "Veuillez noter ",
         "description": "Label"
     },
+    "text_decrypt_button": {
+        "message": "Déchiffrer",
+        "description": "Button label for decrypting the message"
+    },
     "action_menu_dashboard": {
         "message": "<0>Tableau de bord : </0> parcourir toutes les options de configuration.",
         "description": "Dashboard label in the action menu"
@@ -883,9 +887,17 @@
         "message": "Signé avec une clé inconnue",
         "description": "Verfiy signature warning."
     },
+    "text_result_header": {
+        "message": "Message chiffré",
+        "description": "Text encryption result header"
+    },
     "invalid_primary_key": {
         "message": "La clé n’est pas valide pour les opérations de chiffrement et de signature",
         "description": "Tootip for set as primary key button"
+    },
+    "text_compose_header": {
+        "message": "Rédiger un message",
+        "description": "Text encryption feature header"
     },
     "action_menu_edit_security_settings": {
         "message": "Modifier les paramètres de sécurité",
@@ -977,10 +989,6 @@
     },
     "recovery_sheet_provider_settings": {
         "message": "Paramètres",
-        "description": ""
-    },
-    "security_log_dialog_transfer": {
-        "message": "Clic pour transférer dans une boîte de dialogue",
         "description": ""
     },
     "key_gen_expiration": {
@@ -1368,7 +1376,7 @@
         "description": "Caption digital signature"
     },
     "file_encrypting": {
-        "message": "Chiffrement",
+        "message": "Le chiffrement de fichiers",
         "description": ""
     },
     "keygrid_no_subkeys": {
@@ -1452,7 +1460,7 @@
         "description": "Label for user ID."
     },
     "encrypting_home": {
-        "message": "Chiffrement de fichiers",
+        "message": "Chiffrement",
         "description": "File encryption top navigation."
     },
     "decrypt_popup_copy": {
@@ -1514,6 +1522,10 @@
     "settings_security": {
         "message": "Sécurité",
         "description": "Tab of options to display security settings."
+    },
+    "text_paste_armored_header": {
+        "message": "Coller le message chiffré par PGP",
+        "description": "Text decryption armored block header"
     },
     "settings_general": {
         "message": "Général",
