@@ -159,6 +159,10 @@
         "message": "La identificación de su clave",
         "description": "Tooltip explaining the key id."
     },
+    "text_encrypting": {
+        "message": "Cifrado del texto",
+        "description": "Navigation link to text encryption feature"
+    },
     "recovery_sheet_explain_pgp": {
         "message": "La comunicación cifrada con [BRAND] es un procedimiento basado-en-PGP. Le permite enviar correos cifrados, y al mismo tiempo se asegura de que sólo usted y el receptor pueden leerlos.",
         "description": ""
@@ -190,6 +194,10 @@
     "key_gen_success": {
         "message": "Nueva clave generada e importada al juego de claves",
         "description": "Key generation success message"
+    },
+    "text_decrypting": {
+        "message": "Descifrado del texto",
+        "description": "Navigation link to text decryption feature"
     },
     "security_log_action": {
         "message": "Acción",
@@ -330,10 +338,6 @@
     "key_gen_pwd_match": {
         "message": "Las contraseñas coinciden",
         "description": "Passphrase input field status"
-    },
-    "security_log_dialog_undo": {
-        "message": "Pulsación para deshacer en cuadro de diálogo",
-        "description": ""
     },
     "pwd_dialog_reason_decrypt": {
         "message": "Introduzca la contraseña de la clave para descifrar este mensaje.",
@@ -668,7 +672,7 @@
         "description": "Label"
     },
     "file_decrypting": {
-        "message": "Descifrado",
+        "message": "Descifrado del fichero",
         "description": ""
     },
     "waiting_dialog_decryption_failed": {
@@ -767,10 +771,6 @@
         "message": "Cifrar",
         "description": "Encrypt button."
     },
-    "digital_signature_dialog_header": {
-        "message": "Firma digital",
-        "description": "Header of digital signature dialog."
-    },
     "key_gen_pwd_reenter": {
         "message": "Vuelva a introducir la contraseña",
         "description": "Label for passphrase input field"
@@ -831,6 +831,10 @@
         "message": "Por favor tenga en cuenta",
         "description": "Label"
     },
+    "text_decrypt_button": {
+        "message": "Descifrar",
+        "description": "Button label for decrypting the message"
+    },
     "action_menu_dashboard": {
         "message": "<0>Panel de instrumentos:</0> Examine todas las opciones de configuración.",
         "description": "Dashboard label in the action menu"
@@ -883,9 +887,17 @@
         "message": "Firmado con clave desconocida",
         "description": "Verfiy signature warning."
     },
+    "text_result_header": {
+        "message": "Mensaje cifrado",
+        "description": "Text encryption result header"
+    },
     "invalid_primary_key": {
         "message": "La clave no es válida para operaciones de cifrado y firmado",
         "description": "Tootip for set as primary key button"
+    },
+    "text_compose_header": {
+        "message": "Componer mensaje",
+        "description": "Text encryption feature header"
     },
     "action_menu_edit_security_settings": {
         "message": "Editar configuración de seguridad",
@@ -977,10 +989,6 @@
     },
     "recovery_sheet_provider_settings": {
         "message": "Configuraciones",
-        "description": ""
-    },
-    "security_log_dialog_transfer": {
-        "message": "Pulsación para transferir en cuadro de diálogo",
         "description": ""
     },
     "key_gen_expiration": {
@@ -1368,7 +1376,7 @@
         "description": "Caption digital signature"
     },
     "file_encrypting": {
-        "message": "Cifrado",
+        "message": "Cifrado de ficheros",
         "description": ""
     },
     "keygrid_no_subkeys": {
@@ -1452,7 +1460,7 @@
         "description": "Label for user ID."
     },
     "encrypting_home": {
-        "message": "Cifrado de ficheros",
+        "message": "Cifrado",
         "description": "File encryption top navigation."
     },
     "decrypt_popup_copy": {
@@ -1514,6 +1522,10 @@
     "settings_security": {
         "message": "Seguridad",
         "description": "Tab of options to display security settings."
+    },
+    "text_paste_armored_header": {
+        "message": "Pegar mensaje PGP cifrado",
+        "description": "Text decryption armored block header"
     },
     "settings_general": {
         "message": "General",
