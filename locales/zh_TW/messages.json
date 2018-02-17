@@ -88,7 +88,7 @@
         "description": "Confirm form button."
     },
     "action_menu_setup_menu_aria_label": {
-        "message": "Mailvelope setup menu",
+        "message": "Mailvelope 設定選單",
         "description": "Accessibility, aria label of the setup menu"
     },
     "key_import_hkp_search_ph": {
@@ -116,7 +116,7 @@
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "keyring_confirm_deletion": {
-        "message": "Do you want to remove the keyring with ID: $1?",
+        "message": "要移除這個 ID : $1 的鑰!匙圈嗎?",
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyserver_hkp_url": {
@@ -159,6 +159,10 @@
         "message": "密鑰的識別碼",
         "description": "Tooltip explaining the key id."
     },
+    "text_encrypting": {
+        "message": "內文加密",
+        "description": "Navigation link to text encryption feature"
+    },
     "recovery_sheet_explain_pgp": {
         "message": "[BRAND] 加密通訊是以 PGP-為基礎的程式，它可以讓你傳送加密郵件，同時確保只有寄件者和收件人可以讀取訊息。",
         "description": ""
@@ -191,12 +195,16 @@
         "message": "已産生新密鑰並匯入到鑰匙圈內",
         "description": "Key generation success message"
     },
+    "text_decrypting": {
+        "message": "內文解密",
+        "description": "Navigation link to text decryption feature"
+    },
     "security_log_action": {
         "message": "動作",
         "description": "Title of the action column of the security log table."
     },
     "install_landing_page_help": {
-        "message": "Check out the <0>online help</0> for more information.",
+        "message": "查看 <0>線上幫助</0> 取得更多資訊。",
         "description": "Install landing page help message"
     },
     "general_primary_key_label": {
@@ -212,7 +220,7 @@
         "description": "File upload selection"
     },
     "action_menu_configure_mailvelope": {
-        "message": "<0>Configure Mailvelope</0> to get started!",
+        "message": "<0>設定 Mailvelope</0> 來開始使用",
         "description": "Configure Mailvelope label in the action menu"
     },
     "security_log_dialog_encrypt": {
@@ -320,7 +328,7 @@
         "description": "Subkey ID of a PGP key."
     },
     "action_menu_primary_menu_aria_label": {
-        "message": "Mailvelope primary menu",
+        "message": "Mailvelope 主選單",
         "description": "Accessibility, aria label of the primary menu"
     },
     "key_import_dialog_header": {
@@ -330,10 +338,6 @@
     "key_gen_pwd_match": {
         "message": "密碼相符",
         "description": "Passphrase input field status"
-    },
-    "security_log_dialog_undo": {
-        "message": "在對話框點擊取消",
-        "description": ""
     },
     "pwd_dialog_reason_decrypt": {
         "message": "請輸入主密碼以解密本訊息",
@@ -388,7 +392,7 @@
         "description": ""
     },
     "action_menu_all_options": {
-        "message": "All options",
+        "message": "所有選項",
         "description": "All options link in the action menu"
     },
     "security_log_import_dialog": {
@@ -628,7 +632,7 @@
         "description": ""
     },
     "action_menu_keyring": {
-        "message": "<0>Keyring:</0> manage public and private keys.",
+        "message": "<0>金鑰匙圈：</0> 管理公鑰與私鑰。",
         "description": "Keyring label in the action menu"
     },
     "recovery_sheet_qr_code": {
@@ -668,7 +672,7 @@
         "description": "Label"
     },
     "file_decrypting": {
-        "message": "解密",
+        "message": "檔案解密",
         "description": ""
     },
     "waiting_dialog_decryption_failed": {
@@ -767,10 +771,6 @@
         "message": "加密",
         "description": "Encrypt button."
     },
-    "digital_signature_dialog_header": {
-        "message": "數位簽署",
-        "description": "Header of digital signature dialog."
-    },
     "key_gen_pwd_reenter": {
         "message": "重新輸入密碼",
         "description": "Label for passphrase input field"
@@ -808,7 +808,7 @@
         "description": ""
     },
     "action_menu_reload_extension_scripts": {
-        "message": "Reload extension scripts",
+        "message": "重新載入擴展腳本",
         "description": "Reload extension scripts shortcut in the action menu"
     },
     "security_log_timestamp": {
@@ -831,8 +831,12 @@
         "message": "請留意",
         "description": "Label"
     },
+    "text_decrypt_button": {
+        "message": "解密",
+        "description": "Button label for decrypting the message"
+    },
     "action_menu_dashboard": {
-        "message": "<0>Dashboard:</0> browse all configuration options.",
+        "message": "<0>人儀表板：</0> 瀏覽所有設定選項",
         "description": "Dashboard label in the action menu"
     },
     "key_import_public_update": {
@@ -852,7 +856,7 @@
         "description": ""
     },
     "action_menu_advanced_menu_aria_label": {
-        "message": "Mailvelope advanced menu",
+        "message": "Mailvelope 進階選項",
         "description": "Accessibility, aria label of the advanced menu"
     },
     "recovery_sheet_provider_inbox": {
@@ -883,12 +887,20 @@
         "message": "由不知名的密碼簽署",
         "description": "Verfiy signature warning."
     },
+    "text_result_header": {
+        "message": "加密的訊息",
+        "description": "Text encryption result header"
+    },
     "invalid_primary_key": {
         "message": "密鑰無法進行加密與簽章操作",
         "description": "Tootip for set as primary key button"
     },
+    "text_compose_header": {
+        "message": "撰寫訊息",
+        "description": "Text encryption feature header"
+    },
     "action_menu_edit_security_settings": {
-        "message": "Edit security settings",
+        "message": "編輯安全設定",
         "description": "Edit security settings shortcut in the action menu"
     },
     "alert_header_warning": {
@@ -932,7 +944,7 @@
         "description": "Delete confirmation dialog."
     },
     "action_menu_more_options": {
-        "message": "More options",
+        "message": "更多選項",
         "description": "More options link in the action menu (setup state)"
     },
     "pwd_dialog_title": {
@@ -977,10 +989,6 @@
     },
     "recovery_sheet_provider_settings": {
         "message": "設定",
-        "description": ""
-    },
-    "security_log_dialog_transfer": {
-        "message": "在對話框點擊傳送",
         "description": ""
     },
     "key_gen_expiration": {
@@ -1088,7 +1096,7 @@
         "description": ""
     },
     "dashboard_title": {
-        "message": "Dashboard",
+        "message": "儀表板",
         "description": "Dashboard view header"
     },
     "security_log_attachment_download": {
@@ -1144,7 +1152,7 @@
         "description": "Options navigation: Home."
     },
     "action_menu_review_security_logs": {
-        "message": "Review security logs",
+        "message": "檢視安全日誌",
         "description": "Review security logs shortcut in the action menu"
     },
     "keygen_dialog_password": {
@@ -1184,11 +1192,11 @@
         "description": ""
     },
     "key_export_warning_private": {
-        "message": "This file also contains private keys. Keep the file in a safe place and do not share with others.",
+        "message": "此檔案含有私鑰，請將它存放在安全處，不要和他人共享。",
         "description": "Key export warning."
     },
     "action_menu_advanced_options": {
-        "message": "Advanced options",
+        "message": "進階選項",
         "description": "Advanced options link in the action menu"
     },
     "learn_more_link": {
@@ -1212,7 +1220,7 @@
         "description": "Separate list of elements."
     },
     "install_landing_page_getting_started": {
-        "message": "Click on the Mailvelope icon <0></0> in your browser toolbar to begin with the configuration.",
+        "message": "在瀏覽器工具列中點擊 Mailvelope 圖標 <0></0> 以進行設定。",
         "description": "Install landing page getting started message"
     },
     "key_import_exception": {
@@ -1332,7 +1340,7 @@
         "description": "Expiration date of a PGP key."
     },
     "action_menu_file_encryption": {
-        "message": "<0>File encryption:</0> encrypt a file or more.",
+        "message": "<0>檔案加密：</0> 加密一個以上檔案",
         "description": "File encryption label in the action menu"
     },
     "restore_password_dialog_headline": {
@@ -1368,7 +1376,7 @@
         "description": "Caption digital signature"
     },
     "file_encrypting": {
-        "message": "加密",
+        "message": "加密檔案",
         "description": ""
     },
     "keygrid_no_subkeys": {
@@ -1452,7 +1460,7 @@
         "description": "Label for user ID."
     },
     "encrypting_home": {
-        "message": "檔案加密",
+        "message": "加密",
         "description": "File encryption top navigation."
     },
     "decrypt_popup_copy": {
@@ -1460,7 +1468,7 @@
         "description": "Copy decrypted message to clipboard."
     },
     "action_menu_activate_current_tab": {
-        "message": "Activate on current tab",
+        "message": "在目前的分頁下激活",
         "description": "Activate on current tab shortcut in the action menu"
     },
     "form_next": {
@@ -1500,7 +1508,7 @@
         "description": "Key import dialog description."
     },
     "install_landing_page_welcome": {
-        "message": "Welcome to Mailvelope!",
+        "message": "歡迎來到 Mailvelope!",
         "description": "Install landing page welcome message"
     },
     "key_gen_advanced_btn": {
@@ -1514,6 +1522,10 @@
     "settings_security": {
         "message": "安全",
         "description": "Tab of options to display security settings."
+    },
+    "text_paste_armored_header": {
+        "message": "貼上加密的 PGP 訊息",
+        "description": "Text decryption armored block header"
     },
     "settings_general": {
         "message": "一般",
