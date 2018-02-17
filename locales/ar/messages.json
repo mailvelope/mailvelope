@@ -159,6 +159,10 @@
         "message": "معرف المفتاح الخاص بك",
         "description": "Tooltip explaining the key id."
     },
+    "text_encrypting": {
+        "message": "Text Encryption",
+        "description": "Navigation link to text encryption feature"
+    },
     "recovery_sheet_explain_pgp": {
         "message": "Encrypted communication with [BRAND] is a PGP-based procedure. It enables you to send encrypted emails and, at the same time, ensures that only you and the receiver are able to read them.",
         "description": ""
@@ -190,6 +194,10 @@
     "key_gen_success": {
         "message": "لقد أنشئ مفتاح جديد وتم إستيراده إلى حافظة المفاتيح",
         "description": "Key generation success message"
+    },
+    "text_decrypting": {
+        "message": "Text Decryption",
+        "description": "Navigation link to text decryption feature"
     },
     "security_log_action": {
         "message": "نشاط",
@@ -330,10 +338,6 @@
     "key_gen_pwd_match": {
         "message": "كلمتا السر متطابقتان",
         "description": "Passphrase input field status"
-    },
-    "security_log_dialog_undo": {
-        "message": "Click to undo in dialog",
-        "description": ""
     },
     "pwd_dialog_reason_decrypt": {
         "message": "الرجاء إدخال كلمة السر الخاصة بمفتاحك لفك تشفير هذه الرسالة.",
@@ -668,7 +672,7 @@
         "description": "Label"
     },
     "file_decrypting": {
-        "message": "فك التشفير",
+        "message": "File Decryption",
         "description": ""
     },
     "waiting_dialog_decryption_failed": {
@@ -767,10 +771,6 @@
         "message": "عَمِّ",
         "description": "Encrypt button."
     },
-    "digital_signature_dialog_header": {
-        "message": "التوقيع الرقمي",
-        "description": "Header of digital signature dialog."
-    },
     "key_gen_pwd_reenter": {
         "message": "أَعِد إدخال كلمة السر",
         "description": "Label for passphrase input field"
@@ -831,6 +831,10 @@
         "message": "الرجاء كن على علم",
         "description": "Label"
     },
+    "text_decrypt_button": {
+        "message": "فك التعمية",
+        "description": "Button label for decrypting the message"
+    },
     "action_menu_dashboard": {
         "message": "<0>Dashboard:</0> browse all configuration options.",
         "description": "Dashboard label in the action menu"
@@ -883,9 +887,17 @@
         "message": "موقع بمفتاح غير معروف",
         "description": "Verfiy signature warning."
     },
+    "text_result_header": {
+        "message": "رسالة مُعمَّاة",
+        "description": "Text encryption result header"
+    },
     "invalid_primary_key": {
         "message": "المفتاح غير صالح لعمليات التشفير والتوقيع",
         "description": "Tootip for set as primary key button"
+    },
+    "text_compose_header": {
+        "message": "Compose message",
+        "description": "Text encryption feature header"
     },
     "action_menu_edit_security_settings": {
         "message": "Edit security settings",
@@ -977,10 +989,6 @@
     },
     "recovery_sheet_provider_settings": {
         "message": "الإعدادات",
-        "description": ""
-    },
-    "security_log_dialog_transfer": {
-        "message": "Click to transfer in dialog",
         "description": ""
     },
     "key_gen_expiration": {
@@ -1368,7 +1376,7 @@
         "description": "Caption digital signature"
     },
     "file_encrypting": {
-        "message": "تشفير",
+        "message": "تعمية ملف",
         "description": ""
     },
     "keygrid_no_subkeys": {
@@ -1452,7 +1460,7 @@
         "description": "Label for user ID."
     },
     "encrypting_home": {
-        "message": "تشفير الملفات",
+        "message": "تشفير",
         "description": "File encryption top navigation."
     },
     "decrypt_popup_copy": {
@@ -1514,6 +1522,10 @@
     "settings_security": {
         "message": "الأمان",
         "description": "Tab of options to display security settings."
+    },
+    "text_paste_armored_header": {
+        "message": "Paste encrypted PGP message",
+        "description": "Text decryption armored block header"
     },
     "settings_general": {
         "message": "عام",
