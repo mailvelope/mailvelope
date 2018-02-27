@@ -28,9 +28,6 @@
 (function() {
   /**
    * Not accessible, see {@tutorial Readme} instead on how to obtain access to an instance.
-   * @constructor
-   * @private
-   * @alias Mailvelope
    */
   class Mailvelope {
     /**
@@ -196,9 +193,6 @@
   /**
    * Not accessible, instance can be obtained using {@link Mailvelope#getKeyring}
    * or {@link Mailvelope#createKeyring}.
-   * @constructor
-   * @private
-   * @alias Keyring
    * @param {string} identifier - the keyring identifier
    * @param {object} options - the options
    * @property {number} logoRev - revision number of the keyring logo, initial value: 0
@@ -433,10 +427,7 @@
 
   /**
    * Not accessible, instance can be obtained using {@link Keyring#createKeyBackupContainer}
-   * @private
    * @param {string} popupId
-   * @alis Popup
-   * @constructor
    */
   class KeyBackupPopup {
     constructor(popupId) {
@@ -454,10 +445,7 @@
 
   /**
    * Not accessible, instance can be obtained using {@link Keyring#createKeyGenContainer}.
-   * @private
    * @param {string} generatorId - the internal id of the generator
-   * @alias Generator
-   * @constructor
    */
   class Generator {
     constructor(generatorId) {
@@ -487,10 +475,7 @@
 
   /**
    * Not accessible, instance can be obtained using {@link Keyring#restoreBackupContainer}.
-   * @private
    * @param {string} restoreId - the internal id of the restore backup
-   * @alias RestoreBackup
-   * @constructor
    */
   class RestoreBackup {
     constructor(restoreId) {
@@ -508,10 +493,7 @@
 
   /**
    * Not accessible, instance can be obtained using {@link Mailvelope#createEditorContainer}.
-   * @private
    * @param {string} editorId - the internal id of the editor
-   * @alias Editor
-   * @constructor
    */
   class Editor {
     constructor(editorId) {
