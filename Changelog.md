@@ -1,6 +1,17 @@
 Mailvelope Changelog
 ====================
 
+v2.2.0
+-------
+__Mar. 6, 2018__
+
+  * Encrypt and decrypt texts in App UI
+  * Migrate decrypt-inline and editor component to React
+  * Decrypt available messages when transferring to Mailvelope editor
+  * Fix keyring backup key type filtering
+  * Fix initialization of watchlist
+  * Fix key server selection cancel button
+
 v2.1.1
 -------
 __Dec. 20, 2017__
