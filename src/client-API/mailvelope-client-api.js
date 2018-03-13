@@ -175,6 +175,18 @@
       }
       return postMessage('settings-container', {selector, identifier: keyring.identifier, options});
     }
+
+    /**
+     * Creates an iframe to display an encrypted form
+     * The iframe will be injected into the container identified by selector.
+     * @param @param {string} selector - the id of target container
+     * @param @param {string} formHtml - the form definition
+     * @param @param {string} signature - the OpenPGP signature
+     * @returns {Promise.<undefined, Error>}
+     */
+    createEncryptedFormContainer(selector, formHtml, signature) {
+      return postMessage('encrypted-form-container', {selector, formHtml, signature});
+    }
   }
 
   // connection to content script is alive

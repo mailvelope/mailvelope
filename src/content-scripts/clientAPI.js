@@ -8,6 +8,7 @@ import $ from 'jquery';
 import {prefs, host, getMessageType} from './main';
 import DecryptContainer from './decryptContainer';
 import EditorContainer from './editorContainer';
+import FormContainer from './encryptedFormContainer';
 import AppContainer from './appContainer';
 import KeyGenContainer from './keyGenContainer';
 import KeyBackupContainer from './keyBackupContainer';
@@ -77,7 +78,9 @@ const dataTypes = {
   restoreId: 'string',
   restoreBackup: 'string',
   id: 'string',
-  confirmRequired: 'boolean'
+  confirmRequired: 'boolean',
+  signature: 'string',
+  formHtml: 'string'
 };
 
 const optionsTypes = {
@@ -236,6 +239,9 @@ function eventListener(event) {
         break;
       case 'sync-handler-done':
         syncHandlerDone(data);
+        break;
+      case 'encrypted-form-container':
+        encryptedFormContainer(data.selector, data.formHtml, data.signature, reply.bind(null, event.data.id));
         break;
       default:
         console.log('clientAPI unknown event', event.data.event);
@@ -446,4 +452,10 @@ function syncHandlerDone(data) {
   const container = containers.get(data.syncHandlerId);
 
   container.syncDone(data);
+}
+
+function encryptedFormContainer(selector, formHtml, signature, callback) {
+  const container = new FormContainer(selector, formHtml, signature);
+  containers.set(container.id, container);
+  container.create(callback);
 }

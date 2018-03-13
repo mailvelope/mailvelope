@@ -48,6 +48,7 @@
     "components/key-backup/keyBackupDialog.html",
     "components/restore-backup/restoreBackupDialog.html",
     "components/editor/editor.html",
+    "components/encrypted-form/encryptedForm.html",
     "components/verify-inline/verifyInlineSig.css",
     "content-scripts/framestyles.css",
     "dep/bootstrap/css/bootstrap.css",
