@@ -17,7 +17,7 @@ import {SyncController} from './sync.controller';
 import PrivateKeyController from './privateKey.controller';
 import AppController from './app.controller';
 import MenuController from './menu.controller';
-import EncryptedFormController from './form.controller';
+import EncryptedFormController from './encryptedForm.controller';
 
 /**
  * Register controllers for component types. Only the components that first connect to the controller
@@ -40,7 +40,6 @@ sub.factory.register('restoreBackupCont',   PrivateKeyController);
 sub.factory.register('app',                 AppController);
 sub.factory.register('appCont',             AppController);
 sub.factory.register('menu',                MenuController);
-sub.factory.register('encryptedForm',       EncryptedFormController);
 sub.factory.register('encryptedFormCont',   EncryptedFormController);
 
 export async function initController() {
