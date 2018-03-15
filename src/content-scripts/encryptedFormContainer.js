@@ -7,14 +7,15 @@ import mvelo from "../mvelo";
 
 export default class EncryptedFormContainer {
   constructor(selector, html, signature) {
+    this.baseValidate(html, signature);
     this.selector = selector;
     this.id = mvelo.util.getHash();
     this.name = `encryptedFormCont-${this.id}`;
     this.port = mvelo.runtime.connect({name: this.name});
     this.registerEventListener();
     this.parent = null;
-    this.container = null;
     this.signature = signature;
+    this.container = null;
     this.html = html;
     this.done = null;
   }
@@ -45,18 +46,31 @@ export default class EncryptedFormContainer {
     this.port.onMessage.addListener(msg => {
       switch (msg.event) {
         case 'encrypted-form-ready':
-          this.done(this.processFormDefinition(), this.id);
+          this.processFormDefinition();
           break;
         case 'destroy':
           this.parent.removeChild(this.container);
           this.port.disconnect();
+          this.done(false, this.id);
           break;
         case 'error-message':
-          console.log('error-message');
+          this.parent.removeChild(this.container);
+          this.port.disconnect();
+          this.done(msg.error);
           break;
         default:
           console.log('unknown event', msg);
       }
     });
+  }
+
+  baseValidate(html, signature) {
+    if (!html) {
+      throw new mvelo.Error('The html cannot be empty.');
+    }
+    if (!signature) {
+      throw new mvelo.Error('The signature cannot be empty.');
+    }
+    return true;
   }
 }

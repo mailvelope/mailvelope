@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import mvelo from '../../mvelo';
 import * as l10n from '../../lib/l10n';
-
+import FormSandbox from './components/FormSandbox';
 import './encryptedForm.css';
 
 // register language strings
@@ -21,10 +21,13 @@ export default class EncryptedForm extends React.Component {
     this.state = {
       message: 'ok',
       formDefinition: null,
-      error: null
+      error: null,
+      waiting: true
     };
+    this.formSandbox = null;
     this.port = mvelo.EventHandler.connect(`encryptedForm-${this.props.id}`, this);
     this.registerEventListeners();
+
     // emit event to backend that editor has initialized
     this.port.emit('encrypted-form-init');
   }
@@ -36,17 +39,9 @@ export default class EncryptedForm extends React.Component {
   }
 
   registerEventListeners() {
-    this.port.on('encrypted-form-ready', this.showReadyMsg);
-    this.port.on('encrypted-form-definition-ok', this.showForm);
+    this.port.on('encrypted-form-definition', this.showForm);
     this.port.on('error-message', this.showErrorMsg);
     this.port.on('terminate', () => mvelo.ui.terminate(this.port));
-  }
-
-  showReadyMsg() {
-    this.setState({
-      message: 'encrypted-form-ready',
-      waiting: false
-    });
   }
 
   showForm(event) {
@@ -67,16 +62,17 @@ export default class EncryptedForm extends React.Component {
     });
   }
 
-  render() {
-    let formContent;
-    if (this.state.formDefinition) {
-      formContent = <div dangerouslySetInnerHTML={{__html: this.state.formDefinition}} />;
-    }
+  formSandboxIframe() {
+    return (
+      <FormSandbox formDefinition={this.state.formDefinition} onTerminate={() => mvelo.ui.terminate(this.port)} ref={node => this.formSandbox = node} />
+    );
+  }
 
+  render() {
     return (
       <div className={this.props.secureBackground && !this.state.waiting ? 'jumbotron secureBackground' : ''} style={{height: '100%', position: 'relative'}}>
         <section className="well">
-          {formContent}
+          {!this.state.waiting ? (this.formSandboxIframe()) : (<div>loading.. </div>)}
           <button className="btn btn-primary" type="submit">Submit</button>
         </section>
       </div>
@@ -86,8 +82,7 @@ export default class EncryptedForm extends React.Component {
 
 EncryptedForm.propTypes = {
   id: PropTypes.string,
-  secureBackground: PropTypes.bool,
-  isContainer: PropTypes.bool
+  secureBackground: PropTypes.bool
 };
 
 EncryptedForm.defaultProps = {
