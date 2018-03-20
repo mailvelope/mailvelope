@@ -29,7 +29,7 @@ export default class EncryptedFormContainer {
     this.container.setAttribute('frameBorder', 0);
     this.container.setAttribute('scrolling', 'yes');
     this.container.style.width = '100%';
-    this.container.style.height = '650px';
+    this.container.style.height = '850px';
     this.parent.appendChild(this.container);
   }
 

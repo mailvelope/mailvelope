@@ -19,10 +19,10 @@ export default class EncryptedForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: 'ok',
       formDefinition: null,
       error: null,
-      waiting: true
+      waiting: true,
+      submit: false
     };
     this.formSandbox = null;
     this.port = mvelo.EventHandler.connect(`encryptedForm-${this.props.id}`, this);
@@ -62,9 +62,16 @@ export default class EncryptedForm extends React.Component {
     });
   }
 
+  onSubmit() {
+    this.setState(() => ({submit: true}));
+  }
+
   formSandboxIframe() {
     return (
-      <FormSandbox formDefinition={this.state.formDefinition} onTerminate={() => mvelo.ui.terminate(this.port)} ref={node => this.formSandbox = node} />
+      <FormSandbox formDefinition={this.state.formDefinition}
+        onTerminate={() => mvelo.ui.terminate(this.port)}
+        needSubmit={this.state.submit}
+        ref={node => this.formSandbox = node} />
     );
   }
 
@@ -73,7 +80,7 @@ export default class EncryptedForm extends React.Component {
       <div className={this.props.secureBackground && !this.state.waiting ? 'jumbotron secureBackground' : ''} style={{height: '100%', position: 'relative'}}>
         <section className="well">
           {!this.state.waiting ? (this.formSandboxIframe()) : (<div>loading.. </div>)}
-          <button className="btn btn-primary" type="submit">Submit</button>
+          <button className="btn btn-primary btn-big" type="submit" onClick={() => this.onSubmit()}>Submit</button>
         </section>
       </div>
     );
