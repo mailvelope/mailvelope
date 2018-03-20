@@ -33,7 +33,7 @@ export default class EncryptedFormController extends sub.SubController {
     // Check that there is only one form tag
 
     // Extract form destination url and recipient
-    if(!this.parseUrl(formTag)) {
+    if (!this.parseUrl(formTag)) {
       // empty data-url is allowed
       // in this case the encrypted content will be returned to the page
     }
@@ -58,7 +58,6 @@ export default class EncryptedFormController extends sub.SubController {
       url: this.formUrl,
       recipient: this.formRecipient
     });
-
   }
 
   getCleanFormHtml(dirtyHtml) {
@@ -106,5 +105,4 @@ export default class EncryptedFormController extends sub.SubController {
     this.formRecipient = match[1];
     return true;
   }
-
 }
