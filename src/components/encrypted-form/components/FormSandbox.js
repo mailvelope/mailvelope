@@ -12,6 +12,7 @@ export default class FormSandbox extends React.Component {
     this.sandbox = null;
     this.form = null;
     this.iframe = null;
+    this.files = [];
   }
 
   shouldComponentUpdate() {
@@ -37,6 +38,11 @@ export default class FormSandbox extends React.Component {
     }
   }
 
+  resizeIframe() {
+    const height = this.iframe.contentDocument.body.scrollHeight;
+    this.iframe.style.height = height + 'px';
+  }
+
   onFormSubmit() {
     if (this.form.checkValidity() === false) {
       // do nothing
@@ -45,23 +51,95 @@ export default class FormSandbox extends React.Component {
       // do nothing else
       console.log('form is valid');
     }
-    console.log(this.extractFormData());
-    this.form.classList.add('was-validated');
-    this.resizeIframe();
+    this.getFilesValues().then(() => {
+      // replace with //this.props.reponseMode
+      console.log(this.serializeFormData('json'));
+      console.log(this.serializeFormData('form'));
+      console.log(this.serializeFormData('html'));
+      this.form.classList.add('was-validated');
+      this.resizeIframe();
+    });
   }
 
-  resizeIframe() {
-    const height = this.iframe.contentDocument.body.scrollHeight;
-    this.iframe.style.height = height + 'px';
+  serializeFormData(mode) {
+    switch (mode) {
+      case 'array': {
+        let result = $(this.form).serializeArray();
+        if (this.files.length) {
+          result = result.concat(this.files);
+        }
+        return result;
+      }
+      case 'json':
+        return JSON.stringify(this.serializeFormData('array'));
+      case 'form':
+        return $.param(this.serializeFormData('array'));
+      case 'html':
+        this.updateFormValues();
+        return this.form.outerHTML;
+      default:
+        throw new Error('This response mode format is not supported.');
+    }
   }
 
-  extractFormData() {
-    if (this.props.reponseMode === 'form') {
-      return $(this.form).serializeArray();
-    }
-    if (this.props.reponseMode === 'url') {
-      return $(this.form).serialize();
-    }
+  getFilesValues() {
+    return new Promise(resolve => {
+      let that = this;
+      let promises = [];
+      $(this.form).find('input[type=file]').each(function () {
+        let name = $(this).prop('name');
+        if (name !== undefined) {
+          if (this.files.length > 0) {
+            for (let i = 0; i < this.files.length; i++) {
+              let reader = new FileReader();
+              promises.push(new Promise((resolve => {
+                reader.addEventListener('load', () => {
+                  that.files.push({name, 'value': reader.result});
+                  resolve();
+                });
+                reader.readAsDataURL(this.files[i]);
+              })));
+            }
+          }
+        }
+      });
+      Promise.all(promises).then(resolve);
+    });
+  }
+
+  updateFormValues() {
+    $(this.form).find('[name]').each(function() {
+      switch ($(this).prop('tagName').toLowerCase()) {
+        case 'textarea':
+          // <textarea>value</textarea>
+          $(this).text($(this).val());
+          break;
+        case 'select':
+          // <select><option value='1' selected /></select>
+          $(this).find('option').each(function() {
+            $(this).attr('selected', $(this).is(':selected'));
+          });
+          break;
+        case 'input': {
+          switch ($(this).prop('type').toLowerCase()) {
+            case 'radio':
+            case 'checkbox':
+              // <input type='checkbox|radio' checked=true|false />
+              $(this).attr('checked', $(this).is(':checked'));
+              break;
+            case 'file': {
+              // TODO ignore value in this case or reuse values in this.files?
+              break;
+            }
+            default:
+              // <input type='text|url|email|etc.' value='val' />
+              $(this).attr('value', $(this).val());
+              break;
+          }
+          break;
+        }
+      }
+    });
   }
 
   render() {
