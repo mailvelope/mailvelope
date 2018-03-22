@@ -23,11 +23,26 @@ export default class FormSandbox extends React.Component {
   componentDidMount() {
     this.iframe = document.getElementsByTagName('iframe')[0];
     this.iframe.onload = () => {
+      this.resizeIframe();
       this.form = this.iframe.contentDocument.getElementsByTagName('form')[0];
+      // Prevent default behavior on form submit event
       this.form.addEventListener('submit', event => {
         this.onFormSubmit(event);
         event.preventDefault();
         event.stopPropagation();
+      });
+      // Pressing enter in an input field also triggers a submit
+      $(this.form).on('keypress', 'input', event => {
+        const code = event.keyCode || event.which;
+        if (code === 13) {
+          this.onFormSubmit(event);
+          event.preventDefault();
+          return false;
+        }
+      });
+      // Keyup and focus out can trigger validation and therefore change height
+      $(this.form).on('focusout keyup', 'input, textarea, select', () => {
+        this.resizeIframe();
       });
     };
   }
@@ -44,21 +59,14 @@ export default class FormSandbox extends React.Component {
   }
 
   onFormSubmit() {
-    if (this.form.checkValidity() === false) {
-      // do nothing
-      console.log('form is not valid');
-    } else {
-      // do nothing else
-      console.log('form is valid');
+    if (this.form.checkValidity()) {
+      this.getFilesValues().then(() => {
+        const data = this.serializeFormData(this.props.reponseMode);
+        this.props.onValidated(data);
+      });
     }
-    this.getFilesValues().then(() => {
-      // replace with //this.props.reponseMode
-      console.log(this.serializeFormData('json'));
-      console.log(this.serializeFormData('form'));
-      console.log(this.serializeFormData('html'));
-      this.form.classList.add('was-validated');
-      this.resizeIframe();
-    });
+    this.form.classList.add('was-validated');
+    this.resizeIframe();
   }
 
   serializeFormData(mode) {
@@ -84,22 +92,20 @@ export default class FormSandbox extends React.Component {
 
   getFilesValues() {
     return new Promise(resolve => {
-      let that = this;
-      let promises = [];
-      $(this.form).find('input[type=file]').each(function () {
-        let name = $(this).prop('name');
+      const that = this;
+      const promises = [];
+      $(this.form).find('input[type=file]').each(function() {
+        const name = $(this).prop('name');
         if (name !== undefined) {
-          if (this.files.length > 0) {
-            for (let i = 0; i < this.files.length; i++) {
-              let reader = new FileReader();
-              promises.push(new Promise((resolve => {
-                reader.addEventListener('load', () => {
-                  that.files.push({name, 'value': reader.result});
-                  resolve();
-                });
-                reader.readAsDataURL(this.files[i]);
-              })));
-            }
+          for (let i = 0; i < this.files.length; i++) {
+            const reader = new FileReader();
+            promises.push(new Promise((resolve => {
+              reader.addEventListener('load', () => {
+                that.files.push({name, 'value': reader.result});
+                resolve();
+              });
+              reader.readAsDataURL(this.files[i]);
+            })));
           }
         }
       });
@@ -161,7 +167,7 @@ export default class FormSandbox extends React.Component {
       <iframe id="formSandbox"
         sandbox="allow-same-origin allow-scripts allow-forms"
         srcDoc={sandboxContent}
-        frameBorder={0} width="100%" height="200px" style={{overflowY: 'hidden', overflowX: 'scroll'}}
+        frameBorder={0} width="100%" height="1px" style={{overflowY: 'hidden', overflowX: 'scroll'}}
         ref={node => this.sandbox = node}
         onLoad={() => this.resizeIframe()} />
     );

@@ -694,7 +694,7 @@ class PgpEncryptedForm extends HTMLElement {
 
   // Invoked when the custom element is first connected to the document's DOM.
   connectedCallback() {
-    this.dispatchEvent(new Event('onConnected'));
+    this.dispatchEvent(new Event('connected'));
 
     let errorMsg;
     if (typeof this.getAttribute('id') === 'undefined') {
@@ -726,7 +726,15 @@ class PgpEncryptedForm extends HTMLElement {
     }
 
     window.mailvelope.createEncryptedFormContainer(id, html, signature)
-    .then(data => this.onEncrypt(data), error => this.onError(error));
+    .then(armoredData => this.onEncrypt(armoredData), error => this.onError(error));
+  }
+
+  onEncrypt(armoredData) {
+    this.dispatchEvent(new CustomEvent('encrypt', {
+      detail: {armoredData},
+      bubbles: true,
+      cancelable: true
+    }));
   }
 
   onError(error) {
@@ -736,29 +744,9 @@ class PgpEncryptedForm extends HTMLElement {
     }));
   }
 
-  // EVENT DEMO
-  constructor() {
-    super();
-    this.onSomething();
-    this.onSomethingElse();
-  }
-
-  // triggering events using custom event
-  onSomething() {
-    this.dispatchEvent(new CustomEvent('onSomething', {
-      detail: {
-        something: 'some data',
-      },
-      bubbles: true,
-      cancelable: true
-    }));
-  }
-
-  onSomethingElse() {
-    this.somethingElse = 'encryptedContent';
-    this.dispatchEvent(new Event('onSomethingElse'));
-  }
-
+  // constructor() {
+  //   super();
+  // }
   // // Invoked when the custom element is moved to a new document.
   // adoptedCallback() {
   //   // console.log('PgpEncryptedForm::adoptedCallback');
