@@ -13,12 +13,13 @@ export default class EncryptedFormController extends sub.SubController {
   constructor(port) {
     super(port);
     this.keyringId = mvelo.LOCAL_KEYRING_ID;
-    this.formUrl = null;
+    this.formAction = null;
     this.formRecipient = null;
     this.formSignature = null;
 
     this.on('encrypted-form-init', this.onFormInit);
     this.on('encrypted-form-definition', this.onFormDefinition);
+    this.on('encrypted-form-submit', this.onFormSubmit);
   }
 
   onFormInit() {
@@ -33,8 +34,8 @@ export default class EncryptedFormController extends sub.SubController {
     // Check that there is only one form tag
 
     // Extract form destination url and recipient
-    if (!this.parseUrl(formTag)) {
-      // empty data-url is allowed
+    if (!this.parseAction(formTag)) {
+      // empty data-action is allowed
       // in this case the encrypted content will be returned to the page
     }
     if (!this.parseRecipient(formTag)) {
@@ -54,10 +55,20 @@ export default class EncryptedFormController extends sub.SubController {
     // Give form definition to react component
     const cleanHtml = this.getCleanFormHtml(event.html);
     this.ports.encryptedForm.emit('encrypted-form-definition', {
-      html: cleanHtml,
-      url: this.formUrl,
-      recipient: this.formRecipient
+      formDefinition: cleanHtml,
+      formAction: this.formAction,
+      formRecipient: this.formRecipient
     });
+  }
+
+  onFormSubmit(event) {
+    // todo encrypt data
+    const armoredData = event.data;
+    if (this.formAction === null) {
+      this.ports.encryptedFormCont.emit('encrypted-form-data', {armoredData});
+    } else {
+      this.ports.encryptedForm.emit('encrypted-form-submit', {armoredData});
+    }
   }
 
   getCleanFormHtml(dirtyHtml) {
@@ -72,7 +83,7 @@ export default class EncryptedFormController extends sub.SubController {
         'checked', 'dirname', 'disabled', 'for', 'required', 'list', 'max', 'maxlength', 'min', 'multiple',
         'name', 'pattern', 'placeholder', 'readonly', 'required', 'size', 'step', 'type', 'value',
         // custom data attributes
-        'data-url', 'data-recipient'
+        'data-action', 'data-recipient'
       ],
       SAFE_FOR_TEMPLATES: false,
       SAFE_FOR_JQUERY: false
@@ -82,15 +93,15 @@ export default class EncryptedFormController extends sub.SubController {
   getCleanFormTag(dirtyHtml) {
     return dompurify.sanitize(dirtyHtml, {
       ALLOWED_TAGS: ['form'],
-      ALLOWED_ATTR: ['data-url', 'data-recipient']
+      ALLOWED_ATTR: ['data-action', 'data-recipient']
     });
   }
 
-  parseUrl(formTag) {
-    const dataUrlRegex = /data-url=[\"'](.*?)[\"']/gi;
+  parseAction(formTag) {
+    const dataUrlRegex = /data-action=[\"'](.*?)[\"']/gi;
     const match = dataUrlRegex.exec(formTag);
     if (match !== null) {
-      this.formUrl = match[1];
+      this.formAction = match[1];
       return false;
     }
     return true;

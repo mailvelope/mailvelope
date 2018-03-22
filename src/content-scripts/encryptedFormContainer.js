@@ -48,6 +48,9 @@ export default class EncryptedFormContainer {
         case 'encrypted-form-ready':
           this.processFormDefinition();
           break;
+        case 'encrypted-form-data':
+          this.done(false, msg.armoredData);
+          break;
         case 'destroy':
           this.parent.removeChild(this.container);
           this.port.disconnect();

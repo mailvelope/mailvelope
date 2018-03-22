@@ -19,10 +19,12 @@ export default class EncryptedForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      formDefinition: null,
       error: null,
       waiting: true,
-      submit: false
+      submit: false,
+      formAction: null,
+      formRecipient: null,
+      formDefinition: null,
     };
     this.formSandbox = null;
     this.port = mvelo.EventHandler.connect(`encryptedForm-${this.props.id}`, this);
@@ -42,11 +44,14 @@ export default class EncryptedForm extends React.Component {
     this.port.on('encrypted-form-definition', this.showForm);
     this.port.on('error-message', this.showErrorMsg);
     this.port.on('terminate', () => mvelo.ui.terminate(this.port));
+    this.port.on('encrypted-form-submit', this.onFormSubmit);
   }
 
   showForm(event) {
     this.setState({
-      formDefinition: event.html,
+      formAction: event.formAction,
+      formRecipient: event.formRecipient,
+      formDefinition: event.formDefinition,
       waiting: false
     });
   }
@@ -62,8 +67,27 @@ export default class EncryptedForm extends React.Component {
     });
   }
 
-  onSubmit() {
+  onClickSubmit() {
     this.setState(() => ({submit: true}));
+  }
+
+  onValidated(data) {
+    this.port.emit('encrypted-form-submit', {data});
+  }
+
+  onFormSubmit(event) {
+    const armoredDataInput = $('<input/>', {
+      name: 'armoredData',
+      value: event.armoredData,
+      hidden: true
+    });
+    const form = $('<form/>', {
+      action: this.state.formAction,
+      method: 'post',
+      target: '_parent'
+    }).append(armoredDataInput);
+    $('body').append(form);
+    form.submit();
   }
 
   formSandboxIframe() {
@@ -71,6 +95,7 @@ export default class EncryptedForm extends React.Component {
       <FormSandbox formDefinition={this.state.formDefinition}
         onTerminate={() => mvelo.ui.terminate(this.port)}
         needSubmit={this.state.submit}
+        onValidated={(data) => this.onValidated(data)}
         ref={node => this.formSandbox = node} />
     );
   }
@@ -80,7 +105,7 @@ export default class EncryptedForm extends React.Component {
       <div className={this.props.secureBackground && !this.state.waiting ? 'jumbotron secureBackground' : ''} style={{height: '100%', position: 'relative'}}>
         <section className="well">
           {!this.state.waiting ? (this.formSandboxIframe()) : (<div>loading.. </div>)}
-          <button className="btn btn-primary btn-big" type="submit" onClick={() => this.onSubmit()}>Submit</button>
+          <button className="btn btn-primary btn-big" type="submit" onClick={() => this.onClickSubmit()}>Submit</button>
         </section>
       </div>
     );
@@ -93,5 +118,5 @@ EncryptedForm.propTypes = {
 };
 
 EncryptedForm.defaultProps = {
-  secureBackground: true
+  secureBackground: true,
 };
