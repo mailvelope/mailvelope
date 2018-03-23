@@ -7,7 +7,7 @@ import * as sub from './sub.controller';
 import dompurify from 'dompurify';
 // import * as openpgp from 'openpgp';
 // import * as keyring from '../modules/keyring';
-import mvelo from "../lib/lib-mvelo";
+import mvelo from "../mvelo";
 
 export default class EncryptedFormController extends sub.SubController {
   constructor(port) {
@@ -28,18 +28,15 @@ export default class EncryptedFormController extends sub.SubController {
 
   onFormDefinition(event) {
     // Cleanup to get only the form tag
-    const formTag = this.getCleanFormTag(event.html);
-
-    // Check if form tag is not empty
-    // Check that there is only one form tag
+    const formDefinition = this.getCleanFormTag(event.html);
 
     // Extract form destination url and recipient
-    if (!this.parseAction(formTag)) {
-      // empty data-action is allowed
-      // in this case the encrypted content will be returned to the page
-    }
-    if (!this.parseRecipient(formTag)) {
-      this.ports.encryptedFormCont.emit('error-message', {error: 'The form recipient cannot be empty.'});
+    try {
+      this.checkOnlyOneForm(formDefinition);
+      this.parseAction(formDefinition);
+      this.parseRecipient(formDefinition);
+    } catch (error) {
+      this.ports.encryptedFormCont.emit('error-message', {error: error.message});
     }
 
     // Check if signature is valid
@@ -100,10 +97,16 @@ export default class EncryptedFormController extends sub.SubController {
   parseAction(formTag) {
     const dataUrlRegex = /data-action=[\"'](.*?)[\"']/gi;
     const match = dataUrlRegex.exec(formTag);
-    if (match !== null) {
-      this.formAction = match[1];
-      return false;
+    if (match === null) {
+      // empty data-action is allowed in form definition
+      // in this case the encrypted content will be returned to the page
+      this.formAction = null;
+      return true;
     }
+    if (!mvelo.util.checkUrl(match[1])) {
+      throw new Error('The form action should be a valid url.');
+    }
+    this.formAction = match[1];
     return true;
   }
 
@@ -111,9 +114,20 @@ export default class EncryptedFormController extends sub.SubController {
     const dataRecipientRegex = /data-recipient=[\"'](.*?)[\"']/gi;
     const match = dataRecipientRegex.exec(formTag);
     if (match === null) {
-      return false;
+      throw new Error('The encrypted form recipient cannot be empty.');
+    }
+    if (!mvelo.util.checkEmail(match[1])) {
+      throw new Error('The encrypted form recipient must be a valid email address.');
     }
     this.formRecipient = match[1];
+    return true;
+  }
+
+  checkOnlyOneForm(html) {
+    const formOccur= ((html.match(/<form/g) || []).length);
+    if (formOccur !== 1) {
+      throw new Error('There should be only one form tag in the form definition.');
+    }
     return true;
   }
 }

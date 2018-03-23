@@ -456,6 +456,16 @@ mvelo.util.toArray = function(param) {
     return [param];
   }
   return param;
+}
+
+/**
+ * Validate an url
+ * @param  {String} url       The URL to validate
+ * @return {Boolean}          True if valid, false if not
+ */
+mvelo.util.checkUrl = function(url) {
+  const pattern = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gi;
+  return pattern.test(url);
 };
 
 /**
