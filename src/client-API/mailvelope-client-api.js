@@ -702,12 +702,7 @@ class PgpEncryptedForm extends HTMLElement {
       return this.onError(errorMsg);
     }
 
-    const form = this.querySelector('form');
-    if (form === null) {
-      return this.onError('The form definition is invalid the form tag is missing.');
-    }
-
-    const html = form.outerHTML;
+    const html = this.innerHTML;
     if (typeof html === 'undefined') {
       errorMsg = 'No form data included in pgp-encrypted-form tag.';
       return this.onError(errorMsg);

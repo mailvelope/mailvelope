@@ -23,6 +23,11 @@ export default class FormSandbox extends React.Component {
   componentDidMount() {
     this.iframe = document.getElementsByTagName('iframe')[0];
     this.iframe.onload = () => {
+
+      // Check that there is only one form tag
+      // Remove all input type submit
+
+
       this.resizeIframe();
       this.form = this.iframe.contentDocument.getElementsByTagName('form')[0];
       // Prevent default behavior on form submit event
