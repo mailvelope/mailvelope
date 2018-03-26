@@ -23,10 +23,13 @@ export default class EncryptedForm extends React.Component {
       waiting: true,
       submit: false,
       formAction: null,
-      formRecipient: null,
       formDefinition: null,
+      formEncoding: null,
+      formRecipient: null,
+      formFingerprint: null
     };
     this.formSandbox = null;
+    this.form = null;
     this.port = mvelo.EventHandler.connect(`encryptedForm-${this.props.id}`, this);
     this.registerEventListeners();
 
@@ -49,9 +52,11 @@ export default class EncryptedForm extends React.Component {
 
   showForm(event) {
     this.setState({
+      formEncoding: event.formEncoding,
+      formDefinition: event.formDefinition,
       formAction: event.formAction,
       formRecipient: event.formRecipient,
-      formDefinition: event.formDefinition,
+      formFingerprint: event.formFingerprint,
       waiting: false
     });
   }
@@ -75,6 +80,10 @@ export default class EncryptedForm extends React.Component {
     this.port.emit('encrypted-form-submit', {data});
   }
 
+  onFormSandboxError(error) {
+    this.port.emit('encrypted-form-error', {message: error.message});
+  }
+
   onFormSubmit(event) {
     const armoredDataInput = $('<input/>', {
       name: 'armoredData',
@@ -90,12 +99,18 @@ export default class EncryptedForm extends React.Component {
     form.submit();
   }
 
+  onResizeIframe() {
+    this.port.emit('encrypted-form-resize', {height: document.body.scrollHeight});
+  }
+
   formSandboxIframe() {
     return (
       <FormSandbox formDefinition={this.state.formDefinition}
         onTerminate={() => mvelo.ui.terminate(this.port)}
         needSubmit={this.state.submit}
-        onValidated={(data) => this.onValidated(data)}
+        onValidated={data => this.onValidated(data)}
+        onError={error => this.onFormSandboxError(error)}
+        onResizeIframe={() => this.onResizeIframe()}
         ref={node => this.formSandbox = node} />
     );
   }
@@ -103,9 +118,14 @@ export default class EncryptedForm extends React.Component {
   render() {
     return (
       <div className={this.props.secureBackground && !this.state.waiting ? 'jumbotron secureBackground' : ''} style={{height: '100%', position: 'relative'}}>
-        <section className="well">
+        <section className="well clearfix">
           {!this.state.waiting ? (this.formSandboxIframe()) : (<div>loading.. </div>)}
-          <button className="btn btn-primary btn-big" type="submit" onClick={() => this.onClickSubmit()}>Submit</button>
+          <button className="btn btn-primary" type="submit" onClick={() => this.onClickSubmit()}>Submit</button>
+          <div className="recipient">
+            <div className="recipient-action">Destination: {this.state.formAction ? this.state.formAction : 'The encrypted content will be returned to the page.' }</div>
+            <div className="recipient-email">Recipient: {this.state.formRecipient}</div>
+            <div className="recipient-fingerprint">{this.state.formFingerprint}</div>
+          </div>
         </section>
       </div>
     );

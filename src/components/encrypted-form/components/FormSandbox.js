@@ -23,13 +23,15 @@ export default class FormSandbox extends React.Component {
   componentDidMount() {
     this.iframe = document.getElementsByTagName('iframe')[0];
     this.iframe.onload = () => {
-
-      // Check that there is only one form tag
-      // Remove all input type submit
-
-
       this.resizeIframe();
       this.form = this.iframe.contentDocument.getElementsByTagName('form')[0];
+
+      // Remove all input type submit
+      this.removeInputSubmit();
+
+      // Check that form has at least one valid input
+      this.checkForEmptyForm();
+
       // Prevent default behavior on form submit event
       this.form.addEventListener('submit', event => {
         this.onFormSubmit(event);
@@ -45,11 +47,34 @@ export default class FormSandbox extends React.Component {
           return false;
         }
       });
+
       // Keyup and focus out can trigger validation and therefore change height
       $(this.form).on('focusout keyup', 'input, textarea, select', () => {
         this.resizeIframe();
       });
     };
+  }
+
+  removeInputSubmit() {
+    // TODO add ability to remove tags by type using DOMPurify
+    $(this.form).find('input[type=submit]').each(function() {
+      $(this).remove();
+    });
+  }
+
+  checkForEmptyForm() {
+    console.log('checkForEmptyForm');
+    // check that there is at least a valid input field to send
+    let validInput = 0;
+    $(this.form).find('[name]').each(function() {
+      const tag = $(this).prop('tagName').toLowerCase();
+      if (tag.match(/(input|select|textarea)/g).length) {
+        validInput++;
+      }
+    });
+    if (!validInput) {
+      this.onError(new Error('There should be at least one input field with name property set.'));
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -59,19 +84,27 @@ export default class FormSandbox extends React.Component {
   }
 
   resizeIframe() {
-    const height = this.iframe.contentDocument.body.scrollHeight;
-    this.iframe.style.height = height + 'px';
+    const height = this.iframe.contentDocument.body.scrollHeight + 'px';
+    if (height !== this.iframe.style.height) {
+      const offset = 16;
+      this.iframe.style.height = (this.iframe.contentDocument.body.scrollHeight + offset) + 'px';
+      this.props.onResizeIframe();
+    }
   }
 
   onFormSubmit() {
     if (this.form.checkValidity()) {
       this.getFilesValues().then(() => {
-        const data = this.serializeFormData(this.props.reponseMode);
+        const data = this.serializeFormData(this.props.formEncoding);
         this.props.onValidated(data);
       });
     }
     this.form.classList.add('was-validated');
     this.resizeIframe();
+  }
+
+  onError(error) {
+    this.props.onError(error);
   }
 
   serializeFormData(mode) {
@@ -156,13 +189,13 @@ export default class FormSandbox extends React.Component {
   render() {
     const sandboxContent = `
       <!DOCTYPE html>
-      <html style="height: 100%">
+      <html>
         <head>
           <meta charset="utf-8">
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         </head>
-        <body style="height: 100%">
-         <div id="root" style="height: 100%">
+        <body>
+         <div id="root">
          ${this.props.formDefinition}
          </div>
         </body>
@@ -172,7 +205,7 @@ export default class FormSandbox extends React.Component {
       <iframe id="formSandbox"
         sandbox="allow-same-origin allow-scripts allow-forms"
         srcDoc={sandboxContent}
-        frameBorder={0} width="100%" height="1px" style={{overflowY: 'hidden', overflowX: 'scroll'}}
+        frameBorder={0} width="100%" height="1px" style={{overflowY: 'hidden', overflowX: 'hidden'}}
         ref={node => this.sandbox = node}
         onLoad={() => this.resizeIframe()} />
     );
@@ -180,13 +213,15 @@ export default class FormSandbox extends React.Component {
 }
 
 FormSandbox.propTypes = {
-  reponseMode: PropTypes.string,
   formDefinition: PropTypes.string,
+  formEncoding: PropTypes.string,
   needSubmit: PropTypes.bool,
   onTerminate: PropTypes.func,
-  onValidated: PropTypes.func
+  onValidated: PropTypes.func,
+  onResizeIframe: PropTypes.func,
+  onError: PropTypes.func
 };
 
 FormSandbox.defaultProps = {
-  reponseMode: 'form',
+  formEncoding: 'json',
 };
