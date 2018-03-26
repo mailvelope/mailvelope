@@ -118,7 +118,7 @@ export default class FormSandbox extends React.Component {
       }
       case 'json':
         return JSON.stringify(this.serializeFormData('array'));
-      case 'form':
+      case 'url':
         return $.param(this.serializeFormData('array'));
       case 'html':
         this.updateFormValues();
