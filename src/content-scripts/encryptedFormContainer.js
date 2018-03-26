@@ -25,11 +25,12 @@ export default class EncryptedFormContainer {
     this.parent = document.getElementById(this.selector);
     this.container = document.createElement('iframe');
     const url = mvelo.runtime.getURL(`components/encrypted-form/encryptedForm.html?id=${this.id}&embedded=true`);
+    this.container.setAttribute('id', this.name);
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);
     this.container.setAttribute('scrolling', 'yes');
     this.container.style.width = '100%';
-    this.container.style.height = '850px';
+    this.container.style.height = '150px';
     this.parent.appendChild(this.container);
   }
 
@@ -49,14 +50,21 @@ export default class EncryptedFormContainer {
           this.processFormDefinition();
           break;
         case 'encrypted-form-data':
-          this.done(false, msg.armoredData);
+          this.done(null, msg.armoredData);
           break;
+        case 'encrypted-form-resize': {
+          const offset = 16;
+          this.container.style.height = (msg.height + offset) + 'px';
+          break;
+        }
         case 'destroy':
           this.parent.removeChild(this.container);
           this.port.disconnect();
-          this.done(false, this.id);
+          this.done(null, this.id);
           break;
         case 'error-message':
+          console.log('EncryptedFormContainer error-message');
+          console.log(msg);
           this.parent.removeChild(this.container);
           this.port.disconnect();
           this.done(msg.error);

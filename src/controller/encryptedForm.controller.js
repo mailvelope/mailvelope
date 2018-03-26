@@ -6,7 +6,7 @@
 import * as sub from './sub.controller';
 import dompurify from 'dompurify';
 // import * as openpgp from 'openpgp';
-// import * as keyring from '../modules/keyring';
+import * as keyring from '../modules/keyring';
 import mvelo from "../mvelo";
 
 export default class EncryptedFormController extends sub.SubController {
@@ -19,11 +19,21 @@ export default class EncryptedFormController extends sub.SubController {
 
     this.on('encrypted-form-init', this.onFormInit);
     this.on('encrypted-form-definition', this.onFormDefinition);
+    this.on('encrypted-form-error', this.onFormError);
     this.on('encrypted-form-submit', this.onFormSubmit);
+    this.on('encrypted-form-resize', this.onFormResize);
   }
 
   onFormInit() {
     this.ports.encryptedFormCont.emit('encrypted-form-ready');
+  }
+
+  onFormError(error) {
+    this.ports.encryptedFormCont.emit('error-message', {error: error.message});
+  }
+
+  onFormResize(event) {
+    this.ports.encryptedFormCont.emit('encrypted-form-resize', {height: event.height});
   }
 
   onFormDefinition(event) {
@@ -35,26 +45,19 @@ export default class EncryptedFormController extends sub.SubController {
       this.checkOnlyOneForm(formDefinition);
       this.parseAction(formDefinition);
       this.parseRecipient(formDefinition);
+      this.checkFingerprint();
     } catch (error) {
-      this.ports.encryptedFormCont.emit('error-message', {error: error.message});
+      this.onFormError(error);
     }
-
-    // Check if signature is valid
-    // TODO move to a method in openpgp model
-    // try {
-    //   let recipientKey = keyring.getById(mvelo.LOCAL_KEYRING_ID).getKeyByAddress([this.formRecipient]);
-    //   openpgp.verify({message: 'biloute', publicKeys: recipientKey, signature: this.formSignature});
-    //
-    // } catch (error) {
-    //   console.log(error.message);
-    // }
 
     // Give form definition to react component
     const cleanHtml = this.getCleanFormHtml(event.html);
     this.ports.encryptedForm.emit('encrypted-form-definition', {
       formDefinition: cleanHtml,
+      formEncoding: this.formEncoding,
       formAction: this.formAction,
-      formRecipient: this.formRecipient
+      formRecipient: this.formRecipient,
+      formFingerprint: this.formFingerprint,
     });
   }
 
@@ -121,6 +124,29 @@ export default class EncryptedFormController extends sub.SubController {
     }
     this.formRecipient = match[1];
     return true;
+  }
+
+  parseEncoding(formTag) {
+    const dataEnctypeRegex = /data-enctype=[\"'](.*?)[\"']/gi;
+    let match = dataEnctypeRegex.exec(formTag);
+    if (match === null) {
+      match[1] = 'url'; // fallback if enctype is not defined
+    }
+    const whitelistedEnctype = ['json', 'url', 'html'];
+    if (whitelistedEnctype.indexOf(match[1]) === -1) {
+      throw new Error('The requested encrypted form encoding type if is not supported.');
+    }
+    this.formRecipient = match[1];
+    return true;
+  }
+
+  checkFingerprint() {
+    const keyMap = keyring.getById(mvelo.LOCAL_KEYRING_ID).getKeyByAddress([this.formRecipient]);
+    if (typeof keyMap[this.formRecipient] !== 'undefined' && keyMap[this.formRecipient].length) {
+      this.formFingerprint = keyMap[this.formRecipient][0].primaryKey.getFingerprint().toUpperCase();
+    } else {
+      throw new Error('The recipient key could not be found in the keyring.');
+    }
   }
 
   checkOnlyOneForm(html) {
