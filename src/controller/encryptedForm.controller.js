@@ -38,13 +38,14 @@ export default class EncryptedFormController extends sub.SubController {
 
   onFormDefinition(event) {
     // Cleanup to get only the form tag
-    const formDefinition = this.getCleanFormTag(event.html);
+    const formTag = this.getCleanFormTag(event.html);
 
-    // Extract form destination url and recipient
+    // Extract action, recipient, encoding, etc.
     try {
-      this.checkOnlyOneForm(formDefinition);
-      this.parseAction(formDefinition);
-      this.parseRecipient(formDefinition);
+      this.checkOnlyOneForm(formTag);
+      this.parseAction(formTag);
+      this.parseRecipient(formTag);
+      this.parseEncoding(formTag);
       this.checkFingerprint();
     } catch (error) {
       this.onFormError(error);
@@ -128,15 +129,16 @@ export default class EncryptedFormController extends sub.SubController {
 
   parseEncoding(formTag) {
     const dataEnctypeRegex = /data-enctype=[\"'](.*?)[\"']/gi;
-    let match = dataEnctypeRegex.exec(formTag);
-    if (match === null) {
-      match[1] = 'url'; // fallback if enctype is not defined
+    const match = dataEnctypeRegex.exec(formTag);
+    let enctype = 'url';
+    if (match !== null) {
+      enctype = match[1]; // fallback if enctype is not defined
     }
     const whitelistedEnctype = ['json', 'url', 'html'];
-    if (whitelistedEnctype.indexOf(match[1]) === -1) {
+    if (whitelistedEnctype.indexOf(enctype) === -1) {
       throw new Error('The requested encrypted form encoding type if is not supported.');
     }
-    this.formRecipient = match[1];
+    this.formEncoding = enctype;
     return true;
   }
 
