@@ -28,7 +28,6 @@ export default class EncryptedForm extends React.Component {
       formRecipient: null,
       formFingerprint: null
     };
-    this.formSandbox = null;
     this.form = null;
     this.port = mvelo.EventHandler.connect(`encryptedForm-${this.props.id}`, this);
     this.registerEventListeners();
@@ -85,11 +84,11 @@ export default class EncryptedForm extends React.Component {
   }
 
   onFormSubmit(event) {
-    const armoredDataInput = $('<input/>', {
+    const armoredDataInput = $('<textarea/>', {
       name: 'armoredData',
-      value: event.armoredData,
       hidden: true
     });
+    armoredDataInput.text(event.armoredData);
     const form = $('<form/>', {
       action: this.state.formAction,
       method: 'post',
@@ -111,8 +110,7 @@ export default class EncryptedForm extends React.Component {
         needSubmit={this.state.submit}
         onValidated={data => this.onValidated(data)}
         onError={error => this.onFormSandboxError(error)}
-        onResizeIframe={() => this.onResizeIframe()}
-        ref={node => this.formSandbox = node} />
+        onResizeIframe={() => this.onResizeIframe()} />
     );
   }
 
@@ -120,13 +118,17 @@ export default class EncryptedForm extends React.Component {
     return (
       <div className={this.props.secureBackground && !this.state.waiting ? 'jumbotron secureBackground' : ''} style={{height: '100%', position: 'relative'}}>
         <section className="well clearfix">
-          {!this.state.waiting ? (this.formSandboxIframe()) : (<div>loading.. </div>)}
-          <button className="btn btn-primary" type="submit" onClick={() => this.onClickSubmit()}>Submit</button>
-          <div className="recipient">
-            <div className="recipient-action">Destination: {this.state.formAction ? this.state.formAction : 'The encrypted content will be returned to the page.' }</div>
-            <div className="recipient-email">Recipient: {this.state.formRecipient}</div>
-            <div className="recipient-fingerprint">{this.state.formFingerprint}</div>
-          </div>
+          {this.state.waiting  ? (<div>loading.. </div>) : (
+            <div>
+              {this.formSandboxIframe()}
+              <button className="btn btn-primary" type="submit" onClick={() => this.onClickSubmit()}>Submit</button>
+              <div className="recipient">
+                <div className="recipient-action">Destination: {this.state.formAction ? this.state.formAction : 'The encrypted content will be returned to the page.' }</div>
+                <div className="recipient-email">Recipient: {this.state.formRecipient}</div>
+                <div className="recipient-fingerprint">{this.state.formFingerprint}</div>
+              </div>
+            </div>
+          )}
         </section>
       </div>
     );
