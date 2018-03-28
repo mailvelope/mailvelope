@@ -738,27 +738,6 @@ class PgpEncryptedForm extends HTMLElement {
       message: error.message
     }));
   }
-
-  // constructor() {
-  //   super();
-  // }
-  // // Invoked when the custom element is moved to a new document.
-  // adoptedCallback() {
-  //   // console.log('PgpEncryptedForm::adoptedCallback');
-  // }
-  //
-  // // Invoked when one of the custom element's attributes is added, removed, or changed.
-  // attributeChangedCallback(attrName, oldValue, newValue) {
-  //   // console.log('PgpEncryptedForm::attributeChangedCallback');
-  // }
-  // // Invoked when the custom element is disconnected from the document's DOM.
-  // disconnectedCallback() {
-  //   // console.log('PgpEncryptedForm::disconnectedCallback');
-  // }
 }
 
-// Artificial timeout to show the different states
-// TODO remove artificial timeout
-setTimeout(() => {
-  window.customElements.define('pgp-encrypted-form', PgpEncryptedForm);
-}, 500);
+window.customElements.define('pgp-encrypted-form', PgpEncryptedForm);
