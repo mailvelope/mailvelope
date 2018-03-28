@@ -54,7 +54,8 @@ export default class EncryptedFormContainer {
           break;
         case 'encrypted-form-resize': {
           const offset = 16;
-          this.container.style.height = (msg.height + offset) + 'px';
+          const newHeight = msg.height + offset;
+          this.container.style.height = `${newHeight}px`;
           break;
         }
         case 'destroy':
@@ -63,8 +64,6 @@ export default class EncryptedFormContainer {
           this.done(null, this.id);
           break;
         case 'error-message':
-          console.log('EncryptedFormContainer error-message');
-          console.log(msg);
           this.parent.removeChild(this.container);
           this.port.disconnect();
           this.done(msg.error);

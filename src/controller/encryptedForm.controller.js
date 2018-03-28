@@ -5,9 +5,10 @@
 
 import * as sub from './sub.controller';
 import dompurify from 'dompurify';
-// import * as openpgp from 'openpgp';
 import * as keyring from '../modules/keyring';
 import mvelo from "../mvelo";
+import {getById as getKeyringById} from "../modules/keyring";
+import * as model from "../modules/pgpModel";
 
 export default class EncryptedFormController extends sub.SubController {
   constructor(port) {
@@ -16,6 +17,8 @@ export default class EncryptedFormController extends sub.SubController {
     this.formAction = null;
     this.formRecipient = null;
     this.formSignature = null;
+    this.recipientKey = null;
+    this.pwdControl = null;
 
     this.on('encrypted-form-init', this.onFormInit);
     this.on('encrypted-form-definition', this.onFormDefinition);
@@ -29,6 +32,7 @@ export default class EncryptedFormController extends sub.SubController {
   }
 
   onFormError(error) {
+    // TODO decide which error to send to iframe / which one to send to app
     this.ports.encryptedFormCont.emit('error-message', {error: error.message});
   }
 
@@ -37,21 +41,17 @@ export default class EncryptedFormController extends sub.SubController {
   }
 
   onFormDefinition(event) {
-    // Cleanup to get only the form tag
     const formTag = this.getCleanFormTag(event.html);
-
-    // Extract action, recipient, encoding, etc.
     try {
-      this.checkOnlyOneForm(formTag);
-      this.parseAction(formTag);
-      this.parseRecipient(formTag);
-      this.parseEncoding(formTag);
-      this.checkFingerprint();
+      this.assertOnlyOneForm(formTag);
+      this.assertAndSetAction(formTag);
+      this.assertAndSetEncoding(formTag);
+      this.assertAndSetRecipient(formTag);
+      this.assertAndSetFingerprint();
     } catch (error) {
       this.onFormError(error);
     }
 
-    // Give form definition to react component
     const cleanHtml = this.getCleanFormHtml(event.html);
     this.ports.encryptedForm.emit('encrypted-form-definition', {
       formDefinition: cleanHtml,
@@ -63,13 +63,25 @@ export default class EncryptedFormController extends sub.SubController {
   }
 
   onFormSubmit(event) {
-    // todo encrypt data
-    const armoredData = event.data;
-    if (this.formAction === null) {
-      this.ports.encryptedFormCont.emit('encrypted-form-data', {armoredData});
-    } else {
-      this.ports.encryptedForm.emit('encrypted-form-submit', {armoredData});
+    if (this.pwdControl !== null) {
+      // dialog is already open and waiting for pinentry
+      this.pwdControl.onCancel();
     }
+
+    this.signAndEncrypt(event.data)
+    .then(armoredData => {
+      if (this.formAction === null) {
+        this.ports.encryptedFormCont.emit('encrypted-form-data', {armoredData});
+      } else {
+        this.ports.encryptedForm.emit('encrypted-form-submit', {armoredData});
+      }
+    })
+    .catch(error => {
+      if (error.code === 'PWD_DIALOG_CANCEL') {
+        return;
+      }
+      this.onFormError(error);
+    });
   }
 
   getCleanFormHtml(dirtyHtml) {
@@ -98,7 +110,7 @@ export default class EncryptedFormController extends sub.SubController {
     });
   }
 
-  parseAction(formTag) {
+  assertAndSetAction(formTag) {
     const dataUrlRegex = /data-action=[\"'](.*?)[\"']/gi;
     const match = dataUrlRegex.exec(formTag);
     if (match === null) {
@@ -108,54 +120,92 @@ export default class EncryptedFormController extends sub.SubController {
       return true;
     }
     if (!mvelo.util.checkUrl(match[1])) {
-      throw new Error('The form action should be a valid url.');
+      throw new mvelo.Error('The form action should be a valid url.', 'INVALID_FORM_ACTION');
     }
     this.formAction = match[1];
     return true;
   }
 
-  parseRecipient(formTag) {
+  assertAndSetRecipient(formTag) {
     const dataRecipientRegex = /data-recipient=[\"'](.*?)[\"']/gi;
     const match = dataRecipientRegex.exec(formTag);
     if (match === null) {
-      throw new Error('The encrypted form recipient cannot be empty.');
+      throw new mvelo.Error('The encrypted form recipient cannot be empty.', 'RECIPIENT_EMPTY');
     }
     if (!mvelo.util.checkEmail(match[1])) {
-      throw new Error('The encrypted form recipient must be a valid email address.');
+      throw new mvelo.Error('The encrypted form recipient must be a valid email address.', 'RECIPIENT_INVALID_EMAIL');
     }
     this.formRecipient = match[1];
     return true;
   }
 
-  parseEncoding(formTag) {
+  assertAndSetEncoding(formTag) {
     const dataEnctypeRegex = /data-enctype=[\"'](.*?)[\"']/gi;
     const match = dataEnctypeRegex.exec(formTag);
-    let enctype = 'url';
+    let enctype = 'url'; // fallback if enctype is not defined
     if (match !== null) {
-      enctype = match[1]; // fallback if enctype is not defined
+      enctype = match[1];
     }
     const whitelistedEnctype = ['json', 'url', 'html'];
     if (whitelistedEnctype.indexOf(enctype) === -1) {
-      throw new Error('The requested encrypted form encoding type if is not supported.');
+      throw new mvelo.Error('The requested encrypted form encoding type if is not supported.', 'UNSUPORTED_ENCTYPE');
     }
     this.formEncoding = enctype;
     return true;
   }
 
-  checkFingerprint() {
-    const keyMap = keyring.getById(mvelo.LOCAL_KEYRING_ID).getKeyByAddress([this.formRecipient]);
+  assertAndSetFingerprint() {
+    const keyMap = keyring.getById(this.keyringId).getKeyByAddress([this.formRecipient]);
     if (typeof keyMap[this.formRecipient] !== 'undefined' && keyMap[this.formRecipient].length) {
-      this.formFingerprint = keyMap[this.formRecipient][0].primaryKey.getFingerprint().toUpperCase();
+      this.recipientKey = keyMap[this.formRecipient][0].primaryKey;
+      this.formFingerprint = this.recipientKey.getFingerprint().toUpperCase();
     } else {
-      throw new Error('The recipient key could not be found in the keyring.');
+      throw new mvelo.Error('No valid encryption key for recipient address', 'NO_ENCRYPTION_KEY_FOUND');
     }
   }
 
-  checkOnlyOneForm(html) {
-    const formOccur= ((html.match(/<form/g) || []).length);
+  assertOnlyOneForm(html) {
+    const formOccur = ((html.match(/<form/g) || []).length);
     if (formOccur !== 1) {
-      throw new Error('There should be only one form tag in the form definition.');
+      throw new mvelo.Error('There should be only one form tag in the form definition.', 'TOO_MANY_FORMS');
     }
     return true;
+  }
+
+  signAndEncrypt(data) {
+    let signKey;
+    return Promise.resolve()
+    .then(() => {
+      this.encryptTimer = null;
+      signKey = getKeyringById(this.keyringId).getPrimaryKey();
+      if (!signKey) {
+        throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
+      }
+
+      const signKeyPacket = signKey.key.getSigningKeyPacket();
+      const signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
+      if (!signKeyid) {
+        throw new mvelo.Error('No valid signing key packet found', 'NO_SIGN_KEY_FOUND');
+      }
+
+      signKey.keyid = signKeyid;
+      signKey.keyringId = this.keyringId;
+      signKey.reason = 'PWD_DIALOG_REASON_SIGN';
+      signKey.noCache = false;
+    })
+    .then(() => {
+      this.pwdControl = sub.factory.get('pwdDialog');
+      return this.pwdControl.unlockKey(signKey);
+    })
+    .then(() => {
+      this.pwdControl = null;
+      return model.encryptMessage({
+        keyIdsHex: [this.recipientKey.getFingerprint()],
+        keyringId: this.keyringId,
+        primaryKey: signKey,
+        message: data,
+        uiLogSource: 'security_log_editor'
+      });
+    });
   }
 }

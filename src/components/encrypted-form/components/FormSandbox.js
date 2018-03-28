@@ -63,7 +63,6 @@ export default class FormSandbox extends React.Component {
   }
 
   checkForEmptyForm() {
-    console.log('checkForEmptyForm');
     // check that there is at least a valid input field to send
     let validInput = 0;
     $(this.form).find('[name]').each(function() {
@@ -84,10 +83,11 @@ export default class FormSandbox extends React.Component {
   }
 
   resizeIframe() {
-    const height = this.iframe.contentDocument.body.scrollHeight + 'px';
+    const height = `${this.iframe.contentDocument.body.scrollHeight}px`;
     if (height !== this.iframe.style.height) {
-      const offset = 16;
-      this.iframe.style.height = (this.iframe.contentDocument.body.scrollHeight + offset) + 'px';
+      const offset = 8;
+      const newHeight = this.iframe.contentDocument.body.scrollHeight + offset;
+      this.iframe.style.height = `${newHeight}px`;
       this.props.onResizeIframe();
     }
   }
@@ -193,6 +193,7 @@ export default class FormSandbox extends React.Component {
         <head>
           <meta charset="utf-8">
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+          <style>.form-row{margin-right:0}</style>
         </head>
         <body>
          <div id="root">
@@ -211,6 +212,7 @@ export default class FormSandbox extends React.Component {
     );
   }
 }
+
 
 FormSandbox.propTypes = {
   formDefinition: PropTypes.string,
