@@ -182,10 +182,11 @@
      * @param @param {string} selector - the id of target container
      * @param @param {string} formHtml - the form definition
      * @param @param {string} signature - the OpenPGP signature
+     * @param @param {string} hash - the OpenPGP signature hashing algorithm
      * @returns {Promise.<undefined, Error>}
      */
-    createEncryptedFormContainer(selector, formHtml, signature) {
-      return postMessage('encrypted-form-container', {selector, formHtml, signature});
+    createEncryptedFormContainer(selector, formHtml, signature, hash) {
+      return postMessage('encrypted-form-container', {selector, formHtml, signature, hash});
     }
   }
 
@@ -720,7 +721,13 @@ class PgpEncryptedForm extends HTMLElement {
       return this.onError(errorMsg);
     }
 
-    window.mailvelope.createEncryptedFormContainer(id, html, signature)
+    const hash = this.getAttribute('hash');
+    if (typeof hash === 'undefined') {
+      errorMsg = 'No hash included in pgp-encrypted-tag. Please add a hashing algorithm name.';
+      return this.onError(errorMsg);
+    }
+
+    window.mailvelope.createEncryptedFormContainer(id, html, signature, hash)
     .then(armoredData => this.onEncrypt(armoredData), error => this.onError(error));
   }
 

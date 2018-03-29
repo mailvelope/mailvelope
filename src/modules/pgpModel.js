@@ -177,6 +177,17 @@ export async function verifyMessage({armored, keyringId}) {
   }
 }
 
+export function verifyDetachedSignature(plaintext, publicKeys, detachedSignature) {
+  return Promise.resolve()
+  .then(() => {
+    const signature = openpgp.signature.readArmored(detachedSignature);
+    const message = openpgp.message.fromText(plaintext);
+    return openpgp.verify({message, publicKeys, signature});
+  }).then(sigCheck => {
+    return sigCheck;
+  });
+}
+
 /**
  * Sign plaintext message
  * @param  {String} options.data - plaintext message
