@@ -17,6 +17,7 @@ export default class EncryptedFormController extends sub.SubController {
     this.formAction = null;
     this.formRecipient = null;
     this.formSignature = null;
+    this.formHash = null;
     this.recipientKey = null;
     this.pwdControl = null;
 
@@ -42,7 +43,10 @@ export default class EncryptedFormController extends sub.SubController {
 
   onFormDefinition(event) {
     const formTag = this.getCleanFormTag(event.html);
+
     try {
+      this.assertAndSetHash(event);
+      this.assertAndSetSignature(event);
       this.assertOnlyOneForm(formTag);
       this.assertAndSetAction(formTag);
       this.assertAndSetEncoding(formTag);
@@ -52,13 +56,19 @@ export default class EncryptedFormController extends sub.SubController {
       this.onFormError(error);
     }
 
-    const cleanHtml = this.getCleanFormHtml(event.html);
-    this.ports.encryptedForm.emit('encrypted-form-definition', {
-      formDefinition: cleanHtml,
-      formEncoding: this.formEncoding,
-      formAction: this.formAction,
-      formRecipient: this.formRecipient,
-      formFingerprint: this.formFingerprint,
+    this.validateSignature(event.html)
+    .then(() => {
+      const cleanHtml = this.getCleanFormHtml(event.html);
+      this.ports.encryptedForm.emit('encrypted-form-definition', {
+        formDefinition: cleanHtml,
+        formEncoding: this.formEncoding,
+        formAction: this.formAction,
+        formRecipient: this.formRecipient,
+        formFingerprint: this.formFingerprint,
+      });
+    })
+    .catch(error => {
+      this.onFormError(error);
     });
   }
 
@@ -157,11 +167,30 @@ export default class EncryptedFormController extends sub.SubController {
   assertAndSetFingerprint() {
     const keyMap = keyring.getById(this.keyringId).getKeyByAddress([this.formRecipient]);
     if (typeof keyMap[this.formRecipient] !== 'undefined' && keyMap[this.formRecipient].length) {
-      this.recipientKey = keyMap[this.formRecipient][0].primaryKey;
-      this.formFingerprint = this.recipientKey.getFingerprint().toUpperCase();
+      this.recipientKey = keyMap[this.formRecipient][0];
+      this.formFingerprint = this.recipientKey.primaryKey.getFingerprint().toUpperCase();
     } else {
       throw new mvelo.Error('No valid encryption key for recipient address', 'NO_ENCRYPTION_KEY_FOUND');
     }
+  }
+
+  assertAndSetHash(event) {
+    if (typeof event.hash === 'undefined') {
+      throw new mvelo.Error('No valid hash algorithm.', 'NO_HASH');
+    }
+    const whitelistedHash = ["MD5", "SHA1", "RIPEMD160", "SHA256", "SHA384", "SHA512", "SHA224"];
+    if (whitelistedHash.indexOf(event.hash) === -1) {
+      throw new mvelo.Error('The requested hash is not supported.', 'UNSUPORTED_HASH');
+    }
+    this.formHash = event.hash;
+  }
+
+  assertAndSetSignature(event) {
+    // todo baseline signature validation
+    if (typeof event.signature === 'undefined') {
+      throw new mvelo.Error('No valid signature.', 'NO_SIGNATURE');
+    }
+    this.formSignature = event.signature;
   }
 
   assertOnlyOneForm(html) {
@@ -170,6 +199,22 @@ export default class EncryptedFormController extends sub.SubController {
       throw new mvelo.Error('There should be only one form tag in the form definition.', 'TOO_MANY_FORMS');
     }
     return true;
+  }
+
+  validateSignature(rawHtml) {
+    const signature = `-----BEGIN PGP SIGNATURE-----
+Comment: pgp-encrypted-form
+
+${this.formSignature}
+-----END PGP SIGNATURE-----`;
+
+    return model.verifyDetachedSignature(rawHtml, [this.recipientKey], signature).then(verified => {
+      if (verified.signatures[0].valid === true) {
+        return true;
+      } else {
+        throw new mvelo.Error('The form signature is not valid.', 'INVALID_SIGNATURE');
+      }
+    });
   }
 
   signAndEncrypt(data) {
@@ -200,7 +245,7 @@ export default class EncryptedFormController extends sub.SubController {
     .then(() => {
       this.pwdControl = null;
       return model.encryptMessage({
-        keyIdsHex: [this.recipientKey.getFingerprint()],
+        keyIdsHex: [this.recipientKey.primaryKey.getFingerprint()],
         keyringId: this.keyringId,
         primaryKey: signKey,
         message: data,

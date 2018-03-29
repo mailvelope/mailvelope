@@ -80,7 +80,8 @@ const dataTypes = {
   id: 'string',
   confirmRequired: 'boolean',
   signature: 'string',
-  formHtml: 'string'
+  formHtml: 'string',
+  hash: 'string'
 };
 
 const optionsTypes = {
@@ -241,7 +242,7 @@ function eventListener(event) {
         syncHandlerDone(data);
         break;
       case 'encrypted-form-container':
-        encryptedFormContainer(data.selector, data.formHtml, data.signature, reply.bind(null, event.data.id));
+        encryptedFormContainer(data.selector, data.formHtml, data.signature, data.hash, reply.bind(null, event.data.id));
         break;
       default:
         console.log('clientAPI unknown event', event.data.event);
@@ -454,8 +455,8 @@ function syncHandlerDone(data) {
   container.syncDone(data);
 }
 
-function encryptedFormContainer(selector, formHtml, signature, callback) {
-  const container = new FormContainer(selector, formHtml, signature);
+function encryptedFormContainer(selector, formHtml, signature, hash, callback) {
+  const container = new FormContainer(selector, formHtml, signature, hash);
   containers.set(container.id, container);
   container.create(callback);
 }
