@@ -47,6 +47,7 @@
     "components/verify-inline/verifyInlineSig.css",
     "content-scripts/framestyles.css",
     "dep/bootstrap/css/bootstrap.css",
+    "dep/bootstrap4/css/bootstrap.css",
     "dep/bootstrap/fonts/glyphicons-halflings-regular.ttf",
     "dep/bootstrap/fonts/glyphicons-halflings-regular.woff",
     "dep/bootstrap/fonts/glyphicons-halflings-regular.woff2",
