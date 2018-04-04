@@ -58,6 +58,14 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
+            cwd: 'node_modules/bootstrap4/dist/',
+            src: [
+              'css/bootstrap.css'
+            ],
+            dest: 'build/tmp/dep/bootstrap4/'
+          },
+          {
+            expand: true,
             cwd: 'node_modules/font-awesome/',
             src: [
               'css/font-awesome.css',

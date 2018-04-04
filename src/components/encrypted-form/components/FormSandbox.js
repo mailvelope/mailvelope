@@ -192,7 +192,7 @@ export default class FormSandbox extends React.Component {
       <html>
         <head>
           <meta charset="utf-8">
-          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+          <link rel="stylesheet" href="../../dep/bootstrap4/css/bootstrap.css">
           <style>.form-row{margin-right:0}</style>
         </head>
         <body>
