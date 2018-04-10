@@ -97,11 +97,11 @@ export default class EncryptedForm extends React.Component {
     form.submit();
   }
 
-  onResizeIframe() {
+  onResize() {
     this.port.emit('encrypted-form-resize', {height: document.body.scrollHeight});
   }
 
-  formSandboxIframe() {
+  formSandbox() {
     return (
       <FormSandbox formDefinition={this.state.formDefinition}
         formEncoding={this.state.formEncoding}
@@ -109,7 +109,7 @@ export default class EncryptedForm extends React.Component {
         needSubmit={this.state.submit}
         onValidated={data => this.onValidated(data)}
         onError={error => this.onFormSandboxError(error)}
-        onResizeIframe={() => this.onResizeIframe()} />
+        onResize={() => this.onResize()} />
     );
   }
 
@@ -119,7 +119,7 @@ export default class EncryptedForm extends React.Component {
         <section className="well clearfix">
           {this.state.waiting  ? (<div>loading.. </div>) : (
             <div>
-              {this.formSandboxIframe()}
+              {this.formSandbox()}
               <button className="btn btn-primary" type="submit" onClick={() => this.onClickSubmit()}>Submit</button>
               <div className="recipient">
                 <div className="recipient-action">Destination: {this.state.formAction ? this.state.formAction : 'The encrypted content will be returned to the page.' }</div>

@@ -42,8 +42,8 @@ export default class EncryptedFormContainer {
     });
   }
 
-  onResizeIframe({height}) {
-    console.log('onResizeIframe');
+  onResize({height}) {
+    console.log('onResize');
     console.log(height);
     const offset = 16;
     const newHeight = height + offset;
@@ -67,7 +67,7 @@ export default class EncryptedFormContainer {
   registerEventListener() {
     this.port.on('encrypted-form-ready', this.processFormDefinition);
     this.port.on('encrypted-form-data', ({armoredData}) => this.done(null, {armoredData}));
-    this.port.on('encrypted-form-resize', this.onResizeIframe);
+    this.port.on('encrypted-form-resize', this.onResize);
     this.port.on('destroy', this.onDestroy);
     this.port.on('error-message', this.onError);
   }

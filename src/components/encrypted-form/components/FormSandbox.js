@@ -52,7 +52,7 @@ export default class FormSandbox extends React.Component {
       const offset = 8;
       const newHeight = this.sandbox.contentDocument.body.scrollHeight + offset;
       this.sandbox.style.height = `${newHeight}px`;
-      this.props.onResizeIframe();
+      this.props.onResize();
     }
   }
 
@@ -215,7 +215,7 @@ FormSandbox.propTypes = {
   needSubmit: PropTypes.bool,
   onTerminate: PropTypes.func,
   onValidated: PropTypes.func,
-  onResizeIframe: PropTypes.func,
+  onResize: PropTypes.func,
   onError: PropTypes.func
 };
 
