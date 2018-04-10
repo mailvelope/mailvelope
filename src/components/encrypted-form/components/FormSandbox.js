@@ -34,13 +34,7 @@ export default class FormSandbox extends React.Component {
 
   checkForEmptyForm() {
     // check that there is at least a valid input field to send
-    let validInput = 0;
-    $(this.form).find('[name]').each(function() {
-      const tag = $(this).prop('tagName').toLowerCase();
-      if (tag.match(/(input|select|textarea)/g).length) {
-        validInput++;
-      }
-    });
+    const validInput = $(this.form).find('input[name], select[name], textarea[name]').length;
     if (!validInput) {
       this.onError(new Error('There should be at least one input field with name property set.'));
     }
@@ -131,7 +125,7 @@ export default class FormSandbox extends React.Component {
       const promises = [];
       $(this.form).find('input[type=file]').each(function() {
         const name = $(this).prop('name');
-        if (name !== undefined) {
+        if (name) {
           for (let i = 0; i < this.files.length; i++) {
             const reader = new FileReader();
             promises.push(new Promise((resolve => {
@@ -214,7 +208,6 @@ FormSandbox.propTypes = {
   formDefinition: PropTypes.string,
   formEncoding: PropTypes.string,
   needSubmit: PropTypes.bool,
-  onTerminate: PropTypes.func,
   onValidated: PropTypes.func,
   onResize: PropTypes.func,
   onError: PropTypes.func
