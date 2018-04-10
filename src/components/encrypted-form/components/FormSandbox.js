@@ -11,48 +11,12 @@ export default class FormSandbox extends React.Component {
     super(props);
     this.sandbox = null;
     this.form = null;
-    this.iframe = null;
     this.files = [];
   }
 
   shouldComponentUpdate() {
     // create sandbox iframe only once
     return false;
-  }
-
-  componentDidMount() {
-    this.iframe = document.getElementsByTagName('iframe')[0];
-    this.iframe.onload = () => {
-      this.resizeIframe();
-      this.form = this.iframe.contentDocument.getElementsByTagName('form')[0];
-
-      // Remove all input type submit
-      this.removeInputSubmit();
-
-      // Check that form has at least one valid input
-      this.checkForEmptyForm();
-
-      // Prevent default behavior on form submit event
-      this.form.addEventListener('submit', event => {
-        this.onFormSubmit(event);
-        event.preventDefault();
-        event.stopPropagation();
-      });
-      // Pressing enter in an input field also triggers a submit
-      $(this.form).on('keypress', 'input', event => {
-        const code = event.keyCode || event.which;
-        if (code === 13) {
-          this.onFormSubmit(event);
-          event.preventDefault();
-          return false;
-        }
-      });
-
-      // Keyup and focus out can trigger validation and therefore change height
-      $(this.form).on('focusout keyup', 'input, textarea, select', () => {
-        this.resizeIframe();
-      });
-    };
   }
 
   removeInputSubmit() {
@@ -83,11 +47,11 @@ export default class FormSandbox extends React.Component {
   }
 
   resizeIframe() {
-    const height = `${this.iframe.contentDocument.body.scrollHeight}px`;
-    if (height !== this.iframe.style.height) {
+    const height = `${this.sandbox.contentDocument.body.scrollHeight}px`;
+    if (height !== this.sandbox.style.height) {
       const offset = 8;
-      const newHeight = this.iframe.contentDocument.body.scrollHeight + offset;
-      this.iframe.style.height = `${newHeight}px`;
+      const newHeight = this.sandbox.contentDocument.body.scrollHeight + offset;
+      this.sandbox.style.height = `${newHeight}px`;
       this.props.onResizeIframe();
     }
   }
@@ -105,6 +69,38 @@ export default class FormSandbox extends React.Component {
 
   onError(error) {
     this.props.onError(error);
+  }
+
+  onIframeLoad() {
+    this.resizeIframe();
+    this.form = this.sandbox.contentDocument.getElementsByTagName('form')[0];
+
+    // Remove all input type submit
+    this.removeInputSubmit();
+
+    // Check that form has at least one valid input
+    this.checkForEmptyForm();
+
+    // Prevent default behavior on form submit event
+    this.form.addEventListener('submit', event => {
+      this.onFormSubmit(event);
+      event.preventDefault();
+      event.stopPropagation();
+    });
+    // Pressing enter in an input field also triggers a submit
+    $(this.form).on('keypress', 'input', event => {
+      const code = event.keyCode || event.which;
+      if (code === 13) {
+        this.onFormSubmit(event);
+        event.preventDefault();
+        return false;
+      }
+    });
+
+    // Keyup and focus out can trigger validation and therefore change height
+    $(this.form).on('focusout keyup', 'input, textarea, select', () => {
+      this.resizeIframe();
+    });
   }
 
   serializeFormData(mode) {
@@ -208,11 +204,10 @@ export default class FormSandbox extends React.Component {
         srcDoc={sandboxContent}
         frameBorder={0} width="100%" height="1px" style={{overflowY: 'hidden', overflowX: 'hidden'}}
         ref={node => this.sandbox = node}
-        onLoad={() => this.resizeIframe()} />
+        onLoad={() => this.onIframeLoad()} />
     );
   }
 }
-
 
 FormSandbox.propTypes = {
   formDefinition: PropTypes.string,
