@@ -71,7 +71,7 @@ export default class FormSandbox extends React.Component {
     this.props.onError(error);
   }
 
-  onIframeLoad() {
+  handleLoad() {
     this.resizeIframe();
     this.form = this.sandbox.contentDocument.getElementsByTagName('form')[0];
 
@@ -204,7 +204,7 @@ export default class FormSandbox extends React.Component {
         srcDoc={sandboxContent}
         frameBorder={0} width="100%" height="1px" style={{overflowY: 'hidden', overflowX: 'hidden'}}
         ref={node => this.sandbox = node}
-        onLoad={() => this.onIframeLoad()} />
+        onLoad={() => this.handleLoad()} />
     );
   }
 }

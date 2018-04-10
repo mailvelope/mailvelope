@@ -70,11 +70,12 @@ export default class EncryptedForm extends React.Component {
     });
   }
 
-  onClickSubmit() {
+  handleClickSubmit() {
     this.setState(() => ({submit: true}));
   }
 
   onValidated(data) {
+    // when the data is validated, all green, we can encrypt and submit
     this.port.emit('encrypted-form-submit', {data});
   }
 
@@ -120,7 +121,7 @@ export default class EncryptedForm extends React.Component {
           {this.state.waiting  ? (<div>loading.. </div>) : (
             <div>
               {this.formSandbox()}
-              <button className="btn btn-primary" type="submit" onClick={() => this.onClickSubmit()}>Submit</button>
+              <button className="btn btn-primary" type="submit" onClick={() => this.handleClickSubmit()}>Submit</button>
               <div className="recipient">
                 <div className="recipient-action">Destination: {this.state.formAction ? this.state.formAction : 'The encrypted content will be returned to the page.' }</div>
                 <div className="recipient-email">Recipient: {this.state.formRecipient}</div>
