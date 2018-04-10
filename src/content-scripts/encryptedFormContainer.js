@@ -11,7 +11,7 @@ export default class EncryptedFormContainer {
     this.selector = selector;
     this.id = mvelo.util.getHash();
     this.name = `encryptedFormCont-${this.id}`;
-    this.port = mvelo.runtime.connect({name: this.name});
+    this.port = mvelo.EventHandler.connect(this.name, this);
     this.registerEventListener();
     this.parent = null;
     this.signature = signature;
@@ -35,45 +35,39 @@ export default class EncryptedFormContainer {
   }
 
   processFormDefinition() {
-    this.port.postMessage({
-      event: 'encrypted-form-definition',
+    this.port.emit('encrypted-form-definition', {
       sender: this.name,
       html: this.html,
       signature: this.signature
     });
   }
 
+  onResizeIframe({height}) {
+    const offset = 16;
+    const newHeight = height + offset;
+    this.container.style.height = `${newHeight}px`;
+  }
+
+  onDestroy() {
+    this.parent.removeChild(this.container);
+    this.port.disconnect();
+    this.done(null, this.id);
+  }
+
+  onError({error}) {
+    if (this.container) {
+      this.parent.removeChild(this.container);
+      this.port.disconnect();
+    }
+    this.done(error);
+  }
+
   registerEventListener() {
-    this.port.onMessage.addListener(msg => {
-      switch (msg.event) {
-        case 'encrypted-form-ready':
-          this.processFormDefinition();
-          break;
-        case 'encrypted-form-data':
-          this.done(null, msg.armoredData);
-          break;
-        case 'encrypted-form-resize': {
-          const offset = 16;
-          const newHeight = msg.height + offset;
-          this.container.style.height = `${newHeight}px`;
-          break;
-        }
-        case 'destroy':
-          this.parent.removeChild(this.container);
-          this.port.disconnect();
-          this.done(null, this.id);
-          break;
-        case 'error-message':
-          if (this.container) {
-            this.parent.removeChild(this.container);
-            this.port.disconnect();
-          }
-          this.done(msg.error);
-          break;
-        default:
-          console.log('unknown event', msg);
-      }
-    });
+    this.port.on('encrypted-form-ready', this.processFormDefinition);
+    this.port.on('encrypted-form-data', ({armoredData}) => this.done(null, armoredData));
+    this.port.on('encrypted-form-resize', this.onResizeIframe);
+    this.port.on('destroy', this.onDestroy);
+    this.port.on('error-message', this.onError);
   }
 
   baseValidate(selector, html, signature) {
