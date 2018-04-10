@@ -112,7 +112,6 @@ export default class EncryptedForm extends React.Component {
     return (
       <FormSandbox formDefinition={this.state.formDefinition}
         formEncoding={this.state.formEncoding}
-        onTerminate={() => mvelo.ui.terminate(this.port)}
         needSubmit={this.state.submit}
         onValidated={data => this.onValidated(data)}
         onError={error => this.onFormSandboxError(error)}
