@@ -9,6 +9,7 @@ import mvelo from '../../mvelo';
 import * as l10n from '../../lib/l10n';
 import FormSandbox from './components/FormSandbox';
 import './encryptedForm.css';
+import Spinner from "../util/Spinner";
 
 // register language strings
 l10n.register([
@@ -39,6 +40,7 @@ export default class EncryptedForm extends React.Component {
     if (this.props.secureBackground) {
       mvelo.util.showSecurityBackground(this.port, true);
     }
+    this.onResize();
   }
 
   registerEventListeners() {
@@ -118,7 +120,9 @@ export default class EncryptedForm extends React.Component {
     return (
       <div className={this.props.secureBackground && !this.state.waiting ? 'jumbotron secureBackground' : ''} style={{height: '100%', position: 'relative'}}>
         <section className="well clearfix">
-          {this.state.waiting  ? (<div>loading.. </div>) : (
+          {this.state.waiting  ? (
+            <Spinner style={{margin: '0 auto 0'}} />
+          ) : (
             <div>
               {this.formSandbox()}
               <button className="btn btn-primary" type="submit" onClick={() => this.handleClickSubmit()}>Submit</button>
