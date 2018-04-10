@@ -43,8 +43,6 @@ export default class EncryptedFormContainer {
   }
 
   onResize({height}) {
-    console.log('onResize');
-    console.log(height);
     const offset = 16;
     const newHeight = height + offset;
     this.container.style.height = `${newHeight}px`;
