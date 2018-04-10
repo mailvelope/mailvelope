@@ -7,7 +7,7 @@ import mvelo from "../mvelo";
 
 export default class EncryptedFormContainer {
   constructor(selector, html, signature) {
-    this.baseValidate(html, signature);
+    this.baseValidate(selector, html, signature);
     this.selector = selector;
     this.id = mvelo.util.getHash();
     this.name = `encryptedFormCont-${this.id}`;
@@ -22,9 +22,9 @@ export default class EncryptedFormContainer {
 
   create(done) {
     this.done = done;
-    this.parent = document.getElementById(this.selector);
+    this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');
-    const url = mvelo.runtime.getURL(`components/encrypted-form/encryptedForm.html?id=${this.id}&embedded=true`);
+    const url = mvelo.runtime.getURL(`components/encrypted-form/encryptedForm.html?id=${this.id}`);
     this.container.setAttribute('id', this.name);
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);
@@ -64,8 +64,10 @@ export default class EncryptedFormContainer {
           this.done(null, this.id);
           break;
         case 'error-message':
-          this.parent.removeChild(this.container);
-          this.port.disconnect();
+          if (this.container) {
+            this.parent.removeChild(this.container);
+            this.port.disconnect();
+          }
           this.done(msg.error);
           break;
         default:
@@ -74,12 +76,15 @@ export default class EncryptedFormContainer {
     });
   }
 
-  baseValidate(html, signature) {
+  baseValidate(selector, html, signature) {
+    if (!selector) {
+      throw new mvelo.Error('The pgp encrypted form selector cannot be empty.');
+    }
     if (!html) {
-      throw new mvelo.Error('The html cannot be empty.');
+      throw new mvelo.Error('The pgp encrypted form html cannot be empty.');
     }
     if (!signature) {
-      throw new mvelo.Error('The signature cannot be empty.');
+      throw new mvelo.Error('The pgp encrypted form signature cannot be empty.');
     }
     return true;
   }

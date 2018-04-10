@@ -692,17 +692,10 @@ class PgpEncryptedForm extends HTMLElement {
   connectedCallback() {
     this.dispatchEvent(new Event('connected'));
 
-    if (!this.innerHTML) {
-      return this.onError(new Error('No form included in pgp-encrypted-tag. Please add form definition.'));
-    }
     if (!this.getAttribute('id')) {
-      return this.onError(new Error('No form id for pgp-encrypted-tag. Please add a form id.'));
+      return this.onError(new Error('No form id for pgp-encrypted-tag. Please add form definition.'));
     }
-    if (!this.getAttribute('signature')) {
-      return this.onError(new Error('No signature included in pgp-encrypted-tag. Please add a signature.'));
-    }
-
-    window.mailvelope.createEncryptedFormContainer(this.getAttribute('id'), this.innerHTML, this.getAttribute('signature'))
+    window.mailvelope.createEncryptedFormContainer('#' + this.getAttribute('id'), this.innerHTML, this.getAttribute('signature'))
     .then(armoredData => this.onEncrypt(armoredData), error => this.onError(error));
   }
 
