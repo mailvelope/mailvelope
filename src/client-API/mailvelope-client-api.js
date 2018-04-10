@@ -693,25 +693,22 @@ class PgpEncryptedForm extends HTMLElement {
     this.dispatchEvent(new Event('connected'));
     let errorMsg;
 
-    const html = this.innerHTML;
-    if (typeof html === 'undefined') {
+    if (!this.innerHTML) {
       errorMsg = 'No form data included in pgp-encrypted-form tag.';
       return this.onError(errorMsg);
     }
 
-    const id = this.getAttribute('id');
-    if (typeof id === 'undefined') {
+    if (!this.getAttribute('id')) {
       errorMsg = 'No form included in pgp-encrypted-tag. Please add form definition.';
       return this.onError(errorMsg);
     }
 
-    const signature = this.getAttribute('signature');
-    if (typeof signature === 'undefined') {
+    if (!this.getAttribute('signature')) {
       errorMsg = 'No signature included in pgp-encrypted-tag. Please add a signature.';
       return this.onError(errorMsg);
     }
 
-    window.mailvelope.createEncryptedFormContainer(id, html, signature)
+    window.mailvelope.createEncryptedFormContainer(this.getAttribute('id'), this.innerHTML, this.getAttribute('signature'))
     .then(armoredData => this.onEncrypt(armoredData), error => this.onError(error));
   }
 
