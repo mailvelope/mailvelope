@@ -28,7 +28,7 @@ export default class EncryptedFormContainer {
     this.container.setAttribute('id', this.name);
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);
-    this.container.setAttribute('scrolling', 'yes');
+    this.container.setAttribute('scrolling', 'no');
     this.container.style.width = '100%';
     this.container.style.height = '150px';
     this.parent.appendChild(this.container);
@@ -43,6 +43,8 @@ export default class EncryptedFormContainer {
   }
 
   onResizeIframe({height}) {
+    console.log('onResizeIframe');
+    console.log(height);
     const offset = 16;
     const newHeight = height + offset;
     this.container.style.height = `${newHeight}px`;
@@ -64,7 +66,7 @@ export default class EncryptedFormContainer {
 
   registerEventListener() {
     this.port.on('encrypted-form-ready', this.processFormDefinition);
-    this.port.on('encrypted-form-data', ({armoredData}) => this.done(null, armoredData));
+    this.port.on('encrypted-form-data', ({armoredData}) => this.done(null, {armoredData}));
     this.port.on('encrypted-form-resize', this.onResizeIframe);
     this.port.on('destroy', this.onDestroy);
     this.port.on('error-message', this.onError);
