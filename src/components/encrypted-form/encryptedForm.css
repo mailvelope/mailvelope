@@ -1,28 +1,27 @@
-/* no style for now */
 .well {
-    background:#FFF;
+    background: #FFF;
 }
 .btn {
-    display:inline-block;
-    font-size:1.25em;
-    margin-top:-2.25em;
+    display: inline-block;
+    font-size: 1.25em;
+    margin-top: -2.25em;
 }
 .recipient {
-    display:inline-block;
-    margin-left:2em;
-    background-color:#555555;
-    color:#fff;
-    padding:.5em 1em;
+    display: inline-block;
+    margin-left: 2em;
+    background-color: #555;
+    color: #FFF;
+    padding: .5em 1em;
 }
 .recipient-email:before {
     color: black;
-    border-right: 1px solid #555555;
-    border-bottom: 1px solid #555555;
+    border-right: 1px solid #555;
+    border-bottom: 1px solid #555;
     content: '';
     position: absolute;
     width: 16px;
     height: 16px;
     transform: rotate(135deg);
-    background:#555555;
-    margin-left:-23px;
+    background: #555;
+    margin-left: -23px;
 }
