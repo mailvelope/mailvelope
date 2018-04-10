@@ -6,8 +6,8 @@
 import mvelo from "../mvelo";
 
 export default class EncryptedFormContainer {
-  constructor(selector, html, signature, hash) {
-    this.baseValidate(html, signature, hash);
+  constructor(selector, html, signature) {
+    this.baseValidate(html, signature);
     this.selector = selector;
     this.id = mvelo.util.getHash();
     this.name = `encryptedFormCont-${this.id}`;
@@ -17,7 +17,6 @@ export default class EncryptedFormContainer {
     this.signature = signature;
     this.container = null;
     this.html = html;
-    this.hash = hash;
     this.done = null;
   }
 
@@ -40,7 +39,6 @@ export default class EncryptedFormContainer {
       event: 'encrypted-form-definition',
       sender: this.name,
       html: this.html,
-      hash: this.hash,
       signature: this.signature
     });
   }
@@ -76,15 +74,12 @@ export default class EncryptedFormContainer {
     });
   }
 
-  baseValidate(html, signature, hash) {
+  baseValidate(html, signature) {
     if (!html) {
       throw new mvelo.Error('The html cannot be empty.');
     }
     if (!signature) {
       throw new mvelo.Error('The signature cannot be empty.');
-    }
-    if (!hash) {
-      throw new mvelo.Error('The hash cannot be empty.');
     }
     return true;
   }

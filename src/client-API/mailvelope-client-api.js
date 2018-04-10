@@ -182,11 +182,10 @@
      * @param @param {string} selector - the id of target container
      * @param @param {string} formHtml - the form definition
      * @param @param {string} signature - the OpenPGP signature
-     * @param @param {string} hash - the OpenPGP signature hashing algorithm
      * @returns {Promise.<undefined, Error>}
      */
-    createEncryptedFormContainer(selector, formHtml, signature, hash) {
-      return postMessage('encrypted-form-container', {selector, formHtml, signature, hash});
+    createEncryptedFormContainer(selector, formHtml, signature) {
+      return postMessage('encrypted-form-container', {selector, formHtml, signature});
     }
   }
 
@@ -690,7 +689,7 @@
  */
 class PgpEncryptedForm extends HTMLElement {
   static get observedAttributes() {
-    return ['hash', 'signature', 'version', 'comment', 'encryptedContent'];
+    return ['signature', 'version', 'comment', 'encryptedContent'];
   }
 
   // Invoked when the custom element is first connected to the document's DOM.
@@ -721,13 +720,7 @@ class PgpEncryptedForm extends HTMLElement {
       return this.onError(errorMsg);
     }
 
-    const hash = this.getAttribute('hash');
-    if (typeof hash === 'undefined') {
-      errorMsg = 'No hash included in pgp-encrypted-tag. Please add a hashing algorithm name.';
-      return this.onError(errorMsg);
-    }
-
-    window.mailvelope.createEncryptedFormContainer(id, html, signature, hash)
+    window.mailvelope.createEncryptedFormContainer(id, html, signature)
     .then(armoredData => this.onEncrypt(armoredData), error => this.onError(error));
   }
 
