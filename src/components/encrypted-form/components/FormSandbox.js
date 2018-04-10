@@ -19,6 +19,12 @@ export default class FormSandbox extends React.Component {
     return false;
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.needSubmit === true) {
+      this.form.dispatchEvent(new Event('submit'));
+    }
+  }
+
   removeInputSubmit() {
     // TODO add ability to remove tags by type using DOMPurify
     $(this.form).find('input[type=submit]').each(function() {
@@ -37,12 +43,6 @@ export default class FormSandbox extends React.Component {
     });
     if (!validInput) {
       this.onError(new Error('There should be at least one input field with name property set.'));
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.needSubmit === true) {
-      this.form.dispatchEvent(new Event('submit'));
     }
   }
 
