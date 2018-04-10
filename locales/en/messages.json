@@ -327,6 +327,14 @@
     "description": "Continue form button.",
     "message": "Continue"
   },
+  "form_destination": {
+    "description": "Url the form data will be sent to",
+    "message": "Destination"
+  },
+  "form_destination_default": {
+    "description": "Behavior when no action is specified in form",
+    "message": "The encrypted data will be returned to the page."
+  },
   "form_forward": {
     "message": "Forward",
     "description": "Forward form button."
@@ -346,6 +354,10 @@
   "form_ok": {
     "description": "Ok form button.",
     "message": "OK"
+  },
+  "form_recipient": {
+    "description": "The email for which the form will be encrypted for",
+    "message": "Recipient"
   },
   "form_save": {
     "description": "Save form button.",
