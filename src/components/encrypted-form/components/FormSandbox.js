@@ -82,11 +82,12 @@ export default class FormSandbox extends React.Component {
     this.checkForEmptyForm();
 
     // Prevent default behavior on form submit event
-    this.form.addEventListener('submit', event => {
+    $(this.form).on('submit', event => {
       this.onFormSubmit(event);
       event.preventDefault();
       event.stopPropagation();
     });
+
     // Pressing enter in an input field also triggers a submit
     $(this.form).on('keypress', 'input', event => {
       const code = event.keyCode || event.which;
