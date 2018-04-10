@@ -17,7 +17,6 @@ export default class EncryptedFormController extends sub.SubController {
     this.formAction = null;
     this.formRecipient = null;
     this.formSignature = null;
-    this.formHash = null;
     this.recipientKey = null;
     this.pwdControl = null;
 
@@ -45,7 +44,6 @@ export default class EncryptedFormController extends sub.SubController {
     const formTag = this.getCleanFormTag(event.html);
 
     try {
-      this.assertAndSetHash(event);
       this.assertAndSetSignature(event);
       this.assertOnlyOneForm(formTag);
       this.assertAndSetAction(formTag);
@@ -172,17 +170,6 @@ export default class EncryptedFormController extends sub.SubController {
     } else {
       throw new mvelo.Error('No valid encryption key for recipient address', 'NO_ENCRYPTION_KEY_FOUND');
     }
-  }
-
-  assertAndSetHash(event) {
-    if (typeof event.hash === 'undefined') {
-      throw new mvelo.Error('No valid hash algorithm.', 'NO_HASH');
-    }
-    const whitelistedHash = ["MD5", "SHA1", "RIPEMD160", "SHA256", "SHA384", "SHA512", "SHA224"];
-    if (whitelistedHash.indexOf(event.hash) === -1) {
-      throw new mvelo.Error('The requested hash is not supported.', 'UNSUPORTED_HASH');
-    }
-    this.formHash = event.hash;
   }
 
   assertAndSetSignature(event) {
