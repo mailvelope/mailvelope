@@ -182,7 +182,7 @@
      * @param @param {string} selector - the id of target container
      * @param @param {string} formHtml - the form definition
      * @param @param {string} signature - the OpenPGP signature
-     * @returns {Promise.<undefined, Error>}
+     * @returns object {armoredData}
      */
     createEncryptedFormContainer(selector, formHtml, signature) {
       return postMessage('encrypted-form-container', {selector, formHtml, signature});
@@ -699,7 +699,7 @@ class PgpEncryptedForm extends HTMLElement {
     .then(armoredData => this.onEncrypt(armoredData), error => this.onError(error));
   }
 
-  onEncrypt(armoredData) {
+  onEncrypt({armoredData}) {
     this.dispatchEvent(new CustomEvent('encrypt', {
       detail: {armoredData},
       bubbles: true,
