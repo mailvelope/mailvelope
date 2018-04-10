@@ -13,7 +13,8 @@ import Spinner from "../util/Spinner";
 
 // register language strings
 l10n.register([
-  'alert_header_error'
+  'alert_header_error',
+  'form_submit'
 ]);
 
 export default class EncryptedForm extends React.Component {
@@ -120,12 +121,10 @@ export default class EncryptedForm extends React.Component {
     return (
       <div className={this.props.secureBackground && !this.state.waiting ? 'jumbotron secureBackground' : ''} style={{height: '100%', position: 'relative'}}>
         <section className="well clearfix">
-          {this.state.waiting  ? (
-            <Spinner style={{margin: '0 auto 0'}} />
-          ) : (
+          {this.state.waiting  ? (<Spinner style={{margin: '0 auto 0'}} />) : (
             <div>
               {this.formSandbox()}
-              <button className="btn btn-primary" type="submit" onClick={() => this.handleClickSubmit()}>Submit</button>
+              <button className="btn btn-primary" type="button" onClick={() => this.handleClickSubmit()}>{l10n.map.form_submit}</button>
               <div className="recipient">
                 <div className="recipient-action">Destination: {this.state.formAction ? this.state.formAction : 'The encrypted content will be returned to the page.' }</div>
                 <div className="recipient-email">Recipient: {this.state.formRecipient}</div>
