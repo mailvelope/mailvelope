@@ -14,7 +14,10 @@ import Spinner from "../util/Spinner";
 // register language strings
 l10n.register([
   'alert_header_error',
-  'form_submit'
+  'form_submit',
+  'form_destination',
+  'form_recipient',
+  'form_destination_default'
 ]);
 
 export default class EncryptedForm extends React.Component {
@@ -126,8 +129,8 @@ export default class EncryptedForm extends React.Component {
               {this.formSandbox()}
               <button className="btn btn-primary" type="button" onClick={() => this.handleClickSubmit()}>{l10n.map.form_submit}</button>
               <div className="recipient">
-                <div className="recipient-action">Destination: {this.state.formAction ? this.state.formAction : 'The encrypted content will be returned to the page.' }</div>
-                <div className="recipient-email">Recipient: {this.state.formRecipient}</div>
+                <div className="recipient-action">{l10n.map.form_destination}: {this.state.formAction ? this.state.formAction : l10n.map.form_destination_default}</div>
+                <div className="recipient-email">{l10n.map.form_recipient}: {this.state.formRecipient}</div>
                 <div className="recipient-fingerprint">{this.state.formFingerprint}</div>
               </div>
             </div>
