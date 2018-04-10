@@ -28,7 +28,6 @@ export default class EncryptedForm extends React.Component {
       formRecipient: null,
       formFingerprint: null
     };
-    this.form = null;
     this.port = mvelo.EventHandler.connect(`encryptedForm-${this.props.id}`, this);
     this.registerEventListeners();
 
