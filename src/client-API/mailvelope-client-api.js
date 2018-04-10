@@ -688,19 +688,10 @@
  * PgpEncryptedForm custom HTMLElement
  */
 class PgpEncryptedForm extends HTMLElement {
-  static get observedAttributes() {
-    return ['signature', 'version', 'comment', 'encryptedContent'];
-  }
-
   // Invoked when the custom element is first connected to the document's DOM.
   connectedCallback() {
     this.dispatchEvent(new Event('connected'));
-
     let errorMsg;
-    if (typeof this.getAttribute('id') === 'undefined') {
-      errorMsg = 'No form id defined. Please add a unique form identifier.';
-      return this.onError(errorMsg);
-    }
 
     const html = this.innerHTML;
     if (typeof html === 'undefined') {
