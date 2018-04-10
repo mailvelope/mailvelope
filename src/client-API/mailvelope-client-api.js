@@ -691,21 +691,15 @@ class PgpEncryptedForm extends HTMLElement {
   // Invoked when the custom element is first connected to the document's DOM.
   connectedCallback() {
     this.dispatchEvent(new Event('connected'));
-    let errorMsg;
 
     if (!this.innerHTML) {
-      errorMsg = 'No form data included in pgp-encrypted-form tag.';
-      return this.onError(errorMsg);
+      return this.onError(new Error('No form included in pgp-encrypted-tag. Please add form definition.'));
     }
-
     if (!this.getAttribute('id')) {
-      errorMsg = 'No form included in pgp-encrypted-tag. Please add form definition.';
-      return this.onError(errorMsg);
+      return this.onError(new Error('No form id for pgp-encrypted-tag. Please add a form id.'));
     }
-
     if (!this.getAttribute('signature')) {
-      errorMsg = 'No signature included in pgp-encrypted-tag. Please add a signature.';
-      return this.onError(errorMsg);
+      return this.onError(new Error('No signature included in pgp-encrypted-tag. Please add a signature.'));
     }
 
     window.mailvelope.createEncryptedFormContainer(this.getAttribute('id'), this.innerHTML, this.getAttribute('signature'))
