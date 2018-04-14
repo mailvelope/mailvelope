@@ -148,8 +148,9 @@ export default class EncryptFrame extends mvelo.EventHandler {
     const editElementPos = this._editElement.position();
     const editElementWidth = this._editElement.width();
     const toolbarWidth = this._eFrame.width();
+    const left = editElementPos.left + editElementWidth - toolbarWidth - 20;
     this._eFrame.css('top', editElementPos.top + 3);
-    this._eFrame.css('left', editElementPos.left + editElementWidth - toolbarWidth - 20);
+    this._eFrame.css('left', left < 0 ? 0 : left);
   }
 
   _showMailEditor() {
