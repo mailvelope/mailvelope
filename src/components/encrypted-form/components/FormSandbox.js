@@ -43,7 +43,10 @@ export default class FormSandbox extends React.Component {
   resizeIframe() {
     const height = `${this.sandbox.contentDocument.body.scrollHeight}px`;
     if (height !== this.sandbox.style.height) {
-      const offset = 8;
+      let offset = 0;
+      if (typeof browser !== 'undefined') {
+        offset = 16;
+      }
       const newHeight = this.sandbox.contentDocument.body.scrollHeight + offset;
       this.sandbox.style.height = `${newHeight}px`;
       this.props.onResize();

@@ -29,6 +29,7 @@ export default class EncryptedFormContainer {
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);
     this.container.setAttribute('scrolling', 'no');
+    this.container.setAttribute('style', 'overflow:hidden');
     this.container.style.width = '100%';
     this.container.style.height = '150px';
     this.parent.appendChild(this.container);
@@ -43,9 +44,7 @@ export default class EncryptedFormContainer {
   }
 
   onResize({height}) {
-    const offset = 16;
-    const newHeight = height + offset;
-    this.container.style.height = `${newHeight}px`;
+    this.container.style.height = `${height}px`;
   }
 
   onDestroy() {
