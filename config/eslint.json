@@ -1,7 +1,7 @@
 {
 
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 8,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
@@ -30,6 +30,7 @@
     "no-empty": ["error", { "allowEmptyCatch": true }], // disallow empty block statements
     /* best practices */
     "curly": 2, // enforce consistent brace style for all control statements
+    "no-return-await": 2, // disallows unnecessary return await
     "no-eval": 2, // disallow the use of eval()
     "no-extend-native": 2, // disallow extending native types
     "no-global-assign": 2, // disallow assignments to native objects or read-only global variables

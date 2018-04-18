@@ -58,16 +58,6 @@ mvelo.storage.remove = function(id) {
   return browser.storage.local.remove(id);
 };
 
-mvelo.storage.old = {};
-
-mvelo.storage.old.get = function(id) {
-  return JSON.parse(window.localStorage.getItem(id));
-};
-
-mvelo.storage.old.remove = function(id) {
-  window.localStorage.removeItem(id);
-};
-
 mvelo.tabs = {};
 
 mvelo.tabs.getActive = function() {
