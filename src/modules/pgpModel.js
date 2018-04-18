@@ -19,86 +19,13 @@ import * as sub from '../controller/sub.controller';
 const unlockQueue = new mvelo.util.PromiseQueue();
 let watchListBuffer = null;
 
-export function init() {
-  return mvelo.storage.get('mvelo.preferences')
-  .then(preferences => {
-    if (!preferences && mvelo.storage.old.get('mailvelopePreferences')) {
-      return migrateStorage();
-    }
-  })
-  .then(() => defaults.init())
-  .then(() => prefs.init())
-  .then(() => {
-    pwdCache.init();
-    initOpenPGP();
-  })
-  .then(() => keyring.init())
-  .then(() => {
-    trustKey.init();
-  });
-}
-
-function migrateStorage() {
-  let keyringAttr;
-  return Promise.resolve()
-  .then(() => {
-    // keyring attributes
-    keyringAttr = mvelo.storage.old.get('mailvelopeKeyringAttr');
-    return mvelo.storage.set('mvelo.keyring.attributes', keyringAttr);
-  })
-  .then(() => {
-    // keyrings
-    const setKeyringAsync = [];
-    for (const keyringId in keyringAttr) {
-      if (keyringAttr.hasOwnProperty(keyringId)) {
-        let publicKeys;
-        let privateKeys;
-        if (keyringId === mvelo.LOCAL_KEYRING_ID) {
-          publicKeys = mvelo.storage.old.get('openpgp-public-keys') || [];
-          privateKeys = mvelo.storage.old.get('openpgp-private-keys') || [];
-        } else {
-          publicKeys = mvelo.storage.old.get(`${keyringId}public-keys`) || [];
-          privateKeys = mvelo.storage.old.get(`${keyringId}private-keys`) || [];
-        }
-        setKeyringAsync.push(
-          mvelo.storage.set(`mvelo.keyring.${keyringId}.publicKeys`, publicKeys)
-          .then(() => mvelo.storage.set(`mvelo.keyring.${keyringId}.privateKeys`, privateKeys))
-        );
-      }
-    }
-    return Promise.all(setKeyringAsync);
-  })
-  .then(() => {
-    // watchlist
-    const watchlist = mvelo.storage.old.get('mailvelopeWatchList');
-    return mvelo.storage.set('mvelo.watchlist', watchlist);
-  })
-  .then(() => {
-    // preferences
-    const preferences = mvelo.storage.old.get('mailvelopePreferences');
-    return mvelo.storage.set('mvelo.preferences', preferences);
-  })
-  .then(() => {
-    // remove keyring attributes
-    mvelo.storage.old.remove('mailvelopeKeyringAttr');
-    // remove keyrings
-    for (const keyringId in keyringAttr) {
-      if (keyringAttr.hasOwnProperty(keyringId)) {
-        if (keyringId === mvelo.LOCAL_KEYRING_ID) {
-          mvelo.storage.old.remove('openpgp-public-keys');
-          mvelo.storage.old.remove('openpgp-private-keys');
-        } else {
-          mvelo.storage.old.remove(`${keyringId}public-keys`);
-          mvelo.storage.old.remove(`${keyringId}private-keys`);
-        }
-      }
-    }
-    // remove watchlist
-    mvelo.storage.old.remove('mailvelopeWatchList');
-    // remove preferences
-    mvelo.storage.old.remove('mailvelopePreferences');
-  })
-  .catch(error => console.log('migrateStorage() error:', error));
+export async function init() {
+  await defaults.init();
+  await prefs.init();
+  pwdCache.init();
+  initOpenPGP();
+  await keyring.init();
+  trustKey.init();
 }
 
 function initOpenPGP() {

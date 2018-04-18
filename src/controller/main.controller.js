@@ -37,10 +37,10 @@ sub.factory.register('app',                 AppController);
 sub.factory.register('appCont',             AppController);
 sub.factory.register('menu',                MenuController);
 
-export function initController() {
-  return model.init()
-  .then(initMessageListener)
-  .then(initSubController);
+export async function initController() {
+  await model.init();
+  initMessageListener();
+  initSubController();
 }
 
 function initSubController() {
