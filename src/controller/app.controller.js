@@ -6,7 +6,7 @@
 import mvelo from '../lib/lib-mvelo';
 import * as sub from './sub.controller';
 import {decryptFile, encryptFile, getWatchList, setWatchList} from '../modules/pgpModel';
-import {getById as keyringById, getAllKeyringAttr, setKeyringAttr, deleteKeyring, getAllKeyUserId} from '../modules/keyring';
+import {getById as keyringById, getAllKeyringAttr, setKeyringAttr, deleteKeyring, getAllKeyUserId} from '../modules/keyringManager';
 import {initScriptInjection} from '../lib/inject';
 import * as prefs from '../modules/prefs';
 import * as uiLog from '../modules/uiLog';

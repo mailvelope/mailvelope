@@ -5,7 +5,8 @@
 
 import mvelo from '../lib/lib-mvelo';
 import * as sub from './sub.controller';
-import {getById as getKeyringById, getUserId} from '../modules/keyring';
+import {getById as getKeyringById} from '../modules/keyringManager';
+import {getUserId} from '../modules/key';
 import {isCached} from '../modules/pwdCache';
 import {readMessage, decryptSyncMessage, encryptSyncMessage} from '../modules/pgpModel';
 
