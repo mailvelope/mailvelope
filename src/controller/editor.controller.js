@@ -16,7 +16,7 @@ import DecryptController from './decrypt.controller';
 import * as uiLog from '../modules/uiLog';
 import {triggerSync} from './sync.controller';
 import KeyServer from '../modules/keyserver';
-import {getById as getKeyringById} from '../modules/keyring';
+import {getById as getKeyringById} from '../modules/keyringManager';
 import mailbuild from 'emailjs-mime-builder';
 
 export default class EditorController extends sub.SubController {

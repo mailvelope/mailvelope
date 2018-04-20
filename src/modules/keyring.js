@@ -5,196 +5,17 @@
 
 import mvelo from '../lib/lib-mvelo';
 import * as openpgp from 'openpgp';
+import {setKeyringAttr, getKeyringAttr} from './keyringManager';
+import {mapKeys, mapSubKeys, mapUsers, mapKeyUserIds, getUserId, checkKeyId} from './key';
 import {goog} from './closure-library/closure/goog/emailaddress';
-import {prefs} from './prefs';
-import * as keyringStore from './keyringStore';
 const l10n = mvelo.l10n.getMessage;
 import * as keyringSync from './keyringSync';
 import * as trustKey from './trustKey';
 import KeyServer from './keyserver';
 
 const keyServer = new KeyServer();
-const keyringMap = new Map();
-let keyringAttr = null;
 
-export function init() {
-  return getAllKeyringAttr()
-  .then(attributes => {
-    keyringAttr = attributes;
-    if (keyringAttr && keyringAttr[mvelo.LOCAL_KEYRING_ID]) {
-      const createKeyringAsync = [];
-      for (const keyringId in keyringAttr) {
-        if (keyringAttr.hasOwnProperty(keyringId)) {
-          createKeyringAsync.push(
-            _getKeyring(keyringId).then(keyRng => keyringMap.set(keyringId, keyRng))
-          );
-        }
-      }
-      return Promise.all(createKeyringAsync);
-    } else {
-      return createKeyring(mvelo.LOCAL_KEYRING_ID)
-      .then(() => {
-        // migrate primary_key attribute
-        if (prefs.general.primary_key) {
-          return setKeyringAttr(mvelo.LOCAL_KEYRING_ID, {primary_key: prefs.general.primary_key});
-        }
-      });
-    }
-  });
-}
-
-export function createKeyring(keyringId, options) {
-  return Promise.resolve()
-  .then(() => {
-    // init keyring attributes
-    if (!keyringAttr) {
-      keyringAttr = {};
-    }
-    if (keyringAttr[keyringId]) {
-      throw new mvelo.Error(`Keyring for id ${keyringId} already exists.`, 'KEYRING_ALREADY_EXISTS');
-    }
-    keyringAttr[keyringId] = {};
-  })
-  // instantiate keyring
-  .then(() => _getKeyring(keyringId))
-  .then(keyRng => {
-    keyringMap.set(keyringId, keyRng);
-    return setKeyringAttr(keyringId, {} || options)
-    .then(() => keyRng);
-  });
-}
-
-/**
- * Instantiate a new keyring object
- * @param  {String} keyringId
- * @return {Promise<Keyring>}
- */
-function _getKeyring(keyringId) {
-  // resolve keyring dependencies
-  return keyringStore.createKeyringStore(keyringId)
-  .then(krStore => {
-    const krSync = new keyringSync.KeyringSync(keyringId);
-    // instantiate keyring
-    return new Keyring(keyringId, krStore, krSync);
-  });
-}
-
-export function deleteKeyring(keyringId) {
-  return Promise.resolve()
-  .then(() => {
-    if (!keyringAttr[keyringId]) {
-      throw new mvelo.Error(`Keyring for id ${keyringId} does not exist.`, 'NO_KEYRING_FOR_ID');
-    }
-    const keyRng = keyringMap.get(keyringId);
-    keyRng.keyring.clear();
-    return keyRng.keyring.storeHandler.remove();
-  })
-  .then(() => {
-    keyringMap.delete(keyringId);
-    delete keyringAttr[keyringId];
-    return mvelo.storage.set('mvelo.keyring.attributes', keyringAttr);
-  });
-}
-
-export function getById(keyringId) {
-  const keyring = keyringMap.get(keyringId);
-  if (keyring) {
-    return keyring;
-  } else {
-    throw new mvelo.Error('No keyring found for this identifier.', 'NO_KEYRING_FOR_ID');
-  }
-}
-
-export function getAll() {
-  const result = [];
-  for (const keyringId in keyringAttr) {
-    if (keyringAttr.hasOwnProperty(keyringId)) {
-      result.push(keyringMap.get(keyringId));
-    }
-  }
-  return result;
-}
-
-export function getAllKeyringAttr() {
-  return mvelo.storage.get('mvelo.keyring.attributes');
-}
-
-export function setKeyringAttr(keyringId, attr) {
-  return Promise.resolve()
-  .then(() => {
-    if (!keyringAttr[keyringId]) {
-      throw new Error(`Keyring does not exist for id: ${keyringId}`);
-    }
-    Object.assign(keyringAttr[keyringId], attr);
-    return mvelo.storage.set('mvelo.keyring.attributes', keyringAttr);
-  });
-}
-
-export function getKeyringAttr(keyringId, attr) {
-  if (!keyringAttr[keyringId]) {
-    throw new Error(`Keyring does not exist for id: ${keyringId}`);
-  }
-  return keyringAttr[keyringId][attr];
-}
-
-/**
- * Get primary or first available user id of key
- * @param  {openpgp.Key} key
- * @param  {Boolean} [validityCheck=true] - only return valid user ids, e.g. for expired keys you would want to set to false to still get a result
- * @return {String} user id
- */
-export function getUserId(key, validityCheck) {
-  validityCheck = typeof validityCheck === 'undefined' ? true : false;
-  const primaryUser = key.getPrimaryUser();
-  if (primaryUser) {
-    return primaryUser.user.userId.userid;
-  } else {
-    // there is no valid user id on this key
-    if (!validityCheck) {
-      // take first available user ID
-      for (let i = 0; i < key.users.length; i++) {
-        if (key.users[i].userId) {
-          return key.users[i].userId.userid;
-        }
-      }
-    }
-    return l10n('keygrid_invalid_userid');
-  }
-}
-
-export function getAllKeyUserId() {
-  const allKeyrings = getAll();
-  let result = [];
-  allKeyrings.forEach(keyring => {
-    result = result.concat(keyring.getKeyUserIDs().map(key => {
-      key.keyringId = keyring.id;
-      return key;
-    }));
-  });
-  // remove duplicate keys
-  result = mvelo.util.sortAndDeDup(result, (a, b) => a.keyid.localeCompare(b.keyid));
-  // sort by name
-  result = result.sort((a, b) => a.name.localeCompare(b.name));
-  return result;
-}
-
-export function readKey(armored) {
-  const parsedKey = openpgp.key.readArmored(armored);
-  if (parsedKey.err) {
-    return parsedKey;
-  }
-  parsedKey.keys = mapKeys(parsedKey.keys);
-  return parsedKey;
-}
-
-export function cloneKey(key) {
-  const binary = key.toPacketlist().write();
-  const packetList = new openpgp.packet.List();
-  packetList.read(binary);
-  return new openpgp.key.Key(packetList);
-}
-
-export class Keyring {
+export default class Keyring {
   constructor(keyringId, pgpKeyring, krSync) {
     this.id = keyringId;
     this.keyring = pgpKeyring;
@@ -279,7 +100,7 @@ export class Keyring {
             if (users.some(existingUser => existingUser.userid === user.userid)) {
               return;
             }
-            this._mapKeyUserIds(user);
+            mapKeyUserIds(user);
             // check for valid email address
             if (!user.email) {
               return;
@@ -293,29 +114,13 @@ export class Keyring {
         user = {};
         user.keyid = keyid;
         user.userid = getUserId(key);
-        this._mapKeyUserIds(user);
+        mapKeyUserIds(user);
         result.push(user);
       }
     });
     // sort by user id
     result = result.sort((a, b) => a.userid.localeCompare(b.userid));
     return result;
-  }
-
-  _mapKeyUserIds(user) {
-    try {
-      const emailAddress = goog.format.EmailAddress.parse(user.userid);
-      if (emailAddress.isValid()) {
-        user.email = emailAddress.getAddress();
-      } else {
-        user.email = '';
-      }
-      user.name = emailAddress.getName();
-    } catch (e) {
-      user.userid = l10n('keygrid_invalid_userid');
-      user.email = '';
-      user.name = '';
-    }
   }
 
   getKeyIdByAddress(emailAddr, options) {
@@ -443,41 +248,36 @@ export class Keyring {
            !trustKey.isKeyPseudoRevoked(this.id, primaryKey);
   }
 
-  importKeys(armoredKeys) {
+  async importKeys(armoredKeys) {
     let result = [];
-    return Promise.resolve()
-    .then(() => {
-      // sort, public keys first
-      armoredKeys = armoredKeys.sort((a, b) => b.type.localeCompare(a.type));
-      // import
-      armoredKeys.forEach(key => {
-        try {
-          if (key.type === 'public') {
-            result = result.concat(this.importPublicKey(key.armored, this.keyring));
-          } else if (key.type === 'private') {
-            result = result.concat(this.importPrivateKey(key.armored, this.keyring));
-          }
-        } catch (e) {
-          result.push({
-            type: 'error',
-            message: l10n('key_import_unable', [e])
-          });
+    // sort, public keys first
+    armoredKeys = armoredKeys.sort((a, b) => b.type.localeCompare(a.type));
+    // import
+    armoredKeys.forEach(key => {
+      try {
+        if (key.type === 'public') {
+          result = result.concat(this.importPublicKey(key.armored, this.keyring));
+        } else if (key.type === 'private') {
+          result = result.concat(this.importPrivateKey(key.armored, this.keyring));
         }
-      });
-      // exit if no import succeeded
-      if (!result.some(message => message.type === 'success')) {
-        return;
+      } catch (e) {
+        result.push({
+          type: 'error',
+          message: l10n('key_import_unable', [e])
+        });
       }
-      return this.keyring.store()
-      .then(() => this.sync.commit())
-      .then(() => {
-        // by no primary key in the keyring set the first found private keys as primary for the keyring
-        if (!this.hasPrimaryKey() && this.keyring.privateKeys.keys.length > 0) {
-          return setKeyringAttr(this.id, {primary_key: this.keyring.privateKeys.keys[0].primaryKey.keyid.toHex().toUpperCase()});
-        }
-      });
-    })
-    .then(() => result);
+    });
+    // exit if no import succeeded
+    if (!result.some(message => message.type === 'success')) {
+      return result;
+    }
+    await this.keyring.store();
+    await this.sync.commit();
+    // by no primary key in the keyring set the first found private keys as primary for the keyring
+    if (!this.hasPrimaryKey() && this.keyring.privateKeys.keys.length > 0) {
+      await setKeyringAttr(this.id, {primary_key: this.keyring.privateKeys.keys[0].primaryKey.keyid.toHex().toUpperCase()});
+    }
+    return result;
   }
 
   importPublicKey(armored) {
@@ -567,36 +367,28 @@ export class Keyring {
     return result;
   }
 
-  removeKey(fingerprint, type) {
+  async removeKey(fingerprint, type) {
     let removedKey;
-    return Promise.resolve()
-    .then(() => {
-      fingerprint = fingerprint.toLowerCase();
-      if (type === 'public') {
-        removedKey = this.keyring.publicKeys.removeForId(fingerprint);
-      } else if (type === 'private') {
-        removedKey = this.keyring.privateKeys.removeForId(fingerprint);
+    fingerprint = fingerprint.toLowerCase();
+    if (type === 'public') {
+      removedKey = this.keyring.publicKeys.removeForId(fingerprint);
+    } else if (type === 'private') {
+      removedKey = this.keyring.privateKeys.removeForId(fingerprint);
+    }
+    if (!removedKey) {
+      // key not found
+      return;
+    }
+    if (type === 'private') {
+      const primaryKey = this.getAttributes().primary_key;
+      // Remove the key from the keyring attributes if primary
+      if (primaryKey && primaryKey.toLowerCase() === removedKey.primaryKey.keyid.toHex()) {
+        await setKeyringAttr(this.id, {primary_key: ''});
       }
-      if (!removedKey) {
-        // key not found
-        return;
-      }
-      return Promise.resolve()
-      .then(() => {
-        if (type === 'private') {
-          const primaryKey = this.getAttributes().primary_key;
-          // Remove the key from the keyring attributes if primary
-          if (primaryKey && primaryKey.toLowerCase() === removedKey.primaryKey.keyid.toHex()) {
-            return setKeyringAttr(this.id, {primary_key: ''});
-          }
-        }
-      })
-      .then(() => {
-        this.sync.add(removedKey.primaryKey.getFingerprint(), keyringSync.DELETE);
-        return this.keyring.store();
-      })
-      .then(() => this.sync.commit());
-    });
+    }
+    this.sync.add(removedKey.primaryKey.getFingerprint(), keyringSync.DELETE);
+    await this.keyring.store();
+    await this.sync.commit();
   }
 
   /**
@@ -610,39 +402,28 @@ export class Keyring {
    * @param {Boolean} options.unlocked          Returned secret part of the generated key is unlocked
    * @yield {Object}                            The generated key pair
    */
-  generateKey({numBits, userIds, passphrase, uploadPublicKey, keyExpirationTime, unlocked = false}) {
-    let newKey = null;
-    return Promise.resolve()
-    .then(() => {
-      userIds = userIds.map(userId => {
-        if (userId.fullName) {
-          return (new goog.format.EmailAddress(userId.email, userId.fullName)).toString();
-        } else {
-          return `<${userId.email}>`;
-        }
-      });
-      return openpgp.generateKey({userIds, passphrase, numBits: parseInt(numBits), keyExpirationTime, unlocked});
-    })
-    .then(data => {
-      newKey = data;
-      this.keyring.privateKeys.push(newKey.key);
-      this.sync.add(newKey.key.primaryKey.getFingerprint(), keyringSync.INSERT);
-    })
-    .then(() => this.keyring.store())
-    .then(() => this.sync.commit())
-    .then(() => {
-      // by no primary key in the keyring set the generated key as primary
-      if (!this.hasPrimaryKey()) {
-        return setKeyringAttr(this.id, {primary_key: newKey.key.primaryKey.keyid.toHex().toUpperCase()});
+  async generateKey({numBits, userIds, passphrase, uploadPublicKey, keyExpirationTime, unlocked = false}) {
+    userIds = userIds.map(userId => {
+      if (userId.fullName) {
+        return (new goog.format.EmailAddress(userId.email, userId.fullName)).toString();
+      } else {
+        return `<${userId.email}>`;
       }
-    })
-    .then(() => {
-      // upload public key
-      if (uploadPublicKey) {
-        return keyServer.upload({publicKeyArmored: newKey.publicKeyArmored});
-      }
-    })
-    .then(() => newKey);
+    });
+    const newKey = await openpgp.generateKey({userIds, passphrase, numBits: parseInt(numBits), keyExpirationTime, unlocked});
+    this.keyring.privateKeys.push(newKey.key);
+    this.sync.add(newKey.key.primaryKey.getFingerprint(), keyringSync.INSERT);
+    await this.keyring.store();
+    await this.sync.commit();
+    // by no primary key in the keyring set the generated key as primary
+    if (!this.hasPrimaryKey()) {
+      await setKeyringAttr(this.id, {primary_key: newKey.key.primaryKey.keyid.toHex().toUpperCase()});
+    }
+    // upload public key
+    if (uploadPublicKey) {
+      await keyServer.upload({publicKeyArmored: newKey.publicKeyArmored});
+    }
+    return newKey;
   }
 
   getKeyForSigning(keyIdHex) {
@@ -658,182 +439,6 @@ export class Keyring {
   }
 
   getAttributes() {
-    return keyringAttr[this.id];
+    return getKeyringAttr(this.id);
   }
-}
-
-export function mapKeys(keys) {
-  const result = [];
-  keys.forEach(key => {
-    const uiKey = {};
-    if (key.isPublic()) {
-      uiKey.type = 'public';
-    } else {
-      uiKey.type = 'private';
-    }
-    try {
-      uiKey.validity = key.verifyPrimaryKey() === openpgp.enums.keyStatus.valid;
-    } catch (e) {
-      uiKey.validity = false;
-      console.log('Exception in verifyPrimaryKey', e);
-    }
-    uiKey.id = key.primaryKey.getKeyId().toHex().toUpperCase();
-    uiKey.fingerprint = key.primaryKey.getFingerprint().toUpperCase();
-    // primary user
-    try {
-      uiKey.userId = getUserId(key, false);
-      const address = goog.format.EmailAddress.parse(uiKey.userId);
-      uiKey.name = address.getName();
-      uiKey.email = address.getAddress();
-      uiKey.exDate = key.getExpirationTime();
-      if (uiKey.exDate) {
-        uiKey.exDate = uiKey.exDate.toISOString();
-      } else {
-        uiKey.exDate = false;
-      }
-    } catch (e) {
-      uiKey.name = uiKey.name || 'NO USERID FOUND';
-      uiKey.email = uiKey.email || 'UNKNOWN';
-      uiKey.exDate = uiKey.exDate || 'UNKNOWN';
-      console.log('Exception map primary user', e);
-    }
-    uiKey.crDate = key.primaryKey.created.toISOString();
-    uiKey.algorithm = getAlgorithmString(key.primaryKey.algorithm);
-    uiKey.bitLength = key.primaryKey.getBitSize();
-    result.push(uiKey);
-  });
-  return result;
-}
-
-function getAlgorithmString(keyType) {
-  let result = '';
-  switch (keyType) {
-    case 'rsa_encrypt_sign':
-      result = "RSA (Encrypt or Sign)";
-      break;
-    case 'rsa_encrypt':
-      result = "RSA Encrypt-Only";
-      break;
-    case 'rsa_sign':
-      result = "RSA Sign-Only";
-      break;
-    case 'elgamal':
-      result = "Elgamal (Encrypt-Only)";
-      break;
-    case 'dsa':
-      result = "DSA (Digital Signature Algorithm)";
-      break;
-    default:
-      result = "UNKNOWN";
-  }
-  return result;
-}
-
-/*
-function getKeyType(algorithm) {
-  var result;
-  switch (algorithm) {
-  case "RSA/RSA":
-    result = openpgp.enums.publicKey.rsa_encrypt_sign;
-    break;
-  case "DSA/ElGamal":
-    result = openpgp.enums.publicKey.dsa;
-    break;
-  default:
-    throw new Error('Key type not supported');
-  }
-  return result;
-}
-*/
-
-function mapSubKeys(subkeys, toKey) {
-  toKey.subkeys = [];
-  subkeys && subkeys.forEach(subkey => {
-    try {
-      const skey = {};
-      skey.crDate = subkey.subKey.created.toISOString();
-      skey.exDate = subkey.getExpirationTime();
-      if (skey.exDate) {
-        skey.exDate = skey.exDate.toISOString();
-      } else {
-        skey.exDate = false;
-      }
-      skey.id = subkey.subKey.getKeyId().toHex().toUpperCase();
-      skey.algorithm = getAlgorithmString(subkey.subKey.algorithm);
-      skey.bitLength = subkey.subKey.getBitSize();
-      skey.fingerprint = subkey.subKey.getFingerprint().toUpperCase();
-      toKey.subkeys.push(skey);
-    } catch (e) {
-      console.log('Exception in mapSubKeys', e);
-    }
-  });
-}
-
-function mapUsers(users, toKey, keyring, primaryKey) {
-  toKey.users = [];
-  users && users.forEach(user => {
-    try {
-      const uiUser = {};
-      uiUser.userID = user.userId.userid;
-      uiUser.signatures = [];
-      user.selfCertifications && user.selfCertifications.forEach(selfCert => {
-        if (!user.isValidSelfCertificate(primaryKey, selfCert)) {
-          return;
-        }
-        const sig = {};
-        sig.signer = user.userId.userid;
-        sig.id = selfCert.issuerKeyId.toHex().toUpperCase();
-        sig.crDate = selfCert.created.toISOString();
-        uiUser.signatures.push(sig);
-      });
-      user.otherCertifications && user.otherCertifications.forEach(otherCert => {
-        const sig = {};
-        const keyidHex = otherCert.issuerKeyId.toHex();
-        const issuerKeys = keyring.getKeysForId(keyidHex);
-        if (issuerKeys) {
-          const signingKeyPacket = issuerKeys[0].getKeyPacket([otherCert.issuerKeyId]);
-          if (signingKeyPacket && (otherCert.verified || otherCert.verify(signingKeyPacket, {userid: user.userId, key: primaryKey}))) {
-            sig.signer = getUserId(issuerKeys[0]);
-          } else {
-            // invalid signature
-            return;
-          }
-        } else {
-          sig.signer = l10n("keygrid_signer_unknown");
-        }
-        sig.id = otherCert.issuerKeyId.toHex().toUpperCase();
-        sig.crDate = otherCert.created.toISOString();
-        uiUser.signatures.push(sig);
-      });
-      toKey.users.push(uiUser);
-    } catch (e) {
-      console.log('Exception in mapUsers', e);
-    }
-  });
-}
-
-function checkKeyId(sourceKey, keyring) {
-  const primKeyId = sourceKey.primaryKey.getKeyId();
-  const keys = keyring.getKeysForId(primKeyId.toHex(), true);
-  if (keys) {
-    keys.forEach(key => {
-      if (!key.primaryKey.getKeyId().equals(primKeyId)) {
-        throw new Error('Primary keyId equals existing sub keyId.');
-      }
-    });
-  }
-  sourceKey.getSubkeyPackets().forEach(subKey => {
-    const subKeyId = subKey.getKeyId();
-    const keys = keyring.getKeysForId(subKeyId.toHex(), true);
-    if (keys) {
-      keys.forEach(key => {
-        if (key.primaryKey.getKeyId().equals(subKeyId)) {
-          throw new Error('Sub keyId equals existing primary keyId.');
-        }
-        if (!key.primaryKey.getKeyId().equals(primKeyId)) {
-          throw new Error('Sub keyId equals existing sub keyId in key with different primary keyId.');
-        }
-      });
-    }
-  });
 }

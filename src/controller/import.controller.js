@@ -5,7 +5,8 @@
 
 import mvelo from '../lib/lib-mvelo';
 import * as sub from './sub.controller';
-import {getById as getKeyringById, mapKeys, cloneKey} from '../modules/keyring';
+import {getById as getKeyringById} from '../modules/keyringManager';
+import {mapKeys, cloneKey} from '../modules/key';
 import * as keyringSync from '../modules/keyringSync';
 import * as openpgp from 'openpgp';
 import * as uiLog from '../modules/uiLog';

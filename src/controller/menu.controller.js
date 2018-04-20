@@ -8,7 +8,7 @@ import * as sub from './sub.controller';
 import {getHostname} from '../modules/pgpModel';
 import * as prefs from '../modules/prefs';
 import * as uiLog from '../modules/uiLog';
-import * as keyring from '../modules/keyring';
+import {getById as keyringById} from '../modules/keyringManager';
 
 export default class MenuController extends sub.SubController {
   constructor(port) {
@@ -75,7 +75,7 @@ export default class MenuController extends sub.SubController {
 
   getIsSetupDone() {
     const keyringId = sub.getActiveKeyringId();
-    const hasPrivateKey = keyring.getById(keyringId).hasPrivateKey();
+    const hasPrivateKey = keyringById(keyringId).hasPrivateKey();
     return {'isSetupDone': hasPrivateKey};
   }
 

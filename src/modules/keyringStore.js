@@ -6,31 +6,29 @@
 import mvelo from '../lib/lib-mvelo';
 import * as openpgp from 'openpgp';
 
-export function createKeyringStore(keyringId) {
+export async function createKeyringStore(keyringId) {
   const keyringStore = new KeyringStore(keyringId);
-  return keyringStore.load()
-  .then(() => new Keyring(keyringStore));
+  await keyringStore.load();
+  return new Keyring(keyringStore);
 }
 
 class Keyring extends openpgp.Keyring {
-  store() {
-    return this.storeHandler.storePublic()
-    .then(() => this.storeHandler.storePrivate());
+  async store() {
+    await this.storeHandler.storePublic();
+    await this.storeHandler.storePrivate();
   }
 }
 
-class KeyringStore {
+class KeyringStoreBase {
   constructor(id) {
     this.id = id;
-    this.publicKeys = [];
-    this.privateKeys = [];
+    this.publicKeys = null;
+    this.privateKeys = null;
   }
 
-  load() {
-    return mvelo.storage.get(`mvelo.keyring.${this.id}.publicKeys`)
-    .then(pubArmored => this.loadKeys(pubArmored, this.publicKeys))
-    .then(() => mvelo.storage.get(`mvelo.keyring.${this.id}.privateKeys`))
-    .then(privArmored => this.loadKeys(privArmored, this.privateKeys));
+  clear() {
+    this.publicKeys = [];
+    this.privateKeys = [];
   }
 
   loadKeys(keysArmored, keyArray) {
@@ -54,21 +52,31 @@ class KeyringStore {
   loadPrivate() {
     return this.privateKeys;
   }
+}
 
-  storePublic() {
-    return this.storeKeys(`mvelo.keyring.${this.id}.publicKeys`, this.publicKeys);
+class KeyringStore extends KeyringStoreBase {
+  async load() {
+    this.clear();
+    const pubArmored = await mvelo.storage.get(`mvelo.keyring.${this.id}.publicKeys`);
+    this.loadKeys(pubArmored, this.publicKeys);
+    const privArmored = await mvelo.storage.get(`mvelo.keyring.${this.id}.privateKeys`);
+    this.loadKeys(privArmored, this.privateKeys);
   }
 
-  storePrivate() {
-    return this.storeKeys(`mvelo.keyring.${this.id}.privateKeys`, this.privateKeys);
+  async storePublic() {
+    await this.storeKeys(`mvelo.keyring.${this.id}.publicKeys`, this.publicKeys);
   }
 
-  storeKeys(storageKey, keys) {
-    return mvelo.storage.set(storageKey, keys.map(key => key.armor()));
+  async storePrivate() {
+    await this.storeKeys(`mvelo.keyring.${this.id}.privateKeys`, this.privateKeys);
   }
 
-  remove() {
-    return mvelo.storage.remove(`mvelo.keyring.${this.id}.publicKeys`)
-    .then(() => mvelo.storage.remove(`mvelo.keyring.${this.id}.privateKeys`));
+  async storeKeys(storageKey, keys) {
+    await mvelo.storage.set(storageKey, keys.map(key => key.armor()));
+  }
+
+  async remove() {
+    await mvelo.storage.remove(`mvelo.keyring.${this.id}.publicKeys`);
+    await mvelo.storage.remove(`mvelo.keyring.${this.id}.privateKeys`);
   }
 }

@@ -4,27 +4,27 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import * as keyring from '../modules/keyring';
+import {getById as keyringById, createKeyring, setKeyringAttr} from '../modules/keyringManager';
 import * as sub from './sub.controller';
 import * as openpgp from 'openpgp';
 import {getLastModifiedDate} from '../modules/pgpModel';
 
 export function handleApiEvent(request, sender, sendResponse) {
-  let keyRing;
+  let keyring;
   let attr;
   try {
     switch (request.event) {
       case 'get-keyring':
-        keyRing = keyring.getById(request.keyringId);
-        if (keyRing) {
-          attr = keyRing.getAttributes();
+        keyring = keyringById(request.keyringId);
+        if (keyring) {
+          attr = keyring.getAttributes();
           sendResponse({data: {revision: attr.logo_revision}});
           sub.setActiveKeyringId(request.keyringId);
         }
         break;
       case 'create-keyring':
-        keyring.createKeyring(request.keyringId)
-        .then(keyRing => keyRing.sync.activate())
+        createKeyring(request.keyringId)
+        .then(keyring => keyring.sync.activate())
         .then(() => {
           sendResponse({data: {}});
           sub.setActiveKeyringId(request.keyringId);
@@ -32,7 +32,7 @@ export function handleApiEvent(request, sender, sendResponse) {
         .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
         return true;
       case 'query-valid-key': {
-        const keyMap = keyring.getById(request.keyringId).getKeyByAddress(request.recipients, {validity: true, fingerprint: true, sort: true});
+        const keyMap = keyringById(request.keyringId).getKeyByAddress(request.recipients, {validity: true, fingerprint: true, sort: true});
         Object.keys(keyMap).forEach(email => {
           if (keyMap[email]) {
             keyMap[email] = {
@@ -47,7 +47,7 @@ export function handleApiEvent(request, sender, sendResponse) {
         break;
       }
       case 'export-own-pub-key': {
-        const keyIdMap = keyring.getById(request.keyringId).getKeyIdByAddress([request.emailAddr], {validity: true, pub: false, priv: true, sort: true});
+        const keyIdMap = keyringById(request.keyringId).getKeyIdByAddress([request.emailAddr], {validity: true, pub: false, priv: true, sort: true});
         if (!keyIdMap[request.emailAddr]) {
           sendResponse({error: {message: 'No key pair found for this email address.', code: 'NO_KEY_FOR_ADDRESS'}});
           return;
@@ -56,7 +56,7 @@ export function handleApiEvent(request, sender, sendResponse) {
         if (keyIdMap[request.emailAddr].length > 1) {
           keyIdMap[request.emailAddr].length = 1;
         }
-        const armored = keyring.getById(request.keyringId).getArmoredKeys(keyIdMap[request.emailAddr], {pub: true});
+        const armored = keyringById(request.keyringId).getArmoredKeys(keyIdMap[request.emailAddr], {pub: true});
         sendResponse({error: null, data: armored[0].armoredPublic});
         break;
       }
@@ -66,12 +66,12 @@ export function handleApiEvent(request, sender, sendResponse) {
         .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
         return true;
       case 'set-logo':
-        attr = keyring.getById(request.keyringId).getAttributes();
+        attr = keyringById(request.keyringId).getAttributes();
         if (attr.logo_revision && attr.logo_revision > request.revision) {
           sendResponse({error: {message: 'New logo revision < existing revision.', code: 'REVISION_INVALID'}});
           return;
         }
-        keyring.setKeyringAttr(request.keyringId, {logo_revision: request.revision, logo_data_url: request.dataURL})
+        setKeyringAttr(request.keyringId, {logo_revision: request.revision, logo_data_url: request.dataURL})
         .then(() => {
           sendResponse({error: null, data: null});
         })
@@ -80,11 +80,11 @@ export function handleApiEvent(request, sender, sendResponse) {
       case 'has-private-key':
         if (request.fingerprint) {
           const fingerprint = request.fingerprint.toLowerCase().replace(/\s/g, '');
-          const key = keyring.getById(request.keyringId).keyring.privateKeys.getForId(fingerprint);
+          const key = keyringById(request.keyringId).keyring.privateKeys.getForId(fingerprint);
           const valid = key && key.verifyPrimaryKey() === openpgp.enums.keyStatus.valid;
           sendResponse({error: null, data: (key && valid ? true : false)});
         } else {
-          const hasPrivateKey = keyring.getById(request.keyringId).hasPrivateKey();
+          const hasPrivateKey = keyringById(request.keyringId).hasPrivateKey();
           sendResponse({error: null, data: hasPrivateKey});
         }
         break;
