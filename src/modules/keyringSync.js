@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {getKeyringAttr, setKeyringAttr} from './keyringManager';
+import {getKeyringAttr, setKeyringAttr} from './keyring';
 import {triggerSync} from '../controller/sync.controller';
 
 export const INSERT = 'INSERT';

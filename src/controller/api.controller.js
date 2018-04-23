@@ -4,7 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import {getById as keyringById, createKeyring, setKeyringAttr} from '../modules/keyringManager';
+import {getById as keyringById, createKeyring, setKeyringAttr} from '../modules/keyring';
 import * as sub from './sub.controller';
 import * as openpgp from 'openpgp';
 import {getLastModifiedDate} from '../modules/pgpModel';
