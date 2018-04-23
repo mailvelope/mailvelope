@@ -9,7 +9,7 @@ import * as  sub from './sub.controller';
 import * as uiLog from '../modules/uiLog';
 import * as pwdCache from '../modules/pwdCache';
 import * as sync from './sync.controller';
-import {getById as getKeyringById} from '../modules/keyringManager';
+import {getById as getKeyringById} from '../modules/keyring';
 import {createPrivateKeyBackup, restorePrivateKeyBackup} from '../modules/pgpModel';
 
 export default class PrivateKeyController extends sub.SubController {

@@ -11,7 +11,7 @@ import * as prefs from './prefs';
 import * as pwdCache from './pwdCache';
 import {randomString, symEncrypt} from './crypto';
 import * as uiLog from './uiLog';
-import * as keyringManager from './keyringManager';
+import {init as initKeyring, getById as getKeyringById, getAll as getAllKeyring} from './keyring';
 import {getUserId, mapKeys} from './key';
 import * as keyringSync from './keyringSync';
 import * as trustKey from './trustKey';
@@ -25,7 +25,7 @@ export async function init() {
   await prefs.init();
   pwdCache.init();
   initOpenPGP();
-  await keyringManager.init();
+  await initKeyring();
   trustKey.init();
 }
 
@@ -104,9 +104,9 @@ function findPrivateKey(encryptionKeyIds, keyringId) {
   for (let i = 0; i < encryptionKeyIds.length; i++) {
     let keyrings;
     if (keyringId) {
-      keyrings = [keyringManager.getById(keyringId)];
+      keyrings = [getKeyringById(keyringId)];
     } else {
-      keyrings = keyringManager.getAll();
+      keyrings = getAllKeyring();
     }
     for (let j = 0; j < keyrings.length; j++) {
       result.keyid = encryptionKeyIds[i].toHex();
@@ -139,7 +139,7 @@ export function readCleartextMessage(armoredText, keyringId) {
   for (let i = 0; i < signingKeyIds.length; i++) {
     const signer = {};
     signer.keyid = signingKeyIds[i].toHex();
-    signer.key = keyringManager.getById(keyringId).keyring.getKeysForId(signer.keyid, true);
+    signer.key = getKeyringById(keyringId).keyring.getKeysForId(signer.keyid, true);
     signer.key = signer.key ? signer.key[0] : null;
     if (signer.key) {
       signer.userid = getUserId(signer.key);
@@ -172,7 +172,7 @@ export function decryptMessage({message, key, options = {}}, keyringId) {
     senderAddress = [].concat(senderAddress || []);
     // verify signatures if sender address provided or self signed message (draft)
     if (senderAddress.length || options.selfSigned) {
-      keyRing = keyringManager.getById(keyringId);
+      keyRing = getKeyringById(keyringId);
       signingKeys = [];
       if (senderAddress.length) {
         signingKeys = keyRing.getKeyByAddress(senderAddress, {validity: true});
@@ -206,7 +206,7 @@ function mapSignatures(signatures = [], keyRing) {
 
 function getKeysForEncryption(keyIdsHex, keyringId) {
   const keys = keyIdsHex.map(keyIdHex => {
-    const keyArray = keyringManager.getById(keyringId).keyring.getKeysForId(keyIdHex);
+    const keyArray = getKeyringById(keyringId).keyring.getKeysForId(keyIdHex);
     return keyArray ? keyArray[0] : null;
   }).filter(key => key !== null);
   if (keys.length === 0) {
@@ -399,7 +399,7 @@ export function encryptSyncMessage(key, changeLog, keyringId) {
     let syncData = {};
     syncData.insertedKeys = {};
     syncData.deletedKeys = {};
-    const keyRing = keyringManager.getById(keyringId).keyring;
+    const keyRing = getKeyringById(keyringId).keyring;
     keyRing.publicKeys.keys.forEach(pubKey => {
       convertChangeLog(pubKey, changeLog, syncData);
     });
@@ -453,7 +453,7 @@ export function encryptFile({plainFile, receipients, armor}) {
   return Promise.resolve()
   .then(() => {
     keys = receipients.map(receipient => {
-      const keyArray = keyringManager.getById(receipient.keyringId).keyring.getKeysForId(receipient.keyid);
+      const keyArray = getKeyringById(receipient.keyringId).keyring.getKeysForId(receipient.keyid);
       return keyArray ? keyArray[0] : null;
     }).filter(key => key !== null);
     if (keys.length === 0) {

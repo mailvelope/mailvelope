@@ -8,7 +8,7 @@ import * as sub from './sub.controller';
 import {getHostname} from '../modules/pgpModel';
 import * as prefs from '../modules/prefs';
 import * as uiLog from '../modules/uiLog';
-import {getById as keyringById} from '../modules/keyringManager';
+import {getById as keyringById} from '../modules/keyring';
 
 export default class MenuController extends sub.SubController {
   constructor(port) {
