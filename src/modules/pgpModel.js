@@ -11,7 +11,7 @@ import * as prefs from './prefs';
 import * as pwdCache from './pwdCache';
 import {randomString, symEncrypt} from './crypto';
 import * as uiLog from './uiLog';
-import {init as initKeyring, getById as getKeyringById, getAll as getAllKeyring} from './keyring';
+import {getById as getKeyringById, getAll as getAllKeyring} from './keyring';
 import {getUserId, mapKeys} from './key';
 import * as keyringSync from './keyringSync';
 import * as trustKey from './trustKey';
@@ -25,7 +25,6 @@ export async function init() {
   await prefs.init();
   pwdCache.init();
   initOpenPGP();
-  await initKeyring();
   trustKey.init();
 }
 

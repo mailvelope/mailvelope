@@ -3,7 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import * as  model from '../modules/pgpModel';
 import * as sub from './sub.controller';
 import {handleApiEvent} from './api.controller';
 
@@ -19,6 +18,10 @@ import PrivateKeyController from './privateKey.controller';
 import AppController from './app.controller';
 import MenuController from './menu.controller';
 
+/**
+ * Register controllers for component types. Only the components that first connect to the controller
+ * need to be registered, all subsequent components that are created will connect by unique controller id.
+ */
 sub.factory.register('dFrame',              DecryptController);
 sub.factory.register('decryptCont',         DecryptController);
 sub.factory.register('eFrame',              EncryptController);
@@ -38,7 +41,6 @@ sub.factory.register('appCont',             AppController);
 sub.factory.register('menu',                MenuController);
 
 export async function initController() {
-  await model.init();
   initMessageListener();
   initSubController();
 }

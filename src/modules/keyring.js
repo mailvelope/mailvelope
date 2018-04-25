@@ -8,31 +8,88 @@ import KeyringLocal from './KeyringLocal';
 import * as keyringStore from './keyringStore';
 
 const keyringMap = new Map();
-let keyringAttr = null;
+
+class KeyringAttrMap extends Map {
+  async init() {
+    const attributes = await mvelo.storage.get('mvelo.keyring.attributes') || {};
+    Object.keys(attributes).forEach(key => super.set(key, attributes[key]));
+  }
+
+  get(keyringId, attr) {
+    if (!this.has(keyringId)) {
+      throw new Error(`Keyring does not exist for id: ${keyringId}`);
+    }
+    const keyringAttr = super.get(keyringId) || {};
+    if (attr) {
+      return keyringAttr[attr];
+    }
+    return keyringAttr;
+  }
+
+  async create(keyringId) {
+    super.set(keyringId, {});
+    await this.store();
+  }
+
+  async set(keyringId, attr) {
+    if (!this.has(keyringId)) {
+      throw new Error(`Keyring does not exist for id: ${keyringId}`);
+    }
+    if (typeof attr !== 'object') {
+      throw new Error('KeyringAttrMap.set no attr provided');
+    }
+    const keyringAttr = super.get(keyringId) || {};
+    Object.assign(keyringAttr, attr);
+    super.set(keyringId, keyringAttr);
+    await this.store();
+  }
+
+  async store() {
+    await mvelo.storage.set('mvelo.keyring.attributes', this.toObject());
+  }
+
+  toObject() {
+    const allKeyringAttr = {};
+    this.forEach((value, key) => allKeyringAttr[key] = value);
+    return allKeyringAttr;
+  }
+
+  async delete(keyringId) {
+    super.delete(keyringId);
+    await this.store();
+  }
+}
+
+const keyringAttr = new KeyringAttrMap();
 
 export async function init() {
-  keyringAttr = await getAllKeyringAttr();
-  if (keyringAttr && keyringAttr[mvelo.LOCAL_KEYRING_ID]) {
-    const keyringPromises = Object.keys(keyringAttr).map(keyringId => getKeyring(keyringId));
+  await keyringAttr.init();
+  if (keyringAttr.has(mvelo.LOCAL_KEYRING_ID)) {
+    const keyringPromises = Array.from(keyringAttr.keys()).map(keyringId =>
+      buildKeyring(keyringId)
+      .catch(e => console.log(`Building keyring for id ${keyringId} failed`, e))
+    );
     await Promise.all(keyringPromises);
   } else {
     await createKeyring(mvelo.LOCAL_KEYRING_ID);
   }
 }
 
-export async function createKeyring(keyringId, options) {
-  // init keyring attributes
-  if (!keyringAttr) {
-    keyringAttr = {};
-  }
-  if (keyringAttr[keyringId]) {
+export async function createKeyring(keyringId) {
+  if (keyringAttr.has(keyringId)) {
     throw new mvelo.Error(`Keyring for id ${keyringId} already exists.`, 'KEYRING_ALREADY_EXISTS');
   }
-  keyringAttr[keyringId] = {};
-  // instantiate keyring
-  const keyRng = await getKeyring(keyringId);
-  await setKeyringAttr(keyringId, {} || options);
-  return keyRng;
+  // persist keyring attributes
+  await keyringAttr.create(keyringId);
+  try {
+    // instantiate keyring
+    const keyRng = await buildKeyring(keyringId);
+    return keyRng;
+  } catch (e) {
+    // cleanup
+    await keyringAttr.delete(keyringId);
+    throw e;
+  }
 }
 
 /**
@@ -40,7 +97,7 @@ export async function createKeyring(keyringId, options) {
  * @param  {String} keyringId
  * @return {Promise<Keyring>}
  */
-async function getKeyring(keyringId) {
+async function buildKeyring(keyringId) {
   // resolve keyring dependencies
   const krStore = await keyringStore.createKeyringStore(keyringId);
   // instantiate keyring
@@ -50,15 +107,14 @@ async function getKeyring(keyringId) {
 }
 
 export async function deleteKeyring(keyringId) {
-  if (!keyringAttr[keyringId]) {
+  if (!keyringAttr.has(keyringId)) {
     throw new mvelo.Error(`Keyring for id ${keyringId} does not exist.`, 'NO_KEYRING_FOR_ID');
   }
   const keyRng = keyringMap.get(keyringId);
   keyRng.keyring.clear();
   await keyRng.keyring.storeHandler.remove();
   keyringMap.delete(keyringId);
-  delete keyringAttr[keyringId];
-  await mvelo.storage.set('mvelo.keyring.attributes', keyringAttr);
+  await keyringAttr.delete(keyringId);
 }
 
 export function getById(keyringId) {
@@ -71,35 +127,19 @@ export function getById(keyringId) {
 }
 
 export function getAll() {
-  const result = [];
-  for (const keyringId in keyringAttr) {
-    if (keyringAttr.hasOwnProperty(keyringId)) {
-      result.push(keyringMap.get(keyringId));
-    }
-  }
-  return result;
+  return Array.from(keyringMap.values());
 }
 
-export async function getAllKeyringAttr() {
-  return mvelo.storage.get('mvelo.keyring.attributes');
+export function getAllKeyringAttr() {
+  return keyringAttr.toObject();
 }
 
 export async function setKeyringAttr(keyringId, attr) {
-  if (!keyringAttr[keyringId]) {
-    throw new Error(`Keyring does not exist for id: ${keyringId}`);
-  }
-  Object.assign(keyringAttr[keyringId], attr);
-  await mvelo.storage.set('mvelo.keyring.attributes', keyringAttr);
+  await keyringAttr.set(keyringId, attr);
 }
 
 export function getKeyringAttr(keyringId, attr) {
-  if (!keyringAttr[keyringId]) {
-    throw new Error(`Keyring does not exist for id: ${keyringId}`);
-  }
-  if (attr) {
-    return keyringAttr[keyringId][attr];
-  }
-  return keyringAttr[keyringId];
+  return keyringAttr.get(keyringId, attr);
 }
 
 export function getAllKeyUserId() {
