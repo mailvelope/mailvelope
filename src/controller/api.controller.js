@@ -80,7 +80,7 @@ export function handleApiEvent(request, sender, sendResponse) {
       case 'has-private-key':
         if (request.fingerprint) {
           const fingerprint = request.fingerprint.toLowerCase().replace(/\s/g, '');
-          const key = keyringById(request.keyringId).keyring.privateKeys.getForId(fingerprint);
+          const key = keyringById(request.keyringId).keystore.privateKeys.getForId(fingerprint);
           const valid = key && key.verifyPrimaryKey() === openpgp.enums.keyStatus.valid;
           sendResponse({error: null, data: (key && valid ? true : false)});
         } else {

@@ -5,9 +5,9 @@
 
 import mvelo from '../lib/lib-mvelo';
 import KeyringLocal from './KeyringLocal';
-import * as keyringStore from './keyringStore';
-
-const keyringMap = new Map();
+import KeyStoreLocal from './KeyStoreLocal';
+import KeyringGPG from './KeyringGPG';
+import KeyStoreGPG from './KeyStoreGPG';
 
 class KeyringAttrMap extends Map {
   async init() {
@@ -60,7 +60,10 @@ class KeyringAttrMap extends Map {
   }
 }
 
+// map keyringId to keyring attributes
 const keyringAttr = new KeyringAttrMap();
+// map keyringId to keyring objects (classes extending KeyringBase)
+const keyringMap = new Map();
 
 export async function init() {
   await keyringAttr.init();
@@ -98,12 +101,19 @@ export async function createKeyring(keyringId) {
  * @return {Promise<Keyring>}
  */
 async function buildKeyring(keyringId) {
-  // resolve keyring dependencies
-  const krStore = await keyringStore.createKeyringStore(keyringId);
-  // instantiate keyring
-  const keyRng = new KeyringLocal(keyringId, krStore);
-  keyringMap.set(keyringId, keyRng);
-  return keyRng;
+  let keyStore;
+  let keyRing;
+  if (keyringId === mvelo.GNUPG_KEYRING_ID) {
+    keyStore = new KeyStoreGPG(keyringId);
+    await keyStore.load();
+    keyRing = new KeyringGPG(keyStore);
+  } else {
+    keyStore = new KeyStoreLocal(keyringId);
+    await keyStore.load();
+    keyRing = new KeyringLocal(keyStore);
+  }
+  keyringMap.set(keyringId, keyRing);
+  return keyRing;
 }
 
 export async function deleteKeyring(keyringId) {
@@ -112,7 +122,7 @@ export async function deleteKeyring(keyringId) {
   }
   const keyRng = keyringMap.get(keyringId);
   keyRng.keyring.clear();
-  await keyRng.keyring.storeHandler.remove();
+  await keyRng.keystore.remove();
   keyringMap.delete(keyringId);
   await keyringAttr.delete(keyringId);
 }
