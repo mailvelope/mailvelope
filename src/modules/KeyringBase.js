@@ -4,14 +4,18 @@
  */
 
 import * as openpgp from 'openpgp';
+import {goog} from './closure-library/closure/goog/emailaddress';
 import {setKeyringAttr, getKeyringAttr} from './keyring';
 import {mapKeys, mapSubKeys, mapUsers, mapKeyUserIds, getUserId} from './key';
 import * as trustKey from './trustKey';
+import KeyServer from './keyserver';
+
+const keyServer = new KeyServer();
 
 export default class KeyringBase {
-  constructor(keyringId, pgpKeyring) {
+  constructor(keyringId, keyStore) {
     this.id = keyringId;
-    this.keyring = pgpKeyring;
+    this.keystore = keyStore;
   }
 
   getKeys() {
@@ -30,32 +34,32 @@ export default class KeyringBase {
   }
 
   getPublicKeys() {
-    return mapKeys(this.keyring.publicKeys.keys);
+    return mapKeys(this.keystore.publicKeys.keys);
   }
 
   getPrivateKeys() {
-    return mapKeys(this.keyring.privateKeys.keys);
+    return mapKeys(this.keystore.privateKeys.keys);
   }
 
   hasPrivateKey() {
-    return Boolean(this.keyring.privateKeys.keys.length);
+    return Boolean(this.keystore.privateKeys.keys.length);
   }
 
   getValidSigningKeys() {
-    return mapKeys(this.keyring.privateKeys.keys.filter(key => this.validatePrimaryKey(key)))
+    return mapKeys(this.keystore.privateKeys.keys.filter(key => this.validatePrimaryKey(key)))
     .sort((a, b) => a.name.localeCompare(b.name));
   }
 
   getKeyDetails(fingerprint) {
     const details = {};
     fingerprint = fingerprint.toLowerCase();
-    const keys = this.keyring.getKeysForId(fingerprint);
+    const keys = this.keystore.getKeysForId(fingerprint);
     if (keys) {
       const key = keys[0];
       // subkeys
       mapSubKeys(key.subKeys, details);
       // users
-      mapUsers(key.users, details, this.keyring, key.primaryKey);
+      mapUsers(key.users, details, this.keystore, key.primaryKey);
       // key is valid primary key
       details.validPrimaryKey = this.validatePrimaryKey(key);
       return details;
@@ -73,7 +77,7 @@ export default class KeyringBase {
   getKeyUserIDs(options) {
     options = options || {};
     let result = [];
-    this.keyring.getAllKeys().forEach(key => {
+    this.keystore.getAllKeys().forEach(key => {
       if (key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
           trustKey.isKeyPseudoRevoked(this.id, key)) {
         return;
@@ -139,10 +143,10 @@ export default class KeyringBase {
     emailAddr.forEach(emailAddr => {
       result[emailAddr] = [];
       if (options.pub) {
-        result[emailAddr] = result[emailAddr].concat(this.keyring.publicKeys.getForAddress(emailAddr));
+        result[emailAddr] = result[emailAddr].concat(this.keystore.publicKeys.getForAddress(emailAddr));
       }
       if (options.priv) {
-        result[emailAddr] = result[emailAddr].concat(this.keyring.privateKeys.getForAddress(emailAddr));
+        result[emailAddr] = result[emailAddr].concat(this.keystore.privateKeys.getForAddress(emailAddr));
       }
       result[emailAddr] = result[emailAddr].filter(key => {
         if (options.validity && (
@@ -179,11 +183,11 @@ export default class KeyringBase {
     const result = [];
     let keys = null;
     if (options.all) {
-      keys = this.keyring.getAllKeys();
+      keys = this.keystore.getAllKeys();
     } else {
       keys = keyids.map(keyid => {
         keyid = keyid.toLowerCase();
-        return this.keyring.getKeysForId(keyid)[0];
+        return this.keystore.getKeysForId(keyid)[0];
       });
     }
     keys.forEach(key => {
@@ -207,7 +211,7 @@ export default class KeyringBase {
     let primaryKey;
     const primaryKeyid = this.getAttributes().primary_key;
     if (primaryKeyid) {
-      primaryKey = this.keyring.privateKeys.getForId(primaryKeyid.toLowerCase());
+      primaryKey = this.keystore.privateKeys.getForId(primaryKeyid.toLowerCase());
       if (!(primaryKey && this.validatePrimaryKey(primaryKey))) {
         // primary key with this id does not exist or is invalid
         setKeyringAttr(this.id, {primary_key: ''}); // clear primary key
@@ -216,7 +220,7 @@ export default class KeyringBase {
     }
     if (!primaryKey) {
       // get newest private key that is valid
-      this.keyring.privateKeys.keys.forEach(key => {
+      this.keystore.privateKeys.keys.forEach(key => {
         if ((!primaryKey || primaryKey.primaryKey.created < key.primaryKey.created) &&
             this.validatePrimaryKey(key)) {
           primaryKey = key;
@@ -241,7 +245,7 @@ export default class KeyringBase {
   }
 
   getKeyForSigning(keyIdHex) {
-    const key = this.keyring.privateKeys.getForId(keyIdHex);
+    const key = this.keystore.privateKeys.getForId(keyIdHex);
     if (!key) {
       return null;
     }
@@ -254,5 +258,45 @@ export default class KeyringBase {
 
   getAttributes() {
     return getKeyringAttr(this.id);
+  }
+
+  removeKey(fingerprint, type) {
+    let removedKey;
+    if (type === 'public') {
+      removedKey = this.keystore.publicKeys.removeForId(fingerprint);
+    } else if (type === 'private') {
+      removedKey = this.keystore.privateKeys.removeForId(fingerprint);
+    }
+    if (!removedKey) {
+      throw new Error('removeKey: key not found');
+    }
+  }
+
+  /**
+   * Generate a new PGP keypair and optionally upload the public key to the
+   * key server.
+   * @param {number}  options.numBits           The keysize in bits
+   * @param {Array}   options.userIds           Email addresses and names
+   * @param {string}  options.passphrase        To protect the private key on disk
+   * @param {boolean} options.uploadPublicKey   If upload to key server is desired
+   * @param {Number}  options.keyExpirationTime The number of seconds after the key creation time that the key expires
+   * @param {Boolean} options.unlocked          Returned secret part of the generated key is unlocked
+   * @yield {Object}                            The generated key pair
+   */
+  async generateKey({numBits, userIds, passphrase, uploadPublicKey, keyExpirationTime, unlocked = false}) {
+    userIds = userIds.map(userId => {
+      if (userId.fullName) {
+        return (new goog.format.EmailAddress(userId.email, userId.fullName)).toString();
+      } else {
+        return `<${userId.email}>`;
+      }
+    });
+    const newKey = await this.keystore.generateKey({userIds, passphrase, numBits: parseInt(numBits), keyExpirationTime, unlocked});
+    this.keystore.privateKeys.push(newKey.key);
+    // upload public key
+    if (uploadPublicKey) {
+      await keyServer.upload({publicKeyArmored: newKey.publicKeyArmored});
+    }
+    return newKey;
   }
 }

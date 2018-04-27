@@ -101,7 +101,7 @@ export default class ImportController extends sub.SubController {
       }
       // check if key already in keyring
       const fingerprint = this.key.primaryKey.getFingerprint();
-      let stockKey = this.keyring.keyring.getKeysForId(fingerprint);
+      let stockKey = this.keyring.keystore.getKeysForId(fingerprint);
       if (stockKey) {
         stockKey = stockKey[0];
         return this.updateKey(fingerprint, stockKey, this.key);
@@ -139,7 +139,7 @@ export default class ImportController extends sub.SubController {
       stockKey.update(newKey);
       this.keyring.sync.add(fingerprint, keyringSync.UPDATE);
     })
-    .then(() => this.keyring.keyring.store())
+    .then(() => this.keyring.keystore.store())
     .then(() => this.keyring.sync.commit())
     .then(() => {
       if (statusBefore === openpgp.enums.keyStatus.valid &&

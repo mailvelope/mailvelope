@@ -109,7 +109,7 @@ function findPrivateKey(encryptionKeyIds, keyringId) {
     }
     for (let j = 0; j < keyrings.length; j++) {
       result.keyid = encryptionKeyIds[i].toHex();
-      result.key = keyrings[j].keyring.privateKeys.getForId(result.keyid, true);
+      result.key = keyrings[j].keystore.privateKeys.getForId(result.keyid, true);
       if (result.key) {
         return result;
       }
@@ -138,7 +138,7 @@ export function readCleartextMessage(armoredText, keyringId) {
   for (let i = 0; i < signingKeyIds.length; i++) {
     const signer = {};
     signer.keyid = signingKeyIds[i].toHex();
-    signer.key = getKeyringById(keyringId).keyring.getKeysForId(signer.keyid, true);
+    signer.key = getKeyringById(keyringId).keystore.getKeysForId(signer.keyid, true);
     signer.key = signer.key ? signer.key[0] : null;
     if (signer.key) {
       signer.userid = getUserId(signer.key);
@@ -196,7 +196,7 @@ function mapSignatures(signatures = [], keyRing) {
   return signatures.map(signature => {
     signature.keyid = signature.keyid.toHex();
     if (signature.valid !== null) {
-      const signingKey = keyRing.keyring.getKeysForId(signature.keyid, true);
+      const signingKey = keyRing.keystore.getKeysForId(signature.keyid, true);
       signature.keyDetails = mapKeys(signingKey)[0];
     }
     return signature;
@@ -205,7 +205,7 @@ function mapSignatures(signatures = [], keyRing) {
 
 function getKeysForEncryption(keyIdsHex, keyringId) {
   const keys = keyIdsHex.map(keyIdHex => {
-    const keyArray = getKeyringById(keyringId).keyring.getKeysForId(keyIdHex);
+    const keyArray = getKeyringById(keyringId).keystore.getKeysForId(keyIdHex);
     return keyArray ? keyArray[0] : null;
   }).filter(key => key !== null);
   if (keys.length === 0) {
@@ -452,7 +452,7 @@ export function encryptFile({plainFile, receipients, armor}) {
   return Promise.resolve()
   .then(() => {
     keys = receipients.map(receipient => {
-      const keyArray = getKeyringById(receipient.keyringId).keyring.getKeysForId(receipient.keyid);
+      const keyArray = getKeyringById(receipient.keyringId).keystore.getKeysForId(receipient.keyid);
       return keyArray ? keyArray[0] : null;
     }).filter(key => key !== null);
     if (keys.length === 0) {

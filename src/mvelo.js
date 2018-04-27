@@ -52,6 +52,7 @@ mvelo.RICH_TEXT = 'rich';
 // keyring
 mvelo.KEYRING_DELIMITER = '|#|';
 mvelo.LOCAL_KEYRING_ID = `localhost${mvelo.KEYRING_DELIMITER}mailvelope`;
+mvelo.GNUPG_KEYRING_ID = `localhost${mvelo.KEYRING_DELIMITER}gnupg`;
 // colors for secure background
 mvelo.SECURE_COLORS = ['#e9e9e9', '#c0c0c0', '#808080', '#ffce1e', '#ff0000', '#85154a', '#6f2b8b', '#b3d1e3', '#315bab', '#1c449b', '#4c759c', '#1e8e9f', '#93b536'];
 // 50 MB file size limit
