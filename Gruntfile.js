@@ -146,7 +146,6 @@ module.exports = function(grunt) {
             'components/**/*.html',
             'components/{decrypt-popup,enter-password,generate-key,import-key,key-backup,recovery-sheet,restore-backup,verify-inline,verify-popup}/**/*',
             'content-scripts/*.css',
-            'content-scripts/addToWatchlist.js',
             'img/*',
             'lib/jquery.ext.js',
             '!res/',

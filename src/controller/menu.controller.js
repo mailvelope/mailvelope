@@ -80,22 +80,10 @@ export default class MenuController extends sub.SubController {
   }
 
   addToWatchList() {
-    let tab;
     mvelo.tabs.getActive()
-    .then(active => {
-      tab = active;
+    .then(tab => {
       if (!tab) {
         throw new Error('No tab found');
-      }
-      const options = {};
-      options.contentScriptFile = ['content-scripts/addToWatchList.js'];
-      // inject scan script
-      return mvelo.tabs.attach(tab, options);
-    })
-    .then(scannedHosts => {
-      // scanned hosts from iframes currently not used
-      if (scannedHosts.length === 0) {
-        return;
       }
       const site = getHostname(tab.url);
       const slotId = mvelo.util.getHash();

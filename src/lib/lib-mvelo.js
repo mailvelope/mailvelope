@@ -76,8 +76,9 @@ mvelo.tabs.getActive = function() {
   .then(tabs => tabs[0]);
 };
 
-mvelo.tabs.attach = function(tab, options) {
-  return mvelo.util.sequential(file => browser.tabs.executeScript(tab.id, {file, allFrames: true}), options.contentScriptFile);
+mvelo.tabs.attach = function(tabId, options) {
+  return browser.tabs.executeScript(tabId, options)
+  .catch(() => []);
 };
 
 mvelo.tabs.query = function(url) {
