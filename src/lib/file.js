@@ -198,11 +198,11 @@ function getSecureIcon() {
  * @param {String} file.type
  * @returns {string}
  */
-function downloadAttachment(file) {
-  const content = mvelo.util.str2ab(file.content);
-  const blob = new Blob([content], {type: file.type});
+function downloadAttachment({content, type, name}) {
+  const ab = mvelo.util.str2ab(content);
+  const file = new File([ab], name, {type});
 
-  return window.URL.createObjectURL(blob);
+  return window.URL.createObjectURL(file);
 }
 
 /**

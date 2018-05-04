@@ -61,8 +61,8 @@ export default class KeyDetailsExport extends React.Component {
       return result;
     }, '');
     // create file
-    const blob = new Blob([armoredExport], {type: 'application/pgp-keys'});
-    this.fileURL = window.URL.createObjectURL(blob);
+    const file = new File([armoredExport], this.state.fileName, {type: 'application/pgp-keys'});
+    this.fileURL = window.URL.createObjectURL(file);
     return (
       <div>
         {
