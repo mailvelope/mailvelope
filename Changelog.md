@@ -1,6 +1,14 @@
 Mailvelope Changelog
 ====================
 
+v2.2.1
+-------
+__May 4, 2018__
+
+  * Fix issue with negative left-position of encrypt frame in some webmail clients
+  * Remove non-functional (and on Firefox broken) scanning for sub frames when adding active tab to the watchlist
+  * Fix corrupted file name on file download for Firefox <61
+
 v2.2.0
 -------
 __Mar. 6, 2018__

@@ -1,6 +1,6 @@
 {
   "name": "mailvelope",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Mailvelope is a browser extension for Google Chrome and Firefox that allows secure email communication based on the OpenPGP standard. It can be configured to work with arbitrary Webmail provider.",
   "scripts": {
     "test": "grunt test"
@@ -65,7 +65,7 @@
     "sinon": "^3.3.0",
     "string-replace-loader": "^1.2.0",
     "style-loader": "^0.20.2",
-    "web-ext": "^2.4.0",
+    "web-ext": "^2.6.0",
     "webpack": "^3.11.0"
   },
   "engines": {
