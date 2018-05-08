@@ -41,14 +41,12 @@ export default class EncryptedFormController extends sub.SubController {
   }
 
   onFormDefinition(event) {
-    const formTag = this.getCleanFormTag(event.html);
-
     try {
-      this.assertAndSetSignature(event);
-      this.assertOnlyOneForm(formTag);
-      this.assertAndSetAction(formTag);
-      this.assertAndSetEncoding(formTag);
-      this.assertAndSetRecipient(formTag);
+      const form = this.getCleanFormElement(event.html);
+      this.assertAndSetSignature(event.signature);
+      this.assertAndSetAction(form);
+      this.assertAndSetEncoding(form);
+      this.assertAndSetRecipient(form);
       this.assertAndSetFingerprint();
     } catch (error) {
       this.onFormError(error);
@@ -111,48 +109,53 @@ export default class EncryptedFormController extends sub.SubController {
     });
   }
 
-  getCleanFormTag(dirtyHtml) {
-    return dompurify.sanitize(dirtyHtml, {
+  getCleanFormElement(dirtyHtml) {
+    const html = dompurify.sanitize(dirtyHtml, {
       ALLOWED_TAGS: ['form'],
       ALLOWED_ATTR: ['data-action', 'data-recipient']
     });
+    const parser = new DOMParser();
+    const formElementCollection = parser.parseFromString(html, 'text/html').getElementsByTagName('form');
+    if (!formElementCollection.length) {
+      throw new mvelo.Error('There should be one form tag in the form definition.', 'NO_FORM');
+    }
+    if (formElementCollection.length > 1) {
+      throw new mvelo.Error('There should be only one form tag in the form definition.', 'TOO_MANY_FORMS');
+    }
+    return formElementCollection[0];
   }
 
-  assertAndSetAction(formTag) {
-    const dataUrlRegex = /data-action=[\"'](.*?)[\"']/gi;
-    const match = dataUrlRegex.exec(formTag);
-    if (match === null) {
+  assertAndSetAction(formElement) {
+    const action = formElement.getAttribute('data-action');
+    if (!action) {
       // empty data-action is allowed in form definition
       // in this case the encrypted content will be returned to the page
       this.formAction = null;
       return true;
     }
-    if (!mvelo.util.checkUrl(match[1])) {
+    if (!mvelo.util.checkUrl(action)) {
       throw new mvelo.Error('The form action should be a valid url.', 'INVALID_FORM_ACTION');
     }
-    this.formAction = match[1];
+    this.formAction = action;
     return true;
   }
 
-  assertAndSetRecipient(formTag) {
-    const dataRecipientRegex = /data-recipient=[\"'](.*?)[\"']/gi;
-    const match = dataRecipientRegex.exec(formTag);
-    if (match === null) {
+  assertAndSetRecipient(formElement) {
+    const recipient = formElement.getAttribute('data-recipient');
+    if (!recipient) {
       throw new mvelo.Error('The encrypted form recipient cannot be empty.', 'RECIPIENT_EMPTY');
     }
-    if (!mvelo.util.checkEmail(match[1])) {
+    if (!mvelo.util.checkEmail(recipient)) {
       throw new mvelo.Error('The encrypted form recipient must be a valid email address.', 'RECIPIENT_INVALID_EMAIL');
     }
-    this.formRecipient = match[1];
+    this.formRecipient = recipient;
     return true;
   }
 
-  assertAndSetEncoding(formTag) {
-    const dataEnctypeRegex = /data-enctype=[\"'](.*?)[\"']/gi;
-    const match = dataEnctypeRegex.exec(formTag);
-    let enctype = 'url'; // fallback if enctype is not defined
-    if (match !== null) {
-      enctype = match[1];
+  assertAndSetEncoding(formElement) {
+    let enctype = formElement.getAttribute('data-enctype');
+    if (!enctype) {
+      enctype = 'url';
     }
     const whitelistedEnctype = ['json', 'url', 'html'];
     if (whitelistedEnctype.indexOf(enctype) === -1) {
@@ -172,20 +175,12 @@ export default class EncryptedFormController extends sub.SubController {
     }
   }
 
-  assertAndSetSignature(event) {
+  assertAndSetSignature(signature) {
     // todo baseline signature validation
-    if (typeof event.signature === 'undefined') {
+    if (typeof signature === 'undefined') {
       throw new mvelo.Error('No valid signature.', 'NO_SIGNATURE');
     }
-    this.formSignature = event.signature;
-  }
-
-  assertOnlyOneForm(html) {
-    const formOccur = ((html.match(/<form/g) || []).length);
-    if (formOccur !== 1) {
-      throw new mvelo.Error('There should be only one form tag in the form definition.', 'TOO_MANY_FORMS');
-    }
-    return true;
+    this.formSignature = signature;
   }
 
   validateSignature(rawHtml) {
