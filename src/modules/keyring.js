@@ -8,11 +8,26 @@ import KeyringLocal from './KeyringLocal';
 import KeyStoreLocal from './KeyStoreLocal';
 import KeyringGPG from './KeyringGPG';
 import KeyStoreGPG from './KeyStoreGPG';
+import {gpgme} from '../lib/browser.runtime';
 
 class KeyringAttrMap extends Map {
   async init() {
     const attributes = await mvelo.storage.get('mvelo.keyring.attributes') || {};
     Object.keys(attributes).forEach(key => super.set(key, attributes[key]));
+    await this.initGPG();
+  }
+
+  async initGPG() {
+    const hasGpgKeyring = this.has(mvelo.GNUPG_KEYRING_ID);
+    if (gpgme) {
+      if (!hasGpgKeyring) {
+        await this.create(mvelo.GNUPG_KEYRING_ID);
+      }
+    } else {
+      if (hasGpgKeyring) {
+        await this.delete(mvelo.GNUPG_KEYRING_ID);
+      }
+    }
   }
 
   get(keyringId, attr) {
@@ -105,13 +120,12 @@ async function buildKeyring(keyringId) {
   let keyRing;
   if (keyringId === mvelo.GNUPG_KEYRING_ID) {
     keyStore = new KeyStoreGPG(keyringId);
-    await keyStore.load();
-    keyRing = new KeyringGPG(keyStore);
+    keyRing = new KeyringGPG(keyringId, keyStore);
   } else {
     keyStore = new KeyStoreLocal(keyringId);
-    await keyStore.load();
-    keyRing = new KeyringLocal(keyStore);
+    keyRing = new KeyringLocal(keyringId, keyStore);
   }
+  await keyStore.load();
   keyringMap.set(keyringId, keyRing);
   return keyRing;
 }
@@ -121,8 +135,8 @@ export async function deleteKeyring(keyringId) {
     throw new mvelo.Error(`Keyring for id ${keyringId} does not exist.`, 'NO_KEYRING_FOR_ID');
   }
   const keyRng = keyringMap.get(keyringId);
-  keyRng.keyring.clear();
   await keyRng.keystore.remove();
+  keyRng.keystore.clear();
   keyringMap.delete(keyringId);
   await keyringAttr.delete(keyringId);
 }

@@ -18,10 +18,15 @@ export function initBrowserRuntime() {
 
 /**
  * Intialize native messaging
- * @return {[type]} [description]
+ * @return {Promise.<undefined>}
  */
-export async function initNativeMessaging() {
-  await initGpgme();
+export function initNativeMessaging() {
+  return new Promise(resolve => {
+    // resolve after timeout of 500 ms
+    window.setTimeout(resolve, 500);
+    initGpgme()
+    .then(resolve);
+  });
 }
 
 /**

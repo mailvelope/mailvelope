@@ -10,11 +10,16 @@ import {KeyStoreBase} from './keyStore';
 export default class KeyStoreGPG extends KeyStoreBase {
   async load() {
     this.clear();
-    const armored = await gpgme.getPublicKeys();
-    const pubArmored = armored.filter(key => !key.secret);
+    const armored = await gpgme.keyring.getPublicKeys();
+    const pubArmored = armored.filter(key => !key.secret).map(key => key.armor);
     this.loadKeys(pubArmored, this.publicKeys);
-    const privArmored = armored.filter(key => key.secret);
-    this.privateKeys = privArmored.map(readArmoredPrivate).filter(key => key);
+    const privArmored = armored.filter(key => key.secret).map(key => key.armor);
+    privArmored.forEach(armor => {
+      const privKey = readArmoredPrivate(armor);
+      if (privKey) {
+        this.privateKeys.push(privKey);
+      }
+    });
   }
 
   async store() {
@@ -51,7 +56,7 @@ export default class KeyStoreGPG extends KeyStoreBase {
   }
 }
 
-class PrivateKeyGPG extends openpgp.Key {
+class PrivateKeyGPG extends openpgp.key.Key {
   isPublic() {
     return false;
   }
@@ -63,7 +68,7 @@ class PrivateKeyGPG extends openpgp.Key {
 
 function readArmoredPrivate(armored) {
   try {
-    const data = openpgp.armor.decode(armored);
+    const {data} = openpgp.armor.decode(armored);
     const packetlist = new openpgp.packet.List();
     packetlist.read(data);
     return new PrivateKeyGPG(packetlist);

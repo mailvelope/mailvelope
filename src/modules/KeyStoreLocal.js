@@ -3,6 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
+import mvelo from '../lib/lib-mvelo';
 import * as openpgp from 'openpgp';
 import {KeyStoreBase} from './keyStore';
 
