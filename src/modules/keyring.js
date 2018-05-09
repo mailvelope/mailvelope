@@ -10,6 +10,11 @@ import KeyringGPG from './KeyringGPG';
 import KeyStoreGPG from './KeyStoreGPG';
 import {gpgme} from '../lib/browser.runtime';
 
+/**
+ * Map with all keyrings and their attributes. Data is persisted in local storage.
+ * key: the keyring ID
+ * value: object map with keyring attributes
+ */
 class KeyringAttrMap extends Map {
   async init() {
     const attributes = await mvelo.storage.get('mvelo.keyring.attributes') || {};
@@ -30,31 +35,31 @@ class KeyringAttrMap extends Map {
     }
   }
 
-  get(keyringId, attr) {
+  get(keyringId, attrKey) {
     if (!this.has(keyringId)) {
       throw new Error(`Keyring does not exist for id: ${keyringId}`);
     }
     const keyringAttr = super.get(keyringId) || {};
-    if (attr) {
-      return keyringAttr[attr];
+    if (attrKey) {
+      return keyringAttr[attrKey];
     }
     return keyringAttr;
   }
 
-  async create(keyringId) {
-    super.set(keyringId, {});
+  async create(keyringId, attrMap = {}) {
+    super.set(keyringId, attrMap);
     await this.store();
   }
 
-  async set(keyringId, attr) {
+  async set(keyringId, attrMap) {
     if (!this.has(keyringId)) {
       throw new Error(`Keyring does not exist for id: ${keyringId}`);
     }
-    if (typeof attr !== 'object') {
-      throw new Error('KeyringAttrMap.set no attr provided');
+    if (typeof attrMap !== 'object') {
+      throw new Error('KeyringAttrMap.set no attrMap provided');
     }
     const keyringAttr = super.get(keyringId) || {};
-    Object.assign(keyringAttr, attr);
+    Object.assign(keyringAttr, attrMap);
     super.set(keyringId, keyringAttr);
     await this.store();
   }
@@ -93,6 +98,11 @@ export async function init() {
   }
 }
 
+/**
+ * Create a new keyring and initialize keyring attributes
+ * @param  {String} keyringId
+ * @return {KeyringBase}
+ */
 export async function createKeyring(keyringId) {
   if (keyringAttr.has(keyringId)) {
     throw new mvelo.Error(`Keyring for id ${keyringId} already exists.`, 'KEYRING_ALREADY_EXISTS');
@@ -111,9 +121,9 @@ export async function createKeyring(keyringId) {
 }
 
 /**
- * Instantiate a new keyring object
+ * Instantiate a new keyring object, keys are loaded from the keystore
  * @param  {String} keyringId
- * @return {Promise<Keyring>}
+ * @return {Promise<KeyringBase>}
  */
 async function buildKeyring(keyringId) {
   let keyStore;
@@ -130,6 +140,11 @@ async function buildKeyring(keyringId) {
   return keyRing;
 }
 
+/**
+ * Delete keyring, all keys and keyring attributes
+ * @param  {String} keyringId
+ * @return {Promise<undefined>}
+ */
 export async function deleteKeyring(keyringId) {
   if (!keyringAttr.has(keyringId)) {
     throw new mvelo.Error(`Keyring for id ${keyringId} does not exist.`, 'NO_KEYRING_FOR_ID');
@@ -141,6 +156,11 @@ export async function deleteKeyring(keyringId) {
   await keyringAttr.delete(keyringId);
 }
 
+/**
+ * Get keyring by Id
+ * @param  {String} keyringId
+ * @return {KeyringBase}
+ */
 export function getById(keyringId) {
   const keyring = keyringMap.get(keyringId);
   if (keyring) {
@@ -150,22 +170,45 @@ export function getById(keyringId) {
   }
 }
 
+/**
+ * Get all keyrings
+ * @return {Array<KeyringBase>}
+ */
 export function getAll() {
   return Array.from(keyringMap.values());
 }
 
+/**
+ * Get all keyring attributes as an object map
+ * @return {Object<keyringId, KeyringBase>}
+ */
 export function getAllKeyringAttr() {
   return keyringAttr.toObject();
 }
 
-export async function setKeyringAttr(keyringId, attr) {
-  await keyringAttr.set(keyringId, attr);
+/**
+ * Set keyring attributes
+ * @param {String} keyringId
+ * @param {Object<key, value>} attrMap
+ */
+export async function setKeyringAttr(keyringId, attrMap) {
+  await keyringAttr.set(keyringId, attrMap);
 }
 
-export function getKeyringAttr(keyringId, attr) {
-  return keyringAttr.get(keyringId, attr);
+/**
+ * Get keyring attributes
+ * @param  {String} keyringId
+ * @param  {String} [attrKey]
+ * @return {Any} either the attribute value if attrKey is provided, or an object map with all attributes
+ */
+export function getKeyringAttr(keyringId, attrKey) {
+  return keyringAttr.get(keyringId, attrKey);
 }
 
+/**
+ * Get user id, and key id for all keys in all keyrings
+ * @return {Array<Object>} list of key meta data objects
+ */
 export function getAllKeyUserId() {
   const allKeyrings = getAll();
   let result = [];
