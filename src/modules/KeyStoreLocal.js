@@ -22,11 +22,11 @@ export default class KeyStoreLocal extends KeyStoreBase {
   }
 
   async storePublic() {
-    await this.storeKeys(`mvelo.keyring.${this.id}.publicKeys`, this.publicKeys);
+    await this.storeKeys(`mvelo.keyring.${this.id}.publicKeys`, this.publicKeys.keys);
   }
 
   async storePrivate() {
-    await this.storeKeys(`mvelo.keyring.${this.id}.privateKeys`, this.privateKeys);
+    await this.storeKeys(`mvelo.keyring.${this.id}.privateKeys`, this.privateKeys.keys);
   }
 
   async storeKeys(storageKey, keys) {
