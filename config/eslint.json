@@ -19,10 +19,6 @@
     "webextensions": true
   },
 
-  "globals": {
-    "mvelo": true
-  },
-
   "rules": {
     "strict": ["error", "never"],
     /* possible errors */

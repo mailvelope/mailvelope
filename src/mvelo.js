@@ -362,8 +362,8 @@ mvelo.util.matchPattern2RegExString = function(matchPattern) {
   return matchPattern.replace(/\./g, '\\.').replace(/\*\\\./, '(\\w+(-\\w+)*\\.)*');
 };
 
-mvelo.util.mapError = function(error) {
-  return {message: error.message, code: error.code  || 'INTERNAL_ERROR'};
+mvelo.util.mapError = function(error = {}) {
+  return {message: error.message || 'Unexpected error.', code: error.code  || 'INTERNAL_ERROR'};
 };
 
 mvelo.util.PromiseQueue = class {

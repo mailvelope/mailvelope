@@ -12,12 +12,11 @@ import mvelo from '../lib/lib-mvelo';
 import {prefs} from '../modules/prefs';
 import * as model from '../modules/pgpModel';
 import * as sub from './sub.controller';
-import DecryptController from './decrypt.controller';
 import * as uiLog from '../modules/uiLog';
+import {parseMessage, buildMail} from '../modules/mime';
 import {triggerSync} from './sync.controller';
 import KeyServer from '../modules/keyserver';
 import {getById as getKeyringById} from '../modules/keyring';
-import mailbuild from 'emailjs-mime-builder';
 
 export default class EditorController extends sub.SubController {
   constructor(port) {
@@ -250,66 +249,6 @@ export default class EditorController extends sub.SubController {
     this.emit('public-key-userids', {keys, recipients, tofu});
   }
 
-  /**
-   * @param {String} message
-   * @param {Map} attachments
-   * @param {String} attachments.filename
-   * @param {String} attachments.content
-   * @param {Integer} attachments.size
-   * @param {String} attachments.type
-   * @returns {String | null}
-   */
-  buildMail(message, attachments) {
-    //var t0 = Date.now();
-    const mainMessage = new mailbuild("multipart/mixed");
-    let composedMessage = null;
-    let hasAttachment;
-    let quotaSize = 0;
-
-    if (message) {
-      quotaSize += mvelo.util.byteCount(message);
-      const textMime = new mailbuild("text/plain")
-      .setHeader("Content-Type", "text/plain; charset=utf-8")
-      .addHeader("Content-Transfer-Encoding", "quoted-printable")
-      .setContent(message);
-      mainMessage.appendChild(textMime);
-    }
-    if (attachments && attachments.length > 0) {
-      hasAttachment = true;
-      attachments.forEach(attachment => {
-        quotaSize += attachment.size;
-        const attachmentMime = new mailbuild("text/plain")
-        .createChild(false, {filename: attachment.name})
-        //.setHeader("Content-Type", attachment.type + "; charset=utf-8")
-        .addHeader("Content-Transfer-Encoding", "base64")
-        .addHeader("Content-Disposition", "attachment") // ; filename="attachment.filename
-        .setContent(attachment.content);
-        mainMessage.appendChild(attachmentMime);
-      });
-    }
-
-    if (this.options.quota && (quotaSize > this.options.quota)) {
-      const error = {
-        code: 'ENCRYPT_QUOTA_SIZE',
-        message: 'Mail content exceeds quota limit.'
-      };
-
-      if (this.ports.editorCont) {
-        this.ports.editorCont.emit('error-message', {error});
-      }
-      return composedMessage;
-    }
-
-    if (hasAttachment || this.pgpMIME) {
-      composedMessage = mainMessage.build();
-    } else {
-      composedMessage = message;
-    }
-    //var t1 = Date.now();
-    //console.log("Building mime message took " + (t1 - t0) + " milliseconds. Current time: " + t1);
-    return composedMessage;
-  }
-
   scheduleDecrypt(armored) {
     if (armored.length > 400000 && !this.editorPopup) {
       // show spinner for large messages
@@ -324,21 +263,15 @@ export default class EditorController extends sub.SubController {
    * @param {String} armored
    * @returns {undefined}
    */
-  decryptArmored(armored) {
-    const decryptCtrl = new DecryptController();
-    decryptCtrl.keyringId = this.keyringId;
-    model.readMessage({armoredText: armored, keyringId: this.keyringId})
-    .then(message => {
-      message.openPopup = !this.editorPopup;
-      message.beforePasswordRequest = id => this.editorPopup && this.ports.editor.emit('show-pwd-dialog', {id});
-      return decryptCtrl.prepareKey(message);
-    })
-    .then(message => {
-      this.editorPopup && this.ports.editor.emit('hide-pwd-dialog');
-      message.options = {selfSigned: Boolean(this.options.armoredDraft)};
-      return decryptCtrl.decryptMessage(message);
-    })
-    .then(content => {
+  async decryptArmored(armored) {
+    try {
+      this.options.selfSigned = Boolean(this.options.armoredDraft);
+      const {data, signatures} = await model.decryptMessage({
+        armored,
+        keyringId: this.keyringId,
+        unlockKey: this.unlockKey.bind(this),
+        options: this.options
+      });
       const options = this.options;
       const ports = this.ports;
       const handlers = {
@@ -364,19 +297,26 @@ export default class EditorController extends sub.SubController {
         }
       };
       if (this.options.armoredDraft) {
-        if (!(content.signatures && content.signatures[0].valid)) {
+        if (!(signatures && signatures[0].valid)) {
           throw {message: 'Restoring of the draft failed due to invalid signature.'};
         }
       }
-      return decryptCtrl.parseMessage(content.data, handlers, 'text');
-    })
-    .then(() => {
+      await parseMessage(data, handlers, 'text');
       this.ports.editor.emit('decrypt-end');
-    })
-    .catch(error => {
-      error = mvelo.util.mapError(error);
-      this.ports.editor.emit('decrypt-failed', {error});
-    });
+    } catch (error) {
+      this.ports.editor.emit('decrypt-failed', {error: mvelo.util.mapError(error)});
+    }
+  }
+
+  async unlockKey(message) {
+    const pwdControl = sub.factory.get('pwdDialog');
+    message.reason = 'PWD_DIALOG_REASON_DECRYPT';
+    message.openPopup = !this.editorPopup;
+    message.beforePasswordRequest = id => this.editorPopup && this.ports.editor.emit('show-pwd-dialog', {id});
+    message = await pwdControl.unlockKey(message);
+    triggerSync(message);
+    this.editorPopup && this.ports.editor.emit('hide-pwd-dialog');
+    return message;
   }
 
   /**
@@ -536,35 +476,38 @@ export default class EditorController extends sub.SubController {
    * @param {Boolean} options.noCache
    * @return {Promise}
    */
-  signAndEncrypt(options) {
-    return Promise.resolve()
-    .then(() => {
-      if (options.action === 'encrypt') {
-        const data = this.buildMail(options.message, options.attachments);
-
-        if (data === null) {
-          throw new mvelo.Error('MIME building failed.');
+  async signAndEncrypt(options) {
+    if (options.action === 'encrypt') {
+      let data = null;
+      options.pgpMIME = this.pgpMIME;
+      try {
+        data = buildMail(options);
+      } catch (error) {
+        if (this.ports.editorCont) {
+          this.ports.editorCont.emit('error-message', {error: mvelo.util.mapError(error)});
         }
-
-        const keyIdsHex = this.getPublicKeyIds(options.keys);
-        if (this.signMsg || options.signMsg) {
-          return this.signAndEncryptMessage({
-            message: data,
-            keyIdsHex,
-            signKeyIdHex: options.signKey,
-            noCache: options.noCache
-          });
-        } else {
-          return this.encryptMessage({
-            message: data,
-            keyringId: this.keyringId,
-            keyIdsHex
-          });
-        }
-      } else if (options.action === 'sign') {
-        return this.signMessage(options.message);
       }
-    });
+      if (data === null) {
+        throw new mvelo.Error('MIME building failed.');
+      }
+      const keyIdsHex = this.getPublicKeyIds(options.keys);
+      if (this.signMsg || options.signMsg) {
+        return this.signAndEncryptMessage({
+          message: data,
+          keyIdsHex,
+          signKeyIdHex: options.signKey,
+          noCache: options.noCache
+        });
+      } else {
+        return this.encryptMessage({
+          message: data,
+          keyringId: this.keyringId,
+          keyIdsHex
+        });
+      }
+    } else if (options.action === 'sign') {
+      return this.signMessage(options.message);
+    }
   }
 
   /**
