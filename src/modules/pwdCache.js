@@ -3,8 +3,9 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
+import mvelo from '../lib/lib-mvelo';
+import * as openpgp from 'openpgp';
 import * as prefs from './prefs';
-import {unlockKey} from './pgpModel';
 
 // password and key cache
 let cache;
@@ -115,5 +116,17 @@ export function unlock({key, password}) {
       set({key});
     }
     return key;
+  });
+}
+
+function unlockKey(privKey, passwd) {
+  return openpgp.decryptKey({privateKey: privKey, passphrase: passwd})
+  .then(result => result.key)
+  .catch(e => {
+    if (/Invalid passphrase/.test(e.message)) {
+      throw new mvelo.Error('Could not unlock key: wrong password', 'WRONG_PASSWORD');
+    } else {
+      throw new mvelo.Error('Error in openpgp.decryptKey');
+    }
   });
 }
