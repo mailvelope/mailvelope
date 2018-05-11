@@ -5,6 +5,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import mvelo from '../../../mvelo';
 
 export default class FormSandbox extends React.Component {
   constructor(props) {
@@ -26,7 +27,6 @@ export default class FormSandbox extends React.Component {
   }
 
   removeInputSubmit() {
-    // TODO add ability to remove tags by type using DOMPurify
     $(this.form).find('input[type=submit]').each(function() {
       $(this).remove();
     });
@@ -44,7 +44,7 @@ export default class FormSandbox extends React.Component {
     const height = `${this.sandbox.contentDocument.body.scrollHeight}px`;
     if (height !== this.sandbox.style.height) {
       let offset = 0;
-      if (typeof browser !== 'undefined') {
+      if (!mvelo.crx) {
         offset = 16;
       }
       const newHeight = this.sandbox.contentDocument.body.scrollHeight + offset;
