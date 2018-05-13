@@ -77,6 +77,17 @@
     },
     {
       "active": true,
+      "site": "outlook.office.com",
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.outlook.office.com",
+          "api": false
+        },
+      ]
+    },
+    {
+      "active": true,
       "site": "mail.riseup.net",
       "frames": [
         {
