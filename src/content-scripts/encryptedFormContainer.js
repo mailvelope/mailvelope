@@ -53,7 +53,7 @@ export default class EncryptedFormContainer {
     this.done(null, this.id);
   }
 
-  onError({error}) {
+  onError(error) {
     if (this.container) {
       this.parent.removeChild(this.container);
       this.port.disconnect();
@@ -71,13 +71,13 @@ export default class EncryptedFormContainer {
 
   baseValidate(selector, html, signature) {
     if (!selector) {
-      throw new mvelo.Error('The pgp encrypted form selector cannot be empty.');
+      throw new mvelo.Error('The pgp encrypted form selector cannot be empty.', 'NO_FORM');
     }
     if (!html) {
-      throw new mvelo.Error('The pgp encrypted form html cannot be empty.');
+      throw new mvelo.Error('The pgp encrypted form html cannot be empty.', 'NO_HTML');
     }
     if (!signature) {
-      throw new mvelo.Error('The pgp encrypted form signature cannot be empty.');
+      throw new mvelo.Error('The pgp encrypted form signature cannot be empty.', 'NO_SIGNATURE');
     }
     return true;
   }

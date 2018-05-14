@@ -182,7 +182,17 @@
      * @param @param {string} selector - the id of target container
      * @param @param {string} formHtml - the form definition
      * @param @param {string} signature - the OpenPGP signature
-     * @returns object {armoredData}
+     * @returns {Promise.<Object, Error>} an object that includes armoredData
+     * @throws {Error} error.code = 'NO_HTML' formHtml is empty
+     *                 error.code = 'NO_SIGNATURE' if the signature is empty
+     *                 error.code = 'NO_FORM' if no form tag is found in the formHtml
+     *                 error.code = 'NO_FORM_INPUT' if no form input tag is found in the formHtml
+     *                 error.code = 'TOO_MANY_FORM' if more than one form tag is found in the formHtml
+     *                 error.code = 'INVALID_FORM_ACTION' if the form data-action is not a valid url
+     *                 error.code = 'RECIPIENT_EMPTY' if no data-recipient is specified
+     *                 error.code = 'RECIPIENT_INVALID_EMAIL' if the data-recipient in not a valid email
+     *                 error.code = 'UNSUPPORTED_ENCTYPE' if data-enctype is not json, url or html
+     *
      */
     createEncryptedFormContainer(selector, formHtml, signature) {
       return postMessage('encrypted-form-container', {selector, formHtml, signature});
@@ -694,21 +704,25 @@ class PgpEncryptedForm extends HTMLElement {
 
     const id = this.getAttribute('id');
     if (!id) {
-      return this.onError(new Error('No form id for pgp-encrypted-tag. Please add a unique identifier.'));
+      const error = new Error('No form id for pgp-encrypted-tag. Please add a unique identifier.');
+      error.code = 'NO_FORM_ID';
+      return this.onError(error);
     }
     let html;
     if ($(this).find('script').length) {
       html = $(this).find('script')[0].innerText;
     } else {
-      return this.onError(new Error('No form template for pgp-encrypted-tag. Please add a form template.'));
+      const error = new Error('No form template for pgp-encrypted-tag. Please add a form template.');
+      error.code = 'NO_FORM_SCRIPT';
+      return this.onError(error);
     }
     window.mailvelope.createEncryptedFormContainer(`#${id}`, html, this.getAttribute('signature'))
-    .then(armoredData => this.onEncrypt(armoredData), error => this.onError(error));
+    .then(data => this.onEncrypt(data), error => this.onError(error));
   }
 
-  onEncrypt({armoredData}) {
+  onEncrypt(data) {
     this.dispatchEvent(new CustomEvent('encrypt', {
-      detail: {armoredData},
+      detail: { armoredData: data.armoredData },
       bubbles: true,
       cancelable: true
     }));
@@ -716,8 +730,8 @@ class PgpEncryptedForm extends HTMLElement {
 
   onError(error) {
     this.dispatchEvent(new ErrorEvent('error', {
-      error,
-      message: error.message
+      message: error.message,
+      code: error.code
     }));
   }
 }

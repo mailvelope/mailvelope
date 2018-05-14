@@ -8,7 +8,7 @@ import $ from 'jquery';
 import {prefs, host, getMessageType} from './main';
 import DecryptContainer from './decryptContainer';
 import EditorContainer from './editorContainer';
-import FormContainer from './encryptedFormContainer';
+import EncryptedFormContainer from './encryptedFormContainer';
 import AppContainer from './appContainer';
 import KeyGenContainer from './keyGenContainer';
 import KeyBackupContainer from './keyBackupContainer';
@@ -455,7 +455,8 @@ function syncHandlerDone(data) {
 }
 
 function encryptedFormContainer(selector, formHtml, signature, callback) {
-  const container = new FormContainer(selector, formHtml, signature);
+  let container;
+  container = new EncryptedFormContainer(selector, formHtml, signature);
   containers.set(container.id, container);
   container.create(callback);
 }
