@@ -10,6 +10,7 @@ import * as l10n from '../../lib/l10n';
 import FormSandbox from './components/FormSandbox';
 import './encryptedForm.css';
 import Spinner from "../util/Spinner";
+import Alert from "../util/Alert";
 
 // register language strings
 l10n.register([
@@ -47,6 +48,7 @@ export default class EncryptedForm extends React.Component {
     this.onResize();
   }
 
+
   registerEventListeners() {
     this.port.on('encrypted-form-definition', this.showForm);
     this.port.on('error-message', this.showErrorMsg);
@@ -65,11 +67,11 @@ export default class EncryptedForm extends React.Component {
     });
   }
 
-  showErrorMsg({error}) {
+  showErrorMsg(error) {
     this.setState({
       error: {
         header: l10n.map.alert_header_error,
-        message: error,
+        message: error.message,
         type: 'danger'
       },
       waiting: false
@@ -86,7 +88,7 @@ export default class EncryptedForm extends React.Component {
   }
 
   onFormSandboxError(error) {
-    this.port.emit('encrypted-form-error', {message: error.message});
+    this.port.emit('encrypted-form-error', mvelo.util.mapError(error));
   }
 
   onFormSubmit(event) {
@@ -105,7 +107,10 @@ export default class EncryptedForm extends React.Component {
   }
 
   onResize() {
-    this.port.emit('encrypted-form-resize', {height: document.body.scrollHeight});
+    // do not resize less than 100px, e.g. the minimal / original size of the iframe
+    if (document.body.scrollHeight > 100) {
+      this.port.emit('encrypted-form-resize', {height: document.body.scrollHeight});
+    }
   }
 
   formSandbox() {
@@ -125,13 +130,17 @@ export default class EncryptedForm extends React.Component {
         <section className="well clearfix">
           {this.state.waiting  ? (<Spinner style={{margin: '0 auto 0'}} />) : (
             <div>
-              {this.formSandbox()}
-              <button className="btn btn-primary" type="button" onClick={() => this.handleClickSubmit()}>{l10n.map.form_submit}</button>
-              <div className="recipient">
-                <div className="recipient-action">{l10n.map.form_destination}: {this.state.formAction ? this.state.formAction : l10n.map.form_destination_default}</div>
-                <div className="recipient-email">{l10n.map.form_recipient}: {this.state.formRecipient}</div>
-                <div className="recipient-fingerprint">{this.state.formFingerprint}</div>
-              </div>
+              {this.state.error ? (<Alert message={this.state.error.message} type={this.state.error.type} />) : (
+                <div>
+                  {this.formSandbox()}
+                  <button className="btn btn-primary" type="button" onClick={() => this.handleClickSubmit()}>{l10n.map.form_submit}</button>
+                  <div className="recipient">
+                    <div className="recipient-action">{l10n.map.form_destination}: {this.state.formAction ? this.state.formAction : l10n.map.form_destination_default}</div>
+                    <div className="recipient-email">{l10n.map.form_recipient}: {this.state.formRecipient}</div>
+                    <div className="recipient-fingerprint">{this.state.formFingerprint}</div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </section>

@@ -36,7 +36,7 @@ export default class FormSandbox extends React.Component {
     // check that there is at least a valid input field to send
     const validInput = $(this.form).find('input[name], select[name], textarea[name]').length;
     if (!validInput) {
-      this.onError(new Error('There should be at least one input field with name property set.'));
+      this.onError(new mvelo.Error('There should be at least one input field with name property set.', 'NO_FORM_INPUT'));
     }
   }
 

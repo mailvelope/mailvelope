@@ -32,8 +32,28 @@ export default class EncryptedFormController extends sub.SubController {
   }
 
   onFormError(error) {
-    // TODO decide which error to send to iframe / which one to send to app
-    this.ports.encryptedFormCont.emit('error-message', {error: error.message});
+    switch (error.code) {
+      // Errors that can be exposed to the API
+      case 'NO_FORM':
+      case 'TOO_MANY_FORMS':
+      case 'NO_FORM_INPUT':
+      case 'INVALID_FORM_ACTION':
+      case 'RECIPIENT_EMPTY':
+      case 'RECIPIENT_INVALID_EMAIL':
+      case 'UNSUPPORTED_ENCTYPE':
+      case 'NO_SIGNATURE':
+        this.ports.encryptedFormCont.emit('error-message', mvelo.util.mapError(error));
+      break;
+
+      // Errors that should not be exposed to the API
+      case 'NO_KEY_FOR_RECIPIENT':
+      case 'INVALID_SIGNATURE':
+      case 'NO_PRIMARY_KEY_FOUND':
+      case 'NO_SIGN_KEY_FOUND':
+      default:
+        this.ports.encryptedForm.emit('error-message', mvelo.util.mapError(error));
+      break;
+    }
   }
 
   onFormResize(event) {
@@ -50,6 +70,7 @@ export default class EncryptedFormController extends sub.SubController {
       this.assertAndSetFingerprint();
     } catch (error) {
       this.onFormError(error);
+      return;
     }
 
     this.validateSignature(event.html)
@@ -159,7 +180,7 @@ export default class EncryptedFormController extends sub.SubController {
     }
     const whitelistedEnctype = ['json', 'url', 'html'];
     if (whitelistedEnctype.indexOf(enctype) === -1) {
-      throw new mvelo.Error('The requested encrypted form encoding type if is not supported.', 'UNSUPORTED_ENCTYPE');
+      throw new mvelo.Error('The requested encrypted form encoding type if is not supported.', 'UNSUPPORTED_ENCTYPE');
     }
     this.formEncoding = enctype;
     return true;
@@ -171,7 +192,7 @@ export default class EncryptedFormController extends sub.SubController {
       this.recipientKey = keyMap[this.formRecipient][0];
       this.formFingerprint = this.recipientKey.primaryKey.getFingerprint().toUpperCase();
     } else {
-      throw new mvelo.Error('No valid encryption key for recipient address', 'NO_ENCRYPTION_KEY_FOUND');
+      throw new mvelo.Error('No valid encryption key for recipient address.', 'NO_KEY_FOR_RECIPIENT');
     }
   }
 
