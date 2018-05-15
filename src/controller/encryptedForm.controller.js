@@ -225,18 +225,15 @@ ${this.formSignature}
     let signKey;
     return Promise.resolve()
     .then(() => {
-      this.encryptTimer = null;
       signKey = getKeyringById(this.keyringId).getPrimaryKey();
       if (!signKey) {
         throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
       }
-
       const signKeyPacket = signKey.key.getSigningKeyPacket();
       const signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
       if (!signKeyid) {
         throw new mvelo.Error('No valid signing key packet found', 'NO_SIGN_KEY_FOUND');
       }
-
       signKey.keyid = signKeyid;
       signKey.keyringId = this.keyringId;
       signKey.reason = 'PWD_DIALOG_REASON_SIGN';
