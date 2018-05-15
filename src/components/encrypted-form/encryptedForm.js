@@ -120,7 +120,8 @@ export default class EncryptedForm extends React.Component {
         needSubmit={this.state.submit}
         onValidated={data => this.onValidated(data)}
         onError={error => this.onFormSandboxError(error)}
-        onResize={() => this.onResize()} />
+        onResize={() => this.onResize()}
+        onTerminate={() => mvelo.ui.terminate(this.port)} />
     );
   }
 

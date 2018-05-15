@@ -6,6 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import mvelo from '../../../mvelo';
+import $ from "jquery";
 
 export default class FormSandbox extends React.Component {
   constructor(props) {
@@ -24,6 +25,13 @@ export default class FormSandbox extends React.Component {
     if (nextProps.needSubmit === true) {
       this.form.dispatchEvent(new Event('submit'));
     }
+  }
+
+  componentDidMount() {
+    const sandbox = $(this.sandbox);
+    sandbox.one('load', () => {
+      sandbox.one('load', this.props.onTerminate);
+    });
   }
 
   removeInputSubmit() {
@@ -213,7 +221,8 @@ FormSandbox.propTypes = {
   needSubmit: PropTypes.bool,
   onValidated: PropTypes.func,
   onResize: PropTypes.func,
-  onError: PropTypes.func
+  onError: PropTypes.func,
+  onTerminate: PropTypes.func
 };
 
 FormSandbox.defaultProps = {
