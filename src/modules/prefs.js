@@ -3,10 +3,11 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {setPreferences, getPreferences} from './pgpModel';
+import mvelo from '../lib/lib-mvelo';
 
 export let prefs = {};
 const updateHandlers = [];
+let watchListBuffer = null;
 
 export function init() {
   return getPreferences()
@@ -56,4 +57,24 @@ export function getSecurityBackground() {
     height: prefs.security.secureBgndHeight,
     colorId: prefs.security.secureBgndColorId
   };
+}
+
+export async function getWatchList() {
+  if (!watchListBuffer) {
+    watchListBuffer = await mvelo.storage.get('mvelo.watchlist');
+  }
+  return watchListBuffer;
+}
+
+export async function setWatchList(watchList) {
+  await mvelo.storage.set('mvelo.watchlist', watchList);
+  watchListBuffer = watchList;
+}
+
+export function getPreferences() {
+  return mvelo.storage.get('mvelo.preferences');
+}
+
+export function setPreferences(preferences) {
+  return mvelo.storage.set('mvelo.preferences', preferences);
 }

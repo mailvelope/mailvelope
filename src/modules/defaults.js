@@ -4,7 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import {getPreferences, setPreferences, getWatchList, setWatchList} from './pgpModel';
+import {getPreferences, setPreferences, getWatchList, setWatchList} from './prefs';
 import * as openpgp from 'openpgp';
 import defaults from '../res/defaults.json';
 

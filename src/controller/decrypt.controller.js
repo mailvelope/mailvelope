@@ -66,7 +66,7 @@ export default class DecryptController extends sub.SubController {
         armored,
         keyringId,
         unlockKey: this.unlockKey.bind(this),
-        options: this.options
+        senderAddress: this.options.senderAddress
       });
       const ports = this.ports;
       const handlers = {
@@ -117,13 +117,18 @@ export default class DecryptController extends sub.SubController {
     this.ports.dPopup && this.ports.dPopup.emit('show-message');
   }
 
-  async unlockKey(message) {
+  async unlockKey({key, keyid}) {
     const pwdControl = sub.factory.get('pwdDialog');
-    message.reason = 'PWD_DIALOG_REASON_DECRYPT';
-    message.openPopup = this.ports.decryptCont || prefs.security.display_decrypted == mvelo.DISPLAY_INLINE;
-    message.beforePasswordRequest = id => this.ports.dPopup && this.ports.dPopup.emit('show-pwd-dialog', {id});
-    message = await pwdControl.unlockKey(message);
-    triggerSync(message);
-    return message;
+    const openPopup = this.ports.decryptCont || prefs.security.display_decrypted == mvelo.DISPLAY_INLINE;
+    const beforePasswordRequest = id => this.ports.dPopup && this.ports.dPopup.emit('show-pwd-dialog', {id});
+    const unlockedKey = await pwdControl.unlockKey({
+      key,
+      keyid,
+      reason: 'PWD_DIALOG_REASON_DECRYPT',
+      openPopup,
+      beforePasswordRequest
+    });
+    triggerSync({keyring: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
+    return unlockedKey.key;
   }
 }

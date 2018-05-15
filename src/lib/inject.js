@@ -5,8 +5,7 @@
 
 import mvelo from './lib-mvelo';
 import browser from 'webextension-polyfill';
-import {getWatchList, getHostname} from '../modules/pgpModel';
-import {prefs} from '../modules/prefs';
+import {prefs, getWatchList} from '../modules/prefs';
 
 // content script coding as string
 let csCode = '';
@@ -79,7 +78,7 @@ function getWatchListFilterURLs() {
       });
     });
     // add hkp key server to enable key import
-    let hkpHost = getHostname(prefs.keyserver.hkp_base_url);
+    let hkpHost = mvelo.util.getDomain(prefs.keyserver.hkp_base_url);
     hkpHost = reduceHosts([hkpHost]);
     result.push(...hkpHost);
     if (result.length !== 0) {

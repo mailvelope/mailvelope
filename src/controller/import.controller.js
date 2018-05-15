@@ -10,7 +10,7 @@ import {mapKeys, cloneKey} from '../modules/key';
 import * as keyringSync from '../modules/keyringSync';
 import * as openpgp from 'openpgp';
 import * as uiLog from '../modules/uiLog';
-import {getLastModifiedDate} from '../modules/pgpModel';
+import {getLastModifiedDate} from '../modules/key';
 
 export default class ImportController extends sub.SubController {
   constructor(port) {

@@ -5,7 +5,6 @@
 
 import mvelo from '../lib/lib-mvelo';
 import * as sub from './sub.controller';
-import {getHostname} from '../modules/pgpModel';
 import * as prefs from '../modules/prefs';
 import * as uiLog from '../modules/uiLog';
 import {getById as keyringById} from '../modules/keyring';
@@ -85,7 +84,7 @@ export default class MenuController extends sub.SubController {
       if (!tab) {
         throw new Error('No tab found');
       }
-      const site = getHostname(tab.url);
+      const site = mvelo.util.getDomain(tab.url);
       const slotId = mvelo.util.getHash();
       sub.setAppDataSlot(slotId, site);
       mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/watchlist/push`);

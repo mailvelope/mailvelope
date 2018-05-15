@@ -308,15 +308,19 @@ export default class EditorController extends sub.SubController {
     }
   }
 
-  async unlockKey(message) {
+  async unlockKey({key, keyid}) {
     const pwdControl = sub.factory.get('pwdDialog');
-    message.reason = 'PWD_DIALOG_REASON_DECRYPT';
-    message.openPopup = !this.editorPopup;
-    message.beforePasswordRequest = id => this.editorPopup && this.ports.editor.emit('show-pwd-dialog', {id});
-    message = await pwdControl.unlockKey(message);
-    triggerSync(message);
-    this.editorPopup && this.ports.editor.emit('hide-pwd-dialog');
-    return message;
+    const openPopup = !this.editorPopup;
+    const beforePasswordRequest = id => this.editorPopup && this.ports.editor.emit('show-pwd-dialog', {id});
+    const unlockedKey = await pwdControl.unlockKey({
+      key,
+      keyid,
+      reason: 'PWD_DIALOG_REASON_DECRYPT',
+      openPopup,
+      beforePasswordRequest
+    });
+    triggerSync({keyring: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
+    return unlockedKey.key;
   }
 
   /**
@@ -327,57 +331,50 @@ export default class EditorController extends sub.SubController {
    * @param {Boolean} options.noCache
    * @return {Promise}
    */
-  signAndEncryptMessage(options) {
+  async signAndEncryptMessage(options) {
     let signKey;
-    return Promise.resolve()
-    .then(() => {
-      this.encryptTimer = null;
-      if (options.signKeyIdHex) {
-        signKey = getKeyringById(this.keyringId).getKeyForSigning(options.signKeyIdHex);
-      } else {
-        signKey = getKeyringById(this.keyringId).getPrimaryKey();
-      }
+    this.encryptTimer = null;
+    if (options.signKeyIdHex) {
+      signKey = getKeyringById(this.keyringId).getKeyForSigning(options.signKeyIdHex);
+    } else {
+      signKey = getKeyringById(this.keyringId).getPrimaryKey();
+    }
 
-      if (!signKey) {
-        throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
-      }
+    if (!signKey) {
+      throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
+    }
 
-      const signKeyPacket = signKey.key.getSigningKeyPacket();
-      const signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
-      if (!signKeyid) {
-        throw new mvelo.Error('No valid signing key packet found', 'NO_SIGN_KEY_FOUND');
-      }
+    const signKeyPacket = signKey.key.getSigningKeyPacket();
+    const signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
+    if (!signKeyid) {
+      throw new mvelo.Error('No valid signing key packet found', 'NO_SIGN_KEY_FOUND');
+    }
 
-      signKey.keyid = signKeyid;
-      signKey.keyringId = this.keyringId;
-      signKey.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
-      signKey.noCache = options.noCache;
+    signKey.keyid = signKeyid;
+    signKey.keyringId = this.keyringId;
+    signKey.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
+    signKey.noCache = options.noCache;
 
-      if (this.editorPopup) {
-        signKey.openPopup = false;
-        signKey.beforePasswordRequest = () => this.emit('show-pwd-dialog', {id: this.pwdControl.id});
-      }
-    })
-    .then(() => {
-      this.pwdControl = sub.factory.get('pwdDialog');
-      return this.pwdControl.unlockKey(signKey);
-    })
-    .then(() => {
-      this.encryptTimer = setTimeout(() => {
-        this.ports.editor.emit('encrypt-in-progress');
-      }, 800);
+    if (this.editorPopup) {
+      signKey.openPopup = false;
+      signKey.beforePasswordRequest = () => this.emit('show-pwd-dialog', {id: this.pwdControl.id});
+    }
+    this.pwdControl = sub.factory.get('pwdDialog');
+    const unlockedKey = await this.pwdControl.unlockKey(signKey);
+    this.encryptTimer = setTimeout(() => {
+      this.ports.editor.emit('encrypt-in-progress');
+    }, 800);
 
-      if (!prefs.security.password_cache) {
-        triggerSync(signKey);
-      }
+    if (!prefs.security.password_cache) {
+      triggerSync({keyring: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
+    }
 
-      return model.encryptMessage({
-        keyIdsHex: options.keyIdsHex,
-        keyringId: this.keyringId,
-        primaryKey: signKey,
-        message: options.message,
-        uiLogSource: 'security_log_editor'
-      });
+    return model.encryptMessage({
+      keyIdsHex: options.keyIdsHex,
+      keyringId: this.keyringId,
+      primaryKey: unlockedKey.key,
+      message: options.message,
+      uiLogSource: 'security_log_editor'
     });
   }
 
