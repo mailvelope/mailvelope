@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v2.2.2
+-------
+__May 15, 2018__
+
+  * [Security] Enforce strict MDC checking for all non-AES symmetric encryption algorithms
+
 v2.2.1
 -------
 __May 4, 2018__
