@@ -43,7 +43,7 @@ export default class EncryptedFormController extends sub.SubController {
       case 'UNSUPPORTED_ENCTYPE':
       case 'NO_SIGNATURE':
         this.ports.encryptedFormCont.emit('error-message', mvelo.util.mapError(error));
-      break;
+        break;
 
       // Errors that should not be exposed to the API
       case 'NO_KEY_FOR_RECIPIENT':
@@ -52,7 +52,7 @@ export default class EncryptedFormController extends sub.SubController {
       case 'NO_SIGN_KEY_FOUND':
       default:
         this.ports.encryptedForm.emit('error-message', mvelo.util.mapError(error));
-      break;
+        break;
     }
   }
 

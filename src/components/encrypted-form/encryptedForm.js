@@ -37,7 +37,7 @@ export default class EncryptedForm extends React.Component {
     this.port = mvelo.EventHandler.connect(`encryptedForm-${this.props.id}`, this);
     this.registerEventListeners();
 
-    // emit event to backend that editor has initialized
+    // emit event to backend that form has initialized
     this.port.emit('encrypted-form-init');
   }
 
