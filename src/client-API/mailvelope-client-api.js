@@ -192,7 +192,6 @@
      *                 error.code = 'RECIPIENT_EMPTY' if no data-recipient is specified
      *                 error.code = 'RECIPIENT_INVALID_EMAIL' if the data-recipient in not a valid email
      *                 error.code = 'UNSUPPORTED_ENCTYPE' if data-enctype is not json, url or html
-     *
      */
     createEncryptedFormContainer(selector, formHtml, signature) {
       return postMessage('encrypted-form-container', {selector, formHtml, signature});
@@ -722,7 +721,7 @@ class PgpEncryptedForm extends HTMLElement {
 
   onEncrypt(data) {
     this.dispatchEvent(new CustomEvent('encrypt', {
-      detail: { armoredData: data.armoredData },
+      detail: {armoredData: data.armoredData},
       bubbles: true,
       cancelable: true
     }));

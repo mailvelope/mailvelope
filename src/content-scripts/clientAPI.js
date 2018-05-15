@@ -455,8 +455,7 @@ function syncHandlerDone(data) {
 }
 
 function encryptedFormContainer(selector, formHtml, signature, callback) {
-  let container;
-  container = new EncryptedFormContainer(selector, formHtml, signature);
+  const container = new EncryptedFormContainer(selector, formHtml, signature);
   containers.set(container.id, container);
   container.create(callback);
 }
