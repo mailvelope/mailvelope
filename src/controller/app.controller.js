@@ -5,7 +5,7 @@
 
 import mvelo from '../lib/lib-mvelo';
 import * as sub from './sub.controller';
-import {decryptFile, encryptFile, getWatchList, setWatchList} from '../modules/pgpModel';
+import {decryptFile, encryptFile} from '../modules/pgpModel';
 import {getById as keyringById, getAllKeyringAttr, setKeyringAttr, deleteKeyring, getAllKeyUserId} from '../modules/keyring';
 import {initScriptInjection} from '../lib/inject';
 import * as prefs from '../modules/prefs';
@@ -24,7 +24,7 @@ export default class AppController extends sub.SubController {
     this.on('set-prefs', this.updatePreferences);
     this.on('decryptFile', ({encryptedFile}) => decryptFile(encryptedFile));
     this.on('encryptFile', encryptFile);
-    this.on('getWatchList', getWatchList);
+    this.on('getWatchList', prefs.getWatchList);
     this.on('getKeys', ({keyringId}) => keyringById(keyringId).getKeys());
     this.on('removeKey', this.removeKey);
     this.on('getArmoredKeys', this.getArmoredKeys);
@@ -91,9 +91,9 @@ export default class AppController extends sub.SubController {
     sub.getByMainType('editor').forEach(editorCntrl => editorCntrl.sendKeyUpdate());
   }
 
-  setWatchList({data}) {
-    setWatchList(data)
-    .then(initScriptInjection);
+  async setWatchList({data}) {
+    await prefs.setWatchList(data);
+    initScriptInjection();
   }
 
   deleteKeyring({keyringId}) {

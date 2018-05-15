@@ -4,8 +4,7 @@
  */
 
 import {SubController} from './sub.controller';
-import {prefs} from '../modules/prefs';
-import {getWatchList} from '../modules/pgpModel';
+import {prefs, getWatchList} from '../modules/prefs';
 
 export default class MainCsController extends SubController {
   constructor(port) {

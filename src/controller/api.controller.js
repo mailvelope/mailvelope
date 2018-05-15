@@ -7,7 +7,7 @@ import mvelo from '../lib/lib-mvelo';
 import {getById as keyringById, createKeyring, setKeyringAttr} from '../modules/keyring';
 import * as sub from './sub.controller';
 import * as openpgp from 'openpgp';
-import {getLastModifiedDate} from '../modules/pgpModel';
+import {getLastModifiedDate} from '../modules/key';
 
 export function handleApiEvent(request, sender, sendResponse) {
   let keyring;

@@ -149,7 +149,7 @@ export default class PrivateKeyController extends sub.SubController {
     // get password from cache or ask user
     this.pwdControl.unlockKey(primaryKey)
     .then(primaryKey => {
-      sync.triggerSync(primaryKey);
+      sync.triggerSync({keyring: this.keyringId, key: primaryKey.key, password: primaryKey.password});
       return createPrivateKeyBackup(primaryKey.key, primaryKey.password);
     })
     .then(keyBackup => this.keyBackup = keyBackup)

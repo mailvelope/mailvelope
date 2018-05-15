@@ -7,6 +7,7 @@ import mvelo from '../lib/lib-mvelo';
 import * as prefs from '../modules/prefs';
 import {SubController} from './sub.controller';
 import * as uiLog from '../modules/uiLog';
+import {getUserId} from '../modules/key';
 import * as openpgp from 'openpgp';
 import * as pwdCache from '../modules/pwdCache';
 
@@ -32,7 +33,7 @@ export default class PwdController extends SubController {
   onPwdDialogInit() {
     // pass over keyid and userid to dialog
     this.ports.pwdDialog.emit('set-init-data', {
-      userid: this.options.userid,
+      userid: getUserId(this.options.key, false),
       keyid: this.options.key.primaryKey.getKeyId().toHex(),
       cache: prefs.prefs.security.password_cache,
       reason: this.options.reason
@@ -50,9 +51,8 @@ export default class PwdController extends SubController {
     })
     .then(() => pwdCache.unlock(this.options))
     .then(key => {
-      this.options.key = key;
       this.closePopup();
-      this.resolve(this.options);
+      this.resolve({key, password: this.options.password});
     })
     .catch(err => {
       if (err.code == 'WRONG_PASSWORD') {
@@ -83,14 +83,12 @@ export default class PwdController extends SubController {
    * @param {Object} options
    * @param {openpgp.key.Key} options.key - key to unlock
    * @param {String} options.keyid - keyid of key packet that needs to be unlocked
-   * @param {String} options.userid - userid of key that needs to be unlocked
-   * @param {String} options.keyringId - keyring assignment of provided key
    * @param {String} [options.reason] - optional explanation for password dialog
    * @param {Boolean} [options.openPopup=true] - password popup required (false if dialog appears integrated)
    * @param {Function} [options.beforePasswordRequest] - called before password entry required
    * @param {String} [options.password] - password to unlock key
    * @param {Boolean} [options.noCache] - bypass cache
-   * @return {Promise<Object, Error>} - resolves with unlocked key and password
+   * @return {Promise<Object, Error>} - resolves with unlocked key and password {key: openpgp.key.Key, password: String}
    */
   unlockKey(options) {
     this.options = options;
@@ -102,22 +100,17 @@ export default class PwdController extends SubController {
     }
     const cacheEntry = pwdCache.get(this.options.key.primaryKey.getKeyId().toHex());
     if (cacheEntry && !options.noCache) {
-      this.options.password = cacheEntry.password;
-      this.options.key = cacheEntry.key;
-      return Promise.resolve(this.options);
+      return Promise.resolve({key: this.options.key, password: cacheEntry.password});
     } else {
       return new Promise((resolve, reject) => {
         if (this.keyIsDecrypted(this.options) && !options.noCache) {
           // secret-key data is not encrypted, nothing to do
-          return resolve(this.options);
+          return resolve({key: this.options.key, password: this.options.password});
         }
         if (this.options.password) {
           // secret-key data is encrypted, but we have password
           return pwdCache.unlock(this.options)
-          .then(key => {
-            this.options.key = key;
-            resolve(this.options);
-          });
+          .then(key => resolve({key, password: this.options.password}));
         }
         if (this.options.beforePasswordRequest) {
           this.options.beforePasswordRequest(this.id);

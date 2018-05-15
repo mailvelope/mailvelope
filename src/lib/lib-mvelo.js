@@ -161,6 +161,12 @@ mvelo.util.getHost = function(url) {
   return a.host;
 };
 
+mvelo.util.getDomain = function(url) {
+  const hostname = mvelo.util.getHostname(url);
+  // limit to 3 labels per domain
+  return hostname.split('.').slice(-3).join('.');
+};
+
 mvelo.windows = {};
 
 mvelo.windows.PopupMap = class {

@@ -214,3 +214,13 @@ export function checkKeyId(sourceKey, keyring) {
     }
   });
 }
+
+export function getLastModifiedDate(key) {
+  let lastModified = new Date(0);
+  key.toPacketlist().forEach(packet => {
+    if (packet.created && packet.created > lastModified) {
+      lastModified = packet.created;
+    }
+  });
+  return lastModified;
+}
