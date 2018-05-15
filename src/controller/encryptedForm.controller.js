@@ -205,7 +205,8 @@ export default class EncryptedFormController extends sub.SubController {
   }
 
   validateSignature(rawHtml) {
-    const signature = `-----BEGIN PGP SIGNATURE-----
+    const signature =
+`-----BEGIN PGP SIGNATURE-----
 Comment: pgp-encrypted-form
 
 ${this.formSignature}
