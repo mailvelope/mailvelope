@@ -6,7 +6,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import mvelo from '../../../mvelo';
-import $ from "jquery";
+import $ from 'jquery';
+import {readUploadFile} from '../../../lib/file';
 
 export default class FormSandbox extends React.Component {
   constructor(props) {
@@ -65,7 +66,7 @@ export default class FormSandbox extends React.Component {
     if (this.form.checkValidity()) {
       this.getFilesValues().then(() => {
         const data = this.serializeFormData(this.props.formEncoding);
-        this.props.onValidated(data);
+       this.props.onValidated(data);
       });
     }
     this.form.classList.add('was-validated');
@@ -131,29 +132,42 @@ export default class FormSandbox extends React.Component {
   }
 
   getFilesValues() {
-    return new Promise(resolve => {
-      const that = this;
-      const promises = [];
-      $(this.form).find('input[type=file]').each(function() {
-        const name = $(this).prop('name');
-        if (name) {
-          for (let i = 0; i < this.files.length; i++) {
-            const reader = new FileReader();
-            promises.push(new Promise((resolve => {
-              reader.addEventListener('load', () => {
-                that.files.push({name, 'value': reader.result});
-                resolve();
-              });
-              reader.readAsDataURL(this.files[i]);
-            })));
-          }
-        }
-      });
-      Promise.all(promises).then(resolve);
+    const promises = [];
+    $(this.form).find('input[type=file]').each(function() {
+      const name = $(this).prop('name');
+      if (name) {
+        Array.from(this.files).forEach(file => promises.push(
+          readUploadFile(file).then(result => ({
+              name: name,
+              filename: result.name,
+              value: result.content
+            }))
+        ));
+      }
+    });
+    return Promise.all(promises).then(results => {
+      this.files = results;
     });
   }
 
+  appendFileDownloadLinks(input) {
+    let downloadLinks = [];
+    Array.from(this.files).forEach(file => {
+      if(file.name === $(input).prop('name')) {
+        const link = $(`<li><a href="${file.value}" download="${file.filename}">${file.filename}</a></li>`);
+        downloadLinks.push(link);
+      }
+    });
+    if (downloadLinks.length) {
+      let id = `download-links-${$(input).prop('name')}`;
+      let list = $(`<ul id='${id}' class="download-links"/>`);
+      downloadLinks.forEach(link => $(list).append(link));
+      $(list).insertAfter(input);
+    }
+  }
+
   updateFormValues() {
+    const self = this;
     $(this.form).find('[name]').each(function() {
       switch ($(this).prop('tagName').toLowerCase()) {
         case 'textarea':
@@ -174,7 +188,8 @@ export default class FormSandbox extends React.Component {
               $(this).attr('checked', $(this).is(':checked'));
               break;
             case 'file': {
-              // TODO ignore value in this case or reuse values in this.files?
+              // insert files as ul.li.a(href=dataurl download=filename) after file input
+              self.appendFileDownloadLinks(this);
               break;
             }
             default:
@@ -195,7 +210,7 @@ export default class FormSandbox extends React.Component {
         <head>
           <meta charset="utf-8">
           <link rel="stylesheet" href="../../dep/bootstrap4/css/bootstrap.css">
-          <style>.form-row{margin-right:0}</style>
+          <style>.form-row{margin-right:0;} .download-links {display:none;}</style>
         </head>
         <body>
          <div id="root">
