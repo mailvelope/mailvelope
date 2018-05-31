@@ -701,6 +701,11 @@ class PgpEncryptedForm extends HTMLElement {
   connectedCallback() {
     this.dispatchEvent(new Event('connected'));
 
+    if (!window.location.href.startsWith('https:')) {
+      const error = new Error('The connection to the page is not secure.');
+      error.code = 'UNSECURE_PAGE';
+      return this.onError(error);
+    }
     const id = this.getAttribute('id');
     if (!id) {
       const error = new Error('No form id for pgp-encrypted-tag. Please add a unique identifier.');

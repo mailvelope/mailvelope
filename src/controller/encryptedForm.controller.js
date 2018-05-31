@@ -133,8 +133,9 @@ export default class EncryptedFormController extends sub.SubController {
   getCleanFormElement(dirtyHtml) {
     const html = dompurify.sanitize(dirtyHtml, {
       ALLOWED_TAGS: ['form'],
-      ALLOWED_ATTR: ['data-action', 'data-recipient']
+      ALLOWED_ATTR: ['data-action', 'data-recipient', 'data-enctype']
     });
+    console.log(html);
     const parser = new DOMParser();
     const formElementCollection = parser.parseFromString(html, 'text/html').getElementsByTagName('form');
     if (!formElementCollection.length) {
@@ -156,6 +157,9 @@ export default class EncryptedFormController extends sub.SubController {
     }
     if (!mvelo.util.checkUrl(action)) {
       throw new mvelo.Error('The form action should be a valid url.', 'INVALID_FORM_ACTION');
+    }
+    if (!action.startsWith('https:')) {
+      throw new mvelo.Error('Insecure form action url.', 'INVALID_FORM_ACTION');
     }
     this.formAction = action;
     return true;
