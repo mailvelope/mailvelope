@@ -90,11 +90,6 @@ export default class EncryptedFormController extends sub.SubController {
   }
 
   onFormSubmit(event) {
-    if (this.pwdControl !== null) {
-      // dialog is already open and waiting for pinentry
-      this.pwdControl.onCancel();
-    }
-
     this.signAndEncrypt(event.data)
     .then(armoredData => {
       if (this.formAction === null) {
@@ -105,6 +100,7 @@ export default class EncryptedFormController extends sub.SubController {
     })
     .catch(error => {
       if (error.code === 'PWD_DIALOG_CANCEL') {
+        this.ports.encryptedForm.emit('encrypted-form-submit-cancel');
         return;
       }
       this.onFormError(error);
@@ -135,7 +131,6 @@ export default class EncryptedFormController extends sub.SubController {
       ALLOWED_TAGS: ['form'],
       ALLOWED_ATTR: ['data-action', 'data-recipient', 'data-enctype']
     });
-    console.log(html);
     const parser = new DOMParser();
     const formElementCollection = parser.parseFromString(html, 'text/html').getElementsByTagName('form');
     if (!formElementCollection.length) {

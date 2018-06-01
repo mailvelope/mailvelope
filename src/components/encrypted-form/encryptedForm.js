@@ -27,7 +27,8 @@ export default class EncryptedForm extends React.Component {
     this.state = {
       error: null,
       waiting: true,
-      submit: false,
+      validate: false,
+      validated: false,
       formAction: null,
       formDefinition: null,
       formEncoding: null,
@@ -54,6 +55,7 @@ export default class EncryptedForm extends React.Component {
     this.port.on('error-message', this.showErrorMsg);
     this.port.on('terminate', () => mvelo.ui.terminate(this.port));
     this.port.on('encrypted-form-submit', this.onFormSubmit);
+    this.port.on('encrypted-form-submit-cancel', this.onFormSubmitCancel);
   }
 
   showForm(event) {
@@ -78,13 +80,21 @@ export default class EncryptedForm extends React.Component {
     });
   }
 
-  handleClickSubmit() {
-    this.setState(() => ({submit: true}));
+  onClickSubmit() {
+    // Set state to submit
+    // This will cover the form with a spinner and trigger validation in FormSandbox
+    // and a possible onValidatedCall callback
+    this.setState({validated: false, validate: true});
   }
 
   onValidated(data) {
-    // when the data is validated, all green, we can encrypt and submit
+    // when the data is validated, tell controller to encrypt and submit
+    this.setState({validate: false, validated: true});
     this.port.emit('encrypted-form-submit', {data});
+  }
+
+  onFormSubmitCancel() {
+    this.setState({validated: false, validate: false});
   }
 
   onFormSandboxError(error) {
@@ -117,7 +127,7 @@ export default class EncryptedForm extends React.Component {
     return (
       <FormSandbox formDefinition={this.state.formDefinition}
         formEncoding={this.state.formEncoding}
-        needSubmit={this.state.submit}
+        validate={this.state.validate}
         onValidated={data => this.onValidated(data)}
         onError={error => this.onFormSandboxError(error)}
         onResize={() => this.onResize()}
@@ -126,6 +136,10 @@ export default class EncryptedForm extends React.Component {
   }
 
   render() {
+    let submitSpinner = '';
+    if (this.state.validated) {
+      submitSpinner = <div className="spinnerWrapper"><Spinner style={{margin: '0 auto 0'}} /></div>;
+    }
     return (
       <div className={this.props.secureBackground && !this.state.waiting ? 'jumbotron secureBackground' : ''} style={{height: '100%', position: 'relative'}}>
         <section className="well clearfix">
@@ -133,12 +147,15 @@ export default class EncryptedForm extends React.Component {
             <div>
               {this.state.error ? (<Alert message={this.state.error.message} type={this.state.error.type} />) : (
                 <div>
-                  {this.formSandbox()}
-                  <button className="btn btn-primary" type="button" onClick={() => this.handleClickSubmit()}>{l10n.map.form_submit}</button>
-                  <div className="recipient">
-                    <div className="recipient-action">{l10n.map.form_destination}: {this.state.formAction ? this.state.formAction : l10n.map.form_destination_default}</div>
-                    <div className="recipient-email">{l10n.map.form_recipient}: {this.state.formRecipient}</div>
-                    <div className="recipient-fingerprint">{this.state.formFingerprint}</div>
+                  {submitSpinner}
+                  <div className="formWrapper">
+                    {this.formSandbox()}
+                    <button className="btn btn-primary" type="button" onClick={() => this.onClickSubmit()}>{l10n.map.form_submit}</button>
+                    <div className="recipient">
+                      <div className="recipient-action">{l10n.map.form_destination}: {this.state.formAction ? this.state.formAction : l10n.map.form_destination_default}</div>
+                      <div className="recipient-email">{l10n.map.form_recipient}: {this.state.formRecipient}</div>
+                      <div className="recipient-fingerprint">{this.state.formFingerprint}</div>
+                    </div>
                   </div>
                 </div>
               )}

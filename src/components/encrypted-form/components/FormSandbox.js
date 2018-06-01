@@ -23,7 +23,8 @@ export default class FormSandbox extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.needSubmit === true) {
+    if (nextProps.validate === true) {
+      // trigger validation using native form submit event
       this.form.dispatchEvent(new Event('submit'));
     }
   }
@@ -62,11 +63,11 @@ export default class FormSandbox extends React.Component {
     }
   }
 
-  onFormSubmit() {
+  onFormValidate() {
     if (this.form.checkValidity()) {
       this.getFilesValues().then(() => {
         const data = this.serializeFormData(this.props.formEncoding);
-       this.props.onValidated(data);
+        this.props.onValidated(data);
       });
     }
     this.form.classList.add('was-validated');
@@ -89,7 +90,7 @@ export default class FormSandbox extends React.Component {
 
     // Prevent default behavior on form submit event
     $(this.form).on('submit', event => {
-      this.onFormSubmit(event);
+      this.onFormValidate(event);
       event.preventDefault();
       event.stopPropagation();
     });
@@ -98,7 +99,7 @@ export default class FormSandbox extends React.Component {
     $(this.form).on('keypress', 'input', event => {
       const code = event.keyCode || event.which;
       if (code === 13) {
-        this.onFormSubmit(event);
+        this.onFormValidate(event);
         event.preventDefault();
         return false;
       }
@@ -137,11 +138,12 @@ export default class FormSandbox extends React.Component {
       const name = $(this).prop('name');
       if (name) {
         Array.from(this.files).forEach(file => promises.push(
-          readUploadFile(file).then(result => ({
-              name: name,
-              filename: result.name,
-              value: result.content
-            }))
+          readUploadFile(file)
+          .then(result => ({
+            name,
+            filename: result.name,
+            value: result.content
+          }))
         ));
       }
     });
@@ -151,16 +153,16 @@ export default class FormSandbox extends React.Component {
   }
 
   appendFileDownloadLinks(input) {
-    let downloadLinks = [];
+    const downloadLinks = [];
     Array.from(this.files).forEach(file => {
-      if(file.name === $(input).prop('name')) {
+      if (file.name === $(input).prop('name')) {
         const link = $(`<li><a href="${file.value}" download="${file.filename}">${file.filename}</a></li>`);
         downloadLinks.push(link);
       }
     });
     if (downloadLinks.length) {
-      let id = `download-links-${$(input).prop('name')}`;
-      let list = $(`<ul id='${id}' class="download-links"/>`);
+      const id = `download-links-${$(input).prop('name')}`;
+      const list = $(`<ul id='${id}' class="download-links"/>`);
       downloadLinks.forEach(link => $(list).append(link));
       $(list).insertAfter(input);
     }
@@ -233,7 +235,7 @@ export default class FormSandbox extends React.Component {
 FormSandbox.propTypes = {
   formDefinition: PropTypes.string,
   formEncoding: PropTypes.string,
-  needSubmit: PropTypes.bool,
+  validate: PropTypes.bool,
   onValidated: PropTypes.func,
   onResize: PropTypes.func,
   onError: PropTypes.func,
