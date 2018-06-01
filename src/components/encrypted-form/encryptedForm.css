@@ -25,3 +25,6 @@
     background: #555;
     margin-left: -23px;
 }
+.spinnerWrapper + .formWrapper {
+    visibility: hidden;
+}
