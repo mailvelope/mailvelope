@@ -43,6 +43,7 @@ export default class ContentSandbox extends React.Component {
       <html style="height: 100%">
         <head>
           <meta charset="utf-8">
+          <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline';">
           <link rel="stylesheet" href="../../dep/bootstrap/css/bootstrap.css">
         </head>
         <body style="overflow: hidden; margin: 0; height: 100%">

@@ -179,7 +179,7 @@ export default class DecryptController extends sub.SubController {
           if (encoding === 'html') {
             this.filterBodyParts(parsed, 'html', htmlParts);
             if (htmlParts.length) {
-              const sanitized = mvelo.util.parseHTML(htmlParts.map(part => part.content).join('\n<hr>\n'));
+              const sanitized = mvelo.util.sanitizeHTML(htmlParts.map(part => part.content).join('\n<hr>\n'));
               handlers.onMessage(sanitized);
             } else {
               this.filterBodyParts(parsed, 'text', textParts);
@@ -219,7 +219,7 @@ export default class DecryptController extends sub.SubController {
       if (/(<\/a>|<br>|<\/div>|<\/p>|<\/b>|<\/u>|<\/i>|<\/ul>|<\/li>)/.test(rawText)) {
         // legacy html mode
         if (encoding === 'html') {
-          const sanitized = mvelo.util.parseHTML(rawText);
+          const sanitized = mvelo.util.sanitizeHTML(rawText);
           handlers.onMessage(sanitized);
           resolve();
         } else if (encoding === 'text') {

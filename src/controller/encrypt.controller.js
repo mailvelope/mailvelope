@@ -8,7 +8,6 @@
  * create an editor controller to encrypt plaintext to a list of recipients.
  */
 
-import mvelo from '../lib/lib-mvelo';
 import * as sub from './sub.controller';
 import {prefs} from '../modules/prefs';
 
@@ -43,9 +42,7 @@ export default class EncryptController extends sub.SubController {
       privKeys: true
     })
     .then(({armored, recipients}) => {
-      // sanitize if content from plain text
-      const parsed = mvelo.util.parseHTML(armored);
-      this.emit('set-editor-output', {text: parsed, recipients});
+      this.emit('set-editor-output', {text: armored, recipients});
       this.editorContentModified = true;
       this.editorControl = null;
     })
