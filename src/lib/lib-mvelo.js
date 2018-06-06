@@ -155,7 +155,7 @@ dompurify.addHook('afterSanitizeAttributes', node => {
   }
 });
 
-mvelo.util.parseHTML = function(html) {
+mvelo.util.sanitizeHTML = function(html) {
   return dompurify.sanitize(html, {SAFE_FOR_JQUERY: true});
 };
 

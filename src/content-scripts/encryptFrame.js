@@ -220,25 +220,20 @@ export default class EncryptFrame extends mvelo.EventHandler {
   _setEditorOutput(options) {
     // set message body
     this._normalizeButtons();
-    this._setMessage(options.text, 'text');
+    this._setMessage(options.text);
     // set recipient email addresses
     this._currentProvider.setRecipients({recipients: options.recipients, editElement: this._editElement});
   }
 
   /**
    * Replace content of editor element (_emailTextElement)
-   * @param {string} msg txt or html content
    */
-  _setMessage(msg, type) {
+  _setMessage(msg) {
     if (this._emailTextElement.is('textarea')) {
-      // decode HTML entities for type text due to previous HTML parsing
-      msg = mvelo.util.decodeHTML(msg);
       this._emailTextElement.val(msg);
     } else {
       // element is contenteditable or RTE
-      if (type == 'text') {
-        msg = `<pre>${msg}<pre/>`;
-      }
+      msg = `<pre>${mvelo.util.encodeHTML(msg)}<pre/>`;
       this._emailTextElement.html(msg);
     }
     // trigger input event
