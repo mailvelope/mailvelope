@@ -98,7 +98,7 @@ export default class PrivateKeyController extends sub.SubController {
     try {
       this.createPrivateKeyBackup();
     } catch (err) {
-      this.ports.keyBackupCont.emit('popup-isready', {error: err});
+      this.ports.keyBackupCont.emit('popup-isready', {error: mvelo.util.mapError(err)});
     }
   }
 
@@ -138,25 +138,23 @@ export default class PrivateKeyController extends sub.SubController {
     }
   }
 
-  createPrivateKeyBackup() {
+  async createPrivateKeyBackup() {
     const primaryKey = getKeyringById(this.keyringId).getPrimaryKey();
     if (!primaryKey) {
-      throw {message: 'No private key for backup', code: 'NO_PRIVATE_KEY'};
+      throw new mvelo.Error('No private key for backup', 'NO_PRIVATE_KEY');
     }
     this.pwdControl = sub.factory.get('pwdDialog');
-    primaryKey.reason = 'PWD_DIALOG_REASON_CREATE_BACKUP';
-    primaryKey.keyringId = this.keyringId;
-    // get password from cache or ask user
-    this.pwdControl.unlockKey(primaryKey)
-    .then(primaryKey => {
-      sync.triggerSync({keyring: this.keyringId, key: primaryKey.key, password: primaryKey.password});
-      return createPrivateKeyBackup(primaryKey.key, primaryKey.password);
-    })
-    .then(keyBackup => this.keyBackup = keyBackup)
-    .then(() => sync.getByKeyring(this.keyringId).backup({backup: this.keyBackup.message}))
-    .then(() => {
+    try {
+      // get password from cache or ask user
+      const unlockedKey = await this.pwdControl.unlockKey({
+        key: primaryKey.key,
+        keyid: primaryKey.keyid,
+        reason: 'PWD_DIALOG_REASON_CREATE_BACKUP'
+      });
+      sync.triggerSync({keyring: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
+      this.keyBackup = await createPrivateKeyBackup(unlockedKey.key, unlockedKey.password);
+      await sync.getByKeyring(this.keyringId).backup({backup: this.keyBackup.message});
       let page = 'recoverySheet';
-
       switch (this.host) {
         case 'web.de':
           page += `${'.1und1.html?brand=webde' + '&id='}${this.id}`;
@@ -172,17 +170,13 @@ export default class PrivateKeyController extends sub.SubController {
           page += `${'.html' + '?id='}${this.id}`;
           break;
       }
-
       const path = `components/recovery-sheet/${page}`;
-      mvelo.windows.openPopup(path, {width: 1024, height: 550})
-      .then(popup => {
-        this.backupCodePopup = popup;
-        popup.addRemoveListener(() => this.backupCodePopup = null);
-      });
-    })
-    .catch(err => {
-      this.ports.keyBackupDialog.emit('error-message', {error: err});
-    });
+      const popup = await mvelo.windows.openPopup(path, {width: 1024, height: 550});
+      this.backupCodePopup = popup;
+      popup.addRemoveListener(() => this.backupCodePopup = null);
+    } catch (err) {
+      this.ports.keyBackupDialog.emit('error-message', {error: mvelo.util.mapError(err)});
+    }
   }
 
   restorePrivateKeyBackup(code) {

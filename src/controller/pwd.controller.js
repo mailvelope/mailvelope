@@ -100,7 +100,7 @@ export default class PwdController extends SubController {
     }
     const cacheEntry = pwdCache.get(this.options.key.primaryKey.getKeyId().toHex());
     if (cacheEntry && !options.noCache) {
-      return Promise.resolve({key: this.options.key, password: cacheEntry.password});
+      return Promise.resolve(cacheEntry);
     } else {
       return new Promise((resolve, reject) => {
         if (this.keyIsDecrypted(this.options) && !options.noCache) {

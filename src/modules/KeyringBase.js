@@ -251,8 +251,7 @@ export default class KeyringBase {
     }
     return {
       key,
-      keyid: key.primaryKey.getKeyId().toHex(),
-      userid: getUserId(key)
+      keyid: key.primaryKey.getKeyId().toHex()
     };
   }
 

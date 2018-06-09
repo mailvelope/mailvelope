@@ -43,8 +43,8 @@ function initOpenPGP() {
  * @return {Object} - decryption result {data: String, signatures: Array}
  */
 export async function decryptMessage({armored, keyringId, unlockKey, senderAddress, selfSigned}) {
-  const message = readMessage({armoredText: armored, keyringId});
-  const privKey = getEncryptionKey(message);
+  const message = readMessage({armoredText: armored});
+  const privKey = getEncryptionKey(message, keyringId);
   const key = await unlockKey({key: privKey.key, keyid: privKey.keyid});
   return decrypt({message, key, keyringId, senderAddress, selfSigned});
 }
@@ -78,10 +78,10 @@ export function readMessage({armoredText, binary}) {
 /**
  * Retrieve encryption key for message
  * @param  {openppg.message.Message} message
- * @param  {String} keyringId
+ * @param  {String} [keyringId] - keyringId to search for keys in, if undefined search in all keyrings
  * @return {Object} - encryption key in the form {key: openpgp.key.Key, keyid: String}
  */
-function getEncryptionKey(message, keyringId) {
+export function getEncryptionKey(message, keyringId) {
   const encryptionKeyIds = message.getEncryptionKeyIds();
   const privKey = findPrivateKey(encryptionKeyIds, keyringId);
   if (privKey && privKey.key) {

@@ -30,7 +30,7 @@ export default class EditorController extends sub.SubController {
     this.keyringId = null;
     this.editorPopup = null;
     this.keyidBuffer = null;
-    this.signBuffer = null;
+    this.signKey = null;
     this.pwdControl = null;
     this.keyserver = new KeyServer();
     this.pgpMIME = false;
@@ -149,28 +149,27 @@ export default class EditorController extends sub.SubController {
     this.ports.editor.emit('get-plaintext', {action: 'encrypt', draft: true});
   }
 
-  _onSignOnly(msg) {
-    this.signBuffer = {};
+  async _onSignOnly(msg) {
     const key = getKeyringById(mvelo.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
-    // add key in buffer
-    this.signBuffer.key = key.key;
-    this.signBuffer.keyid = msg.signKeyId;
-    this.signBuffer.userid = key.userid;
-    this.signBuffer.openPopup = false;
-    this.signBuffer.reason = 'PWD_DIALOG_REASON_SIGN';
-    this.signBuffer.beforePasswordRequest = () => this.emit('show-pwd-dialog', {id: this.pwdControl.id});
-    this.signBuffer.keyringId = this.keyringId;
+    // keep signing key
+    this.signKey = key.key;
     this.pwdControl = sub.factory.get('pwdDialog');
-    this.pwdControl.unlockKey(this.signBuffer)
-    .then(() => this.emit('get-plaintext', {action: 'sign'}))
-    .catch(err => {
+    try {
+      await this.pwdControl.unlockKey({
+        key: key.key,
+        keyid: key.keyid,
+        reason: 'PWD_DIALOG_REASON_SIGN',
+        openPopup: false,
+        beforePasswordRequest: () => this.emit('show-pwd-dialog', {id: this.pwdControl.id})
+      });
+    } catch (err) {
       if (err.code === 'PWD_DIALOG_CANCEL') {
         this.emit('hide-pwd-dialog');
         return;
       }
-      err = mvelo.util.mapError(err);
-      this.emit('error-message', {error: err});
-    });
+      this.emit('error-message', {error: mvelo.util.mapError(err)});
+    }
+    this.emit('get-plaintext', {action: 'sign'});
   }
 
   _onEditorUserInput(msg) {
@@ -319,6 +318,9 @@ export default class EditorController extends sub.SubController {
       openPopup,
       beforePasswordRequest
     });
+    if (this.editorPopup) {
+      this.ports.editor.emit('hide-pwd-dialog');
+    }
     triggerSync({keyring: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
     return unlockedKey.key;
   }
@@ -351,7 +353,6 @@ export default class EditorController extends sub.SubController {
     }
 
     signKey.keyid = signKeyid;
-    signKey.keyringId = this.keyringId;
     signKey.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
     signKey.noCache = options.noCache;
 
@@ -404,7 +405,7 @@ export default class EditorController extends sub.SubController {
       this.emit('encrypt-in-progress');
     }, 800);
 
-    return model.signMessage(message, this.signBuffer.key);
+    return model.signMessage(message, this.signKey);
   }
 
   /**
