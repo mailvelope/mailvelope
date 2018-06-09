@@ -6,9 +6,8 @@
 import mvelo from '../lib/lib-mvelo';
 import * as sub from './sub.controller';
 import {getById as getKeyringById} from '../modules/keyring';
-import {getUserId} from '../modules/key';
 import {isCached} from '../modules/pwdCache';
-import {readMessage, decryptSyncMessage, encryptSyncMessage} from '../modules/pgpModel';
+import {readMessage, getEncryptionKey, decryptSyncMessage, encryptSyncMessage} from '../modules/pgpModel';
 
 export class SyncController extends sub.SubController {
   constructor(port) {
@@ -105,81 +104,68 @@ export class SyncController extends sub.SubController {
    * @param {String} [options.password] - password for options.key
    * @return {Promise<undefined, Error}
    */
-  downloadSyncMessage(options) {
-    return this.download({eTag: this.keyring.sync.data.eTag})
-    .then(download => {
-      if (!download.eTag) {
-        if (this.keyring.sync.data.eTag) {
-          // initialize eTag
-          this.keyring.sync.data.eTag = '';
-          // set modified flag to trigger upload
-          this.modified = true;
-        }
-        return;
+  async downloadSyncMessage(options) {
+    const download = await this.download({eTag: this.keyring.sync.data.eTag});
+    if (!download.eTag) {
+      if (this.keyring.sync.data.eTag) {
+        // initialize eTag
+        this.keyring.sync.data.eTag = '';
+        // set modified flag to trigger upload
+        this.modified = true;
       }
-      if (!download.keyringMsg) {
-        return;
+      return;
+    }
+    if (!download.keyringMsg) {
+      return;
+    }
+    // new version available on server
+    const message = await readMessage({armoredText: download.keyringMsg});
+    let {key, keyid} = getEncryptionKey(message, this.keyringId);
+    let password;
+    if (!key.primaryKey.getKeyId().equals(options.key.primaryKey.getKeyId())) {
+      console.log('Key used for sync packet from server is not primary key on client');
+      if (!options.force && !this.canUnlockKey('decrypt', {key})) {
+        throw new Error('Key used for sync packet is locked');
       }
-      // new version available on server
-      return readMessage({armoredText: download.keyringMsg, keyringId: this.keyringId})
-      .then(message => {
-        message.keyringId = this.keyringId;
-        message.reason = 'PWD_DIALOG_REASON_EDITOR';
-        if (!message.key.primaryKey.getKeyId().equals(options.key.primaryKey.getKeyId())) {
-          console.log('Key used for sync packet from server is not primary key on client');
-          if (!options.force && !this.canUnlockKey('decrypt', {key: message.key})) {
-            throw new Error('Key used for sync packet is locked');
-          }
-        } else {
-          message.key = options.key;
-          message.password = options.password;
-        }
-        // unlock key if still locked
-        this.pwdControl = sub.factory.get('pwdDialog');
-        return this.pwdControl.unlockKey(message);
-      })
-      .then(message => decryptSyncMessage(message.key, message.message))
-      .then(syncPacket => {
-        // merge keys
-        this.keyring.sync.mute(true);
-        return this.keyring.importKeys(syncPacket.keys)
-        .then(() => syncPacket);
-      })
-      .then(syncPacket => {
-        this.keyring.sync.merge(syncPacket.changeLog);
-        // remove keys with change log delete entry
-        const removeKeyAsync = this.keyring.sync.getDeleteEntries().map(fingerprint => this.keyring.removeKey(fingerprint, 'public'));
-        return Promise.all(removeKeyAsync);
-      })
-      .then(() => {
-        this.keyring.sync.mute(false);
-        // set eTag
-        this.keyring.sync.data.eTag = download.eTag;
-      });
+    } else {
+      key = options.key;
+      password = options.password;
+    }
+    // unlock key if still locked
+    this.pwdControl = sub.factory.get('pwdDialog');
+    const unlockedKey = await this.pwdControl.unlockKey({
+      key,
+      keyid,
+      reason: 'PWD_DIALOG_REASON_EDITOR',
+      password
     });
+    const syncPacket = await decryptSyncMessage(unlockedKey.key, message);
+    this.keyring.sync.mute(true);
+    await this.keyring.importKeys(syncPacket.keys);
+    this.keyring.sync.merge(syncPacket.changeLog);
+    // remove keys with change log delete entry
+    const removeKeyAsync = this.keyring.sync.getDeleteEntries().map(fingerprint => this.keyring.removeKey(fingerprint, 'public'));
+    await Promise.all(removeKeyAsync);
+    this.keyring.sync.mute(false);
+    // set eTag
+    this.keyring.sync.data.eTag = download.eTag;
   }
 
-  uploadSyncMessage(options) {
+  async uploadSyncMessage(options) {
     // if key is in cache, specific unlock of sign key packet might be required
     const keyOptions = {
       key: options.key,
       password: options.password,
       keyid: options.key.getSigningKeyPacket().getKeyId().toHex(),
-      userid: getUserId(options.key),
-      reason: 'PWD_DIALOG_REASON_EDITOR',
-      keyringId: this.keyringId
+      reason: 'PWD_DIALOG_REASON_EDITOR'
     };
     this.pwdControl = this.pwdControl || sub.factory.get('pwdDialog');
-    return this.pwdControl.unlockKey(keyOptions)
-    .then(message =>
-      // encrypt keyring sync message
-      encryptSyncMessage(message.key, this.keyring.sync.data.changeLog, this.keyringId)
-    )
+    const unlockedKey = await this.pwdControl.unlockKey(keyOptions);
+    // encrypt keyring sync message
+    const armored = await encryptSyncMessage(unlockedKey.key, this.keyring.sync.data.changeLog, this.keyringId);
     // upload
-    .then(armored => this.upload({eTag: this.keyring.sync.data.eTag, keyringMsg: armored}))
-    .then(result => {
-      this.keyring.sync.data.eTag = result.eTag;
-    });
+    const {eTag} = await this.upload({eTag: this.keyring.sync.data.eTag, keyringMsg: armored});
+    this.keyring.sync.data.eTag = eTag;
   }
 
   /**
