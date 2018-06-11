@@ -16,6 +16,8 @@
   top: 0;
   z-index: 1;
   display: none;
+  overflow: hidden;
+  text-align: left;
 }
 
 :root .m-extract-frame.m-decrypt {
