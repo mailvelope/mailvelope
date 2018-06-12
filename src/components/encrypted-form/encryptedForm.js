@@ -154,7 +154,7 @@ export default class EncryptedForm extends React.Component {
                     <div className="recipient">
                       <div className="recipient-action">{l10n.map.form_destination}: {this.state.formAction ? this.state.formAction : l10n.map.form_destination_default}</div>
                       <div className="recipient-email">{l10n.map.form_recipient}: {this.state.formRecipient}</div>
-                      <div className="recipient-fingerprint">{this.state.formFingerprint}</div>
+                      <div className="recipient-fingerprint">{this.state.formFingerprint.match(/.{1,4}/g).join(' ')}</div>
                     </div>
                   </div>
                 </div>
