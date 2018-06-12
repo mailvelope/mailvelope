@@ -253,7 +253,7 @@ ${this.formSignature}
         keyringId: this.keyringId,
         primaryKey: signKey,
         message: data,
-        uiLogSource: 'security_log_editor',
+        uiLogSource: 'security_log_encrypt_form',
         filename: 'opengp-encrypted-form-data.' + this.fileExtension
       });
     });
