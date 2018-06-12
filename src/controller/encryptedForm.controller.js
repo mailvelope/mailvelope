@@ -19,6 +19,7 @@ export default class EncryptedFormController extends sub.SubController {
     this.formSignature = null;
     this.recipientKey = null;
     this.pwdControl = null;
+    this.fileExtension = null;
 
     this.on('encrypted-form-init', this.onFormInit);
     this.on('encrypted-form-definition', this.onFormDefinition);
@@ -92,7 +93,7 @@ export default class EncryptedFormController extends sub.SubController {
   onFormSubmit(event) {
     this.signAndEncrypt(event.data)
     .then(armoredData => {
-      if (this.formAction === null) {
+      if (!this.formAction) {
         this.ports.encryptedFormCont.emit('encrypted-form-data', {armoredData});
       } else {
         this.ports.encryptedForm.emit('encrypted-form-submit', {armoredData});
@@ -182,12 +183,16 @@ export default class EncryptedFormController extends sub.SubController {
       throw new mvelo.Error('The requested encrypted form encoding type if is not supported.', 'UNSUPPORTED_ENCTYPE');
     }
     this.formEncoding = enctype;
+    this.fileExtension = enctype;
+    if (enctype === 'url') {
+      this.fileExtension = 'txt';
+    }
     return true;
   }
 
   assertAndSetFingerprint() {
     const keyMap = keyring.getById(this.keyringId).getKeyByAddress([this.formRecipient]);
-    if (typeof keyMap[this.formRecipient] !== 'undefined' && keyMap[this.formRecipient].length) {
+    if (keyMap[this.formRecipient] && keyMap[this.formRecipient].length) {
       this.recipientKey = keyMap[this.formRecipient][0];
       this.formFingerprint = this.recipientKey.primaryKey.getFingerprint().toUpperCase();
     } else {
@@ -196,8 +201,7 @@ export default class EncryptedFormController extends sub.SubController {
   }
 
   assertAndSetSignature(signature) {
-    // todo baseline signature validation
-    if (typeof signature === 'undefined') {
+    if (!signature) {
       throw new mvelo.Error('No valid signature.', 'NO_SIGNATURE');
     }
     this.formSignature = signature;
@@ -249,7 +253,8 @@ ${this.formSignature}
         keyringId: this.keyringId,
         primaryKey: signKey,
         message: data,
-        uiLogSource: 'security_log_editor'
+        uiLogSource: 'security_log_editor',
+        filename: 'opengp-encrypted-form-data.' + this.fileExtension
       });
     });
   }
