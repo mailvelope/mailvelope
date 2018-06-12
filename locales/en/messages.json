@@ -1363,6 +1363,10 @@
     "description": "Encrypt dialog as an event source",
     "message": "Encrypt Dialog"
   },
+  "security_log_encrypt_form": {
+    "description": "Encrypt form as an event source",
+    "message": "Encrypt Form"
+  },
   "security_log_encryption_operation": {
     "description": "",
     "message": "Message has been encrypted for: $1"
