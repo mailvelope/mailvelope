@@ -694,9 +694,9 @@
 }());
 
 /**
- * PgpEncryptedForm custom HTMLElement
+ * OpenPGPEncryptedForm custom HTMLElement
  */
-class PgpEncryptedForm extends HTMLElement {
+class OpenPGPEncryptedForm extends HTMLElement {
   // Invoked when the custom element is first connected to the document's DOM.
   connectedCallback() {
     this.dispatchEvent(new Event('connected'));
@@ -708,7 +708,7 @@ class PgpEncryptedForm extends HTMLElement {
     }
     const id = this.getAttribute('id');
     if (!id) {
-      const error = new Error('No form id for pgp-encrypted-tag. Please add a unique identifier.');
+      const error = new Error('No form id for openpgp-encrypted-tag. Please add a unique identifier.');
       error.code = 'NO_FORM_ID';
       return this.onError(error);
     }
@@ -716,7 +716,7 @@ class PgpEncryptedForm extends HTMLElement {
     if ($(this).find('script').length) {
       html = $(this).find('script')[0].innerText;
     } else {
-      const error = new Error('No form template for pgp-encrypted-tag. Please add a form template.');
+      const error = new Error('No form template for openpgp-encrypted-tag. Please add a form template.');
       error.code = 'NO_FORM_SCRIPT';
       return this.onError(error);
     }
@@ -740,4 +740,4 @@ class PgpEncryptedForm extends HTMLElement {
   }
 }
 
-window.customElements.define('pgp-encrypted-form', PgpEncryptedForm);
+window.customElements.define('openpgp-encrypted-form', OpenPGPEncryptedForm);
