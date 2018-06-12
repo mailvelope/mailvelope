@@ -126,7 +126,17 @@ export default class FormSandbox extends React.Component {
         return $.param(this.serializeFormData('array'));
       case 'html':
         this.updateFormValues();
-        return this.form.outerHTML;
+        return `
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>OpenPGP Encrypted Form Data</title>
+  </head>
+  <body>
+   ${this.form.outerHTML}
+  </body>
+</html>`;
       default:
         throw new Error('This response mode format is not supported.');
     }
