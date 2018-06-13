@@ -224,3 +224,29 @@ export function getAllKeyUserId() {
   result = result.sort((a, b) => a.name.localeCompare(b.name));
   return result;
 }
+
+/**
+ * Get keyring that includes at least one private key of the specified key Ids.
+ * Implements also fallback to alternative keyrings.
+ * @param  {String} keyringId
+ * @param  {Array<openpgp.Keyid>} keyIds - key ids of private keys
+ * @return {KeyringBase}
+ */
+export function getKeyringWithPrivKey(keyringId, keyIds) {
+  const keyring = getById(keyringId);
+  if (keyring.hasPrivateKey(keyIds)) {
+    return keyring;
+  }
+  // TODO: implement fallback
+  return null;
+}
+
+/**
+ * Synchronize public keys across keyrings.
+ * @param  {String} keyringId - destination keyring, public keys are synchronized from other keyrings.
+ * @param  {Array<openpgp.Keyid>} keyIds - key ids of public keys that should be synchronized.
+ */
+export async function syncPublicKeys(keyringId, keyIds) {
+  // TODO
+  console.log('syncPublicKeys', keyringId, keyIds);
+}

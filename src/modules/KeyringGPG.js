@@ -6,8 +6,13 @@
 import mvelo from '../lib/lib-mvelo';
 const l10n = mvelo.l10n.getMessage;
 import KeyringBase from './KeyringBase';
+import * as gnupg from './gnupg';
 
 export default class KeyringGPG extends KeyringBase {
+  getPgpBackend() {
+    return gnupg;
+  }
+
   async importKeys(armoredKeys) {
     armoredKeys = armoredKeys.map(key => key.armored);
     const importResult = await this.keystore.importKeys(armoredKeys);
