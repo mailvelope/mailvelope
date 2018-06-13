@@ -10,11 +10,16 @@ import KeyringBase from './KeyringBase';
 import {setKeyringAttr} from './keyring';
 const l10n = mvelo.l10n.getMessage;
 import * as keyringSync from './keyringSync';
+import * as openpgpjs from './openpgpjs';
 
 export default class KeyringLocal extends KeyringBase {
   constructor(keyringId, keyStore) {
     super(keyringId, keyStore);
     this.sync = new keyringSync.KeyringSync(keyringId);
+  }
+
+  getPgpBackend() {
+    return openpgpjs;
   }
 
   async importKeys(armoredKeys) {

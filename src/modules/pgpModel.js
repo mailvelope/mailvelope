@@ -11,8 +11,8 @@ import * as prefs from './prefs';
 import * as pwdCache from './pwdCache';
 import {randomString, symEncrypt} from './crypto';
 import * as uiLog from './uiLog';
-import {getById as getKeyringById, getAll as getAllKeyring} from './keyring';
-import {getUserId, mapKeys} from './key';
+import {getById as getKeyringById, getAll as getAllKeyring, getKeyringWithPrivKey, syncPublicKeys} from './keyring';
+import {getUserId} from './key';
 import * as keyringSync from './keyringSync';
 import * as trustKey from './trustKey';
 import * as sub from '../controller/sub.controller';
@@ -44,9 +44,23 @@ function initOpenPGP() {
  */
 export async function decryptMessage({armored, keyringId, unlockKey, senderAddress, selfSigned}) {
   const message = readMessage({armoredText: armored});
-  const privKey = getEncryptionKey(message, keyringId);
-  const key = await unlockKey({key: privKey.key, keyid: privKey.keyid});
-  return decrypt({message, key, keyringId, senderAddress, selfSigned});
+  const encryptionKeyIds = message.getEncryptionKeyIds();
+  const keyring = getKeyringWithPrivKey(keyringId, encryptionKeyIds);
+  if (!keyring) {
+    throw noKeyFoundError(encryptionKeyIds);
+  }
+  const signingKeyIds = message.getSigningKeyIds();
+  await syncPublicKeys(keyringId, signingKeyIds);
+  return keyring.getPgpBackend().decrypt({armored, message, keyring, unlockKey, senderAddress, selfSigned, encryptionKeyIds});
+}
+
+function noKeyFoundError(encryptionKeyIds) {
+  const keyid = encryptionKeyIds[0].toHex();
+  let errorMsg = l10n('message_no_keys', [keyid.toUpperCase()]);
+  for (let i = 1; i < encryptionKeyIds.length; i++) {
+    errorMsg = `${errorMsg} ${l10n('word_or')} ${encryptionKeyIds[i].toHex().toUpperCase()}`;
+  }
+  return new Error(errorMsg, 'NO_KEY_FOUND');
 }
 
 /**
@@ -113,42 +127,6 @@ function findPrivateKey(encryptionKeyIds, keyringId) {
       }
     }
   }
-}
-
-async function decrypt({message, key, keyringId, senderAddress, selfSigned}) {
-  let keyRing;
-  let signingKeys;
-  // normalize sender address to array
-  senderAddress = [].concat(senderAddress || []);
-  // verify signatures if sender address provided or self signed message (draft)
-  if (senderAddress.length || selfSigned) {
-    keyRing = getKeyringById(keyringId);
-    signingKeys = [];
-    if (senderAddress.length) {
-      signingKeys = keyRing.getKeyByAddress(senderAddress, {validity: true});
-      signingKeys = senderAddress.reduce((result, email) => result.concat(signingKeys[email] || []), []);
-    }
-    // if no signing keys found we use decryption key for verification
-    // this covers the self signed message (draft) use case
-    // also signingKeys parameter in decryptAndVerifyMessage has to contain at least one key
-    if (!signingKeys.length) {
-      signingKeys = [key];
-    }
-  }
-  const result = await openpgp.decrypt({message, privateKey: key, publicKeys: signingKeys});
-  result.signatures = mapSignatures(result.signatures, keyRing);
-  return result;
-}
-
-function mapSignatures(signatures = [], keyRing) {
-  return signatures.map(signature => {
-    signature.keyid = signature.keyid.toHex();
-    if (signature.valid !== null) {
-      const signingKey = keyRing.keystore.getKeysForId(signature.keyid, true);
-      signature.keyDetails = mapKeys(signingKey)[0];
-    }
-    return signature;
-  });
 }
 
 /**

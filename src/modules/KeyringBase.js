@@ -41,8 +41,16 @@ export default class KeyringBase {
     return mapKeys(this.keystore.privateKeys.keys);
   }
 
-  hasPrivateKey() {
-    return Boolean(this.keystore.privateKeys.keys.length);
+  /**
+   * Check if keyring has any private key or specific private keys by keyId
+   * @param  {Array<openpgp.Keyid>}  keyIds
+   * @return {Boolean}
+   */
+  hasPrivateKey(keyIds) {
+    if (!keyIds) {
+      return Boolean(this.keystore.privateKeys.keys.length);
+    }
+    return keyIds.some(keyId => this.keystore.privateKeys.getForId(keyId.toHex(), true));
   }
 
   getValidSigningKeys() {
@@ -244,7 +252,7 @@ export default class KeyringBase {
            !trustKey.isKeyPseudoRevoked(this.id, primaryKey);
   }
 
-  getKeyForSigning(keyIdHex) {
+  getPrivateKeyByHexId(keyIdHex) {
     const key = this.keystore.privateKeys.getForId(keyIdHex);
     if (!key) {
       return null;
@@ -253,6 +261,23 @@ export default class KeyringBase {
       key,
       keyid: key.primaryKey.getKeyId().toHex()
     };
+  }
+
+  /**
+   * Return first private key that matches keyIds
+   * @param  {Array<openpgp.Keyid>}  keyIds
+   * @return {openpgp.key.Key}
+   */
+  getPrivateKeyByIds(keyIds) {
+    for (const keyId of keyIds) {
+      const key = this.keystore.privateKeys.getForId(keyId.toHex(), true);
+      if (key) {
+        return {
+          key,
+          keyid: key.primaryKey.getKeyId().toHex()
+        };
+      }
+    }
   }
 
   getAttributes() {

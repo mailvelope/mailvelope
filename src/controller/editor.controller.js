@@ -150,7 +150,7 @@ export default class EditorController extends sub.SubController {
   }
 
   async _onSignOnly(msg) {
-    const key = getKeyringById(mvelo.LOCAL_KEYRING_ID).getKeyForSigning(msg.signKeyId);
+    const key = getKeyringById(mvelo.LOCAL_KEYRING_ID).getPrivateKeyByHexId(msg.signKeyId);
     // keep signing key
     this.signKey = key.key;
     this.pwdControl = sub.factory.get('pwdDialog');
@@ -337,7 +337,7 @@ export default class EditorController extends sub.SubController {
     let signKey;
     this.encryptTimer = null;
     if (options.signKeyIdHex) {
-      signKey = getKeyringById(this.keyringId).getKeyForSigning(options.signKeyIdHex);
+      signKey = getKeyringById(this.keyringId).getPrivateKeyByHexId(options.signKeyIdHex);
     } else {
       signKey = getKeyringById(this.keyringId).getPrimaryKey();
     }
