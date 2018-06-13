@@ -104,7 +104,7 @@ export default class Editor extends React.Component {
     this.port.on('key-update', this.onKeyUpdate);
   }
 
-  onSetInitData({text, signMsg, primary, privKeys}) {
+  onSetInitData({text = '', signMsg, primary, privKeys = []}) {
     this.setState({
       defaultPlainText: text,
       signMsg: Boolean(signMsg),
