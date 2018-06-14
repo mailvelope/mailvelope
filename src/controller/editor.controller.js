@@ -58,7 +58,7 @@ export default class EditorController extends sub.SubController {
     } else {
       // non-container case, set options
       this._onEditorOptions({
-        keyringId: mvelo.LOCAL_KEYRING_ID,
+        keyringId: mvelo.MAIN_KEYRING_ID,
         options: this.options,
       });
     }
@@ -150,7 +150,7 @@ export default class EditorController extends sub.SubController {
   }
 
   async _onSignOnly(msg) {
-    const key = getKeyringById(mvelo.LOCAL_KEYRING_ID).getPrivateKeyByHexId(msg.signKeyId);
+    const key = getKeyringById(mvelo.MAIN_KEYRING_ID).getPrivateKeyByHexId(msg.signKeyId);
     // keep signing key
     this.signKey = key.key;
     this.pwdControl = sub.factory.get('pwdDialog');
@@ -185,7 +185,7 @@ export default class EditorController extends sub.SubController {
   lookupKeyOnServer(msg) {
     return this.keyserver.lookup(msg.recipient).then(key => {
       // persist key in local keyring
-      const localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
+      const localKeyring = getKeyringById(mvelo.MAIN_KEYRING_ID);
       if (key && key.publicKeyArmored) {
         return localKeyring.importKeys([{type: 'public', armored: key.publicKeyArmored}]);
       }
@@ -197,7 +197,7 @@ export default class EditorController extends sub.SubController {
 
   sendKeyUpdate() {
     // send updated key cache to editor
-    const localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
+    const localKeyring = getKeyringById(mvelo.MAIN_KEYRING_ID);
     const keys = localKeyring.getKeyUserIDs({allUsers: true});
     this.ports.editor.emit('key-update', {keys});
   }
@@ -242,7 +242,7 @@ export default class EditorController extends sub.SubController {
     emails = mvelo.util.deDup(emails); // just dedup, dont change order of user input
     recipients = emails.map(e => ({email: e}));
     // get all public keys in the local keyring
-    const localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
+    const localKeyring = getKeyringById(mvelo.MAIN_KEYRING_ID);
     const keys = localKeyring.getKeyUserIDs({allUsers: true});
     const tofu = this.keyserver.getTOFUPreference();
     this.emit('public-key-userids', {keys, recipients, tofu});
@@ -522,7 +522,7 @@ export default class EditorController extends sub.SubController {
       keyIdsHex = keys.map(key => key.keyid);
       // get the sender key id
       if (prefs.general.auto_add_primary) {
-        const localKeyring = getKeyringById(mvelo.LOCAL_KEYRING_ID);
+        const localKeyring = getKeyringById(mvelo.MAIN_KEYRING_ID);
         const primary = localKeyring.getPrimaryKey();
         if (primary) {
           keyIdsHex.push(primary.keyid.toLowerCase());

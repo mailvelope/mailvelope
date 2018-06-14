@@ -172,7 +172,7 @@ export function isActive(type) {
 }
 
 // keep state of active keyring for App UI
-let activeKeyringId = mvelo.LOCAL_KEYRING_ID;
+let activeKeyringId = mvelo.MAIN_KEYRING_ID;
 
 export function setActiveKeyringId(keyringId) {
   activeKeyringId = keyringId;

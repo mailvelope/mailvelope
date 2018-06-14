@@ -247,7 +247,8 @@
     "general": {
       "editor_type": "plain",
       "auto_add_primary": true,
-      "auto_sign_msg": false
+      "auto_sign_msg": false,
+      "prefer_gnupg": true
     },
     "keyserver": {
       "hkp_base_url": "https://keyserver.ubuntu.com",

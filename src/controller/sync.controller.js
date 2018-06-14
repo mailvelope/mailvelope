@@ -7,7 +7,7 @@ import mvelo from '../lib/lib-mvelo';
 import * as sub from './sub.controller';
 import {getById as getKeyringById} from '../modules/keyring';
 import {isCached} from '../modules/pwdCache';
-import {readMessage, getEncryptionKey, decryptSyncMessage, encryptSyncMessage} from '../modules/pgpModel';
+import {readMessage, decryptSyncMessage, encryptSyncMessage} from '../modules/pgpModel';
 
 export class SyncController extends sub.SubController {
   constructor(port) {
@@ -120,7 +120,12 @@ export class SyncController extends sub.SubController {
     }
     // new version available on server
     const message = await readMessage({armoredText: download.keyringMsg});
-    let {key, keyid} = getEncryptionKey(message, this.keyringId);
+    const encryptionKeyIds = message.getEncryptionKeyIds();
+    const privKey = this.keyring.getPrivateKeyByIds(encryptionKeyIds);
+    if (!privKey) {
+      throw new Error('No private key found to decrypt the sync message');
+    }
+    let {key, keyid} = privKey;
     let password;
     if (!key.primaryKey.getKeyId().equals(options.key.primaryKey.getKeyId())) {
       console.log('Key used for sync packet from server is not primary key on client');

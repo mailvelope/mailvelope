@@ -59,6 +59,9 @@ export function init() {
       if (typeof prefs.keyserver.hkp_server_list == 'undefined') {
         prefs.keyserver.hkp_server_list = defaults.preferences.keyserver.hkp_server_list;
       }
+      if (typeof prefs.general.prefer_gnupg == 'undefined') {
+        prefs.general.prefer_gnupg = defaults.preferences.general.prefer_gnupg;
+      }
 
       // merge watchlist on version change
       return mergeWatchlist(defaults)

@@ -134,7 +134,7 @@ export class App extends React.Component {
         return resolve();
       }
       port.send('get-active-keyring')
-      .then(keyringId => this.setState({keyringId: keyringId || mvelo.LOCAL_KEYRING_ID}, resolve));
+      .then(keyringId => this.setState({keyringId: keyringId || mvelo.MAIN_KEYRING_ID}, resolve));
     });
   }
 
@@ -142,7 +142,7 @@ export class App extends React.Component {
     port.send('get-all-keyring-attr')
     .then(keyringAttr => {
       this.setState(prevState => {
-        const keyringId = keyringAttr[prevState.keyringId] ? prevState.keyringId : mvelo.LOCAL_KEYRING_ID;
+        const keyringId = keyringAttr[prevState.keyringId] ? prevState.keyringId : mvelo.MAIN_KEYRING_ID;
         const primaryKeyId = keyringAttr[keyringId].primary_key || '';
         const providerLogo = keyringAttr[keyringId].logo_data_url || '';
         const isDemail = keyringId.includes(DEMAIL_SUFFIX);

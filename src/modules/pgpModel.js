@@ -11,13 +11,10 @@ import * as prefs from './prefs';
 import * as pwdCache from './pwdCache';
 import {randomString, symEncrypt} from './crypto';
 import * as uiLog from './uiLog';
-import {getById as getKeyringById, getAll as getAllKeyring, getKeyringWithPrivKey, syncPublicKeys} from './keyring';
+import {getById as getKeyringById, getKeyringWithPrivKey, syncPublicKeys} from './keyring';
 import {getUserId} from './key';
 import * as keyringSync from './keyringSync';
 import * as trustKey from './trustKey';
-import * as sub from '../controller/sub.controller';
-
-const unlockQueue = new mvelo.util.PromiseQueue();
 
 export async function init() {
   await defaults.init();
@@ -45,7 +42,7 @@ function initOpenPGP() {
 export async function decryptMessage({armored, keyringId, unlockKey, senderAddress, selfSigned}) {
   const message = readMessage({armoredText: armored});
   const encryptionKeyIds = message.getEncryptionKeyIds();
-  const keyring = getKeyringWithPrivKey(keyringId, encryptionKeyIds);
+  const keyring = getKeyringWithPrivKey(encryptionKeyIds, keyringId);
   if (!keyring) {
     throw noKeyFoundError(encryptionKeyIds);
   }
@@ -86,46 +83,6 @@ export function readMessage({armoredText, binary}) {
     }
   } else {
     throw {message: 'No message to read'};
-  }
-}
-
-/**
- * Retrieve encryption key for message
- * @param  {openppg.message.Message} message
- * @param  {String} [keyringId] - keyringId to search for keys in, if undefined search in all keyrings
- * @return {Object} - encryption key in the form {key: openpgp.key.Key, keyid: String}
- */
-export function getEncryptionKey(message, keyringId) {
-  const encryptionKeyIds = message.getEncryptionKeyIds();
-  const privKey = findPrivateKey(encryptionKeyIds, keyringId);
-  if (privKey && privKey.key) {
-    return privKey;
-  }
-  // unknown private key
-  const keyid = encryptionKeyIds[0].toHex();
-  let errorMsg = l10n("message_no_keys", [keyid.toUpperCase()]);
-  for (let i = 1; i < encryptionKeyIds.length; i++) {
-    errorMsg = `${errorMsg} ${l10n("word_or")} ${encryptionKeyIds[i].toHex().toUpperCase()}`;
-  }
-  throw {message: errorMsg, code: 'NO_KEY_FOUND'};
-}
-
-function findPrivateKey(encryptionKeyIds, keyringId) {
-  const result = {};
-  for (let i = 0; i < encryptionKeyIds.length; i++) {
-    let keyrings;
-    if (keyringId) {
-      keyrings = [getKeyringById(keyringId)];
-    } else {
-      keyrings = getAllKeyring();
-    }
-    for (let j = 0; j < keyrings.length; j++) {
-      result.keyid = encryptionKeyIds[i].toHex();
-      result.key = keyrings[j].keystore.privateKeys.getForId(result.keyid, true);
-      if (result.key) {
-        return result;
-      }
-    }
   }
 }
 
@@ -403,7 +360,7 @@ export function encryptFile({plainFile, receipients, armor}) {
     if (keys.length === 0) {
       throw {message: 'No key found for encryption'};
     }
-    const content = dataURL2str(plainFile.content);
+    const content = mvelo.util.dataURL2str(plainFile.content);
     const data = mvelo.util.str2Uint8Array(content);
     return openpgp.encrypt({data, publicKeys: keys, filename: plainFile.name, armor});
   })
@@ -421,20 +378,23 @@ export function encryptFile({plainFile, receipients, armor}) {
   });
 }
 
-export async function decryptFile(encryptedFile) {
+export async function decryptFile(encryptedFile, unlockKey) {
   let armoredText;
   let binary;
   try {
-    const content = dataURL2str(encryptedFile.content);
+    const content = mvelo.util.dataURL2str(encryptedFile.content);
     if (/^-----BEGIN PGP MESSAGE-----/.test(content)) {
       armoredText = content;
     } else {
       binary = mvelo.util.str2Uint8Array(content);
     }
     const message = readMessage({armoredText, binary});
-    const privKey = getEncryptionKey(message);
-    const key = await unlockQueue.push(sub.factory.get('pwdDialog'), 'unlockKey', [{key: privKey.key, keyid: privKey.keyid}]);
-    const result = await openpgp.decrypt({message, privateKey: key, format: 'binary'});
+    const encryptionKeyIds = message.getEncryptionKeyIds();
+    const keyring = getKeyringWithPrivKey(encryptionKeyIds);
+    if (!keyring) {
+      throw noKeyFoundError(encryptionKeyIds);
+    }
+    const result = await keyring.getPgpBackend().decrypt({base64: mvelo.util.dataURL2base64(encryptedFile.content), message, keyring, unlockKey, encryptionKeyIds, format: 'binary'});
     return {
       name: result.filename || encryptedFile.name.slice(0, -4),
       content: mvelo.util.Uint8Array2str(result.data)
@@ -443,9 +403,4 @@ export async function decryptFile(encryptedFile) {
     console.log('pgpModel.decryptFile() error', error);
     throw mvelo.util.mapError(error);
   }
-}
-
-function dataURL2str(dataURL) {
-  const base64 = dataURL.split(';base64,')[1];
-  return window.atob(base64);
 }

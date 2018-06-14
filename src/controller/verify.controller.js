@@ -39,7 +39,7 @@ export default class VerifyController extends SubController {
   onArmoredMessage(msg) {
     let result;
     try {
-      result = readCleartextMessage(msg.data, mvelo.LOCAL_KEYRING_ID);
+      result = readCleartextMessage(msg.data, mvelo.MAIN_KEYRING_ID);
     } catch (e) {
       this.ports.vDialog.emit('error-message', {error: e.message});
       return;
