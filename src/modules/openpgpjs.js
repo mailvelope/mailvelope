@@ -6,7 +6,18 @@
 import * as openpgp from 'openpgp';
 import {mapKeys} from './key';
 
-export async function decrypt({message, keyring, senderAddress, selfSigned, encryptionKeyIds, unlockKey}) {
+/**
+ * Decrypt message
+ * @param  {openppg.message.Message} options.message - message that will be decrypted
+ * @param  {KeyringBase} options.keyring - keyring used for decryption
+ * @param  {String} options.senderAddress - email address of sender, used for signature verification
+ * @param  {Boolean} options.selfSigned - message is signed by user, therefore encryption key used for signature verification
+ * @param  {Array<openpgp.Keyid>} options.encryptionKeyIds - message encrypted for keyids
+ * @param  {Function} options.unlockKey - callback that unlocks private key
+ * @param  {String} options.format - default is 'utf8', other value: 'binary'
+ * @return {Object}
+ */
+export async function decrypt({message, keyring, senderAddress, selfSigned, encryptionKeyIds, unlockKey, format}) {
   let privateKey = keyring.getPrivateKeyByIds(encryptionKeyIds);
   privateKey = await unlockKey({key: privateKey.key, keyid: privateKey.keyid});
   let signingKeys;
@@ -26,7 +37,7 @@ export async function decrypt({message, keyring, senderAddress, selfSigned, encr
       signingKeys = [privateKey];
     }
   }
-  const result = await openpgp.decrypt({message, privateKey, publicKeys: signingKeys});
+  const result = await openpgp.decrypt({message, privateKey, publicKeys: signingKeys, format});
   result.signatures = mapSignatures(result.signatures, keyring);
   return result;
 }

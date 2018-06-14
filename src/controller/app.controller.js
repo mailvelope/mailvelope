@@ -12,6 +12,8 @@ import * as prefs from '../modules/prefs';
 import * as uiLog from '../modules/uiLog';
 import {getVersion} from '../modules/defaults';
 
+const unlockQueue = new mvelo.util.PromiseQueue();
+
 export default class AppController extends sub.SubController {
   constructor(port) {
     super(port);
@@ -22,7 +24,7 @@ export default class AppController extends sub.SubController {
     // register event handlers
     this.on('get-prefs', () => prefs.prefs);
     this.on('set-prefs', this.updatePreferences);
-    this.on('decryptFile', ({encryptedFile}) => decryptFile(encryptedFile));
+    this.on('decryptFile', ({encryptedFile}) => decryptFile(encryptedFile, this.unlockKey));
     this.on('encryptFile', encryptFile);
     this.on('getWatchList', prefs.getWatchList);
     this.on('getKeys', ({keyringId}) => keyringById(keyringId).getKeys());
@@ -99,12 +101,12 @@ export default class AppController extends sub.SubController {
   deleteKeyring({keyringId}) {
     return Promise.resolve()
     .then(() => {
-      if (keyringId === mvelo.LOCAL_KEYRING_ID) {
+      if (keyringId === mvelo.MAIN_KEYRING_ID) {
         throw new Error('Cannot delete main keyring');
       }
       return deleteKeyring(keyringId);
     })
-    .then(() => sub.setActiveKeyringId(mvelo.LOCAL_KEYRING_ID));
+    .then(() => sub.setActiveKeyringId(mvelo.MAIN_KEYRING_ID));
   }
 
   initEncryptText() {
@@ -123,6 +125,11 @@ export default class AppController extends sub.SubController {
   }
 
   decryptText({armored}) {
-    this.decryptTextCtrl.decrypt(armored, mvelo.LOCAL_KEYRING_ID);
+    this.decryptTextCtrl.decrypt(armored, mvelo.MAIN_KEYRING_ID);
+  }
+
+  async unlockKey({key, keyid}) {
+    const privKey = await unlockQueue.push(sub.factory.get('pwdDialog'), 'unlockKey', [{key, keyid}]);
+    return privKey.key;
   }
 }

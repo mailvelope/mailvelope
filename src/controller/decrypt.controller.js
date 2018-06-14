@@ -20,7 +20,7 @@ export default class DecryptController extends sub.SubController {
     }
     this.decryptPopup = null;
     this.options = {};
-    this.keyringId = mvelo.LOCAL_KEYRING_ID;
+    this.keyringId = mvelo.MAIN_KEYRING_ID;
     // register event handlers
     this.on('decrypt-dialog-cancel', this.dialogCancel);
     this.on('decrypt-message-init', this.onDecryptMessageInit);

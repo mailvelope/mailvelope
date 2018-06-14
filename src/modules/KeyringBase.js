@@ -266,9 +266,9 @@ export default class KeyringBase {
   /**
    * Return first private key that matches keyIds
    * @param  {Array<openpgp.Keyid>}  keyIds
-   * @return {openpgp.key.Key}
+   * @return {{key: openpgp.key.Key, keyid: String}|null}
    */
-  getPrivateKeyByIds(keyIds) {
+  getPrivateKeyByIds(keyIds = []) {
     for (const keyId of keyIds) {
       const key = this.keystore.privateKeys.getForId(keyId.toHex(), true);
       if (key) {
@@ -278,6 +278,7 @@ export default class KeyringBase {
         };
       }
     }
+    return null;
   }
 
   getAttributes() {

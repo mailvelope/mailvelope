@@ -51,7 +51,7 @@ mvelo.PLAIN_TEXT = 'plain';
 mvelo.RICH_TEXT = 'rich';
 // keyring
 mvelo.KEYRING_DELIMITER = '|#|';
-mvelo.LOCAL_KEYRING_ID = `localhost${mvelo.KEYRING_DELIMITER}mailvelope`;
+mvelo.MAIN_KEYRING_ID = `localhost${mvelo.KEYRING_DELIMITER}mailvelope`;
 mvelo.GNUPG_KEYRING_ID = `localhost${mvelo.KEYRING_DELIMITER}gnupg`;
 // colors for secure background
 mvelo.SECURE_COLORS = ['#e9e9e9', '#c0c0c0', '#808080', '#ffce1e', '#ff0000', '#85154a', '#6f2b8b', '#b3d1e3', '#315bab', '#1c449b', '#4c759c', '#1e8e9f', '#93b536'];
@@ -282,6 +282,15 @@ mvelo.util.str2Uint8Array = function(str) {
     bufView[i] = str.charCodeAt(i);
   }
   return bufView;
+};
+
+mvelo.util.dataURL2str = function(dataURL) {
+  const base64 = mvelo.util.dataURL2base64(dataURL);
+  return window.atob(base64);
+};
+
+mvelo.util.dataURL2base64 = function(dataURL) {
+  return dataURL.split(';base64,')[1];
 };
 
 mvelo.util.addLoadingAnimation = function($parent) {

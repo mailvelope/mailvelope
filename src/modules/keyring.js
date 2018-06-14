@@ -9,6 +9,7 @@ import KeyStoreLocal from './KeyStoreLocal';
 import KeyringGPG from './KeyringGPG';
 import KeyStoreGPG from './KeyStoreGPG';
 import {gpgme} from '../lib/browser.runtime';
+import {prefs} from './prefs';
 
 /**
  * Map with all keyrings and their attributes. Data is persisted in local storage.
@@ -87,14 +88,14 @@ const keyringMap = new Map();
 
 export async function init() {
   await keyringAttr.init();
-  if (keyringAttr.has(mvelo.LOCAL_KEYRING_ID)) {
+  if (keyringAttr.has(mvelo.MAIN_KEYRING_ID)) {
     const keyringPromises = Array.from(keyringAttr.keys()).map(keyringId =>
       buildKeyring(keyringId)
       .catch(e => console.log(`Building keyring for id ${keyringId} failed`, e))
     );
     await Promise.all(keyringPromises);
   } else {
-    await createKeyring(mvelo.LOCAL_KEYRING_ID);
+    await createKeyring(mvelo.MAIN_KEYRING_ID);
   }
 }
 
@@ -228,17 +229,63 @@ export function getAllKeyUserId() {
 /**
  * Get keyring that includes at least one private key of the specified key Ids.
  * Implements also fallback to alternative keyrings.
- * @param  {String} keyringId
  * @param  {Array<openpgp.Keyid>} keyIds - key ids of private keys
+ * @param  {String} [keyringId] - requested keyring, either API keyring or main keyring
  * @return {KeyringBase}
  */
-export function getKeyringWithPrivKey(keyringId, keyIds) {
-  const keyring = getById(keyringId);
-  if (keyring.hasPrivateKey(keyIds)) {
-    return keyring;
+export function getKeyringWithPrivKey(keyIds = [], keyringId) {
+  let keyrings = [];
+  if (keyringId === mvelo.GNUPG_KEYRING_ID) {
+    throw new Error('GnuPG keyring can be preferred, but not directly requested.');
   }
-  // TODO: implement fallback
+  if (!keyringId) {
+    keyrings = getAll();
+    if (gpgme) {
+      // sort keyrings according to preference
+      keyrings = keyrings.sort(compareKeyringsByPreference);
+    }
+  } else {
+    // use gnupg keyring if available and preferred
+    if (gpgme && prefs.general.prefer_gnupg) {
+      keyrings.push(keyringMap.get(mvelo.GNUPG_KEYRING_ID));
+    }
+    // next, use requested keyring
+    keyrings.push(keyringMap.get(keyringId));
+    // next, if requested keyring is API keyring then also use main keyring
+    if (keyringId !== mvelo.MAIN_KEYRING_ID) {
+      keyrings.push(keyringMap.get(mvelo.MAIN_KEYRING_ID));
+    }
+    // if gnupg keyring is available but not preferred preferred, we put at the end of the queue
+    if (gpgme && !prefs.general.prefer_gnupg) {
+      keyrings.push(keyringMap.get(mvelo.GNUPG_KEYRING_ID));
+    }
+  }
+  // if no keyids return first keyring
+  if (!keyIds.length) {
+    return keyrings[0];
+  }
+  // return first keyring that includes private keys with keyids
+  for (const keyring of keyrings) {
+    if (keyring.hasPrivateKey(keyIds)) {
+      return keyring;
+    }
+  }
   return null;
+}
+
+/**
+ * Array.sort compareFunction
+ * If prefer_gnupg then the GnuPG keyring should be sorted at the beginning of the array,
+ * otherwise at the end.
+ */
+function compareKeyringsByPreference(a, b) {
+  if (a.id === mvelo.GNUPG_KEYRING_ID) {
+    return prefs.general.prefer_gnupg ? -1 : 1;
+  }
+  if (b.id === mvelo.GNUPG_KEYRING_ID) {
+    return prefs.general.prefer_gnupg ? 1 : -1;
+  }
+  return 0;
 }
 
 /**
