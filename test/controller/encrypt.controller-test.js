@@ -19,13 +19,13 @@ describe('Encrypt controller unit tests', () => {
     };
     sinon.stub(sub.factory, 'get').returns(editorCtrlMock);
     Object.assign(prefs.prefs, preferences);
-    sinon.stub(mvelo.util, 'parseHTML').returns('parsed');
+    sinon.stub(mvelo.util, 'sanitizeHTML').returns('parsed');
     sinon.stub(ctrl, 'emit');
   });
 
   afterEach(() => {
     sub.factory.get.restore();
-    mvelo.util.parseHTML.restore();
+    mvelo.util.sanitizeHTML.restore();
     ctrl.emit.restore();
   });
 
@@ -45,7 +45,7 @@ describe('Encrypt controller unit tests', () => {
 
       return ctrl.openEditor({text: 'foo'})
       .then(() => {
-        expect(ctrl.emit.withArgs('set-editor-output', {text: 'parsed', recipients: testRecipients}).calledOnce).to.be.true;
+        expect(ctrl.emit.withArgs('set-editor-output', {text: 'armored', recipients: testRecipients}).calledOnce).to.be.true;
       });
     });
 

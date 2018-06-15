@@ -65,8 +65,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
 
   function onVerifiedMessage(msg) {
     showMessageArea();
-    // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
-    let message = msg.message.replace(/\n/g, '<br>');
     const node = $('#verifymail').contents();
     const header = node.find('header');
     msg.signers.forEach(signer => {
@@ -91,8 +89,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       }
       header.showAlert('', message, type, true);
     });
-    message = $.parseHTML(message);
-    node.find('#content').append(message);
+    node.find('#content').append(`<pre>${mvelo.util.encodeHTML(msg.message)}</pre>`);
     clearSpinner();
   }
 
@@ -131,9 +128,11 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     });
     const style2 = style.clone().attr('href', `${basePath}components/verify-inline/verifyInlineSig.css`);
     const meta = $('<meta/>', {charset: 'UTF-8'});
+    const csp = $('<meta/>', {'http-equiv': 'Content-Security-Policy', content: "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;"});
     sandbox.one('load', function() {
       $(this).one('load', () => mvelo.ui.terminate(port));
       $(this).contents().find('head').append(meta)
+      .append(csp)
       .append(style)
       .append(style2);
       $(this).contents().find('body').css('background-color', 'rgba(0,0,0,0)');
