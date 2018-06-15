@@ -233,7 +233,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
       this._emailTextElement.val(msg);
     } else {
       // element is contenteditable or RTE
-      msg = `<pre>${mvelo.util.encodeHTML(msg)}<pre/>`;
+      msg = `<pre>${mvelo.util.encodeHTML(msg)}</pre>`;
       this._emailTextElement.html(msg);
     }
     // trigger input event

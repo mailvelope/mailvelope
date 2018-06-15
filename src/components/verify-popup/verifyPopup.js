@@ -56,8 +56,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
 
   function onVerifiedMessage(msg) {
     $('body').removeClass('spinner');
-    // js execution is prevented by Content Security Policy directive: "script-src 'self' chrome-extension-resource:"
-    let message = msg.message.replace(/\n/g, '<br>');
     const node = sandbox.contents();
     const header = node.find('header');
     msg.signers.forEach(signer => {
@@ -82,8 +80,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       }
       header.showAlert('', message, type, true);
     });
-    message = $.parseHTML(message);
-    node.find('#content').append(message);
+    node.find('#content').append(`<pre>${mvelo.util.encodeHTML(msg.message)}</pre>`);
   }
 
   function addSecuritySettingsButton() {
@@ -122,8 +119,10 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     });
     const style3 = style.clone().attr('href', '../../components/verify-popup/verifyPopupSig.css');
     const meta = $('<meta/>', {charset: 'UTF-8'});
+    const csp = $('<meta/>', {'http-equiv': 'Content-Security-Policy', content: "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;"});
     sandbox.one('load', () => {
       sandbox.contents().find('head').append(meta)
+      .append(csp)
       .append(style)
       .append(style3);
       sandbox.contents().find('body').append(content);

@@ -9,7 +9,7 @@ header {
 }
 
 header .alert {
-  margin-bottom: 5px; 
+  margin-bottom: 5px;
 }
 
 #content {
@@ -21,4 +21,9 @@ header .alert {
   padding: 3px;
   background-color: rgba(0,0,0,0);
   overflow: auto;
+}
+
+#content pre {
+  background-color: rgba(0,0,0,0);
+  border: none;
 }
