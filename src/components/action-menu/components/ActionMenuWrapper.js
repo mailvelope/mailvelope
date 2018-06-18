@@ -22,7 +22,7 @@ class ActionMenuWrapper extends Component {
     this.port = mvelo.EventHandler.connect('menu-59edbbeb9affc4004a916276');
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.port.send('get-is-setup-done')
     .then(({isSetupDone}) => this.setState({isSetupDone}));
   }

@@ -54,7 +54,7 @@ export default class KeySearch extends React.Component {
             </span>
           </div>
           <div className="label-subtitle" style={{marginTop: '5px', marginBottom: '5px'}}>
-            {l10n.map.key_import_hkp_server} <a target="_blank" rel="noreferrer" href={hkp_base_url}>{hkp_domain}</a> (<Link to="/settings/key-server"><em>{l10n.map.change_link}</em></Link>)
+            {l10n.map.key_import_hkp_server} <a target="_blank" rel="noopener noreferrer" href={hkp_base_url}>{hkp_domain}</a> (<Link to="/settings/key-server"><em>{l10n.map.change_link}</em></Link>)
           </div>
         </div>
       </form>
