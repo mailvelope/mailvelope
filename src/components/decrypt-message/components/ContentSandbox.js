@@ -7,22 +7,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 
-export default class ContentSandbox extends React.Component {
+export default class ContentSandbox extends React.PureComponent {
   constructor(props) {
     super(props);
     this.sandbox = null;
-  }
-
-  shouldComponentUpdate() {
-    // create sandbox iframe only once
-    return false;
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // if default value is set after rendering, set manually
-    if (this.sandbox && this.props.value !== nextProps.value) {
-      this.setContent(nextProps.value);
-    }
   }
 
   componentDidMount() {
@@ -31,6 +19,12 @@ export default class ContentSandbox extends React.Component {
       sandbox.one('load', this.props.onTerminate);
       this.setContent(this.props.value);
     });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.sandbox && prevProps.value !== this.props.value) {
+      this.setContent(this.props.value);
+    }
   }
 
   setContent(value) {

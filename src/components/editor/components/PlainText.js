@@ -8,29 +8,24 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 
-export default class PlainText extends React.Component {
+export default class PlainText extends React.PureComponent {
   constructor(props) {
     super(props);
     this.sandbox = null;
     this.textarea = null;
   }
 
-  shouldComponentUpdate() {
-    // create sandbox iframe only once
-    return false;
+  componentDidMount() {
+    this.createPlainText();
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     // if default value is set after rendering, set manually
-    if (this.textarea && this.props.defaultValue !== nextProps.defaultValue) {
-      this.textarea.value = nextProps.defaultValue;
+    if (this.textarea && prevProps.defaultValue !== this.props.defaultValue) {
+      this.textarea.value = this.props.defaultValue;
       this.textarea.selectionStart = 0;
       this.textarea.selectionEnd = 0;
     }
-  }
-
-  componentDidMount() {
-    this.createPlainText();
   }
 
   getValue() {

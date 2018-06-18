@@ -31,40 +31,43 @@ l10n.register([
   'settings_keyserver'
 ]);
 
+function initialState({prefs}) {
+  let hkp_base_url = '';
+  let hkp_server_list = [];
+  let mvelo_tofu_lookup = false;
+  if (prefs) {
+    hkp_base_url = prefs.keyserver.hkp_base_url;
+    hkp_server_list = prefs.keyserver.hkp_server_list.map(server => ({value: server, label: server}));
+    if (!prefs.keyserver.hkp_server_list.includes(hkp_base_url)) {
+      hkp_server_list.push({value: hkp_base_url, label: hkp_base_url});
+    }
+    mvelo_tofu_lookup = prefs.keyserver.mvelo_tofu_lookup;
+  }
+  return {
+    hkp_base_url,
+    valid_base_url: true,
+    hkp_server_list,
+    mvelo_tofu_lookup,
+    alert: null,
+    modified: false,
+    previousPrefs: prefs
+  };
+}
+
 export default class KeyServer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.initialState(props);
+    this.state = initialState(props);
     this.handleCheck = this.handleCheck.bind(this);
     this.handleServerChange = this.handleServerChange.bind(this);
   }
 
-  initialState({prefs}) {
-    let hkp_base_url = '';
-    let hkp_server_list = [];
-    let mvelo_tofu_lookup = false;
-    if (prefs) {
-      hkp_base_url = prefs.keyserver.hkp_base_url;
-      hkp_server_list = prefs.keyserver.hkp_server_list.map(server => ({value: server, label: server}));
-      if (!prefs.keyserver.hkp_server_list.includes(hkp_base_url)) {
-        hkp_server_list.push({value: hkp_base_url, label: hkp_base_url});
-      }
-      mvelo_tofu_lookup = prefs.keyserver.mvelo_tofu_lookup;
+  static getDerivedStateFromProps(props, state) {
+    // reset state if prefs change
+    if (props.prefs !== state.previousPrefs) {
+      return initialState(props);
     }
-    return {
-      hkp_base_url,
-      valid_base_url: true,
-      hkp_server_list,
-      mvelo_tofu_lookup,
-      alert: null,
-      modified: false
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.prefs !== this.props.prefs) {
-      this.setState(this.initialState(nextProps));
-    }
+    return null;
   }
 
   handleServerChange(server) {
@@ -147,7 +150,7 @@ export default class KeyServer extends React.Component {
         </div>
         <div className="form-group">
           <button type="button" onClick={() => this.handleSave()} className="btn btn-primary" disabled={!(this.state.modified && this.state.valid_base_url)}>{l10n.map.form_save}</button>
-          <button type="button" onClick={() => this.setState(this.initialState(this.props))} className="btn btn-default" disabled={!this.state.modified}>{l10n.map.form_cancel}</button>
+          <button type="button" onClick={() => this.setState(initialState(this.props))} className="btn btn-default" disabled={!this.state.modified}>{l10n.map.form_cancel}</button>
         </div>
       </form>
     );

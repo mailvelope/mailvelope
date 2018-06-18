@@ -35,8 +35,8 @@ export default class GenerateKey extends React.Component {
   constructor(props) {
     super(props);
     this.initialState = {
-      name: props.name,
-      email: props.email,
+      name: props.defaultName,
+      email: props.defaultEmail,
       keySize: '4096',
       keyExpirationTime: null,
       password: '',
@@ -52,13 +52,6 @@ export default class GenerateKey extends React.Component {
     this.handleGenerate = this.handleGenerate.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.generateKey = this.generateKey.bind(this);
-  }
-
-  componentWillReceiveProps({name, email}) {
-    // propagate props changes to initial state
-    if (this.props.name !== name || this.props.email !== email) {
-      this.setState({name, email});
-    }
   }
 
   handleChange(event) {
@@ -125,7 +118,7 @@ export default class GenerateKey extends React.Component {
           <span>{l10n.map.keyring_generate_key}</span>
         </h3>
         <form className="form" autoComplete="off">
-          <NameAddrInput value={this.state} onChange={this.handleChange} disabled={this.state.success} demail={this.props.demail} />
+          <NameAddrInput name={this.state.name} email={this.state.email} onChange={this.handleChange} disabled={this.state.success} errors={this.state.errors} demail={this.props.demail} />
           <AdvancedExpand>
             <AdvKeyGenOptions value={this.state} onChange={this.handleChange} disabled={this.state.success} />
           </AdvancedExpand>
@@ -155,12 +148,12 @@ export default class GenerateKey extends React.Component {
 
 GenerateKey.propTypes = {
   demail: PropTypes.bool,
-  name: PropTypes.string,
-  email: PropTypes.string,
+  defaultName: PropTypes.string,
+  defaultEmail: PropTypes.string,
   onKeyringChange: PropTypes.func
 };
 
 GenerateKey.defaultProps = {
-  name: '',
-  email: ''
+  defaultName: '',
+  defaultEmail: ''
 };

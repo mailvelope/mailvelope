@@ -3,9 +3,10 @@ import KeyServer from '../../../src/app/settings/keyserver';
 
 describe('Key server settings unit tests', () => {
   let keyserver;
+  let props;
 
   beforeEach(() => {
-    const props = {
+    props = {
       prefs: {
         keyserver: {
           hkp_base_url: 'https://keyserver.ubuntu.com',
@@ -31,7 +32,8 @@ describe('Key server settings unit tests', () => {
         ],
         mvelo_tofu_lookup: true,
         alert: null,
-        modified: false
+        modified: false,
+        previousPrefs: props.prefs
       });
     });
   });

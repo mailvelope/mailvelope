@@ -119,12 +119,9 @@ export class App extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.initActiveKeyring()
     .then(() => this.loadKeyring());
-  }
-
-  componentDidMount() {
     port.send('get-version')
     .then(version => this.setState({version}));
     port.send('get-prefs').then(prefs => this.setState({prefs}));
@@ -153,7 +150,7 @@ export class App extends React.Component {
         port.emit('set-active-keyring', {keyringId});
         return {keyringId, primaryKeyId, isDemail, keyringAttr, providerLogo};
       }, () => {
-        port.send('getKeys', {keyringId: this.state.keyringId}) // eslint-disable-line react/no-access-state-in-setstate
+        port.send('getKeys', {keyringId: this.state.keyringId})
         .then(keys => {
           keys = keys.sort((a, b) => a.name.localeCompare(b.name));
           const hasPrivateKey = keys.some(key => key.type === 'private');
@@ -251,7 +248,7 @@ export class App extends React.Component {
                           spinner={this.state.keyGridSpinner} />
                       } />
                       <Route path='/keyring/import' render={({location}) => <ImportKey onKeyringChange={this.loadKeyring} demail={this.state.isDemail} prefs={this.state.prefs} location={location} />} />
-                      <Route path='/keyring/generate' render={() => <GenerateKey onKeyringChange={this.loadKeyring} demail={this.state.isDemail} name={this.state.name} email={this.state.email} />} />
+                      <Route path='/keyring/generate' render={() => <GenerateKey onKeyringChange={this.loadKeyring} demail={this.state.isDemail} defaultName={this.state.name} defaultEmail={this.state.email} />} />
                       <Route path='/keyring/setup' render={() => <KeyringSetup hasPrivateKey={this.state.hasPrivateKey} />} />
                     </section>
                     <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
