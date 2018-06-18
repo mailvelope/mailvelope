@@ -250,7 +250,7 @@ module.exports = function(grunt) {
         command: 'web-ext build --source-dir=build/firefox --artifacts-dir=dist'
       },
       karma_test: {
-        command: 'karma start --single-run --browsers ChromeHeadlessNoSandbox test/karma.conf.js'
+        command: './node_modules/karma/bin/karma start --single-run --browsers ChromeHeadlessNoSandbox test/karma.conf.js'
       }
     },
 
