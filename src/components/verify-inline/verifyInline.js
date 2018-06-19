@@ -130,7 +130,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     const meta = $('<meta/>', {charset: 'UTF-8'});
     const csp = $('<meta/>', {'http-equiv': 'Content-Security-Policy', content: "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;"});
     sandbox.one('load', function() {
-      $(this).one('load', () => mvelo.ui.terminate(port));
       $(this).contents().find('head').append(meta)
       .append(csp)
       .append(style)

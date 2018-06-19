@@ -13,14 +13,6 @@ export default class ContentSandbox extends React.PureComponent {
     this.sandbox = null;
   }
 
-  componentDidMount() {
-    const sandbox = $(this.sandbox);
-    sandbox.one('load', () => {
-      sandbox.one('load', this.props.onTerminate);
-      this.setContent(this.props.value);
-    });
-  }
-
   componentDidUpdate(prevProps) {
     if (this.sandbox && prevProps.value !== this.props.value) {
       this.setContent(this.props.value);
@@ -49,12 +41,11 @@ export default class ContentSandbox extends React.PureComponent {
     return (
       <iframe style={{border: '1px solid lightgray', backgroundColor: 'white', borderRadius: '2px'}}
         srcDoc={sandboxContent} sandbox="allow-same-origin allow-popups"
-        frameBorder="0" ref={node => this.sandbox = node} />
+        frameBorder="0" ref={node => this.sandbox = node} onLoad={() => this.setContent(this.props.value)} />
     );
   }
 }
 
 ContentSandbox.propTypes = {
-  value: PropTypes.string,
-  onTerminate: PropTypes.func
+  value: PropTypes.string
 };
