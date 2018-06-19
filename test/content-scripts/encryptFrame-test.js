@@ -32,7 +32,6 @@ describe('Encrypt Frame unit tests', () => {
 
   describe('_setEditorOutput', () => {
     beforeEach(() => {
-      sinon.stub(ef, '_saveEmailText');
       sinon.stub(ef, '_normalizeButtons');
       sinon.stub(ef, '_setMessage');
     });

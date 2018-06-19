@@ -1,20 +1,25 @@
 /* eslint strict: 0 */
-const webpack = require('webpack');
 
-function plugins(env) {
+const prod = {
+  mode: 'production',
+  optimization: {
+    minimize: false
+  },
+  plugins: plugins(),
+  performance: {
+    hints: false
+  }
+};
+
+function plugins() {
   return [
     function() {
-      this.plugin('done', stats => {
+      this.hooks.done.tap('DoneHook', stats => {
         if (stats.compilation.errors && stats.compilation.errors.length && process.argv.indexOf('--watch') == -1) {
           process.exitCode = 1;
         }
       });
-    },
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify(env)
-      }
-    })
+    }
   ];
 }
 
@@ -64,7 +69,7 @@ function resolve() {
   };
 }
 
-function replaceVersion(test, version, json) {
+function replaceVersion(test, version) {
   const rule = {
     test,
     use: [
@@ -77,12 +82,10 @@ function replaceVersion(test, version, json) {
       }
     ]
   };
-  if (json) {
-    rule.use.push({loader: 'json-loader'});
-  }
   return rule;
 }
 
+exports.prod = prod;
 exports.plugins = plugins;
 exports.module = {react};
 exports.resolve = resolve;

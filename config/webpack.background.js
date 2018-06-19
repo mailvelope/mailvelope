@@ -19,24 +19,23 @@ const resolve = {
   }
 };
 
-const prod = {
+const prod = Object.assign({}, common.prod, {
   entry,
   output,
   resolve,
   module: {
-    rules: [common.replaceVersion(/defaults\.json$/, pjson.version, true)],
+    rules: [common.replaceVersion(/defaults\.json$/, pjson.version)],
     noParse: /openpgp\.js$/
-  },
-  plugins: common.plugins('production')
-};
+  }
+});
 
 const dev = Object.assign({}, prod, {
+  mode: 'development',
   devtool: 'cheap-module-source-map',
   module: {
-    rules: [common.replaceVersion(/defaults\.json$/, `${pjson.version} build: ${(new Date()).toISOString().slice(0, 19)}`, true)],
+    rules: [common.replaceVersion(/defaults\.json$/, `${pjson.version} build: ${(new Date()).toISOString().slice(0, 19)}`)],
     noParse: /openpgp\.js$/
-  },
-  plugins: common.plugins('development')
+  }
 });
 
 module.exports = [dev];
