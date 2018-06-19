@@ -37,6 +37,7 @@
     "tabs",
     "webNavigation"
   ],
+  "content_security_policy": "script-src 'self'; object-src 'self'; frame-src 'self';",
   "web_accessible_resources": [
     "app/app.html",
     "client-API/mailvelope-client-api.js",

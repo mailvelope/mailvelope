@@ -174,7 +174,7 @@ export default class DecryptMessage extends React.Component {
           </div>
           <div className="decrypt-msg-body">
             <div className="plain-text">
-              <ContentSandbox value={this.state.message} onTerminate={() => mvelo.ui.terminate(this.port)} />
+              <ContentSandbox value={this.state.message} />
             </div>
           </div>
           <div className="decrypt-msg-footer">

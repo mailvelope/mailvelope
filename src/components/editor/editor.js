@@ -343,7 +343,6 @@ export default class Editor extends React.Component {
             <div className="plain-text">
               <PlainText defaultValue={this.state.defaultPlainText} onChange={() => this.handleTextChange()}
                 onBlur={() => this.blurWarning && this.blurWarning.onBlur()} onMouseUp={element => this.handleTextMouseUp(element)}
-                onTerminate={() => mvelo.ui.terminate(this.port)}
                 ref={node => this.plainText = node}
               />
             </div>

@@ -15,10 +15,6 @@ export default class PlainText extends React.PureComponent {
     this.textarea = null;
   }
 
-  componentDidMount() {
-    this.createPlainText();
-  }
-
   componentDidUpdate(prevProps) {
     // if default value is set after rendering, set manually
     if (this.textarea && prevProps.defaultValue !== this.props.defaultValue) {
@@ -33,15 +29,7 @@ export default class PlainText extends React.PureComponent {
   }
 
   createPlainText() {
-    const sandbox = $(this.sandbox);
-    sandbox.one('load', () => {
-      sandbox.one('load', this.props.onTerminate);
-      ReactDOM.render(this.createTextarea(), sandbox.contents().find('#root').get(0));
-    });
-  }
-
-  createTextarea() {
-    return (
+    const textarea = (
       <textarea defaultValue={this.props.defaultValue} className="form-control" rows={12} autoFocus
         onChange={event => this.props.onChange(event.target.value)}
         onBlur={this.props.onBlur}
@@ -50,6 +38,7 @@ export default class PlainText extends React.PureComponent {
         style={{width: '100%', height: '100%', marginBottom: 0, color: 'black', resize: 'none'}}
       />
     );
+    ReactDOM.render(textarea, $(this.sandbox).contents().find('#root').get(0));
   }
 
   render() {
@@ -68,7 +57,8 @@ export default class PlainText extends React.PureComponent {
       </html>
     `;
     return (
-      <iframe sandbox="allow-same-origin allow-scripts" srcDoc={sandboxContent} frameBorder={0} style={{overflowY: 'hidden'}} ref={node => this.sandbox = node} />
+      <iframe sandbox="allow-same-origin allow-scripts" srcDoc={sandboxContent} frameBorder={0} style={{overflowY: 'hidden'}}
+        ref={node => this.sandbox = node} onLoad={() => this.createPlainText()} />
     );
   }
 }
@@ -77,6 +67,5 @@ PlainText.propTypes = {
   defaultValue: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func,
-  onMouseUp: PropTypes.func,
-  onTerminate: PropTypes.func
+  onMouseUp: PropTypes.func
 };
