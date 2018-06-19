@@ -17,18 +17,17 @@ const resolve = {
   }
 };
 
-exports.prod = {
+exports.prod = Object.assign({}, common.prod, {
   entry,
   output,
   resolve,
-  plugins: common.plugins('production'),
   module: {
     rules: [common.replaceVersion(/main\.js$/, pjson.version)]
   }
-};
+});
 
 exports.dev = Object.assign({}, exports.prod, {
-  devtool: 'inline-source-map',
-  plugins: common.plugins('development')
+  mode: 'development',
+  devtool: 'inline-source-map'
 });
 

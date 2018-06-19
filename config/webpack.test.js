@@ -6,7 +6,13 @@ const path = require('path');
 
 module.exports = {
 
-  devtool: 'cheap-module-source-map',
+  mode: 'production',
+
+  optimization: {
+    minimize: false
+  },
+
+  devtool: 'source-map',
 
   entry: './test/test.js',
 
@@ -34,7 +40,7 @@ module.exports = {
       exclude: /node_modules/,
       loader: 'babel-loader',
       options: {
-        presets: ['react']
+        presets: ['react', 'env']
       }
     },
     {
@@ -65,6 +71,6 @@ module.exports = {
     }]
   },
 
-  plugins: common.plugins('development')
+  plugins: common.plugins()
 
 };
