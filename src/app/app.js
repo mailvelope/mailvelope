@@ -297,7 +297,7 @@ export class App extends React.Component {
                 </div>
                 <div className="col-md-9">
                   <div className="jumbotron secureBackground">
-                    <section className="well">
+                    <section className="well mv-options">
                       <Route path='/settings/general' component={General} />
                       <Route path='/settings/security' component={Security} />
                       <Route path='/settings/watchlist' component={WatchList} />

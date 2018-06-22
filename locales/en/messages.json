@@ -375,6 +375,10 @@
     "description": "Label for editor options.",
     "message": "Email editor selection"
   },
+  "general_prefer_gnupg": {
+    "description": "Option to choose GnuPG as the preferred OpenPGP backend.",
+    "message": "Prefer GnuPG for all OpenPGP encryption operations"
+  },
   "general_primary_key_always": {
     "description": "Label for primary private key option.",
     "message": "Always add my primary key to the list of recipients. (This allows you to decrypt sent mails)"
