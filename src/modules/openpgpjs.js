@@ -4,7 +4,6 @@
  */
 
 import * as openpgp from 'openpgp';
-import {mapKeys} from './key';
 
 /**
  * Decrypt message
@@ -19,10 +18,10 @@ import {mapKeys} from './key';
  */
 export async function decrypt({message, keyring, senderAddress, selfSigned, encryptionKeyIds, unlockKey, format}) {
   let privateKey = keyring.getPrivateKeyByIds(encryptionKeyIds);
-  privateKey = await unlockKey({key: privateKey.key, keyid: privateKey.keyid});
+  privateKey = await unlockKey(privateKey);
   let signingKeys;
   // normalize sender address to array
-  senderAddress = [].concat(senderAddress || []);
+  senderAddress = mvelo.util.toArray(senderAddress);
   // verify signatures if sender address provided or self signed message (draft)
   if (senderAddress.length || selfSigned) {
     signingKeys = [];
@@ -38,17 +37,29 @@ export async function decrypt({message, keyring, senderAddress, selfSigned, encr
     }
   }
   const result = await openpgp.decrypt({message, privateKey, publicKeys: signingKeys, format});
-  result.signatures = mapSignatures(result.signatures, keyring);
+  result.signatures = result.signatures.map(signature => {
+    signature.keyid = signature.keyid.toHex();
+    return signature;
+  });
   return result;
 }
 
-function mapSignatures(signatures = [], keyring) {
-  return signatures.map(signature => {
-    signature.keyid = signature.keyid.toHex();
-    if (signature.valid !== null) {
-      const signingKey = keyring.keystore.getKeysForId(signature.keyid, true);
-      signature.keyDetails = mapKeys(signingKey)[0];
-    }
-    return signature;
-  });
+/**
+ * Encrypt message
+ * @param  {String} options.data - data to be encrypted as native JavaScript string
+ * @param  {KeyringBase} options.keyring - keyring used for encryption
+ * @param  {Function} options.unlockKey - callback that unlocks private key
+ * @param  {Array<String>} options.encryptionKeyFprs - array of key fingerprints used for encryption
+ * @param  {String} options.signingKeyIdHex - keyid of signing key
+ * @return {String}
+ */
+export async function encrypt({data, keyring, unlockKey, encryptionKeyFprs, signingKeyIdHex}) {
+  let signingKey;
+  if (signingKeyIdHex) {
+    signingKey = keyring.getPrivateKeyByIds(signingKeyIdHex);
+    signingKey = await unlockKey(signingKey);
+  }
+  const keys = keyring.getKeysByIds(encryptionKeyFprs);
+  const msg = await openpgp.encrypt({data, publicKeys: keys, privateKeys: signingKey});
+  return msg.data;
 }

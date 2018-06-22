@@ -34,30 +34,29 @@ export default class EditorController extends sub.SubController {
     this.pwdControl = null;
     this.keyserver = new KeyServer();
     this.pgpMIME = false;
-    this.signMsg = null;
     this.options = {};
 
     // register event handlers
-    this.on('editor-init', this._onEditorInit);
-    this.on('editor-plaintext', this._onSignAndEncrypt);
-    this.on('editor-user-input', this._onEditorUserInput);
-    this.on('keyserver-lookup', this.lookupKeyOnServer);
+    this.on('editor-init', this.onEditorInit);
+    this.on('editor-plaintext', this.onEditorPlaintext);
+    this.on('editor-user-input', this.onEditorUserInput);
+    this.on('keyserver-lookup', this.onKeyServerLookup);
     // standalone editor only
-    this.on('editor-cancel', this._onEditorCancel);
-    this.on('sign-only', this._onSignOnly);
+    this.on('editor-cancel', this.onEditorCancel);
+    this.on('sign-only', this.onSignOnly);
     // API only
-    this.on('editor-container-encrypt', this._onEditorContainerEncrypt);
-    this.on('editor-container-create-draft', this._onEditorContainerCreateDraft);
-    this.on('editor-options', this._onEditorOptions);
+    this.on('editor-container-encrypt', this.onEditorContainerEncrypt);
+    this.on('editor-container-create-draft', this.onEditorContainerCreateDraft);
+    this.on('editor-options', this.onEditorOptions);
     this.on('open-app', ({fragment}) => this.openApp(fragment));
   }
 
-  _onEditorInit() {
+  onEditorInit() {
     if (this.ports.editorCont) {
       this.ports.editorCont.emit('editor-ready');
     } else {
       // non-container case, set options
-      this._onEditorOptions({
+      this.onEditorOptions({
         keyringId: mvelo.MAIN_KEYRING_ID,
         options: this.options,
       });
@@ -68,15 +67,30 @@ export default class EditorController extends sub.SubController {
     }
   }
 
-  _onEditorOptions(msg) {
+  /**
+   * Displays the recipient proposal in the editor.
+   * @param  {Array} recipients - a list of potential recipient from the webmail ui
+   */
+  displayRecipientProposal(recipients) {
+    // deduplicate email addresses
+    let emails = (recipients || []).map(recipient => recipient.email);
+    emails = mvelo.util.deDup(emails); // just dedup, dont change order of user input
+    recipients = emails.map(e => ({email: e}));
+    // get all public keys in the local keyring
+    const localKeyring = getKeyringById(mvelo.MAIN_KEYRING_ID);
+    const keys = localKeyring.getKeyUserIDs({allUsers: true});
+    const tofu = this.keyserver.getTOFUPreference();
+    this.emit('public-key-userids', {keys, recipients, tofu});
+  }
+
+  onEditorOptions(msg) {
     this.keyringId = msg.keyringId;
     this.options = msg.options;
-    this.signMsg = msg.options.signMsg;
     const keyring = getKeyringById(this.keyringId);
     const primaryKey = keyring.getPrimaryKey();
     const primaryKeyId = primaryKey && primaryKey.keyid.toUpperCase() || '';
     const data = {
-      signMsg: this.signMsg,
+      signMsg: this.options.signMsg,
       primary: primaryKeyId
     };
     if (msg.options.privKeys) {
@@ -96,7 +110,7 @@ export default class EditorController extends sub.SubController {
     this.ports.editor.emit('set-init-data', data);
   }
 
-  _onEditorCancel() {
+  onEditorCancel() {
     if (this.editorPopup) {
       this.editorPopup.close();
       this.editorPopup = null;
@@ -104,7 +118,7 @@ export default class EditorController extends sub.SubController {
     }
   }
 
-  _onEditorContainerEncrypt(msg) {
+  onEditorContainerEncrypt(msg) {
     this.pgpMIME = true;
     this.keyringId = msg.keyringId;
     const keyIdMap = getKeyringById(this.keyringId).getKeyIdByAddress(msg.recipients, {validity: true});
@@ -130,9 +144,8 @@ export default class EditorController extends sub.SubController {
     this.ports.editor.emit('get-plaintext', {action: 'encrypt'});
   }
 
-  _onEditorContainerCreateDraft(msg) {
+  onEditorContainerCreateDraft(msg) {
     this.pgpMIME = true;
-    this.signMsg = true;
     this.keyringId = msg.keyringId;
     this.options.reason = 'PWD_DIALOG_REASON_CREATE_DRAFT';
     const primary = getKeyringById(this.keyringId).getPrimaryKey();
@@ -149,7 +162,7 @@ export default class EditorController extends sub.SubController {
     this.ports.editor.emit('get-plaintext', {action: 'encrypt', draft: true});
   }
 
-  async _onSignOnly(msg) {
+  async onSignOnly(msg) {
     const key = getKeyringById(mvelo.MAIN_KEYRING_ID).getPrivateKeyByHexId(msg.signKeyId);
     // keep signing key
     this.signKey = key.key;
@@ -172,7 +185,7 @@ export default class EditorController extends sub.SubController {
     this.emit('get-plaintext', {action: 'sign'});
   }
 
-  _onEditorUserInput(msg) {
+  onEditorUserInput(msg) {
     uiLog.push(msg.source, msg.type);
   }
 
@@ -182,17 +195,14 @@ export default class EditorController extends sub.SubController {
    * @param  {Object} msg   The event message object
    * @return {undefined}
    */
-  lookupKeyOnServer(msg) {
-    return this.keyserver.lookup(msg.recipient).then(key => {
+  async onKeyServerLookup(msg) {
+    const key = await this.keyserver.lookup(msg.recipient);
+    if (key && key.publicKeyArmored) {
       // persist key in local keyring
       const localKeyring = getKeyringById(mvelo.MAIN_KEYRING_ID);
-      if (key && key.publicKeyArmored) {
-        return localKeyring.importKeys([{type: 'public', armored: key.publicKeyArmored}]);
-      }
-    })
-    .then(() => {
-      this.sendKeyUpdate();
-    });
+      await localKeyring.importKeys([{type: 'public', armored: key.publicKeyArmored}]);
+    }
+    this.sendKeyUpdate();
   }
 
   sendKeyUpdate() {
@@ -203,24 +213,32 @@ export default class EditorController extends sub.SubController {
   }
 
   /**
-   * @param {Object} options
-   * @param {String} options.initText
-   * @param {String} options.keyringId
-   * @param {Function} options.getRecipientProposal
-   * @param {Function} callback
+   * Encrypt operation called by other controllers, opens editor popup
+   * @param {Boolean} options.signMsg - sign message option is active
+   * @param {String} options.predefinedText - text that will be added to the editor
+   * @param {String} options.predefinedText - text that will be added to the editor
+   * @param {String} quotedMail - mail that should be quoted
+   * @param {boolean} quotedMailIndent - if true the quoted mail will be indented
+   * @param {Function} getRecipientProposal - callback to retrieve recipient email addresses
+   * @return {Promise<Object>} - {armored, recipients}
    */
   encrypt(options) {
     this.options = options;
+    this.options.privKeys = true; // send private keys for signing key selection to editor
     return new Promise((resolve, reject) => {
       this.encryptDone = {resolve, reject};
       mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}`, {width: 820, height: 550})
       .then(popup => {
         this.editorPopup = popup;
-        popup.addRemoveListener(() => this._onEditorCancel());
+        popup.addRemoveListener(() => this.onEditorCancel());
       });
     });
   }
 
+  /**
+   * Encrypt operation called by app controller for encrypt text component
+   * @return {Promise<Object>} {armored}
+   */
   encryptText() {
     return new Promise((resolve, reject) => {
       this.encryptDone = {resolve, reject};
@@ -233,21 +251,9 @@ export default class EditorController extends sub.SubController {
   }
 
   /**
-   * Displays the recipient proposal in the editor.
-   * @param  {Array} recipients   A list of potential recipient from the webmail ui
+   * A encrypted message will be decrypted and shown in the editor
+   * @param  {String} armored
    */
-  displayRecipientProposal(recipients) {
-    // deduplicate email addresses
-    let emails = (recipients || []).map(recipient => recipient.email);
-    emails = mvelo.util.deDup(emails); // just dedup, dont change order of user input
-    recipients = emails.map(e => ({email: e}));
-    // get all public keys in the local keyring
-    const localKeyring = getKeyringById(mvelo.MAIN_KEYRING_ID);
-    const keys = localKeyring.getKeyUserIDs({allUsers: true});
-    const tofu = this.keyserver.getTOFUPreference();
-    this.emit('public-key-userids', {keys, recipients, tofu});
-  }
-
   scheduleDecrypt(armored) {
     if (armored.length > 400000 && !this.editorPopup) {
       // show spinner for large messages
@@ -259,16 +265,23 @@ export default class EditorController extends sub.SubController {
   }
 
   /**
+   * Decrypt armored message
    * @param {String} armored
-   * @returns {undefined}
    */
   async decryptArmored(armored) {
     try {
       this.options.selfSigned = Boolean(this.options.armoredDraft);
+      const unlockKey = async options => {
+        const result = await this.unlockKey(options);
+        if (this.editorPopup) {
+          this.ports.editor.emit('hide-pwd-dialog');
+        }
+        return result;
+      };
       const {data, signatures} = await model.decryptMessage({
         armored,
         keyringId: this.keyringId,
-        unlockKey: this.unlockKey.bind(this),
+        unlockKey,
         options: this.options
       });
       const options = this.options;
@@ -307,151 +320,32 @@ export default class EditorController extends sub.SubController {
     }
   }
 
-  async unlockKey({key, keyid}) {
-    const pwdControl = sub.factory.get('pwdDialog');
-    const openPopup = !this.editorPopup;
-    const beforePasswordRequest = id => this.editorPopup && this.ports.editor.emit('show-pwd-dialog', {id});
-    const unlockedKey = await pwdControl.unlockKey({
-      key,
-      keyid,
-      reason: 'PWD_DIALOG_REASON_DECRYPT',
-      openPopup,
-      beforePasswordRequest
-    });
-    if (this.editorPopup) {
-      this.ports.editor.emit('hide-pwd-dialog');
-    }
-    triggerSync({keyring: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
-    return unlockedKey.key;
-  }
-
   /**
-   * @param {Object} options
-   * @param {String} options.message
-   * @param {Array} options.keyIdsHex
-   * @param {String} options.signKeyIdHex
-   * @param {Boolean} options.noCache
-   * @return {Promise}
-   */
-  async signAndEncryptMessage(options) {
-    let signKey;
-    this.encryptTimer = null;
-    if (options.signKeyIdHex) {
-      signKey = getKeyringById(this.keyringId).getPrivateKeyByHexId(options.signKeyIdHex);
-    } else {
-      signKey = getKeyringById(this.keyringId).getPrimaryKey();
-    }
-
-    if (!signKey) {
-      throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
-    }
-
-    const signKeyPacket = signKey.key.getSigningKeyPacket();
-    const signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
-    if (!signKeyid) {
-      throw new mvelo.Error('No valid signing key packet found', 'NO_SIGN_KEY_FOUND');
-    }
-
-    signKey.keyid = signKeyid;
-    signKey.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
-    signKey.noCache = options.noCache;
-
-    if (this.editorPopup) {
-      signKey.openPopup = false;
-      signKey.beforePasswordRequest = () => this.emit('show-pwd-dialog', {id: this.pwdControl.id});
-    }
-    this.pwdControl = sub.factory.get('pwdDialog');
-    const unlockedKey = await this.pwdControl.unlockKey(signKey);
-    this.encryptTimer = setTimeout(() => {
-      this.ports.editor.emit('encrypt-in-progress');
-    }, 800);
-
-    if (!prefs.security.password_cache) {
-      triggerSync({keyring: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
-    }
-
-    return model.encryptMessage({
-      keyIdsHex: options.keyIdsHex,
-      keyringId: this.keyringId,
-      primaryKey: unlockedKey.key,
-      message: options.message,
-      uiLogSource: 'security_log_editor'
-    });
-  }
-
-  /**
-   * @param {Object} options
-   * @param {String} options.message
-   * @param {String} options.keyringId
-   * @param {Array} options.keyIdsHex
-   * @return {Promise}
-   */
-  encryptMessage(options) {
-    this.encryptTimer = setTimeout(() => {
-      this.ports.editor.emit('encrypt-in-progress');
-    }, 800);
-
-    options.uiLogSource = 'security_log_editor';
-
-    return model.encryptMessage(options);
-  }
-
-  /**
-   * @param {String} message
-   * @return {Promise}
-   */
-  signMessage(message) {
-    this.encryptTimer = setTimeout(() => {
-      this.emit('encrypt-in-progress');
-    }, 800);
-
-    return model.signMessage(message, this.signKey);
-  }
-
-  /**
-   * Closes the editor popup and transfer the encrypted/signed armored
-   * message and recipients back to the webmail interface.
-   * @param  {String} options.armored   The encrypted/signed message
-   * @param  {Array}  options.keys      The keys used to encrypt the message
-   */
-  transferEncrypted(options) {
-    if (this.ports.editorCont) {
-      this.ports.editorCont.emit('encrypted-message', {message: options.armored});
-    } else {
-      const recipients = (options.keys || []).map(k => ({name: k.name, email: k.email}));
-      this.encryptDone.resolve({armored: options.armored, recipients});
-    }
-  }
-
-  /**
-   * @param {Object} options
+   * Receive plaintext from editor, initiate encryption
    * @param {String} options.action
    * @param {String} options.message
    * @param {String} options.keys
    * @param {Array} options.attachment
    * @param {Boolean} options.noCache
-   * @return {undefined}
-   * @error {Error}
    */
-  _onSignAndEncrypt(options) {
+  async onEditorPlaintext(options) {
     options.keys = options.keys || [];
-    this.signAndEncrypt(options)
-    .then(armored => {
+    try {
+      const armored = await this.signAndEncrypt(options);
       this.ports.editor.emit('encrypt-end');
       if (this.editorPopup) {
         this.editorPopup.close();
         this.editorPopup = null;
       }
       this.transferEncrypted({armored, keys: options.keys});
-    })
-    .catch(error => {
-      if (this.editorPopup && error.code === 'PWD_DIALOG_CANCEL') {
+    } catch (err) {
+      if (this.editorPopup && err.code === 'PWD_DIALOG_CANCEL') {
         // popup case
         this.emit('hide-pwd-dialog');
         return;
       }
-      console.log(error);
-      error = mvelo.util.mapError(error);
+      console.log(err);
+      const error = mvelo.util.mapError(err);
       this.ports.editor.emit('error-message', {error});
       if (this.ports.editorCont) {
         this.ports.editorCont.emit('error-message', {error});
@@ -459,13 +353,12 @@ export default class EditorController extends sub.SubController {
         this.encryptDone.reject(error);
       }
       this.ports.editor.emit('encrypt-failed');
-    })
-    .then(() => {
-      clearTimeout(this.encryptTimer);
-    });
+    }
+    clearTimeout(this.encryptTimer);
   }
 
   /**
+   * encrypt, sign & encrypt, or sign only operation
    * @param {Object} options
    * @param {String} options.action
    * @param {String} options.message
@@ -489,23 +382,113 @@ export default class EditorController extends sub.SubController {
         throw new mvelo.Error('MIME building failed.');
       }
       const keyIdsHex = this.getPublicKeyIds(options.keys);
-      if (this.signMsg || options.signMsg) {
+      if (options.signMsg) {
         return this.signAndEncryptMessage({
-          message: data,
+          data,
           keyIdsHex,
           signKeyIdHex: options.signKey,
           noCache: options.noCache
         });
       } else {
         return this.encryptMessage({
-          message: data,
-          keyringId: this.keyringId,
+          data,
           keyIdsHex
         });
       }
     } else if (options.action === 'sign') {
       return this.signMessage(options.message);
     }
+  }
+
+  /**
+   * @param {String} options.data
+   * @param {Array<String>} options.keyIdsHex
+   * @param {String} options.signKeyIdHex
+   * @param {Boolean} options.noCache
+   * @return {Promise}
+   */
+  async signAndEncryptMessage({data, signKeyIdHex, keyIdsHex, noCache}) {
+    this.encryptTimer = null;
+    if (!signKeyIdHex) {
+      const primaryKey = getKeyringById(this.keyringId).getPrimaryKey();
+      signKeyIdHex = primaryKey && primaryKey.keyid;
+    }
+    if (!signKeyIdHex) {
+      throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
+    }
+    const unlockKey = async options => {
+      options.noCache = noCache;
+      options.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
+      options.sync = !prefs.security.password_cache;
+      const result = await this.unlockKey(options);
+      this.encryptTimer = setTimeout(() => {
+        this.ports.editor.emit('encrypt-in-progress');
+      }, 800);
+      return result;
+    };
+    return model.encryptMessage({
+      data,
+      keyringId: this.keyringId,
+      unlockKey,
+      encryptionKeyFprs: keyIdsHex,
+      signingKeyIdHex: signKeyIdHex,
+      uiLogSource: 'security_log_editor'
+    });
+  }
+
+  /**
+   * @param {String} options.data
+   * @param {Array<Strin>} options.keyIdsHex
+   * @return {Promise}
+   */
+  encryptMessage({data, keyIdsHex}) {
+    this.encryptTimer = setTimeout(() => {
+      this.ports.editor.emit('encrypt-in-progress');
+    }, 800);
+    return model.encryptMessage({
+      data,
+      keyringId: this.keyringId,
+      encryptionKeyFprs: keyIdsHex,
+      uiLogSource: 'security_log_editor'
+    });
+  }
+
+  /**
+   * Create a cleartext signature
+   * @param {String} message
+   * @return {Promise}
+   */
+  signMessage(message) {
+    this.encryptTimer = setTimeout(() => {
+      this.emit('encrypt-in-progress');
+    }, 800);
+    return model.signMessage(message, this.signKey);
+  }
+
+  /**
+   * Closes the editor popup and transfer the encrypted/signed armored
+   * message and recipients back to the webmail interface.
+   * @param  {String} options.armored   The encrypted/signed message
+   * @param  {Array}  options.keys      The keys used to encrypt the message
+   */
+  transferEncrypted(options) {
+    if (this.ports.editorCont) {
+      this.ports.editorCont.emit('encrypted-message', {message: options.armored});
+    } else {
+      const recipients = (options.keys || []).map(k => ({name: k.name, email: k.email}));
+      this.encryptDone.resolve({armored: options.armored, recipients});
+    }
+  }
+
+  async unlockKey({key, keyid, noCache, reason = 'PWD_DIALOG_REASON_DECRYPT', sync = true}) {
+    const pwdControl = sub.factory.get('pwdDialog');
+    const openPopup = !this.editorPopup;
+    const beforePasswordRequest = id => this.editorPopup && this.ports.editor.emit('show-pwd-dialog', {id});
+    const unlockedKey = await pwdControl.unlockKey({key, keyid, reason, openPopup, noCache, beforePasswordRequest});
+    if (sync) {
+      triggerSync({keyring: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
+    }
+    return unlockedKey.key;
   }
 
   /**

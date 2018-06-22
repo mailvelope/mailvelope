@@ -440,6 +440,21 @@ mvelo.util.checkEmail = function(address) {
 };
 
 /**
+ * Normalize parameter to Array. falsy -> []
+ * @param  {Any}  param
+ * @return {Array}
+ */
+mvelo.util.toArray = function(param) {
+  if (!param) {
+    return [];
+  }
+  if (!Array.isArray(param)) {
+    return [param];
+  }
+  return param;
+};
+
+/**
  * Inherit from mvelo.EventHandler.prototype to use the new event handling
  * apis 'on' and 'emit'.
  * @param {Port} port - port object received from runtime.connect()

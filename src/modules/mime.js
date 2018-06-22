@@ -128,7 +128,7 @@ export function buildMail({message, attachments, quota, pgpMIME}) {
       quotaSize += attachment.size;
       const attachmentMime = new mailbuild("text/plain")
       .createChild(false, {filename: attachment.name})
-        //.setHeader("Content-Type", attachment.type + "; charset=utf-8")
+      //.setHeader("Content-Type", attachment.type + "; charset=utf-8")
       .addHeader("Content-Transfer-Encoding", "base64")
       .addHeader("Content-Disposition", "attachment") // ; filename="attachment.filename
       .setContent(attachment.content);

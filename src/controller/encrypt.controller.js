@@ -38,8 +38,7 @@ export default class EncryptController extends sub.SubController {
       predefinedText: options.text,
       quotedMail: options.quotedMail,
       quotedMailIndent: !this.editorContentModified,
-      getRecipientProposal: this.getRecipientProposal.bind(this),
-      privKeys: true
+      getRecipientProposal: this.getRecipientProposal.bind(this)
     })
     .then(({armored, recipients}) => {
       this.emit('set-editor-output', {text: armored, recipients});
