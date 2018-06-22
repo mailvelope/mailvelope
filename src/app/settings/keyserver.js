@@ -127,32 +127,34 @@ export default class KeyServer extends React.Component {
 
   render() {
     return (
-      <form className="form">
+      <div>
         <h3>{l10n.map.settings_keyserver}</h3>
-        <label htmlFor="keyserverInputHkpUrl">{l10n.map.keyserver_hkp_url}</label>
-        <div className="form-group">
-          <Select.Creatable id="keyserverInputHkpUrl" value={this.state.hkp_base_url} options={this.state.hkp_server_list}
-            onChange={this.handleServerChange}
-            isValidNewOption={option => this.validateUrl(option && option.label)}
-          />
-        </div>
-        <label>{l10n.map.keyserver_tofu_label}</label>
-        <div className="form-group">
-          <div className="checkbox">
-            <label className="checkbox" htmlFor="keyserverTOFULookup">
-              <input type="checkbox" name="mvelo_tofu_lookup" checked={this.state.mvelo_tofu_lookup} onChange={this.handleCheck} id="keyserverTOFULookup" />
-              <span>{l10n.map.keyserver_tofu_lookup}</span>. <a href="https://keys.mailvelope.com" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a>
-            </label>
+        <form className="form">
+          <h4 className="control-label">{l10n.map.keyserver_hkp_url}</h4>
+          <div className="form-group">
+            <Select.Creatable value={this.state.hkp_base_url} options={this.state.hkp_server_list}
+              onChange={this.handleServerChange}
+              isValidNewOption={option => this.validateUrl(option && option.label)}
+            />
           </div>
-        </div>
-        <div className="form-group">
-          {this.state.alert && <Alert header={this.state.alert.header} message={this.state.alert.message} type={this.state.alert.type} />}
-        </div>
-        <div className="form-group">
-          <button type="button" onClick={() => this.handleSave()} className="btn btn-primary" disabled={!(this.state.modified && this.state.valid_base_url)}>{l10n.map.form_save}</button>
-          <button type="button" onClick={() => this.setState(initialState(this.props))} className="btn btn-default" disabled={!this.state.modified}>{l10n.map.form_cancel}</button>
-        </div>
-      </form>
+          <h4 className="control-label">{l10n.map.keyserver_tofu_label}</h4>
+          <div className="form-group">
+            <div className="checkbox">
+              <label className="checkbox" htmlFor="keyserverTOFULookup">
+                <input type="checkbox" name="mvelo_tofu_lookup" checked={this.state.mvelo_tofu_lookup} onChange={this.handleCheck} id="keyserverTOFULookup" />
+                <span>{l10n.map.keyserver_tofu_lookup}</span>. <a href="https://keys.mailvelope.com" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a>
+              </label>
+            </div>
+          </div>
+          <div className="form-group">
+            {this.state.alert && <Alert header={this.state.alert.header} message={this.state.alert.message} type={this.state.alert.type} />}
+          </div>
+          <div className="form-group">
+            <button type="button" onClick={() => this.handleSave()} className="btn btn-primary" disabled={!(this.state.modified && this.state.valid_base_url)}>{l10n.map.form_save}</button>
+            <button type="button" onClick={() => this.setState(initialState(this.props))} className="btn btn-default" disabled={!this.state.modified}>{l10n.map.form_cancel}</button>
+          </div>
+        </form>
+      </div>
     );
   }
 }

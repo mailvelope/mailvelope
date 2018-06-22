@@ -3,20 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-#security .form-horizontal .control-label,
-#general .form-horizontal .control-label {
-  width: 280px;
-}
-
-#security .form-horizontal .controls,
-#general .form-horizontal .controls {
-  margin-left: 300px;
-}
-
-#security .form-group {
-  margin-bottom: 30px;
-}
-
 #pwdCacheLabel > * {
   margin-right: 10px;
 }

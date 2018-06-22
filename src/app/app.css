@@ -84,6 +84,14 @@ input[readonly] {
   border: 1px solid #ccc;
 }
 
+.mv-options h3 {
+  margin-bottom: 25px;
+}
+
+.mv-options .form-group {
+  margin-bottom: 30px;
+}
+
 /* Third party logo */
 
 .logo-header {
