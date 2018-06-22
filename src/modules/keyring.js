@@ -229,12 +229,13 @@ export function getAllKeyUserId() {
 /**
  * Get keyring that includes at least one private key of the specified key Ids.
  * Implements also fallback to alternative keyrings.
- * @param  {Array<openpgp.Keyid>} keyIds - key ids of private keys
+ * @param  {Array<openpgp.Keyid>|openpgp.Keyid} keyIds - key ids of private keys
  * @param  {String} [keyringId] - requested keyring, either API keyring or main keyring
  * @return {KeyringBase}
  */
-export function getKeyringWithPrivKey(keyIds = [], keyringId) {
+export function getKeyringWithPrivKey(keyIds, keyringId) {
   let keyrings = [];
+  keyIds = mvelo.util.toArray(keyIds);
   if (keyringId === mvelo.GNUPG_KEYRING_ID) {
     throw new Error('GnuPG keyring can be preferred, but not directly requested.');
   }
@@ -290,10 +291,15 @@ function compareKeyringsByPreference(a, b) {
 
 /**
  * Synchronize public keys across keyrings.
- * @param  {String} keyringId - destination keyring, public keys are synchronized from other keyrings.
- * @param  {Array<openpgp.Keyid>} keyIds - key ids of public keys that should be synchronized.
+ * @param  {KeyringBase} keyring - destination keyring, public keys are synchronized from other keyrings.
+ * @param  {Array<openpgp.Keyid|String>|openpgp.Keyid|String} keyIds - key ids or fingerprints of public keys that should be synchronized.
  */
-export async function syncPublicKeys(keyringId, keyIds) {
+export async function syncPublicKeys(keyring, keyIds) {
   // TODO
-  console.log('syncPublicKeys', keyringId, keyIds);
+  console.log('syncPublicKeys', keyring.id, keyIds);
+  keyIds = mvelo.util.toArray(keyIds);
+  if (!keyIds.length) {
+    // nothing to sync
+    return;
+  }
 }

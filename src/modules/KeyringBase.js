@@ -3,6 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
+import mvelo from '../lib/lib-mvelo';
 import * as openpgp from 'openpgp';
 import {goog} from './closure-library/closure/goog/emailaddress';
 import {setKeyringAttr, getKeyringAttr} from './keyring';
@@ -43,14 +44,14 @@ export default class KeyringBase {
 
   /**
    * Check if keyring has any private key or specific private keys by keyId
-   * @param  {Array<openpgp.Keyid>}  keyIds
+   * @param  {Array<openpgp.Keyid|String>}  keyIds
    * @return {Boolean}
    */
   hasPrivateKey(keyIds) {
     if (!keyIds) {
       return Boolean(this.keystore.privateKeys.keys.length);
     }
-    return keyIds.some(keyId => this.keystore.privateKeys.getForId(keyId.toHex(), true));
+    return keyIds.some(keyId => this.keystore.privateKeys.getForId(typeof keyId === 'string' ? keyId : keyId.toHex(), true));
   }
 
   getValidSigningKeys() {
@@ -265,12 +266,14 @@ export default class KeyringBase {
 
   /**
    * Return first private key that matches keyIds
-   * @param  {Array<openpgp.Keyid>}  keyIds
+   * @param  {Array<openpgp.Keyid|String>|openpgp.Keyid|String}  keyIds
    * @return {{key: openpgp.key.Key, keyid: String}|null}
    */
-  getPrivateKeyByIds(keyIds = []) {
+  getPrivateKeyByIds(keyIds) {
+    keyIds = mvelo.util.toArray(keyIds);
     for (const keyId of keyIds) {
-      const key = this.keystore.privateKeys.getForId(keyId.toHex(), true);
+      const keyIdHex = typeof keyId === 'string' ? keyId : keyId.toHex();
+      const key = this.keystore.privateKeys.getForId(keyIdHex, true);
       if (key) {
         return {
           key,
@@ -279,6 +282,16 @@ export default class KeyringBase {
       }
     }
     return null;
+  }
+
+  getKeysByIds(keyIds) {
+    return keyIds.map(keyId => {
+      const keyArray = this.keystore.getKeysForId(keyId);
+      if (keyArray) {
+        return keyArray[0];
+      }
+      throw new mvelo.Error(`No key found for ID ${keyId}`, 'NO_KEY_FOUND_FOR_ENCRYPTION');
+    });
   }
 
   getAttributes() {

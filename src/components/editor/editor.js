@@ -186,20 +186,20 @@ export default class Editor extends React.Component {
     // don't use key cache when sign & encrypt of message and user has not touched the editor
     // otherwise any predefinedText could be signed with the client-API
     const noCache = this.props.embedded && !msg.draft && !this.state.hasUserInput;
-    this.sendPlainText(msg.action, noCache);
+    this.sendPlainText(msg.action, noCache, msg.draft);
   }
 
   /**
    * Send the plaintext body to the background script for either signing or encryption.
    * @param  {String} action   Either 'sign' or 'encrypt'
    */
-  sendPlainText(action, noCache) {
+  sendPlainText(action, noCache, draft) {
     this.port.emit('editor-plaintext', {
       message: this.plainText.getValue(),
       keys: this.state.recipients.map(r => r.key || r), // some recipients don't have a key, still return address
       attachments: this.state.files,
       action,
-      signMsg: this.state.signMsg,
+      signMsg: this.state.signMsg || draft, // draft is always signed
       signKey: this.state.signKey.toLowerCase(),
       noCache
     });
