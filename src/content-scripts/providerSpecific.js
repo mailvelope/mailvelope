@@ -59,11 +59,13 @@ class Default {
    * Since there is not way to enter recipients in a generic fashion
    * this function does nothing.
    */
+
   setRecipients() { /* do nothing */ }
   /**
    * Extract sender
    * @return {Promise.<Array>}   sender object in the form { email: 'jon@example.com' }
    */
+
   getSender() {
     return Promise.resolve([]);
   }

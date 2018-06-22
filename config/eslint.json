@@ -47,6 +47,7 @@
     "key-spacing": ["warn", { "mode": "minimum" }], // enforce consistent spacing before and after keywords
     "keyword-spacing": 1, // enforce consistent spacing between keys and values in object literal properties
     "linebreak-style": 1, // enforce consistent linebreak style
+    "lines-between-class-members": 1, // require or disallow an empty line between class members
     "no-trailing-spaces": 1, // disallow trailing whitespace at the end of lines
     "no-var": 1, // require let or const instead of var
     "object-curly-spacing": ["warn", "never"], // enforce consistent spacing inside braces
