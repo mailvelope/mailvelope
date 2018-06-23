@@ -15,11 +15,9 @@ export default class EncryptController extends sub.SubController {
   constructor(port) {
     super(port);
     this.editorControl = null;
-    this.recipientsCallback = null;
     this.editorContentModified = false;
     // register event handlers
-    this.on('eframe-recipients', this.displayRecipientProposal);
-    this.on('eframe-display-editor', this.openEditor);
+    this.on('eframe-display-editor', this.onEncryptFrameDisplayEditor);
   }
 
   /**
@@ -27,7 +25,7 @@ export default class EncryptController extends sub.SubController {
    * input to their public keys.
    * @param  {String} options.text   The plaintext input to encrypt
    */
-  openEditor(options) {
+  onEncryptFrameDisplayEditor(options) {
     if (this.editorControl) {
       this.editorControl.activate();
       return;
@@ -38,7 +36,7 @@ export default class EncryptController extends sub.SubController {
       predefinedText: options.text,
       quotedMail: options.quotedMail,
       quotedMailIndent: !this.editorContentModified,
-      getRecipientProposal: this.getRecipientProposal.bind(this)
+      getRecipients: this.getRecipients.bind(this)
     })
     .then(({armored, recipients}) => {
       this.emit('set-editor-output', {text: armored, recipients});
@@ -56,26 +54,10 @@ export default class EncryptController extends sub.SubController {
   }
 
   /**
-   * Signal the encrypt frame to  call currentProvider.getRecipients().
-   * @param  {Function} callback   Will be called once recipients are set later
+   * Get recipients from the encrypt frame
+   * @return  {Promise<Array<Objects>>} - The recipient objects in the form: [{ email: 'jon@example.com' }]
    */
-  getRecipientProposal(callback) {
-    if (this.recipientsCallback) {
-      throw new Error('Waiting for recipients result.');
-    }
-    this.emit('get-recipients');
-    this.recipientsCallback = callback;
-  }
-
-  /**
-   * Handles gotten recipients after calling currentProvider.getRecipients() in
-   * the encrypt frame.
-   * @param  {Array} options.recipients   The recipient objects in the form: [{ email: 'jon@example.com' }]
-   */
-  displayRecipientProposal(options) {
-    if (this.recipientsCallback) {
-      this.recipientsCallback(options.recipients);
-      this.recipientsCallback = null;
-    }
+  getRecipients() {
+    return this.send('get-recipients');
   }
 }

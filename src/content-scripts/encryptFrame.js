@@ -169,8 +169,7 @@ export default class EncryptFrame extends mvelo.EventHandler {
   }
 
   _getRecipients() {
-    return this._currentProvider.getRecipients(this._editElement)
-    .then(recipients => this.emit('eframe-recipients', {recipients}));
+    return this._currentProvider.getRecipients(this._editElement);
   }
 
   _html2text(html) {
