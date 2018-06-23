@@ -51,7 +51,7 @@ export default class EditorController extends sub.SubController {
     this.on('open-app', ({fragment}) => this.openApp(fragment));
   }
 
-  onEditorInit() {
+  async onEditorInit() {
     if (this.ports.editorCont) {
       this.ports.editorCont.emit('editor-ready');
     } else {
@@ -60,18 +60,20 @@ export default class EditorController extends sub.SubController {
         keyringId: mvelo.MAIN_KEYRING_ID,
         options: this.options,
       });
-    }
-    // display recipient proposal in the editor
-    if (this.options.getRecipientProposal) {
-      this.options.getRecipientProposal(this.displayRecipientProposal.bind(this));
+      // transfer recipient proposal and public key info to the editor
+      let recipients;
+      if (this.options.getRecipients) {
+        recipients = await this.options.getRecipients();
+      }
+      this.setRecipientData(recipients);
     }
   }
 
   /**
-   * Displays the recipient proposal in the editor.
+   * Set the recipient data in the editor.
    * @param  {Array} recipients - a list of potential recipient from the webmail ui
    */
-  displayRecipientProposal(recipients) {
+  setRecipientData(recipients) {
     // deduplicate email addresses
     let emails = (recipients || []).map(recipient => recipient.email);
     emails = mvelo.util.deDup(emails); // just dedup, dont change order of user input
@@ -219,7 +221,7 @@ export default class EditorController extends sub.SubController {
    * @param {String} options.predefinedText - text that will be added to the editor
    * @param {String} quotedMail - mail that should be quoted
    * @param {boolean} quotedMailIndent - if true the quoted mail will be indented
-   * @param {Function} getRecipientProposal - callback to retrieve recipient email addresses
+   * @param {Function} getRecipients - retrieve recipient email addresses
    * @return {Promise<Object>} - {armored, recipients}
    */
   encrypt(options) {
