@@ -54,6 +54,7 @@ export default class EncryptedFormContainer {
   }
 
   onError(error) {
+    error.code = 'INVALID_FORM';
     if (this.container) {
       this.parent.removeChild(this.container);
       this.port.disconnect();
