@@ -196,6 +196,7 @@ export default class EncryptedFormController extends sub.SubController {
     } else {
       throw new mvelo.Error('No valid encryption key for recipient address.', 'NO_KEY_FOR_RECIPIENT');
     }
+    return true;
   }
 
   assertAndSetSignature(signature) {
@@ -203,6 +204,7 @@ export default class EncryptedFormController extends sub.SubController {
       throw new mvelo.Error('No valid signature.', 'NO_SIGNATURE');
     }
     this.formSignature = signature;
+    return true;
   }
 
   validateSignature(rawHtml) {
