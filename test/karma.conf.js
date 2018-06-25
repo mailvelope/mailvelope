@@ -17,6 +17,7 @@ module.exports = function(config) {
     files: [
       '../node_modules/sinon/pkg/sinon.js',
       'polyfills.js',
+      '../node_modules/babel-polyfill/dist/polyfill.js',
       '../node_modules/jquery/dist/jquery.js',
       '../src/lib/jquery.ext.js',
       '../node_modules/angular/angular.js',
