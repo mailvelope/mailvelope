@@ -17,13 +17,8 @@ export default class FormSandbox extends React.Component {
     this.files = [];
   }
 
-  shouldComponentUpdate() {
-    // create sandbox iframe only once
-    return false;
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.validate === true) {
+  componentDidUpdate() {
+    if (this.props.validate === true) {
       // trigger validation using native form submit event
       this.form.dispatchEvent(new Event('submit'));
     }

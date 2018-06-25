@@ -18,7 +18,6 @@ export default class EncryptedFormController extends sub.SubController {
     this.formRecipient = null;
     this.formSignature = null;
     this.recipientKey = null;
-    this.pwdControl = null;
     this.fileExtension = null;
 
     this.on('encrypted-form-init', this.onFormInit);
@@ -61,7 +60,7 @@ export default class EncryptedFormController extends sub.SubController {
     this.ports.encryptedFormCont.emit('encrypted-form-resize', {height: event.height});
   }
 
-  onFormDefinition(event) {
+  async onFormDefinition(event) {
     try {
       const form = this.getCleanFormElement(event.html);
       this.assertAndSetSignature(event.signature);
@@ -74,38 +73,37 @@ export default class EncryptedFormController extends sub.SubController {
       return;
     }
 
-    this.validateSignature(event.html)
-    .then(() => {
-      const cleanHtml = this.getCleanFormHtml(event.html);
-      this.ports.encryptedForm.emit('encrypted-form-definition', {
-        formDefinition: cleanHtml,
-        formEncoding: this.formEncoding,
-        formAction: this.formAction,
-        formRecipient: this.formRecipient,
-        formFingerprint: this.formFingerprint,
-      });
-    })
-    .catch(error => {
+    try {
+      await this.validateSignature(event.html);
+    } catch (error) {
       this.onFormError(error);
+    }
+
+    const cleanHtml = this.getCleanFormHtml(event.html);
+    this.ports.encryptedForm.emit('encrypted-form-definition', {
+      formDefinition: cleanHtml,
+      formEncoding: this.formEncoding,
+      formAction: this.formAction,
+      formRecipient: this.formRecipient,
+      formFingerprint: this.formFingerprint,
     });
   }
 
-  onFormSubmit(event) {
-    this.signAndEncrypt(event.data)
-    .then(armoredData => {
+  async onFormSubmit(event) {
+    try {
+      const armoredData = await this.signAndEncrypt(event.data);
       if (!this.formAction) {
         this.ports.encryptedFormCont.emit('encrypted-form-data', {armoredData});
       } else {
         this.ports.encryptedForm.emit('encrypted-form-submit', {armoredData});
       }
-    })
-    .catch(error => {
+    } catch (error) {
       if (error.code === 'PWD_DIALOG_CANCEL') {
         this.ports.encryptedForm.emit('encrypted-form-submit-cancel');
         return;
       }
       this.onFormError(error);
-    });
+    }
   }
 
   getCleanFormHtml(dirtyHtml) {
@@ -224,38 +222,28 @@ ${this.formSignature}
     });
   }
 
-  signAndEncrypt(data) {
-    let signKey;
-    return Promise.resolve()
-    .then(() => {
-      signKey = getKeyringById(this.keyringId).getPrimaryKey();
-      if (!signKey) {
-        throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
-      }
-      const signKeyPacket = signKey.key.getSigningKeyPacket();
-      const signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
-      if (!signKeyid) {
-        throw new mvelo.Error('No valid signing key packet found', 'NO_SIGN_KEY_FOUND');
-      }
-      signKey.keyid = signKeyid;
-      signKey.keyringId = this.keyringId;
-      signKey.reason = 'PWD_DIALOG_REASON_SIGN';
-      signKey.noCache = false;
-    })
-    .then(() => {
-      this.pwdControl = sub.factory.get('pwdDialog');
-      return this.pwdControl.unlockKey(signKey);
-    })
-    .then(() => {
-      this.pwdControl = null;
-      return model.encryptMessage({
-        keyIdsHex: [this.recipientKey.primaryKey.getFingerprint()],
-        keyringId: this.keyringId,
-        primaryKey: signKey,
-        message: data,
-        uiLogSource: 'security_log_encrypt_form',
-        filename: 'opengp-encrypted-form-data.' + this.fileExtension
-      });
+  async signAndEncrypt(data) {
+    const signKey = getKeyringById(this.keyringId).getPrimaryKey();
+    if (!signKey) {
+      throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
+    }
+    const signKeyPacket = signKey.key.getSigningKeyPacket();
+    const signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
+    if (!signKeyid) {
+      throw new mvelo.Error('No valid signing key packet found', 'NO_SIGN_KEY_FOUND');
+    }
+    signKey.keyid = signKeyid;
+    signKey.keyringId = this.keyringId;
+    signKey.reason = 'PWD_DIALOG_REASON_SIGN';
+    signKey.noCache = false;
+    await sub.factory.get('pwdDialog').unlockKey(signKey);
+    return await model.encryptMessage({
+      keyIdsHex: [this.recipientKey.primaryKey.getFingerprint()],
+      keyringId: this.keyringId,
+      primaryKey: signKey,
+      message: data,
+      uiLogSource: 'security_log_encrypt_form',
+      filename: `opengp-encrypted-form-data.${this.fileExtension}`
     });
   }
 }
