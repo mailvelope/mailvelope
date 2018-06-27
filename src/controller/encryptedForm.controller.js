@@ -114,21 +114,23 @@ export default class EncryptedFormController extends sub.SubController {
       ],
       ALLOWED_ATTR: [
         // default html attributes
-        'accesskey', 'class', 'dir', 'hidden', 'id', 'lang', 'tabindex', 'title', 'action', 'name', 'alt',
+        'accesskey', 'class', 'dir', 'hidden', 'id', 'lang', 'tabindex', 'title', 'name', 'alt',
         'checked', 'dirname', 'disabled', 'for', 'required', 'list', 'max', 'maxlength', 'min', 'multiple',
         'name', 'pattern', 'placeholder', 'readonly', 'required', 'size', 'step', 'type', 'value',
         // custom data attributes
         'data-action', 'data-recipient'
       ],
       SAFE_FOR_TEMPLATES: false,
-      SAFE_FOR_JQUERY: false
+      SAFE_FOR_JQUERY: false,
+      ALLOW_DATA_ATTR: false
     });
   }
 
   getCleanFormElement(dirtyHtml) {
     const html = dompurify.sanitize(dirtyHtml, {
       ALLOWED_TAGS: ['form'],
-      ALLOWED_ATTR: ['data-action', 'data-recipient', 'data-enctype']
+      ALLOWED_ATTR: ['data-action', 'data-recipient', 'data-enctype'],
+      ALLOW_DATA_ATTR: false
     });
     const parser = new DOMParser();
     const formElementCollection = parser.parseFromString(html, 'text/html').getElementsByTagName('form');
@@ -225,7 +227,8 @@ ${this.formSignature}
   }
 
   async signAndEncrypt(data) {
-    const signKey = getKeyringById(this.keyringId).getPrimaryKey();
+    throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
+    const signKey = keyring.getById(this.keyringId).getPrimaryKey();
     if (!signKey) {
       throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
     }

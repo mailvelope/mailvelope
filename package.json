@@ -45,6 +45,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
     "css-loader": "^0.28.11",
     "eslint-plugin-react": "^7.9.1",
     "file-loader": "^1.1.11",

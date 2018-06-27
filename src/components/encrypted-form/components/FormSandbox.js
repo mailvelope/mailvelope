@@ -31,10 +31,12 @@ export default class FormSandbox extends React.Component {
     });
   }
 
-  removeInputSubmit() {
-    $(this.form).find('input[type=submit]').each(function() {
-      $(this).remove();
-    });
+  removeBlacklistedInputs() {
+    // a separate cleaning process is required as dompurify
+    // does not support sanitizing by input types, these are equivalent to <button>
+    $(this.form).find('input[type=submit]').each(function() { $(this).remove(); });
+    $(this.form).find('input[type=image]').each(function() { $(this).remove(); });
+    $(this.form).find('input[type=reset]').each(function() { $(this).remove(); });
   }
 
   checkForEmptyForm() {
@@ -77,8 +79,8 @@ export default class FormSandbox extends React.Component {
     this.resizeIframe();
     this.form = this.sandbox.contentDocument.getElementsByTagName('form')[0];
 
-    // Remove all input type submit
-    this.removeInputSubmit();
+    // Remove all input type submit, img, etc.
+    this.removeBlacklistedInputs();
 
     // Check that form has at least one valid input
     this.checkForEmptyForm();
