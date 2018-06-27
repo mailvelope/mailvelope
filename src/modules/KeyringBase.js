@@ -7,7 +7,7 @@ import mvelo from '../lib/lib-mvelo';
 import * as openpgp from 'openpgp';
 import {goog} from './closure-library/closure/goog/emailaddress';
 import {setKeyringAttr, getKeyringAttr} from './keyring';
-import {mapKeys, mapSubKeys, mapUsers, mapKeyUserIds, getUserId} from './key';
+import {mapKeys, mapSubKeys, mapUsers, mapKeyUserIds, getUserId, isValidEncryptionKey, sortKeysByCreationDate} from './key';
 import * as trustKey from './trustKey';
 import KeyServer from './keyserver';
 
@@ -78,13 +78,12 @@ export default class KeyringBase {
   }
 
   /**
-   * Get user id, email and name for all keys
-   * @param {Object} [options]
+   * Get user id, key id, email and name for all keys
    * @param {Boolean} [options.allUsers] return separate entry for all user ids of key
-   * @return {Array<Object>} list of key meta data objects
+   * @param {Boolean} [options.sort] sort result by userid
+   * @return {Array<Object>} list of key meta data objects in the form {keyid, userid, email, name}
    */
-  getKeyUserIDs(options) {
-    options = options || {};
+  getKeyUserIds(options = {}) {
     let result = [];
     this.keystore.getAllKeys().forEach(key => {
       if (key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
@@ -123,25 +122,22 @@ export default class KeyringBase {
         result.push(user);
       }
     });
-    // sort by user id
-    result = result.sort((a, b) => a.userid.localeCompare(b.userid));
+    if (options.sort) {
+      // sort by user id
+      result = result.sort((a, b) => a.userid.localeCompare(b.userid));
+    }
     return result;
   }
 
-  getKeyIdByAddress(emailAddr, options) {
-    const addressMap = this.getKeyByAddress(emailAddr, options);
-    for (const address in addressMap) {
-      addressMap[address] = addressMap[address] && addressMap[address].map(key => {
-        if (options.fingerprint) {
-          return key.primaryKey.getFingerprint();
-        }
-        return key.primaryKey.getKeyId().toHex();
-      });
-    }
-    return addressMap;
-  }
-
-  getKeyByAddress(emailAddr, options) {
+  /**
+   * Query keys by email address
+   * @param  {Array<String>} emailAddr
+   * @param  {Object} [options.pub = true] - query for public keys
+   * @param  {Object} [options.priv = true] - query for private keys
+   * @param  {Object} [options.sort = false] - sort results by key creation date and primary key status
+   * @return {Object} - map in the form {address: [key1, key2, ..]}
+   */
+  getKeyByAddress(emailAddr, options = {}) {
     if (typeof options.pub === 'undefined') {
       options.pub = true;
     }
@@ -149,6 +145,7 @@ export default class KeyringBase {
       options.priv = true;
     }
     const result = Object.create(null);
+    emailAddr = mvelo.util.toArray(emailAddr);
     emailAddr.forEach(emailAddr => {
       result[emailAddr] = [];
       if (options.pub) {
@@ -157,32 +154,13 @@ export default class KeyringBase {
       if (options.priv) {
         result[emailAddr] = result[emailAddr].concat(this.keystore.privateKeys.getForAddress(emailAddr));
       }
-      result[emailAddr] = result[emailAddr].filter(key => {
-        if (options.validity && (
-          key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
-            key.getEncryptionKeyPacket() === null) ||
-            trustKey.isKeyPseudoRevoked(this.id, key)) {
-          return;
-        }
-        return true;
-      });
+      result[emailAddr] = result[emailAddr].filter(key => !isValidEncryptionKey(this.id, key));
       if (!result[emailAddr].length) {
         result[emailAddr] = false;
       } else if (options.sort) {
         // sort by key creation date and primary key status
-        let primaryKeyId = this.getAttributes().primary_key;
-        result[emailAddr].sort((a, b) => {
-          if (primaryKeyId) {
-            primaryKeyId = primaryKeyId.toLowerCase();
-            if (primaryKeyId === a.primaryKey.getKeyId().toHex()) {
-              return -1;
-            }
-            if (primaryKeyId === b.primaryKey.getKeyId().toHex()) {
-              return 1;
-            }
-          }
-          return b.primaryKey.created - a.primaryKey.created;
-        });
+        const primaryKeyId = this.getPrimaryKeyId();
+        sortKeysByCreationDate(result[emailAddr], primaryKeyId);
       }
     });
     return result;
@@ -213,12 +191,16 @@ export default class KeyringBase {
   }
 
   hasPrimaryKey() {
-    return this.getAttributes().primary_key ? true : false;
+    return Boolean(this.keystore.getPrimaryKeyId());
+  }
+
+  getPrimaryKeyId() {
+    return this.keystore.getPrimaryKeyId();
   }
 
   getPrimaryKey() {
     let primaryKey;
-    const primaryKeyid = this.getAttributes().primary_key;
+    const primaryKeyid = this.keystore.getPrimaryKeyId();
     if (primaryKeyid) {
       primaryKey = this.keystore.privateKeys.getForId(primaryKeyid.toLowerCase());
       if (!(primaryKey && this.validatePrimaryKey(primaryKey))) {

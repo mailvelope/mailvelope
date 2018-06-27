@@ -10,6 +10,7 @@ import {parseMessage} from '../modules/mime';
 import * as sub from './sub.controller';
 import * as uiLog from '../modules/uiLog';
 import {triggerSync} from './sync.controller';
+import {getPreferredKeyringId} from '../modules/keyring';
 
 export default class DecryptController extends sub.SubController {
   constructor(port) {
@@ -20,7 +21,7 @@ export default class DecryptController extends sub.SubController {
     }
     this.decryptPopup = null;
     this.options = {};
-    this.keyringId = mvelo.MAIN_KEYRING_ID;
+    this.keyringId = getPreferredKeyringId();
     // register event handlers
     this.on('decrypt-dialog-cancel', this.dialogCancel);
     this.on('decrypt-message-init', this.onDecryptMessageInit);

@@ -25,6 +25,13 @@ export class KeyStoreBase extends openpgp.Keyring {
     });
     return keyArray;
   }
+
+  getForAddress(email) {
+    const result = [];
+    result.push(...this.publicKeys.getForAddress(email));
+    result.push(...this.privateKeys.getForAddress(email));
+    return result;
+  }
 }
 
 class StoreHandler {
