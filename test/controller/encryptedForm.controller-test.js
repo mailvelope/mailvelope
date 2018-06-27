@@ -1,6 +1,8 @@
 import {Port} from '../util';
 import EncryptedFormController from "../../src/controller/encryptedForm.controller";
-import mvelo from "../../src/lib/lib-mvelo";
+import * as keyring from '../../src/modules/keyring';
+import keyFixtures from '../fixtures/keys';
+import * as openpgp from "openpgp";
 
 describe('Test controller unit tests', () => {
   let ctrl;
@@ -16,12 +18,63 @@ describe('Test controller unit tests', () => {
     // cleanup
   });
 
+  describe('getCleanFormHtml', () => {
+    it('should not sanitize allowed tags', () => {
+      const allowed = [
+        'bdi', 'bdo', 'br', 'datalist', 'div', 'fieldset', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'i',
+        'input', 'label', 'legend', 'optgroup', 'option', 'p', 'select', 'small', 'span', 'strong', 'textarea'
+      ];
+      allowed.forEach(tag => {
+        const html = `<${tag}>test</${tag}>`;
+        expect(ctrl.getCleanFormHtml(html)).to.contain(tag);
+      });
+    });
+
+    it('should not sanitize allowed attributes', () => {
+      const allowed = [
+        'accesskey', 'class', 'dir', 'hidden', 'id', 'lang', 'tabindex', 'title', 'name', 'alt',
+        'checked', 'dirname', 'disabled', 'for', 'required', 'list', 'max', 'maxlength', 'min', 'multiple',
+        'name', 'pattern', 'placeholder', 'readonly', 'required', 'size', 'step', 'type', 'value',
+        'data-action', 'data-recipient'
+      ];
+      allowed.forEach(attr => {
+        const html = `<input ${attr}="_blank"/>`;
+        expect(ctrl.getCleanFormHtml(html)).to.contain(attr);
+      });
+    });
+
+    it('should sanitize forbiden attributes', () => {
+      const forbid = [
+        'width', 'usemap', 'slot', 'spellcheck', 'src', 'novalidate', 'method',
+        'integrity', 'href', 'formaction', 'download', 'data-something', 'contenteditable', 'codebase',
+        'charset', 'async', 'accept',
+        // event handlers
+        'onclick', 'onblur', 'onload', 'data-custom'
+      ];
+      forbid.forEach(attr => {
+        const html = `<input ${attr}="_blank"/>`;
+        expect(ctrl.getCleanFormHtml(html)).to.not.contain(attr);
+      });
+    });
+
+    it('should sanitize forbidden tags', () => {
+      const forbid = [
+        'script', 'style', 'object', 'a', 'audio', 'base', 'embed', 'iframe', 'img', 'link',
+        'param', 'source', 'var', 'video', 'title'
+      ];
+      forbid.forEach(tag => {
+        const html = `<${tag}>nope</${tag}>`;
+        expect(ctrl.getCleanFormHtml(html)).to.not.contain(tag);
+      });
+    });
+  });
+
   describe('getCleanFormElement', () => {
     it('should throw an exception if no form tag is present', () => {
       const fails = [`<p>there is no spoon</p>`, 'no spoon'];
       fails.forEach(dirtyHtml => {
         expect(ctrl.getCleanFormElement.bind(ctrl, dirtyHtml)).throws()
-          .and.have.property('code', 'NO_FORM');
+        .and.have.property('code', 'NO_FORM');
       });
     });
 
@@ -29,16 +82,22 @@ describe('Test controller unit tests', () => {
       const fails = [`<form></form><form></form>`,`<form></form><form>`];
       fails.forEach(dirtyHtml => {
         expect(ctrl.getCleanFormElement.bind(ctrl, dirtyHtml)).throws()
-          .and.have.property('code', 'TOO_MANY_FORMS');
+        .and.have.property('code', 'TOO_MANY_FORMS');
       });
     });
 
     it('should return a purified form tag', () => {
-      let success = `<form data-action="https://valid.com" data-nope="no"></form>`;
+      let action = 'https://demo.mailvelope.com';
+      let recipient = 'thomas@mailvelope.com';
+      let enctype = 'html';
+      let success = `<form data-action="${action}" data-enctype="${enctype}" data-recipient="${recipient}" data-no="no" onclick="alert('coucou');"></form>`;
       let element = ctrl.getCleanFormElement(success);
       expect(element).to.be.an.instanceof(HTMLElement);
-      let attribute = element.getAttribute('data-action');
-      expect(attribute).to.equal('https://valid.com');
+      expect(element.getAttribute('data-action')).to.equal(action);
+      expect(element.getAttribute('data-recipient')).to.equal(recipient);
+      expect(element.getAttribute('data-enctype')).to.equal(enctype);
+      expect(element.getAttribute('data-no')).to.be.null;
+      expect(element.getAttribute('onclick')).to.be.null;
     });
   });
 
@@ -48,7 +107,7 @@ describe('Test controller unit tests', () => {
       fails.forEach(action => {
         formElement.getAttribute.returns(action);
         expect(ctrl.assertAndSetAction.bind(ctrl, formElement)).throws()
-          .and.have.property('code', 'INVALID_FORM_ACTION');
+        .and.have.property('code', 'INVALID_FORM_ACTION');
       });
     });
 
@@ -66,7 +125,7 @@ describe('Test controller unit tests', () => {
     it('should throw an error if data-recipient is empty', () => {
       formElement.getAttribute.returns(undefined);
       expect(ctrl.assertAndSetRecipient.bind(ctrl, formElement)).throws()
-        .and.have.property('code', 'RECIPIENT_EMPTY');
+      .and.have.property('code', 'RECIPIENT_EMPTY');
     });
 
     it('should throw an error if data-recipient is not a valid email', () => {
@@ -74,7 +133,7 @@ describe('Test controller unit tests', () => {
       fails.forEach(email => {
         formElement.getAttribute.returns(email);
         expect(ctrl.assertAndSetRecipient.bind(ctrl, formElement)).throws()
-          .and.have.property('code', 'RECIPIENT_INVALID_EMAIL');
+        .and.have.property('code', 'RECIPIENT_INVALID_EMAIL');
       });
     });
 
@@ -100,7 +159,7 @@ describe('Test controller unit tests', () => {
       fails.forEach(enctype => {
         formElement.getAttribute.returns(enctype);
         expect(ctrl.assertAndSetEncoding.bind(ctrl, formElement)).throws()
-          .and.have.property('code', 'UNSUPPORTED_ENCTYPE');
+        .and.have.property('code', 'UNSUPPORTED_ENCTYPE');
       });
     });
 
@@ -126,16 +185,78 @@ describe('Test controller unit tests', () => {
     });
   });
 
+  describe('assertAndSetFingerprint', () => {
+    let keyRingMock;
+
+    beforeEach(() => {
+      keyRingMock = {getKeyByAddress: sinon.stub()};
+      sinon.stub(keyring, 'getById').returns(keyRingMock);
+    });
+
+    afterEach(() => {
+      keyring.getById.restore();
+    });
+
+    it('should set the fingerprint if the username is in the keyring', () => {
+      let fingerprint = '5d031f1d410b980fbc006e3202c134d079701934';
+      let mockKey = {primaryKey: {getFingerprint: sinon.stub()}};
+      let thomasKey = {'thomas@mailvelope.com': [mockKey]};
+      mockKey.primaryKey.getFingerprint.returns(fingerprint);
+      keyRingMock.getKeyByAddress.returns(thomasKey);
+      ctrl.formRecipient = 'thomas@mailvelope.com';
+      expect(ctrl.assertAndSetFingerprint()).to.be.true;
+      expect(ctrl.formFingerprint).to.equal(fingerprint.toUpperCase());
+    });
+
+    it('should throw an exception if the username is not in the keyring', () => {
+      let thomasKey = {'thomas@mailvelope.com': []};
+      ctrl.formRecipient = 'thomas@mailvelope.com';
+      keyRingMock.getKeyByAddress.returns(thomasKey);
+      expect(ctrl.assertAndSetFingerprint.bind(ctrl)).throws()
+        .and.have.property('code', 'NO_KEY_FOR_RECIPIENT');
+    });
+  });
+
   describe('assertAndSetSignature', () => {
     it('should throw and error if signature is empty', () => {
       expect(ctrl.assertAndSetSignature.bind(ctrl)).throws()
-        .and.have.property('code', 'NO_SIGNATURE');
+      .and.have.property('code', 'NO_SIGNATURE');
     });
 
-    it('should set formSignature if signature valid', () => {
+    it('should set formSignature if signature in valid format', () => {
       const sig = 'wpwEAQEIABAFAlsfZhgJEPEdsSUMPD8bAABx4QQAmL3LkE1z0jHYxghB0lH9ee15D93FrrWfpvJwLVlIq1iCANH+15nm2KTmF559KNFy8dER5+s044ZsTuSKBmf5FgzrdbAYG1KSup/NnZ2TNMFOKLb5Bc7tLyopD+n5NQ/ctnVuX0v1NMmH5FhKP88j/07kt3hk2s8OWI0NqMHeNZs==3HOs';
       expect(ctrl.assertAndSetSignature(sig)).to.be.true;
       expect(ctrl.formSignature).to.equal(sig);
+    });
+  });
+
+  describe('signAndEncrypt', () => {
+    let keyMock;
+    let keyRingMock;
+
+    beforeEach(() => {
+      keyMock = {key: {getSigningKeyPacket: sinon.stub()}};
+      keyRingMock = {getPrimaryKey: sinon.stub()};
+      sinon.stub(keyring, 'getById').returns(keyRingMock);
+    });
+
+    afterEach(() => {
+      keyring.getById.restore();
+    });
+
+    it('should throw an error if no primary key is found', () => {
+      keyRingMock.getPrimaryKey.returns(null);
+      ctrl.keyringId = 'nope';
+      expect(ctrl.signAndEncrypt('test')).eventually.throws()
+      .and.have.property('code', 'NO_PRIMARY_KEY_FOUND');
+    });
+
+    it('should throw an error if no signing key packet is present', () => {
+      keyRingMock.getPrimaryKey.returns(keyMock);
+      keyMock.key.getSigningKeyPacket.returns(null);
+      ctrl.keyringId = 'default';
+      expect(ctrl.signAndEncrypt('test')).eventually.throws()
+      .and.have.property('code', 'NO_SIGN_KEY_FOUND');
     });
   });
 });
