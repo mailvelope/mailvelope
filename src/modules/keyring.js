@@ -10,6 +10,7 @@ import KeyringGPG from './KeyringGPG';
 import KeyStoreGPG from './KeyStoreGPG';
 import {gpgme} from '../lib/browser.runtime';
 import {prefs} from './prefs';
+import {isValidEncryptionKey} from './key';
 
 /**
  * Map with all keyrings and their attributes. Data is persisted in local storage.
@@ -207,14 +208,14 @@ export function getKeyringAttr(keyringId, attrKey) {
 }
 
 /**
- * Get user id, and key id for all keys in all keyrings
- * @return {Array<Object>} list of key meta data objects
+ * Get user id, and key id for all keys in all keyrings. Only one user id per key is returned.
+ * @return {Array<Object>} list of key meta data objects in the form {keyid, userid, email, name}
  */
 export function getAllKeyUserId() {
-  const allKeyrings = getAll();
   let result = [];
+  const allKeyrings = getAll();
   allKeyrings.forEach(keyring => {
-    result = result.concat(keyring.getKeyUserIDs().map(key => {
+    result = result.concat(keyring.getKeyUserIds().map(key => {
       key.keyringId = keyring.id;
       return key;
     }));
@@ -222,44 +223,100 @@ export function getAllKeyUserId() {
   // remove duplicate keys
   result = mvelo.util.sortAndDeDup(result, (a, b) => a.keyid.localeCompare(b.keyid));
   // sort by name
-  result = result.sort((a, b) => a.name.localeCompare(b.name));
+  result.sort((a, b) => a.name.localeCompare(b.name));
   return result;
+}
+
+/**
+ * Get user id, key id, email and name for all keys in the preferred keyring queue
+ * @param  {String} keyringId - requested keyring, the leading keyring of a scenario
+ * @return {Array<Object>} list of recipients objects in the form {keyid, userid, email, name}
+ */
+export function getKeyUserIds(keyringId) {
+  let result = [];
+  const keyrings = getPreferredKeyringQueue(keyringId);
+  keyrings.forEach(keyring => {
+    const keyUserIds = keyring.getKeyUserIds({allUsers: true});
+    result.push(...keyUserIds);
+  });
+  // remove duplicate recipients with equal keyid and userid
+  result = mvelo.util.deDup(result, (element, array) => !array.find(item => element.keyid === item.keyid && element.userid === item.userid));
+  // sort by user id
+  result.sort((a, b) => a.userid.localeCompare(b.userid));
+  return result;
+}
+
+/**
+ * Query keys in all keyrings by email address
+ * @param  {String} keyringId - requested keyring, the leading keyring of a scenario
+ * @param  {Array<String>} emails
+ * @return {Object} - map in the form {address: [key1, key2, ..]}
+ */
+export function getKeyByAddress(keyringId, emails) {
+  const result = Object.create(null);
+  emails = mvelo.util.toArray(emails);
+  const keyrings = getPreferredKeyringQueue(keyringId);
+  emails.forEach(email => {
+    result[email] = [];
+    keyrings.forEach(keyring => {
+      let keys = keyring.keystore.getForAddress(email);
+      keys = keys.filter(key => !isValidEncryptionKey(keyring.id, key));
+      result[email].push(...keys);
+    });
+    if (!result[email].length) {
+      result[email] = false;
+      return;
+    }
+    // remove duplicate keys
+    result[email] = mvelo.util.deDup(result[email], (element, array) => !array.find(item => element.primaryKey.getKeyId().equals(item.primaryKey.getKeyId())));
+  });
+  return result;
+}
+
+/**
+ * Return list of keyrings in the preferred priority order
+ * @param {String} keyringId - requested keyring, the leading keyring of a scenario
+ * @return {Array<KeyringBase>}
+ */
+function getPreferredKeyringQueue(keyringId) {
+  const keyrings = [];
+  // use gnupg keyring if available and preferred
+  if (gpgme && prefs.general.prefer_gnupg) {
+    keyrings.push(keyringMap.get(mvelo.GNUPG_KEYRING_ID));
+  }
+  // next, use requested keyring if not gnupg
+  if (keyringId !== mvelo.GNUPG_KEYRING_ID) {
+    keyrings.push(keyringMap.get(keyringId));
+  }
+  // next, if requested keyring is API keyring then also use main keyring
+  if (isApiKeyring(keyringId)) {
+    keyrings.push(keyringMap.get(mvelo.MAIN_KEYRING_ID));
+  }
+  // if gnupg keyring is available but not preferred preferred, we put at the end of the queue
+  if (gpgme && !prefs.general.prefer_gnupg) {
+    keyrings.push(keyringMap.get(mvelo.GNUPG_KEYRING_ID));
+  }
+  return keyrings;
 }
 
 /**
  * Get keyring that includes at least one private key of the specified key Ids.
  * Implements also fallback to alternative keyrings.
  * @param  {Array<openpgp.Keyid>|openpgp.Keyid} keyIds - key ids of private keys
- * @param  {String} [keyringId] - requested keyring, either API keyring or main keyring
+ * @param  {String} [keyringId] - requested keyring, the leading keyring of a scenario
  * @return {KeyringBase}
  */
 export function getKeyringWithPrivKey(keyIds, keyringId) {
-  let keyrings = [];
   keyIds = mvelo.util.toArray(keyIds);
-  if (keyringId === mvelo.GNUPG_KEYRING_ID) {
-    throw new Error('GnuPG keyring can be preferred, but not directly requested.');
-  }
+  let keyrings;
   if (!keyringId) {
     keyrings = getAll();
     if (gpgme) {
       // sort keyrings according to preference
-      keyrings = keyrings.sort(compareKeyringsByPreference);
+      keyrings.sort(compareKeyringsByPreference);
     }
   } else {
-    // use gnupg keyring if available and preferred
-    if (gpgme && prefs.general.prefer_gnupg) {
-      keyrings.push(keyringMap.get(mvelo.GNUPG_KEYRING_ID));
-    }
-    // next, use requested keyring
-    keyrings.push(keyringMap.get(keyringId));
-    // next, if requested keyring is API keyring then also use main keyring
-    if (keyringId !== mvelo.MAIN_KEYRING_ID) {
-      keyrings.push(keyringMap.get(mvelo.MAIN_KEYRING_ID));
-    }
-    // if gnupg keyring is available but not preferred preferred, we put at the end of the queue
-    if (gpgme && !prefs.general.prefer_gnupg) {
-      keyrings.push(keyringMap.get(mvelo.GNUPG_KEYRING_ID));
-    }
+    keyrings = getPreferredKeyringQueue(keyringId);
   }
   // if no keyids return first keyring
   if (!keyIds.length) {
@@ -272,6 +329,15 @@ export function getKeyringWithPrivKey(keyIds, keyringId) {
     }
   }
   return null;
+}
+
+/**
+ * Check if provided keyring is created by Mailvelope client-API
+ * @param  {String}  keyringId
+ * @return {Boolean}
+ */
+function isApiKeyring(keyringId) {
+  return keyringId !== mvelo.MAIN_KEYRING_ID && keyringId !== mvelo.GNUPG_KEYRING_ID;
 }
 
 /**
@@ -291,15 +357,30 @@ function compareKeyringsByPreference(a, b) {
 
 /**
  * Synchronize public keys across keyrings.
- * @param  {KeyringBase} keyring - destination keyring, public keys are synchronized from other keyrings.
+ * @param  {KeyringBase|String} keyring - destination keyring or keyringId, public keys are synchronized from other keyrings.
  * @param  {Array<openpgp.Keyid|String>|openpgp.Keyid|String} keyIds - key ids or fingerprints of public keys that should be synchronized.
  */
 export async function syncPublicKeys(keyring, keyIds) {
   // TODO
   console.log('syncPublicKeys', keyring.id, keyIds);
+  if (typeof keyring === 'string') {
+    keyring = getById(keyring);
+  }
   keyIds = mvelo.util.toArray(keyIds);
   if (!keyIds.length) {
     // nothing to sync
     return;
   }
+}
+
+/**
+ * Get preferred keyring ID
+ * @return {String}
+ */
+export function getPreferredKeyringId() {
+  // return gnupg keyring if available and preferred
+  if (gpgme && prefs.general.prefer_gnupg) {
+    return mvelo.GNUPG_KEYRING_ID;
+  }
+  return mvelo.MAIN_KEYRING_ID;
 }

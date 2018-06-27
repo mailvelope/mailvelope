@@ -6,6 +6,7 @@
 import mvelo from '../lib/lib-mvelo';
 import * as openpgp from 'openpgp';
 import {KeyStoreBase} from './keyStore';
+import {getKeyringAttr} from './keyring';
 
 export default class KeyStoreLocal extends KeyStoreBase {
   async load() {
@@ -36,6 +37,14 @@ export default class KeyStoreLocal extends KeyStoreBase {
   async remove() {
     await mvelo.storage.remove(`mvelo.keyring.${this.id}.publicKeys`);
     await mvelo.storage.remove(`mvelo.keyring.${this.id}.privateKeys`);
+  }
+
+  getPrimaryKeyId() {
+    const primaryKeyId = getKeyringAttr(this.id, 'primary_key');
+    if (primaryKeyId) {
+      return primaryKeyId.toLowerCase();
+    }
+    return '';
   }
 
   async generateKey(options) {

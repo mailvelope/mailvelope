@@ -150,17 +150,19 @@ mvelo.util.sortAndDeDup = function(unordered, compFn) {
 };
 
 /**
- * Only deduplicates, does not sort
- * @param  {Array} list   The list of items with duplicates
- * @return {Array}        The list of items without duplicates
+ * Remove duplicates from list, by default compares items as strings
+ * @param  {Array} list - the list of items with duplicates
+ * @param {Function} [compFn] compare function that gets element that should be added to result list plus the current result list
+ *                            must return true if element should be added to the result list
+ * @return {Array} - the list of items without duplicates
  */
-mvelo.util.deDup = function(list) {
+mvelo.util.deDup = function(list = [], compFn = (element, array) => array.indexOf(element) === -1) {
   const result = [];
-  (list || []).forEach(i => {
-    if (result.indexOf(i) === -1) {
-      result.push(i);
+  for (const item of list) {
+    if (compFn(item, result)) {
+      result.push(item);
     }
-  });
+  }
   return result;
 };
 

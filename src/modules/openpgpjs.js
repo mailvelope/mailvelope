@@ -27,7 +27,7 @@ export async function decrypt({message, keyring, senderAddress, selfSigned, encr
   if (senderAddress.length || selfSigned) {
     signingKeys = [];
     if (senderAddress.length) {
-      signingKeys = keyring.getKeyByAddress(senderAddress, {validity: true});
+      signingKeys = keyring.getKeyByAddress(senderAddress);
       signingKeys = senderAddress.reduce((result, email) => result.concat(signingKeys[email] || []), []);
     }
     // if no signing keys found we use decryption key for verification
@@ -50,17 +50,17 @@ export async function decrypt({message, keyring, senderAddress, selfSigned, encr
  * @param  {String} options.data - data to be encrypted as native JavaScript string
  * @param  {KeyringBase} options.keyring - keyring used for encryption
  * @param  {Function} options.unlockKey - callback that unlocks private key
- * @param  {Array<String>} options.encryptionKeyFprs - array of key fingerprints used for encryption
- * @param  {String} options.signingKeyIdHex - keyid of signing key
+ * @param  {Array<String>} options.encryptionKeyIds - array of key Ids used for encryption
+ * @param  {String} options.signingKeyId - key Id of signing key
  * @return {String}
  */
-export async function encrypt({data, keyring, unlockKey, encryptionKeyFprs, signingKeyIdHex}) {
+export async function encrypt({data, keyring, unlockKey, encryptionKeyIds, signingKeyId}) {
   let signingKey;
-  if (signingKeyIdHex) {
-    signingKey = keyring.getPrivateKeyByIds(signingKeyIdHex);
+  if (signingKeyId) {
+    signingKey = keyring.getPrivateKeyByIds(signingKeyId);
     signingKey = await unlockKey(signingKey);
   }
-  const keys = keyring.getKeysByIds(encryptionKeyFprs);
+  const keys = keyring.getKeysByIds(encryptionKeyIds);
   const msg = await openpgp.encrypt({data, publicKeys: keys, privateKeys: signingKey});
   return msg.data;
 }

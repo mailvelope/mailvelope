@@ -16,7 +16,8 @@ import * as uiLog from '../modules/uiLog';
 import {parseMessage, buildMail} from '../modules/mime';
 import {triggerSync} from './sync.controller';
 import KeyServer from '../modules/keyserver';
-import {getById as getKeyringById} from '../modules/keyring';
+import {getById as getKeyringById, getPreferredKeyringId, getKeyUserIds, getKeyByAddress, syncPublicKeys} from '../modules/keyring';
+import {mapAddressKeyMapToId} from '../modules/key';
 
 export default class EditorController extends sub.SubController {
   constructor(port) {
@@ -57,7 +58,7 @@ export default class EditorController extends sub.SubController {
     } else {
       // non-container case, set options
       this.onEditorOptions({
-        keyringId: mvelo.MAIN_KEYRING_ID,
+        keyringId: getPreferredKeyringId(),
         options: this.options,
       });
       // transfer recipient proposal and public key info to the editor
@@ -78,9 +79,8 @@ export default class EditorController extends sub.SubController {
     let emails = (recipients || []).map(recipient => recipient.email);
     emails = mvelo.util.deDup(emails); // just dedup, dont change order of user input
     recipients = emails.map(e => ({email: e}));
-    // get all public keys in the local keyring
-    const localKeyring = getKeyringById(mvelo.MAIN_KEYRING_ID);
-    const keys = localKeyring.getKeyUserIDs({allUsers: true});
+    // get all public keys from required keyrings
+    const keys = getKeyUserIds(this.keyringId);
     const tofu = this.keyserver.getTOFUPreference();
     this.emit('public-key-userids', {keys, recipients, tofu});
   }
@@ -89,8 +89,7 @@ export default class EditorController extends sub.SubController {
     this.keyringId = msg.keyringId;
     this.options = msg.options;
     const keyring = getKeyringById(this.keyringId);
-    const primaryKey = keyring.getPrimaryKey();
-    const primaryKeyId = primaryKey && primaryKey.keyid.toUpperCase() || '';
+    const primaryKeyId = keyring.getPrimaryKeyId();
     const data = {
       signMsg: this.options.signMsg,
       primary: primaryKeyId
@@ -123,7 +122,8 @@ export default class EditorController extends sub.SubController {
   onEditorContainerEncrypt(msg) {
     this.pgpMIME = true;
     this.keyringId = msg.keyringId;
-    const keyIdMap = getKeyringById(this.keyringId).getKeyIdByAddress(msg.recipients, {validity: true});
+    const keyMap = getKeyByAddress(this.keyringId, msg.recipients);
+    const keyIdMap = mapAddressKeyMapToId(keyMap);
     if (Object.keys(keyIdMap).some(keyId => keyIdMap[keyId] === false)) {
       const error = {
         message: 'No valid encryption key for recipient address',
@@ -132,14 +132,16 @@ export default class EditorController extends sub.SubController {
       this.ports.editorCont.emit('error-message', {error});
       return;
     }
+    // ensure that all keys are available in the API keyring
+    syncPublicKeys(this.keyringId, keyIdMap);
     let keyIds = [];
     msg.recipients.forEach(recipient => {
       keyIds = keyIds.concat(keyIdMap[recipient]);
     });
     if (prefs.general.auto_add_primary) {
-      const primary = getKeyringById(this.keyringId).getPrimaryKey();
-      if (primary) {
-        keyIds.push(primary.keyid.toLowerCase());
+      const primaryKeyId = getKeyringById(this.keyringId).getPrimaryKeyId();
+      if (primaryKeyId) {
+        keyIds.push(primaryKeyId);
       }
     }
     this.keyidBuffer = mvelo.util.sortAndDeDup(keyIds);
@@ -150,9 +152,9 @@ export default class EditorController extends sub.SubController {
     this.pgpMIME = true;
     this.keyringId = msg.keyringId;
     this.options.reason = 'PWD_DIALOG_REASON_CREATE_DRAFT';
-    const primary = getKeyringById(this.keyringId).getPrimaryKey();
-    if (primary) {
-      this.keyidBuffer = [primary.keyid.toLowerCase()];
+    const primaryKeyId = getKeyringById(this.keyringId).getPrimaryKeyId();
+    if (primaryKeyId) {
+      this.keyidBuffer = [primaryKeyId];
     } else {
       const error = {
         message: 'No private key found for creating draft.',
@@ -200,8 +202,8 @@ export default class EditorController extends sub.SubController {
   async onKeyServerLookup(msg) {
     const key = await this.keyserver.lookup(msg.recipient);
     if (key && key.publicKeyArmored) {
-      // persist key in local keyring
-      const localKeyring = getKeyringById(mvelo.MAIN_KEYRING_ID);
+      // persist key in main keyring
+      const localKeyring = getKeyringById(this.keyringId);
       await localKeyring.importKeys([{type: 'public', armored: key.publicKeyArmored}]);
     }
     this.sendKeyUpdate();
@@ -209,8 +211,7 @@ export default class EditorController extends sub.SubController {
 
   sendKeyUpdate() {
     // send updated key cache to editor
-    const localKeyring = getKeyringById(mvelo.MAIN_KEYRING_ID);
-    const keys = localKeyring.getKeyUserIDs({allUsers: true});
+    const keys = getKeyUserIds(this.keyringId);
     this.ports.editor.emit('key-update', {keys});
   }
 
@@ -412,8 +413,8 @@ export default class EditorController extends sub.SubController {
   async signAndEncryptMessage({data, signKeyIdHex, keyIdsHex, noCache}) {
     this.encryptTimer = null;
     if (!signKeyIdHex) {
-      const primaryKey = getKeyringById(this.keyringId).getPrimaryKey();
-      signKeyIdHex = primaryKey && primaryKey.keyid;
+      const primaryKeyId = getKeyringById(this.keyringId).getPrimaryKeyId();
+      signKeyIdHex = primaryKeyId;
     }
     if (!signKeyIdHex) {
       throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
@@ -432,8 +433,8 @@ export default class EditorController extends sub.SubController {
       data,
       keyringId: this.keyringId,
       unlockKey,
-      encryptionKeyFprs: keyIdsHex,
-      signingKeyIdHex: signKeyIdHex,
+      encryptionKeyIds: keyIdsHex,
+      signingKeyId: signKeyIdHex,
       uiLogSource: 'security_log_editor'
     });
   }
@@ -450,7 +451,7 @@ export default class EditorController extends sub.SubController {
     return model.encryptMessage({
       data,
       keyringId: this.keyringId,
-      encryptionKeyFprs: keyIdsHex,
+      encryptionKeyIds: keyIdsHex,
       uiLogSource: 'security_log_editor'
     });
   }
@@ -508,9 +509,9 @@ export default class EditorController extends sub.SubController {
       // get the sender key id
       if (prefs.general.auto_add_primary) {
         const localKeyring = getKeyringById(mvelo.MAIN_KEYRING_ID);
-        const primary = localKeyring.getPrimaryKey();
-        if (primary) {
-          keyIdsHex.push(primary.keyid.toLowerCase());
+        const primaryKeyId = localKeyring.getPrimaryKeyId();
+        if (primaryKeyId) {
+          keyIdsHex.push(primaryKeyId);
         }
       }
     }

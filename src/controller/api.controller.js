@@ -4,10 +4,10 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import {getById as keyringById, createKeyring, setKeyringAttr} from '../modules/keyring';
+import {getById as keyringById, createKeyring, setKeyringAttr, getKeyByAddress} from '../modules/keyring';
 import * as sub from './sub.controller';
 import * as openpgp from 'openpgp';
-import {getLastModifiedDate} from '../modules/key';
+import {getLastModifiedDate, mapAddressKeyMapToId} from '../modules/key';
 
 export function handleApiEvent(request, sender, sendResponse) {
   let keyring;
@@ -32,7 +32,7 @@ export function handleApiEvent(request, sender, sendResponse) {
         .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
         return true;
       case 'query-valid-key': {
-        const keyMap = keyringById(request.keyringId).getKeyByAddress(request.recipients, {validity: true, fingerprint: true, sort: true});
+        const keyMap = getKeyByAddress(request.keyringId, request.recipients);
         Object.keys(keyMap).forEach(email => {
           if (keyMap[email]) {
             keyMap[email] = {
@@ -47,7 +47,8 @@ export function handleApiEvent(request, sender, sendResponse) {
         break;
       }
       case 'export-own-pub-key': {
-        const keyIdMap = keyringById(request.keyringId).getKeyIdByAddress([request.emailAddr], {validity: true, pub: false, priv: true, sort: true});
+        const keyMap = keyringById(request.keyringId).getKeyByAddress(request.emailAddr, {pub: false, priv: true, sort: true});
+        const keyIdMap = mapAddressKeyMapToId(keyMap);
         if (!keyIdMap[request.emailAddr]) {
           sendResponse({error: {message: 'No key pair found for this email address.', code: 'NO_KEY_FOR_ADDRESS'}});
           return;

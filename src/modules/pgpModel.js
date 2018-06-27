@@ -101,20 +101,20 @@ export function readMessage({armoredText, binary}) {
  * @param {String} options.data - as native JavaScript string
  * @param {String} options.keyringId
  * @param  {Function} options.unlockKey - callback to unlock key
- * @param {Array<String>} options.encryptionKeyFprs - fingerprints of encryption keys
- * @param {String} options.signingKeyIdHex - keyid of signing key
+ * @param {Array<String>} options.encryptionKeyIds - key Id of encryption keys
+ * @param {String} options.signingKeyId - key Id of signing key
  * @param {String} options.uiLogSource - UI source that triggered encryption, used for logging
  * @return {Promise<String>} - armored PGP message
  */
-export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyFprs, signingKeyIdHex, uiLogSource}) {
-  const keyring = getKeyringWithPrivKey(signingKeyIdHex, keyringId);
+export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyIds, signingKeyId, uiLogSource}) {
+  const keyring = getKeyringWithPrivKey(signingKeyId, keyringId);
   if (!keyring) {
     throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
   }
-  await syncPublicKeys(keyring, encryptionKeyFprs);
+  await syncPublicKeys(keyring, encryptionKeyIds);
   try {
-    const result = await keyring.getPgpBackend().encrypt({data, keyring, unlockKey, encryptionKeyFprs, signingKeyIdHex});
-    logEncryption(uiLogSource, keyring, encryptionKeyFprs);
+    const result = await keyring.getPgpBackend().encrypt({data, keyring, unlockKey, encryptionKeyIds, signingKeyId});
+    logEncryption(uiLogSource, keyring, encryptionKeyIds);
     return result;
   } catch (e) {
     console.log('getPgpBackend().encrypt() error', e);
@@ -126,11 +126,11 @@ export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyF
  * Log encryption operation
  * @param  {String} source - source that triggered encryption operation
  * @param {KeyringBase} keyring
- * @param  {Array<String>} fprs - fingerprints of used keys
+ * @param  {Array<String>} keyIds - key ID of used keys
  */
-function logEncryption(source, keyring, fprs) {
+function logEncryption(source, keyring, keyIds) {
   if (source) {
-    const keys = keyring.getKeysByIds(fprs);
+    const keys = keyring.getKeysByIds(keyIds);
     const recipients = keys.map(key => getUserId(key, false));
     uiLog.push(source, l10n('security_log_encryption_operation', [recipients.join(', ')]));
   }

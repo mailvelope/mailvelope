@@ -20,6 +20,7 @@ export default class KeyStoreGPG extends KeyStoreBase {
         this.privateKeys.push(privKey);
       }
     });
+    this.primaryKeyFpr = await gpgme.keyring.getDefaultKey();
   }
 
   async store() {
@@ -28,6 +29,11 @@ export default class KeyStoreGPG extends KeyStoreBase {
 
   async remove() {
     throw new Error('Delete of GPGME keyring not supported');
+  }
+
+  getPrimaryKeyId() {
+    // TODO: support v3 keys
+    return this.primaryKeyFpr.substr(12, 8);
   }
 
   async importKeys(armoredKeys) {

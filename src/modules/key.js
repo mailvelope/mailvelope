@@ -7,6 +7,7 @@ import mvelo from '../lib/lib-mvelo';
 import * as openpgp from 'openpgp';
 import {goog} from './closure-library/closure/goog/emailaddress';
 const l10n = mvelo.l10n.getMessage;
+import {isKeyPseudoRevoked} from './trustKey';
 
 /**
  * Get primary or first available user id of key
@@ -223,4 +224,31 @@ export function getLastModifiedDate(key) {
     }
   });
   return lastModified;
+}
+
+export function mapAddressKeyMapToId(addressKeyMap = []) {
+  for (const address in addressKeyMap) {
+    addressKeyMap[address] = addressKeyMap[address] && addressKeyMap[address].map(key => key.primaryKey.getKeyId().toHex());
+  }
+  return addressKeyMap;
+}
+
+export function isValidEncryptionKey(keyringId, key) {
+  return key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
+    key.getEncryptionKeyPacket() === null ||
+    isKeyPseudoRevoked(keyringId, key);
+}
+
+export function sortKeysByCreationDate(keys, primaryKeyId) {
+  keys.sort((a, b) => {
+    if (primaryKeyId) {
+      if (primaryKeyId === a.primaryKey.getKeyId().toHex()) {
+        return -1;
+      }
+      if (primaryKeyId === b.primaryKey.getKeyId().toHex()) {
+        return 1;
+      }
+    }
+    return b.primaryKey.created - a.primaryKey.created;
+  });
 }
