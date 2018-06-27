@@ -114,7 +114,7 @@ export default class EncryptedFormController extends sub.SubController {
       ],
       ALLOWED_ATTR: [
         // default html attributes
-        'accesskey', 'class', 'dir', 'hidden', 'id', 'lang', 'tabindex', 'title', 'name', 'alt',
+        'accesskey', 'class', 'dir', 'hidden', 'id', 'lang', 'tabindex', 'title', 'action', 'name', 'alt',
         'checked', 'dirname', 'disabled', 'for', 'required', 'list', 'max', 'maxlength', 'min', 'multiple',
         'name', 'pattern', 'placeholder', 'readonly', 'required', 'size', 'step', 'type', 'value',
         // custom data attributes
@@ -227,8 +227,7 @@ ${this.formSignature}
   }
 
   async signAndEncrypt(data) {
-    throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
-    const signKey = keyring.getById(this.keyringId).getPrimaryKey();
+    const signKey = getKeyringById(this.keyringId).getPrimaryKey();
     if (!signKey) {
       throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
     }

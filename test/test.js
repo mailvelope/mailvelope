@@ -1,6 +1,8 @@
 
 import chaiAsPromised from 'chai-as-promised';
 chai.use(chaiAsPromised);
+
+/* eslint no-unused-vars: off */
 const expect = chai.expect;
 
 import './mvelo-test';

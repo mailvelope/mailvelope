@@ -1,8 +1,8 @@
 import {Port} from '../util';
 import EncryptedFormController from "../../src/controller/encryptedForm.controller";
 import * as keyring from '../../src/modules/keyring';
-import keyFixtures from '../fixtures/keys';
-import * as openpgp from "openpgp";
+// import keyFixtures from '../fixtures/keys';
+// import * as openpgp from "openpgp";
 
 describe('Test controller unit tests', () => {
   let ctrl;
@@ -79,7 +79,7 @@ describe('Test controller unit tests', () => {
     });
 
     it('should throw an exception if too many form tags are present', () => {
-      const fails = [`<form></form><form></form>`,`<form></form><form>`];
+      const fails = [`<form></form><form></form>`, `<form></form><form>`];
       fails.forEach(dirtyHtml => {
         expect(ctrl.getCleanFormElement.bind(ctrl, dirtyHtml)).throws()
         .and.have.property('code', 'TOO_MANY_FORMS');
@@ -87,11 +87,11 @@ describe('Test controller unit tests', () => {
     });
 
     it('should return a purified form tag', () => {
-      let action = 'https://demo.mailvelope.com';
-      let recipient = 'thomas@mailvelope.com';
-      let enctype = 'html';
-      let success = `<form data-action="${action}" data-enctype="${enctype}" data-recipient="${recipient}" data-no="no" onclick="alert('coucou');"></form>`;
-      let element = ctrl.getCleanFormElement(success);
+      const action = 'https://demo.mailvelope.com';
+      const recipient = 'thomas@mailvelope.com';
+      const enctype = 'html';
+      const success = `<form data-action="${action}" data-enctype="${enctype}" data-recipient="${recipient}" data-no="no" onclick="alert('coucou');"></form>`;
+      const element = ctrl.getCleanFormElement(success);
       expect(element).to.be.an.instanceof(HTMLElement);
       expect(element.getAttribute('data-action')).to.equal(action);
       expect(element.getAttribute('data-recipient')).to.equal(recipient);
@@ -198,9 +198,9 @@ describe('Test controller unit tests', () => {
     });
 
     it('should set the fingerprint if the username is in the keyring', () => {
-      let fingerprint = '5d031f1d410b980fbc006e3202c134d079701934';
-      let mockKey = {primaryKey: {getFingerprint: sinon.stub()}};
-      let thomasKey = {'thomas@mailvelope.com': [mockKey]};
+      const fingerprint = '5d031f1d410b980fbc006e3202c134d079701934';
+      const mockKey = {primaryKey: {getFingerprint: sinon.stub()}};
+      const thomasKey = {'thomas@mailvelope.com': [mockKey]};
       mockKey.primaryKey.getFingerprint.returns(fingerprint);
       keyRingMock.getKeyByAddress.returns(thomasKey);
       ctrl.formRecipient = 'thomas@mailvelope.com';
@@ -258,5 +258,15 @@ describe('Test controller unit tests', () => {
       expect(ctrl.signAndEncrypt('test')).eventually.throws()
       .and.have.property('code', 'NO_SIGN_KEY_FOUND');
     });
+
+    // it('should encrypt if all params are set properly', () => {
+    //   const demoKey = openpgp.key.readArmored(keyFixtures.secret.demo);
+    //   keyRingMock.getPrimaryKey.returns(demoKey);
+    //   ctrl.signAndEncrypt('test').then(data => {
+    //     console.log(data);
+    //   }).catch(error => {
+    //     console.log(error);
+    //   });
+    // });
   });
 });
