@@ -85,7 +85,7 @@ export default class EncryptedFormController extends sub.SubController {
       formEncoding: this.formEncoding,
       formAction: this.formAction,
       formRecipient: this.formRecipient,
-      formFingerprint: this.formFingerprint,
+      formFingerprint: this.formFingerprint
     });
   }
 
