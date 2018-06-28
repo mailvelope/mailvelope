@@ -1,9 +1,9 @@
-import Adapter from 'enzyme-adapter-react-16'
+import Adapter from 'enzyme-adapter-react-16';
 import chaiAsPromised from 'chai-as-promised';
 import Enzyme from 'enzyme';
 
 chai.use(chaiAsPromised);
-Enzyme.configure({ adapter: new Adapter() });
+Enzyme.configure({adapter: new Adapter()});
 
 /* eslint no-unused-vars: off */
 const expect = chai.expect;

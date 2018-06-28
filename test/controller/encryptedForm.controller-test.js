@@ -209,11 +209,11 @@ describe('Test controller unit tests', () => {
     });
 
     it('should throw an exception if the username is not in the keyring', () => {
-      let thomasKey = {'thomas@mailvelope.com': []};
+      const thomasKey = {'thomas@mailvelope.com': []};
       ctrl.formRecipient = 'thomas@mailvelope.com';
       keyRingMock.getKeyByAddress.returns(thomasKey);
       expect(ctrl.assertAndSetFingerprint.bind(ctrl)).throws()
-        .and.have.property('code', 'NO_KEY_FOR_RECIPIENT');
+      .and.have.property('code', 'NO_KEY_FOR_RECIPIENT');
     });
   });
 
