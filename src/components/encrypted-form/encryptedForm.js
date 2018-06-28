@@ -49,7 +49,6 @@ export default class EncryptedForm extends React.Component {
     this.onResize();
   }
 
-
   registerEventListeners() {
     this.port.on('encrypted-form-definition', this.showForm);
     this.port.on('error-message', this.showErrorMsg);
@@ -173,5 +172,5 @@ EncryptedForm.propTypes = {
 };
 
 EncryptedForm.defaultProps = {
-  secureBackground: true,
+  secureBackground: true
 };
