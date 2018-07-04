@@ -23,7 +23,11 @@ l10n.register([
   'editor_key_not_found_msg'
 ]);
 
-// reference to props of RecipientInput
+/*
+  reference to props of RecipientInput
+  this structure is not immutable, recipients will be received as {email},
+  but RecipientInputCtrl will modify recipients to {email, keys}
+ */
 let _props = null;
 // reference to angular controller
 let rInputCtrl = null;
