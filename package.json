@@ -21,6 +21,7 @@
     "emailjs-mime-builder": "1.0.1",
     "emailjs-mime-codec": "github:mailvelope/emailjs-mime-codec#v1.0.2m",
     "font-awesome": "4.7.0",
+    "gpgmejs": "github:mailvelope/gpgmejs",
     "jquery": "3.3.1",
     "mailreader": "1.0.0",
     "moment": "2.22.2",

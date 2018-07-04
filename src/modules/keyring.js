@@ -292,7 +292,7 @@ function getPreferredKeyringQueue(keyringId) {
   if (isApiKeyring(keyringId)) {
     keyrings.push(keyringMap.get(mvelo.MAIN_KEYRING_ID));
   }
-  // if gnupg keyring is available but not preferred preferred, we put at the end of the queue
+  // if gnupg keyring is available but not preferred, we put at the end of the queue
   if (gpgme && !prefs.general.prefer_gnupg) {
     keyrings.push(keyringMap.get(mvelo.GNUPG_KEYRING_ID));
   }

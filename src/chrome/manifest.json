@@ -28,6 +28,7 @@
   },
   "permissions": [
     "*://*/*",
+    "nativeMessaging",
     "storage",
     "tabs",
     "webNavigation"

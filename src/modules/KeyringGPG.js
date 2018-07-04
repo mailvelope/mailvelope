@@ -14,7 +14,7 @@ export default class KeyringGPG extends KeyringBase {
   }
 
   async importKeys(armoredKeys) {
-    armoredKeys = armoredKeys.map(key => key.armored);
+    armoredKeys = armoredKeys.map(key => key.armored).join('\n');
     const importResult = await this.keystore.importKeys(armoredKeys);
     const importPromises = importResult.map(async imported => {
       if (imported.error) {

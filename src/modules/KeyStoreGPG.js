@@ -10,17 +10,17 @@ import {KeyStoreBase} from './keyStore';
 export default class KeyStoreGPG extends KeyStoreBase {
   async load() {
     this.clear();
-    const armored = await gpgme.keyring.getPublicKeys();
-    const pubArmored = armored.filter(key => !key.secret).map(key => key.armor);
+    const gpgKeys = await gpgme.Keyring.getKeys();
+    const pubArmored = gpgKeys.filter(key => !key.hasSecret).map(key => key.armored);
     this.loadKeys(pubArmored, this.publicKeys);
-    const privArmored = armored.filter(key => key.secret).map(key => key.armor);
+    const privArmored = gpgKeys.filter(key => key.hasSecret).map(key => key.armored);
     privArmored.forEach(armor => {
       const privKey = readArmoredPrivate(armor);
       if (privKey) {
         this.privateKeys.push(privKey);
       }
     });
-    this.primaryKeyFpr = await gpgme.keyring.getDefaultKey();
+    this.primaryKeyFpr = await gpgme.Keyring.getDefaultKey();
   }
 
   async store() {
@@ -32,12 +32,11 @@ export default class KeyStoreGPG extends KeyStoreBase {
   }
 
   getPrimaryKeyId() {
-    // TODO: support v3 keys
     return this.primaryKeyFpr.substr(12, 8);
   }
 
   async importKeys(armoredKeys) {
-    return gpgme.keyring.importKeys(armoredKeys);
+    return gpgme.Keyring.importKey(armoredKeys);
   }
 
   addKey(armor, secret) {
@@ -53,11 +52,11 @@ export default class KeyStoreGPG extends KeyStoreBase {
   }
 
   async removeKey(fingerprint, type) {
-    await gpgme.keyring.deleteKey({fingerprint, secret: type === 'private'});
+    await gpgme.Keyring.deleteKey({fingerprint, secret: type === 'private'});
   }
 
   async generateKey({numBits, userIds, keyExpirationTime}) {
-    const {publicKeyArmored} = await gpgme.generateKey({numBits, userIds, keyExpirationTime});
+    const {publicKeyArmored} = await gpgme.Keyring.generateKey({numBits, userIds, keyExpirationTime});
     return {key: readArmoredPrivate(publicKeyArmored)};
   }
 }

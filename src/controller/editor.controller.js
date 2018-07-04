@@ -469,8 +469,7 @@ export default class EditorController extends sub.SubController {
   }
 
   /**
-   * Closes the editor popup and transfer the encrypted/signed armored
-   * message and recipients back to the webmail interface.
+   * Transfer the encrypted/signed armored message and recipients back to the webmail interface or editor container
    * @param  {String} options.armored   The encrypted/signed message
    * @param  {Array}  options.keys      The keys used to encrypt the message
    */
