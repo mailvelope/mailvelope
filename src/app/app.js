@@ -1,6 +1,6 @@
 /**
  * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2017 Mailvelope GmbH
+ * Copyright (C) 2012-2018 Mailvelope GmbH
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License version 3
@@ -311,7 +311,7 @@ export class App extends React.Component {
             )} />
           </div>
           <footer className="row">
-            <p className="pull-left col-md-6">&copy; 2012-2017 Mailvelope GmbH</p>
+            <p className="pull-left col-md-6">&copy; 2012-2018 Mailvelope GmbH</p>
             <div id="version" className="pull-right col-md-6">{this.state.version}</div>
           </footer>
         </div>
