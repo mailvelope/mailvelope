@@ -34,7 +34,7 @@ export default class KeyDetailsUserids extends React.Component {
         <div className="form-group">
           <label htmlFor="userIdsList" className="col-sm-3 control-label">{l10n.map.keygrid_userid}</label>
           <div className="col-sm-9">
-            <select className="form-control" id="userIdsList" value={this.state.id} onChange={this.handleChange}>
+            <select className="form-control" id="userIdsList" value={this.state.userID} onChange={this.handleChange}>
               {this.props.users.map((user, index) =>
                 <option value={user.userID} key={index}>{user.userID}</option>
               )}
@@ -54,9 +54,9 @@ export default class KeyDetailsUserids extends React.Component {
               </thead>
               <tbody>
                 {selected.signatures.map(sgn =>
-                  <tr key={sgn.id + sgn.crDate}>
+                  <tr key={sgn.keyid + sgn.crDate}>
                     <td>{sgn.signer}</td>
-                    <td>{sgn.id}</td>
+                    <td>{sgn.keyid}</td>
                     <td style={{whiteSpace: 'nowrap'}}>{sgn.crDate.substr(0, 10)}</td>
                   </tr>
                 )}

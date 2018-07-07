@@ -7,7 +7,6 @@ import mvelo from '../lib/lib-mvelo';
 import * as openpgp from 'openpgp';
 import {getUserId, checkKeyId} from './key';
 import KeyringBase from './KeyringBase';
-import {setKeyringAttr} from './keyring';
 const l10n = mvelo.l10n.getMessage;
 import * as keyringSync from './keyringSync';
 import * as openpgpjs from './openpgpjs';
@@ -49,7 +48,7 @@ export default class KeyringLocal extends KeyringBase {
     await this.sync.commit();
     // by no primary key in the keyring set the first found private keys as primary for the keyring
     if (!this.hasPrimaryKey() && this.keystore.privateKeys.keys.length > 0) {
-      await setKeyringAttr(this.id, {primary_key: this.keystore.privateKeys.keys[0].primaryKey.keyid.toHex().toUpperCase()});
+      await this.setPrimaryKey(this.keystore.privateKeys.keys[0].primaryKey.getFingerprint());
     }
     return result;
   }
@@ -142,13 +141,12 @@ export default class KeyringLocal extends KeyringBase {
   }
 
   async removeKey(fingerprint, type) {
-    fingerprint = fingerprint.toLowerCase();
     const removedKey = super.removeKey(fingerprint, type);
     if (type === 'private') {
-      const primaryKey = this.getAttributes().primary_key;
+      const primaryKeyFpr = this.getPrimaryKeyFpr();
       // Remove the key from the keyring attributes if primary
-      if (primaryKey && primaryKey.toLowerCase() === removedKey.primaryKey.keyid.toHex()) {
-        await setKeyringAttr(this.id, {primary_key: ''});
+      if (primaryKeyFpr  === removedKey.primaryKey.getFingerprint()) {
+        await this.setPrimaryKey('');
       }
     }
     this.sync.add(removedKey.primaryKey.getFingerprint(), keyringSync.DELETE);
@@ -161,9 +159,9 @@ export default class KeyringLocal extends KeyringBase {
     this.sync.add(newKey.key.primaryKey.getFingerprint(), keyringSync.INSERT);
     await this.keystore.store();
     await this.sync.commit();
-    // by no primary key in the keyring set the generated key as primary
+    // if no primary key in the keyring set the generated key as primary
     if (!this.hasPrimaryKey()) {
-      await setKeyringAttr(this.id, {primary_key: newKey.key.primaryKey.keyid.toHex().toUpperCase()});
+      await this.setPrimaryKey(newKey.key.primaryKey.getFingerprint());
     }
     return newKey;
   }

@@ -70,7 +70,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function setInitData(data) {
-    $('#keyId').text(data.keyid.toUpperCase());
+    $('#keyId').text(data.keyid);
     $('#userId').text(data.userid);
     $('#pwdDialogReason').text(data.reason !== '' ? l10n[data.reason.toLowerCase()] : '');
     if (data.cache) {

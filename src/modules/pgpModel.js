@@ -47,16 +47,23 @@ export async function decryptMessage({armored, keyringId, unlockKey, senderAddre
     throw noKeyFoundError(encryptionKeyIds);
   }
   let {data, signatures} = await keyring.getPgpBackend().decrypt({armored, message, keyring, unlockKey, senderAddress, selfSigned, encryptionKeyIds});
-  // sync public keys for signing
-  await syncPublicKeys(keyring, signatures.map(sig => sig.keyid));
+  // filter out signatures where fingerprint is available, here also signing public key is available
+  const sigFprs = signatures.map(sig => sig.fingerprint).filter(fingerprint => fingerprint);
+  // sync public keys to have key details for the signatures
+  await syncPublicKeys(keyring, sigFprs);
   signatures = signatures.map(sig => addSigningKeyDetails(sig, keyring));
   return {data, signatures};
 }
 
+/**
+ * Add signing key details to signature. Only if fingerprint is available.
+ * @param {Object} signature
+ * @param {KeyringBase} keyring
+ */
 function addSigningKeyDetails(signature, keyring) {
   if (signature.valid !== null) {
-    const signingKey = keyring.keystore.getKeysForId(signature.keyid, true);
-    signature.keyDetails = mapKeys(signingKey)[0];
+    const signingKey = keyring.keystore.getKeysForId(signature.fingerprint, true);
+    signature.keyDetails = mapKeys(signingKey[0]);
   }
   return signature;
 }
@@ -101,20 +108,20 @@ export function readMessage({armoredText, binary}) {
  * @param {String} options.data - as native JavaScript string
  * @param {String} options.keyringId
  * @param  {Function} options.unlockKey - callback to unlock key
- * @param {Array<String>} options.encryptionKeyIds - key Id of encryption keys
- * @param {String} options.signingKeyId - key Id of signing key
+ * @param {Array<String>} options.encryptionKeyFprs - fingerprint of encryption keys
+ * @param {String} options.signingKeyFpr - fingerprint of signing key
  * @param {String} options.uiLogSource - UI source that triggered encryption, used for logging
  * @return {Promise<String>} - armored PGP message
  */
-export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyIds, signingKeyId, uiLogSource}) {
-  const keyring = getKeyringWithPrivKey(signingKeyId, keyringId);
+export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyFprs, signingKeyFpr, uiLogSource}) {
+  const keyring = getKeyringWithPrivKey(signingKeyFpr, keyringId);
   if (!keyring) {
     throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
   }
-  await syncPublicKeys(keyring, encryptionKeyIds);
+  await syncPublicKeys(keyring, encryptionKeyFprs);
   try {
-    const result = await keyring.getPgpBackend().encrypt({data, keyring, unlockKey, encryptionKeyIds, signingKeyId});
-    logEncryption(uiLogSource, keyring, encryptionKeyIds);
+    const result = await keyring.getPgpBackend().encrypt({data, keyring, unlockKey, encryptionKeyFprs, signingKeyFpr});
+    logEncryption(uiLogSource, keyring, encryptionKeyFprs);
     return result;
   } catch (e) {
     console.log('getPgpBackend().encrypt() error', e);
@@ -126,11 +133,11 @@ export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyI
  * Log encryption operation
  * @param  {String} source - source that triggered encryption operation
  * @param {KeyringBase} keyring
- * @param  {Array<String>} keyIds - key ID of used keys
+ * @param  {Array<String>} keyFprs - fingerprint of used keys
  */
-function logEncryption(source, keyring, keyIds) {
+function logEncryption(source, keyring, keyFprs) {
   if (source) {
-    const keys = keyring.getKeysByIds(keyIds);
+    const keys = keyring.getKeysByFprs(keyFprs);
     const recipients = keys.map(key => getUserId(key, false));
     uiLog.push(source, l10n('security_log_encryption_operation', [recipients.join(', ')]));
   }

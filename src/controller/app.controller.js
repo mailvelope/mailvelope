@@ -6,7 +6,7 @@
 import mvelo from '../lib/lib-mvelo';
 import * as sub from './sub.controller';
 import {decryptFile, encryptFile} from '../modules/pgpModel';
-import {getById as keyringById, getAllKeyringAttr, setKeyringAttr, deleteKeyring, getAllKeyUserId} from '../modules/keyring';
+import {getById as keyringById, getAllKeyringAttr, setKeyringAttr, deleteKeyring, getAllKeyData} from '../modules/keyring';
 import {initScriptInjection} from '../lib/inject';
 import * as prefs from '../modules/prefs';
 import * as uiLog from '../modules/uiLog';
@@ -42,7 +42,7 @@ export default class AppController extends sub.SubController {
     this.on('delete-keyring', this.deleteKeyring);
     this.on('get-ui-log', ({securityLogLength}) => uiLog.getLatest(securityLogLength));
     this.on('get-version', getVersion);
-    this.on('get-all-key-userid', getAllKeyUserId);
+    this.on('get-all-key-data', getAllKeyData);
     this.on('open-tab', ({url}) => mvelo.tabs.create(url));
     this.on('get-app-data-slot', ({slotId}) => sub.getAppDataSlot(slotId));
     this.on('encrypt-text-init', this.initEncryptText);
@@ -65,8 +65,8 @@ export default class AppController extends sub.SubController {
     });
   }
 
-  getArmoredKeys({keyids, options, keyringId}) {
-    return keyringById(keyringId).getArmoredKeys(keyids, options);
+  getArmoredKeys({keyFprs, options, keyringId}) {
+    return keyringById(keyringId).getArmoredKeys(keyFprs, options);
   }
 
   getKeyDetails({fingerprint, keyringId}) {
@@ -127,8 +127,8 @@ export default class AppController extends sub.SubController {
     this.decryptTextCtrl.decrypt(armored, mvelo.MAIN_KEYRING_ID);
   }
 
-  async unlockKey({key, keyid}) {
-    const privKey = await unlockQueue.push(sub.factory.get('pwdDialog'), 'unlockKey', [{key, keyid}]);
+  async unlockKey(key) {
+    const privKey = await unlockQueue.push(sub.factory.get('pwdDialog'), 'unlockKey', [{key}]);
     return privKey.key;
   }
 }

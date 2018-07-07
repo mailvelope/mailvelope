@@ -30,7 +30,6 @@ export default class KeyringGPG extends KeyringBase {
   }
 
   async removeKey(fingerprint, type) {
-    fingerprint = fingerprint.toLowerCase();
     await this.keystore.removeKey(fingerprint, type);
     super.removeKey(fingerprint, type);
   }

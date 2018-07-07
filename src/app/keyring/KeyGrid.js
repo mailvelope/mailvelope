@@ -96,7 +96,7 @@ export default class KeyGrid extends React.Component {
         break;
     }
     this.setState({keyringBackup: {
-      keyids: keys.map(key => key.fingerprint),
+      keyFprs: keys.map(key => key.fingerprint),
       all,
       type
     }});
@@ -141,9 +141,9 @@ export default class KeyGrid extends React.Component {
                   <td className="text-center">
                     <span className={key.type === 'public' ? 'publicKey' : 'keyPair'}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                   </td>
-                  <td>{key.name}{this.props.primaryKeyId === key.id && <span>&nbsp;&nbsp;<span className="label label-warning">{l10n.map.keygrid_primary_label}</span></span>}</td>
+                  <td>{key.name}{this.props.primaryKeyFpr === key.fingerprint && <span>&nbsp;&nbsp;<span className="label label-warning">{l10n.map.keygrid_primary_label}</span></span>}</td>
                   <td className="emailCell">{key.email}</td>
-                  <td className="monospaced">{key.id}</td>
+                  <td className="monospaced">{key.keyid}</td>
                   <td className="monospaced">{key.crDate.substr(0, 10)}</td>
                   <td className="text-center text-nowrap">
                     <div className="actions">
@@ -160,13 +160,13 @@ export default class KeyGrid extends React.Component {
         {this.props.spinner && <Spinner />}
         {this.state.keyDetails &&
           <KeyDetails keyDetails={this.state.keyDetails}
-            onSetPrimaryKey={() => this.props.onChangePrimaryKey(this.state.keyDetails.id)}
-            isPrimary={this.props.primaryKeyId === this.state.keyDetails.id}
+            onSetPrimaryKey={() => this.props.onChangePrimaryKey(this.state.keyDetails.fingerprint)}
+            isPrimary={this.props.primaryKeyFpr === this.state.keyDetails.fingerprint}
             onHide={() => this.setState({keyDetails: null})}
           />
         }
         {this.state.keyringBackup &&
-          <KeyringBackup keyids={this.state.keyringBackup.keyids}
+          <KeyringBackup keyFprs={this.state.keyringBackup.keyFprs}
             all={this.state.keyringBackup.all}
             type={this.state.keyringBackup.type}
             onHide={() => this.setState({keyringBackup: null})}
@@ -179,7 +179,7 @@ export default class KeyGrid extends React.Component {
 
 KeyGrid.propTypes = {
   keys: PropTypes.array,
-  primaryKeyId: PropTypes.string,
+  primaryKeyFpr: PropTypes.string,
   onChangePrimaryKey: PropTypes.func.isRequired,
   onDeleteKey: PropTypes.func,
   spinner: PropTypes.bool

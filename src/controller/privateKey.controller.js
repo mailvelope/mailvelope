@@ -24,7 +24,7 @@ export default class PrivateKeyController extends sub.SubController {
     this.pwdControl = null;
     this.initialSetup = true;
     this.restorePassword = false;
-    this.newKeyId = '';
+    this.newKeyFpr = '';
     this.rejectTimer = 0;
     // register event handlers
     this.on('set-init-data', this.setInitData);
@@ -71,7 +71,7 @@ export default class PrivateKeyController extends sub.SubController {
     if (this.rejectTimer) {
       clearTimeout(this.rejectTimer);
       this.rejectTimer = 0;
-      this.rejectKey(this.newKeyId);
+      this.rejectKey(this.newKeyFpr);
     }
   }
 
@@ -120,9 +120,9 @@ export default class PrivateKeyController extends sub.SubController {
         pwdCache.set({key: data.key, password});
       }
       if (options.confirmRequired) {
-        this.newKeyId = data.key.primaryKey.keyid.toHex();
+        this.newKeyFpr = data.key.primaryKey.getFingerprint();
         this.rejectTimer = setTimeout(() => {
-          this.rejectKey(this.newKeyId);
+          this.rejectKey(this.newKeyFpr);
           this.rejectTimer = 0;
         }, 10000); // trigger timeout after 10s
       }
@@ -132,9 +132,9 @@ export default class PrivateKeyController extends sub.SubController {
   }
 
   rejectKey() {
-    getKeyringById(this.keyringId).removeKey(this.newKeyId, 'private');
+    getKeyringById(this.keyringId).removeKey(this.newKeyFpr, 'private');
     if (prefs.security.password_cache) {
-      pwdCache.delete(this.newKeyId);
+      pwdCache.delete(this.newKeyFpr);
     }
   }
 
@@ -147,8 +147,7 @@ export default class PrivateKeyController extends sub.SubController {
     try {
       // get password from cache or ask user
       const unlockedKey = await this.pwdControl.unlockKey({
-        key: primaryKey.key,
-        keyid: primaryKey.keyid,
+        key: primaryKey,
         reason: 'PWD_DIALOG_REASON_CREATE_BACKUP'
       });
       sync.triggerSync({keyring: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});

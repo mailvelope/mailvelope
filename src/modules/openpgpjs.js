@@ -40,6 +40,15 @@ export async function decrypt({message, keyring, senderAddress, selfSigned, encr
   const result = await openpgp.decrypt({message, privateKey, publicKeys: signingKeys, format});
   result.signatures = result.signatures.map(signature => {
     signature.keyid = signature.keyid.toHex();
+    if (signature.valid !== null) {
+      try {
+        signature.fingerprint = keyring.getFprForKeyId(signature.keyid);
+      } catch (e) {
+        console.log('Error mapping keyId to fingerprint', e);
+        // reject this signature
+        signature.valid = false;
+      }
+    }
     return signature;
   });
   return result;
@@ -50,17 +59,17 @@ export async function decrypt({message, keyring, senderAddress, selfSigned, encr
  * @param  {String} options.data - data to be encrypted as native JavaScript string
  * @param  {KeyringBase} options.keyring - keyring used for encryption
  * @param  {Function} options.unlockKey - callback that unlocks private key
- * @param  {Array<String>} options.encryptionKeyIds - array of key Ids used for encryption
- * @param  {String} options.signingKeyId - key Id of signing key
+ * @param  {Array<String>} options.encryptionKeyFprs - array of fingerprints used for encryption
+ * @param  {String} options.signingKeyFpr - fingerprint of signing key
  * @return {String}
  */
-export async function encrypt({data, keyring, unlockKey, encryptionKeyIds, signingKeyId}) {
+export async function encrypt({data, keyring, unlockKey, encryptionKeyFprs, signingKeyFpr}) {
   let signingKey;
-  if (signingKeyId) {
-    signingKey = keyring.getPrivateKeyByIds(signingKeyId);
-    signingKey = await unlockKey(signingKey);
+  if (signingKeyFpr) {
+    signingKey = keyring.getPrivateKeyByIds(signingKeyFpr);
+    signingKey = await unlockKey({key: signingKey});
   }
-  const keys = keyring.getKeysByIds(encryptionKeyIds);
+  const keys = keyring.getKeysByFprs(encryptionKeyFprs);
   const msg = await openpgp.encrypt({data, publicKeys: keys, privateKeys: signingKey});
   return msg.data;
 }

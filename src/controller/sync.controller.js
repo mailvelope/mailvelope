@@ -8,6 +8,7 @@ import * as sub from './sub.controller';
 import {getById as getKeyringById} from '../modules/keyring';
 import {isCached} from '../modules/pwdCache';
 import {readMessage, decryptSyncMessage, encryptSyncMessage} from '../modules/pgpModel';
+import {equalKey} from '../modules/key';
 
 export class SyncController extends sub.SubController {
   constructor(port) {
@@ -48,13 +49,13 @@ export class SyncController extends sub.SubController {
     if (!options.key) {
       // if no key provided we take the primary key
       if (primKey) {
-        options.key = primKey.key;
+        options.key = primKey;
       } else {
         return; // no private key for sync
       }
     } else {
       // check if provided key is primary key, otherwise no sync
-      if (!options.key.primaryKey.getKeyId().equals(primKey.key.primaryKey.getKeyId())) {
+      if (!equalKey(options.key, primKey)) {
         return;
       }
     }
@@ -121,26 +122,24 @@ export class SyncController extends sub.SubController {
     // new version available on server
     const message = await readMessage({armoredText: download.keyringMsg});
     const encryptionKeyIds = message.getEncryptionKeyIds();
-    const privKey = this.keyring.getPrivateKeyByIds(encryptionKeyIds);
+    let privKey = this.keyring.getPrivateKeyByIds(encryptionKeyIds);
     if (!privKey) {
       throw new Error('No private key found to decrypt the sync message');
     }
-    let {key, keyid} = privKey;
     let password;
-    if (!key.primaryKey.getKeyId().equals(options.key.primaryKey.getKeyId())) {
+    if (!equalKey(privKey, options.key)) {
       console.log('Key used for sync packet from server is not primary key on client');
-      if (!options.force && !this.canUnlockKey('decrypt', {key})) {
+      if (!options.force && !this.canUnlockKey('decrypt', {key: privKey})) {
         throw new Error('Key used for sync packet is locked');
       }
     } else {
-      key = options.key;
+      privKey = options.key;
       password = options.password;
     }
     // unlock key if still locked
     this.pwdControl = sub.factory.get('pwdDialog');
     const unlockedKey = await this.pwdControl.unlockKey({
-      key,
-      keyid,
+      key: privKey,
       reason: 'PWD_DIALOG_REASON_EDITOR',
       password
     });
@@ -161,7 +160,6 @@ export class SyncController extends sub.SubController {
     const keyOptions = {
       key: options.key,
       password: options.password,
-      keyid: options.key.getSigningKeyPacket().getKeyId().toHex(),
       reason: 'PWD_DIALOG_REASON_EDITOR'
     };
     this.pwdControl = this.pwdControl || sub.factory.get('pwdDialog');
@@ -186,7 +184,7 @@ export class SyncController extends sub.SubController {
       // key can always be unlocked with password
       return true;
     }
-    const isKeyCached = isCached(options.key.primaryKey.getKeyId().toHex());
+    const isKeyCached = isCached(options.key.primaryKey.getFingerprint());
     if (isKeyCached) {
       return true;
     }

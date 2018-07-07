@@ -249,7 +249,7 @@ function init() {
 }
 
 function initRecipientsSelection() {
-  port.send('get-all-key-userid')
+  port.send('get-all-key-data')
   .then(result => {
     recipients = result;
     addRecipientsToSelect(recipients);
@@ -558,7 +558,7 @@ function addRecipientsToSelect(recipients) {
   for (let i = 0; i < recipients.length; i++) {
     const $option = $('<option/>')
     .val(i)
-    .text(`${recipients[i].userid} - ${recipients[i].keyid.toUpperCase()}`);
+    .text(`${recipients[i].userid} - ${recipients[i].keyid}`);
     $encryptKeySelect.append($option);
   }
 }
@@ -573,7 +573,7 @@ function addFileToDownload(file, $panel, options) {
 
 /**
  * @param {Object} recipient
- * @param {String} recipient.id
+ * @param {String} recipient.keyid
  * @param {String} recipient.name
  * @param {Number} recipient.index
  * @returns {*|jQuery|HTMLElement}

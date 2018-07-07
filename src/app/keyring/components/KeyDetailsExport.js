@@ -25,7 +25,7 @@ export default class KeyDetailsExport extends React.Component {
       keys: [],
       fileName: `${props.keyName.replace(/\s/g, '_')}_${props.type}.asc`
     };
-    keyring('getArmoredKeys', {keyids: props.keyids, options: {pub: true, priv: true, all: props.all}})
+    keyring('getArmoredKeys', {keyFprs: props.keyFprs, options: {pub: true, priv: true, all: props.all}})
     .then(result => this.setState({keys: result}));
     this.fileURL = '';
     this.handleClickExport = this.handleClickExport.bind(this);
@@ -107,7 +107,7 @@ export default class KeyDetailsExport extends React.Component {
 }
 
 KeyDetailsExport.propTypes = {
-  keyids: PropTypes.array,
+  keyFprs: PropTypes.array,
   all: PropTypes.bool,
   keyName: PropTypes.string.isRequired,
   type: PropTypes.string
