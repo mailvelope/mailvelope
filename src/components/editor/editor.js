@@ -166,7 +166,7 @@ export default class Editor extends React.Component {
   handleSign() {
     this.logUserInput('security_log_dialog_sign');
     this.port.emit('sign-only', {
-      signKeyId: this.state.signKey.toLowerCase()
+      signKeyFpr: this.state.signKey
     });
   }
 
@@ -200,7 +200,7 @@ export default class Editor extends React.Component {
       attachments: this.state.files,
       action,
       signMsg: this.state.signMsg || draft, // draft is always signed
-      signKey: this.state.signKey.toLowerCase(),
+      signKeyFpr: this.state.signKey,
       noCache
     });
   }

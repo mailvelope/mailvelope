@@ -8,7 +8,6 @@ import * as prefs from '../modules/prefs';
 import {SubController} from './sub.controller';
 import * as uiLog from '../modules/uiLog';
 import {getUserId} from '../modules/key';
-import * as openpgp from 'openpgp';
 import * as pwdCache from '../modules/pwdCache';
 
 export default class PwdController extends SubController {
@@ -34,7 +33,7 @@ export default class PwdController extends SubController {
     // pass over keyid and userid to dialog
     this.ports.pwdDialog.emit('set-init-data', {
       userid: getUserId(this.options.key, false),
-      keyid: this.options.key.primaryKey.getKeyId().toHex(),
+      keyid: this.options.key.primaryKey.getKeyId().toHex().toUpperCase(),
       cache: prefs.prefs.security.password_cache,
       reason: this.options.reason
     });
@@ -82,7 +81,6 @@ export default class PwdController extends SubController {
   /**
    * @param {Object} options
    * @param {openpgp.key.Key} options.key - key to unlock
-   * @param {String} options.keyid - keyid of key packet that needs to be unlocked
    * @param {String} [options.reason] - optional explanation for password dialog
    * @param {Boolean} [options.openPopup=true] - password popup required (false if dialog appears integrated)
    * @param {Function} [options.beforePasswordRequest] - called before password entry required
@@ -98,7 +96,7 @@ export default class PwdController extends SubController {
     if (typeof this.options.openPopup == 'undefined') {
       this.options.openPopup = true;
     }
-    const cacheEntry = pwdCache.get(this.options.key.primaryKey.getKeyId().toHex());
+    const cacheEntry = pwdCache.get(this.options.key.primaryKey.getFingerprint());
     if (cacheEntry && !options.noCache) {
       return Promise.resolve(cacheEntry);
     } else {
@@ -131,10 +129,12 @@ export default class PwdController extends SubController {
     }
   }
 
-  keyIsDecrypted(options) {
-    const keyPacket = options.key.getKeyPacket([openpgp.Keyid.fromId(options.keyid)]);
-    if (keyPacket) {
-      return keyPacket.isDecrypted;
-    }
+  /**
+   * Check if key is decrypted. As openpgp.decryptKey always decrypts all key packets, we only check the primary key status.
+   * @param  {openpgp.key.Key} options.key
+   * @return {Boolean}
+   */
+  keyIsDecrypted({key}) {
+    return key.primaryKey.isDecrypted;
   }
 }

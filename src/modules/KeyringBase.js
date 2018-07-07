@@ -6,7 +6,7 @@
 import mvelo from '../lib/lib-mvelo';
 import * as openpgp from 'openpgp';
 import {goog} from './closure-library/closure/goog/emailaddress';
-import {setKeyringAttr, getKeyringAttr} from './keyring';
+import {getKeyringAttr} from './keyring';
 import {mapKeys, mapSubKeys, mapUsers, mapKeyUserIds, getUserId, isValidEncryptionKey, sortKeysByCreationDate} from './key';
 import * as trustKey from './trustKey';
 import KeyServer from './keyserver';
@@ -44,7 +44,7 @@ export default class KeyringBase {
 
   /**
    * Check if keyring has any private key or specific private keys by keyId
-   * @param  {Array<openpgp.Keyid|String>}  keyIds
+   * @param  {Array<openpgp.Keyid|String>}  keyIds or fingerprints
    * @return {Boolean}
    */
   hasPrivateKey(keyIds) {
@@ -61,7 +61,6 @@ export default class KeyringBase {
 
   getKeyDetails(fingerprint) {
     const details = {};
-    fingerprint = fingerprint.toLowerCase();
     const keys = this.keystore.getKeysForId(fingerprint);
     if (keys) {
       const key = keys[0];
@@ -78,12 +77,12 @@ export default class KeyringBase {
   }
 
   /**
-   * Get user id, key id, email and name for all keys
+   * Get the following data for all keys: user id, key id, fingerprint, email and name
    * @param {Boolean} [options.allUsers] return separate entry for all user ids of key
    * @param {Boolean} [options.sort] sort result by userid
-   * @return {Array<Object>} list of key meta data objects in the form {keyid, userid, email, name}
+   * @return {Array<Object>} list of key meta data objects in the form {keyid, fingerprint, userid, email, name}
    */
-  getKeyUserIds(options = {}) {
+  getKeyData(options = {}) {
     let result = [];
     this.keystore.getAllKeys().forEach(key => {
       if (key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
@@ -91,7 +90,8 @@ export default class KeyringBase {
         return;
       }
       let user;
-      const keyid = key.primaryKey.getKeyId().toHex();
+      const keyid = key.primaryKey.getKeyId().toHex().toUpperCase();
+      const fingerprint = key.primaryKey.getFingerprint();
       if (options.allUsers) {
         // consider all user ids of key
         const users = [];
@@ -99,6 +99,7 @@ export default class KeyringBase {
           if (keyUser.userId && keyUser.verify(key.primaryKey) === openpgp.enums.keyStatus.valid) {
             user = {};
             user.keyid = keyid;
+            user.fingerprint = fingerprint;
             user.userid = keyUser.userId.userid;
             // check for duplicates
             if (users.some(existingUser => existingUser.userid === user.userid)) {
@@ -117,6 +118,7 @@ export default class KeyringBase {
         // only consider primary user
         user = {};
         user.keyid = keyid;
+        user.fingerprint = fingerprint;
         user.userid = getUserId(key);
         mapKeyUserIds(user);
         result.push(user);
@@ -159,23 +161,29 @@ export default class KeyringBase {
         result[emailAddr] = false;
       } else if (options.sort) {
         // sort by key creation date and primary key status
-        const primaryKeyId = this.getPrimaryKeyId();
-        sortKeysByCreationDate(result[emailAddr], primaryKeyId);
+        const primaryKeyFpr = this.getPrimaryKeyFpr();
+        sortKeysByCreationDate(result[emailAddr], primaryKeyFpr);
       }
     });
     return result;
   }
 
-  getArmoredKeys(keyids, options) {
+  /**
+   * Get armored keys by fingerprints
+   * @param  {Array<String>|String} keyFprs
+   * @param  {Boolean} options.all - return all keys in the keyring
+   * @param  {Boolean} options.pub - return all keys as public armored
+   * @param  {Boolean} options.pub - return all private keys as private armored
+   * @return {Array<Strin>}
+   */
+  getArmoredKeys(keyFprs, options) {
     const result = [];
+    keyFprs = mvelo.util.toArray(keyFprs);
     let keys = null;
     if (options.all) {
       keys = this.keystore.getAllKeys();
     } else {
-      keys = keyids.map(keyid => {
-        keyid = keyid.toLowerCase();
-        return this.keystore.getKeysForId(keyid)[0];
-      });
+      keys = keyFprs.map(keyFpr => this.keystore.getKeysForId(keyFpr)[0]);
     }
     keys.forEach(key => {
       const armored = {};
@@ -191,21 +199,25 @@ export default class KeyringBase {
   }
 
   hasPrimaryKey() {
-    return Boolean(this.keystore.getPrimaryKeyId());
+    return Boolean(this.getPrimaryKeyFpr());
   }
 
-  getPrimaryKeyId() {
-    return this.keystore.getPrimaryKeyId();
+  getPrimaryKeyFpr() {
+    return this.keystore.getPrimaryKeyFpr();
+  }
+
+  setPrimaryKey(fpr) {
+    return this.keystore.setPrimaryKey(fpr);
   }
 
   getPrimaryKey() {
     let primaryKey;
-    const primaryKeyid = this.keystore.getPrimaryKeyId();
-    if (primaryKeyid) {
-      primaryKey = this.keystore.privateKeys.getForId(primaryKeyid.toLowerCase());
+    const primaryKeyFpr = this.getPrimaryKeyFpr();
+    if (primaryKeyFpr) {
+      primaryKey = this.keystore.privateKeys.getForId(primaryKeyFpr);
       if (!(primaryKey && this.validatePrimaryKey(primaryKey))) {
         // primary key with this id does not exist or is invalid
-        setKeyringAttr(this.id, {primary_key: ''}); // clear primary key
+        this.setPrimaryKey(''); // clear primary key
         primaryKey = null;
       }
     }
@@ -218,14 +230,7 @@ export default class KeyringBase {
         }
       });
     }
-    if (!primaryKey) {
-      return null;
-    }
-    return {
-      key: primaryKey,
-      keyid: primaryKey.primaryKey.getKeyId().toHex(),
-      userid: getUserId(primaryKey)
-    };
+    return primaryKey ? primaryKey : null;
   }
 
   validatePrimaryKey(primaryKey) {
@@ -235,21 +240,14 @@ export default class KeyringBase {
            !trustKey.isKeyPseudoRevoked(this.id, primaryKey);
   }
 
-  getPrivateKeyByHexId(keyIdHex) {
-    const key = this.keystore.privateKeys.getForId(keyIdHex);
-    if (!key) {
-      return null;
-    }
-    return {
-      key,
-      keyid: key.primaryKey.getKeyId().toHex()
-    };
+  getPrivateKeyByFpr(keyFpr) {
+    return this.keystore.privateKeys.getForId(keyFpr);
   }
 
   /**
    * Return first private key that matches keyIds
-   * @param  {Array<openpgp.Keyid|String>|openpgp.Keyid|String}  keyIds
-   * @return {{key: openpgp.key.Key, keyid: String}|null}
+   * @param  {Array<openpgp.Keyid|String>|openpgp.Keyid|String}  keyIds or fingerprints
+   * @return {openpgp.key.Key|null}
    */
   getPrivateKeyByIds(keyIds) {
     keyIds = mvelo.util.toArray(keyIds);
@@ -257,23 +255,42 @@ export default class KeyringBase {
       const keyIdHex = typeof keyId === 'string' ? keyId : keyId.toHex();
       const key = this.keystore.privateKeys.getForId(keyIdHex, true);
       if (key) {
-        return {
-          key,
-          keyid: key.primaryKey.getKeyId().toHex()
-        };
+        return key;
       }
     }
     return null;
   }
 
-  getKeysByIds(keyIds) {
-    return keyIds.map(keyId => {
-      const keyArray = this.keystore.getKeysForId(keyId);
+  /**
+   * Get keys by fingerprints
+   * @param  {Array<String>} keyFprs
+   * @return {Array<openpgp.key.Key>}
+   */
+  getKeysByFprs(keyFprs) {
+    return keyFprs.map(keyFpr => {
+      const keyArray = this.keystore.getKeysForId(keyFpr);
       if (keyArray) {
         return keyArray[0];
       }
-      throw new mvelo.Error(`No key found for ID ${keyId}`, 'NO_KEY_FOUND_FOR_ENCRYPTION');
+      throw new mvelo.Error(`No key found for ID ${keyFpr}`, 'NO_KEY_FOUND_FOR_ENCRYPTION');
     });
+  }
+
+  /**
+   * Find key or sub key packet by keyId and return fingerprint
+   * @param  {String} keyId
+   * @return {String}
+   */
+  getFprForKeyId(keyId) {
+    const keyArray = this.keystore.getKeysForId(keyId, true);
+    if (!keyArray) {
+      throw new mvelo.Error(`No key found for ID ${keyId}`, 'NO_KEY_FOUND_FOR_ID');
+    }
+    if (keyArray.length > 1) {
+      throw new mvelo.Error(`Collision of long key ID ${keyId}, more than one key found in keyring`, 'LONG_KEY_ID_COLLISION');
+    }
+    const keyPacket = keyArray[0].getKeyPacket([openpgp.Keyid.fromId(keyId)]);
+    return keyPacket.getFingerprint();
   }
 
   getAttributes() {

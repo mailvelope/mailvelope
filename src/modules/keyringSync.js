@@ -29,7 +29,7 @@ export class KeyringSync {
     return this.save();
   }
 
-  add(keyid, type) {
+  add(keyFpr, type) {
     if (!this.data || this.muted) {
       return;
     }
@@ -40,8 +40,7 @@ export class KeyringSync {
     if (type === UPDATE) {
       return;
     }
-    keyid = keyid.toLowerCase();
-    this.data.changeLog[keyid] = {
+    this.data.changeLog[keyFpr] = {
       type,
       time: Math.floor(Date.now() / 1000)
     };

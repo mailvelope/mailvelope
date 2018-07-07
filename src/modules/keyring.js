@@ -10,7 +10,7 @@ import KeyringGPG from './KeyringGPG';
 import KeyStoreGPG from './KeyStoreGPG';
 import {gpgme} from '../lib/browser.runtime';
 import {prefs} from './prefs';
-import {isValidEncryptionKey} from './key';
+import {isValidEncryptionKey, equalKey} from './key';
 
 /**
  * Map with all keyrings and their attributes. Data is persisted in local storage.
@@ -208,39 +208,39 @@ export function getKeyringAttr(keyringId, attrKey) {
 }
 
 /**
- * Get user id, and key id for all keys in all keyrings. Only one user id per key is returned.
- * @return {Array<Object>} list of key meta data objects in the form {keyid, userid, email, name}
+ * Get user id, key id and fingerprint for all keys in all keyrings. Only one user id per key is returned.
+ * @return {Array<Object>} list of key meta data objects in the form {keyid, fingerprint, userid, email, name}
  */
-export function getAllKeyUserId() {
+export function getAllKeyData() {
   let result = [];
   const allKeyrings = getAll();
   allKeyrings.forEach(keyring => {
-    result = result.concat(keyring.getKeyUserIds().map(key => {
+    result = result.concat(keyring.getKeyData().map(key => {
       key.keyringId = keyring.id;
       return key;
     }));
   });
   // remove duplicate keys
-  result = mvelo.util.sortAndDeDup(result, (a, b) => a.keyid.localeCompare(b.keyid));
+  result = mvelo.util.sortAndDeDup(result, (a, b) => a.fingerprint.localeCompare(b.fingerprint));
   // sort by name
   result.sort((a, b) => a.name.localeCompare(b.name));
   return result;
 }
 
 /**
- * Get user id, key id, email and name for all keys in the preferred keyring queue
+ * Get the following data for all keys in the preferred keyring queue: user id, key id, fingerprint, email and name
  * @param  {String} keyringId - requested keyring, the leading keyring of a scenario
- * @return {Array<Object>} list of recipients objects in the form {keyid, userid, email, name}
+ * @return {Array<Object>} list of recipients objects in the form {keyid, fingerprint, userid, email, name}
  */
-export function getKeyUserIds(keyringId) {
+export function getKeyData(keyringId) {
   let result = [];
   const keyrings = getPreferredKeyringQueue(keyringId);
   keyrings.forEach(keyring => {
-    const keyUserIds = keyring.getKeyUserIds({allUsers: true});
+    const keyUserIds = keyring.getKeyData({allUsers: true});
     result.push(...keyUserIds);
   });
-  // remove duplicate recipients with equal keyid and userid
-  result = mvelo.util.deDup(result, (element, array) => !array.find(item => element.keyid === item.keyid && element.userid === item.userid));
+  // remove duplicate recipients with equal fingerprint and userid
+  result = mvelo.util.deDup(result, (element, array) => !array.find(item => element.fingerprint === item.fingerprint && element.userid === item.userid));
   // sort by user id
   result.sort((a, b) => a.userid.localeCompare(b.userid));
   return result;
@@ -268,7 +268,7 @@ export function getKeyByAddress(keyringId, emails) {
       return;
     }
     // remove duplicate keys
-    result[email] = mvelo.util.deDup(result[email], (element, array) => !array.find(item => element.primaryKey.getKeyId().equals(item.primaryKey.getKeyId())));
+    result[email] = mvelo.util.deDup(result[email], (element, array) => !array.find(item => equalKey(element, item)));
   });
   return result;
 }
@@ -302,7 +302,7 @@ function getPreferredKeyringQueue(keyringId) {
 /**
  * Get keyring that includes at least one private key of the specified key Ids.
  * Implements also fallback to alternative keyrings.
- * @param  {Array<openpgp.Keyid>|openpgp.Keyid} keyIds - key ids of private keys
+ * @param  {Array<openpgp.Keyid|String>|openpgp.Keyid|String} keyIds - key ids or fingerprints of private keys
  * @param  {String} [keyringId] - requested keyring, the leading keyring of a scenario
  * @return {KeyringBase}
  */

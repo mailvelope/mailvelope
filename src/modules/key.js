@@ -72,8 +72,8 @@ export function mapKeys(keys) {
       uiKey.validity = false;
       console.log('Exception in verifyPrimaryKey', e);
     }
-    uiKey.id = key.primaryKey.getKeyId().toHex().toUpperCase();
-    uiKey.fingerprint = key.primaryKey.getFingerprint().toUpperCase();
+    uiKey.keyid = key.primaryKey.getKeyId().toHex().toUpperCase();
+    uiKey.fingerprint = key.primaryKey.getFingerprint();
     // primary user
     try {
       uiKey.userId = getUserId(key, false);
@@ -136,10 +136,10 @@ export function mapSubKeys(subkeys, toKey) {
       } else {
         skey.exDate = false;
       }
-      skey.id = subkey.subKey.getKeyId().toHex().toUpperCase();
+      skey.keyid = subkey.subKey.getKeyId().toHex().toUpperCase();
       skey.algorithm = getAlgorithmString(subkey.subKey.algorithm);
       skey.bitLength = subkey.subKey.getBitSize();
-      skey.fingerprint = subkey.subKey.getFingerprint().toUpperCase();
+      skey.fingerprint = subkey.subKey.getFingerprint();
       toKey.subkeys.push(skey);
     } catch (e) {
       console.log('Exception in mapSubKeys', e);
@@ -160,7 +160,7 @@ export function mapUsers(users, toKey, keyring, primaryKey) {
         }
         const sig = {};
         sig.signer = user.userId.userid;
-        sig.id = selfCert.issuerKeyId.toHex().toUpperCase();
+        sig.keyid = selfCert.issuerKeyId.toHex().toUpperCase();
         sig.crDate = selfCert.created.toISOString();
         uiUser.signatures.push(sig);
       });
@@ -179,7 +179,7 @@ export function mapUsers(users, toKey, keyring, primaryKey) {
         } else {
           sig.signer = l10n("keygrid_signer_unknown");
         }
-        sig.id = otherCert.issuerKeyId.toHex().toUpperCase();
+        sig.keyid = keyidHex.toUpperCase();
         sig.crDate = otherCert.created.toISOString();
         uiUser.signatures.push(sig);
       });
@@ -226,9 +226,9 @@ export function getLastModifiedDate(key) {
   return lastModified;
 }
 
-export function mapAddressKeyMapToId(addressKeyMap = []) {
+export function mapAddressKeyMapToFpr(addressKeyMap = []) {
   for (const address in addressKeyMap) {
-    addressKeyMap[address] = addressKeyMap[address] && addressKeyMap[address].map(key => key.primaryKey.getKeyId().toHex());
+    addressKeyMap[address] = addressKeyMap[address] && addressKeyMap[address].map(key => key.primaryKey.getFingerprint());
   }
   return addressKeyMap;
 }
@@ -239,16 +239,20 @@ export function isValidEncryptionKey(keyringId, key) {
     isKeyPseudoRevoked(keyringId, key);
 }
 
-export function sortKeysByCreationDate(keys, primaryKeyId) {
+export function sortKeysByCreationDate(keys, primaryKeyFpr) {
   keys.sort((a, b) => {
-    if (primaryKeyId) {
-      if (primaryKeyId === a.primaryKey.getKeyId().toHex()) {
+    if (primaryKeyFpr) {
+      if (primaryKeyFpr === a.primaryKey.getFingerprint()) {
         return -1;
       }
-      if (primaryKeyId === b.primaryKey.getKeyId().toHex()) {
+      if (primaryKeyFpr === b.primaryKey.getFingerprint()) {
         return 1;
       }
     }
     return b.primaryKey.created - a.primaryKey.created;
   });
+}
+
+export function equalKey(key1, key2) {
+  return key1.primaryKey.getFingerprint() === key2.primaryKey.getFingerprint();
 }

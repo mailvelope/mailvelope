@@ -6,7 +6,7 @@
 import mvelo from '../lib/lib-mvelo';
 import * as openpgp from 'openpgp';
 import {KeyStoreBase} from './keyStore';
-import {getKeyringAttr} from './keyring';
+import {getKeyringAttr, setKeyringAttr} from './keyring';
 
 export default class KeyStoreLocal extends KeyStoreBase {
   async load() {
@@ -39,12 +39,28 @@ export default class KeyStoreLocal extends KeyStoreBase {
     await mvelo.storage.remove(`mvelo.keyring.${this.id}.privateKeys`);
   }
 
-  getPrimaryKeyId() {
-    const primaryKeyId = getKeyringAttr(this.id, 'primary_key');
-    if (primaryKeyId) {
-      return primaryKeyId.toLowerCase();
+  getPrimaryKeyFpr() {
+    const primaryKeyFpr = getKeyringAttr(this.id, 'primary_key');
+    if (!primaryKeyFpr) {
+      return '';
+    }
+    if (primaryKeyFpr.length === 16) {
+      // migrate from keyId to fingerprint
+      const primaryKey = this.privateKeys.getForId(primaryKeyFpr.toLowerCase());
+      if (!primaryKey) {
+        // primary key not found reset primary key attribute
+        this.setPrimaryKey('');
+        return;
+      }
+      const fingerprint = primaryKey.primaryKey.getFingerprint();
+      this.setPrimaryKey(fingerprint);
+      return fingerprint;
     }
     return '';
+  }
+
+  setPrimaryKey(fpr) {
+    setKeyringAttr(this.id, {primary_key: fpr});
   }
 
   async generateKey(options) {

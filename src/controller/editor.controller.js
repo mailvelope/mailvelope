@@ -16,8 +16,8 @@ import * as uiLog from '../modules/uiLog';
 import {parseMessage, buildMail} from '../modules/mime';
 import {triggerSync} from './sync.controller';
 import KeyServer from '../modules/keyserver';
-import {getById as getKeyringById, getPreferredKeyringId, getKeyUserIds, getKeyByAddress, syncPublicKeys} from '../modules/keyring';
-import {mapAddressKeyMapToId} from '../modules/key';
+import {getById as getKeyringById, getPreferredKeyringId, getKeyData, getKeyByAddress, syncPublicKeys} from '../modules/keyring';
+import {mapAddressKeyMapToFpr} from '../modules/key';
 
 export default class EditorController extends sub.SubController {
   constructor(port) {
@@ -80,7 +80,7 @@ export default class EditorController extends sub.SubController {
     emails = mvelo.util.deDup(emails); // just dedup, dont change order of user input
     recipients = emails.map(e => ({email: e}));
     // get all public keys from required keyrings
-    const keys = getKeyUserIds(this.keyringId);
+    const keys = getKeyData(this.keyringId);
     const tofu = this.keyserver.getTOFUPreference();
     this.emit('public-key-userids', {keys, recipients, tofu});
   }
@@ -89,10 +89,10 @@ export default class EditorController extends sub.SubController {
     this.keyringId = msg.keyringId;
     this.options = msg.options;
     const keyring = getKeyringById(this.keyringId);
-    const primaryKeyId = keyring.getPrimaryKeyId();
+    const primaryKeyFpr = keyring.getPrimaryKeyFpr();
     const data = {
       signMsg: this.options.signMsg,
-      primary: primaryKeyId
+      primary: primaryKeyFpr
     };
     if (msg.options.privKeys) {
       data.privKeys = keyring.getValidSigningKeys();
@@ -123,8 +123,8 @@ export default class EditorController extends sub.SubController {
     this.pgpMIME = true;
     this.keyringId = msg.keyringId;
     const keyMap = getKeyByAddress(this.keyringId, msg.recipients);
-    const keyIdMap = mapAddressKeyMapToId(keyMap);
-    if (Object.keys(keyIdMap).some(keyId => keyIdMap[keyId] === false)) {
+    const keyFprMap = mapAddressKeyMapToFpr(keyMap);
+    if (Object.keys(keyFprMap).some(keyFpr => keyFprMap[keyFpr] === false)) {
       const error = {
         message: 'No valid encryption key for recipient address',
         code: 'NO_KEY_FOR_RECIPIENT'
@@ -133,18 +133,18 @@ export default class EditorController extends sub.SubController {
       return;
     }
     // ensure that all keys are available in the API keyring
-    syncPublicKeys(this.keyringId, keyIdMap);
-    let keyIds = [];
+    syncPublicKeys(this.keyringId, keyFprMap);
+    let keyFprs = [];
     msg.recipients.forEach(recipient => {
-      keyIds = keyIds.concat(keyIdMap[recipient]);
+      keyFprs = keyFprs.concat(keyFprMap[recipient]);
     });
     if (prefs.general.auto_add_primary) {
-      const primaryKeyId = getKeyringById(this.keyringId).getPrimaryKeyId();
-      if (primaryKeyId) {
-        keyIds.push(primaryKeyId);
+      const primaryKeyFpr = getKeyringById(this.keyringId).getPrimaryKeyFpr();
+      if (primaryKeyFpr) {
+        keyFprs.push(primaryKeyFpr);
       }
     }
-    this.keyidBuffer = mvelo.util.sortAndDeDup(keyIds);
+    this.keyFprBuffer = mvelo.util.sortAndDeDup(keyFprs);
     this.ports.editor.emit('get-plaintext', {action: 'encrypt'});
   }
 
@@ -152,9 +152,9 @@ export default class EditorController extends sub.SubController {
     this.pgpMIME = true;
     this.keyringId = msg.keyringId;
     this.options.reason = 'PWD_DIALOG_REASON_CREATE_DRAFT';
-    const primaryKeyId = getKeyringById(this.keyringId).getPrimaryKeyId();
-    if (primaryKeyId) {
-      this.keyidBuffer = [primaryKeyId];
+    const primaryKeyFpr = getKeyringById(this.keyringId).getPrimaryKeyFpr();
+    if (primaryKeyFpr) {
+      this.keyFprBuffer = [primaryKeyFpr];
     } else {
       const error = {
         message: 'No private key found for creating draft.',
@@ -167,14 +167,11 @@ export default class EditorController extends sub.SubController {
   }
 
   async onSignOnly(msg) {
-    const key = getKeyringById(mvelo.MAIN_KEYRING_ID).getPrivateKeyByHexId(msg.signKeyId);
-    // keep signing key
-    this.signKey = key.key;
+    this.signKey = getKeyringById(mvelo.MAIN_KEYRING_ID).getPrivateKeyByFpr(msg.signKeyFpr);
     this.pwdControl = sub.factory.get('pwdDialog');
     try {
       await this.pwdControl.unlockKey({
-        key: key.key,
-        keyid: key.keyid,
+        key: this.signKey,
         reason: 'PWD_DIALOG_REASON_SIGN',
         openPopup: false,
         beforePasswordRequest: () => this.emit('show-pwd-dialog', {id: this.pwdControl.id})
@@ -211,7 +208,7 @@ export default class EditorController extends sub.SubController {
 
   sendKeyUpdate() {
     // send updated key cache to editor
-    const keys = getKeyUserIds(this.keyringId);
+    const keys = getKeyData(this.keyringId);
     this.ports.editor.emit('key-update', {keys});
   }
 
@@ -325,11 +322,13 @@ export default class EditorController extends sub.SubController {
 
   /**
    * Receive plaintext from editor, initiate encryption
-   * @param {String} options.action
-   * @param {String} options.message
-   * @param {String} options.keys
-   * @param {Array} options.attachment
-   * @param {Boolean} options.noCache
+   * @param {String} options.action - 'sign' or 'encrypt'
+   * @param {String} options.message - body of the message
+   * @param {String} options.keys - key data object (user id, key id, fingerprint, email and name)
+   * @param {Array} options.attachments - file attachments
+   * @param {Boolen} options.signMsg - indicator if (encrypted) message should be signed
+   * @param {Array<String>} options.signKeyFpr - fingerprint of key to sign the message
+   * @param {Boolean} options.noCache - do not use password cache, user interaction required
    */
   async onEditorPlaintext(options) {
     options.keys = options.keys || [];
@@ -361,14 +360,15 @@ export default class EditorController extends sub.SubController {
   }
 
   /**
-   * encrypt, sign & encrypt, or sign only operation
-   * @param {Object} options
-   * @param {String} options.action
-   * @param {String} options.message
-   * @param {String} options.keys
-   * @param {Array} options.attachment
-   * @param {Boolean} options.noCache
-   * @return {Promise}
+   * Encrypt, sign & encrypt, or sign only operation
+   * @param {String} options.action - 'sign' or 'encrypt'
+   * @param {String} options.message - body of the message
+   * @param {String} options.keys - key data object (user id, key id, fingerprint, email and name)
+   * @param {Array} options.attachments - file attachments
+   * @param {Boolen} options.signMsg - indicator if (encrypted) message should be signed
+   * @param {Array<String>} options.signKeyFpr - fingerprint of key to sign the message
+   * @param {Boolean} options.noCache - do not use password cache, user interaction required
+   * @return {Promise<String>} - message as armored block
    */
   async signAndEncrypt(options) {
     if (options.action === 'encrypt') {
@@ -384,18 +384,18 @@ export default class EditorController extends sub.SubController {
       if (data === null) {
         throw new mvelo.Error('MIME building failed.');
       }
-      const keyIdsHex = this.getPublicKeyIds(options.keys);
+      const keyFprs = this.getPublicKeyFprs(options.keys);
       if (options.signMsg) {
         return this.signAndEncryptMessage({
           data,
-          keyIdsHex,
-          signKeyIdHex: options.signKey,
+          keyFprs,
+          signKeyFpr: options.signKeyFpr,
           noCache: options.noCache
         });
       } else {
         return this.encryptMessage({
           data,
-          keyIdsHex
+          keyFprs
         });
       }
     } else if (options.action === 'sign') {
@@ -404,19 +404,20 @@ export default class EditorController extends sub.SubController {
   }
 
   /**
-   * @param {String} options.data
-   * @param {Array<String>} options.keyIdsHex
-   * @param {String} options.signKeyIdHex
-   * @param {Boolean} options.noCache
-   * @return {Promise}
+   * Sign and encrypt message
+   * @param {String} data - message content
+   * @param {Array<String>} keyFprs - encryption keys fingerprint
+   * @param {String} signKeyFpr - signing key fingerprint
+   * @param {Boolean} noCache - do not use password cache, user interaction required
+   * @return {Promise<String>} - message as armored block
    */
-  async signAndEncryptMessage({data, signKeyIdHex, keyIdsHex, noCache}) {
+  async signAndEncryptMessage({data, signKeyFpr, keyFprs, noCache}) {
     this.encryptTimer = null;
-    if (!signKeyIdHex) {
-      const primaryKeyId = getKeyringById(this.keyringId).getPrimaryKeyId();
-      signKeyIdHex = primaryKeyId;
+    if (!signKeyFpr) {
+      const primaryKeyFpr = getKeyringById(this.keyringId).getPrimaryKeyFpr();
+      signKeyFpr = primaryKeyFpr;
     }
-    if (!signKeyIdHex) {
+    if (!signKeyFpr) {
       throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
     }
     const unlockKey = async options => {
@@ -433,25 +434,26 @@ export default class EditorController extends sub.SubController {
       data,
       keyringId: this.keyringId,
       unlockKey,
-      encryptionKeyIds: keyIdsHex,
-      signingKeyId: signKeyIdHex,
+      encryptionKeyFprs: keyFprs,
+      signingKeyFpr: signKeyFpr,
       uiLogSource: 'security_log_editor'
     });
   }
 
   /**
-   * @param {String} options.data
-   * @param {Array<Strin>} options.keyIdsHex
-   * @return {Promise}
+   * Encrypt only message
+   * @param {String} data - message content
+   * @param {Array<String>} keyFprs - encryption keys fingerprint
+   * @return {Promise<String>} - message as armored block
    */
-  encryptMessage({data, keyIdsHex}) {
+  encryptMessage({data, keyFprs}) {
     this.encryptTimer = setTimeout(() => {
       this.ports.editor.emit('encrypt-in-progress');
     }, 800);
     return model.encryptMessage({
       data,
       keyringId: this.keyringId,
-      encryptionKeyIds: keyIdsHex,
+      encryptionKeyFprs: keyFprs,
       uiLogSource: 'security_log_editor'
     });
   }
@@ -482,11 +484,11 @@ export default class EditorController extends sub.SubController {
     }
   }
 
-  async unlockKey({key, keyid, noCache, reason = 'PWD_DIALOG_REASON_DECRYPT', sync = true}) {
+  async unlockKey({key, noCache, reason = 'PWD_DIALOG_REASON_DECRYPT', sync = true}) {
     const pwdControl = sub.factory.get('pwdDialog');
     const openPopup = !this.editorPopup;
     const beforePasswordRequest = id => this.editorPopup && this.ports.editor.emit('show-pwd-dialog', {id});
-    const unlockedKey = await pwdControl.unlockKey({key, keyid, reason, openPopup, noCache, beforePasswordRequest});
+    const unlockedKey = await pwdControl.unlockKey({key, reason, openPopup, noCache, beforePasswordRequest});
     if (sync) {
       triggerSync({keyring: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
     }
@@ -494,27 +496,27 @@ export default class EditorController extends sub.SubController {
   }
 
   /**
-   * Collect all the key ids to encrypto to, including the sender's key id.
-   * @param  {Array} keys   The public key objects containing the key id
-   * @return {Array}        A collection of all key ids to encrypt to
+   * Collect all the key fingerprints to encrypto to, including the sender's key.
+   * @param  {Array<Object>} keys - the public key objects containing the key fingerprint
+   * @return {Array<String>} - A collection of all key fingerprints to encrypt to
    */
-  getPublicKeyIds(keys) {
-    let keyIdsHex;
-    // prefer keyidBuffer
-    if (this.keyidBuffer) {
-      keyIdsHex = this.keyidBuffer;
+  getPublicKeyFprs(keys) {
+    let keyFprs;
+    // prefer keyFprBuffer
+    if (this.keyFprBuffer) {
+      keyFprs = this.keyFprBuffer;
     } else {
-      keyIdsHex = keys.map(key => key.keyid);
-      // get the sender key id
+      keyFprs = keys.map(key => key.fingerprint);
+      // get the sender key fingerprint
       if (prefs.general.auto_add_primary) {
         const localKeyring = getKeyringById(mvelo.MAIN_KEYRING_ID);
-        const primaryKeyId = localKeyring.getPrimaryKeyId();
-        if (primaryKeyId) {
-          keyIdsHex.push(primaryKeyId);
+        const primaryKeyFpr = localKeyring.getPrimaryKeyFpr();
+        if (primaryKeyFpr) {
+          keyFprs.push(primaryKeyFpr);
         }
       }
     }
     // deduplicate
-    return mvelo.util.sortAndDeDup(keyIdsHex);
+    return mvelo.util.sortAndDeDup(keyFprs);
   }
 }

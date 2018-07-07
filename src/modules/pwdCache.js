@@ -42,12 +42,12 @@ function update() {
 
 /**
  * Get password and unlocked key from cache
- * @param  {String} primkeyid primary key id
- * @return {Object}           password of key, if available unlocked key for keyid
+ * @param  {String} primaryKeyFpr - primary key fingerprint
+ * @return {Object} - password of key, if available unlocked key
  */
-export function get(primkeyid) {
-  if (cache.has(primkeyid)) {
-    const entry = cache.get(primkeyid);
+export function get(primaryKeyFpr) {
+  if (cache.has(primaryKeyFpr)) {
+    const entry = cache.get(primaryKeyFpr);
     entry.operations--;
     if (entry.operations) {
       return {
@@ -56,26 +56,26 @@ export function get(primkeyid) {
       };
     } else {
       // number of allowed operations exhausted
-      cache.delete(primkeyid);
+      cache.delete(primaryKeyFpr);
     }
   }
 }
 
 /**
  * Return true if key is cached
- * @param  {String}  primkeyid primary key id
- * @return {Boolean}           true if cached
+ * @param  {String} primaryKeyFpr - primary key fingerprint
+ * @return {Boolean} - true if cached
  */
-export function isCached(primkeyid) {
-  return cache.has(primkeyid);
+export function isCached(primaryKeyFpr) {
+  return cache.has(primaryKeyFpr);
 }
 
 /**
  * Delete key from cache
- * @param  {String} primkeyid primary key id
+ * @param  {String} primaryKeyFpr - primary key fingerprint
  */
-function deleteEntry(primkeyid) {
-  cache.delete(primkeyid);
+function deleteEntry(primaryKeyFpr) {
+  cache.delete(primaryKeyFpr);
 }
 
 export {deleteEntry as delete};
@@ -87,17 +87,17 @@ export {deleteEntry as delete};
  * @param {Number}          [cacheTime] - timeout in minutes
  */
 export function set({key, password, cacheTime}) {
-  // primary key id is main key of cache
-  const primKeyIdHex = key.primaryKey.getKeyId().toHex();
-  if (!cache.has(primKeyIdHex)) {
+  // primary key fingerprint is main key of cache
+  const primaryKeyFpr = key.primaryKey.getFingerprint();
+  if (!cache.has(primaryKeyFpr)) {
     const newEntry = {key, password};
     // clear after timeout
     newEntry.timer = setTimeout(() => {
-      cache.delete(primKeyIdHex);
+      cache.delete(primaryKeyFpr);
     }, (cacheTime || timeout) * 60 * 1000);
     // set max. number of operations
     newEntry.operations = RATE_LIMIT;
-    cache.set(primKeyIdHex, newEntry);
+    cache.set(primaryKeyFpr, newEntry);
   }
 }
 

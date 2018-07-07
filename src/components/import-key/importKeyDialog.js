@@ -68,7 +68,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     } else {
       $('.userId').empty().append(userName);
     }
-    $('.fingerprint').text(msg.key.fingerprint.match(/.{1,4}/g).join(' '));
+    $('.fingerprint').text(mvelo.ui.formatFpr(msg.key.fingerprint));
     $('.createDate').text(date);
 
     if (msg.invalidated) {

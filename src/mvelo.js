@@ -135,6 +135,10 @@ mvelo.ui.addDocumentTitle = function(text) {
   document.head.appendChild(title);
 };
 
+mvelo.ui.formatFpr = function(fpr) {
+  return fpr.toUpperCase().match(/.{1,4}/g).join(' ');
+};
+
 mvelo.util = {};
 
 mvelo.util.sortAndDeDup = function(unordered, compFn) {

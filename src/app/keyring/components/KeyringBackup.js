@@ -23,14 +23,14 @@ export default function KeyringBackup(props) {
       </button>
     }>
       <div style={{padding: '10px'}}>
-        <KeyDetailsExport keyids={props.keyids} keyName="keyring" all={props.all} type={props.type} />
+        <KeyDetailsExport keyFprs={props.keyFprs} keyName="keyring" all={props.all} type={props.type} />
       </div>
     </ModalDialog>
   );
 }
 
 KeyringBackup.propTypes = {
-  keyids: PropTypes.array.isRequired,
+  keyFprs: PropTypes.array.isRequired,
   all: PropTypes.bool,
   onHide: PropTypes.func,
   type: PropTypes.string

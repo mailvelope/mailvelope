@@ -32,7 +32,7 @@ class EditorModalFooter extends React.Component {
         </div>
         <div className="form-group">
           <select className="form-control" value={this.props.signKey} onChange={event => this.props.onChangeSignKey(event.target.value)}>
-            {this.props.privKeys.map(key => <option value={key.id} key={key.id}>{`${key.userId} - ${key.id}`}</option>)}
+            {this.props.privKeys.map(key => <option value={key.fingerprint} key={key.fingerprint}>{`${key.userId} - ${key.keyid}`}</option>)}
           </select>
         </div>
         <div className="form-nav-link pull-right">

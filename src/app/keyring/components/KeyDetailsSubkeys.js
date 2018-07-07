@@ -6,6 +6,7 @@
 import * as l10n from '../../../lib/l10n';
 import React from 'react';
 import PropTypes from 'prop-types';
+import mvelo from '../../../mvelo';
 
 l10n.register([
   'keygrid_subkeyid',
@@ -21,17 +22,17 @@ l10n.register([
 export default class KeyDetailsSubkeys extends React.Component {
   constructor(props) {
     super(props);
-    const id = props.subkeys[0] && props.subkeys[0].id || '';
-    this.state = {id};
+    const keyid = props.subkeys[0] && props.subkeys[0].keyid || '';
+    this.state = {keyid};
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
-    this.setState({id: event.target.value});
+    this.setState({keyid: event.target.value});
   }
 
   render() {
-    const selected = this.props.subkeys.find(key => key.id === this.state.id);
+    const selected = this.props.subkeys.find(key => key.keyid === this.state.keyid);
     if (!selected) {
       return (
         <div className="alert alert-info">{l10n.map.keygrid_no_subkeys}</div>
@@ -42,9 +43,9 @@ export default class KeyDetailsSubkeys extends React.Component {
         <div className="form-group">
           <label htmlFor="subKeysList" className="col-sm-3 control-label">{l10n.map.keygrid_subkeyid}</label>
           <div className="col-sm-9">
-            <select className="form-control" id="subKeysList" value={this.state.id} onChange={this.handleChange}>
+            <select className="form-control" id="subKeysList" value={this.state.keyid} onChange={this.handleChange}>
               {this.props.subkeys.map(subkey =>
-                <option value={subkey.id} key={subkey.fingerprint}>{subkey.id}</option>
+                <option value={subkey.keyid} key={subkey.fingerprint}>{subkey.keyid}</option>
               )}
             </select>
           </div>
@@ -78,7 +79,7 @@ export default class KeyDetailsSubkeys extends React.Component {
             <div className="form-group">
               <label htmlFor="subkeyFingerPrint" className="col-sm-3 control-label">{l10n.map.keygrid_key_fingerprint}</label>
               <div className="col-sm-9">
-                <input type="text" value={selected.fingerprint.match(/.{1,4}/g).join(' ')} readOnly className="form-control" id="subkeyFingerPrint" />
+                <input type="text" value={mvelo.ui.formatFpr(selected.fingerprint)} readOnly className="form-control" id="subkeyFingerPrint" />
               </div>
             </div>
           </div>

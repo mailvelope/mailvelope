@@ -7,7 +7,7 @@ import mvelo from '../lib/lib-mvelo';
 import {getById as keyringById, createKeyring, setKeyringAttr, getKeyByAddress} from '../modules/keyring';
 import * as sub from './sub.controller';
 import * as openpgp from 'openpgp';
-import {getLastModifiedDate, mapAddressKeyMapToId} from '../modules/key';
+import {getLastModifiedDate, mapAddressKeyMapToFpr} from '../modules/key';
 
 export function handleApiEvent(request, sender, sendResponse) {
   let keyring;
@@ -48,16 +48,15 @@ export function handleApiEvent(request, sender, sendResponse) {
       }
       case 'export-own-pub-key': {
         const keyMap = keyringById(request.keyringId).getKeyByAddress(request.emailAddr, {pub: false, priv: true, sort: true});
-        const keyIdMap = mapAddressKeyMapToId(keyMap);
-        if (!keyIdMap[request.emailAddr]) {
+        const keyFprMap = mapAddressKeyMapToFpr(keyMap);
+        const pubKeyFprs = keyFprMap[request.emailAddr];
+        if (!pubKeyFprs) {
           sendResponse({error: {message: 'No key pair found for this email address.', code: 'NO_KEY_FOR_ADDRESS'}});
           return;
         }
         // only take first valid key
-        if (keyIdMap[request.emailAddr].length > 1) {
-          keyIdMap[request.emailAddr].length = 1;
-        }
-        const armored = keyringById(request.keyringId).getArmoredKeys(keyIdMap[request.emailAddr], {pub: true});
+        const pubKeyFpr = pubKeyFprs[0];
+        const armored = keyringById(request.keyringId).getArmoredKeys(pubKeyFpr, {pub: true});
         sendResponse({error: null, data: armored[0].armoredPublic});
         break;
       }
