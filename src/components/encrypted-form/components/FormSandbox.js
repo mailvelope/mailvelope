@@ -219,6 +219,7 @@ export default class FormSandbox extends React.Component {
         <head>
           <meta charset="utf-8">
           <link rel="stylesheet" href="../../dep/bootstrap4/css/bootstrap.css">
+          <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
           <style>.form-row{margin-right:0;} .download-links {display:none;}</style>
         </head>
         <body>
