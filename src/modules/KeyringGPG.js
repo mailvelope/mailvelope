@@ -13,6 +13,11 @@ export default class KeyringGPG extends KeyringBase {
     return gnupg;
   }
 
+  /**
+   * Import armored keys into the keyring
+   * @param  {Object<armored: String, type: String>} armoredKeys - armored keys of type 'public' or 'private'
+   * @return {Array<Object>} import result messages in the form {type, message}, type could be 'error' or 'success'
+   */
   async importKeys(armoredKeys) {
     armoredKeys = armoredKeys.map(key => key.armored).join('\n');
     const importResult = await this.keystore.importKeys(armoredKeys);

@@ -19,7 +19,7 @@ import * as openpgp from 'openpgp';
  */
 export async function decrypt({message, keyring, senderAddress, selfSigned, encryptionKeyIds, unlockKey, format}) {
   let privateKey = keyring.getPrivateKeyByIds(encryptionKeyIds);
-  privateKey = await unlockKey(privateKey);
+  privateKey = await unlockKey({key: privateKey});
   let signingKeys;
   // normalize sender address to array
   senderAddress = mvelo.util.toArray(senderAddress);

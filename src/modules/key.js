@@ -216,6 +216,11 @@ export function checkKeyId(sourceKey, keyring) {
   });
 }
 
+/**
+ * Get most recent created date field of all packets in the key
+ * @param  {openpgp.key.Key} key
+ * @return {Date}
+ */
 export function getLastModifiedDate(key) {
   let lastModified = new Date(0);
   key.toPacketlist().forEach(packet => {
@@ -255,4 +260,11 @@ export function sortKeysByCreationDate(keys, primaryKeyFpr) {
 
 export function equalKey(key1, key2) {
   return key1.primaryKey.getFingerprint() === key2.primaryKey.getFingerprint();
+}
+
+export function toPublic(key) {
+  if (key.isPublic()) {
+    return key;
+  }
+  return key.toPublic();
 }

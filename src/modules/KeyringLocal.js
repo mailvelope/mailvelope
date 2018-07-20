@@ -21,6 +21,11 @@ export default class KeyringLocal extends KeyringBase {
     return openpgpjs;
   }
 
+  /**
+   * Import armored keys into the keyring
+   * @param  {Object<armored: String, type: String>} armoredKeys - armored keys of type 'public' or 'private'
+   * @return {Array<Object>} import result messages in the form {type, message}, type could be 'error' or 'success'
+   */
   async importKeys(armoredKeys) {
     let result = [];
     // sort, public keys first

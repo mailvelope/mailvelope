@@ -47,10 +47,10 @@ export async function decryptMessage({armored, keyringId, unlockKey, senderAddre
     throw noKeyFoundError(encryptionKeyIds);
   }
   let {data, signatures} = await keyring.getPgpBackend().decrypt({armored, message, keyring, unlockKey, senderAddress, selfSigned, encryptionKeyIds});
-  // filter out signatures where fingerprint is available, here also signing public key is available
-  const sigFprs = signatures.map(sig => sig.fingerprint).filter(fingerprint => fingerprint);
-  // sync public keys to have key details for the signatures
-  await syncPublicKeys(keyring, sigFprs);
+  // collect fingerprints or keyids of signatures
+  const sigKeyIds = signatures.map(sig => sig.fingerprint || sig.keyid);
+  // sync public keys for the signatures
+  await syncPublicKeys(keyring, sigKeyIds);
   signatures = signatures.map(sig => addSigningKeyDetails(sig, keyring));
   return {data, signatures};
 }
@@ -63,7 +63,10 @@ export async function decryptMessage({armored, keyringId, unlockKey, senderAddre
 function addSigningKeyDetails(signature, keyring) {
   if (signature.valid !== null) {
     const signingKey = keyring.keystore.getKeysForId(signature.fingerprint, true);
-    signature.keyDetails = mapKeys(signingKey[0]);
+    if (!signingKey) {
+      return;
+    }
+    [signature.keyDetails] = mapKeys(signingKey);
   }
   return signature;
 }

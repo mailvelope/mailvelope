@@ -66,7 +66,7 @@ export default class EditorController extends sub.SubController {
       if (this.options.getRecipients) {
         recipients = await this.options.getRecipients();
       }
-      this.setRecipientData(recipients);
+      await this.setRecipientData(recipients);
     }
   }
 
@@ -74,13 +74,13 @@ export default class EditorController extends sub.SubController {
    * Set the recipient data in the editor.
    * @param  {Array} recipients - a list of potential recipient from the webmail ui
    */
-  setRecipientData(recipients) {
+  async setRecipientData(recipients) {
     // deduplicate email addresses
     let emails = (recipients || []).map(recipient => recipient.email);
     emails = mvelo.util.deDup(emails); // just dedup, dont change order of user input
     recipients = emails.map(e => ({email: e}));
     // get all public keys from required keyrings
-    const keys = getKeyData(this.keyringId);
+    const keys = await getKeyData(this.keyringId);
     const tofu = this.keyserver.getTOFUPreference();
     this.emit('public-key-userids', {keys, recipients, tofu});
   }
@@ -132,8 +132,6 @@ export default class EditorController extends sub.SubController {
       this.ports.editorCont.emit('error-message', {error});
       return;
     }
-    // ensure that all keys are available in the API keyring
-    syncPublicKeys(this.keyringId, keyFprMap);
     let keyFprs = [];
     msg.recipients.forEach(recipient => {
       keyFprs = keyFprs.concat(keyFprMap[recipient]);
@@ -145,6 +143,8 @@ export default class EditorController extends sub.SubController {
       }
     }
     this.keyFprBuffer = mvelo.util.sortAndDeDup(keyFprs);
+    // ensure that all keys are available in the API keyring
+    syncPublicKeys(this.keyringId, this.keyFprBuffer);
     this.ports.editor.emit('get-plaintext', {action: 'encrypt'});
   }
 
@@ -203,12 +203,12 @@ export default class EditorController extends sub.SubController {
       const localKeyring = getKeyringById(this.keyringId);
       await localKeyring.importKeys([{type: 'public', armored: key.publicKeyArmored}]);
     }
-    this.sendKeyUpdate();
+    await this.sendKeyUpdate();
   }
 
-  sendKeyUpdate() {
+  async sendKeyUpdate() {
     // send updated key cache to editor
-    const keys = getKeyData(this.keyringId);
+    const keys = await getKeyData(this.keyringId);
     this.ports.editor.emit('key-update', {keys});
   }
 

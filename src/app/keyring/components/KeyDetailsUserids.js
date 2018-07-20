@@ -53,8 +53,8 @@ export default class KeyDetailsUserids extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                {selected.signatures.map(sgn =>
-                  <tr key={sgn.keyid + sgn.crDate}>
+                {selected.signatures.map((sgn, index) =>
+                  <tr key={index}>
                     <td>{sgn.signer}</td>
                     <td>{sgn.keyid}</td>
                     <td style={{whiteSpace: 'nowrap'}}>{sgn.crDate.substr(0, 10)}</td>
