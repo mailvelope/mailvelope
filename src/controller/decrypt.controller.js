@@ -118,7 +118,7 @@ export default class DecryptController extends sub.SubController {
     this.ports.dPopup && this.ports.dPopup.emit('show-message');
   }
 
-  async unlockKey(key) {
+  async unlockKey({key}) {
     const pwdControl = sub.factory.get('pwdDialog');
     const openPopup = this.ports.decryptCont || prefs.security.display_decrypted == mvelo.DISPLAY_INLINE;
     const beforePasswordRequest = id => this.ports.dPopup && this.ports.dPopup.emit('show-pwd-dialog', {id});

@@ -307,6 +307,7 @@ export default class KeyringBase {
     if (!removedKey) {
       throw new Error('removeKey: key not found');
     }
+    return removedKey;
   }
 
   /**

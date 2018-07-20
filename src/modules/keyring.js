@@ -10,7 +10,7 @@ import KeyringGPG from './KeyringGPG';
 import KeyStoreGPG from './KeyStoreGPG';
 import {gpgme} from '../lib/browser.runtime';
 import {prefs} from './prefs';
-import {isValidEncryptionKey, equalKey} from './key';
+import {isValidEncryptionKey, equalKey, getLastModifiedDate, toPublic} from './key';
 
 /**
  * Map with all keyrings and their attributes. Data is persisted in local storage.
@@ -232,7 +232,7 @@ export function getAllKeyData() {
  * @param  {String} keyringId - requested keyring, the leading keyring of a scenario
  * @return {Array<Object>} list of recipients objects in the form {keyid, fingerprint, userid, email, name}
  */
-export function getKeyData(keyringId) {
+export async function getKeyData(keyringId) {
   let result = [];
   const keyrings = getPreferredKeyringQueue(keyringId);
   keyrings.forEach(keyring => {
@@ -284,14 +284,12 @@ function getPreferredKeyringQueue(keyringId) {
   if (gpgme && prefs.general.prefer_gnupg) {
     keyrings.push(keyringMap.get(mvelo.GNUPG_KEYRING_ID));
   }
-  // next, use requested keyring if not gnupg
-  if (keyringId !== mvelo.GNUPG_KEYRING_ID) {
+  // next, if requested keyring is API keyring then use that
+  if (isApiKeyring(keyringId)) {
     keyrings.push(keyringMap.get(keyringId));
   }
-  // next, if requested keyring is API keyring then also use main keyring
-  if (isApiKeyring(keyringId)) {
-    keyrings.push(keyringMap.get(mvelo.MAIN_KEYRING_ID));
-  }
+  // always use the main keyring
+  keyrings.push(keyringMap.get(mvelo.MAIN_KEYRING_ID));
   // if gnupg keyring is available but not preferred, we put at the end of the queue
   if (gpgme && !prefs.general.prefer_gnupg) {
     keyrings.push(keyringMap.get(mvelo.GNUPG_KEYRING_ID));
@@ -359,10 +357,10 @@ function compareKeyringsByPreference(a, b) {
  * Synchronize public keys across keyrings.
  * @param  {KeyringBase|String} keyring - destination keyring or keyringId, public keys are synchronized from other keyrings.
  * @param  {Array<openpgp.Keyid|String>|openpgp.Keyid|String} keyIds - key ids or fingerprints of public keys that should be synchronized.
+ * @param {Boolean} [allKeyrings] - use all keyrings as source keyrings
  */
-export async function syncPublicKeys(keyring, keyIds) {
-  // TODO
-  console.log('syncPublicKeys', keyring.id, keyIds);
+export async function syncPublicKeys(keyring, keyIds, allKeyrings = false) {
+  let srcKeyrings;
   if (typeof keyring === 'string') {
     keyring = getById(keyring);
   }
@@ -370,6 +368,31 @@ export async function syncPublicKeys(keyring, keyIds) {
   if (!keyIds.length) {
     // nothing to sync
     return;
+  }
+  // get all relevant source keyrings
+  if (allKeyrings) {
+    srcKeyrings = getAll();
+  } else {
+    srcKeyrings = getPreferredKeyringQueue(keyring.id);
+  }
+  for (const keyId of keyIds) {
+    // find newest key in all source keyrings
+    let lastModified = null;
+    for (const srcKeyring of srcKeyrings) {
+      let key = srcKeyring.keystore.getKeysForId(keyId, true);
+      if (!key) {
+        continue;
+      }
+      key = key[0];
+      const lastModifiedDate = getLastModifiedDate(key);
+      if (!lastModified || lastModifiedDate > lastModified.date) {
+        lastModified = {date: lastModifiedDate, key, srcKeyring};
+      }
+    }
+    if (lastModified && lastModified.srcKeyring.id !== keyring.id) {
+      // there is a newer key available that needs to be imported into the destination keyring
+      await keyring.importKeys([{armored: toPublic(lastModified.key).armor(), type: 'public'}]);
+    }
   }
 }
 

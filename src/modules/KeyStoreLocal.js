@@ -40,7 +40,7 @@ export default class KeyStoreLocal extends KeyStoreBase {
   }
 
   getPrimaryKeyFpr() {
-    const primaryKeyFpr = getKeyringAttr(this.id, 'primary_key');
+    let primaryKeyFpr = getKeyringAttr(this.id, 'primary_key');
     if (!primaryKeyFpr) {
       return '';
     }
@@ -52,11 +52,10 @@ export default class KeyStoreLocal extends KeyStoreBase {
         this.setPrimaryKey('');
         return;
       }
-      const fingerprint = primaryKey.primaryKey.getFingerprint();
-      this.setPrimaryKey(fingerprint);
-      return fingerprint;
+      primaryKeyFpr = primaryKey.primaryKey.getFingerprint();
+      this.setPrimaryKey(primaryKeyFpr);
     }
-    return '';
+    return primaryKeyFpr;
   }
 
   setPrimaryKey(fpr) {
