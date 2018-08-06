@@ -10,6 +10,22 @@ import mvelo from "../mvelo";
 import {getById as getKeyringById} from "../modules/keyring";
 import * as model from "../modules/pgpModel";
 
+// register language strings
+const l10n = mvelo.l10n.getMessages([
+  'form_definition_error_no_form_tag',
+  'form_definition_error_too_many_form_tags',
+  'form_definition_error_url_invalid',
+  'form_definition_error_url_unsecure',
+  'form_definition_error_no_recipient',
+  'form_definition_error_recipient_invalid',
+  'form_definition_error_encoding_invalid',
+  'form_definition_error_no_recipient_key',
+  'form_definition_error_no_signature',
+  'form_definition_error_signature_invalid',
+  'form_sign_error_no_primary_key',
+  'form_sign_error_no_sign_key'
+]);
+
 export default class EncryptedFormController extends sub.SubController {
   constructor(port) {
     super(port);
@@ -135,10 +151,10 @@ export default class EncryptedFormController extends sub.SubController {
     const parser = new DOMParser();
     const formElementCollection = parser.parseFromString(html, 'text/html').getElementsByTagName('form');
     if (!formElementCollection.length) {
-      throw new mvelo.Error('There should be one form tag in the form definition.', 'NO_FORM');
+      throw new mvelo.Error(l10n.form_definition_error_no_form_tag, 'NO_FORM');
     }
     if (formElementCollection.length > 1) {
-      throw new mvelo.Error('There should be only one form tag in the form definition.', 'TOO_MANY_FORMS');
+      throw new mvelo.Error(l10n.form_definition_error_too_many_form_tags, 'TOO_MANY_FORMS');
     }
     return formElementCollection[0];
   }
@@ -152,10 +168,10 @@ export default class EncryptedFormController extends sub.SubController {
       return true;
     }
     if (!mvelo.util.checkUrl(action)) {
-      throw new mvelo.Error('The form action should be a valid url.', 'INVALID_FORM_ACTION');
+      throw new mvelo.Error(l10n.form_definition_error_url_invalid, 'INVALID_FORM_ACTION');
     }
     if (!action.startsWith('https:')) {
-      throw new mvelo.Error('Insecure form action url.', 'INVALID_FORM_ACTION');
+      throw new mvelo.Error(l10n.form_definition_error_url_unsecure, 'INVALID_FORM_ACTION');
     }
     this.formAction = action;
     return true;
@@ -164,10 +180,10 @@ export default class EncryptedFormController extends sub.SubController {
   assertAndSetRecipient(formElement) {
     const recipient = formElement.getAttribute('data-recipient');
     if (!recipient) {
-      throw new mvelo.Error('The encrypted form recipient cannot be empty.', 'RECIPIENT_EMPTY');
+      throw new mvelo.Error(l10n.form_definition_error_no_recipient, 'RECIPIENT_EMPTY');
     }
     if (!mvelo.util.checkEmail(recipient)) {
-      throw new mvelo.Error('The encrypted form recipient must be a valid email address.', 'RECIPIENT_INVALID_EMAIL');
+      throw new mvelo.Error(l10n.form_definition_error_recipient_invalid, 'RECIPIENT_INVALID_EMAIL');
     }
     this.formRecipient = recipient;
     return true;
@@ -180,7 +196,7 @@ export default class EncryptedFormController extends sub.SubController {
     }
     const whitelistedEnctype = ['json', 'url', 'html'];
     if (whitelistedEnctype.indexOf(enctype) === -1) {
-      throw new mvelo.Error('The requested encrypted form encoding type if is not supported.', 'UNSUPPORTED_ENCTYPE');
+      throw new mvelo.Error(l10n.form_definition_error_encoding_invalid, 'UNSUPPORTED_ENCTYPE');
     }
     this.formEncoding = enctype;
     this.fileExtension = enctype;
@@ -196,14 +212,14 @@ export default class EncryptedFormController extends sub.SubController {
       this.recipientKey = keyMap[this.formRecipient][0];
       this.formFingerprint = this.recipientKey.primaryKey.getFingerprint().toUpperCase();
     } else {
-      throw new mvelo.Error('No valid encryption key for recipient address.', 'NO_KEY_FOR_RECIPIENT');
+      throw new mvelo.Error(l10n.form_definition_error_no_recipient_key, 'NO_KEY_FOR_RECIPIENT');
     }
     return true;
   }
 
   assertAndSetSignature(signature) {
     if (!signature) {
-      throw new mvelo.Error('No valid signature.', 'NO_SIGNATURE');
+      throw new mvelo.Error(l10n.form_definition_error_no_signature, 'NO_SIGNATURE');
     }
     this.formSignature = signature;
     return true;
@@ -221,7 +237,7 @@ ${this.formSignature}
       if (verified.signatures[0].valid === true) {
         return true;
       } else {
-        throw new mvelo.Error('The form signature is not valid.', 'INVALID_SIGNATURE');
+        throw new mvelo.Error(l10n.form_definition_error_signature_invalid, 'INVALID_SIGNATURE');
       }
     });
   }
@@ -229,12 +245,12 @@ ${this.formSignature}
   async signAndEncrypt(data) {
     const signKey = getKeyringById(this.keyringId).getPrimaryKey();
     if (!signKey) {
-      throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
+      throw new mvelo.Error(l10n.form_sign_error_no_primary_key, 'NO_PRIMARY_KEY_FOUND');
     }
     const signKeyPacket = signKey.key.getSigningKeyPacket();
     const signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
     if (!signKeyid) {
-      throw new mvelo.Error('No valid signing key packet found', 'NO_SIGN_KEY_FOUND');
+      throw new mvelo.Error(l10n.form_sign_error_no_sign_key, 'NO_SIGN_KEY_FOUND');
     }
     signKey.keyid = signKeyid;
     signKey.keyringId = this.keyringId;
