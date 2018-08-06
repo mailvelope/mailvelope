@@ -327,6 +327,50 @@
     "description": "Continue form button.",
     "message": "Continue"
   },
+  "form_definition_error_encoding_invalid": {
+    "description": "Error message when the form encoding type is not valid",
+    "message": "The requested encrypted form encoding type if is not supported."
+  },
+  "form_definition_error_no_form_tag": {
+    "description": "Error message when the form tag is missing in the form definition",
+    "message": "There should be one form tag in the form definition."
+  },
+  "form_definition_error_no_input_name": {
+    "description": "Error message when the form does not contain at least a valid input field.",
+    "message": "There should be at least one input field with name property set."
+  },
+  "form_definition_error_no_recipient": {
+    "description": "Error message when the form recipient is not provided",
+    "message": "The encrypted form recipient cannot be empty."
+  },
+  "form_definition_error_no_recipient_key": {
+    "description": "Error message when recipient key is not in keyring",
+    "message": "No valid encryption key for recipient address."
+  },
+  "form_definition_error_recipient_invalid": {
+    "description": "Error message when the form recipient is not valid",
+    "message": "The encrypted form recipient must be a valid email address."
+  },
+  "form_definition_error_no_signature": {
+    "description": "Error message when the form does not contain a signature",
+    "message": "No valid signature."
+  },
+  "form_definition_error_signature_invalid": {
+    "description": "Error message when the form signature is not valid",
+    "message": "The form signature is not valid."
+  },
+  "form_definition_error_url_invalid": {
+    "description": "Error message when url is invalid",
+    "message": "The form action should be a valid url."
+  },
+  "form_definition_error_url_unsecure": {
+    "description": "Error message when url does not start with https",
+    "message": "The form action url is not secure."
+  },
+  "form_definition_error_too_many_form_tags": {
+    "description": "Error message when to many form tags are in form definition",
+    "message": "There should be only one form tag in the form definition."
+  },
   "form_destination": {
     "description": "Url the form data will be sent to",
     "message": "Destination"
@@ -334,6 +378,14 @@
   "form_destination_default": {
     "description": "Behavior when no action is specified in form",
     "message": "The encrypted data will be returned to the page."
+  },
+  "form_sign_error_no_primary_key": {
+    "description": "Error message when trying to sign and no primary key is found",
+    "message": "No primary key found"
+  },
+  "form_sign_error_no_sign_key": {
+    "description": "Error message when trying to sign and no sign key is found in primary key",
+    "message": "No valid signing key packet found"
   },
   "form_forward": {
     "message": "Forward",
