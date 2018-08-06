@@ -705,8 +705,9 @@ class OpenPGPEncryptedForm extends HTMLElement {
       return this.onError(error);
     }
     let html;
-    if ($(this).find('script').length) {
-      html = $(this).find('script')[0].innerText;
+    const scriptTags = this.getElementsByTagName('script');
+    if (scriptTags.length) {
+      html = scriptTags[0].innerText;
     } else {
       const error = new Error('No form template for openpgp-encrypted-tag. Please add a form template.');
       error.code = 'NO_FORM_SCRIPT';
