@@ -43,7 +43,7 @@ export function cloneKey(key) {
 
 export function mapKeyUserIds(user) {
   try {
-    const emailAddress = goog.format.EmailAddress.parse(user.userid);
+    const emailAddress = goog.format.EmailAddress.parse(user.userId);
     if (emailAddress.isValid()) {
       user.email = emailAddress.getAddress();
     } else {
@@ -51,7 +51,7 @@ export function mapKeyUserIds(user) {
     }
     user.name = emailAddress.getName();
   } catch (e) {
-    user.userid = l10n('keygrid_invalid_userid');
+    user.userId = l10n('keygrid_invalid_userid');
     user.email = '';
     user.name = '';
   }
@@ -72,7 +72,7 @@ export function mapKeys(keys) {
       uiKey.validity = false;
       console.log('Exception in verifyPrimaryKey', e);
     }
-    uiKey.keyid = key.primaryKey.getKeyId().toHex().toUpperCase();
+    uiKey.keyId = key.primaryKey.getKeyId().toHex().toUpperCase();
     uiKey.fingerprint = key.primaryKey.getFingerprint();
     // primary user
     try {
@@ -136,7 +136,7 @@ export function mapSubKeys(subkeys, toKey) {
       } else {
         skey.exDate = false;
       }
-      skey.keyid = subkey.subKey.getKeyId().toHex().toUpperCase();
+      skey.keyId = subkey.subKey.getKeyId().toHex().toUpperCase();
       skey.algorithm = getAlgorithmString(subkey.subKey.algorithm);
       skey.bitLength = subkey.subKey.getBitSize();
       skey.fingerprint = subkey.subKey.getFingerprint();
@@ -152,7 +152,7 @@ export function mapUsers(users, toKey, keyring, primaryKey) {
   users && users.forEach(user => {
     try {
       const uiUser = {};
-      uiUser.userID = user.userId.userid;
+      uiUser.userId = user.userId.userid;
       uiUser.signatures = [];
       user.selfCertifications && user.selfCertifications.forEach(selfCert => {
         if (!user.isValidSelfCertificate(primaryKey, selfCert)) {
@@ -160,7 +160,7 @@ export function mapUsers(users, toKey, keyring, primaryKey) {
         }
         const sig = {};
         sig.signer = user.userId.userid;
-        sig.keyid = selfCert.issuerKeyId.toHex().toUpperCase();
+        sig.keyId = selfCert.issuerKeyId.toHex().toUpperCase();
         sig.crDate = selfCert.created.toISOString();
         uiUser.signatures.push(sig);
       });
@@ -179,7 +179,7 @@ export function mapUsers(users, toKey, keyring, primaryKey) {
         } else {
           sig.signer = l10n("keygrid_signer_unknown");
         }
-        sig.keyid = keyidHex.toUpperCase();
+        sig.keyId = keyidHex.toUpperCase();
         sig.crDate = otherCert.created.toISOString();
         uiUser.signatures.push(sig);
       });
@@ -238,10 +238,16 @@ export function mapAddressKeyMapToFpr(addressKeyMap = []) {
   return addressKeyMap;
 }
 
-export function isValidEncryptionKey(keyringId, key) {
-  return key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
-    key.getEncryptionKeyPacket() === null ||
-    isKeyPseudoRevoked(keyringId, key);
+/**
+ * Check if is key is valid and can be used for encryption
+ * @param  {openpgp.key.Key}  key
+ * @param  {String} - [keyringId] - if keyring is provided, pseudo-revoked status is checked
+ * @return {Boolean}
+ */
+export function isValidEncryptionKey(key, keyringId) {
+  return key.verifyPrimaryKey() === openpgp.enums.keyStatus.valid &&
+    key.getEncryptionKeyPacket() !== null &&
+    !isKeyPseudoRevoked(keyringId, key);
 }
 
 export function sortKeysByCreationDate(keys, primaryKeyFpr) {

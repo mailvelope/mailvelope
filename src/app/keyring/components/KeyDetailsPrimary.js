@@ -45,7 +45,7 @@ export default function KeyDetailsPrimary({keyDetails}) {
       <div className="form-group">
         <label htmlFor="keyId" className="col-sm-3 control-label">{l10n.map.keygrid_keyid}</label>
         <div className="col-sm-9">
-          <input type="text" value={keyDetails.keyid} readOnly className="form-control" id="keyId" />
+          <input type="text" value={keyDetails.keyId} readOnly className="form-control" id="keyId" />
         </div>
       </div>
       <div className="form-group">

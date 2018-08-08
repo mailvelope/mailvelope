@@ -70,8 +70,8 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function setInitData(data) {
-    $('#keyId').text(data.keyid);
-    $('#userId').text(data.userid);
+    $('#keyId').text(data.keyId);
+    $('#userId').text(data.userId);
     $('#pwdDialogReason').text(data.reason !== '' ? l10n[data.reason.toLowerCase()] : '');
     if (data.cache) {
       $('#remember').prop('checked', true);

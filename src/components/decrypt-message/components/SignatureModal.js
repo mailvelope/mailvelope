@@ -58,7 +58,7 @@ export default function SignatureModal({signer, onHide}) {
         ) : (
           <div>
             {signer.valid === null && <p>{l10n.map.digital_signature_status_null_description}</p>}
-            <p><b>{l10n.map.keygrid_keyid}:</b> {signer.keyid.toUpperCase()}</p>
+            <p><b>{l10n.map.keygrid_keyid}:</b> {signer.keyId.toUpperCase()}</p>
           </div>
         )}
       </div>

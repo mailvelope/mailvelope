@@ -47,8 +47,8 @@ export async function decryptMessage({armored, keyringId, unlockKey, senderAddre
     throw noKeyFoundError(encryptionKeyIds);
   }
   let {data, signatures} = await keyring.getPgpBackend().decrypt({armored, message, keyring, unlockKey, senderAddress, selfSigned, encryptionKeyIds});
-  // collect fingerprints or keyids of signatures
-  const sigKeyIds = signatures.map(sig => sig.fingerprint || sig.keyid);
+  // collect fingerprints or keyIds of signatures
+  const sigKeyIds = signatures.map(sig => sig.fingerprint || sig.keyId);
   // sync public keys for the signatures
   await syncPublicKeys(keyring, sigKeyIds);
   signatures = signatures.map(sig => addSigningKeyDetails(sig, keyring));
@@ -72,8 +72,8 @@ function addSigningKeyDetails(signature, keyring) {
 }
 
 function noKeyFoundError(encryptionKeyIds) {
-  const keyid = encryptionKeyIds[0].toHex();
-  let errorMsg = l10n('message_no_keys', [keyid.toUpperCase()]);
+  const keyId = encryptionKeyIds[0].toHex();
+  let errorMsg = l10n('message_no_keys', [keyId.toUpperCase()]);
   for (let i = 1; i < encryptionKeyIds.length; i++) {
     errorMsg = `${errorMsg} ${l10n('word_or')} ${encryptionKeyIds[i].toHex().toUpperCase()}`;
   }
@@ -166,11 +166,11 @@ export function readCleartextMessage(armoredText, keyringId) {
   }
   for (let i = 0; i < signingKeyIds.length; i++) {
     const signer = {};
-    signer.keyid = signingKeyIds[i].toHex();
-    signer.key = getKeyringById(keyringId).keystore.getKeysForId(signer.keyid, true);
+    signer.keyId = signingKeyIds[i].toHex();
+    signer.key = getKeyringById(keyringId).keystore.getKeysForId(signer.keyId, true);
     signer.key = signer.key ? signer.key[0] : null;
     if (signer.key) {
-      signer.userid = getUserId(signer.key);
+      signer.userId = getUserId(signer.key);
     }
     result.signers.push(signer);
   }
@@ -186,7 +186,7 @@ export function verifyMessage(message, signers) {
   })
   .then(({signatures}) => {
     signers = signers.map(signer => {
-      signer.valid = signer.key && signatures.some(verifiedSig => signer.keyid === verifiedSig.keyid.toHex() && verifiedSig.valid);
+      signer.valid = signer.key && signatures.some(verifiedSig => signer.keyId === verifiedSig.keyid.toHex() && verifiedSig.valid);
       // remove key object
       delete signer.key;
       return signer;
@@ -366,7 +366,7 @@ export function encryptFile({plainFile, receipients, armor}) {
   return Promise.resolve()
   .then(() => {
     keys = receipients.map(receipient => {
-      const keyArray = getKeyringById(receipient.keyringId).keystore.getKeysForId(receipient.keyid);
+      const keyArray = getKeyringById(receipient.keyringId).keystore.getKeysForId(receipient.keyId);
       return keyArray ? keyArray[0] : null;
     }).filter(key => key !== null);
     if (keys.length === 0) {

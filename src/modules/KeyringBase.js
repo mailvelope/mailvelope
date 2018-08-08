@@ -79,30 +79,27 @@ export default class KeyringBase {
   /**
    * Get the following data for all keys: user id, key id, fingerprint, email and name
    * @param {Boolean} [options.allUsers] return separate entry for all user ids of key
-   * @param {Boolean} [options.sort] sort result by userid
-   * @return {Array<Object>} list of key meta data objects in the form {keyid, fingerprint, userid, email, name}
+   * @return {Array<Object>} list of key meta data objects in the form {key, keyId, fingerprint, users}
    */
   getKeyData(options = {}) {
-    let result = [];
+    const result = [];
     this.keystore.getAllKeys().forEach(key => {
-      if (key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
+      if (key.verifyPrimaryKey() === openpgp.enums.keyStatus.invalid ||
           trustKey.isKeyPseudoRevoked(this.id, key)) {
         return;
       }
-      let user;
-      const keyid = key.primaryKey.getKeyId().toHex().toUpperCase();
-      const fingerprint = key.primaryKey.getFingerprint();
+      const keyData = {};
+      keyData.key = key;
+      keyData.keyId = key.primaryKey.getKeyId().toHex().toUpperCase();
+      keyData.fingerprint = key.primaryKey.getFingerprint();
       if (options.allUsers) {
         // consider all user ids of key
-        const users = [];
+        keyData.users = [];
         key.users.forEach(keyUser => {
           if (keyUser.userId && keyUser.verify(key.primaryKey) === openpgp.enums.keyStatus.valid) {
-            user = {};
-            user.keyid = keyid;
-            user.fingerprint = fingerprint;
-            user.userid = keyUser.userId.userid;
+            const user = {userId: keyUser.userId.userid};
             // check for duplicates
-            if (users.some(existingUser => existingUser.userid === user.userid)) {
+            if (keyData.users.some(existingUser => existingUser.userId === user.userId)) {
               return;
             }
             mapKeyUserIds(user);
@@ -110,24 +107,17 @@ export default class KeyringBase {
             if (!user.email) {
               return;
             }
-            users.push(user);
+            keyData.users.push(user);
           }
         });
-        result = result.concat(users);
       } else {
         // only consider primary user
-        user = {};
-        user.keyid = keyid;
-        user.fingerprint = fingerprint;
-        user.userid = getUserId(key);
+        const user = {userId: getUserId(key)};
         mapKeyUserIds(user);
-        result.push(user);
+        keyData.users = [user];
       }
+      result.push(keyData);
     });
-    if (options.sort) {
-      // sort by user id
-      result = result.sort((a, b) => a.userid.localeCompare(b.userid));
-    }
     return result;
   }
 
@@ -137,29 +127,26 @@ export default class KeyringBase {
    * @param  {Object} [options.pub = true] - query for public keys
    * @param  {Object} [options.priv = true] - query for private keys
    * @param  {Object} [options.sort = false] - sort results by key creation date and primary key status
+   * @param  {Object} [options.valid = true] - result keys are verified
    * @return {Object} - map in the form {address: [key1, key2, ..]}
    */
-  getKeyByAddress(emailAddr, options = {}) {
-    if (typeof options.pub === 'undefined') {
-      options.pub = true;
-    }
-    if (typeof options.priv === 'undefined') {
-      options.priv = true;
-    }
+  getKeyByAddress(emailAddr, {pub = true, priv = true, sort = false, valid = true} = {}) {
     const result = Object.create(null);
     emailAddr = mvelo.util.toArray(emailAddr);
     emailAddr.forEach(emailAddr => {
       result[emailAddr] = [];
-      if (options.pub) {
+      if (pub) {
         result[emailAddr] = result[emailAddr].concat(this.keystore.publicKeys.getForAddress(emailAddr));
       }
-      if (options.priv) {
+      if (priv) {
         result[emailAddr] = result[emailAddr].concat(this.keystore.privateKeys.getForAddress(emailAddr));
       }
-      result[emailAddr] = result[emailAddr].filter(key => !isValidEncryptionKey(this.id, key));
+      if (valid) {
+        result[emailAddr] = result[emailAddr].filter(key => isValidEncryptionKey(key, this.id));
+      }
       if (!result[emailAddr].length) {
         result[emailAddr] = false;
-      } else if (options.sort) {
+      } else if (sort) {
         // sort by key creation date and primary key status
         const primaryKeyFpr = this.getPrimaryKeyFpr();
         sortKeysByCreationDate(result[emailAddr], primaryKeyFpr);

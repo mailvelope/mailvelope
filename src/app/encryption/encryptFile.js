@@ -558,7 +558,7 @@ function addRecipientsToSelect(recipients) {
   for (let i = 0; i < recipients.length; i++) {
     const $option = $('<option/>')
     .val(i)
-    .text(`${recipients[i].userid} - ${recipients[i].keyid}`);
+    .text(`${recipients[i].userId} - ${recipients[i].keyId}`);
     $encryptKeySelect.append($option);
   }
 }
@@ -573,7 +573,7 @@ function addFileToDownload(file, $panel, options) {
 
 /**
  * @param {Object} recipient
- * @param {String} recipient.keyid
+ * @param {String} recipient.keyId
  * @param {String} recipient.name
  * @param {Number} recipient.index
  * @returns {*|jQuery|HTMLElement}

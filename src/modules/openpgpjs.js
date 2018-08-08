@@ -12,7 +12,7 @@ import * as openpgp from 'openpgp';
  * @param  {KeyringBase} options.keyring - keyring used for decryption
  * @param  {String} options.senderAddress - email address of sender, used for signature verification
  * @param  {Boolean} options.selfSigned - message is signed by user, therefore encryption key used for signature verification
- * @param  {Array<openpgp.Keyid>} options.encryptionKeyIds - message encrypted for keyids
+ * @param  {Array<openpgp.Keyid>} options.encryptionKeyIds - message encrypted for keyIds
  * @param  {Function} options.unlockKey - callback that unlocks private key
  * @param  {String} options.format - default is 'utf8', other value: 'binary'
  * @return {Object}
@@ -39,10 +39,11 @@ export async function decrypt({message, keyring, senderAddress, selfSigned, encr
   }
   const result = await openpgp.decrypt({message, privateKey, publicKeys: signingKeys, format});
   result.signatures = result.signatures.map(signature => {
-    signature.keyid = signature.keyid.toHex();
+    signature.keyId = signature.keyid.toHex();
+    delete signature.keyid;
     if (signature.valid !== null) {
       try {
-        signature.fingerprint = keyring.getFprForKeyId(signature.keyid);
+        signature.fingerprint = keyring.getFprForKeyId(signature.keyId);
       } catch (e) {
         console.log('Error mapping keyId to fingerprint', e);
         // reject this signature

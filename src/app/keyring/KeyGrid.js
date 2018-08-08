@@ -143,7 +143,7 @@ export default class KeyGrid extends React.Component {
                   </td>
                   <td>{key.name}{this.props.primaryKeyFpr === key.fingerprint && <span>&nbsp;&nbsp;<span className="label label-warning">{l10n.map.keygrid_primary_label}</span></span>}</td>
                   <td className="emailCell">{key.email}</td>
-                  <td className="monospaced">{key.keyid}</td>
+                  <td className="monospaced">{key.keyId}</td>
                   <td className="monospaced">{key.crDate.substr(0, 10)}</td>
                   <td className="text-center text-nowrap">
                     <div className="actions">

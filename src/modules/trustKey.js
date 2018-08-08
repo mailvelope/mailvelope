@@ -21,6 +21,9 @@ export function getTrustKey(keyringId) {
 }
 
 export function isKeyPseudoRevoked(keyringId, key) {
+  if (!keyringId) {
+    return false;
+  }
   const trustKey = getTrustKey(keyringId);
   if (!trustKey) {
     return false;
