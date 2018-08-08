@@ -25,8 +25,9 @@ l10n.register([
   'keyserver_hkp_url',
   'keyserver_url_warning',
   'keyserver_url_error',
-  'keyserver_tofu_label',
+  'keyserver_additionals_label',
   'keyserver_tofu_lookup',
+  'keyserver_wkd_lookup',
   'learn_more_link',
   'settings_keyserver'
 ]);
@@ -35,6 +36,7 @@ function initialState({prefs}) {
   let hkp_base_url = '';
   let hkp_server_list = [];
   let mvelo_tofu_lookup = false;
+  let wkd_lookup = false;
   if (prefs) {
     hkp_base_url = prefs.keyserver.hkp_base_url;
     hkp_server_list = prefs.keyserver.hkp_server_list.map(server => ({value: server, label: server}));
@@ -42,12 +44,14 @@ function initialState({prefs}) {
       hkp_server_list.push({value: hkp_base_url, label: hkp_base_url});
     }
     mvelo_tofu_lookup = prefs.keyserver.mvelo_tofu_lookup;
+    wkd_lookup = prefs.keyserver.wkd_lookup;
   }
   return {
     hkp_base_url,
     valid_base_url: true,
     hkp_server_list,
     mvelo_tofu_lookup,
+    wkd_lookup,
     alert: null,
     modified: false,
     previousPrefs: prefs
@@ -116,7 +120,8 @@ export default class KeyServer extends React.Component {
         keyserver: {
           hkp_base_url: this.state.hkp_base_url,
           hkp_server_list: this.state.hkp_server_list.map(server => server.value),
-          mvelo_tofu_lookup: this.state.mvelo_tofu_lookup
+          mvelo_tofu_lookup: this.state.mvelo_tofu_lookup,
+          wkd_lookup: this.state.wkd_lookup
         }
       };
       this.props.onChangePrefs(update)
@@ -137,12 +142,18 @@ export default class KeyServer extends React.Component {
               isValidNewOption={option => this.validateUrl(option && option.label)}
             />
           </div>
-          <h4 className="control-label">{l10n.map.keyserver_tofu_label}</h4>
+          <h4 className="control-label">{l10n.map.keyserver_additionals_label}</h4>
           <div className="form-group">
             <div className="checkbox">
               <label className="checkbox" htmlFor="keyserverTOFULookup">
                 <input type="checkbox" name="mvelo_tofu_lookup" checked={this.state.mvelo_tofu_lookup} onChange={this.handleCheck} id="keyserverTOFULookup" />
                 <span>{l10n.map.keyserver_tofu_lookup}</span>. <a href="https://keys.mailvelope.com" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a>
+              </label>
+            </div>
+            <div className="checkbox">
+              <label className="checkbox" htmlFor="keyserverWKDLookup">
+                <input type="checkbox" name="wkd_lookup" checked={this.state.wkd_lookup} onChange={this.handleCheck} id="keyserverWKDLookup" />
+                <span>{l10n.map.keyserver_wkd_lookup}</span>. <a href="https://wiki.gnupg.org/WKD" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a>
               </label>
             </div>
           </div>

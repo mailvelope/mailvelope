@@ -258,7 +258,8 @@
         "https://pgp.mit.edu",
         "https://keys.mailvelope.com"
       ],
-      "mvelo_tofu_lookup": true
+      "mvelo_tofu_lookup": true,
+      "wkd_lookup": true
     }
   }
 }

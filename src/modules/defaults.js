@@ -56,6 +56,9 @@ export function init() {
       if (typeof prefs.keyserver.mvelo_tofu_lookup == 'undefined') {
         prefs.keyserver.mvelo_tofu_lookup = defaults.preferences.keyserver.mvelo_tofu_lookup;
       }
+      if (typeof prefs.keyserver.wkd_lookup == 'undefined') {
+        prefs.keyserver.wkd_lookup = defaults.preferences.keyserver.wkd_lookup;
+      }
       if (typeof prefs.keyserver.hkp_server_list == 'undefined') {
         prefs.keyserver.hkp_server_list = defaults.preferences.keyserver.hkp_server_list;
       }

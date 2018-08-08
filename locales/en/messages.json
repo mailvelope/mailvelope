@@ -435,13 +435,17 @@
     "description": "HKP key server option: url.",
     "message": "HKP key server"
   },
-  "keyserver_tofu_label": {
-    "description": "Mailvelope Key Server Settings Label",
-    "message": "Mailvelope key server"
+  "keyserver_additionals_label": {
+    "description": "Label for configuration of additional key sources",
+    "message": "Additional key sources"
   },
   "keyserver_tofu_lookup": {
     "description": "Enable Mailvelope Key Server Auto Lookup",
-    "message": "Automatically lookup recipient keys"
+    "message": "Use the Mailvelope key server"
+  },
+  "keyserver_wkd_lookup": {
+    "description": "Enable Web Key Directory Auto Lookup",
+    "message": "Query keys from the recipients Mail provider (Web Key Directory)"
   },
   "keyserver_url_warning": {
     "description": "HKP key server url warning.",
