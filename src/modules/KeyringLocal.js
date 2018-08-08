@@ -75,20 +75,20 @@ export default class KeyringLocal extends KeyringBase {
       checkKeyId(pubKey, this.keystore);
       const fingerprint = pubKey.primaryKey.getFingerprint();
       let key = this.keystore.getKeysForId(fingerprint);
-      const keyid = pubKey.primaryKey.getKeyId().toHex().toUpperCase();
+      const keyId = pubKey.primaryKey.getKeyId().toHex().toUpperCase();
       if (key) {
         key = key[0];
         key.update(pubKey);
         result.push({
           type: 'success',
-          message: l10n('key_import_public_update', [keyid, getUserId(pubKey)])
+          message: l10n('key_import_public_update', [keyId, getUserId(pubKey)])
         });
         this.sync.add(fingerprint, keyringSync.UPDATE);
       } else {
         this.keystore.publicKeys.push(pubKey);
         result.push({
           type: 'success',
-          message: l10n('key_import_public_success', [keyid, getUserId(pubKey)])
+          message: l10n('key_import_public_success', [keyId, getUserId(pubKey)])
         });
         this.sync.add(fingerprint, keyringSync.INSERT);
       }
@@ -113,7 +113,7 @@ export default class KeyringLocal extends KeyringBase {
       checkKeyId(privKey, this.keystore);
       const fingerprint = privKey.primaryKey.getFingerprint();
       let key = this.keystore.getKeysForId(fingerprint);
-      const keyid = privKey.primaryKey.getKeyId().toHex().toUpperCase();
+      const keyId = privKey.primaryKey.getKeyId().toHex().toUpperCase();
       if (key) {
         key = key[0];
         if (key.isPublic()) {
@@ -122,14 +122,14 @@ export default class KeyringLocal extends KeyringBase {
           this.keystore.privateKeys.push(privKey);
           result.push({
             type: 'success',
-            message: l10n('key_import_private_exists', [keyid, getUserId(privKey)])
+            message: l10n('key_import_private_exists', [keyId, getUserId(privKey)])
           });
           this.sync.add(fingerprint, keyringSync.UPDATE);
         } else {
           key.update(privKey);
           result.push({
             type: 'success',
-            message: l10n('key_import_private_update', [keyid, getUserId(privKey)])
+            message: l10n('key_import_private_update', [keyId, getUserId(privKey)])
           });
           this.sync.add(fingerprint, keyringSync.UPDATE);
         }
@@ -137,7 +137,7 @@ export default class KeyringLocal extends KeyringBase {
         this.keystore.privateKeys.push(privKey);
         result.push({
           type: 'success',
-          message: l10n('key_import_private_success', [keyid, getUserId(privKey)])
+          message: l10n('key_import_private_success', [keyId, getUserId(privKey)])
         });
         this.sync.add(fingerprint, keyringSync.INSERT);
       }

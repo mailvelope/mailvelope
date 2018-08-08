@@ -69,23 +69,23 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     const header = node.find('header');
     msg.signers.forEach(signer => {
       let type;
-      let userid;
+      let userId;
       const message = $('<span/>');
-      const keyid = $('<span/>');
-      keyid.text(`(${l10n.dialog_keyid_label} ${signer.keyid.toUpperCase()})`);
-      if (signer.userid) {
-        userid = $('<strong/>');
-        userid.text(signer.userid);
+      const keyId = $('<span/>');
+      keyId.text(`(${l10n.dialog_keyid_label} ${signer.keyId.toUpperCase()})`);
+      if (signer.userId) {
+        userId = $('<strong/>');
+        userId.text(signer.userId);
       }
-      if (signer.userid && signer.valid) {
+      if (signer.userId && signer.valid) {
         type = 'success';
-        message.append(l10n.verify_result_success, ' ', userid, ' ', keyid);
-      } else if (!signer.userid) {
+        message.append(l10n.verify_result_success, ' ', userId, ' ', keyId);
+      } else if (!signer.userId) {
         type = 'warning';
-        message.append(l10n.verify_result_warning, ' ', keyid);
+        message.append(l10n.verify_result_warning, ' ', keyId);
       } else {
         type = 'danger';
-        message.append(l10n.verify_result_error, ' ', userid, ' ', keyid);
+        message.append(l10n.verify_result_error, ' ', userId, ' ', keyId);
       }
       header.showAlert('', message, type, true);
     });

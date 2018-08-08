@@ -22,17 +22,17 @@ l10n.register([
 export default class KeyDetailsSubkeys extends React.Component {
   constructor(props) {
     super(props);
-    const keyid = props.subkeys[0] && props.subkeys[0].keyid || '';
-    this.state = {keyid};
+    const keyId = props.subkeys[0] && props.subkeys[0].keyId || '';
+    this.state = {keyId};
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
-    this.setState({keyid: event.target.value});
+    this.setState({keyId: event.target.value});
   }
 
   render() {
-    const selected = this.props.subkeys.find(key => key.keyid === this.state.keyid);
+    const selected = this.props.subkeys.find(key => key.keyId === this.state.keyId);
     if (!selected) {
       return (
         <div className="alert alert-info">{l10n.map.keygrid_no_subkeys}</div>
@@ -43,9 +43,9 @@ export default class KeyDetailsSubkeys extends React.Component {
         <div className="form-group">
           <label htmlFor="subKeysList" className="col-sm-3 control-label">{l10n.map.keygrid_subkeyid}</label>
           <div className="col-sm-9">
-            <select className="form-control" id="subKeysList" value={this.state.keyid} onChange={this.handleChange}>
+            <select className="form-control" id="subKeysList" value={this.state.keyId} onChange={this.handleChange}>
               {this.props.subkeys.map(subkey =>
-                <option value={subkey.keyid} key={subkey.fingerprint}>{subkey.keyid}</option>
+                <option value={subkey.keyId} key={subkey.fingerprint}>{subkey.keyId}</option>
               )}
             </select>
           </div>

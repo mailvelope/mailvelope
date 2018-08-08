@@ -208,42 +208,54 @@ export function getKeyringAttr(keyringId, attrKey) {
 }
 
 /**
- * Get user id, key id and fingerprint for all keys in all keyrings. Only one user id per key is returned.
- * @return {Array<Object>} list of key meta data objects in the form {keyid, fingerprint, userid, email, name}
- */
-export function getAllKeyData() {
-  let result = [];
-  const allKeyrings = getAll();
-  allKeyrings.forEach(keyring => {
-    result = result.concat(keyring.getKeyData().map(key => {
-      key.keyringId = keyring.id;
-      return key;
-    }));
-  });
-  // remove duplicate keys
-  result = mvelo.util.sortAndDeDup(result, (a, b) => a.fingerprint.localeCompare(b.fingerprint));
-  // sort by name
-  result.sort((a, b) => a.name.localeCompare(b.name));
-  return result;
-}
-
-/**
  * Get the following data for all keys in the preferred keyring queue: user id, key id, fingerprint, email and name
  * @param  {String} keyringId - requested keyring, the leading keyring of a scenario
- * @return {Array<Object>} list of recipients objects in the form {keyid, fingerprint, userid, email, name}
+ * @return {Array<Object>} list of recipients objects in the form {keyId, fingerprint, userId, email, name}
  */
-export async function getKeyData(keyringId) {
+export async function getKeyData({keyringId, allUsers = true}) {
   let result = [];
-  const keyrings = getPreferredKeyringQueue(keyringId);
-  keyrings.forEach(keyring => {
-    const keyUserIds = keyring.getKeyData({allUsers: true});
-    result.push(...keyUserIds);
-  });
-  // remove duplicate recipients with equal fingerprint and userid
-  result = mvelo.util.deDup(result, (element, array) => !array.find(item => element.fingerprint === item.fingerprint && element.userid === item.userid));
+  let keyrings;
+  if (keyringId) {
+    keyrings = getPreferredKeyringQueue(keyringId);
+  } else {
+    keyrings = getAll();
+  }
+  for (const keyring of keyrings) {
+    const keyDataArray = keyring.getKeyData({allUsers});
+    for (const keyData of keyDataArray) {
+      // check if key for this fingerprint already exists in result list
+      const keyIndex = result.findIndex(element => keyData.fingerprint === element.fingerprint);
+      if (keyIndex === -1) {
+        // key does not exist, add to result list
+        result.push(keyData);
+        continue;
+      }
+      // key already in result list
+      const existing = result[keyIndex];
+      if (getLastModifiedDate(existing.key) < getLastModifiedDate(keyData.key)) {
+        // current key is more recent then existing key -> replace
+        result[keyIndex] = keyData;
+      }
+    }
+  }
+  // filter out all invalid keys
+  result = result.filter(key => isValidEncryptionKey(key.key));
+  // filter out all v3 keys if requested keyring is GnuPG
+  if (keyringId === mvelo.GNUPG_KEYRING_ID) {
+    result = result.filter(key => key.key.primaryKey.version > 3);
+  }
+  // expand users
+  const expanded = [];
+  for (const keyData of result) {
+    for (const user of keyData.users) {
+      // exclude key and users properties
+      const {key, users, ...keyDataPart} = keyData;
+      expanded.push({...keyDataPart, ...user});
+    }
+  }
   // sort by user id
-  result.sort((a, b) => a.userid.localeCompare(b.userid));
-  return result;
+  expanded.sort((a, b) => a.userId.localeCompare(b.userId));
+  return expanded;
 }
 
 /**
@@ -256,20 +268,36 @@ export function getKeyByAddress(keyringId, emails) {
   const result = Object.create(null);
   emails = mvelo.util.toArray(emails);
   const keyrings = getPreferredKeyringQueue(keyringId);
-  emails.forEach(email => {
-    result[email] = [];
-    keyrings.forEach(keyring => {
-      let keys = keyring.keystore.getForAddress(email);
-      keys = keys.filter(key => !isValidEncryptionKey(keyring.id, key));
-      result[email].push(...keys);
-    });
-    if (!result[email].length) {
-      result[email] = false;
-      return;
+  for (const email of emails) {
+    let allKeys = result[email] = [];
+    for (const keyring of keyrings) {
+      const keys = keyring.keystore.getForAddress(email);
+      for (const key of keys) {
+        // check if key already exists in result list
+        const keyIndex = allKeys.findIndex(element => equalKey(element, key));
+        if (keyIndex === -1) {
+          // key does not exist, add to result list
+          allKeys.push(key);
+          continue;
+        }
+        // key already in result list
+        const existing = allKeys[keyIndex];
+        if (getLastModifiedDate(existing) < getLastModifiedDate(key)) {
+          // current key is more recent then existing key -> replace
+          allKeys[keyIndex] = key;
+        }
+      }
     }
-    // remove duplicate keys
-    result[email] = mvelo.util.deDup(result[email], (element, array) => !array.find(item => equalKey(element, item)));
-  });
+    // filter out all invalid keys
+    allKeys = allKeys.filter(key => isValidEncryptionKey(key, keyringId));
+    // filter out all v3 keys if requested keyring is GnuPG
+    if (getPreferredKeyringId() === mvelo.GNUPG_KEYRING_ID) {
+      allKeys = allKeys.filter(key => key.key.primaryKey.version > 3);
+    }
+    if (!allKeys.length) {
+      result[email] = false;
+    }
+  }
   return result;
 }
 
@@ -316,11 +344,11 @@ export function getKeyringWithPrivKey(keyIds, keyringId) {
   } else {
     keyrings = getPreferredKeyringQueue(keyringId);
   }
-  // if no keyids return first keyring
+  // if no keyIds return first keyring
   if (!keyIds.length) {
     return keyrings[0];
   }
-  // return first keyring that includes private keys with keyids
+  // return first keyring that includes private keys with keyIds
   for (const keyring of keyrings) {
     if (keyring.hasPrivateKey(keyIds)) {
       return keyring;
@@ -384,6 +412,10 @@ export async function syncPublicKeys(keyring, keyIds, allKeyrings = false) {
         continue;
       }
       key = key[0];
+      // do not sync old v3 keys to GnuPG
+      if (keyring.id === mvelo.GNUPG_KEYRING_ID && key.primaryKey.version < 4) {
+        continue;
+      }
       const lastModifiedDate = getLastModifiedDate(key);
       if (!lastModified || lastModifiedDate > lastModified.date) {
         lastModified = {date: lastModifiedDate, key, srcKeyring};

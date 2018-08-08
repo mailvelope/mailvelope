@@ -221,7 +221,7 @@ export class RecipientInputCtrl {
   autocomplete(query) {
     const cache = _props.keys.map(key => ({
       email: key.email,
-      displayId: `${key.userid} - ${key.keyid}`
+      displayId: `${key.userId} - ${key.keyId}`
     }));
     // filter by display ID and ignore duplicates
     return cache.filter(i => i.displayId.toLowerCase().includes(query.toLowerCase()) &&

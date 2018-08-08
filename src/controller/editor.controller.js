@@ -30,7 +30,6 @@ export default class EditorController extends sub.SubController {
     this.encryptTimer = null;
     this.keyringId = null;
     this.editorPopup = null;
-    this.keyidBuffer = null;
     this.signKey = null;
     this.pwdControl = null;
     this.keyserver = new KeyServer();
@@ -80,7 +79,7 @@ export default class EditorController extends sub.SubController {
     emails = mvelo.util.deDup(emails); // just dedup, dont change order of user input
     recipients = emails.map(e => ({email: e}));
     // get all public keys from required keyrings
-    const keys = await getKeyData(this.keyringId);
+    const keys = await getKeyData({keyringId: this.keyringId});
     const tofu = this.keyserver.getTOFUPreference();
     this.emit('public-key-userids', {keys, recipients, tofu});
   }
@@ -208,7 +207,7 @@ export default class EditorController extends sub.SubController {
 
   async sendKeyUpdate() {
     // send updated key cache to editor
-    const keys = await getKeyData(this.keyringId);
+    const keys = await getKeyData({keyringId: this.keyringId});
     this.ports.editor.emit('key-update', {keys});
   }
 

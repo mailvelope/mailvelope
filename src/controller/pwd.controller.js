@@ -30,10 +30,10 @@ export default class PwdController extends SubController {
   }
 
   onPwdDialogInit() {
-    // pass over keyid and userid to dialog
+    // pass over keyId and userId to dialog
     this.ports.pwdDialog.emit('set-init-data', {
-      userid: getUserId(this.options.key, false),
-      keyid: this.options.key.primaryKey.getKeyId().toHex().toUpperCase(),
+      userId: getUserId(this.options.key, false),
+      keyId: this.options.key.primaryKey.getKeyId().toHex().toUpperCase(),
       cache: prefs.prefs.security.password_cache,
       reason: this.options.reason
     });

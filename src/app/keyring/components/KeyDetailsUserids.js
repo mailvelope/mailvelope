@@ -18,25 +18,25 @@ l10n.register([
 export default class KeyDetailsUserids extends React.Component {
   constructor(props) {
     super(props);
-    const userID = props.users[0] && props.users[0].userID || '';
-    this.state = {userID};
+    const userId = props.users[0] && props.users[0].userId || '';
+    this.state = {userId};
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
-    this.setState({userID: event.target.value});
+    this.setState({userId: event.target.value});
   }
 
   render() {
-    const selected = this.props.users.find(user => user.userID === this.state.userID);
+    const selected = this.props.users.find(user => user.userId === this.state.userId);
     return (
       <form className="form-horizontal" role="form">
         <div className="form-group">
           <label htmlFor="userIdsList" className="col-sm-3 control-label">{l10n.map.keygrid_userid}</label>
           <div className="col-sm-9">
-            <select className="form-control" id="userIdsList" value={this.state.userID} onChange={this.handleChange}>
+            <select className="form-control" id="userIdsList" value={this.state.userId} onChange={this.handleChange}>
               {this.props.users.map((user, index) =>
-                <option value={user.userID} key={index}>{user.userID}</option>
+                <option value={user.userId} key={index}>{user.userId}</option>
               )}
             </select>
           </div>
@@ -56,7 +56,7 @@ export default class KeyDetailsUserids extends React.Component {
                 {selected.signatures.map((sgn, index) =>
                   <tr key={index}>
                     <td>{sgn.signer}</td>
-                    <td>{sgn.keyid}</td>
+                    <td>{sgn.keyId}</td>
                     <td style={{whiteSpace: 'nowrap'}}>{sgn.crDate.substr(0, 10)}</td>
                   </tr>
                 )}
