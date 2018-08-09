@@ -38,7 +38,7 @@ export async function decrypt({message, keyring, senderAddress, selfSigned, encr
     }
   }
   const result = await openpgp.decrypt({message, privateKey, publicKeys: signingKeys, format});
-  result.signatures = result.signatures.map(signature => {
+  result.signatures = (result.signatures || []).map(signature => {
     signature.keyId = signature.keyid.toHex();
     delete signature.keyid;
     if (signature.valid !== null) {
@@ -62,15 +62,17 @@ export async function decrypt({message, keyring, senderAddress, selfSigned, encr
  * @param  {Function} options.unlockKey - callback that unlocks private key
  * @param  {Array<String>} options.encryptionKeyFprs - array of fingerprints used for encryption
  * @param  {String} options.signingKeyFpr - fingerprint of signing key
- * @return {String}
+ * @param  {String} [filename]
+ * @param {Boolean} [armor = true] - request the output as armored block
+ * @return {String|Uint8Array}
  */
-export async function encrypt({data, keyring, unlockKey, encryptionKeyFprs, signingKeyFpr}) {
+export async function encrypt({data, keyring, unlockKey, encryptionKeyFprs, signingKeyFpr, filename, armor = true}) {
   let signingKey;
   if (signingKeyFpr) {
     signingKey = keyring.getPrivateKeyByIds(signingKeyFpr);
     signingKey = await unlockKey({key: signingKey});
   }
   const keys = keyring.getKeysByFprs(encryptionKeyFprs);
-  const msg = await openpgp.encrypt({data, publicKeys: keys, privateKeys: signingKey});
-  return msg.data;
+  const result = await openpgp.encrypt({data, publicKeys: keys, privateKeys: signingKey, filename, armor});
+  return armor ? result.data : result.message.packets.write();
 }

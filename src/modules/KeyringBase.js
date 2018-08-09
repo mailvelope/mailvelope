@@ -83,10 +83,10 @@ export default class KeyringBase {
    */
   getKeyData(options = {}) {
     const result = [];
-    this.keystore.getAllKeys().forEach(key => {
+    for (const key of this.keystore.getAllKeys()) {
       if (key.verifyPrimaryKey() === openpgp.enums.keyStatus.invalid ||
           trustKey.isKeyPseudoRevoked(this.id, key)) {
-        return;
+        continue;
       }
       const keyData = {};
       keyData.key = key;
@@ -95,21 +95,21 @@ export default class KeyringBase {
       if (options.allUsers) {
         // consider all user ids of key
         keyData.users = [];
-        key.users.forEach(keyUser => {
+        for (const keyUser of key.users) {
           if (keyUser.userId && keyUser.verify(key.primaryKey) === openpgp.enums.keyStatus.valid) {
             const user = {userId: keyUser.userId.userid};
             // check for duplicates
             if (keyData.users.some(existingUser => existingUser.userId === user.userId)) {
-              return;
+              continue;
             }
             mapKeyUserIds(user);
             // check for valid email address
             if (!user.email) {
-              return;
+              continue;
             }
             keyData.users.push(user);
           }
-        });
+        }
       } else {
         // only consider primary user
         const user = {userId: getUserId(key)};
@@ -117,7 +117,7 @@ export default class KeyringBase {
         keyData.users = [user];
       }
       result.push(keyData);
-    });
+    }
     return result;
   }
 
@@ -132,26 +132,26 @@ export default class KeyringBase {
    */
   getKeyByAddress(emailAddr, {pub = true, priv = true, sort = false, valid = true} = {}) {
     const result = Object.create(null);
-    emailAddr = mvelo.util.toArray(emailAddr);
-    emailAddr.forEach(emailAddr => {
-      result[emailAddr] = [];
+    const emailArray = mvelo.util.toArray(emailAddr);
+    for (const email of emailArray) {
+      result[email] = [];
       if (pub) {
-        result[emailAddr] = result[emailAddr].concat(this.keystore.publicKeys.getForAddress(emailAddr));
+        result[email] = result[email].concat(this.keystore.publicKeys.getForAddress(email));
       }
       if (priv) {
-        result[emailAddr] = result[emailAddr].concat(this.keystore.privateKeys.getForAddress(emailAddr));
+        result[email] = result[email].concat(this.keystore.privateKeys.getForAddress(email));
       }
       if (valid) {
-        result[emailAddr] = result[emailAddr].filter(key => isValidEncryptionKey(key, this.id));
+        result[email] = result[email].filter(key => isValidEncryptionKey(key, this.id));
       }
-      if (!result[emailAddr].length) {
-        result[emailAddr] = false;
+      if (!result[email].length) {
+        result[email] = false;
       } else if (sort) {
         // sort by key creation date and primary key status
         const primaryKeyFpr = this.getPrimaryKeyFpr();
-        sortKeysByCreationDate(result[emailAddr], primaryKeyFpr);
+        sortKeysByCreationDate(result[email], primaryKeyFpr);
       }
-    });
+    }
     return result;
   }
 

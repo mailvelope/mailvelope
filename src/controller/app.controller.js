@@ -127,7 +127,7 @@ export default class AppController extends sub.SubController {
     this.decryptTextCtrl.decrypt(armored, mvelo.MAIN_KEYRING_ID);
   }
 
-  async unlockKey(key) {
+  async unlockKey({key}) {
     const privKey = await unlockQueue.push(sub.factory.get('pwdDialog'), 'unlockKey', [{key}]);
     return privKey.key;
   }
