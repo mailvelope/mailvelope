@@ -427,7 +427,7 @@ function encryptFiles(plainFiles, receipients) {
   const {armored} = encryptFile.state;
   plainFiles.forEach(plainFile => {
     encryptProcesses.push(
-      port.send('encryptFile', {plainFile, receipients, armor: armored})
+      port.send('encryptFile', {plainFile, encryptionKeyFprs: receipients.map(r => r.fingerprint), armor: armored})
       .then(content => addFileToDownload({
         name: `${plainFile.name}${armored ? '.asc' : '.gpg'}`,
         content,

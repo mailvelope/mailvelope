@@ -361,35 +361,34 @@ function convertChangeLog(key, changeLog, syncData) {
   }
 }
 
-export function encryptFile({plainFile, receipients, armor}) {
-  let keys;
-  return Promise.resolve()
-  .then(() => {
-    keys = receipients.map(receipient => {
-      const keyArray = getKeyringById(receipient.keyringId).keystore.getKeysForId(receipient.keyId);
-      return keyArray ? keyArray[0] : null;
-    }).filter(key => key !== null);
-    if (keys.length === 0) {
-      throw {message: 'No key found for encryption'};
-    }
+/**
+ * Encrypt file
+ * @param  {Object} options.plainFile - {content, name} with contant as dataURL and name as filename
+ * @param  {Array<String>} options.encryptionKeyFprs - fingerprint of encryption keys
+ * @param  {Boolean} options.armor - request the output as armored block
+ * @return {String} - encrypted file as armored block or JS binary string
+ */
+export async function encryptFile({plainFile, encryptionKeyFprs, armor}) {
+  try {
+    const keyring = getKeyringWithPrivKey();
+    await syncPublicKeys(keyring, encryptionKeyFprs, true);
     const content = mvelo.util.dataURL2str(plainFile.content);
     const data = mvelo.util.str2Uint8Array(content);
-    return openpgp.encrypt({data, publicKeys: keys, filename: plainFile.name, armor});
-  })
-  .then(msg => {
-    logEncryption('security_log_encrypt_dialog', keys);
-    if (armor) {
-      return msg.data;
-    } else {
-      return mvelo.util.Uint8Array2str(msg.message.packets.write());
-    }
-  })
-  .catch(e => {
-    console.log('openpgp.encrypt() error', e);
-    throw {message: l10n('encrypt_error', [e.message])};
-  });
+    const result = await keyring.getPgpBackend().encrypt({data, keyring, encryptionKeyFprs, filename: plainFile.name, armor});
+    logEncryption('security_log_encrypt_dialog', keyring, encryptionKeyFprs);
+    return armor ? result : mvelo.util.Uint8Array2str(result);
+  } catch (error) {
+    console.log('pgpmodel.encryptFile() error', error);
+    throw new mvelo.Error(l10n('encrypt_error', [error.message]), 'NO_KEY_FOUND');
+  }
 }
 
+/**
+ * Decrypt File
+ * @param  {Object} encryptedFile - {content, name} with contant as dataURL and name as filename
+ * @param  {Function} unlockKey - callback to unlock key
+ * @return {Object<name, content>} - content as JS binary string
+ */
 export async function decryptFile(encryptedFile, unlockKey) {
   let armoredText;
   let binary;
@@ -413,6 +412,6 @@ export async function decryptFile(encryptedFile, unlockKey) {
     };
   } catch (error) {
     console.log('pgpModel.decryptFile() error', error);
-    throw mvelo.util.mapError(error);
+    throw error;
   }
 }
