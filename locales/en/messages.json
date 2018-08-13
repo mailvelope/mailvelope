@@ -1299,17 +1299,9 @@
     "description": "A click on the attachment upload button as an event type",
     "message": "Add attachment button clicked"
   },
-  "security_log_attachment_added": {
-    "description": "Attachment added as an event type",
-    "message": "Attachment uploaded"
-  },
   "security_log_attachment_download": {
     "description": "Attachment downloaded as an event source",
     "message": "Attachment downloaded"
-  },
-  "security_log_backup_code_input": {
-    "description": "",
-    "message": "Recovery code input"
   },
   "security_log_backup_create": {
     "description": "",
@@ -1346,10 +1338,6 @@
   "security_log_email_viewer": {
     "description": "Email decryption container as an event source",
     "message": "Decrypted PGP Email"
-  },
-  "security_log_empty": {
-    "description": "Message when the security log is empty",
-    "message": "No entries"
   },
   "security_log_encrypt_dialog": {
     "description": "Encrypt dialog as an event source",
@@ -1391,9 +1379,9 @@
     "description": "",
     "message": "Click in restore backup dialog"
   },
-  "security_log_sign_dialog": {
-    "description": "Sign dialog as an event source",
-    "message": "Sign Dialog"
+  "security_log_sign_operation": {
+    "message": "Message has been signed with key: $1",
+    "description": ""
   },
   "security_log_signature_modal_close": {
     "description": "",
@@ -1462,6 +1450,10 @@
   "sign_dialog_header": {
     "description": "Header of sign dialog.",
     "message": "Sign message with key:"
+  },
+  "sign_error": {
+    "description": "Error during signing process.",
+    "message": "Could not sign this message: $1"
   },
   "text_compose_header": {
     "message": "Compose message",

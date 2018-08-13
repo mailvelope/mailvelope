@@ -1357,17 +1357,9 @@
     "message": "Anhang hinzufügen ausgewählt",
     "description": "A click on the attachment upload button as an event type"
   },
-  "security_log_attachment_added": {
-    "message": "Anhang hinzugefügt",
-    "description": "Attachment added as an event type"
-  },
   "security_log_attachment_download": {
     "message": "Anhang heruntergeladen",
     "description": "Attachment downloaded as an event source"
-  },
-  "security_log_backup_code_input": {
-    "message": "Eingabeereignis in den Backup-Code-Feldern",
-    "description": ""
   },
   "security_log_backup_create": {
     "message": "Klickereignis für Backup erzeugen",
@@ -1404,10 +1396,6 @@
   "security_log_email_viewer": {
     "message": "Entschlüsselte PGP-E-Mail",
     "description": "Email decryption container as an event source"
-  },
-  "security_log_empty": {
-    "message": "Keine Einträge",
-    "description": "Message when the security log is empty"
   },
   "security_log_encrypt_dialog": {
     "message": "Verschlüsseln Dialog",
@@ -1449,9 +1437,9 @@
     "message": "Klickereignis im Wiederherstellungsdialog",
     "description": ""
   },
-  "security_log_sign_dialog": {
-    "message": "Signieren Dialog",
-    "description": "Sign dialog as an event source"
+  "security_log_sign_operation": {
+    "message": "Nachricht wurde signiert mit Schlüssel: $1",
+    "description": ""
   },
   "security_log_signature_modal_close": {
     "message": "Klickereignis auf Schliessen im Signaturdialog",
@@ -1520,6 +1508,10 @@
   "sign_dialog_header": {
     "message": "Nachricht mit Schlüssel signieren:",
     "description": "Header of sign dialog."
+  },
+  "sign_error": {
+    "message": "Diese Nachricht konnte nicht signiert werden: $1",
+    "description": "Error during signing process."
   },
   "text_compose_header": {
     "message": "Nachricht verfassen",
