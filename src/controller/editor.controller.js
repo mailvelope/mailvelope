@@ -165,23 +165,8 @@ export default class EditorController extends sub.SubController {
     this.ports.editor.emit('get-plaintext', {action: 'encrypt', draft: true});
   }
 
-  async onSignOnly(msg) {
-    this.signKey = getKeyringById(mvelo.MAIN_KEYRING_ID).getPrivateKeyByFpr(msg.signKeyFpr);
-    this.pwdControl = sub.factory.get('pwdDialog');
-    try {
-      await this.pwdControl.unlockKey({
-        key: this.signKey,
-        reason: 'PWD_DIALOG_REASON_SIGN',
-        openPopup: false,
-        beforePasswordRequest: () => this.emit('show-pwd-dialog', {id: this.pwdControl.id})
-      });
-    } catch (err) {
-      if (err.code === 'PWD_DIALOG_CANCEL') {
-        this.emit('hide-pwd-dialog');
-        return;
-      }
-      this.emit('error-message', {error: mvelo.util.mapError(err)});
-    }
+  onSignOnly(msg) {
+    this.signKeyFpr = msg.signKeyFpr;
     this.emit('get-plaintext', {action: 'sign'});
   }
 
@@ -317,6 +302,7 @@ export default class EditorController extends sub.SubController {
     } catch (error) {
       this.ports.editor.emit('decrypt-failed', {error: mvelo.util.mapError(error)});
     }
+    clearTimeout(this.encryptTimer);
   }
 
   /**
@@ -398,7 +384,10 @@ export default class EditorController extends sub.SubController {
         });
       }
     } else if (options.action === 'sign') {
-      return this.signMessage(options.message);
+      return this.signMessage({
+        data: options.message,
+        signKeyFpr: this.signKeyFpr
+      });
     }
   }
 
@@ -411,7 +400,6 @@ export default class EditorController extends sub.SubController {
    * @return {Promise<String>} - message as armored block
    */
   async signAndEncryptMessage({data, signKeyFpr, keyFprs, noCache}) {
-    this.encryptTimer = null;
     if (!signKeyFpr) {
       const primaryKeyFpr = getKeyringById(this.keyringId).getPrimaryKeyFpr();
       signKeyFpr = primaryKeyFpr;
@@ -423,11 +411,7 @@ export default class EditorController extends sub.SubController {
       options.noCache = noCache;
       options.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
       options.sync = !prefs.security.password_cache;
-      const result = await this.unlockKey(options);
-      this.encryptTimer = setTimeout(() => {
-        this.ports.editor.emit('encrypt-in-progress');
-      }, 800);
-      return result;
+      return this.unlockKey(options);
     };
     return model.encryptMessage({
       data,
@@ -459,14 +443,20 @@ export default class EditorController extends sub.SubController {
 
   /**
    * Create a cleartext signature
-   * @param {String} message
-   * @return {Promise}
+   * @param {String} data
+   * @return {Promise<String>}
    */
-  signMessage(message) {
-    this.encryptTimer = setTimeout(() => {
-      this.emit('encrypt-in-progress');
-    }, 800);
-    return model.signMessage(message, this.signKey);
+  signMessage({data, signKeyFpr}) {
+    const unlockKey = async options => {
+      options.reason = 'PWD_DIALOG_REASON_SIGN';
+      return this.unlockKey(options);
+    };
+    return model.signMessage({
+      data,
+      keyringId: this.keyringId,
+      unlockKey,
+      signingKeyFpr: signKeyFpr
+    });
   }
 
   /**
@@ -488,6 +478,9 @@ export default class EditorController extends sub.SubController {
     const openPopup = !this.editorPopup;
     const beforePasswordRequest = id => this.editorPopup && this.ports.editor.emit('show-pwd-dialog', {id});
     const unlockedKey = await pwdControl.unlockKey({key, reason, openPopup, noCache, beforePasswordRequest});
+    this.encryptTimer = setTimeout(() => {
+      this.ports.editor.emit('encrypt-in-progress');
+    }, 800);
     if (sync) {
       triggerSync({keyring: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
     }

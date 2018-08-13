@@ -76,3 +76,18 @@ export async function encrypt({data, keyring, unlockKey, encryptionKeyFprs, sign
   const result = await openpgp.encrypt({data, publicKeys: keys, privateKeys: signingKey, filename, armor});
   return armor ? result.data : result.message.packets.write();
 }
+
+/**
+ * Sign message
+ * @param  {String} options.data - data to be signed as plaintext
+ * @param  {KeyringBase} options.keyring - keyring used for signing
+ * @param  {Function} options.unlockKey - callback that unlocks private key
+ * @param  {String} options.signingKeyFpr - fingerprint of signing key
+ * @return {String}
+ */
+export async function sign({data, keyring, unlockKey, signingKeyFpr}) {
+  let signingKey = keyring.getPrivateKeyByIds(signingKeyFpr);
+  signingKey = await unlockKey({key: signingKey});
+  const result = await openpgp.sign({data, privateKeys: signingKey});
+  return result.data;
+}

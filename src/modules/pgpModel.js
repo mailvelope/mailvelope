@@ -201,13 +201,26 @@ export function verifyMessage(message, signers) {
 }
 
 /**
- * @param {String} message
- * @param {String} signKey
+ * Sign plaintext message
+ * @param  {String} options.data - plaintext message
+ * @param  {String} options.keyringId
+ * @param  {[type]} options.unlockKey - callback to unlock key
+ * @param  {[type]} options.signingKeyFpr - fingerprint of sign key
  * @return {Promise<String>}
  */
-export function signMessage(message, signKey) {
-  return openpgp.sign({data: message, privateKeys: signKey})
-  .then(msg => msg.data);
+export async function signMessage({data, keyringId, unlockKey, signingKeyFpr}) {
+  const keyring = getKeyringWithPrivKey(signingKeyFpr, keyringId);
+  if (!keyring) {
+    throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
+  }
+  try {
+    const result = await keyring.getPgpBackend().sign({data, keyring, unlockKey, signingKeyFpr});
+    uiLog.push('security_log_editor', l10n('security_log_sign_operation', [signingKeyFpr.toUpperCase()]));
+    return result;
+  } catch (e) {
+    console.log('getPgpBackend().sign() error', e);
+    throw new mvelo.Error(l10n('sign_error', [e]), 'SIGN_ERROR');
+  }
 }
 
 export function createPrivateKeyBackup(primaryKey, keyPwd) {
