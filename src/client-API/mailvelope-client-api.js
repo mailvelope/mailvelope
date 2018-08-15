@@ -730,5 +730,4 @@
   if (typeof window.customElements !== 'undefined') {
     window.customElements.define('openpgp-encrypted-form', OpenPGPEncryptedForm);
   }
-
 }());

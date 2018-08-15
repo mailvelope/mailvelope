@@ -327,6 +327,30 @@
     "message": "Weiter",
     "description": "Continue form button."
   },
+  "form_definition_error_no_recipient_key": {
+    "description": "Error message when recipient key is not in keyring",
+    "message": "Valider Schlüssel zur Verschlüsselung des Formulars an die Empfänger Adresse fehlt."
+  },
+  "form_definition_error_signature_invalid": {
+    "description": "Error message when the form signature is not valid",
+    "message": "Die Signatur des Formulars ist nicht valide."
+  },
+  "form_destination": {
+    "description": "URL the form data will be sent to",
+    "message": "Ziel"
+  },
+  "form_destination_default": {
+    "description": "Behavior when no action is specified in form",
+    "message": "Die verschlüsselten Daten werden zurück an die Seite gesendet."
+  },
+  "form_sign_error_no_primary_key": {
+    "description": "Error message when trying to sign and no primary key is found",
+    "message": "Es ist kein privater Schlüssel zum Signieren des Formular Inhalts vorhanden. Bitte Schlüssel importieren oder neu erzeugen."
+  },
+  "form_sign_error_no_sign_key": {
+    "description": "Error message when trying to sign and no sign key packet is found in primary key",
+    "message": "Privater Schlüssel ist nicht gültig für das Signieren des Formulars."
+  },
   "form_forward": {
     "message": "Vorwärts",
     "description": "forward form button."
@@ -346,6 +370,10 @@
   "form_ok": {
     "message": "Ok",
     "description": "Ok form button."
+  },
+  "form_recipient": {
+    "description": "The email for which the form will be encrypted for",
+    "message": "Empfänger"
   },
   "form_save": {
     "message": "Speichern",
@@ -1408,6 +1436,10 @@
   "security_log_encrypt_dialog": {
     "message": "Verschlüsseln Dialog",
     "description": "Encrypt dialog as an event source"
+  },
+  "security_log_encrypt_form": {
+    "description": "Encrypt form as an event source",
+    "message": "Verschlüsseltes Formular"
   },
   "security_log_encryption_operation": {
     "message": "Nachricht wurde verschlüsselt für: $1",
