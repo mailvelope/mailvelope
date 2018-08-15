@@ -25,8 +25,6 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   let port;
   // shares ID with DecryptFrame
   let id;
-  // type + id
-  let name;
   // dialogs
   let pwd;
   let decryptComponent;
@@ -34,10 +32,9 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   function init() {
     const qs = jQuery.parseQuerystring();
     id = qs.id;
-    name = `dPopup-${id}`;
     // open port to background page
-    port = mvelo.runtime.connect({name});
-    port.onMessage.addListener(messageListener);
+    port = mvelo.EventHandler.connect(`dPopup-${id}`);
+    registerEventListeners();
     $('#closeBtn').click(onCancel);
     $('#copyBtn').click(onCopy);
     $('body').addClass('spinner');
@@ -49,8 +46,13 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     }
   }
 
+  function registerEventListeners() {
+    port.on('show-pwd-dialog', addPwdDialog);
+    port.on('show-message', showMessageArea);
+  }
+
   function onCancel() {
-    port.postMessage({event: 'decrypt-dialog-cancel', sender: name});
+    port.emit('decrypt-dialog-cancel');
     return false;
   }
 
@@ -78,7 +80,8 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     $('.modal-body').append(decryptComponent);
   }
 
-  function addPwdDialog(id) {
+  function addPwdDialog({id}) {
+    $('body').removeClass('spinner');
     pwd = $('<iframe/>', {
       id: 'pwdDialog',
       src: `../enter-password/pwdDialog.html?id=${id}`,
@@ -88,27 +91,13 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
   }
 
   function showMessageArea() {
+    $('body').removeClass('spinner');
     if (pwd) {
       pwd.fadeOut(() => {
         $('#decryptmail').fadeIn();
       });
     } else {
       $('#decryptmail').fadeIn();
-    }
-  }
-
-  function messageListener(msg) {
-    // remove spinner for all events
-    $('body').removeClass('spinner');
-    switch (msg.event) {
-      case 'show-pwd-dialog':
-        addPwdDialog(msg.id);
-        break;
-      case 'show-message':
-        showMessageArea();
-        break;
-      default:
-        console.log('unknown event');
     }
   }
 

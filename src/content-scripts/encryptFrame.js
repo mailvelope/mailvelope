@@ -7,45 +7,39 @@ import mvelo from '../mvelo';
 import $ from 'jquery';
 import {currentProvider} from './main';
 
-export default class EncryptFrame extends mvelo.EventHandler {
+export default class EncryptFrame {
   constructor() {
-    super();
     this.id = mvelo.util.getHash();
-    this._editElement = null;
-    this._eFrame = null;
-    this._port = null;
-    this._sender = `eFrame-${this.id}`;
-    this._refreshPosIntervalID = 0;
-    this._emailTextElement = null;
+    this.editElement = null;
+    this.eFrame = null;
+    this.port = null;
+    this.refreshPosIntervalID = 0;
+    this.emailTextElement = null;
     // type of external editor
-    this._editorType = mvelo.PLAIN_TEXT; //prefs.general.editor_type;
-    this._options = {closeBtn: true};
-    this._keyCounter = 0;
-    this._currentProvider = currentProvider;
+    this.editorType = mvelo.PLAIN_TEXT; //prefs.general.editor_type;
+    this.options = {closeBtn: true};
+    this.keyCounter = 0;
+    this.currentProvider = currentProvider;
   }
 
   attachTo(element, options) {
-    $.extend(this._options, options);
-    this._init(element);
-    this._establishConnection();
-    this._registerEventListener();
-    this._renderFrame();
+    $.extend(this.options, options);
+    this.init(element);
+    this.establishConnection();
+    this.registerEventListener();
+    this.renderFrame();
     // set status to attached
-    this._editElement.data(mvelo.FRAME_STATUS, mvelo.FRAME_ATTACHED);
+    this.editElement.data(mvelo.FRAME_STATUS, mvelo.FRAME_ATTACHED);
     // store frame obj in element tag
-    this._editElement.data(mvelo.FRAME_OBJ, this);
+    this.editElement.data(mvelo.FRAME_OBJ, this);
   }
 
-  getID() {
-    return this.id;
-  }
-
-  _init(element) {
-    this._editElement = element;
-    this._emailTextElement = this._editElement.is('iframe') ? this._editElement.contents().find('body') : this._editElement;
+  init(element) {
+    this.editElement = element;
+    this.emailTextElement = this.editElement.is('iframe') ? this.editElement.contents().find('body') : this.editElement;
     // inject style if we have a non-body editable element inside a dynamic iframe
-    if (!this._editElement.is('body') && this._editElement.closest('body').data(mvelo.DYN_IFRAME)) {
-      const html = this._editElement.closest('html');
+    if (!this.editElement.is('body') && this.editElement.closest('body').data(mvelo.DYN_IFRAME)) {
+      const html = this.editElement.closest('html');
       if (!html.data('M-STYLE')) {
         const style = $('<link/>', {
           rel: 'stylesheet',
@@ -59,103 +53,101 @@ export default class EncryptFrame extends mvelo.EventHandler {
     }
   }
 
-  _establishConnection() {
-    this._port = mvelo.runtime.connect({name: `eFrame-${this.id}`});
-    this.initPort(this._port);
+  establishConnection() {
+    this.port = mvelo.EventHandler.connect(`eFrame-${this.id}`, this);
     // attach port disconnect handler
-    this._port.onDisconnect.addListener(this._closeFrame.bind(this, false));
+    this.port.onDisconnect.addListener(this.closeFrame.bind(this, false));
   }
 
-  _registerEventListener() {
+  registerEventListener() {
     // attach event handlers
-    this.on('get-recipients', this._getRecipients);
-    this.on('set-editor-output', this._setEditorOutput);
-    this.on('destroy', this._closeFrame.bind(this, true));
-    this.on('mail-editor-close', this._onMailEditorClose);
+    this.port.on('get-recipients', this.getRecipients);
+    this.port.on('set-editor-output', this.setEditorOutput);
+    this.port.on('destroy', this.closeFrame.bind(this, true));
+    this.port.on('mail-editor-close', this.onMailEditorClose);
   }
 
-  _renderFrame() {
+  renderFrame() {
     // create frame
     let toolbar = '';
-    if (this._options.closeBtn) {
+    if (this.options.closeBtn) {
       toolbar = `${toolbar}<a class="m-frame-close">×</a>`;
     } else {
       toolbar = `${toolbar}<span class="m-frame-fill-right"></span>`;
     }
     toolbar = `${toolbar}<button id="editorBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-editor"></i></button>`;
-    this._eFrame = $('<div/>', {
+    this.eFrame = $('<div/>', {
       id: `eFrame-${this.id}`,
       'class': 'm-encrypt-frame',
       html: toolbar
     });
 
-    this._eFrame.insertAfter(this._editElement);
-    $(window).on('resize', this._setFrameDim.bind(this));
+    this.eFrame.insertAfter(this.editElement);
+    $(window).on('resize', this.setFrameDim.bind(this));
     // to react on position changes of edit element, e.g. click on CC or BCC in GMail
-    this._refreshPosIntervalID = window.setInterval(() => {
-      this._setFrameDim();
+    this.refreshPosIntervalID = window.setInterval(() => {
+      this.setFrameDim();
     }, 1000);
-    this._eFrame.find('.m-frame-close').on('click', this._closeFrame.bind(this));
-    this._eFrame.find('#editorBtn').on('click', this._onEditorButton.bind(this));
-    this._normalizeButtons();
-    this._eFrame.fadeIn('slow');
-
-    this._emailTextElement.on('keypress', () => {
-      if (++this._keyCounter >= 13) {
-        this._emailTextElement.off('keypress');
-        this._eFrame.fadeOut('slow', () => {
-          this._closeFrame();
+    this.eFrame.find('.m-frame-close').on('click', this.closeFrame.bind(this));
+    this.eFrame.find('#editorBtn').on('click', this.onEditorButton.bind(this));
+    this.normalizeButtons();
+    this.eFrame.fadeIn('slow');
+    this.emailTextElement.on('keypress', () => {
+      if (++this.keyCounter >= 13) {
+        this.emailTextElement.off('keypress');
+        this.eFrame.fadeOut('slow', () => {
+          this.closeFrame();
         });
       }
     });
   }
 
-  _normalizeButtons() {
-    //console.log('editor mode', this._editorMode);
-    this._eFrame.find('.m-encrypt-button').hide();
-    this._eFrame.find('#editorBtn').show().removeClass('m-active');
-    this._setFrameDim();
+  normalizeButtons() {
+    //console.log('editor mode', this.editorMode);
+    this.eFrame.find('.m-encrypt-button').hide();
+    this.eFrame.find('#editorBtn').show().removeClass('m-active');
+    this.setFrameDim();
   }
 
-  _onEditorButton() {
-    this._emailTextElement.off('keypress');
-    this._eFrame.find('#editorBtn').addClass('m-active');
-    this._showMailEditor();
+  onEditorButton() {
+    this.emailTextElement.off('keypress');
+    this.eFrame.find('#editorBtn').addClass('m-active');
+    this.showMailEditor();
     return false;
   }
 
-  _onMailEditorClose() {
-    this._eFrame.find('#editorBtn').removeClass('m-active');
+  onMailEditorClose() {
+    this.eFrame.find('#editorBtn').removeClass('m-active');
   }
 
-  _closeFrame(finalClose) {
-    this._eFrame.fadeOut(() => {
-      window.clearInterval(this._refreshPosIntervalID);
+  closeFrame(finalClose) {
+    this.eFrame.fadeOut(() => {
+      window.clearInterval(this.refreshPosIntervalID);
       $(window).off('resize');
-      this._eFrame.remove();
+      this.eFrame.remove();
       if (finalClose === true) {
-        this._port.disconnect();
-        this._editElement.data(mvelo.FRAME_STATUS, null);
+        this.port.disconnect();
+        this.editElement.data(mvelo.FRAME_STATUS, null);
       } else {
-        this._editElement.data(mvelo.FRAME_STATUS, mvelo.FRAME_DETACHED);
+        this.editElement.data(mvelo.FRAME_STATUS, mvelo.FRAME_DETACHED);
       }
-      this._editElement.data(mvelo.FRAME_OBJ, null);
+      this.editElement.data(mvelo.FRAME_OBJ, null);
     });
     return false;
   }
 
-  _setFrameDim() {
-    const editElementPos = this._editElement.position();
-    const editElementWidth = this._editElement.width();
-    const toolbarWidth = this._eFrame.width();
+  setFrameDim() {
+    const editElementPos = this.editElement.position();
+    const editElementWidth = this.editElement.width();
+    const toolbarWidth = this.eFrame.width();
     const left = editElementPos.left + editElementWidth - toolbarWidth - 20;
-    this._eFrame.css('top', editElementPos.top + 3);
-    this._eFrame.css('left', left < 0 ? 0 : left);
+    this.eFrame.css('top', editElementPos.top + 3);
+    this.eFrame.css('left', left < 0 ? 0 : left);
   }
 
-  _showMailEditor() {
+  showMailEditor() {
     const options = {};
-    const emailContent = this._getEmailText(this._editorType == mvelo.PLAIN_TEXT ? 'text' : 'html');
+    const emailContent = this.getEmailText(this.editorType == mvelo.PLAIN_TEXT ? 'text' : 'html');
     if (/BEGIN\sPGP\sMESSAGE/.test(emailContent)) {
       try {
         options.quotedMail = mvelo.util.normalizeArmored(emailContent, /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/);
@@ -165,14 +157,14 @@ export default class EncryptFrame extends mvelo.EventHandler {
     } else {
       options.text = emailContent;
     }
-    this.emit('eframe-display-editor', options);
+    this.port.emit('eframe-display-editor', options);
   }
 
-  _getRecipients() {
-    return this._currentProvider.getRecipients(this._editElement);
+  getRecipients() {
+    return this.currentProvider.getRecipients(this.editElement);
   }
 
-  _html2text(html) {
+  html2text(html) {
     html = $('<div/>').html(html);
     // replace anchors
     html = html.find('a').replaceWith(function() {
@@ -188,21 +180,21 @@ export default class EncryptFrame extends mvelo.EventHandler {
     return $('<div/>').html(html).text(); // decode
   }
 
-  _getEmailText(type) {
+  getEmailText(type) {
     let text;
     let html;
-    if (this._emailTextElement.is('textarea')) {
-      text = this._emailTextElement.val();
+    if (this.emailTextElement.is('textarea')) {
+      text = this.emailTextElement.val();
     } else { // html element
       if (type === 'text') {
-        this._emailTextElement.focus();
-        const element = this._emailTextElement.get(0);
+        this.emailTextElement.focus();
+        const element = this.emailTextElement.get(0);
         const sel = element.ownerDocument.defaultView.getSelection();
         sel.selectAllChildren(element);
         text = sel.toString();
         sel.removeAllRanges();
       } else {
-        html = this._emailTextElement.html();
+        html = this.emailTextElement.html();
         html = html.replace(/\n/g, ''); // remove new lines
         text = html;
       }
@@ -216,28 +208,28 @@ export default class EncryptFrame extends mvelo.EventHandler {
    * @param {String} options.text         The encrypted message body
    * @param {Array}  options.recipients   The recipients to be added
    */
-  _setEditorOutput(options) {
+  setEditorOutput(options) {
     // set message body
-    this._normalizeButtons();
-    this._setMessage(options.text);
+    this.normalizeButtons();
+    this.setMessage(options.text);
     // set recipient email addresses
-    this._currentProvider.setRecipients({recipients: options.recipients, editElement: this._editElement});
+    this.currentProvider.setRecipients({recipients: options.recipients, editElement: this.editElement});
   }
 
   /**
    * Replace content of editor element (_emailTextElement)
    */
-  _setMessage(msg) {
-    if (this._emailTextElement.is('textarea')) {
-      this._emailTextElement.val(msg);
+  setMessage(msg) {
+    if (this.emailTextElement.is('textarea')) {
+      this.emailTextElement.val(msg);
     } else {
       // element is contenteditable or RTE
       msg = `<pre>${mvelo.util.encodeHTML(msg)}</pre>`;
-      this._emailTextElement.html(msg);
+      this.emailTextElement.html(msg);
     }
     // trigger input event
     const inputEvent = document.createEvent('HTMLEvents');
     inputEvent.initEvent('input', true, true);
-    this._emailTextElement.get(0).dispatchEvent(inputEvent);
+    this.emailTextElement.get(0).dispatchEvent(inputEvent);
   }
 }

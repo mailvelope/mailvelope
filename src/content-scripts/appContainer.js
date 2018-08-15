@@ -9,22 +9,17 @@ export default class AppContainer {
   constructor(selector, keyringId, options = {}) {
     this.selector = selector;
     this.keyringId = keyringId;
-
     this.email = '';
     if (options.email) {
       this.email = `&email=${encodeURIComponent(options.email)}`;
     }
-
     this.fullName = '';
     if (options.fullName) {
       this.fullName = `&fname=${encodeURIComponent(options.fullName)}`;
     }
-
     this.hasPrivateKey = options.hasPrivateKey;
-
     this.id = mvelo.util.getHash();
-    this.name = `appCont-${this.id}`;
-    this.port = mvelo.runtime.connect({name: this.name});
+    this.port = mvelo.EventHandler.connect(`appCont-${this.id}`, this);
     this.parent = null;
     this.container = null;
     this.done = null;

@@ -9,23 +9,19 @@ import ExtractFrame from './extractFrame';
 export default class ImportFrame extends ExtractFrame {
   constructor() {
     super();
-    this._ctrlName = `imFrame-${this.id}`;
-    this._typeRegex = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/;
+    this.ctrlName = `imFrame-${this.id}`;
+    this.typeRegex = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/;
   }
 
-  _renderFrame() {
-    super._renderFrame();
-    this._eFrame.addClass('m-import');
+  renderFrame() {
+    super.renderFrame();
+    this.eFrame.addClass('m-import');
   }
 
-  _clickHandler() {
-    super._clickHandler(() => {
-      this._port.postMessage({
-        event: 'imframe-armored-key',
-        data: this._getPGPMessage(),
-        sender: this._ctrlName
-      });
-      this._eFrame.addClass('m-ok');
+  clickHandler() {
+    super.clickHandler(() => {
+      this.port.emit('imframe-armored-key', {data: this.getPGPMessage()});
+      this.eFrame.addClass('m-ok');
     });
     return false;
   }

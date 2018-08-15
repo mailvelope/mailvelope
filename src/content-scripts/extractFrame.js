@@ -11,126 +11,124 @@ export default class ExtractFrame {
   constructor() {
     this.id = mvelo.util.getHash();
     // element with Armor Tail Line '-----END PGP...'
-    this._pgpEnd = null;
+    this.pgpEnd = null;
     // element that contains complete ASCII Armored Message
-    this._pgpElement = null;
-    this._pgpElementAttr = {};
-    this._eFrame = null;
-    this._port = null;
-    this._refreshPosIntervalID = null;
-    this._pgpStartRegex = /BEGIN\sPGP/;
-    this._currentProvider = currentProvider;
+    this.pgpElement = null;
+    this.pgpElementAttr = {};
+    this.eFrame = null;
+    this.port = null;
+    this.refreshPosIntervalID = null;
+    this.pgpStartRegex = /BEGIN\sPGP/;
+    this.currentProvider = currentProvider;
   }
 
   attachTo(pgpEnd) {
-    this._init(pgpEnd);
-    this._establishConnection();
-    this._renderFrame();
-    this._registerEventListener();
+    this.init(pgpEnd);
+    this.establishConnection();
+    this.renderFrame();
+    this.registerEventListener();
   }
 
-  _init(pgpEnd) {
-    this._pgpEnd = pgpEnd;
+  init(pgpEnd) {
+    this.pgpEnd = pgpEnd;
     // find element with complete armored text and width > 0
-    this._pgpElement = pgpEnd;
+    this.pgpElement = pgpEnd;
     const maxNesting = 8;
     let beginFound = false;
     for (let i = 0; i < maxNesting; i++) {
-      if (this._pgpStartRegex.test(this._pgpElement.text()) &&
-          this._pgpElement.width() > 0) {
+      if (this.pgpStartRegex.test(this.pgpElement.text()) &&
+          this.pgpElement.width() > 0) {
         beginFound = true;
         break;
       }
-      this._pgpElement = this._pgpElement.parent();
-      if (this._pgpElement.get(0).nodeName === 'HTML') {
+      this.pgpElement = this.pgpElement.parent();
+      if (this.pgpElement.get(0).nodeName === 'HTML') {
         break;
       }
     }
     // set status to attached
-    this._pgpEnd.data(mvelo.FRAME_STATUS, mvelo.FRAME_ATTACHED);
+    this.pgpEnd.data(mvelo.FRAME_STATUS, mvelo.FRAME_ATTACHED);
     // store frame obj in pgpText tag
-    this._pgpEnd.data(mvelo.FRAME_OBJ, this);
-
+    this.pgpEnd.data(mvelo.FRAME_OBJ, this);
     if (!beginFound) {
       throw new Error('Missing BEGIN PGP header.');
     }
-
-    this._pgpElementAttr.marginTop = parseInt(this._pgpElement.css('margin-top'), 10);
-    this._pgpElementAttr.paddingTop = parseInt(this._pgpElement.css('padding-top'), 10);
-    this._pgpElementAttr.marginLeft = parseInt(this._pgpElement.css('margin-left'), 10);
-    this._pgpElementAttr.paddingLeft = parseInt(this._pgpElement.css('padding-left'), 10);
+    this.pgpElementAttr.marginTop = parseInt(this.pgpElement.css('margin-top'), 10);
+    this.pgpElementAttr.paddingTop = parseInt(this.pgpElement.css('padding-top'), 10);
+    this.pgpElementAttr.marginLeft = parseInt(this.pgpElement.css('margin-left'), 10);
+    this.pgpElementAttr.paddingLeft = parseInt(this.pgpElement.css('padding-left'), 10);
   }
 
-  _renderFrame() {
-    this._eFrame = $('<div/>', {
+  establishConnection() {
+    this.port = mvelo.EventHandler.connect(this.ctrlName, this);
+  }
+
+  renderFrame() {
+    this.eFrame = $('<div/>', {
       id: `eFrame-${this.id}`,
       'class': 'm-extract-frame m-cursor',
       html: '<a class="m-frame-close">×</a>'
     });
-
-    this._setFrameDim();
-
-    this._eFrame.insertAfter(this._pgpElement);
-    if (this._pgpElement.height() > mvelo.LARGE_FRAME) {
-      this._eFrame.addClass('m-large');
+    this.setFrameDim();
+    this.eFrame.insertAfter(this.pgpElement);
+    if (this.pgpElement.height() > mvelo.LARGE_FRAME) {
+      this.eFrame.addClass('m-large');
     }
-    this._eFrame.fadeIn('slow');
-
-    this._eFrame.on('click', this._clickHandler.bind(this));
-    this._eFrame.find('.m-frame-close').on('click', this._closeFrame.bind(this));
-
-    $(window).resize(this._setFrameDim.bind(this));
-    this._refreshPosIntervalID = window.setInterval(() => this._setFrameDim(), 1000);
+    this.eFrame.fadeIn('slow');
+    this.eFrame.on('click', this.clickHandler.bind(this));
+    this.eFrame.find('.m-frame-close').on('click', this.closeFrame.bind(this));
+    $(window).resize(this.setFrameDim.bind(this));
+    this.refreshPosIntervalID = window.setInterval(() => this.setFrameDim(), 1000);
   }
 
-  _clickHandler(callback) {
-    this._eFrame.off('click');
-    this._toggleIcon(callback);
-    this._eFrame.removeClass('m-cursor');
+  registerEventListener() {
+    this.port.on('destroy', () => this.closeFrame(true));
+    this.port.onDisconnect.addListener(() => this.closeFrame(false));
+  }
+
+  clickHandler(callback) {
+    this.eFrame.off('click');
+    this.toggleIcon(callback);
+    this.eFrame.removeClass('m-cursor');
     return false;
   }
 
-  _closeFrame(finalClose) {
-    this._eFrame.fadeOut(() => {
-      window.clearInterval(this._refreshPosIntervalID);
+  closeFrame(finalClose) {
+    this.eFrame.fadeOut(() => {
+      window.clearInterval(this.refreshPosIntervalID);
       $(window).off('resize');
-      this._eFrame.remove();
+      this.eFrame.remove();
       if (finalClose === true) {
-        this._port.disconnect();
-        this._pgpEnd.data(mvelo.FRAME_STATUS, null);
+        this.port.disconnect();
+        this.pgpEnd.data(mvelo.FRAME_STATUS, null);
       } else {
-        this._pgpEnd.data(mvelo.FRAME_STATUS, mvelo.FRAME_DETACHED);
+        this.pgpEnd.data(mvelo.FRAME_STATUS, mvelo.FRAME_DETACHED);
       }
-      this._pgpEnd.data(mvelo.FRAME_OBJ, null);
+      this.pgpEnd.data(mvelo.FRAME_OBJ, null);
     });
     return false;
   }
 
-  _toggleIcon(callback) {
-    this._eFrame.one('transitionend', callback);
-    this._eFrame.toggleClass('m-open');
+  toggleIcon(callback) {
+    this.eFrame.one('transitionend', callback);
+    this.eFrame.toggleClass('m-open');
   }
 
-  _setFrameDim() {
-    const pgpElementPos = this._pgpElement.position();
-    this._eFrame.width(this._pgpElement.width() - 2);
-    this._eFrame.height(this._pgpEnd.position().top + this._pgpEnd.height() - pgpElementPos.top - 2);
-    this._eFrame.css('top', pgpElementPos.top + this._pgpElementAttr.marginTop + this._pgpElementAttr.paddingTop);
-    this._eFrame.css('left', pgpElementPos.left + this._pgpElementAttr.marginLeft + this._pgpElementAttr.paddingLeft);
+  setFrameDim() {
+    const pgpElementPos = this.pgpElement.position();
+    this.eFrame.width(this.pgpElement.width() - 2);
+    this.eFrame.height(this.pgpEnd.position().top + this.pgpEnd.height() - pgpElementPos.top - 2);
+    this.eFrame.css('top', pgpElementPos.top + this.pgpElementAttr.marginTop + this.pgpElementAttr.paddingTop);
+    this.eFrame.css('left', pgpElementPos.left + this.pgpElementAttr.marginLeft + this.pgpElementAttr.paddingLeft);
   }
 
-  _establishConnection() {
-    this._port = mvelo.runtime.connect({name: this._ctrlName});
-    //console.log('Port connected: %o', this._port);
-  }
-
-  _getArmoredMessage() {
+  getArmoredMessage() {
     let msg;
     // selection method does not work in Firefox if pre element without linebreaks with <br>
-    if (this._pgpElement.is('pre') && !this._pgpElement.find('br').length) {
-      msg = this._pgpElement.text();
+    if (this.pgpElement.is('pre') && !this.pgpElement.find('br').length) {
+      msg = this.pgpElement.text();
     } else {
-      const element = this._pgpElement.get(0);
+      const element = this.pgpElement.get(0);
       const sel = element.ownerDocument.defaultView.getSelection();
       sel.selectAllChildren(element);
       msg = sel.toString();
@@ -139,27 +137,14 @@ export default class ExtractFrame {
     return msg;
   }
 
-  _getPGPMessage() {
-    let msg = this._getArmoredMessage();
+  getPGPMessage() {
+    let msg = this.getArmoredMessage();
     // additional filtering to get well defined PGP message format
-    msg = mvelo.util.normalizeArmored(msg, this._typeRegex);
+    msg = mvelo.util.normalizeArmored(msg, this.typeRegex);
     return msg;
   }
 
-  _getEmailSender() {
-    return this._currentProvider.getSender(this._pgpElement);
-  }
-
-  _registerEventListener() {
-    this._port.onMessage.addListener(msg => {
-      switch (msg.event) {
-        case 'destroy':
-          this._closeFrame(true);
-          break;
-      }
-    });
-    this._port.onDisconnect.addListener(() => {
-      this._closeFrame(false);
-    });
+  getEmailSender() {
+    return this.currentProvider.getSender(this.pgpElement);
   }
 }

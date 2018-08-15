@@ -16,7 +16,7 @@ import {prefs} from './prefs';
  */
 export default class KeyServer {
   constructor(baseUrl) {
-    this._baseUrl = baseUrl || 'https://keys.mailvelope.com';
+    this.baseUrl = baseUrl || 'https://keys.mailvelope.com';
   }
 
   /**
@@ -35,13 +35,11 @@ export default class KeyServer {
    * @param {string} options.fingerprint   (optional) The 40 char v4 fingerprint
    * @yield {Object}                       The public key object
    */
-  lookup(options) {
-    return window.fetch(this._url(options))
-    .then(response => {
-      if (response.status === 200) {
-        return response.json();
-      }
-    });
+  async lookup(options) {
+    const response = await window.fetch(this.url(options));
+    if (response.status === 200) {
+      return response.json();
+    }
   }
 
   /**
@@ -51,13 +49,13 @@ export default class KeyServer {
    * @param {string} options.publicKeyArmored   The ascii armored key block
    * @yield {undefined}
    */
-  upload({publicKeyArmored}) {
-    return window.fetch(this._url(), {
+  async upload({publicKeyArmored}) {
+    const response = await window.fetch(this.url(), {
       method: 'POST',
       headers: new Headers({'Content-Type': 'application/json'}),
       body: JSON.stringify({publicKeyArmored})
-    })
-    .then(this._checkStatus);
+    });
+    this.checkStatus(response);
   }
 
   /**
@@ -68,11 +66,11 @@ export default class KeyServer {
    * @param {string} options.keyId   (optional) The long 16 char key id
    * @yield {undefined}
    */
-  remove(options) {
-    return window.fetch(this._url(options), {
+  async remove(options) {
+    const response = await window.fetch(this.url(options), {
       method: 'DELETE'
-    })
-    .then(this._checkStatus);
+    });
+    this.checkStatus(response);
   }
 
   /**
@@ -83,8 +81,8 @@ export default class KeyServer {
    * @param  {string} options.fingerprint   (optional) The 40 char v4 fingerprint
    * @return {string}                       The complete request url
    */
-  _url(options) {
-    let url = `${this._baseUrl}/api/v1/key`;
+  url(options) {
+    let url = `${this.baseUrl}/api/v1/key`;
     if (options && options.email) {
       url += `?email=${encodeURIComponent(options.email)}`;
     } else if (options && options.fingerprint) {
@@ -101,7 +99,7 @@ export default class KeyServer {
    * @return {Object|Error}      Either the response object in case of a successful
    *                             request or an Error containing the statusText
    */
-  _checkStatus(response) {
+  checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
       return response;
     } else {
