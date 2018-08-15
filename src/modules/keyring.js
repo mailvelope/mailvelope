@@ -358,6 +358,15 @@ export function getKeyringWithPrivKey(keyIds, keyringId) {
 }
 
 /**
+ * Get preferred keyring
+ * @param  {String} [keyringId] - requested keyring, the leading keyring of a scenario
+ * @return {KeyringBase}
+ */
+export function getPreferredKeyring(keyringId) {
+  return getKeyringWithPrivKey(null, keyringId);
+}
+
+/**
  * Check if provided keyring is created by Mailvelope client-API
  * @param  {String}  keyringId
  * @return {Boolean}
@@ -403,7 +412,8 @@ export async function syncPublicKeys(keyring, keyIds, allKeyrings = false) {
   } else {
     srcKeyrings = getPreferredKeyringQueue(keyring.id);
   }
-  for (const keyId of keyIds) {
+  for (let keyId of keyIds) {
+    keyId = typeof keyId === 'string' ? keyId : keyId.toHex();
     // find newest key in all source keyrings
     let lastModified = null;
     for (const srcKeyring of srcKeyrings) {
