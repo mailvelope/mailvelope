@@ -11,7 +11,7 @@ import * as prefs from './prefs';
 import * as pwdCache from './pwdCache';
 import {randomString, symEncrypt} from './crypto';
 import * as uiLog from './uiLog';
-import {getById as getKeyringById, getKeyringWithPrivKey, syncPublicKeys} from './keyring';
+import {getById as getKeyringById, getKeyringWithPrivKey, syncPublicKeys, getPreferredKeyring} from './keyring';
 import {getUserId, mapKeys} from './key';
 import * as keyringSync from './keyringSync';
 import * as trustKey from './trustKey';
@@ -146,58 +146,30 @@ function logEncryption(source, keyring, keyFprs) {
   }
 }
 
-export function readCleartextMessage(armoredText, keyringId) {
-  const result = {};
+function readCleartextMessage(armoredText) {
   try {
-    result.message = openpgp.cleartext.readArmored(armoredText);
+    return openpgp.cleartext.readArmored(armoredText);
   } catch (e) {
     console.log('openpgp.cleartext.readArmored', e);
-    throw {
-      message: l10n('cleartext_read_error', [e])
-    };
+    throw new mvelo.Error(l10n('cleartext_read_error', [e]), 'VERIFY_ERROR');
   }
-
-  result.signers = [];
-  const signingKeyIds = result.message.getSigningKeyIds();
-  if (signingKeyIds.length === 0) {
-    throw {
-      message: 'No signatures found'
-    };
-  }
-  for (let i = 0; i < signingKeyIds.length; i++) {
-    const signer = {};
-    signer.keyId = signingKeyIds[i].toHex();
-    signer.key = getKeyringById(keyringId).keystore.getKeysForId(signer.keyId, true);
-    signer.key = signer.key ? signer.key[0] : null;
-    if (signer.key) {
-      signer.userId = getUserId(signer.key);
-    }
-    result.signers.push(signer);
-  }
-
-  return result;
 }
 
-export function verifyMessage(message, signers) {
-  return Promise.resolve()
-  .then(() => {
-    const keys = signers.map(signer => signer.key).filter(key => key !== null);
-    return openpgp.verify({message, publicKeys: keys});
-  })
-  .then(({signatures}) => {
-    signers = signers.map(signer => {
-      signer.valid = signer.key && signatures.some(verifiedSig => signer.keyId === verifiedSig.keyid.toHex() && verifiedSig.valid);
-      // remove key object
-      delete signer.key;
-      return signer;
-    });
-    return signers;
-  })
-  .catch(e => {
-    throw {
-      message: l10n('verify_error', [e])
-    };
-  });
+export async function verifyMessage({armored, keyringId}) {
+  try {
+    const message = readCleartextMessage(armored);
+    const signingKeyIds = message.getSigningKeyIds();
+    if (!signingKeyIds.length) {
+      throw new mvelo.Error('No signatures found');
+    }
+    const keyring = getPreferredKeyring(keyringId);
+    await syncPublicKeys(keyring, signingKeyIds);
+    let {data, signatures} = await keyring.getPgpBackend().verify({armored, message, keyring, signingKeyIds});
+    signatures = signatures.map(sig => addSigningKeyDetails(sig, keyring));
+    return {data, signatures};
+  } catch (e) {
+    throw new mvelo.Error(l10n('verify_error', [e]), 'VERIFY_ERROR');
+  }
 }
 
 /**
@@ -383,7 +355,7 @@ function convertChangeLog(key, changeLog, syncData) {
  */
 export async function encryptFile({plainFile, encryptionKeyFprs, armor}) {
   try {
-    const keyring = getKeyringWithPrivKey();
+    const keyring = getPreferredKeyring();
     await syncPublicKeys(keyring, encryptionKeyFprs, true);
     const content = mvelo.util.dataURL2str(plainFile.content);
     const data = mvelo.util.str2Uint8Array(content);

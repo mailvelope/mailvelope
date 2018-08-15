@@ -6,11 +6,13 @@
 import mvelo from '../lib/lib-mvelo';
 import {SubController} from './sub.controller';
 import * as uiLog from '../modules/uiLog';
-import {readCleartextMessage, verifyMessage} from '../modules/pgpModel';
+import {verifyMessage} from '../modules/pgpModel';
+import {getPreferredKeyringId} from '../modules/keyring';
 
 export default class VerifyController extends SubController {
   constructor(port) {
     super(port);
+    this.keyringId = getPreferredKeyringId();
     this.verifyPopup = null;
     // register event handlers
     this.on('verify-inline-init', this.onVerifyInit);
@@ -36,20 +38,16 @@ export default class VerifyController extends SubController {
     });
   }
 
-  onArmoredMessage(msg) {
-    let result;
+  async onArmoredMessage(msg) {
     try {
-      result = readCleartextMessage(msg.data, mvelo.MAIN_KEYRING_ID);
+      const {data, signatures} = await verifyMessage({armored: msg.data, keyringId: this.keyringId});
+      this.ports.vDialog.emit('verified-message', {
+        message: data,
+        signers: signatures
+      });
     } catch (e) {
       this.ports.vDialog.emit('error-message', {error: e.message});
-      return;
     }
-    verifyMessage(result.message, result.signers)
-    .then(verified => this.ports.vDialog.emit('verified-message', {
-      message: result.message.getText(),
-      signers: verified
-    }))
-    .catch(err => this.ports.vDialog.emit('error-message', {error: err.message}));
   }
 
   onCancel() {

@@ -59,6 +59,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     const node = sandbox.contents();
     const header = node.find('header');
     msg.signers.forEach(signer => {
+      signer.userId = signer.keyDetails && signer.keyDetails.userId;
       let type;
       let userId;
       const message = $('<span/>');

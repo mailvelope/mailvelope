@@ -91,3 +91,26 @@ export async function sign({data, keyring, unlockKey, signingKeyFpr}) {
   const result = await openpgp.sign({data, privateKeys: signingKey});
   return result.data;
 }
+
+export async function verify({message, keyring, signingKeyIds}) {
+  const publicKeys = [];
+  for (const keyId of signingKeyIds) {
+    const keys = keyring.keystore.getKeysForId(keyId.toHex(), true);
+    if (keys) {
+      const key = keys[0];
+      publicKeys.push(key);
+    }
+  }
+  let {data, signatures} = await openpgp.verify({message, publicKeys});
+  signatures = signatures.map(signature => {
+    const sig = {};
+    sig.keyId = signature.keyid.toHex();
+    sig.valid = signature.valid;
+    const keys = keyring.keystore.getKeysForId(sig.keyId, true);
+    if (keys) {
+      sig.fingerprint = keys[0].primaryKey.getFingerprint();
+    }
+    return sig;
+  });
+  return {data, signatures};
+}
