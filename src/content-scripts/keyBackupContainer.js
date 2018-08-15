@@ -18,8 +18,7 @@ export default class KeyBackupContainer {
     this.keyringId = keyringId;
     this.options = options;
     this.id = mvelo.util.getHash();
-    this.name = `keyBackupCont-${this.id}`;
-    this.port = mvelo.runtime.connect({name: this.name});
+    this.port = mvelo.EventHandler.connect(`keyBackupCont-${this.id}`, this);
     this.registerEventListener();
     this.parent = null;
     this.container = null;
@@ -31,52 +30,37 @@ export default class KeyBackupContainer {
   /**
    * Create an iframe
    * @param {function} done - callback function
-   * @returns {mvelo.KeyBackupContainer}
    */
   create(done) {
     const url = mvelo.runtime.getURL(`components/key-backup/keyBackupDialog.html?id=${this.id}`);
-
     this.done = done;
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');
-
-    this.port.postMessage({
-      event: 'set-keybackup-window-props',
-      sender: this.name,
+    this.port.emit('set-keybackup-window-props', {
       host,
       keyringId: this.keyringId,
       initialSetup: (this.options.initialSetup === undefined) ? true : this.options.initialSetup
     });
-
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);
     this.container.setAttribute('scrolling', 'no');
     this.container.style.width = '100%';
     this.container.style.height = '100%';
     this.parent.appendChild(this.container);
-    return this;
+  }
+
+  registerEventListener() {
+    this.port.on('popup-isready', this.onPopupReady);
+    this.port.on('dialog-done', () => this.done(null, this.id));
+  }
+
+  onPopupReady({error}) {
+    if (this.popupDone) {
+      this.popupDone(error);
+    }
   }
 
   keyBackupDone(done) {
     this.popupDone = done;
-    return this;
-  }
-
-  registerEventListener() {
-    this.port.onMessage.addListener(msg => {
-      switch (msg.event) {
-        case 'popup-isready':
-          if (this.popupDone) {
-            this.popupDone(msg.error);
-          }
-          break;
-        case 'dialog-done':
-          this.done(null, this.id);
-          break;
-        default:
-          console.log('unknown event', msg);
-      }
-    });
-    return this;
   }
 }

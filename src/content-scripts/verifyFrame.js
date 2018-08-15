@@ -11,120 +11,104 @@ import {prefs} from './main';
 export default class VerifyFrame extends ExtractFrame {
   constructor() {
     super();
-    this._vDialog = null;
+    this.vDialog = null;
     // verify popup active
-    this._vPopup = false;
-    this._ctrlName = `vFrame-${this.id}`;
-    this._typeRegex = /-----BEGIN PGP SIGNED MESSAGE-----[\s\S]+?-----END PGP SIGNATURE-----/;
-    this._pgpStartRegex = /BEGIN\sPGP\sSIGNED/;
-    this._sigHeight = 128;
+    this.vPopup = false;
+    this.ctrlName = `vFrame-${this.id}`;
+    this.typeRegex = /-----BEGIN PGP SIGNED MESSAGE-----[\s\S]+?-----END PGP SIGNATURE-----/;
+    this.pgpStartRegex = /BEGIN\sPGP\sSIGNED/;
+    this.sigHeight = 128;
   }
 
-  _init(pgpEnd) {
-    super._init(pgpEnd);
-    this._calcSignatureHeight();
+  init(pgpEnd) {
+    super.init(pgpEnd);
+    this.calcSignatureHeight();
   }
 
-  _renderFrame() {
-    super._renderFrame();
-    this._eFrame.addClass('m-verify');
-    this._eFrame.removeClass('m-large');
+  renderFrame() {
+    super.renderFrame();
+    this.eFrame.addClass('m-verify');
+    this.eFrame.removeClass('m-large');
   }
 
-  _calcSignatureHeight() {
-    let msg = this._getArmoredMessage();
+  registerEventListener() {
+    super.registerEventListener();
+    this.port.on('remove-dialog', this.removeDialog);
+    this.port.on('armored-message', () => this.port.emit('vframe-armored-message', {data: this.getArmoredMessage()}));
+  }
+
+  calcSignatureHeight() {
+    let msg = this.getArmoredMessage();
     msg = msg.split('\n');
     for (let i = 0; i < msg.length; i++) {
       if (/-----BEGIN\sPGP\sSIGNATURE-----/.test(msg[i])) {
-        const height = this._pgpEnd.position().top + this._pgpEnd.height() - this._pgpElement.position().top - 2;
-        this._sigHeight = parseInt(height / msg.length * (msg.length - i), 10);
+        const height = this.pgpEnd.position().top + this.pgpEnd.height() - this.pgpElement.position().top - 2;
+        this.sigHeight = parseInt(height / msg.length * (msg.length - i), 10);
         break;
       }
     }
   }
 
-  _clickHandler() {
-    super._clickHandler();
+  clickHandler() {
+    super.clickHandler();
     if (prefs.security.display_decrypted == mvelo.DISPLAY_INLINE) {
-      this._inlineDialog();
+      this.inlineDialog();
     } else if (prefs.security.display_decrypted == mvelo.DISPLAY_POPUP) {
-      this._popupDialog();
+      this.popupDialog();
     }
     return false;
   }
 
-  _inlineDialog() {
-    this._vDialog = $('<iframe/>', {
+  inlineDialog() {
+    this.vDialog = $('<iframe/>', {
       id: `vDialog-${this.id}`,
       'class': 'm-frame-dialog',
       frameBorder: 0,
       scrolling: 'no'
     });
     const url = mvelo.runtime.getURL(`components/verify-inline/verifyInline.html?id=${this.id}`);
-    this._vDialog.attr('src', url);
-    this._eFrame.append(this._vDialog);
-    this._setFrameDim();
-    this._vDialog.fadeIn();
+    this.vDialog.attr('src', url);
+    this.eFrame.append(this.vDialog);
+    this.setFrameDim();
+    this.vDialog.fadeIn();
   }
 
-  _popupDialog() {
-    this._port.postMessage({
-      event: 'vframe-display-popup',
-      sender: this._ctrlName
-    });
-    this._vPopup = true;
+  popupDialog() {
+    this.port.emit('vframe-display-popup');
+    this.vPopup = true;
   }
 
-  _removeDialog() {
+  removeDialog() {
     // check if dialog is active
-    if (!this._vDialog && !this._vPopup) {
+    if (!this.vDialog && !this.vPopup) {
       return;
     }
     if (prefs.security.display_decrypted === mvelo.DISPLAY_INLINE) {
-      this._vDialog.fadeOut();
+      this.vDialog.fadeOut();
       // removal triggers disconnect event
-      this._vDialog.remove();
-      this._vDialog = null;
+      this.vDialog.remove();
+      this.vDialog = null;
     } else {
-      this._vPopup = false;
+      this.vPopup = false;
     }
-    this._eFrame.addClass('m-cursor');
-    this._eFrame.removeClass('m-open');
-    this._eFrame.on('click', this._clickHandler.bind(this));
+    this.eFrame.addClass('m-cursor');
+    this.eFrame.removeClass('m-open');
+    this.eFrame.on('click', this.clickHandler.bind(this));
   }
 
-  _setFrameDim() {
-    const pgpElementPos = this._pgpElement.position();
-    this._eFrame.width(this._pgpElement.width() - 2);
-    const height = this._pgpEnd.position().top + this._pgpEnd.height() - pgpElementPos.top - 2;
-    const top = pgpElementPos.top + this._pgpElementAttr.marginTop + this._pgpElementAttr.paddingTop;
-    const left = pgpElementPos.left + this._pgpElementAttr.marginLeft + this._pgpElementAttr.paddingLeft;
-    this._eFrame.css('left', left);
-    if (this._vDialog) {
-      this._eFrame.height(height);
-      this._eFrame.css('top', top);
+  setFrameDim() {
+    const pgpElementPos = this.pgpElement.position();
+    this.eFrame.width(this.pgpElement.width() - 2);
+    const height = this.pgpEnd.position().top + this.pgpEnd.height() - pgpElementPos.top - 2;
+    const top = pgpElementPos.top + this.pgpElementAttr.marginTop + this.pgpElementAttr.paddingTop;
+    const left = pgpElementPos.left + this.pgpElementAttr.marginLeft + this.pgpElementAttr.paddingLeft;
+    this.eFrame.css('left', left);
+    if (this.vDialog) {
+      this.eFrame.height(height);
+      this.eFrame.css('top', top);
     } else {
-      this._eFrame.height(this._sigHeight);
-      this._eFrame.css('top', top + height - this._sigHeight);
+      this.eFrame.height(this.sigHeight);
+      this.eFrame.css('top', top + height - this.sigHeight);
     }
-  }
-
-  _registerEventListener() {
-    super._registerEventListener();
-    this._port.onMessage.addListener(msg => {
-      //console.log('dFrame-%s event %s received', that.id, msg.event);
-      switch (msg.event) {
-        case 'remove-dialog':
-          this._removeDialog();
-          break;
-        case 'armored-message':
-          this._port.postMessage({
-            event: 'vframe-armored-message',
-            data: this._getArmoredMessage(),
-            sender: this._ctrlName
-          });
-          break;
-      }
-    });
   }
 }

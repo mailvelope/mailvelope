@@ -17,8 +17,7 @@ export default class KeyGenContainer {
     this.keyringId = keyringId;
     this.options = options;
     this.id = mvelo.util.getHash();
-    this.name = `keyGenCont-${this.id}`;
-    this.port = mvelo.runtime.connect({name: this.name});
+    this.port = mvelo.EventHandler.connect(`keyGenCont-${this.id}`, this);
     this.registerEventListener();
     this.parent = null;
     this.container = null;
@@ -45,57 +44,32 @@ export default class KeyGenContainer {
       this.parent.removeChild(this.parent.firstChild);
     }
     this.parent.appendChild(this.container);
-    return this;
+  }
+
+  registerEventListener() {
+    this.port.on('generate-done', ({error, publicKey}) => this.generateCallback(error, publicKey));
+    this.port.on('dialog-done', () => this.done(null, this.id));
   }
 
   /**
    * Generate a key pair and check if the inputs are correct
    * @param {boolean} confirmRequired - generated key only valid after confirm
    * @param {function} generateCallback - callback function
-   * @returns {mvelo.KeyGenContainer}
    */
   generate(confirmRequired, generateCallback) {
     this.generateCallback = generateCallback;
     this.options.confirmRequired = confirmRequired;
-    this.port.postMessage({
-      event: 'generate-key',
-      sender: this.name,
+    this.port.emit('generate-key', {
       keyringId: this.keyringId,
       options: this.options
     });
-    return this;
   }
 
   confirm() {
-    this.port.postMessage({
-      event: 'generate-confirm',
-      sender: this.name,
-    });
+    this.port.emit('generate-confirm');
   }
 
   reject() {
-    this.port.postMessage({
-      event: 'generate-reject',
-      sender: this.name,
-    });
-  }
-
-  /**
-   * @returns {KeyGenContainer}
-   */
-  registerEventListener() {
-    this.port.onMessage.addListener(msg => {
-      switch (msg.event) {
-        case 'generate-done':
-          this.generateCallback(msg.error, msg.publicKey);
-          break;
-        case 'dialog-done':
-          this.done(null, this.id);
-          break;
-        default:
-          console.log('unknown event', msg);
-      }
-    });
-    return this;
+    this.port.emit('generate-reject');
   }
 }

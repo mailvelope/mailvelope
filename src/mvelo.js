@@ -500,6 +500,12 @@ mvelo.EventHandler = class {
     }
   }
 
+  get onDisconnect() {
+    const obj = {};
+    obj.addListener = listener => this._port.onDisconnect.addListener(listener);
+    return obj;
+  }
+
   /**
    * Generic port message handler that can be attached via port.onMessage.addListener().
    * Once set up, events can be handled with on('event', function(options) {})

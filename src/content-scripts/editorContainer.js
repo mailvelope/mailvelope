@@ -12,8 +12,7 @@ export default class EditorContainer {
     this.keyringId = keyringId;
     this.options = options;
     this.id = mvelo.util.getHash();
-    this.name = `editorCont-${this.id}`;
-    this.port = mvelo.runtime.connect({name: this.name});
+    this.port = mvelo.EventHandler.connect(`editorCont-${this.id}`, this);
     this.registerEventListener();
     this.parent = null;
     this.container = null;
@@ -39,11 +38,41 @@ export default class EditorContainer {
     this.parent.appendChild(this.container);
   }
 
+  registerEventListener() {
+    this.port.on('editor-ready', () => this.done(this.options && this.processOptions(), this.id));
+    this.port.on('destroy', this.onDestroy);
+    this.port.on('error-message', this.onError);
+    this.port.on('encrypted-message', this.onEncryptedMessage);
+  }
+
+  onDestroy() {
+    this.parent.removeChild(this.container);
+    this.port.disconnect();
+  }
+
+  onError({error}) {
+    if (this.encryptCallback) {
+      this.encryptCallback(error);
+      this.encryptCallback = null;
+    } else if (this.createDraftCallback) {
+      this.createDraftCallback(error);
+      this.createDraftCallback = null;
+    }
+  }
+
+  onEncryptedMessage({message}) {
+    if (this.encryptCallback) {
+      this.encryptCallback(null, message);
+      this.encryptCallback = null;
+    } else if (this.createDraftCallback) {
+      this.createDraftCallback(null, message);
+      this.createDraftCallback = null;
+    }
+  }
+
   encrypt(recipients, callback) {
     this.checkInProgress();
-    this.port.postMessage({
-      event: 'editor-container-encrypt',
-      sender: this.name,
+    this.port.emit('editor-container-encrypt', {
       keyringId: this.keyringId,
       recipients
     });
@@ -52,11 +81,7 @@ export default class EditorContainer {
 
   createDraft(callback) {
     this.checkInProgress();
-    this.port.postMessage({
-      event: 'editor-container-create-draft',
-      sender: this.name,
-      keyringId: this.keyringId
-    });
+    this.port.emit('editor-container-create-draft', {keyringId: this.keyringId});
     this.createDraftCallback = callback;
   }
 
@@ -75,46 +100,9 @@ export default class EditorContainer {
                                       this.options.quotedMailIndent || this.options.quotedMailHeader)) {
       return new mvelo.Error('armoredDraft parameter cannot be combined with parameters: predefinedText, quotedMail, quotedMailIndent, quotedMailHeader.', 'INVALID_OPTIONS');
     }
-
-    this.port.postMessage({
-      event: 'editor-options',
-      sender: this.name,
+    this.port.emit('editor-options', {
       keyringId: this.keyringId,
       options: this.options
-    });
-  }
-
-  registerEventListener() {
-    this.port.onMessage.addListener(msg => {
-      switch (msg.event) {
-        case 'editor-ready':
-          this.done(this.options && this.processOptions(), this.id);
-          break;
-        case 'destroy':
-          this.parent.removeChild(this.container);
-          this.port.disconnect();
-          break;
-        case 'error-message':
-          if (this.encryptCallback) {
-            this.encryptCallback(msg.error);
-            this.encryptCallback = null;
-          } else if (this.createDraftCallback) {
-            this.createDraftCallback(msg.error);
-            this.createDraftCallback = null;
-          }
-          break;
-        case 'encrypted-message':
-          if (this.encryptCallback) {
-            this.encryptCallback(null, msg.message);
-            this.encryptCallback = null;
-          } else if (this.createDraftCallback) {
-            this.createDraftCallback(null, msg.message);
-            this.createDraftCallback = null;
-          }
-          break;
-        default:
-          console.log('unknown event', msg);
-      }
     });
   }
 }

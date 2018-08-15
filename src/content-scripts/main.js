@@ -16,7 +16,6 @@ import EncryptFrame from './encryptFrame';
 const SCAN_LOOP_INTERVAL = 2500; // ms
 const PGP_FOOTER = /END\sPGP/;
 const MIN_EDIT_HEIGHT = 84;
-const NAME = `mainCS-${mvelo.util.getHash()}`;
 
 let intervalID = 0;
 //let contextTarget = null;
@@ -34,9 +33,9 @@ function connect() {
   if (document.mveloControl) {
     return;
   }
-  port = mvelo.runtime.connect({name: NAME});
-  addMessageListener();
-  port.postMessage({event: 'ready', sender: NAME});
+  port = mvelo.EventHandler.connect(`mainCS-${mvelo.util.getHash()}`);
+  registerEventListener();
+  port.emit('ready');
   //initContextMenu();
   document.mveloControl = true;
 }
@@ -59,6 +58,18 @@ function init(preferences, watchlist) {
   currentProvider = providers.get(host);
   // turn on scan loop
   on();
+}
+
+function registerEventListener() {
+  port.on('destroy', onDestroy);
+  port.on('init', ({prefs, watchList}) => init(prefs, watchList));
+  port.on('set-prefs', msg => prefs = msg.prefs);
+  port.onDisconnect.addListener(off);
+}
+
+function onDestroy() {
+  off();
+  port.disconnect();
 }
 
 function detectHost() {
@@ -274,42 +285,6 @@ function attachEncryptFrame(element, expanded) {
   newObj.each((index, element) => {
     const eFrame = new EncryptFrame();
     eFrame.attachTo($(element), {expanded});
-  });
-}
-
-function addMessageListener() {
-  port.onMessage.addListener(
-    request => {
-      //console.log('contentscript: %s onRequest: %o', document.location.toString(), request);
-      if (request.event === undefined) {
-        return;
-      }
-      switch (request.event) {
-        case 'destroy':
-          off();
-          port.disconnect();
-          break;
-        /*
-        case 'context-encrypt':
-          if (contextTarget !== null) {
-            attachEncryptFrame(contextTarget, true);
-            contextTarget = null;
-          }
-          break;
-        */
-        case 'init':
-          init(request.prefs, request.watchList);
-          break;
-        case 'set-prefs':
-          prefs = request.prefs;
-          break;
-        default:
-          console.log('unknown event');
-      }
-    }
-  );
-  port.onDisconnect.addListener(() => {
-    off();
   });
 }
 

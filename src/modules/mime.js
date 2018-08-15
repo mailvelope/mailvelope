@@ -33,7 +33,7 @@ function parseMIME(rawText, handlers, encoding) {
         if (encoding === 'html') {
           filterBodyParts(parsed, 'html', htmlParts);
           if (htmlParts.length) {
-            const sanitized = mvelo.util.parseHTML(htmlParts.map(part => part.content).join('\n<hr>\n'));
+            const sanitized = mvelo.util.sanitizeHTML(htmlParts.map(part => part.content).join('\n<hr>\n'));
             handlers.onMessage(sanitized);
           } else {
             filterBodyParts(parsed, 'text', textParts);
@@ -72,7 +72,7 @@ async function parseInline(rawText, handlers, encoding) {
   if (/(<\/a>|<br>|<\/div>|<\/p>|<\/b>|<\/u>|<\/i>|<\/ul>|<\/li>)/.test(rawText)) {
     // legacy html mode
     if (encoding === 'html') {
-      const sanitized = mvelo.util.parseHTML(rawText);
+      const sanitized = mvelo.util.sanitizeHTML(rawText);
       handlers.onMessage(sanitized);
     } else if (encoding === 'text') {
       handlers.onMessage(mvelo.util.html2text(rawText));

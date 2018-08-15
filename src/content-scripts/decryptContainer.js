@@ -11,8 +11,7 @@ export default class DecryptContainer {
     this.keyringId = keyringId;
     this.options = options;
     this.id = mvelo.util.getHash();
-    this.name = `decryptCont-${this.id}`;
-    this.port = mvelo.runtime.connect({name: this.name});
+    this.port = mvelo.EventHandler.connect(`decryptCont-${this.id}`, this);
     this.registerEventListener();
     this.parent = null;
     this.container = null;
@@ -35,35 +34,31 @@ export default class DecryptContainer {
   }
 
   registerEventListener() {
-    this.port.onMessage.addListener(msg => {
-      switch (msg.event) {
-        case 'destroy':
-          this.parent.removeChild(this.container);
-          this.port.disconnect();
-          break;
-        case 'error-message':
-          if (msg.error.code) {
-            // error with error code is not handled as an exception
-            this.done(null, {error: msg.error});
-          } else {
-            this.done(msg.error);
-          }
-          break;
-        case 'get-armored':
-          this.port.postMessage({
-            event: 'set-armored',
-            data: this.armored,
-            keyringId: this.keyringId,
-            options: this.options,
-            sender: this.name
-          });
-          break;
-        case 'decrypt-done':
-          this.done(null, {});
-          break;
-        default:
-          console.log('unknown event', msg);
-      }
+    this.port.on('destroy', this.onDestroy);
+    this.port.on('error-message', this.onError);
+    this.port.on('get-armored', this.onArmored);
+    this.port.on('decrypt-done', () => this.done(null, {}));
+  }
+
+  onDestroy() {
+    this.parent.removeChild(this.container);
+    this.port.disconnect();
+  }
+
+  onError({error}) {
+    if (error.code) {
+      // error with error code is not handled as an exception
+      this.done(null, {error});
+    } else {
+      this.done(error);
+    }
+  }
+
+  onArmored() {
+    this.port.emit('set-armored', {
+      data: this.armored,
+      keyringId: this.keyringId,
+      options: this.options
     });
   }
 }

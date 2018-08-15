@@ -15,31 +15,21 @@ export default class SyncHandler {
   constructor(keyringId) {
     this.keyringId = keyringId;
     this.id = mvelo.util.getHash();
-    this.name = `syncHandler-${this.id}`;
-    this.port = mvelo.runtime.connect({name: this.name});
+    this.port = mvelo.EventHandler.connect(`syncHandler-${this.id}`, this);
     this.registerEventListener();
-
-    this.port.postMessage({event: 'init', sender: this.name, keyringId: this.keyringId});
+    this.port.emit('init', {keyringId: this.keyringId});
   }
 
   syncDone(data) {
     //console.log('mvelo.SyncHandler.prototype.restoreDone()', restoreBackup);
-    this.port.postMessage({event: 'sync-done', sender: this.name, data});
+    this.port.emit('sync-done', {data});
   }
 
   /**
    * @returns {mvelo.SyncHandler}
    */
   registerEventListener() {
-    this.port.onMessage.addListener(msg => {
-      switch (msg.event) {
-        case 'sync-event':
-          postMessage('sync-event', null, msg, null);
-          break;
-        default:
-          console.log('unknown event', msg);
-      }
-    });
+    this.port.on('sync-event', msg => postMessage('sync-event', null, msg, null));
     // workaround for https://bugs.chromium.org/p/chromium/issues/detail?id=655932
     window.addEventListener('beforeunload', () => {
       this.port.disconnect();
