@@ -54,7 +54,7 @@ export default class Editor extends React.Component {
       defaultPlainText: '',
       publicKeys: [],
       recipients: [],
-      tofu: true,
+      autoLocate: true,
       encryptDisabled: true,
       waiting: false,
       error: null,
@@ -118,10 +118,10 @@ export default class Editor extends React.Component {
    * Remember the available public keys for later and set the recipients proposal gotten from the webmail ui to the editor
    * @param {Array} options.keys         A list of all available public keys from the local keychain
    * @param {Array} options.recipients   recipients gather from the webmail ui
-   * @param {boolean} options.tofu       If the editor should to TOFU key lookup
+   * @param {boolean} options.autoLocate If the editor should try to auto-locate the key
    */
-  onPublicKeyUserids({tofu, keys, recipients}) {
-    this.setState({tofu, publicKeys: keys, recipients});
+  onPublicKeyUserids({autoLocate, keys, recipients}) {
+    this.setState({autoLocate, publicKeys: keys, recipients});
   }
 
   /**
@@ -333,9 +333,9 @@ export default class Editor extends React.Component {
           </div>
           { this.props.recipientInput &&
             <div className="editor-recipients">
-              <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients} tofu={this.state.tofu} encryptDisabled={this.state.encryptDisabled}
+              <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients} autoLocate={this.state.autoLocate} encryptDisabled={this.state.encryptDisabled}
                 onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
-                onLookupKeyOnServer={recipient => this.port.emit('keyserver-lookup', {recipient})}
+                onAutoLocate={recipient => this.port.emit('auto-locate', {recipient})}
               />
             </div>
           }

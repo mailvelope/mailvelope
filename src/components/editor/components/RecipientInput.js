@@ -104,10 +104,10 @@ export class RecipientInput extends React.Component {
 RecipientInput.propTypes = {
   keys: PropTypes.array,
   recipients: PropTypes.array,
-  tofu: PropTypes.bool,
+  autoLocate: PropTypes.bool,
   encryptDisabled: PropTypes.bool,
   onChangeEncryptStatus: PropTypes.func,
-  onLookupKeyOnServer: PropTypes.func
+  onAutoLocate: PropTypes.func
 };
 
 /**
@@ -145,14 +145,15 @@ export class RecipientInputCtrl {
     }
     // lookup key in local cache
     recipient.key = this.getKey(recipient);
-    if (recipient.key || recipient.checkedServer || !_props.tofu) {
+
+    if (recipient.key || recipient.checkedServer || !_props.autoLocate) {
       // color tag only if a local key was found, or after server lookup,
-      // or if TOFU (Trust on First Use) is deactivated
+      // or if auto-locate is deactivated
       this.colorTag(recipient);
       this.checkEncryptStatus();
     } else {
       // no local key found ... lookup on the server
-      this.lookupKeyOnServer(recipient);
+      this.autoLocate(recipient);
     }
   }
 
@@ -203,14 +204,14 @@ export class RecipientInputCtrl {
   }
 
   /**
-   * Do TOFU (trust on first use) lookup on the Mailvelope Key Server
+   * Do a search with the autoLocate module
    * if a key was not found in the local keyring.
    * @param  {Object} recipient   The recipient object
    * @return {undefined}
    */
-  lookupKeyOnServer(recipient) {
+  autoLocate(recipient) {
     recipient.checkedServer = true;
-    _props.onLookupKeyOnServer(recipient);
+    _props.onAutoLocate(recipient);
   }
 
   /**
