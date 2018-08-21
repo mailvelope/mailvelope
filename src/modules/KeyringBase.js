@@ -233,7 +233,7 @@ export default class KeyringBase {
 
   /**
    * Return first private key that matches keyIds
-   * @param  {Array<openpgp.Keyid|String>|openpgp.Keyid|String}  keyIds or fingerprints
+   * @param  {Array<openpgp.Keyid|String>|openpgp.Keyid|String} keyIds - keyIds or fingerprints
    * @return {openpgp.key.Key|null}
    */
   getPrivateKeyByIds(keyIds) {
@@ -300,13 +300,13 @@ export default class KeyringBase {
   /**
    * Generate a new PGP keypair and optionally upload the public key to the
    * key server.
-   * @param {number}  options.numBits           The keysize in bits
-   * @param {Array}   options.userIds           Email addresses and names
-   * @param {string}  options.passphrase        To protect the private key on disk
-   * @param {boolean} options.uploadPublicKey   If upload to key server is desired
-   * @param {Number}  options.keyExpirationTime The number of seconds after the key creation time that the key expires
-   * @param {Boolean} options.unlocked          Returned secret part of the generated key is unlocked
-   * @yield {Object}                            The generated key pair
+   * @param {number} options.numBits - the keysize in bits
+   * @param {Array} options.userIds - email addresses and names
+   * @param {string} options.passphrase - to protect the private key on disk
+   * @param {boolean} options.uploadPublicKey - if upload to key server is desired
+   * @param {Number} options.keyExpirationTime - the number of seconds after the key creation time that the key expires
+   * @param {Boolean} options.unlocked - returned secret part of the generated key is unlocked
+   * @yield {Object} - the generated key pair
    */
   async generateKey({numBits, userIds, passphrase, uploadPublicKey, keyExpirationTime, unlocked = false}) {
     userIds = userIds.map(userId => {

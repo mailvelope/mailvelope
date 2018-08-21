@@ -607,6 +607,10 @@
     "description": "Info message.",
     "message": "Please insert one or multiple keys in text format here."
   },
+  "key_import_number_of_failed": {
+    "description": "Error message with number of failed imports.",
+    "message": "Number of keys that could not be imported due to errors: $1"
+  },
   "key_import_private_exists": {
     "description": "Import success message: $1: keyid, $2: userid.",
     "message": "Private key part matching existing public key $1 of user $2 imported into keyring"

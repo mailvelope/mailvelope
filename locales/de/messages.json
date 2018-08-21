@@ -607,6 +607,10 @@
     "message": "Bitte einen oder mehrere Schlüssel im Textformat hier einfügen.",
     "description": "Info message."
   },
+  "key_import_number_of_failed": {
+    "description": "Error message with number of failed imports.",
+    "message": "Anzahl der Schlüssel die wegen einem Fehler nicht importiert werden konnten: $1"
+  },
   "key_import_private_exists": {
     "message": "Der private Teilschlüssel des bestehenden öffentlichen Schlüssels $1 des Benutzers $2 wurde in den Schlüsselbund importiert",
     "description": "Import success message: $1: keyid, $2: userid."

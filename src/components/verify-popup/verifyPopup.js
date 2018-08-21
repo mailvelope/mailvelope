@@ -64,7 +64,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       let userId;
       const message = $('<span/>');
       const keyId = $('<span/>');
-      keyId.text(`(${l10n.dialog_keyid_label} ${signer.keyId.toUpperCase()})`);
+      keyId.text(`(${l10n.dialog_keyid_label} ${(signer.keyId || signer.fingerprint).toUpperCase()})`);
       if (signer.userId) {
         userId = $('<strong/>');
         userId.text(signer.userId);
