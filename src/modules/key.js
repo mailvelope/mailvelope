@@ -300,3 +300,26 @@ export function toPublic(key) {
   }
   return key.toPublic();
 }
+
+/**
+ * Filter out any User IDs that do not have the email provided.
+ * @param {openpgp.key.Key}  key    The key to filter
+ * @param {String}           email  The email of userIds to keep
+ *
+ * @return {openpgp.key.Key} The key with only matching userIds
+ */
+export function filterUserIdsByEmail(key, email) {
+  const keptUsers = [];
+
+  for (const user of key.users) {
+    const userMapped = {userId: user.userId.userid};
+    mapKeyUserIds(userMapped);
+    if (userMapped.email.toLowerCase() === email.toLowerCase()) {
+      keptUsers.push(user);
+    }
+  }
+
+  const ret = key;
+  ret.users = keptUsers;
+  return ret;
+}

@@ -9,9 +9,7 @@ import {goog} from './closure-library/closure/goog/emailaddress';
 import {getKeyringAttr} from './keyring';
 import {mapKeys, mapSubKeys, mapUsers, mapKeyUserIds, getUserId, isValidEncryptionKey, sortKeysByCreationDate} from './key';
 import * as trustKey from './trustKey';
-import KeyServer from './keyserver';
-
-const keyServer = new KeyServer();
+import {upload as mveloKeyServerUpload} from './mveloKeyServer';
 
 export default class KeyringBase {
   constructor(keyringId, keyStore) {
@@ -304,8 +302,10 @@ export default class KeyringBase {
     const newKey = await this.keystore.generateKey({userIds, passphrase, numBits: parseInt(numBits), keyExpirationTime, unlocked});
     this.keystore.privateKeys.push(newKey.key);
     // upload public key
+    // Currently only the mailvelope keyserver is supported but Web Key Service
+    // publishing could also happen at this point.
     if (uploadPublicKey) {
-      await keyServer.upload({publicKeyArmored: newKey.publicKeyArmored});
+      await mveloKeyServerUpload({publicKeyArmored: newKey.publicKeyArmored});
     }
     return newKey;
   }
