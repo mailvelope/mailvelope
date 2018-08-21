@@ -67,6 +67,5 @@ async function openInstallLandingPage() {
  * Check for GPGME installation and connect
  */
 async function initGpgme() {
-  // TODO
-  gpgme = gpgmejs.init ? null : {};
+  gpgme = await gpgmejs.init();
 }

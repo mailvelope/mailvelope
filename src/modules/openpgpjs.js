@@ -57,24 +57,28 @@ export async function decrypt({message, keyring, senderAddress, selfSigned, encr
 
 /**
  * Encrypt message
- * @param  {String} options.data - data to be encrypted as native JavaScript string
+ * @param  {String} options.dataURL - data to be encrypted as dataURL
  * @param  {KeyringBase} options.keyring - keyring used for encryption
  * @param  {Function} options.unlockKey - callback that unlocks private key
  * @param  {Array<String>} options.encryptionKeyFprs - array of fingerprints used for encryption
  * @param  {String} options.signingKeyFpr - fingerprint of signing key
  * @param  {String} [filename]
- * @param {Boolean} [armor = true] - request the output as armored block
+ * @param {Boolean} [armor] - request the output as armored block
  * @return {String|Uint8Array}
  */
-export async function encrypt({data, keyring, unlockKey, encryptionKeyFprs, signingKeyFpr, filename, armor = true}) {
+export async function encrypt({data, dataURL, keyring, unlockKey, encryptionKeyFprs, signingKeyFpr, filename, armor}) {
   let signingKey;
+  if (dataURL) {
+    const content = mvelo.util.dataURL2str(dataURL);
+    data = mvelo.util.str2Uint8Array(content);
+  }
   if (signingKeyFpr) {
     signingKey = keyring.getPrivateKeyByIds(signingKeyFpr);
     signingKey = await unlockKey({key: signingKey});
   }
   const keys = keyring.getKeysByFprs(encryptionKeyFprs);
   const result = await openpgp.encrypt({data, publicKeys: keys, privateKeys: signingKey, filename, armor});
-  return armor ? result.data : result.message.packets.write();
+  return armor ? result.data : mvelo.util.Uint8Array2str(result.message.packets.write());
 }
 
 /**
@@ -92,6 +96,13 @@ export async function sign({data, keyring, unlockKey, signingKeyFpr}) {
   return result.data;
 }
 
+/**
+ * Verify message
+ * @param  {openpgp.message.Message} options.message - message to be verified
+ * @param  {KeyringBase} options.keyring - keyring used for verification
+ * @param  {Array<String>} options.signingKeyIds - fingerprints of signing keys
+ * @return {{data: String, signatures: Array<{keyId: String, fingerprint: String, valid: Boolean}>}}
+ */
 export async function verify({message, keyring, signingKeyIds}) {
   const publicKeys = [];
   for (const keyId of signingKeyIds) {

@@ -20,22 +20,36 @@ export default class KeyringGPG extends KeyringBase {
    */
   async importKeys(armoredKeys) {
     armoredKeys = armoredKeys.map(key => key.armored).join('\n');
-    const importResult = await this.keystore.importKeys(armoredKeys);
-    const importPromises = importResult.map(async imported => {
-      if (imported.error) {
-        console.log('Error on key import in GnuPG', imported.error);
-        return {type: 'error', message: l10n(imported.key.secret ? 'key_import_private_read' : 'key_import_public_read', [imported.error.message])};
-      }
+    const {Keys, summary} = await this.keystore.importKeys(armoredKeys);
+    const importedFprs = [];
+    const result = Keys.map(({key, status}) => {
+      const fingerprint = key.fingerprint;
+      importedFprs.push(fingerprint);
       // import successful, remove existing keys with this fingerprint
-      this.keystore.removeKeysForId(imported.key.fingerprint);
-      this.keystore.addKey(imported.key.armor);
-      // TODO: success message
+      this.keystore.removeKeysForId(fingerprint.toLowerCase());
+      const userId = key.get('userids')[0].get('uid');
+      return {
+        type: 'success',
+        message: l10n(status === 'newkey' ? 'key_import_public_success' : 'key_import_public_update', [fingerprint, userId])
+      };
     });
-    return Promise.all(importPromises);
+    const failed = summary.considered - Keys.length;
+    if (failed) {
+      result.push({
+        type: 'error',
+        message: l10n('key_import_number_of_failed', [failed])
+      });
+    }
+    // re-add successfully imported keys
+    await this.keystore.addPublicKeys(importedFprs);
+    return result;
   }
 
   async removeKey(fingerprint, type) {
-    await this.keystore.removeKey(fingerprint, type);
+    if (type === 'private') {
+      throw new mvelo.Error('Removal of private keys not supported in GPG Keyring', 'GPG_NOT_SUPPORTED');
+    }
+    await this.keystore.removeKey(fingerprint);
     super.removeKey(fingerprint, type);
   }
 }

@@ -46,13 +46,18 @@ export async function decryptMessage({armored, keyringId, unlockKey, senderAddre
   if (!keyring) {
     throw noKeyFoundError(encryptionKeyIds);
   }
-  let {data, signatures} = await keyring.getPgpBackend().decrypt({armored, message, keyring, unlockKey, senderAddress, selfSigned, encryptionKeyIds});
-  // collect fingerprints or keyIds of signatures
-  const sigKeyIds = signatures.map(sig => sig.fingerprint || sig.keyId);
-  // sync public keys for the signatures
-  await syncPublicKeys(keyring, sigKeyIds);
-  signatures = signatures.map(sig => addSigningKeyDetails(sig, keyring));
-  return {data, signatures};
+  try {
+    let {data, signatures} = await keyring.getPgpBackend().decrypt({armored, message, keyring, unlockKey, senderAddress, selfSigned, encryptionKeyIds});
+    // collect fingerprints or keyIds of signatures
+    const sigKeyIds = signatures.map(sig => sig.fingerprint || sig.keyId);
+    // sync public keys for the signatures
+    await syncPublicKeys(keyring, sigKeyIds);
+    signatures = signatures.map(sig => addSigningKeyDetails(sig, keyring));
+    return {data, signatures};
+  } catch (e) {
+    console.log('getPgpBackend().decrypt() error', e);
+    throw e;
+  }
 }
 
 /**
@@ -61,7 +66,7 @@ export async function decryptMessage({armored, keyringId, unlockKey, senderAddre
  * @param {KeyringBase} keyring
  */
 function addSigningKeyDetails(signature, keyring) {
-  if (signature.valid !== null) {
+  if (signature.valid !== null && signature.fingerprint) {
     const signingKey = keyring.keystore.getKeysForId(signature.fingerprint, true);
     if (!signingKey) {
       return;
@@ -108,7 +113,7 @@ export function readMessage({armoredText, binary}) {
 
 /**
  * Encrypt PGP message
- * @param {String} options.data - as native JavaScript string
+ * @param {String} options.data - data to be encrypted as string
  * @param {String} options.keyringId
  * @param  {Function} options.unlockKey - callback to unlock key
  * @param {Array<String>} options.encryptionKeyFprs - fingerprint of encryption keys
@@ -123,7 +128,7 @@ export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyF
   }
   await syncPublicKeys(keyring, encryptionKeyFprs);
   try {
-    const result = await keyring.getPgpBackend().encrypt({data, keyring, unlockKey, encryptionKeyFprs, signingKeyFpr});
+    const result = await keyring.getPgpBackend().encrypt({data, keyring, unlockKey, encryptionKeyFprs, signingKeyFpr, armor: true});
     logEncryption(uiLogSource, keyring, encryptionKeyFprs);
     return result;
   } catch (e) {
@@ -357,11 +362,9 @@ export async function encryptFile({plainFile, encryptionKeyFprs, armor}) {
   try {
     const keyring = getPreferredKeyring();
     await syncPublicKeys(keyring, encryptionKeyFprs, true);
-    const content = mvelo.util.dataURL2str(plainFile.content);
-    const data = mvelo.util.str2Uint8Array(content);
-    const result = await keyring.getPgpBackend().encrypt({data, keyring, encryptionKeyFprs, filename: plainFile.name, armor});
+    const result = await keyring.getPgpBackend().encrypt({dataURL: plainFile.content, keyring, encryptionKeyFprs, filename: plainFile.name, armor});
     logEncryption('security_log_encrypt_dialog', keyring, encryptionKeyFprs);
-    return armor ? result : mvelo.util.Uint8Array2str(result);
+    return result;
   } catch (error) {
     console.log('pgpmodel.encryptFile() error', error);
     throw new mvelo.Error(l10n('encrypt_error', [error.message]), 'NO_KEY_FOUND');
