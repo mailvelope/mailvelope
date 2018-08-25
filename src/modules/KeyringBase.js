@@ -189,35 +189,8 @@ export default class KeyringBase {
     return Boolean(this.getPrimaryKeyFpr());
   }
 
-  getPrimaryKeyFpr() {
-    return this.keystore.getPrimaryKeyFpr();
-  }
-
   setPrimaryKey(fpr) {
     return this.keystore.setPrimaryKey(fpr);
-  }
-
-  getPrimaryKey() {
-    let primaryKey;
-    const primaryKeyFpr = this.getPrimaryKeyFpr();
-    if (primaryKeyFpr) {
-      primaryKey = this.keystore.privateKeys.getForId(primaryKeyFpr);
-      if (!(primaryKey && this.validatePrimaryKey(primaryKey))) {
-        // primary key with this id does not exist or is invalid
-        this.setPrimaryKey(''); // clear primary key
-        primaryKey = null;
-      }
-    }
-    if (!primaryKey) {
-      // get newest private key that is valid
-      this.keystore.privateKeys.keys.forEach(key => {
-        if ((!primaryKey || primaryKey.primaryKey.created < key.primaryKey.created) &&
-            this.validatePrimaryKey(key)) {
-          primaryKey = key;
-        }
-      });
-    }
-    return primaryKey ? primaryKey : null;
   }
 
   validatePrimaryKey(primaryKey) {

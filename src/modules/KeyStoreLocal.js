@@ -58,8 +58,8 @@ export default class KeyStoreLocal extends KeyStoreBase {
     return primaryKeyFpr;
   }
 
-  setPrimaryKey(fpr) {
-    setKeyringAttr(this.id, {primary_key: fpr});
+  async setPrimaryKey(fpr) {
+    await setKeyringAttr(this.id, {primary_key: fpr});
   }
 
   async generateKey(options) {

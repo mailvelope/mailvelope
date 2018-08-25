@@ -143,7 +143,7 @@ export default class EditorController extends sub.SubController {
     }
     this.keyFprBuffer = mvelo.util.sortAndDeDup(keyFprs);
     // ensure that all keys are available in the API keyring
-    syncPublicKeys(this.keyringId, this.keyFprBuffer);
+    syncPublicKeys({keyringId: this.keyringId, keyIds: this.keyFprBuffer});
     this.ports.editor.emit('get-plaintext', {action: 'encrypt'});
   }
 
@@ -336,8 +336,6 @@ export default class EditorController extends sub.SubController {
       this.ports.editor.emit('error-message', {error});
       if (this.ports.editorCont) {
         this.ports.editorCont.emit('error-message', {error});
-      } else {
-        this.encryptDone.reject(error);
       }
       this.ports.editor.emit('encrypt-failed');
     }

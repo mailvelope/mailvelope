@@ -22,6 +22,41 @@ export default class KeyringLocal extends KeyringBase {
   }
 
   /**
+   * Retrieve primary key. If no primary key set then take newest private key available.
+   * @return {openpgp.key.Key}
+   */
+  getPrimaryKey() {
+    let primaryKey;
+    const primaryKeyFpr = this.keystore.getPrimaryKeyFpr();
+    if (primaryKeyFpr) {
+      primaryKey = this.keystore.privateKeys.getForId(primaryKeyFpr);
+      if (!(primaryKey && this.validatePrimaryKey(primaryKey))) {
+        // primary key with this id does not exist or is invalid
+        this.setPrimaryKey(''); // clear primary key
+        primaryKey = null;
+      }
+    }
+    if (!primaryKey) {
+      // get newest private key that is valid
+      this.keystore.privateKeys.keys.forEach(key => {
+        if ((!primaryKey || primaryKey.primaryKey.created < key.primaryKey.created) &&
+            this.validatePrimaryKey(key)) {
+          primaryKey = key;
+        }
+      });
+      if (primaryKey) {
+        this.setPrimaryKey(primaryKey.primaryKey.getFingerprint());
+      }
+    }
+    return primaryKey ? primaryKey : null;
+  }
+
+  getPrimaryKeyFpr() {
+    const primaryKey = this.getPrimaryKey();
+    return primaryKey ? primaryKey.primaryKey.getFingerprint() : '';
+  }
+
+  /**
    * Import armored keys into the keyring
    * @param  {Object<armored: String, type: String>} armoredKeys - armored keys of type 'public' or 'private'
    * @return {Array<Object>} import result messages in the form {type, message}, type could be 'error' or 'success'
@@ -148,7 +183,7 @@ export default class KeyringLocal extends KeyringBase {
   async removeKey(fingerprint, type) {
     const removedKey = super.removeKey(fingerprint, type);
     if (type === 'private') {
-      const primaryKeyFpr = this.getPrimaryKeyFpr();
+      const primaryKeyFpr = this.keystore.getPrimaryKeyFpr();
       // Remove the key from the keyring attributes if primary
       if (primaryKeyFpr  === removedKey.primaryKey.getFingerprint()) {
         await this.setPrimaryKey('');

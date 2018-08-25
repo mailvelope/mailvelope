@@ -391,6 +391,10 @@
     "message": "Alle Nachrichten mit Hauptschlüssel signieren",
     "description": "Label for primary private key option."
   },
+  "gnupg_error_unusable_pub_key": {
+    "message": "Bitte überprüfen Sie ob die folgenden öffentlichen Schlüssel in ihrem GnuPG Schlüsselbund vorhanden und valide sind: $1",
+    "description": ""
+  },
   "header_warning": {
     "message": "Achtung!",
     "description": "Header warning."
