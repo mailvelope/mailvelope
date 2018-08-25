@@ -209,7 +209,7 @@ export function getKeyringAttr(keyringId, attrKey) {
 
 /**
  * Get the following data for all keys in the preferred keyring queue: user id, key id, fingerprint, email and name
- * @param  {String} keyringId - requested keyring, the leading keyring of a scenario
+ * @param  {String} [keyringId] - requested keyring, the leading keyring of a scenario
  * @return {Array<Object>} list of recipients objects in the form {keyId, fingerprint, userId, email, name}
  */
 export async function getKeyData({keyringId, allUsers = true}) {
@@ -292,7 +292,7 @@ export function getKeyByAddress(keyringId, emails) {
     allKeys = allKeys.filter(key => isValidEncryptionKey(key, keyringId));
     // filter out all v3 keys if requested keyring is GnuPG
     if (getPreferredKeyringId() === mvelo.GNUPG_KEYRING_ID) {
-      allKeys = allKeys.filter(key => key.key.primaryKey.version > 3);
+      allKeys = allKeys.filter(key => key.primaryKey.version > 3);
     }
     if (!allKeys.length) {
       result[email] = false;
@@ -395,11 +395,12 @@ function compareKeyringsByPreference(a, b) {
  * @param  {KeyringBase|String} keyring - destination keyring or keyringId, public keys are synchronized from other keyrings.
  * @param  {Array<openpgp.Keyid|String>|openpgp.Keyid|String} keyIds - key ids or fingerprints of public keys that should be synchronized.
  * @param {Boolean} [allKeyrings] - use all keyrings as source keyrings
+ * @param {Stringt} [keyringId] - the leading keyring of a scenario
  */
-export async function syncPublicKeys(keyring, keyIds, allKeyrings = false) {
+export async function syncPublicKeys({keyring, keyIds, allKeyrings = false, keyringId}) {
   let srcKeyrings;
-  if (typeof keyring === 'string') {
-    keyring = getById(keyring);
+  if (!keyring) {
+    keyring = getById(keyringId);
   }
   keyIds = mvelo.util.toArray(keyIds);
   if (!keyIds.length) {
@@ -410,7 +411,7 @@ export async function syncPublicKeys(keyring, keyIds, allKeyrings = false) {
   if (allKeyrings) {
     srcKeyrings = getAll();
   } else {
-    srcKeyrings = getPreferredKeyringQueue(keyring.id);
+    srcKeyrings = getPreferredKeyringQueue(keyringId);
   }
   for (let keyId of keyIds) {
     keyId = typeof keyId === 'string' ? keyId : keyId.toHex();
@@ -427,13 +428,17 @@ export async function syncPublicKeys(keyring, keyIds, allKeyrings = false) {
         continue;
       }
       const lastModifiedDate = getLastModifiedDate(key);
-      if (!lastModified || lastModifiedDate > lastModified.date) {
+      if (!lastModified || lastModifiedDate > lastModified.date || lastModifiedDate.valueOf() === lastModified.date.valueOf() && srcKeyring.id === keyring.id) {
         lastModified = {date: lastModifiedDate, key, srcKeyring};
       }
     }
     if (lastModified && lastModified.srcKeyring.id !== keyring.id) {
       // there is a newer key available that needs to be imported into the destination keyring
-      await keyring.importKeys([{armored: toPublic(lastModified.key).armor(), type: 'public'}]);
+      try {
+        await keyring.importKeys([{armored: toPublic(lastModified.key).armor(), type: 'public'}]);
+      } catch (e) {
+        console.log('Key import error during sync process', e);
+      }
     }
   }
 }

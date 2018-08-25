@@ -411,7 +411,9 @@ export default class Editor extends React.Component {
       <ModalDialog title={this.state.error.header} onShow={this.blurWarning && this.blurWarning.startBlurValid} footer={
         <button type="button" className="btn btn-primary" data-dismiss="modal">{l10n.map.form_ok}</button>
       }>
-        <Alert message={this.state.error.message} type={this.state.error.type} />
+        <div style={{maxHeight: '120px', overflowX: 'scroll'}}>
+          <Alert message={this.state.error.message} type={this.state.error.type} />
+        </div>
       </ModalDialog>
     );
   }

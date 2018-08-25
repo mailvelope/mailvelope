@@ -380,8 +380,8 @@ function decryptFiles(encryptedFiles) {
     decryptProcesses.push(port.send('decryptFile', {encryptedFile})
     .then(file => {
       addFileToDownload({
-        name: file.name,
-        content: file.content,
+        name: file.filename,
+        content: file.data,
         type: 'application/octet-stream'
       }, $decryptFileDownload);
     })

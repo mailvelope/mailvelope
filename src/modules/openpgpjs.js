@@ -52,6 +52,9 @@ export async function decrypt({message, keyring, senderAddress, selfSigned, encr
     }
     return signature;
   });
+  if (format === 'binary') {
+    result.data = mvelo.util.Uint8Array2str(result.data);
+  }
   return result;
 }
 

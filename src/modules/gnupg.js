@@ -4,6 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
+const l10n = mvelo.l10n.getMessage;
 import {gpgme} from '../lib/browser.runtime';
 
 /**
@@ -12,10 +13,17 @@ import {gpgme} from '../lib/browser.runtime';
  * @param {String} [base64] - PGP message as base64 string
  * @return {Object}
  */
-export async function decrypt({armored, base64}) {
-  const result = await gpgme.decrypt(armored || base64, Boolean(base64));
-  console.log('gpgme.decrypt', result);
-  return {data: result.data, signatures: []};
+export async function decrypt({armored, base64, format}) {
+  let {data, signatures, file_name} = await gpgme.decrypt({
+    data: armored || base64,
+    base64: Boolean(base64),
+    expect: format === 'binary' ? 'base64' : null
+  });
+  signatures = mapSignatures(signatures);
+  if (format === 'binary') {
+    data = window.atob(data);
+  }
+  return {data, signatures, filename: file_name};
 }
 
 /**
@@ -27,11 +35,25 @@ export async function decrypt({armored, base64}) {
  * @param  {Boolean} armor - request the output as armored block
  * @return {String}
  */
-export async function encrypt({data, dataURL, encryptionKeyFprs, signingKeyFpr, armor}) {
+export async function encrypt({data, dataURL, encryptionKeyFprs, signingKeyFpr, armor, filename}) {
   const base64 = dataURL ? mvelo.util.dataURL2base64(dataURL) : false;
-  const result = await gpgme.encrypt(data || base64, encryptionKeyFprs, signingKeyFpr, Boolean(base64), armor);
-  console.log('gpgme.encrypt', result);
-  return armor ? result.data : window.atob(result.data);
+  const additional = filename ? {file_name: filename} : null;
+  try {
+    const result = await gpgme.encrypt({
+      data: data || base64,
+      publicKeys: encryptionKeyFprs,
+      secretKeys: signingKeyFpr,
+      base64: Boolean(base64),
+      armor,
+      additional
+    });
+    return result.data;
+  } catch (e) {
+    if (e.code === 'GNUPG_ERROR' && e.message.includes('Unusable public key')) {
+      throw new mvelo.Error(l10n('gnupg_error_unusable_pub_key', [encryptionKeyFprs.join(', ')]), 'GNUPG_ERROR');
+    }
+    throw e;
+  }
 }
 
 /**
@@ -41,7 +63,7 @@ export async function encrypt({data, dataURL, encryptionKeyFprs, signingKeyFpr, 
  * @return {String}
  */
 export async function sign({data, signingKeyFpr}) {
-  const result = await gpgme.sign(data, signingKeyFpr, 'clearsign');
+  const result = await gpgme.sign({data, keys: signingKeyFpr, mode: 'clearsign'});
   return result.data;
 }
 
@@ -51,8 +73,16 @@ export async function sign({data, signingKeyFpr}) {
  * @return {{data: String, signatures: Array<{keyId: String, fingerprint: String, valid: Boolean}>}}
  */
 export async function verify({armored}) {
-  const {data, signatures} = await gpgme.verify(armored);
+  let {data, signatures} = await gpgme.verify({data: armored});
+  signatures = mapSignatures(signatures);
+  return {data, signatures};
+}
+
+function mapSignatures({signatures} = {}) {
   let sigs = [];
+  if (!signatures) {
+    return sigs;
+  }
   for (const good of signatures.good) {
     sigs.push({valid: true, fingerprint: good.fingerprint.toLowerCase()});
   }
@@ -75,5 +105,5 @@ export async function verify({armored}) {
     }
     return sig;
   });
-  return {data, signatures: sigs};
+  return sigs;
 }

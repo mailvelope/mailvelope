@@ -391,6 +391,10 @@
     "message": "Sign all messages with primary key",
     "description": "Label for primary private key option."
   },
+  "gnupg_error_unusable_pub_key": {
+    "message": "Please check if the following public keys are available in your GnuPG keyring and valid: $1",
+    "description": ""
+  },
   "header_warning": {
     "description": "Header warning.",
     "message": "Warning!"

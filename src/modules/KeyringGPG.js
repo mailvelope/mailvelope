@@ -13,6 +13,15 @@ export default class KeyringGPG extends KeyringBase {
     return gnupg;
   }
 
+  getPrimaryKey() {
+    const primaryKeyFpr = this.getPrimaryKeyFpr();
+    return this.keystore.privateKeys.getForId(primaryKeyFpr);
+  }
+
+  getPrimaryKeyFpr() {
+    return this.keystore.getPrimaryKeyFpr();
+  }
+
   /**
    * Import armored keys into the keyring
    * @param  {Object<armored: String, type: String>} armoredKeys - armored keys of type 'public' or 'private'
