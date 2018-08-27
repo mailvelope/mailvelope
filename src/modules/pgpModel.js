@@ -124,7 +124,7 @@ export function readMessage({armoredText, binary}) {
 export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyFprs, signingKeyFpr, uiLogSource}) {
   const keyring = getKeyringWithPrivKey(signingKeyFpr, keyringId);
   if (!keyring) {
-    throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
+    throw new mvelo.Error('No private key found', 'NO_PRIVATE_KEY_FOUND');
   }
   await syncPublicKeys({keyring, keyIds: encryptionKeyFprs, keyringId});
   try {
@@ -188,7 +188,7 @@ export async function verifyMessage({armored, keyringId}) {
 export async function signMessage({data, keyringId, unlockKey, signingKeyFpr}) {
   const keyring = getKeyringWithPrivKey(signingKeyFpr, keyringId);
   if (!keyring) {
-    throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
+    throw new mvelo.Error('No private key found', 'NO_PRIVATE_KEY_FOUND');
   }
   try {
     const result = await keyring.getPgpBackend().sign({data, keyring, unlockKey, signingKeyFpr});
@@ -200,7 +200,7 @@ export async function signMessage({data, keyringId, unlockKey, signingKeyFpr}) {
   }
 }
 
-export function createPrivateKeyBackup(primaryKey, keyPwd) {
+export function createPrivateKeyBackup(defaultKey, keyPwd) {
   let backupCode;
   return Promise.resolve()
   .then(() => {
@@ -213,7 +213,7 @@ export function createPrivateKeyBackup(primaryKey, keyPwd) {
     text += `Pwd: ${keyPwd}\n`;
     literal.setText(text);
     packetList.push(literal);
-    packetList.concat(primaryKey.toPacketlist());
+    packetList.concat(defaultKey.toPacketlist());
     // symmetrically encrypt with backup code
     const msg = new openpgp.message.Message(packetList);
     return symEncrypt(msg, backupCode);

@@ -39,27 +39,32 @@ export default class KeyStoreLocal extends KeyStoreBase {
     await mvelo.storage.remove(`mvelo.keyring.${this.id}.privateKeys`);
   }
 
-  getPrimaryKeyFpr() {
-    let primaryKeyFpr = getKeyringAttr(this.id, 'primary_key');
-    if (!primaryKeyFpr) {
+  getDefaultKeyFpr() {
+    let defaultKeyFpr = getKeyringAttr(this.id, 'default_key');
+    if (defaultKeyFpr || defaultKeyFpr === '') {
+      return defaultKeyFpr;
+    }
+    // if defaultKeyFpr is undefined check for legacy primary key setting and migrate to default key
+    const primaryKeyId = getKeyringAttr(this.id, 'primary_key');
+    if (primaryKeyId === '') {
+      setKeyringAttr(this.id, {primary_key: undefined});
+    }
+    if (!primaryKeyId) {
       return '';
     }
-    if (primaryKeyFpr.length === 16) {
-      // migrate from keyId to fingerprint
-      const primaryKey = this.privateKeys.getForId(primaryKeyFpr.toLowerCase());
-      if (!primaryKey) {
-        // primary key not found reset primary key attribute
-        this.setPrimaryKey('');
-        return;
-      }
-      primaryKeyFpr = primaryKey.primaryKey.getFingerprint();
-      this.setPrimaryKey(primaryKeyFpr);
+    const primaryKey = this.privateKeys.getForId(primaryKeyId.toLowerCase());
+    if (!primaryKey) {
+      // primary key not found, delete primary key attribute
+      setKeyringAttr(this.id, {primary_key: undefined});
+      return '';
     }
-    return primaryKeyFpr;
+    defaultKeyFpr = primaryKey.primaryKey.getFingerprint();
+    this.setDefaultKey(defaultKeyFpr);
+    return defaultKeyFpr;
   }
 
-  async setPrimaryKey(fpr) {
-    await setKeyringAttr(this.id, {primary_key: fpr});
+  async setDefaultKey(fpr) {
+    await setKeyringAttr(this.id, {default_key: fpr});
   }
 
   async generateKey(options) {

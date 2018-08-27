@@ -9,9 +9,9 @@ import * as l10n from '../../lib/l10n';
 
 l10n.register([
   'settings_general',
-  'keygrid_primary_key',
-  'general_primary_key_always',
-  'general_primary_key_auto_sign',
+  'keygrid_default_key',
+  'general_default_key_always',
+  'general_default_key_auto_sign',
   'general_prefer_gnupg',
   'form_save',
   'form_cancel'
@@ -71,17 +71,17 @@ export default class General extends React.Component {
         <h3>{l10n.map.settings_general}</h3>
         <form>
           <div className="form-group">
-            <h4 className="control-label">{l10n.map.keygrid_primary_key}</h4>
+            <h4 className="control-label">{l10n.map.keygrid_default_key}</h4>
             <div className="checkbox">
               <label>
                 <input type="checkbox" name="auto_add_primary" checked={this.state.auto_add_primary} onChange={this.handleCheck} />
-                <span>{l10n.map.general_primary_key_always}</span>
+                <span>{l10n.map.general_default_key_always}</span>
               </label>
             </div>
             <div className="checkbox">
               <label>
                 <input type="checkbox" name="auto_sign_msg" checked={this.state.auto_sign_msg} onChange={this.handleCheck} />
-                <span>{l10n.map.general_primary_key_auto_sign}</span>
+                <span>{l10n.map.general_default_key_auto_sign}</span>
               </label>
             </div>
           </div>

@@ -45,17 +45,17 @@ export class SyncController extends sub.SubController {
       return;
     }
     this.modified = this.keyring.sync.data.modified;
-    const primKey = this.keyring.getPrimaryKey();
+    const defaultKey = this.keyring.getDefaultKey();
     if (!options.key) {
-      // if no key provided we take the primary key
-      if (primKey) {
-        options.key = primKey;
+      // if no key provided we take the default key
+      if (defaultKey) {
+        options.key = defaultKey;
       } else {
         return; // no private key for sync
       }
     } else {
-      // check if provided key is primary key, otherwise no sync
-      if (!equalKey(options.key, primKey)) {
+      // check if provided key is default key, otherwise no sync
+      if (!equalKey(options.key, defaultKey)) {
         return;
       }
     }
@@ -128,7 +128,7 @@ export class SyncController extends sub.SubController {
     }
     let password;
     if (!equalKey(privKey, options.key)) {
-      console.log('Key used for sync packet from server is not primary key on client');
+      console.log('Key used for sync packet from server is not default key on client');
       if (!options.force && !this.canUnlockKey('decrypt', {key: privKey})) {
         throw new Error('Key used for sync packet is locked');
       }

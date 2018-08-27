@@ -13,8 +13,8 @@ l10n.register([
   'upload_attachment',
   'editor_sign_caption_short',
   'editor_sign_caption_long',
-  'editor_no_primary_key_caption_short',
-  'editor_no_primary_key_caption_long',
+  'editor_no_default_key_caption_short',
+  'editor_no_default_key_caption_long',
   'editor_link_file_encryption'
 ]);
 
@@ -44,8 +44,8 @@ class EditorFooter extends React.Component {
   }
 
   render() {
-    const sign_caption_short = this.props.primaryKey ? l10n.map.editor_sign_caption_short : l10n.map.editor_no_primary_key_caption_short;
-    const sign_caption_long = this.props.primaryKey ? l10n.map.editor_sign_caption_long : l10n.map.editor_no_primary_key_caption_long;
+    const sign_caption_short = this.props.defaultKey ? l10n.map.editor_sign_caption_short : l10n.map.editor_no_default_key_caption_short;
+    const sign_caption_long = this.props.defaultKey ? l10n.map.editor_sign_caption_long : l10n.map.editor_no_default_key_caption_long;
     return (
       <div className="editor-footer">
         <div className="form-group pull-left">
@@ -72,7 +72,7 @@ class EditorFooter extends React.Component {
 EditorFooter.propTypes = {
   embedded: PropTypes.bool, // component is used inside API container view
   signMsg: PropTypes.bool, // message will be signed
-  primaryKey: PropTypes.bool, // primary key to sign message exists
+  defaultKey: PropTypes.bool, // default key to sign message exists
   onClickUpload: PropTypes.func, // click on upload button
   onChangeFileInput: PropTypes.func, // file input change event triggered
   onClickFileEncryption: PropTypes.func // click on navigation link

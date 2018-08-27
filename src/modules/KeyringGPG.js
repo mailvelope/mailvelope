@@ -13,13 +13,19 @@ export default class KeyringGPG extends KeyringBase {
     return gnupg;
   }
 
-  getPrimaryKey() {
-    const primaryKeyFpr = this.getPrimaryKeyFpr();
-    return this.keystore.privateKeys.getForId(primaryKeyFpr);
+  getAttr() {
+    return {
+      default_key: this.getDefaultKeyFpr()
+    };
   }
 
-  getPrimaryKeyFpr() {
-    return this.keystore.getPrimaryKeyFpr();
+  getDefaultKey() {
+    const defaultKeyFpr = this.getDefaultKeyFpr();
+    return this.keystore.privateKeys.getForId(defaultKeyFpr);
+  }
+
+  getDefaultKeyFpr() {
+    return this.keystore.getDefaultKeyFpr();
   }
 
   /**

@@ -187,11 +187,11 @@
     "message": "Encrypt files",
     "description": "Navigation link to file encryption"
   },
-  "editor_no_primary_key_caption_long": {
+  "editor_no_default_key_caption_long": {
     "description": "",
-    "message": "Email cannot be signed digitally because the primary key is missing"
+    "message": "Email cannot be signed digitally because the default key is missing"
   },
-  "editor_no_primary_key_caption_short": {
+  "editor_no_default_key_caption_short": {
     "description": "",
     "message": "Email cannot be signed digitally"
   },
@@ -379,17 +379,13 @@
     "description": "Option to choose GnuPG as the preferred OpenPGP backend.",
     "message": "Prefer GnuPG for all OpenPGP encryption operations"
   },
-  "general_primary_key_always": {
-    "description": "Label for primary private key option.",
-    "message": "Always add my primary key to the list of recipients. (This allows you to decrypt sent mails)"
+  "general_default_key_always": {
+    "description": "Label for default private key option.",
+    "message": "Always add my default key to the list of recipients. (This allows you to decrypt sent mails)"
   },
-  "general_primary_key_label": {
-    "description": "Label for primary private key option.",
-    "message": "Primary Private Key"
-  },
-  "general_primary_key_auto_sign": {
-    "message": "Sign all messages with primary key",
-    "description": "Label for primary private key option."
+  "general_default_key_auto_sign": {
+    "message": "Sign all messages with default key",
+    "description": "Label for default private key option."
   },
   "gnupg_error_unusable_pub_key": {
     "message": "Please check if the following public keys are available in your GnuPG keyring and valid: $1",
@@ -659,13 +655,13 @@
     "description": "",
     "message": "Recovering key from backup failed."
   },
-  "key_set_as_primary": {
-    "description": "Set as primary key for the keyring button",
-    "message": "Set as Primary"
+  "key_set_as_default": {
+    "description": "Set as default key for the keyring button",
+    "message": "Set as Default"
   },
-  "invalid_primary_key": {
+  "invalid_default_key": {
     "message": "Key is not valid for encryption and signing operations",
-    "description": "Tootip for set as primary key button"
+    "description": "Tootip for set as default key button"
   },
   "keybackup_failed": {
     "description": "",
@@ -767,6 +763,10 @@
     "description": "Short creation date of a PGP key. Max. width: 90px",
     "message": "Created"
   },
+  "keygrid_default_key": {
+    "message": "Default key",
+    "description": "Default key in the keyring."
+  },
   "keygrid_delete": {
     "description": "Max. 6 characters.",
     "message": "Delete"
@@ -831,9 +831,9 @@
     "description": "Main key in the PGP key.",
     "message": "Main Key"
   },
-  "keygrid_primary_label": {
-    "description": "Label for the primary key",
-    "message": "Primary"
+  "keygrid_default_label": {
+    "description": "Label for the default key",
+    "message": "Default"
   },
   "keygrid_private_keys": {
     "description": "Selection of key type.",

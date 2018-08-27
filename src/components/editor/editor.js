@@ -48,7 +48,7 @@ export default class Editor extends React.Component {
       hasUserInput: false,
       signMsg: false,
       signKey: '',
-      primaryKey: false,
+      defaultKey: false,
       privKeys: [],
       optionsExpanded: false,
       defaultPlainText: '',
@@ -104,12 +104,12 @@ export default class Editor extends React.Component {
     this.port.on('key-update', this.onKeyUpdate);
   }
 
-  onSetInitData({text = '', signMsg, primary, privKeys = []}) {
+  onSetInitData({text = '', signMsg, defaultKeyFpr, privKeys = []}) {
     this.setState({
       defaultPlainText: text,
       signMsg: Boolean(signMsg),
-      signKey: primary,
-      primaryKey: Boolean(primary),
+      signKey: defaultKeyFpr,
+      defaultKey: Boolean(defaultKeyFpr),
       privKeys
     });
   }
@@ -348,7 +348,7 @@ export default class Editor extends React.Component {
             </div>
           </div>
           <div className="editor-footer">
-            <EditorFooter embedded={this.props.embedded} signMsg={this.state.signMsg} primaryKey={this.state.primaryKey}
+            <EditorFooter embedded={this.props.embedded} signMsg={this.state.signMsg} defaultKey={this.state.defaultKey}
               onClickUpload={() => this.logUserInput('security_log_add_attachment')}
               onChangeFileInput={e => this.handleAddAttachment(e)}
               onClickFileEncryption={() => this.port.emit('open-app', {fragment: '/encryption/file-encrypt'})}

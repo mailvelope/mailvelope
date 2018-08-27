@@ -115,7 +115,7 @@
      * @typedef {Object} EditorContainerOptions
      * @property {number} quota - mail content (text + attachments) limit in kilobytes (default: 20480)
      * @property {boolean} signMsg - if true then the mail will be signed (default: false)
-     * @property {AsciiArmored} armoredDraft - a PGP message, signed and encrypted with the primary key of the user, will be used to restore a draft in the editor
+     * @property {AsciiArmored} armoredDraft - a PGP message, signed and encrypted with the default key of the user, will be used to restore a draft in the editor
      *                                         The armoredDraft parameter can't be combined with the parameters: predefinedText, quotedMail... parameters, keepAttachments
      * @property {string} predefinedText - text that will be added to the editor
      * @property {AsciiArmored} quotedMail - mail that should be quoted
@@ -392,7 +392,7 @@
 
     /**
      * @typedef {Object} SyncHandlerObject
-     * @property {UploadSyncHandler} uploadSync - function called by Mailvelope to upload the keyring (public keys), the message is encrypted with the primary private key
+     * @property {UploadSyncHandler} uploadSync - function called by Mailvelope to upload the keyring (public keys), the message is encrypted with the default private key
      * @property {DownloadSyncHandler} downloadSync - function called by Mailvelope to download the encrypted keyring (public keys)
      * @property {BackupSyncHandler} backup - function called by Mailvelope to upload a symmetrically encrypted private key backup
      * @property {RestoreSyncHandler} restore - function called by Mailvelope to restore a private key backup
@@ -517,7 +517,7 @@
     }
 
     /**
-     * Encrypt and sign the content of the editor with the primary key of the user.
+     * Encrypt and sign the content of the editor with the default key of the user.
      * To be used to save drafts. To restore drafts use the options.armoredDraft parameter of the createEditorContainer method.
      * @returns {Promise.<AsciiArmored, Error>}
      * @throws {Error} error.code = 'ENCRYPT_IN_PROGRESS' <br>
