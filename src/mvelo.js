@@ -456,7 +456,7 @@ mvelo.util.toArray = function(param) {
     return [param];
   }
   return param;
-}
+};
 
 /**
  * Validate an url
