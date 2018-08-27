@@ -55,7 +55,7 @@ export default class KeyringBase {
   }
 
   getValidSigningKeys() {
-    return mapKeys(this.keystore.privateKeys.keys.filter(key => this.validatePrimaryKey(key)))
+    return mapKeys(this.keystore.privateKeys.keys.filter(key => this.validateDefaultKey(key)))
     .sort((a, b) => a.name.localeCompare(b.name));
   }
 
@@ -68,8 +68,8 @@ export default class KeyringBase {
       mapSubKeys(key.subKeys, details);
       // users
       mapUsers(key.users, details, this.keystore, key.primaryKey);
-      // key is valid primary key
-      details.validPrimaryKey = this.validatePrimaryKey(key);
+      // key is valid default key
+      details.validDefaultKey = this.validateDefaultKey(key);
       return details;
     } else {
       throw new Error('Key with this fingerprint not found: ', fingerprint);
@@ -126,7 +126,7 @@ export default class KeyringBase {
    * @param  {Array<String>} emailAddr
    * @param  {Object} [options.pub = true] - query for public keys
    * @param  {Object} [options.priv = true] - query for private keys
-   * @param  {Object} [options.sort = false] - sort results by key creation date and primary key status
+   * @param  {Object} [options.sort = false] - sort results by key creation date and default key status
    * @param  {Object} [options.valid = true] - result keys are verified
    * @return {Object} - map in the form {address: [key1, key2, ..]}
    */
@@ -147,9 +147,9 @@ export default class KeyringBase {
       if (!result[email].length) {
         result[email] = false;
       } else if (sort) {
-        // sort by key creation date and primary key status
-        const primaryKeyFpr = this.getPrimaryKeyFpr();
-        sortKeysByCreationDate(result[email], primaryKeyFpr);
+        // sort by key creation date and default key status
+        const defaultKeyFpr = this.getDefaultKeyFpr();
+        sortKeysByCreationDate(result[email], defaultKeyFpr);
       }
     }
     return result;
@@ -185,19 +185,19 @@ export default class KeyringBase {
     return result;
   }
 
-  hasPrimaryKey() {
-    return Boolean(this.getPrimaryKeyFpr());
+  hasDefaultKey() {
+    return Boolean(this.keystore.getDefaultKeyFpr());
   }
 
-  setPrimaryKey(fpr) {
-    return this.keystore.setPrimaryKey(fpr);
+  setDefaultKey(fpr) {
+    return this.keystore.setDefaultKey(fpr);
   }
 
-  validatePrimaryKey(primaryKey) {
-    return primaryKey.verifyPrimaryKey() === openpgp.enums.keyStatus.valid &&
-           primaryKey.getEncryptionKeyPacket() &&
-           primaryKey.getSigningKeyPacket() &&
-           !trustKey.isKeyPseudoRevoked(this.id, primaryKey);
+  validateDefaultKey(defaultKey) {
+    return defaultKey.verifyPrimaryKey() === openpgp.enums.keyStatus.valid &&
+           defaultKey.getEncryptionKeyPacket() &&
+           defaultKey.getSigningKeyPacket() &&
+           !trustKey.isKeyPseudoRevoked(this.id, defaultKey);
   }
 
   getPrivateKeyByFpr(keyFpr) {

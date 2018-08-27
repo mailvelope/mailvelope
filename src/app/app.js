@@ -86,7 +86,7 @@ export class App extends React.Component {
       prefs: null, // global preferences
       keyringAttr: null, // keyring meta data
       keyringId, // active keyring: id
-      primaryKeyFpr: '', // active keyring: fingerprint of primary key
+      defaultKeyFpr: '', // active keyring: fingerprint of default key
       hasPrivateKey: false, // active keyring: has private key
       providerLogo: '', // provider specific logo
       isDemail: false, // active keyring: is keyring from de-mail provider
@@ -99,7 +99,7 @@ export class App extends React.Component {
     this.handleChangeKeyring = this.handleChangeKeyring.bind(this);
     this.handleDeleteKeyring = this.handleDeleteKeyring.bind(this);
     this.handleDeleteKey = this.handleDeleteKey.bind(this);
-    this.handleChangePrimaryKey = this.handleChangePrimaryKey.bind(this);
+    this.handleChangeDefaultKey = this.handleChangeDefaultKey.bind(this);
     this.handleChangePrefs = this.handleChangePrefs.bind(this);
     this.loadKeyring = this.loadKeyring.bind(this);
     app = this;
@@ -143,12 +143,12 @@ export class App extends React.Component {
     .then(keyringAttr => {
       this.setState(prevState => {
         const keyringId = keyringAttr[prevState.keyringId] ? prevState.keyringId : mvelo.MAIN_KEYRING_ID;
-        const primaryKeyFpr = keyringAttr[keyringId].primary_key || '';
+        const defaultKeyFpr = keyringAttr[keyringId].default_key || '';
         const providerLogo = keyringAttr[keyringId].logo_data_url || '';
         const isDemail = keyringId.includes(DEMAIL_SUFFIX);
         // propagate state change to backend
         port.emit('set-active-keyring', {keyringId});
-        return {keyringId, primaryKeyFpr, isDemail, keyringAttr, providerLogo};
+        return {keyringId, defaultKeyFpr, isDemail, keyringAttr, providerLogo};
       }, () => {
         port.send('getKeys', {keyringId: this.state.keyringId})
         .then(keys => {
@@ -179,9 +179,9 @@ export class App extends React.Component {
     }
   }
 
-  handleChangePrimaryKey(keyFpr) {
-    port.send('set-keyring-attr', {keyringId: this.state.keyringId, keyringAttr: {primary_key: keyFpr}})
-    .then(() => this.setState({primaryKeyFpr: keyFpr}));
+  handleChangeDefaultKey(keyFpr) {
+    port.send('set-keyring-attr', {keyringId: this.state.keyringId, keyringAttr: {default_key: keyFpr}})
+    .then(() => this.setState({defaultKeyFpr: keyFpr}));
   }
 
   handleDeleteKey(fingerprint, type) {
@@ -242,8 +242,8 @@ export class App extends React.Component {
                       <ProviderLogo logo={this.state.providerLogo} />
                       <Route path='/keyring/display' render={() =>
                         <KeyGrid keys={this.state.keys}
-                          primaryKeyFpr={this.state.primaryKeyFpr}
-                          onChangePrimaryKey={this.handleChangePrimaryKey}
+                          defaultKeyFpr={this.state.defaultKeyFpr}
+                          onChangeDefaultKey={this.handleChangeDefaultKey}
                           onDeleteKey={this.handleDeleteKey}
                           spinner={this.state.keyGridSpinner} />
                       } />

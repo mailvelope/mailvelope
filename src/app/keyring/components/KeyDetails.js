@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ModalDialog from '../../../components/util/ModalDialog';
-import PrimaryKeyButton from './PrimaryKeyButton';
+import DefaultKeyButton from './DefaultKeyButton';
 
 import KeyDetailsPrimary from './KeyDetailsPrimary';
 import KeyDetailsSubkeys from './KeyDetailsSubkeys';
@@ -29,19 +29,19 @@ l10n.register([
 export default class KeyDetails extends React.Component {
   constructor(props) {
     super(props);
-    this.handlePrimaryClick = this.handlePrimaryClick.bind(this);
-    this.state = {isPrimary: props.isPrimary};
+    this.handleDefaultClick = this.handleDefaultClick.bind(this);
+    this.state = {isDefault: props.isDefault};
   }
 
-  handlePrimaryClick() {
-    this.props.onSetPrimaryKey();
-    this.setState({isPrimary: true});
+  handleDefaultClick() {
+    this.props.onSetDefaultKey();
+    this.setState({isDefault: true});
   }
 
   render() {
     return (
       <ModalDialog title={l10n.map.key_details_title} onHide={this.props.onHide} footer={
-        <KeyDetailsFooter keyDetails={this.props.keyDetails} onPrimaryClick={this.handlePrimaryClick} isPrimary={this.state.isPrimary} />
+        <KeyDetailsFooter keyDetails={this.props.keyDetails} onDefaultClick={this.handleDefaultClick} isDefault={this.state.isDefault} />
       }>
         <div className="keyDetails">
           <ul className="nav nav-tabs" role="tablist">
@@ -72,9 +72,9 @@ export default class KeyDetails extends React.Component {
 
 KeyDetails.propTypes = {
   keyDetails: PropTypes.object.isRequired,
-  onSetPrimaryKey: PropTypes.func,
+  onSetDefaultKey: PropTypes.func,
   onHide: PropTypes.func,
-  isPrimary: PropTypes.bool.isRequired
+  isDefault: PropTypes.bool.isRequired
 };
 
 function KeyDetailsFooter(props) {
@@ -82,7 +82,7 @@ function KeyDetailsFooter(props) {
     <div>
       { props.keyDetails.type !== 'private' ? null :
         <span className="pull-left">
-          <PrimaryKeyButton onClick={props.onPrimaryClick} isPrimary={props.isPrimary} disabled={!props.keyDetails.validPrimaryKey} />
+          <DefaultKeyButton onClick={props.onDefaultClick} isDefault={props.isDefault} disabled={!props.keyDetails.validDefaultKey} />
         </span>
       }
       <button type="button" className="btn btn-primary" data-dismiss="modal">
@@ -94,6 +94,6 @@ function KeyDetailsFooter(props) {
 
 KeyDetailsFooter.propTypes = {
   keyDetails: PropTypes.object.isRequired,
-  onPrimaryClick: PropTypes.func,
-  isPrimary: PropTypes.bool.isRequired
+  onDefaultClick: PropTypes.func,
+  isDefault: PropTypes.bool.isRequired
 };

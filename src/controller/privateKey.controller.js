@@ -139,15 +139,15 @@ export default class PrivateKeyController extends sub.SubController {
   }
 
   async createPrivateKeyBackup() {
-    const primaryKey = getKeyringById(this.keyringId).getPrimaryKey();
-    if (!primaryKey) {
+    const defaultKey = getKeyringById(this.keyringId).getDefaultKey();
+    if (!defaultKey) {
       throw new mvelo.Error('No private key for backup', 'NO_PRIVATE_KEY');
     }
     this.pwdControl = sub.factory.get('pwdDialog');
     try {
       // get password from cache or ask user
       const unlockedKey = await this.pwdControl.unlockKey({
-        key: primaryKey,
+        key: defaultKey,
         reason: 'PWD_DIALOG_REASON_CREATE_BACKUP'
       });
       sync.triggerSync({keyring: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});

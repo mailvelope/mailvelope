@@ -88,10 +88,10 @@ export default class EditorController extends sub.SubController {
     this.keyringId = msg.keyringId;
     this.options = msg.options;
     const keyring = getKeyringById(this.keyringId);
-    const primaryKeyFpr = keyring.getPrimaryKeyFpr();
+    const defaultKeyFpr = keyring.getDefaultKeyFpr();
     const data = {
       signMsg: this.options.signMsg,
-      primary: primaryKeyFpr
+      defaultKeyFpr
     };
     if (msg.options.privKeys) {
       data.privKeys = keyring.getValidSigningKeys();
@@ -136,9 +136,9 @@ export default class EditorController extends sub.SubController {
       keyFprs = keyFprs.concat(keyFprMap[recipient]);
     });
     if (prefs.general.auto_add_primary) {
-      const primaryKeyFpr = getKeyringById(this.keyringId).getPrimaryKeyFpr();
-      if (primaryKeyFpr) {
-        keyFprs.push(primaryKeyFpr);
+      const defaultKeyFpr = getKeyringById(this.keyringId).getDefaultKeyFpr();
+      if (defaultKeyFpr) {
+        keyFprs.push(defaultKeyFpr);
       }
     }
     this.keyFprBuffer = mvelo.util.sortAndDeDup(keyFprs);
@@ -151,9 +151,9 @@ export default class EditorController extends sub.SubController {
     this.pgpMIME = true;
     this.keyringId = msg.keyringId;
     this.options.reason = 'PWD_DIALOG_REASON_CREATE_DRAFT';
-    const primaryKeyFpr = getKeyringById(this.keyringId).getPrimaryKeyFpr();
-    if (primaryKeyFpr) {
-      this.keyFprBuffer = [primaryKeyFpr];
+    const defaultKeyFpr = getKeyringById(this.keyringId).getDefaultKeyFpr();
+    if (defaultKeyFpr) {
+      this.keyFprBuffer = [defaultKeyFpr];
     } else {
       const error = {
         message: 'No private key found for creating draft.',
@@ -399,11 +399,11 @@ export default class EditorController extends sub.SubController {
    */
   async signAndEncryptMessage({data, signKeyFpr, keyFprs, noCache}) {
     if (!signKeyFpr) {
-      const primaryKeyFpr = getKeyringById(this.keyringId).getPrimaryKeyFpr();
-      signKeyFpr = primaryKeyFpr;
+      const defaultKeyFpr = getKeyringById(this.keyringId).getDefaultKeyFpr();
+      signKeyFpr = defaultKeyFpr;
     }
     if (!signKeyFpr) {
-      throw new mvelo.Error('No primary key found', 'NO_PRIMARY_KEY_FOUND');
+      throw new mvelo.Error('No default key found', 'NO_DEFAULT_KEY_FOUND');
     }
     const unlockKey = async options => {
       options.noCache = noCache;
@@ -500,9 +500,9 @@ export default class EditorController extends sub.SubController {
       // get the sender key fingerprint
       if (prefs.general.auto_add_primary) {
         const localKeyring = getKeyringById(mvelo.MAIN_KEYRING_ID);
-        const primaryKeyFpr = localKeyring.getPrimaryKeyFpr();
-        if (primaryKeyFpr) {
-          keyFprs.push(primaryKeyFpr);
+        const defaultKeyFpr = localKeyring.getDefaultKeyFpr();
+        if (defaultKeyFpr) {
+          keyFprs.push(defaultKeyFpr);
         }
       }
     }

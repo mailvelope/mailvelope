@@ -185,7 +185,12 @@ export function getAll() {
  * @return {Object<keyringId, KeyringBase>}
  */
 export function getAllKeyringAttr() {
-  return keyringAttr.toObject();
+  const attrObj = keyringAttr.toObject();
+  if (keyringAttr.has(mvelo.GNUPG_KEYRING_ID)) {
+    const gpgKeyring = keyringMap.get(mvelo.GNUPG_KEYRING_ID);
+    Object.assign(attrObj[mvelo.GNUPG_KEYRING_ID], gpgKeyring.getAttr());
+  }
+  return attrObj;
 }
 
 /**

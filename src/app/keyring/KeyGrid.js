@@ -26,7 +26,7 @@ l10n.register([
   'keygrid_user_email',
   'keygrid_keyid',
   'keygrid_creation_date_short',
-  'keygrid_primary_label',
+  'keygrid_default_label',
   'keygrid_delete_confirmation'
 ]);
 
@@ -141,7 +141,7 @@ export default class KeyGrid extends React.Component {
                   <td className="text-center">
                     <span className={key.type === 'public' ? 'publicKey' : 'keyPair'}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                   </td>
-                  <td>{key.name}{this.props.primaryKeyFpr === key.fingerprint && <span>&nbsp;&nbsp;<span className="label label-warning">{l10n.map.keygrid_primary_label}</span></span>}</td>
+                  <td>{key.name}{this.props.defaultKeyFpr === key.fingerprint && <span>&nbsp;&nbsp;<span className="label label-warning">{l10n.map.keygrid_default_label}</span></span>}</td>
                   <td className="emailCell">{key.email}</td>
                   <td className="monospaced">{key.keyId}</td>
                   <td className="monospaced">{key.crDate.substr(0, 10)}</td>
@@ -160,8 +160,8 @@ export default class KeyGrid extends React.Component {
         {this.props.spinner && <Spinner />}
         {this.state.keyDetails &&
           <KeyDetails keyDetails={this.state.keyDetails}
-            onSetPrimaryKey={() => this.props.onChangePrimaryKey(this.state.keyDetails.fingerprint)}
-            isPrimary={this.props.primaryKeyFpr === this.state.keyDetails.fingerprint}
+            onSetDefaultKey={() => this.props.onChangeDefaultKey(this.state.keyDetails.fingerprint)}
+            isDefault={this.props.defaultKeyFpr === this.state.keyDetails.fingerprint}
             onHide={() => this.setState({keyDetails: null})}
           />
         }
@@ -179,8 +179,8 @@ export default class KeyGrid extends React.Component {
 
 KeyGrid.propTypes = {
   keys: PropTypes.array,
-  primaryKeyFpr: PropTypes.string,
-  onChangePrimaryKey: PropTypes.func.isRequired,
+  defaultKeyFpr: PropTypes.string,
+  onChangeDefaultKey: PropTypes.func.isRequired,
   onDeleteKey: PropTypes.func,
   spinner: PropTypes.bool
 };

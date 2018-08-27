@@ -27,9 +27,9 @@ export default class KeyStoreGPG extends KeyStoreBase {
     }
     try {
       const defaultKey = await gpgme.Keyring.getDefaultKey();
-      this.primaryKeyFingerprint = defaultKey.fingerprint.toLowerCase();
+      this.defaultKeyFpr = defaultKey.fingerprint.toLowerCase();
     } catch (e) {
-      this.primaryKeyFingerprint = '';
+      this.defaultKeyFpr = '';
     }
   }
 
@@ -41,12 +41,12 @@ export default class KeyStoreGPG extends KeyStoreBase {
     throw new Error('Delete of GPGME keyring not supported');
   }
 
-  getPrimaryKeyFpr() {
-    return this.primaryKeyFingerprint;
+  getDefaultKeyFpr() {
+    return this.defaultKeyFpr;
   }
 
-  setPrimaryKey() {
-    throw new mvelo.Error('Setting of primary key not supported in GPG keyring', 'GPG_NOT_SUPPORTED');
+  setDefaultKey() {
+    throw new mvelo.Error('Setting of default key not supported in GPG keyring', 'GPG_NOT_SUPPORTED');
   }
 
   async importKeys(armoredKeys) {

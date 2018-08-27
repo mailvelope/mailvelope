@@ -8,11 +8,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 l10n.register([
-  'key_set_as_primary',
-  'invalid_primary_key'
+  'keygrid_default_label',
+  'key_set_as_default',
+  'invalid_default_key'
 ]);
 
-export default class PrimaryKeyButton extends React.Component {
+export default class DefaultKeyButton extends React.Component {
   componentDidMount() {
     this.initTooltip();
   }
@@ -23,23 +24,23 @@ export default class PrimaryKeyButton extends React.Component {
 
   initTooltip() {
     if (this.props.disabled) {
-      $(this.primaryButton).tooltip();
+      $(this.defaultButton).tooltip();
     }
   }
 
   render() {
-    if (this.props.isPrimary) {
-      return <button type="button" className="btn btn-warning" disabled="true">{l10n.map.keygrid_primary_label}</button>;
+    if (this.props.isDefault) {
+      return <button type="button" className="btn btn-warning" disabled="true">{l10n.map.keygrid_default_label}</button>;
     } else {
       const buttonText = (
         <div>
           <span className="glyphicon glyphicon-pushpin" aria-hidden="true"></span>&nbsp;
-          <span>{l10n.map.key_set_as_primary}</span>
+          <span>{l10n.map.key_set_as_default}</span>
         </div>
       );
       if (this.props.disabled) {
         return (
-          <div ref={node => this.primaryButton = node} data-toggle="tooltip" data-placement="top" title={l10n.map.invalid_primary_key}>
+          <div ref={node => this.defaultButton = node} data-toggle="tooltip" data-placement="top" title={l10n.map.invalid_default_key}>
             <button type="button" className="btn btn-default disabled">
               {buttonText}
             </button>
@@ -55,8 +56,8 @@ export default class PrimaryKeyButton extends React.Component {
   }
 }
 
-PrimaryKeyButton.propTypes = {
-  isPrimary: PropTypes.bool.isRequired,
+DefaultKeyButton.propTypes = {
+  isDefault: PropTypes.bool.isRequired,
   onClick: PropTypes.func,
   disabled: PropTypes.bool
 };

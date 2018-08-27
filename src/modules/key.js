@@ -191,11 +191,11 @@ export function mapUsers(users, toKey, keyring, primaryKey) {
 }
 
 export function checkKeyId(sourceKey, keyring) {
-  const primKeyId = sourceKey.primaryKey.getKeyId();
-  const keys = keyring.getKeysForId(primKeyId.toHex(), true);
+  const defaultKeyId = sourceKey.primaryKey.getKeyId();
+  const keys = keyring.getKeysForId(defaultKeyId.toHex(), true);
   if (keys) {
     keys.forEach(key => {
-      if (!key.primaryKey.getKeyId().equals(primKeyId)) {
+      if (!key.primaryKey.getKeyId().equals(defaultKeyId)) {
         throw new Error('Primary keyId equals existing sub keyId.');
       }
     });
@@ -208,7 +208,7 @@ export function checkKeyId(sourceKey, keyring) {
         if (key.primaryKey.getKeyId().equals(subKeyId)) {
           throw new Error('Sub keyId equals existing primary keyId.');
         }
-        if (!key.primaryKey.getKeyId().equals(primKeyId)) {
+        if (!key.primaryKey.getKeyId().equals(defaultKeyId)) {
           throw new Error('Sub keyId equals existing sub keyId in key with different primary keyId.');
         }
       });
@@ -250,13 +250,13 @@ export function isValidEncryptionKey(key, keyringId) {
     !isKeyPseudoRevoked(keyringId, key);
 }
 
-export function sortKeysByCreationDate(keys, primaryKeyFpr) {
+export function sortKeysByCreationDate(keys, defaultKeyFpr) {
   keys.sort((a, b) => {
-    if (primaryKeyFpr) {
-      if (primaryKeyFpr === a.primaryKey.getFingerprint()) {
+    if (defaultKeyFpr) {
+      if (defaultKeyFpr === a.primaryKey.getFingerprint()) {
         return -1;
       }
-      if (primaryKeyFpr === b.primaryKey.getFingerprint()) {
+      if (defaultKeyFpr === b.primaryKey.getFingerprint()) {
         return 1;
       }
     }

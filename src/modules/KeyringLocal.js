@@ -22,38 +22,38 @@ export default class KeyringLocal extends KeyringBase {
   }
 
   /**
-   * Retrieve primary key. If no primary key set then take newest private key available.
+   * Retrieve default key. If no default key set then take newest private key available.
    * @return {openpgp.key.Key}
    */
-  getPrimaryKey() {
-    let primaryKey;
-    const primaryKeyFpr = this.keystore.getPrimaryKeyFpr();
-    if (primaryKeyFpr) {
-      primaryKey = this.keystore.privateKeys.getForId(primaryKeyFpr);
-      if (!(primaryKey && this.validatePrimaryKey(primaryKey))) {
-        // primary key with this id does not exist or is invalid
-        this.setPrimaryKey(''); // clear primary key
-        primaryKey = null;
+  getDefaultKey() {
+    let defaultKey;
+    const defaultKeyFpr = this.keystore.getDefaultKeyFpr();
+    if (defaultKeyFpr) {
+      defaultKey = this.keystore.privateKeys.getForId(defaultKeyFpr);
+      if (!(defaultKey && this.validateDefaultKey(defaultKey))) {
+        // default key with this id does not exist or is invalid
+        this.setDefaultKey(''); // clear default key
+        defaultKey = null;
       }
     }
-    if (!primaryKey) {
+    if (!defaultKey) {
       // get newest private key that is valid
       this.keystore.privateKeys.keys.forEach(key => {
-        if ((!primaryKey || primaryKey.primaryKey.created < key.primaryKey.created) &&
-            this.validatePrimaryKey(key)) {
-          primaryKey = key;
+        if ((!defaultKey || defaultKey.primaryKey.created < key.primaryKey.created) &&
+            this.validateDefaultKey(key)) {
+          defaultKey = key;
         }
       });
-      if (primaryKey) {
-        this.setPrimaryKey(primaryKey.primaryKey.getFingerprint());
+      if (defaultKey) {
+        this.setDefaultKey(defaultKey.primaryKey.getFingerprint());
       }
     }
-    return primaryKey ? primaryKey : null;
+    return defaultKey ? defaultKey : null;
   }
 
-  getPrimaryKeyFpr() {
-    const primaryKey = this.getPrimaryKey();
-    return primaryKey ? primaryKey.primaryKey.getFingerprint() : '';
+  getDefaultKeyFpr() {
+    const defaultKey = this.getDefaultKey();
+    return defaultKey ? defaultKey.primaryKey.getFingerprint() : '';
   }
 
   /**
@@ -86,9 +86,9 @@ export default class KeyringLocal extends KeyringBase {
     }
     await this.keystore.store();
     await this.sync.commit();
-    // by no primary key in the keyring set the first found private keys as primary for the keyring
-    if (!this.hasPrimaryKey() && this.keystore.privateKeys.keys.length > 0) {
-      await this.setPrimaryKey(this.keystore.privateKeys.keys[0].primaryKey.getFingerprint());
+    // if no default key in the keyring set, then first found private key will be set as default for the keyring
+    if (!this.hasDefaultKey() && this.keystore.privateKeys.keys.length > 0) {
+      await this.setDefaultKey(this.keystore.privateKeys.keys[0].primaryKey.getFingerprint());
     }
     return result;
   }
@@ -183,10 +183,10 @@ export default class KeyringLocal extends KeyringBase {
   async removeKey(fingerprint, type) {
     const removedKey = super.removeKey(fingerprint, type);
     if (type === 'private') {
-      const primaryKeyFpr = this.keystore.getPrimaryKeyFpr();
-      // Remove the key from the keyring attributes if primary
-      if (primaryKeyFpr  === removedKey.primaryKey.getFingerprint()) {
-        await this.setPrimaryKey('');
+      const defaultKeyFpr = this.keystore.getDefaultKeyFpr();
+      // Remove the key from the keyring attributes if default
+      if (defaultKeyFpr  === removedKey.primaryKey.getFingerprint()) {
+        await this.setDefaultKey('');
       }
     }
     this.sync.add(removedKey.primaryKey.getFingerprint(), keyringSync.DELETE);
@@ -199,9 +199,9 @@ export default class KeyringLocal extends KeyringBase {
     this.sync.add(newKey.key.primaryKey.getFingerprint(), keyringSync.INSERT);
     await this.keystore.store();
     await this.sync.commit();
-    // if no primary key in the keyring set the generated key as primary
-    if (!this.hasPrimaryKey()) {
-      await this.setPrimaryKey(newKey.key.primaryKey.getFingerprint());
+    // if no default key in the keyring set the generated key as default
+    if (!this.hasDefaultKey()) {
+      await this.setDefaultKey(newKey.key.primaryKey.getFingerprint());
     }
     return newKey;
   }

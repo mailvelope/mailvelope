@@ -15,7 +15,7 @@ l10n.register([
   'editor_encrypt_button',
   'options_home',
   'sign_dialog_header',
-  'general_primary_key_auto_sign'
+  'general_default_key_auto_sign'
 ]);
 
 class EditorModalFooter extends React.Component {
@@ -36,7 +36,7 @@ class EditorModalFooter extends React.Component {
           </select>
         </div>
         <div className="form-nav-link pull-right">
-          <a role="button" onClick={this.props.onClickSignSetting}>{l10n.map.general_primary_key_auto_sign}</a>
+          <a role="button" onClick={this.props.onClickSignSetting}>{l10n.map.general_default_key_auto_sign}</a>
         </div>
       </form>
     );

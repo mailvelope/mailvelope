@@ -187,11 +187,11 @@
     "message": "Dateien verschlüsseln",
     "description": "Navigation link to file encryption"
   },
-  "editor_no_primary_key_caption_long": {
-    "message": "Die E-Mail kann nicht digital unterschrieben werden, da der Primärschlüssel fehlt.",
+  "editor_no_default_key_caption_long": {
+    "message": "Die E-Mail kann nicht digital unterschrieben werden, da der Standardschlüssel fehlt.",
     "description": ""
   },
-  "editor_no_primary_key_caption_short": {
+  "editor_no_default_key_caption_short": {
     "message": "E-Mail kann nicht digital unterschrieben werden",
     "description": ""
   },
@@ -379,17 +379,13 @@
     "description": "Option to choose GnuPG as the preferred OpenPGP backend.",
     "message": "GnuPG bevorzugt für alle OpenPGP Verschlüsselungsoperationen verwenden"
   },
-  "general_primary_key_always": {
-    "message": "Immer den Hauptschlüssel zur Liste der Empfänger hinzufügen (ermöglicht es, gesendete Nachrichten zu entschlüsseln).",
-    "description": "Label for primary private key option."
+  "general_default_key_always": {
+    "message": "Immer den Standardschlüssel zur Liste der Empfänger hinzufügen (ermöglicht es, gesendete Nachrichten zu entschlüsseln).",
+    "description": "Label for default private key option."
   },
-  "general_primary_key_label": {
-    "message": "Privater Hauptschlüssel",
-    "description": "Label for primary private key option."
-  },
-  "general_primary_key_auto_sign": {
-    "message": "Alle Nachrichten mit Hauptschlüssel signieren",
-    "description": "Label for primary private key option."
+  "general_default_key_auto_sign": {
+    "message": "Alle Nachrichten mit Standardschlüssel signieren",
+    "description": "Label for default private key option."
   },
   "gnupg_error_unusable_pub_key": {
     "message": "Bitte überprüfen Sie ob die folgenden öffentlichen Schlüssel in ihrem GnuPG Schlüsselbund vorhanden und valide sind: $1",
@@ -658,13 +654,13 @@
   "key_recovery_failed": {
     "message": "Fehler bei Wiederherstellung der Sicherungskopie."
   },
-  "key_set_as_primary": {
-    "message": "Als Hauptschlüssel einstellen",
-    "description": "Set as primary key for the keyring button"
+  "key_set_as_default": {
+    "message": "Als Standard Schlüssel einstellen",
+    "description": "Set as default key for the keyring button"
   },
-  "invalid_primary_key": {
+  "invalid_default_key": {
     "message": "Schlüssel ist nicht valide für Verschlüsselungs- und Signieren-Operationen",
-    "description": "Tootip for set as primary key button"
+    "description": "Tootip for set as default key button"
   },
   "keybackup_failed": {
     "message": "Fehler beim Erstellen der Sicherungskopie."
@@ -765,6 +761,10 @@
     "message": "Erstellt",
     "description": "Short creation date of a PGP key. Max. width: 90px"
   },
+  "keygrid_default_key": {
+    "message": "Standardschlüssel",
+    "description": "Default key in the keyring."
+  },
   "keygrid_delete": {
     "message": "Löschen",
     "description": "Max. 6 characters."
@@ -829,9 +829,9 @@
     "message": "Hauptschlüssel",
     "description": "Main key in the PGP key."
   },
-  "keygrid_primary_label": {
-    "message": "Haupt",
-    "description": "Label for the primary key"
+  "keygrid_default_label": {
+    "message": "Standard",
+    "description": "Label for the default key"
   },
   "keygrid_private_keys": {
     "message": "Private Schlüssel",
