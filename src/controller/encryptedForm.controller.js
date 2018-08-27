@@ -8,7 +8,7 @@ import dompurify from 'dompurify';
 import * as keyring from '../modules/keyring';
 import mvelo from "../mvelo";
 import {getById as getKeyringById} from "../modules/keyring";
-import * as model from "../modules/pgpModel";
+import {verifyDetachedSignature, encryptMessage} from "../modules/pgpModel";
 
 // register language strings
 const l10n = mvelo.l10n.getMessages([
@@ -225,7 +225,7 @@ Comment: openpgp-encrypted-form
 ${this.formSignature}
 -----END PGP SIGNATURE-----`;
 
-    return model.verifyDetachedSignature(rawHtml, [this.recipientKey], signature).then(verified => {
+    return verifyDetachedSignature(rawHtml, [this.recipientKey], signature).then(verified => {
       if (verified.signatures[0].valid === true) {
         return true;
       } else {
@@ -249,7 +249,7 @@ ${this.formSignature}
     signKey.reason = 'PWD_DIALOG_REASON_SIGN';
     signKey.noCache = false;
     await sub.factory.get('pwdDialog').unlockKey(signKey);
-    return await model.encryptMessage({
+    return encryptMessage({
       keyIdsHex: [this.recipientKey.primaryKey.getFingerprint()],
       keyringId: this.keyringId,
       primaryKey: signKey,
