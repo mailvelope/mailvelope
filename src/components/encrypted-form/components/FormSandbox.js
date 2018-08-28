@@ -24,13 +24,6 @@ export default class FormSandbox extends React.Component {
     }
   }
 
-  componentDidMount() {
-    const sandbox = $(this.sandbox);
-    sandbox.one('load', () => {
-      sandbox.one('load', this.props.onTerminate);
-    });
-  }
-
   removeBlacklistedInputs() {
     // a separate cleaning process is required as dompurify
     // does not support sanitizing by input types, these are equivalent to <button>
@@ -245,8 +238,7 @@ FormSandbox.propTypes = {
   validate: PropTypes.bool,
   onValidated: PropTypes.func,
   onResize: PropTypes.func,
-  onError: PropTypes.func,
-  onTerminate: PropTypes.func
+  onError: PropTypes.func
 };
 
 FormSandbox.defaultProps = {
