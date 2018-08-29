@@ -36,6 +36,9 @@ export default class KeyringGPG extends KeyringBase {
   async importKeys(armoredKeys) {
     armoredKeys = armoredKeys.map(key => key.armored).join('\n');
     const {Keys, summary} = await this.keystore.importKeys(armoredKeys);
+    if (armoredKeys && summary.considered === 0) {
+      throw new Error('GnuPG aborted key import, possible parsing error.');
+    }
     const importedFprs = [];
     const result = Keys.map(({key, status}) => {
       const fingerprint = key.fingerprint;
