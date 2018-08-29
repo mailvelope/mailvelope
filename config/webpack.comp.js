@@ -11,7 +11,7 @@ const externals = {
 };
 
 function prod(pathname, filename) {
-  return Object.assign({}, common.prod, {
+  return {...common.prod,
     entry: `./src/components/${pathname}/${filename}`,
     output: {
       path: path.resolve(`./build/tmp/components/${pathname}`),
@@ -21,14 +21,14 @@ function prod(pathname, filename) {
     resolve: common.resolve(),
     externals,
     module: common.module.react()
-  });
+  };
 }
 
 function dev(pathname, filename) {
-  return Object.assign({}, prod(pathname, filename), {
+  return {...prod(pathname, filename),
     mode: 'development',
     devtool: 'inline-source-map'
-  });
+  };
 }
 
 module.exports = [

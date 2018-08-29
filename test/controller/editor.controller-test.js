@@ -7,7 +7,7 @@ import {Port} from '../util';
 describe('Editor controller unit tests', () => {
   let ctrl;
   let port;
-  const preferences = Object.assign({}, prefs.prefs);
+  const preferences = {...prefs.prefs};
 
   beforeEach(() => {
     port = new Port('editor-1');

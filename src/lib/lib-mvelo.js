@@ -7,7 +7,7 @@ import mveloGlobal from '../mvelo';
 import browser from 'webextension-polyfill';
 import dompurify from 'dompurify';
 
-const mvelo = Object.assign({}, mveloGlobal);
+const mvelo = {...mveloGlobal};
 
 export default mvelo;
 

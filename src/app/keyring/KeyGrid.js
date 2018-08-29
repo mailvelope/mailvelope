@@ -63,7 +63,7 @@ export default class KeyGrid extends React.Component {
   showKeyDetails(index) {
     const key = this.props.keys[index];
     app.keyring('getKeyDetails', {fingerprint: key.fingerprint})
-    .then(details => this.setState({keyDetails: Object.assign({}, key, details)}));
+    .then(details => this.setState({keyDetails: {...key, ...details}}));
   }
 
   deleteKeyEntry(e, index) {
