@@ -70,10 +70,12 @@ export async function sign({data, signingKeyFpr}) {
 /**
  * Verify message
  * @param {String} armored - cleartext signed message
+ * @param {String} [options.plaintext] - message to be verified as plaintext
+ * @param {String} [detachedSignature] - signature as armored block
  * @return {{data: String, signatures: Array<{keyId: String, fingerprint: String, valid: Boolean}>}}
  */
-export async function verify({armored}) {
-  let {data, signatures} = await gpgme.verify({data: armored});
+export async function verify({armored, plaintext, detachedSignature}) {
+  let {data, signatures} = await gpgme.verify({data: armored || plaintext, signature: detachedSignature});
   signatures = mapSignatures(signatures);
   return {data, signatures};
 }

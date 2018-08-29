@@ -5,27 +5,24 @@
 
 import * as sub from './sub.controller';
 import dompurify from 'dompurify';
-import * as keyring from '../modules/keyring';
 import mvelo from "../mvelo";
-import {getById as getKeyringById} from "../modules/keyring";
+import {getById as getKeyringById, getPreferredKeyringId} from "../modules/keyring";
 import {verifyDetachedSignature, encryptMessage} from "../modules/pgpModel";
 
 // register language strings
 const l10n = mvelo.l10n.getMessages([
-  'form_definition_error_no_recipient_key',
   'form_definition_error_signature_invalid',
-  'form_sign_error_no_primary_key',
-  'form_sign_error_no_sign_key'
+  'form_sign_error_no_default_key'
 ]);
 
 export default class EncryptedFormController extends sub.SubController {
   constructor(port) {
     super(port);
-    this.keyringId = mvelo.LOCAL_KEYRING_ID;
+    this.keyringId = getPreferredKeyringId();
     this.formAction = null;
     this.formRecipient = null;
     this.formSignature = null;
-    this.recipientKey = null;
+    this.recipientFpr = null;
     this.fileExtension = null;
 
     this.on('encrypted-form-init', this.onFormInit);
@@ -56,8 +53,7 @@ export default class EncryptedFormController extends sub.SubController {
       // Errors that should not be exposed to the API, only displayed in the form UI
       case 'NO_KEY_FOR_RECIPIENT':
       case 'INVALID_SIGNATURE':
-      case 'NO_PRIMARY_KEY_FOUND':
-      case 'NO_SIGN_KEY_FOUND':
+      case 'NO_DEFAULT_KEY_FOUND':
       default:
         this.ports.encryptedForm.emit('error-message', mvelo.util.mapError(error));
         break;
@@ -75,7 +71,6 @@ export default class EncryptedFormController extends sub.SubController {
       this.assertAndSetAction(form);
       this.assertAndSetEncoding(form);
       this.assertAndSetRecipient(form);
-      this.assertAndSetFingerprint();
     } catch (error) {
       this.onFormError(error);
       return;
@@ -85,6 +80,7 @@ export default class EncryptedFormController extends sub.SubController {
       await this.validateSignature(event.html);
     } catch (error) {
       this.onFormError(error);
+      return;
     }
 
     const cleanHtml = this.getCleanFormHtml(event.html);
@@ -93,7 +89,7 @@ export default class EncryptedFormController extends sub.SubController {
       formEncoding: this.formEncoding,
       formAction: this.formAction,
       formRecipient: this.formRecipient,
-      formFingerprint: this.formFingerprint
+      recipientFpr: this.recipientFpr
     });
   }
 
@@ -198,64 +194,51 @@ export default class EncryptedFormController extends sub.SubController {
     return true;
   }
 
-  assertAndSetFingerprint() {
-    const keyMap = keyring.getById(this.keyringId).getKeyByAddress([this.formRecipient]);
-    if (keyMap[this.formRecipient] && keyMap[this.formRecipient].length) {
-      this.recipientKey = keyMap[this.formRecipient][0];
-      this.formFingerprint = this.recipientKey.primaryKey.getFingerprint().toUpperCase();
-    } else {
-      throw new mvelo.Error(l10n.form_definition_error_no_recipient_key, 'NO_KEY_FOR_RECIPIENT');
-    }
-    return true;
-  }
-
   assertAndSetSignature(signature) {
     if (!signature) {
-      throw new mvelo.Error('Form definition does not contain valid signature.', 'NO_SIGNATURE');
+      throw new mvelo.Error('Form definition does not contain a signature.', 'NO_SIGNATURE');
     }
     this.formSignature = signature;
     return true;
   }
 
-  validateSignature(rawHtml) {
-    const signature =
+  async validateSignature(rawHtml) {
+    const detachedSignature =
 `-----BEGIN PGP SIGNATURE-----
 Comment: openpgp-encrypted-form
 
 ${this.formSignature}
 -----END PGP SIGNATURE-----`;
 
-    return verifyDetachedSignature(rawHtml, [this.recipientKey], signature).then(verified => {
-      if (verified.signatures[0].valid === true) {
-        return true;
-      } else {
-        throw new mvelo.Error(l10n.form_definition_error_signature_invalid, 'INVALID_SIGNATURE');
-      }
-    });
+    const {signatures} = await verifyDetachedSignature({plaintext: rawHtml, signerEmail: this.formRecipient, detachedSignature, keyringId: this.keyringId});
+    const validSig = signatures.find(sig => sig.valid === true);
+    if (validSig) {
+      this.recipientFpr = validSig.fingerprint;
+      return true;
+    } else {
+      throw new mvelo.Error(l10n.form_definition_error_signature_invalid, 'INVALID_SIGNATURE');
+    }
   }
 
   async signAndEncrypt(data) {
-    const signKey = getKeyringById(this.keyringId).getPrimaryKey();
-    if (!signKey) {
-      throw new mvelo.Error(l10n.form_sign_error_no_primary_key, 'NO_PRIMARY_KEY_FOUND');
+    const defaultKeyFpr = getKeyringById(this.keyringId).getDefaultKeyFpr();
+    if (!defaultKeyFpr) {
+      throw new mvelo.Error(l10n.form_sign_error_no_default_key, 'NO_DEFAULT_KEY_FOUND');
     }
-    const signKeyPacket = signKey.key.getSigningKeyPacket();
-    const signKeyid = signKeyPacket && signKeyPacket.getKeyId().toHex();
-    if (!signKeyid) {
-      throw new mvelo.Error(l10n.form_sign_error_no_sign_key, 'NO_SIGN_KEY_FOUND');
-    }
-    signKey.keyid = signKeyid;
-    signKey.keyringId = this.keyringId;
-    signKey.reason = 'PWD_DIALOG_REASON_SIGN';
-    signKey.noCache = false;
-    await sub.factory.get('pwdDialog').unlockKey(signKey);
     return encryptMessage({
-      keyIdsHex: [this.recipientKey.primaryKey.getFingerprint()],
+      data,
       keyringId: this.keyringId,
-      primaryKey: signKey,
-      message: data,
+      unlockKey: this.unlockKey,
+      encryptionKeyFprs: [this.recipientFpr],
+      signingKeyFpr: defaultKeyFpr,
       uiLogSource: 'security_log_encrypt_form',
       filename: `opengp-encrypted-form-data.${this.fileExtension}`
     });
+  }
+
+  async unlockKey({key}) {
+    const pwdControl = sub.factory.get('pwdDialog');
+    const {key: unlocked} = await pwdControl.unlockKey({key, reason: 'PWD_DIALOG_REASON_SIGN'});
+    return unlocked;
   }
 }

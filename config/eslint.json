@@ -8,6 +8,12 @@
     }
   },
 
+  "settings": {
+    "react": {
+      "version": "16.4.0"
+    }
+  },
+
   "extends": "eslint:recommended",
 
   "env": {

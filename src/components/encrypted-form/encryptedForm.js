@@ -33,7 +33,7 @@ export default class EncryptedForm extends React.Component {
       formDefinition: null,
       formEncoding: null,
       formRecipient: null,
-      formFingerprint: null
+      recipientFpr: null
     };
     this.port = mvelo.EventHandler.connect(`encryptedForm-${this.props.id}`, this);
     this.registerEventListeners();
@@ -58,14 +58,7 @@ export default class EncryptedForm extends React.Component {
   }
 
   showForm(event) {
-    this.setState({
-      formEncoding: event.formEncoding,
-      formDefinition: event.formDefinition,
-      formAction: event.formAction,
-      formRecipient: event.formRecipient,
-      formFingerprint: event.formFingerprint,
-      waiting: false
-    });
+    this.setState({...event, waiting: false});
   }
 
   showErrorMsg(error) {
@@ -152,7 +145,7 @@ export default class EncryptedForm extends React.Component {
                     <div className="recipient">
                       <div className="recipient-action">{l10n.map.form_destination}: {this.state.formAction ? this.state.formAction : l10n.map.form_destination_default}</div>
                       <div className="recipient-email">{l10n.map.form_recipient}: {this.state.formRecipient}</div>
-                      <div className="recipient-fingerprint">{this.state.formFingerprint.match(/.{1,4}/g).join(' ')}</div>
+                      <div className="recipient-fingerprint">{mvelo.ui.formatFpr(this.state.recipientFpr)}</div>
                     </div>
                   </div>
                 </div>

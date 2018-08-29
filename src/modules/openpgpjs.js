@@ -101,21 +101,28 @@ export async function sign({data, keyring, unlockKey, signingKeyFpr}) {
 
 /**
  * Verify message
- * @param  {openpgp.message.Message} options.message - message to be verified
+ * @param  {openpgp.message.Message} [options.message] - message to be verified
+ * @param {String} [options.plaintext] - message to be verified as plaintext
+ * @param {String} [detachedSignature] - signature as armored block
  * @param  {KeyringBase} options.keyring - keyring used for verification
- * @param  {Array<String>} options.signingKeyIds - fingerprints of signing keys
+ * @param  {Array<openpgp.key.Keyid|String>} options.signingKeyIds - fingerprints or Keyid objects of signing keys
  * @return {{data: String, signatures: Array<{keyId: String, fingerprint: String, valid: Boolean}>}}
  */
-export async function verify({message, keyring, signingKeyIds}) {
+export async function verify({message, plaintext, detachedSignature, keyring, signingKeyIds}) {
   const publicKeys = [];
   for (const keyId of signingKeyIds) {
-    const keys = keyring.keystore.getKeysForId(keyId.toHex(), true);
+    const keys = keyring.keystore.getKeysForId(typeof keyId === 'string' ? keyId : keyId.toHex(), true);
     if (keys) {
       const key = keys[0];
       publicKeys.push(key);
     }
   }
-  let {data, signatures} = await openpgp.verify({message, publicKeys});
+  let signature;
+  if (plaintext && detachedSignature) {
+    signature = openpgp.signature.readArmored(detachedSignature);
+    message = openpgp.message.fromText(plaintext);
+  }
+  let {data, signatures} = await openpgp.verify({message, publicKeys, signature});
   signatures = signatures.map(signature => {
     const sig = {};
     sig.keyId = signature.keyid.toHex();

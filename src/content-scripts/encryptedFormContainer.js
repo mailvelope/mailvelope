@@ -10,8 +10,7 @@ export default class EncryptedFormContainer {
     this.baseValidate(selector, html, signature);
     this.selector = selector;
     this.id = mvelo.util.getHash();
-    this.name = `encryptedFormCont-${this.id}`;
-    this.port = mvelo.EventHandler.connect(this.name, this);
+    this.port = mvelo.EventHandler.connect(`encryptedFormCont-${this.id}`, this);
     this.registerEventListener();
     this.parent = null;
     this.signature = signature;
@@ -25,7 +24,6 @@ export default class EncryptedFormContainer {
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');
     const url = mvelo.runtime.getURL(`components/encrypted-form/encryptedForm.html?id=${this.id}`);
-    this.container.setAttribute('id', this.name);
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);
     this.container.setAttribute('scrolling', 'no');
@@ -37,7 +35,6 @@ export default class EncryptedFormContainer {
 
   processFormDefinition() {
     this.port.emit('encrypted-form-definition', {
-      sender: this.name,
       html: this.html,
       signature: this.signature
     });
