@@ -343,13 +343,9 @@
     "description": "Behavior when no action is specified in form",
     "message": "The encrypted data will be returned to the page."
   },
-  "form_sign_error_no_primary_key": {
+  "form_sign_error_no_default_key": {
     "description": "Error message when trying to sign and no primary key is found",
     "message": "No private key is available in the keyring to sign the form content. Please import or create one."
-  },
-  "form_sign_error_no_sign_key": {
-    "description": "Error message when trying to sign and no sign key is found in primary key",
-    "message": "Private key is not valid for signing the form."
   },
   "form_forward": {
     "message": "Forward",

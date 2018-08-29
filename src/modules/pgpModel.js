@@ -11,7 +11,7 @@ import * as prefs from './prefs';
 import * as pwdCache from './pwdCache';
 import {randomString, symEncrypt} from './crypto';
 import * as uiLog from './uiLog';
-import {getById as getKeyringById, getKeyringWithPrivKey, syncPublicKeys, getPreferredKeyring} from './keyring';
+import {getById as getKeyringById, getKeyringWithPrivKey, syncPublicKeys, getPreferredKeyring, getKeyByAddress} from './keyring';
 import {getUserId, mapKeys} from './key';
 import * as keyringSync from './keyringSync';
 import * as trustKey from './trustKey';
@@ -119,16 +119,17 @@ export function readMessage({armoredText, binary}) {
  * @param {Array<String>} options.encryptionKeyFprs - fingerprint of encryption keys
  * @param {String} options.signingKeyFpr - fingerprint of signing key
  * @param {String} options.uiLogSource - UI source that triggered encryption, used for logging
+ * @param {String} [options.filename] - file name set for this message
  * @return {Promise<String>} - armored PGP message
  */
-export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyFprs, signingKeyFpr, uiLogSource}) {
+export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyFprs, signingKeyFpr, uiLogSource, filename}) {
   const keyring = getKeyringWithPrivKey(signingKeyFpr, keyringId);
   if (!keyring) {
     throw new mvelo.Error('No private key found', 'NO_PRIVATE_KEY_FOUND');
   }
   await syncPublicKeys({keyring, keyIds: encryptionKeyFprs, keyringId});
   try {
-    const result = await keyring.getPgpBackend().encrypt({data, keyring, unlockKey, encryptionKeyFprs, signingKeyFpr, armor: true});
+    const result = await keyring.getPgpBackend().encrypt({data, keyring, unlockKey, encryptionKeyFprs, signingKeyFpr, armor: true, filename});
     logEncryption(uiLogSource, keyring, encryptionKeyFprs);
     return result;
   } catch (e) {
@@ -177,13 +178,20 @@ export async function verifyMessage({armored, keyringId}) {
   }
 }
 
-export function verifyDetachedSignature(plaintext, publicKeys, detachedSignature) {
-  return Promise.resolve()
-  .then(() => {
-    const signature = openpgp.signature.readArmored(detachedSignature);
-    const message = openpgp.message.fromText(plaintext);
-    return openpgp.verify({message, publicKeys, signature});
-  }).then(sigCheck => sigCheck);
+export async function verifyDetachedSignature({plaintext, signerEmail, detachedSignature, keyringId}) {
+  const keyring = getPreferredKeyring(keyringId);
+  // get keys for signer email address
+  const {[signerEmail]: signerKeys} = getKeyByAddress(keyringId, signerEmail);
+  if (!signerKeys) {
+    throw new mvelo.Error(l10n('form_definition_error_no_recipient_key'), 'NO_KEY_FOR_RECIPIENT');
+  }
+  const signerKeyFprs = signerKeys.map(signerKey => signerKey.primaryKey.getFingerprint());
+  // sync keys to preferred keyring
+  await syncPublicKeys({keyring, keyIds: signerKeyFprs, keyringId});
+  let {signatures} = await keyring.getPgpBackend().verify({plaintext, detachedSignature, keyring, signingKeyIds: signerKeyFprs});
+  // filter out signatures not corresponding to keys of signer email
+  signatures = signatures.filter(signature => signerKeyFprs.includes(signature.fingerprint));
+  return {signatures};
 }
 
 /**

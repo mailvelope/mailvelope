@@ -266,7 +266,7 @@ export async function getKeyData({keyringId, allUsers = true}) {
 /**
  * Query keys in all keyrings by email address
  * @param  {String} keyringId - requested keyring, the leading keyring of a scenario
- * @param  {Array<String>} emails
+ * @param  {Array<String>|String} emails
  * @return {Object} - map in the form {address: [key1, key2, ..]}
  */
 export function getKeyByAddress(keyringId, emails) {
@@ -453,9 +453,12 @@ export async function syncPublicKeys({keyring, keyIds, allKeyrings = false, keyr
  * @return {String}
  */
 export function getPreferredKeyringId() {
-  // return gnupg keyring if available and preferred
+  // return gnupg keyring if available, preferred and has valid private key
   if (gpgme && prefs.general.prefer_gnupg) {
-    return mvelo.GNUPG_KEYRING_ID;
+    const gpgKeyring = keyringMap.get(mvelo.GNUPG_KEYRING_ID);
+    if (gpgKeyring.hasDefaultKey()) {
+      return mvelo.GNUPG_KEYRING_ID;
+    }
   }
   return mvelo.MAIN_KEYRING_ID;
 }

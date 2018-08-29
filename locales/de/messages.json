@@ -343,13 +343,9 @@
     "description": "Behavior when no action is specified in form",
     "message": "Die verschlüsselten Daten werden zurück an die Seite gesendet."
   },
-  "form_sign_error_no_primary_key": {
+  "form_sign_error_no_default_key": {
     "description": "Error message when trying to sign and no primary key is found",
     "message": "Es ist kein privater Schlüssel zum Signieren des Formular Inhalts vorhanden. Bitte Schlüssel importieren oder neu erzeugen."
-  },
-  "form_sign_error_no_sign_key": {
-    "description": "Error message when trying to sign and no sign key packet is found in primary key",
-    "message": "Privater Schlüssel ist nicht gültig für das Signieren des Formulars."
   },
   "form_forward": {
     "message": "Vorwärts",

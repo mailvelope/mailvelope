@@ -30,8 +30,10 @@ function react() {
       exclude: /node_modules/,
       loader: 'babel-loader',
       options: {
+        babelrc: false,
         cacheDirectory: true,
-        presets: ['react']
+        presets: ['@babel/react'],
+        plugins: ['@babel/plugin-syntax-object-rest-spread']
       }
     },
     {
