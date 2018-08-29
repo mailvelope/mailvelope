@@ -6,7 +6,7 @@ import EncryptController from '../../src/controller/encrypt.controller';
 
 let ctrl;
 let editorCtrlMock;
-const preferences = Object.assign({}, prefs.prefs);
+const preferences = {...prefs.prefs};
 
 const testRecipients = [{email: 'test@example.com'}];
 

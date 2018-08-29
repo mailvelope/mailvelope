@@ -64,7 +64,7 @@ export default class WatchList extends React.Component {
   }
 
   copySite(site) {
-    const copy = Object.assign({}, site);
+    const copy = {...site};
     copy.frames = [...site.frames || []];
     return copy;
   }

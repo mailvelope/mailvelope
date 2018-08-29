@@ -17,17 +17,17 @@ const resolve = {
   }
 };
 
-exports.prod = Object.assign({}, common.prod, {
+exports.prod = {...common.prod,
   entry,
   output,
   resolve,
   module: {
     rules: [common.replaceVersion(/main\.js$/, pjson.version)]
   }
-});
+};
 
-exports.dev = Object.assign({}, exports.prod, {
+exports.dev = {...exports.prod,
   mode: 'development',
   devtool: 'inline-source-map'
-});
+};
 

@@ -16,18 +16,18 @@ const externals = {
   'react-dom': 'ReactDOM'
 };
 
-const prod = Object.assign({}, common.prod, {
+const prod = {...common.prod,
   entry,
   output,
   resolve: common.resolve(),
   externals,
   module: common.module.react()
-});
+};
 
-const dev = Object.assign({}, prod, {
+const dev = {...prod,
   mode: 'development',
   devtool: 'source-map'
-});
+};
 
 module.exports = [dev];
 

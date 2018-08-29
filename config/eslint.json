@@ -30,6 +30,7 @@
     /* possible errors */
     "no-console": 0,
     "no-empty": ["error", { "allowEmptyCatch": true }], // disallow empty block statements
+    "require-atomic-updates": 2, // disallow assignments that can lead to race conditions due to usage of await or yield
     /* best practices */
     "curly": 2, // enforce consistent brace style for all control statements
     "no-return-await": 2, // disallows unnecessary return await
@@ -60,6 +61,7 @@
     "object-curly-spacing": ["warn", "never"], // enforce consistent spacing inside braces
     "one-var": ["warn", "never"], // enforce variables to be declared either together or separately in functions
     "padded-blocks": ["warn", "never"], // require or disallow padding within blocks
+    "prefer-object-spread": 1, // disallow using Object.assign with an object literal as the first argument and prefer the use of object spread instead.
     "semi": ["warn", "always"], // require or disallow semicolons instead of ASI
     "semi-spacing": 1, // enforce consistent spacing before and after semicolons
     "space-before-blocks": 1, // enforce consistent spacing before blocks
