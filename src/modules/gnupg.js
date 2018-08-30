@@ -47,6 +47,9 @@ export async function encrypt({data, dataURL, encryptionKeyFprs, signingKeyFpr, 
       armor,
       additional
     });
+    if (result.format === 'base64') {
+      return window.atob(result.data);
+    }
     return result.data;
   } catch (e) {
     if (e.code === 'GNUPG_ERROR' && e.message.includes('Unusable public key')) {
@@ -95,6 +98,11 @@ function mapSignatures({signatures} = {}) {
     } catch (e) {}
     if (bad.errorDetails['key-missing']) {
       sig.valid = null;
+    } else if (bad._rawSigObject && bad._rawSigObject.status_code === 0 && bad._rawSigObject.validity === 3) {
+      // status of success (0) and validity of marginal (3) means the signature was verified successfully,
+      // but the trust model of GnuPG considers the public key as unsufficiently trusted. As in the Mailvelope model
+      // all keys in the keyring are trusted, we consider this signature as valid.
+      sig.valid = true;
     } else {
       sig.valid = false;
     }
