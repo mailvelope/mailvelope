@@ -27,7 +27,7 @@ l10n.register([
   'security_display_decrypted',
   'security_display_popup',
   'security_display_inline',
-  'reload_webmail_tab',
+  'reload_tab',
   'form_save',
   'form_cancel'
 ]);
@@ -97,7 +97,7 @@ export default class Security extends React.Component {
               </label>
             </div>
           </div>
-          <div id="secReloadInfo" className="alert alert-success">{l10n.map.reload_webmail_tab}</div>
+          <div id="secReloadInfo" className="alert alert-success">{l10n.map.reload_tab}</div>
           <div className="form-group">
             <button type="button" id="secBtnSave" className="btn btn-primary" disabled>{l10n.map.form_save}</button>
             <button type="button" id="secBtnCancel" className="btn btn-default" disabled>{l10n.map.form_cancel}</button>

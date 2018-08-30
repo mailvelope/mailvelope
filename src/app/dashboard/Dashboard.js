@@ -12,7 +12,7 @@ l10n.register([
   'dashboard_link_manage_keys',
   'dashboard_link_encrypt_decrypt_files',
   'dashboard_link_view_security_log',
-  'dashboard_link_manage_email_providers',
+  'dashboard_link_manage_domains',
   'dashboard_link_help',
   'dashboard_title'
 ]);
@@ -48,7 +48,7 @@ export default function Dashboard() {
         <div className="col-md-3">
           <Link to="/settings/watchlist" className="dashboard-item" role="button">
             <i className="fa fa-server" role="presentation"></i>
-            <span>{l10n.map.dashboard_link_manage_email_providers}</span>
+            <span>{l10n.map.dashboard_link_manage_domains}</span>
           </Link>
         </div>
       </div>

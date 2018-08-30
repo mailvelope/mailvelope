@@ -11,7 +11,7 @@ l10n.register([
   'action_menu_back',
   'action_menu_all_options',
   'action_menu_review_security_logs',
-  'action_menu_manage_email_providers',
+  'action_menu_manage_domains',
   'action_menu_edit_security_settings',
   'action_menu_reload_extension_scripts',
   'action_menu_activate_current_tab',
@@ -36,7 +36,7 @@ function ActionMenuAdvanced(props) {
         </li>
         <li className="with-icon" role="menuitem">
           <a className="clearfix" id="email-providers" onClick={props.onMenuItemClickHandler} role="button">
-            <p>{l10n.map.action_menu_manage_email_providers}</p>
+            <p>{l10n.map.action_menu_manage_domains}</p>
             <i className="fa fa-server" role="presentation"></i>
           </a>
         </li>
