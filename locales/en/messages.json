@@ -855,6 +855,22 @@
     "message": "Export all keys in this list to file",
     "description": "Title for Export key button."
   },
+  "keygrid_import": {
+    "message": "Import",
+    "description": "Import key button label"
+  },
+  "keygrid_import_title": {
+    "message": "Import a key",
+    "description": "Title for Import key button."
+  },
+  "keygrid_generate": {
+    "message": "Generate",
+    "description": "Generate key button label"
+  },
+  "keygrid_generate_title": {
+    "message": "Generate a key",
+    "description": "Title for generate key button"
+  },
   "keygrid_invalid_userid": {
     "description": "User ID invalid.",
     "message": "Invalid user ID"
@@ -913,7 +929,7 @@
   },
   "keygrid_sort_type": {
     "description": "Key grid sort selector.",
-    "message": "Key type"
+    "message": "Filters"
   },
   "keygrid_status_invalid": {
     "description": "Validity status of a PGP key.",
@@ -1054,6 +1070,10 @@
   "options_title": {
     "description": "Title of options page.",
     "message": "Mailvelope Options"
+  },
+  "preferred": {
+    "description": "Indicates if an keyring is preferred",
+    "message": "preferred"
   },
   "pwd_dialog_cache_pwd": {
     "description": "Checkbox label for remembering of the password.",

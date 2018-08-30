@@ -19,7 +19,7 @@ import mvelo from '../mvelo';
 import React from 'react';
 import {Route, Redirect, Link} from 'react-router-dom';
 import * as l10n from '../lib/l10n';
-import {NavLink, ProviderLogo} from './util/util';
+import {NavLink} from './util/util';
 
 import Dashboard from './dashboard/Dashboard';
 import KeyringSelect from './keyring/components/KeyringSelect';
@@ -41,6 +41,7 @@ import KeyServer from './settings/keyserver';
 import './app.css';
 
 l10n.register([
+  'keyring_header',
   'options_title',
   'security_background_button_title',
   'keyring_header',
@@ -197,8 +198,14 @@ export class App extends React.Component {
   render() {
     return (
       <div>
-        <Route exact path="/" render={() => <Redirect to="/keyring/display" />} />
-        <Route exact path="/keyring" render={() => <Redirect to="/keyring/display" />} />
+        <Route exact path="/" render={() => <Redirect to="/keyring" />} />
+        <Route exact path="/keyring" render={() => (
+          this.state.hasPrivateKey ? (
+            <Redirect to='/keyring/display' />
+          ) : (
+            <Redirect to='/keyring/setup' />
+          )
+        )} />
         <Route exact path="/encryption" render={() => <Redirect to="/encryption/file-encrypt" />} />
         <Route exact path="/settings" render={() => <Redirect to="/settings/general" />} />
         <nav className="navbar navbar-default navbar-fixed-top">
@@ -230,31 +237,29 @@ export class App extends React.Component {
             <Route path='/dashboard' component={Dashboard} />
             <Route path='/keyring' render={() => (
               <KeyringOptions.Provider value={{demail: this.state.demail, gnupg: this.state.gnupg}}>
-                <div className="col-md-3">
-                  <KeyringSelect keyringId={this.state.keyringId} keyringAttr={this.state.keyringAttr} onChange={this.handleChangeKeyring} onDelete={this.handleDeleteKeyring} />
-                  <div role="navigation">
-                    <ul className="nav nav-pills nav-stacked" role="tablist" aria-label="secondary menu">
-                      <NavLink to="/keyring/display">{l10n.map.keyring_display_keys}</NavLink>
-                      <NavLink to="/keyring/import">{l10n.map.keyring_import_keys}</NavLink>
-                      <NavLink to="/keyring/generate">{l10n.map.keyring_generate_key}</NavLink>
-                      <NavLink to="/keyring/setup">{l10n.map.keyring_setup}</NavLink>
-                    </ul>
-                  </div>
-                </div>
-                <div className="col-md-9">
+                <div className="col-md-12">
+                  <KeyringSelect keyringId={this.state.keyringId} keyringAttr={this.state.keyringAttr} onChange={this.handleChangeKeyring} onDelete={this.handleDeleteKeyring} prefs={this.state.prefs}/>
+                  <h3 className="section-header">
+                    <span>{l10n.map.keyring_header}</span>
+                  </h3>
                   <div className="jumbotron secureBackground">
                     <section className="well">
-                      <ProviderLogo logo={this.state.providerLogo} />
-                      <Route path='/keyring/display' render={() =>
-                        <KeyGrid keys={this.state.keys}
-                          defaultKeyFpr={this.state.defaultKeyFpr}
-                          onChangeDefaultKey={this.handleChangeDefaultKey}
-                          onDeleteKey={this.handleDeleteKey}
-                          spinner={this.state.keyGridSpinner} />
-                      } />
-                      <Route path='/keyring/import' render={({location}) => <ImportKey onKeyringChange={this.loadKeyring} prefs={this.state.prefs} location={location} />} />
-                      <Route path='/keyring/generate' render={() => <GenerateKey onKeyringChange={this.loadKeyring} defaultName={this.state.name} defaultEmail={this.state.email} />} />
-                      <Route path='/keyring/setup' render={() => <KeyringSetup hasPrivateKey={this.state.hasPrivateKey} />} />
+                      <Route path='/keyring/display' render={() => (
+                        this.state.hasPrivateKey ? (
+                          <KeyGrid keys={this.state.keys} defaultKeyFpr={this.state.defaultKeyFpr} onChangeDefaultKey={this.handleChangeDefaultKey} onDeleteKey={this.handleDeleteKey} spinner={this.state.keyGridSpinner} />
+                        ) : (
+                          <Redirect to='/keyring/setup' />
+                        )
+                      )} />
+                      <Route path='/keyring/import' render={({location}) => <ImportKey onKeyringChange={this.loadKeyring} demail={this.state.isDemail} prefs={this.state.prefs} location={location} />} />
+                      <Route path='/keyring/generate' render={() => <GenerateKey onKeyringChange={this.loadKeyring} demail={this.state.isDemail} defaultName={this.state.name} defaultEmail={this.state.email} />} />
+                      <Route path='/keyring/setup' render={() => (
+                        this.state.hasPrivateKey ? (
+                          <Redirect to='/keyring/display' />
+                        ) : (
+                          <KeyringSetup hasPrivateKey={this.state.hasPrivateKey} />
+                        )
+                      )} />
                     </section>
                     <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
                   </div>
