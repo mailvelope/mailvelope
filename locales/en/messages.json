@@ -67,9 +67,9 @@
     "message": "<0>Keyring:</0> manage public and private keys.",
     "description": "Keyring label in the action menu"
   },
-  "action_menu_manage_email_providers": {
-    "message": "Manage email providers",
-    "description": "Manage email providers shortcut in the action menu"
+  "action_menu_manage_domains": {
+    "message": "Manage authorized domains",
+    "description": "Manage domains shortcut in the action menu"
   },
   "action_menu_more_options": {
     "message": "More options",
@@ -103,9 +103,9 @@
     "description": "Dashboard help link",
     "message": "Help"
   },
-  "dashboard_link_manage_email_providers": {
-    "description": "Dashboard manage email providers link",
-    "message": "Manage email providers"
+  "dashboard_link_manage_domains": {
+    "description": "Dashboard manage domains link",
+    "message": "Manage authorized domains"
   },
   "dashboard_link_manage_keys": {
     "description": "Dashboard manage keys link",
@@ -1243,9 +1243,9 @@
     "description" : "",
     "message" : "The backup of your data can only be decrypted with the help of the recovery code on this recovery sheet."
   },
-  "reload_webmail_tab": {
+  "reload_tab": {
     "description": "Info message.",
-    "message": "Please reload your email provider page for the settings to take effect."
+    "message": "Please reload the corresponding pages for the settings to take effect."
   },
   "restore_backup_dialog_button": {
     "description": "",
@@ -1480,8 +1480,8 @@
     "message": "Key Server"
   },
   "settings_watchlist": {
-    "description": "Tab of options to display list of supported mail providers.",
-    "message": "List of Email Providers"
+    "description": "Tab of options to display list of authorized domains.",
+    "message": "Authorized Domains"
   },
   "sign_dialog_header": {
     "description": "Header of sign dialog.",
@@ -1564,8 +1564,8 @@
     "message": "Edit"
   },
   "watchlist_delete_confirmation": {
-    "description": "Mesage in the watchlist delete confirmation dialog.",
-    "message": "Do you really want to remove this site from the list of email providers?"
+    "description": "Message in the watchlist delete confirmation dialog.",
+    "message": "Do you really want to remove this site from the list of authorized domains?"
   },
   "watchlist_expose_api": {
     "description": "Expose API to Webmailer.",
@@ -1573,7 +1573,7 @@
   },
   "watchlist_record_title": {
     "description": "Title of the watchlist editor dialog.",
-    "message": "Email Provider"
+    "message": "Authorized Domain"
   },
   "watchlist_title_active": {
     "description": "Entry in watchlist is active.",
