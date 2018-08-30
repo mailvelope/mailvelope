@@ -12,13 +12,16 @@ import {KeyringOptions} from '../app';
 import Spinner from '../../components/util/Spinner';
 import KeyDetails from './components/KeyDetails';
 import KeyringBackup from './components/KeyringBackup';
-
+import {Link} from 'react-router-dom';
 import './KeyGrid.css';
 
 l10n.register([
-  'keyring_header',
   'keygrid_export_title',
   'keygrid_export',
+  'keygrid_import_title',
+  'keygrid_import',
+  'keygrid_generate_title',
+  'keygrid_generate',
   'keygrid_all_keys',
   'keygrid_public_keys',
   'keyring_public_private',
@@ -106,17 +109,26 @@ export default class KeyGrid extends React.Component {
   render() {
     return (
       <div style={{minHeight: '300px'}}>
-        <h3 className="logo-header">
-          <span>{l10n.map.keyring_header}</span>
-        </h3>
         <div className="table-responsive-custom">
           <div className="tableToolbar">
+            <Link className="btn btn-default" to='/keyring/generate' replace tabIndex="0" title={l10n.map.keygrid_generate_title}>
+              <span className="glyphicon glyphicon-plus-sign"></span>&nbsp;
+              <span>{l10n.map.keygrid_generate}</span>
+            </Link>
+            <Link className="btn btn-default" to='/keyring/import' replace tabIndex="0" title={l10n.map.keygrid_import_title}>
+              <span className="glyphicon glyphicon-import"></span>&nbsp;
+              <span>{l10n.map.keygrid_import}</span>
+            </Link>
             <button type="button" onClick={() => this.openExportKeyringDialog()} className="btn btn-default" title={l10n.map.keygrid_export_title}>
               <span className="glyphicon glyphicon-export"></span>&nbsp;
               <span>{l10n.map.keygrid_export}</span>
             </button>
+
             <div className="pull-right form-inline" >
-              <label htmlFor="keyringFilterBtn" style={{paddingTop: '7px', marginRight: '6px'}}>{l10n.map.keygrid_sort_type}</label>
+              <label htmlFor="keyringFilterBtn" className="keyringFilterLabel">
+                <span className="glyphicon glyphicon-filter"></span>&nbsp;
+                {l10n.map.keygrid_sort_type}:&nbsp;
+              </label>
               <select value={this.state.keyTypeFilter} onChange={e => this.handleChangeKeyTypeFilter(e)} className="form-control" id="keyringFilterBtn" style={{marginBottom: '4px'}}>
                 <option value="allkeys">{l10n.map.keygrid_all_keys}</option>
                 <option value="publickeys">{l10n.map.keygrid_public_keys}</option>

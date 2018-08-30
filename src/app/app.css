@@ -76,12 +76,16 @@ input[readonly] {
 .tableToolbar {
   text-align: left;
   padding-top: 4px;
-  padding-bottom: 4px;
+  padding-bottom: .5em;
+}
+.tableToolbar .btn {
+    margin-right: 1em;
 }
 
 .optionsTable {
   background-color: white;
   border: 1px solid #ccc;
+  margin-top:.5em;
 }
 
 .mv-options h3 {
@@ -93,7 +97,9 @@ input[readonly] {
 }
 
 /* Third party logo */
-
+.section-header {
+    margin-bottom:1.5em;
+}
 .logo-header {
   vertical-align: middle;
 }

@@ -2,43 +2,58 @@
  * Copyright (C) 2017 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
-
-.dropdown button {
+.keyringSelect {
+    float:right;
+    margin: .5em;
+    min-width:350px;
+}
+.keyringSelect button {
     width: 100%;
     text-align: left;
-    margin-bottom: 10px;
 }
-
-#keyringSwitcherLabel {
+.keyringSelect .keyringIdentifiers {
     width: 94%;
+}
+.keyringSelect .keyringIdentifier {
+    display:block;
+    white-space: nowrap;
+}
+.keyringSelect .caret {
+    margin-top: 1.5em;
+}
+.keyringSelect .keyRingPicture {
+    width:40px;
+    float:left;
+    padding:.5em 1em .5em 0;
+}
+.keyringSelect .keyRingPicture img {
+    width:28px;
+}
+.keyringSelect .keyRingPrimaryKey {
+    word-wrap: break-word;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: block;
 }
-
-#keyringSwitcherCaret {
-    margin-top: 8px;
-}
-
-.keyRingName {
+.keyringSelect .keyRingName {
     word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-
-#keyringList {
-    margin-top: -8px;
+.keyringSelect .keyringList {
     width: 100%;
 }
-
-#keyringList li.flex-container {
+.keyringSelect .dropdown-menu li > a {
+    padding: 6px 12px;
+}
+.keyringSelect .keyringList li.flex-container {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-start;
     align-content: stretch;
-    align-items: flex-start;
+    align-items: center;
 }
-
-#keyringList a.flex-item {
+.keyringSelect .keyringList a.flex-item {
     order: 0;
     flex: 1 1 auto;
     align-self: auto;
@@ -46,15 +61,13 @@
     white-space: normal;
     cursor: pointer;
 }
-
-.deleteKeyRing {
+.keyringSelect .keyringList .deleteKeyRing {
     max-width: 40px;
     background-color: white;
-    padding-right: 25px !important;
-    padding-left: 15px !important;
+    padding-right: 25px;
+    padding-left: 15px;
 }
-
-.deleteKeyRing:hover {
-    background-color: white !important;
-    color: #808080 !important;
+.keyringSelect .keyringList .deleteKeyRing:hover {
+    background-color: white;
+    color: #808080;
 }
