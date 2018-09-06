@@ -6,11 +6,12 @@
 import mvelo from '../lib/lib-mvelo';
 import * as openpgp from 'openpgp';
 import * as certs from './certs';
+import {verifyUserCertificate} from './key';
 
 const keyMap = new Map();
 
-export function init() {
-  const key = openpgp.key.readArmored(certs.c1und1).keys[0];
+export async function init() {
+  const {keys: [key]} = await openpgp.key.readArmored(certs.c1und1);
   keyMap.set('gmx.net', key);
   keyMap.set('web.de', key);
 }
@@ -28,29 +29,26 @@ export function isKeyPseudoRevoked(keyringId, key) {
   if (!trustKey) {
     return false;
   }
-  return key.users.some(user => isUserPseudoRevoked(user, trustKey, key.primaryKey));
+  return mvelo.util.someAsync(key.users, user => isUserPseudoRevoked(user, trustKey, key.primaryKey));
 }
 
 function isUserPseudoRevoked(user, trustKey, primaryKey) {
   if (!user.revocationCertifications || !user.userId) {
     return false;
   }
-  return user.revocationCertifications.some(revCert => revCert.reasonForRevocationFlag === 101 &&
-           verifyCert(revCert, user.userId, trustKey, primaryKey) &&
-           !hasNewerCert(user, trustKey, primaryKey, revCert.created));
+  return mvelo.util.someAsync(user.revocationCertifications, async revCert => revCert.reasonForRevocationFlag === 101 &&
+           await verifyCert(revCert, user, trustKey, primaryKey) &&
+           !await hasNewerCert(user, trustKey, primaryKey, revCert.created));
 }
 
 function hasNewerCert(user, trustKey, primaryKey, sigDate) {
   if (!user.otherCertifications) {
     return false;
   }
-  return user.otherCertifications.some(otherCert => verifyCert(otherCert, user.userId, trustKey, primaryKey) &&
-           otherCert.created > sigDate);
+  return mvelo.util.someAsync(user.otherCertifications, async otherCert => await verifyCert(otherCert, user, trustKey, primaryKey) && otherCert.created > sigDate);
 }
 
-function verifyCert(cert, userId, trustKey, primaryKey) {
+async function verifyCert(cert, user, trustKey, primaryKey) {
   return cert.issuerKeyId.equals(trustKey.primaryKey.getKeyId()) &&
-         !cert.isExpired() &&
-         (cert.verified ||
-          cert.verify(trustKey.primaryKey, {userid: userId, key: primaryKey}));
+         await verifyUserCertificate(user, primaryKey, cert, trustKey.primaryKey) === openpgp.enums.keyStatus.valid;
 }

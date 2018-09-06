@@ -9,34 +9,33 @@ export let prefs = {};
 const updateHandlers = [];
 let watchListBuffer = null;
 
-export function init() {
-  return getPreferences()
-  .then(preferences => prefs = preferences);
+export async function init() {
+  const preferences = await getPreferences();
+  prefs = preferences;
+  return preferences;
 }
 
 /**
  * Update preferences
  * @param  {Object} obj preferences object or properties of it
  */
-export function update(obj) {
-  return getPreferences()
-  .then(preferences => {
-    prefs = preferences;
-    if (obj.security) {
-      Object.assign(prefs.security, obj.security);
-    }
-    if (obj.general) {
-      Object.assign(prefs.general, obj.general);
-    }
-    if (obj.keyserver) {
-      Object.assign(prefs.keyserver, obj.keyserver);
-    }
-    // notifiy update handlers
-    updateHandlers.forEach(fn => {
-      fn();
-    });
-    return setPreferences(prefs);
+export async function update(obj) {
+  const preferences = await getPreferences();
+  prefs = preferences;
+  if (obj.security) {
+    Object.assign(prefs.security, obj.security);
+  }
+  if (obj.general) {
+    Object.assign(prefs.general, obj.general);
+  }
+  if (obj.keyserver) {
+    Object.assign(prefs.keyserver, obj.keyserver);
+  }
+  // notifiy update handlers
+  updateHandlers.forEach(fn => {
+    fn();
   });
+  await setPreferences(prefs);
 }
 
 /**

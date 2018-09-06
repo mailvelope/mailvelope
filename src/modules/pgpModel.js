@@ -21,7 +21,7 @@ export async function init() {
   await prefs.init();
   pwdCache.init();
   initOpenPGP();
-  trustKey.init();
+  await trustKey.init();
 }
 
 function initOpenPGP() {
@@ -40,7 +40,7 @@ function initOpenPGP() {
  * @return {Promise<Object>} - decryption result {data: String, signatures: Array}
  */
 export async function decryptMessage({armored, keyringId, unlockKey, senderAddress, selfSigned}) {
-  const message = readMessage({armoredText: armored});
+  const message = await readMessage({armoredText: armored});
   const encryptionKeyIds = message.getEncryptionKeyIds();
   const keyring = getKeyringWithPrivKey(encryptionKeyIds, keyringId);
   if (!keyring) {
@@ -52,7 +52,7 @@ export async function decryptMessage({armored, keyringId, unlockKey, senderAddre
     const sigKeyIds = signatures.map(sig => sig.fingerprint || sig.keyId);
     // sync public keys for the signatures
     await syncPublicKeys({keyring, keyIds: sigKeyIds, keyringId});
-    signatures = signatures.map(sig => addSigningKeyDetails(sig, keyring));
+    signatures = await Promise.all(signatures.map(sig => addSigningKeyDetails(sig, keyring)));
     return {data, signatures};
   } catch (e) {
     console.log('getPgpBackend().decrypt() error', e);
@@ -65,13 +65,13 @@ export async function decryptMessage({armored, keyringId, unlockKey, senderAddre
  * @param {Object} signature
  * @param {KeyringBase} keyring
  */
-function addSigningKeyDetails(signature, keyring) {
+async function addSigningKeyDetails(signature, keyring) {
   if (signature.valid !== null && signature.fingerprint) {
     const signingKey = keyring.keystore.getKeysForId(signature.fingerprint, true);
     if (!signingKey) {
       return;
     }
-    [signature.keyDetails] = mapKeys(signingKey);
+    [signature.keyDetails] = await mapKeys(signingKey);
   }
   return signature;
 }
@@ -88,10 +88,10 @@ function noKeyFoundError(encryptionKeyIds) {
 /**
  * Parse armored PGP message
  * @param  {String} options.armoredText
- * @param  {Uint8Array} options.binary]
+ * @param  {Uint8Array} [options.binary]
  * @return {openppg.message.Message}
  */
-export function readMessage({armoredText, binary}) {
+export async function readMessage({armoredText, binary}) {
   if (armoredText) {
     try {
       return openpgp.message.readArmored(armoredText);
@@ -130,7 +130,7 @@ export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyF
   await syncPublicKeys({keyring, keyIds: encryptionKeyFprs, keyringId});
   try {
     const result = await keyring.getPgpBackend().encrypt({data, keyring, unlockKey, encryptionKeyFprs, signingKeyFpr, armor: true, filename});
-    logEncryption(uiLogSource, keyring, encryptionKeyFprs);
+    await logEncryption(uiLogSource, keyring, encryptionKeyFprs);
     return result;
   } catch (e) {
     console.log('getPgpBackend().encrypt() error', e);
@@ -144,15 +144,15 @@ export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyF
  * @param {KeyringBase} keyring
  * @param  {Array<String>} keyFprs - fingerprint of used keys
  */
-function logEncryption(source, keyring, keyFprs) {
+async function logEncryption(source, keyring, keyFprs) {
   if (source) {
     const keys = keyring.getKeysByFprs(keyFprs);
-    const recipients = keys.map(key => getUserId(key, false));
+    const recipients = await Promise.all(keys.map(async key => getUserId(key, false)));
     uiLog.push(source, l10n('security_log_encryption_operation', [recipients.join(', ')]));
   }
 }
 
-function readCleartextMessage(armoredText) {
+async function readCleartextMessage(armoredText) {
   try {
     return openpgp.cleartext.readArmored(armoredText);
   } catch (e) {
@@ -163,7 +163,7 @@ function readCleartextMessage(armoredText) {
 
 export async function verifyMessage({armored, keyringId}) {
   try {
-    const message = readCleartextMessage(armored);
+    const message = await readCleartextMessage(armored);
     const signingKeyIds = message.getSigningKeyIds();
     if (!signingKeyIds.length) {
       throw new mvelo.Error('No signatures found');
@@ -171,7 +171,7 @@ export async function verifyMessage({armored, keyringId}) {
     const keyring = getPreferredKeyring(keyringId);
     await syncPublicKeys({keyring, keyIds: signingKeyIds, keyringId});
     let {data, signatures} = await keyring.getPgpBackend().verify({armored, message, keyring, signingKeyIds});
-    signatures = signatures.map(sig => addSigningKeyDetails(sig, keyring));
+    signatures = await Promise.all(signatures.map(sig => addSigningKeyDetails(sig, keyring)));
     return {data, signatures};
   } catch (e) {
     throw new mvelo.Error(l10n('verify_error', [e]), 'VERIFY_ERROR');
@@ -181,7 +181,7 @@ export async function verifyMessage({armored, keyringId}) {
 export async function verifyDetachedSignature({plaintext, signerEmail, detachedSignature, keyringId}) {
   const keyring = getPreferredKeyring(keyringId);
   // get keys for signer email address
-  const {[signerEmail]: signerKeys} = getKeyByAddress(keyringId, signerEmail);
+  const {[signerEmail]: signerKeys} = await getKeyByAddress(keyringId, signerEmail);
   if (!signerKeys) {
     throw new mvelo.Error(l10n('form_definition_error_no_recipient_key'), 'NO_KEY_FOR_RECIPIENT');
   }
@@ -217,25 +217,21 @@ export async function signMessage({data, keyringId, unlockKey, signingKeyFpr}) {
   }
 }
 
-export function createPrivateKeyBackup(defaultKey, keyPwd) {
-  let backupCode;
-  return Promise.resolve()
-  .then(() => {
-    // create backup code
-    backupCode = randomString(26);
-    // create packet structure
-    const packetList = new openpgp.packet.List();
-    const literal = new openpgp.packet.Literal();
-    let text = 'Version: 1\n';
-    text += `Pwd: ${keyPwd}\n`;
-    literal.setText(text);
-    packetList.push(literal);
-    packetList.concat(defaultKey.toPacketlist());
-    // symmetrically encrypt with backup code
-    const msg = new openpgp.message.Message(packetList);
-    return symEncrypt(msg, backupCode);
-  })
-  .then(msg => ({backupCode, message: msg.armor()}));
+export async function createPrivateKeyBackup(defaultKey, keyPwd) {
+  // create backup code
+  const backupCode = randomString(26);
+  // create packet structure
+  const packetList = new openpgp.packet.List();
+  const literal = new openpgp.packet.Literal();
+  let text = 'Version: 1\n';
+  text += `Pwd: ${keyPwd}\n`;
+  literal.setText(text);
+  packetList.push(literal);
+  packetList.concat(defaultKey.toPacketlist());
+  // symmetrically encrypt with backup code
+  let msg = new openpgp.message.Message(packetList);
+  msg = await symEncrypt(msg, backupCode);
+  return {backupCode, message: msg.armor()};
 }
 
 function parseMetaInfo(txt) {
@@ -249,34 +245,27 @@ function parseMetaInfo(txt) {
   return result;
 }
 
-export function restorePrivateKeyBackup(armoredBlock, code) {
-  return Promise.resolve()
-  .then(() => {
-    const message = openpgp.message.readArmored(armoredBlock);
-    if (!(message.packets.length === 2 &&
-          message.packets[0].tag === 3 && // Symmetric-Key Encrypted Session Key Packet
-          message.packets[0].sessionKeyAlgorithm === 'aes256' &&
-          (message.packets[0].sessionKeyEncryptionAlgorithm === null || message.packets[0].sessionKeyEncryptionAlgorithm === 'aes256') &&
-          message.packets[1].tag === 18 // Sym. Encrypted Integrity Protected Data Packet
-    )) {
-      throw {message: 'Illegal private key backup structure.'};
-    }
-    return message.decrypt(null, null, code)
-    .catch(() => {
-      throw {message: 'Could not decrypt message with this restore code', code: 'WRONG_RESTORE_CODE'};
-    });
-  })
-  .then(message => {
-    // extract password
-    const pwd = parseMetaInfo(message.getText()).Pwd;
-    // remove literal data packet
-    const keyPackets = message.packets.slice(1);
-    const privKey =  new openpgp.key.Key(keyPackets);
-    return {key: privKey, password: pwd};
-  })
-  .catch(error => {
-    throw mvelo.util.mapError(error);
-  });
+export async function restorePrivateKeyBackup(armoredBlock, code) {
+  let message = await openpgp.message.readArmored(armoredBlock);
+  if (!(message.packets.length === 2 &&
+        message.packets[0].tag === 3 && // Symmetric-Key Encrypted Session Key Packet
+        message.packets[0].sessionKeyAlgorithm === 'aes256' &&
+        (message.packets[0].sessionKeyEncryptionAlgorithm === null || message.packets[0].sessionKeyEncryptionAlgorithm === 'aes256') &&
+        message.packets[1].tag === 18 // Sym. Encrypted Integrity Protected Data Packet
+  )) {
+    throw new mvelo.Error('Illegal private key backup structure.');
+  }
+  try {
+    message = await message.decrypt(null, [code]);
+  } catch (e) {
+    throw new mvelo.Error('Could not decrypt message with this restore code', 'WRONG_RESTORE_CODE');
+  }
+  // extract password
+  const pwd = parseMetaInfo(message.getText()).Pwd;
+  // remove literal data packet
+  const keyPackets = message.packets.slice(1);
+  const privKey =  new openpgp.key.Key(keyPackets);
+  return {key: privKey, password: pwd};
 }
 
 /**
@@ -284,39 +273,37 @@ export function restorePrivateKeyBackup(armoredBlock, code) {
  * @param  {openpgp.message.Message} message - sync packet
  * @return {Promise<Object,Error>}
  */
-export function decryptSyncMessage(key, message) {
-  return openpgp.decrypt({message, privateKey: key, publicKeys: key})
-  .then(msg => {
-    // check signature
-    const sig = msg.signatures[0];
-    if (!(sig && sig.valid && sig.keyid.equals(key.getSigningKeyPacket().getKeyId()))) {
-      throw new Error('Signature of synced keyring is invalid');
-    }
-    const syncData = JSON.parse(msg.data);
-    const publicKeys = [];
-    const changeLog = {};
-    let fingerprint;
-    for (fingerprint in syncData.insertedKeys) {
-      publicKeys.push({
-        type: 'public',
-        armored: syncData.insertedKeys[fingerprint].armored
-      });
-      changeLog[fingerprint] = {
-        type: keyringSync.INSERT,
-        time: syncData.insertedKeys[fingerprint].time
-      };
-    }
-    for (fingerprint in syncData.deletedKeys) {
-      changeLog[fingerprint] = {
-        type: keyringSync.DELETE,
-        time: syncData.deletedKeys[fingerprint].time
-      };
-    }
-    return {
-      changeLog,
-      keys: publicKeys
+export async function decryptSyncMessage(key, message) {
+  const msg = await openpgp.decrypt({message, privateKeys: key, publicKeys: key});
+  // check signature
+  const [sig] = msg.signatures;
+  if (!(sig && sig.valid && await key.getSigningKey(sig.keyid))) {
+    throw new Error('Signature of synced keyring is invalid');
+  }
+  const syncData = JSON.parse(msg.data);
+  const publicKeys = [];
+  const changeLog = {};
+  let fingerprint;
+  for (fingerprint in syncData.insertedKeys) {
+    publicKeys.push({
+      type: 'public',
+      armored: syncData.insertedKeys[fingerprint].armored
+    });
+    changeLog[fingerprint] = {
+      type: keyringSync.INSERT,
+      time: syncData.insertedKeys[fingerprint].time
     };
-  });
+  }
+  for (fingerprint in syncData.deletedKeys) {
+    changeLog[fingerprint] = {
+      type: keyringSync.DELETE,
+      time: syncData.deletedKeys[fingerprint].time
+    };
+  }
+  return {
+    changeLog,
+    keys: publicKeys
+  };
 }
 
 /**
@@ -344,8 +331,9 @@ export async function encryptSyncMessage(key, changeLog, keyringId) {
     }
   }
   syncData = JSON.stringify(syncData);
-  const msg = await openpgp.encrypt({data: syncData, publicKeys: key, privateKeys: key});
-  return msg.data;
+  const message = openpgp.message.fromText(syncData);
+  const {data} = await openpgp.encrypt({message, publicKeys: key, privateKeys: key});
+  return data;
 }
 
 function convertChangeLog(key, changeLog, syncData) {
@@ -379,7 +367,7 @@ export async function encryptFile({plainFile, encryptionKeyFprs, armor}) {
     const keyring = getPreferredKeyring();
     await syncPublicKeys({keyring, keyIds: encryptionKeyFprs, allKeyrings: true});
     const result = await keyring.getPgpBackend().encrypt({dataURL: plainFile.content, keyring, encryptionKeyFprs, filename: plainFile.name, armor});
-    logEncryption('security_log_encrypt_dialog', keyring, encryptionKeyFprs);
+    await logEncryption('security_log_encrypt_dialog', keyring, encryptionKeyFprs);
     return result;
   } catch (error) {
     console.log('pgpmodel.encryptFile() error', error);
@@ -403,7 +391,7 @@ export async function decryptFile(encryptedFile, unlockKey) {
     } else {
       binary = mvelo.util.str2Uint8Array(content);
     }
-    const message = readMessage({armoredText, binary});
+    const message = await readMessage({armoredText, binary});
     const encryptionKeyIds = message.getEncryptionKeyIds();
     const keyring = getKeyringWithPrivKey(encryptionKeyIds);
     if (!keyring) {

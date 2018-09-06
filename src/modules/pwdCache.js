@@ -108,25 +108,26 @@ export function set({key, password, cacheTime}) {
  * @param {String}          password - password to unlock key
  * @return {Promise<openpgp.key.Key, Error>} return the unlocked key
  */
-export function unlock({key, password}) {
-  return unlockKey(key, password)
-  .then(key => {
-    if (active) {
-      // set unlocked key in cache
-      set({key});
-    }
-    return key;
-  });
+export async function unlock({key, password}) {
+  key = await unlockKey(key, password);
+  if (active) {
+    // set unlocked key in cache
+    set({key});
+  }
+  return key;
 }
 
-function unlockKey(privKey, passwd) {
-  return openpgp.decryptKey({privateKey: privKey, passphrase: passwd})
-  .then(result => result.key)
-  .catch(e => {
-    if (/Invalid passphrase/.test(e.message)) {
+async function unlockKey(privKey, passwd) {
+  try {
+    const {key} = await openpgp.decryptKey({privateKey: privKey, passphrase: passwd});
+    return key;
+  } catch (e) {
+    if (/Incorrect key passphrase/.test(e.message)) {
       throw new mvelo.Error('Could not unlock key: wrong password', 'WRONG_PASSWORD');
+    } else if (e.message === 'Key packet is already decrypted.') {
+      return privKey;
     } else {
       throw new mvelo.Error('Error in openpgp.decryptKey');
     }
-  });
+  }
 }

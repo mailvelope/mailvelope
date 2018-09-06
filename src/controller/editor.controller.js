@@ -84,17 +84,17 @@ export default class EditorController extends sub.SubController {
     this.emit('public-key-userids', {keys, recipients, tofu});
   }
 
-  onEditorOptions(msg) {
+  async onEditorOptions(msg) {
     this.keyringId = msg.keyringId;
     this.options = msg.options;
     const keyring = getKeyringById(this.keyringId);
-    const defaultKeyFpr = keyring.getDefaultKeyFpr();
+    const defaultKeyFpr = await keyring.getDefaultKeyFpr();
     const data = {
       signMsg: this.options.signMsg,
       defaultKeyFpr
     };
     if (msg.options.privKeys) {
-      data.privKeys = keyring.getValidSigningKeys();
+      data.privKeys = await keyring.getValidSigningKeys();
     }
     if (this.options.armoredDraft) {
       this.options.keepAttachments = true;
@@ -118,10 +118,10 @@ export default class EditorController extends sub.SubController {
     }
   }
 
-  onEditorContainerEncrypt(msg) {
+  async onEditorContainerEncrypt(msg) {
     this.pgpMIME = true;
     this.keyringId = msg.keyringId;
-    const keyMap = getKeyByAddress(this.keyringId, msg.recipients);
+    const keyMap = await getKeyByAddress(this.keyringId, msg.recipients);
     const keyFprMap = mapAddressKeyMapToFpr(keyMap);
     if (Object.keys(keyFprMap).some(keyFpr => keyFprMap[keyFpr] === false)) {
       const error = {
@@ -136,7 +136,7 @@ export default class EditorController extends sub.SubController {
       keyFprs = keyFprs.concat(keyFprMap[recipient]);
     });
     if (prefs.general.auto_add_primary) {
-      const defaultKeyFpr = getKeyringById(this.keyringId).getDefaultKeyFpr();
+      const defaultKeyFpr = await getKeyringById(this.keyringId).getDefaultKeyFpr();
       if (defaultKeyFpr) {
         keyFprs.push(defaultKeyFpr);
       }
@@ -147,11 +147,11 @@ export default class EditorController extends sub.SubController {
     this.ports.editor.emit('get-plaintext', {action: 'encrypt'});
   }
 
-  onEditorContainerCreateDraft(msg) {
+  async onEditorContainerCreateDraft(msg) {
     this.pgpMIME = true;
     this.keyringId = msg.keyringId;
     this.options.reason = 'PWD_DIALOG_REASON_CREATE_DRAFT';
-    const defaultKeyFpr = getKeyringById(this.keyringId).getDefaultKeyFpr();
+    const defaultKeyFpr = await getKeyringById(this.keyringId).getDefaultKeyFpr();
     if (defaultKeyFpr) {
       this.keyFprBuffer = [defaultKeyFpr];
     } else {
@@ -367,7 +367,7 @@ export default class EditorController extends sub.SubController {
       if (data === null) {
         throw new mvelo.Error('MIME building failed.');
       }
-      const keyFprs = this.getPublicKeyFprs(options.keys);
+      const keyFprs = await this.getPublicKeyFprs(options.keys);
       if (options.signMsg) {
         return this.signAndEncryptMessage({
           data,
@@ -399,7 +399,7 @@ export default class EditorController extends sub.SubController {
    */
   async signAndEncryptMessage({data, signKeyFpr, keyFprs, noCache}) {
     if (!signKeyFpr) {
-      const defaultKeyFpr = getKeyringById(this.keyringId).getDefaultKeyFpr();
+      const defaultKeyFpr = await getKeyringById(this.keyringId).getDefaultKeyFpr();
       signKeyFpr = defaultKeyFpr;
     }
     if (!signKeyFpr) {
@@ -490,7 +490,7 @@ export default class EditorController extends sub.SubController {
    * @param  {Array<Object>} keys - the public key objects containing the key fingerprint
    * @return {Array<String>} - A collection of all key fingerprints to encrypt to
    */
-  getPublicKeyFprs(keys) {
+  async getPublicKeyFprs(keys) {
     let keyFprs;
     // prefer keyFprBuffer
     if (this.keyFprBuffer) {
@@ -500,7 +500,7 @@ export default class EditorController extends sub.SubController {
       // get the sender key fingerprint
       if (prefs.general.auto_add_primary) {
         const localKeyring = getKeyringById(mvelo.MAIN_KEYRING_ID);
-        const defaultKeyFpr = localKeyring.getDefaultKeyFpr();
+        const defaultKeyFpr = await localKeyring.getDefaultKeyFpr();
         if (defaultKeyFpr) {
           keyFprs.push(defaultKeyFpr);
         }

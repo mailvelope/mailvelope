@@ -10,12 +10,12 @@ import {KeyStoreBase} from './keyStore';
 
 export default class KeyStoreGPG extends KeyStoreBase {
   async load() {
-    this.clear();
+    await super.load();
     let {armored, secret_fprs} = await gpgme.Keyring.getKeysArmored({with_secret_fpr: true});
     secret_fprs = secret_fprs.map(fpr => fpr.toLowerCase());
-    const {keys, err} = openpgp.key.readArmored(armored);
+    const {keys, err} = await openpgp.key.readArmored(armored);
     if (err) {
-      console.log('Error parsing armored PGP key:', err);
+      console.log('Error parsing armored GnuPG key:', err);
     }
     for (const key of keys) {
       if (secret_fprs.includes(key.primaryKey.getFingerprint())) {
@@ -41,7 +41,7 @@ export default class KeyStoreGPG extends KeyStoreBase {
     throw new Error('Delete of GPGME keyring not supported');
   }
 
-  getDefaultKeyFpr() {
+  async getDefaultKeyFpr() {
     return this.defaultKeyFpr;
   }
 
@@ -55,7 +55,7 @@ export default class KeyStoreGPG extends KeyStoreBase {
 
   async addPublicKeys(fprs) {
     const {armored} = await gpgme.Keyring.getKeysArmored({pattern: fprs});
-    const {keys} = openpgp.key.readArmored(armored);
+    const {keys} = await openpgp.key.readArmored(armored);
     this.publicKeys.keys.push(...keys);
   }
 
@@ -66,7 +66,7 @@ export default class KeyStoreGPG extends KeyStoreBase {
   async generateKey({numBits, userIds, keyExpirationTime}) {
     const [gpgKey] = await gpgme.Keyring.generateKey({userId: userIds[0], algo: `rsa${numBits}`, expires: keyExpirationTime});
     const publicKeyArmored = await gpgKey.getArmor();
-    return {key: readArmoredPrivate(publicKeyArmored), publicKeyArmored};
+    return {key: await readArmoredPrivate(publicKeyArmored), publicKeyArmored};
   }
 }
 
@@ -80,11 +80,11 @@ class PrivateKeyGPG extends openpgp.key.Key {
   }
 }
 
-function readArmoredPrivate(armored) {
+async function readArmoredPrivate(armored) {
   try {
-    const {data} = openpgp.armor.decode(armored);
+    const {data} = await openpgp.armor.decode(armored);
     const packetlist = new openpgp.packet.List();
-    packetlist.read(data);
+    await packetlist.read(data);
     return new PrivateKeyGPG(packetlist);
   } catch (e) {
     console.log('Parsing armored key failed', e);

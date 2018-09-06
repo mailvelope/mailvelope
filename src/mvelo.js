@@ -170,6 +170,18 @@ mvelo.util.deDup = function(list = [], compFn = (element, array) => array.indexO
   return result;
 };
 
+mvelo.util.filterAsync = async function(array, asyncFilterFn) {
+  const promises = array.map(async item => await asyncFilterFn(item) && item);
+  const result = await Promise.all(promises);
+  return result.filter(item => item);
+};
+
+mvelo.util.someAsync = async function(array, asyncSomeFn) {
+  const promises = array.map(asyncSomeFn);
+  const result = await Promise.all(promises);
+  return result.some(item => item);
+};
+
 // random hash generator
 mvelo.util.getHash = function() {
   let result = '';

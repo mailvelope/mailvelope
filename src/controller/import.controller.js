@@ -43,17 +43,15 @@ export default class ImportController extends sub.SubController {
     mvelo.tabs.loadAppTab(`?krid=${encodeURIComponent(this.keyringId)}&slotId=${slotId}#/keyring/import/push`);
   }
 
-  onImportOk() {
-    this.keyring.importKeys([{type: 'public', armored: this.armored}])
-    .then(([importResult]) => {
-      if (importResult.type === 'error') {
-        this.emit('import-error', {message: importResult.message});
-        this.importError = true;
-      } else {
-        this.closePopup();
-        this.popupDone.resolve('IMPORTED');
-      }
-    });
+  async onImportOk() {
+    const [importResult] = await this.keyring.importKeys([{type: 'public', armored: this.armored}]);
+    if (importResult.type === 'error') {
+      this.emit('import-error', {message: importResult.message});
+      this.importError = true;
+    } else {
+      this.closePopup();
+      this.popupDone.resolve('IMPORTED');
+    }
   }
 
   handleCancel() {
@@ -74,20 +72,19 @@ export default class ImportController extends sub.SubController {
     }
   }
 
-  importKey(keyringId, armored) {
-    return Promise.resolve()
-    .then(() => {
+  async importKey(keyringId, armored) {
+    try {
       this.keyringId = keyringId;
       // check keyringId
       this.keyring = getKeyringById(keyringId);
       this.armored = armored;
 
-      this.keys = openpgp.key.readArmored(this.armored);
+      this.keys = await openpgp.key.readArmored(this.armored);
       if (this.keys.err) {
         throw new Error(this.keys.err[0].message);
       }
       this.key = this.keys.keys[0];
-      this.keyDetails = mapKeys(this.keys.keys)[0];
+      this.keyDetails = await mapKeys(this.keys.keys)[0];
       if (this.keyDetails.type === 'private') {
         throw new Error('Import of private keys not allowed.');
       }
@@ -96,7 +93,7 @@ export default class ImportController extends sub.SubController {
         // only import first key in armored block
         this.armored = this.key.armor();
       }
-      if (this.key.verifyPrimaryKey() === openpgp.enums.keyStatus.invalid) {
+      if (await this.key.verifyPrimaryKey() === openpgp.enums.keyStatus.invalid) {
         throw new Error('Key is invalid.');
       }
       // check if key already in keyring
@@ -108,51 +105,48 @@ export default class ImportController extends sub.SubController {
       } else {
         return this.openPopup();
       }
-    })
-    .catch(err => {
-      throw {message: err.message, code: 'IMPORT_ERROR'};
-    });
+    } catch (err) {
+      throw mvelo.Error(err.message, 'IMPORT_ERROR');
+    }
   }
 
-  updateKey(fingerprint, stockKey, newKey) {
-    let statusBefore;
-    let statusAfter;
-    return Promise.resolve()
-    .then(() => {
-      statusBefore = stockKey.verifyPrimaryKey();
-      const beforeLastModified = getLastModifiedDate(stockKey);
-      const stockKeyClone = cloneKey(stockKey);
-      stockKeyClone.update(newKey);
-      statusAfter = stockKeyClone.verifyPrimaryKey();
-      const afterLastModified = getLastModifiedDate(stockKeyClone);
-      if (beforeLastModified.valueOf() === afterLastModified.valueOf()) {
-        // key does not change, we still reply with status UPDATED
-        // -> User will no be notified
-        return 'UPDATED';
-      }
-      if (statusBefore !== openpgp.enums.keyStatus.valid &&
-          statusAfter === openpgp.enums.keyStatus.valid) {
-        // an invalid key gets status valid due to this key import
-        // -> User confirmation required
-        return this.openPopup();
-      }
-      stockKey.update(newKey);
-      this.keyring.sync.add(fingerprint, keyringSync.UPDATE);
-    })
-    .then(() => this.keyring.keystore.store())
-    .then(() => this.keyring.sync.commit())
-    .then(() => {
-      if (statusBefore === openpgp.enums.keyStatus.valid &&
-          statusAfter !== openpgp.enums.keyStatus.valid) {
-        // the key import changes the status of the key to not valid
-        // -> User will be notified
-        this.invalidated = true;
-        return this.openPopup();
-      } else {
-        // update is non-critical, no user confirmation required
-        return 'UPDATED';
-      }
-    });
+  async updateKey(fingerprint, stockKey, newKey) {
+    const statusBefore = await stockKey.verifyPrimaryKey();
+    const beforeLastModified = getLastModifiedDate(stockKey);
+    // clone key to check how update would affect validity of key
+    const stockKeyClone = await cloneKey(stockKey);
+    await stockKeyClone.update(newKey);
+    const statusAfter = await stockKeyClone.verifyPrimaryKey();
+    const afterLastModified = getLastModifiedDate(stockKeyClone);
+    let status;
+    if (beforeLastModified.valueOf() === afterLastModified.valueOf()) {
+      // key does not change, we still reply with status UPDATED
+      // -> User will not be notified
+      return 'UPDATED';
+    }
+    if (statusBefore !== openpgp.enums.keyStatus.valid &&
+        statusAfter === openpgp.enums.keyStatus.valid) {
+      // an invalid key gets status valid due to this key import
+      // -> User confirmation required
+      status = await this.openPopup();
+    }
+    if (status === 'REJECTED') {
+      return status;
+    }
+    await stockKey.update(newKey);
+    this.keyring.sync.add(fingerprint, keyringSync.UPDATE);
+    await this.keyring.keystore.store();
+    await this.keyring.sync.commit();
+    if (statusBefore === openpgp.enums.keyStatus.valid &&
+        statusAfter !== openpgp.enums.keyStatus.valid) {
+      // the key import changes the status of the key to not valid
+      // -> User will be notified
+      this.invalidated = true;
+      return this.openPopup();
+    } else {
+      // update is non-critical, no user confirmation required
+      return 'UPDATED';
+    }
   }
 
   openPopup() {

@@ -27,7 +27,7 @@ export async function decrypt({message, keyring, senderAddress, selfSigned, encr
   if (senderAddress.length || selfSigned) {
     signingKeys = [];
     if (senderAddress.length) {
-      signingKeys = keyring.getKeyByAddress(senderAddress);
+      signingKeys = await keyring.getKeyByAddress(senderAddress);
       signingKeys = senderAddress.reduce((result, email) => result.concat(signingKeys[email] || []), []);
     }
     // if no signing keys found we use decryption key for verification
@@ -37,7 +37,7 @@ export async function decrypt({message, keyring, senderAddress, selfSigned, encr
       signingKeys = [privateKey];
     }
   }
-  const result = await openpgp.decrypt({message, privateKey, publicKeys: signingKeys, format});
+  const result = await openpgp.decrypt({message, privateKeys: privateKey, publicKeys: signingKeys, format});
   result.signatures = (result.signatures || []).map(signature => {
     signature.keyId = signature.keyid.toHex();
     delete signature.keyid;
@@ -71,21 +71,25 @@ export async function decrypt({message, keyring, senderAddress, selfSigned, encr
  */
 export async function encrypt({data, dataURL, keyring, unlockKey, encryptionKeyFprs, signingKeyFpr, filename, armor}) {
   let signingKey;
-  if (dataURL) {
+  let message;
+  if (data) {
+    message = openpgp.message.fromText(data, filename);
+  } else if (dataURL) {
     const content = mvelo.util.dataURL2str(dataURL);
     data = mvelo.util.str2Uint8Array(content);
+    message = openpgp.message.fromBinary(data, filename);
   }
   if (signingKeyFpr) {
     signingKey = keyring.getPrivateKeyByIds(signingKeyFpr);
     signingKey = await unlockKey({key: signingKey});
   }
   const keys = keyring.getKeysByFprs(encryptionKeyFprs);
-  const result = await openpgp.encrypt({data, publicKeys: keys, privateKeys: signingKey, filename, armor});
+  const result = await openpgp.encrypt({message, publicKeys: keys, privateKeys: signingKey, armor});
   return armor ? result.data : mvelo.util.Uint8Array2str(result.message.packets.write());
 }
 
 /**
- * Sign message
+ * Sign cleartext message
  * @param  {String} options.data - data to be signed as plaintext
  * @param  {KeyringBase} options.keyring - keyring used for signing
  * @param  {Function} options.unlockKey - callback that unlocks private key
@@ -93,9 +97,10 @@ export async function encrypt({data, dataURL, keyring, unlockKey, encryptionKeyF
  * @return {String}
  */
 export async function sign({data, keyring, unlockKey, signingKeyFpr}) {
+  const message = openpgp.cleartext.fromText(data);
   let signingKey = keyring.getPrivateKeyByIds(signingKeyFpr);
   signingKey = await unlockKey({key: signingKey});
-  const result = await openpgp.sign({data, privateKeys: signingKey});
+  const result = await openpgp.sign({message, privateKeys: signingKey});
   return result.data;
 }
 
@@ -119,7 +124,7 @@ export async function verify({message, plaintext, detachedSignature, keyring, si
   }
   let signature;
   if (plaintext && detachedSignature) {
-    signature = openpgp.signature.readArmored(detachedSignature);
+    signature = await openpgp.signature.readArmored(detachedSignature);
     message = openpgp.message.fromText(plaintext);
   }
   let {data, signatures} = await openpgp.verify({message, publicKeys, signature});

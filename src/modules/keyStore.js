@@ -11,21 +11,6 @@ export class KeyStoreBase extends openpgp.Keyring {
     this.id = keyringId;
   }
 
-  loadKeys(keysArmored, keyArray = []) {
-    if (!keysArmored) {
-      return;
-    }
-    keysArmored.forEach(keyArmored => {
-      const key = openpgp.key.readArmored(keyArmored);
-      if (!key.err) {
-        keyArray.push(key.keys[0]);
-      } else {
-        console.log('Error parsing armored PGP key:', key.err);
-      }
-    });
-    return keyArray;
-  }
-
   getForAddress(email) {
     const result = [];
     result.push(...this.publicKeys.getForAddress(email));
@@ -35,11 +20,11 @@ export class KeyStoreBase extends openpgp.Keyring {
 }
 
 class StoreHandler {
-  loadPublic() {
+  async loadPublic() {
     return [];
   }
 
-  loadPrivate() {
+  async loadPrivate() {
     return [];
   }
 }

@@ -226,7 +226,7 @@ export async function getKeyData({keyringId, allUsers = true}) {
     keyrings = getAll();
   }
   for (const keyring of keyrings) {
-    const keyDataArray = keyring.getKeyData({allUsers});
+    const keyDataArray = await keyring.getKeyData({allUsers});
     for (const keyData of keyDataArray) {
       // check if key for this fingerprint already exists in result list
       const keyIndex = result.findIndex(element => keyData.fingerprint === element.fingerprint);
@@ -244,11 +244,7 @@ export async function getKeyData({keyringId, allUsers = true}) {
     }
   }
   // filter out all invalid keys
-  result = result.filter(key => isValidEncryptionKey(key.key));
-  // filter out all v3 keys if requested keyring is GnuPG
-  if (keyringId === mvelo.GNUPG_KEYRING_ID) {
-    result = result.filter(key => key.key.primaryKey.version > 3);
-  }
+  result = await mvelo.util.filterAsync(result, key => isValidEncryptionKey(key.key));
   // expand users
   const expanded = [];
   for (const keyData of result) {
@@ -269,12 +265,12 @@ export async function getKeyData({keyringId, allUsers = true}) {
  * @param  {Array<String>|String} emails
  * @return {Object} - map in the form {address: [key1, key2, ..]}
  */
-export function getKeyByAddress(keyringId, emails) {
+export async function getKeyByAddress(keyringId, emails) {
   const result = Object.create(null);
   emails = mvelo.util.toArray(emails);
   const keyrings = getPreferredKeyringQueue(keyringId);
   for (const email of emails) {
-    let allKeys = result[email] = [];
+    let allKeys = [];
     for (const keyring of keyrings) {
       const keys = keyring.keystore.getForAddress(email);
       for (const key of keys) {
@@ -294,12 +290,10 @@ export function getKeyByAddress(keyringId, emails) {
       }
     }
     // filter out all invalid keys
-    allKeys = allKeys.filter(key => isValidEncryptionKey(key, keyringId));
-    // filter out all v3 keys if requested keyring is GnuPG
-    if (getPreferredKeyringId() === mvelo.GNUPG_KEYRING_ID) {
-      allKeys = allKeys.filter(key => key.primaryKey.version > 3);
-    }
-    if (!allKeys.length) {
+    allKeys = await mvelo.util.filterAsync(allKeys, key => isValidEncryptionKey(key, keyringId));
+    if (allKeys.length) {
+      result[email] = allKeys;
+    } else {
       result[email] = false;
     }
   }
@@ -428,10 +422,6 @@ export async function syncPublicKeys({keyring, keyIds, allKeyrings = false, keyr
         continue;
       }
       key = key[0];
-      // do not sync old v3 keys to GnuPG
-      if (keyring.id === mvelo.GNUPG_KEYRING_ID && key.primaryKey.version < 4) {
-        continue;
-      }
       const lastModifiedDate = getLastModifiedDate(key);
       if (!lastModified || lastModifiedDate > lastModified.date || lastModifiedDate.valueOf() === lastModified.date.valueOf() && srcKeyring.id === keyring.id) {
         lastModified = {date: lastModifiedDate, key, srcKeyring};
@@ -456,7 +446,8 @@ export function getPreferredKeyringId() {
   // return gnupg keyring if available, preferred and has valid private key
   if (gpgme && prefs.general.prefer_gnupg) {
     const gpgKeyring = keyringMap.get(mvelo.GNUPG_KEYRING_ID);
-    if (gpgKeyring.hasDefaultKey()) {
+    // directly access keystore property to avoid async method
+    if (gpgKeyring.keystore.defaultKeyFpr) {
       return mvelo.GNUPG_KEYRING_ID;
     }
   }

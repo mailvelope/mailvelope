@@ -139,7 +139,7 @@ export default class PrivateKeyController extends sub.SubController {
   }
 
   async createPrivateKeyBackup() {
-    const defaultKey = getKeyringById(this.keyringId).getDefaultKey();
+    const defaultKey = await getKeyringById(this.keyringId).getDefaultKey();
     if (!defaultKey) {
       throw new mvelo.Error('No private key for backup', 'NO_PRIVATE_KEY');
     }

@@ -218,7 +218,7 @@ ${this.formSignature}
   }
 
   async signAndEncrypt(data) {
-    const defaultKeyFpr = getKeyringById(this.keyringId).getDefaultKeyFpr();
+    const defaultKeyFpr = await getKeyringById(this.keyringId).getDefaultKeyFpr();
     if (!defaultKeyFpr) {
       throw new mvelo.Error(l10n.form_sign_error_no_default_key, 'NO_DEFAULT_KEY_FOUND');
     }
