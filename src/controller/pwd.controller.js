@@ -29,10 +29,10 @@ export default class PwdController extends SubController {
     this.on('pwd-user-input', msg => uiLog.push(msg.source, msg.type));
   }
 
-  onPwdDialogInit() {
+  async onPwdDialogInit() {
     // pass over keyId and userId to dialog
     this.ports.pwdDialog.emit('set-init-data', {
-      userId: getUserId(this.options.key, false),
+      userId: await getUserId(this.options.key, false),
       keyId: this.options.key.primaryKey.getKeyId().toHex().toUpperCase(),
       cache: prefs.prefs.security.password_cache,
       reason: this.options.reason
@@ -135,6 +135,6 @@ export default class PwdController extends SubController {
    * @return {Boolean}
    */
   keyIsDecrypted({key}) {
-    return key.primaryKey.isDecrypted;
+    return key.primaryKey.isDecrypted();
   }
 }

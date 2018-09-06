@@ -46,25 +46,19 @@ export class KeyringSync {
     };
   }
 
-  save() {
-    return Promise.resolve()
-    .then(() => {
-      if (!this.data) {
-        return;
-      }
-      return setKeyringAttr(this.keyringId, {[this.SYNC_DATA]: this.data});
-    });
+  async save() {
+    if (!this.data) {
+      return;
+    }
+    await setKeyringAttr(this.keyringId, {[this.SYNC_DATA]: this.data});
   }
 
-  commit() {
-    return Promise.resolve()
-    .then(() => {
-      if (!this.data || this.muted) {
-        return;
-      }
-      return this.save()
-      .then(() => triggerSync({keyringId: this.keyringId}));
-    });
+  async commit() {
+    if (!this.data || this.muted) {
+      return;
+    }
+    await this.save();
+    await triggerSync({keyringId: this.keyringId});
   }
 
   merge(update) {

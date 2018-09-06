@@ -19,11 +19,13 @@ export default class KeyringBase {
     this.keystore = keyStore;
   }
 
-  getKeys() {
+  async getKeys() {
+    const keys = [];
     // map keys to UI format
-    let keys = this.getPublicKeys().concat(this.getPrivateKeys());
+    keys.push(...await this.getPublicKeys());
+    keys.push(...await this.getPrivateKeys());
     // sort by key type and name
-    keys = keys.sort((a, b) => {
+    keys.sort((a, b) => {
       const compType = a.type.localeCompare(b.type);
       if (compType === 0) {
         return a.name.localeCompare(b.name);
@@ -54,22 +56,24 @@ export default class KeyringBase {
     return keyIds.some(keyId => this.keystore.privateKeys.getForId(typeof keyId === 'string' ? keyId : keyId.toHex(), true));
   }
 
-  getValidSigningKeys() {
-    return mapKeys(this.keystore.privateKeys.keys.filter(key => this.validateDefaultKey(key)))
-    .sort((a, b) => a.name.localeCompare(b.name));
+  async getValidSigningKeys() {
+    let signingKeys = await mvelo.util.filterAsync(this.keystore.privateKeys.keys, key => this.validateDefaultKey(key));
+    signingKeys = await mapKeys(signingKeys);
+    signingKeys.sort((a, b) => a.name.localeCompare(b.name));
+    return signingKeys;
   }
 
-  getKeyDetails(fingerprint) {
+  async getKeyDetails(fingerprint) {
     const details = {};
     const keys = this.keystore.getKeysForId(fingerprint);
     if (keys) {
       const key = keys[0];
       // subkeys
-      mapSubKeys(key.subKeys, details);
+      await mapSubKeys(key.subKeys, details);
       // users
-      mapUsers(key.users, details, this.keystore, key.primaryKey);
+      await mapUsers(key.users, details, this.keystore, key.primaryKey);
       // key is valid default key
-      details.validDefaultKey = this.validateDefaultKey(key);
+      details.validDefaultKey = await this.validateDefaultKey(key);
       return details;
     } else {
       throw new Error('Key with this fingerprint not found: ', fingerprint);
@@ -81,42 +85,46 @@ export default class KeyringBase {
    * @param {Boolean} [options.allUsers] return separate entry for all user ids of key
    * @return {Array<Object>} list of key meta data objects in the form {key, keyId, fingerprint, users}
    */
-  getKeyData(options = {}) {
+  async getKeyData(options = {}) {
     const result = [];
     for (const key of this.keystore.getAllKeys()) {
-      if (key.verifyPrimaryKey() === openpgp.enums.keyStatus.invalid ||
-          trustKey.isKeyPseudoRevoked(this.id, key)) {
-        continue;
-      }
-      const keyData = {};
-      keyData.key = key;
-      keyData.keyId = key.primaryKey.getKeyId().toHex().toUpperCase();
-      keyData.fingerprint = key.primaryKey.getFingerprint();
-      if (options.allUsers) {
-        // consider all user ids of key
-        keyData.users = [];
-        for (const keyUser of key.users) {
-          if (keyUser.userId && keyUser.verify(key.primaryKey) === openpgp.enums.keyStatus.valid) {
-            const user = {userId: keyUser.userId.userid};
-            // check for duplicates
-            if (keyData.users.some(existingUser => existingUser.userId === user.userId)) {
-              continue;
-            }
-            mapKeyUserIds(user);
-            // check for valid email address
-            if (!user.email) {
-              continue;
-            }
-            keyData.users.push(user);
-          }
+      try {
+        if (await key.verifyPrimaryKey() === openpgp.enums.keyStatus.invalid ||
+            await trustKey.isKeyPseudoRevoked(this.id, key)) {
+          continue;
         }
-      } else {
-        // only consider primary user
-        const user = {userId: getUserId(key)};
-        mapKeyUserIds(user);
-        keyData.users = [user];
+        const keyData = {};
+        keyData.key = key;
+        keyData.keyId = key.primaryKey.getKeyId().toHex().toUpperCase();
+        keyData.fingerprint = key.primaryKey.getFingerprint();
+        if (options.allUsers) {
+          // consider all user ids of key
+          keyData.users = [];
+          for (const keyUser of key.users) {
+            if (keyUser.userId && await keyUser.verify(key.primaryKey) === openpgp.enums.keyStatus.valid) {
+              const user = {userId: keyUser.userId.userid};
+              // check for duplicates
+              if (keyData.users.some(existingUser => existingUser.userId === user.userId)) {
+                continue;
+              }
+              mapKeyUserIds(user);
+              // check for valid email address
+              if (!user.email) {
+                continue;
+              }
+              keyData.users.push(user);
+            }
+          }
+        } else {
+          // only consider primary user
+          const user = {userId: await getUserId(key)};
+          mapKeyUserIds(user);
+          keyData.users = [user];
+        }
+        result.push(keyData);
+      } catch (e) {
+        console.log('Error in KeyringBase.getKeyData', e);
       }
-      result.push(keyData);
     }
     return result;
   }
@@ -130,7 +138,7 @@ export default class KeyringBase {
    * @param  {Object} [options.valid = true] - result keys are verified
    * @return {Object} - map in the form {address: [key1, key2, ..]}
    */
-  getKeyByAddress(emailAddr, {pub = true, priv = true, sort = false, valid = true} = {}) {
+  async getKeyByAddress(emailAddr, {pub = true, priv = true, sort = false, valid = true} = {}) {
     const result = Object.create(null);
     const emailArray = mvelo.util.toArray(emailAddr);
     for (const email of emailArray) {
@@ -142,13 +150,13 @@ export default class KeyringBase {
         result[email] = result[email].concat(this.keystore.privateKeys.getForAddress(email));
       }
       if (valid) {
-        result[email] = result[email].filter(key => isValidEncryptionKey(key, this.id));
+        result[email] = await mvelo.util.filterAsync(result[email], key => isValidEncryptionKey(key, this.id));
       }
       if (!result[email].length) {
         result[email] = false;
       } else if (sort) {
         // sort by key creation date and default key status
-        const defaultKeyFpr = this.getDefaultKeyFpr();
+        const defaultKeyFpr = await this.getDefaultKeyFpr();
         sortKeysByCreationDate(result[email], defaultKeyFpr);
       }
     }
@@ -172,7 +180,7 @@ export default class KeyringBase {
     } else {
       keys = keyFprs.map(keyFpr => this.keystore.getKeysForId(keyFpr)[0]);
     }
-    keys.forEach(key => {
+    for (const key of keys) {
       const armored = {};
       if (options.pub) {
         armored.armoredPublic = key.toPublic().armor();
@@ -181,23 +189,22 @@ export default class KeyringBase {
         armored.armoredPrivate = key.armor();
       }
       result.push(armored);
-    });
+    }
     return result;
   }
 
-  hasDefaultKey() {
-    return Boolean(this.keystore.getDefaultKeyFpr());
+  async hasDefaultKey() {
+    return Boolean(await this.keystore.getDefaultKeyFpr());
   }
 
   setDefaultKey(fpr) {
     return this.keystore.setDefaultKey(fpr);
   }
 
-  validateDefaultKey(defaultKey) {
-    return defaultKey.verifyPrimaryKey() === openpgp.enums.keyStatus.valid &&
-           defaultKey.getEncryptionKeyPacket() &&
-           defaultKey.getSigningKeyPacket() &&
-           !trustKey.isKeyPseudoRevoked(this.id, defaultKey);
+  async validateDefaultKey(defaultKey) {
+    return await defaultKey.getEncryptionKey() &&
+           await defaultKey.getSigningKey() &&
+           !await trustKey.isKeyPseudoRevoked(this.id, defaultKey);
   }
 
   getPrivateKeyByFpr(keyFpr) {
@@ -249,7 +256,7 @@ export default class KeyringBase {
     if (keyArray.length > 1) {
       throw new mvelo.Error(`Collision of long key ID ${keyId}, more than one key found in keyring`, 'LONG_KEY_ID_COLLISION');
     }
-    const keyPacket = keyArray[0].getKeyPacket([openpgp.Keyid.fromId(keyId)]);
+    const [{keyPacket}] = keyArray[0].getKeys(openpgp.Keyid.fromId(keyId));
     return keyPacket.getFingerprint();
   }
 

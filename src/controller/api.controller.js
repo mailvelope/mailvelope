@@ -31,35 +31,37 @@ export function handleApiEvent(request, sender, sendResponse) {
         })
         .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
         return true;
-      case 'query-valid-key': {
-        const keyMap = getKeyByAddress(request.keyringId, request.recipients);
-        Object.keys(keyMap).forEach(email => {
-          if (keyMap[email]) {
-            keyMap[email] = {
-              keys: keyMap[email].map(key => ({
-                fingerprint: key.primaryKey.getFingerprint(),
-                lastModified: getLastModifiedDate(key).toISOString()
-              }))
-            };
-          }
+      case 'query-valid-key':
+        getKeyByAddress(request.keyringId, request.recipients)
+        .then(keyMap => {
+          Object.keys(keyMap).forEach(email => {
+            if (keyMap[email]) {
+              keyMap[email] = {
+                keys: keyMap[email].map(key => ({
+                  fingerprint: key.primaryKey.getFingerprint(),
+                  lastModified: getLastModifiedDate(key).toISOString()
+                }))
+              };
+            }
+          });
+          sendResponse({error: null, data: keyMap});
         });
-        sendResponse({error: null, data: keyMap});
-        break;
-      }
-      case 'export-own-pub-key': {
-        const keyMap = keyringById(request.keyringId).getKeyByAddress(request.emailAddr, {pub: false, priv: true, sort: true});
-        const keyFprMap = mapAddressKeyMapToFpr(keyMap);
-        const pubKeyFprs = keyFprMap[request.emailAddr];
-        if (!pubKeyFprs) {
-          sendResponse({error: {message: 'No key pair found for this email address.', code: 'NO_KEY_FOR_ADDRESS'}});
-          return;
-        }
-        // only take first valid key
-        const pubKeyFpr = pubKeyFprs[0];
-        const armored = keyringById(request.keyringId).getArmoredKeys(pubKeyFpr, {pub: true});
-        sendResponse({error: null, data: armored[0].armoredPublic});
-        break;
-      }
+        return true;
+      case 'export-own-pub-key':
+        keyringById(request.keyringId).getKeyByAddress(request.emailAddr, {pub: false, priv: true, sort: true})
+        .then(keyMap => {
+          const keyFprMap = mapAddressKeyMapToFpr(keyMap);
+          const pubKeyFprs = keyFprMap[request.emailAddr];
+          if (!pubKeyFprs) {
+            sendResponse({error: {message: 'No key pair found for this email address.', code: 'NO_KEY_FOR_ADDRESS'}});
+            return;
+          }
+          // only take first valid key
+          const pubKeyFpr = pubKeyFprs[0];
+          const armored = keyringById(request.keyringId).getArmoredKeys(pubKeyFpr, {pub: true});
+          sendResponse({error: null, data: armored[0].armoredPublic});
+        });
+        return true;
       case 'import-pub-key':
         sub.factory.get('importKeyDialog').importKey(request.keyringId, request.armored)
         .then(status => sendResponse({data: status}))
@@ -81,8 +83,12 @@ export function handleApiEvent(request, sender, sendResponse) {
         if (request.fingerprint) {
           const fingerprint = request.fingerprint.toLowerCase().replace(/\s/g, '');
           const key = keyringById(request.keyringId).keystore.privateKeys.getForId(fingerprint);
-          const valid = key && key.verifyPrimaryKey() === openpgp.enums.keyStatus.valid;
-          sendResponse({error: null, data: (key && valid ? true : false)});
+          if (!key) {
+            return sendResponse({error: null, data: false});
+          }
+          key.verifyPrimaryKey()
+          .then(status => sendResponse({error: null, data: status === openpgp.enums.keyStatus.valid}));
+          return true;
         } else {
           const hasPrivateKey = keyringById(request.keyringId).hasPrivateKey();
           sendResponse({error: null, data: hasPrivateKey});

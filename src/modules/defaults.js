@@ -5,11 +5,11 @@
 
 import mvelo from '../lib/lib-mvelo';
 import {getPreferences, setPreferences, getWatchList, setWatchList} from './prefs';
-import * as openpgp from 'openpgp';
+import {getSecureRandom} from './crypto';
 import defaults from '../res/defaults.json';
 
 function getRandomAngle() {
-  let angle = openpgp.crypto.random.getSecureRandom(0, 120) - 60;
+  let angle = getSecureRandom(0, 120) - 60;
   if (angle < 0) {
     angle += 360;
   }
@@ -17,7 +17,7 @@ function getRandomAngle() {
 }
 
 function initSecurityBgnd(pref) {
-  pref.security.secureBgndScaling     = pref.security.secureBgndScaling    || (openpgp.crypto.random.getSecureRandom(9, 20) / 10);
+  pref.security.secureBgndScaling     = pref.security.secureBgndScaling    || (getSecureRandom(9, 20) / 10);
   pref.security.secureBgndWidth       = pref.security.secureBgndWidth      || 45;
   pref.security.secureBgndHeight      = pref.security.secureBgndHeight     || 45;
   pref.security.secureBgndColor       = pref.security.secureBgndColor      || defaults.preferences.security.secureBgndColor;

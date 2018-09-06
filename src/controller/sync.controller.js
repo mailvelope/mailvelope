@@ -38,14 +38,14 @@ export class SyncController extends sub.SubController {
    * @param {openpgp.key.Key} [options.key] - key to decrypt and sign sync message
    * @param {String} [options.password] - password for options.key
    */
-  triggerSync(options) {
+  async triggerSync(options) {
     options = options || {};
     if (this.syncRunning) {
       this.repeatSync = options;
       return;
     }
     this.modified = this.keyring.sync.data.modified;
-    const defaultKey = this.keyring.getDefaultKey();
+    const defaultKey = await this.keyring.getDefaultKey();
     if (!options.key) {
       // if no key provided we take the default key
       if (defaultKey) {
@@ -59,34 +59,31 @@ export class SyncController extends sub.SubController {
         return;
       }
     }
-    if (!(options.force || this.canUnlockKey('decrypt', options))) {
+    if (!(options.force || await this.canUnlockKey('decrypt', options))) {
       return;
     }
     this.syncRunning = true;
     // reset modified to detect further modification
     this.keyring.sync.data.modified = false;
-    this.downloadSyncMessage(options)
-    .then(() => {
-      if (!this.modified) {
-        return;
+    try {
+      await this.downloadSyncMessage(options);
+      if (this.modified) {
+        if (await this.canUnlockKey('sign', options)) {
+          await this.uploadSyncMessage(options);
+        } else {
+          // upload didn't happen, reset modified flag
+          this.keyring.sync.data.modified = true;
+        }
       }
-      if (this.canUnlockKey('sign', options)) {
-        return this.uploadSyncMessage(options);
-      }
-      // upload didn't happen, reset modified flag
-      this.keyring.sync.data.modified = true;
-    })
-    .then(() => this.keyring.sync.save())
-    .then(() => {
+      await this.keyring.sync.save();
       this.checkRepeat();
-    })
-    .catch(err => {
+    } catch (err) {
       console.log('Sync error', err);
       if (this.modified || this.keyring.sync.data.modified) {
         this.keyring.sync.data.modified = true;
       }
       this.checkRepeat();
-    });
+    }
   }
 
   checkRepeat() {
@@ -129,7 +126,7 @@ export class SyncController extends sub.SubController {
     let password;
     if (!equalKey(privKey, options.key)) {
       console.log('Key used for sync packet from server is not default key on client');
-      if (!options.force && !this.canUnlockKey('decrypt', {key: privKey})) {
+      if (!options.force && !await this.canUnlockKey('decrypt', {key: privKey})) {
         throw new Error('Key used for sync packet is locked');
       }
     } else {
@@ -179,7 +176,7 @@ export class SyncController extends sub.SubController {
    * @param {String} [options.password]
    * @return {Boolean} - true if key can be unlocked
    */
-  canUnlockKey(operation, options) {
+  async canUnlockKey(operation, options) {
     if (options.password) {
       // key can always be unlocked with password
       return true;
@@ -190,11 +187,11 @@ export class SyncController extends sub.SubController {
     }
     let keyPacket;
     if (operation === 'sign') {
-      keyPacket = options.key.getSigningKeyPacket();
-      return keyPacket && keyPacket.isDecrypted;
+      keyPacket = await options.key.getSigningKey();
+      return keyPacket && keyPacket.isDecrypted();
     } else if (operation === 'decrypt') {
-      keyPacket = options.key.getEncryptionKeyPacket();
-      return keyPacket && keyPacket.isDecrypted;
+      keyPacket = await options.key.getEncryptionKey();
+      return keyPacket && keyPacket.isDecrypted();
     }
   }
 

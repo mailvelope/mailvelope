@@ -15,12 +15,12 @@ export default class KeyringGPG extends KeyringBase {
 
   getAttr() {
     return {
-      default_key: this.getDefaultKeyFpr()
+      default_key: this.keystore.defaultKeyFpr
     };
   }
 
-  getDefaultKey() {
-    const defaultKeyFpr = this.getDefaultKeyFpr();
+  async getDefaultKey() {
+    const defaultKeyFpr = await this.getDefaultKeyFpr();
     return this.keystore.privateKeys.getForId(defaultKeyFpr);
   }
 

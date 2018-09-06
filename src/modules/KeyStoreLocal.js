@@ -10,11 +10,26 @@ import {getKeyringAttr, setKeyringAttr} from './keyring';
 
 export default class KeyStoreLocal extends KeyStoreBase {
   async load() {
-    this.clear();
+    await super.load();
     const pubArmored = await mvelo.storage.get(`mvelo.keyring.${this.id}.publicKeys`);
-    this.loadKeys(pubArmored, this.publicKeys);
+    await this.loadKeys(pubArmored, this.publicKeys);
     const privArmored = await mvelo.storage.get(`mvelo.keyring.${this.id}.privateKeys`);
-    this.loadKeys(privArmored, this.privateKeys);
+    await this.loadKeys(privArmored, this.privateKeys);
+  }
+
+  async loadKeys(keysArmored, keyArray = []) {
+    if (!keysArmored) {
+      return;
+    }
+    for (const keyArmored of keysArmored) {
+      const key = await openpgp.key.readArmored(keyArmored);
+      if (!key.err) {
+        keyArray.push(key.keys[0]);
+      } else {
+        console.log('Error parsing armored PGP key:', key.err);
+      }
+    }
+    return keyArray;
   }
 
   async store() {
@@ -39,7 +54,7 @@ export default class KeyStoreLocal extends KeyStoreBase {
     await mvelo.storage.remove(`mvelo.keyring.${this.id}.privateKeys`);
   }
 
-  getDefaultKeyFpr() {
+  async getDefaultKeyFpr() {
     let defaultKeyFpr = getKeyringAttr(this.id, 'default_key');
     if (defaultKeyFpr || defaultKeyFpr === '') {
       return defaultKeyFpr;
@@ -47,7 +62,7 @@ export default class KeyStoreLocal extends KeyStoreBase {
     // if defaultKeyFpr is undefined check for legacy primary key setting and migrate to default key
     const primaryKeyId = getKeyringAttr(this.id, 'primary_key');
     if (primaryKeyId === '') {
-      setKeyringAttr(this.id, {primary_key: undefined});
+      await setKeyringAttr(this.id, {primary_key: undefined});
     }
     if (!primaryKeyId) {
       return '';
@@ -55,11 +70,11 @@ export default class KeyStoreLocal extends KeyStoreBase {
     const primaryKey = this.privateKeys.getForId(primaryKeyId.toLowerCase());
     if (!primaryKey) {
       // primary key not found, delete primary key attribute
-      setKeyringAttr(this.id, {primary_key: undefined});
+      await setKeyringAttr(this.id, {primary_key: undefined});
       return '';
     }
     defaultKeyFpr = primaryKey.primaryKey.getFingerprint();
-    this.setDefaultKey(defaultKeyFpr);
+    await this.setDefaultKey(defaultKeyFpr);
     return defaultKeyFpr;
   }
 
