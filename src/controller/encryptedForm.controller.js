@@ -158,9 +158,6 @@ export default class EncryptedFormController extends sub.SubController {
     if (!mvelo.util.checkUrl(action)) {
       throw new mvelo.Error('The form action should be a valid URL.', 'INVALID_FORM_ACTION');
     }
-    if (!action.startsWith('https:')) {
-      throw new mvelo.Error('The form action URL is not secure.', 'INVALID_FORM_ACTION');
-    }
     this.formAction = action;
     return true;
   }
