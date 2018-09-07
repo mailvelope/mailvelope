@@ -68,7 +68,7 @@ export async function mapKeys(keys) {
       uiKey.validity = await key.verifyPrimaryKey() === openpgp.enums.keyStatus.valid;
     } catch (e) {
       uiKey.validity = false;
-      console.log('Exception in verifyPrimaryKey', e);
+      console.log(`Error in mapKeys on verifyPrimaryKey for key ${key.keyPacket.getFingerprint()}.`, e);
     }
     uiKey.keyId = key.primaryKey.getKeyId().toHex().toUpperCase();
     uiKey.fingerprint = key.primaryKey.getFingerprint();
@@ -88,7 +88,7 @@ export async function mapKeys(keys) {
       uiKey.name = uiKey.name || 'NO USERID FOUND';
       uiKey.email = uiKey.email || 'UNKNOWN';
       uiKey.exDate = uiKey.exDate || 'UNKNOWN';
-      console.log('Exception map primary user', e);
+      console.log(`Error in mapKeys on mapping primary user for key ${key.keyPacket.getFingerprint()}.`, e);
     }
     uiKey.crDate = key.primaryKey.created.toISOString();
     const keyInfo = key.primaryKey.getAlgorithmInfo();
@@ -271,6 +271,7 @@ export async function isValidEncryptionKey(key, keyringId) {
   try {
     return await key.getEncryptionKey() !== null && !await isKeyPseudoRevoked(keyringId, key);
   } catch (e) {
+    console.log(`Error in isValidEncryptionKey for key ${key.keyPacket.getFingerprint()}.`, e);
     return false;
   }
 }

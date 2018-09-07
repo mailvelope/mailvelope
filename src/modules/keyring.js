@@ -21,6 +21,9 @@ class KeyringAttrMap extends Map {
   async init() {
     const attributes = await mvelo.storage.get('mvelo.keyring.attributes') || {};
     Object.keys(attributes).forEach(key => super.set(key, attributes[key]));
+    if (!this.has(mvelo.MAIN_KEYRING_ID)) {
+      await this.create(mvelo.MAIN_KEYRING_ID);
+    }
     await this.initGPG();
   }
 
@@ -89,15 +92,11 @@ const keyringMap = new Map();
 
 export async function init() {
   await keyringAttr.init();
-  if (keyringAttr.has(mvelo.MAIN_KEYRING_ID)) {
-    const keyringPromises = Array.from(keyringAttr.keys()).map(keyringId =>
-      buildKeyring(keyringId)
-      .catch(e => console.log(`Building keyring for id ${keyringId} failed`, e))
-    );
-    await Promise.all(keyringPromises);
-  } else {
-    await createKeyring(mvelo.MAIN_KEYRING_ID);
-  }
+  const keyringPromises = Array.from(keyringAttr.keys()).map(keyringId =>
+    buildKeyring(keyringId)
+    .catch(e => console.log(`Building keyring for id ${keyringId} failed`, e))
+  );
+  await Promise.all(keyringPromises);
 }
 
 /**

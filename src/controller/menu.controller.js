@@ -6,7 +6,6 @@
 import mvelo from '../lib/lib-mvelo';
 import * as sub from './sub.controller';
 import * as prefs from '../modules/prefs';
-import * as uiLog from '../modules/uiLog';
 import {getById as keyringById} from '../modules/keyring';
 
 export default class MenuController extends sub.SubController {
@@ -16,7 +15,6 @@ export default class MenuController extends sub.SubController {
     // register event handlers
     this.on('browser-action', this.onBrowserAction);
     this.on('get-prefs', () => prefs.prefs);
-    this.on('get-ui-log', ({securityLogLength}) => uiLog.getLatest(securityLogLength));
     this.on('get-is-setup-done', this.getIsSetupDone);
   }
 

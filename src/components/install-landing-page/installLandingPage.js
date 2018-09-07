@@ -11,7 +11,6 @@ import './InstallLandingPage.less';
 l10n.register([
   'install_landing_page_getting_started',
   'install_landing_page_help',
-  'install_landing_page_help_wrapper',
   'install_landing_page_welcome',
   'encrypt_error'
 ]);
