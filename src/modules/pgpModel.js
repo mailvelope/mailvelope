@@ -148,7 +148,7 @@ async function logEncryption(source, keyring, keyFprs) {
   if (source) {
     const keys = keyring.getKeysByFprs(keyFprs);
     const recipients = await Promise.all(keys.map(async key => getUserId(key, false)));
-    uiLog.push(source, l10n('security_log_encryption_operation', [recipients.join(', ')]));
+    uiLog.push(source, 'security_log_encryption_operation', [recipients.join(', ')]);
   }
 }
 
@@ -209,7 +209,7 @@ export async function signMessage({data, keyringId, unlockKey, signingKeyFpr}) {
   }
   try {
     const result = await keyring.getPgpBackend().sign({data, keyring, unlockKey, signingKeyFpr});
-    uiLog.push('security_log_editor', l10n('security_log_sign_operation', [signingKeyFpr.toUpperCase()]));
+    uiLog.push('security_log_editor', 'security_log_sign_operation', [signingKeyFpr.toUpperCase()]);
     return result;
   } catch (e) {
     console.log('getPgpBackend().sign() error', e);

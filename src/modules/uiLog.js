@@ -14,13 +14,14 @@ let logTimer = 0;
  * Push messages to the log
  * @param {String} source - the source dialog of the user interaction
  * @param {String} type - the type of the user interaction
+ * @param {String|Array} substitutions - substitutions for type
  */
-export function push(source, type) {
+export function push(source, type, substitutions) {
   const entry = {
     source,
     sourcei18n: l10n(source),
     type,
-    typei18n: l10n(type) || type,
+    typei18n: l10n(type, substitutions),
     timestamp: (new Date()).toISOString()
   };
   const lastEntry = log[log.length - 1];

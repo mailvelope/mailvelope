@@ -123,7 +123,7 @@ export default class KeyringBase {
         }
         result.push(keyData);
       } catch (e) {
-        console.log('Error in KeyringBase.getKeyData', e);
+        console.log(`Error in KeyringBase.getKeyData for key ${key.keyPacket.getFingerprint()}.`, e);
       }
     }
     return result;
@@ -202,9 +202,14 @@ export default class KeyringBase {
   }
 
   async validateDefaultKey(defaultKey) {
-    return await defaultKey.getEncryptionKey() &&
-           await defaultKey.getSigningKey() &&
-           !await trustKey.isKeyPseudoRevoked(this.id, defaultKey);
+    try {
+      return await defaultKey.getEncryptionKey() &&
+             await defaultKey.getSigningKey() &&
+             !await trustKey.isKeyPseudoRevoked(this.id, defaultKey);
+    } catch (e) {
+      console.log(`Error in validateDefaultKey for key ${defaultKey.keyPacket.getFingerprint()}.`, e);
+      return false;
+    }
   }
 
   getPrivateKeyByFpr(keyFpr) {
