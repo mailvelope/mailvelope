@@ -7,6 +7,9 @@
  * @fileOverview A simple HTTP client for Mailvelope Key Server's REST api.
  */
 
+import {key as openpgpKey} from 'openpgp';
+import {filterUserIdsByEmail} from './key';
+
 /** The default URL of the mailvelope authenticating keyserver. */
 const DEFAULT_URL = 'https://keys.mailvelope.com';
 
@@ -25,16 +28,47 @@ export function setKeyServerURL(value) {
 /**
  * Get a verified public key either from the server by either email address,
  * key id, or fingerprint.
+ *
+ * If only the email is provided it will only return keys with UserIDs that
+ * match the email. In that case the userIds from the json object are purely
+ * informational as the userIds that are also on the key on the Key Server.
+ *
  * @param {string} options.email         (optional) The user id's email address
  * @param {string} options.keyId         (optional) The long 16 char key id
  * @param {string} options.fingerprint   (optional) The 40 char v4 fingerprint
  * @yield {Object}                       The public key json object
  */
 export async function lookup(options) {
+  let jsonKey;
   const response = await window.fetch(url(options));
   if (response.status === 200) {
-    return response.json();
+    jsonKey = await response.json();
   }
+
+  if (jsonKey && options.email && !options.keyId && !options.fingerprint) {
+    // When only fetching by email only the userid matching
+    // the email should be imported. This avoids usability problems
+    // and potentioal security issues when unreleated userids are also part
+    // of the key.
+    const parseResult = await openpgpKey.readArmored(jsonKey.publicKeyArmored);
+    if (parseResult.err) {
+      throw new Error(`mveloKeyServer: Failed to parse response '${jsonKey}': ${parseResult.err}`);
+    }
+
+    const keys = parseResult.keys;
+    if (keys.length !== 1) {
+      throw new Error(`mveloKeyServer: Response '${jsonKey}': contained ${keys.length} keys.`);
+    }
+
+    const filtered = filterUserIdsByEmail(keys[0], options.email);
+    if (!filtered.users.length) {
+      throw new Error(`mveloKeyServer: Response '${jsonKey}': contained no matching userIds.`);
+    }
+    jsonKey.publicKeyArmored = filtered.armor();
+    console.log(`mveloKeyServer: fetched key: '${filtered.primaryKey.getFingerprint()}'`);
+  }
+
+  return jsonKey;
 }
 
 /**
