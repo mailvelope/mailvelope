@@ -121,13 +121,13 @@ async function unlockKey(privKey, passwd) {
   try {
     const {key} = await openpgp.decryptKey({privateKey: privKey, passphrase: passwd});
     return key;
-  } catch (e) {
-    if (/Incorrect key passphrase/.test(e.message)) {
+  } catch ({message = ''}) {
+    if (message.includes('Incorrect key passphrase')) {
       throw new mvelo.Error('Could not unlock key: wrong password', 'WRONG_PASSWORD');
-    } else if (e.message === 'Key packet is already decrypted.') {
+    } else if (message.includes('Key packet is already decrypted')) {
       return privKey;
     } else {
-      throw new mvelo.Error('Error in openpgp.decryptKey');
+      throw new mvelo.Error(`Error in openpgp.decryptKey. ${message}`);
     }
   }
 }
