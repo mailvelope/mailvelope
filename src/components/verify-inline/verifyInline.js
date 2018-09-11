@@ -78,10 +78,10 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
         userId = $('<strong/>');
         userId.text(signer.userId);
       }
-      if (signer.userId && signer.valid) {
+      if (signer.valid) {
         type = 'success';
         message.append(l10n.verify_result_success, ' ', userId, ' ', keyId);
-      } else if (!signer.userId) {
+      } else if (signer.valid === null) {
         type = 'warning';
         message.append(l10n.verify_result_warning, ' ', keyId);
       } else {
