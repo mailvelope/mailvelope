@@ -65,9 +65,6 @@ export function init() {
       if (typeof prefs.general.prefer_gnupg == 'undefined') {
         prefs.general.prefer_gnupg = defaults.preferences.general.prefer_gnupg;
       }
-      if (typeof prefs.keyserver.wkd_blacklist == 'undefined') {
-        prefs.keyserver.wkd_blacklist = defaults.preferences.keyserver.wkd_blacklist;
-      }
 
       // merge watchlist on version change
       return mergeWatchlist(defaults)

@@ -8,9 +8,9 @@
  */
 
 import * as crypto from 'crypto';
-import {prefs} from './prefs';
 import * as openpgp from 'openpgp';
 import {filterUserIdsByEmail} from './key';
+import defaults from '../res/defaults.json';
 
 // For testing the following publicly available userIds can be used:
 //
@@ -76,7 +76,7 @@ export async function lookup(email, onlyOne) {
  */
 function isBlacklisted(domain) {
   if (typeof blacklist == 'undefined') {
-    blacklist = (prefs.keyserver.wkd_blacklist || []).map(item => RegExp(item, "i"));
+    blacklist = (defaults.preferences.keyserver.wkd_blacklist || []).map(item => RegExp(item, "i"));
   }
 
   for (const item of blacklist) {
