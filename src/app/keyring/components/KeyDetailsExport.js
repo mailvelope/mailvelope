@@ -87,7 +87,7 @@ export default class KeyDetailsExport extends React.Component {
           </div>
         }
         <div className="form-group">
-          <textarea id="armoredKey" className="form-control" rows="12" value={armoredExport} spellCheck="false" autoComplete="off"></textarea>
+          <textarea id="armoredKey" className="form-control" rows="12" value={armoredExport} spellCheck="false" autoComplete="off" readOnly></textarea>
         </div>
         <div className="form-inline">
           <input type="text" value={this.state.fileName} onChange={this.handleFileNameChange} className="form-control" style={{width: '250px', marginRight: '10px'}} />

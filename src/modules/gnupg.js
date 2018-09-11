@@ -14,13 +14,13 @@ import {gpgme} from '../lib/browser.runtime';
  * @return {Object}
  */
 export async function decrypt({armored, base64, format}) {
-  let {data, signatures, file_name} = await gpgme.decrypt({
+  let {data, signatures, file_name, format: resultFormat} = await gpgme.decrypt({
     data: armored || base64,
     base64: Boolean(base64),
     expect: format === 'binary' ? 'base64' : null
   });
   signatures = mapSignatures(signatures);
-  if (format === 'binary') {
+  if (resultFormat === 'base64') {
     data = window.atob(data);
   }
   return {data, signatures, filename: file_name};
@@ -96,7 +96,7 @@ function mapSignatures({signatures} = {}) {
     try {
       sig.fingerprint = bad.fingerprint.toLowerCase();
     } catch (e) {}
-    if (bad.errorDetails['key-missing']) {
+    if (bad.errorDetails['key-missing'] || bad._rawSigObject.status_code === 9) {
       sig.valid = null;
     } else if (bad._rawSigObject && bad._rawSigObject.status_code === 0 && bad._rawSigObject.validity === 3) {
       // status of success (0) and validity of marginal (3) means the signature was verified successfully,
