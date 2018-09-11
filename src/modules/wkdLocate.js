@@ -24,7 +24,9 @@ import defaults from '../res/defaults.json';
 // Fetch timeout in seconds (based on GnuPG)
 const TIMEOUT = 5;
 
-// Size limit of the response in KiB (based on GnuPG)
+// Size limit of the response in KiB (based on GnuPG).
+// Needs support for access to Response.body by the browser. Otherwise
+// the size limit depends on the timeout.
 const SIZE_LIMIT = 256;
 
 // blacklist to check for domains where WKD should not even be tried.
@@ -219,7 +221,22 @@ function sizeLimitResponse(response, limit) {
     return;
   }
 
-  const reader = response.body.getReader();
+  let reader;
+  try {
+    reader = response.body.getReader();
+  } catch (e) {
+    // There might not be RedableStream support in some browsers.
+    // If it is not available we just read the full response.
+    //
+    // Security: While it would be preferrable to have a size limit
+    // in place, the absence of it is not critical as we are
+    // protected against stalling by the time limit and against
+    // keyring pollution by the UserID / Key Filter mechanism.
+    //
+    // The timeout should already impose a size limit depending
+    // on the bandwidth.
+    return response.arrayBuffer().then(buffer => new Uint8Array(buffer));
+  }
   let total = 0;
   const results = [];
   return pump();
