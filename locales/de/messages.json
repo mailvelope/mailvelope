@@ -435,14 +435,18 @@
     "message": "HKP Schlüssel Server",
     "description": "HKP key server option: url."
   },
-  "keyserver_tofu_label": {
-    "message": "Mailvelope Schlüssel Server",
-    "description": "Mailvelope Key Server Settings Label"
+  "keyserver_additionals_label": {
+    "message": "Zusätzliche Schlüssel-Quellen",
+    "description": "Label for configuration of additional key sources"
   },
   "keyserver_tofu_lookup": {
-    "message": "Automatisch nach Empfänger Schlüssel suchen",
+    "message": "Den Mailvelope Schlüssel-Server benutzen",
     "description": "Enable Mailvelope Key Server Auto Lookup"
   },
+  "keyserver_wkd_lookup": {
+    "message": "Empfänger Schlüssel beim Mail-Anbieter des Empfängers abfragen (Web Key Directory)",
+    "description": "Enable Web Key Directory Auto Lookup"
+   },
   "keyserver_url_warning": {
     "message": "Schlüssel Server URL muss folgendes Format haben: http(s)://keys.example.com",
     "description": "HKP key server url warning."

@@ -41,7 +41,7 @@ export default class GenerateKey extends React.Component {
       keyExpirationTime: null,
       password: '',
       passwordCheck: '',
-      keyServerUpload: props.demail ? false : true,
+      mveloKeyServerUpload: props.demail ? false : true,
       generating: false, // key generation in progress
       success: false, // key generation successful
       errors: {}, // form errors
@@ -79,7 +79,7 @@ export default class GenerateKey extends React.Component {
 
   generateKey() {
     const parameters = {};
-    ({keySize: parameters.numBits, password: parameters.passphrase, keyServerUpload: parameters.uploadPublicKey} = this.state);
+    ({keySize: parameters.numBits, password: parameters.passphrase, mveloKeyServerUpload: parameters.uploadPublicKey} = this.state);
     parameters.userIds = [{
       fullName: this.state.name,
       email: this.state.email
@@ -125,8 +125,8 @@ export default class GenerateKey extends React.Component {
           <DefinePassword value={this.state} onChange={this.handleChange} disabled={this.state.success} />
           <div className={`form-group ${this.props.demail ? 'hide' : ''}`}>
             <div className="checkbox">
-              <label className="checkbox" htmlFor="keyServerUpload">
-                <input checked={this.state.keyServerUpload} onChange={this.handleChange} type="checkbox" id="keyServerUpload" disabled={this.state.success} />
+              <label className="checkbox" htmlFor="mveloKeyServerUpload">
+                <input checked={this.state.mveloKeyServerUpload} onChange={this.handleChange} type="checkbox" id="mveloKeyServerUpload" disabled={this.state.success} />
                 <span>{l10n.map.key_gen_upload}</span>. <a href="https://keys.mailvelope.com" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a>
               </label>
             </div>
