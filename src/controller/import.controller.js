@@ -84,7 +84,7 @@ export default class ImportController extends sub.SubController {
         throw new Error(this.keys.err[0].message);
       }
       this.key = this.keys.keys[0];
-      this.keyDetails = await mapKeys(this.keys.keys)[0];
+      [this.keyDetails] = await mapKeys(this.keys.keys);
       if (this.keyDetails.type === 'private') {
         throw new Error('Import of private keys not allowed.');
       }
@@ -106,7 +106,7 @@ export default class ImportController extends sub.SubController {
         return this.openPopup();
       }
     } catch (err) {
-      throw mvelo.Error(err.message, 'IMPORT_ERROR');
+      throw new mvelo.Error(err.message, 'IMPORT_ERROR');
     }
   }
 
