@@ -120,10 +120,11 @@ export async function readMessage({armoredText, binary}) {
  * @param {String} options.signingKeyFpr - fingerprint of signing key
  * @param {String} options.uiLogSource - UI source that triggered encryption, used for logging
  * @param {String} [options.filename] - file name set for this message
+ * @param {Boolean} [noCache] - if true, no password cache should be used to unlock signing keys
  * @return {Promise<String>} - armored PGP message
  */
-export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyFprs, signingKeyFpr, uiLogSource, filename}) {
-  const keyring = getKeyringWithPrivKey(signingKeyFpr, keyringId);
+export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyFprs, signingKeyFpr, uiLogSource, filename, noCache}) {
+  const keyring = getKeyringWithPrivKey(signingKeyFpr, keyringId, noCache);
   if (!keyring) {
     throw new mvelo.Error('No private key found', 'NO_PRIVATE_KEY_FOUND');
   }
