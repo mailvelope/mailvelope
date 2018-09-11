@@ -328,9 +328,10 @@ function getPreferredKeyringQueue(keyringId) {
  * Implements also fallback to alternative keyrings.
  * @param  {Array<openpgp.Keyid|String>|openpgp.Keyid|String} keyIds - key ids or fingerprints of private keys
  * @param  {String} [keyringId] - requested keyring, the leading keyring of a scenario
+ * @param {Boolean} [noCache] - if true, no password cache should be used to unlock signing keys
  * @return {KeyringBase}
  */
-export function getKeyringWithPrivKey(keyIds, keyringId) {
+export function getKeyringWithPrivKey(keyIds, keyringId, noCache) {
   keyIds = mvelo.util.toArray(keyIds);
   let keyrings;
   if (!keyringId) {
@@ -349,6 +350,12 @@ export function getKeyringWithPrivKey(keyIds, keyringId) {
   // return first keyring that includes private keys with keyIds
   for (const keyring of keyrings) {
     if (keyring.hasPrivateKey(keyIds)) {
+      if (keyring.id === mvelo.GNUPG_KEYRING_ID && keyIds.length && noCache) {
+        // with noCache enforcement we want to make sure that a private key operation always triggers
+        // a password dialog and therefore a user interaction. As GPGME does not allow to detect
+        // if cache is used or not we skip the GnuPG keyring here.
+        continue;
+      }
       return keyring;
     }
   }

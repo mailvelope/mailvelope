@@ -399,7 +399,7 @@ export default class EditorController extends sub.SubController {
       signKeyFpr = defaultKeyFpr;
     }
     if (!signKeyFpr) {
-      throw new mvelo.Error('No default key found', 'NO_DEFAULT_KEY_FOUND');
+      throw new mvelo.Error('No private key found to sign this message.', 'NO_DEFAULT_KEY_FOUND');
     }
     const unlockKey = async options => {
       options.noCache = noCache;
@@ -413,7 +413,8 @@ export default class EditorController extends sub.SubController {
       unlockKey,
       encryptionKeyFprs: keyFprs,
       signingKeyFpr: signKeyFpr,
-      uiLogSource: 'security_log_editor'
+      uiLogSource: 'security_log_editor',
+      noCache
     });
   }
 
