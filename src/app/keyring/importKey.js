@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 
 import KeySearch from './components/KeySearch';
 import Alert from '../../components/util/Alert';
+import {Link} from 'react-router-dom';
 
 const PUBLIC_KEY_REGEX = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
 const PRIVATE_KEY_REGEX = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END PGP PRIVATE KEY BLOCK-----/g;
@@ -37,7 +38,6 @@ export default class ImportKey extends React.Component {
     super(props);
     this.state = {alert: [], armored: ''};
     this.handleChangeFile = this.handleChangeFile.bind(this);
-    this.handleClear = this.handleClear.bind(this);
   }
 
   componentDidMount() {
@@ -46,10 +46,6 @@ export default class ImportKey extends React.Component {
       getAppDataSlot()
       .then(armored => this.importKey(armored));
     }
-  }
-
-  handleClear() {
-    this.setState({alert: [], armored: ''});
   }
 
   handleChangeFile(event) {
@@ -163,7 +159,9 @@ export default class ImportKey extends React.Component {
           </div>
           <div className="form-group">
             <button type="button" onClick={() => this.handleImportKey(this.state.armored)} className="btn btn-primary" disabled={!this.state.armored}>{l10n.map.form_import}</button>
-            <button type="button" onClick={this.handleClear} className="btn btn-default" disabled={!this.state.armored}>{l10n.map.form_clear}</button>
+            <Link className="btn btn-default" to='/keyring' replace tabIndex="0" title={l10n.map.keygrid_generate_title}>
+              <span>{l10n.map.action_menu_back}</span>
+            </Link>
           </div>
           <div className="form-group">
             {this.state.alert.map((alert, index) => <Alert header={alert.header} message={alert.message} type={alert.type} key={index} />)}
