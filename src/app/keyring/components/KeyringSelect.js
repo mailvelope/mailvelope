@@ -19,12 +19,19 @@ export default class KeyringSelect extends React.Component {
   constructor(props) {
     super(props);
     this.state = {names: []};
+    if (this.props.keyringAttr) {
+      this.fetchKeyringEmails();
+    }
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.keyringAttr && !prevProps.keyringAttr) {
       this.fetchKeyringEmails();
     }
+  }
+
+  componentWillUnmount() {
+    this.setState({names: []});
   }
 
   async fetchKeyringEmails() {
