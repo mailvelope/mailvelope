@@ -16,8 +16,10 @@ import AdvKeyGenOptions from './components/AdvKeyGenOptions';
 import DefinePassword from './components/DefinePassword';
 import GenerateWait from './components/GenerateWait';
 import Alert from '../../components/util/Alert';
+import {Link} from 'react-router-dom';
 
 l10n.register([
+  'action_menu_back',
   'keyring_generate_key',
   'key_gen_generate',
   'form_clear',
@@ -141,7 +143,9 @@ class GenerateKeyBase extends React.Component {
           </div>
           <div className="form-group">
             <button onClick={this.handleGenerate} type="button" className="btn btn-primary" disabled={this.state.success || !validPassword}>{l10n.map.key_gen_generate}</button>
-            <button onClick={this.handleReset} type="button" className="btn btn-default" disabled={this.state.success}>{l10n.map.form_clear}</button>
+            <Link className="btn btn-default" to='/keyring' replace tabIndex="0" title={l10n.map.keygrid_generate_title}>
+              <span>{l10n.map.action_menu_back}</span>
+            </Link>
             <button onClick={this.handleReset} type="button" className={`btn btn-default ${this.state.success ? '' : 'hide'}`}>{l10n.map.key_gen_another}</button>
           </div>
         </form>
