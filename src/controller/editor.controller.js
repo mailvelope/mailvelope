@@ -496,7 +496,7 @@ export default class EditorController extends sub.SubController {
       keyFprs = keys.map(key => key.fingerprint);
       // get the sender key fingerprint
       if (prefs.general.auto_add_primary) {
-        const localKeyring = getKeyringById(mvelo.MAIN_KEYRING_ID);
+        const localKeyring = getKeyringById(this.keyringId);
         const defaultKeyFpr = await localKeyring.getDefaultKeyFpr();
         if (defaultKeyFpr) {
           keyFprs.push(defaultKeyFpr);
