@@ -125,7 +125,7 @@ export default class KeyringSelect extends React.Component {
                     <span className="keyringIdentifier keyRingName">{keyringName}</span>
                     <span className="keyringIdentifier keyRingPrimaryKey">{keyringEmail}</span>
                   </a>
-                  {keyringId !== mvelo.MAIN_KEYRING_ID &&
+                  {keyringId !== mvelo.MAIN_KEYRING_ID && keyringId !== mvelo.GNUPG_KEYRING_ID &&
                   <a onClick={() => this.props.onDelete(keyringId, keyringName)}
                      className="btn btn-link pull-right flex-item deleteKeyRing">
                     <span className="glyphicon glyphicon-trash"></span>
