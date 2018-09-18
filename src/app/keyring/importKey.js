@@ -4,7 +4,7 @@
  */
 
 import mvelo from '../../mvelo';
-import {keyring, getAppDataSlot} from '../app';
+import {keyring, getAppDataSlot, KeyringOptions} from '../app';
 import * as l10n from '../../lib/l10n';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -143,9 +143,9 @@ export default class ImportKey extends React.Component {
         <h3 className="logo-header">
           <span>{l10n.map.keyring_import_keys}</span>
         </h3>
-        {
-          !this.props.demail && <KeySearch prefs={this.props.prefs} />
-        }
+        <KeyringOptions.Consumer>
+          {options => !options.demail && <KeySearch prefs={this.props.prefs} />}
+        </KeyringOptions.Consumer>
         <form className="form" autoComplete="off">
           <div className="form-group">
             <label className="control-label" htmlFor="selectFileButton"><h4>{l10n.map.key_import_file}</h4></label>
@@ -175,7 +175,6 @@ export default class ImportKey extends React.Component {
 }
 
 ImportKey.propTypes = {
-  demail: PropTypes.bool,
   onKeyringChange: PropTypes.func,
   prefs: PropTypes.object,
   location: PropTypes.object
