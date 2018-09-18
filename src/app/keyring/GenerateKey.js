@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import mvelo from '../../mvelo';
 import * as l10n from '../../lib/l10n';
-import {keyring} from '../app';
+import {keyring, KeyringOptions} from '../app';
 import moment from 'moment';
 
 import NameAddrInput from './components/NameAddrInput';
@@ -31,7 +31,7 @@ l10n.register([
 // set locale
 moment.locale(navigator.language);
 
-export default class GenerateKey extends React.Component {
+class GenerateKeyBase extends React.Component {
   constructor(props) {
     super(props);
     this.initialState = {
@@ -118,7 +118,7 @@ export default class GenerateKey extends React.Component {
           <span>{l10n.map.keyring_generate_key}</span>
         </h3>
         <form className="form" autoComplete="off">
-          <NameAddrInput name={this.state.name} email={this.state.email} onChange={this.handleChange} disabled={this.state.success} errors={this.state.errors} demail={this.props.demail} />
+          <NameAddrInput name={this.state.name} email={this.state.email} onChange={this.handleChange} disabled={this.state.success} errors={this.state.errors} />
           <AdvancedExpand>
             <AdvKeyGenOptions value={this.state} onChange={this.handleChange} disabled={this.state.success} />
           </AdvancedExpand>
@@ -146,14 +146,22 @@ export default class GenerateKey extends React.Component {
   }
 }
 
-GenerateKey.propTypes = {
+GenerateKeyBase.propTypes = {
   demail: PropTypes.bool,
   defaultName: PropTypes.string,
   defaultEmail: PropTypes.string,
   onKeyringChange: PropTypes.func
 };
 
-GenerateKey.defaultProps = {
+GenerateKeyBase.defaultProps = {
   defaultName: '',
   defaultEmail: ''
 };
+
+export default function GenerateKey(props) {
+  return (
+    <KeyringOptions.Consumer>
+      {options => <GenerateKeyBase {...props} demail={options.demail} />}
+    </KeyringOptions.Consumer>
+  );
+}
