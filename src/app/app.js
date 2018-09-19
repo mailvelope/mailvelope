@@ -68,7 +68,7 @@ export let port; // EventHandler
 // reference to app component to get state
 let app;
 
-export const KeyringOptions = React.createContext({demail: false});
+export const KeyringOptions = React.createContext({demail: false, gnupg: false});
 
 export class App extends React.Component {
   constructor(props) {
@@ -92,6 +92,7 @@ export class App extends React.Component {
       hasPrivateKey: false, // active keyring: has private key
       providerLogo: '', // provider specific logo
       demail: false, // active keyring: is keyring from de-mail provider
+      gnupg: false, // active keyring: is the GnuPG keyring
       name, // query parameter to set user name for key generation
       email, // query parameter to set email for key generation
       keys: [], // active keyring: keys
@@ -148,9 +149,10 @@ export class App extends React.Component {
         const defaultKeyFpr = keyringAttr[keyringId].default_key || '';
         const providerLogo = keyringAttr[keyringId].logo_data_url || '';
         const demail = keyringId.includes(DEMAIL_SUFFIX);
+        const gnupg = keyringId === mvelo.GNUPG_KEYRING_ID;
         // propagate state change to backend
         port.emit('set-active-keyring', {keyringId});
-        return {keyringId, defaultKeyFpr, demail, keyringAttr, providerLogo};
+        return {keyringId, defaultKeyFpr, demail, gnupg, keyringAttr, providerLogo};
       }, () => {
         port.send('getKeys', {keyringId: this.state.keyringId})
         .then(keys => {
@@ -226,7 +228,7 @@ export class App extends React.Component {
           <div className="row">
             <Route path='/dashboard' component={Dashboard} />
             <Route path='/keyring' render={() => (
-              <KeyringOptions.Provider value={{demail: this.state.demail}}>
+              <KeyringOptions.Provider value={{demail: this.state.demail, gnupg: this.state.gnupg}}>
                 <div className="col-md-3">
                   <KeyringSelect keyringId={this.state.keyringId} keyringAttr={this.state.keyringAttr} onChange={this.handleChangeKeyring} onDelete={this.handleDeleteKeyring} />
                   <div role="navigation">
