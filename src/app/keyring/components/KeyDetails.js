@@ -6,6 +6,7 @@
 import * as l10n from '../../../lib/l10n';
 import React from 'react';
 import PropTypes from 'prop-types';
+import {KeyringOptions} from '../../app';
 
 import ModalDialog from '../../../components/util/ModalDialog';
 import DefaultKeyButton from './DefaultKeyButton';
@@ -82,7 +83,9 @@ function KeyDetailsFooter(props) {
     <div>
       { props.keyDetails.type !== 'private' ? null :
         <span className="pull-left">
-          <DefaultKeyButton onClick={props.onDefaultClick} isDefault={props.isDefault} disabled={!props.keyDetails.validDefaultKey} />
+          <KeyringOptions.Consumer>
+            {options => options.gnupg && !props.isDefault ? null : <DefaultKeyButton onClick={props.onDefaultClick} isDefault={props.isDefault} disabled={!props.keyDetails.validDefaultKey} />}
+          </KeyringOptions.Consumer>
         </span>
       }
       <button type="button" className="btn btn-primary" data-dismiss="modal">

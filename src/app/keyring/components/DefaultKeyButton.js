@@ -30,7 +30,7 @@ export default class DefaultKeyButton extends React.Component {
 
   render() {
     if (this.props.isDefault) {
-      return <button type="button" className="btn btn-warning" disabled="true">{l10n.map.keygrid_default_label}</button>;
+      return <button type="button" className="btn btn-warning" disabled={true}>{l10n.map.keygrid_default_label}</button>;
     } else {
       const buttonText = (
         <div>
