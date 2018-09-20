@@ -283,6 +283,7 @@ export default class KeyringBase {
   /**
    * Generate a new PGP keypair and optionally upload the public key to the
    * key server.
+   * @param {String} options.keyAlgo - public-key crypto algorithm of the key
    * @param {number} options.numBits - the keysize in bits
    * @param {Array} options.userIds - email addresses and names
    * @param {string} options.passphrase - to protect the private key on disk
@@ -291,7 +292,7 @@ export default class KeyringBase {
    * @param {Boolean} options.unlocked - returned secret part of the generated key is unlocked
    * @yield {Object} - the generated key pair
    */
-  async generateKey({numBits, userIds, passphrase, uploadPublicKey, keyExpirationTime, unlocked = false}) {
+  async generateKey({keyAlgo, numBits, userIds, passphrase, uploadPublicKey, keyExpirationTime, unlocked = false}) {
     userIds = userIds.map(userId => {
       if (userId.fullName) {
         return (new goog.format.EmailAddress(userId.email, userId.fullName)).toString();
@@ -299,7 +300,7 @@ export default class KeyringBase {
         return `<${userId.email}>`;
       }
     });
-    const newKey = await this.keystore.generateKey({userIds, passphrase, numBits: parseInt(numBits), keyExpirationTime, unlocked});
+    const newKey = await this.keystore.generateKey({keyAlgo, userIds, passphrase, numBits: parseInt(numBits), keyExpirationTime, unlocked});
     this.keystore.privateKeys.push(newKey.key);
     // upload public key
     // Currently only the mailvelope keyserver is supported but Web Key Service

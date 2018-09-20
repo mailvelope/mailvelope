@@ -54,7 +54,7 @@ export default function KeyDetailsPrimary({keyDetails}) {
           <input type="text" value={keyDetails.algorithm} readOnly className="form-control" id="keyAlgorithm" />
         </div>
       </div>
-      <div className="form-group">
+      <div className={`form-group ${keyDetails.bitLength ? '' : 'hide'}`}>
         <label htmlFor="keyLength" className="col-sm-3 control-label">{l10n.map.keygrid_key_length}</label>
         <div className="col-sm-9">
           <input type="text" value={keyDetails.bitLength} readOnly className="form-control" id="keyLength" />

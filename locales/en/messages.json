@@ -491,9 +491,17 @@
     "description": "Key generation error message",
     "message": "Error while generating key."
   },
+  "key_gen_experimental": {
+    "message": "experimental",
+    "description": "A key algorithm is flagged as experimental"
+  },
   "key_gen_expiration": {
     "description": "Key expiration date",
     "message": "Key expiration date"
+  },
+  "key_gen_future_default": {
+    "description": "Key generation algorithm, the future supported standard.",
+    "message": "Future Default"
   },
   "key_gen_generate": {
     "message": "Generate",

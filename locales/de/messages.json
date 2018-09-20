@@ -491,9 +491,17 @@
     "message": "Beim Erstellen des Schlüssels ist ein Fehler aufgetreten",
     "description": "Key generation error message"
   },
+  "key_gen_experimental": {
+    "message": "experimentell",
+    "description": "A key algorithm is flagged as experimental"
+  },
   "key_gen_expiration": {
     "message": "Schlüssel Ablaufdatum",
     "description": "Key expiration date"
+  },
+  "key_gen_future_default": {
+    "description": "Key generation algorithm, the future supported standard.",
+    "message": "Zukünftiger Standard"
   },
   "key_gen_generate": {
     "message": "Erstellen",

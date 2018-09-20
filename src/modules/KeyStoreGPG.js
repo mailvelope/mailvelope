@@ -63,8 +63,8 @@ export default class KeyStoreGPG extends KeyStoreBase {
     await gpgme.Keyring.deleteKey(fingerprint);
   }
 
-  async generateKey({numBits, userIds, keyExpirationTime}) {
-    const [gpgKey] = await gpgme.Keyring.generateKey({userId: userIds[0], algo: `rsa${numBits}`, expires: keyExpirationTime});
+  async generateKey({keyAlgo, userIds, keyExpirationTime}) {
+    const [gpgKey] = await gpgme.Keyring.generateKey({userId: userIds[0], algo: keyAlgo, expires: keyExpirationTime});
     const publicKeyArmored = await gpgKey.getArmor();
     return {key: await readArmoredPrivate(publicKeyArmored), publicKeyArmored};
   }
