@@ -92,32 +92,44 @@ export async function mapKeys(keys) {
     }
     uiKey.crDate = key.primaryKey.created.toISOString();
     const keyInfo = key.primaryKey.getAlgorithmInfo();
-    uiKey.algorithm = getAlgorithmString(keyInfo.algorithm);
+    uiKey.algorithm = getAlgorithmString(keyInfo);
     uiKey.bitLength = keyInfo.bits;
     return uiKey;
   }));
 }
 
-function getAlgorithmString(keyType) {
+function getAlgorithmString({algorithm, curve}) {
   let result = '';
-  switch (keyType) {
+  switch (algorithm) {
     case 'rsa_encrypt_sign':
-      result = "RSA (Encrypt or Sign)";
+      result = 'RSA (Encrypt or Sign)';
       break;
     case 'rsa_encrypt':
-      result = "RSA Encrypt-Only";
+      result = 'RSA Encrypt-Only';
       break;
     case 'rsa_sign':
-      result = "RSA Sign-Only";
+      result = 'RSA Sign-Only';
       break;
     case 'elgamal':
-      result = "Elgamal (Encrypt-Only)";
+      result = 'Elgamal (Encrypt-Only)';
       break;
     case 'dsa':
-      result = "DSA (Digital Signature Algorithm)";
+      result = 'DSA (Digital Signature Algorithm)';
+      break;
+    case 'ecdh':
+      result = 'ECDH (Encrypt only)';
+      break;
+    case 'ecdsa':
+      result = 'ECDSA (Sign only)';
+      break;
+    case 'eddsa':
+      result = 'EdDSA (Sign only)';
       break;
     default:
       result = "UNKNOWN";
+  }
+  if (curve) {
+    result = `${result} - ${curve}`;
   }
   return result;
 }
@@ -136,7 +148,7 @@ export async function mapSubKeys(subkeys = [], toKey) {
       }
       skey.keyId = subkey.keyPacket.getKeyId().toHex().toUpperCase();
       const keyInfo = subkey.keyPacket.getAlgorithmInfo();
-      skey.algorithm = getAlgorithmString(keyInfo.algorithm);
+      skey.algorithm = getAlgorithmString(keyInfo);
       skey.bitLength = keyInfo.bits;
       skey.fingerprint = subkey.keyPacket.getFingerprint();
       toKey.subkeys.push(skey);

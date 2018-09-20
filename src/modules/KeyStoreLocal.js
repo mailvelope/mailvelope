@@ -83,6 +83,7 @@ export default class KeyStoreLocal extends KeyStoreBase {
   }
 
   async generateKey(options) {
-    return openpgp.generateKey(options);
+    const curve = options.keyAlgo === 'ecc' ? 'curve25519' : '';
+    return openpgp.generateKey({...options, curve});
   }
 }

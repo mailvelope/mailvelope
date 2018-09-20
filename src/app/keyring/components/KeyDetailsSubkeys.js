@@ -58,7 +58,7 @@ export default class KeyDetailsSubkeys extends React.Component {
                 <input type="text" value={selected.algorithm} readOnly className="form-control" id="subkeyAlgorithm" />
               </div>
             </div>
-            <div className="form-group">
+            <div className={`form-group ${selected.bitLength ? '' : 'hide'}`}>
               <label htmlFor="subkeyLength" className="col-sm-3 control-label">{l10n.map.keygrid_key_length}</label>
               <div className="col-sm-9">
                 <input type="text" value={selected.bitLength} readOnly className="form-control" id="subkeyLength" />

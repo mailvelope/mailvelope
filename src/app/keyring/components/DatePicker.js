@@ -16,7 +16,7 @@ class CustomInput extends React.Component { // eslint-disable-line react/prefer-
     return (
       <div className="input-group">
         <div className="has-feedback">
-          <input type="text" className="form-control" value={this.props.value} placeholder={this.props.placeholder} disabled={this.props.disabled} />
+          <input type="text" className="form-control" value={this.props.value} placeholder={this.props.placeholder} disabled={this.props.disabled} readOnly />
           <span className={clearClasses} onClick={this.props.onClearDate} aria-hidden="true"></span>
         </div>
         <span className="input-group-btn">

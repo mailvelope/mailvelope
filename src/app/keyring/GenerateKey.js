@@ -37,6 +37,7 @@ class GenerateKeyBase extends React.Component {
     this.initialState = {
       name: props.defaultName,
       email: props.defaultEmail,
+      keyAlgo: props.gnupg ? 'default' : 'rsa',
       keySize: '4096',
       keyExpirationTime: null,
       password: '',
@@ -78,8 +79,12 @@ class GenerateKeyBase extends React.Component {
   }
 
   generateKey() {
-    const parameters = {};
-    ({keySize: parameters.numBits, password: parameters.passphrase, mveloKeyServerUpload: parameters.uploadPublicKey} = this.state);
+    const parameters = {
+      keyAlgo: this.state.keyAlgo,
+      numBits: this.state.keySize,
+      passphrase: this.state.password,
+      uploadPublicKey: this.state.mveloKeyServerUpload
+    };
     parameters.userIds = [{
       fullName: this.state.name,
       email: this.state.email
@@ -111,7 +116,7 @@ class GenerateKeyBase extends React.Component {
   }
 
   render() {
-    const validPassword = this.state.password.length && this.state.password === this.state.passwordCheck;
+    const validPassword = this.state.password.length && this.state.password === this.state.passwordCheck || this.props.gnupg;
     return (
       <div className={this.state.generating ? 'busy' : ''}>
         <h3 className="logo-header">
@@ -122,7 +127,7 @@ class GenerateKeyBase extends React.Component {
           <AdvancedExpand>
             <AdvKeyGenOptions value={this.state} onChange={this.handleChange} disabled={this.state.success} />
           </AdvancedExpand>
-          <DefinePassword value={this.state} onChange={this.handleChange} disabled={this.state.success} />
+          {!this.props.gnupg && <DefinePassword value={this.state} onChange={this.handleChange} disabled={this.state.success} />}
           <div className={`form-group ${this.props.demail ? 'hide' : ''}`}>
             <div className="checkbox">
               <label className="checkbox" htmlFor="mveloKeyServerUpload">
@@ -148,6 +153,7 @@ class GenerateKeyBase extends React.Component {
 
 GenerateKeyBase.propTypes = {
   demail: PropTypes.bool,
+  gnupg: PropTypes.bool,
   defaultName: PropTypes.string,
   defaultEmail: PropTypes.string,
   onKeyringChange: PropTypes.func
@@ -161,7 +167,7 @@ GenerateKeyBase.defaultProps = {
 export default function GenerateKey(props) {
   return (
     <KeyringOptions.Consumer>
-      {options => <GenerateKeyBase {...props} demail={options.demail} />}
+      {options => <GenerateKeyBase {...props} demail={options.demail} gnupg={options.gnupg} key={`${options.gnupg}${options.demail}`} />}
     </KeyringOptions.Consumer>
   );
 }
