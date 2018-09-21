@@ -20,12 +20,13 @@ l10n.register([
 export default class KeyDetailsExport extends React.Component {
   constructor(props) {
     super(props);
+    const type = props.publicOnly ? 'pub' : props.type;
     this.state = {
-      type: props.type,
+      type,
       keys: [],
-      fileName: `${props.keyName.replace(/\s/g, '_')}_${props.type}.asc`
+      fileName: `${props.keyName.replace(/\s/g, '_')}_${type}.asc`
     };
-    keyring('getArmoredKeys', {keyFprs: props.keyFprs, options: {pub: true, priv: true, all: props.all}})
+    keyring('getArmoredKeys', {keyFprs: props.keyFprs, options: {pub: true, priv: !props.publicOnly, all: props.all}})
     .then(result => this.setState({keys: result}));
     this.fileURL = '';
     this.handleClickExport = this.handleClickExport.bind(this);
@@ -110,9 +111,11 @@ KeyDetailsExport.propTypes = {
   keyFprs: PropTypes.array,
   all: PropTypes.bool,
   keyName: PropTypes.string.isRequired,
-  type: PropTypes.string
+  type: PropTypes.string,
+  publicOnly: PropTypes.bool
 };
 
 KeyDetailsExport.defaultProps = {
-  type: 'pub'
+  type: 'pub',
+  publicOnly: false
 };

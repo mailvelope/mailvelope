@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';
 
 import * as app from '../app';
+import {KeyringOptions} from '../app';
 import Spinner from '../../components/util/Spinner';
 import KeyDetails from './components/KeyDetails';
 import KeyringBackup from './components/KeyringBackup';
@@ -148,7 +149,9 @@ export default class KeyGrid extends React.Component {
                   <td className="text-center text-nowrap">
                     <div className="actions">
                       <button type="button" className="btn btn-default keyDetailsBtn" aria-haspopup="true"><span className="glyphicon glyphicon-info-sign"></span></button>
-                      <button type="button" onClick={e => this.deleteKeyEntry(e, index)} className="btn btn-default keyDeleteBtn"><span className="glyphicon glyphicon-trash"></span></button>
+                      <KeyringOptions.Consumer>
+                        {options => !(options.gnupg && key.type === 'private') && <button type="button" onClick={e => this.deleteKeyEntry(e, index)} className="btn btn-default keyDeleteBtn"><span className="glyphicon glyphicon-trash"></span></button>}
+                      </KeyringOptions.Consumer>
                     </div>
                   </td>
                 </tr>
@@ -166,11 +169,14 @@ export default class KeyGrid extends React.Component {
           />
         }
         {this.state.keyringBackup &&
-          <KeyringBackup keyFprs={this.state.keyringBackup.keyFprs}
-            all={this.state.keyringBackup.all}
-            type={this.state.keyringBackup.type}
-            onHide={() => this.setState({keyringBackup: null})}
-          />
+          <KeyringOptions.Consumer>
+            {options => <KeyringBackup keyFprs={this.state.keyringBackup.keyFprs}
+              all={this.state.keyringBackup.all}
+              type={this.state.keyringBackup.type}
+              onHide={() => this.setState({keyringBackup: null})}
+              publicOnly={options.gnupg}
+            />}
+          </KeyringOptions.Consumer>
         }
       </div>
     );
