@@ -62,7 +62,9 @@ export default class KeyDetails extends React.Component {
               <KeyDetailsUserids users={this.props.keyDetails.users} />
             </div>
             <div role="tabpanel" className="tab-pane" id="exportTab">
-              <KeyDetailsExport keyFprs={[this.props.keyDetails.fingerprint]} keyName={this.props.keyDetails.name} />
+              <KeyringOptions.Consumer>
+                {options => <KeyDetailsExport keyFprs={[this.props.keyDetails.fingerprint]} keyName={this.props.keyDetails.name} publicOnly={options.gnupg} />}
+              </KeyringOptions.Consumer>
             </div>
           </div>
         </div>
