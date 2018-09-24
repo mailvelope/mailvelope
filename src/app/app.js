@@ -68,6 +68,7 @@ export let port; // EventHandler
 // reference to app component to get state
 let app;
 
+export const AppOptions = React.createContext({gnupg: false});
 export const KeyringOptions = React.createContext({demail: false, gnupg: false});
 
 export class App extends React.Component {
@@ -301,13 +302,15 @@ export class App extends React.Component {
                 </div>
                 <div className="col-md-9">
                   <div className="jumbotron secureBackground">
-                    <section className="well mv-options">
-                      <Route path='/settings/general' component={General} />
-                      <Route path='/settings/security' component={Security} />
-                      <Route path='/settings/watchlist' component={WatchList} />
-                      <Route path='/settings/security-log' component={SecurityLog} />
-                      <Route path='/settings/key-server' render={() => <KeyServer prefs={this.state.prefs} onChangePrefs={this.handleChangePrefs} />} />
-                    </section>
+                    <AppOptions.Provider value={{gnupg: this.state.keyringAttr[mvelo.GNUPG_KEYRING_ID]}}>
+                      <section className="well mv-options">
+                        <Route path='/settings/general' component={General} />
+                        <Route path='/settings/security' component={Security} />
+                        <Route path='/settings/watchlist' component={WatchList} />
+                        <Route path='/settings/security-log' component={SecurityLog} />
+                        <Route path='/settings/key-server' render={() => <KeyServer prefs={this.state.prefs} onChangePrefs={this.handleChangePrefs} />} />
+                      </section>
+                    </AppOptions.Provider>
                     <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
                   </div>
                 </div>
