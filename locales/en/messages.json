@@ -399,9 +399,21 @@
     "description": "Label for editor options.",
     "message": "Email editor selection"
   },
+  "general_openpgp_preferences": {
+    "description": "Headline for OpenPGP settings.",
+    "message": "OpenPGP Preferences"
+  },
   "general_prefer_gnupg": {
     "description": "Option to choose GnuPG as the preferred OpenPGP backend.",
     "message": "Prefer GnuPG for all OpenPGP encryption operations"
+  },
+  "general_prefer_gnupg_note": {
+    "description": "Help text for GnuPG as the preferred OpenPGP backend option.",
+    "message": "Note: public keys are synchronized between available keyrings. Depending on availability of private keys, Mailvelope can override the preferred encryption library setting."
+  },
+  "general_prefer_openpgpjs": {
+    "description": "Default option with OpenPGP.js as the preferred OpenPGP backend.",
+    "message": "Prefer OpenPGP.js (default built-in Mailvelope encryption library)"
   },
   "general_default_key_always": {
     "description": "Label for default private key option.",
@@ -411,9 +423,17 @@
     "message": "Sign all messages with default key",
     "description": "Label for default private key option."
   },
+  "gnupg_available": {
+    "message": "Available",
+    "description": "Label indicating GnuPG feature is available."
+  },
   "gnupg_error_unusable_pub_key": {
     "message": "Please check if the following public keys are available in your GnuPG keyring and valid: $1",
     "description": ""
+  },
+  "gnupg_not_available": {
+    "message": "Not available",
+    "description": "Label indicating GnuPG feature is not available."
   },
   "header_warning": {
     "description": "Header warning.",
