@@ -11,46 +11,43 @@ import * as l10n from "../../../lib/l10n";
 import * as app from '../../app';
 
 l10n.register([
+  'keyring_main',
   'preferred'
 ]);
 
 export default class KeyringSelect extends React.Component {
-
   constructor(props) {
     super(props);
-    this.state = {names: []};
-    if (this.props.keyringAttr) {
-      this.fetchKeyringEmails();
-    }
+    this.state = {names: {}};
+  }
+
+  componentDidMount() {
+    this.fetchKeyringEmails();
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.keyringAttr && !prevProps.keyringAttr) {
+    if (Object.keys(this.props.keyringAttr).length !== Object.keys(prevProps.keyringAttr).length) {
       this.fetchKeyringEmails();
     }
   }
 
   componentWillUnmount() {
-    this.setState({names: []});
+    this.setState({names: {}});
   }
 
   async fetchKeyringEmails() {
-    let names = [];
-    let promises = [];
-    Object.keys(this.props.keyringAttr || {}).map((keyringId, index) => {
-      promises[index] = this.formatKeyringEmail(keyringId);
-    });
-    promises = await Promise.all(promises);
-    Object.keys(this.props.keyringAttr || {}).map((keyringId, index) => {
-      names[keyringId] = promises[index];
-    });
+    const names = {};
+    const keyringIds = Object.keys(this.props.keyringAttr);
+    await Promise.all(keyringIds.map(async keyringId => {
+      names[keyringId] = await this.formatKeyringEmail(keyringId);
+    }));
     this.setState({names});
   }
 
   getKeyringName(keyringId) {
     let name;
     if (keyringId === mvelo.MAIN_KEYRING_ID) {
-      name = 'Mailvelope';
+      name = l10n.map.keyring_main;
       if (!this.props.prefs.general.prefer_gnupg) {
         name = `${name} (${l10n.map.preferred})`;
       }
@@ -70,12 +67,12 @@ export default class KeyringSelect extends React.Component {
   }
 
   async formatKeyringEmail(keyringId) {
-    let fingerprint = this.props.keyringAttr[keyringId].default_key;
+    const fingerprint = this.props.keyringAttr[keyringId].default_key;
     let email = false;
     try {
       const keyDetails = await app.keyring('getKeyDetails', {keyringId, fingerprint});
       email = keyDetails.users[0].userId;
-    } catch(error) {
+    } catch (error) {
       email = false;
     }
     if (!email) {
@@ -94,13 +91,13 @@ export default class KeyringSelect extends React.Component {
     if (this.props.keyringAttr[keyringId].logo_data_url) {
       return this.props.keyringAttr[keyringId].logo_data_url;
     }
-    return '../../../img/default-provider-icon48.png';
+    return '../../../img/default-keyring-icon48.png';
   }
 
   render() {
     return (
       <div className="keyringSelect dropdown">
-        { (Object.keys(this.props.keyringAttr || {}).length > 1) &&
+        {(Object.keys(this.props.keyringAttr).length > 1) &&
         <div>
           <button className="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span className="caret pull-right"></span>
@@ -113,21 +110,20 @@ export default class KeyringSelect extends React.Component {
             </span>
           </button>
           <ul className="dropdown-menu keyringList" role="menu">
-            {Object.keys(this.props.keyringAttr || {}).map((keyringId, index) => {
+            {Object.keys(this.props.keyringAttr).map((keyringId, index) => {
               const keyringName = this.getKeyringName(keyringId);
               const keyringEmail = this.getKeyringEmail(keyringId);
               return (
                 <li key={index} role="menuitem" className="flex-container">
                   <a onClick={() => this.props.onChange(keyringId)} tabIndex="0" className="flex-item keyringIdentifiers">
                     <span className="keyringIdentifier keyRingPicture">
-                      <img src={this.getKeyringThumbnail(keyringId)} alt="keyring thumbnail"/>
+                      <img src={this.getKeyringThumbnail(keyringId)} alt="keyring thumbnail" />
                     </span>
                     <span className="keyringIdentifier keyRingName">{keyringName}</span>
                     <span className="keyringIdentifier keyRingPrimaryKey">{keyringEmail}</span>
                   </a>
                   {keyringId !== mvelo.MAIN_KEYRING_ID && keyringId !== mvelo.GNUPG_KEYRING_ID &&
-                  <a onClick={() => this.props.onDelete(keyringId, keyringName)}
-                     className="btn btn-link pull-right flex-item deleteKeyRing">
+                  <a onClick={() => this.props.onDelete(keyringId, keyringName)} className="btn btn-link pull-right flex-item deleteKeyRing">
                     <span className="glyphicon glyphicon-trash"></span>
                   </a>
                   }
@@ -149,4 +145,8 @@ KeyringSelect.propTypes = {
   prefs: PropTypes.object,
   onChange: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired
+};
+
+KeyringSelect.defaultProps = {
+  keyringAttr: {}
 };

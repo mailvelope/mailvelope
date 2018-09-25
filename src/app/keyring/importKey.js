@@ -159,7 +159,7 @@ export default class ImportKey extends React.Component {
           </div>
           <div className="form-group">
             <button type="button" onClick={() => this.handleImportKey(this.state.armored)} className="btn btn-primary" disabled={!this.state.armored}>{l10n.map.form_import}</button>
-            <Link className="btn btn-default" to='/keyring' replace tabIndex="0" title={l10n.map.keygrid_generate_title}>
+            <Link className="btn btn-default" to='/keyring' replace tabIndex="0">
               <span>{l10n.map.action_menu_back}</span>
             </Link>
           </div>

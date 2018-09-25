@@ -70,3 +70,7 @@ button.keyDetailsBtn, button.keyDeleteBtn {
 .keyPair {
     background: no-repeat url(../img/private-key.png);
 }
+
+.keyringFilterLabel > * {
+    margin-right: 10px;
+}

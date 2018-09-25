@@ -855,17 +855,9 @@
     "message": "Export all keys in this list to file",
     "description": "Title for Export key button."
   },
-  "keygrid_import": {
-    "message": "Import",
-    "description": "Import key button label"
-  },
   "keygrid_import_title": {
     "message": "Import a key",
     "description": "Title for Import key button."
-  },
-  "keygrid_generate": {
-    "message": "Generate",
-    "description": "Generate key button label"
   },
   "keygrid_generate_title": {
     "message": "Generate a key",
@@ -1003,6 +995,10 @@
     "description": "key pair",
     "message": "Key Pair"
   },
+  "keyring_main": {
+    "description": "Label for the main keyring",
+    "message": "Main Keyring"
+  },
   "keyring_private": {
     "description": "private key type",
     "message": "Private"
@@ -1072,7 +1068,7 @@
     "message": "Mailvelope Options"
   },
   "preferred": {
-    "description": "Indicates if an keyring is preferred",
+    "description": "Indicates if a keyring is preferred",
     "message": "preferred"
   },
   "pwd_dialog_cache_pwd": {
