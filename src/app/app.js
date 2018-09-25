@@ -41,25 +41,24 @@ import KeyServer from './settings/keyserver';
 import './app.css';
 
 l10n.register([
-  'keyring_header',
-  'options_title',
-  'security_background_button_title',
-  'keyring_header',
   'encrypting_home',
-  'options_home',
-  'options_docu',
-  'options_about',
+  'file_encrypting',
+  'file_decrypting',
+  'keyring_header',
   'keyring_display_keys',
   'keyring_import_keys',
   'keyring_generate_key',
   'keyring_setup',
+  'options_title',
+  'options_home',
+  'options_docu',
+  'options_about',
+  'security_background_button_title',
   'settings_general',
   'settings_security',
   'settings_watchlist',
   'settings_security_log',
   'settings_keyserver',
-  'file_encrypting',
-  'file_decrypting',
   'text_encrypting',
   'text_decrypting'
 ]);
@@ -88,11 +87,10 @@ export class App extends React.Component {
     // set initial state
     this.state = {
       prefs: null, // global preferences
-      keyringAttr: null, // keyring meta data
+      keyringAttr: undefined, // keyring meta data
       keyringId, // active keyring: id
       defaultKeyFpr: '', // active keyring: fingerprint of default key
       hasPrivateKey: false, // active keyring: has private key
-      providerLogo: '', // provider specific logo
       demail: false, // active keyring: is keyring from de-mail provider
       gnupg: false, // active keyring: is the GnuPG keyring
       name, // query parameter to set user name for key generation
@@ -149,12 +147,11 @@ export class App extends React.Component {
       this.setState(prevState => {
         const keyringId = keyringAttr[prevState.keyringId] ? prevState.keyringId : mvelo.MAIN_KEYRING_ID;
         const defaultKeyFpr = keyringAttr[keyringId].default_key || '';
-        const providerLogo = keyringAttr[keyringId].logo_data_url || '';
         const demail = keyringId.includes(DEMAIL_SUFFIX);
         const gnupg = keyringId === mvelo.GNUPG_KEYRING_ID;
         // propagate state change to backend
         port.emit('set-active-keyring', {keyringId});
-        return {keyringId, defaultKeyFpr, demail, gnupg, keyringAttr, providerLogo};
+        return {keyringId, defaultKeyFpr, demail, gnupg, keyringAttr};
       }, () => {
         port.send('getKeys', {keyringId: this.state.keyringId})
         .then(keys => {
@@ -199,13 +196,7 @@ export class App extends React.Component {
     return (
       <div>
         <Route exact path="/" render={() => <Redirect to="/keyring" />} />
-        <Route exact path="/keyring" render={() => (
-          this.state.hasPrivateKey ? (
-            <Redirect to='/keyring/display' />
-          ) : (
-            <Redirect to='/keyring/setup' />
-          )
-        )} />
+        <Route exact path="/keyring" render={() => this.state.hasPrivateKey ? <Redirect to='/keyring/display' /> : <Redirect to='/keyring/setup' />} />
         <Route exact path="/encryption" render={() => <Redirect to="/encryption/file-encrypt" />} />
         <Route exact path="/settings" render={() => <Redirect to="/settings/general" />} />
         <nav className="navbar navbar-default navbar-fixed-top">
@@ -238,28 +229,16 @@ export class App extends React.Component {
             <Route path='/keyring' render={() => (
               <KeyringOptions.Provider value={{demail: this.state.demail, gnupg: this.state.gnupg}}>
                 <div className="col-md-12">
-                  <KeyringSelect keyringId={this.state.keyringId} keyringAttr={this.state.keyringAttr} onChange={this.handleChangeKeyring} onDelete={this.handleDeleteKeyring} prefs={this.state.prefs}/>
+                  <KeyringSelect keyringId={this.state.keyringId} keyringAttr={this.state.keyringAttr} onChange={this.handleChangeKeyring} onDelete={this.handleDeleteKeyring} prefs={this.state.prefs} />
                   <h3 className="section-header">
                     <span>{l10n.map.keyring_header}</span>
                   </h3>
                   <div className="jumbotron secureBackground">
                     <section className="well">
-                      <Route path='/keyring/display' render={() => (
-                        this.state.hasPrivateKey ? (
-                          <KeyGrid keys={this.state.keys} defaultKeyFpr={this.state.defaultKeyFpr} onChangeDefaultKey={this.handleChangeDefaultKey} onDeleteKey={this.handleDeleteKey} spinner={this.state.keyGridSpinner} />
-                        ) : (
-                          <Redirect to='/keyring/setup' />
-                        )
-                      )} />
+                      <Route path='/keyring/display' render={() => <KeyGrid keys={this.state.keys} defaultKeyFpr={this.state.defaultKeyFpr} onChangeDefaultKey={this.handleChangeDefaultKey} onDeleteKey={this.handleDeleteKey} spinner={this.state.keyGridSpinner} />} />
                       <Route path='/keyring/import' render={({location}) => <ImportKey onKeyringChange={this.loadKeyring} demail={this.state.isDemail} prefs={this.state.prefs} location={location} />} />
                       <Route path='/keyring/generate' render={() => <GenerateKey onKeyringChange={this.loadKeyring} demail={this.state.isDemail} defaultName={this.state.name} defaultEmail={this.state.email} />} />
-                      <Route path='/keyring/setup' render={() => (
-                        this.state.hasPrivateKey ? (
-                          <Redirect to='/keyring/display' />
-                        ) : (
-                          <KeyringSetup hasPrivateKey={this.state.hasPrivateKey} />
-                        )
-                      )} />
+                      <Route path='/keyring/setup' render={() => <KeyringSetup hasPrivateKey={this.state.hasPrivateKey} />} />
                     </section>
                     <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
                   </div>

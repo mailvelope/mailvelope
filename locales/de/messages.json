@@ -853,6 +853,14 @@
     "message": "Alle Schlüssel in dieser Liste in eine Datei exportieren",
     "description": "Title for Export key button."
   },
+  "keygrid_generate_title": {
+    "message": "Einen Schlüssel generieren",
+    "description": "Title for generate key button"
+  },
+  "keygrid_import_title": {
+    "message": "Einen Schlüssel importieren",
+    "description": "Title for Import key button."
+  },
   "keygrid_invalid_userid": {
     "message": "Ungültige Benutzerkennung",
     "description": "User ID invalid."
@@ -910,7 +918,7 @@
     "description": "Key of signer not available."
   },
   "keygrid_sort_type": {
-    "message": "Schlüsseltyp",
+    "message": "Filter",
     "description": "Key grid sort selector."
   },
   "keygrid_status_invalid": {
@@ -984,6 +992,10 @@
   "keyring_keypair": {
     "message": "Schlüsselpaar",
     "description": "key pair"
+  },
+  "keyring_main": {
+    "description": "Label for the main keyring",
+    "message": "Hauptschlüsselbund"
   },
   "keyring_private": {
     "message": "Privat",
@@ -1108,6 +1120,10 @@
   "popup_remove_page": {
     "message": "Entfernen",
     "description": "Remove page from watchlist."
+  },
+  "preferred": {
+    "description": "Indicates if a keyring is preferred",
+    "message": "bevorzugt"
   },
   "pwd_dialog_cache_pwd": {
     "message": "Passwort temporär merken",

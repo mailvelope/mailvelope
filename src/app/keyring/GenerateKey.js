@@ -143,7 +143,7 @@ class GenerateKeyBase extends React.Component {
           </div>
           <div className="form-group">
             <button onClick={this.handleGenerate} type="button" className="btn btn-primary" disabled={this.state.success || !validPassword}>{l10n.map.key_gen_generate}</button>
-            <Link className="btn btn-default" to='/keyring' replace tabIndex="0" title={l10n.map.keygrid_generate_title}>
+            <Link className="btn btn-default" to='/keyring' replace tabIndex="0">
               <span>{l10n.map.action_menu_back}</span>
             </Link>
             <button onClick={this.handleReset} type="button" className={`btn btn-default ${this.state.success ? '' : 'hide'}`}>{l10n.map.key_gen_another}</button>

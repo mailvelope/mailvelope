@@ -28,28 +28,3 @@ NavLink.propTypes = {
   to: PropTypes.string,
   children: PropTypes.node
 };
-
-
-/**
- * ProviderLogo
- */
-
-export function ProviderLogo({logo}) {
-  let style;
-  if (logo) {
-    style = {
-      backgroundImage: `url(${logo})`,
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'right top'
-    };
-  } else {
-    style = {
-      backgroundImage: 'none'
-    };
-  }
-  return <div className="third-party-logo" style={style}></div>;
-}
-
-ProviderLogo.propTypes = {
-  logo: PropTypes.string
-};
