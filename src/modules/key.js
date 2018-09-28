@@ -134,13 +134,13 @@ function getAlgorithmString({algorithm, curve}) {
   return result;
 }
 
-export async function mapSubKeys(subkeys = [], toKey) {
+export async function mapSubKeys(subkeys = [], toKey, primaryKey) {
   toKey.subkeys = [];
   await Promise.all(subkeys.map(async subkey => {
     try {
       const skey = {};
       skey.crDate = subkey.keyPacket.created.toISOString();
-      skey.exDate = await subkey.getExpirationTime();
+      skey.exDate = await subkey.getExpirationTime(primaryKey);
       if (skey.exDate === Infinity) {
         skey.exDate = false;
       } else {

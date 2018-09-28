@@ -907,6 +907,14 @@
     "description": "Selection of key type.",
     "message": "Public Keys"
   },
+  "keygrid_refresh": {
+    "message": "Refresh",
+    "description": "Refresh keygrid component."
+  },
+  "keygrid_refresh_title": {
+    "message": "Reload the keyring",
+    "description": "Title for button to refresh keygrid component."
+  },
   "keygrid_send_pub_key": {
     "description": "Export key menu.",
     "message": "Send public key via email"

@@ -905,6 +905,14 @@
     "message": "Öffentliche Schlüssel",
     "description": "Selection of key type."
   },
+  "keygrid_refresh": {
+    "message": "Aktualisieren",
+    "description": "Refresh keygrid component."
+  },
+  "keygrid_refresh_title": {
+    "message": "Den Schlüsselbund neu laden",
+    "description": "Title for button to refresh keygrid component."
+  },
   "keygrid_send_pub_key": {
     "message": "Öffentlichen Schlüssel per E-Mail versenden",
     "description": "Export key menu."

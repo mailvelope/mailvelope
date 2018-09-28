@@ -49,6 +49,7 @@ export default class Keyring extends React.Component {
     this.handleDeleteKeyring = this.handleDeleteKeyring.bind(this);
     this.handleDeleteKey = this.handleDeleteKey.bind(this);
     this.handleChangeDefaultKey = this.handleChangeDefaultKey.bind(this);
+    this.handleRefreshKeyring = this.handleRefreshKeyring.bind(this);
     this.loadKeyring = this.loadKeyring.bind(this);
   }
 
@@ -110,6 +111,14 @@ export default class Keyring extends React.Component {
     .then(() => this.loadKeyring());
   }
 
+  async handleRefreshKeyring() {
+    if (this.state.gnupg) {
+      this.setState({keysLoading: true});
+      await port.send('reload-keystore', {keyringId: this.state.keyringId});
+    }
+    this.loadKeyring();
+  }
+
   render() {
     return (
       <>
@@ -126,7 +135,7 @@ export default class Keyring extends React.Component {
                 ) : (
                   <>
                     <Route exact path="/keyring" render={() => this.state.keys.length ? <Redirect to='/keyring/display' /> : <Redirect to='/keyring/setup' />} />
-                    <Route path='/keyring/display' render={() => <KeyGrid keys={this.state.keys} defaultKeyFpr={this.state.defaultKeyFpr} onChangeDefaultKey={this.handleChangeDefaultKey} onDeleteKey={this.handleDeleteKey} spinner={this.state.keysLoading} />} />
+                    <Route path='/keyring/display' render={() => <KeyGrid keys={this.state.keys} defaultKeyFpr={this.state.defaultKeyFpr} onChangeDefaultKey={this.handleChangeDefaultKey} onDeleteKey={this.handleDeleteKey} onRefreshKeyring={this.handleRefreshKeyring} spinner={this.state.keysLoading} />} />
                     <Route path='/keyring/import' render={({location}) => <ImportKey onKeyringChange={this.loadKeyring} prefs={this.props.prefs} location={location} />} />
                     <Route path='/keyring/generate' render={() => <GenerateKey onKeyringChange={this.loadKeyring} defaultName={this.state.name} defaultEmail={this.state.email} />} />
                     <Route path='/keyring/setup' render={() => <KeyringSetup hasPrivateKey={this.state.hasPrivateKey} />} />

@@ -16,22 +16,24 @@ import {Link} from 'react-router-dom';
 import './KeyGrid.css';
 
 l10n.register([
-  'keygrid_export_title',
-  'keygrid_export',
-  'keygrid_import_title',
   'form_import',
-  'keygrid_generate_title',
-  'key_gen_generate',
   'keygrid_all_keys',
-  'keygrid_public_keys',
-  'keyring_public_private',
-  'keygrid_sort_type',
-  'keygrid_user_name',
-  'keygrid_user_email',
-  'keygrid_keyid',
   'keygrid_creation_date_short',
   'keygrid_default_label',
-  'keygrid_delete_confirmation'
+  'keygrid_delete_confirmation',
+  'keygrid_import_title',
+  'keygrid_export',
+  'keygrid_export_title',
+  'key_gen_generate',
+  'keygrid_generate_title',
+  'keygrid_keyid',
+  'keygrid_public_keys',
+  'keyring_public_private',
+  'keygrid_refresh',
+  'keygrid_refresh_title',
+  'keygrid_sort_type',
+  'keygrid_user_name',
+  'keygrid_user_email'
 ]);
 
 class KeyGridBase extends React.Component {
@@ -106,6 +108,8 @@ class KeyGridBase extends React.Component {
     }});
   }
 
+
+
   render() {
     return (
       <div style={{minHeight: '300px'}}>
@@ -122,6 +126,10 @@ class KeyGridBase extends React.Component {
             <button type="button" onClick={() => this.openExportKeyringDialog()} className="btn btn-default" title={l10n.map.keygrid_export_title}>
               <span className="glyphicon glyphicon-export"></span>&nbsp;
               <span>{l10n.map.keygrid_export}</span>
+            </button>
+            <button type="button" onClick={this.props.onRefreshKeyring} className="btn btn-default" title={l10n.map.keygrid_refresh_title}>
+              <span className="glyphicon glyphicon-refresh"></span>&nbsp;
+              <span>{l10n.map.keygrid_refresh}</span>
             </button>
 
             <div className="pull-right form-inline" >
@@ -198,6 +206,7 @@ KeyGridBase.propTypes = {
   defaultKeyFpr: PropTypes.string,
   onChangeDefaultKey: PropTypes.func.isRequired,
   onDeleteKey: PropTypes.func,
+  onRefreshKeyring: PropTypes.func,
   spinner: PropTypes.bool
 };
 
