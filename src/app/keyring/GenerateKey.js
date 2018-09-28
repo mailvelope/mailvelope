@@ -7,7 +7,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import mvelo from '../../mvelo';
 import * as l10n from '../../lib/l10n';
-import {keyring, KeyringOptions} from '../app';
+import {port} from '../app';
+import {KeyringOptions} from './Keyring';
 import moment from 'moment';
 
 import NameAddrInput from './components/NameAddrInput';
@@ -94,14 +95,12 @@ class GenerateKeyBase extends React.Component {
     if (this.state.keyExpirationTime) {
       parameters.keyExpirationTime = Math.abs(this.state.keyExpirationTime.unix() - moment().startOf('day').unix());
     }
-    keyring('generateKey', {parameters})
+    port.send('generateKey', {parameters, keyringId: this.props.keyringId})
     .then(() => {
       this.setState({
         alert: {header: l10n.map.alert_header_success, message: l10n.map.key_gen_success, type: 'success'},
         success: true
       });
-      // refresh keygrid
-      this.props.onKeyringChange();
     })
     .catch(error => {
       this.setState({
@@ -143,7 +142,7 @@ class GenerateKeyBase extends React.Component {
           </div>
           <div className="form-group">
             <button onClick={this.handleGenerate} type="button" className="btn btn-primary" disabled={this.state.success || !validPassword}>{l10n.map.key_gen_generate}</button>
-            <Link className="btn btn-default" to='/keyring' replace tabIndex="0">
+            <Link className="btn btn-default" to='/keyring' onClick={this.props.onKeyringChange} replace tabIndex="0">
               <span>{l10n.map.action_menu_back}</span>
             </Link>
             <button onClick={this.handleReset} type="button" className={`btn btn-default ${this.state.success ? '' : 'hide'}`}>{l10n.map.key_gen_another}</button>
@@ -156,6 +155,7 @@ class GenerateKeyBase extends React.Component {
 }
 
 GenerateKeyBase.propTypes = {
+  keyringId: PropTypes.string,
   demail: PropTypes.bool,
   gnupg: PropTypes.bool,
   defaultName: PropTypes.string,
@@ -171,7 +171,7 @@ GenerateKeyBase.defaultProps = {
 export default function GenerateKey(props) {
   return (
     <KeyringOptions.Consumer>
-      {options => <GenerateKeyBase {...props} demail={options.demail} gnupg={options.gnupg} key={`${options.gnupg}${options.demail}`} />}
+      {options => <GenerateKeyBase {...props} keyringId={options.keyringId} demail={options.demail} gnupg={options.gnupg} key={`${options.gnupg}${options.demail}`} />}
     </KeyringOptions.Consumer>
   );
 }

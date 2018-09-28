@@ -6,7 +6,7 @@
 import * as l10n from '../../../lib/l10n';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {KeyringOptions} from '../../app';
+import {KeyringOptions} from '../Keyring';
 
 import ModalDialog from '../../../components/util/ModalDialog';
 import DefaultKeyButton from './DefaultKeyButton';
@@ -63,7 +63,7 @@ export default class KeyDetails extends React.Component {
             </div>
             <div role="tabpanel" className="tab-pane" id="exportTab">
               <KeyringOptions.Consumer>
-                {options => <KeyDetailsExport keyFprs={[this.props.keyDetails.fingerprint]} keyName={this.props.keyDetails.name} publicOnly={options.gnupg} />}
+                {options => <KeyDetailsExport keyringId={options.keyringId} keyFprs={[this.props.keyDetails.fingerprint]} keyName={this.props.keyDetails.name} publicOnly={options.gnupg} />}
               </KeyringOptions.Consumer>
             </div>
           </div>

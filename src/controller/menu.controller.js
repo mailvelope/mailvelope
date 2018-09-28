@@ -30,7 +30,7 @@ export default class MenuController extends sub.SubController {
         this.openApp('/dashboard');
         break;
       case 'manage-keys':
-        this.openApp('/keyring/display');
+        this.openApp('/keyring');
         break;
       case 'setup-keys':
         this.openApp('/keyring/setup');

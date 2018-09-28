@@ -112,14 +112,6 @@ input[readonly] {
   height: 0;
 }
 
-.third-party-logo {
-  width: 192px;
-  height: 96px;
-  float: right;
-  display: block;
-  vertical-align: middle;
-}
-
 /* Footer */
 
 footer.row {

@@ -8,18 +8,22 @@ export default class Spinner extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hide: true
+      hide: this.props.delay ? true : false
     };
     this.timer = 0;
   }
 
   componentDidMount() {
-    // show spinner after delay
-    this.timer = setTimeout(() => this.setState({hide: false}), 400);
+    if (this.props.delay) {
+      // show spinner after delay
+      this.timer = setTimeout(() => this.setState({hide: false}), this.props.delay);
+    }
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timer);
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
   }
 
   render() {
@@ -32,5 +36,10 @@ export default class Spinner extends React.Component {
 }
 
 Spinner.propTypes = {
-  style: PropTypes.object
+  style: PropTypes.object,
+  delay: PropTypes.number
+};
+
+Spinner.defaultProps = {
+  delay: 400
 };

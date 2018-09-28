@@ -7,8 +7,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';
 
-import * as app from '../app';
-import {KeyringOptions} from '../app';
+import {port} from '../app';
+import {KeyringOptions} from './Keyring';
 import Spinner from '../../components/util/Spinner';
 import KeyDetails from './components/KeyDetails';
 import KeyringBackup from './components/KeyringBackup';
@@ -34,7 +34,7 @@ l10n.register([
   'keygrid_delete_confirmation'
 ]);
 
-export default class KeyGrid extends React.Component {
+class KeyGridBase extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,7 +66,7 @@ export default class KeyGrid extends React.Component {
 
   showKeyDetails(index) {
     const key = this.props.keys[index];
-    app.keyring('getKeyDetails', {fingerprint: key.fingerprint})
+    port.send('getKeyDetails', {fingerprint: key.fingerprint, keyringId: this.props.keyringId})
     .then(details => this.setState({keyDetails: {...key, ...details}}));
   }
 
@@ -161,9 +161,7 @@ export default class KeyGrid extends React.Component {
                   <td className="text-center text-nowrap">
                     <div className="actions">
                       <button type="button" className="btn btn-default keyDetailsBtn" aria-haspopup="true"><span className="glyphicon glyphicon-info-sign"></span></button>
-                      <KeyringOptions.Consumer>
-                        {options => !(options.gnupg && key.type === 'private') && <button type="button" onClick={e => this.deleteKeyEntry(e, index)} className="btn btn-default keyDeleteBtn"><span className="glyphicon glyphicon-trash"></span></button>}
-                      </KeyringOptions.Consumer>
+                      {!(this.props.gnupg && key.type === 'private') && <button type="button" onClick={e => this.deleteKeyEntry(e, index)} className="btn btn-default keyDeleteBtn"><span className="glyphicon glyphicon-trash"></span></button>}
                     </div>
                   </td>
                 </tr>
@@ -172,7 +170,7 @@ export default class KeyGrid extends React.Component {
             </tbody>
           </table>
         </div>
-        {this.props.spinner && <Spinner />}
+        {this.props.spinner && <Spinner delay={0} />}
         {this.state.keyDetails &&
           <KeyDetails keyDetails={this.state.keyDetails}
             onSetDefaultKey={() => this.props.onChangeDefaultKey(this.state.keyDetails.fingerprint)}
@@ -181,24 +179,32 @@ export default class KeyGrid extends React.Component {
           />
         }
         {this.state.keyringBackup &&
-          <KeyringOptions.Consumer>
-            {options => <KeyringBackup keyFprs={this.state.keyringBackup.keyFprs}
-              all={this.state.keyringBackup.all}
-              type={this.state.keyringBackup.type}
-              onHide={() => this.setState({keyringBackup: null})}
-              publicOnly={options.gnupg}
-            />}
-          </KeyringOptions.Consumer>
+          <KeyringBackup keyFprs={this.state.keyringBackup.keyFprs}
+            all={this.state.keyringBackup.all}
+            type={this.state.keyringBackup.type}
+            onHide={() => this.setState({keyringBackup: null})}
+            publicOnly={this.props.gnupg}
+          />
         }
       </div>
     );
   }
 }
 
-KeyGrid.propTypes = {
+KeyGridBase.propTypes = {
+  keyringId: PropTypes.string,
+  gnupg: PropTypes.bool,
   keys: PropTypes.array,
   defaultKeyFpr: PropTypes.string,
   onChangeDefaultKey: PropTypes.func.isRequired,
   onDeleteKey: PropTypes.func,
   spinner: PropTypes.bool
 };
+
+export default function KeyGrid(props) {
+  return (
+    <KeyringOptions.Consumer>
+      {options => <KeyGridBase {...props} keyringId={options.keyringId} gnupg={options.gnupg} />}
+    </KeyringOptions.Consumer>
+  );
+}

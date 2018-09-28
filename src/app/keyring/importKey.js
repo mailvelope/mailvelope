@@ -4,7 +4,8 @@
  */
 
 import mvelo from '../../mvelo';
-import {keyring, getAppDataSlot, KeyringOptions} from '../app';
+import {port, getAppDataSlot} from '../app';
+import {KeyringOptions} from './Keyring';
 import * as l10n from '../../lib/l10n';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -33,7 +34,7 @@ l10n.register([
   'form_clear'
 ]);
 
-export default class ImportKey extends React.Component {
+class ImportKeyBase extends React.Component {
   constructor(props) {
     super(props);
     this.state = {alert: [], armored: ''};
@@ -67,14 +68,14 @@ export default class ImportKey extends React.Component {
   }
 
   importKey(armored) {
-    this.setState({armored});
-    return this.handleImportKey(armored);
+    this.setState({armored, alert: []});
+    this.handleImportKey(armored);
   }
 
-  handleImportKey(armored) {
+  async handleImportKey(armored) {
     const alert = [];
-    return Promise.resolve()
-    .then(() => {
+    this.setState({alert: []});
+    try {
       if (armored.length > MAX_KEY_IMPORT_SIZE) {
         throw {message: l10n.map.key_import_too_big, type: 'error'};
       }
@@ -97,40 +98,30 @@ export default class ImportKey extends React.Component {
       if (!keys.length) {
         throw {message: l10n.map.key_import_invalid_text, type: 'error'};
       }
-      return keyring('importKeys', {keys})
-      .then(result => {
-        let success = false;
-        result.forEach(imported => {
-          let header;
-          const {message} = imported;
-          let {type} = imported;
-          switch (imported.type) {
-            case 'success':
-              header = l10n.map.alert_header_success;
-              success = true;
-              break;
-            case 'warning':
-              header = l10n.map.alert_header_warning;
-              break;
-            case 'error':
-              header = l10n.map.key_import_error;
-              type = 'danger';
-              break;
-          }
-          alert.push({header, message, type});
-        });
-        if (success) {
-          this.props.onKeyringChange();
+      const result = await port.send('importKeys', {keyringId: this.props.keyringId, keys});
+      result.forEach(imported => {
+        let header;
+        const {message} = imported;
+        let {type} = imported;
+        switch (imported.type) {
+          case 'success':
+            header = l10n.map.alert_header_success;
+            break;
+          case 'warning':
+            header = l10n.map.alert_header_warning;
+            break;
+          case 'error':
+            header = l10n.map.key_import_error;
+            type = 'danger';
+            break;
         }
-        this.setState({alert});
-        return result;
+        alert.push({header, message, type});
       });
-    })
-    .catch(error => {
+      this.setState({alert});
+    } catch (error) {
       alert.push({header: l10n.map.key_import_error, message: error.type === 'error' ? error.message : l10n.map.key_import_exception, type: 'danger'});
       this.setState({alert});
-      return [{type: 'error'}];
-    });
+    }
   }
 
   render() {
@@ -139,9 +130,7 @@ export default class ImportKey extends React.Component {
         <h3 className="logo-header">
           <span>{l10n.map.keyring_import_keys}</span>
         </h3>
-        <KeyringOptions.Consumer>
-          {options => !options.demail && <KeySearch prefs={this.props.prefs} />}
-        </KeyringOptions.Consumer>
+        {!this.props.demail && <KeySearch prefs={this.props.prefs} />}
         <form className="form" autoComplete="off">
           <div className="form-group">
             <label className="control-label" htmlFor="selectFileButton"><h4>{l10n.map.key_import_file}</h4></label>
@@ -159,7 +148,7 @@ export default class ImportKey extends React.Component {
           </div>
           <div className="form-group">
             <button type="button" onClick={() => this.handleImportKey(this.state.armored)} className="btn btn-primary" disabled={!this.state.armored}>{l10n.map.form_import}</button>
-            <Link className="btn btn-default" to='/keyring' replace tabIndex="0">
+            <Link className="btn btn-default" to='/keyring' onClick={this.props.onKeyringChange} replace tabIndex="0">
               <span>{l10n.map.action_menu_back}</span>
             </Link>
           </div>
@@ -172,8 +161,18 @@ export default class ImportKey extends React.Component {
   }
 }
 
-ImportKey.propTypes = {
+ImportKeyBase.propTypes = {
+  keyringId: PropTypes.string,
+  demail: PropTypes.bool,
   onKeyringChange: PropTypes.func,
   prefs: PropTypes.object,
   location: PropTypes.object
 };
+
+export default function ImportKey(props) {
+  return (
+    <KeyringOptions.Consumer>
+      {options => <ImportKeyBase {...props} keyringId={options.keyringId} demail={options.demail} />}
+    </KeyringOptions.Consumer>
+  );
+}
