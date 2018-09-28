@@ -427,6 +427,10 @@
     "message": "Available",
     "description": "Label indicating GnuPG feature is available."
   },
+  "gnupg_connection": {
+    "message": "GnuPG connection",
+    "description": "Header that shows that GnuPG is available on the system."
+  },
   "gnupg_error_unusable_pub_key": {
     "message": "Please check if the following public keys are available in your GnuPG keyring and valid: $1",
     "description": ""
@@ -970,6 +974,10 @@
   "keygrid_validity_status": {
     "description": "Validity status of a PGP key.",
     "message": "Status"
+  },
+  "keyring_available_settings": {
+    "message": "See available settings at:",
+    "description": "Text introducing the availability of further settings."
   },
   "keyring_backup": {
     "message": "Keyring backup",
