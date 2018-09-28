@@ -24,9 +24,9 @@ export default function KeyringBackup(props) {
       </button>
     }>
       <div style={{padding: '10px'}}>
-        <KeyringOptions>
+        <KeyringOptions.Consumer>
           {({keyringId}) => <KeyDetailsExport keyringId={keyringId} keyFprs={props.keyFprs} keyName="keyring" all={props.all} type={props.type} publicOnly={props.publicOnly} />}
-        </KeyringOptions>
+        </KeyringOptions.Consumer>
       </div>
     </ModalDialog>
   );

@@ -144,50 +144,50 @@ export class App extends React.Component {
         </nav>
         <div className="container" role="main">
           <div className="row">
-            <Route path='/dashboard' component={Dashboard} />
-            <Route path='/keyring' render={() => <Keyring prefs={this.state.prefs} />} />
-            <Route path='/encryption' render={() => (
-              <div>
-                <div className="col-md-3">
-                  <div role="navigation">
-                    <ul className="nav nav-pills nav-stacked">
-                      <NavLink to="/encryption/file-encrypt">{l10n.map.file_encrypting}</NavLink>
-                      <NavLink to="/encryption/file-decrypt">{l10n.map.file_decrypting}</NavLink>
-                      <li role="separator" className="divider"></li>
-                      <NavLink to="/encryption/text-encrypt">{l10n.map.text_encrypting}</NavLink>
-                      <NavLink to="/encryption/text-decrypt">{l10n.map.text_decrypting}</NavLink>
-                    </ul>
+            <AppOptions.Provider value={{gnupg: this.state.gnupg}}>
+              <Route path='/dashboard' component={Dashboard} />
+              <Route path='/keyring' render={() => <Keyring prefs={this.state.prefs} />} />
+              <Route path='/encryption' render={() => (
+                <div>
+                  <div className="col-md-3">
+                    <div role="navigation">
+                      <ul className="nav nav-pills nav-stacked">
+                        <NavLink to="/encryption/file-encrypt">{l10n.map.file_encrypting}</NavLink>
+                        <NavLink to="/encryption/file-decrypt">{l10n.map.file_decrypting}</NavLink>
+                        <li role="separator" className="divider"></li>
+                        <NavLink to="/encryption/text-encrypt">{l10n.map.text_encrypting}</NavLink>
+                        <NavLink to="/encryption/text-decrypt">{l10n.map.text_decrypting}</NavLink>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="col-md-9">
+                    <div className="jumbotron secureBackground">
+                      <section className="well">
+                        <Route path='/encryption/file-encrypt' component={EncryptFile} />
+                        <Route path='/encryption/file-decrypt' component={EncryptFile} />
+                        <Route path='/encryption/text-encrypt' component={EncryptText} />
+                        <Route path='/encryption/text-decrypt' component={DecryptText} />
+                      </section>
+                      <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
+                    </div>
                   </div>
                 </div>
-                <div className="col-md-9">
-                  <div className="jumbotron secureBackground">
-                    <section className="well">
-                      <Route path='/encryption/file-encrypt' component={EncryptFile} />
-                      <Route path='/encryption/file-decrypt' component={EncryptFile} />
-                      <Route path='/encryption/text-encrypt' component={EncryptText} />
-                      <Route path='/encryption/text-decrypt' component={DecryptText} />
-                    </section>
-                    <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
+              )} />
+              <Route path='/settings' render={() => (
+                <div>
+                  <div className="col-md-3">
+                    <div role="navigation">
+                      <ul className="nav nav-pills nav-stacked">
+                        <NavLink to="/settings/general">{l10n.map.settings_general}</NavLink>
+                        <NavLink to="/settings/security">{l10n.map.settings_security}</NavLink>
+                        <NavLink to="/settings/watchlist">{l10n.map.settings_watchlist}</NavLink>
+                        <NavLink to="/settings/security-log">{l10n.map.settings_security_log}</NavLink>
+                        <NavLink to="/settings/key-server">{l10n.map.settings_keyserver}</NavLink>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              </div>
-            )} />
-            <Route path='/settings' render={() => (
-              <div>
-                <div className="col-md-3">
-                  <div role="navigation">
-                    <ul className="nav nav-pills nav-stacked">
-                      <NavLink to="/settings/general">{l10n.map.settings_general}</NavLink>
-                      <NavLink to="/settings/security">{l10n.map.settings_security}</NavLink>
-                      <NavLink to="/settings/watchlist">{l10n.map.settings_watchlist}</NavLink>
-                      <NavLink to="/settings/security-log">{l10n.map.settings_security_log}</NavLink>
-                      <NavLink to="/settings/key-server">{l10n.map.settings_keyserver}</NavLink>
-                    </ul>
-                  </div>
-                </div>
-                <div className="col-md-9">
-                  <div className="jumbotron secureBackground">
-                    <AppOptions.Provider value={{gnupg: this.state.gnupg}}>
+                  <div className="col-md-9">
+                    <div className="jumbotron secureBackground">
                       <section className="well mv-options">
                         <Route path='/settings/general' component={General} />
                         <Route path='/settings/security' component={Security} />
@@ -195,12 +195,12 @@ export class App extends React.Component {
                         <Route path='/settings/security-log' component={SecurityLog} />
                         <Route path='/settings/key-server' render={() => <KeyServer prefs={this.state.prefs} onChangePrefs={this.handleChangePrefs} />} />
                       </section>
-                    </AppOptions.Provider>
-                    <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
+                      <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )} />
+              )} />
+            </AppOptions.Provider>
           </div>
           <footer className="row">
             <p className="pull-left col-md-6">&copy; 2012-2018 Mailvelope GmbH</p>

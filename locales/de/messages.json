@@ -427,6 +427,10 @@
     "message": "Verfügbar",
     "description": "Label indicating GnuPG feature is available."
   },
+  "gnupg_connection": {
+    "message": "GnuPG Anbindung",
+    "description": "Header that shows that GnuPG is available on the system."
+  },
   "gnupg_error_unusable_pub_key": {
     "message": "Bitte überprüfen Sie ob die folgenden öffentlichen Schlüssel in ihrem GnuPG Schlüsselbund vorhanden und valide sind: $1",
     "description": ""
@@ -968,6 +972,10 @@
   "keygrid_validity_status": {
     "message": "Status",
     "description": "Validity status of a PGP key."
+  },
+  "keyring_available_settings": {
+    "message": "Siehe verfügbare Einstellungen unter:",
+    "description": "Text introducing the availability of further settings."
   },
   "keyring_backup": {
     "message": "Schlüsselbund sichern",
