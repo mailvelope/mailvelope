@@ -51,6 +51,7 @@ export default class AppController extends sub.SubController {
     this.on('decrypt-text-init', this.initDecryptText);
     this.on('decrypt-text', this.decryptText);
     this.on('get-gnupg-status', () => Boolean(gpgme));
+    this.on('reload-keystore', ({keyringId}) => keyringById(keyringId).keystore.load());
   }
 
   updatePreferences(options) {
