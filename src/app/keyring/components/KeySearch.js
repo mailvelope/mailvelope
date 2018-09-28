@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 
-import {openTab} from '../../app';
+import {port} from '../../app';
 
 l10n.register([
   'key_import_hkp_search',
@@ -36,7 +36,7 @@ export default class KeySearch extends React.Component {
     if (url.includes('keys.mailvelope.com')) {
       url = url.replace('op=index', 'op=get');
     }
-    openTab(url);
+    port.emit('open-tab', {url});
   }
 
   render() {

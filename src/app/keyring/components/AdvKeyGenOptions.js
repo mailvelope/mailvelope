@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 import moment from 'moment';
-import {KeyringOptions} from '../../app';
+import {KeyringOptions} from '../Keyring';
 
 import DatePicker from './DatePicker';
 

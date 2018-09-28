@@ -4,7 +4,7 @@
  */
 
 import * as l10n from '../../../lib/l10n';
-import {keyring} from '../../app';
+import {port} from '../../app';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -26,11 +26,14 @@ export default class KeyDetailsExport extends React.Component {
       keys: [],
       fileName: `${props.keyName.replace(/\s/g, '_')}_${type}.asc`
     };
-    keyring('getArmoredKeys', {keyFprs: props.keyFprs, options: {pub: true, priv: !props.publicOnly, all: props.all}})
-    .then(result => this.setState({keys: result}));
     this.fileURL = '';
     this.handleClickExport = this.handleClickExport.bind(this);
     this.handleFileNameChange = this.handleFileNameChange.bind(this);
+  }
+
+  async componentDidMount() {
+    const keys = await port.send('getArmoredKeys', {keyringId: this.props.keyringId, keyFprs: this.props.keyFprs, options: {pub: true, priv: !this.props.publicOnly, all: this.props.all}});
+    this.setState({keys});
   }
 
   handleTypeChange(type) {
@@ -108,6 +111,7 @@ export default class KeyDetailsExport extends React.Component {
 }
 
 KeyDetailsExport.propTypes = {
+  keyringId: PropTypes.string,
   keyFprs: PropTypes.array,
   all: PropTypes.bool,
   keyName: PropTypes.string.isRequired,

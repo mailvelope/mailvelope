@@ -22,12 +22,7 @@ import * as l10n from '../lib/l10n';
 import {NavLink} from './util/util';
 
 import Dashboard from './dashboard/Dashboard';
-import KeyringSelect from './keyring/components/KeyringSelect';
-import KeyGrid from './keyring/KeyGrid';
-import ImportKey from './keyring/importKey';
-import GenerateKey from './keyring/GenerateKey';
-import KeyringSetup from './keyring/KeyringSetup';
-
+import Keyring from './keyring/Keyring';
 import EncryptFile from './encryption/encryptFile';
 import EncryptText from './encryption/encryptText';
 import DecryptText from './encryption/decryptText';
@@ -63,22 +58,14 @@ l10n.register([
   'text_decrypting'
 ]);
 
-const DEMAIL_SUFFIX = 'de-mail.de';
 export let port; // EventHandler
-// reference to app component to get state
-let app;
 
 export const AppOptions = React.createContext({gnupg: false});
-export const KeyringOptions = React.createContext({demail: false, gnupg: false});
 
 export class App extends React.Component {
   constructor(props) {
     super(props);
-    // get URL parameter
     const query = new URLSearchParams(document.location.search);
-    const keyringId = query.get('krid') || '';
-    const name = query.get('fname') || '';
-    const email = query.get('email') || '';
     // init messaging
     port = mvelo.EventHandler.connect(`app-${this.getId(query)}`);
     port.on('terminate', () => mvelo.ui.terminate(port));
@@ -87,25 +74,10 @@ export class App extends React.Component {
     // set initial state
     this.state = {
       prefs: null, // global preferences
-      keyringAttr: undefined, // keyring meta data
-      keyringId, // active keyring: id
-      defaultKeyFpr: '', // active keyring: fingerprint of default key
-      hasPrivateKey: false, // active keyring: has private key
-      demail: false, // active keyring: is keyring from de-mail provider
-      gnupg: false, // active keyring: is the GnuPG keyring
-      name, // query parameter to set user name for key generation
-      email, // query parameter to set email for key generation
-      keys: [], // active keyring: keys
-      keyGridSpinner: true, // active keyring: loading spinner
+      gnupg: false, // GnuPG installed
       version: '' // Mailvelope version
     };
-    this.handleChangeKeyring = this.handleChangeKeyring.bind(this);
-    this.handleDeleteKeyring = this.handleDeleteKeyring.bind(this);
-    this.handleDeleteKey = this.handleDeleteKey.bind(this);
-    this.handleChangeDefaultKey = this.handleChangeDefaultKey.bind(this);
     this.handleChangePrefs = this.handleChangePrefs.bind(this);
-    this.loadKeyring = this.loadKeyring.bind(this);
-    app = this;
   }
 
   getId(query) {
@@ -123,44 +95,13 @@ export class App extends React.Component {
   }
 
   componentDidMount() {
-    this.initActiveKeyring()
-    .then(() => this.loadKeyring());
     port.send('get-version')
     .then(version => this.setState({version}));
-    port.send('get-prefs').then(prefs => this.setState({prefs}));
+    port.send('get-prefs')
+    .then(prefs => this.setState({prefs}));
+    port.send('get-gnupg-status')
+    .then(gnupg => this.setState({gnupg}));
     mvelo.util.showSecurityBackground(port);
-  }
-
-  initActiveKeyring() {
-    return new Promise(resolve => {
-      if (this.state.keyringId) {
-        return resolve();
-      }
-      port.send('get-active-keyring')
-      .then(keyringId => this.setState({keyringId: keyringId || mvelo.MAIN_KEYRING_ID}, resolve));
-    });
-  }
-
-  loadKeyring() {
-    port.send('get-all-keyring-attr')
-    .then(keyringAttr => {
-      this.setState(prevState => {
-        const keyringId = keyringAttr[prevState.keyringId] ? prevState.keyringId : mvelo.MAIN_KEYRING_ID;
-        const defaultKeyFpr = keyringAttr[keyringId].default_key || '';
-        const demail = keyringId.includes(DEMAIL_SUFFIX);
-        const gnupg = keyringId === mvelo.GNUPG_KEYRING_ID;
-        // propagate state change to backend
-        port.emit('set-active-keyring', {keyringId});
-        return {keyringId, defaultKeyFpr, demail, gnupg, keyringAttr};
-      }, () => {
-        port.send('getKeys', {keyringId: this.state.keyringId})
-        .then(keys => {
-          keys = keys.sort((a, b) => a.name.localeCompare(b.name));
-          const hasPrivateKey = keys.some(key => key.type === 'private');
-          this.setState({hasPrivateKey, keys, keyGridSpinner: false});
-        });
-      });
-    });
   }
 
   handleChangePrefs(update) {
@@ -171,32 +112,10 @@ export class App extends React.Component {
     });
   }
 
-  handleChangeKeyring(keyringId) {
-    this.setState({keyringId}, () => this.loadKeyring());
-  }
-
-  handleDeleteKeyring(keyringId, keyringName) {
-    if (confirm(mvelo.l10n.getMessage('keyring_confirm_deletion', keyringName))) {
-      port.send('delete-keyring', {keyringId})
-      .then(() => this.loadKeyring());
-    }
-  }
-
-  handleChangeDefaultKey(keyFpr) {
-    port.send('set-keyring-attr', {keyringId: this.state.keyringId, keyringAttr: {default_key: keyFpr}})
-    .then(() => this.setState({defaultKeyFpr: keyFpr}));
-  }
-
-  handleDeleteKey(fingerprint, type) {
-    port.send('removeKey', {fingerprint, type, keyringId: this.state.keyringId})
-    .then(() => this.loadKeyring());
-  }
-
   render() {
     return (
       <div>
         <Route exact path="/" render={() => <Redirect to="/keyring" />} />
-        <Route exact path="/keyring" render={() => this.state.hasPrivateKey ? <Redirect to='/keyring/display' /> : <Redirect to='/keyring/setup' />} />
         <Route exact path="/encryption" render={() => <Redirect to="/encryption/file-encrypt" />} />
         <Route exact path="/settings" render={() => <Redirect to="/settings/general" />} />
         <nav className="navbar navbar-default navbar-fixed-top">
@@ -226,25 +145,7 @@ export class App extends React.Component {
         <div className="container" role="main">
           <div className="row">
             <Route path='/dashboard' component={Dashboard} />
-            <Route path='/keyring' render={() => (
-              <KeyringOptions.Provider value={{demail: this.state.demail, gnupg: this.state.gnupg}}>
-                <div className="col-md-12">
-                  <KeyringSelect keyringId={this.state.keyringId} keyringAttr={this.state.keyringAttr} onChange={this.handleChangeKeyring} onDelete={this.handleDeleteKeyring} prefs={this.state.prefs} />
-                  <h3 className="section-header">
-                    <span>{l10n.map.keyring_header}</span>
-                  </h3>
-                  <div className="jumbotron secureBackground">
-                    <section className="well">
-                      <Route path='/keyring/display' render={() => <KeyGrid keys={this.state.keys} defaultKeyFpr={this.state.defaultKeyFpr} onChangeDefaultKey={this.handleChangeDefaultKey} onDeleteKey={this.handleDeleteKey} spinner={this.state.keyGridSpinner} />} />
-                      <Route path='/keyring/import' render={({location}) => <ImportKey onKeyringChange={this.loadKeyring} demail={this.state.isDemail} prefs={this.state.prefs} location={location} />} />
-                      <Route path='/keyring/generate' render={() => <GenerateKey onKeyringChange={this.loadKeyring} demail={this.state.isDemail} defaultName={this.state.name} defaultEmail={this.state.email} />} />
-                      <Route path='/keyring/setup' render={() => <KeyringSetup hasPrivateKey={this.state.hasPrivateKey} />} />
-                    </section>
-                    <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
-                  </div>
-                </div>
-              </KeyringOptions.Provider>
-            )} />
+            <Route path='/keyring' render={() => <Keyring prefs={this.state.prefs} />} />
             <Route path='/encryption' render={() => (
               <div>
                 <div className="col-md-3">
@@ -286,7 +187,7 @@ export class App extends React.Component {
                 </div>
                 <div className="col-md-9">
                   <div className="jumbotron secureBackground">
-                    <AppOptions.Provider value={{gnupg: this.state.keyringAttr[mvelo.GNUPG_KEYRING_ID]}}>
+                    <AppOptions.Provider value={{gnupg: this.state.gnupg}}>
                       <section className="well mv-options">
                         <Route path='/settings/general' component={General} />
                         <Route path='/settings/security' component={Security} />
@@ -310,16 +211,6 @@ export class App extends React.Component {
     );
   }
 }
-
-export function openTab(url) {
-  port.emit('open-tab', {url});
-}
-
-export function keyring(event, options = {}) {
-  options.keyringId = app.state.keyringId;
-  return port.send(event, options);
-}
-
 
 /**
  * Retrieve slot ID from query parameter and get slot data from background

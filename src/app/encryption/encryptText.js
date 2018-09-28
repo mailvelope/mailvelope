@@ -60,7 +60,7 @@ export default class EncryptText extends React.Component {
             <h3 className="panel-title"><span>{l10n.map.text_result_header}</span></h3>
           </div>
           <div className="panel-body" style={{height: '400px'}}>
-            <textarea className="form-control" value={this.state.armored} rows={12} autoFocus spellCheck="false" autoComplete="off"
+            <textarea className="form-control" value={this.state.armored} rows={12} autoFocus spellCheck="false" autoComplete="off" readOnly
               style={{width: '100%', height: '100%', marginBottom: 0, color: 'black', resize: 'none', fontFamily: 'monospace'}}
             />
           </div>

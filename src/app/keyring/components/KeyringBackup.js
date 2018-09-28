@@ -8,6 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ModalDialog from '../../../components/util/ModalDialog';
+import {KeyringOptions} from '../Keyring';
 import KeyDetailsExport from './KeyDetailsExport';
 
 l10n.register([
@@ -23,7 +24,9 @@ export default function KeyringBackup(props) {
       </button>
     }>
       <div style={{padding: '10px'}}>
-        <KeyDetailsExport keyFprs={props.keyFprs} keyName="keyring" all={props.all} type={props.type} publicOnly={props.publicOnly} />
+        <KeyringOptions>
+          {({keyringId}) => <KeyDetailsExport keyringId={keyringId} keyFprs={props.keyFprs} keyName="keyring" all={props.all} type={props.type} publicOnly={props.publicOnly} />}
+        </KeyringOptions>
       </div>
     </ModalDialog>
   );

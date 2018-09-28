@@ -11,6 +11,7 @@ import {initScriptInjection} from '../lib/inject';
 import * as prefs from '../modules/prefs';
 import * as uiLog from '../modules/uiLog';
 import {getVersion} from '../modules/defaults';
+import {gpgme} from '../lib/browser.runtime';
 
 const unlockQueue = new mvelo.util.PromiseQueue();
 
@@ -49,6 +50,7 @@ export default class AppController extends sub.SubController {
     this.on('encrypt-text', this.encryptText);
     this.on('decrypt-text-init', this.initDecryptText);
     this.on('decrypt-text', this.decryptText);
+    this.on('get-gnupg-status', () => Boolean(gpgme));
   }
 
   updatePreferences(options) {
