@@ -397,7 +397,7 @@ export default class Editor extends React.Component {
       <ModalDialog className="waiting-modal" hideHeader={true} hideFooter={true} keyboard={false} onShow={this.blurWarning && this.blurWarning.startBlurValid}>
         <div>
           <Spinner style={{margin: '10px auto'}} />
-          <p className="text-center">{l10n.map.waiting_dialog_prepare_email}</p>
+          <p className="text-center">{l10n.map.waiting_dialog_prepare_email}&hellip;</p>
         </div>
       </ModalDialog>
     );

@@ -8,6 +8,7 @@ import dompurify from 'dompurify';
 import mvelo from "../mvelo";
 import {getById as getKeyringById, getPreferredKeyringId} from "../modules/keyring";
 import {verifyDetachedSignature, encryptMessage} from "../modules/pgpModel";
+import {isEnabled as isAutoLocateEnabled, locate} from '../modules/autoLocate';
 
 // register language strings
 const l10n = mvelo.l10n.getMessages([
@@ -20,7 +21,7 @@ export default class EncryptedFormController extends sub.SubController {
     super(port);
     this.keyringId = getPreferredKeyringId();
     this.formAction = null;
-    this.formRecipient = null;
+    this.formRecipientEmail = null;
     this.formSignature = null;
     this.recipientFpr = null;
     this.fileExtension = null;
@@ -88,7 +89,7 @@ export default class EncryptedFormController extends sub.SubController {
       formDefinition: cleanHtml,
       formEncoding: this.formEncoding,
       formAction: this.formAction,
-      formRecipient: this.formRecipient,
+      formRecipient: this.formRecipientEmail,
       recipientFpr: this.recipientFpr
     });
   }
@@ -170,7 +171,7 @@ export default class EncryptedFormController extends sub.SubController {
     if (!mvelo.util.checkEmail(recipient)) {
       throw new mvelo.Error('The encrypted form recipient must be a valid email address.', 'RECIPIENT_INVALID_EMAIL');
     }
-    this.formRecipient = recipient;
+    this.formRecipientEmail = recipient;
     return true;
   }
 
@@ -207,13 +208,27 @@ Comment: openpgp-encrypted-form
 ${this.formSignature}
 -----END PGP SIGNATURE-----`;
 
-    const {signatures} = await verifyDetachedSignature({plaintext: rawHtml, signerEmail: this.formRecipient, detachedSignature, keyringId: this.keyringId});
+    const {signatures} = await verifyDetachedSignature({plaintext: rawHtml, signerEmail: this.formRecipientEmail, detachedSignature, keyringId: this.keyringId, autoLocate: this.autoLocate.bind(this)});
     const validSig = signatures.find(sig => sig.valid === true);
     if (validSig) {
       this.recipientFpr = validSig.fingerprint;
       return true;
     } else {
       throw new mvelo.Error(l10n.form_definition_error_signature_invalid, 'INVALID_SIGNATURE');
+    }
+  }
+
+  async autoLocate() {
+    if (!isAutoLocateEnabled()) {
+      return;
+    }
+    const armored = await locate({email: this.formRecipientEmail});
+    if (armored) {
+      try {
+        await sub.factory.get('importKeyDialog').importKey(this.keyringId, armored);
+      } catch (e) {
+        console.log('Key import after auto locate failed', e);
+      }
     }
   }
 

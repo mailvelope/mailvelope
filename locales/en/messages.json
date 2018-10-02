@@ -355,6 +355,10 @@
     "description": "Import form button.",
     "message": "Import"
   },
+  "form_loading": {
+    "message": "Loading form",
+    "description": "Waiting modal when form is loading."
+  },
   "form_next": {
     "message": "Next",
     "description": "Next form button."
@@ -1617,7 +1621,7 @@
   },
   "waiting_dialog_prepare_email": {
     "description": "Message in the waiting dialog for quoting email",
-    "message": "Preparing your message..."
+    "message": "Preparing your message"
   },
   "watchlist_command_create": {
     "description": "Create entry in watchlist.",

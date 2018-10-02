@@ -130,13 +130,14 @@ export default class KeyringBase {
   /**
    * Query keys by email address
    * @param  {Array<String>} emailAddr
-   * @param  {Object} [options.pub = true] - query for public keys
-   * @param  {Object} [options.priv = true] - query for private keys
-   * @param  {Object} [options.sort = false] - sort results by key creation date and default key status
-   * @param  {Object} [options.valid = true] - result keys are verified
+   * @param  {Boolean} [options.pub = true] - query for public keys
+   * @param  {Bolean} [options.priv = true] - query for private keys
+   * @param  {Boolean} [options.sort = false] - sort results by key creation date and default key status
+   * @param  {Boolean} [options.valid = true] - result keys are verified
+   * @param  {openpgp.Keyid} [options.keyId] - filter result by key Id
    * @return {Object} - map in the form {address: [key1, key2, ..]}
    */
-  async getKeyByAddress(emailAddr, {pub = true, priv = true, sort = false, valid = true} = {}) {
+  async getKeyByAddress(emailAddr, {pub = true, priv = true, sort = false, valid = true, keyId} = {}) {
     const result = Object.create(null);
     const emailArray = mvelo.util.toArray(emailAddr);
     for (const email of emailArray) {
@@ -149,6 +150,9 @@ export default class KeyringBase {
       }
       if (valid) {
         result[email] = await mvelo.util.filterAsync(result[email], key => isValidEncryptionKey(key, this.id));
+      }
+      if (keyId) {
+        result[email] = result[email].filter(key => key.getKeys(keyId).length);
       }
       if (!result[email].length) {
         result[email] = false;
