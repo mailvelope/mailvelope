@@ -324,10 +324,12 @@ export function filterUserIdsByEmail(key, email) {
   const keptUsers = [];
 
   for (const user of key.users) {
-    const userMapped = {userId: user.userId.userid};
-    mapKeyUserIds(userMapped);
-    if (userMapped.email.toLowerCase() === email.toLowerCase()) {
-      keptUsers.push(user);
+    if (user.userId) {
+      const userMapped = {userId: user.userId.userid};
+      mapKeyUserIds(userMapped);
+      if (userMapped.email.toLowerCase() === email.toLowerCase()) {
+        keptUsers.push(user);
+      }
     }
   }
 
