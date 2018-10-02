@@ -11,7 +11,7 @@ import * as prefs from './prefs';
 import * as pwdCache from './pwdCache';
 import {randomString, symEncrypt} from './crypto';
 import * as uiLog from './uiLog';
-import {getById as getKeyringById, getKeyringWithPrivKey, syncPublicKeys, getPreferredKeyring, getKeyByAddress} from './keyring';
+import {getById as getKeyringById, getKeyringWithPrivKey, syncPublicKeys, getPreferredKeyring} from './keyring';
 import {getUserId, mapKeys} from './key';
 import * as keyringSync from './keyringSync';
 import * as trustKey from './trustKey';
@@ -179,16 +179,26 @@ export async function verifyMessage({armored, keyringId}) {
   }
 }
 
-export async function verifyDetachedSignature({plaintext, signerEmail, detachedSignature, keyringId}) {
+export async function verifyDetachedSignature({plaintext, signerEmail, detachedSignature, keyringId, autoLocate}) {
   const keyring = getPreferredKeyring(keyringId);
-  // get keys for signer email address
-  const {[signerEmail]: signerKeys} = await getKeyByAddress(keyringId, signerEmail);
+  // determine issuer key id
+  const signature = await openpgp.signature.readArmored(detachedSignature);
+  const [sigPacket] = signature.packets.filterByTag(openpgp.enums.packet.signature);
+  const {issuerKeyId} = sigPacket;
+  // sync keys to preferred keyring
+  await syncPublicKeys({keyring, keyIds: issuerKeyId, keyringId});
+  // get keys for signer email address from preffered keyring
+  let {[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail, {keyId: issuerKeyId});
   if (!signerKeys) {
-    throw new mvelo.Error(l10n('form_definition_error_no_recipient_key'), 'NO_KEY_FOR_RECIPIENT');
+    // if no keys available, try key discovery mechanisms
+    await autoLocate();
+    // check again if key is now in keyring
+    ({[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail, {keyId: issuerKeyId}));
+    if (!signerKeys) {
+      throw new mvelo.Error(l10n('form_definition_error_no_recipient_key'), 'NO_KEY_FOR_RECIPIENT');
+    }
   }
   const signerKeyFprs = signerKeys.map(signerKey => signerKey.primaryKey.getFingerprint());
-  // sync keys to preferred keyring
-  await syncPublicKeys({keyring, keyIds: signerKeyFprs, keyringId});
   let {signatures} = await keyring.getPgpBackend().verify({plaintext, detachedSignature, keyring, signingKeyIds: signerKeyFprs});
   // filter out signatures not corresponding to keys of signer email
   signatures = signatures.filter(signature => signerKeyFprs.includes(signature.fingerprint));

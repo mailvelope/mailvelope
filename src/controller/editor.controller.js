@@ -15,7 +15,7 @@ import * as sub from './sub.controller';
 import * as uiLog from '../modules/uiLog';
 import {parseMessage, buildMail} from '../modules/mime';
 import {triggerSync} from './sync.controller';
-import {getEnabled as getLocateEnabled, locate} from '../modules/autoLocate';
+import {isEnabled as isAutoLocateEnabled, locate} from '../modules/autoLocate';
 import {getById as getKeyringById, getPreferredKeyringId, getKeyData, getKeyByAddress, syncPublicKeys} from '../modules/keyring';
 import {mapAddressKeyMapToFpr} from '../modules/key';
 
@@ -79,7 +79,7 @@ export default class EditorController extends sub.SubController {
     recipients = emails.map(e => ({email: e}));
     // get all public keys from required keyrings
     const keys = await getKeyData({keyringId: this.keyringId});
-    const autoLocate = getLocateEnabled();
+    const autoLocate = isAutoLocateEnabled();
     this.emit('public-key-userids', {keys, recipients, autoLocate});
   }
 
@@ -182,7 +182,10 @@ export default class EditorController extends sub.SubController {
   async onAutoLocate(msg) {
     const options = msg.recipient;
     options.keyringId = this.keyringId;
-    await locate(options);
+    const armored = await locate(options);
+    if (armored) {
+      await getKeyringById(this.keyringId).importKeys([{type: 'public', armored}]);
+    }
     await this.sendKeyUpdate();
   }
 

@@ -355,6 +355,10 @@
     "message": "Importieren",
     "description": "Import form button."
   },
+  "form_loading": {
+    "message": "Formular wird geladen",
+    "description": "Waiting modal when form is loading."
+  },
   "form_next": {
     "message": "Weiter",
     "description": "next form button."
@@ -1670,7 +1674,7 @@
     "description": "Error message in the waiting dialog after failing to decrypt a message"
   },
   "waiting_dialog_prepare_email": {
-    "message": "Nachricht wird vorbereitet …",
+    "message": "Nachricht wird vorbereitet",
     "description": "Message in the waiting dialog for quoting email"
   },
   "watchlist_command_create": {

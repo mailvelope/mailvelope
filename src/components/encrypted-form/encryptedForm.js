@@ -11,14 +11,16 @@ import FormSandbox from './components/FormSandbox';
 import './encryptedForm.css';
 import Spinner from "../util/Spinner";
 import Alert from "../util/Alert";
+import ModalDialog from '../util/ModalDialog';
 
 // register language strings
 l10n.register([
   'alert_header_error',
-  'form_submit',
   'form_destination',
+  'form_destination_default',
+  'form_loading',
   'form_recipient',
-  'form_destination_default'
+  'form_submit'
 ]);
 
 export default class EncryptedForm extends React.Component {
@@ -126,32 +128,40 @@ export default class EncryptedForm extends React.Component {
     );
   }
 
+  waitingModal() {
+    return (
+      <ModalDialog className="waiting-modal" hideHeader={true} hideFooter={true} keyboard={false}>
+        <div>
+          <Spinner style={{margin: '10px auto'}} />
+          <p className="text-center">{l10n.map.form_loading}&hellip;</p>
+        </div>
+      </ModalDialog>
+    );
+  }
+
   render() {
-    let submitSpinner = '';
-    if (this.state.validated) {
-      submitSpinner = <div className="spinnerWrapper"><Spinner style={{margin: '0 auto 0'}} /></div>;
+    if (this.state.waiting) {
+      return this.waitingModal();
     }
     return (
       <div className={this.props.secureBackground && !this.state.waiting ? 'jumbotron secureBackground' : ''} style={{height: '100%', position: 'relative'}}>
         <section className="well clearfix">
-          {this.state.waiting  ? (<Spinner style={{margin: '0 auto 0'}} />) : (
-            <div>
-              {this.state.error ? (<Alert message={this.state.error.message} type={this.state.error.type} />) : (
-                <div>
-                  {submitSpinner}
-                  <div className="formWrapper">
-                    {this.formSandbox()}
-                    <button className="btn btn-primary" type="button" onClick={() => this.onClickSubmit()}>{l10n.map.form_submit}</button>
-                    <div className="recipient">
-                      <div className="recipient-action">{l10n.map.form_destination}: {this.state.formAction ? this.state.formAction : l10n.map.form_destination_default}</div>
-                      <div className="recipient-email">{l10n.map.form_recipient}: {this.state.formRecipient}</div>
-                      <div className="recipient-fingerprint">{mvelo.ui.formatFpr(this.state.recipientFpr)}</div>
-                    </div>
+          <div>
+            {this.state.error ? (<Alert message={this.state.error.message} type={this.state.error.type} />) : (
+              <div>
+                {this.state.validated && <div className="spinnerWrapper"><Spinner style={{margin: '0 auto 0'}} /></div>}
+                <div className="formWrapper">
+                  {this.formSandbox()}
+                  <button className="btn btn-primary" type="button" onClick={() => this.onClickSubmit()}>{l10n.map.form_submit}</button>
+                  <div className="recipient">
+                    <div className="recipient-action">{l10n.map.form_destination}: {this.state.formAction ? this.state.formAction : l10n.map.form_destination_default}</div>
+                    <div className="recipient-email">{l10n.map.form_recipient}: {this.state.formRecipient}</div>
+                    <div className="recipient-fingerprint">{mvelo.ui.formatFpr(this.state.recipientFpr)}</div>
                   </div>
                 </div>
-              )}
-            </div>
-          )}
+              </div>
+            )}
+          </div>
         </section>
       </div>
     );
