@@ -9,6 +9,8 @@ import gpgmejs from 'gpgmejs';
 
 export let gpgme = null;
 
+const GPGME_INIT_TIMEOUT = 1000;
+
 /**
  * Initialize browser runtime features.
  */
@@ -20,13 +22,9 @@ export function initBrowserRuntime() {
  * Intialize native messaging
  * @return {Promise.<undefined>}
  */
-export function initNativeMessaging() {
-  return new Promise(resolve => {
-    // resolve after timeout of 500 ms
-    window.setTimeout(resolve, 500);
-    initGpgme()
-    .then(resolve);
-  });
+export async function initNativeMessaging() {
+  // check for GPGME installation and connect
+  gpgme = await gpgmejs.init({timeout: GPGME_INIT_TIMEOUT});
 }
 
 /**
@@ -61,11 +59,4 @@ async function openInstallLandingPage() {
   if (!match.length) {
     mvelo.tabs.loadTab({path: '/components/install-landing-page/installLandingPage.html'});
   }
-}
-
-/**
- * Check for GPGME installation and connect
- */
-async function initGpgme() {
-  gpgme = await gpgmejs.init();
 }
