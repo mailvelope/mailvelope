@@ -24,7 +24,11 @@ export function initBrowserRuntime() {
  */
 export async function initNativeMessaging() {
   // check for GPGME installation and connect
-  gpgme = await gpgmejs.init({timeout: GPGME_INIT_TIMEOUT});
+  try {
+    gpgme = await gpgmejs.init({timeout: GPGME_INIT_TIMEOUT});
+  } catch (e) {
+    console.log('GPGME is not available.', e.message);
+  }
 }
 
 /**
