@@ -6,7 +6,7 @@
 import mvelo from '../lib/lib-mvelo';
 import * as sub from './sub.controller';
 import * as prefs from '../modules/prefs';
-import {getById as keyringById} from '../modules/keyring';
+import {getAll as getAllKeyring} from '../modules/keyring';
 
 export default class MenuController extends sub.SubController {
   constructor(port) {
@@ -71,9 +71,9 @@ export default class MenuController extends sub.SubController {
   }
 
   getIsSetupDone() {
-    const keyringId = sub.getActiveKeyringId();
-    const hasPrivateKey = keyringById(keyringId).hasPrivateKey();
-    return {'isSetupDone': hasPrivateKey};
+    // check if at least one keyring has a private key
+    const hasPrivateKey = getAllKeyring().some(keyring => keyring.hasPrivateKey());
+    return {isSetupDone: hasPrivateKey};
   }
 
   addToWatchList() {

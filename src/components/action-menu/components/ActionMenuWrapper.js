@@ -18,13 +18,13 @@ l10n.mapToLocal();
 class ActionMenuWrapper extends Component {
   constructor(props) {
     super(props);
-    this.state = {isSetupDone: false};
+    this.state = {isSetupDone: true};
     this.port = mvelo.EventHandler.connect('menu-59edbbeb9affc4004a916276');
   }
 
-  componentDidMount() {
-    this.port.send('get-is-setup-done')
-    .then(({isSetupDone}) => this.setState({isSetupDone}));
+  async componentDidMount() {
+    const isSetupDone = await this.port.send('get-is-setup-done');
+    this.setState({isSetupDone});
   }
 
   onMenuItemClick(e) {
