@@ -873,7 +873,7 @@
   },
   "keygrid_invalid_userid": {
     "description": "User ID invalid.",
-    "message": "Invalid user ID"
+    "message": "Invalid User ID"
   },
   "keygrid_key_fingerprint": {
     "description": "Unique string identifier for a PGP key.",
@@ -898,6 +898,10 @@
   "keygrid_no_subkeys": {
     "description": "No subkeys of a PGP key found.",
     "message": "No subkeys available"
+  },
+  "keygrid_no_userid": {
+    "description": "Warning message if no user id found.",
+    "message": "No valid User ID found"
   },
   "keygrid_primary_key": {
     "description": "Main key in the PGP key.",

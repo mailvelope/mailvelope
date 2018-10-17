@@ -8,6 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 l10n.register([
+  'keygrid_no_userid',
   'keygrid_userid',
   'keygrid_userid_signatures',
   'keygrid_signer_name',
@@ -28,6 +29,11 @@ export default class KeyDetailsUserids extends React.Component {
   }
 
   render() {
+    if (!this.props.users.length) {
+      return (
+        <div className="alert alert-danger">{l10n.map.keygrid_no_userid}</div>
+      );
+    }
     const selected = this.props.users.find(user => user.userId === this.state.userId);
     return (
       <form className="form-horizontal" role="form">
