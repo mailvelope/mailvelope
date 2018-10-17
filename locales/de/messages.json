@@ -897,6 +897,10 @@
     "message": "Keine Unterschlüssel verfügbar",
     "description": "No subkeys of a PGP key found."
   },
+  "keygrid_no_userid": {
+    "description": "Warning message if no user id found.",
+    "message": "Keine gültige Benutzerkennung gefunden"
+  },
   "keygrid_primary_key": {
     "message": "Hauptschlüssel",
     "description": "Main key in the PGP key."
