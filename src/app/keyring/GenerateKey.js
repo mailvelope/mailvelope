@@ -42,7 +42,7 @@ class GenerateKeyBase extends React.Component {
       email: props.defaultEmail,
       keyAlgo: props.gnupg ? 'default' : 'rsa',
       keySize: '4096',
-      keyExpirationTime: null,
+      keyExpirationTime: props.gnupg ? moment().startOf('day').add(2, 'years') : null,
       password: '',
       passwordCheck: '',
       mveloKeyServerUpload: props.demail ? false : true,
