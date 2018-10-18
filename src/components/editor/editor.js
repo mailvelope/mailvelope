@@ -65,8 +65,6 @@ export default class Editor extends React.Component {
     // flag to control time slice for input logging
     this.logTextareaInput = true;
     this.registerEventListeners();
-    // emit event to backend that editor has initialized
-    this.port.emit('editor-init');
     // ref to PlainText component
     this.plainText = null;
     // ref to blur warning
@@ -112,6 +110,11 @@ export default class Editor extends React.Component {
       defaultKey: Boolean(defaultKeyFpr),
       privKeys
     });
+  }
+
+  handlePlainTextLoad() {
+    // emit event to backend that editor has initialized
+    this.port.emit('editor-init');
   }
 
   /**
@@ -342,7 +345,7 @@ export default class Editor extends React.Component {
           <div className="editor-body">
             <div className="plain-text">
               <PlainText defaultValue={this.state.defaultPlainText} onChange={() => this.handleTextChange()}
-                onBlur={() => this.blurWarning && this.blurWarning.onBlur()} onMouseUp={element => this.handleTextMouseUp(element)}
+                onBlur={() => this.blurWarning && this.blurWarning.onBlur()} onMouseUp={element => this.handleTextMouseUp(element)} onLoad={() => this.handlePlainTextLoad()}
                 ref={node => this.plainText = node}
               />
             </div>

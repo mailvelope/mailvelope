@@ -39,6 +39,7 @@ export default class PlainText extends React.PureComponent {
       />
     );
     ReactDOM.render(textarea, $(this.sandbox).contents().find('#root').get(0));
+    this.props.onLoad && this.props.onLoad();
   }
 
   render() {
@@ -67,5 +68,6 @@ PlainText.propTypes = {
   defaultValue: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func,
-  onMouseUp: PropTypes.func
+  onMouseUp: PropTypes.func,
+  onLoad: PropTypes.func
 };

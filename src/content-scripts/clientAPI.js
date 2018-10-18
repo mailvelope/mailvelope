@@ -271,7 +271,7 @@ function createKeyring(keyringId, callback) {
   });
 }
 
-function displayContainer(selector, armored, keyringId, options, callback) {
+function displayContainer(selector, armored, keyringId, options = {}, callback) {
   let container;
   switch (getMessageType(armored)) {
     case mvelo.PGP_MESSAGE:
