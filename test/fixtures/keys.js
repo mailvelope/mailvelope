@@ -1,4 +1,25 @@
 export default {
+  "public": {
+    "demo": `
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+mI0EVLjbuwEEAL1urQHQ4fDj6RjTz1Z9QNHm1J+GERkDkAPpP9boHnxMNUrI89yR
+iTOMlQBsfyO/nkedGOV32xrWqlTCemEhGtss9yv62SYoR/ZqXYTc0o14p73o13/w
+q+4fH0lcHJQCspfmMzJ9kwuxVU1BvceOtrpwFVAD/dl8pdjdcPH9SWiPABEBAAG0
+IkFQSSBUZXN0IEtleSA8dGVzdEBtYWlsdmVsb3BlLmNvbT6IsgQQAQgAJgUCVLjb
+uwYLCQgHAwIJEPEdsSUMPD8bBBUIAgoDFgIBAhsDAh4BAACwHwP/SGVDK7INHLM0
+rfkFVZs4GmVkInZCEynHdC2b0vAniRwQK9bVIT0jPnIObEQpJ+MFGuRmCQ5MG3W+
+bf07Hlwgv025n10LclIFHjUabGKSqww0Pv+V+GHus6IndBx2KKH4A7iOJC4sG0mO
+eAh665gXRgbxb7EFFgk4oMM4dCFlcze4jQRUuNu7AQQAqpCpgH3qPSKbpttbpPLt
+3FKqlYgxtVSc5tUJNsVqmz41IuQrcbkgcKS6dKnSied7oFL5CuN8iNhtuFXDrQ7M
+ptQkne50lpjevps8otyeCcc1GpSgni1FSoaCZBNb7OqOwx5K2g9SPKxKcQqu4kxy
+kRbxDRvOynutozIWNxSeXH8AEQEAAYifBBgBCAATBQJUuNu7CRDxHbElDDw/GwIb
+DAAAtmsD/0uDyFMNAf+R58jAqlnmS+tTsSlSvZWwA7GiMSHYo+VQBF+WcP+Ndkvj
+TRr3YEhHyZry/eLifuSpwat6r1iWvqmGmcaD5LJXqokzVxuw6C7eRVnoALxpofcO
+eYJNRnVpdrqgu7iU+k7+e4WaiLwHsCoTho+xiEM0ibmIaSG+8ijN
+=aTaf
+-----END PGP PUBLIC KEY BLOCK-----`
+  },
   "secret": {
     "demo": `
 -----BEGIN PGP PRIVATE KEY BLOCK-----

@@ -1,12 +1,8 @@
-
-import KeyServer from '../../src/modules/keyserver';
-
-let keyServer;
+import * as mveloKeyServer from '../../src/modules/mveloKeyServer';
+import keyFixtures from '../fixtures/keys';
 
 describe('Key Server unit tests', () => {
   beforeEach(() => {
-    keyServer = new KeyServer('http://localhost:8888');
-    expect(keyServer._baseUrl).to.equal('http://localhost:8888');
     sinon.stub(window, 'fetch');
   });
 
@@ -18,12 +14,12 @@ describe('Key Server unit tests', () => {
     it('should return key', () => {
       window.fetch.returns(Promise.resolve({
         status: 200,
-        json() { return {foo: 'bar'}; }
+        json() { return {publicKeyArmored: keyFixtures.public.demo}; }
       }));
 
-      return keyServer.lookup({email: 'asdf@asdf.de'})
+      return mveloKeyServer.lookup({email: 'test@mailvelope.com'})
       .then(key => {
-        expect(key.foo).to.equal('bar');
+        expect(key.publicKeyArmored).to.include('PGP PUBLIC KEY BLOCK');
       });
     });
 
@@ -33,7 +29,7 @@ describe('Key Server unit tests', () => {
         json() { return {foo: 'bar'}; }
       }));
 
-      return keyServer.lookup({email: 'asdf@asdf.de'})
+      return mveloKeyServer.lookup({email: 'asdf@asdf.de'})
       .then(key => {
         expect(key).to.not.exist;
       });
@@ -46,7 +42,7 @@ describe('Key Server unit tests', () => {
         status: 201
       }));
 
-      return keyServer.upload({publicKeyArmored: 'KEY BLOCK'});
+      return mveloKeyServer.upload({publicKeyArmored: 'KEY BLOCK'});
     });
 
     it('should not upload a key', () => {
@@ -55,7 +51,7 @@ describe('Key Server unit tests', () => {
         statusText: 'Key already exists'
       }));
 
-      return keyServer.upload({publicKeyArmored: 'KEY BLOCK'})
+      return mveloKeyServer.upload({publicKeyArmored: 'KEY BLOCK'})
       .catch(error => {
         expect(error.message).to.match(/exists/);
       });
@@ -68,7 +64,7 @@ describe('Key Server unit tests', () => {
         status: 200
       }));
 
-      return keyServer.remove({email: 'asdf@asdf.de'});
+      return mveloKeyServer.remove({email: 'asdf@asdf.de'});
     });
 
     it('should not remove a key', () => {
@@ -77,7 +73,7 @@ describe('Key Server unit tests', () => {
         statusText: 'Key not found'
       }));
 
-      return keyServer.remove({email: 'asdf@asdf.de'})
+      return mveloKeyServer.remove({email: 'asdf@asdf.de'})
       .catch(error => {
         expect(error.message).to.match(/not found/);
       });
@@ -90,7 +86,7 @@ describe('Key Server unit tests', () => {
         status: 200
       }));
 
-      const url = keyServer._url({email: 'asdf@asdf.de'});
+      const url = mveloKeyServer._url({email: 'asdf@asdf.de'});
       expect(url).to.equal('http://localhost:8888/api/v1/key?email=asdf%40asdf.de');
     });
 
@@ -99,7 +95,7 @@ describe('Key Server unit tests', () => {
         status: 200
       }));
 
-      const url = keyServer._url({keyId: '0123456789ABCDFE'});
+      const url = mveloKeyServer._url({keyId: '0123456789ABCDFE'});
       expect(url).to.equal('http://localhost:8888/api/v1/key?keyId=0123456789ABCDFE');
     });
 
@@ -108,7 +104,7 @@ describe('Key Server unit tests', () => {
         status: 200
       }));
 
-      const url = keyServer._url({fingerprint: '0123456789ABCDFE0123456789ABCDFE01234567'});
+      const url = mveloKeyServer._url({fingerprint: '0123456789ABCDFE0123456789ABCDFE01234567'});
       expect(url).to.equal('http://localhost:8888/api/v1/key?fingerprint=0123456789ABCDFE0123456789ABCDFE01234567');
     });
   });
