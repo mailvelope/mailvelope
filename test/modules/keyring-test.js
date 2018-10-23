@@ -1,7 +1,6 @@
 
 import mvelo from '../../src/mvelo';
 import {Keyring} from '../../src/modules/keyring';
-import KeyServer from '../../src/modules/keyserver';
 import * as keyringSync from '../../src/modules/keyringSync';
 import * as openpgp from 'openpgp';
 import openpgpDefault from 'openpgp';

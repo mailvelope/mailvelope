@@ -13,18 +13,6 @@ import {filterUserIdsByEmail} from './key';
 /** The default URL of the mailvelope authenticating keyserver. */
 const DEFAULT_URL = 'https://keys.mailvelope.com';
 
-let baseUrl = DEFAULT_URL;
-
-/**
- * Changes the base Key Server URL this module uses.
- * Default is https://keys.mailvelope.com
- *
- * @param {String} value    The server's base url
- */
-export function setKeyServerURL(value) {
-  baseUrl = value;
-}
-
 /**
  * Get a verified public key either from the server by either email address,
  * key id, or fingerprint.
@@ -111,7 +99,7 @@ export async function remove(options) {
  * @return {string}                       The complete request url
  */
 function url(options) {
-  let url = `${baseUrl}/api/v1/key`;
+  let url = `${DEFAULT_URL}/api/v1/key`;
   if (options && options.email) {
     url += `?email=${encodeURIComponent(options.email)}`;
   } else if (options && options.fingerprint) {
