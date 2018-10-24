@@ -1,7 +1,7 @@
 import * as mveloKeyServer from '../../src/modules/mveloKeyServer';
 import keyFixtures from '../fixtures/keys';
 
-describe('Key Server unit tests', () => {
+describe('Talking to the Mailvelope Key Server', () => {
   beforeEach(() => {
     sinon.stub(window, 'fetch');
   });
@@ -11,7 +11,41 @@ describe('Key Server unit tests', () => {
   });
 
   describe('lookup', () => {
-    it('should return key', () => {
+    it('should query for the key by email', () => {
+      window.fetch.returns(Promise.resolve({
+        status: 404,
+        json() { return {}; }
+      }));
+      return mveloKeyServer.lookup({email: 'test@mailvelope.com'})
+      .then(key => {
+        expect(window.fetch.args[0][0]).to.equal('https://keys.mailvelope.com/api/v1/key?email=test%40mailvelope.com')
+      });
+    });
+
+    it('should query for the key by keyId', () => {
+      window.fetch.returns(Promise.resolve({
+        status: 404,
+        json() { return {}; }
+      }));
+      return mveloKeyServer.lookup({keyId: '0123456789ABCDFE'})
+      .then(key => {
+        expect(window.fetch.args[0][0]).to.include('/api/v1/key?keyId=0123456789ABCDFE');
+      });
+    });
+
+    it('should query for the key by fingerprint', () => {
+      window.fetch.returns(Promise.resolve({
+        status: 404,
+        json() { return {}; }
+      }));
+
+      return mveloKeyServer.lookup({fingerprint: '0123456789ABCDFE0123456789ABCDFE01234567'})
+      .then(key => {
+        expect(window.fetch.args[0][0]).to.include('/api/v1/key?fingerprint=0123456789ABCDFE0123456789ABCDFE01234567');
+      });
+    });
+
+    it('should return key on success', () => {
       window.fetch.returns(Promise.resolve({
         status: 200,
         json() { return {publicKeyArmored: keyFixtures.public.demo}; }
@@ -23,10 +57,10 @@ describe('Key Server unit tests', () => {
       });
     });
 
-    it('should not return key', () => {
+    it('should not return key on 404', () => {
       window.fetch.returns(Promise.resolve({
         status: 404,
-        json() { return {foo: 'bar'}; }
+        json() { return {}; }
       }));
 
       return mveloKeyServer.lookup({email: 'asdf@asdf.de'})
@@ -37,15 +71,19 @@ describe('Key Server unit tests', () => {
   });
 
   describe('upload', () => {
-    it('should upload a key', () => {
+    it('should POST to the key url', () => {
       window.fetch.returns(Promise.resolve({
         status: 201
       }));
 
-      return mveloKeyServer.upload({publicKeyArmored: 'KEY BLOCK'});
+      return mveloKeyServer.upload({publicKeyArmored: 'KEY BLOCK'})
+      .then(() => {
+        expect(window.fetch.args[0][1]).to.include({method: 'POST'})
+        expect(window.fetch.args[0][0]).to.equal('https://keys.mailvelope.com/api/v1/key')
+      });
     });
 
-    it('should not upload a key', () => {
+    it('should raise exception on conflicting key', () => {
       window.fetch.returns(Promise.resolve({
         status: 304,
         statusText: 'Key already exists'
@@ -53,21 +91,25 @@ describe('Key Server unit tests', () => {
 
       return mveloKeyServer.upload({publicKeyArmored: 'KEY BLOCK'})
       .catch(error => {
-        expect(error.message).to.match(/exists/);
+        expect(error.message).to.include('exists');
       });
     });
   });
 
   describe('remove', () => {
-    it('should remove a key', () => {
+    it('should trigger DELETE request', () => {
       window.fetch.returns(Promise.resolve({
         status: 200
       }));
 
-      return mveloKeyServer.remove({email: 'asdf@asdf.de'});
+      return mveloKeyServer.remove({email: 'test@mailvelope.com'})
+      .then(() => {
+        expect(window.fetch.args[0][1]).to.include({method: 'DELETE'})
+        expect(window.fetch.args[0][0]).to.equal('https://keys.mailvelope.com/api/v1/key?email=test%40mailvelope.com')
+      });
     });
 
-    it('should not remove a key', () => {
+    it('should raise exception on 404', () => {
       window.fetch.returns(Promise.resolve({
         status: 404,
         statusText: 'Key not found'
@@ -77,35 +119,6 @@ describe('Key Server unit tests', () => {
       .catch(error => {
         expect(error.message).to.match(/not found/);
       });
-    });
-  });
-
-  describe('_url', () => {
-    it('should work for email', () => {
-      window.fetch.returns(Promise.resolve({
-        status: 200
-      }));
-
-      const url = mveloKeyServer._url({email: 'asdf@asdf.de'});
-      expect(url).to.equal('http://localhost:8888/api/v1/key?email=asdf%40asdf.de');
-    });
-
-    it('should work for key id', () => {
-      window.fetch.returns(Promise.resolve({
-        status: 200
-      }));
-
-      const url = mveloKeyServer._url({keyId: '0123456789ABCDFE'});
-      expect(url).to.equal('http://localhost:8888/api/v1/key?keyId=0123456789ABCDFE');
-    });
-
-    it('should work for fingerprint', () => {
-      window.fetch.returns(Promise.resolve({
-        status: 200
-      }));
-
-      const url = mveloKeyServer._url({fingerprint: '0123456789ABCDFE0123456789ABCDFE01234567'});
-      expect(url).to.equal('http://localhost:8888/api/v1/key?fingerprint=0123456789ABCDFE0123456789ABCDFE01234567');
     });
   });
 });
