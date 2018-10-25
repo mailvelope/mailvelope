@@ -20,4 +20,4 @@ import './controller/encrypt.controller-test';
 import './controller/sub.controller-test';
 import './controller/encryptedForm.controller-test';
 import './modules/keyring-test';
-import './modules/keyserver-test';
+import './modules/mveloKeyServer-test';
