@@ -46,18 +46,18 @@ function init(preferences, watchlist) {
   prefs = preferences;
   watchList = watchlist;
   detectHost();
-
   if (clientApiActive) {
     // api case
     clientAPI.init();
-    return;
+  } else if (host) {
+    // non-api case ... use provider specific content scripts
+    providers.init();
+    currentProvider = providers.get(host);
+    // turn on scan loop
+    on();
+  } else {
+    port.disconnect();
   }
-
-  // non-api case ... use provider specific content scripts
-  providers.init();
-  currentProvider = providers.get(host);
-  // turn on scan loop
-  on();
 }
 
 function registerEventListener() {
@@ -73,17 +73,26 @@ function onDestroy() {
 }
 
 function detectHost() {
-  clientApiActive = watchList.some(site => site.active && site.frames && site.frames.some(frame => {
-    const hostRegex = mvelo.util.matchPattern2RegEx(frame.frame);
-    const validHost = hostRegex.test(window.location.hostname);
-    if (frame.scan && validHost) {
-      // host = match pattern without *. prefix
-      host = frame.frame.replace(/^\*\./, '');
-      if (frame.api) {
-        return true;
+  for (const site of watchList) {
+    if (!site.active || !site.frames) {
+      continue;
+    }
+    for (const frame of site.frames) {
+      if (!frame.scan) {
+        continue;
+      }
+      const hostRegex = mvelo.util.matchPattern2RegEx(frame.frame);
+      const validHost = hostRegex.test(window.location.hostname);
+      if (validHost) {
+        // host = match pattern without *. prefix
+        host = frame.frame.replace(/^\*\./, '');
+        if (frame.api) {
+          clientApiActive = true;
+          return;
+        }
       }
     }
-  }));
+  }
 }
 
 function on() {

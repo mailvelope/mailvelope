@@ -162,7 +162,6 @@ export async function deleteKeyring(keyringId) {
  * Improve performance of initial keyring operations by pre-verifying keys in large keyrings
  */
 async function preVerifyKeys() {
-  const t0 = Date.now();
   for (const {keystore} of getAll()) {
     const keys = keystore.getAllKeys();
     if (keys.length < 10) {
