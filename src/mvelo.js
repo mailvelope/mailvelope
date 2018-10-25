@@ -182,6 +182,10 @@ mvelo.util.someAsync = async function(array, asyncSomeFn) {
   return result.some(item => item);
 };
 
+mvelo.util.wait = function(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+};
+
 // random hash generator
 mvelo.util.getHash = function() {
   let result = '';

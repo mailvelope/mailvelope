@@ -97,6 +97,7 @@ export async function init() {
     .catch(e => console.log(`Building keyring for id ${keyringId} failed`, e))
   );
   await Promise.all(keyringPromises);
+  preVerifyKeys();
 }
 
 /**
@@ -155,6 +156,25 @@ export async function deleteKeyring(keyringId) {
   keyRng.keystore.clear();
   keyringMap.delete(keyringId);
   await keyringAttr.delete(keyringId);
+}
+
+/**
+ * Improve performance of initial keyring operations by pre-verifying keys in large keyrings
+ */
+async function preVerifyKeys() {
+  const t0 = Date.now();
+  for (const {keystore} of getAll()) {
+    const keys = keystore.getAllKeys();
+    if (keys.length < 10) {
+      continue;
+    }
+    for (const key of keys) {
+      try {
+        await key.getEncryptionKey();
+      } catch (e) {}
+      await mvelo.util.wait(20);
+    }
+  }
 }
 
 /**
