@@ -231,16 +231,11 @@ export async function signMessage({data, keyringId, unlockKey, signingKeyFpr}) {
 export async function createPrivateKeyBackup(defaultKey, keyPwd) {
   // create backup code
   const backupCode = randomString(26);
-  // create packet structure
-  const packetList = new openpgp.packet.List();
-  const literal = new openpgp.packet.Literal();
-  let text = 'Version: 1\n';
-  text += `Pwd: ${keyPwd}\n`;
-  literal.setText(text);
-  packetList.push(literal);
-  packetList.concat(defaultKey.toPacketlist());
+  const text = `Version: 1\nPwd: ${keyPwd}\n`;
+  let msg = openpgp.message.fromText(text);
+  // append key to message
+  msg.packets.concat(defaultKey.toPacketlist());
   // symmetrically encrypt with backup code
-  let msg = new openpgp.message.Message(packetList);
   msg = await symEncrypt(msg, backupCode);
   return {backupCode, message: msg.armor()};
 }
@@ -272,9 +267,10 @@ export async function restorePrivateKeyBackup(armoredBlock, code) {
     throw new mvelo.Error('Could not decrypt message with this restore code', 'WRONG_RESTORE_CODE');
   }
   // extract password
-  const pwd = parseMetaInfo(message.getText()).Pwd;
+  const metaInfo = await openpgp.stream.readToEnd(message.getText());
+  const pwd = parseMetaInfo(metaInfo).Pwd;
   // remove literal data packet
-  const keyPackets = message.packets.slice(1);
+  const keyPackets = await openpgp.stream.readToEnd(message.packets.stream, _ => _);
   const privKey =  new openpgp.key.Key(keyPackets);
   return {key: privKey, password: pwd};
 }

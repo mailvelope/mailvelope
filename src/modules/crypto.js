@@ -35,6 +35,8 @@ export async function symEncrypt(msg, passphrase) {
   const symESKPacket = new openpgp.packet.SymEncryptedSessionKey();
   symESKPacket.version = 4;
   symESKPacket.sessionKeyAlgorithm = algo;
+  symESKPacket.s2k = new openpgp.S2K();
+  symESKPacket.s2k.salt = await openpgp.crypto.random.getRandomBytes(8);
   await symESKPacket.decrypt(passphrase); // generate the session key
   packetlist.push(symESKPacket);
 
