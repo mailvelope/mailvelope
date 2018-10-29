@@ -48,8 +48,6 @@
 .onoffswitch-inner:after {
     content: "O";
     padding-right: 10px;
-    background-color: #F8F8F8;
-    color: #666666;
     text-align: right;
 }
 
