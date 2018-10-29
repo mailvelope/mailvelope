@@ -53,6 +53,16 @@
     text-align: right;
 }
 
+.onoffswitch-default .onoffswitch-inner:after {
+    background-color: #F8F8F8;
+    color: #666666;
+}
+
+.onoffswitch-danger .onoffswitch-inner:after {
+    background-color: #D43F3A;
+    color: #FFFFFF;
+}
+
 .onoffswitch-switch {
     display: block;
     width: 35px;

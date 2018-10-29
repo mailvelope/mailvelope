@@ -83,7 +83,7 @@ export default class WatchList extends React.Component {
 
   addWatchListEntry() {
     this.setState(prevState => ({
-      editorSite: {site: '', active: true, frames: [{scan: true, frame: '', api: false}]},
+      editorSite: {site: '', active: true, https_only: true, frames: [{scan: true, frame: '', api: false}]},
       editorIndex: prevState.watchList.length
     }));
   }

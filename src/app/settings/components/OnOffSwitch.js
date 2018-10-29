@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 import './OnOffSwitch.css';
 
-export default function OnOffSwitch({checked, id, onChange}) {
+export default function OnOffSwitch({checked, id, onChange, addClass}) {
   return (
-    <div className="onoffswitch">
+    <div className={`onoffswitch ${addClass || 'onoffswitch-default'}`}>
       <input checked={checked} onChange={onChange} type="checkbox" name="onoffswitch" className="onoffswitch-checkbox" id={id} />
       <label className="onoffswitch-label" htmlFor={id} >
         <span className="onoffswitch-inner"></span>
@@ -19,5 +19,6 @@ export default function OnOffSwitch({checked, id, onChange}) {
 OnOffSwitch.propTypes = {
   checked: PropTypes.bool,
   id: PropTypes.string.isRequired,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  addClass: PropTypes.string
 };

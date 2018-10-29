@@ -17,6 +17,7 @@ l10n.register([
   'watchlist_title_scan',
   'watchlist_title_frame',
   'watchlist_expose_api',
+  'watchlist_title_https_only',
   'keygrid_delete',
   'form_ok',
   'form_cancel'
@@ -28,41 +29,49 @@ export default function WatchListEditor(props) {
       <EditorFooter onAddMatchPattern={props.onAddMatchPattern} onSave={props.onSave} />
     }>
       <div>
-        <form className="form-horizontal" role="form">
+        <form role="form">
           <div className="form-group">
-            <label htmlFor="switchWebSite" className="col-sm-2 control-label">{l10n.map.watchlist_title_active}</label>
-            <div className="col-sm-10">
+            <label htmlFor="switchWebSite" className="control-label">{l10n.map.watchlist_title_active}</label>
+            <div>
               <OnOffSwitch checked={props.site.active} onChange={e => props.onChangeSite('active', e.target.checked)} id={'switchWebSite'} />
             </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="webSiteName" className="col-sm-2 control-label">{l10n.map.watchlist_title_site}</label>
-            <div className="col-sm-10">
-              <input type="text" value={props.site.site} onChange={e => props.onChangeSite('site', e.target.value)} className="form-control" id="webSiteName" placeholder="e.g. GMX or GMail" />
+          <div className="row">
+            <div className="col-sm-9 form-group">
+              <label htmlFor="webSiteName" className="control-label">{l10n.map.watchlist_title_site}</label>
+              <div>
+                <input type="text" value={props.site.site} onChange={e => props.onChangeSite('site', e.target.value)} className="form-control" id="webSiteName" placeholder="e.g. GMX or GMail" />
+              </div>
+            </div>
+            <div className="col-sm-3 form-group">
+              <label htmlFor="switchHttpsOnly" className="control-label">{l10n.map.watchlist_title_https_only}</label>
+              <div>
+                <OnOffSwitch addClass="onoffswitch-danger" checked={props.site.https_only} onChange={e => props.onChangeSite('https_only', e.target.checked)} id={'switchHttpsOnly'} />
+              </div>
             </div>
           </div>
           <table className="table table-hover table-condensed table-striped optionsTable" id="watchList">
             <thead>
               <tr>
-                <th>{l10n.map.watchlist_title_scan}</th>
-                <th>{l10n.map.watchlist_title_frame}</th>
-                <th>{l10n.map.watchlist_expose_api}</th>
-                <th></th>
+                <th className="col-sm-2">{l10n.map.watchlist_title_scan}</th>
+                <th className="col-sm-5">{l10n.map.watchlist_title_frame}</th>
+                <th className="col-sm-2">{l10n.map.watchlist_expose_api}</th>
+                <th className="col-sm-3"></th>
               </tr>
             </thead>
             <tbody>
               { props.site.frames.map((frame, index) =>
                 <tr key={index}>
-                  <td>
+                  <td className="col-sm-2">
                     <OnOffSwitch checked={frame.scan} onChange={e => props.onChangeFrame({scan: e.target.checked}, index)} id={`frame_scan${index}`} />
                   </td>
-                  <td className="form-group">
+                  <td className="form-group col-sm-5">
                     <input type="text" value={frame.frame} onChange={e => props.onChangeFrame({frame: e.target.value}, index)} className="form-control matchPatternName" placeholder="e.g.: *.gmx.de" />
                   </td>
-                  <td>
+                  <td className="col-sm-2">
                     <OnOffSwitch checked={frame.api} onChange={e => props.onChangeFrame({api: e.target.checked}, index)} id={`frame_api${index}`} />
                   </td>
-                  <td className="text-center">
+                  <td className="text-center col-sm-3">
                     <button type="button" onClick={() => props.onDeleteMatchPattern(index)} className="btn btn-default deleteMatchPatternBtn">
                       <span className="glyphicon glyphicon-trash"></span>&nbsp;<span>{l10n.map.keygrid_delete}</span>
                     </button>

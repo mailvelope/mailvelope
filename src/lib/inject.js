@@ -14,11 +14,8 @@ export async function initScriptInjection() {
   try {
     await loadFramestyles();
     const filterURL = await getWatchListFilterURLs();
-    const matchPatterns = filterURL.map(host => `*://${host}/*`);
-    const schemes = ['http', 'https'];
-    const originAndPathFilter = {url: filterURL.map(host => ({schemes,
-      originAndPathMatches: `^https?:\/\/${mvelo.util.matchPattern2RegExString(host)}/.*`
-    }))};
+    const matchPatterns = filterURL.map(({schemes, host}) => `${schemes.indexOf('http') !== -1 ? '*' : 'https'}://${host}/*`);
+    const originAndPathFilter = {url: filterURL.map(({schemes, host}) => ({schemes, originAndPathMatches: `^https?:\/\/${mvelo.util.matchPattern2RegExString(host)}/.*`}))};
     if (browser.webNavigation.onDOMContentLoaded.hasListener(watchListNavigationHandler)) {
       browser.webNavigation.onDOMContentLoaded.removeListener(watchListNavigationHandler);
     }
@@ -42,24 +39,26 @@ function loadFramestyles() {
   return Promise.resolve();
 }
 
-function getWatchListFilterURLs() {
-  return getWatchList()
-  .then(watchList => {
-    let result = [];
-    watchList.forEach(site => {
-      site.active && site.frames && site.frames.forEach(frame => {
-        frame.scan && result.push(frame.frame);
-      });
+async function getWatchListFilterURLs() {
+  const watchList = await getWatchList();
+  const schemes = ['http', 'https'];
+  let result = [];
+  watchList.forEach(site => {
+    site.active && site.frames && site.frames.forEach(frame => {
+      frame.scan && result.push({schemes: site.https_only ? [schemes[1]] : [...schemes], host: frame.frame});
     });
-    // add hkp key server to enable key import
-    let hkpHost = mvelo.util.getDomain(prefs.keyserver.hkp_base_url);
-    hkpHost = reduceHosts([hkpHost]);
-    result.push(...hkpHost);
-    if (result.length !== 0) {
-      result = mvelo.util.sortAndDeDup(result);
-    }
-    return result;
   });
+  // add hkp key server to enable key import
+  let hkpHost = mvelo.util.getDomain(prefs.keyserver.hkp_base_url);
+  hkpHost = reduceHosts([hkpHost]);
+  hkpHost.forEach(host => {
+    // add default schemes to key server hosts
+    result.push({schemes: [...schemes], host});
+  });
+  if (result.length !== 0) {
+    result = mvelo.util.sortAndDeDup(result, (a, b) => a.host.localeCompare(b.host));
+  }
+  return result;
 }
 
 function reduceHosts(hosts) {

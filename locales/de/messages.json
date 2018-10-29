@@ -1717,6 +1717,10 @@
     "message": "Seite",
     "description": "Site in watchlist."
   },
+  "watchlist_title_https_only": {
+    "description": "Allow URLs with HTTPS scheme only in watchlist.",
+    "message": "nur HTTPS"
+  },   
   "word_or": {
     "message": "oder",
     "description": "Separate list of elements."
