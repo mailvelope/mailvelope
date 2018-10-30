@@ -17,8 +17,8 @@ describe('Talking to the Mailvelope Key Server', () => {
         json() { return {}; }
       }));
       return mveloKeyServer.lookup({email: 'test@mailvelope.com'})
-      .then(key => {
-        expect(window.fetch.args[0][0]).to.equal('https://keys.mailvelope.com/api/v1/key?email=test%40mailvelope.com')
+      .then(() => {
+        expect(window.fetch.args[0][0]).to.equal('https://keys.mailvelope.com/api/v1/key?email=test%40mailvelope.com');
       });
     });
 
@@ -28,7 +28,7 @@ describe('Talking to the Mailvelope Key Server', () => {
         json() { return {}; }
       }));
       return mveloKeyServer.lookup({keyId: '0123456789ABCDFE'})
-      .then(key => {
+      .then(() => {
         expect(window.fetch.args[0][0]).to.include('/api/v1/key?keyId=0123456789ABCDFE');
       });
     });
@@ -40,7 +40,7 @@ describe('Talking to the Mailvelope Key Server', () => {
       }));
 
       return mveloKeyServer.lookup({fingerprint: '0123456789ABCDFE0123456789ABCDFE01234567'})
-      .then(key => {
+      .then(() => {
         expect(window.fetch.args[0][0]).to.include('/api/v1/key?fingerprint=0123456789ABCDFE0123456789ABCDFE01234567');
       });
     });
@@ -78,8 +78,8 @@ describe('Talking to the Mailvelope Key Server', () => {
 
       return mveloKeyServer.upload({publicKeyArmored: 'KEY BLOCK'})
       .then(() => {
-        expect(window.fetch.args[0][1]).to.include({method: 'POST'})
-        expect(window.fetch.args[0][0]).to.equal('https://keys.mailvelope.com/api/v1/key')
+        expect(window.fetch.args[0][1]).to.include({method: 'POST'});
+        expect(window.fetch.args[0][0]).to.equal('https://keys.mailvelope.com/api/v1/key');
       });
     });
 
@@ -104,8 +104,8 @@ describe('Talking to the Mailvelope Key Server', () => {
 
       return mveloKeyServer.remove({email: 'test@mailvelope.com'})
       .then(() => {
-        expect(window.fetch.args[0][1]).to.include({method: 'DELETE'})
-        expect(window.fetch.args[0][0]).to.equal('https://keys.mailvelope.com/api/v1/key?email=test%40mailvelope.com')
+        expect(window.fetch.args[0][1]).to.include({method: 'DELETE'});
+        expect(window.fetch.args[0][0]).to.equal('https://keys.mailvelope.com/api/v1/key?email=test%40mailvelope.com');
       });
     });
 

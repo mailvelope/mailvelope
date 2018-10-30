@@ -1,6 +1,7 @@
 
 import mvelo from '../../src/mvelo';
 import {Keyring} from '../../src/modules/keyring';
+import * as mveloKeyServer from '../../src/modules/mveloKeyServer';
 import * as keyringSync from '../../src/modules/keyringSync';
 import * as openpgp from 'openpgp';
 import openpgpDefault from 'openpgp';
@@ -42,7 +43,7 @@ describe('Keyring unit tests', () => {
   let keys = [];
 
   beforeEach(() => {
-    sinon.stub(KeyServer.prototype, 'upload');
+    sinon.stub(mveloKeyServer, 'upload');
     const openpgpKeyring = sinon.createStubInstance(openpgp.Keyring);
     sandbox.stub(openpgp, 'Keyring');
     const sync = sinon.createStubInstance(keyringSync.KeyringSync);
@@ -60,7 +61,7 @@ describe('Keyring unit tests', () => {
   });
 
   afterEach(() => {
-    KeyServer.prototype.upload.restore();
+    mveloKeyServer.upload.restore();
     sandbox.restore();
     keyringSync.KeyringSync.restore();
     keys = [];
@@ -87,14 +88,14 @@ describe('Keyring unit tests', () => {
         privateKeyArmored: 'PRIVATE KEY BLOCK'
       }));
       keyring.hasPrimaryKey.returns(true);
-      KeyServer.prototype.upload.returns(Promise.resolve({status: 201}));
+      mveloKeyServer.upload.returns(Promise.resolve({status: 201}));
     });
 
     it('should generate and upload key', () => {
       keygenOpt.uploadPublicKey = true;
       return keyring.generateKey(keygenOpt).then(key => {
         expect(key.privateKeyArmored).to.exist;
-        expect(KeyServer.prototype.upload.calledOnce).to.be.true;
+        expect(mveloKeyServer.upload.calledOnce).to.be.true;
       });
     });
 
@@ -102,7 +103,7 @@ describe('Keyring unit tests', () => {
       keygenOpt.uploadPublicKey = false;
       return keyring.generateKey(keygenOpt).then(key => {
         expect(key.privateKeyArmored).to.exist;
-        expect(KeyServer.prototype.upload.calledOnce).to.be.false;
+        expect(mveloKeyServer.upload.calledOnce).to.be.false;
       });
     });
   });
