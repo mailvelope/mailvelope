@@ -46,7 +46,7 @@ export default function WatchListEditor(props) {
             <div className="col-sm-3 form-group">
               <label htmlFor="switchHttpsOnly" className="control-label">{l10n.map.watchlist_title_https_only}</label>
               <div>
-                <OnOffSwitch addClass="onoffswitch-danger" checked={props.site.https_only} onChange={e => props.onChangeSite('https_only', e.target.checked)} id={'switchHttpsOnly'} />
+                <OnOffSwitch className="onoffswitch-danger" checked={props.site.https_only} onChange={e => props.onChangeSite('https_only', e.target.checked)} id={'switchHttpsOnly'} />
               </div>
             </div>
           </div>

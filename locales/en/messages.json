@@ -1664,7 +1664,7 @@
     "message": "Site"
   },
   "watchlist_title_https_only": {
-    "description": "Allow URLs with HTTPS scheme only in watchlist.",
+    "description": "Only allow URLs with HTTPS scheme in watchlist.",
     "message": "HTTPS-only"
   },  
   "word_or": {

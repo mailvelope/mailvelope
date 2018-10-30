@@ -14,7 +14,7 @@ export async function initScriptInjection() {
   try {
     await loadFramestyles();
     const filterURL = await getWatchListFilterURLs();
-    const matchPatterns = filterURL.map(({schemes, host}) => `${schemes.indexOf('http') !== -1 ? '*' : 'https'}://${host}/*`);
+    const matchPatterns = filterURL.map(({schemes, host}) => `${schemes.includes('http') ? '*' : 'https'}://${host}/*`);
     const originAndPathFilter = {url: filterURL.map(({schemes, host}) => ({schemes, originAndPathMatches: `^https?:\/\/${mvelo.util.matchPattern2RegExString(host)}/.*`}))};
     if (browser.webNavigation.onDOMContentLoaded.hasListener(watchListNavigationHandler)) {
       browser.webNavigation.onDOMContentLoaded.removeListener(watchListNavigationHandler);
@@ -45,7 +45,7 @@ async function getWatchListFilterURLs() {
   let result = [];
   watchList.forEach(site => {
     site.active && site.frames && site.frames.forEach(frame => {
-      frame.scan && result.push({schemes: site.https_only ? [schemes[1]] : [...schemes], host: frame.frame});
+      frame.scan && result.push({schemes: site.https_only ? ['https'] : schemes, host: frame.frame});
     });
   });
   // add hkp key server to enable key import
@@ -53,7 +53,7 @@ async function getWatchListFilterURLs() {
   hkpHost = reduceHosts([hkpHost]);
   hkpHost.forEach(host => {
     // add default schemes to key server hosts
-    result.push({schemes: [...schemes], host});
+    result.push({schemes, host});
   });
   if (result.length !== 0) {
     result = mvelo.util.sortAndDeDup(result, (a, b) => a.host.localeCompare(b.host));
