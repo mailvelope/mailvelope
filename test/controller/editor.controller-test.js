@@ -1,24 +1,22 @@
 
-import EditorController from '../../src/controller/editor.controller';
-import * as keyring from '../../src/modules/keyring';
-import * as prefs from '../../src/modules/prefs';
+import {expect, sinon} from 'test';
+import EditorController from 'controller/editor.controller';
+// import * as keyring from 'modules/keyring';
+import * as prefs from 'modules/prefs';
 import {Port} from '../util';
 
 describe('Editor controller unit tests', () => {
+  const sandbox = sinon.createSandbox();
   let ctrl;
   let port;
-  const preferences = {...prefs.prefs};
 
   beforeEach(() => {
     port = new Port('editor-1');
     ctrl = new EditorController(port);
-
-    sinon.stub(ctrl, 'emit');
-    Object.assign(prefs.prefs, preferences);
   });
 
   afterEach(() => {
-    ctrl.emit.restore();
+    sandbox.restore();
   });
 
   describe('Check event handlers', () => {
@@ -27,73 +25,81 @@ describe('Editor controller unit tests', () => {
     });
   });
 
-  describe('lookupKeyOnServer', () => {
-    let importKeysStub;
+  // lookupKeyOnServer does not exist anymore
+  // describe('lookupKeyOnServer', () => {
+  //   let importKeysStub;
 
+  //   beforeEach(() => {
+  //     sinon.stub(ctrl.keyserver, 'lookup');
+  //     const keyRingMock = {
+  //       importKeys() {},
+  //       getKeyUserIDs() { return [{keyid: '0'}]; }
+  //     };
+  //     importKeysStub = sinon.stub(keyRingMock, 'importKeys');
+  //     sinon.stub(keyring, 'getById').returns(keyRingMock);
+  //   });
+
+  //   afterEach(() => {
+  //     ctrl.keyserver.lookup.restore();
+  //     keyring.getById.restore();
+  //   });
+
+  //   it('should find a key', () => {
+  //     ctrl.keyserver.lookup.returns(Promise.resolve({publicKeyArmored: 'KEY BLOCK'}));
+
+  //     return ctrl.lookupKeyOnServer({recipient: {email: 'a@b.co'}})
+  //     .then(() => {
+  //       expect(importKeysStub.calledOnce).to.be.true;
+  //       expect(ctrl.emit.calledOnce).to.be.true;
+  //     });
+  //   });
+
+  //   it('should not find a key', () => {
+  //     ctrl.keyserver.lookup.returns(Promise.resolve());
+
+  //     return ctrl.lookupKeyOnServer({recipient: {email: 'a@b.co'}})
+  //     .then(() => {
+  //       expect(importKeysStub.calledOnce).to.be.false;
+  //       expect(ctrl.emit.calledOnce).to.be.true;
+  //     });
+  //   });
+  // });
+
+  describe('setRecipientData', () => {
     beforeEach(() => {
-      sinon.stub(ctrl.keyserver, 'lookup');
-      const keyRingMock = {
-        importKeys() {},
-        getKeyUserIDs() { return [{keyid: '0'}]; }
-      };
-      importKeysStub = sinon.stub(keyRingMock, 'importKeys');
-      sinon.stub(keyring, 'getById').returns(keyRingMock);
+      const keyringStub = sandbox.stub().returns([{keyid: '0'}]);
+      EditorController.__Rewire__('getKeyData', keyringStub);
+      sandbox.stub(ctrl, 'emit');
     });
 
     afterEach(() => {
-      ctrl.keyserver.lookup.restore();
-      keyring.getById.restore();
-    });
-
-    it('should find a key', () => {
-      ctrl.keyserver.lookup.returns(Promise.resolve({publicKeyArmored: 'KEY BLOCK'}));
-
-      return ctrl.lookupKeyOnServer({recipient: {email: 'a@b.co'}})
-      .then(() => {
-        expect(importKeysStub.calledOnce).to.be.true;
-        expect(ctrl.emit.calledOnce).to.be.true;
-      });
-    });
-
-    it('should not find a key', () => {
-      ctrl.keyserver.lookup.returns(Promise.resolve());
-
-      return ctrl.lookupKeyOnServer({recipient: {email: 'a@b.co'}})
-      .then(() => {
-        expect(importKeysStub.calledOnce).to.be.false;
-        expect(ctrl.emit.calledOnce).to.be.true;
-      });
-    });
-  });
-
-  describe('displayRecipientProposal', () => {
-    beforeEach(() => {
-      sinon.stub(keyring, 'getById').returns({
-        getKeyUserIDs() { return [{keyid: '0'}]; }
-      });
-      sinon.stub(ctrl.keyserver, 'getTOFUPreference').returns(true);
-    });
-
-    afterEach(() => {
-      keyring.getById.restore();
-      ctrl.keyserver.getTOFUPreference.restore();
+      EditorController.__ResetDependency__('getKeyData');
     });
 
     it('should handle empty recipients', () => {
-      ctrl.displayRecipientProposal([]);
-      expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: [], tofu: true}).calledOnce).to.be.true;
+      prefs.prefs.keyserver = {
+        wkd_lookup: true
+      };
+      return ctrl.setRecipientData([]).then(() => {
+        expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: [], autoLocate: true}).calledOnce).to.be.true;
+      });
     });
 
     it('should handle undefined recipients', () => {
-      ctrl.displayRecipientProposal();
-      expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: [], tofu: true}).calledOnce).to.be.true;
+      prefs.prefs.keyserver = {
+        wkd_lookup: true
+      };
+
+      return ctrl.setRecipientData().then(() => {
+        expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: [], autoLocate: true}).calledOnce).to.be.true;
+      });
     });
   });
 
   describe('transferEncrypted', () => {
     beforeEach(() => {
       ctrl.encryptDone = {resolve() {}, reject() {}};
-      sinon.stub(ctrl.encryptDone, 'resolve');
+      sandbox.stub(ctrl.encryptDone, 'resolve');
     });
 
     it('should not transfer private key material', () => {
@@ -109,107 +115,83 @@ describe('Editor controller unit tests', () => {
     let keys;
 
     beforeEach(() => {
-      keys = [{name: 'n', email: 'e', private: 'p'}];
-      sinon.stub(ctrl, 'buildMail');
-      sinon.stub(ctrl, 'getPublicKeyIds');
-      sinon.stub(ctrl, 'signAndEncryptMessage');
-      sinon.stub(ctrl, 'encryptMessage');
-      sinon.stub(ctrl, 'signMessage');
-    });
-
-    afterEach(() => {
-      ctrl.buildMail.restore();
-      ctrl.getPublicKeyIds.restore();
-      ctrl.signAndEncryptMessage.restore();
-      ctrl.encryptMessage.restore();
-      ctrl.signMessage.restore();
+      keys = [{name: 'n', email: 'e', private: 'p', fingerprint: 'G'}];
+      sandbox.stub(ctrl, 'getPublicKeyFprs').returns(Promise.resolve());
     });
 
     it('should encrypt', () => {
-      ctrl.encryptMessage.returns(Promise.resolve('a'));
-      return ctrl.signAndEncrypt({
+      sandbox.stub(ctrl, 'encryptMessage').returns(Promise.resolve('a'));
+      return expect(ctrl.signAndEncrypt({
         action: 'encrypt',
         message: 'm',
         keys
-      })
-      .then(res => {
-        expect(res).to.equal('a');
-      });
+      })).to.eventually.equal('a');
     });
 
     it('should sign and encrypt', () => {
       ctrl.signMsg = true;
-      ctrl.signAndEncryptMessage.returns(Promise.resolve('a'));
-      return ctrl.signAndEncrypt({
+      sandbox.stub(ctrl, 'signAndEncryptMessage').returns(Promise.resolve('a'));
+      return expect(ctrl.signAndEncrypt({
         action: 'encrypt',
         message: 'm',
+        signMsg: true,
         keys
-      })
-      .then(res => {
-        expect(res).to.equal('a');
-      });
+      })).to.eventually.equal('a');
     });
 
     it('should sign', () => {
-      ctrl.signMessage.returns(Promise.resolve('a'));
-      return ctrl.signAndEncrypt({
+      sandbox.stub(ctrl, 'signMessage').returns(Promise.resolve('a'));
+      return expect(ctrl.signAndEncrypt({
         action: 'sign',
         message: 'm'
-      })
-      .then(res => {
-        expect(res).to.equal('a');
-      });
+      })).to.eventually.equal('a');
     });
 
-    it('should handle build MIME error', done => {
-      ctrl.buildMail.returns(null);
-      ctrl.signAndEncrypt({
+    it('should handle build MIME error', () => {
+      const buildMailStub = sandbox.stub().returns(null);
+      EditorController.__Rewire__('buildMail', buildMailStub);
+      return expect(ctrl.signAndEncrypt({
         action: 'encrypt',
         message: 'm'
-      })
-      .catch(err => {
-        expect(err.message).to.be.equal('MIME building failed.');
-        done();
+      })).to.eventually.be.rejectedWith('MIME building failed').then(() => {
+        EditorController.__ResetDependency__('buildMail');
       });
     });
   });
 
-  describe('getPublicKeyIds', () => {
-    const keys = [{keyid: 'b'}, {keyid: 'b'}];
+  describe('getPublicKeyFprs', () => {
+    const keys = [{fingerprint: 'b'}, {fingerprint: 'c'}];
 
     beforeEach(() => {
-      sinon.stub(keyring, 'getById').returns({
-        getAttributes() { return {primary_key: 'p'}; },
-        getPrimaryKey: () => ({keyid: 'P'})
+      const keyringStub = sandbox.stub().returns({
+        getDefaultKeyFpr() { return 'p'; }
       });
+      EditorController.__Rewire__('getKeyringById', keyringStub);
       prefs.prefs.general = {
         auto_add_primary: false
       };
     });
 
     afterEach(() => {
-      keyring.getById.restore();
+      EditorController.__ResetDependency__('getKeyringById');
     });
 
     it('should return keybuffer', () => {
-      ctrl.keyidBuffer = ['a', 'a'];
-
-      expect(ctrl.getPublicKeyIds(keys)).to.deep.equal(['a']);
+      ctrl.keyFprBuffer = ['a'];
+      return expect(ctrl.getPublicKeyFprs(keys)).to.eventually.deep.equal(['a']);
     });
 
     it('should return key ids', () => {
-      ctrl.keyidBuffer = undefined;
-
-      expect(ctrl.getPublicKeyIds(keys)).to.deep.equal(['b']);
+      ctrl.keyFprBuffer = undefined;
+      return expect(ctrl.getPublicKeyFprs(keys)).to.eventually.deep.equal(['b','c']);
     });
 
     it('should return key ids with primary', () => {
       prefs.prefs.general = {
         auto_add_primary: true
       };
-      ctrl.keyidBuffer = undefined;
-
-      expect(ctrl.getPublicKeyIds(keys)).to.deep.equal(['b', 'p']);
+      ctrl.keyFprBuffer = undefined;
+      return expect(ctrl.getPublicKeyFprs(keys)).to.eventually.deep.equal(['b', 'c', 'p']);
     });
   });
 });

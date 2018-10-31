@@ -1,76 +1,32 @@
 /* eslint strict: 0 */
 'use strict';
 
-const common = require('./webpack.common');
 const path = require('path');
+const common = require('./webpack.common');
+const externals = {
+  jquery: 'jQuery',
+};
 
-module.exports = {
+const resolve = {
+  modules: [path.resolve('./src'), 'node_modules'],
+  alias: {
+    'mailreader-parser': path.resolve('./node_modules/mailreader/src/mailreader-parser'),
+    'test': path.resolve('./test/test.js')
+  }
+};
 
-  mode: 'production',
+const output = {
+  devtoolModuleFilenameTemplate: '[namespace]/[resource-path]?[loaders]'
+};
 
-  optimization: {
-    minimize: false
-  },
+const wModule = common.module.react();
+wModule.rules[0].options.plugins.push('babel-plugin-rewire');
 
-  devtool: 'source-map',
-
-  entry: './test/test.js',
-
-  output: {
-    path: path.resolve('./build/test'),
-    pathinfo: true,
-    filename: 'test.bundle.js'
-  },
-
-  resolve: {
-    modules: ["node_modules"],
-    alias: {
-      'emailjs-stringencoding': path.resolve('./src/lib/string-encoding'),
-      'text-encoding': path.resolve('./src/lib/string-encoding')
-    }
-  },
-
-  externals: {
-    jquery: 'jQuery'
-  },
-
-  module: {
-    rules: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      loader: 'babel-loader',
-      options: {
-        presets: ['@babel/env', '@babel/react']
-      }
-    },
-    {
-      test: /\.css$/,
-      use: [{
-        loader: 'style-loader'
-      },
-      {
-        loader: 'css-loader',
-        options: {
-          url: false
-        }
-      }]
-    },
-    {
-      test: /\.less$/,
-      use: [{
-        loader: "style-loader"
-      }, {
-        loader: "css-loader"
-      }, {
-        loader: "less-loader"
-      }]
-    },
-    {
-      test: /\.(woff2?|ttf|svg|eot)(\?v=\d+\.\d+\.\d+)?$/,
-      loader: 'file-loader'
-    }]
-  },
-
-  plugins: common.plugins()
-
+module.exports = {...common.prod,
+  mode: 'development',
+  devtool: 'inline-source-map',
+  output,
+  resolve,
+  externals,
+  module: wModule
 };

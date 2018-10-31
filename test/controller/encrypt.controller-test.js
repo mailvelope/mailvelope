@@ -1,37 +1,34 @@
-
-import mvelo from '../../src/lib/lib-mvelo';
-import * as sub from '../../src/controller/sub.controller';
-import * as prefs from '../../src/modules/prefs';
-import EncryptController from '../../src/controller/encrypt.controller';
-
-let ctrl;
-let editorCtrlMock;
-const preferences = {...prefs.prefs};
-
-const testRecipients = [{email: 'test@example.com'}];
+import {expect, sinon} from 'test';
+import mvelo from 'lib/lib-mvelo';
+import * as sub from 'controller/sub.controller';
+import * as prefs from 'modules/prefs';
+import EncryptController from 'controller/encrypt.controller';
 
 describe('Encrypt controller unit tests', () => {
+  const sandbox = sinon.createSandbox();
+  let ctrl;
+  let editorCtrlMock;
+  const preferences = {...prefs.prefs};
+  const testRecipients = [{email: 'test@example.com'}];
+
   beforeEach(() => {
     ctrl = new EncryptController();
 
     editorCtrlMock = {
-      encrypt: sinon.stub()
+      encrypt: sandbox.stub()
     };
-    sinon.stub(sub.factory, 'get').returns(editorCtrlMock);
+    sandbox.stub(sub.factory, 'get').returns(editorCtrlMock);
     Object.assign(prefs.prefs, preferences);
-    sinon.stub(mvelo.util, 'sanitizeHTML').returns('parsed');
-    sinon.stub(ctrl, 'emit');
+    sandbox.stub(mvelo.util, 'sanitizeHTML').returns('parsed');
+    sandbox.stub(ctrl, 'emit');
   });
 
   afterEach(() => {
-    sub.factory.get.restore();
-    mvelo.util.sanitizeHTML.restore();
-    ctrl.emit.restore();
+    sandbox.restore();
   });
 
   describe('Check event handlers', () => {
-    it('should handle recipients', () => {
-      expect(ctrl._handlers.get('eframe-recipients')).to.exist;
+    it('should handle display editor', () => {
       expect(ctrl._handlers.get('eframe-display-editor')).to.exist;
     });
   });
@@ -42,8 +39,7 @@ describe('Encrypt controller unit tests', () => {
       prefs.prefs.general = {
         editor_type: 'plain'
       };
-
-      return ctrl.openEditor({text: 'foo'})
+      return ctrl.onEncryptFrameDisplayEditor({text: 'foo'})
       .then(() => {
         expect(ctrl.emit.withArgs('set-editor-output', {text: 'armored', recipients: testRecipients}).calledOnce).to.be.true;
       });
@@ -51,51 +47,46 @@ describe('Encrypt controller unit tests', () => {
 
     it('should stop on error', () => {
       editorCtrlMock.encrypt.returns(Promise.reject(new Error('foo')));
-      return ctrl.openEditor({text: 'foo'})
-      .then(() => {
-        expect(ctrl.emit.called).to.be.false;
+      return ctrl.onEncryptFrameDisplayEditor({text: 'foo'})
+      .catch(() => {
+        expect(ctrl.emit.withArgs('mail-editor-close').calledOnce).to.be.true;
       });
     });
   });
 
-  describe('getRecipientProposal', () => {
-    const callback = function() {};
+  describe('getRecipients', () => {
+    beforeEach(() => {
+      sandbox.stub(ctrl, 'send');
+    });
 
     it('should work', () => {
-      ctrl.getRecipientProposal(callback);
-      expect(ctrl.emit.withArgs('get-recipients').calledOnce).to.be.true;
-      expect(ctrl.recipientsCallback).to.equal(callback);
-    });
-
-    it('should fail', () => {
-      ctrl.recipientsCallback = function() {};
-      expect(ctrl.getRecipientProposal.bind(ctrl, callback)).to.throw(/Waiting/);
-      expect(ctrl.emit.called).to.be.false;
-      expect(ctrl.recipientsCallback).to.not.equal(callback);
+      ctrl.getRecipients();
+      expect(ctrl.send.withArgs('get-recipients').calledOnce).to.be.true;
     });
   });
 
-  describe('displayRecipientProposal', () => {
-    let recipientsCallbackStub;
+  // displayRecipientProposal does not exist anymore
+  // describe('displayRecipientProposal', () => {
+  //   let recipientsCallbackStub;
 
-    beforeEach(() => {
-      recipientsCallbackStub = ctrl.recipientsCallback = sinon.stub();
-    });
+  //   beforeEach(() => {
+  //     recipientsCallbackStub = ctrl.recipientsCallback = sandbox.stub();
+  //   });
 
-    it('should callback', () => {
-      ctrl.displayRecipientProposal({recipients: testRecipients});
+  //   it('should callback', () => {
+  //     ctrl.displayRecipientProposal({recipients: testRecipients});
 
-      expect(ctrl.recipientsCallback).to.be.null;
-      expect(recipientsCallbackStub.withArgs(testRecipients).calledOnce).to.be.true;
-    });
+  //     expect(ctrl.recipientsCallback).to.be.null;
+  //     expect(recipientsCallbackStub.withArgs(testRecipients).calledOnce).to.be.true;
+  //   });
 
-    it('should not callback', () => {
-      ctrl.recipientsCallback = null;
+  //   it('should not callback', () => {
+  //     ctrl.recipientsCallback = null;
 
-      ctrl.displayRecipientProposal({recipients: testRecipients});
+  //     ctrl.displayRecipientProposal({recipients: testRecipients});
 
-      expect(ctrl.recipientsCallback).to.be.null;
-      expect(recipientsCallbackStub.called).to.be.false;
-    });
-  });
+  //     expect(ctrl.recipientsCallback).to.be.null;
+  //     expect(recipientsCallbackStub.called).to.be.false;
+  //   });
+  // });
 });

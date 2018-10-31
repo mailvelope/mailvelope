@@ -1,5 +1,6 @@
 
-import EncryptFrame from '../../src/content-scripts/encryptFrame';
+import {expect, sinon} from 'test';
+import EncryptFrame from 'content-scripts/encryptFrame';
 
 describe('Encrypt Frame unit tests', () => {
   let ef;
@@ -7,39 +8,30 @@ describe('Encrypt Frame unit tests', () => {
 
   beforeEach(() => {
     ef = new EncryptFrame();
-    ef._currentProvider = {
-      getRecipients: () => Promise.resolve([{email: 'jon@smith.com'}]),
+    ef.currentProvider = {
+      getRecipients: () => Promise.resolve(recip),
       setRecipients: sinon.stub()
     };
   });
 
   afterEach(() => {});
 
-  describe('_getRecipients', () => {
-    beforeEach(() => {
-      sinon.stub(ef, 'emit');
-    });
-
-    afterEach(() => {
-      ef.emit.restore();
-    });
-
-    it('should work', () => ef._getRecipients()
-    .then(() => {
-      expect(ef.emit.withArgs('eframe-recipients', {recipients: recip}).calledOnce).to.be.true;
-    }));
+  describe('getRecipients', () => {
+    it('should work', () =>
+      expect(ef.getRecipients()).to.eventually.include(...recip)
+    );
   });
 
-  describe('_setEditorOutput', () => {
+  describe('setEditorOutput', () => {
     beforeEach(() => {
-      sinon.stub(ef, '_normalizeButtons');
-      sinon.stub(ef, '_setMessage');
+      sinon.stub(ef, 'normalizeButtons');
+      sinon.stub(ef, 'setMessage');
     });
 
     it('should work', () => {
-      ef._setEditorOutput({recipients: recip});
+      ef.setEditorOutput({recipients: recip});
 
-      expect(ef._currentProvider.setRecipients.withArgs({recipients: recip, editElement: null}).calledOnce).to.be.true;
+      expect(ef.currentProvider.setRecipients.withArgs({recipients: recip, editElement: null}).calledOnce).to.be.true;
     });
   });
 });

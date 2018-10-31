@@ -1,8 +1,14 @@
-
-import mvelo from '../src/mvelo';
+import {expect, sinon} from 'test';
+import mvelo from 'mvelo';
 import {Port} from './util';
 
 describe('mvelo unit tests', () => {
+  const sandbox = sinon.createSandbox();
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   describe('deDup', () => {
     it('should work for undefined', () => {
       expect(mvelo.util.deDup()).to.deep.equal([]);
@@ -45,9 +51,9 @@ describe('mvelo unit tests', () => {
 
     beforeEach(() => {
       ctrl1 = new mvelo.EventHandler(new Port('ctrl1'));
-      sinon.spy(ctrl1._port, 'postMessage');
+      sandbox.spy(ctrl1._port, 'postMessage');
       ctrl2 = new mvelo.EventHandler(new Port('ctrl2'));
-      sinon.spy(ctrl2._port, 'postMessage');
+      sandbox.spy(ctrl2._port, 'postMessage');
     });
 
     describe('Event handling via "on" and "emit"', () => {
@@ -75,7 +81,7 @@ describe('mvelo unit tests', () => {
       });
 
       it('should log for unknown event', () => {
-        sinon.stub(console, 'log');
+        sandbox.stub(console, 'log');
 
         ctrl1.emit('unknown', {to: 'ctrl2'});
 
@@ -83,7 +89,6 @@ describe('mvelo unit tests', () => {
         expect(ctrl1._port.postMessage.calledOnce).to.be.true;
         expect(ctrl2._port.postMessage.called).to.be.false;
 
-        console.log.restore();
       });
 
       it('should throw for invalid input', () => {

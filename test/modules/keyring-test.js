@@ -1,46 +1,45 @@
-
-import mvelo from '../../src/mvelo';
-import {Keyring} from '../../src/modules/keyring';
-import * as mveloKeyServer from '../../src/modules/mveloKeyServer';
-import * as keyringSync from '../../src/modules/keyringSync';
+import {expect, sinon} from 'test';
+import mvelo from 'mvelo';
+import {Keyring} from 'modules/keyring';
+import * as mveloKeyServer from 'modules/mveloKeyServer';
+import * as keyringSync from 'modules/keyringSync';
 import * as openpgp from 'openpgp';
 import openpgpDefault from 'openpgp';
 
-const sandbox = sinon.createSandbox();
-
-function keyMock(keyid) {
-  return {
-    verifyPrimaryKey: sinon.stub().returns(openpgp.enums.keyStatus.valid),
-    primaryKey: {
-      getKeyId() {
-        return {
-          toHex: sinon.stub().returns(keyid)
-        };
-      },
-    },
-    users: [],
-    getPrimaryUser() {
-      return {
-        user: this.users[0]
-      };
-    }
-  };
-}
-
-function userMock(userid) {
-  return {
-    userId: {
-      userid
-    },
-    verify: sinon.stub().returns(openpgp.enums.keyStatus.valid)
-  };
-}
-
 describe('Keyring unit tests', () => {
+  const sandbox = sinon.createSandbox();
   let keyring;
   let pgpKeyring;
   let krSync;
   let keys = [];
+
+  function keyMock(keyid) {
+    return {
+      verifyPrimaryKey: sinon.stub().returns(openpgp.enums.keyStatus.valid),
+      primaryKey: {
+        getKeyId() {
+          return {
+            toHex: sinon.stub().returns(keyid)
+          };
+        },
+      },
+      users: [],
+      getPrimaryUser() {
+        return {
+          user: this.users[0]
+        };
+      }
+    };
+  }
+
+  function userMock(userid) {
+    return {
+      userId: {
+        userid
+      },
+      verify: sinon.stub().returns(openpgp.enums.keyStatus.valid)
+    };
+  }
 
   beforeEach(() => {
     sinon.stub(mveloKeyServer, 'upload');

@@ -1,6 +1,5 @@
-
-import $ from 'jquery';
-import {RecipientInputCtrl, RecipientInput} from '../../../src/components/editor/components/RecipientInput';
+import {expect, sinon} from 'test';
+import {RecipientInputCtrl, RecipientInput} from 'components/editor/components/RecipientInput';
 
 /* global angular */
 
@@ -42,16 +41,14 @@ describe('RecipientInput component unit tests', () => {
       sinon.stub(ctrl, 'getKey');
       sinon.stub(ctrl, 'colorTag');
       sinon.stub(ctrl, 'checkEncryptStatus');
-      sinon.stub(ctrl, 'lookupKeyOnServer');
     });
     afterEach(() => {
       ctrl.getKey.restore();
       ctrl.colorTag.restore();
       ctrl.checkEncryptStatus.restore();
-      ctrl.lookupKeyOnServer.restore();
     });
 
-    it('should display only email address and lookup key on server', () => {
+    it('should display only email address and lookup key in local cache', () => {
       const recipient = {
         email: 'jon@smith.com',
         displayId: 'Jon Smith <jon@smith.com>'
@@ -62,7 +59,6 @@ describe('RecipientInput component unit tests', () => {
 
       expect(recipient.displayId).to.equal('jon@smith.com');
       expect(ctrl.getKey.withArgs(recipient).calledOnce).to.be.true;
-      expect(ctrl.lookupKeyOnServer.withArgs(recipient).calledOnce).to.be.true;
     });
 
     it('should color tag if local key was found', () => {
@@ -233,22 +229,6 @@ describe('RecipientInput component unit tests', () => {
     });
   });
 
-  describe('lookupKeyOnServer', () => {
-    beforeEach(() => {
-      props.onLookupKeyOnServer = sinon.stub();
-    });
-    afterEach(() => {
-      props.onLookupKeyOnServer = null;
-    });
-
-    it('should work', () => {
-      const recipient = {};
-      ctrl.lookupKeyOnServer(recipient);
-      expect(recipient.checkedServer).to.be.true;
-      expect(props.onLookupKeyOnServer.withArgs(recipient).calledOnce).to.be.true;
-    });
-  });
-
   describe('autocomplete', () => {
     it('should find none for empty keys', () => {
       props.keys = [];
@@ -257,37 +237,37 @@ describe('RecipientInput component unit tests', () => {
     });
 
     it('should find one for empty email', () => {
-      props.keys = [{email: '', userid: 'Jon Smith', keyid: '1ddcee8ad254cc42'}];
+      props.keys = [{email: '', userId: 'Jon Smith', keyId: '1DDCEE8AD254CC42'}];
       props.recipients.length = 0;
       expect(ctrl.autocomplete('jon').length).to.equal(1);
     });
 
     it('should find none if email is already in recipients', () => {
-      props.keys = [{email: 'j@s.com', userid: 'Jon Smith', keyid: '1ddcee8ad254cc42'}];
+      props.keys = [{email: 'j@s.com', userId: 'Jon Smith', keyId: '1DDCEE8AD254CC42'}];
       props.recipients.push({email: 'j@s.com'});
       expect(ctrl.autocomplete('jon').length).to.equal(0);
     });
 
     it('should find two matches', () => {
-      props.keys = [{userid: 'Jon Smith <j@s.com>', keyid: '1ddcee8ad254cc42'}, {userid: 'jon <j@b.com>', keyid: '1ddcee8ad254cc41'}];
+      props.keys = [{userId: 'Jon Smith <j@s.com>', keyId: '1DDCEE8AD254CC42'}, {userId: 'jon <j@b.com>', keyId: '1DDCEE8AD254CC41'}];
       props.recipients.length = 0;
       expect(ctrl.autocomplete('jOn').length).to.equal(2);
     });
 
     it('should find one match', () => {
-      props.keys = [{userid: 'Jon Smith <j@s.com>', keyid: '1ddcee8ad254cc42'}, {userid: 'jon <j@b.com>', keyid: '1ddcee8ad254cc41'}];
+      props.keys = [{userId: 'Jon Smith <j@s.com>', keyId: '1DDCEE8AD254CC42'}, {userId: 'jon <j@b.com>', keyId: '1DDCEE8AD254CC41'}];
       props.recipients.length = 0;
       expect(ctrl.autocomplete('sMith').length).to.equal(1);
     });
 
-    it('should find match on short keyid', () => {
-      props.keys = [{userid: 'Jon Smith <j@s.com>', keyid: '1ddcee8ad254cc42'}, {userid: 'jon <j@b.com>', keyid: '1ddcee8ad254cc41'}];
+    it('should find match on short keyId', () => {
+      props.keys = [{userId: 'Jon Smith <j@s.com>', keyId: '1DDCEE8AD254CC42'}, {userid: 'jon <j@b.com>', keyId: '1DDCEE8AD254CC41'}];
       props.recipients.length = 0;
       expect(ctrl.autocomplete('cc42').length).to.equal(1);
     });
 
-    it('should concatenate userid and keyid', () => {
-      props.keys = [{userid: 'Jon Smith <j@s.com>', keyid: '1ddcee8ad254cc42'}];
+    it('should concatenate userId and keyId', () => {
+      props.keys = [{userId: 'Jon Smith <j@s.com>', keyId: '1DDCEE8AD254CC42'}];
       props.recipients.length = 0;
       expect(ctrl.autocomplete('cc42')[0].displayId).to.equal('Jon Smith <j@s.com> - 1DDCEE8AD254CC42');
     });

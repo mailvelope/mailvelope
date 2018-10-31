@@ -1,6 +1,5 @@
-
-import $ from 'jquery';
-import * as providers from '../../src/content-scripts/providerSpecific';
+import {expect} from 'test';
+import * as providers from 'content-scripts/providerSpecific';
 
 describe('Provider specific content-script unit tests', () => {
   let testElem;
