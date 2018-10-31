@@ -48,9 +48,17 @@
 .onoffswitch-inner:after {
     content: "O";
     padding-right: 10px;
+    text-align: right;
+}
+
+.onoffswitch-default .onoffswitch-inner:after {
     background-color: #F8F8F8;
     color: #666666;
-    text-align: right;
+}
+
+.onoffswitch-danger .onoffswitch-inner:after {
+    background-color: #D43F3A;
+    color: #FFFFFF;
 }
 
 .onoffswitch-switch {

@@ -4,6 +4,7 @@
     {
       "active": true,
       "site": "GMX",
+      "https_only": true,
       "frames": [
         {
           "scan": true,
@@ -35,6 +36,7 @@
     {
       "active": true,
       "site": "WEB.DE",
+      "https_only": true,
       "frames": [
         {
           "scan": true,
@@ -46,6 +48,7 @@
     {
       "active": true,
       "site": "mail.google.com",
+      "https_only": true,
       "frames": [
         {
           "scan": true,
@@ -62,6 +65,7 @@
     {
       "active": true,
       "site": "mail.live.com",
+      "https_only": true,
       "frames": [
         {
           "scan": true,
@@ -78,6 +82,7 @@
     {
       "active": true,
       "site": "mail.riseup.net",
+      "https_only": true,
       "frames": [
         {
           "scan": true,
@@ -89,6 +94,7 @@
     {
       "active": true,
       "site": "mail.yahoo.com",
+      "https_only": true,
       "frames": [
         {
           "scan": true,
@@ -105,6 +111,7 @@
     {
       "active": true,
       "site": "posteo.de",
+      "https_only": true,
       "frames": [
         {
           "scan": true,
@@ -116,6 +123,7 @@
     {
       "active": true,
       "site": "mailbox.org",
+      "https_only": true,
       "frames": [
         {
           "scan": true,
@@ -127,6 +135,7 @@
     {
       "active": true,
       "site": "mail.ru",
+      "https_only": true,
       "frames": [
         {
           "scan": true,
@@ -138,6 +147,7 @@
     {
       "active": true,
       "site": "volny.cz",
+      "https_only": true,
       "frames": [
         {
           "scan": true,
@@ -149,6 +159,7 @@
     {
       "active": true,
       "site": "Zoho",
+      "https_only": true,
       "frames": [
         {
           "scan": true,
@@ -160,6 +171,7 @@
     {
       "active": true,
       "site": "1und1 De-Mail",
+      "https_only": true,
       "frames": [
         {
           "scan": true,
@@ -171,6 +183,7 @@
     {
       "active": true,
       "site": "GMX De-Mail",
+      "https_only": true,
       "frames": [
         {
           "scan": true,
@@ -182,6 +195,7 @@
     {
       "active": true,
       "site": "Telekom De-Mail",
+      "https_only": true,
       "frames": [
         {
           "scan": true,
@@ -193,6 +207,7 @@
     {
       "active": true,
       "site": "T-Systems De-Mail",
+      "https_only": true,
       "frames": [
         {
           "scan": true,
@@ -204,6 +219,7 @@
     {
       "active": true,
       "site": "WEB.DE De-Mail",
+      "https_only": true,
       "frames": [
         {
           "scan": true,
@@ -215,6 +231,7 @@
     {
       "active": true,
       "site": "FP Mentana-Claimsoft De-Mail",
+      "https_only": true,
       "frames": [
         {
           "scan": true,
@@ -226,6 +243,7 @@
     {
       "active": true,
       "site": "Mailvelope Demo",
+      "https_only": true,
       "frames": [
         {
           "scan": true,

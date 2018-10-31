@@ -1663,6 +1663,10 @@
     "description": "Site in watchlist.",
     "message": "Site"
   },
+  "watchlist_title_https_only": {
+    "description": "Only allow URLs with HTTPS scheme in watchlist.",
+    "message": "HTTPS-only"
+  },  
   "word_or": {
     "description": "Separate list of elements.",
     "message": "or"
