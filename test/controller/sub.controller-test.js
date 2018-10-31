@@ -1,15 +1,20 @@
-
-import * as sub from '../../src/controller/sub.controller';
-import {Port} from '../util';
+import {expect, sinon} from 'test';
+import {Port} from 'utils';
+import * as sub from 'controller/sub.controller';
 
 describe('Sub controller unit tests', () => {
+  const sandbox = sinon.createSandbox();
   let ctrl;
   let port;
 
   beforeEach(() => {
     port = new Port('foo-1');
-    sinon.spy(port, 'postMessage');
+    sandbox.spy(port, 'postMessage');
     ctrl = new sub.SubController(port);
+  });
+
+  afterEach(() => {
+    sandbox.restore();
   });
 
   describe('Event handling via "on" and "emit"', () => {

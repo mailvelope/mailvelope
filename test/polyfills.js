@@ -30,7 +30,7 @@ window.chrome.runtime.connect = function() {
 };
 
 window.chrome.i18n = {
-  getMessage: function() {
-    return '';
+  getMessage: function(id) {
+    return id;
   }
 };

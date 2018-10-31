@@ -1,5 +1,6 @@
-import * as mveloKeyServer from '../../src/modules/mveloKeyServer';
-import keyFixtures from '../fixtures/keys';
+import {expect, sinon} from 'test';
+import * as mveloKeyServer from 'modules/mveloKeyServer';
+import keyFixtures from 'Fixtures/keys';
 
 describe('Talking to the Mailvelope Key Server', () => {
   beforeEach(() => {

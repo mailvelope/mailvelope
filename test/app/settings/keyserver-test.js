@@ -1,5 +1,5 @@
-
-import KeyServer from '../../../src/app/settings/keyserver';
+import {expect, sinon} from 'test';
+import KeyServer from 'app/settings/keyserver';
 
 describe('Key server settings unit tests', () => {
   let keyserver;
@@ -14,7 +14,8 @@ describe('Key server settings unit tests', () => {
             'https://keyserver.ubuntu.com',
             'https://keys.mailvelope.com'
           ],
-          mvelo_tofu_lookup: true
+          mvelo_tofu_lookup: true,
+          wkd_lookup: true,
         }
       }
     };
@@ -31,6 +32,7 @@ describe('Key server settings unit tests', () => {
           {value: 'https://keys.mailvelope.com', label: 'https://keys.mailvelope.com'}
         ],
         mvelo_tofu_lookup: true,
+        wkd_lookup: true,
         alert: null,
         modified: false,
         previousPrefs: props.prefs

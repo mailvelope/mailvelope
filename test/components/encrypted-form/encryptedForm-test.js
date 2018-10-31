@@ -1,63 +1,102 @@
 /* eslint no-unused-vars: off */
-import EncryptedForm from '../../../src/components/encrypted-form/encryptedForm';
-import Enzyme from 'enzyme';
-import mvelo from '../../../src/lib/lib-mvelo';
 import React from 'react';
-/* eslint no-unused-vars: off */
-import Spinner from "../../../src/components/util/Spinner";
+import {expect, sinon, mount} from 'test';
+import mvelo from 'lib/lib-mvelo';
+import * as l10n from 'lib/l10n';
+import Spinner from 'components/util/Spinner';
+import Alert from 'components/util/Alert';
+import EncryptedForm from 'components/encrypted-form/encryptedForm';
 
-const mockPort = function() {
-  const portMock = {
-    _events: {
-      emit: [],
-      on: [],
-      send: []
-    },
-    on: event => portMock._events.on.push(event),
-    emit: event => portMock._events.emit.push(event),
-    send: event => {
-      portMock._events.send.push(event);
-      return new Promise((resolve, reject) => {
-        resolve(event);
-      });
-    }
+l10n.mapToLocal();
+
+describe('Encrypt Form tests', () => {
+  const sandbox = sinon.createSandbox();
+
+  const mockPort = () => {
+    const portMock = {
+      _events: {
+        emit: [],
+        on: [],
+        send: []
+      },
+      on: event => portMock._events.on.push(event),
+      emit: event => portMock._events.emit.push(event),
+      send: event => {
+        portMock._events.send.push(event);
+        return new Promise((resolve, reject) => {
+          resolve(event);
+        });
+      }
+    };
+    sandbox.stub(mvelo.EventHandler, 'connect').returns(portMock);
   };
-  sinon.stub(mvelo.EventHandler, 'connect').returns(portMock);
-};
 
-describe('Encrypt Form unit tests', () => {
+  const setup = propOverrides => {
+    const props = {
+      id: 'encrypted-form-test',
+      ...propOverrides
+    };
+
+    const wrapper = mount(<EncryptedForm {...props} />);
+
+    return {
+      props,
+      wrapper,
+    };
+  };
+
   beforeEach(() => {
     mockPort();
   });
 
   afterEach(() => {
-    mvelo.EventHandler.connect.restore();
+    sandbox.restore();
   });
 
-  it('should initialize the component and should wait on the form definition event', () => {
-    const wrapper = Enzyme.mount(<EncryptedForm id="encrypted-form-test"/>);
-    const component = wrapper.instance();
-    expect(component.port._events.on).to.include.members(['encrypted-form-definition', 'error-message',
-      'terminate', 'encrypted-form-submit', 'encrypted-form-submit-cancel']);
-    expect(component.port._events.emit).to.include.members(['encrypted-form-init']);
-    expect(wrapper.containsMatchingElement(<Spinner />)).to.equal(true);
+  it('should render', () => {
+    const {wrapper} = setup();
+    expect(wrapper.exists()).to.equal(true);
   });
 
-  it('should show the sandbox form component and the form materials', () => {
-    const wrapper = Enzyme.mount(<EncryptedForm id="encrypted-form-test" />);
-    const component = wrapper.instance();
-    const event = {
-      formDefinition: '<form class="needs-validation" data-recipient="test@mailvelope.com" data-action="https://demo.mailvelope.com/form/"><div class="form-group"><label for="validationCustomSimple">How are you?</label><div class="input-group"><input class="form-control" value="cofveve" name="validationCustomSimple" required="" type="text" id="validationCustomSimple"><div class="invalid-feedback">Please say something?</div></div></div></form>',
-      formEncoding: 'html',
-      formAction: null,
-      formRecipient: 'test@mailvelope.com',
-      formFingerprint: 'AA1E 0177 4BDF 7D76 A45B DC2D F11D B125 0C3C 3F1B'
-    };
-    component.showForm(event);
-    wrapper.update();
+  describe('Do some integration tests', () => {
+    it('should initialize the component and should wait on the form definition event', () => {
+      const {wrapper} = setup();
+      const component = wrapper.instance();
+      expect(component.port._events.on).to.include.members(['encrypted-form-definition', 'error-message',
+        'terminate', 'encrypted-form-submit', 'encrypted-form-submit-cancel']);
+      expect(component.port._events.emit).to.include.members(['encrypted-form-init']);
+      expect(wrapper.find(Spinner).exists()).to.equal(true);
+    });
 
-    expect(wrapper.find('iframe#formSandbox').exists()).to.equal(true);
-    expect(wrapper.find('.formWrapper').exists()).to.equal(true);
-    expect(wrapper.find('button.btn').exists()).to.equal(true);
+    it('should show the sandbox form component and the form materials', () => {
+      const {wrapper} = setup();
+      const component = wrapper.instance();
+      const event = {
+        formDefinition: '<form class="needs-validation" data-recipient="test@mailvelope.com" data-action="https://demo.mailvelope.com/form/"><div class="form-group"><label for="validationCustomSimple">How are you?</label><div class="input-group"><input class="form-control" value="cofveve" name="validationCustomSimple" required="" type="text" id="validationCustomSimple"><div class="invalid-feedback">Please say something?</div></div></div></form>',
+        formEncoding: 'html',
+        formAction: null,
+        formRecipient: 'test@mailvelope.com',
+        recipientFpr: 'AA1E 0177 4BDF 7D76 A45B DC2D F11D B125 0C3C 3F1B'
+      };
+      component.showForm(event);
+      wrapper.update();
+
+      expect(wrapper.find('iframe#formSandbox').exists()).to.equal(true);
+      expect(wrapper.find('.formWrapper').exists()).to.equal(true);
+      expect(wrapper.find('button.btn').exists()).to.equal(true);
+    });
+    it('should show error message on error-message event', () => {
+      const {wrapper} = setup();
+      const component = wrapper.instance();
+      const error = {
+        message: 'Error message!'
+      };
+      component.showErrorMsg(error);
+      wrapper.update();
+
+      const alert = wrapper.find(Alert);
+      expect(alert.exists()).to.equal(true);
+      expect(alert.find('span').text()).to.equal(error.message);
+    });
   });
 });

@@ -1,76 +1,35 @@
 /* eslint strict: 0 */
 'use strict';
 
-const common = require('./webpack.common');
 const path = require('path');
+const common = require('./webpack.common');
 
-module.exports = {
-
-  mode: 'production',
-
-  optimization: {
-    minimize: false
-  },
-
-  devtool: 'source-map',
-
-  entry: './test/test.js',
-
-  output: {
-    path: path.resolve('./build/test'),
-    pathinfo: true,
-    filename: 'test.bundle.js'
-  },
-
-  resolve: {
-    modules: ["node_modules"],
-    alias: {
-      'emailjs-stringencoding': path.resolve('./src/lib/string-encoding'),
-      'text-encoding': path.resolve('./src/lib/string-encoding')
-    }
-  },
-
-  externals: {
-    jquery: 'jQuery'
-  },
-
-  module: {
-    rules: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      loader: 'babel-loader',
-      options: {
-        presets: ['@babel/env', '@babel/react']
-      }
-    },
-    {
-      test: /\.css$/,
-      use: [{
-        loader: 'style-loader'
-      },
-      {
-        loader: 'css-loader',
-        options: {
-          url: false
-        }
-      }]
-    },
-    {
-      test: /\.less$/,
-      use: [{
-        loader: "style-loader"
-      }, {
-        loader: "css-loader"
-      }, {
-        loader: "less-loader"
-      }]
-    },
-    {
-      test: /\.(woff2?|ttf|svg|eot)(\?v=\d+\.\d+\.\d+)?$/,
-      loader: 'file-loader'
-    }]
-  },
-
-  plugins: common.plugins()
-
+const conf = {
+  ...common.prod,
+  mode: 'development',
+  devtool: 'inline-source-map'
 };
+
+conf.externals = {
+  jquery: 'jQuery'
+};
+
+conf.resolve = {
+  modules: [path.resolve('./src'), 'node_modules'],
+  alias: {
+    'emailjs-stringencoding': path.resolve('./src/lib/string-encoding'),
+    'text-encoding': path.resolve('./src/lib/string-encoding'),
+    test$: path.resolve('./test/test.js'),
+    utils$: path.resolve('./test/utils.js'),
+    Fixtures: path.resolve('./test/fixtures/')
+  }
+};
+
+conf.output = {
+  devtoolModuleFilenameTemplate: '[namespace]/[resource-path]?[loaders]'
+};
+
+conf.module = common.module.react();
+conf.module.rules[0].options.plugins.push('babel-plugin-rewire');
+
+module.exports = conf;

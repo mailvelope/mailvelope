@@ -1,21 +1,24 @@
-import {Port} from '../util';
-import EncryptedFormController from "../../src/controller/encryptedForm.controller";
-import * as keyring from '../../src/modules/keyring';
+import {expect, sinon} from 'test';
+import {Port} from 'utils';
+import EncryptedFormController from 'controller/encryptedForm.controller';
+import * as keyring from 'modules/keyring';
 // import keyFixtures from '../fixtures/keys';
 // import * as openpgp from "openpgp";
 
 describe('Test controller unit tests', () => {
+  const sandbox = sinon.createSandbox();
   let ctrl;
   let port;
-  const formElement = {getAttribute: sinon.stub()};
+  let formElement;
 
   beforeEach(() => {
     port = new Port('encryptedFormCont');
     ctrl = new EncryptedFormController(port);
+    formElement = {getAttribute: sandbox.stub()};
   });
 
   afterEach(() => {
-    // cleanup
+    sandbox.restore();
   });
 
   describe('getCleanFormHtml', () => {
@@ -45,7 +48,7 @@ describe('Test controller unit tests', () => {
 
     it('should sanitize forbiden attributes', () => {
       const forbid = [
-        'width', 'usemap', 'slot', 'spellcheck', 'src', 'novalidate', 'method',
+        'width', 'usemap', 'slot', 'spellcheck', 'novalidate', 'method',
         'integrity', 'href', 'formaction', 'download', 'data-something', 'contenteditable', 'codebase',
         'charset', 'async', 'accept',
         // event handlers
@@ -59,7 +62,7 @@ describe('Test controller unit tests', () => {
 
     it('should sanitize forbidden tags', () => {
       const forbid = [
-        'script', 'style', 'object', 'a', 'audio', 'base', 'embed', 'iframe', 'img', 'link',
+        'script', 'style', 'object', 'a', 'audio', 'base', 'embed', 'iframe', 'link',
         'param', 'source', 'var', 'video', 'title'
       ];
       forbid.forEach(tag => {
@@ -102,8 +105,8 @@ describe('Test controller unit tests', () => {
   });
 
   describe('assertAndSetAction', () => {
-    it('should throw an error if data-action property is not a valid or secure url', () => {
-      const fails = ['not_an_url', 'something://not_url', 'http://notsecure.com'];
+    it('should throw an error if data-action property is not a valid url', () => {
+      const fails = ['not_an_url', 'something://not_url'];
       fails.forEach(action => {
         formElement.getAttribute.returns(action);
         expect(ctrl.assertAndSetAction.bind(ctrl, formElement)).throws()
@@ -142,7 +145,7 @@ describe('Test controller unit tests', () => {
       success.forEach(email => {
         formElement.getAttribute.returns(email);
         expect(ctrl.assertAndSetRecipient(formElement)).to.be.true;
-        expect(ctrl.formRecipient).to.equal(email);
+        expect(ctrl.formRecipientEmail).to.equal(email);
       });
     });
   });
@@ -185,21 +188,18 @@ describe('Test controller unit tests', () => {
     });
   });
 
-  describe('assertAndSetFingerprint', () => {
+  /* assertAndSetFingerprint does not exist anymore */
+  describe.skip('assertAndSetFingerprint', () => {
     let keyRingMock;
 
     beforeEach(() => {
-      keyRingMock = {getKeyByAddress: sinon.stub()};
-      sinon.stub(keyring, 'getById').returns(keyRingMock);
-    });
-
-    afterEach(() => {
-      keyring.getById.restore();
+      keyRingMock = {getKeyByAddress: sandbox.stub()};
+      sandbox.stub(keyring, 'getById').returns(keyRingMock);
     });
 
     it('should set the fingerprint if the username is in the keyring', () => {
       const fingerprint = '5d031f1d410b980fbc006e3202c134d079701934';
-      const mockKey = {primaryKey: {getFingerprint: sinon.stub()}};
+      const mockKey = {primaryKey: {getFingerprint: sandbox.stub()}};
       const thomasKey = {'thomas@mailvelope.com': [mockKey]};
       mockKey.primaryKey.getFingerprint.returns(fingerprint);
       keyRingMock.getKeyByAddress.returns(thomasKey);
@@ -231,32 +231,18 @@ describe('Test controller unit tests', () => {
   });
 
   describe('signAndEncrypt', () => {
-    let keyMock;
     let keyRingMock;
 
     beforeEach(() => {
-      keyMock = {key: {getSigningKeyPacket: sinon.stub()}};
-      keyRingMock = {getPrimaryKey: sinon.stub()};
-      sinon.stub(keyring, 'getById').returns(keyRingMock);
+      keyRingMock = {getDefaultKeyFpr: sandbox.stub()};
+      const getKeyringByIdStub = sandbox.stub().returns(keyRingMock);
+      EncryptedFormController.__Rewire__('getKeyringById', getKeyringByIdStub);
     });
 
-    afterEach(() => {
-      keyring.getById.restore();
-    });
-
-    it('should throw an error if no primary key is found', () => {
-      keyRingMock.getPrimaryKey.returns(null);
+    it('should throw an error if no default key is found', () => {
+      keyRingMock.getDefaultKeyFpr.returns(null);
       ctrl.keyringId = 'nope';
-      expect(ctrl.signAndEncrypt('test')).eventually.throws()
-      .and.have.property('code', 'NO_PRIMARY_KEY_FOUND');
-    });
-
-    it('should throw an error if no signing key packet is present', () => {
-      keyRingMock.getPrimaryKey.returns(keyMock);
-      keyMock.key.getSigningKeyPacket.returns(null);
-      ctrl.keyringId = 'default';
-      expect(ctrl.signAndEncrypt('test')).eventually.throws()
-      .and.have.property('code', 'NO_SIGN_KEY_FOUND');
+      return expect(ctrl.signAndEncrypt('test')).to.eventually.be.rejectedWith().and.have.property('code', 'NO_DEFAULT_KEY_FOUND');
     });
 
     // it('should encrypt if all params are set properly', () => {

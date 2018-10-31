@@ -258,7 +258,7 @@ module.exports = function(grunt) {
         command: 'web-ext build --source-dir=build/firefox --artifacts-dir=dist'
       },
       karma_test: {
-        command: './node_modules/karma/bin/karma start --single-run --browsers ChromeHeadlessNoSandbox test/karma.conf.js'
+        command: 'karma start --single-run --browsers ChromeHeadlessNoSandbox test/karma.conf.js'
       }
     },
 
@@ -303,7 +303,7 @@ module.exports = function(grunt) {
   // production build
   grunt.registerTask('prod', ['clean', 'eslint', 'browser', 'copy2tmp', 'copy:dep_prod', 'webpack:prod', 'tmp2browser']);
 
-  grunt.registerTask('test', ['webpack:test', 'shell:karma_test']);
+  grunt.registerTask('test', ['shell:karma_test']);
 
   grunt.registerTask('webpack', function() {
     const done = this.async();
