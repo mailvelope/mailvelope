@@ -165,9 +165,11 @@ function eventListener(event) {
       keyringId = host + mvelo.KEYRING_DELIMITER + data.identifier;
     }
     switch (event.data.event) {
-      case 'get-version':
-        reply(event.data.id, null, prefs.version);
+      case 'get-version': {
+        const [version] = prefs.version.match(/^\d{1,2}\.\d{1,2}\.\d{1,2}/);
+        reply(event.data.id, null, version);
         break;
+      }
       case 'get-keyring':
         getKeyring(keyringId, reply.bind(null, event.data.id));
         break;
