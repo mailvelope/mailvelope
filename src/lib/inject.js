@@ -9,13 +9,20 @@ import {prefs, getWatchList} from '../modules/prefs';
 
 // framestyles as string
 let framestyles = '';
+// watchlist match patterns as regex for URL
+let watchlistRegex;
 
 export async function initScriptInjection() {
   try {
+    watchlistRegex = [];
     await loadFramestyles();
     const filterURL = await getWatchListFilterURLs();
     const matchPatterns = filterURL.map(({schemes, host}) => `${schemes.includes('http') ? '*' : 'https'}://${host}/*`);
-    const originAndPathFilter = {url: filterURL.map(({schemes, host}) => ({schemes, originAndPathMatches: `^https?:\/\/${mvelo.util.matchPattern2RegExString(host)}/.*`}))};
+    const originAndPathFilter = {url: filterURL.map(({schemes, host}) => {
+      const originAndPathMatches = `^${schemes.includes('http') ? 'https?' : 'https'}:\/\/${mvelo.util.matchPattern2RegExString(host)}/.*`;
+      watchlistRegex.push(new RegExp(originAndPathMatches));
+      return {schemes, originAndPathMatches};
+    })};
     if (browser.webNavigation.onDOMContentLoaded.hasListener(watchListNavigationHandler)) {
       browser.webNavigation.onDOMContentLoaded.removeListener(watchListNavigationHandler);
     }
@@ -82,14 +89,21 @@ function reduceHosts(hosts) {
   return mvelo.util.sortAndDeDup(reduced);
 }
 
-function injectOpenTabs(filterURL) {
-  return mvelo.tabs.query(filterURL)
-  .then(tabs => tabs.forEach(tab => {
-    browser.tabs.executeScript(tab.id, {file: "content-scripts/cs-mailvelope.js", allFrames: true})
-    .catch(() => {});
-    browser.tabs.insertCSS(tab.id, {code: framestyles, allFrames: true})
-    .catch(() => {});
-  }));
+async function injectOpenTabs(filterURL) {
+  const tabs = await mvelo.tabs.query(filterURL);
+  for (const tab of tabs) {
+    const frames = await browser.webNavigation.getAllFrames({tabId: tab.id});
+    for (const frame of frames) {
+      const match = watchlistRegex.some(urlRegex => urlRegex.test(frame.url));
+      if (!match) {
+        continue;
+      }
+      browser.tabs.executeScript(tab.id, {file: "content-scripts/cs-mailvelope.js", frameId: frame.frameId})
+      .catch(() => {});
+      browser.tabs.insertCSS(tab.id, {code: framestyles, frameId: frame.frameId})
+      .catch(() => {});
+    }
+  }
 }
 
 function watchListNavigationHandler(details) {

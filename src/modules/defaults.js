@@ -93,6 +93,10 @@ function mergeWatchlist(defaults) {
             }
           }
         });
+        if (typeof localSite.https_only === 'undefined') {
+          localSite.https_only = defaultSite.https_only;
+          mod = true;
+        }
       } else {
         localList.push(defaultSite);
         mod = true;

@@ -49,14 +49,12 @@ function init(preferences, watchlist) {
   if (clientApiActive) {
     // api case
     clientAPI.init();
-  } else if (host) {
+  } else {
     // non-api case ... use provider specific content scripts
     providers.init();
     currentProvider = providers.get(host);
     // turn on scan loop
     on();
-  } else {
-    port.disconnect();
   }
 }
 
