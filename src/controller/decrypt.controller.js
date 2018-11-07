@@ -128,7 +128,7 @@ export default class DecryptController extends sub.SubController {
       openPopup,
       beforePasswordRequest
     });
-    triggerSync({keyring: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
+    triggerSync({keyringId: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
     return unlockedKey.key;
   }
 }

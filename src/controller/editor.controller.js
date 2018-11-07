@@ -480,7 +480,7 @@ export default class EditorController extends sub.SubController {
       this.ports.editor.emit('encrypt-in-progress');
     }, 800);
     if (sync) {
-      triggerSync({keyring: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
+      triggerSync({keyringId: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
     }
     return unlockedKey.key;
   }
