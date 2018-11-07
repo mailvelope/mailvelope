@@ -195,6 +195,10 @@ export default class KeyringLocal extends KeyringBase {
 
   async generateKey(options) {
     const newKey = await super.generateKey(options);
+    if (options.unlocked) {
+      const unlockedKey = await openpgp.decryptKey({privateKey: newKey.key, passphrase: options.passphrase});
+      newKey.key = unlockedKey.key;
+    }
     this.sync.add(newKey.key.primaryKey.getFingerprint(), keyringSync.INSERT);
     await this.keystore.store();
     await this.sync.commit();

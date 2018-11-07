@@ -296,7 +296,7 @@ export default class KeyringBase {
    * @param {Boolean} options.unlocked - returned secret part of the generated key is unlocked
    * @yield {Object} - the generated key pair
    */
-  async generateKey({keyAlgo, numBits, userIds, passphrase, uploadPublicKey, keyExpirationTime, unlocked = false}) {
+  async generateKey({keyAlgo, numBits, userIds, passphrase, uploadPublicKey, keyExpirationTime}) {
     userIds = userIds.map(userId => {
       if (userId.fullName) {
         return (new goog.format.EmailAddress(userId.email, userId.fullName)).toString();
@@ -304,10 +304,10 @@ export default class KeyringBase {
         return `<${userId.email}>`;
       }
     });
-    const newKey = await this.keystore.generateKey({keyAlgo, userIds, passphrase, numBits: parseInt(numBits), keyExpirationTime, unlocked});
+    const newKey = await this.keystore.generateKey({keyAlgo, userIds, passphrase, numBits: parseInt(numBits), keyExpirationTime});
     this.keystore.privateKeys.push(newKey.key);
     // upload public key
-    // Currently only the mailvelope keyserver is supported but Web Key Service
+    // currently only the Mailvelope key server is supported but Web Key Directory
     // publishing could also happen at this point.
     if (uploadPublicKey) {
       await mveloKeyServerUpload({publicKeyArmored: newKey.publicKeyArmored});
