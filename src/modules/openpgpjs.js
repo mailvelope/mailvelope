@@ -39,18 +39,19 @@ export async function decrypt({message, keyring, senderAddress, selfSigned, encr
   }
   const result = await openpgp.decrypt({message, privateKeys: privateKey, publicKeys: signingKeys, format});
   result.signatures = (result.signatures || []).map(signature => {
-    signature.keyId = signature.keyid.toHex();
-    delete signature.keyid;
-    if (signature.valid !== null) {
+    const sig = {};
+    sig.keyId = signature.keyid.toHex();
+    sig.valid = signature.valid;
+    if (sig.valid !== null) {
       try {
-        signature.fingerprint = keyring.getFprForKeyId(signature.keyId);
+        sig.fingerprint = keyring.getFprForKeyId(sig.keyId);
       } catch (e) {
         console.log('Error mapping keyId to fingerprint', e);
         // reject this signature
-        signature.valid = false;
+        sig.valid = false;
       }
     }
-    return signature;
+    return sig;
   });
   if (format === 'binary') {
     result.data = mvelo.util.Uint8Array2str(result.data);
