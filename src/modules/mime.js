@@ -5,7 +5,7 @@
 
 import mvelo from '../lib/lib-mvelo';
 import mailreader from 'mailreader-parser';
-import mailbuild from 'emailjs-mime-builder';
+import MimeBuilder from 'emailjs-mime-builder';
 
 /**
  * Parse email content
@@ -110,30 +110,30 @@ function filterBodyParts(bodyParts, type, result) {
  * @returns {String | null}
  */
 export function buildMail({message, attachments, quota, pgpMIME}) {
-  const mainMessage = new mailbuild("multipart/mixed");
+  const mainMessage = new MimeBuilder('multipart/mixed');
   let composedMessage = null;
   let hasAttachment;
   let quotaSize = 0;
   if (message) {
     quotaSize += mvelo.util.byteCount(message);
-    const textMime = new mailbuild("text/plain")
-    .setHeader("Content-Type", "text/plain; charset=utf-8")
-    .addHeader("Content-Transfer-Encoding", "quoted-printable")
+    const textMime = new MimeBuilder('text/plain')
+    .setHeader({'content-transfer-encoding': 'quoted-printable'})
     .setContent(message);
     mainMessage.appendChild(textMime);
   }
   if (attachments && attachments.length > 0) {
     hasAttachment = true;
-    attachments.forEach(attachment => {
+    for (const attachment of attachments) {
       quotaSize += attachment.size;
-      const attachmentMime = new mailbuild("text/plain")
-      .createChild(false, {filename: attachment.name})
-      //.setHeader("Content-Type", attachment.type + "; charset=utf-8")
-      .addHeader("Content-Transfer-Encoding", "base64")
-      .addHeader("Content-Disposition", "attachment") // ; filename="attachment.filename
+      const attachmentMime = new MimeBuilder('multipart/mixed')
+      .createChild(null, {filename: attachment.name})
+      .setHeader({
+        'content-transfer-encoding': 'base64',
+        'content-disposition': 'attachment'
+      })
       .setContent(attachment.content);
       mainMessage.appendChild(attachmentMime);
-    });
+    }
   }
   if (quota && (quotaSize > quota)) {
     throw new mvelo.Error('Mail content exceeds quota limit.', 'ENCRYPT_QUOTA_SIZE');
