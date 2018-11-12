@@ -23,11 +23,7 @@ module.exports = {
   },
 
   resolve: {
-    modules: ["node_modules"],
-    alias: {
-      'mailreader-parser': path.resolve('./node_modules/mailreader/src/mailreader-parser'),
-      'emailjs-stringencoding': path.resolve('./src/lib/emailjs-stringencoding')
-    }
+    modules: ["node_modules"]
   },
 
   externals: {
