@@ -12,7 +12,11 @@ const output = {
   filename: 'background.bundle.js'
 };
 const resolve = {
-  modules: ["node_modules"]
+  modules: ["node_modules"],
+  alias: {
+    'emailjs-stringencoding': path.resolve('./src/lib/string-encoding'),
+    'text-encoding': path.resolve('./src/lib/string-encoding')
+  }
 };
 
 const prod = {...common.prod,
