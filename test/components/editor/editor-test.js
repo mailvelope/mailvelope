@@ -3,7 +3,7 @@ import React from 'react';
 import {expect, sinon, mount} from 'test';
 import mvelo from 'lib/lib-mvelo';
 import * as l10n from 'lib/l10n';
-// import EditorFooter from 'components/editor/components/EditorFooter';
+import EditorFooter from 'components/editor/components/EditorFooter';
 import PlainText from 'components/editor/components/PlainText';
 import Editor from 'components/editor/editor';
 
@@ -95,7 +95,7 @@ describe('Editor tests', () => {
     it.skip('should call addAttachment for each file upload', () => {
       const {wrapper} = setup();
       const component = wrapper.instance();
-      // const spy = sandbox.spy(component, 'addAttachment');
+      const spy = sandbox.spy(component, 'addAttachment');
 
       const files = [
         new Blob(['sampleFile1'], {type: 'text/plain'}),

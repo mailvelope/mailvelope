@@ -88,7 +88,6 @@ describe('mvelo unit tests', () => {
         expect(console.log.calledOnce).to.be.true;
         expect(ctrl1._port.postMessage.calledOnce).to.be.true;
         expect(ctrl2._port.postMessage.called).to.be.false;
-
       });
 
       it('should throw for invalid input', () => {

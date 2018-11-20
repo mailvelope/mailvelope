@@ -37,9 +37,9 @@
     "webextension-polyfill": "0.2.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.2",
+    "@babel/core": "^7.1.6",
     "@babel/polyfill": "^7.0.0",
-    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-env": "^7.1.6",
     "@babel/preset-react": "^7.0.0",
     "angular-mocks": "1.7.5",
     "babel-loader": "^8.0.4",
@@ -47,7 +47,7 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-enzyme": "^1.0.0-beta.1",
-    "css-loader": "^1.0.0",
+    "css-loader": "^1.0.1",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
     "eslint-plugin-react": "^7.11.1",
@@ -73,11 +73,11 @@
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
     "mocha": "^5.2.0",
-    "sinon": "^7.1.0",
+    "sinon": "^7.1.1",
     "string-replace-loader": "^2.1.1",
     "style-loader": "^0.23.1",
-    "web-ext": "^2.9.1",
-    "webpack": "^4.23.1",
+    "web-ext": "^2.9.2",
+    "webpack": "^4.26.0",
     "webpack-cli": "^3.1.2"
   },
   "engines": {
