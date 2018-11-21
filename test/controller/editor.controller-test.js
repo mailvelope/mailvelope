@@ -17,6 +17,8 @@ describe('Editor controller unit tests', () => {
 
   afterEach(() => {
     sandbox.restore();
+    /* eslint-disable-next-line no-undef */
+    __rewire_reset_all__();
   });
 
   describe('Check event handlers', () => {
