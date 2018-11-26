@@ -212,7 +212,7 @@ export async function mapUsers(users = [], toKey, keyring, primaryKey) {
 }
 
 export async function verifyUserCertificate(user, primaryKey, certificate, key = primaryKey) {
-  if (!(certificate.verified || await certificate.verify(key, {userId: user.userId, userAttribute: user.userAttribute, key: primaryKey}))) {
+  if (!(certificate.verified || await certificate.verify(key, openpgp.enums.signature.cert_generic, {userId: user.userId, userAttribute: user.userAttribute, key: primaryKey}))) {
     return openpgp.enums.keyStatus.invalid;
   }
   if (certificate.revoked || await user.isRevoked(primaryKey, certificate, key)) {
