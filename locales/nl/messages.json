@@ -64,7 +64,7 @@
         "description": "Keyring label in the action menu"
     },
     "action_menu_manage_domains": {
-        "message": "Manage authorized domains",
+        "message": "Beheer geautoriseerde domeinen",
         "description": "Manage domains shortcut in the action menu"
     },
     "action_menu_more_options": {
@@ -100,7 +100,7 @@
         "description": "Dashboard help link"
     },
     "dashboard_link_manage_domains": {
-        "message": "Manage authorized domains",
+        "message": "Beheer geautoriseerde domeinen",
         "description": "Dashboard manage domains link"
     },
     "dashboard_link_manage_keys": {
@@ -184,7 +184,7 @@
         "description": "Navigation link to file encryption"
     },
     "editor_no_default_key_caption_long": {
-        "message": "Email cannot be signed digitally because the default key is missing",
+        "message": "E-mail kan niet digitaal worden ondertekend omdat de standaardsleutel ontbreekt",
         "description": ""
     },
     "editor_no_default_key_caption_short": {
@@ -324,11 +324,11 @@
         "description": "Continue form button."
     },
     "form_definition_error_no_recipient_key": {
-        "message": "No valid encryption key for recipient address.",
+        "message": "Geen geldige encryptiesleutel voor het adres van de ontvanger.",
         "description": "Error message when recipient key is not in keyring"
     },
     "form_definition_error_signature_invalid": {
-        "message": "The form signature is not valid.",
+        "message": "De handtekening van het formulier is niet geldig.",
         "description": "Error message when the form signature is not valid"
     },
     "form_destination": {
@@ -336,11 +336,11 @@
         "description": "URL the form data will be sent to"
     },
     "form_destination_default": {
-        "message": "The encrypted data will be returned to the page.",
+        "message": "De versleutelde data zal worden teruggegeven aan de pagina",
         "description": "Behavior when no action is specified in form"
     },
     "form_sign_error_no_default_key": {
-        "message": "No private key is available in the keyring to sign the form content. Please import or create one.",
+        "message": "Er is geen persoonlijke sleutel beschikbaar in de sleutelring om de formulierinhoud te ondertekenen. Importeer of maak er een aan.",
         "description": "Error message when trying to sign and no primary key is found"
     },
     "form_forward": {
@@ -352,7 +352,7 @@
         "description": "Import form button."
     },
     "form_loading": {
-        "message": "Loading form",
+        "message": "Formulier laden",
         "description": "Waiting modal when form is loading."
     },
     "form_next": {
@@ -400,27 +400,27 @@
         "description": "Label for editor options."
     },
     "general_openpgp_preferences": {
-        "message": "OpenPGP Preferences",
+        "message": "OpenPGP-voorkeuren",
         "description": "Headline for OpenPGP settings."
     },
     "general_prefer_gnupg": {
-        "message": "Prefer GnuPG for all OpenPGP encryption operations",
+        "message": "Geef GnuPG de voorkeur voor alle OpenPGP-coderingsbewerkingen",
         "description": "Option to choose GnuPG as the preferred OpenPGP backend."
     },
     "general_prefer_gnupg_note": {
-        "message": "Note: public keys are synchronized between available keyrings. Depending on availability of private keys, Mailvelope can override the preferred encryption library setting.",
+        "message": "Opmerking: openbare sleutels worden gesynchroniseerd tussen beschikbare sleutelhangers. Afhankelijk van de beschikbaarheid van privésleutels, kan Mailvelope de voorkeursinstelling van de codebibliotheek overschrijven.",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "general_prefer_openpgpjs": {
-        "message": "Prefer OpenPGP.js (default built-in Mailvelope encryption library)",
+        "message": "Geef de voorkeur aan OpenPGP.js (standaard ingebouwde Mailvelope-coderingsbibliotheek)",
         "description": "Default option with OpenPGP.js as the preferred OpenPGP backend."
     },
     "general_default_key_always": {
-        "message": "Always add my default key to the list of recipients. (This allows you to decrypt sent mails)",
+        "message": "Voeg altijd mijn standaardsleutel toe aan de lijst met ontvangers. (Hiermee kunt u verzonden e-mails decoderen)",
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "Sign all messages with default key",
+        "message": "Onderteken alle berichten met standaardsleutel",
         "description": "Label for default private key option."
     },
     "gnupg_available": {
@@ -428,11 +428,11 @@
         "description": "Label indicating GnuPG feature is available."
     },
     "gnupg_connection": {
-        "message": "GnuPG connection",
+        "message": "GnuPG-verbinding",
         "description": "Header that shows that GnuPG is available on the system."
     },
     "gnupg_error_unusable_pub_key": {
-        "message": "Please check if the following public keys are available in your GnuPG keyring and valid: $1",
+        "message": "Controleer of de volgende openbare sleutels beschikbaar zijn in uw GnuPG-sleutelring en geldig zijn: $1",
         "description": ""
     },
     "gnupg_not_available": {
@@ -460,15 +460,15 @@
         "description": "HKP key server option: url."
     },
     "keyserver_additionals_label": {
-        "message": "Additional key sources",
+        "message": "Extra sleutel bronnen",
         "description": "Label for configuration of additional key sources"
     },
     "keyserver_tofu_lookup": {
-        "message": "Use the Mailvelope key server",
+        "message": "Gebruik de Mailvelope sleutel server",
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_wkd_lookup": {
-        "message": "Query keys from the recipients Mail provider (Web Key Directory)",
+        "message": "Query sleutels van de ontvangers Mail provider (Web Key Directory)",
         "description": "Enable Web Key Directory Auto Lookup"
     },
     "keyserver_url_warning": {
@@ -524,7 +524,7 @@
         "description": "Key expiration date"
     },
     "key_gen_future_default": {
-        "message": "Future Default",
+        "message": "Toekomstige standaard",
         "description": "Key generation algorithm, the future supported standard."
     },
     "key_gen_generate": {
@@ -668,7 +668,7 @@
         "description": "Info message."
     },
     "key_import_number_of_failed": {
-        "message": "Number of keys that could not be imported due to errors: $1",
+        "message": "Aantal sleutels dat vanwege fouten niet kon worden geïmporteerd: $1",
         "description": "Error message with number of failed imports."
     },
     "key_import_private_exists": {
@@ -716,7 +716,7 @@
         "description": ""
     },
     "key_set_as_default": {
-        "message": "Set as Default",
+        "message": "Stel in als standaard",
         "description": "Set as default key for the keyring button"
     },
     "invalid_default_key": {
@@ -824,7 +824,7 @@
         "description": "Short creation date of a PGP key. Max. width: 90px"
     },
     "keygrid_default_key": {
-        "message": "Default key",
+        "message": "Standaardsleutel",
         "description": "Default key in the keyring."
     },
     "keygrid_delete": {
@@ -860,15 +860,15 @@
         "description": "Title for Export key button."
     },
     "keygrid_import_title": {
-        "message": "Import a key",
+        "message": "Importeer een sleutel",
         "description": "Title for Import key button."
     },
     "keygrid_generate_title": {
-        "message": "Generate a key",
+        "message": "Genereer een sleutel",
         "description": "Title for generate key button"
     },
     "keygrid_invalid_userid": {
-        "message": "Invalid User ID",
+        "message": "Ongeldige gebruikers ID",
         "description": "User ID invalid."
     },
     "keygrid_key_fingerprint": {
@@ -896,7 +896,7 @@
         "description": "No subkeys of a PGP key found."
     },
     "keygrid_no_userid": {
-        "message": "No valid User ID found",
+        "message": "Geen geldig gebruikers-ID gevonden",
         "description": "Warning message if no user id found."
     },
     "keygrid_primary_key": {
@@ -920,7 +920,7 @@
         "description": "Refresh keygrid component."
     },
     "keygrid_refresh_title": {
-        "message": "Reload the keyring",
+        "message": "Herlaad de sleutelring",
         "description": "Title for button to refresh keygrid component."
     },
     "keygrid_send_pub_key": {
@@ -980,7 +980,7 @@
         "description": "Validity status of a PGP key."
     },
     "keyring_available_settings": {
-        "message": "See available settings at:",
+        "message": "Zie beschikbare instellingen op:",
         "description": "Text introducing the availability of further settings."
     },
     "keyring_backup": {
@@ -1016,7 +1016,7 @@
         "description": "key pair"
     },
     "keyring_main": {
-        "message": "Main Keyring",
+        "message": "Hoofd sleutelring",
         "description": "Label for the main keyring"
     },
     "keyring_private": {
@@ -1312,7 +1312,7 @@
         "description": ""
     },
     "reload_tab": {
-        "message": "Please reload the corresponding pages for the settings to take effect.",
+        "message": "Laad de overeenkomstige pagina's voor de instellingen door te voeren.",
         "description": "Info message."
     },
     "restore_backup_dialog_button": {
@@ -1444,7 +1444,7 @@
         "description": "Encrypt dialog as an event source"
     },
     "security_log_encrypt_form": {
-        "message": "Encrypt Form",
+        "message": "Versleutel formulier",
         "description": "Encrypt form as an event source"
     },
     "security_log_encryption_operation": {
@@ -1484,7 +1484,7 @@
         "description": ""
     },
     "security_log_sign_operation": {
-        "message": "Message has been signed with key: $1",
+        "message": "Bericht is ondertekend met sleutel: $1",
         "description": ""
     },
     "security_log_signature_modal_close": {
@@ -1548,7 +1548,7 @@
         "description": "Tab of options to display key server settings."
     },
     "settings_watchlist": {
-        "message": "Authorized Domains",
+        "message": "Geautoriseerde domeinen",
         "description": "Tab of options to display list of authorized domains."
     },
     "sign_dialog_header": {
@@ -1556,7 +1556,7 @@
         "description": "Header of sign dialog."
     },
     "sign_error": {
-        "message": "Could not sign this message: $1",
+        "message": "Kan dit bericht niet ondertekenen: $1",
         "description": "Error during signing process."
     },
     "text_compose_header": {
@@ -1620,7 +1620,7 @@
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "waiting_dialog_prepare_email": {
-        "message": "Preparing your message",
+        "message": "De voorbereiding van uw bericht",
         "description": "Message in the waiting dialog for quoting email"
     },
     "watchlist_command_create": {
@@ -1632,7 +1632,7 @@
         "description": "Edit entry in watchlist."
     },
     "watchlist_delete_confirmation": {
-        "message": "Do you really want to remove this site from the list of authorized domains?",
+        "message": "Wilt u deze site echt verwijderen uit de lijst met geautoriseerde domeinen?",
         "description": "Message in the watchlist delete confirmation dialog."
     },
     "watchlist_expose_api": {
@@ -1640,7 +1640,7 @@
         "description": "Expose API to Webmailer."
     },
     "watchlist_record_title": {
-        "message": "Authorized Domain",
+        "message": "Geautoriseerd domein",
         "description": "Title of the watchlist editor dialog."
     },
     "watchlist_title_active": {
@@ -1660,7 +1660,7 @@
         "description": "Site in watchlist."
     },
     "watchlist_title_https_only": {
-        "message": "HTTPS-only",
+        "message": "HTTPS-alleen",
         "description": "Only allow URLs with HTTPS scheme in watchlist."
     },
     "word_or": {

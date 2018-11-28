@@ -28,7 +28,7 @@
         "description": "Activate on current tab shortcut in the action menu"
     },
     "action_menu_advanced_menu_aria_label": {
-        "message": "Mailvelope advanced menu",
+        "message": "القائمة المتقدمة لMailvelope",
         "description": "Accessibility, aria label of the advanced menu"
     },
     "action_menu_advanced_options": {
@@ -1592,11 +1592,11 @@
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "upload_quota_exceeded_warning": {
-        "message": "Allowed attachment size:",
+        "message": "حجم المرفق المسموح به:",
         "description": "A warning shown when the attachments upload quota is exceeded."
     },
     "upload_quota_warning_headline": {
-        "message": "Attachment is too big",
+        "message": "المرفق كبير جدًا",
         "description": ""
     },
     "verify_error": {
@@ -1620,7 +1620,7 @@
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "waiting_dialog_prepare_email": {
-        "message": "Preparing your message",
+        "message": "اعداد رسالتك",
         "description": "Message in the waiting dialog for quoting email"
     },
     "watchlist_command_create": {
@@ -1632,7 +1632,7 @@
         "description": "Edit entry in watchlist."
     },
     "watchlist_delete_confirmation": {
-        "message": "Do you really want to remove this site from the list of authorized domains?",
+        "message": "هل ترغب/ين حقّا في إزالة هذا الموقع من قائمة النطاقات المسموح بها؟",
         "description": "Message in the watchlist delete confirmation dialog."
     },
     "watchlist_expose_api": {
@@ -1640,7 +1640,7 @@
         "description": "Expose API to Webmailer."
     },
     "watchlist_record_title": {
-        "message": "Authorized Domain",
+        "message": "النطاق المصرح به",
         "description": "Title of the watchlist editor dialog."
     },
     "watchlist_title_active": {
@@ -1659,12 +1659,16 @@
         "message": "الموقع",
         "description": "Site in watchlist."
     },
+    "watchlist_title_https_only": {
+        "message": "HTTPS فقط",
+        "description": "Only allow URLs with HTTPS scheme in watchlist."
+    },
     "word_or": {
         "message": "أو",
         "description": "Separate list of elements."
     },
     "wrong_restore_code": {
-        "message": "Invalid recovery code",
+        "message": "رمز الاسترجاع غير صالح",
         "description": ""
     },
     "alert_header_error": {

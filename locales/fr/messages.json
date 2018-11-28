@@ -20,7 +20,7 @@
         "description": "Navigation link to change this setting."
     },
     "cleartext_read_error": {
-        "message": "Impossible de lire ce message en clair : $1",
+        "message": "Impossible de lire ce message en clair : $1",
         "description": "Cleartext message read error message: $1: error message."
     },
     "action_menu_activate_current_tab": {
@@ -164,7 +164,7 @@
         "description": ""
     },
     "editor_blur_warn": {
-        "message": "Avertissent : l’éditeur de texte n’est plus à l’avant-plan.",
+        "message": "Avertissent : l’éditeur de texte n’est plus à l’avant-plan.",
         "description": "Warning for lost focus."
     },
     "editor_encrypt_button": {
@@ -216,7 +216,7 @@
         "description": "Label for recipient text input."
     },
     "editor_key_not_found": {
-        "message": "La clé est introuvable !",
+        "message": "La clé est introuvable !",
         "description": "Warning for when a recipient key was not found."
     },
     "editor_key_not_found_msg": {
@@ -228,7 +228,7 @@
         "description": "Max 6 character."
     },
     "encrypt_dialog_header": {
-        "message": "Chiffrer pour :",
+        "message": "Chiffrer pour :",
         "description": "Header of encrypt dialog."
     },
     "encrypt_dialog_no_recipient": {
@@ -236,7 +236,7 @@
         "description": "Error message if no recipient selected."
     },
     "encrypt_dialog_subheader": {
-        "message": "Personnes :",
+        "message": "Personnes :",
         "description": "Subheader of encrypt dialog."
     },
     "encrypt_download_all_button": {
@@ -252,7 +252,7 @@
         "description": "Title of download area"
     },
     "encrypt_error": {
-        "message": "Impossible de chiffrer ce message : $1",
+        "message": "Impossible de chiffrer ce message : $1",
         "description": "Error during encryption process."
     },
     "encrypt_file_selection": {
@@ -292,7 +292,7 @@
         "description": ""
     },
     "file_read_error": {
-        "message": "Impossible de déchiffrer ce fichier : $1",
+        "message": "Impossible de déchiffrer ce fichier : $1",
         "description": ""
     },
     "form_back": {
@@ -364,7 +364,7 @@
         "description": "No form button."
     },
     "form_ok": {
-        "message": "OK",
+        "message": "Valider",
         "description": "Ok form button."
     },
     "form_recipient": {
@@ -472,7 +472,7 @@
         "description": "Enable Web Key Directory Auto Lookup"
     },
     "keyserver_url_warning": {
-        "message": "L’URL du serveur de clés doit être au format suivant :\nhttp(s)://cles.exemple.com",
+        "message": "L’URL du serveur de clés doit être au format suivant : http(s)://cles.exemple.com",
         "description": "HKP key server url warning."
     },
     "keyserver_url_error": {
@@ -588,7 +588,7 @@
         "description": "Key import dialog description."
     },
     "key_import_default_headline": {
-        "message": "Ajouter le contact à la communication chiffrée ?",
+        "message": "Ajouter le contact à la communication chiffrée ?",
         "description": "Key import dialog header."
     },
     "key_import_dialog_header": {
@@ -604,7 +604,7 @@
         "description": "Import error alert."
     },
     "key_import_extend_date": {
-        "message": "Créée le :",
+        "message": "Créée le :",
         "description": ""
     },
     "key_import_extend_description": {
@@ -612,15 +612,15 @@
         "description": "Key import dialog description."
     },
     "key_import_extend_fingerprint": {
-        "message": "Empreinte PGP :",
+        "message": "Empreinte PGP :",
         "description": ""
     },
     "key_import_extend_headline": {
-        "message": "Plus d’informations sur les communications chiffrées :",
+        "message": "Plus d’informations sur les communications chiffrées :",
         "description": "Key import dialog description."
     },
     "key_import_extend_hint": {
-        "message": "Astuce :",
+        "message": "Astuce :",
         "description": ""
     },
     "key_import_file": {
@@ -660,7 +660,7 @@
         "description": ""
     },
     "key_import_invalidated_headline": {
-        "message": "Avertissement : les données nécessaires aux communications chiffrées sont arrivées à expiration.",
+        "message": "Avertissement : Les données nécessaires aux communications chiffrées sont arrivées à expiration.",
         "description": "Key import dialog header."
     },
     "key_import_multiple_keys": {
@@ -676,7 +676,7 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_read": {
-        "message": "Impossible de lire une clé privée : $1",
+        "message": "Impossible de lire une clé privée : $1",
         "description": "Import error message. $1: error message"
     },
     "key_import_private_success": {
@@ -688,7 +688,7 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_public_read": {
-        "message": "Impossible de lire une clé publique : $1",
+        "message": "Impossible de lire une clé publique : $1",
         "description": "Import error message. $1: error message"
     },
     "key_import_public_success": {
@@ -708,7 +708,7 @@
         "description": "Import error alert."
     },
     "key_import_unable": {
-        "message": "Impossible d’importer une clé à cause d’une exception : $1",
+        "message": "Impossible d’importer une clé à cause d’une exception : $1",
         "description": "Import error message: $1: error message."
     },
     "key_recovery_failed": {
@@ -732,11 +732,11 @@
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "Créez ici une nouvelle feuille de récupération si :",
+        "message": "Créez ici une nouvelle feuille de récupération si :",
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
-        "message": "Recommendation : créer une sauvegarde",
+        "message": "Recommandation : créer une sauvegarde",
         "description": ""
     },
     "keybackup_restore_dialog_list_1": {
@@ -752,11 +752,11 @@
         "description": ""
     },
     "keybackup_setup_dialog_description": {
-        "message": "La sauvegarde est exigée afin de garantir que vous puissiez :",
+        "message": "La sauvegarde est exigée afin de garantir que vous puissiez :",
         "description": ""
     },
     "keybackup_setup_dialog_headline": {
-        "message": "Recommendation : effectuez une sauvegarde",
+        "message": "Recommandation : effectuez une sauvegarde",
         "description": ""
     },
     "keybackup_setup_dialog_list_1": {
@@ -796,7 +796,7 @@
         "description": ""
     },
     "keygen_dialog_prolog": {
-        "message": "Veuillez attribuer un mot de passe pour protéger vos communications chiffrées :",
+        "message": "Veuillez attribuer un mot de passe pour protéger vos communications chiffrées :",
         "description": ""
     },
     "keygen_waiting_description": {
@@ -1060,11 +1060,11 @@
         "description": "Setup heading if no keypair available"
     },
     "message_no_keys": {
-        "message": "Aucune clé privée n’a été trouvée pour ce message. Les ID de clé privée exigés sont : $1",
+        "message": "Aucune clé privée n’a été trouvée pour ce message. Les ID de clé privée exigés sont : $1",
         "description": "Decrypt error message."
     },
     "message_read_error": {
-        "message": "Impossible de déchiffrer ce message : $1",
+        "message": "Impossible de déchiffrer ce message : $1",
         "description": "Message read error message: $1: error message."
     },
     "options_about": {
@@ -1136,7 +1136,7 @@
         "description": "Title of the password dialog."
     },
     "pwd_dialog_userid": {
-        "message": "ID utili :",
+        "message": "ID utilisateur :",
         "description": "Label for user ID."
     },
     "pwd_dialog_wrong_pwd": {
@@ -1160,11 +1160,11 @@
         "description": "Label"
     },
     "recovery_sheet_check_settings": {
-        "message": "Veuillez vérifier les paramètres dans votre compte sous :",
+        "message": "Veuillez vérifier les paramètres dans votre compte sous :",
         "description": ""
     },
     "recovery_sheet_creation_date": {
-        "message": "Date de création :",
+        "message": "Date de création :",
         "description": "Label for recovery sheet creation date"
     },
     "recovery_sheet_data_lost": {
@@ -1176,7 +1176,7 @@
         "description": "Sub title"
     },
     "recovery_sheet_enter_code": {
-        "message": "Pour l’installation sur d’autres ordinateurs, saisir le code de récupération dans les paramètres sous :",
+        "message": "Pour l’installation sur d’autres ordinateurs, saisir le code de récupération dans les paramètres sous :",
         "description": "Label for navigation path"
     },
     "recovery_sheet_explain_pgp": {
@@ -1220,7 +1220,7 @@
         "description": ""
     },
     "recovery_sheet_not_working": {
-        "message": "Si vos communications chiffrées ne fonctionnent plus, p. ex. :",
+        "message": "Si vos communications chiffrées ne fonctionnent plus, p. ex. :",
         "description": "Label for list"
     },
     "recovery_sheet_other_computer": {
@@ -1300,7 +1300,7 @@
         "description": "Sub title"
     },
     "recovery_sheet_trusted_contacts": {
-        "message": "Les contacts GMX vous garantissent que les utilisateurs affichés sont bien des utilisateurs valides. Vous devriez cependant toujours vérifier l’identité de contacts utilisant une adresse courriel d’un autre service de courriel.",
+        "message": "Les contacts GMX vous garantissent que les utilisateurs affichés sont bien des utilisateurs valides. Vous devriez cependant toujours vérifier l’identité de contacts utilisant une adresse courriel d’un autre fournisseur de services de courriel.",
         "description": ""
     },
     "recovery_sheet_unknown_third": {
@@ -1320,7 +1320,7 @@
         "description": ""
     },
     "restore_backup_dialog_headline": {
-        "message": "Veuillez saisir votre code de récupération :",
+        "message": "Veuillez saisir votre code de récupération :",
         "description": ""
     },
     "restore_password_dialog_button": {
@@ -1328,7 +1328,7 @@
         "description": ""
     },
     "restore_password_dialog_headline": {
-        "message": "Le mot de passe de votre clé :",
+        "message": "Le mot de passe de votre clé :",
         "description": ""
     },
     "security_background_angle": {
@@ -1384,7 +1384,7 @@
         "description": "Label for display options"
     },
     "security_display_inline": {
-        "message": "Sur la page du service de courriel.",
+        "message": "Sur la page du fournisseur de services de courriel.",
         "description": "Decrypted message display option"
     },
     "security_display_popup": {
@@ -1448,7 +1448,7 @@
         "description": "Encrypt form as an event source"
     },
     "security_log_encryption_operation": {
-        "message": "Le message a été chiffré pour : $1",
+        "message": "Le message a été chiffré pour : $1",
         "description": ""
     },
     "security_log_import_dialog": {
@@ -1552,7 +1552,7 @@
         "description": "Tab of options to display list of authorized domains."
     },
     "sign_dialog_header": {
-        "message": "Signer le message avec la clé :",
+        "message": "Signer le message avec la clé :",
         "description": "Header of sign dialog."
     },
     "sign_error": {
@@ -1592,7 +1592,7 @@
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "upload_quota_exceeded_warning": {
-        "message": "Taille autorisée des pièces jointes :",
+        "message": "Taille autorisée des pièces jointes :",
         "description": "A warning shown when the attachments upload quota is exceeded."
     },
     "upload_quota_warning_headline": {
@@ -1600,7 +1600,7 @@
         "description": ""
     },
     "verify_error": {
-        "message": "Impossible de vérifier ce message : $1",
+        "message": "Impossible de vérifier ce message : $1",
         "description": "Error during verification process."
     },
     "verify_result_error": {
@@ -1658,6 +1658,10 @@
     "watchlist_title_site": {
         "message": "Site",
         "description": "Site in watchlist."
+    },
+    "watchlist_title_https_only": {
+        "message": "HTTPS-seulement",
+        "description": "Only allow URLs with HTTPS scheme in watchlist."
     },
     "word_or": {
         "message": "ou",

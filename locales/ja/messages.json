@@ -24,15 +24,15 @@
         "description": "Cleartext message read error message: $1: error message."
     },
     "action_menu_activate_current_tab": {
-        "message": "現在のタブをアクティブにする",
+        "message": "現在のタブを有効にする",
         "description": "Activate on current tab shortcut in the action menu"
     },
     "action_menu_advanced_menu_aria_label": {
-        "message": "Mailvelope 上級メニュー",
+        "message": "Mailvelope 詳細メニュー",
         "description": "Accessibility, aria label of the advanced menu"
     },
     "action_menu_advanced_options": {
-        "message": "上級オプション",
+        "message": "詳細設定",
         "description": "Advanced options link in the action menu"
     },
     "action_menu_all_options": {
@@ -156,7 +156,7 @@
         "description": ""
     },
     "digital_signature_status_null_description": {
-        "message": "署名した連絡先は未確認です。連絡先に招待を要請してください",
+        "message": "署名者の身元は未確認です。相手を確認してください。",
         "description": ""
     },
     "digital_signature_status_true": {
@@ -272,7 +272,7 @@
         "description": "File encryption top navigation."
     },
     "ext_description": {
-        "message": "エンドツーエンドの暗号でメールサービスを強化し、OpenPGPに基づき、安全な電子メールを実現します。",
+        "message": "エンドツーエンドの暗号でメールサービスの機能を強化し、OpenPGPに基づく安全な電子メールを実現します。",
         "description": "Description of the extension."
     },
     "ext_name": {
@@ -284,7 +284,7 @@
         "description": ""
     },
     "file_encrypt_armored_output": {
-        "message": "テキスト形式の暗号化(ASCII-Armor)",
+        "message": "テキスト形式の暗号化（ASCII-Armor）",
         "description": ""
     },
     "file_encrypting": {
@@ -408,7 +408,7 @@
         "description": "Option to choose GnuPG as the preferred OpenPGP backend."
     },
     "general_prefer_gnupg_note": {
-        "message": "注意: 公開鍵は全てのキーリングで同期されます。秘密鍵がある場合、Mailvelopeは暗号化に使うライブラリの設定を変更します。",
+        "message": "注意: 公開鍵は全ての鍵リングで同期されます。秘密鍵がある場合、Mailvelopeは暗号化に使うライブラリの設定を変更します。",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "general_prefer_openpgpjs": {
@@ -416,7 +416,7 @@
         "description": "Default option with OpenPGP.js as the preferred OpenPGP backend."
     },
     "general_default_key_always": {
-        "message": "常に受信者リストに自分の鍵を追加する（自分が送信した暗号化メールを解読できるようになります）",
+        "message": "常に受信者リストに自分の鍵を追加する（自分が送信した暗号化メールを自分でも解読できるようになります）",
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
@@ -432,7 +432,7 @@
         "description": "Header that shows that GnuPG is available on the system."
     },
     "gnupg_error_unusable_pub_key": {
-        "message": "以下の公開鍵はGnuPGキーリングにあるか確認してください: $1",
+        "message": "以下の公開鍵はGnuPG鍵リングにあるか確認してください: $1",
         "description": ""
     },
     "gnupg_not_available": {
@@ -608,11 +608,11 @@
         "description": ""
     },
     "key_import_extend_description": {
-        "message": "PGPフィンガープリントは、相手のPGP鍵が確かに相手のものかを確認するために使われます",
+        "message": "フィンガープリント（PGP指紋）は、「相手のPGP鍵が確かに相手のものか」を確認するために使われます",
         "description": "Key import dialog description."
     },
     "key_import_extend_fingerprint": {
-        "message": "PGPフィンガープリント",
+        "message": "フィンガープリント",
         "description": ""
     },
     "key_import_extend_headline": {
@@ -768,7 +768,7 @@
         "description": "In order to transfer your encrypted communication to other devices."
     },
     "keybackup_waiting_description": {
-        "message": "リカバリーコードの文書を準備中です。",
+        "message": "復旧コードの文書を準備中です。",
         "description": ""
     },
     "keybackup_waiting_headline": {
@@ -812,7 +812,7 @@
         "description": "Public-key algorithm of a PGP key."
     },
     "keygrid_all_keys": {
-        "message": "すべて",
+        "message": "両方",
         "description": "Selection of key type."
     },
     "keygrid_creation_date": {
@@ -856,7 +856,7 @@
         "description": "Export key."
     },
     "keygrid_export_title": {
-        "message": "このリストの全鍵をエクスポート",
+        "message": "このリストの全ての鍵をエクスポート",
         "description": "Title for Export key button."
     },
     "keygrid_import_title": {
@@ -872,7 +872,7 @@
         "description": "User ID invalid."
     },
     "keygrid_key_fingerprint": {
-        "message": "PGPフィンガープリント",
+        "message": "フィンガープリント",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_key_length": {
@@ -892,7 +892,7 @@
         "description": "Key ID of a PGP key."
     },
     "keygrid_no_subkeys": {
-        "message": "サブ鍵がありません",
+        "message": "補助鍵がありません",
         "description": "No subkeys of a PGP key found."
     },
     "keygrid_no_userid": {
@@ -900,7 +900,7 @@
         "description": "Warning message if no user id found."
     },
     "keygrid_primary_key": {
-        "message": "メイン鍵",
+        "message": "主鍵",
         "description": "Main key in the PGP key."
     },
     "keygrid_default_label": {
@@ -920,7 +920,7 @@
         "description": "Refresh keygrid component."
     },
     "keygrid_refresh_title": {
-        "message": "キーリングの再読み込み",
+        "message": "鍵リングの再読み込み",
         "description": "Title for button to refresh keygrid component."
     },
     "keygrid_send_pub_key": {
@@ -932,7 +932,7 @@
         "description": "User ID of signer."
     },
     "keygrid_signer_unknown": {
-        "message": "未知の署名人",
+        "message": "未確認の署名人",
         "description": "Key of signer not available."
     },
     "keygrid_sort_type": {
@@ -952,7 +952,7 @@
         "description": "Subkey ID of a PGP key."
     },
     "keygrid_subkeys": {
-        "message": "サブ鍵",
+        "message": "補助鍵（Subkey）",
         "description": "Subkeys of a PGP key."
     },
     "keygrid_user_email": {
@@ -1016,7 +1016,7 @@
         "description": "key pair"
     },
     "keyring_main": {
-        "message": "主キーリング",
+        "message": "主鍵リング",
         "description": "Label for the main keyring"
     },
     "keyring_private": {
@@ -1320,7 +1320,7 @@
         "description": ""
     },
     "restore_backup_dialog_headline": {
-        "message": "リカバリーコードを入力してください",
+        "message": "復旧コードを入力してください",
         "description": ""
     },
     "restore_password_dialog_button": {
@@ -1600,7 +1600,7 @@
         "description": ""
     },
     "verify_error": {
-        "message": "メッセージの真実性を確認できませんでした: $1",
+        "message": "メッセージの真正性を確認できませんでした: $1",
         "description": "Error during verification process."
     },
     "verify_result_error": {
@@ -1660,7 +1660,7 @@
         "description": "Site in watchlist."
     },
     "watchlist_title_https_only": {
-        "message": "HTTPS-only",
+        "message": "HTTPS-onlyです",
         "description": "Only allow URLs with HTTPS scheme in watchlist."
     },
     "word_or": {

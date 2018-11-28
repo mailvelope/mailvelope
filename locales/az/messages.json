@@ -824,7 +824,7 @@
         "description": "Short creation date of a PGP key. Max. width: 90px"
     },
     "keygrid_default_key": {
-        "message": "Default key",
+        "message": "Standart açar",
         "description": "Default key in the keyring."
     },
     "keygrid_delete": {

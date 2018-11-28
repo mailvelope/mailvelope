@@ -868,7 +868,7 @@
         "description": "Title for generate key button"
     },
     "keygrid_invalid_userid": {
-        "message": "Invalid User ID",
+        "message": "Ошибка ID пользователя",
         "description": "User ID invalid."
     },
     "keygrid_key_fingerprint": {
@@ -896,7 +896,7 @@
         "description": "No subkeys of a PGP key found."
     },
     "keygrid_no_userid": {
-        "message": "No valid User ID found",
+        "message": "ID пользователя не найден",
         "description": "Warning message if no user id found."
     },
     "keygrid_primary_key": {
@@ -1660,7 +1660,7 @@
         "description": "Site in watchlist."
     },
     "watchlist_title_https_only": {
-        "message": "HTTPS-only",
+        "message": "Только HTTPS",
         "description": "Only allow URLs with HTTPS scheme in watchlist."
     },
     "word_or": {

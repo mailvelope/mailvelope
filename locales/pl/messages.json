@@ -1,278 +1,278 @@
 {
     "alert_header_success": {
-        "message": "¡Completado con éxito!",
+        "message": "Sukces!",
         "description": "Alert header of category success."
     },
     "alert_header_warning": {
-        "message": "¡Advertencia!",
+        "message": "Uwaga!",
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Un patrón de coincidencia de dominio debe comenzar con *.",
+        "message": "Domena musi zgadzać się ze wzorcem który zaczyna się znakiem *.",
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
-        "message": "Se precisa al menos un patrón de coincidencia de dominio.",
+        "message": "Przynajmniej jeden wzór domeny jest potrzebny.",
         "description": "Alert header of category warning."
     },
     "change_link": {
-        "message": "Cambiar",
+        "message": "Zmień",
         "description": "Navigation link to change this setting."
     },
     "cleartext_read_error": {
-        "message": "No se pudo leer este mensaje de texto plano: $1",
+        "message": "Nie można było odczytaj tej nieszyfrowanej wiadomości: $1",
         "description": "Cleartext message read error message: $1: error message."
     },
     "action_menu_activate_current_tab": {
-        "message": "Activar en la pestaña actual",
+        "message": "Activate on current tab",
         "description": "Activate on current tab shortcut in the action menu"
     },
     "action_menu_advanced_menu_aria_label": {
-        "message": "Menú avanzado de Mailvelope",
+        "message": "Zaawansowane menu Mailvelope",
         "description": "Accessibility, aria label of the advanced menu"
     },
     "action_menu_advanced_options": {
-        "message": "Opciones avanzadas",
+        "message": "Ustawienia zaawansowane",
         "description": "Advanced options link in the action menu"
     },
     "action_menu_all_options": {
-        "message": "Todas las opciones",
+        "message": "Wszystkie opcje",
         "description": "All options link in the action menu"
     },
     "action_menu_back": {
-        "message": "Volver",
+        "message": "Wstecz",
         "description": "Back link in the action menu"
     },
     "action_menu_configure_mailvelope": {
-        "message": "¡<0>Configure Mailvelope</0> para comenzar!",
+        "message": "<0>Skonfiguruj Mailvelope</0> na początek!",
         "description": "Configure Mailvelope label in the action menu"
     },
     "action_menu_dashboard": {
-        "message": "<0>Panel de instrumentos:</0> Examine todas las opciones de configuración.",
+        "message": "<0>Dashboard:</0> browse all configuration options.",
         "description": "Dashboard label in the action menu"
     },
     "action_menu_edit_security_settings": {
-        "message": "Editar configuración de seguridad",
+        "message": "Edytuj ustawienia prywatności",
         "description": "Edit security settings shortcut in the action menu"
     },
     "action_menu_file_encryption": {
-        "message": "<0>Cifrado de archivos:</0> Cifre uno o más archivos.",
+        "message": "<0>Szyfrowanie plików:</0> zaszyfruj plik i inne działania.",
         "description": "File encryption label in the action menu"
     },
     "action_menu_keyring": {
-        "message": "<0>Juego de llaves:</0> Administre llaves públicas y privadas.",
+        "message": "<0>Pęk kluczy:</0> zarządzaj kluczami prywatnymi i publicznymi.",
         "description": "Keyring label in the action menu"
     },
     "action_menu_manage_domains": {
-        "message": "Administrar dominios autorizados",
+        "message": "Zarządzaj autoryzowanymi domenami",
         "description": "Manage domains shortcut in the action menu"
     },
     "action_menu_more_options": {
-        "message": "Más opciones",
+        "message": "Więcej opcji",
         "description": "More options link in the action menu (setup state)"
     },
     "action_menu_help": {
-        "message": "Ayuda",
+        "message": "Pomoc",
         "description": "Online help shortcut."
     },
     "action_menu_primary_menu_aria_label": {
-        "message": "Menú principal de Mailvelope",
+        "message": "Główne menu Mailvelope",
         "description": "Accessibility, aria label of the primary menu"
     },
     "action_menu_reload_extension_scripts": {
-        "message": "Recargar scripts de extensiones",
+        "message": "Wczytaj ponownie skrypty rozszerzeń",
         "description": "Reload extension scripts shortcut in the action menu"
     },
     "action_menu_review_security_logs": {
-        "message": "Revisar registros (logs) de seguridad",
+        "message": "Review security logs",
         "description": "Review security logs shortcut in the action menu"
     },
     "action_menu_setup_menu_aria_label": {
-        "message": "Menú de configuración de Mailvelope",
+        "message": "Menu ustawień Mailvelope",
         "description": "Accessibility, aria label of the setup menu"
     },
     "dashboard_link_encrypt_decrypt_files": {
-        "message": "Cifrar y descifrar archivos",
+        "message": "Zaszyfruj i odszyfruj pliki",
         "description": "Dashboard encrypt decrypt files link"
     },
     "dashboard_link_help": {
-        "message": "Ayuda",
+        "message": "Pomoc",
         "description": "Dashboard help link"
     },
     "dashboard_link_manage_domains": {
-        "message": "Administrar dominios autorizados",
+        "message": "Zarządzaj autoryzowanymi domenami",
         "description": "Dashboard manage domains link"
     },
     "dashboard_link_manage_keys": {
-        "message": "Administrar llaves",
+        "message": "Zarządzaj kluczami",
         "description": "Dashboard manage keys link"
     },
     "dashboard_link_view_security_log": {
-        "message": "Ver registros de seguridad",
+        "message": "Pokaż dzienniki bezpieczeństwa",
         "description": "Dashboard view security logs link"
     },
     "dashboard_title": {
-        "message": "Panel de instrumentos",
+        "message": "Dashboard",
         "description": "Dashboard view header"
     },
     "decrypt_digital_signature": {
-        "message": "Firmado digitalmente",
+        "message": "Podpisano cyfrowo",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
-        "message": "Firma digital inválida",
+        "message": "Niepoprawny podpis cyfrowy",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
-        "message": "La firma digital no pudo ser identificada",
+        "message": "Nie można zidentyfikować podpisu cyfrowego",
         "description": "Caption digital signature"
     },
     "decrypt_popup_copy": {
-        "message": "Copiar al Portapapeles",
+        "message": "Skopiuj do schowka",
         "description": "Copy decrypted message to clipboard."
     },
     "decrypt_popup_header": {
-        "message": "Mensaje",
+        "message": "Wiadomość",
         "description": "Header of decrypt popup."
     },
     "decrypt_popup_title": {
-        "message": "Mensaje descifrado",
+        "message": "Odszyfruj Wiadomość",
         "description": "Title of decrypt popup."
     },
     "dialog_keyid_label": {
-        "message": "ID de la llave:",
+        "message": "ID Klucza:",
         "description": "Label for key ID."
     },
     "dialog_popup_close": {
-        "message": "Cerrar",
+        "message": "Zamknij",
         "description": "Close decrypt popup."
     },
     "digital_signature_status_false": {
-        "message": "Firma no válida",
+        "message": "Niepoprawny podpis",
         "description": ""
     },
     "digital_signature_status_null": {
-        "message": "La firma no se puede verificar",
+        "message": "Nie można zweryfikować podpisu",
         "description": ""
     },
     "digital_signature_status_null_description": {
-        "message": "El contacto de la firma digital no ha sido confirmado aún para comunicación cifrada. Pida una invitación al contacto.",
+        "message": "The contact of the digital signature has not yet been confirmed for encrypted communication. Please ask the contact for an invitation.",
         "description": ""
     },
     "digital_signature_status_true": {
-        "message": "La firma es válida",
+        "message": "Poprawny podpis",
         "description": ""
     },
     "editor_blur_warn": {
-        "message": "Advertencia: El editor de texto ha perdido el foco.",
+        "message": "Warning: Text editor lost focus.",
         "description": "Warning for lost focus."
     },
     "editor_encrypt_button": {
-        "message": "Cifrar",
+        "message": "Szyfruj",
         "description": "Encrypt button."
     },
     "editor_error_header": {
-        "message": "Error",
+        "message": "Błąd",
         "description": ""
     },
     "editor_header": {
-        "message": "Componer correo electrónico",
+        "message": "Utwórz e-mail",
         "description": "Header of editor popup."
     },
     "editor_link_file_encryption": {
-        "message": "Cifrar archivos",
+        "message": "Zaszyfruj pliki",
         "description": "Navigation link to file encryption"
     },
     "editor_no_default_key_caption_long": {
-        "message": "El correo electrónico no puede ser firmado digitalmente porque falta la llave por defecto",
+        "message": "Nie można cyfrowo podpisać wiadomości, ponieważ brakuje klucza domyślnego",
         "description": ""
     },
     "editor_no_default_key_caption_short": {
-        "message": "No se puede firmar digitalmente el correo",
+        "message": "Nie można podpisać cyfrowo e-maila",
         "description": ""
     },
     "editor_remove_upload": {
-        "message": "Eliminar",
+        "message": "Usuń",
         "description": "Remove uploaded attachment"
     },
     "editor_sign_button": {
-        "message": "Sólo firmar",
+        "message": "Tylko podpisz",
         "description": "Sign button."
     },
     "editor_sign_caption_long": {
-        "message": "Cuando se envíe el correo electrónico, también se firmará digitalmente",
+        "message": "When the Email is sent out, it will also be signed digitally",
         "description": ""
     },
     "editor_sign_caption_short": {
-        "message": "El correo electrónico se firmará digitalmente",
+        "message": "E-mail zostanie podpisany cyfrowo",
         "description": ""
     },
     "editor_transfer": {
-        "message": "Transferir",
+        "message": "Transfer",
         "description": "Transfer button of editor popup."
     },
     "editor_label_add_recipient": {
-        "message": "Añadir destinatario",
+        "message": "Dodaj odbiorcę",
         "description": "Label for recipient text input."
     },
     "editor_key_not_found": {
-        "message": "¡No se ha encontrado la llave!",
+        "message": "Nie znaleziono klucza!",
         "description": "Warning for when a recipient key was not found."
     },
     "editor_key_not_found_msg": {
-        "message": "Todos los destinatarios necesitan una llave PGP para cifrar. No obstante todavía puede firmar el mensaje.",
+        "message": "All recipients need a PGP key to encrypt. You can still sign the message though.",
         "description": "Warning for when a recipient key was not found."
     },
     "encrypt_dialog_add": {
-        "message": "Añadir",
+        "message": "Dodaj",
         "description": "Max 6 character."
     },
     "encrypt_dialog_header": {
-        "message": "Cifrar para:",
+        "message": "Szyfruj dla:",
         "description": "Header of encrypt dialog."
     },
     "encrypt_dialog_no_recipient": {
-        "message": "Por favor añada un destinatario.",
+        "message": "Proszę dodać odbiorcę.",
         "description": "Error message if no recipient selected."
     },
     "encrypt_dialog_subheader": {
-        "message": "Personas:",
+        "message": "Osoby:",
         "description": "Subheader of encrypt dialog."
     },
     "encrypt_download_all_button": {
-        "message": "Guardar todo",
+        "message": "Zapisz wszystko",
         "description": "Button to download all files"
     },
     "encrypt_download_file_button": {
-        "message": "Clic para guardar archivo",
+        "message": "Kliknij aby zapisać plik",
         "description": "Download icon"
     },
     "encrypt_download_file_title": {
-        "message": "Guardar archivos",
+        "message": "Zapisz pliki",
         "description": "Title of download area"
     },
     "encrypt_error": {
-        "message": "No se pudo cifrar este mensaje: $1",
+        "message": "Nie udało się zaszyfrować tej wiadomości: $1",
         "description": "Error during encryption process."
     },
     "encrypt_file_selection": {
-        "message": "Selección de archivo",
+        "message": "Wybór pliku",
         "description": "File upload selection"
     },
     "encrypt_upload_file_help": {
-        "message": "Ningún archivo puede ser mayor a ## MB.",
+        "message": "Żaden z plików nie może być większy niż ## MB.",
         "description": "Help text"
     },
     "encrypt_upload_file_warning_too_big": {
-        "message": "Uno de los archivos es demasiado grande.",
+        "message": "Jeden z plików jest zbyt duży.",
         "description": "."
     },
     "encrypting_home": {
-        "message": "Cifrado",
+        "message": "Szyfrowanie",
         "description": "File encryption top navigation."
     },
     "ext_description": {
-        "message": "Mejore su servicio de correo electrónico con cifrado de punta a punta. Asegure la comunicación por correo usando el estándar OpenPGP.",
+        "message": "Enhance your email provider with end-to-end encryption. Secure email communication based on the OpenPGP standard.",
         "description": "Description of the extension."
     },
     "ext_name": {
@@ -280,1359 +280,1359 @@
         "description": "Name of the extension."
     },
     "file_decrypting": {
-        "message": "Descifrado del archivo",
+        "message": "Rozszyfrowanie pliku",
         "description": ""
     },
     "file_encrypt_armored_output": {
-        "message": "Cifrar a archivo en formato de texto (ASCII-Armor)",
+        "message": "Encrypt to file in text format (ASCII-Armor)",
         "description": ""
     },
     "file_encrypting": {
-        "message": "Cifrado de archivos",
+        "message": "Szyfrowanie plików",
         "description": ""
     },
     "file_read_error": {
-        "message": "No se pudo descifrar este archivo: $1",
+        "message": "Nie można rozszyfrować pliku: $1",
         "description": ""
     },
     "form_back": {
-        "message": "Atrás",
+        "message": "Wstecz",
         "description": "Back form button."
     },
     "form_busy": {
-        "message": "Ocupado",
+        "message": "Przetwarzanie",
         "description": "Form in busy state."
     },
     "form_cancel": {
-        "message": "Cancelar",
+        "message": "Anuluj",
         "description": "Cancel form button."
     },
     "form_clear": {
-        "message": "Limpiar",
+        "message": "Wyczyść",
         "description": "Clear form button."
     },
     "form_close": {
-        "message": "Cerrar",
+        "message": "Zamknij",
         "description": "Close form button."
     },
     "form_confirm": {
-        "message": "Confirmar",
+        "message": "Potwierdź",
         "description": "Confirm form button."
     },
     "form_continue": {
-        "message": "Continuar",
+        "message": "Kontynuuj",
         "description": "Continue form button."
     },
     "form_definition_error_no_recipient_key": {
-        "message": "No hay una llave de cifrado válida para la dirección del destinatario.",
+        "message": "No valid encryption key for recipient address.",
         "description": "Error message when recipient key is not in keyring"
     },
     "form_definition_error_signature_invalid": {
-        "message": "El formulario de firma no es válido.",
+        "message": "The form signature is not valid.",
         "description": "Error message when the form signature is not valid"
     },
     "form_destination": {
-        "message": "Destino I2P",
+        "message": "Przeznaczenie",
         "description": "URL the form data will be sent to"
     },
     "form_destination_default": {
-        "message": "Los datos cifrados serán retornados a la página.",
+        "message": "The encrypted data will be returned to the page.",
         "description": "Behavior when no action is specified in form"
     },
     "form_sign_error_no_default_key": {
-        "message": "No hay una llave privada disponible en el juego de llaves para firmar el contenido del formulario. Por favor importe o cree una.",
+        "message": "No private key is available in the keyring to sign the form content. Please import or create one.",
         "description": "Error message when trying to sign and no primary key is found"
     },
     "form_forward": {
-        "message": "Adelante",
+        "message": "Forward",
         "description": "Forward form button."
     },
     "form_import": {
-        "message": "Importar",
+        "message": "Import",
         "description": "Import form button."
     },
     "form_loading": {
-        "message": "Cargando formulario",
+        "message": "Wczytywanie formularza",
         "description": "Waiting modal when form is loading."
     },
     "form_next": {
-        "message": "Siguiente",
+        "message": "Dalej",
         "description": "Next form button."
     },
     "form_no": {
-        "message": "No",
+        "message": "Nie",
         "description": "No form button."
     },
     "form_ok": {
-        "message": "Aceptar",
+        "message": "OK",
         "description": "Ok form button."
     },
     "form_recipient": {
-        "message": "Receptor",
+        "message": "Odbiorca",
         "description": "The email for which the form will be encrypted for"
     },
     "form_save": {
-        "message": "Guardar",
+        "message": "Zapisz",
         "description": "Save form button."
     },
     "form_submit": {
-        "message": "Enviar",
+        "message": "Wyślij",
         "description": "Submit form button."
     },
     "form_undo": {
-        "message": "Deshacer",
+        "message": "Cofnij",
         "description": "Undo form button."
     },
     "form_yes": {
-        "message": "Sí",
+        "message": "Tak",
         "description": "Yes form button."
     },
     "general_editor_plain": {
-        "message": "Texto simple",
+        "message": "Zwykły Tekst",
         "description": "Editor option: plain text."
     },
     "general_editor_rich": {
-        "message": "Editor de texto enriquecido",
+        "message": "Bogaty Edytor Tekstowy",
         "description": "Editor option: rich text."
     },
     "general_editor_type": {
-        "message": "Selección del editor de correo",
+        "message": "Wybór edytora email",
         "description": "Label for editor options."
     },
     "general_openpgp_preferences": {
-        "message": "Preferencias de OpenPGP",
+        "message": "Ustawienia OpenPGP",
         "description": "Headline for OpenPGP settings."
     },
     "general_prefer_gnupg": {
-        "message": "Preferir GNUPG para todas las operaciones de cifrado de OpenPGP",
+        "message": "Preferuj GnuPG dla wszystkich operacji szyfrowania OpenPGP",
         "description": "Option to choose GnuPG as the preferred OpenPGP backend."
     },
     "general_prefer_gnupg_note": {
-        "message": "Nota: las llaves públicas son sincronizadas entre los juegos de llaves disponibles. Dependiendo de la disponibilidad de llaves privadas, Mailvelope puede pasar por alto el ajuste de biblioteca de cifrado preferida.",
+        "message": "Note: public keys are synchronized between available keyrings. Depending on availability of private keys, Mailvelope can override the preferred encryption library setting.",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "general_prefer_openpgpjs": {
-        "message": "Preferir OpenPGP.js (biblioteca de cifrado incorporada por defecto en Mailvelope)",
+        "message": "Prefer OpenPGP.js (default built-in Mailvelope encryption library)",
         "description": "Default option with OpenPGP.js as the preferred OpenPGP backend."
     },
     "general_default_key_always": {
-        "message": "Siempre añadir mi llave por defecto a la lista de destinatarios. (Esto te permite descifrar correos electrónicos enviados)",
+        "message": "Always add my default key to the list of recipients. (This allows you to decrypt sent mails)",
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "Firmar todos los mensajes con la llave por defecto",
+        "message": "Podpisz wszystkie wiadomości domyślnym kluczem",
         "description": "Label for default private key option."
     },
     "gnupg_available": {
-        "message": "Disponible",
+        "message": "Dostępny",
         "description": "Label indicating GnuPG feature is available."
     },
     "gnupg_connection": {
-        "message": "Conexión GNUPG",
+        "message": "Połączenie GnuPG",
         "description": "Header that shows that GnuPG is available on the system."
     },
     "gnupg_error_unusable_pub_key": {
-        "message": "Por favor comprueba si las siguientes llaves públicas están disponibles en tu juego de llaves GNUPG y son válidas: $1",
+        "message": "Please check if the following public keys are available in your GnuPG keyring and valid: $1",
         "description": ""
     },
     "gnupg_not_available": {
-        "message": "No disponible",
+        "message": "Niedostępne",
         "description": "Label indicating GnuPG feature is not available."
     },
     "header_warning": {
-        "message": "¡Advertencia!",
+        "message": "Uwaga!",
         "description": "Header warning."
     },
     "install_landing_page_getting_started": {
-        "message": "Haga clic en el icono de Mailvelope <0></0> en la barra de herramientas de su navegador para comenzar con la configuración.",
+        "message": "Kliknij na ikonie Mailvelope <0></0> w twoim pasku narzędzi przeglądarki, aby rozpocząć konfigurację programu.",
         "description": "Install landing page getting started message"
     },
     "install_landing_page_help": {
-        "message": "Revise la <0>ayuda en línea</0> para más información.",
+        "message": "Odwiedź <0>pomoc online</0>, aby uzyskać więcej informacji.",
         "description": "Install landing page help message"
     },
     "install_landing_page_welcome": {
-        "message": "¡Bienvenido a Mailvelope!",
+        "message": "Witaj w Mailvelope!",
         "description": "Install landing page welcome message"
     },
     "keyserver_hkp_url": {
-        "message": "Servidor de llaves HKP",
+        "message": "Serwer kluczy HKP",
         "description": "HKP key server option: url."
     },
     "keyserver_additionals_label": {
-        "message": "Fuentes adicionales de llaves",
+        "message": "Dodatkowe źródła kluczy",
         "description": "Label for configuration of additional key sources"
     },
     "keyserver_tofu_lookup": {
-        "message": "Usar el servidor de llaves de Mailvelope",
+        "message": "Użyj serwera kluczy Mailvelope",
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_wkd_lookup": {
-        "message": "Solicitar llaves al proveedor de correo electrónico de los destinatarios (directorio Web Key)",
+        "message": "Query keys from the recipients Mail provider (Web Key Directory)",
         "description": "Enable Web Key Directory Auto Lookup"
     },
     "keyserver_url_warning": {
-        "message": "La URL del servidor de llaves debe tener el siguiente formato: http(s)://keys.ejemplo.com",
+        "message": "Key server URL must have the following format: http(s)://keys.example.com",
         "description": "HKP key server url warning."
     },
     "keyserver_url_error": {
-        "message": "No se puede alcanzar el servidor de llaves",
+        "message": "Serwer kluczy jest nieosiągalny",
         "description": "HKP key server URL error."
     },
     "key_details_title": {
-        "message": "Detalles de la llave",
+        "message": "Szczegóły klucza",
         "description": "The title of the key details dialog."
     },
     "key_export_clipboard": {
-        "message": "Copiar al Portapapeles",
+        "message": "Kopiuj do schowka",
         "description": "Copy to clipboard button."
     },
     "key_export_create_file": {
-        "message": "Descargar",
+        "message": "Zapisz",
         "description": "Download file button."
     },
     "key_export_header": {
-        "message": "Exportar llave",
+        "message": "Eksportuj Klucz",
         "description": "Export key dialog header."
     },
     "key_export_warning_private": {
-        "message": "Este archivo también contiene llaves privadas. Conserve el archivo en un lugar seguro y no lo comparta con otros.",
+        "message": "This file also contains private keys. Keep the file in a safe place and do not share with others.",
         "description": "Key export warning."
     },
     "key_gen_advanced_btn": {
-        "message": "Avanzadas",
+        "message": "Zaawansowane",
         "description": "Advanced key generation settings."
     },
     "key_gen_another": {
-        "message": "Generar otra...",
+        "message": "Utwórz inny...",
         "description": "Key import button"
     },
     "key_gen_demail": {
-        "message": "Dirección de De-Mail",
+        "message": "Adres De-Mail",
         "description": "De-Mail address name."
     },
     "key_gen_error": {
-        "message": "Error al generar llave.",
+        "message": "Wystąpił błąd podczas generowania klucza.",
         "description": "Key generation error message"
     },
     "key_gen_experimental": {
-        "message": "experimental",
+        "message": "eksperymentalny",
         "description": "A key algorithm is flagged as experimental"
     },
     "key_gen_expiration": {
-        "message": "Fecha de caducida de la llave",
+        "message": "Data wygaśnięcia klucza",
         "description": "Key expiration date"
     },
     "key_gen_future_default": {
-        "message": "Por defecto a futuro",
+        "message": "Domyślne w przyszłości",
         "description": "Key generation algorithm, the future supported standard."
     },
     "key_gen_generate": {
-        "message": "Generar",
+        "message": "Utwórz",
         "description": "Key generate button label"
     },
     "key_gen_invalid_email": {
-        "message": "Dirección de correo no válida",
+        "message": "Błędny adres email",
         "description": "Error message."
     },
     "key_gen_key_size": {
-        "message": "Tamaño de la llave",
+        "message": "Wielkość klucza",
         "description": "Advanced key generation settings: Key size"
     },
     "key_gen_name_help": {
-        "message": "Nombre completo del propietario de la llave",
+        "message": "Pełna nazwa posiadacza klucza",
         "description": "Help text for name field."
     },
     "key_gen_pwd": {
-        "message": "Introduzca contraseña",
+        "message": "Wpisz hasło",
         "description": "Label for passphrase input field"
     },
     "key_gen_pwd_empty": {
-        "message": "El campo de contraseña está vacío",
+        "message": "Pole hasła jest puste",
         "description": "Passphrase input field status"
     },
     "key_gen_pwd_match": {
-        "message": "Las contraseñas coinciden",
+        "message": "Hasła zgadzają się",
         "description": "Passphrase input field status"
     },
     "key_gen_pwd_reenter": {
-        "message": "Vuelva a introducir la contraseña",
+        "message": "Powtórz hasło",
         "description": "Label for passphrase input field"
     },
     "key_gen_pwd_unequal": {
-        "message": "Las contraseñas no son iguales",
+        "message": "Hasła nie zgadzają się",
         "description": "Passphrase input field status"
     },
     "key_gen_success": {
-        "message": "Nueva llave generada e importada al juego de llaves",
+        "message": "Wygenerowano nowy klucz i zaimportowano go do pęku kluczy",
         "description": "Key generation success message"
     },
     "key_gen_wait_header": {
-        "message": "Generación de llave en marcha...",
+        "message": "Trwa generowanie klucza...",
         "description": "Wait dialog header"
     },
     "key_gen_wait_info": {
-        "message": "Por favor espere, la generación de llave puede llevar varios minutos dependiendo de factores como el tamaño de la llave.",
+        "message": "Please wait, key generation can take up to several minutes depending on various factors, such as the key size.",
         "description": "Wait dialog info message"
     },
     "key_gen_upload": {
-        "message": "Subir llave pública al Servidor de Claves de Mailvelope (se pueden borrar en cualquier momento)",
+        "message": "Upload public key to Mailvelope Key Server (can be deleted at any time)",
         "description": "Upload key to Mailvelope key server checkbox"
     },
     "learn_more_link": {
-        "message": "Conocer más",
+        "message": "Dowiedz się więcej",
         "description": "Text of a link to a learn-more resource"
     },
     "key_import_default_description": {
-        "message": "Confirme para habilitar la comunicación cifrada con este destinatario.",
+        "message": "Czy chcesz zatwierdzić szyfrowaną komunikację z tym odbiorcą?",
         "description": "Key import dialog description."
     },
     "key_import_default_headline": {
-        "message": "¿Añadir contacto a la comunicación cifrada?",
+        "message": "Czy dodać ten kontakt do szyfrowanych komunikacji?",
         "description": "Key import dialog header."
     },
     "key_import_dialog_header": {
-        "message": "Añadir llave al juego de llaves",
+        "message": "Dodaj do pęku kluczy",
         "description": "Key import dialog header."
     },
     "key_import_error": {
-        "message": "Error de importación.",
+        "message": "Błąd importowania.",
         "description": "Import error alert."
     },
     "key_import_exception": {
-        "message": "Ocurrió un error al procesar las llaves",
+        "message": "Podczas przetwarzania kluczy pojawił się błąd",
         "description": "Import error alert."
     },
     "key_import_extend_date": {
-        "message": "Creado:",
+        "message": "Utworzony:",
         "description": ""
     },
     "key_import_extend_description": {
-        "message": "La huella de validación de llave PGP se usa para identificar de forma única la llave PGP de su contacto.",
+        "message": "The PGP fingerprint is used to uniquely identify the PGP key of your contact.",
         "description": "Key import dialog description."
     },
     "key_import_extend_fingerprint": {
-        "message": "Huella de validación de llave PGP:",
+        "message": "Odcisk klucza PGP:",
         "description": ""
     },
     "key_import_extend_headline": {
-        "message": "Información avanzada para comunicación cifrada:",
+        "message": "Further information on encrypted communication:",
         "description": "Key import dialog description."
     },
     "key_import_extend_hint": {
-        "message": "Sugerencia:",
+        "message": "Podpowiedź:",
         "description": ""
     },
     "key_import_file": {
-        "message": "Importar llave desde archivo",
+        "message": "Importuj klucz z pliku",
         "description": "File selection label."
     },
     "key_import_file_select": {
-        "message": "Seleccione un archivo de texto de llave a importar",
+        "message": "Wybierz plik tekstowy klucza do importu",
         "description": "File selection button label."
     },
     "key_import_hkp_search": {
-        "message": "Búsqueda de llave",
+        "message": "Wyszukiwanie kluczy",
         "description": ""
     },
     "key_import_hkp_search_public": {
-        "message": "Buscar llaves públicas en el servidor de llaves",
+        "message": "Szukaj kluczy publicznych na serwerze kluczy.",
         "description": ""
     },
     "key_import_hkp_search_btn": {
-        "message": "Buscar",
+        "message": "Szukaj",
         "description": ""
     },
     "key_import_hkp_search_ph": {
-        "message": "Por nombre, dirección de correo electrónico, o identificación de llave",
+        "message": "po nazwie, adresie email lub ID klucza",
         "description": ""
     },
     "key_import_hkp_server": {
-        "message": "Servidor de llaves",
+        "message": "Serwer kluczy",
         "description": ""
     },
     "key_import_invalid_text": {
-        "message": "No se encontró texto válido de llave",
+        "message": "Nie znaleziono ważnego klucza",
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Una comunicación cifrada con [CONTACT] ya no será posible. El contacto tiene que volver a invitarle.",
+        "message": "Encrypted communication with [CONTACT] is no longer possible. The contact needs to re-invite you.",
         "description": ""
     },
     "key_import_invalidated_headline": {
-        "message": "¡Advertencia! Los datos existentes para comunicación cifrada están caducados.",
+        "message": "Warning: Necessary data for encrypted communication has expired.",
         "description": "Key import dialog header."
     },
     "key_import_multiple_keys": {
-        "message": "Por favor, inserte una o múltiples llaves en formato texto aquí.",
+        "message": "Please insert one or multiple keys in text format here.",
         "description": "Info message."
     },
     "key_import_number_of_failed": {
-        "message": "Número de llaves que no pudieron ser importadas debido a errores: $1",
+        "message": "Liczba kluczy, których nie można zaimportować z powodu błędów: $1",
         "description": "Error message with number of failed imports."
     },
     "key_import_private_exists": {
-        "message": "La parte de la llave privada que coincide con la llave pública existente $1 del usuario $2 se ha importado al juego de llaves.",
+        "message": "Private key part matching existing public key $1 of user $2 imported into keyring",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_read": {
-        "message": "No se pudo leer una llave privada: $1",
+        "message": "Nie można odczytać klucza prywatnego:: $1",
         "description": "Import error message. $1: error message"
     },
     "key_import_private_success": {
-        "message": "Se importó la llave privada $1 del usuario $2 al juego de llaves",
+        "message": "Klucz prywatny $1 użytkownika $2 został zaimportowany do pęku kluczy",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_update": {
-        "message": "Se actualizó la llave privada $1 del usuario $2",
+        "message": "Zaktualizowano klucz prywatny $1 użytkownika $2",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_public_read": {
-        "message": "No se pudo leer una llave pública: $1",
+        "message": "Nie można odczytać klucza publicznego: $1",
         "description": "Import error message. $1: error message"
     },
     "key_import_public_success": {
-        "message": "Se importó la llave pública $1 del usuario $2 en el juego de llaves",
+        "message": "Klucz publiczny $1 użytkownika $2 został zaimportowany do pęku kluczy",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_public_update": {
-        "message": "Se actualizó la llave pública $1 del usuario $2",
+        "message": "Zaktualizowano klucz publiczny $1 użytkownika $2",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_textarea": {
-        "message": "Pegue aquí el texto de la llave:",
+        "message": "Importuj klucz jako tekst",
         "description": "Label"
     },
     "key_import_too_big": {
-        "message": "El texto de la llave que trató de importar es demasiado largo para manejarlo. Pruebe a hacerlo en partes más pequeñas.",
+        "message": "The key text you tried to import is too long to handle. Try doing it in smaller parts.",
         "description": "Import error alert."
     },
     "key_import_unable": {
-        "message": "No se pudo importar una llave debido a una excepción: $1",
+        "message": "Nie można zaimportować klucza z powodu wyjątku: $1",
         "description": "Import error message: $1: error message."
     },
     "key_recovery_failed": {
-        "message": "Se ha producido un error al recuperar la copia de seguridad.",
+        "message": "Nie udało się przywrócić kopii zapasowej klucza.",
         "description": ""
     },
     "key_set_as_default": {
-        "message": "Establecer por defecto",
+        "message": "Ustaw jako domyślny",
         "description": "Set as default key for the keyring button"
     },
     "invalid_default_key": {
-        "message": "La llave no es válida para operaciones de cifrado y firmado",
+        "message": "Szyfrowanie i podpisywanie tym kluczem nie jest możliwe.",
         "description": "Tootip for set as default key button"
     },
     "keybackup_failed": {
-        "message": "Se ha producido un error al crear la copia de seguridad.",
+        "message": "Nie udało się utworzyć kopii zapasowej klucza.",
         "description": ""
     },
     "keybackup_restore_dialog_button": {
-        "message": "Restaurar copia de seguridad",
+        "message": "Przywróć kopię",
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "Cree aquí una nueva hoja de recuperación, si:",
+        "message": "Create here a new recovery sheet, if:",
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
-        "message": "Recomendación: Restaurar copia de seguridad",
+        "message": "Rada: utwórz kopię zapasową",
         "description": ""
     },
     "keybackup_restore_dialog_list_1": {
-        "message": "Ha perdido la hoja de recuperación.",
+        "message": "You lost the recovery sheet.",
         "description": ""
     },
     "keybackup_restore_dialog_list_2": {
-        "message": "Ha de crearse una nueva hoja de recuperación por razones de seguridad.",
+        "message": "A new recovery sheet has to be created for security reasons.",
         "description": ""
     },
     "keybackup_setup_dialog_button": {
-        "message": "Crear una copia de seguridad",
+        "message": "Utwórz kopię zapasową",
         "description": ""
     },
     "keybackup_setup_dialog_description": {
-        "message": "Se requiere la copia de seguridad para garantizar que su comunicacion cifrada es:",
+        "message": "Ta kopia zapasowa wymaga, aby Twoje szyfrowane komunikacje były:",
         "description": ""
     },
     "keybackup_setup_dialog_headline": {
-        "message": "Recomendación: Realizar copia de seguridad",
+        "message": "Rada: utwórz kopię zapasową",
         "description": ""
     },
     "keybackup_setup_dialog_list_1": {
-        "message": "Restaurada ante una pérdida de datos.",
+        "message": "In order to restore it in case of data loss.",
         "description": "In order to restore your encrypted communication in case of data loss."
     },
     "keybackup_setup_dialog_list_2": {
-        "message": "Transferida a otros dispositivos.",
+        "message": "In order to transfer it to other devices.",
         "description": "In order to transfer your encrypted communication to other devices."
     },
     "keybackup_waiting_description": {
-        "message": "Se está preparando un documento con su código de recuperación.",
+        "message": "A document with your recovery code is being prepared.",
         "description": ""
     },
     "keybackup_waiting_headline": {
-        "message": "¡Crear copia de seguridad!",
+        "message": "Tworzenie kopii zapasowej!",
         "description": ""
     },
     "keygen_dialog_confirm": {
-        "message": "Repítala",
+        "message": "Powtórz",
         "description": ""
     },
     "keygen_dialog_confirm_error_unequal": {
-        "message": "Por favor, compruebe las entradas.",
+        "message": "Proszę sprawdź czy dane się zgadzają.",
         "description": ""
     },
     "keygen_dialog_confirm_success": {
-        "message": "Las entradas son correctas.",
+        "message": "Wprowadzone dane są poprawne.",
         "description": ""
     },
     "keygen_dialog_password": {
-        "message": "Contraseña de la llave",
+        "message": "Hasło klucza",
         "description": ""
     },
     "keygen_dialog_password_placeholder": {
-        "message": "mín 4 caracteres",
+        "message": "min 4 znaki",
         "description": ""
     },
     "keygen_dialog_prolog": {
-        "message": "Asigne una contraseña para proteger su comunicación cifrada:",
+        "message": "Wprowadź hasło, aby chronić swoje szyfrowane komunikacje:",
         "description": ""
     },
     "keygen_waiting_description": {
-        "message": "Por favor, tenga paciencia",
+        "message": "Setting up encrypted communication can take several minutes. Your browser may become unresponsive. Please be patient.",
         "description": ""
     },
     "keygen_waiting_headline": {
-        "message": "Configurando la comunicación cifrada",
+        "message": "Ustawianie szyfrowanej komunikacji",
         "description": ""
     },
     "keygrid_algorithm": {
-        "message": "Algoritmo",
+        "message": "Algorytm",
         "description": "Public-key algorithm of a PGP key."
     },
     "keygrid_all_keys": {
-        "message": "Todas",
+        "message": "Wszystkie",
         "description": "Selection of key type."
     },
     "keygrid_creation_date": {
-        "message": "Fecha de creación",
+        "message": "Data Utworzenia",
         "description": "Creation date of a PGP key."
     },
     "keygrid_creation_date_short": {
-        "message": "Creada",
+        "message": "Utworzono",
         "description": "Short creation date of a PGP key. Max. width: 90px"
     },
     "keygrid_default_key": {
-        "message": "Clave por defecto",
+        "message": "Klucz domyślny",
         "description": "Default key in the keyring."
     },
     "keygrid_delete": {
-        "message": "Eliminar",
+        "message": "Usuń",
         "description": "Max. 6 characters."
     },
     "keygrid_delete_confirmation": {
-        "message": "¿Está seguro de que quiere eliminar esta llave?",
+        "message": "Czy jesteś pewny, że chcesz usunąć ten klucz?",
         "description": "Delete confirmation dialog."
     },
     "keygrid_display_all_keys": {
-        "message": "Mostrar todas las llaves",
+        "message": "Wyświetl wszystkie klucze",
         "description": "Export key menu."
     },
     "keygrid_display_priv_key": {
-        "message": "Mostrar llave privada",
+        "message": "Wyświetl klucz prywatny",
         "description": "Export key menu."
     },
     "keygrid_display_pub_key": {
-        "message": "Mostrar llave pública",
+        "message": "Wyświetl klucz publiczny",
         "description": "Export key menu."
     },
     "keygrid_expiration_date": {
-        "message": "Fecha de expiración",
+        "message": "Data Wygaśnięcia",
         "description": "Expiration date of a PGP key."
     },
     "keygrid_export": {
-        "message": "Exportar",
+        "message": "Eksport",
         "description": "Export key."
     },
     "keygrid_export_title": {
-        "message": "Exportar a archivo todas las llaves de esta lista",
+        "message": "Eksportuj wszystkie klucze z tej listy do pliku",
         "description": "Title for Export key button."
     },
     "keygrid_import_title": {
-        "message": "Importar una llave",
+        "message": "Importuj klucz",
         "description": "Title for Import key button."
     },
     "keygrid_generate_title": {
-        "message": "Generar una llave",
+        "message": "Utwórz klucz",
         "description": "Title for generate key button"
     },
     "keygrid_invalid_userid": {
-        "message": "Identificación de usuario inválida",
+        "message": "Nieprawidłowy identyfikator użytkownika",
         "description": "User ID invalid."
     },
     "keygrid_key_fingerprint": {
-        "message": "Huella de validación de llave PGP",
+        "message": "Odcisk klucza PGP",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_key_length": {
-        "message": "Longitud",
+        "message": "Długość",
         "description": "Key length of a PGP key."
     },
     "keygrid_key_not_expire": {
-        "message": "La llave no expira",
+        "message": "Ten klucz nie wygaśnie",
         "description": "Expiration date of a PGP key not set."
     },
     "keygrid_key_type": {
-        "message": "Tipo",
+        "message": "Typ",
         "description": "The type of the key."
     },
     "keygrid_keyid": {
-        "message": "ID llave",
+        "message": "ID Klucza",
         "description": "Key ID of a PGP key."
     },
     "keygrid_no_subkeys": {
-        "message": "No hay subllaves disponibles",
+        "message": "Brak pod-kluczy",
         "description": "No subkeys of a PGP key found."
     },
     "keygrid_no_userid": {
-        "message": "No se encontró identificación de usuario válida",
+        "message": "Nie znaleziono popranego identyfikatora użytkownika",
         "description": "Warning message if no user id found."
     },
     "keygrid_primary_key": {
-        "message": "Clave principal",
+        "message": "Klucz główny",
         "description": "Main key in the PGP key."
     },
     "keygrid_default_label": {
-        "message": "Por defecto",
+        "message": "Domyślny",
         "description": "Label for the default key"
     },
     "keygrid_private_keys": {
-        "message": "Claves privadas",
+        "message": "Klucze Prywatne",
         "description": "Selection of key type."
     },
     "keygrid_public_keys": {
-        "message": "Claves públicas",
+        "message": "Klucze Publiczne",
         "description": "Selection of key type."
     },
     "keygrid_refresh": {
-        "message": "Refrescar",
+        "message": "Odśwież",
         "description": "Refresh keygrid component."
     },
     "keygrid_refresh_title": {
-        "message": "Recargar juego de llaves",
+        "message": "Wczytaj ponownie pęk kluczy",
         "description": "Title for button to refresh keygrid component."
     },
     "keygrid_send_pub_key": {
-        "message": "Enviar llave pública por correo electrónico",
+        "message": "Wyślij klucz publiczny e-mailem",
         "description": "Export key menu."
     },
     "keygrid_signer_name": {
-        "message": "Firmante",
+        "message": "Signee",
         "description": "User ID of signer."
     },
     "keygrid_signer_unknown": {
-        "message": "Firmante desconocido",
+        "message": "Unknown signee",
         "description": "Key of signer not available."
     },
     "keygrid_sort_type": {
-        "message": "Filtros",
+        "message": "Filtry",
         "description": "Key grid sort selector."
     },
     "keygrid_status_invalid": {
-        "message": "no válida",
+        "message": "nieważny",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_valid": {
-        "message": "válida",
+        "message": "ważny",
         "description": "Validity status of a PGP key."
     },
     "keygrid_subkeyid": {
-        "message": "Identidad",
+        "message": "ID",
         "description": "Subkey ID of a PGP key."
     },
     "keygrid_subkeys": {
-        "message": "Subllaves",
+        "message": "Pod-klucze",
         "description": "Subkeys of a PGP key."
     },
     "keygrid_user_email": {
-        "message": "Correo electrónico",
+        "message": "Email",
         "description": "Email address in User ID of a PGP key."
     },
     "keygrid_user_ids": {
-        "message": "Identidades de usuario",
+        "message": "ID Użytkownika",
         "description": "User IDs of a PGP key."
     },
     "keygrid_user_name": {
-        "message": "Nombre",
+        "message": "Nazwa",
         "description": "Name in User ID of a PGP key."
     },
     "keygrid_userid": {
-        "message": "Identidad",
+        "message": "ID",
         "description": "User ID of a PGP key."
     },
     "keygrid_userid_signatures": {
-        "message": "Firmas",
+        "message": "Podpisy",
         "description": "Signatures on User ID of a PGP key."
     },
     "keygrid_validity_status": {
-        "message": "Estado",
+        "message": "Status",
         "description": "Validity status of a PGP key."
     },
     "keyring_available_settings": {
-        "message": "Ver configuraciones disponibles en:",
+        "message": "See available settings at:",
         "description": "Text introducing the availability of further settings."
     },
     "keyring_backup": {
-        "message": "Copia de respaldo del juego de llaves",
+        "message": "Kopia zapasowa pęku kluczy",
         "description": "Title of keyring backup view"
     },
     "keyring_confirm_deletion": {
-        "message": "¿Quiere eliminar el juego de llaves con identificación (ID): $1?",
+        "message": "Czy chcesz usunąć pęk kluczy z identyfikatorem: $1?",
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_display_keys": {
-        "message": "Mostrar llaves",
+        "message": "Wyświetl Klucze",
         "description": "Tab of keyring to display keys."
     },
     "keyring_export_keys": {
-        "message": "Exportar llaves",
+        "message": "Eksportuj pęk kluczy",
         "description": "Tab of keyring to export keys."
     },
     "keyring_generate_key": {
-        "message": "Generar llave",
+        "message": "Utwórz klucz",
         "description": "Tab of keyring to generate key."
     },
     "keyring_header": {
-        "message": "Administración de llaves",
+        "message": "Zarządzanie kluczami",
         "description": "Header of the key ring."
     },
     "keyring_import_keys": {
-        "message": "Importar llaves",
+        "message": "Importuj klucze",
         "description": "Tab of keyring to import keys."
     },
     "keyring_keypair": {
-        "message": "Par de llaves",
+        "message": "Para Kluczy",
         "description": "key pair"
     },
     "keyring_main": {
-        "message": "Juego de llaves principal",
+        "message": "Główny pęk kluczy",
         "description": "Label for the main keyring"
     },
     "keyring_private": {
-        "message": "Privado",
+        "message": "Prywatny",
         "description": "private key type"
     },
     "keyring_public": {
-        "message": "Público",
+        "message": "Publiczny",
         "description": "public key type"
     },
     "keyring_public_private": {
-        "message": "Pares de llaves",
+        "message": "Pary kluczy",
         "description": "public and private key types"
     },
     "keyring_setup": {
-        "message": "Configuración",
+        "message": "Ustawienia",
         "description": "Setup keyring for mail provider."
     },
     "keyring_setup_generate_key": {
-        "message": "Generar llave",
+        "message": "Utwórz klucz",
         "description": "Generate key"
     },
     "keyring_setup_generate_key_explanation": {
-        "message": "Si está usando esta extensión por primera vez y aún no tiene un par de llaves, necesita generar una llave.",
+        "message": "Jeśli używasz tego rozszerzenia po raz pierwszy i nie masz jeszcze swojej pary kluczy cyfrowych, utwórz proszę parę teraz.",
         "description": "Generate key"
     },
     "keyring_setup_import_key": {
-        "message": "Importar llave",
+        "message": "Importuj klucz",
         "description": "Import key"
     },
     "keyring_setup_import_key_explanation": {
-        "message": "¿Tiene ya un par de llaves en otro dispositivo?  Puede importar sus llaves existentes. Simplemente exporte el par de llaves de su otro dispositivo e impórtelo aquí.",
+        "message": "Do you already have a key pair on another device? You can import your existing keys. Just export the key pair from the other device and then import them here.",
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "Se requiere un par de llaves para cifrar y descifrar mensajes, así como para invitar a sus contactos a comunicación cifrada extremo-a-extremo.",
+        "message": "A key pair is required to encrypt and decrypt messages, as well as to invite your contacts to end-to-end encrypted communication.",
         "description": "Setup text if no keypair available"
     },
     "keyring_setup_no_keypair_heading": {
-        "message": "Este juego de llaves aún no contiene un par de llaves.",
+        "message": "Ten pęk kluczy nie zawiera pary kluczy.",
         "description": "Setup heading if no keypair available"
     },
     "message_no_keys": {
-        "message": "No se encontró llave privada para este mensaje. Identidades de llave privada requeridas: $1",
+        "message": "Nie znaleziono żadnego klucza prywatnego dla tej wiadomości. Wymagany klucz prywatny IDs: $1",
         "description": "Decrypt error message."
     },
     "message_read_error": {
-        "message": "No se pudo leer este mensaje cifrado: $1",
+        "message": "Nie można odszyfrować tej wiadomości: $1",
         "description": "Message read error message: $1: error message."
     },
     "options_about": {
-        "message": "Acerca de",
+        "message": "O Mailvelope",
         "description": "Options navigation: About."
     },
     "options_docu": {
-        "message": "Documentación",
+        "message": "Dokumentacja",
         "description": "Options navigation: Documentation."
     },
     "options_home": {
-        "message": "Opciones",
+        "message": "Opcje",
         "description": "Options navigation: Home."
     },
     "options_settings": {
-        "message": "Configuraciones",
+        "message": "Ustawienia",
         "description": "Options header: Settings."
     },
     "options_title": {
-        "message": "Opciones de Mailvelope",
+        "message": "Opcje Mailvelope",
         "description": "Title of options page."
     },
     "preferred": {
-        "message": "preferido",
+        "message": "preferowany",
         "description": "Indicates if a keyring is preferred"
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Recuerde la contraseña temporalmente",
+        "message": "Pamiętaj hasło tymczasowo",
         "description": "Checkbox label for remembering of the password."
     },
     "pwd_dialog_cancel": {
-        "message": "Desbloqueo de llave cancelado.",
+        "message": "Unlocking of keys was cancelled.",
         "description": "User canceled key unlock dialog."
     },
     "pwd_dialog_header": {
-        "message": "Introduzca la contraseña de la llave",
+        "message": "Wpisz hasło klucza",
         "description": "Header of the password dialog."
     },
     "pwd_dialog_keyid_tooltip": {
-        "message": "La identificación de su llave",
+        "message": "Identyfikator twojego klucza",
         "description": "Tooltip explaining the key id."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Por favor introduzca su contraseña",
+        "message": "Wpisz swoje hasło",
         "description": "Placeholder for password."
     },
     "pwd_dialog_reason_create_backup": {
-        "message": "Por favor, introduzca la contraseña de su llave para crear una hoja de recuperación.",
+        "message": "Please enter your key password to create a recovery sheet.",
         "description": ""
     },
     "pwd_dialog_reason_create_draft": {
-        "message": "Introduzca la contraseña de la llave para guardar el borrador.",
+        "message": "Wprowadź hasło klucza, aby zapisać szkic.",
         "description": ""
     },
     "pwd_dialog_reason_decrypt": {
-        "message": "Introduzca la contraseña de la llave para descifrar este mensaje.",
+        "message": "Wprowadź hasło swojego klucza, aby odszyfrować tę wiadomość.",
         "description": ""
     },
     "pwd_dialog_reason_editor": {
-        "message": "Por favor, introduzca la contraseña de su llave para actualizar la configuración para comunicación cifrada.",
+        "message": "Wpisz hasło swojego klucza, aby zaktualizować ustawienia dla szyfrowanych komunikacji.",
         "description": ""
     },
     "pwd_dialog_reason_sign": {
-        "message": "Introduzca la contraseña de la llave para firmar este mensaje.",
+        "message": "Wprowadź hasło swojego klucza, aby podpisać tę wiadomość.",
         "description": ""
     },
     "pwd_dialog_title": {
-        "message": "Introducción de contraseña | Mailvelope",
+        "message": "Podaj hasło | Mailvelope",
         "description": "Title of the password dialog."
     },
     "pwd_dialog_userid": {
-        "message": "ID usu.:",
+        "message": "ID Osoby:",
         "description": "Label for user ID."
     },
     "pwd_dialog_wrong_pwd": {
-        "message": "Contraseña errónea",
+        "message": "Nieprawidłowe hasło",
         "description": "Password error message."
     },
     "recovery_sheet_backup_data": {
-        "message": "Respaldo de sus datos",
+        "message": "Kopia zapasowa twoich danych",
         "description": ""
     },
     "recovery_sheet_backup_local": {
-        "message": "Si exclusivamente quiere guardar sus datos de manera local en su ordenador, va a encontrar esa posibilidad en las configuraciones de la comunicación cifrada de su cuenta [BRAND].",
+        "message": "If you would like to exclusively save your data locally on your computer, you will find this option in the encrypted communication settings of your [BRAND] account. ",
         "description": ""
     },
     "recovery_sheet_backup_server": {
-        "message": "Para hacer un respaldo de los datos importantes para la comunicación cifrada (p.ej. contraseña de la llave), los datos serán guardados cifrados en nuestros [BRAND] servidores por nuestro consejero de seguridad Mailvelope.",
+        "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our [BRAND] servers by our security partner Mailvelope.",
         "description": ""
     },
     "recovery_sheet_be_aware": {
-        "message": "Por favor tenga en cuenta",
+        "message": "Please be aware",
         "description": "Label"
     },
     "recovery_sheet_check_settings": {
-        "message": "Por favor, compruebe la configuración en su cuenta bajo:",
+        "message": "Please check the settings in your account under:",
         "description": ""
     },
     "recovery_sheet_creation_date": {
-        "message": "Fecha de creación:",
+        "message": "Data utworzenia:",
         "description": "Label for recovery sheet creation date"
     },
     "recovery_sheet_data_lost": {
-        "message": "¡Sin un respaldo, sus mensajes cifrados no pueden ser descifrados otra vez en el caso de que pierda su contraseña de la llave o en el caso de que haya un aparato defectuoso o problemas con la extensión del navegador!",
+        "message": "Without a backup, your encrypted messages cannot be decrypted again in case you lose your key password or in case of a defective device or problems with the browser extension!",
         "description": ""
     },
     "recovery_sheet_encryption_note": {
-        "message": "Sugerencias para la comunicación cifrada con [BRAND]",
+        "message": "Hints for encrypted communication with [BRAND]",
         "description": "Sub title"
     },
     "recovery_sheet_enter_code": {
-        "message": "Para la instalación en otro ordenador, introduzca el código de restauración en las configuraciones bajo:",
+        "message": "For the installation on other computers, enter the recovery code in the settings under:",
         "description": "Label for navigation path"
     },
     "recovery_sheet_explain_pgp": {
-        "message": "La comunicación cifrada con [BRAND] es un procedimiento basado-en-PGP. Le permite enviar correos cifrados, y al mismo tiempo se asegura de que sólo usted y el receptor pueden leerlos.",
+        "message": "Encrypted communication with [BRAND] is a PGP-based procedure. It enables you to send encrypted emails and, at the same time, ensures that only you and the receiver are able to read them.",
         "description": ""
     },
     "recovery_sheet_extension_problems": {
-        "message": "porque hay problemas con la extensión del navegador",
+        "message": "because of problems with the browser extension",
         "description": "List item"
     },
     "recovery_sheet_forgot_password": {
-        "message": "porque olvidó la contraseña de su llave",
+        "message": "because you forgot the password to your key",
         "description": "List item"
     },
     "recovery_sheet_further_info": {
-        "message": "Puede encontrar más información y opciones de configuración en su cuenta [BRAND] bajo",
+        "message": "You can find more information and setting options in your [BRAND] account under",
         "description": ""
     },
     "recovery_sheet_header": {
-        "message": "¡Información importante!",
+        "message": "Ważne informacje!",
         "description": "Title of recovery sheet."
     },
     "recovery_sheet_in_general": {
-        "message": "En general, es importante",
+        "message": "In general, it is important",
         "description": "Label"
     },
     "recovery_sheet_invite_contacts": {
-        "message": "En la configuración de comunicación cifrada de su cuenta [BRAND], tiene la posibilidad de invitar contactos adicionales para usar comunicación cifrada vía PGP. Los contactos que ya han sido invitados con éxito se pueden reconocer por el icono del candado junto a la dirección de correo electrónico.",
+        "message": "In your encrypted communication settings of your [BRAND] account, you have the possibility to invite additional contacts to use encrypted communication via PGP. Contacts that have already been invited successfully can be recognized by the padlock icon next to the email address. ",
         "description": ""
     },
     "recovery_sheet_keep_safe": {
-        "message": "Guarde una copia de este documento en un lugar seguro y no permita que otra persona tenga acceso al código de restauración.",
+        "message": "Store a print-out of this document in a safe place and make sure no one else has access to the recovery code.",
         "description": ""
     },
     "recovery_sheet_key_server": {
-        "message": "Puede encontrar directamente otros usuarios de [BRAND] que utilizan el procedimiento PGP de GMX en un directorio central de su cuenta [BRAND]. Si prefiere no tener niguna entrada en este directorio, por favor desactive esta función en las configuraciones de su cuenta [BRAND].",
+        "message": "Other [BRAND] users who are using the PGP procedure of GMX can be directly found in a central directory in your [BRAND] account. If you do not want to have any entries in this directory, please deactivate this function in your [BRAND] account settings.",
         "description": ""
     },
     "recovery_sheet_mobile_devices": {
-        "message": "En dispositivos móviles",
+        "message": "On mobile devices",
         "description": ""
     },
     "recovery_sheet_not_working": {
-        "message": "Si su comunicación cifrada ya no funciona, p.e.:",
+        "message": "If your encrypted communication is no longer working, e.g.:",
         "description": "Label for list"
     },
     "recovery_sheet_other_computer": {
-        "message": "En otro ordenador",
+        "message": "On a different computer",
         "description": ""
     },
     "recovery_sheet_other_contacts": {
-        "message": "Comunicación cifrada con otros contactos",
+        "message": "Encrypted communication with other contacts",
         "description": ""
     },
     "recovery_sheet_other_devices": {
-        "message": "Comunicación cifrada en otros dispositivos",
+        "message": "Encrypted communication on other devices",
         "description": "Sub title"
     },
     "recovery_sheet_other_devices_setup": {
-        "message": "Configurar comunicación cifrada en otros dispositivos",
+        "message": "Setting up encrypted communication on other devices",
         "description": ""
     },
     "recovery_sheet_other_problems": {
-        "message": "por otras razones",
+        "message": "for other reasons",
         "description": "List item"
     },
     "recovery_sheet_pgp_compat": {
-        "message": "Puede comunicarse de manera segura con otros contactos si también utilizan comunicación cifrada (PGP).",
+        "message": "You can communicate securely with other contacts if they are also using encrypted communication (PGP).",
         "description": ""
     },
     "recovery_sheet_print_block": {
-        "message": "¡Por favor guarde este documento en un lugar seguro!",
+        "message": "Please store this document in a safe place!",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_print_button": {
-        "message": "Imprimir",
+        "message": "Drukuj",
         "description": ""
     },
     "recovery_sheet_print_notice": {
-        "message": "¡Por favor imprima este documento y guárdelo en un lugar seguro!",
+        "message": "Proszę wydrukuj ten dokument i przechowuj go w bezpiecznym miejscu!",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_provider_communication": {
-        "message": "Comunicación cifrada",
+        "message": "Komunikacja szyfrowana",
         "description": ""
     },
     "recovery_sheet_provider_inbox": {
-        "message": "Buzón",
+        "message": "Inbox",
         "description": ""
     },
     "recovery_sheet_provider_security": {
-        "message": "Seguridad",
+        "message": "Bezpieczeństwo",
         "description": ""
     },
     "recovery_sheet_provider_settings": {
-        "message": "Configuraciones",
+        "message": "Settings",
         "description": ""
     },
     "recovery_sheet_qr_code": {
-        "message": "Escanee el código QR con su dispositivo móvil.",
+        "message": "Przeskanuj kod QR swoim urządzeniem mobilnym.",
         "description": ""
     },
     "recovery_sheet_recommendation": {
-        "message": "Recomendación",
+        "message": "Zalecenie",
         "description": ""
     },
     "recovery_sheet_recover_data": {
-        "message": "Restaurar datos",
+        "message": "Odzyskiwanie danych",
         "description": "Sub title"
     },
     "recovery_sheet_recovery_code": {
-        "message": "Código de restauración",
+        "message": "Kod odzyskiwania",
         "description": ""
     },
     "recovery_sheet_subtitle_receipt": {
-        "message": "Copia de seguridad para comunicación cifrada",
+        "message": "Recovery sheet for encrypted communication",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_subtitle_recover": {
-        "message": "Restaurar comunicación cifrada",
+        "message": "Recover encrypted communication",
         "description": "Sub title"
     },
     "recovery_sheet_trusted_contacts": {
-        "message": "Con los contactos de GMX puede estar seguro de que los usuarios mostrados son de hecho usuarios válidos. Sin embargo, siempre debe verificar la identidad de los contactos con una dirección de correo electrónico de otro proveedor de correo.",
+        "message": "With GMX contacts you can be sure that the users displayed are in fact valid users. You should, however, always verify the identity of contacts with an email address from another email provider.",
         "description": ""
     },
     "recovery_sheet_unknown_third": {
-        "message": "Solamente instale comunicación cifrada en aparatos seguros que no pueden ser accedidos por desconocidos.",
+        "message": "Only set up encrypted communication on secure devices that cannot be accessed by strangers.",
         "description": ""
     },
     "recovery_sheet_unlock_backup": {
-        "message": "El respaldo de sus datos solamente puede ser descifrado con la ayuda del código de restauración en esta copia de seguridad.",
+        "message": "The backup of your data can only be decrypted with the help of the recovery code on this recovery sheet.",
         "description": ""
     },
     "reload_tab": {
-        "message": "Por favor recargue las páginas correspondientes para que las configuraciones se hagan efectivas.",
+        "message": "Please reload the corresponding pages for the settings to take effect.",
         "description": "Info message."
     },
     "restore_backup_dialog_button": {
-        "message": "Confirmar",
+        "message": "Potwierdź",
         "description": ""
     },
     "restore_backup_dialog_headline": {
-        "message": "Por favor, introduzca su código de recuperación:",
+        "message": "Proszę wprowadź swój kod odzyskiwania:",
         "description": ""
     },
     "restore_password_dialog_button": {
-        "message": "Mostrar",
+        "message": "Pokaż",
         "description": ""
     },
     "restore_password_dialog_headline": {
-        "message": "La contraseña de su llave:",
+        "message": "Hasło Twojego klucza:",
         "description": ""
     },
     "security_background_angle": {
-        "message": "Ángulo",
+        "message": "Kąt",
         "description": "Angle"
     },
     "security_background_button_title": {
-        "message": "El entorno de seguridad puede ajustarse en el área de Opciones-de-Mailvelope",
+        "message": "The security background can be adjusted in the Mailvelope Options",
         "description": "The tooltip text for the keylock button"
     },
     "security_background_coloring": {
-        "message": "Color",
+        "message": "Kolor",
         "description": "Coloring"
     },
     "security_background_header": {
-        "message": "Fondo de seguridad",
+        "message": "Tło bezpieczeństwa",
         "description": "Security background header"
     },
     "security_background_preview": {
-        "message": "Previsualizar",
+        "message": "Podgląd",
         "description": "Preview"
     },
     "security_background_scaling": {
-        "message": "Escalando",
+        "message": "Skala",
         "description": "Scaling"
     },
     "security_background_text": {
-        "message": "El entorno de seguridad ayuda a evitar manipulaciones de la interfaz de usuario por parte de sitios web y aplicaciones de terceros. Para incrementar la seguridad, cree y cambie su entorno personalizado de Mailvelope aquí.",
+        "message": "The security background helps prevent user interface manipulations by third-party websites and applications. To increase security, create and change your customized Mailvelope background here.",
         "description": "Security background text"
     },
     "security_cache_header": {
-        "message": "¿Recordar contraseñas para la sesión del navegador?",
+        "message": "Pamiętaj hasła w tej sesji przeglądarki.",
         "description": "Password cache header"
     },
     "security_cache_help": {
-        "message": "Debe ser un número entre 1 y 999",
+        "message": "Numer musi być pomiędzy 1-999",
         "description": "Help text for cache time."
     },
     "security_cache_off": {
-        "message": "No.",
+        "message": "Nie.",
         "description": "Don't store password."
     },
     "security_cache_on": {
-        "message": "Sí, mantener en memoria durante",
+        "message": "Tak, trzymaj w pamięci przez",
         "description": "Store password in memory for $1 minutes."
     },
     "security_cache_time": {
-        "message": "minutos.",
+        "message": "minut.",
         "description": "Store password in memory for $1 minutes."
     },
     "security_display_decrypted": {
-        "message": "¿Dónde se muestran los mensajes descifrados?",
+        "message": "Gdzie są wyświetlane rozszyfrowane komunikaty?",
         "description": "Label for display options"
     },
     "security_display_inline": {
-        "message": "En la página del proveedor de correo electrónico.",
+        "message": "Na stronie dostawcy e-mail.",
         "description": "Decrypted message display option"
     },
     "security_display_popup": {
-        "message": "En un cuadro de diálogo aparte de Mailvelope.",
+        "message": "W oddzielnym wyskakującym oknie w Mailvelope.",
         "description": "Decrypted message display option"
     },
     "security_log_action": {
-        "message": "Acción",
+        "message": "Zadanie",
         "description": "Title of the action column of the security log table."
     },
     "security_log_add_attachment": {
-        "message": "Se ha hecho clic sobre el botón de adición de adjunto",
+        "message": "Kliknięto na przycisk Dodaj załącznik",
         "description": "A click on the attachment upload button as an event type"
     },
     "security_log_attachment_download": {
-        "message": "Adjunto descargado",
+        "message": "Pobrano załącznik",
         "description": "Attachment downloaded as an event source"
     },
     "security_log_backup_create": {
-        "message": "Pulsación para crear copia de seguridad",
+        "message": "Kliknij, aby utworzyć kopię zapasową",
         "description": ""
     },
     "security_log_backup_restore": {
-        "message": "Pulsación para restaurar copia de seguridad",
+        "message": "Kliknij, aby odtworzyć kopię zapasową",
         "description": ""
     },
     "security_log_content_copy": {
-        "message": "Copiar en cuadro de diálogo de verificación",
+        "message": "Copy in verify dialog",
         "description": ""
     },
     "security_log_dialog_cancel": {
-        "message": "Pulsación para cancelar en cuadro de diálogo",
+        "message": "Kliknij, aby anulować to okno.",
         "description": ""
     },
     "security_log_dialog_encrypt": {
-        "message": "Pulsación para cifrar en cuadro de diálogo",
+        "message": "Click to encrypt in dialog",
         "description": ""
     },
     "security_log_dialog_ok": {
-        "message": "Pulsación para confirmar en cuadro de diálogo",
+        "message": "Click to confirm in dialog",
         "description": ""
     },
     "security_log_dialog_sign": {
-        "message": "Pulsación para firmar en cuadro de diálogo",
+        "message": "Click to sign in dialog",
         "description": ""
     },
     "security_log_editor": {
-        "message": "Editor PGP",
+        "message": "Edytor PGP",
         "description": "Message editor container as an event source"
     },
     "security_log_email_viewer": {
-        "message": "Correo PGP descifrado",
+        "message": "Rozszyfrowana wiadomość PGP",
         "description": "Email decryption container as an event source"
     },
     "security_log_encrypt_dialog": {
-        "message": "Cuadro de diálogo de cifrado",
+        "message": "Okno szyfrowania",
         "description": "Encrypt dialog as an event source"
     },
     "security_log_encrypt_form": {
-        "message": "Formulario de cifrado",
+        "message": "Encrypt Form",
         "description": "Encrypt form as an event source"
     },
     "security_log_encryption_operation": {
-        "message": "Mensaje ha sido cifrado para: $1",
+        "message": "Wiadomość została zaszyfrowana dla: $1",
         "description": ""
     },
     "security_log_import_dialog": {
-        "message": "Cuadro de diálogo de importación",
+        "message": "Okno importu",
         "description": "Key import dialog as an event source"
     },
     "security_log_key_backup": {
-        "message": "Copia de seguridad de llave",
+        "message": "Kopia zapasowa klucza",
         "description": "Message keybackup container as an event source"
     },
     "security_log_key_generator": {
-        "message": "Generador de llaves",
+        "message": "Generator Kluczy",
         "description": "Key generator container as an event source"
     },
     "security_log_password_click": {
-        "message": "Pulsación en cuadro de diálogo de contraseña",
+        "message": "Click in password dialog",
         "description": ""
     },
     "security_log_password_dialog": {
-        "message": "Cuadro de diálogo de contraseña",
+        "message": "Okno hasła",
         "description": "Password dialog as an event source"
     },
     "security_log_password_input": {
-        "message": "Inserción en el cuadro de solicitud de contraseña",
+        "message": "Input in password dialog",
         "description": ""
     },
     "security_log_remove_attachment": {
-        "message": "Adjunto eliminado",
+        "message": "Usunięto załącznik",
         "description": "A click on the attachment remove button as event type"
     },
     "security_log_restore_backup_click": {
-        "message": "Pulsación en restaurar cuadro de diálogo de copia de seguridad",
+        "message": "Click in restore backup dialog",
         "description": ""
     },
     "security_log_sign_operation": {
-        "message": "El mensaje ha sido firmado con la llave: $1",
+        "message": "Wiadomość została podpisana kluczem: $1",
         "description": ""
     },
     "security_log_signature_modal_close": {
-        "message": "Pulsación para cerrar cuadro de diálogo de firma",
+        "message": "Kliknij, aby zamknąć okno podpisu",
         "description": ""
     },
     "security_log_signature_modal_open": {
-        "message": "Pulsación para abrir cuadro de diálogo de firma",
+        "message": "Kliknij, aby otworzyć okno podpisu",
         "description": ""
     },
     "security_log_source": {
-        "message": "Fuente",
+        "message": "Źródło",
         "description": "Title of the source column of the security log table."
     },
     "security_log_text": {
-        "message": "El registro (log) de seguridad muestra acciones del usuario sobre los componentes integrados de Mailvelope.",
+        "message": "The security log shows user actions in all components of Mailvelope.",
         "description": "Text explaining the purpose of the security log"
     },
     "security_log_text_input": {
-        "message": "Inserción en el campo de texto ",
+        "message": "Input in text field",
         "description": "User clicked in text area"
     },
     "security_log_textarea_click": {
-        "message": "Pulsación en el área de texto",
+        "message": "Click in text area",
         "description": "User clicked in text area"
     },
     "security_log_textarea_input": {
-        "message": "Inserción en el área de texto",
+        "message": "Input in text area",
         "description": "User clicked in text area"
     },
     "security_log_textarea_select": {
-        "message": "Selección en el área de texto",
+        "message": "Selection in text area",
         "description": "Selection of the text area as an event type"
     },
     "security_log_timestamp": {
-        "message": "Marca de tiempo",
+        "message": "Czas",
         "description": "Title of the timestamp column of the security log table."
     },
     "security_log_verify_dialog": {
-        "message": "Cuadro de diálogo de verificación",
+        "message": "Okno weryfikacji",
         "description": "Verify dialog as an event source"
     },
     "settings_backup": {
-        "message": "Copia de seguridad",
+        "message": "Kopia zapasowa",
         "description": "Tab allowing to backup and restore the settings."
     },
     "settings_general": {
-        "message": "General",
+        "message": "Ogólne",
         "description": "Tab of options to display general settings."
     },
     "settings_security": {
-        "message": "Seguridad",
+        "message": "Bezpieczeństwo",
         "description": "Tab of options to display security settings."
     },
     "settings_security_log": {
-        "message": "Registro (log) de seguridad",
+        "message": "Dziennik bezpieczeństwa",
         "description": "Tab of options to display security log."
     },
     "settings_keyserver": {
-        "message": "Servidor de llaves",
+        "message": "Serwer kluczy",
         "description": "Tab of options to display key server settings."
     },
     "settings_watchlist": {
-        "message": "Dominios autorizados",
+        "message": "Autoryzowane domeny",
         "description": "Tab of options to display list of authorized domains."
     },
     "sign_dialog_header": {
-        "message": "Firmar mensaje con la llave:",
+        "message": "Podpisz wiadomość kluczem:",
         "description": "Header of sign dialog."
     },
     "sign_error": {
-        "message": "No se pudo firmar este mensaje: $1",
+        "message": "Nie można podpisać tej wiadomości: $1",
         "description": "Error during signing process."
     },
     "text_compose_header": {
-        "message": "Componer mensaje",
+        "message": "Utwórz wiadomość",
         "description": "Text encryption feature header"
     },
     "text_decrypt_button": {
-        "message": "Descifrar",
+        "message": "Odszyfruj",
         "description": "Button label for decrypting the message"
     },
     "text_decrypting": {
-        "message": "Descifrado del texto",
+        "message": "Text Decryption",
         "description": "Navigation link to text decryption feature"
     },
     "text_encrypting": {
-        "message": "Cifrado del texto",
+        "message": "Text Encryption",
         "description": "Navigation link to text encryption feature"
     },
     "text_paste_armored_header": {
-        "message": "Pegar mensaje PGP cifrado",
+        "message": "Wklej zaszyfrowaną wiadomość PGP",
         "description": "Text decryption armored block header"
     },
     "text_result_header": {
-        "message": "Mensaje cifrado",
+        "message": "Szyfrowana wiadomość",
         "description": "Text encryption result header"
     },
     "upload_aborting_warning": {
-        "message": "La subida del archivo será abortada.",
+        "message": "Wysyłanie pliku zostanie anulowane.",
         "description": "A warning for the aborting of the file upload."
     },
     "upload_attachment": {
-        "message": "Añadir adjunto",
+        "message": "Dodaj załącznik",
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "upload_quota_exceeded_warning": {
-        "message": "Tamaño de adjunto permitido:",
+        "message": "Dozwolony rozmiar załącznika:",
         "description": "A warning shown when the attachments upload quota is exceeded."
     },
     "upload_quota_warning_headline": {
-        "message": "El adjunto es demasiado grande",
+        "message": "Załącznik jest za duży",
         "description": ""
     },
     "verify_error": {
-        "message": "No se pudo verificar este mensaje: $1",
+        "message": "Nie można było zweryfikować tej wiadomości: $1",
         "description": "Error during verification process."
     },
     "verify_result_error": {
-        "message": "Firma errónea de",
+        "message": "Niepoprawny podpis od",
         "description": "Verfiy signature error. Wrong signature of [userid]."
     },
     "verify_result_success": {
-        "message": "Firmado por",
+        "message": "Podpisany przez",
         "description": "Verfiy signature succeeded."
     },
     "verify_result_warning": {
-        "message": "Firmado con llave desconocida",
+        "message": "Podpisane nieznanym kluczem",
         "description": "Verfiy signature warning."
     },
     "waiting_dialog_decryption_failed": {
-        "message": "¡Fallo al descifrar!",
+        "message": "Nie udało się odszyfrować!",
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "waiting_dialog_prepare_email": {
-        "message": "Preparando tu mensaje",
+        "message": "Przygotowywanie Twojej wiadomości...",
         "description": "Message in the waiting dialog for quoting email"
     },
     "watchlist_command_create": {
-        "message": "Añadir nueva entrada",
+        "message": "Dodaj nowy element",
         "description": "Create entry in watchlist."
     },
     "watchlist_command_edit": {
-        "message": "Editar",
+        "message": "Edytuj",
         "description": "Edit entry in watchlist."
     },
     "watchlist_delete_confirmation": {
-        "message": "¿Realmente deseas remover este sitio de la lista de dominios autorizados?",
+        "message": "Czy na pewno chcesz usunąć tę stronę z listy autoryzowanych domen?",
         "description": "Message in the watchlist delete confirmation dialog."
     },
     "watchlist_expose_api": {
@@ -1640,39 +1640,39 @@
         "description": "Expose API to Webmailer."
     },
     "watchlist_record_title": {
-        "message": "Dominio autorizado",
+        "message": "Autoryzowana domena",
         "description": "Title of the watchlist editor dialog."
     },
     "watchlist_title_active": {
-        "message": "Activo",
+        "message": "Włączone",
         "description": "Entry in watchlist is active."
     },
     "watchlist_title_frame": {
-        "message": "Patrón del dominio",
+        "message": "Wzorzec domeny",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "watchlist_title_scan": {
-        "message": "Activo",
+        "message": "Włączone",
         "description": "Scan status of site in watchlist."
     },
     "watchlist_title_site": {
-        "message": "Sitio",
+        "message": "Strona",
         "description": "Site in watchlist."
     },
     "watchlist_title_https_only": {
-        "message": "Sólo HTTPS",
+        "message": "HTTPS-only",
         "description": "Only allow URLs with HTTPS scheme in watchlist."
     },
     "word_or": {
-        "message": "o",
+        "message": "albo",
         "description": "Separate list of elements."
     },
     "wrong_restore_code": {
-        "message": "Código de recuperación no válido",
+        "message": "Niepoprawny kod odzyskiwania",
         "description": ""
     },
     "alert_header_error": {
-        "message": "¡Error!",
+        "message": "Błąd!",
         "description": "Alert header of category error."
     }
 }

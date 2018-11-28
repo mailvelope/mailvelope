@@ -64,7 +64,7 @@
         "description": "Keyring label in the action menu"
     },
     "action_menu_manage_domains": {
-        "message": "Manage authorized domains",
+        "message": "管理已授權的域名",
         "description": "Manage domains shortcut in the action menu"
     },
     "action_menu_more_options": {
@@ -100,7 +100,7 @@
         "description": "Dashboard help link"
     },
     "dashboard_link_manage_domains": {
-        "message": "Manage authorized domains",
+        "message": "管理已授權的域名",
         "description": "Dashboard manage domains link"
     },
     "dashboard_link_manage_keys": {
@@ -184,7 +184,7 @@
         "description": "Navigation link to file encryption"
     },
     "editor_no_default_key_caption_long": {
-        "message": "Email cannot be signed digitally because the default key is missing",
+        "message": "因遺失預設密鑰電子郵件不能數位簽署",
         "description": ""
     },
     "editor_no_default_key_caption_short": {
@@ -324,23 +324,23 @@
         "description": "Continue form button."
     },
     "form_definition_error_no_recipient_key": {
-        "message": "No valid encryption key for recipient address.",
+        "message": "收件人電郵無有效的加密金鑰",
         "description": "Error message when recipient key is not in keyring"
     },
     "form_definition_error_signature_invalid": {
-        "message": "The form signature is not valid.",
+        "message": "簽署格式無效",
         "description": "Error message when the form signature is not valid"
     },
     "form_destination": {
-        "message": "Destination",
+        "message": "目的地",
         "description": "URL the form data will be sent to"
     },
     "form_destination_default": {
-        "message": "The encrypted data will be returned to the page.",
+        "message": "已加密的訊息會被送回到此頁",
         "description": "Behavior when no action is specified in form"
     },
     "form_sign_error_no_default_key": {
-        "message": "No private key is available in the keyring to sign the form content. Please import or create one.",
+        "message": "密鑰圈無私鑰可簽署此格式內容，請滙入或建立一個私鑰。",
         "description": "Error message when trying to sign and no primary key is found"
     },
     "form_forward": {
@@ -352,7 +352,7 @@
         "description": "Import form button."
     },
     "form_loading": {
-        "message": "Loading form",
+        "message": "載入格式",
         "description": "Waiting modal when form is loading."
     },
     "form_next": {
@@ -368,7 +368,7 @@
         "description": "Ok form button."
     },
     "form_recipient": {
-        "message": "Recipient",
+        "message": "收件人",
         "description": "The email for which the form will be encrypted for"
     },
     "form_save": {
@@ -400,27 +400,27 @@
         "description": "Label for editor options."
     },
     "general_openpgp_preferences": {
-        "message": "OpenPGP Preferences",
+        "message": "OpenPGP  偏好",
         "description": "Headline for OpenPGP settings."
     },
     "general_prefer_gnupg": {
-        "message": "Prefer GnuPG for all OpenPGP encryption operations",
+        "message": "偏好用 GnuPG 來進行所有的 OpenPGP 加密操作",
         "description": "Option to choose GnuPG as the preferred OpenPGP backend."
     },
     "general_prefer_gnupg_note": {
-        "message": "Note: public keys are synchronized between available keyrings. Depending on availability of private keys, Mailvelope can override the preferred encryption library setting.",
+        "message": "注意：公鑰會在可用的密鑰圈間進行同步。Mailvelope 可視私鑰的可用狀況來覆蓋喜好的加密庫設置。",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "general_prefer_openpgpjs": {
-        "message": "Prefer OpenPGP.js (default built-in Mailvelope encryption library)",
+        "message": "偏好的 OpenPGP.js ( Mailvelope 加密庫預設的內建)",
         "description": "Default option with OpenPGP.js as the preferred OpenPGP backend."
     },
     "general_default_key_always": {
-        "message": "Always add my default key to the list of recipients. (This allows you to decrypt sent mails)",
+        "message": "將預設密鑰加入到收件人清單上(此作法便於解密已送出的訊息)",
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "Sign all messages with default key",
+        "message": "以預設密鑰來簽署所有訊息",
         "description": "Label for default private key option."
     },
     "gnupg_available": {
@@ -428,15 +428,15 @@
         "description": "Label indicating GnuPG feature is available."
     },
     "gnupg_connection": {
-        "message": "GnuPG connection",
+        "message": "GnuPG 連線",
         "description": "Header that shows that GnuPG is available on the system."
     },
     "gnupg_error_unusable_pub_key": {
-        "message": "Please check if the following public keys are available in your GnuPG keyring and valid: $1",
+        "message": "請檢查以下的公鑰是否已在 GnuPG 密鑰圈且仍有效： $1",
         "description": ""
     },
     "gnupg_not_available": {
-        "message": "Not available",
+        "message": "不可得",
         "description": "Label indicating GnuPG feature is not available."
     },
     "header_warning": {
@@ -460,15 +460,15 @@
         "description": "HKP key server option: url."
     },
     "keyserver_additionals_label": {
-        "message": "Additional key sources",
+        "message": "其它的密鑰來源",
         "description": "Label for configuration of additional key sources"
     },
     "keyserver_tofu_lookup": {
-        "message": "Use the Mailvelope key server",
+        "message": "使用 Mailvelope 密鑰伺服器",
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_wkd_lookup": {
-        "message": "Query keys from the recipients Mail provider (Web Key Directory)",
+        "message": "向收件人郵件提供商查詢密鑰（Web Key 目錄）",
         "description": "Enable Web Key Directory Auto Lookup"
     },
     "keyserver_url_warning": {
@@ -516,7 +516,7 @@
         "description": "Key generation error message"
     },
     "key_gen_experimental": {
-        "message": "experimental",
+        "message": "試驗用",
         "description": "A key algorithm is flagged as experimental"
     },
     "key_gen_expiration": {
@@ -524,7 +524,7 @@
         "description": "Key expiration date"
     },
     "key_gen_future_default": {
-        "message": "Future Default",
+        "message": "將來預設",
         "description": "Key generation algorithm, the future supported standard."
     },
     "key_gen_generate": {
@@ -668,7 +668,7 @@
         "description": "Info message."
     },
     "key_import_number_of_failed": {
-        "message": "Number of keys that could not be imported due to errors: $1",
+        "message": "由於以下錯誤一些密鑰無法順利滙入: $1",
         "description": "Error message with number of failed imports."
     },
     "key_import_private_exists": {
@@ -716,7 +716,7 @@
         "description": ""
     },
     "key_set_as_default": {
-        "message": "Set as Default",
+        "message": "設為預設",
         "description": "Set as default key for the keyring button"
     },
     "invalid_default_key": {
@@ -824,7 +824,7 @@
         "description": "Short creation date of a PGP key. Max. width: 90px"
     },
     "keygrid_default_key": {
-        "message": "Default key",
+        "message": "預設密鑰",
         "description": "Default key in the keyring."
     },
     "keygrid_delete": {
@@ -860,15 +860,15 @@
         "description": "Title for Export key button."
     },
     "keygrid_import_title": {
-        "message": "Import a key",
+        "message": "滙入密鑰",
         "description": "Title for Import key button."
     },
     "keygrid_generate_title": {
-        "message": "Generate a key",
+        "message": "產生密鑰",
         "description": "Title for generate key button"
     },
     "keygrid_invalid_userid": {
-        "message": "Invalid User ID",
+        "message": "無效的用戶 ID",
         "description": "User ID invalid."
     },
     "keygrid_key_fingerprint": {
@@ -896,7 +896,7 @@
         "description": "No subkeys of a PGP key found."
     },
     "keygrid_no_userid": {
-        "message": "No valid User ID found",
+        "message": "找不到有效的用戶 ID ",
         "description": "Warning message if no user id found."
     },
     "keygrid_primary_key": {
@@ -904,7 +904,7 @@
         "description": "Main key in the PGP key."
     },
     "keygrid_default_label": {
-        "message": "Default",
+        "message": "預設",
         "description": "Label for the default key"
     },
     "keygrid_private_keys": {
@@ -916,11 +916,11 @@
         "description": "Selection of key type."
     },
     "keygrid_refresh": {
-        "message": "Refresh",
+        "message": "更新",
         "description": "Refresh keygrid component."
     },
     "keygrid_refresh_title": {
-        "message": "Reload the keyring",
+        "message": "重新載入密鑰圈",
         "description": "Title for button to refresh keygrid component."
     },
     "keygrid_send_pub_key": {
@@ -936,7 +936,7 @@
         "description": "Key of signer not available."
     },
     "keygrid_sort_type": {
-        "message": "Filters",
+        "message": "篩選器",
         "description": "Key grid sort selector."
     },
     "keygrid_status_invalid": {
@@ -980,7 +980,7 @@
         "description": "Validity status of a PGP key."
     },
     "keyring_available_settings": {
-        "message": "See available settings at:",
+        "message": "查看可使用的設置：",
         "description": "Text introducing the availability of further settings."
     },
     "keyring_backup": {
@@ -1016,7 +1016,7 @@
         "description": "key pair"
     },
     "keyring_main": {
-        "message": "Main Keyring",
+        "message": "主要的鑰匙圈",
         "description": "Label for the main keyring"
     },
     "keyring_private": {
@@ -1088,7 +1088,7 @@
         "description": "Title of options page."
     },
     "preferred": {
-        "message": "preferred",
+        "message": "偏好的",
         "description": "Indicates if a keyring is preferred"
     },
     "pwd_dialog_cache_pwd": {
@@ -1312,7 +1312,7 @@
         "description": ""
     },
     "reload_tab": {
-        "message": "Please reload the corresponding pages for the settings to take effect.",
+        "message": "請重新載入通信頁好讓設置更新生效",
         "description": "Info message."
     },
     "restore_backup_dialog_button": {
@@ -1444,7 +1444,7 @@
         "description": "Encrypt dialog as an event source"
     },
     "security_log_encrypt_form": {
-        "message": "Encrypt Form",
+        "message": "加密格式",
         "description": "Encrypt form as an event source"
     },
     "security_log_encryption_operation": {
@@ -1484,7 +1484,7 @@
         "description": ""
     },
     "security_log_sign_operation": {
-        "message": "Message has been signed with key: $1",
+        "message": "訊息內容已經此密鑰簽署：$1",
         "description": ""
     },
     "security_log_signature_modal_close": {
@@ -1548,7 +1548,7 @@
         "description": "Tab of options to display key server settings."
     },
     "settings_watchlist": {
-        "message": "Authorized Domains",
+        "message": "已授權的域名",
         "description": "Tab of options to display list of authorized domains."
     },
     "sign_dialog_header": {
@@ -1556,7 +1556,7 @@
         "description": "Header of sign dialog."
     },
     "sign_error": {
-        "message": "Could not sign this message: $1",
+        "message": "無法簽署此訊息： $1",
         "description": "Error during signing process."
     },
     "text_compose_header": {
@@ -1620,7 +1620,7 @@
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "waiting_dialog_prepare_email": {
-        "message": "Preparing your message",
+        "message": "準備訊息",
         "description": "Message in the waiting dialog for quoting email"
     },
     "watchlist_command_create": {
@@ -1632,7 +1632,7 @@
         "description": "Edit entry in watchlist."
     },
     "watchlist_delete_confirmation": {
-        "message": "Do you really want to remove this site from the list of authorized domains?",
+        "message": "是否真要將此網站自已授權的域名清單上移除？",
         "description": "Message in the watchlist delete confirmation dialog."
     },
     "watchlist_expose_api": {
@@ -1640,7 +1640,7 @@
         "description": "Expose API to Webmailer."
     },
     "watchlist_record_title": {
-        "message": "Authorized Domain",
+        "message": "已授權的域名",
         "description": "Title of the watchlist editor dialog."
     },
     "watchlist_title_active": {

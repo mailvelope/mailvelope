@@ -516,7 +516,7 @@
         "description": "Key generation error message"
     },
     "key_gen_experimental": {
-        "message": "experimental",
+        "message": "পরীক্ষামূলক",
         "description": "A key algorithm is flagged as experimental"
     },
     "key_gen_expiration": {

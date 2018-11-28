@@ -16,7 +16,7 @@
         "description": "Alert header of category warning."
     },
     "change_link": {
-        "message": "Change",
+        "message": "Змінити",
         "description": "Navigation link to change this setting."
     },
     "cleartext_read_error": {

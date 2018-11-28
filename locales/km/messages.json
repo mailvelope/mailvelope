@@ -1659,6 +1659,10 @@
         "message": "ទំព័រ",
         "description": "Site in watchlist."
     },
+    "watchlist_title_https_only": {
+        "message": "HTTPS-only",
+        "description": "Only allow URLs with HTTPS scheme in watchlist."
+    },
     "word_or": {
         "message": "ឬ",
         "description": "Separate list of elements."
