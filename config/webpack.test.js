@@ -7,7 +7,7 @@ const common = require('./webpack.common');
 const conf = {
   ...common.prod,
   mode: 'development',
-  devtool: 'inline-source-map'
+  devtool: 'none'
 };
 
 conf.externals = {

@@ -4,8 +4,10 @@ const path = require('path');
 const webpackConfig = require('../config/webpack.test');
 
 module.exports = function(config) {
+  if (config.dev) {
+    webpackConfig.devtool = 'inline-cheap-module-source-map';
+  }
   config.set({
-
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
 
@@ -78,7 +80,7 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: ['ChromeHeadless', 'ChromeHeadlessNoSandbox'],
-    browserConsoleLogOptions: {level: "warn", format: "%b %T: %m", terminal: true},
+    browserConsoleLogOptions: {level: config.dev ? "debug" : "warn", format: "%b %T: %m", terminal: true},
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: 'ChromeHeadless',

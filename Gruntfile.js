@@ -258,8 +258,11 @@ module.exports = function(grunt) {
         command: 'web-ext build --source-dir=build/firefox --artifacts-dir=dist'
       },
       karma_test: {
-        command: 'node --max_old_space_size=4096 node_modules/karma/bin/karma start --browsers ChromeHeadlessNoSandbox test/karma.conf.js --single-run'
-      }
+        command: 'node node_modules/karma/bin/karma start --browsers ChromeHeadlessNoSandbox test/karma.conf.js --single-run'
+      },
+      karma_test_dev: {
+        command: 'node --max_old_space_size=4096 node_modules/karma/bin/karma start --browsers ChromeHeadlessNoSandbox test/karma.conf.js --single-run --dev'
+      }      
     },
 
     bump: {
@@ -304,6 +307,8 @@ module.exports = function(grunt) {
   grunt.registerTask('prod', ['clean', 'eslint', 'browser', 'copy2tmp', 'copy:dep_prod', 'webpack:prod', 'tmp2browser']);
 
   grunt.registerTask('test', ['shell:karma_test']);
+
+  grunt.registerTask('test-dev', ['shell:karma_test_dev']);
 
   grunt.registerTask('webpack', function() {
     const done = this.async();
