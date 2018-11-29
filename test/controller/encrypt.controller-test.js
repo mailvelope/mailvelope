@@ -1,14 +1,13 @@
 import {expect, sinon} from 'test';
 import mvelo from 'lib/lib-mvelo';
 import * as sub from 'controller/sub.controller';
-import * as prefs from 'modules/prefs';
+import {prefs} from 'modules/prefs';
 import EncryptController from 'controller/encrypt.controller';
 
 describe('Encrypt controller unit tests', () => {
   const sandbox = sinon.createSandbox();
   let ctrl;
   let editorCtrlMock;
-  const preferences = {...prefs.prefs};
   const testRecipients = [{email: 'test@example.com'}];
 
   beforeEach(() => {
@@ -18,7 +17,6 @@ describe('Encrypt controller unit tests', () => {
       encrypt: sandbox.stub()
     };
     sandbox.stub(sub.factory, 'get').returns(editorCtrlMock);
-    Object.assign(prefs.prefs, preferences);
     sandbox.stub(mvelo.util, 'sanitizeHTML').returns('parsed');
     sandbox.stub(ctrl, 'emit');
   });
@@ -36,7 +34,7 @@ describe('Encrypt controller unit tests', () => {
   describe('openEditor', () => {
     it('should work for editor type plain', () => {
       editorCtrlMock.encrypt.returns(Promise.resolve({armored: 'armored', recipients: testRecipients}));
-      prefs.prefs.general = {
+      prefs.general = {
         editor_type: 'plain'
       };
       return ctrl.onEncryptFrameDisplayEditor({text: 'foo'})

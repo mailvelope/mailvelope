@@ -5,7 +5,7 @@ import * as keyring from 'modules/keyring';
 // import keyFixtures from '../fixtures/keys';
 // import * as openpgp from "openpgp";
 
-describe('Test controller unit tests', () => {
+describe('EncryptForm controller unit tests', () => {
   const sandbox = sinon.createSandbox();
   let ctrl;
   let port;
@@ -19,6 +19,8 @@ describe('Test controller unit tests', () => {
 
   afterEach(() => {
     sandbox.restore();
+    /* eslint-disable-next-line no-undef */
+    __rewire_reset_all__();
   });
 
   describe('getCleanFormHtml', () => {
