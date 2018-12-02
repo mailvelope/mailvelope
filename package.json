@@ -39,8 +39,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
+    "@babel/plugin-syntax-object-rest-spread": "^7.0.0",
     "@babel/polyfill": "^7.0.0",
-    "@babel/preset-env": "^7.1.6",
     "@babel/preset-react": "^7.0.0",
     "angular-mocks": "1.7.5",
     "babel-loader": "^8.0.4",
@@ -74,6 +74,7 @@
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
     "mocha": "^5.2.0",
+    "raw-loader": "^0.5.1",
     "sinon": "^7.1.1",
     "string-replace-loader": "^2.1.1",
     "style-loader": "^0.23.1",

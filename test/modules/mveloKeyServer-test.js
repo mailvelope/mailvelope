@@ -1,6 +1,6 @@
 import {expect, sinon} from 'test';
 import * as mveloKeyServer from 'modules/mveloKeyServer';
-import keyFixtures from 'Fixtures/keys';
+import testKeys from 'Fixtures/keys';
 
 describe('Talking to the Mailvelope Key Server', () => {
   beforeEach(() => {
@@ -45,8 +45,13 @@ describe('Talking to the Mailvelope Key Server', () => {
   describe('fetch', () => {
     it('should query for the key by keyId', async () => {
       window.fetch.returns(Promise.resolve({
+<<<<<<< HEAD
         status: 404,
         json() { return {}; }
+=======
+        status: 200,
+        json() { return {publicKeyArmored: testKeys.public.demo}; }
+>>>>>>> Improved key fixtures handling for test environment, added local storage stub class, added module tests for KeyStoreLocal, fixed/updated some existing tests
       }));
       await mveloKeyServer.fetch({keyId: '0123456789ABCDFE'});
       expect(window.fetch.args[0][0]).to.include('/api/v1/key?keyId=0123456789ABCDFE');

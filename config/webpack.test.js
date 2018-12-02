@@ -31,5 +31,11 @@ conf.output = {
 
 conf.module = common.module.react();
 conf.module.rules[0].options.plugins.push('babel-plugin-rewire');
+conf.module.rules.push(
+  {
+    test: /\.asc$/,
+    use: 'raw-loader'
+  }
+);
 
 module.exports = conf;

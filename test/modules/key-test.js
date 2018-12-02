@@ -226,7 +226,7 @@ describe('Key unit test', () => {
 
   describe('toPublic', () => {
     it('should return public key from private key', async() => {
-      const {keys: [privateKey]} = await openpgp.key.readArmored(testKeys.secret.maditab);
+      const {keys: [privateKey]} = await openpgp.key.readArmored(testKeys.private.maditab);
       expect(privateKey.isPublic()).to.be.false;
       const publicKey = toPublic(privateKey);
       expect(publicKey.isPublic()).to.be.true;
