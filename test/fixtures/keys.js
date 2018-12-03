@@ -6,11 +6,16 @@ export default {
 =======
 import demo from './keys/api_test.asc';
 import maditab from './keys/madita_bernstein.asc';
+<<<<<<< HEAD
 >>>>>>> Improved key fixtures handling for test environment, added local storage stub class, added module tests for KeyStoreLocal, fixed/updated some existing tests
+=======
+import johnd from './keys/john_doe.asc';
+>>>>>>> Added module tests for KeyringLocal.js (KeyringBase.js)
 
 const PUBLIC_KEY_REGEX = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
 const PRIVATE_KEY_REGEX = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END PGP PRIVATE KEY BLOCK-----/g;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 mQINBFv78F0BEACpvitV5zA84ytKsi4gdjqryRHDu8WOoKpUKxbuGgeBBUGai7BR
 CSOH8FS4YXuGZlYwR9kDklF8HlVBjdEmSuWfg3DZ/5npwKuLiYsEr+KVh4SqdweR
@@ -177,28 +182,41 @@ const testKeys = {
   public: {},
   private: {}
 };
+=======
+const testKeys = {};
+>>>>>>> Added module tests for KeyringLocal.js (KeyringBase.js)
 
 const armoredKeyFiles = [
   {name: 'demo', armored: demo},
-  {name: 'maditab', armored: maditab}
+  {name: 'maditab', armored: maditab},
+  {name: 'johnd', armored: johnd}
 ];
 >>>>>>> Improved key fixtures handling for test environment, added local storage stub class, added module tests for KeyStoreLocal, fixed/updated some existing tests
 
-for (const armoredKeyFile of armoredKeyFiles) {
-  handleKeyFile(armoredKeyFile);
+// default import
+const defaultImports = ['demo', 'maditab'];
+init(defaultImports);
+
+export function init(imports) {
+  testKeys.public = {};
+  testKeys.private = {};
+  for (const importName of imports) {
+    handleKeyImport(importName);
+  }
 }
 
-function handleKeyFile({name, armored}) {
+export function handleKeyImport(importName) {
+  const armored = armoredKeyFiles.filter(({name}) => name === importName).pop().armored;
   const publicKeys = armored.match(PUBLIC_KEY_REGEX);
   const privateKeys = armored.match(PRIVATE_KEY_REGEX);
   if (publicKeys) {
     publicKeys.forEach(pub => {
-      testKeys.public[name] = pub;
+      testKeys.public[importName] = pub;
     });
   }
   if (privateKeys) {
     privateKeys.forEach(priv => {
-      testKeys.private[name] = priv;
+      testKeys.private[importName] = priv;
     });
   }
 }
