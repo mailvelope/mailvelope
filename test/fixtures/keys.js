@@ -10,7 +10,12 @@ import maditab from './keys/madita_bernstein.asc';
 >>>>>>> Improved key fixtures handling for test environment, added local storage stub class, added module tests for KeyStoreLocal, fixed/updated some existing tests
 =======
 import johnd from './keys/john_doe.asc';
+<<<<<<< HEAD
 >>>>>>> Added module tests for KeyringLocal.js (KeyringBase.js)
+=======
+import gordonf from './keys/gordon_freeman_pub.asc';
+import maxp from './keys/max_payne_pub.asc';
+>>>>>>> Added module tests for keyring,js
 
 const PUBLIC_KEY_REGEX = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
 const PRIVATE_KEY_REGEX = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END PGP PRIVATE KEY BLOCK-----/g;
@@ -189,7 +194,9 @@ const testKeys = {};
 const armoredKeyFiles = [
   {name: 'demo', armored: demo},
   {name: 'maditab', armored: maditab},
-  {name: 'johnd', armored: johnd}
+  {name: 'johnd', armored: johnd},
+  {name: 'gordonf', armored: gordonf},
+  {name: 'maxp', armored: maxp}
 ];
 >>>>>>> Improved key fixtures handling for test environment, added local storage stub class, added module tests for KeyStoreLocal, fixed/updated some existing tests
 

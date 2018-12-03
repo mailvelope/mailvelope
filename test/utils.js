@@ -23,6 +23,7 @@ export class LocalStorageStub {
   constructor(prefix = 'mvelo.keyring') {
     this.prefix = prefix;
     this.storage = new Map();
+    this.set(`${this.prefix}.attributes`, {});
   }
 
   importKeys(keyRingId, {public: pub, private: pri}) {
@@ -39,8 +40,10 @@ export class LocalStorageStub {
     this.set(`${this.prefix}.${keyRingId}.privateKeys`, privateKeys);
   }
 
-  importAttributes(keyRingId, attributes) {
-    this.set(`${this.prefix}.attributes`, {[keyRingId]: attributes});
+  importAttributes(keyRingId, attrs) {
+    const attributes = this.get(`${this.prefix}.attributes`);
+    attributes[keyRingId] = attrs;
+    // this.set(`${this.prefix}.attributes`, {[keyRingId]: attributes});
   }
 
   get(key) {

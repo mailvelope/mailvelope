@@ -37,7 +37,6 @@ module.exports = function(config) {
 
     // list of files to exclude
     exclude: [
-      'modules/keyring-test.js'
     ],
 
     proxies: {
