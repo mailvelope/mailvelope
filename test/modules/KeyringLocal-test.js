@@ -5,7 +5,7 @@ import KeyStoreLocal from 'modules/KeyStoreLocal';
 import {mapKeys} from 'modules/key';
 import testKeys, {init as initTestKeys, handleKeyImport as importTestKey} from 'Fixtures/keys';
 
-describe('KeyRingLocal unit tests', () => {
+describe('KeyringLocal unit tests', () => {
   const keyringId = 'test123';
   let storage;
   let keyRing;

@@ -5,7 +5,7 @@ import {init, createKeyring, deleteKeyring, getAll, getById, getAllKeyringAttr, 
 import KeyStoreLocal from 'modules/KeyStoreLocal';
 import testKeys, {init as initTestKeys} from 'Fixtures/keys';
 
-describe('KeyRingLocal unit tests', () => {
+describe('keyring unit tests', () => {
   let storage;
 
   beforeEach(async() => {
