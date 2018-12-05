@@ -15,7 +15,7 @@ import MimeBuilder from 'emailjs-mime-builder';
  * @return {[type]}          [description]
  */
 export async function parseMessage(rawText, handlers, encoding) {
-  if (/^\s*(MIME-Version|Content-Type|Content-Transfer-Encoding|From|Date):/.test(rawText)) {
+  if (/^\s*(MIME-Version|Content-Type|Content-Transfer-Encoding|From|Date|Content-Language):/.test(rawText)) {
     await parseMIME(rawText, handlers, encoding);
   } else {
     await parseInline(rawText, handlers, encoding);
