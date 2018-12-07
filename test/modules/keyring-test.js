@@ -14,16 +14,16 @@ describe('keyring unit tests', () => {
     storage = new LocalStorageStub();
     for (const keyringId of keyringIds) {
       if (keyringId === mvelo.MAIN_KEYRING_ID) {
-        initTestKeys(['maditab', 'maxp']);
+        initTestKeys(['maditab_prv', 'maxp_pub']);
         keyringAttributes = {
           default_key: '771f9119b823e06c0de306d466663688a83e9763'
         };
       } else {
-        initTestKeys(['johnd', 'gordonf']);
+        initTestKeys(['johnd_prv', 'gordonf_pub']);
         keyringAttributes = {};
       }
-      storage.importKeys(keyringId, testKeys);
-      storage.importAttributes(keyringId, keyringAttributes);
+      await storage.importKeys(keyringId, testKeys);
+      await storage.importAttributes(keyringId, keyringAttributes);
     }
     KeyStoreLocal.__Rewire__('mvelo', {
       storage
@@ -87,7 +87,8 @@ describe('keyring unit tests', () => {
       await setKeyringAttr('test123', {
         default_key: '123456789'
       });
-      expect(storage.get('mvelo.keyring.attributes')['test123'].default_key).to.equal('123456789');
+      const storedAttrs = await storage.get('mvelo.keyring.attributes');
+      expect(storedAttrs['test123'].default_key).to.equal('123456789');
       expect(getKeyringAttr('test123', 'default_key')).to.equal('123456789');
     });
   });

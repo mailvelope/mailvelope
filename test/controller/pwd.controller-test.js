@@ -50,25 +50,4 @@ describe('Password controller unit tests', () => {
       });
     });
   });
-
-  describe.skip('onOk', () => {
-    it('should unlock key password', () => {
-      const msg = {password: '123', cache: '123'};
-      prefs.security = {
-        password_cache: '123'
-      };
-      const unlock = sandbox.stub().returns(Promise.resolve(
-        [
-          {
-            closePopup() { console.log('closing'); },
-            resolve() { console.log('resolving'); }
-          }
-        ]
-      ));
-      PwdController.__Rewire__('pwdCache', {
-        unlock
-      });
-      ctrl.onOk(msg);
-    });
-  });
 });

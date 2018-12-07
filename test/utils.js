@@ -26,35 +26,34 @@ export class LocalStorageStub {
     this.set(`${this.prefix}.attributes`, {});
   }
 
-  importKeys(keyRingId, {public: pub, private: pri}) {
+  async importKeys(keyRingId, {public: pub, private: pri}) {
     const publicKeys = [];
     for (const keyName of Object.keys(pub)) {
       publicKeys.push(pub[keyName]);
     }
-    this.set(`${this.prefix}.${keyRingId}.publicKeys`, publicKeys);
+    await this.set(`${this.prefix}.${keyRingId}.publicKeys`, publicKeys);
 
     const privateKeys = [];
     for (const keyName of Object.keys(pri)) {
       privateKeys.push(pri[keyName]);
     }
-    this.set(`${this.prefix}.${keyRingId}.privateKeys`, privateKeys);
+    await this.set(`${this.prefix}.${keyRingId}.privateKeys`, privateKeys);
   }
 
-  importAttributes(keyRingId, attrs) {
-    const attributes = this.get(`${this.prefix}.attributes`);
+  async importAttributes(keyRingId, attrs) {
+    const attributes = await this.get(`${this.prefix}.attributes`);
     attributes[keyRingId] = attrs;
-    // this.set(`${this.prefix}.attributes`, {[keyRingId]: attributes});
   }
 
   get(key) {
-    return this.storage.get(key);
+    return Promise.resolve(this.storage.get(key));
   }
 
   set(key, value) {
-    this.storage.set(key, value);
+    return Promise.resolve(this.storage.set(key, value));
   }
 
   remove(key) {
-    this.storage.delete(key);
+    return Promise.resolve(this.storage.delete(key));
   }
 }

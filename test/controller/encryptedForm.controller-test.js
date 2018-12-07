@@ -190,35 +190,6 @@ describe('EncryptForm controller unit tests', () => {
     });
   });
 
-  /* assertAndSetFingerprint does not exist anymore */
-  describe.skip('assertAndSetFingerprint', () => {
-    let keyRingMock;
-
-    beforeEach(() => {
-      keyRingMock = {getKeyByAddress: sandbox.stub()};
-      sandbox.stub(keyring, 'getById').returns(keyRingMock);
-    });
-
-    it('should set the fingerprint if the username is in the keyring', () => {
-      const fingerprint = '5d031f1d410b980fbc006e3202c134d079701934';
-      const mockKey = {primaryKey: {getFingerprint: sandbox.stub()}};
-      const thomasKey = {'thomas@mailvelope.com': [mockKey]};
-      mockKey.primaryKey.getFingerprint.returns(fingerprint);
-      keyRingMock.getKeyByAddress.returns(thomasKey);
-      ctrl.formRecipient = 'thomas@mailvelope.com';
-      expect(ctrl.assertAndSetFingerprint()).to.be.true;
-      expect(ctrl.formFingerprint).to.equal(fingerprint.toUpperCase());
-    });
-
-    it('should throw an exception if the username is not in the keyring', () => {
-      const thomasKey = {'thomas@mailvelope.com': []};
-      ctrl.formRecipient = 'thomas@mailvelope.com';
-      keyRingMock.getKeyByAddress.returns(thomasKey);
-      expect(ctrl.assertAndSetFingerprint.bind(ctrl)).throws()
-      .and.have.property('code', 'NO_KEY_FOR_RECIPIENT');
-    });
-  });
-
   describe('assertAndSetSignature', () => {
     it('should throw and error if signature is empty', () => {
       expect(ctrl.assertAndSetSignature.bind(ctrl)).throws()

@@ -27,46 +27,6 @@ describe('Editor controller unit tests', () => {
     });
   });
 
-  /* lookupKeyOnServer does not exist anymore */
-  describe.skip('lookupKeyOnServer', () => {
-    let importKeysStub;
-
-    beforeEach(() => {
-      sinon.stub(ctrl.keyserver, 'lookup');
-      const keyRingMock = {
-        importKeys() {},
-        getKeyUserIDs() { return [{keyid: '0'}]; }
-      };
-      importKeysStub = sinon.stub(keyRingMock, 'importKeys');
-      sinon.stub(keyring, 'getById').returns(keyRingMock);
-    });
-
-    afterEach(() => {
-      ctrl.keyserver.lookup.restore();
-      keyring.getById.restore();
-    });
-
-    it('should find a key', () => {
-      ctrl.keyserver.lookup.returns(Promise.resolve({publicKeyArmored: 'KEY BLOCK'}));
-
-      return ctrl.lookupKeyOnServer({recipient: {email: 'a@b.co'}})
-      .then(() => {
-        expect(importKeysStub.calledOnce).to.be.true;
-        expect(ctrl.emit.calledOnce).to.be.true;
-      });
-    });
-
-    it('should not find a key', () => {
-      ctrl.keyserver.lookup.returns(Promise.resolve());
-
-      return ctrl.lookupKeyOnServer({recipient: {email: 'a@b.co'}})
-      .then(() => {
-        expect(importKeysStub.calledOnce).to.be.false;
-        expect(ctrl.emit.calledOnce).to.be.true;
-      });
-    });
-  });
-
   describe('setRecipientData', () => {
     beforeEach(() => {
       const keyringStub = sandbox.stub().returns([{keyid: '0'}]);

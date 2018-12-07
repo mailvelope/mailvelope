@@ -15,8 +15,8 @@ describe('KeyringLocal unit tests', () => {
       default_key: '771f9119b823e06c0de306d466663688a83e9763'
     };
     storage = new LocalStorageStub();
-    storage.importKeys(keyringId, testKeys);
-    storage.importAttributes(keyringId, keyringAttributes);
+    await storage.importKeys(keyringId, testKeys);
+    await storage.importAttributes(keyringId, keyringAttributes);
     KeyStoreLocal.__Rewire__('mvelo', {
       storage
     });
@@ -28,7 +28,7 @@ describe('KeyringLocal unit tests', () => {
   });
 
   afterEach(() => {
-    initTestKeys(['demo', 'maditab']);
+    initTestKeys(['demo_pub', 'demo_prv', 'maditab_prv']);
     /* eslint-disable-next-line no-undef */
     __rewire_reset_all__();
   });
@@ -74,16 +74,16 @@ describe('KeyringLocal unit tests', () => {
       expect(maditabKeyData[0].users[0].email).to.equal('madita.bernstein@gmail.com');
       expect(maditabKeyData[0].users[0].name).to.equal('Madita Bernstein');
     });
-    it('should get kuser id, key id, fingerprint, email and name for all keys', async() => {
+    it('should get user id, key id, fingerprint, email and name for all keys', async() => {
       const keyData = await keyRing.getKeyData({allUsers: true});
-      expect(keyData[1].users.length).to.equal(2);
+      expect(keyData.length).to.equal(3);
     });
   });
 
   describe('getKeyByAddress', () => {
     it('should get keys by email address', async() => {
-      const keys = await keyRing.getKeyByAddress(['madita@mailvelope.com']);
-      expect(keys['madita@mailvelope.com'].length).to.equal(2);
+      const keys = await keyRing.getKeyByAddress(['test@mailvelope.com']);
+      expect(keys['test@mailvelope.com'].length).to.equal(2);
     });
     it('should get keys by email address', async() => {
       const keys = await keyRing.getKeyByAddress(['madita@mailvelope.com'], {pub: false});
@@ -91,7 +91,7 @@ describe('KeyringLocal unit tests', () => {
     });
     it('should get keys by email address', async() => {
       const keys = await keyRing.getKeyByAddress(['madita.b@mailvelope.com', 'test@mailvelope.com']);
-      expect(keys['madita.b@mailvelope.com'].length).to.equal(2);
+      expect(keys['madita.b@mailvelope.com'].length).to.equal(1);
       expect(keys['test@mailvelope.com'].length).to.equal(2);
     });
   });
@@ -126,11 +126,10 @@ describe('KeyringLocal unit tests', () => {
     });
   });
 
-  /* throws Error: Collision of long key ID a9c26ff01f6f59e2, more than one key found in keyring */
-  describe.skip('getFprForKeyId', () => {
+  describe('getFprForKeyId', () => {
     it('should get key or sub key packet by keyId and return fingerprint', () => {
       const fingerprint = keyRing.getFprForKeyId('a9c26ff01f6f59e2');
-      console.log(fingerprint);
+      expect(fingerprint).to.equal('ef4d0286504c2a77e6e05d0da9c26ff01f6f59e2');
     });
   });
 
@@ -166,7 +165,8 @@ describe('KeyringLocal unit tests', () => {
   describe('importKeys', () => {
     it('should import armored keys into the keyring', async() => {
       setKeyringAttr(keyringId, {default_key: ''});
-      importTestKey('johnd');
+      importTestKey('johnd_pub');
+      importTestKey('johnd_prv');
       const results = await keyRing.importKeys([{type: 'public', armored: testKeys.public.johnd}, {type: 'private', armored: testKeys.private.johnd}]);
       for (const {type} of results) {
         expect(type).to.equal('success');

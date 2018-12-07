@@ -34,3 +34,10 @@ window.chrome.i18n = {
     return id;
   }
 };
+
+window.chrome.browserAction = window.chrome.browserAction || {};
+
+window.chrome.browserAction.setBadgeText = function(){};
+
+window.chrome.browserAction.setBadgeBackgroundColor = function(){};
+

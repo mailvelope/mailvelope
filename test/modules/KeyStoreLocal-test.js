@@ -16,8 +16,8 @@ describe('KeyStoreLocal unit tests', () => {
       default_key: '771f9119b823e06c0de306d466663688a83e9763'
     };
     storage = new LocalStorageStub();
-    storage.importKeys(keyringId, testKeys);
-    storage.importAttributes(keyringId, keyringAttributes);
+    await storage.importKeys(keyringId, testKeys);
+    await storage.importAttributes(keyringId, keyringAttributes);
     KeyStoreLocal.__Rewire__('mvelo', {
       storage
     });
@@ -30,7 +30,7 @@ describe('KeyStoreLocal unit tests', () => {
   });
 
   afterEach(() => {
-    initTestKeys(['demo', 'maditab']);
+    initTestKeys(['demo_pub', 'demo_prv', 'maditab_pub', 'maditab_prv']);
     /* eslint-disable-next-line no-undef */
     __rewire_reset_all__();
   });
@@ -59,8 +59,9 @@ describe('KeyStoreLocal unit tests', () => {
 
   describe('loadKeys', () => {
     it('should return array with keys ', async() => {
-      importTestKey('johnd');
-      importTestKey('gordonf');
+      importTestKey('johnd_pub');
+      importTestKey('johnd_prv');
+      importTestKey('gordonf_pub');
       const keys = await keyStore.loadKeys([testKeys.private.johnd, testKeys.public.johnd, testKeys.public.gordonf]);
       expect(keys.length).to.equal(3);
       expect(keys[0].getFingerprint()).to.equal('81364f6680a600b292bec5980c02c51f4af1a165');
@@ -69,7 +70,7 @@ describe('KeyStoreLocal unit tests', () => {
 
   describe('store', () => {
     it('should store keys', async() => {
-      importTestKey('gordonf');
+      importTestKey('gordonf_pub');
       const {keys: [key]} = await openpgp.key.readArmored(testKeys.public.gordonf);
       keyStore.publicKeys.push(key);
       await keyStore.store();

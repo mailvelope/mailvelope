@@ -15,8 +15,8 @@ describe('keyringSync unit tests', () => {
       default_key: '771f9119b823e06c0de306d466663688a83e9763'
     };
     storage = new LocalStorageStub();
-    storage.importKeys(keyringId, testKeys);
-    storage.importAttributes(keyringId, keyringAttributes);
+    await storage.importKeys(keyringId, testKeys);
+    await storage.importAttributes(keyringId, keyringAttributes);
     KeyStoreLocal.__Rewire__('mvelo', {
       storage
     });
@@ -29,7 +29,7 @@ describe('keyringSync unit tests', () => {
   });
 
   afterEach(() => {
-    initTestKeys(['demo', 'maditab']);
+    initTestKeys(['demo_pub', 'demo_prv', 'maditab_pub', 'maditab_prv']);
     /* eslint-disable-next-line no-undef */
     __rewire_reset_all__();
   });

@@ -62,29 +62,4 @@ describe('Encrypt controller unit tests', () => {
       expect(ctrl.send.withArgs('get-recipients').calledOnce).to.be.true;
     });
   });
-
-  /* displayRecipientProposal does not exist anymore */
-  describe.skip('displayRecipientProposal', () => {
-    let recipientsCallbackStub;
-
-    beforeEach(() => {
-      recipientsCallbackStub = ctrl.recipientsCallback = sandbox.stub();
-    });
-
-    it('should callback', () => {
-      ctrl.displayRecipientProposal({recipients: testRecipients});
-
-      expect(ctrl.recipientsCallback).to.be.null;
-      expect(recipientsCallbackStub.withArgs(testRecipients).calledOnce).to.be.true;
-    });
-
-    it('should not callback', () => {
-      ctrl.recipientsCallback = null;
-
-      ctrl.displayRecipientProposal({recipients: testRecipients});
-
-      expect(ctrl.recipientsCallback).to.be.null;
-      expect(recipientsCallbackStub.called).to.be.false;
-    });
-  });
 });

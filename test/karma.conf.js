@@ -13,7 +13,6 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    // frameworks: ['mocha', 'chai'],
     frameworks: ['mocha'],
 
     // list of files / patterns to load in the browser
@@ -25,6 +24,8 @@ module.exports = function(config) {
       {pattern: '../node_modules/angular/angular.js', watched: false},
       {pattern: '../node_modules/angular-mocks/angular-mocks.js', watched: false},
       {pattern: '../src/lib/jquery.ext.js', watched: false},
+      {pattern: '../node_modules/openpgp/dist/openpgp.worker.js', watched: false, included: false,  nocache: false},
+      {pattern: '../node_modules/openpgp/dist/openpgp.js', watched: false, included: false,  nocache: false},
       {pattern: '../src/res/fonts/Courgette-Regular.woff2', watched: false, included: false,  nocache: false},
       // add files to be tested here
       'mvelo-test.js',
@@ -40,6 +41,8 @@ module.exports = function(config) {
     ],
 
     proxies: {
+      '/dep/openpgp.worker.js': `/absolute${path.resolve('./node_modules/openpgp/dist/openpgp.worker.js')}`,
+      '/dep/openpgp.js': `/absolute${path.resolve('./node_modules/openpgp/dist/openpgp.js')}`,
       '/res/fonts/Courgette-Regular.woff2': `/absolute${path.resolve('./src/res/fonts/Courgette-Regular.woff2')}`
     },
 
