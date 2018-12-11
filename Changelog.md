@@ -1,6 +1,23 @@
 Mailvelope Changelog
 ====================
 
+v3.0.0
+-------
+__Dec 11, 2018__
+
+  * GnuPG integration: connect via native messaging with a GnuPG installation and use GnuPG as an alternative backend for all OpenPGP operations.
+  * New encrypted web forms feature: use Mailvelope to transmit HTML form data end-to-end encrypted with OpenPGP (https://github.com/mailvelope/mailvelope/wiki/Encrypted-Forms).
+  * Support the Web Key Directory (https://wiki.gnupg.org/WKD) for decentralized public key discovery.
+  * Update OpenPGP.js to 4.2 (http://github.com/openpgpjs/openpgpjs/releases/tag/v4.2.0): security fixes, support for ECC.
+  * Redesign of keyring selection component and keyring management view
+  * Block external HTML content in decrypted messages
+  * Revise unit testing framework and increase test coverage
+  * Major refactoring of keyring and model classes to support multiple OpenPGP backends
+  * Add keyring fallback mechanism to find required private key for an operation across multiple keyrings
+  * Public keys are synchronized across multiple keyrings
+  * Authorized domains for client-API are by default HTTPS-only
+  * Revise MIME parser/builder integration
+
 v2.2.2
 -------
 __May 15, 2018__
