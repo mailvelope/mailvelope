@@ -14,16 +14,13 @@ import {filterUserIdsByEmail} from './key';
 const DEFAULT_URL = 'https://keys.mailvelope.com';
 
 /**
- * Get a verified public key either from the server by either email address,
- * key id, or fingerprint.
+ * Get a verified public key from the server by email address.
  *
- * If only the email is provided it will only return keys with UserIDs that
- * match the email. In that case the userIds from the json object are purely
- * informational as the userIds that are also on the key on the Key Server.
+ * It will only return keys with UserIDs that match the email.
+ * The userIds from the json object are purely informational
+ * as the userIds that are also on the key on the Key Server.
  *
  * @param {string} options.email         (optional) The user id's email address
- * @param {string} options.keyId         (optional) The long 16 char key id
- * @param {string} options.fingerprint   (optional) The 40 char v4 fingerprint
  * @yield {Object}                       The public key json object
  */
 export async function lookup(options) {
@@ -33,11 +30,10 @@ export async function lookup(options) {
     jsonKey = await response.json();
   }
 
-  if (jsonKey && options.email && !options.keyId && !options.fingerprint) {
-    // When only fetching by email only the userid matching
-    // the email should be imported. This avoids usability problems
-    // and potentioal security issues when unreleated userids are also part
-    // of the key.
+  if (jsonKey) {
+    // Only the userid matching the email should be imported.
+    // This avoids usability problems and potentioal security issues
+    // when unreleated userids are also part of the key.
     const parseResult = await openpgpKey.readArmored(jsonKey.publicKeyArmored);
     if (parseResult.err) {
       throw new Error(`mveloKeyServer: Failed to parse response '${jsonKey}': ${parseResult.err}`);
@@ -56,6 +52,26 @@ export async function lookup(options) {
     console.log(`mveloKeyServer: fetched key: '${filtered.primaryKey.getFingerprint()}'`);
   }
 
+  return jsonKey;
+}
+
+/**
+ * Get a verified public key either from the server by either key id, or fingerprint.
+ *
+ * We are not using this function yet.
+ * It's part of the Mailvelope Key Server API - so we leave this here
+ * for later use.
+ *
+ * @param {string} options.keyId         (optional) The long 16 char key id
+ * @param {string} options.fingerprint   (optional) The 40 char v4 fingerprint
+ * @yield {Object}                       The public key json object
+ */
+export async function fetch(options) {
+  let jsonKey;
+  const response = await window.fetch(url(options));
+  if (response.status === 200) {
+    jsonKey = await response.json();
+  }
   return jsonKey;
 }
 

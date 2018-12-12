@@ -18,8 +18,6 @@ import {lookup as wkdLookup} from './wkdLocate';
  * key id, or fingerprint.
  *
  * @param {String} [options.email] - The user id's email address
- * @param {String} [options.keyId] - The long 16 char key id
- * @param {String} [options.fingerprint] - The 40 char v4 fingerprint
  * @return {String} - if auto-locate is successful the found armored key
  */
 export async function locate(options) {
