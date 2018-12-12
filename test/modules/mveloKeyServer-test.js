@@ -23,29 +23,6 @@ describe('Talking to the Mailvelope Key Server', () => {
       });
     });
 
-    it('should query for the key by keyId', () => {
-      window.fetch.returns(Promise.resolve({
-        status: 404,
-        json() { return {}; }
-      }));
-      return mveloKeyServer.lookup({keyId: '0123456789ABCDFE'})
-      .then(() => {
-        expect(window.fetch.args[0][0]).to.include('/api/v1/key?keyId=0123456789ABCDFE');
-      });
-    });
-
-    it('should query for the key by fingerprint', () => {
-      window.fetch.returns(Promise.resolve({
-        status: 404,
-        json() { return {}; }
-      }));
-
-      return mveloKeyServer.lookup({fingerprint: '0123456789ABCDFE0123456789ABCDFE01234567'})
-      .then(() => {
-        expect(window.fetch.args[0][0]).to.include('/api/v1/key?fingerprint=0123456789ABCDFE0123456789ABCDFE01234567');
-      });
-    });
-
     it('should return key on success', () => {
       window.fetch.returns(Promise.resolve({
         status: 200,
@@ -69,6 +46,32 @@ describe('Talking to the Mailvelope Key Server', () => {
         expect(key).to.not.exist;
       });
     });
+  });
+
+  describe('fetch', () => {
+    it('should query for the key by keyId', () => {
+      window.fetch.returns(Promise.resolve({
+        status: 404,
+        json() { return {}; }
+      }));
+      return mveloKeyServer.fetch({keyId: '0123456789ABCDFE'})
+      .then(() => {
+        expect(window.fetch.args[0][0]).to.include('/api/v1/key?keyId=0123456789ABCDFE');
+      });
+    });
+
+    it('should query for the key by fingerprint', () => {
+      window.fetch.returns(Promise.resolve({
+        status: 404,
+        json() { return {}; }
+      }));
+
+      return mveloKeyServer.fetch({fingerprint: '0123456789ABCDFE0123456789ABCDFE01234567'})
+      .then(() => {
+        expect(window.fetch.args[0][0]).to.include('/api/v1/key?fingerprint=0123456789ABCDFE0123456789ABCDFE01234567');
+      });
+    });
+
   });
 
   describe('upload', () => {
