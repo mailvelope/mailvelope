@@ -22,24 +22,29 @@ import {lookup as wkdLookup} from './wkdLocate';
  */
 export async function locate(options) {
   let armored;
-  if (isMveloKeyServerEnabled()) {
-    try {
-      armored = await mveloKSLookup(options.email);
-    } catch (e) {
-      // Failures are not critical so we only info log them.
-      console.log(`Mailvelope Server: Did not find key (Errors are expected): ${e}`);
+
+  const strategies = [
+    { name: 'Mailvelope Server',
+      isEnabled: isMveloKeyServerEnabled,
+      lookup: mveloKSLookup },
+    { name: 'WKD',
+      isEnabled: isWKDEnabled,
+      lookup: wkdLookup }
+  ]
+
+  for (const strategy of strategies) {
+    if (strategy.isEnabled()) {
+      try {
+        armored = await strategy.lookup(options.email);
+        if (armored) {
+          return armored;
+        }
+      } catch (e) {
+        // Failures are not critical so we only info log them.
+        console.log(strategy.name + `: Did not find key (Errors are expected): ${e}`);
+      }
     }
   }
-  if (!armored && options.email && isWKDEnabled()) {
-    // As we do not (yet) handle key updates through WKD we only want one key.
-    try {
-      armored = await wkdLookup(options.email);
-    } catch (e) {
-      // WKD Failures are not critical so we only info log them.
-      console.log(`WKD: Did not find key (Errors are expected): ${e}`);
-    }
-  }
-  return armored;
 }
 
 /**
