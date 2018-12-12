@@ -38,7 +38,7 @@ export async function locate(options) {
   if (!armored && options.email && isWKDEnabled()) {
     // As we do not (yet) handle key updates through WKD we only want one key.
     try {
-      armored = await wkdLookup(options.email, true);
+      armored = await wkdLookup(options.email);
     } catch (e) {
       // WKD Failures are not critical so we only info log them.
       console.log(`WKD: Did not find key (Errors are expected): ${e}`);

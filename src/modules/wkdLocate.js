@@ -34,12 +34,11 @@ let blacklist;
 
 /**
  * Get a key from WKD by the email address.
- * @param {String}                            email    The keys email address.
- * @param {Boolean}                           onlyOne  Return only one key instead of an Array.
- * @yield {Array[String]}|String|{undefined}  Array of armored keys with matching uids.
- *                                            Undefined if no key was found.
+ * @param {String}    email    The keys email address.
+ * @yield {String|{undefined}  Armored key with matching uid.
+ *                             Undefined if no key was found.
  */
-export async function lookup(email, onlyOne) {
+export async function lookup(email) {
   if (!email) {
     throw new Error("WKD: Skipping lookup without email.");
   }
@@ -63,7 +62,7 @@ export async function lookup(email, onlyOne) {
   }
 
   // Now we should have binary keys in the response.
-  const armored = await parseKeysForEMail(data, email, onlyOne);
+  const armored = await parseKeysForEMail(data, email);
 
   return armored;
 }
@@ -139,17 +138,19 @@ function timeout(ms, promise) {
  * Security: This is a central element for trust by https / WKD through
  * the domain provider. If accepting any key or any userid provided, there
  * would be no trust gain as a malicious domain could pollute the keyring
- * or include userids for other domains.  The validity check and onlyOne
- * API make this function more convenient to use for simple implementations which
- * do not plan to use WKD for Key rollover but have no security purpose.
+ * or include userids for other domains.  The validity check and
+ * limitation to one key make this function more convenient to use
+ * for simple implementations which do not plan to use WKD for Key rollover
+ * but have no security purpose.
+ *
+ * This will return only the best key. Best means: The newest, valid key.
+ * If no keys are valid it only returns the newest.
  *
  * @param {ByteArray} data          Binary data that might contain keys.
  * @param {String}    email         The email address for the userids.
- * @param {Boolean}   onlyOne       Return only the best key. Best means: The newest, valid key.
- *                                  If no keys are valid it only returns the newest.
- * @returns {Array[String]}|String  An array of the ASCII armored filtered keys or only one armored key.
+ * @returns {String}  An array of the ASCII armored filtered keys or only one armored key.
  */
-async function parseKeysForEMail(data, email, onlyOne) {
+async function parseKeysForEMail(data, email) {
   if (!openpgp.util.isUint8Array(data)) {
     throw new Error(`WKD: parseKeysForEMail invalid data type ${data.constructor.toString()}`);
   }
@@ -160,44 +161,35 @@ async function parseKeysForEMail(data, email, onlyOne) {
   }
 
   try {
-    const keptArmoredKeys = [];
     let candidate;
 
     for (const key of result.keys) {
       console.log(`WKD: inspecting: ${key.primaryKey.getFingerprint()}`);
       const filtered = filterUserIdsByEmail(key, email);
       if (filtered.users.length) {
-        if (onlyOne) {
-          if (!candidate) {
+        if (!candidate) {
+          candidate = filtered;
+        } else { // More then one filtered in WKD is a rare case. Example can be found as "test-multikey@testkolab.intevation.de"
+          const newValid = await filtered.verifyPrimaryKey() === openpgp.enums.keyStatus.valid;
+          const oldValid = await candidate.verifyPrimaryfiltered() === openpgp.enums.keyStatus.valid;
+          // Prefer the one that is valid
+          if (newValid && !oldValid) {
             candidate = filtered;
-          } else { // More then one filtered in WKD is a rare case. Example can be found as "test-multikey@testkolab.intevation.de"
-            const newValid = await filtered.verifyPrimaryKey() === openpgp.enums.keyStatus.valid;
-            const oldValid = await candidate.verifyPrimaryfiltered() === openpgp.enums.keyStatus.valid;
-            // Prefer the one that is valid
-            if (newValid && !oldValid) {
-              candidate = filtered;
-              console.log(`WKD: Preferring ${filtered.primaryKey.getFingerprint()} over ${candidate.primaryKey.getFingerprint()} because of validity.`);
-            } else if (newValid === oldValid && filtered.primaryKey.created > candidate.primaryKey.created) {
-              // If both are valid or invalid check the creation date
-              console.log(`WKD: Preferring ${filtered.primaryKey.getFingerprint()} over ${candidate.primaryKey.getFingerprint()} because of cr date of primary.`);
-              candidate = filtered;
-            }
+            console.log(`WKD: Preferring ${filtered.primaryKey.getFingerprint()} over ${candidate.primaryKey.getFingerprint()} because of validity.`);
+          } else if (newValid === oldValid && filtered.primaryKey.created > candidate.primaryKey.created) {
+            // If both are valid or invalid check the creation date
+            console.log(`WKD: Preferring ${filtered.primaryKey.getFingerprint()} over ${candidate.primaryKey.getFingerprint()} because of cr date of primary.`);
+            candidate = filtered;
           }
-        } else {
-          console.log(`WKD: fetched key: '${candidate.primaryKey.getFingerprint()}'`);
-          keptArmoredKeys.push(key.armor());
         }
       } else {
         // Example for this can be found as "test-not-matching@testkolab.intevation.de"
         console.log(`WKD: skipping not matching key '${key.primaryKey.getFingerprint()}' (bad server)`);
       }
     }
-    if (onlyOne && candidate) {
+    if (candidate) {
       console.log(`WKD: Fetched key: '${candidate.primaryKey.getFingerprint()}'`);
       return candidate.armor();
-    }
-    if (keptArmoredKeys.length) {
-      return keptArmoredKeys;
     }
     throw new Error("WKD: Failed to parse any matching key from the result (bad server)");
   } catch (e) {
