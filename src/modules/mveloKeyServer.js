@@ -20,8 +20,9 @@ const DEFAULT_URL = 'https://keys.mailvelope.com';
  * The userIds from the json object are purely informational
  * as the userIds that are also on the key on the Key Server.
  *
- * @param {string} email         The user id's email address
- * @yield {Object}               The public key json object
+ * @param {string} email       The user id's email address
+ * @yield {String|{undefined}  Armored key with matching uid.
+ *                             Undefined if no key was found.
  */
 export async function lookup(email) {
   let jsonKey;
@@ -34,29 +35,30 @@ export async function lookup(email) {
     jsonKey = await response.json();
   }
 
-  if (jsonKey) {
-    // Only the userid matching the email should be imported.
-    // This avoids usability problems and potentioal security issues
-    // when unreleated userids are also part of the key.
-    const parseResult = await openpgpKey.readArmored(jsonKey.publicKeyArmored);
-    if (parseResult.err) {
-      throw new Error(`mveloKeyServer: Failed to parse response '${jsonKey}': ${parseResult.err}`);
-    }
-
-    const keys = parseResult.keys;
-    if (keys.length !== 1) {
-      throw new Error(`mveloKeyServer: Response '${jsonKey}': contained ${keys.length} keys.`);
-    }
-
-    const filtered = filterUserIdsByEmail(keys[0], email);
-    if (!filtered.users.length) {
-      throw new Error(`mveloKeyServer: Response '${jsonKey}': contained no matching userIds.`);
-    }
-    jsonKey.publicKeyArmored = filtered.armor();
-    console.log(`mveloKeyServer: fetched key: '${filtered.primaryKey.getFingerprint()}'`);
+  if (!jsonKey) {
+    return
   }
 
-  return jsonKey;
+  // Only the userid matching the email should be imported.
+  // This avoids usability problems and potentioal security issues
+  // when unreleated userids are also part of the key.
+  const parseResult = await openpgpKey.readArmored(jsonKey.publicKeyArmored);
+  if (parseResult.err) {
+    throw new Error(`mveloKeyServer: Failed to parse response '${jsonKey}': ${parseResult.err}`);
+  }
+
+  const keys = parseResult.keys;
+  if (keys.length !== 1) {
+    throw new Error(`mveloKeyServer: Response '${jsonKey}': contained ${keys.length} keys.`);
+  }
+
+  const filtered = filterUserIdsByEmail(keys[0], email);
+  if (!filtered.users.length) {
+    throw new Error(`mveloKeyServer: Response '${jsonKey}': contained no matching userIds.`);
+  }
+
+  console.log(`mveloKeyServer: fetched key: '${filtered.primaryKey.getFingerprint()}'`);
+  return filtered.armor();
 }
 
 /**
