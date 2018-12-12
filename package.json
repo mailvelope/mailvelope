@@ -17,6 +17,7 @@
   "readmeFilename": "Readme.md",
   "dependencies": {
     "angular": "1.7.8",
+    "autocrypt": "0.10.0",
     "bootstrap": "4.3.1",
     "dompurify": "1.0.10",
     "emailjs-mime-builder": "github:mailvelope/emailjs-mime-builder#v2.0.5m",

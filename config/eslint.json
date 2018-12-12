@@ -56,6 +56,7 @@
     "keyword-spacing": 1, // enforce consistent spacing between keys and values in object literal properties
     "linebreak-style": 1, // enforce consistent linebreak style
     "lines-between-class-members": 1, // require or disallow an empty line between class members
+    "new-parens": ["warn"], // require parens when invoking constructors
     "no-multiple-empty-lines": ["warn", {"max": 1}], // disallow multiple empty lines
     "no-trailing-spaces": 1, // disallow trailing whitespace at the end of lines
     "no-var": 1, // require let or const instead of var

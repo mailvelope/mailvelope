@@ -53,7 +53,6 @@ export default class Editor extends React.Component {
       defaultPlainText: '',
       publicKeys: [],
       recipients: [],
-      autoLocate: true,
       encryptDisabled: true,
       waiting: false,
       error: null,
@@ -117,10 +116,9 @@ export default class Editor extends React.Component {
    * Remember the available public keys for later and set the recipients proposal gotten from the webmail ui to the editor
    * @param {Array} options.keys         A list of all available public keys from the local keychain
    * @param {Array} options.recipients   recipients gather from the webmail ui
-   * @param {boolean} options.autoLocate If the editor should try to auto-locate the key
    */
-  onPublicKeyUserids({autoLocate, keys, recipients}) {
-    this.setState({autoLocate, publicKeys: keys, recipients});
+  onPublicKeyUserids({keys, recipients}) {
+    this.setState({publicKeys: keys, recipients});
   }
 
   /**
@@ -313,7 +311,7 @@ export default class Editor extends React.Component {
         </div>
         {this.props.recipientInput &&
           <div className="editor-recipients mb-2 w-100">
-            <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients} autoLocate={this.state.autoLocate} encryptDisabled={this.state.encryptDisabled}
+            <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients} encryptDisabled={this.state.encryptDisabled}
               onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
               onAutoLocate={recipient => this.port.emit('auto-locate', {recipient})}
             />

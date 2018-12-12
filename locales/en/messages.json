@@ -471,6 +471,10 @@
     "description": "Enable Web Key Directory Auto Lookup",
     "message": "Query keys from the recipients Mail provider (Web Key Directory)"
   },
+  "keyserver_autocrypt_lookup": {
+    "description": "Enable Looking Up Keys Via Autocrypt",
+    "message": "Use keys from Autocrypt headers of incoming email"
+  },
   "keyserver_url_warning": {
     "description": "HKP key server url warning.",
     "message": "Key server URL must have the following format: http(s)://keys.example.com"
