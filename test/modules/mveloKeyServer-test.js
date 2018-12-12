@@ -27,8 +27,9 @@ describe('Talking to the Mailvelope Key Server', () => {
         json() { return {publicKeyArmored: testKeys.api_test_pub}; }
       }));
 
-      const key = await mveloKeyServer.lookup('test@mailvelope.com');
-      expect(key).to.include('PGP PUBLIC KEY BLOCK');
+      const result = await mveloKeyServer.lookup('test@mailvelope.com');
+      expect(Object.keys(result)).to.include('armored');
+      expect(result.armored).to.include('PGP PUBLIC KEY BLOCK');
     });
 
     it('should not return key on 404', async () => {
@@ -37,8 +38,8 @@ describe('Talking to the Mailvelope Key Server', () => {
         json() { return {}; }
       }));
 
-      const key = await mveloKeyServer.lookup('asdf@asdf.de');
-      expect(key).to.not.exist;
+      const result = await mveloKeyServer.lookup('asdf@asdf.de');
+      expect(result).to.not.exist;
     });
   });
 

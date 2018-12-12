@@ -27,6 +27,7 @@ l10n.register([
   'keyserver_additionals_label',
   'keyserver_tofu_lookup',
   'keyserver_wkd_lookup',
+  'keyserver_autocrypt_lookup',
   'learn_more_link',
   'settings_keyserver'
 ]);
@@ -36,6 +37,7 @@ function initialState({prefs}) {
   let hkp_server_list = [];
   let mvelo_tofu_lookup = false;
   let wkd_lookup = false;
+  let autocrypt_lookup = false;
   if (prefs) {
     hkp_base_url = prefs.keyserver.hkp_base_url;
     hkp_server_list = prefs.keyserver.hkp_server_list.map(server => ({value: server, label: server}));
@@ -44,6 +46,7 @@ function initialState({prefs}) {
     }
     mvelo_tofu_lookup = prefs.keyserver.mvelo_tofu_lookup;
     wkd_lookup = prefs.keyserver.wkd_lookup;
+    autocrypt_lookup = prefs.keyserver.autocrypt_lookup;
   }
   return {
     hkp_base_url,
@@ -51,6 +54,7 @@ function initialState({prefs}) {
     hkp_server_list,
     mvelo_tofu_lookup,
     wkd_lookup,
+    autocrypt_lookup,
     alert: null,
     modified: false,
     previousPrefs: prefs
@@ -120,7 +124,8 @@ export default class KeyServer extends React.Component {
           hkp_base_url: this.state.hkp_base_url,
           hkp_server_list: this.state.hkp_server_list.map(server => server.value),
           mvelo_tofu_lookup: this.state.mvelo_tofu_lookup,
-          wkd_lookup: this.state.wkd_lookup
+          wkd_lookup: this.state.wkd_lookup,
+          autocrypt_lookup: this.state.autocrypt_lookup
         }
       };
       this.props.onChangePrefs(update)
@@ -153,6 +158,10 @@ export default class KeyServer extends React.Component {
             <div className="custom-control custom-checkbox">
               <input className="custom-control-input" type="checkbox" id="keyserverWKDLookup" name="wkd_lookup" checked={this.state.wkd_lookup} onChange={this.handleCheck} />
               <label className="custom-control-label" htmlFor="keyserverWKDLookup"><span>{l10n.map.keyserver_wkd_lookup}</span>. <a href="https://wiki.gnupg.org/WKD" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
+            </div>
+            <div className="custom-control custom-checkbox">
+              <input className="custom-control-input" type="checkbox" id="keyserverAutocryptLookup" name="autocrypt_lookup" checked={this.state.autocrypt_lookup} onChange={this.handleCheck} />
+              <label className="custom-control-label" htmlFor="keyserverAutocryptLookup"><span>{l10n.map.keyserver_autocrypt_lookup}</span>. <a href="https://autocrypt.org" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
             </div>
           </div>
           <div className="form-group">

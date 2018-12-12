@@ -10,7 +10,7 @@ import * as sub from './sub.controller';
 import {key as openpgpKey} from 'openpgp';
 import {getLastModifiedDate} from '../modules/key';
 import {initOpenPGP, decryptFile, encryptFile} from '../modules/pgpModel';
-import {getById as keyringById, getAllKeyringAttr, setKeyringAttr, deleteKeyring, getKeyData} from '../modules/keyring';
+import {getById as keyringById, getAllKeyringAttr, getAllKeyringIds, setKeyringAttr, deleteKeyring, getKeyData} from '../modules/keyring';
 import {delete as deletePwdCache, get as getKeyPwdFromCache, unlock as unlockKey} from '../modules/pwdCache';
 import {initScriptInjection} from '../lib/inject';
 import * as prefs from '../modules/prefs';
@@ -18,6 +18,7 @@ import * as uiLog from '../modules/uiLog';
 import {getVersion} from '../modules/defaults';
 import {gpgme} from '../lib/browser.runtime';
 import * as mveloKeyServer from '../modules/mveloKeyServer';
+import * as autocryptWrapper from '../modules/autocryptWrapper';
 
 const unlockQueue = new PromiseQueue();
 
@@ -70,12 +71,16 @@ export default class AppController extends sub.SubController {
   }
 
   async updatePreferences(options) {
-    const updateOpenPGPFlag = typeof options.prefs.security !== 'undefined' && options.prefs.security.hide_armored_header !== prefs.prefs.security.hide_armored_header;
+    const updateOpenPGPFlag = options.prefs.security && options.prefs.security.hide_armored_header !== prefs.prefs.security.hide_armored_header;
+    const disabledAutocryptFlag = options.prefs.keyserver && options.prefs.keyserver.autocrypt_lookup === false  && prefs.prefs.keyserver.autocrypt_lookup;
     await prefs.update(options.prefs);
     // update content scripts
     sub.getByMainType('mainCS').forEach(mainCScontrl => mainCScontrl.updatePrefs());
     if (updateOpenPGPFlag) {
       initOpenPGP();
+    }
+    if (disabledAutocryptFlag) {
+      await autocryptWrapper.deleteIdentities(getAllKeyringIds());
     }
   }
 
@@ -234,6 +239,7 @@ export default class AppController extends sub.SubController {
     }
     sub.setActiveKeyringId(MAIN_KEYRING_ID);
     await deleteKeyring(keyringId);
+    await autocryptWrapper.deleteIdentities([keyringId]);
   }
 
   initEncryptText() {

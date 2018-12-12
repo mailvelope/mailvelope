@@ -48,17 +48,18 @@ describe('RecipientInput component unit tests', () => {
       ctrl.checkEncryptStatus.restore();
     });
 
-    it('should display only email address and lookup key in local cache', () => {
+    it('should display only email address and trigger auto locate', () => {
       const recipient = {
         email: 'jon@smith.com',
         displayId: 'Jon Smith <jon@smith.com>'
       };
-      props.tofu = true;
+      props.onAutoLocate = sinon.stub();
 
       ctrl.verify(recipient);
 
       expect(recipient.displayId).to.equal('jon@smith.com');
       expect(ctrl.getKey.withArgs(recipient).calledOnce).to.be.true;
+      expect(props.onAutoLocate.calledOnce).to.be.true;
     });
 
     it('should color tag if local key was found', () => {
@@ -87,24 +88,11 @@ describe('RecipientInput component unit tests', () => {
       expect(ctrl.checkEncryptStatus.calledOnce).to.be.true;
     });
 
-    it('should color tag if TOFU is deactivated', () => {
-      const recipient = {
-        email: 'jon@smith.com',
-        displayId: 'Jon Smith <jon@smith.com>',
-        checkedServer: undefined
-      };
-      props.tofu = false;
-
-      ctrl.verify(recipient);
-
-      expect(ctrl.colorTag.withArgs(recipient).calledOnce).to.be.true;
-      expect(ctrl.checkEncryptStatus.calledOnce).to.be.true;
-    });
-
     it('should set email', () => {
       const recipient = {
-        displayId: 'jon@smith.com'
+        displayId: 'jon@smith.com',
       };
+      ctrl.getKey.returns({keyid: '0'});
 
       ctrl.verify(recipient);
 

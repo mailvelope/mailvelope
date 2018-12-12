@@ -9,8 +9,11 @@
 
 import * as crypto from 'crypto';
 import * as openpgp from 'openpgp';
+import {prefs} from './prefs';
 import {filterUserIdsByEmail} from './key';
 import defaults from '../res/defaults.json';
+
+export const name = 'WKD';
 
 // For testing the following publicly available userIds can be used:
 //
@@ -31,6 +34,15 @@ const SIZE_LIMIT = 256;
 
 // blacklist to check for domains where WKD should not even be tried.
 let blacklist;
+
+/**
+* Check if WKD lookup is enabled.
+*
+* @return {Boolean}
+*/
+export function isEnabled() {
+  return prefs.keyserver.wkd_lookup === true;
+}
 
 /**
  * Get a key from WKD by the email address.
@@ -64,7 +76,7 @@ export async function lookup(email) {
   // Now we should have binary keys in the response.
   const armored = await parseKeysForEMail(data, email);
 
-  return armored;
+  return {armored, date: new Date()};
 }
 
 /**

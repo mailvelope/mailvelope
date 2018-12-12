@@ -36,7 +36,7 @@ class Mailvelope {
 
   /**
    * Retrieves the Keyring for the given identifier
-   * @param {string} identifier - the identifier of the keyring
+   * @param {String} identifier - the identifier of the keyring
    * @returns {Promise.<Keyring, Error>}
    * @throws {Error} error.code = 'NO_KEYRING_FOR_ID'
    */
@@ -46,7 +46,7 @@ class Mailvelope {
 
   /**
    * Creates a Keyring for the given identifier
-   * @param {string} identifier - the identifier of the new keyring
+   * @param {String} identifier - the identifier of the new keyring
    * @returns {Promise.<Keyring, Error>}
    * @throws {Error} error.code = 'KEYRING_ALREADY_EXISTS'
    * @example
@@ -61,18 +61,18 @@ class Mailvelope {
 
   /**
    * Ascii Armored PGP Text Block
-   * @typedef {string} AsciiArmored
+   * @typedef {String} AsciiArmored
    */
 
   /**
    * CSS Selector String
-   * @typedef {string} CssSelector
+   * @typedef {String} CssSelector
    */
 
   /**
    * @typedef {Object} DisplayContainerOptions
    * @property {boolean} showExternalContent - if true loads external content into the display container (default: true)
-   * @property {string} senderAddress - email address of sender, used to indentify key for signature verification
+   * @property {String} senderAddress - email address of sender, used to indentify key for signature verification
    */
 
   /**
@@ -113,10 +113,10 @@ class Mailvelope {
    * @property {boolean} signMsg - if true then the mail will be signed (default: false)
    * @property {AsciiArmored} armoredDraft - a PGP message, signed and encrypted with the default key of the user, will be used to restore a draft in the editor
    *                                         The armoredDraft parameter can't be combined with the parameters: predefinedText, quotedMail... parameters, keepAttachments
-   * @property {string} predefinedText - text that will be added to the editor
+   * @property {String} predefinedText - text that will be added to the editor
    * @property {AsciiArmored} quotedMail - mail that should be quoted
    * @property {boolean} quotedMailIndent - if true the quoted mail will be indented (default: true)
-   * @property {string} quotedMailHeader - header to be added before the quoted mail
+   * @property {String} quotedMailHeader - header to be added before the quoted mail
    * @property {boolean} keepAttachments - add attachments of quotedMail to editor (default: false)
    */
 
@@ -151,8 +151,8 @@ class Mailvelope {
 
   /**
    * @typedef {Object} SettingsContainerOptions
-   * @property {string} email - the email address of the current user
-   * @property {string} fullName - the full name of the current user
+   * @property {String} email - the email address of the current user
+   * @property {String} fullName - the full name of the current user
    */
 
   /**
@@ -175,9 +175,9 @@ class Mailvelope {
   /**
    * Creates an iframe to display an encrypted form
    * The iframe will be injected into the container identified by selector.
-   * @param @param {string} selector - the id of target container
-   * @param @param {string} formHtml - the form definition
-   * @param @param {string} signature - the OpenPGP signature
+   * @param @param {String} selector - the id of target container
+   * @param @param {String} formHtml - the form definition
+   * @param @param {String} signature - the OpenPGP signature
    * @returns {Promise.<Object, Error>} an object that includes armoredData
    * @throws {Error} error.code = 'INVALID_FORM' the form definition is not valid
    */
@@ -202,7 +202,7 @@ function checkTypeKeyring(keyring) {
 /**
  * Not accessible, instance can be obtained using {@link Mailvelope#getKeyring}
  * or {@link Mailvelope#createKeyring}.
- * @param {string} identifier - the keyring identifier
+ * @param {String} identifier - the keyring identifier
  * @param {object} options - the options
  * @property {number} logoRev - revision number of the keyring logo, initial value: 0
  */
@@ -213,9 +213,29 @@ class Keyring {
   }
 
   /**
+   * @typedef {Object} LookupResult
+   * @property {String} fingerprint - Fingerprint of the key
+   * @property {Date} lastModified  - last time the key was modified
+   * @property {String} source      - Source the key was found at <br>
+   *                                  Currently available: <br>
+   *                                    * 'LOC' - local key ring <br>
+   *                                    * 'WKD' - web key directory <br>
+   *                                    * 'MKS' - mailvelope key server <br>
+   *                                    * 'AC' - autocrypt
+   * @property {Date} [lastSeen]    - last time the key was seen <br>
+   *                                  (not set for local keys)
+   * @property {String} [armored]   - Armored key that can be imported <br>
+   *                                  (not set for local keys)
+   */
+
+  /**
    * Checks for valid key in the keyring for provided email addresses
+   * If none is found also checks in other sources (see LookupResult).
    * @param  {Array} recipients - list of email addresses for key lookup
-   * @return {Promise.<Object, Error>} an object that maps email addresses to a status or key info object (false: no valid key, {}: valid key)
+   * @returns {Promise.<Object, Error>} The object maps email addresses to: <br>
+   *                                    false: no valid key <br>
+   *                                    {keys: [LookupResult]}: valid keys
+   *
    * @example
    * keyring.validKeyForAddress(['abc@web.de', 'info@mailvelope.com']).then(function(result) {
    *     console.log(result);
@@ -223,8 +243,13 @@ class Keyring {
    * //   'abc@web.de': false,
    * //   'info@mailvelope.com': {
    * //     keys: [
-   * //       {fingerprint: 'f37377c39898d05ffd39157a98bbec557ce08def', lastModified: Tue May 19 2015 10:36:53 GMT+0200 (CEST)}
+   * //       {
+   * //         fingerprint: 'f37377c39898d05ffd39157a98bbec557ce08def',
+   * //         lastModified: Tue May 19 2015 10:36:53 GMT+0200 (CEST),
+   * //         source: 'LOC'
+   * //       }
    * //     ]
+   * //   }
    * // }
    * });
    */
@@ -244,7 +269,7 @@ class Keyring {
   /**
    * Exports the public key as an ascii armored string.
    * Only keys belonging to the user (corresponding private key exists) can be exported.
-   * @param {string} emailAddr - email address to identify the public+private key
+   * @param {String} emailAddr - email address to identify the public+private key
    * @returns {Promise.<AsciiArmored, Error>}
    * @throws {Error} error.code = 'NO_KEY_FOR_ADDRESS'
    * @example
@@ -271,9 +296,27 @@ class Keyring {
   }
 
   /**
+   * @typedef {Object} AutocryptMailHeaders
+   * @property {String} autocrypt - the Autocrypt header to process
+   * @property {String} from - the From header
+   * @property {String} date - the Date header
+   */
+
+  /**
+   * Process Autocrypt header from message being read.
+   * @param {AutocryptMailHeaders} headers - the relevant mail headers
+   * @returns {Promise.<undefined, Error>}
+   * @throws {Error} error.code = 'INVALID_HEADER' <br>
+                       error.code = 'STORAGE_ERROR'
+                       */
+  processAutocryptHeader(headers) {
+    return send('process-autocrypt-header', {identifier: this.identifier, headers});
+  }
+
+  /**
    * Set logo for keyring. The image is persisted in Mailvelope with a revision number,
    * therefore the method is only required after new keyring generation or if logo and revision number changes.
-   * @param {string} dataURL  - data-URL representing the logo, max. file size: ~10KB, max. image size: 192x96px, content-type: image/png
+   * @param {String} dataURL  - data-URL representing the logo, max. file size: ~10KB, max. image size: 192x96px, content-type: image/png
    * @param {number} revision - revision number
    * @returns {Promise.<undefined, Error>}
    * @throws {Error} error.code = 'LOGO_INVALID' <br>
@@ -294,8 +337,8 @@ class Keyring {
 
   /**
    * @typedef {Object} UserId
-   * @property {string} email - the email address of the current user
-   * @property {string} fullName - the full name of the current user
+   * @property {String} email - the email address of the current user
+   * @property {String} fullName - the full name of the current user
    */
 
   /**
@@ -348,7 +391,7 @@ class Keyring {
 
   /**
    * Check if keyring contains valid private key with given fingerprint
-   * @param {string} fingerprint
+   * @param {String} fingerprint
    * @returns {Promise.<boolean, Error>}
    */
   hasPrivateKey(fingerprint) {
@@ -363,7 +406,7 @@ class Keyring {
   /**
    * @typedef {Function} UploadSyncHandler
    * @param {Object} uploadObj - object with upload data
-   * @param {string} uploadObj.eTag - entity tag for the uploaded encrypted keyring, or null if initial upload
+   * @param {String} uploadObj.eTag - entity tag for the uploaded encrypted keyring, or null if initial upload
    * @param {AsciiArmored} uploadObj.keyringMsg - encrypted keyring as PGP armored message
    * @returns {Promise.<UploadSyncReply, Error>} - if version on server has different eTag, then the promise is rejected
    *                                               if server is initial and uploadObj.eTag is not null, then the promise is rejected
@@ -378,7 +421,7 @@ class Keyring {
   /**
    * @typedef {Function} DownloadSyncHandler
    * @param {Object} downloadObj - meta info for download
-   * @param {string} downloadObj.eTag - entity tag for the current local keyring, or null if no local eTag
+   * @param {String} downloadObj.eTag - entity tag for the current local keyring, or null if no local eTag
    * @returns {Promise.<DownloadSyncReply, Error>} - if version on server has same eTag, then keyringMsg property of reply is empty, but eTag in reply has to be set
    *                                                 if server is initial and downloadObj.eTag is not null, then the promise is resolved with empty eTag
    */
@@ -436,7 +479,7 @@ class Keyring {
 
 /**
  * Not accessible, instance can be obtained using {@link Keyring#createKeyBackupContainer}
- * @param {string} popupId
+ * @param {String} popupId
  */
 class KeyBackupPopup {
   constructor(popupId) {
@@ -454,7 +497,7 @@ class KeyBackupPopup {
 
 /**
  * Not accessible, instance can be obtained using {@link Keyring#createKeyGenContainer}.
- * @param {string} generatorId - the internal id of the generator
+ * @param {String} generatorId - the internal id of the generator
  */
 class Generator {
   constructor(generatorId) {
@@ -484,7 +527,7 @@ class Generator {
 
 /**
  * Not accessible, instance can be obtained using {@link Keyring#restoreBackupContainer}.
- * @param {string} restoreId - the internal id of the restore backup
+ * @param {String} restoreId - the internal id of the restore backup
  */
 class RestoreBackup {
   constructor(restoreId) {
@@ -502,7 +545,7 @@ class RestoreBackup {
 
 /**
  * Not accessible, instance can be obtained using {@link Mailvelope#createEditorContainer}.
- * @param {string} editorId - the internal id of the editor
+ * @param {String} editorId - the internal id of the editor
  */
 class Editor {
   constructor(editorId) {

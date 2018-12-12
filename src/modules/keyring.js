@@ -206,6 +206,14 @@ export function getAll() {
 }
 
 /**
+ * Get all keyrings
+ * @return {Array<String>}
+ */
+export function getAllKeyringIds() {
+  return Array.from(keyringMap.keys());
+}
+
+/**
  * Get all keyring attributes as an object map
  * @return {Object<keyringId, KeyringBase>}
  */

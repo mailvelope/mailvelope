@@ -12,7 +12,7 @@ import * as keyringSync from '../modules/keyringSync';
 import * as openpgp from 'openpgp';
 import * as uiLog from '../modules/uiLog';
 import {getLastModifiedDate} from '../modules/key';
-import {isEnabled as isAutoLocateEnabled, locate} from '../modules/autoLocate';
+import * as keyRegistry from '../modules/keyRegistry';
 
 export default class ImportController extends sub.SubController {
   constructor(port) {
@@ -167,13 +167,10 @@ export default class ImportController extends sub.SubController {
 }
 
 export async function lookupKey({keyringId, email}) {
-  if (!isAutoLocateEnabled()) {
-    return;
-  }
-  const armored = await locate({email});
-  if (armored) {
+  const result = await keyRegistry.lookup(email, keyringId);
+  if (result) {
     try {
-      await sub.factory.get('importKeyDialog').importKey(keyringId, armored);
+      await sub.factory.get('importKeyDialog').importKey(keyringId, result.armored);
     } catch (e) {
       console.log('Key import after auto locate failed', e);
     }

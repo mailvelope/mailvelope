@@ -42,7 +42,7 @@ describe('Editor controller unit tests', () => {
         wkd_lookup: true
       };
       await ctrl.setRecipientData([]);
-      expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: [], autoLocate: true}).calledOnce).to.be.true;
+      expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: []}).calledOnce).to.be.true;
     });
 
     it('should handle undefined recipients', async () => {
@@ -50,7 +50,7 @@ describe('Editor controller unit tests', () => {
         wkd_lookup: true
       };
       await ctrl.setRecipientData();
-      expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: [], autoLocate: true}).calledOnce).to.be.true;
+      expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: []}).calledOnce).to.be.true;
     });
   });
 
