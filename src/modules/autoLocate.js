@@ -6,7 +6,7 @@
 import {prefs} from './prefs';
 import {lookup as mveloKSLookup} from './mveloKeyServer';
 import {lookup as wkdLookup} from './wkdLocate';
-
+import {lookup as acLookup} from 'modules/autocryptWrapper';
 /**
  * @fileOverview This file implements a bridge for automated lookup
  * of keys from other sources. E.g. the Mailvelope Key Server and
@@ -29,6 +29,10 @@ export async function locate(options) {
     name: 'WKD',
     isEnabled: isWKDEnabled,
     lookup: wkdLookup
+  }, {
+    name: 'Autocrypt',
+    isEnabled: () => true,
+    lookup: acLookup
   }];
 
   for (const strategy of strategies) {

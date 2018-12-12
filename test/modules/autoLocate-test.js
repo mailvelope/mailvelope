@@ -1,7 +1,9 @@
 import {expect, sinon} from 'test';
-import * as autoLocate from 'modules/autoLocate';
 import * as prefs from 'modules/prefs';
+import * as autocryptWrapper from 'modules/autocryptWrapper';
+import Autocrypt from 'autocrypt';
 import testKeys from 'Fixtures/keys';
+import * as autoLocate from 'modules/autoLocate';
 
 describe('Looking up keys from different services', () => {
   describe('with all services disabled', () => {
@@ -39,6 +41,24 @@ describe('Looking up keys from different services', () => {
       expect(autoLocate.isMveloKeyServerEnabled()).to.be.true;
       const key = await autoLocate.locate({email: 'test@mailvelope.com'});
       expect(key).to.include('PGP PUBLIC KEY BLOCK');
+    });
+  });
+
+  describe('after processing an autocrypt header', () => {
+    it('should return the key from that header', async () => {
+      prefs.prefs.keyserver = {
+        wkd_lookup: false,
+        mvelo_tofu_lookup: false
+      };
+      const addr = 'test@mailvelope.com';
+      const keydata = 'base64';
+      const header = Autocrypt.stringify({keydata, addr});
+      await autocryptWrapper.processHeader(header, addr, new Date());
+
+      expect(autoLocate.isWKDEnabled()).to.be.false;
+      expect(autoLocate.isMveloKeyServerEnabled()).to.be.false;
+      const key = await autoLocate.locate({email: addr});
+      expect(key).to.include('base64');
     });
   });
 });
