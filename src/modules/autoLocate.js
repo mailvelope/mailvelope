@@ -24,10 +24,7 @@ export async function locate(options) {
   let armored;
   if (isMveloKeyServerEnabled()) {
     try {
-      const key = await mveloKSLookup(options.email);
-      if (key) {
-        armored = key.publicKeyArmored;
-      }
+      armored = await mveloKSLookup(options.email);
     } catch (e) {
       // Failures are not critical so we only info log them.
       console.log(`Mailvelope Server: Did not find key (Errors are expected): ${e}`);

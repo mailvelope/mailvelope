@@ -31,7 +31,7 @@ describe('Talking to the Mailvelope Key Server', () => {
 
       return mveloKeyServer.lookup('test@mailvelope.com')
       .then(key => {
-        expect(key.publicKeyArmored).to.include('PGP PUBLIC KEY BLOCK');
+        expect(key).to.include('PGP PUBLIC KEY BLOCK');
       });
     });
 
