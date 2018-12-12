@@ -17,6 +17,7 @@
   "readmeFilename": "Readme.md",
   "dependencies": {
     "angular": "1.7.5",
+    "autocrypt": "0.10.0",
     "bootstrap": "3.3.7",
     "bootstrap4": "github:mailvelope/bootstrap#v4m",
     "dompurify": "1.0.8",
