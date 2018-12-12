@@ -24,13 +24,13 @@ export async function locate(options) {
   let armored;
 
   const strategies = [
-    { name: 'Mailvelope Server',
+    {name: 'Mailvelope Server',
       isEnabled: isMveloKeyServerEnabled,
-      lookup: mveloKSLookup },
-    { name: 'WKD',
+      lookup: mveloKSLookup},
+    {name: 'WKD',
       isEnabled: isWKDEnabled,
-      lookup: wkdLookup }
-  ]
+      lookup: wkdLookup}
+  ];
 
   for (const strategy of strategies) {
     if (strategy.isEnabled()) {
@@ -41,7 +41,7 @@ export async function locate(options) {
         }
       } catch (e) {
         // Failures are not critical so we only info log them.
-        console.log(strategy.name + `: Did not find key (Errors are expected): ${e}`);
+        console.log(`${strategy.name}: Did not find key (Errors are expected): ${e}`);
       }
     }
   }

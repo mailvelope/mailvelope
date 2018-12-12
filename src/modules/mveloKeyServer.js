@@ -30,13 +30,13 @@ export async function lookup(email) {
     throw new Error("mveloKeyServer: Skipping lookup without email.");
   }
 
-  const response = await window.fetch(url({email: email}));
+  const response = await window.fetch(url({email}));
   if (response.status === 200) {
     jsonKey = await response.json();
   }
 
   if (!jsonKey) {
-    return
+    return;
   }
 
   // Only the userid matching the email should be imported.

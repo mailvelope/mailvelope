@@ -64,7 +64,7 @@
     "semi": ["warn", "always"], // require or disallow semicolons instead of ASI
     "semi-spacing": 1, // enforce consistent spacing before and after semicolons
     "space-before-blocks": 1, // enforce consistent spacing before blocks
-    "space-before-function-paren": ["warn", "never"], // enforce consistent spacing before function definition opening parenthesis
+    "space-before-function-paren": ["warn", { "anonymous": "never", "named": "never", "asyncArrow": "always" }], // enforce consistent spacing before function definition opening parenthesis
     "space-in-parens": ["warn", "never"], // enforce consistent spacing inside parentheses
     "space-infix-ops": 1, // require spacing around operators
     /* ES6 */

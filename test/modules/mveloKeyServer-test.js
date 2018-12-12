@@ -71,7 +71,6 @@ describe('Talking to the Mailvelope Key Server', () => {
         expect(window.fetch.args[0][0]).to.include('/api/v1/key?fingerprint=0123456789ABCDFE0123456789ABCDFE01234567');
       });
     });
-
   });
 
   describe('upload', () => {
