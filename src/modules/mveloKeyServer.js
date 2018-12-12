@@ -20,12 +20,16 @@ const DEFAULT_URL = 'https://keys.mailvelope.com';
  * The userIds from the json object are purely informational
  * as the userIds that are also on the key on the Key Server.
  *
- * @param {string} options.email         (optional) The user id's email address
- * @yield {Object}                       The public key json object
+ * @param {string} email         The user id's email address
+ * @yield {Object}               The public key json object
  */
-export async function lookup(options) {
+export async function lookup(email) {
   let jsonKey;
-  const response = await window.fetch(url(options));
+  if (!email) {
+    throw new Error("mveloKeyServer: Skipping lookup without email.");
+  }
+
+  const response = await window.fetch(url({email: email}));
   if (response.status === 200) {
     jsonKey = await response.json();
   }
@@ -44,7 +48,7 @@ export async function lookup(options) {
       throw new Error(`mveloKeyServer: Response '${jsonKey}': contained ${keys.length} keys.`);
     }
 
-    const filtered = filterUserIdsByEmail(keys[0], options.email);
+    const filtered = filterUserIdsByEmail(keys[0], email);
     if (!filtered.users.length) {
       throw new Error(`mveloKeyServer: Response '${jsonKey}': contained no matching userIds.`);
     }

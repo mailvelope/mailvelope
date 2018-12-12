@@ -17,7 +17,7 @@ describe('Talking to the Mailvelope Key Server', () => {
         status: 404,
         json() { return {}; }
       }));
-      return mveloKeyServer.lookup({email: 'test@mailvelope.com'})
+      return mveloKeyServer.lookup('test@mailvelope.com')
       .then(() => {
         expect(window.fetch.args[0][0]).to.equal('https://keys.mailvelope.com/api/v1/key?email=test%40mailvelope.com');
       });
@@ -29,7 +29,7 @@ describe('Talking to the Mailvelope Key Server', () => {
         json() { return {publicKeyArmored: keyFixtures.public.demo}; }
       }));
 
-      return mveloKeyServer.lookup({email: 'test@mailvelope.com'})
+      return mveloKeyServer.lookup('test@mailvelope.com')
       .then(key => {
         expect(key.publicKeyArmored).to.include('PGP PUBLIC KEY BLOCK');
       });
@@ -41,7 +41,7 @@ describe('Talking to the Mailvelope Key Server', () => {
         json() { return {}; }
       }));
 
-      return mveloKeyServer.lookup({email: 'asdf@asdf.de'})
+      return mveloKeyServer.lookup('asdf@asdf.de')
       .then(key => {
         expect(key).to.not.exist;
       });
