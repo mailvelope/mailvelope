@@ -24,7 +24,7 @@ export async function locate(options) {
   let armored;
   if (isMveloKeyServerEnabled()) {
     try {
-      const key = await mveloKSLookup(options);
+      const key = await mveloKSLookup(options.email);
       if (key) {
         armored = key.publicKeyArmored;
       }
