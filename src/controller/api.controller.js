@@ -10,6 +10,7 @@ import {MAIN_KEYRING_ID} from '../lib/constants';
 import {getById as keyringById, createKeyring, setKeyringAttr, getKeyByAddress} from '../modules/keyring';
 import * as openpgp from 'openpgp';
 import {getLastModifiedDate, mapAddressKeyMapToFpr} from '../modules/key';
+import * as ac from '../modules/autocryptWrapper';
 
 export default class ApiController extends sub.SubController {
   constructor(port) {
@@ -24,6 +25,7 @@ export default class ApiController extends sub.SubController {
     this.on('query-valid-key', this.queryValidKey);
     this.on('export-own-pub-key', this.exportOwnPubKey);
     this.on('import-pub-key', this.importPubKey);
+    this.on('process-autocrypt-header', this.processAutocryptHeader);
     this.on('set-logo', this.setLogo);
     this.on('has-private-key', this.hasPrivateKey);
     this.on('open-settings', this.openSettings);
@@ -75,6 +77,11 @@ export default class ApiController extends sub.SubController {
 
   importPubKey({keyringId, armored}) {
     return sub.factory.get('importKeyDialog').importKey(keyringId, armored);
+  }
+
+  processAutocryptHeader({header, fromAddr, date}) {
+    // TODO: what do we do with the keyringId ?
+    return ac.processHeader(header, fromAddr, date);
   }
 
   async setLogo({keyringId, dataURL, revision}) {

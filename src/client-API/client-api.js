@@ -271,6 +271,19 @@ class Keyring {
   }
 
   /**
+   * Process Autocrypt header from message being read.
+   * @param {String} header - the Autocrypt header to process
+   * @param {String} fromAddr - the email address of the sender
+   * @param {String} date - the Date header of the message
+   * @returns {Promise.<undefined, Error>}
+   * @throws {Error} error.code = 'INVALID_HEADER' <br>
+                       error.code = 'STORAGE_ERROR'
+                       */
+  processAutocryptHeader(header, fromAddr, date) {
+    return postMessage('process-autocrypt-header', {identifier: this.identifier, header, fromAddr, date});
+  }
+
+  /**
    * Set logo for keyring. The image is persisted in Mailvelope with a revision number,
    * therefore the method is only required after new keyring generation or if logo and revision number changes.
    * @param {string} dataURL  - data-URL representing the logo, max. file size: ~10KB, max. image size: 192x96px, content-type: image/png

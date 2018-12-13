@@ -1,5 +1,16 @@
 import Autocrypt from 'autocrypt';
 
+export const name = 'Autocrypt';
+
+/**
+* Check if Autocrypt is enabled.
+*
+* @return {Boolean}
+*/
+export function isEnabled() {
+  return true; // TODO: add configuration setting
+}
+
 const storage = {};
 storage.put = function(key, val, cb) {
   storage[key] = val;

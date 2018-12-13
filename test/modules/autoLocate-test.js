@@ -12,8 +12,6 @@ describe('Looking up keys from different services', () => {
         wkd_lookup: false,
         mvelo_tofu_lookup: false
       };
-      expect(autoLocate.isWKDEnabled()).to.be.false;
-      expect(autoLocate.isMveloKeyServerEnabled()).to.be.false;
       const key = await autoLocate.locate({});
       expect(key).to.be.undefined;
     });
@@ -37,8 +35,6 @@ describe('Looking up keys from different services', () => {
         wkd_lookup: true,
         mvelo_tofu_lookup: true
       };
-      expect(autoLocate.isWKDEnabled()).to.be.true;
-      expect(autoLocate.isMveloKeyServerEnabled()).to.be.true;
       const key = await autoLocate.locate({email: 'test@mailvelope.com'});
       expect(key).to.include('PGP PUBLIC KEY BLOCK');
     });
@@ -55,8 +51,6 @@ describe('Looking up keys from different services', () => {
       const header = Autocrypt.stringify({keydata, addr});
       await autocryptWrapper.processHeader(header, addr, new Date());
 
-      expect(autoLocate.isWKDEnabled()).to.be.false;
-      expect(autoLocate.isMveloKeyServerEnabled()).to.be.false;
       const key = await autoLocate.locate({email: addr});
       expect(key).to.include('base64');
     });
