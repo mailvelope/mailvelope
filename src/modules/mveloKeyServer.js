@@ -7,11 +7,23 @@
  * @fileOverview A simple HTTP client for Mailvelope Key Server's REST api.
  */
 
+import {prefs} from './prefs';
 import {key as openpgpKey} from 'openpgp';
 import {filterUserIdsByEmail} from './key';
 
 /** The default URL of the mailvelope authenticating keyserver. */
 const DEFAULT_URL = 'https://keys.mailvelope.com';
+
+export const name = 'Mailvelope Server';
+
+/**
+* Check if the Mailvelope Key Server is enabled.
+*
+* @return {Boolean}
+*/
+export function isEnabled() {
+  return prefs.keyserver.mvelo_tofu_lookup === true;
+}
 
 /**
  * Get a verified public key from the server by email address.

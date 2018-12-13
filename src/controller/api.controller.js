@@ -8,6 +8,7 @@ import {getById as keyringById, createKeyring, setKeyringAttr, getKeyByAddress} 
 import * as sub from './sub.controller';
 import * as openpgp from 'openpgp';
 import {getLastModifiedDate, mapAddressKeyMapToFpr} from '../modules/key';
+import * as ac from '../modules/autocryptWrapper';
 
 export function handleApiEvent(request, sender, sendResponse) {
   let keyring;
@@ -65,6 +66,11 @@ export function handleApiEvent(request, sender, sendResponse) {
       case 'import-pub-key':
         sub.factory.get('importKeyDialog').importKey(request.keyringId, request.armored)
         .then(status => sendResponse({data: status}))
+        .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
+        return true;
+      case 'process-autocrypt-header':
+        // TODO: what do we do with the keyringId ?
+        ac.processHeader(request.header, request.fromAddr, request.date)
         .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
         return true;
       case 'set-logo':
