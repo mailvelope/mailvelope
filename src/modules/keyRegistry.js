@@ -7,9 +7,19 @@ import * as mveloKeyServer from './mveloKeyServer';
 import * as wkd from './wkdLocate';
 import * as autocrypt from './autocryptWrapper';
 /**
- * @fileOverview This file implements a bridge for automated lookup
- * of keys from other sources. E.g. the Mailvelope Key Server and
- * Web Key Directories.
+ * @fileOverview This file implements a registry for keys from different
+ * sources.
+ * It works as a bridge for automated lookup of keys from
+ * the Mailvelope Key Server and Web Key Directories.
+ * It also retrieves keys from the autocrypt Register.
+ *
+ * When looking up the key for an email address it will
+ * also decide which key from the different sources seems best.
+ *
+ * Currently it will select the first key available when checking
+ * * first Mailvelope Key Server
+ * * then WKD
+ * * and autocrypt last
  */
 
 const strategies = [mveloKeyServer, wkd, autocrypt];
@@ -17,15 +27,14 @@ const strategies = [mveloKeyServer, wkd, autocrypt];
 /**
  * Get a verified public key from auto-locate sources by email address.
  *
- * @param {String} [options.email] - The user id's email address
- * @return {String} - if auto-locate is successful the found armored key
+ * @param {String} email - The user id's email address
+ * @return {String,undefined} - the found armored key if any.
  */
-export async function locate(options) {
-
+export async function lookup(email) {
   for (const strategy of strategies) {
     if (strategy.isEnabled()) {
       try {
-        const armored = await strategy.lookup(options.email);
+        const armored = await strategy.lookup(email);
         if (armored) {
           return armored;
         }

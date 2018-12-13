@@ -279,6 +279,7 @@
       ],
       "mvelo_tofu_lookup": true,
       "wkd_lookup": true,
+      "autocrypt_lookup": true,
       "wkd_blacklist": [
         "gmail\\..*",
         "googlemail\\..*",

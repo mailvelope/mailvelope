@@ -15,8 +15,8 @@ import * as sub from './sub.controller';
 import * as uiLog from '../modules/uiLog';
 import {parseMessage, buildMail} from '../modules/mime';
 import {triggerSync} from './sync.controller';
-import {isEnabled as isAutoLocateEnabled, locate} from '../modules/autoLocate';
-import {getById as getKeyringById, getPreferredKeyringId, getKeyData, getKeyByAddress, syncPublicKeys, getDefaultKeyFpr} from '../modules/keyring';
+import * as keyRegistry from '../modules/keyRegistry';
+import {getById as getKeyringById, getPreferredKeyringId, getKeyData, getKeyByAddress, syncPublicKeys} from '../modules/keyring';
 import {mapAddressKeyMapToFpr} from '../modules/key';
 
 export default class EditorController extends sub.SubController {
@@ -79,7 +79,7 @@ export default class EditorController extends sub.SubController {
     recipients = emails.map(e => ({email: e}));
     // get all public keys from required keyrings
     const keys = await getKeyData({keyringId: this.keyringId});
-    const autoLocate = isAutoLocateEnabled();
+    const autoLocate = keyRegistry.isEnabled();
     this.emit('public-key-userids', {keys, recipients, autoLocate});
   }
 
@@ -182,7 +182,7 @@ export default class EditorController extends sub.SubController {
   async onAutoLocate(msg) {
     const options = msg.recipient;
     options.keyringId = this.keyringId;
-    const armored = await locate(options);
+    const armored = await keyRegistry.lookup(options.email);
     if (armored) {
       await getKeyringById(this.keyringId).importKeys([{type: 'public', armored}]);
     }
@@ -398,7 +398,7 @@ export default class EditorController extends sub.SubController {
    */
   async signAndEncryptMessage({data, signKeyFpr, keyFprs, noCache}) {
     if (!signKeyFpr) {
-      const defaultKeyFpr = await getDefaultKeyFpr(this.keyringId);
+      const defaultKeyFpr = await getKeyringById(this.keyringId).getDefaultKeyFpr();
       signKeyFpr = defaultKeyFpr;
     }
     if (!signKeyFpr) {

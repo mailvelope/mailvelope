@@ -8,7 +8,7 @@ import dompurify from 'dompurify';
 import mvelo from '../mvelo';
 import {getById as getKeyringById, getPreferredKeyringId} from '../modules/keyring';
 import {verifyDetachedSignature, encryptMessage} from '../modules/pgpModel';
-import {isEnabled as isAutoLocateEnabled, locate} from '../modules/autoLocate';
+import * as keyRegistry from '../modules/keyRegistry';
 
 // register language strings
 const l10n = mvelo.l10n.getMessages([
@@ -219,10 +219,10 @@ ${this.formSignature}
   }
 
   async autoLocate() {
-    if (!isAutoLocateEnabled()) {
+    if (!keyRegistry.isEnabled()) {
       return;
     }
-    const armored = await locate({email: this.formRecipientEmail});
+    const armored = await keyRegistry.lookup(this.formRecipientEmail);
     if (armored) {
       try {
         await sub.factory.get('importKeyDialog').importKey(this.keyringId, armored);
