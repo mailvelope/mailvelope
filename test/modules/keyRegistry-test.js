@@ -3,7 +3,7 @@ import * as prefs from 'modules/prefs';
 import * as autocryptWrapper from 'modules/autocryptWrapper';
 import Autocrypt from 'autocrypt';
 import testKeys from 'Fixtures/keys';
-import * as autoLocate from 'modules/autoLocate';
+import * as keyRegistry from 'modules/keyRegistry';
 
 describe('Looking up keys from different services', () => {
   describe('with all services disabled', () => {
@@ -12,7 +12,7 @@ describe('Looking up keys from different services', () => {
         wkd_lookup: false,
         mvelo_tofu_lookup: false
       };
-      const key = await autoLocate.locate({});
+      const key = await keyRegistry.lookup('email@domain.example');
       expect(key).to.be.undefined;
     });
   });
@@ -35,7 +35,7 @@ describe('Looking up keys from different services', () => {
         wkd_lookup: true,
         mvelo_tofu_lookup: true
       };
-      const key = await autoLocate.locate({email: 'test@mailvelope.com'});
+      const key = await keyRegistry.lookup('test@mailvelope.com', 'id');
       expect(key).to.include('PGP PUBLIC KEY BLOCK');
     });
   });
@@ -49,9 +49,9 @@ describe('Looking up keys from different services', () => {
       const addr = 'test@mailvelope.com';
       const keydata = 'base64';
       const header = Autocrypt.stringify({keydata, addr});
-      await autocryptWrapper.processHeader(header, addr, new Date());
+      await autocryptWrapper.processHeader(header, addr, new Date(), 'id');
 
-      const key = await autoLocate.locate({email: addr});
+      const key = await keyRegistry.lookup(addr, 'id');
       expect(key).to.include('base64');
     });
   });
