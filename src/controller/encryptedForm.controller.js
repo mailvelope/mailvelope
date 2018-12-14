@@ -220,9 +220,6 @@ ${this.formSignature}
   }
 
   async autoLocate() {
-    if (!keyRegistry.isEnabled()) {
-      return;
-    }
     const armored = await keyRegistry.lookup(this.formRecipientEmail, this.keyringId);
     if (armored) {
       try {

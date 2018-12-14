@@ -1,4 +1,5 @@
 import {expect, sinon} from 'test';
+import {LocalStorageStub} from 'utils';
 import * as prefs from 'modules/prefs';
 import * as autocryptWrapper from 'modules/autocryptWrapper';
 import Autocrypt from 'autocrypt';
@@ -41,6 +42,18 @@ describe('Looking up keys from different services', () => {
   });
 
   describe('after processing an autocrypt header', () => {
+    let storage;
+
+    beforeEach(() => {
+      storage = new LocalStorageStub();
+      autocryptWrapper.default.__Rewire__('mvelo', {storage});
+    });
+
+    afterEach(() => {
+      /* eslint-disable-next-line no-undef */
+      __rewire_reset_all__();
+    });
+
     it('should return the key from that header', async () => {
       prefs.prefs.keyserver = {
         wkd_lookup: false,
