@@ -11,36 +11,62 @@ export function isEnabled() {
   return true; // TODO: add configuration setting
 }
 
-const storage = {};
+const store = {};
 
-storage.put = function(key, val, cb) {
-  storage[key] = val;
-  if (cb) {
-    cb();
+function ac(id) {
+  if (!store[id]) {
+    store[id] = {};
   }
-};
-storage.get = function(key, cb) {
-  if (cb) {
-    cb(undefined, storage[key]);
-  }
-};
-const autocrypt = new Autocrypt({storage});
+  const my_store = store[id];
+  const storage = {};
 
-export function lookup(email) {
+  storage.put = function(key, val, cb) {
+    my_store[key] = val;
+    if (cb) {
+      cb();
+    }
+  };
+
+  storage.get = function(key, cb) {
+    if (cb) {
+      cb(undefined, my_store[key]);
+    }
+  };
+
+  return new Autocrypt({storage});
+}
+
+/**
+ * Get a public key from autocrypt by email address.
+ *
+ * @param {String} email    - The user id's email address
+ * @param {String} identity - The identity of the context the key is being looked up in
+ * @return {String,undefined} - the found armored key if any.
+ */
+export function lookup(email, identity) {
   return new Promise((resolve, reject) => {
-    autocrypt.storage.get(email, (err, record) => {
+    ac(identity).storage.get(email, (err, record) => {
       if (err) {
         reject(err);
       } else {
-        resolve(record.keydata);
+        resolve(record && record.keydata);
       }
     });
   });
 }
 
-export async function processHeader(header, fromAddr, date) {
+/**
+ * Process an autocrypt Header to store a public key.
+ *
+ * @param {String} header   - The header to parse
+ * @param {String} fromAddr - The senders email address
+ * @param {String} identity - The identity of the recipient
+ * @return {undefined}
+ * @trows {Error}
+ */
+export async function processHeader(header, fromAddr, date, identity) {
   return new Promise((resolve, reject) => {
-    autocrypt.processAutocryptHeader(header, fromAddr, date, err => {
+    ac(identity).processAutocryptHeader(header, fromAddr, date, err => {
       if (err) {
         reject(err);
       } else {
