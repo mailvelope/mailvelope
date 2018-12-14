@@ -7,11 +7,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import * as l10n from '../../lib/l10n';
-import {AppOptions} from '../app';
 
 l10n.register([
   'general_openpgp_preferences',
-  'gnupg_available',
   'gnupg_connection',
   'keyring_available_settings',
   'keyring_setup',
@@ -47,15 +45,9 @@ export default function KeyringSetup({hasPrivateKey}) {
         <p>
           <Link to="/keyring/import" className="btn btn-primary">{l10n.map.keyring_setup_import_key}</Link>
         </p>
-        <AppOptions.Consumer>
-          {options => options.gnupg &&
-            <>
-              <hr />
-              <h4>{l10n.map.gnupg_connection}<span style={{marginLeft: '10px'}} className="label label-success">{l10n.map.gnupg_available}</span></h4>
-              <p>{l10n.map.keyring_available_settings} <Link to="/settings/general">{l10n.map.general_openpgp_preferences}</Link></p>
-            </>
-          }
-        </AppOptions.Consumer>
+        <hr />
+        <h4>{l10n.map.gnupg_connection}</h4>
+        <p>{l10n.map.keyring_available_settings} <Link to="/settings/general">{l10n.map.general_openpgp_preferences}</Link></p>
       </form>
     </div>
   );

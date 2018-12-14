@@ -41,7 +41,7 @@ input[readonly] {
   background-color: #e5e5e5;
 }
 
-.form-group .btn {
+.form-group > .btn {
   margin-right: 5px;
 }
 .form-group .btn:last-child {

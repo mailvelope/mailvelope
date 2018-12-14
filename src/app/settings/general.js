@@ -5,21 +5,23 @@
 
 import React from 'react';
 import {port, AppOptions} from '../app';
-import * as l10n from '../../lib/l10n';
+import Trans, * as l10n from '../../lib/l10n';
 
 l10n.register([
-  'settings_general',
-  'keygrid_default_key',
+  'form_cancel',
+  'form_save',
   'general_default_key_always',
   'general_default_key_auto_sign',
+  'general_gnupg_check_availability',
+  'general_gnupg_installed_question',
+  'general_gnupg_not_available',
+  'general_gnupg_prefer',
+  'general_openpgp_current',
+  'general_openpgp_prefer',
   'general_openpgp_preferences',
-  'general_prefer_gnupg',
   'general_prefer_gnupg_note',
-  'general_prefer_openpgpjs',
-  'gnupg_available',
-  'gnupg_not_available',
-  'form_save',
-  'form_cancel'
+  'keygrid_default_key',
+  'settings_general'
 ]);
 
 export default class General extends React.Component {
@@ -29,7 +31,8 @@ export default class General extends React.Component {
       auto_add_primary: false,
       auto_sign_msg: false,
       prefer_gnupg: false,
-      modified: false
+      modified: false,
+      nativeMessaging: true
     };
     this.handleCheck = this.handleCheck.bind(this);
     this.handleSave = this.handleSave.bind(this);
@@ -38,6 +41,7 @@ export default class General extends React.Component {
 
   componentDidMount() {
     this.loadPrefs();
+    chrome.permissions.contains({permissions: ['nativeMessaging']}, nativeMessaging => this.setState({nativeMessaging}));
   }
 
   async loadPrefs() {
@@ -70,6 +74,14 @@ export default class General extends React.Component {
     this.loadPrefs();
   }
 
+  handlePreferGnuPG(prefer_gnupg) {
+    this.setState(prevState => ({prefer_gnupg, modified: prevState.modified || prevState.prefer_gnupg !== prefer_gnupg}));
+  }
+
+  requestNativeMessagingPermission() {
+    chrome.permissions.request({permissions: ['nativeMessaging']}, nativeMessaging => this.setState({nativeMessaging}));
+  }
+
   render() {
     return (
       <div id="general">
@@ -91,27 +103,39 @@ export default class General extends React.Component {
             </div>
           </div>
           <AppOptions.Consumer>
-            {options => (
+            {({gnupg}) => (
               <div className="form-group">
                 <h4 className="control-label">{l10n.map.general_openpgp_preferences}</h4>
-                <div className="radio">
-                  <label>
-                    <input type="radio" checked={!this.state.prefer_gnupg} onChange={() => this.handleCheck({target: {name: 'prefer_gnupg', checked: false}})} />
-                    <span>{l10n.map.general_prefer_openpgpjs}</span>
-                  </label>
-                </div>
-                <div className={`radio ${options.gnupg ? '' : 'disabled'}`}>
-                  <label>
-                    <input type="radio" name="prefer_gnupg" checked={this.state.prefer_gnupg} onChange={this.handleCheck} disabled={!options.gnupg} />
-                    <span>{l10n.map.general_prefer_gnupg}</span>
-                    {options.gnupg ? (
-                      <span style={{marginLeft: '10px'}} className="label label-success">{l10n.map.gnupg_available}</span>
-                    ) : (
-                      <span style={{marginLeft: '10px'}} className="label label-default">{l10n.map.gnupg_not_available}</span>
-                    )}
-                    {options.gnupg && <span className="help-block">{l10n.map.general_prefer_gnupg_note}</span>}
-                  </label>
-                </div>
+                <div style={{marginBottom: '10px'}}>{l10n.map.general_openpgp_current} <b>{gnupg && this.state.prefer_gnupg ? 'GnuPG' : 'OpenPGP.js'}</b></div>
+                {this.state.nativeMessaging ? (
+                  gnupg ? (
+                    <div>
+                      <span style={{marginRight: '10px'}}>{l10n.map.general_openpgp_prefer}</span>
+                      <div className="btn-group btn-group-sm" role="group">
+                        <button type="button" onClick={() => this.handlePreferGnuPG(false)} className={`btn btn-${this.state.prefer_gnupg ? 'default' : 'primary'}`}>OpenPGP.js</button>
+                        <button type="button" onClick={() => this.handlePreferGnuPG(true)} className={`btn btn-${!this.state.prefer_gnupg ? 'default' : 'primary'}`}>GnuPG</button>
+                      </div>
+                      <span className="help-block">{l10n.map.general_prefer_gnupg_note}</span>
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="alert alert-info" role="alert">
+                        <div><strong>{l10n.map.general_gnupg_not_available}</strong></div>
+                        <div>
+                          <Trans id={l10n.map.general_gnupg_installed_question} components={[
+                            <a key="0" style={{margin: '0 5px'}} href="https://www.gnupg.org/download/index.html" target="_blank" rel="noopener noreferrer" className="btn btn-default btn-sm" role="button"></a>,
+                            <button key="1" style={{margin: '0 5px'}} type="button" onClick={() => chrome.runtime.reload()} className="btn btn-default btn-sm"></button>
+                          ]} />
+                        </div>
+                      </div>
+                    </div>
+                  )
+                ) : (
+                  <div>
+                    <span style={{marginRight: '10px'}}>{l10n.map.general_gnupg_prefer}</span>
+                    <button type="button" onClick={() => this.requestNativeMessagingPermission()} className="btn btn-default btn-sm">{l10n.map.general_gnupg_check_availability}</button>
+                  </div>
+                )}
               </div>
             )}
           </AppOptions.Consumer>

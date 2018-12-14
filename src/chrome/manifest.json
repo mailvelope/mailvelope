@@ -28,11 +28,11 @@
   },
   "permissions": [
     "*://*/*",
-    "nativeMessaging",
     "storage",
     "tabs",
     "webNavigation"
   ],
+  "optional_permissions": ["nativeMessaging"],
   "content_security_policy": "script-src 'self'; object-src 'self'; frame-src 'self';",
   "web_accessible_resources": [
     "app/app.html",
