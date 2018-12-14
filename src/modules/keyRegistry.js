@@ -28,13 +28,15 @@ const strategies = [mveloKeyServer, wkd, autocrypt];
  * Get a verified public key from auto-locate sources by email address.
  *
  * @param {String} email - The user id's email address
+ * @param {String} keyringId - The id of the keyring that is currently <br/>
+ *                             being used.
  * @return {String,undefined} - the found armored key if any.
  */
-export async function lookup(email) {
+export async function lookup(email, keyringId) {
   for (const strategy of strategies) {
     if (strategy.isEnabled()) {
       try {
-        const armored = await strategy.lookup(email);
+        const armored = await strategy.lookup(email, keyringId);
         if (armored) {
           return armored;
         }

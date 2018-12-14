@@ -222,7 +222,7 @@ ${this.formSignature}
     if (!keyRegistry.isEnabled()) {
       return;
     }
-    const armored = await keyRegistry.lookup(this.formRecipientEmail);
+    const armored = await keyRegistry.lookup(this.formRecipientEmail, this.keyringId);
     if (armored) {
       try {
         await sub.factory.get('importKeyDialog').importKey(this.keyringId, armored);
