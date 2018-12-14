@@ -387,33 +387,37 @@
         "message": "はい",
         "description": "Yes form button."
     },
-    "general_editor_plain": {
-        "message": "テキストエディタ",
-        "description": "Editor option: plain text."
+    "general_gnupg_check_availability": {
+        "message": "Allow us to check availability",
+        "description": "Button label to check availability of GnuPG"
     },
-    "general_editor_rich": {
-        "message": "リッチテキストエディタ",
-        "description": "Editor option: rich text."
+    "general_gnupg_installed_question": {
+        "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>",
+        "description": "Status message with available user options"
     },
-    "general_editor_type": {
-        "message": "エディタの選択範囲",
-        "description": "Label for editor options."
+    "general_gnupg_not_available": {
+        "message": "GnuPG is not available",
+        "description": "Indicator if GnuPG is not available"
+    },
+    "general_gnupg_prefer": {
+        "message": "Do you prefer to use GnuPG?",
+        "description": "Question if user prefers to use GnuPG"
+    },
+    "general_openpgp_current": {
+        "message": "You are currently using",
+        "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
+    },
+    "general_openpgp_prefer": {
+        "message": "Which encryption backend do you prefer?",
+        "description": "Label for OpenPGP backend selection."
     },
     "general_openpgp_preferences": {
         "message": "OpenPGPの設定",
         "description": "Headline for OpenPGP settings."
     },
-    "general_prefer_gnupg": {
-        "message": "OpenPGPの暗号化にGnuPGを使う",
-        "description": "Option to choose GnuPG as the preferred OpenPGP backend."
-    },
     "general_prefer_gnupg_note": {
         "message": "注意: 公開鍵は全ての鍵リングで同期されます。秘密鍵がある場合、Mailvelopeは暗号化に使うライブラリの設定を変更します。",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
-    },
-    "general_prefer_openpgpjs": {
-        "message": "OpenPGP.jsを使う（Mailvelopeの初期設定）",
-        "description": "Default option with OpenPGP.js as the preferred OpenPGP backend."
     },
     "general_default_key_always": {
         "message": "常に受信者リストに自分の鍵を追加する（自分が送信した暗号化メールを自分でも解読できるようになります）",
@@ -423,10 +427,6 @@
         "message": "すべてのメールをデフォルト鍵で署名",
         "description": "Label for default private key option."
     },
-    "gnupg_available": {
-        "message": "利用可能",
-        "description": "Label indicating GnuPG feature is available."
-    },
     "gnupg_connection": {
         "message": "GnuPGによる接続",
         "description": "Header that shows that GnuPG is available on the system."
@@ -434,10 +434,6 @@
     "gnupg_error_unusable_pub_key": {
         "message": "以下の公開鍵はGnuPG鍵リングにあるか確認してください: $1",
         "description": ""
-    },
-    "gnupg_not_available": {
-        "message": "不可",
-        "description": "Label indicating GnuPG feature is not available."
     },
     "header_warning": {
         "message": "注意！",

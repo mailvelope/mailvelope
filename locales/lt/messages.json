@@ -387,33 +387,37 @@
         "message": "Taip",
         "description": "Yes form button."
     },
-    "general_editor_plain": {
-        "message": "Grynasis tekstas",
-        "description": "Editor option: plain text."
+    "general_gnupg_check_availability": {
+        "message": "Allow us to check availability",
+        "description": "Button label to check availability of GnuPG"
     },
-    "general_editor_rich": {
-        "message": "Raiškiųjų tekstų redaktorius",
-        "description": "Editor option: rich text."
+    "general_gnupg_installed_question": {
+        "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>",
+        "description": "Status message with available user options"
     },
-    "general_editor_type": {
-        "message": "El. laiškų redaktoriaus pasirinkimas",
-        "description": "Label for editor options."
+    "general_gnupg_not_available": {
+        "message": "GnuPG is not available",
+        "description": "Indicator if GnuPG is not available"
+    },
+    "general_gnupg_prefer": {
+        "message": "Do you prefer to use GnuPG?",
+        "description": "Question if user prefers to use GnuPG"
+    },
+    "general_openpgp_current": {
+        "message": "You are currently using",
+        "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
+    },
+    "general_openpgp_prefer": {
+        "message": "Which encryption backend do you prefer?",
+        "description": "Label for OpenPGP backend selection."
     },
     "general_openpgp_preferences": {
         "message": "OpenPGP nuostatos",
         "description": "Headline for OpenPGP settings."
     },
-    "general_prefer_gnupg": {
-        "message": "Atliekant visas OpenPGP šifravimo operacijoms, teikti pirmenybę GnuPG",
-        "description": "Option to choose GnuPG as the preferred OpenPGP backend."
-    },
     "general_prefer_gnupg_note": {
         "message": "Pastaba: viešieji raktai yra sinchronizuojami tarp prieinamų raktinių. Priklausomai nuo privačiųjų raktų prieinamumo, Mailvelope gali nustelbti pageidaujamą šifravimo bibliotekos nustatymą.",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
-    },
-    "general_prefer_openpgpjs": {
-        "message": "Teikti pirmenybę OpenPGP.js (numatytajai įtaisytajai Mailvelope šifravimo bibliotekai)",
-        "description": "Default option with OpenPGP.js as the preferred OpenPGP backend."
     },
     "general_default_key_always": {
         "message": "Visada pridėti mano numatytąjį raktą į gavėjų sąrašą. (Tai jums leidžia iššifruoti išsiųstus laiškus)",
@@ -423,10 +427,6 @@
         "message": "Pasirašyti visus laiškus numatytuoju raktu",
         "description": "Label for default private key option."
     },
-    "gnupg_available": {
-        "message": "Prieinama",
-        "description": "Label indicating GnuPG feature is available."
-    },
     "gnupg_connection": {
         "message": "GnuPG ryšys",
         "description": "Header that shows that GnuPG is available on the system."
@@ -434,10 +434,6 @@
     "gnupg_error_unusable_pub_key": {
         "message": "Patikrinkite ar šie viešieji raktai yra prieinami jūsų GnuPG raktinėje ir, ar jie galioja: $1",
         "description": ""
-    },
-    "gnupg_not_available": {
-        "message": "Neprieinama",
-        "description": "Label indicating GnuPG feature is not available."
     },
     "header_warning": {
         "message": "Įspėjimas!",

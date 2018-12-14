@@ -387,33 +387,37 @@
         "message": "Да",
         "description": "Yes form button."
     },
-    "general_editor_plain": {
-        "message": "Обычный текст",
-        "description": "Editor option: plain text."
+    "general_gnupg_check_availability": {
+        "message": "Allow us to check availability",
+        "description": "Button label to check availability of GnuPG"
     },
-    "general_editor_rich": {
-        "message": "Редактор RTF",
-        "description": "Editor option: rich text."
+    "general_gnupg_installed_question": {
+        "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>",
+        "description": "Status message with available user options"
     },
-    "general_editor_type": {
-        "message": "Выбор редактора e-mail",
-        "description": "Label for editor options."
+    "general_gnupg_not_available": {
+        "message": "GnuPG is not available",
+        "description": "Indicator if GnuPG is not available"
+    },
+    "general_gnupg_prefer": {
+        "message": "Do you prefer to use GnuPG?",
+        "description": "Question if user prefers to use GnuPG"
+    },
+    "general_openpgp_current": {
+        "message": "You are currently using",
+        "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
+    },
+    "general_openpgp_prefer": {
+        "message": "Which encryption backend do you prefer?",
+        "description": "Label for OpenPGP backend selection."
     },
     "general_openpgp_preferences": {
         "message": "Настройки OpenPGP",
         "description": "Headline for OpenPGP settings."
     },
-    "general_prefer_gnupg": {
-        "message": "Предпочитать GnuPG для шифрования OpenPGP",
-        "description": "Option to choose GnuPG as the preferred OpenPGP backend."
-    },
     "general_prefer_gnupg_note": {
         "message": "Обратите внимание: открытые ключи синхронизируются между связками ключей. В зависимости от доступности закрытых ключей Mailvelope может действовать иначе, чем определено в настройках приоритета библиотек шифрования.",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
-    },
-    "general_prefer_openpgpjs": {
-        "message": "Предпочитать OpenPGP.js (встроенная библиотека Mailvelope)",
-        "description": "Default option with OpenPGP.js as the preferred OpenPGP backend."
     },
     "general_default_key_always": {
         "message": "Всегда дополнительно шифровать сообщение моим ключом. (Это позволит вам расшифровывать отправленные письма).",
@@ -423,10 +427,6 @@
         "message": "Подписывать все сообщения основным ключом",
         "description": "Label for default private key option."
     },
-    "gnupg_available": {
-        "message": "Доступно",
-        "description": "Label indicating GnuPG feature is available."
-    },
     "gnupg_connection": {
         "message": "Обнаружена программа GnuPG",
         "description": "Header that shows that GnuPG is available on the system."
@@ -434,10 +434,6 @@
     "gnupg_error_unusable_pub_key": {
         "message": "Пожалуйста, убедитесь, что в вашей связке GnuPG есть следующие действующие ключи: $1",
         "description": ""
-    },
-    "gnupg_not_available": {
-        "message": "Недоступно",
-        "description": "Label indicating GnuPG feature is not available."
     },
     "header_warning": {
         "message": "Внимание!",

@@ -387,33 +387,37 @@
         "message": "是",
         "description": "Yes form button."
     },
-    "general_editor_plain": {
-        "message": "纯文本编辑器",
-        "description": "Editor option: plain text."
+    "general_gnupg_check_availability": {
+        "message": "Allow us to check availability",
+        "description": "Button label to check availability of GnuPG"
     },
-    "general_editor_rich": {
-        "message": "富文本编辑器",
-        "description": "Editor option: rich text."
+    "general_gnupg_installed_question": {
+        "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>",
+        "description": "Status message with available user options"
     },
-    "general_editor_type": {
-        "message": "选择邮件编辑器",
-        "description": "Label for editor options."
+    "general_gnupg_not_available": {
+        "message": "GnuPG is not available",
+        "description": "Indicator if GnuPG is not available"
+    },
+    "general_gnupg_prefer": {
+        "message": "Do you prefer to use GnuPG?",
+        "description": "Question if user prefers to use GnuPG"
+    },
+    "general_openpgp_current": {
+        "message": "You are currently using",
+        "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
+    },
+    "general_openpgp_prefer": {
+        "message": "Which encryption backend do you prefer?",
+        "description": "Label for OpenPGP backend selection."
     },
     "general_openpgp_preferences": {
         "message": "OpenPGP 设置",
         "description": "Headline for OpenPGP settings."
     },
-    "general_prefer_gnupg": {
-        "message": "对于所有OpenPGP加密操作优先使用GnuPG",
-        "description": "Option to choose GnuPG as the preferred OpenPGP backend."
-    },
     "general_prefer_gnupg_note": {
         "message": "注意：公钥在所有钥匙环中同步。如果私钥存在或缺失，Mailvelope有可能覆盖加密库的最佳设置。",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
-    },
-    "general_prefer_openpgpjs": {
-        "message": "优先使用OpenPGP.js（Mailvelope的默认内置加密库）",
-        "description": "Default option with OpenPGP.js as the preferred OpenPGP backend."
     },
     "general_default_key_always": {
         "message": "永远将我的密钥加入收件人（所以您可以解密已发送邮件）",
@@ -423,10 +427,6 @@
         "message": "用默认密钥对所有邮件进行签名",
         "description": "Label for default private key option."
     },
-    "gnupg_available": {
-        "message": "可用",
-        "description": "Label indicating GnuPG feature is available."
-    },
     "gnupg_connection": {
         "message": "GnuPG连接",
         "description": "Header that shows that GnuPG is available on the system."
@@ -434,10 +434,6 @@
     "gnupg_error_unusable_pub_key": {
         "message": "请确保您的GnuPG钥匙环中，以下公钥存在并可用：$1",
         "description": ""
-    },
-    "gnupg_not_available": {
-        "message": "不可用",
-        "description": "Label indicating GnuPG feature is not available."
     },
     "header_warning": {
         "message": "警告！",

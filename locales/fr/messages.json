@@ -387,33 +387,37 @@
         "message": "Oui",
         "description": "Yes form button."
     },
-    "general_editor_plain": {
-        "message": "Texte en clair",
-        "description": "Editor option: plain text."
+    "general_gnupg_check_availability": {
+        "message": "Nous permettre d’en vérifier l’installation",
+        "description": "Button label to check availability of GnuPG"
     },
-    "general_editor_rich": {
-        "message": "Éditeur de texte enrichi",
-        "description": "Editor option: rich text."
+    "general_gnupg_installed_question": {
+        "message": "GnuPG est-il installé ? Si ce n’est pas le cas, <0>Téléchargez-le ici</0>. Pour en revérifier la disponibilité, <1>Redémarrez Mailvelope</1>",
+        "description": "Status message with available user options"
     },
-    "general_editor_type": {
-        "message": "Sélection de l’éditeur de courriel",
-        "description": "Label for editor options."
+    "general_gnupg_not_available": {
+        "message": "GnuPG n’est pas installé",
+        "description": "Indicator if GnuPG is not available"
+    },
+    "general_gnupg_prefer": {
+        "message": "Préférez-vous utiliser GnuPG ?",
+        "description": "Question if user prefers to use GnuPG"
+    },
+    "general_openpgp_current": {
+        "message": "Vous utilisez actuellement",
+        "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
+    },
+    "general_openpgp_prefer": {
+        "message": "Quel logiciel de chiffrement préférez-vous ?",
+        "description": "Label for OpenPGP backend selection."
     },
     "general_openpgp_preferences": {
         "message": " Préférences OpenPGP",
         "description": "Headline for OpenPGP settings."
     },
-    "general_prefer_gnupg": {
-        "message": "Préférer GnuPG pour toutes les opérations de chiffrement OpenPGP",
-        "description": "Option to choose GnuPG as the preferred OpenPGP backend."
-    },
     "general_prefer_gnupg_note": {
         "message": "Note : Les clés publiques sont synchronisées entre les trousseaux proposés. Selon la disponibilité des clés privées, Mailvelope peut passer outre le paramètre de la bibliothèque préférée de chiffrement.",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
-    },
-    "general_prefer_openpgpjs": {
-        "message": "Préférer OpenPGP.js (bibliothèque de chiffrement par défaut intégrée à Mailvelope)",
-        "description": "Default option with OpenPGP.js as the preferred OpenPGP backend."
     },
     "general_default_key_always": {
         "message": "Toujours ajouter ma clé par défaut à la liste des destinataires. (Cela vous permet de déchiffrer les courriels envoyés)",
@@ -423,10 +427,6 @@
         "message": "Signer tous les messages avec la clé par défaut",
         "description": "Label for default private key option."
     },
-    "gnupg_available": {
-        "message": "Disponible",
-        "description": "Label indicating GnuPG feature is available."
-    },
     "gnupg_connection": {
         "message": "Connexion GnuPG",
         "description": "Header that shows that GnuPG is available on the system."
@@ -434,10 +434,6 @@
     "gnupg_error_unusable_pub_key": {
         "message": "Veuillez vérifier si les clés publiques suivantes se trouvent dans votre trousseau GnuPG et si elles sont valides : $1",
         "description": ""
-    },
-    "gnupg_not_available": {
-        "message": "Non disponible",
-        "description": "Label indicating GnuPG feature is not available."
     },
     "header_warning": {
         "message": "Avertissement !",

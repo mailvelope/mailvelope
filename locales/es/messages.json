@@ -300,7 +300,7 @@
         "description": "Back form button."
     },
     "form_busy": {
-        "message": "Ocupado",
+        "message": "Procesando",
         "description": "Form in busy state."
     },
     "form_cancel": {
@@ -387,33 +387,37 @@
         "message": "Sí",
         "description": "Yes form button."
     },
-    "general_editor_plain": {
-        "message": "Texto simple",
-        "description": "Editor option: plain text."
+    "general_gnupg_check_availability": {
+        "message": "Allow us to check availability",
+        "description": "Button label to check availability of GnuPG"
     },
-    "general_editor_rich": {
-        "message": "Editor de texto enriquecido",
-        "description": "Editor option: rich text."
+    "general_gnupg_installed_question": {
+        "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>",
+        "description": "Status message with available user options"
     },
-    "general_editor_type": {
-        "message": "Selección del editor de correo",
-        "description": "Label for editor options."
+    "general_gnupg_not_available": {
+        "message": "GnuPG is not available",
+        "description": "Indicator if GnuPG is not available"
+    },
+    "general_gnupg_prefer": {
+        "message": "Do you prefer to use GnuPG?",
+        "description": "Question if user prefers to use GnuPG"
+    },
+    "general_openpgp_current": {
+        "message": "You are currently using",
+        "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
+    },
+    "general_openpgp_prefer": {
+        "message": "Which encryption backend do you prefer?",
+        "description": "Label for OpenPGP backend selection."
     },
     "general_openpgp_preferences": {
         "message": "Preferencias de OpenPGP",
         "description": "Headline for OpenPGP settings."
     },
-    "general_prefer_gnupg": {
-        "message": "Preferir GNUPG para todas las operaciones de cifrado de OpenPGP",
-        "description": "Option to choose GnuPG as the preferred OpenPGP backend."
-    },
     "general_prefer_gnupg_note": {
         "message": "Nota: las llaves públicas son sincronizadas entre los juegos de llaves disponibles. Dependiendo de la disponibilidad de llaves privadas, Mailvelope puede pasar por alto el ajuste de biblioteca de cifrado preferida.",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
-    },
-    "general_prefer_openpgpjs": {
-        "message": "Preferir OpenPGP.js (biblioteca de cifrado incorporada por defecto en Mailvelope)",
-        "description": "Default option with OpenPGP.js as the preferred OpenPGP backend."
     },
     "general_default_key_always": {
         "message": "Siempre añadir mi llave por defecto a la lista de destinatarios. (Esto te permite descifrar correos electrónicos enviados)",
@@ -423,10 +427,6 @@
         "message": "Firmar todos los mensajes con la llave por defecto",
         "description": "Label for default private key option."
     },
-    "gnupg_available": {
-        "message": "Disponible",
-        "description": "Label indicating GnuPG feature is available."
-    },
     "gnupg_connection": {
         "message": "Conexión GNUPG",
         "description": "Header that shows that GnuPG is available on the system."
@@ -434,10 +434,6 @@
     "gnupg_error_unusable_pub_key": {
         "message": "Por favor comprueba si las siguientes llaves públicas están disponibles en tu juego de llaves GNUPG y son válidas: $1",
         "description": ""
-    },
-    "gnupg_not_available": {
-        "message": "No disponible",
-        "description": "Label indicating GnuPG feature is not available."
     },
     "header_warning": {
         "message": "¡Advertencia!",
@@ -460,7 +456,7 @@
         "description": "HKP key server option: url."
     },
     "keyserver_additionals_label": {
-        "message": "Fuentes adicionales de llaves",
+        "message": "Fuentes de llaves adicionales ",
         "description": "Label for configuration of additional key sources"
     },
     "keyserver_tofu_lookup": {
@@ -468,7 +464,7 @@
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_wkd_lookup": {
-        "message": "Solicitar llaves al proveedor de correo electrónico de los destinatarios (directorio Web Key)",
+        "message": "Solicitar llaves al proveedor de correo electrónico de los destinatarios (Directorio web de llaves)",
         "description": "Enable Web Key Directory Auto Lookup"
     },
     "keyserver_url_warning": {
@@ -476,7 +472,7 @@
         "description": "HKP key server url warning."
     },
     "keyserver_url_error": {
-        "message": "No se puede alcanzar el servidor de llaves",
+        "message": "No se puede acceder a el servidor de llaves",
         "description": "HKP key server URL error."
     },
     "key_details_title": {
@@ -500,7 +496,7 @@
         "description": "Key export warning."
     },
     "key_gen_advanced_btn": {
-        "message": "Avanzadas",
+        "message": "Avanzado",
         "description": "Advanced key generation settings."
     },
     "key_gen_another": {
@@ -512,7 +508,7 @@
         "description": "De-Mail address name."
     },
     "key_gen_error": {
-        "message": "Error al generar llave.",
+        "message": "Error mientras se generaban la llave.",
         "description": "Key generation error message"
     },
     "key_gen_experimental": {
@@ -616,7 +612,7 @@
         "description": ""
     },
     "key_import_extend_headline": {
-        "message": "Información avanzada para comunicación cifrada:",
+        "message": "Información avanzada sobre comunicación cifrada:",
         "description": "Key import dialog description."
     },
     "key_import_extend_hint": {
@@ -624,7 +620,7 @@
         "description": ""
     },
     "key_import_file": {
-        "message": "Importar llave desde archivo",
+        "message": "Importar llave desde un archivo",
         "description": "File selection label."
     },
     "key_import_file_select": {
@@ -632,7 +628,7 @@
         "description": "File selection button label."
     },
     "key_import_hkp_search": {
-        "message": "Búsqueda de llave",
+        "message": "Buscar llave",
         "description": ""
     },
     "key_import_hkp_search_public": {
@@ -656,7 +652,7 @@
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Una comunicación cifrada con [CONTACT] ya no será posible. El contacto tiene que volver a invitarle.",
+        "message": "La comunicación cifrada con [CONTACT] ya no será posible. El contacto tiene que volver a invitarle.",
         "description": ""
     },
     "key_import_invalidated_headline": {
@@ -724,7 +720,7 @@
         "description": "Tootip for set as default key button"
     },
     "keybackup_failed": {
-        "message": "Se ha producido un error al crear la copia de seguridad.",
+        "message": "Falló la creación de la copia de seguridad de la llave.",
         "description": ""
     },
     "keybackup_restore_dialog_button": {
@@ -736,7 +732,7 @@
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
-        "message": "Recomendación: Restaurar copia de seguridad",
+        "message": "Recomendación: Crea copia de seguridad",
         "description": ""
     },
     "keybackup_restore_dialog_list_1": {
@@ -772,7 +768,7 @@
         "description": ""
     },
     "keybackup_waiting_headline": {
-        "message": "¡Crear copia de seguridad!",
+        "message": "¡Creando de seguridad!",
         "description": ""
     },
     "keygen_dialog_confirm": {
@@ -792,15 +788,15 @@
         "description": ""
     },
     "keygen_dialog_password_placeholder": {
-        "message": "mín 4 caracteres",
+        "message": "Mínimo 4 caracteres",
         "description": ""
     },
     "keygen_dialog_prolog": {
-        "message": "Asigne una contraseña para proteger su comunicación cifrada:",
+        "message": "Por favor asigne una contraseña para proteger su comunicación cifrada:",
         "description": ""
     },
     "keygen_waiting_description": {
-        "message": "Por favor, tenga paciencia",
+        "message": "El proceso de cifrado puede tomar varios minutos. Su navegador puede parecer que no responda. Por favor, tenga paciencia",
         "description": ""
     },
     "keygen_waiting_headline": {
@@ -824,7 +820,7 @@
         "description": "Short creation date of a PGP key. Max. width: 90px"
     },
     "keygrid_default_key": {
-        "message": "Clave por defecto",
+        "message": "Llave por defecto",
         "description": "Default key in the keyring."
     },
     "keygrid_delete": {
@@ -856,7 +852,7 @@
         "description": "Export key."
     },
     "keygrid_export_title": {
-        "message": "Exportar a archivo todas las llaves de esta lista",
+        "message": "Exportar a un archivo todas las llaves de esta lista",
         "description": "Title for Export key button."
     },
     "keygrid_import_title": {
@@ -868,7 +864,7 @@
         "description": "Title for generate key button"
     },
     "keygrid_invalid_userid": {
-        "message": "Identificación de usuario inválida",
+        "message": "Identificación de usuario no válida",
         "description": "User ID invalid."
     },
     "keygrid_key_fingerprint": {
@@ -880,7 +876,7 @@
         "description": "Key length of a PGP key."
     },
     "keygrid_key_not_expire": {
-        "message": "La llave no expira",
+        "message": "Esta llave no expira",
         "description": "Expiration date of a PGP key not set."
     },
     "keygrid_key_type": {
@@ -900,7 +896,7 @@
         "description": "Warning message if no user id found."
     },
     "keygrid_primary_key": {
-        "message": "Clave principal",
+        "message": "Llave principal",
         "description": "Main key in the PGP key."
     },
     "keygrid_default_label": {
@@ -908,11 +904,11 @@
         "description": "Label for the default key"
     },
     "keygrid_private_keys": {
-        "message": "Claves privadas",
+        "message": "Llaves privadas",
         "description": "Selection of key type."
     },
     "keygrid_public_keys": {
-        "message": "Claves públicas",
+        "message": "Llaves públicas",
         "description": "Selection of key type."
     },
     "keygrid_refresh": {
@@ -996,7 +992,7 @@
         "description": "Tab of keyring to display keys."
     },
     "keyring_export_keys": {
-        "message": "Exportar llaves",
+        "message": "Exportar juego de llaves",
         "description": "Tab of keyring to export keys."
     },
     "keyring_generate_key": {
@@ -1040,7 +1036,7 @@
         "description": "Generate key"
     },
     "keyring_setup_generate_key_explanation": {
-        "message": "Si está usando esta extensión por primera vez y aún no tiene un par de llaves, necesita generar una llave.",
+        "message": "Si está usando esta extensión por primera vez y aún no tiene un par de llaves, necesita generar uno.",
         "description": "Generate key"
     },
     "keyring_setup_import_key": {
@@ -1064,7 +1060,7 @@
         "description": "Decrypt error message."
     },
     "message_read_error": {
-        "message": "No se pudo leer este mensaje cifrado: $1",
+        "message": "No se pudo descifrar este mensaje: $1",
         "description": "Message read error message: $1: error message."
     },
     "options_about": {
@@ -1096,7 +1092,7 @@
         "description": "Checkbox label for remembering of the password."
     },
     "pwd_dialog_cancel": {
-        "message": "Desbloqueo de llave cancelado.",
+        "message": "Desbloqueo de llaves cancelado.",
         "description": "User canceled key unlock dialog."
     },
     "pwd_dialog_header": {
@@ -1132,11 +1128,11 @@
         "description": ""
     },
     "pwd_dialog_title": {
-        "message": "Introducción de contraseña | Mailvelope",
+        "message": "Introduzca una contraseña | Mailvelope",
         "description": "Title of the password dialog."
     },
     "pwd_dialog_userid": {
-        "message": "ID usu.:",
+        "message": "ID de usuario:",
         "description": "Label for user ID."
     },
     "pwd_dialog_wrong_pwd": {
@@ -1148,11 +1144,11 @@
         "description": ""
     },
     "recovery_sheet_backup_local": {
-        "message": "Si exclusivamente quiere guardar sus datos de manera local en su ordenador, va a encontrar esa posibilidad en las configuraciones de la comunicación cifrada de su cuenta [BRAND].",
+        "message": "Si exclusivamente quiere guardar sus datos de manera local en su computador, encontrará esa posibilidad en la configuración de comunicación cifrada de su cuenta [BRAND].",
         "description": ""
     },
     "recovery_sheet_backup_server": {
-        "message": "Para hacer un respaldo de los datos importantes para la comunicación cifrada (p.ej. contraseña de la llave), los datos serán guardados cifrados en nuestros [BRAND] servidores por nuestro consejero de seguridad Mailvelope.",
+        "message": "Para hacer una copia de seguridad de los datos que son importantes para la comunicación cifrada (Por ejemplo, contraseña de la llave), los datos serán guardados cifrados en nuestros servidores [BRAND] por nuestro socio de seguridad Mailvelope.",
         "description": ""
     },
     "recovery_sheet_be_aware": {
@@ -1168,7 +1164,7 @@
         "description": "Label for recovery sheet creation date"
     },
     "recovery_sheet_data_lost": {
-        "message": "¡Sin un respaldo, sus mensajes cifrados no pueden ser descifrados otra vez en el caso de que pierda su contraseña de la llave o en el caso de que haya un aparato defectuoso o problemas con la extensión del navegador!",
+        "message": "¡Sin una copia de seguridad, sus mensajes cifrados no pueden ser descifrados nuevamente en caso de que pierda la contraseña de su llave, en el caso de que haya un aparato defectuoso o problemas con la extensión del navegador!",
         "description": ""
     },
     "recovery_sheet_encryption_note": {
@@ -1220,7 +1216,7 @@
         "description": ""
     },
     "recovery_sheet_not_working": {
-        "message": "Si su comunicación cifrada ya no funciona, p.e.:",
+        "message": "Si su comunicación cifrada ya no funciona, por ejemplo:",
         "description": "Label for list"
     },
     "recovery_sheet_other_computer": {
@@ -1292,7 +1288,7 @@
         "description": ""
     },
     "recovery_sheet_subtitle_receipt": {
-        "message": "Copia de seguridad para comunicación cifrada",
+        "message": "Hoja de recuperación para comunicación cifrada",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_subtitle_recover": {
@@ -1308,7 +1304,7 @@
         "description": ""
     },
     "recovery_sheet_unlock_backup": {
-        "message": "El respaldo de sus datos solamente puede ser descifrado con la ayuda del código de restauración en esta copia de seguridad.",
+        "message": "La copia de seguridad de sus datos solamente puede ser descifrada con la ayuda del código de restauración de esta hoja de recuperación.",
         "description": ""
     },
     "reload_tab": {
@@ -1336,7 +1332,7 @@
         "description": "Angle"
     },
     "security_background_button_title": {
-        "message": "El entorno de seguridad puede ajustarse en el área de Opciones-de-Mailvelope",
+        "message": "El fondo de seguridad puede ser ajustado en las opciones de Mailvelope",
         "description": "The tooltip text for the keylock button"
     },
     "security_background_coloring": {
@@ -1356,11 +1352,11 @@
         "description": "Scaling"
     },
     "security_background_text": {
-        "message": "El entorno de seguridad ayuda a evitar manipulaciones de la interfaz de usuario por parte de sitios web y aplicaciones de terceros. Para incrementar la seguridad, cree y cambie su entorno personalizado de Mailvelope aquí.",
+        "message": "El fondo de seguridad ayuda a evitar manipulaciones de la interfaz de usuario por parte de sitios web y aplicaciones de terceros. Para incrementar la seguridad, cree y cambie aquí su fondo personalizado de Mailvelope.",
         "description": "Security background text"
     },
     "security_cache_header": {
-        "message": "¿Recordar contraseñas para la sesión del navegador?",
+        "message": "Recordar contraseñas para esta sesión del navegador.",
         "description": "Password cache header"
     },
     "security_cache_help": {
@@ -1404,31 +1400,31 @@
         "description": "Attachment downloaded as an event source"
     },
     "security_log_backup_create": {
-        "message": "Pulsación para crear copia de seguridad",
+        "message": "Pulse para crear copia de seguridad",
         "description": ""
     },
     "security_log_backup_restore": {
-        "message": "Pulsación para restaurar copia de seguridad",
+        "message": "Pulse para restaurar copia de seguridad",
         "description": ""
     },
     "security_log_content_copy": {
-        "message": "Copiar en cuadro de diálogo de verificación",
+        "message": "Copiar en cuadro de verificación",
         "description": ""
     },
     "security_log_dialog_cancel": {
-        "message": "Pulsación para cancelar en cuadro de diálogo",
+        "message": "Pulse para cancelar en el cuadro de diálogo",
         "description": ""
     },
     "security_log_dialog_encrypt": {
-        "message": "Pulsación para cifrar en cuadro de diálogo",
+        "message": "Pulse para cifrar en el cuadro de diálogo",
         "description": ""
     },
     "security_log_dialog_ok": {
-        "message": "Pulsación para confirmar en cuadro de diálogo",
+        "message": "Pulse para confirmar en el cuadro de diálogo",
         "description": ""
     },
     "security_log_dialog_sign": {
-        "message": "Pulsación para firmar en cuadro de diálogo",
+        "message": "Pulse para firmar en el cuadro de diálogo",
         "description": ""
     },
     "security_log_editor": {
@@ -1440,7 +1436,7 @@
         "description": "Email decryption container as an event source"
     },
     "security_log_encrypt_dialog": {
-        "message": "Cuadro de diálogo de cifrado",
+        "message": "Diálogo de cifrado",
         "description": "Encrypt dialog as an event source"
     },
     "security_log_encrypt_form": {
@@ -1464,7 +1460,7 @@
         "description": "Key generator container as an event source"
     },
     "security_log_password_click": {
-        "message": "Pulsación en cuadro de diálogo de contraseña",
+        "message": "Pulse en cuadro de diálogo de contraseña",
         "description": ""
     },
     "security_log_password_dialog": {
@@ -1472,7 +1468,7 @@
         "description": "Password dialog as an event source"
     },
     "security_log_password_input": {
-        "message": "Inserción en el cuadro de solicitud de contraseña",
+        "message": "Inserción en el cuadro de dialogo de contraseña",
         "description": ""
     },
     "security_log_remove_attachment": {
@@ -1480,7 +1476,7 @@
         "description": "A click on the attachment remove button as event type"
     },
     "security_log_restore_backup_click": {
-        "message": "Pulsación en restaurar cuadro de diálogo de copia de seguridad",
+        "message": "Pulse en el cuadro de diálogo de recuperación de la copia de seguridad",
         "description": ""
     },
     "security_log_sign_operation": {
@@ -1488,11 +1484,11 @@
         "description": ""
     },
     "security_log_signature_modal_close": {
-        "message": "Pulsación para cerrar cuadro de diálogo de firma",
+        "message": "Pulse para cerrar cuadro de diálogo de firma",
         "description": ""
     },
     "security_log_signature_modal_open": {
-        "message": "Pulsación para abrir cuadro de diálogo de firma",
+        "message": "Pulse para abrir cuadro de diálogo de firma",
         "description": ""
     },
     "security_log_source": {
@@ -1500,7 +1496,7 @@
         "description": "Title of the source column of the security log table."
     },
     "security_log_text": {
-        "message": "El registro (log) de seguridad muestra acciones del usuario sobre los componentes integrados de Mailvelope.",
+        "message": "El registro (log) de seguridad muestra las acciones del usuario en todos los componentes de Mailvelope.",
         "description": "Text explaining the purpose of the security log"
     },
     "security_log_text_input": {
@@ -1508,7 +1504,7 @@
         "description": "User clicked in text area"
     },
     "security_log_textarea_click": {
-        "message": "Pulsación en el área de texto",
+        "message": "Pulse en el área de texto",
         "description": "User clicked in text area"
     },
     "security_log_textarea_input": {

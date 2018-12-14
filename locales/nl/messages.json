@@ -387,33 +387,37 @@
         "message": "Ja",
         "description": "Yes form button."
     },
-    "general_editor_plain": {
-        "message": "Tekst zonder opmaak",
-        "description": "Editor option: plain text."
+    "general_gnupg_check_availability": {
+        "message": "Allow us to check availability",
+        "description": "Button label to check availability of GnuPG"
     },
-    "general_editor_rich": {
-        "message": "Editor voor tekst met opmaak",
-        "description": "Editor option: rich text."
+    "general_gnupg_installed_question": {
+        "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>",
+        "description": "Status message with available user options"
     },
-    "general_editor_type": {
-        "message": "E-maileditorselectie",
-        "description": "Label for editor options."
+    "general_gnupg_not_available": {
+        "message": "GnuPG is not available",
+        "description": "Indicator if GnuPG is not available"
+    },
+    "general_gnupg_prefer": {
+        "message": "Do you prefer to use GnuPG?",
+        "description": "Question if user prefers to use GnuPG"
+    },
+    "general_openpgp_current": {
+        "message": "You are currently using",
+        "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
+    },
+    "general_openpgp_prefer": {
+        "message": "Which encryption backend do you prefer?",
+        "description": "Label for OpenPGP backend selection."
     },
     "general_openpgp_preferences": {
         "message": "OpenPGP-voorkeuren",
         "description": "Headline for OpenPGP settings."
     },
-    "general_prefer_gnupg": {
-        "message": "Geef GnuPG de voorkeur voor alle OpenPGP-coderingsbewerkingen",
-        "description": "Option to choose GnuPG as the preferred OpenPGP backend."
-    },
     "general_prefer_gnupg_note": {
         "message": "Opmerking: openbare sleutels worden gesynchroniseerd tussen beschikbare sleutelhangers. Afhankelijk van de beschikbaarheid van privésleutels, kan Mailvelope de voorkeursinstelling van de codebibliotheek overschrijven.",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
-    },
-    "general_prefer_openpgpjs": {
-        "message": "Geef de voorkeur aan OpenPGP.js (standaard ingebouwde Mailvelope-coderingsbibliotheek)",
-        "description": "Default option with OpenPGP.js as the preferred OpenPGP backend."
     },
     "general_default_key_always": {
         "message": "Voeg altijd mijn standaardsleutel toe aan de lijst met ontvangers. (Hiermee kunt u verzonden e-mails decoderen)",
@@ -423,10 +427,6 @@
         "message": "Onderteken alle berichten met standaardsleutel",
         "description": "Label for default private key option."
     },
-    "gnupg_available": {
-        "message": "Beschikbaar",
-        "description": "Label indicating GnuPG feature is available."
-    },
     "gnupg_connection": {
         "message": "GnuPG-verbinding",
         "description": "Header that shows that GnuPG is available on the system."
@@ -434,10 +434,6 @@
     "gnupg_error_unusable_pub_key": {
         "message": "Controleer of de volgende openbare sleutels beschikbaar zijn in uw GnuPG-sleutelring en geldig zijn: $1",
         "description": ""
-    },
-    "gnupg_not_available": {
-        "message": "Niet beschikbaar",
-        "description": "Label indicating GnuPG feature is not available."
     },
     "header_warning": {
         "message": "Waarschuwing!",
