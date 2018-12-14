@@ -19,7 +19,8 @@ const resolve = {
   }
 };
 
-const prod = {...common.prod,
+const prod = {
+  ...common.prod,
   entry,
   output,
   resolve,
@@ -29,7 +30,8 @@ const prod = {...common.prod,
   }
 };
 
-const dev = {...prod,
+const dev = {
+  ...prod,
   mode: 'development',
   devtool: 'cheap-module-source-map',
   module: {

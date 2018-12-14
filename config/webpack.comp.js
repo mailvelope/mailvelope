@@ -11,7 +11,8 @@ const externals = {
 };
 
 function prod(pathname, filename) {
-  return {...common.prod,
+  return {
+    ...common.prod,
     entry: `./src/components/${pathname}/${filename}`,
     output: {
       path: path.resolve(`./build/tmp/components/${pathname}`),
@@ -25,7 +26,8 @@ function prod(pathname, filename) {
 }
 
 function dev(pathname, filename) {
-  return {...prod(pathname, filename),
+  return {
+    ...prod(pathname, filename),
     mode: 'development',
     devtool: 'inline-source-map'
   };

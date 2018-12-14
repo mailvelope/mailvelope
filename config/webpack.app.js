@@ -16,7 +16,8 @@ const externals = {
   'react-dom': 'ReactDOM'
 };
 
-const prod = {...common.prod,
+const prod = {
+  ...common.prod,
   entry,
   output,
   resolve: common.resolve(),
@@ -24,7 +25,8 @@ const prod = {...common.prod,
   module: common.module.react()
 };
 
-const dev = {...prod,
+const dev = {
+  ...prod,
   mode: 'development',
   devtool: 'source-map'
 };

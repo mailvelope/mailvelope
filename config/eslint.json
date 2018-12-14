@@ -43,6 +43,7 @@
     "no-unused-vars": ["error", {"ignoreRestSiblings": true}], // disallow unused variables
     "no-useless-escape": 0, // disallow unnecessary escape characters
     /* Stylistic Issues */
+    "array-bracket-newline": ["warn", "consistent"], // enforce consisten line breaks after opening and before closing array brackets
     "array-bracket-spacing": 1, // enforce consistent spacing inside array brackets
     "block-spacing": 1, // enforce consistent spacing inside single-line blocks
     "brace-style": ["warn", "1tbs", { "allowSingleLine": true }], // enforce consistent brace style for blocks
@@ -57,6 +58,7 @@
     "lines-between-class-members": 1, // require or disallow an empty line between class members
     "no-trailing-spaces": 1, // disallow trailing whitespace at the end of lines
     "no-var": 1, // require let or const instead of var
+    "object-curly-newline": ["warn", {"consistent": true}], // enforce consistent line breaks inside braces
     "object-curly-spacing": ["warn", "never"], // enforce consistent spacing inside braces
     "one-var": ["warn", "never"], // enforce variables to be declared either together or separately in functions
     "padded-blocks": ["warn", "never"], // require or disallow padding within blocks

@@ -17,7 +17,8 @@ const resolve = {
   }
 };
 
-exports.prod = {...common.prod,
+exports.prod = {
+  ...common.prod,
   entry,
   output,
   resolve,
@@ -26,7 +27,8 @@ exports.prod = {...common.prod,
   }
 };
 
-exports.dev = {...exports.prod,
+exports.dev = {
+  ...exports.prod,
   mode: 'development',
   devtool: 'inline-source-map'
 };
