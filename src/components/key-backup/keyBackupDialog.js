@@ -52,7 +52,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     port = mvelo.EventHandler.connect(`keyBackupDialog-${qs.id}`);
     registerEventListeners();
 
-    const $body = $('body').empty().addClass("secureBackground");
+    const $body = $('body').empty().addClass('secureBackground');
 
     mvelo.appendTpl($body, mvelo.runtime.getURL('components/key-backup/keybackup.html')).then(() => {
       $keyBackupGenerator = $('#key_backup_generator');

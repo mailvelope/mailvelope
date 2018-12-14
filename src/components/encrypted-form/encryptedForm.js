@@ -9,8 +9,8 @@ import mvelo from '../../mvelo';
 import * as l10n from '../../lib/l10n';
 import FormSandbox from './components/FormSandbox';
 import './encryptedForm.css';
-import Spinner from "../util/Spinner";
-import Alert from "../util/Alert";
+import Spinner from '../util/Spinner';
+import Alert from '../util/Alert';
 import ModalDialog from '../util/ModalDialog';
 
 // register language strings

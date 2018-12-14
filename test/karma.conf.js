@@ -80,7 +80,7 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: ['ChromeHeadless', 'ChromeHeadlessNoSandbox'],
-    browserConsoleLogOptions: {level: config.dev ? "debug" : "warn", format: "%b %T: %m", terminal: true},
+    browserConsoleLogOptions: {level: config.dev ? 'debug' : 'warn', format: '%b %T: %m', terminal: true},
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: 'ChromeHeadless',

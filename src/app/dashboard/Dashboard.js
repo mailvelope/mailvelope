@@ -18,7 +18,7 @@ l10n.register([
 ]);
 
 export default function Dashboard() {
-  const mailvelopeHelpUrl = "https://www.mailvelope.com/en/help";
+  const mailvelopeHelpUrl = 'https://www.mailvelope.com/en/help';
   return (
     <div className="dashboard">
       <div className="row">

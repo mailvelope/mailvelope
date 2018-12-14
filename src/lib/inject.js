@@ -98,7 +98,7 @@ async function injectOpenTabs(filterURL) {
       if (!match) {
         continue;
       }
-      browser.tabs.executeScript(tab.id, {file: "content-scripts/cs-mailvelope.js", frameId: frame.frameId})
+      browser.tabs.executeScript(tab.id, {file: 'content-scripts/cs-mailvelope.js', frameId: frame.frameId})
       .catch(() => {});
       browser.tabs.insertCSS(tab.id, {code: framestyles, frameId: frame.frameId})
       .catch(() => {});
@@ -111,7 +111,7 @@ function watchListNavigationHandler(details) {
     // request is not related to a tab
     return;
   }
-  browser.tabs.executeScript(details.tabId, {file: "content-scripts/cs-mailvelope.js", frameId: details.frameId})
+  browser.tabs.executeScript(details.tabId, {file: 'content-scripts/cs-mailvelope.js', frameId: details.frameId})
   .catch(() => {});
   browser.tabs.insertCSS(details.tabId, {code: framestyles, frameId: details.frameId})
   .catch(() => {});

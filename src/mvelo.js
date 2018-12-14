@@ -199,29 +199,29 @@ mvelo.util.getHash = function() {
 
 mvelo.util.encodeHTML = function(text) {
   return String(text)
-  .replace(/&/g, "&amp;")
-  .replace(/</g, "&lt;")
-  .replace(/>/g, "&gt;")
-  .replace(/"/g, "&quot;")
-  .replace(/'/g, "&#039;")
-  .replace(/\//g, "&#x2F;");
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#039;')
+  .replace(/\//g, '&#x2F;');
 };
 
 mvelo.util.decodeHTML = function(html) {
   return String(html)
-  .replace(/&amp;/g, "&")
-  .replace(/&lt;/g, "<")
-  .replace(/&gt;/g, ">")
-  .replace(/&quot;/g, "\"")
+  .replace(/&amp;/g, '&')
+  .replace(/&lt;/g, '<')
+  .replace(/&gt;/g, '>')
+  .replace(/&quot;/g, '"')
   .replace(/&#039;/g, "\'")
-  .replace(/&#x2F;/g, "\/");
+  .replace(/&#x2F;/g, '\/');
 };
 
 mvelo.util.decodeQuotedPrint = function(armored) {
   return armored
-  .replace(/=3D=3D\s*$/m, "==")
-  .replace(/=3D\s*$/m, "=")
-  .replace(/=3D(\S{4})\s*$/m, "=$1");
+  .replace(/=3D=3D\s*$/m, '==')
+  .replace(/=3D\s*$/m, '=')
+  .replace(/=3D(\S{4})\s*$/m, '=$1');
 };
 
 /**

@@ -37,7 +37,7 @@ export async function initNativeMessaging() {
 function registerRuntimeHandler() {
   // listen to the installation event
   chrome.runtime.onInstalled.addListener(details => {
-    if (details.reason == "install") {
+    if (details.reason == 'install') {
       // when the plugin is installed, open the install landing page
       openInstallLandingPage();
     }

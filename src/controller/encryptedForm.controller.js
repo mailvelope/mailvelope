@@ -5,9 +5,9 @@
 
 import * as sub from './sub.controller';
 import dompurify from 'dompurify';
-import mvelo from "../mvelo";
-import {getById as getKeyringById, getPreferredKeyringId} from "../modules/keyring";
-import {verifyDetachedSignature, encryptMessage} from "../modules/pgpModel";
+import mvelo from '../mvelo';
+import {getById as getKeyringById, getPreferredKeyringId} from '../modules/keyring';
+import {verifyDetachedSignature, encryptMessage} from '../modules/pgpModel';
 import {isEnabled as isAutoLocateEnabled, locate} from '../modules/autoLocate';
 
 // register language strings

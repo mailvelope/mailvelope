@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from "../mvelo";
+import mvelo from '../mvelo';
 
 export default class EncryptedFormContainer {
   constructor(selector, html, signature) {

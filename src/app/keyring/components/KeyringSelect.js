@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import mvelo from '../../../mvelo';
 import './KeyringSelect.css';
-import * as l10n from "../../../lib/l10n";
+import * as l10n from '../../../lib/l10n';
 import {port} from '../../app';
 
 l10n.register([

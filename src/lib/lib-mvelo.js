@@ -62,7 +62,7 @@ mvelo.tabs = {};
 
 mvelo.tabs.getActive = function() {
   // get selected tab, "*://*/*" filters out non-http(s)
-  return browser.tabs.query({active: true, currentWindow: true, url: "*://*/*"})
+  return browser.tabs.query({active: true, currentWindow: true, url: '*://*/*'})
   .then(tabs => tabs[0]);
 };
 

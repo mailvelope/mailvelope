@@ -73,7 +73,7 @@ describe('Action Menu tests', () => {
         actionMenuAdvanced.find('.header a').simulate('click');
 
         const actionMenuAnimated = wrapper.find(ActionMenuAnimated);
-        expect(actionMenuAnimated.find('.action-menu-container-slide')).to.have.style("margin-left", "0px");
+        expect(actionMenuAnimated.find('.action-menu-container-slide')).to.have.style('margin-left', '0px');
 
         const actionMenuBase = wrapper.find(ActionMenuBase);
         actionMenuBase.find('a#manage-keys').simulate('click');
@@ -97,7 +97,7 @@ describe('Action Menu tests', () => {
         expect(spy.calledOnce).to.equal(true);
 
         const actionMenuAnimated = wrapper.find(ActionMenuAnimated);
-        expect(actionMenuAnimated.find('.action-menu-container-slide')).to.have.style("margin-left", "-230px");
+        expect(actionMenuAnimated.find('.action-menu-container-slide')).to.have.style('margin-left', '-230px');
       });
 
       it('should emit browser action on click', () => {

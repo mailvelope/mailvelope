@@ -70,7 +70,7 @@ describe('Editor tests', () => {
     it('should initialize the component with the given default text', () => {
       const {wrapper} = setup();
       const component = wrapper.instance();
-      component.onSetInitData({text: 'This is a sample text!', signMsg: true, defaultKeyFpr: '9acdfd634605bc0a0b18d518e38cca58286fefe6', privKeys: [{type: "private", validity: true, keyId: "E47CCA58286FEFE6", fingerprint: "9acdfd634605bc0a0b18d518e38cca58286fefe6", userId: "Max Mustermann <max.muster@mann.com>", name: "Max Mustermann", email: "max.muster@mann.com", exDate: false, crDate: "2018-10-11T15:45:00.000Z", algorithm: "RSA (Encrypt or Sign)", bitLength: 4096}]});
+      component.onSetInitData({text: 'This is a sample text!', signMsg: true, defaultKeyFpr: '9acdfd634605bc0a0b18d518e38cca58286fefe6', privKeys: [{type: 'private', validity: true, keyId: 'E47CCA58286FEFE6', fingerprint: '9acdfd634605bc0a0b18d518e38cca58286fefe6', userId: 'Max Mustermann <max.muster@mann.com>', name: 'Max Mustermann', email: 'max.muster@mann.com', exDate: false, crDate: '2018-10-11T15:45:00.000Z', algorithm: 'RSA (Encrypt or Sign)', bitLength: 4096}]});
       expect(wrapper.state().signKey).to.equal('9acdfd634605bc0a0b18d518e38cca58286fefe6');
       wrapper.update();
       const plainText = wrapper.find(PlainText);

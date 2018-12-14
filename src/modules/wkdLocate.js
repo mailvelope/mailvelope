@@ -40,7 +40,7 @@ let blacklist;
  */
 export async function lookup(email) {
   if (!email) {
-    throw new Error("WKD: Skipping lookup without email.");
+    throw new Error('WKD: Skipping lookup without email.');
   }
 
   const [, domain] = /.*@(.*)/.exec(email);
@@ -77,7 +77,7 @@ export async function lookup(email) {
  */
 function isBlacklisted(domain) {
   if (typeof blacklist == 'undefined') {
-    blacklist = (defaults.preferences.keyserver.wkd_blacklist || []).map(item => RegExp(item, "i"));
+    blacklist = (defaults.preferences.keyserver.wkd_blacklist || []).map(item => RegExp(item, 'i'));
   }
 
   for (const item of blacklist) {
@@ -122,7 +122,7 @@ function buildWKDUrl(email) {
 function timeout(ms, promise) {
   return new Promise(((resolve, reject) => {
     setTimeout(() => {
-      reject(new Error("WKD: Timeout"));
+      reject(new Error('WKD: Timeout'));
     }, ms);
     promise.then(resolve, reject);
   }));
@@ -191,7 +191,7 @@ async function parseKeysForEMail(data, email) {
       console.log(`WKD: Fetched key: '${candidate.primaryKey.getFingerprint()}'`);
       return candidate.armor();
     }
-    throw new Error("WKD: Failed to parse any matching key from the result (bad server)");
+    throw new Error('WKD: Failed to parse any matching key from the result (bad server)');
   } catch (e) {
     throw new Error(`WKD: Error handling keys: '${e}'`);
   }
@@ -241,7 +241,7 @@ function sizeLimitResponse(response, limit) {
       results.push(new Uint8Array(value));
       if (total > limit) {
         // Example for this can be found as "test-large@testkolab.intevation.de"
-        throw new Error("WKD: Response longer then the max size");
+        throw new Error('WKD: Response longer then the max size');
       }
       return pump();
     });

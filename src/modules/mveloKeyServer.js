@@ -27,7 +27,7 @@ const DEFAULT_URL = 'https://keys.mailvelope.com';
 export async function lookup(email) {
   let jsonKey;
   if (!email) {
-    throw new Error("mveloKeyServer: Skipping lookup without email.");
+    throw new Error('mveloKeyServer: Skipping lookup without email.');
   }
   const response = await window.fetch(url({email}));
   if (response.status === 200) {

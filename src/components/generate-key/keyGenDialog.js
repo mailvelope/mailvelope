@@ -48,7 +48,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     port = mvelo.EventHandler.connect(`keyGenDialog-${qs.id}`);
     registerEventListeners();
 
-    $('body').addClass("secureBackground");
+    $('body').addClass('secureBackground');
 
     mvelo.appendTpl($('body'), mvelo.runtime.getURL('components/generate-key/keyGen.html')).then(() => {
       $secureBgndButton = $('.secureBgndSettingsBtn');

@@ -122,10 +122,10 @@ function init() {
   $('#secBtnCancel').click(onCancel);
   // https://bugzilla.mozilla.org/show_bug.cgi?id=213519
   $('#pwdCacheTime').click(() => false);
-  $('#scaling').on("input", previewSecurityBgnd);
-  $('#angle').on("input", previewSecurityBgnd);
-  $('#whitespace').on("input", previewSecurityBgnd);
-  $('#coloring').on("input", previewSecurityBgnd);
+  $('#scaling').on('input', previewSecurityBgnd);
+  $('#angle').on('input', previewSecurityBgnd);
+  $('#whitespace').on('input', previewSecurityBgnd);
+  $('#coloring').on('input', previewSecurityBgnd);
   getSecurityBgndConfig();
 }
 
@@ -133,9 +133,9 @@ function getSecurityBgndConfig() {
   port.send('get-security-background')
   .then(background => {
     secBackground = background;
-    $("#angle").val(background.angle);
-    $("#scaling").val(background.scaling * 10);
-    $("#coloring").val(background.colorId);
+    $('#angle').val(background.angle);
+    $('#scaling').val(background.scaling * 10);
+    $('#coloring').val(background.colorId);
     previewSecurityBgnd();
   });
 }
@@ -171,9 +171,9 @@ function onSave() {
   if (!validate()) {
     return false;
   }
-  const angel = $("#angle").val();
-  const scaling = ($("#scaling").val() / 10);
-  const coloring = $("#coloring").val();
+  const angel = $('#angle').val();
+  const scaling = ($('#scaling').val() / 10);
+  const coloring = $('#coloring').val();
   const iconColor = mvelo.SECURE_COLORS[coloring];
   const update = {
     security: {

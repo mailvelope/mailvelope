@@ -126,7 +126,7 @@ function getAlgorithmString({algorithm, curve}) {
       result = 'EdDSA (Sign only)';
       break;
     default:
-      result = "UNKNOWN";
+      result = 'UNKNOWN';
   }
   if (curve) {
     result = `${result} - ${curve}`;
@@ -198,7 +198,7 @@ export async function mapUsers(users = [], toKey, keyring, primaryKey) {
             continue;
           }
         } else {
-          sig.signer = l10n("keygrid_signer_unknown");
+          sig.signer = l10n('keygrid_signer_unknown');
         }
         sig.keyId = keyidHex.toUpperCase();
         sig.crDate = otherCert.created.toISOString();

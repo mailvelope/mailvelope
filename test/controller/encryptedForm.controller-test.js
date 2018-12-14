@@ -76,7 +76,7 @@ describe('EncryptForm controller unit tests', () => {
 
   describe('getCleanFormElement', () => {
     it('should throw an exception if no form tag is present', () => {
-      const fails = [`<p>there is no spoon</p>`, 'no spoon'];
+      const fails = ['<p>there is no spoon</p>', 'no spoon'];
       fails.forEach(dirtyHtml => {
         expect(ctrl.getCleanFormElement.bind(ctrl, dirtyHtml)).throws()
         .and.have.property('code', 'NO_FORM');
@@ -84,7 +84,7 @@ describe('EncryptForm controller unit tests', () => {
     });
 
     it('should throw an exception if too many form tags are present', () => {
-      const fails = [`<form></form><form></form>`, `<form></form><form>`];
+      const fails = ['<form></form><form></form>', '<form></form><form>'];
       fails.forEach(dirtyHtml => {
         expect(ctrl.getCleanFormElement.bind(ctrl, dirtyHtml)).throws()
         .and.have.property('code', 'TOO_MANY_FORMS');

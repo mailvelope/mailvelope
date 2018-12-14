@@ -86,8 +86,8 @@ var QRCode = QRCode || null; // eslint-disable-line no-var
       text: backupCode,
       width: 175,
       height: 175,
-      colorDark: "#000000",
-      colorLight: "#ffffff",
+      colorDark: '#000000',
+      colorLight: '#ffffff',
       correctLevel: QRCode.CorrectLevel.H
     });
 

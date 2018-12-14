@@ -70,7 +70,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
       src: `../decrypt-message/decryptMessage.html?id=${id}`,
       css: {
         position: 'absolute',
-        top: "0px",
+        top: '0px',
         left: 0,
         right: 0,
         bottom: 0

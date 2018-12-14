@@ -65,8 +65,8 @@ export function readUploadFile(file, onLoadEnd) {
 export function createFileElement(file, options) {
   options = options || {};
   const $button = $('<div/>', {
-    "title": file.name,
-    "class": 'attachmentButton'
+    'title': file.name,
+    'class': 'attachmentButton'
   });
   $button.data('file', file);
   $button.append(getExtensionIcon(file));
@@ -83,10 +83,10 @@ export function createFileElement(file, options) {
 export function createFileDownloadElement(file, options) {
   options = options || {};
   const $button = $('<a/>', {
-    "title": file.name,
-    "download": file.name,
-    "class": 'attachmentButton',
-    "href": downloadAttachment(file)
+    'title': file.name,
+    'download': file.name,
+    'class': 'attachmentButton',
+    'href': downloadAttachment(file)
   });
   $button.append(getExtensionIcon(file));
   $button.append(getFileName(file));
@@ -115,7 +115,7 @@ function getFileName(file) {
   const fileNameNoExt = extractFileNameWithoutExt(file.name);
 
   return $('<span/>', {
-    "class": 'attachmentFilename'
+    'class': 'attachmentFilename'
   }).text(fileNameNoExt);
 }
 
@@ -126,8 +126,8 @@ function getFileName(file) {
  */
 function getDownloadButton() {
   return $('<span/>', {
-    "title": l10n.map.encrypt_download_file_button,
-    "class": 'glyphicon glyphicon-save saveAttachment'
+    'title': l10n.map.encrypt_download_file_button,
+    'class': 'glyphicon glyphicon-save saveAttachment'
   });
 }
 
@@ -137,9 +137,9 @@ function getDownloadButton() {
  */
 function getRemoveButton(onRemove) {
   return $('<span/>', {
-    "title": l10n.map.editor_remove_upload,
-    "class": 'glyphicon glyphicon-remove removeAttachment'
-  }).on("click", function(e) {
+    'title': l10n.map.editor_remove_upload,
+    'class': 'glyphicon glyphicon-remove removeAttachment'
+  }).on('click', function(e) {
     e.preventDefault();
     if (onRemove) {
       onRemove();
@@ -179,7 +179,7 @@ function getExtensionIcon(file) {
   const extClass = getExtensionClass(fileExt);
 
   return $('<span/>', {
-    "class": `attachmentExtension ${extClass}`
+    'class': `attachmentExtension ${extClass}`
   }).text(fileExt);
 }
 

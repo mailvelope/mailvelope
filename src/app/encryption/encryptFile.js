@@ -580,9 +580,9 @@ function addFileToDownload(file, $panel, options) {
  */
 function getRecipientButton(recipient) {
   const $button = getRemoveForRecipientButton({
-    "title": l10n.map.editor_remove_upload,
-    "data-index": recipient.index,
-    "class": 'glyphicon glyphicon-remove btn-remove'
+    'title': l10n.map.editor_remove_upload,
+    'data-index': recipient.index,
+    'class': 'glyphicon glyphicon-remove btn-remove'
   });
 
   const $icon = getIconForRecipientButton();
@@ -592,9 +592,9 @@ function getRecipientButton(recipient) {
   });
 
   return $('<div/>', {
-    "title": recipient.name,
-    "data-index": recipient.index,
-    "class": 'recipientButton'
+    'title': recipient.name,
+    'data-index': recipient.index,
+    'class': 'recipientButton'
   })
   .append($icon)
   .append($content)
@@ -628,7 +628,7 @@ function getIconForRecipientButton() {
  * @returns {*|jQuery|HTMLElement}
  */
 function getRemoveForRecipientButton(options) {
-  return $('<button/>', options).on("click", onRemoveRecipient);
+  return $('<button/>', options).on('click', onRemoveRecipient);
 }
 
 /**

@@ -51,11 +51,11 @@ function react() {
     {
       test: /\.less$/,
       use: [{
-        loader: "style-loader"
+        loader: 'style-loader'
       }, {
-        loader: "css-loader"
+        loader: 'css-loader'
       }, {
-        loader: "less-loader"
+        loader: 'less-loader'
       }]
     },
     {
@@ -67,7 +67,7 @@ function react() {
 
 function resolve() {
   return {
-    modules: ["node_modules"],
+    modules: ['node_modules'],
   };
 }
 

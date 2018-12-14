@@ -3,7 +3,7 @@ import React from 'react';
 import {expect, sinon, mount} from 'test';
 import mvelo from 'lib/lib-mvelo';
 import * as l10n from 'lib/l10n';
-import Spinner from "components/util/Spinner";
+import Spinner from 'components/util/Spinner';
 import ContentSandbox from 'components/decrypt-message/components/ContentSandbox';
 import SignatureModal from 'components/decrypt-message/components/SignatureModal';
 import DecryptMessage from 'components/decrypt-message/DecryptMessage';

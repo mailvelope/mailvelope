@@ -1,6 +1,6 @@
 export default {
-  "public": {
-    "demo": `
+  'public': {
+    'demo': `
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 
 mI0EVLjbuwEEAL1urQHQ4fDj6RjTz1Z9QNHm1J+GERkDkAPpP9boHnxMNUrI89yR
@@ -20,8 +20,8 @@ eYJNRnVpdrqgu7iU+k7+e4WaiLwHsCoTho+xiEM0ibmIaSG+8ijN
 =aTaf
 -----END PGP PUBLIC KEY BLOCK-----`
   },
-  "secret": {
-    "demo": `
+  'secret': {
+    'demo': `
 -----BEGIN PGP PRIVATE KEY BLOCK-----
 Version: Mailvelope v0.12.0b1
 Comment: https://www.mailvelope.com

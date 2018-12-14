@@ -45,7 +45,7 @@ var mvelo = mvelo || null; // eslint-disable-line no-var
     port = mvelo.EventHandler.connect(`restoreBackupDialog-${qs.id}`);
     registerEventListeners();
 
-    $('body').addClass("secureBackground");
+    $('body').addClass('secureBackground');
 
     mvelo.appendTpl($('body'), mvelo.runtime.getURL('components/restore-backup/restoreBackup.html'))
     .then(() => {
