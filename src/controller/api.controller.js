@@ -69,8 +69,7 @@ export function handleApiEvent(request, sender, sendResponse) {
         .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
         return true;
       case 'process-autocrypt-header':
-        // TODO: what do we do with the keyringId ?
-        ac.processHeader(request.header, request.fromAddr, request.date)
+        ac.processHeader(request.header, request.fromAddr, request.date, request.keyringId)
         .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
         return true;
       case 'set-logo':
