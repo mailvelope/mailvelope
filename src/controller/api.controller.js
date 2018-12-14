@@ -79,9 +79,8 @@ export default class ApiController extends sub.SubController {
     return sub.factory.get('importKeyDialog').importKey(keyringId, armored);
   }
 
-  processAutocryptHeader({header, fromAddr, date}) {
-    // TODO: what do we do with the keyringId ?
-    return ac.processHeader(header, fromAddr, date);
+  processAutocryptHeader({header, fromAddr, date, keyringId}) {
+    return ac.processHeader(header, fromAddr, date, keyringId);
   }
 
   async setLogo({keyringId, dataURL, revision}) {

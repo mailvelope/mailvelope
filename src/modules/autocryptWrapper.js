@@ -12,6 +12,7 @@ export function isEnabled() {
 }
 
 const storage = {};
+
 storage.put = function(key, val, cb) {
   storage[key] = val;
   if (cb) {
