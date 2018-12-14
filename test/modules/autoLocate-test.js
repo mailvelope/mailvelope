@@ -5,16 +5,15 @@ import keyFixtures from 'Fixtures/keys';
 
 describe('Looking up keys from different services', () => {
   describe('with all services disabled', () => {
-    it('should return an empty result', () => {
+    it('should return an empty result', async () => {
       prefs.prefs.keyserver = {
         wkd_lookup: false,
         mvelo_tofu_lookup: false
       };
       expect(autoLocate.isWKDEnabled()).to.be.false;
       expect(autoLocate.isMveloKeyServerEnabled()).to.be.false;
-      return autoLocate.locate({}).then(ret => {
-        expect(ret).to.be.undefined;
-      });
+      const key = await autoLocate.locate({});
+      expect(key).to.be.undefined;
     });
   });
 

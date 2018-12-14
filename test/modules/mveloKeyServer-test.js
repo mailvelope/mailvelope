@@ -12,55 +12,47 @@ describe('Talking to the Mailvelope Key Server', () => {
   });
 
   describe('lookup', () => {
-    it('should query for the key by email', () => {
+    it('should query for the key by email', async () => {
       window.fetch.returns(Promise.resolve({
         status: 404,
         json() { return {}; }
       }));
-      return mveloKeyServer.lookup('test@mailvelope.com')
-      .then(() => {
-        expect(window.fetch.args[0][0]).to.equal('https://keys.mailvelope.com/api/v1/key?email=test%40mailvelope.com');
-      });
+      await mveloKeyServer.lookup('test@mailvelope.com');
+      expect(window.fetch.args[0][0]).to.equal('https://keys.mailvelope.com/api/v1/key?email=test%40mailvelope.com');
     });
 
-    it('should return key on success', () => {
+    it('should return key on success', async () => {
       window.fetch.returns(Promise.resolve({
         status: 200,
         json() { return {publicKeyArmored: keyFixtures.public.demo}; }
       }));
 
-      return mveloKeyServer.lookup('test@mailvelope.com')
-      .then(key => {
-        expect(key).to.include('PGP PUBLIC KEY BLOCK');
-      });
+      const key = await mveloKeyServer.lookup('test@mailvelope.com');
+      expect(key).to.include('PGP PUBLIC KEY BLOCK');
     });
 
-    it('should not return key on 404', () => {
+    it('should not return key on 404', async () => {
       window.fetch.returns(Promise.resolve({
         status: 404,
         json() { return {}; }
       }));
 
-      return mveloKeyServer.lookup('asdf@asdf.de')
-      .then(key => {
-        expect(key).to.not.exist;
-      });
+      const key = await mveloKeyServer.lookup('asdf@asdf.de');
+      expect(key).to.not.exist;
     });
   });
 
   describe('fetch', () => {
-    it('should query for the key by keyId', () => {
+    it('should query for the key by keyId', async () => {
       window.fetch.returns(Promise.resolve({
         status: 404,
         json() { return {}; }
       }));
-      return mveloKeyServer.fetch({keyId: '0123456789ABCDFE'})
-      .then(() => {
-        expect(window.fetch.args[0][0]).to.include('/api/v1/key?keyId=0123456789ABCDFE');
-      });
+      await mveloKeyServer.fetch({keyId: '0123456789ABCDFE'});
+      expect(window.fetch.args[0][0]).to.include('/api/v1/key?keyId=0123456789ABCDFE');
     });
 
-    it('should query for the key by fingerprint', () => {
+    it('should query for the key by fingerprint', async () => {
       window.fetch.returns(Promise.resolve({
         status: 404,
         json() { return {}; }
