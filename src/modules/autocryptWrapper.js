@@ -1,4 +1,5 @@
 import Autocrypt from 'autocrypt';
+import mvelo from '../lib/lib-mvelo';
 
 export const name = 'Autocrypt';
 
@@ -11,25 +12,24 @@ export function isEnabled() {
   return true; // TODO: add configuration setting
 }
 
-const store = {};
-
 function ac(id) {
-  if (!store[id]) {
-    store[id] = {};
-  }
-  const my_store = store[id];
   const storage = {};
 
   storage.put = function(key, val, cb) {
-    my_store[key] = val;
-    if (cb) {
-      cb();
-    }
+    mvelo.storage.set(`mvelo.autocrypt.${id}.${key}`, val)
+    .then(() => {
+      if (cb) {
+        cb();
+      }
+    });
   };
 
   storage.get = function(key, cb) {
     if (cb) {
-      cb(undefined, my_store[key]);
+      mvelo.storage.get(`mvelo.autocrypt.${id}.${key}`)
+      .then(val => {
+        cb(undefined, val);
+      });
     }
   };
 

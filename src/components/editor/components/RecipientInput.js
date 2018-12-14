@@ -104,7 +104,6 @@ export class RecipientInput extends React.Component {
 RecipientInput.propTypes = {
   keys: PropTypes.array,
   recipients: PropTypes.array,
-  autoLocate: PropTypes.bool,
   encryptDisabled: PropTypes.bool,
   onChangeEncryptStatus: PropTypes.func,
   onAutoLocate: PropTypes.func
@@ -146,9 +145,8 @@ export class RecipientInputCtrl {
     // lookup key in local cache
     recipient.key = this.getKey(recipient);
 
-    if (recipient.key || recipient.checkedServer || !_props.autoLocate) {
-      // color tag only if a local key was found, or after server lookup,
-      // or if auto-locate is deactivated
+    if (recipient.key || recipient.checkedServer) {
+      // color tag only if a local key was found, or after server lookup
       this.colorTag(recipient);
       this.checkEncryptStatus();
     } else {

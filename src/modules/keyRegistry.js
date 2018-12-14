@@ -27,6 +27,10 @@ const strategies = [mveloKeyServer, wkd, autocrypt];
 /**
  * Get a verified public key from auto-locate sources by email address.
  *
+ * This checks for all strategies if they are enabled.
+ * If none is enabled it will return fast.
+ * So there is no need to check if the registry is enabled first.
+ *
  * @param {String} email    - The user id's email address
  * @param {String} identity - The id of the keyring that is currently <br/>
  *                             being used.

@@ -79,8 +79,7 @@ export default class EditorController extends sub.SubController {
     recipients = emails.map(e => ({email: e}));
     // get all public keys from required keyrings
     const keys = await getKeyData({keyringId: this.keyringId});
-    const autoLocate = keyRegistry.isEnabled();
-    this.emit('public-key-userids', {keys, recipients, autoLocate});
+    this.emit('public-key-userids', {keys, recipients});
   }
 
   async onEditorOptions(msg) {
