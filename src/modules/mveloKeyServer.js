@@ -29,12 +29,10 @@ export async function lookup(email) {
   if (!email) {
     throw new Error("mveloKeyServer: Skipping lookup without email.");
   }
-
   const response = await window.fetch(url({email}));
   if (response.status === 200) {
     jsonKey = await response.json();
   }
-
   if (!jsonKey) {
     return;
   }
@@ -46,17 +44,15 @@ export async function lookup(email) {
   if (parseResult.err) {
     throw new Error(`mveloKeyServer: Failed to parse response '${jsonKey}': ${parseResult.err}`);
   }
-
   const keys = parseResult.keys;
   if (keys.length !== 1) {
     throw new Error(`mveloKeyServer: Response '${jsonKey}': contained ${keys.length} keys.`);
   }
-
   const filtered = filterUserIdsByEmail(keys[0], email);
+
   if (!filtered.users.length) {
     throw new Error(`mveloKeyServer: Response '${jsonKey}': contained no matching userIds.`);
   }
-
   console.log(`mveloKeyServer: fetched key: '${filtered.primaryKey.getFingerprint()}'`);
   return filtered.armor();
 }

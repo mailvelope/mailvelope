@@ -21,21 +21,20 @@ import {lookup as wkdLookup} from './wkdLocate';
  * @return {String} - if auto-locate is successful the found armored key
  */
 export async function locate(options) {
-  let armored;
-
-  const strategies = [
-    {name: 'Mailvelope Server',
-      isEnabled: isMveloKeyServerEnabled,
-      lookup: mveloKSLookup},
-    {name: 'WKD',
-      isEnabled: isWKDEnabled,
-      lookup: wkdLookup}
-  ];
+  const strategies = [{
+    name: 'Mailvelope Server',
+    isEnabled: isMveloKeyServerEnabled,
+    lookup: mveloKSLookup
+  }, {
+    name: 'WKD',
+    isEnabled: isWKDEnabled,
+    lookup: wkdLookup
+  }];
 
   for (const strategy of strategies) {
     if (strategy.isEnabled()) {
       try {
-        armored = await strategy.lookup(options.email);
+        const armored = await strategy.lookup(options.email);
         if (armored) {
           return armored;
         }
