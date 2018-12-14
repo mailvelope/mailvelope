@@ -1,6 +1,13 @@
 Mailvelope Changelog
 ====================
 
+v3.0.1
+-------
+__Dec 14, 2018__
+
+  * Move native messaging permission in Chrome to optional permissions. Revise OpenPGP backend selection UI.
+  * Update OpenPGP.js to 4.2.2. Add patch to verify ECC keys.
+
 v3.0.0
 -------
 __Dec 11, 2018__
