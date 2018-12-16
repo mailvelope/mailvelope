@@ -1,7 +1,6 @@
 
 import {expect, sinon} from 'test';
 import EditorController from 'controller/editor.controller';
-import * as keyring from 'modules/keyring';
 import * as prefs from 'modules/prefs';
 import {Port} from 'utils';
 
@@ -38,23 +37,20 @@ describe('Editor controller unit tests', () => {
       EditorController.__ResetDependency__('getKeyData');
     });
 
-    it('should handle empty recipients', () => {
+    it('should handle empty recipients', async () => {
       prefs.prefs.keyserver = {
         wkd_lookup: true
       };
-      return ctrl.setRecipientData([]).then(() => {
-        expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: [], autoLocate: true}).calledOnce).to.be.true;
-      });
+      await ctrl.setRecipientData([]);
+      expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: [], autoLocate: true}).calledOnce).to.be.true;
     });
 
-    it('should handle undefined recipients', () => {
+    it('should handle undefined recipients', async () => {
       prefs.prefs.keyserver = {
         wkd_lookup: true
       };
-
-      return ctrl.setRecipientData().then(() => {
-        expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: [], autoLocate: true}).calledOnce).to.be.true;
-      });
+      await ctrl.setRecipientData();
+      expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: [], autoLocate: true}).calledOnce).to.be.true;
     });
   });
 
@@ -115,9 +111,7 @@ describe('Editor controller unit tests', () => {
       return expect(ctrl.signAndEncrypt({
         action: 'encrypt',
         message: 'm'
-      })).to.eventually.be.rejectedWith('MIME building failed').then(() => {
-        EditorController.__ResetDependency__('buildMail');
-      });
+      })).to.eventually.be.rejectedWith('MIME building failed');
     });
   });
 

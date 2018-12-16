@@ -26,7 +26,7 @@ describe('App controller unit tests', () => {
   });
 
   describe('updatePreferences', () => {
-    it('should update preferences', () => {
+    it('should update preferences', async () => {
       const prefUpdate = {
         general: {
           auto_sign_msg: false
@@ -36,9 +36,9 @@ describe('App controller unit tests', () => {
       AppController.__Rewire__('prefs', {
         update
       });
-      return ctrl.updatePreferences({prefs: prefUpdate}).then(() => {
-        expect(update.withArgs(prefUpdate).calledOnce).to.be.true;
-      });
+
+      await ctrl.updatePreferences({prefs: prefUpdate});
+      expect(update.withArgs(prefUpdate).calledOnce).to.be.true;
     });
   });
 });

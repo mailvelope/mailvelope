@@ -63,22 +63,22 @@ describe('Decrypt Message tests', () => {
 
   const signaturesFixture = [
     {
-      "valid": true,
-      "keyDetails": {
-        "name": "Tester",
-        "email": "tester@test.com",
-        "fingerprint": "2CE0 DBDC B17A EA6F 33B0 28C1 F1E7 0322 973D FEDE"
+      'valid': true,
+      'keyDetails': {
+        'name': 'Tester',
+        'email': 'tester@test.com',
+        'fingerprint': '2CE0 DBDC B17A EA6F 33B0 28C1 F1E7 0322 973D FEDE'
       },
-      "keyId": "f1e70322973dfede",
+      'keyId': 'f1e70322973dfede',
     }
   ];
 
   describe('Do some unit tests', () => {
     const attachmentFixture = {
-      "type": "attachment",
-      "content": "data:text/plain;base64,VGhpcyBpcyB0b3Agc2VjcmV0IQ==",
-      "mimeType": "text/plain",
-      "filename": "secret_attachment.txt"
+      'type': 'attachment',
+      'content': 'data:text/plain;base64,VGhpcyBpcyB0b3Agc2VjcmV0IQ==',
+      'mimeType': 'text/plain',
+      'filename': 'secret_attachment.txt'
     };
 
     describe('onDecryptedAttachment', () => {

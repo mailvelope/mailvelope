@@ -92,27 +92,27 @@ describe('Editor tests', () => {
     });
 
     /* test shows side effects and has to be fixed */
-    // it.skip('should call addAttachment for each file upload', () => {
-    //   const {wrapper} = setup();
-    //   const component = wrapper.instance();
-    //   const spy = sandbox.spy(component, 'addAttachment');
+    it.skip('should call addAttachment for each file upload', () => {
+      const {wrapper} = setup();
+      const component = wrapper.instance();
+      const spy = sandbox.spy(component, 'addAttachment');
 
-    //   const files = [
-    //     new Blob(['sampleFile1'], {type: 'text/plain'}),
-    //     new Blob(['sampleFile2'], {type: 'text/plain'})
-    //   ];
+      const files = [
+        new Blob(['sampleFile1'], {type: 'text/plain'}),
+        new Blob(['sampleFile2'], {type: 'text/plain'})
+      ];
 
-    //   // const stub = sandbox.stub(FileReader.prototype, 'readAsDataURL');
-    //   // stub.callsFake(function() {
-    //   //   this.onload({target: {result: files[0]}});
-    //   // });
+      // const stub = sandbox.stub(FileReader.prototype, 'readAsDataURL');
+      // stub.callsFake(function() {
+      //   this.onload({target: {result: files[0]}});
+      // });
 
-    //   const footer = wrapper.find(EditorFooter);
-    //   footer.find('input').simulate('change', {target: {files}});
+      const footer = wrapper.find(EditorFooter);
+      footer.find('input').simulate('change', {target: {files}});
 
-    //   expect(spy.calledTwice).to.equal(true);
-    //   expect(spy.withArgs(files[0]).calledWith(files[1])).to.equal(true);
-    // });
+      expect(spy.calledTwice).to.equal(true);
+      expect(spy.withArgs(files[0]).calledWith(files[1])).to.equal(true);
+    });
   });
 });
 

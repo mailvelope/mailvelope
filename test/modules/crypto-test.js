@@ -17,15 +17,14 @@ describe('Crypto unit test', () => {
   });
 
   describe('symEncrypt', () => {
-    it('should encrypt the message symmetrically using given passphrase', () => {
+    it('should encrypt the message symmetrically using given passphrase', async () => {
       const msgText = 'This is a test message!';
       const msg = openpgp.message.fromText(msgText);
       const passphrase = 'p0kjb42gm1o76g5t2kdm3mejlo';
-      return symEncrypt(msg, passphrase).then(async message => {
-        message = await message.decrypt(null, [passphrase]);
-        const messageText = await openpgp.stream.readToEnd(message.getText());
-        expect(messageText).to.equal(msgText);
-      });
+      const encMessage = await symEncrypt(msg, passphrase);
+      const message = await encMessage.decrypt(null, [passphrase]);
+      const messageText = await openpgp.stream.readToEnd(message.getText());
+      expect(messageText).to.equal(msgText);
     });
   });
 

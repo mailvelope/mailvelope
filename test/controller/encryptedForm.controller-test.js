@@ -1,9 +1,6 @@
 import {expect, sinon} from 'test';
 import {Port} from 'utils';
 import EncryptedFormController from 'controller/encryptedForm.controller';
-import * as keyring from 'modules/keyring';
-// import keyFixtures from '../fixtures/keys';
-// import * as openpgp from "openpgp";
 
 describe('EncryptForm controller unit tests', () => {
   const sandbox = sinon.createSandbox();
@@ -217,15 +214,5 @@ describe('EncryptForm controller unit tests', () => {
       ctrl.keyringId = 'nope';
       return expect(ctrl.signAndEncrypt('test')).to.eventually.be.rejectedWith().and.have.property('code', 'NO_DEFAULT_KEY_FOUND');
     });
-
-    // it('should encrypt if all params are set properly', () => {
-    //   const demoKey = openpgp.key.readArmored(keyFixtures.secret.demo);
-    //   keyRingMock.getPrimaryKey.returns(demoKey);
-    //   ctrl.signAndEncrypt('test').then(data => {
-    //     console.log(data);
-    //   }).catch(error => {
-    //     console.log(error);
-    //   });
-    // });
   });
 });

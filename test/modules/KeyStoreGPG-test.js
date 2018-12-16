@@ -36,21 +36,19 @@ describe('KeyStoreGPG unit tests', () => {
   });
 
   describe('load', () => {
-    it('should load public and private keys', () =>
-      keyStore.load().then(() => {
-        expect(keyStore.publicKeys.keys.length).to.equal(1);
-        expect(keyStore.privateKeys.keys.length).to.equal(2);
-        expect(keyStore.defaultKeyFpr).to.equal('771f9119b823e06c0de306d466663688a83e9763');
-      })
-    );
+    it('should load public and private keys', async () => {
+      await keyStore.load();
+      expect(keyStore.publicKeys.keys.length).to.equal(1);
+      expect(keyStore.privateKeys.keys.length).to.equal(2);
+      expect(keyStore.defaultKeyFpr).to.equal('771f9119b823e06c0de306d466663688a83e9763');
+    });
   });
 
   describe('generateKey', () => {
-    it('should Generate a new PGP keypair', () =>
-      keyStore.generateKey({algo: '', userIds: [], expires: 0}).then(key => {
-        expect(key.key.isPrivate()).to.be.true;
-        expect(key.key.isPublic()).to.be.false;
-      })
-    );
+    it('should Generate a new PGP keypair', async () => {
+      const key = await keyStore.generateKey({algo: '', userIds: [], expires: 0});
+      expect(key.key.isPrivate()).to.be.true;
+      expect(key.key.isPublic()).to.be.false;
+    });
   });
 });

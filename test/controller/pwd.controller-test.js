@@ -26,7 +26,7 @@ describe('Password controller unit tests', () => {
   });
 
   describe('onPwdDialogInit', () => {
-    it('should pass over keyId and userId to dialog', () => {
+    it('should pass over keyId and userId to dialog', async () => {
       prefs.security = {
         password_cache: '123'
       };
@@ -45,9 +45,8 @@ describe('Password controller unit tests', () => {
         }
       };
       PwdController.__Rewire__('getUserId', () => Promise.resolve('123'));
-      return ctrl.onPwdDialogInit().then(() => {
-        expect(emitStub.withArgs('set-init-data', {userId: '123', keyId: 'ASDF', cache: '123', reason: 'test'}).calledOnce).to.be.true;
-      });
+      await ctrl.onPwdDialogInit();
+      expect(emitStub.withArgs('set-init-data', {userId: '123', keyId: 'ASDF', cache: '123', reason: 'test'}).calledOnce).to.be.true;
     });
   });
 });

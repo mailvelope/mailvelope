@@ -22,7 +22,7 @@ describe('Gnupg unit test', () => {
       });
     });
 
-    it('should return decrypted message (binary) and signatures', () => {
+    it('should return decrypted message (binary) and signatures', async () => {
       const binaryMsg = window.btoa(msg);
       decryptStub.returns(Promise.resolve(
         {
@@ -71,20 +71,19 @@ describe('Gnupg unit test', () => {
           format: 'base64'
         }
       ));
-      return decrypt({armored: '', format: 'binary'}).then(result => {
-        expect(decryptStub.calledOnce).to.be.true;
-        const {data, signatures} = result;
-        expect(data).to.equal(msg);
-        expect(signatures).to.have.deep.members([
-          {valid: true, fingerprint: '2ce0dbdcb17aea6f33b028c1f1e70322973dfede'},
-          {valid: true, keyId: 'f1e70322973dfede'},
-          {valid: null, fingerprint: '2ce0dbdcb17aea6f33b028c1f1e70322973dhs34'},
-          {valid: true, fingerprint: '2ce0dbdcb17aea6f33b028c1f1e70322973d7fg2'},
-          {valid: false, fingerprint: '2ce0dbdcb17aea6f33b028c1f1e70322973ddel5'}
-        ]);
-      });
+      const result = await decrypt({armored: '', format: 'binary'});
+      expect(decryptStub.calledOnce).to.be.true;
+      const {data, signatures} = result;
+      expect(data).to.equal(msg);
+      expect(signatures).to.have.deep.members([
+        {valid: true, fingerprint: '2ce0dbdcb17aea6f33b028c1f1e70322973dfede'},
+        {valid: true, keyId: 'f1e70322973dfede'},
+        {valid: null, fingerprint: '2ce0dbdcb17aea6f33b028c1f1e70322973dhs34'},
+        {valid: true, fingerprint: '2ce0dbdcb17aea6f33b028c1f1e70322973d7fg2'},
+        {valid: false, fingerprint: '2ce0dbdcb17aea6f33b028c1f1e70322973ddel5'}
+      ]);
     });
-    it('should return decrypted message and signatures', () => {
+    it('should return decrypted message and signatures', async () => {
       decryptStub.returns(Promise.resolve(
         {
           data: msg,
@@ -92,10 +91,9 @@ describe('Gnupg unit test', () => {
           format: ''
         }
       ));
-      return decrypt({armored: '', format: 'binary'}).then(result => {
-        expect(decryptStub.calledOnce).to.be.true;
-        expect(result.data).to.equal(msg);
-      });
+      const result = await decrypt({armored: '', format: 'binary'});
+      expect(decryptStub.calledOnce).to.be.true;
+      expect(result.data).to.equal(msg);
     });
   });
 
@@ -109,7 +107,7 @@ describe('Gnupg unit test', () => {
       });
     });
 
-    it('should return encrypted message (binary)', () => {
+    it('should return encrypted message (binary)', async () => {
       const binaryMsg = window.btoa(msg);
       encryptStub.returns(Promise.resolve(
         {
@@ -117,22 +115,20 @@ describe('Gnupg unit test', () => {
           format: 'base64'
         }
       ));
-      return encrypt({data: '', dataURL: 'abc', encryptionKeyFprs: [], signingKeyFpr: [], armor: '', filename: ''}).then(result => {
-        expect(encryptStub.calledOnce).to.be.true;
-        expect(result).to.equal(msg);
-      });
+      const result = await encrypt({data: '', dataURL: 'abc', encryptionKeyFprs: [], signingKeyFpr: [], armor: '', filename: ''});
+      expect(encryptStub.calledOnce).to.be.true;
+      expect(result).to.equal(msg);
     });
-    it('should return encrypted message', () => {
+    it('should return encrypted message', async () => {
       encryptStub.returns(Promise.resolve(
         {
           data: msg,
           format: ''
         }
       ));
-      return encrypt({data: '', dataURL: 'abc', encryptionKeyFprs: [], signingKeyFpr: [], armor: '', filename: ''}).then(result => {
-        expect(encryptStub.calledOnce).to.be.true;
-        expect(result).to.equal(msg);
-      });
+      const result = await encrypt({data: '', dataURL: 'abc', encryptionKeyFprs: [], signingKeyFpr: [], armor: '', filename: ''});
+      expect(encryptStub.calledOnce).to.be.true;
+      expect(result).to.equal(msg);
     });
     it('should throw an error', () => {
       encryptStub.throws({code:  'GNUPG_ERROR', message: 'Unusable public key'});

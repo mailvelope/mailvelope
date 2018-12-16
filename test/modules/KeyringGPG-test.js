@@ -7,12 +7,12 @@ import KeyStoreGPG from 'modules/KeyStoreGPG';
 import testKeys from 'Fixtures/keys/madita_bernstein_john_doe_gordon_freeman_pub.asc';
 
 describe('KeyringGPG unit tests', () => {
-  const sandbox = sinon.createSandbox();  
+  const sandbox = sinon.createSandbox();
   const keyringId = mvelo.GNUPG_KEYRING_ID;
   let keyRing;
   let keyStore;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     KeyStoreGPG.__Rewire__('gpgme', {
       Keyring: {
         getKeysArmored() {
@@ -32,13 +32,13 @@ describe('KeyringGPG unit tests', () => {
   });
 
   afterEach(() => {
-    sandbox.restore();    
+    sandbox.restore();
     /* eslint-disable-next-line no-undef */
     __rewire_reset_all__();
   });
 
   describe('getDefaultKey', () => {
-    it('should get default key', async() => {
+    it('should get default key', async () => {
       const defaultKey = await keyRing.getDefaultKey();
       expect(defaultKey.getFingerprint()).to.equal('771f9119b823e06c0de306d466663688a83e9763');
     });
@@ -64,12 +64,12 @@ describe('KeyringGPG unit tests', () => {
       addPublicKeysSpy = sandbox.stub(keyStore, 'addPublicKeys').returns(Promise.resolve());
     });
 
-    it('should import key from armored', async() => {
+    it('should import key from armored', async () => {
       const result = await keyRing.importKeys([{armored: 'test321', type: ''}]);
       expect(result[0]).to.deep.equal({type: 'success', message: 'key_import_public_success'});
       expect(addPublicKeysSpy.withArgs(['test123']).calledOnce).to.be.true;
     });
-    it('should show error in result', async() => {
+    it('should show error in result', async () => {
       considered = 2;
       const result = await keyRing.importKeys([{armored: 'test321', type: ''}]);
       expect(result[0]).to.deep.equal({type: 'success', message: 'key_import_public_success'});

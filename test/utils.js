@@ -26,18 +26,9 @@ export class LocalStorageStub {
     this.set(`${this.prefix}.attributes`, {});
   }
 
-  async importKeys(keyRingId, {public: pub, private: pri}) {
-    const publicKeys = [];
-    for (const keyName of Object.keys(pub)) {
-      publicKeys.push(pub[keyName]);
-    }
-    await this.set(`${this.prefix}.${keyRingId}.publicKeys`, publicKeys);
-
-    const privateKeys = [];
-    for (const keyName of Object.keys(pri)) {
-      privateKeys.push(pri[keyName]);
-    }
-    await this.set(`${this.prefix}.${keyRingId}.privateKeys`, privateKeys);
+  async importKeys(keyRingId, {public: pub, private: prv}) {
+    await this.set(`${this.prefix}.${keyRingId}.publicKeys`, pub);
+    await this.set(`${this.prefix}.${keyRingId}.privateKeys`, prv);
   }
 
   async importAttributes(keyRingId, attrs) {

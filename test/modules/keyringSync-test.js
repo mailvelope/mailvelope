@@ -3,19 +3,19 @@ import {LocalStorageStub} from 'utils';
 import {init as initKeyringAttrMap, getById as getKeryingById, getKeyringAttr, __RewireAPI__ as keyringRewireAPI} from 'modules/keyring';
 import KeyStoreLocal from 'modules/KeyStoreLocal';
 import {INSERT, DELETE, UPDATE} from 'modules/keyringSync';
-import testKeys, {init as initTestKeys} from 'Fixtures/keys';
+import testKeys from 'Fixtures/keys';
 
 describe('keyringSync unit tests', () => {
   const keyringId = 'test123';
   let storage;
   let sync;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     const keyringAttributes = {
       default_key: '771f9119b823e06c0de306d466663688a83e9763'
     };
     storage = new LocalStorageStub();
-    await storage.importKeys(keyringId, testKeys);
+    await storage.importKeys(keyringId, {public: [testKeys.api_test_pub, testKeys.maditab_pub], private: [testKeys.api_test_prv, testKeys.maditab_prv]});
     await storage.importAttributes(keyringId, keyringAttributes);
     KeyStoreLocal.__Rewire__('mvelo', {
       storage
@@ -29,7 +29,6 @@ describe('keyringSync unit tests', () => {
   });
 
   afterEach(() => {
-    initTestKeys(['demo_pub', 'demo_prv', 'maditab_pub', 'maditab_prv']);
     /* eslint-disable-next-line no-undef */
     __rewire_reset_all__();
   });
@@ -59,7 +58,7 @@ describe('keyringSync unit tests', () => {
   });
 
   describe('save', () => {
-    it('should set sync data', async() => {
+    it('should set sync data', async () => {
       expect(storage.storage.get('mvelo.keyring.attributes').test123.sync_data).to.be.undefined;
       sync.data = {test: 'abc'};
       await sync.save();

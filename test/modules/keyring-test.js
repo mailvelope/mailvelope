@@ -3,26 +3,27 @@ import {LocalStorageStub} from 'utils';
 import mvelo from 'lib/lib-mvelo';
 import {init, createKeyring, deleteKeyring, getAll, getById, getAllKeyringAttr, getKeyringAttr, setKeyringAttr, getKeyData, getKeyByAddress, getKeyringWithPrivKey, getPreferredKeyring, syncPublicKeys, __RewireAPI__ as keyringRewireAPI} from 'modules/keyring';
 import KeyStoreLocal from 'modules/KeyStoreLocal';
-import testKeys, {init as initTestKeys} from 'Fixtures/keys';
+import testKeys from 'Fixtures/keys';
 
 describe('keyring unit tests', () => {
   let storage;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     const keyringIds = [mvelo.MAIN_KEYRING_ID, 'test123'];
     let keyringAttributes;
     storage = new LocalStorageStub();
     for (const keyringId of keyringIds) {
+      let storedTestKeys;
       if (keyringId === mvelo.MAIN_KEYRING_ID) {
-        initTestKeys(['maditab_prv', 'maxp_pub']);
+        storedTestKeys = {public: [testKeys.maxp_pub], private: [testKeys.maditab_prv]};
         keyringAttributes = {
           default_key: '771f9119b823e06c0de306d466663688a83e9763'
         };
       } else {
-        initTestKeys(['johnd_prv', 'gordonf_pub']);
+        storedTestKeys = {public: [testKeys.gordonf_pub], private: [testKeys.johnd_prv]};
         keyringAttributes = {};
       }
-      await storage.importKeys(keyringId, testKeys);
+      await storage.importKeys(keyringId, storedTestKeys);
       await storage.importAttributes(keyringId, keyringAttributes);
     }
     KeyStoreLocal.__Rewire__('mvelo', {
@@ -45,7 +46,7 @@ describe('keyring unit tests', () => {
   });
 
   describe('createKeyring', () => {
-    it('should create a new keyring and initialize keyring attributes', async() => {
+    it('should create a new keyring and initialize keyring attributes', async () => {
       const newKeyringId = 'testABC';
       const newKeyring = await createKeyring(newKeyringId);
       expect(newKeyring.id).to.equal(newKeyringId);
@@ -57,7 +58,7 @@ describe('keyring unit tests', () => {
   });
 
   describe('deleteKeyring', () => {
-    it('Should delete keyring, all keys and keyring attributes', async() => {
+    it('Should delete keyring, all keys and keyring attributes', async () => {
       expect(getById('testABC')).to.not.throw;
       return expect(deleteKeyring('testABC')).to.eventually.throw;
     });
@@ -83,7 +84,7 @@ describe('keyring unit tests', () => {
   });
 
   describe('setKeyringAttr', () => {
-    it('Should set keyring attributes', async() => {
+    it('Should set keyring attributes', async () => {
       await setKeyringAttr('test123', {
         default_key: '123456789'
       });
@@ -94,7 +95,7 @@ describe('keyring unit tests', () => {
   });
 
   describe('getKeyData', () => {
-    it('Should get user id, key id, fingerprint, email and name for all keys in the preferred keyring queue', async() => {
+    it('Should get user id, key id, fingerprint, email and name for all keys in the preferred keyring queue', async () => {
       const keyData = await getKeyData(mvelo.MAIN_KEYRING_ID);
       expect(keyData.length).to.equal(5);
       expect(keyData.some(({name}) => name === 'Madita Bernstone'));
@@ -102,7 +103,7 @@ describe('keyring unit tests', () => {
   });
 
   describe('getKeyByAddress', () => {
-    it('Should query keys in all keyrings by email address', async() => {
+    it('Should query keys in all keyrings by email address', async () => {
       const keysByAddress = await getKeyByAddress('test123', ['gordon.freeman@gmail.com', 'j.doe@gmail.com']);
       for (const address of Object.keys(keysByAddress)) {
         expect(keysByAddress[address]).to.not.equal(false);
@@ -125,12 +126,11 @@ describe('keyring unit tests', () => {
   });
 
   describe('syncPublicKeys', () => {
-    it('Should synchronize public keys across keyrings', () =>
-      syncPublicKeys({keyringId: 'test123', keyIds: ['a9b65c80d7b21a26']}).then(async() => {
-        const destKeyring = getById('test123');
-        const targetKey = await destKeyring.getKeyByAddress('max@mailvelope.com');
-        expect(targetKey['max@mailvelope.com']).to.not.be.false;
-      })
-    );
+    it('Should synchronize public keys across keyrings', async () => {
+      await syncPublicKeys({keyringId: 'test123', keyIds: ['a9b65c80d7b21a26']});
+      const destKeyring = getById('test123');
+      const targetKey = await destKeyring.getKeyByAddress('max@mailvelope.com');
+      expect(targetKey['max@mailvelope.com']).to.not.be.false;
+    });
   });
 });

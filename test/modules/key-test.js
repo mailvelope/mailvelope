@@ -7,8 +7,8 @@ describe('Key unit test', () => {
   describe('getUserId', () => {
     let key;
 
-    beforeEach(async() => {
-      ({keys: [key]} = await openpgp.key.readArmored(testKeys.public.maditab));
+    beforeEach(async () => {
+      ({keys: [key]} = await openpgp.key.readArmored(testKeys.maditab_pub));
     });
 
     it('should return primary or first available user id of key', () =>
@@ -64,71 +64,68 @@ describe('Key unit test', () => {
   });
 
   describe('mapKeys', () => {
-    it('should map keys', async() => {
+    it('should map keys', async () => {
       const keys = [];
-      const keyTypes = Object.keys(testKeys);
-      for (const keyType of keyTypes) {
-        const {keys: [key]} = await openpgp.key.readArmored(testKeys[keyType].maditab);
+      const armoredKeys = [testKeys.maditab_pub, testKeys.maditab_prv];
+      for (const armoredKey of armoredKeys) {
+        const {keys: [key]} = await openpgp.key.readArmored(armoredKey);
         keys.push(key);
       }
-      return mapKeys(keys).then(result => {
-        expect(result.length).to.equal(2);
-        expect(result[0].type).to.equal('public');
-        expect(result[1].type).to.equal('private');
-        result.forEach(key => {
-          expect(key.validity).to.equal(true);
-          expect(key.name).to.equal('Madita Bernstein');
-          expect(key.email).to.equal('madita.bernstein@gmail.com');
-          expect(key.userId).to.equal('Madita Bernstein <madita.bernstein@gmail.com>');
-          expect(key.exDate).to.equal('2022-11-26T13:08:45.000Z');
-          expect(key.fingerprint).to.equal('771f9119b823e06c0de306d466663688a83e9763');
-          expect(key.algorithm).to.equal('RSA (Encrypt or Sign)');
-          expect(key.bitLength).to.equal(4096);
-        });
+      const result = await  mapKeys(keys);
+      expect(result.length).to.equal(2);
+      expect(result[0].type).to.equal('public');
+      expect(result[1].type).to.equal('private');
+      result.forEach(key => {
+        expect(key.validity).to.equal(true);
+        expect(key.name).to.equal('Madita Bernstein');
+        expect(key.email).to.equal('madita.bernstein@gmail.com');
+        expect(key.userId).to.equal('Madita Bernstein <madita.bernstein@gmail.com>');
+        expect(key.exDate).to.equal('2022-11-26T13:08:45.000Z');
+        expect(key.fingerprint).to.equal('771f9119b823e06c0de306d466663688a83e9763');
+        expect(key.algorithm).to.equal('RSA (Encrypt or Sign)');
+        expect(key.bitLength).to.equal(4096);
       });
     });
   });
 
   describe('mapSubKeys', () => {
-    it('should map subkeys', async() => {
-      const {keys: [{primaryKey, subKeys}]} = await openpgp.key.readArmored(testKeys.public.maditab);
+    it('should map subkeys', async () => {
+      const {keys: [{primaryKey, subKeys}]} = await openpgp.key.readArmored(testKeys.maditab_pub);
       const mapped = {};
-      return mapSubKeys(subKeys, mapped, primaryKey).then(() => {
-        const {subkeys} = mapped;
-        expect(subkeys.length).to.equal(4);
-        const subkey = subkeys.find(({keyId}) => keyId === 'A9C26FF01F6F59E2');
-        expect(subkey).not.to.equal(undefined);
-        if (subkey) {
-          expect(subkey.algorithm).to.equal('RSA (Encrypt or Sign)');
-          expect(subkey.bitLength).to.equal(3072);
-          expect(subkey.fingerprint).to.equal('ef4d0286504c2a77e6e05d0da9c26ff01f6f59e2');
-          expect(subkey.exDate).to.equal('2021-11-26T14:16:09.000Z');
-        }
-      });
+      await mapSubKeys(subKeys, mapped, primaryKey);
+      const {subkeys: mappedSubkeys} = mapped;
+      expect(mappedSubkeys.length).to.equal(4);
+      const subkey = mappedSubkeys.find(({keyId}) => keyId === 'A9C26FF01F6F59E2');
+      expect(subkey).not.to.equal(undefined);
+      if (subkey) {
+        expect(subkey.algorithm).to.equal('RSA (Encrypt or Sign)');
+        expect(subkey.bitLength).to.equal(3072);
+        expect(subkey.fingerprint).to.equal('ef4d0286504c2a77e6e05d0da9c26ff01f6f59e2');
+        expect(subkey.exDate).to.equal('2021-11-26T14:16:09.000Z');
+      }
     });
   });
 
   describe('mapUsers', () => {
-    it('should map users', async() => {
-      const {keys: [{primaryKey, users}]} = await openpgp.key.readArmored(testKeys.public.maditab);
+    it('should map users', async () => {
+      const {keys: [{primaryKey, users}]} = await openpgp.key.readArmored(testKeys.maditab_pub);
       const mapped = {};
-      return mapUsers(users, mapped, {}, primaryKey).then(() => {
-        const {users} = mapped;
-        expect(users.length).to.equal(2);
-        expect(users[0].signatures[0].crDate).to.equal('2018-11-26T13:17:37.000Z');
-        expect(users[1].userId).to.equal('Madita Bernstone <madita@mailvelope.com>');
-        users.forEach(user => {
-          expect(user).to.have.property('signatures');
-          expect(user.signatures[0].keyId).to.equal('66663688A83E9763');
-        });
+      await mapUsers(users, mapped, {}, primaryKey);
+      const {users: mappedUsers} = mapped;
+      expect(mappedUsers.length).to.equal(2);
+      expect(mappedUsers[0].signatures[0].crDate).to.equal('2018-11-26T13:17:37.000Z');
+      expect(mappedUsers[1].userId).to.equal('Madita Bernstone <madita@mailvelope.com>');
+      mappedUsers.forEach(user => {
+        expect(user).to.have.property('signatures');
+        expect(user.signatures[0].keyId).to.equal('66663688A83E9763');
       });
     });
   });
 
   describe('verifyUserCertificate', () => {
-    it('should verify user certificate', async() => {
-      const {keys: [{primaryKey, users}]} = await openpgp.key.readArmored(testKeys.public.maditab);
-      return Promise.all([
+    it('should verify user certificate', async () => {
+      const {keys: [{primaryKey, users}]} = await openpgp.key.readArmored(testKeys.maditab_pub);
+      await Promise.all([
         expect(verifyUserCertificate(users[0], primaryKey, users[0].selfCertifications[0])).to.eventually.equal(openpgp.enums.keyStatus.valid),
         expect(verifyUserCertificate(users[1], primaryKey, users[1].selfCertifications[0])).to.eventually.equal(openpgp.enums.keyStatus.valid),
         expect(verifyUserCertificate(users[2], primaryKey, users[2].selfCertifications[0])).to.eventually.equal(openpgp.enums.keyStatus.revoked)
@@ -207,8 +204,8 @@ describe('Key unit test', () => {
   });
 
   describe('getLastModifiedDate', () => {
-    it('should return the most recent created date field', async() => {
-      const {keys: [key]} = await openpgp.key.readArmored(testKeys.public.maditab);
+    it('should return the most recent created date field', async () => {
+      const {keys: [key]} = await openpgp.key.readArmored(testKeys.maditab_pub);
       const lastModDate = new Date(getLastModifiedDate(key));
       expect(lastModDate.toISOString()).to.equal('2018-11-26T13:19:55.000Z');
       const expDateString = `${lastModDate.getUTCDate()}.${(lastModDate.getUTCMonth() + 1)}.${lastModDate.getUTCFullYear()} ${lastModDate.getUTCHours()}:${lastModDate.getUTCMinutes()}:${lastModDate.getUTCSeconds()}`;
@@ -217,16 +214,16 @@ describe('Key unit test', () => {
   });
 
   describe('equalKey', () => {
-    it('should return true', async() => {
-      const {keys: [key1]} = await openpgp.key.readArmored(testKeys.public.maditab);
-      const {keys: [key2]} = await openpgp.key.readArmored(testKeys.public.maditab);
+    it('should return true', async () => {
+      const {keys: [key1]} = await openpgp.key.readArmored(testKeys.maditab_pub);
+      const {keys: [key2]} = await openpgp.key.readArmored(testKeys.maditab_pub);
       expect(equalKey(key1, key2)).to.be.true;
     });
   });
 
   describe('toPublic', () => {
-    it('should return public key from private key', async() => {
-      const {keys: [privateKey]} = await openpgp.key.readArmored(testKeys.private.maditab);
+    it('should return public key from private key', async () => {
+      const {keys: [privateKey]} = await openpgp.key.readArmored(testKeys.maditab_prv);
       expect(privateKey.isPublic()).to.be.false;
       const publicKey = toPublic(privateKey);
       expect(publicKey.isPublic()).to.be.true;
@@ -234,8 +231,8 @@ describe('Key unit test', () => {
   });
 
   describe('filterUserIdsByEmail', () => {
-    it('should return public key from private key', async() => {
-      const {keys: [key]} = await openpgp.key.readArmored(testKeys.public.maditab);
+    it('should return public key from private key', async () => {
+      const {keys: [key]} = await openpgp.key.readArmored(testKeys.maditab_pub);
       const {users} = filterUserIdsByEmail(key, 'madita@mailvelope.com');
       expect(users.length).to.equal(1);
       expect(users[0].userId.name).to.equal('Madita Bernstone');

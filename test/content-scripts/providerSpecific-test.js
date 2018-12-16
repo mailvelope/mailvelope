@@ -48,12 +48,10 @@ describe('Provider specific content-script unit tests', () => {
         defMod.getRecipients();
       });
 
-      it('should work for undefined', () => {
+      it('should work for undefined', async () => {
         defMod.setRecipients({});
-        return defMod.getRecipients()
-        .then(recipients => {
-          expect(recipients.length).to.equal(0);
-        });
+        const recipients = await defMod.getRecipients();
+        expect(recipients.length).to.equal(0);
       });
     });
 
@@ -64,10 +62,9 @@ describe('Provider specific content-script unit tests', () => {
     });
 
     describe('getSender', () => {
-      it('should work', () => defMod.getSender()
-      .then(sender => {
-        expect(sender).to.deep.equal([]);
-      }));
+      it('should work', () =>
+        expect(defMod.getSender()).to.eventually.deep.equal([])
+      );
     });
   });
 
@@ -80,26 +77,22 @@ describe('Provider specific content-script unit tests', () => {
     });
 
     describe('getRecipients', () => {
-      it('should work', () => {
+      it('should work', async () => {
         testElem.append('<div class="vR"><span email="test1@example.com"><div class="vT">Test User</div></span></div>');
         testElem.append('<div class="oL aDm"><span email="test2@example.com"><div class="vT">Test User</div></span></div>');
 
-        return gmail.getRecipients()
-        .then(recipients => {
-          expect(recipients.length).to.equal(2);
-          expect(recipients[0].email).to.equal('test1@example.com');
-          expect(recipients[1].email).to.equal('test2@example.com');
-        });
+        const recipients = await gmail.getRecipients();
+        expect(recipients.length).to.equal(2);
+        expect(recipients[0].email).to.equal('test1@example.com');
+        expect(recipients[1].email).to.equal('test2@example.com');
       });
 
-      it('should work for long TLD', () => {
+      it('should work for long TLD', async () => {
         testElem.append('<div class="vR"><span email="test1@example.software"><div class="vT">Test User</div></span></div>');
 
-        return gmail.getRecipients()
-        .then(recipients => {
-          expect(recipients.length).to.equal(1);
-          expect(recipients[0].email).to.equal('test1@example.software');
-        });
+        const recipients = await gmail.getRecipients();
+        expect(recipients.length).to.equal(1);
+        expect(recipients[0].email).to.equal('test1@example.software');
       });
     });
 
@@ -140,22 +133,18 @@ describe('Provider specific content-script unit tests', () => {
         }, 10);
       });
 
-      it('should work for undefined', () => {
+      it('should work for undefined', async () => {
         gmail.setRecipients({});
-        return gmail.getRecipients()
-        .then(recipients => {
-          expect(recipients.length).to.equal(0);
-        });
+        const recipients = await gmail.getRecipients();
+        expect(recipients.length).to.equal(0);
       });
 
-      it('should not inject script', () => {
+      it('should not inject script', async () => {
         const toSet = [{email: '<script>alert("xss")</script>'}];
 
         gmail.setRecipients({recipients: toSet});
-        return gmail.getRecipients()
-        .then(recipients => {
-          expect(recipients.length).to.equal(0);
-        });
+        const recipients = await gmail.getRecipients();
+        expect(recipients.length).to.equal(0);
       });
     });
   });
