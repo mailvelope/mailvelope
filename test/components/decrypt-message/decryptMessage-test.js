@@ -7,8 +7,6 @@ import Spinner from 'components/util/Spinner';
 import ContentSandbox from 'components/decrypt-message/components/ContentSandbox';
 import SignatureModal from 'components/decrypt-message/components/SignatureModal';
 import DecryptMessage from 'components/decrypt-message/DecryptMessage';
-import attachmentFixture from 'Fixtures/attachment';
-import signaturesFixture from 'Fixtures/signatures';
 
 l10n.mapToLocal();
 
@@ -63,7 +61,26 @@ describe('Decrypt Message tests', () => {
     expect(wrapper.exists()).to.equal(true);
   });
 
+  const signaturesFixture = [
+    {
+      'valid': true,
+      'keyDetails': {
+        'name': 'Tester',
+        'email': 'tester@test.com',
+        'fingerprint': '2CE0 DBDC B17A EA6F 33B0 28C1 F1E7 0322 973D FEDE'
+      },
+      'keyId': 'f1e70322973dfede',
+    }
+  ];
+
   describe('Do some unit tests', () => {
+    const attachmentFixture = {
+      'type': 'attachment',
+      'content': 'data:text/plain;base64,VGhpcyBpcyB0b3Agc2VjcmV0IQ==',
+      'mimeType': 'text/plain',
+      'filename': 'secret_attachment.txt'
+    };
+
     describe('onDecryptedAttachment', () => {
       it('should work', () => {
         const {wrapper} = setup();

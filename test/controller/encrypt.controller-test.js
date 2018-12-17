@@ -32,23 +32,19 @@ describe('Encrypt controller unit tests', () => {
   });
 
   describe('openEditor', () => {
-    it('should work for editor type plain', () => {
+    it('should work for editor type plain', async () => {
       editorCtrlMock.encrypt.returns(Promise.resolve({armored: 'armored', recipients: testRecipients}));
       prefs.general = {
         editor_type: 'plain'
       };
-      return ctrl.onEncryptFrameDisplayEditor({text: 'foo'})
-      .then(() => {
-        expect(ctrl.emit.withArgs('set-editor-output', {text: 'armored', recipients: testRecipients}).calledOnce).to.be.true;
-      });
+      await ctrl.onEncryptFrameDisplayEditor({text: 'foo'});
+      expect(ctrl.emit.withArgs('set-editor-output', {text: 'armored', recipients: testRecipients}).calledOnce).to.be.true;
     });
 
-    it('should stop on error', () => {
-      editorCtrlMock.encrypt.returns(Promise.reject(new Error('foo')));
-      return ctrl.onEncryptFrameDisplayEditor({text: 'foo'})
-      .catch(() => {
-        expect(ctrl.emit.withArgs('mail-editor-close').calledOnce).to.be.true;
-      });
+    it('should stop on error', async () => {
+      editorCtrlMock.encrypt.returns(Promise.reject(new mvelo.Error('foo', 'EDITOR_DIALOG_CANCEL')));
+      await ctrl.onEncryptFrameDisplayEditor({text: 'foo'});
+      expect(ctrl.emit.withArgs('mail-editor-close').calledOnce).to.be.true;
     });
   });
 
@@ -60,31 +56,6 @@ describe('Encrypt controller unit tests', () => {
     it('should work', () => {
       ctrl.getRecipients();
       expect(ctrl.send.withArgs('get-recipients').calledOnce).to.be.true;
-    });
-  });
-
-  /* displayRecipientProposal does not exist anymore */
-  describe.skip('displayRecipientProposal', () => {
-    let recipientsCallbackStub;
-
-    beforeEach(() => {
-      recipientsCallbackStub = ctrl.recipientsCallback = sandbox.stub();
-    });
-
-    it('should callback', () => {
-      ctrl.displayRecipientProposal({recipients: testRecipients});
-
-      expect(ctrl.recipientsCallback).to.be.null;
-      expect(recipientsCallbackStub.withArgs(testRecipients).calledOnce).to.be.true;
-    });
-
-    it('should not callback', () => {
-      ctrl.recipientsCallback = null;
-
-      ctrl.displayRecipientProposal({recipients: testRecipients});
-
-      expect(ctrl.recipientsCallback).to.be.null;
-      expect(recipientsCallbackStub.called).to.be.false;
     });
   });
 });

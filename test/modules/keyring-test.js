@@ -1,196 +1,136 @@
-import {expect, sinon} from 'test';
-import mvelo from 'mvelo';
-import {Keyring} from 'modules/keyring';
-import * as mveloKeyServer from 'modules/mveloKeyServer';
-import * as keyringSync from 'modules/keyringSync';
-import * as openpgp from 'openpgp';
-import openpgpDefault from 'openpgp';
+import {expect} from 'test';
+import {LocalStorageStub} from 'utils';
+import mvelo from 'lib/lib-mvelo';
+import {init, createKeyring, deleteKeyring, getAll, getById, getAllKeyringAttr, getKeyringAttr, setKeyringAttr, getKeyData, getKeyByAddress, getKeyringWithPrivKey, getPreferredKeyring, syncPublicKeys, __RewireAPI__ as keyringRewireAPI} from 'modules/keyring';
+import KeyStoreLocal from 'modules/KeyStoreLocal';
+import testKeys from 'Fixtures/keys';
 
-describe('Keyring unit tests', () => {
-  const sandbox = sinon.createSandbox();
-  let keyring;
-  let pgpKeyring;
-  let krSync;
-  let keys = [];
+describe('keyring unit tests', () => {
+  let storage;
 
-  function keyMock(keyid) {
-    return {
-      verifyPrimaryKey: sinon.stub().returns(openpgp.enums.keyStatus.valid),
-      primaryKey: {
-        getKeyId() {
-          return {
-            toHex: sinon.stub().returns(keyid)
-          };
-        },
-      },
-      users: [],
-      getPrimaryUser() {
-        return {
-          user: this.users[0]
+  beforeEach(async () => {
+    const keyringIds = [mvelo.MAIN_KEYRING_ID, 'test123'];
+    let keyringAttributes;
+    storage = new LocalStorageStub();
+    for (const keyringId of keyringIds) {
+      let storedTestKeys;
+      if (keyringId === mvelo.MAIN_KEYRING_ID) {
+        storedTestKeys = {public: [testKeys.maxp_pub], private: [testKeys.maditab_prv]};
+        keyringAttributes = {
+          default_key: '771f9119b823e06c0de306d466663688a83e9763'
         };
+      } else {
+        storedTestKeys = {public: [testKeys.gordonf_pub], private: [testKeys.johnd_prv]};
+        keyringAttributes = {};
       }
-    };
-  }
-
-  function userMock(userid) {
-    return {
-      userId: {
-        userid
-      },
-      verify: sinon.stub().returns(openpgp.enums.keyStatus.valid)
-    };
-  }
-
-  beforeEach(() => {
-    sinon.stub(mveloKeyServer, 'upload');
-    const openpgpKeyring = sinon.createStubInstance(openpgp.Keyring);
-    sandbox.stub(openpgp, 'Keyring');
-    const sync = sinon.createStubInstance(keyringSync.KeyringSync);
-    sinon.stub(keyringSync, 'KeyringSync');
-
-    openpgpKeyring.getAllKeys = function() {
-      return keys;
-    };
-    krSync = {};
-    keyring = new Keyring(mvelo.LOCAL_KEYRING_ID, pgpKeyring, krSync);
-    keyring.keyring = openpgpKeyring;
-    keyring.keyring.privateKeys = [];
-    keyring.sync = sync;
-    sinon.stub(keyring, 'hasPrimaryKey');
+      await storage.importKeys(keyringId, storedTestKeys);
+      await storage.importAttributes(keyringId, keyringAttributes);
+    }
+    KeyStoreLocal.__Rewire__('mvelo', {
+      storage
+    });
+    keyringRewireAPI.__Rewire__('mvelo', {
+      MAIN_KEYRING_ID: mvelo.MAIN_KEYRING_ID,
+      storage,
+      util: {
+        filterAsync: mvelo.util.filterAsync,
+        toArray: mvelo.util.toArray
+      }
+    });
+    await init();
   });
 
   afterEach(() => {
-    mveloKeyServer.upload.restore();
-    sandbox.restore();
-    keyringSync.KeyringSync.restore();
-    keys = [];
+    /* eslint-disable-next-line no-undef */
+    __rewire_reset_all__();
   });
 
-  describe('generateKey', () => {
-    let keygenOpt;
-
-    beforeEach(() => {
-      keygenOpt = {
-        numBits: 2048,
-        userIds: [{email: 'a@b.co', fullName: 'A B'}],
-        passphrase: 'secret'
-      };
-
-      const keyStub = sinon.createStubInstance(openpgp.key.Key);
-      keyStub.primaryKey = {
-        getFingerprint() {},
-        keyid: {toHex() { return 'ASDF'; }}
-      };
-      sandbox.stub(openpgpDefault, 'generateKey').returns(Promise.resolve({
-        key: keyStub,
-        publicKeyArmored: 'PUBLIC KEY BLOCK',
-        privateKeyArmored: 'PRIVATE KEY BLOCK'
-      }));
-      keyring.hasPrimaryKey.returns(true);
-      mveloKeyServer.upload.returns(Promise.resolve({status: 201}));
+  describe('createKeyring', () => {
+    it('should create a new keyring and initialize keyring attributes', async () => {
+      const newKeyringId = 'testABC';
+      const newKeyring = await createKeyring(newKeyringId);
+      expect(newKeyring.id).to.equal(newKeyringId);
+      const allKeyrings = await getAll();
+      expect(allKeyrings.some(({id}) => id === newKeyringId)).to.be.true;
+      const allKeyringAttrs = await getAllKeyringAttr();
+      expect(Object.keys(allKeyringAttrs).includes(newKeyringId)).to.be.true;
     });
+  });
 
-    it('should generate and upload key', () => {
-      keygenOpt.uploadPublicKey = true;
-      return keyring.generateKey(keygenOpt).then(key => {
-        expect(key.privateKeyArmored).to.exist;
-        expect(mveloKeyServer.upload.calledOnce).to.be.true;
+  describe('deleteKeyring', () => {
+    it('Should delete keyring, all keys and keyring attributes', async () => {
+      expect(getById('testABC')).to.not.throw;
+      return expect(deleteKeyring('testABC')).to.eventually.throw;
+    });
+  });
+
+  describe('getById', () => {
+    it('Should get keyring by Id', () => {
+      expect(getById('test123')).to.not.throw;
+    });
+  });
+
+  describe('getAll', () => {
+    it('Should get all keyrings', () => {
+      expect(getAll().length).to.equal(2);
+    });
+  });
+
+  describe('getAllKeyringAttr', () => {
+    it('Should get all keyring attributes as an object map', () => {
+      const allKeyringAttrs = getAllKeyringAttr();
+      expect(allKeyringAttrs[mvelo.MAIN_KEYRING_ID].default_key).to.equal('771f9119b823e06c0de306d466663688a83e9763');
+    });
+  });
+
+  describe('setKeyringAttr', () => {
+    it('Should set keyring attributes', async () => {
+      await setKeyringAttr('test123', {
+        default_key: '123456789'
       });
-    });
-
-    it('should generate and not upload key', () => {
-      keygenOpt.uploadPublicKey = false;
-      return keyring.generateKey(keygenOpt).then(key => {
-        expect(key.privateKeyArmored).to.exist;
-        expect(mveloKeyServer.upload.calledOnce).to.be.false;
-      });
+      const storedAttrs = await storage.get('mvelo.keyring.attributes');
+      expect(storedAttrs['test123'].default_key).to.equal('123456789');
+      expect(getKeyringAttr('test123', 'default_key')).to.equal('123456789');
     });
   });
 
-  describe('getKeyUserIDs', () => {
-    beforeEach(() => {
-      let key = keyMock('db9ccdf0d5f3a387');
-      key.users.push(userMock('Alice <alice@world.org>'));
-      key.users.push(userMock('Alice Liddell <alice@mars.org>'));
-      keys.push(key);
-      key = keyMock('712ec1bd873b7e58');
-      key.users.push(userMock('Bob M. <bob@moon.org>'));
-      keys.push(key);
-    });
-
-    it('should return all keys', () => {
-      expect(keyring.getKeyUserIDs()).to.deep.equal([
-        {keyid: 'db9ccdf0d5f3a387', userid: 'Alice <alice@world.org>', name: 'Alice', email: 'alice@world.org'},
-        {keyid: '712ec1bd873b7e58', userid: 'Bob M. <bob@moon.org>', name: 'Bob M.', email: 'bob@moon.org'}
-      ]);
-    });
-
-    it('should return only valid keys', () => {
-      keys[0].verifyPrimaryKey = sinon.stub().returns(openpgp.enums.keyStatus.invalid);
-      expect(keyring.getKeyUserIDs()).to.deep.equal([
-        {keyid: '712ec1bd873b7e58', userid: 'Bob M. <bob@moon.org>', name: 'Bob M.', email: 'bob@moon.org'}
-      ]);
-    });
-
-    it('should return all users - option allUsers', () => {
-      expect(keyring.getKeyUserIDs({allUsers: true})).to.deep.equal([
-        {keyid: 'db9ccdf0d5f3a387', userid: 'Alice <alice@world.org>', name: 'Alice', email: 'alice@world.org'},
-        {keyid: 'db9ccdf0d5f3a387', userid: 'Alice Liddell <alice@mars.org>', name: 'Alice Liddell', email: 'alice@mars.org'},
-        {keyid: '712ec1bd873b7e58', userid: 'Bob M. <bob@moon.org>', name: 'Bob M.', email: 'bob@moon.org'}
-      ]);
-    });
-
-    it('should return only valid users - option allUsers', () => {
-      keys[0].users[0].verify = sinon.stub().returns(openpgp.enums.keyStatus.invalid);
-      expect(keyring.getKeyUserIDs({allUsers: true})).to.deep.equal([
-        {keyid: 'db9ccdf0d5f3a387', userid: 'Alice Liddell <alice@mars.org>', name: 'Alice Liddell', email: 'alice@mars.org'},
-        {keyid: '712ec1bd873b7e58', userid: 'Bob M. <bob@moon.org>', name: 'Bob M.', email: 'bob@moon.org'}
-      ]);
-    });
-
-    it('should check for duplicate users - option allUsers', () => {
-      keys[0].users[0] = userMock('Alice Liddell <alice@mars.org>');
-      expect(keyring.getKeyUserIDs({allUsers: true})).to.deep.equal([
-        {keyid: 'db9ccdf0d5f3a387', userid: 'Alice Liddell <alice@mars.org>', name: 'Alice Liddell', email: 'alice@mars.org'},
-        {keyid: '712ec1bd873b7e58', userid: 'Bob M. <bob@moon.org>', name: 'Bob M.', email: 'bob@moon.org'}
-      ]);
-    });
-
-    it('should filter out invalid email - option allUsers', () => {
-      keys[0].users[0] = userMock('Alice Liddell <alice!>');
-      expect(keyring.getKeyUserIDs({allUsers: true})).to.deep.equal([
-        {keyid: 'db9ccdf0d5f3a387', userid: 'Alice Liddell <alice@mars.org>', name: 'Alice Liddell', email: 'alice@mars.org'},
-        {keyid: '712ec1bd873b7e58', userid: 'Bob M. <bob@moon.org>', name: 'Bob M.', email: 'bob@moon.org'}
-      ]);
+  describe('getKeyData', () => {
+    it('Should get user id, key id, fingerprint, email and name for all keys in the preferred keyring queue', async () => {
+      const keyData = await getKeyData(mvelo.MAIN_KEYRING_ID);
+      expect(keyData.length).to.equal(5);
+      expect(keyData.some(({name}) => name === 'Madita Bernstone'));
     });
   });
 
-  describe('_mapKeyUserIds', () => {
-    it('should map user id', () => {
-      const user = {userid: 'Bob M. <bob@moon.institute>'};
-      keyring._mapKeyUserIds(user);
-      expect(user).to.deep.equal({userid: 'Bob M. <bob@moon.institute>', name: 'Bob M.', email: 'bob@moon.institute'});
+  describe('getKeyByAddress', () => {
+    it('Should query keys in all keyrings by email address', async () => {
+      const keysByAddress = await getKeyByAddress('test123', ['gordon.freeman@gmail.com', 'j.doe@gmail.com']);
+      for (const address of Object.keys(keysByAddress)) {
+        expect(keysByAddress[address]).to.not.equal(false);
+      }
     });
+  });
 
-    it('should map user id without email', () => {
-      const user = {userid: 'Bob M.'};
-      keyring._mapKeyUserIds(user);
-      expect(user).to.deep.equal({userid: 'Bob M.', name: 'Bob M.', email: ''});
+  describe('getKeyringWithPrivKey', () => {
+    it('Should get keyring that includes at least one private key of the specified key Ids', () => {
+      const keyRing = getKeyringWithPrivKey(['0c02c51f4af1a165']);
+      expect(keyRing.id).to.equal('test123');
     });
+  });
 
-    it('should map user id without name', () => {
-      let user = {userid: '<bob@moon.org>'};
-      keyring._mapKeyUserIds(user);
-      expect(user).to.deep.equal({userid: '<bob@moon.org>', name: '', email: 'bob@moon.org'});
-      user = {userid: 'bob@moon.org'};
-      keyring._mapKeyUserIds(user);
-      expect(user).to.deep.equal({userid: 'bob@moon.org', name: '', email: 'bob@moon.org'});
+  describe('getPreferredKeyring', () => {
+    it('Should get preferred keyring', () => {
+      const keyRing = getPreferredKeyring();
+      expect(keyRing.id).to.equal('test123');
     });
+  });
 
-    it('should not map invalid email', () => {
-      const user = {userid: 'Bob M. <img src=x onerror=alert(location)>'};
-      keyring._mapKeyUserIds(user);
-      expect(user).to.deep.equal({userid: 'Bob M. <img src=x onerror=alert(location)>', name: 'Bob M.', email: ''});
+  describe('syncPublicKeys', () => {
+    it('Should synchronize public keys across keyrings', async () => {
+      await syncPublicKeys({keyringId: 'test123', keyIds: ['a9b65c80d7b21a26']});
+      const destKeyring = getById('test123');
+      const targetKey = await destKeyring.getKeyByAddress('max@mailvelope.com');
+      expect(targetKey['max@mailvelope.com']).to.not.be.false;
     });
   });
 });

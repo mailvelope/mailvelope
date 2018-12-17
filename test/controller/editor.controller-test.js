@@ -1,7 +1,6 @@
 
 import {expect, sinon} from 'test';
 import EditorController from 'controller/editor.controller';
-import * as keyring from 'modules/keyring';
 import * as prefs from 'modules/prefs';
 import {Port} from 'utils';
 
@@ -27,46 +26,6 @@ describe('Editor controller unit tests', () => {
     });
   });
 
-  /* lookupKeyOnServer does not exist anymore */
-  describe.skip('lookupKeyOnServer', () => {
-    let importKeysStub;
-
-    beforeEach(() => {
-      sinon.stub(ctrl.keyserver, 'lookup');
-      const keyRingMock = {
-        importKeys() {},
-        getKeyUserIDs() { return [{keyid: '0'}]; }
-      };
-      importKeysStub = sinon.stub(keyRingMock, 'importKeys');
-      sinon.stub(keyring, 'getById').returns(keyRingMock);
-    });
-
-    afterEach(() => {
-      ctrl.keyserver.lookup.restore();
-      keyring.getById.restore();
-    });
-
-    it('should find a key', () => {
-      ctrl.keyserver.lookup.returns(Promise.resolve({publicKeyArmored: 'KEY BLOCK'}));
-
-      return ctrl.lookupKeyOnServer({recipient: {email: 'a@b.co'}})
-      .then(() => {
-        expect(importKeysStub.calledOnce).to.be.true;
-        expect(ctrl.emit.calledOnce).to.be.true;
-      });
-    });
-
-    it('should not find a key', () => {
-      ctrl.keyserver.lookup.returns(Promise.resolve());
-
-      return ctrl.lookupKeyOnServer({recipient: {email: 'a@b.co'}})
-      .then(() => {
-        expect(importKeysStub.calledOnce).to.be.false;
-        expect(ctrl.emit.calledOnce).to.be.true;
-      });
-    });
-  });
-
   describe('setRecipientData', () => {
     beforeEach(() => {
       const keyringStub = sandbox.stub().returns([{keyid: '0'}]);
@@ -78,23 +37,20 @@ describe('Editor controller unit tests', () => {
       EditorController.__ResetDependency__('getKeyData');
     });
 
-    it('should handle empty recipients', () => {
+    it('should handle empty recipients', async () => {
       prefs.prefs.keyserver = {
         wkd_lookup: true
       };
-      return ctrl.setRecipientData([]).then(() => {
-        expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: [], autoLocate: true}).calledOnce).to.be.true;
-      });
+      await ctrl.setRecipientData([]);
+      expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: [], autoLocate: true}).calledOnce).to.be.true;
     });
 
-    it('should handle undefined recipients', () => {
+    it('should handle undefined recipients', async () => {
       prefs.prefs.keyserver = {
         wkd_lookup: true
       };
-
-      return ctrl.setRecipientData().then(() => {
-        expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: [], autoLocate: true}).calledOnce).to.be.true;
-      });
+      await ctrl.setRecipientData();
+      expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: [], autoLocate: true}).calledOnce).to.be.true;
     });
   });
 
@@ -155,9 +111,7 @@ describe('Editor controller unit tests', () => {
       return expect(ctrl.signAndEncrypt({
         action: 'encrypt',
         message: 'm'
-      })).to.eventually.be.rejectedWith('MIME building failed').then(() => {
-        EditorController.__ResetDependency__('buildMail');
-      });
+      })).to.eventually.be.rejectedWith('MIME building failed');
     });
   });
 

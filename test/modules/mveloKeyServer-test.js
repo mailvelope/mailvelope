@@ -1,6 +1,6 @@
 import {expect, sinon} from 'test';
 import * as mveloKeyServer from 'modules/mveloKeyServer';
-import keyFixtures from 'Fixtures/keys';
+import testKeys from 'Fixtures/keys';
 
 describe('Talking to the Mailvelope Key Server', () => {
   beforeEach(() => {
@@ -24,7 +24,7 @@ describe('Talking to the Mailvelope Key Server', () => {
     it('should return key on success', async () => {
       window.fetch.returns(Promise.resolve({
         status: 200,
-        json() { return {publicKeyArmored: keyFixtures.public.demo}; }
+        json() { return {publicKeyArmored: testKeys.api_test_pub}; }
       }));
 
       const key = await mveloKeyServer.lookup('test@mailvelope.com');
@@ -58,24 +58,20 @@ describe('Talking to the Mailvelope Key Server', () => {
         json() { return {}; }
       }));
 
-      return mveloKeyServer.fetch({fingerprint: '0123456789ABCDFE0123456789ABCDFE01234567'})
-      .then(() => {
-        expect(window.fetch.args[0][0]).to.include('/api/v1/key?fingerprint=0123456789ABCDFE0123456789ABCDFE01234567');
-      });
+      await mveloKeyServer.fetch({fingerprint: '0123456789ABCDFE0123456789ABCDFE01234567'});
+      expect(window.fetch.args[0][0]).to.include('/api/v1/key?fingerprint=0123456789ABCDFE0123456789ABCDFE01234567');
     });
   });
 
   describe('upload', () => {
-    it('should POST to the key url', () => {
+    it('should POST to the key url', async () => {
       window.fetch.returns(Promise.resolve({
         status: 201
       }));
 
-      return mveloKeyServer.upload({publicKeyArmored: 'KEY BLOCK'})
-      .then(() => {
-        expect(window.fetch.args[0][1]).to.include({method: 'POST'});
-        expect(window.fetch.args[0][0]).to.equal('https://keys.mailvelope.com/api/v1/key');
-      });
+      await mveloKeyServer.upload({publicKeyArmored: 'KEY BLOCK'});
+      expect(window.fetch.args[0][1]).to.include({method: 'POST'});
+      expect(window.fetch.args[0][0]).to.equal('https://keys.mailvelope.com/api/v1/key');
     });
 
     it('should raise exception on conflicting key', () => {
@@ -84,24 +80,19 @@ describe('Talking to the Mailvelope Key Server', () => {
         statusText: 'Key already exists'
       }));
 
-      return mveloKeyServer.upload({publicKeyArmored: 'KEY BLOCK'})
-      .catch(error => {
-        expect(error.message).to.include('exists');
-      });
+      return expect(mveloKeyServer.upload({publicKeyArmored: 'KEY BLOCK'})).to.eventually.be.rejectedWith(/exists/);
     });
   });
 
   describe('remove', () => {
-    it('should trigger DELETE request', () => {
+    it('should trigger DELETE request', async () => {
       window.fetch.returns(Promise.resolve({
         status: 200
       }));
 
-      return mveloKeyServer.remove({email: 'test@mailvelope.com'})
-      .then(() => {
-        expect(window.fetch.args[0][1]).to.include({method: 'DELETE'});
-        expect(window.fetch.args[0][0]).to.equal('https://keys.mailvelope.com/api/v1/key?email=test%40mailvelope.com');
-      });
+      await mveloKeyServer.remove({email: 'test@mailvelope.com'});
+      expect(window.fetch.args[0][1]).to.include({method: 'DELETE'});
+      expect(window.fetch.args[0][0]).to.equal('https://keys.mailvelope.com/api/v1/key?email=test%40mailvelope.com');
     });
 
     it('should raise exception on 404', () => {
@@ -110,10 +101,7 @@ describe('Talking to the Mailvelope Key Server', () => {
         statusText: 'Key not found'
       }));
 
-      return mveloKeyServer.remove({email: 'asdf@asdf.de'})
-      .catch(error => {
-        expect(error.message).to.match(/not found/);
-      });
+      return expect(mveloKeyServer.remove({email: 'asdf@asdf.de'})).to.eventually.be.rejectedWith(/not found/);
     });
   });
 });

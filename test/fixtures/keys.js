@@ -1,62 +1,19 @@
+import api_test_pub from './keys/api_test_pub.asc';
+import api_test_prv from './keys/api_test_prv.asc';
+import maditab_pub from './keys/madita_bernstein_pub.asc';
+import maditab_prv from './keys/madita_bernstein_prv.asc';
+import johnd_pub from './keys/john_doe_pub.asc';
+import johnd_prv from './keys/john_doe_prv.asc';
+import gordonf_pub from './keys/gordon_freeman_pub.asc';
+import maxp_pub from './keys/max_payne_pub.asc';
+
 export default {
-  'public': {
-    'demo': `
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-mI0EVLjbuwEEAL1urQHQ4fDj6RjTz1Z9QNHm1J+GERkDkAPpP9boHnxMNUrI89yR
-iTOMlQBsfyO/nkedGOV32xrWqlTCemEhGtss9yv62SYoR/ZqXYTc0o14p73o13/w
-q+4fH0lcHJQCspfmMzJ9kwuxVU1BvceOtrpwFVAD/dl8pdjdcPH9SWiPABEBAAG0
-IkFQSSBUZXN0IEtleSA8dGVzdEBtYWlsdmVsb3BlLmNvbT6IsgQQAQgAJgUCVLjb
-uwYLCQgHAwIJEPEdsSUMPD8bBBUIAgoDFgIBAhsDAh4BAACwHwP/SGVDK7INHLM0
-rfkFVZs4GmVkInZCEynHdC2b0vAniRwQK9bVIT0jPnIObEQpJ+MFGuRmCQ5MG3W+
-bf07Hlwgv025n10LclIFHjUabGKSqww0Pv+V+GHus6IndBx2KKH4A7iOJC4sG0mO
-eAh665gXRgbxb7EFFgk4oMM4dCFlcze4jQRUuNu7AQQAqpCpgH3qPSKbpttbpPLt
-3FKqlYgxtVSc5tUJNsVqmz41IuQrcbkgcKS6dKnSied7oFL5CuN8iNhtuFXDrQ7M
-ptQkne50lpjevps8otyeCcc1GpSgni1FSoaCZBNb7OqOwx5K2g9SPKxKcQqu4kxy
-kRbxDRvOynutozIWNxSeXH8AEQEAAYifBBgBCAATBQJUuNu7CRDxHbElDDw/GwIb
-DAAAtmsD/0uDyFMNAf+R58jAqlnmS+tTsSlSvZWwA7GiMSHYo+VQBF+WcP+Ndkvj
-TRr3YEhHyZry/eLifuSpwat6r1iWvqmGmcaD5LJXqokzVxuw6C7eRVnoALxpofcO
-eYJNRnVpdrqgu7iU+k7+e4WaiLwHsCoTho+xiEM0ibmIaSG+8ijN
-=aTaf
------END PGP PUBLIC KEY BLOCK-----`
-  },
-  'secret': {
-    'demo': `
------BEGIN PGP PRIVATE KEY BLOCK-----
-Version: Mailvelope v0.12.0b1
-Comment: https://www.mailvelope.com
-
-xcEYBFS427sBBAC9bq0B0OHw4+kY089WfUDR5tSfhhEZA5AD6T/W6B58TDVK
-yPPckYkzjJUAbH8jv55HnRjld9sa1qpUwnphIRrbLPcr+tkmKEf2al2E3NKN
-eKe96Nd/8KvuHx9JXByUArKX5jMyfZMLsVVNQb3Hjra6cBVQA/3ZfKXY3XDx
-/UlojwARAQABAAP+LLH7Yg1N8g9kRTZcmlSNQblL+6OfTx6XEUUsieFUqBE3
-FcEaQLWaAK6vzVzMFrw0dUMsx5+i888oez0zsM0lz56/KzrxchLhqHDp5OYE
-Q8Q5ZOusHs65gbCh39VIM4crqW0mw7sifALN0V31eA78b5bEfA//WbhFbpEw
-+E4pw7ECAOvt6424CEjL6X8nnYE/fyPfumMAd457K95NosSqgPFWrHKkGz+G
-cc0Min+euUQW7UJY+ARbwfNaINr3bUW8q0cCAM2MJBkD9j/5r5oIXL0eHEeM
-+VLMWK5XXBYDZIxrQbcpJnV1rghsAklxK5ekaUpVp+Aa5Ve8SaPU+/5PcTqR
-7HkB/2broAQVI4wmfwTjHjeqnsxl81y1juuboN3S1z26g34SM3gaPUdwf0j7
-GWLbtXL0PTM219MXDpzQiJbSOktKHveeis0iQVBJIFRlc3QgS2V5IDx0ZXN0
-QG1haWx2ZWxvcGUuY29tPsKyBBABCAAmBQJUuNu7BgsJCAcDAgkQ8R2xJQw8
-PxsEFQgCCgMWAgECGwMCHgEAALAfA/9IZUMrsg0cszSt+QVVmzgaZWQidkIT
-Kcd0LZvS8CeJHBAr1tUhPSM+cg5sRCkn4wUa5GYJDkwbdb5t/TseXCC/Tbmf
-XQtyUgUeNRpsYpKrDDQ+/5X4Ye6zoid0HHYoofgDuI4kLiwbSY54CHrrmBdG
-BvFvsQUWCTigwzh0IWVzN8fBGARUuNu7AQQAqpCpgH3qPSKbpttbpPLt3FKq
-lYgxtVSc5tUJNsVqmz41IuQrcbkgcKS6dKnSied7oFL5CuN8iNhtuFXDrQ7M
-ptQkne50lpjevps8otyeCcc1GpSgni1FSoaCZBNb7OqOwx5K2g9SPKxKcQqu
-4kxykRbxDRvOynutozIWNxSeXH8AEQEAAQAD/3OH7zgYkdv9IB9CP+4XmmP9
-HoyQptLjUC/OpyIRUGd9GHLcyEyMj9ucyKsTCIfeYs+yw/vLIOR0bMVKWnNT
-LezLYjbjGX+XRvGPvKp6LLzMjrAdYu+0NodU5PG83vRQn+Khuyz7GVCoAkVi
-tktwU+waYsUgxE8QJza37TZCw3iBAgDWdj8IOU5JMjz/m7n9G2YnxwbLsywm
-mNDPOkrN2lIExBu82X/MgohfoAVaYOxCDg11O7QhDib2OHW8kj5bYcq/AgDL
-mdymvEMBxts4387yJFyINaHmJfX6eyjE0KZ7Uzh1Xq2Tl9k5Z11Tky15n9Jl
-uLQDtOaLCecizpPMWrssWJ5BAf9VxwGob7aS77L9aZiO6XZv8kE8ze6eGfMH
-x+96TCFdTITzLdyx3StkI/PoQRvIimmPoI+zaTVruEj5QyvStNT0puLCnwQY
-AQgAEwUCVLjbuwkQ8R2xJQw8PxsCGwwAALZrA/9Lg8hTDQH/kefIwKpZ5kvr
-U7EpUr2VsAOxojEh2KPlUARflnD/jXZL400a92BIR8ma8v3i4n7kqcGreq9Y
-lr6phpnGg+SyV6qJM1cbsOgu3kVZ6AC8aaH3DnmCTUZ1aXa6oLu4lPpO/nuF
-moi8B7AqE4aPsYhDNIm5iGkhvvIozQ==
-=CR4B
------END PGP PRIVATE KEY BLOCK-----`
-  }
+  api_test_pub,
+  api_test_prv,
+  maditab_pub,
+  maditab_prv,
+  johnd_pub,
+  johnd_prv,
+  gordonf_pub,
+  maxp_pub
 };

@@ -35,6 +35,7 @@ deploy:
   on:
     tags: true
     branch: master
+sudo: required
 addons:
   chrome: stable
   ssh_known_hosts: build.mailvelope.com

@@ -25,7 +25,7 @@ describe('Verify controller unit tests', () => {
   });
 
   describe('onArmoredMessage', () => {
-    it('should verify message and emit event', () => {
+    it('should verify message and emit event', async () => {
       const msg = {data: 'abc'};
       ctrl.keyringId = '123';
       VerifyController.__Rewire__('verifyMessage', () => Promise.resolve({data: 'cba', signatures: ['a', 'b', 'c']}));
@@ -35,9 +35,8 @@ describe('Verify controller unit tests', () => {
           emit: emitStub
         }
       };
-      return ctrl.onArmoredMessage(msg).then(() => {
-        expect(emitStub.withArgs('verified-message', {message: 'cba', signers: ['a', 'b', 'c']}).calledOnce).to.be.true;
-      });
+      await ctrl.onArmoredMessage(msg);
+      expect(emitStub.withArgs('verified-message', {message: 'cba', signers: ['a', 'b', 'c']}).calledOnce).to.be.true;
     });
   });
 });

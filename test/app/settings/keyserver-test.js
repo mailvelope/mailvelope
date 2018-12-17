@@ -108,10 +108,7 @@ describe('Key server settings unit tests', () => {
 
     it('should fail for 404', () => {
       window.fetch.returns(Promise.resolve({ok: false}));
-
-      return keyserver.testUrl(hkpUrl).catch(err => {
-        expect(err.message).match(/not reachable/);
-      });
+      return expect(keyserver.testUrl(hkpUrl)).to.eventually.be.rejectedWith(/not reachable/);
     });
 
     it('should work for 200', () => {

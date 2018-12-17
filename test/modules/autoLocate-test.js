@@ -1,7 +1,7 @@
 import {expect, sinon} from 'test';
 import * as autoLocate from 'modules/autoLocate';
 import * as prefs from 'modules/prefs';
-import keyFixtures from 'Fixtures/keys';
+import testKeys from 'Fixtures/keys';
 
 describe('Looking up keys from different services', () => {
   describe('with all services disabled', () => {
@@ -22,7 +22,7 @@ describe('Looking up keys from different services', () => {
       sinon.stub(window, 'fetch');
       window.fetch.returns(Promise.resolve({
         status: 200,
-        json() { return {publicKeyArmored: keyFixtures.public.demo}; }
+        json() { return {publicKeyArmored: testKeys.api_test_pub}; }
       }));
     });
 

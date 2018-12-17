@@ -1,9 +1,6 @@
 import {expect, sinon} from 'test';
 import {Port} from 'utils';
 import EncryptedFormController from 'controller/encryptedForm.controller';
-import * as keyring from 'modules/keyring';
-// import keyFixtures from '../fixtures/keys';
-// import * as openpgp from "openpgp";
 
 describe('EncryptForm controller unit tests', () => {
   const sandbox = sinon.createSandbox();
@@ -190,35 +187,6 @@ describe('EncryptForm controller unit tests', () => {
     });
   });
 
-  /* assertAndSetFingerprint does not exist anymore */
-  describe.skip('assertAndSetFingerprint', () => {
-    let keyRingMock;
-
-    beforeEach(() => {
-      keyRingMock = {getKeyByAddress: sandbox.stub()};
-      sandbox.stub(keyring, 'getById').returns(keyRingMock);
-    });
-
-    it('should set the fingerprint if the username is in the keyring', () => {
-      const fingerprint = '5d031f1d410b980fbc006e3202c134d079701934';
-      const mockKey = {primaryKey: {getFingerprint: sandbox.stub()}};
-      const thomasKey = {'thomas@mailvelope.com': [mockKey]};
-      mockKey.primaryKey.getFingerprint.returns(fingerprint);
-      keyRingMock.getKeyByAddress.returns(thomasKey);
-      ctrl.formRecipient = 'thomas@mailvelope.com';
-      expect(ctrl.assertAndSetFingerprint()).to.be.true;
-      expect(ctrl.formFingerprint).to.equal(fingerprint.toUpperCase());
-    });
-
-    it('should throw an exception if the username is not in the keyring', () => {
-      const thomasKey = {'thomas@mailvelope.com': []};
-      ctrl.formRecipient = 'thomas@mailvelope.com';
-      keyRingMock.getKeyByAddress.returns(thomasKey);
-      expect(ctrl.assertAndSetFingerprint.bind(ctrl)).throws()
-      .and.have.property('code', 'NO_KEY_FOR_RECIPIENT');
-    });
-  });
-
   describe('assertAndSetSignature', () => {
     it('should throw and error if signature is empty', () => {
       expect(ctrl.assertAndSetSignature.bind(ctrl)).throws()
@@ -246,15 +214,5 @@ describe('EncryptForm controller unit tests', () => {
       ctrl.keyringId = 'nope';
       return expect(ctrl.signAndEncrypt('test')).to.eventually.be.rejectedWith().and.have.property('code', 'NO_DEFAULT_KEY_FOUND');
     });
-
-    // it('should encrypt if all params are set properly', () => {
-    //   const demoKey = openpgp.key.readArmored(keyFixtures.secret.demo);
-    //   keyRingMock.getPrimaryKey.returns(demoKey);
-    //   ctrl.signAndEncrypt('test').then(data => {
-    //     console.log(data);
-    //   }).catch(error => {
-    //     console.log(error);
-    //   });
-    // });
   });
 });

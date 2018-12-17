@@ -24,7 +24,7 @@ describe('Import controller unit tests', () => {
   });
 
   describe('onImportOk', () => {
-    it('should close popup window on successful key import', () => {
+    it('should close popup window on successful key import', async () => {
       ctrl.keyring = {
         importKeys() {
           return Promise.resolve([{type: 'public'}]);
@@ -36,9 +36,8 @@ describe('Import controller unit tests', () => {
         }
       };
       const closePopupSpy = sandbox.spy(ctrl, 'closePopup');
-      return ctrl.onImportOk().then(() => {
-        expect(closePopupSpy.calledOnce).to.be.true;
-      });
+      await ctrl.onImportOk();
+      expect(closePopupSpy.calledOnce).to.be.true;
     });
   });
 });
