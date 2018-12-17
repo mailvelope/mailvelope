@@ -10,7 +10,7 @@ module.exports = function(grunt) {
 
     eslint: {
       options: {
-        maxWarnings: 10,
+        maxWarnings: 1,
         configFile: 'config/eslint.json',
         cache: true,
         reportUnusedDisableDirectives: true
