@@ -1,7 +1,8 @@
 import Autocrypt from 'autocrypt';
-import mvelo from '../lib/lib-mvelo';
+import Store from '../lib/Store';
 
 export const name = 'Autocrypt';
+const stores = new Map;
 
 /**
 * Check if Autocrypt is enabled.
@@ -13,26 +14,11 @@ export function isEnabled() {
 }
 
 function ac(id) {
-  const storage = {};
-
-  storage.put = function(key, val, cb) {
-    mvelo.storage.set(`mvelo.autocrypt.${id}.${key}`, val)
-    .then(() => {
-      if (cb) {
-        cb();
-      }
-    });
-  };
-
-  storage.get = function(key, cb) {
-    if (cb) {
-      mvelo.storage.get(`mvelo.autocrypt.${id}.${key}`)
-      .then(val => {
-        cb(undefined, val);
-      });
-    }
-  };
-
+  let storage = stores.get(id);
+  if (!storage) {
+    storage = new Store(id);
+    stores.set(id, storage);
+  }
   return new Autocrypt({storage});
 }
 

@@ -35,6 +35,7 @@ module.exports = function(config) {
       'controller/**/*.js',
       'lib/**/*.js',
       'modules/**/*.js',
+      'lib/**/*.js'
     ],
 
     // list of files to exclude
