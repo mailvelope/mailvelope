@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v3.0.2
+-------
+__Dec 18, 2018__
+
+  * Update OpenPGP.js to 4.3.0
+
 v3.0.1
 -------
 __Dec 14, 2018__
