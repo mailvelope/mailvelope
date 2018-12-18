@@ -10,8 +10,11 @@ install:
 - npm install
 jobs:
   include:
-  - name: eslint
-    script: grunt eslint
+  - name: grunt
+    script:
+      - grunt
+      - grunt dist-cr
+      - grunt dist-ff
   - name: test
     script: npm test
   - name: crxmake
@@ -21,7 +24,7 @@ jobs:
       - openssl aes-256-cbc -K $encrypted_5d28b41102c4_key -iv $encrypted_5d28b41102c4_iv -in .travis/crx_signing.pem.enc -out .travis/crx_signing.pem -d
       - .travis/crxmake.sh build/chrome .travis/crx_signing.pem
     if: type != pull_request AND env(encrypted_5d28b41102c4_key) IS present
-  - name: grunt
+  - name: github pages
     stage: deploy
     script: .travis/deploy-grunt.sh
     if: branch = master AND NOT fork
