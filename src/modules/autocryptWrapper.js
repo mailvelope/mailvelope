@@ -1,5 +1,6 @@
 import Autocrypt from 'autocrypt';
 import Store from '../lib/Store';
+import {goog} from './closure-library/closure/goog/emailaddress';
 
 export const name = 'Autocrypt';
 const stores = new Map;
@@ -54,8 +55,12 @@ export function lookup(email, identity) {
 export async function processHeader(header, fromAddr, date, identity) {
   return new Promise((resolve, reject) => {
     date = new Date(date);
+    fromAddr = goog.format.EmailAddress.parse(fromAddr).getAddress();
     ac(identity).processAutocryptHeader(header, fromAddr, date, err => {
       if (err) {
+        if (err.message == 'Invalid Autocrypt Header: no valid header found') {
+          resolve();
+        }
         reject(err);
       } else {
         resolve();
