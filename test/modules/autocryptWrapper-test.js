@@ -15,7 +15,8 @@ describe('Test basic autocrypt wrapper functionality', () => {
       const addr = 'test@mailvelope.com';
       const keydata = 'base64';
       const header = Autocrypt.stringify({keydata, addr});
-      await autocryptWrapper.processHeader(header, addr, new Date(), 'id');
+      const date = Date.now().toString();
+      await autocryptWrapper.processHeader(header, addr, date, 'id');
       const result = await autocryptWrapper.lookup(addr, 'id');
       expect(result).to.equal(keydata.replace(/\s+/g, ''));
     });
@@ -29,7 +30,8 @@ describe('Test basic autocrypt wrapper functionality', () => {
       const addr = 'test@mailvelope.com';
       const keydata = 'base64';
       const header = Autocrypt.stringify({keydata, addr});
-      await autocryptWrapper.processHeader(header, addr, new Date(), 'other id');
+      const date = Date.now().toString();
+      await autocryptWrapper.processHeader(header, addr, date, 'other id');
       const result = await autocryptWrapper.lookup(addr, 'yet another id');
       expect(result).to.be.undefined;
     });

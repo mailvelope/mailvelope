@@ -103,6 +103,7 @@ function registerClientEventHandler() {
   clientPort.on('query-valid-key', validKeyForAddress);
   clientPort.on('export-own-pub-key', exportOwnPublicKey);
   clientPort.on('import-pub-key', importPublicKey);
+  clientPort.on('process-autocrypt-header', processAutocryptHeader);
   clientPort.on('set-logo', setLogo);
   clientPort.on('add-sync-handler', addSyncHandler);
   clientPort.on('sync-handler-done', syncHandlerDone);
@@ -232,6 +233,10 @@ function importPublicKey({keyringId, armored}) {
       throw new MvError('No valid armored block found.', 'WRONG_ARMORED_TYPE');
   }
   return controllerPort.send('import-pub-key', {keyringId, armored});
+}
+
+function processAutocryptHeader({keyringId, header, fromAddr, date}) {
+  return controllerPort.send('process-autocrypt-header', {keyringId, header, fromAddr, date});
 }
 
 function setLogo({keyringId, dataURL, revision}) {

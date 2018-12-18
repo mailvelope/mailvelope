@@ -30,7 +30,10 @@ const dataTypes = {
   id: 'string',
   confirmRequired: 'boolean',
   signature: 'string',
-  formHtml: 'string'
+  formHtml: 'string',
+  date: 'string',
+  fromAddr: 'string',
+  header: 'string'
 };
 
 const optionsTypes = {

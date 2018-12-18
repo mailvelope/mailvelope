@@ -46,12 +46,14 @@ export function lookup(email, identity) {
  *
  * @param {String} header   - The header to parse
  * @param {String} fromAddr - The senders email address
+ * @param {String} date     - The Date header from the email
  * @param {String} identity - The identity of the recipient
  * @return {undefined}
  * @trows {Error}
  */
 export async function processHeader(header, fromAddr, date, identity) {
   return new Promise((resolve, reject) => {
+    date = new Date(date);
     ac(identity).processAutocryptHeader(header, fromAddr, date, err => {
       if (err) {
         reject(err);
