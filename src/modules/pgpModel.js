@@ -24,9 +24,16 @@ export async function init() {
   await trustKey.init();
 }
 
-function initOpenPGP() {
+export function initOpenPGP() {
   openpgp.config.commentstring = 'https://www.mailvelope.com';
   openpgp.config.versionstring = `Mailvelope v${defaults.getVersion()}`;
+  if (prefs.prefs.security.hide_armored_header) {
+    openpgp.config.show_version = false;
+    openpgp.config.show_comment = false;
+  } else {
+    openpgp.config.show_version = true;
+    openpgp.config.show_comment = true;
+  }
   openpgp.initWorker({path: 'dep/openpgp.worker.js'});
 }
 
