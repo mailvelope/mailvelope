@@ -5,7 +5,7 @@
 
 import mvelo from '../lib/lib-mvelo';
 import * as sub from './sub.controller';
-import {decryptFile, encryptFile} from '../modules/pgpModel';
+import {initOpenPGP, decryptFile, encryptFile} from '../modules/pgpModel';
 import {getById as keyringById, getAllKeyringAttr, setKeyringAttr, deleteKeyring, getKeyData} from '../modules/keyring';
 import {initScriptInjection} from '../lib/inject';
 import * as prefs from '../modules/prefs';
@@ -54,18 +54,20 @@ export default class AppController extends sub.SubController {
     this.on('reload-keystore', ({keyringId}) => keyringById(keyringId).keystore.load());
   }
 
-  updatePreferences(options) {
-    return prefs.update(options.prefs)
+  async updatePreferences(options) {
+    const updateOpenPGPFlag = typeof options.prefs.security !== 'undefined' && options.prefs.security.hide_armored_header !== prefs.prefs.security.hide_armored_header;
+    await prefs.update(options.prefs);
     // update content scripts
-    .then(() => sub.getByMainType('mainCS').forEach(mainCScontrl => mainCScontrl.updatePrefs()));
+    sub.getByMainType('mainCS').forEach(mainCScontrl => mainCScontrl.updatePrefs());
+    if (updateOpenPGPFlag) {
+      initOpenPGP();
+    }
   }
 
-  removeKey({fingerprint, type, keyringId}) {
-    return keyringById(keyringId).removeKey(fingerprint, type)
-    .then(result => {
-      this.sendKeyUpdate();
-      return result;
-    });
+  async removeKey({fingerprint, type, keyringId}) {
+    const result = await keyringById(keyringId).removeKey(fingerprint, type);
+    this.sendKeyUpdate();
+    return result;
   }
 
   getArmoredKeys({keyFprs, options, keyringId}) {
@@ -76,20 +78,16 @@ export default class AppController extends sub.SubController {
     return keyringById(keyringId).getKeyDetails(fingerprint);
   }
 
-  generateKey({parameters, keyringId}) {
-    return keyringById(keyringId).generateKey(parameters)
-    .then(result => {
-      this.sendKeyUpdate();
-      return result;
-    });
+  async generateKey({parameters, keyringId}) {
+    const result = await keyringById(keyringId).generateKey(parameters);
+    this.sendKeyUpdate();
+    return result;
   }
 
-  importKeys({keys, keyringId}) {
-    return keyringById(keyringId).importKeys(keys)
-    .then(result => {
-      this.sendKeyUpdate();
-      return result;
-    });
+  async importKeys({keys, keyringId}) {
+    const result = await keyringById(keyringId).importKeys(keys);
+    this.sendKeyUpdate();
+    return result;
   }
 
   sendKeyUpdate() {
@@ -101,15 +99,12 @@ export default class AppController extends sub.SubController {
     initScriptInjection();
   }
 
-  deleteKeyring({keyringId}) {
-    return Promise.resolve()
-    .then(() => {
-      if (keyringId === mvelo.MAIN_KEYRING_ID) {
-        throw new Error('Cannot delete main keyring');
-      }
-      return deleteKeyring(keyringId);
-    })
-    .then(() => sub.setActiveKeyringId(mvelo.MAIN_KEYRING_ID));
+  async deleteKeyring({keyringId}) {
+    if (keyringId === mvelo.MAIN_KEYRING_ID) {
+      throw new Error('Cannot delete main keyring');
+    }
+    await deleteKeyring(keyringId);
+    sub.setActiveKeyringId(mvelo.MAIN_KEYRING_ID);
   }
 
   initEncryptText() {

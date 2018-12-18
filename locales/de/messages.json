@@ -1445,6 +1445,14 @@
     "message": "In einem getrennten Fenster von Mailvelope.",
     "description": "Decrypted message display option"
   },
+  "security_openpgp_header": {
+    "description": "OpenPGP settings header",
+    "message": "OpenPGP Einstellungen"
+  },
+  "security_hide_armored_head": {
+    "description": "Hide header infos in armored messages",
+    "message": "Die Mailvelope Version und Kommentar in der PGP Nachricht verbergen."
+  },
   "security_log_action": {
     "message": "Aktion",
     "description": "Title of the action column of the security log table."
