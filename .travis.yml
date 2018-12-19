@@ -25,7 +25,7 @@ jobs:
   - name: grunt
     stage: deploy
     script: .travis/deploy-grunt.sh
-    if: branch = master AND NOT fork
+    if: branch = master AND tag AND NOT fork
 env:
   global:
   - GH_REF=github.com/mailvelope/mailvelope.git
