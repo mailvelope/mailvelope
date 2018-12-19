@@ -11,6 +11,7 @@ import {getById as keyringById, createKeyring, setKeyringAttr, getKeyByAddress} 
 import * as openpgp from 'openpgp';
 import {getLastModifiedDate, mapAddressKeyMapToFpr} from '../modules/key';
 import * as ac from '../modules/autocryptWrapper';
+import * as keyRegistry from '../modules/keyRegistry';
 
 export default class ApiController extends sub.SubController {
   constructor(port) {
@@ -25,6 +26,7 @@ export default class ApiController extends sub.SubController {
     this.on('query-valid-key', this.queryValidKey);
     this.on('export-own-pub-key', this.exportOwnPubKey);
     this.on('import-pub-key', this.importPubKey);
+    this.on('locate-pub-key', this.locatePubKey);
     this.on('process-autocrypt-header', this.processAutocryptHeader);
     this.on('set-logo', this.setLogo);
     this.on('has-private-key', this.hasPrivateKey);
@@ -77,6 +79,10 @@ export default class ApiController extends sub.SubController {
 
   importPubKey({keyringId, armored}) {
     return sub.factory.get('importKeyDialog').importKey(keyringId, armored);
+  }
+
+  locatePubKey({keyringId, email, source}) {
+    return keyRegistry.locate(email, keyringId, source);
   }
 
   processAutocryptHeader({header, fromAddr, date, keyringId}) {

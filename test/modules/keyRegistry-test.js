@@ -11,9 +11,10 @@ describe('Looking up keys from different services', () => {
     it('should return an empty result', async () => {
       prefs.prefs.keyserver = {
         wkd_lookup: false,
-        mvelo_tofu_lookup: false
+        mvelo_tofu_lookup: false,
+        autocrypt_lookup: false
       };
-      const key = await keyRegistry.lookup('email@domain.example');
+      const key = await keyRegistry.locate('email@domain.example');
       expect(key).to.be.undefined;
     });
   });
@@ -31,12 +32,13 @@ describe('Looking up keys from different services', () => {
       window.fetch.restore();
     });
 
-    it('should not try the other services', async () => {
+    it('should return that result', async () => {
       prefs.prefs.keyserver = {
         wkd_lookup: true,
-        mvelo_tofu_lookup: true
+        mvelo_tofu_lookup: true,
+        autocrypt_lookup: true
       };
-      const key = await keyRegistry.lookup('test@mailvelope.com', 'id');
+      const key = await keyRegistry.locate('test@mailvelope.com', 'id');
       expect(key).to.include('PGP PUBLIC KEY BLOCK');
     });
   });
@@ -64,7 +66,7 @@ describe('Looking up keys from different services', () => {
       const header = Autocrypt.stringify({keydata, addr});
       await autocryptWrapper.processHeader(header, addr, new Date(), 'id');
 
-      const key = await keyRegistry.lookup(addr, 'id');
+      const key = await keyRegistry.locate(addr, 'id');
       expect(key).to.include('base64');
     });
   });

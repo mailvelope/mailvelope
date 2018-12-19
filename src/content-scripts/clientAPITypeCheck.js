@@ -33,7 +33,9 @@ const dataTypes = {
   formHtml: 'string',
   date: 'string',
   fromAddr: 'string',
-  header: 'string'
+  header: 'string',
+  email: 'string',
+  source: 'string'
 };
 
 const optionsTypes = {
