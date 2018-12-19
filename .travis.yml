@@ -25,7 +25,7 @@ jobs:
   - name: grunt
     stage: deploy
     script: .travis/deploy-grunt.sh
-    if: branch = master AND env(GH_TOKEN) IS present
+    if: branch = master AND NOT fork
 env:
   global:
   - GH_REF=github.com/mailvelope/mailvelope.git
@@ -35,7 +35,7 @@ env:
 deploy:
   provider: releases
   api-key: "${GH_TOKEN}"
-  file: dist/*
+  file: dist/mailvelope.client-api-documentation.zip
   file_glob: true
   skip_cleanup: true
   on:
