@@ -34,20 +34,25 @@ const strategies = [mveloKeyServer, wkd, autocrypt];
  * @param {String} email    - The user id's email address
  * @param {String} identity - The id of the keyring that is currently <br/>
  *                             being used.
+ * @param {String} source - the source to query. Will query all if left blank.
  * @return {String,undefined} - the found armored key if any.
  */
-export async function lookup(email, identity) {
+export async function locate(email, identity, source) {
   for (const strategy of strategies) {
-    if (strategy.isEnabled()) {
-      try {
-        const armored = await strategy.lookup(email, identity);
-        if (armored) {
-          return armored;
-        }
-      } catch (e) {
-        // Failures are not critical so we only info log them.
-        console.log(`${strategy.name}: Did not find key (Errors are expected): ${e}`);
+    if (source && (source !== strategy.name)) {
+      continue;
+    }
+    if (!strategy.isEnabled()) {
+      continue;
+    }
+    try {
+      const armored = await strategy.lookup(email, identity);
+      if (armored) {
+        return armored;
       }
+    } catch (e) {
+      // Failures are not critical so we only info log them.
+      console.log(`${strategy.name}: Did not find key (Errors are expected): ${e}`);
     }
   }
 }

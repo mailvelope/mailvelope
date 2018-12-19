@@ -181,7 +181,7 @@ export default class EditorController extends sub.SubController {
   async onAutoLocate(msg) {
     const options = msg.recipient;
     options.keyringId = this.keyringId;
-    const armored = await keyRegistry.lookup(options.email, this.keyringId);
+    const armored = await keyRegistry.locate(options.email, this.keyringId);
     if (armored) {
       await getKeyringById(this.keyringId).importKeys([{type: 'public', armored}]);
     }

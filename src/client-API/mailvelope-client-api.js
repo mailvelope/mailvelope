@@ -275,6 +275,27 @@
     }
 
     /**
+     * @typedef {Object} LocateResult
+     * @property {string} type - 'OPEN_PGP' for now
+     * @property {AsciiArmored} content - Armored public key
+     * @property {string} source - see sources in locatePublicKey.
+     */
+
+    /**
+     * Asks the user if they want to import the public key.
+     * @param {String} email  - Email to locate the public key for
+     * @param {String} source - the source to query. Will query all if left blank.
+     *                          Sources currently available are:
+     *                            * 'WKD'
+     *                            * 'Mailvelope Key Server'
+     *                            * 'Autocrypt'
+     * @returns {Promise.<LocateResult, Error>}
+     */
+    locatePublicKey(email, source) {
+      return postMessage('locate-pub-key', {identifier: this.identifier, email, source});
+    }
+
+    /**
      * Process Autocrypt header from message being read.
      * @param {String} header - the Autocrypt header to process
      * @param {String} fromAddr - the email address of the sender

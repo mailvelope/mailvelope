@@ -83,7 +83,9 @@ const dataTypes = {
   formHtml: 'string',
   date: 'string',
   fromAddr: 'string',
-  header: 'string'
+  header: 'string',
+  email: 'string',
+  source: 'string'
 };
 
 const optionsTypes = {
@@ -235,6 +237,9 @@ function eventListener(event) {
         break;
       case 'import-pub-key':
         importPublicKey(keyringId, data.armored, reply.bind(null, event.data.id));
+        break;
+      case 'locate-pub-key':
+        locatePublicKey(keyringId, data.email, data.source, reply.bind(null, event.data.id));
         break;
       case 'process-autocrypt-header':
         processAutocryptHeader(keyringId, data.header, data.fromAddr, data.date, reply.bind(null, event.data.id));
@@ -426,6 +431,18 @@ function importPublicKey(keyringId, armored, callback) {
     api_event: true,
     keyringId,
     armored
+  }, result => {
+    callback(result.error, result.data);
+  });
+}
+
+function locatePublicKey(keyringId, email, source, callback) {
+  mvelo.runtime.sendMessage({
+    event: 'locate-pub-key',
+    api_event: true,
+    keyringId,
+    email,
+    source
   }, result => {
     callback(result.error, result.data);
   });

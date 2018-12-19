@@ -219,7 +219,7 @@ ${this.formSignature}
   }
 
   async autoLocate() {
-    const armored = await keyRegistry.lookup(this.formRecipientEmail, this.keyringId);
+    const armored = await keyRegistry.locate(this.formRecipientEmail, this.keyringId);
     if (armored) {
       try {
         await sub.factory.get('importKeyDialog').importKey(this.keyringId, armored);
