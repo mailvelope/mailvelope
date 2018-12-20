@@ -66,7 +66,7 @@ export function init() {
         prefs.general.prefer_gnupg = defaults.preferences.general.prefer_gnupg;
       }
       if (typeof prefs.security.hide_armored_header == 'undefined') {
-        prefs.security.hide_armored_header = defaults.security.hide_armored_header;
+        prefs.security.hide_armored_header = defaults.preferences.security.hide_armored_header;
       }
 
       // merge watchlist on version change
