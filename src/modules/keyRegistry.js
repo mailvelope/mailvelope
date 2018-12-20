@@ -50,8 +50,7 @@ export async function locate(email, identity, source) {
       if (armored) {
         return {
           content: armored,
-          source: strategy.name,
-          type: 'OPEN_PGP'
+          source: strategy.name
         };
       }
     } catch (e) {
