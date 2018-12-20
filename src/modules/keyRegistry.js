@@ -48,7 +48,11 @@ export async function locate(email, identity, source) {
     try {
       const armored = await strategy.lookup(email, identity);
       if (armored) {
-        return armored;
+        return {
+          content: armored,
+          source: strategy.name,
+          type: 'OPEN_PGP'
+        };
       }
     } catch (e) {
       // Failures are not critical so we only info log them.
