@@ -471,6 +471,10 @@
     "message": "Empfänger Schlüssel beim Mail-Anbieter des Empfängers abfragen (Web Key Directory)",
     "description": "Enable Web Key Directory Auto Lookup"
    },
+  "keyserver_autocrypt_lookup": {
+    "message": "Schlüssel aus Autocrypt Headern der ankommenden Emails verwenden",
+    "description": "Enable Looking Up Keys Via Autocrypt"
+  },
   "keyserver_url_warning": {
     "message": "Schlüssel Server URL muss folgendes Format haben: http(s)://keys.example.com",
     "description": "HKP key server url warning."
