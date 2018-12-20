@@ -260,7 +260,8 @@
       "secureBgndIconColor": "#e9e9e9",
       "secureBgndColorId": 0,
       "password_cache": true,
-      "password_timeout": 30
+      "password_timeout": 30,
+      "hide_armored_header": false      
     },
     "general": {
       "editor_type": "plain",

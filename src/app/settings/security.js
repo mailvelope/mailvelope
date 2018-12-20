@@ -27,6 +27,8 @@ l10n.register([
   'security_display_decrypted',
   'security_display_popup',
   'security_display_inline',
+  'security_openpgp_header',
+  'security_hide_armored_head',
   'reload_tab',
   'form_save',
   'form_cancel'
@@ -94,6 +96,15 @@ export default class Security extends React.Component {
               <label>
                 <input type="radio" name="decryptRadios" id="decryptRadios1" value="inline" />
                 <span>{l10n.map.security_display_inline}</span>
+              </label>
+            </div>
+          </div>
+          <div className="form-group">
+            <h4 className="control-label">{l10n.map.security_openpgp_header}</h4>
+            <div className="checkbox">
+              <label className="checkbox" htmlFor="hideArmoredHeader">
+                <input type="checkbox" name="hideArmoredHeader" id="hideArmoredHeader" />
+                <span>{l10n.map.security_hide_armored_head}</span>
               </label>
             </div>
           </div>
@@ -183,7 +194,8 @@ function onSave() {
       secureBgndColorId: coloring,
       secureBgndIconColor: iconColor,
       password_cache: $('input:radio[name="pwdCacheRadios"]:checked').val() === 'true',
-      password_timeout: $('#pwdCacheTime').val()
+      password_timeout: $('#pwdCacheTime').val(),
+      hide_armored_header: $('input:checkbox[name="hideArmoredHeader"]').is(':checked')
     }
   };
   port.send('set-prefs', {prefs: update})
@@ -237,5 +249,6 @@ function loadPrefs() {
     }).prop('checked', true);
     $('#pwdCacheTime').val(prefs.security.password_timeout);
     toggleCacheTime();
+    $('input:checkbox[name="hideArmoredHeader"]').prop('checked', prefs.security.hide_armored_header);
   });
 }

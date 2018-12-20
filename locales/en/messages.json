@@ -1391,6 +1391,14 @@
     "description": "Decrypted message display option",
     "message": "In a separate Mailvelope popup."
   },
+  "security_openpgp_header": {
+    "description": "OpenPGP settings header",
+    "message": "OpenPGP settings"
+  },
+  "security_hide_armored_head": {
+    "description": "Hide header infos in armored messages",
+    "message": "Hide Mailvelope version and comment in PGP message."
+  },
   "security_log_action": {
     "description": "Title of the action column of the security log table.",
     "message": "Action"
