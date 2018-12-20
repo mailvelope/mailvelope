@@ -36,7 +36,7 @@ export function lookup(email, identity) {
       if (err) {
         reject(err);
       } else {
-        resolve(record && record.keydata);
+        resolve(record && armor(record.keydata));
       }
     });
   });
@@ -67,4 +67,11 @@ export async function processHeader(header, fromAddr, date, identity) {
       }
     });
   });
+}
+
+function armor(base64) {
+  const head = '-----BEGIN PGP PUBLIC KEY BLOCK-----';
+  const footer = '-----END PGP PUBLIC KEY BLOCK-----';
+  const lines = base64.match(/.{1,64}/g);
+  return [head, ''].concat(lines).concat([footer]).join('\n');
 }
