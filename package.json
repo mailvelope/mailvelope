@@ -25,6 +25,7 @@
     "font-awesome": "4.7.0",
     "gpgmejs": "github:mailvelope/gpgmejs",
     "jquery": "3.3.1",
+    "linkifyjs": "^2.1.7",
     "moment": "2.23.0",
     "ng-tags-input": "3.2.0",
     "openpgp": "4.3.0",

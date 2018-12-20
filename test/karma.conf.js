@@ -33,6 +33,7 @@ module.exports = function(config) {
       'components/**/*.js',
       'content-scripts/**/*.js',
       'controller/**/*.js',
+      'lib/**/*.js',
       'modules/**/*.js',
     ],
 
