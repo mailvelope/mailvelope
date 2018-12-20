@@ -41,7 +41,6 @@ describe('Looking up keys from different services', () => {
       const result = await keyRegistry.locate('test@mailvelope.com', 'id');
       expect(result.content).to.include('PGP PUBLIC KEY BLOCK');
       expect(result.source).to.be.equal('Mailvelope Key Server');
-      expect(result.type).to.be.equal('OPEN_PGP');
     });
   });
 
@@ -71,7 +70,6 @@ describe('Looking up keys from different services', () => {
       const result = await keyRegistry.locate(addr, 'id');
       expect(result.content).to.include('base64');
       expect(result.source).to.be.equal('Autocrypt');
-      expect(result.type).to.be.equal('OPEN_PGP');
     });
   });
 });

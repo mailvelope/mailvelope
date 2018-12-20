@@ -276,7 +276,6 @@
 
     /**
      * @typedef {Object} LocateResult
-     * @property {String} type - 'OPEN_PGP' for now
      * @property {AsciiArmored} content - Armored public key
      * @property {String} source - see sources in locatePublicKey.
      */
