@@ -38,7 +38,7 @@ function parseMIME(rawText, handlers, encoding) {
           } else {
             filterBodyParts(parsed, 'text', textParts);
             if (textParts.length) {
-              handlers.onMessage(textParts.map(part => mvelo.util.text2html(part.content)).join('<hr>'));
+              handlers.onMessage(textParts.map(part => mvelo.util.text2autoLinkHtml(part.content)).join('<hr>'));
             }
           }
         } else if (encoding === 'text') {

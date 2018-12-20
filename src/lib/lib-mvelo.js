@@ -6,6 +6,7 @@
 import mveloGlobal from '../mvelo';
 import browser from 'webextension-polyfill';
 import dompurify from 'dompurify';
+import autoLink from './autolink';
 
 const mvelo = {...mveloGlobal};
 
@@ -147,6 +148,10 @@ dompurify.addHook('afterSanitizeAttributes', node => {
 
 mvelo.util.sanitizeHTML = function(html) {
   return dompurify.sanitize(html, {SAFE_FOR_JQUERY: true});
+};
+
+mvelo.util.text2autoLinkHtml = function(text) {
+  return mvelo.util.sanitizeHTML(autoLink(text, {defaultProtocol: 'https', escapeFn: mvelo.util.encodeHTML}));
 };
 
 mvelo.util.getHostname = function(url) {
