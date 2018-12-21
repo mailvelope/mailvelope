@@ -5,7 +5,7 @@
 
 import mvelo from '../../mvelo';
 import {port, getAppDataSlot} from '../app';
-import {KeyringOptions} from './Keyring';
+import {KeyringOptions} from './KeyringOptions';
 import * as l10n from '../../lib/l10n';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -34,7 +34,7 @@ l10n.register([
   'form_clear'
 ]);
 
-class ImportKeyBase extends React.Component {
+export default class ImportKey extends React.Component {
   constructor(props) {
     super(props);
     this.state = {alert: [], armored: ''};
@@ -98,7 +98,7 @@ class ImportKeyBase extends React.Component {
       if (!keys.length) {
         throw {message: l10n.map.key_import_invalid_text, type: 'error'};
       }
-      const result = await port.send('importKeys', {keyringId: this.props.keyringId, keys});
+      const result = await port.send('importKeys', {keyringId: this.context.keyringId, keys});
       result.forEach(imported => {
         let header;
         const {message} = imported;
@@ -130,7 +130,7 @@ class ImportKeyBase extends React.Component {
         <h3 className="logo-header">
           <span>{l10n.map.keyring_import_keys}</span>
         </h3>
-        {!this.props.demail && <KeySearch prefs={this.props.prefs} />}
+        {!this.context.demail && <KeySearch prefs={this.props.prefs} />}
         <form className="form" autoComplete="off">
           <div className="form-group">
             <label className="control-label" htmlFor="selectFileButton"><h4>{l10n.map.key_import_file}</h4></label>
@@ -161,18 +161,10 @@ class ImportKeyBase extends React.Component {
   }
 }
 
-ImportKeyBase.propTypes = {
-  keyringId: PropTypes.string,
-  demail: PropTypes.bool,
+ImportKey.contextType = KeyringOptions;
+
+ImportKey.propTypes = {
   onKeyringChange: PropTypes.func,
   prefs: PropTypes.object,
   location: PropTypes.object
 };
-
-export default function ImportKey(props) {
-  return (
-    <KeyringOptions.Consumer>
-      {options => <ImportKeyBase {...props} keyringId={options.keyringId} demail={options.demail} />}
-    </KeyringOptions.Consumer>
-  );
-}

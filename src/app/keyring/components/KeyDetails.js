@@ -6,7 +6,7 @@
 import * as l10n from '../../../lib/l10n';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {KeyringOptions} from '../Keyring';
+import {KeyringOptions} from '../KeyringOptions';
 
 import ModalDialog from '../../../components/util/ModalDialog';
 import DefaultKeyButton from './DefaultKeyButton';
