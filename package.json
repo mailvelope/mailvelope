@@ -30,9 +30,9 @@
     "openpgp": "4.3.0",
     "prop-types": "15.6.2",
     "qrcodejs": "github:llyys/qrcodejs#98657dab44d520876cfb646c39ebbc43c1594826",
-    "react": "16.5.2",
+    "react": "16.7.0",
     "react-datepicker": "1.7.0",
-    "react-dom": "16.5.2",
+    "react-dom": "16.7.0",
     "react-router-dom": "4.3.1",
     "react-select": "1.2.1",
     "webextension-polyfill": "0.2.1"
@@ -79,7 +79,7 @@
     "string-replace-loader": "^2.1.1",
     "style-loader": "^0.23.1",
     "web-ext": "^2.9.2",
-    "webpack": "^4.26.1",
+    "webpack": "^4.28.1",
     "webpack-cli": "^3.1.2"
   },
   "engines": {

@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ModalDialog from '../../../components/util/ModalDialog';
-import {KeyringOptions} from '../Keyring';
+import {KeyringOptions} from '../KeyringOptions';
 import KeyDetailsExport from './KeyDetailsExport';
 
 l10n.register([

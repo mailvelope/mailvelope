@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import mvelo from '../../mvelo';
 import * as l10n from '../../lib/l10n';
 import {port} from '../app';
-import {KeyringOptions} from './Keyring';
+import {KeyringOptions} from './KeyringOptions';
 import moment from 'moment';
 
 import NameAddrInput from './components/NameAddrInput';
@@ -34,28 +34,35 @@ l10n.register([
 // set locale
 moment.locale(navigator.language);
 
-class GenerateKeyBase extends React.Component {
+export default class GenerateKey extends React.Component {
   constructor(props) {
     super(props);
-    this.initialState = {
-      name: props.defaultName,
-      email: props.defaultEmail,
-      keyAlgo: props.gnupg ? 'default' : 'rsa',
+    this.state = this.getInitialState();
+    this.handleChange = this.handleChange.bind(this);
+    this.handleGenerate = this.handleGenerate.bind(this);
+    this.handleReset = this.handleReset.bind(this);
+    this.generateKey = this.generateKey.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState(this.getInitialState(this.context));
+  }
+
+  getInitialState({gnupg = false, demail = false} = {}) {
+    return {
+      name: this.props.defaultName,
+      email: this.props.defaultEmail,
+      keyAlgo: gnupg ? 'default' : 'rsa',
       keySize: '4096',
-      keyExpirationTime: props.gnupg ? moment().startOf('day').add(2, 'years') : null,
+      keyExpirationTime: gnupg ? moment().startOf('day').add(2, 'years') : null,
       password: '',
       passwordCheck: '',
-      mveloKeyServerUpload: props.demail ? false : true,
+      mveloKeyServerUpload: demail ? false : true,
       generating: false, // key generation in progress
       success: false, // key generation successful
       errors: {}, // form errors
       alert: null // notifications
     };
-    this.state = this.initialState;
-    this.handleChange = this.handleChange.bind(this);
-    this.handleGenerate = this.handleGenerate.bind(this);
-    this.handleReset = this.handleReset.bind(this);
-    this.generateKey = this.generateKey.bind(this);
   }
 
   handleChange(event) {
@@ -95,7 +102,7 @@ class GenerateKeyBase extends React.Component {
     if (this.state.keyExpirationTime) {
       parameters.keyExpirationTime = Math.abs(this.state.keyExpirationTime.unix() - moment().startOf('day').unix());
     }
-    port.send('generateKey', {parameters, keyringId: this.props.keyringId})
+    port.send('generateKey', {parameters, keyringId: this.context.keyringId})
     .then(() => {
       this.setState({
         alert: {header: l10n.map.alert_header_success, message: l10n.map.key_gen_success, type: 'success'},
@@ -113,11 +120,11 @@ class GenerateKeyBase extends React.Component {
   }
 
   handleReset() {
-    this.setState(this.initialState);
+    this.setState(this.getInitialState(this.context));
   }
 
   render() {
-    const validPassword = this.state.password.length && this.state.password === this.state.passwordCheck || this.props.gnupg;
+    const validPassword = this.state.password.length && this.state.password === this.state.passwordCheck || this.context.gnupg;
     return (
       <div className={this.state.generating ? 'busy' : ''}>
         <h3 className="logo-header">
@@ -128,8 +135,8 @@ class GenerateKeyBase extends React.Component {
           <AdvancedExpand>
             <AdvKeyGenOptions value={this.state} onChange={this.handleChange} disabled={this.state.success} />
           </AdvancedExpand>
-          {!this.props.gnupg && <DefinePassword value={this.state} onChange={this.handleChange} disabled={this.state.success} />}
-          <div className={`form-group ${this.props.demail ? 'hide' : ''}`}>
+          {!this.context.gnupg && <DefinePassword value={this.state} onChange={this.handleChange} disabled={this.state.success} />}
+          <div className={`form-group ${this.context.demail ? 'hide' : ''}`}>
             <div className="checkbox">
               <label className="checkbox" htmlFor="mveloKeyServerUpload">
                 <input checked={this.state.mveloKeyServerUpload} onChange={this.handleChange} type="checkbox" id="mveloKeyServerUpload" disabled={this.state.success} />
@@ -154,24 +161,15 @@ class GenerateKeyBase extends React.Component {
   }
 }
 
-GenerateKeyBase.propTypes = {
-  keyringId: PropTypes.string,
-  demail: PropTypes.bool,
-  gnupg: PropTypes.bool,
+GenerateKey.contextType = KeyringOptions;
+
+GenerateKey.propTypes = {
   defaultName: PropTypes.string,
   defaultEmail: PropTypes.string,
   onKeyringChange: PropTypes.func
 };
 
-GenerateKeyBase.defaultProps = {
+GenerateKey.defaultProps = {
   defaultName: '',
   defaultEmail: ''
 };
-
-export default function GenerateKey(props) {
-  return (
-    <KeyringOptions.Consumer>
-      {options => <GenerateKeyBase {...props} keyringId={options.keyringId} demail={options.demail} gnupg={options.gnupg} key={`${options.gnupg}${options.demail}`} />}
-    </KeyringOptions.Consumer>
-  );
-}

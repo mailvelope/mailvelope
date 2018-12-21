@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';
 import {port} from '../app';
 
+import {KeyringOptions} from './KeyringOptions';
 import KeyringSelect from './components/KeyringSelect';
 import KeyGrid from './KeyGrid';
 import ImportKey from './importKey';
@@ -23,8 +24,6 @@ l10n.register([
 ]);
 
 const DEMAIL_SUFFIX = 'de-mail.de';
-
-export const KeyringOptions = React.createContext({demail: false, gnupg: false});
 
 export default class Keyring extends React.Component {
   constructor(props) {
