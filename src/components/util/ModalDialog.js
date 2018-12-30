@@ -14,20 +14,20 @@ l10n.register([
 
 class ModalDialog extends React.Component {
   componentDidMount() {
-    this.modalNode.modal({backdrop: 'static', keyboard: this.props.keyboard});
-    this.modalNode.modal('show');
-    this.modalNode.on('hidden.bs.modal', this.props.onHide);
-    this.modalNode.on('show.bs.modal', this.props.onShow);
+    this.$node.modal({backdrop: 'static', keyboard: this.props.keyboard});
+    this.$node.modal('show');
+    this.$node.on('hidden.bs.modal', this.props.onHide);
+    this.$node.on('show.bs.modal', this.props.onShow);
   }
 
   componentWillUnmount() {
-    this.modalNode.modal('hide');
+    this.$node.modal('hide');
   }
 
   render() {
     return (
-      <div className={`modal fade ${this.props.className || ''}`} tabIndex="-1" role="dialog" ref={node => this.modalNode = $(node)}>
-        <div className="modal-dialog" role="document">
+      <div className={`modal fade ${this.props.className || ''}`} tabIndex="-1" role="dialog" ref={node => this.$node = $(node)}>
+        <div className={`modal-dialog ${this.props.size === 'small' ? 'modal-sm' : this.props.size === 'large' ? 'modal-lg' : ''}`} role="document">
           <div className="modal-content">
             <div className={`modal-header ${this.props.hideHeader ? 'hide' : ''} ${this.props.headerClass}`}>
               {this.props.header ||
@@ -57,6 +57,7 @@ class ModalDialog extends React.Component {
 
 ModalDialog.propTypes = {
   className: PropTypes.string,
+  size: PropTypes.oneOf(['small', 'medium', 'large']),
   title: PropTypes.string,
   header: PropTypes.element,
   headerClass: PropTypes.string,
@@ -72,6 +73,7 @@ ModalDialog.propTypes = {
 };
 
 ModalDialog.defaultProps = {
+  size: 'medium',
   keyboard: true,
   headerClass: ''
 };

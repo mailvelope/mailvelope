@@ -416,7 +416,7 @@ export default class Editor extends React.Component {
         <button type="button" className="btn btn-primary" data-dismiss="modal">{l10n.map.form_ok}</button>
       }>
         <div style={{maxHeight: '120px', overflowX: 'scroll'}}>
-          <Alert message={this.state.error.message} type={this.state.error.type} />
+          <Alert type={this.state.error.type}>{this.state.error.message}</Alert>
         </div>
       </ModalDialog>
     );

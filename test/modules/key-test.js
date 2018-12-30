@@ -1,10 +1,10 @@
 import {expect} from 'test';
 import * as openpgp from 'openpgp';
-import {getUserId, mapKeyUserIds, mapKeys, mapSubKeys, mapUsers, verifyUserCertificate, checkKeyId, getLastModifiedDate, equalKey, toPublic, filterUserIdsByEmail} from 'modules/key';
+import {getUserInfo, mapKeyUserIds, mapKeys, mapSubKeys, mapUsers, verifyUserCertificate, checkKeyId, getLastModifiedDate, equalKey, toPublic, filterUserIdsByEmail} from 'modules/key';
 import testKeys from 'Fixtures/keys';
 
 describe('Key unit test', () => {
-  describe('getUserId', () => {
+  describe('getUserInfo', () => {
     let key;
 
     beforeEach(async () => {
@@ -12,15 +12,16 @@ describe('Key unit test', () => {
     });
 
     it('should return primary or first available user id of key', () =>
-      expect(getUserId(key)).to.eventually.equal('Madita Bernstein <madita.bernstein@gmail.com>')
+      expect(getUserInfo(key)).to.eventually.deep.equal({userid: 'Madita Bernstein <madita.bernstein@gmail.com>', name: 'Madita Bernstein', email: 'madita.bernstein@gmail.com'})
     );
     it('should return localized error message when there is no valid user id on this key', () => {
       key.getPrimaryUser = () => null;
-      return expect(getUserId(key)).to.eventually.equal('keygrid_invalid_userid');
+      return expect(getUserInfo(key)).to.eventually.deep.equal({userid: 'keygrid_invalid_userid', name: null, email: null});
     });
-    it('should return first available user id when there is no valid user id on this key and validity check set to false', () => {
+    it('should return first available user id when there is no valid user id on this key and validity check set to false', async () => {
       key.getPrimaryUser = () => null;
-      return expect(getUserId(key, false)).to.eventually.equal(key.users[0].userId.userid);
+      const {userid} = await getUserInfo(key, false);
+      expect(userid).to.equal(key.users[0].userId.userid);
     });
   });
 
@@ -90,9 +91,9 @@ describe('Key unit test', () => {
 
   describe('mapSubKeys', () => {
     it('should map subkeys', async () => {
-      const {keys: [{primaryKey, subKeys}]} = await openpgp.key.readArmored(testKeys.maditab_pub);
+      const {keys: [key]} = await openpgp.key.readArmored(testKeys.maditab_pub);
       const mapped = {};
-      await mapSubKeys(subKeys, mapped, primaryKey);
+      await mapSubKeys(key.subKeys, mapped, key);
       const {subkeys: mappedSubkeys} = mapped;
       expect(mappedSubkeys.length).to.equal(4);
       const subkey = mappedSubkeys.find(({keyId}) => keyId === 'A9C26FF01F6F59E2');
@@ -108,11 +109,11 @@ describe('Key unit test', () => {
 
   describe('mapUsers', () => {
     it('should map users', async () => {
-      const {keys: [{primaryKey, users}]} = await openpgp.key.readArmored(testKeys.maditab_pub);
+      const {keys: [key]} = await openpgp.key.readArmored(testKeys.maditab_pub);
       const mapped = {};
-      await mapUsers(users, mapped, {}, primaryKey);
+      await mapUsers(key.users, mapped, {}, key);
       const {users: mappedUsers} = mapped;
-      expect(mappedUsers.length).to.equal(2);
+      expect(mappedUsers.length).to.equal(3);
       expect(mappedUsers[0].signatures[0].crDate).to.equal('2018-11-26T13:17:37.000Z');
       expect(mappedUsers[1].userId).to.equal('Madita Bernstone <madita@mailvelope.com>');
       mappedUsers.forEach(user => {

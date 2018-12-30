@@ -96,7 +96,7 @@ describe('Encrypt Form tests', () => {
 
       const alert = wrapper.find(Alert);
       expect(alert.exists()).to.equal(true);
-      expect(alert.find('span').text()).to.equal(error.message);
+      expect(alert.text()).to.equal(error.message);
     });
   });
 });

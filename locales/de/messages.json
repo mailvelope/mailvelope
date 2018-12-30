@@ -479,14 +479,6 @@
     "message": "Schlüssel Server ist nicht erreichbar",
     "description": "HKP key server url error."
   },
-  "key_details_title": {
-    "message": "Schlüsseldetails",
-    "description": "The title of the key details dialog."
-  },
-  "key_export_clipboard": {
-    "message": "In die Zwischenablage kopieren",
-    "description": "Copy to clipboard button."
-  },
   "key_export_create_file": {
     "message": "Speichern",
     "description": "Download file button."
@@ -532,7 +524,7 @@
     "description": "Key generate button label"
   },
   "key_gen_invalid_email": {
-    "message": "Nicht gültige E-Mail-Adresse",
+    "message": "Ungültige E-Mail-Adresse",
     "description": "Error message."
   },
   "key_gen_key_size": {
@@ -540,7 +532,7 @@
     "description": "Advanced key generation settings: Key size"
   },
   "key_gen_name_help": {
-    "message": "Voller Name des Schlüsseleigentümers",
+    "message": "Vollständiger Name des Schlüsseleigentümers",
     "description": "Help text for name field."
   },
   "key_gen_pwd": {
@@ -715,8 +707,284 @@
     "message": "Fehler bei Wiederherstellung der Sicherungskopie."
   },
   "key_set_as_default": {
-    "message": "Als Standard Schlüssel einstellen",
+    "message": "Als Standardschlüssel setzen",
     "description": "Set as default key for the keyring button"
+  },
+  "key_remove_btn": {
+    "message": "Entfernen",
+    "description": "Remove key button label"    
+  },
+  "key_export_btn": {
+    "message": "Exportieren",
+    "description": "Export key button label"    
+  },
+  "key_revoke_btn": {
+    "message": "Gültigkeit widerrufen",
+    "description": "Revoke key button label"    
+  },
+  "key_remove_btn_title": {
+    "message": "Schlüssel aus Schlüsselbund entfernen",
+    "description": "Title for remove key button"    
+  },
+  "key_export_btn_title": {
+    "message": "Schlüssel exportieren",
+    "description": "Title for export key button"    
+  },
+  "key_revoke_btn_title": {
+    "message": "Schlüssel für ungültig erklären",
+    "description": "Title for revoke key button"    
+  },
+  "key_default_active_btn_title": {
+    "message": "Schlüssel ist als Standardschlüssel gesetzt",
+    "description": "Title for active default key button"        
+  },
+  "key_default_disabled_btn_title": {
+    "message": "Schlüssel ist ungültig und kann nicht als Standardschlüssel gesetzt werden",
+    "description": "Title for disabled (invalid) default key button"        
+  },
+  "key_default_inactive_btn_title": {
+    "message": "Schlüssel als Standardschlüssel setzen",
+    "description": "Title for inactive default key button"        
+  },
+  "key_keyserver_sync": {
+    "message": "Die Schlüsseldaten auf dem Mailvelope Schlüssel-Server sind aktuell.",
+    "description": "Key data is synchronized with the Mailvelope key server"    
+  },
+  "key_keyserver_mod": {
+    "message": "Die Schlüsseldaten auf dem Mailvelope Schlüssel-Server sind nicht mehr aktuell.",
+    "description": "Local key data differs from Mailvelope key server"    
+  },
+  "key_keyserver_not": {
+    "message": "Der Schlüssel ist nicht mit dem Mailvelope Schlüssel-Server synchronisiert.",
+    "description": "Key is not on the the Mailvelope server"    
+  },
+  "key_keyserver_upload": {
+    "message": "Zur Synchronisierung mit dem Mailvelope Schlüssel-Server wurde eine Bestätigungs-Email an alle Benutzer-IDs versandt.",
+    "description": "An upload request has been sent to the Mailvelope key server"    
+  },
+  "key_keyserver_update": {
+    "message": "Die Schlüsseldaten wurden auf dem Mailvelope Schlüssel-Server aktualisiert.",
+    "description": "An update request has been sent to the Mailvelope key server"    
+  },
+  "key_keyserver_remove": {
+    "message": "Zur endgültigen Entfernung vom Mailvelope Schlüssel-Server wurde eine Bestätigungs-Email an alle Benutzer-IDs versandt.",
+    "description": "A deletion request has been sent to the Mailvelope key server"    
+  },
+  "key_keyserver_remove_btn": {
+    "message": "Alle Benutzer-IDs Entfernen",
+    "description": "Key server remove existing key button label"
+  },
+  "key_keyserver_upload_btn": {
+    "message": "Synchronisieren",
+    "description": "Key server upload button label"
+  },
+  "key_keyserver_update_btn": {
+    "message": "Aktualisieren",
+    "description": "Key server update button label"
+  },
+  "key_keyserver_resend_btn": {
+    "message": "Erneut senden",
+    "description": "Key server send again button label"
+  },
+  "key_remove_dialog_title": {
+    "message": "Schlüssel entfernen",
+    "description": "Title of delete key dialog."
+  },
+  "key_export_dialog_title": {
+    "message": "Schlüssel exportieren",
+    "description": "Title of export key dialog."
+  },
+  "key_export_dialog_question": {
+    "message": "Welchen Schlüssel möchten Sie exportieren?",
+    "description": "Question in export private key dialog."
+  },
+  "key_export_dialog_copy_to_clipboard": {
+    "message": "In die Zwischenablage kopieren",
+    "description": "Copy to clipboard button label."
+  },  
+  "key_revoke_dialog_title": {
+    "message": "Schlüssel für ungültig erklären",
+    "description": "Title of revoke key dialog."
+  },
+  "key_revoke_dialog_description": {
+    "message": "Mit dem Widerruf wird der Schlüssel permanent unbrauchbar gemacht.",
+    "description": "Text of revoke key dialog."
+  },
+  "key_revoke_dialog_confirm": {
+    "message": "Möchten Sie trotzdem widerrufen?",
+    "description": "Confirmation question of revoke key dialog."
+  },
+  "user_title": {
+    "message": "Benutzer-ID",
+    "description": "Title of user page"
+  },  
+  "user_create_title": {
+    "message": "Benutzer-ID erstellen",
+    "description": "Title of create user page"
+  },
+  "user_create_btn": {
+    "message": "Erstellen",
+    "description": "Create user button label"
+  },
+  "user_remove_btn": {
+    "message": "Entfernen",
+    "description": "Remove user button label"
+  },
+  "user_remove_btn_title": {
+    "message": "Benutzer-ID entfernen",
+    "description": "Remove user button title"
+  },
+  "user_revoke_btn": {
+    "message": "Gültigkeit widerrufen",
+    "description": "Revoke user button label"
+  },
+  "user_revoke_btn_title": {
+    "message": "Benutzer-ID für ungültig erklären",
+    "description": "Revoke user button title"
+  },
+  "user_remove_dialog_title": {
+    "message": "Benutzer-ID entfernen",
+    "description": "Title of remove user dialog."
+  },
+  "user_remove_dialog_confirmation": {
+    "message": "Möchten Sie diese Benutzer-ID aus Ihrem Schlüssel entfernen?",
+    "description": "Confirmation question in remove user dialog."
+  },
+  "user_remove_dialog_keyserver_warning": {
+    "message": "Benutzer-ID wird auch vom Mailvelope Schlüssel-Server entfernt.",
+    "description": "Warning message, that user ID will be removed from keyserver"
+  },
+  "user_revoke_dialog_title": {
+    "message": "Gültigkeit widerrufen",
+    "description": "Title of revoke user dialog."
+  },
+  "user_revoke_dialog_description": {
+    "message": "Mit dem Widerruf wird die Benutzer-ID für diesen Schlüssel permanent unbrauchbar gemacht.",
+    "description": "Description in revoke user dialog."
+  },  
+  "user_revoke_dialog_confirmation": {
+    "message": "Möchten Sie trotzdem widerrufen?",
+    "description": "Confirmation question in revoke user dialog."
+  },
+  "user_keyserver_sync": {
+    "message": "Die Benutzer-ID ist mit dem Mailvelope Schlüssel-Server synchronisiert.",
+    "description": "User ID is synchronised with the Mailvelope key server"    
+  },
+  "user_keyserver_unverified": {
+    "message": "Bitte bestätigen Sie die Benutzer-ID, um diese mit dem Mailvelope Schlüssel-Server zu synchronisieren.",
+    "description": "User ID Mailvelope key server not verified"    
+  },
+  "user_keyserver_not": {
+    "message": "Die Benutzer-ID ist nicht mit dem Mailvelope Schlüssel-Server synchronisiert.",
+    "description": "User ID is not synchronized with Mailvelope key server"    
+  },
+  "user_keyserver_upload": {
+    "message": "Zur Synchronisierung mit dem Mailvelope Server wurde eine Bestätigungs-Email an $1 versandt.",
+    "description": "An upload request has been sent to the Mailvelope key server"    
+  },
+  "user_keyserver_remove": {
+    "message": "Zur endgültigen Entfernung vom Mailvelope Server wurde eine Bestätigungs-Email an $1 versandt.",
+    "description": "A remove request has been sent to the Mailvelope key server"    
+  },
+  "user_keyserver_remove_btn": {
+    "message": "Benutzer-ID entfernen",
+    "description": "Remove user ID button label text"
+  },
+  "user_keyserver_resend_confirmation_btn": {
+    "message": "Bestätigung erneut senden",
+    "description": "Resend confirmation button label text"
+  },
+  "usersignatures_title": {
+    "message": "Verifizierungen",
+    "description": "Title of signatures panel in user."
+  },
+  "nameaddrinput_error_name_empty": {
+    "message": "Bitte geben Sie einen Namen ein!",
+    "description": "Error message for name input field."
+  },
+  "nameaddrinput_error_email_exists": {
+    "message": "Die E-Mail-Adresse wird bereits verwendet!",
+    "description": "Error message for email input field."
+  },
+  "keyusers_title": {
+    "message": "Zugeordnete Benutzer-IDs",
+    "description": "Title of the key users panel"
+  },
+  "keyusers_add_btn": {
+    "message": "Neue hinzufügen",
+    "description": "Add user button label"
+  },
+  "keyusers_add_btn_title": {
+    "message": "Eine neue Benutzer-ID hinzufügen",
+    "description": "Add user button title"
+  },
+  "keyusers_keyserver": {
+    "message": "Schlüssel-Server",
+    "description": "Label of key server column key users table"
+  },
+  "keyusers_keyserver_sync": {
+    "message": "synchronisiert",
+    "description": "User ID synchronized with key server label text"
+  },
+  "keyusers_keyserver_not": {
+    "message": "nicht synchronisiert",
+    "description": "User ID not synchronized with key server label text"
+  },
+  "keyusers_keyserver_unverified": {
+    "message": "unbestätigt",
+    "description": "User ID key server not verified label text"
+  },
+  "keydetails_title": {
+    "message": "Schlüsseldetails",
+    "description": "Title of the key details panel"
+  },
+  "keydetails_creation_date": {
+    "message": "Erstellt",
+    "description": "Creation date of a PGP key."
+  },
+  "keydetails_expiration_date": {
+    "message": "Läuft ab",
+    "description": "Expiration date of a PGP key."
+  },
+  "keydetails_key_not_expire": {
+    "message": "nie",
+    "description": "Expiration date of a PGP key not set."
+  },
+  "keydetails_password": {
+    "message": "Passwort",
+    "description": "Password of a PGP key."
+  },
+  "keydetails_change_exp_date_dialog_title": {
+    "message": "Ablaufdatum ändern",
+    "description": "Title of change expiration date dialog."
+  },
+  "keydetails_change_exp_date_dialog_note": {
+    "message": "Das Verfallsdatum wird auch für alle Unterschlüssel neu gesetzt. Ungültige oder bereits abgelaufene Unterschlüssel bleiben unberührt.",
+    "description": "Important note in change expiration date dialog."
+  },
+  "keydetails_change_pwd_dialog_title": {
+    "message": "Passwort ändern",
+    "description": "Title of change password dialog."
+  },
+  "keydetails_change_pwd_dialog_old": {
+    "message": "Altes Passwort",
+    "description": "Old password input label"
+  },
+  "dialog_cancel_btn": {
+    "message": "Abbrechen",
+    "description": "Dialog cancel button label"
+  },
+  "dialog_save_btn": {
+    "message": "Speichern",
+    "description": "Dialog save button label"
+  },
+  "dialog_yes_btn": {
+    "message": "Ja",
+    "description": "Dialog yes button label"
+  },
+  "dialog_no_btn": {
+    "message": "Nein",
+    "description": "Dialog no button label"
   },
   "invalid_default_key": {
     "message": "Schlüssel ist nicht valide für Verschlüsselungs- und Signieren-Operationen",
@@ -881,21 +1149,9 @@
     "message": "Der Schlüssel verfällt nicht",
     "description": "Expiration date of a PGP key not set."
   },
-  "keygrid_key_type": {
-    "message": "Typ",
-    "description": "The type of the key."
-  },
   "keygrid_keyid": {
     "message": "Schlüssel",
     "description": "Key ID of a PGP key."
-  },
-  "keygrid_no_subkeys": {
-    "message": "Keine Unterschlüssel verfügbar",
-    "description": "No subkeys of a PGP key found."
-  },
-  "keygrid_no_userid": {
-    "description": "Warning message if no user id found.",
-    "message": "Keine gültige Benutzerkennung gefunden"
   },
   "keygrid_primary_key": {
     "message": "Hauptschlüssel",
@@ -945,9 +1201,17 @@
     "message": "gültig",
     "description": "Validity status of a PGP key."
   },
-  "keygrid_subkeyid": {
-    "message": "Kennung",
-    "description": "Subkey ID of a PGP key."
+  "keygrid_status_revoked": {
+    "message": "widerrufen",
+    "description": "Validity status of a PGP key."
+  },
+  "keygrid_status_expired": {
+    "message": "abgelaufen",
+    "description": "Validity status of a PGP key."
+  },
+  "keygrid_subkey": {
+    "message": "Unterschlüssel",
+    "description": "Subkey of a PGP key."
   },
   "keygrid_subkeys": {
     "message": "Unterschlüssel",
@@ -965,9 +1229,9 @@
     "message": "Name",
     "description": "Name in User ID of a PGP key."
   },
-  "keygrid_userid": {
-    "message": "Kennung",
-    "description": "User ID of a PGP key."
+  "keygrid_user_primary": {
+    "message": "Primär",
+    "description": "Primary status of User ID of a PGP key"
   },
   "keygrid_userid_signatures": {
     "message": "Signaturen",
@@ -1008,10 +1272,6 @@
   "keyring_import_keys": {
     "message": "Schlüssel importieren",
     "description": "Tab of keyring to import keys."
-  },
-  "keyring_keypair": {
-    "message": "Schlüsselpaar",
-    "description": "key pair"
   },
   "keyring_main": {
     "description": "Label for the main keyring",
@@ -1183,6 +1443,22 @@
   },
   "pwd_dialog_reason_sign": {
     "message": "Bitte Schlüssel-Passwort eingeben, um diese Nachricht zu versenden.",
+    "description": ""
+  },
+  "pwd_dialog_reason_revoke": {
+    "message": "Bitte Schlüssel-Passwort eingeben, um diesen Schlüssel für ungültig zu erklären.",
+    "description": ""
+  },
+  "pwd_dialog_reason_add_user": {
+    "message": "Bitte Schlüssel-Passwort eingeben, um die Benutzer-ID zu erstellen.",
+    "description": ""
+  },
+  "pwd_dialog_reason_revoke_user": {
+    "message": "Bitte Schlüssel-Passwort eingeben, um die Benutzer-ID für ungültig zu erklären.",
+    "description": ""
+  },
+  "pwd_dialog_reason_set_exdate": {
+    "message": "Bitte Schlüssel-Passwort eingeben, um das Ablaufdatum des Schlüssels neu zu setzen.",
     "description": ""
   },
   "pwd_dialog_title": {

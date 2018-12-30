@@ -3,6 +3,29 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-.keyDetails .tab-pane {
-    padding: 10px;
+.keyDetails .panel-heading {
+    padding: 5px 15px;
+}
+
+.keyDetails .panel-heading h4 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 30px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    display: inline-block;
+}
+
+.keyDetails .form-horizontal label {
+    text-align: left !important;
+    color: #777;
+    font-weight: 500;
+}
+
+.keyDetails .form-horizontal .text-only {
+    padding-top: 7px;
+}
+
+.keyDetails .form-horizontal .input-group {
+    width: 155px;
 }

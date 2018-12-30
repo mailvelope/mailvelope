@@ -158,7 +158,7 @@ export default class KeyServer extends React.Component {
             </div>
           </div>
           <div className="form-group">
-            {this.state.alert && <Alert header={this.state.alert.header} message={this.state.alert.message} type={this.state.alert.type} />}
+            {this.state.alert && <Alert header={this.state.alert.header} type={this.state.alert.type}>{this.state.alert.message}</Alert>}
           </div>
           <div className="form-group">
             <button type="button" onClick={() => this.handleSave()} className="btn btn-primary" disabled={!(this.state.modified && this.state.valid_base_url)}>{l10n.map.form_save}</button>

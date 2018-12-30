@@ -1,0 +1,16 @@
+.userSignatures .panel-heading {
+    padding: 5px 15px;
+}
+
+.userSignatures .panel-heading h4 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 30px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    display: inline-block;
+}
+.userSignatures .table {
+    font-size: 14px;
+}
+

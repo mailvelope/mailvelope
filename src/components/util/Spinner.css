@@ -17,13 +17,43 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-.m-spinner {
+/* Absolute Center Spinner */
+.m-spinner-fullscreen {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: visible;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+.m-spinner-fullscreen:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+}
+
+.m-spinner-inline {
   margin: 60px auto 60px;
   width: 70px;
   text-align: center;
 }
 
-.m-spinner > div {
+.m-spinner-fullscreen .symbol, .m-spinner-inline .symbol {
+  width: 54px;
+}
+
+.m-spinner-fullscreen .symbol > div, .m-spinner-inline .symbol > div {
   width: 18px;
   height: 18px;
   background-color: #333;
@@ -35,11 +65,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   animation-fill-mode: both;
 }
 
-.m-spinner .bounce1 {
+.m-spinner-fullscreen .symbol .bounce1, .m-spinner-inline .symbol .bounce1 {
   animation-delay: -0.32s;
 }
 
-.m-spinner .bounce2 {
+.m-spinner-fullscreen .symbol .bounce2, .m-spinner-inline .symbol .bounce2 {
   animation-delay: -0.16s;
 }
 

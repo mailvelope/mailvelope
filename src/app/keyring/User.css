@@ -1,0 +1,30 @@
+
+.user .breadcrumb {
+    margin-bottom: 0px;
+    padding: 0;
+    background-color: transparent;
+}    
+
+.user .container-fluid {
+    padding: 0;
+}
+
+.user .navbar-brand {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 24px; 
+    font-weight: 700;
+}
+
+.user .form-horizontal label {
+    text-align: left !important;
+    color: #777;
+    font-weight: 500;
+}
+
+.user .form-horizontal .text-only {
+    padding-top: 7px;
+}
+
+.user .form-horizontal .input-group {
+    width: 150px;
+}

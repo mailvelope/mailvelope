@@ -25,6 +25,10 @@ l10n.set([
   'pwd_dialog_keyid_tooltip',
   'pwd_dialog_reason_decrypt',
   'pwd_dialog_reason_sign',
+  'pwd_dialog_reason_revoke',
+  'pwd_dialog_reason_add_user',
+  'pwd_dialog_reason_revoke_user',
+  'pwd_dialog_reason_set_exdate',
   'pwd_dialog_reason_editor',
   'pwd_dialog_reason_create_backup',
   'pwd_dialog_reason_create_draft'

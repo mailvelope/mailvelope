@@ -15,55 +15,53 @@ l10n.register([
   'key_gen_pwd_match'
 ]);
 
-function labelVisibility(password, passwordCheck) {
-  const mask = (passwordCheck.length > 0) << 1 | (password.length > 0);
-  const label = {empty: '', nequ: '', match: ''};
-  switch (mask) {
-    case 0:
-      // both empty
-      label.nequ = 'hide';
-      label.match = 'hide';
-      break;
-    case 1:
-    case 2:
-      // re-enter or enter empty
-      label.empty = 'hide';
-      label.match = 'hide';
-      break;
-    case 3:
-      // both filled
-      label.empty = 'hide';
-      if (passwordCheck === password) {
-        label.nequ = 'hide';
-      } else {
-        label.match = 'hide';
-      }
-      break;
+export default class DefinePassword extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      passwordCheck: '',
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.retypeCheck = this.retypeCheck.bind(this);
   }
-  return label;
-}
 
-export default function DefinePassword({value: {password, passwordCheck}, onChange, disabled}) {
-  const visibility = labelVisibility(password, passwordCheck);
-  return (
-    <div>
-      <div className="form-group">
-        <label className="control-label" htmlFor="password">{l10n.map.key_gen_pwd}</label>
-        <input value={password} onChange={onChange} type="password" className="form-control" id="password" disabled={disabled} />
-        <span className={`label label-danger ${visibility.empty}`}>{l10n.map.key_gen_pwd_empty}</span>
+  componentDidUpdate(prevProps) {
+    if (this.props.value !== prevProps.value) {
+      this.retypeCheck(this.state.passwordCheck);
+    }
+  }
+
+  handleChange(event) {
+    const target = event.target;
+    this.retypeCheck(target.value);
+  }
+
+  retypeCheck(value) {
+    const error = this.props.value !== value && this.props.value.length;
+    this.setState({passwordCheck: value}, () => this.props.onChange({target: {id: 'passwordCheck', error}}));
+  }
+
+  render() {
+    return (
+      <div>
+        <div className={`form-group ${this.props.errors.password ? ' has-error' : ''}`}>
+          <label className="control-label" htmlFor="password">{l10n.map.key_gen_pwd}</label>
+          <input value={this.props.value.password} onChange={this.props.onChange} type="password" className="form-control" id="password" disabled={this.props.disabled} />
+          <span className={`help-block ${this.props.errors.password ? 'show' : 'hide'}`}>{l10n.map.key_gen_pwd_empty}</span>
+        </div>
+        <div className={`form-group ${(this.props.errors.passwordCheck) ? ' has-error' : ''}`}>
+          <label className="control-label" htmlFor="passwordCheck">{l10n.map.key_gen_pwd_reenter}</label>
+          <input onChange={this.handleChange} type="password" className="form-control" id="passwordCheck" disabled={this.props.disabled} />
+          <span className={`help-block ${(this.props.errors.passwordCheck) ? 'show' : 'hide'}`}>{l10n.map.key_gen_pwd_unequal}</span>
+        </div>
       </div>
-      <div className="form-group">
-        <label className="control-label" htmlFor="passwordCheck">{l10n.map.key_gen_pwd_reenter}</label>
-        <input value={passwordCheck} onChange={onChange} type="password" className="form-control" id="passwordCheck" disabled={disabled} />
-        <span className={`label label-danger ${visibility.nequ}`}>{l10n.map.key_gen_pwd_unequal}</span>
-        <span className={`label label-success ${visibility.match}`}>{l10n.map.key_gen_pwd_match}</span>
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 DefinePassword.propTypes = {
-  value: PropTypes.object.isRequired,
+  value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  errors: PropTypes.object
 };

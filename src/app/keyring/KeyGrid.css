@@ -63,14 +63,6 @@ button.keyDetailsBtn, button.keyDeleteBtn {
     margin-right: 0;
 }
 
-.publicKey {
-    background: no-repeat url(../img/public-key.png);
-}
-
-.keyPair {
-    background: no-repeat url(../img/private-key.png);
-}
-
 .keyringFilterLabel > * {
     margin-right: 10px;
 }

@@ -18,6 +18,8 @@ export const PGP_MESSAGE = 'msg';
 export const PGP_SIGNATURE = 'sig';
 export const PGP_PUBLIC_KEY = 'pub';
 export const PGP_PRIVATE_KEY = 'priv';
+// key status
+export const PGP_KEYSTATUS_VALID = 3;
 // display decrypted message
 export const DISPLAY_INLINE = 'inline';
 export const DISPLAY_POPUP = 'popup';

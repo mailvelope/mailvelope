@@ -13,10 +13,13 @@ import {port} from '../app';
 import {KeyringOptions} from './KeyringOptions';
 import KeyringSelect from './components/KeyringSelect';
 import KeyGrid from './KeyGrid';
+import Key from './Key';
+import User from './User';
 import ImportKey from './importKey';
 import GenerateKey from './GenerateKey';
 import KeyringSetup from './KeyringSetup';
 import Spinner from '../../components/util/Spinner';
+import './Keyring.css';
 
 l10n.register([
   'keyring_header',
@@ -55,7 +58,7 @@ export default class Keyring extends React.Component {
 
   async componentDidMount() {
     await this.initActiveKeyring();
-    this.loadKeyring();
+    await this.loadKeyring();
   }
 
   initActiveKeyring() {
@@ -68,25 +71,21 @@ export default class Keyring extends React.Component {
     });
   }
 
-  loadKeyring() {
-    port.send('get-all-keyring-attr')
-    .then(keyringAttr => {
-      this.setState(prevState => {
-        const keyringId = keyringAttr[prevState.keyringId] ? prevState.keyringId : MAIN_KEYRING_ID;
-        const defaultKeyFpr = keyringAttr[keyringId].default_key || '';
-        const demail = keyringId.includes(DEMAIL_SUFFIX);
-        const gnupg = keyringId === GNUPG_KEYRING_ID;
-        // propagate state change to backend
-        port.emit('set-active-keyring', {keyringId});
-        return {keyringId, defaultKeyFpr, demail, gnupg, keyringAttr, keysLoading: true};
-      }, () => {
-        port.send('getKeys', {keyringId: this.state.keyringId})
-        .then(keys => {
-          keys = keys.sort((a, b) => a.name.localeCompare(b.name));
-          const hasPrivateKey = keys.some(key => key.type === 'private');
-          this.setState({hasPrivateKey, keys, keysLoading: false});
-        });
-      });
+  async loadKeyring() {
+    /* eslint-disable react/no-access-state-in-setstate */
+    const keyringAttr = await port.send('get-all-keyring-attr');
+    const keyringId = keyringAttr[this.state.keyringId] ? this.state.keyringId : MAIN_KEYRING_ID;
+    const defaultKeyFpr = keyringAttr[keyringId].default_key || '';
+    const demail = keyringId.includes(DEMAIL_SUFFIX);
+    const gnupg = keyringId === GNUPG_KEYRING_ID;
+    // propagate state change to backend
+    port.emit('set-active-keyring', {keyringId});
+    let keys = await port.send('getKeys', {keyringId: this.state.keyringId});
+    keys = keys.sort((a, b) => a.name.localeCompare(b.name));
+    const hasPrivateKey = keys.some(key => key.type === 'private');
+    /* eslint-enable react/no-access-state-in-setstate */
+    this.setState({
+      keyringId, defaultKeyFpr, demail, gnupg, keyringAttr, hasPrivateKey, keys, keysLoading: false
     });
   }
 
@@ -135,6 +134,8 @@ export default class Keyring extends React.Component {
                 ) : (
                   <>
                     <Route exact path="/keyring" render={() => this.state.keys.length ? <Redirect to='/keyring/display' /> : <Redirect to='/keyring/setup' />} />
+                    <Route exact path='/keyring/key/:keyFpr' render={props => <Key {...props} keyData={this.state.keys.find(key => key.fingerprint === props.match.params.keyFpr)} defaultKeyFpr={this.state.defaultKeyFpr} onChangeDefaultKey={this.handleChangeDefaultKey} onDeleteKey={this.handleDeleteKey} onKeyringChange={this.loadKeyring} />} />
+                    <Route exact path='/keyring/key/:keyFpr/user/:userIdx' render={props => <User {...props} keyData={this.state.keys.find(key => key.fingerprint === props.match.params.keyFpr)} onKeyringChange={this.loadKeyring} />} />
                     <Route path='/keyring/display' render={() => <KeyGrid keys={this.state.keys} defaultKeyFpr={this.state.defaultKeyFpr} onChangeDefaultKey={this.handleChangeDefaultKey} onDeleteKey={this.handleDeleteKey} onRefreshKeyring={this.handleRefreshKeyring} spinner={this.state.keysLoading} />} />
                     <Route path='/keyring/import' render={({location}) => <ImportKey onKeyringChange={this.loadKeyring} prefs={this.props.prefs} location={location} />} />
                     <Route path='/keyring/generate' render={() => <GenerateKey onKeyringChange={this.loadKeyring} defaultName={this.state.name} defaultEmail={this.state.email} />} />
