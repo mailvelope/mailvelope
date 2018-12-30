@@ -1,0 +1,22 @@
+.keySelect {
+    min-width:260px;
+}
+
+.keySelect button {
+    width: 100%;
+    text-align: left;
+}
+
+.keySelect .caret {
+    margin-top: 0.55em;
+}
+
+.keySelect .dropdown-menu {
+    width: 100%;
+    font-size: 12px;
+}
+
+.keySelect .dropdown-menu>li>a {
+    padding: 3px 10px;
+    cursor: pointer;
+}

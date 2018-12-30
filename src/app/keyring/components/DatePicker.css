@@ -13,3 +13,7 @@
 .react-datepicker__input-container {
   width: 100%;
 }
+
+.react-datepicker-wrapper input {
+  background-color: #FFF !important
+}

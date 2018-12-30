@@ -149,7 +149,7 @@ export default class DecryptMessage extends React.Component {
     }
     return (
       <ModalDialog title={this.state.error.header} onCancel={() => this.handleCancel()} hideFooter={true}>
-        <Alert message={this.state.error.message} type={this.state.error.type} />
+        <Alert type={this.state.error.type}>{this.state.error.message}</Alert>
       </ModalDialog>
     );
   }

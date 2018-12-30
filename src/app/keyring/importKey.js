@@ -153,7 +153,7 @@ export default class ImportKey extends React.Component {
             </Link>
           </div>
           <div className="form-group">
-            {this.state.alert.map((alert, index) => <Alert header={alert.header} message={alert.message} type={alert.type} key={index} />)}
+            {this.state.alert.map((alert, index) => <Alert header={alert.header} type={alert.type} key={index}>{alert.message}</Alert>)}
           </div>
         </form>
       </div>

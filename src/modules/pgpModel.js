@@ -12,7 +12,7 @@ import * as pwdCache from './pwdCache';
 import {randomString, symEncrypt} from './crypto';
 import * as uiLog from './uiLog';
 import {getById as getKeyringById, getKeyringWithPrivKey, syncPublicKeys, getPreferredKeyring} from './keyring';
-import {getUserId, mapKeys} from './key';
+import {getUserInfo, mapKeys} from './key';
 import * as keyringSync from './keyringSync';
 import * as trustKey from './trustKey';
 
@@ -155,7 +155,10 @@ export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyF
 async function logEncryption(source, keyring, keyFprs) {
   if (source) {
     const keys = keyring.getKeysByFprs(keyFprs);
-    const recipients = await Promise.all(keys.map(async key => getUserId(key, false)));
+    const recipients = await Promise.all(keys.map(async key => {
+      const {userid} = await getUserInfo(key, false);
+      return userid;
+    }));
     uiLog.push(source, 'security_log_encryption_operation', [recipients.join(', ')]);
   }
 }

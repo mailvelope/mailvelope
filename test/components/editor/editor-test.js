@@ -88,7 +88,7 @@ describe('Editor tests', () => {
       const component = wrapper.instance();
       component.onDecryptFailed({error: {message: 'Error message!'}});
       wrapper.update();
-      expect(wrapper.find('ModalDialog Alert').props().message).to.equal('Error message!');
+      expect(wrapper.find('ModalDialog Alert').props().children).to.equal('Error message!');
     });
 
     /* test shows side effects and has to be fixed */

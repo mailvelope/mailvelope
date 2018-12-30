@@ -148,7 +148,7 @@ export default class EncryptedForm extends React.Component {
       <div className={this.props.secureBackground && !this.state.waiting ? 'jumbotron secureBackground' : ''} style={{height: '100%', position: 'relative'}}>
         <section className="well clearfix">
           <div>
-            {this.state.error ? (<Alert message={this.state.error.message} type={this.state.error.type} />) : (
+            {this.state.error ? (<Alert type={this.state.error.type}>{this.state.error.message}</Alert>) : (
               <div>
                 {this.state.validated && <div className="spinnerWrapper"><Spinner style={{margin: '0 auto 0'}} /></div>}
                 <div className="formWrapper">
