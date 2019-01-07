@@ -4,13 +4,11 @@ function escapeAttr(str) {
   return str.replace(/"/g, '&quot;');
 }
 
-export default (str, {defaultProtocoll = 'https', nl2br = true, target = '_blank', escapeFn = text => text}) => {
+export default function autolink(str, {defaultProtocoll = 'https', nl2br = true, target = '_blank', escapeFn = text => text}) {
   const tokens = tokenize(str);
   const result = [];
 
-  for (let i = 0; i < tokens.length; i++) {
-    const token = tokens[i];
-
+  for (const token of tokens) {
     if (token.type === 'nl' && nl2br) {
       result.push('<br>\n');
       continue;
@@ -30,4 +28,4 @@ export default (str, {defaultProtocoll = 'https', nl2br = true, target = '_blank
   }
 
   return result.join('');
-};
+}
