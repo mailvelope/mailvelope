@@ -137,6 +137,7 @@ dompurify.addHook('afterSanitizeAttributes', node => {
   // set all elements owning target to target=_blank
   if ('target' in node) {
     node.setAttribute('target', '_blank');
+    node.setAttribute('rel', 'noreferrer noopener');
   }
   // set MathML links to xlink:show=new
   if (!node.hasAttribute('target') &&
