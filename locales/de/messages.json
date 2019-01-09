@@ -80,7 +80,7 @@
     "description": "Alert header of category warning."
   },
   "alert_invalid_domainmatchpattern_warning": {
-    "message": "Domänen-Übereinstimmungsmuster muss mit * beginnen.",
+    "message": "Domänen-Übereinstimmungsmuster muss mit '*.' beginnen.",
     "description": "Alert header of category warning."
   },
   "alert_no_domainmatchpattern_warning": {
