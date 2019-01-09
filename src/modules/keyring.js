@@ -92,11 +92,16 @@ const keyringMap = new Map();
 
 export async function init() {
   await keyringAttr.init();
-  const keyringPromises = Array.from(keyringAttr.keys()).map(keyringId =>
-    buildKeyring(keyringId)
-    .catch(e => console.log(`Building keyring for id ${keyringId} failed`, e))
-  );
-  await Promise.all(keyringPromises);
+  const keyringIds = Array.from(keyringAttr.keys());
+  await Promise.all(keyringIds.map(async keyringId => {
+    try {
+      await buildKeyring(keyringId);
+    } catch (e) {
+      // could not build keyring, remove from keyring attributes
+      await keyringAttr.delete(keyringId);
+      console.log(`Building keyring for id ${keyringId} failed`, e);
+    }
+  }));
   preVerifyKeys();
 }
 
