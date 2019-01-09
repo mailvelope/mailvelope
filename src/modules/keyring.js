@@ -231,6 +231,22 @@ export function getKeyringAttr(keyringId, attrKey) {
 }
 
 /**
+ * Get default key by interating through preferred keyring queue
+ * @param  {String} keyringId - requested keyring, the leading keyring of a scenario
+ * @return {String} fingerprint of default key
+ */
+export async function getDefaultKeyFpr(keyringId) {
+  const keyrings = getPreferredKeyringQueue(keyringId);
+  for (const keyring of keyrings) {
+    const defaultKeyFpr = await keyring.getDefaultKeyFpr();
+    if (defaultKeyFpr) {
+      return defaultKeyFpr;
+    }
+  }
+  return '';
+}
+
+/**
  * Get the following data for all keys in the preferred keyring queue: user id, key id, fingerprint, email and name
  * @param  {String} [keyringId] - requested keyring, the leading keyring of a scenario
  * @return {Array<Object>} list of recipients objects in the form {keyId, fingerprint, userId, email, name}
