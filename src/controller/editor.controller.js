@@ -16,7 +16,7 @@ import * as uiLog from '../modules/uiLog';
 import {parseMessage, buildMail} from '../modules/mime';
 import {triggerSync} from './sync.controller';
 import {isEnabled as isAutoLocateEnabled, locate} from '../modules/autoLocate';
-import {getById as getKeyringById, getPreferredKeyringId, getKeyData, getKeyByAddress, syncPublicKeys} from '../modules/keyring';
+import {getById as getKeyringById, getPreferredKeyringId, getKeyData, getKeyByAddress, syncPublicKeys, getDefaultKeyFpr} from '../modules/keyring';
 import {mapAddressKeyMapToFpr} from '../modules/key';
 
 export default class EditorController extends sub.SubController {
@@ -398,7 +398,7 @@ export default class EditorController extends sub.SubController {
    */
   async signAndEncryptMessage({data, signKeyFpr, keyFprs, noCache}) {
     if (!signKeyFpr) {
-      const defaultKeyFpr = await getKeyringById(this.keyringId).getDefaultKeyFpr();
+      const defaultKeyFpr = await getDefaultKeyFpr(this.keyringId);
       signKeyFpr = defaultKeyFpr;
     }
     if (!signKeyFpr) {
