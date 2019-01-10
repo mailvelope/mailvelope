@@ -25,6 +25,7 @@ module.exports = function(config) {
       {pattern: '../node_modules/angular/angular.js', watched: false},
       {pattern: '../node_modules/angular-mocks/angular-mocks.js', watched: false},
       {pattern: '../src/lib/jquery.ext.js', watched: false},
+      {pattern: '../src/client-API/main.js', watched: true, included: false},
       {pattern: '../node_modules/openpgp/dist/openpgp.worker.js', watched: false, included: false,  nocache: false},
       {pattern: '../node_modules/openpgp/dist/openpgp.js', watched: false, included: false,  nocache: false},
       {pattern: '../src/res/fonts/Courgette-Regular.woff2', watched: false, included: false,  nocache: false},
@@ -34,7 +35,8 @@ module.exports = function(config) {
       'content-scripts/**/*.js',
       'controller/**/*.js',
       'lib/**/*.js',
-      'modules/**/*.js'
+      'modules/**/*.js',
+      'client-API/**/*.js'
     ],
 
     // list of files to exclude
@@ -44,12 +46,14 @@ module.exports = function(config) {
     proxies: {
       '/dep/openpgp.worker.js': `/absolute${path.resolve('./node_modules/openpgp/dist/openpgp.worker.js')}`,
       '/dep/openpgp.js': `/absolute${path.resolve('./node_modules/openpgp/dist/openpgp.js')}`,
+      '/context.html/client-API/mailvelope-client-api.js': `/absolute${path.resolve('./src/client-API/main.js')}`,
       '/res/fonts/Courgette-Regular.woff2': `/absolute${path.resolve('./src/res/fonts/Courgette-Regular.woff2')}`
     },
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      '../src/client-API/**/*.js': ['webpack', 'sourcemap'],
       '**/*.js': ['webpack', 'sourcemap'],
       '**/*.css': ['webpack', 'sourcemap'],
       '**/*.less': ['webpack', 'sourcemap'],

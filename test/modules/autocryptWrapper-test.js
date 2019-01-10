@@ -3,16 +3,11 @@ import {LocalStorageStub} from 'utils';
 import * as autocrypt from 'modules/autocryptWrapper';
 import {isValidEncryptionKey} from 'modules/key';
 import * as openpgp from 'openpgp';
+import {testAutocryptHeaders} from 'Fixtures/headers';
 import testKeys from 'Fixtures/keys';
 
 describe('Test basic autocrypt wrapper functionality', () => {
-  const keydata = testKeys.api_test_pub.split('\n').slice(2, 17).join('');
-  const addr = 'test@mailvelope.com';
-  const headers = {
-    autocrypt: autocrypt.stringify({keydata, addr}),
-    from: addr,
-    date: Date.now().toString()
-  };
+  const addr = testAutocryptHeaders.from;
 
   let storage;
 
@@ -28,12 +23,12 @@ describe('Test basic autocrypt wrapper functionality', () => {
 
   describe('receiving header', () => {
     it('parses and stores the key', async () => {
-      await autocrypt.processHeader(headers, 'id');
+      await autocrypt.processHeader(testAutocryptHeaders, 'id');
       const result = await autocrypt.lookup(addr, 'id');
-      const key = openpgp.key.readArmored(result.armored);
       // fixture keys have checksum which autocrypt keys do not.
       expect(result.armored.slice(0, 17)).to.equal(testKeys.api_test_pub.slice(0, 17));
-      expect(isValidEncryptionKey(key)).to.eventually.be.true;
+      const {keys: [key]} = await openpgp.key.readArmored(result.armored);
+      return expect(isValidEncryptionKey(key)).to.eventually.be.true;
     });
 
     it('rejects headers larger than 10k', async () => {
@@ -48,7 +43,7 @@ describe('Test basic autocrypt wrapper functionality', () => {
 
     it('handles from headers with names', async () => {
       const headers_with_name = {
-        autocrypt: autocrypt.stringify({keydata, addr}),
+        autocrypt: testAutocryptHeaders.autocrypt,
         from: `name goes here <${addr}>`,
         date: Date.now().toString()
       };
@@ -59,7 +54,7 @@ describe('Test basic autocrypt wrapper functionality', () => {
     });
 
     it('stores the keys separately per identity', async () => {
-      await autocrypt.processHeader(headers, 'other id');
+      await autocrypt.processHeader(testAutocryptHeaders, 'other id');
       const result = await autocrypt.lookup(addr, 'yet another id');
       expect(result).to.be.undefined;
     });
@@ -67,8 +62,8 @@ describe('Test basic autocrypt wrapper functionality', () => {
 
   describe('deleting storage', () => {
     it('removes keys from one storage', async () => {
-      await autocrypt.processHeader(headers, 'id');
-      await autocrypt.processHeader(headers, 'other');
+      await autocrypt.processHeader(testAutocryptHeaders, 'id');
+      await autocrypt.processHeader(testAutocryptHeaders, 'other');
       await autocrypt.deleteIdentities(['id']);
       const result = await autocrypt.lookup(addr, 'id');
       // fixture keys have checksum which autocrypt keys do not.
@@ -78,8 +73,8 @@ describe('Test basic autocrypt wrapper functionality', () => {
     });
 
     it('removes keys from multiple storages', async () => {
-      await autocrypt.processHeader(headers, 'id');
-      await autocrypt.processHeader(headers, 'other');
+      await autocrypt.processHeader(testAutocryptHeaders, 'id');
+      await autocrypt.processHeader(testAutocryptHeaders, 'other');
       await autocrypt.deleteIdentities(['id', 'other']);
       const result = await autocrypt.lookup(addr, 'id');
       const other = await autocrypt.lookup(addr, 'other');
@@ -90,9 +85,8 @@ describe('Test basic autocrypt wrapper functionality', () => {
 
   describe('stringify extension', () => {
     it('handles full armored keys just fine', () => {
-      const from_plain_keydata = autocrypt.stringify({keydata, addr});
       const from_armored_key = autocrypt.stringify({keydata: testKeys.api_test_pub, addr});
-      expect(from_armored_key).to.eql(from_plain_keydata);
+      expect(from_armored_key).to.eql(testAutocryptHeaders.autocrypt);
     });
   });
 });

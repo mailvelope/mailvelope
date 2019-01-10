@@ -19,10 +19,11 @@ describe('keyring unit tests', () => {
     });
   });
 
+  // TODO: This test does not test what it claims to do.
   describe('deleteKeyring', () => {
     it('Should delete keyring, all keys and keyring attributes', async () => {
-      expect(getById('testABC')).to.not.throw;
-      return expect(deleteKeyring('testABC')).to.eventually.throw;
+      expect(getById('test123')).to.not.throw;
+      return expect(deleteKeyring('test123')).to.eventually.throw;
     });
   });
 
