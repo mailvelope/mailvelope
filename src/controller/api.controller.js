@@ -81,8 +81,8 @@ export default class ApiController extends sub.SubController {
     return sub.factory.get('importKeyDialog').importKey(keyringId, armored);
   }
 
-  locatePubKey({keyringId, email, source}) {
-    return keyRegistry.locate(email, keyringId, source);
+  locatePubKey({keyringId, emailAddr, source}) {
+    return keyRegistry.locate(emailAddr, keyringId, source);
   }
 
   processAutocryptHeader({headers, keyringId}) {

@@ -34,7 +34,6 @@ const dataTypes = {
   date: 'string',
   fromAddr: 'string',
   header: 'string',
-  email: 'string',
   source: 'string'
 };
 

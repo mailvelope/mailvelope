@@ -272,7 +272,7 @@ class Keyring {
 
   /**
    * Looks up a fitting public key from different sources.
-   * @param {String} email  - Email to locate the public key for
+   * @param {String} emailAddr  - Email to locate the public key for
    * @param {String} source - the source to query. Will query all if left blank.
    *                          Sources currently available are:
    *                            * 'WKD' - web key directory
@@ -280,8 +280,8 @@ class Keyring {
    *                            * 'AC' - autocrypt
    * @returns {Promise.<LocateResult, Error>}
    */
-  locatePublicKey(email, source) {
-    return postMessage('locate-pub-key', {identifier: this.identifier, email, source});
+  locatePublicKey(emailAddr, source) {
+    return postMessage('locate-pub-key', {identifier: this.identifier, emailAddr, source});
   }
 
   /**
