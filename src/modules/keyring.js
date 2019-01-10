@@ -94,6 +94,8 @@ const keyringAttr = new KeyringAttrMap();
 const keyringMap = new Map();
 
 export async function init() {
+  keyringMap.clear();
+  keyringAttr.clear();
   await keyringAttr.init();
   const keyringIds = Array.from(keyringAttr.keys());
   await Promise.all(keyringIds.map(async keyringId => {

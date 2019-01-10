@@ -3,6 +3,7 @@ import {LocalStorageStub} from 'utils';
 import * as prefs from 'modules/prefs';
 import * as autocrypt from 'modules/autocryptWrapper';
 import testKeys from 'Fixtures/keys';
+import {testAutocryptHeaders} from 'Fixtures/headers';
 import * as keyRegistry from 'modules/keyRegistry';
 
 describe('Looking up keys from different services', () => {
@@ -63,15 +64,8 @@ describe('Looking up keys from different services', () => {
         mvelo_tofu_lookup: false,
         autocrypt_lookup: true
       };
-      const addr = 'test@mailvelope.com';
-      const keydata = testKeys.api_test_pub.split('\n').slice(2, 17).join();
-      const headers = {
-        from: addr,
-        autocrypt: autocrypt.stringify({keydata, addr})
-      };
-      await autocrypt.processHeader(headers, 'id');
-
-      const result = await keyRegistry.lookup(addr, 'id');
+      await autocrypt.processHeader(testAutocryptHeaders, 'id');
+      const result = await keyRegistry.lookup(testAutocryptHeaders.from, 'id');
       expect(result.armored).to.include('-----BEGIN PGP PUBLIC KEY BLOCK-----');
       expect(result.source).to.be.equal('AC');
       expect(result.fingerprint).to.equal('aa1e01774bdf7d76a45bdc2df11db1250c3c3f1b');
@@ -109,15 +103,8 @@ describe('Looking up keys from different services', () => {
         mvelo_tofu_lookup: true,
         autocrypt_lookup: true
       };
-      const addr = 'test@mailvelope.com';
-      const keydata = testKeys.api_test_pub.split('\n').slice(2, 17).join();
-      const headers = {
-        from: addr,
-        autocrypt: autocrypt.stringify({keydata, addr})
-      };
-      await autocrypt.processHeader(headers, 'id');
-
-      const result = await keyRegistry.lookup(addr, 'id');
+      await autocrypt.processHeader(testAutocryptHeaders, 'id');
+      const result = await keyRegistry.lookup(testAutocryptHeaders.from, 'id');
       expect(result.armored).to.include('-----BEGIN PGP PUBLIC KEY BLOCK-----');
       expect(result.source).to.be.equal('AC');
       expect(result.fingerprint).to.equal('aa1e01774bdf7d76a45bdc2df11db1250c3c3f1b');

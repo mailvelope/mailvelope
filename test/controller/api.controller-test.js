@@ -5,7 +5,7 @@ import {MAIN_KEYRING_ID} from 'lib/constants';
 import * as openpgp from 'openpgp';
 import * as autocrypt from 'modules/autocryptWrapper';
 import {mapSubKeys, mapUsers} from 'modules/key';
-import * as prefs from 'modules/prefs';
+import {prefs} from 'modules/prefs';
 import {Port} from 'utils';
 import ApiController from 'controller/api.controller';
 
@@ -67,7 +67,7 @@ describe('Api controller unit tests', () => {
     });
 
     it('should propose autocrypt header if enabled', async () => {
-      prefs.prefs.keyserver = {
+      prefs.keyserver = {
         autocrypt_lookup: true
       };
 
@@ -90,7 +90,7 @@ describe('Api controller unit tests', () => {
     });
 
     it('should alert if email address is unknown', async () => {
-      prefs.prefs.keyserver = {
+      prefs.keyserver = {
         autocrypt_lookup: true
       };
 
@@ -100,7 +100,7 @@ describe('Api controller unit tests', () => {
     });
 
     it('should not propose additional headers if disabled', async () => {
-      prefs.prefs.keyserver = {
+      prefs.keyserver = {
         autocrypt_lookup: false
       };
 
