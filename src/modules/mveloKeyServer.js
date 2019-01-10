@@ -14,7 +14,7 @@ import {filterUserIdsByEmail} from './key';
 /** The default URL of the mailvelope authenticating keyserver. */
 const DEFAULT_URL = 'https://keys.mailvelope.com';
 
-export const name = 'Mailvelope Key Server';
+export const name = 'MKS';
 
 /**
 * Check if the Mailvelope Key Server is enabled.

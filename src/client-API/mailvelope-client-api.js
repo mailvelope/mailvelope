@@ -281,13 +281,13 @@
      */
 
     /**
-     * Asks the user if they want to import the public key.
+     * Looks up a fitting public key from different sources.
      * @param {String} email  - Email to locate the public key for
      * @param {String} source - the source to query. Will query all if left blank.
      *                          Sources currently available are:
-     *                            * 'WKD'
-     *                            * 'Mailvelope Key Server'
-     *                            * 'Autocrypt'
+     *                            * 'WKD' - web key directory
+     *                            * 'MKS' - mailvelope key server
+     *                            * 'AC' - autocrypt
      * @returns {Promise.<LocateResult, Error>}
      */
     locatePublicKey(email, source) {
