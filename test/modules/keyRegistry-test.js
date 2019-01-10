@@ -64,8 +64,11 @@ describe('Looking up keys from different services', () => {
       };
       const addr = 'test@mailvelope.com';
       const keydata = 'base64';
-      const header = Autocrypt.stringify({keydata, addr});
-      await autocryptWrapper.processHeader(header, addr, new Date(), 'id');
+      const headers = {
+        from: addr,
+        autocrypt: Autocrypt.stringify({keydata, addr})
+      };
+      await autocryptWrapper.processHeader(headers, 'id');
 
       const result = await keyRegistry.locate(addr, 'id');
       expect(result.content).to.include('base64');

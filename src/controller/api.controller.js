@@ -75,7 +75,7 @@ export function handleApiEvent(request, sender, sendResponse) {
         .catch(err => sendResponse({error: mvelo.util.mapError(err), data: 'error'}));
         return true;
       case 'process-autocrypt-header':
-        ac.processHeader(request.header, request.fromAddr, request.date, request.keyringId)
+        ac.processHeader(request.headers, request.keyringId)
         .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
         return true;
       case 'set-logo':

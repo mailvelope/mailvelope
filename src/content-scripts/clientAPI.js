@@ -242,7 +242,7 @@ function eventListener(event) {
         locatePublicKey(keyringId, data.email, data.source, reply.bind(null, event.data.id));
         break;
       case 'process-autocrypt-header':
-        processAutocryptHeader(keyringId, data.header, data.fromAddr, data.date, reply.bind(null, event.data.id));
+        processAutocryptHeader(keyringId, data.headers, reply.bind(null, event.data.id));
         break;
       case 'set-logo':
         setLogo(keyringId, data.dataURL, data.revision, reply.bind(null, event.data.id));
@@ -448,14 +448,12 @@ function locatePublicKey(keyringId, email, source, callback) {
   });
 }
 
-function processAutocryptHeader(keyringId, header, fromAddr, date, callback) {
+function processAutocryptHeader(keyringId, headers, callback) {
   mvelo.runtime.sendMessage({
     event: 'process-autocrypt-header',
     api_event: true,
     keyringId,
-    header,
-    fromAddr,
-    date
+    headers
   }, result => {
     callback(result.error, result.data);
   });

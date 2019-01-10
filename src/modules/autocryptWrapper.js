@@ -45,18 +45,16 @@ export function lookup(email, identity) {
 /**
  * Process an autocrypt Header to store a public key.
  *
- * @param {String} header   - The header to parse
- * @param {String} fromAddr - The senders email address
- * @param {String} date     - The Date header from the email
+ * @param {Object} headers  - The relevant headers of the email
  * @param {String} identity - The identity of the recipient
  * @return {undefined}
  * @trows {Error}
  */
-export async function processHeader(header, fromAddr, date, identity) {
+export async function processHeader(headers, identity) {
   return new Promise((resolve, reject) => {
-    date = new Date(date);
-    fromAddr = goog.format.EmailAddress.parse(fromAddr).getAddress();
-    ac(identity).processAutocryptHeader(header, fromAddr, date, err => {
+    const date = new Date(headers.date);
+    const fromAddr = goog.format.EmailAddress.parse(headers.from).getAddress();
+    ac(identity).processAutocryptHeader(headers.autocrypt, fromAddr, date, err => {
       if (err) {
         if (err.message == 'Invalid Autocrypt Header: no valid header found') {
           resolve();
