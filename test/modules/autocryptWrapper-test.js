@@ -22,21 +22,26 @@ describe('Test basic autocrypt wrapper functionality', () => {
     it('parses and stores the key', async () => {
       const addr = 'test@mailvelope.com';
       const keydata = base64;
-      const header = Autocrypt.stringify({keydata, addr});
-      const date = Date.now().toString();
-      await autocryptWrapper.processHeader(header, addr, date, 'id');
+      const headers = {
+        autocrypt: Autocrypt.stringify({keydata, addr}),
+        from: addr,
+        date: Date.now().toString()
+      };
+      await autocryptWrapper.processHeader(headers, 'id');
       const result = await autocryptWrapper.lookup(addr, 'id');
       // fixture keys have checksum which autocrypt keys do not.
       expect(result.slice(0, 17)).to.equal(testKeys.api_test_pub.slice(0, 17));
     });
 
-    it('handles adresses with names', async () => {
+    it('handles from headers with names', async () => {
       const addr = 'test@mailvelope.com';
       const keydata = base64;
-      const header = Autocrypt.stringify({keydata, addr});
-      const date = Date.now().toString();
-      const fromHeader = `name goes here <${addr}>`;
-      await autocryptWrapper.processHeader(header, fromHeader, date, 'id2');
+      const headers = {
+        autocrypt: Autocrypt.stringify({keydata, addr}),
+        from: `name goes here <${addr}>`,
+        date: Date.now().toString()
+      };
+      await autocryptWrapper.processHeader(headers, 'id2');
       const result = await autocryptWrapper.lookup(addr, 'id2');
       // fixture keys have checksum which autocrypt keys do not.
       expect(result.slice(0, 17)).to.equal(testKeys.api_test_pub.slice(0, 17));
@@ -45,9 +50,12 @@ describe('Test basic autocrypt wrapper functionality', () => {
     it('stores the keys separately per identity', async () => {
       const addr = 'test@mailvelope.com';
       const keydata = base64;
-      const header = Autocrypt.stringify({keydata, addr});
-      const date = Date.now().toString();
-      await autocryptWrapper.processHeader(header, addr, date, 'other id');
+      const headers = {
+        autocrypt: Autocrypt.stringify({keydata, addr}),
+        from: addr,
+        date: Date.now().toString()
+      };
+      await autocryptWrapper.processHeader(headers, 'other id');
       const result = await autocryptWrapper.lookup(addr, 'yet another id');
       expect(result).to.be.undefined;
     });

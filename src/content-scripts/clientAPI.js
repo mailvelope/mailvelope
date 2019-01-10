@@ -240,8 +240,8 @@ function locatePublicKey({keyringId, email, source}) {
   return controllerPort.send('locate-public-key', {keyringId, email, source});
 }
 
-function processAutocryptHeader({keyringId, header, fromAddr, date}) {
-  return controllerPort.send('process-autocrypt-header', {keyringId, header, fromAddr, date});
+function processAutocryptHeader({keyringId, headers}) {
+  return controllerPort.send('process-autocrypt-header', {keyringId, headers});
 }
 
 function setLogo({keyringId, dataURL, revision}) {

@@ -85,8 +85,8 @@ export default class ApiController extends sub.SubController {
     return keyRegistry.locate(email, keyringId, source);
   }
 
-  processAutocryptHeader({header, fromAddr, date, keyringId}) {
-    return ac.processHeader(header, fromAddr, date, keyringId);
+  processAutocryptHeader({headers, keyringId}) {
+    return ac.processHeader(headers, keyringId);
   }
 
   async setLogo({keyringId, dataURL, revision}) {

@@ -285,16 +285,21 @@ class Keyring {
   }
 
   /**
+   * @typedef {Object} AutocryptMailHeaders
+   * @property {String} autocrypt - the Autocrypt header to process
+   * @property {String} from - the From header
+   * @property {String} date - the Date header
+   */
+
+  /**
    * Process Autocrypt header from message being read.
-   * @param {String} header - the Autocrypt header to process
-   * @param {String} fromAddr - the email address of the sender
-   * @param {String} date - the Date header of the message
+   * @param {AutocryptMailHeaders} headers - the relevant mail headers
    * @returns {Promise.<undefined, Error>}
    * @throws {Error} error.code = 'INVALID_HEADER' <br>
                        error.code = 'STORAGE_ERROR'
                        */
-  processAutocryptHeader(header, fromAddr, date) {
-    return postMessage('process-autocrypt-header', {identifier: this.identifier, header, fromAddr, date});
+  processAutocryptHeader(headers) {
+    return postMessage('process-autocrypt-header', {identifier: this.identifier, headers});
   }
 
   /**
