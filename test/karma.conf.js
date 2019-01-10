@@ -23,6 +23,7 @@ module.exports = function(config) {
       {pattern: '../node_modules/bootstrap/dist/js/bootstrap.js', watched: false},
       {pattern: '../node_modules/angular/angular.js', watched: false},
       {pattern: '../node_modules/angular-mocks/angular-mocks.js', watched: false},
+      {pattern: '../src/client-API/mailvelope-client-api.js', watched: false},
       {pattern: '../src/lib/jquery.ext.js', watched: false},
       {pattern: '../node_modules/openpgp/dist/openpgp.worker.js', watched: false, included: false,  nocache: false},
       {pattern: '../node_modules/openpgp/dist/openpgp.js', watched: false, included: false,  nocache: false},
@@ -34,6 +35,7 @@ module.exports = function(config) {
       'controller/**/*.js',
       'lib/**/*.js',
       'modules/**/*.js',
+      'client-API/**/*.js'
     ],
 
     // list of files to exclude

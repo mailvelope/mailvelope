@@ -13,7 +13,21 @@ window.chrome.runtime.getURL = function(name) {
   return location.href.split('/test/')[0] + '/' + name;
 };
 
-window.chrome.runtime.onMessage = {
+(function() {
+  const listeners = [];
+  window.chrome.runtime.onMessage = {
+    addListener: function(listener) {
+      listeners.push(listener);
+    }
+  };
+  window.chrome.runtime.sendMessage = function(message, cb) {
+    for (const listener of listeners) {
+      listener(message, '', cb);
+    };
+  };
+})();
+
+window.chrome.runtime.onConnect = {
   addListener: function() {}
 };
 
