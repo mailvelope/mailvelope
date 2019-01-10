@@ -84,7 +84,6 @@ const dataTypes = {
   date: 'string',
   fromAddr: 'string',
   header: 'string',
-  email: 'string',
   source: 'string'
 };
 
@@ -239,7 +238,7 @@ function eventListener(event) {
         importPublicKey(keyringId, data.armored, reply.bind(null, event.data.id));
         break;
       case 'locate-pub-key':
-        locatePublicKey(keyringId, data.email, data.source, reply.bind(null, event.data.id));
+        locatePublicKey(keyringId, data.emailAddr, data.source, reply.bind(null, event.data.id));
         break;
       case 'process-autocrypt-header':
         processAutocryptHeader(keyringId, data.headers, reply.bind(null, event.data.id));
@@ -436,12 +435,12 @@ function importPublicKey(keyringId, armored, callback) {
   });
 }
 
-function locatePublicKey(keyringId, email, source, callback) {
+function locatePublicKey(keyringId, emailAddr, source, callback) {
   mvelo.runtime.sendMessage({
     event: 'locate-pub-key',
     api_event: true,
     keyringId,
-    email,
+    emailAddr,
     source
   }, result => {
     callback(result.error, result.data);

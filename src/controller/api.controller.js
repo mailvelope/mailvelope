@@ -70,7 +70,7 @@ export function handleApiEvent(request, sender, sendResponse) {
         .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
         return true;
       case 'locate-pub-key':
-        keyRegistry.locate(request.email, request.keyringId, request.source)
+        keyRegistry.locate(request.emailAddr, request.keyringId, request.source)
         .then(key => sendResponse({error: null, data: key}))
         .catch(err => sendResponse({error: mvelo.util.mapError(err), data: 'error'}));
         return true;
