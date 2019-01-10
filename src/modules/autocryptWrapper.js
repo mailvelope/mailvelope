@@ -2,7 +2,7 @@ import Autocrypt from 'autocrypt';
 import Store from '../lib/Store';
 import {goog} from './closure-library/closure/goog/emailaddress';
 
-export const name = 'Autocrypt';
+export const name = 'AC';
 const stores = new Map;
 
 /**
