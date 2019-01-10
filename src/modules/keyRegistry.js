@@ -35,7 +35,7 @@ const strategies = [mveloKeyServer, wkd, autocrypt];
  * @param {String} identity - The id of the keyring that is currently <br/>
  *                             being used.
  * @param {String} source - the source to query. Will query all if left blank.
- * @return {String,undefined} - the found armored key if any.
+ * @return {Object, undefined} - {content: armored key, source}
  */
 export async function locate(email, identity, source) {
   for (const strategy of strategies) {

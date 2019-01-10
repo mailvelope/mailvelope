@@ -71,7 +71,7 @@ export function handleApiEvent(request, sender, sendResponse) {
         return true;
       case 'locate-pub-key':
         keyRegistry.locate(request.emailAddr, request.keyringId, request.source)
-        .then(key => sendResponse({error: null, data: key}))
+        .then(result => sendResponse({error: null, data: result}))
         .catch(err => sendResponse({error: mvelo.util.mapError(err), data: 'error'}));
         return true;
       case 'process-autocrypt-header':
