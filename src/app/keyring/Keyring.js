@@ -3,11 +3,11 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../../mvelo';
 import React from 'react';
 import {Route, Redirect} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';
+import {MAIN_KEYRING_ID, GNUPG_KEYRING_ID} from '../../lib/constants';
 import {port} from '../app';
 
 import {KeyringOptions} from './KeyringOptions';
@@ -64,7 +64,7 @@ export default class Keyring extends React.Component {
         return resolve();
       }
       port.send('get-active-keyring')
-      .then(keyringId => this.setState({keyringId: keyringId || mvelo.MAIN_KEYRING_ID}, resolve));
+      .then(keyringId => this.setState({keyringId: keyringId || MAIN_KEYRING_ID}, resolve));
     });
   }
 
@@ -72,10 +72,10 @@ export default class Keyring extends React.Component {
     port.send('get-all-keyring-attr')
     .then(keyringAttr => {
       this.setState(prevState => {
-        const keyringId = keyringAttr[prevState.keyringId] ? prevState.keyringId : mvelo.MAIN_KEYRING_ID;
+        const keyringId = keyringAttr[prevState.keyringId] ? prevState.keyringId : MAIN_KEYRING_ID;
         const defaultKeyFpr = keyringAttr[keyringId].default_key || '';
         const demail = keyringId.includes(DEMAIL_SUFFIX);
-        const gnupg = keyringId === mvelo.GNUPG_KEYRING_ID;
+        const gnupg = keyringId === GNUPG_KEYRING_ID;
         // propagate state change to backend
         port.emit('set-active-keyring', {keyringId});
         return {keyringId, defaultKeyFpr, demail, gnupg, keyringAttr, keysLoading: true};
@@ -95,7 +95,7 @@ export default class Keyring extends React.Component {
   }
 
   handleDeleteKeyring(keyringId, keyringName) {
-    if (confirm(mvelo.l10n.getMessage('keyring_confirm_deletion', keyringName))) {
+    if (confirm(l10n.get('keyring_confirm_deletion', keyringName))) {
       port.send('delete-keyring', {keyringId})
       .then(() => this.loadKeyring());
     }

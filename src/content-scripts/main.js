@@ -3,7 +3,9 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../mvelo';
+import {FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED, FRAME_OBJ, DYN_IFRAME, IFRAME_OBJ, PGP_MESSAGE, PGP_SIGNATURE, PGP_PUBLIC_KEY, PGP_PRIVATE_KEY} from '../lib/constants';
+import {getHash, matchPattern2RegEx} from '../lib/util';
+import EventHandler from '../lib/EventHandler';
 import $ from 'jquery';
 
 import * as clientAPI from './clientAPI';
@@ -33,7 +35,7 @@ function connect() {
   if (document.mveloControl) {
     return;
   }
-  port = mvelo.EventHandler.connect(`mainCS-${mvelo.util.getHash()}`);
+  port = EventHandler.connect(`mainCS-${getHash()}`);
   registerEventListener();
   port.emit('ready');
   //initContextMenu();
@@ -79,7 +81,7 @@ function detectHost() {
       if (!frame.scan) {
         continue;
       }
-      const hostRegex = mvelo.util.matchPattern2RegEx(frame.frame);
+      const hostRegex = matchPattern2RegEx(frame.frame);
       const validHost = hostRegex.test(window.location.hostname);
       if (validHost) {
         // host = match pattern without *. prefix
@@ -180,9 +182,9 @@ function findEditable() {
     // set event handler for contextmenu
     content.find('body')//.off("contextmenu").on("contextmenu", onContextMenu)
     // mark body as 'inside iframe'
-    .data(mvelo.DYN_IFRAME, true)
+    .data(DYN_IFRAME, true)
     // add iframe element
-    .data(mvelo.IFRAME_OBJ, $(this));
+    .data(IFRAME_OBJ, $(this));
     // document of iframe in design mode or contenteditable set on the body
     if (content.attr('designMode') === 'on' || content.find('body[contenteditable]').length !== 0) {
       // add iframe to editable elements
@@ -205,7 +207,7 @@ function findEditable() {
           // set event handler for contextmenu
           //content.find('body').off("contextmenu").on("contextmenu", onContextMenu);
           // mark body as 'inside iframe'
-          content.find('body').data(mvelo.IFRAME_OBJ, frame);
+          content.find('body').data(IFRAME_OBJ, frame);
           return true;
         } else {
           return false;
@@ -225,13 +227,13 @@ function findEditable() {
 
 export function getMessageType(armored) {
   if (/END\sPGP\sMESSAGE/.test(armored)) {
-    return mvelo.PGP_MESSAGE;
+    return PGP_MESSAGE;
   } else if (/END\sPGP\sSIGNATURE/.test(armored)) {
-    return mvelo.PGP_SIGNATURE;
+    return PGP_SIGNATURE;
   } else if (/END\sPGP\sPUBLIC\sKEY\sBLOCK/.test(armored)) {
-    return mvelo.PGP_PUBLIC_KEY;
+    return PGP_PUBLIC_KEY;
   } else if (/END\sPGP\sPRIVATE\sKEY\sBLOCK/.test(armored)) {
-    return mvelo.PGP_PRIVATE_KEY;
+    return PGP_PRIVATE_KEY;
   }
 }
 
@@ -246,17 +248,17 @@ function attachExtractFrame(element) {
       // parent element of text node
       const pgpEnd = $(element).parent();
       switch (getMessageType(pgpEnd.text())) {
-        case mvelo.PGP_MESSAGE: {
+        case PGP_MESSAGE: {
           const dFrame = new DecryptFrame();
           dFrame.attachTo(pgpEnd);
           break;
         }
-        case mvelo.PGP_SIGNATURE: {
+        case PGP_SIGNATURE: {
           const vFrame = new VerifyFrame();
           vFrame.attachTo(pgpEnd);
           break;
         }
-        case mvelo.PGP_PUBLIC_KEY: {
+        case PGP_PUBLIC_KEY: {
           const imFrame = new ImportFrame();
           imFrame.attachTo(pgpEnd);
           break;
@@ -276,9 +278,9 @@ function attachEncryptFrame(element, expanded) {
   const newObj = element.filter(function() {
     if (expanded) {
       // filter out only attached frames
-      if (element.data(mvelo.FRAME_STATUS) === mvelo.FRAME_ATTACHED) {
+      if (element.data(FRAME_STATUS) === FRAME_ATTACHED) {
         // trigger expand state of attached frames
-        element.data(mvelo.FRAME_OBJ).showEncryptDialog();
+        element.data(FRAME_OBJ).showEncryptDialog();
         return false;
       } else {
         return true;
@@ -296,10 +298,10 @@ function attachEncryptFrame(element, expanded) {
 }
 
 function isAttached(element) {
-  const status = element.data(mvelo.FRAME_STATUS);
+  const status = element.data(FRAME_STATUS);
   switch (status) {
-    case mvelo.FRAME_ATTACHED:
-    case mvelo.FRAME_DETACHED:
+    case FRAME_ATTACHED:
+    case FRAME_DETACHED:
       return true;
     default:
       return false;
@@ -331,7 +333,7 @@ function onContextMenu(e) {
   // inside dynamic iframe or iframes from same origin with a contenteditable body
   element = target.closest('body');
   // get outer iframe
-  var iframeObj = element.data(mvelo.IFRAME_OBJ);
+  var iframeObj = element.data(IFRAME_OBJ);
   if (iframeObj !== undefined) {
     // target set to outer iframe
     contextTarget = iframeObj;

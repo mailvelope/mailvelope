@@ -3,7 +3,8 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../mvelo';
+import {getHash} from '../lib/util';
+import EventHandler from '../lib/EventHandler';
 import {postMessage} from './clientAPI';
 
 
@@ -14,8 +15,8 @@ export default class SyncHandler {
    */
   constructor(keyringId) {
     this.keyringId = keyringId;
-    this.id = mvelo.util.getHash();
-    this.port = mvelo.EventHandler.connect(`syncHandler-${this.id}`, this);
+    this.id = getHash();
+    this.port = EventHandler.connect(`syncHandler-${this.id}`, this);
     this.registerEventListener();
     this.port.emit('init', {keyringId: this.keyringId});
   }
@@ -25,9 +26,6 @@ export default class SyncHandler {
     this.port.emit('sync-done', {data});
   }
 
-  /**
-   * @returns {mvelo.SyncHandler}
-   */
   registerEventListener() {
     this.port.on('sync-event', msg => postMessage('sync-event', null, msg, null));
     // workaround for https://bugs.chromium.org/p/chromium/issues/detail?id=655932

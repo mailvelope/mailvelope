@@ -4,6 +4,8 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
+import {MAIN_KEYRING_ID, GNUPG_KEYRING_ID} from '../lib/constants';
+import {wait, filterAsync, toArray, MvError} from '../lib/util';
 import KeyringLocal from './KeyringLocal';
 import KeyStoreLocal from './KeyStoreLocal';
 import KeyringGPG from './KeyringGPG';
@@ -21,21 +23,21 @@ class KeyringAttrMap extends Map {
   async init() {
     const attributes = await mvelo.storage.get('mvelo.keyring.attributes') || {};
     Object.keys(attributes).forEach(key => super.set(key, attributes[key]));
-    if (!this.has(mvelo.MAIN_KEYRING_ID)) {
-      await this.create(mvelo.MAIN_KEYRING_ID);
+    if (!this.has(MAIN_KEYRING_ID)) {
+      await this.create(MAIN_KEYRING_ID);
     }
     await this.initGPG();
   }
 
   async initGPG() {
-    const hasGpgKeyring = this.has(mvelo.GNUPG_KEYRING_ID);
+    const hasGpgKeyring = this.has(GNUPG_KEYRING_ID);
     if (gpgme) {
       if (!hasGpgKeyring) {
-        await this.create(mvelo.GNUPG_KEYRING_ID);
+        await this.create(GNUPG_KEYRING_ID);
       }
     } else {
       if (hasGpgKeyring) {
-        await this.delete(mvelo.GNUPG_KEYRING_ID);
+        await this.delete(GNUPG_KEYRING_ID);
       }
     }
   }
@@ -112,7 +114,7 @@ export async function init() {
  */
 export async function createKeyring(keyringId) {
   if (keyringAttr.has(keyringId)) {
-    throw new mvelo.Error(`Keyring for id ${keyringId} already exists.`, 'KEYRING_ALREADY_EXISTS');
+    throw new MvError(`Keyring for id ${keyringId} already exists.`, 'KEYRING_ALREADY_EXISTS');
   }
   // persist keyring attributes
   await keyringAttr.create(keyringId);
@@ -135,7 +137,7 @@ export async function createKeyring(keyringId) {
 async function buildKeyring(keyringId) {
   let keyStore;
   let keyRing;
-  if (keyringId === mvelo.GNUPG_KEYRING_ID) {
+  if (keyringId === GNUPG_KEYRING_ID) {
     keyStore = new KeyStoreGPG(keyringId);
     keyRing = new KeyringGPG(keyringId, keyStore);
   } else {
@@ -154,7 +156,7 @@ async function buildKeyring(keyringId) {
  */
 export async function deleteKeyring(keyringId) {
   if (!keyringAttr.has(keyringId)) {
-    throw new mvelo.Error(`Keyring for id ${keyringId} does not exist.`, 'NO_KEYRING_FOR_ID');
+    throw new MvError(`Keyring for id ${keyringId} does not exist.`, 'NO_KEYRING_FOR_ID');
   }
   const keyRng = keyringMap.get(keyringId);
   await keyRng.keystore.remove();
@@ -176,7 +178,7 @@ async function preVerifyKeys() {
       try {
         await key.getEncryptionKey();
       } catch (e) {}
-      await mvelo.util.wait(20);
+      await wait(20);
     }
   }
 }
@@ -191,7 +193,7 @@ export function getById(keyringId) {
   if (keyring) {
     return keyring;
   } else {
-    throw new mvelo.Error('No keyring found for this identifier.', 'NO_KEYRING_FOR_ID');
+    throw new MvError('No keyring found for this identifier.', 'NO_KEYRING_FOR_ID');
   }
 }
 
@@ -209,9 +211,9 @@ export function getAll() {
  */
 export function getAllKeyringAttr() {
   const attrObj = keyringAttr.toObject();
-  if (keyringAttr.has(mvelo.GNUPG_KEYRING_ID)) {
-    const gpgKeyring = keyringMap.get(mvelo.GNUPG_KEYRING_ID);
-    Object.assign(attrObj[mvelo.GNUPG_KEYRING_ID], gpgKeyring.getAttr());
+  if (keyringAttr.has(GNUPG_KEYRING_ID)) {
+    const gpgKeyring = keyringMap.get(GNUPG_KEYRING_ID);
+    Object.assign(attrObj[GNUPG_KEYRING_ID], gpgKeyring.getAttr());
   }
   return attrObj;
 }
@@ -283,7 +285,7 @@ export async function getKeyData({keyringId, allUsers = true}) {
     }
   }
   // filter out all invalid keys
-  result = await mvelo.util.filterAsync(result, key => isValidEncryptionKey(key.key));
+  result = await filterAsync(result, key => isValidEncryptionKey(key.key));
   // expand users
   const expanded = [];
   for (const keyData of result) {
@@ -306,7 +308,7 @@ export async function getKeyData({keyringId, allUsers = true}) {
  */
 export async function getKeyByAddress(keyringId, emails) {
   const result = Object.create(null);
-  emails = mvelo.util.toArray(emails);
+  emails = toArray(emails);
   const keyrings = getPreferredKeyringQueue(keyringId);
   for (const email of emails) {
     let allKeys = [];
@@ -329,7 +331,7 @@ export async function getKeyByAddress(keyringId, emails) {
       }
     }
     // filter out all invalid keys
-    allKeys = await mvelo.util.filterAsync(allKeys, key => isValidEncryptionKey(key, keyringId));
+    allKeys = await filterAsync(allKeys, key => isValidEncryptionKey(key, keyringId));
     if (allKeys.length) {
       result[email] = allKeys;
     } else {
@@ -348,17 +350,17 @@ function getPreferredKeyringQueue(keyringId) {
   const keyrings = [];
   // use gnupg keyring if available and preferred
   if (gpgme && prefs.general.prefer_gnupg) {
-    keyrings.push(keyringMap.get(mvelo.GNUPG_KEYRING_ID));
+    keyrings.push(keyringMap.get(GNUPG_KEYRING_ID));
   }
   // next, if requested keyring is API keyring then use that
   if (isApiKeyring(keyringId)) {
     keyrings.push(keyringMap.get(keyringId));
   }
   // always use the main keyring
-  keyrings.push(keyringMap.get(mvelo.MAIN_KEYRING_ID));
+  keyrings.push(keyringMap.get(MAIN_KEYRING_ID));
   // if gnupg keyring is available but not preferred, we put at the end of the queue
   if (gpgme && !prefs.general.prefer_gnupg) {
-    keyrings.push(keyringMap.get(mvelo.GNUPG_KEYRING_ID));
+    keyrings.push(keyringMap.get(GNUPG_KEYRING_ID));
   }
   return keyrings;
 }
@@ -372,7 +374,7 @@ function getPreferredKeyringQueue(keyringId) {
  * @return {KeyringBase}
  */
 export function getKeyringWithPrivKey(keyIds, keyringId, noCache) {
-  keyIds = mvelo.util.toArray(keyIds);
+  keyIds = toArray(keyIds);
   let keyrings;
   if (!keyringId) {
     keyrings = getAll();
@@ -390,7 +392,7 @@ export function getKeyringWithPrivKey(keyIds, keyringId, noCache) {
   // return first keyring that includes private keys with keyIds
   for (const keyring of keyrings) {
     if (keyring.hasPrivateKey(keyIds)) {
-      if (keyring.id === mvelo.GNUPG_KEYRING_ID && keyIds.length && noCache) {
+      if (keyring.id === GNUPG_KEYRING_ID && keyIds.length && noCache) {
         // with noCache enforcement we want to make sure that a private key operation always triggers
         // a password dialog and therefore a user interaction. As GPGME does not allow to detect
         // if cache is used or not we skip the GnuPG keyring here.
@@ -417,7 +419,7 @@ export function getPreferredKeyring(keyringId) {
  * @return {Boolean}
  */
 function isApiKeyring(keyringId) {
-  return keyringId !== mvelo.MAIN_KEYRING_ID && keyringId !== mvelo.GNUPG_KEYRING_ID;
+  return keyringId !== MAIN_KEYRING_ID && keyringId !== GNUPG_KEYRING_ID;
 }
 
 /**
@@ -426,10 +428,10 @@ function isApiKeyring(keyringId) {
  * otherwise at the end.
  */
 function compareKeyringsByPreference(a, b) {
-  if (a.id === mvelo.GNUPG_KEYRING_ID) {
+  if (a.id === GNUPG_KEYRING_ID) {
     return prefs.general.prefer_gnupg ? -1 : 1;
   }
-  if (b.id === mvelo.GNUPG_KEYRING_ID) {
+  if (b.id === GNUPG_KEYRING_ID) {
     return prefs.general.prefer_gnupg ? 1 : -1;
   }
   return 0;
@@ -447,7 +449,7 @@ export async function syncPublicKeys({keyring, keyIds, allKeyrings = false, keyr
   if (!keyring) {
     keyring = getById(keyringId);
   }
-  keyIds = mvelo.util.toArray(keyIds);
+  keyIds = toArray(keyIds);
   if (!keyIds.length) {
     // nothing to sync
     return;
@@ -491,11 +493,11 @@ export async function syncPublicKeys({keyring, keyIds, allKeyrings = false, keyr
 export function getPreferredKeyringId() {
   // return gnupg keyring if available, preferred and has valid private key
   if (gpgme && prefs.general.prefer_gnupg) {
-    const gpgKeyring = keyringMap.get(mvelo.GNUPG_KEYRING_ID);
+    const gpgKeyring = keyringMap.get(GNUPG_KEYRING_ID);
     // directly access keystore property to avoid async method
     if (gpgKeyring.keystore.defaultKeyFpr) {
-      return mvelo.GNUPG_KEYRING_ID;
+      return GNUPG_KEYRING_ID;
     }
   }
-  return mvelo.MAIN_KEYRING_ID;
+  return MAIN_KEYRING_ID;
 }

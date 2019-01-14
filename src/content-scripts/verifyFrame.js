@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../mvelo';
+import {DISPLAY_INLINE, DISPLAY_POPUP} from '../lib/constants';
 import $ from 'jquery';
 import ExtractFrame from './extractFrame';
 import {prefs} from './main';
@@ -51,9 +51,9 @@ export default class VerifyFrame extends ExtractFrame {
 
   clickHandler() {
     super.clickHandler();
-    if (prefs.security.display_decrypted == mvelo.DISPLAY_INLINE) {
+    if (prefs.security.display_decrypted == DISPLAY_INLINE) {
       this.inlineDialog();
-    } else if (prefs.security.display_decrypted == mvelo.DISPLAY_POPUP) {
+    } else if (prefs.security.display_decrypted == DISPLAY_POPUP) {
       this.popupDialog();
     }
     return false;
@@ -66,7 +66,7 @@ export default class VerifyFrame extends ExtractFrame {
       frameBorder: 0,
       scrolling: 'no'
     });
-    const url = mvelo.runtime.getURL(`components/verify-inline/verifyInline.html?id=${this.id}`);
+    const url = chrome.runtime.getURL(`components/verify-inline/verifyInline.html?id=${this.id}`);
     this.vDialog.attr('src', url);
     this.eFrame.append(this.vDialog);
     this.setFrameDim();
@@ -83,7 +83,7 @@ export default class VerifyFrame extends ExtractFrame {
     if (!this.vDialog && !this.vPopup) {
       return;
     }
-    if (prefs.security.display_decrypted === mvelo.DISPLAY_INLINE) {
+    if (prefs.security.display_decrypted === DISPLAY_INLINE) {
       this.vDialog.fadeOut();
       // removal triggers disconnect event
       this.vDialog.remove();

@@ -150,12 +150,11 @@ module.exports = function(grunt) {
           cwd: 'src/',
           src: [
             'app/app.html',
-            'client-API/*',
             'components/**/*.html',
             'components/{decrypt-popup,enter-password,generate-key,import-key,key-backup,recovery-sheet,restore-backup,verify-inline,verify-popup}/**/*',
             'content-scripts/*.css',
             'img/*',
-            'lib/jquery.ext.js',
+            'lib/{constants,EventHandler,jquery.ext,l10n,util}.js',
             '!res/',
             'res/fonts/*.woff2',
             'mvelo.*'

@@ -1,48 +1,12 @@
 import {expect, sinon} from 'test';
-import mvelo from 'mvelo';
+import EventHandler from 'lib/EventHandler';
 import {Port} from 'utils';
 
-describe('mvelo unit tests', () => {
+describe('EventHandler unit tests', () => {
   const sandbox = sinon.createSandbox();
 
   afterEach(() => {
     sandbox.restore();
-  });
-
-  describe('deDup', () => {
-    it('should work for undefined', () => {
-      expect(mvelo.util.deDup()).to.deep.equal([]);
-    });
-    it('should work for empty array', () => {
-      expect(mvelo.util.deDup([])).to.deep.equal([]);
-    });
-    it('should work for unsorted array', () => {
-      expect(mvelo.util.deDup(['c', 'b', 'a', 'b'])).to.deep.equal(['c', 'b', 'a']);
-    });
-  });
-
-  describe('checkEmail', () => {
-    it('should be false for undefined', () => {
-      expect(mvelo.util.checkEmail()).to.be.false;
-    });
-    it('should be false empty string', () => {
-      expect(mvelo.util.checkEmail('')).to.be.false;
-    });
-    it('should be false special char at the beginning', () => {
-      expect(mvelo.util.checkEmail('>foo@bar.co')).to.be.false;
-    });
-    it('should be false special char at the end', () => {
-      expect(mvelo.util.checkEmail('foo@bar.co>')).to.be.false;
-    });
-    it('should be false no @', () => {
-      expect(mvelo.util.checkEmail('foobar.co')).to.be.false;
-    });
-    it('should be false no .', () => {
-      expect(mvelo.util.checkEmail('foo@barco')).to.be.false;
-    });
-    it('should be true fo valid email address', () => {
-      expect(mvelo.util.checkEmail('foo@bar.co')).to.be.true;
-    });
   });
 
   describe('Port message event handling', () => {
@@ -50,9 +14,9 @@ describe('mvelo unit tests', () => {
     let ctrl2;
 
     beforeEach(() => {
-      ctrl1 = new mvelo.EventHandler(new Port('ctrl1'));
+      ctrl1 = new EventHandler(new Port('ctrl1'));
       sandbox.spy(ctrl1._port, 'postMessage');
-      ctrl2 = new mvelo.EventHandler(new Port('ctrl2'));
+      ctrl2 = new EventHandler(new Port('ctrl2'));
       sandbox.spy(ctrl2._port, 'postMessage');
     });
 

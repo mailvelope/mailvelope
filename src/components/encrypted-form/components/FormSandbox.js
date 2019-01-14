@@ -5,7 +5,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import mvelo from '../../../mvelo';
+import {isCRX, MvError} from '../../../lib/util';
 import $ from 'jquery';
 import {readUploadFile} from '../../../lib/file';
 
@@ -36,7 +36,7 @@ export default class FormSandbox extends React.Component {
     // check that there is at least a valid input field to send
     const validInput = $(this.form).find('input[name], select[name], textarea[name]').length;
     if (!validInput) {
-      this.onError(new mvelo.Error('There should be at least one input field with name property set.', 'NO_FORM_INPUT'));
+      this.onError(new MvError('There should be at least one input field with name property set.', 'NO_FORM_INPUT'));
     }
   }
 
@@ -44,7 +44,7 @@ export default class FormSandbox extends React.Component {
     const height = `${this.sandbox.contentDocument.body.scrollHeight}px`;
     if (height !== this.sandbox.style.height) {
       let offset = 0;
-      if (!mvelo.crx) {
+      if (!isCRX) {
         offset = 16;
       }
       const newHeight = this.sandbox.contentDocument.body.scrollHeight + offset;

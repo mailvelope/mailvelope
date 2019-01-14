@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../lib/lib-mvelo';
+import {MvError} from '../lib/util';
 import {gpgme} from '../lib/browser.runtime';
 import * as openpgp from 'openpgp';
 import {KeyStoreBase} from './keyStore';
@@ -46,7 +46,7 @@ export default class KeyStoreGPG extends KeyStoreBase {
   }
 
   setDefaultKey() {
-    throw new mvelo.Error('Setting of default key not supported in GPG keyring', 'GPG_NOT_SUPPORTED');
+    throw new MvError('Setting of default key not supported in GPG keyring', 'GPG_NOT_SUPPORTED');
   }
 
   async importKeys(armoredKeys) {

@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../lib/lib-mvelo';
+import {filterAsync, toArray, MvError} from '../lib/util';
 import * as openpgp from 'openpgp';
 import {goog} from './closure-library/closure/goog/emailaddress';
 import {getKeyringAttr} from './keyring';
@@ -55,7 +55,7 @@ export default class KeyringBase {
   }
 
   async getValidSigningKeys() {
-    let signingKeys = await mvelo.util.filterAsync(this.keystore.privateKeys.keys, key => this.validateDefaultKey(key));
+    let signingKeys = await filterAsync(this.keystore.privateKeys.keys, key => this.validateDefaultKey(key));
     signingKeys = await mapKeys(signingKeys);
     signingKeys.sort((a, b) => a.name.localeCompare(b.name));
     return signingKeys;
@@ -139,7 +139,7 @@ export default class KeyringBase {
    */
   async getKeyByAddress(emailAddr, {pub = true, priv = true, sort = false, valid = true, keyId} = {}) {
     const result = Object.create(null);
-    const emailArray = mvelo.util.toArray(emailAddr);
+    const emailArray = toArray(emailAddr);
     for (const email of emailArray) {
       result[email] = [];
       if (pub) {
@@ -149,7 +149,7 @@ export default class KeyringBase {
         result[email] = result[email].concat(this.keystore.privateKeys.getForAddress(email));
       }
       if (valid) {
-        result[email] = await mvelo.util.filterAsync(result[email], key => isValidEncryptionKey(key, this.id));
+        result[email] = await filterAsync(result[email], key => isValidEncryptionKey(key, this.id));
       }
       if (keyId) {
         result[email] = result[email].filter(key => key.getKeys(keyId).length);
@@ -175,7 +175,7 @@ export default class KeyringBase {
    */
   getArmoredKeys(keyFprs, options) {
     const result = [];
-    keyFprs = mvelo.util.toArray(keyFprs);
+    keyFprs = toArray(keyFprs);
     let keys = null;
     if (options.all) {
       keys = this.keystore.getAllKeys();
@@ -224,7 +224,7 @@ export default class KeyringBase {
    * @return {openpgp.key.Key|null}
    */
   getPrivateKeyByIds(keyIds) {
-    keyIds = mvelo.util.toArray(keyIds);
+    keyIds = toArray(keyIds);
     for (const keyId of keyIds) {
       const keyIdHex = typeof keyId === 'string' ? keyId : keyId.toHex();
       const key = this.keystore.privateKeys.getForId(keyIdHex, true);
@@ -246,7 +246,7 @@ export default class KeyringBase {
       if (keyArray) {
         return keyArray[0];
       }
-      throw new mvelo.Error(`No key found for ID ${keyFpr}`, 'NO_KEY_FOUND_FOR_ENCRYPTION');
+      throw new MvError(`No key found for ID ${keyFpr}`, 'NO_KEY_FOUND_FOR_ENCRYPTION');
     });
   }
 
@@ -258,10 +258,10 @@ export default class KeyringBase {
   getFprForKeyId(keyId) {
     const keyArray = this.keystore.getKeysForId(keyId, true);
     if (!keyArray) {
-      throw new mvelo.Error(`No key found for ID ${keyId}`, 'NO_KEY_FOUND_FOR_ID');
+      throw new MvError(`No key found for ID ${keyId}`, 'NO_KEY_FOUND_FOR_ID');
     }
     if (keyArray.length > 1) {
-      throw new mvelo.Error(`Collision of long key ID ${keyId}, more than one key found in keyring`, 'LONG_KEY_ID_COLLISION');
+      throw new MvError(`Collision of long key ID ${keyId}, more than one key found in keyring`, 'LONG_KEY_ID_COLLISION');
     }
     const [{keyPacket}] = keyArray[0].getKeys(openpgp.Keyid.fromId(keyId));
     return keyPacket.getFingerprint();

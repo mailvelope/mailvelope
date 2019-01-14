@@ -3,7 +3,8 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../mvelo';
+import {DISPLAY_INLINE, DISPLAY_POPUP} from '../lib/constants';
+import {deDup} from '../lib/util';
 import $ from 'jquery';
 import {prefs} from './main';
 
@@ -34,7 +35,7 @@ export default class DecryptFrame extends ExtractFrame {
   async onArmored() {
     let sender = await this.getEmailSender();
     sender = sender.map(person => person.email);
-    sender = mvelo.util.deDup(sender);
+    sender = deDup(sender);
     this.port.emit('set-armored', {
       data: this.getPGPMessage(),
       options: {senderAddress: sender}
@@ -43,9 +44,9 @@ export default class DecryptFrame extends ExtractFrame {
 
   clickHandler() {
     super.clickHandler();
-    if (prefs.security.display_decrypted == mvelo.DISPLAY_INLINE) {
+    if (prefs.security.display_decrypted == DISPLAY_INLINE) {
       this.inlineDialog();
-    } else if (prefs.security.display_decrypted == mvelo.DISPLAY_POPUP) {
+    } else if (prefs.security.display_decrypted == DISPLAY_POPUP) {
       this.popupDialog();
     }
     return false;
@@ -58,7 +59,7 @@ export default class DecryptFrame extends ExtractFrame {
       frameBorder: 0,
       scrolling: 'no'
     });
-    const url = mvelo.runtime.getURL(`components/decrypt-message/decryptMessage.html?id=${this.id}`);
+    const url = chrome.runtime.getURL(`components/decrypt-message/decryptMessage.html?id=${this.id}`);
     this.dDialog.attr('src', url);
     this.eFrame.append(this.dDialog);
     this.setFrameDim();
@@ -75,7 +76,7 @@ export default class DecryptFrame extends ExtractFrame {
     if (!this.dDialog && !this.dPopup) {
       return;
     }
-    if (prefs.security.display_decrypted === mvelo.DISPLAY_INLINE) {
+    if (prefs.security.display_decrypted === DISPLAY_INLINE) {
       this.dDialog.fadeOut();
       // removal triggers disconnect event
       this.dDialog.remove();

@@ -8,7 +8,7 @@
  * recipients and set sender email addresses in the webmail ui.
  */
 
-import mvelo from '../mvelo';
+import {sequential} from '../lib/util';
 import $ from 'jquery';
 
 let providerMap = null;
@@ -170,7 +170,7 @@ class Outlook {
     const composeArea = editElement.parents('.conductorContent').first();
     // find personas in compose are
     const personas = composeArea.find('.PersonaPaneLauncher').get();
-    return mvelo.util.sequential(this.extractPersona.bind(this), personas);
+    return sequential(this.extractPersona.bind(this), personas);
   }
 
   waitForPersonaCard(action) {

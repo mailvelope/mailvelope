@@ -4,14 +4,15 @@
  */
 
 import * as sub from './sub.controller';
-import dompurify from 'dompurify';
-import mvelo from '../mvelo';
+import * as l10n from '../lib/l10n';
+import {mapError, checkEmail, checkUrl, MvError} from '../lib/util';
 import {getById as getKeyringById, getPreferredKeyringId} from '../modules/keyring';
 import {verifyDetachedSignature, encryptMessage} from '../modules/pgpModel';
 import {isEnabled as isAutoLocateEnabled, locate} from '../modules/autoLocate';
+import dompurify from 'dompurify';
 
-// register language strings
-const l10n = mvelo.l10n.getMessages([
+// get language strings
+l10n.set([
   'form_definition_error_signature_invalid',
   'form_sign_error_no_default_key'
 ]);
@@ -48,7 +49,7 @@ export default class EncryptedFormController extends sub.SubController {
       case 'RECIPIENT_INVALID_EMAIL':
       case 'UNSUPPORTED_ENCTYPE':
       case 'NO_SIGNATURE':
-        this.ports.encryptedFormCont.emit('error-message', mvelo.util.mapError(error));
+        this.ports.encryptedFormCont.emit('error-message', mapError(error));
         break;
 
       // Errors that should not be exposed to the API, only displayed in the form UI
@@ -56,7 +57,7 @@ export default class EncryptedFormController extends sub.SubController {
       case 'INVALID_SIGNATURE':
       case 'NO_DEFAULT_KEY_FOUND':
       default:
-        this.ports.encryptedForm.emit('error-message', mvelo.util.mapError(error));
+        this.ports.encryptedForm.emit('error-message', mapError(error));
         break;
     }
   }
@@ -140,10 +141,10 @@ export default class EncryptedFormController extends sub.SubController {
     const parser = new DOMParser();
     const formElementCollection = parser.parseFromString(html, 'text/html').getElementsByTagName('form');
     if (!formElementCollection.length) {
-      throw new mvelo.Error('There should be one form tag in the form definition.', 'NO_FORM');
+      throw new MvError('There should be one form tag in the form definition.', 'NO_FORM');
     }
     if (formElementCollection.length > 1) {
-      throw new mvelo.Error('There should be only one form tag in the form definition.', 'TOO_MANY_FORMS');
+      throw new MvError('There should be only one form tag in the form definition.', 'TOO_MANY_FORMS');
     }
     return formElementCollection[0];
   }
@@ -156,8 +157,8 @@ export default class EncryptedFormController extends sub.SubController {
       this.formAction = null;
       return true;
     }
-    if (!mvelo.util.checkUrl(action)) {
-      throw new mvelo.Error('The form action should be a valid URL.', 'INVALID_FORM_ACTION');
+    if (!checkUrl(action)) {
+      throw new MvError('The form action should be a valid URL.', 'INVALID_FORM_ACTION');
     }
     this.formAction = action;
     return true;
@@ -166,10 +167,10 @@ export default class EncryptedFormController extends sub.SubController {
   assertAndSetRecipient(formElement) {
     const recipient = formElement.getAttribute('data-recipient');
     if (!recipient) {
-      throw new mvelo.Error('The encrypted form recipient cannot be empty.', 'RECIPIENT_EMPTY');
+      throw new MvError('The encrypted form recipient cannot be empty.', 'RECIPIENT_EMPTY');
     }
-    if (!mvelo.util.checkEmail(recipient)) {
-      throw new mvelo.Error('The encrypted form recipient must be a valid email address.', 'RECIPIENT_INVALID_EMAIL');
+    if (!checkEmail(recipient)) {
+      throw new MvError('The encrypted form recipient must be a valid email address.', 'RECIPIENT_INVALID_EMAIL');
     }
     this.formRecipientEmail = recipient;
     return true;
@@ -182,7 +183,7 @@ export default class EncryptedFormController extends sub.SubController {
     }
     const whitelistedEnctype = ['json', 'url', 'html'];
     if (whitelistedEnctype.indexOf(enctype) === -1) {
-      throw new mvelo.Error('The requested encrypted form encoding type is not supported.', 'UNSUPPORTED_ENCTYPE');
+      throw new MvError('The requested encrypted form encoding type is not supported.', 'UNSUPPORTED_ENCTYPE');
     }
     this.formEncoding = enctype;
     this.fileExtension = enctype;
@@ -194,7 +195,7 @@ export default class EncryptedFormController extends sub.SubController {
 
   assertAndSetSignature(signature) {
     if (!signature) {
-      throw new mvelo.Error('Form definition does not contain a signature.', 'NO_SIGNATURE');
+      throw new MvError('Form definition does not contain a signature.', 'NO_SIGNATURE');
     }
     this.formSignature = signature;
     return true;
@@ -214,7 +215,7 @@ ${this.formSignature}
       this.recipientFpr = validSig.fingerprint;
       return true;
     } else {
-      throw new mvelo.Error(l10n.form_definition_error_signature_invalid, 'INVALID_SIGNATURE');
+      throw new MvError(l10n.map.form_definition_error_signature_invalid, 'INVALID_SIGNATURE');
     }
   }
 
@@ -235,7 +236,7 @@ ${this.formSignature}
   async signAndEncrypt(data) {
     const defaultKeyFpr = await getKeyringById(this.keyringId).getDefaultKeyFpr();
     if (!defaultKeyFpr) {
-      throw new mvelo.Error(l10n.form_sign_error_no_default_key, 'NO_DEFAULT_KEY_FOUND');
+      throw new MvError(l10n.map.form_sign_error_no_default_key, 'NO_DEFAULT_KEY_FOUND');
     }
     return encryptMessage({
       data,

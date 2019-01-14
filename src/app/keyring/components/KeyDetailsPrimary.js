@@ -5,7 +5,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import mvelo from '../../../mvelo';
+import {formatFpr} from '../../../lib/util';
 import * as l10n from '../../../lib/l10n';
 
 l10n.register([
@@ -75,7 +75,7 @@ export default function KeyDetailsPrimary({keyDetails}) {
       <div className="form-group">
         <label htmlFor="keyFingerPrint" className="col-sm-3 control-label">{l10n.map.keygrid_key_fingerprint}</label>
         <div className="col-sm-9">
-          <input type="text" value={mvelo.ui.formatFpr(keyDetails.fingerprint)} readOnly className="form-control" id="keyFingerPrint" />
+          <input type="text" value={formatFpr(keyDetails.fingerprint)} readOnly className="form-control" id="keyFingerPrint" />
         </div>
       </div>
       <div className="form-group">

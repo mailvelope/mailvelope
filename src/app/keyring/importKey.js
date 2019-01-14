@@ -3,10 +3,10 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../../mvelo';
 import {port, getAppDataSlot} from '../app';
 import {KeyringOptions} from './KeyringOptions';
 import * as l10n from '../../lib/l10n';
+import {normalizeArmored} from '../../lib/util';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -85,13 +85,13 @@ export default class ImportKey extends React.Component {
       const keys = [];
       if (publicKeys) {
         publicKeys.forEach(pub => {
-          pub = mvelo.util.normalizeArmored(pub);
+          pub = normalizeArmored(pub);
           keys.push({type: 'public', armored: pub});
         });
       }
       if (privateKeys) {
         privateKeys.forEach(priv => {
-          priv = mvelo.util.normalizeArmored(priv);
+          priv = normalizeArmored(priv);
           keys.push({type: 'private', armored: priv});
         });
       }

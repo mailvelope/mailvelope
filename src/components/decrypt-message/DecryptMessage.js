@@ -5,8 +5,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import mvelo from '../../mvelo';
 import * as l10n from '../../lib/l10n';
+import {showSecurityBackground, getHash, str2ab, terminate} from '../../lib/util';
+import EventHandler from '../../lib/EventHandler';
 import ContentSandbox from './components/ContentSandbox';
 import SignatureModal from './components/SignatureModal';
 import {FileDownloadPanel} from '../util/FilePanel';
@@ -36,7 +37,7 @@ export default class DecryptMessage extends React.Component {
       files: [],
       error: null
     };
-    this.port = mvelo.EventHandler.connect(`dDialog-${this.props.id}`, this);
+    this.port = EventHandler.connect(`dDialog-${this.props.id}`, this);
     this.registerEventListeners();
     // emit event to backend that editor has initialized
     this.port.emit('decrypt-message-init');
@@ -44,7 +45,7 @@ export default class DecryptMessage extends React.Component {
 
   componentDidMount() {
     if (this.props.secureBackground) {
-      mvelo.util.showSecurityBackground(this.port, true);
+      showSecurityBackground(this.port, true);
     }
   }
 
@@ -53,7 +54,7 @@ export default class DecryptMessage extends React.Component {
     this.port.on('add-decrypted-attachment', this.onDecryptedAttachment);
     this.port.on('signature-verification', this.onSignatureVerification);
     this.port.on('error-message', this.showErrorMsg);
-    this.port.on('terminate', () => mvelo.ui.terminate(this.port));
+    this.port.on('terminate', () => terminate(this.port));
   }
 
   onDecryptedMessage({message}) {
@@ -62,10 +63,10 @@ export default class DecryptMessage extends React.Component {
 
   onDecryptedAttachment({attachment}) {
     const file = {
-      id: mvelo.util.getHash(),
+      id: getHash(),
       name: attachment.filename
     };
-    const content = mvelo.util.str2ab(attachment.content);
+    const content = str2ab(attachment.content);
     // set MIME type fix to application/octet-stream as other types can be exploited in Chrome
     attachment.mimeType = 'application/octet-stream';
     const blob = new Blob([content], {type: attachment.mimeType});

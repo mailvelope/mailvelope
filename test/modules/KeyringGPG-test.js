@@ -1,14 +1,14 @@
 import {expect, sinon} from 'test';
-import mvelo from 'lib/lib-mvelo';
+import {GNUPG_KEYRING_ID} from 'lib/constants';
 /* eslint-disable-next-line no-unused-vars */
-import {init} from 'modules/keyring';
+import {init} from 'modules/keyring'; // imported to circumvent circular dependency
 import KeyringGPG from 'modules/KeyringGPG';
 import KeyStoreGPG from 'modules/KeyStoreGPG';
 import testKeys from 'Fixtures/keys/madita_bernstein_john_doe_gordon_freeman_pub.asc';
 
 describe('KeyringGPG unit tests', () => {
   const sandbox = sinon.createSandbox();
-  const keyringId = mvelo.GNUPG_KEYRING_ID;
+  const keyringId = GNUPG_KEYRING_ID;
   let keyRing;
   let keyStore;
 

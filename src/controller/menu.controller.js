@@ -4,6 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
+import {getHash} from '../lib/util';
 import * as sub from './sub.controller';
 import * as prefs from '../modules/prefs';
 import {getAll as getAllKeyring} from '../modules/keyring';
@@ -84,7 +85,7 @@ export default class MenuController extends sub.SubController {
       }
       const domain = mvelo.util.getDomain(tab.url);
       const protocol = mvelo.util.getProtocol(tab.url);
-      const slotId = mvelo.util.getHash();
+      const slotId = getHash();
       sub.setAppDataSlot(slotId, {domain, protocol});
       mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/watchlist/push`);
     });

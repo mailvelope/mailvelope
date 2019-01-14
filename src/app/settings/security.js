@@ -4,10 +4,11 @@
  */
 
 import React from 'react';
-import mvelo from '../../mvelo';
+import {SECURE_COLORS} from '../../lib/constants';
 import $ from 'jquery';
 import {port} from '../app';
 import * as l10n from '../../lib/l10n';
+import {generateSecurityBackground, showSecurityBackground} from '../../lib/util';
 
 import './security.css';
 
@@ -155,7 +156,7 @@ function previewSecurityBgnd() {
   const scaling = parseInt($('#scaling').val()) / 10;
   const angle = parseInt($('#angle').val());
   const colorId = parseInt($('#coloring').val());
-  const secBgndIcon = mvelo.util.generateSecurityBackground({
+  const secBgndIcon = generateSecurityBackground({
     width: secBackground.width,
     height: secBackground.height,
     scaling,
@@ -185,7 +186,7 @@ function onSave() {
   const angel = $('#angle').val();
   const scaling = ($('#scaling').val() / 10);
   const coloring = $('#coloring').val();
-  const iconColor = mvelo.SECURE_COLORS[coloring];
+  const iconColor = SECURE_COLORS[coloring];
   const update = {
     security: {
       display_decrypted: $('input:radio[name="decryptRadios"]:checked').val(),
@@ -202,7 +203,7 @@ function onSave() {
   .then(() => {
     normalize();
     $('#secReloadInfo').show();
-    mvelo.util.showSecurityBackground(port);
+    showSecurityBackground(port);
   });
   return false;
 }

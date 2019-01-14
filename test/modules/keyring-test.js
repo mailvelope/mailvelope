@@ -1,6 +1,6 @@
 import {expect} from 'test';
 import {LocalStorageStub} from 'utils';
-import mvelo from 'lib/lib-mvelo';
+import {MAIN_KEYRING_ID} from 'lib/constants';
 import {init, createKeyring, deleteKeyring, getAll, getById, getAllKeyringAttr, getKeyringAttr, setKeyringAttr, getKeyData, getKeyByAddress, getKeyringWithPrivKey, getPreferredKeyring, syncPublicKeys, __RewireAPI__ as keyringRewireAPI} from 'modules/keyring';
 import KeyStoreLocal from 'modules/KeyStoreLocal';
 import testKeys from 'Fixtures/keys';
@@ -9,12 +9,12 @@ describe('keyring unit tests', () => {
   let storage;
 
   beforeEach(async () => {
-    const keyringIds = [mvelo.MAIN_KEYRING_ID, 'test123'];
+    const keyringIds = [MAIN_KEYRING_ID, 'test123'];
     let keyringAttributes;
     storage = new LocalStorageStub();
     for (const keyringId of keyringIds) {
       let storedTestKeys;
-      if (keyringId === mvelo.MAIN_KEYRING_ID) {
+      if (keyringId === MAIN_KEYRING_ID) {
         storedTestKeys = {public: [testKeys.maxp_pub], private: [testKeys.maditab_prv]};
         keyringAttributes = {
           default_key: '771f9119b823e06c0de306d466663688a83e9763'
@@ -30,12 +30,7 @@ describe('keyring unit tests', () => {
       storage
     });
     keyringRewireAPI.__Rewire__('mvelo', {
-      MAIN_KEYRING_ID: mvelo.MAIN_KEYRING_ID,
-      storage,
-      util: {
-        filterAsync: mvelo.util.filterAsync,
-        toArray: mvelo.util.toArray
-      }
+      storage
     });
     await init();
   });
@@ -79,7 +74,7 @@ describe('keyring unit tests', () => {
   describe('getAllKeyringAttr', () => {
     it('Should get all keyring attributes as an object map', () => {
       const allKeyringAttrs = getAllKeyringAttr();
-      expect(allKeyringAttrs[mvelo.MAIN_KEYRING_ID].default_key).to.equal('771f9119b823e06c0de306d466663688a83e9763');
+      expect(allKeyringAttrs[MAIN_KEYRING_ID].default_key).to.equal('771f9119b823e06c0de306d466663688a83e9763');
     });
   });
 
@@ -96,7 +91,7 @@ describe('keyring unit tests', () => {
 
   describe('getKeyData', () => {
     it('Should get user id, key id, fingerprint, email and name for all keys in the preferred keyring queue', async () => {
-      const keyData = await getKeyData(mvelo.MAIN_KEYRING_ID);
+      const keyData = await getKeyData(MAIN_KEYRING_ID);
       expect(keyData.length).to.equal(5);
       expect(keyData.some(({name}) => name === 'Madita Bernstone'));
     });

@@ -3,7 +3,8 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../lib/lib-mvelo';
+import {someAsync} from '../lib/util';
+import {KEYRING_DELIMITER} from '../lib/constants';
 import * as openpgp from 'openpgp';
 import * as certs from './certs';
 import {verifyUserCertificate} from './key';
@@ -17,7 +18,7 @@ export async function init() {
 }
 
 export function getTrustKey(keyringId) {
-  const domain = keyringId.split(mvelo.KEYRING_DELIMITER)[0];
+  const domain = keyringId.split(KEYRING_DELIMITER)[0];
   return keyMap.get(domain);
 }
 
@@ -29,14 +30,14 @@ export function isKeyPseudoRevoked(keyringId, key) {
   if (!trustKey) {
     return false;
   }
-  return mvelo.util.someAsync(key.users, user => isUserPseudoRevoked(user, trustKey, key.primaryKey));
+  return someAsync(key.users, user => isUserPseudoRevoked(user, trustKey, key.primaryKey));
 }
 
 function isUserPseudoRevoked(user, trustKey, primaryKey) {
   if (!user.revocationCertifications || !user.userId) {
     return false;
   }
-  return mvelo.util.someAsync(user.revocationCertifications, async revCert => revCert.reasonForRevocationFlag === 101 &&
+  return someAsync(user.revocationCertifications, async revCert => revCert.reasonForRevocationFlag === 101 &&
            await verifyCert(revCert, user, trustKey, primaryKey) &&
            !await hasNewerCert(user, trustKey, primaryKey, revCert.created));
 }
@@ -45,7 +46,7 @@ function hasNewerCert(user, trustKey, primaryKey, sigDate) {
   if (!user.otherCertifications) {
     return false;
   }
-  return mvelo.util.someAsync(user.otherCertifications, async otherCert => await verifyCert(otherCert, user, trustKey, primaryKey) && otherCert.created > sigDate);
+  return someAsync(user.otherCertifications, async otherCert => await verifyCert(otherCert, user, trustKey, primaryKey) && otherCert.created > sigDate);
 }
 
 async function verifyCert(cert, user, trustKey, primaryKey) {

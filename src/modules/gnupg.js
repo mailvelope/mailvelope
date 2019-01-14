@@ -3,8 +3,8 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../lib/lib-mvelo';
-const l10n = mvelo.l10n.getMessage;
+import * as l10n from '../lib/l10n';
+import {dataURL2base64, MvError} from '../lib/util';
 import {gpgme} from '../lib/browser.runtime';
 
 /**
@@ -36,7 +36,7 @@ export async function decrypt({armored, base64, format}) {
  * @return {String}
  */
 export async function encrypt({data, dataURL, encryptionKeyFprs, signingKeyFpr, armor, filename}) {
-  const base64 = dataURL ? mvelo.util.dataURL2base64(dataURL) : false;
+  const base64 = dataURL ? dataURL2base64(dataURL) : false;
   const additional = filename ? {file_name: filename} : null;
   try {
     const result = await gpgme.encrypt({
@@ -53,7 +53,7 @@ export async function encrypt({data, dataURL, encryptionKeyFprs, signingKeyFpr, 
     return result.data;
   } catch (e) {
     if (e.code === 'GNUPG_ERROR' && e.message.includes('Unusable public key')) {
-      throw new mvelo.Error(l10n('gnupg_error_unusable_pub_key', [encryptionKeyFprs.join(', ')]), 'GNUPG_ERROR');
+      throw new MvError(l10n.get('gnupg_error_unusable_pub_key', [encryptionKeyFprs.join(', ')]), 'GNUPG_ERROR');
     }
     throw e;
   }

@@ -3,8 +3,9 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../mvelo';
 import * as l10n from './l10n';
+import {MAX_FILE_UPLOAD_SIZE} from './constants';
+import {getHash, str2ab} from './util';
 
 l10n.register([
   'editor_remove_upload',
@@ -17,7 +18,7 @@ l10n.register([
  * @returns {boolean}
  */
 export function isOversize(file) {
-  return file.size >= mvelo.MAX_FILE_UPLOAD_SIZE;
+  return file.size >= MAX_FILE_UPLOAD_SIZE;
 }
 
 /**
@@ -48,7 +49,7 @@ export function readUploadFile(file, onLoadEnd) {
     fileReader.onload = function() {
       resolve({
         content: this.result,
-        id: mvelo.util.getHash(),
+        id: getHash(),
         name: file.name,
         size: file.size,
         type: file.type
@@ -199,7 +200,7 @@ function getSecureIcon() {
  * @returns {string}
  */
 function downloadAttachment({content, type, name}) {
-  const ab = mvelo.util.str2ab(content);
+  const ab = str2ab(content);
   const file = new File([ab], name, {type});
 
   return window.URL.createObjectURL(file);

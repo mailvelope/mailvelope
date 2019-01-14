@@ -6,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import mvelo from '../../../mvelo';
+import {KEYRING_DELIMITER, MAIN_KEYRING_ID, GNUPG_KEYRING_ID} from '../../../lib/constants';
 import './KeyringSelect.css';
 import * as l10n from '../../../lib/l10n';
 import {port} from '../../app';
@@ -47,18 +47,18 @@ export default class KeyringSelect extends React.Component {
 
   getKeyringName(keyringId) {
     let name;
-    if (keyringId === mvelo.MAIN_KEYRING_ID) {
+    if (keyringId === MAIN_KEYRING_ID) {
       name = l10n.map.keyring_main;
       if (!this.props.prefs.general.prefer_gnupg) {
         name = `${name} (${l10n.map.preferred})`;
       }
-    } else if (keyringId === mvelo.GNUPG_KEYRING_ID) {
+    } else if (keyringId === GNUPG_KEYRING_ID) {
       name = 'GnuPG';
       if (this.props.prefs.general.prefer_gnupg) {
         name = `${name} (${l10n.map.preferred})`;
       }
     } else {
-      name = keyringId.split(mvelo.KEYRING_DELIMITER)[0];
+      name = keyringId.split(KEYRING_DELIMITER)[0];
     }
     return name;
   }
@@ -77,16 +77,16 @@ export default class KeyringSelect extends React.Component {
       email = false;
     }
     if (!email) {
-      return keyringId.split(mvelo.KEYRING_DELIMITER)[1];
+      return keyringId.split(KEYRING_DELIMITER)[1];
     }
     return email;
   }
 
   getKeyringThumbnail(keyringId) {
-    if (keyringId === mvelo.MAIN_KEYRING_ID) {
+    if (keyringId === MAIN_KEYRING_ID) {
       return '../../../img/cryptography-icon48.png';
     }
-    if (keyringId === mvelo.GNUPG_KEYRING_ID) {
+    if (keyringId === GNUPG_KEYRING_ID) {
       return '../../../img/gnupg-icon48.png';
     }
     if (this.props.keyringAttr[keyringId].logo_data_url) {
@@ -123,7 +123,7 @@ export default class KeyringSelect extends React.Component {
                     <span className="keyringIdentifier keyRingName">{keyringName}</span>
                     <span className="keyringIdentifier keyRingPrimaryKey">{keyringEmail}</span>
                   </Link>
-                  {keyringId !== mvelo.MAIN_KEYRING_ID && keyringId !== mvelo.GNUPG_KEYRING_ID &&
+                  {keyringId !== MAIN_KEYRING_ID && keyringId !== GNUPG_KEYRING_ID &&
                   <a onClick={() => this.props.onDelete(keyringId, keyringName)} className="btn btn-link pull-right flex-item deleteKeyRing">
                     <span className="glyphicon glyphicon-trash"></span>
                   </a>

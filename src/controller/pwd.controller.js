@@ -4,6 +4,8 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
+import * as l10n from '../lib/l10n';
+import {getHash, MvError} from '../lib/util';
 import * as prefs from '../modules/prefs';
 import {SubController} from './sub.controller';
 import * as uiLog from '../modules/uiLog';
@@ -17,7 +19,7 @@ export default class PwdController extends SubController {
     }
     super(null);
     this.mainType = 'pwdDialog';
-    this.id = mvelo.util.getHash();
+    this.id = getHash();
     this.pwdPopup = null;
     this.options = null;
     this.resolve = null;
@@ -68,7 +70,7 @@ export default class PwdController extends SubController {
 
   onCancel() {
     this.closePopup();
-    this.reject(new mvelo.Error(mvelo.l10n.getMessage('pwd_dialog_cancel'), 'PWD_DIALOG_CANCEL'));
+    this.reject(new MvError(l10n.get('pwd_dialog_cancel'), 'PWD_DIALOG_CANCEL'));
   }
 
   closePopup() {

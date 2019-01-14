@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../lib/lib-mvelo';
+import {PLAIN_TEXT} from '../lib/constants';
 import {getPreferences, setPreferences, getWatchList, setWatchList} from './prefs';
 import {getSecureRandom} from './crypto';
 import defaults from '../res/defaults.json';
@@ -45,7 +45,7 @@ export function init() {
     } else if (prefs.version !== defaults.version) {
       // version changed
       prefs.version = defaults.version;
-      prefs.general.editor_type = mvelo.PLAIN_TEXT;
+      prefs.general.editor_type = PLAIN_TEXT;
 
       initSecurityBgnd(prefs);
 

@@ -1,7 +1,7 @@
-/* eslint no-unused-vars: off */
+
 import React from 'react';
 import {expect, sinon, mount} from 'test';
-import mvelo from 'lib/lib-mvelo';
+import EventHandler from 'lib/EventHandler';
 import * as l10n from 'lib/l10n';
 import Spinner from 'components/util/Spinner';
 import Alert from 'components/util/Alert';
@@ -23,12 +23,12 @@ describe('Encrypt Form tests', () => {
       emit: event => portMock._events.emit.push(event),
       send: event => {
         portMock._events.send.push(event);
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
           resolve(event);
         });
       }
     };
-    sandbox.stub(mvelo.EventHandler, 'connect').returns(portMock);
+    sandbox.stub(EventHandler, 'connect').returns(portMock);
   };
 
   const setup = propOverrides => {

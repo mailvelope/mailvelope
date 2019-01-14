@@ -1,5 +1,5 @@
 import {expect} from 'test';
-import mvelo from 'lib/lib-mvelo';
+import {MAIN_KEYRING_ID} from 'lib/constants';
 import {LocalStorageStub} from 'utils';
 import {__RewireAPI__ as prefsRewireAPI} from 'modules/prefs';
 import {init as initKeyring, getById as getKeryingById, __RewireAPI__ as keyringRewireAPI} from 'modules/keyring';
@@ -9,7 +9,7 @@ import {init as pgpModelInit, encryptMessage, decryptMessage, signMessage, verif
 import testKeys from 'Fixtures/keys';
 
 describe('pgpModel unit tests', () => {
-  const keyringIds = [mvelo.MAIN_KEYRING_ID, 'test123'];
+  const keyringIds = [MAIN_KEYRING_ID, 'test123'];
   let storage;
 
   beforeEach(async () => {
@@ -17,7 +17,7 @@ describe('pgpModel unit tests', () => {
     storage = new LocalStorageStub();
     for (const keyringId of keyringIds) {
       let storedTestKeys;
-      if (keyringId === mvelo.MAIN_KEYRING_ID) {
+      if (keyringId === MAIN_KEYRING_ID) {
         storedTestKeys = {public: [testKeys.johnd_pub, testKeys.gordonf_pub], private: [testKeys.maditab_prv]};
         keyringAttributes = {
           default_key: '771f9119b823e06c0de306d466663688a83e9763'
@@ -36,12 +36,7 @@ describe('pgpModel unit tests', () => {
       storage
     });
     keyringRewireAPI.__Rewire__('mvelo', {
-      MAIN_KEYRING_ID: mvelo.MAIN_KEYRING_ID,
-      storage,
-      util: {
-        filterAsync: mvelo.util.filterAsync,
-        toArray: mvelo.util.toArray
-      }
+      storage
     });
     await initKeyring();
     await pgpModelInit();
@@ -58,7 +53,7 @@ describe('pgpModel unit tests', () => {
       const data = 'This is a test message!';
       const armored = await encryptMessage({
         data,
-        keyringId: mvelo.MAIN_KEYRING_ID,
+        keyringId: MAIN_KEYRING_ID,
         unlockKey({key}) {
           return unlock({key, password: '1234'});
         },
@@ -88,7 +83,7 @@ describe('pgpModel unit tests', () => {
       const data = 'This is a test message!';
       const armored = await signMessage({
         data,
-        keyringId: mvelo.MAIN_KEYRING_ID,
+        keyringId: MAIN_KEYRING_ID,
         unlockKey({key}) {
           return unlock({key, password: '1234'});
         },
@@ -143,7 +138,7 @@ S8Xz
   describe('createPrivateKeyBackup/restorePrivateKeyBackup', function() {
     this.timeout(5000);
     it('should create private key backup', async () => {
-      const keyring = getKeryingById(mvelo.MAIN_KEYRING_ID);
+      const keyring = getKeryingById(MAIN_KEYRING_ID);
       const defaultKey = await keyring.getDefaultKey();
       const backup = await createPrivateKeyBackup(defaultKey, '1234');
       const restored = await restorePrivateKeyBackup(backup.message, backup.backupCode);
@@ -155,7 +150,7 @@ S8Xz
   describe('encryptSyncMessage/decryptSyncMessage', function() {
     this.timeout(10000);
     it('should encrypt sync message and decrypt encrypted syn message', async () => {
-      const keyring = getKeryingById(mvelo.MAIN_KEYRING_ID);
+      const keyring = getKeryingById(MAIN_KEYRING_ID);
       const defaultKey = await keyring.getDefaultKey();
       const unlockedKey = await unlock({key: defaultKey, password: '1234'});
       const changeLog = {
@@ -172,7 +167,7 @@ S8Xz
           time: 1544138445434
         }
       };
-      const encrypted = await encryptSyncMessage(unlockedKey, changeLog, mvelo.MAIN_KEYRING_ID);
+      const encrypted = await encryptSyncMessage(unlockedKey, changeLog, MAIN_KEYRING_ID);
       const message = await readMessage({armoredText: encrypted});
       const decrypted = await decryptSyncMessage(unlockedKey, message);
       expect(decrypted.changeLog).to.deep.equal(changeLog);

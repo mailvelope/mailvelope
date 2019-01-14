@@ -15,214 +15,211 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* eslint strict: 0 */
-'use strict';
+import * as l10n from '../../lib/l10n.js';
+import {showSecurityBackground, terminate, appendTpl} from '../../lib/util.js';
+import EventHandler from '../../lib/EventHandler.js';
 
-var mvelo = mvelo || null; // eslint-disable-line no-var
+let port;
+let isInputChange;
 
-(function() {
-  let port;
-  let isInputChange;
+let $secureBgndButton;
+let $pwdInput;
+let $pwdParent;
+let $confirmInput;
+let $confirmParent;
+let $confirmErrorNoEqual;
+let $confirmSuccess;
+let $keyGenPasswordPanel;
+let $keyGenWaitingPanel;
 
-  let $secureBgndButton;
-  let $pwdInput;
-  let $pwdParent;
-  let $confirmInput;
-  let $confirmParent;
-  let $confirmErrorNoEqual;
-  let $confirmSuccess;
-  let $keyGenPasswordPanel;
-  let $keyGenWaitingPanel;
+l10n.set([
+  'keygen_dialog_password_placeholder'
+]);
 
-  const l10n = mvelo.l10n.getMessages([
-    'keygen_dialog_password_placeholder'
-  ]);
-
-  function init() {
-    if (document.body.dataset.mvelo) {
-      return;
-    }
-    document.body.dataset.mvelo = true;
-    const qs = jQuery.parseQuerystring();
-
-    port = mvelo.EventHandler.connect(`keyGenDialog-${qs.id}`);
-    registerEventListeners();
-
-    $('body').addClass('secureBackground');
-
-    mvelo.appendTpl($('body'), mvelo.runtime.getURL('components/generate-key/keyGen.html')).then(() => {
-      $secureBgndButton = $('.secureBgndSettingsBtn');
-      $pwdInput = $('#keygen-password');
-      $pwdParent = $('#pwd-form-group');
-      $confirmInput = $('#password_confirm');
-      $confirmParent = $('#confirm-form-group');
-      $confirmErrorNoEqual = $confirmInput.next();
-      $confirmSuccess = $confirmErrorNoEqual.next();
-      $keyGenPasswordPanel = $('#key_gen_generator');
-      $keyGenWaitingPanel = $('#key_gen_waiting').hide();
-
-      $pwdInput.attr('placeholder', l10n.keygen_dialog_password_placeholder);
-
-      mvelo.l10n.localizeHTML();
-      mvelo.util.showSecurityBackground(port, true);
-
-      $secureBgndButton
-      .on('click', () => port.emit('open-security-settings'));
-
-      $pwdInput
-      .on('input paste', () => {
-        logUserInput('security_log_password_input');
-        checkPwdInput();
-      })
-      .focus();
-
-      $confirmInput
-      .on('input paste', () => {
-        logUserInput('security_log_password_input');
-        checkConfirmInput();
-        checkInputsEqual();
-      });
-
-      $confirmSuccess.hide();
-      $confirmErrorNoEqual.hide();
-      $confirmInput.prop('disabled', true);
-
-      port.emit('keygen-dialog-init');
-
-      isInputChange = true;
-    });
+function init() {
+  if (document.body.dataset.mvelo) {
+    return;
   }
+  document.body.dataset.mvelo = true;
+  const qs = jQuery.parseQuerystring();
 
-  function registerEventListeners() {
-    port.on('check-dialog-inputs', () => port.emit('input-check', {isValid: validate(), pwd: $pwdInput.val()}));
-    port.on('show-password', showPasswordPanel);
-    port.on('show-waiting', showWaitingPanel);
-    port.on('terminate', () => mvelo.ui.terminate(port));
-  }
+  port = EventHandler.connect(`keyGenDialog-${qs.id}`);
+  registerEventListeners();
 
-  /**
-   * return true or false if the password input is valid
-   * @returns {boolean}
-   */
-  function checkPwdInput() {
-    const pwdVal = $pwdInput.val();
-    const maxLength = parseInt($pwdInput.data('lengthMin'));
-    let result = false;
+  $('body').addClass('secureBackground');
 
-    if (isInputChange) {
+  appendTpl($('body'), chrome.runtime.getURL('components/generate-key/keyGen.html')).then(() => {
+    $secureBgndButton = $('.secureBgndSettingsBtn');
+    $pwdInput = $('#keygen-password');
+    $pwdParent = $('#pwd-form-group');
+    $confirmInput = $('#password_confirm');
+    $confirmParent = $('#confirm-form-group');
+    $confirmErrorNoEqual = $confirmInput.next();
+    $confirmSuccess = $confirmErrorNoEqual.next();
+    $keyGenPasswordPanel = $('#key_gen_generator');
+    $keyGenWaitingPanel = $('#key_gen_waiting').hide();
+
+    $pwdInput.attr('placeholder', l10n.map.keygen_dialog_password_placeholder);
+
+    l10n.localizeHTML();
+    showSecurityBackground(port, true);
+
+    $secureBgndButton
+    .on('click', () => port.emit('open-security-settings'));
+
+    $pwdInput
+    .on('input paste', () => {
       logUserInput('security_log_password_input');
-      // limit textarea log to 1 event per second
-      isInputChange = false;
-      window.setTimeout(() => {
-        isInputChange = true;
-      }, 1000);
-    }
+      checkPwdInput();
+    })
+    .focus();
 
-    if (pwdVal.length >= maxLength) {
-      $pwdParent.removeClass('has-error');
-      $confirmInput.prop('disabled', false);
-      result = true;
-    } else {
-      $pwdParent.addClass('has-error');
-      $confirmInput.prop('disabled', true);
-    }
-
-    if (checkConfirmInput()) {
+    $confirmInput
+    .on('input paste', () => {
+      logUserInput('security_log_password_input');
+      checkConfirmInput();
       checkInputsEqual();
-    }
-    return result;
-  }
-
-  /**
-   * return true or false if the inputs are equal return true
-   * @returns {boolean}
-   */
-  function checkInputsEqual() {
-    const result = $pwdInput.val() === $confirmInput.val();
-    const maxLength = parseInt($pwdInput.data('lengthMin'));
-
-    if (!$pwdInput.val().length || !$confirmInput.val().length) {
-      $confirmSuccess.fadeOut(100, () => {
-        $confirmErrorNoEqual.fadeOut(100);
-      });
-      return false;
-    }
-
-    if (!result) {
-      $confirmSuccess.fadeOut(100, () => {
-        $confirmErrorNoEqual.fadeIn(100);
-      });
-      return false;
-    }
-
-    if ($pwdInput.val().length < maxLength) {
-      $confirmSuccess.fadeOut(100, () => {
-        $confirmErrorNoEqual.fadeIn(100);
-      });
-      return false;
-    }
-
-    $confirmParent.removeClass('has-error');
-    $confirmErrorNoEqual.fadeOut(100, () => {
-      $confirmSuccess.fadeIn(100);
     });
-    return true;
+
+    $confirmSuccess.hide();
+    $confirmErrorNoEqual.hide();
+    $confirmInput.prop('disabled', true);
+
+    port.emit('keygen-dialog-init');
+
+    isInputChange = true;
+  });
+}
+
+function registerEventListeners() {
+  port.on('check-dialog-inputs', () => port.emit('input-check', {isValid: validate(), pwd: $pwdInput.val()}));
+  port.on('show-password', showPasswordPanel);
+  port.on('show-waiting', showWaitingPanel);
+  port.on('terminate', () => terminate(port));
+}
+
+/**
+ * return true or false if the password input is valid
+ * @returns {boolean}
+ */
+function checkPwdInput() {
+  const pwdVal = $pwdInput.val();
+  const maxLength = parseInt($pwdInput.data('lengthMin'));
+  let result = false;
+
+  if (isInputChange) {
+    logUserInput('security_log_password_input');
+    // limit textarea log to 1 event per second
+    isInputChange = false;
+    window.setTimeout(() => {
+      isInputChange = true;
+    }, 1000);
   }
 
-  /**
-   * return true or false if the confirm input is valid
-   * @returns {boolean}
-   */
-  function checkConfirmInput() {
-    const confirmVal = $confirmInput.val();
-    const maxLength = parseInt($pwdInput.data('lengthMin'));
+  if (pwdVal.length >= maxLength) {
+    $pwdParent.removeClass('has-error');
+    $confirmInput.prop('disabled', false);
+    result = true;
+  } else {
+    $pwdParent.addClass('has-error');
+    $confirmInput.prop('disabled', true);
+  }
 
-    if (isInputChange) {
-      // limit textarea log to 1 event per second
-      isInputChange = false;
-      window.setTimeout(() => {
-        isInputChange = true;
-      }, 1000);
-    }
+  if (checkConfirmInput()) {
+    checkInputsEqual();
+  }
+  return result;
+}
 
-    if (confirmVal.length >= maxLength) {
-      return true;
-    }
+/**
+ * return true or false if the inputs are equal return true
+ * @returns {boolean}
+ */
+function checkInputsEqual() {
+  const result = $pwdInput.val() === $confirmInput.val();
+  const maxLength = parseInt($pwdInput.data('lengthMin'));
 
-    $confirmParent.addClass('has-error');
+  if (!$pwdInput.val().length || !$confirmInput.val().length) {
+    $confirmSuccess.fadeOut(100, () => {
+      $confirmErrorNoEqual.fadeOut(100);
+    });
     return false;
   }
 
-  /**
-   * returns true or false if the inputs are correct
-   * @returns {boolean}
-   */
-  function validate() {
-    return checkInputsEqual();
-  }
-
-  /**
-   * send log entry for the extension
-   * @param {string} type
-   */
-  function logUserInput(type) {
-    port.emit('keygen-user-input', {
-      source: 'security_log_key_generator',
-      type
+  if (!result) {
+    $confirmSuccess.fadeOut(100, () => {
+      $confirmErrorNoEqual.fadeIn(100);
     });
+    return false;
   }
 
-  function showPasswordPanel() {
-    $keyGenWaitingPanel.fadeOut('fast', () => {
-      $keyGenPasswordPanel.fadeIn('fast');
+  if ($pwdInput.val().length < maxLength) {
+    $confirmSuccess.fadeOut(100, () => {
+      $confirmErrorNoEqual.fadeIn(100);
     });
+    return false;
   }
 
-  function showWaitingPanel() {
-    $keyGenPasswordPanel.fadeOut('fast', () => {
-      $keyGenWaitingPanel.fadeIn('fast');
-    });
+  $confirmParent.removeClass('has-error');
+  $confirmErrorNoEqual.fadeOut(100, () => {
+    $confirmSuccess.fadeIn(100);
+  });
+  return true;
+}
+
+/**
+ * return true or false if the confirm input is valid
+ * @returns {boolean}
+ */
+function checkConfirmInput() {
+  const confirmVal = $confirmInput.val();
+  const maxLength = parseInt($pwdInput.data('lengthMin'));
+
+  if (isInputChange) {
+    // limit textarea log to 1 event per second
+    isInputChange = false;
+    window.setTimeout(() => {
+      isInputChange = true;
+    }, 1000);
   }
 
-  $(document).ready(init);
-}());
+  if (confirmVal.length >= maxLength) {
+    return true;
+  }
+
+  $confirmParent.addClass('has-error');
+  return false;
+}
+
+/**
+ * returns true or false if the inputs are correct
+ * @returns {boolean}
+ */
+function validate() {
+  return checkInputsEqual();
+}
+
+/**
+ * send log entry for the extension
+ * @param {string} type
+ */
+function logUserInput(type) {
+  port.emit('keygen-user-input', {
+    source: 'security_log_key_generator',
+    type
+  });
+}
+
+function showPasswordPanel() {
+  $keyGenWaitingPanel.fadeOut('fast', () => {
+    $keyGenPasswordPanel.fadeIn('fast');
+  });
+}
+
+function showWaitingPanel() {
+  $keyGenPasswordPanel.fadeOut('fast', () => {
+    $keyGenWaitingPanel.fadeIn('fast');
+  });
+}
+
+$(document).ready(init);

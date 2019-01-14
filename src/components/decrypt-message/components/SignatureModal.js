@@ -6,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
-import mvelo from '../../../mvelo';
+import {formatFpr} from '../../../lib/util';
 import ModalDialog from '../../util/ModalDialog';
 
 import './SignatureModal.css';
@@ -53,7 +53,7 @@ export default function SignatureModal({signer, onHide}) {
           <div>
             <p><b>{l10n.map.keygrid_user_name}:</b> {signer.keyDetails.name}</p>
             <p><b>{l10n.map.keygrid_user_email}:</b> {signer.keyDetails.email}</p>
-            <p><b>{l10n.map.keygrid_key_fingerprint}:</b> {mvelo.ui.formatFpr(signer.keyDetails.fingerprint)}</p>
+            <p><b>{l10n.map.keygrid_key_fingerprint}:</b> {formatFpr(signer.keyDetails.fingerprint)}</p>
           </div>
         ) : (
           <div>

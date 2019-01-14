@@ -5,8 +5,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import mvelo from '../../mvelo';
 import * as l10n from '../../lib/l10n';
+import {showSecurityBackground, mapError, terminate, formatFpr} from '../../lib/util';
+import EventHandler from '../../lib/EventHandler';
 import FormSandbox from './components/FormSandbox';
 import './encryptedForm.css';
 import Spinner from '../util/Spinner';
@@ -37,7 +38,7 @@ export default class EncryptedForm extends React.Component {
       formRecipient: null,
       recipientFpr: null
     };
-    this.port = mvelo.EventHandler.connect(`encryptedForm-${this.props.id}`, this);
+    this.port = EventHandler.connect(`encryptedForm-${this.props.id}`, this);
     this.registerEventListeners();
 
     // emit event to backend that form has initialized
@@ -46,7 +47,7 @@ export default class EncryptedForm extends React.Component {
 
   componentDidMount() {
     if (this.props.secureBackground) {
-      mvelo.util.showSecurityBackground(this.port, true);
+      showSecurityBackground(this.port, true);
     }
     this.onResize();
   }
@@ -54,7 +55,7 @@ export default class EncryptedForm extends React.Component {
   registerEventListeners() {
     this.port.on('encrypted-form-definition', this.showForm);
     this.port.on('error-message', this.showErrorMsg);
-    this.port.on('terminate', () => mvelo.ui.terminate(this.port));
+    this.port.on('terminate', () => terminate(this.port));
     this.port.on('encrypted-form-submit', this.onFormSubmit);
     this.port.on('encrypted-form-submit-cancel', this.onFormSubmitCancel);
   }
@@ -92,7 +93,7 @@ export default class EncryptedForm extends React.Component {
   }
 
   onFormSandboxError(error) {
-    this.port.emit('encrypted-form-error', mvelo.util.mapError(error));
+    this.port.emit('encrypted-form-error', mapError(error));
   }
 
   onFormSubmit(event) {
@@ -156,7 +157,7 @@ export default class EncryptedForm extends React.Component {
                   <div className="recipient">
                     <div className="recipient-action">{l10n.map.form_destination}: {this.state.formAction ? this.state.formAction : l10n.map.form_destination_default}</div>
                     <div className="recipient-email">{l10n.map.form_recipient}: {this.state.formRecipient}</div>
-                    <div className="recipient-fingerprint">{mvelo.ui.formatFpr(this.state.recipientFpr)}</div>
+                    <div className="recipient-fingerprint">{formatFpr(this.state.recipientFpr)}</div>
                   </div>
                 </div>
               </div>

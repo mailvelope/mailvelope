@@ -3,7 +3,8 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../mvelo';
+import {getHash} from '../lib/util';
+import EventHandler from '../lib/EventHandler';
 
 export default class AppContainer {
   constructor(selector, keyringId, options = {}) {
@@ -18,8 +19,8 @@ export default class AppContainer {
       this.fullName = `&fname=${encodeURIComponent(options.fullName)}`;
     }
     this.hasPrivateKey = options.hasPrivateKey;
-    this.id = mvelo.util.getHash();
-    this.port = mvelo.EventHandler.connect(`appCont-${this.id}`, this);
+    this.id = getHash();
+    this.port = EventHandler.connect(`appCont-${this.id}`, this);
     this.parent = null;
     this.container = null;
     this.done = null;
@@ -30,7 +31,7 @@ export default class AppContainer {
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');
     const options = `id=${this.id}&krid=${encodeURIComponent(this.keyringId)}${this.email}${this.fullName}#/keyring/${this.hasPrivateKey ? 'display' : 'setup'}`;
-    const url = mvelo.runtime.getURL(`app/app.html?${options}`);
+    const url = chrome.runtime.getURL(`app/app.html?${options}`);
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);
     this.container.setAttribute('style', 'width: 100%; height: 100%; overflow-x: none; overflow-y: auto');

@@ -1,0 +1,14 @@
+{
+
+  "plugins": [
+    "react"
+  ],
+  "extends": ["plugin:react/recommended"],
+  "rules": {
+    "react/button-has-type": "warn",
+    "react/jsx-tag-spacing": "warn",
+    "react/no-access-state-in-setstate": "warn",
+    "react/prefer-stateless-function": "warn"
+  }
+
+}

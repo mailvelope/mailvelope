@@ -4,8 +4,9 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
+import {mapError, MvError} from '../lib/util';
 import {prefs} from '../modules/prefs';
-import * as  sub from './sub.controller';
+import * as sub from './sub.controller';
 import * as uiLog from '../modules/uiLog';
 import * as pwdCache from '../modules/pwdCache';
 import * as sync from './sync.controller';
@@ -98,7 +99,7 @@ export default class PrivateKeyController extends sub.SubController {
     try {
       this.createPrivateKeyBackup();
     } catch (err) {
-      this.ports.keyBackupCont.emit('popup-isready', {error: mvelo.util.mapError(err)});
+      this.ports.keyBackupCont.emit('popup-isready', {error: mapError(err)});
     }
   }
 
@@ -141,7 +142,7 @@ export default class PrivateKeyController extends sub.SubController {
   async createPrivateKeyBackup() {
     const defaultKey = await getKeyringById(this.keyringId).getDefaultKey();
     if (!defaultKey) {
-      throw new mvelo.Error('No private key for backup', 'NO_PRIVATE_KEY');
+      throw new MvError('No private key for backup', 'NO_PRIVATE_KEY');
     }
     this.pwdControl = sub.factory.get('pwdDialog');
     try {
@@ -174,7 +175,7 @@ export default class PrivateKeyController extends sub.SubController {
       this.backupCodePopup = popup;
       popup.addRemoveListener(() => this.backupCodePopup = null);
     } catch (err) {
-      this.ports.keyBackupDialog.emit('error-message', {error: mvelo.util.mapError(err)});
+      this.ports.keyBackupDialog.emit('error-message', {error: mapError(err)});
     }
   }
 

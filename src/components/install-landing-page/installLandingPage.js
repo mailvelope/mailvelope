@@ -5,7 +5,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Trans, * as l10n from '../../lib/l10n';
+import * as l10n from '../../lib/l10n';
+import Trans from '../util/Trans';
 import './InstallLandingPage.less';
 
 l10n.register([
