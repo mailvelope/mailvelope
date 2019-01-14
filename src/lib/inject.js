@@ -4,6 +4,7 @@
  */
 
 import mvelo from './lib-mvelo';
+import {matchPattern2RegExString, sortAndDeDup} from './util';
 import browser from 'webextension-polyfill';
 import {prefs, getWatchList} from '../modules/prefs';
 
@@ -19,7 +20,7 @@ export async function initScriptInjection() {
     const filterURL = await getWatchListFilterURLs();
     const matchPatterns = filterURL.map(({schemes, host}) => `${schemes.includes('http') ? '*' : 'https'}://${host}/*`);
     const originAndPathFilter = {url: filterURL.map(({schemes, host}) => {
-      const originAndPathMatches = `^${schemes.includes('http') ? 'https?' : 'https'}:\/\/${mvelo.util.matchPattern2RegExString(host)}/.*`;
+      const originAndPathMatches = `^${schemes.includes('http') ? 'https?' : 'https'}:\/\/${matchPattern2RegExString(host)}/.*`;
       watchlistRegex.push(new RegExp(originAndPathMatches));
       return {schemes, originAndPathMatches};
     })};
@@ -63,7 +64,7 @@ async function getWatchListFilterURLs() {
     result.push({schemes, host});
   });
   if (result.length !== 0) {
-    result = mvelo.util.sortAndDeDup(result, (a, b) => a.host.localeCompare(b.host));
+    result = sortAndDeDup(result, (a, b) => a.host.localeCompare(b.host));
   }
   return result;
 }
@@ -86,7 +87,7 @@ function reduceHosts(hosts) {
       reduced.push(`*.${labels.slice(-3).join('.')}`);
     }
   });
-  return mvelo.util.sortAndDeDup(reduced);
+  return sortAndDeDup(reduced);
 }
 
 async function injectOpenTabs(filterURL) {

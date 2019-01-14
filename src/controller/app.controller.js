@@ -4,6 +4,8 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
+import {PromiseQueue, getHash} from '../lib/util';
+import {MAIN_KEYRING_ID} from '../lib/constants';
 import * as sub from './sub.controller';
 import {initOpenPGP, decryptFile, encryptFile} from '../modules/pgpModel';
 import {getById as keyringById, getAllKeyringAttr, setKeyringAttr, deleteKeyring, getKeyData} from '../modules/keyring';
@@ -13,14 +15,14 @@ import * as uiLog from '../modules/uiLog';
 import {getVersion} from '../modules/defaults';
 import {gpgme} from '../lib/browser.runtime';
 
-const unlockQueue = new mvelo.util.PromiseQueue();
+const unlockQueue = new PromiseQueue();
 
 export default class AppController extends sub.SubController {
   constructor(port) {
     super(port);
     if (!port) {
       this.mainType = 'app';
-      this.id = mvelo.util.getHash();
+      this.id = getHash();
     }
     // register event handlers
     this.on('get-prefs', () => prefs.prefs);
@@ -100,11 +102,11 @@ export default class AppController extends sub.SubController {
   }
 
   async deleteKeyring({keyringId}) {
-    if (keyringId === mvelo.MAIN_KEYRING_ID) {
+    if (keyringId === MAIN_KEYRING_ID) {
       throw new Error('Cannot delete main keyring');
     }
     await deleteKeyring(keyringId);
-    sub.setActiveKeyringId(mvelo.MAIN_KEYRING_ID);
+    sub.setActiveKeyringId(MAIN_KEYRING_ID);
   }
 
   initEncryptText() {
@@ -122,7 +124,7 @@ export default class AppController extends sub.SubController {
   }
 
   decryptText({armored}) {
-    this.decryptTextCtrl.decrypt(armored, mvelo.MAIN_KEYRING_ID);
+    this.decryptTextCtrl.decrypt(armored, MAIN_KEYRING_ID);
   }
 
   async unlockKey({key}) {

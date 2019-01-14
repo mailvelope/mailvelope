@@ -5,8 +5,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Trans, * as l10n from '../../../lib/l10n';
-
+import * as l10n from '../../../lib/l10n';
+import Trans from '../../util/Trans';
 
 l10n.register([
   'action_menu_configure_mailvelope',

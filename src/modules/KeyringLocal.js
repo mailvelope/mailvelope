@@ -3,11 +3,10 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../lib/lib-mvelo';
 import * as openpgp from 'openpgp';
 import {getUserId, checkKeyId} from './key';
 import KeyringBase from './KeyringBase';
-const l10n = mvelo.l10n.getMessage;
+import * as l10n from '../lib/l10n';
 import * as keyringSync from './keyringSync';
 import * as openpgpjs from './openpgpjs';
 
@@ -75,7 +74,7 @@ export default class KeyringLocal extends KeyringBase {
       } catch (e) {
         result.push({
           type: 'error',
-          message: l10n('key_import_unable', [e])
+          message: l10n.get('key_import_unable', [e])
         });
       }
     }));
@@ -100,7 +99,7 @@ export default class KeyringLocal extends KeyringBase {
         console.log('Error on key.readArmored', error);
         result.push({
           type: 'error',
-          message: l10n('key_import_public_read', [error.message])
+          message: l10n.get('key_import_public_read', [error.message])
         });
       });
     }
@@ -115,14 +114,14 @@ export default class KeyringLocal extends KeyringBase {
         await key.update(pubKey);
         result.push({
           type: 'success',
-          message: l10n('key_import_public_update', [keyId, await getUserId(pubKey)])
+          message: l10n.get('key_import_public_update', [keyId, await getUserId(pubKey)])
         });
         this.sync.add(fingerprint, keyringSync.UPDATE);
       } else {
         this.keystore.publicKeys.push(pubKey);
         result.push({
           type: 'success',
-          message: l10n('key_import_public_success', [keyId, await getUserId(pubKey)])
+          message: l10n.get('key_import_public_success', [keyId, await getUserId(pubKey)])
         });
         this.sync.add(fingerprint, keyringSync.INSERT);
       }
@@ -138,7 +137,7 @@ export default class KeyringLocal extends KeyringBase {
         console.log('Error on key.readArmored', error);
         result.push({
           type: 'error',
-          message: l10n('key_import_private_read', [error.message])
+          message: l10n.get('key_import_private_read', [error.message])
         });
       });
     }
@@ -156,14 +155,14 @@ export default class KeyringLocal extends KeyringBase {
           this.keystore.privateKeys.push(privKey);
           result.push({
             type: 'success',
-            message: l10n('key_import_private_exists', [keyId, await getUserId(privKey)])
+            message: l10n.get('key_import_private_exists', [keyId, await getUserId(privKey)])
           });
           this.sync.add(fingerprint, keyringSync.UPDATE);
         } else {
           await key.update(privKey);
           result.push({
             type: 'success',
-            message: l10n('key_import_private_update', [keyId, await getUserId(privKey)])
+            message: l10n.get('key_import_private_update', [keyId, await getUserId(privKey)])
           });
           this.sync.add(fingerprint, keyringSync.UPDATE);
         }
@@ -171,7 +170,7 @@ export default class KeyringLocal extends KeyringBase {
         this.keystore.privateKeys.push(privKey);
         result.push({
           type: 'success',
-          message: l10n('key_import_private_success', [keyId, await getUserId(privKey)])
+          message: l10n.get('key_import_private_success', [keyId, await getUserId(privKey)])
         });
         this.sync.add(fingerprint, keyringSync.INSERT);
       }

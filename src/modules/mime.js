@@ -4,6 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
+import {html2text, encodeHTML, ab2str, text2html, byteCount, MvError} from '../lib/util';
 import * as mailreader from '../lib/mail-reader';
 import MimeBuilder from 'emailjs-mime-builder';
 
@@ -48,15 +49,15 @@ function parseMIME(rawText, handlers, encoding) {
           } else {
             filterBodyParts(parsed, 'html', htmlParts);
             if (htmlParts.length) {
-              handlers.onMessage(htmlParts.map(part => mvelo.util.html2text(part.content)).join('\n\n'));
+              handlers.onMessage(htmlParts.map(part => html2text(part.content)).join('\n\n'));
             }
           }
         }
         const attachmentParts = [];
         filterBodyParts(parsed, 'attachment', attachmentParts);
         attachmentParts.forEach(part => {
-          part.filename = mvelo.util.encodeHTML(part.filename);
-          part.content = mvelo.util.ab2str(part.content.buffer);
+          part.filename = encodeHTML(part.filename);
+          part.content = ab2str(part.content.buffer);
           handlers.onAttachment(part);
         });
       }
@@ -75,12 +76,12 @@ async function parseInline(rawText, handlers, encoding) {
       const sanitized = mvelo.util.sanitizeHTML(rawText);
       handlers.onMessage(sanitized);
     } else if (encoding === 'text') {
-      handlers.onMessage(mvelo.util.html2text(rawText));
+      handlers.onMessage(html2text(rawText));
     }
   } else {
     // plain text
     if (encoding === 'html') {
-      handlers.onMessage(mvelo.util.text2html(rawText));
+      handlers.onMessage(text2html(rawText));
     } else if (encoding === 'text') {
       handlers.onMessage(rawText);
     }
@@ -115,7 +116,7 @@ export function buildMail({message, attachments, quota, pgpMIME}) {
   let hasAttachment;
   let quotaSize = 0;
   if (message) {
-    quotaSize += mvelo.util.byteCount(message);
+    quotaSize += byteCount(message);
     const textMime = new MimeBuilder('text/plain')
     .setHeader({'content-transfer-encoding': 'quoted-printable'})
     .setContent(message);
@@ -136,7 +137,7 @@ export function buildMail({message, attachments, quota, pgpMIME}) {
     }
   }
   if (quota && (quotaSize > quota)) {
-    throw new mvelo.Error('Mail content exceeds quota limit.', 'ENCRYPT_QUOTA_SIZE');
+    throw new MvError('Mail content exceeds quota limit.', 'ENCRYPT_QUOTA_SIZE');
   }
   if (hasAttachment || pgpMIME) {
     composedMessage = mainMessage.build();

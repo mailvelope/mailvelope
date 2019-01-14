@@ -3,8 +3,8 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../lib/lib-mvelo';
-const l10n = mvelo.l10n.getMessage;
+import * as l10n from '../lib/l10n';
+import {dataURL2str, str2Uint8Array, dataURL2base64, MvError} from '../lib/util';
 import * as openpgp from 'openpgp';
 import * as defaults from './defaults';
 import * as prefs from './prefs';
@@ -85,11 +85,11 @@ async function addSigningKeyDetails(signature, keyring) {
 
 function noKeyFoundError(encryptionKeyIds) {
   const keyId = encryptionKeyIds[0].toHex();
-  let errorMsg = l10n('message_no_keys', [keyId.toUpperCase()]);
+  let errorMsg = l10n.get('message_no_keys', [keyId.toUpperCase()]);
   for (let i = 1; i < encryptionKeyIds.length; i++) {
-    errorMsg = `${errorMsg} ${l10n('word_or')} ${encryptionKeyIds[i].toHex().toUpperCase()}`;
+    errorMsg = `${errorMsg} ${l10n.get('word_or')} ${encryptionKeyIds[i].toHex().toUpperCase()}`;
   }
-  return new mvelo.Error(errorMsg, 'NO_KEY_FOUND');
+  return new MvError(errorMsg, 'NO_KEY_FOUND');
 }
 
 /**
@@ -104,14 +104,14 @@ export async function readMessage({armoredText, binary}) {
       return openpgp.message.readArmored(armoredText);
     } catch (e) {
       console.log('Error parsing armored text', e);
-      throw new mvelo.Error(l10n('message_read_error', [e]), 'ARMOR_PARSE_ERROR');
+      throw new MvError(l10n.get('message_read_error', [e]), 'ARMOR_PARSE_ERROR');
     }
   } else if (binary) {
     try {
       return openpgp.message.read(binary);
     } catch (e) {
       console.log('Error parsing binary file', e);
-      throw new mvelo.Error(l10n('file_read_error', [e]), 'BINARY_PARSE_ERROR');
+      throw new MvError(l10n.get('file_read_error', [e]), 'BINARY_PARSE_ERROR');
     }
   } else {
     throw new Error('No message to read');
@@ -133,7 +133,7 @@ export async function readMessage({armoredText, binary}) {
 export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyFprs, signingKeyFpr, uiLogSource, filename, noCache}) {
   const keyring = getKeyringWithPrivKey(signingKeyFpr, keyringId, noCache);
   if (!keyring) {
-    throw new mvelo.Error('No private key found', 'NO_PRIVATE_KEY_FOUND');
+    throw new MvError('No private key found', 'NO_PRIVATE_KEY_FOUND');
   }
   await syncPublicKeys({keyring, keyIds: encryptionKeyFprs, keyringId});
   try {
@@ -142,7 +142,7 @@ export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyF
     return result;
   } catch (e) {
     console.log('getPgpBackend().encrypt() error', e);
-    throw new mvelo.Error(l10n('encrypt_error', [e.message]), 'ENCRYPT_ERROR');
+    throw new MvError(l10n.get('encrypt_error', [e.message]), 'ENCRYPT_ERROR');
   }
 }
 
@@ -165,7 +165,7 @@ async function readCleartextMessage(armoredText) {
     return openpgp.cleartext.readArmored(armoredText);
   } catch (e) {
     console.log('openpgp.cleartext.readArmored', e);
-    throw new mvelo.Error(l10n('cleartext_read_error', [e]), 'VERIFY_ERROR');
+    throw new MvError(l10n.get('cleartext_read_error', [e]), 'VERIFY_ERROR');
   }
 }
 
@@ -174,7 +174,7 @@ export async function verifyMessage({armored, keyringId}) {
     const message = await readCleartextMessage(armored);
     const signingKeyIds = message.getSigningKeyIds();
     if (!signingKeyIds.length) {
-      throw new mvelo.Error('No signatures found');
+      throw new MvError('No signatures found');
     }
     const keyring = getPreferredKeyring(keyringId);
     await syncPublicKeys({keyring, keyIds: signingKeyIds, keyringId});
@@ -182,7 +182,7 @@ export async function verifyMessage({armored, keyringId}) {
     signatures = await Promise.all(signatures.map(sig => addSigningKeyDetails(sig, keyring)));
     return {data, signatures};
   } catch (e) {
-    throw new mvelo.Error(l10n('verify_error', [e]), 'VERIFY_ERROR');
+    throw new MvError(l10n.get('verify_error', [e]), 'VERIFY_ERROR');
   }
 }
 
@@ -202,7 +202,7 @@ export async function verifyDetachedSignature({plaintext, signerEmail, detachedS
     // check again if key is now in keyring
     ({[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail, {keyId: issuerKeyId}));
     if (!signerKeys) {
-      throw new mvelo.Error(l10n('form_definition_error_no_recipient_key'), 'NO_KEY_FOR_RECIPIENT');
+      throw new MvError(l10n.get('form_definition_error_no_recipient_key'), 'NO_KEY_FOR_RECIPIENT');
     }
   }
   const signerKeyFprs = signerKeys.map(signerKey => signerKey.primaryKey.getFingerprint());
@@ -223,7 +223,7 @@ export async function verifyDetachedSignature({plaintext, signerEmail, detachedS
 export async function signMessage({data, keyringId, unlockKey, signingKeyFpr}) {
   const keyring = getKeyringWithPrivKey(signingKeyFpr, keyringId);
   if (!keyring) {
-    throw new mvelo.Error('No private key found', 'NO_PRIVATE_KEY_FOUND');
+    throw new MvError('No private key found', 'NO_PRIVATE_KEY_FOUND');
   }
   try {
     const result = await keyring.getPgpBackend().sign({data, keyring, unlockKey, signingKeyFpr});
@@ -231,7 +231,7 @@ export async function signMessage({data, keyringId, unlockKey, signingKeyFpr}) {
     return result;
   } catch (e) {
     console.log('getPgpBackend().sign() error', e);
-    throw new mvelo.Error(l10n('sign_error', [e]), 'SIGN_ERROR');
+    throw new MvError(l10n.get('sign_error', [e]), 'SIGN_ERROR');
   }
 }
 
@@ -266,12 +266,12 @@ export async function restorePrivateKeyBackup(armoredBlock, code) {
         (message.packets[0].sessionKeyEncryptionAlgorithm === null || message.packets[0].sessionKeyEncryptionAlgorithm === 'aes256') &&
         message.packets[1].tag === 18 // Sym. Encrypted Integrity Protected Data Packet
   )) {
-    throw new mvelo.Error('Illegal private key backup structure.');
+    throw new MvError('Illegal private key backup structure.');
   }
   try {
     message = await message.decrypt(null, [code]);
   } catch (e) {
-    throw new mvelo.Error('Could not decrypt message with this restore code', 'WRONG_RESTORE_CODE');
+    throw new MvError('Could not decrypt message with this restore code', 'WRONG_RESTORE_CODE');
   }
   // extract password
   const metaInfo = await openpgp.stream.readToEnd(message.getText());
@@ -385,7 +385,7 @@ export async function encryptFile({plainFile, encryptionKeyFprs, armor}) {
     return result;
   } catch (error) {
     console.log('pgpmodel.encryptFile() error', error);
-    throw new mvelo.Error(l10n('encrypt_error', [error.message]), 'NO_KEY_FOUND');
+    throw new MvError(l10n.get('encrypt_error', [error.message]), 'NO_KEY_FOUND');
   }
 }
 
@@ -399,11 +399,11 @@ export async function decryptFile(encryptedFile, unlockKey) {
   let armoredText;
   let binary;
   try {
-    const content = mvelo.util.dataURL2str(encryptedFile.content);
+    const content = dataURL2str(encryptedFile.content);
     if (/^-----BEGIN PGP MESSAGE-----/.test(content)) {
       armoredText = content;
     } else {
-      binary = mvelo.util.str2Uint8Array(content);
+      binary = str2Uint8Array(content);
     }
     const message = await readMessage({armoredText, binary});
     const encryptionKeyIds = message.getEncryptionKeyIds();
@@ -411,7 +411,7 @@ export async function decryptFile(encryptedFile, unlockKey) {
     if (!keyring) {
       throw noKeyFoundError(encryptionKeyIds);
     }
-    const result = await keyring.getPgpBackend().decrypt({base64: mvelo.util.dataURL2base64(encryptedFile.content), message, keyring, unlockKey, encryptionKeyIds, format: 'binary'});
+    const result = await keyring.getPgpBackend().decrypt({base64: dataURL2base64(encryptedFile.content), message, keyring, unlockKey, encryptionKeyIds, format: 'binary'});
     if (!result.filename) {
       result.filename = encryptedFile.name.slice(0, -4);
     }

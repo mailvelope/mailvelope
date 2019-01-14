@@ -4,9 +4,10 @@
  */
 
 import * as l10n from '../../../lib/l10n';
+import {formatFpr} from '../../../lib/util';
 import React from 'react';
 import PropTypes from 'prop-types';
-import mvelo from '../../../mvelo';
+
 
 l10n.register([
   'keygrid_subkeyid',
@@ -79,7 +80,7 @@ export default class KeyDetailsSubkeys extends React.Component {
             <div className="form-group">
               <label htmlFor="subkeyFingerPrint" className="col-sm-3 control-label">{l10n.map.keygrid_key_fingerprint}</label>
               <div className="col-sm-9">
-                <input type="text" value={mvelo.ui.formatFpr(selected.fingerprint)} readOnly className="form-control" id="subkeyFingerPrint" />
+                <input type="text" value={formatFpr(selected.fingerprint)} readOnly className="form-control" id="subkeyFingerPrint" />
               </div>
             </div>
           </div>

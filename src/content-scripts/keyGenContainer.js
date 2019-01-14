@@ -3,7 +3,8 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../mvelo';
+import {getHash} from '../lib/util';
+import EventHandler from '../lib/EventHandler';
 
 export default class KeyGenContainer {
   /**
@@ -16,8 +17,8 @@ export default class KeyGenContainer {
     this.selector = selector;
     this.keyringId = keyringId;
     this.options = options;
-    this.id = mvelo.util.getHash();
-    this.port = mvelo.EventHandler.connect(`keyGenCont-${this.id}`, this);
+    this.id = getHash();
+    this.port = EventHandler.connect(`keyGenCont-${this.id}`, this);
     this.registerEventListener();
     this.parent = null;
     this.container = null;
@@ -28,13 +29,12 @@ export default class KeyGenContainer {
   /**
    * Create an iframe
    * @param {function} done - callback function
-   * @returns {mvelo.KeyGenContainer}
    */
   create(done) {
     this.done = done;
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');
-    const url = mvelo.runtime.getURL(`components/generate-key/keyGenDialog.html?id=${this.id}`);
+    const url = chrome.runtime.getURL(`components/generate-key/keyGenDialog.html?id=${this.id}`);
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);
     this.container.setAttribute('scrolling', 'no');

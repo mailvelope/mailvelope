@@ -3,12 +3,12 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mveloGlobal from '../mvelo';
 import browser from 'webextension-polyfill';
+import {encodeHTML} from './util';
 import dompurify from 'dompurify';
 import autoLink from './autolink';
 
-const mvelo = {...mveloGlobal};
+const mvelo = {};
 
 export default mvelo;
 
@@ -129,7 +129,7 @@ mvelo.tabs.loadTab = function({path = '', hash = ''}) {
   });
 };
 
-mvelo.util = mvelo.util || {};
+mvelo.util = {};
 
 // Add a hook to make all links open a new window
 // attribution: https://github.com/cure53/DOMPurify/blob/master/demos/hooks-target-blank-demo.html
@@ -152,19 +152,13 @@ mvelo.util.sanitizeHTML = function(html) {
 };
 
 mvelo.util.text2autoLinkHtml = function(text) {
-  return mvelo.util.sanitizeHTML(autoLink(text, {defaultProtocol: 'https', escapeFn: mvelo.util.encodeHTML}));
+  return mvelo.util.sanitizeHTML(autoLink(text, {defaultProtocol: 'https', escapeFn: encodeHTML}));
 };
 
 mvelo.util.getHostname = function(url) {
   const a = document.createElement('a');
   a.href = url;
   return a.hostname;
-};
-
-mvelo.util.getHost = function(url) {
-  const a = document.createElement('a');
-  a.href = url;
-  return a.host;
 };
 
 mvelo.util.getProtocol = function(url) {

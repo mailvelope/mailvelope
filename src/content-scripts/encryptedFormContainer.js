@@ -3,14 +3,15 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../mvelo';
+import {getHash, MvError} from '../lib/util';
+import EventHandler from '../lib/EventHandler';
 
 export default class EncryptedFormContainer {
   constructor(selector, html, signature) {
     this.baseValidate(selector, html, signature);
     this.selector = selector;
-    this.id = mvelo.util.getHash();
-    this.port = mvelo.EventHandler.connect(`encryptedFormCont-${this.id}`, this);
+    this.id = getHash();
+    this.port = EventHandler.connect(`encryptedFormCont-${this.id}`, this);
     this.registerEventListener();
     this.parent = null;
     this.signature = signature;
@@ -23,7 +24,7 @@ export default class EncryptedFormContainer {
     this.done = done;
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');
-    const url = mvelo.runtime.getURL(`components/encrypted-form/encryptedForm.html?id=${this.id}`);
+    const url = chrome.runtime.getURL(`components/encrypted-form/encryptedForm.html?id=${this.id}`);
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);
     this.container.setAttribute('scrolling', 'no');
@@ -69,13 +70,13 @@ export default class EncryptedFormContainer {
 
   baseValidate(selector, html, signature) {
     if (!selector) {
-      throw new mvelo.Error('The pgp encrypted form selector cannot be empty.', 'NO_FORM');
+      throw new MvError('The pgp encrypted form selector cannot be empty.', 'NO_FORM');
     }
     if (!html) {
-      throw new mvelo.Error('The pgp encrypted form html cannot be empty.', 'NO_HTML');
+      throw new MvError('The pgp encrypted form html cannot be empty.', 'NO_HTML');
     }
     if (!signature) {
-      throw new mvelo.Error('The pgp encrypted form signature cannot be empty.', 'NO_SIGNATURE');
+      throw new MvError('The pgp encrypted form signature cannot be empty.', 'NO_SIGNATURE');
     }
     return true;
   }

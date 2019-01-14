@@ -12,8 +12,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
-import mvelo from '../../mvelo';
 import * as l10n from '../../lib/l10n';
+import {showSecurityBackground, str2ab, terminate} from '../../lib/util';
+import {MAX_FILE_UPLOAD_SIZE} from '../../lib/constants';
+import EventHandler from '../../lib/EventHandler';
 import PlainText from './components/PlainText';
 import {FileUploadPanel} from '../util/FilePanel';
 import EditorFooter from './components/EditorFooter';
@@ -61,7 +63,7 @@ export default class Editor extends React.Component {
       pwdDialog: null,
       files: []
     };
-    this.port = mvelo.EventHandler.connect(`editor-${this.props.id}`, this);
+    this.port = EventHandler.connect(`editor-${this.props.id}`, this);
     // flag to control time slice for input logging
     this.logTextareaInput = true;
     this.registerEventListeners();
@@ -73,7 +75,7 @@ export default class Editor extends React.Component {
 
   componentDidMount() {
     if (this.props.secureBackground) {
-      mvelo.util.showSecurityBackground(this.port, this.props.embedded);
+      showSecurityBackground(this.port, this.props.embedded);
     }
     if (this.props.embedded) {
       this.fileUpload = new fileLib.FileUpload();
@@ -97,7 +99,7 @@ export default class Editor extends React.Component {
     this.port.on('hide-pwd-dialog', this.onHidePwdDialog);
     this.port.on('get-plaintext', this.getPlaintext);
     this.port.on('error-message', this.onErrorMessage);
-    this.port.on('terminate', () => mvelo.ui.terminate(this.port));
+    this.port.on('terminate', () => terminate(this.port));
     this.port.on('public-key-userids', this.onPublicKeyUserids);
     this.port.on('key-update', this.onKeyUpdate);
   }
@@ -306,7 +308,7 @@ export default class Editor extends React.Component {
   }
 
   onSetAttachment({attachment}) {
-    const buffer = mvelo.util.str2ab(attachment.content);
+    const buffer = str2ab(attachment.content);
     const blob = new Blob([buffer], {type: attachment.mimeType});
     const file = new File([blob], attachment.filename, {type: attachment.mimeType});
     this.addAttachment(file);
@@ -447,6 +449,6 @@ Editor.propTypes = {
 };
 
 Editor.defaultProps = {
-  maxFileUploadSize: mvelo.MAX_FILE_UPLOAD_SIZE,
+  maxFileUploadSize: MAX_FILE_UPLOAD_SIZE,
   secureBackground: true
 };

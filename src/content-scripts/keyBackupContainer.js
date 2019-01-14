@@ -3,7 +3,8 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../mvelo';
+import {getHash} from '../lib/util';
+import EventHandler from '../lib/EventHandler';
 import {host} from './main';
 
 export default class KeyBackupContainer {
@@ -17,8 +18,8 @@ export default class KeyBackupContainer {
     this.selector = selector;
     this.keyringId = keyringId;
     this.options = options;
-    this.id = mvelo.util.getHash();
-    this.port = mvelo.EventHandler.connect(`keyBackupCont-${this.id}`, this);
+    this.id = getHash();
+    this.port = EventHandler.connect(`keyBackupCont-${this.id}`, this);
     this.registerEventListener();
     this.parent = null;
     this.container = null;
@@ -32,7 +33,7 @@ export default class KeyBackupContainer {
    * @param {function} done - callback function
    */
   create(done) {
-    const url = mvelo.runtime.getURL(`components/key-backup/keyBackupDialog.html?id=${this.id}`);
+    const url = chrome.runtime.getURL(`components/key-backup/keyBackupDialog.html?id=${this.id}`);
     this.done = done;
     this.parent = document.querySelector(this.selector);
     this.container = document.createElement('iframe');

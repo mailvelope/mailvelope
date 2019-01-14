@@ -3,9 +3,11 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../mvelo';
 import $ from 'jquery';
+import {PGP_MESSAGE, PGP_SIGNATURE, PGP_PUBLIC_KEY, PGP_PRIVATE_KEY, KEYRING_DELIMITER} from '../lib/constants';
+import {MvError} from '../lib/util';
 import {prefs, host, getMessageType} from './main';
+import {checkTypes} from './clientAPITypeCheck';
 import DecryptContainer from './decryptContainer';
 import EditorContainer from './editorContainer';
 import EncryptedFormContainer from './encryptedFormContainer';
@@ -34,7 +36,7 @@ export function init() {
   if (!window.mailvelope) {
     $('<script/>', {
       id: 'mailvelope-api',
-      src: mvelo.runtime.getURL('client-API/mailvelope-client-api.js'),
+      src: chrome.runtime.getURL('client-API/mailvelope-client-api.js'),
       'data-version': prefs.version
     }).appendTo($('head'));
   }
@@ -57,96 +59,6 @@ function reply(id, error, data) {
   postMessage('callback-reply', id, data, error);
 }
 
-const dataTypes = {
-  identifier: 'string',
-  selector: 'string',
-  armored: 'string',
-  options: 'object',
-  recipients: 'array',
-  emailAddr: 'string',
-  dataURL: 'string',
-  revision: 'number',
-  fingerprint: 'string',
-  syncHandlerObj: 'object',
-  editorId: 'string',
-  generatorId: 'string',
-  popupId: 'string',
-  syncHandlerId: 'string',
-  syncType: 'string',
-  syncData: 'object',
-  error: 'object',
-  restoreId: 'string',
-  restoreBackup: 'string',
-  id: 'string',
-  confirmRequired: 'boolean',
-  signature: 'string',
-  formHtml: 'string'
-};
-
-const optionsTypes = {
-  showExternalContent: 'boolean',
-  quota: 'number',
-  predefinedText: 'string',
-  quotedMail: 'string',
-  signMsg: 'boolean',
-  quotedMailIndent: 'boolean',
-  quotedMailHeader: 'string',
-  userIds: 'array',
-  keySize: 'number',
-  initialSetup: 'boolean',
-  senderAddress: 'string',
-  restorePassword: 'boolean',
-  email: 'string',
-  fullName: 'string',
-  keepAttachments: 'boolean',
-  armoredDraft: 'string'
-};
-
-function checkTypes(data) {
-  if (data.id && typeof data.id !== 'string') {
-    throw new mvelo.Error('Type mismatch: data.id should be of type string.', 'TYPE_MISMATCH');
-  }
-  if (!data.data) {
-    return;
-  }
-  enforceTypeWhitelist(data.data, dataTypes);
-  if (data.data.options && typeof data.data.options === 'object') {
-    enforceTypeWhitelist(data.data.options, optionsTypes);
-  }
-}
-
-function enforceTypeWhitelist(data, whitelist) {
-  const parameters = Object.keys(data) || [];
-  for (let i = 0; i < parameters.length; i++) {
-    const parameter = parameters[i];
-    const dataType = whitelist[parameter];
-    const value = data[parameter];
-    if (dataType === undefined) {
-      console.log(`Mailvelope client-API type checker: parameter ${parameter} not accepted.`);
-      delete data[parameter];
-      continue;
-    }
-    if (value === undefined || value === null) {
-      continue;
-    }
-    let wrong = false;
-    switch (dataType) {
-      case 'array':
-        if (!Array.isArray(value)) {
-          wrong = true;
-        }
-        break;
-      default:
-        if (typeof value !== dataType) {
-          wrong = true;
-        }
-    }
-    if (wrong) {
-      throw new mvelo.Error(`Type mismatch: ${parameter} should be of type ${dataType}.`, 'TYPE_MISMATCH');
-    }
-  }
-}
-
 function eventListener(event) {
   if (event.origin !== window.location.origin ||
       event.data.mvelo_extension ||
@@ -159,10 +71,10 @@ function eventListener(event) {
     const data = event.data.data;
     let keyringId = null;
     if (data && data.identifier) {
-      if (data.identifier.indexOf(mvelo.KEYRING_DELIMITER) !== -1) {
+      if (data.identifier.indexOf(KEYRING_DELIMITER) !== -1) {
         throw {message: 'Identifier invalid.', code: 'INVALID_IDENTIFIER'};
       }
-      keyringId = host + mvelo.KEYRING_DELIMITER + data.identifier;
+      keyringId = host + KEYRING_DELIMITER + data.identifier;
     }
     switch (event.data.event) {
       case 'get-version': {
@@ -254,7 +166,7 @@ function eventListener(event) {
 }
 
 function getKeyring(keyringId, callback) {
-  mvelo.runtime.sendMessage({
+  chrome.runtime.sendMessage({
     event: 'get-keyring',
     api_event: true,
     keyringId
@@ -264,7 +176,7 @@ function getKeyring(keyringId, callback) {
 }
 
 function createKeyring(keyringId, callback) {
-  mvelo.runtime.sendMessage({
+  chrome.runtime.sendMessage({
     event: 'create-keyring',
     api_event: true,
     keyringId
@@ -276,15 +188,15 @@ function createKeyring(keyringId, callback) {
 function displayContainer(selector, armored, keyringId, options = {}, callback) {
   let container;
   switch (getMessageType(armored)) {
-    case mvelo.PGP_MESSAGE:
+    case PGP_MESSAGE:
       container = new DecryptContainer(selector, keyringId, options);
       break;
-    case mvelo.PGP_SIGNATURE:
-      throw new mvelo.Error('PGP signatures not supported.', 'WRONG_ARMORED_TYPE');
-    case mvelo.PGP_PUBLIC_KEY:
-      throw new mvelo.Error('PGP keys not supported.', 'WRONG_ARMORED_TYPE');
+    case PGP_SIGNATURE:
+      throw new MvError('PGP signatures not supported.', 'WRONG_ARMORED_TYPE');
+    case PGP_PUBLIC_KEY:
+      throw new MvError('PGP keys not supported.', 'WRONG_ARMORED_TYPE');
     default:
-      throw new mvelo.Error('No valid armored block found.', 'WRONG_ARMORED_TYPE');
+      throw new MvError('No valid armored block found.', 'WRONG_ARMORED_TYPE');
   }
   container.create(armored, callback);
 }
@@ -303,7 +215,7 @@ function editorContainer(selector, keyringId, options = {}, callback) {
 }
 
 function settingsContainer(selector, keyringId, options = {}, callback) {
-  mvelo.runtime.sendMessage({
+  chrome.runtime.sendMessage({
     event: 'has-private-key',
     api_event: true,
     keyringId
@@ -316,7 +228,7 @@ function settingsContainer(selector, keyringId, options = {}, callback) {
 }
 
 function openSettings(keyringId, callback) {
-  mvelo.runtime.sendMessage({
+  chrome.runtime.sendMessage({
     event: 'open-settings',
     api_event: true,
     keyringId
@@ -365,7 +277,7 @@ function generatorReject(generatorId) {
 }
 
 function hasPrivateKey(keyringId, fingerprint, callback) {
-  mvelo.runtime.sendMessage({
+  chrome.runtime.sendMessage({
     event: 'has-private-key',
     api_event: true,
     keyringId,
@@ -384,7 +296,7 @@ function editorCreateDraft(editorId, callback) {
 }
 
 function validKeyForAddress(keyringId, recipients, callback) {
-  mvelo.runtime.sendMessage({
+  chrome.runtime.sendMessage({
     event: 'query-valid-key',
     api_event: true,
     keyringId,
@@ -395,7 +307,7 @@ function validKeyForAddress(keyringId, recipients, callback) {
 }
 
 function exportOwnPublicKey(keyringId, emailAddr, callback) {
-  mvelo.runtime.sendMessage({
+  chrome.runtime.sendMessage({
     event: 'export-own-pub-key',
     api_event: true,
     keyringId,
@@ -407,15 +319,15 @@ function exportOwnPublicKey(keyringId, emailAddr, callback) {
 
 function importPublicKey(keyringId, armored, callback) {
   switch (getMessageType(armored)) {
-    case mvelo.PGP_PUBLIC_KEY:
+    case PGP_PUBLIC_KEY:
       // ok
       break;
-    case mvelo.PGP_PRIVATE_KEY:
-      throw new mvelo.Error('No import of private PGP keys allowed.', 'WRONG_ARMORED_TYPE');
+    case PGP_PRIVATE_KEY:
+      throw new MvError('No import of private PGP keys allowed.', 'WRONG_ARMORED_TYPE');
     default:
-      throw new mvelo.Error('No valid armored block found.', 'WRONG_ARMORED_TYPE');
+      throw new MvError('No valid armored block found.', 'WRONG_ARMORED_TYPE');
   }
-  mvelo.runtime.sendMessage({
+  chrome.runtime.sendMessage({
     event: 'import-pub-key',
     api_event: true,
     keyringId,
@@ -427,12 +339,12 @@ function importPublicKey(keyringId, armored, callback) {
 
 function setLogo(keyringId, dataURL, revision, callback) {
   if (!/^data:image\/png;base64,/.test(dataURL)) {
-    throw new mvelo.Error('Data URL must start with "data:image/png;base64,".', 'LOGO_INVALID');
+    throw new MvError('Data URL must start with "data:image/png;base64,".', 'LOGO_INVALID');
   }
   if (dataURL.length > 15 * 1024) {
-    throw new mvelo.Error('Data URL string size exceeds 15KB limit.', 'LOGO_INVALID');
+    throw new MvError('Data URL string size exceeds 15KB limit.', 'LOGO_INVALID');
   }
-  mvelo.runtime.sendMessage({
+  chrome.runtime.sendMessage({
     event: 'set-logo',
     api_event: true,
     keyringId,

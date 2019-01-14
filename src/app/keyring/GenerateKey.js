@@ -5,8 +5,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import mvelo from '../../mvelo';
 import * as l10n from '../../lib/l10n';
+import {checkEmail} from '../../lib/util';
 import {port} from '../app';
 import {KeyringOptions} from './KeyringOptions';
 import moment from 'moment';
@@ -80,7 +80,7 @@ export default class GenerateKey extends React.Component {
 
 
   handleGenerate() {
-    const validEmail = mvelo.util.checkEmail(this.state.email);
+    const validEmail = checkEmail(this.state.email);
     if (!validEmail) {
       this.setState({errors: {email: new Error()}});
       return;

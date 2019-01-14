@@ -5,7 +5,8 @@
 
 import React from 'react';
 import {port, AppOptions} from '../app';
-import Trans, * as l10n from '../../lib/l10n';
+import * as l10n from '../../lib/l10n';
+import Trans from '../../components/util/Trans';
 
 l10n.register([
   'form_cancel',

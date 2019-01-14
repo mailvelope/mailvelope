@@ -9,6 +9,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
+import {getHash, deDup, sortAndDeDup, mapError, MvError} from '../lib/util';
 import {prefs} from '../modules/prefs';
 import * as model from '../modules/pgpModel';
 import * as sub from './sub.controller';
@@ -24,7 +25,7 @@ export default class EditorController extends sub.SubController {
     super(port);
     if (!port) {
       this.mainType = 'editor';
-      this.id = mvelo.util.getHash();
+      this.id = getHash();
     }
     this.encryptDone = null;
     this.encryptTimer = null;
@@ -75,7 +76,7 @@ export default class EditorController extends sub.SubController {
   async setRecipientData(recipients) {
     // deduplicate email addresses
     let emails = (recipients || []).map(recipient => recipient.email);
-    emails = mvelo.util.deDup(emails); // just dedup, dont change order of user input
+    emails = deDup(emails); // just dedup, dont change order of user input
     recipients = emails.map(e => ({email: e}));
     // get all public keys from required keyrings
     const keys = await getKeyData({keyringId: this.keyringId});
@@ -113,7 +114,7 @@ export default class EditorController extends sub.SubController {
     if (this.editorPopup) {
       this.editorPopup.close();
       this.editorPopup = null;
-      this.encryptDone.reject(new mvelo.Error('Editor dialog canceled.', 'EDITOR_DIALOG_CANCEL'));
+      this.encryptDone.reject(new MvError('Editor dialog canceled.', 'EDITOR_DIALOG_CANCEL'));
     }
   }
 
@@ -140,7 +141,7 @@ export default class EditorController extends sub.SubController {
         keyFprs.push(defaultKeyFpr);
       }
     }
-    this.keyFprBuffer = mvelo.util.sortAndDeDup(keyFprs);
+    this.keyFprBuffer = sortAndDeDup(keyFprs);
     // ensure that all keys are available in the API keyring
     syncPublicKeys({keyringId: this.keyringId, keyIds: this.keyFprBuffer});
     this.ports.editor.emit('get-plaintext', {action: 'encrypt'});
@@ -299,7 +300,7 @@ export default class EditorController extends sub.SubController {
       await parseMessage(data, handlers, 'text');
       this.ports.editor.emit('decrypt-end');
     } catch (error) {
-      this.ports.editor.emit('decrypt-failed', {error: mvelo.util.mapError(error)});
+      this.ports.editor.emit('decrypt-failed', {error: mapError(error)});
     }
     clearTimeout(this.encryptTimer);
   }
@@ -331,7 +332,7 @@ export default class EditorController extends sub.SubController {
         return;
       }
       console.log(err);
-      const error = mvelo.util.mapError(err);
+      const error = mapError(err);
       this.ports.editor.emit('error-message', {error});
       if (this.ports.editorCont) {
         this.ports.editorCont.emit('error-message', {error});
@@ -360,11 +361,11 @@ export default class EditorController extends sub.SubController {
         data = buildMail(options);
       } catch (error) {
         if (this.ports.editorCont) {
-          this.ports.editorCont.emit('error-message', {error: mvelo.util.mapError(error)});
+          this.ports.editorCont.emit('error-message', {error: mapError(error)});
         }
       }
       if (data === null) {
-        throw new mvelo.Error('MIME building failed.');
+        throw new MvError('MIME building failed.');
       }
       const keyFprs = await this.getPublicKeyFprs(options.keys);
       if (options.signMsg) {
@@ -402,7 +403,7 @@ export default class EditorController extends sub.SubController {
       signKeyFpr = defaultKeyFpr;
     }
     if (!signKeyFpr) {
-      throw new mvelo.Error('No private key found to sign this message.', 'NO_DEFAULT_KEY_FOUND');
+      throw new MvError('No private key found to sign this message.', 'NO_DEFAULT_KEY_FOUND');
     }
     const unlockKey = async options => {
       options.noCache = noCache;
@@ -507,6 +508,6 @@ export default class EditorController extends sub.SubController {
       }
     }
     // deduplicate
-    return mvelo.util.sortAndDeDup(keyFprs);
+    return sortAndDeDup(keyFprs);
   }
 }

@@ -3,16 +3,18 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../mvelo';
+import {PGP_MESSAGE} from '../lib/constants';
+import {getHash, MvError} from '../lib/util';
 import {getMessageType} from './main';
+import EventHandler from '../lib/EventHandler';
 
 export default class EditorContainer {
   constructor(selector, keyringId, options) {
     this.selector = selector;
     this.keyringId = keyringId;
     this.options = options;
-    this.id = mvelo.util.getHash();
-    this.port = mvelo.EventHandler.connect(`editorCont-${this.id}`, this);
+    this.id = getHash();
+    this.port = EventHandler.connect(`editorCont-${this.id}`, this);
     this.registerEventListener();
     this.parent = null;
     this.container = null;
@@ -29,7 +31,7 @@ export default class EditorContainer {
     if (this.options.quota) {
       quota = `&quota=${this.options.quota}`;
     }
-    const url = mvelo.runtime.getURL(`components/editor/editor.html?id=${this.id}${quota}&embedded=true`);
+    const url = chrome.runtime.getURL(`components/editor/editor.html?id=${this.id}${quota}&embedded=true`);
     this.container.setAttribute('src', url);
     this.container.setAttribute('frameBorder', 0);
     this.container.setAttribute('scrolling', 'no');
@@ -87,18 +89,18 @@ export default class EditorContainer {
 
   checkInProgress() {
     if (this.encryptCallback || this.createDraftCallback) {
-      throw new mvelo.Error('Encyption already in progress.', 'ENCRYPT_IN_PROGRESS');
+      throw new MvError('Encyption already in progress.', 'ENCRYPT_IN_PROGRESS');
     }
   }
 
   processOptions() {
-    if (this.options.quotedMail && getMessageType(this.options.quotedMail) !== mvelo.PGP_MESSAGE ||
-        this.options.armoredDraft && getMessageType(this.options.armoredDraft) !== mvelo.PGP_MESSAGE) {
-      return new mvelo.Error('quotedMail or armoredDraft parameter need to be a PGP message.', 'WRONG_ARMOR_TYPE');
+    if (this.options.quotedMail && getMessageType(this.options.quotedMail) !== PGP_MESSAGE ||
+        this.options.armoredDraft && getMessageType(this.options.armoredDraft) !== PGP_MESSAGE) {
+      return new MvError('quotedMail or armoredDraft parameter need to be a PGP message.', 'WRONG_ARMOR_TYPE');
     }
     if (this.options.armoredDraft && (this.options.predefinedText || this.options.quotedMail ||
                                       this.options.quotedMailIndent || this.options.quotedMailHeader)) {
-      return new mvelo.Error('armoredDraft parameter cannot be combined with parameters: predefinedText, quotedMail, quotedMailIndent, quotedMailHeader.', 'INVALID_OPTIONS');
+      return new MvError('armoredDraft parameter cannot be combined with parameters: predefinedText, quotedMail, quotedMailIndent, quotedMailHeader.', 'INVALID_OPTIONS');
     }
     this.port.emit('editor-options', {
       keyringId: this.keyringId,

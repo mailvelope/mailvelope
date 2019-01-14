@@ -3,9 +3,9 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../../../mvelo';
 import React, {Component} from 'react';
 import * as l10n from '../../../lib/l10n';
+import EventHandler from '../../../lib/EventHandler';
 import ActionMenuAnimated from './ActionMenuAnimated';
 import ActionMenuSetup from './ActionMenuSetup';
 import '../ActionMenu.less';
@@ -19,7 +19,7 @@ class ActionMenuWrapper extends Component {
   constructor(props) {
     super(props);
     this.state = {isSetupDone: true};
-    this.port = mvelo.EventHandler.connect('menu-59edbbeb9affc4004a916276');
+    this.port = EventHandler.connect('menu-59edbbeb9affc4004a916276');
   }
 
   async componentDidMount() {

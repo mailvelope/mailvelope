@@ -4,9 +4,11 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
+import {MAIN_KEYRING_ID, APP_TOP_FRAME_ID} from '../lib/constants';
+import EventHandler from '../lib/EventHandler';
 import {getSecurityBackground} from '../modules/prefs';
 
-export class SubController extends mvelo.EventHandler {
+export class SubController extends EventHandler {
   constructor(port) {
     super(port);
     this.ports = {};
@@ -32,7 +34,7 @@ export class SubController extends mvelo.EventHandler {
       return;
     }
     const type = parseViewName(port.name).type;
-    this.ports[type] = new mvelo.EventHandler(port, this._handlers);
+    this.ports[type] = new EventHandler(port, this._handlers);
   }
 
   removePort(port) {
@@ -112,7 +114,7 @@ function verifyCreatePermission(type, port) {
   }
   if (type === 'app') {
     const sender = parseViewName(port.name);
-    if (sender.id !== mvelo.APP_TOP_FRAME_ID) {
+    if (sender.id !== APP_TOP_FRAME_ID) {
       throw new Error('App view in embedded frame not allowed to directly create controller.');
     }
   }
@@ -172,7 +174,7 @@ export function isActive(type) {
 }
 
 // keep state of active keyring for App UI
-let activeKeyringId = mvelo.MAIN_KEYRING_ID;
+let activeKeyringId = MAIN_KEYRING_ID;
 
 export function setActiveKeyringId(keyringId) {
   activeKeyringId = keyringId;

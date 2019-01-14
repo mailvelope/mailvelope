@@ -3,13 +3,15 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../mvelo';
+import {getHash, normalizeArmored} from '../lib/util';
+import {LARGE_FRAME, FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED, FRAME_OBJ} from '../lib/constants';
+import EventHandler from '../lib/EventHandler';
 import $ from 'jquery';
 import {currentProvider} from './main';
 
 export default class ExtractFrame {
   constructor() {
-    this.id = mvelo.util.getHash();
+    this.id = getHash();
     // element with Armor Tail Line '-----END PGP...'
     this.pgpEnd = null;
     // element that contains complete ASCII Armored Message
@@ -47,9 +49,9 @@ export default class ExtractFrame {
       }
     }
     // set status to attached
-    this.pgpEnd.data(mvelo.FRAME_STATUS, mvelo.FRAME_ATTACHED);
+    this.pgpEnd.data(FRAME_STATUS, FRAME_ATTACHED);
     // store frame obj in pgpText tag
-    this.pgpEnd.data(mvelo.FRAME_OBJ, this);
+    this.pgpEnd.data(FRAME_OBJ, this);
     if (!beginFound) {
       throw new Error('Missing BEGIN PGP header.');
     }
@@ -60,7 +62,7 @@ export default class ExtractFrame {
   }
 
   establishConnection() {
-    this.port = mvelo.EventHandler.connect(this.ctrlName, this);
+    this.port = EventHandler.connect(this.ctrlName, this);
   }
 
   renderFrame() {
@@ -71,7 +73,7 @@ export default class ExtractFrame {
     });
     this.setFrameDim();
     this.eFrame.insertAfter(this.pgpElement);
-    if (this.pgpElement.height() > mvelo.LARGE_FRAME) {
+    if (this.pgpElement.height() > LARGE_FRAME) {
       this.eFrame.addClass('m-large');
     }
     this.eFrame.fadeIn('slow');
@@ -100,11 +102,11 @@ export default class ExtractFrame {
       this.eFrame.remove();
       if (finalClose === true) {
         this.port.disconnect();
-        this.pgpEnd.data(mvelo.FRAME_STATUS, null);
+        this.pgpEnd.data(FRAME_STATUS, null);
       } else {
-        this.pgpEnd.data(mvelo.FRAME_STATUS, mvelo.FRAME_DETACHED);
+        this.pgpEnd.data(FRAME_STATUS, FRAME_DETACHED);
       }
-      this.pgpEnd.data(mvelo.FRAME_OBJ, null);
+      this.pgpEnd.data(FRAME_OBJ, null);
     });
     return false;
   }
@@ -140,7 +142,7 @@ export default class ExtractFrame {
   getPGPMessage() {
     let msg = this.getArmoredMessage();
     // additional filtering to get well defined PGP message format
-    msg = mvelo.util.normalizeArmored(msg, this.typeRegex);
+    msg = normalizeArmored(msg, this.typeRegex);
     return msg;
   }
 

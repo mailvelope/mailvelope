@@ -4,6 +4,8 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
+import {getHash, mapError} from '../lib/util';
+import {DISPLAY_INLINE} from '../lib/constants';
 import {prefs} from '../modules/prefs';
 import * as model from '../modules/pgpModel';
 import {parseMessage} from '../modules/mime';
@@ -17,7 +19,7 @@ export default class DecryptController extends sub.SubController {
     super(port);
     if (!port) {
       this.mainType = 'decryptCont';
-      this.id = mvelo.util.getHash();
+      this.id = getHash();
     }
     this.decryptPopup = null;
     this.options = {};
@@ -103,7 +105,7 @@ export default class DecryptController extends sub.SubController {
           case 'ARMOR_PARSE_ERROR':
           case 'PWD_DIALOG_CANCEL':
           case 'NO_KEY_FOUND':
-            err = mvelo.util.mapError(err);
+            err = mapError(err);
             break;
           default:
             err = {
@@ -120,7 +122,7 @@ export default class DecryptController extends sub.SubController {
 
   async unlockKey({key}) {
     const pwdControl = sub.factory.get('pwdDialog');
-    const openPopup = this.ports.decryptCont || prefs.security.display_decrypted == mvelo.DISPLAY_INLINE;
+    const openPopup = this.ports.decryptCont || prefs.security.display_decrypted == DISPLAY_INLINE;
     const beforePasswordRequest = id => this.ports.dPopup && this.ports.dPopup.emit('show-pwd-dialog', {id});
     const unlockedKey = await pwdControl.unlockKey({
       key,

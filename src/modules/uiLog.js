@@ -4,8 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-
-const l10n = mvelo.l10n.getMessage;
+import * as l10n from '../lib/l10n';
 
 const log = [];
 let logTimer = 0;
@@ -19,9 +18,9 @@ let logTimer = 0;
 export function push(source, type, substitutions) {
   const entry = {
     source,
-    sourcei18n: l10n(source),
+    sourcei18n: l10n.get(source),
     type,
-    typei18n: l10n(type, substitutions),
+    typei18n: l10n.get(type, substitutions),
     timestamp: (new Date()).toISOString()
   };
   const lastEntry = log[log.length - 1];

@@ -4,6 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
+import {getHash, MvError} from '../lib/util';
 import * as sub from './sub.controller';
 import {getById as getKeyringById} from '../modules/keyring';
 import {mapKeys, cloneKey} from '../modules/key';
@@ -17,7 +18,7 @@ export default class ImportController extends sub.SubController {
     super(port);
     if (!port) {
       this.mainType = 'importKeyDialog';
-      this.id = mvelo.util.getHash();
+      this.id = getHash();
     }
     this.armored = '';
     this.popupDone = null;
@@ -37,7 +38,7 @@ export default class ImportController extends sub.SubController {
   }
 
   onArmoredKey({data}) {
-    const slotId = mvelo.util.getHash();
+    const slotId = getHash();
     this.keyringId = sub.getActiveKeyringId();
     sub.setAppDataSlot(slotId, data);
     mvelo.tabs.loadAppTab(`?krid=${encodeURIComponent(this.keyringId)}&slotId=${slotId}#/keyring/import/push`);
@@ -106,7 +107,7 @@ export default class ImportController extends sub.SubController {
         return this.openPopup();
       }
     } catch (err) {
-      throw new mvelo.Error(err.message, 'IMPORT_ERROR');
+      throw new MvError(err.message, 'IMPORT_ERROR');
     }
   }
 

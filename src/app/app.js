@@ -15,10 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import mvelo from '../mvelo';
 import React from 'react';
 import {Route, Redirect, Link} from 'react-router-dom';
 import * as l10n from '../lib/l10n';
+import {showSecurityBackground, terminate} from '../lib/util';
+import {APP_TOP_FRAME_ID} from '../lib/constants';
+import EventHandler from '../lib/EventHandler';
 import {NavLink} from './util/util';
 
 import Dashboard from './dashboard/Dashboard';
@@ -67,8 +69,8 @@ export class App extends React.Component {
     super(props);
     const query = new URLSearchParams(document.location.search);
     // init messaging
-    port = mvelo.EventHandler.connect(`app-${this.getId(query)}`);
-    port.on('terminate', () => mvelo.ui.terminate(port));
+    port = EventHandler.connect(`app-${this.getId(query)}`);
+    port.on('terminate', () => terminate(port));
     l10n.mapToLocal();
     document.title = l10n.map.options_title;
     // set initial state
@@ -83,11 +85,11 @@ export class App extends React.Component {
   getId(query) {
     if (window.top === window.self) {
       // top level frame
-      return mvelo.APP_TOP_FRAME_ID;
+      return APP_TOP_FRAME_ID;
     } else {
       // embedded frame
       let id = query.get('id');
-      if (id === mvelo.APP_TOP_FRAME_ID) {
+      if (id === APP_TOP_FRAME_ID) {
         id = '';
       }
       return id;
@@ -101,7 +103,7 @@ export class App extends React.Component {
     .then(prefs => this.setState({prefs}));
     port.send('get-gnupg-status')
     .then(gnupg => this.setState({gnupg}));
-    mvelo.util.showSecurityBackground(port);
+    showSecurityBackground(port);
   }
 
   handleChangePrefs(update) {

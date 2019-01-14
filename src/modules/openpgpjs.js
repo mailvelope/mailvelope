@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../lib/lib-mvelo';
+import {toArray, Uint8Array2str, dataURL2str, str2Uint8Array} from '../lib/util';
 import * as openpgp from 'openpgp';
 
 /**
@@ -22,7 +22,7 @@ export async function decrypt({message, keyring, senderAddress, selfSigned, encr
   privateKey = await unlockKey({key: privateKey});
   let signingKeys;
   // normalize sender address to array
-  senderAddress = mvelo.util.toArray(senderAddress);
+  senderAddress = toArray(senderAddress);
   // verify signatures if sender address provided or self signed message (draft)
   if (senderAddress.length || selfSigned) {
     signingKeys = [];
@@ -54,7 +54,7 @@ export async function decrypt({message, keyring, senderAddress, selfSigned, encr
     return sig;
   });
   if (format === 'binary') {
-    result.data = mvelo.util.Uint8Array2str(result.data);
+    result.data = Uint8Array2str(result.data);
   }
   return result;
 }
@@ -76,8 +76,8 @@ export async function encrypt({data, dataURL, keyring, unlockKey, encryptionKeyF
   if (data) {
     message = openpgp.message.fromText(data, filename);
   } else if (dataURL) {
-    const content = mvelo.util.dataURL2str(dataURL);
-    data = mvelo.util.str2Uint8Array(content);
+    const content = dataURL2str(dataURL);
+    data = str2Uint8Array(content);
     message = openpgp.message.fromBinary(data, filename);
   }
   if (signingKeyFpr) {
@@ -86,7 +86,7 @@ export async function encrypt({data, dataURL, keyring, unlockKey, encryptionKeyF
   }
   const keys = keyring.getKeysByFprs(encryptionKeyFprs);
   const result = await openpgp.encrypt({message, publicKeys: keys, privateKeys: signingKey, armor});
-  return armor ? result.data : mvelo.util.Uint8Array2str(result.message.packets.write());
+  return armor ? result.data : Uint8Array2str(result.message.packets.write());
 }
 
 /**

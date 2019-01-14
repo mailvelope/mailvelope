@@ -1,8 +1,8 @@
-/* eslint no-unused-vars: off */
+
 import React from 'react';
 import {expect, sinon, mount} from 'test';
-import mvelo from 'lib/lib-mvelo';
 import * as l10n from 'lib/l10n';
+import EventHandler from 'lib/EventHandler';
 import Spinner from 'components/util/Spinner';
 import ContentSandbox from 'components/decrypt-message/components/ContentSandbox';
 import SignatureModal from 'components/decrypt-message/components/SignatureModal';
@@ -24,12 +24,12 @@ describe('Decrypt Message tests', () => {
       emit: event => portMock._events.emit.push(event),
       send: event => {
         portMock._events.send.push(event);
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
           resolve(event);
         });
       }
     };
-    sandbox.stub(mvelo.EventHandler, 'connect').returns(portMock);
+    sandbox.stub(EventHandler, 'connect').returns(portMock);
   };
 
   const setup = propOverrides => {
@@ -131,7 +131,7 @@ describe('Decrypt Message tests', () => {
       expect(contentSandbox.find('iframe').exists()).to.equal(true);
     });
     it('should show singature modal when clicked on signature button', () => {
-      const spy = sandbox.spy(ContentSandbox.prototype, 'setContent');
+      sandbox.spy(ContentSandbox.prototype, 'setContent');
       const {wrapper} = setup();
       const component = wrapper.instance();
       component.onSignatureVerification({signers: signaturesFixture});

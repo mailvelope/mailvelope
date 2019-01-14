@@ -4,6 +4,8 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
+import {mapError} from '../lib/util';
+import {MAIN_KEYRING_ID} from '../lib/constants';
 import {getById as keyringById, createKeyring, setKeyringAttr, getKeyByAddress} from '../modules/keyring';
 import * as sub from './sub.controller';
 import * as openpgp from 'openpgp';
@@ -29,7 +31,7 @@ export function handleApiEvent(request, sender, sendResponse) {
           sendResponse({data: {}});
           sub.setActiveKeyringId(request.keyringId);
         })
-        .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
+        .catch(err => sendResponse({error: mapError(err)}));
         return true;
       case 'query-valid-key':
         getKeyByAddress(request.keyringId, request.recipients)
@@ -65,7 +67,7 @@ export function handleApiEvent(request, sender, sendResponse) {
       case 'import-pub-key':
         sub.factory.get('importKeyDialog').importKey(request.keyringId, request.armored)
         .then(status => sendResponse({data: status}))
-        .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
+        .catch(err => sendResponse({error: mapError(err)}));
         return true;
       case 'set-logo':
         attr = keyringById(request.keyringId).getAttributes();
@@ -77,7 +79,7 @@ export function handleApiEvent(request, sender, sendResponse) {
         .then(() => {
           sendResponse({error: null, data: null});
         })
-        .catch(err => sendResponse({error: mvelo.util.mapError(err)}));
+        .catch(err => sendResponse({error: mapError(err)}));
         return true;
       case 'has-private-key':
         if (request.fingerprint) {
@@ -95,7 +97,7 @@ export function handleApiEvent(request, sender, sendResponse) {
         }
         break;
       case 'open-settings': {
-        request.keyringId = request.keyringId || mvelo.MAIN_KEYRING_ID;
+        request.keyringId = request.keyringId || MAIN_KEYRING_ID;
         const hash = `?krid=${encodeURIComponent(request.keyringId)}#/settings`;
         mvelo.tabs.loadAppTab(hash);
         sendResponse({error: null, data: null});
@@ -105,6 +107,6 @@ export function handleApiEvent(request, sender, sendResponse) {
         console.log('unknown event:', request);
     }
   } catch (err) {
-    sendResponse({error: mvelo.util.mapError(err)});
+    sendResponse({error: mapError(err)});
   }
 }

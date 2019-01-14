@@ -6,7 +6,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as l10n from '../../lib/l10n';
-import mvelo from '../../mvelo';
+import {MAX_FILE_UPLOAD_SIZE} from '../../lib/constants';
+import {addDocumentTitle} from '../../lib/util';
 import Editor from './editor';
 
 import './editorRoot.css';
@@ -31,11 +32,11 @@ function init() {
   const id = query.get('id' || '');
   // attachment max file size
   const quota = parseInt(query.get('quota'));
-  let maxFileUploadSize = mvelo.MAX_FILE_UPLOAD_SIZE;
+  let maxFileUploadSize = MAX_FILE_UPLOAD_SIZE;
   if (query.quota && quota < maxFileUploadSize) {
     maxFileUploadSize = quota;
   }
-  mvelo.ui.addDocumentTitle(l10n.map.editor_header);
+  addDocumentTitle(l10n.map.editor_header);
   const root = document.createElement('div');
   ReactDOM.render(
     (<Editor id={id} embedded={embedded} maxFileUploadSize={maxFileUploadSize} recipientInput={!embedded} />),

@@ -6,9 +6,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
-import mvelo from '../../mvelo';
+import {MAX_FILE_UPLOAD_SIZE} from '../../lib/constants';
 import {port} from '../app';
 import * as l10n from '../../lib/l10n';
+import {addLoadingAnimation} from '../../lib/util';
 import * as fileLib from '../../lib/file';
 import EncryptFooter from './components/EncryptFooter';
 
@@ -16,7 +17,7 @@ import './encrypt.css';
 
 let numUploadsInProgress = 0;
 let recipients = [];
-const MAX_FILE_UPLOAD_SIZE = Math.ceil(mvelo.MAX_FILE_UPLOAD_SIZE / 1024 / 1024);
+const MAX_FILE_UPLOAD_SIZE_MB = Math.ceil(MAX_FILE_UPLOAD_SIZE / 1024 / 1024);
 
 let $encryptPanels;
 let $encryptFileUploadPanel;
@@ -268,7 +269,7 @@ function addEncryptInteractivity() {
   $encryptFileDownloadError = $('#encrypt_fileDownloadError');
 
   const $waiting = $('.waiting', $encryptFileDownloadPanel).hide();
-  mvelo.util.addLoadingAnimation($waiting);
+  addLoadingAnimation($waiting);
 
   $encryptFileUpload = $('#encrypt_fileUpload').change(onAddFile.bind(null, $encryptFileUploadPanel));
   $encryptAddFileBtn = $('#encrypt_addFileBtn')
@@ -294,7 +295,7 @@ function addEncryptInteractivity() {
   $encryptFileDownload = $('#encrypt_fileDownload');
 
   $encryptAddFileBtn.next()
-  .text(l10n.map.encrypt_upload_file_help.replace('##', MAX_FILE_UPLOAD_SIZE));
+  .text(l10n.map.encrypt_upload_file_help.replace('##', MAX_FILE_UPLOAD_SIZE_MB));
 
   $encryptKeyList = $('#encrypt_keyList');
   $encryptKeySelect = $('#encrypt_keySelect');
@@ -316,7 +317,7 @@ function addDecryptInteractivity() {
   $decryptFileDownload = $('#decrypt_fileDownload');
 
   const $waiting = $('.waiting', $decryptFileDownloadPanel).hide();
-  mvelo.util.addLoadingAnimation($waiting);
+  addLoadingAnimation($waiting);
 
   $decryptFileUpload = $('#decrypt_fileUpload').on('change', onAddFile.bind(null, $decryptFileUploadPanel));
   $decryptAddFileBtn = $('#decrypt_addFileBtn')
@@ -325,7 +326,7 @@ function addDecryptInteractivity() {
   });
 
   $decryptAddFileBtn.next()
-  .text(l10n.map.encrypt_upload_file_help.replace('##', MAX_FILE_UPLOAD_SIZE));
+  .text(l10n.map.encrypt_upload_file_help.replace('##', MAX_FILE_UPLOAD_SIZE_MB));
 
   $decryptToDownloadBtn = $('#decrypt_goToDownloadBtn')
   .prop('disabled', true)

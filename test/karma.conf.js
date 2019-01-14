@@ -28,7 +28,6 @@ module.exports = function(config) {
       {pattern: '../node_modules/openpgp/dist/openpgp.js', watched: false, included: false,  nocache: false},
       {pattern: '../src/res/fonts/Courgette-Regular.woff2', watched: false, included: false,  nocache: false},
       // add files to be tested here
-      'mvelo-test.js',
       'app/**/*.js',
       'components/**/*.js',
       'content-scripts/**/*.js',

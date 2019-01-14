@@ -1,5 +1,6 @@
 import {expect, sinon} from 'test';
 import mvelo from 'lib/lib-mvelo';
+import {MvError} from 'lib/util';
 import * as sub from 'controller/sub.controller';
 import {prefs} from 'modules/prefs';
 import EncryptController from 'controller/encrypt.controller';
@@ -42,7 +43,7 @@ describe('Encrypt controller unit tests', () => {
     });
 
     it('should stop on error', async () => {
-      editorCtrlMock.encrypt.returns(Promise.reject(new mvelo.Error('foo', 'EDITOR_DIALOG_CANCEL')));
+      editorCtrlMock.encrypt.returns(Promise.reject(new MvError('foo', 'EDITOR_DIALOG_CANCEL')));
       await ctrl.onEncryptFrameDisplayEditor({text: 'foo'});
       expect(ctrl.emit.withArgs('mail-editor-close').calledOnce).to.be.true;
     });

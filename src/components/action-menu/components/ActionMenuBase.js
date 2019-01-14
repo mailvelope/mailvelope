@@ -4,7 +4,8 @@
  */
 
 import React from 'react';
-import Trans, * as l10n from '../../../lib/l10n';
+import * as l10n from '../../../lib/l10n';
+import Trans from '../../util/Trans';
 import PropTypes from 'prop-types';
 
 l10n.register([

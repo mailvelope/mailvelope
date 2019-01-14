@@ -3,10 +3,9 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../lib/lib-mvelo';
 import * as openpgp from 'openpgp';
 import {goog} from './closure-library/closure/goog/emailaddress';
-const l10n = mvelo.l10n.getMessage;
+import * as l10n from '../lib/l10n';
 import {isKeyPseudoRevoked} from './trustKey';
 
 /**
@@ -29,7 +28,7 @@ export async function getUserId(key, validityCheck = true) {
         }
       }
     }
-    return l10n('keygrid_invalid_userid');
+    return l10n.get('keygrid_invalid_userid');
   }
 }
 
@@ -50,7 +49,7 @@ export function mapKeyUserIds(user) {
     }
     user.name = emailAddress.getName();
   } catch (e) {
-    user.userId = l10n('keygrid_invalid_userid');
+    user.userId = l10n.get('keygrid_invalid_userid');
     user.email = '';
     user.name = '';
   }
@@ -198,7 +197,7 @@ export async function mapUsers(users = [], toKey, keyring, primaryKey) {
             continue;
           }
         } else {
-          sig.signer = l10n('keygrid_signer_unknown');
+          sig.signer = l10n.get('keygrid_signer_unknown');
         }
         sig.keyId = keyidHex.toUpperCase();
         sig.crDate = otherCert.created.toISOString();

@@ -1,6 +1,6 @@
 import {expect, sinon} from 'test';
 import {decrypt, encrypt, __RewireAPI__ as GnupgRewireApi} from 'modules/gnupg';
-import mvelo from 'lib/lib-mvelo';
+import {MvError} from 'lib/util';
 
 describe('Gnupg unit test', () => {
   const sandbox = sinon.createSandbox();
@@ -132,7 +132,7 @@ describe('Gnupg unit test', () => {
     });
     it('should throw an error', () => {
       encryptStub.throws({code:  'GNUPG_ERROR', message: 'Unusable public key'});
-      return expect(encrypt({data: '', dataURL: 'abc', encryptionKeyFprs: [], signingKeyFpr: [], armor: '', filename: ''})).to.eventually.be.rejectedWith(mvelo.Error).and.have.property('message', 'gnupg_error_unusable_pub_key');
+      return expect(encrypt({data: '', dataURL: 'abc', encryptionKeyFprs: [], signingKeyFpr: [], armor: '', filename: ''})).to.eventually.be.rejectedWith(MvError).and.have.property('message', 'gnupg_error_unusable_pub_key');
     });
   });
 });

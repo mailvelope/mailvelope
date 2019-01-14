@@ -3,20 +3,22 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../mvelo';
+import {getHash, normalizeArmored, encodeHTML} from '../lib/util';
+import {FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED, FRAME_OBJ, DYN_IFRAME, PLAIN_TEXT} from '../lib/constants';
+import EventHandler from '../lib/EventHandler';
 import $ from 'jquery';
 import {currentProvider} from './main';
 
 export default class EncryptFrame {
   constructor() {
-    this.id = mvelo.util.getHash();
+    this.id = getHash();
     this.editElement = null;
     this.eFrame = null;
     this.port = null;
     this.refreshPosIntervalID = 0;
     this.emailTextElement = null;
     // type of external editor
-    this.editorType = mvelo.PLAIN_TEXT; //prefs.general.editor_type;
+    this.editorType = PLAIN_TEXT; //prefs.general.editor_type;
     this.options = {closeBtn: true};
     this.keyCounter = 0;
     this.currentProvider = currentProvider;
@@ -29,21 +31,21 @@ export default class EncryptFrame {
     this.registerEventListener();
     this.renderFrame();
     // set status to attached
-    this.editElement.data(mvelo.FRAME_STATUS, mvelo.FRAME_ATTACHED);
+    this.editElement.data(FRAME_STATUS, FRAME_ATTACHED);
     // store frame obj in element tag
-    this.editElement.data(mvelo.FRAME_OBJ, this);
+    this.editElement.data(FRAME_OBJ, this);
   }
 
   init(element) {
     this.editElement = element;
     this.emailTextElement = this.editElement.is('iframe') ? this.editElement.contents().find('body') : this.editElement;
     // inject style if we have a non-body editable element inside a dynamic iframe
-    if (!this.editElement.is('body') && this.editElement.closest('body').data(mvelo.DYN_IFRAME)) {
+    if (!this.editElement.is('body') && this.editElement.closest('body').data(DYN_IFRAME)) {
       const html = this.editElement.closest('html');
       if (!html.data('M-STYLE')) {
         const style = $('<link/>', {
           rel: 'stylesheet',
-          href: mvelo.runtime.getURL('content-scripts/framestyles.css')
+          href: chrome.runtime.getURL('content-scripts/framestyles.css')
         });
         // add style
         html.find('head').append(style);
@@ -54,7 +56,7 @@ export default class EncryptFrame {
   }
 
   establishConnection() {
-    this.port = mvelo.EventHandler.connect(`eFrame-${this.id}`, this);
+    this.port = EventHandler.connect(`eFrame-${this.id}`, this);
     // attach port disconnect handler
     this.port.onDisconnect.addListener(this.closeFrame.bind(this, false));
   }
@@ -127,11 +129,11 @@ export default class EncryptFrame {
       this.eFrame.remove();
       if (finalClose === true) {
         this.port.disconnect();
-        this.editElement.data(mvelo.FRAME_STATUS, null);
+        this.editElement.data(FRAME_STATUS, null);
       } else {
-        this.editElement.data(mvelo.FRAME_STATUS, mvelo.FRAME_DETACHED);
+        this.editElement.data(FRAME_STATUS, FRAME_DETACHED);
       }
-      this.editElement.data(mvelo.FRAME_OBJ, null);
+      this.editElement.data(FRAME_OBJ, null);
     });
     return false;
   }
@@ -147,10 +149,10 @@ export default class EncryptFrame {
 
   showMailEditor() {
     const options = {};
-    const emailContent = this.getEmailText(this.editorType == mvelo.PLAIN_TEXT ? 'text' : 'html');
+    const emailContent = this.getEmailText(this.editorType == PLAIN_TEXT ? 'text' : 'html');
     if (/BEGIN\sPGP\sMESSAGE/.test(emailContent)) {
       try {
-        options.quotedMail = mvelo.util.normalizeArmored(emailContent, /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/);
+        options.quotedMail = normalizeArmored(emailContent, /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/);
       } catch (e) {
         options.text = emailContent;
       }
@@ -224,7 +226,7 @@ export default class EncryptFrame {
       this.emailTextElement.val(msg);
     } else {
       // element is contenteditable or RTE
-      msg = `<pre>${mvelo.util.encodeHTML(msg)}</pre>`;
+      msg = `<pre>${encodeHTML(msg)}</pre>`;
       this.emailTextElement.html(msg);
     }
     // trigger input event
