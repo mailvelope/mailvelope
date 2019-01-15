@@ -30,7 +30,8 @@ describe('keyring unit tests', () => {
       storage
     });
     keyringRewireAPI.__Rewire__('mvelo', {
-      storage
+      storage,
+      Error
     });
     await init();
   });

@@ -3,6 +3,7 @@ import {LocalStorageStub} from 'utils';
 import mvelo from 'lib/lib-mvelo';
 import * as main from 'controller/main.controller';
 import * as api from 'content-scripts/clientAPI';
+import * as keyring from 'modules/keyring';
 
 /* global mailvelope */
 describe('Mailvelope Client API', async () => {
@@ -11,6 +12,7 @@ describe('Mailvelope Client API', async () => {
 
   beforeEach(() => {
     mvelo.storage = new LocalStorageStub();
+    keyring.init();
   });
 
   it('reports its version', () => {
@@ -22,4 +24,19 @@ describe('Mailvelope Client API', async () => {
     const keyring = await mailvelope.createKeyring('email@test.example');
     expect(keyring).to.be.ok;
   });
+
+  it('rejects creating duplicate keyring', async () => {
+    const keyring = await mailvelope.createKeyring('email@test.example');
+    return expect(mailvelope.createKeyring('email@test.example')).to.be.rejected;
+  });
+
+  it('can get a keyring', async () => {
+    const keyring = await mailvelope.createKeyring('email@test.example');
+    return expect(mailvelope.getKeyring('email@test.example')).to.become(keyring);
+  });
+
+  it('rejects getting missing keyring', async () => {
+    return expect(mailvelope.getKeyring('email@test.example')).to.be.rejected;
+  });
+
 });
