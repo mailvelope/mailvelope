@@ -103,7 +103,7 @@ function registerClientEventHandler() {
   clientPort.on('query-valid-key', validKeyForAddress);
   clientPort.on('export-own-pub-key', exportOwnPublicKey);
   clientPort.on('import-pub-key', importPublicKey);
-  clientPort.on('locate-pub-key', locatePublicKey);
+  clientPort.on('lookup-pub-key', lookupPublicKey);
   clientPort.on('process-autocrypt-header', processAutocryptHeader);
   clientPort.on('set-logo', setLogo);
   clientPort.on('add-sync-handler', addSyncHandler);
@@ -236,8 +236,8 @@ function importPublicKey({keyringId, armored}) {
   return controllerPort.send('import-pub-key', {keyringId, armored});
 }
 
-function locatePublicKey({keyringId, emailAddr, source}) {
-  return controllerPort.send('locate-pub-key', {keyringId, emailAddr, source});
+function lookupPublicKey({keyringId, emailAddr, source}) {
+  return controllerPort.send('lookup-pub-key', {keyringId, emailAddr, source});
 }
 
 function processAutocryptHeader({keyringId, headers}) {

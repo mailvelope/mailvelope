@@ -271,17 +271,23 @@ class Keyring {
   }
 
   /**
+   * @typedef {Object} LookupResult
+   * @property {AsciiArmored} content - Armored public key
+   * @property {String} source - see sources in lookupPublicKey.
+   */
+
+  /**
    * Looks up a fitting public key from different sources.
-   * @param {String} emailAddr  - Email to locate the public key for
+   * @param {String} emailAddr  - Email to look the public key up for
    * @param {String} source - the source to query. Will query all if left blank.
    *                          Sources currently available are:
    *                            * 'WKD' - web key directory
    *                            * 'MKS' - mailvelope key server
    *                            * 'AC' - autocrypt
-   * @returns {Promise.<LocateResult, Error>}
+   * @returns {Promise.<LookupResult, Error>}
    */
-  locatePublicKey(emailAddr, source) {
-    return postMessage('locate-pub-key', {identifier: this.identifier, emailAddr, source});
+  lookupPublicKey(emailAddr, source) {
+    return postMessage('lookup-pub-key', {identifier: this.identifier, emailAddr, source});
   }
 
   /**

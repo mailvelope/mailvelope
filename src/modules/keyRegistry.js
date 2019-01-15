@@ -37,7 +37,7 @@ const strategies = [mveloKeyServer, wkd, autocrypt];
  * @param {String} source - the source to query. Will query all if left blank.
  * @return {Object, undefined} - {content: armored key, source}
  */
-export async function locate(email, identity, source) {
+export async function lookup(email, identity, source) {
   for (const strategy of strategies) {
     if (source && (source !== strategy.name)) {
       continue;

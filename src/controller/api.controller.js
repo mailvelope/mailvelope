@@ -26,7 +26,7 @@ export default class ApiController extends sub.SubController {
     this.on('query-valid-key', this.queryValidKey);
     this.on('export-own-pub-key', this.exportOwnPubKey);
     this.on('import-pub-key', this.importPubKey);
-    this.on('locate-pub-key', this.locatePubKey);
+    this.on('lookup-pub-key', this.lookupPubKey);
     this.on('process-autocrypt-header', this.processAutocryptHeader);
     this.on('set-logo', this.setLogo);
     this.on('has-private-key', this.hasPrivateKey);
@@ -81,8 +81,8 @@ export default class ApiController extends sub.SubController {
     return sub.factory.get('importKeyDialog').importKey(keyringId, armored);
   }
 
-  locatePubKey({keyringId, emailAddr, source}) {
-    return keyRegistry.locate(emailAddr, keyringId, source);
+  lookupPubKey({keyringId, emailAddr, source}) {
+    return keyRegistry.lookup(emailAddr, keyringId, source);
   }
 
   processAutocryptHeader({headers, keyringId}) {

@@ -14,7 +14,7 @@ describe('Looking up keys from different services', () => {
         mvelo_tofu_lookup: false,
         autocrypt_lookup: false
       };
-      const result = await keyRegistry.locate('email@domain.example');
+      const result = await keyRegistry.lookup('email@domain.example');
       expect(result).to.be.undefined;
     });
   });
@@ -38,7 +38,7 @@ describe('Looking up keys from different services', () => {
         mvelo_tofu_lookup: true,
         autocrypt_lookup: true
       };
-      const result = await keyRegistry.locate('test@mailvelope.com', 'id');
+      const result = await keyRegistry.lookup('test@mailvelope.com', 'id');
       expect(result.content).to.include('PGP PUBLIC KEY BLOCK');
       expect(result.source).to.be.equal('MKS');
     });
@@ -70,7 +70,7 @@ describe('Looking up keys from different services', () => {
       };
       await autocryptWrapper.processHeader(headers, 'id');
 
-      const result = await keyRegistry.locate(addr, 'id');
+      const result = await keyRegistry.lookup(addr, 'id');
       expect(result.content).to.include('base64');
       expect(result.source).to.be.equal('AC');
     });
