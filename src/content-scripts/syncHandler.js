@@ -7,7 +7,6 @@ import {getHash} from '../lib/util';
 import EventHandler from '../lib/EventHandler';
 import {postMessage} from './clientAPI';
 
-
 export default class SyncHandler {
   /**
    * @param {string} keyringId - the keyring to use for this operation

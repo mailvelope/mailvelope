@@ -78,7 +78,6 @@ export default class GenerateKey extends React.Component {
     this.setState({[target.id]: value});
   }
 
-
   handleGenerate() {
     const validEmail = checkEmail(this.state.email);
     if (!validEmail) {
