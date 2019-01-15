@@ -18,7 +18,6 @@ export class Port {
 
 Port.map = new Map();
 
-
 export class LocalStorageStub {
   constructor(prefix = 'mvelo.keyring') {
     this.prefix = prefix;

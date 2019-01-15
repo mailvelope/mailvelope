@@ -5,7 +5,6 @@
 
 import ExtractFrame from './extractFrame';
 
-
 export default class ImportFrame extends ExtractFrame {
   constructor() {
     super();

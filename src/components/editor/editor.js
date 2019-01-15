@@ -42,7 +42,6 @@ l10n.register([
   'form_ok'
 ]);
 
-
 export default class Editor extends React.Component {
   constructor(props) {
     super(props);

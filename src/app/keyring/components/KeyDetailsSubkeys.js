@@ -8,7 +8,6 @@ import {formatFpr} from '../../../lib/util';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 l10n.register([
   'keygrid_subkeyid',
   'keygrid_algorithm',

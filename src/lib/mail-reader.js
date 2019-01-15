@@ -210,7 +210,6 @@ function matchAttachment(node, bodyPart) {
   return true;
 }
 
-
 /**
  * Normalizes a mime node where necessary
  * - add contentType
