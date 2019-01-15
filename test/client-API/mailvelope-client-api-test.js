@@ -5,14 +5,18 @@ import * as main from 'controller/main.controller';
 import * as api from 'content-scripts/clientAPI';
 import * as keyring from 'modules/keyring';
 
-/* global mailvelope */
-describe('Mailvelope Client API', async () => {
-  api.init();
-  await main.initController();
+api.init();
+main.initController();
 
-  beforeEach(() => {
+/* global mailvelope */
+describe('Mailvelope Client API', () => {
+
+  let existing_keyring;
+
+  beforeEach(async () => {
     mvelo.storage = new LocalStorageStub();
     keyring.init();
+    existing_keyring = await mailvelope.createKeyring('existing@test.example');
   });
 
   it('reports its version', () => {
@@ -20,23 +24,15 @@ describe('Mailvelope Client API', async () => {
     return expect(mailvelope.getVersion()).to.eventually.equal('1.2.3');
   });
 
-  it('can create a keyring', async () => {
-    const keyring = await mailvelope.createKeyring('email@test.example');
-    expect(keyring).to.be.ok;
-  });
+  it('can create a keyring', () =>
+    expect(mailvelope.createKeyring('email@test.example')).to.eventually.be.ok);
 
-  it('rejects creating duplicate keyring', async () => {
-    const keyring = await mailvelope.createKeyring('email@test.example');
-    return expect(mailvelope.createKeyring('email@test.example')).to.be.rejected;
-  });
+  it('rejects creating duplicate keyring', () =>
+    expect(mailvelope.createKeyring('existing@test.example')).to.eventually.be.rejected);
 
-  it('can get a keyring', async () => {
-    const keyring = await mailvelope.createKeyring('email@test.example');
-    return expect(mailvelope.getKeyring('email@test.example')).to.become(keyring);
-  });
+  it('can get a keyring', () =>
+    expect(mailvelope.getKeyring('existing@test.example')).to.become(existing_keyring));
 
-  it('rejects getting missing keyring', async () => {
-    return expect(mailvelope.getKeyring('email@test.example')).to.be.rejected;
-  });
-
+  it('rejects getting missing keyring', () =>
+    expect(mailvelope.getKeyring('email@test.example')).to.be.rejected);
 });
