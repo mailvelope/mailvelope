@@ -5,6 +5,7 @@
 
 import mvelo from '../lib/lib-mvelo';
 import Autocrypt from 'autocrypt';
+import {prefs} from './prefs';
 import {goog} from './closure-library/closure/goog/emailaddress';
 
 export const name = 'AC';
@@ -16,7 +17,7 @@ const stores = new Map;
 * @return {Boolean}
 */
 export function isEnabled() {
-  return true; // TODO: add configuration setting
+  return prefs.keyserver.autocrypt_lookup === true;
 }
 
 function ac(id) {

@@ -60,7 +60,8 @@ describe('Looking up keys from different services', () => {
     it('should return the key from that header', async () => {
       prefs.prefs.keyserver = {
         wkd_lookup: false,
-        mvelo_tofu_lookup: false
+        mvelo_tofu_lookup: false,
+        autocrypt_lookup: true
       };
       const addr = 'test@mailvelope.com';
       const keydata = 'base64';
