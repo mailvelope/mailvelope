@@ -66,6 +66,5 @@ export async function lookup(email, identity, source) {
 * @return {Boolean}
 */
 export function isEnabled() {
-  const enabled = strategies.find(strategy => strategy.isEnabled());
-  return enabled !== undefined;
+  return strategies.some(strategy => strategy.isEnabled());
 }
