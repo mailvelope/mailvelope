@@ -20,10 +20,11 @@ export function isEnabled() {
 }
 
 function ac(id) {
-  let storage = stores.get(id);
+  const key = `mailvelope.autocrypt.${id}`;
+  let storage = stores.get(key);
   if (!storage) {
-    storage = new Store(id);
-    stores.set(id, storage);
+    storage = new Store(key);
+    stores.set(key, storage);
   }
   return new Autocrypt({storage});
 }
