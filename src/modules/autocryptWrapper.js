@@ -61,6 +61,9 @@ export async function processHeader(headers, identity) {
   return new Promise((resolve, reject) => {
     const date = new Date(headers.date);
     const fromAddr = goog.format.EmailAddress.parse(headers.from).getAddress();
+    if (headers.autocrypt.length > 10240) {
+      reject(new Error('Invalid Autocrypt Header: rejecting headers longer than 10k'));
+    }
     ac(identity).processAutocryptHeader(headers.autocrypt, fromAddr, date, err => {
       if (err) {
         if (err.message == 'Invalid Autocrypt Header: no valid header found') {
@@ -80,7 +83,6 @@ function armor(base64) {
   const lines = base64.match(/.{1,64}/g);
   return [head, ''].concat(lines).concat([footer]).join('\n');
 }
-
 
 class Store {
   constructor(storageKey) {

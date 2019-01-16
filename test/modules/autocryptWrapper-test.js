@@ -33,6 +33,17 @@ describe('Test basic autocrypt wrapper functionality', () => {
       expect(result.slice(0, 17)).to.equal(testKeys.api_test_pub.slice(0, 17));
     });
 
+    it('rejects headers larger than 8k', async () => {
+      const addr = 'test@mailvelope.com';
+      const keydata = '1234567890'.repeat(1025);
+      const headers = {
+        autocrypt: Autocrypt.stringify({keydata, addr}),
+        from: addr,
+        date: Date.now().toString()
+      };
+      return expect(autocryptWrapper.processHeader(headers, 'id')).to.eventually.be.rejected;
+    });
+
     it('handles from headers with names', async () => {
       const addr = 'test@mailvelope.com';
       const keydata = base64;
