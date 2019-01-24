@@ -24,7 +24,7 @@ export class SyncController extends sub.SubController {
     this.singleton = true;
     // register event handlers
     this.on('init', ({keyringId}) => this.init(keyringId));
-    this.on('sync-done', ({data}) => this.syncDone(data));
+    this.on('sync-done', this.syncDone);
   }
 
   init(keyringId) {

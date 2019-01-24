@@ -16,7 +16,6 @@ import {createPrivateKeyBackup, restorePrivateKeyBackup} from '../modules/pgpMod
 export default class PrivateKeyController extends sub.SubController {
   constructor(port) {
     super(port);
-    this.done = null;
     this.keyringId = null;
     this.options = null;
     this.backupCodePopup = null;

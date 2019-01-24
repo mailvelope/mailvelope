@@ -17,21 +17,22 @@ export default class EncryptedFormContainer {
     this.signature = signature;
     this.container = null;
     this.html = html;
-    this.done = null;
   }
 
-  create(done) {
-    this.done = done;
-    this.parent = document.querySelector(this.selector);
-    this.container = document.createElement('iframe');
-    const url = chrome.runtime.getURL(`components/encrypted-form/encryptedForm.html?id=${this.id}`);
-    this.container.setAttribute('src', url);
-    this.container.setAttribute('frameBorder', 0);
-    this.container.setAttribute('scrolling', 'no');
-    this.container.setAttribute('style', 'overflow:hidden');
-    this.container.style.width = '100%';
-    this.container.style.height = '150px';
-    this.parent.appendChild(this.container);
+  create() {
+    return new Promise((resolve, reject) => {
+      this.createPromise = {resolve, reject};
+      this.parent = document.querySelector(this.selector);
+      this.container = document.createElement('iframe');
+      const url = chrome.runtime.getURL(`components/encrypted-form/encryptedForm.html?id=${this.id}`);
+      this.container.setAttribute('src', url);
+      this.container.setAttribute('frameBorder', 0);
+      this.container.setAttribute('scrolling', 'no');
+      this.container.setAttribute('style', 'overflow:hidden');
+      this.container.style.width = '100%';
+      this.container.style.height = '150px';
+      this.parent.appendChild(this.container);
+    });
   }
 
   processFormDefinition() {
@@ -48,7 +49,7 @@ export default class EncryptedFormContainer {
   onDestroy() {
     this.parent.removeChild(this.container);
     this.port.disconnect();
-    this.done(null, this.id);
+    this.createPromise.resolve(this.id);
   }
 
   onError(error) {
@@ -57,12 +58,12 @@ export default class EncryptedFormContainer {
       this.parent.removeChild(this.container);
       this.port.disconnect();
     }
-    this.done(error);
+    this.createPromise.reject(error);
   }
 
   registerEventListener() {
     this.port.on('encrypted-form-ready', this.processFormDefinition);
-    this.port.on('encrypted-form-data', ({armoredData}) => this.done(null, {armoredData}));
+    this.port.on('encrypted-form-data', ({armoredData}) => this.createPromise.resolve({armoredData}));
     this.port.on('encrypted-form-resize', this.onResize);
     this.port.on('destroy', this.onDestroy);
     this.port.on('error-message', this.onError);

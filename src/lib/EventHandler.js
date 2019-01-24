@@ -65,7 +65,7 @@ export default class EventHandler {
         // sender expects reply
         Promise.resolve()
         .then(() => handler.call(this, options))
-        .then(result => this.emit('_reply', {result: result || null, _reply: options._reply}))
+        .then(result => this.emit('_reply', {result, _reply: options._reply}))
         .catch(error => this.emit('_reply', {error: mapError(error), _reply: options._reply}));
       } else {
         // normal one way communication

@@ -23,30 +23,29 @@ export default class RestoreBackupContainer {
     this.registerEventListener();
     this.parent = null;
     this.container = null;
-    this.done = null;
-    this.restoreDone = null;
   }
 
   /**
    * Create an iframe
-   * @param {function} done - callback function
    */
-  create(done) {
-    const url = chrome.runtime.getURL(`components/restore-backup/restoreBackupDialog.html?id=${this.id}`);
-    this.done = done;
-    this.parent = document.querySelector(this.selector);
-    this.container = document.createElement('iframe');
-    this.port.emit('set-init-data', {
-      data: {
-        keyringId: this.keyringId
-      }
+  create() {
+    return new Promise((resolve, reject) => {
+      this.createPromise = {resolve, reject};
+      const url = chrome.runtime.getURL(`components/restore-backup/restoreBackupDialog.html?id=${this.id}`);
+      this.parent = document.querySelector(this.selector);
+      this.container = document.createElement('iframe');
+      this.port.emit('set-init-data', {
+        data: {
+          keyringId: this.keyringId
+        }
+      });
+      this.container.setAttribute('src', url);
+      this.container.setAttribute('frameBorder', 0);
+      this.container.setAttribute('scrolling', 'no');
+      this.container.style.width = '100%';
+      this.container.style.height = '100%';
+      this.parent.appendChild(this.container);
     });
-    this.container.setAttribute('src', url);
-    this.container.setAttribute('frameBorder', 0);
-    this.container.setAttribute('scrolling', 'no');
-    this.container.style.width = '100%';
-    this.container.style.height = '100%';
-    this.parent.appendChild(this.container);
   }
 
   registerEventListener() {
@@ -55,18 +54,19 @@ export default class RestoreBackupContainer {
   }
 
   onRestoreBackupDone({error}) {
-    if (this.restoreDone) {
-      this.restoreDone(error);
+    if (this.restorePromise) {
+      error ? this.restorePromise.reject(error) : this.restorePromise.resolve();
     }
   }
 
   onDialogDone() {
     this.port.emit('set-init-data', {data: this.options});
-    this.done(null, this.id);
+    this.createPromise.resolve(this.id);
   }
 
-  restoreBackupReady(done) {
-    //console.log('mvelo.RestoreBackupContainer.prototype.restoreBackupReady()');
-    this.restoreDone = done;
+  restoreBackupReady() {
+    return new Promise((resolve, reject) => {
+      this.restorePromise = {resolve, reject};
+    });
   }
 }

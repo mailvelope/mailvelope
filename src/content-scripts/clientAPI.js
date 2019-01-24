@@ -5,7 +5,8 @@
 
 import $ from 'jquery';
 import {PGP_MESSAGE, PGP_SIGNATURE, PGP_PUBLIC_KEY, PGP_PRIVATE_KEY, KEYRING_DELIMITER} from '../lib/constants';
-import {MvError} from '../lib/util';
+import {MvError, getHash} from '../lib/util';
+import EventHandler from '../lib/EventHandler';
 import {prefs, host, getMessageType} from './main';
 import {checkTypes} from './clientAPITypeCheck';
 import DecryptContainer from './decryptContainer';
@@ -21,6 +22,8 @@ const containers = new Map();
 
 // must be a singelton
 let syncHandler = null;
+let controllerPort = null;
+export let clientPort = null;
 
 export function init() {
   const apiTag = document.getElementById('mailvelope-api');
@@ -32,7 +35,6 @@ export function init() {
     }
     return;
   }
-  window.addEventListener('message', eventListener);
   if (!window.mailvelope) {
     $('<script/>', {
       id: 'mailvelope-api',
@@ -40,152 +42,79 @@ export function init() {
       'data-version': prefs.version
     }).appendTo($('head'));
   }
-}
-
-export function postMessage(eventName, id, data, error) {
-  window.postMessage({
-    event: eventName,
-    mvelo_extension: true,
-    id,
-    data,
-    error
-  }, window.location.origin);
-}
-
-function reply(id, error, data) {
-  if (error) {
-    error = {message: error.message || error, code: error.code  || 'INTERNAL_ERROR'};
-  }
-  postMessage('callback-reply', id, data, error);
-}
-
-function eventListener(event) {
-  if (event.origin !== window.location.origin ||
-      event.data.mvelo_extension ||
-      !event.data.mvelo_client) {
-    return;
-  }
-  //console.log('clientAPI eventListener', event.data.event);
-  try {
-    checkTypes(event.data);
-    const data = event.data.data;
-    let keyringId = null;
-    if (data && data.identifier) {
-      if (data.identifier.indexOf(KEYRING_DELIMITER) !== -1) {
-        throw {message: 'Identifier invalid.', code: 'INVALID_IDENTIFIER'};
+  controllerPort = EventHandler.connect(`api-${getHash()}`);
+  const port = {
+    onMessage: {
+      addListener(listener) {
+        window.addEventListener('message', event => {
+          if (event.origin !== window.location.origin ||
+              event.data.mvelo_extension ||
+              !event.data.mvelo_client) {
+            return;
+          }
+          const {mvelo_client, ...data} = event.data;
+          checkTypes(data);
+          if (data.identifier) {
+            if (data.identifier.includes(KEYRING_DELIMITER)) {
+              throw {message: 'Identifier invalid.', code: 'INVALID_IDENTIFIER'};
+            }
+            data.keyringId = host + KEYRING_DELIMITER + data.identifier;
+          }
+          listener(data);
+        });
       }
-      keyringId = host + KEYRING_DELIMITER + data.identifier;
+    },
+    postMessage(options) {
+      options.mvelo_extension = true;
+      window.postMessage(options, window.location.origin);
     }
-    switch (event.data.event) {
-      case 'get-version': {
-        const [version] = prefs.version.match(/^\d{1,2}\.\d{1,2}\.\d{1,2}/);
-        reply(event.data.id, null, version);
-        break;
-      }
-      case 'get-keyring':
-        getKeyring(keyringId, reply.bind(null, event.data.id));
-        break;
-      case 'create-keyring':
-        if (!data.identifier) {
-          throw {message: 'Identifier invalid.', code: 'INVALID_IDENTIFIER'};
-        }
-        createKeyring(keyringId, reply.bind(null, event.data.id));
-        break;
-      case 'display-container':
-        displayContainer(data.selector, data.armored, keyringId, data.options, reply.bind(null, event.data.id));
-        break;
-      case 'editor-container':
-        editorContainer(data.selector, keyringId, data.options, reply.bind(null, event.data.id));
-        break;
-      case 'settings-container':
-        settingsContainer(data.selector, keyringId, data.options, reply.bind(null, event.data.id));
-        break;
-      case 'open-settings':
-        openSettings(keyringId, reply.bind(null, event.data.id));
-        break;
-      case 'key-gen-container':
-        keyGenContainer(data.selector, keyringId, data.options, reply.bind(null, event.data.id));
-        break;
-      case 'key-backup-container':
-        keyBackupContainer(data.selector, keyringId, data.options, reply.bind(null, event.data.id));
-        break;
-      case 'restore-backup-container':
-        restoreBackupContainer(data.selector, keyringId, data.options, reply.bind(null, event.data.id));
-        break;
-      case 'restore-backup-isready':
-        restoreBackupIsReady(data.restoreId, reply.bind(null, event.data.id));
-        break;
-      case 'keybackup-popup-isready':
-        keyBackupPopupIsReady(data.popupId, reply.bind(null, event.data.id));
-        break;
-      case 'generator-generate':
-        generatorGenerate(data.generatorId, data.confirmRequired, reply.bind(null, event.data.id));
-        break;
-      case 'generator-generate-confirm':
-        generatorConfirm(data.generatorId);
-        break;
-      case 'generator-generate-reject':
-        generatorReject(data.generatorId);
-        break;
-      case 'has-private-key':
-        hasPrivateKey(keyringId, data.fingerprint, reply.bind(null, event.data.id));
-        break;
-      case 'editor-encrypt':
-        editorEncrypt(data.editorId, data.recipients, reply.bind(null, event.data.id));
-        break;
-      case 'editor-create-draft':
-        editorCreateDraft(data.editorId, reply.bind(null, event.data.id));
-        break;
-      case 'query-valid-key':
-        validKeyForAddress(keyringId, data.recipients, reply.bind(null, event.data.id));
-        break;
-      case 'export-own-pub-key':
-        exportOwnPublicKey(keyringId, data.emailAddr, reply.bind(null, event.data.id));
-        break;
-      case 'import-pub-key':
-        importPublicKey(keyringId, data.armored, reply.bind(null, event.data.id));
-        break;
-      case 'set-logo':
-        setLogo(keyringId, data.dataURL, data.revision, reply.bind(null, event.data.id));
-        break;
-      case 'add-sync-handler':
-        addSyncHandler(keyringId, reply.bind(null, event.data.id));
-        break;
-      case 'sync-handler-done':
-        syncHandlerDone(data);
-        break;
-      case 'encrypted-form-container':
-        encryptedFormContainer(data.selector, data.formHtml, data.signature, reply.bind(null, event.data.id));
-        break;
-      default:
-        console.log('clientAPI unknown event', event.data.event);
-    }
-  } catch (err) {
-    reply(event.data.id, err);
-  }
+  };
+  clientPort = new EventHandler(port);
+  registerClientEventHandler();
 }
 
-function getKeyring(keyringId, callback) {
-  chrome.runtime.sendMessage({
-    event: 'get-keyring',
-    api_event: true,
-    keyringId
-  }, result => {
-    callback(result.error, result.data);
-  });
+function registerClientEventHandler() {
+  clientPort.on('get-version', getVersion);
+  clientPort.on('get-keyring', getKeyring);
+  clientPort.on('create-keyring', createKeyring);
+  clientPort.on('display-container', displayContainer);
+  clientPort.on('editor-container', editorContainer);
+  clientPort.on('settings-container', settingsContainer);
+  clientPort.on('open-settings', openSettings);
+  clientPort.on('key-gen-container', keyGenContainer);
+  clientPort.on('key-backup-container', keyBackupContainer);
+  clientPort.on('restore-backup-container', restoreBackupContainer);
+  clientPort.on('restore-backup-isready', restoreBackupIsReady);
+  clientPort.on('keybackup-popup-isready', keyBackupPopupIsReady);
+  clientPort.on('generator-generate', generatorGenerate);
+  clientPort.on('generator-generate-confirm', generatorConfirm);
+  clientPort.on('generator-generate-reject', generatorReject);
+  clientPort.on('has-private-key', hasPrivateKey);
+  clientPort.on('editor-encrypt', editorEncrypt);
+  clientPort.on('editor-create-draft', editorCreateDraft);
+  clientPort.on('query-valid-key', validKeyForAddress);
+  clientPort.on('export-own-pub-key', exportOwnPublicKey);
+  clientPort.on('import-pub-key', importPublicKey);
+  clientPort.on('set-logo', setLogo);
+  clientPort.on('add-sync-handler', addSyncHandler);
+  clientPort.on('sync-handler-done', syncHandlerDone);
+  clientPort.on('encrypted-form-container', encryptedFormContainer);
 }
 
-function createKeyring(keyringId, callback) {
-  chrome.runtime.sendMessage({
-    event: 'create-keyring',
-    api_event: true,
-    keyringId
-  }, result => {
-    callback(result.error, result.data);
-  });
+function getVersion() {
+  const [version] = prefs.version.match(/^\d{1,2}\.\d{1,2}\.\d{1,2}/);
+  return version;
 }
 
-function displayContainer(selector, armored, keyringId, options = {}, callback) {
+function getKeyring({keyringId}) {
+  return controllerPort.send('get-keyring', {keyringId});
+}
+
+function createKeyring({keyringId}) {
+  return controllerPort.send('create-keyring', {keyringId});
+}
+
+function displayContainer({selector, armored, keyringId, options = {}}) {
   let container;
   switch (getMessageType(armored)) {
     case PGP_MESSAGE:
@@ -198,10 +127,10 @@ function displayContainer(selector, armored, keyringId, options = {}, callback) 
     default:
       throw new MvError('No valid armored block found.', 'WRONG_ARMORED_TYPE');
   }
-  container.create(armored, callback);
+  return container.create(armored);
 }
 
-function editorContainer(selector, keyringId, options = {}, callback) {
+function editorContainer({selector, keyringId, options = {}}) {
   if (options.quotedMailIndent === undefined && !options.armoredDraft) {
     options.quotedMailIndent = true;
   }
@@ -211,113 +140,80 @@ function editorContainer(selector, keyringId, options = {}, callback) {
   }
   const container = new EditorContainer(selector, keyringId, options);
   containers.set(container.id, container);
-  container.create(callback);
+  return container.create();
 }
 
-function settingsContainer(selector, keyringId, options = {}, callback) {
-  chrome.runtime.sendMessage({
-    event: 'has-private-key',
-    api_event: true,
-    keyringId
-  }, result => {
-    options.hasPrivateKey = result.data;
-    const container = new AppContainer(selector, keyringId, options);
-    containers.set(container.id, container);
-    container.create(callback);
-  });
+async function settingsContainer({selector, keyringId, options = {}}) {
+  options.hasPrivateKey = await controllerPort.send('has-private-key', {keyringId});
+  const container = new AppContainer(selector, keyringId, options);
+  containers.set(container.id, container);
+  return container.create();
 }
 
-function openSettings(keyringId, callback) {
-  chrome.runtime.sendMessage({
-    event: 'open-settings',
-    api_event: true,
-    keyringId
-  }, result => {
-    callback(result.error, result.data);
-  });
+function openSettings({keyringId}) {
+  return controllerPort.send('open-settings', {keyringId});
 }
 
-function keyGenContainer(selector, keyringId, options = {}, callback) {
+function keyGenContainer({selector, keyringId, options = {}}) {
   options.keySize = options.keySize || 2048;
   const container = new KeyGenContainer(selector, keyringId, options);
   containers.set(container.id, container);
-  container.create(callback);
+  return container.create();
 }
 
-function keyBackupContainer(selector, keyringId, options = {}, callback) {
+function keyBackupContainer({selector, keyringId, options = {}}) {
   const container = new KeyBackupContainer(selector, keyringId, options);
   containers.set(container.id, container);
-  container.create(callback);
+  return container.create();
 }
 
-function restoreBackupContainer(selector, keyringId, options = {}, callback) {
+function restoreBackupContainer({selector, keyringId, options = {}}) {
   const container = new RestoreBackupContainer(selector, keyringId, options);
   containers.set(container.id, container);
-  container.create(callback);
+  return container.create();
 }
 
-function restoreBackupIsReady(restoreId, callback) {
-  containers.get(restoreId).restoreBackupReady(callback);
+function restoreBackupIsReady({restoreId}) {
+  return containers.get(restoreId).restoreBackupReady();
 }
 
-function keyBackupPopupIsReady(popupId, callback) {
-  containers.get(popupId).keyBackupDone(callback);
+function keyBackupPopupIsReady({popupId}) {
+  return containers.get(popupId).keyBackupDone();
 }
 
-function generatorGenerate(generatorId, confirmRequired, callback) {
-  containers.get(generatorId).generate(confirmRequired, callback);
+function generatorGenerate({generatorId, confirmRequired}) {
+  return containers.get(generatorId).generate(confirmRequired);
 }
 
-function generatorConfirm(generatorId) {
+function generatorConfirm({generatorId}) {
   containers.get(generatorId).confirm();
 }
 
-function generatorReject(generatorId) {
+function generatorReject({generatorId}) {
   containers.get(generatorId).reject();
 }
 
-function hasPrivateKey(keyringId, fingerprint, callback) {
-  chrome.runtime.sendMessage({
-    event: 'has-private-key',
-    api_event: true,
-    keyringId,
-    fingerprint
-  }, result => {
-    callback(result.error, result.data);
-  });
+function hasPrivateKey({keyringId, fingerprint}) {
+  return controllerPort.send('has-private-key', {keyringId, fingerprint});
 }
 
-function editorEncrypt(editorId, recipients, callback) {
-  containers.get(editorId).encrypt(recipients, callback);
+function editorEncrypt({editorId, recipients}) {
+  return containers.get(editorId).encrypt(recipients);
 }
 
-function editorCreateDraft(editorId, callback) {
-  containers.get(editorId).createDraft(callback);
+function editorCreateDraft({editorId}) {
+  return containers.get(editorId).createDraft();
 }
 
-function validKeyForAddress(keyringId, recipients, callback) {
-  chrome.runtime.sendMessage({
-    event: 'query-valid-key',
-    api_event: true,
-    keyringId,
-    recipients
-  }, result => {
-    callback(result.error, result.data);
-  });
+function validKeyForAddress({keyringId, recipients}) {
+  return controllerPort.send('query-valid-key', {keyringId, recipients});
 }
 
-function exportOwnPublicKey(keyringId, emailAddr, callback) {
-  chrome.runtime.sendMessage({
-    event: 'export-own-pub-key',
-    api_event: true,
-    keyringId,
-    emailAddr
-  }, result => {
-    callback(result.error, result.data);
-  });
+function exportOwnPublicKey({keyringId, emailAddr}) {
+  return controllerPort.send('export-own-pub-key', {keyringId, emailAddr});
 }
 
-function importPublicKey(keyringId, armored, callback) {
+function importPublicKey({keyringId, armored}) {
   switch (getMessageType(armored)) {
     case PGP_PUBLIC_KEY:
       // ok
@@ -327,49 +223,32 @@ function importPublicKey(keyringId, armored, callback) {
     default:
       throw new MvError('No valid armored block found.', 'WRONG_ARMORED_TYPE');
   }
-  chrome.runtime.sendMessage({
-    event: 'import-pub-key',
-    api_event: true,
-    keyringId,
-    armored
-  }, result => {
-    callback(result.error, result.data);
-  });
+  return controllerPort.send('import-pub-key', {keyringId, armored});
 }
 
-function setLogo(keyringId, dataURL, revision, callback) {
+function setLogo({keyringId, dataURL, revision}) {
   if (!/^data:image\/png;base64,/.test(dataURL)) {
     throw new MvError('Data URL must start with "data:image/png;base64,".', 'LOGO_INVALID');
   }
   if (dataURL.length > 15 * 1024) {
     throw new MvError('Data URL string size exceeds 15KB limit.', 'LOGO_INVALID');
   }
-  chrome.runtime.sendMessage({
-    event: 'set-logo',
-    api_event: true,
-    keyringId,
-    dataURL,
-    revision
-  }, result => {
-    callback(result.error, result.data);
-  });
+  return controllerPort.send('set-logo', {keyringId, dataURL, revision});
 }
 
-function addSyncHandler(keyringId, callback) {
+function addSyncHandler({keyringId}) {
   syncHandler = syncHandler || new SyncHandler(keyringId);
   containers.set(syncHandler.id, syncHandler);
-
-  callback(null, syncHandler.id);
+  return syncHandler.id;
 }
 
 function syncHandlerDone(data) {
   const container = containers.get(data.syncHandlerId);
-
   container.syncDone(data);
 }
 
-function encryptedFormContainer(selector, formHtml, signature, callback) {
+function encryptedFormContainer({selector, formHtml, signature}) {
   const container = new EncryptedFormContainer(selector, formHtml, signature);
   containers.set(container.id, container);
-  container.create(callback);
+  return container.create();
 }

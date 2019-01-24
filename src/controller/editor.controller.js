@@ -27,7 +27,7 @@ export default class EditorController extends sub.SubController {
       this.mainType = 'editor';
       this.id = getHash();
     }
-    this.encryptDone = null;
+    this.encryptPromise = null;
     this.encryptTimer = null;
     this.keyringId = null;
     this.editorPopup = null;
@@ -114,7 +114,7 @@ export default class EditorController extends sub.SubController {
     if (this.editorPopup) {
       this.editorPopup.close();
       this.editorPopup = null;
-      this.encryptDone.reject(new MvError('Editor dialog canceled.', 'EDITOR_DIALOG_CANCEL'));
+      this.encryptPromise.reject(new MvError('Editor dialog canceled.', 'EDITOR_DIALOG_CANCEL'));
     }
   }
 
@@ -210,7 +210,7 @@ export default class EditorController extends sub.SubController {
     this.options = options;
     this.options.privKeys = true; // send private keys for signing key selection to editor
     return new Promise((resolve, reject) => {
-      this.encryptDone = {resolve, reject};
+      this.encryptPromise = {resolve, reject};
       mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}`, {width: 820, height: 550})
       .then(popup => {
         this.editorPopup = popup;
@@ -225,7 +225,7 @@ export default class EditorController extends sub.SubController {
    */
   encryptText() {
     return new Promise((resolve, reject) => {
-      this.encryptDone = {resolve, reject};
+      this.encryptPromise = {resolve, reject};
       this.ports.editor.emit('get-plaintext', {action: 'encrypt'});
     });
   }
@@ -468,7 +468,7 @@ export default class EditorController extends sub.SubController {
       this.ports.editorCont.emit('encrypted-message', {message: options.armored});
     } else {
       const recipients = (options.keys || []).map(k => ({name: k.name, email: k.email}));
-      this.encryptDone.resolve({armored: options.armored, recipients});
+      this.encryptPromise.resolve({armored: options.armored, recipients});
     }
   }
 

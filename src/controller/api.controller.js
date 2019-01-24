@@ -4,109 +4,104 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import {mapError} from '../lib/util';
+import * as sub from './sub.controller';
+import {getHash, MvError} from '../lib/util';
 import {MAIN_KEYRING_ID} from '../lib/constants';
 import {getById as keyringById, createKeyring, setKeyringAttr, getKeyByAddress} from '../modules/keyring';
-import * as sub from './sub.controller';
 import * as openpgp from 'openpgp';
 import {getLastModifiedDate, mapAddressKeyMapToFpr} from '../modules/key';
 
-export function handleApiEvent(request, sender, sendResponse) {
-  let keyring;
-  let attr;
-  try {
-    switch (request.event) {
-      case 'get-keyring':
-        keyring = keyringById(request.keyringId);
-        if (keyring) {
-          attr = keyring.getAttributes();
-          sendResponse({data: {revision: attr.logo_revision}});
-          sub.setActiveKeyringId(request.keyringId);
-        }
-        break;
-      case 'create-keyring':
-        createKeyring(request.keyringId)
-        .then(keyring => keyring.sync.activate())
-        .then(() => {
-          sendResponse({data: {}});
-          sub.setActiveKeyringId(request.keyringId);
-        })
-        .catch(err => sendResponse({error: mapError(err)}));
-        return true;
-      case 'query-valid-key':
-        getKeyByAddress(request.keyringId, request.recipients)
-        .then(keyMap => {
-          Object.keys(keyMap).forEach(email => {
-            if (keyMap[email]) {
-              keyMap[email] = {
-                keys: keyMap[email].map(key => ({
-                  fingerprint: key.primaryKey.getFingerprint(),
-                  lastModified: getLastModifiedDate(key).toISOString()
-                }))
-              };
-            }
-          });
-          sendResponse({error: null, data: keyMap});
-        });
-        return true;
-      case 'export-own-pub-key':
-        keyringById(request.keyringId).getKeyByAddress(request.emailAddr, {pub: false, priv: true, sort: true})
-        .then(keyMap => {
-          const keyFprMap = mapAddressKeyMapToFpr(keyMap);
-          const pubKeyFprs = keyFprMap[request.emailAddr];
-          if (!pubKeyFprs) {
-            sendResponse({error: {message: 'No key pair found for this email address.', code: 'NO_KEY_FOR_ADDRESS'}});
-            return;
-          }
-          // only take first valid key
-          const pubKeyFpr = pubKeyFprs[0];
-          const armored = keyringById(request.keyringId).getArmoredKeys(pubKeyFpr, {pub: true});
-          sendResponse({error: null, data: armored[0].armoredPublic});
-        });
-        return true;
-      case 'import-pub-key':
-        sub.factory.get('importKeyDialog').importKey(request.keyringId, request.armored)
-        .then(status => sendResponse({data: status}))
-        .catch(err => sendResponse({error: mapError(err)}));
-        return true;
-      case 'set-logo':
-        attr = keyringById(request.keyringId).getAttributes();
-        if (attr.logo_revision && attr.logo_revision > request.revision) {
-          sendResponse({error: {message: 'New logo revision < existing revision.', code: 'REVISION_INVALID'}});
-          return;
-        }
-        setKeyringAttr(request.keyringId, {logo_revision: request.revision, logo_data_url: request.dataURL})
-        .then(() => {
-          sendResponse({error: null, data: null});
-        })
-        .catch(err => sendResponse({error: mapError(err)}));
-        return true;
-      case 'has-private-key':
-        if (request.fingerprint) {
-          const fingerprint = request.fingerprint.toLowerCase().replace(/\s/g, '');
-          const key = keyringById(request.keyringId).keystore.privateKeys.getForId(fingerprint);
-          if (!key) {
-            return sendResponse({error: null, data: false});
-          }
-          key.verifyPrimaryKey()
-          .then(status => sendResponse({error: null, data: status === openpgp.enums.keyStatus.valid}));
-          return true;
-        } else {
-          const hasPrivateKey = keyringById(request.keyringId).hasPrivateKey();
-          sendResponse({error: null, data: hasPrivateKey});
-        }
-        break;
-      case 'open-settings': {
-        request.keyringId = request.keyringId || MAIN_KEYRING_ID;
-        const hash = `?krid=${encodeURIComponent(request.keyringId)}#/settings`;
-        mvelo.tabs.loadAppTab(hash);
-        sendResponse({error: null, data: null});
-        break;
-      }
-      default:
-        console.log('unknown event:', request);
+export default class ApiController extends sub.SubController {
+  constructor(port) {
+    super(port);
+    if (!port) {
+      this.mainType = 'api';
+      this.id = getHash();
     }
-  } catch (err) {
-    sendResponse({error: mapError(err)});
+    // register event handlers
+    this.on('get-keyring', this.getKeyring);
+    this.on('create-keyring', this.createKeyring);
+    this.on('query-valid-key', this.queryValidKey);
+    this.on('export-own-pub-key', this.exportOwnPubKey);
+    this.on('import-pub-key', this.importPubKey);
+    this.on('set-logo', this.setLogo);
+    this.on('has-private-key', this.hasPrivateKey);
+    this.on('open-settings', this.openSettings);
+  }
+
+  getKeyring({keyringId}) {
+    const keyring = keyringById(keyringId);
+    if (keyring) {
+      const attr = keyring.getAttributes();
+      sub.setActiveKeyringId(keyringId);
+      return {revision: attr.logo_revision};
+    }
+  }
+
+  async createKeyring({keyringId}) {
+    const keyring = await createKeyring(keyringId);
+    await keyring.sync.activate();
+    sub.setActiveKeyringId(keyringId);
+    return {};
+  }
+
+  async queryValidKey({keyringId, recipients}) {
+    const keyMap = await getKeyByAddress(keyringId, recipients);
+    Object.keys(keyMap).forEach(email => {
+      if (keyMap[email]) {
+        keyMap[email] = {
+          keys: keyMap[email].map(key => ({
+            fingerprint: key.primaryKey.getFingerprint(),
+            lastModified: getLastModifiedDate(key).toISOString()
+          }))
+        };
+      }
+    });
+    return keyMap;
+  }
+
+  async exportOwnPubKey({keyringId, emailAddr}) {
+    const keyMap = await keyringById(keyringId).getKeyByAddress(emailAddr, {pub: false, priv: true, sort: true});
+    const keyFprMap = mapAddressKeyMapToFpr(keyMap);
+    const pubKeyFprs = keyFprMap[emailAddr];
+    if (!pubKeyFprs) {
+      throw new MvError('No key pair found for this email address.', 'NO_KEY_FOR_ADDRESS');
+    }
+    // only take first valid key
+    const pubKeyFpr = pubKeyFprs[0];
+    const armored = keyringById(keyringId).getArmoredKeys(pubKeyFpr, {pub: true});
+    return armored[0].armoredPublic;
+  }
+
+  importPubKey({keyringId, armored}) {
+    return sub.factory.get('importKeyDialog').importKey(keyringId, armored);
+  }
+
+  async setLogo({keyringId, dataURL, revision}) {
+    const attr = keyringById(keyringId).getAttributes();
+    if (attr.logo_revision && attr.logo_revision > revision) {
+      throw new MvError('New logo revision < existing revision.', 'REVISION_INVALID');
+    }
+    await setKeyringAttr(keyringId, {logo_revision: revision, logo_data_url: dataURL});
+  }
+
+  async hasPrivateKey({keyringId, fingerprint}) {
+    if (fingerprint) {
+      const fpr = fingerprint.toLowerCase().replace(/\s/g, '');
+      const key = keyringById(keyringId).keystore.privateKeys.getForId(fpr);
+      if (!key) {
+        return false;
+      }
+      const status = await key.verifyPrimaryKey();
+      return status === openpgp.enums.keyStatus.valid;
+    } else {
+      const hasPrivateKey = keyringById(keyringId).hasPrivateKey();
+      return hasPrivateKey;
+    }
+  }
+
+  openSettings({keyringId = MAIN_KEYRING_ID}) {
+    const hash = `?krid=${encodeURIComponent(keyringId)}#/settings`;
+    mvelo.tabs.loadAppTab(hash);
   }
 }

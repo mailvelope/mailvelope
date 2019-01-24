@@ -30,7 +30,7 @@ describe('Import controller unit tests', () => {
           return Promise.resolve([{type: 'public'}]);
         }
       };
-      ctrl.popupDone = {
+      ctrl.popupPromise = {
         resolve(msg) {
           expect(msg).to.equal('IMPORTED');
         }

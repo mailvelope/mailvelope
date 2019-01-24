@@ -7,6 +7,8 @@ import {MvError} from '../lib/util';
 
 const dataTypes = {
   identifier: 'string',
+  event: 'string',
+  _reply: 'string',
   selector: 'string',
   armored: 'string',
   options: 'object',
@@ -51,15 +53,9 @@ const optionsTypes = {
 };
 
 export function checkTypes(data) {
-  if (data.id && typeof data.id !== 'string') {
-    throw new MvError('Type mismatch: data.id should be of type string.', 'TYPE_MISMATCH');
-  }
-  if (!data.data) {
-    return;
-  }
-  enforceTypeWhitelist(data.data, dataTypes);
-  if (data.data.options && typeof data.data.options === 'object') {
-    enforceTypeWhitelist(data.data.options, optionsTypes);
+  enforceTypeWhitelist(data, dataTypes);
+  if (data.options && typeof data.options === 'object') {
+    enforceTypeWhitelist(data.options, optionsTypes);
   }
 }
 

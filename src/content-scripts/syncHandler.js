@@ -5,7 +5,7 @@
 
 import {getHash} from '../lib/util';
 import EventHandler from '../lib/EventHandler';
-import {postMessage} from './clientAPI';
+import {clientPort} from './clientAPI';
 
 export default class SyncHandler {
   /**
@@ -22,11 +22,11 @@ export default class SyncHandler {
 
   syncDone(data) {
     //console.log('mvelo.SyncHandler.prototype.restoreDone()', restoreBackup);
-    this.port.emit('sync-done', {data});
+    this.port.emit('sync-done', data);
   }
 
   registerEventListener() {
-    this.port.on('sync-event', msg => postMessage('sync-event', null, msg, null));
+    this.port.on('sync-event', data => clientPort.emit('sync-event', data));
     // workaround for https://bugs.chromium.org/p/chromium/issues/detail?id=655932
     window.addEventListener('beforeunload', () => {
       this.port.disconnect();
