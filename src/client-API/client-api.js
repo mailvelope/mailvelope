@@ -31,7 +31,7 @@ class Mailvelope {
    * @returns {Promise.<String, Error>}
    */
   getVersion() {
-    return postMessage('get-version');
+    return send('get-version');
   }
 
   /**
@@ -41,7 +41,7 @@ class Mailvelope {
    * @throws {Error} error.code = 'NO_KEYRING_FOR_ID'
    */
   getKeyring(identifier) {
-    return postMessage('get-keyring', {identifier}).then(options => new Keyring(identifier, options));
+    return send('get-keyring', {identifier}).then(options => new Keyring(identifier, options));
   }
 
   /**
@@ -56,7 +56,7 @@ class Mailvelope {
    * });
    */
   createKeyring(identifier) {
-    return postMessage('create-keyring', {identifier}).then(options => new Keyring(identifier, options));
+    return send('create-keyring', {identifier}).then(options => new Keyring(identifier, options));
   }
 
   /**
@@ -99,7 +99,7 @@ class Mailvelope {
     } catch (e) {
       return Promise.reject(e);
     }
-    return postMessage('display-container', {selector, armored, identifier: keyring.identifier, options}).then(display => {
+    return send('display-container', {selector, armored, identifier: keyring.identifier, options}).then(display => {
       if (display && display.error) {
         display.error = mapError(display.error);
       }
@@ -146,7 +146,7 @@ class Mailvelope {
     } catch (e) {
       return Promise.reject(e);
     }
-    return postMessage('editor-container', {selector, identifier: keyring.identifier, options}).then(editorId => new Editor(editorId));
+    return send('editor-container', {selector, identifier: keyring.identifier, options}).then(editorId => new Editor(editorId));
   }
 
   /**
@@ -169,7 +169,7 @@ class Mailvelope {
     } catch (e) {
       return Promise.reject(e);
     }
-    return postMessage('settings-container', {selector, identifier: keyring.identifier, options});
+    return send('settings-container', {selector, identifier: keyring.identifier, options});
   }
 
   /**
@@ -182,7 +182,7 @@ class Mailvelope {
    * @throws {Error} error.code = 'INVALID_FORM' the form definition is not valid
    */
   createEncryptedFormContainer(selector, formHtml, signature) {
-    return postMessage('encrypted-form-container', {selector, formHtml, signature});
+    return send('encrypted-form-container', {selector, formHtml, signature});
   }
 }
 
@@ -229,7 +229,7 @@ class Keyring {
    * });
    */
   validKeyForAddress(recipients) {
-    return postMessage('query-valid-key', {identifier: this.identifier, recipients}).then(keyMap => {
+    return send('query-valid-key', {identifier: this.identifier, recipients}).then(keyMap => {
       for (const address in keyMap) {
         if (keyMap[address]) {
           keyMap[address].keys.forEach(key => {
@@ -253,7 +253,7 @@ class Keyring {
    * });
    */
   exportOwnPublicKey(emailAddr) {
-    return postMessage('export-own-pub-key', {identifier: this.identifier, emailAddr});
+    return send('export-own-pub-key', {identifier: this.identifier, emailAddr});
   }
 
   /**
@@ -267,7 +267,7 @@ class Keyring {
                      error.code = 'WRONG_ARMORED_TYPE'
    */
   importPublicKey(armored) {
-    return postMessage('import-pub-key', {identifier: this.identifier, armored});
+    return send('import-pub-key', {identifier: this.identifier, armored});
   }
 
   /**
@@ -287,7 +287,7 @@ class Keyring {
    *
    */
   setLogo(dataURL, revision) {
-    return postMessage('set-logo', {identifier: this.identifier, dataURL, revision}).then(() => {
+    return send('set-logo', {identifier: this.identifier, dataURL, revision}).then(() => {
       this.logoRev = revision;
     });
   }
@@ -313,7 +313,7 @@ class Keyring {
    * @throws {Error} error.code = 'INPUT_NOT_VALID'
    */
   createKeyGenContainer(selector, options) {
-    return postMessage('key-gen-container', {selector, identifier: this.identifier, options}).then(generatorId => new Generator(generatorId));
+    return send('key-gen-container', {selector, identifier: this.identifier, options}).then(generatorId => new Generator(generatorId));
   }
 
   /**
@@ -328,7 +328,7 @@ class Keyring {
    * @returns {Promise.<KeyBackupPopup, Error>}
    */
   createKeyBackupContainer(selector, options) {
-    return postMessage('key-backup-container', {selector, identifier: this.identifier, options}).then(popupId => new KeyBackupPopup(popupId));
+    return send('key-backup-container', {selector, identifier: this.identifier, options}).then(popupId => new KeyBackupPopup(popupId));
   }
 
   /**
@@ -343,7 +343,7 @@ class Keyring {
    * @returns {Promise.<undefined, Error>}
    */
   restoreBackupContainer(selector, options) {
-    return postMessage('restore-backup-container', {selector, identifier: this.identifier, options}).then(restoreId => new RestoreBackup(restoreId));
+    return send('restore-backup-container', {selector, identifier: this.identifier, options}).then(restoreId => new RestoreBackup(restoreId));
   }
 
   /**
@@ -352,7 +352,7 @@ class Keyring {
    * @returns {Promise.<boolean, Error>}
    */
   hasPrivateKey(fingerprint) {
-    return postMessage('has-private-key', {identifier: this.identifier, fingerprint}).then(result => result);
+    return send('has-private-key', {identifier: this.identifier, fingerprint}).then(result => result);
   }
 
   /**
@@ -416,7 +416,7 @@ class Keyring {
     if (typeof syncHandlerObj.uploadSync !== typeof syncHandlerObj.downloadSync) {
       return Promise.reject(new Error('uploadSync and downloadSync Handler cannot be set exclusively.'));
     }
-    return postMessage('add-sync-handler', {identifier: this.identifier}).then(syncHandlerId => {
+    return send('add-sync-handler', {identifier: this.identifier}).then(syncHandlerId => {
       if (syncHandler) {
         syncHandler.update(syncHandlerObj);
       } else {
@@ -430,7 +430,7 @@ class Keyring {
    * @returns {Promise.<undefined, Error>}
    */
   openSettings() {
-    return postMessage('open-settings', {identifier: this.identifier});
+    return send('open-settings', {identifier: this.identifier});
   }
 }
 
@@ -448,7 +448,7 @@ class KeyBackupPopup {
    * @throws {Error}
    */
   isReady() {
-    return postMessage('keybackup-popup-isready', {popupId: this.popupId});
+    return send('keybackup-popup-isready', {popupId: this.popupId});
   }
 }
 
@@ -469,12 +469,12 @@ class Generator {
    * @throws {Error}
    */
   generate(confirm) {
-    return postMessage('generator-generate', {generatorId: this.generatorId, confirmRequired: Boolean(confirm)}).then(armored => {
+    return send('generator-generate', {generatorId: this.generatorId, confirmRequired: Boolean(confirm)}).then(armored => {
       if (confirm) {
         confirm.then(() => {
-          postMessage('generator-generate-confirm', {generatorId: this.generatorId});
+          emit('generator-generate-confirm', {generatorId: this.generatorId});
         }).catch(e => {
-          postMessage('generator-generate-reject', {generatorId: this.generatorId, error: e});
+          emit('generator-generate-reject', {generatorId: this.generatorId, error: e});
         });
       }
       return armored;
@@ -496,7 +496,7 @@ class RestoreBackup {
    * @throws {Error}
    */
   isReady() {
-    return postMessage('restore-backup-isready', {restoreId: this.restoreId});
+    return send('restore-backup-isready', {restoreId: this.restoreId});
   }
 }
 
@@ -522,7 +522,7 @@ class Editor {
    * }
    */
   encrypt(recipients) {
-    return postMessage('editor-encrypt', {recipients, editorId: this.editorId});
+    return send('editor-encrypt', {recipients, editorId: this.editorId});
   }
 
   /**
@@ -534,7 +534,7 @@ class Editor {
    *                 error.code = 'ENCRYPT_QUOTA_SIZE'
    */
   createDraft() {
-    return postMessage('editor-create-draft', {editorId: this.editorId});
+    return send('editor-create-draft', {editorId: this.editorId});
   }
 }
 
@@ -553,9 +553,9 @@ class SyncHandler {
   }
 }
 
-function handleSyncEvent(msg) {
+function handleSyncEvent({type, id, data}) {
   let handler = null;
-  switch (msg.data.type) {
+  switch (type) {
     case 'upload':
       handler = syncHandler.handlers.uploadSync;
       break;
@@ -569,15 +569,15 @@ function handleSyncEvent(msg) {
       handler = syncHandler.handlers.restore;
       break;
     default:
-      console.log('mailvelope-client-api unknown sync event', msg.data.type);
+      console.log('mailvelope-client-api unknown sync event', type);
   }
   if (!handler) {
-    postMessage('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: msg.data.type, error: {message: 'Sync handler not available'}, id: msg.data.id}, true);
+    emit('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: type, error: {message: 'Sync handler not available'}, id});
     return;
   }
-  handler(msg.data.data)
+  handler(data)
   .then(result => {
-    postMessage('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: msg.data.type, syncData: result, id: msg.data.id}, true);
+    emit('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: type, syncData: result, id});
   })
   .catch(error => {
     if (!error) {
@@ -586,36 +586,35 @@ function handleSyncEvent(msg) {
     if (error instanceof Error || typeof error === 'string') {
       error = {message: error.message || String(error)};
     }
-    postMessage('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: msg.data.type, error, id: msg.data.id}, true);
+    emit('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: type, error, id});
   });
 }
 
-function eventListener(event) {
-  if (event.origin !== window.location.origin ||
-      event.data.mvelo_client ||
-      !event.data.mvelo_extension) {
+function eventListener(msg) {
+  if (msg.origin !== window.location.origin ||
+      msg.data.mvelo_client ||
+      !msg.data.mvelo_extension) {
     return;
   }
   //console.log('clientAPI eventListener', event.data);
-  switch (event.data.event) {
+  switch (msg.data.event) {
     case 'sync-event':
-      handleSyncEvent(event.data);
+      handleSyncEvent(msg.data);
       break;
-    case 'callback-reply': {
+    case '_reply': {
       let error;
-      if (event.data.error) {
-        error = new Error(event.data.error.message);
-        error.code = event.data.error.code;
-        if (!callbacks[event.data.id]) {
+      if (msg.data.error) {
+        error = mapError(msg.data.error);
+        if (!callbacks[msg.data._reply]) {
           throw error;
         }
       }
-      callbacks[event.data.id](error, event.data.data);
-      delete callbacks[event.data.id];
+      callbacks[msg.data._reply](error, msg.data.result);
+      delete callbacks[msg.data._reply];
       break;
     }
     default:
-      console.log('mailvelope-client-api unknown event', event.data.event);
+      console.log('mailvelope-client-api unknown event', msg.data.event);
   }
 }
 
@@ -640,28 +639,25 @@ function mapError(obj) {
   return error;
 }
 
-function postMessage(eventName, data, noResp) {
+function checkConnection() {
   if (!connected) {
     const error = new Error('Connection to Mailvelope extension is no longer alive.');
     error.code = 'NO_CONNECTION';
     throw error;
   }
+}
+
+function emit(event, data) {
+  checkConnection();
+  const message = {...data, event, mvelo_client: true};
+  window.postMessage(message, window.location.origin);
+}
+
+function send(event, data) {
+  checkConnection();
   return new Promise((resolve, reject) => {
-    const message = {
-      event: eventName,
-      mvelo_client: true,
-      data,
-      id: getHash()
-    };
-    if (!noResp) {
-      callbacks[message.id] = function(err, data) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(data);
-        }
-      };
-    }
+    const message = {...data, event, mvelo_client: true, _reply: getHash()};
+    callbacks[message._reply] = (err, data) => err ? reject(err) : resolve(data);
     window.postMessage(message, window.location.origin);
   });
 }

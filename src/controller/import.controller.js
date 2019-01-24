@@ -21,7 +21,7 @@ export default class ImportController extends sub.SubController {
       this.id = getHash();
     }
     this.armored = '';
-    this.popupDone = null;
+    this.popupPromise = null;
     this.importPopup = null;
     this.keyringId = '';
     this.keyring = null;
@@ -51,18 +51,18 @@ export default class ImportController extends sub.SubController {
       this.importError = true;
     } else {
       this.closePopup();
-      this.popupDone.resolve('IMPORTED');
+      this.popupPromise.resolve('IMPORTED');
     }
   }
 
   handleCancel() {
     this.closePopup();
     if (this.invalidated) {
-      this.popupDone.resolve('INVALIDATED');
+      this.popupPromise.resolve('INVALIDATED');
     } else if (this.importError) {
-      this.popupDone.reject({message: 'An error occured during key import', code: 'IMPORT_ERROR'});
+      this.popupPromise.reject({message: 'An error occured during key import', code: 'IMPORT_ERROR'});
     } else {
-      this.popupDone.resolve('REJECTED');
+      this.popupPromise.resolve('REJECTED');
     }
   }
 
@@ -152,7 +152,7 @@ export default class ImportController extends sub.SubController {
 
   openPopup() {
     return new Promise((resolve, reject) => {
-      this.popupDone = {resolve, reject};
+      this.popupPromise = {resolve, reject};
       mvelo.windows.openPopup(`components/import-key/importKeyDialog.html?id=${this.id}`, {width: 535, height: 458})
       .then(popup => {
         this.importPopup = popup;

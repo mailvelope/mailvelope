@@ -56,8 +56,8 @@ describe('Editor controller unit tests', () => {
 
   describe('transferEncrypted', () => {
     beforeEach(() => {
-      ctrl.encryptDone = {resolve() {}, reject() {}};
-      sandbox.stub(ctrl.encryptDone, 'resolve');
+      ctrl.encryptPromise = {resolve() {}, reject() {}};
+      sandbox.stub(ctrl.encryptPromise, 'resolve');
     });
 
     it('should not transfer private key material', () => {
@@ -65,7 +65,7 @@ describe('Editor controller unit tests', () => {
         armored: 'a',
         keys: [{name: 'n', email: 'e', private: 'p'}]
       });
-      expect(ctrl.encryptDone.resolve.withArgs({armored: 'a', recipients: [{name: 'n', email: 'e'}]}).calledOnce).to.be.true;
+      expect(ctrl.encryptPromise.resolve.withArgs({armored: 'a', recipients: [{name: 'n', email: 'e'}]}).calledOnce).to.be.true;
     });
   });
 

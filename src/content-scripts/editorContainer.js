@@ -18,33 +18,40 @@ export default class EditorContainer {
     this.registerEventListener();
     this.parent = null;
     this.container = null;
-    this.done = null;
-    this.encryptCallback = null;
-    this.createDraftCallback = null;
   }
 
-  create(done) {
-    this.done = done;
-    this.parent = document.querySelector(this.selector);
-    this.container = document.createElement('iframe');
-    let quota = '';
-    if (this.options.quota) {
-      quota = `&quota=${this.options.quota}`;
-    }
-    const url = chrome.runtime.getURL(`components/editor/editor.html?id=${this.id}${quota}&embedded=true`);
-    this.container.setAttribute('src', url);
-    this.container.setAttribute('frameBorder', 0);
-    this.container.setAttribute('scrolling', 'no');
-    this.container.style.width = '100%';
-    this.container.style.height = '100%';
-    this.parent.appendChild(this.container);
+  create() {
+    return new Promise((resolve, reject) => {
+      this.createPromise = {resolve, reject};
+      this.parent = document.querySelector(this.selector);
+      this.container = document.createElement('iframe');
+      let quota = '';
+      if (this.options.quota) {
+        quota = `&quota=${this.options.quota}`;
+      }
+      const url = chrome.runtime.getURL(`components/editor/editor.html?id=${this.id}${quota}&embedded=true`);
+      this.container.setAttribute('src', url);
+      this.container.setAttribute('frameBorder', 0);
+      this.container.setAttribute('scrolling', 'no');
+      this.container.style.width = '100%';
+      this.container.style.height = '100%';
+      this.parent.appendChild(this.container);
+    });
   }
 
   registerEventListener() {
-    this.port.on('editor-ready', () => this.done(this.options && this.processOptions(), this.id));
+    this.port.on('editor-ready', this.onEditorReady);
     this.port.on('destroy', this.onDestroy);
     this.port.on('error-message', this.onError);
     this.port.on('encrypted-message', this.onEncryptedMessage);
+  }
+
+  onEditorReady() {
+    const error = this.options && this.processOptions();
+    if (error) {
+      this.createPromise.reject(error);
+    }
+    this.createPromise.resolve(this.id);
   }
 
   onDestroy() {
@@ -53,38 +60,42 @@ export default class EditorContainer {
   }
 
   onError({error}) {
-    if (this.encryptCallback) {
-      this.encryptCallback(error);
-      this.encryptCallback = null;
-    } else if (this.createDraftCallback) {
-      this.createDraftCallback(error);
-      this.createDraftCallback = null;
+    if (this.encryptPromise) {
+      this.encryptPromise.reject(error);
+      this.encryptPromise = null;
+    } else if (this.createDraftPromise) {
+      this.createDraftPromise.reject(error);
+      this.createDraftPromise = null;
     }
   }
 
   onEncryptedMessage({message}) {
-    if (this.encryptCallback) {
-      this.encryptCallback(null, message);
-      this.encryptCallback = null;
-    } else if (this.createDraftCallback) {
-      this.createDraftCallback(null, message);
-      this.createDraftCallback = null;
+    if (this.encryptPromise) {
+      this.encryptPromise.resolve(message);
+      this.encryptPromise = null;
+    } else if (this.createDraftPromise) {
+      this.createDraftPromise.resolve(message);
+      this.createDraftPromise = null;
     }
   }
 
-  encrypt(recipients, callback) {
-    this.checkInProgress();
-    this.port.emit('editor-container-encrypt', {
-      keyringId: this.keyringId,
-      recipients
+  encrypt(recipients) {
+    return new Promise((resolve, reject) => {
+      this.encryptPromise = {resolve, reject};
+      this.checkInProgress();
+      this.port.emit('editor-container-encrypt', {
+        keyringId: this.keyringId,
+        recipients
+      });
     });
-    this.encryptCallback = callback;
   }
 
-  createDraft(callback) {
-    this.checkInProgress();
-    this.port.emit('editor-container-create-draft', {keyringId: this.keyringId});
-    this.createDraftCallback = callback;
+  createDraft() {
+    return new Promise((resolve, reject) => {
+      this.createDraftPromise = {resolve, reject};
+      this.checkInProgress();
+      this.port.emit('editor-container-create-draft', {keyringId: this.keyringId});
+    });
   }
 
   checkInProgress() {

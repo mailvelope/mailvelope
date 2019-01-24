@@ -26,7 +26,7 @@ async function main() {
   await initModel();
   await initNativeMessaging();
   await initKeyring();
-  await initController();
+  initController();
   initScriptInjection();
 }
 

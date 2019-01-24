@@ -4,7 +4,6 @@
  */
 
 import * as sub from './sub.controller';
-import {handleApiEvent} from './api.controller';
 
 import DecryptController from './decrypt.controller';
 import EncryptController from './encrypt.controller';
@@ -18,6 +17,7 @@ import PrivateKeyController from './privateKey.controller';
 import AppController from './app.controller';
 import MenuController from './menu.controller';
 import EncryptedFormController from './encryptedForm.controller';
+import ApiController from './api.controller';
 
 /**
  * Register controllers for component types. Only the components that first connect to the controller
@@ -41,13 +41,9 @@ sub.factory.register('app',                 AppController);
 sub.factory.register('appCont',             AppController);
 sub.factory.register('menu',                MenuController);
 sub.factory.register('encryptedFormCont',   EncryptedFormController);
+sub.factory.register('api',   ApiController);
 
-export async function initController() {
-  initMessageListener();
-  initSubController();
-}
-
-function initSubController() {
+export function initController() {
   // store incoming connections by name and id
   chrome.runtime.onConnect.addListener(port => {
     //console.log('ConnectionManager: onConnect:', port);
@@ -55,15 +51,4 @@ function initSubController() {
     // update active ports on disconnect
     port.onDisconnect.addListener(sub.removePort);
   });
-}
-
-function initMessageListener() {
-  chrome.runtime.onMessage.addListener(handleMessageEvent);
-}
-
-function handleMessageEvent(request, sender, sendResponse) {
-  //console.log('controller: handleMessageEvent', request);
-  if (request.api_event) {
-    return handleApiEvent(request, sender, sendResponse);
-  }
 }
