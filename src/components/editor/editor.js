@@ -200,7 +200,7 @@ export default class Editor extends React.Component {
   sendPlainText(action, noCache, draft) {
     this.port.emit('editor-plaintext', {
       message: this.plainText.getValue(),
-      keys: this.state.recipients.map(r => r.key),
+      keys: this.state.recipients.map(r => r.key || {email: r.email}), // return email if key not available (action: 'sign')
       attachments: this.state.files,
       action,
       signMsg: this.state.signMsg || draft, // draft is always signed

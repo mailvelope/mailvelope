@@ -462,12 +462,12 @@ export default class EditorController extends sub.SubController {
    * @param  {String} options.armored   The encrypted/signed message
    * @param  {Array}  options.keys      The keys used to encrypt the message
    */
-  transferEncrypted(options) {
+  transferEncrypted({armored, keys = []}) {
     if (this.ports.editorCont) {
-      this.ports.editorCont.emit('encrypted-message', {message: options.armored});
+      this.ports.editorCont.emit('encrypted-message', {message: armored});
     } else {
-      const recipients = (options.keys || []).map(k => ({name: k.name, email: k.email}));
-      this.encryptPromise.resolve({armored: options.armored, recipients});
+      const recipients = keys.map(key => ({name: key.name, email: key.email}));
+      this.encryptPromise.resolve({armored, recipients});
     }
   }
 
