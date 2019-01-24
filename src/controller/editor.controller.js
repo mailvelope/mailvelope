@@ -254,7 +254,6 @@ export default class EditorController extends sub.SubController {
    */
   async decryptArmored(armored) {
     try {
-      this.options.selfSigned = Boolean(this.options.armoredDraft);
       const unlockKey = async options => {
         const result = await this.unlockKey(options);
         if (this.editorPopup) {
@@ -266,7 +265,7 @@ export default class EditorController extends sub.SubController {
         armored,
         keyringId: this.keyringId,
         unlockKey,
-        options: this.options
+        selfSigned: Boolean(this.options.armoredDraft)
       });
       const options = this.options;
       const ports = this.ports;
