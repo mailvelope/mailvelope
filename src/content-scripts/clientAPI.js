@@ -5,7 +5,7 @@
 
 import $ from 'jquery';
 import {PGP_MESSAGE, PGP_SIGNATURE, PGP_PUBLIC_KEY, PGP_PRIVATE_KEY, KEYRING_DELIMITER} from '../lib/constants';
-import {MvError, getHash} from '../lib/util';
+import {MvError, getHash, mapError} from '../lib/util';
 import EventHandler from '../lib/EventHandler';
 import {prefs, host, getMessageType} from './main';
 import {checkTypes} from './clientAPITypeCheck';
@@ -53,14 +53,22 @@ export function init() {
             return;
           }
           const {mvelo_client, ...data} = event.data;
-          checkTypes(data);
-          if (data.identifier) {
-            if (data.identifier.includes(KEYRING_DELIMITER)) {
-              throw {message: 'Identifier invalid.', code: 'INVALID_IDENTIFIER'};
+          try {
+            checkTypes(data);
+            if (data.identifier) {
+              if (data.identifier.includes(KEYRING_DELIMITER)) {
+                throw new MvError('Identifier invalid.', 'INVALID_IDENTIFIER');
+              }
+              data.keyringId = host + KEYRING_DELIMITER + data.identifier;
             }
-            data.keyringId = host + KEYRING_DELIMITER + data.identifier;
+            listener(data);
+          } catch (e) {
+            if (data._reply) {
+              port.postMessage({...data, event: '_reply', error: mapError(e)});
+            } else {
+              throw e;
+            }
           }
-          listener(data);
         });
       }
     },
