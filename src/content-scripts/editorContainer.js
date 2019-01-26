@@ -81,8 +81,8 @@ export default class EditorContainer {
 
   encrypt(recipients) {
     return new Promise((resolve, reject) => {
-      this.encryptPromise = {resolve, reject};
       this.checkInProgress();
+      this.encryptPromise = {resolve, reject};
       this.port.emit('editor-container-encrypt', {
         keyringId: this.keyringId,
         recipients
@@ -99,7 +99,7 @@ export default class EditorContainer {
   }
 
   checkInProgress() {
-    if (this.encryptCallback || this.createDraftCallback) {
+    if (this.encryptPromise || this.createDraftPromise) {
       throw new MvError('Encyption already in progress.', 'ENCRYPT_IN_PROGRESS');
     }
   }
