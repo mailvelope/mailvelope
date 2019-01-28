@@ -35,7 +35,6 @@ const dataTypes = {
 };
 
 const optionsTypes = {
-  showExternalContent: 'boolean',
   quota: 'number',
   predefinedText: 'string',
   quotedMail: 'string',

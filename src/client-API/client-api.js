@@ -71,7 +71,6 @@ class Mailvelope {
 
   /**
    * @typedef {Object} DisplayContainerOptions
-   * @property {boolean} showExternalContent - if true loads external content into the display container (default: true)
    * @property {String} senderAddress - email address of sender, used to indentify key for signature verification
    */
 
@@ -89,7 +88,7 @@ class Mailvelope {
    * The iframe will be injected into the container identified by selector.
    * @param {CssSelector} selector - target container
    * @param {AsciiArmored} armored - the encrypted mail to display
-   * @param {Keyring} keyring - the keyring to use for this operation
+   * @param {Keyring} [keyring] - the keyring to use for this operation
    * @param {DisplayContainerOptions} options
    * @returns {Promise.<DisplayContainer, Error>}
    */
@@ -99,7 +98,7 @@ class Mailvelope {
     } catch (e) {
       return Promise.reject(e);
     }
-    return send('display-container', {selector, armored, identifier: keyring.identifier, options}).then(display => {
+    return send('display-container', {selector, armored, identifier: keyring && keyring.identifier, options}).then(display => {
       if (display && display.error) {
         display.error = mapError(display.error);
       }
@@ -124,7 +123,7 @@ class Mailvelope {
    * Creates an iframe with an editor for a new encrypted mail.
    * The iframe will be injected into the container identified by selector.
    * @param {CssSelector} selector - target container
-   * @param {Keyring} keyring - the keyring to use for this operation
+   * @param {Keyring} [keyring] - the keyring to use for this operation
    * @param {EditorContainerOptions} options
    * @returns {Promise.<Editor, Error>}
    * @throws {Error} error.code = 'WRONG_ARMORED_TYPE' - parameters of type AsciiArmored do not have the correct armor type <br>
@@ -146,7 +145,7 @@ class Mailvelope {
     } catch (e) {
       return Promise.reject(e);
     }
-    return send('editor-container', {selector, identifier: keyring.identifier, options}).then(editorId => new Editor(editorId));
+    return send('editor-container', {selector, identifier: keyring && keyring.identifier, options}).then(editorId => new Editor(editorId));
   }
 
   /**
@@ -159,7 +158,7 @@ class Mailvelope {
    * Creates an iframe to display the keyring settings.
    * The iframe will be injected into the container identified by selector.
    * @param {CssSelector} selector - target container
-   * @param {Keyring} keyring - the keyring to use for the setup
+   * @param {Keyring} [keyring] - the keyring to use for the setup
    * @param {SettingsContainerOptions} options
    * @returns {Promise.<undefined, Error>}
    */
@@ -169,7 +168,7 @@ class Mailvelope {
     } catch (e) {
       return Promise.reject(e);
     }
-    return send('settings-container', {selector, identifier: keyring.identifier, options});
+    return send('settings-container', {selector, identifier: keyring && keyring.identifier, options});
   }
 
   /**
@@ -192,7 +191,7 @@ let connected = true;
 let syncHandler = null;
 
 function checkTypeKeyring(keyring) {
-  if (!(keyring instanceof Keyring)) {
+  if (keyring && !(keyring instanceof Keyring)) {
     const error = new Error('Type mismatch: keyring should be instance of Keyring.');
     error.code = 'TYPE_MISMATCH';
     throw error;

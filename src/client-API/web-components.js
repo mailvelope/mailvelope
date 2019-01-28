@@ -64,9 +64,92 @@ class OpenPGPEncryptedForm extends HTMLElement {
   }
 }
 
+class OpenPGPEmailRead extends HTMLElement {
+  connectedCallback() {
+    const id = this.getAttribute('id');
+    if (!id) {
+      return this.onError(new Error('Missing id attribute on openpgp-email-read tag. Please add a unique identifier.'));
+    }
+    const [armoredElement] = this.getElementsByClassName('armored');
+    const armored = armoredElement ? armoredElement.textContent : this.dataset.armored;
+    if (!armored) {
+      return this.onError(new Error('Armored message required as <template class="armored"> child element or data-armored attribute.'));
+    }
+    const options = {senderAddress: this.dataset.senderAddress};
+    if (window.mailvelope) {
+      this.createContainer(id, armored, options);
+    } else {
+      window.addEventListener('mailvelope', () => this.createContainer(id, armored, options), {once: true});
+    }
+  }
+
+  async createContainer(id, armored, options) {
+    try {
+      const {error} = await window.mailvelope.createDisplayContainer(`#${id}`, armored, null, options);
+      if (error) {
+        return this.onError(error);
+      }
+      this.onReady();
+    } catch (e) {
+      this.onError(e);
+    }
+  }
+
+  onReady() {
+    this.dispatchEvent(new CustomEvent('ready', {bubbles: true, cancelable: true}));
+  }
+
+  onError(error) {
+    this.dispatchEvent(new ErrorEvent('error', {message: error.message, error}));
+  }
+}
+
+class OpenPGPEmailWrite extends HTMLElement {
+  connectedCallback() {
+    const id = this.getAttribute('id');
+    if (!id) {
+      return this.onError(new Error('Missing id attribute on openpgp-email-write tag. Please add a unique identifier.'));
+    }
+    const [armoredDraftElement] = this.getElementsByClassName('armored-draft');
+    const armoredDraft = armoredDraftElement ? armoredDraftElement.textContent : undefined;
+    const [quotedMailElement] = this.getElementsByClassName('quoted-mail');
+    const quotedMail = quotedMailElement ? quotedMailElement.textContent : undefined;
+    let {quota, signMsg, keepAttachments} = this.dataset;
+    quota = quota ? Number(quota) : undefined;
+    signMsg = signMsg || signMsg === '' ? true : false;
+    keepAttachments = keepAttachments || keepAttachments === '' ? true : false;
+    const options = {armoredDraft, quotedMail, ...this.dataset, quota, signMsg, keepAttachments};
+    if (window.mailvelope) {
+      this.createEditor(id, options);
+    } else {
+      window.addEventListener('mailvelope', () => this.createEditor(id, options), {once: true});
+    }
+  }
+
+  async createEditor(id, options) {
+    try {
+      this.editor = await window.mailvelope.createEditorContainer(`#${id}`, null, options);
+      this.onReady(this.editor);
+    } catch (e) {
+      this.onError(e);
+    }
+  }
+
+  onReady(editor) {
+    this.dispatchEvent(new CustomEvent('ready', {bubbles: true, cancelable: true, detail: {editor}}));
+  }
+
+  onError(error) {
+    this.dispatchEvent(new ErrorEvent('error', {message: error.message, error}));
+  }
+}
+
 export function init() {
   // See. https://developer.mozilla.org/en-US/docs/Web/API/Window/customElements#Specification#Browser_compatibility
-  if (typeof window.customElements !== 'undefined') {
-    window.customElements.define('openpgp-encrypted-form', OpenPGPEncryptedForm);
+  if (!window.customElements) {
+    return;
   }
+  window.customElements.define('openpgp-encrypted-form', OpenPGPEncryptedForm);
+  window.customElements.define('openpgp-email-read', OpenPGPEmailRead);
+  window.customElements.define('openpgp-email-write', OpenPGPEmailWrite);
 }

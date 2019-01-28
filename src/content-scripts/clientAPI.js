@@ -4,7 +4,7 @@
  */
 
 import $ from 'jquery';
-import {PGP_MESSAGE, PGP_SIGNATURE, PGP_PUBLIC_KEY, PGP_PRIVATE_KEY, KEYRING_DELIMITER} from '../lib/constants';
+import {PGP_MESSAGE, PGP_SIGNATURE, PGP_PUBLIC_KEY, PGP_PRIVATE_KEY, KEYRING_DELIMITER, MAIN_KEYRING_ID} from '../lib/constants';
 import {MvError, getHash, mapError} from '../lib/util';
 import EventHandler from '../lib/EventHandler';
 import {prefs, host, getMessageType} from './main';
@@ -60,6 +60,8 @@ export function init() {
                 throw new MvError('Identifier invalid.', 'INVALID_IDENTIFIER');
               }
               data.keyringId = host + KEYRING_DELIMITER + data.identifier;
+            } else {
+              data.keyringId = MAIN_KEYRING_ID;
             }
             listener(data);
           } catch (e) {
