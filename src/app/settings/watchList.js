@@ -189,7 +189,7 @@ export default class WatchList extends React.Component {
             </tr>
           </thead>
           <tbody>
-            { this.state.watchList.map((site, index) =>
+            {this.state.watchList.map((site, index) =>
               <tr key={index} onClick={() => this.showWatchListEditor(index)}>
                 <td className="text-center"><span className={`glyphicon glyphicon-${site.active ? 'check' : 'unchecked'}`}></span></td>
                 <td>{site.site}</td>
@@ -200,11 +200,10 @@ export default class WatchList extends React.Component {
                   </div>
                 </td>
               </tr>
-            )
-            }
+            )}
           </tbody>
         </table>
-        { this.state.editorSite &&
+        {this.state.editorSite &&
           <WatchListEditor site={this.state.editorSite}
             onHide={() => this.handleHideWatchListEditor()}
             onSave={() => this.handleSaveWatchListEditor()}

@@ -154,7 +154,7 @@ export default class KeyGrid extends React.Component {
               </tr>
             </thead>
             <tbody>
-              { this.props.keys.map((key, index) =>
+              {this.props.keys.map((key, index) =>
                 !this.filterKey(key.type) &&
                 <tr key={index} onClick={() => this.showKeyDetails(index)} onKeyPress={e => this.handleKeyPress(e, index)} tabIndex="0" aria-haspopup="true">
                   <td className="text-center">

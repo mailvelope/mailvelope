@@ -28,16 +28,16 @@ export default class GenerateWait extends React.Component {
 
   render() {
     return (
-      <div  className="modal" id="genKeyWait" tabIndex="-1" role="dialog" aria-hidden="true">
-        <div  className="modal-dialog">
-          <div  className="modal-content">
-            <div  className="modal-header">
+      <div className="modal" id="genKeyWait" tabIndex="-1" role="dialog" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
               <h3>{l10n.map.key_gen_wait_header}</h3>
             </div>
-            <div  className="modal-body">
-              <div  className="center-block wait-indicator"></div>
+            <div className="modal-body">
+              <div className="center-block wait-indicator"></div>
             </div>
-            <div  className="modal-footer">
+            <div className="modal-footer">
               <span>{l10n.map.key_gen_wait_info}</span>
             </div>
           </div>

@@ -33,7 +33,7 @@ export default function WatchListEditor(props) {
           <div className="form-group">
             <label htmlFor="switchWebSite" className="control-label">{l10n.map.watchlist_title_active}</label>
             <div>
-              <OnOffSwitch checked={props.site.active} onChange={e => props.onChangeSite('active', e.target.checked)} id={'switchWebSite'} />
+              <OnOffSwitch checked={props.site.active} onChange={e => props.onChangeSite('active', e.target.checked)} id='switchWebSite' />
             </div>
           </div>
           <div className="row">
@@ -46,7 +46,7 @@ export default function WatchListEditor(props) {
             <div className="col-sm-3 form-group">
               <label htmlFor="switchHttpsOnly" className="control-label">{l10n.map.watchlist_title_https_only}</label>
               <div>
-                <OnOffSwitch className="onoffswitch-danger" checked={props.site.https_only} onChange={e => props.onChangeSite('https_only', e.target.checked)} id={'switchHttpsOnly'} />
+                <OnOffSwitch className="onoffswitch-danger" checked={props.site.https_only} onChange={e => props.onChangeSite('https_only', e.target.checked)} id='switchHttpsOnly' />
               </div>
             </div>
           </div>
@@ -60,7 +60,7 @@ export default function WatchListEditor(props) {
               </tr>
             </thead>
             <tbody>
-              { props.site.frames.map((frame, index) =>
+              {props.site.frames.map((frame, index) =>
                 <tr key={index}>
                   <td className="col-sm-2">
                     <OnOffSwitch checked={frame.scan} onChange={e => props.onChangeFrame({scan: e.target.checked}, index)} id={`frame_scan${index}`} />

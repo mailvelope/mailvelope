@@ -5,9 +5,24 @@
   ],
   "extends": ["plugin:react/recommended"],
   "rules": {
+    "jsx-quotes": "warn",
     "react/button-has-type": "warn",
+    "react/jsx-child-element-spacing": "warn",
+    "react/jsx-curly-brace-presence": "warn",
+    "react/jsx-curly-spacing": ["warn", {"when": "never", "children": true}],
+    "react/jsx-indent": ["warn", 2],
+    "react/jsx-indent-props": ["warn", 2],
+    "react/jsx-props-no-multi-spaces": "warn",
     "react/jsx-tag-spacing": "warn",
+    "react/jsx-wrap-multilines": ["warn", {
+      "declaration": "ignore",
+      "assignment": "ignore",
+      "return": "parens-new-line",
+      "arrow": "ignore",
+      "condition": "parens-new-line"
+    }],
     "react/no-access-state-in-setstate": "warn",
+    "react/no-unsafe": "warn",
     "react/prefer-stateless-function": "warn"
   }
 

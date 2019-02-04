@@ -83,13 +83,13 @@ KeyDetails.propTypes = {
 function KeyDetailsFooter(props) {
   return (
     <div>
-      { props.keyDetails.type !== 'private' ? null :
+      {props.keyDetails.type !== 'private' ? null : (
         <span className="pull-left">
           <KeyringOptions.Consumer>
             {options => options.gnupg && !props.isDefault ? null : <DefaultKeyButton onClick={props.onDefaultClick} isDefault={props.isDefault} disabled={!props.keyDetails.validDefaultKey} />}
           </KeyringOptions.Consumer>
         </span>
-      }
+      )}
       <button type="button" className="btn btn-primary" data-dismiss="modal">
         <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;{l10n.map.dialog_popup_close}
       </button>

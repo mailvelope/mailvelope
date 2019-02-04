@@ -25,7 +25,7 @@ class ActionMenuAnimated extends Component {
     return (
       <div className="action-menu-container-slide-container">
         <div className="action-menu-container-slide">
-          <ActionMenuBase onMenuItemClickHandler={this.props.onMenuItemClickHandler}  onShowAdvancedOptionsHandler={this.showAdvancedOptions} />
+          <ActionMenuBase onMenuItemClickHandler={this.props.onMenuItemClickHandler} onShowAdvancedOptionsHandler={this.showAdvancedOptions} />
           <ActionMenuAdvanced onMenuItemClickHandler={this.props.onMenuItemClickHandler} onShowBaseOptionsHandler={this.showBaseOptions} />
         </div>
       </div>
