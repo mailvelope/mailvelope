@@ -50,14 +50,13 @@ export default class SecurityLog extends React.Component {
             </tr>
           </thead>
           <tbody>
-            { this.state.secLog.map(log =>
+            {this.state.secLog.map(log =>
               <tr key={log.timestamp}>
                 <td title={log.timestamp}><span className="glyphicon glyphicon-time"></span>&nbsp;<span>{new Date(log.timestamp).toLocaleTimeString()}</span></td>
                 <td>{log.sourcei18n}</td>
                 <td>{log.typei18n}</td>
               </tr>
-            )
-            }
+            )}
           </tbody>
         </table>
       </div>

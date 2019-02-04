@@ -323,7 +323,7 @@ export default class Editor extends React.Component {
       <div style={{height: '100%'}}>
         <div className="editor-flex-container">
           <div className={`editor-header ${this.props.secureBackground || this.state.files.length ? '' : 'hide'}`}>
-            { this.props.secureBackground &&
+            {this.props.secureBackground &&
               <div className="button-bar">
                 <button type="button" className="btn btn-link secureBgndSettingsBtn" title={l10n.map.security_background_button_title}
                   onClick={() => this.port.emit('open-security-settings')}>
@@ -335,7 +335,7 @@ export default class Editor extends React.Component {
               <FileUploadPanel files={this.state.files} onRemoveFile={id => this.handleRemoveFile(id)} />
             </div>
           </div>
-          { this.props.recipientInput &&
+          {this.props.recipientInput &&
             <div className="editor-recipients">
               <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients} autoLocate={this.state.autoLocate} encryptDisabled={this.state.encryptDisabled}
                 onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}

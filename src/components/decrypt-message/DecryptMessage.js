@@ -160,7 +160,7 @@ export default class DecryptMessage extends React.Component {
         {this.state.waiting && <Spinner style={{margin: '160px auto 0'}} />}
         <div className={`decrypt-msg-flex-container ${this.state.waiting ? '' : 'fade-in'}`}>
           <div className="decrypt-msg-header">
-            { this.props.secureBackground &&
+            {this.props.secureBackground &&
               <div className="button-bar">
                 <button type="button" className="btn btn-link secureBgndSettingsBtn" title={l10n.map.security_background_button_title}
                   onClick={() => this.port.emit('open-security-settings')}>
