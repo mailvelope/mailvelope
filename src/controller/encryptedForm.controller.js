@@ -8,8 +8,8 @@ import * as l10n from '../lib/l10n';
 import {mapError, checkEmail, checkUrl, MvError} from '../lib/util';
 import {getById as getKeyringById, getPreferredKeyringId} from '../modules/keyring';
 import {verifyDetachedSignature, encryptMessage} from '../modules/pgpModel';
-import {isEnabled as isAutoLocateEnabled, locate} from '../modules/autoLocate';
 import dompurify from 'dompurify';
+import {lookupKey} from './import.controller';
 
 // get language strings
 l10n.set([
@@ -209,27 +209,19 @@ Comment: openpgp-encrypted-form
 ${this.formSignature}
 -----END PGP SIGNATURE-----`;
 
-    const {signatures} = await verifyDetachedSignature({plaintext: rawHtml, signerEmail: this.formRecipientEmail, detachedSignature, keyringId: this.keyringId, autoLocate: this.autoLocate.bind(this)});
+    const {signatures} = await verifyDetachedSignature({
+      plaintext: rawHtml,
+      signerEmail: this.formRecipientEmail,
+      detachedSignature,
+      keyringId: this.keyringId,
+      lookupKey: () => lookupKey({keyringId: this.keyringId, email: this.formRecipientEmail})
+    });
     const validSig = signatures.find(sig => sig.valid === true);
     if (validSig) {
       this.recipientFpr = validSig.fingerprint;
       return true;
     } else {
       throw new MvError(l10n.map.form_definition_error_signature_invalid, 'INVALID_SIGNATURE');
-    }
-  }
-
-  async autoLocate() {
-    if (!isAutoLocateEnabled()) {
-      return;
-    }
-    const armored = await locate({email: this.formRecipientEmail});
-    if (armored) {
-      try {
-        await sub.factory.get('importKeyDialog').importKey(this.keyringId, armored);
-      } catch (e) {
-        console.log('Key import after auto locate failed', e);
-      }
     }
   }
 

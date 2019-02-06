@@ -189,7 +189,7 @@ export async function verifyMessage({armored, keyringId}) {
   }
 }
 
-export async function verifyDetachedSignature({plaintext, signerEmail, detachedSignature, keyringId, autoLocate}) {
+export async function verifyDetachedSignature({plaintext, signerEmail, detachedSignature, keyringId, lookupKey}) {
   const keyring = getPreferredKeyring(keyringId);
   // determine issuer key id
   const signature = await openpgp.signature.readArmored(detachedSignature);
@@ -201,7 +201,7 @@ export async function verifyDetachedSignature({plaintext, signerEmail, detachedS
   let {[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail, {keyId: issuerKeyId});
   if (!signerKeys) {
     // if no keys available, try key discovery mechanisms
-    await autoLocate();
+    await lookupKey();
     // check again if key is now in keyring
     ({[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail, {keyId: issuerKeyId}));
     if (!signerKeys) {

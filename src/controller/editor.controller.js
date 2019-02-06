@@ -19,6 +19,7 @@ import {triggerSync} from './sync.controller';
 import {isEnabled as isAutoLocateEnabled, locate} from '../modules/autoLocate';
 import {getById as getKeyringById, getPreferredKeyringId, getKeyData, getKeyByAddress, syncPublicKeys, getDefaultKeyFpr} from '../modules/keyring';
 import {mapAddressKeyMapToFpr} from '../modules/key';
+import {lookupKey} from './import.controller';
 
 export default class EditorController extends sub.SubController {
   constructor(port) {
@@ -122,8 +123,9 @@ export default class EditorController extends sub.SubController {
     this.pgpMIME = true;
     this.keyringId = msg.keyringId;
     const keyMap = await getKeyByAddress(this.keyringId, msg.recipients);
+    await this.lookupMissingKeys(keyMap);
     const keyFprMap = mapAddressKeyMapToFpr(keyMap);
-    if (Object.keys(keyFprMap).some(keyFpr => keyFprMap[keyFpr] === false)) {
+    if (Object.values(keyFprMap).some(keys => keys === false)) {
       const error = {
         message: 'No valid encryption key for recipient address',
         code: 'NO_KEY_FOR_RECIPIENT'
@@ -145,6 +147,17 @@ export default class EditorController extends sub.SubController {
     // ensure that all keys are available in the API keyring
     syncPublicKeys({keyringId: this.keyringId, keyIds: this.keyFprBuffer});
     this.ports.editor.emit('get-plaintext', {action: 'encrypt'});
+  }
+
+  async lookupMissingKeys(keyMap) {
+    for (const [email, keys] of Object.entries(keyMap)) {
+      if (!keys) {
+        await lookupKey({keyringId: this.keyringId, email});
+        // check if lookup successful
+        const {[email]: keys} = await getKeyByAddress(this.keyringId, email);
+        keyMap[email] = keys;
+      }
+    }
   }
 
   async onEditorContainerCreateDraft(msg) {
