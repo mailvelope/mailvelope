@@ -42,6 +42,8 @@ function registerRuntimeHandler() {
       openInstallLandingPage();
     }
   });
+  // update Mailvelope only on browser restart for Firefox. On Chrome this is the default behavior.
+  chrome.runtime.onUpdateAvailable.addListener(() => {});
 }
 
 /**
