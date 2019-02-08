@@ -187,7 +187,7 @@ export async function mapUsers(users = [], toKey, keyring, primaryKey) {
       for (const otherCert of user.otherCertifications) {
         const sig = {};
         const keyidHex = otherCert.issuerKeyId.toHex();
-        const issuerKeys = keyring.getKeysForId(keyidHex);
+        const issuerKeys = keyring.getKeysForId(keyidHex, true);
         if (issuerKeys) {
           const [{keyPacket: signingKeyPacket}] = issuerKeys[0].getKeys(otherCert.issuerKeyId);
           if (signingKeyPacket && await verifyUserCertificate(user, primaryKey, otherCert, signingKeyPacket) === openpgp.enums.keyStatus.valid) {
