@@ -9,7 +9,7 @@ describe('EncryptForm controller unit tests', () => {
   let formElement;
 
   beforeEach(() => {
-    port = new Port('encryptedFormCont');
+    port = new Port('encryptedFormCont-1');
     ctrl = new EncryptedFormController(port);
     formElement = {getAttribute: sandbox.stub()};
   });

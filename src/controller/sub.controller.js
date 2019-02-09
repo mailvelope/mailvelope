@@ -122,8 +122,11 @@ function verifyCreatePermission(type, port) {
 
 const controllers = new Map();
 
-function parseViewName(viewName) {
+export function parseViewName(viewName) {
   const pair = viewName.split('-');
+  if (pair.length !== 2) {
+    throw new Error('Invalid view name.');
+  }
   return {type: pair[0], id: pair[1]};
 }
 
