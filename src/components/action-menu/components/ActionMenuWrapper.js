@@ -23,7 +23,7 @@ class ActionMenuWrapper extends Component {
   }
 
   async componentDidMount() {
-    const isSetupDone = await this.port.send('get-is-setup-done');
+    const {isSetupDone} = await this.port.send('get-is-setup-done');
     this.setState({isSetupDone});
   }
 
