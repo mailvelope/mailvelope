@@ -69,14 +69,12 @@ function init() {
 
     $pwdInput
     .on('input paste', () => {
-      logUserInput('security_log_password_input');
       checkPwdInput();
     })
     .focus();
 
     $confirmInput
     .on('input paste', () => {
-      logUserInput('security_log_password_input');
       checkConfirmInput();
       checkInputsEqual();
     });
@@ -98,15 +96,9 @@ function registerEventListeners() {
   port.on('terminate', () => terminate(port));
 }
 
-/**
- * return true or false if the password input is valid
- * @returns {boolean}
- */
 function checkPwdInput() {
   const pwdVal = $pwdInput.val();
   const maxLength = parseInt($pwdInput.data('lengthMin'));
-  let result = false;
-
   if (isInputChange) {
     logUserInput('security_log_password_input');
     // limit textarea log to 1 event per second
@@ -115,20 +107,16 @@ function checkPwdInput() {
       isInputChange = true;
     }, 1000);
   }
-
   if (pwdVal.length >= maxLength) {
     $pwdParent.removeClass('has-error');
     $confirmInput.prop('disabled', false);
-    result = true;
   } else {
     $pwdParent.addClass('has-error');
     $confirmInput.prop('disabled', true);
   }
-
-  if (checkConfirmInput()) {
+  if (checkConfirmInput(false)) {
     checkInputsEqual();
   }
-  return result;
 }
 
 /**
@@ -171,11 +159,12 @@ function checkInputsEqual() {
  * return true or false if the confirm input is valid
  * @returns {boolean}
  */
-function checkConfirmInput() {
+function checkConfirmInput(log = true) {
   const confirmVal = $confirmInput.val();
   const maxLength = parseInt($pwdInput.data('lengthMin'));
 
-  if (isInputChange) {
+  if (isInputChange && log) {
+    logUserInput('security_log_password_input');
     // limit textarea log to 1 event per second
     isInputChange = false;
     window.setTimeout(() => {
