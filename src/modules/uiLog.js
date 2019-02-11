@@ -14,8 +14,9 @@ let logTimer = 0;
  * @param {String} source - the source dialog of the user interaction
  * @param {String} type - the type of the user interaction
  * @param {String|Array} substitutions - substitutions for type
+ * @param {Boolean} [userAction=true] - this log entry is the result of a direct user interaction on the Mailvelope UI
  */
-export function push(source, type, substitutions) {
+export function push(source, type, substitutions, userAction = true) {
   const entry = {
     source,
     sourcei18n: l10n.get(source),
@@ -33,12 +34,18 @@ export function push(source, type, substitutions) {
   } else {
     log.push(entry);
   }
+  if (userAction) {
+    showIndicator();
+  }
+}
+
+function showIndicator(duration = 2000) {
   if (logTimer) {
     clearTimeout(logTimer);
   } else {
     setBadge();
   }
-  logTimer = setTimeout(clearBadge, 2000);
+  logTimer = setTimeout(clearBadge, duration);
 }
 
 function setBadge() {

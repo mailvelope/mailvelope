@@ -159,7 +159,7 @@ async function logEncryption(source, keyring, keyFprs) {
       const {userid} = await getUserInfo(key, false);
       return userid;
     }));
-    uiLog.push(source, 'security_log_encryption_operation', [recipients.join(', ')]);
+    uiLog.push(source, 'security_log_encryption_operation', [recipients.join(', ')], false);
   }
 }
 
@@ -230,7 +230,7 @@ export async function signMessage({data, keyringId, unlockKey, signingKeyFpr}) {
   }
   try {
     const result = await keyring.getPgpBackend().sign({data, keyring, unlockKey, signingKeyFpr});
-    uiLog.push('security_log_editor', 'security_log_sign_operation', [signingKeyFpr.toUpperCase()]);
+    uiLog.push('security_log_editor', 'security_log_sign_operation', [signingKeyFpr.toUpperCase()], false);
     return result;
   } catch (e) {
     console.log('getPgpBackend().sign() error', e);
