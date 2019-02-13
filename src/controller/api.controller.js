@@ -102,8 +102,14 @@ export default class ApiController extends sub.SubController {
     await setKeyringAttr(keyringId, {logo_revision: revision, logo_data_url: dataURL});
   }
 
-  async hasPrivateKey({keyringId, fingerprint}) {
-    if (fingerprint) {
+  async hasPrivateKey({keyringId, fingerprint, email}) {
+    if (fingerprint && email) {
+      throw new MvError('Use either fingerprint or email parameter.', 'INVALID_OPTIONS');
+    }
+    if (email) {
+      const keyMap = await keyringById(keyringId).getKeyByAddress(email, {pub: false, priv: true, sort: true});
+      return Boolean(keyMap[email]);
+    } else if (fingerprint) {
       const fpr = fingerprint.toLowerCase().replace(/\s/g, '');
       const key = keyringById(keyringId).keystore.privateKeys.getForId(fpr);
       if (!key) {

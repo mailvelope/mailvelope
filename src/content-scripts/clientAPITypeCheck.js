@@ -14,6 +14,7 @@ const dataTypes = {
   options: 'object',
   recipients: 'array',
   emailAddr: 'string',
+  email: 'string',
   dataURL: 'string',
   revision: 'number',
   fingerprint: 'string',

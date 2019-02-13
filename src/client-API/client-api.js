@@ -390,11 +390,13 @@ class Keyring {
 
   /**
    * Check if keyring contains valid private key with given fingerprint
-   * @param {String} fingerprint
+   * @param {String|{fingerprint: String, email: String}} fingerprint or Object with fingerprint or email property
    * @returns {Promise.<boolean, Error>}
    */
-  hasPrivateKey(fingerprint) {
-    return send('has-private-key', {identifier: this.identifier, fingerprint}).then(result => result);
+  hasPrivateKey(query = {}) {
+    const fingerprint = typeof query === 'string' ? query : query.fingerprint;
+    const {email} = query;
+    return send('has-private-key', {identifier: this.identifier, fingerprint, email}).then(result => result);
   }
 
   /**
@@ -553,7 +555,7 @@ class Editor {
 
   /**
    * Requests the encryption of the editor content for the given recipients.
-   * @param {Array.<string>} recipients - list of email addresses for public key lookup and encryption
+   * @param {Array.<String>} recipients - list of email addresses for public key lookup and encryption
    * @returns {Promise.<AsciiArmored, Error>}
    * @throws {Error} error.code = 'ENCRYPT_IN_PROGRESS' <br>
    *                 error.code = 'NO_KEY_FOR_RECIPIENT' <br>
