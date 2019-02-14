@@ -122,10 +122,6 @@ export function normalizeArmored(msg, typeRegex) {
   return msg;
 }
 
-export function text2html(text) {
-  return encodeHTML(text).replace(/\n/g, '<br>');
-}
-
 export function html2text(html) {
   html = html.replace(/\n/g, ' '); // replace new line with space
   html = html.replace(/(<br>)/g, '\n'); // replace <br> with new line
