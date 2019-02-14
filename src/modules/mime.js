@@ -4,7 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import {html2text, encodeHTML, ab2str, text2html, byteCount, MvError} from '../lib/util';
+import {html2text, encodeHTML, ab2str, byteCount, MvError} from '../lib/util';
 import * as mailreader from '../lib/mail-reader';
 import MimeBuilder from 'emailjs-mime-builder';
 
@@ -70,19 +70,14 @@ function parseMIME(rawText, handlers, encoding) {
 }
 
 async function parseInline(rawText, handlers, encoding) {
-  if (/(<\/a>|<br>|<\/div>|<\/p>|<\/b>|<\/u>|<\/i>|<\/ul>|<\/li>)/.test(rawText)) {
-    // legacy html mode
-    if (encoding === 'html') {
-      const sanitized = mvelo.util.sanitizeHTML(rawText);
-      handlers.onMessage(sanitized);
-    } else if (encoding === 'text') {
-      handlers.onMessage(html2text(rawText));
-    }
+  if (encoding === 'html') {
+    handlers.onMessage(mvelo.util.text2autoLinkHtml(rawText));
   } else {
-    // plain text
-    if (encoding === 'html') {
-      handlers.onMessage(text2html(rawText));
-    } else if (encoding === 'text') {
+    if (/(<\/a>|<br>|<\/div>|<\/p>|<\/b>|<\/u>|<\/i>|<\/ul>|<\/li>)/.test(rawText)) {
+      // legacy html mode
+      handlers.onMessage(html2text(rawText));
+    } else {
+      // plain text
       handlers.onMessage(rawText);
     }
   }
