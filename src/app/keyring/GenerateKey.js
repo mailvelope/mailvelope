@@ -121,6 +121,9 @@ export default class GenerateKey extends React.Component {
         alert: {header: l10n.map.alert_header_success, message: l10n.map.key_gen_success, type: 'success'},
         success: true
       });
+      if (this.props.onKeyringChange) {
+        this.props.onKeyringChange();
+      }
     })
     .catch(error => {
       this.setState({
@@ -161,7 +164,7 @@ export default class GenerateKey extends React.Component {
           </div>
           <div className="form-group">
             <button onClick={this.handleGenerate} type="button" className="btn btn-primary">{l10n.map.key_gen_generate}</button>
-            <Link className="btn btn-default" to='/keyring' onClick={this.props.onKeyringChange} replace tabIndex="0">
+            <Link className="btn btn-default" to='/keyring' replace tabIndex="0">
               <span>{l10n.map.action_menu_back}</span>
             </Link>
             <button onClick={this.handleReset} type="button" className={`btn btn-default ${this.state.success ? '' : 'hide'}`}>{l10n.map.key_gen_another}</button>
