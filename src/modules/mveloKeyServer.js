@@ -6,7 +6,6 @@
 /**
  * @fileOverview A simple HTTP client for Mailvelope Key Server's REST api.
  */
-
 import {key as openpgpKey} from 'openpgp';
 import {filterUserIdsByEmail} from './key';
 

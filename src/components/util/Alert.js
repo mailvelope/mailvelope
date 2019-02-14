@@ -9,17 +9,17 @@ import PropTypes from 'prop-types';
 /**
  * Alert
  */
-export default function Alert({header, message, type}) {
+export default function Alert({header, children: message, type}) {
   return (
     <div className={`alert fade in alert-${type}`}>
       {header && <strong>{`${header} `}</strong>}
-      <span>{message}</span>
+      {message}
     </div>
   );
 }
 
 Alert.propTypes = {
   header: PropTypes.string,
-  message: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
   type: PropTypes.oneOf(['success', 'info', 'warning', 'danger'])
 };

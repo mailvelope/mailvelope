@@ -10,53 +10,34 @@ import PropTypes from 'prop-types';
 l10n.register([
   'keygrid_default_label',
   'key_set_as_default',
-  'invalid_default_key'
+  'invalid_default_key',
+  'key_default_active_btn_title',
+  'key_default_disabled_btn_title',
+  'key_default_inactive_btn_title'
 ]);
 
-export default class DefaultKeyButton extends React.Component {
-  componentDidMount() {
-    this.initTooltip();
-  }
-
-  componentDidUpdate() {
-    this.initTooltip();
-  }
-
-  initTooltip() {
-    if (this.props.disabled) {
-      $(this.defaultButton).tooltip();
-    }
-  }
-
-  render() {
-    if (this.props.isDefault) {
-      return <button type="button" className="btn btn-warning" disabled={true}>{l10n.map.keygrid_default_label}</button>;
-    } else {
-      const buttonText = (
-        <div>
-          <span className="glyphicon glyphicon-pushpin" aria-hidden="true"></span>&nbsp;
-          <span>{l10n.map.key_set_as_default}</span>
-        </div>
-      );
-      if (this.props.disabled) {
-        return (
-          <div ref={node => this.defaultButton = node} data-toggle="tooltip" data-placement="top" title={l10n.map.invalid_default_key}>
-            <button type="button" className="btn btn-default disabled">
-              {buttonText}
-            </button>
-          </div>
-        );
-      }
-      return (
-        <button type="button" className="btn btn-default" onClick={this.props.onClick}>
-          {buttonText}
-        </button>
-      );
-    }
-  }
+export default function DefaultKeyButton(props) {
+  return (
+    <>
+      {props.isDefault ? (
+        <button type="button" className={`btn btn-warning ${props.className || ''}`} disabled={true} title={l10n.map.key_default_active_btn_title}>{l10n.map.keygrid_default_label}</button>
+      ) : (
+        props.disabled ? (
+          <button type="button" className={`btn btn-default ${props.className || ''}`} disabled={true} title={l10n.map.key_default_disabled_btn_title}>
+            {l10n.map.key_set_as_default}
+          </button>
+        ) : (
+          <button type="button" className={`btn btn-default ${props.className || ''}`} onClick={props.onClick} title={l10n.map.key_default_inactive_btn_title}>
+            {l10n.map.key_set_as_default}
+          </button>
+        )
+      )}
+    </>
+  );
 }
 
 DefaultKeyButton.propTypes = {
+  className: PropTypes.string,
   isDefault: PropTypes.bool.isRequired,
   onClick: PropTypes.func,
   disabled: PropTypes.bool

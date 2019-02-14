@@ -1,0 +1,14 @@
+.icon-keyPair {
+  background-image : url(../img/private-key.png);
+}
+
+.icon-key {
+  background-image : url(../img/public-key.png);
+}
+
+.icon {
+  background-size: cover;
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+}

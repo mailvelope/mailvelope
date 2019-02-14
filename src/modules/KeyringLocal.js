@@ -4,7 +4,7 @@
  */
 
 import * as openpgp from 'openpgp';
-import {getUserId, checkKeyId} from './key';
+import {getUserInfo, checkKeyId} from './key';
 import KeyringBase from './KeyringBase';
 import * as l10n from '../lib/l10n';
 import * as keyringSync from './keyringSync';
@@ -112,16 +112,18 @@ export default class KeyringLocal extends KeyringBase {
       if (key) {
         key = key[0];
         await key.update(pubKey);
+        const {userid: userId} = await getUserInfo(pubKey);
         result.push({
           type: 'success',
-          message: l10n.get('key_import_public_update', [keyId, await getUserId(pubKey)])
+          message: l10n.get('key_import_public_update', [keyId, userId])
         });
         this.sync.add(fingerprint, keyringSync.UPDATE);
       } else {
         this.keystore.publicKeys.push(pubKey);
+        const {userid: userId} = await getUserInfo(pubKey);
         result.push({
           type: 'success',
-          message: l10n.get('key_import_public_success', [keyId, await getUserId(pubKey)])
+          message: l10n.get('key_import_public_success', [keyId, userId])
         });
         this.sync.add(fingerprint, keyringSync.INSERT);
       }
@@ -151,26 +153,29 @@ export default class KeyringLocal extends KeyringBase {
         key = key[0];
         if (key.isPublic()) {
           await privKey.update(key);
+          const {userid: userId} = await getUserInfo(privKey);
           this.keystore.publicKeys.removeForId(fingerprint);
           this.keystore.privateKeys.push(privKey);
           result.push({
             type: 'success',
-            message: l10n.get('key_import_private_exists', [keyId, await getUserId(privKey)])
+            message: l10n.get('key_import_private_exists', [keyId, userId])
           });
           this.sync.add(fingerprint, keyringSync.UPDATE);
         } else {
           await key.update(privKey);
+          const {userid: userId} = await getUserInfo(privKey);
           result.push({
             type: 'success',
-            message: l10n.get('key_import_private_update', [keyId, await getUserId(privKey)])
+            message: l10n.get('key_import_private_update', [keyId, userId])
           });
           this.sync.add(fingerprint, keyringSync.UPDATE);
         }
       } else {
         this.keystore.privateKeys.push(privKey);
+        const {userid: userId} = await getUserInfo(privKey);
         result.push({
           type: 'success',
-          message: l10n.get('key_import_private_success', [keyId, await getUserId(privKey)])
+          message: l10n.get('key_import_private_success', [keyId, userId])
         });
         this.sync.add(fingerprint, keyringSync.INSERT);
       }
@@ -190,6 +195,123 @@ export default class KeyringLocal extends KeyringBase {
     this.sync.add(removedKey.primaryKey.getFingerprint(), keyringSync.DELETE);
     await this.keystore.store();
     await this.sync.commit();
+  }
+
+  async revokeKey(unlockedKey) {
+    const {privateKey: revokedKey} = await openpgp.revokeKey({key: unlockedKey});
+    const defaultKeyFpr = await this.keystore.getDefaultKeyFpr();
+    if (defaultKeyFpr  === revokedKey.primaryKey.getFingerprint()) {
+      await this.setDefaultKey('');
+    }
+    this.sync.add(revokedKey.primaryKey.getFingerprint(), keyringSync.UPDATE);
+    const originalKey = this.getPrivateKeyByFpr(revokedKey.primaryKey.getFingerprint());
+    await originalKey.update(revokedKey);
+    await this.keystore.store();
+    await this.sync.commit();
+    return revokedKey;
+  }
+
+  async removeUser(privateKey, userId) {
+    const index = privateKey.users.findIndex(({userId: {userid}}) => userid === userId);
+    if (index !== -1) {
+      privateKey.users.splice(index, 1);
+    }
+    const fingerprint = privateKey.primaryKey.getFingerprint();
+    const defaultKeyFpr = await this.keystore.getDefaultKeyFpr();
+    const isDefault = fingerprint === defaultKeyFpr;
+    this.sync.add(fingerprint, keyringSync.DELETE);
+    this.removeKey(fingerprint, 'private');
+    this.sync.add(fingerprint, keyringSync.INSERT);
+    this.addKey(privateKey);
+    await this.keystore.store();
+    await this.sync.commit();
+    if (isDefault) {
+      await this.setDefaultKey(fingerprint);
+    }
+    return privateKey;
+  }
+
+  async revokeUser(unlockedKey, userId) {
+    const user = unlockedKey.users.find(({userId: {userid}}) => userid === userId);
+    const dataToSign = {
+      userId: user.userId,
+      userAttribute: user.userAttribute,
+      key: unlockedKey.primaryKey
+    };
+    const signingKey = await unlockedKey.getSigningKey();
+    const date = new Date();
+    const revocationSignature =  await openpgp.key.createSignaturePacket(dataToSign, null, signingKey.keyPacket, {
+      signatureType: openpgp.enums.signature.cert_revocation,
+      reasonForRevocationFlag: openpgp.enums.reasonForRevocation.no_reason,
+      reasonForRevocationString: ''
+    }, date);
+    revocationSignature.signature = await openpgp.stream.readToEnd(revocationSignature.signature);
+    user.revocationSignatures.push(revocationSignature);
+    const fingerprint = unlockedKey.primaryKey.getFingerprint();
+    const originalKey = this.getPrivateKeyByFpr(fingerprint);
+    await originalKey.users.find(({userId: {userid}}) => userid === userId).update(user, unlockedKey.primaryKey);
+    this.sync.add(fingerprint, keyringSync.UPDATE);
+    await this.keystore.store();
+    await this.sync.commit();
+    return originalKey;
+  }
+
+  async addUser(unlockedKey, user) {
+    const {user: {userId: {userid: primaryUserId}}, selfCertification: primaryUserSelfCertification} = await unlockedKey.getPrimaryUser();
+    const {key: updatedKey} = await openpgp.reformatKey({privateKey: unlockedKey, userIds: [primaryUserId, user], keyExpirationTime: primaryUserSelfCertification.keyExpirationTime});
+    const fingerprint = updatedKey.primaryKey.getFingerprint();
+    this.sync.add(fingerprint, keyringSync.UPDATE);
+    const originalKey = this.getPrivateKeyByFpr(fingerprint);
+    originalKey.users.push(updatedKey.users[1]);
+    if (primaryUserSelfCertification.isPrimaryUserID !== true) {
+      await originalKey.users.find(({userId: {userid}}) => userid === primaryUserId).update(updatedKey.users[0], unlockedKey.primaryKey);
+    }
+    await this.keystore.store();
+    await this.sync.commit();
+    return originalKey;
+  }
+
+  async setKeyExDate(unlockedKey, newExDate) {
+    const keyExpirationTime = newExDate ? (newExDate.getTime() - unlockedKey.primaryKey.created.getTime()) / 1000 : 0;
+    const filteredUserIds = [];
+    for (const user of unlockedKey.users) {
+      if (await user.verify(unlockedKey.primaryKey) === openpgp.enums.keyStatus.valid) {
+        filteredUserIds.push(user);
+      }
+    }
+    const filteredSubkeys = [];
+    for (const subkey of unlockedKey.subKeys) {
+      if (await subkey.verify(unlockedKey.primaryKey) === openpgp.enums.keyStatus.valid) {
+        filteredSubkeys.push(subkey);
+      }
+    }
+    unlockedKey.subKeys = filteredSubkeys;
+    const {key: updatedKey} = await openpgp.reformatKey({privateKey: unlockedKey, userIds: filteredUserIds.map(({userId: {userid}}) => userid), keyExpirationTime});
+    const fingerprint = updatedKey.primaryKey.getFingerprint();
+    this.sync.add(fingerprint, keyringSync.UPDATE);
+    const originalKey = this.getPrivateKeyByFpr(fingerprint);
+    await originalKey.update(updatedKey);
+    await this.keystore.store();
+    await this.sync.commit();
+    return originalKey;
+  }
+
+  async setKeyPwd(unlockedKey, passphrase) {
+    await unlockedKey.encrypt(passphrase);
+    const updatedKey = unlockedKey;
+    const fingerprint = updatedKey.primaryKey.getFingerprint();
+    const defaultKeyFpr = await this.keystore.getDefaultKeyFpr();
+    const isDefault = fingerprint === defaultKeyFpr;
+    this.sync.add(fingerprint, keyringSync.DELETE);
+    this.removeKey(fingerprint, 'private');
+    this.sync.add(fingerprint, keyringSync.INSERT);
+    this.addKey(updatedKey);
+    await this.keystore.store();
+    await this.sync.commit();
+    if (isDefault) {
+      await this.setDefaultKey(fingerprint);
+    }
+    return updatedKey;
   }
 
   async generateKey(options) {

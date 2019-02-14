@@ -9,7 +9,7 @@ import {getHash, MvError} from '../lib/util';
 import * as prefs from '../modules/prefs';
 import {SubController} from './sub.controller';
 import * as uiLog from '../modules/uiLog';
-import {getUserId} from '../modules/key';
+import {getUserInfo} from '../modules/key';
 import * as pwdCache from '../modules/pwdCache';
 
 export default class PwdController extends SubController {
@@ -33,8 +33,9 @@ export default class PwdController extends SubController {
 
   async onPwdDialogInit() {
     // pass over keyId and userId to dialog
+    const {userid} = await getUserInfo(this.options.key, false);
     this.ports.pwdDialog.emit('set-init-data', {
-      userId: await getUserId(this.options.key, false),
+      userId: userid,
       keyId: this.options.key.primaryKey.getKeyId().toHex().toUpperCase(),
       cache: prefs.prefs.security.password_cache,
       reason: this.options.reason

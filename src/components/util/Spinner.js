@@ -28,8 +28,10 @@ export default class Spinner extends React.Component {
 
   render() {
     return (
-      <div className={`m-spinner ${this.state.hide ? 'hide' : ''}`} style={this.props.style}>
-        <div className="bounce1"></div><div className="bounce2"></div><div className="bounce3"></div>
+      <div className={`m-spinner-${this.props.fullscreen ? 'fullscreen' : 'inline'} ${this.state.hide ? 'hide' : ''}`} style={this.props.style}>
+        <div className="symbol">
+          <div className="bounce1"></div><div className="bounce2"></div><div className="bounce3"></div>
+        </div>
       </div>
     );
   }
@@ -37,9 +39,11 @@ export default class Spinner extends React.Component {
 
 Spinner.propTypes = {
   style: PropTypes.object,
-  delay: PropTypes.number
+  delay: PropTypes.number,
+  fullscreen: PropTypes.bool
 };
 
 Spinner.defaultProps = {
-  delay: 400
+  delay: 400,
+  fullscreen: false
 };

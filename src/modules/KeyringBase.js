@@ -7,7 +7,7 @@ import {filterAsync, toArray, MvError} from '../lib/util';
 import * as openpgp from 'openpgp';
 import {goog} from './closure-library/closure/goog/emailaddress';
 import {getKeyringAttr} from './keyring';
-import {mapKeys, mapSubKeys, mapUsers, mapKeyUserIds, getUserId, isValidEncryptionKey, sortKeysByCreationDate} from './key';
+import {mapKeys, mapSubKeys, mapUsers, mapKeyUserIds, getUserInfo, isValidEncryptionKey, sortKeysByCreationDate} from './key';
 import * as trustKey from './trustKey';
 import {upload as mveloKeyServerUpload} from './mveloKeyServer';
 
@@ -67,9 +67,9 @@ export default class KeyringBase {
     if (keys) {
       const key = keys[0];
       // subkeys
-      await mapSubKeys(key.subKeys, details, key.primaryKey);
+      await mapSubKeys(key.subKeys, details, key);
       // users
-      await mapUsers(key.users, details, this.keystore, key.primaryKey);
+      await mapUsers(key.users, details, this.keystore, key);
       // key is valid default key
       details.validDefaultKey = await this.validateDefaultKey(key);
       return details;
@@ -115,7 +115,8 @@ export default class KeyringBase {
           }
         } else {
           // only consider primary user
-          const user = {userId: await getUserId(key)};
+          const {userid: userId} = await getUserInfo(key);
+          const user = {userId};
           mapKeyUserIds(user);
           keyData.users = [user];
         }
@@ -282,6 +283,15 @@ export default class KeyringBase {
       throw new Error('removeKey: key not found');
     }
     return removedKey;
+  }
+
+  addKey(key) {
+    if (key.isPublic()) {
+      this.keystore.publicKeys.push(key);
+    } else {
+      this.keystore.privateKeys.push(key);
+    }
+    return key;
   }
 
   /**
