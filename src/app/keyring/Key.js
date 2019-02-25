@@ -182,7 +182,12 @@ export default class Key extends React.Component {
   async handleKeyServerSync({sync}) {
     this.setState({processing: true});
     try {
-      await port.send('sync-keyserver', {fingerprint: this.state.keyDetails.fingerprint, keyringId: this.context.keyringId, sync});
+      let emails = [];
+      if (sync === 'update') {
+        emails = this.state.keyDetails.users.filter(({remote}) => remote).map(({email}) => email);
+        sync = true;
+      }
+      await port.send('sync-keyserver', {emails, fingerprint: this.state.keyDetails.fingerprint, keyringId: this.context.keyringId, sync});
     } catch (e) {
       /* e.g. keyserver not available */
       console.log(e);
@@ -208,7 +213,7 @@ export default class Key extends React.Component {
             type: 'warning',
             text: l10n.map.key_keyserver_mod,
             btnText: l10n.map.key_keyserver_update_btn,
-            handler: {sync: true}
+            handler: {sync: 'update'}
           };
           break;
         default:

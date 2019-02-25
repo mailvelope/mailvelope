@@ -227,9 +227,9 @@ export default class User extends React.Component {
   async handleKeyServerSync({sync}) {
     this.setState({processing: true});
     try {
-      await port.send('sync-keyserver', {email: this.state.user.email, fingerprint: this.state.keyDetails.fingerprint, keyringId: this.context.keyringId, sync});
+      await port.send('sync-keyserver', {emails: [this.state.user.email], fingerprint: this.state.keyDetails.fingerprint, keyringId: this.context.keyringId, sync});
     } catch (e) {
-      /* e.g. keyserver not available */
+      // e.g. keyserver not available
       console.log(e);
     }
     this.setState({
@@ -283,7 +283,7 @@ export default class User extends React.Component {
     return (
       <Alert type={data.type}>
         <span className="margin-right-sm">{data.text}</span>
-        {(this.state.keyDetails.validity && data.btnText) && <button type="button" onClick={() => this.handleKeyServerSync(data.handler)} className="margin-right-sm btn btn-sm btn-default">{data.btnText}</button>}
+        {(this.state.keyDetails.validity && data.btnText && (this.state.user.remote || this.state.user.status === PGP_KEYSTATUS_VALID)) && <button type="button" onClick={() => this.handleKeyServerSync(data.handler)} className="margin-right-sm btn btn-sm btn-default">{data.btnText}</button>}
         {(this.state.user.remote && !this.state.syncAction) && <button type="button" onClick={() => this.handleKeyServerSync({sync: false})} className="btn btn-sm btn-default">{l10n.map.user_keyserver_remove_btn}</button>}
       </Alert>
     );

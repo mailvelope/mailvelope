@@ -24,3 +24,4 @@ atlassian-ide-plugin.xml
 *~
 .directory
 mailvelope.iml
+.npmrc
