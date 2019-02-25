@@ -38,7 +38,7 @@ export function init() {
   if (!window.mailvelope) {
     $('<script/>', {
       id: 'mailvelope-api',
-      src: chrome.runtime.getURL('client-API/mailvelope-client-api.js'),
+      src: chrome.runtime.getURL('/client-API/mailvelope-client-api.js'),
       'data-version': prefs.version
     }).appendTo($('head'));
   }

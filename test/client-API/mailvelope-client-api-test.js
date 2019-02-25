@@ -5,14 +5,14 @@ import * as main from 'controller/main.controller';
 import * as api from 'content-scripts/clientAPI';
 import * as keyring from 'modules/keyring';
 
+// TODO: This should be moved somewhere else.
+api.default.__Rewire__('prefs', {version: '1.2.3-dev'});
 api.init();
-main.initController();
 
 /* global mailvelope */
 describe('Mailvelope Client API', () => {
   describe('Versioning', () => {
     it('reports its version', () => {
-      api.default.__Rewire__('prefs', {version: '1.2.3-dev'});
       return expect(mailvelope.getVersion()).to.eventually.equal('1.2.3');
     });
   });
