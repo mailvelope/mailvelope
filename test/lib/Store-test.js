@@ -1,7 +1,6 @@
 import {expect} from 'test';
 import Store from 'lib/Store';
 
-
 describe('Test basic store functionality', () => {
   it('returns undefined for new key', () => {
     const store = new Store('id');
