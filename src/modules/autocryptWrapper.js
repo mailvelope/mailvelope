@@ -43,7 +43,11 @@ export function lookup(email, identity) {
       if (err) {
         reject(err);
       } else {
-        resolve(record && armor(record.keydata));
+        const result = record && {
+          armored: armor(record.keydata),
+          date: new Date(record.last_seen_autocrypt)
+        };
+        resolve(result);
       }
     });
   });

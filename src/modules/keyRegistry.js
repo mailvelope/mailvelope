@@ -46,10 +46,10 @@ export async function lookup(email, identity, source) {
       continue;
     }
     try {
-      const armored = await strategy.lookup(email, identity);
-      if (armored) {
+      const result = await strategy.lookup(email, identity);
+      if (result) {
         return {
-          content: armored,
+          content: result.armored,
           source: strategy.name
         };
       }

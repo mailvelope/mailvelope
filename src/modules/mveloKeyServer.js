@@ -65,7 +65,11 @@ export async function lookup(email) {
     throw new Error(`mveloKeyServer: Response '${jsonKey}': contained no matching userIds.`);
   }
   console.log(`mveloKeyServer: fetched key: '${filtered.primaryKey.getFingerprint()}'`);
-  return filtered.armor();
+  const result = {
+    armored: filtered.armor(),
+    date: new Date
+  };
+  return result;
 }
 
 /**

@@ -30,7 +30,7 @@ describe('Test basic autocrypt wrapper functionality', () => {
       await autocryptWrapper.processHeader(headers, 'id');
       const result = await autocryptWrapper.lookup(addr, 'id');
       // fixture keys have checksum which autocrypt keys do not.
-      expect(result.slice(0, 17)).to.equal(testKeys.api_test_pub.slice(0, 17));
+      expect(result.armored.slice(0, 17)).to.equal(testKeys.api_test_pub.slice(0, 17));
     });
 
     it('rejects headers larger than 8k', async () => {
@@ -55,7 +55,7 @@ describe('Test basic autocrypt wrapper functionality', () => {
       await autocryptWrapper.processHeader(headers, 'id2');
       const result = await autocryptWrapper.lookup(addr, 'id2');
       // fixture keys have checksum which autocrypt keys do not.
-      expect(result.slice(0, 17)).to.equal(testKeys.api_test_pub.slice(0, 17));
+      expect(result.armored.slice(0, 17)).to.equal(testKeys.api_test_pub.slice(0, 17));
     });
 
     it('stores the keys separately per identity', async () => {

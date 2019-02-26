@@ -76,7 +76,7 @@ export async function lookup(email) {
   // Now we should have binary keys in the response.
   const armored = await parseKeysForEMail(data, email);
 
-  return armored;
+  return {armored, date: new Date};
 }
 
 /**
