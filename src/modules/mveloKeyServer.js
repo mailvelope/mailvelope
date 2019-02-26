@@ -80,14 +80,19 @@ export async function fetch(options) {
  * Upload a public key to the server for verification by the user. Normally
  * a verification mail is sent out to all of the key's user ids, unless a primary
  * email attribute is supplied. In which case only one email is sent.
+ * @param {Array} options.emails              (optional) Specify the user ids by email address to upload
  * @param {string} options.publicKeyArmored   The ascii armored key block
  * @yield {undefined}
  */
-export async function upload({publicKeyArmored}) {
+export async function upload({emails, publicKeyArmored}) {
+  const body = {publicKeyArmored};
+  if (emails) {
+    body.emails = emails;
+  }
   const response = await window.fetch(url(), {
     method: 'POST',
     headers: new Headers({'Content-Type': 'application/json'}),
-    body: JSON.stringify({publicKeyArmored})
+    body: JSON.stringify(body)
   });
   checkStatus(response);
 }

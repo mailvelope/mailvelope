@@ -125,34 +125,42 @@ export default class AppController extends sub.SubController {
     try {
       const localKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint).toPublic();
       const remote = await mveloKeyServer.fetch({fingerprint});
-      if (remote) {
-        /* found key on server */
-        for (const userId of remote.userIds) {
-          /* get remote user IDs */
-          result.userIds[userId.email] = userId.verified;
-        }
-        const {keys: [remoteKey]} = await openpgpKey.readArmored(remote.publicKeyArmored);
-        const remoteKeyModTime = new Date(getLastModifiedDate(remoteKey)).getTime();
-        const localKeyModTime = new Date(getLastModifiedDate(localKey)).getTime();
-        /* check for key modifications */
-        if (remoteKeyModTime !== localKeyModTime) {
-          result.status = 'mod';
-        } else {
-          result.status = 'sync';
-        }
+      if (!remote) {
+        return result;
+      }
+      // found key on server
+      for (const userId of remote.userIds) {
+        // get remote user IDs
+        result.userIds[userId.email] = userId.verified;
+      }
+      // filter local user IDs to match remote userIDs
+      localKey.users = localKey.users.filter(({userId: {email}}) => Object.keys(result.userIds).includes(email) && result.userIds[email]);
+      const {keys: [remoteKey]} = await openpgpKey.readArmored(remote.publicKeyArmored);
+      const remoteKeyModTime = new Date(getLastModifiedDate(remoteKey)).getTime();
+      const localKeyModTime = new Date(getLastModifiedDate(localKey)).getTime();
+      if (remoteKeyModTime !== localKeyModTime) {
+        result.status = 'mod';
+      } else {
+        result.status = 'sync';
       }
     } catch (e) {}
     return result;
   }
 
-  async syncKeyServer({fingerprint, keyringId, sync}) {
+  async syncKeyServer({emails, fingerprint, keyringId, sync}) {
     let result;
     const privateKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
     if (sync) {
-      result = await mveloKeyServer.upload({publicKeyArmored: privateKey.toPublic().armor()});
+      result = await mveloKeyServer.upload({emails, publicKeyArmored: privateKey.toPublic().armor()});
     } else {
-      const keyId = privateKey.primaryKey.getKeyId().toHex();
-      result = await mveloKeyServer.remove({keyId});
+      let options;
+      if (emails.length) {
+        options = {email: emails[0]};
+      } else {
+        const keyId = privateKey.primaryKey.getKeyId().toHex();
+        options = {keyId};
+      }
+      result = await mveloKeyServer.remove(options);
     }
     return result;
   }
