@@ -236,8 +236,8 @@ function importPublicKey({keyringId, armored}) {
   return controllerPort.send('import-pub-key', {keyringId, armored});
 }
 
-function lookupPublicKey({keyringId, emailAddr, source}) {
-  return controllerPort.send('lookup-pub-key', {keyringId, emailAddr, source});
+function lookupPublicKey({keyringId, emailAddr}) {
+  return controllerPort.send('lookup-pub-key', {keyringId, emailAddr});
 }
 
 function processAutocryptHeader({keyringId, headers}) {

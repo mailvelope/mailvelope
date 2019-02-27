@@ -273,21 +273,23 @@ class Keyring {
   /**
    * @typedef {Object} LookupResult
    * @property {AsciiArmored} content - Armored public key
-   * @property {String} source - see sources in lookupPublicKey.
+   * @property {String} source - Source the key was found at <br>
+   *                             Sources currently available are: <br>
+   *                               * 'WKD' - web key directory <br>
+   *                               * 'MKS' - mailvelope key server <br>
+   *                               * 'AC' - autocrypt
+   * TODO: @property {String} fingerprint - Fingerprint of the key
+   * TODO: @property {Date} lastModified - last time the key was modified
+   * TODO: @property {Date} lastSeen - last time the key was seen
    */
 
   /**
    * Looks up a fitting public key from different sources.
    * @param {String} emailAddr  - Email to look the public key up for
-   * @param {String} source - the source to query. Will query all if left blank.
-   *                          Sources currently available are:
-   *                            * 'WKD' - web key directory
-   *                            * 'MKS' - mailvelope key server
-   *                            * 'AC' - autocrypt
    * @returns {Promise.<LookupResult, Error>}
    */
-  lookupPublicKey(emailAddr, source) {
-    return postMessage('lookup-pub-key', {identifier: this.identifier, emailAddr, source});
+  lookupPublicKey(emailAddr) {
+    return postMessage('lookup-pub-key', {identifier: this.identifier, emailAddr});
   }
 
   /**

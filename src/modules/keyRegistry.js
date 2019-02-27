@@ -34,14 +34,10 @@ const strategies = [mveloKeyServer, wkd, autocrypt];
  * @param {String} email    - The user id's email address
  * @param {String} identity - The id of the keyring that is currently <br/>
  *                             being used.
- * @param {String} source - the source to query. Will query all if left blank.
  * @return {Object, undefined} - {content: armored key, source}
  */
-export async function lookup(email, identity, source) {
+export async function lookup(email, identity) {
   for (const strategy of strategies) {
-    if (source && (source !== strategy.name)) {
-      continue;
-    }
     if (!strategy.isEnabled()) {
       continue;
     }
