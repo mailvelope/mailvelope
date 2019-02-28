@@ -16,7 +16,7 @@ import AdvancedExpand from './components/AdvancedExpand';
 import AdvKeyGenOptions from './components/AdvKeyGenOptions';
 import DefinePassword from './components/DefinePassword';
 import GenerateWait from './components/GenerateWait';
-import Alert from '../../components/util/Alert';
+import Alert from '../../components/util/AlertBS4';
 import {Link} from 'react-router-dom';
 
 l10n.register([
@@ -120,7 +120,7 @@ export default class GenerateKey extends React.Component {
       this.setState({
         alert: {header: l10n.map.alert_header_success, message: l10n.map.key_gen_success, type: 'success'},
         success: true
-      });
+      }, this.handleReset());
       if (this.props.onKeyringChange) {
         this.props.onKeyringChange();
       }
@@ -141,33 +141,26 @@ export default class GenerateKey extends React.Component {
 
   render() {
     return (
-      <div className={this.state.generating ? 'busy' : ''}>
-        <h3 className="logo-header">
-          <span>{l10n.map.keyring_generate_key}</span>
-        </h3>
+      <div className={`card-body ${this.state.generating ? 'busy' : ''}`}>
+        <h4>{l10n.map.keyring_generate_key}</h4>
         <form className="form" autoComplete="off">
-          <NameAddrInput name={this.state.name} email={this.state.email} onChange={this.handleChange} disabled={this.state.success} errors={this.state.errors} />
+          <NameAddrInput name={this.state.name} email={this.state.email} onChange={this.handleChange} errors={this.state.errors} />
           <AdvancedExpand>
-            <AdvKeyGenOptions value={this.state} onChange={this.handleChange} disabled={this.state.success} />
+            <AdvKeyGenOptions value={this.state} onChange={this.handleChange} />
           </AdvancedExpand>
-          {!this.context.gnupg && <DefinePassword value={this.state.password} errors={this.state.errors} onChange={this.handleChange} disabled={this.state.success} />}
-          <div className={`form-group ${this.context.demail ? 'hide' : ''}`}>
-            <div className="checkbox">
-              <label className="checkbox" htmlFor="mveloKeyServerUpload">
-                <input checked={this.state.mveloKeyServerUpload} onChange={this.handleChange} type="checkbox" id="mveloKeyServerUpload" disabled={this.state.success} />
-                <span>{l10n.map.key_gen_upload}</span>. <a href="https://keys.mailvelope.com" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a>
-              </label>
-            </div>
+          {!this.context.gnupg && <DefinePassword value={this.state.password} errors={this.state.errors} onChange={this.handleChange} />}
+          <div className={`custom-control custom-checkbox ${this.context.demail ? 'd-none' : ''}`}>
+            <input className="custom-control-input" checked={this.state.mveloKeyServerUpload} onChange={this.handleChange} type="checkbox" id="mveloKeyServerUpload" />
+            <label className="custom-control-label" htmlFor="mveloKeyServerUpload"><span>{l10n.map.key_gen_upload}</span>. <a href="https://keys.mailvelope.com" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
           </div>
           <div className="form-group">
             {this.state.alert && <Alert header={this.state.alert.header} type={this.state.alert.type}>{this.state.alert.message}</Alert>}
           </div>
           <div className="form-group">
             <button onClick={this.handleGenerate} type="button" className="btn btn-primary">{l10n.map.key_gen_generate}</button>
-            <Link className="btn btn-default" to='/keyring' replace tabIndex="0">
+            <Link className="btn btn-secondary" to='/keyring' replace tabIndex="0">
               <span>{l10n.map.action_menu_back}</span>
             </Link>
-            <button onClick={this.handleReset} type="button" className={`btn btn-default ${this.state.success ? '' : 'hide'}`}>{l10n.map.key_gen_another}</button>
           </div>
         </form>
         {this.state.generating && <GenerateWait onShow={this.generateKey} />}

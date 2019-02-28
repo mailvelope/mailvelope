@@ -32,26 +32,33 @@ export default class KeySelect extends React.Component {
     const selectedKey = this.props.keys[this.state.selectedIndex];
     return (
       <div className="keySelect dropdown">
-        <button type="button" className="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {this.state.selectedIndex === 0 ? (
-            <strong>{l10n.map.keygrid_primary_key}</strong>
-          ) : (
-            l10n.map.keygrid_subkey
-          )}
-          <span className="caret pull-right"></span>
-          <span className="margin-left-md text-muted"><em>{selectedKey.keyId}</em></span>
+        <button className="btn btn-secondary btn-sm dropdown-toggle d-flex align-items-center w-100" type="button" data-toggle="dropdown" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="true">
+          <span className="mr-auto">
+            {this.state.selectedIndex === 0 ? (
+              <span className="font-weight-bolder">{l10n.map.keygrid_primary_key}</span>
+            ) : (
+              l10n.map.keygrid_subkey
+            )}
+          </span>
+          <span className="small text-right mr-1"><em>{selectedKey.keyId}</em></span>
         </button>
-        <ul className="dropdown-menu">
-          <li className="text-left"><a onClick={() => this.handleClick(0)}><strong>{l10n.map.keygrid_primary_key}</strong> <span className="margin-left-md text-muted"><em>{this.props.keys[0].keyId}</em></span></a></li>
+        <div className="dropdown-menu w-100" aria-labelledby="dropdownMenuButton" role="menu">
+          <a className="dropdown-item px-2 d-flex w-auto justify-content-between overflow-hidden" onClick={() => this.handleClick(0)}>
+            <span className="font-weight-bolder">{l10n.map.keygrid_primary_key}</span>
+            <span className="small text-right mr-3"><em>{this.props.keys[0].keyId}</em></span>
+          </a>
           {this.props.keys.length > 1 &&
-            <li role="separator" className="divider"></li>
+            <div className="dropdown-divider"></div>
           }
           {this.props.keys.length > 1 &&
             this.props.keys.filter((key, index) => index > 0).map((key, index) =>
-              <li key={index + 1} className="text-left"><a onClick={() => this.handleClick(index + 1)}>{l10n.map.keygrid_subkey} <span className="margin-left-md text-muted"><em>{key.keyId}</em></span></a></li>
+              <a key={index + 1} className="dropdown-item px-2 d-flex justify-content-between w-auto overflow-hidden" onClick={() => this.handleClick(index + 1)}>
+                <span>{l10n.map.keygrid_subkey}</span>
+                <span className="small text-right mr-3"><em>{key.keyId}</em></span>
+              </a>
             )
           }
-        </ul>
+        </div>
       </div>
     );
   }

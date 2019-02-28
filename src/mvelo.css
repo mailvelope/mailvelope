@@ -9,9 +9,9 @@ textarea.form-control:active, textarea.form-control:focus {
   box-shadow: none;
 }
 
-.btn {
+/*.btn {
   min-width: 70px;
-}
+}*/
 
 .btn, .btn-link, .btn:active, .btn-link:active, .btn:focus, .btn-link:focus {
   outline: none !important;
@@ -175,10 +175,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 @media (max-width:767px) {
   /* Responsive table */
-  .table-responsive-custom {
+ /* .table-responsive-custom {
     overflow:auto;
     width: 100%;
-  }
+  }*/
 
   .table-responsive-custom th:nth-child(4),
   .table-responsive-custom td:nth-child(4),

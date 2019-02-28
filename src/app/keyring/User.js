@@ -16,8 +16,8 @@ import NameAddrInput from './components/NameAddrInput';
 import UserSignatures from './components/UserSignatures';
 import KeyStatus from './components/KeyStatus';
 import Spinner from '../../components/util/Spinner';
-import ModalDialog from '../../components/util/ModalDialog';
-import Alert from '../../components/util/Alert';
+import Modal from '../../components/util/Modal';
+import Alert from '../../components/util/AlertBS4';
 
 import './User.css';
 
@@ -284,8 +284,8 @@ export default class User extends React.Component {
     return (
       <Alert type={data.type}>
         <span className="margin-right-sm">{data.text}</span>
-        {(this.state.keyDetails.validity && data.btnText && (this.state.user.remote || this.state.user.status === PGP_KEYSTATUS_VALID)) && <button type="button" onClick={() => this.handleKeyServerSync(data.handler)} className="margin-right-sm btn btn-sm btn-default">{data.btnText}</button>}
-        {(this.state.user.remote && !this.state.syncAction) && <button type="button" onClick={() => this.handleKeyServerSync({sync: false})} className="btn btn-sm btn-default">{l10n.map.user_keyserver_remove_btn}</button>}
+        {(this.state.keyDetails.validity && data.btnText && (this.state.user.remote || this.state.user.status === PGP_KEYSTATUS_VALID)) && <button type="button" onClick={() => this.handleKeyServerSync(data.handler)} className="btn btn-sm btn-secondary mr-1">{data.btnText}</button>}
+        {(this.state.user.remote && !this.state.syncAction) && <button type="button" onClick={() => this.handleKeyServerSync({sync: false})} className="btn btn-sm btn-secondary">{l10n.map.user_keyserver_remove_btn}</button>}
       </Alert>
     );
   }
@@ -295,89 +295,50 @@ export default class User extends React.Component {
       return <Redirect to={`/keyring/key/${this.props.match.params.keyFpr}`} />;
     }
     return (
-      <div className="user">
-        <ol className="breadcrumb">
-          <li><Link to={`/keyring/key/${this.props.match.params.keyFpr}`} replace tabIndex="0"><span className="glyphicon glyphicon-menu-left" aria-hidden="true"></span> {this.state.keyDetails.name}</Link></li>
-        </ol>
+      <div className="card-body user">
+        <nav aria-label="breadcrumb">
+          <ol className="breadcrumb bg-transparent p-0 mb-0">
+            <li className="breadcrumb-item"><Link to={`/keyring/key/${this.props.match.params.keyFpr}`} replace tabIndex="0"><i className="fa fa-angle-double-left" aria-hidden="true"></i> {this.state.keyDetails.name}</Link></li>
+          </ol>
+        </nav>
         {this.state.loading ? (
           <Spinner delay={0} />
         ) : (
           <>
-            <nav className="navbar">
-              <div className="container-fluid">
-                <div className="navbar-header">
-                  <div className="navbar-brand">
-                    {this.props.match.params.userIdx !== 'add' ? (
-                      <>
-                        <span>{l10n.map.user_title}</span>
-                        <KeyStatus className="margin-left-sm" status={this.state.user.status} />
-                      </>
-                    ) : (
-                      <span>{l10n.map.user_create_title}</span>
-                    )}
-                  </div>
-                </div>
-                {this.state.keyDetails.type !== 'public' &&
-                  <div className="collapse navbar-collapse">
-                    <div className="navbar-form navbar-right">
-                      {this.props.match.params.userIdx === 'add' && <button type="button" onClick={this.handleAdd} className="btn btn-primary">{l10n.map.user_create_btn}</button>}
-                      {(!this.context.gnupg && this.props.match.params.userIdx !== 'add') &&
-                        <>
-                          <button type="button" onClick={() => this.setState({showDeleteModal: true})} className="btn btn-default margin-left-sm" disabled={!this.state.allowToRemove} title={l10n.map.user_remove_btn_title}>{l10n.map.user_remove_btn}</button>
-                          <button type="button" onClick={() => this.setState({showRevokeModal: true})} className="btn btn-default margin-left-sm" disabled={!this.state.allowToRevoke} title={l10n.map.user_revoke_btn_title}>{l10n.map.user_revoke_btn}</button>
-                        </>
-                      }
-                    </div>
-                  </div>
-                }
+            <div className="d-flex align-items-center justify-content-between mb-3">
+              <div className="d-inline-flex">
+                {this.props.match.params.userIdx !== 'add' ? (
+                  <h4 className="mb-0">{l10n.map.user_title} <KeyStatus className="ml-1" status={this.state.user.status} /></h4>
+                ) : (
+                  <h4>{l10n.map.user_create_title}</h4>
+                )}
               </div>
-            </nav>
-            <div className="row margin-bottom-md">
-              <div className="col-sm-6">
+              {this.state.keyDetails.type !== 'public' &&
+                <div>
+                  {this.props.match.params.userIdx === 'add' && <button type="button" onClick={this.handleAdd} className="btn btn-secondary">{l10n.map.user_create_btn}</button>}
+                  {(!this.context.gnupg && this.props.match.params.userIdx !== 'add') &&
+                    <>
+                      <button type="button" onClick={() => this.setState({showDeleteModal: true})} className="btn btn-secondary ml-1" disabled={!this.state.allowToRemove} title={l10n.map.user_remove_btn_title}>{l10n.map.user_remove_btn}</button>
+                      <button type="button" onClick={() => this.setState({showRevokeModal: true})} className="btn btn-secondary ml-1" disabled={!this.state.allowToRevoke} title={l10n.map.user_revoke_btn_title}>{l10n.map.user_revoke_btn}</button>
+                    </>
+                  }
+                </div>
+              }
+            </div>
+            <div className="row">
+              <div className="col-md-6">
                 {this.props.match.params.userIdx === 'add' ? (
                   <form>
                     <NameAddrInput name={this.state.user.name || ''} email={this.state.user.email || ''} onChange={this.handleChange} errors={this.state.errors} />
                   </form>
                 ) : (
-                  <div className="form-horizontal margin-top-md">
-                    <div className="form-group">
-                      <label className="col-sm-4 col-lg-3 control-label">{l10n.map.keygrid_user_name}</label>
-                      <div className="col-sm-8 col-lg-9 text-only">
-                        {this.state.user.name}
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <label className="col-sm-4 col-lg-3 control-label">{l10n.map.keygrid_user_email}</label>
-                      <div className="col-sm-8 col-lg-9 text-only">
-                        {this.state.user.email}
-                      </div>
-                    </div>
-                  </div>
+                  <dl className="row d-flex align-items-center">
+                    <dt className="col-sm-3 mb-2">{l10n.map.keygrid_user_name}</dt>
+                    <dd className="col-sm-9">{this.state.user.name}</dd>
+                    <dt className="col-sm-3 mb-2">{l10n.map.keygrid_user_email}</dt>
+                    <dd className="col-sm-9">{this.state.user.email}</dd>
+                  </dl>
                 )}
-              </div>
-              <div className="col-sm-6 col-md-5 col-md-offset-1">
-                {(this.props.match.params.userIdx !== 'add' && this.state.showDetails) &&
-                  <div className="form-horizontal margin-top-md">
-                    <div className="form-group">
-                      <label className="col-sm-4 col-lg-3 control-label">{l10n.map.keygrid_validity_status}</label>
-                      <div className="col-sm-8 col-lg-9 text-only">
-                        <KeyStatus status={this.state.user.status} />
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <label className="col-sm-4 col-lg-3 control-label">{l10n.map.keydetails_creation_date}</label>
-                      <div className="col-sm-8 col-lg-9 text-only">
-                        {moment(this.state.user.crDate).format('L')}
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <label className="col-sm-4 col-lg-3 control-label">{l10n.map.keydetails_expiration_date}</label>
-                      <div className="col-sm-8 col-lg-9 text-only">
-                        {this.state.user.exDate ? moment(this.state.user.exDate).format('L') : l10n.map.keydetails_key_not_expire}
-                      </div>
-                    </div>
-                  </div>
-                }
               </div>
             </div>
             {(this.props.match.params.userIdx !== 'add' && this.state.keyDetails.type !== 'public') &&
@@ -390,40 +351,40 @@ export default class User extends React.Component {
           <Spinner fullscreen={true} delay={0} />
         }
         {this.state.showDeleteModal &&
-          <ModalDialog ref={modal => this.modal = modal} size="small" headerClass="text-center" title={l10n.map.user_remove_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
-            <div className="text-center">
+          <Modal ref={modal => this.modal = modal} size="small" title={l10n.map.user_remove_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
+            <div>
               <p>{l10n.map.user_remove_dialog_confirmation}</p>
               {this.state.user.remote &&
                 <Alert type="warning" header={l10n.map.header_warning}>
                   {l10n.map.user_remove_dialog_keyserver_warning}
                 </Alert>
               }
-              <div className="row gutter-5">
-                <div className="col-xs-6">
-                  <button type="button" className="btn btn-default btn-block" data-dismiss="modal">{l10n.map.dialog_no_btn}</button>
+              <div className="row no-gutters">
+                <div className="col-6 pr-1">
+                  <button type="button" className="btn btn-secondary btn-block" data-dismiss="modal">{l10n.map.dialog_no_btn}</button>
                 </div>
-                <div className="col-xs-6">
+                <div className="col-6 pl-1">
                   <button type="button" onClick={() => this.processDelete = true} className="btn btn-primary btn-block" data-dismiss="modal">{l10n.map.dialog_yes_btn}</button>
                 </div>
               </div>
             </div>
-          </ModalDialog>
+          </Modal>
         }
         {this.state.showRevokeModal &&
-          <ModalDialog ref={modal => this.modal = modal} size="small" headerClass="text-center" title={l10n.map.user_revoke_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
-            <div className="text-center">
+          <Modal ref={modal => this.modal = modal} size="small" title={l10n.map.user_revoke_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
+            <div>
               <p>{l10n.map.user_revoke_dialog_description}</p>
               <p><strong>{l10n.map.user_revoke_dialog_confirmation}</strong></p>
-              <div className="row gutter-5">
-                <div className="col-xs-6">
-                  <button type="button" className="btn btn-default btn-block" data-dismiss="modal">{l10n.map.dialog_no_btn}</button>
+              <div className="row no-gutters">
+                <div className="col-6 pr-1">
+                  <button type="button" className="btn btn-secondary btn-block" data-dismiss="modal">{l10n.map.dialog_no_btn}</button>
                 </div>
-                <div className="col-xs-6">
+                <div className="col-6 pl-1">
                   <button type="button" onClick={() => this.processRevoke = true} className="btn btn-primary btn-block" data-dismiss="modal">{l10n.map.dialog_yes_btn}</button>
                 </div>
               </div>
             </div>
-          </ModalDialog>
+          </Modal>
         }
       </div>
     );

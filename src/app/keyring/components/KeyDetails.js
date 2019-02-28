@@ -13,8 +13,8 @@ import DatePicker from './DatePicker';
 import DefinePassword from './DefinePassword';
 import KeySelect from './KeySelect';
 import KeyStatus from './KeyStatus';
-import ModalDialog from '../../../components/util/ModalDialog';
-import Alert from '../../../components/util/Alert';
+import Modal from '../../../components/util/Modal';
+import Alert from '../../../components/util/AlertBS4';
 
 import './KeyDetails.css';
 
@@ -181,94 +181,69 @@ export default class KeyDetails extends React.Component {
     const selectedKey = this.state.keys[this.state.selectedKeyIdx];
     return (
       <div className="keyDetails">
-        <div className="panel panel-default">
-          <div className="panel-heading clearfix">
-            <h4 className="pull-left text-muted">{l10n.map.keydetails_title}</h4>
-            <div className="pull-right">
-              <KeySelect keys={this.state.keys} selectedKeyIdx={this.state.selectedKeyIdx} onChange={index => this.handleChangeKey(index)} />
-            </div>
+        <div className="card">
+          <div className="card-header d-flex align-items-center justify-content-between">
+            <h5 className="text-muted m-0">{l10n.map.keydetails_title}</h5>
+            <KeySelect keys={this.state.keys} selectedKeyIdx={this.state.selectedKeyIdx} onChange={index => this.handleChangeKey(index)} />
           </div>
-          <div className="panel-body">
+          <div className="card-body">
             <div className="row">
-              <form className="form-horizontal">
-                <div className="col-md-5">
-                  <div className="form-group">
-                    <label className="col-sm-3 control-label">{l10n.map.keygrid_validity_status}</label>
-                    <div className="col-sm-9 text-only">
-                      <KeyStatus status={selectedKey.status} />
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <label className="col-sm-3 control-label">{l10n.map.keydetails_creation_date}</label>
-                    <div className="col-sm-9 text-only">
-                      {moment(selectedKey.crDate).format('L')}
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <label className="col-sm-3 control-label">{l10n.map.keydetails_expiration_date}</label>
-                    <div className="col-sm-9">
-                      {!this.context.gnupg && this.props.keyDetails.type !== 'public' && this.state.selectedKeyIdx === 0 ? (
-                        <div className="input-group input-group-sm">
-                          <input type="text" readOnly className="form-control" value={this.state.exDateInput !== null ? this.state.exDateInput.format('L') : l10n.map.keydetails_key_not_expire} />
-                          <span className="input-group-btn">
-                            <button onClick={() => this.setState({showExDateModal: true})} className="btn btn-sm btn-default" type="button" disabled={!this.props.keyDetails.validity}>{l10n.map.change_link}</button>
-                          </span>
+              <div className="col-lg-5">
+                <dl className="row d-flex align-items-center mb-0">
+                  <dt className="col-sm-3 mb-2">{l10n.map.keygrid_validity_status}</dt>
+                  <dd className="col-sm-9"><KeyStatus status={selectedKey.status} /></dd>
+                  <dt className="col-sm-3 mb-2">{l10n.map.keydetails_creation_date}</dt>
+                  <dd className="col-sm-9">{moment(selectedKey.crDate).format('L')}</dd>
+                  <dt className="col-sm-3 mb-2">{l10n.map.keydetails_expiration_date}</dt>
+                  <dd className="col-sm-9">
+                    {!this.context.gnupg && this.props.keyDetails.type !== 'public' && this.state.selectedKeyIdx === 0 ? (
+                      <div className="input-group input-group-sm">
+                        <input type="text" readOnly className="form-control" value={this.state.exDateInput !== null ? this.state.exDateInput.format('L') : 'nie'} />
+                        <div className="input-group-append">
+                          <button onClick={() => this.setState({showExDateModal: true})} className="btn btn-sm btn-secondary" type="button" disabled={!this.props.keyDetails.validity}>{l10n.map.change_link}</button>
                         </div>
-                      ) : (
-                        <div className="text-only">{selectedKey.exDate ? moment(selectedKey.exDate).format('L') : l10n.map.keydetails_key_not_expire}</div>
-                      )}
-                    </div>
-                  </div>
+                      </div>
+                    ) : (
+                      <div className="text-only">{selectedKey.exDate ? moment(selectedKey.exDate).format('L') : l10n.map.keydetails_key_not_expire}</div>
+                    )}
+                  </dd>
                   {this.props.keyDetails.type !== 'public' &&
-                    <div className="form-group">
-                      <label className="col-sm-3 control-label">{l10n.map.keydetails_password}</label>
-                      <div className="col-sm-9">
+                    <>
+                      <dt className="col-sm-3 mb-2">{l10n.map.keydetails_password}</dt>
+                      <dd className="col-sm-9">
                         {!this.context.gnupg && this.state.selectedKeyIdx === 0 ? (
                           <div className="input-group input-group-sm">
                             <input type="password" readOnly className="form-control" value="********" />
-                            <span className="input-group-btn">
-                              <button onClick={() => this.setState({showPwdModal: true})} className="btn btn-default" type="button" disabled={!this.props.keyDetails.validity}>{l10n.map.change_link}</button>
+                            <span className="input-group-append">
+                              <button onClick={() => this.setState({showPwdModal: true})} className="btn btn-secondary" type="button" disabled={!this.props.keyDetails.validity}>{l10n.map.change_link}</button>
                             </span>
                           </div>
                         ) : (
                           <div className="text-only">********</div>
                         )}
-                      </div>
-                    </div>
+                      </dd>
+                    </>
                   }
-                </div>
-                <div className="col-md-7">
-                  <div className="form-group">
-                    <label className="col-sm-3 control-label">{l10n.map.keygrid_keyid}</label>
-                    <div className="col-sm-9 text-only">
-                      {selectedKey.keyId}
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <label className="col-sm-3 control-label">{l10n.map.keygrid_algorithm}</label>
-                    <div className="col-sm-9 text-only">
-                      {selectedKey.algorithm}
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <label className="col-sm-3 control-label">{l10n.map.keygrid_key_length}</label>
-                    <div className="col-sm-9 text-only">
-                      {selectedKey.bitLength}
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <label className="col-sm-3 control-label">{l10n.map.keygrid_key_fingerprint}</label>
-                    <div className="col-sm-9 text-only">
-                      {formatFpr(selectedKey.fingerprint)}
-                    </div>
-                  </div>
-                </div>
-              </form>
+                </dl>
+              </div>
+              <div className="col-lg-7">
+                <dl className="row d-flex align-items-center mb-0">
+                  <dt className="col-sm-3 mb-2">{l10n.map.keygrid_keyid}</dt>
+                  <dd className="col-sm-9">{selectedKey.keyId}</dd>
+                  <dt className="col-sm-3 mb-2">{l10n.map.keygrid_algorithm}</dt>
+                  <dd className="col-sm-9">{selectedKey.algorithm}</dd>
+                  <dt className="col-sm-3 mb-2">{l10n.map.keygrid_key_length}</dt>
+                  <dd className="col-sm-9">{selectedKey.bitLength}</dd>
+                  <dt className="col-sm-3 mb-2">{l10n.map.keygrid_key_fingerprint}</dt>
+                  <dd className="col-sm-9">{formatFpr(selectedKey.fingerprint)}</dd>
+                </dl>
+              </div>
+
             </div>
           </div>
         </div>
         {this.state.showExDateModal &&
-          <ModalDialog ref={modal => this.modal = modal} size="medium" headerClass="text-center" title={l10n.map.keydetails_change_exp_date_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
+          <Modal ref={modal => this.modal = modal} size="medium" title={l10n.map.keydetails_change_exp_date_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
             <>
               <div className="form-group">
                 <DatePicker value={this.state.keyExpirationTime} onChange={moment => this.handleChange({target: {id: 'keyExpirationTime', value: moment}})} placeholder={l10n.map.keygrid_key_not_expire} minDate={moment().add({days: 1})} maxDate={moment('2080-12-31')} disabled={false} />
@@ -276,36 +251,36 @@ export default class KeyDetails extends React.Component {
               <Alert type="warning" header={l10n.map.header_warning}>
                 {l10n.map.keydetails_change_exp_date_dialog_note}
               </Alert>
-              <div className="row gutter-5">
-                <div className="col-xs-6">
-                  <button type="button" className="btn btn-default btn-block" data-dismiss="modal">{l10n.map.dialog_cancel_btn}</button>
+              <div className="row no-gutters">
+                <div className="col-6 pr-1">
+                  <button type="button" className="btn btn-secondary btn-block" data-dismiss="modal">{l10n.map.dialog_cancel_btn}</button>
                 </div>
-                <div className="col-xs-6">
+                <div className="col-6 pl-1">
                   <button type="button" onClick={() => this.processSetExDate = true} className="btn btn-primary btn-block" data-dismiss="modal">{l10n.map.dialog_save_btn}</button>
                 </div>
               </div>
             </>
-          </ModalDialog>
+          </Modal>
         }
         {this.state.showPwdModal &&
-          <ModalDialog ref={modal => this.modal = modal} size="small" headerClass="text-center" title={l10n.map.keydetails_change_pwd_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
+          <Modal ref={modal => this.modal = modal} size="small" title={l10n.map.keydetails_change_pwd_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
             <form>
-              <div className={`form-group ${this.state.errors.passwordCurrent ? ' has-error' : ''}`}>
+              <div className="form-group">
                 <label className="control-label" htmlFor="passwordCurrent">{l10n.map.keydetails_change_pwd_dialog_old}</label>
-                <input type="password" onChange={this.handleChange} className="form-control" id="passwordCurrent" />
-                <span className={`help-block ${this.state.errors.passwordCurrent ? 'show' : 'hide'}`}>{l10n.map.pwd_dialog_wrong_pwd}</span>
+                <input type="password" onChange={this.handleChange} className={`form-control ${this.state.errors.passwordCurrent ? 'is-invalid' : ''}`} id="passwordCurrent" />
+                {this.state.errors.passwordCurrent && <div className="invalid-feedback">{l10n.map.pwd_dialog_wrong_pwd}</div>}
               </div>
               <DefinePassword value={this.state.password} errors={this.state.errors} onChange={this.handleChange} disabled={this.state.success} />
-              <div className="row gutter-5">
-                <div className="col-xs-6">
-                  <button type="button" className="btn btn-default btn-block" data-dismiss="modal">{l10n.map.dialog_cancel_btn}</button>
+              <div className="row no-gutters">
+                <div className="col-6 pr-1">
+                  <button type="button" className="btn btn-secondary btn-block" data-dismiss="modal">{l10n.map.dialog_cancel_btn}</button>
                 </div>
-                <div className="col-xs-6">
+                <div className="col-6 pl-1">
                   <button type="button" onClick={this.validateChangePwd} className="btn btn-primary btn-block">{l10n.map.dialog_save_btn}</button>
                 </div>
               </div>
             </form>
-          </ModalDialog>
+          </Modal>
         }
       </div>
     );

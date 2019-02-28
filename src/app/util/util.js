@@ -15,8 +15,8 @@ export function NavLink({to, children}) {
   /* eslint-disable react/no-children-prop */
   return (
     <Route path={to} children={({match}) => (
-      <li className={match ? 'active' : ''} role="menuitem">
-        <Link to={to} replace tabIndex="0">{children}</Link>
+      <li className={`nav-item ${match ? 'active' : ''}`} role="menuitem">
+        <Link className="nav-link" to={to} replace tabIndex="0">{children}</Link>
       </li>
     )} />
   );
@@ -24,6 +24,21 @@ export function NavLink({to, children}) {
 }
 
 NavLink.propTypes = {
+  to: PropTypes.string,
+  children: PropTypes.node
+};
+
+export function NavPill({to, children}) {
+  /* eslint-disable react/no-children-prop */
+  return (
+    <Route path={to} children={({match}) => (
+      <Link className={`nav-link ${match ? 'active' : ''}`} to={to} replace tabIndex="0">{children}</Link>
+    )} />
+  );
+  /* eslint-enable react/no-children-prop */
+}
+
+NavPill.propTypes = {
   to: PropTypes.string,
   children: PropTypes.node
 };

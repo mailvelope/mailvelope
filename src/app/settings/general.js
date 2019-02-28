@@ -85,47 +85,47 @@ export default class General extends React.Component {
 
   render() {
     return (
-      <div id="general">
-        <h3>{l10n.map.settings_general}</h3>
+      <div className="card-body" id="general">
+        <h4 className="card-title">{l10n.map.settings_general}</h4>
         <form>
           <div className="form-group">
-            <h4 className="control-label">{l10n.map.keygrid_default_key}</h4>
-            <div className="checkbox">
-              <label>
-                <input type="checkbox" name="auto_add_primary" checked={this.state.auto_add_primary} onChange={this.handleCheck} />
-                <span>{l10n.map.general_default_key_always}</span>
-              </label>
+            <h5 className="control-label">{l10n.map.keygrid_default_key}</h5>
+            <div className="custom-control custom-checkbox">
+              <input className="custom-control-input" type="checkbox" id="auto_add_primary" name="auto_add_primary" checked={this.state.auto_add_primary} onChange={this.handleCheck} />
+              <label className="custom-control-label" htmlFor="auto_add_primary"><span>{l10n.map.general_default_key_always}</span></label>
             </div>
-            <div className="checkbox">
-              <label>
-                <input type="checkbox" name="auto_sign_msg" checked={this.state.auto_sign_msg} onChange={this.handleCheck} />
-                <span>{l10n.map.general_default_key_auto_sign}</span>
-              </label>
+            <div className="custom-control custom-checkbox">
+              <input className="custom-control-input" type="checkbox" id="auto_sign_msg" name="auto_sign_msg" checked={this.state.auto_sign_msg} onChange={this.handleCheck} />
+              <label className="custom-control-label" htmlFor="auto_sign_msg"><span>{l10n.map.general_default_key_auto_sign}</span></label>
             </div>
           </div>
           <AppOptions.Consumer>
             {({gnupg}) => (
               <div className="form-group">
-                <h4 className="control-label">{l10n.map.general_openpgp_preferences}</h4>
-                <div style={{marginBottom: '10px'}}>{l10n.map.general_openpgp_current} <b>{gnupg && this.state.prefer_gnupg ? 'GnuPG' : 'OpenPGP.js'}</b></div>
+                <h5 className="control-label">{l10n.map.general_openpgp_preferences}</h5>
+                <p>{l10n.map.general_openpgp_current} <b>{gnupg && this.state.prefer_gnupg ? 'GnuPG' : 'OpenPGP.js'}</b></p>
                 {this.state.nativeMessaging ? (
                   gnupg ? (
-                    <div>
-                      <span style={{marginRight: '10px'}}>{l10n.map.general_openpgp_prefer}</span>
-                      <div className="btn-group btn-group-sm" role="group">
-                        <button type="button" onClick={() => this.handlePreferGnuPG(false)} className={`btn btn-${this.state.prefer_gnupg ? 'default' : 'primary'}`}>OpenPGP.js</button>
-                        <button type="button" onClick={() => this.handlePreferGnuPG(true)} className={`btn btn-${!this.state.prefer_gnupg ? 'default' : 'primary'}`}>GnuPG</button>
+                    <>
+                      <div className="d-flex align-items-center">
+                        <span className="mr-3">{l10n.map.general_openpgp_prefer}</span>
+                        <div className="btn-group btn-group-sm" role="group">
+                          <button type="button" onClick={() => this.handlePreferGnuPG(false)} className={`btn btn-${this.state.prefer_gnupg ? 'secondary' : 'primary'}`}>OpenPGP.js</button>
+                          <button type="button" onClick={() => this.handlePreferGnuPG(true)} className={`btn btn-${!this.state.prefer_gnupg ? 'secondary' : 'primary'}`}>GnuPG</button>
+                        </div>
                       </div>
-                      <span className="help-block">{l10n.map.general_prefer_gnupg_note}</span>
-                    </div>
+                      <small className="form-text text-muted">
+                        {l10n.map.general_prefer_gnupg_note}
+                      </small>
+                    </>
                   ) : (
                     <div>
                       <div className="alert alert-info" role="alert">
                         <div><strong>{l10n.map.general_gnupg_not_available}</strong></div>
                         <div>
                           <Trans id={l10n.map.general_gnupg_installed_question} components={[
-                            <a key="0" style={{margin: '0 5px'}} href="https://www.gnupg.org/download/index.html" target="_blank" rel="noopener noreferrer" className="btn btn-default btn-sm" role="button"></a>,
-                            <button key="1" style={{margin: '0 5px'}} type="button" onClick={() => chrome.runtime.reload()} className="btn btn-default btn-sm"></button>
+                            <a key="0" href="https://www.gnupg.org/download/index.html" target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm mx-1" role="button"></a>,
+                            <button key="1" type="button" onClick={() => chrome.runtime.reload()} className="btn btn-secondary btn-sm mx-1"></button>
                           ]} />
                         </div>
                       </div>
@@ -133,8 +133,8 @@ export default class General extends React.Component {
                   )
                 ) : (
                   <div>
-                    <span style={{marginRight: '10px'}}>{l10n.map.general_gnupg_prefer}</span>
-                    <button type="button" onClick={() => this.requestNativeMessagingPermission()} className="btn btn-default btn-sm">{l10n.map.general_gnupg_check_availability}</button>
+                    <span className="mr-2">{l10n.map.general_gnupg_prefer}</span>
+                    <button type="button" onClick={() => this.requestNativeMessagingPermission()} className="btn btn-secondary btn-sm">{l10n.map.general_gnupg_check_availability}</button>
                   </div>
                 )}
               </div>
@@ -142,7 +142,7 @@ export default class General extends React.Component {
           </AppOptions.Consumer>
           <div className="form-group">
             <button type="button" onClick={this.handleSave} className="btn btn-primary" disabled={!this.state.modified}>{l10n.map.form_save}</button>
-            <button type="button" onClick={this.handleCancel} className="btn btn-default" disabled={!this.state.modified}>{l10n.map.form_cancel}</button>
+            <button type="button" onClick={this.handleCancel} className="btn btn-secondary" disabled={!this.state.modified}>{l10n.map.form_cancel}</button>
           </div>
         </form>
       </div>

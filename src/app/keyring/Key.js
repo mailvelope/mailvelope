@@ -17,8 +17,8 @@ import KeyExport from './components/KeyExport';
 import DefaultKeyButton from './components/DefaultKeyButton';
 import KeyStatus from './components/KeyStatus';
 import Spinner from '../../components/util/Spinner';
-import Alert from '../../components/util/Alert';
-import ModalDialog from '../../components/util/ModalDialog';
+import Alert from '../../components/util/AlertBS4';
+import Modal from '../../components/util/Modal';
 
 import './Key.css';
 
@@ -251,10 +251,10 @@ export default class Key extends React.Component {
       }
     }
     return (
-      <Alert type={data.type}>
-        <span className="margin-right-sm">{data.text}</span>
-        {(this.state.keyDetails.validity && data.btnText) && <button type="button" onClick={() => this.handleKeyServerSync(data.handler)} className="margin-right-sm btn btn-sm btn-default">{data.btnText}</button>}
-        {(this.state.keyDetails.keyServerSync.status && !this.state.syncAction) && <button type="button" onClick={() => this.handleKeyServerSync({sync: false})} className="btn btn-sm btn-default">{l10n.map.key_keyserver_remove_btn}</button>}
+      <Alert type={data.type} className="mb-3">
+        <span className="mr-2">{data.text}</span>
+        {(this.state.keyDetails.validity && data.btnText) && <button type="button" onClick={() => this.handleKeyServerSync(data.handler)} className="btn btn-sm btn-secondary mr-1">{data.btnText}</button>}
+        {(this.state.keyDetails.keyServerSync.status && !this.state.syncAction) && <button type="button" onClick={() => this.handleKeyServerSync({sync: false})} className="btn btn-sm btn-secondary">{l10n.map.key_keyserver_remove_btn}</button>}
       </Alert>
     );
   }
@@ -264,38 +264,34 @@ export default class Key extends React.Component {
       return <Redirect to="/keyring" />;
     }
     return (
-      <div className="key">
-        <ol className="breadcrumb">
-          <li><Link to='/keyring' onClick={this.props.onKeyringChange} replace tabIndex="0"><span className="glyphicon glyphicon-menu-left" aria-hidden="true"></span> {l10n.map.keyring_header}</Link></li>
-        </ol>
-        <nav className="navbar">
-          <div className="container-fluid">
-            <div className="navbar-header">
-              <div className="navbar-brand">
-                <i className={`icon icon-${this.state.keyDetails.type === 'public' ? 'key' : 'keyPair'}`}></i>
-                <span className="margin-left-sm">{this.state.keyDetails.name}</span>
-                <KeyStatus className="margin-left-sm" status={this.state.keyDetails.status} />
-              </div>
-            </div>
-            <div className="collapse navbar-collapse">
-              <div className="navbar-form navbar-right">
-                {(!this.context.gnupg || this.state.keyDetails.type === 'public') && <button type="button" onClick={() => this.setState({showDeleteModal: true})} className="btn btn-default" title={l10n.map.key_remove_btn_title}>{l10n.map.key_remove_btn}</button>}
-                <button type="button" onClick={() => this.setState({showExportModal: true})} className="btn btn-default margin-left-sm" title={l10n.map.key_export_btn_title}>{l10n.map.key_export_btn}</button>
-                {(!this.context.gnupg && this.state.keyDetails.type !== 'public') &&
-                  <>
-                    <button type="button" onClick={() => this.setState({showRevokeModal: true})} className="btn btn-default margin-left-sm" disabled={!this.state.keyDetails.validity} title={l10n.map.key_revoke_btn_title}>{l10n.map.key_revoke_btn}</button>
-                    <DefaultKeyButton className="margin-left-sm" onClick={this.handleDefaultClick} isDefault={this.state.isDefault} disabled={!this.state.keyDetails.validDefaultKey} />
-                  </>
-                }
-              </div>
-            </div>
-          </div>
+      <div className="card-body key">
+        <nav aria-label="breadcrumb">
+          <ol className="breadcrumb bg-transparent p-0 mb-0">
+            <li className="breadcrumb-item"><Link to='/keyring' onClick={this.props.onKeyringChange} replace tabIndex="0"><i className="fa fa-angle-double-left" aria-hidden="true"></i> {l10n.map.keyring_header}</Link></li>
+          </ol>
         </nav>
+
+        <div className="d-flex align-items-center justify-content-between mb-3">
+          <div className="d-inline-flex align-items-center">
+            <i className={`icon icon-${this.state.keyDetails.type === 'public' ? 'key' : 'keyPair'} mr-2`}></i>
+            <h4 className="d-inline-block mb-0">{this.state.keyDetails.name} <KeyStatus className="ml-1" status={this.state.keyDetails.status} /></h4>
+          </div>
+          <div>
+            {(!this.context.gnupg || this.state.keyDetails.type === 'public') && <button type="button" onClick={() => this.setState({showDeleteModal: true})} className="btn btn-secondary mb-1" title={l10n.map.key_remove_btn_title}>{l10n.map.key_remove_btn}</button>}
+            <button type="button" onClick={() => this.setState({showExportModal: true})} className="btn btn-secondary ml-1 mb-1" title={l10n.map.key_export_btn_title}>{l10n.map.key_export_btn}</button>
+            {(!this.context.gnupg && this.state.keyDetails.type !== 'public') &&
+              <>
+                <button type="button" onClick={() => this.setState({showRevokeModal: true})} className="btn btn-secondary ml-1 mb-1" disabled={!this.state.keyDetails.validity} title={l10n.map.key_revoke_btn_title}>{l10n.map.key_revoke_btn}</button>
+                <DefaultKeyButton className="ml-1 mb-1" onClick={this.handleDefaultClick} isDefault={this.state.isDefault} disabled={!this.state.keyDetails.validDefaultKey} />
+              </>
+            }
+          </div>
+        </div>
         {this.state.loading ? (
           <Spinner delay={0} />
         ) : (
           <>
-            <KeyUsers keyFpr={this.props.match.params.keyFpr} keyType={this.state.keyDetails.type} keyValidity={this.state.keyDetails.validity} users={this.state.keyDetails.users} onChangePrimaryUser={userIdx => this.handleSetPrimaryUser(userIdx)} />
+            <KeyUsers className="mb-3" keyFpr={this.props.match.params.keyFpr} keyType={this.state.keyDetails.type} keyValidity={this.state.keyDetails.validity} users={this.state.keyDetails.users} onChangePrimaryUser={userIdx => this.handleSetPrimaryUser(userIdx)} />
             {this.state.keyDetails.keyServerSync &&
               this.getKeyServerSyncAlert()
             }
@@ -303,43 +299,43 @@ export default class Key extends React.Component {
           </>
         )}
         {this.state.showDeleteModal &&
-          <ModalDialog ref={modal => this.modal = modal} size="small" headerClass="text-center" title={l10n.map.key_remove_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
-            <div className="text-center">
+          <Modal ref={modal => this.modal = modal} size="small" title={l10n.map.key_remove_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
+            <div>
               <p>{l10n.map.keygrid_delete_confirmation}</p>
-              <div className="row gutter-5">
-                <div className="col-xs-6">
-                  <button type="button" className="btn btn-default btn-block" data-dismiss="modal">{l10n.map.dialog_no_btn}</button>
+              <div className="row no-gutters">
+                <div className="col-6 pr-1">
+                  <button type="button" className="btn btn-secondary btn-block" data-dismiss="modal">{l10n.map.dialog_no_btn}</button>
                 </div>
-                <div className="col-xs-6">
+                <div className="col-6 pr-1">
                   <button type="button" onClick={() => this.processDelete = true} className="btn btn-primary btn-block" data-dismiss="modal">{l10n.map.dialog_yes_btn}</button>
                 </div>
               </div>
             </div>
-          </ModalDialog>
+          </Modal>
         }
         {this.state.processing &&
           <Spinner fullscreen={true} delay={0} />
         }
         {this.state.showExportModal &&
-          <ModalDialog ref={modal => this.modal = modal} size="medium" headerClass="text-center" title={l10n.map.key_export_dialog_title} hideFooter={true} onHide={() => this.setState({showExportModal: false})}>
+          <Modal ref={modal => this.modal = modal} size="medium" title={l10n.map.key_export_dialog_title} hideFooter={true} onHide={() => this.setState({showExportModal: false})}>
             <KeyExport keyringId={this.context.keyringId} keyFprs={[this.state.keyDetails.fingerprint]} keyName={this.state.keyDetails.name} publicOnly={this.context.gnupg} onClose={() => this.modal.$node.modal('hide')} />
-          </ModalDialog>
+          </Modal>
         }
         {this.state.showRevokeModal &&
-          <ModalDialog ref={modal => this.modal = modal} size="small" headerClass="text-center" title={l10n.map.key_revoke_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
-            <div className="text-center">
+          <Modal ref={modal => this.modal = modal} size="small" title={l10n.map.key_revoke_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
+            <div>
               <p>{l10n.map.key_revoke_dialog_description}</p>
               <p><strong>{l10n.map.key_revoke_dialog_confirm}</strong></p>
-              <div className="row gutter-5">
-                <div className="col-xs-6">
-                  <button type="button" className="btn btn-default btn-block" data-dismiss="modal">{l10n.map.dialog_no_btn}</button>
+              <div className="row no-gutters">
+                <div className="col-6 pr-1">
+                  <button type="button" className="btn btn-secondary btn-block" data-dismiss="modal">{l10n.map.dialog_no_btn}</button>
                 </div>
-                <div className="col-xs-6">
+                <div className="col-6 pl-1">
                   <button type="button" onClick={() => this.processRevoke = true} className="btn btn-primary btn-block" data-dismiss="modal">{l10n.map.dialog_yes_btn}</button>
                 </div>
               </div>
             </div>
-          </ModalDialog>
+          </Modal>
         }
       </div>
     );

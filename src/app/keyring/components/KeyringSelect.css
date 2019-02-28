@@ -2,72 +2,15 @@
  * Copyright (C) 2017 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
-.keyringSelect {
-    float:right;
-    margin: .5em;
-    min-width:350px;
-}
-.keyringSelect button {
+  .keyringSelect {
+    min-width:250px;
+    font-size: 0.875rem;    
+  }
+
+/*  .keyringSelect .dropdown-menu {
     width: 100%;
-    text-align: left;
-}
-.keyringSelect .keyringIdentifiers {
-    width: 94%;
-}
-.keyringSelect .keyringIdentifier {
-    display:block;
-    white-space: nowrap;
-}
-.keyringSelect .caret {
-    margin-top: 1.5em;
-}
-.keyringSelect .keyRingPicture {
-    width:40px;
-    float:left;
-    padding:.5em 1em .5em 0;
-}
-.keyringSelect .keyRingPicture img {
-    width:28px;
-}
-.keyringSelect .keyRingPrimaryKey {
-    word-wrap: break-word;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.keyringSelect .keyRingName {
-    word-wrap: break-word;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.keyringSelect .keyringList {
-    width: 100%;
-}
-.keyringSelect .dropdown-menu li > a {
-    padding: 6px 12px;
-}
-.keyringSelect .keyringList li.flex-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-content: stretch;
-    align-items: center;
-}
-.keyringSelect .keyringList a.flex-item {
-    order: 0;
-    flex: 1 1 auto;
-    align-self: auto;
-    min-width: 30px;
-    white-space: normal;
-    cursor: pointer;
-}
-.keyringSelect .keyringList .deleteKeyRing {
-    max-width: 40px;
-    background-color: white;
-    padding-right: 25px;
-    padding-left: 15px;
-}
-.keyringSelect .keyringList .deleteKeyRing:hover {
-    background-color: white;
-    color: #808080;
-}
+  }
+*/
+  .keyringSelect a.btn {
+    color: inherit;
+  }

@@ -1,0 +1,10 @@
+a.card,
+a.card:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+.card i.fa {
+  font-size: 5em;
+  color: @grey;
+}

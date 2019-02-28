@@ -42,77 +42,75 @@ export default class Security extends React.Component {
 
   render() {
     return (
-      <div id="security">
-        <h3>{l10n.map.settings_security}</h3>
+      <div className="card-body" id="security">
+        <h4 className="card-title">{l10n.map.settings_security}</h4>
         <form className="form">
           <div className="form-group">
-            <h4 className="control-label">{l10n.map.security_cache_header}</h4>
-            <div className="radio form-inline">
-              <label className="radio" id="pwdCacheLabel">
-                <input type="radio" name="pwdCacheRadios" id="pwdCacheRadios1" value="true" />
-                <span>{l10n.map.security_cache_on}</span>
-                <input type="text" maxLength="3" id="pwdCacheTime" className="form-control" />
-                <span>{l10n.map.security_cache_time}</span>
-                <span className="help-block hide">{l10n.map.security_cache_help}</span>
-              </label>
+            <h5 className="control-label">{l10n.map.security_cache_header}</h5>
+            <div className="form-inline">
+              <div className="custom-control custom-radio custom-control-inline mr-2">
+                <input type="radio" name="pwdCacheRadios" id="pwdCacheRadios1" value="true" className="custom-control-input" />
+                <label className="custom-control-label" htmlFor="customRadio2">{l10n.map.security_cache_on}</label>
+              </div>
+              <input type="text" maxLength="3" id="pwdCacheTime" className="form-control mr-2 " />
+              <label className="my-1 mr-2" htmlFor="pwdCacheTime">{l10n.map.security_cache_time}</label>
+              <div className="invalid-feedback mb-2">{l10n.map.security_cache_help}</div>
             </div>
-            <div className="radio">
-              <label className="radio">
-                <input type="radio" name="pwdCacheRadios" id="pwdCacheRadios2" value="false" />
-                <span>{l10n.map.security_cache_off}</span>
-              </label>
+            <div className="custom-control custom-radio custom-control-inline mr-2">
+              <input type="radio" name="pwdCacheRadios" id="pwdCacheRadios2" value="false" className="custom-control-input" />
+              <label className="custom-control-label" htmlFor="customRadio2">{l10n.map.security_cache_off}</label>
             </div>
           </div>
           <div className="form-group" id="securityTokenPanel">
-            <h4>{l10n.map.security_background_header}</h4>
+            <h5>{l10n.map.security_background_header}</h5>
             <p>{l10n.map.security_background_text}</p>
-            <div id="securityBgndSliders">
-              <div className="form-inline">
-                <label htmlFor="angle">{l10n.map.security_background_angle}</label>
-                <input type="range" min="0" max="360" id="angle" step="2" />
+            <div className="row align-items-center">
+              <div className="col-lg-6">
+                <div>
+                  <div className="form-inline my-3">
+                    <label className="w-25 justify-content-start justify-content-end-lg" htmlFor="angle">{l10n.map.security_background_angle}</label>
+                    <input className="w-75 custom-range" type="range" min="0" max="360" id="angle" step="2" />
+                  </div>
+                  <div className="form-inline my-3">
+                    <label className="w-25 justify-content-start justify-content-end-lg" htmlFor="scaling">{l10n.map.security_background_scaling}</label>
+                    <input className="w-75 custom-range" type="range" min="5" max="100" id="scaling" step="1" />
+                  </div>
+                  <div className="form-inline my-3">
+                    <label className="w-25 justify-content-start justify-content-end-lg" htmlFor="scaling">{l10n.map.security_background_coloring}</label>
+                    <input className="w-75 custom-range" type="range" min="0" max="12" id="coloring" step="1" />
+                  </div>
+                </div>
               </div>
-              <div className="form-inline">
-                <label htmlFor="scaling">{l10n.map.security_background_scaling}</label>
-                <input type="range" min="5" max="100" id="scaling" step="1" />
+              <div className="col-lg-6">
+                <div className="previewContainer">
+                  <h5><strong>{l10n.map.security_background_preview}</strong></h5>
+                  <div id="previewArea"></div>
+                </div>
               </div>
-              <div className="form-inline">
-                <label htmlFor="scaling">{l10n.map.security_background_coloring}</label>
-                <input type="range" min="0" max="12" id="coloring" step="1" />
-              </div>
-            </div>
-            <div className="previewContainer">
-              <h5><strong>{l10n.map.security_background_preview}</strong></h5>
-              <div id="previewArea"></div>
             </div>
           </div>
           <div className="form-group">
-            <h4 className="control-label">{l10n.map.security_display_decrypted}</h4>
-            <div className="radio">
-              <label>
-                <input type="radio" name="decryptRadios" id="decryptRadios2" value="popup" />
-                <span>{l10n.map.security_display_popup}</span>
-              </label>
+            <h5 className="control-label">{l10n.map.security_display_decrypted}</h5>
+            <div className="custom-control custom-radio">
+              <input type="radio" name="decryptRadios" id="decryptRadios2" value="popup" className="custom-control-input" />
+              <label className="custom-control-label" htmlFor="decryptRadios2">{l10n.map.security_display_popup}</label>
             </div>
-            <div className="radio">
-              <label>
-                <input type="radio" name="decryptRadios" id="decryptRadios1" value="inline" />
-                <span>{l10n.map.security_display_inline}</span>
-              </label>
+            <div className="custom-control custom-radio">
+              <input type="radio" name="decryptRadios" id="decryptRadios1" value="inline" className="custom-control-input" />
+              <label className="custom-control-label" htmlFor="decryptRadios1">{l10n.map.security_display_inline}</label>
             </div>
           </div>
           <div className="form-group">
-            <h4 className="control-label">{l10n.map.security_openpgp_header}</h4>
-            <div className="checkbox">
-              <label className="checkbox" htmlFor="hideArmoredHeader">
-                <input type="checkbox" name="hideArmoredHeader" id="hideArmoredHeader" />
-                <span>{l10n.map.security_hide_armored_head}</span>
-              </label>
+            <h5 className="control-label">{l10n.map.security_openpgp_header}</h5>
+            <div className="custom-control custom-checkbox">
+              <input className="custom-control-input" type="checkbox" id="hideArmoredHeader" name="hideArmoredHeader" />
+              <label className="custom-control-label" htmlFor="hideArmoredHeader">{l10n.map.security_hide_armored_head}</label>
             </div>
           </div>
           <div id="secReloadInfo" className="alert alert-success">{l10n.map.reload_tab}</div>
           <div className="form-group">
             <button type="button" id="secBtnSave" className="btn btn-primary" disabled>{l10n.map.form_save}</button>
-            <button type="button" id="secBtnCancel" className="btn btn-default" disabled>{l10n.map.form_cancel}</button>
+            <button type="button" id="secBtnCancel" className="btn btn-secondary" disabled>{l10n.map.form_cancel}</button>
           </div>
         </form>
       </div>
@@ -217,10 +215,7 @@ function validate() {
     return true;
   } else {
     pwdCacheTime
-    .closest('.radio')
-    .addClass('has-error')
-    .find('span.help-block')
-    .removeClass('hide');
+    .addClass('is-invalid');
     return false;
   }
 }
@@ -228,8 +223,7 @@ function validate() {
 function normalize() {
   $('#security #secBtnSave').prop('disabled', true);
   $('#security #secBtnCancel').prop('disabled', true);
-  $('#security .radio').removeClass('has-error');
-  $('#security .help-block').addClass('hide');
+  $('#security input').removeClass('is-invalid');
   $('#secReloadInfo').hide();
 }
 

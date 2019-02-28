@@ -97,36 +97,33 @@ export default class KeyringSelect extends React.Component {
 
   render() {
     return (
-      <div className="keyringSelect dropdown">
+      <>
         {(Object.keys(this.props.keyringAttr).length > 1 && this.props.prefs) &&
-        <div>
-          <button className="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span className="caret pull-right"></span>
-            <span className="keyringIdentifiers">
-              <span className="keyringIdentifier keyRingPicture">
-                <img src={this.getKeyringThumbnail(this.props.keyringId)} />
-              </span>
-              <span className="keyringIdentifier keyRingName">{this.getKeyringName(this.props.keyringId)}</span>
-              <span className="keyringIdentifier keyRingPrimaryKey">{this.getKeyringEmail(this.props.keyringId)}</span>
-            </span>
+        <div className="keyringSelect dropdown">
+          <button className="btn btn-light dropdown-toggle d-flex justify-content-between align-items-center w-100 text-left" type="button" data-toggle="dropdown" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="true">
+            <img src={this.getKeyringThumbnail(this.props.keyringId)} />
+            <div className="mx-1 flex-grow-1 d-inline-block overflow-hidden">
+              <h5 className="d-block mb-1">{this.getKeyringName(this.props.keyringId)}</h5>
+              <p className="d-block mb-0 small">{this.getKeyringEmail(this.props.keyringId)}</p>
+            </div>
           </button>
-          <ul className="dropdown-menu keyringList" role="menu">
+          <ul className="dropdown-menu w-100" aria-labelledby="dropdownMenuButton" role="menu">
             {Object.keys(this.props.keyringAttr).map((keyringId, index) => {
               const keyringName = this.getKeyringName(keyringId);
               const keyringEmail = this.getKeyringEmail(keyringId);
               return (
-                <li key={index} role="menuitem" className="flex-container">
-                  <Link to='/keyring' onClick={() => this.props.onChange(keyringId)} tabIndex="0" className="flex-item keyringIdentifiers">
-                    <span className="keyringIdentifier keyRingPicture">
-                      <img src={this.getKeyringThumbnail(keyringId)} />
-                    </span>
-                    <span className="keyringIdentifier keyRingName">{keyringName}</span>
-                    <span className="keyringIdentifier keyRingPrimaryKey">{keyringEmail}</span>
+                <li key={index} className="d-flex justify-content-between align-items-center w-100 text-left" role="menuitem">
+                  <Link to='/keyring' onClick={() => this.props.onChange(keyringId)} tabIndex="0" className="dropdown-item px-3 d-flex w-auto overflow-hidden">
+                    <img src={this.getKeyringThumbnail(keyringId)} />
+                    <div className="mx-1 flex-grow-1 d-inline-block">
+                      <h5 className="d-block mb-1">{keyringName}</h5>
+                      <p className="d-block mb-0 small">{keyringEmail}</p>
+                    </div>
                   </Link>
                   {keyringId !== MAIN_KEYRING_ID && keyringId !== GNUPG_KEYRING_ID &&
-                  <a onClick={() => this.props.onDelete(keyringId, keyringName)} className="btn btn-link pull-right flex-item deleteKeyRing">
-                    <span className="glyphicon glyphicon-trash"></span>
-                  </a>
+                    <a onClick={() => this.props.onDelete(keyringId, keyringName)} className="btn btn-link pr-2">
+                      <i className="fa fa-trash-o" aria-hidden="true"></i>
+                    </a>
                   }
                 </li>
               );
@@ -135,7 +132,7 @@ export default class KeyringSelect extends React.Component {
           </ul>
         </div>
         }
-      </div>
+      </>
     );
   }
 }

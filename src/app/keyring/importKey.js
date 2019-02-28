@@ -11,7 +11,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import KeySearch from './components/KeySearch';
-import Alert from '../../components/util/Alert';
+import Alert from '../../components/util/AlertBS4';
 import {Link} from 'react-router-dom';
 
 const PUBLIC_KEY_REGEX = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
@@ -126,29 +126,27 @@ export default class ImportKey extends React.Component {
 
   render() {
     return (
-      <div>
-        <h3 className="logo-header">
-          <span>{l10n.map.keyring_import_keys}</span>
-        </h3>
+      <div className="card-body">
+        <h4 className="card-title">{l10n.map.keyring_import_keys}</h4>
         {!this.context.demail && <KeySearch prefs={this.props.prefs} />}
         <form className="form" autoComplete="off">
           <div className="form-group">
-            <label className="control-label" htmlFor="selectFileButton"><h4>{l10n.map.key_import_file}</h4></label>
+            <label className="control-label" htmlFor="selectFileButton"><h5 className="mb-0">{l10n.map.key_import_file}</h5></label>
             <div>
               <button id="selectFileButton" type="button" onClick={() => this.fileInput.click()} className="btn btn-info">{l10n.map.key_import_file_select}</button>
               <input type="file" onChange={this.handleChangeFile} style={{display: 'none'}} ref={node => this.fileInput = node} />
             </div>
           </div>
           <div className="form-group">
-            <label className="control-label" htmlFor="newKey"><h4>{l10n.map.key_import_textarea}</h4></label>
-            <div>{l10n.map.key_import_multiple_keys}</div>
-            <div className="help-block">
-              <textarea id="newKey" value={this.state.armored} onChange={event => this.setState({armored: event.target.value})} style={{width: '100%', fontFamily: 'monospace'}} className="form-control" rows="12" spellCheck="false" autoComplete="off"></textarea>
-            </div>
+            <label className="control-label" htmlFor="newKey"><h5 className="mb-0">{l10n.map.key_import_textarea}</h5></label>
+            <span className="form-text mb-1">
+              {l10n.map.key_import_multiple_keys}
+            </span>
+            <textarea id="newKey" value={this.state.armored} onChange={event => this.setState({armored: event.target.value})} style={{width: '100%', fontFamily: 'monospace'}} className="form-control" rows="12" spellCheck="false" autoComplete="off"></textarea>
           </div>
           <div className="form-group">
             <button type="button" onClick={() => this.handleImportKey(this.state.armored)} className="btn btn-primary" disabled={!this.state.armored}>{l10n.map.form_import}</button>
-            <Link className="btn btn-default" to='/keyring' onClick={this.props.onKeyringChange} replace tabIndex="0">
+            <Link className="btn btn-secondary" to='/keyring' onClick={this.props.onKeyringChange} replace tabIndex="0">
               <span>{l10n.map.action_menu_back}</span>
             </Link>
           </div>

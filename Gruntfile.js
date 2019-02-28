@@ -48,6 +48,12 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
+            flatten: true,
+            src: 'node_modules/popper.js/dist/umd/popper.min.js',
+            dest: 'build/tmp/dep/popper/'
+          },
+          {
+            expand: true,
             cwd: 'node_modules/bootstrap/dist/',
             src: [
               'css/bootstrap.css',
@@ -60,7 +66,8 @@ module.exports = function(grunt) {
             expand: true,
             cwd: 'node_modules/bootstrap4/dist/',
             src: [
-              'css/bootstrap.css'
+              'css/bootstrap.css',
+              'js/bootstrap.js'
             ],
             dest: 'build/tmp/dep/bootstrap4/'
           },

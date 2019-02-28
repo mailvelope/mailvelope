@@ -3,16 +3,16 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-#pwdCacheLabel > * {
+/*#pwdCacheLabel > * {
   margin-right: 10px;
 }
-
+*/
 #pwdCacheTime {
   font-family: monospace;
-  width: 50px;
+  width: 60px;
 }
 
-#securityTokenPanel {
+/*#securityTokenPanel {
     margin-right: -3px;
     margin-left: -3px;
     padding-bottom: 10px;
@@ -32,9 +32,9 @@
   width: 200px;
   margin: 20px 20px 20px 10px;
   vertical-align: middle;
-}
+}*/
 
-#securityBgndSliders {
+/*#securityBgndSliders {
   width: 320px;
   float: left;
   margin-top: 45px;
@@ -48,23 +48,23 @@
 
 #securityBgndSliders .form-inline {
   white-space: nowrap;
-}
+}*/
 
-.previewContainer {
+/*.previewContainer {
   margin: 0 20px 0 20px;
   float: left;
   padding: 10px 20px 20px;
   background-color: #FFF;
-}
+}*/
 
 #previewArea {
   height: 150px;
-  width: 300px;
+  width: 100%;
   border: 1px solid gray;
   background-color: #f5f5f5;
 }
 
-#pwdCacheLabel {
+/*#pwdCacheLabel {
     padding-left: 0;
 }
 
@@ -92,3 +92,4 @@
     display: inline-block;
   }
 }
+*/

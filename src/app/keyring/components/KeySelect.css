@@ -2,21 +2,20 @@
     min-width:260px;
 }
 
-.keySelect button {
+/*.keySelect button {
     width: 100%;
     text-align: left;
-}
+}*/
 
-.keySelect .caret {
+/*.keySelect .caret {
     margin-top: 0.55em;
-}
+}*/
 
 .keySelect .dropdown-menu {
-    width: 100%;
-    font-size: 12px;
+  font-size: 0.875rem;
 }
 
-.keySelect .dropdown-menu>li>a {
+/*.keySelect .dropdown-menu>li>a {
     padding: 3px 10px;
     cursor: pointer;
-}
+}*/

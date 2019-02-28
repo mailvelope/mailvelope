@@ -6,22 +6,15 @@
 @dashboard-item-bg-color-hover: darken(rgb(255, 255, 255), 2%);
 
 .dashboard {
-  a.dashboard-item {
-    display: block;
-    text-align: center;
-    margin-bottom: 2em;
+  a.card {
     background-color: @dashboard-item-bg-color;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
-    padding:1em 0 0 0;
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
     transition: background-color 0.3s ease;
 
     &:hover {
       background-color: @dashboard-item-bg-color-hover;
       text-decoration: none;
-      span {
+      .card-footer {
         background-color: @dashboard-item-title-bg-color-hover;
       }
       i.fa {
@@ -34,16 +27,11 @@
       margin:.25em;
       color: @grey;
     }
-    span {
-      display: block;
-      margin-top:1em;
+    .card-footer {
       color: @grey-dark;
       padding: 0.5em;
       background-color: @dashboard-item-title-bg-color;
       transition: background-color 0.3s ease;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
   }
 }

@@ -71,21 +71,21 @@ export default class KeyDetailsExport extends React.Component {
       <div>
         {
           this.state.keys.some(key => key.armoredPrivate) &&
-          <div>
-            <div className="btn-group" data-toggle="buttons" style={{marginBottom: '10px', marginRight: '20px'}}>
+          <div className="d-flex mb-3">
+            <div className="btn-group btn-group-toggle w-100 mr-1" data-toggle="buttons">
               <label className={`btn btn-success ${type === 'pub' ? 'active' : ''}`} onClick={() => this.handleTypeChange('pub')}>
                 <input type="radio" name="public" defaultChecked={type === 'pub'} />
-                <span>{l10n.map.keyring_public}</span>
+                {l10n.map.keyring_public}
               </label>
             </div>
-            <div className="btn-group" data-toggle="buttons" style={{marginBottom: '10px'}}>
+            <div className="btn-group btn-group-toggle w-100 ml-1" data-toggle="buttons">
               <label className={`btn btn-warning ${type === 'priv' ? 'active' : ''}`} onClick={() => this.handleTypeChange('priv')}>
                 <input type="radio" name="private" defaultChecked={type === 'priv'} />
-                <span>{l10n.map.keyring_private}</span>
+                {l10n.map.keyring_private}
               </label>
               <label className={`btn btn-warning ${type === 'all' ? 'active' : ''}`} onClick={() => this.handleTypeChange('all')}>
                 <input type="radio" name="all" defaultChecked={type === 'all'} />
-                <span>{l10n.map.keygrid_all_keys}</span>
+                {l10n.map.keygrid_all_keys}
               </label>
             </div>
           </div>
@@ -93,16 +93,15 @@ export default class KeyDetailsExport extends React.Component {
         <div className="form-group">
           <textarea id="armoredKey" className="form-control" rows="12" value={armoredExport} spellCheck="false" autoComplete="off" readOnly></textarea>
         </div>
-        <div className="form-inline">
-          <input type="text" value={this.state.fileName} onChange={this.handleFileNameChange} className="form-control" style={{width: '250px', marginRight: '10px'}} />
+        <div className="form-group d-flex align-items-center">
+          <input type="text" value={this.state.fileName} onChange={this.handleFileNameChange} className="form-control w-100 mr-2" />
           <button type="button" className="btn btn-primary" onClick={this.handleClickExport}>{l10n.map.key_export_create_file}</button>
           <a className="hide" download={this.state.fileName} href={this.fileURL} ref={node => this.exportLink = node}></a>
         </div>
         {
           this.state.type !== 'pub' &&
-          <div style={{marginTop: '10px'}} id="exportWarn" className="alert alert-warning">
-            <b>{l10n.map.header_warning}</b>&nbsp;
-            <span>{l10n.map.key_export_warning_private}</span>
+          <div id="exportWarn" className="alert alert-warning m-0">
+            <strong>{l10n.map.header_warning}</strong> <span>{l10n.map.key_export_warning_private}</span>
           </div>
         }
       </div>

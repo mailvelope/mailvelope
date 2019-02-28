@@ -27,7 +27,11 @@ export default class DefinePassword extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.value !== prevProps.value) {
-      this.retypeCheck(this.state.passwordCheck);
+      if (this.props.value === '') {
+        this.setState({passwordCheck: ''}, this.props.onChange({target: {id: 'passwordCheck', error: false}}));
+      } else {
+        this.retypeCheck(this.state.passwordCheck);
+      }
     }
   }
 
@@ -44,15 +48,15 @@ export default class DefinePassword extends React.Component {
   render() {
     return (
       <div>
-        <div className={`form-group ${this.props.errors.password ? ' has-error' : ''}`}>
+        <div className="form-group">
           <label className="control-label" htmlFor="password">{l10n.map.key_gen_pwd}</label>
-          <input value={this.props.value.password} onChange={this.props.onChange} type="password" className="form-control" id="password" disabled={this.props.disabled} />
-          <span className={`help-block ${this.props.errors.password ? 'show' : 'hide'}`}>{l10n.map.key_gen_pwd_empty}</span>
+          <input value={this.props.value} onChange={this.props.onChange} type="password" className={`form-control ${this.props.errors.password ? ' is-invalid' : ''}`} id="password" disabled={this.props.disabled} />
+          {this.props.errors.password && <div className="invalid-feedback">{l10n.map.key_gen_pwd_empty}</div>}
         </div>
         <div className={`form-group ${(this.props.errors.passwordCheck) ? ' has-error' : ''}`}>
           <label className="control-label" htmlFor="passwordCheck">{l10n.map.key_gen_pwd_reenter}</label>
-          <input onChange={this.handleChange} type="password" className="form-control" id="passwordCheck" disabled={this.props.disabled} />
-          <span className={`help-block ${(this.props.errors.passwordCheck) ? 'show' : 'hide'}`}>{l10n.map.key_gen_pwd_unequal}</span>
+          <input value={this.state.passwordCheck} onChange={this.handleChange} type="password" className={`form-control ${(this.props.errors.passwordCheck) ? 'is-invalid' : ''}`} id="passwordCheck" disabled={this.props.disabled} />
+          {this.props.errors.passwordCheck && <div className="invalid-feedback">{l10n.map.key_gen_pwd_unequal}</div>}
         </div>
       </div>
     );

@@ -21,7 +21,7 @@ import * as l10n from '../lib/l10n';
 import {showSecurityBackground, terminate} from '../lib/util';
 import {APP_TOP_FRAME_ID} from '../lib/constants';
 import EventHandler from '../lib/EventHandler';
-import {NavLink} from './util/util';
+import {NavLink, NavPill} from './util/util';
 
 import Dashboard from './dashboard/Dashboard';
 import Keyring from './keyring/Keyring';
@@ -120,95 +120,90 @@ export class App extends React.Component {
         <Route exact path="/" render={() => <Redirect to="/keyring" />} />
         <Route exact path="/encryption" render={() => <Redirect to="/encryption/file-encrypt" />} />
         <Route exact path="/settings" render={() => <Redirect to="/settings/general" />} />
-        <nav className="navbar navbar-default navbar-fixed-top">
+        <nav className="navbar fixed-top navbar-expand-md navbar-light bg-light">
           <div className="container">
-            <div className="navbar-header">
-              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-navbar-collapse" aria-expanded="false">
-                <span className="sr-only">Toggle navigation</span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-              </button>
-              <Link to="/dashboard" className="navbar-brand">Mailvelope</Link>
-            </div>
-            <div className="collapse navbar-collapse bs-navbar-collapse">
-              <ul className="nav navbar-nav" role="menu" aria-label="primary menu">
+            <Link to="/dashboard" className="navbar-brand">Mailvelope</Link>
+            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul className="navbar-nav mr-auto">
                 <NavLink to="/keyring">{l10n.map.keyring_header}</NavLink>
                 <NavLink to="/encryption">{l10n.map.encrypting_home}</NavLink>
                 <NavLink to="/settings">{l10n.map.options_home}</NavLink>
               </ul>
-              <ul className="nav navbar-nav navbar-right" role="menu" aria-label="primary menu">
-                <li role="menuitem"><a href="https://www.mailvelope.com/help" target="_blank" rel="noreferrer noopener" tabIndex="0">{l10n.map.options_docu}</a></li>
-                <li role="menuitem"><a href="https://www.mailvelope.com/about" target="_blank" rel="noreferrer noopener" tabIndex="0">{l10n.map.options_about}</a></li>
+              <ul className="navbar-nav">
+                <li className="nav-item"><a className="nav-link" href="https://www.mailvelope.com/help" target="_blank" rel="noreferrer noopener" tabIndex="0">{l10n.map.options_docu}</a></li>
+                <li className="nav-item"><a className="nav-link" href="https://www.mailvelope.com/about" target="_blank" rel="noreferrer noopener" tabIndex="0">{l10n.map.options_about}</a></li>
               </ul>
             </div>
           </div>
         </nav>
-        <div className="container" role="main">
-          <div className="row">
-            <AppOptions.Provider value={{gnupg: this.state.gnupg}}>
-              <Route path='/dashboard' component={Dashboard} />
-              <Route path='/keyring' render={() => <Keyring prefs={this.state.prefs} />} />
-              <Route path='/encryption' render={() => (
-                <div>
-                  <div className="col-md-3">
-                    <div role="navigation">
-                      <ul className="nav nav-pills nav-stacked">
-                        <NavLink to="/encryption/file-encrypt">{l10n.map.file_encrypting}</NavLink>
-                        <NavLink to="/encryption/file-decrypt">{l10n.map.file_decrypting}</NavLink>
-                        <li role="separator" className="divider"></li>
-                        <NavLink to="/encryption/text-encrypt">{l10n.map.text_encrypting}</NavLink>
-                        <NavLink to="/encryption/text-decrypt">{l10n.map.text_decrypting}</NavLink>
-                      </ul>
-                    </div>
+        <main className="container" role="main">
+          <AppOptions.Provider value={{gnupg: this.state.gnupg}}>
+            <Route path='/dashboard' component={Dashboard} />
+            <Route path='/keyring' render={() => <Keyring prefs={this.state.prefs} />} />
+            <Route path='/encryption' render={() => (
+              <div>
+                <div className="col-md-3">
+                  <div role="navigation">
+                    <ul className="nav nav-pills nav-stacked">
+                      <NavLink to="/encryption/file-encrypt">{l10n.map.file_encrypting}</NavLink>
+                      <NavLink to="/encryption/file-decrypt">{l10n.map.file_decrypting}</NavLink>
+                      <li role="separator" className="divider"></li>
+                      <NavLink to="/encryption/text-encrypt">{l10n.map.text_encrypting}</NavLink>
+                      <NavLink to="/encryption/text-decrypt">{l10n.map.text_decrypting}</NavLink>
+                    </ul>
                   </div>
-                  <div className="col-md-9">
-                    <div className="jumbotron secureBackground">
-                      <section className="well">
-                        <Route path='/encryption/file-encrypt' component={EncryptFile} />
-                        <Route path='/encryption/file-decrypt' component={EncryptFile} />
-                        <Route path='/encryption/text-encrypt' component={EncryptText} />
-                        <Route path='/encryption/text-decrypt' component={DecryptText} />
-                      </section>
-                      <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
+                </div>
+                <div className="col-md-9">
+                  <div className="jumbotron secureBackground">
+                    <section className="well">
+                      <Route path='/encryption/file-encrypt' component={EncryptFile} />
+                      <Route path='/encryption/file-decrypt' component={EncryptFile} />
+                      <Route path='/encryption/text-encrypt' component={EncryptText} />
+                      <Route path='/encryption/text-decrypt' component={DecryptText} />
+                    </section>
+                    <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
+                  </div>
+                </div>
+              </div>
+            )} />
+            <Route path='/settings' render={() => (
+              <div className="row mt-3">
+                <div className="col-md-3">
+                  <div role="navigation">
+                    <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                      <NavPill to="/settings/general">{l10n.map.settings_general}</NavPill>
+                      <NavPill to="/settings/security">{l10n.map.settings_security}</NavPill>
+                      <NavPill to="/settings/watchlist">{l10n.map.settings_watchlist}</NavPill>
+                      <NavPill to="/settings/security-log">{l10n.map.settings_security_log}</NavPill>
+                      <NavPill to="/settings/key-server">{l10n.map.settings_keyserver}</NavPill>
                     </div>
                   </div>
                 </div>
-              )} />
-              <Route path='/settings' render={() => (
-                <div>
-                  <div className="col-md-3">
-                    <div role="navigation">
-                      <ul className="nav nav-pills nav-stacked">
-                        <NavLink to="/settings/general">{l10n.map.settings_general}</NavLink>
-                        <NavLink to="/settings/security">{l10n.map.settings_security}</NavLink>
-                        <NavLink to="/settings/watchlist">{l10n.map.settings_watchlist}</NavLink>
-                        <NavLink to="/settings/security-log">{l10n.map.settings_security_log}</NavLink>
-                        <NavLink to="/settings/key-server">{l10n.map.settings_keyserver}</NavLink>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="col-md-9">
-                    <div className="jumbotron secureBackground">
-                      <section className="well mv-options">
-                        <Route path='/settings/general' component={General} />
-                        <Route path='/settings/security' component={Security} />
-                        <Route path='/settings/watchlist' component={WatchList} />
-                        <Route path='/settings/security-log' component={SecurityLog} />
-                        <Route path='/settings/key-server' render={() => <KeyServer prefs={this.state.prefs} onChangePrefs={this.handleChangePrefs} />} />
-                      </section>
-                      <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
-                    </div>
+                <div className="col-md-9">
+                  <div className="jumbotron secureBackground">
+                    <section className="card mv-options">
+                      <Route path='/settings/general' component={General} />
+                      <Route path='/settings/security' component={Security} />
+                      <Route path='/settings/watchlist' component={WatchList} />
+                      <Route path='/settings/security-log' component={SecurityLog} />
+                      <Route path='/settings/key-server' render={() => <KeyServer prefs={this.state.prefs} onChangePrefs={this.handleChangePrefs} />} />
+                    </section>
+                    <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
                   </div>
                 </div>
-              )} />
-            </AppOptions.Provider>
+              </div>
+            )} />
+          </AppOptions.Provider>
+        </main>
+        <footer className="footer bg-light">
+          <div className="container text-muted">
+            <p id="version" className="float-right mb-0">{this.state.version}</p>
+            <p className="mb-0">&copy; 2012-2019 Mailvelope GmbH</p>
           </div>
-          <footer className="row">
-            <p className="pull-left col-md-6">&copy; 2012-2019 Mailvelope GmbH</p>
-            <div id="version" className="pull-right col-md-6">{this.state.version}</div>
-          </footer>
-        </div>
+        </footer>
       </div>
     );
   }

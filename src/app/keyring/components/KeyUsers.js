@@ -81,15 +81,15 @@ export default class KeyUsers extends React.Component {
       return <Redirect to={`/keyring/key/${this.props.keyFpr}/user/${this.state.selectedUser}`} />;
     }
     return (
-      <div className="keyUsers">
-        <div className="panel panel-default">
-          <div className="panel-heading clearfix">
-            <h4 className="pull-left text-muted">{l10n.map.keyusers_title}</h4>
+      <div className={`keyUsers ${this.props.className || ''}`}>
+        <div className="card">
+          <div className="card-header d-flex align-items-center justify-content-between">
+            <h5 className="text-muted m-0">{l10n.map.keyusers_title}</h5>
             {(!this.context.gnupg && this.props.keyType !== 'public' && this.props.keyValidity) &&
-              <Link to={`/keyring/key/${this.props.keyFpr}/user/add`} className="btn btn-sm btn-default pull-right" replace tabIndex="0" title={l10n.map.keyusers_add_btn_title}>{l10n.map.keyusers_add_btn}</Link>
+              <Link to={`/keyring/key/${this.props.keyFpr}/user/add`} className="btn btn-sm btn-secondary" replace tabIndex="0" title={l10n.map.keyusers_add_btn_title}>{l10n.map.keyusers_add_btn}</Link>
             }
           </div>
-          <table className="table table-hover">
+          <table className="table table-hover mb-0">
             <thead>
               <tr>
                 <th className="text-center">{l10n.map.keygrid_user_primary}</th>
@@ -112,7 +112,7 @@ export default class KeyUsers extends React.Component {
                         <input type="radio" onChange={e => this.props.onChangePrimaryUser(e.target.value)} name="isPrimaryUser" value={user.id} checked={user.isPrimary} />
                       </label>
                     ) : (
-                      <span className={`${user.isPrimary && 'glyphicon glyphicon-ok'}`} aria-hidden="true"></span>
+                      <i className={`${user.isPrimary && 'fa fa-check'}`} aria-hidden="true"></i>
                     )}
                   </td>
                   <td>{user.name}</td>
@@ -124,7 +124,7 @@ export default class KeyUsers extends React.Component {
                     </td>
                   }
                   <td className="text-center">{user.signatures.length}</td>
-                  <td><span className="glyphicon glyphicon-menu-right" aria-hidden="true"></span></td>
+                  <td><i className="fa fa-angle-right" aria-hidden="true"></i></td>
                 </tr>
               )}
             </tbody>
@@ -138,6 +138,7 @@ export default class KeyUsers extends React.Component {
 KeyUsers.contextType = KeyringOptions;
 
 KeyUsers.propTypes = {
+  className: PropTypes.string,
   users: PropTypes.array,
   keyType: PropTypes.string,
   keyFpr: PropTypes.string,

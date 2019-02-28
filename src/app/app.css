@@ -4,12 +4,18 @@
  */
 
 html {
-  font-size: 100%;
+  position: relative;
+  min-height: 100%;
 }
 
 body {
+  /*padding-top: 60px;*/
+  /*padding-bottom: 40px;*/
+  margin-bottom: 80px;
+}
+
+main {
   padding-top: 60px;
-  padding-bottom: 40px;
 }
 
 input[readonly] {
@@ -28,7 +34,7 @@ input[readonly] {
 .navbar-brand {
   font-family: 'Courgette', cursive;
 }
-
+/*
 .navbar-fixed-top > .container {
   padding-left: 30px;
   padding-right: 30px;
@@ -40,7 +46,7 @@ input[readonly] {
   overflow: hidden;
   background-color: #e5e5e5;
 }
-
+*/
 .form-group > .btn {
   margin-right: 5px;
 }
@@ -88,19 +94,15 @@ input[readonly] {
   margin-top:.5em;
 }
 
-.mv-options h3 {
+/*.mv-options h3 {
   margin-bottom: 25px;
 }
 
 .mv-options .form-group {
   margin-bottom: 30px;
-}
+}*/
 
-/* Third party logo */
-.section-header {
-    margin-bottom:1.5em;
-}
-.logo-header {
+/*.logo-header {
   vertical-align: middle;
 }
 
@@ -110,24 +112,17 @@ input[readonly] {
   display: block;
   visibility: hidden;
   height: 0;
-}
+}*/
 
 /* Footer */
 
-footer.row {
-  border-top: 1px solid #eee;
-  padding-top: 10px;
-  margin: 0 15px;
-  clear: both;
-}
-
-footer > p.col-md-6 {
-  padding-left:0;
-}
-
-#version {
-  padding-right:0;
-  text-align: right;
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
 }
 
 .lockBtnIcon {

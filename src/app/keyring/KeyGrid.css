@@ -43,9 +43,9 @@
     }
 }
 
-button.keyDetailsBtn, button.keyDeleteBtn {
+/*button.keyDetailsBtn, button.keyDeleteBtn {
     min-width: 30px;
-}
+}*/
 
 #keyRingTable tr .actions {
     white-space: nowrap;
@@ -63,6 +63,6 @@ button.keyDetailsBtn, button.keyDeleteBtn {
     margin-right: 0;
 }
 
-.keyringFilterLabel > * {
+/*.keyringFilterLabel > * {
     margin-right: 10px;
-}
+}*/

@@ -10,9 +10,9 @@
     margin-bottom: 0px;
     display: inline-block;
 }
-.keyUsers .table {
+/*.keyUsers .table {
     font-size: 14px;
-}
+}*/
 
 .keyUsers .table>tbody>tr {
     cursor: pointer;

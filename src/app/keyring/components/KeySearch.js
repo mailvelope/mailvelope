@@ -45,17 +45,19 @@ export default class KeySearch extends React.Component {
     return (
       <form className="form" onSubmit={this.handleKeySearch}>
         <div className="form-group">
-          <label className="control-label" htmlFor="keySearchInput"><h4>{l10n.map.key_import_hkp_search}</h4></label>
-          <div className="label-subtitle">{l10n.map.key_import_hkp_search_public}</div>
+          <label className="control-label" htmlFor="keySearchInput"><h5 className="mb-0">{l10n.map.key_import_hkp_search}</h5></label>
+          <span className="form-text mb-1">
+            {l10n.map.key_import_hkp_search_public}
+          </span>
           <div className="input-group">
-            <input id="keySearchInput" type="text" ref={query => this.query = query} className="form-control" placeholder={l10n.map.key_import_hkp_search_ph} />
-            <span className="input-group-btn">
-              <button className="btn btn-default" type="submit">{l10n.map.key_import_hkp_search_btn}</button>
-            </span>
+            <input id="keySearchInput" type="text" className="form-control" ref={query => this.query = query} placeholder={l10n.map.key_import_hkp_search_ph} aria-describedby="keySearchInputHelpBlock" />
+            <div className="input-group-append">
+              <button className="btn btn-secondary" type="submit">{l10n.map.key_import_hkp_search_btn}</button>
+            </div>
           </div>
-          <div className="label-subtitle" style={{marginTop: '5px', marginBottom: '5px'}}>
+          <span id="keySearchInputHelpBlock" className="form-text">
             {l10n.map.key_import_hkp_server} <a target="_blank" rel="noopener noreferrer" href={hkp_base_url}>{hkp_domain}</a> (<Link to="/settings/key-server"><em>{l10n.map.change_link}</em></Link>)
-          </div>
+          </span>
         </div>
       </form>
     );

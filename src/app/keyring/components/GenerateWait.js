@@ -35,7 +35,7 @@ export default class GenerateWait extends React.Component {
               <h3>{l10n.map.key_gen_wait_header}</h3>
             </div>
             <div className="modal-body">
-              <div className="center-block wait-indicator"></div>
+              <div className="text-center wait-indicator"></div>
             </div>
             <div className="modal-footer">
               <span>{l10n.map.key_gen_wait_info}</span>

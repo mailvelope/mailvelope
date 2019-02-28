@@ -122,29 +122,33 @@ export default class Keyring extends React.Component {
     return (
       <>
         <KeyringOptions.Provider value={{keyringId: this.state.keyringId, demail: this.state.demail, gnupg: this.state.gnupg}}>
-          <div className="col-md-12">
-            <KeyringSelect keyringId={this.state.keyringId} keyringAttr={this.state.keyringAttr} onChange={this.handleChangeKeyring} onDelete={this.handleDeleteKeyring} prefs={this.props.prefs} />
-            <h3 className="section-header">
-              <span>{l10n.map.keyring_header}</span>
-            </h3>
-            <div className="jumbotron secureBackground">
-              <section className="well">
-                {!this.state.keyringId || this.state.keysLoading ? (
-                  <Spinner delay={0} />
-                ) : (
-                  <>
-                    <Route exact path="/keyring" render={() => this.state.keys.length ? <Redirect to='/keyring/display' /> : <Redirect to='/keyring/setup' />} />
-                    <Route exact path='/keyring/key/:keyFpr' render={props => <Key {...props} keyData={this.state.keys.find(key => key.fingerprint === props.match.params.keyFpr)} defaultKeyFpr={this.state.defaultKeyFpr} onChangeDefaultKey={this.handleChangeDefaultKey} onDeleteKey={this.handleDeleteKey} onKeyringChange={this.loadKeyring} />} />
-                    <Route exact path='/keyring/key/:keyFpr/user/:userIdx' render={props => <User {...props} keyData={this.state.keys.find(key => key.fingerprint === props.match.params.keyFpr)} onKeyringChange={this.loadKeyring} />} />
-                    <Route path='/keyring/display' render={() => <KeyGrid keys={this.state.keys} defaultKeyFpr={this.state.defaultKeyFpr} onChangeDefaultKey={this.handleChangeDefaultKey} onDeleteKey={this.handleDeleteKey} onRefreshKeyring={this.handleRefreshKeyring} spinner={this.state.keysLoading} />} />
-                    <Route path='/keyring/import' render={({location}) => <ImportKey onKeyringChange={this.loadKeyring} prefs={this.props.prefs} location={location} />} />
-                    <Route path='/keyring/generate' render={() => <GenerateKey onKeyringChange={this.loadKeyring} defaultName={this.state.name} defaultEmail={this.state.email} />} />
-                    <Route path='/keyring/setup' render={() => <KeyringSetup hasPrivateKey={this.state.hasPrivateKey} />} />
-                  </>
-                )}
-              </section>
-              <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
+          <div className="row my-3">
+            <div className="col-sm-4 align-self-center">
+              <h3 className="section-header">
+                <span>{l10n.map.keyring_header}</span>
+              </h3>
             </div>
+            <div className="col-sm-6 col-lg-5 col-xl-4 ml-auto">
+              <KeyringSelect keyringId={this.state.keyringId} keyringAttr={this.state.keyringAttr} onChange={this.handleChangeKeyring} onDelete={this.handleDeleteKeyring} prefs={this.props.prefs} />
+            </div>
+          </div>
+          <div className="jumbotron secureBackground mb-3">
+            <section className="card">
+              {!this.state.keyringId || this.state.keysLoading ? (
+                <Spinner delay={0} />
+              ) : (
+                <>
+                  <Route exact path="/keyring" render={() => this.state.keys.length ? <Redirect to='/keyring/display' /> : <Redirect to='/keyring/setup' />} />
+                  <Route exact path='/keyring/key/:keyFpr' render={props => <Key {...props} keyData={this.state.keys.find(key => key.fingerprint === props.match.params.keyFpr)} defaultKeyFpr={this.state.defaultKeyFpr} onChangeDefaultKey={this.handleChangeDefaultKey} onDeleteKey={this.handleDeleteKey} onKeyringChange={this.loadKeyring} />} />
+                  <Route exact path='/keyring/key/:keyFpr/user/:userIdx' render={props => <User {...props} keyData={this.state.keys.find(key => key.fingerprint === props.match.params.keyFpr)} onKeyringChange={this.loadKeyring} />} />
+                  <Route path='/keyring/display' render={() => <KeyGrid keys={this.state.keys} defaultKeyFpr={this.state.defaultKeyFpr} onChangeDefaultKey={this.handleChangeDefaultKey} onDeleteKey={this.handleDeleteKey} onRefreshKeyring={this.handleRefreshKeyring} spinner={this.state.keysLoading} />} />
+                  <Route path='/keyring/import' render={({location}) => <ImportKey onKeyringChange={this.loadKeyring} prefs={this.props.prefs} location={location} />} />
+                  <Route path='/keyring/generate' render={() => <GenerateKey onKeyringChange={this.loadKeyring} defaultName={this.state.name} defaultEmail={this.state.email} />} />
+                  <Route path='/keyring/setup' render={() => <KeyringSetup hasPrivateKey={this.state.hasPrivateKey} />} />
+                </>
+              )}
+            </section>
+            <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
           </div>
         </KeyringOptions.Provider>
       </>

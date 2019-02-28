@@ -36,7 +36,7 @@ export default function AdvKeyGenOptions({value: {keyAlgo, keySize, keyExpiratio
   return (
     <div className="adv-key-gen-options">
       <div className="form-group">
-        <label className="control-label" htmlFor="keyAlgo">{l10n.map.keygrid_algorithm}</label>
+        <label htmlFor="keyAlgo">{l10n.map.keygrid_algorithm}</label>
         <select id="keyAlgo" value={keyAlgo} onChange={onChange} className="form-control" disabled={disabled}>
           <KeyringOptions.Consumer>
             {options => options.gnupg ? gpgKeyAlgos : keyAlgos}
@@ -44,7 +44,7 @@ export default function AdvKeyGenOptions({value: {keyAlgo, keySize, keyExpiratio
         </select>
       </div>
       <div className={`form-group ${keyAlgo === 'rsa' ? '' : 'hide'}`}>
-        <label className="control-label"><span htmlFor="keySize">{l10n.map.key_gen_key_size}</span>&nbsp;(<span>Bit</span>)</label>
+        <label htmlFor="keySize"><span htmlFor="keySize">{l10n.map.key_gen_key_size}</span>&nbsp;(<span>Bit</span>)</label>
         <select id="keySize" value={keySize} onChange={onChange} className="form-control" disabled={disabled}>
           <option value="2048">2048 Bit</option>
           <option value="4096">4096 Bit</option>

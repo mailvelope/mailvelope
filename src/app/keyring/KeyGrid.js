@@ -109,38 +109,34 @@ export default class KeyGrid extends React.Component {
       return <Redirect to={`/keyring/key/${this.state.selectedKey}`} />;
     }
     return (
-      <div style={{minHeight: '300px'}}>
-        <div className="table-responsive-custom">
-          <div className="tableToolbar">
-            <Link className="btn btn-default" to='/keyring/generate' replace tabIndex="0" title={l10n.map.keygrid_generate_title}>
-              <span className="glyphicon glyphicon-plus-sign"></span>&nbsp;
-              <span>{l10n.map.key_gen_generate}</span>
+      <div className="card-body">
+        <div className="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+          <div>
+            <Link className="btn btn-secondary mr-1 mb-1" to='/keyring/generate' replace tabIndex="0" title={l10n.map.keygrid_generate_title}>
+              <i className="fa fa-plus-circle" aria-hidden="true"></i> {l10n.map.key_gen_generate}
             </Link>
-            <Link className="btn btn-default" to='/keyring/import' replace tabIndex="0" title={l10n.map.keygrid_import_title}>
-              <span className="glyphicon glyphicon-import"></span>&nbsp;
-              <span>{l10n.map.form_import}</span>
+            <Link className="btn btn-secondary mr-1 mb-1" to='/keyring/import' replace tabIndex="0" title={l10n.map.keygrid_import_title}>
+              <i className="fa fa-download" aria-hidden="true"></i> {l10n.map.form_import}
             </Link>
-            <button type="button" onClick={() => this.openExportKeyringDialog()} className="btn btn-default" title={l10n.map.keygrid_export_title}>
-              <span className="glyphicon glyphicon-export"></span>&nbsp;
-              <span>{l10n.map.keygrid_export}</span>
+            <button type="button" onClick={() => this.openExportKeyringDialog()} className="btn btn-secondary mr-1 mb-1" title={l10n.map.keygrid_export_title}>
+              <i className="fa fa-upload" aria-hidden="true"></i> {l10n.map.keygrid_export}
             </button>
-            <button type="button" onClick={this.props.onRefreshKeyring} className="btn btn-default" title={l10n.map.keygrid_refresh_title}>
-              <span className="glyphicon glyphicon-refresh"></span>&nbsp;
-              <span>{l10n.map.keygrid_refresh}</span>
+            <button type="button" onClick={this.props.onRefreshKeyring} className="btn btn-secondary mr-1 mb-1" title={l10n.map.keygrid_refresh_title}>
+              <i className="fa fa-refresh" aria-hidden="true"></i> {l10n.map.keygrid_refresh}
             </button>
-
-            <div className="pull-right form-inline" >
-              <label htmlFor="keyringFilterBtn" className="keyringFilterLabel">
-                <span className="glyphicon glyphicon-filter"></span>&nbsp;
-                <span>{l10n.map.keygrid_sort_type}:</span>&nbsp;
-              </label>
-              <select value={this.state.keyTypeFilter} onChange={e => this.handleChangeKeyTypeFilter(e)} className="form-control" id="keyringFilterBtn" style={{marginBottom: '4px'}}>
-                <option value="allkeys">{l10n.map.keygrid_all_keys}</option>
-                <option value="publickeys">{l10n.map.keygrid_public_keys}</option>
-                <option value="keypairs">{l10n.map.keyring_public_private}</option>
-              </select>
-            </div>
           </div>
+          <div>
+            <label htmlFor="keyringFilterBtn" className="keyringFilterLabel mr-1">
+              <i className="fa fa-filter" aria-hidden="true"></i> {l10n.map.keygrid_sort_type}:
+            </label>
+            <select value={this.state.keyTypeFilter} onChange={e => this.handleChangeKeyTypeFilter(e)} className="form-control" id="keyringFilterBtn" style={{marginBottom: '4px'}}>
+              <option value="allkeys">{l10n.map.keygrid_all_keys}</option>
+              <option value="publickeys">{l10n.map.keygrid_public_keys}</option>
+              <option value="keypairs">{l10n.map.keyring_public_private}</option>
+            </select>
+          </div>
+        </div>
+        <div className="table-responsive table-responsive-custom">
           <table className="table table-striped table-hover optionsTable" id="keyRingTable">
             <thead>
               <tr>
@@ -165,8 +161,8 @@ export default class KeyGrid extends React.Component {
                   <td className="monospaced">{key.crDate.substr(0, 10)}</td>
                   <td className="text-center text-nowrap">
                     <div className="actions">
-                      <button type="button" className="btn btn-default keyDetailsBtn" aria-haspopup="true"><span className="glyphicon glyphicon-info-sign"></span></button>
-                      {!(this.context.gnupg && key.type === 'private') && <button type="button" onClick={e => this.deleteKeyEntry(e, key.fingerprint)} className="btn btn-default keyDeleteBtn"><span className="glyphicon glyphicon-trash"></span></button>}
+                      <button type="button" className="btn btn-secondary keyDetailsBtn" aria-haspopup="true"><i className="fa fa-info-circle" aria-hidden="true"></i></button>
+                      {!(this.context.gnupg && key.type === 'private') && <button type="button" onClick={e => this.deleteKeyEntry(e, key.fingerprint)} className="btn btn-secondary keyDeleteBtn"><i className="fa fa-trash-o" aria-hidden="true"></i></button>}
                     </div>
                   </td>
                 </tr>
