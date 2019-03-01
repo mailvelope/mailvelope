@@ -38,21 +38,21 @@ export default class SecurityLog extends React.Component {
 
   render() {
     return (
-      <div>
-        <h3>{l10n.map.settings_security_log}</h3>
+      <div className="card-body">
+        <h4 className="card-title">{l10n.map.settings_security_log}</h4>
         <p>{l10n.map.security_log_text}</p>
         <table className="table table-hover table-striped optionsTable">
           <thead>
             <tr>
               <th>{l10n.map.security_log_timestamp}</th>
-              <th style={{width: '30%'}}>{l10n.map.security_log_source}</th>
-              <th style={{width: '50%'}}>{l10n.map.security_log_action}</th>
+              <th className="w-25">{l10n.map.security_log_source}</th>
+              <th className="w-50">{l10n.map.security_log_action}</th>
             </tr>
           </thead>
           <tbody>
             {this.state.secLog.map(log =>
               <tr key={log.timestamp}>
-                <td title={log.timestamp}><span className="glyphicon glyphicon-time"></span>&nbsp;<span>{new Date(log.timestamp).toLocaleTimeString()}</span></td>
+                <td title={log.timestamp}><i className="fa fa-clock-o" aria-hidden="true"></i> {new Date(log.timestamp).toLocaleTimeString()}</td>
                 <td>{log.sourcei18n}</td>
                 <td>{log.typei18n}</td>
               </tr>

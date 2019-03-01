@@ -79,14 +79,14 @@ input[readonly] {
   }
 }
 
-.tableToolbar {
+/*.tableToolbar {
   text-align: left;
   padding-top: 4px;
   padding-bottom: .5em;
 }
 .tableToolbar .btn {
     margin-right: 1em;
-}
+}*/
 
 .optionsTable {
   background-color: white;

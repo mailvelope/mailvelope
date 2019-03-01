@@ -45,7 +45,7 @@ export default function WatchListEditor(props) {
               </div>
             </div>
           </div>
-          <table className="table table-sm table-hover table-condensed table-striped optionsTable" id="watchList">
+          <table className="table table-sm table-hover table-condensed table-striped optionsTable mb-0" id="watchList">
             <thead>
               <tr>
                 <th>{l10n.map.watchlist_title_scan}</th>

@@ -173,30 +173,30 @@ export default class WatchList extends React.Component {
 
   render() {
     return (
-      <div>
-        <h3>{l10n.map.settings_watchlist}</h3>
+      <div className="card-body">
+        <h4 className="card-title">{l10n.map.settings_watchlist}</h4>
         <div className="tableToolbar">
-          <button type="button" onClick={() => this.addWatchListEntry()} className="btn btn-default">
-            <span className="glyphicon glyphicon-plus"></span>&nbsp;<span>{l10n.map.watchlist_command_create}</span>
+          <button type="button" onClick={() => this.addWatchListEntry()} className="btn btn-primary">
+            <i className="fa fa-plus" aria-hidden="true"></i> {l10n.map.watchlist_command_create}
           </button>
         </div>
         <table className="table table-hover table-striped optionsTable" id="watchListTable">
           <thead>
             <tr>
               <th>{l10n.map.watchlist_title_active}</th>
-              <th style={{width: '60%'}}>{l10n.map.watchlist_title_site}</th>
+              <th className="w-50">{l10n.map.watchlist_title_site}</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             {this.state.watchList.map((site, index) =>
               <tr key={index} onClick={() => this.showWatchListEditor(index)}>
-                <td className="text-center"><span className={`glyphicon glyphicon-${site.active ? 'check' : 'unchecked'}`}></span></td>
+                <td className="text-center"><span className={`fa fa-${site.active ? 'check-square-o' : 'square-o'}`}></span></td>
                 <td>{site.site}</td>
                 <td className="text-center">
                   <div className="actions">
-                    <button type="button" className="btn btn-default editWatchListBtn" style={{marginRight: '5px'}}><span className="glyphicon glyphicon-pencil"></span>&nbsp;<span>{l10n.map.watchlist_command_edit}</span></button>
-                    <button type="button" onClick={e => this.deleteWatchListEntry(e, index)} className="btn btn-default deleteWatchListBtn"><span className="glyphicon glyphicon-trash"></span>&nbsp;<span>{l10n.map.keygrid_delete}</span></button>
+                    <button type="button" className="btn btn-secondary editWatchListBtn mr-1"><i className="fa fa-pencil" aria-hidden="true"></i> {l10n.map.watchlist_command_edit}</button>
+                    <button type="button" onClick={e => this.deleteWatchListEntry(e, index)} className="btn btn-secondary deleteWatchListBtn"><i className="fa fa-trash-o" aria-hidden="true"></i> {l10n.map.keygrid_delete}</button>
                   </div>
                 </td>
               </tr>
