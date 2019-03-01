@@ -32,7 +32,7 @@
   margin-right: .5em;
   margin-bottom: .5em;
 }
-.recipientButton span.glyphicon {
+.recipientButton i {
   color: green;
   font-size: 1.5em;
 }

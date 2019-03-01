@@ -126,9 +126,9 @@ function getFileName(file) {
  * @returns {*|jQuery}
  */
 function getDownloadButton() {
-  return $('<span/>', {
+  return $('<i/>', {
     'title': l10n.map.encrypt_download_file_button,
-    'class': 'glyphicon glyphicon-save saveAttachment'
+    'class': 'fa fa-download saveAttachment'
   });
 }
 
@@ -139,7 +139,7 @@ function getDownloadButton() {
 function getRemoveButton(onRemove) {
   return $('<span/>', {
     'title': l10n.map.editor_remove_upload,
-    'class': 'glyphicon glyphicon-remove removeAttachment'
+    'class': 'fa fa-times removeAttachment'
   }).on('click', function(e) {
     e.preventDefault();
     if (onRemove) {
@@ -189,7 +189,7 @@ function getExtensionIcon(file) {
  */
 function getSecureIcon() {
   return $('<span/>', {
-    'class': 'glyphicon glyphicon-lock secure-icon'
+    'class': 'fa fa-lock secure-icon'
   });
 }
 

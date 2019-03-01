@@ -149,7 +149,7 @@ export default class GenerateKey extends React.Component {
             <AdvKeyGenOptions value={this.state} onChange={this.handleChange} />
           </AdvancedExpand>
           {!this.context.gnupg && <DefinePassword value={this.state.password} errors={this.state.errors} onChange={this.handleChange} />}
-          <div className={`custom-control custom-checkbox ${this.context.demail ? 'd-none' : ''}`}>
+          <div className={`form-group custom-control custom-checkbox ${this.context.demail ? 'd-none' : ''}`}>
             <input className="custom-control-input" checked={this.state.mveloKeyServerUpload} onChange={this.handleChange} type="checkbox" id="mveloKeyServerUpload" />
             <label className="custom-control-label" htmlFor="mveloKeyServerUpload"><span>{l10n.map.key_gen_upload}</span>. <a href="https://keys.mailvelope.com" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
           </div>

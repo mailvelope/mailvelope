@@ -25,13 +25,11 @@ class EncryptFooter extends React.Component {
 
   renderOptions() {
     return (
-      <form className="sign-msg-option well text-left" style={{marginTop: '20px', backgroundColor: 'white'}}>
-        <div className="form-group">
-          <div className="checkbox">
-            <label className="checkbox" htmlFor="armoredOption">
-              <input checked={this.props.armored} onChange={event => this.props.onChangeArmored(event.target.checked)} type="checkbox" id="armoredOption" />
-              <span>{l10n.map.file_encrypt_armored_output}</span>
-            </label>
+      <form className="sign-msg-option card text-left bg-white mt-3">
+        <div className="card-body">
+          <div className="custom-control custom-checkbox">
+            <input className="custom-control-input" type="checkbox" id="armoredOption" onChange={event => this.props.onChangeArmored(event.target.checked)} checked={this.props.armored} />
+            <label className="custom-control-label" htmlFor="armoredOption">{l10n.map.file_encrypt_armored_output}</label>
           </div>
         </div>
       </form>
@@ -44,15 +42,16 @@ class EncryptFooter extends React.Component {
 
   render() {
     return (
-      <div className={`text-right ${this.state.expanded ? 'encrypt-footer-expanded' : ''}`}>
-        <button type="button" onClick={this.handleOptionsClick} className="btn btn-default btn-sm pull-left">
-          <span>{l10n.map.options_home}</span>&nbsp;&nbsp;
-          <span className={`glyphicon glyphicon-collapse-${this.state.expanded ? 'up' : 'down'}`} aria-hidden="true"></span>
-        </button>
-        <button type="button" onClick={this.props.onBack} className="btn btn-sm btn-default">{l10n.map.form_back}</button>
-        <button type="button" onClick={this.props.onEncrypt} className="btn btn-sm btn-primary" disabled={this.props.encryptDisabled}>{l10n.map.editor_encrypt_button}</button>
+      <>
+        <div className="d-flex">
+          <button type="button" onClick={this.handleOptionsClick} className="btn btn-secondary btn-sm mr-auto">
+            {l10n.map.options_home} <i className={`fa fa-${this.state.expanded ? 'minus' : 'plus'}-square-o`} aria-hidden="true"></i>
+          </button>
+          <button type="button" onClick={this.props.onBack} className="btn btn-sm btn-secondary mr-1">{l10n.map.form_back}</button>
+          <button type="button" onClick={this.props.onEncrypt} className="btn btn-sm btn-primary" disabled={this.props.encryptDisabled}>{l10n.map.editor_encrypt_button}</button>
+        </div>
         {this.state.expanded && this.renderOptions()}
-      </div>
+      </>
     );
   }
 }

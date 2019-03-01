@@ -71,7 +71,7 @@ export default class KeyUsers extends React.Component {
       }
     }
     return (
-      <span className={`label label-${data.labelClass}`}>{data.statusText}</span>
+      <span className={`badge badge-${data.labelClass}`}>{data.statusText}</span>
     );
   }
 

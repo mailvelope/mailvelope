@@ -144,21 +144,21 @@ export class App extends React.Component {
             <Route path='/dashboard' component={Dashboard} />
             <Route path='/keyring' render={() => <Keyring prefs={this.state.prefs} />} />
             <Route path='/encryption' render={() => (
-              <div>
+              <div className="row mt-3">
                 <div className="col-md-3">
                   <div role="navigation">
-                    <ul className="nav nav-pills nav-stacked">
-                      <NavLink to="/encryption/file-encrypt">{l10n.map.file_encrypting}</NavLink>
-                      <NavLink to="/encryption/file-decrypt">{l10n.map.file_decrypting}</NavLink>
-                      <li role="separator" className="divider"></li>
-                      <NavLink to="/encryption/text-encrypt">{l10n.map.text_encrypting}</NavLink>
-                      <NavLink to="/encryption/text-decrypt">{l10n.map.text_decrypting}</NavLink>
-                    </ul>
+                    <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                      <NavPill to="/encryption/file-encrypt">{l10n.map.file_encrypting}</NavPill>
+                      <NavPill to="/encryption/file-decrypt">{l10n.map.file_decrypting}</NavPill>
+                      <hr className="w-100" />
+                      <NavPill to="/encryption/text-encrypt">{l10n.map.text_encrypting}</NavPill>
+                      <NavPill to="/encryption/text-decrypt">{l10n.map.text_decrypting}</NavPill>
+                    </div>
                   </div>
                 </div>
                 <div className="col-md-9">
                   <div className="jumbotron secureBackground">
-                    <section className="well">
+                    <section className="card">
                       <Route path='/encryption/file-encrypt' component={EncryptFile} />
                       <Route path='/encryption/file-decrypt' component={EncryptFile} />
                       <Route path='/encryption/text-encrypt' component={EncryptText} />

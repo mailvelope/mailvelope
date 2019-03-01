@@ -40,29 +40,29 @@ export default class DecryptText extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className={`panel panel-default ${this.state.decryptId ? 'hide' : 'show'}`}>
-          <div className="panel-heading">
-            <h3 className="panel-title"><span>{l10n.map.text_paste_armored_header}</span></h3>
+      <div className="card-body">
+        <div className={`card ${this.state.decryptId ? 'd-none' : ''}`}>
+          <div className="card-header">
+            {l10n.map.text_paste_armored_header}
           </div>
-          <div className="panel-body" style={{height: '400px'}}>
+          <div className="card-body" style={{height: '400px'}}>
             <textarea className="form-control" value={this.state.armored} onChange={event => this.setState({armored: event.target.value})} rows={12} autoFocus spellCheck="false" autoComplete="off"
               style={{width: '100%', height: '100%', marginBottom: 0, color: 'black', resize: 'none', fontFamily: 'monospace'}}
             />
           </div>
-          <div className="panel-footer text-right">
+          <div className="card-footer d-flex justify-content-end">
             <button type="button" onClick={() => this.handleDecrypt()} className="btn btn-primary btn-sm">{l10n.map.text_decrypt_button}</button>
           </div>
         </div>
-        <div className={`panel panel-default ${this.state.decryptId ? 'show' : 'hide'}`}>
-          <div className="panel-heading">
-            <h3 className="panel-title"><span>{l10n.map.decrypt_popup_title}</span></h3>
+        <div className={`card ${this.state.decryptId ? '' : 'd-none'}`}>
+          <div className="card-header">
+            {l10n.map.decrypt_popup_title}
           </div>
-          <div className="panel-body decrypt-text-message" style={{height: '400px'}}>
+          <div className="card-body decrypt-text-message" style={{height: '400px'}}>
             {this.state.decryptId &&  <DecryptMessage id={this.state.decryptId} secureBackground={false} />}
           </div>
-          <div className="panel-footer text-right">
-            <button type="button" onClick={() => this.handleBack()} className="btn btn-sm btn-default">{l10n.map.form_back}</button>
+          <div className="card-footer d-flex justify-content-end">
+            <button type="button" onClick={() => this.handleBack()} className="btn btn-sm btn-secondary">{l10n.map.form_back}</button>
           </div>
         </div>
       </div>

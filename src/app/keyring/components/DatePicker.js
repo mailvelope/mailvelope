@@ -12,16 +12,15 @@ import './DatePicker.css';
 
 class CustomInput extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const clearClasses = `form-control-clear glyphicon glyphicon-remove form-control-feedback ${this.props.value ? '' : 'hidden'}`;
     return (
       <div className="input-group">
-        <div className="has-feedback">
-          <input type="text" className="form-control" value={this.props.value} placeholder={this.props.placeholder} disabled={this.props.disabled} readOnly />
-          <span className={clearClasses} onClick={this.props.onClearDate} aria-hidden="true"></span>
-        </div>
-        <span className="input-group-btn">
-          <button type="button" className="btn btn-default" onClick={this.props.onClick} disabled={this.props.disabled}>
-            <i className="glyphicon glyphicon-calendar"></i>
+        <input type="text" className="form-control border-right-0" value={this.props.value} placeholder={this.props.placeholder} disabled={this.props.disabled} readOnly />
+        <span className="input-group-append">
+          <span className={`input-group-text border-left-0 bg-white ${this.props.value ? '' : 'd-none'}`}>
+            <i className="form-control-clear fa fa-times" onClick={this.props.onClearDate} aria-hidden="true"></i>
+          </span>
+          <button type="button" className="btn btn-secondary" onClick={this.props.onClick} disabled={this.props.disabled}>
+            <i className="fa fa-calendar"></i>
           </button>
         </span>
       </div>

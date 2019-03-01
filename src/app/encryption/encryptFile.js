@@ -83,60 +83,58 @@ export default class EncryptFile extends React.Component {
 
   render() {
     return (
-      <section id="encrypting">
-        <div id="file_encrypting" className={this.props.match.path !== '/encryption/file-encrypt' ? 'hide' : ''}>
-
-          <div id="encrypt_fileUploadPanel" className="encrypt-panel panel panel-default">
-            <div className="panel-heading">
-              <h3 className="panel-title"><span>{l10n.map.encrypt_file_selection}</span></h3>
+      <div className="card-body" id="encrypting">
+        <div id="file_encrypting" className={this.props.match.path !== '/encryption/file-encrypt' ? 'd-none' : ''}>
+          <div id="encrypt_fileUploadPanel" className="encrypt-panel card">
+            <div className="card-header">
+              {l10n.map.encrypt_file_selection}
             </div>
-            <div className="panel-body">
+            <div className="card-body">
               <div className="row">
-                <div className="col-xs-9">
+                <div className="col-9">
                   <output id="encrypt_fileSelection" className="itemSelection"></output>
                 </div>
-                <div className="col-xs-3">
+                <div className="col-3">
                   <p>
-                    <input id="encrypt_fileUpload" type="file" className="hidden" multiple />
+                    <input id="encrypt_fileUpload" type="file" className="d-none" multiple />
                     <button type="button" id="encrypt_addFileBtn" className="btn btn-sm btn-block btn-success">
-                      <i className="glyphicon glyphicon-plus"></i>
-                      <span>{l10n.map.encrypt_dialog_add}</span>
+                      <i className="fa fa-plus" aria-hidden="true"></i> {l10n.map.encrypt_dialog_add}
                     </button>
-                    <span className="help-block"></span>
+                    <small className="form-text text-muted"></small>
                   </p>
                 </div>
               </div>
               <div className="fileUploadError alert alert-danger" role="alert"></div>
             </div>
-            <div className="panel-footer text-right">
+            <div className="card-footer text-right">
               <button type="button" id="encrypt_goToPersonBtn" className="btn btn-primary btn-sm">{l10n.map.form_next}</button>
             </div>
           </div>
 
-          <div id="encrypt_personPanel" className="encrypt-panel panel panel-default">
-            <div className="panel-heading">
-              <h3 className="panel-title">{l10n.map.encrypt_dialog_header}</h3>
+          <div id="encrypt_personPanel" className="encrypt-panel card">
+            <div className="card-header">
+              {l10n.map.encrypt_dialog_header}
             </div>
-
-            <div className="panel-body">
-              <div className="row">
-                <div className="col-xs-9">
+            <div className="card-body">
+              <div className="row align-items-center form-group">
+                <div className="col-9">
                   <select id="encrypt_keySelect" className="form-control"></select>
                 </div>
-                <div className="col-xs-3">
-                  <button type="button" id="encrypt_addPersonBtn" className="btn btn-sm btn-success btn-block">{l10n.map.encrypt_dialog_add}</button>
+                <div className="col-3">
+                  <button type="button" id="encrypt_addPersonBtn" className="btn btn-sm btn-success btn-block">
+                    <i className="fa fa-plus" aria-hidden="true"></i> {l10n.map.encrypt_dialog_add}
+                  </button>
                 </div>
               </div>
-
-              <h4>{l10n.map.encrypt_dialog_subheader}</h4>
+              <h5>{l10n.map.encrypt_dialog_subheader}</h5>
               <div className="row">
-                <div className="col-xs-12">
+                <div className="col-12">
                   <output id="encrypt_keyList" className="itemSelection"></output>
                 </div>
               </div>
             </div>
 
-            <div className="panel-footer">
+            <div className="card-footer">
               <EncryptFooter encryptDisabled={this.state.encryptDisabled} armored={this.state.armored}
                 onBack={() => switchPanel($encryptFileUploadPanel, $encryptPanels)}
                 onEncrypt={onEncryptFiles}
@@ -149,80 +147,71 @@ export default class EncryptFile extends React.Component {
             </div>
           </div>
 
-          <div id="encrypt_fileDownloadPanel" className="encrypt-panel panel panel-default">
-
-            <div className="panel-heading">
-              <h3 className="panel-title">{l10n.map.encrypt_download_file_title}</h3>
+          <div id="encrypt_fileDownloadPanel" className="encrypt-panel card">
+            <div className="card-header">
+              {l10n.map.encrypt_download_file_title}
             </div>
-
-            <div className="panel-body">
+            <div className="card-body">
               <div className="row">
-                <div className="col-xs-12">
+                <div className="col-12">
                   <output id="encrypt_fileDownload" className="itemSelection"></output>
                 </div>
               </div>
               <div id="encrypt_fileDownloadError" className="alert alert-danger" role="alert"></div>
             </div>
-
-            <div className="panel-footer text-right">
-              <button type="button" id="encrypt_backToPersonBtn" className="btn btn-sm btn-default">{l10n.map.form_back}</button>
-              <button type="button" id="encrypt_downloadAllBtn" className="btn btn-sm btn-primary"><i className="glyphicon glyphicon-save"></i> <span>{l10n.map.encrypt_download_all_button}</span></button>
+            <div className="card-footer d-flex justify-content-end">
+              <button type="button" id="encrypt_backToPersonBtn" className="btn btn-sm btn-secondary mr-1">{l10n.map.form_back}</button>
+              <button type="button" id="encrypt_downloadAllBtn" className="btn btn-sm btn-primary"><i className="fa fa-download" aria-hidden="true"></i> {l10n.map.encrypt_download_all_button}</button>
             </div>
-
             <div className="panel-overlay">
               <div className="waiting"></div>
             </div>
-
           </div>
 
         </div>
-        <div id="file_decrypting" className={this.props.match.path !== '/encryption/file-decrypt' ? 'hide' : ''}>
-
-          <div id="decrypt_fileUploadPanel" className="decrypt-panel panel panel-default">
-            <div className="panel-heading">
-              <h3 className="panel-title"><span>{l10n.map.encrypt_file_selection}</span></h3>
+        <div id="file_decrypting" className={this.props.match.path !== '/encryption/file-decrypt' ? 'd-none' : ''}>
+          <div id="decrypt_fileUploadPanel" className="decrypt-panel card">
+            <div className="card-header">
+              {l10n.map.encrypt_file_selection}
             </div>
-            <div className="panel-body">
+            <div className="card-body">
               <div className="row">
-                <div className="col-xs-9">
+                <div className="col-9">
                   <output id="decrypt_fileSelection" className="itemSelection"></output>
                 </div>
-                <div className="col-xs-3">
+                <div className="col-3">
                   <p>
-                    <input id="decrypt_fileUpload" type="file" className="hidden" multiple accept=".asc,.gpg,.pgp" />
+                    <input id="decrypt_fileUpload" type="file" className="d-none" multiple accept=".asc,.gpg,.pgp" />
                     <button type="button" id="decrypt_addFileBtn" className="btn btn-sm btn-block btn-success">
-                      <i className="glyphicon glyphicon-plus"></i>
-                      <span>{l10n.map.encrypt_dialog_add}</span>
+                      <i className="fa fa-plus" aria-hidden="true"></i> {l10n.map.encrypt_dialog_add}
                     </button>
-                    <span className="help-block"></span>
+                    <small className="form-text text-muted"></small>
                   </p>
                 </div>
               </div>
               <div className="fileUploadError alert alert-danger" role="alert"></div>
             </div>
-            <div className="panel-footer text-right">
+            <div className="card-footer d-flex justify-content-end">
               <button type="button" id="decrypt_goToDownloadBtn" className="btn btn-primary btn-sm">{l10n.map.form_next}</button>
             </div>
           </div>
 
-          <div id="decrypt_fileDownloadPanel" className="decrypt-panel panel panel-default">
-
-            <div className="panel-heading">
-              <h3 className="panel-title">{l10n.map.encrypt_download_file_title}</h3>
+          <div id="decrypt_fileDownloadPanel" className="decrypt-panel card">
+            <div className="card-header">
+              {l10n.map.encrypt_download_file_title}
             </div>
-
-            <div className="panel-body">
+            <div className="card-body">
               <div className="row">
-                <div className="col-xs-12">
+                <div className="col-12">
                   <output id="decrypt_fileDownload" className="itemSelection"></output>
                 </div>
               </div>
               <div id="decrypt_fileDownloadError" className="alert alert-danger" role="alert"></div>
             </div>
 
-            <div className="panel-footer text-right">
-              <button type="button" id="decrypt_backToUploadBtn" className="btn btn-sm btn-default">{l10n.map.form_back}</button>
-              <button type="button" id="decrypt_downloadAllBtn" className="btn btn-sm btn-primary"><i className="glyphicon glyphicon-save"></i> <span>{l10n.map.encrypt_download_all_button}</span></button>
+            <div className="card-footer d-flex justify-content-end">
+              <button type="button" id="decrypt_backToUploadBtn" className="btn btn-sm btn-secondary mr-1">{l10n.map.form_back}</button>
+              <button type="button" id="decrypt_downloadAllBtn" className="btn btn-sm btn-primary"><i className="fa fa-download" aria-hidden="true"></i> {l10n.map.encrypt_download_all_button}</button>
             </div>
 
             <div className="panel-overlay">
@@ -231,7 +220,7 @@ export default class EncryptFile extends React.Component {
           </div>
 
         </div>
-      </section>
+      </div>
     );
   }
 }
@@ -244,7 +233,7 @@ function init() {
   addEncryptInteractivity();
   addDecryptInteractivity();
 
-  $('#encrypting .alert').hide();
+  $('#encrypting .alert').addClass('d-none');
 
   initRecipientsSelection();
 }
@@ -264,11 +253,11 @@ function addEncryptInteractivity() {
   $encryptFileUploadPanel = $('#encrypt_fileUploadPanel');
   $encryptPersonPanel = $('#encrypt_personPanel');
   $encryptFileDownloadPanel = $('#encrypt_fileDownloadPanel');
-  $encryptPanels = $('.panel.encrypt-panel');
+  $encryptPanels = $('.card.encrypt-panel');
   $encryptFileSelection = $('#encrypt_fileSelection');
   $encryptFileDownloadError = $('#encrypt_fileDownloadError');
 
-  const $waiting = $('.waiting', $encryptFileDownloadPanel).hide();
+  const $waiting = $('.waiting', $encryptFileDownloadPanel).addClass('d-none');
   addLoadingAnimation($waiting);
 
   $encryptFileUpload = $('#encrypt_fileUpload').change(onAddFile.bind(null, $encryptFileUploadPanel));
@@ -311,12 +300,12 @@ function addEncryptInteractivity() {
 function addDecryptInteractivity() {
   $decryptFileUploadPanel = $('#decrypt_fileUploadPanel');
   $decryptFileDownloadPanel = $('#decrypt_fileDownloadPanel');
-  $decryptPanels = $('.panel.decrypt-panel');
+  $decryptPanels = $('.card.decrypt-panel');
   $decryptFileDownloadError = $('#decrypt_fileDownloadError');
   $decryptFileSelection = $('#decrypt_fileSelection');
   $decryptFileDownload = $('#decrypt_fileDownload');
 
-  const $waiting = $('.waiting', $decryptFileDownloadPanel).hide();
+  const $waiting = $('.waiting', $decryptFileDownloadPanel).addClass('d-none');
   addLoadingAnimation($waiting);
 
   $decryptFileUpload = $('#decrypt_fileUpload').on('change', onAddFile.bind(null, $decryptFileUploadPanel));
@@ -357,14 +346,14 @@ function onDecryptFiles(e) {
   if (!isDecryptCached) {
     $decryptFileDownload.children().remove();
     hideError($decryptFileDownloadError);
-    $('.waiting', $decryptFileDownloadPanel).show();
+    $('.waiting', $decryptFileDownloadPanel).removeClass('d-none');
     const encryptedFiles = fileLib.getFiles($decryptFileUploadPanel);
     decryptFiles(encryptedFiles)
     .catch(error => {
       showError(error.message, $decryptFileDownloadError);
     })
     .then(() => {
-      $('.waiting', $decryptFileDownloadPanel).hide();
+      $('.waiting', $decryptFileDownloadPanel).addClass('d-none');
       isDecryptCached = hasError($decryptFileDownloadError) ? false : true;
       if ($decryptFileDownload.children().length) {
         $decryptDownloadAllBtn.prop('disabled', false);
@@ -403,7 +392,7 @@ function onEncryptFiles(e) {
   if (!isEncryptCached) {
     $encryptFileDownload.children().remove();
     hideError($encryptFileDownloadError);
-    $('.waiting', $encryptFileDownloadPanel).show();
+    $('.waiting', $encryptFileDownloadPanel).removeClass('d-none');
     const plainFiles = fileLib.getFiles($encryptFileUploadPanel);
     const receipients = getSelectedRecipients();
     encryptFiles(plainFiles, receipients)
@@ -417,7 +406,7 @@ function onEncryptFiles(e) {
       showError(error.message, $encryptFileDownloadError);
     })
     .then(() => {
-      $('.waiting', $encryptFileDownloadPanel).hide();
+      $('.waiting', $encryptFileDownloadPanel).addClass('d-none');
     });
   }
   switchPanel($encryptFileDownloadPanel, $encryptPanels);
@@ -583,7 +572,7 @@ function getRecipientButton(recipient) {
   const $button = getRemoveForRecipientButton({
     'title': l10n.map.editor_remove_upload,
     'data-index': recipient.index,
-    'class': 'glyphicon glyphicon-remove btn-remove'
+    'class': 'fa fa-times btn-remove'
   });
 
   const $icon = getIconForRecipientButton();
@@ -610,7 +599,8 @@ function getRecipientButton(recipient) {
  */
 function getContentForRecipientButton(content) {
   return $('<div/>')
-  .append($('<b/>').text(content.name))
+  .addClass('text-muted')
+  .append($('<strong/>').text(content.name))
   .append($('<small/>').text(content.email));
 }
 
@@ -618,7 +608,7 @@ function getContentForRecipientButton(content) {
  * @returns {*|jQuery|HTMLElement}
  */
 function getIconForRecipientButton() {
-  return $('<span/>', {class: 'glyphicon glyphicon-user'});
+  return $('<i/>', {class: 'fa fa-user'});
 }
 
 /**
@@ -669,7 +659,7 @@ function toggleSelectionInKeyList(index, status) {
  * @param {jQuery} $uiComponent
  */
 function showError(msg, $uiComponent, fadeOut) {
-  $uiComponent.text(msg).show();
+  $uiComponent.text(msg).removeClass('d-none');
   if (fadeOut) {
     window.setTimeout(() => {
       $uiComponent.fadeOut('slow');
@@ -681,7 +671,7 @@ function showError(msg, $uiComponent, fadeOut) {
  * @param {jQuery} $uiComponent
  */
 function hideError($uiComponent) {
-  $uiComponent.text('').hide();
+  $uiComponent.text('').addClass('d-none');
 }
 
 /**
@@ -696,6 +686,6 @@ function hasError($uiComponent) {
  * @param {Array<jQuery>} $panels
  */
 function switchPanel($panel, $panels) {
-  $panels.hide();
-  $panel.show();
+  $panels.addClass('d-none');
+  $panel.removeClass('d-none');
 }
