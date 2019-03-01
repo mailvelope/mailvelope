@@ -7,8 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 
-import ModalDialog from '../../../components/util/ModalDialog';
-import OnOffSwitch from './OnOffSwitch';
+import Modal from '../../../components/util/Modal';
 
 l10n.register([
   'watchlist_record_title',
@@ -25,55 +24,57 @@ l10n.register([
 
 export default function WatchListEditor(props) {
   return (
-    <ModalDialog title={l10n.map.watchlist_record_title} onHide={props.onHide} hide={props.hide} footer={
+    <Modal title={l10n.map.watchlist_record_title} onHide={props.onHide} hide={props.hide} footer={
       <EditorFooter onAddMatchPattern={props.onAddMatchPattern} onSave={props.onSave} />
     }>
       <div>
         <form role="form">
           <div className="form-group">
-            <label htmlFor="switchWebSite" className="control-label">{l10n.map.watchlist_title_active}</label>
-            <div>
-              <OnOffSwitch checked={props.site.active} onChange={e => props.onChangeSite('active', e.target.checked)} id='switchWebSite' />
+            <div className="custom-control custom-switch">
+              <input type="checkbox" className="custom-control-input" onChange={e => props.onChangeSite('active', e.target.checked)} id="switchWebSite" checked={props.site.active} />
+              <label className="custom-control-label" htmlFor="switchWebSite">{l10n.map.watchlist_title_active}</label>
             </div>
           </div>
-          <div className="row">
-            <div className="col-sm-9 form-group">
-              <label htmlFor="webSiteName" className="control-label">{l10n.map.watchlist_title_site}</label>
-              <div>
-                <input type="text" value={props.site.site} onChange={e => props.onChangeSite('site', e.target.value)} className="form-control" id="webSiteName" placeholder="e.g. GMX or GMail" />
-              </div>
-            </div>
-            <div className="col-sm-3 form-group">
-              <label htmlFor="switchHttpsOnly" className="control-label">{l10n.map.watchlist_title_https_only}</label>
-              <div>
-                <OnOffSwitch className="onoffswitch-danger" checked={props.site.https_only} onChange={e => props.onChangeSite('https_only', e.target.checked)} id='switchHttpsOnly' />
+          <div>
+            <label htmlFor="webSiteName" className="control-label">{l10n.map.watchlist_title_site}</label>
+            <div className="d-flex flex-wrap align-items-center align-content-stretch">
+              <input type="text" value={props.site.site} onChange={e => props.onChangeSite('site', e.target.value)} className="form-group form-control w-auto flex-grow-1 mr-2" id="webSiteName" placeholder="e.g. GMX or GMail" />
+              <div className="form-group custom-control custom-switch">
+                <input type="checkbox" className="custom-control-input" onChange={e => props.onChangeSite('https_only', e.target.checked)} id="switchHttpsOnly" checked={props.site.https_only} />
+                <label className="custom-control-label text-nowrap" htmlFor="switchHttpsOnly">{l10n.map.watchlist_title_https_only}</label>
               </div>
             </div>
           </div>
-          <table className="table table-hover table-condensed table-striped optionsTable" id="watchList">
+          <table className="table table-sm table-hover table-condensed table-striped optionsTable" id="watchList">
             <thead>
               <tr>
-                <th className="col-sm-2">{l10n.map.watchlist_title_scan}</th>
-                <th className="col-sm-5">{l10n.map.watchlist_title_frame}</th>
-                <th className="col-sm-2">{l10n.map.watchlist_expose_api}</th>
-                <th className="col-sm-3"></th>
+                <th>{l10n.map.watchlist_title_scan}</th>
+                <th>{l10n.map.watchlist_title_frame}</th>
+                <th>{l10n.map.watchlist_expose_api}</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               {props.site.frames.map((frame, index) =>
                 <tr key={index}>
-                  <td className="col-sm-2">
-                    <OnOffSwitch checked={frame.scan} onChange={e => props.onChangeFrame({scan: e.target.checked}, index)} id={`frame_scan${index}`} />
+                  <td>
+                    <div className="custom-control custom-switch">
+                      <input type="checkbox" className="custom-control-input" onChange={e => props.onChangeFrame({scan: e.target.checked}, index)} id={`frame_scan${index}`} checked={frame.scan} />
+                      <label className="custom-control-label" />
+                    </div>
                   </td>
-                  <td className="form-group col-sm-5">
-                    <input type="text" value={frame.frame} onChange={e => props.onChangeFrame({frame: e.target.value}, index)} className="form-control matchPatternName" placeholder="e.g.: *.gmx.de" />
+                  <td>
+                    <input type="text" value={frame.frame} onChange={e => props.onChangeFrame({frame: e.target.value}, index)} className="form-control matchPatternName w-100" placeholder="e.g.: *.gmx.de" />
                   </td>
-                  <td className="col-sm-2">
-                    <OnOffSwitch checked={frame.api} onChange={e => props.onChangeFrame({api: e.target.checked}, index)} id={`frame_api${index}`} />
+                  <td>
+                    <div className="custom-control custom-switch">
+                      <input type="checkbox" className="custom-control-input" onChange={e => props.onChangeFrame({api: e.target.checked}, index)} id={`frame_api${index}`} checked={frame.api} />
+                      <label className="custom-control-label" />
+                    </div>
                   </td>
-                  <td className="text-center col-sm-3">
-                    <button type="button" onClick={() => props.onDeleteMatchPattern(index)} className="btn btn-default deleteMatchPatternBtn">
-                      <span className="glyphicon glyphicon-trash"></span>&nbsp;<span>{l10n.map.keygrid_delete}</span>
+                  <td className="text-right">
+                    <button type="button" onClick={() => props.onDeleteMatchPattern(index)} className="btn btn-sm btn-secondary deleteMatchPatternBtn text-nowrap">
+                      <i className="fa fa-trash-o" aria-hidden="true"></i> {l10n.map.keygrid_delete}
                     </button>
                   </td>
                 </tr>
@@ -83,7 +84,7 @@ export default function WatchListEditor(props) {
           </table>
         </form>
       </div>
-    </ModalDialog>
+    </Modal>
   );
 }
 
@@ -100,15 +101,15 @@ WatchListEditor.propTypes = {
 
 function EditorFooter(props) {
   return (
-    <div>
-      <button type="button" onClick={props.onAddMatchPattern} className="btn btn-warning pull-left">
-        <span className="glyphicon glyphicon-plus"></span>&nbsp;<span>{l10n.map.watchlist_title_frame}</span>
+    <div className="d-flex w-100">
+      <button type="button" onClick={props.onAddMatchPattern} className="btn btn-warning mr-auto">
+        <i className="fa fa-plus" aria-hidden="true"></i> {l10n.map.watchlist_title_frame}
       </button>
-      <button type="button" className="btn btn-default" data-dismiss="modal">
-        <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;<span>{l10n.map.form_cancel}</span>
+      <button type="button" className="btn btn-secondary mr-1" data-dismiss="modal">
+        <i className="fa fa-times" aria-hidden="true"></i> {l10n.map.form_cancel}
       </button>
       <button type="button" onClick={props.onSave} className="btn btn-primary">
-        <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;<span>{l10n.map.form_ok}</span>
+        <i className="fa fa-check" aria-hidden="true"></i> {l10n.map.form_ok}
       </button>
     </div>
   );
