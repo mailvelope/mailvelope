@@ -257,10 +257,10 @@ module.exports = function(grunt) {
         command: 'web-ext build --source-dir=build/firefox --artifacts-dir=dist'
       },
       karma_test: {
-        command: 'node node_modules/karma/bin/karma start --single-run --browsers ChromeHeadlessNoSandbox test/karma.conf.js'
+        command: 'node --max_old_space_size=4096 node_modules/karma/bin/karma start --single-run --browsers ChromeHeadlessNoSandbox test/karma.conf.js'
       },
       karma_test_dev: {
-        command: 'node --max_old_space_size=4096 node_modules/karma/bin/karma start --browsers ChromeHeadlessNoSandbox test/karma.conf.js --single-run --dev'
+        command: 'node --max_old_space_size=4096 node_modules/karma/bin/karma start --single-run --browsers ChromeHeadlessNoSandbox test/karma.conf.js --dev'
       }
     },
 
