@@ -110,7 +110,7 @@ export default class KeyGrid extends React.Component {
     }
     return (
       <div className="card-body">
-        <div className="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+        <div className="form-group btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
           <div>
             <Link className="btn btn-secondary mr-1 mb-1" to='/keyring/generate' replace tabIndex="0" title={l10n.map.keygrid_generate_title}>
               <i className="fa fa-plus-circle" aria-hidden="true"></i> {l10n.map.key_gen_generate}
@@ -129,7 +129,7 @@ export default class KeyGrid extends React.Component {
             <label htmlFor="keyringFilterBtn" className="keyringFilterLabel mr-1">
               <i className="fa fa-filter" aria-hidden="true"></i> {l10n.map.keygrid_sort_type}:
             </label>
-            <select value={this.state.keyTypeFilter} onChange={e => this.handleChangeKeyTypeFilter(e)} className="form-control" id="keyringFilterBtn" style={{marginBottom: '4px'}}>
+            <select value={this.state.keyTypeFilter} onChange={e => this.handleChangeKeyTypeFilter(e)} className="form-control d-inline-block w-auto" id="keyringFilterBtn">
               <option value="allkeys">{l10n.map.keygrid_all_keys}</option>
               <option value="publickeys">{l10n.map.keygrid_public_keys}</option>
               <option value="keypairs">{l10n.map.keyring_public_private}</option>
@@ -137,7 +137,7 @@ export default class KeyGrid extends React.Component {
           </div>
         </div>
         <div className="table-responsive table-responsive-custom">
-          <table className="table table-striped table-hover optionsTable" id="keyRingTable">
+          <table className="table table-striped table-hover border" id="keyRingTable">
             <thead>
               <tr>
                 <th></th>

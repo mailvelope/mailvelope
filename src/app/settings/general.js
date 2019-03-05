@@ -124,8 +124,8 @@ export default class General extends React.Component {
                         <div><strong>{l10n.map.general_gnupg_not_available}</strong></div>
                         <div>
                           <Trans id={l10n.map.general_gnupg_installed_question} components={[
-                            <a key="0" href="https://www.gnupg.org/download/index.html" target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm m-1" role="button"></a>,
-                            <button key="1" type="button" onClick={() => chrome.runtime.reload()} className="btn btn-secondary btn-sm mx-1"></button>
+                            <a key="0" href="https://www.gnupg.org/download/index.html" target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm my-1" role="button"></a>,
+                            <button key="1" type="button" onClick={() => chrome.runtime.reload()} className="btn btn-secondary btn-sm"></button>
                           ]} />
                         </div>
                       </div>

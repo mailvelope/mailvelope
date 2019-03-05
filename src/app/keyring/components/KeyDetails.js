@@ -16,8 +16,6 @@ import KeyStatus from './KeyStatus';
 import Modal from '../../../components/util/Modal';
 import Alert from '../../../components/util/AlertBS4';
 
-import './KeyDetails.css';
-
 l10n.register([
   'keydetails_title',
   'keygrid_validity_status',
@@ -197,7 +195,7 @@ export default class KeyDetails extends React.Component {
                   <dt className="col-sm-3 mb-2">{l10n.map.keydetails_expiration_date}</dt>
                   <dd className="col-sm-9">
                     {!this.context.gnupg && this.props.keyDetails.type !== 'public' && this.state.selectedKeyIdx === 0 ? (
-                      <div className="input-group input-group-sm">
+                      <div className="input-group input-group-sm" style={{width: '155px'}}>
                         <input type="text" readOnly className="form-control" value={this.state.exDateInput !== null ? this.state.exDateInput.format('L') : 'nie'} />
                         <div className="input-group-append">
                           <button onClick={() => this.setState({showExDateModal: true})} className="btn btn-sm btn-secondary" type="button" disabled={!this.props.keyDetails.validity}>{l10n.map.change_link}</button>
@@ -212,7 +210,7 @@ export default class KeyDetails extends React.Component {
                       <dt className="col-sm-3 mb-2">{l10n.map.keydetails_password}</dt>
                       <dd className="col-sm-9">
                         {!this.context.gnupg && this.state.selectedKeyIdx === 0 ? (
-                          <div className="input-group input-group-sm">
+                          <div className="input-group input-group-sm" style={{width: '155px'}}>
                             <input type="password" readOnly className="form-control" value="********" />
                             <span className="input-group-append">
                               <button onClick={() => this.setState({showPwdModal: true})} className="btn btn-secondary" type="button" disabled={!this.props.keyDetails.validity}>{l10n.map.change_link}</button>

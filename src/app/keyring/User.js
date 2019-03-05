@@ -19,8 +19,6 @@ import Spinner from '../../components/util/Spinner';
 import Modal from '../../components/util/Modal';
 import Alert from '../../components/util/AlertBS4';
 
-import './User.css';
-
 l10n.register([
   'user_title',
   'user_create_btn',
@@ -283,7 +281,7 @@ export default class User extends React.Component {
     }
     return (
       <Alert type={data.type}>
-        <span className="margin-right-sm">{data.text}</span>
+        <span className="mr-2">{data.text}</span>
         {(this.state.keyDetails.validity && data.btnText && (this.state.user.remote || this.state.user.status === PGP_KEYSTATUS_VALID)) && <button type="button" onClick={() => this.handleKeyServerSync(data.handler)} className="btn btn-sm btn-secondary mr-1">{data.btnText}</button>}
         {(this.state.user.remote && !this.state.syncAction) && <button type="button" onClick={() => this.handleKeyServerSync({sync: false})} className="btn btn-sm btn-secondary">{l10n.map.user_keyserver_remove_btn}</button>}
       </Alert>

@@ -1,18 +1,7 @@
-.keyUsers .panel-heading {
-    padding: 5px 15px;
-}
-
-.keyUsers .panel-heading h4 {
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 30px;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    display: inline-block;
-}
-/*.keyUsers .table {
-    font-size: 14px;
-}*/
+/**
+ * Copyright (C) 2019 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
+ */
 
 .keyUsers .table>tbody>tr {
     cursor: pointer;

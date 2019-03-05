@@ -20,8 +20,6 @@ import Spinner from '../../components/util/Spinner';
 import Alert from '../../components/util/AlertBS4';
 import Modal from '../../components/util/Modal';
 
-import './Key.css';
-
 l10n.register([
   'keyring_header',
   'action_menu_back',

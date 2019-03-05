@@ -1,12 +1,7 @@
 /**
- * Copyright (C) 2016 Mailvelope GmbH
+ * Copyright (C) 2019 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
-
-#keyringFilterBtn {
-  width: auto;
-  display: inline-block;
-}
 
 #keyRingTable tr {
     cursor: pointer;
@@ -43,10 +38,6 @@
     }
 }
 
-/*button.keyDetailsBtn, button.keyDeleteBtn {
-    min-width: 30px;
-}*/
-
 #keyRingTable tr .actions {
     white-space: nowrap;
     visibility: hidden;
@@ -57,12 +48,9 @@
 }
 
 .actions .btn {
-    margin-right: 5px;
+    margin-right: 0.25rem;
 }
 .actions .btn:last-child {
     margin-right: 0;
 }
 
-/*.keyringFilterLabel > * {
-    margin-right: 10px;
-}*/

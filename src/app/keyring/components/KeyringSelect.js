@@ -7,7 +7,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {KEYRING_DELIMITER, MAIN_KEYRING_ID, GNUPG_KEYRING_ID} from '../../../lib/constants';
-import './KeyringSelect.css';
 import * as l10n from '../../../lib/l10n';
 import {port} from '../../app';
 
@@ -121,7 +120,7 @@ export default class KeyringSelect extends React.Component {
                     </div>
                   </Link>
                   {keyringId !== MAIN_KEYRING_ID && keyringId !== GNUPG_KEYRING_ID &&
-                    <a onClick={() => this.props.onDelete(keyringId, keyringName)} className="btn btn-link pr-2">
+                    <a onClick={() => this.props.onDelete(keyringId, keyringName)} href="#" className="btn btn-link pr-2">
                       <i className="fa fa-trash-o" aria-hidden="true"></i>
                     </a>
                   }
