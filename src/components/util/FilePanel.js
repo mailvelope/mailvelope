@@ -41,8 +41,8 @@ function FileUploadElement({file, secureIcon, onRemove}) {
     <div className="file-element" id={file.id} title={file.name}>
       {fileExt && <span className={`file-extension ${getExtensionClass(fileExt)}`}>{fileExt}</span>}
       <span className="file-name">{extractFileNameWithoutExt(file.name)}</span>
-      {secureIcon && <span className="glyphicon glyphicon-lock secure-icon"></span>}
-      {onRemove && <span title={l10n.map.editor_remove_upload} className="glyphicon glyphicon-remove remove-file" onClick={() => onRemove(file.id)}></span>}
+      {secureIcon && <i className="fa fa-lock secure-icon"></i>}
+      {onRemove && <i title={l10n.map.editor_remove_upload} className="fa fa-times remove-file" onClick={() => onRemove(file.id)}></i>}
     </div>
   );
 }

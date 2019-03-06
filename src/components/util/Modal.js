@@ -29,7 +29,7 @@ class Modal extends React.Component {
       <div className={`modal fade ${this.props.className || ''}`} tabIndex="-1" role="dialog" ref={node => this.$node = $(node)}>
         <div className={`modal-dialog ${this.props.size === 'small' ? 'modal-sm' : this.props.size === 'large' ? 'modal-lg' : ''}`} role="document">
           <div className="modal-content">
-            <div className={`modal-header ${this.props.hideHeader ? 'hide' : ''} ${this.props.headerClass}`}>
+            <div className={`modal-header ${this.props.hideHeader ? 'd-none' : ''} ${this.props.headerClass}`}>
               {this.props.header ||
                 <>
                   <h5 className="modal-title">{this.props.title}</h5>

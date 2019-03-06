@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012-2017 Mailvelope GmbH
+ * Copyright (C) 2012-2019 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
 
@@ -11,7 +11,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import $ from 'jquery';
 import * as l10n from '../../lib/l10n';
 import {showSecurityBackground, str2ab, terminate} from '../../lib/util';
 import {MAX_FILE_UPLOAD_SIZE} from '../../lib/constants';
@@ -22,8 +21,8 @@ import EditorFooter from './components/EditorFooter';
 import EditorModalFooter from './components/EditorModalFooter';
 import {RecipientInput} from './components/RecipientInput';
 import BlurWarning from './components/BlurWarning';
-import ModalDialog from '../util/ModalDialog';
-import Alert from '../util/Alert';
+import Modal from '../util/Modal';
+import Alert from '../util/AlertBS4';
 import Spinner from '../util/Spinner';
 
 import * as fileLib from '../../lib/file';
@@ -78,9 +77,6 @@ export default class Editor extends React.Component {
     }
     if (this.props.embedded) {
       this.fileUpload = new fileLib.FileUpload();
-    } else {
-      // keep initial bottom position of body
-      this.modalBodyBottomPosition = $('.m-modal .modal-body').css('bottom');
     }
   }
 
@@ -235,13 +231,10 @@ export default class Editor extends React.Component {
   }
 
   handleOptionsExpand() {
-    $('.m-modal .modal-body').animate({bottom: '172px'}, () => {
-      this.setState({optionsExpanded: true});
-    });
+    this.setState({optionsExpanded: true});
   }
 
   handleOptionsCollapse() {
-    $('.m-modal .modal-body').animate({bottom: this.modalBodyBottomPosition});
     this.setState({optionsExpanded: false});
   }
 
@@ -320,45 +313,34 @@ export default class Editor extends React.Component {
 
   editorBody() {
     return (
-      <div style={{height: '100%'}}>
-        <div className="editor-flex-container">
-          <div className={`editor-header ${this.props.secureBackground || this.state.files.length ? '' : 'hide'}`}>
-            {this.props.secureBackground &&
-              <div className="button-bar">
-                <button type="button" className="btn btn-link secureBgndSettingsBtn" title={l10n.map.security_background_button_title}
-                  onClick={() => this.port.emit('open-security-settings')}>
-                  <span className="glyphicon lockBtnIcon"></span>
-                </button>
-              </div>
-            }
-            <div className="upload-panel">
-              <FileUploadPanel files={this.state.files} onRemoveFile={id => this.handleRemoveFile(id)} />
-            </div>
-          </div>
-          {this.props.recipientInput &&
-            <div className="editor-recipients">
-              <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients} autoLocate={this.state.autoLocate} encryptDisabled={this.state.encryptDisabled}
-                onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
-                onAutoLocate={recipient => this.port.emit('auto-locate', {recipient})}
-              />
-            </div>
+      <div className="editor d-flex flex-column align-content-center p-3 h-100">
+        <div className={`editor-header ${this.props.secureBackground || this.state.files.length ? 'd-flex' : 'd-none'} overflow-auto align-items-start mb-2 w-100`}>
+          <FileUploadPanel files={this.state.files} onRemoveFile={id => this.handleRemoveFile(id)} />
+          {this.props.secureBackground &&
+            <button type="button" className="btn btn-link secureBgndSettingsBtn lockBtnIcon flex-shrink-0 ml-auto" onClick={() => this.port.emit('open-security-settings')} title={l10n.map.security_background_button_title}></button>
           }
-          <div className="editor-body">
-            <div className="plain-text">
-              <PlainText defaultValue={this.state.defaultPlainText} onChange={() => this.handleTextChange()}
-                onBlur={() => this.blurWarning && this.blurWarning.onBlur()} onMouseUp={element => this.handleTextMouseUp(element)} onLoad={() => this.handlePlainTextLoad()}
-                ref={node => this.plainText = node}
-              />
-            </div>
+        </div>
+        {this.props.recipientInput &&
+          <div className="editor-recipients mb-2 w-100">
+            <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients} autoLocate={this.state.autoLocate} encryptDisabled={this.state.encryptDisabled}
+              onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
+              onAutoLocate={recipient => this.port.emit('auto-locate', {recipient})}
+            />
           </div>
-          <div className="editor-footer">
-            <EditorFooter embedded={this.props.embedded} signMsg={this.state.signMsg} defaultKey={this.state.defaultKey}
-              onClickUpload={() => this.logUserInput('security_log_add_attachment')}
-              onChangeFileInput={e => this.handleAddAttachment(e)}
-              onClickFileEncryption={() => this.port.emit('open-app', {fragment: '/encryption/file-encrypt'})}
+        }
+        <div className="editor-body flex-grow-1 mb-2 w-100">
+          <div className="plain-text w-100 h-100">
+            <PlainText defaultValue={this.state.defaultPlainText} onChange={() => this.handleTextChange()}
+              onBlur={() => this.blurWarning && this.blurWarning.onBlur()} onMouseUp={element => this.handleTextMouseUp(element)} onLoad={() => this.handlePlainTextLoad()}
+              ref={node => this.plainText = node}
             />
           </div>
         </div>
+        <EditorFooter embedded={this.props.embedded} signMsg={this.state.signMsg} defaultKey={this.state.defaultKey}
+          onClickUpload={() => this.logUserInput('security_log_add_attachment')}
+          onChangeFileInput={e => this.handleAddAttachment(e)}
+          onClickFileEncryption={() => this.port.emit('open-app', {fragment: '/encryption/file-encrypt'})}
+        />
       </div>
     );
   }
@@ -366,25 +348,27 @@ export default class Editor extends React.Component {
   editorPopup() {
     return (
       <div>
-        <div className={`m-modal ${this.state.pwdDialog ? 'hide' : ''}`}>
-          <div className="modal-header clearfix">
-            <h4>{l10n.map.editor_header}</h4>
-          </div>
-          <div className={`modal-body ${this.props.secureBackground ? 'secureBackground' : ''}`}>
-            {this.editorBody()}
-          </div>
-          <div className="modal-footer">
-            <EditorModalFooter expanded={this.state.optionsExpanded} signMsg={this.state.signMsg} signKey={this.state.signKey}
-              privKeys={this.state.privKeys} encryptDisabled={this.state.encryptDisabled}
-              onCancel={() => this.handleCancel()}
-              onSignOnly={() => this.handleSign()}
-              onEncrypt={() => this.handleEncrypt()}
-              onExpand={() => this.handleOptionsExpand()}
-              onCollapse={() => this.handleOptionsCollapse()}
-              onChangeSignMsg={signMsg => this.setState({signMsg})}
-              onChangeSignKey={signKey => this.setState({signKey})}
-              onClickSignSetting={() => this.port.emit('open-app', {fragment: '/settings/general'})}
-            />
+        <div className={`modal ${this.state.pwdDialog ? 'd-none' : 'd-block'} p-2`}>
+          <div className="modal-content h-100">
+            <div className="modal-header clearfix">
+              <h4 className="modal-title">{l10n.map.editor_header}</h4>
+            </div>
+            <div className={`modal-body ${this.props.secureBackground ? 'secureBackground' : ''} p-0`}>
+              {this.editorBody()}
+            </div>
+            <div className="modal-footer">
+              <EditorModalFooter expanded={this.state.optionsExpanded} signMsg={this.state.signMsg} signKey={this.state.signKey}
+                privKeys={this.state.privKeys} encryptDisabled={this.state.encryptDisabled}
+                onCancel={() => this.handleCancel()}
+                onSignOnly={() => this.handleSign()}
+                onEncrypt={() => this.handleEncrypt()}
+                onExpand={() => this.handleOptionsExpand()}
+                onCollapse={() => this.handleOptionsCollapse()}
+                onChangeSignMsg={signMsg => this.setState({signMsg})}
+                onChangeSignKey={signKey => this.setState({signKey})}
+                onClickSignSetting={() => this.port.emit('open-app', {fragment: '/settings/general'})}
+              />
+            </div>
           </div>
         </div>
         <BlurWarning ref={node => this.blurWarning = node} />
@@ -398,12 +382,12 @@ export default class Editor extends React.Component {
       return null;
     }
     return (
-      <ModalDialog className="waiting-modal" hideHeader={true} hideFooter={true} keyboard={false} onShow={this.blurWarning && this.blurWarning.startBlurValid}>
+      <Modal className="waiting-modal" hideHeader={true} hideFooter={true} keyboard={false} onShow={this.blurWarning && this.blurWarning.startBlurValid}>
         <div>
           <Spinner style={{margin: '10px auto'}} />
           <p className="text-center">{l10n.map.waiting_dialog_prepare_email}&hellip;</p>
         </div>
-      </ModalDialog>
+      </Modal>
     );
   }
 
@@ -412,13 +396,13 @@ export default class Editor extends React.Component {
       return null;
     }
     return (
-      <ModalDialog title={this.state.error.header} onShow={this.blurWarning && this.blurWarning.startBlurValid} footer={
+      <Modal title={this.state.error.header} onShow={this.blurWarning && this.blurWarning.startBlurValid} footer={
         <button type="button" className="btn btn-primary" data-dismiss="modal">{l10n.map.form_ok}</button>
       }>
         <div style={{maxHeight: '120px', overflowX: 'scroll'}}>
           <Alert type={this.state.error.type}>{this.state.error.message}</Alert>
         </div>
-      </ModalDialog>
+      </Modal>
     );
   }
 

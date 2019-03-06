@@ -82,7 +82,7 @@ export default class Security extends React.Component {
               <div className="col-lg-6">
                 <div className="previewContainer">
                   <h5><strong>{l10n.map.security_background_preview}</strong></h5>
-                  <div id="previewArea"></div>
+                  <div id="previewArea" className="w-100 border" style={{height: '150px'}}></div>
                 </div>
               </div>
             </div>

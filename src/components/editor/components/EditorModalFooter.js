@@ -1,13 +1,11 @@
 /**
- * Copyright (C) 2016 Mailvelope GmbH
+ * Copyright (C) 2016-2019 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
-
-import './EditorModalFooter.css';
 
 l10n.register([
   'form_cancel',
@@ -21,22 +19,20 @@ l10n.register([
 class EditorModalFooter extends React.Component {
   signSelection() {
     return (
-      <form className="sign-msg-option well">
-        <div className="form-group">
-          <div className="checkbox">
-            <label className="checkbox" htmlFor="signMsgOption">
-              <input checked={this.props.signMsg} onChange={event => this.props.onChangeSignMsg(event.target.checked)} type="checkbox" id="signMsgOption" />
-              <span>{l10n.map.sign_dialog_header}</span>
-            </label>
+      <form className="sign-msg-option card mb-3" style={{fontSize: '0.875rem'}}>
+        <div className="card-body p-2">
+          <div className="form-inline">
+            <div className="custom-control custom-checkbox custom-control-inline mr-2 mb-1">
+              <input className="custom-control-input" type="checkbox" id="signMsgOption" onChange={event => this.props.onChangeSignMsg(event.target.checked)} checked={this.props.signMsg} />
+              <label className="custom-control-label" htmlFor="signMsgOption">{l10n.map.sign_dialog_header}</label>
+            </div>
+            <select className="custom-select custom-select-sm mb-1" value={this.props.signKey} onChange={event => this.props.onChangeSignKey(event.target.value)}>
+              {this.props.privKeys.map(key => <option value={key.fingerprint} key={key.fingerprint}>{`${key.userId} - ${key.keyId}`}</option>)}
+            </select>
           </div>
-        </div>
-        <div className="form-group">
-          <select className="form-control" value={this.props.signKey} onChange={event => this.props.onChangeSignKey(event.target.value)}>
-            {this.props.privKeys.map(key => <option value={key.fingerprint} key={key.fingerprint}>{`${key.userId} - ${key.keyId}`}</option>)}
-          </select>
-        </div>
-        <div className="form-nav-link pull-right">
-          <a role="button" onClick={this.props.onClickSignSetting}>{l10n.map.general_default_key_auto_sign}</a>
+          <div>
+            <a role="button" href="#" onClick={this.props.onClickSignSetting}>{l10n.map.general_default_key_auto_sign}</a>
+          </div>
         </div>
       </form>
     );
@@ -44,24 +40,26 @@ class EditorModalFooter extends React.Component {
 
   render() {
     return (
-      <div className="editor-modal-footer">
+      <div className="d-flex flex-column w-100">
         {this.props.expanded && this.signSelection()}
-        <button type="button" onClick={this.props.expanded ? this.props.onCollapse : this.props.onExpand} className="btn btn-default btn-sm pull-left">
-          <span>{l10n.map.options_home}</span>&nbsp;&nbsp;
-          <span className={`glyphicon glyphicon-collapse-${this.props.expanded ? 'down' : 'up'}`} aria-hidden="true"></span>
-        </button>
-        <button type="button" onClick={this.props.onSignOnly} className="btn btn-default btn-sm btn-sign-only" disabled={!(this.props.signMsg && this.props.privKeys.length)}>
-          <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;
-          <span>{l10n.map.editor_sign_button}</span>
-        </button>
-        <button type="button" onClick={this.props.onCancel} className="btn btn-default">
-          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;
-          <span>{l10n.map.form_cancel}</span>
-        </button>
-        <button type="button" onClick={this.props.onEncrypt} className="btn btn-primary" disabled={this.props.encryptDisabled}>
-          <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>&nbsp;
-          <span>{l10n.map.editor_encrypt_button}</span>
-        </button>
+        <div className="d-flex align-items-center">
+          <button type="button" onClick={this.props.expanded ? this.props.onCollapse : this.props.onExpand} className="btn btn-secondary btn-sm mr-auto">
+            <span>{l10n.map.options_home}</span>&nbsp;
+            <i className={`fa fa-${this.props.expanded ? 'minus' : 'plus'}-square-o`} aria-hidden="true"></i>
+          </button>
+          <button type="button" onClick={this.props.onSignOnly} className="btn btn-outline-secondary mr-1" disabled={!(this.props.signMsg && this.props.privKeys.length)}>
+            <i className="fa fa-pencil" aria-hidden="true"></i>&nbsp;
+            <span>{l10n.map.editor_sign_button}</span>
+          </button>
+          <button type="button" onClick={this.props.onCancel} className="btn btn-secondary mr-1">
+            <i className="fa fa-remove" aria-hidden="true"></i>&nbsp;
+            <span>{l10n.map.form_cancel}</span>
+          </button>
+          <button type="button" onClick={this.props.onEncrypt} className="btn btn-primary" disabled={this.props.encryptDisabled}>
+            <i className="fa fa-lock" aria-hidden="true"></i>&nbsp;
+            <span>{l10n.map.editor_encrypt_button}</span>
+          </button>
+        </div>
       </div>
     );
   }

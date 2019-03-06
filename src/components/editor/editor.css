@@ -1,49 +1,7 @@
 /**
  * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
+ * Copyright (C) 2012-2019 Mailvelope GmbH
  */
-
-.m-modal {
-  position: absolute;
-  top: 10px;
-  bottom: 10px;
-  left: 10px;
-  right: 10px;
-  margin: 0;
-  background: #ffffff none !important;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 6px;
-  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  background-clip: padding-box;
-  min-width: 720px;
-}
-
-.m-modal > .modal-header {
-  position: absolute;
-  left: 0;
-  right: 0;
-  border-bottom: 0;
-}
-
-.m-modal > .modal-body {
-  border-top: 1px solid #e5e5e5;
-  border-bottom: 1px solid #e5e5e5;
-  position: absolute;
-  top: 60px;
-  bottom: 55px;
-  right: 0;
-  left: 0;
-  overflow: hidden;
-  padding-top: 5px;
-}
-
-.m-modal > .modal-footer {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  border-top: 0;
-}
 
 .editor-popup-pwd-dialog {
   width: 462px;
@@ -55,83 +13,12 @@
   margin-top: -215px;
 }
 
-.editor-flex-container {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  position: absolute;
-  top: 3px;
-  left: 10px;
-  right: 10px;
-  bottom: 8px;
-}
-
-.editor-flex-container .editor-header {
-  width: 100%;
-  order: 0;
-  display: flex;
-  justify-content: space-between;
-}
-
-.editor-flex-container .editor-header .upload-panel {
-  flex: 100%;
-  order: 1;
-  max-height: 107px;
-  overflow-y: auto;
-}
-.editor-flex-container .editor-header .button-bar {
-  flex: 30px;
-  order: 2;
-  margin-bottom: 3px;
-}
-
-.editor-flex-container .editor-recipients {
-  width: 100%;
-  position: relative;
-  order: 0;
-  margin-bottom: 5px;
-}
-
-.editor-flex-container .editor-body {
-  width: 100%;
-  position: relative;
-  order: 0;
-  flex: 1 0 auto;
-  align-self: center;
-  /* https://code.google.com/p/chromium/issues/detail?id=551336 */
-  min-width: 0;
-  min-height: 0;
-}
-
-.editor-flex-container .editor-body .plain-text {
-  margin: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-}
-
-.editor-flex-container .editor-body .plain-text iframe {
+.editor .editor-body .plain-text iframe {
   width: 100%;
   height: 100%;
   margin-bottom: 0;
   color: black;
   resize: none;
-}
-
-.editor-flex-container .editor-footer {
-  width: 100%;
-  padding-top: 4px;
-  order: 0;
-  flex: 0 1 40px;
-  align-self: auto;
 }
 
 .waiting-modal .modal-dialog {

@@ -1,13 +1,11 @@
 /**
- * Copyright (C) 2016 Mailvelope GmbH
+ * Copyright (C) 2016-2019 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
-
-import './EditorFooter.css';
 
 l10n.register([
   'upload_attachment',
@@ -34,7 +32,7 @@ class EditorFooter extends React.Component {
 
   initTooltip() {
     if (this.props.signMsg) {
-      $(this.signCaption).tooltip();
+      $(this.signCaption).tooltip({container: '.editor'});
     }
   }
 
@@ -47,20 +45,20 @@ class EditorFooter extends React.Component {
     const sign_caption_short = this.props.defaultKey ? l10n.map.editor_sign_caption_short : l10n.map.editor_no_default_key_caption_short;
     const sign_caption_long = this.props.defaultKey ? l10n.map.editor_sign_caption_long : l10n.map.editor_no_default_key_caption_long;
     return (
-      <div className="editor-footer">
-        <div className="form-group pull-left">
-          <button type="button" onClick={this.handleClickUpload} className={`btn btn-default btn-upload-embedded ${this.props.embedded ? 'show' : 'hide'}`}>
-            <span className="glyphicon glyphicon-paperclip"></span>&nbsp;
+      <div className="editor-footer w-100 d-flex flex-wrap align-items-center">
+        <div>
+          <button type="button" onClick={this.handleClickUpload} className={`btn btn-sm btn-secondary ${this.props.embedded ? '' : 'd-none'}`}>
+            <i className="fa fa-paperclip" aria-hidden="true"></i>&nbsp;
             <span>{l10n.map.upload_attachment}</span>
           </button>
-          <input type="file" className="add-file-input" multiple="multiple" onChange={this.props.onChangeFileInput} />
-          <div className={`nav-link-file-encryption ${!this.props.embedded ? 'show' : 'hide'}`}>
-            <a role="button" onClick={this.props.onClickFileEncryption}>{l10n.map.editor_link_file_encryption}</a>
+          <input type="file" className="add-file-input d-none" multiple="multiple" onChange={this.props.onChangeFileInput} />
+          <div className={`${!this.props.embedded ? '' : 'd-none'} rounded`} style={{background: 'rgba(255,255,255,.5)', padding: '0.1rem 0.2rem', fontSize: '80%'}}>
+            <a role="button" className="text-decoration-none" href="#" onClick={this.props.onClickFileEncryption}>{l10n.map.editor_link_file_encryption}</a>
           </div>
         </div>
-        <div className="pull-right">
-          <span ref={node => this.signCaption = node} className={`txt-digital-signature ${this.props.signMsg ? 'show' : 'hide'}`}
-            data-toggle="tooltip" data-placement="left" title={sign_caption_long}>
+        <div className="ml-auto">
+          <span ref={node => this.signCaption = node} className={`${this.props.signMsg ? '' : 'd-none'} rounded`}
+            data-toggle="tooltip" data-placement="left" title={sign_caption_long} style={{background: 'rgba(255,255,255,.5)', padding: '0.1rem 0.2rem', fontSize: '80%'}}>
             {sign_caption_short}
           </span>
         </div>
