@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016 Mailvelope GmbH
+ * Copyright (C) 2016-2019 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
 
@@ -15,8 +15,9 @@ import NameAddrInput from './components/NameAddrInput';
 import AdvancedExpand from './components/AdvancedExpand';
 import AdvKeyGenOptions from './components/AdvKeyGenOptions';
 import DefinePassword from './components/DefinePassword';
-import GenerateWait from './components/GenerateWait';
+// import GenerateWait from './components/GenerateWait';
 import Alert from '../../components/util/AlertBS4';
+import Modal from '../../components/util/Modal';
 import {Link} from 'react-router-dom';
 
 l10n.register([
@@ -28,7 +29,9 @@ l10n.register([
   'key_gen_upload',
   'learn_more_link',
   'alert_header_success',
-  'key_gen_success'
+  'key_gen_success',
+  'key_gen_wait_header',
+  'key_gen_wait_info'
 ]);
 
 // set locale
@@ -142,7 +145,7 @@ export default class GenerateKey extends React.Component {
   render() {
     return (
       <div className={`card-body ${this.state.generating ? 'busy' : ''}`}>
-        <h4>{l10n.map.keyring_generate_key}</h4>
+        <h4 className="card-title">{l10n.map.keyring_generate_key}</h4>
         <form className="form" autoComplete="off">
           <NameAddrInput name={this.state.name} email={this.state.email} onChange={this.handleChange} errors={this.state.errors} />
           <AdvancedExpand>
@@ -163,7 +166,16 @@ export default class GenerateKey extends React.Component {
             </Link>
           </div>
         </form>
-        {this.state.generating && <GenerateWait onShow={this.generateKey} />}
+        {this.state.generating &&
+          <Modal title={l10n.map.key_gen_wait_header} dismissable={false} onShow={this.generateKey} keyboard={false} hideFooter={true}>
+            <>
+              <div className="progress mb-3">
+                <div className="progress-bar progress-bar-striped progress-bar-animated w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <p className="text-muted">{l10n.map.key_gen_wait_info}</p>
+            </>
+          </Modal>
+        }
       </div>
     );
   }

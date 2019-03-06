@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012-2017 Mailvelope GmbH
+ * Copyright (C) 2012-2019 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
 
@@ -9,8 +9,6 @@ import $ from 'jquery';
 import {port} from '../app';
 import * as l10n from '../../lib/l10n';
 import {generateSecurityBackground, showSecurityBackground} from '../../lib/util';
-
-import './security.css';
 
 l10n.register([
   'settings_security',
@@ -52,7 +50,7 @@ export default class Security extends React.Component {
                 <input type="radio" name="pwdCacheRadios" id="pwdCacheRadios1" value="true" className="custom-control-input" />
                 <label className="custom-control-label" htmlFor="customRadio2">{l10n.map.security_cache_on}</label>
               </div>
-              <input type="text" maxLength="3" id="pwdCacheTime" className="form-control mr-2 " />
+              <input type="text" maxLength="3" id="pwdCacheTime" style={{fontFamily: 'monospace', width: '60px'}} className="form-control mr-2 " />
               <label className="my-1 mr-2" htmlFor="pwdCacheTime">{l10n.map.security_cache_time}</label>
               <div className="invalid-feedback mb-2">{l10n.map.security_cache_help}</div>
             </div>

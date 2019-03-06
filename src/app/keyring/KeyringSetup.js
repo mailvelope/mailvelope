@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015-2017 Mailvelope GmbH
+ * Copyright (C) 2015-2019 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
 
@@ -25,28 +25,26 @@ l10n.register([
 
 export default function KeyringSetup({hasPrivateKey}) {
   return (
-    <div>
-      <h3 className="logo-header">
-        <span>{l10n.map.keyring_setup}</span>
-      </h3>
+    <div className="card-body">
+      <h4 className="card-title">{l10n.map.keyring_setup}</h4>
       <form className="form">
         <p className={`alert alert-warning keyring_setup_message ${hasPrivateKey ? '' : 'active'}`}>
           <strong>{l10n.map.keyring_setup_no_keypair_heading}</strong><br />
           <span>{l10n.map.keyring_setup_no_keypair}</span>
         </p>
-        <h4>{l10n.map.keyring_setup_generate_key}</h4>
+        <h5>{l10n.map.keyring_setup_generate_key}</h5>
         <p>{l10n.map.keyring_setup_generate_key_explanation}</p>
         <p>
           <Link to="/keyring/generate" className="btn btn-primary">{l10n.map.keyring_setup_generate_key}</Link>
         </p>
         <hr />
-        <h4>{l10n.map.keyring_setup_import_key}</h4>
+        <h5>{l10n.map.keyring_setup_import_key}</h5>
         <p>{l10n.map.keyring_setup_import_key_explanation}</p>
         <p>
           <Link to="/keyring/import" className="btn btn-primary">{l10n.map.keyring_setup_import_key}</Link>
         </p>
         <hr />
-        <h4>{l10n.map.gnupg_connection}</h4>
+        <h5>{l10n.map.gnupg_connection}</h5>
         <p>{l10n.map.keyring_available_settings} <Link to="/settings/general">{l10n.map.general_openpgp_preferences}</Link></p>
       </form>
     </div>

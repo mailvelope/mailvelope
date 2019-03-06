@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2017 Mailvelope GmbH
+ * Copyright (C) 2014-2019 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
 

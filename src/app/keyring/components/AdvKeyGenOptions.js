@@ -8,10 +8,7 @@ import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 import moment from 'moment';
 import {KeyringOptions} from '../KeyringOptions';
-
 import DatePicker from './DatePicker';
-
-import './AdvKeyGenOptions.css';
 
 l10n.register([
   'keygrid_algorithm',

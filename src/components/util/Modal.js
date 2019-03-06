@@ -14,10 +14,10 @@ l10n.register([
 
 class Modal extends React.Component {
   componentDidMount() {
-    this.$node.modal({backdrop: 'static', keyboard: this.props.keyboard});
-    this.$node.modal('show');
+    this.$node.modal({backdrop: 'static', show: false, keyboard: this.props.keyboard});
     this.$node.on('hidden.bs.modal', this.props.onHide);
     this.$node.on('show.bs.modal', this.props.onShow);
+    this.$node.modal('show');
   }
 
   componentWillUnmount() {
@@ -33,9 +33,11 @@ class Modal extends React.Component {
               {this.props.header ||
                 <>
                   <h5 className="modal-title">{this.props.title}</h5>
-                  <button type="button" onClick={this.props.onCancel} className="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+                  {this.props.dismissable &&
+                    <button type="button" onClick={this.props.onCancel} className="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  }
                 </>
               }
             </div>
@@ -45,7 +47,7 @@ class Modal extends React.Component {
             <div className={`modal-footer ${this.props.hideFooter ? 'd-none' : ''}`}>
               {this.props.footer ||
                 <div>
-                  <button type="button" onClick={this.props.onCancel} className="btn btn-secondary" data-dismiss="modal">{l10n.map.form_cancel}</button>
+                  {this.props.dismissable && <button type="button" onClick={this.props.onCancel} className="btn btn-secondary" data-dismiss="modal">{l10n.map.form_cancel}</button>}
                   <button type="button" onClick={this.props.onOk} className="btn btn-primary" data-dismiss="modal">{l10n.map.form_ok}</button>
                 </div>
               }
@@ -71,12 +73,14 @@ Modal.propTypes = {
   onCancel: PropTypes.func,
   hideHeader: PropTypes.bool,
   hideFooter: PropTypes.bool,
-  keyboard: PropTypes.bool
+  keyboard: PropTypes.bool,
+  dismissable: PropTypes.bool
 };
 
 Modal.defaultProps = {
   size: 'medium',
   keyboard: true,
+  dismissable: true,
   headerClass: ''
 };
 

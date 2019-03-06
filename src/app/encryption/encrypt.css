@@ -169,13 +169,6 @@ a.attachmentButton {
   margin: inherit;
 }
 
-.panel-footer .btn {
-  margin-right: 5px;
-}
-.panel-footer .btn:last-child {
-  margin-right: 0;
-}
-
 .encrypt-footer-expanded {
   height: 140px;
 }
