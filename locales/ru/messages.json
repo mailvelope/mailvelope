@@ -8,7 +8,7 @@
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Маска домена должна начинаться с *.",
+        "message": "Маска домена должна начинаться с '*.'.",
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
@@ -388,27 +388,27 @@
         "description": "Yes form button."
     },
     "general_gnupg_check_availability": {
-        "message": "Allow us to check availability",
+        "message": "Позволить нам проверять доступность",
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>",
+        "message": "У вас установлена программа GnuPG? Если нет, <0>скачайте ее отсюда</0>. Чтобы снова проверить доступность программы, <1>перезапустите Mailvelope</1>",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
-        "message": "GnuPG is not available",
+        "message": "Программа GnuPG недоступна",
         "description": "Indicator if GnuPG is not available"
     },
     "general_gnupg_prefer": {
-        "message": "Do you prefer to use GnuPG?",
+        "message": "Предпочитаете GnuPG?",
         "description": "Question if user prefers to use GnuPG"
     },
     "general_openpgp_current": {
-        "message": "You are currently using",
+        "message": "Сейчас вы используете",
         "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
     },
     "general_openpgp_prefer": {
-        "message": "Which encryption backend do you prefer?",
+        "message": "Какое средство шифрования предпочитаете?",
         "description": "Label for OpenPGP backend selection."
     },
     "general_openpgp_preferences": {
@@ -474,14 +474,6 @@
     "keyserver_url_error": {
         "message": "Ошибка доступа к серверу ключей",
         "description": "HKP key server URL error."
-    },
-    "key_details_title": {
-        "message": "Информация о ключе",
-        "description": "The title of the key details dialog."
-    },
-    "key_export_clipboard": {
-        "message": "Скопировать в буфер обмена",
-        "description": "Copy to clipboard button."
     },
     "key_export_create_file": {
         "message": "Сохранить",
@@ -715,6 +707,282 @@
         "message": "Сделать основным",
         "description": "Set as default key for the keyring button"
     },
+    "key_remove_btn": {
+        "message": "Убрать",
+        "description": "Remove key button label"
+    },
+    "key_export_btn": {
+        "message": "Экспорт",
+        "description": "Export key button label"
+    },
+    "key_revoke_btn": {
+        "message": "Отозвать",
+        "description": "Revoke key button label"
+    },
+    "key_remove_btn_title": {
+        "message": "Удалить ключ из связки",
+        "description": "Title for remove key button"
+    },
+    "key_export_btn_title": {
+        "message": "Экспортировать ключ",
+        "description": "Title for export key button"
+    },
+    "key_revoke_btn_title": {
+        "message": "Отозвать ключ",
+        "description": "Title for revoke key button"
+    },
+    "key_default_active_btn_title": {
+        "message": "Ключ помечен как основной",
+        "description": "Title for active default key button"
+    },
+    "key_default_disabled_btn_title": {
+        "message": "Ключ неверен и не может быть основным",
+        "description": "Title for disabled (invalid) default key button"
+    },
+    "key_default_inactive_btn_title": {
+        "message": "Пометить ключ как основной",
+        "description": "Title for inactive default key button"
+    },
+    "key_keyserver_sync": {
+        "message": "Данные ключей на сервере ключей Mailvelope актуальны.",
+        "description": "Key data is synchronized with the Mailvelope key server"
+    },
+    "key_keyserver_mod": {
+        "message": "Данные ключей на сервере Mailvelope более не актуальны.",
+        "description": "Local key data differs from Mailvelope key server"
+    },
+    "key_keyserver_not": {
+        "message": "Ключ не синхронизирован с сервером ключей Mailvelope.",
+        "description": "Key is not on the the Mailvelope server"
+    },
+    "key_keyserver_upload": {
+        "message": "Чтобы синхронизировать ключ с сервером ключей Mailvelope, по всем пользовательским ID разослано подтверждающее письмо.",
+        "description": "An upload request has been sent to the Mailvelope key server"
+    },
+    "key_keyserver_update": {
+        "message": "Данные ключей на сервере ключей Mailvelope были обновлены.",
+        "description": "An update request has been sent to the Mailvelope key server"
+    },
+    "key_keyserver_remove": {
+        "message": "Для окончательного удаления ключа с сервера ключей Mailvelope по всем пользовательским ID было разослано подтверждающее письмо.",
+        "description": "A deletion request has been sent to the Mailvelope key server"
+    },
+    "key_keyserver_remove_btn": {
+        "message": "Удалить все пользовательские ID",
+        "description": "Key server remove existing key button label"
+    },
+    "key_keyserver_upload_btn": {
+        "message": "Синхронизировать",
+        "description": "Key server upload button label"
+    },
+    "key_keyserver_update_btn": {
+        "message": "Обновление",
+        "description": "Key server update button label"
+    },
+    "key_keyserver_resend_btn": {
+        "message": "Отправить снова",
+        "description": "Key server send again button label"
+    },
+    "key_remove_dialog_title": {
+        "message": "Удалить ключ",
+        "description": "Title of delete key dialog."
+    },
+    "key_export_dialog_title": {
+        "message": "Экспортировать ключ",
+        "description": "Title of export key dialog."
+    },
+    "key_export_dialog_question": {
+        "message": "Какой ключ вы хотите экспортировать?",
+        "description": "Question in export private key dialog."
+    },
+    "key_export_dialog_copy_to_clipboard": {
+        "message": "Скопировать в буфер обмена",
+        "description": "Copy to clipboard button label."
+    },
+    "key_revoke_dialog_title": {
+        "message": "Отозвать ключ",
+        "description": "Title of revoke key dialog."
+    },
+    "key_revoke_dialog_description": {
+        "message": "После отзыва ключ уже никогда нельзя будет использовать.",
+        "description": "Text of revoke key dialog."
+    },
+    "key_revoke_dialog_confirm": {
+        "message": "По-прежнему хотите отозвать?",
+        "description": "Confirmation question of revoke key dialog."
+    },
+    "user_title": {
+        "message": "ID пользователя",
+        "description": "Title of user page"
+    },
+    "user_create_title": {
+        "message": "Создать ID пользователя",
+        "description": "Title of create user page"
+    },
+    "user_create_btn": {
+        "message": "Создать",
+        "description": "Create user button label"
+    },
+    "user_remove_btn": {
+        "message": "Убрать",
+        "description": "Remove user button label"
+    },
+    "user_remove_btn_title": {
+        "message": "Удалить ID пользователя",
+        "description": "Remove user button title"
+    },
+    "user_revoke_btn": {
+        "message": "Отозвать",
+        "description": "Revoke user button label"
+    },
+    "user_revoke_btn_title": {
+        "message": "Отозвать ID пользователя",
+        "description": "Revoke user button title"
+    },
+    "user_remove_dialog_title": {
+        "message": "Удалить ID пользователя",
+        "description": "Title of remove user dialog."
+    },
+    "user_remove_dialog_confirmation": {
+        "message": "Хотите удалить этот пользовательский ID из вашего ключа?",
+        "description": "Confirmation question in remove user dialog."
+    },
+    "user_remove_dialog_keyserver_warning": {
+        "message": "ID пользователя также удален с сервера ключей Mailvelope.",
+        "description": "Warning message, that key will be deleted from keyserver"
+    },
+    "user_revoke_dialog_title": {
+        "message": "Отозвать ID пользователя",
+        "description": "Title of revoke user dialog."
+    },
+    "user_revoke_dialog_description": {
+        "message": "После отзыва пользовательский ID для этого ключа уже никогда нельзя будет использовать.",
+        "description": "Description in revoke user dialog."
+    },
+    "user_revoke_dialog_confirmation": {
+        "message": "По-прежнему хотите отозвать?",
+        "description": "Confirmation question in revoke user dialog."
+    },
+    "user_keyserver_sync": {
+        "message": "Пользовательский ID синхронизирован с сервером ключей Mailvelope.",
+        "description": "User ID is synchronised with the Mailvelope key server"
+    },
+    "user_keyserver_unverified": {
+        "message": "Пожалуйста, подтвердите намерение синхронизировать ID пользователя с сервером ключей Mailvelope.",
+        "description": "User ID Mailvelope key server not verified"
+    },
+    "user_keyserver_not": {
+        "message": "Пользовательский ID не синхронизирован с сервером ключей Mailvelope.",
+        "description": "User ID is not synchronized with Mailvelope key server"
+    },
+    "user_keyserver_upload": {
+        "message": "Чтобы синхронизировать ключ с сервером ключей Mailvelope, подтверждающее письмо было отправлено по адресу $1.",
+        "description": "An upload request has been sent to the Mailvelope key server"
+    },
+    "user_keyserver_remove": {
+        "message": "Для окончательного удаления с сервера ключей Mailvelope подтверждающее письмо было отправлено по адресу $1.",
+        "description": "A remove request has been sent to the Mailvelope key server"
+    },
+    "user_keyserver_remove_btn": {
+        "message": "Удалить ID пользователя",
+        "description": "Remove user ID button label text"
+    },
+    "user_keyserver_resend_confirmation_btn": {
+        "message": "Отправить подтверждение снова",
+        "description": "Resend confirmation button label text"
+    },
+    "usersignatures_title": {
+        "message": "Подтверждения",
+        "description": "Title of signatures panel in user."
+    },
+    "nameaddrinput_error_name_empty": {
+        "message": "Пожалуйста, укажите имя!",
+        "description": "Error message for name input field."
+    },
+    "nameaddrinput_error_email_exists": {
+        "message": "Этот адрес e-mail уже используется!",
+        "description": "Error message for email input field."
+    },
+    "keyusers_title": {
+        "message": "Пользовательские ID",
+        "description": "Title of the key users panel"
+    },
+    "keyusers_add_btn": {
+        "message": "Добавить новый",
+        "description": "Add user button label"
+    },
+    "keyusers_add_btn_title": {
+        "message": "Добавить новый ID пользователя",
+        "description": "Add user button title"
+    },
+    "keyusers_keyserver": {
+        "message": "Сервер ключей",
+        "description": "Label of key server column key users table"
+    },
+    "keyusers_keyserver_sync": {
+        "message": "синхронизировано",
+        "description": "User ID synchronized with key server label text"
+    },
+    "keyusers_keyserver_not": {
+        "message": "не синхронизировано",
+        "description": "User ID not synchronized with key server label text"
+    },
+    "keyusers_keyserver_unverified": {
+        "message": "не подтверждено",
+        "description": "User ID key server not verified label text"
+    },
+    "keydetails_title": {
+        "message": "Детальная информация о ключе",
+        "description": "Title of the key details panel"
+    },
+    "keydetails_creation_date": {
+        "message": "Создан",
+        "description": "Creation date of a PGP key."
+    },
+    "keydetails_expiration_date": {
+        "message": "Истекает",
+        "description": "Expiration date of a PGP key."
+    },
+    "keydetails_key_not_expire": {
+        "message": "никогда",
+        "description": "Expiration date of a PGP key not set."
+    },
+    "keydetails_password": {
+        "message": "пароль",
+        "description": "Password of a PGP key."
+    },
+    "keydetails_change_exp_date_dialog_title": {
+        "message": "Изменить дату окончания срока действия",
+        "description": "Title of change expiration date dialog."
+    },
+    "keydetails_change_exp_date_dialog_note": {
+        "message": "Дата окончания срока действия ключа устанавливается также для всех подключей. Изменения не коснутся нерабочих или истекших подключей.",
+        "description": "Important note in change expiration date dialog."
+    },
+    "keydetails_change_pwd_dialog_title": {
+        "message": "Изменить пароль",
+        "description": "Title of change password dialog."
+    },
+    "keydetails_change_pwd_dialog_old": {
+        "message": "Прежний пароль",
+        "description": "Old password input label"
+    },
+    "dialog_cancel_btn": {
+        "message": "Отмена",
+        "description": "Dialog cancel button label"
+    },
+    "dialog_save_btn": {
+        "message": "Сохранить",
+        "description": "Dialog save button label"
+    },
+    "dialog_yes_btn": {
+        "message": "Да.",
+        "description": "Dialog yes button label"
+    },
+    "dialog_no_btn": {
+        "message": "нет",
+        "description": "Dialog no button label"
+    },
     "invalid_default_key": {
         "message": "Ошибка ключа для шифрования и подписи",
         "description": "Tootip for set as default key button"
@@ -879,21 +1147,9 @@
         "message": "Этот ключ не ограничен по времени",
         "description": "Expiration date of a PGP key not set."
     },
-    "keygrid_key_type": {
-        "message": "Тип",
-        "description": "The type of the key."
-    },
     "keygrid_keyid": {
         "message": "ID ключа",
         "description": "Key ID of a PGP key."
-    },
-    "keygrid_no_subkeys": {
-        "message": "Нет доступных подключей",
-        "description": "No subkeys of a PGP key found."
-    },
-    "keygrid_no_userid": {
-        "message": "ID пользователя не найден",
-        "description": "Warning message if no user id found."
     },
     "keygrid_primary_key": {
         "message": "Ключ",
@@ -943,9 +1199,9 @@
         "message": "действующий",
         "description": "Validity status of a PGP key."
     },
-    "keygrid_subkeyid": {
-        "message": "ID",
-        "description": "Subkey ID of a PGP key."
+    "keygrid_subkey": {
+        "message": "Подключ",
+        "description": "Subkey of a PGP key."
     },
     "keygrid_subkeys": {
         "message": "Подключи",
@@ -963,9 +1219,9 @@
         "message": "Имя",
         "description": "Name in User ID of a PGP key."
     },
-    "keygrid_userid": {
-        "message": "ID",
-        "description": "User ID of a PGP key."
+    "keygrid_user_primary": {
+        "message": "Основной",
+        "description": "Primary status of User ID of a PGP key"
     },
     "keygrid_userid_signatures": {
         "message": "Подписи",
@@ -973,6 +1229,14 @@
     },
     "keygrid_validity_status": {
         "message": "Статус",
+        "description": "Validity status of a PGP key."
+    },
+    "keygrid_status_revoked": {
+        "message": "отозван",
+        "description": "Validity status of a PGP key."
+    },
+    "keygrid_status_expired": {
+        "message": "просрочен",
         "description": "Validity status of a PGP key."
     },
     "keyring_available_settings": {
@@ -1006,10 +1270,6 @@
     "keyring_import_keys": {
         "message": "Импортировать ключи",
         "description": "Tab of keyring to import keys."
-    },
-    "keyring_keypair": {
-        "message": "Пара ключей",
-        "description": "key pair"
     },
     "keyring_main": {
         "message": "Основная связка ключей",
@@ -1125,6 +1385,22 @@
     },
     "pwd_dialog_reason_sign": {
         "message": "Для подписи сообщения введите пароль ключа",
+        "description": ""
+    },
+    "pwd_dialog_reason_revoke": {
+        "message": "Для отзыва этого ключа, пожалуйста, укажите пароль.",
+        "description": ""
+    },
+    "pwd_dialog_reason_add_user": {
+        "message": "Для создания ID пользователя, пожалуйста, укажите пароль.",
+        "description": ""
+    },
+    "pwd_dialog_reason_revoke_user": {
+        "message": "Для отзыва ID пользователя, пожалуйста, укажите пароль.",
+        "description": ""
+    },
+    "pwd_dialog_reason_set_exdate": {
+        "message": "Для изменения срока действия ключа, пожалуйста, укажите пароль.",
         "description": ""
     },
     "pwd_dialog_title": {
@@ -1386,6 +1662,14 @@
     "security_display_popup": {
         "message": "В отдельном всплывающем окне Mailvelope",
         "description": "Decrypted message display option"
+    },
+    "security_openpgp_header": {
+        "message": "Настройки OpenPGP",
+        "description": "OpenPGP settings header"
+    },
+    "security_hide_armored_head": {
+        "message": "Скрывать версию Mailvelope и комментарий в сообщении PGP.",
+        "description": "Hide header infos in armored messages"
     },
     "security_log_action": {
         "message": "Действие",

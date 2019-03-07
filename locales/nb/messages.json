@@ -8,7 +8,7 @@
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Mønster for jamførsel av domener bør starte med *.",
+        "message": "Domain match pattern should begin with '*.'.",
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
@@ -475,14 +475,6 @@
         "message": "Det oppnås ikke kontakt med nøkkeltjener",
         "description": "HKP key server URL error."
     },
-    "key_details_title": {
-        "message": "Detaljer for nøkkel",
-        "description": "The title of the key details dialog."
-    },
-    "key_export_clipboard": {
-        "message": "Kopier til utklippstavle",
-        "description": "Copy to clipboard button."
-    },
     "key_export_create_file": {
         "message": "Lagre",
         "description": "Download file button."
@@ -715,6 +707,282 @@
         "message": "Set as Default",
         "description": "Set as default key for the keyring button"
     },
+    "key_remove_btn": {
+        "message": "Fjern",
+        "description": "Remove key button label"
+    },
+    "key_export_btn": {
+        "message": "Eksporter",
+        "description": "Export key button label"
+    },
+    "key_revoke_btn": {
+        "message": "Revoke",
+        "description": "Revoke key button label"
+    },
+    "key_remove_btn_title": {
+        "message": "Remove key from keyring",
+        "description": "Title for remove key button"
+    },
+    "key_export_btn_title": {
+        "message": "Export key",
+        "description": "Title for export key button"
+    },
+    "key_revoke_btn_title": {
+        "message": "Revoke key",
+        "description": "Title for revoke key button"
+    },
+    "key_default_active_btn_title": {
+        "message": "Key is set as default key",
+        "description": "Title for active default key button"
+    },
+    "key_default_disabled_btn_title": {
+        "message": "The key is invalid and cannot be set as the default key",
+        "description": "Title for disabled (invalid) default key button"
+    },
+    "key_default_inactive_btn_title": {
+        "message": "Set key as default key",
+        "description": "Title for inactive default key button"
+    },
+    "key_keyserver_sync": {
+        "message": "The key data on the Mailvelope key server is up to date.",
+        "description": "Key data is synchronized with the Mailvelope key server"
+    },
+    "key_keyserver_mod": {
+        "message": "The key data on the Mailvelope key server is no longer up to date.",
+        "description": "Local key data differs from Mailvelope key server"
+    },
+    "key_keyserver_not": {
+        "message": "The key is not synchronized with the Mailvelope key server.",
+        "description": "Key is not on the the Mailvelope server"
+    },
+    "key_keyserver_upload": {
+        "message": "To synchronize the key with the Mailvelope key server a confirmation email was sent to all user IDs.",
+        "description": "An upload request has been sent to the Mailvelope key server"
+    },
+    "key_keyserver_update": {
+        "message": "The key data has been updated on the Mailvelope key server.",
+        "description": "An update request has been sent to the Mailvelope key server"
+    },
+    "key_keyserver_remove": {
+        "message": "A confirmation email was sent to all user IDs for final removal from the Mailvelope key server.",
+        "description": "A deletion request has been sent to the Mailvelope key server"
+    },
+    "key_keyserver_remove_btn": {
+        "message": "Remove all user IDs",
+        "description": "Key server remove existing key button label"
+    },
+    "key_keyserver_upload_btn": {
+        "message": "Synchronize",
+        "description": "Key server upload button label"
+    },
+    "key_keyserver_update_btn": {
+        "message": "Oppdater",
+        "description": "Key server update button label"
+    },
+    "key_keyserver_resend_btn": {
+        "message": "Resend",
+        "description": "Key server send again button label"
+    },
+    "key_remove_dialog_title": {
+        "message": "Remove key",
+        "description": "Title of delete key dialog."
+    },
+    "key_export_dialog_title": {
+        "message": "Export key",
+        "description": "Title of export key dialog."
+    },
+    "key_export_dialog_question": {
+        "message": "Which key would you like to export?",
+        "description": "Question in export private key dialog."
+    },
+    "key_export_dialog_copy_to_clipboard": {
+        "message": "Kopier til utklippstavle",
+        "description": "Copy to clipboard button label."
+    },
+    "key_revoke_dialog_title": {
+        "message": "Revoke key",
+        "description": "Title of revoke key dialog."
+    },
+    "key_revoke_dialog_description": {
+        "message": "With the revocation the key remains permanently unusable.",
+        "description": "Text of revoke key dialog."
+    },
+    "key_revoke_dialog_confirm": {
+        "message": "Would you still like to revoke?",
+        "description": "Confirmation question of revoke key dialog."
+    },
+    "user_title": {
+        "message": "User ID",
+        "description": "Title of user page"
+    },
+    "user_create_title": {
+        "message": "Create user ID",
+        "description": "Title of create user page"
+    },
+    "user_create_btn": {
+        "message": "Opprett",
+        "description": "Create user button label"
+    },
+    "user_remove_btn": {
+        "message": "Fjern",
+        "description": "Remove user button label"
+    },
+    "user_remove_btn_title": {
+        "message": "Remove user ID",
+        "description": "Remove user button title"
+    },
+    "user_revoke_btn": {
+        "message": "Revoke",
+        "description": "Revoke user button label"
+    },
+    "user_revoke_btn_title": {
+        "message": "Revoke user ID",
+        "description": "Revoke user button title"
+    },
+    "user_remove_dialog_title": {
+        "message": "Remove user ID",
+        "description": "Title of remove user dialog."
+    },
+    "user_remove_dialog_confirmation": {
+        "message": "Do you want to remove this user ID from your key?",
+        "description": "Confirmation question in remove user dialog."
+    },
+    "user_remove_dialog_keyserver_warning": {
+        "message": "User ID is also removed from the Mailvelope key server.",
+        "description": "Warning message, that key will be deleted from keyserver"
+    },
+    "user_revoke_dialog_title": {
+        "message": "Revoke user ID",
+        "description": "Title of revoke user dialog."
+    },
+    "user_revoke_dialog_description": {
+        "message": "With the revocation the user ID for this key remains permanently unusable.",
+        "description": "Description in revoke user dialog."
+    },
+    "user_revoke_dialog_confirmation": {
+        "message": "Would you still like to revoke?",
+        "description": "Confirmation question in revoke user dialog."
+    },
+    "user_keyserver_sync": {
+        "message": "The user ID is synchronized with the Mailvelope key server.",
+        "description": "User ID is synchronised with the Mailvelope key server"
+    },
+    "user_keyserver_unverified": {
+        "message": "Please confirm the user ID to synchronize it with the Mailvelope key server.",
+        "description": "User ID Mailvelope key server not verified"
+    },
+    "user_keyserver_not": {
+        "message": "The user ID is not synchronized with the Mailvelope key server.",
+        "description": "User ID is not synchronized with Mailvelope key server"
+    },
+    "user_keyserver_upload": {
+        "message": "To synchronize with the Mailvelope server a confirmation email was sent to $1.",
+        "description": "An upload request has been sent to the Mailvelope key server"
+    },
+    "user_keyserver_remove": {
+        "message": "for final removal from the Mailvelope key server a confirmation email was sent to $1.",
+        "description": "A remove request has been sent to the Mailvelope key server"
+    },
+    "user_keyserver_remove_btn": {
+        "message": "Remove user ID",
+        "description": "Remove user ID button label text"
+    },
+    "user_keyserver_resend_confirmation_btn": {
+        "message": "Resend confirmation",
+        "description": "Resend confirmation button label text"
+    },
+    "usersignatures_title": {
+        "message": "Verifications",
+        "description": "Title of signatures panel in user."
+    },
+    "nameaddrinput_error_name_empty": {
+        "message": "Please enter a name!",
+        "description": "Error message for name input field."
+    },
+    "nameaddrinput_error_email_exists": {
+        "message": "The email address is already in use!",
+        "description": "Error message for email input field."
+    },
+    "keyusers_title": {
+        "message": "Assigned user IDs",
+        "description": "Title of the key users panel"
+    },
+    "keyusers_add_btn": {
+        "message": "Add new",
+        "description": "Add user button label"
+    },
+    "keyusers_add_btn_title": {
+        "message": "Add a new user ID",
+        "description": "Add user button title"
+    },
+    "keyusers_keyserver": {
+        "message": "Nøkkeltjener",
+        "description": "Label of key server column key users table"
+    },
+    "keyusers_keyserver_sync": {
+        "message": "synchronized",
+        "description": "User ID synchronized with key server label text"
+    },
+    "keyusers_keyserver_not": {
+        "message": "not synchronized",
+        "description": "User ID not synchronized with key server label text"
+    },
+    "keyusers_keyserver_unverified": {
+        "message": "unverified",
+        "description": "User ID key server not verified label text"
+    },
+    "keydetails_title": {
+        "message": "Key details",
+        "description": "Title of the key details panel"
+    },
+    "keydetails_creation_date": {
+        "message": "Opprettet",
+        "description": "Creation date of a PGP key."
+    },
+    "keydetails_expiration_date": {
+        "message": "Expires",
+        "description": "Expiration date of a PGP key."
+    },
+    "keydetails_key_not_expire": {
+        "message": "aldri",
+        "description": "Expiration date of a PGP key not set."
+    },
+    "keydetails_password": {
+        "message": "Passord",
+        "description": "Password of a PGP key."
+    },
+    "keydetails_change_exp_date_dialog_title": {
+        "message": "Change expiration date",
+        "description": "Title of change expiration date dialog."
+    },
+    "keydetails_change_exp_date_dialog_note": {
+        "message": "The expiration date is also reset for all subkeys. Invalid subkeys or subkeys that have already expired remain unaffected.",
+        "description": "Important note in change expiration date dialog."
+    },
+    "keydetails_change_pwd_dialog_title": {
+        "message": "Endre passord",
+        "description": "Title of change password dialog."
+    },
+    "keydetails_change_pwd_dialog_old": {
+        "message": "Gammelt passord",
+        "description": "Old password input label"
+    },
+    "dialog_cancel_btn": {
+        "message": "Avbryt",
+        "description": "Dialog cancel button label"
+    },
+    "dialog_save_btn": {
+        "message": "Lagre",
+        "description": "Dialog save button label"
+    },
+    "dialog_yes_btn": {
+        "message": "Ja",
+        "description": "Dialog yes button label"
+    },
+    "dialog_no_btn": {
+        "message": "Nei",
+        "description": "Dialog no button label"
+    },
     "invalid_default_key": {
         "message": "Nøkkel ikke gyldig for kryptering- og signerings-operasjoner",
         "description": "Tootip for set as default key button"
@@ -879,21 +1147,9 @@
         "message": "Denne nøkkelen utløper ikke",
         "description": "Expiration date of a PGP key not set."
     },
-    "keygrid_key_type": {
-        "message": "Type",
-        "description": "The type of the key."
-    },
     "keygrid_keyid": {
         "message": "Nøkkel-ID",
         "description": "Key ID of a PGP key."
-    },
-    "keygrid_no_subkeys": {
-        "message": "Ingen undernøkler tilgjengelig",
-        "description": "No subkeys of a PGP key found."
-    },
-    "keygrid_no_userid": {
-        "message": "No valid User ID found",
-        "description": "Warning message if no user id found."
     },
     "keygrid_primary_key": {
         "message": "Hovednøkkel",
@@ -943,9 +1199,9 @@
         "message": "gyldig",
         "description": "Validity status of a PGP key."
     },
-    "keygrid_subkeyid": {
-        "message": "ID",
-        "description": "Subkey ID of a PGP key."
+    "keygrid_subkey": {
+        "message": "Sub Key",
+        "description": "Subkey of a PGP key."
     },
     "keygrid_subkeys": {
         "message": "Undernøkler",
@@ -963,9 +1219,9 @@
         "message": "Navn",
         "description": "Name in User ID of a PGP key."
     },
-    "keygrid_userid": {
-        "message": "ID",
-        "description": "User ID of a PGP key."
+    "keygrid_user_primary": {
+        "message": "Hoved",
+        "description": "Primary status of User ID of a PGP key"
     },
     "keygrid_userid_signatures": {
         "message": "Signaturer",
@@ -973,6 +1229,14 @@
     },
     "keygrid_validity_status": {
         "message": "Status",
+        "description": "Validity status of a PGP key."
+    },
+    "keygrid_status_revoked": {
+        "message": "tilbakekalt",
+        "description": "Validity status of a PGP key."
+    },
+    "keygrid_status_expired": {
+        "message": "utløpt",
         "description": "Validity status of a PGP key."
     },
     "keyring_available_settings": {
@@ -1006,10 +1270,6 @@
     "keyring_import_keys": {
         "message": "Importer nøkler",
         "description": "Tab of keyring to import keys."
-    },
-    "keyring_keypair": {
-        "message": "Nøkkelpar",
-        "description": "key pair"
     },
     "keyring_main": {
         "message": "Main Keyring",
@@ -1125,6 +1385,22 @@
     },
     "pwd_dialog_reason_sign": {
         "message": "Skriv inn ditt nøkkelpassord for å signere denne meldingen.",
+        "description": ""
+    },
+    "pwd_dialog_reason_revoke": {
+        "message": "Please enter your key password to revoke this key.",
+        "description": ""
+    },
+    "pwd_dialog_reason_add_user": {
+        "message": "Please enter your key password to create the user ID.",
+        "description": ""
+    },
+    "pwd_dialog_reason_revoke_user": {
+        "message": "Please enter your key password to revoke the user ID.",
+        "description": ""
+    },
+    "pwd_dialog_reason_set_exdate": {
+        "message": "Please enter your key password to set a new expiration date for the key.",
         "description": ""
     },
     "pwd_dialog_title": {
@@ -1386,6 +1662,14 @@
     "security_display_popup": {
         "message": "I et eget oppsprettsvindu fra Mailvelope.",
         "description": "Decrypted message display option"
+    },
+    "security_openpgp_header": {
+        "message": "OpenPGP settings",
+        "description": "OpenPGP settings header"
+    },
+    "security_hide_armored_head": {
+        "message": "Hide Mailvelope version and comment in PGP message.",
+        "description": "Hide header infos in armored messages"
     },
     "security_log_action": {
         "message": "Handling",

@@ -8,7 +8,7 @@
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Un patrón de coincidencia de dominio debe comenzar con *.",
+        "message": "Un patrón de coincidencia de dominio debiera comenzar con '*.'.",
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
@@ -388,27 +388,27 @@
         "description": "Yes form button."
     },
     "general_gnupg_check_availability": {
-        "message": "Allow us to check availability",
+        "message": "Permítenos comprobar la disponibilidad",
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>",
+        "message": "¿Tienes GnuPG instalado? Si no, <0>descárgalo aquí</0>. Para comprobar de nuevo por disponibilidad, <1>reinicia Mailvelope</1>",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
-        "message": "GnuPG is not available",
+        "message": "GnuPG no está disponible",
         "description": "Indicator if GnuPG is not available"
     },
     "general_gnupg_prefer": {
-        "message": "Do you prefer to use GnuPG?",
+        "message": "¿Prefieres usar GnuPG?",
         "description": "Question if user prefers to use GnuPG"
     },
     "general_openpgp_current": {
-        "message": "You are currently using",
+        "message": "Actualmente estás usando",
         "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
     },
     "general_openpgp_prefer": {
-        "message": "Which encryption backend do you prefer?",
+        "message": "¿Qué motor de cifrado prefieres?",
         "description": "Label for OpenPGP backend selection."
     },
     "general_openpgp_preferences": {
@@ -474,14 +474,6 @@
     "keyserver_url_error": {
         "message": "No se puede acceder a el servidor de llaves",
         "description": "HKP key server URL error."
-    },
-    "key_details_title": {
-        "message": "Detalles de la llave",
-        "description": "The title of the key details dialog."
-    },
-    "key_export_clipboard": {
-        "message": "Copiar al Portapapeles",
-        "description": "Copy to clipboard button."
     },
     "key_export_create_file": {
         "message": "Descargar",
@@ -715,6 +707,282 @@
         "message": "Establecer por defecto",
         "description": "Set as default key for the keyring button"
     },
+    "key_remove_btn": {
+        "message": "Eliminar",
+        "description": "Remove key button label"
+    },
+    "key_export_btn": {
+        "message": "Exportar",
+        "description": "Export key button label"
+    },
+    "key_revoke_btn": {
+        "message": "Revocar",
+        "description": "Revoke key button label"
+    },
+    "key_remove_btn_title": {
+        "message": "Remover llave de juego de llaves",
+        "description": "Title for remove key button"
+    },
+    "key_export_btn_title": {
+        "message": "Exportar llave",
+        "description": "Title for export key button"
+    },
+    "key_revoke_btn_title": {
+        "message": "Revocar llave",
+        "description": "Title for revoke key button"
+    },
+    "key_default_active_btn_title": {
+        "message": "La llave está establecida como llave por defecto",
+        "description": "Title for active default key button"
+    },
+    "key_default_disabled_btn_title": {
+        "message": "La llave es inválida y no puede ser establecida como llave por defecto",
+        "description": "Title for disabled (invalid) default key button"
+    },
+    "key_default_inactive_btn_title": {
+        "message": "Establecer llave como llave por defecto",
+        "description": "Title for inactive default key button"
+    },
+    "key_keyserver_sync": {
+        "message": "Los datos de la llave en el servidor de llaves de Mailvelope están actualizados.",
+        "description": "Key data is synchronized with the Mailvelope key server"
+    },
+    "key_keyserver_mod": {
+        "message": " Los datos de la llave en el servidor de llaves de Mailvelope están desactualizados.",
+        "description": "Local key data differs from Mailvelope key server"
+    },
+    "key_keyserver_not": {
+        "message": "La llave no está sincronizada con el servidor de llaves de Mailvelope.",
+        "description": "Key is not on the the Mailvelope server"
+    },
+    "key_keyserver_upload": {
+        "message": "Para sincronizar la llave con el servidor de llaves de Mailvelope fue enviado un correo electrónico de confirmación a todos los ID de usuario.",
+        "description": "An upload request has been sent to the Mailvelope key server"
+    },
+    "key_keyserver_update": {
+        "message": "Los datos de la llave han sido actualizados en el servidor de llaves de Mailvelope.",
+        "description": "An update request has been sent to the Mailvelope key server"
+    },
+    "key_keyserver_remove": {
+        "message": "Un correo electrónico de confirmación fue enviado a todos los ID de usuario para remoción final del servidor de llaves de Mailvelope.",
+        "description": "A deletion request has been sent to the Mailvelope key server"
+    },
+    "key_keyserver_remove_btn": {
+        "message": "Remover todos los ID de usuario",
+        "description": "Key server remove existing key button label"
+    },
+    "key_keyserver_upload_btn": {
+        "message": "Sincronizar",
+        "description": "Key server upload button label"
+    },
+    "key_keyserver_update_btn": {
+        "message": "Actualizar",
+        "description": "Key server update button label"
+    },
+    "key_keyserver_resend_btn": {
+        "message": "Reenviar",
+        "description": "Key server send again button label"
+    },
+    "key_remove_dialog_title": {
+        "message": "Remover llave",
+        "description": "Title of delete key dialog."
+    },
+    "key_export_dialog_title": {
+        "message": "Exportar llave",
+        "description": "Title of export key dialog."
+    },
+    "key_export_dialog_question": {
+        "message": "¿Qué llave desearía exportar?",
+        "description": "Question in export private key dialog."
+    },
+    "key_export_dialog_copy_to_clipboard": {
+        "message": "Copiar al portapapeles",
+        "description": "Copy to clipboard button label."
+    },
+    "key_revoke_dialog_title": {
+        "message": "Revocar llave",
+        "description": "Title of revoke key dialog."
+    },
+    "key_revoke_dialog_description": {
+        "message": "Con la revocación la llave será permanentemente inutilizable.",
+        "description": "Text of revoke key dialog."
+    },
+    "key_revoke_dialog_confirm": {
+        "message": "¿Aún así le gustaría revocar?",
+        "description": "Confirmation question of revoke key dialog."
+    },
+    "user_title": {
+        "message": "Identificador del usuario",
+        "description": "Title of user page"
+    },
+    "user_create_title": {
+        "message": "Crear identificación de usuario",
+        "description": "Title of create user page"
+    },
+    "user_create_btn": {
+        "message": "Crear",
+        "description": "Create user button label"
+    },
+    "user_remove_btn": {
+        "message": "Eliminar",
+        "description": "Remove user button label"
+    },
+    "user_remove_btn_title": {
+        "message": "Remover identificación de usuario",
+        "description": "Remove user button title"
+    },
+    "user_revoke_btn": {
+        "message": "Revocar",
+        "description": "Revoke user button label"
+    },
+    "user_revoke_btn_title": {
+        "message": "Revocar identificación de usuario",
+        "description": "Revoke user button title"
+    },
+    "user_remove_dialog_title": {
+        "message": "Remover identificación de usuario",
+        "description": "Title of remove user dialog."
+    },
+    "user_remove_dialog_confirmation": {
+        "message": "¿Quieres remover esta identificación de usuario de tu llave?",
+        "description": "Confirmation question in remove user dialog."
+    },
+    "user_remove_dialog_keyserver_warning": {
+        "message": "Identificación de usuario removida también del servidor de llaves de Mailvelope.",
+        "description": "Warning message, that key will be deleted from keyserver"
+    },
+    "user_revoke_dialog_title": {
+        "message": "Revocar identificación de usuario",
+        "description": "Title of revoke user dialog."
+    },
+    "user_revoke_dialog_description": {
+        "message": "Con la revocación la identificación de usuario para esta llave será permanentemente inutilizable.",
+        "description": "Description in revoke user dialog."
+    },
+    "user_revoke_dialog_confirmation": {
+        "message": "¿Aún así le gustaría revocar?",
+        "description": "Confirmation question in revoke user dialog."
+    },
+    "user_keyserver_sync": {
+        "message": "La identificación de usuario está sincronizada con el servidor de llaves de Mailvelope.",
+        "description": "User ID is synchronised with the Mailvelope key server"
+    },
+    "user_keyserver_unverified": {
+        "message": "Por favor confirme la identificación de usuario para sincronizarla con el servidor de llaves de Mailvelope.",
+        "description": "User ID Mailvelope key server not verified"
+    },
+    "user_keyserver_not": {
+        "message": "La identificación de usuario no está sincronizada con el servidor de llaves de Mailvelope.",
+        "description": "User ID is not synchronized with Mailvelope key server"
+    },
+    "user_keyserver_upload": {
+        "message": "Para sincronizar con el servidor de llaves de Mailvelope fue enviado un correo electrónico de confirmación a $1.",
+        "description": "An upload request has been sent to the Mailvelope key server"
+    },
+    "user_keyserver_remove": {
+        "message": "para remoción final del servidor de llaves de Mailvelope fue enviado un correo electrónico de confirmación a $1.",
+        "description": "A remove request has been sent to the Mailvelope key server"
+    },
+    "user_keyserver_remove_btn": {
+        "message": "Remover identificación de usuario",
+        "description": "Remove user ID button label text"
+    },
+    "user_keyserver_resend_confirmation_btn": {
+        "message": "Reenviar confirmación",
+        "description": "Resend confirmation button label text"
+    },
+    "usersignatures_title": {
+        "message": "Verificaciones",
+        "description": "Title of signatures panel in user."
+    },
+    "nameaddrinput_error_name_empty": {
+        "message": "¡Por favor ingresa un nombre!",
+        "description": "Error message for name input field."
+    },
+    "nameaddrinput_error_email_exists": {
+        "message": "¡La dirección electrónica ya está en uso!",
+        "description": "Error message for email input field."
+    },
+    "keyusers_title": {
+        "message": "Identificaciones de usuario asignadas",
+        "description": "Title of the key users panel"
+    },
+    "keyusers_add_btn": {
+        "message": "Añadir nuevo",
+        "description": "Add user button label"
+    },
+    "keyusers_add_btn_title": {
+        "message": "Añadir una nueva identificación de usuario",
+        "description": "Add user button title"
+    },
+    "keyusers_keyserver": {
+        "message": "Servidor de llaves",
+        "description": "Label of key server column key users table"
+    },
+    "keyusers_keyserver_sync": {
+        "message": "sincronizado",
+        "description": "User ID synchronized with key server label text"
+    },
+    "keyusers_keyserver_not": {
+        "message": "no sincronizado",
+        "description": "User ID not synchronized with key server label text"
+    },
+    "keyusers_keyserver_unverified": {
+        "message": "No verificado",
+        "description": "User ID key server not verified label text"
+    },
+    "keydetails_title": {
+        "message": "Detalles de la llave",
+        "description": "Title of the key details panel"
+    },
+    "keydetails_creation_date": {
+        "message": "Creado",
+        "description": "Creation date of a PGP key."
+    },
+    "keydetails_expiration_date": {
+        "message": "Caduca",
+        "description": "Expiration date of a PGP key."
+    },
+    "keydetails_key_not_expire": {
+        "message": "nunca",
+        "description": "Expiration date of a PGP key not set."
+    },
+    "keydetails_password": {
+        "message": "Contraseña",
+        "description": "Password of a PGP key."
+    },
+    "keydetails_change_exp_date_dialog_title": {
+        "message": "Cambiar fecha de caducidad",
+        "description": "Title of change expiration date dialog."
+    },
+    "keydetails_change_exp_date_dialog_note": {
+        "message": "La fecha de caducidad también es restablecida para todas las subllaves. Subllaves inválidas o aquellas que ya hayan expirado permanecen sin afectar.",
+        "description": "Important note in change expiration date dialog."
+    },
+    "keydetails_change_pwd_dialog_title": {
+        "message": "Cambiar contraseña",
+        "description": "Title of change password dialog."
+    },
+    "keydetails_change_pwd_dialog_old": {
+        "message": "Contraseña antigua",
+        "description": "Old password input label"
+    },
+    "dialog_cancel_btn": {
+        "message": "Cancelar",
+        "description": "Dialog cancel button label"
+    },
+    "dialog_save_btn": {
+        "message": "Guardar",
+        "description": "Dialog save button label"
+    },
+    "dialog_yes_btn": {
+        "message": "Sí",
+        "description": "Dialog yes button label"
+    },
+    "dialog_no_btn": {
+        "message": "No",
+        "description": "Dialog no button label"
+    },
     "invalid_default_key": {
         "message": "La llave no es válida para operaciones de cifrado y firmado",
         "description": "Tootip for set as default key button"
@@ -879,21 +1147,9 @@
         "message": "Esta llave no expira",
         "description": "Expiration date of a PGP key not set."
     },
-    "keygrid_key_type": {
-        "message": "Tipo",
-        "description": "The type of the key."
-    },
     "keygrid_keyid": {
         "message": "ID llave",
         "description": "Key ID of a PGP key."
-    },
-    "keygrid_no_subkeys": {
-        "message": "No hay subllaves disponibles",
-        "description": "No subkeys of a PGP key found."
-    },
-    "keygrid_no_userid": {
-        "message": "No se encontró identificación de usuario válida",
-        "description": "Warning message if no user id found."
     },
     "keygrid_primary_key": {
         "message": "Llave principal",
@@ -943,9 +1199,9 @@
         "message": "válida",
         "description": "Validity status of a PGP key."
     },
-    "keygrid_subkeyid": {
-        "message": "Identidad",
-        "description": "Subkey ID of a PGP key."
+    "keygrid_subkey": {
+        "message": "Subllave",
+        "description": "Subkey of a PGP key."
     },
     "keygrid_subkeys": {
         "message": "Subllaves",
@@ -963,9 +1219,9 @@
         "message": "Nombre",
         "description": "Name in User ID of a PGP key."
     },
-    "keygrid_userid": {
-        "message": "Identidad",
-        "description": "User ID of a PGP key."
+    "keygrid_user_primary": {
+        "message": "Primaria",
+        "description": "Primary status of User ID of a PGP key"
     },
     "keygrid_userid_signatures": {
         "message": "Firmas",
@@ -973,6 +1229,14 @@
     },
     "keygrid_validity_status": {
         "message": "Estado",
+        "description": "Validity status of a PGP key."
+    },
+    "keygrid_status_revoked": {
+        "message": "revocada",
+        "description": "Validity status of a PGP key."
+    },
+    "keygrid_status_expired": {
+        "message": "caducado",
         "description": "Validity status of a PGP key."
     },
     "keyring_available_settings": {
@@ -1006,10 +1270,6 @@
     "keyring_import_keys": {
         "message": "Importar llaves",
         "description": "Tab of keyring to import keys."
-    },
-    "keyring_keypair": {
-        "message": "Par de llaves",
-        "description": "key pair"
     },
     "keyring_main": {
         "message": "Juego de llaves principal",
@@ -1125,6 +1385,22 @@
     },
     "pwd_dialog_reason_sign": {
         "message": "Introduzca la contraseña de la llave para firmar este mensaje.",
+        "description": ""
+    },
+    "pwd_dialog_reason_revoke": {
+        "message": "Por favor ingresa tu contraseña de llave para revocar esta llave.",
+        "description": ""
+    },
+    "pwd_dialog_reason_add_user": {
+        "message": "Por favor ingresa tu contraseña de llave para crear la identificación de usuario.",
+        "description": ""
+    },
+    "pwd_dialog_reason_revoke_user": {
+        "message": "Por favor ingresa tu contraseña de llave para revocar la identificación de usuario.",
+        "description": ""
+    },
+    "pwd_dialog_reason_set_exdate": {
+        "message": "Por favor ingresa tu contraseña de llave para establecer una nueva fecha de caducidad para la llave.",
         "description": ""
     },
     "pwd_dialog_title": {
@@ -1386,6 +1662,14 @@
     "security_display_popup": {
         "message": "En un cuadro de diálogo aparte de Mailvelope.",
         "description": "Decrypted message display option"
+    },
+    "security_openpgp_header": {
+        "message": "Configuraciones de OpenPGP",
+        "description": "OpenPGP settings header"
+    },
+    "security_hide_armored_head": {
+        "message": "Ocultar versión de Mailvelope y comentar en mensaje PGP.",
+        "description": "Hide header infos in armored messages"
     },
     "security_log_action": {
         "message": "Acción",
