@@ -1,6 +1,6 @@
 /**
  * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
+ * Copyright (C) 2012-2019 Mailvelope GmbH
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License version 3
@@ -51,6 +51,7 @@ function init() {
   });
 
   $('#password').on('input paste', () => {
+    $('#password').removeClass('is-invalid').next().addClass('d-none');
     logUserInput('security_log_password_input');
   }).focus();
 
@@ -85,8 +86,7 @@ function onWrongPassword() {
   $('body').removeClass('busy');
   $('#spinner').hide();
   $('.modal-body').css('opacity', '1');
-  $('#password').val('').focus().closest('.control-group').addClass('error')
-  .end().next().removeClass('hide');
+  $('#password').val('').focus().addClass('is-invalid').next().removeClass('d-none');
 }
 
 function onOk() {

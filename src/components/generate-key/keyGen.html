@@ -1,38 +1,35 @@
-<section id="keyGenerator" class="secureBackground">
-  <section id="key_gen_generator">
-    <header>
-      <div class="text-right">
-        <button class="btn btn-link secureBgndSettingsBtn" data-l10n-title-id="security_background_button_title"><span class="glyphicon lockBtnIcon"></span></button>
+<div id="keyGenerator" class="secureBackground p-3">
+  <div id="key_gen_generator">
+    <div class="d-flex flex-column">
+      <button type="button" class="btn btn-link secureBgndSettingsBtn lockBtnIcon flex-shrink-0 ml-auto mb-2" data-l10n-title-id="security_background_button_title"></button>
+      <div id="keyGenPasswordPanel" class="card" role="main">
+        <div class="card-body">
+          <p class="card-text" data-l10n-id="keygen_dialog_prolog"></p>        
+          <form>          
+            <div id="pwd-form-group" class="form-group row">
+              <label for="keygen-password" class="col-sm-2 col-form-label" data-l10n-id="keygen_dialog_password"></label>
+              <div class="col-sm-10">
+                <input type="password" class="form-control" id="keygen-password" placeholder="Email" data-length-min="4" autocomplete="off">
+              </div>
+            </div>
+            <div id="confirm-form-group" class="form-group row">
+              <label for="password_confirm" class="col-sm-2 col-form-label" data-l10n-id="keygen_dialog_confirm"></label>
+              <div class="col-sm-10">
+                <input type="password" class="form-control" id="password_confirm" autocomplete="off">
+                  <div class="invalid-feedback" data-l10n-id="keygen_dialog_confirm_error_unequal"></div>
+                  <div class="valid-feedback" data-l10n-id="keygen_dialog_confirm_success"></div>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
-    </header>
-    <section id="keyGenPasswordPanel" class="panel panel-default" role="main">
-      <p data-l10n-id="keygen_dialog_prolog"></p>
-
-      <section id="pwd-form-group" class="form-row">
-        <label for="keygen-password" class="form-row_label control-label" data-l10n-id="keygen_dialog_password"></label>
-        <div class="form-row_content">
-          <input type="password" class="form-control" id="keygen-password" data-length-min="4" autocomplete="off" aria-describedby="helpBlock">
-          <!--span class="help-block label label-danger" data-l10n-id="keygen_dialog_confirm_error_noempty"></span-->
-        </div>
-      </section>
-
-      <section id="confirm-form-group" class="form-row">
-        <label for="password_confirm" class="form-row_label control-label" data-l10n-id="keygen_dialog_confirm"></label>
-        <div class="form-row_content">
-          <input type="password" class="form-control" id="password_confirm" autocomplete="off" aria-describedby="helpBlock">
-          <span class="help-block label label-danger" data-l10n-id="keygen_dialog_confirm_error_unequal"></span>
-          <span class="help-block label label-success" data-l10n-id="keygen_dialog_confirm_success"></span>
-        </div>
-      </section>
-    </section>
-  </section>
-  <section id="key_gen_waiting">
-    <figure class="panel panel-default waiting">
-      <div class="m-spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
-      <figcaption class="caption">
-        <h1 data-l10n-id="keygen_waiting_headline"></h1>
-        <p><span data-l10n-id="keygen_waiting_description"></span></p>
-      </figcaption>
-    </figure>
-  </section>
-</section>
+    </div>
+  </div>
+  <div id="key_gen_waiting" class="card">
+    <div class="card-body">
+      <div class="m-spinner my-3"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
+      <h5 class="card-title" data-l10n-id="keygen_waiting_headline">Card title</h5>
+      <p class="card-text" data-l10n-id="keygen_waiting_description"></p>
+    </div>
+  </div>
+</div>

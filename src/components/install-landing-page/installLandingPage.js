@@ -29,21 +29,21 @@ function init() {
 function InstallLandingPage() {
   return (
     <div className="container">
-      <nav className="navbar navbar-default navbar-fixed-top">
+      <nav className="navbar fixed-top navbar-expand-md navbar-light bg-light">
         <div className="container">
-          <div className="navbar-header">
-            <div className="navbar-brand settings-logo">Mailvelope</div>
-          </div>
+          <div className="navbar-brand settings-logo">Mailvelope</div>
         </div>
       </nav>
       <div className="landing-page">
-        <div className="col-md-10">
-          <h1 className="settings-logo">{l10n.map.install_landing_page_welcome}</h1>
-          <p><Trans id={l10n.map.install_landing_page_getting_started} components={[<span key="0"><img src="../../img/cryptography-icon48.png" height="25px" /></span>]} /></p>
-          <p><Trans id={l10n.map.install_landing_page_help} components={[<a key="0" href="https://www.mailvelope.com/help" rel="noreferrer noopener"></a>]} /></p>
-        </div>
-        <div className="col-md-2">
-          <div className="illustration"><i className="fa fa-arrow-up" aria-hidden="true"></i></div>
+        <div className="row">
+          <div className="col-md-10">
+            <h1 className="settings-logo">{l10n.map.install_landing_page_welcome}</h1>
+            <p><Trans id={l10n.map.install_landing_page_getting_started} components={[<span key="0"><img src="../../img/cryptography-icon48.png" height="25px" /></span>]} /></p>
+            <p><Trans id={l10n.map.install_landing_page_help} components={[<a key="0" href="https://www.mailvelope.com/help" rel="noreferrer noopener"></a>]} /></p>
+          </div>
+          <div className="col-md-2">
+            <div className="illustration"><i className="fa fa-arrow-up" aria-hidden="true"></i></div>
+          </div>
         </div>
       </div>
     </div>

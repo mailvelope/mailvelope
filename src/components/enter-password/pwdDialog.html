@@ -3,11 +3,11 @@
 <head>
   <!--
    - Mailvelope - secure email with OpenPGP encryption for Webmail
-   - Copyright (C) 2012-2015 Mailvelope GmbH
+   - Copyright (C) 2012-2019 Mailvelope GmbH
   -->
   <title data-l10n-id="pwd_dialog_title"></title>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="../../dep/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="../../dep/bootstrap4/css/bootstrap.css">
   <link rel="stylesheet" href="pwdDialog.css">
   <link rel="stylesheet" href="../../mvelo.css">
   <script src="../../dep/jquery.min.js"></script>
@@ -15,32 +15,37 @@
   <script type="module" src="pwdDialog.js"></script>
 </head>
 <body>
-  <div class="m-modal">
-    <div class="modal-header clearfix">
-      <h4 data-l10n-id="pwd_dialog_header"></h4>
-      <h6><div id="userId"></div> # <span id="keyId"></span></h6>
-    </div>
-    <div class="modal-body secureBackground">
-      <div data-l10n-title-id="security_background_button_title" id="lockIcon" class="glyphicon lockBtnIcon"></div>
-      <form class="panel panel-default form">
-        <p id="pwdDialogReason"></p>
-        <div class="form-group" id="pwdGroup">
-          <input type="password" class="form-control" id="password">
-          <span class="label label-danger hide" data-l10n-id="pwd_dialog_wrong_pwd"></span>
+  <div class="modal d-block p-2">
+    <div class="modal-dialog h-100 m-0 p-2">
+      <div class="modal-content h-100">
+        <div class="modal-header d-flex flex-column">
+          <h4 class="modal-title" data-l10n-id="pwd_dialog_header"></h4>
+          <h6><div id="userId"></div> # <span id="keyId"></span></h6>
         </div>
-        <div class="form-group" id="rememberGroup">
-          <div class="checkbox">
-            <label>
-              <input id="remember" type="checkbox">&nbsp;<span data-l10n-id="pwd_dialog_cache_pwd"></span>
-            </label>
-          </div>
+        <div class="modal-body secureBackground">
+          <div class="d-flex">
+            <p class="mr-2" id="pwdDialogReason"></p>
+            <div data-l10n-title-id="security_background_button_title" id="lockIcon" class="glyphicon lockBtnIcon flex-shrink-0 ml-auto mb-2"></div>
+          </div>        
+          <form class="panel panel-default form">
+            <div class="form-group" id="pwdGroup">
+              <input type="password" class="form-control" id="password">
+              <div class="invalid-feedback d-none" data-l10n-id="pwd_dialog_wrong_pwd"></div>
+            </div>
+            <div class="form-group" id="rememberGroup">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="remember">
+                <label class="custom-control-label" htmlFor="remember"><span data-l10n-id="pwd_dialog_cache_pwd"></label>
+              </div>
+            </div>
+            <div id="decryptAlert"></div>
+          </form>
         </div>
-        <div id="decryptAlert"></div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button id="cancelBtn" class="btn btn-default" data-l10n-id="form_cancel"></button>
-      <button id="okBtn" class="btn btn-primary" data-l10n-id="form_ok"></button>
+        <div class="modal-footer">
+          <button id="cancelBtn" class="btn btn-secondary" data-l10n-id="form_cancel"></button>
+          <button id="okBtn" class="btn btn-primary" data-l10n-id="form_ok"></button>
+        </div>
+      </div>
     </div>
   </div>
   <div id="spinner"></div>

@@ -11,8 +11,8 @@ import EventHandler from '../../lib/EventHandler';
 import ContentSandbox from './components/ContentSandbox';
 import SignatureModal from './components/SignatureModal';
 import {FileDownloadPanel} from '../util/FilePanel';
-import ModalDialog from '../util/ModalDialog';
-import Alert from '../util/Alert';
+import Modal from '../util/Modal';
+import Alert from '../util/AlertBS4';
 import Spinner from '../util/Spinner';
 
 import './DecryptMessage.css';
@@ -140,7 +140,11 @@ export default class DecryptMessage extends React.Component {
     } else if (this.state.signer.valid === null) {
       caption = l10n.map.decrypt_digital_signature_null;
     }
-    return <button type="button" className="btn btn-digital-signature pull-right" onClick={() => this.onClickSignature()}>{caption}</button>;
+    return (
+      <div className="rounded" style={{background: 'rgba(255,255,255,.5)', padding: '0.1rem 0.2rem', fontSize: '80%'}}>
+        <a role="button" className="text-decoration-none" href="#" onClick={() => this.onClickSignature()}>{caption}</a>
+      </div>
+    );
   }
 
   errorModal() {
@@ -148,40 +152,38 @@ export default class DecryptMessage extends React.Component {
       return null;
     }
     return (
-      <ModalDialog title={this.state.error.header} onCancel={() => this.handleCancel()} hideFooter={true}>
+      <Modal title={this.state.error.header} onCancel={() => this.handleCancel()} hideFooter={true}>
         <Alert type={this.state.error.type}>{this.state.error.message}</Alert>
-      </ModalDialog>
+      </Modal>
     );
   }
 
   render() {
     return (
       <div className={this.props.secureBackground && !this.state.waiting ? 'secureBackground' : ''} style={{height: '100%', position: 'relative'}}>
-        {this.state.waiting && <Spinner style={{margin: '160px auto 0'}} />}
-        <div className={`decrypt-msg-flex-container ${this.state.waiting ? '' : 'fade-in'}`}>
-          <div className="decrypt-msg-header">
-            {this.props.secureBackground &&
-              <div className="button-bar">
-                <button type="button" className="btn btn-link secureBgndSettingsBtn" title={l10n.map.security_background_button_title}
-                  onClick={() => this.port.emit('open-security-settings')}>
-                  <span className="glyphicon lockBtnIcon"></span>
-                </button>
+        {this.state.waiting ? (
+          <Spinner style={{margin: '160px auto 0'}} />
+        ) : (
+          <div className={`decrypt-msg ${this.state.waiting ? '' : 'fade-in'} d-flex flex-column align-content-center p-3 h-100`}>
+            <div className="decrypt-msg-header d-flex overflow-auto align-items-start mb-2 w-100">
+              <div className={`download-panel ${!this.props.secureBackground && !this.state.files.length ? 'd-none' : ''} d-flex flex-column`}>
+                {!this.props.isContainer && this.signatureButton()}
+                <FileDownloadPanel files={this.state.files} onClickFile={() => this.handleClickFile()} />
               </div>
-            }
-            <div className={`download-panel ${!this.props.secureBackground && !this.state.files.length ? 'hide' : ''}`}>
-              {!this.props.isContainer && this.signatureButton()}
-              <FileDownloadPanel files={this.state.files} onClickFile={() => this.handleClickFile()} />
+              {this.props.secureBackground &&
+                <button type="button" className="btn btn-link secureBgndSettingsBtn lockBtnIcon flex-shrink-0 ml-auto" onClick={() => this.port.emit('open-security-settings')} title={l10n.map.security_background_button_title}></button>
+              }
+            </div>
+            <div className="decrypt-msg-body flex-grow-1 mb-2 w-100">
+              <div className="plain-text w-100 h-100">
+                <ContentSandbox value={this.state.message} />
+              </div>
+            </div>
+            <div className="decrypt-msg-footer d-flex align-items-center justify-content-end">
+              {this.props.isContainer && this.signatureButton()}
             </div>
           </div>
-          <div className="decrypt-msg-body">
-            <div className="plain-text">
-              <ContentSandbox value={this.state.message} />
-            </div>
-          </div>
-          <div className="decrypt-msg-footer">
-            {this.props.isContainer && this.signatureButton()}
-          </div>
-        </div>
+        )}
         {this.errorModal()}
         {this.state.showSig && <SignatureModal signer={this.state.signer} onHide={() => this.handleSignatureModalHide()} />}
       </div>

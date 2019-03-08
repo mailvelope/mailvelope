@@ -348,26 +348,28 @@ export default class Editor extends React.Component {
   editorPopup() {
     return (
       <div>
-        <div className={`modal ${this.state.pwdDialog ? 'd-none' : 'd-block'} p-2`}>
-          <div className="modal-content h-100">
-            <div className="modal-header clearfix">
-              <h4 className="modal-title">{l10n.map.editor_header}</h4>
-            </div>
-            <div className={`modal-body ${this.props.secureBackground ? 'secureBackground' : ''} p-0`}>
-              {this.editorBody()}
-            </div>
-            <div className="modal-footer">
-              <EditorModalFooter expanded={this.state.optionsExpanded} signMsg={this.state.signMsg} signKey={this.state.signKey}
-                privKeys={this.state.privKeys} encryptDisabled={this.state.encryptDisabled}
-                onCancel={() => this.handleCancel()}
-                onSignOnly={() => this.handleSign()}
-                onEncrypt={() => this.handleEncrypt()}
-                onExpand={() => this.handleOptionsExpand()}
-                onCollapse={() => this.handleOptionsCollapse()}
-                onChangeSignMsg={signMsg => this.setState({signMsg})}
-                onChangeSignKey={signKey => this.setState({signKey})}
-                onClickSignSetting={() => this.port.emit('open-app', {fragment: '/settings/general'})}
-              />
+        <div className={`modal ${this.state.pwdDialog ? 'd-none' : 'd-block'}`}>
+          <div className="modal-dialog h-100 mw-100 m-0 p-2">
+            <div className="modal-content h-100">
+              <div className="modal-header clearfix">
+                <h4 className="modal-title">{l10n.map.editor_header}</h4>
+              </div>
+              <div className={`modal-body ${this.props.secureBackground ? 'secureBackground' : ''} p-0`}>
+                {this.editorBody()}
+              </div>
+              <div className="modal-footer">
+                <EditorModalFooter expanded={this.state.optionsExpanded} signMsg={this.state.signMsg} signKey={this.state.signKey}
+                  privKeys={this.state.privKeys} encryptDisabled={this.state.encryptDisabled}
+                  onCancel={() => this.handleCancel()}
+                  onSignOnly={() => this.handleSign()}
+                  onEncrypt={() => this.handleEncrypt()}
+                  onExpand={() => this.handleOptionsExpand()}
+                  onCollapse={() => this.handleOptionsCollapse()}
+                  onChangeSignMsg={signMsg => this.setState({signMsg})}
+                  onChangeSignKey={signKey => this.setState({signKey})}
+                  onClickSignSetting={() => this.port.emit('open-app', {fragment: '/settings/general'})}
+                />
+              </div>
             </div>
           </div>
         </div>

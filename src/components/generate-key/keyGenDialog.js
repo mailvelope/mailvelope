@@ -24,9 +24,7 @@ let isInputChange;
 
 let $secureBgndButton;
 let $pwdInput;
-let $pwdParent;
 let $confirmInput;
-let $confirmParent;
 let $confirmErrorNoEqual;
 let $confirmSuccess;
 let $keyGenPasswordPanel;
@@ -51,9 +49,7 @@ function init() {
   appendTpl($('body'), chrome.runtime.getURL('components/generate-key/keyGen.html')).then(() => {
     $secureBgndButton = $('.secureBgndSettingsBtn');
     $pwdInput = $('#keygen-password');
-    $pwdParent = $('#pwd-form-group');
     $confirmInput = $('#password_confirm');
-    $confirmParent = $('#confirm-form-group');
     $confirmErrorNoEqual = $confirmInput.next();
     $confirmSuccess = $confirmErrorNoEqual.next();
     $keyGenPasswordPanel = $('#key_gen_generator');
@@ -108,10 +104,10 @@ function checkPwdInput() {
     }, 1000);
   }
   if (pwdVal.length >= maxLength) {
-    $pwdParent.removeClass('has-error');
+    $pwdInput.removeClass('is-invalid');
     $confirmInput.prop('disabled', false);
   } else {
-    $pwdParent.addClass('has-error');
+    $pwdInput.addClass('is-invalid');
     $confirmInput.prop('disabled', true);
   }
   if (checkConfirmInput(false)) {
@@ -148,7 +144,7 @@ function checkInputsEqual() {
     return false;
   }
 
-  $confirmParent.removeClass('has-error');
+  $confirmInput.removeClass('is-invalid');
   $confirmErrorNoEqual.fadeOut(100, () => {
     $confirmSuccess.fadeIn(100);
   });
@@ -176,7 +172,7 @@ function checkConfirmInput(log = true) {
     return true;
   }
 
-  $confirmParent.addClass('has-error');
+  $confirmInput.addClass('is-invalid');
   return false;
 }
 

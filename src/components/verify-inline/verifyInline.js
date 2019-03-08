@@ -1,6 +1,6 @@
 /**
  * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
+ * Copyright (C) 2012-2019 Mailvelope GmbH
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License version 3
@@ -142,7 +142,7 @@ function addSandbox() {
 
 function addErrorView() {
   const errorbox = $('<div/>', {id: 'errorbox'});
-  $('<div/>', {id: 'errorwell', class: 'well span5'}).appendTo(errorbox);
+  $('<div/>', {id: 'alert', class: 'alert alert-danger'}).appendTo(errorbox);
   errorbox.appendTo('body');
   if ($('body').height() + 2 > LARGE_FRAME) {
     $('#errorbox').addClass('errorbox-large');
@@ -150,14 +150,14 @@ function addErrorView() {
 }
 
 function showMessageArea() {
-  $('html, body').addClass('hide_bg');
+  $('html').addClass('hide_bg');
   $('body').addClass('secureBackground');
   $('#wrapper').fadeIn();
   resizeFont();
 }
 
 function addSecuritySettingsButton() {
-  const securitySettingsBtn = $('<div data-l10n-title-id="security_background_button_title" style="margin-top: 12px; margin-right: 6px;" class="pull-right"><span class="glyphicon lockBtnIcon"></span></div>');
+  const securitySettingsBtn = $('<button type="button" class="btn btn-link lockBtnIcon float-right mt-3 mr-1" data-l10n-title-id="security_background_button_title"></button>');
   $('body').append(securitySettingsBtn);
 }
 
@@ -165,8 +165,9 @@ function showErrorMsg(msg) {
   $('body').removeClass('spinner');
   clearTimeout(spinnerTimer);
   $('#errorbox').show();
-  $('#errorwell').showAlert(l10n.map.alert_header_error, msg, 'danger')
-  .find('.alert').prepend($('<button/>', {type: 'button', class: 'close', html: '&times;'}))
+  $('#alert').html(`<strong>${l10n.map.alert_header_error}</strong> ${msg}`)
+  .prepend($('<button/>', {type: 'button', class: 'close'})
+  .append($('<span/>', {'aria-hidden': true, html: '&times;'})))
   .find('button').click(() => {
     port.emit('verify-dialog-cancel');
   });

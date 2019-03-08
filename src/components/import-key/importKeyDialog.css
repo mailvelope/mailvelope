@@ -1,14 +1,10 @@
 /**
  * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
+ * Copyright (C) 2012-2019 Mailvelope GmbH
  */
 
 body {
   overflow: hidden;
-}
-
-.m-modal {
-  display: block;
 }
 
 .busy {
@@ -36,52 +32,4 @@ body {
 
 #fingerprint {
   font-family: monospace;
-}
-
-.panel {
-  position: relative;
-  margin-top: 20px;
-  padding: 20px 20px 10px;
-}
-
-.tab-pane {
-  position: relative;
-}
-
-.tab-pane .tab-change {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-}
-
-.tab-pane h5 {
-  margin: 0;
-  display: inline-flex;
-}
-.tab-pane h5 > i,
-.tab-pane h5 > span,
-.tab-pane h5 > a {
-  vertical-align: top;
-}
-
-.tab-pane hr {
-  margin-top: 6px;
-  margin-bottom: 6px;
-}
-
-#lockIcon {
-  position: absolute;
-  top: 3px;
-  right: 12px;
-}
-
-.glyphicon.glyphicon-small, .glyphicon.glyphicon-small:active  {
-  width: 15px;
-  height: 15px;
-}
-.userId {
-  margin: 0 3px;
-  max-width: 398px;
-  display: inline-block;
-  vertical-align: top;
 }

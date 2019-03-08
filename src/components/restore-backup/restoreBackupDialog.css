@@ -7,38 +7,14 @@ body {
   margin: 0;
 }
 
-#restorePrivateKey {
-  padding: 6px;
-  font-size: 11px;
-}
-
-#restorePrivateKey * {
-  box-sizing: border-box;
-}
-
-#restorePrivateKey section h3 {
-  font-size: 13px;
-  font-weight: bold;
-  margin: 0;
-}
-
-.flex-box {
-  display: inline-flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  margin: 1em 0;
-}
-
 .form-control.flex-digit {
   width:  5em;
   height: auto;
   text-align: center;
   font-size: 12px;
   padding: 6px;
-  font-family: Consolas, "Lucida Console", Monaco, monospace;
 }
+
 .form-control.flex-digit.last {
   width: 2em;
   min-width: 3em;
@@ -48,33 +24,4 @@ body {
   width: 1em;
   text-align: center;
   display: block;
-}
-
-.flex-button {
-}
-
-#errorMsg {
-  padding: .5em 1em;
-}
-
-.panel {
-  padding: 20px;
-}
-
-#restorePasswordPanel .flex-box {
-  display: flex;
-  margin-top: 20px;
-}
-
-#restorePasswordPanel .flex-row-content {
-  margin-right: 20px;
-  flex-grow: 1;
-}
-
-#restorePasswordInput {
-  font-family: Consolas, "Lucida Console", Monaco, monospace;
-  -webkit-user-select: none;  /* Chrome all / Safari all */
-  -moz-user-select: none;     /* Firefox all */
-  -ms-user-select: none;      /* IE 10+ */
-  user-select: none;          /* Likely future */
 }
