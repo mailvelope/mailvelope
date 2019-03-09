@@ -64,7 +64,8 @@ export default class KeyStoreGPG extends KeyStoreBase {
   }
 
   async generateKey({keyAlgo, userIds, keyExpirationTime}) {
-    const [gpgKey] = await gpgme.Keyring.generateKey({userId: userIds[0], algo: keyAlgo, expires: keyExpirationTime});
+    const userId = openpgp.util.formatUserId(userIds[0]);
+    const [gpgKey] = await gpgme.Keyring.generateKey({userId, algo: keyAlgo, expires: keyExpirationTime});
     const publicKeyArmored = await gpgKey.getArmor();
     return {key: await readArmoredPrivate(publicKeyArmored), publicKeyArmored};
   }

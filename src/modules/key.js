@@ -12,36 +12,22 @@ import {isKeyPseudoRevoked} from './trustKey';
  * Get primary or first available user id, email and name of key
  * @param  {openpgp.Key} key
  * @param  {Boolean} [validityCheck=true] - only return valid user ids, e.g. for expired keys you would want to set to false to still get a result
- * @return {Object<userid, email, content>}
+ * @return {Object<userId, email, content>}
  */
 export async function getUserInfo(key, validityCheck = true) {
-  const primaryUser = await key.getPrimaryUser();
-  if (primaryUser) {
-    return {
-      userid: primaryUser.user.userId.userid,
-      email:  primaryUser.user.userId.email,
-      name:  primaryUser.user.userId.name
-    };
-  } else {
-    // there is no valid user id on this key
-    if (!validityCheck) {
-      // take first available user ID
-      for (const user of key.users) {
-        if (user.userId) {
-          return {
-            userid:  user.userId.userid,
-            email: user.userId.email,
-            name: user.userId.name
-          };
-        }
-      }
-    }
-    return {
-      userid: l10n.get('keygrid_invalid_userid'),
-      email: null,
-      name: null
-    };
+  let primaryUser = await key.getPrimaryUser();
+  primaryUser = primaryUser ? primaryUser.user : null;
+  if (!primaryUser && !validityCheck) {
+    // take first available user with user ID
+    primaryUser = key.users.find(user => user.userId);
   }
+  if (!primaryUser) {
+    return {userId: l10n.get('keygrid_invalid_userid'), email: '', name: ''};
+  }
+  const {userid: userId, name, email} = primaryUser.userId;
+  const result = {userId, name, email};
+  parseUserId(result);
+  return result;
 }
 
 export async function cloneKey(key) {
@@ -51,7 +37,11 @@ export async function cloneKey(key) {
   return new openpgp.key.Key(packetList);
 }
 
-export function mapKeyUserIds(user) {
+export function parseUserId(user) {
+  if (user.name || user.email) {
+    // user ID already parsed correctly by OpenPGP.js
+    return;
+  }
   try {
     const emailAddress = goog.format.EmailAddress.parse(user.userId);
     if (emailAddress.isValid()) {
@@ -60,16 +50,15 @@ export function mapKeyUserIds(user) {
       user.email = '';
     }
     user.name = emailAddress.getName();
-  } catch (e) {
-    user.userId = l10n.get('keygrid_invalid_userid');
-    user.email = '';
-    user.name = '';
+  } catch (e) {}
+  if (!user.name && !user.email) {
+    user.name = l10n.get('keygrid_invalid_userid');
   }
 }
 
 export async function mapKeys(keys) {
   return Promise.all(keys.map(async key => {
-    const uiKey = {};
+    let uiKey = {};
     if (key.isPublic()) {
       uiKey.type = 'public';
     } else {
@@ -86,11 +75,8 @@ export async function mapKeys(keys) {
     uiKey.fingerprint = key.primaryKey.getFingerprint();
     // primary user
     try {
-      const {userid} = await getUserInfo(key, false);
-      uiKey.userId = userid;
-      const address = goog.format.EmailAddress.parse(uiKey.userId);
-      uiKey.name = address.getName();
-      uiKey.email = address.getAddress();
+      const userInfo = await getUserInfo(key, false);
+      uiKey = {...uiKey, ...userInfo};
       uiKey.exDate = await key.getExpirationTime();
       if (uiKey.exDate === Infinity) {
         uiKey.exDate = false;
@@ -189,6 +175,7 @@ export async function mapUsers(users = [], toKey, keyring, key) {
       uiUser.userId = user.userId.userid;
       uiUser.email = user.userId.email;
       uiUser.name = user.userId.name;
+      parseUserId(uiUser);
       uiUser.isPrimary = user.userId.userid === primaryUserId;
       const keyStatus = await key.verifyPrimaryKey();
       const userStatus = await user.verify(key.primaryKey);
@@ -199,11 +186,7 @@ export async function mapUsers(users = [], toKey, keyring, key) {
       }
       for (const selfCert of user.selfCertifications) {
         const sig = {};
-        sig.signer = {
-          userid: user.userId.userid,
-          email: user.userId.email,
-          name: user.userId.name
-        };
+        sig.signer = {userId: user.userId.userid, email: user.userId.email, name: user.userId.name};
         sig.keyId = selfCert.issuerKeyId.toHex().toUpperCase();
         sig.crDate = selfCert.created.toISOString();
         uiUser.signatures.push(sig);
@@ -225,7 +208,7 @@ export async function mapUsers(users = [], toKey, keyring, key) {
           }
         } else {
           sig.signer = {
-            userid: l10n.get('keygrid_signer_unknown'),
+            userId: l10n.get('keygrid_signer_unknown'),
             email: null,
             name: null
           };
@@ -351,19 +334,6 @@ export function toPublic(key) {
  * @return {openpgp.key.Key} The key with only matching userIds
  */
 export function filterUserIdsByEmail(key, email) {
-  const keptUsers = [];
-
-  for (const user of key.users) {
-    if (user.userId) {
-      const userMapped = {userId: user.userId.userid};
-      mapKeyUserIds(userMapped);
-      if (userMapped.email.toLowerCase() === email.toLowerCase()) {
-        keptUsers.push(user);
-      }
-    }
-  }
-
-  const ret = key;
-  ret.users = keptUsers;
-  return ret;
+  key.users = key.users.filter(user => user.userId.email.toLowerCase() === email.toLowerCase());
+  return key;
 }

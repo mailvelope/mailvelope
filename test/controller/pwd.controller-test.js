@@ -44,7 +44,7 @@ describe('Password controller unit tests', () => {
           emit: emitStub
         }
       };
-      PwdController.__Rewire__('getUserInfo', () => Promise.resolve({userid: '123'}));
+      PwdController.__Rewire__('getUserInfo', () => Promise.resolve({userId: '123'}));
       await ctrl.onPwdDialogInit();
       expect(emitStub.withArgs('set-init-data', {userId: '123', keyId: 'ASDF', cache: '123', reason: 'test'}).calledOnce).to.be.true;
     });

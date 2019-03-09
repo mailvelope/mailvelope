@@ -5,9 +5,8 @@
 
 import {filterAsync, toArray, MvError} from '../lib/util';
 import * as openpgp from 'openpgp';
-import {goog} from './closure-library/closure/goog/emailaddress';
 import {getKeyringAttr} from './keyring';
-import {mapKeys, mapSubKeys, mapUsers, mapKeyUserIds, getUserInfo, isValidEncryptionKey, sortKeysByCreationDate} from './key';
+import {mapKeys, mapSubKeys, mapUsers, parseUserId, getUserInfo, isValidEncryptionKey, sortKeysByCreationDate} from './key';
 import * as trustKey from './trustKey';
 import {upload as mveloKeyServerUpload} from './mveloKeyServer';
 
@@ -100,14 +99,15 @@ export default class KeyringBase {
           keyData.users = [];
           for (const keyUser of key.users) {
             if (keyUser.userId && await keyUser.verify(key.primaryKey) === openpgp.enums.keyStatus.valid) {
-              const user = {userId: keyUser.userId.userid};
-              // check for duplicates
-              if (keyData.users.some(existingUser => existingUser.userId === user.userId)) {
-                continue;
-              }
-              mapKeyUserIds(user);
+              const {userid: userId, name, email} = keyUser.userId;
+              const user = {userId, name, email};
+              parseUserId(user);
               // check for valid email address
               if (!user.email) {
+                continue;
+              }
+              // check for duplicates
+              if (keyData.users.some(existingUser => existingUser.userId === user.userId)) {
                 continue;
               }
               keyData.users.push(user);
@@ -115,9 +115,7 @@ export default class KeyringBase {
           }
         } else {
           // only consider primary user
-          const {userid: userId} = await getUserInfo(key);
-          const user = {userId};
-          mapKeyUserIds(user);
+          const user = await getUserInfo(key);
           keyData.users = [user];
         }
         result.push(keyData);
@@ -307,13 +305,7 @@ export default class KeyringBase {
    * @yield {Object} - the generated key pair
    */
   async generateKey({keyAlgo, numBits, userIds, passphrase, uploadPublicKey, keyExpirationTime}) {
-    userIds = userIds.map(userId => {
-      if (userId.fullName) {
-        return (new goog.format.EmailAddress(userId.email, userId.fullName)).toString();
-      } else {
-        return `<${userId.email}>`;
-      }
-    });
+    userIds = userIds.map(userId => ({name: userId.fullName, email: userId.email}));
     const newKey = await this.keystore.generateKey({keyAlgo, userIds, passphrase, numBits: parseInt(numBits), keyExpirationTime});
     this.keystore.privateKeys.push(newKey.key);
     // upload public key

@@ -1,6 +1,6 @@
 import {expect} from 'test';
 import * as openpgp from 'openpgp';
-import {getUserInfo, mapKeyUserIds, mapKeys, mapSubKeys, mapUsers, verifyUserCertificate, checkKeyId, getLastModifiedDate, equalKey, toPublic, filterUserIdsByEmail} from 'modules/key';
+import {getUserInfo, parseUserId, mapKeys, mapSubKeys, mapUsers, verifyUserCertificate, checkKeyId, getLastModifiedDate, equalKey, toPublic, filterUserIdsByEmail} from 'modules/key';
 import testKeys from 'Fixtures/keys';
 
 describe('Key unit test', () => {
@@ -12,55 +12,55 @@ describe('Key unit test', () => {
     });
 
     it('should return primary or first available user id of key', () =>
-      expect(getUserInfo(key)).to.eventually.deep.equal({userid: 'Madita Bernstein <madita.bernstein@gmail.com>', name: 'Madita Bernstein', email: 'madita.bernstein@gmail.com'})
+      expect(getUserInfo(key)).to.eventually.deep.equal({userId: 'Madita Bernstein <madita.bernstein@gmail.com>', name: 'Madita Bernstein', email: 'madita.bernstein@gmail.com'})
     );
     it('should return localized error message when there is no valid user id on this key', () => {
       key.getPrimaryUser = () => null;
-      return expect(getUserInfo(key)).to.eventually.deep.equal({userid: 'keygrid_invalid_userid', name: null, email: null});
+      return expect(getUserInfo(key)).to.eventually.deep.equal({userId: 'keygrid_invalid_userid', name: '', email: ''});
     });
     it('should return first available user id when there is no valid user id on this key and validity check set to false', async () => {
       key.getPrimaryUser = () => null;
-      const {userid} = await getUserInfo(key, false);
-      expect(userid).to.equal(key.users[0].userId.userid);
+      const {userId} = await getUserInfo(key, false);
+      expect(userId).to.equal(key.users[0].userId.userid);
     });
   });
 
-  describe('mapKeyUserIds', () => {
+  describe('parseUserId', () => {
     it('should return email address from user id', () => {
       const user = {userId: 'Madita Bernstein <madita.bernstein@gmail.com>'};
-      mapKeyUserIds(user);
+      parseUserId(user);
       expect(user.email).to.equal('madita.bernstein@gmail.com');
       expect(user.name).to.equal('Madita Bernstein');
     });
     it('should return email address from user id', () => {
       const user = {userId: '<madita.bernstein@gmail.com>'};
-      mapKeyUserIds(user);
+      parseUserId(user);
       expect(user.email).to.equal('madita.bernstein@gmail.com');
       expect(user.name).to.equal('');
     });
     it('should return email address from user id', () => {
       const user = {userId: 'madita.bernstein@gmail.com'};
-      mapKeyUserIds(user);
+      parseUserId(user);
       expect(user.email).to.equal('madita.bernstein@gmail.com');
       expect(user.name).to.equal('');
     });
     it('should return email address from user id', () => {
       const user = {userId: 'Madita Bernstein'};
-      mapKeyUserIds(user);
+      parseUserId(user);
       expect(user.email).to.equal('');
       expect(user.name).to.equal('Madita Bernstein');
     });
     it('should return email address from user id', () => {
       const user = {userId: 'm@dita.bern$tein@gmail.com'};
-      mapKeyUserIds(user);
+      parseUserId(user);
       expect(user.email).to.equal('');
-      expect(user.name).to.equal('');
+      expect(user.name).to.equal('keygrid_invalid_userid');
     });
     it('should return email address from user id', () => {
       const user = {userId: 'Madita Bernstein madita.bernstein@gmail.com'};
-      mapKeyUserIds(user);
+      parseUserId(user);
       expect(user.email).to.equal('');
-      expect(user.name).to.equal('');
+      expect(user.name).to.equal('keygrid_invalid_userid');
     });
   });
 

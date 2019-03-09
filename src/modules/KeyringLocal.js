@@ -112,7 +112,7 @@ export default class KeyringLocal extends KeyringBase {
       if (key) {
         key = key[0];
         await key.update(pubKey);
-        const {userid: userId} = await getUserInfo(pubKey);
+        const {userId} = await getUserInfo(pubKey);
         result.push({
           type: 'success',
           message: l10n.get('key_import_public_update', [keyId, userId])
@@ -120,7 +120,7 @@ export default class KeyringLocal extends KeyringBase {
         this.sync.add(fingerprint, keyringSync.UPDATE);
       } else {
         this.keystore.publicKeys.push(pubKey);
-        const {userid: userId} = await getUserInfo(pubKey);
+        const {userId} = await getUserInfo(pubKey);
         result.push({
           type: 'success',
           message: l10n.get('key_import_public_success', [keyId, userId])
@@ -153,7 +153,7 @@ export default class KeyringLocal extends KeyringBase {
         key = key[0];
         if (key.isPublic()) {
           await privKey.update(key);
-          const {userid: userId} = await getUserInfo(privKey);
+          const {userId} = await getUserInfo(privKey);
           this.keystore.publicKeys.removeForId(fingerprint);
           this.keystore.privateKeys.push(privKey);
           result.push({
@@ -163,7 +163,7 @@ export default class KeyringLocal extends KeyringBase {
           this.sync.add(fingerprint, keyringSync.UPDATE);
         } else {
           await key.update(privKey);
-          const {userid: userId} = await getUserInfo(privKey);
+          const {userId} = await getUserInfo(privKey);
           result.push({
             type: 'success',
             message: l10n.get('key_import_private_update', [keyId, userId])
@@ -172,7 +172,7 @@ export default class KeyringLocal extends KeyringBase {
         }
       } else {
         this.keystore.privateKeys.push(privKey);
-        const {userid: userId} = await getUserInfo(privKey);
+        const {userId} = await getUserInfo(privKey);
         result.push({
           type: 'success',
           message: l10n.get('key_import_private_success', [keyId, userId])
