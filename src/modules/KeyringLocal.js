@@ -264,6 +264,7 @@ export default class KeyringLocal extends KeyringBase {
     const originalKey = this.getPrivateKeyByFpr(fingerprint);
     originalKey.users.push(updatedKey.users[1]);
     if (primaryUserSelfCertification.isPrimaryUserID !== true) {
+      // openpgp.reformatKey sets the first user ID as primary. We update the old user ID if primary flag is not yet set.
       await originalKey.users.find(({userId: {userid}}) => userid === primaryUserId).update(updatedKey.users[0], unlockedKey.primaryKey);
     }
     await this.keystore.store();
@@ -276,6 +277,9 @@ export default class KeyringLocal extends KeyringBase {
     const filteredUserIds = [];
     for (const user of unlockedKey.users) {
       if (await user.verify(unlockedKey.primaryKey) === openpgp.enums.keyStatus.valid) {
+        if (!this.isRFC2822UserId(user)) {
+          throw new Error('Key contains a non-RFC2822 user ID. Change of expiration date not supported.');
+        }
         filteredUserIds.push(user);
       }
     }
@@ -294,6 +298,11 @@ export default class KeyringLocal extends KeyringBase {
     await this.keystore.store();
     await this.sync.commit();
     return originalKey;
+  }
+
+  isRFC2822UserId(user) {
+    const userId = openpgp.util.parseUserId(user.userId.userid);
+    return openpgp.util.formatUserId(userId) === user.userId.userid;
   }
 
   async setKeyPwd(unlockedKey, passphrase) {

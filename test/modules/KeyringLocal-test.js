@@ -199,4 +199,15 @@ describe('KeyringLocal unit tests', () => {
       expect(mappedKeys[0].bitLength).to.equal(2048);
     });
   });
+
+  describe('isRFC2822UserId', () => {
+    it('valid user Id', () => {
+      const user = {userId: {userid: 'Demo <demo@mailvelope.com>'}};
+      expect(keyRing.isRFC2822UserId(user)).to.be.true;
+    });
+    it('invalid user Id', () => {
+      const user = {userId: {userid: '<demo@mailvelope.com>'}};
+      expect(keyRing.isRFC2822UserId(user)).to.be.false;
+    });
+  });
 });
