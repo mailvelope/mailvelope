@@ -205,7 +205,7 @@ export class App extends React.Component {
             </AppOptions.Provider>
           </div>
           <footer className="row">
-            <p className="pull-left col-md-6">&copy; 2012-2018 Mailvelope GmbH</p>
+            <p className="pull-left col-md-6">&copy; 2012-2019 Mailvelope GmbH</p>
             <div id="version" className="pull-right col-md-6">{this.state.version}</div>
           </footer>
         </div>

@@ -1,6 +1,23 @@
 Mailvelope Changelog
 ====================
 
+v3.1.0
+-------
+__Mar 11, 2019__
+
+  * Redesign key details UI in app
+  * Key UI: upload or delete keys to/from the Mailvelope key server
+  * Key UI: change password of private keys
+  * Key UI: create key revokation certificates
+  * Key UI: change (add new, delete, revoke) user ID: name and email
+  * Key UI: set new expiration date for key
+  * Make links in decrypted messages clickable
+  * Add checkbox to security settings to allow to hide header in armored message
+  * [Security] Fix control mechanism to let components only be created in authorized domains
+  * [Security] Fix OK badge on browser action icon that signals user interaction
+  * Various fixes and refactoring
+  * Update OpenPGP.js to 4.4.9
+
 v3.0.2
 -------
 __Dec 18, 2018__
