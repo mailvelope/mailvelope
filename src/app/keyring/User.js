@@ -17,7 +17,7 @@ import UserSignatures from './components/UserSignatures';
 import KeyStatus from './components/KeyStatus';
 import Spinner from '../../components/util/Spinner';
 import Modal from '../../components/util/Modal';
-import Alert from '../../components/util/AlertBS4';
+import Alert from '../../components/util/Alert';
 
 l10n.register([
   'user_title',

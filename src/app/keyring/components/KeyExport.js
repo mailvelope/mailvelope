@@ -7,7 +7,7 @@ import * as l10n from '../../../lib/l10n';
 import {port} from '../../app';
 import React from 'react';
 import PropTypes from 'prop-types';
-import Alert from '../../../components/util/AlertBS4';
+import Alert from '../../../components/util/Alert';
 
 l10n.register([
   'keyring_public',

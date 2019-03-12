@@ -127,16 +127,22 @@ describe('Decrypt Message tests', () => {
 
       const contentSandbox = wrapper.find(ContentSandbox);
       expect(wrapper.find(ContentSandbox).prop('value')).to.equal(message);
-      expect(spy.withArgs('This is an encrypted message!').calledOnce).to.equal(true);
       expect(contentSandbox.find('iframe').exists()).to.equal(true);
+      contentSandbox.find('iframe').simulate('load');
+      expect(spy.withArgs('This is an encrypted message!').calledOnce).to.equal(true);
     });
     it('should show singature modal when clicked on signature button', () => {
-      sandbox.spy(ContentSandbox.prototype, 'setContent');
       const {wrapper} = setup();
       const component = wrapper.instance();
+      const message = 'This is an encrypted message!';
+      const event = {
+        message
+      };
+      component.onDecryptedMessage(event);
+      wrapper.update();
       component.onSignatureVerification({signers: signaturesFixture});
       wrapper.update();
-      wrapper.find('.btn-digital-signature').first().simulate('click');
+      wrapper.find('#sigBtn').first().simulate('click');
       expect(wrapper.state().showSig).to.equal(true);
       const signatureModal = wrapper.find(SignatureModal);
       expect(signatureModal.exists()).to.equal(true);

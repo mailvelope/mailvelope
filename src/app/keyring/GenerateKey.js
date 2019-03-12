@@ -16,7 +16,7 @@ import AdvancedExpand from './components/AdvancedExpand';
 import AdvKeyGenOptions from './components/AdvKeyGenOptions';
 import DefinePassword from './components/DefinePassword';
 // import GenerateWait from './components/GenerateWait';
-import Alert from '../../components/util/AlertBS4';
+import Alert from '../../components/util/Alert';
 import Modal from '../../components/util/Modal';
 import {Link} from 'react-router-dom';
 

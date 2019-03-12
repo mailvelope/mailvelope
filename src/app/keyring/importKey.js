@@ -11,7 +11,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import KeySearch from './components/KeySearch';
-import Alert from '../../components/util/AlertBS4';
+import Alert from '../../components/util/Alert';
 import {Link} from 'react-router-dom';
 
 const PUBLIC_KEY_REGEX = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;

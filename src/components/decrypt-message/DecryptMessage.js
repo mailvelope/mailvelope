@@ -12,7 +12,7 @@ import ContentSandbox from './components/ContentSandbox';
 import SignatureModal from './components/SignatureModal';
 import {FileDownloadPanel} from '../util/FilePanel';
 import Modal from '../util/Modal';
-import Alert from '../util/AlertBS4';
+import Alert from '../util/Alert';
 import Spinner from '../util/Spinner';
 
 import './DecryptMessage.css';
@@ -142,7 +142,7 @@ export default class DecryptMessage extends React.Component {
     }
     return (
       <div className="rounded" style={{background: 'rgba(255,255,255,.5)', padding: '0.1rem 0.2rem', fontSize: '80%'}}>
-        <a role="button" className="text-decoration-none" href="#" onClick={() => this.onClickSignature()}>{caption}</a>
+        <a role="button" id="sigBtn" className="text-decoration-none" href="#" onClick={() => this.onClickSignature()}>{caption}</a>
       </div>
     );
   }

@@ -11,7 +11,7 @@ import EventHandler from '../../lib/EventHandler';
 import FormSandbox from './components/FormSandbox';
 import './encryptedForm.css';
 import Spinner from '../util/Spinner';
-import Alert from '../util/AlertBS4';
+import Alert from '../util/Alert';
 import Modal from '../util/Modal';
 
 // register language strings

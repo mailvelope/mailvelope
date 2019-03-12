@@ -62,7 +62,10 @@ class Modal extends React.Component {
 Modal.propTypes = {
   className: PropTypes.string,
   size: PropTypes.oneOf(['small', 'medium', 'large']),
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]),
   header: PropTypes.element,
   headerClass: PropTypes.string,
   footer: PropTypes.element,

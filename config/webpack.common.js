@@ -23,7 +23,7 @@ function plugins() {
       });
     },
     new MiniCssExtractPlugin({
-      filename: '../mvelo.css'
+      filename: '../[name].css'
     })
   ];
 }

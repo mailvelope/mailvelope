@@ -22,7 +22,7 @@ import EditorModalFooter from './components/EditorModalFooter';
 import {RecipientInput} from './components/RecipientInput';
 import BlurWarning from './components/BlurWarning';
 import Modal from '../util/Modal';
-import Alert from '../util/AlertBS4';
+import Alert from '../util/Alert';
 import Spinner from '../util/Spinner';
 
 import * as fileLib from '../../lib/file';

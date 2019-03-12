@@ -14,7 +14,7 @@ import DefinePassword from './DefinePassword';
 import KeySelect from './KeySelect';
 import KeyStatus from './KeyStatus';
 import Modal from '../../../components/util/Modal';
-import Alert from '../../../components/util/AlertBS4';
+import Alert from '../../../components/util/Alert';
 
 l10n.register([
   'keydetails_title',

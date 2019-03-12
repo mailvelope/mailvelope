@@ -80,7 +80,7 @@ describe('Editor tests', () => {
     it('should show editor in modal when not embedded', () => {
       const {wrapper} = setup({embedded: false});
       wrapper.instance();
-      expect(wrapper.find('.m-modal').exists()).to.equal(true);
+      expect(wrapper.find('.modal').exists()).to.equal(true);
     });
 
     it('should show error modal when decrypt failed', () => {
@@ -88,7 +88,7 @@ describe('Editor tests', () => {
       const component = wrapper.instance();
       component.onDecryptFailed({error: {message: 'Error message!'}});
       wrapper.update();
-      expect(wrapper.find('ModalDialog Alert').props().children).to.equal('Error message!');
+      expect(wrapper.find('Modal Alert').props().children).to.equal('Error message!');
     });
 
     /* test shows side effects and has to be fixed */

@@ -17,7 +17,7 @@ import KeyExport from './components/KeyExport';
 import DefaultKeyButton from './components/DefaultKeyButton';
 import KeyStatus from './components/KeyStatus';
 import Spinner from '../../components/util/Spinner';
-import Alert from '../../components/util/AlertBS4';
+import Alert from '../../components/util/Alert';
 import Modal from '../../components/util/Modal';
 
 l10n.register([
