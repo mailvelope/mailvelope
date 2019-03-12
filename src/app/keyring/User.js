@@ -34,6 +34,7 @@ l10n.register([
   'keygrid_validity_status',
   'keydetails_creation_date',
   'keydetails_expiration_date',
+  'keydetails_key_not_expire',
   'user_keyserver_sync',
   'user_keyserver_unverified',
   'user_keyserver_not',
@@ -372,7 +373,7 @@ export default class User extends React.Component {
                     <div className="form-group">
                       <label className="col-sm-4 col-lg-3 control-label">{l10n.map.keydetails_expiration_date}</label>
                       <div className="col-sm-8 col-lg-9 text-only">
-                        {this.state.user.exDate ? moment(this.state.user.exDate).format('L') : 'nie'}
+                        {this.state.user.exDate ? moment(this.state.user.exDate).format('L') : l10n.map.keydetails_key_not_expire}
                       </div>
                     </div>
                   </div>
