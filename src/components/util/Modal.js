@@ -26,7 +26,7 @@ class Modal extends React.Component {
 
   render() {
     return (
-      <div className={`modal fade ${this.props.className || ''}`} tabIndex="-1" role="dialog" ref={node => this.$node = $(node)}>
+      <div className={`modal ${this.props.animate ? 'fade' : ''} ${this.props.className || ''}`} tabIndex="-1" role="dialog" ref={node => this.$node = $(node)}>
         <div className={`modal-dialog ${this.props.size === 'small' ? 'modal-sm' : this.props.size === 'large' ? 'modal-lg' : ''}`} role="document">
           <div className="modal-content">
             <div className={`modal-header ${this.props.hideHeader ? 'd-none' : ''} ${this.props.headerClass}`}>
@@ -74,13 +74,15 @@ Modal.propTypes = {
   hideHeader: PropTypes.bool,
   hideFooter: PropTypes.bool,
   keyboard: PropTypes.bool,
-  dismissable: PropTypes.bool
+  dismissable: PropTypes.bool,
+  animate: PropTypes.bool,
 };
 
 Modal.defaultProps = {
   size: 'medium',
   keyboard: true,
   dismissable: true,
+  animate: true,
   headerClass: ''
 };
 

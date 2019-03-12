@@ -1,10 +1,10 @@
-@import "../../res/less/colors";
-@import "../../res/less/logo";
+@import "../../res/styles/_colors";
+@import "../../res/styles/logo";
 
 
-@side-padding: 0.6em;
-@select-transition: background-color 0.2s ease;
-@action-menu-width: 230px;
+$side-padding: 0.6em;
+$select-transition: background-color 0.2s ease;
+$action-menu-width: 230px;
 
 body {
   padding: 0px !important;
@@ -19,8 +19,12 @@ div.action-menu.action-menu-setup {
 div.action-menu {
   height: 300px;
   overflow: hidden;
-  width: @action-menu-width;
+  width: $action-menu-width;
   padding: 0;
+
+  a {
+    cursor: pointer;
+  }
 
   .action-menu-header {
     padding: 3px 0;
@@ -32,16 +36,16 @@ div.action-menu {
       font-size: 18px;
       line-height: 20px;
       float: left;
-      padding: 7px 0 6px @side-padding;
+      padding: 7px 0 6px $side-padding;
     }
 
     .nav-right {
       float: right;
-      padding: 7px @side-padding 6px 0;
+      padding: 7px $side-padding 6px 0;
       font-size: 12.6px;
 
       a {
-        color: @grey-dark;
+        color: $grey-dark;
         outline: none;
         text-decoration: none;
         &:hover {
@@ -54,19 +58,19 @@ div.action-menu {
   .action-menu-container-slide-container {
     position: relative;
     overflow: hidden;
-    width: @action-menu-width;
+    width: $action-menu-width;
 
     .action-menu-container-slide {
-      width: @action-menu-width*2;
+      width: $action-menu-width*2;
 
       .primary {
         float: left;
         display: inline-block;
-        width: @action-menu-width;
+        width: $action-menu-width;
       }
       .advanced {
         display: inline-block;
-        width: @action-menu-width;
+        width: $action-menu-width;
       }
     }
   }
@@ -87,7 +91,7 @@ div.action-menu {
           height: 76px;
           display: flex;
           align-items: center;
-          padding: 0 @side-padding;
+          padding: 0 $side-padding;
 
           p {
             float: left;
@@ -99,7 +103,7 @@ div.action-menu {
             float: right;
             width: 10%;
             font-size: 2em;
-            color: @grey;
+            color: $grey;
             margin-top: .125em;
           }
         }
@@ -122,18 +126,18 @@ div.action-menu {
             float: right;
             width: 10%;
             font-size: 1.3em;
-            color: @grey;
+            color: $grey;
             margin-top: .125em;
           }
         }
       }
 
       a {
-        padding: 0.72em @side-padding;
-        border-top: 1px solid @grey-selected;
+        padding: 0.72em $side-padding;
+        border-top: 1px solid $grey-selected;
         display: block;
-        color: @grey-dark;
-        transition: @select-transition;
+        color: $grey-dark;
+        transition: $select-transition;
 
         p {
           padding: 0 1em 0 0;
@@ -142,12 +146,12 @@ div.action-menu {
         }
 
         &:hover {
-          color: @grey-darker;
-          background-color: @grey-light;
+          color: $grey-darker;
+          background-color: $grey-light;
           text-decoration: none;
 
           i.fa {
-            color: @grey-darker;
+            color: $grey-darker;
           }
         }
       }
@@ -158,17 +162,17 @@ div.action-menu {
   .header {
     a {
       height: 33px;
-      border-top: 1px solid @grey-selected;
-      background-color: @grey-light;
+      border-top: 1px solid $grey-selected;
+      background-color: $grey-light;
       display: block;
-      padding: 7px @side-padding;
+      padding: 7px $side-padding;
       text-align: center;
       font-size: 12.6px;
       color: black;
-      transition: @select-transition;
+      transition: $select-transition;
 
       &:hover {
-        background-color: @grey-selected;
+        background-color: $grey-selected;
         text-decoration: none;
       }
     }

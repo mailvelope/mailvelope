@@ -48,7 +48,6 @@ export default class PlainText extends React.PureComponent {
       <html style="height: 100%">
         <head>
           <meta charset="utf-8">
-          <link rel="stylesheet" href="../../dep/bootstrap/css/bootstrap.css">
           <link rel="stylesheet" href="../../mvelo.css">
         </head>
         <body style="overflow: hidden; margin: 0; height: 100%">

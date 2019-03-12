@@ -124,7 +124,7 @@ function addSandbox() {
   }).append(header);
   const style = $('<link/>', {
     rel: 'stylesheet',
-    href: `${basePath}dep/bootstrap/css/bootstrap.css`
+    href: `${basePath}dep/bootstrap4/css/bootstrap.css`
   });
   const style2 = style.clone().attr('href', `${basePath}components/verify-inline/verifyInlineSig.css`);
   const meta = $('<meta/>', {charset: 'UTF-8'});

@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8">
   <title></title>
-  <link rel="stylesheet" href="../../dep/bootstrap/css/bootstrap.css">
   <link rel="stylesheet" href="../../mvelo.css">
   <link rel="stylesheet" href="recoverySheet.css">
   <script src="../../dep/jquery.min.js"></script>
@@ -22,17 +21,17 @@
 
   <section class="recovery-sheet_content container">
     <div class="row">
-      <div class="col-xs-2">
+      <div class="col-2">
         <img src="../../img/mail_locked_96.png" class="logo"/>
       </div>
-      <div class="col-xs-10">
+      <div class="col-10">
         <h2>Recovery voucher for encrypted communication</h2>
-        <h3 class="hidden-print">Please print this document and keep it safe!</h3>
-        <h3 class="visible-print-block">Please keep this receipt in a safe!</h3>
+        <h3 class="d-print-none">Please print this document and keep it safe!</h3>
+        <h3 class="d-none d-print-flex">Please keep this receipt in a safe!</h3>
       </div>
     </div>
 
-    <section class="recovery-sheet_print hidden-print">
+    <section class="recovery-sheet_print d-print-none">
       <img src="assets/printer.png"/>
       <button class="recovery-sheet_print-button">Print</button>
       <img src="assets/printer.png"/>
@@ -101,14 +100,14 @@
       </div>
     </section>
 
-    <section class="recovery-sheet_print hidden-print">
+    <section class="recovery-sheet_print d-print-none">
       <img src="assets/printer.png"/>
       <button class="recovery-sheet_print-button">Print</button>
       <img src="assets/printer.png"/>
     </section>
   </section>
 
-  <footer class="recovery-sheet_teaser visible-print-block">
+  <footer class="recovery-sheet_teaser d-none d-print-flex">
     <img src="assets/lock.png"/>
     <h1 class="recovery-sheet_panel-headline">Important Information!</h1>
     <img src="assets/lock.png"/>

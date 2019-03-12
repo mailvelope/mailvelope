@@ -1,0 +1,47 @@
+// Custom imports
+@import "./res/styles/custom";
+
+// BS imports
+
+// Required
+@import "../node_modules/bootstrap4/scss/functions";
+@import "../node_modules/bootstrap4/scss/variables";
+@import "../node_modules/bootstrap4/scss/mixins";
+
+// BS overrides and use functions here
+
+// Optional
+@import "../node_modules/bootstrap4/scss/root";
+@import "../node_modules/bootstrap4/scss/reboot";
+@import "../node_modules/bootstrap4/scss/type";
+@import "../node_modules/bootstrap4/scss/images";
+@import "../node_modules/bootstrap4/scss/code";
+@import "../node_modules/bootstrap4/scss/grid";
+@import "../node_modules/bootstrap4/scss/tables";
+@import "../node_modules/bootstrap4/scss/forms";
+@import "../node_modules/bootstrap4/scss/buttons";
+@import "../node_modules/bootstrap4/scss/transitions";
+@import "../node_modules/bootstrap4/scss/dropdown";
+@import "../node_modules/bootstrap4/scss/button-group";
+@import "../node_modules/bootstrap4/scss/input-group";
+@import "../node_modules/bootstrap4/scss/custom-forms";
+@import "../node_modules/bootstrap4/scss/nav";
+@import "../node_modules/bootstrap4/scss/navbar";
+@import "../node_modules/bootstrap4/scss/card";
+@import "../node_modules/bootstrap4/scss/breadcrumb";
+@import "../node_modules/bootstrap4/scss/pagination";
+@import "../node_modules/bootstrap4/scss/badge";
+@import "../node_modules/bootstrap4/scss/jumbotron";
+@import "../node_modules/bootstrap4/scss/alert";
+@import "../node_modules/bootstrap4/scss/progress";
+@import "../node_modules/bootstrap4/scss/media";
+@import "../node_modules/bootstrap4/scss/list-group";
+@import "../node_modules/bootstrap4/scss/close";
+@import "../node_modules/bootstrap4/scss/toasts";
+@import "../node_modules/bootstrap4/scss/modal";
+@import "../node_modules/bootstrap4/scss/tooltip";
+@import "../node_modules/bootstrap4/scss/popover";
+@import "../node_modules/bootstrap4/scss/carousel";
+@import "../node_modules/bootstrap4/scss/spinners";
+@import "../node_modules/bootstrap4/scss/utilities";
+@import "../node_modules/bootstrap4/scss/print";

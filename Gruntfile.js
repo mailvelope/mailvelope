@@ -163,8 +163,7 @@ module.exports = function(grunt) {
             'img/*',
             'lib/{constants,EventHandler,jquery.ext,l10n,util}.js',
             '!res/',
-            'res/fonts/*.woff2',
-            'mvelo.*'
+            'res/fonts/*.woff2'
           ],
           dest: 'build/tmp'
         }]

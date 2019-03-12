@@ -40,7 +40,7 @@ $.fn.showAlert = function(heading, message, type, keep) {
   } else {
     row.append(message);
   }
-  row.attr('class', 'alert fade in');
+  row.attr('class', 'alert fade show');
   row.addClass(`alert-${type}`);
   this.show();
   return this;

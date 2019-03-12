@@ -30,7 +30,7 @@ export default class ContentSandbox extends React.PureComponent {
         <head>
           <meta charset="utf-8">
           <meta http-equiv="Content-Security-Policy" content="default-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
-          <link rel="stylesheet" href="../../dep/bootstrap/css/bootstrap.css">
+          <link rel="stylesheet" href="../../mvelo.css">
         </head>
         <body style="overflow: hidden; margin: 0; height: 100%">
          <div id="content" style="height: 100%; padding: 6px 12px; overflow: auto;">

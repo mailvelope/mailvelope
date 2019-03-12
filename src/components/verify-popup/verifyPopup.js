@@ -1,6 +1,6 @@
 /**
  * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
+ * Copyright (C) 2012-2019 Mailvelope GmbH
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License version 3
@@ -83,7 +83,7 @@ function onVerifiedMessage(msg) {
 }
 
 function addSecuritySettingsButton() {
-  const securitySettingsBtn = $('<div data-l10n-title-id="security_background_button_title" class="pull-right"><span class="glyphicon lockBtnIcon"></span></div>');
+  const securitySettingsBtn = $('<button type="button" class="btn btn-link lockBtnIcon float-right mt-3 mr-1" data-l10n-title-id="security_background_button_title"></button>');
   $('.modal-body .header').append(securitySettingsBtn);
 }
 
@@ -114,7 +114,7 @@ function addSandbox() {
   }).append(header);
   const style = $('<link/>', {
     rel: 'stylesheet',
-    href: '../../dep/bootstrap/css/bootstrap.css'
+    href: '../../dep/bootstrap4/css/bootstrap.css'
   });
   const style3 = style.clone().attr('href', '../../components/verify-popup/verifyPopupSig.css');
   const meta = $('<meta/>', {charset: 'UTF-8'});
@@ -131,7 +131,7 @@ function addSandbox() {
 
 function addErrorView() {
   const errorbox = $('<div/>', {id: 'errorbox'});
-  $('<div/>', {id: 'errorwell', class: 'well'}).appendTo(errorbox);
+  $('<div/>', {id: 'alert', class: 'alert alert-danger'}).appendTo(errorbox);
   $('.modal-body .content').append(errorbox);
 }
 
@@ -140,7 +140,7 @@ function showError(msg) {
   // hide sandbox
   $('.modal-body iframe').hide();
   $('#errorbox').show();
-  $('#errorwell').showAlert(l10n.map.alert_header_error, msg, 'danger');
+  $('#alert').html(`<strong>${l10n.map.alert_header_error}</strong> ${msg}`);
   $('#copyBtn').prop('disabled', true);
 }
 

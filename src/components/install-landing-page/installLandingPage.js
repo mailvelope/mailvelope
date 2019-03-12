@@ -7,7 +7,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as l10n from '../../lib/l10n';
 import Trans from '../util/Trans';
-import './InstallLandingPage.less';
+import './InstallLandingPage.scss';
 
 l10n.register([
   'install_landing_page_getting_started',

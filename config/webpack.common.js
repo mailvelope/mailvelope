@@ -1,4 +1,6 @@
 /* eslint strict: 0 */
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path');
 
 const prod = {
   mode: 'production',
@@ -19,7 +21,10 @@ function plugins() {
           process.exitCode = 1;
         }
       });
-    }
+    },
+    new MiniCssExtractPlugin({
+      filename: '../mvelo.css'
+    })
   ];
 }
 
@@ -49,14 +54,22 @@ function react() {
       }]
     },
     {
-      test: /\.less$/,
-      use: [{
-        loader: 'style-loader'
-      }, {
-        loader: 'css-loader'
-      }, {
-        loader: 'less-loader'
-      }]
+      test: /\.scss$/,
+      use: [
+        ({resource}) => ({
+          loader: path.basename(resource, '.scss') === 'mvelo' ? MiniCssExtractPlugin.loader : 'style-loader', // create main css or inject CSS to page
+        }), {
+          loader: 'css-loader',
+        }, {
+          loader: 'postcss-loader',
+          options: {
+            ident: 'postcss',
+            plugins: () => [require('autoprefixer')]
+          }
+        }, {
+          loader: 'sass-loader'
+        }
+      ]
     },
     {
       test: /\.(woff2?|ttf|svg|eot)(\?v=\d+\.\d+\.\d+)?$/,

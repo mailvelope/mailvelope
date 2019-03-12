@@ -6,7 +6,7 @@
 import React from 'react';
 import * as l10n from '../../lib/l10n';
 import {Link} from 'react-router-dom';
-import './Dashboard.less';
+import './Dashboard.scss';
 
 l10n.register([
   'dashboard_link_manage_keys',

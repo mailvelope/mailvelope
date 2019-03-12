@@ -8,7 +8,7 @@ import * as l10n from '../../../lib/l10n';
 import EventHandler from '../../../lib/EventHandler';
 import ActionMenuAnimated from './ActionMenuAnimated';
 import ActionMenuSetup from './ActionMenuSetup';
-import '../ActionMenu.less';
+import '../ActionMenu.scss';
 
 l10n.register([
   'action_menu_help'

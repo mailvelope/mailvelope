@@ -11,8 +11,8 @@ import EventHandler from '../../lib/EventHandler';
 import FormSandbox from './components/FormSandbox';
 import './encryptedForm.css';
 import Spinner from '../util/Spinner';
-import Alert from '../util/Alert';
-import ModalDialog from '../util/ModalDialog';
+import Alert from '../util/AlertBS4';
+import Modal from '../util/Modal';
 
 // register language strings
 l10n.register([
@@ -131,12 +131,12 @@ export default class EncryptedForm extends React.Component {
 
   waitingModal() {
     return (
-      <ModalDialog className="waiting-modal" hideHeader={true} hideFooter={true} keyboard={false}>
+      <Modal className="waiting-modal" animate={false} hideHeader={true} hideFooter={true} keyboard={false}>
         <div>
           <Spinner style={{margin: '10px auto'}} />
-          <p className="text-center">{l10n.map.form_loading}&hellip;</p>
+          <p className="text-center mb-0">{l10n.map.form_loading}&hellip;</p>
         </div>
-      </ModalDialog>
+      </Modal>
     );
   }
 
@@ -146,8 +146,8 @@ export default class EncryptedForm extends React.Component {
     }
     return (
       <div className={this.props.secureBackground && !this.state.waiting ? 'jumbotron secureBackground' : ''} style={{height: '100%', position: 'relative'}}>
-        <section className="well clearfix">
-          <div>
+        <div className="card">
+          <div className="card-body">
             {this.state.error ? (<Alert type={this.state.error.type}>{this.state.error.message}</Alert>) : (
               <div>
                 {this.state.validated && <div className="spinnerWrapper"><Spinner style={{margin: '0 auto 0'}} /></div>}
@@ -163,7 +163,7 @@ export default class EncryptedForm extends React.Component {
               </div>
             )}
           </div>
-        </section>
+        </div>
       </div>
     );
   }
