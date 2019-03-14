@@ -114,7 +114,7 @@ function addSandbox() {
   }).append(header);
   const style = $('<link/>', {
     rel: 'stylesheet',
-    href: '../../dep/bootstrap4/css/bootstrap.css'
+    href: '../../main.css'
   });
   const style3 = style.clone().attr('href', '../../components/verify-popup/verifyPopupSig.css');
   const meta = $('<meta/>', {charset: 'UTF-8'});

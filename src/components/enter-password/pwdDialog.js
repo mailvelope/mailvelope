@@ -51,7 +51,7 @@ function init() {
   });
 
   $('#password').on('input paste', () => {
-    $('#password').removeClass('is-invalid').next().addClass('d-none');
+    $('#password').removeClass('is-invalid').next().hide();
     logUserInput('security_log_password_input');
   }).focus();
 
@@ -86,7 +86,7 @@ function onWrongPassword() {
   $('body').removeClass('busy');
   $('#spinner').hide();
   $('.modal-body').css('opacity', '1');
-  $('#password').val('').focus().addClass('is-invalid').next().removeClass('d-none');
+  $('#password').val('').focus().addClass('is-invalid').next().show();
 }
 
 function onOk() {

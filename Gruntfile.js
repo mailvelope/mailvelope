@@ -56,20 +56,9 @@ module.exports = function(grunt) {
             expand: true,
             cwd: 'node_modules/bootstrap/dist/',
             src: [
-              'css/bootstrap.css',
               'js/bootstrap.js',
-              'fonts/glyphicons-halflings-regular.woff2'
             ],
             dest: 'build/tmp/dep/bootstrap/'
-          },
-          {
-            expand: true,
-            cwd: 'node_modules/bootstrap4/dist/',
-            src: [
-              'css/bootstrap.css',
-              'js/bootstrap.js'
-            ],
-            dest: 'build/tmp/dep/bootstrap4/'
           },
           {
             expand: true,
@@ -162,8 +151,6 @@ module.exports = function(grunt) {
             'content-scripts/*.css',
             'img/*',
             'lib/{constants,EventHandler,jquery.ext,l10n,util}.js',
-            '!res/',
-            'res/fonts/*.woff2'
           ],
           dest: 'build/tmp'
         }]

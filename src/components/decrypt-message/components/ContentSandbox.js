@@ -29,6 +29,7 @@ export default class ContentSandbox extends React.PureComponent {
       <html style="height: 100%">
         <head>
           <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
           <meta http-equiv="Content-Security-Policy" content="default-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
           <link rel="stylesheet" href="../../main.css">
         </head>

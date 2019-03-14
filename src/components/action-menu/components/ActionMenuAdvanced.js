@@ -23,7 +23,7 @@ function ActionMenuAdvanced(props) {
     <div className="advanced">
       <div className="header">
         <a onClick={props.onShowBaseOptionsHandler} role="button">
-          <i className="glyphicon glyphicon-chevron-left" role="presentation"></i>
+          <i className="fa fa-chevron-left" role="presentation"></i>&nbsp;
           {l10n.map.action_menu_back}
         </a>
       </div>

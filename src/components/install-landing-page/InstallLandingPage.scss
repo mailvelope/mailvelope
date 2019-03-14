@@ -1,5 +1,4 @@
-@import "../../res/styles/_colors";
-@import '../../res/styles/logo';
+@import "../../res/styles/_required";
 
 .landing-page {
 
@@ -12,7 +11,7 @@
     i.fa {
       transform: rotate(45deg);
       font-size: 9em;
-      color: $grey-selected;
+      color: color('gray-dark');
     }
 
   }

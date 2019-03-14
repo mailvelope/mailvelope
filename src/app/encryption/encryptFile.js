@@ -233,7 +233,7 @@ function init() {
   addEncryptInteractivity();
   addDecryptInteractivity();
 
-  $('#encrypting .alert').addClass('d-none');
+  $('#encrypting .alert').hide();
 
   initRecipientsSelection();
 }
@@ -257,7 +257,7 @@ function addEncryptInteractivity() {
   $encryptFileSelection = $('#encrypt_fileSelection');
   $encryptFileDownloadError = $('#encrypt_fileDownloadError');
 
-  const $waiting = $('.waiting', $encryptFileDownloadPanel).addClass('d-none');
+  const $waiting = $('.waiting', $encryptFileDownloadPanel).hide();
   addLoadingAnimation($waiting);
 
   $encryptFileUpload = $('#encrypt_fileUpload').change(onAddFile.bind(null, $encryptFileUploadPanel));
@@ -305,7 +305,7 @@ function addDecryptInteractivity() {
   $decryptFileSelection = $('#decrypt_fileSelection');
   $decryptFileDownload = $('#decrypt_fileDownload');
 
-  const $waiting = $('.waiting', $decryptFileDownloadPanel).addClass('d-none');
+  const $waiting = $('.waiting', $decryptFileDownloadPanel).hide();
   addLoadingAnimation($waiting);
 
   $decryptFileUpload = $('#decrypt_fileUpload').on('change', onAddFile.bind(null, $decryptFileUploadPanel));
@@ -346,14 +346,14 @@ function onDecryptFiles(e) {
   if (!isDecryptCached) {
     $decryptFileDownload.children().remove();
     hideError($decryptFileDownloadError);
-    $('.waiting', $decryptFileDownloadPanel).removeClass('d-none');
+    $('.waiting', $decryptFileDownloadPanel).show();
     const encryptedFiles = fileLib.getFiles($decryptFileUploadPanel);
     decryptFiles(encryptedFiles)
     .catch(error => {
       showError(error.message, $decryptFileDownloadError);
     })
     .then(() => {
-      $('.waiting', $decryptFileDownloadPanel).addClass('d-none');
+      $('.waiting', $decryptFileDownloadPanel).hide();
       isDecryptCached = hasError($decryptFileDownloadError) ? false : true;
       if ($decryptFileDownload.children().length) {
         $decryptDownloadAllBtn.prop('disabled', false);
@@ -392,7 +392,7 @@ function onEncryptFiles(e) {
   if (!isEncryptCached) {
     $encryptFileDownload.children().remove();
     hideError($encryptFileDownloadError);
-    $('.waiting', $encryptFileDownloadPanel).removeClass('d-none');
+    $('.waiting', $encryptFileDownloadPanel).show();
     const plainFiles = fileLib.getFiles($encryptFileUploadPanel);
     const receipients = getSelectedRecipients();
     encryptFiles(plainFiles, receipients)
@@ -406,7 +406,7 @@ function onEncryptFiles(e) {
       showError(error.message, $encryptFileDownloadError);
     })
     .then(() => {
-      $('.waiting', $encryptFileDownloadPanel).addClass('d-none');
+      $('.waiting', $encryptFileDownloadPanel).hide();
     });
   }
   switchPanel($encryptFileDownloadPanel, $encryptPanels);
@@ -659,7 +659,7 @@ function toggleSelectionInKeyList(index, status) {
  * @param {jQuery} $uiComponent
  */
 function showError(msg, $uiComponent, fadeOut) {
-  $uiComponent.text(msg).removeClass('d-none');
+  $uiComponent.text(msg).show();
   if (fadeOut) {
     window.setTimeout(() => {
       $uiComponent.fadeOut('slow');
@@ -671,7 +671,7 @@ function showError(msg, $uiComponent, fadeOut) {
  * @param {jQuery} $uiComponent
  */
 function hideError($uiComponent) {
-  $uiComponent.text('').addClass('d-none');
+  $uiComponent.text('').hide();
 }
 
 /**
@@ -686,6 +686,6 @@ function hasError($uiComponent) {
  * @param {Array<jQuery>} $panels
  */
 function switchPanel($panel, $panels) {
-  $panels.addClass('d-none');
-  $panel.removeClass('d-none');
+  $panels.hide();
+  $panel.show();
 }

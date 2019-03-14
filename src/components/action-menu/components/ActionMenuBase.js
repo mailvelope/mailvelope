@@ -42,8 +42,8 @@ function ActionMenuBase(props) {
       </ul>
       <div className="footer">
         <a onClick={props.onShowAdvancedOptionsHandler} role="button">
-          {l10n.map.action_menu_advanced_options}
-          <i className="glyphicon glyphicon-chevron-right" role="presentation"></i>
+          {l10n.map.action_menu_advanced_options}&nbsp;
+          <i className="fa fa-chevron-right" role="presentation"></i>
         </a>
       </div>
     </div>

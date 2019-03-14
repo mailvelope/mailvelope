@@ -119,6 +119,7 @@ export default class FormSandbox extends React.Component {
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>OpenPGP Encrypted Form Data</title>
   </head>
   <body>
@@ -210,8 +211,9 @@ export default class FormSandbox extends React.Component {
       <html>
         <head>
           <meta charset="utf-8">
-          <link rel="stylesheet" href="../../dep/bootstrap4/css/bootstrap.css">
+          <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
           <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+          <link rel="stylesheet" href="../../main.css">
           <style>.form-row{margin-right:0;} .download-links {display:none;}</style>
         </head>
         <body>

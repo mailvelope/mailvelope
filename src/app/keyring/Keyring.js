@@ -122,17 +122,13 @@ export default class Keyring extends React.Component {
     return (
       <>
         <KeyringOptions.Provider value={{keyringId: this.state.keyringId, demail: this.state.demail, gnupg: this.state.gnupg}}>
-          <div className="row my-3">
-            <div className="col-sm-4 align-self-center">
-              <h3 className="section-header">
-                <span>{l10n.map.keyring_header}</span>
-              </h3>
-            </div>
-            <div className="col-sm-6 col-lg-5 col-xl-4 ml-auto">
+          <div className="d-flex flex-wrap align-items-center w-100 my-3">
+            <h3 className="flex-shrink-0">{l10n.map.keyring_header}</h3>
+            <div className="ml-auto flex-shrink-0">
               <KeyringSelect keyringId={this.state.keyringId} keyringAttr={this.state.keyringAttr} onChange={this.handleChangeKeyring} onDelete={this.handleDeleteKeyring} prefs={this.props.prefs} />
             </div>
           </div>
-          <div className="jumbotron secureBackground mb-3">
+          <div className="jumbotron secureBackground">
             <section className="card">
               {!this.state.keyringId || this.state.keysLoading ? (
                 <Spinner delay={0} />
@@ -148,7 +144,7 @@ export default class Keyring extends React.Component {
                 </>
               )}
             </section>
-            <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
+            <button type="button" className="btn btn-link float-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
           </div>
         </KeyringOptions.Provider>
       </>

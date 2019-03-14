@@ -7,6 +7,7 @@
   -->
   <title data-l10n-id="keyring_import_keys"></title>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="../../main.css">
   <link rel="stylesheet" href="../../dep/font-awesome/css/font-awesome.css">
   <link rel="stylesheet" href="importKeyDialog.css">
@@ -17,14 +18,13 @@
 </head>
 <body>
 <div class="modal d-block">
-  <div class="modal-dialog h-100 m-0 p-2">
+  <div class="modal-dialog h-100 mw-100 m-0 p-2">
     <div class="modal-content h-100">
-      <div class="modal-header">
+      <div class="modal-header flex-shrink-0">
         <h4 class="modal-title" id="key_import_headline"></h4>
       </div>
       <div class="modal-body secureBackground">
         <div id="lockIcon" data-l10n-title-id="security_background_button_title" id="lockIcon" class="lockBtnIcon flex-shrink-0 ml-auto mb-2"></div>
-
         <div class="card mb-3">
           <div class="card-body tab-content">
             <section role="tabpanel" class="tab-pane show active" id="defaultContent">
@@ -60,11 +60,11 @@
           </div>
         </div>
       </div>
-      <div class="modal-footer" id="defaultFooter">
+      <div class="modal-footer flex-shrink-0" id="defaultFooter">
         <button id="cancelBtn" class="btn btn-secondary" data-l10n-id="form_cancel"></button>
         <button id="okBtn" class="btn btn-primary" data-l10n-id="form_confirm"></button>
       </div>
-      <div class="modal-footer" id="closeFooter">
+      <div class="modal-footer flex-shrink-0" id="closeFooter">
         <button id="closeBtn" class="btn btn-secondary" data-l10n-id="form_close"></button>
       </div>
     </div>

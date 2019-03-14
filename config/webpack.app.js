@@ -4,7 +4,7 @@
 const path = require('path');
 const common = require('./webpack.common');
 
-const entry = ['./src/app/router.js', './src/mvelo.scss'];
+const entry = ['./src/app/router.js'];
 const output = {
   path: path.resolve('./build/tmp/app'),
   pathinfo: true,

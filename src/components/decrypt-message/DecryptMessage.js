@@ -161,29 +161,26 @@ export default class DecryptMessage extends React.Component {
   render() {
     return (
       <div className={this.props.secureBackground && !this.state.waiting ? 'secureBackground' : ''} style={{height: '100%', position: 'relative'}}>
-        {this.state.waiting ? (
-          <Spinner style={{margin: '160px auto 0'}} />
-        ) : (
-          <div className={`decrypt-msg ${this.state.waiting ? '' : 'fade-in'} d-flex flex-column align-content-center p-3 h-100`}>
-            <div className="decrypt-msg-header d-flex overflow-auto align-items-start mb-2 w-100">
-              <div className={`download-panel ${!this.props.secureBackground && !this.state.files.length ? 'd-none' : ''} d-flex flex-column`}>
-                {!this.props.isContainer && this.signatureButton()}
-                <FileDownloadPanel files={this.state.files} onClickFile={() => this.handleClickFile()} />
-              </div>
-              {this.props.secureBackground &&
-                <button type="button" className="btn btn-link secureBgndSettingsBtn lockBtnIcon flex-shrink-0 ml-auto" onClick={() => this.port.emit('open-security-settings')} title={l10n.map.security_background_button_title}></button>
-              }
+        {this.state.waiting && <Spinner style={{margin: '160px auto 0'}} />}
+        <div className={`decrypt-msg fade ${this.state.waiting ? '' : 'show'} d-flex flex-column align-content-center h-100`}>
+          <div className="decrypt-msg-header d-flex overflow-auto justify-content-end align-items-center mb-2 w-100">
+            <div className={`download-panel ${!this.props.secureBackground && !this.state.files.length ? 'd-none' : ''} mr-auto`}>
+              <FileDownloadPanel files={this.state.files} onClickFile={() => this.handleClickFile()} />
             </div>
-            <div className="decrypt-msg-body flex-grow-1 mb-2 w-100">
-              <div className="plain-text w-100 h-100">
-                <ContentSandbox value={this.state.message} />
-              </div>
-            </div>
-            <div className="decrypt-msg-footer d-flex align-items-center justify-content-end">
-              {this.props.isContainer && this.signatureButton()}
+            {!this.props.isContainer && this.signatureButton()}
+            {this.props.secureBackground &&
+              <button type="button" className="btn btn-link secureBgndSettingsBtn lockBtnIcon flex-shrink-0" onClick={() => this.port.emit('open-security-settings')} title={l10n.map.security_background_button_title}></button>
+            }
+          </div>
+          <div className="decrypt-msg-body flex-grow-1 mb-2 w-100">
+            <div className="plain-text w-100 h-100">
+              <ContentSandbox value={this.state.message} />
             </div>
           </div>
-        )}
+          <div className="decrypt-msg-footer d-flex align-items-center justify-content-end">
+            {this.props.isContainer && this.signatureButton()}
+          </div>
+        </div>
         {this.errorModal()}
         {this.state.showSig && <SignatureModal signer={this.state.signer} onHide={() => this.handleSignatureModalHide()} />}
       </div>

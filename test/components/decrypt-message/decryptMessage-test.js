@@ -128,7 +128,6 @@ describe('Decrypt Message tests', () => {
       const contentSandbox = wrapper.find(ContentSandbox);
       expect(wrapper.find(ContentSandbox).prop('value')).to.equal(message);
       expect(contentSandbox.find('iframe').exists()).to.equal(true);
-      contentSandbox.find('iframe').simulate('load');
       expect(spy.withArgs('This is an encrypted message!').calledOnce).to.equal(true);
     });
     it('should show singature modal when clicked on signature button', () => {

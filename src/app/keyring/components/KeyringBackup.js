@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 
 import Modal from '../../../components/util/Modal';
 import {KeyringOptions} from '../KeyringOptions';
-import KeyDetailsExport from './KeyDetailsExport';
+import KeyExport from './KeyExport';
 
 l10n.register([
   'keyring_backup',
@@ -18,14 +18,10 @@ l10n.register([
 
 export default function KeyringBackup(props) {
   return (
-    <Modal title={l10n.map.keyring_backup} onHide={props.onHide} footer={
-      <button type="button" className="btn btn-primary" data-dismiss="modal">
-        <i className="fa fa-times" aria-hidden="true"></i>&nbsp;{l10n.map.dialog_popup_close}
-      </button>
-    }>
+    <Modal title={l10n.map.keyring_backup} onHide={props.onHide} hideFooter={true}>
       <div style={{padding: '10px'}}>
         <KeyringOptions.Consumer>
-          {({keyringId}) => <KeyDetailsExport keyringId={keyringId} keyFprs={props.keyFprs} keyName="keyring" all={props.all} type={props.type} publicOnly={props.publicOnly} />}
+          {({keyringId}) => <KeyExport keyringId={keyringId} keyFprs={props.keyFprs} keyName="keyring" all={props.all} type={props.type} publicOnly={props.publicOnly} />}
         </KeyringOptions.Consumer>
       </div>
     </Modal>

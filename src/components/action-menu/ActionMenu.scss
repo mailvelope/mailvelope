@@ -1,7 +1,12 @@
-@import "../../res/styles/_colors";
-@import "../../res/styles/logo";
+@import "../../res/styles/_required";
 
-
+$gray: color('gray');
+$gray-dark: color('gray-dark');
+$header-footer-bg-color: theme-color('light');
+$header-footer-bg-color-hover: darken($header-footer-bg-color, 2%);
+$nav-item-separator-color: darken($header-footer-bg-color, 15%);
+$nav-item-bg-color: color('white');
+$nav-item-bg-color-hover: darken($nav-item-bg-color, 2%);
 $side-padding: 0.6em;
 $select-transition: background-color 0.2s ease;
 $action-menu-width: 230px;
@@ -45,7 +50,7 @@ div.action-menu {
       font-size: 12.6px;
 
       a {
-        color: $grey-dark;
+        color: $gray-dark;
         outline: none;
         text-decoration: none;
         &:hover {
@@ -102,9 +107,10 @@ div.action-menu {
             text-align: center;
             float: right;
             width: 10%;
-            font-size: 2em;
-            color: $grey;
+            font-size: 32px;
+            color: $gray;
             margin-top: .125em;
+            margin-left: .125em;
           }
         }
       }
@@ -125,18 +131,20 @@ div.action-menu {
             text-align: center;
             float: right;
             width: 10%;
-            font-size: 1.3em;
-            color: $grey;
+            font-size: 22px;
+            color: $gray;
             margin-top: .125em;
+            margin-left: .125em;
           }
         }
       }
 
       a {
         padding: 0.72em $side-padding;
-        border-top: 1px solid $grey-selected;
+        border-top: 1px solid $nav-item-separator-color;
         display: block;
-        color: $grey-dark;
+        background-color: $nav-item-bg-color;
+        color: $gray;
         transition: $select-transition;
 
         p {
@@ -146,12 +154,12 @@ div.action-menu {
         }
 
         &:hover {
-          color: $grey-darker;
-          background-color: $grey-light;
+          color: $gray-dark;
+          background-color: $nav-item-bg-color-hover;
           text-decoration: none;
 
           i.fa {
-            color: $grey-darker;
+            color: $gray-dark;
           }
         }
       }
@@ -162,8 +170,8 @@ div.action-menu {
   .header {
     a {
       height: 33px;
-      border-top: 1px solid $grey-selected;
-      background-color: $grey-light;
+      border-top: 1px solid $nav-item-separator-color;
+      background-color: $header-footer-bg-color;
       display: block;
       padding: 7px $side-padding;
       text-align: center;
@@ -172,7 +180,7 @@ div.action-menu {
       transition: $select-transition;
 
       &:hover {
-        background-color: $grey-selected;
+        background-color: $header-footer-bg-color-hover;
         text-decoration: none;
       }
     }

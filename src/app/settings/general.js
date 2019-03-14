@@ -89,7 +89,7 @@ export default class General extends React.Component {
         <h4 className="card-title">{l10n.map.settings_general}</h4>
         <form>
           <div className="form-group">
-            <h5 className="control-label">{l10n.map.keygrid_default_key}</h5>
+            <h5>{l10n.map.keygrid_default_key}</h5>
             <div className="custom-control custom-checkbox">
               <input className="custom-control-input" type="checkbox" id="auto_add_primary" name="auto_add_primary" checked={this.state.auto_add_primary} onChange={this.handleCheck} />
               <label className="custom-control-label" htmlFor="auto_add_primary"><span>{l10n.map.general_default_key_always}</span></label>
@@ -102,7 +102,7 @@ export default class General extends React.Component {
           <AppOptions.Consumer>
             {({gnupg}) => (
               <div className="form-group">
-                <h5 className="control-label">{l10n.map.general_openpgp_preferences}</h5>
+                <h5>{l10n.map.general_openpgp_preferences}</h5>
                 <p>{l10n.map.general_openpgp_current} <b>{gnupg && this.state.prefer_gnupg ? 'GnuPG' : 'OpenPGP.js'}</b></p>
                 {this.state.nativeMessaging ? (
                   gnupg ? (
@@ -140,7 +140,7 @@ export default class General extends React.Component {
               </div>
             )}
           </AppOptions.Consumer>
-          <div className="form-group">
+          <div className="btn-bar">
             <button type="button" onClick={this.handleSave} className="btn btn-primary" disabled={!this.state.modified}>{l10n.map.form_save}</button>
             <button type="button" onClick={this.handleCancel} className="btn btn-secondary" disabled={!this.state.modified}>{l10n.map.form_cancel}</button>
           </div>

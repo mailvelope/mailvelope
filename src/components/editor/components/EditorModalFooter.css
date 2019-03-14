@@ -1,0 +1,8 @@
+
+.collapsed[data-target="#sign-msg-option"] i.fa:before {
+  content: "\f196";
+}
+
+[data-target="#sign-msg-option"]:not(.collapsed) i.fa:before {
+  content: "\f147";
+}

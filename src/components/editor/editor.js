@@ -50,7 +50,6 @@ export default class Editor extends React.Component {
       signKey: '',
       defaultKey: false,
       privKeys: [],
-      optionsExpanded: false,
       defaultPlainText: '',
       publicKeys: [],
       recipients: [],
@@ -230,14 +229,6 @@ export default class Editor extends React.Component {
     }
   }
 
-  handleOptionsExpand() {
-    this.setState({optionsExpanded: true});
-  }
-
-  handleOptionsCollapse() {
-    this.setState({optionsExpanded: false});
-  }
-
   showErrorModal(error) {
     this.setState({
       error: {
@@ -313,7 +304,7 @@ export default class Editor extends React.Component {
 
   editorBody() {
     return (
-      <div className="editor d-flex flex-column align-content-center p-3 h-100">
+      <div className="editor d-flex flex-column align-content-center h-100">
         <div className={`editor-header ${this.props.secureBackground || this.state.files.length ? 'd-flex' : 'd-none'} overflow-auto align-items-start mb-2 w-100`}>
           <FileUploadPanel files={this.state.files} onRemoveFile={id => this.handleRemoveFile(id)} />
           {this.props.secureBackground &&
@@ -354,11 +345,11 @@ export default class Editor extends React.Component {
               <div className="modal-header clearfix flex-shrink-0">
                 <h4 className="modal-title">{l10n.map.editor_header}</h4>
               </div>
-              <div className={`modal-body ${this.props.secureBackground ? 'secureBackground' : ''} p-0`}>
+              <div className={`modal-body ${this.props.secureBackground ? 'secureBackground' : ''}`}>
                 {this.editorBody()}
               </div>
               <div className="modal-footer flex-shrink-0">
-                <EditorModalFooter expanded={this.state.optionsExpanded} signMsg={this.state.signMsg} signKey={this.state.signKey}
+                <EditorModalFooter signMsg={this.state.signMsg} signKey={this.state.signKey}
                   privKeys={this.state.privKeys} encryptDisabled={this.state.encryptDisabled}
                   onCancel={() => this.handleCancel()}
                   onSignOnly={() => this.handleSign()}
@@ -401,7 +392,7 @@ export default class Editor extends React.Component {
       <Modal title={this.state.error.header} onShow={this.blurWarning && this.blurWarning.startBlurValid} footer={
         <button type="button" className="btn btn-primary" data-dismiss="modal">{l10n.map.form_ok}</button>
       }>
-        <div style={{maxHeight: '120px', overflowX: 'scroll'}}>
+        <div style={{maxHeight: '120px', overflowX: 'auto'}}>
           <Alert type={this.state.error.type}>{this.state.error.message}</Alert>
         </div>
       </Modal>

@@ -164,8 +164,8 @@ a.attachmentButton {
   justify-content: center;
 }
 
-#encrypt_fileDownloadPanel .m-spinner,
-#decrypt_fileDownloadPanel .m-spinner {
+#encrypt_fileDownloadPanel .m-spinner-inline,
+#decrypt_fileDownloadPanel .m-spinner-inline {
   margin: inherit;
 }
 

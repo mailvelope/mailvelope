@@ -36,7 +36,7 @@ export default function WatchListEditor(props) {
             </div>
           </div>
           <div>
-            <label htmlFor="webSiteName" className="control-label">{l10n.map.watchlist_title_site}</label>
+            <label htmlFor="webSiteName">{l10n.map.watchlist_title_site}</label>
             <div className="d-flex flex-wrap align-items-center align-content-stretch">
               <input type="text" value={props.site.site} onChange={e => props.onChangeSite('site', e.target.value)} className="form-group form-control w-auto flex-grow-1 mr-2" id="webSiteName" placeholder="e.g. GMX or GMail" />
               <div className="form-group custom-control custom-switch">
@@ -45,7 +45,7 @@ export default function WatchListEditor(props) {
               </div>
             </div>
           </div>
-          <table className="table table-sm table-hover table-condensed table-striped optionsTable mb-0" id="watchList">
+          <table className="table table-sm table-hover table-sm table-striped border mb-0" id="watchList">
             <thead>
               <tr>
                 <th>{l10n.map.watchlist_title_scan}</th>

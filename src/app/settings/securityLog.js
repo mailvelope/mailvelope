@@ -41,7 +41,7 @@ export default class SecurityLog extends React.Component {
       <div className="card-body">
         <h4 className="card-title">{l10n.map.settings_security_log}</h4>
         <p>{l10n.map.security_log_text}</p>
-        <table className="table table-hover table-striped optionsTable">
+        <table className="table table-hover table-striped border">
           <thead>
             <tr>
               <th>{l10n.map.security_log_timestamp}</th>

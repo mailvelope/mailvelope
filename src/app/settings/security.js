@@ -44,11 +44,11 @@ export default class Security extends React.Component {
         <h4 className="card-title">{l10n.map.settings_security}</h4>
         <form className="form">
           <div className="form-group">
-            <h5 className="control-label">{l10n.map.security_cache_header}</h5>
+            <h5>{l10n.map.security_cache_header}</h5>
             <div className="form-inline">
               <div className="custom-control custom-radio custom-control-inline mr-2">
                 <input type="radio" name="pwdCacheRadios" id="pwdCacheRadios1" value="true" className="custom-control-input" />
-                <label className="custom-control-label" htmlFor="customRadio2">{l10n.map.security_cache_on}</label>
+                <label className="custom-control-label" htmlFor="pwdCacheRadios1">{l10n.map.security_cache_on}</label>
               </div>
               <input type="text" maxLength="3" id="pwdCacheTime" style={{fontFamily: 'monospace', width: '60px'}} className="form-control mr-2 " />
               <label className="my-1 mr-2" htmlFor="pwdCacheTime">{l10n.map.security_cache_time}</label>
@@ -56,7 +56,7 @@ export default class Security extends React.Component {
             </div>
             <div className="custom-control custom-radio custom-control-inline mr-2">
               <input type="radio" name="pwdCacheRadios" id="pwdCacheRadios2" value="false" className="custom-control-input" />
-              <label className="custom-control-label" htmlFor="customRadio2">{l10n.map.security_cache_off}</label>
+              <label className="custom-control-label" htmlFor="pwdCacheRadios2">{l10n.map.security_cache_off}</label>
             </div>
           </div>
           <div className="form-group" id="securityTokenPanel">
@@ -88,7 +88,7 @@ export default class Security extends React.Component {
             </div>
           </div>
           <div className="form-group">
-            <h5 className="control-label">{l10n.map.security_display_decrypted}</h5>
+            <h5>{l10n.map.security_display_decrypted}</h5>
             <div className="custom-control custom-radio">
               <input type="radio" name="decryptRadios" id="decryptRadios2" value="popup" className="custom-control-input" />
               <label className="custom-control-label" htmlFor="decryptRadios2">{l10n.map.security_display_popup}</label>
@@ -99,14 +99,14 @@ export default class Security extends React.Component {
             </div>
           </div>
           <div className="form-group">
-            <h5 className="control-label">{l10n.map.security_openpgp_header}</h5>
+            <h5>{l10n.map.security_openpgp_header}</h5>
             <div className="custom-control custom-checkbox">
               <input className="custom-control-input" type="checkbox" id="hideArmoredHeader" name="hideArmoredHeader" />
               <label className="custom-control-label" htmlFor="hideArmoredHeader">{l10n.map.security_hide_armored_head}</label>
             </div>
           </div>
           <div id="secReloadInfo" className="alert alert-success">{l10n.map.reload_tab}</div>
-          <div className="form-group">
+          <div className="btn-bar">
             <button type="button" id="secBtnSave" className="btn btn-primary" disabled>{l10n.map.form_save}</button>
             <button type="button" id="secBtnCancel" className="btn btn-secondary" disabled>{l10n.map.form_cancel}</button>
           </div>
@@ -122,7 +122,7 @@ function init() {
   loadPrefs();
   $('#secReloadInfo').hide();
   $('#security input').on('input change', () => {
-    $('#security .form-group button').prop('disabled', false);
+    $('#security .btn-bar button').prop('disabled', false);
     $('#secReloadInfo').hide();
   });
   $('input:radio[name="pwdCacheRadios"]').on('change', toggleCacheTime);

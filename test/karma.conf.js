@@ -20,6 +20,7 @@ module.exports = function(config) {
       {pattern: 'polyfills.js', watched: false},
       {pattern: '../node_modules/babel-polyfill/dist/polyfill.js', watched: false},
       {pattern: '../node_modules/jquery/dist/jquery.js', watched: false},
+      {pattern: '../node_modules/popper.js/dist/umd/popper.min.js', watched: false},
       {pattern: '../node_modules/bootstrap/dist/js/bootstrap.js', watched: false},
       {pattern: '../node_modules/angular/angular.js', watched: false},
       {pattern: '../node_modules/angular-mocks/angular-mocks.js', watched: false},

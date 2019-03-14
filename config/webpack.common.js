@@ -1,6 +1,4 @@
 /* eslint strict: 0 */
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const path = require('path');
 
 const prod = {
   mode: 'production',
@@ -21,60 +19,74 @@ function plugins() {
           process.exitCode = 1;
         }
       });
-    },
-    new MiniCssExtractPlugin({
-      filename: '../[name].css'
-    })
+    }
   ];
 }
 
-function react() {
+function scss(loader = 'style-loader') {
   return {
-    rules: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      loader: 'babel-loader',
-      options: {
-        babelrc: false,
-        cacheDirectory: true,
-        presets: ['@babel/react'],
-        plugins: ['@babel/plugin-syntax-object-rest-spread']
-      }
-    },
-    {
-      test: /\.css$/,
-      use: [{
-        loader: 'style-loader'
-      },
+    rules: [
       {
-        loader: 'css-loader',
-        options: {
-          url: false
-        }
-      }]
-    },
-    {
-      test: /\.scss$/,
-      use: [
-        ({resource}) => ({
-          loader: path.basename(resource, '.scss') === 'mvelo' ? MiniCssExtractPlugin.loader : 'style-loader', // create main css or inject CSS to page
-        }), {
+        test: /\.scss$/,
+        use: [{
+          loader,
+        }, {
           loader: 'css-loader',
         }, {
           loader: 'postcss-loader',
           options: {
-            ident: 'postcss',
-            plugins: () => [require('autoprefixer')]
+            plugins: () =>
+              [
+                require('autoprefixer')
+              ]
           }
         }, {
-          loader: 'sass-loader'
+          loader: 'sass-loader' // compiles Sass to CSS
+        }]
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'res/fonts/'
+          }
+        }]
+      }
+    ]
+  };
+}
+
+function react() {
+  const {rules: scssRules} = scss();
+  return {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        options: {
+          babelrc: false,
+          cacheDirectory: true,
+          presets: ['@babel/react'],
+          plugins: ['@babel/plugin-syntax-object-rest-spread']
         }
-      ]
-    },
-    {
-      test: /\.(woff2?|ttf|svg|eot)(\?v=\d+\.\d+\.\d+)?$/,
-      loader: 'file-loader'
-    }]
+      },
+      {
+        test: /\.css$/,
+        use: [{
+          loader: 'style-loader'
+        },
+        {
+          loader: 'css-loader',
+          options: {
+            url: false
+          }
+        }]
+      },
+      ...scssRules
+    ]
   };
 }
 
@@ -102,6 +114,6 @@ function replaceVersion(test, version) {
 
 exports.prod = prod;
 exports.plugins = plugins;
-exports.module = {react};
+exports.module = {scss, react};
 exports.resolve = resolve;
 exports.replaceVersion = replaceVersion;

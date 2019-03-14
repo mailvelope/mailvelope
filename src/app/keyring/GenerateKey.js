@@ -159,7 +159,7 @@ export default class GenerateKey extends React.Component {
           <div className="form-group">
             {this.state.alert && <Alert header={this.state.alert.header} type={this.state.alert.type}>{this.state.alert.message}</Alert>}
           </div>
-          <div className="form-group">
+          <div className="btn-bar">
             <button onClick={this.handleGenerate} type="button" className="btn btn-primary">{l10n.map.key_gen_generate}</button>
             <Link className="btn btn-secondary" to='/keyring' replace tabIndex="0">
               <span>{l10n.map.action_menu_back}</span>

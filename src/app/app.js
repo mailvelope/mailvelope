@@ -145,7 +145,7 @@ export class App extends React.Component {
             <Route path='/keyring' render={() => <Keyring prefs={this.state.prefs} />} />
             <Route path='/encryption' render={() => (
               <div className="row mt-3">
-                <div className="col-md-3">
+                <div className="col-lg-3 mb-4">
                   <div role="navigation">
                     <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                       <NavPill to="/encryption/file-encrypt">{l10n.map.file_encrypting}</NavPill>
@@ -156,7 +156,7 @@ export class App extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-9">
+                <div className="col-lg-9">
                   <div className="jumbotron secureBackground">
                     <section className="card">
                       <Route path='/encryption/file-encrypt' component={EncryptFile} />
@@ -164,14 +164,14 @@ export class App extends React.Component {
                       <Route path='/encryption/text-encrypt' component={EncryptText} />
                       <Route path='/encryption/text-decrypt' component={DecryptText} />
                     </section>
-                    <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
+                    <button type="button" className="btn btn-link float-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
                   </div>
                 </div>
               </div>
             )} />
             <Route path='/settings' render={() => (
               <div className="row mt-3">
-                <div className="col-md-3">
+                <div className="col-lg-3 mb-4">
                   <div role="navigation">
                     <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                       <NavPill to="/settings/general">{l10n.map.settings_general}</NavPill>
@@ -182,7 +182,7 @@ export class App extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-9">
+                <div className="col-lg-9">
                   <div className="jumbotron secureBackground">
                     <section className="card mv-options">
                       <Route path='/settings/general' component={General} />
@@ -191,14 +191,14 @@ export class App extends React.Component {
                       <Route path='/settings/security-log' component={SecurityLog} />
                       <Route path='/settings/key-server' render={() => <KeyServer prefs={this.state.prefs} onChangePrefs={this.handleChangePrefs} />} />
                     </section>
-                    <button type="button" className="btn btn-link pull-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
+                    <button type="button" className="btn btn-link float-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
                   </div>
                 </div>
               </div>
             )} />
           </AppOptions.Provider>
         </main>
-        <footer className="footer bg-light">
+        <footer className="bg-light">
           <div className="container text-muted">
             <p id="version" className="float-right mb-0">{this.state.version}</p>
             <p className="mb-0">&copy; 2012-2019 Mailvelope GmbH</p>

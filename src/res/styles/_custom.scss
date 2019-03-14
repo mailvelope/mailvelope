@@ -1,20 +1,9 @@
 /**
  * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2015 Mailvelope GmbH
+ * Copyright (C) 2015-19 Mailvelope GmbH
  */
-
-/* Overwriting some Bootstrap */
-textarea.form-control:active, textarea.form-control:focus {
-  border-color: #aaaaaa !important;
-  box-shadow: none;
-}
-
-/*.btn {
-  min-width: 70px;
-}*/
-
-.btn, .btn-link, .btn:active, .btn-link:active, .btn:focus, .btn-link:focus {
-  outline: none !important;
+.settings-logo {
+  font-family: 'Courgette', cursive;
 }
 
 .termination {
@@ -27,83 +16,22 @@ textarea.form-control:active, textarea.form-control:focus {
   padding: 50px;
 }
 
-
-/* Spinner
-The MIT License (MIT)
-Copyright (c) 2014 Tobias Ahlin
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
-.m-spinner {
-  margin: 160px auto 0;
-  width: 70px;
-  text-align: center;
+/**
+ * General
+ */
+.btn-bar > .btn {
+  margin-right: map-get($spacers, 1);
+  margin-bottom: map-get($spacers, 1);
 }
 
-.m-spinner > div {
-  width: 18px;
-  height: 18px;
-  background-color: #333;
-
-  border-radius: 100%;
-  display: inline-block;
-  -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
-  animation: bouncedelay 1.4s infinite ease-in-out;
-  /* Prevent first frame from flickering when animation starts */
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
+.btn-bar .btn:last-child {
+  margin-right: 0;
 }
 
-.m-spinner .bounce1 {
-  -webkit-animation-delay: -0.32s;
-  animation-delay: -0.32s;
-}
-
-.m-spinner .bounce2 {
-  -webkit-animation-delay: -0.16s;
-  animation-delay: -0.16s;
-}
-
-@-webkit-keyframes bouncedelay {
-  0%, 80%, 100% { -webkit-transform: scale(0.0) }
-  40% { -webkit-transform: scale(1.0) }
-}
-
-@keyframes bouncedelay {
-  0%, 80%, 100% {
-    transform: scale(0.0);
-    -webkit-transform: scale(0.0);
-  } 40% {
-      transform: scale(1.0);
-      -webkit-transform: scale(1.0);
-    }
-}
-
-/* End spinner */
 
 /**
  * Setup page
  */
-.well {
-    background: #FFF;
-}
-.jumbotron .well p {
-  font-size: inherit;
-  margin-bottom: 20px;
-}
-
 .keyring_setup_message {
   display: none;
 }
@@ -112,16 +40,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   display: block;
 }
 
+
 /**
  * Secure background
  */
 
-.jumbotron.secureBackground {
-  padding: 10px;
-}
-
-.jumbotron.secureBackground > div {
-  margin-bottom: 10px;
+.secureBackground {
+  padding: map-get($spacers, 2);
 }
 
 .secureBgndSettingsBtn {
@@ -156,25 +81,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   height: 0;
 }
 
+
 /**
  * Smallscreen optimization
  */
 
 @media (max-width:767px) {
-  /* Responsive table */
- /* .table-responsive-custom {
-    overflow:auto;
-    width: 100%;
-  }*/
-
   .table-responsive-custom th:nth-child(4),
   .table-responsive-custom td:nth-child(4),
-
   .table-responsive-custom th:nth-child(5),
   .table-responsive-custom td:nth-child(5) {
     display: none;
   }
-}
-
-@media (min-width: 992px) and (max-width: 1200px) {
 }

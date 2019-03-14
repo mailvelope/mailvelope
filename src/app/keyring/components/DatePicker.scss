@@ -1,0 +1,53 @@
+/**
+ * Copyright (C) 2016-2019 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
+ */
+@import "../../../res/styles/_required";
+@import "../../../../node_modules/react-datepicker/src/stylesheets/variables";
+
+$datepicker__background-color: theme-color('light');
+$datepicker__border-color: $border-color;
+$datepicker__highlighted-color: $datepicker__background-color;
+$datepicker__muted-color: $text-muted;
+$datepicker__selected-color: theme-color("primary");
+$datepicker__text-color: $body-color;
+$datepicker__header-color: $headings-color;
+
+$datepicker__border-radius: $border-radius;
+$datepicker__day-margin: 0.175rem;
+$datepicker__font-size: $font-size-sm;
+$datepicker__font-family: $font-family-base;
+$datepicker__item-size: 1.8rem;
+$datepicker__margin: map-get($spacers, 2);
+
+@import "../../../../node_modules/react-datepicker/src/stylesheets/datepicker";
+@import "../../../../node_modules/react-datepicker/src/stylesheets/variables";
+@import "../../../../node_modules/bootstrap/scss/custom-forms";
+
+.react-datepicker__header__dropdown {
+  margin-top: map-get($spacers, 1);
+  margin-bottom: map-get($spacers, 1);
+}
+
+.react-datepicker__header__dropdown select {
+  @extend .custom-select;
+  @extend .custom-select-sm;
+}
+
+.form-control-clear {
+  z-index: 10;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+  width: 100%;
+}
+
+.react-datepicker-wrapper input {
+  background-color: #FFF !important
+}
+
+
+  

@@ -1,6 +1,6 @@
 /**
  * Mailvelope - secure email with OpenPGP encryption for Webmail
- * Copyright (C) 2012-2015 Mailvelope GmbH
+ * Copyright (C) 2012-2019 Mailvelope GmbH
  */
 
 html {
@@ -9,13 +9,20 @@ html {
 }
 
 body {
-  /*padding-top: 60px;*/
-  /*padding-bottom: 40px;*/
-  margin-bottom: 80px;
+  margin-bottom: 5rem;
 }
 
 main {
-  padding-top: 60px;
+  padding-top: 4rem;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
 }
 
 input[readonly] {
@@ -33,96 +40,6 @@ input[readonly] {
 
 .navbar-brand {
   font-family: 'Courgette', cursive;
-}
-/*
-.navbar-fixed-top > .container {
-  padding-left: 30px;
-  padding-right: 30px;
-}
-
-.nav-pills.nav-stacked .divider {
-  height: 1px;
-  margin: 9px 0;
-  overflow: hidden;
-  background-color: #e5e5e5;
-}
-*/
-.form-group > .btn {
-  margin-right: 0.25rem;
-}
-.form-group .btn:last-child {
-  margin-right: 0;
-}
-
-@media (max-width: 992px) {
-  .navbar-nav > li > a {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-}
-
-@media (min-width: 1300px) {
-  .container {
-    width: 1270px;
-  }
-}
-
-@media (min-width: 1400px) {
-  .container {
-    width: 1370px;
-  }
-}
-
-@media (min-width: 1500px) {
-  .container {
-    width: 1470px;
-  }
-}
-
-/*.tableToolbar {
-  text-align: left;
-  padding-top: 4px;
-  padding-bottom: .5em;
-}
-.tableToolbar .btn {
-    margin-right: 1em;
-}*/
-
-/*.optionsTable {
-  background-color: white;
-  border: 1px solid #ccc;
-  margin-top:.5em;
-}*/
-
-/*.mv-options h3 {
-  margin-bottom: 25px;
-}
-
-.mv-options .form-group {
-  margin-bottom: 30px;
-}*/
-
-/*.logo-header {
-  vertical-align: middle;
-}
-
-.logo-header:after {
-  content: ' ';
-  clear: both;
-  display: block;
-  visibility: hidden;
-  height: 0;
-}*/
-
-/* Footer */
-
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  line-height: 60px; /* Vertically center the text there */
 }
 
 .lockBtnIcon {

@@ -49,12 +49,12 @@ export default class DefinePassword extends React.Component {
     return (
       <div>
         <div className="form-group">
-          <label className="control-label" htmlFor="password">{l10n.map.key_gen_pwd}</label>
+          <label htmlFor="password">{l10n.map.key_gen_pwd}</label>
           <input value={this.props.value} onChange={this.props.onChange} type="password" className={`form-control ${this.props.errors.password ? ' is-invalid' : ''}`} id="password" disabled={this.props.disabled} />
           {this.props.errors.password && <div className="invalid-feedback">{l10n.map.key_gen_pwd_empty}</div>}
         </div>
-        <div className={`form-group ${(this.props.errors.passwordCheck) ? ' has-error' : ''}`}>
-          <label className="control-label" htmlFor="passwordCheck">{l10n.map.key_gen_pwd_reenter}</label>
+        <div className="form-group">
+          <label htmlFor="passwordCheck">{l10n.map.key_gen_pwd_reenter}</label>
           <input value={this.state.passwordCheck} onChange={this.handleChange} type="password" className={`form-control ${(this.props.errors.passwordCheck) ? 'is-invalid' : ''}`} id="passwordCheck" disabled={this.props.disabled} />
           {this.props.errors.passwordCheck && <div className="invalid-feedback">{l10n.map.key_gen_pwd_unequal}</div>}
         </div>

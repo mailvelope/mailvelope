@@ -134,7 +134,7 @@ export default class KeyServer extends React.Component {
       <div className="card-body">
         <h4 className="card-title">{l10n.map.settings_keyserver}</h4>
         <form className="form">
-          <h5 className="control-label">{l10n.map.keyserver_hkp_url}</h5>
+          <h5>{l10n.map.keyserver_hkp_url}</h5>
           <div className="form-group">
             <CreatableSelect
               isClearable
@@ -144,7 +144,7 @@ export default class KeyServer extends React.Component {
               isValidNewOption={option => this.validateUrl(option)}
             />
           </div>
-          <h5 className="control-label">{l10n.map.keyserver_additionals_label}</h5>
+          <h5>{l10n.map.keyserver_additionals_label}</h5>
           <div className="form-group">
             <div className="custom-control custom-checkbox">
               <input className="custom-control-input" type="checkbox" id="keyserverTOFULookup" name="mvelo_tofu_lookup" checked={this.state.mvelo_tofu_lookup} onChange={this.handleCheck} />
@@ -158,8 +158,8 @@ export default class KeyServer extends React.Component {
           <div className="form-group">
             {this.state.alert && <Alert header={this.state.alert.header} type={this.state.alert.type}>{this.state.alert.message}</Alert>}
           </div>
-          <div>
-            <button type="button" onClick={() => this.handleSave()} className="btn btn-primary mr-1" disabled={!(this.state.modified && this.state.valid_base_url)}>{l10n.map.form_save}</button>
+          <div className="btn-bar">
+            <button type="button" onClick={() => this.handleSave()} className="btn btn-primary" disabled={!(this.state.modified && this.state.valid_base_url)}>{l10n.map.form_save}</button>
             <button type="button" onClick={() => this.setState(initialState(this.props))} className="btn btn-secondary" disabled={!this.state.modified}>{l10n.map.form_cancel}</button>
           </div>
         </form>

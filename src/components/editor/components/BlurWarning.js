@@ -49,12 +49,12 @@ export default class BlurWarning extends React.Component {
     const blurWarn = $(this.blurWarn);
     if (!this.blurValid) {
       // fade in 600ms, wait 200ms, fade out 600ms
-      blurWarn.removeClass('d-none')
+      blurWarn.show()
       .stop(true)
       .animate({opacity: 1}, 'slow', 'swing', () => {
         setTimeout(() => {
           blurWarn.animate({opacity: 0}, 'slow', 'swing', () => {
-            blurWarn.addClass('d-none');
+            blurWarn.hide();
           });
         }, 200);
       });
@@ -72,7 +72,7 @@ export default class BlurWarning extends React.Component {
 
   render() {
     return (
-      <div ref={node => this.blurWarn = node} className="alert alert-warning d-none" style={{opacity: 0, position: 'absolute', top: '200px', left: '50%', marginLeft: '-240px'}}>
+      <div ref={node => this.blurWarn = node} className="alert alert-warning" style={{display: 'none', opacity: 0, position: 'absolute', top: '200px', left: '50%', marginLeft: '-240px'}}>
         <h3>{l10n.map.editor_blur_warn}</h3>
       </div>
     );

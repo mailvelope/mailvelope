@@ -45,7 +45,7 @@ export default class KeySearch extends React.Component {
     return (
       <form className="form" onSubmit={this.handleKeySearch}>
         <div className="form-group">
-          <label className="control-label" htmlFor="keySearchInput"><h5 className="mb-0">{l10n.map.key_import_hkp_search}</h5></label>
+          <label htmlFor="keySearchInput"><h5 className="mb-0">{l10n.map.key_import_hkp_search}</h5></label>
           <span className="form-text mb-1">
             {l10n.map.key_import_hkp_search_public}
           </span>

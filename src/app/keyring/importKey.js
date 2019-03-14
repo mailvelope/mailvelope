@@ -131,27 +131,25 @@ export default class ImportKey extends React.Component {
         {!this.context.demail && <KeySearch prefs={this.props.prefs} />}
         <form className="form" autoComplete="off">
           <div className="form-group">
-            <label className="control-label" htmlFor="selectFileButton"><h5 className="mb-0">{l10n.map.key_import_file}</h5></label>
+            <label htmlFor="selectFileButton"><h5 className="mb-0">{l10n.map.key_import_file}</h5></label>
             <div>
               <button id="selectFileButton" type="button" onClick={() => this.fileInput.click()} className="btn btn-info">{l10n.map.key_import_file_select}</button>
               <input type="file" onChange={this.handleChangeFile} style={{display: 'none'}} ref={node => this.fileInput = node} />
             </div>
           </div>
           <div className="form-group">
-            <label className="control-label" htmlFor="newKey"><h5 className="mb-0">{l10n.map.key_import_textarea}</h5></label>
+            <label htmlFor="newKey"><h5 className="mb-0">{l10n.map.key_import_textarea}</h5></label>
             <span className="form-text mb-1">
               {l10n.map.key_import_multiple_keys}
             </span>
             <textarea id="newKey" value={this.state.armored} onChange={event => this.setState({armored: event.target.value})} style={{width: '100%', fontFamily: 'monospace'}} className="form-control" rows="12" spellCheck="false" autoComplete="off"></textarea>
           </div>
-          <div className="form-group">
+          {this.state.alert.map((alert, index) => <Alert header={alert.header} type={alert.type} key={index}>{alert.message}</Alert>)}
+          <div className="btn-bar">
             <button type="button" onClick={() => this.handleImportKey(this.state.armored)} className="btn btn-primary" disabled={!this.state.armored}>{l10n.map.form_import}</button>
             <Link className="btn btn-secondary" to='/keyring' onClick={this.props.onKeyringChange} replace tabIndex="0">
               <span>{l10n.map.action_menu_back}</span>
             </Link>
-          </div>
-          <div className="form-group">
-            {this.state.alert.map((alert, index) => <Alert header={alert.header} type={alert.type} key={index}>{alert.message}</Alert>)}
           </div>
         </form>
       </div>

@@ -184,7 +184,7 @@ export function dataURL2base64(dataURL) {
 
 export function addLoadingAnimation($parent) {
   $parent = $parent || $('body')[0];
-  const spinner = $('<div class="m-spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>');
+  const spinner = $('<div class="m-spinner-inline"><div class="symbol"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>');
   spinner.appendTo($parent);
 }
 
@@ -198,10 +198,10 @@ export function generateSecurityBackground({width, height, scaling = 1, angle = 
 export async function showSecurityBackground(port, isEmbedded) {
   if (isEmbedded) {
     $('.secureBgndSettingsBtn').on('mouseenter', () => {
-      $('.secureBgndSettingsBtn').removeClass('btn-link').addClass('btn-default');
+      $('.secureBgndSettingsBtn').removeClass('btn-link').addClass('btn-secondary');
     });
     $('.secureBgndSettingsBtn').on('mouseleave', () => {
-      $('.secureBgndSettingsBtn').removeClass('btn-default').addClass('btn-link');
+      $('.secureBgndSettingsBtn').removeClass('btn-secondary').addClass('btn-link');
     });
   }
   const background = await port.send('get-security-background');
@@ -342,7 +342,7 @@ export function terminate(port) {
     $('body').empty();
     setTimeout(() => {
       $('body').removeClass()
-      .addClass('glyphicon glyphicon-flash termination');
+      .addClass('fa fa-bolt termination');
     }, 0);
   });
   port.disconnect();

@@ -99,20 +99,20 @@ export default class KeyringSelect extends React.Component {
       <>
         {(Object.keys(this.props.keyringAttr).length > 1 && this.props.prefs) &&
         <div className="keyringSelect dropdown">
-          <button className="btn btn-light dropdown-toggle d-flex justify-content-between align-items-center w-100 text-left" type="button" data-toggle="dropdown" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="true">
+          <button className="btn btn-light dropdown-toggle d-flex justify-content-between align-items-center text-left" type="button" data-toggle="dropdown" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="true">
             <img src={this.getKeyringThumbnail(this.props.keyringId)} style={{width: '48px', height: '48px'}} />
-            <div className="mx-1 flex-grow-1 d-inline-block overflow-hidden">
+            <div className="mx-1 flex-grow-1 d-inline-block">
               <h5 className="d-block mb-1">{this.getKeyringName(this.props.keyringId)}</h5>
               <p className="d-block mb-0 small">{this.getKeyringEmail(this.props.keyringId)}</p>
             </div>
           </button>
-          <ul className="dropdown-menu w-100" aria-labelledby="dropdownMenuButton" role="menu">
+          <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton" role="menu">
             {Object.keys(this.props.keyringAttr).map((keyringId, index) => {
               const keyringName = this.getKeyringName(keyringId);
               const keyringEmail = this.getKeyringEmail(keyringId);
               return (
-                <li key={index} className="d-flex justify-content-between align-items-center w-100 text-left" role="menuitem">
-                  <Link to='/keyring' onClick={() => this.props.onChange(keyringId)} tabIndex="0" className="dropdown-item px-3 d-flex w-auto overflow-hidden">
+                <li key={index} className="d-flex align-items-center text-left" role="menuitem">
+                  <Link to='/keyring' onClick={() => this.props.onChange(keyringId)} tabIndex="0" className="dropdown-item px-3 d-flex mr-auto">
                     <img src={this.getKeyringThumbnail(keyringId)} style={{width: '48px', height: '48px'}} />
                     <div className="mx-1 flex-grow-1 d-inline-block">
                       <h5 className="d-block mb-1">{keyringName}</h5>

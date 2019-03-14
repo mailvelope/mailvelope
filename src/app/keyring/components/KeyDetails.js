@@ -264,7 +264,7 @@ export default class KeyDetails extends React.Component {
           <Modal ref={modal => this.modal = modal} size="small" title={l10n.map.keydetails_change_pwd_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
             <form>
               <div className="form-group">
-                <label className="control-label" htmlFor="passwordCurrent">{l10n.map.keydetails_change_pwd_dialog_old}</label>
+                <label htmlFor="passwordCurrent">{l10n.map.keydetails_change_pwd_dialog_old}</label>
                 <input type="password" onChange={this.handleChange} className={`form-control ${this.state.errors.passwordCurrent ? 'is-invalid' : ''}`} id="passwordCurrent" />
                 {this.state.errors.passwordCurrent && <div className="invalid-feedback">{l10n.map.pwd_dialog_wrong_pwd}</div>}
               </div>

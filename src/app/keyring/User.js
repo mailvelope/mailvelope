@@ -303,21 +303,21 @@ export default class User extends React.Component {
           <Spinner delay={0} />
         ) : (
           <>
-            <div className="d-flex align-items-center justify-content-between mb-3">
-              <div className="d-inline-flex">
+            <div className="d-flex align-items-center justify-content-between flex-wrap mb-3">
+              <div className="d-inline-flex text-nowrap">
                 {this.props.match.params.userIdx !== 'add' ? (
-                  <h4 className="mb-0">{l10n.map.user_title} <KeyStatus className="ml-1" status={this.state.user.status} /></h4>
+                  <h4>{l10n.map.user_title} <KeyStatus className="ml-1" status={this.state.user.status} /></h4>
                 ) : (
                   <h4>{l10n.map.user_create_title}</h4>
                 )}
               </div>
               {this.state.keyDetails.type !== 'public' &&
-                <div>
+                <div className="btn-bar">
                   {this.props.match.params.userIdx === 'add' && <button type="button" onClick={this.handleAdd} className="btn btn-secondary">{l10n.map.user_create_btn}</button>}
                   {(!this.context.gnupg && this.props.match.params.userIdx !== 'add') &&
                     <>
-                      <button type="button" onClick={() => this.setState({showDeleteModal: true})} className="btn btn-secondary ml-1" disabled={!this.state.allowToRemove} title={l10n.map.user_remove_btn_title}>{l10n.map.user_remove_btn}</button>
-                      <button type="button" onClick={() => this.setState({showRevokeModal: true})} className="btn btn-secondary ml-1" disabled={!this.state.allowToRevoke} title={l10n.map.user_revoke_btn_title}>{l10n.map.user_revoke_btn}</button>
+                      <button type="button" onClick={() => this.setState({showDeleteModal: true})} className="btn btn-secondary" disabled={!this.state.allowToRemove} title={l10n.map.user_remove_btn_title}>{l10n.map.user_remove_btn}</button>
+                      <button type="button" onClick={() => this.setState({showRevokeModal: true})} className="btn btn-secondary" disabled={!this.state.allowToRevoke} title={l10n.map.user_revoke_btn_title}>{l10n.map.user_revoke_btn}</button>
                     </>
                   }
                 </div>

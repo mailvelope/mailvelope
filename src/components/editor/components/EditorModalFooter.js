@@ -7,6 +7,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 
+import './EditorModalFooter.css';
+
 l10n.register([
   'form_cancel',
   'editor_sign_button',
@@ -16,53 +18,47 @@ l10n.register([
   'general_default_key_auto_sign'
 ]);
 
-class EditorModalFooter extends React.Component {
-  signSelection() {
-    return (
-      <form className="sign-msg-option card mb-3" style={{fontSize: '0.875rem'}}>
-        <div className="card-body p-2">
-          <div className="form-inline">
-            <div className="custom-control custom-checkbox custom-control-inline mr-2 mb-1">
-              <input className="custom-control-input" type="checkbox" id="signMsgOption" onChange={event => this.props.onChangeSignMsg(event.target.checked)} checked={this.props.signMsg} />
-              <label className="custom-control-label" htmlFor="signMsgOption">{l10n.map.sign_dialog_header}</label>
+export default function EditorModalFooter(props) {
+  return (
+    <div className="d-flex flex-column w-100">
+      <div className="collapse" id="sign-msg-option">
+        <form className="card mb-3" style={{fontSize: '0.875rem'}}>
+          <div className="card-body p-2 overflow-hidden">
+            <div className="form-inline">
+              <div className="custom-control custom-checkbox custom-control-inline mr-2 mb-1">
+                <input className="custom-control-input" type="checkbox" id="signMsgOption" onChange={event => props.onChangeSignMsg(event.target.checked)} checked={props.signMsg} />
+                <label className="custom-control-label" htmlFor="signMsgOption">{l10n.map.sign_dialog_header}</label>
+              </div>
+              <select className="custom-select custom-select-sm mb-1" value={props.signKey} onChange={event => props.onChangeSignKey(event.target.value)}>
+                {props.privKeys.map(key => <option value={key.fingerprint} key={key.fingerprint}>{`${key.userId} - ${key.keyId}`}</option>)}
+              </select>
             </div>
-            <select className="custom-select custom-select-sm mb-1" value={this.props.signKey} onChange={event => this.props.onChangeSignKey(event.target.value)}>
-              {this.props.privKeys.map(key => <option value={key.fingerprint} key={key.fingerprint}>{`${key.userId} - ${key.keyId}`}</option>)}
-            </select>
+            <div>
+              <a role="button" href="#" onClick={props.onClickSignSetting}>{l10n.map.general_default_key_auto_sign}</a>
+            </div>
           </div>
-          <div>
-            <a role="button" href="#" onClick={this.props.onClickSignSetting}>{l10n.map.general_default_key_auto_sign}</a>
-          </div>
-        </div>
-      </form>
-    );
-  }
-
-  render() {
-    return (
-      <div className="d-flex flex-column w-100">
-        {this.props.expanded && this.signSelection()}
-        <div className="d-flex align-items-center">
-          <button type="button" onClick={this.props.expanded ? this.props.onCollapse : this.props.onExpand} className="btn btn-secondary btn-sm mr-auto">
-            <span>{l10n.map.options_home}</span>&nbsp;
-            <i className={`fa fa-${this.props.expanded ? 'minus' : 'plus'}-square-o`} aria-hidden="true"></i>
-          </button>
-          <button type="button" onClick={this.props.onSignOnly} className="btn btn-outline-secondary mr-1" disabled={!(this.props.signMsg && this.props.privKeys.length)}>
-            <i className="fa fa-pencil" aria-hidden="true"></i>&nbsp;
-            <span>{l10n.map.editor_sign_button}</span>
-          </button>
-          <button type="button" onClick={this.props.onCancel} className="btn btn-secondary mr-1">
-            <i className="fa fa-remove" aria-hidden="true"></i>&nbsp;
-            <span>{l10n.map.form_cancel}</span>
-          </button>
-          <button type="button" onClick={this.props.onEncrypt} className="btn btn-primary" disabled={this.props.encryptDisabled}>
-            <i className="fa fa-lock" aria-hidden="true"></i>&nbsp;
-            <span>{l10n.map.editor_encrypt_button}</span>
-          </button>
-        </div>
+        </form>
       </div>
-    );
-  }
+      <div className="d-flex align-items-center">
+        <button type="button" data-toggle="collapse" data-target="#sign-msg-option" aria-expanded="false" aria-controls="sign-msg-option" className="btn btn-secondary btn-sm mr-auto collapsed">
+          <span>{l10n.map.options_home}</span>&nbsp;
+          <i className="fa" aria-hidden="true"></i>
+        </button>
+        <button type="button" onClick={props.onSignOnly} className="btn btn-outline-secondary mr-1" disabled={!(props.signMsg && props.privKeys.length)}>
+          <i className="fa fa-pencil" aria-hidden="true"></i>&nbsp;
+          <span>{l10n.map.editor_sign_button}</span>
+        </button>
+        <button type="button" onClick={props.onCancel} className="btn btn-secondary mr-1">
+          <i className="fa fa-remove" aria-hidden="true"></i>&nbsp;
+          <span>{l10n.map.form_cancel}</span>
+        </button>
+        <button type="button" onClick={props.onEncrypt} className="btn btn-primary" disabled={props.encryptDisabled}>
+          <i className="fa fa-lock" aria-hidden="true"></i>&nbsp;
+          <span>{l10n.map.editor_encrypt_button}</span>
+        </button>
+      </div>
+    </div>
+  );
 }
 
 EditorModalFooter.propTypes = {
@@ -70,9 +66,6 @@ EditorModalFooter.propTypes = {
   onSignOnly: PropTypes.func, // click on sign only button
   onEncrypt: PropTypes.func, // click on encrypt button
   encryptDisabled: PropTypes.bool, // encrypt action disabled
-  onExpand: PropTypes.func, // click on options button in collapsed state
-  onCollapse: PropTypes.func, // click on options button in expanded state
-  expanded: PropTypes.bool, // expanded state
   signMsg: PropTypes.bool, // sign message indicator
   onChangeSignMsg: PropTypes.func, // receives bool value for current signMsg state
   signKey: PropTypes.string, // sign key id
@@ -81,4 +74,3 @@ EditorModalFooter.propTypes = {
   onClickSignSetting: PropTypes.func // click on navigation link
 };
 
-export default EditorModalFooter;
