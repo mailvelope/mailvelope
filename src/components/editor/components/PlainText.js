@@ -15,7 +15,19 @@ export default class PlainText extends React.PureComponent {
     this.textarea = null;
   }
 
+  componentDidMount() {
+    $(window).on('resize', () => {
+      this.resize();
+    });
+  }
+
+  resize() {
+    $(this.sandbox).height(0);
+    $(this.sandbox).height($(this.sandbox).parents('.editor-body').height());
+  }
+
   componentDidUpdate(prevProps) {
+    this.resize();
     // if default value is set after rendering, set manually
     if (this.textarea && prevProps.defaultValue !== this.props.defaultValue) {
       this.textarea.value = this.props.defaultValue;
@@ -57,7 +69,7 @@ export default class PlainText extends React.PureComponent {
       </html>
     `;
     return (
-      <iframe sandbox="allow-same-origin allow-scripts" srcDoc={sandboxContent} frameBorder={0} style={{overflowY: 'hidden'}}
+      <iframe sandbox="allow-same-origin allow-scripts" srcDoc={sandboxContent} frameBorder={0} style={{display: 'block', overflowY: 'hidden'}}
         ref={node => this.sandbox = node} onLoad={() => this.createPlainText()} />
     );
   }

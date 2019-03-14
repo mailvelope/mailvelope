@@ -329,7 +329,7 @@ export default class Editor extends React.Component {
           </div>
         }
         <div className="editor-body flex-grow-1 mb-2 w-100">
-          <div className="plain-text w-100 h-100">
+          <div className="plain-text w-100 h-100 overflow-hidden">
             <PlainText defaultValue={this.state.defaultPlainText} onChange={() => this.handleTextChange()}
               onBlur={() => this.blurWarning && this.blurWarning.onBlur()} onMouseUp={element => this.handleTextMouseUp(element)} onLoad={() => this.handlePlainTextLoad()}
               ref={node => this.plainText = node}
@@ -350,14 +350,14 @@ export default class Editor extends React.Component {
       <div>
         <div className={`modal ${this.state.pwdDialog ? 'd-none' : 'd-block'}`}>
           <div className="modal-dialog h-100 mw-100 m-0 p-2">
-            <div className="modal-content h-100">
-              <div className="modal-header clearfix">
+            <div className="modal-content h-100 overflow-auto">
+              <div className="modal-header clearfix flex-shrink-0">
                 <h4 className="modal-title">{l10n.map.editor_header}</h4>
               </div>
               <div className={`modal-body ${this.props.secureBackground ? 'secureBackground' : ''} p-0`}>
                 {this.editorBody()}
               </div>
-              <div className="modal-footer">
+              <div className="modal-footer flex-shrink-0">
                 <EditorModalFooter expanded={this.state.optionsExpanded} signMsg={this.state.signMsg} signKey={this.state.signKey}
                   privKeys={this.state.privKeys} encryptDisabled={this.state.encryptDisabled}
                   onCancel={() => this.handleCancel()}
