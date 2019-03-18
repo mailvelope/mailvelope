@@ -124,7 +124,7 @@ export default class Keyring extends React.Component {
       <>
         <KeyringOptions.Provider value={{keyringId: this.state.keyringId, demail: this.state.demail, gnupg: this.state.gnupg}}>
           <div className="d-flex flex-wrap align-items-center w-100 my-3">
-            <h3 className="flex-shrink-0">{l10n.map.keyring_header}</h3>
+            <h1 className="flex-shrink-0">{l10n.map.keyring_header}</h1>
             <div className="ml-auto flex-shrink-0">
               <KeyringSelect keyringId={this.state.keyringId} keyringAttr={this.state.keyringAttr} onChange={this.handleChangeKeyring} onDelete={this.handleDeleteKeyring} prefs={this.props.prefs} />
             </div>

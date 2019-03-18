@@ -35,7 +35,7 @@ export default function KeyStatus({status, className = ''}) {
       labelText = l10n.map.keygrid_status_invalid;
   }
   return (
-    <span className={`${className} badge badge-${labelClass}`}>{labelText}</span>
+    <span className={`${className} text-nowrap`}><i className={`fa fa-circle text-${labelClass}`} aria-hidden="true"></i> {labelText}</span>
   );
 }
 
