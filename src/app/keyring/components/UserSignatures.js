@@ -27,26 +27,28 @@ export default function UserSignatures({signatures}) {
         <div className="card-header">
           <h4 className="text-muted mb-0">{l10n.map.usersignatures_title}</h4>
         </div>
-        <table className="table mb-0">
-          <thead>
-            <tr>
-              <th>{l10n.map.keygrid_user_name}</th>
-              <th>{l10n.map.keygrid_user_email}</th>
-              <th>{l10n.map.keygrid_creation_date_short}</th>
-              <th>{l10n.map.keygrid_keyid}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {signatures.map((signature, index) =>
-              <tr key={index}>
-                <td>{signature.signer.name !== null ? signature.signer.name : l10n.map.keygrid_signer_unknown}</td>
-                <td>{signature.signer.email !== null ? signature.signer.email : l10n.map.keygrid_signer_unknown}</td>
-                <td>{moment(signature.crDate).format('L')}</td>
-                <td>{signature.keyId}</td>
+        <div className="table-responsive">
+          <table className="table mb-0">
+            <thead>
+              <tr>
+                <th>{l10n.map.keygrid_user_name}</th>
+                <th>{l10n.map.keygrid_user_email}</th>
+                <th>{l10n.map.keygrid_creation_date_short}</th>
+                <th>{l10n.map.keygrid_keyid}</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {signatures.map((signature, index) =>
+                <tr key={index}>
+                  <td>{signature.signer.name !== null ? signature.signer.name : l10n.map.keygrid_signer_unknown}</td>
+                  <td>{signature.signer.email !== null ? signature.signer.email : l10n.map.keygrid_signer_unknown}</td>
+                  <td>{moment(signature.crDate).format('L')}</td>
+                  <td>{signature.keyId}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

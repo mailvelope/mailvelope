@@ -65,17 +65,17 @@ export default class Security extends React.Component {
             <div className="row align-items-center">
               <div className="col-lg-6">
                 <div>
-                  <div className="form-inline my-3">
-                    <label className="w-25 justify-content-start justify-content-end-lg" htmlFor="angle">{l10n.map.security_background_angle}</label>
-                    <input className="w-75 custom-range" type="range" min="0" max="360" id="angle" step="2" />
+                  <div className="mb-2">
+                    <label className="mb-0" htmlFor="angle">{l10n.map.security_background_angle}</label>
+                    <input className="custom-range" type="range" min="0" max="360" id="angle" step="2" />
                   </div>
-                  <div className="form-inline my-3">
-                    <label className="w-25 justify-content-start justify-content-end-lg" htmlFor="scaling">{l10n.map.security_background_scaling}</label>
-                    <input className="w-75 custom-range" type="range" min="5" max="100" id="scaling" step="1" />
+                  <div className="mb-2">
+                    <label className="mb-0" htmlFor="scaling">{l10n.map.security_background_scaling}</label>
+                    <input className="custom-range" type="range" min="5" max="100" id="scaling" step="1" />
                   </div>
-                  <div className="form-inline my-3">
-                    <label className="w-25 justify-content-start justify-content-end-lg" htmlFor="scaling">{l10n.map.security_background_coloring}</label>
-                    <input className="w-75 custom-range" type="range" min="0" max="12" id="coloring" step="1" />
+                  <div className="mb-2">
+                    <label className="mb-0" htmlFor="scaling">{l10n.map.security_background_coloring}</label>
+                    <input className="custom-range" type="range" min="0" max="12" id="coloring" step="1" />
                   </div>
                 </div>
               </div>

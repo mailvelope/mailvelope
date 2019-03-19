@@ -102,12 +102,12 @@ export default class KeyExport extends React.Component {
         <div className="form-group">
           <textarea ref={node => this.textarea = node} style={{'resize': 'none', 'backgroundColor': '#FFF'}} id="armoredKey" className="form-control" rows="13" value={armoredExport} spellCheck="false" autoComplete="off" readOnly></textarea>
         </div>
-        <div className="d-flex justify-content-between">
+        <div className="btn-bar justify-content-between">
           <button type="button" className="btn btn-secondary" onClick={this.props.onClose} data-dismiss="modal">{l10n.map.dialog_popup_close}</button>
           {type === 'pub' && <button type="button" className="btn btn-primary" onClick={this.handleCopyToClipboard}>{l10n.map.key_export_dialog_copy_to_clipboard}</button>}
           <button type="button" className="btn btn-primary" onClick={this.handleClickExport}>{l10n.map.key_export_create_file}</button>
-          <a className="d-none" download={this.state.fileName} href={this.fileURL} ref={node => this.exportLink = node}></a>
         </div>
+        <a className="d-none" download={this.state.fileName} href={this.fileURL} ref={node => this.exportLink = node}></a>
       </div>
     );
   }

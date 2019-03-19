@@ -157,7 +157,7 @@ function showMessageArea() {
 }
 
 function addSecuritySettingsButton() {
-  const securitySettingsBtn = $('<button type="button" class="btn btn-link lockBtnIcon float-right mt-3 mr-1" data-l10n-title-id="security_background_button_title"></button>');
+  const securitySettingsBtn = $('<button type="button" class="btn btn-link lockBtnIcon float-right mr-1" data-l10n-title-id="security_background_button_title"></button>');
   $('body').append(securitySettingsBtn);
 }
 

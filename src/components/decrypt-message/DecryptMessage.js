@@ -164,7 +164,7 @@ export default class DecryptMessage extends React.Component {
         {this.state.waiting && <Spinner style={{margin: '160px auto 0'}} />}
         <div className={`decrypt-msg fade ${this.state.waiting ? '' : 'show'} d-flex flex-column align-content-center h-100`}>
           <div className="decrypt-msg-header d-flex overflow-auto justify-content-end align-items-center mb-2 w-100">
-            <div className={`download-panel ${!this.props.secureBackground && !this.state.files.length ? 'd-none' : ''} mr-auto`}>
+            <div className={`${!this.props.secureBackground && !this.state.files.length ? 'd-none' : ''} mr-auto`}>
               <FileDownloadPanel files={this.state.files} onClickFile={() => this.handleClickFile()} />
             </div>
             {!this.props.isContainer && this.signatureButton()}

@@ -19,15 +19,17 @@
 /**
  * General
  */
-.btn-bar > .btn {
-  margin-right: map-get($spacers, 1);
-  margin-bottom: map-get($spacers, 1);
+.btn-bar {
+  display: flex;
+  flex-wrap: wrap;
+  & > .btn {
+    margin-right: map-get($spacers, 1);
+    margin-bottom: map-get($spacers, 1);    
+    &:last-child {
+      margin-right: 0;
+    }
+  }
 }
-
-.btn-bar .btn:last-child {
-  margin-right: 0;
-}
-
 
 /**
  * Setup page

@@ -28,7 +28,7 @@ export default class DefinePassword extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.value !== prevProps.value) {
       if (this.props.value === '') {
-        this.setState({passwordCheck: ''}, this.props.onChange({target: {id: 'passwordCheck', error: false}}));
+        this.setState({passwordCheck: ''}, () => this.props.onChange({target: {id: 'passwordCheck', error: false}}));
       } else {
         this.retypeCheck(this.state.passwordCheck);
       }

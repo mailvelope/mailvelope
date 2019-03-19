@@ -46,7 +46,6 @@
     "components/encrypted-form/encryptedForm.html",
     "components/verify-inline/verifyInlineSig.css",
     "content-scripts/framestyles.css",
-    "dep/font-awesome/css/font-awesome.css",
     "img/edit_add-22.png",
     "img/key-24.png",
     "img/key-icon-blue96.png",

@@ -11,7 +11,7 @@ import Spinner from '../../components/util/Spinner';
 import KeyDetails from './components/KeyDetails';
 import KeyringBackup from './components/KeyringBackup';
 import {Redirect, Link} from 'react-router-dom';
-import './KeyGrid.css';
+import './KeyGrid.scss';
 
 l10n.register([
   'form_import',
@@ -129,7 +129,7 @@ export default class KeyGrid extends React.Component {
             <label htmlFor="keyringFilterBtn" className="keyringFilterLabel mr-1">
               <i className="fa fa-filter" aria-hidden="true"></i> {l10n.map.keygrid_sort_type}:
             </label>
-            <select value={this.state.keyTypeFilter} onChange={e => this.handleChangeKeyTypeFilter(e)} className="form-control d-inline-block w-auto" id="keyringFilterBtn">
+            <select value={this.state.keyTypeFilter} onChange={e => this.handleChangeKeyTypeFilter(e)} className="custom-select d-inline-block w-auto" id="keyringFilterBtn">
               <option value="allkeys">{l10n.map.keygrid_all_keys}</option>
               <option value="publickeys">{l10n.map.keygrid_public_keys}</option>
               <option value="keypairs">{l10n.map.keyring_public_private}</option>

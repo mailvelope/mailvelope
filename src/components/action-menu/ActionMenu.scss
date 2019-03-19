@@ -1,6 +1,6 @@
 @import "../../res/styles/_required";
 
-$gray: color('gray');
+$gray: darken(color('gray'), 7%);
 $gray-dark: color('gray-dark');
 $header-footer-bg-color: theme-color('light');
 $header-footer-bg-color-hover: darken($header-footer-bg-color, 2%);
@@ -36,7 +36,7 @@ div.action-menu {
     height: 37px;
 
     .mailvelope-logo {
-      color: #777;
+      color: $gray-dark;
       background-color: transparent;
       font-size: 18px;
       line-height: 20px;

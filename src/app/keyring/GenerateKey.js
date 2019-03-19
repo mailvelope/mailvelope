@@ -15,7 +15,6 @@ import NameAddrInput from './components/NameAddrInput';
 import AdvancedExpand from './components/AdvancedExpand';
 import AdvKeyGenOptions from './components/AdvKeyGenOptions';
 import DefinePassword from './components/DefinePassword';
-// import GenerateWait from './components/GenerateWait';
 import Alert from '../../components/util/Alert';
 import Modal from '../../components/util/Modal';
 import {Link} from 'react-router-dom';
@@ -123,7 +122,7 @@ export default class GenerateKey extends React.Component {
       this.setState({
         alert: {header: l10n.map.alert_header_success, message: l10n.map.key_gen_success, type: 'success'},
         success: true
-      }, this.handleReset());
+      }, () => this.handleReset());
       if (this.props.onKeyringChange) {
         this.props.onKeyringChange();
       }

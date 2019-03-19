@@ -19,11 +19,9 @@ l10n.register([
 export default function KeyringBackup(props) {
   return (
     <Modal title={l10n.map.keyring_backup} onHide={props.onHide} hideFooter={true}>
-      <div style={{padding: '10px'}}>
-        <KeyringOptions.Consumer>
-          {({keyringId}) => <KeyExport keyringId={keyringId} keyFprs={props.keyFprs} keyName="keyring" all={props.all} type={props.type} publicOnly={props.publicOnly} />}
-        </KeyringOptions.Consumer>
-      </div>
+      <KeyringOptions.Consumer>
+        {({keyringId}) => <KeyExport keyringId={keyringId} keyFprs={props.keyFprs} keyName="keyring" all={props.all} type={props.type} publicOnly={props.publicOnly} />}
+      </KeyringOptions.Consumer>
     </Modal>
   );
 }

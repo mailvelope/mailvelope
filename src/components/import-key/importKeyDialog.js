@@ -37,6 +37,8 @@ function init() {
   $('#closeBtn').click(onCancel);
   $('form').on('submit', onOk);
   $('closeFooter').hide();
+  $('a[href="#extendContent"]').click(toggleTab);
+  $('a[href="#defaultContent"]').click(toggleTab);
 
   l10n.localizeHTML();
   showSecurityBackground(port);
@@ -101,6 +103,12 @@ function onCancel() {
   logUserInput('security_log_dialog_cancel');
   port.emit('key-import-dialog-cancel');
   return false;
+}
+
+function toggleTab(e) {
+  e.preventDefault();
+  $(this).parents('.tab-content').find('a.active').removeClass('active');
+  $(this).tab('show');
 }
 
 /**

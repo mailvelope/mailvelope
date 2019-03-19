@@ -199,9 +199,9 @@ export class App extends React.Component {
           </AppOptions.Provider>
         </main>
         <footer className="bg-light">
-          <div className="container text-muted">
-            <p id="version" className="float-right mb-0">{this.state.version}</p>
+          <div className="container d-flex justify-content-between text-muted">
             <p className="mb-0">&copy; 2012-2019 Mailvelope GmbH</p>
+            <p id="version" className="d-sm-none d-md-block mb-0">{this.state.version}</p>
           </div>
         </footer>
       </div>

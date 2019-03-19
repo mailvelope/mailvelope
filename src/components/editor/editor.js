@@ -354,8 +354,6 @@ export default class Editor extends React.Component {
                   onCancel={() => this.handleCancel()}
                   onSignOnly={() => this.handleSign()}
                   onEncrypt={() => this.handleEncrypt()}
-                  onExpand={() => this.handleOptionsExpand()}
-                  onCollapse={() => this.handleOptionsCollapse()}
                   onChangeSignMsg={signMsg => this.setState({signMsg})}
                   onChangeSignKey={signKey => this.setState({signKey})}
                   onClickSignSetting={() => this.port.emit('open-app', {fragment: '/settings/general'})}

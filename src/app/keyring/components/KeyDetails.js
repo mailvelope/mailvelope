@@ -180,20 +180,20 @@ export default class KeyDetails extends React.Component {
     return (
       <div className="keyDetails">
         <div className="card">
-          <div className="card-header d-flex align-items-center justify-content-between">
-            <h5 className="text-muted m-0">{l10n.map.keydetails_title}</h5>
+          <div className="card-header d-flex align-items-center justify-content-between flex-wrap">
+            <h5 className="text-muted my-1">{l10n.map.keydetails_title}</h5>
             <KeySelect keys={this.state.keys} selectedKeyIdx={this.state.selectedKeyIdx} onChange={index => this.handleChangeKey(index)} />
           </div>
           <div className="card-body">
             <div className="row">
               <div className="col-lg-5">
                 <dl className="row d-flex align-items-center mb-0">
-                  <dt className="col-sm-3 mb-2">{l10n.map.keygrid_validity_status}</dt>
-                  <dd className="col-sm-9"><KeyStatus status={selectedKey.status} /></dd>
-                  <dt className="col-sm-3 mb-2">{l10n.map.keydetails_creation_date}</dt>
-                  <dd className="col-sm-9">{moment(selectedKey.crDate).format('L')}</dd>
-                  <dt className="col-sm-3 mb-2">{l10n.map.keydetails_expiration_date}</dt>
-                  <dd className="col-sm-9">
+                  <dt className="col-md-4 col-xl-3 mb-2 text-nowrap">{l10n.map.keygrid_validity_status}</dt>
+                  <dd className="col-md-8 col-xl-9"><KeyStatus status={selectedKey.status} /></dd>
+                  <dt className="col-4 col-xl-3 mb-2 text-nowrap">{l10n.map.keydetails_creation_date}</dt>
+                  <dd className="col-md-8 col-xl-9">{moment(selectedKey.crDate).format('L')}</dd>
+                  <dt className="col-4 col-xl-3 mb-2 text-nowrap">{l10n.map.keydetails_expiration_date}</dt>
+                  <dd className="col-md-8 col-xl-9">
                     {!this.context.gnupg && this.props.keyDetails.type !== 'public' && this.state.selectedKeyIdx === 0 ? (
                       <div className="input-group input-group-sm" style={{width: '155px'}}>
                         <input type="text" readOnly className="form-control" value={this.state.exDateInput !== null ? this.state.exDateInput.format('L') : 'nie'} />
@@ -202,13 +202,13 @@ export default class KeyDetails extends React.Component {
                         </div>
                       </div>
                     ) : (
-                      <div className="text-only">{selectedKey.exDate ? moment(selectedKey.exDate).format('L') : l10n.map.keydetails_key_not_expire}</div>
+                      <div>{selectedKey.exDate ? moment(selectedKey.exDate).format('L') : l10n.map.keydetails_key_not_expire}</div>
                     )}
                   </dd>
                   {this.props.keyDetails.type !== 'public' &&
                     <>
-                      <dt className="col-sm-3 mb-2">{l10n.map.keydetails_password}</dt>
-                      <dd className="col-sm-9">
+                      <dt className="col-md-4 col-xl-3 mb-2 text-nowrap">{l10n.map.keydetails_password}</dt>
+                      <dd className="col-md-8 col-xl-9">
                         {!this.context.gnupg && this.state.selectedKeyIdx === 0 ? (
                           <div className="input-group input-group-sm" style={{width: '155px'}}>
                             <input type="password" readOnly className="form-control" value="********" />
@@ -217,7 +217,7 @@ export default class KeyDetails extends React.Component {
                             </span>
                           </div>
                         ) : (
-                          <div className="text-only">********</div>
+                          <div>********</div>
                         )}
                       </dd>
                     </>
@@ -226,14 +226,14 @@ export default class KeyDetails extends React.Component {
               </div>
               <div className="col-lg-7">
                 <dl className="row d-flex align-items-center mb-0">
-                  <dt className="col-sm-3 mb-2">{l10n.map.keygrid_keyid}</dt>
-                  <dd className="col-sm-9">{selectedKey.keyId}</dd>
-                  <dt className="col-sm-3 mb-2">{l10n.map.keygrid_algorithm}</dt>
-                  <dd className="col-sm-9">{selectedKey.algorithm}</dd>
-                  <dt className="col-sm-3 mb-2">{l10n.map.keygrid_key_length}</dt>
-                  <dd className="col-sm-9">{selectedKey.bitLength}</dd>
-                  <dt className="col-sm-3 mb-2">{l10n.map.keygrid_key_fingerprint}</dt>
-                  <dd className="col-sm-9">{formatFpr(selectedKey.fingerprint)}</dd>
+                  <dt className="col-md-4 col-xl-3 mb-2 text-nowrap">{l10n.map.keygrid_keyid}</dt>
+                  <dd className="col-md-8 col-xl-9">{selectedKey.keyId}</dd>
+                  <dt className="col-md-4 col-xl-3 mb-2 text-nowrap">{l10n.map.keygrid_algorithm}</dt>
+                  <dd className="col-md-8 col-xl-9">{selectedKey.algorithm}</dd>
+                  <dt className="col-md-4 col-xl-3 mb-2 text-nowrap">{l10n.map.keygrid_key_length}</dt>
+                  <dd className="col-md-8 col-xl-9">{selectedKey.bitLength}</dd>
+                  <dt className="col-md-4 col-xl-3 mb-2 text-nowrap">{l10n.map.keygrid_key_fingerprint}</dt>
+                  <dd className="col-md-8 col-xl-9">{formatFpr(selectedKey.fingerprint)}</dd>
                 </dl>
               </div>
 
@@ -269,13 +269,9 @@ export default class KeyDetails extends React.Component {
                 {this.state.errors.passwordCurrent && <div className="invalid-feedback">{l10n.map.pwd_dialog_wrong_pwd}</div>}
               </div>
               <DefinePassword value={this.state.password} errors={this.state.errors} onChange={this.handleChange} disabled={this.state.success} />
-              <div className="row no-gutters">
-                <div className="col-6 pr-1">
-                  <button type="button" className="btn btn-secondary btn-block" data-dismiss="modal">{l10n.map.dialog_cancel_btn}</button>
-                </div>
-                <div className="col-6 pl-1">
-                  <button type="button" onClick={this.validateChangePwd} className="btn btn-primary btn-block">{l10n.map.dialog_save_btn}</button>
-                </div>
+              <div className="btn-bar justify-content-between">
+                <button type="button" className="btn btn-secondary" data-dismiss="modal">{l10n.map.dialog_cancel_btn}</button>
+                <button type="button" onClick={this.validateChangePwd} className="btn btn-primary">{l10n.map.dialog_save_btn}</button>
               </div>
             </form>
           </Modal>

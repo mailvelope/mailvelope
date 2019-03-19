@@ -50,7 +50,7 @@
     "components/editor/editor.html",
     "components/encrypted-form/encryptedForm.html",
     "components/verify-inline/verifyInlineSig.css",
-    "content-scripts/framestyles.css",
+    "content-scripts/framestyles.css",  
     "img/edit_add-22.png",
     "img/key-24.png",
     "img/key-icon-blue96.png",

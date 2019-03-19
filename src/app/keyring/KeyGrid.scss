@@ -1,0 +1,43 @@
+/**
+ * Copyright (C) 2012-2019 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
+ */
+
+@import "../../res/styles/_required";
+
+#keyRingTable {
+  tr {
+    cursor: pointer;
+    & .actions {
+      white-space: nowrap;
+      visibility: hidden;      
+    }
+    &:hover .actions {
+      visibility: visible;
+    }
+  }
+
+  td {
+    vertical-align: middle;
+    word-wrap: break-word;
+  }
+  .monospaced {
+      white-space: normal;
+      word-wrap: break-word;
+  }
+
+  @include media-breakpoint-up(lg) {
+    .monospaced {
+      font-family: monospace;
+      white-space: nowrap;
+    }  
+  }
+
+  .actions .btn {
+      margin-right: 0.25rem;
+  }
+  .actions .btn:last-child {
+      margin-right: 0;
+  }
+
+}
