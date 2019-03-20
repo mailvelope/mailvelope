@@ -13,6 +13,7 @@ module.exports = function(grunt) {
         maxWarnings: 1,
         configFile: 'config/eslint.json',
         cache: true,
+        fix: grunt.option('fix'),
         reportUnusedDisableDirectives: true
       },
       target: [
