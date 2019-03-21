@@ -115,16 +115,16 @@ export default class KeyGrid extends React.Component {
         <div className="form-group btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
           <div className="btn-bar">
             <Link className="btn btn-secondary" to='/keyring/generate' replace tabIndex="0" title={l10n.map.keygrid_generate_title}>
-              <i className="fa fa-plus-circle" aria-hidden="true"></i> {l10n.map.key_gen_generate}
+              <i className="icon icon-add" aria-hidden="true"></i> {l10n.map.key_gen_generate}
             </Link>
             <Link className="btn btn-secondary" to='/keyring/import' replace tabIndex="0" title={l10n.map.keygrid_import_title}>
-              <i className="fa fa-download" aria-hidden="true"></i> {l10n.map.form_import}
+              <i className="icon icon-download" aria-hidden="true"></i> {l10n.map.form_import}
             </Link>
             <button type="button" onClick={() => this.openExportKeyringDialog()} className="btn btn-secondary" title={l10n.map.keygrid_export_title}>
-              <i className="fa fa-upload" aria-hidden="true"></i> {l10n.map.keygrid_export}
+              <i className="icon icon-upload" aria-hidden="true"></i> {l10n.map.keygrid_export}
             </button>
             <button type="button" onClick={this.props.onRefreshKeyring} className="btn btn-secondary" title={l10n.map.keygrid_refresh_title}>
-              <i className="fa fa-refresh" aria-hidden="true"></i> {l10n.map.keygrid_refresh}
+              <i className="icon icon-refresh" aria-hidden="true"></i> {l10n.map.keygrid_refresh}
             </button>
           </div>
           <div>
@@ -139,7 +139,7 @@ export default class KeyGrid extends React.Component {
           </div>
         </div>
         <div className="table-responsive table-responsive-custom">
-          <table className="table table-striped table-hover" id="keyRingTable">
+          <table className="table table-custom table-striped table-hover" id="keyRingTable">
             <thead>
               <tr>
                 <th></th>
