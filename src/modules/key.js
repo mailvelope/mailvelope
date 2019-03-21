@@ -164,12 +164,12 @@ export async function mapSubKeys(subkeys = [], toKey, key) {
 export async function mapUsers(users = [], toKey, keyring, key) {
   toKey.users = [];
   const {user: {userId: {userid: primaryUserId}}} = await key.getPrimaryUser();
-  await Promise.all(users.map(async (user, index) => {
+  for (const [index, user] of users.entries()) {
     try {
       const uiUser = {};
       if (!user.userId) {
         // filter out user attribute packages
-        return;
+        continue;
       }
       uiUser.id = index;
       uiUser.userId = user.userId.userid;
@@ -182,7 +182,7 @@ export async function mapUsers(users = [], toKey, keyring, key) {
       uiUser.status = userStatus < keyStatus ? userStatus : keyStatus;
       uiUser.signatures = [];
       if (!user.selfCertifications) {
-        return;
+        continue;
       }
       for (const selfCert of user.selfCertifications) {
         const sig = {};
@@ -192,7 +192,7 @@ export async function mapUsers(users = [], toKey, keyring, key) {
         uiUser.signatures.push(sig);
       }
       if (!uiUser.signatures.length || !user.otherCertifications) {
-        return;
+        continue;
       }
       for (const otherCert of user.otherCertifications) {
         const sig = {};
@@ -217,11 +217,11 @@ export async function mapUsers(users = [], toKey, keyring, key) {
         sig.crDate = otherCert.created.toISOString();
         uiUser.signatures.push(sig);
       }
-      toKey.users[index] = uiUser;
+      toKey.users.push(uiUser);
     } catch (e) {
       console.log('Exception in mapUsers', e);
     }
-  }));
+  }
 }
 
 export async function verifyUserCertificate(user, primaryKey, certificate, key = primaryKey) {
