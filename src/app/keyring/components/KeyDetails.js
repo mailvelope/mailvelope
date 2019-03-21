@@ -209,7 +209,7 @@ export default class KeyDetails extends React.Component {
                       <dd className="col-md-8 col-xl-9">
                         {!this.context.gnupg && this.state.selectedKeyIdx === 0 ? (
                           <div className="input-group input-group-sm" style={{width: '155px'}}>
-                            <input type="password" readOnly className="form-control" value="********" />
+                            <input type="password" readOnly className="form-control text-monospace" value="********" />
                             <span className="input-group-append">
                               <button onClick={() => this.setState({showPwdModal: true})} className="btn btn-secondary" type="button" disabled={!this.props.keyDetails.validity}>{l10n.map.change_link}</button>
                             </span>

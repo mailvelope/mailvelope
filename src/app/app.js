@@ -120,9 +120,11 @@ export class App extends React.Component {
         <Route exact path="/" render={() => <Redirect to="/keyring" />} />
         <Route exact path="/encryption" render={() => <Redirect to="/encryption/file-encrypt" />} />
         <Route exact path="/settings" render={() => <Redirect to="/settings/general" />} />
-        <nav className="navbar fixed-top navbar-expand-md navbar-light bg-light">
+        <nav className="navbar fixed-top navbar-expand-md navbar-light bg-white py-3">
           <div className="container">
-            <Link to="/dashboard" className="navbar-brand">Mailvelope</Link>
+            <Link to="/dashboard" className="navbar-brand">
+              <img src="../img/logo.png" width="175" height="32" className="d-inline-block align-top" alt="" />
+            </Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>

@@ -139,7 +139,7 @@ export default class KeyGrid extends React.Component {
           </div>
         </div>
         <div className="table-responsive table-responsive-custom">
-          <table className="table table-custom table-striped table-hover" id="keyRingTable">
+          <table className="table table-custom table-hover" id="keyRingTable">
             <thead>
               <tr>
                 <th></th>

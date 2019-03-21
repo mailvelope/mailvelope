@@ -6,225 +6,80 @@ Generated using nucleoapp.com
 -------------------------------- */
 @font-face {
   font-family: 'Mailvelope';
-  src: url('res/fonts/icons.woff2') format('woff2');
+  src: url('res/fonts/mailvelope.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
-/*------------------------
-  base class definition
--------------------------*/
-.icon {
-  display: inline-block;
-  font: normal normal normal 1em/1 'Mailvelope';
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'Mailvelope' !important;
   speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
   text-transform: none;
-  /* Better Font Rendering */
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-/*------------------------
-  change icon size
--------------------------*/
-/* relative units */
-.icon-sm {
-  font-size: 0.8em;
-}
-.icon-lg {
-  font-size: 1.2em;
-}
-/* absolute units */
-.icon-16 {
-  font-size: 16px;
-}
-.icon-32 {
-  font-size: 32px;
-}
-/*----------------------------------
-  add a square/circle background
------------------------------------*/
-.icon-bg-square,
-.icon-bg-circle {
-  padding: 0.35em;
-  background-color: #eee;
-}
-.icon-bg-circle {
-  border-radius: 50%;
-}
-/*------------------------------------
-  use icons as list item markers
--------------------------------------*/
-.icon-ul {
-  padding-left: 0;
-  list-style-type: none;
-}
-.icon-ul > li {
-  display: flex;
-  align-items: flex-start;
-  line-height: 1.4;
-}
-.icon-ul > li > .icon {
-  margin-right: 0.4em;
-  line-height: inherit;
-}
-/*------------------------
-  spinning icons
--------------------------*/
-.icon-is-spinning {
-  -webkit-animation: icon-spin 2s infinite linear;
-  -moz-animation: icon-spin 2s infinite linear;
-  animation: icon-spin 2s infinite linear;
-}
-@-webkit-keyframes icon-spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
-}
-@-moz-keyframes icon-spin {
-  0% {
-    -moz-transform: rotate(0deg);
-  }
-  100% {
-    -moz-transform: rotate(360deg);
-  }
-}
-@keyframes icon-spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-/*------------------------
-  rotated/flipped icons
--------------------------*/
-.icon-rotate-90 {
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
-  -webkit-transform: rotate(90deg);
-  -moz-transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
-  -o-transform: rotate(90deg);
-  transform: rotate(90deg);
-}
-.icon-rotate-180 {
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
-  -webkit-transform: rotate(180deg);
-  -moz-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  -o-transform: rotate(180deg);
-  transform: rotate(180deg);
-}
-.icon-rotate-270 {
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-  -webkit-transform: rotate(270deg);
-  -moz-transform: rotate(270deg);
-  -ms-transform: rotate(270deg);
-  -o-transform: rotate(270deg);
-  transform: rotate(270deg);
-}
-.icon-flip-y {
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
-  -webkit-transform: scale(-1, 1);
-  -moz-transform: scale(-1, 1);
-  -ms-transform: scale(-1, 1);
-  -o-transform: scale(-1, 1);
-  transform: scale(-1, 1);
-}
-.icon-flip-x {
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
-  -webkit-transform: scale(1, -1);
-  -moz-transform: scale(1, -1);
-  -ms-transform: scale(1, -1);
-  -o-transform: scale(1, -1);
-  transform: scale(1, -1);
-}
-/*------------------------
-  icons
--------------------------*/
 
-.icon-add::before {
-  content: "\ea02";
+.icon-down:before {
+  content: "\e900";
 }
-
-.icon-calender::before {
-  content: "\ea03";
+.icon-left:before {
+  content: "\e901";
 }
-
-.icon-delete::before {
-  content: "\ea04";
+.icon-right:before {
+  content: "\e902";
 }
-
-.icon-download::before {
-  content: "\ea05";
+.icon-up:before {
+  content: "\e903";
 }
-
-.icon-error::before {
-  content: "\ea06";
+.icon-checkmark:before {
+  content: "\e904";
 }
-
-.icon-filter::before {
-  content: "\ea07";
+.icon-close:before {
+  content: "\e905";
 }
-
-.icon-key-pair::before {
-  content: "\ea08";
+.icon-copy:before {
+  content: "\e906";
 }
-
-.icon-key::before {
-  content: "\ea09";
+.icon-delete:before {
+  content: "\e907";
 }
-
-.icon-marker::before {
-  content: "\ea0a";
+.icon-download:before {
+  content: "\e908";
 }
-
-.icon-refresh::before {
-  content: "\ea0b";
+.icon-error:before {
+  content: "\e909";
 }
-
-.icon-upload::before {
-  content: "\ea0c";
+.icon-filter:before {
+  content: "\e90a";
 }
-
-.icon-copy::before {
-  content: "\ea0d";
+.icon-key-pair:before {
+  content: "\e90b";
 }
-
-.icon-checkmark::before {
-  content: "\ea0e";
+.icon-key:before {
+  content: "\e90c";
 }
-
-.icon-close::before {
-  content: "\ea0f";
+.icon-marker:before {
+  content: "\e90d";
 }
-
-.icon-down::before {
-  content: "\ea10";
+.icon-refresh:before {
+  content: "\e90e";
 }
-
-.icon-left::before {
-  content: "\ea11";
+.icon-success:before {
+  content: "\e90f";
 }
-
-.icon-right::before {
-  content: "\ea12";
+.icon-upload:before {
+  content: "\e910";
 }
-
-.icon-up::before {
-  content: "\ea13";
+.icon-calender:before {
+  content: "\e911";
 }
-
-.icon-success::before {
-  content: "\ea14";
+.icon-add:before {
+  content: "\e912";
 }

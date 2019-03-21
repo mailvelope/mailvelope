@@ -45,7 +45,7 @@ function scss(loader = 'style-loader') {
         }]
       },
       {
-        test: /\.woff2$/,
+        test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
         use: [{
           loader: 'file-loader',
           options: {

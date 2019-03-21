@@ -5,24 +5,27 @@ $font-weight-medium: 500 !default;
 // overrides
 
 // settings color
+$gray-100: #fafafa; // secondary-button-bg
+$gray-200: #f7f7f7; // columnheader-bg
+$gray-300: #f2f2f2; // table-pressed
+$gray-400: #f0f0f0; // table-divider
+$gray-500: #ebebeb; // grey-hover
+$gray-600: #dbdbdb; // grey86
+$gray-700: #bfbfbf; 
+$gray-800: #949494; // prompttext
+$gray-900: #757575; // grey46
 $black: #404040;
-$gray-100: #ebebeb;
-$gray-200: #d5d5d5;
-$gray-300: #c1c1c1;
-$gray-400: #adadad;
-$gray-500: #999999;
-$gray-600: #868686;
-$gray-700: #747474;
-$gray-800: #626262;
-$gray-900: #515151;
+
 $green: #2db37a;
 $red: #e30048;
+$orange: #e38200;
+$cyan: #8eafb1;
 
 $primary: $red;
-$secondary: lighten($gray-100, 5%);
+$secondary: $gray-100;
+$warning: $orange;
+
 // global options
-
-
 $enable-shadows: true;
 $enable-validation-icons: false;
 
@@ -33,10 +36,14 @@ $headings-font-family: CeraRoundPro, -apple-system, BlinkMacSystemFont, "Segoe U
 $font-size-base: .875rem;
 $h2-font-size: $font-size-base * 2.25;
 $h3-font-size: $font-size-base * 1.7;
-$yiq-text-dark: $gray-800;
+$yiq-text-dark: $gray-900;
+
+$text-muted: $gray-800;
 
 // Define common padding and border radius sizes and more.
-$border-color: $gray-200;
+
+$border-width: 1px;
+$border-color: $gray-400;
 
 $border-radius-sm: .25rem;
 $border-radius: .5rem ;
@@ -51,21 +58,42 @@ $input-btn-padding-x-sm: 0.625rem;
 
 $btn-font-weight: $font-weight-medium;
 
-$btn-box-shadow: inset 0 -2px 0 rgba($black, .075);
-
 // forms
 $input-disabled-bg: $gray-100;
 
 // inputs
 $input-color: $black;
-$input-border-color: $gray-200;
-$input-box-shadow: inset 0 2px 0 rgba($black, .075);
+$input-border-color: $gray-600;
+$input-box-shadow: inset 0 2px 0 rgba($gray-600, .3);
+
 
 // custom inputs
-$custom-checkbox-indicator-border-radius: $border-radius-sm;
-$custom-range-track-bg: $gray-200;
-$custom-range-track-box-shadow: $input-box-shadow;
+$custom-control-indicator-border-color: $input-border-color;
 
+// indicator input + select
+$custom-control-indicator-checked-bg: $primary;
+$custom-control-indicator-checked-border-color: mix($black, $primary, 16%);
+$custom-control-indicator-checked-box-shadow: inset 0 -1px 0 $custom-control-indicator-checked-border-color;
+$custom-control-indicator-focus-box-shadow: $custom-control-indicator-checked-box-shadow;
+
+$custom-checkbox-indicator-border-radius: $border-radius-sm;
+
+$custom-range-track-bg: $gray-200;
+$custom-range-track-border-color: $gray-500;
+// box-shadow hack
+$custom-range-track-box-shadow: inset 0 2px 0 $custom-range-track-border-color, inset 0 -1px 0 $custom-range-track-border-color, inset 1px 0 0 $custom-range-track-border-color, inset -1px 0 0 $custom-range-track-border-color;
+$custom-range-track-height: 0.75rem;
+
+$custom-range-thumb-width: 1.25rem;
+$custom-range-thumb-border: 1px solid $custom-control-indicator-checked-border-color;
+$custom-range-thumb-box-shadow: $custom-control-indicator-checked-box-shadow;  
+
+$custom-switch-size: 1.25rem;
+$custom-switch-width: $custom-switch-size * 2;
+$custom-switch-indicator-border-radius: $custom-switch-size / 2;
+$custom-switch-indicator-size: calc(#{$custom-switch-size} - #{$border-width * 4});
+$custom-switch-track-bg: $gray-200;
+$custom-switch-indicator-bg: gray-600;
 
 // tables
 $table-head-bg: $gray-100;
@@ -94,4 +122,3 @@ $navbar-light-active-color: $primary;
 @import "../../../node_modules/bootstrap/scss/functions";
 @import "../../../node_modules/bootstrap/scss/variables";
 @import "../../../node_modules/bootstrap/scss/mixins";
-

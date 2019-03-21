@@ -10,10 +10,17 @@ html {
 
 body {
   margin-bottom: 5rem;
+  background-image: url("../img/bg-tile.svg");
+  background-color: #caebdd;
+  background-repeat: repeat;   
+}
+
+nav.navbar {
+  box-shadow: 0 0.375rem 0.75rem rgba(0, 0, 0, .1);
 }
 
 main {
-  padding-top: 4rem;
+  padding-top: 5rem;
 }
 
 footer {
@@ -31,25 +38,6 @@ input[readonly] {
 
 .busy {
   cursor: wait !important;
-}
-
-@font-face {
-  font-family: 'Courgette';
-  src: url('../res/fonts/Courgette-Regular.woff2') format('woff2');
-}
-
-/* Fix header and footer popping to the right on open modal */
- .modal-open {
-  overflow-y: auto !important;
-  padding-right: 0 !important;
-}
-
-.modal-scrollbar-measure {  
-  overflow: hidden;
-}
-
-.navbar-brand {
-  font-family: 'Courgette', cursive;
 }
 
 .lockBtnIcon {
