@@ -145,6 +145,15 @@ S8Xz
       expect(restored.password).to.equal('1234');
       expect(restored.key.getFingerprint()).to.equal(defaultKey.getFingerprint());
     });
+
+    it('should store empty password if password is undefined', async () => {
+      const keyring = getKeryingById(MAIN_KEYRING_ID);
+      const defaultKey = await keyring.getDefaultKey();
+      const backup = await createPrivateKeyBackup(defaultKey);
+      const restored = await restorePrivateKeyBackup(backup.message, backup.backupCode);
+      expect(restored.password).to.equal('');
+      expect(restored.key.getFingerprint()).to.equal(defaultKey.getFingerprint());
+    });
   });
 
   describe('encryptSyncMessage/decryptSyncMessage', function() {

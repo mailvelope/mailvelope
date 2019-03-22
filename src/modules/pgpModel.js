@@ -238,7 +238,7 @@ export async function signMessage({data, keyringId, unlockKey, signingKeyFpr}) {
   }
 }
 
-export async function createPrivateKeyBackup(defaultKey, keyPwd) {
+export async function createPrivateKeyBackup(defaultKey, keyPwd = '') {
   // create backup code
   const backupCode = randomString(26);
   const text = `Version: 1\nPwd: ${keyPwd}\n`;
