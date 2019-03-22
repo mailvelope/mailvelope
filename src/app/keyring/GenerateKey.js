@@ -140,7 +140,7 @@ export default class GenerateKey extends React.Component {
   render() {
     return (
       <div className={`card-body ${this.state.generating ? 'busy' : ''}`}>
-        <h4 className="card-title">{l10n.map.keyring_generate_key}</h4>
+        <h2 className="mb-4">{l10n.map.keyring_generate_key}</h2>
         <form className="form" autoComplete="off">
           <NameAddrInput name={this.state.name} email={this.state.email} onChange={this.handleChange} errors={this.state.errors} />
           <AdvancedExpand>

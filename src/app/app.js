@@ -146,62 +146,70 @@ export class App extends React.Component {
             <Route path='/dashboard' component={Dashboard} />
             <Route path='/keyring' render={() => <Keyring prefs={this.state.prefs} />} />
             <Route path='/encryption' render={() => (
-              <div className="row mt-3">
-                <div className="col-lg-3 mb-4">
-                  <div role="navigation">
-                    <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                      <NavPill to="/encryption/file-encrypt">{l10n.map.file_encrypting}</NavPill>
-                      <NavPill to="/encryption/file-decrypt">{l10n.map.file_decrypting}</NavPill>
-                      <hr className="w-100" />
-                      <NavPill to="/encryption/text-encrypt">{l10n.map.text_encrypting}</NavPill>
-                      <NavPill to="/encryption/text-decrypt">{l10n.map.text_decrypting}</NavPill>
+              <div className="jumbotron secureBackground">
+                <section className="card">
+                  <div className="card-body" id="encrypting">
+                    <div className="card-title">
+                      <h1>{l10n.map.encrypting_home}</h1>
+                    </div>
+                    <div className="row">
+                      <div className="col-lg-3 mb-4">
+                        <div role="navigation">
+                          <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <NavPill to="/encryption/file-encrypt">{l10n.map.file_encrypting}</NavPill>
+                            <NavPill to="/encryption/file-decrypt">{l10n.map.file_decrypting}</NavPill>
+                            <hr className="w-100" />
+                            <NavPill to="/encryption/text-encrypt">{l10n.map.text_encrypting}</NavPill>
+                            <NavPill to="/encryption/text-decrypt">{l10n.map.text_decrypting}</NavPill>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-lg-9">
+                        <Route path='/encryption/file-encrypt' component={EncryptFile} />
+                        <Route path='/encryption/file-decrypt' component={EncryptFile} />
+                        <Route path='/encryption/text-encrypt' component={EncryptText} />
+                        <Route path='/encryption/text-decrypt' component={DecryptText} />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-lg-9">
-                  <div className="jumbotron secureBackground">
-                    <section className="card">
-                      <Route path='/encryption/file-encrypt' component={EncryptFile} />
-                      <Route path='/encryption/file-decrypt' component={EncryptFile} />
-                      <Route path='/encryption/text-encrypt' component={EncryptText} />
-                      <Route path='/encryption/text-decrypt' component={DecryptText} />
-                    </section>
-                    <button type="button" className="btn btn-link float-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
-                  </div>
-                </div>
+                </section>
+                <button type="button" className="btn btn-link float-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
               </div>
             )} />
             <Route path='/settings' render={() => (
-              <div className="row mt-3">
-                <div className="col-lg-3 mb-4">
-                  <div role="navigation">
-                    <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                      <NavPill to="/settings/general">{l10n.map.settings_general}</NavPill>
-                      <NavPill to="/settings/security">{l10n.map.settings_security}</NavPill>
-                      <NavPill to="/settings/watchlist">{l10n.map.settings_watchlist}</NavPill>
-                      <NavPill to="/settings/security-log">{l10n.map.settings_security_log}</NavPill>
-                      <NavPill to="/settings/key-server">{l10n.map.settings_keyserver}</NavPill>
+              <div className="jumbotron secureBackground">
+                <section className="card mv-options">
+                  <div className="card-body">
+                    <div className="row">
+                      <div className="col-lg-3 mb-4">
+                        <div role="navigation">
+                          <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <NavPill to="/settings/general">{l10n.map.settings_general}</NavPill>
+                            <NavPill to="/settings/security">{l10n.map.settings_security}</NavPill>
+                            <NavPill to="/settings/watchlist">{l10n.map.settings_watchlist}</NavPill>
+                            <NavPill to="/settings/security-log">{l10n.map.settings_security_log}</NavPill>
+                            <NavPill to="/settings/key-server">{l10n.map.settings_keyserver}</NavPill>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-lg-9">
+                        <Route path='/settings/general' component={General} />
+                        <Route path='/settings/security' component={Security} />
+                        <Route path='/settings/watchlist' component={WatchList} />
+                        <Route path='/settings/security-log' component={SecurityLog} />
+                        <Route path='/settings/key-server' render={() => <KeyServer prefs={this.state.prefs} onChangePrefs={this.handleChangePrefs} />} />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-lg-9">
-                  <div className="jumbotron secureBackground">
-                    <section className="card mv-options">
-                      <Route path='/settings/general' component={General} />
-                      <Route path='/settings/security' component={Security} />
-                      <Route path='/settings/watchlist' component={WatchList} />
-                      <Route path='/settings/security-log' component={SecurityLog} />
-                      <Route path='/settings/key-server' render={() => <KeyServer prefs={this.state.prefs} onChangePrefs={this.handleChangePrefs} />} />
-                    </section>
-                    <button type="button" className="btn btn-link float-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
-                  </div>
-                </div>
+                </section>
+                <button type="button" className="btn btn-link float-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
               </div>
+
             )} />
           </AppOptions.Provider>
         </main>
-        <footer className="bg-light">
-          <div className="container d-flex justify-content-between text-muted">
+        <footer className="container">
+          <div className="d-flex justify-content-between">
             <p className="mb-0">&copy; 2012-2019 Mailvelope GmbH</p>
             <p id="version" className="d-sm-none d-md-block mb-0">{this.state.version}</p>
           </div>

@@ -262,11 +262,10 @@ export default class Key extends React.Component {
       <div className="card-body key">
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb bg-transparent p-0 mb-0">
-            <li className="breadcrumb-item"><Link to='/keyring' onClick={this.props.onKeyringChange} replace tabIndex="0"><i className="fa fa-chevron-left" aria-hidden="true"></i> {l10n.map.keyring_header}</Link></li>
+            <li className="breadcrumb-item"><Link to='/keyring' onClick={this.props.onKeyringChange} replace tabIndex="0"><i className="icon icon-left" aria-hidden="true"></i> {l10n.map.keyring_header}</Link></li>
           </ol>
         </nav>
-
-        <div className="d-flex align-items-center justify-content-between flex-wrap mb-3">
+        <div className="card-title d-flex align-items-center justify-content-between flex-wrap">
           <h2 className="d-inline-block">{this.state.keyDetails.name} <KeyStatus className="small ml-1" status={this.state.keyDetails.status} /></h2>
           <div className="btn-bar">
             {(!this.context.gnupg || this.state.keyDetails.type === 'public') && <button type="button" onClick={() => this.setState({showDeleteModal: true})} className="btn btn-secondary" title={l10n.map.key_remove_btn_title}>{l10n.map.key_remove_btn}</button>}

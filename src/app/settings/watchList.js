@@ -178,14 +178,14 @@ export default class WatchList extends React.Component {
 
   render() {
     return (
-      <div className="card-body">
-        <h4 className="card-title">{l10n.map.settings_watchlist}</h4>
+      <div id="watchlist">
+        <h2 className="mb-4">{l10n.map.settings_watchlist}</h2>
         <div className="form-group">
           <button type="button" onClick={() => this.addWatchListEntry()} className="btn btn-primary">
             <i className="fa fa-plus" aria-hidden="true"></i> {l10n.map.watchlist_command_create}
           </button>
         </div>
-        <table className="table table-hover table-striped border" id="watchListTable">
+        <table className="table table-hover table-custom mb-0" id="watchListTable">
           <thead>
             <tr>
               <th>{l10n.map.watchlist_title_active}</th>

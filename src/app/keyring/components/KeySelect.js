@@ -40,7 +40,7 @@ export default class KeySelect extends React.Component {
           </span>
           <span className="small text-right mx-1"><em>{selectedKey.keyId}</em></span>
         </button>
-        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" role="menu" style={{fontSize: '0.875rem'}}>
+        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" role="menu" style={{fontSize: '0.765rem'}}>
           <a className="dropdown-item px-2 d-flex align-items-center" onClick={() => this.handleClick(0)} style={{cursor: 'pointer'}}>
             <span className="mr-auto font-weight-bolder">{l10n.map.keygrid_primary_key}</span>
             <span className="small text-right ml-1 mr-3"><em>{this.props.keys[0].keyId}</em></span>

@@ -83,7 +83,7 @@ export default class EncryptFile extends React.Component {
 
   render() {
     return (
-      <div className="card-body" id="encrypting">
+      <>
         <div id="file_encrypting" className={this.props.match.path !== '/encryption/file-encrypt' ? 'd-none' : ''}>
           <div id="encrypt_fileUploadPanel" className="encrypt-panel card">
             <div className="card-header">
@@ -220,7 +220,7 @@ export default class EncryptFile extends React.Component {
           </div>
 
         </div>
-      </div>
+      </>
     );
   }
 }

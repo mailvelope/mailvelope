@@ -17,12 +17,13 @@ $gray-900: #757575; // grey46
 $black: #404040;
 
 $green: #2db37a;
+$green-dark: #366e56; // footer-text
 $red: #e30048;
 $orange: #e38200;
 $cyan: #8eafb1;
 
 $primary: $red;
-$secondary: $gray-100;
+$secondary: $gray-200;
 $warning: $orange;
 
 // global options
@@ -36,6 +37,7 @@ $headings-font-family: CeraRoundPro, -apple-system, BlinkMacSystemFont, "Segoe U
 $font-size-base: .875rem;
 $h2-font-size: $font-size-base * 2.25;
 $h3-font-size: $font-size-base * 1.7;
+$headings-color: $black;
 $yiq-text-dark: $gray-900;
 
 $text-muted: $gray-800;
@@ -96,10 +98,11 @@ $custom-switch-track-bg: $gray-200;
 $custom-switch-indicator-bg: gray-600;
 
 // tables
-$table-head-bg: $gray-100;
-$table-head-color: $gray-600;
-$table-hover-bg: $secondary;
-$table-active-bg: $gray-100;
+$table-color: $black;
+$table-head-bg: $gray-200;
+$table-head-color: $gray-900;
+$table-hover-bg: $gray-100;
+$table-active-bg: $gray-300;
 $table-cell-padding: 0.8125rem;
 $table-cell-padding-sm: 0.35rem;
 $table-striped-order: even;

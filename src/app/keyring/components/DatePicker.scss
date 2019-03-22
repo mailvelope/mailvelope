@@ -49,5 +49,9 @@ $datepicker__margin: map-get($spacers, 2);
   background-color: #FFF !important
 }
 
+.react-datepicker-wrapper .input-group-text {
+  box-shadow: $input-box-shadow;
+}
+
 
   

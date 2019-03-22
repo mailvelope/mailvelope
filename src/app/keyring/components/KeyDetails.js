@@ -179,7 +179,7 @@ export default class KeyDetails extends React.Component {
       <div className="keyDetails">
         <div className="card card-clean">
           <div className="card-header d-flex align-items-center justify-content-between flex-wrap">
-            <h5 className="text-muted my-1">{l10n.map.keydetails_title}</h5>
+            <h3>{l10n.map.keydetails_title}</h3>
             <KeySelect keys={this.state.keys} selectedKeyIdx={this.state.selectedKeyIdx} onChange={index => this.handleChangeKey(index)} />
           </div>
           <div className="card-body">

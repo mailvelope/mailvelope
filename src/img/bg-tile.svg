@@ -8,7 +8,7 @@
     </defs>
     <g id="Layout" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="Artboard">
-            <g id="BackgroundTile">
+            <g id="BackgroundTile" opacity="0.5">
                 <g id="dec_triangle_030">
                     <mask id="mask-2" fill="white">
                         <use xlink:href="#path-1"></use>

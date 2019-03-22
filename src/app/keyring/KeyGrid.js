@@ -10,6 +10,7 @@ import {KeyringOptions} from './KeyringOptions';
 import Spinner from '../../components/util/Spinner';
 import KeyExport from './components/KeyExport';
 import Modal from '../../components/util/Modal';
+import KeyringSelect from './components/KeyringSelect';
 import {Redirect, Link} from 'react-router-dom';
 import './KeyGrid.scss';
 
@@ -112,6 +113,12 @@ export default class KeyGrid extends React.Component {
     }
     return (
       <div className="card-body">
+        <div className="card-title d-flex flex-wrap align-items-center w-100">
+          <h1 className="flex-shrink-0">{l10n.map.keyring_header}</h1>
+          <div className="ml-auto flex-shrink-0">
+            <KeyringSelect keyringId={this.context.keyringId} keyringAttr={this.props.keyringAttr} onChange={this.props.onChangeKeyring} onDelete={this.props.onDeleteKeyring} prefs={this.props.prefs} />
+          </div>
+        </div>
         <div className="form-group btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
           <div className="btn-bar">
             <Link className="btn btn-secondary" to='/keyring/generate' replace tabIndex="0" title={l10n.map.keygrid_generate_title}>
@@ -129,7 +136,7 @@ export default class KeyGrid extends React.Component {
           </div>
           <div>
             <label htmlFor="keyringFilterBtn" className="keyringFilterLabel mr-1">
-              <i className="fa fa-filter" aria-hidden="true"></i> {l10n.map.keygrid_sort_type}:
+              <i className="icon icon-filter" aria-hidden="true"></i> {l10n.map.keygrid_sort_type}:
             </label>
             <select value={this.state.keyTypeFilter} onChange={e => this.handleChangeKeyTypeFilter(e)} className="custom-select d-inline-block w-auto" id="keyringFilterBtn">
               <option value="allkeys">{l10n.map.keygrid_all_keys}</option>
@@ -155,16 +162,16 @@ export default class KeyGrid extends React.Component {
                 !this.filterKey(key.type) &&
                 <tr key={index} onClick={() => this.showKeyDetails(key.fingerprint)} onKeyPress={e => this.handleKeyPress(e, key.fingerprint)} tabIndex="0" aria-haspopup="true">
                   <td className="text-center">
-                    <i className={`icon icon-${key.type === 'public' ? 'key' : 'keyPair'}`}></i>
+                    <i className={`icon icon-${key.type === 'public' ? 'key' : 'key-pair'}`}></i>
                   </td>
-                  <td>{key.name}{this.props.defaultKeyFpr === key.fingerprint && <span>&nbsp;&nbsp;<span className="badge badge-warning">{l10n.map.keygrid_default_label}</span></span>}</td>
+                  <td><strong>{key.name}</strong>{this.props.defaultKeyFpr === key.fingerprint && <span>&nbsp;&nbsp;<span className="text-nowrap"><i className="icon icon-marker text-warning" aria-hidden="true"></i> {l10n.map.keygrid_default_label}</span></span>}</td>
                   <td className="emailCell">{key.email}</td>
                   <td className="monospaced">{key.keyId}</td>
                   <td className="monospaced">{key.crDate.substr(0, 10)}</td>
                   <td className="text-center text-nowrap">
                     <div className="actions">
-                      <button type="button" className="btn btn-secondary keyDetailsBtn" aria-haspopup="true"><i className="fa fa-info-circle" aria-hidden="true"></i></button>
-                      {!(this.context.gnupg && key.type === 'private') && <button type="button" onClick={e => this.deleteKeyEntry(e, key.fingerprint)} className="btn btn-secondary keyDeleteBtn"><i className="fa fa-trash-o" aria-hidden="true"></i></button>}
+                      <button type="button" className="btn btn-secondary keyDetailsBtn" aria-haspopup="true"><i className="icon icon-error" aria-hidden="true"></i></button>
+                      {!(this.context.gnupg && key.type === 'private') && <button type="button" onClick={e => this.deleteKeyEntry(e, key.fingerprint)} className="btn btn-secondary keyDeleteBtn"><i className="icon icon-delete" aria-hidden="true"></i></button>}
                     </div>
                   </td>
                 </tr>
@@ -189,6 +196,10 @@ KeyGrid.contextType = KeyringOptions;
 KeyGrid.propTypes = {
   keys: PropTypes.array,
   defaultKeyFpr: PropTypes.string,
+  keyringAttr: PropTypes.object,
+  prefs: PropTypes.object,
+  onChangeKeyring: PropTypes.func.isRequired,
+  onDeleteKeyring: PropTypes.func.isRequired,
   onChangeDefaultKey: PropTypes.func.isRequired,
   onDeleteKey: PropTypes.func,
   onRefreshKeyring: PropTypes.func,

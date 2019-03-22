@@ -26,7 +26,7 @@ l10n.register([
 export default function KeyringSetup({hasPrivateKey}) {
   return (
     <div className="card-body">
-      <h4 className="card-title">{l10n.map.keyring_setup}</h4>
+      <h2 className="card-title">{l10n.map.keyring_setup}</h2>
       <form className="form">
         <p className={`alert alert-warning keyring_setup_message ${hasPrivateKey ? '' : 'active'}`}>
           <strong>{l10n.map.keyring_setup_no_keypair_heading}</strong><br />

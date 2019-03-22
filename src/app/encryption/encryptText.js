@@ -41,7 +41,7 @@ export default class EncryptText extends React.Component {
 
   render() {
     return (
-      <div className="card-body">
+      <>
         <div className={`card ${this.state.armored ? 'd-none' : ''}`}>
           <div className="card-header">
             {l10n.map.text_compose_header}
@@ -68,7 +68,7 @@ export default class EncryptText extends React.Component {
             <button type="button" onClick={() => this.handleBack()} className="btn btn-sm btn-secondary">{l10n.map.form_back}</button>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }

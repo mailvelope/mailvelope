@@ -136,10 +136,10 @@ export default class KeyServer extends React.Component {
 
   render() {
     return (
-      <div className="card-body">
-        <h4 className="card-title">{l10n.map.settings_keyserver}</h4>
+      <div id="keyserver">
+        <h2 className="mb-4">{l10n.map.settings_keyserver}</h2>
         <form className="form">
-          <h5>{l10n.map.keyserver_hkp_url}</h5>
+          <h3>{l10n.map.keyserver_hkp_url}</h3>
           <div className="form-group">
             <CreatableSelect
               isClearable
@@ -149,7 +149,7 @@ export default class KeyServer extends React.Component {
               isValidNewOption={option => this.validateUrl(option)}
             />
           </div>
-          <h5>{l10n.map.keyserver_additionals_label}</h5>
+          <h3>{l10n.map.keyserver_additionals_label}</h3>
           <div className="form-group">
             <div className="custom-control custom-checkbox">
               <input className="custom-control-input" type="checkbox" id="keyserverTOFULookup" name="mvelo_tofu_lookup" checked={this.state.mvelo_tofu_lookup} onChange={this.handleCheck} />

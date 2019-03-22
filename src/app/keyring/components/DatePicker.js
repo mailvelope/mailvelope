@@ -17,10 +17,10 @@ class CustomInput extends React.Component { // eslint-disable-line react/prefer-
         <input type="text" className="form-control border-right-0" value={this.props.value} placeholder={this.props.placeholder} disabled={this.props.disabled} readOnly />
         <span className="input-group-append">
           <span className={`input-group-text border-left-0 bg-white ${this.props.value ? '' : 'd-none'}`}>
-            <i className="form-control-clear fa fa-times" onClick={this.props.onClearDate} aria-hidden="true"></i>
+            <i className="form-control-clear icon icon-close" onClick={this.props.onClearDate} aria-hidden="true"></i>
           </span>
           <button type="button" className="btn btn-secondary" onClick={this.props.onClick} disabled={this.props.disabled}>
-            <i className="fa fa-calendar"></i>
+            <i className="icon icon-calender"></i>
           </button>
         </span>
       </div>

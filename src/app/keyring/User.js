@@ -290,19 +290,19 @@ export default class User extends React.Component {
       <div className="card-body user">
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb bg-transparent p-0 mb-0">
-            <li className="breadcrumb-item"><Link to={`/keyring/key/${this.props.match.params.keyFpr}`} replace tabIndex="0"><i className="fa fa-angle-double-left" aria-hidden="true"></i> {this.state.keyDetails.name}</Link></li>
+            <li className="breadcrumb-item"><Link to={`/keyring/key/${this.props.match.params.keyFpr}`} replace tabIndex="0"><i className="icon icon-left" aria-hidden="true"></i> {this.state.keyDetails.name}</Link></li>
           </ol>
         </nav>
         {this.state.loading ? (
           <Spinner delay={0} />
         ) : (
           <>
-            <div className="d-flex align-items-center justify-content-between flex-wrap mb-3">
+            <div className="card-title d-flex align-items-center justify-content-between flex-wrap">
               <div className="d-inline-flex text-nowrap">
                 {this.props.match.params.userIdx !== 'add' ? (
-                  <h4>{l10n.map.user_title} <KeyStatus className="ml-1" status={this.state.user.status} /></h4>
+                  <h2>{l10n.map.user_title} <KeyStatus className="ml-1" status={this.state.user.status} /></h2>
                 ) : (
-                  <h4>{l10n.map.user_create_title}</h4>
+                  <h2>{l10n.map.user_create_title}</h2>
                 )}
               </div>
               {this.state.keyDetails.type !== 'public' &&

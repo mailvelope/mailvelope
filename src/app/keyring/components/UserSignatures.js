@@ -23,12 +23,12 @@ moment.locale(navigator.language);
 export default function UserSignatures({signatures}) {
   return (
     <div className="userSignatures">
-      <div className="card">
+      <div className="card card-clean-table">
         <div className="card-header">
-          <h4 className="text-muted mb-0">{l10n.map.usersignatures_title}</h4>
+          <h3>{l10n.map.usersignatures_title}</h3>
         </div>
         <div className="table-responsive">
-          <table className="table mb-0">
+          <table className="table table-custom mb-0">
             <thead>
               <tr>
                 <th>{l10n.map.keygrid_user_name}</th>

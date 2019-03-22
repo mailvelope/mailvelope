@@ -40,11 +40,11 @@ export default class Security extends React.Component {
 
   render() {
     return (
-      <div className="card-body" id="security">
-        <h4 className="card-title">{l10n.map.settings_security}</h4>
+      <div id="security">
+        <h2 className="mb-4">{l10n.map.settings_security}</h2>
         <form className="form">
           <div className="form-group">
-            <h5>{l10n.map.security_cache_header}</h5>
+            <h3>{l10n.map.security_cache_header}</h3>
             <div className="form-inline">
               <div className="custom-control custom-radio custom-control-inline mr-2">
                 <input type="radio" name="pwdCacheRadios" id="pwdCacheRadios1" value="true" className="custom-control-input" />
@@ -60,7 +60,7 @@ export default class Security extends React.Component {
             </div>
           </div>
           <div className="form-group" id="securityTokenPanel">
-            <h5>{l10n.map.security_background_header}</h5>
+            <h3>{l10n.map.security_background_header}</h3>
             <p>{l10n.map.security_background_text}</p>
             <div className="row align-items-center">
               <div className="col-lg-6">
@@ -81,14 +81,14 @@ export default class Security extends React.Component {
               </div>
               <div className="col-lg-6">
                 <div className="previewContainer">
-                  <h5><strong>{l10n.map.security_background_preview}</strong></h5>
+                  <h3><strong>{l10n.map.security_background_preview}</strong></h3>
                   <div id="previewArea" className="w-100 border" style={{height: '150px'}}></div>
                 </div>
               </div>
             </div>
           </div>
           <div className="form-group">
-            <h5>{l10n.map.security_display_decrypted}</h5>
+            <h3>{l10n.map.security_display_decrypted}</h3>
             <div className="custom-control custom-radio">
               <input type="radio" name="decryptRadios" id="decryptRadios2" value="popup" className="custom-control-input" />
               <label className="custom-control-label" htmlFor="decryptRadios2">{l10n.map.security_display_popup}</label>
@@ -99,7 +99,7 @@ export default class Security extends React.Component {
             </div>
           </div>
           <div className="form-group">
-            <h5>{l10n.map.security_openpgp_header}</h5>
+            <h3>{l10n.map.security_openpgp_header}</h3>
             <div className="custom-control custom-checkbox">
               <input className="custom-control-input" type="checkbox" id="hideArmoredHeader" name="hideArmoredHeader" />
               <label className="custom-control-label" htmlFor="hideArmoredHeader">{l10n.map.security_hide_armored_head}</label>

@@ -51,6 +51,11 @@
 @import "./components/util/Spinner";
 
 // custom classes
+strong {
+  font-size: 1rem;
+  font-weight: bold;  
+}
+
 .nav-link {
   font-family: $headings-font-family;
   font-weight: 500;
@@ -70,6 +75,8 @@
 .card-clean {
   border: 0;
   .card-header {
+    padding-left: 0.5rem;
+    padding-right: 0;
     background-color: transparent;
   }  
 }
@@ -110,6 +117,78 @@
 .alert {
   border-left-width: 0.25rem;
 }
+
+// navbar nav-items
+nav .navbar-nav:first-child .nav-item {
+  position: relative;
+  &::after {
+    content:' ';
+    position: absolute;
+    top: 92%;
+    left: 50%;
+    width: 60%;
+    height: 1px;
+    background-color: transparent;
+    transform:translateX(-50%);
+  }
+  &:hover::after {
+    background-color: $black;
+    width: 40%;
+  }
+  &.active::after {
+    background-color: theme-color("primary");
+    width: 60%;
+  }
+}
+
+// nav-pills
+.nav-pills {
+  .nav-link {
+    line-height: 1;
+    padding: 0.6875rem 0.625rem;
+    font-size: inherit;
+    color: $yiq-text-dark;
+    @include border-radius($nav-pills-border-radius);
+  }
+
+  .nav-link:not(:last-child),
+  .show > .nav-link:not(:last-child) {
+    margin-bottom: 0.25rem;
+  }
+
+  .nav-link:not(.active):hover,
+  .show > .nav-link:not(.active):hover {
+    background-color: $gray-500;
+  }
+}
+
+// breadcrump-item
+
+.breadcrumb-item {  
+  line-height: 1;
+  font-size: 0.75rem;
+  padding: 0.5rem 0.625rem;
+  border-radius: $border-radius;
+  background-color: transparent;
+
+  & > a {
+    text-decoration: none;
+    color: theme-color("primary");
+  }
+
+  &:hover {
+    background-color: rgba(theme-color("primary"),0.1);
+  }
+
+  &:active {
+    background-color: rgba(theme-color("primary"),0.2);
+  }
+
+  &.active {
+    background-color: rgba(theme-color("primary"),0.1);
+  }
+}
+
 
 // alerts custom css 
 @each $color, $value in $theme-colors {

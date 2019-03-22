@@ -9,7 +9,6 @@ html {
 }
 
 body {
-  margin-bottom: 5rem;
   background-image: url("../img/bg-tile.svg");
   background-color: #caebdd;
   background-repeat: repeat;   
@@ -20,16 +19,24 @@ nav.navbar {
 }
 
 main {
-  padding-top: 5rem;
+  padding-top: 7.5rem;
 }
 
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  line-height: 60px; /* Vertically center the text there */
+.jumbotron > section > .card-body {
+  padding: 2.2rem;
+}
+
+.jumbotron > section > .card-body .card-title {
+  padding-left: 0.5rem;
+  padding-right: 0;
+  margin-bottom: 2.5rem;
+}
+
+footer > div {
+  font-size: 0.75rem;
+  color: #366e56;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 input[readonly] {

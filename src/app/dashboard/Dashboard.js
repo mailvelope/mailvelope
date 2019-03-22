@@ -21,7 +21,6 @@ export default function Dashboard() {
   const mailvelopeHelpUrl = 'https://www.mailvelope.com/en/help';
   return (
     <div className="dashboard">
-      <h3 className="mt-3">{l10n.map.dashboard_title}</h3>
       <div className="row text-center">
         <div className="col-md-6 col-lg-4 mb-3">
           <Link className="card" to="/keyring/display" role="button">

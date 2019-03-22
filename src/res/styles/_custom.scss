@@ -23,7 +23,7 @@
   display: flex;
   flex-wrap: wrap;
   & > .btn {
-    margin-right: map-get($spacers, 1);
+    margin-right: map-get($spacers, 2);
     margin-bottom: map-get($spacers, 1);    
     &:last-child {
       margin-right: 0;
@@ -49,6 +49,8 @@
 
 .secureBackground {
   padding: map-get($spacers, 2);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 5px 15px 0 rgba($black, 0.2), 0 0 2px 0 rgba($black, 0.2);
 }
 
 .secureBgndSettingsBtn {

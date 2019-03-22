@@ -71,7 +71,7 @@ export default class KeyUsers extends React.Component {
       }
     }
     return (
-      <span className={`badge badge-${data.labelClass}`}>{data.statusText}</span>
+      <span className="text-nowrap"><i className={`icon icon-marker text-${data.labelClass}`} aria-hidden="true"></i> {data.statusText}</span>
     );
   }
 
@@ -113,7 +113,7 @@ export default class KeyUsers extends React.Component {
                           <input type="radio" onChange={e => this.props.onChangePrimaryUser(e.target.value)} name="isPrimaryUser" value={user.id} checked={user.isPrimary} />
                         </label>
                       ) : (
-                        <i className={`${user.isPrimary && 'fa fa-check'}`} aria-hidden="true"></i>
+                        <i className={`${user.isPrimary && 'icon icon-checkmark'}`} aria-hidden="true"></i>
                       )}
                     </td>
                     <td>{user.name}</td>
@@ -125,7 +125,7 @@ export default class KeyUsers extends React.Component {
                       </td>
                     }
                     <td className="text-center">{user.signatures.length}</td>
-                    <td><i className="fa fa-angle-right" aria-hidden="true"></i></td>
+                    <td><i className="icon icon-right" aria-hidden="true"></i></td>
                   </tr>
                 )}
               </tbody>
