@@ -8,6 +8,7 @@ import * as sub from './sub.controller';
 import {getHash, MvError} from '../lib/util';
 import {MAIN_KEYRING_ID} from '../lib/constants';
 import {getById as keyringById, createKeyring, setKeyringAttr, getKeyByAddress} from '../modules/keyring';
+import {minifyKey} from '../modules/key';
 import * as openpgp from 'openpgp';
 import {getLastModifiedDate, mapAddressKeyMapToFpr} from '../modules/key';
 import * as autocrypt from '../modules/autocryptWrapper';
@@ -25,6 +26,7 @@ export default class ApiController extends sub.SubController {
     this.on('create-keyring', this.createKeyring);
     this.on('query-valid-key', this.queryValidKey);
     this.on('export-own-pub-key', this.exportOwnPubKey);
+    this.on('additional-headers-for-outgoing', this.additionalHeadersForOutgoing);
     this.on('import-pub-key', this.importPubKey);
     this.on('process-autocrypt-header', this.processAutocryptHeader);
     this.on('set-logo', this.setLogo);
@@ -82,6 +84,20 @@ export default class ApiController extends sub.SubController {
     const pubKeyFpr = pubKeyFprs[0];
     const armored = keyringById(keyringId).getArmoredKeys(pubKeyFpr, {pub: true});
     return armored[0].armoredPublic;
+  }
+
+  async additionalHeadersForOutgoing({headers, keyringId}) {
+    const emailAddr = headers['from'];
+    if (autocrypt.isEnabled()) {
+      const full = await this.exportOwnPubKey({keyringId, emailAddr});
+      const {keys: [key]} = await openpgp.key.readArmored(full);
+      const minimal = await minifyKey(key, {email: emailAddr});
+      const armored = minimal.armor();
+      const keydata = armored.split('\r\n').slice(3, -3).join('');
+      return {autocrypt: autocrypt.stringify({keydata, addr: emailAddr})};
+    } else {
+      return {};
+    }
   }
 
   importPubKey({keyringId, armored}) {

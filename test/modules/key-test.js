@@ -1,6 +1,6 @@
 import {expect} from 'test';
 import * as openpgp from 'openpgp';
-import {getUserInfo, parseUserId, mapKeys, mapSubKeys, mapUsers, verifyUserCertificate, checkKeyId, getLastModifiedDate, equalKey, toPublic, filterUserIdsByEmail} from 'modules/key';
+import {getUserInfo, parseUserId, mapKeys, mapSubKeys, mapUsers, minifyKey, verifyUserCertificate, checkKeyId, getLastModifiedDate, equalKey, toPublic, filterUserIdsByEmail} from 'modules/key';
 import testKeys from 'Fixtures/keys';
 
 describe('Key unit test', () => {
@@ -120,6 +120,25 @@ describe('Key unit test', () => {
         expect(user).to.have.property('signatures');
         expect(user.signatures[0].keyId).to.equal('66663688A83E9763');
       });
+    });
+  });
+
+  describe('minifyKey', () => {
+    it('should return minimal key', async () => {
+      const {keys: [key]} = await openpgp.key.readArmored(testKeys.maditab_pub);
+      const minimal = await minifyKey(key, {email: 'madita@mailvelope.com'});
+      const keyMap = {};
+      await mapSubKeys(minimal.subKeys, keyMap, minimal);
+      const {subkeys: mappedSubkeys} = keyMap;
+      expect(mappedSubkeys.length).to.equal(1);
+      const subkey = mappedSubkeys[0];
+      expect(subkey).not.to.equal(undefined);
+      expect(subkey.fingerprint).to.equal('ef4d0286504c2a77e6e05d0da9c26ff01f6f59e2');
+      const userMap = {};
+      await mapUsers(minimal.users, userMap, {}, minimal);
+      const {users: mappedUsers} = userMap;
+      expect(mappedUsers.length).to.equal(1);
+      expect(mappedUsers[0].userId).to.equal('Madita Bernstone <madita@mailvelope.com>');
     });
   });
 

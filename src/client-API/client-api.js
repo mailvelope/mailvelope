@@ -273,11 +273,40 @@ class Keyring {
    * @throws {Error} error.code = 'NO_KEY_FOR_ADDRESS'
    * @example
    * keyring.exportOwnPublicKey('abc@web.de').then(function(armoredPublicKey) {
-   *   console.log('exportOwnPublicKey', armoredPublicKey); // prints: "-----BEGIN PGP PUBLIC KEY BLOCK..."
+   *   console.log('exportOwnPublicKey', armoredPublicKey);
+   *   // prints: "-----BEGIN PGP PUBLIC KEY BLOCK..."
    * });
    */
   exportOwnPublicKey(emailAddr) {
     return send('export-own-pub-key', {identifier: this.identifier, emailAddr});
+  }
+
+  /**
+   * @typedef {Object} additionalMailHeaders
+   * @property {String} autocrypt - the Autocrypt header that should be <br>
+   *                                added to the outgoing mail<br>
+   */
+
+  /**
+   * @typedef {Object} outgoingMailHeaders
+   * @property {String} from - the From header
+   */
+
+  /**
+   * Returns headers that should be added to an outgoing email.
+   * So far this is only the `autocrypt` header.
+   * @param {outgoingMailHeaders} headers - headers of the outgoing mail. <br>
+   *                              In particular `from` to select the key
+   * @returns {Promise.<additionalMailHeaders, Error>}
+   * @throws {Error} error.code = 'NO_KEY_FOR_ADDRESS'
+   * @example
+   * keyring.additionalHeadersForOutgoingEmail(from: 'abc@web.de').then(function(additional) {
+   *   console.log('additionalHeadersForOutgoingEmail', additional);
+   *   // logs: {autocrypt: "addr=abc@web.de; prefer-encrypt=mutual; keydata=..."}
+   * });
+   */
+  additionalHeadersForOutgoingEmail(headers) {
+    return send('additional-headers-for-outgoing', {identifier: this.identifier, headers});
   }
 
   /**

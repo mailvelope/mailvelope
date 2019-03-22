@@ -224,6 +224,36 @@ export async function mapUsers(users = [], toKey, keyring, key) {
   }
 }
 
+/**
+ * Create a minimal key consisting of only:
+ *   * a signing-capable primary key
+ *   * a user id
+ *   * a self signature over the user id by the primary key
+ *   * an encryption-capable subkey
+ *   * a binding signature over the subkey by the primary key
+ * @param  {openpgp.key.Key} key
+ * @param  {Object} userId - conditions for the user id to keep
+ *                           see openpgp.key.Key getPrimaryUser()
+ * @return {openpgp.key.Key}
+ */
+export async function minifyKey(key, userId) {
+  const uid = await key.getPrimaryUser(null, userId);
+  if (!uid || !uid.user) { return null; }
+  const signSubkey = await key.getSigningKey();
+  const encSubkey = await key.getEncryptionKey();
+  const p = new openpgp.packet.List();
+  p.push(key.primaryKey);
+  p.concat(uid.user.toPacketlist());
+  if (key !== signSubkey) {
+    p.concat(signSubkey.toPacketlist());
+  }
+  if (key !== encSubkey) {
+    p.concat(encSubkey.toPacketlist());
+  }
+
+  return new openpgp.key.Key(p);
+}
+
 export async function verifyUserCertificate(user, primaryKey, certificate, key = primaryKey) {
   if (!(certificate.verified || await certificate.verify(key, openpgp.enums.signature.cert_generic, {userId: user.userId, userAttribute: user.userAttribute, key: primaryKey}))) {
     return openpgp.enums.keyStatus.invalid;

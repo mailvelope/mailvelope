@@ -104,6 +104,7 @@ function registerClientEventHandler() {
   clientPort.on('editor-create-draft', editorCreateDraft);
   clientPort.on('query-valid-key', validKeyForAddress);
   clientPort.on('export-own-pub-key', exportOwnPublicKey);
+  clientPort.on('additional-headers-for-outgoing', additionalHeadersForOutgoing);
   clientPort.on('import-pub-key', importPublicKey);
   clientPort.on('process-autocrypt-header', processAutocryptHeader);
   clientPort.on('set-logo', setLogo);
@@ -222,6 +223,10 @@ function validKeyForAddress({keyringId, recipients}) {
 
 function exportOwnPublicKey({keyringId, emailAddr}) {
   return controllerPort.send('export-own-pub-key', {keyringId, emailAddr});
+}
+
+function additionalHeadersForOutgoing({keyringId, headers}) {
+  return controllerPort.send('additional-headers-for-outgoing', {keyringId, headers});
 }
 
 function importPublicKey({keyringId, armored}) {
