@@ -232,8 +232,8 @@ export default class AppController extends sub.SubController {
     if (keyringId === MAIN_KEYRING_ID) {
       throw new Error('Cannot delete main keyring');
     }
-    await deleteKeyring(keyringId);
     sub.setActiveKeyringId(MAIN_KEYRING_ID);
+    await deleteKeyring(keyringId);
   }
 
   initEncryptText() {

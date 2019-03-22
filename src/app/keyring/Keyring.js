@@ -61,14 +61,16 @@ export default class Keyring extends React.Component {
     await this.loadKeyring();
   }
 
-  initActiveKeyring() {
-    return new Promise(resolve => {
-      if (this.state.keyringId) {
-        return resolve();
-      }
-      port.send('get-active-keyring')
-      .then(keyringId => this.setState({keyringId: keyringId || MAIN_KEYRING_ID}, resolve));
-    });
+  setStateAsync(state) {
+    return new Promise(resolve => this.setState(state, resolve));
+  }
+
+  async initActiveKeyring() {
+    if (this.state.keyringId) {
+      return;
+    }
+    const keyringId = await port.send('get-active-keyring');
+    await this.setStateAsync({keyringId: keyringId || MAIN_KEYRING_ID});
   }
 
   async loadKeyring() {
@@ -89,14 +91,14 @@ export default class Keyring extends React.Component {
     });
   }
 
-  handleChangeKeyring(keyringId) {
-    this.setState({keyringId, keysLoading: true}, () => this.loadKeyring());
+  async handleChangeKeyring(keyringId) {
+    await this.setStateAsync({keyringId, keysLoading: true});
+    await this.loadKeyring();
   }
 
-  handleDeleteKeyring(keyringId, keyringName) {
+  async handleDeleteKeyring(keyringId, keyringName) {
     if (confirm(l10n.get('keyring_confirm_deletion', keyringName))) {
-      port.send('delete-keyring', {keyringId})
-      .then(() => this.loadKeyring());
+      await port.send('delete-keyring', {keyringId});
     }
   }
 
