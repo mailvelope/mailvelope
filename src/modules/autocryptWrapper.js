@@ -8,6 +8,7 @@ import {MvError} from '../lib/util';
 import Autocrypt from 'autocrypt';
 import {prefs} from './prefs';
 import {goog} from './closure-library/closure/goog/emailaddress';
+export {stringify, parse} from 'autocrypt';
 
 export const name = 'AC';
 const stores = new Map();
@@ -94,7 +95,7 @@ export async function deleteIdentities(identities) {
   }
 }
 
-function armor(base64) {
+export function armor(base64) {
   const head = '-----BEGIN PGP PUBLIC KEY BLOCK-----';
   const footer = '-----END PGP PUBLIC KEY BLOCK-----';
   const lines = base64.match(/.{1,64}/g);

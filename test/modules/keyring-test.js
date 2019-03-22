@@ -1,44 +1,11 @@
 import {expect} from 'test';
-import {LocalStorageStub} from 'utils';
 import {MAIN_KEYRING_ID} from 'lib/constants';
-import {init, createKeyring, deleteKeyring, getAll, getById, getAllKeyringAttr, getKeyringAttr, setKeyringAttr, getKeyData, getKeyByAddress, getKeyringWithPrivKey, getPreferredKeyring, syncPublicKeys, __RewireAPI__ as keyringRewireAPI} from 'modules/keyring';
-import KeyStoreLocal from 'modules/KeyStoreLocal';
-import testKeys from 'Fixtures/keys';
+import {setupKeyring, teardownKeyring} from 'Fixtures/keyring';
+import {createKeyring, deleteKeyring, getAll, getById, getAllKeyringAttr, getKeyringAttr, setKeyringAttr, getKeyData, getKeyByAddress, getKeyringWithPrivKey, getPreferredKeyring, syncPublicKeys} from 'modules/keyring';
 
 describe('keyring unit tests', () => {
-  let storage;
-
-  beforeEach(async () => {
-    const keyringIds = [MAIN_KEYRING_ID, 'test123'];
-    let keyringAttributes;
-    storage = new LocalStorageStub();
-    for (const keyringId of keyringIds) {
-      let storedTestKeys;
-      if (keyringId === MAIN_KEYRING_ID) {
-        storedTestKeys = {public: [testKeys.maxp_pub], private: [testKeys.maditab_prv]};
-        keyringAttributes = {
-          default_key: '771f9119b823e06c0de306d466663688a83e9763'
-        };
-      } else {
-        storedTestKeys = {public: [testKeys.gordonf_pub], private: [testKeys.johnd_prv]};
-        keyringAttributes = {};
-      }
-      await storage.importKeys(keyringId, storedTestKeys);
-      await storage.importAttributes(keyringId, keyringAttributes);
-    }
-    KeyStoreLocal.__Rewire__('mvelo', {
-      storage
-    });
-    keyringRewireAPI.__Rewire__('mvelo', {
-      storage
-    });
-    await init();
-  });
-
-  afterEach(() => {
-    /* eslint-disable-next-line no-undef */
-    __rewire_reset_all__();
-  });
+  beforeEach(setupKeyring);
+  afterEach(teardownKeyring);
 
   describe('createKeyring', () => {
     it('should create a new keyring and initialize keyring attributes', async () => {
@@ -83,8 +50,7 @@ describe('keyring unit tests', () => {
       await setKeyringAttr('test123', {
         default_key: '123456789'
       });
-      const storedAttrs = await storage.get('mvelo.keyring.attributes');
-      expect(storedAttrs['test123'].default_key).to.equal('123456789');
+
       expect(getKeyringAttr('test123', 'default_key')).to.equal('123456789');
     });
   });

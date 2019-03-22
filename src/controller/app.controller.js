@@ -18,7 +18,7 @@ import * as uiLog from '../modules/uiLog';
 import {getVersion} from '../modules/defaults';
 import {gpgme} from '../lib/browser.runtime';
 import * as mveloKeyServer from '../modules/mveloKeyServer';
-import * as autocryptWrapper from '../modules/autocryptWrapper';
+import * as autocrypt from '../modules/autocryptWrapper';
 
 export default class AppController extends sub.SubController {
   constructor(port) {
@@ -79,7 +79,7 @@ export default class AppController extends sub.SubController {
       initOpenPGP();
     }
     if (disabledAutocryptFlag) {
-      await autocryptWrapper.deleteIdentities(getAllKeyringIds());
+      await autocrypt.deleteIdentities(getAllKeyringIds());
     }
   }
 
@@ -238,7 +238,7 @@ export default class AppController extends sub.SubController {
     }
     sub.setActiveKeyringId(MAIN_KEYRING_ID);
     await deleteKeyring(keyringId);
-    await autocryptWrapper.deleteIdentities([keyringId]);
+    await autocrypt.deleteIdentities([keyringId]);
   }
 
   async encryptFile(options) {

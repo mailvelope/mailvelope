@@ -1,8 +1,7 @@
 import {expect, sinon} from 'test';
 import {LocalStorageStub} from 'utils';
 import * as prefs from 'modules/prefs';
-import * as autocryptWrapper from 'modules/autocryptWrapper';
-import Autocrypt from 'autocrypt';
+import * as autocrypt from 'modules/autocryptWrapper';
 import testKeys from 'Fixtures/keys';
 import * as keyRegistry from 'modules/keyRegistry';
 
@@ -50,7 +49,7 @@ describe('Looking up keys from different services', () => {
 
     beforeEach(() => {
       storage = new LocalStorageStub();
-      autocryptWrapper.default.__Rewire__('mvelo', {storage});
+      autocrypt.default.__Rewire__('mvelo', {storage});
     });
 
     afterEach(() => {
@@ -68,9 +67,9 @@ describe('Looking up keys from different services', () => {
       const keydata = testKeys.api_test_pub.split('\n').slice(2, 17).join();
       const headers = {
         from: addr,
-        autocrypt: Autocrypt.stringify({keydata, addr})
+        autocrypt: autocrypt.stringify({keydata, addr})
       };
-      await autocryptWrapper.processHeader(headers, 'id');
+      await autocrypt.processHeader(headers, 'id');
 
       const result = await keyRegistry.lookup(addr, 'id');
       expect(result.armored).to.include('-----BEGIN PGP PUBLIC KEY BLOCK-----');
@@ -84,7 +83,7 @@ describe('Looking up keys from different services', () => {
 
     beforeEach(() => {
       storage = new LocalStorageStub();
-      autocryptWrapper.default.__Rewire__('mvelo', {storage});
+      autocrypt.default.__Rewire__('mvelo', {storage});
     });
 
     afterEach(() => {
@@ -114,9 +113,9 @@ describe('Looking up keys from different services', () => {
       const keydata = testKeys.api_test_pub.split('\n').slice(2, 17).join();
       const headers = {
         from: addr,
-        autocrypt: Autocrypt.stringify({keydata, addr})
+        autocrypt: autocrypt.stringify({keydata, addr})
       };
-      await autocryptWrapper.processHeader(headers, 'id');
+      await autocrypt.processHeader(headers, 'id');
 
       const result = await keyRegistry.lookup(addr, 'id');
       expect(result.armored).to.include('-----BEGIN PGP PUBLIC KEY BLOCK-----');
