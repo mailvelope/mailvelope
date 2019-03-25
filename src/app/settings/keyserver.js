@@ -16,6 +16,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CreatableSelect from 'react-select/lib/Creatable';
 
+import './components/react-select.scss';
+
 l10n.register([
   'alert_header_warning',
   'alert_header_error',
@@ -147,6 +149,19 @@ export default class KeyServer extends React.Component {
               value={this.state.hkp_server_list.find(({value}) => value === this.state.hkp_base_url)}
               onChange={this.handleServerChange}
               isValidNewOption={option => this.validateUrl(option)}
+              className="react-select-container"
+              classNamePrefix="react-select"
+              theme={theme => ({
+                ...theme,
+                borderRadius: '4px',
+                colors: {
+                  ...theme.colors,
+                  primary: '#e30048',
+                  primary75: '#ff2a6e',
+                  primary50: '#ff719e',
+                  primary25: '#ffb8ce'
+                },
+              })}
             />
           </div>
           <h3>{l10n.map.keyserver_additionals_label}</h3>

@@ -3,25 +3,26 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 @import "../../../res/styles/_required";
-@import "../../../../node_modules/react-datepicker/src/stylesheets/variables";
+// @import "../../../../node_modules/react-datepicker/src/stylesheets/variables";
 
-$datepicker__background-color: theme-color('light');
+$datepicker__background-color: $white;
 $datepicker__border-color: $border-color;
-$datepicker__highlighted-color: $datepicker__background-color;
+$datepicker__highlighted-color: $black;
 $datepicker__muted-color: $text-muted;
 $datepicker__selected-color: theme-color("primary");
-$datepicker__text-color: $body-color;
+$datepicker__hover-color: $gray-500;
+$datepicker__text-color: $black;
 $datepicker__header-color: $headings-color;
 
-$datepicker__border-radius: $border-radius;
-$datepicker__day-margin: 0.175rem;
-$datepicker__font-size: $font-size-sm;
-$datepicker__font-family: $font-family-base;
 $datepicker__item-size: 1.8rem;
+$datepicker__item-border-radius: $datepicker__item-size / 2;
+$datepicker__border-radius: $border-radius;
+$datepicker__day-margin: 0.075rem;
+$datepicker__font-size: $font-size-base;
+$datepicker__font-family: $font-family-base;
 $datepicker__margin: map-get($spacers, 2);
 
 @import "../../../../node_modules/react-datepicker/src/stylesheets/datepicker";
-@import "../../../../node_modules/react-datepicker/src/stylesheets/variables";
 @import "../../../../node_modules/bootstrap/scss/custom-forms";
 
 .react-datepicker__header__dropdown {
@@ -33,6 +34,74 @@ $datepicker__margin: map-get($spacers, 2);
   @extend .custom-select;
   @extend .custom-select-sm;
 }
+
+.react-datepicker__header {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  border-bottom: 0;
+}
+
+.react-datepicker__navigation,
+.react-datepicker__current-month {
+  display: none;
+}
+
+.react-datepicker__header__dropdown {
+  margin-bottom: 0.75rem;
+}
+
+.react-datepicker__day-names {
+  border-radius: $border-radius-sm;
+  background-color: $gray-200;
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+  font-size: $font-size-sm;
+}
+
+.react-datepicker__day {
+  cursor: pointer;
+
+  &:hover {
+    border-radius: $datepicker__item-border-radius;
+    background-color: $datepicker__hover-color;
+  }
+
+  &--highlighted {
+    border-radius: $datepicker__item-border-radius;
+  }
+
+  &--selected,
+  &--in-selecting-range,
+  &--in-range {
+    // border: 1px solid mix($black, $datepicker__selected-color, 2 * $theme-color-interval);
+    border-radius: $datepicker__item-border-radius;
+    background-color: $datepicker__selected-color;
+    box-shadow: inset 0 -2px 0 mix($black, $datepicker__selected-color, 2 * $theme-color-interval);
+
+    color: #fff;
+
+    &:hover {
+      background-color: darken($datepicker__selected-color, 7.5%);
+    }
+  }
+
+  &--keyboard-selected {
+    // border: 1px solid mix($black, $datepicker__selected-color, 2 * $theme-color-interval);
+    border-radius: $datepicker__item-border-radius;
+    background-color: $datepicker__selected-color;
+    box-shadow: inset 0 -2px 0 mix($black, $datepicker__selected-color, 2 * $theme-color-interval);
+
+    color: #fff;
+
+    &:hover {
+      background-color: darken($datepicker__selected-color, 7.5%);
+    }
+  }
+}
+
 
 .form-control-clear {
   z-index: 10;

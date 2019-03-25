@@ -56,29 +56,16 @@ strong {
   font-weight: bold;  
 }
 
-.nav-link {
-  font-family: $headings-font-family;
-  font-weight: 500;
-  font-size: 1rem;
-/*  & .active {
-    border-bottom: 1px solid $navbar-light-active-color;
-  }
-  &:hover {
-    border-bottom: 1px solid $black;
-  };*/
-}
-
-.breadcrumb-item a {
-  font-weight: 500;
-}
-
 .card-clean {
   border: 0;
   .card-header {
     padding-left: 0.5rem;
     padding-right: 0;
     background-color: transparent;
-  }  
+  }
+  .card-body {
+    padding: 1.25rem 0.5rem;
+  }
 }
 
 .card-clean-table {
@@ -114,36 +101,54 @@ strong {
 }
 
 // BS class overrides
-.alert {
-  border-left-width: 0.25rem;
-}
 
-// navbar nav-items
-nav .navbar-nav:first-child .nav-item {
-  position: relative;
-  &::after {
-    content:' ';
-    position: absolute;
-    top: 92%;
-    left: 50%;
-    width: 60%;
-    height: 1px;
-    background-color: transparent;
-    transform:translateX(-50%);
-  }
-  &:hover::after {
-    background-color: $black;
-    width: 40%;
-  }
-  &.active::after {
-    background-color: theme-color("primary");
-    width: 60%;
+// navbar
+nav {
+  font-family: $headings-font-family;
+  font-size: 1rem;
+
+  &.navbar > .container  {
+    .navbar-brand {
+      margin-right: 2rem;
+    }
+
+    .nav-item {
+      .nav-link {
+        font-weight: 400;
+      }
+    }
+
+    &:first-child .nav-item {
+      position: relative;
+      &::after {
+        content:' ';
+        position: absolute;
+        top: 92%;
+        left: 50%;
+        width: 60%;
+        height: 1px;
+        background-color: transparent;
+        transform:translateX(-50%);
+      }
+      &:hover::after {
+        background-color: $black;
+        width: 40%;
+      }
+      &.active::after {
+        background-color: theme-color("primary");
+        width: 60%;
+      }
+    }
   }
 }
 
 // nav-pills
 .nav-pills {
+  font-family: $headings-font-family;
+  font-size: 1rem;
+
   .nav-link {
+    font-weight: 500;      
     line-height: 1;
     padding: 0.6875rem 0.625rem;
     font-size: inherit;
@@ -162,31 +167,43 @@ nav .navbar-nav:first-child .nav-item {
   }
 }
 
+
+
 // breadcrump-item
 
-.breadcrumb-item {  
-  line-height: 1;
-  font-size: 0.75rem;
-  padding: 0.5rem 0.625rem;
-  border-radius: $border-radius;
-  background-color: transparent;
+.breadcrumb {
+  margin-left: -0.5rem;
+  margin-bottom: 0.5rem;
 
-  & > a {
-    text-decoration: none;
-    color: theme-color("primary");
-  }
+  .breadcrumb-item {  
+    & > a {
+      line-height: 1;
+      font-weight: 500;
+      font-size: 0.75rem;
+      text-decoration: none;
+      color: theme-color("primary");
+      padding: 0.5rem 0.625rem;
+      border-radius: $border-radius;
+      background-color: transparent;
 
-  &:hover {
-    background-color: rgba(theme-color("primary"),0.1);
-  }
+      &:hover {
+        background-color: rgba(theme-color("primary"),0.1);
+      }
 
-  &:active {
-    background-color: rgba(theme-color("primary"),0.2);
-  }
+      &:active {
+        background-color: rgba(theme-color("primary"),0.2);
+      }
 
-  &.active {
-    background-color: rgba(theme-color("primary"),0.1);
+      &.active {
+        background-color: rgba(theme-color("primary"),0.1);
+      }
+    }
   }
+}
+
+.alert {
+  display: inline-block;
+  border-left-width: 0.25rem;
 }
 
 
@@ -204,8 +221,58 @@ nav .navbar-nav:first-child .nav-item {
   }
 }
 
-// fix custom control
 
+.input-group:not(.input-group-sm):not(.input-group-lg) > .input-group-prepend > .btn, 
+.input-group:not(.input-group-sm):not(.input-group-lg) > .input-group-append > .btn {
+  @include border-radius($btn-border-radius !important);
+}
+
+.input-group-sm > .input-group-prepend > .btn,
+.input-group-sm > .input-group-append > .btn {
+  @include border-radius($btn-border-radius-sm !important);
+}
+
+.input-group-lg > .input-group-prepend > .btn,
+.input-group-lg > .input-group-append > .btn {
+  @include border-radius($btn-border-radius-lg !important);
+}
+
+
+.input-group > .input-group-prepend > .btn:not(:last-child),
+.input-group > .input-group-append > .btn:not(:last-child) {
+  @include border-right-radius(0 !important);  
+}
+
+.input-group > .input-group-prepend > .btn:not(:first-child),
+.input-group > .input-group-append > .btn:not(:first-child) {
+  @include border-left-radius(0 !important);  
+}
+
+.input-group:not(.input-group-sm):not(.input-group-lg) > .form-control + .input-group-append > .btn:first-of-type {
+  margin-left: -$btn-border-radius;
+}
+
+.input-group-sm > .form-control + .input-group-append > .btn:first-of-type {
+  margin-left: -$btn-border-radius-sm;
+}
+
+.input-group-lg > .form-control + .input-group-append > .btn:first-of-type {
+  margin-left: -$btn-border-radius-lg;
+}
+
+.input-group:not(.input-group-sm):not(.input-group-lg) > .input-group-prepend > .btn:last-of-type {
+  margin-right: -$btn-border-radius;
+}
+
+.input-group-sm > .input-group-prepend > .btn:last-of-type {
+  margin-right: -$btn-border-radius-sm;
+}
+
+.input-group-lg > .input-group-prepend > .btn:last-of-type {
+  margin-right: -$btn-border-radius-lg;
+}
+
+// fix custom control
 .custom-control-input {
   &:focus ~ .custom-control-label::before {
     @if $enable-shadows {

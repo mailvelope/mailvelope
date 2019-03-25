@@ -44,7 +44,7 @@ export default function EditorModalFooter(props) {
           <span>{l10n.map.options_home}</span>&nbsp;
           <i className="fa" aria-hidden="true"></i>
         </button>
-        <button type="button" onClick={props.onSignOnly} className="btn btn-outline-secondary mr-1" disabled={!(props.signMsg && props.privKeys.length)}>
+        <button type="button" onClick={props.onSignOnly} className="btn btn-secondary mr-1" disabled={!(props.signMsg && props.privKeys.length)}>
           <i className="fa fa-pencil" aria-hidden="true"></i>&nbsp;
           <span>{l10n.map.editor_sign_button}</span>
         </button>

@@ -27,7 +27,7 @@ main {
 }
 
 .jumbotron > section > .card-body .card-title {
-  padding-left: 0.5rem;
+  /*padding-left: 0.5rem;*/
   padding-right: 0;
   margin-bottom: 2.5rem;
 }

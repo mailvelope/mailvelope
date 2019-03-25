@@ -13,7 +13,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 
-import './RecipientInput.css';
+import './RecipientInput.scss';
 
 /* global angular */
 

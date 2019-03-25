@@ -44,6 +44,7 @@ export default function DatePicker({value, onChange, placeholder, minDate, maxDa
       selected={value}
       showMonthDropdown
       showYearDropdown
+      forceShowMonthNavigation={false}
       minDate={minDate}
       maxDate={maxDate}
       dropdownMode="select"

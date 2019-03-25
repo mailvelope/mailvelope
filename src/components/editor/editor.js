@@ -319,7 +319,7 @@ export default class Editor extends React.Component {
             />
           </div>
         }
-        <div className="editor-body flex-grow-1 mb-2 w-100">
+        <div className="editor-body flex-grow-1 mb-2" style={{margin: '-0.2rem'}}>
           <div className="plain-text w-100 h-100 overflow-hidden">
             <PlainText defaultValue={this.state.defaultPlainText} onChange={() => this.handleTextChange()}
               onBlur={() => this.blurWarning && this.blurWarning.onBlur()} onMouseUp={element => this.handleTextMouseUp(element)} onLoad={() => this.handlePlainTextLoad()}

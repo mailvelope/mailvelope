@@ -276,8 +276,8 @@ export default class User extends React.Component {
     return (
       <Alert type={data.type}>
         <span className="mr-2">{data.text}</span>
-        {(this.state.keyDetails.validity && data.btnText && (this.state.user.remote || this.state.user.status === PGP_KEYSTATUS_VALID)) && <button type="button" onClick={() => this.handleKeyServerSync(data.handler)} className="btn btn-sm btn-secondary mr-1">{data.btnText}</button>}
-        {(this.state.user.remote && !this.state.syncAction) && <button type="button" onClick={() => this.handleKeyServerSync({sync: false})} className="btn btn-sm btn-secondary">{l10n.map.user_keyserver_remove_btn}</button>}
+        {(this.state.keyDetails.validity && data.btnText && (this.state.user.remote || this.state.user.status === PGP_KEYSTATUS_VALID)) && <button type="button" onClick={() => this.handleKeyServerSync(data.handler)} className="btn btn-secondary mr-1">{data.btnText}</button>}
+        {(this.state.user.remote && !this.state.syncAction) && <button type="button" onClick={() => this.handleKeyServerSync({sync: false})} className="btn btn-secondary">{l10n.map.user_keyserver_remove_btn}</button>}
       </Alert>
     );
   }
@@ -289,7 +289,7 @@ export default class User extends React.Component {
     return (
       <div className="card-body user">
         <nav aria-label="breadcrumb">
-          <ol className="breadcrumb bg-transparent p-0 mb-0">
+          <ol className="breadcrumb bg-transparent p-0">
             <li className="breadcrumb-item"><Link to={`/keyring/key/${this.props.match.params.keyFpr}`} replace tabIndex="0"><i className="icon icon-left" aria-hidden="true"></i> {this.state.keyDetails.name}</Link></li>
           </ol>
         </nav>

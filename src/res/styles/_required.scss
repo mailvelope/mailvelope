@@ -68,6 +68,10 @@ $input-color: $black;
 $input-border-color: $gray-600;
 $input-box-shadow: inset 0 2px 0 rgba($gray-600, .3);
 
+$input-border-radius-sm: 0.125rem; 
+$input-border-radius: $border-radius-sm;
+$input-border-radius-lg: $border-radius;
+
 
 // custom inputs
 $custom-control-indicator-border-color: $input-border-color;

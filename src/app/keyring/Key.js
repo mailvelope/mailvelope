@@ -248,8 +248,8 @@ export default class Key extends React.Component {
     return (
       <Alert type={data.type} className="mb-3">
         <span className="mr-2">{data.text}</span>
-        {(this.state.keyDetails.validity && data.btnText) && <button type="button" onClick={() => this.handleKeyServerSync(data.handler)} className="btn btn-sm btn-secondary mr-1">{data.btnText}</button>}
-        {(this.state.keyDetails.keyServerSync.status && !this.state.syncAction) && <button type="button" onClick={() => this.handleKeyServerSync({sync: false})} className="btn btn-sm btn-secondary">{l10n.map.key_keyserver_remove_btn}</button>}
+        {(this.state.keyDetails.validity && data.btnText) && <button type="button" onClick={() => this.handleKeyServerSync(data.handler)} className="btn btn-secondary mr-1">{data.btnText}</button>}
+        {(this.state.keyDetails.keyServerSync.status && !this.state.syncAction) && <button type="button" onClick={() => this.handleKeyServerSync({sync: false})} className="btn btn-secondary">{l10n.map.key_keyserver_remove_btn}</button>}
       </Alert>
     );
   }
@@ -261,7 +261,7 @@ export default class Key extends React.Component {
     return (
       <div className="card-body key">
         <nav aria-label="breadcrumb">
-          <ol className="breadcrumb bg-transparent p-0 mb-0">
+          <ol className="breadcrumb bg-transparent p-0">
             <li className="breadcrumb-item"><Link to='/keyring' onClick={this.props.onKeyringChange} replace tabIndex="0"><i className="icon icon-left" aria-hidden="true"></i> {l10n.map.keyring_header}</Link></li>
           </ol>
         </nav>

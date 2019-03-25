@@ -51,8 +51,8 @@ export default class PlainText extends React.PureComponent {
           <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
           <link rel="stylesheet" href="../../main.css">
         </head>
-        <body style="overflow: hidden; margin: 0; height: 100%">
-         <div id="root" style="height: 100%">
+        <body style="overflow: hidden; margin: 0; height: 100%; background-color: transparent">
+         <div id="root" style="height: 100%; padding: 0.2rem">
          </div>
         </body>
       </html>

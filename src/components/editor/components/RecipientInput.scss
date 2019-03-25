@@ -1,3 +1,4 @@
+@import "../../../res/styles/_required";
 
 .recipients-input tags-input .tags .tag-item {
   transition: background-color 0.3s, border-color 0.3s;
@@ -23,4 +24,14 @@
 
 .recipients-input .alert {
   margin: 10px 0 5px;
+}
+
+.recipients-input tags-input .tags {
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.recipients-input tags-input .tags.focused {
+  background-color: $input-focus-bg;
+  border: 1px solid $input-focus-border-color;
+  box-shadow: $input-focus-box-shadow;
 }

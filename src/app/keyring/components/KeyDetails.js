@@ -196,7 +196,7 @@ export default class KeyDetails extends React.Component {
                       <div className="input-group input-group-sm" style={{width: '155px'}}>
                         <input type="text" readOnly className="form-control" value={this.state.exDateInput !== null ? this.state.exDateInput.format('L') : 'nie'} />
                         <div className="input-group-append">
-                          <button onClick={() => this.setState({showExDateModal: true})} className="btn btn-sm btn-secondary" type="button" disabled={!this.props.keyDetails.validity}>{l10n.map.change_link}</button>
+                          <button onClick={() => this.setState({showExDateModal: true})} className="btn btn-secondary" type="button" disabled={!this.props.keyDetails.validity}>{l10n.map.change_link}</button>
                         </div>
                       </div>
                     ) : (
