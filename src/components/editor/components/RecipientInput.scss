@@ -1,37 +1,79 @@
 @import "../../../res/styles/_required";
 
 .recipients-input tags-input .tags .tag-item {
+  font-family: $font-family-base;
+  font-weight: 500;
+  background-color: theme-color-level("primary", $alert-bg-level);
+  border-color: theme-color-level("primary", $alert-border-level);
   transition: background-color 0.3s, border-color 0.3s;
 }
 
-.recipients-input tags-input .tags .tag-success {
-  /* bootstrap btn-success color */
-  background-color: #5cb85c;
-  border-color: #4cae4c;
+@mixin tag-variant($background, $border, $color) {
+  color: $color;
+  @include gradient-bg($background);
+  border-color: $border;
 }
 
-.recipients-input tags-input .tags .tag-warning {
-  /* bootstrap btn-warning color */
-  background-color: #f0ad4e;
-  border-color: #eea236;
+
+@each $color, $value in $theme-colors {
+  .recipients-input tags-input .tags .tag-#{$color} {
+    @include alert-variant(theme-color-level($color, $alert-bg-level), theme-color-level($color, $alert-border-level), theme-color($color));
+  }
+  .recipients-input tags-input .tags .tag-#{$color} .remove-button {
+    color: theme-color($color);
+  }  
 }
 
-.recipients-input tags-input .tags .tag-danger {
-  /* bootstrap btn-danger color */
-  background-color: #d9534f;
-  border-color: #d43f3a;
+.recipients-input tags-input .tags.focused {
+  background-color: $input-focus-bg;
+  border-color: $input-focus-border-color;
+  box-shadow: $input-focus-box-shadow;
+}
+
+.recipients-input tags-input .tags .tag-item:before {
+  font-family: 'Mailvelope' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.recipients-input tags-input .tags .tag-success:before {
+  content: "\e90f \00a0";
+}
+
+.recipients-input tags-input .tags .tag-danger:before {
+  content: "\e909 \00a0";
+}
+
+.recipients-input tags-input.ng-invalid .tags,
+.recipients-input.has-error tags-input .tags {
+  border-color: $form-feedback-invalid-color;
+  box-shadow: none;
+}
+
+.recipients-input tags-input.ng-invalid .tags.focused,
+.recipients-input.has-error tags-input .tags.focused {
+  border-color: $form-feedback-invalid-color;
+  box-shadow: 0 0 0 $input-focus-width rgba($form-feedback-invalid-color, .25);
+}
+
+.recipients-input tags-input .tags .input {
+  font-family: $font-family-base;
+  width: auto !important;
 }
 
 .recipients-input .alert {
-  margin: 10px 0 5px;
+  margin: 10px 0 5px; 
 }
 
 .recipients-input tags-input .tags {
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.recipients-input tags-input .tags.focused {
-  background-color: $input-focus-bg;
-  border: 1px solid $input-focus-border-color;
-  box-shadow: $input-focus-box-shadow;
-}

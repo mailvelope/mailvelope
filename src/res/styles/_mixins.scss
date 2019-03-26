@@ -1,4 +1,4 @@
-@mixin button-variant-custom($color, $value, $border-color: theme-color-level($color, 2), $box-shadow: inset 0 -1px 0 theme-color-level($color, 2)) {
+@mixin button-variant-custom($color, $background, $border-color: theme-color-level($color, 2), $box-shadow: inset 0 -1px 0 theme-color-level($color, 2)) {
   border-color: $border-color;
   @include box-shadow($box-shadow);
 
@@ -12,10 +12,28 @@
     border-color: $border-color;
   }
 
+  // Disabled comes first so active can properly restyle
+  &.disabled,
+  &:disabled {
+    background-color: desaturate($background, 70%);
+    border-color: desaturate($border-color, 70%);;
+  }
+
   &:not(:disabled):not(.disabled):active,
   &:not(:disabled):not(.disabled).active,
   .show > &.dropdown-toggle {
     background-color: $border-color;
     border-color: $border-color;
   }    
+}
+
+@mixin badge-variant-custom($color, $bg, $dark, $light, $border-color: theme-color-level($color, 1)) {
+  color: color-yiq($bg, $dark, $light);
+  border: 1px solid $border-color;
+
+  @at-root a#{&} {
+    @include hover-focus {
+      color: color-yiq($bg, $dark, $light);
+    }  
+  }
 }

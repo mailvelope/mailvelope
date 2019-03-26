@@ -26,6 +26,7 @@ $primary: $red;
 $secondary: $gray-200;
 $warning: $orange;
 
+
 // global options
 $enable-shadows: true;
 $enable-validation-icons: false;
@@ -51,7 +52,13 @@ $border-radius-sm: .25rem;
 $border-radius: .5rem ;
 $border-radius-lg: 1rem;
 
+$component-active-bg: $green;
+
 // buttons
+// $input-btn-focus-color:       rgba($component-active-bg, .25) !default;
+// $input-btn-focus-box-shadow:  0 0 0 $input-btn-focus-width $input-btn-focus-color !default;
+// $input-focus-border-color:              lighten($component-active-bg, 25%) !default;
+
 $input-btn-padding-y: 0.405rem;
 $input-btn-padding-x: 0.625rem;
 
@@ -59,6 +66,7 @@ $input-btn-padding-y-sm: 0.25rem;
 $input-btn-padding-x-sm: 0.625rem;
 
 $btn-font-weight: $font-weight-medium;
+$btn-disabled-opacity: 0.4;
 
 // forms
 $input-disabled-bg: $gray-100;
@@ -77,8 +85,8 @@ $input-border-radius-lg: $border-radius;
 $custom-control-indicator-border-color: $input-border-color;
 
 // indicator input + select
-$custom-control-indicator-checked-bg: $primary;
-$custom-control-indicator-checked-border-color: mix($black, $primary, 16%);
+$custom-control-indicator-checked-bg: $component-active-bg;
+$custom-control-indicator-checked-border-color: mix($black, $custom-control-indicator-checked-bg, 16%);
 $custom-control-indicator-checked-box-shadow: inset 0 -1px 0 $custom-control-indicator-checked-border-color;
 $custom-control-indicator-focus-box-shadow: $custom-control-indicator-checked-box-shadow;
 
@@ -124,6 +132,16 @@ $alert-color-level: 12.5;
 $navbar-light-color: $black;
 $navbar-light-hover-color: $navbar-light-color;
 $navbar-light-active-color: $primary;
+
+// nav-pills;
+$nav-pills-link-active-bg: $primary;
+
+// badges
+$badge-font-weight: 500;
+$badge-padding-x: 0.5rem;
+$badge-padding-y: 0.3175rem;
+$badge-border-radius: $border-radius-sm;
+$badge-font-size: 100%;
 
 // Required from BS4
 @import "../../../node_modules/bootstrap/scss/functions";

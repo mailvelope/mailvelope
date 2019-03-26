@@ -164,7 +164,7 @@ export default class KeyGrid extends React.Component {
                   <td className="text-center">
                     <i className={`icon icon-${key.type === 'public' ? 'key' : 'key-pair'}`}></i>
                   </td>
-                  <td><strong>{key.name}</strong>{this.props.defaultKeyFpr === key.fingerprint && <span>&nbsp;&nbsp;<span className="text-nowrap"><i className="icon icon-marker text-warning" aria-hidden="true"></i> {l10n.map.keygrid_default_label}</span></span>}</td>
+                  <td><strong className="mr-2">{key.name}</strong>{this.props.defaultKeyFpr === key.fingerprint && <span className="badge badge-secondary text-nowrap" aria-hidden="true">{l10n.map.keygrid_default_label}</span>}</td>
                   <td className="emailCell">{key.email}</td>
                   <td className="monospaced">{key.keyId}</td>
                   <td className="monospaced">{key.crDate.substr(0, 10)}</td>

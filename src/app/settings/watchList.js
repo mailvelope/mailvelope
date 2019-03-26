@@ -188,7 +188,7 @@ export default class WatchList extends React.Component {
         <table className="table table-hover table-custom mb-0" id="watchListTable">
           <thead>
             <tr>
-              <th>{l10n.map.watchlist_title_active}</th>
+              <th className="text-center">{l10n.map.watchlist_title_active}</th>
               <th className="w-50">{l10n.map.watchlist_title_site}</th>
               <th></th>
             </tr>

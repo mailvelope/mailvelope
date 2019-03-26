@@ -21,6 +21,7 @@
     vertical-align: middle;
     word-wrap: break-word;
   }
+
   .monospaced {
       white-space: normal;
       word-wrap: break-word;
@@ -28,7 +29,6 @@
 
   @include media-breakpoint-up(lg) {
     .monospaced {
-      font-family: monospace;
       white-space: nowrap;
     }  
   }

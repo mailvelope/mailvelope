@@ -202,10 +202,11 @@ nav {
 }
 
 .alert {
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
   display: inline-block;
   border-left-width: 0.25rem;
 }
-
 
 // alerts custom css 
 @each $color, $value in $theme-colors {
@@ -414,5 +415,13 @@ nav {
     &:checked ~ .custom-control-label::before {
       background-color: $custom-control-indicator-checked-disabled-bg;
     }
+  }
+}
+
+// custom badges
+
+@each $color, $value in $theme-colors {
+  .badge-#{$color} {
+    @include badge-variant-custom($color, $value, $black, $white);
   }
 }

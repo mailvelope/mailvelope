@@ -1,0 +1,7 @@
+@import "../../../res/styles/_required";
+
+.react-select__control--is-focused {
+  background-color: $input-focus-bg !important;
+  border: $input-border-width solid $input-focus-border-color !important;
+  box-shadow: $input-focus-box-shadow !important;
+}

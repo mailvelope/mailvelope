@@ -52,7 +52,7 @@ class EditorFooter extends React.Component {
             <span>{l10n.map.upload_attachment}</span>
           </button>
           <input type="file" className="add-file-input d-none" multiple="multiple" onChange={this.props.onChangeFileInput} />
-          <div className={`${!this.props.embedded ? '' : 'd-none'} rounded`} style={{background: 'rgba(255,255,255,.5)', padding: '0.15rem 0.2rem', fontSize: '80%'}}>
+          <div className={`${!this.props.embedded ? '' : 'd-none'} rounded`} style={{background: 'rgba(255,255,255,.5)', padding: '0.15rem 0.2rem', fontSize: '90%'}}>
             <a role="button" className="text-decoration-none" href="#" onClick={this.props.onClickFileEncryption}>{l10n.map.editor_link_file_encryption}</a>
           </div>
         </div>
