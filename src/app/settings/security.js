@@ -50,7 +50,7 @@ export default class Security extends React.Component {
                 <input type="radio" name="pwdCacheRadios" id="pwdCacheRadios1" value="true" className="custom-control-input" />
                 <label className="custom-control-label" htmlFor="pwdCacheRadios1">{l10n.map.security_cache_on}</label>
               </div>
-              <input type="text" maxLength="3" id="pwdCacheTime" style={{fontFamily: 'monospace', width: '60px'}} className="form-control mr-2 " />
+              <input type="text" maxLength="3" id="pwdCacheTime" style={{width: '50px'}} className="form-control mr-2 text-right" />
               <label className="my-1 mr-2" htmlFor="pwdCacheTime">{l10n.map.security_cache_time}</label>
               <div className="invalid-feedback mb-2">{l10n.map.security_cache_help}</div>
             </div>

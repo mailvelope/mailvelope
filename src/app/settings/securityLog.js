@@ -52,7 +52,7 @@ export default class SecurityLog extends React.Component {
           <tbody>
             {this.state.secLog.map(log =>
               <tr key={log.timestamp}>
-                <td title={log.timestamp}><i className="fa fa-clock-o" aria-hidden="true"></i> {new Date(log.timestamp).toLocaleTimeString()}</td>
+                <td title={log.timestamp}>{new Date(log.timestamp).toLocaleTimeString()}</td>
                 <td>{log.sourcei18n}</td>
                 <td>{log.typei18n}</td>
               </tr>

@@ -25,6 +25,11 @@ $datepicker__margin: map-get($spacers, 2);
 @import "../../../../node_modules/react-datepicker/src/stylesheets/datepicker";
 @import "../../../../node_modules/bootstrap/scss/custom-forms";
 
+.react-datepicker {
+  border: 0;
+  box-shadow: 0 5px 15px 0 rgba(64, 64, 64, 0.2), 0 0 2px 0 rgba(64, 64, 64, 0.2);
+}
+
 .react-datepicker__header__dropdown {
   margin-top: map-get($spacers, 1);
   margin-bottom: map-get($spacers, 1);
@@ -119,6 +124,7 @@ $datepicker__margin: map-get($spacers, 2);
 }
 
 .react-datepicker-wrapper .input-group-text {
+  padding-right: 1rem;
   box-shadow: $input-box-shadow;
 }
 

@@ -47,7 +47,7 @@ export default class EncryptText extends React.Component {
             {l10n.map.text_compose_header}
           </div>
           <div className="card-body" style={{height: '400px'}}>
-            <div className="itemSelection encrypt-text-editor" style={{height: '100%'}}>
+            <div className="encrypt-text-editor" style={{height: '100%'}}>
               {this.state.editorId &&  <Editor id={this.state.editorId} embedded={true} recipientInput={true} secureBackground={false} maxFileUploadSize={5 * 1024 * 1024} />}
             </div>
           </div>

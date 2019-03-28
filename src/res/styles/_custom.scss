@@ -27,6 +27,18 @@
   }
 }
 
+.row.btn-bar {
+  flex-wrap: nowrap;
+  margin-right: -1* map-get($spacers, 1);
+  margin-left: -1* map-get($spacers, 1);
+  > .col,
+  > [class*="col-"] {
+    padding-right: map-get($spacers, 1);
+    padding-left: map-get($spacers, 1);
+  }
+}
+
+
 /**
  * Setup page
  */
@@ -99,6 +111,12 @@
   display: block;
   clear: both;
   height: 0;
+}
+
+
+/* decrease size of status label in card-title */
+.card-title h2 > span.small {
+  font-size: 70%;
 }
 
 

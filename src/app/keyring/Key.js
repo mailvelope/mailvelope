@@ -247,9 +247,13 @@ export default class Key extends React.Component {
     }
     return (
       <Alert type={data.type} className="mb-3">
-        <span className="mr-2">{data.text}</span>
-        {(this.state.keyDetails.validity && data.btnText) && <button type="button" onClick={() => this.handleKeyServerSync(data.handler)} className="btn btn-secondary mr-1">{data.btnText}</button>}
-        {(this.state.keyDetails.keyServerSync.status && !this.state.syncAction) && <button type="button" onClick={() => this.handleKeyServerSync({sync: false})} className="btn btn-secondary">{l10n.map.key_keyserver_remove_btn}</button>}
+        <div className="d-flex align-items-center">
+          <span className="flex-shrink-1 mr-4">{data.text}</span>
+          <div className="btn-bar flex-md-shrink-0 flex-grow-1">
+            {(this.state.keyDetails.validity && data.btnText) && <button type="button" onClick={() => this.handleKeyServerSync(data.handler)} className="btn btn-secondary mb-md-0">{data.btnText}</button>}
+            {(this.state.keyDetails.keyServerSync.status && !this.state.syncAction) && <button type="button" onClick={() => this.handleKeyServerSync({sync: false})} className="btn btn-secondary mb-md-0">{l10n.map.key_keyserver_remove_btn}</button>}
+          </div>
+        </div>
       </Alert>
     );
   }
@@ -266,7 +270,7 @@ export default class Key extends React.Component {
           </ol>
         </nav>
         <div className="card-title d-flex align-items-center justify-content-between flex-wrap">
-          <h2 className="d-inline-block">{this.state.keyDetails.name} <KeyStatus className="small ml-1" status={this.state.keyDetails.status} /></h2>
+          <h2 className="d-inline-flex align-items-center">{this.state.keyDetails.name} <KeyStatus className="small ml-2" status={this.state.keyDetails.status} /></h2>
           <div className="btn-bar">
             {(!this.context.gnupg || this.state.keyDetails.type === 'public') && <button type="button" onClick={() => this.setState({showDeleteModal: true})} className="btn btn-secondary" title={l10n.map.key_remove_btn_title}>{l10n.map.key_remove_btn}</button>}
             <button type="button" onClick={() => this.setState({showExportModal: true})} className="btn btn-secondary" title={l10n.map.key_export_btn_title}>{l10n.map.key_export_btn}</button>
@@ -292,11 +296,11 @@ export default class Key extends React.Component {
         <Modal isOpen={this.state.showDeleteModal} toggle={() => this.setState(prevState => ({showDeleteModal: !prevState.showDeleteModal}))} size="small" title={l10n.map.key_remove_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
           <div>
             <p>{l10n.map.keygrid_delete_confirmation}</p>
-            <div className="row no-gutters">
-              <div className="col-6 pr-1">
+            <div className="row btn-bar">
+              <div className="col-6">
                 <button type="button" className="btn btn-secondary btn-block" onClick={() => this.setState({showDeleteModal: false})}>{l10n.map.dialog_no_btn}</button>
               </div>
-              <div className="col-6 pr-1">
+              <div className="col-6">
                 <button type="button" onClick={() => this.setState({action: 'delete', showDeleteModal: false})} className="btn btn-primary btn-block">{l10n.map.dialog_yes_btn}</button>
               </div>
             </div>
@@ -309,11 +313,11 @@ export default class Key extends React.Component {
           <div>
             <p>{l10n.map.key_revoke_dialog_description}</p>
             <p><strong>{l10n.map.key_revoke_dialog_confirm}</strong></p>
-            <div className="row no-gutters">
-              <div className="col-6 pr-1">
+            <div className="row btn-bar">
+              <div className="col-6">
                 <button type="button" className="btn btn-secondary btn-block" onClick={() => this.setState({showRevokeModal: false})}>{l10n.map.dialog_no_btn}</button>
               </div>
-              <div className="col-6 pl-1">
+              <div className="col-6">
                 <button type="button" onClick={() => this.setState({action: 'revoke', showRevokeModal: false})} className="btn btn-primary btn-block">{l10n.map.dialog_yes_btn}</button>
               </div>
             </div>

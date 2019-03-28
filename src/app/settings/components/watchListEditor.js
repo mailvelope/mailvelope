@@ -46,7 +46,7 @@ export default function WatchListEditor(props) {
                 </div>
               </div>
             </div>
-            <table className="table table-sm table-hover table-sm table-striped border mb-0" id="watchList">
+            <table className="table table-custom table-sm table-hover border-bottom-0 mb-0" id="watchList">
               <thead>
                 <tr>
                   <th>{l10n.map.watchlist_title_scan}</th>
@@ -64,7 +64,7 @@ export default function WatchListEditor(props) {
                         <label className="custom-control-label" htmlFor={`frame_scan${index}`} />
                       </div>
                     </td>
-                    <td>
+                    <td className="w-100">
                       <input type="text" value={frame.frame} onChange={e => props.onChangeFrame({frame: e.target.value}, index)} className="form-control matchPatternName w-100" placeholder="e.g.: *.gmx.de" />
                     </td>
                     <td>
@@ -74,13 +74,14 @@ export default function WatchListEditor(props) {
                       </div>
                     </td>
                     <td className="text-right">
-                      <button type="button" onClick={() => props.onDeleteMatchPattern(index)} className="btn btn-sm btn-secondary deleteMatchPatternBtn text-nowrap">
-                        <i className="fa fa-trash-o" aria-hidden="true"></i> {l10n.map.keygrid_delete}
-                      </button>
+                      <div className="actions">
+                        <button type="button" onClick={() => props.onDeleteMatchPattern(index)} className="btn btn-sm btn-secondary deleteMatchPatternBtn text-nowrap">
+                          <i className="icon icon-delete" aria-hidden="true"></i>
+                        </button>
+                      </div>
                     </td>
                   </tr>
-                )
-                }
+                )}
               </tbody>
             </table>
           </form>
@@ -108,14 +109,14 @@ function EditorFooter(props) {
   return (
     <div className="modal-footer">
       <div className="d-flex w-100">
-        <button type="button" onClick={props.onAddMatchPattern} className="btn btn-warning mr-auto">
-          <i className="fa fa-plus" aria-hidden="true"></i> {l10n.map.watchlist_title_frame}
+        <button type="button" onClick={props.onAddMatchPattern} className="btn btn-secondary mr-auto">
+          <i className="icon icon-add" aria-hidden="true"></i> {l10n.map.watchlist_title_frame}
         </button>
         <button type="button" onClick={props.onCancel} className="btn btn-secondary mr-1">
-          <i className="fa fa-times" aria-hidden="true"></i> {l10n.map.form_cancel}
+          {l10n.map.form_cancel}
         </button>
         <button type="button" onClick={props.onSave} className="btn btn-primary">
-          <i className="fa fa-check" aria-hidden="true"></i> {l10n.map.form_ok}
+          {l10n.map.form_ok}
         </button>
       </div>
     </div>

@@ -38,12 +38,12 @@ export default class KeySelect extends React.Component {
               l10n.map.keygrid_subkey
             )}
           </span>
-          <span className="small text-right mx-1"><em>{selectedKey.keyId}</em></span>
+          <span className="text-right mx-1">{selectedKey.keyId}</span>
         </button>
         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" role="menu" style={{fontSize: '0.765rem'}}>
           <a className="dropdown-item px-2 d-flex align-items-center" onClick={() => this.handleClick(0)} style={{cursor: 'pointer'}}>
             <span className="mr-auto font-weight-bolder">{l10n.map.keygrid_primary_key}</span>
-            <span className="small text-right ml-1 mr-3"><em>{this.props.keys[0].keyId}</em></span>
+            <span className="text-right ml-1 mr-3">{this.props.keys[0].keyId}</span>
           </a>
           {this.props.keys.length > 1 &&
             <div className="dropdown-divider"></div>
@@ -52,7 +52,7 @@ export default class KeySelect extends React.Component {
             this.props.keys.filter((key, index) => index > 0).map((key, index) =>
               <a key={index + 1} className="dropdown-item px-2 d-flex align-items-center" onClick={() => this.handleClick(index + 1)} style={{cursor: 'pointer'}}>
                 <span className="mr-auto">{l10n.map.keygrid_subkey}</span>
-                <span className="small text-right ml-1 mr-3"><em>{key.keyId}</em></span>
+                <span className="text-right ml-1 mr-3">{key.keyId}</span>
               </a>
             )
           }

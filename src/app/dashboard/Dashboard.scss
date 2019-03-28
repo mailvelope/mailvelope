@@ -9,6 +9,7 @@ $dashboard-item-bg-color-hover: darken($dashboard-item-bg-color, 2%);
   a.card {
     background-color: $dashboard-item-bg-color;
     padding: 2.5rem;
+    border: 0;
     box-shadow:0 5px 15px 0 rgba($black, 0.2), 0 0 2px 0 rgba($black, 0.2);
     transition: background-color 0.3s ease;
 

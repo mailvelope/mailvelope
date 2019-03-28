@@ -58,7 +58,7 @@ export default class DecryptText extends React.Component {
           <div className="card-header">
             {l10n.map.decrypt_popup_title}
           </div>
-          <div className="card-body decrypt-text-message p-0" style={{height: '400px'}}>
+          <div className="card-body decrypt-text-message" style={{height: '400px'}}>
             {this.state.decryptId &&  <DecryptMessage id={this.state.decryptId} secureBackground={false} />}
           </div>
           <div className="card-footer d-flex justify-content-end">

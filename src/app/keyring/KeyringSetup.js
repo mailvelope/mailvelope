@@ -32,19 +32,19 @@ export default function KeyringSetup({hasPrivateKey}) {
           <strong>{l10n.map.keyring_setup_no_keypair_heading}</strong><br />
           <span>{l10n.map.keyring_setup_no_keypair}</span>
         </p>
-        <h5>{l10n.map.keyring_setup_generate_key}</h5>
+        <h3>{l10n.map.keyring_setup_generate_key}</h3>
         <p>{l10n.map.keyring_setup_generate_key_explanation}</p>
         <p>
           <Link to="/keyring/generate" className="btn btn-primary">{l10n.map.keyring_setup_generate_key}</Link>
         </p>
         <hr />
-        <h5>{l10n.map.keyring_setup_import_key}</h5>
+        <h3>{l10n.map.keyring_setup_import_key}</h3>
         <p>{l10n.map.keyring_setup_import_key_explanation}</p>
         <p>
           <Link to="/keyring/import" className="btn btn-primary">{l10n.map.keyring_setup_import_key}</Link>
         </p>
         <hr />
-        <h5>{l10n.map.gnupg_connection}</h5>
+        <h3>{l10n.map.gnupg_connection}</h3>
         <p>{l10n.map.keyring_available_settings} <Link to="/settings/general">{l10n.map.general_openpgp_preferences}</Link></p>
       </form>
     </div>

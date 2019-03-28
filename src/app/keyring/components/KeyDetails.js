@@ -246,11 +246,11 @@ export default class KeyDetails extends React.Component {
             <Alert type="warning" header={l10n.map.header_warning}>
               {l10n.map.keydetails_change_exp_date_dialog_note}
             </Alert>
-            <div className="row no-gutters">
-              <div className="col-6 pr-1">
+            <div className="row btn-bar">
+              <div className="col-6">
                 <button type="button" className="btn btn-secondary btn-block" onClick={() => this.setState({showExDateModal: false})}>{l10n.map.dialog_cancel_btn}</button>
               </div>
-              <div className="col-6 pl-1">
+              <div className="col-6">
                 <button type="button" onClick={() => this.setState({action: 'setExDate', showExDateModal: false})} className="btn btn-primary btn-block">{l10n.map.dialog_save_btn}</button>
               </div>
             </div>
@@ -264,9 +264,13 @@ export default class KeyDetails extends React.Component {
               {this.state.errors.passwordCurrent && <div className="invalid-feedback">{l10n.map.pwd_dialog_wrong_pwd}</div>}
             </div>
             <DefinePassword value={this.state.password} errors={this.state.errors} onChange={this.handleChange} disabled={this.state.success} />
-            <div className="btn-bar justify-content-between">
-              <button type="button" className="btn btn-secondary" onClick={() => this.setState({showPwdModal: false})}>{l10n.map.dialog_cancel_btn}</button>
-              <button type="button" onClick={this.validateChangePwd} className="btn btn-primary">{l10n.map.dialog_save_btn}</button>
+            <div className="row btn-bar">
+              <div className="col-6">
+                <button type="button" className="btn btn-secondary" onClick={() => this.setState({showPwdModal: false})}>{l10n.map.dialog_cancel_btn}</button>
+              </div>
+              <div className="col-6">
+                <button type="button" onClick={this.validateChangePwd} className="btn btn-primary">{l10n.map.dialog_save_btn}</button>
+              </div>
             </div>
           </form>
         </Modal>

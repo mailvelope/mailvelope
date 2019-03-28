@@ -15,8 +15,10 @@
   // Disabled comes first so active can properly restyle
   &.disabled,
   &:disabled {
-    background-color: desaturate($background, 70%);
-    border-color: desaturate($border-color, 70%);;
+    opacity: $btn-disabled-opacity;
+    @include box-shadow($box-shadow);
+    // background-color: desaturate($background, 70%);
+    // border-color: desaturate($border-color, 70%);;
   }
 
   &:not(:disabled):not(.disabled):active,
@@ -27,13 +29,14 @@
   }    
 }
 
-@mixin badge-variant-custom($color, $bg, $dark, $light, $border-color: theme-color-level($color, 1)) {
-  color: color-yiq($bg, $dark, $light);
-  border: 1px solid $border-color;
+@mixin badge-variant-custom($bg, $border, $color) {
+  background-color: $bg;
+  color: $color;
+  border: 1px solid $border;
 
   @at-root a#{&} {
     @include hover-focus {
-      color: color-yiq($bg, $dark, $light);
+      color: $color;
     }  
   }
 }

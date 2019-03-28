@@ -298,13 +298,11 @@ export default class User extends React.Component {
         ) : (
           <>
             <div className="card-title d-flex align-items-center justify-content-between flex-wrap">
-              <div className="d-inline-flex text-nowrap">
-                {this.props.match.params.userIdx !== 'add' ? (
-                  <h2>{l10n.map.user_title} <KeyStatus className="ml-1" status={this.state.user.status} /></h2>
-                ) : (
-                  <h2>{l10n.map.user_create_title}</h2>
-                )}
-              </div>
+              {this.props.match.params.userIdx !== 'add' ? (
+                <h2 className="d-inline-flex align-items-center">{l10n.map.user_title} <KeyStatus className="small ml-2" status={this.state.user.status} /></h2>
+              ) : (
+                <h2>{l10n.map.user_create_title}</h2>
+              )}
               {this.state.keyDetails.type !== 'public' &&
                 <div className="btn-bar">
                   {this.props.match.params.userIdx === 'add' && <button type="button" onClick={this.handleAdd} className="btn btn-secondary">{l10n.map.user_create_btn}</button>}
@@ -350,11 +348,11 @@ export default class User extends React.Component {
                 {l10n.map.user_remove_dialog_keyserver_warning}
               </Alert>
             }
-            <div className="row no-gutters">
-              <div className="col-6 pr-1">
+            <div className="row btn-bar">
+              <div className="col-6">
                 <button type="button" className="btn btn-secondary btn-block" onClick={() => this.setState({showDeleteModal: false})}>{l10n.map.dialog_no_btn}</button>
               </div>
-              <div className="col-6 pl-1">
+              <div className="col-6">
                 <button type="button" onClick={() => this.setState({action: 'delete', showDeleteModal: false})} className="btn btn-primary btn-block">{l10n.map.dialog_yes_btn}</button>
               </div>
             </div>
@@ -364,11 +362,11 @@ export default class User extends React.Component {
           <div>
             <p>{l10n.map.user_revoke_dialog_description}</p>
             <p><strong>{l10n.map.user_revoke_dialog_confirmation}</strong></p>
-            <div className="row no-gutters">
-              <div className="col-6 pr-1">
+            <div className="row btn-bar">
+              <div className="col-6">
                 <button type="button" className="btn btn-secondary btn-block" onClick={() => this.setState({showRevokeModal: false})}>{l10n.map.dialog_no_btn}</button>
               </div>
-              <div className="col-6 pl-1">
+              <div className="col-6">
                 <button type="button" onClick={() => this.setState({action: 'revoke', showRevokeModal: false})} className="btn btn-primary btn-block">{l10n.map.dialog_yes_btn}</button>
               </div>
             </div>

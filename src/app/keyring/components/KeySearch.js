@@ -44,7 +44,7 @@ export default class KeySearch extends React.Component {
     const hkp_domain = hkp_base_url && hkp_base_url.replace(/https?:\/\//, '');
     return (
       <form className="form" onSubmit={this.handleKeySearch}>
-        <div className="form-group">
+        <div className={`form-group ${this.props.className || ''}`}>
           <div className="input-group">
             <input id="keySearchInput" type="text" className="form-control" ref={query => this.query = query} placeholder={l10n.map.key_import_hkp_search_ph} aria-describedby="keySearchInputHelpBlock" />
             <div className="input-group-append">
@@ -61,5 +61,6 @@ export default class KeySearch extends React.Component {
 }
 
 KeySearch.propTypes = {
-  prefs: PropTypes.object
+  prefs: PropTypes.object,
+  className: PropTypes.string
 };

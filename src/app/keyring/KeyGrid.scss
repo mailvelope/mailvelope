@@ -6,17 +6,6 @@
 @import "../../res/styles/_required";
 
 #keyRingTable {
-  tr {
-    cursor: pointer;
-    & .actions {
-      white-space: nowrap;
-      visibility: hidden;      
-    }
-    &:hover .actions {
-      visibility: visible;
-    }
-  }
-
   td {
     vertical-align: middle;
     word-wrap: break-word;
@@ -31,13 +20,6 @@
     .monospaced {
       white-space: nowrap;
     }  
-  }
-
-  .actions .btn {
-      margin-right: 0.25rem;
-  }
-  .actions .btn:last-child {
-      margin-right: 0;
   }
 
 }

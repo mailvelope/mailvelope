@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-#watchListTable tr {
+/*#watchListTable tr {
     cursor: pointer;
 }
 
@@ -19,3 +19,4 @@
 #watchList td {
     vertical-align: middle;
 }
+*/

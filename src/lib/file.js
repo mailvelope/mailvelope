@@ -128,7 +128,7 @@ function getFileName(file) {
 function getDownloadButton() {
   return $('<i/>', {
     'title': l10n.map.encrypt_download_file_button,
-    'class': 'fa fa-download saveAttachment'
+    'class': 'icon icon-download saveAttachment'
   });
 }
 
@@ -139,7 +139,7 @@ function getDownloadButton() {
 function getRemoveButton(onRemove) {
   return $('<span/>', {
     'title': l10n.map.editor_remove_upload,
-    'class': 'fa fa-times removeAttachment'
+    'class': 'icon icon-close removeAttachment'
   }).on('click', function(e) {
     e.preventDefault();
     if (onRemove) {

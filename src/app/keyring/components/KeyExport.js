@@ -101,17 +101,17 @@ export default class KeyExport extends React.Component {
           <>
             {this.state.keys.some(key => key.armoredPrivate) &&
               <div>
-                <p>{l10n.map.key_export_dialog_question}</p>
+                <p className="mb-2">{l10n.map.key_export_dialog_question}</p>
                 <div className="btn-group btn-group-toggle d-flex mb-3" data-toggle="buttons">
-                  <label className={`btn btn-primary ${this.state.type === 'pub' ? 'active' : ''} w-100`} onClick={() => this.handleTypeChange('pub')}>
+                  <label className={`btn btn-${this.state.type === 'pub' ? 'primary' : 'secondary'} w-100`} onClick={() => this.handleTypeChange('pub')}>
                     <input type="radio" name="public" defaultChecked={this.state.type === 'pub'} />
                     {l10n.map.keyring_public}
                   </label>
-                  <label className={`btn btn-primary ${this.state.type === 'priv' ? 'active' : ''} w-100`} onClick={() => this.handleTypeChange('priv')}>
+                  <label className={`btn btn-${this.state.type === 'priv' ? 'primary' : 'secondary'} w-100`} onClick={() => this.handleTypeChange('priv')}>
                     <input type="radio" name="private" defaultChecked={this.state.type === 'priv'} />
                     {l10n.map.keyring_private}
                   </label>
-                  <label className={`btn btn-primary ${this.state.type === 'all' ? 'active' : ''} w-100`} onClick={() => this.handleTypeChange('all')}>
+                  <label className={`btn btn-${this.state.type === 'all' ? 'primary' : 'secondary'} w-100`} onClick={() => this.handleTypeChange('all')}>
                     <input type="radio" name="all" defaultChecked={this.state.type === 'all'} />
                     {l10n.map.keygrid_all_keys}
                   </label>
@@ -143,7 +143,7 @@ export default class KeyExport extends React.Component {
         )}
         <div className="btn-bar justify-content-between">
           <button type="button" className="btn btn-secondary" onClick={this.props.onClose}>{l10n.map.dialog_popup_close}</button>
-          {(this.state.type === 'pub' && this.props.showArmored) && <button type="button" className="btn btn-primary" onClick={this.handleCopyToClipboard}>{l10n.map.key_export_dialog_copy_to_clipboard}</button>}
+          {(this.state.type === 'pub' && this.props.showArmored) && <button type="button" className="btn btn-secondary" onClick={this.handleCopyToClipboard}>{l10n.map.key_export_dialog_copy_to_clipboard}</button>}
           <button type="button" className="btn btn-primary" disabled={!this.state.armored} onClick={this.handleClickExport}>{l10n.map.key_export_create_file}</button>
         </div>
       </div>

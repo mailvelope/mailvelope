@@ -181,33 +181,35 @@ export default class WatchList extends React.Component {
       <div id="watchlist">
         <h2 className="mb-4">{l10n.map.settings_watchlist}</h2>
         <div className="form-group">
-          <button type="button" onClick={() => this.addWatchListEntry()} className="btn btn-primary">
+          <button type="button" onClick={() => this.addWatchListEntry()} className="btn btn-secondary">
             <i className="fa fa-plus" aria-hidden="true"></i> {l10n.map.watchlist_command_create}
           </button>
         </div>
-        <table className="table table-hover table-custom mb-0" id="watchListTable">
-          <thead>
-            <tr>
-              <th className="text-center">{l10n.map.watchlist_title_active}</th>
-              <th className="w-50">{l10n.map.watchlist_title_site}</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.watchList.map((site, index) =>
-              <tr key={index} onClick={() => this.showWatchListEditor(index)}>
-                <td className="text-center"><span className={`fa fa-${site.active ? 'check-square-o' : 'square-o'}`}></span></td>
-                <td>{site.site}</td>
-                <td className="text-center">
-                  <div className="actions">
-                    <button type="button" className="btn btn-secondary editWatchListBtn mr-1"><i className="fa fa-pencil" aria-hidden="true"></i> {l10n.map.watchlist_command_edit}</button>
-                    <button type="button" onClick={e => this.deleteWatchListEntry(e, index)} className="btn btn-secondary deleteWatchListBtn"><i className="fa fa-trash-o" aria-hidden="true"></i> {l10n.map.keygrid_delete}</button>
-                  </div>
-                </td>
+        <div className="table-responsive">
+          <table className="table table-hover table-custom mb-0" id="watchListTable">
+            <thead>
+              <tr>
+                <th className="text-center">{l10n.map.watchlist_title_active}</th>
+                <th className="w-100">{l10n.map.watchlist_title_site}</th>
+                <th></th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {this.state.watchList.map((site, index) =>
+                <tr key={index} onClick={() => this.showWatchListEditor(index)}>
+                  <td className="text-center"><i className={`icon icon-marker text-${site.active ? 'success' : 'danger'}`} aria-hidden="true"></i></td>
+                  <td>{site.site}</td>
+                  <td className="text-center">
+                    <div className="actions">
+                      <button type="button" onClick={e => this.deleteWatchListEntry(e, index)} className="btn btn-secondary"><i className="icon icon-delete" aria-hidden="true"></i></button>
+                      <i className="icon icon-right" aria-hidden="true"></i>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
         <WatchListEditor isOpen={this.state.showEditor} toggle={() => this.setState(prevState => ({showEditor: !prevState.showEditor}))} site={this.state.editorSite}
           onHide={() => this.handleHideWatchListEditor()}
           onCancel={() => this.setState({showEditor: false})}
