@@ -60,7 +60,7 @@ export default function WatchListEditor(props) {
                   <td>
                     <div className="custom-control custom-switch">
                       <input type="checkbox" className="custom-control-input" onChange={e => props.onChangeFrame({scan: e.target.checked}, index)} id={`frame_scan${index}`} checked={frame.scan} />
-                      <label className="custom-control-label" />
+                      <label className="custom-control-label" htmlFor={`frame_scan${index}`} />
                     </div>
                   </td>
                   <td>
@@ -69,7 +69,7 @@ export default function WatchListEditor(props) {
                   <td>
                     <div className="custom-control custom-switch">
                       <input type="checkbox" className="custom-control-input" onChange={e => props.onChangeFrame({api: e.target.checked}, index)} id={`frame_api${index}`} checked={frame.api} />
-                      <label className="custom-control-label" />
+                      <label className="custom-control-label" htmlFor={`frame_api${index}`} />
                     </div>
                   </td>
                   <td className="text-right">
