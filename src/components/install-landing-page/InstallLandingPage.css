@@ -1,0 +1,48 @@
+
+body {
+  background-image: url("../../img/bg-tile.svg");
+  background-color: #caebdd;
+  background-repeat: repeat;   
+}
+
+nav.navbar {
+  box-shadow: 0 0.375rem 0.75rem rgba(0, 0, 0, .1);
+}
+
+main {
+  padding-top: 7.5rem;
+}
+
+.jumbotron.secureBackground {
+  padding: 2rem;
+}
+
+h1.card-title {
+  margin-bottom:1em;
+}
+
+p {
+  font-size:2em;
+  margin-bottom:0.8em;
+}
+
+.illustration {
+  text-align: right;
+}
+
+.illustration i.fa {
+  transform: rotate(45deg);
+  font-size: 9em;
+  color: #949494;
+}
+
+footer > div {
+  font-size: 0.75rem;
+  color: #366e56;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+footer > div > p {
+  font-size: 0.75rem;
+}

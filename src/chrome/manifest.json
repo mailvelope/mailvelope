@@ -14,10 +14,10 @@
   },
   "browser_action": {
     "default_icon": {
-      "16": "img/cryptography-icon16.png",
-      "24": "img/cryptography-icon24.png",
-      "32": "img/cryptography-icon32.png",
-      "48": "img/cryptography-icon48.png"
+      "16": "img/logo_signet_16.png",
+      "24": "img/logo_signet_24.png",
+      "32": "img/logo_signet_32.png",
+      "48": "img/logo_signet_48.png"
     },
     "default_title": "__MSG_ext_name__",
     "default_popup": "components/action-menu/actionMenu.html"
