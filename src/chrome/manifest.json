@@ -46,7 +46,7 @@
     "components/encrypted-form/encryptedForm.html",
     "components/verify-inline/verifyInlineSig.css",
     "content-scripts/framestyles.css",
-    "dep/font-awesome/fonts/fontawesome-webfont.woff2",
+    "res/fonts/mailvelope-icons.woff2",
     "img/edit_add-22.png",
     "img/key-24.png",
     "img/key-icon-blue96.png",
@@ -57,7 +57,6 @@
     "img/mail_new.png",
     "img/ok48.png",
     "img/verify-24.png",
-    "res/fonts/Courgette-Regular.woff2",
     "main.css"
   ],
   "default_locale": "en"

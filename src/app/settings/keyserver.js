@@ -140,7 +140,7 @@ export default class KeyServer extends React.Component {
     return (
       <div id="keyserver">
         <h2 className="mb-4">{l10n.map.settings_keyserver}</h2>
-        <form className="form">
+        <form className="form mb-4">
           <h3>{l10n.map.keyserver_hkp_url}</h3>
           <div className="form-group">
             <CreatableSelect
@@ -179,7 +179,7 @@ export default class KeyServer extends React.Component {
               <label className="custom-control-label" htmlFor="keyserverAutocryptLookup"><span>{l10n.map.keyserver_autocrypt_lookup}</span>. <a href="https://autocrypt.org" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
             </div>
           </div>
-          <div className="form-group">
+          <div className="form-group mb-4">
             {this.state.alert && <Alert header={this.state.alert.header} type={this.state.alert.type}>{this.state.alert.message}</Alert>}
           </div>
           <div className="btn-bar">

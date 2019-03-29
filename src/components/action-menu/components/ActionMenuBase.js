@@ -4,55 +4,57 @@
  */
 
 import React from 'react';
-import * as l10n from '../../../lib/l10n';
-import Trans from '../../util/Trans';
+// import ActionMenuBase from './ActionMenuBase';
+// import ActionMenuAdvanced from './ActionMenuAdvanced';
 import PropTypes from 'prop-types';
+import * as l10n from '../../../lib/l10n';
+// import $ from 'jquery';
 
 l10n.register([
-  'action_menu_dashboard',
-  'action_menu_keyring',
-  'action_menu_file_encryption',
+  'action_menu_dashboard_label',
+  'action_menu_dashboard_description',
+  'action_menu_keyring_label',
+  'action_menu_keyring_description',
+  'action_menu_file_encryption_label',
+  'action_menu_file_encryption_description',
+  'action_menu_review_security_logs_label',
+  'action_menu_review_security_logs_description',
   'action_menu_advanced_options',
-  'action_menu_primary_menu_aria_label'
+  'action_menu_primary_menu_aria_label',
+  'action_menu_reload_extension_scripts',
+  'action_menu_activate_current_tab'
 ]);
 
-function ActionMenuBase(props) {
-  const strong = [<strong key="0"></strong>];
+export default function ActionMenuAnimated(props) {
   return (
-    <div className="primary">
-      <ul className="action-menu" role="menu" aria-label={l10n.map.action_menu_primary_menu_aria_label}>
-        <li className="item-big" role="menuitem">
-          <a className="clearfix" id="options" onClick={props.onMenuItemClickHandler} role="button">
-            <p><Trans id={l10n.map.action_menu_dashboard} components={strong} /></p>
-            <i className="fa fa-tachometer" role="presentation"></i>
-          </a>
-        </li>
-        <li className="item-big" role="menuitem">
-          <a className="clearfix" id="manage-keys" onClick={props.onMenuItemClickHandler} role="button">
-            <p><Trans id={l10n.map.action_menu_keyring} components={strong} /></p>
-            <i className="fa fa-key" role="presentation"></i>
-          </a>
-        </li>
-        <li className="item-big" role="menuitem">
-          <a className="clearfix" id="encrypt-file" onClick={props.onMenuItemClickHandler} role="button">
-            <p><Trans id={l10n.map.action_menu_file_encryption} components={strong} /></p>
-            <i className="fa fa-files-o" role="presentation"></i>
-          </a>
-        </li>
-      </ul>
-      <div className="footer">
-        <a onClick={props.onShowAdvancedOptionsHandler} role="button">
-          {l10n.map.action_menu_advanced_options}&nbsp;
-          <i className="fa fa-chevron-right" role="presentation"></i>
+    <>
+      <div className="action-menu-content list-group list-group-flush" role="menu" aria-label={l10n.map.action_menu_primary_menu_aria_label}>
+        <a className="action-menu-item list-group-item list-group-item-action" id="options" role="menuitem" onClick={props.onMenuItemClickHandler}>
+          <div className="action-menu-item-title d-flex align-items-center"><i className="fa fa-tachometer" role="presentation"></i> <strong>{l10n.map.action_menu_dashboard_label}</strong></div>
+          <p>{l10n.map.action_menu_dashboard_description}</p>
+        </a>
+        <a className="action-menu-item list-group-item list-group-item-action" id="manage-keys" role="menuitem" onClick={props.onMenuItemClickHandler}>
+          <div className="action-menu-item-title d-flex align-items-center"><i className="fa fa-key" role="presentation"></i> <strong>{l10n.map.action_menu_keyring_label}</strong></div>
+          <p>{l10n.map.action_menu_keyring_description}</p>
+        </a>
+        <a className="action-menu-item list-group-item list-group-item-action" id="encrypt-file" role="menuitem" onClick={props.onMenuItemClickHandler}>
+          <div className="action-menu-item-title d-flex align-items-center"><i className="fa fa-files-o" role="presentation"></i> <strong>{l10n.map.action_menu_file_encryption_label}</strong></div>
+          <p>{l10n.map.action_menu_file_encryption_description}</p>
+        </a>
+        <a className="action-menu-item list-group-item list-group-item-action" id="security-logs" role="menuitem" onClick={props.onMenuItemClickHandler}>
+          <div className="action-menu-item-title d-flex align-items-center"><i className="fa fa-eye" role="presentation"></i> <strong>{l10n.map.action_menu_review_security_logs_label}</strong></div>
+          <p>{l10n.map.action_menu_review_security_logs_description}</p>
         </a>
       </div>
-    </div>
+      <div className="action-menu-footer card-footer">
+        <button type="button" onClick={props.onMenuItemClickHandler} id="reload-extension" className="btn btn-sm btn-secondary btn-block"><i className="icon icon-refresh" aria-hidden="true"></i> {l10n.map.action_menu_reload_extension_scripts}</button>
+        <button type="button" onClick={props.onMenuItemClickHandler} id="activate-tab" className="btn btn-sm btn-secondary btn-block"><i className="icon icon-add" aria-hidden="true"></i> {l10n.map.action_menu_activate_current_tab}</button>
+      </div>
+    </>
   );
 }
 
-ActionMenuBase.propTypes = {
-  onShowAdvancedOptionsHandler: PropTypes.func,
+ActionMenuAnimated.propTypes = {
   onMenuItemClickHandler: PropTypes.func
 };
 
-export default ActionMenuBase;

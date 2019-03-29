@@ -98,10 +98,10 @@ export default class KeyringSelect extends React.Component {
     return (
       <>
         {(Object.keys(this.props.keyringAttr).length > 1 && this.props.prefs) &&
-        <div className="keyringSelect dropdown">
-          <button className="btn btn-light dropdown-toggle d-flex justify-content-between align-items-center text-left" type="button" data-toggle="dropdown" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="true">
+        <div id="keyringSelect" className="dropdown">
+          <button className="btn btn-light dropdown-toggle d-flex justify-content-between align-items-center text-left px-2" type="button" data-toggle="dropdown" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="true">
             <img src={this.getKeyringThumbnail(this.props.keyringId)} style={{objectFit: 'contain', width: '48px', height: 'auto', maxHeight: '48px'}} />
-            <div className="mx-1 flex-grow-1 d-inline-block">
+            <div className="ml-2 flex-grow-1 d-inline-block">
               <h5 className="d-block mb-1">{this.getKeyringName(this.props.keyringId)}</h5>
               <p className="d-block mb-0 small">{this.getKeyringEmail(this.props.keyringId)}</p>
             </div>
@@ -112,17 +112,17 @@ export default class KeyringSelect extends React.Component {
               const keyringEmail = this.getKeyringEmail(keyringId);
               return (
                 <li key={index} className="d-flex align-items-center text-left" role="menuitem">
-                  <Link to='/keyring' onClick={() => this.props.onChange(keyringId)} tabIndex="0" className="dropdown-item px-3 d-flex mr-auto">
+                  <Link to='/keyring' onClick={() => this.props.onChange(keyringId)} tabIndex="0" className="dropdown-item text-decoration-none px-2 d-flex mr-auto">
                     <img src={this.getKeyringThumbnail(keyringId)} style={{objectFit: 'contain', width: '48px', height: 'auto', maxHeight: '48px'}} />
-                    <div className="mx-1 flex-grow-1 d-inline-block">
+                    <div className="ml-2 flex-grow-1 d-inline-block">
                       <h5 className="d-block mb-1">{keyringName}</h5>
                       <p className="d-block mb-0 small">{keyringEmail}</p>
                     </div>
                   </Link>
                   {keyringId !== MAIN_KEYRING_ID && keyringId !== GNUPG_KEYRING_ID &&
-                    <a onClick={() => this.props.onDelete(keyringId, keyringName)} href="#" className="btn btn-link pr-2">
-                      <i className="fa fa-trash-o" aria-hidden="true"></i>
-                    </a>
+                    <button type="button" onClick={() => this.props.onDelete(keyringId, keyringName)} className="btn btn-secondary mx-2">
+                      <i className="icon icon-delete" aria-hidden="true"></i>
+                    </button>
                   }
                 </li>
               );

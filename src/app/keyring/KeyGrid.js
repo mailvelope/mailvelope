@@ -162,7 +162,7 @@ export default class KeyGrid extends React.Component {
                 !this.filterKey(key.type) &&
                 <tr key={index} onClick={() => this.showKeyDetails(key.fingerprint)} onKeyPress={e => this.handleKeyPress(e, key.fingerprint)} tabIndex="0" aria-haspopup="true">
                   <td className="text-center">
-                    <i className={`icon icon-${key.type === 'public' ? 'key' : 'key-pair'}`}></i>
+                    <i className={`icon icon-${key.type === 'public' ? 'key' : 'key-pair'}`} style={{fontSize: '1.25rem'}}></i>
                   </td>
                   <td><strong className="mr-2">{key.name}</strong>{this.props.defaultKeyFpr === key.fingerprint && <span className="badge badge-info text-nowrap" aria-hidden="true">{l10n.map.keygrid_default_label}</span>}</td>
                   <td className="emailCell">{key.email}</td>
@@ -171,7 +171,7 @@ export default class KeyGrid extends React.Component {
                   <td className="text-center text-nowrap">
                     <div className="actions">
                       {!(this.context.gnupg && key.type === 'private') && <button type="button" onClick={e => this.deleteKeyEntry(e, key.fingerprint)} className="btn btn-secondary keyDeleteBtn"><i className="icon icon-delete" aria-hidden="true"></i></button>}
-                      <i className="icon icon-right" aria-hidden="true"></i>
+                      <i className="icon icon-arrow-right" aria-hidden="true"></i>
                     </div>
                   </td>
                 </tr>

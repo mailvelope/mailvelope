@@ -202,7 +202,7 @@ export default class WatchList extends React.Component {
                   <td className="text-center">
                     <div className="actions">
                       <button type="button" onClick={e => this.deleteWatchListEntry(e, index)} className="btn btn-secondary"><i className="icon icon-delete" aria-hidden="true"></i></button>
-                      <i className="icon icon-right" aria-hidden="true"></i>
+                      <i className="icon icon-arrow-right" aria-hidden="true"></i>
                     </div>
                   </td>
                 </tr>

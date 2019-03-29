@@ -1,3 +1,5 @@
+// import functions from BS4
+@import "../../../node_modules/bootstrap/scss/functions";
 
 // declare new variables
 $font-weight-medium: 500 !default;
@@ -62,6 +64,9 @@ $border-radius-lg: 1rem;
 
 $component-active-bg: $cyan;
 
+$caret-width: 1rem;
+
+
 // buttons
 // $input-btn-focus-color:       rgba($component-active-bg, .25) !default;
 // $input-btn-focus-box-shadow:  0 0 0 $input-btn-focus-width $input-btn-focus-color !default;
@@ -117,6 +122,10 @@ $custom-switch-indicator-size: calc(#{$custom-switch-size} - #{$border-width * 4
 $custom-switch-track-bg: $gray-200;
 $custom-switch-indicator-bg: gray-600;
 
+$custom-select-indicator-color: $gray-800;
+$custom-select-indicator: str-replace(url("data:image/svg+xml,%3Csvg viewBox='0 0 14 14' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cpath fill='#{$custom-select-indicator-color}' d='M8.93933983,7 L3.46966991,1.53033009 C3.1767767,1.23743687 3.1767767,0.762563133 3.46966991,0.469669914 C3.76256313,0.176776695 4.23743687,0.176776695 4.53033009,0.469669914 L10.5303301,6.46966991 C10.8232233,6.76256313 10.8232233,7.23743687 10.5303301,7.53033009 L4.53033009,13.5303301 C4.23743687,13.8232233 3.76256313,13.8232233 3.46966991,13.5303301 C3.1767767,13.2374369 3.1767767,12.7625631 3.46966991,12.4696699 L8.93933983,7 Z' transform='translate(7.000000, 7.000000) scale(1, -1) rotate(-90.000000) translate(-7.000000, -7.000000) '%3E%3C/path%3E%3C/g%3E%3C/svg%3E"), "#", "%23");
+
+
 // tables
 $table-color: $black;
 $table-head-bg: $gray-200;
@@ -145,6 +154,7 @@ $navbar-light-active-color: $primary;
 $nav-pills-link-active-bg: $primary;
 
 // dropdowns
+$dropdown-color: $yiq-text-dark;
 $dropdown-link-active-bg: $gray-300;
 
 // badges
@@ -155,6 +165,5 @@ $badge-border-radius: $border-radius-sm;
 $badge-font-size: 100%;
 
 // Required from BS4
-@import "../../../node_modules/bootstrap/scss/functions";
 @import "../../../node_modules/bootstrap/scss/variables";
 @import "../../../node_modules/bootstrap/scss/mixins";

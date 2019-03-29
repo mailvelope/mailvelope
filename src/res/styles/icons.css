@@ -5,37 +5,34 @@ Generated using nucleoapp.com
 
 -------------------------------- */
 @font-face {
-  font-family: 'Mailvelope';
-  src: url('res/fonts/mailvelope.woff2') format('woff2');
+  font-family: 'MailvelopeIcons';
+  src: url('res/fonts/mailvelope-icons.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
 }
 
-[class^="icon-"], [class*=" icon-"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'Mailvelope' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
 
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+.icon {
+    display: inline-block;
+    font: normal normal normal 14px/1 'MailvelopeIcons';
+    font-size: inherit;
+    speak: none;
+    text-transform: none;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+ }
 
-.icon-down:before {
+.icon-arrow-down:before {
   content: "\e900";
 }
-.icon-left:before {
+.icon-arrow-left:before {
   content: "\e901";
 }
-.icon-right:before {
+.icon-arrow-right:before {
   content: "\e902";
 }
-.icon-up:before {
+.icon-arrow-up:before {
   content: "\e903";
 }
 .icon-checkmark:before {
@@ -82,4 +79,13 @@ Generated using nucleoapp.com
 }
 .icon-add:before {
   content: "\e912";
+}
+.icon-help-thin:before {
+  content: "\e913";
+}
+.icon-help:before {
+  content: "\e914";
+}
+.icon-settings:before {
+  content: "\e915";
 }

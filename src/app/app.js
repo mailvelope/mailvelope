@@ -135,7 +135,7 @@ export class App extends React.Component {
                 <NavLink to="/settings">{l10n.map.options_home}</NavLink>
               </ul>
               <ul className="navbar-nav">
-                <li className="nav-item"><a className="nav-link" href="https://www.mailvelope.com/help" target="_blank" rel="noreferrer noopener" tabIndex="0"><i className="fa fa-question-circle-o d-none d-md-inline" aria-hidden="true" /><span className="d-md-none">{l10n.map.options_docu}</span></a></li>
+                <li className="nav-item"><a className="nav-link" href="https://www.mailvelope.com/help" target="_blank" rel="noreferrer noopener" tabIndex="0"><i className="icon icon-help d-none d-md-inline" aria-hidden="true" /><span className="d-md-none">{l10n.map.options_docu}</span></a></li>
               </ul>
             </div>
           </div>
@@ -209,7 +209,7 @@ export class App extends React.Component {
         </main>
         <footer className="container">
           <div className="d-flex justify-content-between">
-            <p className="mb-0">&copy; 2012-2019 Mailvelope GmbH</p>
+            <p className="mb-0">&copy; 2012-2019 <a className="text-reset" href="https://www.mailvelope.com/de/about" target="_blank" rel="noreferrer noopener" tabIndex="0">Mailvelope GmbH</a></p>
             <p id="version" className="d-sm-none d-md-block mb-0">{this.state.version}</p>
           </div>
         </footer>

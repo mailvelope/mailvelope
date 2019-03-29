@@ -137,14 +137,16 @@ a.nav-link {
       .actions {
         text-align: right;
         white-space: nowrap;
-        visibility: hidden;
+        > .btn {
+          visibility: hidden;
+        }
 
-        .icon-right {
+        > .icon {
           margin-left: 0.5rem;
         }
       }
 
-      &:hover .actions {
+      &:hover .actions > .btn {
         visibility: visible;
       }
     }
@@ -166,7 +168,6 @@ a.nav-link {
   }
 }
 
-
 // navbar
 nav {
   &.navbar > .container  {
@@ -187,7 +188,7 @@ nav {
       position: relative;
       &:not(:last-child) {
         @include media-breakpoint-up(md) {
-          margin-right: 0.5rem;
+          margin-right: 1rem;
         }          
       }
 
@@ -233,10 +234,13 @@ nav {
   // font-family: $headings-font-family;
   // font-size: 1rem;
 
-  .nav-link {   
-    padding: 0;
+  .nav-link { 
+    display: flex;
+    align-items: center;
     font-size: inherit;
+    line-height: 1;
     color: $yiq-text-dark;
+    padding: 0.25rem 0;
   }  
 
   .nav-link.active {
@@ -244,12 +248,15 @@ nav {
     color: theme-color("primary");
     background-color: transparent;
     &::after {
-      font-family: 'Mailvelope' !important;
+      display: inline-block;
+      height: 14px;
+      width: 14px;
+      margin-left: 0.25rem;
       @include media-breakpoint-up(md) {
-        content:' \e902';
+        content: str-replace(url("data:image/svg+xml,%3Csvg viewBox='0 0 14 14' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cpath fill='#{theme-color("primary")}' d='M7.89429765,3.32720883 L11.0070864,9.5527864 C11.2540757,10.0467649 11.0538513,10.6474379 10.5598728,10.8944272 C10.4210174,10.9638549 10.2679043,11 10.1126592,11 L3.88708167,11 C3.33479692,11 2.88708167,10.5522847 2.88708167,10 C2.88708167,9.8447549 2.92322676,9.69164184 2.99265448,9.5527864 L6.10544327,3.32720883 C6.35243252,2.83323033 6.95310556,2.63300598 7.44708406,2.87999523 C7.64061146,2.97675893 7.79753395,3.13368142 7.89429765,3.32720883 Z' transform='translate(7.000000, 7.000000) rotate(90.000000) translate(-7.000000, -7.000000) '%3E%3C/path%3E%3C/g%3E%3C/svg%3E"), "#", "%23");
       }  
       @include media-breakpoint-down(md) {
-        content:' \e900';
+        content: str-replace(url("data:image/svg+xml,%3Csvg viewBox='0 0 14 14' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cpath fill='#{theme-color("primary")}' d='M7.89429765,3.32720883 L11.0070864,9.5527864 C11.2540757,10.0467649 11.0538513,10.6474379 10.5598728,10.8944272 C10.4210174,10.9638549 10.2679043,11 10.1126592,11 L3.88708167,11 C3.33479692,11 2.88708167,10.5522847 2.88708167,10 C2.88708167,9.8447549 2.92322676,9.69164184 2.99265448,9.5527864 L6.10544327,3.32720883 C6.35243252,2.83323033 6.95310556,2.63300598 7.44708406,2.87999523 C7.64061146,2.97675893 7.79753395,3.13368142 7.89429765,3.32720883 Z' transform='translate(7.000000, 7.000000) rotate(180.000000) translate(-7.000000, -7.000000) '%3E%3C/path%3E%3C/g%3E%3C/svg%3E"), "#", "%23");
       }  
     }
   }

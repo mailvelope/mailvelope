@@ -40,3 +40,33 @@
     }  
   }
 }
+
+%cared-shared {
+  font-family: 'MailvelopeIcons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+}
+
+@mixin caret-down {
+  @extend %cared-shared;
+  content: '\e900';
+}
+
+@mixin caret-up {
+  @extend %cared-shared;
+  content: '\e903';
+}
+
+@mixin caret-right {
+  @extend %cared-shared;
+  content: '\e902';
+}
+
+@mixin caret-left {
+  @extend %cared-shared;
+  content: '\e901';
+}

@@ -1,51 +1,47 @@
 {
   "action_menu_activate_current_tab": {
-    "message": "Auf dem aktuellen Tab aktivieren",
+    "message": "Diese Domain authorisieren",
     "description": "Activate on current tab shortcut in the action menu"
-  },
-  "action_menu_advanced_menu_aria_label":  {
-    "message": "Mailvelope erweitertes Menü",
-    "description": "Accessibility, aria label of the advanced menu"
-  },
-  "action_menu_advanced_options": {
-    "message": "Erweiterte Optionen",
-    "description": "Advanced options link in the action menu"
   },
   "action_menu_all_options": {
     "message": "Alle Optionen",
     "description": "All options link in the action menu"
   },
-  "action_menu_back": {
-    "message": "Zurück",
-    "description": "Back link in the action menu"
-  },
   "action_menu_configure_mailvelope": {
     "message": "Mit dem <0>Konfigurieren von Mailvelope</0> starten!",
     "description": "Configure Mailvelope label in the action menu"
   },
-  "action_menu_dashboard": {
-    "message": "<0>Übersicht:</0> alle Konfigurationsmöglichkeiten anschauen.",
+  "action_menu_dashboard_label": {
+    "message": "Übersicht",
     "description": "Dashboard label in the action menu"
   },
-  "action_menu_edit_security_settings": {
-    "message": "Sicherheitseinstellungen bearbeiten",
-    "description": "Edit security settings shortcut in the action menu"
+  "action_menu_dashboard_description": {
+    "message": "Alle Konfigurationsmöglichkeiten anschauen.",
+    "description": "Dashboard description in the action menu"
   },
-  "action_menu_file_encryption": {
-    "message": "<0>Dateiverschlüsselung:</0> eine oder mehrere Datei(en) verschlüsseln.",
+  "action_menu_file_encryption_label": {
+    "message": "Dateiverschlüsselung",
     "description": "File encryption label in the action menu"
   },
-  "action_menu_keyring": {
-    "message": "<0>Schlüsselbund:</0> öffentliche und private Schlüssel verwalten.",
+  "action_menu_file_encryption_description": {
+    "message": "Eine oder mehrere Datei(en) verschlüsseln.",
+    "description": "File encryption description in the action menu"
+  },
+  "action_menu_keyring_label": {
+    "message": "Schlüsselbund",
     "description": "Keyring label in the action menu"
   },
-  "action_menu_manage_domains": {
-    "message": "Autorisierte Domains verwalten",
-    "description": "Manage domains shortcut in the action menu"
+  "action_menu_keyring_description": {
+    "message": "Öffentliche und private Schlüssel verwalten.",
+    "description": "Keyring description in the action menu"
   },
-  "action_menu_more_options": {
-    "message": "Weitere Optionen",
-    "description": "More options link in the action menu (setup state)"
+  "action_menu_review_security_logs_label": {
+    "message": "Sicherheitsprotokoll",
+    "description": "Review security logs label in the action menu"
+  },
+  "action_menu_review_security_logs_description": {
+    "message": "Anzeige der sicherheitsrelevanten Benutzeraktionen",
+    "description": "Review security logs description in the action menu"
   },
   "action_menu_help": {
     "message": "Hilfe",
@@ -56,16 +52,16 @@
     "description": "Accessibility, aria label of the primary menu"
   },
   "action_menu_reload_extension_scripts": {
-    "message": "Erweiterungsskripte neu laden",
+    "message": "Mailvelope neu laden",
     "description": "Reload extension scripts shortcut in the action menu"
-  },
-  "action_menu_review_security_logs": {
-    "message": "Überprüfen Sicherheitsprotokoll",
-    "description": "Review security logs shortcut in the action menu"
   },
   "action_menu_setup_menu_aria_label":  {
     "message": "Mailvelope Einrichtungsmenü",
     "description": "Accessibility, aria label of the setup menu"
+  },
+  "action_menu_setup_start_label": {
+    "message": "Los geht's",
+    "description": "Start button label"
   },
   "alert_header_error": {
     "message": "Fehler!",

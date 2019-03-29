@@ -17,172 +17,58 @@ body {
   width: 100%;
 }
 
-div.action-menu.action-menu-setup {
-  height: auto;
-}
-
-div.action-menu {
-  height: 300px;
-  overflow: hidden;
-  width: $action-menu-width;
-  padding: 0;
-
-  a {
-    cursor: pointer;
-  }
-
-  .action-menu-header {
-    padding: 3px 0;
-    height: 37px;
-
-    .mailvelope-logo {
-      color: $gray-dark;
+.action-menu {
+  .action-menu-wrapper {
+    border: 0;
+    width: 230px;
+    .action-menu-header {      
+      padding: 0.75rem;
       background-color: transparent;
-      font-size: 18px;
-      line-height: 20px;
-      float: left;
-      padding: 7px 0 6px $side-padding;
-    }
-
-    .nav-right {
-      float: right;
-      padding: 7px $side-padding 6px 0;
-      font-size: 12.6px;
-
-      a {
-        color: $gray-dark;
-        outline: none;
-        text-decoration: none;
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
-  }
-
-  .action-menu-container-slide-container {
-    position: relative;
-    overflow: hidden;
-    width: $action-menu-width;
-
-    .action-menu-container-slide {
-      width: $action-menu-width*2;
-
-      .primary {
-        float: left;
-        display: inline-block;
-        width: $action-menu-width;
-      }
-      .advanced {
-        display: inline-block;
-        width: $action-menu-width;
-      }
-    }
-  }
-
-  ul.action-menu {
-    padding: 0;
-    margin: 0;
-
-    li {
-      list-style-type: none;
-      margin: 0;
-      font-size: 1em;
-
-      &.item-big {
-        height: 76px;
-
+      .nav-right {
         a {
-          height: 76px;
-          display: flex;
-          align-items: center;
-          padding: 0 $side-padding;
-
-          p {
-            float: left;
-            padding: 0.23em 1em 0.23em 1%;
-            width: 85%;
-          }
-          i.fa {
-            text-align: center;
-            float: right;
-            width: 10%;
-            font-size: 32px;
-            color: $gray;
-            margin-top: .125em;
-            margin-left: .125em;
-          }
-        }
-      }
-
-      /** Version of the advanced menu with icon **/
-      &.with-icon {
-        a {
-          padding: 7px 0.6em;
-          display: flex;
-          align-items: center;
-
-          p {
-            float: left;
-            padding: 0.23em .5em 0.23em 1%;
-            width: 90%;
-          }
-          i.fa {
-            text-align: center;
-            float: right;
-            width: 10%;
-            font-size: 22px;
-            color: $gray;
-            margin-top: .125em;
-            margin-left: .125em;
-          }
-        }
-      }
-
-      a {
-        padding: 0.72em $side-padding;
-        border-top: 1px solid $nav-item-separator-color;
-        display: block;
-        background-color: $nav-item-bg-color;
-        color: $gray;
-        transition: $select-transition;
-
-        p {
-          padding: 0 1em 0 0;
-          margin: 0;
-          font-size: 13px;
-        }
-
-        &:hover {
-          color: $gray-dark;
-          background-color: $nav-item-bg-color-hover;
-          text-decoration: none;
-
-          i.fa {
-            color: $gray-dark;
+          color: inherit;
+          &:last-child {
+           margin-left: 1rem;
           }
         }
       }
     }
-  }
-
-  .footer,
-  .header {
-    a {
-      height: 33px;
-      border-top: 1px solid $nav-item-separator-color;
-      background-color: $header-footer-bg-color;
-      display: block;
-      padding: 7px $side-padding;
-      text-align: center;
-      font-size: 12.6px;
-      color: black;
-      transition: $select-transition;
-
-      &:hover {
-        background-color: $header-footer-bg-color-hover;
-        text-decoration: none;
+    .action-menu-content {
+      p {
+        font-size: 0.75rem;
+        margin-bottom: 0;
       }
+      .action-menu-item {
+        position: relative;
+        border: 0;
+        padding: 0.75rem;
+        cursor: pointer;
+        .action-menu-item-title {
+          margin-bottom: 0.25rem;
+          i {
+            font-size: 1.5rem;
+            margin-right: 0.375rem;
+          }
+          strong {
+            font-weight: 700;
+          }
+        }
+        ::after {
+          content:' ';
+          position: absolute;
+          bottom: 1px;
+          left: 50%;
+          width: 90%;
+          height: 1px;
+          background-color: $border-color;
+          transform:translateX(-50%);
+        }
+      }
+    }
+    .action-menu-footer {
+      border-top: 0;  
+      padding: 0.75rem;
+      background-color: transparent;
     }
   }
 }

@@ -88,7 +88,7 @@ export default class General extends React.Component {
       <div id="general">
         <h2 className="mb-4">{l10n.map.settings_general}</h2>
         <form>
-          <div className="form-group">
+          <div className="form-group mb-4">
             <h3>{l10n.map.keygrid_default_key}</h3>
             <div className="custom-control custom-checkbox">
               <input className="custom-control-input" type="checkbox" id="auto_add_primary" name="auto_add_primary" checked={this.state.auto_add_primary} onChange={this.handleCheck} />
@@ -101,7 +101,7 @@ export default class General extends React.Component {
           </div>
           <AppOptions.Consumer>
             {({gnupg}) => (
-              <div className="form-group">
+              <div className="form-group mb-4">
                 <h3>{l10n.map.general_openpgp_preferences}</h3>
                 <p>{l10n.map.general_openpgp_current} <b>{gnupg && this.state.prefer_gnupg ? 'GnuPG' : 'OpenPGP.js'}</b></p>
                 {this.state.nativeMessaging ? (

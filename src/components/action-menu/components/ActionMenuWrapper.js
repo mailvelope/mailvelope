@@ -6,12 +6,13 @@
 import React, {Component} from 'react';
 import * as l10n from '../../../lib/l10n';
 import EventHandler from '../../../lib/EventHandler';
-import ActionMenuAnimated from './ActionMenuAnimated';
+import ActionMenuBase from './ActionMenuBase';
 import ActionMenuSetup from './ActionMenuSetup';
 import '../ActionMenu.scss';
 
 l10n.register([
-  'action_menu_help'
+  'action_menu_help',
+  'action_menu_all_options'
 ]);
 l10n.mapToLocal();
 
@@ -43,18 +44,19 @@ class ActionMenuWrapper extends Component {
   render() {
     let actionMenuContent = null;
     if (this.state.isSetupDone) {
-      actionMenuContent = <ActionMenuAnimated onMenuItemClickHandler={e => this.onMenuItemClick(e)} />;
+      actionMenuContent = <ActionMenuBase onMenuItemClickHandler={e => this.onMenuItemClick(e)} />;
     } else {
       actionMenuContent = <ActionMenuSetup onMenuItemClickHandler={e => this.onMenuItemClick(e)} />;
     }
 
     return (
       <div className={`action-menu ${this.state.isSetupDone ? '' : 'action-menu-setup'}`}>
-        <div className="action-menu-wrapper">
-          <div className="action-menu-header clearfix">
-            <div className="mailvelope-logo settings-logo">Mailvelope</div>
+        <div className="action-menu-wrapper card">
+          <div className="action-menu-header card-header d-flex">
+            <img src="../../img/logo.svg" width="111" height="20" className="d-inline-block mr-auto" alt="" />
             <div className="nav-right">
-              <a href="https://www.mailvelope.com/help" target="_blank" rel="noopener noreferrer">{l10n.map.action_menu_help}</a>
+              {this.state.isSetupDone && <a id="options" onClick={e => this.onMenuItemClick(e)} tabIndex="0" title={l10n.map.action_menu_all_options}><i className="icon icon-settings" aria-hidden="true" /></a>}
+              <a href="https://www.mailvelope.com/help" target="_blank" rel="noreferrer noopener" tabIndex="0" title={l10n.map.action_menu_help}><i className="icon icon-help" aria-hidden="true" /></a>
             </div>
           </div>
           {actionMenuContent}

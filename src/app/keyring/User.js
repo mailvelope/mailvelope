@@ -290,7 +290,7 @@ export default class User extends React.Component {
       <div className="card-body user">
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb bg-transparent p-0">
-            <li className="breadcrumb-item"><Link to={`/keyring/key/${this.props.match.params.keyFpr}`} replace tabIndex="0"><i className="icon icon-left" aria-hidden="true"></i> {this.state.keyDetails.name}</Link></li>
+            <li className="breadcrumb-item"><Link to={`/keyring/key/${this.props.match.params.keyFpr}`} replace tabIndex="0"><i className="icon icon-arrow-left" aria-hidden="true"></i> {this.state.keyDetails.name}</Link></li>
           </ol>
         </nav>
         {this.state.loading ? (

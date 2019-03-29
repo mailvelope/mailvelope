@@ -8,6 +8,7 @@ $dashboard-item-bg-color-hover: darken($dashboard-item-bg-color, 2%);
 .dashboard {
   a.card {
     background-color: $dashboard-item-bg-color;
+    text-decoration: none;
     padding: 2.5rem;
     border: 0;
     box-shadow:0 5px 15px 0 rgba($black, 0.2), 0 0 2px 0 rgba($black, 0.2);

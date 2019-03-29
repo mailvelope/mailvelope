@@ -43,7 +43,7 @@ export default class Security extends React.Component {
       <div id="security">
         <h2 className="mb-4">{l10n.map.settings_security}</h2>
         <form className="form">
-          <div className="form-group">
+          <div className="form-group mb-4">
             <h3>{l10n.map.security_cache_header}</h3>
             <div className="form-inline">
               <div className="custom-control custom-radio custom-control-inline mr-2">
@@ -59,7 +59,7 @@ export default class Security extends React.Component {
               <label className="custom-control-label" htmlFor="pwdCacheRadios2">{l10n.map.security_cache_off}</label>
             </div>
           </div>
-          <div className="form-group" id="securityTokenPanel">
+          <div className="form-group mb-4" id="securityTokenPanel">
             <h3>{l10n.map.security_background_header}</h3>
             <p>{l10n.map.security_background_text}</p>
             <div className="row align-items-center">
@@ -87,7 +87,7 @@ export default class Security extends React.Component {
               </div>
             </div>
           </div>
-          <div className="form-group">
+          <div className="form-group mb-4">
             <h3>{l10n.map.security_display_decrypted}</h3>
             <div className="custom-control custom-radio">
               <input type="radio" name="decryptRadios" id="decryptRadios2" value="popup" className="custom-control-input" />
@@ -98,7 +98,7 @@ export default class Security extends React.Component {
               <label className="custom-control-label" htmlFor="decryptRadios1">{l10n.map.security_display_inline}</label>
             </div>
           </div>
-          <div className="form-group">
+          <div className="form-group mb-4">
             <h3>{l10n.map.security_openpgp_header}</h3>
             <div className="custom-control custom-checkbox">
               <input className="custom-control-input" type="checkbox" id="hideArmoredHeader" name="hideArmoredHeader" />
