@@ -10,7 +10,7 @@ import * as sub from './sub.controller';
 import {key as openpgpKey} from 'openpgp';
 import {getLastModifiedDate} from '../modules/key';
 import {initOpenPGP, decryptFile, encryptFile} from '../modules/pgpModel';
-import {getById as keyringById, getAllKeyringAttr, getAllKeyringIds, setKeyringAttr, deleteKeyring, getKeyData} from '../modules/keyring';
+import {getById as keyringById, getAllKeyringAttr, getAllKeyringIds, setKeyringAttr, deleteKeyring, getKeyData, getDefaultKeyFpr} from '../modules/keyring';
 import {delete as deletePwdCache, get as getKeyPwdFromCache, unlock as unlockKey} from '../modules/pwdCache';
 import {initScriptInjection} from '../lib/inject';
 import * as prefs from '../modules/prefs';
@@ -33,7 +33,7 @@ export default class AppController extends sub.SubController {
     this.on('get-prefs', () => prefs.prefs);
     this.on('set-prefs', this.updatePreferences);
     this.on('decryptFile', ({encryptedFile}) => decryptFile(encryptedFile, this.unlockKey));
-    this.on('encryptFile', encryptFile);
+    this.on('encryptFile', this.encryptFile);
     this.on('getWatchList', prefs.getWatchList);
     this.on('getKeys', ({keyringId}) => keyringById(keyringId).getKeys());
     this.on('removeKey', this.removeKey);
@@ -240,6 +240,17 @@ export default class AppController extends sub.SubController {
     sub.setActiveKeyringId(MAIN_KEYRING_ID);
     await deleteKeyring(keyringId);
     await autocryptWrapper.deleteIdentities([keyringId]);
+  }
+
+  async encryptFile(options) {
+    if (prefs.prefs.general.auto_add_primary) {
+      // get the sender key fingerprint
+      const defaultKeyFpr = await getDefaultKeyFpr(MAIN_KEYRING_ID);
+      if (defaultKeyFpr && !options.encryptionKeyFprs.includes(defaultKeyFpr)) {
+        options.encryptionKeyFprs.push(defaultKeyFpr);
+      }
+    }
+    return encryptFile(options);
   }
 
   initEncryptText() {

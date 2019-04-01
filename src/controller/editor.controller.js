@@ -136,12 +136,6 @@ export default class EditorController extends sub.SubController {
     msg.recipients.forEach(recipient => {
       keyFprs = keyFprs.concat(keyFprMap[recipient]);
     });
-    if (prefs.general.auto_add_primary) {
-      const defaultKeyFpr = await getKeyringById(this.keyringId).getDefaultKeyFpr();
-      if (defaultKeyFpr) {
-        keyFprs.push(defaultKeyFpr);
-      }
-    }
     this.keyFprBuffer = sortAndDeDup(keyFprs);
     // ensure that all keys are available in the API keyring
     syncPublicKeys({keyringId: this.keyringId, keyIds: this.keyFprBuffer});
@@ -509,13 +503,12 @@ export default class EditorController extends sub.SubController {
       keyFprs = this.keyFprBuffer;
     } else {
       keyFprs = keys.map(key => key.fingerprint);
+    }
+    if (prefs.general.auto_add_primary) {
       // get the sender key fingerprint
-      if (prefs.general.auto_add_primary) {
-        const localKeyring = getKeyringById(this.keyringId);
-        const defaultKeyFpr = await localKeyring.getDefaultKeyFpr();
-        if (defaultKeyFpr) {
-          keyFprs.push(defaultKeyFpr);
-        }
+      const defaultKeyFpr = await getKeyringById(this.keyringId).getDefaultKeyFpr();
+      if (defaultKeyFpr) {
+        keyFprs.push(defaultKeyFpr);
       }
     }
     // deduplicate
