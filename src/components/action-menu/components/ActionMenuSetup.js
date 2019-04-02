@@ -18,7 +18,7 @@ export default function ActionMenuSetup(props) {
   return (
     <>
       <div className="action-menu-content card-body" role="menu" aria-label={l10n.map.action_menu_setup_menu_aria_label}>
-        <img src="../../../img/seal.png" className=" mx-auto d-block mb-3" alt="..." />
+        <img src="../../../img/mailvelope/seal.svg" className=" mx-auto d-block mb-3" alt="..." />
         <p><Trans id={l10n.map.action_menu_configure_mailvelope} components={[<strong key="0"></strong>]} /></p>
       </div>
       <div className="action-menu-footer card-footer text-center pt-1 pb-4">

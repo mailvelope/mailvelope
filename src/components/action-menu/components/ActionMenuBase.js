@@ -30,19 +30,19 @@ export default function ActionMenuAnimated(props) {
     <>
       <div className="action-menu-content list-group list-group-flush" role="menu" aria-label={l10n.map.action_menu_primary_menu_aria_label}>
         <a className="action-menu-item list-group-item list-group-item-action" id="options" role="menuitem" onClick={props.onMenuItemClickHandler}>
-          <div className="action-menu-item-title d-flex align-items-center"><i className="fa fa-tachometer" role="presentation"></i> <strong>{l10n.map.action_menu_dashboard_label}</strong></div>
+          <div className="action-menu-item-title d-flex align-items-center"><img src="../../img/Mailvelope/dashboard.svg" role="presentation" /> <strong>{l10n.map.action_menu_dashboard_label}</strong></div>
           <p>{l10n.map.action_menu_dashboard_description}</p>
         </a>
         <a className="action-menu-item list-group-item list-group-item-action" id="manage-keys" role="menuitem" onClick={props.onMenuItemClickHandler}>
-          <div className="action-menu-item-title d-flex align-items-center"><i className="fa fa-key" role="presentation"></i> <strong>{l10n.map.action_menu_keyring_label}</strong></div>
+          <div className="action-menu-item-title d-flex align-items-center"><img src="../../img/Mailvelope/keyring.svg" role="presentation" /> <strong>{l10n.map.action_menu_keyring_label}</strong></div>
           <p>{l10n.map.action_menu_keyring_description}</p>
         </a>
         <a className="action-menu-item list-group-item list-group-item-action" id="encrypt-file" role="menuitem" onClick={props.onMenuItemClickHandler}>
-          <div className="action-menu-item-title d-flex align-items-center"><i className="fa fa-files-o" role="presentation"></i> <strong>{l10n.map.action_menu_file_encryption_label}</strong></div>
+          <div className="action-menu-item-title d-flex align-items-center"><img src="../../img/Mailvelope/encryption.svg" role="presentation" /> <strong>{l10n.map.action_menu_file_encryption_label}</strong></div>
           <p>{l10n.map.action_menu_file_encryption_description}</p>
         </a>
         <a className="action-menu-item list-group-item list-group-item-action" id="security-logs" role="menuitem" onClick={props.onMenuItemClickHandler}>
-          <div className="action-menu-item-title d-flex align-items-center"><i className="fa fa-eye" role="presentation"></i> <strong>{l10n.map.action_menu_review_security_logs_label}</strong></div>
+          <div className="action-menu-item-title d-flex align-items-center"><img src="../../img/Mailvelope/clipboard.svg" role="presentation" /> <strong>{l10n.map.action_menu_review_security_logs_label}</strong></div>
           <p>{l10n.map.action_menu_review_security_logs_description}</p>
         </a>
       </div>

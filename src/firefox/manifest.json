@@ -19,7 +19,7 @@
   },
   "browser_action": {
     "browser_style": false,
-    "default_icon": "img/logo_signet.svg",
+    "default_icon": "img/mailvelope/logo_signet.svg",
     "default_title": "__MSG_ext_name__",
     "default_popup": "components/action-menu/actionMenu.html"
   },

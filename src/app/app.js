@@ -123,7 +123,7 @@ export class App extends React.Component {
         <nav className="navbar fixed-top navbar-expand-md navbar-light bg-white py-3">
           <div className="container">
             <Link to="/dashboard" className="navbar-brand">
-              <img src="../img/logo.svg" width="175" height="32" className="d-inline-block align-top" alt="" />
+              <img src="../img/mailvelope/logo.svg" width="175" height="32" className="d-inline-block align-top" alt="" />
             </Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
@@ -209,8 +209,8 @@ export class App extends React.Component {
         </main>
         <footer className="container">
           <div className="d-flex justify-content-between">
-            <p className="mb-0">&copy; 2012-2019 <a className="text-reset" href="https://www.mailvelope.com/de/about" target="_blank" rel="noreferrer noopener" tabIndex="0">Mailvelope GmbH</a></p>
-            <p id="version" className="d-sm-none d-md-block mb-0">{this.state.version}</p>
+            <p>&copy; 2012-2019 <a className="text-reset" href="https://www.mailvelope.com/de/about" target="_blank" rel="noreferrer noopener" tabIndex="0">Mailvelope GmbH</a></p>
+            <p id="version" className="d-sm-none d-md-block">{this.state.version}</p>
           </div>
         </footer>
       </div>

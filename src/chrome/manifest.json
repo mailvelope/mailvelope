@@ -14,10 +14,10 @@
   },
   "browser_action": {
     "default_icon": {
-      "16": "img/logo_signet_16.png",
-      "24": "img/logo_signet_24.png",
-      "32": "img/logo_signet_32.png",
-      "48": "img/logo_signet_48.png"
+      "16": "img/mailvelope/logo_signet_16.png",
+      "24": "img/mailvelope/logo_signet_24.png",
+      "32": "img/mailvelope/logo_signet_32.png",
+      "48": "img/mailvelope/logo_signet_48.png"
     },
     "default_title": "__MSG_ext_name__",
     "default_popup": "components/action-menu/actionMenu.html"
@@ -46,7 +46,7 @@
     "components/encrypted-form/encryptedForm.html",
     "components/verify-inline/verifyInlineSig.css",
     "content-scripts/framestyles.css",
-    "res/fonts/mailvelope-icons.woff2",
+    "res/fonts/*.woff2",
     "img/edit_add-22.png",
     "img/key-24.png",
     "img/key-icon-blue96.png",

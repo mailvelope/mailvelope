@@ -28,4 +28,18 @@
   h5, p {
     color: $dropdown-color;
   }
+
+  .dropdown-menu {
+    a {
+      button {
+        visibility: hidden;
+      }
+      &:hover {
+        button {
+          visibility: visible;
+        }
+      }
+    } 
+  } 
+
 }

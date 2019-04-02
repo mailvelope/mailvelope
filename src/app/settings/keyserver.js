@@ -156,10 +156,10 @@ export default class KeyServer extends React.Component {
                 borderRadius: '4px',
                 colors: {
                   ...theme.colors,
-                  primary: '#8eafb1',
-                  primary75: '#aac3c4',
-                  primary50: '#c6d7d8',
-                  primary25: '#e2ebeb'
+                  primary: '#699496',
+                  primary75: '#8eaeb0',
+                  primary50: '#b3c9ca',
+                  primary25: '#d9e4e4'
                 },
               })}
             />

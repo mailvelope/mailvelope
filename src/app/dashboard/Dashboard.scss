@@ -9,7 +9,7 @@ $dashboard-item-bg-color-hover: darken($dashboard-item-bg-color, 2%);
   a.card {
     background-color: $dashboard-item-bg-color;
     text-decoration: none;
-    padding: 2.5rem;
+    padding: 2rem;
     border: 0;
     box-shadow:0 5px 15px 0 rgba($black, 0.2), 0 0 2px 0 rgba($black, 0.2);
     transition: background-color 0.3s ease;
@@ -17,17 +17,17 @@ $dashboard-item-bg-color-hover: darken($dashboard-item-bg-color, 2%);
     &:hover {
       background-color: $dashboard-item-bg-color-hover;
       text-decoration: none;
-      i.fa, .card-footer {
+      .card-footer {
         color: $black;
       }
     }
 
-    i.fa {
-      font-size: 5em;
-      margin:.25em;
-      color: $gray-900;
+    img {
+      width: 80px;
+      height: 80px;
     }
     .card-footer {
+      white-space: nowrap;
       font-family: $headings-font-family;      
       font-size: $font-size-lg;
       font-weight: 500;

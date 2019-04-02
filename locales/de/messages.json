@@ -93,7 +93,7 @@
   },
   "dashboard_link_encrypt_decrypt_files": {
     "description": "Dashboard encrypt decrypt files link",
-    "message": "Dateien verschlüsseln und entschlüsseln"
+    "message": "Verschlüsselung"
   },
   "dashboard_link_help": {
     "description": "Dashboard help link",
@@ -101,7 +101,7 @@
   },
   "dashboard_link_manage_domains": {
     "description": "Dashboard manage domains link",
-    "message": "Autorisierte Domains verwalten"
+    "message": "Autorisierte Domains"
   },
   "dashboard_link_manage_keys": {
     "description": "Dashboard manage keys link",
@@ -109,7 +109,7 @@
   },
   "dashboard_link_view_security_log": {
     "description": "Dashboard view security logs link",
-    "message": "Sicherheitsprotokolle ansehen"
+    "message": "Sicherheitsprotokolle"
   },
   "dashboard_title": {
     "description": "Dashboard view header",
@@ -270,6 +270,10 @@
   "encrypt_upload_file_warning_too_big": {
     "message": "Eine der Dateien ist zu groß.",
     "description": "."
+  },
+  "encrypt_frame_btn_label": {
+    "message": "Sichere E-Mail schreiben",
+    "description": "Button text for encrypt overlay"    
   },
   "encrypting_home": {
     "message": "Verschlüsselung",
@@ -443,17 +447,9 @@
     "message": "Achtung!",
     "description": "Header warning."
   },
-  "install_landing_page_getting_started": {
-    "description": "Install landing page getting started message",
-    "message": "Klicken Sie auf das Mailvelope Symbol <0></0> in der Browser Symbolleiste um mit der Einrichtung zu starten."
-  },
-  "install_landing_page_help": {
-    "description": "Install landing page help message",
-    "message": "Schauen Sie in die <0>Online-Hilfe</0> für weitere Informationen."
-  },
-  "install_landing_page_welcome": {
-    "description": "Install landing page welcome message",
-    "message": "Willkommen bei Mailvelope!"
+  "install_landing_page_hint": {
+    "description": "Install landing page getting started hint",
+    "message": "Hier klicken, um die Erweiterung zu öffnen."
   },
   "keyserver_hkp_url": {
     "message": "HKP Schlüssel Server",

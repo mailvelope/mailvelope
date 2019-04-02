@@ -106,29 +106,27 @@ export default class KeyringSelect extends React.Component {
               <p className="d-block mb-0 small">{this.getKeyringEmail(this.props.keyringId)}</p>
             </div>
           </button>
-          <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton" role="menu">
+          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" role="menu">
             {Object.keys(this.props.keyringAttr).map((keyringId, index) => {
               const keyringName = this.getKeyringName(keyringId);
               const keyringEmail = this.getKeyringEmail(keyringId);
               return (
-                <li key={index} className="d-flex align-items-center text-left" role="menuitem">
-                  <Link to='/keyring' onClick={() => this.props.onChange(keyringId)} tabIndex="0" className="dropdown-item text-decoration-none px-2 d-flex mr-auto">
-                    <img src={this.getKeyringThumbnail(keyringId)} style={{objectFit: 'contain', width: '48px', height: 'auto', maxHeight: '48px'}} />
-                    <div className="ml-2 flex-grow-1 d-inline-block">
-                      <h5 className="d-block mb-1">{keyringName}</h5>
-                      <p className="d-block mb-0 small">{keyringEmail}</p>
-                    </div>
-                  </Link>
+                <Link key={index} to='/keyring' onClick={() => this.props.onChange(keyringId)} tabIndex="0" className="dropdown-item text-decoration-none px-2 d-flex align-items-center" role="menuitem">
+                  <img src={this.getKeyringThumbnail(keyringId)} style={{objectFit: 'contain', width: '48px', height: 'auto', maxHeight: '48px'}} />
+                  <div className="ml-2 flex-grow-1 d-inline-block mr-auto">
+                    <h5 className="d-block mb-1">{keyringName}</h5>
+                    <p className="d-block mb-0 small">{keyringEmail}</p>
+                  </div>
                   {keyringId !== MAIN_KEYRING_ID && keyringId !== GNUPG_KEYRING_ID &&
-                    <button type="button" onClick={() => this.props.onDelete(keyringId, keyringName)} className="btn btn-secondary mx-2">
+                    <button type="button" onClick={e => { e.stopPropagation(); this.props.onDelete(keyringId, keyringName); }} className="btn btn-secondary mx-2">
                       <i className="icon icon-delete" aria-hidden="true"></i>
                     </button>
                   }
-                </li>
+                </Link>
               );
             })
             }
-          </ul>
+          </div>
         </div>
         }
       </>

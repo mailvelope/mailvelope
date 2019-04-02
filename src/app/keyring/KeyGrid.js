@@ -122,21 +122,21 @@ export default class KeyGrid extends React.Component {
         <div className="form-group btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
           <div className="btn-bar">
             <Link className="btn btn-secondary" to='/keyring/generate' replace tabIndex="0" title={l10n.map.keygrid_generate_title}>
-              <i className="icon icon-add" aria-hidden="true"></i> {l10n.map.key_gen_generate}
+              <span className="icon icon-add" aria-hidden="true"></span> {l10n.map.key_gen_generate}
             </Link>
             <Link className="btn btn-secondary" to='/keyring/import' replace tabIndex="0" title={l10n.map.keygrid_import_title}>
-              <i className="icon icon-download" aria-hidden="true"></i> {l10n.map.form_import}
+              <span className="icon icon-download" aria-hidden="true"></span> {l10n.map.form_import}
             </Link>
             <button type="button" onClick={() => this.openExportKeyringDialog()} className="btn btn-secondary" title={l10n.map.keygrid_export_title}>
-              <i className="icon icon-upload" aria-hidden="true"></i> {l10n.map.keygrid_export}
+              <span className="icon icon-upload" aria-hidden="true"></span> {l10n.map.keygrid_export}
             </button>
             <button type="button" onClick={this.props.onRefreshKeyring} className="btn btn-secondary" title={l10n.map.keygrid_refresh_title}>
-              <i className="icon icon-refresh" aria-hidden="true"></i> {l10n.map.keygrid_refresh}
+              <span className="icon icon-refresh" aria-hidden="true"></span> {l10n.map.keygrid_refresh}
             </button>
           </div>
           <div>
             <label htmlFor="keyringFilterBtn" className="keyringFilterLabel mr-1">
-              <i className="icon icon-filter" aria-hidden="true"></i> {l10n.map.keygrid_sort_type}:
+              <span className="icon icon-filter" aria-hidden="true"></span> {l10n.map.keygrid_sort_type}:
             </label>
             <select value={this.state.keyTypeFilter} onChange={e => this.handleChangeKeyTypeFilter(e)} className="custom-select d-inline-block w-auto" id="keyringFilterBtn">
               <option value="allkeys">{l10n.map.keygrid_all_keys}</option>
@@ -162,7 +162,7 @@ export default class KeyGrid extends React.Component {
                 !this.filterKey(key.type) &&
                 <tr key={index} onClick={() => this.showKeyDetails(key.fingerprint)} onKeyPress={e => this.handleKeyPress(e, key.fingerprint)} tabIndex="0" aria-haspopup="true">
                   <td className="text-center">
-                    <i className={`icon icon-${key.type === 'public' ? 'key' : 'key-pair'}`} style={{fontSize: '1.25rem'}}></i>
+                    <span className={`icon icon-${key.type === 'public' ? 'key' : 'key-pair'}`} style={{fontSize: '1.25rem'}}></span>
                   </td>
                   <td><strong className="mr-2">{key.name}</strong>{this.props.defaultKeyFpr === key.fingerprint && <span className="badge badge-info text-nowrap" aria-hidden="true">{l10n.map.keygrid_default_label}</span>}</td>
                   <td className="emailCell">{key.email}</td>
@@ -170,8 +170,8 @@ export default class KeyGrid extends React.Component {
                   <td className="monospaced">{key.crDate.substr(0, 10)}</td>
                   <td className="text-center text-nowrap">
                     <div className="actions">
-                      {!(this.context.gnupg && key.type === 'private') && <button type="button" onClick={e => this.deleteKeyEntry(e, key.fingerprint)} className="btn btn-secondary keyDeleteBtn"><i className="icon icon-delete" aria-hidden="true"></i></button>}
-                      <i className="icon icon-arrow-right" aria-hidden="true"></i>
+                      {!(this.context.gnupg && key.type === 'private') && <button type="button" onClick={e => this.deleteKeyEntry(e, key.fingerprint)} className="btn btn-secondary keyDeleteBtn"><span className="icon icon-delete" aria-hidden="true"></span></button>}
+                      <span className="icon icon-arrow-right" aria-hidden="true"></span>
                     </div>
                   </td>
                 </tr>
