@@ -1,8 +1,8 @@
 
-.collapsed[data-target="#sign-msg-option"] i.fa:before {
-  content: "\f196";
+.collapsed[data-target="#sign-msg-option"] span.icon:before {
+  content: "\e900";
 }
 
-[data-target="#sign-msg-option"]:not(.collapsed) i.fa:before {
-  content: "\f147";
+[data-target="#sign-msg-option"]:not(.collapsed) span.icon:before {
+  content: "\e903";
 }

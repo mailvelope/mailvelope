@@ -135,7 +135,7 @@ export class App extends React.Component {
                 <NavLink to="/settings">{l10n.map.options_home}</NavLink>
               </ul>
               <ul className="navbar-nav">
-                <li className="nav-item"><a className="nav-link" href="https://www.mailvelope.com/help" target="_blank" rel="noreferrer noopener" tabIndex="0"><i className="icon icon-help d-none d-md-inline" aria-hidden="true" /><span className="d-md-none">{l10n.map.options_docu}</span></a></li>
+                <li className="nav-item"><a className="nav-link" href="https://www.mailvelope.com/help" target="_blank" rel="noreferrer noopener" tabIndex="0"><span className="icon icon-help d-none d-md-inline" aria-hidden="true"></span><span className="d-md-none">{l10n.map.options_docu}</span></a></li>
               </ul>
             </div>
           </div>

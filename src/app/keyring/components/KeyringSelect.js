@@ -83,7 +83,7 @@ export default class KeyringSelect extends React.Component {
 
   getKeyringThumbnail(keyringId) {
     if (keyringId === MAIN_KEYRING_ID) {
-      return '../../../img/cryptography-icon48.png';
+      return '../../../img/Mailvelope/keyring_main.svg';
     }
     if (keyringId === GNUPG_KEYRING_ID) {
       return '../../../img/gnupg-icon48.png';
@@ -91,7 +91,7 @@ export default class KeyringSelect extends React.Component {
     if (this.props.keyringAttr[keyringId].logo_data_url) {
       return this.props.keyringAttr[keyringId].logo_data_url;
     }
-    return '../../../img/default-keyring-icon48.png';
+    return '../../../img/Mailvelope/keyring.svg';
   }
 
   render() {
@@ -119,7 +119,7 @@ export default class KeyringSelect extends React.Component {
                   </div>
                   {keyringId !== MAIN_KEYRING_ID && keyringId !== GNUPG_KEYRING_ID &&
                     <button type="button" onClick={e => { e.stopPropagation(); this.props.onDelete(keyringId, keyringName); }} className="btn btn-secondary mx-2">
-                      <i className="icon icon-delete" aria-hidden="true"></i>
+                      <span className="icon icon-delete" aria-hidden="true"></span>
                     </button>
                   }
                 </Link>

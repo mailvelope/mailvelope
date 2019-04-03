@@ -41,19 +41,16 @@ export default function EditorModalFooter(props) {
       </div>
       <div className="d-flex align-items-center">
         <button type="button" data-toggle="collapse" data-target="#sign-msg-option" aria-expanded="false" aria-controls="sign-msg-option" className="btn btn-secondary btn-sm mr-auto collapsed">
-          <span>{l10n.map.options_home}</span>&nbsp;
-          <i className="fa" aria-hidden="true"></i>
+          <span className="icon" aria-hidden="true"></span>&nbsp;
+          <span>{l10n.map.options_home}</span>
         </button>
         <button type="button" onClick={props.onSignOnly} className="btn btn-secondary mr-1" disabled={!(props.signMsg && props.privKeys.length)}>
-          <i className="fa fa-pencil" aria-hidden="true"></i>&nbsp;
           <span>{l10n.map.editor_sign_button}</span>
         </button>
         <button type="button" onClick={props.onCancel} className="btn btn-secondary mr-1">
-          <i className="fa fa-remove" aria-hidden="true"></i>&nbsp;
           <span>{l10n.map.form_cancel}</span>
         </button>
         <button type="button" onClick={props.onEncrypt} className="btn btn-primary" disabled={props.encryptDisabled}>
-          <i className="fa fa-lock" aria-hidden="true"></i>&nbsp;
           <span>{l10n.map.editor_encrypt_button}</span>
         </button>
       </div>

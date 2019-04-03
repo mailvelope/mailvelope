@@ -76,7 +76,7 @@ export default function WatchListEditor(props) {
                     <td className="text-right">
                       <div className="actions">
                         <button type="button" onClick={() => props.onDeleteMatchPattern(index)} className="btn btn-sm btn-secondary deleteMatchPatternBtn text-nowrap">
-                          <i className="icon icon-delete" aria-hidden="true"></i>
+                          <span className="icon icon-delete" aria-hidden="true"></span>
                         </button>
                       </div>
                     </td>
@@ -110,7 +110,7 @@ function EditorFooter(props) {
     <div className="modal-footer">
       <div className="d-flex w-100">
         <button type="button" onClick={props.onAddMatchPattern} className="btn btn-secondary mr-auto">
-          <i className="icon icon-add" aria-hidden="true"></i> {l10n.map.watchlist_title_frame}
+          <span className="icon icon-add" aria-hidden="true"></span> {l10n.map.watchlist_title_frame}
         </button>
         <button type="button" onClick={props.onCancel} className="btn btn-secondary mr-1">
           {l10n.map.form_cancel}

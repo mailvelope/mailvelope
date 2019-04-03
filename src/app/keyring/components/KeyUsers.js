@@ -127,7 +127,7 @@ export default class KeyUsers extends React.Component {
                     <td className="text-center">{user.signatures.length}</td>
                     <td>
                       <div className="actions">
-                        <i className="icon icon-arrow-right" aria-hidden="true"></i>
+                        <span className="icon icon-arrow-right" aria-hidden="true"></span>
                       </div>
                     </td>
                   </tr>

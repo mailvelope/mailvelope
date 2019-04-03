@@ -47,8 +47,8 @@ export default function ActionMenuAnimated(props) {
         </a>
       </div>
       <div className="action-menu-footer card-footer">
-        <button type="button" onClick={props.onMenuItemClickHandler} id="reload-extension" className="btn btn-sm btn-secondary btn-block"><i className="icon icon-refresh" aria-hidden="true"></i> {l10n.map.action_menu_reload_extension_scripts}</button>
-        <button type="button" onClick={props.onMenuItemClickHandler} id="activate-tab" className="btn btn-sm btn-secondary btn-block"><i className="icon icon-add" aria-hidden="true"></i> {l10n.map.action_menu_activate_current_tab}</button>
+        <button type="button" onClick={props.onMenuItemClickHandler} id="reload-extension" className="btn btn-sm btn-secondary btn-block"><span className="icon icon-refresh" aria-hidden="true"></span> {l10n.map.action_menu_reload_extension_scripts}</button>
+        <button type="button" onClick={props.onMenuItemClickHandler} id="activate-tab" className="btn btn-sm btn-secondary btn-block"><span className="icon icon-add" aria-hidden="true"></span> {l10n.map.action_menu_activate_current_tab}</button>
       </div>
     </>
   );

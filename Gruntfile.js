@@ -156,6 +156,15 @@ module.exports = function(grunt) {
             'lib/{constants,EventHandler,jquery.ext,l10n,util}.js',
           ],
           dest: 'build/tmp'
+        }, {
+          expand: true,
+          flatten: true,
+          cwd: 'src/',
+          src: [
+            'res/fonts/**/*.txt',
+            'res/fonts/**/*.md',
+          ],
+          dest: 'build/tmp/res/fonts',
         }]
       },
 

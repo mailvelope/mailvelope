@@ -45,7 +45,7 @@ class EncryptFooter extends React.Component {
       <>
         <div className="d-flex">
           <button type="button" onClick={this.handleOptionsClick} className="btn btn-secondary btn-sm mr-auto">
-            <i className={`icon icon-${this.state.expanded ? 'down' : 'up'}`} aria-hidden="true"></i> {l10n.map.options_home}
+            <i className={`icon icon-arrow-${this.state.expanded ? 'down' : 'up'}`} aria-hidden="true"></i> {l10n.map.options_home}
           </button>
           <button type="button" onClick={this.props.onBack} className="btn btn-sm btn-secondary mr-1">{l10n.map.form_back}</button>
           <button type="button" onClick={this.props.onEncrypt} className="btn btn-sm btn-primary" disabled={this.props.encryptDisabled}>{l10n.map.editor_encrypt_button}</button>

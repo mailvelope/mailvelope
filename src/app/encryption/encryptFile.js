@@ -98,7 +98,7 @@ export default class EncryptFile extends React.Component {
                   <p>
                     <input id="encrypt_fileUpload" type="file" className="d-none" multiple />
                     <button type="button" id="encrypt_addFileBtn" className="btn btn-sm btn-secondary btn-block">
-                      <i className="icon icon-add" aria-hidden="true"></i> {l10n.map.encrypt_dialog_add}
+                      <span className="icon icon-add" aria-hidden="true"></span> {l10n.map.encrypt_dialog_add}
                     </button>
                     <small className="form-text text-muted"></small>
                   </p>
@@ -122,7 +122,7 @@ export default class EncryptFile extends React.Component {
                 </div>
                 <div className="col-3">
                   <button type="button" id="encrypt_addPersonBtn" className="btn btn-sm btn-secondary btn-block">
-                    <i className="icon icon-add" aria-hidden="true"></i> {l10n.map.encrypt_dialog_add}
+                    <span className="icon icon-add" aria-hidden="true"></span> {l10n.map.encrypt_dialog_add}
                   </button>
                 </div>
               </div>
@@ -161,7 +161,7 @@ export default class EncryptFile extends React.Component {
             </div>
             <div className="card-footer d-flex justify-content-end">
               <button type="button" id="encrypt_backToPersonBtn" className="btn btn-sm btn-secondary mr-1">{l10n.map.form_back}</button>
-              <button type="button" id="encrypt_downloadAllBtn" className="btn btn-sm btn-primary"><i className="icon icon-download" aria-hidden="true"></i> {l10n.map.encrypt_download_all_button}</button>
+              <button type="button" id="encrypt_downloadAllBtn" className="btn btn-sm btn-primary"><span className="icon icon-download" aria-hidden="true"></span> {l10n.map.encrypt_download_all_button}</button>
             </div>
             <div className="panel-overlay">
               <div className="waiting"></div>
@@ -183,7 +183,7 @@ export default class EncryptFile extends React.Component {
                   <p>
                     <input id="decrypt_fileUpload" type="file" className="d-none" multiple accept=".asc,.gpg,.pgp" />
                     <button type="button" id="decrypt_addFileBtn" className="btn btn-sm btn-secondary btn-block">
-                      <i className="icon icon-add" aria-hidden="true"></i> {l10n.map.encrypt_dialog_add}
+                      <span className="icon icon-add" aria-hidden="true"></span> {l10n.map.encrypt_dialog_add}
                     </button>
                     <small className="form-text text-muted"></small>
                   </p>
@@ -211,7 +211,7 @@ export default class EncryptFile extends React.Component {
 
             <div className="card-footer d-flex justify-content-end">
               <button type="button" id="decrypt_backToUploadBtn" className="btn btn-sm btn-secondary mr-1">{l10n.map.form_back}</button>
-              <button type="button" id="decrypt_downloadAllBtn" className="btn btn-sm btn-primary"><i className="icon icon-download" aria-hidden="true"></i> {l10n.map.encrypt_download_all_button}</button>
+              <button type="button" id="decrypt_downloadAllBtn" className="btn btn-sm btn-primary"><span className="icon icon-download" aria-hidden="true"></span> {l10n.map.encrypt_download_all_button}</button>
             </div>
 
             <div className="panel-overlay">

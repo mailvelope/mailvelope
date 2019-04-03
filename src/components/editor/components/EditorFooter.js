@@ -48,7 +48,7 @@ class EditorFooter extends React.Component {
       <div className="editor-footer w-100 d-flex flex-wrap align-items-center">
         <div>
           <button type="button" onClick={this.handleClickUpload} className={`btn btn-sm btn-secondary ${this.props.embedded ? '' : 'd-none'}`}>
-            <i className="icon icon-add" aria-hidden="true"></i>&nbsp;
+            <span className="icon icon-add" aria-hidden="true"></span>&nbsp;
             <span>{l10n.map.upload_attachment}</span>
           </button>
           <input type="file" className="add-file-input d-none" multiple="multiple" onChange={this.props.onChangeFileInput} />

@@ -182,7 +182,7 @@ export default class WatchList extends React.Component {
         <h2 className="mb-4">{l10n.map.settings_watchlist}</h2>
         <div className="form-group">
           <button type="button" onClick={() => this.addWatchListEntry()} className="btn btn-secondary">
-            <i className="fa fa-plus" aria-hidden="true"></i> {l10n.map.watchlist_command_create}
+            <span className="icon icon-add" aria-hidden="true"></span> {l10n.map.watchlist_command_create}
           </button>
         </div>
         <div className="table-responsive">
@@ -201,7 +201,7 @@ export default class WatchList extends React.Component {
                   <td>{site.site}</td>
                   <td className="text-center">
                     <div className="actions">
-                      <button type="button" onClick={e => this.deleteWatchListEntry(e, index)} className="btn btn-secondary"><i className="icon icon-delete" aria-hidden="true"></i></button>
+                      <button type="button" onClick={e => this.deleteWatchListEntry(e, index)} className="btn btn-secondary"><span className="icon icon-delete" aria-hidden="true"></span></button>
                       <i className="icon icon-arrow-right" aria-hidden="true"></i>
                     </div>
                   </td>

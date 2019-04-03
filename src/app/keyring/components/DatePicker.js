@@ -20,7 +20,7 @@ class CustomInput extends React.Component { // eslint-disable-line react/prefer-
             <i className="form-control-clear icon icon-close" onClick={this.props.onClearDate} aria-hidden="true"></i>
           </span>
           <button type="button" className="btn btn-secondary" onClick={this.props.onClick} disabled={this.props.disabled}>
-            <i className="icon icon-calender"></i>
+            <span className="icon icon-calender"></span>
           </button>
         </span>
       </div>
