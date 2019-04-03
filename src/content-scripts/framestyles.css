@@ -67,16 +67,9 @@
 }
 
 :root div.m-encrypt-frame[id^="eFrame"] {
-  background: rgba(254,251,243,.8);
-  border: 1px solid rgba(0,0,0,.2);
-  border-radius: 3px;
-  box-shadow: 0 1px 2px rgba(0,0,0,.1);
   position: absolute;
   top: 5px;
-  white-space: nowrap;
-  font-size: 0;
-  visibility: hidden;
-  opacity: 0;
+  display: none;
   z-index: 11;
   transition: visibility 0.3s 0s, opacity 0.3s ease-out;
 }
@@ -86,25 +79,73 @@
   opacity: 1;  
 }
 
+:root .m-encrypt-frame {
+  margin-left: 10px;
+}
+
+:root .m-encrypt-frame .m-encrypt-container {  
+  font-family: sans-serif;
+  display: inline-flex;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 24px;
+  padding: 6px;
+}
+
+:root .m-encrypt-frame .m-encrypt-container.active {
+  box-shadow: 0 0 0 3px rgba(227,0,72,0.25);
+}
+
+:root .m-encrypt-frame a {
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
 :root .m-encrypt-frame .m-encrypt-button {
-  height: 30px;
-  width: 30px;
-  min-width: 30px;
-  padding: 3px;
-  margin: 3px 0 3px 3px;
-  line-height: 0;
+  display: flex;
+  align-items: center;
 }
 
-:root .m-encrypt-frame .m-icon {
+:root .m-encrypt-frame .m-encrypt-button span {
+  max-width: 0px;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-left: 0;
+  margin-right: 0;
+  font-size: 16px;
+  font-weight: 500;
+  transition: margin 0s 0.25s, max-width 0.25s ease-in-out;   
+}
+
+:root .m-encrypt-container .m-encrypt-button:hover span,
+:root .m-encrypt-container.active .m-encrypt-button span {
+  max-width: 250px;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  transition: max-width 0.25s ease-in-out, margin 0s;   
+}
+
+:root .m-encrypt-frame .m-encrypt-close {
+  padding: 8px;
+}
+
+:root .m-encrypt-frame .m-encrypt-close .icon-close {
+  font-family: inherit !important;
+  display: flex;
+  align-items: center;
+}
+
+:root .m-encrypt-frame .m-encrypt-close .icon-close::before {
   display: inline-block;
-  width: 22px;
-  height: 22px;
-  background-position: center;
-  background-repeat: no-repeat;
+  font-size: 16px;
+  height: 14px;
+  width: 14px;
+  content: url("data:image/svg+xml,%3Csvg viewBox='0 0 14 14' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 6.1534l3.2028-3.4164a.75.75 0 0 1 1.0944 1.026L8.028 7.25l3.269 3.487a.75.75 0 1 1-1.0943 1.026L7 8.3466 3.7972 11.763a.75.75 0 0 1-1.0944-1.026L5.972 7.25 2.7028 3.763a.75.75 0 0 1 1.0944-1.026L7 6.1534z' fill='%239e9e9e' fill-rule='evenodd'/%3E%3C/svg%3E");
 }
 
-:root .m-encrypt-frame .m-icon-editor {
-  background-image: url('/img/mail_new.png');
+:root .m-encrypt-frame .m-encrypt-close:hover .icon-close::before {
+  content: url("data:image/svg+xml,%3Csvg viewBox='0 0 14 14' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 6.1534l3.2028-3.4164a.75.75 0 0 1 1.0944 1.026L8.028 7.25l3.269 3.487a.75.75 0 1 1-1.0943 1.026L7 8.3466 3.7972 11.763a.75.75 0 0 1-1.0944-1.026L5.972 7.25 2.7028 3.763a.75.75 0 0 1 1.0944-1.026L7 6.1534z' fill='%23757575' fill-rule='evenodd'/%3E%3C/svg%3E");
 }
 
 :root .m-decrypt.m-cursor {
@@ -155,9 +196,6 @@
   text-decoration: none !important;
 }
 
-:root .m-encrypt-frame .m-frame-close {
-  margin-left: 10px;
-}
 
 /*!
  * Bootstrap v2.1.1
