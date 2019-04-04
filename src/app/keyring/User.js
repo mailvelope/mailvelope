@@ -275,9 +275,13 @@ export default class User extends React.Component {
     }
     return (
       <Alert type={data.type}>
-        <span className="mr-2">{data.text}</span>
-        {(this.state.keyDetails.validity && data.btnText && (this.state.user.remote || this.state.user.status === PGP_KEYSTATUS_VALID)) && <button type="button" onClick={() => this.handleKeyServerSync(data.handler)} className="btn btn-secondary mr-1">{data.btnText}</button>}
-        {(this.state.user.remote && !this.state.syncAction) && <button type="button" onClick={() => this.handleKeyServerSync({sync: false})} className="btn btn-secondary">{l10n.map.user_keyserver_remove_btn}</button>}
+        <div className="d-flex align-items-center">
+          <span className="flex-shrink-1 mr-4">{data.text}</span>
+          <div className="btn-bar flex-md-shrink-0 flex-grow-1">
+            {(this.state.keyDetails.validity && data.btnText && (this.state.user.remote || this.state.user.status === PGP_KEYSTATUS_VALID)) && <button type="button" onClick={() => this.handleKeyServerSync(data.handler)} className="btn btn-secondary mb-md-0">{data.btnText}</button>}
+            {(this.state.user.remote && !this.state.syncAction) && <button type="button" onClick={() => this.handleKeyServerSync({sync: false})} className="btn btn-secondary mb-md-0">{l10n.map.user_keyserver_remove_btn}</button>}
+          </div>
+        </div>
       </Alert>
     );
   }

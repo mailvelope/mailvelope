@@ -20,14 +20,14 @@ export default function DefaultKeyButton(props) {
   return (
     <>
       {props.isDefault ? (
-        <button type="button" className={`btn btn-warning ${props.className || ''}`} disabled={true} title={l10n.map.key_default_active_btn_title}>{l10n.map.keygrid_default_label}</button>
+        <button type="button" className={`btn btn-info ${props.className || ''}`} disabled={true} title={l10n.map.key_default_active_btn_title}>{l10n.map.keygrid_default_label}</button>
       ) : (
         props.disabled ? (
           <button type="button" className={`btn btn-secondary ${props.className || ''}`} disabled={true} title={l10n.map.key_default_disabled_btn_title}>
             {l10n.map.key_set_as_default}
           </button>
         ) : (
-          <button type="button" className={`btn btn-secondary ${props.className || ''}`} onClick={props.onClick} title={l10n.map.key_default_inactive_btn_title}>
+          <button type="button" className={`btn btn-info ${props.className || ''}`} onClick={props.onClick} title={l10n.map.key_default_inactive_btn_title}>
             {l10n.map.key_set_as_default}
           </button>
         )
