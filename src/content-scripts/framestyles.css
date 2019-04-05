@@ -69,7 +69,9 @@
 :root div.m-encrypt-frame[id^="eFrame"] {
   position: absolute;
   top: 5px;
-  display: none;
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
   z-index: 11;
   transition: visibility 0.3s 0s, opacity 0.3s ease-out;
 }
@@ -91,6 +93,7 @@
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.3);
   border-radius: 24px;
   padding: 6px;
+  margin-left: auto;
 }
 
 :root .m-encrypt-frame .m-encrypt-container.active {
@@ -98,6 +101,7 @@
 }
 
 :root .m-encrypt-frame a {
+  color: inherit !important;
   text-decoration: none !important;
   cursor: pointer;
 }

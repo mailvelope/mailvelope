@@ -311,6 +311,10 @@
     "description": "Header of file decryption error on decrypt result page.",
     "message": "Verschlüsselung der Datei $1 nicht möglich!"
   },
+  "encrypt_frame_btn_label": {
+    "description": "Text on expanded editor button of editable email area",
+    "message": "Sichere Email schreiben" 
+  },
   "encrypt_header": {
     "description": "Header of file/text encrypt page.",
     "message": "Daten verschlüsseln"

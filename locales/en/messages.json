@@ -309,7 +309,11 @@
   },
   "encrypt_file_error_header": {
     "description": "Header of file decryption error on decrypt result page.",
-    "message": "Encryption of file $1 not possible!"
+    "message": "Encryption of file $1 not possible!"    
+  },
+  "encrypt_frame_btn_label": {
+    "description": "Text on expanded editor button of editable email area",
+    "message": "Write secure email" 
   },
   "encrypt_header": {
     "description": "Header of file/text encrypt page.",
