@@ -144,7 +144,6 @@ export class RecipientInputCtrl {
     }
     // lookup key in local cache
     recipient.key = this.getKey(recipient);
-
     if (recipient.key || recipient.checkedServer) {
       // color tag only if a local key was found, or after server lookup
       this.colorTag(recipient);
@@ -163,6 +162,9 @@ export class RecipientInputCtrl {
    */
   getKey(recipient) {
     return _props.keys.find(key => {
+      if (recipient.fingerprint) {
+        return key.fingerprint === recipient.fingerprint;
+      }
       if (key.email && recipient.email) {
         return key.email.toLowerCase() === recipient.email.toLowerCase();
       }
@@ -220,6 +222,7 @@ export class RecipientInputCtrl {
   autocomplete(query) {
     const cache = _props.keys.map(key => ({
       email: key.email,
+      fingerprint: key.fingerprint,
       displayId: `${key.userId} - ${key.keyId}`
     }));
     // filter by display ID and ignore duplicates
