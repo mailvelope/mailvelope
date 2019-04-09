@@ -92,8 +92,8 @@ export default class EditorContainer {
 
   createDraft() {
     return new Promise((resolve, reject) => {
-      this.createDraftPromise = {resolve, reject};
       this.checkInProgress();
+      this.createDraftPromise = {resolve, reject};
       this.port.emit('editor-container-create-draft', {keyringId: this.keyringId});
     });
   }
