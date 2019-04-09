@@ -3,6 +3,10 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
+:root .m-extract-frame-wrapper {
+  position: relative;
+}
+
 :root .m-extract-frame {
   background-position: center center, center center;
   background-image: none, none;

@@ -15,11 +15,11 @@ import VerifyFrame from './verifyFrame';
 import ImportFrame from './importFrame';
 import EncryptFrame from './encryptFrame';
 
-const SCAN_LOOP_INTERVAL = 2500; // ms
+const PGP_HEADER = /BEGIN\sPGP/;
 const PGP_FOOTER = /END\sPGP/;
 const MIN_EDIT_HEIGHT = 84;
 
-let intervalID = 0;
+let domObserver;
 //let contextTarget = null;
 let port = null;
 let watchList = null;
@@ -99,29 +99,23 @@ function on() {
   if (clientApiActive) {
     return; // do not use scan loop in case of clientAPI support
   }
-
-  //console.log('inside cs: ', document.location.host);
-  if (intervalID === 0) {
-    // start scan loop
-    scanLoop();
-    intervalID = window.setInterval(() => {
-      scanLoop();
-    }, SCAN_LOOP_INTERVAL);
-  }
+  // start scan loop
+  scanLoop();
+  domObserver = new MutationObserver(() => scanLoop());
+  domObserver.observe(document.body, {subtree: true, childList: true, characterData: true});
 }
 
 function off() {
-  if (intervalID !== 0) {
-    window.clearInterval(intervalID);
-    intervalID = 0;
+  if (domObserver) {
+    domObserver.disconnect();
   }
 }
 
 function scanLoop() {
   // find armored PGP text
-  const pgpTag = findPGPTag(PGP_FOOTER);
-  if (pgpTag.length !== 0) {
-    attachExtractFrame(pgpTag);
+  const pgpRanges = findPGPRanges();
+  if (pgpRanges.length) {
+    attachExtractFrame(pgpRanges);
   }
   // find editable content
   const editable = findEditable();
@@ -132,36 +126,40 @@ function scanLoop() {
 
 /**
  * find text nodes in DOM that match certain pattern
- * @return $([nodes])
+ * @return [Range]
  */
-function findPGPTag() {
+function findPGPRanges() {
   const treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
     acceptNode(node) {
-      if (node.parentNode.tagName !== 'SCRIPT' && PGP_FOOTER.test(node.textContent)) {
-        return NodeFilter.FILTER_ACCEPT;
-      } else {
+      if (!$(node).parent().is(':visible') ||
+        $(node).parents('[contenteditable], textarea').length ||
+        node.parentNode.tagName === 'SCRIPT' ||
+        node.ownerDocument.designMode === 'on') {
         return NodeFilter.FILTER_REJECT;
       }
+      if (PGP_HEADER.test(node.textContent) || PGP_FOOTER.test(node.textContent)) {
+        return NodeFilter.FILTER_ACCEPT;
+      }
+      return NodeFilter.FILTER_REJECT;
     }
   }, false);
 
-  let nodeList = [];
-
+  const rangeList = [];
+  let currPGPBegin;
   while (treeWalker.nextNode()) {
-    nodeList.push(treeWalker.currentNode);
+    const isPGPBegin = PGP_HEADER.test(treeWalker.currentNode.textContent);
+    if (isPGPBegin) {
+      currPGPBegin = treeWalker.currentNode;
+      continue;
+    }
+    if (currPGPBegin) {
+      const range = treeWalker.currentNode.ownerDocument.createRange();
+      range.setStartBefore(currPGPBegin);
+      range.setEndAfter(treeWalker.currentNode);
+      rangeList.push(range);
+    }
   }
-
-  // filter out hidden elements
-  nodeList = $(nodeList).filter(function() {
-    const element = $(this);
-    // visibility check does not work on text nodes
-    return element.parent().is(':visible') &&
-      // no elements within editable elements
-      element.parents('[contenteditable], textarea').length === 0 &&
-      this.ownerDocument.designMode !== 'on';
-  });
-
-  return nodeList;
+  return rangeList;
 }
 
 function findEditable() {
@@ -237,35 +235,33 @@ export function getMessageType(armored) {
   }
 }
 
-function attachExtractFrame(element) {
-  // check status of PGP tags
-  const newObj = element.filter(function() {
-    return !isAttached($(this).parent());
-  });
+function attachExtractFrame(ranges) {
+  // check status of PGP ranges
+  const newRanges = ranges.filter(range =>
+    !isAttached($(range.commonAncestorContainer))
+  );
   // create new decrypt frames for new discovered PGP tags
-  newObj.each((index, element) => {
+  for (const range of newRanges) {
     try {
-      // parent element of text node
-      const pgpEnd = $(element).parent();
-      switch (getMessageType(pgpEnd.text())) {
+      switch (getMessageType(range.endContainer.textContent)) {
         case PGP_MESSAGE: {
           const dFrame = new DecryptFrame();
-          dFrame.attachTo(pgpEnd);
+          dFrame.attachTo(range);
           break;
         }
         case PGP_SIGNATURE: {
           const vFrame = new VerifyFrame();
-          vFrame.attachTo(pgpEnd);
+          vFrame.attachTo(range);
           break;
         }
         case PGP_PUBLIC_KEY: {
           const imFrame = new ImportFrame();
-          imFrame.attachTo(pgpEnd);
+          imFrame.attachTo(range);
           break;
         }
       }
     } catch (e) {}
-  });
+  }
 }
 
 /**
