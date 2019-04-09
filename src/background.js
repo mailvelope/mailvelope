@@ -23,10 +23,10 @@ import {initScriptInjection} from './lib/inject';
 
 async function main() {
   initBrowserRuntime();
+  initController();
   await initModel();
   await initNativeMessaging();
   await initKeyring();
-  initController();
   initScriptInjection();
 }
 
