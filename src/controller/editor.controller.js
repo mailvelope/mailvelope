@@ -90,7 +90,7 @@ export default class EditorController extends sub.SubController {
     const keyring = getKeyringById(this.keyringId);
     const defaultKeyFpr = await keyring.getDefaultKeyFpr();
     const data = {
-      signMsg: this.options.signMsg,
+      signMsg: this.options.signMsg || prefs.general.auto_sign_msg,
       defaultKeyFpr
     };
     if (msg.options.privKeys) {

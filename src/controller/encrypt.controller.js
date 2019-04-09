@@ -9,7 +9,6 @@
  */
 
 import * as sub from './sub.controller';
-import {prefs} from '../modules/prefs';
 
 export default class EncryptController extends sub.SubController {
   constructor(port) {
@@ -32,7 +31,6 @@ export default class EncryptController extends sub.SubController {
     }
     this.editorControl = sub.factory.get('editor');
     return this.editorControl.encrypt({
-      signMsg: prefs.general.auto_sign_msg,
       predefinedText: options.text,
       quotedMail: options.quotedMail,
       quotedMailIndent: !this.editorContentModified,
