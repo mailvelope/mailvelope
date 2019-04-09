@@ -12,53 +12,32 @@ import {currentProvider} from './main';
 export default class ExtractFrame {
   constructor() {
     this.id = getHash();
-    // element with Armor Tail Line '-----END PGP...'
-    this.pgpEnd = null;
-    // element that contains complete ASCII Armored Message
-    this.pgpElement = null;
+    // range element with armored message
+    this.pgpRange = null;
+    // Jquery element that contains complete ASCII Armored Message
+    this.$pgpElement = null;
     this.pgpElementAttr = {};
-    this.eFrame = null;
+    this.$eFrame = null;
     this.port = null;
-    this.refreshPosIntervalID = null;
     this.pgpStartRegex = /BEGIN\sPGP/;
     this.currentProvider = currentProvider;
   }
 
-  attachTo(pgpEnd) {
-    this.init(pgpEnd);
+  attachTo(pgpRange) {
+    this.init(pgpRange);
     this.establishConnection();
     this.renderFrame();
     this.registerEventListener();
   }
 
-  init(pgpEnd) {
-    this.pgpEnd = pgpEnd;
-    // find element with complete armored text and width > 0
-    this.pgpElement = pgpEnd;
-    const maxNesting = 8;
-    let beginFound = false;
-    for (let i = 0; i < maxNesting; i++) {
-      if (this.pgpStartRegex.test(this.pgpElement.text()) &&
-          this.pgpElement.width() > 0) {
-        beginFound = true;
-        break;
-      }
-      this.pgpElement = this.pgpElement.parent();
-      if (this.pgpElement.get(0).nodeName === 'HTML') {
-        break;
-      }
-    }
+  init(pgpRange) {
+    this.pgpRange = pgpRange;
+    // get parent element of range elements
+    this.$pgpElement = $(pgpRange.commonAncestorContainer);
     // set status to attached
-    this.pgpEnd.data(FRAME_STATUS, FRAME_ATTACHED);
+    this.$pgpElement.data(FRAME_STATUS, FRAME_ATTACHED);
     // store frame obj in pgpText tag
-    this.pgpEnd.data(FRAME_OBJ, this);
-    if (!beginFound) {
-      throw new Error('Missing BEGIN PGP header.');
-    }
-    this.pgpElementAttr.marginTop = parseInt(this.pgpElement.css('margin-top'), 10);
-    this.pgpElementAttr.paddingTop = parseInt(this.pgpElement.css('padding-top'), 10);
-    this.pgpElementAttr.marginLeft = parseInt(this.pgpElement.css('margin-left'), 10);
-    this.pgpElementAttr.paddingLeft = parseInt(this.pgpElement.css('padding-left'), 10);
+    this.$pgpElement.data(FRAME_OBJ, this);
   }
 
   establishConnection() {
@@ -66,21 +45,26 @@ export default class ExtractFrame {
   }
 
   renderFrame() {
-    this.eFrame = $('<div/>', {
+    this.$eFrame = $('<div/>', {
       id: `eFrame-${this.id}`,
       'class': 'm-extract-frame m-cursor',
       html: '<a class="m-frame-close">×</a>'
     });
     this.setFrameDim();
-    this.eFrame.insertAfter(this.pgpElement);
-    if (this.pgpElement.height() > LARGE_FRAME) {
-      this.eFrame.addClass('m-large');
+    // should use a wrapper element instead, but breaks range object
+    this.$pgpElement
+    .addClass('m-extract-frame-wrapper')
+    .append(this.$eFrame);
+
+    if (this.pgpRange.getBoundingClientRect().height > LARGE_FRAME) {
+      this.$eFrame.addClass('m-large');
     }
-    this.eFrame.fadeIn('slow');
-    this.eFrame.on('click', this.clickHandler.bind(this));
-    this.eFrame.find('.m-frame-close').on('click', this.closeFrame.bind(this));
+    this.$eFrame.fadeIn('slow');
+    this.$eFrame.on('click', this.clickHandler.bind(this));
+    this.$eFrame.find('.m-frame-close').on('click', this.closeFrame.bind(this));
     $(window).resize(this.setFrameDim.bind(this));
-    this.refreshPosIntervalID = window.setInterval(() => this.setFrameDim(), 1000);
+    this.domObserver = new MutationObserver(() => this.setFrameDim());
+    this.domObserver.observe(document.body, {subtree: true, childList: true, characterData: true});
   }
 
   registerEventListener() {
@@ -89,54 +73,41 @@ export default class ExtractFrame {
   }
 
   clickHandler(callback) {
-    this.eFrame.off('click');
+    this.$eFrame.off('click');
     this.toggleIcon(callback);
-    this.eFrame.removeClass('m-cursor');
+    this.$eFrame.removeClass('m-cursor');
     return false;
   }
 
   closeFrame(finalClose) {
-    this.eFrame.fadeOut(() => {
-      window.clearInterval(this.refreshPosIntervalID);
+    this.$eFrame.fadeOut(() => {
+      this.domObserver.disconnect();
       $(window).off('resize');
-      this.eFrame.remove();
+      this.$eFrame.remove();
       if (finalClose === true) {
         this.port.disconnect();
-        this.pgpEnd.data(FRAME_STATUS, null);
+        this.$pgpElement.data(FRAME_STATUS, null);
       } else {
-        this.pgpEnd.data(FRAME_STATUS, FRAME_DETACHED);
+        this.$pgpElement.data(FRAME_STATUS, FRAME_DETACHED);
       }
-      this.pgpEnd.data(FRAME_OBJ, null);
+      this.$pgpElement.data(FRAME_OBJ, null);
     });
     return false;
   }
 
   toggleIcon(callback) {
-    this.eFrame.one('transitionend', callback);
-    this.eFrame.toggleClass('m-open');
+    this.$eFrame.one('transitionend', callback);
+    this.$eFrame.toggleClass('m-open');
   }
 
   setFrameDim() {
-    const pgpElementPos = this.pgpElement.position();
-    this.eFrame.width(this.pgpElement.width() - 2);
-    this.eFrame.height(this.pgpEnd.position().top + this.pgpEnd.height() - pgpElementPos.top - 2);
-    this.eFrame.css('top', pgpElementPos.top + this.pgpElementAttr.marginTop + this.pgpElementAttr.paddingTop);
-    this.eFrame.css('left', pgpElementPos.left + this.pgpElementAttr.marginLeft + this.pgpElementAttr.paddingLeft);
+    const boundingRect = this.pgpRange.getBoundingClientRect();
+    this.$eFrame.width(boundingRect.width);
+    this.$eFrame.height(boundingRect.height);
   }
 
   getArmoredMessage() {
-    let msg;
-    // selection method does not work in Firefox if pre element without linebreaks with <br>
-    if (this.pgpElement.is('pre') && !this.pgpElement.find('br').length) {
-      msg = this.pgpElement.text();
-    } else {
-      const element = this.pgpElement.get(0);
-      const sel = element.ownerDocument.defaultView.getSelection();
-      sel.selectAllChildren(element);
-      msg = sel.toString();
-      sel.removeAllRanges();
-    }
-    return msg;
+    return this.pgpRange.toString();
   }
 
   getPGPMessage() {
@@ -147,6 +118,6 @@ export default class ExtractFrame {
   }
 
   getEmailSender() {
-    return this.currentProvider.getSender(this.pgpElement);
+    return this.currentProvider.getSender(this.$pgpElement);
   }
 }

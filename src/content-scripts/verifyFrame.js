@@ -15,38 +15,22 @@ export default class VerifyFrame extends ExtractFrame {
     // verify popup active
     this.vPopup = false;
     this.ctrlName = `vFrame-${this.id}`;
-    this.typeRegex = /-----BEGIN PGP SIGNED MESSAGE-----[\s\S]+?-----END PGP SIGNATURE-----/;
-    this.pgpStartRegex = /BEGIN\sPGP\sSIGNED/;
-    this.sigHeight = 128;
   }
 
-  init(pgpEnd) {
-    super.init(pgpEnd);
-    this.calcSignatureHeight();
+  init(pgpRange) {
+    super.init(pgpRange);
   }
 
   renderFrame() {
     super.renderFrame();
-    this.eFrame.addClass('m-verify');
-    this.eFrame.removeClass('m-large');
+    this.$eFrame.addClass('m-verify');
+    this.$eFrame.removeClass('m-large');
   }
 
   registerEventListener() {
     super.registerEventListener();
     this.port.on('remove-dialog', this.removeDialog);
     this.port.on('armored-message', () => this.port.emit('vframe-armored-message', {data: this.getArmoredMessage()}));
-  }
-
-  calcSignatureHeight() {
-    let msg = this.getArmoredMessage();
-    msg = msg.split('\n');
-    for (let i = 0; i < msg.length; i++) {
-      if (/-----BEGIN\sPGP\sSIGNATURE-----/.test(msg[i])) {
-        const height = this.pgpEnd.position().top + this.pgpEnd.height() - this.pgpElement.position().top - 2;
-        this.sigHeight = parseInt(height / msg.length * (msg.length - i), 10);
-        break;
-      }
-    }
   }
 
   clickHandler() {
@@ -68,7 +52,7 @@ export default class VerifyFrame extends ExtractFrame {
     });
     const url = chrome.runtime.getURL(`components/decrypt-message/decryptMessage.html?id=${this.id}`);
     this.vDialog.attr('src', url);
-    this.eFrame.append(this.vDialog);
+    this.$eFrame.append(this.vDialog);
     this.setFrameDim();
     this.vDialog.fadeIn();
   }
@@ -91,24 +75,14 @@ export default class VerifyFrame extends ExtractFrame {
     } else {
       this.vPopup = false;
     }
-    this.eFrame.addClass('m-cursor');
-    this.eFrame.removeClass('m-open');
-    this.eFrame.on('click', this.clickHandler.bind(this));
+    this.$eFrame.addClass('m-cursor');
+    this.$eFrame.removeClass('m-open');
+    this.$eFrame.on('click', this.clickHandler.bind(this));
   }
 
   setFrameDim() {
-    const pgpElementPos = this.pgpElement.position();
-    this.eFrame.width(this.pgpElement.width() - 2);
-    const height = this.pgpEnd.position().top + this.pgpEnd.height() - pgpElementPos.top - 2;
-    const top = pgpElementPos.top + this.pgpElementAttr.marginTop + this.pgpElementAttr.paddingTop;
-    const left = pgpElementPos.left + this.pgpElementAttr.marginLeft + this.pgpElementAttr.paddingLeft;
-    this.eFrame.css('left', left);
-    if (this.vDialog) {
-      this.eFrame.height(height);
-      this.eFrame.css('top', top);
-    } else {
-      this.eFrame.height(this.sigHeight);
-      this.eFrame.css('top', top + height - this.sigHeight);
-    }
+    const boundingRect = this.pgpRange.getBoundingClientRect();
+    this.$eFrame.width(boundingRect.width);
+    this.$eFrame.height(boundingRect.height);
   }
 }

@@ -22,7 +22,7 @@ export default class DecryptFrame extends ExtractFrame {
 
   renderFrame() {
     super.renderFrame();
-    this.eFrame.addClass('m-decrypt');
+    this.$eFrame.addClass('m-decrypt');
   }
 
   registerEventListener() {
@@ -61,7 +61,7 @@ export default class DecryptFrame extends ExtractFrame {
     });
     const url = chrome.runtime.getURL(`components/decrypt-message/decryptMessage.html?id=${this.id}`);
     this.dDialog.attr('src', url);
-    this.eFrame.append(this.dDialog);
+    this.$eFrame.append(this.dDialog);
     this.setFrameDim();
     this.dDialog.fadeIn();
   }
@@ -84,8 +84,8 @@ export default class DecryptFrame extends ExtractFrame {
     } else {
       this.dPopup = false;
     }
-    this.eFrame.addClass('m-cursor');
+    this.$eFrame.addClass('m-cursor');
     this.toggleIcon();
-    this.eFrame.on('click', this.clickHandler.bind(this));
+    this.$eFrame.on('click', this.clickHandler.bind(this));
   }
 }
