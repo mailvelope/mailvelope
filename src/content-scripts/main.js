@@ -103,6 +103,7 @@ function on() {
   scanLoop();
   domObserver = new MutationObserver(() => scanLoop());
   domObserver.observe(document.body, {subtree: true, childList: true, characterData: true});
+  // domObserver.observe(document.body, {subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ['class', 'style']});
 }
 
 function off() {

@@ -4,6 +4,7 @@
  */
 
 :root .m-extract-frame-wrapper {
+  display: inline-block;
   position: relative;
 }
 
