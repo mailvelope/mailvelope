@@ -32,12 +32,18 @@ export default class ExtractFrame {
 
   init(pgpRange) {
     this.pgpRange = pgpRange;
-    // get parent element of range elements
-    this.$pgpElement = $(pgpRange.commonAncestorContainer);
+
+    // set container element
+    this.$pgpElement = $('<div/>', {
+      'class': 'm-extract-frame-wrapper',
+    });
+
     // set status to attached
     this.$pgpElement.data(FRAME_STATUS, FRAME_ATTACHED);
     // store frame obj in pgpText tag
     this.$pgpElement.data(FRAME_OBJ, this);
+
+    this.pgpRange.surroundContents(this.$pgpElement.get(0));
   }
 
   establishConnection() {
@@ -50,11 +56,10 @@ export default class ExtractFrame {
       'class': 'm-extract-frame m-cursor',
       html: '<a class="m-frame-close">×</a>'
     });
+
     this.setFrameDim();
-    // should use a wrapper element instead, but breaks range object
-    this.$pgpElement
-    .addClass('m-extract-frame-wrapper')
-    .append(this.$eFrame);
+
+    this.$pgpElement.append(this.$eFrame);
 
     if (this.pgpRange.getBoundingClientRect().height > LARGE_FRAME) {
       this.$eFrame.addClass('m-large');
