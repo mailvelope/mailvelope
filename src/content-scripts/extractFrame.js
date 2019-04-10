@@ -37,13 +37,14 @@ export default class ExtractFrame {
     this.$pgpElement = $('<div/>', {
       'class': 'm-extract-frame-wrapper',
     });
-
     // set status to attached
     this.$pgpElement.data(FRAME_STATUS, FRAME_ATTACHED);
     // store frame obj in pgpText tag
     this.$pgpElement.data(FRAME_OBJ, this);
 
-    this.pgpRange.surroundContents(this.$pgpElement.get(0));
+    this.$pgpElement.append(this.pgpRange.extractContents());
+    this.pgpRange.insertNode(this.$pgpElement.get(0));
+    this.pgpRange.selectNodeContents(this.$pgpElement.get(0));
   }
 
   establishConnection() {
