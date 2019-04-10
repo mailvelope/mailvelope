@@ -102,7 +102,7 @@ function on() {
   // start scan loop
   scanLoop();
   domObserver = new MutationObserver(() => scanLoop());
-  domObserver.observe(document.body, {subtree: true, childList: true, characterData: true});
+  domObserver.observe(document.body, {subtree: true, childList: true});
   // domObserver.observe(document.body, {subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ['class', 'style']});
 }
 
@@ -132,12 +132,6 @@ function scanLoop() {
 function findPGPRanges() {
   const treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
     acceptNode(node) {
-      if (!$(node).parent().is(':visible') ||
-        $(node).parents('[contenteditable], textarea').length ||
-        node.parentNode.tagName === 'SCRIPT' ||
-        node.ownerDocument.designMode === 'on') {
-        return NodeFilter.FILTER_REJECT;
-      }
       if (PGP_HEADER.test(node.textContent) || PGP_FOOTER.test(node.textContent)) {
         return NodeFilter.FILTER_ACCEPT;
       }
@@ -148,15 +142,23 @@ function findPGPRanges() {
   const rangeList = [];
   let currPGPBegin;
   while (treeWalker.nextNode()) {
+    if (!$(treeWalker.currentNode).parent().is(':visible') ||
+      $(treeWalker.currentNode).parents('[contenteditable], textarea').length ||
+      treeWalker.currentNode.parentNode.tagName === 'SCRIPT' ||
+      treeWalker.currentNode.ownerDocument.designMode === 'on') {
+      continue;
+    }
     const isPGPBegin = PGP_HEADER.test(treeWalker.currentNode.textContent);
     if (isPGPBegin) {
       currPGPBegin = treeWalker.currentNode;
       continue;
     }
     if (currPGPBegin) {
-      const range = treeWalker.currentNode.ownerDocument.createRange();
+      const pgpEnd = treeWalker.currentNode;
+      const range = pgpEnd.ownerDocument.createRange();
+
       range.setStartBefore(currPGPBegin);
-      range.setEndAfter(treeWalker.currentNode);
+      range.setEndAfter(pgpEnd);
       rangeList.push(range);
     }
   }
@@ -243,7 +245,9 @@ function attachExtractFrame(ranges) {
   );
   // create new decrypt frames for new discovered PGP tags
   for (const range of newRanges) {
+    console.log(range);
     try {
+      console.log(getMessageType(range.endContainer.textContent));
       switch (getMessageType(range.endContainer.textContent)) {
         case PGP_MESSAGE: {
           const dFrame = new DecryptFrame();
@@ -296,6 +300,7 @@ function attachEncryptFrame(element, expanded) {
 
 function isAttached(element) {
   const status = element.data(FRAME_STATUS);
+  console.log(status);
   switch (status) {
     case FRAME_ATTACHED:
     case FRAME_DETACHED:
