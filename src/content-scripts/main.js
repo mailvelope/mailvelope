@@ -15,11 +15,11 @@ import VerifyFrame from './verifyFrame';
 import ImportFrame from './importFrame';
 import EncryptFrame from './encryptFrame';
 
-const PGP_HEADER = /BEGIN\sPGP/;
-const PGP_FOOTER = /END\sPGP/;
+const PGP_HEADER = /-----BEGIN\sPGP\s(SIGNED|MESSAGE|PUBLIC)/;
+const PGP_FOOTER = /END\sPGP\s(MESSAGE|SIGNATURE|PUBLIC KEY BLOCK)-----/;
 const MIN_EDIT_HEIGHT = 84;
 
-let domObserver;
+let domObserver = null;
 //let contextTarget = null;
 let port = null;
 let watchList = null;
@@ -101,9 +101,11 @@ function on() {
   }
   // start scan loop
   scanLoop();
+
   domObserver = new MutationObserver(() => scanLoop());
   domObserver.observe(document.body, {subtree: true, childList: true});
-  // domObserver.observe(document.body, {subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ['class', 'style']});
+
+  document.addEventListener('click', () => scanLoop(), true);
 }
 
 function off() {
@@ -114,15 +116,17 @@ function off() {
 
 function scanLoop() {
   // find armored PGP text
-  const pgpRanges = findPGPRanges();
-  if (pgpRanges.length) {
-    attachExtractFrame(pgpRanges);
-  }
-  // find editable content
-  const editable = findEditable();
-  if (editable.length !== 0) {
-    attachEncryptFrame(editable);
-  }
+  setTimeout(() => {
+    const pgpRanges = findPGPRanges();
+    if (pgpRanges.length) {
+      attachExtractFrame(pgpRanges);
+    }
+    // find editable content
+    const editable = findEditable();
+    if (editable.length !== 0) {
+      attachEncryptFrame(editable);
+    }
+  }, 50);
 }
 
 /**
@@ -245,9 +249,7 @@ function attachExtractFrame(ranges) {
   );
   // create new decrypt frames for new discovered PGP tags
   for (const range of newRanges) {
-    console.log(range);
     try {
-      console.log(getMessageType(range.endContainer.textContent));
       switch (getMessageType(range.endContainer.textContent)) {
         case PGP_MESSAGE: {
           const dFrame = new DecryptFrame();
@@ -300,7 +302,6 @@ function attachEncryptFrame(element, expanded) {
 
 function isAttached(element) {
   const status = element.data(FRAME_STATUS);
-  console.log(status);
   switch (status) {
     case FRAME_ATTACHED:
     case FRAME_DETACHED:

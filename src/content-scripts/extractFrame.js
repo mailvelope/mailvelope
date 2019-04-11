@@ -14,6 +14,7 @@ export default class ExtractFrame {
     this.id = getHash();
     // range element with armored message
     this.pgpRange = null;
+    this.pgpSelection = null;
     // Jquery element that contains complete ASCII Armored Message
     this.$pgpElement = null;
     this.pgpElementAttr = {};
@@ -35,7 +36,7 @@ export default class ExtractFrame {
 
     // set container element
     this.$pgpElement = $('<div/>', {
-      'class': 'm-extract-frame-wrapper',
+      'class': 'm-extract-wrapper',
     });
     // set status to attached
     this.$pgpElement.data(FRAME_STATUS, FRAME_ATTACHED);
@@ -70,7 +71,7 @@ export default class ExtractFrame {
     this.$eFrame.find('.m-frame-close').on('click', this.closeFrame.bind(this));
     $(window).resize(this.setFrameDim.bind(this));
     this.domObserver = new MutationObserver(() => this.setFrameDim());
-    this.domObserver.observe(document.body, {subtree: true, childList: true, characterData: true});
+    this.domObserver.observe(document.body, {subtree: true, childList: true});
   }
 
   registerEventListener() {
@@ -113,7 +114,13 @@ export default class ExtractFrame {
   }
 
   getArmoredMessage() {
-    return this.pgpRange.toString();
+    const pgpSelection = window.getSelection();
+    // required in order to make Selection.addRange work
+    pgpSelection.removeAllRanges();
+    pgpSelection.addRange(this.pgpRange);
+    const msg = pgpSelection.toString();
+    pgpSelection.removeAllRanges();
+    return msg;
   }
 
   getPGPMessage() {

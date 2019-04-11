@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-:root .m-extract-frame-wrapper {
+:root .m-extract-wrapper {
   display: inline-block;
   position: relative;
 }
@@ -11,14 +11,13 @@
 :root .m-extract-frame {
   background-position: center center, center center;
   background-image: none, none;
-  transition: background-position 0.5s ease, background-image 0.5s ease;
+  transition: background-position 0.5s ease, background-image 0.5s ease, height 0.5s linear;
   background-color: rgba(254,251,243,.8);
   background-repeat: no-repeat;
   border: 1px solid rgba(0,0,0,.2);
   border-radius: 3px;
   box-shadow: 0 1px 2px rgba(0,0,0,.1);
   position: absolute;
-  top: 0;
   z-index: 1;
   display: none;
   overflow: hidden;
@@ -26,20 +25,23 @@
 }
 
 :root .m-extract-frame.m-decrypt {
+  top: 0;
   background-image: url('/img/mail_locked_96.png'), none;
 }
 
 :root .m-extract-frame.m-verify {
+  bottom: 0;
   background-image: url('/img/mail_signed_96.png'), none;
   background-size: 80px, 80px;
 }
 
-:root .m-extract-frame.m-open.m-verify {
+/*:root .m-extract-frame.m-open.m-verify {
   background-position: center center;
   background-size: 80px, 80px;
-}
+}*/
 
 :root .m-extract-frame.m-import {
+  top: 0;
   background-image: url('/img/key-icon-blue96.png'), none;
 }
 
