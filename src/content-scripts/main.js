@@ -55,7 +55,7 @@ function init(preferences, watchlist) {
     // non-api case ... use provider specific content scripts
     providers.init();
     currentProvider = providers.get(host);
-    // turn on scan loop
+    // turn on DOM scan
     on();
   }
 }
@@ -97,14 +97,12 @@ function detectHost() {
 
 function on() {
   if (clientApiActive) {
-    return; // do not use scan loop in case of clientAPI support
+    return; // do not use DOM scan in case of clientAPI support
   }
-  // start scan loop
+  // start DOM scan
   scanDOM();
-
   domObserver = new MutationObserver(() => scanDOM());
   domObserver.observe(document.body, {subtree: true, childList: true});
-
   document.addEventListener('click', () => scanDOM(), true);
   document.addEventListener('keydown', e => {
     if (e.keyCode === 13) {
@@ -147,7 +145,6 @@ function findPGPRanges() {
       return NodeFilter.FILTER_REJECT;
     }
   }, false);
-
   const rangeList = [];
   let currPGPBegin;
   while (treeWalker.nextNode()) {
@@ -165,7 +162,6 @@ function findPGPRanges() {
     if (currPGPBegin) {
       const pgpEnd = treeWalker.currentNode;
       const range = pgpEnd.ownerDocument.createRange();
-
       range.setStartBefore(currPGPBegin);
       range.setEndAfter(pgpEnd);
       rangeList.push(range);
