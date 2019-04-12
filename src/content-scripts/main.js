@@ -100,12 +100,17 @@ function on() {
     return; // do not use scan loop in case of clientAPI support
   }
   // start scan loop
-  scanLoop();
+  scanDOM();
 
-  domObserver = new MutationObserver(() => scanLoop());
+  domObserver = new MutationObserver(() => scanDOM());
   domObserver.observe(document.body, {subtree: true, childList: true});
 
-  document.addEventListener('click', () => scanLoop(), true);
+  document.addEventListener('click', () => scanDOM(), true);
+  document.addEventListener('keydown', e => {
+    if (e.keyCode === 13) {
+      scanDOM();
+    }
+  }, true);
 }
 
 function off() {
@@ -114,7 +119,7 @@ function off() {
   }
 }
 
-function scanLoop() {
+function scanDOM() {
   // find armored PGP text
   setTimeout(() => {
     const pgpRanges = findPGPRanges();
