@@ -15,12 +15,11 @@ export default class ExtractFrame {
     // range element with armored message
     this.pgpRange = null;
     this.pgpSelection = null;
-    // Jquery element that contains complete ASCII Armored Message
+    // jQuery element that contains complete ASCII Armored Message
     this.$pgpElement = null;
     this.pgpElementAttr = {};
     this.$eFrame = null;
     this.port = null;
-    this.pgpStartRegex = /BEGIN\sPGP/;
     this.currentProvider = currentProvider;
   }
 
@@ -33,7 +32,6 @@ export default class ExtractFrame {
 
   init(pgpRange) {
     this.pgpRange = pgpRange;
-
     // set container element
     this.$pgpElement = $('<div/>', {
       'class': 'm-extract-wrapper',
@@ -42,7 +40,6 @@ export default class ExtractFrame {
     this.$pgpElement.data(FRAME_STATUS, FRAME_ATTACHED);
     // store frame obj in pgpText tag
     this.$pgpElement.data(FRAME_OBJ, this);
-
     this.$pgpElement.append(this.pgpRange.extractContents());
     this.pgpRange.insertNode(this.$pgpElement.get(0));
     this.pgpRange.selectNodeContents(this.$pgpElement.get(0));
@@ -58,11 +55,8 @@ export default class ExtractFrame {
       'class': 'm-extract-frame m-cursor',
       html: '<a class="m-frame-close">×</a>'
     });
-
     this.setFrameDim();
-
     this.$pgpElement.append(this.$eFrame);
-
     if (this.pgpRange.getBoundingClientRect().height > LARGE_FRAME) {
       this.$eFrame.addClass('m-large');
     }

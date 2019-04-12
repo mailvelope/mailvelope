@@ -17,7 +17,6 @@ export default class DecryptFrame extends ExtractFrame {
     // decrypt popup active
     this.dPopup = false;
     this.ctrlName = `dFrame-${this.id}`;
-    // this.typeRegex = /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/;
   }
 
   renderFrame() {

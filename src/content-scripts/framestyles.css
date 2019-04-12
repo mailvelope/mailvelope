@@ -35,11 +35,6 @@
   background-size: 80px, 80px;
 }
 
-/*:root .m-extract-frame.m-open.m-verify {
-  background-position: center center;
-  background-size: 80px, 80px;
-}*/
-
 :root .m-extract-frame.m-import {
   top: 0;
   background-image: url('/img/key-icon-blue96.png'), none;
