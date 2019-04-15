@@ -50,6 +50,7 @@ export default class KeyDetails extends React.Component {
     this.state = {
       showExDateModal: false,
       showPwdModal: false,
+      action: '',
       keys,
       selectedKeyIdx: defaultKeyIdx,
       exDateInput: normalizedExDate,
@@ -119,7 +120,9 @@ export default class KeyDetails extends React.Component {
           throw error;
         }
       } finally {
-        this.processSetExDate = false;
+        this.setState(prevSate => ({
+          keyExpirationTime: prevSate.exDateInput
+        }));
       }
     }
   }
@@ -137,8 +140,7 @@ export default class KeyDetails extends React.Component {
       this.setState({errors});
       return;
     }
-    this.processChangePwd = true;
-    this.modal.$node.modal('hide');
+    this.setState({action: 'setPwd', showPwdModal: false});
   }
 
   async handleChangePwd() {
@@ -148,8 +150,6 @@ export default class KeyDetails extends React.Component {
       if (error.code !== 'PWD_DIALOG_CANCEL') {
         throw error;
       }
-    } finally {
-      this.processChangePwd = false;
     }
   }
 
@@ -163,16 +163,14 @@ export default class KeyDetails extends React.Component {
   }
 
   async handleHiddenModal() {
-    if (this.processSetExDate) {
-      await this.handleChangeExDate();
-    } else if (this.processChangePwd) {
-      await this.handleChangePwd();
+    switch (this.state.action) {
+      case 'setExDate':
+        await this.handleChangeExDate();
+        break;
+      case 'setPwd':
+        await this.handleChangePwd();
     }
     this.cleanUpPwdData();
-    this.setState(prevSate => ({
-      showExDateModal: false,
-      keyExpirationTime: prevSate.exDateInput
-    }));
   }
 
   render() {
@@ -240,42 +238,38 @@ export default class KeyDetails extends React.Component {
             </div>
           </div>
         </div>
-        {this.state.showExDateModal &&
-          <Modal ref={modal => this.modal = modal} size="medium" title={l10n.map.keydetails_change_exp_date_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
-            <>
-              <div className="form-group">
-                <DatePicker value={this.state.keyExpirationTime} onChange={moment => this.handleChange({target: {id: 'keyExpirationTime', value: moment}})} placeholder={l10n.map.keygrid_key_not_expire} minDate={moment().add({days: 1})} maxDate={moment('2080-12-31')} disabled={false} />
+        <Modal isOpen={this.state.showExDateModal} toggle={() => this.setState(prevState => ({showExDateModal: !prevState.showExDateModal}))} size="medium" title={l10n.map.keydetails_change_exp_date_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
+          <>
+            <div className="form-group">
+              <DatePicker value={this.state.keyExpirationTime} onChange={moment => this.handleChange({target: {id: 'keyExpirationTime', value: moment}})} placeholder={l10n.map.keygrid_key_not_expire} minDate={moment().add({days: 1})} maxDate={moment('2080-12-31')} disabled={false} />
+            </div>
+            <Alert type="warning" header={l10n.map.header_warning}>
+              {l10n.map.keydetails_change_exp_date_dialog_note}
+            </Alert>
+            <div className="row no-gutters">
+              <div className="col-6 pr-1">
+                <button type="button" className="btn btn-secondary btn-block" onClick={() => this.setState({showExDateModal: false})}>{l10n.map.dialog_cancel_btn}</button>
               </div>
-              <Alert type="warning" header={l10n.map.header_warning}>
-                {l10n.map.keydetails_change_exp_date_dialog_note}
-              </Alert>
-              <div className="row no-gutters">
-                <div className="col-6 pr-1">
-                  <button type="button" className="btn btn-secondary btn-block" data-dismiss="modal">{l10n.map.dialog_cancel_btn}</button>
-                </div>
-                <div className="col-6 pl-1">
-                  <button type="button" onClick={() => this.processSetExDate = true} className="btn btn-primary btn-block" data-dismiss="modal">{l10n.map.dialog_save_btn}</button>
-                </div>
+              <div className="col-6 pl-1">
+                <button type="button" onClick={() => this.setState({action: 'setExDate', showExDateModal: false})} className="btn btn-primary btn-block">{l10n.map.dialog_save_btn}</button>
               </div>
-            </>
-          </Modal>
-        }
-        {this.state.showPwdModal &&
-          <Modal ref={modal => this.modal = modal} size="small" title={l10n.map.keydetails_change_pwd_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
-            <form>
-              <div className="form-group">
-                <label htmlFor="passwordCurrent">{l10n.map.keydetails_change_pwd_dialog_old}</label>
-                <input type="password" onChange={this.handleChange} className={`form-control ${this.state.errors.passwordCurrent ? 'is-invalid' : ''}`} id="passwordCurrent" />
-                {this.state.errors.passwordCurrent && <div className="invalid-feedback">{l10n.map.pwd_dialog_wrong_pwd}</div>}
-              </div>
-              <DefinePassword value={this.state.password} errors={this.state.errors} onChange={this.handleChange} disabled={this.state.success} />
-              <div className="btn-bar justify-content-between">
-                <button type="button" className="btn btn-secondary" data-dismiss="modal">{l10n.map.dialog_cancel_btn}</button>
-                <button type="button" onClick={this.validateChangePwd} className="btn btn-primary">{l10n.map.dialog_save_btn}</button>
-              </div>
-            </form>
-          </Modal>
-        }
+            </div>
+          </>
+        </Modal>
+        <Modal isOpen={this.state.showPwdModal} toggle={() => this.setState(prevState => ({showPwdModal: !prevState.showPwdModal}))} size="small" title={l10n.map.keydetails_change_pwd_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
+          <form>
+            <div className="form-group">
+              <label htmlFor="passwordCurrent">{l10n.map.keydetails_change_pwd_dialog_old}</label>
+              <input type="password" onChange={this.handleChange} className={`form-control ${this.state.errors.passwordCurrent ? 'is-invalid' : ''}`} id="passwordCurrent" />
+              {this.state.errors.passwordCurrent && <div className="invalid-feedback">{l10n.map.pwd_dialog_wrong_pwd}</div>}
+            </div>
+            <DefinePassword value={this.state.password} errors={this.state.errors} onChange={this.handleChange} disabled={this.state.success} />
+            <div className="btn-bar justify-content-between">
+              <button type="button" className="btn btn-secondary" onClick={() => this.setState({showPwdModal: false})}>{l10n.map.dialog_cancel_btn}</button>
+              <button type="button" onClick={this.validateChangePwd} className="btn btn-primary">{l10n.map.dialog_save_btn}</button>
+            </div>
+          </form>
+        </Modal>
       </div>
     );
   }

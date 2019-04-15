@@ -56,6 +56,7 @@ export default class Editor extends React.Component {
       encryptDisabled: true,
       waiting: false,
       error: null,
+      showError: false,
       pwdDialog: null,
       files: []
     };
@@ -235,7 +236,8 @@ export default class Editor extends React.Component {
         type: 'danger'
       },
       waiting: false,
-      pwdDialog: null
+      pwdDialog: null,
+      showError: true
     });
   }
 
@@ -366,35 +368,6 @@ export default class Editor extends React.Component {
     );
   }
 
-  waitingModal() {
-    if (!this.state.waiting) {
-      return null;
-    }
-    return (
-      <Modal className="waiting-modal" hideHeader={true} hideFooter={true} keyboard={false} onShow={this.blurWarning && this.blurWarning.startBlurValid}>
-        <div>
-          <Spinner style={{margin: '10px auto'}} />
-          <p className="text-center">{l10n.map.waiting_dialog_prepare_email}&hellip;</p>
-        </div>
-      </Modal>
-    );
-  }
-
-  errorModal() {
-    if (!this.state.error) {
-      return null;
-    }
-    return (
-      <Modal title={this.state.error.header} onShow={this.blurWarning && this.blurWarning.startBlurValid} footer={
-        <button type="button" className="btn btn-primary" data-dismiss="modal">{l10n.map.form_ok}</button>
-      }>
-        <div style={{maxHeight: '120px', overflowX: 'auto'}}>
-          <Alert type={this.state.error.type}>{this.state.error.message}</Alert>
-        </div>
-      </Modal>
-    );
-  }
-
   render() {
     return (
       <div style={{height: '100%'}}>
@@ -405,8 +378,21 @@ export default class Editor extends React.Component {
         ) : (
           this.editorPopup()
         )}
-        {this.waitingModal()}
-        {this.errorModal()}
+        <Modal isOpen={this.state.waiting} className="waiting-modal" hideHeader={true} hideFooter={true} keyboard={false} onShow={() => this.blurWarning && this.blurWarning.startBlurValid}>
+          <div>
+            <Spinner style={{margin: '10px auto'}} />
+            <p className="text-center">{l10n.map.waiting_dialog_prepare_email}&hellip;</p>
+          </div>
+        </Modal>
+        {this.state.error &&
+          <Modal isOpen={this.state.showError} toggle={() => this.setState(prevState => ({showError: !prevState.showError}))} title={this.state.error.header} onShow={() => this.blurWarning && this.blurWarning.startBlurValid} footer={
+            <div className="modal-footer"><button type="button" className="btn btn-primary" onClick={() => this.setState({showError: false})}>{l10n.map.form_ok}</button></div>
+          }>
+            <div style={{maxHeight: '120px', overflowX: 'auto'}}>
+              <Alert type={this.state.error.type}>{this.state.error.message}</Alert>
+            </div>
+          </Modal>
+        }
       </div>
     );
   }

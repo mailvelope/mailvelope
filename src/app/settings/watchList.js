@@ -30,7 +30,8 @@ export default class WatchList extends React.Component {
       watchList: [],
       editorSite: null,
       editorIndex: null,
-      modified: false
+      modified: false,
+      showEditor: false
     };
     this.handleChangeSite = this.handleChangeSite.bind(this);
     this.handleChangeFrame = this.handleChangeFrame.bind(this);
@@ -59,7 +60,8 @@ export default class WatchList extends React.Component {
   showWatchListEditor(index) {
     this.setState(prevState => ({
       editorSite: this.copySite(prevState.watchList[index]),
-      editorIndex: index
+      editorIndex: index,
+      showEditor: true
     }));
   }
 
@@ -96,7 +98,7 @@ export default class WatchList extends React.Component {
 
   handleSaveWatchListEditor() {
     if (!this.state.modified) {
-      return this.setState({editorSite: null});
+      return this.setState({showEditor: false});
     }
     if (this.state.editorSite.frames.some(frame => !/^\*(\.\w+(-\w+)*)+(\.\w{2,})?$/.test(frame.frame))) {
       alert(l10n.map.alert_invalid_domainmatchpattern_warning);
@@ -109,7 +111,7 @@ export default class WatchList extends React.Component {
     this.setState(prevState => {
       const newList = [...prevState.watchList];
       newList[prevState.editorIndex] = prevState.editorSite;
-      return {watchList: newList, editorSite: null};
+      return {watchList: newList, showEditor: false};
     }, () => this.saveWatchListData());
   }
 
@@ -203,16 +205,15 @@ export default class WatchList extends React.Component {
             )}
           </tbody>
         </table>
-        {this.state.editorSite &&
-          <WatchListEditor site={this.state.editorSite}
-            onHide={() => this.handleHideWatchListEditor()}
-            onSave={() => this.handleSaveWatchListEditor()}
-            onChangeSite={this.handleChangeSite}
-            onChangeFrame={this.handleChangeFrame}
-            onAddMatchPattern={() => this.handleAddMatchPattern()}
-            onDeleteMatchPattern={index => this.handleDeleteMatchPattern(index)}
-          />
-        }
+        <WatchListEditor isOpen={this.state.showEditor} toggle={() => this.setState(prevState => ({showEditor: !prevState.showEditor}))} site={this.state.editorSite}
+          onHide={() => this.handleHideWatchListEditor()}
+          onCancel={() => this.setState({showEditor: false})}
+          onSave={() => this.handleSaveWatchListEditor()}
+          onChangeSite={this.handleChangeSite}
+          onChangeFrame={this.handleChangeFrame}
+          onAddMatchPattern={() => this.handleAddMatchPattern()}
+          onDeleteMatchPattern={index => this.handleDeleteMatchPattern(index)}
+        />
       </div>
     );
   }

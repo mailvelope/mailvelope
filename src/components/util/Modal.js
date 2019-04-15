@@ -5,6 +5,7 @@
 
 import * as l10n from '../../lib/l10n';
 import React from 'react';
+import {Button, Modal as ModalRS, ModalHeader as ModalHeaderRS, ModalBody as ModalBodyRS, ModalFooter as ModalFooterRS} from 'reactstrap';
 import PropTypes from 'prop-types';
 
 l10n.register([
@@ -12,51 +13,29 @@ l10n.register([
   'form_cancel'
 ]);
 
-class Modal extends React.Component {
-  componentDidMount() {
-    this.$node.modal({backdrop: 'static', show: false, keyboard: this.props.keyboard});
-    this.$node.on('hidden.bs.modal', this.props.onHide);
-    this.$node.on('show.bs.modal', this.props.onShow);
-    this.$node.modal('show');
-  }
-
-  componentWillUnmount() {
-    this.$node.modal('hide');
-  }
-
-  render() {
-    return (
-      <div className={`modal ${this.props.animate ? 'fade' : ''} ${this.props.className || ''}`} tabIndex="-1" role="dialog" ref={node => this.$node = $(node)}>
-        <div className={`modal-dialog ${this.props.size === 'small' ? 'modal-sm' : this.props.size === 'large' ? 'modal-lg' : ''}`} role="document">
-          <div className="modal-content">
-            <div className={`modal-header ${this.props.hideHeader ? 'd-none' : ''} ${this.props.headerClass}`}>
-              {this.props.header ||
-                <>
-                  <h5 className="modal-title">{this.props.title}</h5>
-                  {this.props.dismissable &&
-                    <button type="button" onClick={this.props.onCancel} className="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  }
-                </>
-              }
-            </div>
-            <div className="modal-body">
-              {this.props.children}
-            </div>
-            <div className={`modal-footer ${this.props.hideFooter ? 'd-none' : ''}`}>
-              {this.props.footer ||
-                <div>
-                  {this.props.dismissable && <button type="button" onClick={this.props.onCancel} className="btn btn-secondary" data-dismiss="modal">{l10n.map.form_cancel}</button>}
-                  <button type="button" onClick={this.props.onOk} className="btn btn-primary" data-dismiss="modal">{l10n.map.form_ok}</button>
-                </div>
-              }
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+export default function Modal(props) {
+  return (
+    <ModalRS {...(props.toggle && {toggle: props.toggle})} isOpen={props.isOpen} onOpened={props.onShow} onClosed={props.onHide} fade={props.animate} className={props.className} size={props.size === 'small' ? 'sm' : props.size === 'large' ? 'lg' : 'md'} keyboard={props.keyboard}>
+      {!props.hideHeader &&
+        (
+          props.header ||
+          <ModalHeaderRS {...(props.toggle && {toggle: props.toggle})} className={props.headerClass}>{props.title}</ModalHeaderRS>
+        )
+      }
+      <ModalBodyRS>
+        {props.children}
+      </ModalBodyRS>
+      {!props.hideFooter &&
+        (
+          props.footer ||
+          <ModalFooterRS>
+            {props.toggle && <Button color="secondary" onClick={props.toggle}>{l10n.map.form_cancel}</Button>}
+            <Button color="primary" onClick={props.onOk}>{l10n.map.form_ok}</Button>
+          </ModalFooterRS>
+        )
+      }
+    </ModalRS>
+  );
 }
 
 Modal.propTypes = {
@@ -73,20 +52,19 @@ Modal.propTypes = {
   onHide: PropTypes.func,
   onShow: PropTypes.func,
   onOk: PropTypes.func,
-  onCancel: PropTypes.func,
+  toggle: PropTypes.func,
   hideHeader: PropTypes.bool,
   hideFooter: PropTypes.bool,
   keyboard: PropTypes.bool,
-  dismissable: PropTypes.bool,
   animate: PropTypes.bool,
+  isOpen: PropTypes.bool
 };
 
 Modal.defaultProps = {
   size: 'medium',
   keyboard: true,
-  dismissable: true,
   animate: true,
-  headerClass: ''
+  headerClass: '',
+  isOpen: false
 };
 
-export default Modal;

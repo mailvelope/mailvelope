@@ -165,16 +165,14 @@ export default class GenerateKey extends React.Component {
             </Link>
           </div>
         </form>
-        {this.state.generating &&
-          <Modal title={l10n.map.key_gen_wait_header} dismissable={false} onShow={this.generateKey} keyboard={false} hideFooter={true}>
-            <>
-              <div className="progress mb-3">
-                <div className="progress-bar progress-bar-striped progress-bar-animated w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-              <p className="text-muted">{l10n.map.key_gen_wait_info}</p>
-            </>
-          </Modal>
-        }
+        <Modal isOpen={this.state.generating} title={l10n.map.key_gen_wait_header} onShow={this.generateKey} keyboard={false} hideFooter={true}>
+          <>
+            <div className="progress mb-3">
+              <div className="progress-bar progress-bar-striped progress-bar-animated w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <p className="text-muted">{l10n.map.key_gen_wait_info}</p>
+          </>
+        </Modal>
       </div>
     );
   }

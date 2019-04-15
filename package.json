@@ -34,9 +34,10 @@
     "qrcodejs": "github:llyys/qrcodejs#98657dab44d520876cfb646c39ebbc43c1594826",
     "react": "16.8.4",
     "react-datepicker": "1.7.0",
-    "react-dom": "^16.8.4",
+    "react-dom": "16.8.4",
     "react-router-dom": "4.3.1",
     "react-select": "2.4.2",
+    "reactstrap": "8.0.0",
     "webextension-polyfill": "0.4.0"
   },
   "devDependencies": {
