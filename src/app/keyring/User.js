@@ -64,6 +64,7 @@ export default class User extends React.Component {
       exit: false,
       showDeleteModal: false,
       showRevokeModal: false,
+      action: '',
       errors: {},
       userEmails: [],
       user: {
@@ -183,10 +184,8 @@ export default class User extends React.Component {
       }
       this.setState({exit: true}, () => this.props.onKeyringChange());
     } catch (e) {
-      this.processDelete = false;
       this.setState({
         processing: false,
-        showDeleteModal: false
       });
       throw e;
     }
@@ -202,24 +201,19 @@ export default class User extends React.Component {
         throw error;
       }
     } finally {
-      this.processRevoke = false;
       this.setState({
         processing: false,
-        showRevokeModal: false
       });
     }
   }
 
-  handleHiddenModal() {
-    if (this.processDelete) {
-      this.handleDelete();
-    } else if (this.processRevoke) {
-      this.handleRevoke();
-    } else {
-      this.setState({
-        showDeleteModal: false,
-        showRevokeModal: false
-      });
+  async handleHiddenModal() {
+    switch (this.state.action) {
+      case 'delete':
+        await this.handleDelete();
+        break;
+      case 'revoke':
+        await this.handleRevoke();
     }
   }
 
@@ -348,42 +342,38 @@ export default class User extends React.Component {
         {this.state.processing &&
           <Spinner fullscreen={true} delay={0} />
         }
-        {this.state.showDeleteModal &&
-          <Modal ref={modal => this.modal = modal} size="small" title={l10n.map.user_remove_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
-            <div>
-              <p>{l10n.map.user_remove_dialog_confirmation}</p>
-              {this.state.user.remote &&
-                <Alert type="warning" header={l10n.map.header_warning}>
-                  {l10n.map.user_remove_dialog_keyserver_warning}
-                </Alert>
-              }
-              <div className="row no-gutters">
-                <div className="col-6 pr-1">
-                  <button type="button" className="btn btn-secondary btn-block" data-dismiss="modal">{l10n.map.dialog_no_btn}</button>
-                </div>
-                <div className="col-6 pl-1">
-                  <button type="button" onClick={() => this.processDelete = true} className="btn btn-primary btn-block" data-dismiss="modal">{l10n.map.dialog_yes_btn}</button>
-                </div>
+        <Modal isOpen={this.state.showDeleteModal} toggle={() => this.setState(prevState => ({showDeleteModal: !prevState.showDeleteModal}))} size="small" title={l10n.map.user_remove_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
+          <div>
+            <p>{l10n.map.user_remove_dialog_confirmation}</p>
+            {this.state.user.remote &&
+              <Alert type="warning" header={l10n.map.header_warning}>
+                {l10n.map.user_remove_dialog_keyserver_warning}
+              </Alert>
+            }
+            <div className="row no-gutters">
+              <div className="col-6 pr-1">
+                <button type="button" className="btn btn-secondary btn-block" onClick={() => this.setState({showDeleteModal: false})}>{l10n.map.dialog_no_btn}</button>
+              </div>
+              <div className="col-6 pl-1">
+                <button type="button" onClick={() => this.setState({action: 'delete', showDeleteModal: false})} className="btn btn-primary btn-block">{l10n.map.dialog_yes_btn}</button>
               </div>
             </div>
-          </Modal>
-        }
-        {this.state.showRevokeModal &&
-          <Modal ref={modal => this.modal = modal} size="small" title={l10n.map.user_revoke_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
-            <div>
-              <p>{l10n.map.user_revoke_dialog_description}</p>
-              <p><strong>{l10n.map.user_revoke_dialog_confirmation}</strong></p>
-              <div className="row no-gutters">
-                <div className="col-6 pr-1">
-                  <button type="button" className="btn btn-secondary btn-block" data-dismiss="modal">{l10n.map.dialog_no_btn}</button>
-                </div>
-                <div className="col-6 pl-1">
-                  <button type="button" onClick={() => this.processRevoke = true} className="btn btn-primary btn-block" data-dismiss="modal">{l10n.map.dialog_yes_btn}</button>
-                </div>
+          </div>
+        </Modal>
+        <Modal isOpen={this.state.showRevokeModal} toggle={() => this.setState(prevState => ({showRevokeModal: !prevState.showRevokeModal}))} size="small" title={l10n.map.user_revoke_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
+          <div>
+            <p>{l10n.map.user_revoke_dialog_description}</p>
+            <p><strong>{l10n.map.user_revoke_dialog_confirmation}</strong></p>
+            <div className="row no-gutters">
+              <div className="col-6 pr-1">
+                <button type="button" className="btn btn-secondary btn-block" onClick={() => this.setState({showRevokeModal: false})}>{l10n.map.dialog_no_btn}</button>
+              </div>
+              <div className="col-6 pl-1">
+                <button type="button" onClick={() => this.setState({action: 'revoke', showRevokeModal: false})} className="btn btn-primary btn-block">{l10n.map.dialog_yes_btn}</button>
               </div>
             </div>
-          </Modal>
-        }
+          </div>
+        </Modal>
       </div>
     );
   }

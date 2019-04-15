@@ -38,6 +38,16 @@ input[readonly] {
   src: url('../res/fonts/Courgette-Regular.woff2') format('woff2');
 }
 
+/* Fix header and footer popping to the right on open modal */
+ .modal-open {
+  overflow-y: auto !important;
+  padding-right: 0 !important;
+}
+
+.modal-scrollbar-measure {  
+  overflow: hidden;
+}
+
 .navbar-brand {
   font-family: 'Courgette', cursive;
 }

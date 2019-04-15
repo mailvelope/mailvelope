@@ -35,7 +35,8 @@ export default class DecryptMessage extends React.Component {
       showSig: false,
       waiting: true,
       files: [],
-      error: null
+      error: null,
+      showError: false
     };
     this.port = EventHandler.connect(`dDialog-${this.props.id}`, this);
     this.registerEventListeners();
@@ -108,7 +109,8 @@ export default class DecryptMessage extends React.Component {
         message: error,
         type: 'danger'
       },
-      waiting: false
+      waiting: false,
+      showError: true
     });
   }
 
@@ -121,10 +123,10 @@ export default class DecryptMessage extends React.Component {
 
   handleCancel() {
     this.port.emit('decrypt-dialog-cancel');
+    this.setState({showError: false});
   }
 
   handleSignatureModalHide() {
-    this.setState({showSig: false});
     this.logUserInput('security_log_signature_modal_close');
   }
 
@@ -144,17 +146,6 @@ export default class DecryptMessage extends React.Component {
       <div className="rounded" style={{background: 'rgba(255,255,255,.5)', padding: '0.1rem 0.2rem', fontSize: '80%'}}>
         <a role="button" id="sigBtn" className="text-decoration-none" href="#" onClick={() => this.onClickSignature()}>{caption}</a>
       </div>
-    );
-  }
-
-  errorModal() {
-    if (!this.state.error) {
-      return null;
-    }
-    return (
-      <Modal title={this.state.error.header} onCancel={() => this.handleCancel()} hideFooter={true}>
-        <Alert type={this.state.error.type}>{this.state.error.message}</Alert>
-      </Modal>
     );
   }
 
@@ -181,8 +172,12 @@ export default class DecryptMessage extends React.Component {
             {this.props.isContainer && this.signatureButton()}
           </div>
         </div>
-        {this.errorModal()}
-        {this.state.showSig && <SignatureModal signer={this.state.signer} onHide={() => this.handleSignatureModalHide()} />}
+        {this.state.error &&
+          <Modal isOpen={this.state.showError} toggle={() => this.setState(prevState => ({showError: !prevState.showError}))} title={this.state.error.header} onHide={() => this.handleCancel()} hideFooter={true}>
+            <Alert type={this.state.error.type}>{this.state.error.message}</Alert>
+          </Modal>
+        }
+        <SignatureModal isOpen={this.state.showSig} toggle={() => this.setState(prevState => ({showSig: !prevState.showSig}))} signer={this.state.signer} onHide={() => this.handleSignatureModalHide()} />
       </div>
     );
   }

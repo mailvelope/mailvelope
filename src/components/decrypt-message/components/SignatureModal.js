@@ -21,32 +21,32 @@ l10n.register([
   'keygrid_validity_status'
 ]);
 
-export default function SignatureModal({signer, onHide}) {
+export default function SignatureModal({isOpen, signer, onHide, toggle}) {
   let status;
   let bgClass;
-  if (signer.valid === true) {
+  if (signer && signer.valid === true) {
     bgClass = 'alert-success';
     status = l10n.map.digital_signature_status_true;
-  } else if (signer.valid === false) {
+  } else if (signer && signer.valid === false) {
     bgClass = 'alert-danger';
     status = l10n.map.digital_signature_status_false;
-  } else if (signer.valid === null) {
+  } else if (signer && signer.valid === null) {
     bgClass = 'alert-warning';
     status = l10n.map.digital_signature_status_null;
   }
   return (
-    <Modal onHide={onHide} size="large" headerClass={bgClass}
+    <Modal isOpen={isOpen} toggle={toggle} onHide={onHide} size="large" headerClass={bgClass}
       title={
         <>
           <strong>{l10n.map.keygrid_validity_status}:</strong> {status}
         </>
       }
       footer={
-        <button type="button" className="btn btn-secondary" data-dismiss="modal">{l10n.map.dialog_popup_close}</button>
+        <div className="modal-footer"><button type="button" className="btn btn-secondary" onClick={toggle}>{l10n.map.dialog_popup_close}</button></div>
       }
     >
       <div>
-        {signer.valid !== null ? (
+        {signer && (signer.valid !== null ? (
           <div>
             <p><b>{l10n.map.keygrid_user_name}:</b> {signer.keyDetails.name}</p>
             <p><b>{l10n.map.keygrid_user_email}:</b> {signer.keyDetails.email}</p>
@@ -57,13 +57,15 @@ export default function SignatureModal({signer, onHide}) {
             {signer.valid === null && <p>{l10n.map.digital_signature_status_null_description}</p>}
             <p className="mb-0"><b>{l10n.map.keygrid_keyid}:</b> {signer.keyId.toUpperCase()}</p>
           </div>
-        )}
+        ))}
       </div>
     </Modal>
   );
 }
 
 SignatureModal.propTypes = {
+  isOpen: PropTypes.bool,
   signer: PropTypes.object,
-  onHide: PropTypes.func
+  onHide: PropTypes.func,
+  toggle: PropTypes.func
 };

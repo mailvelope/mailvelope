@@ -62,6 +62,7 @@ export default class Key extends React.Component {
       showDeleteModal: false,
       showExportModal: false,
       showRevokeModal: false,
+      action: '',
       exit: false,
       keyDetails: {
         ...props.keyData,
@@ -136,10 +137,9 @@ export default class Key extends React.Component {
       await port.send('revokeKey', {fingerprint: this.state.keyDetails.fingerprint, keyringId: this.context.keyringId});
       this.props.onKeyringChange();
     } finally {
-      this.processRevoke = false;
       this.setState({
         processing: false,
-        showRevokeModal: false
+        action: ''
       });
     }
   }
@@ -165,15 +165,12 @@ export default class Key extends React.Component {
   }
 
   async handleHiddenModal() {
-    if (this.processDelete) {
-      this.handleDelete();
-    } else if (this.processRevoke) {
-      await this.handleRevoke();
-    } else {
-      this.setState({
-        showDeleteModal: false,
-        showRevokeModal: false,
-      });
+    switch (this.state.action) {
+      case 'delete':
+        this.handleDelete();
+        break;
+      case 'revoke':
+        await this.handleRevoke();
     }
   }
 
@@ -296,44 +293,38 @@ export default class Key extends React.Component {
             <KeyDetails keyDetails={this.state.keyDetails} onChangeExpDate={this.handleSetExDate} onValidateKeyPwd={this.validateKeyPassword} onChangePwd={this.handleChangePwd}></KeyDetails>
           </>
         )}
-        {this.state.showDeleteModal &&
-          <Modal ref={modal => this.modal = modal} size="small" title={l10n.map.key_remove_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
-            <div>
-              <p>{l10n.map.keygrid_delete_confirmation}</p>
-              <div className="row no-gutters">
-                <div className="col-6 pr-1">
-                  <button type="button" className="btn btn-secondary btn-block" data-dismiss="modal">{l10n.map.dialog_no_btn}</button>
-                </div>
-                <div className="col-6 pr-1">
-                  <button type="button" onClick={() => this.processDelete = true} className="btn btn-primary btn-block" data-dismiss="modal">{l10n.map.dialog_yes_btn}</button>
-                </div>
+        <Modal isOpen={this.state.showDeleteModal} toggle={() => this.setState(prevState => ({showDeleteModal: !prevState.showDeleteModal}))} size="small" title={l10n.map.key_remove_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
+          <div>
+            <p>{l10n.map.keygrid_delete_confirmation}</p>
+            <div className="row no-gutters">
+              <div className="col-6 pr-1">
+                <button type="button" className="btn btn-secondary btn-block" onClick={() => this.setState({showDeleteModal: false})}>{l10n.map.dialog_no_btn}</button>
+              </div>
+              <div className="col-6 pr-1">
+                <button type="button" onClick={() => this.setState({action: 'delete', showDeleteModal: false})} className="btn btn-primary btn-block" data-dismiss="modal">{l10n.map.dialog_yes_btn}</button>
               </div>
             </div>
-          </Modal>
-        }
+          </div>
+        </Modal>
+        <Modal isOpen={this.state.showExportModal} toggle={() => this.setState(prevState => ({showExportModal: !prevState.showExportModal}))} size="medium" title={l10n.map.key_export_dialog_title} hideFooter={true}>
+          <KeyExport keyringId={this.context.keyringId} keyFprs={[this.state.keyDetails.fingerprint]} keyName={this.state.keyDetails.name} publicOnly={this.context.gnupg} onClose={() => this.setState({showExportModal: false})} />
+        </Modal>
+        <Modal isOpen={this.state.showRevokeModal} toggle={() => this.setState(prevState => ({showRevokeModal: !prevState.showRevokeModal}))} size="small" title={l10n.map.key_revoke_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
+          <div>
+            <p>{l10n.map.key_revoke_dialog_description}</p>
+            <p><strong>{l10n.map.key_revoke_dialog_confirm}</strong></p>
+            <div className="row no-gutters">
+              <div className="col-6 pr-1">
+                <button type="button" className="btn btn-secondary btn-block" onClick={() => this.setState({showRevokeModal: false})}>{l10n.map.dialog_no_btn}</button>
+              </div>
+              <div className="col-6 pl-1">
+                <button type="button" onClick={() => this.setState({action: 'revoke', showRevokeModal: false})} className="btn btn-primary btn-block">{l10n.map.dialog_yes_btn}</button>
+              </div>
+            </div>
+          </div>
+        </Modal>
         {this.state.processing &&
           <Spinner fullscreen={true} delay={0} />
-        }
-        {this.state.showExportModal &&
-          <Modal ref={modal => this.modal = modal} size="medium" title={l10n.map.key_export_dialog_title} hideFooter={true} onHide={() => this.setState({showExportModal: false})}>
-            <KeyExport keyringId={this.context.keyringId} keyFprs={[this.state.keyDetails.fingerprint]} keyName={this.state.keyDetails.name} publicOnly={this.context.gnupg} onClose={() => this.modal.$node.modal('hide')} />
-          </Modal>
-        }
-        {this.state.showRevokeModal &&
-          <Modal ref={modal => this.modal = modal} size="small" title={l10n.map.key_revoke_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
-            <div>
-              <p>{l10n.map.key_revoke_dialog_description}</p>
-              <p><strong>{l10n.map.key_revoke_dialog_confirm}</strong></p>
-              <div className="row no-gutters">
-                <div className="col-6 pr-1">
-                  <button type="button" className="btn btn-secondary btn-block" data-dismiss="modal">{l10n.map.dialog_no_btn}</button>
-                </div>
-                <div className="col-6 pl-1">
-                  <button type="button" onClick={() => this.processRevoke = true} className="btn btn-primary btn-block" data-dismiss="modal">{l10n.map.dialog_yes_btn}</button>
-                </div>
-              </div>
-            </div>
-          </Modal>
         }
       </div>
     );

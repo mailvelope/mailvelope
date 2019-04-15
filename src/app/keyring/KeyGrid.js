@@ -8,8 +8,8 @@ import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';
 import {KeyringOptions} from './KeyringOptions';
 import Spinner from '../../components/util/Spinner';
-import KeyDetails from './components/KeyDetails';
-import KeyringBackup from './components/KeyringBackup';
+import KeyExport from './components/KeyExport';
+import Modal from '../../components/util/Modal';
 import {Redirect, Link} from 'react-router-dom';
 import './KeyGrid.scss';
 
@@ -27,6 +27,7 @@ l10n.register([
   'keygrid_keyid',
   'keygrid_public_keys',
   'keyring_public_private',
+  'keyring_backup',
   'keygrid_refresh',
   'keygrid_refresh_title',
   'keygrid_sort_type',
@@ -40,7 +41,8 @@ export default class KeyGrid extends React.Component {
     this.state = {
       keyTypeFilter: 'allkeys',
       selectedKey: null,
-      keyringBackup: null
+      keyringBackup: null,
+      showExportModal: false
     };
   }
 
@@ -97,7 +99,7 @@ export default class KeyGrid extends React.Component {
         //console.log('unknown filter');
         break;
     }
-    this.setState({keyringBackup: {
+    this.setState({showExportModal: true, keyringBackup: {
       keyFprs: keys.map(key => key.fingerprint),
       all,
       type
@@ -172,21 +174,11 @@ export default class KeyGrid extends React.Component {
           </table>
         </div>
         {this.props.spinner && <Spinner delay={0} />}
-        {this.state.keyDetails &&
-          <KeyDetails keyDetails={this.state.keyDetails}
-            onSetDefaultKey={() => this.props.onChangeDefaultKey(this.state.keyDetails.fingerprint)}
-            isDefault={this.props.defaultKeyFpr === this.state.keyDetails.fingerprint}
-            onHide={() => this.setState({keyDetails: null})}
-          />
-        }
-        {this.state.keyringBackup &&
-          <KeyringBackup keyFprs={this.state.keyringBackup.keyFprs}
-            all={this.state.keyringBackup.all}
-            type={this.state.keyringBackup.type}
-            onHide={() => this.setState({keyringBackup: null})}
-            publicOnly={this.context.gnupg}
-          />
-        }
+        <Modal isOpen={this.state.showExportModal} toggle={() => this.setState(prevState => ({showExportModal: !prevState.showExportModal}))} size="medium" title={l10n.map.keyring_backup} hideFooter={true}>
+          <KeyringOptions.Consumer>
+            {({keyringId}) => <KeyExport keyringId={keyringId} keyFprs={this.state.keyringBackup.keyFprs} keyName="keyring" all={this.state.keyringBackup.all} type={this.state.keyringBackup.type} publicOnly={this.context.gnupg} onClose={() => this.setState({showExportModal: false})} />}
+          </KeyringOptions.Consumer>
+        </Modal>
       </div>
     );
   }
