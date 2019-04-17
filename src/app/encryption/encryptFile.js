@@ -608,7 +608,7 @@ function getContentForRecipientButton(content) {
  * @returns {*|jQuery|HTMLElement}
  */
 function getIconForRecipientButton() {
-  return $('<i/>', {class: 'fa fa-user'});
+  return $('<span/>', {class: 'icon icon-user'});
 }
 
 /**

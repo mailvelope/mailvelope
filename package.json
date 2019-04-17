@@ -22,7 +22,6 @@
     "dompurify": "1.0.10",
     "emailjs-mime-builder": "github:mailvelope/emailjs-mime-builder#v2.0.5m",
     "emailjs-mime-parser": "1.0.0",
-    "font-awesome": "4.7.0",
     "gpgmejs": "github:mailvelope/gpgmejs",
     "jquery": "3.4.1",
     "linkifyjs": "2.1.8",

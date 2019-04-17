@@ -189,7 +189,7 @@ function getExtensionIcon(file) {
  */
 function getSecureIcon() {
   return $('<span/>', {
-    'class': 'fa fa-lock secure-icon'
+    'class': 'icon icon-lock secure-icon'
   });
 }
 

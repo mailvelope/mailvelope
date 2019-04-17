@@ -89,3 +89,15 @@ Generated using nucleoapp.com
 .icon-settings:before {
   content: "\e915";
 }
+.icon-bolt:before {
+  content: "\e916";
+}
+.icon-info-circle:before {
+  content: "\e917";
+}
+.icon-lock:before {
+  content: "\e918";
+}
+.icon-user:before {
+  content: "\e919";
+}

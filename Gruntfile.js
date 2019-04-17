@@ -63,15 +63,6 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
-            cwd: 'node_modules/font-awesome/',
-            src: [
-              'css/font-awesome.css',
-              'fonts/fontawesome-webfont.woff2'
-            ],
-            dest: 'build/tmp/dep/font-awesome/'
-          },
-          {
-            expand: true,
             cwd: 'node_modules/qrcodejs/',
             src: 'qrcode.js',
             dest: 'build/tmp/dep/qrcodejs/'

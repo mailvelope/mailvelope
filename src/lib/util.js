@@ -342,7 +342,7 @@ export function terminate(port) {
     $('body').empty();
     setTimeout(() => {
       $('body').removeClass()
-      .addClass('fa fa-bolt termination');
+      .addClass('icon icon-bolt termination');
     }, 0);
   });
   port.disconnect();

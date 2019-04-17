@@ -77,7 +77,7 @@ export default class EncryptFrame {
     } else {
       toolbar = `${toolbar}<span class="m-frame-fill-right"></span>`;
     }
-    toolbar = `${toolbar}<button id="editorBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-editor"></i></button>`;
+    toolbar = `${toolbar}<button id="editorBtn" class="m-btn m-encrypt-button" type="button"><span class="m-icon m-icon-editor"></span></button>`;
     this.eFrame = $('<div/>', {
       id: `eFrame-${this.id}`,
       'class': 'm-encrypt-frame',

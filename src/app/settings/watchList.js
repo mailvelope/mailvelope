@@ -197,12 +197,12 @@ export default class WatchList extends React.Component {
             <tbody>
               {this.state.watchList.map((site, index) =>
                 <tr key={index} onClick={() => this.showWatchListEditor(index)}>
-                  <td className="text-center"><i className={`icon icon-marker text-${site.active ? 'success' : 'danger'}`} aria-hidden="true"></i></td>
+                  <td className="text-center"><span className={`icon icon-marker text-${site.active ? 'success' : 'danger'}`} aria-hidden="true"></span></td>
                   <td>{site.site}</td>
                   <td className="text-center">
                     <div className="actions">
                       <button type="button" onClick={e => this.deleteWatchListEntry(e, index)} className="btn btn-secondary"><span className="icon icon-delete" aria-hidden="true"></span></button>
-                      <i className="icon icon-arrow-right" aria-hidden="true"></i>
+                      <span className="icon icon-arrow-right" aria-hidden="true"></span>
                     </div>
                   </td>
                 </tr>
