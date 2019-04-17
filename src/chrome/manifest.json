@@ -6,11 +6,11 @@
   "manifest_version": 2,
   "minimum_chrome_version": "60",
   "icons": {
-    "16": "img/encrypt-16.png",
-    "48": "img/mail_locked_48.png",
-    "64": "img/mail_locked_64.png",
-    "96": "img/mail_locked_96.png",
-    "128": "img/mail_locked_128.png"
+    "16": "img/mailvelope/logo_signet_16.png",
+    "48": "img/mailvelope/logo_signet_48.png",
+    "64": "img/mailvelope/logo_signet_64.png",
+    "96": "img/mailvelope/logo_signet_96.png",
+    "128": "img/mailvelope/logo_signet_128.png"
   },
   "browser_action": {
     "default_icon": {
