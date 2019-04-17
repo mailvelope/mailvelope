@@ -15,11 +15,11 @@ l10n.register([
 
 export default function Modal(props) {
   return (
-    <ModalRS {...(props.toggle && {toggle: props.toggle})} isOpen={props.isOpen} onOpened={props.onShow} onClosed={props.onHide} fade={props.animate} className={props.className} size={props.size === 'small' ? 'sm' : props.size === 'large' ? 'lg' : 'md'} keyboard={props.keyboard}>
+    <ModalRS toggle={typeof props.toggle === 'function' ? props.toggle : undefined} isOpen={props.isOpen} onOpened={props.onShow} onClosed={props.onHide} fade={props.animate} className={props.className} size={props.size === 'small' ? 'sm' : props.size === 'large' ? 'lg' : 'md'} keyboard={props.keyboard}>
       {!props.hideHeader &&
         (
           props.header ||
-          <ModalHeaderRS {...(props.toggle && {toggle: props.toggle})} className={props.headerClass}>{props.title}</ModalHeaderRS>
+          <ModalHeaderRS toggle={typeof props.toggle === 'function' ? props.toggle : undefined} className={props.headerClass}>{props.title}</ModalHeaderRS>
         )
       }
       <ModalBodyRS>
