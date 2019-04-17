@@ -1587,33 +1587,21 @@
     "description": "",
     "message": "Your key password:"
   },
-  "security_background_angle": {
-    "description": "Angle",
-    "message": "Angle"
-  },
   "security_background_button_title": {
     "description": "The tooltip text for the keylock button",
     "message": "The security background can be adjusted in the Mailvelope Options"
   },
-  "security_background_coloring": {
-    "description": "Coloring",
-    "message": "Color"
+  "security_background_color_text": {
+    "message": "2. Now choose a color that you like",
+    "description": "Security background select color text"
   },
-  "security_background_header": {
-    "description": "Security background header",
-    "message": "Security Background"
-  },
-  "security_background_preview": {
-    "description": "Preview",
-    "message": "Preview"
-  },
-  "security_background_scaling": {
-    "description": "Scaling",
-    "message": "Scaling"
+  "security_background_icons_text": {
+    "message": "1. Choose an icon that you like",
+    "description": "Security background select icon text"
   },
   "security_background_text": {
     "description": "Security background text",
-    "message": "The security background helps prevent user interface manipulations by third-party websites and applications. To increase security, create and change your customized Mailvelope background here."
+    "message": "Your security background is displayed behind every encrypted email. To make it really safe, you should personalize it. This is how you ensure, that no one is able to reconstruct the Mailvelope interface to access your personal data."
   },
   "security_cache_header": {
     "description": "Password cache header",
@@ -1802,6 +1790,10 @@
   "settings_security": {
     "description": "Tab of options to display security settings.",
     "message": "Security"
+  },
+  "settings_security_background": {
+    "description": "Security background header",
+    "message": "Security Background"
   },
   "settings_security_log": {
     "description": "Tab of options to display security log.",

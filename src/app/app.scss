@@ -1,0 +1,70 @@
+@import "../res/styles/_required";
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  &.modal-open {
+    overflow-y: auto !important;
+    padding-right: 0 !important;
+  }
+}
+
+nav {
+  &.navbar {
+    box-shadow: 0 5px 15px 0 rgba($black, 0.2), 0 0 2px 0 rgba($black, 0.2);
+  }
+}
+
+main {
+  padding-top: 7.5rem;
+  > .jumbotron {
+    padding: map-get($spacers, 2);
+    margin-bottom: 1.5rem;
+    background-color: $white;
+    box-shadow: 0 5px 15px 0 rgba($black, 0.2), 0 0 2px 0 rgba($black, 0.2);
+    > section {      
+      &.card {
+        border: 0;
+        > .card-body {
+          padding: 2.2rem;
+          > .card-title {
+            padding-right: 0;
+            margin-bottom: 2rem;
+          }
+        }        
+      }
+    }
+  }
+  > .toastWrapper {
+    position: fixed;
+    top: 5.75rem;
+    left: 50%;
+    transform:translateX(-50%);
+  }
+}
+
+footer {
+  > div {
+    font-size: 0.75rem;
+    color: $gray-900;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+} 
+
+input[readonly] {
+  cursor: text !important;
+}
+
+.busy {
+  cursor: wait !important;
+}
+
+.lockBtnIcon {
+  width: 30px !important;
+  height: 30px;
+  margin-right: -44px;
+}

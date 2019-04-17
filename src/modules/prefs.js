@@ -54,7 +54,9 @@ export function getSecurityBackground() {
     scaling: prefs.security.secureBgndScaling,
     width: prefs.security.secureBgndWidth,
     height: prefs.security.secureBgndHeight,
-    colorId: prefs.security.secureBgndColorId
+    colorId: prefs.security.secureBgndColorId,
+    bgIcon: prefs.security.bgIcon,
+    bgColor: prefs.security.bgColor
   };
 }
 

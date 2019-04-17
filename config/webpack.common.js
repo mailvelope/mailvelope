@@ -1,5 +1,7 @@
 /* eslint strict: 0 */
 
+const jsonImporter  = require('node-sass-json-importer');
+
 const prod = {
   mode: 'production',
   optimization: {
@@ -41,8 +43,16 @@ function scss(loader = 'style-loader', css = false) {
               ]
           }
         }, {
-          loader: 'sass-loader' // compiles Sass to CSS
+          loader: 'sass-loader', // compiles Sass to CSS
+          // Apply the JSON importer via sass-loader's options.
+          options: {
+            importer: jsonImporter()
+          }
         }]
+      },
+      {
+        test: /\.svg$/,
+        loader: 'file-loader'
       },
       {
         test: /\.woff2$/,

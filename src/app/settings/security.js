@@ -4,11 +4,9 @@
  */
 
 import React from 'react';
-import {SECURE_COLORS} from '../../lib/constants';
 import $ from 'jquery';
 import {port} from '../app';
 import * as l10n from '../../lib/l10n';
-import {generateSecurityBackground, showSecurityBackground} from '../../lib/util';
 
 l10n.register([
   'settings_security',
@@ -17,12 +15,6 @@ l10n.register([
   'security_cache_time',
   'security_cache_help',
   'security_cache_off',
-  'security_background_header',
-  'security_background_text',
-  'security_background_angle',
-  'security_background_scaling',
-  'security_background_coloring',
-  'security_background_preview',
   'security_display_decrypted',
   'security_display_popup',
   'security_display_inline',
@@ -59,34 +51,6 @@ export default class Security extends React.Component {
               <label className="custom-control-label" htmlFor="pwdCacheRadios2">{l10n.map.security_cache_off}</label>
             </div>
           </div>
-          <div className="form-group mb-4" id="securityTokenPanel">
-            <h3>{l10n.map.security_background_header}</h3>
-            <p>{l10n.map.security_background_text}</p>
-            <div className="row align-items-center">
-              <div className="col-lg-6">
-                <div>
-                  <div className="mb-2">
-                    <label className="mb-0" htmlFor="angle">{l10n.map.security_background_angle}</label>
-                    <input className="custom-range" type="range" min="0" max="360" id="angle" step="2" />
-                  </div>
-                  <div className="mb-2">
-                    <label className="mb-0" htmlFor="scaling">{l10n.map.security_background_scaling}</label>
-                    <input className="custom-range" type="range" min="5" max="100" id="scaling" step="1" />
-                  </div>
-                  <div className="mb-2">
-                    <label className="mb-0" htmlFor="scaling">{l10n.map.security_background_coloring}</label>
-                    <input className="custom-range" type="range" min="0" max="12" id="coloring" step="1" />
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-6">
-                <div className="previewContainer">
-                  <h3><strong>{l10n.map.security_background_preview}</strong></h3>
-                  <div id="previewArea" className="w-100 border" style={{height: '150px'}}></div>
-                </div>
-              </div>
-            </div>
-          </div>
           <div className="form-group mb-4">
             <h3>{l10n.map.security_display_decrypted}</h3>
             <div className="custom-control custom-radio">
@@ -116,8 +80,6 @@ export default class Security extends React.Component {
   }
 }
 
-let secBackground;
-
 function init() {
   loadPrefs();
   $('#secReloadInfo').hide();
@@ -130,41 +92,6 @@ function init() {
   $('#secBtnCancel').click(onCancel);
   // https://bugzilla.mozilla.org/show_bug.cgi?id=213519
   $('#pwdCacheTime').click(() => false);
-  $('#scaling').on('input', previewSecurityBgnd);
-  $('#angle').on('input', previewSecurityBgnd);
-  $('#whitespace').on('input', previewSecurityBgnd);
-  $('#coloring').on('input', previewSecurityBgnd);
-  getSecurityBgndConfig();
-}
-
-function getSecurityBgndConfig() {
-  port.send('get-security-background')
-  .then(background => {
-    secBackground = background;
-    $('#angle').val(background.angle);
-    $('#scaling').val(background.scaling * 10);
-    $('#coloring').val(background.colorId);
-    previewSecurityBgnd();
-  });
-}
-
-function previewSecurityBgnd() {
-  const scaling = parseInt($('#scaling').val()) / 10;
-  const angle = parseInt($('#angle').val());
-  const colorId = parseInt($('#coloring').val());
-  const secBgndIcon = generateSecurityBackground({
-    width: secBackground.width,
-    height: secBackground.height,
-    scaling,
-    angle,
-    colorId
-  });
-
-  $('#previewArea').css({
-    'backgroundColor': secBackground.color,
-    'backgroundPosition': '-20px -20px',
-    'backgroundImage': `url(data:image/svg+xml;base64,${btoa(secBgndIcon)})`
-  });
 }
 
 function toggleCacheTime() {
@@ -179,17 +106,9 @@ function onSave() {
   if (!validate()) {
     return false;
   }
-  const angel = $('#angle').val();
-  const scaling = ($('#scaling').val() / 10);
-  const coloring = $('#coloring').val();
-  const iconColor = SECURE_COLORS[coloring];
   const update = {
     security: {
       display_decrypted: $('input:radio[name="decryptRadios"]:checked').val(),
-      secureBgndAngle: angel,
-      secureBgndScaling: scaling,
-      secureBgndColorId: coloring,
-      secureBgndIconColor: iconColor,
       password_cache: $('input:radio[name="pwdCacheRadios"]:checked').val() === 'true',
       password_timeout: $('#pwdCacheTime').val(),
       hide_armored_header: $('input:checkbox[name="hideArmoredHeader"]').is(':checked')
@@ -199,7 +118,6 @@ function onSave() {
   .then(() => {
     normalize();
     $('#secReloadInfo').show();
-    showSecurityBackground(port);
   });
   return false;
 }

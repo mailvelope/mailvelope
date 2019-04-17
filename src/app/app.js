@@ -31,11 +31,12 @@ import DecryptText from './encryption/decryptText';
 
 import General from './settings/general';
 import Security from './settings/security';
+import SecurityBackground from './settings/SecurityBackground';
 import WatchList from './settings/watchList';
 import SecurityLog from './settings/securityLog';
 import KeyServer from './settings/keyserver';
 
-import './app.css';
+import './app.scss';
 
 l10n.register([
   'encrypting_home',
@@ -53,6 +54,7 @@ l10n.register([
   'security_background_button_title',
   'settings_general',
   'settings_security',
+  'settings_security_background',
   'settings_watchlist',
   'settings_security_log',
   'settings_keyserver',
@@ -145,7 +147,7 @@ export class App extends React.Component {
             <Route path='/dashboard' component={Dashboard} />
             <Route path='/keyring' render={() => <Keyring prefs={this.state.prefs} />} />
             <Route path='/encryption' render={() => (
-              <div className="jumbotron secureBackground">
+              <div className="jumbotron">
                 <section className="card">
                   <div className="card-body" id="encrypting">
                     <div className="card-title">
@@ -172,11 +174,10 @@ export class App extends React.Component {
                     </div>
                   </div>
                 </section>
-                <button type="button" className="btn btn-link float-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
               </div>
             )} />
             <Route path='/settings' render={() => (
-              <div className="jumbotron secureBackground">
+              <div className="jumbotron">
                 <section className="card mv-options">
                   <div className="card-body">
                     <div className="row">
@@ -184,8 +185,9 @@ export class App extends React.Component {
                         <div role="navigation">
                           <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                             <NavPill to="/settings/general">{l10n.map.settings_general}</NavPill>
-                            <NavPill to="/settings/security">{l10n.map.settings_security}</NavPill>
                             <NavPill to="/settings/watchlist">{l10n.map.settings_watchlist}</NavPill>
+                            <NavPill to="/settings/security">{l10n.map.settings_security}</NavPill>
+                            <NavPill to="/settings/security-background">{l10n.map.settings_security_background}</NavPill>
                             <NavPill to="/settings/security-log">{l10n.map.settings_security_log}</NavPill>
                             <NavPill to="/settings/key-server">{l10n.map.settings_keyserver}</NavPill>
                           </div>
@@ -193,15 +195,15 @@ export class App extends React.Component {
                       </div>
                       <div className="col-lg-9">
                         <Route path='/settings/general' component={General} />
-                        <Route path='/settings/security' component={Security} />
                         <Route path='/settings/watchlist' component={WatchList} />
+                        <Route path='/settings/security' component={Security} />
+                        <Route path='/settings/security-background' component={SecurityBackground} />
                         <Route path='/settings/security-log' component={SecurityLog} />
                         <Route path='/settings/key-server' render={() => <KeyServer prefs={this.state.prefs} onChangePrefs={this.handleChangePrefs} />} />
                       </div>
                     </div>
                   </div>
                 </section>
-                <button type="button" className="btn btn-link float-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
               </div>
 
             )} />

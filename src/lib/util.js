@@ -4,6 +4,7 @@
  */
 
 import {SECURE_COLORS} from '../lib/constants.js';
+import parseSVG from '../lib/svg-file-parser.js';
 
 export class MvError extends Error {
   constructor(msg, code = 'INTERNAL_ERROR') {
@@ -204,12 +205,15 @@ export async function showSecurityBackground(port, isEmbedded) {
       $('.secureBgndSettingsBtn').removeClass('btn-secondary').addClass('btn-link');
     });
   }
+
   const background = await port.send('get-security-background');
-  const secBgndIcon = generateSecurityBackground(background);
+  const securityBG = background.bgIcon ? (await generateSecurityBGSVG(background)).outerHTML : generateSecurityBackground(background);
+  const securityBGColor = background.bgColor ? background.bgColor : background.color;
+
   const secureStyle = `\n.secureBackground {
-    background-color: ${background.color};
-    background-position: -20px -20px;
-    background-image: url(data:image/svg+xml;base64,${btoa(secBgndIcon)});
+    background-color: ${securityBGColor};
+    background-position: 0 0;
+    background-image: url(data:image/svg+xml;base64,${btoa(securityBG)});
   }`;
   const lockIcon = generateSecurityBackground({width: 28, height: 28, colorId: 2});
   const lockButton = `\n.lockBtnIcon, .lockBtnIcon:active {
@@ -221,6 +225,26 @@ export async function showSecurityBackground(port, isEmbedded) {
   }`;
   removeSecurityBackground();
   $('head').append($('<style>').attr('id', 'secBgndCss').text(secureStyle + lockButton));
+}
+
+async function generateSecurityBGSVG({bgIcon}) {
+  const svgTemplateUrl = 'img/security/template.svg';
+  const {documentElement: svgTemplate} = await parseSVG(svgTemplateUrl);
+  const tileWidth = 800;
+  svgTemplate.setAttribute('width', tileWidth);
+  svgTemplate.setAttribute('style', 'fill-opacity: .215');
+  const svgBgIconUrl = `img/security/${bgIcon}.svg`;
+  const {documentElement: svgBgIcon} = await parseSVG(svgBgIconUrl);
+  const placeholders = svgTemplate.querySelectorAll('.icon');
+  for (const placeholderElem of placeholders) {
+    const gElem = placeholderElem.querySelector('g:last-child');
+    gElem.firstElementChild.remove();
+    const clonedSvgBgIcon = svgBgIcon.cloneNode(true);
+    while (clonedSvgBgIcon.childNodes.length > 0) {
+      gElem.appendChild(clonedSvgBgIcon.childNodes[0]);
+    }
+  }
+  return svgTemplate;
 }
 
 function removeSecurityBackground() {

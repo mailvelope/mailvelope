@@ -20,10 +20,13 @@
 
 /* general overrides */
 
+b {
+  font-weight: 700;
+}
+
 strong {
   font-weight: 500;  
 }
-
 
 /* custom classes */
 
@@ -155,10 +158,6 @@ strong {
 /**
  * Secure background
  */
-
-.secureBackground {
-  padding: map-get($spacers, 2);
-}
 
 .container > .secureBackground {
   margin-bottom: 1.5rem;

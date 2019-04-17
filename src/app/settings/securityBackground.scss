@@ -1,0 +1,65 @@
+@import "../../res/styles/_required";
+@import '../../res/common.json';
+
+#securityBgContainer {
+  margin: -0.375rem;
+
+  .securityBgLink {
+    margin: 0.375rem;
+    cursor: pointer;
+
+    .securityBgItem {
+      position: relative;
+      height: 80px;
+      width: 80px;
+      border-radius: 40px;
+      border: 2px solid $gray-300;
+      background-color: $white;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: auto 48px;
+
+      @each $name, $class in $securityBGs {
+        &.symbol.#{$class} {
+          background-image: url(../../img/security/#{$name}.svg);
+        }
+      }
+      @each $name, $color in $securityColors {
+        &.color.#{$name} {
+          background-color: #{$color};
+          border-color: mix($black, $color, 2 * $theme-color-interval);
+        }
+      }
+    }
+
+    &:hover {
+      .securityBgItem.symbol {
+        border-color: mix($black, $gray-300, 2 * $theme-color-interval);
+      }
+    }
+
+    @at-root #securityBgContainer .securityBgLink:hover.active, #securityBgContainer .securityBgLink:active {
+      .securityBgItem.symbol {
+        border-color: theme-color-level('primary', -6);
+      }
+    }
+
+    &.active {
+      .securityBgItem {
+        &::after {
+          position: absolute;
+          height: 20px;
+          width: 20px;
+          bottom: 8px;
+          right: 0px;
+          content: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Ccircle fill='%23E30048' fill-rule='nonzero' cx='10' cy='10' r='10'/%3E%3Cpath d='M13.1056 4.5528c.247-.494.8476-.6942 1.3416-.4472.494.247.6942.8476.4472 1.3416l-5 10c-.3324.665-1.2484.7475-1.6944.1528l-3-4c-.3314-.4418-.2418-1.0686.2-1.4.4418-.3314 1.0686-.2418 1.4.2l2.0292 2.7056 4.2764-8.5528z' fill='%23FFF'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        &.symbol {
+          border-color: theme-color-level('primary', -10);  
+        }      
+      }
+    }
+
+  }
+
+}

@@ -1641,33 +1641,21 @@
     "message": "Ihr Schlüssel-Passwort:",
     "description": ""
   },
-  "security_background_angle": {
-    "message": "Winkel",
-    "description": "Angle"
-  },
   "security_background_button_title": {
     "message": "Der Sicherheitshintergrund kann im Mailvelope-Optionsbereich angepasst werden",
     "description": "The tooltip text for the keylock button"
   },
-  "security_background_coloring": {
-    "message": "Farbe",
-    "description": "Coloring"
-  },
-  "security_background_header": {
-    "message": "Sicherheitshintergrund",
-    "description": "Security background header"
-  },
-  "security_background_preview": {
-    "message": "Vorschau",
-    "description": "Preview"
-  },
-  "security_background_scaling": {
-    "message": "Skalierung",
-    "description": "Scaling"
-  },
   "security_background_text": {
-    "message": "Der Sicherheitshintergrund ist Ihr persönlicher Mailvelope-Hintergrund. Er hilft die Veränderung der Benutzerschnittstelle durch Drittanbieterseiten und -anwendungen zu verhindern. Um die Sicherheit zu erhöhen, bitte den persönlichen Hintergrund hier erstellen und ändern.",
+    "message": "Hinter jeder verschlüsselten E-Mail wird Ihr Sicherheitshintergrund angezeigt. Damit er wirklich sicher ist, sollten Sie ihn individualisieren. So stellen Sie sicher, dass niemand die Mailvelope Oberfläche nachstellen und so an ihre persönlichen Daten kommen kann.",
     "description": "Security background text"
+  },
+  "security_background_icons_text": {
+    "message": "1. Wählen Sie ein Icons aus, das ihnen gefällt",
+    "description": "Security background select icon text"
+  },
+  "security_background_color_text": {
+    "message": "2. Wählen Sie noch eine Farbe, die ihnen gefällt",
+    "description": "Security background select color text"
   },
   "security_cache_header": {
     "message": "Passwörter für diese Browsersitzung speichern?",
@@ -1856,6 +1844,10 @@
   "settings_security": {
     "message": "Sicherheit",
     "description": "Tab of options to display security settings."
+  },
+  "settings_security_background": {
+    "message": "Sicherheitshintergrund",
+    "description": "Tab of options to display security background settings."
   },
   "settings_security_log": {
     "message": "Sicherheitsprotokoll",

@@ -71,6 +71,12 @@ export function init() {
       if (typeof prefs.security.hide_armored_header == 'undefined') {
         prefs.security.hide_armored_header = defaults.preferences.security.hide_armored_header;
       }
+      if (typeof prefs.security.bgIcon == 'undefined') {
+        prefs.security.bgIcon = defaults.preferences.security.bgIcon;
+      }
+      if (typeof prefs.security.bgColor == 'undefined') {
+        prefs.security.bgColor = defaults.preferences.security.bgColor;
+      }
 
       // merge watchlist on version change
       return mergeWatchlist(defaults)

@@ -123,7 +123,7 @@ export default class Keyring extends React.Component {
     return (
       <>
         <KeyringOptions.Provider value={{keyringId: this.state.keyringId, demail: this.state.demail, gnupg: this.state.gnupg}}>
-          <div className="jumbotron secureBackground">
+          <div className="jumbotron">
             <section className="card">
               {!this.state.keyringId || this.state.keysLoading ? (
                 <Spinner delay={0} />
@@ -139,7 +139,6 @@ export default class Keyring extends React.Component {
                 </>
               )}
             </section>
-            <button type="button" className="btn btn-link float-right secureBgndSettingsBtn lockBtnIcon" title={l10n.map.security_background_button_title} disabled="disabled"></button>
           </div>
           <Notifications items={this.state.notifications} hideDelay={5000} />
         </KeyringOptions.Provider>

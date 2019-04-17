@@ -142,7 +142,7 @@ module.exports = function(grunt) {
             'components/{decrypt-popup,enter-password,generate-key,key-backup,recovery-sheet,restore-backup,verify-inline,verify-popup}/**/*',
             'content-scripts/*.css',
             'img/{*,Mailvelope/*,security/*}',
-            'lib/{constants,EventHandler,jquery.ext,l10n,util}.js',
+            'lib/{constants,EventHandler,jquery.ext,l10n,util,svg-file-parser}.js',
           ],
           dest: 'build/tmp'
         }, {
