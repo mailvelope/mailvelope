@@ -301,7 +301,7 @@ export default class Key extends React.Component {
                 <button type="button" className="btn btn-secondary btn-block" onClick={() => this.setState({showDeleteModal: false})}>{l10n.map.dialog_no_btn}</button>
               </div>
               <div className="col-6 pr-1">
-                <button type="button" onClick={() => this.setState({action: 'delete', showDeleteModal: false})} className="btn btn-primary btn-block" data-dismiss="modal">{l10n.map.dialog_yes_btn}</button>
+                <button type="button" onClick={() => this.setState({action: 'delete', showDeleteModal: false})} className="btn btn-primary btn-block">{l10n.map.dialog_yes_btn}</button>
               </div>
             </div>
           </div>

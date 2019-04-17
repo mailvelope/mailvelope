@@ -30,6 +30,7 @@ export default class EncryptedForm extends React.Component {
     this.state = {
       error: null,
       waiting: true,
+      showWaiting: true,
       validate: false,
       validated: false,
       formAction: null,
@@ -61,7 +62,7 @@ export default class EncryptedForm extends React.Component {
   }
 
   showForm(event) {
-    this.setState({...event, waiting: false});
+    this.setState({...event, showWaiting: false});
   }
 
   showErrorMsg(error) {
@@ -71,7 +72,7 @@ export default class EncryptedForm extends React.Component {
         message: error.message,
         type: 'danger'
       },
-      waiting: false
+      showWaiting: false
     });
   }
 
@@ -130,39 +131,37 @@ export default class EncryptedForm extends React.Component {
   }
 
   render() {
-    return (
-      <>
-        {!this.state.waiting &&
-          (
-            <div className={this.props.secureBackground && !this.state.waiting ? 'jumbotron secureBackground' : ''} style={{height: '100%', position: 'relative'}}>
-              <div className="card">
-                <div className="card-body">
-                  {this.state.error ? (<Alert type={this.state.error.type}>{this.state.error.message}</Alert>) : (
-                    <div>
-                      {this.state.validated && <div className="spinnerWrapper"><Spinner style={{margin: '0 auto 0'}} /></div>}
-                      <div className="formWrapper">
-                        {this.formSandbox()}
-                        <button className="btn btn-primary" type="button" onClick={() => this.onClickSubmit()}>{l10n.map.form_submit}</button>
-                        <div className="recipient">
-                          <div className="recipient-action">{l10n.map.form_destination}: {this.state.formAction ? this.state.formAction : l10n.map.form_destination_default}</div>
-                          <div className="recipient-email">{l10n.map.form_recipient}: {this.state.formRecipient}</div>
-                          <div className="recipient-fingerprint">{formatFpr(this.state.recipientFpr)}</div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          )
-        }
-        <Modal isOpen={this.state.waiting} className="waiting-modal" hideHeader={true} hideFooter={true} keyboard={false}>
+    if (this.state.waiting) {
+      return (
+        <Modal isOpen={this.state.showWaiting} className="waiting-modal" hideHeader={true} hideFooter={true} keyboard={false} onHide={() => this.setState({waiting: false})}>
           <div>
             <Spinner style={{margin: '10px auto'}} />
             <p className="text-center mb-0">{l10n.map.form_loading}&hellip;</p>
           </div>
         </Modal>
-      </>
+      );
+    }
+    return (
+      <div className={this.props.secureBackground ? 'jumbotron secureBackground' : ''} style={{height: '100%', position: 'relative'}}>
+        <div className="card">
+          <div className="card-body">
+            {this.state.error ? (<Alert type={this.state.error.type}>{this.state.error.message}</Alert>) : (
+              <div>
+                {this.state.validated && <div className="spinnerWrapper"><Spinner style={{margin: '0 auto 0'}} /></div>}
+                <div className="formWrapper">
+                  {this.formSandbox()}
+                  <button className="btn btn-primary" type="button" onClick={() => this.onClickSubmit()}>{l10n.map.form_submit}</button>
+                  <div className="recipient">
+                    <div className="recipient-action">{l10n.map.form_destination}: {this.state.formAction ? this.state.formAction : l10n.map.form_destination_default}</div>
+                    <div className="recipient-email">{l10n.map.form_recipient}: {this.state.formRecipient}</div>
+                    <div className="recipient-fingerprint">{formatFpr(this.state.recipientFpr)}</div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     );
   }
 }

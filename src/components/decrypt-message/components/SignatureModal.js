@@ -22,15 +22,18 @@ l10n.register([
 ]);
 
 export default function SignatureModal({isOpen, signer, onHide, toggle}) {
+  if (!signer) {
+    return null;
+  }
   let status;
   let bgClass;
-  if (signer && signer.valid === true) {
+  if (signer.valid === true) {
     bgClass = 'alert-success';
     status = l10n.map.digital_signature_status_true;
-  } else if (signer && signer.valid === false) {
+  } else if (signer.valid === false) {
     bgClass = 'alert-danger';
     status = l10n.map.digital_signature_status_false;
-  } else if (signer && signer.valid === null) {
+  } else if (signer.valid === null) {
     bgClass = 'alert-warning';
     status = l10n.map.digital_signature_status_null;
   }
@@ -46,7 +49,7 @@ export default function SignatureModal({isOpen, signer, onHide, toggle}) {
       }
     >
       <div>
-        {signer && (signer.valid !== null ? (
+        {signer.valid !== null ? (
           <div>
             <p><b>{l10n.map.keygrid_user_name}:</b> {signer.keyDetails.name}</p>
             <p><b>{l10n.map.keygrid_user_email}:</b> {signer.keyDetails.email}</p>
@@ -57,7 +60,7 @@ export default function SignatureModal({isOpen, signer, onHide, toggle}) {
             {signer.valid === null && <p>{l10n.map.digital_signature_status_null_description}</p>}
             <p className="mb-0"><b>{l10n.map.keygrid_keyid}:</b> {signer.keyId.toUpperCase()}</p>
           </div>
-        ))}
+        )}
       </div>
     </Modal>
   );
