@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED, FRAME_OBJ, DYN_IFRAME, IFRAME_OBJ, PGP_MESSAGE, PGP_SIGNATURE, PGP_PUBLIC_KEY, PGP_PRIVATE_KEY} from '../lib/constants';
+import {FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED, DYN_IFRAME, PGP_MESSAGE, PGP_SIGNATURE, PGP_PUBLIC_KEY, PGP_PRIVATE_KEY} from '../lib/constants';
 import {getHash, matchPattern2RegEx} from '../lib/util';
 import EventHandler from '../lib/EventHandler';
 import $ from 'jquery';
@@ -188,9 +188,7 @@ function findEditable() {
     // set event handler for contextmenu
     content.find('body')//.off("contextmenu").on("contextmenu", onContextMenu)
     // mark body as 'inside iframe'
-    .data(DYN_IFRAME, true)
-    // add iframe element
-    .data(IFRAME_OBJ, $(this));
+    .data(DYN_IFRAME, true);
     // document of iframe in design mode or contenteditable set on the body
     if (content.attr('designMode') === 'on' || content.find('body[contenteditable]').length !== 0) {
       // add iframe to editable elements
@@ -210,10 +208,6 @@ function findEditable() {
       try {
         const content = frame.contents();
         if (content.attr('designMode') === 'on' || content.find('body[contenteditable]').length !== 0) {
-          // set event handler for contextmenu
-          //content.find('body').off("contextmenu").on("contextmenu", onContextMenu);
-          // mark body as 'inside iframe'
-          content.find('body').data(IFRAME_OBJ, frame);
           return true;
         } else {
           return false;
@@ -274,30 +268,15 @@ function attachExtractFrame(ranges) {
 
 /**
  * attach encrypt frame to element
- * @param  {$} element
- * @param  {boolean} expanded state of frame
+ * @param  {jQuery} elements
  */
-function attachEncryptFrame(element, expanded) {
-  // check status of elements
-  const newObj = element.filter(function() {
-    if (expanded) {
-      // filter out only attached frames
-      if (element.data(FRAME_STATUS) === FRAME_ATTACHED) {
-        // trigger expand state of attached frames
-        element.data(FRAME_OBJ).showEncryptDialog();
-        return false;
-      } else {
-        return true;
-      }
-    } else {
-      // filter out attached and detached frames
-      return !isAttached($(this));
-    }
-  });
+function attachEncryptFrame(elements) {
+  // filter out attached and detached frames
+  elements = elements.filter((index, element) => !isAttached($(element)));
   // create new encrypt frames for new discovered editable fields
-  newObj.each((index, element) => {
+  elements.each((index, element) => {
     const eFrame = new EncryptFrame();
-    eFrame.attachTo($(element), {expanded});
+    eFrame.attachTo($(element));
   });
 }
 
@@ -311,41 +290,5 @@ function isAttached(element) {
       return false;
   }
 }
-
-/*
-function initContextMenu() {
-  // set handler
-  $("body").on("contextmenu", onContextMenu);
-}
-
-function onContextMenu(e) {
-  //console.log(e.target);
-  var target = $(e.target);
-  // find editable descendants or ascendants
-  var element = target.find('[contenteditable], textarea');
-  if (element.length === 0) {
-    element = target.closest('[contenteditable], textarea');
-  }
-  if (element.length !== 0 && !element.is('body')) {
-    if (element.height() > MIN_EDIT_HEIGHT) {
-      contextTarget = element;
-    } else {
-      contextTarget = null;
-    }
-    return;
-  }
-  // inside dynamic iframe or iframes from same origin with a contenteditable body
-  element = target.closest('body');
-  // get outer iframe
-  var iframeObj = element.data(IFRAME_OBJ);
-  if (iframeObj !== undefined) {
-    // target set to outer iframe
-    contextTarget = iframeObj;
-    return;
-  }
-  // no suitable element found
-  contextTarget = null;
-}
-*/
 
 //# sourceURL=cs-mailvelope.js

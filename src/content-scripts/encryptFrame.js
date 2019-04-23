@@ -4,7 +4,7 @@
  */
 
 import {getHash, normalizeArmored, encodeHTML} from '../lib/util';
-import {FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED, FRAME_OBJ, DYN_IFRAME, PLAIN_TEXT} from '../lib/constants';
+import {FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED, DYN_IFRAME, PLAIN_TEXT} from '../lib/constants';
 import EventHandler from '../lib/EventHandler';
 import $ from 'jquery';
 import {currentProvider} from './main';
@@ -18,22 +18,18 @@ export default class EncryptFrame {
     this.refreshPosIntervalID = 0;
     this.emailTextElement = null;
     // type of external editor
-    this.editorType = PLAIN_TEXT;
-    this.options = {closeBtn: true};
+    this.editorType = PLAIN_TEXT; //prefs.general.editor_type;
     this.keyCounter = 0;
     this.currentProvider = currentProvider;
   }
 
-  attachTo(element, options) {
-    $.extend(this.options, options);
+  attachTo(element) {
     this.init(element);
     this.establishConnection();
     this.registerEventListener();
     this.renderFrame();
     // set status to attached
     this.editElement.data(FRAME_STATUS, FRAME_ATTACHED);
-    // store frame obj in element tag
-    this.editElement.data(FRAME_OBJ, this);
   }
 
   init(element) {
@@ -71,13 +67,7 @@ export default class EncryptFrame {
 
   renderFrame() {
     // create frame
-    let toolbar = '';
-    if (this.options.closeBtn) {
-      toolbar = `${toolbar}<a class="m-frame-close">×</a>`;
-    } else {
-      toolbar = `${toolbar}<span class="m-frame-fill-right"></span>`;
-    }
-    toolbar = `${toolbar}<button id="editorBtn" class="m-btn m-encrypt-button" type="button"><span class="m-icon m-icon-editor"></span></button>`;
+    const toolbar = '<a class="m-frame-close">×</a><button id="editorBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-editor"></i></button>';
     this.eFrame = $('<div/>', {
       id: `eFrame-${this.id}`,
       'class': 'm-encrypt-frame',
@@ -133,7 +123,6 @@ export default class EncryptFrame {
       } else {
         this.editElement.data(FRAME_STATUS, FRAME_DETACHED);
       }
-      this.editElement.data(FRAME_OBJ, null);
     });
     return false;
   }

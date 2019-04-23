@@ -8,11 +8,8 @@ export const FRAME_STATUS = 'stat';
 // frame status
 export const FRAME_ATTACHED = 'att';
 export const FRAME_DETACHED = 'det';
-// key for reference to frame object
-export const FRAME_OBJ = 'fra';
 // marker for dynamically created iframes
 export const DYN_IFRAME = 'dyn';
-export const IFRAME_OBJ = 'obj';
 // armor header type
 export const PGP_MESSAGE = 'msg';
 export const PGP_SIGNATURE = 'sig';
