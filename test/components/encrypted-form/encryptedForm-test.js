@@ -68,7 +68,7 @@ describe('Encrypt Form tests', () => {
       expect(wrapper.find(Spinner).exists()).to.equal(true);
     });
 
-    it('should show the sandbox form component and the form materials', () => {
+    it('should show the sandbox form component and the form materials', done  => {
       const {wrapper} = setup();
       const component = wrapper.instance();
       const event = {
@@ -79,24 +79,28 @@ describe('Encrypt Form tests', () => {
         recipientFpr: 'AA1E 0177 4BDF 7D76 A45B DC2D F11D B125 0C3C 3F1B'
       };
       component.showForm(event);
-      wrapper.update();
-
-      expect(wrapper.find('iframe#formSandbox').exists()).to.equal(true);
-      expect(wrapper.find('.formWrapper').exists()).to.equal(true);
-      expect(wrapper.find('button.btn').exists()).to.equal(true);
+      setTimeout(() => {
+        wrapper.update();
+        expect(wrapper.find('iframe#formSandbox').exists()).to.equal(true);
+        expect(wrapper.find('.formWrapper').exists()).to.equal(true);
+        expect(wrapper.find('button.btn').exists()).to.equal(true);
+        done();
+      }, 300);
     });
-    it('should show error message on error-message event', () => {
+    it('should show error message on error-message event', done => {
       const {wrapper} = setup();
       const component = wrapper.instance();
       const error = {
         message: 'Error message!'
       };
       component.showErrorMsg(error);
-      wrapper.update();
-
-      const alert = wrapper.find(Alert);
-      expect(alert.exists()).to.equal(true);
-      expect(alert.text()).to.equal(error.message);
+      setTimeout(() => {
+        wrapper.update();
+        const alert = wrapper.find(Alert);
+        expect(alert.exists()).to.equal(true);
+        expect(alert.text()).to.equal(error.message);
+        done();
+      }, 300);
     });
   });
 });
