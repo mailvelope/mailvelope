@@ -4,7 +4,7 @@
  */
 
 import {getHash, normalizeArmored} from '../lib/util';
-import {LARGE_FRAME, FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED, FRAME_OBJ} from '../lib/constants';
+import {LARGE_FRAME, FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED} from '../lib/constants';
 import EventHandler from '../lib/EventHandler';
 import $ from 'jquery';
 import {currentProvider} from './main';
@@ -14,10 +14,8 @@ export default class ExtractFrame {
     this.id = getHash();
     // range element with armored message
     this.pgpRange = null;
-    this.pgpSelection = null;
     // jQuery element that contains complete ASCII Armored Message
     this.$pgpElement = null;
-    this.pgpElementAttr = {};
     this.$eFrame = null;
     this.port = null;
     this.currentProvider = currentProvider;
@@ -39,7 +37,6 @@ export default class ExtractFrame {
     // set status to attached
     this.$pgpElement.data(FRAME_STATUS, FRAME_ATTACHED);
     // store frame obj in pgpText tag
-    this.$pgpElement.data(FRAME_OBJ, this);
     this.$pgpElement.append(this.pgpRange.extractContents());
     this.pgpRange.insertNode(this.$pgpElement.get(0));
     this.pgpRange.selectNodeContents(this.$pgpElement.get(0));
@@ -91,7 +88,6 @@ export default class ExtractFrame {
       } else {
         this.$pgpElement.data(FRAME_STATUS, FRAME_DETACHED);
       }
-      this.$pgpElement.data(FRAME_OBJ, null);
     });
     return false;
   }
