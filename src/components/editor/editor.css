@@ -3,13 +3,14 @@
  * Copyright (C) 2012-2019 Mailvelope GmbH
  */
 
-.editor-popup-pwd-dialog {
-  width: 462px;
-  height: 488px;
+.editor-popup-pwd-dialog {  
   position: absolute;
+  width: 580px;
+  height: 480px;
   left: 50%;
   top: 50%;
   transform: translate3d(-50%,-50%,0);
+  border: 1px solid black;
 }
 
 .editor .editor-body .plain-text iframe {

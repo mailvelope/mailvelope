@@ -39,7 +39,8 @@ module.exports = [
   dev('editor', 'editorRoot'),
   dev('encrypted-form', 'encryptedFormRoot'),
   dev('install-landing-page', 'installLandingPage'),
-  dev('import-key', 'importKeyRoot')
+  dev('import-key', 'importKeyRoot'),
+  dev('enter-password', 'passwordDialogRoot')
 ];
 
 module.exports.prod = [
@@ -48,7 +49,8 @@ module.exports.prod = [
   prod('editor', 'editorRoot'),
   prod('encrypted-form', 'encryptedFormRoot'),
   prod('install-landing-page', 'installLandingPage'),
-  prod('import-key', 'importKeyRoot')
+  prod('import-key', 'importKeyRoot'),
+  prod('enter-password', 'passwordDialogRoot')
 ];
 
 module.exports.dev = module.exports;

@@ -12,12 +12,13 @@ html, body {
 }
 
 #pwdDialog {
-  width: 462px;
-  height: 488px;
   position:absolute;
+  width: 580px;
+  height: 480px;
   left: 50%;
   top: 50%;
   transform: translate3d(-50%,-50%,0);
+  border: 1px solid black;
 }
 
 .modal-body iframe {

@@ -82,7 +82,7 @@ function addPwdDialog({id}) {
   $('body').removeClass('spinner');
   pwd = $('<iframe/>', {
     id: 'pwdDialog',
-    src: `../enter-password/pwdDialog.html?id=${id}`,
+    src: `../enter-password/passwordDialog.html?id=${id}`,
     frameBorder: 0
   });
   $('body').append(pwd);

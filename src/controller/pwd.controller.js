@@ -128,7 +128,7 @@ export default class PwdController extends SubController {
         }
         if (this.options.openPopup) {
           setTimeout(
-            () => mvelo.windows.openPopup(`components/enter-password/pwdDialog.html?id=${this.id}`, {width: 470, height: 488})
+            () => mvelo.windows.openPopup(`components/enter-password/passwordDialog.html?id=${this.id}`, {width: 580, height: 480})
             .then(popup => {
               this.receivedPortMsg = false;
               this.pwdPopup = popup;

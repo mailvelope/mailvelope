@@ -49,6 +49,7 @@ $headings-font-family: CeraRoundPro, -apple-system, BlinkMacSystemFont, "Segoe U
 $font-size-base: .875rem;
 $h2-font-size: $font-size-base * 2.25;
 $h3-font-size: $font-size-base * 1.7;
+$h4-font-size: $font-size-base * 1.25;
 $headings-color: $black;
 $yiq-text-dark: $gray-900;
 
@@ -64,6 +65,8 @@ $border-color: $gray-400;
 $border-radius-sm: .25rem;
 $border-radius: .5rem ;
 $border-radius-lg: 1rem;
+
+$box-shadow-lg: 0 5px 15px 0 rgba($black, 0.2), 0 0 2px 0 rgba($black, 0.2);
 
 $component-active-bg: $turquoise;
 

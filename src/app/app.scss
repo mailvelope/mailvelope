@@ -14,7 +14,7 @@ body {
 
 nav {
   &.navbar {
-    box-shadow: 0 5px 15px 0 rgba($black, 0.2), 0 0 2px 0 rgba($black, 0.2);
+    box-shadow: $box-shadow-lg;
   }
 }
 
@@ -24,7 +24,7 @@ main {
     padding: map-get($spacers, 2);
     margin-bottom: 1.5rem;
     background-color: $white;
-    box-shadow: 0 5px 15px 0 rgba($black, 0.2), 0 0 2px 0 rgba($black, 0.2);
+    box-shadow: $box-shadow-lg;
     > section {      
       &.card {
         border: 0;
