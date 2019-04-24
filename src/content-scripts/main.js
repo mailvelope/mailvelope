@@ -18,9 +18,10 @@ import EncryptFrame from './encryptFrame';
 const PGP_HEADER = /-----BEGIN\sPGP\s(SIGNED|MESSAGE|PUBLIC)/;
 const PGP_FOOTER = /END\sPGP\s(MESSAGE|SIGNATURE|PUBLIC KEY BLOCK)-----/;
 const MIN_EDIT_HEIGHT = 84;
+const OBSERVER_THROTTLE = 1000; // ms
 
 let domObserver = null;
-//let contextTarget = null;
+let scanThrottle = null;
 let port = null;
 let watchList = null;
 let clientApiActive = false;
@@ -102,9 +103,22 @@ function on() {
   // start DOM scan
   scanDOM();
   const mutateEvent = new CustomEvent('mailvelope-observe');
+  let hasMutated = false;
   domObserver = new MutationObserver(() => {
-    document.dispatchEvent(mutateEvent);
-    scanDOM();
+    if (scanThrottle) {
+      hasMutated = true;
+    } else {
+      document.dispatchEvent(mutateEvent);
+      scanDOM();
+      scanThrottle = window.setTimeout(() => {
+        scanThrottle = null;
+        if (hasMutated) {
+          hasMutated = false;
+          document.dispatchEvent(mutateEvent);
+          scanDOM();
+        }
+      }, OBSERVER_THROTTLE);
+    }
   });
   domObserver.observe(document.body, {subtree: true, childList: true});
 }
@@ -112,6 +126,9 @@ function on() {
 function off() {
   if (domObserver) {
     domObserver.disconnect();
+  }
+  if (scanThrottle) {
+    window.clearInterval(scanThrottle);
   }
 }
 
@@ -151,7 +168,9 @@ function findPGPRanges() {
     const isPGPBegin = PGP_HEADER.test(treeWalker.currentNode.textContent);
     if (isPGPBegin) {
       currPGPBegin = treeWalker.currentNode;
-      continue;
+      if (!PGP_FOOTER.test(treeWalker.currentNode.textContent)) {
+        continue;
+      }
     }
     if (currPGPBegin) {
       const pgpEnd = treeWalker.currentNode;
