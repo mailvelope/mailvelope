@@ -483,6 +483,10 @@
     "message": "Schlüssel Server ist nicht erreichbar",
     "description": "HKP key server url error."
   },
+  "key_export_filename": {
+    "message": "Dateiname",
+    "description": "Label of filename input."
+  },
   "key_export_create_file": {
     "message": "Speichern",
     "description": "Download file button."

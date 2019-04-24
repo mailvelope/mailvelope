@@ -176,7 +176,7 @@ export default class KeyGrid extends React.Component {
         {this.props.spinner && <Spinner delay={0} />}
         <Modal isOpen={this.state.showExportModal} toggle={() => this.setState(prevState => ({showExportModal: !prevState.showExportModal}))} size="medium" title={l10n.map.keyring_backup} hideFooter={true}>
           <KeyringOptions.Consumer>
-            {({keyringId}) => <KeyExport keyringId={keyringId} keyFprs={this.state.keyringBackup.keyFprs} keyName="keyring" all={this.state.keyringBackup.all} type={this.state.keyringBackup.type} publicOnly={this.context.gnupg} onClose={() => this.setState({showExportModal: false})} />}
+            {({keyringId}) => <KeyExport showArmored={false} fileNameEditable={true} keyringId={keyringId} keyFprs={this.state.keyringBackup.keyFprs} keyName="keyring" all={this.state.keyringBackup.all} type={this.state.keyringBackup.type} publicOnly={this.context.gnupg} onClose={() => this.setState({showExportModal: false})} />}
           </KeyringOptions.Consumer>
         </Modal>
       </div>

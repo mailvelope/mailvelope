@@ -60,7 +60,6 @@ export default class GenerateKey extends React.Component {
       password: '',
       mveloKeyServerUpload: demail ? false : true,
       generating: false, // key generation in progress
-      success: false, // key generation successful
       errors: {}, // form errors
       alert: null // notifications
     };
@@ -86,6 +85,7 @@ export default class GenerateKey extends React.Component {
   }
 
   handleGenerate() {
+    this.setState({alert: null});
     const errors = {...this.state.errors};
     const validEmail = checkEmail(this.state.email);
     if (!validEmail) {
@@ -103,7 +103,7 @@ export default class GenerateKey extends React.Component {
     this.setState({generating: true});
   }
 
-  generateKey() {
+  async generateKey() {
     const parameters = {
       keyAlgo: this.state.keyAlgo,
       numBits: this.state.keySize,
@@ -117,28 +117,24 @@ export default class GenerateKey extends React.Component {
     if (this.state.keyExpirationTime) {
       parameters.keyExpirationTime = Math.abs(this.state.keyExpirationTime.unix() - moment().startOf('day').unix());
     }
-    port.send('generateKey', {parameters, keyringId: this.context.keyringId})
-    .then(() => {
-      this.setState({
+    try {
+      await port.send('generateKey', {parameters, keyringId: this.context.keyringId});
+      this.handleReset({
         alert: {header: l10n.map.alert_header_success, message: l10n.map.key_gen_success, type: 'success'},
-        success: true
-      }, () => this.handleReset());
+      });
       if (this.props.onKeyringChange) {
         this.props.onKeyringChange();
       }
-    })
-    .catch(error => {
+    } catch (error) {
       this.setState({
         alert: {header: l10n.map.key_gen_error, message: error.message || '', type: 'danger'}
       });
-    })
-    .then(() => {
-      this.setState({generating: false});
-    });
+    }
+    this.setState({generating: false});
   }
 
-  handleReset() {
-    this.setState(this.getInitialState(this.context));
+  handleReset({alert = null}) {
+    this.setState({...this.getInitialState(this.context), alert});
   }
 
   render() {

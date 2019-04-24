@@ -487,6 +487,10 @@
     "description": "Download file button.",
     "message": "Save"
   },
+  "key_export_filename": {
+    "message": "File name",
+    "description": "Label of filename input."
+  },
   "key_export_header": {
     "description": "Export key dialog header.",
     "message": "Export Key"
@@ -717,63 +721,63 @@
   },
   "key_remove_btn": {
     "message": "Remove",
-    "description": "Remove key button label"    
+    "description": "Remove key button label"
   },
   "key_export_btn": {
     "message": "Export",
-    "description": "Export key button label"    
+    "description": "Export key button label"
   },
   "key_revoke_btn": {
     "message": "Revoke",
-    "description": "Revoke key button label"    
+    "description": "Revoke key button label"
   },
   "key_remove_btn_title": {
     "message": "Remove key from keyring",
-    "description": "Title for remove key button"    
+    "description": "Title for remove key button"
   },
   "key_export_btn_title": {
     "message": "Export key",
-    "description": "Title for export key button"    
+    "description": "Title for export key button"
   },
   "key_revoke_btn_title": {
     "message": "Revoke key",
-    "description": "Title for revoke key button"    
+    "description": "Title for revoke key button"
   },
   "key_default_active_btn_title": {
     "message": "Key is set as default key",
-    "description": "Title for active default key button"        
+    "description": "Title for active default key button"
   },
   "key_default_disabled_btn_title": {
     "message": "The key is invalid and cannot be set as the default key",
-    "description": "Title for disabled (invalid) default key button"        
+    "description": "Title for disabled (invalid) default key button"
   },
   "key_default_inactive_btn_title": {
     "message": "Set key as default key",
-    "description": "Title for inactive default key button"        
+    "description": "Title for inactive default key button"
   },
   "key_keyserver_sync": {
     "message": "The key data on the Mailvelope key server is up to date.",
-    "description": "Key data is synchronized with the Mailvelope key server"    
+    "description": "Key data is synchronized with the Mailvelope key server"
   },
   "key_keyserver_mod": {
     "message": "The key data on the Mailvelope key server is no longer up to date.",
-    "description": "Local key data differs from Mailvelope key server"    
+    "description": "Local key data differs from Mailvelope key server"
   },
   "key_keyserver_not": {
     "message": "The key is not synchronized with the Mailvelope key server.",
-    "description": "Key is not on the the Mailvelope server"    
+    "description": "Key is not on the the Mailvelope server"
   },
   "key_keyserver_upload": {
     "message": "To synchronize the key with the Mailvelope key server a confirmation email was sent to all user IDs.",
-    "description": "An upload request has been sent to the Mailvelope key server"    
+    "description": "An upload request has been sent to the Mailvelope key server"
   },
   "key_keyserver_update": {
     "message": "The key data has been updated on the Mailvelope key server.",
-    "description": "An update request has been sent to the Mailvelope key server"    
+    "description": "An update request has been sent to the Mailvelope key server"
   },
   "key_keyserver_remove": {
     "message": "A confirmation email was sent to all user IDs for final removal from the Mailvelope key server.",
-    "description": "A deletion request has been sent to the Mailvelope key server"    
+    "description": "A deletion request has been sent to the Mailvelope key server"
   },
   "key_keyserver_remove_btn": {
     "message": "Remove all user IDs",
@@ -806,7 +810,7 @@
   "key_export_dialog_copy_to_clipboard": {
     "message": "Copy to clipboard",
     "description": "Copy to clipboard button label."
-  },  
+  },
   "key_revoke_dialog_title": {
     "message": "Revoke key",
     "description": "Title of revoke key dialog."
@@ -822,7 +826,7 @@
   "user_title": {
     "message": "User ID",
     "description": "Title of user page"
-  },  
+  },
   "user_create_title": {
     "message": "Create user ID",
     "description": "Title of create user page"
@@ -866,30 +870,30 @@
   "user_revoke_dialog_description": {
     "message": "With the revocation the user ID for this key remains permanently unusable.",
     "description": "Description in revoke user dialog."
-  },  
+  },
   "user_revoke_dialog_confirmation": {
     "message": "Would you still like to revoke?",
     "description": "Confirmation question in revoke user dialog."
   },
   "user_keyserver_sync": {
     "message": "The user ID is synchronized with the Mailvelope key server.",
-    "description": "User ID is synchronised with the Mailvelope key server"    
+    "description": "User ID is synchronised with the Mailvelope key server"
   },
   "user_keyserver_unverified": {
     "message": "Please confirm the user ID to synchronize it with the Mailvelope key server.",
-    "description": "User ID Mailvelope key server not verified"    
+    "description": "User ID Mailvelope key server not verified"
   },
   "user_keyserver_not": {
     "message": "The user ID is not synchronized with the Mailvelope key server.",
-    "description": "User ID is not synchronized with Mailvelope key server"    
+    "description": "User ID is not synchronized with Mailvelope key server"
   },
   "user_keyserver_upload": {
     "message": "To synchronize with the Mailvelope server a confirmation email was sent to $1.",
-    "description": "An upload request has been sent to the Mailvelope key server"    
+    "description": "An upload request has been sent to the Mailvelope key server"
   },
   "user_keyserver_remove": {
     "message": "for final removal from the Mailvelope key server a confirmation email was sent to $1.",
-    "description": "A remove request has been sent to the Mailvelope key server"    
+    "description": "A remove request has been sent to the Mailvelope key server"
   },
   "user_keyserver_remove_btn": {
     "message": "Remove user ID",
@@ -1398,7 +1402,7 @@
   "pwd_dialog_reason_revoke": {
     "description": "",
     "message": "Please enter your key password to revoke this key."
-  },  
+  },
   "pwd_dialog_reason_add_user": {
     "message": "Please enter your key password to create the user ID.",
     "description": ""
@@ -1410,7 +1414,7 @@
   "pwd_dialog_reason_set_exdate": {
     "message": "Please enter your key password to set a new expiration date for the key.",
     "description": ""
-  }, 
+  },
   "pwd_dialog_title": {
     "description": "Title of the password dialog.",
     "message": "Enter a Password | Mailvelope"
