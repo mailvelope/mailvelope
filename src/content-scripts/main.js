@@ -101,14 +101,12 @@ function on() {
   }
   // start DOM scan
   scanDOM();
-  domObserver = new MutationObserver(() => scanDOM());
+  const mutateEvent = new CustomEvent('mailvelope-observe');
+  domObserver = new MutationObserver(() => {
+    document.dispatchEvent(mutateEvent);
+    scanDOM();
+  });
   domObserver.observe(document.body, {subtree: true, childList: true});
-  document.addEventListener('click', () => scanDOM(), true);
-  document.addEventListener('keydown', e => {
-    if (e.keyCode === 13) {
-      scanDOM();
-    }
-  }, true);
 }
 
 function off() {
@@ -119,17 +117,14 @@ function off() {
 
 function scanDOM() {
   // find armored PGP text
-  setTimeout(() => {
-    const pgpRanges = findPGPRanges();
-    if (pgpRanges.length) {
-      attachExtractFrame(pgpRanges);
-    }
-    // find editable content
-    const editable = findEditable();
-    if (editable.length !== 0) {
-      attachEncryptFrame(editable);
-    }
-  }, 50);
+  const pgpRanges = findPGPRanges();
+  if (pgpRanges.length) {
+    attachExtractFrame(pgpRanges);
+  }
+  const editable = findEditable();
+  if (editable.length !== 0) {
+    attachEncryptFrame(editable);
+  }
 }
 
 /**
@@ -148,8 +143,7 @@ function findPGPRanges() {
   const rangeList = [];
   let currPGPBegin;
   while (treeWalker.nextNode()) {
-    if (!$(treeWalker.currentNode).parent().is(':visible') ||
-      $(treeWalker.currentNode).parents('[contenteditable], textarea').length ||
+    if ($(treeWalker.currentNode).parents('[contenteditable], textarea').length ||
       treeWalker.currentNode.parentNode.tagName === 'SCRIPT' ||
       treeWalker.currentNode.ownerDocument.designMode === 'on') {
       continue;

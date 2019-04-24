@@ -16,6 +16,7 @@ export default class ExtractFrame {
     this.pgpRange = null;
     // jQuery element that contains complete ASCII Armored Message
     this.$pgpElement = null;
+    this.domIntersectionObserver = null;
     this.$eFrame = null;
     this.port = null;
     this.currentProvider = currentProvider;
@@ -52,20 +53,26 @@ export default class ExtractFrame {
       'class': 'm-extract-frame m-cursor',
       html: '<a class="m-frame-close">×</a>'
     });
-    this.setFrameDim();
     this.$pgpElement.append(this.$eFrame);
     if (this.pgpRange.getBoundingClientRect().height > LARGE_FRAME) {
       this.$eFrame.addClass('m-large');
     }
-    this.$eFrame.fadeIn('slow');
     this.$eFrame.on('click', this.clickHandler.bind(this));
     this.$eFrame.find('.m-frame-close').on('click', this.closeFrame.bind(this));
     $(window).resize(this.setFrameDim.bind(this));
-    this.domObserver = new MutationObserver(() => this.setFrameDim());
-    this.domObserver.observe(document.body, {subtree: true, childList: true});
+    this.domIntersectionObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.intersectionRatio > 0) {
+          this.setFrameDim();
+          this.$eFrame.fadeIn('slow');
+        }
+      }, {root: this.$pgpElement.parent().get(0)});
+    });
+    this.domIntersectionObserver.observe(this.$pgpElement.get(0));
   }
 
   registerEventListener() {
+    document.addEventListener('mailvelope-observe', () => this.setFrameDim());
     this.port.on('destroy', () => this.closeFrame(true));
     this.port.onDisconnect.addListener(() => this.closeFrame(false));
   }
@@ -79,7 +86,7 @@ export default class ExtractFrame {
 
   closeFrame(finalClose) {
     this.$eFrame.fadeOut(() => {
-      this.domObserver.disconnect();
+      this.domIntersectionObserver.disconnect();
       $(window).off('resize');
       this.$eFrame.remove();
       if (finalClose === true) {
