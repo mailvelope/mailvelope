@@ -121,9 +121,9 @@ function scanDOM() {
   if (pgpRanges.length) {
     attachExtractFrame(pgpRanges);
   }
-  const editable = findEditable();
-  if (editable.length !== 0) {
-    attachEncryptFrame(editable);
+  const $editables = findEditable();
+  if ($editables.length !== 0) {
+    attachEncryptFrame($editables);
   }
 }
 
@@ -166,10 +166,10 @@ function findPGPRanges() {
 
 function findEditable() {
   // find textareas and elements with contenteditable attribute, filter out <body>
-  let editable = $('[contenteditable], textarea').filter(':visible').not('body');
-  const iframes = $('iframe').filter(':visible');
+  let $editable = $('[contenteditable], textarea').filter(':visible').not('body');
+  const $iframes = $('iframe').filter(':visible');
   // find dynamically created iframes where src is not set
-  const dynFrames = iframes.filter(function() {
+  const $dynFrames = $iframes.filter(function() {
     const src = $(this).attr('src');
     return src === undefined ||
            src === '' ||
@@ -177,31 +177,31 @@ function findEditable() {
            /^about.*/.test(src);
   });
   // find editable elements inside dynamic iframe (content script is not injected here)
-  dynFrames.each(function() {
-    const content = $(this).contents();
+  $dynFrames.each(function() {
+    const $content = $(this).contents();
     // set event handler for contextmenu
-    content.find('body')//.off("contextmenu").on("contextmenu", onContextMenu)
+    $content.find('body')//.off("contextmenu").on("contextmenu", onContextMenu)
     // mark body as 'inside iframe'
     .data(DYN_IFRAME, true);
     // document of iframe in design mode or contenteditable set on the body
-    if (content.attr('designMode') === 'on' || content.find('body[contenteditable]').length !== 0) {
+    if ($content.attr('designMode') === 'on' || $content.find('body[contenteditable]').length !== 0) {
       // add iframe to editable elements
-      editable = editable.add($(this));
+      $editable = $editable.add($(this));
     } else {
       // editable elements inside iframe
-      const editblElem = content.find('[contenteditable], textarea').filter(':visible');
-      editable = editable.add(editblElem);
+      const $editblElem = $content.find('[contenteditable], textarea').filter(':visible');
+      $editable = $editable.add($editblElem);
     }
   });
   // find iframes from same origin with a contenteditable body (content script is injected, but encrypt frame needs to be attached to outer iframe)
-  const anchor = $('<a/>');
-  const editableBody = iframes.not(dynFrames).filter(function() {
-    const frame = $(this);
+  const $anchor = $('<a/>');
+  const $editableBody = $iframes.not($dynFrames).filter(function() {
+    const $frame = $(this);
     // only for iframes from same host
-    if (anchor.attr('href', frame.attr('src')).prop('hostname') === document.location.hostname) {
+    if ($anchor.attr('href', $frame.attr('src')).prop('hostname') === document.location.hostname) {
       try {
-        const content = frame.contents();
-        if (content.attr('designMode') === 'on' || content.find('body[contenteditable]').length !== 0) {
+        const $content = $frame.contents();
+        if ($content.attr('designMode') === 'on' || $content.find('body[contenteditable]').length !== 0) {
           return true;
         } else {
           return false;
@@ -211,12 +211,12 @@ function findEditable() {
       }
     }
   });
-  editable = editable.add(editableBody);
+  $editable = $editable.add($editableBody);
   // filter out elements below a certain height limit
-  editable = editable.filter(function() {
+  $editable = $editable.filter(function() {
     return $(this).height() > MIN_EDIT_HEIGHT;
   });
-  return editable;
+  return $editable;
 }
 
 export function getMessageType(armored) {
@@ -264,18 +264,18 @@ function attachExtractFrame(ranges) {
  * attach encrypt frame to element
  * @param  {jQuery} elements
  */
-function attachEncryptFrame(elements) {
+function attachEncryptFrame($elements) {
   // filter out attached and detached frames
-  elements = elements.filter((index, element) => !isAttached($(element)));
+  $elements = $elements.filter((index, element) => !isAttached($(element)));
   // create new encrypt frames for new discovered editable fields
-  elements.each((index, element) => {
+  $elements.each((index, element) => {
     const eFrame = new EncryptFrame();
     eFrame.attachTo($(element));
   });
 }
 
-function isAttached(element) {
-  const status = element.data(FRAME_STATUS);
+function isAttached($element) {
+  const status = $element.data(FRAME_STATUS);
   switch (status) {
     case FRAME_ATTACHED:
     case FRAME_DETACHED:
