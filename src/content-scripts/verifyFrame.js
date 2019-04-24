@@ -13,7 +13,7 @@ const PGP_SIG_HEADER = /-----BEGIN\sPGP\sSIGNATURE/;
 export default class VerifyFrame extends ExtractFrame {
   constructor() {
     super();
-    this.pgpSigRangeHeight = null;
+    this.pgpSigRange = null;
     this.$vDialog = null;
     // verify popup active
     this.vPopup = false;
@@ -35,10 +35,9 @@ export default class VerifyFrame extends ExtractFrame {
       }
     }, false);
     const pgpSigBegin = treeWalker.nextNode();
-    const pgpSigRange = pgpSigBegin.ownerDocument.createRange();
-    pgpSigRange.setStart(pgpSigBegin, pgpSigBegin.data.search(PGP_SIG_HEADER));
-    pgpSigRange.setEndAfter(this.pgpRange.endContainer);
-    this.pgpSigRangeHeight = pgpSigRange.getBoundingClientRect().height;
+    this.pgpSigRange = pgpSigBegin.ownerDocument.createRange();
+    this.pgpSigRange.setStart(pgpSigBegin, pgpSigBegin.data.search(PGP_SIG_HEADER));
+    this.pgpSigRange.setEnd(this.pgpRange.endContainer, this.pgpRange.endOffset);
   }
 
   renderFrame() {
@@ -107,7 +106,7 @@ export default class VerifyFrame extends ExtractFrame {
     if (this.$vDialog) {
       this.$eFrame.height(boundingRect.height);
     } else {
-      this.$eFrame.height(this.pgpSigRangeHeight);
+      this.$eFrame.height(this.pgpSigRange.getBoundingClientRect().height);
     }
   }
 }
