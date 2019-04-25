@@ -26,7 +26,7 @@ export default class SecurityBG extends React.Component {
 
   render() {
     return (
-      <div className="securityBG" style={{backgroundImage: this.state.image, backgroundColor: this.state.color}}>
+      <div className={`securityBG ${this.props.className || ''}`} style={{backgroundImage: this.state.image, backgroundColor: this.state.color}}>
         {this.props.children}
       </div>
     );
@@ -34,6 +34,7 @@ export default class SecurityBG extends React.Component {
 }
 
 SecurityBG.propTypes = {
+  className: PropTypes.string,
   port: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired
 };

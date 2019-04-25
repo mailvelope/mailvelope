@@ -217,7 +217,7 @@ export default class EditorController extends sub.SubController {
     this.options.privKeys = true; // send private keys for signing key selection to editor
     return new Promise((resolve, reject) => {
       this.encryptPromise = {resolve, reject};
-      mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}`, {width: 820, height: 574})
+      mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}`, {width: 820, height: 680})
       .then(popup => {
         this.editorPopup = popup;
         popup.addRemoveListener(() => this.onEditorCancel());

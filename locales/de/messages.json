@@ -172,7 +172,7 @@
     "description": ""
   },
   "editor_header": {
-    "message": "E-Mail verfassen",
+    "message": "Sichere E-Mail schreiben",
     "description": "Header of editor popup."
   },
   "editor_link_file_encryption": {
@@ -207,9 +207,17 @@
     "message": "Übertragen",
     "description": "Transfer button of editor popup."
   },
-  "editor_label_add_recipient": {
+  "editor_label_recipient": {
     "description": "Label for recipient text input.",
-    "message": "Empfänger hinzufügen"
+    "message": "Empfänger"
+  },
+  "editor_label_message": {
+    "description": "Label for message textarea.",
+    "message": "Nachricht"
+  },
+  "editor_label_attachments": {
+    "description": "Label for attachments select/drop area.",
+    "message": "Anhänge"
   },
   "editor_key_not_found": {
     "description": "Warning for when a recipient key was not found.",
@@ -419,9 +427,17 @@
     "message": "Immer den Standardschlüssel zur Liste der Empfänger hinzufügen (ermöglicht es, gesendete Nachrichten zu entschlüsseln).",
     "description": "Label for default private key option."
   },
+  "general_default_key_no_sign_option": {
+    "message": "Nicht signiert",
+    "description": "Label for not sign option in sign key select."
+  },
   "general_default_key_auto_sign": {
-    "message": "Alle Nachrichten mit Standardschlüssel signieren",
+    "message": "Sie möchten ihre Emails immer Signieren?",
     "description": "Label for default private key option."
+  },
+  "general_default_key_auto_sign_link": {
+    "message": "Hier einstellen",
+    "description": "Test for auto sign link."
   },
   "gnupg_connection": {
     "message": "GnuPG Anbindung",
@@ -1862,7 +1878,7 @@
     "description": "Tab of options to display list of authorized domains."
   },
   "sign_dialog_header": {
-    "message": "Nachricht mit Schlüssel signieren:",
+    "message": "Nachricht signieren als:",
     "description": "Header of sign dialog."
   },
   "sign_error": {
@@ -1897,8 +1913,16 @@
     "message": "Dateihochladen wird abgebrochen.",
     "description": "A warning for the aborting of the file upload."
   },
+  "upload_help": {
+    "message": "Datei auf das Fenster ziehen oder",
+    "description": "Text in file upload area"
+  },
+  "upload_drop": {
+    "message": "Lassen Sie die Datei hier fallen um sie anzuhängen",
+    "description": "Text in file drop overlay area"
+  },
   "upload_attachment": {
-    "message": "Anhang hinzufügen",
+    "message": "Datei hinzufügen",
     "description": "Text in the upload attachment button of the message editor dialog"
   },
   "upload_quota_exceeded_warning": {

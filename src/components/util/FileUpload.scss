@@ -1,0 +1,24 @@
+@import "../../res/styles/_required";
+
+.fileUpload {
+  position: relative;
+  .area {
+    background-color: rgba($gray-200, 0.75);
+    border: 2px dashed $gray-600;
+  }
+  .overlay {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+    border: 2px dashed $gray-800;
+    background-color: rgba($gray-200, 0.9);
+    opacity: 0;
+    transition: visibility 0.3s 0s, opacity 0.3s ease-out;
+    &.active {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}

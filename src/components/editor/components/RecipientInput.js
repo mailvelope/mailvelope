@@ -18,7 +18,6 @@ import './RecipientInput.scss';
 /* global angular */
 
 l10n.register([
-  'editor_label_add_recipient',
   'editor_key_not_found',
   'editor_key_not_found_msg'
 ]);
@@ -84,14 +83,13 @@ export class RecipientInput extends React.Component {
           enable-editing-last-tag="true"
           display-property="displayId"
           on-tag-added="rInput.verify($tag)"
-          on-tag-removed="rInput.checkEncryptStatus()"
-          placeholder={l10n.map.editor_label_add_recipient}>
+          on-tag-removed="rInput.checkEncryptStatus()">
           <auto-complete
             source="rInput.autocomplete($query)"
             min-length="1">
           </auto-complete>
         </tags-input>
-        <div className="alert alert-danger alert-dismissible ng-hide" role="alert" ref={node => node && node.setAttribute('ng-show', 'rInput.noEncrypt')}>
+        <div className="alert alert-danger alert-dismissible ng-hide mb-0" role="alert" ref={node => node && node.setAttribute('ng-show', 'rInput.noEncrypt')}>
           <strong>{l10n.map.editor_key_not_found}</strong> <span>{l10n.map.editor_key_not_found_msg}</span>
           <button type="button" className="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>

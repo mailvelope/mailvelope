@@ -173,7 +173,19 @@
   },
   "editor_header": {
     "description": "Header of editor popup.",
-    "message": "Compose Email"
+    "message": "Compose Secure Email"
+  },
+  "editor_label_attachments": {
+    "description": "Label for attachments select/drop area.",
+    "message": "Attachments"
+  },
+  "editor_label_message": {
+    "description": "Label for message textarea.",
+    "message": "Message"
+  },
+  "editor_label_recipient": {
+    "description": "Label for recipient input.",
+    "message": "Recipient"
   },
   "editor_link_file_encryption": {
     "message": "Encrypt files",
@@ -206,10 +218,6 @@
   "editor_transfer": {
     "description": "Transfer button of editor popup.",
     "message": "Transfer"
-  },
-  "editor_label_add_recipient": {
-    "description": "Label for recipient text input.",
-    "message": "Add recipient"
   },
   "editor_key_not_found": {
     "description": "Warning for when a recipient key was not found.",
@@ -383,6 +391,10 @@
     "description": "Yes form button.",
     "message": "Yes"
   },
+  "general_default_key_no_sign_option": {
+    "message": "Not signed",
+    "description": "Label for not sign option in sign key select."
+  },
   "general_gnupg_check_availability": {
     "description": "Button label to check availability of GnuPG",
     "message": "Allow us to check availability"
@@ -420,8 +432,12 @@
     "message": "Always add my default key to the list of recipients. (This allows you to decrypt sent mails)"
   },
   "general_default_key_auto_sign": {
-    "message": "Sign all messages with default key",
+    "message": "Would you like to sign all your emails?",
     "description": "Label for default private key option."
+  },
+  "general_default_key_auto_sign_link": {
+    "message": "Change settings here",
+    "description": "Test for auto sign link."
   },
   "gnupg_connection": {
     "message": "GnuPG connection",
@@ -1808,8 +1824,8 @@
     "message": "Authorized Domains"
   },
   "sign_dialog_header": {
-    "description": "Header of sign dialog.",
-    "message": "Sign message with key:"
+    "description": "Header of sign dialog. Choose the person you want to sign the message with.",
+    "message": "Sign message as:"
   },
   "sign_error": {
     "description": "Error during signing process.",
@@ -1845,7 +1861,15 @@
   },
   "upload_attachment": {
     "description": "Text in the upload attachment button of the message editor dialog",
-    "message": "Add attachment"
+    "message": "Add file"
+  },
+  "upload_drop": {
+    "message": "Drop the file in this area to attach it",
+    "description": "Text in file drop overlay area"
+  },
+  "upload_help": {
+    "message": "Drag file to this window or",
+    "description": "Text in file upload area. Sentence continues with: Upload File (Button)."
   },
   "upload_quota_exceeded_warning": {
     "description": "A warning shown when the attachments upload quota is exceeded.",
