@@ -7,18 +7,14 @@
     border-color: $border-color;
   }
 
+    // Disabled comes first so active can properly restyle
   &.disabled,
   &:disabled {
-    border-color: $border-color;
-  }
-
-  // Disabled comes first so active can properly restyle
-  &.disabled,
-  &:disabled {
-    opacity: $btn-disabled-opacity;
-    @include box-shadow($box-shadow);
-    // background-color: desaturate($background, 70%);
-    // border-color: desaturate($border-color, 70%);;
+    opacity: 1;
+    color: scale-color(color-yiq($background), $lightness: ((1 - $btn-disabled-opacity) * 100));
+    background-color: scale-color($background, $lightness: ((1 - $btn-disabled-opacity) * 100));
+    border-color: scale-color($border-color, $lightness: ((1 - $btn-disabled-opacity) * 100));
+    @include box-shadow(inset 0 -1px 0 scale-color($border-color, $lightness: ((1 - $btn-disabled-opacity) * 100)));
   }
 
   &:not(:disabled):not(.disabled):active,

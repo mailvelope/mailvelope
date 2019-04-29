@@ -179,23 +179,6 @@ strong {
   color: transparent;
 }
 
-/* custom key icons */
-.icon-keyPair {
-  background-size: cover;
-  display: inline-block;
-  height: 16px;
-  width: 16px;  
-  background-image : url(./img/private-key.png);
-}
-
-.icon-key {
-  background-size: cover;
-  display: inline-block;
-  height: 16px;
-  width: 16px;    
-  background-image : url(./img/public-key.png);
-}
-
 /* General icon for secure button */
 .lockBtnIcon, .lockBtnIcon:active {
   margin: 0px;
@@ -409,6 +392,10 @@ nav {
   }
 }
 
+.input-group-prepend > .btn, 
+.input-group-append > .btn {
+  z-index: 1;
+}
 
 .input-group:not(.input-group-sm):not(.input-group-lg) > .input-group-prepend > .btn, 
 .input-group:not(.input-group-sm):not(.input-group-lg) > .input-group-append > .btn {

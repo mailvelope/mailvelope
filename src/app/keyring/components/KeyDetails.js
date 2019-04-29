@@ -182,7 +182,7 @@ export default class KeyDetails extends React.Component {
             <h3>{l10n.map.keydetails_title}</h3>
             <KeySelect keys={this.state.keys} selectedKeyIdx={this.state.selectedKeyIdx} onChange={index => this.handleChangeKey(index)} />
           </div>
-          <div className="card-body">
+          <div className="card-body pb-0">
             <div className="row">
               <div className="col-lg-5">
                 <dl className="row d-flex align-items-center mb-0">
@@ -260,7 +260,7 @@ export default class KeyDetails extends React.Component {
           <form>
             <div className="form-group">
               <label htmlFor="passwordCurrent">{l10n.map.keydetails_change_pwd_dialog_old}</label>
-              <input type="password" onChange={this.handleChange} className={`form-control ${this.state.errors.passwordCurrent ? 'is-invalid' : ''}`} id="passwordCurrent" />
+              <input type="password" onChange={this.handleChange} className={`form-control ${this.state.errors.passwordCurrent ? 'is-invalid' : ''} text-monospace`} id="passwordCurrent" />
               {this.state.errors.passwordCurrent && <div className="invalid-feedback">{l10n.map.pwd_dialog_wrong_pwd}</div>}
             </div>
             <DefinePassword value={this.state.password} errors={this.state.errors} onChange={this.handleChange} disabled={this.state.success} />
