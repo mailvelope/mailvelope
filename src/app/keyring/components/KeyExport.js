@@ -136,9 +136,9 @@ export default class KeyExport extends React.Component {
                 <small className="text-muted">
                   {this.getFileSize(file.size)}
                 </small>
-                <a className="d-none" download={this.state.fileName} href={this.fileURL} ref={node => this.exportLink = node}></a>
               </div>
             }
+            <a className="d-none" download={this.state.fileName} href={this.fileURL} ref={node => this.exportLink = node}></a>
           </>
         )}
         <div className="btn-bar justify-content-between">
