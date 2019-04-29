@@ -86,7 +86,8 @@ export default class WatchList extends React.Component {
   addWatchListEntry() {
     this.setState(prevState => ({
       editorSite: {site: '', active: true, https_only: true, frames: [{scan: true, frame: '', api: false}]},
-      editorIndex: prevState.watchList.length
+      editorIndex: prevState.watchList.length,
+      showEditor: true
     }));
   }
 
@@ -161,13 +162,15 @@ export default class WatchList extends React.Component {
         return {
           editorSite: this.copySite(site),
           editorIndex: watchListIndex,
-          modified: false
+          modified: false,
+          showEditor: true
         };
       } else {
         return {
           editorSite: {site: domain, active: true, https_only: protocol === 'https' ? true : false, frames: [{scan: true, frame: `*.${domain}`, api: false}]},
           editorIndex: prevState.watchList.length,
-          modified: true
+          modified: true,
+          showEditor: true
         };
       }
     });
