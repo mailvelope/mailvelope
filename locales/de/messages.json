@@ -468,7 +468,7 @@
     "description": "Enable Mailvelope Key Server Auto Lookup"
   },
   "keyserver_wkd_lookup": {
-    "message": "Empfänger Schlüssel beim Mail-Anbieter des Empfängers abfragen (Web Key Directory)",
+    "message": "Empfänger Schlüssel beim Email-Anbieter des Empfängers abfragen (Web Key Directory)",
     "description": "Enable Web Key Directory Auto Lookup"
    },
   "keyserver_autocrypt_lookup": {
@@ -720,63 +720,63 @@
   },
   "key_remove_btn": {
     "message": "Entfernen",
-    "description": "Remove key button label"    
+    "description": "Remove key button label"
   },
   "key_export_btn": {
     "message": "Exportieren",
-    "description": "Export key button label"    
+    "description": "Export key button label"
   },
   "key_revoke_btn": {
     "message": "Gültigkeit widerrufen",
-    "description": "Revoke key button label"    
+    "description": "Revoke key button label"
   },
   "key_remove_btn_title": {
     "message": "Schlüssel aus Schlüsselbund entfernen",
-    "description": "Title for remove key button"    
+    "description": "Title for remove key button"
   },
   "key_export_btn_title": {
     "message": "Schlüssel exportieren",
-    "description": "Title for export key button"    
+    "description": "Title for export key button"
   },
   "key_revoke_btn_title": {
     "message": "Schlüssel für ungültig erklären",
-    "description": "Title for revoke key button"    
+    "description": "Title for revoke key button"
   },
   "key_default_active_btn_title": {
     "message": "Schlüssel ist als Standardschlüssel gesetzt",
-    "description": "Title for active default key button"        
+    "description": "Title for active default key button"
   },
   "key_default_disabled_btn_title": {
     "message": "Schlüssel ist ungültig und kann nicht als Standardschlüssel gesetzt werden",
-    "description": "Title for disabled (invalid) default key button"        
+    "description": "Title for disabled (invalid) default key button"
   },
   "key_default_inactive_btn_title": {
     "message": "Schlüssel als Standardschlüssel setzen",
-    "description": "Title for inactive default key button"        
+    "description": "Title for inactive default key button"
   },
   "key_keyserver_sync": {
     "message": "Die Schlüsseldaten auf dem Mailvelope Schlüssel-Server sind aktuell.",
-    "description": "Key data is synchronized with the Mailvelope key server"    
+    "description": "Key data is synchronized with the Mailvelope key server"
   },
   "key_keyserver_mod": {
     "message": "Die Schlüsseldaten auf dem Mailvelope Schlüssel-Server sind nicht mehr aktuell.",
-    "description": "Local key data differs from Mailvelope key server"    
+    "description": "Local key data differs from Mailvelope key server"
   },
   "key_keyserver_not": {
     "message": "Der Schlüssel ist nicht mit dem Mailvelope Schlüssel-Server synchronisiert.",
-    "description": "Key is not on the the Mailvelope server"    
+    "description": "Key is not on the the Mailvelope server"
   },
   "key_keyserver_upload": {
     "message": "Zur Synchronisierung mit dem Mailvelope Schlüssel-Server wurde eine Bestätigungs-Email an alle Benutzer-IDs versandt.",
-    "description": "An upload request has been sent to the Mailvelope key server"    
+    "description": "An upload request has been sent to the Mailvelope key server"
   },
   "key_keyserver_update": {
     "message": "Die Schlüsseldaten wurden auf dem Mailvelope Schlüssel-Server aktualisiert.",
-    "description": "An update request has been sent to the Mailvelope key server"    
+    "description": "An update request has been sent to the Mailvelope key server"
   },
   "key_keyserver_remove": {
     "message": "Zur endgültigen Entfernung vom Mailvelope Schlüssel-Server wurde eine Bestätigungs-Email an alle Benutzer-IDs versandt.",
-    "description": "A deletion request has been sent to the Mailvelope key server"    
+    "description": "A deletion request has been sent to the Mailvelope key server"
   },
   "key_keyserver_remove_btn": {
     "message": "Alle Benutzer-IDs Entfernen",
@@ -809,7 +809,7 @@
   "key_export_dialog_copy_to_clipboard": {
     "message": "In die Zwischenablage kopieren",
     "description": "Copy to clipboard button label."
-  },  
+  },
   "key_revoke_dialog_title": {
     "message": "Schlüssel für ungültig erklären",
     "description": "Title of revoke key dialog."
@@ -819,13 +819,13 @@
     "description": "Text of revoke key dialog."
   },
   "key_revoke_dialog_confirm": {
-    "message": "Möchten Sie trotzdem widerrufen?",
+    "message": "Möchten Sie trotzdem den Schlüssel widerrufen?",
     "description": "Confirmation question of revoke key dialog."
   },
   "user_title": {
     "message": "Benutzer-ID",
     "description": "Title of user page"
-  },  
+  },
   "user_create_title": {
     "message": "Benutzer-ID erstellen",
     "description": "Title of create user page"
@@ -869,30 +869,30 @@
   "user_revoke_dialog_description": {
     "message": "Mit dem Widerruf wird die Benutzer-ID für diesen Schlüssel permanent unbrauchbar gemacht.",
     "description": "Description in revoke user dialog."
-  },  
+  },
   "user_revoke_dialog_confirmation": {
     "message": "Möchten Sie trotzdem widerrufen?",
     "description": "Confirmation question in revoke user dialog."
   },
   "user_keyserver_sync": {
     "message": "Die Benutzer-ID ist mit dem Mailvelope Schlüssel-Server synchronisiert.",
-    "description": "User ID is synchronised with the Mailvelope key server"    
+    "description": "User ID is synchronised with the Mailvelope key server"
   },
   "user_keyserver_unverified": {
     "message": "Bitte bestätigen Sie die Benutzer-ID, um diese mit dem Mailvelope Schlüssel-Server zu synchronisieren.",
-    "description": "User ID Mailvelope key server not verified"    
+    "description": "User ID Mailvelope key server not verified"
   },
   "user_keyserver_not": {
     "message": "Die Benutzer-ID ist nicht mit dem Mailvelope Schlüssel-Server synchronisiert.",
-    "description": "User ID is not synchronized with Mailvelope key server"    
+    "description": "User ID is not synchronized with Mailvelope key server"
   },
   "user_keyserver_upload": {
     "message": "Zur Synchronisierung mit dem Mailvelope Server wurde eine Bestätigungs-Email an $1 versandt.",
-    "description": "An upload request has been sent to the Mailvelope key server"    
+    "description": "An upload request has been sent to the Mailvelope key server"
   },
   "user_keyserver_remove": {
     "message": "Zur endgültigen Entfernung vom Mailvelope Server wurde eine Bestätigungs-Email an $1 versandt.",
-    "description": "A remove request has been sent to the Mailvelope key server"    
+    "description": "A remove request has been sent to the Mailvelope key server"
   },
   "user_keyserver_remove_btn": {
     "message": "Benutzer-ID entfernen",
@@ -907,11 +907,11 @@
     "description": "Title of signatures panel in user."
   },
   "nameaddrinput_error_name_empty": {
-    "message": "Bitte geben Sie einen Namen ein!",
+    "message": "Bitte geben Sie einen Namen ein",
     "description": "Error message for name input field."
   },
   "nameaddrinput_error_email_exists": {
-    "message": "Die E-Mail-Adresse wird bereits verwendet!",
+    "message": "Die E-Mail-Adresse wird bereits verwendet",
     "description": "Error message for email input field."
   },
   "keyusers_title": {
@@ -1735,7 +1735,7 @@
   },
   "security_hide_armored_head": {
     "description": "Hide header infos in armored messages",
-    "message": "Die Mailvelope Version und Kommentar in der PGP Nachricht verbergen."
+    "message": "Die Mailvelope Version und Kommentar in PGP Nachrichten verbergen."
   },
   "security_log_action": {
     "message": "Aktion",
