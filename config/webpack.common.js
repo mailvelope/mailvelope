@@ -70,7 +70,7 @@ function react() {
           babelrc: false,
           cacheDirectory: true,
           presets: ['@babel/react'],
-          plugins: ['@babel/plugin-syntax-object-rest-spread']
+          plugins: []
         }
       },
       {
