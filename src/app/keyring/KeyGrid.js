@@ -39,16 +39,36 @@ l10n.register([
 export default class KeyGrid extends React.Component {
   constructor(props) {
     super(props);
+    this.rowRefs = {};
+    const {keyId} = props.match.params;
     this.state = {
       keyTypeFilter: 'allkeys',
       selectedKey: null,
+      activeKey: keyId ? keyId : null,
       keyringBackup: null,
-      showExportModal: false
+      showExportModal: false,
     };
   }
 
+  componentDidMount() {
+    this.scrollToKey();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.keyId !== prevProps.match.params.keyId) {
+      this.setState({activeKey: this.props.match.params.keyId});
+    }
+    this.scrollToKey();
+  }
+
+  scrollToKey() {
+    if (this.state.activeKey && this.rowRefs[this.state.activeKey]) {
+      window.scrollTo({top: this.rowRefs[this.state.activeKey].offsetTop, behavior: 'smooth'});
+    }
+  }
+
   handleChangeKeyTypeFilter(e) {
-    this.setState({keyTypeFilter: e.target.value});
+    this.setState({activeKey: null, keyTypeFilter: e.target.value});
   }
 
   handleKeyPress(e, index) {
@@ -100,7 +120,7 @@ export default class KeyGrid extends React.Component {
         //console.log('unknown filter');
         break;
     }
-    this.setState({showExportModal: true, keyringBackup: {
+    this.setState({activeKey: null, showExportModal: true, keyringBackup: {
       keyFprs: keys.map(key => key.fingerprint),
       all,
       type
@@ -160,7 +180,7 @@ export default class KeyGrid extends React.Component {
             <tbody>
               {this.props.keys.map((key, index) =>
                 !this.filterKey(key.type) &&
-                <tr key={index} onClick={() => this.showKeyDetails(key.fingerprint)} onKeyPress={e => this.handleKeyPress(e, key.fingerprint)} tabIndex="0" aria-haspopup="true">
+                <tr className={this.state.activeKey === key.keyId ? 'table-active' : ''} ref={ref => this.rowRefs[key.keyId] = ref} key={index} onClick={() => this.showKeyDetails(key.fingerprint)} onKeyPress={e => this.handleKeyPress(e, key.fingerprint)} tabIndex="0" aria-haspopup="true">
                   <td className="text-center">
                     <span className={`icon icon-${key.type === 'public' ? 'key' : 'key-pair'}`} style={{fontSize: '1.25rem'}}></span>
                   </td>
@@ -203,5 +223,7 @@ KeyGrid.propTypes = {
   onChangeDefaultKey: PropTypes.func.isRequired,
   onDeleteKey: PropTypes.func,
   onRefreshKeyring: PropTypes.func,
-  spinner: PropTypes.bool
+  spinner: PropTypes.bool,
+  location: PropTypes.object,
+  match: PropTypes.object
 };

@@ -15,22 +15,21 @@ import NameAddrInput from './components/NameAddrInput';
 import AdvancedExpand from './components/AdvancedExpand';
 import AdvKeyGenOptions from './components/AdvKeyGenOptions';
 import DefinePassword from './components/DefinePassword';
-import Alert from '../../components/util/Alert';
 import Modal from '../../components/util/Modal';
-import {Link} from 'react-router-dom';
+import {Redirect, Link} from 'react-router-dom';
 
 l10n.register([
-  'action_menu_back',
+  'alert_header_success',
+  'form_back',
+  'form_clear',
   'keyring_generate_key',
   'key_gen_generate',
-  'form_clear',
   'key_gen_another',
   'key_gen_upload',
-  'learn_more_link',
-  'alert_header_success',
   'key_gen_success',
   'key_gen_wait_header',
-  'key_gen_wait_info'
+  'key_gen_wait_info',
+  'learn_more_link'
 ]);
 
 // set locale
@@ -42,7 +41,6 @@ export default class GenerateKey extends React.Component {
     this.state = this.getInitialState();
     this.handleChange = this.handleChange.bind(this);
     this.handleGenerate = this.handleGenerate.bind(this);
-    this.handleReset = this.handleReset.bind(this);
     this.generateKey = this.generateKey.bind(this);
   }
 
@@ -61,7 +59,7 @@ export default class GenerateKey extends React.Component {
       mveloKeyServerUpload: demail ? false : true,
       generating: false, // key generation in progress
       errors: {}, // form errors
-      alert: null // notifications
+      key: null, // generated key
     };
   }
 
@@ -85,7 +83,6 @@ export default class GenerateKey extends React.Component {
   }
 
   handleGenerate() {
-    this.setState({alert: null});
     const errors = {...this.state.errors};
     const validEmail = checkEmail(this.state.email);
     if (!validEmail) {
@@ -118,26 +115,22 @@ export default class GenerateKey extends React.Component {
       parameters.keyExpirationTime = Math.abs(this.state.keyExpirationTime.unix() - moment().startOf('day').unix());
     }
     try {
-      await port.send('generateKey', {parameters, keyringId: this.context.keyringId});
-      this.handleReset({
-        alert: {header: l10n.map.alert_header_success, message: l10n.map.key_gen_success, type: 'success'},
-      });
+      const newKey = await port.send('generateKey', {parameters, keyringId: this.context.keyringId});
       if (this.props.onKeyringChange) {
         this.props.onKeyringChange();
       }
+      this.setState({key: newKey}, () => this.props.onNotification({id: Date.now(), header: l10n.map.alert_header_success, message: l10n.map.key_gen_success, type: 'success'}));
     } catch (error) {
-      this.setState({
-        alert: {header: l10n.map.key_gen_error, message: error.message || '', type: 'danger'}
-      });
+      this.setState({generating: false}, () => this.props.onNotification({id: Date.now(), header: l10n.map.key_gen_error, message: error.message, type: 'error'}));
     }
-    this.setState({generating: false});
-  }
-
-  handleReset({alert = null}) {
-    this.setState({...this.getInitialState(this.context), alert});
   }
 
   render() {
+    if (this.state.key) {
+      return (
+        <Redirect to={`/keyring/display/${this.state.key.keyId}`} />
+      );
+    }
     return (
       <div className={`card-body ${this.state.generating ? 'busy' : ''}`}>
         <h2 className="mb-4">{l10n.map.keyring_generate_key}</h2>
@@ -151,17 +144,14 @@ export default class GenerateKey extends React.Component {
             <input className="custom-control-input" checked={this.state.mveloKeyServerUpload} onChange={this.handleChange} type="checkbox" id="mveloKeyServerUpload" />
             <label className="custom-control-label" htmlFor="mveloKeyServerUpload"><span>{l10n.map.key_gen_upload}</span>. <a href="https://keys.mailvelope.com" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
           </div>
-          <div className="form-group">
-            {this.state.alert && <Alert header={this.state.alert.header} type={this.state.alert.type}>{this.state.alert.message}</Alert>}
-          </div>
           <div className="btn-bar">
             <button onClick={this.handleGenerate} type="button" className="btn btn-primary">{l10n.map.key_gen_generate}</button>
             <Link className="btn btn-secondary" to='/keyring' replace tabIndex="0">
-              <span>{l10n.map.action_menu_back}</span>
+              <span>{l10n.map.form_back}</span>
             </Link>
           </div>
         </form>
-        <Modal isOpen={this.state.generating} title={l10n.map.key_gen_wait_header} onShow={this.generateKey} keyboard={false} hideFooter={true}>
+        <Modal isOpen={this.state.generating} title={l10n.map.key_gen_wait_header} onShow={this.generateKey} keyboard={false} hideFooter={true} onHide={() => this.setState({generating: false})}>
           <>
             <div className="progress mb-3">
               <div className="progress-bar progress-bar-striped progress-bar-animated w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
@@ -179,7 +169,8 @@ GenerateKey.contextType = KeyringOptions;
 GenerateKey.propTypes = {
   defaultName: PropTypes.string,
   defaultEmail: PropTypes.string,
-  onKeyringChange: PropTypes.func
+  onKeyringChange: PropTypes.func,
+  onNotification: PropTypes.func
 };
 
 GenerateKey.defaultProps = {

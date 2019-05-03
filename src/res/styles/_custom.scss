@@ -592,6 +592,36 @@ nav {
   }
 }
 
+// custom toast
+
+.toast {
+  &.success,
+  &.error {
+    max-width: 450px;
+  }
+  .toast-header {
+    padding: 1rem 1.5rem;
+  }
+  .toast-body {
+    padding: 1rem 1.5rem;
+    &.dismissable {
+      .close {
+        font-size: inherit;
+        float: none;
+        margin-left: 1rem;
+      }
+    }
+    > span[class^='icon-'] {
+      margin-right: 0.75rem;
+    }
+  }
+  .close {
+    color: inherit;
+    text-shadow: none;
+  }
+}
+
+
 // custom badges
 
 @each $color, $value in $theme-colors {

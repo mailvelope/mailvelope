@@ -101,3 +101,19 @@ Generated using nucleoapp.com
 .icon-user:before {
   content: "\e919";
 }
+
+/* SVG Icons */
+.icon-svg {
+  width: 24px;
+  height: 24px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;    
+}
+
+.icon-svg-positive {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Ccircle fill='%232DB37A' fill-rule='nonzero' cx='10' cy='10' r='10'/%3E%3Cpath d='M13.1056 4.5528c.247-.494.8476-.6942 1.3416-.4472.494.247.6942.8476.4472 1.3416l-5 10c-.3324.665-1.2484.7475-1.6944.1528l-3-4c-.3314-.4418-.2418-1.0686.2-1.4.4418-.3314 1.0686-.2418 1.4.2l2.0292 2.7056 4.2764-8.5528z' fill='%23FFF'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.icon-svg-negative {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Ccircle cx='10' cy='10' r='10' fill='%23E40248' fill-rule='nonzero'/%3E%3Cpath d='M9.75 8.9034l3.2028-3.4164a.75.75 0 1 1 1.0944 1.026L10.778 10l3.2692 3.487a.75.75 0 1 1-1.0944 1.026L9.75 11.0966 6.5472 14.513a.75.75 0 1 1-1.0944-1.026L8.722 10 5.4528 6.513a.75.75 0 0 1 1.0944-1.026L9.75 8.9034z' fill='%23FFF'/%3E%3C/g%3E%3C/svg%3E");
+}

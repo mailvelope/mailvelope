@@ -28,6 +28,13 @@ main {
   padding-top: 7.5rem;
 }
 
+.toastWrapper {
+  position: fixed;
+  top: 5.75rem;
+  left: 50%;
+  transform:translateX(-50%);
+}
+
 .jumbotron > section > .card-body {
   padding: 2.2rem;
 }

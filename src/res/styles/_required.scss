@@ -7,6 +7,7 @@ $font-weight-medium: 500 !default;
 // overrides
 
 // settings color
+$white: #fff;
 $gray-100: #fafafa; // secondary-button-bg
 $gray-200: #f7f7f7; // columnheader-bg
 $gray-300: #f2f2f2; // table-pressed
@@ -166,6 +167,16 @@ $nav-pills-link-active-bg: $primary;
 // dropdowns
 $dropdown-color: $yiq-text-dark;
 $dropdown-link-active-bg: $gray-300;
+
+// toasts
+$toast-max-width: 360px;
+$toast-background-color: rgba($black, 0.85);
+$toast-color: $white;
+$toast-border-width: 0;
+$toast-border-radius: $border-radius-lg;
+$toast-box-shadow: 0 5px 15px 0 rgba($black, 0.2), 0 0 2px 0 rgba($black, 0.2);
+$toast-header-color: $white;
+$toast-header-background-color: $black;
 
 // badges
 $badge-font-weight: 500;

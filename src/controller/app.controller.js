@@ -213,6 +213,7 @@ export default class AppController extends sub.SubController {
 
   async generateKey({parameters, keyringId}) {
     const result = await keyringById(keyringId).generateKey(parameters);
+    result.keyId = result.key.primaryKey.getKeyId().toHex().toUpperCase();
     this.sendKeyUpdate();
     return result;
   }

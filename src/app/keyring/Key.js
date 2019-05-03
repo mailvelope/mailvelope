@@ -22,7 +22,6 @@ import Modal from '../../components/util/Modal';
 
 l10n.register([
   'keyring_header',
-  'action_menu_back',
   'key_remove_btn',
   'key_export_btn',
   'key_revoke_btn',

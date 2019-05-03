@@ -21,30 +21,31 @@ const PRIVATE_KEY_REGEX = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END
 const MAX_KEY_IMPORT_SIZE = 10000000;
 
 l10n.register([
+  'alert_header_warning',
+  'alert_header_success',
+  'form_back',
+  'form_import',
+  'form_confirm',
+  'form_import',
   'key_import_error',
   'key_import_too_big',
   'key_import_invalid_text',
   'key_import_exception',
-  'alert_header_warning',
-  'alert_header_success',
+  'key_import_default_description',
+  'key_import_number_of_failed',
+  'key_import_number_of_failed_plural',
+  'key_import_file',
+  'key_import_textarea',
+  'key_import_hkp_search_btn',
   'keyring_import_keys',
   'keyring_import_description',
   'keyring_import_search_description',
   'keyring_confirm_keys',
   'keyring_confirm_keys_plural',
-  'key_import_default_description',
-  'key_import_number_of_failed',
-  'key_import_number_of_failed_plural',
   'keygrid_keyid',
   'keygrid_user_name',
   'keygrid_user_email',
-  'keygrid_key_fingerprint',
-  'key_import_file',
-  'key_import_textarea',
-  'form_import',
-  'form_confirm',
-  'form_import',
-  'key_import_hkp_search_btn'
+  'keygrid_key_fingerprint'
 ]);
 
 export default class KeyImport extends React.Component {
@@ -184,7 +185,7 @@ export default class KeyImport extends React.Component {
                     <div className="btn-bar">
                       <button type="button" onClick={() => this.handlePreviewImport(this.state.textImport)} className="btn btn-primary" disabled={!this.state.textImport}>{l10n.map.form_import}</button>
                       <Link className="btn btn-secondary" to='/keyring' onClick={this.props.onKeyringChange} replace tabIndex="0">
-                        <span>{l10n.map.action_menu_back}</span>
+                        <span>{l10n.map.form_back}</span>
                       </Link>
                     </div>
                   </form>
@@ -193,7 +194,7 @@ export default class KeyImport extends React.Component {
                   <p>{l10n.map.keyring_import_search_description}</p>
                   <KeySearch prefs={this.props.prefs} />
                   <Link className="btn btn-secondary" to='/keyring' onClick={this.props.onKeyringChange} replace tabIndex="0">
-                    <span>{l10n.map.action_menu_back}</span>
+                    <span>{l10n.map.form_back}</span>
                   </Link>
                 </div>
               </div>
