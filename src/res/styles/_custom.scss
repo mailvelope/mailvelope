@@ -131,6 +131,22 @@ strong {
   }
 }
 
+button.icon-btn {
+  cursor: pointer;
+  color: $gray-900;
+  padding: $btn-padding-y;
+  border-style: none;
+  border-radius: $border-radius-sm;
+  background-color: transparent;
+  &:hover {
+    background-color: $gray-500;    
+  }
+  &:active {
+    color: darken($gray-900, 5%);
+    background-color: darken($gray-500, 10%);   
+  }
+}
+
 /* old custom classes still in use */
 
 .termination {
@@ -345,25 +361,29 @@ nav {
   margin-bottom: 0.5rem;
 
   .breadcrumb-item {  
+    color: theme-color("primary");
     & > a {
       line-height: 1;
       font-weight: 500;
       font-size: 0.75rem;
       text-decoration: none;
-      color: theme-color("primary");
       padding: 0.5rem 0.625rem;
       border-radius: $border-radius;
       background-color: transparent;
+      cursor: pointer;
 
       &:hover {
+        color: inherit;
         background-color: rgba(theme-color("primary"),0.1);
       }
 
       &:active {
+        color: inherit;
         background-color: rgba(theme-color("primary"),0.2);
       }
 
       &.active {
+        color: inherit;        
         background-color: rgba(theme-color("primary"),0.1);
       }
     }

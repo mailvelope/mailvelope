@@ -26,9 +26,8 @@ import SecurityBG from '../components/util/SecurityBG';
 
 import Dashboard from './dashboard/Dashboard';
 import Keyring from './keyring/Keyring';
-import EncryptFile from './encryption/encryptFile';
-import EncryptText from './encryption/encryptText';
-import DecryptText from './encryption/decryptText';
+import Encrypt from './encrypt/Encrypt';
+import Decrypt from './decrypt/Decrypt';
 
 import General from './settings/general';
 import Security from './settings/security';
@@ -40,9 +39,8 @@ import KeyServer from './settings/keyserver';
 import './app.scss';
 
 l10n.register([
-  'encrypting_home',
-  'file_encrypting',
-  'file_decrypting',
+  'encrypt_home',
+  'decrypt_home',
   'keyring_header',
   'keyring_display_keys',
   'keyring_import_keys',
@@ -58,9 +56,7 @@ l10n.register([
   'settings_security_background',
   'settings_watchlist',
   'settings_security_log',
-  'settings_keyserver',
-  'text_encrypting',
-  'text_decrypting'
+  'settings_keyserver'
 ]);
 
 export let port; // EventHandler
@@ -133,7 +129,8 @@ export class App extends React.Component {
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
               <ul className="navbar-nav mr-auto">
                 <NavLink to="/keyring">{l10n.map.keyring_header}</NavLink>
-                <NavLink to="/encryption">{l10n.map.encrypting_home}</NavLink>
+                <NavLink to="/encrypt">{l10n.map.encrypt_home}</NavLink>
+                <NavLink to="/decrypt">{l10n.map.decrypt_home}</NavLink>
                 <NavLink to="/settings">{l10n.map.options_home}</NavLink>
               </ul>
               <ul className="navbar-nav">
@@ -146,36 +143,8 @@ export class App extends React.Component {
           <AppOptions.Provider value={{gnupg: this.state.gnupg}}>
             <Route path='/dashboard' component={Dashboard} />
             <Route path='/keyring' render={() => <Keyring prefs={this.state.prefs} />} />
-            <Route path='/encryption' render={() => (
-              <div className="jumbotron">
-                <section className="card">
-                  <div className="card-body" id="encrypting">
-                    <div className="card-title">
-                      <h1>{l10n.map.encrypting_home}</h1>
-                    </div>
-                    <div className="row">
-                      <div className="col-lg-3 mb-4">
-                        <div role="navigation">
-                          <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                            <NavPill to="/encryption/file-encrypt">{l10n.map.file_encrypting}</NavPill>
-                            <NavPill to="/encryption/file-decrypt">{l10n.map.file_decrypting}</NavPill>
-                            <hr className="w-100" />
-                            <NavPill to="/encryption/text-encrypt">{l10n.map.text_encrypting}</NavPill>
-                            <NavPill to="/encryption/text-decrypt">{l10n.map.text_decrypting}</NavPill>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-lg-9">
-                        <Route path='/encryption/file-encrypt' component={EncryptFile} />
-                        <Route path='/encryption/file-decrypt' component={EncryptFile} />
-                        <Route path='/encryption/text-encrypt' component={EncryptText} />
-                        <Route path='/encryption/text-decrypt' component={DecryptText} />
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              </div>
-            )} />
+            <Route path='/encrypt' component={Encrypt} />
+            <Route path='/decrypt' component={Decrypt} />
             <Route path='/settings' render={() => (
               <div className="jumbotron">
                 <section className="card mv-options">

@@ -39,6 +39,7 @@ main {
     }
   }
   > .toastWrapper {
+    z-index: 1051;
     position: fixed;
     top: 5.75rem;
     left: 50%;

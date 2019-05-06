@@ -30,7 +30,7 @@ export default function Dashboard() {
           </Link>
         </div>
         <div className="col-lg-6 col-xl-3 mb-3">
-          <Link className="card h-100" to="/encryption/file-encrypt" role="button">
+          <Link className="card h-100" to="/encrypt" role="button">
             <div className="card-body">
               <img src="../img/Mailvelope/encryption.svg" role="presentation" />
             </div>

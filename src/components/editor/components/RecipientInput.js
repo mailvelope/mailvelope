@@ -89,11 +89,8 @@ export class RecipientInput extends React.Component {
             min-length="1">
           </auto-complete>
         </tags-input>
-        <div className="alert alert-danger alert-dismissible ng-hide mb-0" role="alert" ref={node => node && node.setAttribute('ng-show', 'rInput.noEncrypt')}>
+        <div className="alert alert-danger ng-hide mb-0" role="alert" ref={node => node && node.setAttribute('ng-show', 'rInput.noEncrypt')}>
           <strong>{l10n.map.editor_key_not_found}</strong> <span>{l10n.map.editor_key_not_found_msg}</span>
-          <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
         </div>
       </div>
     );

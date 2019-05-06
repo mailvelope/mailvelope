@@ -93,8 +93,8 @@ function FileDownloadElement({file, onClick, onCopyToClipboard}) {
           <button type="button" className="icon-btn ml-1" title={l10n.map.key_export_dialog_copy_to_clipboard} onClick={e => { e.preventDefault(); onCopyToClipboard(file.content); }}><span className="icon icon-copy"></span></button>
         }
       </a>
-      {fileExt === 'txt' &&  <textarea className="form-control" value={file.content} rows={2} spellCheck="false" autoComplete="off" readOnly />}
-      {file.signer !== undefined && <Alert className="mt-2 mb-0" type="info">{getSignerText(file.signer)}</Alert>}
+      {fileExt === 'txt' &&  <textarea className="form-control" value={file.content} rows={6} spellCheck="false" autoComplete="off" readOnly />}
+      {file.signer !== undefined && <Alert className="mt-2 mb-0 align-self-start" type="info">{getSignerText(file.signer)}</Alert>}
     </div>
   );
 }

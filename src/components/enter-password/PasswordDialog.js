@@ -51,7 +51,7 @@ export default class PasswordDialog extends React.Component {
   }
 
   componentDidMount() {
-    document.addEventListener('keyup', this.onEsc.bind(this), false);
+    document.addEventListener('keyup', this.onKeyUp.bind(this), false);
   }
 
   componentDidUpdate() {
@@ -61,11 +61,16 @@ export default class PasswordDialog extends React.Component {
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keyup', this.onEsc, false);
+    document.removeEventListener('keyup', this.onKeyUp, false);
   }
 
-  onEsc(event) {
-    if (event.keyCode === 27) {
+  onKeyUp({keyCode}) {
+    if (keyCode === 13) {
+      if (!this.state.showError) {
+        this.handleConfirm();
+      }
+    }
+    if (keyCode === 27) {
       this.handleCancel();
     }
   }

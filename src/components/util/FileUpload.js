@@ -34,7 +34,9 @@ export default class FileUpload extends React.Component {
 
   handleClickUpload() {
     this.fileInput.click();
-    this.props.onClickUpload();
+    if (this.props.onClickUpload) {
+      this.props.onClickUpload();
+    }
   }
 
   handleDragEnter(e) {
@@ -83,7 +85,7 @@ export default class FileUpload extends React.Component {
             <button type="button" onClick={this.handleClickUpload} className="btn btn-sm btn-secondary">
               <span>{l10n.map.upload_attachment}</span>
             </button>
-            <input ref={node => this.fileInput = node} type="file" className="add-file-input d-none" multiple="multiple" onChange={e => this.props.onChangeFileInput(e.target.files)} />
+            <input ref={node => this.fileInput = node} type="file" accept={this.props.filter ? this.props.filter.join(',') : '*'} className="add-file-input d-none" multiple="multiple" onChange={e => this.props.onChangeFileInput(e.target.files)} />
           </div>
         </div>
         <div className={`overlay d-flex justify-content-center align-items-center ${this.state.dragging ? 'active' : ''}`}>
@@ -95,6 +97,7 @@ export default class FileUpload extends React.Component {
 }
 
 FileUpload.propTypes = {
+  filter: PropTypes.array, // [.asc, .gpg]
   files: PropTypes.array, // {id, name}
   onRemoveFile: PropTypes.func,
   onClickUpload: PropTypes.func,

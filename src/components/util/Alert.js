@@ -24,3 +24,7 @@ Alert.propTypes = {
   children: PropTypes.node.isRequired,
   type: PropTypes.oneOf(['success', 'info', 'warning', 'danger']),
 };
+
+Alert.defaultProps = {
+  type: 'info'
+};

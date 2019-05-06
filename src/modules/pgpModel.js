@@ -379,12 +379,15 @@ function convertChangeLog(key, changeLog, syncData) {
  * @param  {Boolean} options.armor - request the output as armored block
  * @return {String} - encrypted file as armored block or JS binary string
  */
-export async function encryptFile({plainFile, encryptionKeyFprs, armor}) {
+export async function encryptFile({plainFile, keyringId, unlockKey, encryptionKeyFprs, signingKeyFpr, uiLogSource, armor, noCache}) {
+  const keyring = getKeyringWithPrivKey(signingKeyFpr, keyringId, noCache);
+  if (!keyring) {
+    throw new MvError('No private key found', 'NO_PRIVATE_KEY_FOUND');
+  }
+  await syncPublicKeys({keyring, keyIds: encryptionKeyFprs, keyringId});
   try {
-    const keyring = getPreferredKeyring();
-    await syncPublicKeys({keyring, keyIds: encryptionKeyFprs, allKeyrings: true});
-    const result = await keyring.getPgpBackend().encrypt({dataURL: plainFile.content, keyring, encryptionKeyFprs, filename: plainFile.name, armor});
-    await logEncryption('security_log_encrypt_dialog', keyring, encryptionKeyFprs);
+    const result = await keyring.getPgpBackend().encrypt({dataURL: plainFile.content, keyring, unlockKey, encryptionKeyFprs, signingKeyFpr, armor, filename: plainFile.name});
+    await logEncryption(uiLogSource, keyring, encryptionKeyFprs);
     return result;
   } catch (error) {
     console.log('pgpmodel.encryptFile() error', error);

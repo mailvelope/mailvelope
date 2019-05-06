@@ -37,7 +37,7 @@ export default class MenuController extends sub.SubController {
         this.openApp('/keyring/setup');
         break;
       case 'encrypt-file':
-        this.openApp('/encryption/file-encrypt');
+        this.openApp('/encrypt');
         break;
       case 'security-settings':
         this.openApp('/settings/security');

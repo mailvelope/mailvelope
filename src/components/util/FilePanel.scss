@@ -63,8 +63,20 @@
     textarea {
       background-color: $white;
       margin-top: 0.45rem;
-      min-width: 400px;
+      width: 100%;
       resize: none;
+      @include media-breakpoint-up(sm) {
+        min-width: 405px;
+      } 
+      @include media-breakpoint-up(md) {
+        min-width: 585px;
+      }
+      @include media-breakpoint-up(lg) {
+        min-width: 825px;
+      }
+      @include media-breakpoint-up(xl) {
+        min-width: 1005px;
+      }
     }
 
   }

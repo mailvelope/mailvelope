@@ -9,7 +9,8 @@ import {MAIN_KEYRING_ID} from '../lib/constants';
 import * as sub from './sub.controller';
 import {key as openpgpKey} from 'openpgp';
 import {mapKeys, parseUserId, getLastModifiedDate, sanitizeKey} from '../modules/key';
-import {initOpenPGP, decryptFile, encryptFile} from '../modules/pgpModel';
+import * as keyRegistry from '../modules/keyRegistry';
+import {initOpenPGP, decryptFile, encryptMessage, decryptMessage, encryptFile} from '../modules/pgpModel';
 import {getById as keyringById, getAllKeyringAttr, getAllKeyringIds, setKeyringAttr, deleteKeyring, getKeyData, getDefaultKeyFpr} from '../modules/keyring';
 import {delete as deletePwdCache, get as getKeyPwdFromCache, unlock as unlockKey} from '../modules/pwdCache';
 import {initScriptInjection} from '../lib/inject';
@@ -30,8 +31,10 @@ export default class AppController extends sub.SubController {
     // register event handlers
     this.on('get-prefs', () => prefs.prefs);
     this.on('set-prefs', this.updatePreferences);
-    this.on('decryptFile', ({encryptedFile}) => decryptFile(encryptedFile, this.unlockKey));
-    this.on('encryptFile', this.encryptFile);
+    this.on('decrypt-file', this.decryptFile);
+    this.on('decrypt-message', this.decryptMessage);
+    this.on('encrypt-message', this.encryptMessage);
+    this.on('encrypt-file', this.encryptFile);
     this.on('getWatchList', prefs.getWatchList);
     this.on('getKeys', ({keyringId}) => keyringById(keyringId).getKeys());
     this.on('removeKey', this.removeKey);
@@ -60,13 +63,12 @@ export default class AppController extends sub.SubController {
     this.on('get-all-key-data', () => getKeyData({allUsers: false}));
     this.on('open-tab', ({url}) => mvelo.tabs.create(url));
     this.on('get-app-data-slot', ({slotId}) => sub.getAppDataSlot(slotId));
-    this.on('encrypt-text-init', this.initEncryptText);
-    this.on('encrypt-text', this.encryptText);
-    this.on('decrypt-text-init', this.initDecryptText);
-    this.on('decrypt-text', this.decryptText);
     this.on('get-gnupg-status', () => Boolean(gpgme));
     this.on('reload-keystore', ({keyringId}) => keyringById(keyringId).keystore.load());
     this.on('read-amored-keys', this.readArmoredKeys);
+    this.on('auto-locate', this.autoLocate);
+    this.on('get-default-key-fpr', ({keyringId}) => getDefaultKeyFpr(keyringId));
+    this.on('get-signing-keys', ({keyringId}) => keyringById(keyringId).getValidSigningKeys());
   }
 
   async updatePreferences(options) {
@@ -242,7 +244,28 @@ export default class AppController extends sub.SubController {
     await autocrypt.deleteIdentities([keyringId]);
   }
 
+  async encryptMessage(options) {
+    options.unlockKey = async options => {
+      options.reason = 'PWD_DIALOG_REASON_SIGN';
+      const result = await this.unlockKey(options);
+      return result;
+    };
+    if (prefs.prefs.general.auto_add_primary) {
+      // get the sender key fingerprint
+      const defaultKeyFpr = await getDefaultKeyFpr(MAIN_KEYRING_ID);
+      if (defaultKeyFpr && !options.encryptionKeyFprs.includes(defaultKeyFpr)) {
+        options.encryptionKeyFprs.push(defaultKeyFpr);
+      }
+    }
+    return encryptMessage(options);
+  }
+
   async encryptFile(options) {
+    options.unlockKey = async options => {
+      options.reason = 'PWD_DIALOG_REASON_SIGN';
+      const result = await this.unlockKey(options);
+      return result;
+    };
     if (prefs.prefs.general.auto_add_primary) {
       // get the sender key fingerprint
       const defaultKeyFpr = await getDefaultKeyFpr(MAIN_KEYRING_ID);
@@ -251,6 +274,24 @@ export default class AppController extends sub.SubController {
       }
     }
     return encryptFile(options);
+  }
+
+  decryptFile({encryptedFile}) {
+    const unlockKey = async options => {
+      options.reason = 'PWD_DIALOG_REASON_DECRYPT';
+      const result = await this.unlockKey(options);
+      return result;
+    };
+    return decryptFile(encryptedFile, unlockKey);
+  }
+
+  decryptMessage(options) {
+    options.unlockKey = async options => {
+      options.reason = 'PWD_DIALOG_REASON_DECRYPT';
+      const result = await this.unlockKey(options);
+      return result;
+    };
+    return decryptMessage(options);
   }
 
   async readArmoredKeys({armoredKeys}) {
@@ -295,22 +336,11 @@ export default class AppController extends sub.SubController {
     return {keys: mappedKeys, invalid: invalidCounter};
   }
 
-  initEncryptText() {
-    this.encryptTextCtrl = sub.factory.get('editor');
-    return this.encryptTextCtrl.id;
-  }
-
-  encryptText() {
-    return this.encryptTextCtrl.encryptText();
-  }
-
-  initDecryptText() {
-    this.decryptTextCtrl = sub.factory.get('decryptCont');
-    return this.decryptTextCtrl.id;
-  }
-
-  decryptText({armored}) {
-    this.decryptTextCtrl.decrypt(armored, MAIN_KEYRING_ID);
+  async autoLocate({email, keyringId}) {
+    const result = await keyRegistry.lookup(email, keyringId);
+    if (result) {
+      await keyringById(keyringId).importKeys([{type: 'public', armored: result.armored}]);
+    }
   }
 
   async unlockKey(options) {

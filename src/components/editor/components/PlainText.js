@@ -71,3 +71,4 @@ PlainText.propTypes = {
   onMouseUp: PropTypes.func,
   onLoad: PropTypes.func
 };
+
