@@ -65,6 +65,23 @@
   color: transparent;
 }
 
+/* custom key icons */
+.icon-keyPair {
+  background-size: cover;
+  display: inline-block;
+  height: 16px;
+  width: 16px;  
+  background-image : url(./img/private-key.png);
+}
+
+.icon-key {
+  background-size: cover;
+  display: inline-block;
+  height: 16px;
+  width: 16px;    
+  background-image : url(./img/public-key.png);
+}
+
 /* General icon for secure button */
 .lockBtnIcon, .lockBtnIcon:active {
   margin: 0px;

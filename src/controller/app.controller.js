@@ -8,7 +8,7 @@ import {PromiseQueue, getHash} from '../lib/util';
 import {MAIN_KEYRING_ID} from '../lib/constants';
 import * as sub from './sub.controller';
 import {key as openpgpKey} from 'openpgp';
-import {getLastModifiedDate} from '../modules/key';
+import {mapKeys, parseUserId, getLastModifiedDate} from '../modules/key';
 import {initOpenPGP, decryptFile, encryptFile} from '../modules/pgpModel';
 import {getById as keyringById, getAllKeyringAttr, getAllKeyringIds, setKeyringAttr, deleteKeyring, getKeyData, getDefaultKeyFpr} from '../modules/keyring';
 import {delete as deletePwdCache, get as getKeyPwdFromCache, unlock as unlockKey} from '../modules/pwdCache';
@@ -68,6 +68,7 @@ export default class AppController extends sub.SubController {
     this.on('decrypt-text', this.decryptText);
     this.on('get-gnupg-status', () => Boolean(gpgme));
     this.on('reload-keystore', ({keyringId}) => keyringById(keyringId).keystore.load());
+    this.on('read-amored-keys', this.readArmoredKeys);
   }
 
   async updatePreferences(options) {
@@ -251,6 +252,40 @@ export default class AppController extends sub.SubController {
       }
     }
     return encryptFile(options);
+  }
+
+  async readArmoredKeys({armoredKeys}) {
+    const keys = [];
+    let invalidCounter = 0;
+    if (!armoredKeys.length) {
+      return;
+    }
+    for (const armoredKey of armoredKeys) {
+      const key = await openpgpKey.readArmored(armoredKey);
+      if (!key.err) {
+        keys.push(key.keys[0]);
+      } else {
+        invalidCounter++;
+        console.log(`Error parsing armored PGP key: ${key.err}`);
+      }
+    }
+    let mappedKeys = await mapKeys(keys);
+    mappedKeys = await Promise.all(mappedKeys.map(async (mappedKey, keyIndex) => {
+      const users = [];
+      for (const [index, user] of keys[keyIndex].users.entries()) {
+        if (!user.userId) {
+          // filter out user attribute packages
+          continue;
+        }
+        const userStatus = await user.verify(keys[keyIndex].primaryKey);
+        const uiUser = {id: index, userId: user.userId.userid, name: user.userId.name, email: user.userId.email, status: userStatus};
+        parseUserId(uiUser);
+        users.push(uiUser);
+      }
+      mappedKey.users = users;
+      return mappedKey;
+    }));
+    return {keys: mappedKeys, invalid: invalidCounter};
   }
 
   initEncryptText() {

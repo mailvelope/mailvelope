@@ -15,11 +15,10 @@ import KeyringSelect from './components/KeyringSelect';
 import KeyGrid from './KeyGrid';
 import Key from './Key';
 import User from './User';
-import ImportKey from './importKey';
+import KeyImport from './KeyImport';
 import GenerateKey from './GenerateKey';
 import KeyringSetup from './KeyringSetup';
 import Spinner from '../../components/util/Spinner';
-import './Keyring.css';
 
 l10n.register([
   'keyring_header',
@@ -140,7 +139,7 @@ export default class Keyring extends React.Component {
                   <Route exact path='/keyring/key/:keyFpr' render={props => <Key {...props} keyData={this.state.keys.find(key => key.fingerprint === props.match.params.keyFpr)} defaultKeyFpr={this.state.defaultKeyFpr} onChangeDefaultKey={this.handleChangeDefaultKey} onDeleteKey={this.handleDeleteKey} onKeyringChange={this.loadKeyring} />} />
                   <Route exact path='/keyring/key/:keyFpr/user/:userIdx' render={props => <User {...props} keyData={this.state.keys.find(key => key.fingerprint === props.match.params.keyFpr)} onKeyringChange={this.loadKeyring} />} />
                   <Route path='/keyring/display' render={() => <KeyGrid keys={this.state.keys} defaultKeyFpr={this.state.defaultKeyFpr} onChangeDefaultKey={this.handleChangeDefaultKey} onDeleteKey={this.handleDeleteKey} onRefreshKeyring={this.handleRefreshKeyring} spinner={this.state.keysLoading} />} />
-                  <Route path='/keyring/import' render={({location}) => <ImportKey onKeyringChange={this.loadKeyring} prefs={this.props.prefs} location={location} />} />
+                  <Route path='/keyring/import' render={({location}) => <KeyImport onKeyringChange={this.loadKeyring} prefs={this.props.prefs} location={location} />} />
                   <Route path='/keyring/generate' render={() => <GenerateKey onKeyringChange={this.loadKeyring} defaultName={this.state.name} defaultEmail={this.state.email} />} />
                   <Route path='/keyring/setup' render={() => <KeyringSetup hasPrivateKey={this.state.hasPrivateKey} />} />
                 </>

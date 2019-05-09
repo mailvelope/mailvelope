@@ -38,7 +38,8 @@ module.exports = [
   dev('decrypt-message', 'decryptMessageRoot'),
   dev('editor', 'editorRoot'),
   dev('encrypted-form', 'encryptedFormRoot'),
-  dev('install-landing-page', 'installLandingPage')
+  dev('install-landing-page', 'installLandingPage'),
+  dev('import-key', 'importKeyRoot')
 ];
 
 module.exports.prod = [
@@ -46,7 +47,8 @@ module.exports.prod = [
   prod('decrypt-message', 'decryptMessageRoot'),
   prod('editor', 'editorRoot'),
   prod('encrypted-form', 'encryptedFormRoot'),
-  prod('install-landing-page', 'installLandingPage')
+  prod('install-landing-page', 'installLandingPage'),
+  prod('import-key', 'importKeyRoot')
 ];
 
 module.exports.dev = module.exports;

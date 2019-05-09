@@ -269,7 +269,7 @@ export default class Key extends React.Component {
         <div className="d-flex align-items-center justify-content-between flex-wrap mb-3">
           <div className="d-inline-flex align-items-center text-nowrap">
             <i className={`icon icon-${this.state.keyDetails.type === 'public' ? 'key' : 'keyPair'} mr-2`}></i>
-            <h4 className="d-inline-block">{this.state.keyDetails.name} <KeyStatus className="ml-1" status={this.state.keyDetails.status} /></h4>
+            <h4 className="d-inline-block mb-sm-0">{this.state.keyDetails.name} <KeyStatus className="ml-1" status={this.state.keyDetails.status} /></h4>
           </div>
           <div className="btn-bar">
             {(!this.context.gnupg || this.state.keyDetails.type === 'public') && <button type="button" onClick={() => this.setState({showDeleteModal: true})} className="btn btn-secondary" title={l10n.map.key_remove_btn_title}>{l10n.map.key_remove_btn}</button>}
