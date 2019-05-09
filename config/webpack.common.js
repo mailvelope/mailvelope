@@ -53,6 +53,16 @@ function scss(loader = 'style-loader') {
             outputPath: 'res/fonts/'
           }
         }]
+      },
+      {
+        test: /\.png$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'img/'
+          }
+        }]
       }
     ]
   };

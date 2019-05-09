@@ -7,7 +7,7 @@ import mvelo from '../lib/lib-mvelo';
 import {getHash, MvError} from '../lib/util';
 import * as sub from './sub.controller';
 import {getById as getKeyringById} from '../modules/keyring';
-import {mapKeys, cloneKey} from '../modules/key';
+import {mapKeys, cloneKey, parseUserId} from '../modules/key';
 import * as keyringSync from '../modules/keyringSync';
 import * as openpgp from 'openpgp';
 import * as uiLog from '../modules/uiLog';
@@ -80,7 +80,6 @@ export default class ImportController extends sub.SubController {
       // check keyringId
       this.keyring = getKeyringById(keyringId);
       this.armored = armored;
-
       this.keys = await openpgp.key.readArmored(this.armored);
       if (this.keys.err) {
         throw new Error(this.keys.err[0].message);
@@ -90,6 +89,18 @@ export default class ImportController extends sub.SubController {
       if (this.keyDetails.type === 'private') {
         throw new Error('Import of private keys not allowed.');
       }
+      const users = [];
+      for (const [index, user] of this.key.users.entries()) {
+        if (!user.userId) {
+          // filter out user attribute packages
+          continue;
+        }
+        const userStatus = await user.verify(this.key.primaryKey);
+        const uiUser = {id: index, userId: user.userId.userid, name: user.userId.name, email: user.userId.email, status: userStatus};
+        parseUserId(uiUser);
+        users.push(uiUser);
+      }
+      this.keyDetails.users = users;
       if (this.keys.keys.length > 1) {
         console.log('Multiple keys detected during key import, only first key is imported.');
         // only import first key in armored block
@@ -154,7 +165,7 @@ export default class ImportController extends sub.SubController {
   openPopup() {
     return new Promise((resolve, reject) => {
       this.popupPromise = {resolve, reject};
-      mvelo.windows.openPopup(`components/import-key/importKeyDialog.html?id=${this.id}`, {width: 535, height: 458})
+      mvelo.windows.openPopup(`components/import-key/importKey.html?id=${this.id}`, {width: 910, height: 554})
       .then(popup => {
         this.importPopup = popup;
         popup.addRemoveListener(() => {
