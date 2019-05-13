@@ -58,7 +58,7 @@ export default class DecryptFrame extends ExtractFrame {
     this.dDialog.classList.add('m-frame-dialog');
     this.eFrame.append(this.dDialog);
     this.setFrameDim();
-    this.dDialog.classList.add('m-fadeIn');
+    this.dDialog.classList.add('m-show');
   }
 
   popupDialog() {
@@ -72,7 +72,7 @@ export default class DecryptFrame extends ExtractFrame {
       return;
     }
     if (prefs.security.display_decrypted === DISPLAY_INLINE) {
-      this.dDialog.classList.add('m-fadeOut');
+      this.dDialog.classList.remove('m-show');
       // removal triggers disconnect event
       this.dDialog.remove();
       this.dDialog = null;
