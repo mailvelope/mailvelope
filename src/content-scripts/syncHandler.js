@@ -21,7 +21,6 @@ export default class SyncHandler {
   }
 
   syncDone(data) {
-    //console.log('mvelo.SyncHandler.prototype.restoreDone()', restoreBackup);
     this.port.emit('sync-done', data);
   }
 

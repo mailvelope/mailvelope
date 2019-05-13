@@ -3,7 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import $ from 'jquery';
 import {PGP_MESSAGE, PGP_SIGNATURE, PGP_PUBLIC_KEY, PGP_PRIVATE_KEY, KEYRING_DELIMITER, MAIN_KEYRING_ID} from '../lib/constants';
 import {MvError, getHash, mapError} from '../lib/util';
 import EventHandler from '../lib/EventHandler';
@@ -36,11 +35,11 @@ export function init() {
     return;
   }
   if (!window.mailvelope) {
-    $('<script/>', {
-      id: 'mailvelope-api',
-      src: chrome.runtime.getURL('client-API/mailvelope-client-api.js'),
-      'data-version': prefs.version
-    }).appendTo($('head'));
+    const element = document.createElement('script');
+    element.id = 'mailvelope-api';
+    element.src = chrome.runtime.getURL('client-API/mailvelope-client-api.js');
+    element.dataset.version = prefs.version;
+    document.head.append(element);
   }
   controllerPort = EventHandler.connect(`api-${getHash()}`);
   const port = {

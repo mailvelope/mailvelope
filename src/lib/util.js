@@ -378,6 +378,19 @@ export function appendTpl($element, path) {
   });
 }
 
+export function isVisible(element) {
+  return Boolean(element && (element.offsetWidth || element.offsetHeight || element.getClientRects().length));
+}
+
+export function firstParent(element, selector) {
+  while (element) {
+    if (element.nodeType === Node.ELEMENT_NODE && element.matches(selector)) {
+      return element;
+    }
+    element = element.parentNode;
+  }
+}
+
 export function isWebEx() {
   return typeof browser !== 'undefined';
 }

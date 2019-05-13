@@ -3,49 +3,49 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {getHash, normalizeArmored, encodeHTML} from '../lib/util';
+import {getHash, normalizeArmored, encodeHTML, decodeHTML} from '../lib/util';
 import {FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED, DYN_IFRAME, PLAIN_TEXT} from '../lib/constants';
 import EventHandler from '../lib/EventHandler';
-import $ from 'jquery';
 import {currentProvider} from './main';
 
 export default class EncryptFrame {
   constructor() {
     this.id = getHash();
-    this.$editElement = null;
-    this.$eFrame = null;
+    this.editElement = null;
+    this.eFrame = null;
     this.port = null;
-    this.$emailTextElement = null;
+    this.emailTextElement = null;
     // type of external editor
     this.editorType = PLAIN_TEXT; //prefs.general.editor_type;
     this.keyCounter = 0;
     this.currentProvider = currentProvider;
+    this.handleKeypress = this.handleKeypress.bind(this);
+    this.setFrameDim = this.setFrameDim.bind(this);
   }
 
-  attachTo($element) {
-    this.init($element);
+  attachTo(element) {
+    this.init(element);
     this.establishConnection();
     this.registerEventListener();
     this.renderFrame();
-    // set status to attached
-    this.$editElement.data(FRAME_STATUS, FRAME_ATTACHED);
   }
 
-  init($element) {
-    this.$editElement = $element;
-    this.$emailTextElement = this.$editElement.is('iframe') ? this.$editElement.contents().find('body') : this.$editElement;
+  init(element) {
+    this.editElement = element;
+    // set status to attached
+    this.editElement.dataset[FRAME_STATUS] = FRAME_ATTACHED;
+    this.emailTextElement = this.editElement.tagName === 'iframe' ? this.editElement.contentDocument.body : this.editElement;
     // inject style if we have a non-body editable element inside a dynamic iframe
-    if (!this.$editElement.is('body') && this.$editElement.closest('body').data(DYN_IFRAME)) {
-      const html = this.$editElement.closest('html');
-      if (!html.data('M-STYLE')) {
-        const style = $('<link/>', {
-          rel: 'stylesheet',
-          href: chrome.runtime.getURL('content-scripts/framestyles.css')
-        });
+    if (!this.editElement.tagName === 'body' && this.editElement.closest('body').dataset[DYN_IFRAME]) {
+      const html = this.editElement.closest('html');
+      if (!html.dataset.mveloStyle) {
+        const style = document.createElement('link');
+        style.rel = 'stylesheet';
+        style.href = chrome.runtime.getURL('content-scripts/framestyles.css');
         // add style
-        html.find('head').append(style);
+        html.ownerDocument.head.append(style);
         // set marker
-        html.data('M-STYLE', true);
+        html.dataset.mveloStyle = 'true';
       }
     }
   }
@@ -58,78 +58,73 @@ export default class EncryptFrame {
 
   registerEventListener() {
     // attach event handlers
-    document.addEventListener('mailvelope-observe', () => this.setFrameDim());
+    document.addEventListener('mailvelope-observe', this.setFrameDim);
     this.port.on('get-recipients', this.getRecipients);
     this.port.on('set-editor-output', this.setEditorOutput);
     this.port.on('destroy', this.closeFrame.bind(this, true));
     this.port.on('mail-editor-close', this.onMailEditorClose);
   }
 
+  handleKeypress() {
+    if (++this.keyCounter >= 13) {
+      this.emailTextElement.removeEventListener('keypress', this.handleKeypress);
+      this.eFrame.classList.add('m-fadeOut');
+      window.setTimeout(() => this.closeFrame(), 300);
+    }
+  }
+
   renderFrame() {
     // create frame
-    const toolbar = '<a class="m-frame-close">×</a><button id="editorBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-editor"></i></button>';
-    this.$eFrame = $('<div/>', {
-      id: `eFrame-${this.id}`,
-      'class': 'm-encrypt-frame',
-      html: toolbar
-    });
-
-    this.$eFrame.insertAfter(this.$editElement);
-    $(window).on('resize', this.setFrameDim.bind(this));
+    this.eFrame = document.createElement('div');
+    this.eFrame.id = `eFrame-${this.id}`;
+    this.eFrame.classList.add('m-encrypt-frame');
+    this.eFrame.innerHTML = '<a class="m-frame-close">×</a><button id="editorBtn" class="m-btn m-encrypt-button" type="button"><i class="m-icon m-icon-editor"></i></button>';
+    this.editElement.parentNode.insertBefore(this.eFrame, this.editElement.nextSibling);
+    window.addEventListener('resize', this.setFrameDim);
     // to react on position changes of edit element, e.g. click on CC or BCC in GMail
-    this.$eFrame.find('.m-frame-close').on('click', this.closeFrame.bind(this));
-    this.$eFrame.find('#editorBtn').on('click', this.onEditorButton.bind(this));
+    this.eFrame.querySelector('.m-frame-close').addEventListener('click', this.closeFrame.bind(this));
+    this.eFrame.querySelector('#editorBtn').addEventListener('click', this.onEditorButton.bind(this));
     this.normalizeButtons();
-    this.$eFrame.fadeIn('slow');
-    this.$emailTextElement.on('keypress', () => {
-      if (++this.keyCounter >= 13) {
-        this.$emailTextElement.off('keypress');
-        this.$eFrame.fadeOut('slow', () => {
-          this.closeFrame();
-        });
-      }
-    });
+    this.eFrame.classList.add('m-fadeIn');
+    this.emailTextElement.addEventListener('keypress', this.handleKeypress);
   }
 
   normalizeButtons() {
-    //console.log('editor mode', this.editorMode);
-    this.$eFrame.find('.m-encrypt-button').hide();
-    this.$eFrame.find('#editorBtn').show().removeClass('m-active');
+    this.eFrame.querySelector('#editorBtn').classList.remove('m-active');
     this.setFrameDim();
   }
 
-  onEditorButton() {
-    this.$emailTextElement.off('keypress');
-    this.$eFrame.find('#editorBtn').addClass('m-active');
+  onEditorButton(ev) {
+    this.emailTextElement.removeEventListener('keypress', this.handleKeypress);
+    this.eFrame.querySelector('#editorBtn').classList.add('m-active');
     this.showMailEditor();
-    return false;
+    ev.stopPropagation();
   }
 
   onMailEditorClose() {
-    this.$eFrame.find('#editorBtn').removeClass('m-active');
+    this.eFrame.querySelector('#editorBtn').classList.remove('m-active');
   }
 
-  closeFrame(finalClose) {
-    this.$eFrame.fadeOut(() => {
-      $(window).off('resize');
-      this.$eFrame.remove();
+  closeFrame(finalClose, ev) {
+    this.eFrame.classList.add('m-fadeOut');
+    window.setTimeout(() => {
+      window.removeEventListener('resize', this.setFrameDim);
+      this.eFrame.remove();
       if (finalClose === true) {
         this.port.disconnect();
-        this.$editElement.data(FRAME_STATUS, null);
+        this.editElement.dataset[FRAME_STATUS] = '';
       } else {
-        this.$editElement.data(FRAME_STATUS, FRAME_DETACHED);
+        this.editElement.dataset[FRAME_STATUS] = FRAME_DETACHED;
       }
-    });
-    return false;
+    }, 300);
+    if (ev) {
+      ev.stopPropagation();
+    }
   }
 
   setFrameDim() {
-    const editElementPos = this.$editElement.position();
-    const editElementWidth = this.$editElement.width();
-    const toolbarWidth = this.$eFrame.width();
-    const left = editElementPos.left + editElementWidth - toolbarWidth - 20;
-    this.$eFrame.css('top', editElementPos.top + 3);
-    this.$eFrame.css('left', left < 0 ? 0 : left);
+    this.eFrame.style.top = `${this.editElement.offsetTop + 3}px`;
+    this.eFrame.style.right = '20px';
   }
 
   showMailEditor() {
@@ -148,40 +143,39 @@ export default class EncryptFrame {
   }
 
   getRecipients() {
-    return this.currentProvider.getRecipients(this.$editElement);
+    return this.currentProvider.getRecipients(this.editElement);
   }
 
   html2text(html) {
-    html = $('<div/>').html(html);
+    const parser = new DOMParser();
+    const htmlDoc = parser.parseFromString(html, 'text/html');
     // replace anchors
-    html = html.find('a').replaceWith(function() {
-      return `${$(this).text()} (${$(this).attr('href')})`;
-    })
-    .end()
-    .html();
+    for (const anchor of htmlDoc.querySelectorAll('a')) {
+      anchor.replaceWith(`${anchor.textContent} (${anchor.href})`);
+    }
+    html = htmlDoc.innerHTML;
     html = html.replace(/(<(br|ul|ol)>)/g, '\n'); // replace <br>,<ol>,<ul> with new line
     html = html.replace(/<\/(div|p|li)>/g, '\n'); // replace </div>, </p> or </li> tags with new line
     html = html.replace(/<li>/g, '- ');
     html = html.replace(/<(.+?)>/g, ''); // remove tags
     html = html.replace(/\n{3,}/g, '\n\n'); // compress new line
-    return $('<div/>').html(html).text(); // decode
+    return decodeHTML(html); // decode
   }
 
   getEmailText(type) {
     let text;
     let html;
-    if (this.$emailTextElement.is('textarea')) {
-      text = this.$emailTextElement.val();
+    if (this.emailTextElement.tagName === 'textarea') {
+      text = this.emailTextElement.value;
     } else { // html element
       if (type === 'text') {
-        this.$emailTextElement.focus();
-        const element = this.$emailTextElement.get(0);
-        const sel = element.ownerDocument.defaultView.getSelection();
-        sel.selectAllChildren(element);
+        this.emailTextElement.focus();
+        const sel = this.emailTextElement.ownerDocument.defaultView.getSelection();
+        sel.selectAllChildren(this.emailTextElement);
         text = sel.toString();
         sel.removeAllRanges();
       } else {
-        html = this.$emailTextElement.html();
+        html = this.emailTextElement.innerHTML;
         html = html.replace(/\n/g, ''); // remove new lines
         text = html;
       }
@@ -200,23 +194,23 @@ export default class EncryptFrame {
     this.normalizeButtons();
     this.setMessage(options.text);
     // set recipient email addresses
-    this.currentProvider.setRecipients({recipients: options.recipients, editElement: this.$editElement});
+    this.currentProvider.setRecipients({recipients: options.recipients, editElement: this.editElement});
   }
 
   /**
    * Replace content of editor element (_emailTextElement)
    */
   setMessage(msg) {
-    if (this.$emailTextElement.is('textarea')) {
-      this.$emailTextElement.val(msg);
+    if (this.emailTextElement.tagName === 'textarea') {
+      this.emailTextElement.value = msg;
     } else {
       // element is contenteditable or RTE
       msg = `<pre>${encodeHTML(msg)}</pre>`;
-      this.$emailTextElement.html(msg);
+      this.emailTextElement.innerHTML = msg;
     }
     // trigger input event
     const inputEvent = document.createEvent('HTMLEvents');
     inputEvent.initEvent('input', true, true);
-    this.$emailTextElement.get(0).dispatchEvent(inputEvent);
+    this.emailTextElement.dispatchEvent(inputEvent);
   }
 }

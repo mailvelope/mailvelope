@@ -4,9 +4,8 @@
  */
 
 import {FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED, DYN_IFRAME, PGP_MESSAGE, PGP_SIGNATURE, PGP_PUBLIC_KEY, PGP_PRIVATE_KEY} from '../lib/constants';
-import {getHash, matchPattern2RegEx} from '../lib/util';
+import {getHash, matchPattern2RegEx, isVisible, firstParent} from '../lib/util';
 import EventHandler from '../lib/EventHandler';
-import $ from 'jquery';
 
 import * as clientAPI from './clientAPI';
 import * as providers from './providerSpecific';
@@ -43,7 +42,11 @@ function connect() {
   document.mveloControl = true;
 }
 
-$(document).ready(connect);
+if (document.readyState !== 'loading') {
+  connect();
+} else {
+  document.addEventListener('DOMContentLoaded', connect);
+}
 
 function init(preferences, watchlist) {
   prefs = preferences;
@@ -100,8 +103,6 @@ function on() {
   if (clientApiActive) {
     return; // do not use DOM scan in case of clientAPI support
   }
-  // start DOM scan
-  scanDOM();
   const mutateEvent = new CustomEvent('mailvelope-observe');
   let hasMutated = false;
   domObserver = new MutationObserver(() => {
@@ -121,6 +122,8 @@ function on() {
     }
   });
   domObserver.observe(document.body, {subtree: true, childList: true});
+  // start DOM scan
+  scanDOM();
 }
 
 function off() {
@@ -134,13 +137,21 @@ function off() {
 
 function scanDOM() {
   // find armored PGP text
-  const pgpRanges = findPGPRanges();
-  if (pgpRanges.length) {
-    attachExtractFrame(pgpRanges);
+  try {
+    const pgpRanges = findPGPRanges();
+    if (pgpRanges.length) {
+      attachExtractFrame(pgpRanges);
+    }
+  } catch (e) {
+    console.log('Detecting PGP messages failed: ', e);
   }
-  const $editables = findEditable();
-  if ($editables.length !== 0) {
-    attachEncryptFrame($editables);
+  try {
+    const editables = findEditable();
+    if (editables.length !== 0) {
+      attachEncryptFrame(editables);
+    }
+  } catch (e) {
+    console.log('Detecting editor elements failed: ', e);
   }
 }
 
@@ -160,7 +171,10 @@ function findPGPRanges() {
   const rangeList = [];
   let currPGPBegin;
   while (treeWalker.nextNode()) {
-    if ($(treeWalker.currentNode).parents('[contenteditable], textarea').length ||
+    const node = treeWalker.currentNode;
+    // check if element is editable
+    const isEditable = firstParent(node, '[contenteditable], textarea');
+    if (isEditable ||
       treeWalker.currentNode.parentNode.tagName === 'SCRIPT' ||
       treeWalker.currentNode.ownerDocument.designMode === 'on') {
       continue;
@@ -185,57 +199,51 @@ function findPGPRanges() {
 
 function findEditable() {
   // find textareas and elements with contenteditable attribute, filter out <body>
-  let $editable = $('[contenteditable], textarea').filter(':visible').not('body');
-  const $iframes = $('iframe').filter(':visible');
-  // find dynamically created iframes where src is not set
-  const $dynFrames = $iframes.filter(function() {
-    const src = $(this).attr('src');
-    return src === undefined ||
-           src === '' ||
-           /^javascript.*/.test(src) ||
-           /^about.*/.test(src);
-  });
+  let editable = Array.from(document.querySelectorAll('[contenteditable], textarea')).filter(isVisible).filter(element => element.tagName !== 'body');
+  const iframes = Array.from(document.getElementsByTagName('iframe')).filter(isVisible);
+  const dynFrames = [];
+  const origFrames = [];
+  for (const frame of iframes) {
+    // find dynamically created iframes where src is not set
+    if (!frame.src || /^javascript.*/.test(frame.src) || /^about.*/.test(frame.src)) {
+      dynFrames.push(frame);
+    } else {
+      origFrames.push(frame);
+    }
+  }
   // find editable elements inside dynamic iframe (content script is not injected here)
-  $dynFrames.each(function() {
-    const $content = $(this).contents();
-    // set event handler for contextmenu
-    $content.find('body')//.off("contextmenu").on("contextmenu", onContextMenu)
+  for (const dynFrame of dynFrames) {
+    const content = dynFrame.contentDocument;
+    content.querySelector('body')
     // mark body as 'inside iframe'
-    .data(DYN_IFRAME, true);
+    .dataset[DYN_IFRAME] = true;
     // document of iframe in design mode or contenteditable set on the body
-    if ($content.attr('designMode') === 'on' || $content.find('body[contenteditable]').length !== 0) {
+    if (content.designMode === 'on' || content.querySelector('body[contenteditable]')) {
       // add iframe to editable elements
-      $editable = $editable.add($(this));
+      editable.push(dynFrame);
     } else {
       // editable elements inside iframe
-      const $editblElem = $content.find('[contenteditable], textarea').filter(':visible');
-      $editable = $editable.add($editblElem);
+      const editblElem = Array.from(content.querySelectorAll('[contenteditable], textarea')).filter(isVisible);
+      editable.push(...editblElem);
     }
-  });
+  }
   // find iframes from same origin with a contenteditable body (content script is injected, but encrypt frame needs to be attached to outer iframe)
-  const $anchor = $('<a/>');
-  const $editableBody = $iframes.not($dynFrames).filter(function() {
-    const $frame = $(this);
-    // only for iframes from same host
-    if ($anchor.attr('href', $frame.attr('src')).prop('hostname') === document.location.hostname) {
-      try {
-        const $content = $frame.contents();
-        if ($content.attr('designMode') === 'on' || $content.find('body[contenteditable]').length !== 0) {
-          return true;
-        } else {
-          return false;
-        }
-      } catch (e) {
-        return false;
-      }
+  const anchor = document.createElement('a');
+  for (const origFrame of origFrames) {
+    anchor.href = origFrame.href;
+    if (anchor.hostname !== document.location.hostname) {
+      continue;
     }
-  });
-  $editable = $editable.add($editableBody);
+    try {
+      const content = origFrame.contentDocument;
+      if (content.designMode === 'on' || content.querySelector('body[contenteditable]')) {
+        editable.push(origFrame);
+      }
+    } catch (e) {}
+  }
   // filter out elements below a certain height limit
-  $editable = $editable.filter(function() {
-    return $(this).height() > MIN_EDIT_HEIGHT;
-  });
-  return $editable;
+  editable = editable.filter(element => element.getBoundingClientRect().height > MIN_EDIT_HEIGHT);
+  return editable;
 }
 
 export function getMessageType(armored) {
@@ -253,7 +261,7 @@ export function getMessageType(armored) {
 function attachExtractFrame(ranges) {
   // check status of PGP ranges
   const newRanges = ranges.filter(range =>
-    !isAttached($(range.commonAncestorContainer))
+    !isAttached(range.commonAncestorContainer)
   );
   // create new decrypt frames for new discovered PGP tags
   for (const range of newRanges) {
@@ -275,26 +283,28 @@ function attachExtractFrame(ranges) {
           break;
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      console.log('attachExtractFrame failed:', e);
+    }
   }
 }
 
 /**
  * attach encrypt frame to element
- * @param  {jQuery} elements
+ * @param  {Array} elements
  */
-function attachEncryptFrame($elements) {
+function attachEncryptFrame(elements) {
   // filter out attached and detached frames
-  $elements = $elements.filter((index, element) => !isAttached($(element)));
+  elements = elements.filter(element => !isAttached(element));
   // create new encrypt frames for new discovered editable fields
-  $elements.each((index, element) => {
+  elements.forEach(element => {
     const eFrame = new EncryptFrame();
-    eFrame.attachTo($(element));
+    eFrame.attachTo(element);
   });
 }
 
-function isAttached($element) {
-  const status = $element.data(FRAME_STATUS);
+function isAttached(element) {
+  const status = element.dataset[FRAME_STATUS];
   switch (status) {
     case FRAME_ATTACHED:
     case FRAME_DETACHED:

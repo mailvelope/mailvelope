@@ -8,8 +8,7 @@
  * recipients and set sender email addresses in the webmail ui.
  */
 
-import {sequential} from '../lib/util';
-import $ from 'jquery';
+import {sequential, isVisible} from '../lib/util';
 
 let providerMap = null;
 
@@ -28,8 +27,8 @@ export function init() {
  * Lookup function that return the vendor specific module to a hostname.
  * If a hostname if not supported specifically, the default module will
  * be returned.
- * @param  {String} hostname   The hostname of the webmail interface
- * @return {Object}            An instanciated module
+ * @param  {String} hostname - The hostname of the webmail interface
+ * @return {Object}   An instanciated module
  */
 export function get(hostname) {
   if (providerMap.has(hostname)) {
@@ -52,22 +51,22 @@ class Default {
    * Parse recipients from the DOM has not been reliable for generic webmail
    * @return {Promise.<Array>}   The recipient objects in the form { email: 'jon@example.com' }
    */
-  getRecipients() {
-    return Promise.resolve([]);
+  async getRecipients() {
+    return [];
   }
+
   /**
    * Since there is not way to enter recipients in a generic fashion
    * this function does nothing.
    */
-
   setRecipients() { /* do nothing */ }
+
   /**
    * Extract sender
    * @return {Promise.<Array>}   sender object in the form { email: 'jon@example.com' }
    */
-
-  getSender() {
-    return Promise.resolve([]);
+  async getSender() {
+    return [];
   }
 }
 
@@ -80,8 +79,8 @@ class Gmail {
    * Parse recipients from the Gmail Webmail interface
    * @return {Promise.<Array>}   The recipient objects in the form { email: 'jon@example.com' }
    */
-  getRecipients() {
-    return Promise.resolve(dom.getAttr($('.oL.aDm span[email], .vR span[email]'), 'email'));
+  async getRecipients() {
+    return getAttr(document.querySelectorAll('.oL.aDm span[email], .vR span[email]'), 'email');
   }
 
   /**
@@ -89,32 +88,34 @@ class Gmail {
    */
   setRecipients({recipients = []}) {
     // find the relevant elements in the Gmail interface
-    const displayArea = $('.aoD.hl'); // email display only area
-    const tagRemove = $('.fX .vR .vM'); // email tags remove button
-    const input = $('.fX .vO'); // the actual recipient email address text input (a textarea)
-    const subject = $('.aoT'); // subject field
-    const editor = $('.aO7 .Am'); // editor
-    input.val('');
-    dom.setFocus(displayArea)
+    const displayArea = document.querySelector('.aoD.hl'); // email display only area
+    const tagRemove = document.querySelectorAll('.fX .vR .vM'); // email tags remove button
+    const input = document.querySelectorAll('.fX .vO'); // the actual recipient email address text input (a textarea)
+    const subject = document.querySelector('.aoT'); // subject field
+    const editor = document.querySelector('.aO7 .Am'); // editor
+    input.forEach(element => element.value = '');
+    setFocus(displayArea)
     .then(() => {
-      tagRemove.click();
+      tagRemove.forEach(tag => tag.click());
       // enter address text into input
       const text = joinEmail(recipients);
-      input.first().val(text);
+      if (input.length) {
+        input.item(0).value = text;
+      }
     })
     .then(() => {
-      dom.setFocus(subject.is(':visible') ? subject : editor);
+      setFocus(isVisible(subject) ? subject : editor);
     });
   }
 
   /**
    * Extract sender
-   * @param {jQuery} emailElement DOM element of displayed email content
+   * @param {HTMLElement} emailElement - DOM element of displayed email content
    * @return {Promise.<Array>}   sender object in the form { email: 'jon@example.com' }
    */
-  getSender(emailElement) {
-    const emailArea = emailElement.parents('.gs').first();
-    return Promise.resolve(dom.getAttr(emailArea.find('.cf.ix span[email]'), 'email'));
+  async getSender(emailElement) {
+    const emailArea = emailElement.closest('.gs');
+    return getAttr(emailArea.querySelectorAll('.cf.ix span[email]'), 'email');
   }
 }
 
@@ -127,8 +128,8 @@ class Yahoo {
    * Parse recipients from the Yahoo Webmail interface
    * @return {Promise.<Array>}   The recipient objects in the form { email: 'jon@example.com' }
    */
-  getRecipients() {
-    return Promise.resolve(dom.getAttr($('.compose-header span[data-address]'), 'data-address'));
+  async getRecipients() {
+    return getAttr(document.querySelectorAll('.compose-header span[data-address]'), 'data-address');
   }
 
   /**
@@ -136,27 +137,30 @@ class Yahoo {
    */
   setRecipients({recipients = []}) {
     // remove existing recipients
-    $('.compose-header li.hLozenge').remove();
+    document.querySelectorAll('.compose-header li.hLozenge').forEach(element => element.remove());
     // enter address text into input
     const text = joinEmail(recipients);
-    const input = $('.compose-header #to .recipient-input input');
-    input.val(text);
+    const input = document.querySelector('.compose-header #to .recipient-input input');
+    if (input) {
+      input.value = text;
+    }
     // trigger change event by switching focus
-    dom.setFocus(input)
+    setFocus(input)
     .then(() => {
+      const subject = document.querySelector('#subject-field');
       // set focus to subject field, or to compose area in the reply case
-      dom.setFocus($('#subject-field').is(':visible') ? $('#subject-field') : $('.compose-message .cm-rtetext'));
+      setFocus(isVisible(subject) ? subject : document.querySelector('.compose-message .cm-rtetext'));
     });
   }
 
   /**
    * Extract sender
-   * @param {jQuery} emailElement DOM element of displayed email content
+   * @param {HTMLElement} emailElement - DOM element of displayed email content
    * @return {Promise.<Array>}   sender object in the form { email: 'jon@example.com' }
    */
-  getSender(emailElement) {
-    const emailArea = emailElement.parents('.thread-item').first();
-    return Promise.resolve(dom.getAttr(emailArea.find('.thread-item-header .contents > .hcard-mailto span[data-address]'), 'data-address'));
+  async getSender(emailElement) {
+    const emailArea = emailElement.closest('.thread-item');
+    return getAttr(emailArea.querySelectorAll('.thread-item-header .contents > .hcard-mailto span[data-address]'), 'data-address');
   }
 }
 
@@ -167,10 +171,10 @@ class Yahoo {
 class Outlook {
   getRecipients(editElement) {
     // get compose area
-    const composeArea = editElement.parents('.conductorContent').first();
+    const composeArea = editElement.closest('.conductorContent');
     // find personas in compose are
-    const personas = composeArea.find('.PersonaPaneLauncher').get();
-    return sequential(this.extractPersona.bind(this), personas);
+    const personas = composeArea.querySelectorAll('.PersonaPaneLauncher');
+    return sequential(this.extractPersona.bind(this), Array.from(personas));
   }
 
   waitForPersonaCard(action) {
@@ -186,7 +190,7 @@ class Outlook {
           // wait in interval for popup content to render
           const searchInterval = setInterval(() => {
             const personaCard = addedNode.getElementsByClassName('groupPivotPersonaCard');
-            if (personaCard.length && $(personaCard).text().match(HAS_EMAIL)) {
+            if (personaCard.length && personaCard.textContent.match(HAS_EMAIL)) {
               clearInterval(searchInterval);
               // still more time required to complete render
               setTimeout(() => resolve({personaCard, addedNode}), 200);
@@ -203,105 +207,98 @@ class Outlook {
 
   extractPersona(pane) {
     // click persona pane to open popup
-    return this.waitForPersonaCard(() => $(pane).click())
+    return this.waitForPersonaCard(() => pane.click())
     .then(({personaCard, addedNode}) => {
       // hide persona popup
-      $(addedNode).hide();
-      return dom.getText($(personaCard).find('span'));
+      addedNode.style.display = 'none';
+      return getText(personaCard.querySelectorAll('span'));
     })
     .catch(() => []);
   }
 
   setRecipients({recipients = [], editElement}) {
     // get compose area
-    const composeArea = editElement.parents('.conductorContent').first();
+    const composeArea = editElement.closest('.conductorContent');
     // remove existing recipients
-    composeArea.find('.PersonaPaneLauncher button').click();
+    composeArea.querySelectorAll('.PersonaPaneLauncher button').forEach(element => element.click());
     // enter address text into input
     const text = joinEmail(recipients);
-    const input = composeArea.find('[role="heading"] form input').first();
-    dom.setFocus(input)
-    .then(() => input.val(text));
+    const input = composeArea.querySelector('[role="heading"] form input');
+    setFocus(input)
+    .then(() => input.value = text);
   }
 
   getSender(emailElement) {
-    const emailArea = emailElement.parents('.ShowReferenceAttachmentsLinks').first();
-    const persona = emailArea.find('.PersonaPaneLauncher').first().get();
+    const emailArea = emailElement.closest('.ShowReferenceAttachmentsLinks');
+    const persona = emailArea.querySelector('.PersonaPaneLauncher');
     return this.extractPersona(persona);
   }
 }
 
-//
-// DOM api util
-//
+/**
+ * DOM API util funtions
+ */
 
 const IS_EMAIL = /^[+a-zA-Z0-9_.!#$%&'*\/=?^`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,63}$/;
 const HAS_EMAIL = /[+a-zA-Z0-9_.!#$%&'*\/=?^`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,63}/;
 
-const dom = {};
-
 /**
  * Filter the text content of a list of elements for email addresses.
- * @param  {jQuery} elements   A list of jQuery elements to iteralte over
- * @return {Array}             The recipient objects in fhe form { email: 'jon@example.com' }
+ * @param  {NodeList<HTMLElement>} elements - A list of elements to iteralte over
+ * @return {Array}   The recipient objects in fhe form { email: 'jon@example.com' }
  */
-dom.getText = function(elements) {
+function getText(elements) {
   return parseEmail(elements, element => {
     // consider only direct text nodes of elements
-    const clone = element.clone();
-    clone.children().remove();
-    return clone.text();
+    const clone = element.cloneNode(false);
+    return clone.textContent;
   });
-};
+}
 
 /**
  * Filter a certain attribute of a list of elements for email addresses.
- * @param  {jQuery} elements   A list of jQuery elements to iteralte over
- * @param  {String} attrName   The element's attribute name to query by
- * @return {Array}             The recipient objects in fhe form { email: 'jon@example.com' }
+ * @param  {NodeList<HTMLElement>} elements - A list of elements to iteralte over
+ * @param  {String} attrName - The element's attribute name to query by
+ * @return {Array}   The recipient objects in fhe form { email: 'jon@example.com' }
  */
-dom.getAttr = function(elements, attrName) {
-  return parseEmail(elements, element => element.attr(attrName));
-};
+function getAttr(elements, attrName) {
+  return parseEmail(elements, element => element.getAttribute(attrName));
+}
 
 /**
  * Set focus to element on next tick
- * @param  {jQuery} element jQuery element to set focus
+ * @param  {HTMLElement} element - element to set focus
  */
-dom.setFocus = function(element) {
+function setFocus(element) {
   return new Promise(resolve => {
     setTimeout(() => {
-      element.focus();
+      element && element.focus();
       resolve();
     }, 0);
   });
-};
-
-dom.waitTick = () => new Promise(resolve => setTimeout(resolve, 0));
-
-dom.focusClick = element => dom.setFocus(element).then(() => element.click());
+}
 
 /**
  * Extract emails from list of elements
- * @param  {jQuery} elements    A list of jQuery elements to iteralte over
- * @param  {Function} extract   extract function
- * @return {Array}              The recipient objects in fhe form { email: 'jon@example.com' }
+ * @param  {NodeList<HTMLElement>} elements - A list of jQuery elements to iteralte over
+ * @param  {Function} extract - extract function
+ * @return {Array}   The recipient objects in fhe form { email: 'jon@example.com' }
  */
 function parseEmail(elements, extract) {
   const emails = [];
-  elements.each(function() {
-    const value = extract($(this));
+  for (const element of elements) {
+    const value = extract(element);
     if (IS_EMAIL.test(value)) {
       emails.push(value);
     }
-  });
+  }
   return toRecipients(emails);
 }
 
 /**
  * Maps an array of email addresses to an array of recipient objects.
- * @param  {Array} addresses   An array of email addresses
- * @return {Array}             The recipient objects in fhe form { email: 'jon@example.com' }
+ * @param  {Array} addresses - An array of email addresses
+ * @return {Array}   The recipient objects in fhe form { email: 'jon@example.com' }
  */
 function toRecipients(addresses) {
   return addresses.map(address => ({
@@ -311,8 +308,8 @@ function toRecipients(addresses) {
 
 /**
  * Maps an array of recipients to a string of email addresses
- * @param  {Array} recipients The recipient objects in the form { email: 'jon@example.com' }
- * @return {String}           comma separated list of email addresses
+ * @param  {Array} recipients - The recipient objects in the form { email: 'jon@example.com' }
+ * @return {String}   comma separated list of email addresses
  */
 function joinEmail(recipients) {
   return recipients.map(r => r.email).join(', ');
